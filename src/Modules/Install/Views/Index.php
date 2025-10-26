@@ -215,7 +215,7 @@ class Index extends \App\Modules\Vtiger\Views\Index
 		$isInstalled = $webuiInstance->isInstalled();
 		if ($isInstalled) {
 			if ($_SESSION['config_file_info']['authentication_key'] !== $request->get('auth_key')) {
-				throw new \Exception\AppException('ERR_NOT_AUTHORIZED_TO_PERFORM_THE_OPERATION');
+				throw new \App\Exceptions\AppException('ERR_NOT_AUTHORIZED_TO_PERFORM_THE_OPERATION');
 			}
 			// Initialize and set up tables
 			$initSchema = new \App\Modules\Install\Models\InitSchema();

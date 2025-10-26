@@ -60,7 +60,7 @@ class Main extends \App\Runtime\BaseViewController
 		if (!$batchImport) {
 			if (!$importDataController->initializeImport()) {
 				\App\Modules\Import\Helpers\Utils::showErrorPage(\App\Runtime\Vtiger_Language_Handler::translate('ERR_FAILED_TO_LOCK_MODULE', 'Import'));
-				throw new \Exception\AppException(\App\Runtime\Vtiger_Language_Handler::translate('ERR_FAILED_TO_LOCK_MODULE', 'Import'));
+				throw new \App\Exceptions\AppException(\App\Runtime\Vtiger_Language_Handler::translate('ERR_FAILED_TO_LOCK_MODULE', 'Import'));
 			}
 		}
 
@@ -75,13 +75,13 @@ class Main extends \App\Runtime\BaseViewController
 	 * Show import status
 	 * @param array $importInfo
 	 * @param \App\Modules\Users\Models\Record $user
-	 * @throws \Exception\AppException
+	 * @throws \App\Exceptions\AppException
 	 */
 	public static function showImportStatus($importInfo, $user)
 	{
 		if (empty($importInfo)) {
 			\App\Modules\Import\Helpers\Utils::showErrorPage(\App\Runtime\Vtiger_Language_Handler::translate('ERR_IMPORT_INTERRUPTED', 'Import'));
-			throw new \Exception\AppException(\App\Runtime\Vtiger_Language_Handler::translate('ERR_IMPORT_INTERRUPTED', 'Import'));
+			throw new \App\Exceptions\AppException(\App\Runtime\Vtiger_Language_Handler::translate('ERR_IMPORT_INTERRUPTED', 'Import'));
 		}
 		$importDataController = new \App\Modules\Import\Actions\Data($importInfo, $user);
 		if ($importInfo['temp_status'] === \App\Modules\Import\Actions\Queue::$IMPORT_STATUS_HALTED ||

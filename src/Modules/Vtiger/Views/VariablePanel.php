@@ -16,8 +16,8 @@ class VariablePanel extends \App\Runtime\BaseViewController
 	/**
 	 * Checking permissions
 	 * @param \App\Http\Vtiger_Request $request
-	 * @throws \Exception\AppException
-	 * @throws \Exception\NoPermittedToRecord
+	 * @throws \App\Exceptions\AppException
+	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
@@ -25,10 +25,10 @@ class VariablePanel extends \App\Runtime\BaseViewController
 		$recordId = $request->get('record');
 		$currentUserPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($moduleName) || !\App\Privilege::isPermitted($moduleName, 'CreateView')) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 		if ($recordId && !\App\Privilege::isPermitted($moduleName, 'EditView', $recordId)) {
-			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		return true;
 	}

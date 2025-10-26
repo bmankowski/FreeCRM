@@ -15,7 +15,7 @@ class SwitchUsers  extends \App\Modules\Vtiger\Views\Index
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		if (!\App\Modules\Users\Models\Module::getSwitchUsers()) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 

@@ -23,11 +23,11 @@ class TreeCategoryModal  extends \App\Modules\Vtiger\Views\Index
 		$moduleName = $request->getModule();
 		$currentUserPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->hasModulePermission($moduleName)) {
-			throw new \Exception\AppException(\App\Runtime\Vtiger_Language_Handler::translate($moduleName) . ' ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_NOT_ACCESSIBLE'));
+			throw new \App\Exceptions\AppException(\App\Runtime\Vtiger_Language_Handler::translate($moduleName) . ' ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_NOT_ACCESSIBLE'));
 		}
 
 		if (!\App\Modules\Users\Models\Privileges::isPermitted($request->get('src_module'), 'DetailView', $request->get('src_record'))) {
-			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
 

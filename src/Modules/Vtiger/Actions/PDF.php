@@ -17,7 +17,7 @@ class PDF extends \App\Runtime\BaseActionController
 	{
 		$moduleName = $request->getModule();
 		if (!\App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'ExportPdf')) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -92,7 +92,7 @@ class PDF extends \App\Runtime\BaseActionController
 				if (file_exists($filePath)) {
 					header('Location: index.php?module=OSSMail&view=compose&pdf_path=' . $filePath);
 				} else {
-					throw new \Exception\AppException(\App\Runtime\Vtiger_Language_Handler::translate('LBL_EXPORT_ERROR', 'Settings:PDF'));
+					throw new \App\Exceptions\AppException(\App\Runtime\Vtiger_Language_Handler::translate('LBL_EXPORT_ERROR', 'Settings:PDF'));
 				}
 			} else {
 				\App\Modules\Vtiger\Models\PDF::exportToPdf($recordId[0], $moduleName, $templateIds[0]);

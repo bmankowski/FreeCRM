@@ -27,12 +27,12 @@ class Save extends \App\Runtime\BaseActionController
 		if (!empty($record)) {
 			$recordModel = $this->record ? $this->record : \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 			if (!$recordModel->isEditable()) {
-				throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 			}
 		} else {
 			$recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 			if (!$recordModel->isCreateable()) {
-				throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 			}
 		}
 	}
@@ -100,7 +100,7 @@ class Save extends \App\Runtime\BaseActionController
 			$handler->process($request);
 			$handler->postProcess($request);
 		} else {
-			throw new \Exception\AppException(\App\Runtime\Vtiger_Language_Handler::translate('LBL_HANDLER_NOT_FOUND'));
+			throw new \App\Exceptions\AppException(\App\Runtime\Vtiger_Language_Handler::translate('LBL_HANDLER_NOT_FOUND'));
 		}
 		return true;
 	}

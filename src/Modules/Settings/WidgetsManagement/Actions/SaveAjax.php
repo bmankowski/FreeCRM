@@ -18,12 +18,12 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 		$currentUserModel = $request->getUser();
 		$mode = $request->get('mode');
 		if ($mode == 'delete' && !$currentUserModel->isAdminUser()) {
-			throw new \Exception\AppException(\App\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED', 'Vtiger'));
+			throw new \App\Exceptions\AppException(\App\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED', 'Vtiger'));
 		}
 		$sourceModule = $request->get('sourceModule');
 		$currentUserPriviligesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($sourceModule, 'Save')) {
-			throw new \Exception\AppException(\App\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED', 'Vtiger'));
+			throw new \App\Exceptions\AppException(\App\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED', 'Vtiger'));
 		}
 	}
 

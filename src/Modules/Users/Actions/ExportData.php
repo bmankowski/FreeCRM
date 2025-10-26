@@ -9,7 +9,7 @@ class ExportData extends \App\Runtime\BaseActionController
 	{
 		$currentUserModel = $request->getUser();
 		if (!$currentUserModel->isAdminUser()) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 

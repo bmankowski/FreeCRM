@@ -17,7 +17,7 @@ class Folders extends \App\Modules\Vtiger\Views\BasicModal
 	{
 		$currentUserModel = $request->getUser();
 		if (!$currentUserModel->isAdminUser() || !$request->has('record')) {
-			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
 

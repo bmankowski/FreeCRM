@@ -9,7 +9,7 @@
  * *********************************************************************************** */
 
 
-namespace App\events;
+namespace App\Events;
 
 class VTBatchData
 {

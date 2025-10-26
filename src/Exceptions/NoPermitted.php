@@ -1,4 +1,5 @@
-<?php namespace Exception;
+<?php
+namespace App\Exceptions;
 
 /**
  * No Permitted Exception class
@@ -6,7 +7,7 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class NoPermittedToRecord extends NoPermitted
+class NoPermitted extends \Exception
 {
 
 	public function __construct($message = '', $code = 0, \Exception $previous = null)
@@ -15,15 +16,11 @@ class NoPermittedToRecord extends NoPermitted
 		\App\Http\Vtiger_Session::init();
 
 		$request = new \App\Http\Vtiger_Request($_REQUEST, $_REQUEST);
-		$record = $request->get('record');
-		if(empty($record))
-			$record = 0;
 		$userName = \App\Http\Vtiger_Session::get('full_user_name');
-		\App\DB::getInstance('log')->createCommand()->insert('o_#__access_to_record', [
+		\App\DB::getInstance('log')->createCommand()->insert('o_#__access_for_user', [
 			'username' => empty($userName) ? '-' : $userName,
 			'date' => date('Y-m-d H:i:s'),
 			'ip' => \App\RequestUtil::getRemoteIP(),
-			'record' => $record,
 			'module' => $request->getModule(),
 			'url' => \App\RequestUtil::getBrowserInfo()->url,
 			'agent' => $_SERVER['HTTP_USER_AGENT'],

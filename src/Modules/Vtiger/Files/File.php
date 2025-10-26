@@ -33,10 +33,10 @@ abstract class File
 		$field = $request->get('field');
 		if ($record) {
 			if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $record) || !\App\Field::getFieldPermission($moduleName, $field)) {
-				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		} else {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 		return true;
 	}
@@ -54,11 +54,11 @@ abstract class File
 		if (!empty($record)) {
 			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 			if (!$recordModel->isEditable() || !\App\Field::getFieldPermission($moduleName, $field, false)) {
-				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		} else {
 			if (!\App\Field::getFieldPermission($moduleName, $field, false) || !\App\Privilege::isPermitted($moduleName, 'CreateView')) {
-				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		}
 		return true;

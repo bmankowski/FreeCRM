@@ -37,7 +37,7 @@ class Edit extends \App\Modules\Vtiger\Views\Index
 			$isPermited = $recordModel->isCreateable();
 		}
 		if (!$isPermited) {
-			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
 

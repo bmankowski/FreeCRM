@@ -81,7 +81,7 @@ class Library
 
 	/**
 	 * Download all missing libraries
-	 * @throws \Exception\NoPermitted
+	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public static function downloadAll()
 	{
@@ -94,13 +94,13 @@ class Library
 	 * Function to download library
 	 * @param string $name
 	 * @return boolean
-	 * @throws \Exception\NoPermitted
+	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public static function download($name)
 	{
 		if (!static::$libraries[$name]) {
 			\App\Log::warning('Library does not exist: ' . $name);
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 
 		$lib = static::$libraries[$name];
@@ -143,7 +143,7 @@ class Library
 	/**
 	 * Function to update library
 	 * @param string $name
-	 * @throws \Exception\NoPermitted
+	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public static function update($name)
 	{

@@ -239,7 +239,7 @@ class Relation extends \App\Runtime\BaseModel
 	/**
 	 * Get query form relation
 	 * @return \App\QueryGenerator
-	 * @throws \Exception\NotAllowedMethod
+	 * @throws \App\Exceptions\NotAllowedMethod
 	 */
 	public function getQuery()
 	{
@@ -250,7 +250,7 @@ class Relation extends \App\Runtime\BaseModel
 			$this->$functionName();
 		} else {
 			\App\Log::error("Not exist relation: $functionName in " . __METHOD__);
-			throw new \Exception\NotAllowedMethod('LBL_NOT_EXIST_RELATION: ' . $functionName);
+			throw new \App\Exceptions\NotAllowedMethod('LBL_NOT_EXIST_RELATION: ' . $functionName);
 		}
 		if ($this->showCreatorDetail()) {
 			$queryGenerator->setCustomColumn('rel_created_user');
@@ -396,7 +396,7 @@ class Relation extends \App\Runtime\BaseModel
 
 	/**
 	 * Get Activities for related module
-	 * @throws \Exception\AppException
+	 * @throws \App\Exceptions\AppException
 	 */
 	public function getActivities()
 	{
@@ -418,7 +418,7 @@ class Relation extends \App\Runtime\BaseModel
 				if (in_array($moduleName, $referenceSubProcessInstance->getReferenceList())) {
 					$queryGenerator->addNativeCondition(['vtiger_activity.subprocess' => $this->get('parentRecord')->getId()]);
 				} else {
-					throw new \Exception\AppException('LBL_HANDLER_NOT_FOUND');
+					throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
 				}
 			}
 		}

@@ -32,7 +32,7 @@ class RecycleBinAjax extends \App\Runtime\BaseActionController
 		$targetModuleName = $request->get('sourceModule', $request->get('module'));
 		$currentUserPriviligesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($targetModuleName, 'Delete')) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 

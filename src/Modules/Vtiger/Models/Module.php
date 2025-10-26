@@ -596,7 +596,7 @@ class Module extends \vtlib\Module
 	 * Get field by field name
 	 * @param string $fieldName
 	 * @return \App\Modules\Vtiger\Models\Field
-	 * @throws \Exception\AppException
+	 * @throws \App\Exceptions\AppException
 	 */
 	public function getFieldByName($fieldName)
 	{
@@ -1185,7 +1185,7 @@ class Module extends \vtlib\Module
 				if (in_array($this->getName(), $referenceSubProcessInstance->getReferenceList())) {
 					$relationField = 'subprocess';
 				} else {
-					throw new \Exception\AppException('LBL_HANDLER_NOT_FOUND');
+					throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
 				}
 			}
 		}

@@ -19,7 +19,7 @@ class ConvertFAQ extends \App\Runtime\BaseActionController
 		$recordPermission = \App\Modules\Users\Models\Privileges::isPermitted('Faq', 'EditView');
 
 		if (!$recordPermission) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 

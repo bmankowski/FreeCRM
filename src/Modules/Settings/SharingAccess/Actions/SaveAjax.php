@@ -37,7 +37,7 @@ class Settings_SharingAccess_SaveAjax_Action extends \App\Modules\Settings\Vtige
 			}
 			try {
 				$moduleModel->save();
-			} catch (\Exception\AppException $e) {
+			} catch (\App\Exceptions\AppException $e) {
 				
 			}
 		}

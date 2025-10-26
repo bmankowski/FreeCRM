@@ -13,7 +13,7 @@
  * A wrapper around \App\CRMEntity instances
  */
 
-namespace App\events;
+namespace App\Events;
 
 class VTEntityData
 {

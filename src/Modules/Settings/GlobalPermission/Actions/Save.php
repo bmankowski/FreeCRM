@@ -27,7 +27,7 @@ class Save extends \App\Modules\Settings\Vtiger\Actions\Save
 	{
 		$currentUser = $request->getUser();
 		if (!$currentUser->isAdminUser()) {
-			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 

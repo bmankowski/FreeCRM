@@ -19,16 +19,16 @@ class Notification extends \App\Runtime\BaseActionController
 			$notice = \App\Modules\Notification\Models\Record::getInstanceById($id);
 			$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 			if ($userPrivilegesModel->getId() != $notice->getUserId()) {
-				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		}
 		$mode = $request->getMode();
 		if ($mode == 'createMessage' && !\App\Modules\Users\Models\Privileges::isPermitted('Notification', 'CreateView')) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		} elseif ($mode == 'createMail' && (!\App\Modules\Users\Models\Privileges::isPermitted('Notification', 'NotificationCreateMail') || !\App\AppConfig::main('isActiveSendingMails') || !\App\Modules\Users\Models\Privileges::isPermitted('OSSMail'))) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		} elseif (in_array($mode, ['setMark', 'saveWatchingModules']) && !\App\Modules\Users\Models\Privileges::isPermitted('Notification', 'DetailView')) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -50,7 +50,7 @@ class Notification extends \App\Runtime\BaseActionController
 			$this->invokeExposedMethod($mode, $request);
 			return;
 		}
-		throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 	}
 
 	public function setMark(\App\Http\Vtiger_Request $request)

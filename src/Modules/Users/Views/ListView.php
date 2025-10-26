@@ -20,7 +20,7 @@ class ListView extends \App\Modules\Settings\Vtiger\Views\ListView
 	{
 		$currentUserModel = $request->getUser();
 		if (!$currentUserModel->isAdminUser()) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 

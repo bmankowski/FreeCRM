@@ -66,7 +66,7 @@ foreach ($data['files'] as $filename => $fileData) {
         // Look for "Access to an undefined property" errors
         if (strpos($message['message'], 'Access to an undefined property') !== false) {
             // Extract class and property name
-            // Format: "Access to an undefined property App\events\VTWSEntityType::$entityTypeName."
+            // Format: "Access to an undefined property App\Events\VTWSEntityType::$entityTypeName."
             if (preg_match('/Access to an undefined property ([^:]+)::\$(\w+)/', $message['message'], $matches)) {
                 $className = $matches[1];
                 $propertyName = $matches[2];

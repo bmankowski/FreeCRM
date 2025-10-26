@@ -136,13 +136,13 @@ class WebUI extends EntryPoint
 	 * Check if the user has logged in and redirect if necessary
 	 * 
 	 * @param \App\Http\Vtiger_Request $request
-	 * @throws \Exception\AppException When login is required but not present
+	 * @throws \App\Exceptions\AppException When login is required but not present
 	 */
 	protected function checkLogin(\App\Http\Vtiger_Request $request)
 	{
 		if (!$this->hasLogin()) {
 			$this->handleLoginRedirect();
-			throw new \Exception\AppException('Login is required');
+			throw new \App\Exceptions\AppException('Login is required');
 		}
 	}
 
@@ -206,8 +206,8 @@ class WebUI extends EntryPoint
 	 * 
 	 * @param \App\Runtime\BaseActionController $handler
 	 * @param \App\Http\Vtiger_Request $request
-	 * @throws \Exception\AppException When module is not found
-	 * @throws \Exception\NoPermitted When user lacks permissions
+	 * @throws \App\Exceptions\AppException When module is not found
+	 * @throws \App\Exceptions\NoPermitted When user lacks permissions
 	 */
 	protected function triggerCheckPermission(BaseActionController $handler, \App\Http\Vtiger_Request $request)
 	{
@@ -216,14 +216,14 @@ class WebUI extends EntryPoint
 
 		if (empty($moduleModel)) {
 			$message = \App\Runtime\Vtiger_Language_Handler::translate($moduleName) . ' ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_HANDLER_NOT_FOUND');
-			throw new \Exception\AppException($message);
+			throw new \App\Exceptions\AppException($message);
 		}
 
 		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$hasPermission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 
 		if (!$hasPermission) {
-			throw new \Exception\NoPermitted(\App\Runtime\Vtiger_Language_Handler::translate('LBL_NOT_ACCESSIBLE'));
+			throw new \App\Exceptions\NoPermitted(\App\Runtime\Vtiger_Language_Handler::translate('LBL_NOT_ACCESSIBLE'));
 		}
 
 		$handler->checkPermission($request);
@@ -613,7 +613,7 @@ class WebUI extends EntryPoint
 	 * @param string $componentName
 	 * @param string|null $qualifiedModuleName
 	 * @return \App\Runtime\BaseActionController
-	 * @throws \Exception\AppException When handler class not found
+	 * @throws \App\Exceptions\AppException When handler class not found
 	 */
 	private function createHandler($componentType, $componentName, $qualifiedModuleName)
 	{
@@ -627,7 +627,7 @@ class WebUI extends EntryPoint
 		$handler = new $handlerClass();
 
 		if (!$handler) {
-			throw new \Exception\AppException(\App\Runtime\Vtiger_Language_Handler::translate('LBL_HANDLER_NOT_FOUND'));
+			throw new \App\Exceptions\AppException(\App\Runtime\Vtiger_Language_Handler::translate('LBL_HANDLER_NOT_FOUND'));
 		}
 
 		return $handler;
@@ -764,7 +764,7 @@ class WebUI extends EntryPoint
 	private function getExceptionTemplate(\Exception $exception)
 	{
 		if (
-			$exception instanceof \Exception\NoPermittedToRecord
+			$exception instanceof \App\Exceptions\NoPermittedToRecord
 			|| $exception instanceof \WebServiceException
 		) {
 			return 'NoPermissionsForRecord.tpl';

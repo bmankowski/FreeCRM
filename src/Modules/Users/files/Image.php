@@ -23,7 +23,7 @@ class Image {
 	{
 		$record = $request->get('record');
 		if (empty($record)) {
-			throw new \Exception\NoPermitted('Not Acceptable', 406);
+			throw new \App\Exceptions\NoPermitted('Not Acceptable', 406);
 		}
 		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $request->getModule());
 		$path = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $recordModel->getImagePath();
@@ -53,7 +53,7 @@ class Image {
 			}
 		}
 		if (!$allowed) {
-			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 

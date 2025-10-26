@@ -18,12 +18,12 @@ class ExportData extends \App\Runtime\BaseActionController
 	/**
 	 * Function to check permission
 	 * @param \App\Http\Vtiger_Request $request
-	 * @throws \Exception\NoPermitted
+	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		if (!\App\Modules\Vtiger\Models\Module::getInstance($request->get('source_module'))->isPermitted('Export')) {
-			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
 

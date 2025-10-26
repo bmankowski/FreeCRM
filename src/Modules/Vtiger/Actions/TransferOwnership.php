@@ -12,7 +12,7 @@ class TransferOwnership extends \App\Runtime\BaseActionController
 		$moduleName = $request->getModule();
 		$currentUserPriviligesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'EditView') || !$currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'MassTransferOwnership')) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 

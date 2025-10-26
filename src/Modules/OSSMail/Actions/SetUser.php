@@ -18,7 +18,7 @@ class SetUser extends \App\Runtime\BaseActionController
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		if (!\App\Modules\Users\Models\Privileges::isPermitted('OSSMail')) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 

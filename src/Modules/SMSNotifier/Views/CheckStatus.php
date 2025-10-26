@@ -21,7 +21,7 @@ class CheckStatus  extends \App\Modules\Vtiger\Views\Index
 		$moduleName = $request->getModule();
 
 		if (!\App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $request->get('record'))) {
-			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
 

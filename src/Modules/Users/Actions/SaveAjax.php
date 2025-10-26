@@ -40,9 +40,9 @@ class SaveAjax extends \App\Modules\Vtiger\Actions\Save
 		if (!$currentUserModel->isAdminUser()) {
 			$mode = $request->getMode();
 			if ($mode == 'savePassword' && (isset($userId) && $currentUserModel->getId() != $userId)) {
-				throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 			} else if ($mode != 'savePassword' && ($currentUserModel->getId() != $request->get('record'))) {
-				throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 			}
 		}
 	}

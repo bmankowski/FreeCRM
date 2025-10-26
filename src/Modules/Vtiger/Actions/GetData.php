@@ -23,7 +23,7 @@ class GetData  extends \App\Modules\Vtiger\Views\Index
 
 		$recordPermission = \App\Modules\Users\Models\Privileges::isPermitted($sourceModule, 'DetailView', $recordId);
 		if (!$recordPermission) {
-			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		return true;
 	}

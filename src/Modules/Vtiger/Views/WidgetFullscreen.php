@@ -21,18 +21,18 @@ class WidgetFullscreen  extends \App\Modules\Vtiger\Views\Index
 	/**
 	 * Checking permissions
 	 * @param \App\Http\Vtiger_Request $request
-	 * @throws \Exception\AppException
-	 * @throws \Exception\NoPermittedToRecord
+	 * @throws \App\Exceptions\AppException
+	 * @throws \App\Exceptions\NoPermittedToRecord
 	 */
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		if (!is_numeric($recordId)) {
-			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		$recordPermission = \App\Modules\Users\Models\Privileges::isPermitted($request->getModule(), 'DetailView', $recordId);
 		if (!$recordPermission) {
-			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
 

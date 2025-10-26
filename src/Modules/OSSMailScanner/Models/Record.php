@@ -218,7 +218,7 @@ class Record extends \App\Modules\Vtiger\Models\Record
 	{
 		$account = \App\Modules\OSSMail\Models\Record::getAccountByHash($params['rcId']);
 		if (!$account) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 		$params['folder'] = urldecode($params['folder']);
 		$mailModel = \App\Modules\Vtiger\Models\Record::getCleanInstance('OSSMail');

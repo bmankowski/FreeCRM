@@ -14,7 +14,7 @@ class SwitchUsers extends \App\Runtime\BaseActionController
 	/**
 	 * Function checks permissions
 	 * @param \App\Http\Vtiger_Request $request
-	 * @throws \Exception\NoPermitted
+	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
@@ -34,7 +34,7 @@ class SwitchUsers extends \App\Runtime\BaseActionController
 				'agent' => $_SERVER['HTTP_USER_AGENT'],
 				'status' => 'Failed login - No permission',
 			])->execute();
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 

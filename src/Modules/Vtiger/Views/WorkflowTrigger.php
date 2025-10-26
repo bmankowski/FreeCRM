@@ -21,7 +21,7 @@ class WorkflowTrigger extends \App\Modules\Vtiger\Views\Index
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		if (!(\App\Modules\Users\Models\Privileges::isPermitted($request->getModule(), 'WorkflowTrigger', $request->get('record')))) {
-			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
 

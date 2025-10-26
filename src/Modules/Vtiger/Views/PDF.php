@@ -18,7 +18,7 @@ class PDF  extends \App\Modules\Vtiger\Views\Index
 	{
 		$moduleName = $request->getModule();
 		if (!\App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'ExportPdf')) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 

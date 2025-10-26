@@ -12,7 +12,7 @@ class Invitees extends \App\Runtime\BaseActionController
 		$moduleName = $request->getModule();
 		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$userPrivilegesModel->hasModulePermission($moduleName)) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 

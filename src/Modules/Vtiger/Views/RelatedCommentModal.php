@@ -19,7 +19,7 @@ class RelatedCommentModal  extends \App\Modules\Vtiger\Views\Index
 		$record = $request->get('record');
 		$recordPermission = \App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $record);
 		if (!$recordPermission) {
-			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
 
@@ -32,7 +32,7 @@ class RelatedCommentModal  extends \App\Modules\Vtiger\Views\Index
 
 		$rcmModel = \App\Modules\Vtiger\Models\RelatedCommentModal::getInstance($record, $moduleName, $relatedRecord, $relatedModuleName);
 		if (!$rcmModel->isEditable()) {
-			throw new \Exception\NoPermitted(\App\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED'));
+			throw new \App\Exceptions\NoPermitted(\App\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED'));
 		}
 
 		$viewer = $this->getViewer($request);

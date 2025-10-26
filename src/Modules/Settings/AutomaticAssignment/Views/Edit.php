@@ -17,13 +17,13 @@ class Edit extends \App\Modules\Settings\Vtiger\Views\Index
 	/**
 	 * Checking permission 
 	 * @param \App\Http\Vtiger_Request $request
-	 * @throws \Exception\NoPermittedForAdmin
+	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 */
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$currentUserModel = $request->getUser();
 		if (!$currentUserModel->isAdmin() || empty($request->get('record'))) {
-			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
 

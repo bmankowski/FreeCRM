@@ -22,7 +22,7 @@ class Detail extends \App\Modules\Users\Views\PreferenceDetail {
 		if ($currentUserModel->isAdminUser() === true || ($currentUserModel->get('id') == $record && \App\AppConfig::security('SHOW_MY_PREFERENCES'))) {
 			return true;
 		} else {
-			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 

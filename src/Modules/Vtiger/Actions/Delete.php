@@ -21,7 +21,7 @@ class Delete extends \App\Runtime\BaseActionController
 
 		$currentUserPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPrivilegesModel->isPermitted($moduleName, 'Delete', $record)) {
-			throw new \Exception\NoPermittedToRecord(\App\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED'));
+			throw new \App\Exceptions\NoPermittedToRecord(\App\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED'));
 		}
 	}
 

@@ -33,7 +33,7 @@ class MailActionBar  extends \App\Modules\Vtiger\Views\Index
 
 		$account = \App\Modules\OSSMail\Models\Record::getAccountByHash($rcId);
 		if (!$account) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 		$rcId = $account['user_id'];
 		$mailViewModel = \App\Modules\OSSMailView\Models\Record::getCleanInstance('OSSMailView');

@@ -19,7 +19,7 @@ class DownloadFile extends \App\Runtime\BaseActionController
 		$moduleName = $request->getModule();
 
 		if (!\App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $request->get('record'))) {
-			throw new \Exception\NoPermittedToRecord(\App\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED', $moduleName));
+			throw new \App\Exceptions\NoPermittedToRecord(\App\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED', $moduleName));
 		}
 	}
 

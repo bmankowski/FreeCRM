@@ -18,7 +18,7 @@ class SharedCalendar  extends \App\Modules\Vtiger\Views\Index
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+		throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)

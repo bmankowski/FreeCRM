@@ -17,7 +17,7 @@ class DeleteAjax extends \App\Runtime\BaseActionController
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		if (!\App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel()->hasModulePermission($request->getModule())) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 	

@@ -18,7 +18,7 @@ class BasicAjax extends \App\Runtime\BaseActionController
 	{
 		$currentUser = $request->getUser();
 		if (!$currentUser->isAdminUser()) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 

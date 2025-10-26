@@ -26,7 +26,7 @@ class Basic extends \App\Runtime\BaseActionController
 	{
 		$currentUserModel = $request->getUser();
 		if (!$currentUserModel->isAdminUser()) {
-			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
 

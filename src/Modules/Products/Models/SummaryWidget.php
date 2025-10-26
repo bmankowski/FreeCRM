@@ -29,7 +29,7 @@ class SummaryWidget {
 		$record = $request->get('record');
 		$mod = $request->get('mod');
 		if (!in_array($mod, self::MODULES)) {
-			throw new \Exception\AppException('Not supported Module');
+			throw new \App\Exceptions\AppException('Not supported Module');
 		}
 		$limit = 10;
 		if (!empty($request->get('limit'))) {

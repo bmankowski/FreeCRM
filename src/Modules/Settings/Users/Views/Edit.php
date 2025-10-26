@@ -24,13 +24,13 @@ class Edit extends \App\Modules\Users\Views\PreferenceEdit
 		if (!empty($record) && $currentUserModel->get('id') != $record) {
 			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 			if ($recordModel->get('status') != 'Active') {
-				throw new \Exception\AppException('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 			}
 		}
 		if (($currentUserModel->isAdminUser() === true || ($currentUserModel->get('id') == $record && \App\AppConfig::security('SHOW_MY_PREFERENCES')))) {
 			return true;
 		} else {
-			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 

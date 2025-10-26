@@ -435,7 +435,7 @@ class PDF extends \App\Runtime\BaseModel
 		//create the file and throw the error if unsuccessful
 		if ($zip->open($zipPath . $zipName, ZIPARCHIVE::CREATE) !== true) {
 			\App\Log::error("cannot open <$zipPath.$zipName>\n");
-			throw new \Exception\NoPermitted("cannot open <$zipPath.$zipName>");
+			throw new \App\Exceptions\NoPermitted("cannot open <$zipPath.$zipName>");
 		}
 
 		//add each files of $file_name array to archive

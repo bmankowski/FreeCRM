@@ -22,17 +22,17 @@ class SaveConvertLead extends \App\Runtime\BaseViewController
 
 		$currentUserPriviligesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$currentUserPriviligesModel->hasModuleActionPermission($moduleName, 'ConvertLead')) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 
 		$recordPermission = \App\Privilege::isPermitted($moduleName, 'EditView', $recordId);
 		if (!$recordPermission) {
-			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 
 		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 		if (!\App\Modules\Leads\Models\Module::checkIfAllowedToConvert($recordModel->get('leadstatus'))) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -81,17 +81,17 @@ class SaveConvertLead extends \App\Runtime\BaseViewController
 					$message = \App\Runtime\Vtiger_Language_Handler::translate('LBL_TOO_MANY_ACCOUNTS_TO_CONVERT', $request->getModule(), '<a href="index.php?module=MarketingProcesses&view=Index&parent=Settings"><span class="glyphicon glyphicon-folder-open"></span></a>');
 				}
 				$this->showError($request, '', $message);
-				throw new \Exception\AppException('LBL_TOO_MANY_ACCOUNTS_TO_CONVERT');
+				throw new \App\Exceptions\AppException('LBL_TOO_MANY_ACCOUNTS_TO_CONVERT');
 			}
 		} catch (Exception $e) {
 			$this->showError($request, $e);
-			throw new \Exception\AppException($e->getMessage());
+			throw new \App\Exceptions\AppException($e->getMessage());
 		}
 		try {
 			$result = vtws_convertlead($entityValues, $currentUser);
 		} catch (Exception $e) {
 			$this->showError($request, $e);
-			throw new \Exception\AppException($e->getMessage());
+			throw new \App\Exceptions\AppException($e->getMessage());
 		}
 
 		if (!empty($result['Accounts'])) {
@@ -103,7 +103,7 @@ class SaveConvertLead extends \App\Runtime\BaseViewController
 			header("Location: index.php?view=Detail&module=Accounts&record=$accountId");
 		} else {
 			$this->showError($request);
-			throw new \Exception\AppException('Error');
+			throw new \App\Exceptions\AppException('Error');
 		}
 	}
 

@@ -18,15 +18,15 @@ class ChangesReviewedOn extends \App\Runtime\BaseActionController
 		if (!empty($record)) {
 			$recordModel = $this->record ? $this->record : \App\Modules\Vtiger\Models\Record::getInstanceById($record);
 			if (!$recordModel->getModule()->isTrackingEnabled()) {
-				throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 			}
 		} elseif (!empty($sourceModule)) {
 			$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($sourceModule);
 			if (!$moduleModel || $moduleModel->isTrackingEnabled()) {
-				throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 			}
 		} else {
-			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
 

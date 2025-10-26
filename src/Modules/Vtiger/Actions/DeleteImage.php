@@ -20,7 +20,7 @@ class DeleteImage extends \App\Runtime\BaseActionController
 		$record = $request->get('id');
 
 		if (!(\App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'EditView', $record) && \App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'Delete', $record))) {
-			throw new \Exception\NoPermittedToRecord(\App\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED'));
+			throw new \App\Exceptions\NoPermittedToRecord(\App\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED'));
 		}
 	}
 

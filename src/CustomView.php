@@ -273,7 +273,7 @@ class CustomView
 	/**
 	 * Get custom view from file
 	 * @param string $cvId
-	 * @throws \Exception\AppException
+	 * @throws \App\Exceptions\AppException
 	 */
 	public function getCustomViewFromFile($cvId)
 	{
@@ -288,14 +288,14 @@ class CustomView
 			return $filter;
 		}
 		\App\Log::error(\App\Runtime\Vtiger_Language_Handler::translate('LBL_NO_FOUND_VIEW') . "cvId: $cvId");
-		throw new \Exception\AppException('LBL_NO_FOUND_VIEW');
+		throw new \App\Exceptions\AppException('LBL_NO_FOUND_VIEW');
 	}
 
 	/**
 	 * Columns list by cvid
 	 * @param mixed $cvId
 	 * @return array
-	 * @throws \Exception\AppException
+	 * @throws \App\Exceptions\AppException
 	 */
 	public function getColumnsListByCvid($cvId)
 	{
@@ -317,7 +317,7 @@ class CustomView
 			return $columnList;
 		}
 		\App\Log::error(\App\Runtime\Vtiger_Language_Handler::translate('LBL_NO_FOUND_VIEW') . "cvId: $cvId");
-		throw new \Exception\AppException('LBL_NO_FOUND_VIEW');
+		throw new \App\Exceptions\AppException('LBL_NO_FOUND_VIEW');
 	}
 
 	/**

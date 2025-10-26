@@ -8,7 +8,7 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-namespace App\events;
+namespace App\Events;
 
 use Exception;
 use ReflectionObject;

@@ -48,7 +48,7 @@ class Basic extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 			} else {
 				$moduleManagerModel->disableModule($moduleName);
 			}
-		} catch (\Exception\NotAllowedMethod $e) {
+		} catch (\App\Exceptions\NotAllowedMethod $e) {
 			$response->setError($e->getMessage());
 		}
 		$response->emit();

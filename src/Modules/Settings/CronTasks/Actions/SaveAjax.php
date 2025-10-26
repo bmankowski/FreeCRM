@@ -21,7 +21,7 @@ class SaveAjax extends \App\Modules\Settings\Vtiger\Actions\Index
 
 		$recordId = $request->get('record');
 		if (!$recordId) {
-			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 

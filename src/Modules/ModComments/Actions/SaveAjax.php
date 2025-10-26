@@ -20,10 +20,10 @@ class SaveAjax extends \App\Modules\Vtiger\Actions\SaveAjax
 		$record = $request->get('record');
 		//Do not allow ajax edit of existing comments
 		if ($record) {
-			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
 		if(!\App\Privilege::isPermitted($request->getModule(), 'CreateView')){
-			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 

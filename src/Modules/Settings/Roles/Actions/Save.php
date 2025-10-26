@@ -19,13 +19,13 @@ class Save extends \App\Runtime\BaseActionController
 	/**
 	 * Checking permission
 	 * @param \App\Http\Vtiger_Request $request
-	 * @throws \Exception\AppException
+	 * @throws \App\Exceptions\AppException
 	 */
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$currentUser = $request->getUser();
 		if (!$currentUser->isAdminUser()) {
-			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 

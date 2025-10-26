@@ -98,7 +98,7 @@ class Date {
 		$day_array = array();
 
 		if ($index < 0 || $index > 23) {
-			throw new \Exception\AppException('hour is invalid');
+			throw new \App\Exceptions\AppException('hour is invalid');
 		}
 
 		$day_array['hour'] = $index;
@@ -119,7 +119,7 @@ class Date {
 	{
 		$week_array = array();
 		if ($index < 1 || $index > 7) {
-			throw new \Exception\AppException('day is invalid');
+			throw new \App\Exceptions\AppException('day is invalid');
 		}
 		$week_array['day'] = $this->day + ($index - $this->dayofweek);
 		$week_array['month'] = $this->month;
@@ -166,7 +166,7 @@ class Date {
 		$year_array = array();
 		$year_array['day'] = 1;
 		if ($index < 0 || $index > 11) {
-			throw new \Exception\AppException('month is invalid');
+			throw new \App\Exceptions\AppException('month is invalid');
 		}
 		$year_array['month'] = $index + 1;
 		$year_array['year'] = $this->year;
@@ -356,7 +356,7 @@ class Date {
 		if (isset($this->year) && $this->year !== '') {
 			$year = $this->year;
 		} else {
-			throw new \Exception\AppException('year was not set');
+			throw new \App\Exceptions\AppException('year was not set');
 		}
 		if (empty($hour) && $hour !== 0)
 			$hour = 0;

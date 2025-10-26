@@ -29,7 +29,7 @@ class ModuleImport extends \App\Modules\Settings\Vtiger\Views\Index
 	{
 		$systemMode = vglobal('systemMode');
 		if ($systemMode == 'demo') {
-			throw new \Exception\AppException('LBL_ERROR_IMPORT_IN_DEMO');
+			throw new \App\Exceptions\AppException('LBL_ERROR_IMPORT_IN_DEMO');
 		}
 
 		$mode = $request->getMode();

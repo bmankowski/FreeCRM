@@ -1,4 +1,5 @@
-<?php namespace Exception;
+<?php
+namespace App\Exceptions;
 
 /**
  * No Permitted Exception class
@@ -6,7 +7,7 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class NoPermitted extends \Exception
+class Csrf extends \Exception
 {
 
 	public function __construct($message = '', $code = 0, \Exception $previous = null)
@@ -14,17 +15,15 @@ class NoPermitted extends \Exception
 		parent::__construct($message, $code, $previous);
 		\App\Http\Vtiger_Session::init();
 
-		$request = new \App\Http\Vtiger_Request($_REQUEST, $_REQUEST);
+		$dbLog = \App\Database\PearDatabase::getInstance('log');
 		$userName = \App\Http\Vtiger_Session::get('full_user_name');
-		\App\DB::getInstance('log')->createCommand()->insert('o_#__access_for_user', [
+		$dbLog->insert('o_yf_csrf', [
 			'username' => empty($userName) ? '-' : $userName,
 			'date' => date('Y-m-d H:i:s'),
 			'ip' => \App\RequestUtil::getRemoteIP(),
-			'module' => $request->getModule(),
+			'referer' => $_SERVER['HTTP_REFERER'] ?? '',
 			'url' => \App\RequestUtil::getBrowserInfo()->url,
-			'agent' => $_SERVER['HTTP_USER_AGENT'],
-			'request' => json_encode($_REQUEST),
-			'referer' => isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : ''
-		])->execute();
+			'agent' => $_SERVER['HTTP_USER_AGENT'] ?? '',
+		]);
 	}
 }

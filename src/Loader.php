@@ -132,7 +132,7 @@ class Loader
 		// Component not found
 		if ($throwException) {
 			\App\Log::error("Loader::getComponentClassName($componentType, $componentName, $originalModuleName): Handler not found");
-			throw new \Exception\AppException('LBL_HANDLER_NOT_FOUND');
+			throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
 		}
 		return false;
 	}

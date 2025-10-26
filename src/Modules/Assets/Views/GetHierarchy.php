@@ -26,7 +26,7 @@ class GetHierarchy  extends \App\Modules\Vtiger\Views\Index
 			$permissionHierarchyModule = $userPrivilegesModel->hasModulePermission($hierarchyModuleName);
 
 			if (!$permission || !$permissionHierarchyModule) {
-				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		}
 	}

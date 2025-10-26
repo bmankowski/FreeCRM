@@ -32,7 +32,7 @@ class Dashboard extends \App\Modules\Settings\Vtiger\Views\IndexAjax
 	{
 		$dashboardId = $request->get('dashboardId');
 		if($dashboardId === \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDashboard()) {
-			throw new \Exception\AppException(\App\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED', 'Vtiger'));
+			throw new \App\Exceptions\AppException(\App\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED', 'Vtiger'));
 		}
 		\App\Modules\Settings\WidgetsManagement\Models\Module::deleteDashboard($dashboardId);
 		$response = new \App\Http\Vtiger_Response();

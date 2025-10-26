@@ -17,14 +17,14 @@ class UpdateField extends \App\Runtime\BaseActionController
 		$moduleName = $request->getModule();
 		$fieldName = $request->get('fieldName');
 		if (!\App\Privilege::isPermitted($moduleName, 'EditView', $recordId)) {
-			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 		if (!$recordModel->isEditable()) {
-			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 		if (!\App\Field::getFieldPermission($moduleName, $fieldName)) {
-			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
 

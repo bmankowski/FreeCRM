@@ -31,7 +31,7 @@ class RelationAjax extends \App\Runtime\BaseActionController
 		$permission = $userPrivilegesModel->hasModulePermission($request->getModule());
 
 		if (!$permission) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -155,7 +155,7 @@ class RelationAjax extends \App\Runtime\BaseActionController
 					$relationModel->deleteRelation($sourceRecordId, $relatedRecordId);
 				}
 			} else {
-				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		}
 		if (!empty($categoryToAdd)) {
@@ -169,7 +169,7 @@ class RelationAjax extends \App\Runtime\BaseActionController
 					$relationModel->deleteRelTree($sourceRecordId, $category);
 				}
 			} else {
-				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		}
 

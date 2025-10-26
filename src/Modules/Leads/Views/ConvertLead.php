@@ -22,18 +22,18 @@ class ConvertLead  extends \App\Modules\Vtiger\Views\Index
 		$moduleName = $request->getModule();
 		$moduleModel = \App\Modules\Vtiger\Models\Module::getInstance($moduleName);
 		if (!$moduleModel->isPermitted('ConvertLead')) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 
 		$recordPermission = \App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'Save', $recordId);
 		if (!$recordPermission) {
-			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 
 		$recordId = $request->get('record');
 		$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($recordId);
 		if (!\App\Modules\Leads\Models\Module::checkIfAllowedToConvert($recordModel->get('leadstatus'))) {
-			throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 

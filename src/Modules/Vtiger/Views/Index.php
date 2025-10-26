@@ -29,7 +29,7 @@ class Index extends \App\Modules\Vtiger\Views\Basic
 			$permission = $userPrivilegesModel->hasModulePermission($moduleName);
 
 			if (!$permission) {
-				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		}
 	}
@@ -53,7 +53,7 @@ class Index extends \App\Modules\Vtiger\Views\Basic
 			$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getInstanceById($currentUser->getId());
 			$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 			if (!$permission) {
-				throw new \Exception\NoPermitted('LBL_PERMISSION_DENIED');
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 
 			$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));

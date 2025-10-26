@@ -18,17 +18,17 @@ class Watchdog extends \App\Runtime\BaseActionController
 		$recordId = $request->get('record');
 		if (empty($recordId)) {
 			if (!\App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'WatchingModule')) {
-				throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 			}
 		} else {
 			if (!\App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $recordId) || !\App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'WatchingRecords')) {
-				throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 			}
 		}
 		if ($request->has('user')) {
 			$userList = array_keys(\App\Fields\Owner::getInstance()->getAccessibleUsers());
 			if (!in_array($request->get('user'), $userList)) {
-				throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+				throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 			}
 		}
 		return true;

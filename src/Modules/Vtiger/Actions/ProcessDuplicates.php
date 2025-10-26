@@ -23,7 +23,7 @@ class ProcessDuplicates extends \App\Runtime\BaseActionController
 			foreach ($records as $record) {
 				$recordPermission = \App\Modules\Users\Models\Privileges::isPermitted($module, 'EditView', $record);
 				if (!$recordPermission) {
-					throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+					throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 				}
 			}
 		}

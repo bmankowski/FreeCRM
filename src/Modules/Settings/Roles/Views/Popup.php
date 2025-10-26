@@ -19,7 +19,7 @@ class Popup extends \App\Modules\Vtiger\Views\Footer
 	{
 		$currentUser = $request->getUser();
 		if (!$currentUser->isAdminUser()) {
-			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 

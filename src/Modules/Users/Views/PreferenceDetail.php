@@ -24,12 +24,12 @@ class PreferenceDetail extends \App\Modules\Vtiger\Views\Detail
 		$record = $request->get('record');
 
 		if (!\App\AppConfig::security('SHOW_MY_PREFERENCES')) {
-			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 		if ($currentUserModel->isAdminUser() === true || $currentUserModel->get('id') == $record) {
 			return true;
 		} else {
-			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
 

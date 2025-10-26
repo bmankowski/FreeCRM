@@ -28,7 +28,7 @@ class MoreCurrenciesList  extends \App\Modules\Vtiger\Views\Index
 			$lockEdit = \App\Modules\Users\Models\Privileges::checkLockEdit($moduleName, \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName));
 		}
 		if (!$recordPermission || ($lockEdit && $request->get('isDuplicate') != 'true')) {
-			throw new \Exception\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}
 

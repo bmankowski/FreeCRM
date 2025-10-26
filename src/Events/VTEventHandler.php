@@ -8,32 +8,11 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
-namespace App\events;
 
-use Exception;
-use ReflectionObject;
+namespace App\Events;
 
-class VTWSFieldType
+abstract class VTEventHandler
 {
 
-    /** @var string|null */
-    public $format;
-    /** @var array|string|null */
-    public $relatedTo;
-    /** @var string|null */
-    public $type;
-    /** @var array|null */
-    public $values;
-
-
-	function toArray()
-	{
-		$ro = new ReflectionObject($this);
-		$props = $ro->getProperties();
-		$arr = [];
-		foreach ($props as $prop) {
-			$arr[$prop->getName()] = $prop->getValue($this);
-		}
-		return $arr;
-	}
+	public abstract function handleEvent($name, $data);
 }

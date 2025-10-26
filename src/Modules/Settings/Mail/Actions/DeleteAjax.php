@@ -16,13 +16,13 @@ class DeleteAjax extends \App\Modules\Settings\Vtiger\Actions\Delete
 	/**
 	 * Checking permission 
 	 * @param \App\Http\Vtiger_Request $request
-	 * @throws \Exception\NoPermittedForAdmin
+	 * @throws \App\Exceptions\NoPermittedForAdmin
 	 */
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$currentUserModel = $request->getUser();
 		if (!$currentUserModel->isAdmin()) {
-			throw new \Exception\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
 		}
 	}
 	

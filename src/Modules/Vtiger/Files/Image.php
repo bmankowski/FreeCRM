@@ -31,13 +31,13 @@ class Image extends File
 	 * View image
 	 * @param \App\Http\Vtiger_Request $request
 	 * @return string|boolean
-	 * @throws \Exception\NoPermitted
+	 * @throws \App\Exceptions\NoPermitted
 	 */
 	public function get(\App\Http\Vtiger_Request $request)
 	{
 		$record = $request->get('attachment');
 		if (empty($record)) {
-			throw new \Exception\NoPermitted('Not Acceptable', 406);
+			throw new \App\Exceptions\NoPermitted('Not Acceptable', 406);
 		}
 		$data = (new \App\Db\Query())->from('u_#__attachments')->where(['attachmentid' => $record])->one();
 		if ($data) {

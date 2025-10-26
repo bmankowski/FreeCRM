@@ -8,16 +8,32 @@
  * All Rights Reserved.
  * *********************************************************************************** */
 
+namespace App\Events;
 
-namespace App\events;
+use Exception;
+use ReflectionObject;
 
-class VTEventConditionSymbol
+class VTWSFieldType
 {
-	/** @var string */
-	public $name;
 
-	public function __construct($name)
+    /** @var string|null */
+    public $format;
+    /** @var array|string|null */
+    public $relatedTo;
+    /** @var string|null */
+    public $type;
+    /** @var array|null */
+    public $values;
+
+
+	function toArray()
 	{
-		$this->name = $name;
+		$ro = new ReflectionObject($this);
+		$props = $ro->getProperties();
+		$arr = [];
+		foreach ($props as $prop) {
+			$arr[$prop->getName()] = $prop->getValue($this);
+		}
+		return $arr;
 	}
 }

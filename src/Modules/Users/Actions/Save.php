@@ -35,7 +35,7 @@ class Save extends \App\Modules\Vtiger\Actions\Save
 			}
 		}
 		if (!$allowed) {
-			throw new \Exception\AppException('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
 	}
 

@@ -28,7 +28,7 @@ class CalendarUserActions extends \App\Runtime\BaseActionController
 		$record = $request->get('record');
 
 		if (!\App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'Save', $record)) {
-			throw new \Exception\NoPermittedToRecord('LBL_PERMISSION_DENIED');
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
 

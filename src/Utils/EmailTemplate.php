@@ -10,7 +10,7 @@
 
 namespace App\Utils;
 
-use App\events\SqlResultIterator;
+use App\Events\SqlResultIterator;
 
 /**
  * Description of EmailTemplateUtils

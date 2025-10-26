@@ -9,10 +9,15 @@
  * *********************************************************************************** */
 
 
-namespace App\events;
+namespace App\Events;
 
-abstract class VTEventHandler
+class VTEventConditionSymbol
 {
+	/** @var string */
+	public $name;
 
-	public abstract function handleEvent($name, $data);
+	public function __construct($name)
+	{
+		$this->name = $name;
+	}
 }
