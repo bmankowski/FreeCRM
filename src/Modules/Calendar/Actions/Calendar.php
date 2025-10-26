@@ -12,7 +12,7 @@ namespace App\Modules\Calendar\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Calendar extends \App\Runtime\Vtiger_Action_Controller
+class Calendar extends \App\Runtime\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

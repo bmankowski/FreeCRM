@@ -4,7 +4,7 @@
 
 namespace App\Modules\OSSMail\Actions;
 
-class executeActions extends \App\Runtime\Vtiger_Action_Controller
+class executeActions extends \App\Runtime\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

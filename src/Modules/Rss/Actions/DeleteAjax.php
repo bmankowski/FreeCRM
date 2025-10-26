@@ -11,7 +11,7 @@ namespace App\Modules\Rss\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DeleteAjax extends \App\Runtime\Vtiger_Action_Controller
+class DeleteAjax extends \App\Runtime\BaseActionController
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

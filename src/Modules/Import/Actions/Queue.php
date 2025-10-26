@@ -12,7 +12,7 @@ namespace App\Modules\Import\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Queue extends \App\Runtime\Vtiger_Action_Controller
+class Queue extends \App\Runtime\BaseActionController
 {
 
 	static $IMPORT_STATUS_NONE = 0;

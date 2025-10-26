@@ -11,7 +11,7 @@ namespace App\Modules\PriceBooks\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Save extends \App\Runtime\Vtiger_Action_Controller
+class Save extends \App\Runtime\BaseActionController
 {
 
 	/**

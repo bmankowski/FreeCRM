@@ -11,7 +11,7 @@ namespace App\Modules\Calendar\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DragDropAjax extends \App\Runtime\Vtiger_Action_Controller
+class DragDropAjax extends \App\Runtime\BaseActionController
 {
 
 	public function __construct()

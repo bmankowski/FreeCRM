@@ -12,7 +12,7 @@ namespace App\Modules\Vtiger\Actions;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class NoteBook extends \App\Runtime\Vtiger_Action_Controller
+class NoteBook extends \App\Runtime\BaseActionController
 {
 
 	public function __construct()

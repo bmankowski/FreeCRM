@@ -17,7 +17,7 @@ use App\Runtime\Vtiger_Theme;
 
 use App\AppConfig;
 
-abstract class Header extends \App\Runtime\Vtiger_View_Controller
+abstract class Header extends \App\Runtime\BaseViewController
 {
 
 	public function __construct()

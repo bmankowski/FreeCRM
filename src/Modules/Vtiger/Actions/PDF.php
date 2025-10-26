@@ -10,7 +10,7 @@ namespace App\Modules\Vtiger\Actions;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
-class PDF extends \App\Runtime\Vtiger_Action_Controller
+class PDF extends \App\Runtime\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

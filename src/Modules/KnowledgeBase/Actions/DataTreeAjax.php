@@ -8,7 +8,7 @@ namespace App\Modules\KnowledgeBase\Actions;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class DataTreeAjax extends \App\Runtime\Vtiger_Action_Controller
+class DataTreeAjax extends \App\Runtime\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

@@ -13,7 +13,7 @@ namespace App\Modules\Settings\Roles\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Save extends \App\Runtime\Vtiger_Action_Controller
+class Save extends \App\Runtime\BaseActionController
 {
 
 	/**

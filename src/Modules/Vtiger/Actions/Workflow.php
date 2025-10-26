@@ -12,7 +12,7 @@ namespace App\Modules\Vtiger\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Workflow extends \App\Runtime\Vtiger_Action_Controller
+class Workflow extends \App\Runtime\BaseActionController
 {
 
 	public function __construct()

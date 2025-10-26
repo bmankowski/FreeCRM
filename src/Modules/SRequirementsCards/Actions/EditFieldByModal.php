@@ -8,7 +8,7 @@ namespace App\Modules\SRequirementsCards\Actions;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class EditFieldByModal extends \App\Runtime\Vtiger_Action_Controller
+class EditFieldByModal extends \App\Runtime\BaseActionController
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

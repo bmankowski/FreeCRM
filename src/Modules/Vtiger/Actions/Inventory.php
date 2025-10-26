@@ -9,7 +9,7 @@ namespace App\Modules\Vtiger\Actions;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Inventory extends \App\Runtime\Vtiger_Action_Controller
+class Inventory extends \App\Runtime\BaseActionController
 {
 
 	public function __construct()

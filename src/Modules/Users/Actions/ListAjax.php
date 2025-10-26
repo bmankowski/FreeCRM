@@ -11,7 +11,7 @@ namespace App\Modules\Users\Actions;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class ListAjax extends \App\Runtime\Vtiger_Action_Controller
+class ListAjax extends \App\Runtime\BaseActionController
 {
 
 	public function __construct()

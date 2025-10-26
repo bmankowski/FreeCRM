@@ -11,7 +11,7 @@ namespace App\Modules\Calendar\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Save extends \App\Runtime\Vtiger_Action_Controller
+class Save extends \App\Runtime\BaseActionController
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

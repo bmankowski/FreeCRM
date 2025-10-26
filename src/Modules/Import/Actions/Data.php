@@ -12,7 +12,7 @@ namespace App\Modules\Import\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Data extends \App\Runtime\Vtiger_Action_Controller
+class Data extends \App\Runtime\BaseActionController
 {
 
 	public $id;

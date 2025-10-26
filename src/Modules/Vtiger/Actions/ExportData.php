@@ -12,7 +12,7 @@ namespace App\Modules\Vtiger\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class ExportData extends \App\Runtime\Vtiger_Action_Controller
+class ExportData extends \App\Runtime\BaseActionController
 {
 
 	/**

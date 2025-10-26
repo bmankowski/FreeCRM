@@ -12,7 +12,7 @@ namespace App\Modules\Calendar\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class ActivityReminder extends \App\Runtime\Vtiger_Action_Controller
+class ActivityReminder extends \App\Runtime\BaseActionController
 {
 
 	public function __construct()

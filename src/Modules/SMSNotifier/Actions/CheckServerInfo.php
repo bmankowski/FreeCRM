@@ -12,7 +12,7 @@ namespace App\Modules\SMSNotifier\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class CheckServerInfo extends \App\Runtime\Vtiger_Action_Controller
+class CheckServerInfo extends \App\Runtime\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

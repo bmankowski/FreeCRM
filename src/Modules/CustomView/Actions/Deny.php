@@ -11,7 +11,7 @@ namespace App\Modules\CustomView\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Deny extends \App\Runtime\Vtiger_Action_Controller
+class Deny extends \App\Runtime\BaseActionController
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

@@ -6,7 +6,7 @@ namespace App\Modules\Reservations\Actions;
 use DateTime;
 use Exception;
 
-class Calendar extends \App\Runtime\Vtiger_Action_Controller
+class Calendar extends \App\Runtime\BaseActionController
 {
 
 	public function __construct()

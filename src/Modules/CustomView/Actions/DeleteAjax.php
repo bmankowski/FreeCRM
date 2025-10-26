@@ -11,7 +11,7 @@ namespace App\Modules\CustomView\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DeleteAjax extends \App\Runtime\Vtiger_Action_Controller
+class DeleteAjax extends \App\Runtime\BaseActionController
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request)

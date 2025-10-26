@@ -7,7 +7,7 @@ namespace App\Modules\Vtiger\Actions;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class GenerateRecords extends \App\Runtime\Vtiger_Action_Controller
+class GenerateRecords extends \App\Runtime\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

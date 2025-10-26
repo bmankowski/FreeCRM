@@ -11,7 +11,7 @@ namespace App\Modules\Campaigns\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class RelationAjax extends \App\Runtime\Vtiger_Action_Controller
+class RelationAjax extends \App\Runtime\BaseActionController
 {
 
 	public function __construct()

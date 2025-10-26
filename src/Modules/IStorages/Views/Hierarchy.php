@@ -11,7 +11,7 @@ namespace App\Modules\IStorages\Views;
  */
 
 use App\Http\Vtiger_Request;
-class Hierarchy extends \App\Runtime\Vtiger_View_Controller
+class Hierarchy extends \App\Runtime\BaseViewController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

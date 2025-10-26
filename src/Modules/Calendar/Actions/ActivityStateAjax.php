@@ -9,7 +9,7 @@ namespace App\Modules\Calendar\Actions;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class ActivityStateAjax extends \App\Runtime\Vtiger_Action_Controller
+class ActivityStateAjax extends \App\Runtime\BaseActionController
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

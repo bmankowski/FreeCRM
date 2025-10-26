@@ -10,7 +10,7 @@
  * ********************************************************************************** */
 
 /**
- * Abstract Controller Class
+ * Abstract Base Action Controller Class
  */
 
 namespace App\Runtime;
@@ -20,7 +20,7 @@ use App\Http\Vtiger_Request;
 /**
  * Abstract Action Controller Class
  */
-abstract class Vtiger_Action_Controller extends \App\Runtime\BaseController
+abstract class BaseActionController extends \App\Runtime\BaseController
 {
 
 	public function __construct()

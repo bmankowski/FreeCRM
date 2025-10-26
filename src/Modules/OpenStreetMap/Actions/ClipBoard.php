@@ -8,7 +8,7 @@ namespace App\Modules\OpenStreetMap\Actions;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class ClipBoard extends \App\Runtime\Vtiger_Action_Controller
+class ClipBoard extends \App\Runtime\BaseActionController
 {
 
 	public function __construct()

@@ -2,7 +2,7 @@
 
 namespace App\Modules\Users\Actions;
 
-class ExportData extends \App\Runtime\Vtiger_Action_Controller
+class ExportData extends \App\Runtime\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

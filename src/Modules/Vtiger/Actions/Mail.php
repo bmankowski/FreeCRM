@@ -8,7 +8,7 @@ namespace App\Modules\Vtiger\Actions;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Mail extends \App\Runtime\Vtiger_Action_Controller
+class Mail extends \App\Runtime\BaseActionController
 {
 
 	/**

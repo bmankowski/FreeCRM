@@ -11,7 +11,7 @@ namespace App\Modules\Import\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Lock extends \App\Runtime\Vtiger_Action_Controller
+class Lock extends \App\Runtime\BaseActionController
 {
 
 	public function __construct()

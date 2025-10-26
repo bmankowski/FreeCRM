@@ -9,7 +9,7 @@ namespace App\Modules\Notification\Actions;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.c
  */
-class Notification extends \App\Runtime\Vtiger_Action_Controller
+class Notification extends \App\Runtime\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

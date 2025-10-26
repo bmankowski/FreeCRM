@@ -12,7 +12,7 @@ namespace App\Modules\OSSMail\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class ImportMail extends \App\Runtime\Vtiger_Action_Controller
+class ImportMail extends \App\Runtime\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

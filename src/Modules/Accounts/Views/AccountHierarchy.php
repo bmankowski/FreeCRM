@@ -14,7 +14,7 @@ namespace App\Modules\Accounts\Views;
 
 
 use App\Http\Vtiger_Request;
-class AccountHierarchy extends \App\Runtime\Vtiger_View_Controller
+class AccountHierarchy extends \App\Runtime\BaseViewController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

@@ -9,13 +9,15 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-
+/**
+ * Abstract Base View Controller Class
+ */
 
 namespace App\Runtime;
 
 use App\Runtime\CRM_Viewer;
 
-abstract class Vtiger_View_Controller extends \App\Runtime\Vtiger_Action_Controller
+abstract class BaseViewController extends \App\Runtime\BaseActionController
 {
 
    public $pageTitle;
@@ -469,3 +471,4 @@ abstract class Vtiger_View_Controller extends \App\Runtime\Vtiger_Action_Control
 	   return \App\Runtime\Vtiger_Language_Handler::export($moduleName, 'jsLanguageStrings');
    }
 }
+

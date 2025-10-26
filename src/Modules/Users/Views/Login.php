@@ -12,11 +12,10 @@ namespace App\Modules\Users\Views;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-use App\Runtime\Vtiger_View_Controller;
 use App\Http\Vtiger_Request;
 use App\AppConfig;
 
-class Login extends \App\Runtime\Vtiger_View_Controller
+class Login extends \App\Runtime\BaseViewController
 {
 
 	public function loginRequired()

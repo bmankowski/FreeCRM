@@ -12,7 +12,7 @@ namespace App\Modules\PBXManager\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class OutgoingCall extends \App\Runtime\Vtiger_Action_Controller
+class OutgoingCall extends \App\Runtime\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

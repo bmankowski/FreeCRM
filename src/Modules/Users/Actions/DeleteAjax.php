@@ -12,7 +12,7 @@ namespace App\Modules\Users\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class DeleteAjax extends \App\Runtime\Vtiger_Action_Controller
+class DeleteAjax extends \App\Runtime\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

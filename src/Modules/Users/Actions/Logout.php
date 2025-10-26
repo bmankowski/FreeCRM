@@ -11,7 +11,7 @@ namespace App\Modules\Users\Actions;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Logout extends \App\Runtime\Vtiger_Action_Controller
+class Logout extends \App\Runtime\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

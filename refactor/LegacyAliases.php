@@ -46,6 +46,14 @@ if (!class_exists('Vtiger_Controller')) {
     class_alias('App\Runtime\BaseController', 'Vtiger_Controller');
 }
 
+if (!class_exists('Vtiger_Action_Controller')) {
+    class_alias('App\Runtime\BaseActionController', 'Vtiger_Action_Controller');
+}
+
+if (!class_exists('Vtiger_View_Controller')) {
+    class_alias('App\Runtime\BaseViewController', 'Vtiger_View_Controller');
+}
+
 if (!class_exists('BaseModel')) {
     class_alias('Vtiger\Core\Models\BaseModel', 'BaseModel');
 }

@@ -11,7 +11,7 @@ namespace App\Modules\Products\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class SubProducts extends \App\Runtime\Vtiger_Action_Controller
+class SubProducts extends \App\Runtime\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

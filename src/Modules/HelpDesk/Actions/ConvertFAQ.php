@@ -11,7 +11,7 @@ namespace App\Modules\HelpDesk\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class ConvertFAQ extends \App\Runtime\Vtiger_Action_Controller
+class ConvertFAQ extends \App\Runtime\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

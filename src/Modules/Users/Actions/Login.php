@@ -15,7 +15,7 @@ namespace App\Modules\Users\Actions;
 
 
 
-class Login extends \App\Runtime\Vtiger_Action_Controller
+class Login extends \App\Runtime\BaseActionController
 {
 
 	public function loginRequired()

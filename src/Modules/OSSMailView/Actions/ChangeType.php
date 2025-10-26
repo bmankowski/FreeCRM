@@ -8,7 +8,7 @@ namespace App\Modules\OSSMailView\Actions;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class ChangeType extends \App\Runtime\Vtiger_Action_Controller
+class ChangeType extends \App\Runtime\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

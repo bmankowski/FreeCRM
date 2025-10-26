@@ -4,7 +4,7 @@
 
 namespace App\Modules\OSSPasswords\Actions;
 
-class GetPass extends \App\Runtime\Vtiger_Action_Controller
+class GetPass extends \App\Runtime\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

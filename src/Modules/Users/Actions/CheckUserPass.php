@@ -3,7 +3,7 @@
 namespace App\Modules\Users\Actions;
 use App\Modules\Settings\PasswordModels\Record;
 
-class CheckUserPass extends \App\Runtime\Vtiger_Action_Controller
+class CheckUserPass extends \App\Runtime\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

@@ -8,7 +8,7 @@ namespace App\Modules\KnowledgeBase\Actions;
  * @license licenses/License.html
  * @author Krzysztof Gastołek <krzysztofgastolek@wars.pl>
  */
-class ImageUploadAjax extends \App\Runtime\Vtiger_Action_Controller
+class ImageUploadAjax extends \App\Runtime\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

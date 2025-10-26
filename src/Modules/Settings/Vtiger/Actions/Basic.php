@@ -13,7 +13,7 @@ use App\Modules\Settings\Vtiger\Models\MenuItem;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Basic extends \App\Runtime\Vtiger_Action_Controller
+class Basic extends \App\Runtime\BaseActionController
 {
 
 	public function __construct()

@@ -8,7 +8,7 @@ namespace App\Modules\ModTracker\Actions;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class ChangesReviewedOn extends \App\Runtime\Vtiger_Action_Controller
+class ChangesReviewedOn extends \App\Runtime\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
