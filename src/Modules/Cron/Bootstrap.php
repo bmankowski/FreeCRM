@@ -36,7 +36,6 @@ class Bootstrap
 	 */
 	private static function loadDependencies(): void
 	{
-		require ROOT_DIRECTORY . '/src/RequirementsValidation.php';
 		require ROOT_DIRECTORY . '/vendor/autoload.php';
 		require ROOT_DIRECTORY . '/vendor/yiisoft/yii2/Yii.php';
 		

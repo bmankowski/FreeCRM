@@ -15,7 +15,6 @@ foreach ($requiredVendors as $dir) {
 	}
 }
 // Adjust error_reporting favourable to deployment.
-include_once ROOT_DIRECTORY . '/src/RequirementsValidation.php';
 require_once('include/main/WebUI.php');
 session_save_path('cache/session/');
 require_once('install/views/Index.php');

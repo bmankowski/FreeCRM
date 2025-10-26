@@ -36,8 +36,6 @@ if ($isPublicDir) {
 
 define('REQUEST_MODE', 'WebUI');
 
-require ROOT_DIRECTORY . '/src/RequirementsValidation.php';
-
 // Bootstrap: Load autoloaders
 require_once ROOT_DIRECTORY . '/vendor/autoload.php';  // Composer PSR-4 autoloader
 require_once ROOT_DIRECTORY . '/vendor/yiisoft/yii2/Yii.php';

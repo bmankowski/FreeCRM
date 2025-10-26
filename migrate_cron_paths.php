@@ -4,7 +4,6 @@
  */
 chdir(__DIR__);
 define('ROOT_DIRECTORY', getcwd() !== DIRECTORY_SEPARATOR ? getcwd() : '');
-require ROOT_DIRECTORY . '/src/RequirementsValidation.php';
 require ROOT_DIRECTORY . '/vendor/autoload.php';
 require ROOT_DIRECTORY . '/vendor/yiisoft/yii2/Yii.php';
 require ROOT_DIRECTORY . '/config/api.php';
