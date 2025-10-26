@@ -2,6 +2,12 @@
 
 # Find model functions that use request parameter and show usage
 # One-time analysis script
+# ./refactor/model_functions_that_use_requests.sh | ./refactor/model_functions_that_have_requests_but_not_use_it.sh | ./refactor/check_if_request_param_is_used_in_calls.sh
+
+
+echo "Use it: ./refactor/model_functions_that_use_requests.sh | ./refactor/model_functions_that_have_requests_but_not_use_it.sh | ./refactor/check_if_request_param_is_used_in_calls.sh"
+echo "--------------------------------"
+echo ""
 
 find src/Modules -type f -path "*/Models/*.php" | while read -r file; do
     # Find functions with $request parameter
