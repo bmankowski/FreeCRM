@@ -10,7 +10,7 @@
  * ********************************************************************************** */
 
 /**
- * Abstract Controller Class
+ * Abstract Base Controller Class
  */
 
 namespace App\Runtime;
@@ -18,7 +18,7 @@ namespace App\Runtime;
 use App\Http\Vtiger_Request;
 
 
-abstract class Vtiger_Controller
+abstract class BaseController
 {
 
 	public function __construct()
@@ -123,3 +123,4 @@ abstract class Vtiger_Controller
 		header_remove('X-Powered-By');
 	}
 }
+

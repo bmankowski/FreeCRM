@@ -43,7 +43,7 @@ if (!class_exists('Vtiger_Theme')) {
 }
 
 if (!class_exists('Vtiger_Controller')) {
-    class_alias('Vtiger\Runtime\Controller', 'Vtiger_Controller');
+    class_alias('App\Runtime\BaseController', 'Vtiger_Controller');
 }
 
 if (!class_exists('BaseModel')) {

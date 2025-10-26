@@ -20,7 +20,7 @@ use App\Http\Vtiger_Request;
 /**
  * Abstract Action Controller Class
  */
-abstract class Vtiger_Action_Controller extends \App\Runtime\Vtiger_Controller
+abstract class Vtiger_Action_Controller extends \App\Runtime\BaseController
 {
 
 	public function __construct()
