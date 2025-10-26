@@ -1,0 +1,396 @@
+=== src/Modules/Documents/Models/Record.php:137 ===
+	public function saveToDb($relationParams = null, \App\Http\Vtiger_Request $request = null)
+70:				$file['original_name'] = $request->get('0_hidden');
+71:				$module = $request->get('module');
+72:				$mode = $request->get('mode');
+73:				$fileId = $request->get('fileid');
+
+=== src/Modules/Settings/TreesManager/Models/Record.php:213 ===
+	public function save($request = null)
+
+=== src/Modules/Settings/WebserviceUsers/Models/ListView.php:23 ===
+	public function setModule($name, $request = null)
+5:		$this->module->typeApi = $request !== null ? $request->get('typeApi') : null;
+
+=== src/Modules/Settings/CronTasks/Models/Record.php:185 ===
+	public function save($request = null)
+
+=== src/Modules/Settings/HideBlocks/Models/Record.php:114 ===
+	public function save($request = null)
+
+=== src/Modules/Settings/AutomaticAssignment/Models/Record.php:343 ===
+	public function save($request = null)
+
+=== src/Modules/Settings/Currency/Models/Record.php:67 ===
+	public function save($request = null)
+
+=== src/Modules/Settings/Profiles/Models/Record.php:432 ===
+	public function save($request = null)
+
+=== src/Modules/Settings/PBXManager/Models/Record.php:71 ===
+	public function save($request = null)
+
+=== src/Modules/Settings/SMSNotifier/Models/Record.php:138 ===
+	public function save($request = null)
+
+=== src/Modules/Settings/Menu/Models/Record.php:78 ===
+	public function save($request = null)
+
+=== src/Modules/Settings/Inventory/Models/Record.php:79 ===
+	public function save($request = null)
+
+=== src/Modules/Settings/Roles/Models/Record.php:313 ===
+	public function save($request = null)
+
+=== src/Modules/Settings/Vtiger/Models/Menu.php:91 ===
+	public static function getAllForUser($userId = null, $request = null)
+5:			if ($request && $request->hasUser()) {
+6:				$userId = $request->getUserId();
+15:		if ($request && $request->hasCached($cacheKey)) {
+16:			return $request->getCached($cacheKey);
+43:			$request->setCached($cacheKey, $menuModels);
+
+=== src/Modules/Settings/Vtiger/Models/Systems.php:31 ===
+	public function save($request = null)
+
+=== src/Modules/Settings/Vtiger/Models/ConfigModule.php:157 ===
+	public function save($request = null)
+
+=== src/Modules/Settings/Vtiger/Models/Tracker.php:24 ===
+	static function addBasic($type, $request = null)
+4:		if ($type == 'view' && $request !== null && $request->isAjax()) {
+13:				'module_name' => ($request !== null ? $request->get('module') : ''),
+
+=== src/Modules/Settings/Vtiger/Models/Module.php:100 ===
+	public function getMenus($request = null)
+4:			$request && $request->hasUser() ? $request->getUserId() : null,
+
+=== src/Modules/Settings/Vtiger/Models/TermsAndConditions.php:36 ===
+	public function save($request = null)
+
+=== src/Modules/Settings/MailSmtp/Models/Record.php:186 ===
+	public function save($request = null)
+
+=== src/Modules/Settings/AdvancedPermission/Models/Record.php:89 ===
+	public function save($request = null)
+
+=== src/Modules/Settings/Groups/Models/Record.php:127 ===
+	public function save($request = null)
+
+=== src/Modules/Settings/SharingAccess/Models/Rule.php:354 ===
+	public function save($request = null)
+
+=== src/Modules/Settings/SharingAccess/Models/Module.php:91 ===
+	public function save($request = null)
+
+=== src/Modules/Settings/CurrencyUpdate/Models/Module.php:176 ===
+	public function getRatesHistory($bankId, $dateCur, $request)
+10:		$filter = $request->get('duedate');
+
+=== src/Modules/Settings/Workflows/Models/TaskRecord.php:156 ===
+	public function save($request = null)
+
+=== src/Modules/Settings/Workflows/Models/Record.php:97 ===
+	public function save($request = null)
+
+=== src/Modules/Settings/Companies/Models/Record.php:86 ===
+	public function save($request = null)
+
+=== src/Modules/Settings/Companies/Models/Record.php:221 ===
+	public function isCompanyDuplicated(\App\Http\Vtiger_Request $request)
+6:			->where(['name' => $request->get('name')])
+7:			->orWhere(['short_name' => $request->get('short_name')]);
+8:		if ($request->get('record')) {
+9:			$query->andWhere(['<>', 'id', $request->get('record')]);
+
+=== src/Modules/Calendar/Models/Record.php:109 ===
+	public function saveToDb($relationParams = null, \App\Http\Vtiger_Request $request = null)
+7:		$request->set('time_start', \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds($request->get('time_start')));
+8:		$request->set('time_end', \App\Modules\Vtiger\UiTypes\Time::getTimeValueWithSeconds($request->get('time_end')));
+72:		if (!$request->has('inviteesid')) {
+78:		$inviteesRequest = $request->get('inviteesid');
+
+=== src/Modules/Calendar/Models/Record.php:175 ===
+	public function insertIntoInviteTable(\App\Http\Vtiger_Request $request = null)
+6:		if (!$request->has('inviteesid')) {
+12:		$inviteesRequest = $request->get('inviteesid');
+
+=== src/Modules/Calendar/Models/Export.php:15 ===
+	public function getExportQuery(\App\Http\Vtiger_Request $request)
+3:		$moduleName = $request->get('source_module');
+4:		$cvId = $request->get('viewname');
+6:		$searchKey = $request->get('search_key');
+7:		$searchValue = $request->get('search_value');
+8:		$operator = $request->get('operator');
+16:		$searchParams = $request->get('search_params');
+27:		$selectedIds = $request->get('selected_ids');
+28:		$excludedIds = $request->get('excluded_ids');
+60:		$moduleName = $request->get('source_module');
+66:		$fileName = $request->get('filename');
+
+=== src/Modules/Calendar/Models/Export.php:63 ===
+	public function getExportContentType(\App\Http\Vtiger_Request $request)
+12:		$moduleName = $request->get('source_module');
+18:		$fileName = $request->get('filename');
+
+=== src/Modules/Calendar/Models/Export.php:72 ===
+	public function exportData(\App\Http\Vtiger_Request $request)
+3:		$moduleName = $request->get('source_module');
+9:		$fileName = $request->get('filename');
+
+=== src/Modules/Calendar/Models/Export.php:90 ===
+	public function outputData($request, $dataReader, $moduleModel, $fileName, $toFile = false)
+
+=== src/Modules/Contacts/Models/Record.php:117 ===
+	public function saveToDb($relationParams = null, \App\Http\Vtiger_Request $request = null)
+18:		$module = $request->get('module');
+19:		$mode = $request->get('mode');
+34:					$files['original_name'] = $request->get($fileindex . '_hidden');
+35:					$fileId = $request->get('fileid');
+
+=== src/Modules/Contacts/Models/Record.php:129 ===
+	public function insertAttachment(\App\Http\Vtiger_Request $request = null)
+6:		$module = $request->get('module');
+7:		$mode = $request->get('mode');
+22:					$files['original_name'] = $request->get($fileindex . '_hidden');
+23:					$fileId = $request->get('fileid');
+
+=== src/Modules/Users/Models/Record.php:201 ===
+	public function save($request = null)
+
+=== src/Modules/Portal/Models/Module.php:91 ===
+	public function deleteRecords(\App\Http\Vtiger_Request $request)
+3:		$searchValue = $request->get('search_value');
+4:		$selectedIds = $request->get('selected_ids');
+5:		$excludedIds = $request->get('excluded_ids');
+
+=== src/Modules/OSSMail/Models/Module.php:63 ===
+	public static function getComposeParam(\App\Http\Vtiger_Request $request)
+3:		$moduleName = $request->get('crmModule');
+4:		$record = $request->get('crmRecord');
+5:		$type = $request->get('type');
+36:		if (!$request->isEmpty('crmView')) {
+37:			$return['crmview'] = $request->get('crmView');
+39:		if (!$request->isEmpty('mid') && !empty($type)) {
+40:			$return['mailId'] = (int) $request->get('mid');
+43:		if (!$request->isEmpty('pdf_path')) {
+44:			$return['filePath'] = $request->get('pdf_path');
+53:		if (!$request->isEmpty('to')) {
+54:			$return['to'] = $request->get('to');
+56:		if (!$request->isEmpty('cc')) {
+57:			$return['cc'] = $request->get('cc');
+59:		if (!$request->isEmpty('bcc')) {
+60:			$return['bcc'] = $request->get('bcc');
+62:		if (!$request->isEmpty('subject')) {
+63:			$return['subject'] = $request->get('subject');
+65:		if (!$request->isEmpty('emails')) {
+66:			$return['bcc'] = implode(',', $request->get('emails'));
+
+=== src/Modules/Events/Models/Record.php:67 ===
+	public function getInviteUserMailData(\App\Http\Vtiger_Request $request = null)
+47:		$value = getaddEventPopupTime($request->get('time_start'), $request->get('time_end'), '24');
+49:		if ($request->get('activity_mode') != 'Task')
+51:		$startDate = new \App\Fields\DateTimeField($request->get('date_start') . ' ' . $start_hour);
+52:		$endDate = new \App\Fields\DateTimeField($request->get('due_date') . ' ' . $end_hour);
+65:		if ($request->get('relationOperation')) {
+66:			$parentModuleName = $request->get('sourceModule');
+68:			$parentRecordId = $request->get('sourceRecord');
+
+=== src/Modules/Events/Models/Record.php:129 ===
+	public function addRelationOperation(\App\Http\Vtiger_Request $request)
+3:		if ($request->get('relationOperation')) {
+4:			$parentModuleName = $request->get('sourceModule');
+6:			$parentRecordId = $request->get('sourceRecord');
+
+=== src/Modules/Events/Models/RecuringEvents.php:59 ===
+	public static function getInstanceFromRequest(\App\Http\Vtiger_Request $request)
+4:		$moduleName = $request->getModule();
+6:		$instance->isNew = $request->isEmpty('record');
+8:			$instance->templateRecordId = $request->get('record');
+9:			$instance->typeSaving = $request->get('typeSaving');
+
+=== src/Modules/Events/Models/RecuringEvents.php:146 ===
+	public function save($request = null)
+
+=== src/Modules/Reports/Models/Record.php:413 ===
+	public function save($request = null)
+
+=== src/Modules/Reports/Models/Record.php:1104 ===
+	public static function getRecordsListFromRequest(\App\Http\Vtiger_Request $request)
+3:		$folderId = $request->get('viewname');
+4:		$module = $request->get('module');
+5:		$selectedIds = $request->get('selected_ids');
+6:		$excludedIds = $request->get('excluded_ids');
+
+=== src/Modules/Reports/Models/Folder.php:56 ===
+	public function save($request = null)
+
+=== src/Modules/Import/Models/Map.php:86 ===
+	public function save($request = null)
+
+=== src/Modules/Import/Models/Module.php:155 ===
+	public static function getFileReader($request, $user): ?\App\Modules\Import\Readers\FileReader
+3:		$type = $request->get('type');
+
+=== src/Modules/Vtiger/Models/TransferOwnership.php:17 ===
+	public function getRelatedModuleRecordIds(\App\Http\Vtiger_Request $request, $recordIds = [], $relModData)
+4:		$basicModule = $request->getModule();
+
+=== src/Modules/Vtiger/Models/InventoryField.php:386 ===
+	public function getValueForSave($request, $field, $i)
+4:		if ($request->has($field . $i)) {
+5:			$value = $request->get($field . $i);
+6:		} else if ($request->has($field)) {
+7:			$value = $request->get($field);
+
+=== src/Modules/Vtiger/Models/FindDuplicate.php:222 ===
+	public function getMassDeleteRecords(\App\Http\Vtiger_Request $request)
+4:		$module = $request->getModule();
+7:		$fields = $request->get('fields');
+8:		$ignoreEmpty = $request->get('ignoreEmpty');
+30:		$excludedIds = $request->get('excluded_ids');
+
+=== src/Modules/Vtiger/Models/Record.php:379 ===
+	public function save($request = null)
+14:				'createmode' => $request->get('createmode'),
+15:				'return_module' => $request->get('return_module'),
+16:				'return_id' => $request->get('return_id'),
+17:				'return_action' => $request->get('return_action'),
+18:				'action' => $request->get('action'),
+19:				'field' => $request->get('field'),
+20:				'current_module' => $request->getModule()
+
+=== src/Modules/Vtiger/Models/Record.php:945 ===
+	public function initInventoryData($request = null)
+21:		if ($request->has('inventoryItemsNo')) {
+22:			$numRow = $request->get('inventoryItemsNo');
+24:				if (!$request->has(reset($fields)) && !$request->has(reset($fields) . $i)) {
+27:				$insertData = ['seq' => $request->get('seq' . $i)];
+
+=== src/Modules/Vtiger/Models/Module.php:1555 ===
+	public function getValuesFromSource(\App\Http\Vtiger_Request $request, $moduleName = false)
+5:			$moduleName = $request->getModule();
+7:		$sourceModule = $request->get('sourceModule');
+8:		$sourceRecord = $request->get('sourceRecord');
+9:		$sourceRecordData = $request->get('sourceRecordData');
+67:			if ($relationField && ($moduleName != $sourceModule || ($request !== null && $request->get('addRelation')))) {
+
+=== src/Modules/Vtiger/Models/Notebook.php:29 ===
+	public function save($request)
+4:		$content = $request->get('contents');
+5:		$noteBookId = $request->get('widgetid');
+
+=== src/Modules/Vtiger/Models/Export.php:28 ===
+	public static function getInstanceFromRequest(\App\Http\Vtiger_Request $request)
+3:		$moduleName = $request->get('source_module');
+5:			$moduleName = $request->getModule();
+8:		if ('xml' === $request->get('export_type')) {
+19:		$moduleName = $request->get('source_module');
+35:		$moduleName = $request->get('source_module');
+
+=== src/Modules/Vtiger/Models/Export.php:44 ===
+	public function initialize(\App\Http\Vtiger_Request $request)
+3:		$moduleName = $request->get('source_module');
+19:		$moduleName = $request->get('source_module');
+94:		$mode = $request->getMode();
+95:		$cvId = $request->get('viewname');
+96:		$queryGenerator = new \App\QueryGenerator($request->get('source_module'));
+
+=== src/Modules/Vtiger/Models/Export.php:59 ===
+	public function exportData(\App\Http\Vtiger_Request $request)
+4:		$moduleName = $request->get('source_module');
+79:		$mode = $request->getMode();
+80:		$cvId = $request->get('viewname');
+81:		$queryGenerator = new \App\QueryGenerator($request->get('source_module'));
+
+=== src/Modules/Vtiger/Models/Export.php:135 ===
+	public function getExportQuery(\App\Http\Vtiger_Request $request)
+3:		$mode = $request->getMode();
+4:		$cvId = $request->get('viewname');
+5:		$queryGenerator = new \App\QueryGenerator($request->get('source_module'));
+30:				$currentPage = $request->get('page');
+50:					$query->andWhere(['not in', "$baseTable.$baseTableColumnId", $request->get('excluded_ids')]);
+65:		$type = $request->get('export_type');
+79:		$moduleName = $request->get('source_module');
+
+=== src/Modules/Vtiger/Models/Export.php:197 ===
+	public function getExportContentType(\App\Http\Vtiger_Request $request)
+3:		$type = $request->get('export_type');
+17:		$moduleName = $request->get('source_module');
+
+=== src/Modules/Vtiger/Models/Export.php:211 ===
+	public function output($request, $headers, $entries)
+3:		$moduleName = $request->get('source_module');
+
+=== src/Modules/Vtiger/Models/ExportToXml.php:21 ===
+	public function exportData(\App\Http\Vtiger_Request $request)
+3:		if ($request->get('xmlExportType')) {
+4:			$this->tplName = $request->get('xmlExportType');
+
+=== src/Modules/CustomView/Models/Record.php:305 ===
+	public function save($request = null)
+
+=== src/Modules/Products/Models/Record.php:445 ===
+	public function saveToDb($relationParams = null, \App\Http\Vtiger_Request $request = null)
+8:		if ($request->get('ajxaction') != 'DETAILVIEW' && $request->get('action') != 'MassSave' && $request->get('action') != 'ProcessDuplicates') {
+14:		if ($request->get('module') === 'Products') {
+51:			if ($request->get($curCheckName) === 'on' || $request->get($curCheckName) === 1) {
+52:				$requestPrice = \App\Fields\CurrencyField::convertToDBFormat($request->get('unit_price'), null, true);
+53:				$actualPrice = \App\Fields\CurrencyField::convertToDBFormat($request->get($curValue), null, true);
+63:				if ($request->get('base_currency') === $curValue) {
+91:		$module = $request->get('module');
+92:		$mode = $request->get('mode');
+100:				if ($request->get($fileindex . '_hidden') != '')
+101:					$files['original_name'] = $request->get($fileindex . '_hidden');
+
+=== src/Modules/Products/Models/Record.php:478 ===
+	public function insertPriceInformation(\App\Http\Vtiger_Request $request = null)
+18:			if ($request->get($curCheckName) === 'on' || $request->get($curCheckName) === 1) {
+19:				$requestPrice = \App\Fields\CurrencyField::convertToDBFormat($request->get('unit_price'), null, true);
+20:				$actualPrice = \App\Fields\CurrencyField::convertToDBFormat($request->get($curValue), null, true);
+30:				if ($request->get('base_currency') === $curValue) {
+58:		$module = $request->get('module');
+59:		$mode = $request->get('mode');
+67:				if ($request->get($fileindex . '_hidden') != '')
+68:					$files['original_name'] = $request->get($fileindex . '_hidden');
+72:				$fileId = $request->get('fileid');
+89:		if ($module === 'Products' && $request->get('del_file_list') != '') {
+90:			$deleteFileList = explode("###", trim($request->get('del_file_list'), "###"));
+
+=== src/Modules/Products/Models/Record.php:528 ===
+	public function insertAttachment(\App\Http\Vtiger_Request $request = null)
+8:		$module = $request->get('module');
+9:		$mode = $request->get('mode');
+17:				if ($request->get($fileindex . '_hidden') != '')
+18:					$files['original_name'] = $request->get($fileindex . '_hidden');
+22:				$fileId = $request->get('fileid');
+39:		if ($module === 'Products' && $request->get('del_file_list') != '') {
+40:			$deleteFileList = explode("###", trim($request->get('del_file_list'), "###"));
+
+=== src/Modules/Products/Models/SummaryWidget.php:26 ===
+	public function getProductsServices(\App\Http\Vtiger_Request $request, CRM_Viewer $viewer)
+3:		$fromModule = $request->get('fromModule');
+4:		$record = $request->get('record');
+5:		$mod = $request->get('mod');
+10:		if (!empty($request->get('limit'))) {
+11:			$limit = $request->get('limit');
+
+=== src/Modules/Install/Models/InitSchema.php:297 ===
+	public function setCompanyDetails(\App\Http\Vtiger_Request $request)
+4:		foreach ($request->getAll() as $key => $value) {
+
+=== src/Modules/Install/Models/Utils.php:74 ===
+	public static function checkDbConnection(\App\Http\Vtiger_Request $request)
+4:		$createDB = $request->get('create_db');
+6:			$root_user = $request->get('db_username');
+7:			$root_password = $request->getRaw('db_password');
+10:		$db_type = $request->get('db_type');
+11:		$db_hostname = $request->get('db_hostname');
+12:		$db_username = $request->get('db_username');
+13:		$db_password = $request->getRaw('db_password');
+14:		$db_name = $request->get('db_name');
+27:				$dsn = $db_type . ':host=' . $db_hostname . ';charset=utf8;port=' . $request->get('db_port');
+
+=== src/Modules/Notification/Models/Record.php:133 ===
+	public function save($request = null)
+

@@ -1,0 +1,90 @@
+=== src/Modules/Settings/TreesManager/Models/Record.php:213 ===
+public function save($request = null)
+
+=== src/Modules/Settings/CronTasks/Models/Record.php:185 ===
+public function save($request = null)
+
+=== src/Modules/Settings/HideBlocks/Models/Record.php:114 ===
+public function save($request = null)
+
+=== src/Modules/Settings/AutomaticAssignment/Models/Record.php:343 ===
+public function save($request = null)
+
+=== src/Modules/Settings/Currency/Models/Record.php:67 ===
+public function save($request = null)
+
+=== src/Modules/Settings/Profiles/Models/Record.php:432 ===
+public function save($request = null)
+
+=== src/Modules/Settings/PBXManager/Models/Record.php:71 ===
+public function save($request = null)
+
+=== src/Modules/Settings/SMSNotifier/Models/Record.php:138 ===
+public function save($request = null)
+
+=== src/Modules/Settings/Menu/Models/Record.php:78 ===
+public function save($request = null)
+
+=== src/Modules/Settings/Inventory/Models/Record.php:79 ===
+public function save($request = null)
+
+=== src/Modules/Settings/Roles/Models/Record.php:313 ===
+public function save($request = null)
+
+=== src/Modules/Settings/Vtiger/Models/Systems.php:31 ===
+public function save($request = null)
+
+=== src/Modules/Settings/Vtiger/Models/ConfigModule.php:157 ===
+public function save($request = null)
+
+=== src/Modules/Settings/Vtiger/Models/TermsAndConditions.php:36 ===
+public function save($request = null)
+
+=== src/Modules/Settings/MailSmtp/Models/Record.php:186 ===
+public function save($request = null)
+
+=== src/Modules/Settings/AdvancedPermission/Models/Record.php:89 ===
+public function save($request = null)
+
+=== src/Modules/Settings/Groups/Models/Record.php:127 ===
+public function save($request = null)
+
+=== src/Modules/Settings/SharingAccess/Models/Rule.php:354 ===
+public function save($request = null)
+
+=== src/Modules/Settings/SharingAccess/Models/Module.php:91 ===
+public function save($request = null)
+
+=== src/Modules/Settings/Workflows/Models/TaskRecord.php:156 ===
+public function save($request = null)
+
+=== src/Modules/Settings/Workflows/Models/Record.php:97 ===
+public function save($request = null)
+
+=== src/Modules/Settings/Companies/Models/Record.php:86 ===
+public function save($request = null)
+
+=== src/Modules/Calendar/Models/Export.php:90 ===
+public function outputData($request, $dataReader, $moduleModel, $fileName, $toFile = false)
+
+=== src/Modules/Users/Models/Record.php:201 ===
+public function save($request = null)
+
+=== src/Modules/Events/Models/RecuringEvents.php:146 ===
+public function save($request = null)
+
+=== src/Modules/Reports/Models/Record.php:413 ===
+public function save($request = null)
+
+=== src/Modules/Reports/Models/Folder.php:56 ===
+public function save($request = null)
+
+=== src/Modules/Import/Models/Map.php:86 ===
+public function save($request = null)
+
+=== src/Modules/CustomView/Models/Record.php:305 ===
+public function save($request = null)
+
+=== src/Modules/Notification/Models/Record.php:133 ===
+public function save($request = null)
+

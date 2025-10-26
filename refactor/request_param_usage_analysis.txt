@@ -1,0 +1,126 @@
+Checking which model functions are called WITH request parameter...
+====================================================================
+
+File: src/Modules/Settings/TreesManager/Models/Record.php
+Function: save()
+  ✓ No calls with parameters found - safe to remove $request param
+
+File: src/Modules/Settings/CronTasks/Models/Record.php
+Function: save()
+  ✓ No calls with parameters found - safe to remove $request param
+
+File: src/Modules/Settings/HideBlocks/Models/Record.php
+Function: save()
+  ✓ No calls with parameters found - safe to remove $request param
+
+File: src/Modules/Settings/AutomaticAssignment/Models/Record.php
+Function: save()
+  ✓ No calls with parameters found - safe to remove $request param
+
+File: src/Modules/Settings/Currency/Models/Record.php
+Function: save()
+  ✓ No calls with parameters found - safe to remove $request param
+
+File: src/Modules/Settings/Profiles/Models/Record.php
+Function: save()
+  ✓ No calls with parameters found - safe to remove $request param
+
+File: src/Modules/Settings/PBXManager/Models/Record.php
+Function: save()
+  ✓ No calls with parameters found - safe to remove $request param
+
+File: src/Modules/Settings/SMSNotifier/Models/Record.php
+Function: save()
+  ✓ No calls with parameters found - safe to remove $request param
+
+File: src/Modules/Settings/Menu/Models/Record.php
+Function: save()
+  ✓ No calls with parameters found - safe to remove $request param
+
+File: src/Modules/Settings/Inventory/Models/Record.php
+Function: save()
+  ✓ No calls with parameters found - safe to remove $request param
+
+File: src/Modules/Settings/Roles/Models/Record.php
+Function: save()
+  ✓ No calls with parameters found - safe to remove $request param
+
+File: src/Modules/Settings/Vtiger/Models/Systems.php
+Function: save()
+  ✓ No calls with parameters found - safe to remove $request param
+
+File: src/Modules/Settings/Vtiger/Models/ConfigModule.php
+Function: save()
+  ✓ No calls with parameters found - safe to remove $request param
+
+File: src/Modules/Settings/Vtiger/Models/TermsAndConditions.php
+Function: save()
+  ✓ No calls with parameters found - safe to remove $request param
+
+File: src/Modules/Settings/MailSmtp/Models/Record.php
+Function: save()
+  ✓ No calls with parameters found - safe to remove $request param
+
+File: src/Modules/Settings/AdvancedPermission/Models/Record.php
+Function: save()
+  ✓ No calls with parameters found - safe to remove $request param
+
+File: src/Modules/Settings/Groups/Models/Record.php
+Function: save()
+  ✓ No calls with parameters found - safe to remove $request param
+
+File: src/Modules/Settings/SharingAccess/Models/Rule.php
+Function: save()
+  ✓ No calls with parameters found - safe to remove $request param
+
+File: src/Modules/Settings/SharingAccess/Models/Module.php
+Function: save()
+  ✓ No calls with parameters found - safe to remove $request param
+
+File: src/Modules/Settings/Workflows/Models/TaskRecord.php
+Function: save()
+  ✓ No calls with parameters found - safe to remove $request param
+
+File: src/Modules/Settings/Workflows/Models/Record.php
+Function: save()
+  ✓ No calls with parameters found - safe to remove $request param
+
+File: src/Modules/Settings/Companies/Models/Record.php
+Function: save()
+  ✓ No calls with parameters found - safe to remove $request param
+
+File: src/Modules/Calendar/Models/Export.php
+Function: outputData()
+  ✓ No calls with parameters found - safe to remove $request param
+
+File: src/Modules/Users/Models/Record.php
+Function: save()
+  ✓ No calls with parameters found - safe to remove $request param
+
+File: src/Modules/Events/Models/RecuringEvents.php
+Function: save()
+  ✓ No calls with parameters found - safe to remove $request param
+
+File: src/Modules/Reports/Models/Record.php
+Function: save()
+  ✓ No calls with parameters found - safe to remove $request param
+
+File: src/Modules/Reports/Models/Folder.php
+Function: save()
+  ✓ No calls with parameters found - safe to remove $request param
+
+File: src/Modules/Import/Models/Map.php
+Function: save()
+  ✓ No calls with parameters found - safe to remove $request param
+
+File: src/Modules/CustomView/Models/Record.php
+Function: save()
+  ✓ No calls with parameters found - safe to remove $request param
+
+File: src/Modules/Notification/Models/Record.php
+Function: save()
+  ✓ No calls with parameters found - safe to remove $request param
+
+
+====================================================================
+Analysis complete
