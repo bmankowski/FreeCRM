@@ -15,7 +15,7 @@ namespace App\Runtime;
 
 use App\Runtime\CRM_Viewer;
 
-abstract class Vtiger_View_Controller extends Vtiger_Action_Controller
+abstract class Vtiger_View_Controller extends \App\Runtime\Vtiger_Action_Controller
 {
 
    public $pageTitle;

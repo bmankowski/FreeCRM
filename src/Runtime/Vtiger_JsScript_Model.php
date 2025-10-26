@@ -14,8 +14,7 @@ namespace App\Runtime;
  * JavaScript Script Model - extends \App\Runtime\Vtiger_JavaScript with model functionality
  */
 
-use App\Modules\Vtiger\Models\JsScript;
-class Vtiger_JsScript_Model extends JsScript
+class Vtiger_JsScript_Model extends \App\Modules\Vtiger\Models\JsScript
 {
 	protected $data = [];
 	

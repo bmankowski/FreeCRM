@@ -13,7 +13,7 @@ namespace App\Runtime;
 
 use App\Loader;
 
-class Vtiger_Theme extends CRM_Viewer
+class Vtiger_Theme extends \App\Runtime\CRM_Viewer
 {
 
 	/**

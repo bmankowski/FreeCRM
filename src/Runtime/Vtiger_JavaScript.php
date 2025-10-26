@@ -11,10 +11,8 @@
 
 namespace App\Runtime;
 
-use App\Modules\Vtiger\Models\JsScript;
 
-
-class Vtiger_JavaScript extends JsScript
+class Vtiger_JavaScript extends \App\Modules\Vtiger\Models\JsScript
 {
 
 	/**
