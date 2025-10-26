@@ -13,6 +13,7 @@ class ConfReport extends \App\SystemWarnings\Template
 	protected $status = 2;
 	protected $title = 'LBL_CONFIG_REPORT';
 	protected $priority = 7;
+	protected $linkTitle = 'LBL_CONFIG_REPORT_LINK';
 
 	/**
 	 * Checking whether all the configuration parameters are correct
