@@ -2,7 +2,7 @@
 
 namespace App\Modules\Events\UiTypes;
 
-use App\Modules\Vtiger\UiTypes\Base;
+use App\Modules\Vtiger\UiTypes\BaseUiType as Base;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0

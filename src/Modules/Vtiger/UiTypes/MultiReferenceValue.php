@@ -9,7 +9,7 @@ namespace App\Modules\Vtiger\UiTypes;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class MultiReferenceValue extends Base
+class MultiReferenceValue extends BaseUiType
 {
 
 	const COMMA = '|#|';

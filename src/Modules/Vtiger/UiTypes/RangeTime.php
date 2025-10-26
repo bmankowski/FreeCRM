@@ -8,7 +8,7 @@ namespace App\Modules\Vtiger\UiTypes;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class RangeTime extends Base
+class RangeTime extends BaseUiType
 {
 
 	/**

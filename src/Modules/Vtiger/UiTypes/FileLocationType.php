@@ -12,7 +12,7 @@ namespace App\Modules\Vtiger\UiTypes;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class FileLocationType extends Base
+class FileLocationType extends BaseUiType
 {
 
 	/**

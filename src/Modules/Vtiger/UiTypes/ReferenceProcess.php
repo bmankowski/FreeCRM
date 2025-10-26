@@ -8,7 +8,7 @@ namespace App\Modules\Vtiger\UiTypes;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class ReferenceProcess extends Base
+class ReferenceProcess extends BaseUiType
 {
 
 	public function getReferenceList()

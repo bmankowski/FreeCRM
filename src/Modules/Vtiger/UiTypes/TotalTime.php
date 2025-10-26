@@ -8,7 +8,7 @@ namespace App\Modules\Vtiger\UiTypes;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class TotalTime extends Base
+class TotalTime extends BaseUiType
 {
 
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)

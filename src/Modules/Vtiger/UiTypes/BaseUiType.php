@@ -12,7 +12,7 @@ namespace App\Modules\Vtiger\UiTypes;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Base extends \App\Runtime\BaseModel
+class BaseUiType extends \App\Runtime\BaseModel
 {
 
 	public function isAjaxEditable()
@@ -67,7 +67,7 @@ class Base extends \App\Runtime\BaseModel
 	/**
 	 * Static function to get the UIType object from Vtiger Field Model
 	 * @param \App\Modules\Vtiger\Models\Field $fieldModel
-	 * @return \App\Modules\Vtiger\UiTypes\Base or UIType specific object instance
+	 * @return \App\Modules\Vtiger\UiTypes\BaseUiType or UIType specific object instance
 	 */
 	public static function getInstanceFromField($fieldModel)
 	{
@@ -76,7 +76,7 @@ class Base extends \App\Runtime\BaseModel
 		$moduleName = $fieldModel->getModuleName();
 		$moduleSpecificUiTypeClassName = '\App\Modules\\' . $moduleName . '\\UiTypes\\' . $uiTypeClassSuffix;
 		$uiTypeClassName = '\App\Modules\\Vtiger\\UiTypes\\' . $uiTypeClassSuffix;
-		$fallBackClassName = '\App\Modules\\Vtiger\\UiTypes\\Base';
+		$fallBackClassName = '\App\Modules\\Vtiger\\UiTypes\\BaseUiType';
 
 		// Try PSR-4 paths first, then fallback to old paths
 		$moduleSpecificFilePath = ROOT_DIRECTORY . '/src/Modules/' . $moduleName . '/UiTypes/' . $uiTypeClassSuffix . '.php';

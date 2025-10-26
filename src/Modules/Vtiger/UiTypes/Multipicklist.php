@@ -12,7 +12,7 @@ namespace App\Modules\Vtiger\UiTypes;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Multipicklist extends Base
+class Multipicklist extends BaseUiType
 {
 
 	/**

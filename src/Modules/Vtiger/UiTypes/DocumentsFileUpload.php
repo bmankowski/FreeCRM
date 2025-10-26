@@ -11,7 +11,7 @@ namespace App\Modules\Vtiger\UiTypes;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DocumentsFileUpload extends Base
+class DocumentsFileUpload extends BaseUiType
 {
 
 	/**

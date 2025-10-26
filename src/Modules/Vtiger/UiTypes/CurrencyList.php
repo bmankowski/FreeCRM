@@ -12,7 +12,7 @@ namespace App\Modules\Vtiger\UiTypes;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class CurrencyList extends Base
+class CurrencyList extends BaseUiType
 {
 
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)

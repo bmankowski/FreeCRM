@@ -11,7 +11,7 @@ namespace App\Modules\Vtiger\UiTypes;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Reminder extends Base
+class Reminder extends BaseUiType
 {
 
 	/**

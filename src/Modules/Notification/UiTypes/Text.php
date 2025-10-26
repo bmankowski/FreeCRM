@@ -2,13 +2,15 @@
 
 namespace App\Modules\Notification\UiTypes;
 
+use App\Modules\Vtiger\UiTypes\BaseUiType;
+
 /**
  * Uitype Model
  * @package YetiForce.Github
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Text extends Base
+class Text extends BaseUiType
 {
 
 	/**

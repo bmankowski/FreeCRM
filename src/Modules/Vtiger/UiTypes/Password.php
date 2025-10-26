@@ -11,7 +11,7 @@ namespace App\Modules\Vtiger\UiTypes;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Password extends Base
+class Password extends BaseUiType
 {
 
 	/**

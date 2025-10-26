@@ -11,7 +11,7 @@ namespace App\Modules\Vtiger\UiTypes;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Double extends Base
+class Double extends BaseUiType
 {
 
 	/**

@@ -2,6 +2,8 @@
 
 namespace App\Modules\Reservations\UiTypes;
 
+use App\Modules\Vtiger\UiTypes\BaseUiType;
+
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
  * in compliance with the License.
@@ -12,7 +14,7 @@ namespace App\Modules\Reservations\UiTypes;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Time extends Base
+class Time extends BaseUiType
 {
 
 	public function getEditViewDisplayValue($value, $record = false)

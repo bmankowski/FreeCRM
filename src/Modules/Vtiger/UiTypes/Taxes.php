@@ -8,7 +8,7 @@ namespace App\Modules\Vtiger\UiTypes;
  * @license licenses/License.html
  * @author YetiForce.com
  */
-class Taxes extends Base
+class Taxes extends BaseUiType
 {
 
 	/**

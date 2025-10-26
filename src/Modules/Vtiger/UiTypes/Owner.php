@@ -11,7 +11,7 @@ namespace App\Modules\Vtiger\UiTypes;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Owner extends Base
+class Owner extends BaseUiType
 {
 
 	/**

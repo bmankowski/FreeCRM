@@ -12,7 +12,7 @@ namespace App\Modules\Vtiger\UiTypes;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Languages extends Base
+class Languages extends BaseUiType
 {
 
 	/**

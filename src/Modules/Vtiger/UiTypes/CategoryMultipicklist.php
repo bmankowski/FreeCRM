@@ -10,7 +10,7 @@ namespace App\Modules\Vtiger\UiTypes;
  * @author Tomasz Kur <t.kur@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class CategoryMultipicklist extends Base
+class CategoryMultipicklist extends BaseUiType
 {
 
 	/**

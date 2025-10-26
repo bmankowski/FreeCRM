@@ -10,7 +10,7 @@ namespace App\Modules\Vtiger\UiTypes;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-class SharedOwner extends Base
+class SharedOwner extends BaseUiType
 {
 
 	/**

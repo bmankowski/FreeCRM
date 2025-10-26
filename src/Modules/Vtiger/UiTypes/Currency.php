@@ -12,7 +12,7 @@ namespace App\Modules\Vtiger\UiTypes;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Currency extends Base
+class Currency extends BaseUiType
 {
 
 	protected $edit = false;

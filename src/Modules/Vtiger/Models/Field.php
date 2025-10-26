@@ -364,12 +364,12 @@ class Field extends \vtlib\Field
 
 	/**
 	 * Function to get the UI Type model for the uitype of the current field
-	 * @return \App\Modules\Vtiger\UiTypes\Base or UI Type specific model instance
+	 * @return \App\Modules\Vtiger\UiTypes\BaseUiType or UI Type specific model instance
 	 */
 	public function getUITypeModel()
 	{
 		if (!$this->get('uitypeModel')) {
-			$this->set('uitypeModel', \App\Modules\Vtiger\UiTypes\Base::getInstanceFromField($this));
+			$this->set('uitypeModel', \App\Modules\Vtiger\UiTypes\BaseUiType::getInstanceFromField($this));
 		}
 		return $this->get('uitypeModel');
 	}

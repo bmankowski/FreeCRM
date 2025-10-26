@@ -8,7 +8,7 @@ namespace App\Modules\Vtiger\UiTypes;
  * @license licenses/License.html
  * @author Adrian Koń <a.kon@yetiforce.com>
  */
-class CompanySelect extends Base
+class CompanySelect extends BaseUiType
 {
 
 	/**

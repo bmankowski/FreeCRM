@@ -12,7 +12,7 @@ namespace App\Modules\Vtiger\UiTypes;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Datetime extends Base
+class Datetime extends BaseUiType
 {
 
 	/**

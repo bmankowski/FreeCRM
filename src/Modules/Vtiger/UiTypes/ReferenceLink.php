@@ -9,7 +9,7 @@ namespace App\Modules\Vtiger\UiTypes;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-class ReferenceLink extends Base
+class ReferenceLink extends BaseUiType
 {
 
 	public function isAjaxEditable()
@@ -28,6 +28,6 @@ class ReferenceLink extends Base
 		if (\App\AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
 			return 'uitypes/ReferenceSearchView.tpl';
 		}
-		return \App\Modules\Vtiger\UiTypes\Base::getListSearchTemplateName();
+		return \App\Modules\Vtiger\UiTypes\BaseUiType::getListSearchTemplateName();
 	}
 }

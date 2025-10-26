@@ -13,7 +13,7 @@ namespace App\Modules\Vtiger\UiTypes;
 
 use App\Fields\DateTimeField;
 
-class Date extends Base
+class Date extends BaseUiType
 {
 
 	/**

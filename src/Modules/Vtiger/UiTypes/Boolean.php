@@ -12,7 +12,7 @@ namespace App\Modules\Vtiger\UiTypes;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Boolean extends Base
+class Boolean extends BaseUiType
 {
 
 	/**

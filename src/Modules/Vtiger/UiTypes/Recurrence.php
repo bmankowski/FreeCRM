@@ -12,7 +12,7 @@ namespace App\Modules\Vtiger\UiTypes;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Recurrence extends Base
+class Recurrence extends BaseUiType
 {
 
 	public function isAjaxEditable()

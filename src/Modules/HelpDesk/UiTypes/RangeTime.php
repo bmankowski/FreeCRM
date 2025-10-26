@@ -2,13 +2,15 @@
 
 namespace App\Modules\HelpDesk\UiTypes;
 
+use App\Modules\Vtiger\UiTypes\BaseUiType;
+
 /**
  * UIType RangeTime Field Class
  * @package YetiForce.Fields
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class RangeTime extends Base
+class RangeTime extends BaseUiType
 {
 
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)

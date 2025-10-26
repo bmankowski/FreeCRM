@@ -8,7 +8,7 @@ namespace App\Modules\Vtiger\UiTypes;
  * @license licenses/License.html
  * @author YetiForce.com
  */
-class InventoryLimit extends Base
+class InventoryLimit extends BaseUiType
 {
 
 	/**

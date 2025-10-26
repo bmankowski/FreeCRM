@@ -12,7 +12,7 @@ namespace App\Modules\Vtiger\UiTypes;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class UserRole extends Base
+class UserRole extends BaseUiType
 {
 
 	/**

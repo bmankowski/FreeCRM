@@ -2,13 +2,15 @@
 
 namespace App\Modules\OSSTimeControl\UiTypes;
 
+use App\Modules\Vtiger\UiTypes\BaseUiType;
+
 /**
  * 
  * @package YetiForce.uitypes
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Double extends Base
+class Double extends BaseUiType
 {
 
 	/**

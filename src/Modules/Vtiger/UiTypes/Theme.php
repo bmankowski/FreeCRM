@@ -11,7 +11,7 @@ namespace App\Modules\Vtiger\UiTypes;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Theme extends Base
+class Theme extends BaseUiType
 {
 
 	/**

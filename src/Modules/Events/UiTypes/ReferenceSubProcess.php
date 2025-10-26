@@ -2,7 +2,7 @@
 
 namespace App\Modules\Events\UiTypes;
 
-use App\Modules\Vtiger\UiTypes\Base;
+use App\Modules\Vtiger\UiTypes\BaseUiType as Base;
 
 /**
  * UIType ReferenceSubProcess Field Class

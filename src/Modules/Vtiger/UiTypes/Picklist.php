@@ -11,7 +11,7 @@ namespace App\Modules\Vtiger\UiTypes;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Picklist extends Base
+class Picklist extends BaseUiType
 {
 
 	/**

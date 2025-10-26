@@ -11,7 +11,7 @@ namespace App\Modules\Vtiger\UiTypes;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Percentage extends Base
+class Percentage extends BaseUiType
 {
 
 	/**

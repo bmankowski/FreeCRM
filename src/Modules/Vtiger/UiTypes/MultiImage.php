@@ -13,7 +13,7 @@ namespace App\Modules\Vtiger\UiTypes;
 /**
  * UIType MultiImage Field Class
  */
-class MultiImage extends Base
+class MultiImage extends BaseUiType
 {
 
 	/**
