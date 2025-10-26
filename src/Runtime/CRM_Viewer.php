@@ -122,7 +122,7 @@ class CRM_Viewer extends \Smarty
 			$this->registerPlugin('function', 'vglobal', 'vglobal');
 			$this->registerPlugin('modifier', 'vglobal', 'vglobal'); // Also register as modifier for compatibility
 
-			// Register LanguageTranslator modifier 't'
+			// Register  modifier 't'
 			$this->registerPlugin('modifier', 't', '\App\Runtime\Vtiger_Language_Handler::translate');
 			
 		// Register static classes for template use

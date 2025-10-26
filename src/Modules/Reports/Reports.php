@@ -215,7 +215,7 @@ class Reports extends \App\CRMEntity
 
 						if (in_array($blocklabel, $restricted_blocks) ||
 							in_array($blockid, $this->module_list[$module]) ||
-							isset($this->module_list[$module][LanguageTranslator::translate($blocklabel, $module)])
+							isset($this->module_list[$module][\App\Runtime\Vtiger_Language_Handler::translate($blocklabel, $module)])
 						) {
 							continue;
 						}

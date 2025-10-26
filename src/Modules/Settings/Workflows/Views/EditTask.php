@@ -141,8 +141,8 @@ class EditTask extends \App\Modules\Settings\Vtiger\Views\Index
 		}
 		$fromEmailFieldOptions = array_merge(['' => ['' => \App\Runtime\Vtiger_Language_Handler::translate('Optional', $qualifiedModuleName)]], $emailFieldoptions);
 		$assignedToValues = [
-			\LanguageTranslator::translate('LBL_USERS') => \App\Fields\Owner::getInstance()->getAccessibleUsers(),
-			\LanguageTranslator::translate('LBL_GROUPS') => \App\Fields\Owner::getInstance()->getAccessibleGroups()
+			\App\Runtime\Vtiger_Language_Handler::translate('LBL_USERS') => \App\Fields\Owner::getInstance()->getAccessibleUsers(),
+			\App\Runtime\Vtiger_Language_Handler::translate('LBL_GROUPS') => \App\Fields\Owner::getInstance()->getAccessibleGroups()
 		];
 		$viewer->assign('TEXT_PARSER', $textParser);
 		$viewer->assign('ASSIGNED_TO', $assignedToValues);

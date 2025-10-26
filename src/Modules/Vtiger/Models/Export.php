@@ -211,7 +211,7 @@ class Export extends \App\Runtime\BaseModel
 	public function output($request, $headers, $entries)
 	{
 		$moduleName = $request->get('source_module');
-		$fileName = str_replace(' ', '_', \App\Utils\ListViewUtils::decodeHtml(\LanguageTranslator::translate($moduleName, $moduleName))) . '.csv';
+		$fileName = str_replace(' ', '_', \App\Utils\ListViewUtils::decodeHtml(\App\Runtime\Vtiger_Language_Handler::translate($moduleName, $moduleName))) . '.csv';
 		$exportType = $this->getExportContentType($request);
 
 		header("Content-Disposition: attachment; filename=\"$fileName\"");

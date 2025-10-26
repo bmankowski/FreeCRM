@@ -28,9 +28,9 @@ class DeleteAjax extends \App\Runtime\BaseActionController
 		$recordModel = \App\Modules\Reports\Models\Record::getInstanceById($request->get('record'), $moduleName);
 		if (!$recordModel->isDefault() && $recordModel->isEditable()) {
 			$recordModel->delete();
-			$response->setResult([LanguageTranslator::translate('LBL_REPORTS_DELETED_SUCCESSFULLY', $moduleName)]);
+			$response->setResult([\App\Runtime\Vtiger_Language_Handler::translate('LBL_REPORTS_DELETED_SUCCESSFULLY', $moduleName)]);
 		} else {
-			$response->setError(LanguageTranslator::translate('LBL_REPORT_DELETE_DENIED', $moduleName));
+			$response->setError(\App\Runtime\Vtiger_Language_Handler::translate('LBL_REPORT_DELETE_DENIED', $moduleName));
 		}
 		$response->emit();
 	}

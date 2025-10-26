@@ -287,7 +287,7 @@ class CustomView
 			Cache::save('getCustomViewFile', $cvId, $filter);
 			return $filter;
 		}
-		\App\Log::error(\LanguageTranslator::translate('LBL_NO_FOUND_VIEW') . "cvId: $cvId");
+		\App\Log::error(\App\Runtime\Vtiger_Language_Handler::translate('LBL_NO_FOUND_VIEW') . "cvId: $cvId");
 		throw new \Exception\AppException('LBL_NO_FOUND_VIEW');
 	}
 
@@ -316,7 +316,7 @@ class CustomView
 			Cache::save('getColumnsListByCvid', $cvId, $columnList);
 			return $columnList;
 		}
-		\App\Log::error(\LanguageTranslator::translate('LBL_NO_FOUND_VIEW') . "cvId: $cvId");
+		\App\Log::error(\App\Runtime\Vtiger_Language_Handler::translate('LBL_NO_FOUND_VIEW') . "cvId: $cvId");
 		throw new \Exception\AppException('LBL_NO_FOUND_VIEW');
 	}
 

@@ -112,7 +112,6 @@ class WebUI extends EntryPoint
 	{
 		Debugger::init();
 		Cache::init();
-		// \App\LanguageTranslator::init();
 
 		Db::$connectCache = \App\AppConfig::performance('ENABLE_CACHING_DB_CONNECTION');
 		Log::$logToProfile = \App\AppConfig::debug('LOG_TO_PROFILE');

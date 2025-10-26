@@ -51,7 +51,7 @@ class QuickExport extends \App\Runtime\BaseActionController
 		$customView = \App\Modules\CustomView\Models\Record::getInstanceById($filter);
 		//get the column headers, they go in row 0 of the spreadsheet
 		foreach ($headers as &$fieldsModel) {
-			$worksheet->setCellValueExplicitByColumnAndRow($col, $row, \App\Utils\ListViewUtils::decodeHtml(LanguageTranslator::translate($fieldsModel->getFieldLabel(), $module)), PHPExcel_Cell_DataType::TYPE_STRING);
+			$worksheet->setCellValueExplicitByColumnAndRow($col, $row, \App\Utils\ListViewUtils::decodeHtml(\App\Runtime\Vtiger_Language_Handler::translate($fieldsModel->getFieldLabel(), $module)), PHPExcel_Cell_DataType::TYPE_STRING);
 			$col++;
 		}
 		$row++;
