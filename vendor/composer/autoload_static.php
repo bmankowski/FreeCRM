@@ -114,7 +114,7 @@ class ComposerStaticInitYT
         ),
         'Exception\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/src/exceptions',
+            0 => __DIR__ . '/../..' . '/src/Exceptions',
         ),
         'Doctrine\\Deprecations\\' => 
         array (

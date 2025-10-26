@@ -16,7 +16,7 @@ return array(
     'Psr\\Log\\' => array($vendorDir . '/psr/log/src'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'Linfo\\' => array($vendorDir . '/linfo/linfo/src/Linfo'),
-    'Exception\\' => array($baseDir . '/src/exceptions'),
+    'Exception\\' => array($baseDir . '/src/Exceptions'),
     'Doctrine\\Deprecations\\' => array($vendorDir . '/doctrine/deprecations/src'),
     'Doctrine\\Common\\Collections\\' => array($vendorDir . '/doctrine/collections/lib/Doctrine/Common/Collections'),
     'DebugBar\\' => array($vendorDir . '/php-debugbar/src/DebugBar'),

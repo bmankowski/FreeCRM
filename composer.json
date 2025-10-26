@@ -67,7 +67,7 @@
 			"vtlib\\": "vtlib/Vtiger/",
 			"App\\": "src/",
 			"Api\\": "api/webservice/",
-			"Exception\\": "src/exceptions/",
+			"Exception\\": "src/Exceptions/",
 			"DebugBar\\": "vendor/php-debugbar/src/DebugBar/"
 		},
 		"files": [

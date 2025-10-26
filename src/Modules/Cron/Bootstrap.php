@@ -99,11 +99,6 @@ class Bootstrap
 			return true;
 		}
 		
-		// Check app_key parameter
-		if ($expectedKey === \App\Http\$request->get('app_key')) {
-			return true;
-		}
-		
 		return false;
 	}
 
