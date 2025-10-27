@@ -15,7 +15,6 @@
 
 namespace App\Base\Controllers;
 
-use App\Runtime\CRM_Viewer;
 
 abstract class BaseViewController extends \App\Base\Controllers\BaseActionController
 {
@@ -162,10 +161,9 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 	   $viewer->assign('HTMLLANG', \App\Runtime\Vtiger_Language_Handler::getShortLanguageName());
 	   $viewer->assign('LANGUAGE', \App\Runtime\Vtiger_Language_Handler::getLanguage());
 	   $viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
-	   $viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+	   $viewer->assign('USER_MODEL', $vtigerRequest->getUser());
 	   $viewer->assign('MODULE', $moduleName);
 	   $viewer->assign('VIEW', $vtigerRequest->get('view'));
-	   $viewer->assign('MODULE_NAME', $moduleName);
 	   $viewer->assign('PARENT_MODULE', $vtigerRequest->get('parent'));
 	   
 	   // Build array of all module active statuses for templates

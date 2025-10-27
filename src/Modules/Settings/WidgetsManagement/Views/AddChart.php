@@ -32,7 +32,6 @@ class AddChart extends \App\Modules\Settings\Base\Views\BasicModal
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule(false);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('MODULE_NAME', $request->getModule());
 		$viewer->assign('LIST_REPORTS', $this->getReports());
 		$viewer->view('AddChart.tpl', $moduleName);
 	}

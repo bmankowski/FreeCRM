@@ -68,7 +68,10 @@ abstract class BaseActionController
 		return false;
 	}
 
-	abstract public function postProcess(\App\Http\Vtiger_Request $vtigerRequest);
+	public function postProcess(\App\Http\Vtiger_Request $vtigerRequest)
+	{
+		return true;
+	}
 
 	// Control the exposure of methods to be invoked from client (kind-of RPC)
 	protected $exposedMethods = [];

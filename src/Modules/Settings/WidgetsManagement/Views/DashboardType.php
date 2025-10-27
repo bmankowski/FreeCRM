@@ -22,7 +22,6 @@ class DashboardType extends \App\Modules\Settings\Base\Views\BasicModal
 		$viewer->assign('DASHBOARD_ID', $dashboardId);
 		$viewer->assign('DASHBOARD_NAME', $dashboardInfo['name']);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('MODULE_NAME', $request->getModule());
 		$viewer->view('DashboardType.tpl', $moduleName);
 	}
 }

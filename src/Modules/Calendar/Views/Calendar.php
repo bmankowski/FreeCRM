@@ -30,9 +30,6 @@ class Calendar  extends \App\Modules\Base\Views\Index
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
-		$viewer = $this->getViewer($request);
-		$viewer->assign('MODULE_NAME', $request->getModule());
-
 		parent::preProcess($request, false);
 		if ($display) {
 			$this->preProcessDisplay($request);
