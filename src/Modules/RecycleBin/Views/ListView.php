@@ -14,7 +14,7 @@ namespace App\Modules\RecycleBin\Views;
 
 
 use App\Http\Vtiger_Request;
-class ListView  extends \App\Modules\Base\Views\Index
+class ListView extends \App\Modules\Base\Views\Index
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
@@ -29,7 +29,11 @@ class ListView  extends \App\Modules\Base\Views\Index
 
 		$quickLinkModels = $moduleModel->getSideBarLinks($linkParams);
 
+		// Process sidebar links to determine active link
+		$activeLinkLabel = $this->processSidebarLinks($quickLinkModels, $request);
+
 		$viewer->assign('QUICK_LINKS', $quickLinkModels);
+		$viewer->assign('ACTIVE_SIDEBAR_LINK', $activeLinkLabel);
 		$this->initializeListViewContents($request, $viewer);
 
 		if ($display) {

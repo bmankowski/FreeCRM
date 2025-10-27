@@ -56,10 +56,14 @@ class Index extends \App\Modules\Base\Views\Basic
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 
-			$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
-			$linkModels = $moduleModel->getSideBarLinks($linkParams);
+		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
+		$linkModels = $moduleModel->getSideBarLinks($linkParams);
+		
+		// Process sidebar links to determine active link
+		$activeLinkLabel = $this->processSidebarLinks($linkModels, $request);
 
-			$viewer->assign('QUICK_LINKS', $linkModels);
+		$viewer->assign('QUICK_LINKS', $linkModels);
+		$viewer->assign('ACTIVE_SIDEBAR_LINK', $activeLinkLabel);
 		}
 		$viewer->assign('CURRENT_VIEW', $request->get('view'));
 		if ($display) {

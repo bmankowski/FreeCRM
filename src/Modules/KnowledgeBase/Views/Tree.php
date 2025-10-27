@@ -14,13 +14,18 @@ class Tree  extends \App\Modules\Base\Views\Index
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$moduleName = $request->getModule();
-		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
-		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
-		$linkModels = $moduleModel->getSideBarLinks($linkParams);
-		$viewer = $this->getViewer($request);
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('QUICK_LINKS', $linkModels);
+	$moduleName = $request->getModule();
+	$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
+	$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
+	$linkModels = $moduleModel->getSideBarLinks($linkParams);
+	
+	// Process sidebar links to determine active link
+	$activeLinkLabel = $this->processSidebarLinks($linkModels, $request);
+	
+	$viewer = $this->getViewer($request);
+	$viewer->assign('MODULE', $moduleName);
+	$viewer->assign('QUICK_LINKS', $linkModels);
+	$viewer->assign('ACTIVE_SIDEBAR_LINK', $activeLinkLabel);
 		$viewer->view('TreeHeader.tpl', $moduleName);
 	}
 

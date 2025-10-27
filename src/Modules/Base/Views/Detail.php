@@ -20,8 +20,8 @@ use App\AppConfig;
 class Detail extends \App\Modules\Base\Views\Index
 {
 
-	protected $record = false;
-	protected $recordStructure = false;
+	protected $record = null;
+	protected $recordStructure = null;
 	public $defaultMode = false;
 
 	public function __construct()
@@ -191,10 +191,15 @@ class Detail extends \App\Modules\Base\Views\Index
 		$viewer->assign('IS_EDITABLE', $this->record->getRecord()->isEditable($moduleName));
 		$viewer->assign('IS_DELETABLE', $this->record->getRecord()->isDeletable($moduleName));
 
-		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
-		$linkModels = $this->record->getSideBarLinks($linkParams);
-		$viewer->assign('QUICK_LINKS', $linkModels);
-		$viewer->assign('DEFAULT_RECORD_VIEW', $currentUserModel->get('default_record_view'));
+	$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
+	$linkModels = $this->record->getSideBarLinks($linkParams);
+	
+	// Process sidebar links to determine active link
+	$activeLinkLabel = $this->processSidebarLinks($linkModels, $request);
+	
+	$viewer->assign('QUICK_LINKS', $linkModels);
+	$viewer->assign('ACTIVE_SIDEBAR_LINK', $activeLinkLabel);
+	$viewer->assign('DEFAULT_RECORD_VIEW', $currentUserModel->get('default_record_view'));
 
 		$picklistDependencyDatasource = \App\Modules\PickList\DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 		$viewer->assign('PICKLIST_DEPENDENCY_DATASOURCE', \App\Json::encode($picklistDependencyDatasource));

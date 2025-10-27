@@ -15,7 +15,7 @@ namespace App\Modules\Calendar\Views;
 
 use App\Http\Vtiger_Request;
 
-class Detail  extends \App\Modules\Base\Views\Detail
+class Detail extends \App\Modules\Base\Views\Detail
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
@@ -45,7 +45,7 @@ class Detail  extends \App\Modules\Base\Views\Detail
 
 		$detailViewLinkParams = array('MODULE' => $moduleName, 'RECORD' => $recordId);
 		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
-		$navigationInfo = false; //ListViewSession::getListViewNavigation($recordId);
+		$navigationInfo = null; //ListViewSession::getListViewNavigation($recordId);
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
@@ -97,7 +97,11 @@ class Detail  extends \App\Modules\Base\Views\Detail
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
 		$linkModels = $this->record->getSideBarLinks($linkParams);
 
+		// Process sidebar links to determine active link
+		$activeLinkLabel = $this->processSidebarLinks($linkModels, $request);
+
 		$viewer->assign('QUICK_LINKS', $linkModels);
+		$viewer->assign('ACTIVE_SIDEBAR_LINK', $activeLinkLabel);
 		$viewer->assign('NO_SUMMARY', true);
 
 		if ($display) {

@@ -143,7 +143,35 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 		   }
 	   }
 	   
-	   return $breadcrumbs;
+	return $breadcrumbs;
+   }
+
+   /**
+	* Process sidebar links to determine which one is active
+	* @param array $linkModels - Array of link models (usually from getSideBarLinks)
+	* @param \App\Http\Vtiger_Request $request - Current request
+	* @return string - Label of the active link
+	*/
+   protected function processSidebarLinks($linkModels, \App\Http\Vtiger_Request $request)
+   {
+	   $currentModule = $request->get('module');
+	   $currentView = $request->get('view');
+	   $activeLinkLabel = '';
+	   
+	   if (isset($linkModels['SIDEBARLINK']) && is_array($linkModels['SIDEBARLINK'])) {
+		   foreach ($linkModels['SIDEBARLINK'] as $link) {
+			   $linkParams = \vtlib\Functions::getQueryParams($link->getUrl());
+			   if (isset($linkParams['module']) && isset($linkParams['view']) 
+				   && $currentModule == $linkParams['module'] 
+				   && $currentView == $linkParams['view']) {
+				   $activeLinkLabel = $link->getLabel();
+				   $link->set('active', true);
+				   break;
+			   }
+		   }
+	   }
+	   
+	   return $activeLinkLabel;
    }
 
    public function preProcess(\App\Http\Vtiger_Request $vtigerRequest, $display = true)

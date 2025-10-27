@@ -69,11 +69,17 @@ class ListView  extends \App\Modules\Base\Views\Index
 			$recordInstance = \App\Modules\Rss\Models\Record::getInstanceById($recordInstance->getId(), $module);
 		}
 
-		$viewer = $this->getViewer($request);
-		$viewer->assign('MODULE', $module);
-		$viewer->assign('RECORD', $recordInstance);
-		$linkParams = array('MODULE' => $module, 'ACTION' => $request->get('view'));
-		$viewer->assign('QUICK_LINKS', $moduleModel->getSideBarLinks($linkParams));
+	$viewer = $this->getViewer($request);
+	$viewer->assign('MODULE', $module);
+	$viewer->assign('RECORD', $recordInstance);
+	$linkParams = array('MODULE' => $module, 'ACTION' => $request->get('view'));
+	$linkModels = $moduleModel->getSideBarLinks($linkParams);
+	
+	// Process sidebar links to determine active link
+	$activeLinkLabel = $this->processSidebarLinks($linkModels, $request);
+	
+	$viewer->assign('QUICK_LINKS', $linkModels);
+	$viewer->assign('ACTIVE_SIDEBAR_LINK', $activeLinkLabel);
 		$viewer->assign('LISTVIEW_HEADERS', $this->getListViewRssHeaders($module));
 	}
 

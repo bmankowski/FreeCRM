@@ -95,7 +95,12 @@ class PreferenceDetail extends \App\Modules\Base\Views\Detail
 
 			$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
 			$linkModels = $detailViewModel->getSideBarLinks($linkParams);
+
+			// Process sidebar links to determine active link
+			$activeLinkLabel = $this->processSidebarLinks($linkModels, $request);
+
 			$viewer->assign('QUICK_LINKS', $linkModels);
+			$viewer->assign('ACTIVE_SIDEBAR_LINK', $activeLinkLabel);
 			$viewer->assign('PAGETITLE', $this->getPageTitle($request));
 			$viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
 			$viewer->assign('STYLES', $this->getHeaderCss($request));
