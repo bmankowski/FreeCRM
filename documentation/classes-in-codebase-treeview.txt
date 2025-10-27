@@ -1,0 +1,1783 @@
+FreeCRM Class Hierarchy Tree
+=============================
+
+Legend:
+  [C] - Class extends another class
+  [I] - Interface or standalone class
+
+├── [I] AppConfig
+│   [I] BaseActionController
+├── [I] CRMEntity
+│   [I] Apcu
+│   ├── [I] Base
+│   ├── [I] Cache
+│   ├── [I] XCache
+├── [C] Company → extends \Runtime\BaseModel
+├── [I] Currency
+│   [I] NumberToWords
+├── [I] CustomView
+│   [I] PearDatabase
+│   [C] Command → extends \yii\db\Command
+│   │   [I] Base
+│   ├── [I] Importer
+│   ├── [C] Query → extends \yii\db\Query
+├── [C] Db → extends \yii\db\Connection
+│   [C] DebugBarDatabase → extends \DataCollector
+│   ├── [I] DebugBarLogs
+│   ├── [C] DebugBarStatement → extends \PDOStatement
+├── [I] Debugger
+├── [C] EmailParser → extends \TextParser
+├── [I] Encryption
+│   [I] EntryPoint
+│   ├── [I] WebUI_ErrorHandler
+│   ├── [C] WebUI → extends \EntryPoint
+├── [I] EventHandler
+│   [I] DFA
+│   ├── [C] EarlyExitException → extends \Exception
+│   ├── [C] MismatchedSetException → extends \Exception
+│   ├── [C] NoViableAltException → extends \Exception
+│   ├── [I] Set
+│   ├── [I] SqlResultIteratorRow
+│   ├── [I] SqlResultIterator
+│   ├── [I] VTBatchData
+│   ├── [I] VTEntityData
+│   ├── [I] VTEntityType
+│   ├── [I] VTEventConditionParserLexer_DFA9
+│   ├── [C] VTEventConditionParserLexer → extends \Antlr\Antlr4\Runtime\Lexer
+│   ├── [C] VTEventConditionParserParser → extends \Antlr\Antlr4\Runtime\Parser
+│   ├── [I] VTEventConditionSymbol
+│   ├── [I] VTEventCondition
+│   ├── [I] VTEventHandler
+│   ├── [I] VTFieldType
+│   ├── [I] VTWSEntityType
+│   ├── [I] VTWSFieldType
+│   [C] AppException → extends \Exception
+│   ├── [C] CacheException → extends \Exception
+│   ├── [C] Csrf → extends \Exception
+│   ├── [C] DbException → extends \Exception
+│   ├── [C] NoPermittedForAdmin → extends \Exception
+│   ├── [C] NoPermittedToApi → extends \Exception
+│   ├── [C] NoPermittedToRecord → extends \NoPermitted
+│   ├── [C] NoPermitted → extends \Exception
+│   ├── [C] NotAllowedMethod → extends \Exception
+│   [I] CurrencyField
+│   ├── [I] DateTimeField
+│   ├── [I] DateTimeRange
+│   ├── [I] DateTime
+│   ├── [I] Email
+│   ├── [I] File
+│   ├── [I] Owner
+│   ├── [I] Picklist
+│   ├── [I] RecordNumber
+│   ├── [I] Tree
+├── [I] Field
+│   [I] Vtiger_Request
+│   ├── [I] Vtiger_Response
+│   ├── [I] Vtiger_Session
+│   [I] InitSchema_Model
+├── [I] Json
+│   [I] Icon
+├── [I] Loader
+│   [C] Profiling → extends \Target
+├── [C] Log → extends \Logger
+├── [I] Mailer
+├── [I] Mail
+│   [I] File
+├── [I] ModuleHierarchy
+│   [I] AJAXChat
+│   │   │   [C] Index → extends \App\Modules\Base\Views\Index
+│   │   [I] API_CalDAV_Handler
+│   │   │   ├── [I] API_CardDAV_Handler
+│   │   │   [I] CalDAV
+│   │   │   ├── [I] CardDAV
+│   │   │   ├── [I] DAV
+│   │   [C] Accounts → extends \App\CRMEntity
+│   │   │   [C] RelationAjax → extends \App\Runtime\BaseActionController
+│   │   ├── [I] CalculationsAccepted
+│   │   ├── [I] CalculationsAll
+│   │   │   [C] AccountsByIndustry → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] NeglectedAccounts → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] NewAccounts → extends \App\Modules\Base\Views\Index
+│   │   │   [I] Accounts_SaveChanges_Handler
+│   │   ├── [I] HeaderField
+│   │   ├── [I] HeaderField
+│   │   │   [C] DetailView → extends \App\Modules\Base\Models\DetailView
+│   │   │   ├── [C] ListView → extends \App\Modules\Base\Models\ListView
+│   │   │   ├── [C] MassEditRecordStructure → extends \App\Modules\Base\Models\RecordStructure
+│   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   │   ├── [C] Relation → extends \App\Modules\Base\Models\Relation
+│   │   ├── [I] OffersAccepted
+│   │   ├── [I] OffersAll
+│   │   ├── [I] TotalTimeWorked
+│   │   │   [C] AccountHierarchy → extends \App\Runtime\BaseViewController
+│   │   [C] BasicAjax → extends \App\Runtime\BaseActionController
+│   │   ├── [C] Announcements → extends \App\CRMEntity
+│   │   │   [C] DetailView → extends \App\Modules\Base\Models\DetailView
+│   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   [C] Detail → extends \App\Modules\Base\Views\Detail
+│   │   [I] ApiAddress
+│   │   [C] Assets → extends \App\CRMEntity
+│   │   │   [C] ExpiringSoldProducts → extends \App\Modules\Base\Views\Index
+│   │   │   [C] Field → extends \App\Modules\Base\Models\Field
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   │   ├── [C] TreeView → extends \App\Modules\Base\Models\TreeView
+│   │   │   [C] EditFieldByModal → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] GetHierarchy → extends \App\Modules\Base\Views\Index
+│   │   [C] BasicAjax → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] DeleteAjax → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] DeleteImage → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] Delete → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] EditFieldByModal → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] ExportData → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] Fields → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] GenerateRecords → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] GetData → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Inventory → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] Mail → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] MassDelete → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] MassSave → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] NoteBook → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] PDF → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] Pagination → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] ProcessDuplicates → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] QuickExport → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] RelatedCommentModal → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] RelationAjax → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] RemoveWidgetFromList → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] RemoveWidget → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] SaveAjax → extends \App\Modules\Base\Actions\Save
+│   │   │   ├── [C] SaveWidgetPositions → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Save → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] SetReadRecord → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] TransferOwnership → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] UpdateField → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] Watchdog → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] Workflow → extends \App\Runtime\BaseActionController
+│   │   ├── [I] AdvancedFilter
+│   │   ├── [I] Basic
+│   │   │   [C] AssignedOverdueCalendarTasks → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] AssignedOverdueProjectsTasks → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] AssignedUpcomingCalendarTasks → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] AssignedUpcomingProjectsTasks → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] CalendarActivities → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Calendar → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] ChartFilter → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] History → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] KeyMetrics → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Kpi → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] ListUpdatedRecord → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] MailsList → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] MiniList → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Notebook → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] ProductsSoldToRenew → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Rss → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] ServicesSoldToRenew → extends \Dashboard
+│   │   │   [I] File
+│   │   │   ├── [C] Image → extends \File
+│   │   │   [I] Vtiger_Attachments_Handler
+│   │   │   ├── [I] Vtiger_AutomaticAssignment_Handler
+│   │   │   ├── [I] Vtiger_MultiReferenceUpdater_Handler
+│   │   │   ├── [I] Vtiger_RecordLabelUpdater_Handler
+│   │   │   ├── [I] Vtiger_SharingPrivileges_Handler
+│   │   │   ├── [I] Vtiger_Workflow_Handler
+│   │   │   [I] ShortURL
+│   │   │   [C] Basic → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] Comment → extends \Basic
+│   │   │   ├── [C] Currency → extends \Basic
+│   │   │   ├── [C] DiscountMode → extends \Basic
+│   │   │   ├── [C] Discount → extends \Basic
+│   │   │   ├── [C] GrossPrice → extends \Basic
+│   │   │   ├── [C] ItemNumber → extends \Basic
+│   │   │   ├── [C] MarginP → extends \Basic
+│   │   │   ├── [C] Margin → extends \Basic
+│   │   │   ├── [C] Name → extends \Basic
+│   │   │   ├── [C] NetPrice → extends \Basic
+│   │   │   ├── [C] PicklistField → extends \Basic
+│   │   │   ├── [C] Purchase → extends \Basic
+│   │   │   ├── [C] Quantity → extends \Basic
+│   │   │   ├── [C] Reference → extends \Basic
+│   │   │   ├── [C] TaxMode → extends \Basic
+│   │   │   ├── [C] Tax → extends \Basic
+│   │   │   ├── [C] TotalPrice → extends \Basic
+│   │   │   ├── [C] UnitPrice → extends \Basic
+│   │   │   ├── [C] Value → extends \Basic
+│   │   ├── [I] Kpi
+│   │   ├── [I] ListUpdatedRecord
+│   │   │   [C] Action → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] Block → extends \vtlib\Block
+│   │   │   ├── [C] ChartFilter → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] DashBoard → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] DetailRecordStructure → extends \App\Modules\Base\Models\RecordStructure
+│   │   │   ├── [C] DetailView → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] EditRecordStructure → extends \App\Modules\Base\Models\RecordStructure
+│   │   │   ├── [C] EditView → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] ExportToXml → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] Export → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] Field → extends \vtlib\Field
+│   │   │   ├── [C] Files → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] FindDuplicate → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] Image → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] InventoryField → extends \App\Runtime\BaseModel
+│   │   │   ├── [I] Inventory
+│   │   │   ├── [C] Link → extends \vtlib\Link
+│   │   │   ├── [C] ListView → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] MappedFields → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] MassEditRecordStructure → extends \App\Modules\Base\Models\RecordStructure
+│   │   │   ├── [I] Menu
+│   │   │   ├── [C] MiniList → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] ModuleMeta → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] Module → extends \vtlib\Module
+│   │   │   ├── [C] Notebook → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] PDF → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] Paging → extends \App\Runtime\BaseModel
+│   │   │   ├── [I] Processes
+│   │   │   ├── [C] QuickCreateRecordStructure → extends \App\Modules\Base\Models\RecordStructure
+│   │   │   ├── [C] RecordStructure → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] Record → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] RelatedCommentModal → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] RelationListView → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] Relation → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] SummaryRecordStructure → extends \App\Modules\Base\Models\RecordStructure
+│   │   │   ├── [C] TooltipView → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] TransferOwnership → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] TreeCategoryModal → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] TreeView → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] Utility → extends \App\Modules\Base\Models\Action
+│   │   │   ├── [C] Watchdog → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] Widget → extends \App\Runtime\BaseModel
+│   │   │   ├── [I] WorkflowTrigger
+│   │   │   [I] AbstractPDF
+│   │   │   ├── [C] mPDF → extends \AbstractPDF
+│   │   │   [C] BaseUiType → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] Boolean → extends \BaseUiType
+│   │   │   ├── [C] CategoryMultipicklist → extends \BaseUiType
+│   │   │   ├── [C] CompanySelect → extends \BaseUiType
+│   │   │   ├── [C] CurrencyList → extends \BaseUiType
+│   │   │   ├── [C] Currency → extends \BaseUiType
+│   │   │   ├── [C] Datetime → extends \BaseUiType
+│   │   │   ├── [C] Date → extends \BaseUiType
+│   │   │   ├── [C] DocumentsFileUpload → extends \BaseUiType
+│   │   │   ├── [C] DocumentsFolder → extends \BaseUiType
+│   │   │   ├── [C] Double → extends \BaseUiType
+│   │   │   ├── [C] Email → extends \BaseUiType
+│   │   │   ├── [C] FileLocationType → extends \BaseUiType
+│   │   │   ├── [C] Image → extends \BaseUiType
+│   │   │   ├── [C] Integer → extends \BaseUiType
+│   │   │   ├── [C] InventoryLimit → extends \BaseUiType
+│   │   │   ├── [C] Languages → extends \BaseUiType
+│   │   │   ├── [C] Modules → extends \BaseUiType
+│   │   │   ├── [C] MultiImage → extends \BaseUiType
+│   │   │   ├── [C] MultiReferenceValue → extends \BaseUiType
+│   │   │   ├── [C] Multiowner → extends \BaseUiType
+│   │   │   ├── [C] Multipicklist → extends \BaseUiType
+│   │   │   ├── [C] Owner → extends \BaseUiType
+│   │   │   ├── [C] Password → extends \BaseUiType
+│   │   │   ├── [C] Percentage → extends \BaseUiType
+│   │   │   ├── [C] Phone → extends \BaseUiType
+│   │   │   ├── [C] Picklist → extends \BaseUiType
+│   │   │   ├── [C] RangeTime → extends \BaseUiType
+│   │   │   ├── [C] RecordNumber → extends \BaseUiType
+│   │   │   ├── [C] Recurrence → extends \BaseUiType
+│   │   │   ├── [C] ReferenceLink → extends \BaseUiType
+│   │   │   ├── [C] ReferenceProcess → extends \BaseUiType
+│   │   │   ├── [C] ReferenceSubProcess → extends \BaseUiType
+│   │   │   ├── [C] Reference → extends \BaseUiType
+│   │   │   ├── [C] Reminder → extends \BaseUiType
+│   │   │   ├── [C] Salutation → extends \BaseUiType
+│   │   │   ├── [C] SharedOwner → extends \BaseUiType
+│   │   │   ├── [C] Taxes → extends \BaseUiType
+│   │   │   ├── [C] Text → extends \BaseUiType
+│   │   │   ├── [C] Theme → extends \BaseUiType
+│   │   │   ├── [C] Time → extends \BaseUiType
+│   │   │   ├── [C] TotalTime → extends \BaseUiType
+│   │   │   ├── [C] Tree → extends \BaseUiType
+│   │   │   ├── [C] Url → extends \BaseUiType
+│   │   │   ├── [C] UserCreator → extends \BaseUiType
+│   │   │   ├── [C] UserReference → extends \BaseUiType
+│   │   │   ├── [C] UserRole → extends \BaseUiType
+│   │   ├── [I] UpdaterField
+│   │   │   [C] AddNotePad → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] AutoAssignRecord → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] BasicAjax → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] BasicModal → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Basic → extends \Footer
+│   │   │   ├── [C] ChartFilter → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] DashBoard → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Detail → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] EditFieldByModal → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Edit → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Export → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] FileUpload → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] FindDuplicatesAjax → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] FindDuplicates → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Footer → extends \Header
+│   │   │   ├── [C] GenerateModal → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Header → extends \App\Runtime\BaseViewController
+│   │   │   ├── [C] Import → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] IndexAjax → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Index → extends \App\Modules\Base\Views\Basic
+│   │   │   ├── [C] Inventory → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] ListAjax → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] ListView → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] MassActionAjax → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] MergeRecord → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] MiniListWizard → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] PDF → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Pagination → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] PopupAjax → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Popup → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] QuickCreateAjax → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] QuickDetailModal → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] RelatedCommentModal → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] RelatedList → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] SendMailModal → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] ShowWidget → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] SmartDetail → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] TimeLineModal → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] TooltipAjax → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] TreeCategoryModal → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] TreePopup → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] TreeRecords → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] VariablePanel → extends \App\Runtime\BaseViewController
+│   │   │   ├── [C] WidgetFullscreen → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] WorkflowTrigger → extends \App\Modules\Base\Views\Index
+│   │   │   [C] Activities → extends \App\Modules\Base\Widgets\Basic
+│   │   │   ├── [I] Basic
+│   │   │   ├── [C] Comments → extends \App\Modules\Base\Widgets\Basic
+│   │   │   ├── [C] CountRecords → extends \App\Modules\Base\Widgets\Basic
+│   │   │   ├── [C] EmailList → extends \App\Modules\Base\Widgets\Basic
+│   │   │   ├── [C] FastEdit → extends \App\Modules\Base\Widgets\Basic
+│   │   │   ├── [C] HistoryRelation → extends \App\Modules\Base\Widgets\Basic
+│   │   │   ├── [C] PreviewMail → extends \App\Modules\Base\Widgets\Basic
+│   │   │   ├── [C] ProductsServices → extends \App\Modules\Base\Widgets\Basic
+│   │   │   ├── [C] RelatedModule → extends \App\Modules\Base\Widgets\Basic
+│   │   │   ├── [C] SummaryCategory → extends \App\Modules\Base\Widgets\Basic
+│   │   │   ├── [C] Summary → extends \App\Modules\Base\Widgets\Basic
+│   │   │   ├── [C] Updates → extends \App\Modules\Base\Widgets\Basic
+│   │   │   ├── [C] WYSIWYG → extends \App\Modules\Base\Widgets\Basic
+│   │   ├── [I] blockEditView
+│   │   │   [I] Util
+│   │   [C] CFixedAssets → extends \App\CRMEntity
+│   │   [C] CInternalTickets → extends \App\CRMEntity
+│   │   [C] CMileageLogbook → extends \App\CRMEntity
+│   │   [C] ActivityReminder → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] ActivityStateAjax → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] CalendarUserActions → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] Calendar → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] DeleteAjax → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] Delete → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] DragDropAjax → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] Feed → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] GetFreeTime → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] ImportICS → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] Invitees → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] SaveAjax → extends \App\Modules\Base\Actions\Save
+│   │   │   ├── [C] Save → extends \App\Runtime\BaseActionController
+│   │   ├── [C] Activity → extends \App\CRMEntity
+│   │   ├── [I] Calendar
+│   │   ├── [I] Date
+│   │   │   [I] Calendar_CalendarHandler_Handler
+│   │   ├── [I] Layout
+│   │   │   [C] CalendarFilters → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] Calendar → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] DetailRecordStructure → extends \App\Modules\Base\Models\RecordStructure
+│   │   │   ├── [C] DetailView → extends \App\Modules\Base\Models\DetailView
+│   │   │   ├── [C] EditRecordStructure → extends \App\Modules\Base\Models\RecordStructure
+│   │   │   ├── [C] Export → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] Field → extends \App\Modules\Base\Models\Field
+│   │   │   ├── [C] ListView → extends \App\Modules\Base\Models\ListView
+│   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   │   [C] Datetime → extends \Base
+│   │   │   ├── [C] Picklist → extends \Base
+│   │   │   ├── [C] ReferenceSubProcess → extends \Base
+│   │   │   ├── [C] Time → extends \Base
+│   │   │   [C] ActivityStateModal → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Calendar → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Detail → extends \App\Modules\Base\Views\Detail
+│   │   │   ├── [C] Edit → extends \App\Modules\Base\Views\Edit
+│   │   │   ├── [C] Import → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] InRelation → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] QuickCreateAjax → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Reminders → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] RightPanel → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] SharedCalendar → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] ViewTypes → extends \App\Modules\Base\Views\Index
+│   │   │   [I] CheckDayTasks
+│   │   │   [I] ICalParser
+│   │   │   ├── [I] ICalendarComponent
+│   │   │   ├── [I] ICalendarParameter
+│   │   │   ├── [I] ICalendarProperty
+│   │   │   ├── [C] iCalendar_alarm → extends \iCalendar_component
+│   │   │   ├── [C] iCalendar_event → extends \iCalendar_component
+│   │   │   ├── [C] iCalendar_freebusy → extends \iCalendar_component
+│   │   │   ├── [C] iCalendar_journal → extends \iCalendar_component
+│   │   │   ├── [C] iCalendar_property_action → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_attach → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_attendee → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_calscale → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_categories → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_class → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_comment → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_completed → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_contact → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_created → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_daylightc → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_description → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_dtend → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_dtstamp → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_dtstart → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_due → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_duration → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_exdate → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_exrule → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_freebusy → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_geo → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_last_modified → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_location → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_method → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_organizer → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_percent_complete → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_priority → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_prodid → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_rdate → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_recurrence_id → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_related_to → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_request_status → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_resources → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_rrule → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_sequence → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_standardc → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_status → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_summary → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_transp → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_trigger → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_tzid → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_tzoffsetto → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_uid → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_url → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_version → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_x_wr_alarmuid → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_property_x → extends \iCalendar_property
+│   │   │   ├── [C] iCalendar_timezone → extends \iCalendar_component
+│   │   │   ├── [C] iCalendar_todo → extends \iCalendar_component
+│   │   │   ├── [C] iCalendar → extends \iCalendar_component
+│   │   ├── [I] iCalLastImport
+│   │   [C] CallHistory → extends \App\CRMEntity
+│   │   │   [C] DetailView → extends \App\Modules\Base\Models\DetailView
+│   │   │   ├── [C] ListView → extends \App\Modules\Base\Models\ListView
+│   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   [C] DetailAjax → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] RelationAjax → extends \App\Runtime\BaseActionController
+│   │   ├── [C] Campaigns → extends \App\CRMEntity
+│   │   │   [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   │   ├── [C] RelationListView → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] Relation → extends \App\Modules\Base\Models\Relation
+│   │   │   [C] Detail → extends \App\Modules\Base\Views\Detail
+│   │   │   ├── [C] RelatedList → extends \App\Modules\Base\Views\Index
+│   │   [C] Competition → extends \App\CRMEntity
+│   │   │   [C] DetailView → extends \App\Modules\Base\Models\DetailView
+│   │   │   ├── [C] ListView → extends \App\Modules\Base\Models\ListView
+│   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   [C] Save → extends \App\Runtime\BaseActionController
+│   │   ├── [C] Contacts → extends \App\CRMEntity
+│   │   │   [C] DetailView → extends \App\Modules\Base\Models\DetailView
+│   │   │   ├── [C] ListView → extends \App\Modules\Base\Models\ListView
+│   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   │   [C] Detail → extends \App\Modules\Base\Views\Detail
+│   │   │   ├── [C] Edit → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Popup → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] QuickCreateAjax → extends \App\Modules\Base\Views\Index
+│   │   [I] Bootstrap
+│   │   │   [I] UpdateHandlerPaths
+│   │   │   [I] CronRunner
+│   │   │   [I] AbstractCronTask
+│   │   [C] Approve → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] DeleteAjax → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] Delete → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] Deny → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] Save → extends \App\Runtime\BaseActionController
+│   │   ├── [C] CustomView → extends \App\CRMEntity
+│   │   │   [C] Record → extends \App\Modules\Base\Models\Record
+│   │   │   [C] EditAjax → extends \App\Modules\Base\Views\IndexAjax
+│   │   [C] Module → extends \App\Modules\Base\Models\Module
+│   │   [C] CheckFileIntegrity → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] DownloadFile → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] MassAdd → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] MoveDocuments → extends \App\Runtime\BaseActionController
+│   │   ├── [C] Documents → extends \App\CRMEntity
+│   │   │   [C] DetailView → extends \App\Modules\Base\Models\DetailView
+│   │   │   ├── [C] EditRecordStructure → extends \App\Modules\Base\Models\RecordStructure
+│   │   │   ├── [C] Field → extends \App\Modules\Base\Models\Field
+│   │   │   ├── [C] ListView → extends \App\Modules\Base\Models\ListView
+│   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   │   ├── [C] Relation → extends \App\Modules\Base\Models\Relation
+│   │   │   [C] Text → extends \BaseUiType
+│   │   │   [C] Detail → extends \App\Modules\Base\Views\Detail
+│   │   │   ├── [C] MassAddDocuments → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] MoveDocuments → extends \App\Modules\Base\Views\Index
+│   │   [C] EmailTemplates → extends \App\CRMEntity
+│   │   │   [C] Field → extends \App\Modules\Base\Models\Field
+│   │   │   [C] Edit → extends \App\Modules\Base\Views\Index
+│   │   [C] Save → extends \App\Runtime\BaseActionController
+│   │   │   [C] DetailRecordStructure → extends \App\Modules\Base\Models\RecordStructure
+│   │   │   ├── [C] DetailView → extends \App\Modules\Base\Models\DetailView
+│   │   │   ├── [C] EditRecordStructure → extends \App\Modules\Base\Models\RecordStructure
+│   │   │   ├── [C] Field → extends \App\Modules\Base\Models\Field
+│   │   │   ├── [C] ListView → extends \App\Modules\Base\Models\ListView
+│   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   │   ├── [C] RecuringEvents → extends \App\Runtime\BaseModel
+│   │   │   [C] Datetime → extends \Base
+│   │   │   ├── [C] Picklist → extends \Base
+│   │   │   ├── [C] ReferenceSubProcess → extends \Base
+│   │   │   ├── [C] Time → extends \Base
+│   │   │   [C] Calendar → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Detail → extends \App\Modules\Base\Views\Detail
+│   │   │   ├── [C] SharedCalendar → extends \App\Modules\Base\Views\Index
+│   │   [C] FBookkeeping → extends \App\CRMEntity
+│   │   [C] FCorectingInvoice → extends \App\CRMEntity
+│   │   [C] SummationByMonths → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] SummationByUser → extends \App\Modules\Base\Views\Index
+│   │   ├── [C] FInvoice → extends \App\CRMEntity
+│   │   │   [C] Record → extends \App\Modules\Base\Models\Record
+│   │   [C] FInvoiceCost → extends \App\CRMEntity
+│   │   [C] FInvoiceProforma → extends \App\CRMEntity
+│   │   [C] Faq → extends \App\CRMEntity
+│   │   │   [C] ListView → extends \App\Modules\Base\Models\ListView
+│   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   │   [C] Edit → extends \App\Modules\Base\Views\Index
+│   │   [C] ConvertFAQ → extends \App\Runtime\BaseActionController
+│   │   │   [C] ClosedTicketsByPriority → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] ClosedTicketsByUser → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] OpenTickets → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] TicketsByStatus → extends \App\Modules\Base\Views\Index
+│   │   │   [I] HelpDesk_TicketRangeTime_Handler
+│   │   ├── [C] HelpDesk → extends \App\CRMEntity
+│   │   │   [C] DashBoard → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] DetailView → extends \App\Modules\Base\Models\DetailView
+│   │   │   ├── [C] ListView → extends \App\Modules\Base\Models\ListView
+│   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   │   [C] RangeTime → extends \BaseUiType
+│   │   │   [C] Detail → extends \App\Modules\Base\Views\Detail
+│   │   [C] HolidaysEntitlement → extends \App\CRMEntity
+│   │   [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   ├── [C] Widget → extends \App\Modules\Base\Models\Record
+│   │   │   [C] DashBoard → extends \App\Modules\Base\Views\DashBoard
+│   │   │   ├── [C] Index → extends \App\Modules\Base\Views\Index
+│   │   [C] IGDN → extends \App\CRMEntity
+│   │   │   [C] Field → extends \App\Modules\Base\Models\Field
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   │   [C] EditFieldByModal → extends \App\Modules\Base\Views\Index
+│   │   [C] IGDNC → extends \App\CRMEntity
+│   │   │   [C] Field → extends \App\Modules\Base\Models\Field
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   │   [C] EditFieldByModal → extends \App\Modules\Base\Views\Index
+│   │   [C] IGIN → extends \App\CRMEntity
+│   │   │   [C] Field → extends \App\Modules\Base\Models\Field
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   [C] IGRN → extends \App\CRMEntity
+│   │   │   [C] Field → extends \App\Modules\Base\Models\Field
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   [C] IGRNC → extends \App\CRMEntity
+│   │   │   [C] Field → extends \App\Modules\Base\Models\Field
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   [C] IIDN → extends \App\CRMEntity
+│   │   │   [C] Field → extends \App\Modules\Base\Models\Field
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   │   [C] EditFieldByModal → extends \App\Modules\Base\Views\Index
+│   │   [C] IPreOrder → extends \App\CRMEntity
+│   │   │   [C] Field → extends \App\Modules\Base\Models\Field
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   │   [C] EditFieldByModal → extends \App\Modules\Base\Views\Index
+│   │   [C] ISTDN → extends \App\CRMEntity
+│   │   │   [C] Field → extends \App\Modules\Base\Models\Field
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   │   [C] EditFieldByModal → extends \App\Modules\Base\Views\Index
+│   │   [C] ISTN → extends \App\CRMEntity
+│   │   [C] ISTRN → extends \App\CRMEntity
+│   │   │   [C] Field → extends \App\Modules\Base\Models\Field
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   │   [C] EditFieldByModal → extends \App\Modules\Base\Views\Index
+│   │   [C] RelationAjax → extends \App\Runtime\BaseActionController
+│   │   │   [I] IStorages_RecalculateStockHandler_Handler
+│   │   ├── [C] IStorages → extends \App\CRMEntity
+│   │   │   [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   │   ├── [C] RelationListView → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] Relation → extends \App\Modules\Base\Models\Relation
+│   │   ├── [C] TextParser → extends \App\TextParser\Base
+│   │   ├── [C] TextParser → extends \App\TextParser\Base
+│   │   ├── [C] TextParser → extends \App\TextParser\Base
+│   │   ├── [C] TextParser → extends \App\TextParser\Base
+│   │   ├── [C] TextParser → extends \App\TextParser\Base
+│   │   │   [C] Hierarchy → extends \App\Runtime\BaseViewController
+│   │   ├── [I] checkHierarchy
+│   │   ├── [I] checkType
+│   │   [C] Ideas → extends \App\CRMEntity
+│   │   [C] Data → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] Lock → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] Queue → extends \App\Runtime\BaseActionController
+│   │   │   [I] Utils
+│   │   │   [C] ListView → extends \App\Modules\Base\Models\ListView
+│   │   │   ├── [C] Map → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   [C] CSVReader → extends \FileReader
+│   │   │   ├── [I] FileReader
+│   │   │   ├── [C] ICSReader → extends \iCal
+│   │   │   ├── [C] VCardReader → extends \FileReader
+│   │   │   ├── [C] XmlReader → extends \FileReader
+│   │   │   ├── [C] ZipReader → extends \FileReader
+│   │   │   [C] ListView → extends \Popup
+│   │   │   ├── [C] Main → extends \App\Runtime\BaseViewController
+│   │   [C] Index → extends \App\Modules\Base\Views\Index
+│   │   [C] DataTreeAjax → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] ImageUploadAjax → extends \App\Runtime\BaseActionController
+│   │   ├── [C] KnowledgeBase → extends \App\CRMEntity
+│   │   │   [C] DetailView → extends \App\Modules\Base\Models\DetailView
+│   │   │   ├── [C] Field → extends \App\Modules\Base\Models\Field
+│   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   ├── [C] Tree → extends \App\Runtime\BaseModel
+│   │   │   [C] Content → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Detail → extends \App\Modules\Base\Views\Detail
+│   │   │   ├── [C] FullScreen → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] PreviewContent → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Tree → extends \App\Modules\Base\Views\Index
+│   │   [C] LeadsByIndustry → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] LeadsBySource → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] LeadsByStatusConverted → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] LeadsByStatus → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] LeadsCreated → extends \App\Modules\Base\Views\Index
+│   │   ├── [C] Leads → extends \App\CRMEntity
+│   │   │   [C] DetailView → extends \App\Modules\Base\Models\DetailView
+│   │   │   ├── [C] ListView → extends \App\Modules\Base\Models\ListView
+│   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   │   ├── [C] Relation → extends \App\Modules\Base\Models\Relation
+│   │   ├── [I] TotalComments
+│   │   ├── [I] TotalContacts
+│   │   ├── [I] TotalEmails
+│   │   ├── [I] TotalEvent
+│   │   ├── [I] TotalTasks
+│   │   ├── [I] TotalTimeWorked
+│   │   │   [C] ConvertLead → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Detail → extends \App\Modules\Base\Views\Detail
+│   │   │   ├── [C] SaveConvertLead → extends \App\Runtime\BaseViewController
+│   │   [C] LettersIn → extends \App\CRMEntity
+│   │   [C] LettersOut → extends \App\CRMEntity
+│   │   [C] MassSaveAjax → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] SaveAjax → extends \App\Modules\Base\Actions\SaveAjax
+│   │   │   ├── [C] Save → extends \App\Runtime\BaseActionController
+│   │   ├── [C] ModCommentsCore → extends \App\CRMEntity
+│   │   ├── [C] ModComments → extends \ModCommentsCore
+│   │   │   [I] CommentsModel
+│   │   │   ├── [C] Model → extends \App\Modules\Base\Models\ListView
+│   │   │   ├── [C] Model → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   │   [C] DetailAjax → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] View → extends \App\Modules\Base\Views\Detail
+│   │   │   ├── [C] View → extends \App\Modules\Base\Views\Index
+│   │   [C] ChangesReviewedOn → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] LastRelation → extends \App\Runtime\BaseActionController
+│   │   ├── [I] CronReviewed
+│   │   │   [I] ModTracker_ModTrackerHandler_Handler
+│   │   ├── [I] ModTracker
+│   │   │   [C] Field → extends \App\Modules\Base\Models\Field
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   │   ├── [C] Relation → extends \App\Modules\Base\Models\Relation
+│   │   │   [C] ListAjax → extends \App\Modules\Base\Views\Index
+│   │   [C] Notification → extends \App\Runtime\BaseActionController
+│   │   │   [C] NotificationsByRecipient → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] NotificationsBySender → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Notifications → extends \App\Modules\Base\Views\Index
+│   │   │   [C] ListView → extends \App\Modules\Base\Models\ListView
+│   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   ├── [I] Notification
+│   │   ├── [C] Notification → extends \App\CRMEntity
+│   │   ├── [C] TextParser → extends \App\TextParser\Base
+│   │   │   [C] String → extends \BaseUiType
+│   │   │   ├── [C] Text → extends \BaseUiType
+│   │   │   [C] NotificationConfig → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Reminders → extends \App\Modules\Base\Views\Index
+│   │   [C] GetHoliday → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] UniqueUser → extends \App\Runtime\BaseActionController
+│   │   │   [C] DetailView → extends \App\Modules\Base\Models\DetailView
+│   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   │   ├── [C] Relation → extends \App\Modules\Base\Models\Relation
+│   │   ├── [C] OSSEmployees → extends \App\CRMEntity
+│   │   │   [C] Detail → extends \App\Modules\Base\Views\Detail
+│   │   │   ├── [C] EmployeeHierarchy → extends \App\Runtime\BaseViewController
+│   │   [C] ImportMail → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] SaveRcConfig → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] SetUser → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] checkMails → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] executeActions → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] getContactMail → extends \App\Runtime\BaseActionController
+│   │   │   [I] AddressBook
+│   │   │   ├── [I] Autologin
+│   │   │   ├── [C] Mail → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   ├── [I] OSSMail
+│   │   │   [C] CheckConfig → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] MailActionBar → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] compose → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] index → extends \App\Modules\Base\Views\Index
+│   │   [C] AccontRemove → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] GetLog → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] IdentitiesDel → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] SaveActions → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] SaveCRMuser → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] SaveRcConfig → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] SaveWidgetConfig → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] cron → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] getConfig → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] restartCron → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] saveEmailSearchList → extends \App\Runtime\BaseActionController
+│   │   │   [I] EmailScannerAction
+│   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   ├── [I] PrefixScannerAction
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   ├── [I] OSSMailScanner
+│   │   │   [C] BindAccounts → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] BindCampaigns → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] BindCompetition → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] BindContacts → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] BindHelpDesk → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] BindLeads → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] BindOSSEmployees → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] BindPartners → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] BindProject → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] BindSSalesProcesses → extends \App\Runtime\BaseModel
+│   │   │   ├── [I] BindServiceContracts
+│   │   │   ├── [C] BindVendors → extends \App\Runtime\BaseModel
+│   │   │   ├── [I] CreatedEmail
+│   │   │   ├── [I] CreatedHelpDesk
+│   │   [C] BindMails → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] ChangeType → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] MassDelete → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] Relation → extends \App\Runtime\BaseActionController
+│   │   │   [C] Graf → extends \App\Modules\Base\Views\Index
+│   │   │   [C] DetailView → extends \App\Modules\Base\Models\DetailView
+│   │   │   ├── [C] ListView → extends \App\Modules\Base\Models\ListView
+│   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   │   ├── [C] Relation → extends \App\Modules\Base\Models\Relation
+│   │   ├── [C] OSSMailView → extends \App\CRMEntity
+│   │   │   [C] ChangeType → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Detail → extends \App\Modules\Base\Views\Detail
+│   │   │   ├── [C] ListView → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] sview → extends \App\Modules\Base\Views\Index
+│   │   [C] TreeView → extends \App\Modules\Base\Models\TreeView
+│   │   ├── [C] OSSOutsourcedServices → extends \App\CRMEntity
+│   │   [C] CheckPass → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] GetPass → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] SaveAjax → extends \App\Modules\Base\Actions\Save
+│   │   │   ├── [C] Save → extends \App\Runtime\BaseActionController
+│   │   │   [I] OSSPasswords_Secure_Handler
+│   │   │   [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   ├── [C] OSSPasswords → extends \App\CRMEntity
+│   │   │   [C] Detail → extends \App\Modules\Base\Views\Detail
+│   │   │   ├── [C] InRelation → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] ListView → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] PopupAjax → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Popup → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] QuickCreateAjax → extends \App\Modules\Base\Views\Index
+│   │   [C] Field → extends \App\Modules\Base\Models\Field
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   │   ├── [C] TreeView → extends \App\Modules\Base\Models\TreeView
+│   │   ├── [C] OSSSoldServices → extends \App\CRMEntity
+│   │   │   [C] EditFieldByModal → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] GetHierarchy → extends \App\Modules\Base\Views\Index
+│   │   [C] Calendar → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] GetTCInfo → extends \App\Runtime\BaseActionController
+│   │   │   [C] AllTimeControl → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] TimeControl → extends \App\Modules\Base\Views\Index
+│   │   │   [I] OSSTimeControl_TimeControl_Handler
+│   │   │   [C] Calendar → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] DetailView → extends \App\Modules\Base\Models\DetailView
+│   │   │   ├── [C] Field → extends \App\Modules\Base\Models\Field
+│   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   ├── [C] OSSTimeControl → extends \App\CRMEntity
+│   │   ├── [C] TextParser → extends \App\TextParser\Base
+│   │   ├── [C] TextParser → extends \App\TextParser\Base
+│   │   │   [C] Double → extends \BaseUiType
+│   │   │   ├── [C] Time → extends \BaseUiType
+│   │   │   [C] Calendar → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Detail → extends \App\Modules\Base\Views\Detail
+│   │   │   ├── [C] InRelation → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] RightPanel → extends \App\Modules\Base\Views\Index
+│   │   [C] ClipBoard → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] GetMarkers → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] GetRoute → extends \App\Runtime\BaseActionController
+│   │   │   [I] OpenStreetMap_OpenStreetMapHandler_Handler
+│   │   │   [C] Coordinate → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   ├── [I] OpenStreetMap
+│   │   │   [C] MapModal → extends \App\Modules\Base\Views\Index
+│   │   [C] TreeView → extends \App\Modules\Base\Models\TreeView
+│   │   ├── [C] OutsourcedProducts → extends \App\CRMEntity
+│   │   [C] IncomingCallPoll → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] OutgoingCall → extends \App\Runtime\BaseActionController
+│   │   ├── [I] Callbacks
+│   │   ├── [I] Connector
+│   │   ├── [I] Controller
+│   │   │   [I] PBXManager_PBXManagerHandler_Handler
+│   │   │   [C] DetailView → extends \App\Modules\Base\Models\DetailView
+│   │   │   ├── [C] ListView → extends \App\Modules\Base\Models\ListView
+│   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   │   ├── [C] Server → extends \App\Runtime\BaseModel
+│   │   ├── [C] PBXManager → extends \App\CRMEntity
+│   │   │   [C] Detail → extends \App\Modules\Base\Views\Detail
+│   │   [C] DetailView → extends \App\Modules\Base\Models\DetailView
+│   │   │   ├── [C] ListView → extends \App\Modules\Base\Models\ListView
+│   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   ├── [C] Partners → extends \App\CRMEntity
+│   │   [I] Password
+│   │   [C] GenerateRecords → extends \App\Runtime\BaseActionController
+│   │   │   [C] mt940_Alior → extends \mt940
+│   │   │   │   ├── [C] mt940_BGK → extends \mt940
+│   │   │   │   ├── [C] mt940_BOS → extends \mt940
+│   │   │   │   ├── [C] mt940_BPH → extends \mt940
+│   │   │   │   ├── [C] mt940_Citi → extends \mt940
+│   │   │   │   ├── [C] mt940_Deutsche → extends \mt940
+│   │   │   │   ├── [C] mt940_Milenium → extends \mt940
+│   │   │   │   ├── [C] mt940_Millennium → extends \mt940
+│   │   │   │   ├── [C] mt940_PKOBP → extends \mt940
+│   │   │   │   ├── [C] mt940_Paribas → extends \mt940
+│   │   │   │   ├── [C] mt940_Pekao → extends \mt940
+│   │   │   │   ├── [C] mt940_Pocztowy → extends \mt940
+│   │   │   │   ├── [C] mt940_RaboBank → extends \mt940
+│   │   │   │   ├── [C] mt940_Raiffeisen → extends \mt940
+│   │   │   │   ├── [C] mt940_SGB → extends \mt940
+│   │   │   │   ├── [C] mt940_WBK → extends \mt940
+│   │   │   │   ├── [C] mt940_ing → extends \mt940
+│   │   │   │   ├── [C] mt940_mbank → extends \mt940
+│   │   │   [C] ListView → extends \App\Modules\Base\Models\ListView
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   ├── [C] PaymentsIn → extends \App\CRMEntity
+│   │   │   [C] PaymentsImport → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] PaymentsIn_step1_View → extends \App\Modules\Base\Views\Index
+│   │   │   [I] mt940
+│   │   [C] GenerateRecords → extends \App\Runtime\BaseActionController
+│   │   ├── [C] Milenium → extends \mt940
+│   │   │   [C] ListView → extends \App\Modules\Base\Models\ListView
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   ├── [C] PaymentsOut → extends \App\CRMEntity
+│   │   │   [C] PaymentsImport → extends \App\Modules\Base\Views\Index
+│   │   ├── [C] ing → extends \mt940
+│   │   ├── [C] mbank → extends \mt940
+│   │   ├── [I] mt940
+│   │   [I] DependencyPicklist
+│   │   [C] DeleteAjax → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] MassDelete → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] SaveAjax → extends \App\Modules\Base\Actions\Save
+│   │   │   [C] ListView → extends \App\Modules\Base\Models\ListView
+│   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   [C] Detail → extends \App\Modules\Base\Views\Detail
+│   │   │   ├── [C] EditAjax → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] ListView → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Pagination → extends \App\Modules\Base\Views\Index
+│   │   [C] ProductListPrice → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] RelationAjax → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] SaveAjax → extends \App\Modules\Base\Actions\Save
+│   │   │   ├── [C] Save → extends \App\Runtime\BaseActionController
+│   │   │   [C] ListView → extends \App\Modules\Base\Models\ListView
+│   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   │   ├── [C] RelationListView → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] Relation → extends \App\Modules\Base\Models\Relation
+│   │   ├── [C] PriceBooks → extends \App\CRMEntity
+│   │   │   [C] Detail → extends \App\Modules\Base\Views\Detail
+│   │   │   ├── [C] Edit → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] ListPriceUpdate → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] PopupAjax → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Popup → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] ProductPriceBookPopupAjax → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] ProductPriceBookPopup → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] QuickCreateAjax → extends \App\Modules\Base\Views\Index
+│   │   [C] RelationAjax → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] SaveAjax → extends \App\Modules\Base\Actions\Save
+│   │   │   ├── [C] Save → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] SubProducts → extends \App\Runtime\BaseActionController
+│   │   │   [C] ListView → extends \App\Modules\Base\Models\ListView
+│   │   │   ├── [C] MassEditRecordStructure → extends \App\Modules\Base\Models\RecordStructure
+│   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   │   ├── [C] RelationListView → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] Relation → extends \App\Modules\Base\Models\Relation
+│   │   │   ├── [I] SummaryWidget
+│   │   │   ├── [C] TreeView → extends \App\Modules\Base\Models\TreeView
+│   │   ├── [C] Products → extends \App\CRMEntity
+│   │   │   [C] Detail → extends \App\Modules\Base\Views\Detail
+│   │   │   ├── [C] MoreCurrenciesList → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Popup → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] PriceBookProductPopupAjax → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] PriceBookProductPopup → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] QuickCreateAjax → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] TreeRecords → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Widget → extends \App\Modules\Base\Views\Index
+│   │   [C] ProjectWidget → extends \App\Modules\Base\Views\Index
+│   │   ├── [I] HighTasks
+│   │   ├── [I] LowTasks
+│   │   │   [C] DetailView → extends \App\Modules\Base\Models\DetailView
+│   │   │   ├── [C] ListView → extends \App\Modules\Base\Models\ListView
+│   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   ├── [C] RelationListView → extends \App\Runtime\BaseModel
+│   │   ├── [I] NormalTasks
+│   │   ├── [I] OtherTasks
+│   │   ├── [I] Progress
+│   │   ├── [C] Project → extends \App\CRMEntity
+│   │   ├── [I] SumTimeProject
+│   │   ├── [I] TaskCompleted
+│   │   ├── [I] TaskDue
+│   │   ├── [I] TasksOpen
+│   │   │   [C] Detail → extends \App\Modules\Base\Views\Detail
+│   │   [C] Module → extends \App\Modules\Base\Models\Module
+│   │   ├── [C] ProjectMilestone → extends \App\CRMEntity
+│   │   [I] ProjectTask_ProjectTaskHandler_Handler
+│   │   │   [C] Module → extends \App\Modules\Base\Models\Module
+│   │   ├── [C] ProjectTask → extends \App\CRMEntity
+│   │   [C] RecycleBinAjax → extends \App\Runtime\BaseActionController
+│   │   │   [C] ListView → extends \App\Modules\Base\Models\ListView
+│   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   ├── [I] RecycleBin
+│   │   │   [C] ListAjax → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] ListView → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Pagination → extends \App\Modules\Base\Views\Index
+│   │   [C] ChartSave → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] CheckDuplicate → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] DeleteAjax → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] DetailAjax → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] Folder → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] MassDelete → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] MoveReports → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] Save → extends \App\Runtime\BaseActionController
+│   │   │   [C] Charts → extends \App\Modules\Base\Views\Index
+│   │   │   [C] Base_Chart → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] Chart → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] DetailView → extends \App\Modules\Base\Models\DetailView
+│   │   │   ├── [C] Folder → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] HorizontalbarChart → extends \VerticalbarChart
+│   │   │   ├── [C] LineChart → extends \VerticalbarChart
+│   │   │   ├── [C] ListView → extends \App\Modules\Base\Models\ListView
+│   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   ├── [C] PieChart → extends \Base_Chart
+│   │   │   ├── [C] RecordStructure → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   │   ├── [C] Report → extends \Reports
+│   │   │   ├── [C] ScheduleReports → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] VerticalbarChart → extends \Base_Chart
+│   │   ├── [I] ReportRunQueryDependencyMatrix
+│   │   ├── [I] ReportRunQueryPlanner
+│   │   ├── [C] ReportRun → extends \App\CRMEntity
+│   │   ├── [C] Reports → extends \App\CRMEntity
+│   │   ├── [C] VTScheduledReport → extends \Reports
+│   │   │   [C] ChartDetail → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] ChartSaveAjax → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Detail → extends \App\Modules\Base\Views\Detail
+│   │   │   ├── [C] EditFolder → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] ExportReport → extends \App\Runtime\BaseViewController
+│   │   │   ├── [C] ListAjax → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] ListView → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] MoveReports → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Pagination → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] SaveAjax → extends \App\Modules\Base\Views\Index
+│   │   [C] Calendar → extends \App\Runtime\BaseActionController
+│   │   │   [C] Calendar → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] DetailView → extends \App\Modules\Base\Models\DetailView
+│   │   │   ├── [C] Field → extends \App\Modules\Base\Models\Field
+│   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   ├── [C] Reservations → extends \App\CRMEntity
+│   │   │   [C] Time → extends \BaseUiType
+│   │   │   [C] Calendar → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Detail → extends \App\Modules\Base\Views\Detail
+│   │   │   ├── [C] RightPanel → extends \App\Modules\Base\Views\Index
+│   │   [C] DeleteAjax → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] GetHtml → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] MakeDefaultAjax → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] Save → extends \App\Runtime\BaseActionController
+│   │   │   [C] ListView → extends \App\Modules\Base\Models\ListView
+│   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   │   [C] ListView → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] ViewTypes → extends \App\Modules\Base\Views\Index
+│   │   [C] EditFieldByModal → extends \App\Runtime\BaseActionController
+│   │   │   [C] Record → extends \App\Modules\Base\Models\Record
+│   │   ├── [C] SCalculations → extends \App\CRMEntity
+│   │   │   [C] EditFieldByModal → extends \App\Modules\Base\Views\Index
+│   │   [C] CheckServerInfo → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] MassSaveAjax → extends \App\Runtime\BaseActionController
+│   │   │   [C] DetailView → extends \App\Modules\Base\Models\DetailView
+│   │   │   ├── [C] ListView → extends \App\Modules\Base\Models\ListView
+│   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   ├── [C] Provider → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   ├── [I] Provider
+│   │   ├── [I] Provider
+│   │   ├── [C] SMSNotifierBase → extends \App\CRMEntity
+│   │   ├── [I] SMSNotifierManager
+│   │   ├── [C] SMSNotifier → extends \SMSNotifierBase
+│   │   ├── [C] VTSMSTask → extends \VTTask
+│   │   │   [C] CheckStatus → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Edit → extends \App\Modules\Base\Views\Index
+│   │   [C] EditFieldByModal → extends \App\Runtime\BaseActionController
+│   │   │   [C] Record → extends \App\Modules\Base\Models\Record
+│   │   ├── [C] SQuoteEnquiries → extends \App\CRMEntity
+│   │   │   [C] EditFieldByModal → extends \App\Modules\Base\Views\Index
+│   │   [C] EditFieldByModal → extends \App\Runtime\BaseActionController
+│   │   │   [C] Record → extends \App\Modules\Base\Models\Record
+│   │   ├── [C] SQuotes → extends \App\CRMEntity
+│   │   │   [C] EditFieldByModal → extends \App\Modules\Base\Views\Index
+│   │   [C] EditFieldByModal → extends \App\Runtime\BaseActionController
+│   │   │   [C] Record → extends \App\Modules\Base\Models\Record
+│   │   ├── [C] SRecurringOrders → extends \App\CRMEntity
+│   │   │   [C] EditFieldByModal → extends \App\Modules\Base\Views\Index
+│   │   [C] EditFieldByModal → extends \App\Runtime\BaseActionController
+│   │   │   [C] Record → extends \App\Modules\Base\Models\Record
+│   │   ├── [C] SRequirementsCards → extends \App\CRMEntity
+│   │   │   [C] EditFieldByModal → extends \App\Modules\Base\Views\Index
+│   │   [C] RelationAjax → extends \App\Runtime\BaseActionController
+│   │   │   [C] ActualSalesOfTeam → extends \Dashboard
+│   │   │   ├── [C] EstimatedValueByStatus → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] TeamsEstimatedSales → extends \App\Modules\Base\Views\Index
+│   │   │   [C] DetailView → extends \App\Modules\Base\Models\DetailView
+│   │   │   ├── [C] Field → extends \App\Modules\Base\Models\Field
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   ├── [C] SSalesProcesses → extends \App\CRMEntity
+│   │   │   [C] Hierarchy → extends \App\Runtime\BaseViewController
+│   │   [C] EditFieldByModal → extends \App\Runtime\BaseActionController
+│   │   │   [C] Record → extends \App\Modules\Base\Models\Record
+│   │   ├── [C] SSingleOrders → extends \App\CRMEntity
+│   │   │   [C] EditFieldByModal → extends \App\Modules\Base\Views\Index
+│   │   [C] EditFieldByModal → extends \App\Runtime\BaseActionController
+│   │   │   [C] Record → extends \App\Modules\Base\Models\Record
+│   │   ├── [C] SVendorEnquiries → extends \App\CRMEntity
+│   │   │   [C] EditFieldByModal → extends \App\Modules\Base\Views\Index
+│   │   [I] ServiceContracts_ServiceContractsHandler_Handler
+│   │   │   [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   ├── [C] ServiceContracts → extends \App\CRMEntity
+│   │   [C] RelationAjax → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] SaveAjax → extends \App\Modules\Base\Actions\Save
+│   │   │   [C] ListView → extends \App\Modules\Base\Models\ListView
+│   │   │   ├── [C] MassEditRecordStructure → extends \App\Modules\Base\Models\RecordStructure
+│   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   │   ├── [C] RelationListView → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] Relation → extends \App\Modules\Base\Models\Relation
+│   │   │   ├── [C] TreeView → extends \App\Modules\Base\Models\TreeView
+│   │   ├── [C] Services → extends \App\CRMEntity
+│   │   │   [C] Detail → extends \App\Modules\Base\Views\Detail
+│   │   │   ├── [C] Edit → extends \App\Modules\Base\Views\Edit
+│   │   │   ├── [C] MoreCurrenciesList → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] Popup → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] PriceBookProductPopupAjax → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] PriceBookProductPopup → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] QuickCreateAjax → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] TreeRecords → extends \App\Modules\Base\Views\Index
+│   │   [C] DeleteAjax → extends \App\Modules\Settings\Base\Actions\Delete
+│   │   │   │   ├── [C] RecalculatePermission → extends \App\Modules\Settings\Base\Actions\Save
+│   │   │   │   ├── [C] Save → extends \App\Modules\Settings\Base\Actions\Save
+│   │   │   │   [C] ListView → extends \App\Modules\Settings\Base\Models\ListView
+│   │   │   │   ├── [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   ├── [C] Record → extends \App\Modules\Settings\Base\Models\Record
+│   │   │   │   [C] Edit → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] RecalculatePermission → extends \App\Modules\Settings\Base\Views\BasicModal
+│   │   │   │   ├── [C] Settings_AdvancedPermission_Detail_View → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] SaveConfig → extends \App\Modules\Settings\Base\Actions\Basic
+│   │   │   │   [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   [C] Configuration → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] DeleteAjax → extends \App\Modules\Settings\Base\Actions\Delete
+│   │   │   │   ├── [C] SaveAjax → extends \App\Modules\Settings\Base\Actions\Save
+│   │   │   │   [C] ListView → extends \App\Modules\Settings\Base\Models\ListView
+│   │   │   │   ├── [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   ├── [C] Record → extends \App\Modules\Settings\Base\Models\Record
+│   │   │   │   [C] Create → extends \App\Modules\Settings\Base\Views\BasicModal
+│   │   │   │   ├── [C] Edit → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] List → extends \App\Modules\Settings\Base\Views\List
+│   │   │   [C] Basic → extends \App\Runtime\BaseActionController
+│   │   │   │   ├── [C] ConfigEditorSaveAjax → extends \App\Modules\Settings\Base\Actions\Basic
+│   │   │   │   ├── [C] CustomRecordNumberingAjax → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   ├── [C] Delete → extends \App\Modules\Settings\Base\Actions\Basic
+│   │   │   │   ├── [C] Index → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   ├── [C] ListAjax → extends \App\Modules\Settings\Base\Views\ListAjax
+│   │   │   │   ├── [C] Save → extends \App\Modules\Settings\Base\Actions\Basic
+│   │   │   │   ├── [C] SystemWarnings → extends \App\Modules\Settings\Base\Actions\Basic
+│   │   │   │   ├── [C] TaxAjax → extends \App\Modules\Settings\Base\Actions\Basic
+│   │   │   │   ├── [C] TermsAndConditionsSaveAjax → extends \App\Modules\Settings\Base\Actions\Basic
+│   │   │   │   [C] ConfigModule → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   ├── [C] CustomRecordNumberingModule → extends \App\Modules\Base\Models\Module
+│   │   │   │   ├── [C] Field → extends \App\Modules\Base\Models\Field
+│   │   │   │   ├── [I] Icons
+│   │   │   │   ├── [C] ListView → extends \App\Runtime\BaseModel
+│   │   │   │   ├── [C] MenuItem → extends \App\Modules\Base\Models\Record
+│   │   │   │   ├── [C] Menu → extends \App\Modules\Base\Models\Record
+│   │   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Record
+│   │   │   │   ├── [C] Record → extends \App\Runtime\BaseModel
+│   │   │   │   ├── [C] Systems → extends \App\Modules\Base\Models\Record
+│   │   │   │   ├── [C] TermsAndConditions → extends \App\Modules\Base\Models\Record
+│   │   │   │   ├── [I] Tracker
+│   │   │   │   [C] BasicModal → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   ├── [C] ConfigEditorDetail → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] ConfigEditorEdit → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] Credits → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] CustomRecordNumbering → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] IconsModal → extends \App\Modules\Base\Views\BasicModal
+│   │   │   │   ├── [C] IndexAjax → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] Index → extends \App\Modules\Base\Views\Basic
+│   │   │   │   ├── [C] License → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] ListAjax → extends \App\Modules\Settings\Base\Views\ListView
+│   │   │   │   ├── [C] ListMenu → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] ListView → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] ListView → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] Pagination → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   ├── [C] Policy → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] TermsAndConditionsEdit → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] SaveAjax → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   [C] Index → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] SaveAjax → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   [C] ActivityTypes → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] UserColors → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] DeleteAjax → extends \App\Modules\Settings\Base\Actions\Delete
+│   │   │   │   ├── [C] SaveAjax → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   ├── [C] Record → extends \App\Modules\Settings\Base\Models\Record
+│   │   │   │   [C] Detail → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] Edit → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   [C] Index → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] Speed → extends \App\Modules\Base\Views\BasicModal
+│   │   │   [C] AddCron → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   ├── [C] SaveAjax → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   ├── [C] UpdateSequence → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   ├── [C] Record → extends \App\Modules\Settings\Base\Models\Record
+│   │   │   │   [C] AddAjax → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   ├── [C] EditAjax → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   ├── [C] List → extends \App\Modules\Settings\Base\Views\List
+│   │   │   [C] DeleteAjax → extends \App\Modules\Settings\Base\Actions\Basic
+│   │   │   │   ├── [C] SaveAjax → extends \App\Modules\Settings\Base\Actions\Basic
+│   │   │   │   [C] ListView → extends \App\Modules\Settings\Base\Models\ListView
+│   │   │   │   ├── [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   ├── [C] Record → extends \App\Modules\Settings\Base\Models\Record
+│   │   │   │   [C] EditAjax → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   ├── [C] TransformEditAjax → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   [C] GetBankCurrencies → extends \App\Runtime\BaseActionController
+│   │   │   │   ├── [C] SaveActiveBank → extends \App\Runtime\BaseActionController
+│   │   │   │   [I] AbstractBank
+│   │   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Record
+│   │   │   │   ├── [C] Settings_CurrencyUpdate_models_CBR_BankModel → extends \App\Modules\Settings\CurrencyUpdate\Models\AbstractBank
+│   │   │   │   ├── [C] Settings_CurrencyUpdate_models_ECB_BankModel → extends \App\Modules\Settings\CurrencyUpdate\Models\AbstractBank
+│   │   │   │   ├── [C] Settings_CurrencyUpdate_models_NBP_BankModel → extends \App\Modules\Settings\CurrencyUpdate\Models\AbstractBank
+│   │   │   │   ├── [C] Settings_CurrencyUpdate_models_NBR_BankModel → extends \App\Modules\Settings\CurrencyUpdate\Models\AbstractBank
+│   │   │   │   [C] Index → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] SaveAjax → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   [C] FilterPermissions → extends \App\Modules\Settings\Base\Views\BasicModal
+│   │   │   │   ├── [C] Index → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] Sorting → extends \App\Modules\Settings\Base\Views\BasicModal
+│   │   │   [C] DeleteAction → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   ├── [C] DeleteTemplate → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   ├── [C] ExecuteHandlers → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   ├── [C] SaveActionConfig → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   ├── [C] SaveTpl → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   ├── [C] Save → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   ├── [C] UpdateTpl → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   [I] DataAccess_ConditionsTest
+│   │   │   │   ├── [I] DataAccess_Conditions
+│   │   │   │   ├── [I] Oss_Tool
+│   │   │   │   [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   │   [C] Condition → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] Settings_DataAccess_ActionConfig_View → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] Settings_DataAccess_AddAction_View → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] Settings_DataAccess_Index_View → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] Settings_DataAccess_ListDoc_View → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] Settings_DataAccess_Step1_View → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] Settings_DataAccess_Step2_View → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] Settings_DataAccess_Step3_View → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] SaveAjax → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   [C] Keys → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] Index → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] SaveIssuesAjax → extends \App\Modules\Settings\Base\Actions\Basic
+│   │   │   │   ├── [C] SaveKeysAjax → extends \App\Modules\Settings\Base\Actions\Basic
+│   │   │   │   [I] Client
+│   │   │   │   ├── [I] Issues
+│   │   │   │   [C] AddIssue → extends \App\Modules\Base\Views\BasicModal
+│   │   │   [C] Save → extends \App\Modules\Settings\Base\Actions\Save
+│   │   │   │   [C] Record → extends \App\Modules\Settings\Base\Models\Record
+│   │   │   │   [C] Index → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] DeleteAjax → extends \App\Modules\Settings\Base\Actions\Delete
+│   │   │   │   ├── [C] Save → extends \App\Modules\Settings\Base\Actions\Save
+│   │   │   │   ├── [C] Settings_Groups_EditAjax_Action → extends \App\Modules\Settings\Base\Actions\Basic
+│   │   │   │   [C] Member → extends \App\Modules\Base\Models\Record
+│   │   │   │   ├── [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   ├── [C] Record → extends \App\Modules\Settings\Base\Models\Record
+│   │   │   │   [C] DeleteAjax → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] Settings_Groups_Detail_View → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] Settings_Groups_Edit_View → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] Delete → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   ├── [C] Save → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   [C] ListView → extends \App\Modules\Settings\Base\Models\ListView
+│   │   │   │   ├── [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   ├── [C] Record → extends \App\Modules\Settings\Base\Models\Record
+│   │   │   │   [C] Settings_HideBlocks_Conditions_View → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] Settings_HideBlocks_Edit_View → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] SaveAjax → extends \App\Modules\Settings\Base\Actions\Basic
+│   │   │   │   [C] Module → extends \App\Modules\Base\Models\Record
+│   │   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   │   │   [C] CreditLimits → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] DiscountConfiguration → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] Discounts → extends \App\Modules\Settings\Inventory\Views\CreditLimits
+│   │   │   │   ├── [C] ModalAjax → extends \App\Modules\Settings\Inventory\Views\CreditLimits
+│   │   │   │   ├── [C] TaxConfiguration → extends \App\Modules\Settings\Inventory\Views\DiscountConfiguration
+│   │   │   │   ├── [C] Taxes → extends \App\Modules\Settings\Inventory\Views\CreditLimits
+│   │   │   [C] Export → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   ├── [C] GetChart → extends \App\Modules\Settings\Base\Actions\Basic
+│   │   │   │   ├── [C] SaveAjax → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   [C] EditHelpIcon → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] Edit → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] GetLabels → extends \App\Modules\Settings\Base\Views\BasicModal
+│   │   │   │   ├── [C] Index → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] Block → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   ├── [C] Field → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   ├── [C] Relation → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   ├── [C] SaveAjax → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   [C] Block → extends \App\Modules\Base\Models\Block
+│   │   │   │   ├── [C] Field → extends \App\Modules\Base\Models\Field
+│   │   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   │   [C] CreateInventoryFields → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   ├── [C] EditField → extends \App\Modules\Settings\Base\Views\BasicModal
+│   │   │   │   ├── [C] Index → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] MappingDelete → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   ├── [C] MappingSave → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   [C] Field → extends \App\Modules\Base\Models\Field
+│   │   │   │   ├── [C] Mapping → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   │   [C] MappingDetail → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] MappingEdit → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] ListAjax → extends \App\Modules\Settings\Base\Actions\ListAjax
+│   │   │   │   [C] ListView → extends \App\Modules\Settings\Base\Models\ListView
+│   │   │   │   ├── [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   ├── [C] Record → extends \App\Modules\Settings\Base\Models\Record
+│   │   │   │   [C] List → extends \App\Modules\Settings\Base\Views\List
+│   │   │   [C] DeleteAjax → extends \App\Modules\Settings\Base\Actions\Delete
+│   │   │   │   ├── [C] DownloadAttachment → extends \App\Modules\Base\Actions\Mass
+│   │   │   │   ├── [C] MassAccept → extends \App\Modules\Base\Actions\Mass
+│   │   │   │   ├── [C] MassDelete → extends \App\Modules\Base\Actions\Mass
+│   │   │   │   ├── [C] MassSend → extends \App\Modules\Base\Actions\Mass
+│   │   │   │   ├── [C] SaveAjax → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   ├── [C] SendManuallyAjax → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   [I] Autologin
+│   │   │   │   ├── [I] Config
+│   │   │   │   ├── [C] ListView → extends \App\Modules\Settings\Base\Models\ListView
+│   │   │   │   ├── [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   ├── [C] Record → extends \App\Modules\Settings\Base\Models\Record
+│   │   │   │   [C] Autologin → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] Config → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] Detail → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] List → extends \App\Modules\Settings\Base\Views\List
+│   │   │   [C] DeleteAjax → extends \App\Modules\Settings\Base\Actions\Delete
+│   │   │   │   ├── [C] SaveAjax → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   ├── [C] Record → extends \App\Modules\Settings\Base\Models\Record
+│   │   │   │   [C] Detail → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] Edit → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] DeleteAjax → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   ├── [C] ExportTemplate → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   ├── [C] SaveAjax → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   [C] Field → extends \App\Modules\Base\Models\Field
+│   │   │   │   ├── [C] ListView → extends \App\Modules\Settings\Base\Models\ListView
+│   │   │   │   ├── [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   ├── [C] Record → extends \App\Modules\Settings\Base\Models\Record
+│   │   │   │   [C] Edit → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] Import → extends \App\Modules\Settings\Base\Views\BasicModal
+│   │   │   │   ├── [C] List → extends \App\Modules\Settings\Base\Views\List
+│   │   │   [C] SaveAjax → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   [C] Module → extends \App\Modules\Base\Models\Record
+│   │   │   │   [C] Index → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] SaveAjax → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   [I] Module
+│   │   │   │   ├── [C] Record → extends \App\Modules\Settings\Base\Models\Record
+│   │   │   │   [C] CreateMenu → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   ├── [C] EditMenu → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   ├── [C] Index → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] Save → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   [C] List → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] Basic → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   ├── [C] Library → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   ├── [C] Settings_ModuleManager_ModuleExport_Action → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   [I] Library
+│   │   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   │   [C] ModuleImport → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] Settings_ModuleManager_CreateModule_View → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] Settings_ModuleManager_List_View → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] SaveAjax → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   [C] Configuration → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] Members → extends \App\Modules\Settings\Base\Views\BasicModal
+│   │   │   [C] Index → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] SaveAjax → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   [C] Folders → extends \App\Modules\Base\Views\BasicModal
+│   │   │   │   ├── [C] Index → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] logs → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] Index → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] ConfigurePass → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] Gateway → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   ├── [C] SaveAjax → extends \App\Modules\Base\Actions\Save
+│   │   │   │   [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   ├── [C] Record → extends \App\Modules\Settings\Base\Models\Record
+│   │   │   │   [C] Index → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] Settings_PBXManager_Edit_View → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] DeleteAjax → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   ├── [C] ExportTemplate → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   ├── [C] Save → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   ├── [C] Watermark → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   [C] ListView → extends \App\Modules\Settings\Base\Models\ListView
+│   │   │   │   ├── [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   ├── [C] Record → extends \App\Modules\Settings\Base\Models\Record
+│   │   │   │   [C] Edit → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] Import → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] List → extends \App\Modules\Settings\Base\Views\List
+│   │   │   [C] Save → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   [C] Record → extends \App\Modules\Base\Models\Record
+│   │   │   │   [C] Settings_Password_Index_View → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] DeleteAjax → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   ├── [C] Index → extends \App\Modules\Settings\Base\Actions\Basic
+│   │   │   │   ├── [C] SaveAjax → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   [C] ListView → extends \App\Modules\Settings\Base\Models\ListView
+│   │   │   │   ├── [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   ├── [C] Record → extends \App\Modules\Settings\Base\Models\Record
+│   │   │   │   [C] AddDependency → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   ├── [C] Edit → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] IndexAjax → extends \App\Modules\Settings\PickListDependency\Views\Edit
+│   │   │   │   ├── [C] List → extends \App\Modules\Settings\Base\Views\List
+│   │   │   [C] SaveAjax → extends \App\Modules\Settings\Base\Actions\Basic
+│   │   │   │   [C] Field → extends \App\Modules\Base\Models\Field
+│   │   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   │   [C] IndexAjax → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   ├── [C] Index → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] Delete → extends \App\Modules\Settings\Base\Actions\Basic
+│   │   │   │   ├── [C] Save → extends \App\Runtime\BaseActionController
+│   │   │   │   ├── [C] Settings_Profiles_EditAjax_Action → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   [C] ListView → extends \App\Modules\Settings\Base\Models\ListView
+│   │   │   │   ├── [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   ├── [C] Record → extends \App\Modules\Settings\Base\Models\Record
+│   │   │   │   [C] DeleteAjax → extends \App\Modules\Settings\Profiles\Views\IndexAjax
+│   │   │   │   ├── [C] Detail → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] IndexAjax → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] ListView → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] Settings_Profiles_EditAjax_View → extends \Settings_Profiles_Edit_View
+│   │   │   │   ├── [C] Settings_Profiles_Edit_View → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] Holiday → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   [C] Configuration → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] SaveSequenceNumber → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   │   [C] Index → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] SaveGeneral → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   [C] Index → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] SaveAjax → extends \App\Modules\Settings\Base\Actions\Save
+│   │   │   │   [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   [C] Index → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] Delete → extends \App\Modules\Settings\Base\Actions\Basic
+│   │   │   │   ├── [C] MoveAjax → extends \App\Modules\Settings\Base\Actions\Basic
+│   │   │   │   ├── [C] Save → extends \App\Runtime\BaseActionController
+│   │   │   │   ├── [C] Settings_Roles_EditAjax_Action → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   ├── [C] Record → extends \App\Modules\Settings\Base\Models\Record
+│   │   │   │   [C] DeleteAjax → extends \App\Modules\Settings\Roles\Views\IndexAjax
+│   │   │   │   ├── [C] IndexAjax → extends \App\Modules\Settings\Roles\Views\Index
+│   │   │   │   ├── [C] Index → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] Popup → extends \App\Modules\Base\Views\Footer
+│   │   │   │   ├── [C] Settings_Roles_EditAjax_View → extends \App\Modules\Settings\Roles\Views\IndexAjax
+│   │   │   │   ├── [C] Settings_Roles_Edit_View → extends \App\Modules\Settings\Roles\Views\Index
+│   │   │   [C] Delete → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   ├── [C] SaveAjax → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   [C] Field → extends \App\Modules\Base\Models\Field
+│   │   │   │   ├── [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   ├── [C] ProviderField → extends \App\Modules\Settings\SMSNotifier\Models\Field
+│   │   │   │   ├── [C] Record → extends \App\Modules\Settings\Base\Models\Record
+│   │   │   │   [C] Edit → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   [C] SaveAjax → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   [C] Module → extends \App\Modules\Base\Models\Record
+│   │   │   │   [C] Index → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] SaveAjax → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   [C] Index → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] Settings_SharingAccess_IndexAjax_Action → extends \App\Modules\Settings\Base\Actions\Save
+│   │   │   │   ├── [C] Settings_SharingAccess_SaveAjax_Action → extends \App\Modules\Settings\Base\Actions\Save
+│   │   │   │   [C] Action → extends \App\Modules\Base\Models\Record
+│   │   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   │   ├── [C] RuleMember → extends \App\Modules\Base\Models\Record
+│   │   │   │   ├── [C] Rule → extends \App\Modules\Base\Models\Record
+│   │   │   │   [C] Settings_SharingAccess_IndexAjax_View → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   ├── [C] Settings_SharingAccess_Index_View → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] SaveAjax → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   [C] Index → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] SaveAjax → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   [C] Module → extends \App\Modules\Base\Models\Record
+│   │   │   │   [C] Index → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] Delete → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   ├── [C] Save → extends \App\Runtime\BaseActionController
+│   │   │   │   [C] ListView → extends \App\Modules\Settings\Base\Models\ListView
+│   │   │   │   ├── [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   ├── [C] Record → extends \App\Modules\Settings\Base\Models\Record
+│   │   │   │   [C] Edit → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] List → extends \App\Modules\Settings\Base\Views\List
+│   │   │   │   ├── [C] ReplaceTreeItem → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   [C] Index → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] Logout → extends \App\Runtime\BaseActionController
+│   │   │   │   ├── [C] SaveAjax → extends \App\Modules\Settings\Base\Actions\Save
+│   │   │   │   [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   ├── [C] Record → extends \App\Modules\Settings\Base\Models\Record
+│   │   │   │   [C] Auth → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] Colors → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] Detail → extends \App\Modules\Users\Views\PreferenceDetail
+│   │   │   │   ├── [C] Edit → extends \App\Modules\Users\Views\PreferenceEdit
+│   │   │   │   ├── [C] ListView → extends \App\Modules\Users\Views\ListView
+│   │   │   │   ├── [C] List → extends \App\Modules\Users\Views\ListView
+│   │   │   │   ├── [C] Locks → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] SwitchUsers → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] Delete → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   ├── [C] SaveAjax → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   ├── [C] Record → extends \App\Modules\Settings\Base\Models\Record
+│   │   │   │   [C] CreateApp → extends \App\Modules\Settings\Base\Views\BasicModal
+│   │   │   │   ├── [C] Index → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] DeleteAjax → extends \App\Modules\Settings\Base\Actions\Delete
+│   │   │   │   ├── [C] SaveAjax → extends \App\Modules\Settings\Base\Actions\Save
+│   │   │   │   [C] ListView → extends \App\Modules\Settings\Base\Models\ListView
+│   │   │   │   ├── [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   ├── [C] Record → extends \App\Modules\Settings\Base\Models\Record
+│   │   │   │   [C] Edit → extends \App\Modules\Settings\Base\Views\BasicModal
+│   │   │   │   ├── [C] List → extends \App\Modules\Settings\Base\Views\List
+│   │   │   [C] SaveAjax → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   [C] Edit → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] Index → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] Widget → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   [C] CreateChart → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   ├── [C] Dashboard → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   ├── [C] SaveAjax → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   [C] AddChart → extends \App\Modules\Settings\Base\Views\BasicModal
+│   │   │   │   ├── [C] AddRss → extends \App\Modules\Settings\Base\Views\BasicModal
+│   │   │   │   ├── [C] Configuration → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] DashboardType → extends \App\Modules\Settings\Base\Views\BasicModal
+│   │   │   [C] DeleteAjax → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   ├── [C] ExportWorkflow → extends \App\Modules\Settings\Base\Actions\Index
+│   │   │   │   ├── [C] Save → extends \App\Modules\Settings\Base\Actions\Basic
+│   │   │   │   ├── [C] TaskAjax → extends \App\Modules\Settings\Base\Views\IndexAjax
+│   │   │   │   [C] Field → extends \App\Modules\Base\Models\Field
+│   │   │   │   ├── [C] FilterRecordStructure → extends \App\Modules\Settings\Workflows\Models\RecordStructure
+│   │   │   │   ├── [C] ListView → extends \App\Modules\Settings\Base\Models\ListView
+│   │   │   │   ├── [C] Module → extends \App\Modules\Settings\Base\Models\Module
+│   │   │   │   ├── [C] RecordStructure → extends \App\Modules\Base\Models\RecordStructure
+│   │   │   │   ├── [C] Record → extends \App\Modules\Settings\Base\Models\Record
+│   │   │   │   ├── [C] TaskRecord → extends \App\Modules\Settings\Base\Models\Record
+│   │   │   │   ├── [C] TaskType → extends \App\Modules\Base\Models\Record
+│   │   │   │   [C] CreateEntity → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] EditTask → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] Edit → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] Import → extends \App\Modules\Settings\Base\Views\Index
+│   │   │   │   ├── [C] List → extends \App\Modules\Settings\Base\Views\List
+│   │   │   │   ├── [C] TasksList → extends \App\Modules\Settings\Base\Views\Index
+│   │   [C] BasicAjax → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] CheckUserEmail → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] CheckUserPass → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] DeleteAjax → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] DeleteImage → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] ExportData → extends \App\Runtime\BaseActionController
+│   │   │   ├── [I] ForgotPassword
+│   │   │   ├── [C] ListAjax → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] Login → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] Logout → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] MassSave → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] SaveAjax → extends \App\Modules\Base\Actions\Save
+│   │   │   ├── [C] Save → extends \App\Modules\Base\Actions\Save
+│   │   │   ├── [C] SwitchUsers → extends \App\Runtime\BaseActionController
+│   │   │   ├── [C] UserSetupSave → extends \App\Runtime\BaseActionController
+│   │   │   [I] Users_ForgotPassword_Handler
+│   │   │   [C] Colors → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] DetailRecordStructure → extends \App\Modules\Base\Models\RecordStructure
+│   │   │   ├── [C] DetailView → extends \App\Modules\Base\Models\DetailView
+│   │   │   ├── [C] EditRecordStructure → extends \App\Modules\Base\Models\RecordStructure
+│   │   │   ├── [C] Field → extends \App\Modules\Base\Models\Field
+│   │   │   ├── [C] ListView → extends \App\Modules\Base\Models\ListView
+│   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   ├── [C] Privileges → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] QuickCreateRecordStructure → extends \App\Modules\Base\Models\RecordStructure
+│   │   │   ├── [C] RecordStructure → extends \App\Runtime\BaseModel
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   │   [I] PrivilegeFileManager
+│   │   │   [C] Boolean → extends \App\Modules\Base\UiTypes\BaseUiType
+│   │   ├── [I] UserTimeZones
+│   │   ├── [C] Users → extends \App\CRMEntity
+│   │   │   [C] ChangePassword → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] DeleteAjax → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] DeleteUser → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] EditAjax → extends \App\Modules\Base\Views\IndexAjax
+│   │   │   ├── [C] Index → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] ListAjax → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] ListView → extends \App\Modules\Settings\Base\Views\ListView
+│   │   │   ├── [C] Login → extends \App\Runtime\BaseViewController
+│   │   │   ├── [C] PreferenceDetail → extends \App\Modules\Base\Views\Detail
+│   │   │   ├── [C] PreferenceEdit → extends \App\Modules\Base\Views\Edit
+│   │   │   ├── [C] QuickCreateAjax → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] SwitchUsers → extends \App\Modules\Base\Views\Index
+│   │   │   ├── [C] TransferOwner → extends \App\Modules\Base\Views\Index
+│   │   │   [I] Image
+│   │   │   [C] UsersLinkToForgotPassword → extends \App\TextParser\Base
+│   │   [C] DetailView → extends \App\Modules\Base\Models\DetailView
+│   │   │   ├── [C] ListView → extends \App\Modules\Base\Models\ListView
+│   │   │   ├── [C] Module → extends \App\Modules\Base\Models\Module
+│   │   │   ├── [C] Record → extends \App\Modules\Base\Models\Record
+│   │   │   ├── [C] Relation → extends \App\Modules\Base\Models\Relation
+│   │   ├── [C] Vendors → extends \App\CRMEntity
+│   │   [C] OutlookHandler → extends \SyncHandler
+│   │   │   ├── [C] OutlookVtigerCRMHandler → extends \vtigerCRMHandler
+│   │   │   ├── [I] SyncHandler
+│   │   │   ├── [C] vtigerCRMHandler → extends \SyncHandler
+│   │   ├── [C] OutlookSyncServer → extends \SyncServer
+│   │   ├── [I] SyncServer
+│   │   ├── [I] WSAPP
+│   │   │   [C] WSAPPAssignToTracker → extends \VTEventHandler
+│   │   │   [C] VtigerConnector → extends \WSAPP_BaseConnector
+│   │   │   │   ├── [I] WSAPP_BaseConnector
+│   │   │   │   ├── [C] WSAPP_TargetConnector → extends \WSAPP_BaseConnector
+│   │   │   │   [I] WSAPP_SynchronizeController
+│   │   │   │   [C] VtigerSyncEventHandler → extends \SyncHandler
+│   │   │   │   [C] PullResultModel → extends \WSAPP_BaseModel
+│   │   │   │   ├── [C] SyncStateModel → extends \WSAPP_BaseModel
+│   │   │   │   ├── [C] TargetModel → extends \WSAPP_SyncRecordModel
+│   │   │   │   ├── [C] VtigerModel → extends \WSAPP_SyncRecordModel
+│   │   │   │   ├── [I] WSAPP_BaseModel
+│   │   │   │   ├── [C] WSAPP_SyncRecordModel → extends \WSAPP_BaseModel
+│   │   [I] VTExpressionEnv
+│   │   │   ├── [I] VTExpressionParser
+│   │   │   ├── [I] VTExpressionSpaceFilter
+│   │   │   ├── [I] VTExpressionSymbol
+│   │   │   ├── [I] VTExpressionTokenizer
+│   │   │   ├── [I] VTExpressionToken
+│   │   │   ├── [I] VTExpressionTreeNode
+│   │   │   ├── [I] VTExpressionsManager
+│   │   │   ├── [I] VTFieldExpressionEvaluater
+│   │   │   [C] VTAddressBookTask → extends \VTTask
+│   │   │   ├── [C] VTAutoAssign → extends \VTTask
+│   │   │   ├── [C] VTCreateEntityTask → extends \VTTask
+│   │   │   ├── [C] VTCreateEventTask → extends \App\Modules\Workflow\VTTask
+│   │   │   ├── [C] VTCreateTodoTask → extends \VTTask
+│   │   │   ├── [C] VTDummyTask → extends \VTTask
+│   │   │   ├── [C] VTEmailTask → extends \VTTask
+│   │   │   ├── [C] VTEmailTemplateTask → extends \VTTask
+│   │   │   ├── [C] VTEntityMethodTask → extends \VTTask
+│   │   │   ├── [C] VTSendNotificationTask → extends \VTTask
+│   │   │   ├── [C] VTSendPdf → extends \VTTask
+│   │   │   ├── [C] VTUpdateCalendarDates → extends \VTTask
+│   │   │   ├── [C] VTUpdateClosedTime → extends \VTTask
+│   │   │   ├── [C] VTUpdateFieldsTask → extends \VTTask
+│   │   │   ├── [C] VTUpdateRelatedFieldTask → extends \VTTask
+│   │   │   ├── [C] VTUpdateWorkTime → extends \VTTask
+│   │   │   ├── [C] VTWatchdog → extends \VTTask
+│   │   ├── [I] VTConditionalExpression
+│   │   ├── [I] VTConditionalParser
+│   │   ├── [I] VTEntityCache
+│   │   ├── [I] VTEntityMethodManager
+│   │   ├── [I] VTJsonCondition
+│   │   ├── [C] VTParseFailed → extends \Exception
+│   │   ├── [I] VTTaskManager
+│   │   ├── [I] VTTaskQueue
+│   │   ├── [I] VTTaskType
+│   │   ├── [I] VTTask
+│   │   ├── [I] VTWorkflowApplication
+│   │   ├── [I] VTWorkflowEntity
+│   │   ├── [C] VTWorkflowEventHandler → extends \VTEventHandler
+│   │   ├── [I] VTWorkflowManager
+│   │   ├── [I] VTWorkflowTemplateManager
+│   │   ├── [I] VTWorkflowTemplate
+│   │   ├── [I] VTWorkflowUtils
+│   │   ├── [I] WorkFlowScheduler
+│   │   ├── [I] Workflow
+├── [I] Module
+├── [I] PrivilegeAdvanced
+├── [I] PrivilegeFile
+├── [I] PrivilegeQuery
+├── [I] PrivilegeUpdater
+├── [I] PrivilegeUtil
+├── [I] Privilege
+├── [I] Purifier
+│   [I] BaseField
+│   ├── [C] BooleanField → extends \BaseField
+│   ├── [C] CategoryMultipicklistField → extends \TaxesField
+│   ├── [C] CompanySelectField → extends \PicklistField
+│   ├── [C] CurrencyField → extends \IntegerField
+│   ├── [C] CurrencyListField → extends \PicklistField
+│   ├── [C] DateField → extends \BaseField
+│   ├── [C] DatetimeField → extends \DateField
+│   ├── [C] DocumentsFileUploadField → extends \StringField
+│   ├── [C] DoubleField → extends \IntegerField
+│   ├── [C] EmailField → extends \StringField
+│   ├── [C] FileLocationTypeField → extends \PicklistField
+│   ├── [C] IdField → extends \StringField
+│   ├── [C] ImageField → extends \StringField
+│   ├── [C] IntegerField → extends \BaseField
+│   ├── [C] InventoryLimitField → extends \PicklistField
+│   ├── [C] LanguagesField → extends \PicklistField
+│   ├── [C] ModulesField → extends \BaseField
+│   ├── [C] MultiReferenceValueField → extends \BaseField
+│   ├── [C] MultipicklistField → extends \BaseField
+│   ├── [C] OwnerField → extends \BaseField
+│   ├── [C] PercentageField → extends \IntegerField
+│   ├── [C] PhoneField → extends \StringField
+│   ├── [C] PicklistField → extends \BaseField
+│   ├── [C] RangeTimeField → extends \BaseField
+│   ├── [C] RecordNumberField → extends \StringField
+│   ├── [C] RecurrenceField → extends \BooleanField
+│   ├── [C] ReferenceField → extends \BaseField
+│   ├── [C] ReferenceLinkField → extends \ReferenceField
+│   ├── [C] ReferenceProcessField → extends \ReferenceField
+│   ├── [C] ReferenceSubProcessField → extends \ReferenceField
+│   ├── [C] ReminderField → extends \IntegerField
+│   ├── [C] SalutationField → extends \StringField
+│   ├── [C] SharedOwnerField → extends \BaseField
+│   ├── [C] StringField → extends \BaseField
+│   ├── [C] TaxesField → extends \MultipicklistField
+│   ├── [C] TextField → extends \StringField
+│   ├── [C] TimeField → extends \BaseField
+│   ├── [C] TreeField → extends \StringField
+│   ├── [C] UrlField → extends \StringField
+│   ├── [C] UserCreatorField → extends \OwnerField
+│   ├── [C] UserRoleField → extends \StringField
+├── [I] QueryGenerator
+├── [I] RecordSearch
+├── [I] Record
+├── [I] RequestUtil
+│   [I] BaseActionController
+│   ├── [I] BaseModel
+│   ├── [C] BaseViewController → extends \App\Runtime\BaseActionController
+│   ├── [C] CRM_Viewer → extends \Smarty
+│   ├── [I] Vtiger_Language_Handler
+│   ├── [C] Vtiger_Theme → extends \App\Runtime\CRM_Viewer
+│   ├── [I] Yeti_Layout
+│   [C] ConfReport → extends \App\SystemWarnings\Template
+│   │   ├── [C] LibraryChat → extends \App\SystemWarnings\Template
+│   │   ├── [C] LibraryPDF → extends \App\SystemWarnings\Template
+│   │   ├── [C] LibraryPHPExcel → extends \App\SystemWarnings\Template
+│   │   ├── [C] LibraryRoundcube → extends \App\SystemWarnings\Template
+│   ├── [I] Template
+│   │   [C] Newsletter → extends \App\SystemWarnings\Template
+│   │   ├── [C] Stats → extends \App\SystemWarnings\Template
+├── [I] SystemWarnings
+│   [I] Base
+│   ├── [C] GrossAmountInWords → extends \Base
+│   ├── [C] OverdueDeadlines → extends \Base
+│   ├── [C] ProductsTableDescription → extends \Base
+│   ├── [C] ProductsTableNew → extends \Base
+│   ├── [C] ProductsTableRelatedModule → extends \Base
+│   ├── [C] ProductsTable → extends \Base
+│   ├── [C] TableDiscountSummary → extends \Base
+│   ├── [C] TableTaxSummary → extends \Base
+├── [I] TextParser
+│   [I] CurrentUser
+│   [I] ConfigReader
+│   ├── [I] EmailTemplate
+│   ├── [I] ExportUtils
+│   ├── [I] GetGroupUsers
+│   ├── [I] GetParentGroups
+│   ├── [I] GetUserGroups
+│   ├── [I] InventoryUtils
+│   ├── [I] ListViewUtils
+│   ├── [I] SearchUtils
+│   ├── [I] UserInfoUtil
+│   ├── [I] Utils
+│   ├── [I] VTCacheUtils
+│   ├── [I] VtlibUtils
+├── [I] Version
+│   [I] AssetPathResolver
+│   │   ├── [I] BaseAsset
+│   │   ├── [C] ScriptAsset → extends \BaseAsset
+│   │   ├── [C] StyleAsset → extends \BaseAsset
+│   [I] DataTransform
+│   ├── [I] EntityMeta
+│   ├── [I] OperationManager
+│   ├── [I] Parser
+│   ├── [I] SessionManager
+│   ├── [I] State
+│   ├── [I] VTQL_ParseryyStackEntry
+│   ├── [I] VTQL_ParseryyToken
+│   ├── [I] VTQL_Parser
+│   ├── [I] VTWS_PreserveGlobal
+│   ├── [C] VtigerActorOperation → extends \WebserviceEntityOperation
+│   ├── [C] VtigerCRMActorMeta → extends \EntityMeta
+│   ├── [C] VtigerCRMObjectMeta → extends \EntityMeta
+│   ├── [I] VtigerCRMObject
+│   ├── [C] VtigerModuleOperation → extends \WebserviceEntityOperation
+│   ├── [I] VtigerWebserviceObject
+│   ├── [I] WebServiceErrorCode
+│   ├── [C] WebServiceException → extends \Exception
+│   ├── [I] WebserviceEntityOperation
+│   ├── [I] WebserviceField
+[C] ChartEdit → extends \App\Modules\Base\Views\Edit
+[I] DataAccess_check_alltask
+[I] DataAccess_check_assigneduser
+[I] DataAccess_check_taskdate
+[I] DataAccess_check_taskstatus
+[I] DataAccess_check_task
+[I] DataAccess_colorList
+[I] DataAccess_show_quick_create
+[I] DataAccess_test
+[I] DataAccess_unique_account
+[I] DataAccess_unique_value
+[I] DataAccess_validate_mandatory
+[C] Edit → extends \App\Modules\Base\Views\Edit
+[C] Edit → extends \App\Modules\Base\Views\Edit
+[C] Edit → extends \App\Modules\Base\Views\Edit
+[C] Edit → extends \App\Modules\Calendar\Views\Edit
+[C] FileTarget → extends \yii\log\FileTarget
+[C] Admin → extends \App\Db\Importers\Base
+├── [C] Base1 → extends \App\Db\Importers\Base
+├── [C] Base2 → extends \App\Db\Importers\Base
+├── [C] Base3 → extends \App\Db\Importers\Base
+├── [C] Base4 → extends \App\Db\Importers\Base
+├── [C] Log → extends \App\Db\Importers\Base
+├── [C] Webservice → extends \App\Db\Importers\Base
+[I] Install_ConfigFileUtils_Model
+[I] Install_Utils_Model
+[C] List → extends \App\Modules\Base\Views\List
+[C] Mass → extends \App\Runtime\BaseActionController
+[C] OSSMailView_MailsPreview_View → extends \App\Modules\Base\Views\IndexAjax
+[C] OSSMailView_mbody_View → extends \App\Modules\Base\Views\Index
+[C] OSSMailView_preview_View → extends \App\Modules\Base\Views\Index
+[C] OSSMailView_summary_View → extends \App\Modules\Base\Views\Edit
+[C] OSSMailView_widget_View → extends \App\Modules\Base\Views\Edit
+[C] OSSPasswords_Edit_View → extends \App\Modules\Base\Views\Edit
+[C] OSSTimeControl_Record_Model → extends \App\Modules\Base\Models\Record
+[C] PaymentsOut_step1_View → extends \App\Modules\Base\Views\Index
+[C] Record → extends \App\Modules\Base\Models\Record
+[I] SMSNotifier_ISMSProvider_Model
+[C] Services_List_View → extends \App\Modules\Base\Views\ListView
+[C] SqlLogTarget → extends \yii\log\FileTarget
+[C] Vtiger_CreatedNotMineActivities_Dashboard → extends \App\Modules\Base\Views\IndexAjax
+[C] Vtiger_OverdueActivities_Dashboard → extends \App\Modules\Base\Views\IndexAjax
+
+=============================
+Total classes: 1773
