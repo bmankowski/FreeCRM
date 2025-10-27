@@ -1,0 +1,6 @@
+http://localhost/index.php
+http://localhost/index.php?module=Leads&view=List
+http://localhost/index.php?module=Leads&view=Detail&record=112
+http://localhost/index.php?module=Users&action=Login
+http://localhost/index.php?module=Leads&view=List&mid=48&parent=47
+http://localhost/index.php?module=Vtiger&parent=Settings&view=Index
