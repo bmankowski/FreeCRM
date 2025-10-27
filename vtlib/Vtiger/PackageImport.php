@@ -207,7 +207,7 @@ class PackageImport extends PackageExport
 	}
 
 	/**
-	 * @return Array module list available in the module bundle.
+	 * @return array module list available in the module bundle.
 	 */
 	public function getAvailableModuleInfoFromModuleBundle()
 	{

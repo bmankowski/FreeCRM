@@ -166,7 +166,7 @@ function vtws_getEntityNameFields($moduleName)
 }
 
 /** function to get the module List to which are crm entities.
- *  @return Array modules list as array
+ *  @return array modules list as array
  */
 function vtws_getModuleNameList()
 {

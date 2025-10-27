@@ -249,7 +249,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 * Save data
 	 * @param array  $data
 	 * @param string $moduleName
-	 * @return Array(success:true/false)
+	 * @return array(success:true/false)
 	 * */
 	public function saveDetails($data, $moduleName)
 	{
@@ -423,7 +423,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	/**
 	 * Gets all id widgets for the module
 	 * @param string $moduleName
-	 * @return Array
+	 * @return array
 	 * */
 	public function getDashboardForModule($moduleName)
 	{

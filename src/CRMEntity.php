@@ -1537,7 +1537,7 @@ class CRMEntity
 	/*
 	 * Function to get the relation tables for related modules
 	 * @param string $secmodule - $secmodule secondary module name
-	 * @return Array returns the array with table names and fieldnames storing relations
+	 * @return array returns the array with table names and fieldnames storing relations
 	 * between module and this module
 	 */
 

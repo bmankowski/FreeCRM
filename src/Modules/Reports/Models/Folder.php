@@ -273,7 +273,7 @@ class Folder extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get info array while saving a folder
-	 * @return Array  info array
+	 * @return array  info array
 	 */
 	public function getInfoArray()
 	{

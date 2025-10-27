@@ -25,7 +25,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function returns Account fields for Lead Convert
-	 * @return Array
+	 * @return array
 	 */
 	public function getAccountFieldsForLeadConvert()
 	{

@@ -74,7 +74,7 @@ class BaseModel
 
 	/**
 	 * Function to get all the values of the Object
-	 * @return Array (key-value mapping)
+	 * @return array (key-value mapping)
 	 */
 	public function getData()
 	{

@@ -87,7 +87,7 @@ class Db extends \yii\db\Connection
 	/**
 	 * Load database connection configuration
 	 * @param array $type
-	 * @return Array with database configuration.
+	 * @return array with database configuration.
 	 */
 	public static function getConfig($type, $reload = false)
 	{

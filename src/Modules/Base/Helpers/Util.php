@@ -227,7 +227,7 @@ class Util {
 
 	/**
 	 * Function gets the CRM's base Currency information
-	 * @return Array
+	 * @return array
 	 */
 	public static function getBaseCurrency()
 	{
@@ -339,7 +339,7 @@ class Util {
 
 	/**
 	 * Function gets the CRM's base Currency information according to user preference
-	 * @return Array
+	 * @return array
 	 */
 	public static function getCurrentInfoOfUser()
 	{

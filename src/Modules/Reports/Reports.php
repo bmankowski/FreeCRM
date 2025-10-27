@@ -533,7 +533,7 @@ class Reports extends \App\CRMEntity
 	 * @param string $module
 	 * @param type $blockIdList
 	 * @param array  $currentFieldList
-	 * @return Array
+	 * @return array
 	 */
 	public function getBlockFieldList($module, $blockIdList, $currentFieldList, $allColumnsListByBlocks)
 	{

@@ -705,7 +705,7 @@ class Utils
 	/**
 	 * Function to get the list of Contacts related to an activity
 	 * @param integer $activityId
-	 * @return Array $contactsList - List of Contact ids, mapped to Contact Names
+	 * @return array $contactsList - List of Contact ids, mapped to Contact Names
 	 */
 	public static function getActivityRelatedContacts($activityId)
 	{
