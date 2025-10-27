@@ -1,10 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\Base\Views;
-use App\Modules\Settings\Base\Models\Tracker;
-use App\Modules\Settings\Base\Models\MenuItem;
-use App\Modules\Settings\GithubModels\Issues;
-use App\Modules\Settings\ModuleManager\Models\Module;
 
 
 /* +**********************************************************************************
@@ -17,7 +13,6 @@ use App\Modules\Settings\ModuleManager\Models\Module;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-use App\Http\App\Http\Vtiger_Session;
 
 class Index extends \App\Modules\Base\Views\Basic
 {

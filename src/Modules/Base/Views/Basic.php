@@ -20,10 +20,6 @@
 
 namespace App\Modules\Base\Views;
 
-use App\Http\Vtiger_Request;
-use App\AppConfig;
-use App\Runtime\Vtiger_Language_Handler;
-
 abstract class Basic extends Footer
 {
 

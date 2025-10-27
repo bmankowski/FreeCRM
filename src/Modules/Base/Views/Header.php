@@ -9,13 +9,6 @@
  * *********************************************************************************** */
 
 namespace App\Modules\Base\Views;
-use App\Http\Vtiger_Request;
-use App\Runtime\Vtiger_Theme;
-
-
-
-
-use App\AppConfig;
 
 abstract class Header extends \App\Runtime\BaseViewController
 {
