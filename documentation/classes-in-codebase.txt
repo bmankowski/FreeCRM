@@ -1,5 +1,6 @@
 \App\AppConfig
 \App\Base\Controllers\BaseActionController
+\App\Base\Controllers\BaseViewController \App\Base\Controllers\BaseActionController
 \App\CRMEntity
 \App\Cache\Apcu
 \App\Cache\Base
@@ -1664,9 +1665,7 @@
 \App\Record
 \App\RecordSearch
 \App\RequestUtil
-\App\Base\Controllers\BaseActionController
 \App\Runtime\BaseModel
-\App\Base\Controllers\BaseViewController \App\Base\Controllers\BaseActionController
 \App\Runtime\CRM_Viewer \Smarty
 \App\Runtime\Vtiger_Language_Handler
 \App\Runtime\Vtiger_Theme \App\Runtime\CRM_Viewer

@@ -12,7 +12,7 @@ namespace App\Modules\Settings\Roles\Views;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Popup extends \App\Modules\Base\Views\Footer
+class Popup extends \App\Modules\Base\Views\Header
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
@@ -43,6 +43,19 @@ class Popup extends \App\Modules\Base\Views\Footer
 		$viewer->assign('MODULE_NAME', $moduleName);
 
 		$viewer->view('Popup.tpl', $qualifiedModuleName);
+	}
+
+	/**
+	 * Post process - renders lightweight popup footer (no full app footer)
+	 * @param \App\Http\Vtiger_Request $request
+	 */
+	public function postProcess(\App\Http\Vtiger_Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		$viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
+		// Popups don't need the full Footer.tpl, they can render minimal or no footer
+		// You could create a PopupFooter.tpl if needed, or just render scripts inline
+		echo '</body></html>';
 	}
 
 	/**

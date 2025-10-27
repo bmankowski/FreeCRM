@@ -15,8 +15,6 @@
 
 namespace App\Base\Controllers;
 
-use App\Http\Vtiger_Request;
-
 /**
  * Abstract Action Controller Class
  * Base controller for all Actions and Views
@@ -40,7 +38,7 @@ abstract class BaseActionController
 
 	public function getViewer(\App\Http\Vtiger_Request $vtigerRequest)
 	{
-		throw new \Exception('Action - implement getViewer - JSONViewer');
+		throw new \Exception('Action - implement BaseActionController::getViewer');
 	}
 
 	abstract public function process(\App\Http\Vtiger_Request $vtigerRequest);
@@ -70,10 +68,7 @@ abstract class BaseActionController
 		return false;
 	}
 
-	public function postProcess(\App\Http\Vtiger_Request $vtigerRequest)
-	{
-		return true;
-	}
+	abstract public function postProcess(\App\Http\Vtiger_Request $vtigerRequest);
 
 	// Control the exposure of methods to be invoked from client (kind-of RPC)
 	protected $exposedMethods = [];

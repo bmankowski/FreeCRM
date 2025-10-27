@@ -13,7 +13,8 @@ Legend:
 ├── ○ AppConfig
 ├── 📁 Base
 │   └── 📁 Controllers
-│       └── ○ BaseActionController
+│       ├── ○ BaseActionController
+│       └── ● BaseViewController → extends \App\Base\Controllers\BaseActionController
 ├── ○ CRMEntity
 ├── 📁 Cache
 │   ├── ○ Apcu
@@ -2247,9 +2248,7 @@ Legend:
 ├── ○ RecordSearch
 ├── ○ RequestUtil
 ├── 📁 Runtime
-│   ├── ○ BaseActionController
 │   ├── ○ BaseModel
-│   ├── ● BaseViewController → extends \App\Base\Controllers\BaseActionController
 │   ├── ● CRM_Viewer → extends \Smarty
 │   ├── ○ Vtiger_Language_Handler
 │   ├── ● Vtiger_Theme → extends \App\Runtime\CRM_Viewer
@@ -2361,4 +2360,4 @@ Legend:
 ● Vtiger_OverdueActivities_Dashboard → extends \App\Modules\Base\Views\IndexAjax
 
 ────────────────────────────────────────────────────────────────────────────────
-Total classes: 1773
+Total classes: 1772

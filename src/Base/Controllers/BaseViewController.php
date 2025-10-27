@@ -199,15 +199,13 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 
    /**
 	* Post process
+	* Note: Footer rendering moved to \App\Modules\Base\Views\Footer class
+	* This remains as a placeholder for views that extend BaseViewController directly
 	*/
    public function postProcess(\App\Http\Vtiger_Request $vtigerRequest)
    {
-	   $viewer = $this->getViewer($vtigerRequest);
-	   $currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
-	   $viewer->assign('ACTIVITY_REMINDER', $currentUser->getCurrentUserActivityReminderInSeconds());
-	   $viewer->assign('COMPANY_LOGO', \App\Company::getInstanceById()->getLogo());
-	   $viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($vtigerRequest));
-	   $viewer->view('Footer.tpl');
+	   // Base implementation - Footer class overrides this with actual footer rendering
+	   // Views that don't extend Footer hierarchy should implement their own postProcess
    }
 
    /**
