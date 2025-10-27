@@ -36,7 +36,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 		   $viewer->assign('YETIFORCE_VERSION', \App\Version::get());
 		   $viewer->assign('MODULE_NAME', $vtigerRequest->getModule());
 		   if ($vtigerRequest->isAjax()) {
-			   $viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+			   $viewer->assign('USER_MODEL', $vtigerRequest->getUser());
 			   if ($vtigerRequest->get('parent') === 'Settings') {
 				   $viewer->assign('QUALIFIED_MODULE', $vtigerRequest->getModule(false));
 			   }

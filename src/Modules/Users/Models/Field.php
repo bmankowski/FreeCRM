@@ -96,9 +96,8 @@ class Field extends \App\Modules\Base\Models\Field
 			for ($i = 0; $i < $num_rows; $i++) {
 				$picklistValue = $db->query_result($result, $i, $this->getFieldName());
 				// Guard against null/empty values to avoid TypeError in translate()
-				if ($picklistValue === null) {
-					// Log information about missing picklist value
-					\App\Log::error('Missing picklist value for field: ' . $this->getFieldName());
+				if ($picklistValue === null || $picklistValue === '') {
+					// Skip empty picklist values
 					continue;
 				}
 				$fieldPickListValues[$picklistValue] = \App\Runtime\Vtiger_Language_Handler::translate((string) $picklistValue, $this->getModuleName()); 

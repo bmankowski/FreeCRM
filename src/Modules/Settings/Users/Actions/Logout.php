@@ -34,4 +34,9 @@ class Logout extends \App\Base\Controllers\BaseActionController
 		//End
 		header('Location: index.php');
 	}
+
+	public function postProcess(\App\Http\Vtiger_Request $request)
+	{
+		// No post-processing needed for logout
+	}
 }

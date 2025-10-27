@@ -1,6 +1,5 @@
 <?php
 
-namespace App\Modules\Users\Views;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -11,9 +10,8 @@ namespace App\Modules\Users\Views;
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
+namespace App\Modules\Users\Views;
 
-use App\Http\Vtiger_Request;
-use App\AppConfig;
 
 class Login extends \App\Base\Controllers\BaseViewController
 {
@@ -42,7 +40,7 @@ class Login extends \App\Base\Controllers\BaseViewController
 		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('COMPANY_LOGO', $companyLogo);
 		// On login page, use backward compatibility method since no user is authenticated
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 		if ($display) {
 			$this->preProcessDisplay($request);
 		}

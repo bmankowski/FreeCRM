@@ -381,14 +381,10 @@ class Vtiger_Request
 
 	/**
 	 * Get authenticated user
-	 * @return \App\Modules\Users\Models\Record
-	 * @throws \RuntimeException if not authenticated
+	 * @return \App\Modules\Users\Models\Record|null
 	 */
-	public function getUser(): \App\Modules\Users\Models\Record
+	public function getUser(): ?\App\Modules\Users\Models\Record
 	{
-		if ($this->authenticatedUser === null) {
-			throw new \RuntimeException('User not authenticated for this request');
-		}
 		return $this->authenticatedUser;
 	}
 

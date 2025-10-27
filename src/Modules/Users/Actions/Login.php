@@ -100,4 +100,9 @@ class Login extends \App\Base\Controllers\BaseActionController
 			header("Location: index.php?module=Users&view=Login&error=$error");
 		}
 	}
+
+	public function postProcess(\App\Http\Vtiger_Request $request)
+	{
+		// No post-processing needed for login
+	}
 }

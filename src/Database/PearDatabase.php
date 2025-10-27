@@ -317,6 +317,12 @@ class PearDatabase
 			$this->stmt = $this->database->query($query);
 			\App\Log::endProfile($query, $category);
 
+			// Clear the result cache for this statement to prevent stale data
+			$cacheKey = spl_object_hash($this->stmt);
+			if (isset(self::$resultCache[$cacheKey])) {
+				unset(self::$resultCache[$cacheKey]);
+			}
+
 			$this->logSqlTime($sqlStartTime, microtime(true), $query);
 		} catch (\PDOException $e) {
 			$error = $this->database->errorInfo();
@@ -348,6 +354,12 @@ class PearDatabase
 			\App\Log::beginProfile($query, $category);
 			$this->stmt->execute($params);
 			\App\Log::endProfile($query, $category);
+
+			// Clear the result cache for this statement to prevent stale data
+			$cacheKey = spl_object_hash($this->stmt);
+			if (isset(self::$resultCache[$cacheKey])) {
+				unset(self::$resultCache[$cacheKey]);
+			}
 
 			$this->logSqlTime($sqlStartTime, microtime(true), $query, $params);
 		} catch (\PDOException $e) {
