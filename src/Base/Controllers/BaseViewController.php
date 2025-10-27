@@ -41,10 +41,8 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 				   $viewer->assign('QUALIFIED_MODULE', $vtigerRequest->getModule(false));
 			   }
 		   }
-
 		   $this->viewer = $viewer;
 	   }
-
 	   return $this->viewer;
    }
 
