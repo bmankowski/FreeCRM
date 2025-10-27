@@ -31,7 +31,7 @@ abstract class BaseViewController extends \App\Runtime\BaseActionController
    public function getViewer(\App\Http\Vtiger_Request $vtigerRequest)
    {
 	   if ($this->viewer === null) {
-		   $viewer = CRM_Viewer::getInstance();
+		   $viewer =  \App\Runtime\CRM_Viewer::getInstance();
 		   $viewer->assign('APPTITLE', \App\Runtime\Vtiger_Language_Handler::translate('APPTITLE'));
 		   $viewer->assign('YETIFORCE_VERSION', \App\Version::get());
 		   $viewer->assign('MODULE_NAME', $vtigerRequest->getModule());
@@ -357,7 +357,7 @@ abstract class BaseViewController extends \App\Runtime\BaseActionController
 				   continue;
 			   }
 		   // Checking if file exists in default layout
-		   $layoutPath = 'layouts/' . CRM_Viewer::getDefaultLayoutName();
+		   $layoutPath = 'layouts/' .  \App\Runtime\CRM_Viewer::getDefaultLayoutName();
 		   $fallBackFilePath = \App\Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $jsFile, $fileExtension);
 		   if (is_file($fallBackFilePath)) {
 				   $filePath = $jsFile;
@@ -437,7 +437,7 @@ abstract class BaseViewController extends \App\Runtime\BaseActionController
 				   continue;
 			   }
 		   // Checking if file exists in default layout
-		   $layoutPath = 'layouts/' . CRM_Viewer::getDefaultLayoutName();
+		   $layoutPath = 'layouts/' .  \App\Runtime\CRM_Viewer::getDefaultLayoutName();
 		   $fallBackFilePath = \App\Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
 		   if (is_file($fallBackFilePath)) {
 				   $filePath = $cssFile;

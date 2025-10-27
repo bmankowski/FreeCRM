@@ -2,7 +2,6 @@
 
 namespace App\Modules\Settings\Base\Models;
 use App\Modules\Settings\Base\Models\Menu;
-use App\Modules\Settings\Base\Models\MenuItem;
 
 
 /* +***********************************************************************************

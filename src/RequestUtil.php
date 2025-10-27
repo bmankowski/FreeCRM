@@ -27,7 +27,7 @@ class RequestUtil
 		return $address;
 	}
 
-	protected static $browserCache = false;
+	protected static $browserCache = null;
 
 	public static function getBrowserInfo()
 	{

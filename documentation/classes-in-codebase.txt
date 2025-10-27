@@ -1,0 +1,1773 @@
+\App\AppConfig
+\App\Base\Controllers\BaseActionController
+\App\CRMEntity
+\App\Cache\Apcu
+\App\Cache\Base
+\App\Cache\Cache
+\App\Cache\XCache
+\App\Company \Runtime\BaseModel
+\App\Currency
+\App\CustomView
+\App\Custom\NumberToWords
+\App\Database\PearDatabase
+\App\Db \yii\db\Connection
+\App\Db\Command \yii\db\Command
+\App\Db\Importer
+\App\Db\Importers\Base
+\App\Db\Query \yii\db\Query
+\App\Debug\DebugBarDatabase \DataCollector
+\App\Debug\DebugBarLogs
+\App\Debug\DebugBarStatement \PDOStatement
+\App\Debugger
+\App\EmailParser \TextParser
+\App\Encryption
+\App\EntryPoint\EntryPoint
+\App\EntryPoint\WebUI \EntryPoint
+\App\EntryPoint\WebUI_ErrorHandler
+\App\EventHandler
+\App\Events\DFA
+\App\Events\EarlyExitException \Exception
+\App\Events\MismatchedSetException \Exception
+\App\Events\NoViableAltException \Exception
+\App\Events\Set
+\App\Events\SqlResultIterator
+\App\Events\SqlResultIteratorRow
+\App\Events\VTBatchData
+\App\Events\VTEntityData
+\App\Events\VTEntityType
+\App\Events\VTEventCondition
+\App\Events\VTEventConditionParserLexer \Antlr\Antlr4\Runtime\Lexer
+\App\Events\VTEventConditionParserLexer_DFA9
+\App\Events\VTEventConditionParserParser \Antlr\Antlr4\Runtime\Parser
+\App\Events\VTEventConditionSymbol
+\App\Events\VTEventHandler
+\App\Events\VTFieldType
+\App\Events\VTWSEntityType
+\App\Events\VTWSFieldType
+\App\Exceptions\AppException \Exception
+\App\Exceptions\CacheException \Exception
+\App\Exceptions\Csrf \Exception
+\App\Exceptions\DbException \Exception
+\App\Exceptions\NoPermitted \Exception
+\App\Exceptions\NoPermittedForAdmin \Exception
+\App\Exceptions\NoPermittedToApi \Exception
+\App\Exceptions\NoPermittedToRecord \NoPermitted
+\App\Exceptions\NotAllowedMethod \Exception
+\App\Field
+\App\Fields\CurrencyField
+\App\Fields\DateTime
+\App\Fields\DateTimeField
+\App\Fields\DateTimeRange
+\App\Fields\Email
+\App\Fields\File
+\App\Fields\Owner
+\App\Fields\Picklist
+\App\Fields\RecordNumber
+\App\Fields\Tree
+\App\Http\Vtiger_Request
+\App\Http\Vtiger_Response
+\App\Http\Vtiger_Session
+\App\Install\InitSchema_Model
+\App\Json
+\App\Layout\Icon
+\App\Loader
+\App\Log \Logger
+\App\Log\Profiling \Target
+\App\Mail
+\App\Mailer
+\App\Main\File
+\App\Module
+\App\ModuleHierarchy
+\App\Modules\AJAXChat\AJAXChat
+\App\Modules\AJAXChat\Views\Index \App\Modules\Base\Views\Index
+\App\Modules\API\Handlers\API_CalDAV_Handler
+\App\Modules\API\Handlers\API_CardDAV_Handler
+\App\Modules\API\Models\CalDAV
+\App\Modules\API\Models\CardDAV
+\App\Modules\API\Models\DAV
+\App\Modules\Accounts\Accounts \App\CRMEntity
+\App\Modules\Accounts\Actions\RelationAjax \App\Runtime\BaseActionController
+\App\Modules\Accounts\CalculationsAccepted
+\App\Modules\Accounts\CalculationsAll
+\App\Modules\Accounts\Dashboards\AccountsByIndustry \App\Modules\Base\Views\Index
+\App\Modules\Accounts\Dashboards\NeglectedAccounts \App\Modules\Base\Views\Index
+\App\Modules\Accounts\Dashboards\NewAccounts \App\Modules\Base\Views\Index
+\App\Modules\Accounts\Handlers\Accounts_SaveChanges_Handler
+\App\Modules\Accounts\HeaderField
+\App\Modules\Accounts\HeaderField
+\App\Modules\Accounts\Models\DetailView \App\Modules\Base\Models\DetailView
+\App\Modules\Accounts\Models\ListView \App\Modules\Base\Models\ListView
+\App\Modules\Accounts\Models\MassEditRecordStructure \App\Modules\Base\Models\RecordStructure
+\App\Modules\Accounts\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\Accounts\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\Accounts\Models\Relation \App\Modules\Base\Models\Relation
+\App\Modules\Accounts\OffersAccepted
+\App\Modules\Accounts\OffersAll
+\App\Modules\Accounts\TotalTimeWorked
+\App\Modules\Accounts\Views\AccountHierarchy \App\Runtime\BaseViewController
+\App\Modules\Announcements\Actions\BasicAjax \App\Runtime\BaseActionController
+\App\Modules\Announcements\Announcements \App\CRMEntity
+\App\Modules\Announcements\Models\DetailView \App\Modules\Base\Models\DetailView
+\App\Modules\Announcements\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\Announcements\Views\Detail \App\Modules\Base\Views\Detail
+\App\Modules\ApiAddress\ApiAddress
+\App\Modules\Assets\Assets \App\CRMEntity
+\App\Modules\Assets\Dashboards\ExpiringSoldProducts \App\Modules\Base\Views\Index
+\App\Modules\Assets\Models\Field \App\Modules\Base\Models\Field
+\App\Modules\Assets\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\Assets\Models\TreeView \App\Modules\Base\Models\TreeView
+\App\Modules\Assets\Views\EditFieldByModal \App\Modules\Base\Views\Index
+\App\Modules\Assets\Views\GetHierarchy \App\Modules\Base\Views\Index
+\App\Modules\Base\Actions\BasicAjax \App\Runtime\BaseActionController
+\App\Modules\Base\Actions\Delete \App\Runtime\BaseActionController
+\App\Modules\Base\Actions\DeleteAjax \App\Runtime\BaseActionController
+\App\Modules\Base\Actions\DeleteImage \App\Runtime\BaseActionController
+\App\Modules\Base\Actions\EditFieldByModal \App\Runtime\BaseActionController
+\App\Modules\Base\Actions\ExportData \App\Runtime\BaseActionController
+\App\Modules\Base\Actions\Fields \App\Runtime\BaseActionController
+\App\Modules\Base\Actions\GenerateRecords \App\Runtime\BaseActionController
+\App\Modules\Base\Actions\GetData \App\Modules\Base\Views\Index
+\App\Modules\Base\Actions\Inventory \App\Runtime\BaseActionController
+\App\Modules\Base\Actions\Mail \App\Runtime\BaseActionController
+\App\Modules\Base\Actions\MassDelete \App\Runtime\BaseActionController
+\App\Modules\Base\Actions\MassSave \App\Runtime\BaseActionController
+\App\Modules\Base\Actions\NoteBook \App\Runtime\BaseActionController
+\App\Modules\Base\Actions\PDF \App\Runtime\BaseActionController
+\App\Modules\Base\Actions\Pagination \App\Runtime\BaseActionController
+\App\Modules\Base\Actions\ProcessDuplicates \App\Runtime\BaseActionController
+\App\Modules\Base\Actions\QuickExport \App\Runtime\BaseActionController
+\App\Modules\Base\Actions\RelatedCommentModal \App\Runtime\BaseActionController
+\App\Modules\Base\Actions\RelationAjax \App\Runtime\BaseActionController
+\App\Modules\Base\Actions\RemoveWidget \App\Modules\Base\Views\Index
+\App\Modules\Base\Actions\RemoveWidgetFromList \App\Modules\Base\Views\Index
+\App\Modules\Base\Actions\Save \App\Runtime\BaseActionController
+\App\Modules\Base\Actions\SaveAjax \App\Modules\Base\Actions\Save
+\App\Modules\Base\Actions\SaveWidgetPositions \App\Modules\Base\Views\Index
+\App\Modules\Base\Actions\SetReadRecord \App\Runtime\BaseActionController
+\App\Modules\Base\Actions\TransferOwnership \App\Runtime\BaseActionController
+\App\Modules\Base\Actions\UpdateField \App\Runtime\BaseActionController
+\App\Modules\Base\Actions\Watchdog \App\Runtime\BaseActionController
+\App\Modules\Base\Actions\Workflow \App\Runtime\BaseActionController
+\App\Modules\Base\AdvancedFilter
+\App\Modules\Base\Basic
+\App\Modules\Base\Dashboards\AssignedOverdueCalendarTasks \App\Modules\Base\Views\Index
+\App\Modules\Base\Dashboards\AssignedOverdueProjectsTasks \App\Modules\Base\Views\Index
+\App\Modules\Base\Dashboards\AssignedUpcomingCalendarTasks \App\Modules\Base\Views\Index
+\App\Modules\Base\Dashboards\AssignedUpcomingProjectsTasks \App\Modules\Base\Views\Index
+\App\Modules\Base\Dashboards\Calendar \App\Modules\Base\Views\Index
+\App\Modules\Base\Dashboards\CalendarActivities \App\Modules\Base\Views\Index
+\App\Modules\Base\Dashboards\ChartFilter \App\Modules\Base\Views\Index
+\App\Modules\Base\Dashboards\History \App\Modules\Base\Views\Index
+\App\Modules\Base\Dashboards\KeyMetrics \App\Modules\Base\Views\Index
+\App\Modules\Base\Dashboards\Kpi \App\Modules\Base\Views\Index
+\App\Modules\Base\Dashboards\ListUpdatedRecord \App\Modules\Base\Views\Index
+\App\Modules\Base\Dashboards\MailsList \App\Modules\Base\Views\Index
+\App\Modules\Base\Dashboards\MiniList \App\Modules\Base\Views\Index
+\App\Modules\Base\Dashboards\Notebook \App\Modules\Base\Views\Index
+\App\Modules\Base\Dashboards\ProductsSoldToRenew \App\Modules\Base\Views\Index
+\App\Modules\Base\Dashboards\Rss \App\Modules\Base\Views\Index
+\App\Modules\Base\Dashboards\ServicesSoldToRenew \Dashboard
+\App\Modules\Base\Files\File
+\App\Modules\Base\Files\Image \File
+\App\Modules\Base\Handlers\Vtiger_Attachments_Handler
+\App\Modules\Base\Handlers\Vtiger_AutomaticAssignment_Handler
+\App\Modules\Base\Handlers\Vtiger_MultiReferenceUpdater_Handler
+\App\Modules\Base\Handlers\Vtiger_RecordLabelUpdater_Handler
+\App\Modules\Base\Handlers\Vtiger_SharingPrivileges_Handler
+\App\Modules\Base\Handlers\Vtiger_Workflow_Handler
+\App\Modules\Base\Helpers\ShortURL
+\App\Modules\Base\InventoryFields\Basic \App\Runtime\BaseModel
+\App\Modules\Base\InventoryFields\Comment \Basic
+\App\Modules\Base\InventoryFields\Currency \Basic
+\App\Modules\Base\InventoryFields\Discount \Basic
+\App\Modules\Base\InventoryFields\DiscountMode \Basic
+\App\Modules\Base\InventoryFields\GrossPrice \Basic
+\App\Modules\Base\InventoryFields\ItemNumber \Basic
+\App\Modules\Base\InventoryFields\Margin \Basic
+\App\Modules\Base\InventoryFields\MarginP \Basic
+\App\Modules\Base\InventoryFields\Name \Basic
+\App\Modules\Base\InventoryFields\NetPrice \Basic
+\App\Modules\Base\InventoryFields\PicklistField \Basic
+\App\Modules\Base\InventoryFields\Purchase \Basic
+\App\Modules\Base\InventoryFields\Quantity \Basic
+\App\Modules\Base\InventoryFields\Reference \Basic
+\App\Modules\Base\InventoryFields\Tax \Basic
+\App\Modules\Base\InventoryFields\TaxMode \Basic
+\App\Modules\Base\InventoryFields\TotalPrice \Basic
+\App\Modules\Base\InventoryFields\UnitPrice \Basic
+\App\Modules\Base\InventoryFields\Value \Basic
+\App\Modules\Base\Kpi
+\App\Modules\Base\ListUpdatedRecord
+\App\Modules\Base\Models\Action \App\Runtime\BaseModel
+\App\Modules\Base\Models\Block \vtlib\Block
+\App\Modules\Base\Models\ChartFilter \App\Runtime\BaseModel
+\App\Modules\Base\Models\DashBoard \App\Runtime\BaseModel
+\App\Modules\Base\Models\DetailRecordStructure \App\Modules\Base\Models\RecordStructure
+\App\Modules\Base\Models\DetailView \App\Runtime\BaseModel
+\App\Modules\Base\Models\EditRecordStructure \App\Modules\Base\Models\RecordStructure
+\App\Modules\Base\Models\EditView \App\Runtime\BaseModel
+\App\Modules\Base\Models\Export \App\Runtime\BaseModel
+\App\Modules\Base\Models\ExportToXml \App\Runtime\BaseModel
+\App\Modules\Base\Models\Field \vtlib\Field
+\App\Modules\Base\Models\Files \App\Runtime\BaseModel
+\App\Modules\Base\Models\FindDuplicate \App\Runtime\BaseModel
+\App\Modules\Base\Models\Image \App\Runtime\BaseModel
+\App\Modules\Base\Models\Inventory
+\App\Modules\Base\Models\InventoryField \App\Runtime\BaseModel
+\App\Modules\Base\Models\Link \vtlib\Link
+\App\Modules\Base\Models\ListView \App\Runtime\BaseModel
+\App\Modules\Base\Models\MappedFields \App\Runtime\BaseModel
+\App\Modules\Base\Models\MassEditRecordStructure \App\Modules\Base\Models\RecordStructure
+\App\Modules\Base\Models\Menu
+\App\Modules\Base\Models\MiniList \App\Runtime\BaseModel
+\App\Modules\Base\Models\Module \vtlib\Module
+\App\Modules\Base\Models\ModuleMeta \App\Runtime\BaseModel
+\App\Modules\Base\Models\Notebook \App\Runtime\BaseModel
+\App\Modules\Base\Models\PDF \App\Runtime\BaseModel
+\App\Modules\Base\Models\Paging \App\Runtime\BaseModel
+\App\Modules\Base\Models\Processes
+\App\Modules\Base\Models\QuickCreateRecordStructure \App\Modules\Base\Models\RecordStructure
+\App\Modules\Base\Models\Record \App\Runtime\BaseModel
+\App\Modules\Base\Models\RecordStructure \App\Runtime\BaseModel
+\App\Modules\Base\Models\RelatedCommentModal \App\Runtime\BaseModel
+\App\Modules\Base\Models\Relation \App\Runtime\BaseModel
+\App\Modules\Base\Models\RelationListView \App\Runtime\BaseModel
+\App\Modules\Base\Models\SummaryRecordStructure \App\Modules\Base\Models\RecordStructure
+\App\Modules\Base\Models\TooltipView \App\Runtime\BaseModel
+\App\Modules\Base\Models\TransferOwnership \App\Runtime\BaseModel
+\App\Modules\Base\Models\TreeCategoryModal \App\Runtime\BaseModel
+\App\Modules\Base\Models\TreeView \App\Runtime\BaseModel
+\App\Modules\Base\Models\Utility \App\Modules\Base\Models\Action
+\App\Modules\Base\Models\Watchdog \App\Runtime\BaseModel
+\App\Modules\Base\Models\Widget \App\Runtime\BaseModel
+\App\Modules\Base\Models\WorkflowTrigger
+\App\Modules\Base\Pdfs\AbstractPDF
+\App\Modules\Base\Pdfs\mPDF \AbstractPDF
+\App\Modules\Base\UiTypes\BaseUiType \App\Runtime\BaseModel
+\App\Modules\Base\UiTypes\Boolean \BaseUiType
+\App\Modules\Base\UiTypes\CategoryMultipicklist \BaseUiType
+\App\Modules\Base\UiTypes\CompanySelect \BaseUiType
+\App\Modules\Base\UiTypes\Currency \BaseUiType
+\App\Modules\Base\UiTypes\CurrencyList \BaseUiType
+\App\Modules\Base\UiTypes\Date \BaseUiType
+\App\Modules\Base\UiTypes\Datetime \BaseUiType
+\App\Modules\Base\UiTypes\DocumentsFileUpload \BaseUiType
+\App\Modules\Base\UiTypes\DocumentsFolder \BaseUiType
+\App\Modules\Base\UiTypes\Double \BaseUiType
+\App\Modules\Base\UiTypes\Email \BaseUiType
+\App\Modules\Base\UiTypes\FileLocationType \BaseUiType
+\App\Modules\Base\UiTypes\Image \BaseUiType
+\App\Modules\Base\UiTypes\Integer \BaseUiType
+\App\Modules\Base\UiTypes\InventoryLimit \BaseUiType
+\App\Modules\Base\UiTypes\Languages \BaseUiType
+\App\Modules\Base\UiTypes\Modules \BaseUiType
+\App\Modules\Base\UiTypes\MultiImage \BaseUiType
+\App\Modules\Base\UiTypes\MultiReferenceValue \BaseUiType
+\App\Modules\Base\UiTypes\Multiowner \BaseUiType
+\App\Modules\Base\UiTypes\Multipicklist \BaseUiType
+\App\Modules\Base\UiTypes\Owner \BaseUiType
+\App\Modules\Base\UiTypes\Password \BaseUiType
+\App\Modules\Base\UiTypes\Percentage \BaseUiType
+\App\Modules\Base\UiTypes\Phone \BaseUiType
+\App\Modules\Base\UiTypes\Picklist \BaseUiType
+\App\Modules\Base\UiTypes\RangeTime \BaseUiType
+\App\Modules\Base\UiTypes\RecordNumber \BaseUiType
+\App\Modules\Base\UiTypes\Recurrence \BaseUiType
+\App\Modules\Base\UiTypes\Reference \BaseUiType
+\App\Modules\Base\UiTypes\ReferenceLink \BaseUiType
+\App\Modules\Base\UiTypes\ReferenceProcess \BaseUiType
+\App\Modules\Base\UiTypes\ReferenceSubProcess \BaseUiType
+\App\Modules\Base\UiTypes\Reminder \BaseUiType
+\App\Modules\Base\UiTypes\Salutation \BaseUiType
+\App\Modules\Base\UiTypes\SharedOwner \BaseUiType
+\App\Modules\Base\UiTypes\Taxes \BaseUiType
+\App\Modules\Base\UiTypes\Text \BaseUiType
+\App\Modules\Base\UiTypes\Theme \BaseUiType
+\App\Modules\Base\UiTypes\Time \BaseUiType
+\App\Modules\Base\UiTypes\TotalTime \BaseUiType
+\App\Modules\Base\UiTypes\Tree \BaseUiType
+\App\Modules\Base\UiTypes\Url \BaseUiType
+\App\Modules\Base\UiTypes\UserCreator \BaseUiType
+\App\Modules\Base\UiTypes\UserReference \BaseUiType
+\App\Modules\Base\UiTypes\UserRole \BaseUiType
+\App\Modules\Base\UpdaterField
+\App\Modules\Base\Views\AddNotePad \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\AutoAssignRecord \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\Basic \Footer
+\App\Modules\Base\Views\BasicAjax \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\BasicModal \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\ChartFilter \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\DashBoard \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\Detail \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\Edit \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\EditFieldByModal \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\Export \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\FileUpload \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\FindDuplicates \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\FindDuplicatesAjax \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\Footer \Header
+\App\Modules\Base\Views\GenerateModal \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\Header \App\Runtime\BaseViewController
+\App\Modules\Base\Views\Import \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\Index \App\Modules\Base\Views\Basic
+\App\Modules\Base\Views\IndexAjax \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\Inventory \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\ListAjax \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\ListView \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\MassActionAjax \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\MergeRecord \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\MiniListWizard \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\PDF \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\Pagination \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\Popup \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\PopupAjax \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\QuickCreateAjax \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\QuickDetailModal \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\RelatedCommentModal \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\RelatedList \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\SendMailModal \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\ShowWidget \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\SmartDetail \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\TimeLineModal \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\TooltipAjax \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\TreeCategoryModal \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\TreePopup \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\TreeRecords \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\VariablePanel \App\Runtime\BaseViewController
+\App\Modules\Base\Views\WidgetFullscreen \App\Modules\Base\Views\Index
+\App\Modules\Base\Views\WorkflowTrigger \App\Modules\Base\Views\Index
+\App\Modules\Base\Widgets\Activities \App\Modules\Base\Widgets\Basic
+\App\Modules\Base\Widgets\Basic
+\App\Modules\Base\Widgets\Comments \App\Modules\Base\Widgets\Basic
+\App\Modules\Base\Widgets\CountRecords \App\Modules\Base\Widgets\Basic
+\App\Modules\Base\Widgets\EmailList \App\Modules\Base\Widgets\Basic
+\App\Modules\Base\Widgets\FastEdit \App\Modules\Base\Widgets\Basic
+\App\Modules\Base\Widgets\HistoryRelation \App\Modules\Base\Widgets\Basic
+\App\Modules\Base\Widgets\PreviewMail \App\Modules\Base\Widgets\Basic
+\App\Modules\Base\Widgets\ProductsServices \App\Modules\Base\Widgets\Basic
+\App\Modules\Base\Widgets\RelatedModule \App\Modules\Base\Widgets\Basic
+\App\Modules\Base\Widgets\Summary \App\Modules\Base\Widgets\Basic
+\App\Modules\Base\Widgets\SummaryCategory \App\Modules\Base\Widgets\Basic
+\App\Modules\Base\Widgets\Updates \App\Modules\Base\Widgets\Basic
+\App\Modules\Base\Widgets\WYSIWYG \App\Modules\Base\Widgets\Basic
+\App\Modules\Base\blockEditView
+\App\Modules\Base\helpers\Util
+\App\Modules\CFixedAssets\CFixedAssets \App\CRMEntity
+\App\Modules\CInternalTickets\CInternalTickets \App\CRMEntity
+\App\Modules\CMileageLogbook\CMileageLogbook \App\CRMEntity
+\App\Modules\Calendar\Actions\ActivityReminder \App\Runtime\BaseActionController
+\App\Modules\Calendar\Actions\ActivityStateAjax \App\Runtime\BaseActionController
+\App\Modules\Calendar\Actions\Calendar \App\Runtime\BaseActionController
+\App\Modules\Calendar\Actions\CalendarUserActions \App\Runtime\BaseActionController
+\App\Modules\Calendar\Actions\Delete \App\Runtime\BaseActionController
+\App\Modules\Calendar\Actions\DeleteAjax \App\Runtime\BaseActionController
+\App\Modules\Calendar\Actions\DragDropAjax \App\Runtime\BaseActionController
+\App\Modules\Calendar\Actions\Feed \App\Runtime\BaseActionController
+\App\Modules\Calendar\Actions\GetFreeTime \App\Runtime\BaseActionController
+\App\Modules\Calendar\Actions\ImportICS \App\Runtime\BaseActionController
+\App\Modules\Calendar\Actions\Invitees \App\Runtime\BaseActionController
+\App\Modules\Calendar\Actions\Save \App\Runtime\BaseActionController
+\App\Modules\Calendar\Actions\SaveAjax \App\Modules\Base\Actions\Save
+\App\Modules\Calendar\Activity \App\CRMEntity
+\App\Modules\Calendar\Calendar
+\App\Modules\Calendar\Date
+\App\Modules\Calendar\Handlers\Calendar_CalendarHandler_Handler
+\App\Modules\Calendar\Layout
+\App\Modules\Calendar\Models\Calendar \App\Runtime\BaseModel
+\App\Modules\Calendar\Models\CalendarFilters \App\Runtime\BaseModel
+\App\Modules\Calendar\Models\DetailRecordStructure \App\Modules\Base\Models\RecordStructure
+\App\Modules\Calendar\Models\DetailView \App\Modules\Base\Models\DetailView
+\App\Modules\Calendar\Models\EditRecordStructure \App\Modules\Base\Models\RecordStructure
+\App\Modules\Calendar\Models\Export \App\Runtime\BaseModel
+\App\Modules\Calendar\Models\Field \App\Modules\Base\Models\Field
+\App\Modules\Calendar\Models\ListView \App\Modules\Base\Models\ListView
+\App\Modules\Calendar\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\Calendar\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\Calendar\UiTypes\Datetime \Base
+\App\Modules\Calendar\UiTypes\Picklist \Base
+\App\Modules\Calendar\UiTypes\ReferenceSubProcess \Base
+\App\Modules\Calendar\UiTypes\Time \Base
+\App\Modules\Calendar\Views\ActivityStateModal \App\Modules\Base\Views\Index
+\App\Modules\Calendar\Views\Calendar \App\Modules\Base\Views\Index
+\App\Modules\Calendar\Views\Detail \App\Modules\Base\Views\Detail
+\App\Modules\Calendar\Views\Edit \App\Modules\Base\Views\Edit
+\App\Modules\Calendar\Views\Import \App\Modules\Base\Views\Index
+\App\Modules\Calendar\Views\InRelation \App\Modules\Base\Views\Index
+\App\Modules\Calendar\Views\QuickCreateAjax \App\Modules\Base\Views\Index
+\App\Modules\Calendar\Views\Reminders \App\Modules\Base\Views\Index
+\App\Modules\Calendar\Views\RightPanel \App\Modules\Base\Views\Index
+\App\Modules\Calendar\Views\SharedCalendar \App\Modules\Base\Views\Index
+\App\Modules\Calendar\Views\ViewTypes \App\Modules\Base\Views\Index
+\App\Modules\Calendar\data_access\CheckDayTasks
+\App\Modules\Calendar\iCalLastImport
+\App\Modules\Calendar\iCal\ICalParser
+\App\Modules\Calendar\iCal\ICalendarComponent
+\App\Modules\Calendar\iCal\ICalendarParameter
+\App\Modules\Calendar\iCal\ICalendarProperty
+\App\Modules\Calendar\iCal\iCalendar \iCalendar_component
+\App\Modules\Calendar\iCal\iCalendar_alarm \iCalendar_component
+\App\Modules\Calendar\iCal\iCalendar_event \iCalendar_component
+\App\Modules\Calendar\iCal\iCalendar_freebusy \iCalendar_component
+\App\Modules\Calendar\iCal\iCalendar_journal \iCalendar_component
+\App\Modules\Calendar\iCal\iCalendar_property_action \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_attach \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_attendee \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_calscale \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_categories \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_class \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_comment \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_completed \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_contact \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_created \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_daylightc \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_description \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_dtend \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_dtstamp \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_dtstart \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_due \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_duration \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_exdate \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_exrule \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_freebusy \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_geo \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_last_modified \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_location \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_method \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_organizer \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_percent_complete \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_priority \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_prodid \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_rdate \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_recurrence_id \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_related_to \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_request_status \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_resources \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_rrule \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_sequence \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_standardc \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_status \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_summary \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_transp \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_trigger \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_tzid \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_tzoffsetto \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_uid \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_url \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_version \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_x \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_property_x_wr_alarmuid \iCalendar_property
+\App\Modules\Calendar\iCal\iCalendar_timezone \iCalendar_component
+\App\Modules\Calendar\iCal\iCalendar_todo \iCalendar_component
+\App\Modules\CallHistory\CallHistory \App\CRMEntity
+\App\Modules\CallHistory\Models\DetailView \App\Modules\Base\Models\DetailView
+\App\Modules\CallHistory\Models\ListView \App\Modules\Base\Models\ListView
+\App\Modules\CallHistory\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\Campaigns\Actions\DetailAjax \App\Runtime\BaseActionController
+\App\Modules\Campaigns\Actions\RelationAjax \App\Runtime\BaseActionController
+\App\Modules\Campaigns\Campaigns \App\CRMEntity
+\App\Modules\Campaigns\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\Campaigns\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\Campaigns\Models\Relation \App\Modules\Base\Models\Relation
+\App\Modules\Campaigns\Models\RelationListView \App\Runtime\BaseModel
+\App\Modules\Campaigns\Views\Detail \App\Modules\Base\Views\Detail
+\App\Modules\Campaigns\Views\RelatedList \App\Modules\Base\Views\Index
+\App\Modules\Competition\Competition \App\CRMEntity
+\App\Modules\Competition\Models\DetailView \App\Modules\Base\Models\DetailView
+\App\Modules\Competition\Models\ListView \App\Modules\Base\Models\ListView
+\App\Modules\Competition\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\Contacts\Actions\Save \App\Runtime\BaseActionController
+\App\Modules\Contacts\Contacts \App\CRMEntity
+\App\Modules\Contacts\Models\DetailView \App\Modules\Base\Models\DetailView
+\App\Modules\Contacts\Models\ListView \App\Modules\Base\Models\ListView
+\App\Modules\Contacts\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\Contacts\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\Contacts\Views\Detail \App\Modules\Base\Views\Detail
+\App\Modules\Contacts\Views\Edit \App\Modules\Base\Views\Index
+\App\Modules\Contacts\Views\Popup \App\Modules\Base\Views\Index
+\App\Modules\Contacts\Views\QuickCreateAjax \App\Modules\Base\Views\Index
+\App\Modules\Cron\Bootstrap
+\App\Modules\Cron\Migration\UpdateHandlerPaths
+\App\Modules\Cron\Runner\CronRunner
+\App\Modules\Cron\Tasks\AbstractCronTask
+\App\Modules\CustomView\Actions\Approve \App\Runtime\BaseActionController
+\App\Modules\CustomView\Actions\Delete \App\Runtime\BaseActionController
+\App\Modules\CustomView\Actions\DeleteAjax \App\Runtime\BaseActionController
+\App\Modules\CustomView\Actions\Deny \App\Runtime\BaseActionController
+\App\Modules\CustomView\Actions\Save \App\Runtime\BaseActionController
+\App\Modules\CustomView\CustomView \App\CRMEntity
+\App\Modules\CustomView\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\CustomView\Views\EditAjax \App\Modules\Base\Views\IndexAjax
+\App\Modules\Dashboard\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\Documents\Actions\CheckFileIntegrity \App\Runtime\BaseActionController
+\App\Modules\Documents\Actions\DownloadFile \App\Runtime\BaseActionController
+\App\Modules\Documents\Actions\MassAdd \App\Runtime\BaseActionController
+\App\Modules\Documents\Actions\MoveDocuments \App\Runtime\BaseActionController
+\App\Modules\Documents\Documents \App\CRMEntity
+\App\Modules\Documents\Models\DetailView \App\Modules\Base\Models\DetailView
+\App\Modules\Documents\Models\EditRecordStructure \App\Modules\Base\Models\RecordStructure
+\App\Modules\Documents\Models\Field \App\Modules\Base\Models\Field
+\App\Modules\Documents\Models\ListView \App\Modules\Base\Models\ListView
+\App\Modules\Documents\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\Documents\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\Documents\Models\Relation \App\Modules\Base\Models\Relation
+\App\Modules\Documents\UiTypes\Text \BaseUiType
+\App\Modules\Documents\Views\Detail \App\Modules\Base\Views\Detail
+\App\Modules\Documents\Views\MassAddDocuments \App\Modules\Base\Views\Index
+\App\Modules\Documents\Views\MoveDocuments \App\Modules\Base\Views\Index
+\App\Modules\EmailTemplates\EmailTemplates \App\CRMEntity
+\App\Modules\EmailTemplates\Models\Field \App\Modules\Base\Models\Field
+\App\Modules\EmailTemplates\Views\Edit \App\Modules\Base\Views\Index
+\App\Modules\Events\Actions\Save \App\Runtime\BaseActionController
+\App\Modules\Events\Models\DetailRecordStructure \App\Modules\Base\Models\RecordStructure
+\App\Modules\Events\Models\DetailView \App\Modules\Base\Models\DetailView
+\App\Modules\Events\Models\EditRecordStructure \App\Modules\Base\Models\RecordStructure
+\App\Modules\Events\Models\Field \App\Modules\Base\Models\Field
+\App\Modules\Events\Models\ListView \App\Modules\Base\Models\ListView
+\App\Modules\Events\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\Events\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\Events\Models\RecuringEvents \App\Runtime\BaseModel
+\App\Modules\Events\UiTypes\Datetime \Base
+\App\Modules\Events\UiTypes\Picklist \Base
+\App\Modules\Events\UiTypes\ReferenceSubProcess \Base
+\App\Modules\Events\UiTypes\Time \Base
+\App\Modules\Events\Views\Calendar \App\Modules\Base\Views\Index
+\App\Modules\Events\Views\Detail \App\Modules\Base\Views\Detail
+\App\Modules\Events\Views\SharedCalendar \App\Modules\Base\Views\Index
+\App\Modules\FBookkeeping\FBookkeeping \App\CRMEntity
+\App\Modules\FCorectingInvoice\FCorectingInvoice \App\CRMEntity
+\App\Modules\FInvoiceCost\FInvoiceCost \App\CRMEntity
+\App\Modules\FInvoiceProforma\FInvoiceProforma \App\CRMEntity
+\App\Modules\FInvoice\Dashboards\SummationByMonths \App\Modules\Base\Views\Index
+\App\Modules\FInvoice\Dashboards\SummationByUser \App\Modules\Base\Views\Index
+\App\Modules\FInvoice\FInvoice \App\CRMEntity
+\App\Modules\FInvoice\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\Faq\Faq \App\CRMEntity
+\App\Modules\Faq\Models\ListView \App\Modules\Base\Models\ListView
+\App\Modules\Faq\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\Faq\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\Faq\Views\Edit \App\Modules\Base\Views\Index
+\App\Modules\HelpDesk\Actions\ConvertFAQ \App\Runtime\BaseActionController
+\App\Modules\HelpDesk\Dashboards\ClosedTicketsByPriority \App\Modules\Base\Views\Index
+\App\Modules\HelpDesk\Dashboards\ClosedTicketsByUser \App\Modules\Base\Views\Index
+\App\Modules\HelpDesk\Dashboards\OpenTickets \App\Modules\Base\Views\Index
+\App\Modules\HelpDesk\Dashboards\TicketsByStatus \App\Modules\Base\Views\Index
+\App\Modules\HelpDesk\Handlers\HelpDesk_TicketRangeTime_Handler
+\App\Modules\HelpDesk\HelpDesk \App\CRMEntity
+\App\Modules\HelpDesk\Models\DashBoard \App\Runtime\BaseModel
+\App\Modules\HelpDesk\Models\DetailView \App\Modules\Base\Models\DetailView
+\App\Modules\HelpDesk\Models\ListView \App\Modules\Base\Models\ListView
+\App\Modules\HelpDesk\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\HelpDesk\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\HelpDesk\UiTypes\RangeTime \BaseUiType
+\App\Modules\HelpDesk\Views\Detail \App\Modules\Base\Views\Detail
+\App\Modules\HolidaysEntitlement\HolidaysEntitlement \App\CRMEntity
+\App\Modules\Home\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\Home\Models\Widget \App\Modules\Base\Models\Record
+\App\Modules\Home\Views\DashBoard \App\Modules\Base\Views\DashBoard
+\App\Modules\Home\Views\Index \App\Modules\Base\Views\Index
+\App\Modules\IGDNC\IGDNC \App\CRMEntity
+\App\Modules\IGDNC\Models\Field \App\Modules\Base\Models\Field
+\App\Modules\IGDNC\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\IGDNC\Views\EditFieldByModal \App\Modules\Base\Views\Index
+\App\Modules\IGDN\IGDN \App\CRMEntity
+\App\Modules\IGDN\Models\Field \App\Modules\Base\Models\Field
+\App\Modules\IGDN\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\IGDN\Views\EditFieldByModal \App\Modules\Base\Views\Index
+\App\Modules\IGIN\IGIN \App\CRMEntity
+\App\Modules\IGIN\Models\Field \App\Modules\Base\Models\Field
+\App\Modules\IGIN\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\IGRNC\IGRNC \App\CRMEntity
+\App\Modules\IGRNC\Models\Field \App\Modules\Base\Models\Field
+\App\Modules\IGRNC\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\IGRN\IGRN \App\CRMEntity
+\App\Modules\IGRN\Models\Field \App\Modules\Base\Models\Field
+\App\Modules\IGRN\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\IIDN\IIDN \App\CRMEntity
+\App\Modules\IIDN\Models\Field \App\Modules\Base\Models\Field
+\App\Modules\IIDN\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\IIDN\Views\EditFieldByModal \App\Modules\Base\Views\Index
+\App\Modules\IPreOrder\IPreOrder \App\CRMEntity
+\App\Modules\IPreOrder\Models\Field \App\Modules\Base\Models\Field
+\App\Modules\IPreOrder\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\IPreOrder\Views\EditFieldByModal \App\Modules\Base\Views\Index
+\App\Modules\ISTDN\ISTDN \App\CRMEntity
+\App\Modules\ISTDN\Models\Field \App\Modules\Base\Models\Field
+\App\Modules\ISTDN\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\ISTDN\Views\EditFieldByModal \App\Modules\Base\Views\Index
+\App\Modules\ISTN\ISTN \App\CRMEntity
+\App\Modules\ISTRN\ISTRN \App\CRMEntity
+\App\Modules\ISTRN\Models\Field \App\Modules\Base\Models\Field
+\App\Modules\ISTRN\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\ISTRN\Views\EditFieldByModal \App\Modules\Base\Views\Index
+\App\Modules\IStorages\Actions\RelationAjax \App\Runtime\BaseActionController
+\App\Modules\IStorages\Handlers\IStorages_RecalculateStockHandler_Handler
+\App\Modules\IStorages\IStorages \App\CRMEntity
+\App\Modules\IStorages\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\IStorages\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\IStorages\Models\Relation \App\Modules\Base\Models\Relation
+\App\Modules\IStorages\Models\RelationListView \App\Runtime\BaseModel
+\App\Modules\IStorages\TextParser \App\TextParser\Base
+\App\Modules\IStorages\TextParser \App\TextParser\Base
+\App\Modules\IStorages\TextParser \App\TextParser\Base
+\App\Modules\IStorages\TextParser \App\TextParser\Base
+\App\Modules\IStorages\TextParser \App\TextParser\Base
+\App\Modules\IStorages\Views\Hierarchy \App\Runtime\BaseViewController
+\App\Modules\IStorages\checkHierarchy
+\App\Modules\IStorages\checkType
+\App\Modules\Ideas\Ideas \App\CRMEntity
+\App\Modules\Import\Actions\Data \App\Runtime\BaseActionController
+\App\Modules\Import\Actions\Lock \App\Runtime\BaseActionController
+\App\Modules\Import\Actions\Queue \App\Runtime\BaseActionController
+\App\Modules\Import\Helpers\Utils
+\App\Modules\Import\Models\ListView \App\Modules\Base\Models\ListView
+\App\Modules\Import\Models\Map \App\Runtime\BaseModel
+\App\Modules\Import\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\Import\Readers\CSVReader \FileReader
+\App\Modules\Import\Readers\FileReader
+\App\Modules\Import\Readers\ICSReader \iCal
+\App\Modules\Import\Readers\VCardReader \FileReader
+\App\Modules\Import\Readers\XmlReader \FileReader
+\App\Modules\Import\Readers\ZipReader \FileReader
+\App\Modules\Import\Views\ListView \Popup
+\App\Modules\Import\Views\Main \App\Runtime\BaseViewController
+\App\Modules\Install\Views\Index \App\Modules\Base\Views\Index
+\App\Modules\KnowledgeBase\Actions\DataTreeAjax \App\Runtime\BaseActionController
+\App\Modules\KnowledgeBase\Actions\ImageUploadAjax \App\Runtime\BaseActionController
+\App\Modules\KnowledgeBase\KnowledgeBase \App\CRMEntity
+\App\Modules\KnowledgeBase\Models\DetailView \App\Modules\Base\Models\DetailView
+\App\Modules\KnowledgeBase\Models\Field \App\Modules\Base\Models\Field
+\App\Modules\KnowledgeBase\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\KnowledgeBase\Models\Tree \App\Runtime\BaseModel
+\App\Modules\KnowledgeBase\Views\Content \App\Modules\Base\Views\Index
+\App\Modules\KnowledgeBase\Views\Detail \App\Modules\Base\Views\Detail
+\App\Modules\KnowledgeBase\Views\FullScreen \App\Modules\Base\Views\Index
+\App\Modules\KnowledgeBase\Views\PreviewContent \App\Modules\Base\Views\Index
+\App\Modules\KnowledgeBase\Views\Tree \App\Modules\Base\Views\Index
+\App\Modules\Leads\Dashboards\LeadsByIndustry \App\Modules\Base\Views\Index
+\App\Modules\Leads\Dashboards\LeadsBySource \App\Modules\Base\Views\Index
+\App\Modules\Leads\Dashboards\LeadsByStatus \App\Modules\Base\Views\Index
+\App\Modules\Leads\Dashboards\LeadsByStatusConverted \App\Modules\Base\Views\Index
+\App\Modules\Leads\Dashboards\LeadsCreated \App\Modules\Base\Views\Index
+\App\Modules\Leads\Leads \App\CRMEntity
+\App\Modules\Leads\Models\DetailView \App\Modules\Base\Models\DetailView
+\App\Modules\Leads\Models\ListView \App\Modules\Base\Models\ListView
+\App\Modules\Leads\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\Leads\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\Leads\Models\Relation \App\Modules\Base\Models\Relation
+\App\Modules\Leads\TotalComments
+\App\Modules\Leads\TotalContacts
+\App\Modules\Leads\TotalEmails
+\App\Modules\Leads\TotalEvent
+\App\Modules\Leads\TotalTasks
+\App\Modules\Leads\TotalTimeWorked
+\App\Modules\Leads\Views\ConvertLead \App\Modules\Base\Views\Index
+\App\Modules\Leads\Views\Detail \App\Modules\Base\Views\Detail
+\App\Modules\Leads\Views\SaveConvertLead \App\Runtime\BaseViewController
+\App\Modules\LettersIn\LettersIn \App\CRMEntity
+\App\Modules\LettersOut\LettersOut \App\CRMEntity
+\App\Modules\ModComments\Actions\MassSaveAjax \App\Runtime\BaseActionController
+\App\Modules\ModComments\Actions\Save \App\Runtime\BaseActionController
+\App\Modules\ModComments\Actions\SaveAjax \App\Modules\Base\Actions\SaveAjax
+\App\Modules\ModComments\ModComments \ModCommentsCore
+\App\Modules\ModComments\ModCommentsCore \App\CRMEntity
+\App\Modules\ModComments\Models\CommentsModel
+\App\Modules\ModComments\Models\Model \App\Modules\Base\Models\ListView
+\App\Modules\ModComments\Models\Model \App\Runtime\BaseModel
+\App\Modules\ModComments\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\ModComments\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\ModComments\Views\DetailAjax \App\Modules\Base\Views\Index
+\App\Modules\ModComments\Views\View \App\Modules\Base\Views\Detail
+\App\Modules\ModComments\Views\View \App\Modules\Base\Views\Index
+\App\Modules\ModTracker\Actions\ChangesReviewedOn \App\Runtime\BaseActionController
+\App\Modules\ModTracker\Actions\LastRelation \App\Runtime\BaseActionController
+\App\Modules\ModTracker\CronReviewed
+\App\Modules\ModTracker\Handlers\ModTracker_ModTrackerHandler_Handler
+\App\Modules\ModTracker\ModTracker
+\App\Modules\ModTracker\Models\Field \App\Modules\Base\Models\Field
+\App\Modules\ModTracker\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\ModTracker\Models\Relation \App\Modules\Base\Models\Relation
+\App\Modules\ModTracker\Views\ListAjax \App\Modules\Base\Views\Index
+\App\Modules\Notification\Actions\Notification \App\Runtime\BaseActionController
+\App\Modules\Notification\Dashboards\Notifications \App\Modules\Base\Views\Index
+\App\Modules\Notification\Dashboards\NotificationsByRecipient \App\Modules\Base\Views\Index
+\App\Modules\Notification\Dashboards\NotificationsBySender \App\Modules\Base\Views\Index
+\App\Modules\Notification\Models\ListView \App\Modules\Base\Models\ListView
+\App\Modules\Notification\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\Notification\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\Notification\Notification
+\App\Modules\Notification\Notification \App\CRMEntity
+\App\Modules\Notification\TextParser \App\TextParser\Base
+\App\Modules\Notification\UiTypes\String \BaseUiType
+\App\Modules\Notification\UiTypes\Text \BaseUiType
+\App\Modules\Notification\Views\NotificationConfig \App\Modules\Base\Views\Index
+\App\Modules\Notification\Views\Reminders \App\Modules\Base\Views\Index
+\App\Modules\OSSEmployees\Actions\GetHoliday \App\Runtime\BaseActionController
+\App\Modules\OSSEmployees\Actions\UniqueUser \App\Runtime\BaseActionController
+\App\Modules\OSSEmployees\Models\DetailView \App\Modules\Base\Models\DetailView
+\App\Modules\OSSEmployees\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\OSSEmployees\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\OSSEmployees\Models\Relation \App\Modules\Base\Models\Relation
+\App\Modules\OSSEmployees\OSSEmployees \App\CRMEntity
+\App\Modules\OSSEmployees\Views\Detail \App\Modules\Base\Views\Detail
+\App\Modules\OSSEmployees\Views\EmployeeHierarchy \App\Runtime\BaseViewController
+\App\Modules\OSSMailScanner\Actions\AccontRemove \App\Runtime\BaseActionController
+\App\Modules\OSSMailScanner\Actions\GetLog \App\Runtime\BaseActionController
+\App\Modules\OSSMailScanner\Actions\IdentitiesDel \App\Runtime\BaseActionController
+\App\Modules\OSSMailScanner\Actions\SaveActions \App\Runtime\BaseActionController
+\App\Modules\OSSMailScanner\Actions\SaveCRMuser \App\Runtime\BaseActionController
+\App\Modules\OSSMailScanner\Actions\SaveRcConfig \App\Runtime\BaseActionController
+\App\Modules\OSSMailScanner\Actions\SaveWidgetConfig \App\Runtime\BaseActionController
+\App\Modules\OSSMailScanner\Actions\cron \App\Runtime\BaseActionController
+\App\Modules\OSSMailScanner\Actions\getConfig \App\Runtime\BaseActionController
+\App\Modules\OSSMailScanner\Actions\restartCron \App\Runtime\BaseActionController
+\App\Modules\OSSMailScanner\Actions\saveEmailSearchList \App\Runtime\BaseActionController
+\App\Modules\OSSMailScanner\Models\EmailScannerAction
+\App\Modules\OSSMailScanner\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\OSSMailScanner\Models\PrefixScannerAction
+\App\Modules\OSSMailScanner\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\OSSMailScanner\OSSMailScanner
+\App\Modules\OSSMailScanner\scanneractions\BindAccounts \App\Runtime\BaseModel
+\App\Modules\OSSMailScanner\scanneractions\BindCampaigns \App\Runtime\BaseModel
+\App\Modules\OSSMailScanner\scanneractions\BindCompetition \App\Runtime\BaseModel
+\App\Modules\OSSMailScanner\scanneractions\BindContacts \App\Runtime\BaseModel
+\App\Modules\OSSMailScanner\scanneractions\BindHelpDesk \App\Runtime\BaseModel
+\App\Modules\OSSMailScanner\scanneractions\BindLeads \App\Runtime\BaseModel
+\App\Modules\OSSMailScanner\scanneractions\BindOSSEmployees \App\Runtime\BaseModel
+\App\Modules\OSSMailScanner\scanneractions\BindPartners \App\Runtime\BaseModel
+\App\Modules\OSSMailScanner\scanneractions\BindProject \App\Runtime\BaseModel
+\App\Modules\OSSMailScanner\scanneractions\BindSSalesProcesses \App\Runtime\BaseModel
+\App\Modules\OSSMailScanner\scanneractions\BindServiceContracts
+\App\Modules\OSSMailScanner\scanneractions\BindVendors \App\Runtime\BaseModel
+\App\Modules\OSSMailScanner\scanneractions\CreatedEmail
+\App\Modules\OSSMailScanner\scanneractions\CreatedHelpDesk
+\App\Modules\OSSMailView\Actions\BindMails \App\Runtime\BaseActionController
+\App\Modules\OSSMailView\Actions\ChangeType \App\Runtime\BaseActionController
+\App\Modules\OSSMailView\Actions\MassDelete \App\Runtime\BaseActionController
+\App\Modules\OSSMailView\Actions\Relation \App\Runtime\BaseActionController
+\App\Modules\OSSMailView\Dashboards\Graf \App\Modules\Base\Views\Index
+\App\Modules\OSSMailView\Models\DetailView \App\Modules\Base\Models\DetailView
+\App\Modules\OSSMailView\Models\ListView \App\Modules\Base\Models\ListView
+\App\Modules\OSSMailView\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\OSSMailView\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\OSSMailView\Models\Relation \App\Modules\Base\Models\Relation
+\App\Modules\OSSMailView\OSSMailView \App\CRMEntity
+\App\Modules\OSSMailView\Views\ChangeType \App\Modules\Base\Views\Index
+\App\Modules\OSSMailView\Views\Detail \App\Modules\Base\Views\Detail
+\App\Modules\OSSMailView\Views\ListView \App\Modules\Base\Views\Index
+\App\Modules\OSSMailView\Views\sview \App\Modules\Base\Views\Index
+\App\Modules\OSSMail\Actions\ImportMail \App\Runtime\BaseActionController
+\App\Modules\OSSMail\Actions\SaveRcConfig \App\Runtime\BaseActionController
+\App\Modules\OSSMail\Actions\SetUser \App\Runtime\BaseActionController
+\App\Modules\OSSMail\Actions\checkMails \App\Runtime\BaseActionController
+\App\Modules\OSSMail\Actions\executeActions \App\Runtime\BaseActionController
+\App\Modules\OSSMail\Actions\getContactMail \App\Runtime\BaseActionController
+\App\Modules\OSSMail\Models\AddressBook
+\App\Modules\OSSMail\Models\Autologin
+\App\Modules\OSSMail\Models\Mail \App\Runtime\BaseModel
+\App\Modules\OSSMail\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\OSSMail\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\OSSMail\OSSMail
+\App\Modules\OSSMail\Views\CheckConfig \App\Modules\Base\Views\Index
+\App\Modules\OSSMail\Views\MailActionBar \App\Modules\Base\Views\Index
+\App\Modules\OSSMail\Views\compose \App\Modules\Base\Views\Index
+\App\Modules\OSSMail\Views\index \App\Modules\Base\Views\Index
+\App\Modules\OSSOutsourcedServices\Models\TreeView \App\Modules\Base\Models\TreeView
+\App\Modules\OSSOutsourcedServices\OSSOutsourcedServices \App\CRMEntity
+\App\Modules\OSSPasswords\Actions\CheckPass \App\Runtime\BaseActionController
+\App\Modules\OSSPasswords\Actions\GetPass \App\Runtime\BaseActionController
+\App\Modules\OSSPasswords\Actions\Save \App\Runtime\BaseActionController
+\App\Modules\OSSPasswords\Actions\SaveAjax \App\Modules\Base\Actions\Save
+\App\Modules\OSSPasswords\Handlers\OSSPasswords_Secure_Handler
+\App\Modules\OSSPasswords\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\OSSPasswords\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\OSSPasswords\OSSPasswords \App\CRMEntity
+\App\Modules\OSSPasswords\Views\Detail \App\Modules\Base\Views\Detail
+\App\Modules\OSSPasswords\Views\InRelation \App\Modules\Base\Views\Index
+\App\Modules\OSSPasswords\Views\ListView \App\Modules\Base\Views\Index
+\App\Modules\OSSPasswords\Views\Popup \App\Modules\Base\Views\Index
+\App\Modules\OSSPasswords\Views\PopupAjax \App\Modules\Base\Views\Index
+\App\Modules\OSSPasswords\Views\QuickCreateAjax \App\Modules\Base\Views\Index
+\App\Modules\OSSSoldServices\Models\Field \App\Modules\Base\Models\Field
+\App\Modules\OSSSoldServices\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\OSSSoldServices\Models\TreeView \App\Modules\Base\Models\TreeView
+\App\Modules\OSSSoldServices\OSSSoldServices \App\CRMEntity
+\App\Modules\OSSSoldServices\Views\EditFieldByModal \App\Modules\Base\Views\Index
+\App\Modules\OSSSoldServices\Views\GetHierarchy \App\Modules\Base\Views\Index
+\App\Modules\OSSTimeControl\Actions\Calendar \App\Runtime\BaseActionController
+\App\Modules\OSSTimeControl\Actions\GetTCInfo \App\Runtime\BaseActionController
+\App\Modules\OSSTimeControl\Dashboards\AllTimeControl \App\Modules\Base\Views\Index
+\App\Modules\OSSTimeControl\Dashboards\TimeControl \App\Modules\Base\Views\Index
+\App\Modules\OSSTimeControl\Handlers\OSSTimeControl_TimeControl_Handler
+\App\Modules\OSSTimeControl\Models\Calendar \App\Runtime\BaseModel
+\App\Modules\OSSTimeControl\Models\DetailView \App\Modules\Base\Models\DetailView
+\App\Modules\OSSTimeControl\Models\Field \App\Modules\Base\Models\Field
+\App\Modules\OSSTimeControl\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\OSSTimeControl\OSSTimeControl \App\CRMEntity
+\App\Modules\OSSTimeControl\TextParser \App\TextParser\Base
+\App\Modules\OSSTimeControl\TextParser \App\TextParser\Base
+\App\Modules\OSSTimeControl\UiTypes\Double \BaseUiType
+\App\Modules\OSSTimeControl\UiTypes\Time \BaseUiType
+\App\Modules\OSSTimeControl\Views\Calendar \App\Modules\Base\Views\Index
+\App\Modules\OSSTimeControl\Views\Detail \App\Modules\Base\Views\Detail
+\App\Modules\OSSTimeControl\Views\InRelation \App\Modules\Base\Views\Index
+\App\Modules\OSSTimeControl\Views\RightPanel \App\Modules\Base\Views\Index
+\App\Modules\OpenStreetMap\Actions\ClipBoard \App\Runtime\BaseActionController
+\App\Modules\OpenStreetMap\Actions\GetMarkers \App\Runtime\BaseActionController
+\App\Modules\OpenStreetMap\Actions\GetRoute \App\Runtime\BaseActionController
+\App\Modules\OpenStreetMap\Handlers\OpenStreetMap_OpenStreetMapHandler_Handler
+\App\Modules\OpenStreetMap\Models\Coordinate \App\Runtime\BaseModel
+\App\Modules\OpenStreetMap\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\OpenStreetMap\OpenStreetMap
+\App\Modules\OpenStreetMap\Views\MapModal \App\Modules\Base\Views\Index
+\App\Modules\OutsourcedProducts\Models\TreeView \App\Modules\Base\Models\TreeView
+\App\Modules\OutsourcedProducts\OutsourcedProducts \App\CRMEntity
+\App\Modules\PBXManager\Actions\IncomingCallPoll \App\Runtime\BaseActionController
+\App\Modules\PBXManager\Actions\OutgoingCall \App\Runtime\BaseActionController
+\App\Modules\PBXManager\Callbacks
+\App\Modules\PBXManager\Connector
+\App\Modules\PBXManager\Controller
+\App\Modules\PBXManager\Handlers\PBXManager_PBXManagerHandler_Handler
+\App\Modules\PBXManager\Models\DetailView \App\Modules\Base\Models\DetailView
+\App\Modules\PBXManager\Models\ListView \App\Modules\Base\Models\ListView
+\App\Modules\PBXManager\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\PBXManager\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\PBXManager\Models\Server \App\Runtime\BaseModel
+\App\Modules\PBXManager\PBXManager \App\CRMEntity
+\App\Modules\PBXManager\Views\Detail \App\Modules\Base\Views\Detail
+\App\Modules\Partners\Models\DetailView \App\Modules\Base\Models\DetailView
+\App\Modules\Partners\Models\ListView \App\Modules\Base\Models\ListView
+\App\Modules\Partners\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\Partners\Partners \App\CRMEntity
+\App\Modules\Password\Password
+\App\Modules\PaymentsIn\Actions\GenerateRecords \App\Runtime\BaseActionController
+\App\Modules\PaymentsIn\Helpers\subclass\mt940_Alior \mt940
+\App\Modules\PaymentsIn\Helpers\subclass\mt940_BGK \mt940
+\App\Modules\PaymentsIn\Helpers\subclass\mt940_BOS \mt940
+\App\Modules\PaymentsIn\Helpers\subclass\mt940_BPH \mt940
+\App\Modules\PaymentsIn\Helpers\subclass\mt940_Citi \mt940
+\App\Modules\PaymentsIn\Helpers\subclass\mt940_Deutsche \mt940
+\App\Modules\PaymentsIn\Helpers\subclass\mt940_Milenium \mt940
+\App\Modules\PaymentsIn\Helpers\subclass\mt940_Millennium \mt940
+\App\Modules\PaymentsIn\Helpers\subclass\mt940_PKOBP \mt940
+\App\Modules\PaymentsIn\Helpers\subclass\mt940_Paribas \mt940
+\App\Modules\PaymentsIn\Helpers\subclass\mt940_Pekao \mt940
+\App\Modules\PaymentsIn\Helpers\subclass\mt940_Pocztowy \mt940
+\App\Modules\PaymentsIn\Helpers\subclass\mt940_RaboBank \mt940
+\App\Modules\PaymentsIn\Helpers\subclass\mt940_Raiffeisen \mt940
+\App\Modules\PaymentsIn\Helpers\subclass\mt940_SGB \mt940
+\App\Modules\PaymentsIn\Helpers\subclass\mt940_WBK \mt940
+\App\Modules\PaymentsIn\Helpers\subclass\mt940_ing \mt940
+\App\Modules\PaymentsIn\Helpers\subclass\mt940_mbank \mt940
+\App\Modules\PaymentsIn\Models\ListView \App\Modules\Base\Models\ListView
+\App\Modules\PaymentsIn\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\PaymentsIn\PaymentsIn \App\CRMEntity
+\App\Modules\PaymentsIn\Views\PaymentsImport \App\Modules\Base\Views\Index
+\App\Modules\PaymentsIn\Views\PaymentsIn_step1_View \App\Modules\Base\Views\Index
+\App\Modules\PaymentsIn\helpers\mt940
+\App\Modules\PaymentsOut\Actions\GenerateRecords \App\Runtime\BaseActionController
+\App\Modules\PaymentsOut\Milenium \mt940
+\App\Modules\PaymentsOut\Models\ListView \App\Modules\Base\Models\ListView
+\App\Modules\PaymentsOut\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\PaymentsOut\PaymentsOut \App\CRMEntity
+\App\Modules\PaymentsOut\Views\PaymentsImport \App\Modules\Base\Views\Index
+\App\Modules\PaymentsOut\ing \mt940
+\App\Modules\PaymentsOut\mbank \mt940
+\App\Modules\PaymentsOut\mt940
+\App\Modules\PickList\DependencyPicklist
+\App\Modules\Portal\Actions\DeleteAjax \App\Runtime\BaseActionController
+\App\Modules\Portal\Actions\MassDelete \App\Runtime\BaseActionController
+\App\Modules\Portal\Actions\SaveAjax \App\Modules\Base\Actions\Save
+\App\Modules\Portal\Models\ListView \App\Modules\Base\Models\ListView
+\App\Modules\Portal\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\Portal\Views\Detail \App\Modules\Base\Views\Detail
+\App\Modules\Portal\Views\EditAjax \App\Modules\Base\Views\Index
+\App\Modules\Portal\Views\ListView \App\Modules\Base\Views\Index
+\App\Modules\Portal\Views\Pagination \App\Modules\Base\Views\Index
+\App\Modules\PriceBooks\Actions\ProductListPrice \App\Runtime\BaseActionController
+\App\Modules\PriceBooks\Actions\RelationAjax \App\Runtime\BaseActionController
+\App\Modules\PriceBooks\Actions\Save \App\Runtime\BaseActionController
+\App\Modules\PriceBooks\Actions\SaveAjax \App\Modules\Base\Actions\Save
+\App\Modules\PriceBooks\Models\ListView \App\Modules\Base\Models\ListView
+\App\Modules\PriceBooks\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\PriceBooks\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\PriceBooks\Models\Relation \App\Modules\Base\Models\Relation
+\App\Modules\PriceBooks\Models\RelationListView \App\Runtime\BaseModel
+\App\Modules\PriceBooks\PriceBooks \App\CRMEntity
+\App\Modules\PriceBooks\Views\Detail \App\Modules\Base\Views\Detail
+\App\Modules\PriceBooks\Views\Edit \App\Modules\Base\Views\Index
+\App\Modules\PriceBooks\Views\ListPriceUpdate \App\Modules\Base\Views\Index
+\App\Modules\PriceBooks\Views\Popup \App\Modules\Base\Views\Index
+\App\Modules\PriceBooks\Views\PopupAjax \App\Modules\Base\Views\Index
+\App\Modules\PriceBooks\Views\ProductPriceBookPopup \App\Modules\Base\Views\Index
+\App\Modules\PriceBooks\Views\ProductPriceBookPopupAjax \App\Modules\Base\Views\Index
+\App\Modules\PriceBooks\Views\QuickCreateAjax \App\Modules\Base\Views\Index
+\App\Modules\Products\Actions\RelationAjax \App\Runtime\BaseActionController
+\App\Modules\Products\Actions\Save \App\Runtime\BaseActionController
+\App\Modules\Products\Actions\SaveAjax \App\Modules\Base\Actions\Save
+\App\Modules\Products\Actions\SubProducts \App\Runtime\BaseActionController
+\App\Modules\Products\Models\ListView \App\Modules\Base\Models\ListView
+\App\Modules\Products\Models\MassEditRecordStructure \App\Modules\Base\Models\RecordStructure
+\App\Modules\Products\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\Products\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\Products\Models\Relation \App\Modules\Base\Models\Relation
+\App\Modules\Products\Models\RelationListView \App\Runtime\BaseModel
+\App\Modules\Products\Models\SummaryWidget
+\App\Modules\Products\Models\TreeView \App\Modules\Base\Models\TreeView
+\App\Modules\Products\Products \App\CRMEntity
+\App\Modules\Products\Views\Detail \App\Modules\Base\Views\Detail
+\App\Modules\Products\Views\MoreCurrenciesList \App\Modules\Base\Views\Index
+\App\Modules\Products\Views\Popup \App\Modules\Base\Views\Index
+\App\Modules\Products\Views\PriceBookProductPopup \App\Modules\Base\Views\Index
+\App\Modules\Products\Views\PriceBookProductPopupAjax \App\Modules\Base\Views\Index
+\App\Modules\Products\Views\QuickCreateAjax \App\Modules\Base\Views\Index
+\App\Modules\Products\Views\TreeRecords \App\Modules\Base\Views\Index
+\App\Modules\Products\Views\Widget \App\Modules\Base\Views\Index
+\App\Modules\ProjectMilestone\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\ProjectMilestone\ProjectMilestone \App\CRMEntity
+\App\Modules\ProjectTask\Handlers\ProjectTask_ProjectTaskHandler_Handler
+\App\Modules\ProjectTask\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\ProjectTask\ProjectTask \App\CRMEntity
+\App\Modules\Project\Dashboards\ProjectWidget \App\Modules\Base\Views\Index
+\App\Modules\Project\HighTasks
+\App\Modules\Project\LowTasks
+\App\Modules\Project\Models\DetailView \App\Modules\Base\Models\DetailView
+\App\Modules\Project\Models\ListView \App\Modules\Base\Models\ListView
+\App\Modules\Project\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\Project\Models\RelationListView \App\Runtime\BaseModel
+\App\Modules\Project\NormalTasks
+\App\Modules\Project\OtherTasks
+\App\Modules\Project\Progress
+\App\Modules\Project\Project \App\CRMEntity
+\App\Modules\Project\SumTimeProject
+\App\Modules\Project\TaskCompleted
+\App\Modules\Project\TaskDue
+\App\Modules\Project\TasksOpen
+\App\Modules\Project\Views\Detail \App\Modules\Base\Views\Detail
+\App\Modules\RecycleBin\Actions\RecycleBinAjax \App\Runtime\BaseActionController
+\App\Modules\RecycleBin\Models\ListView \App\Modules\Base\Models\ListView
+\App\Modules\RecycleBin\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\RecycleBin\RecycleBin
+\App\Modules\RecycleBin\Views\ListAjax \App\Modules\Base\Views\Index
+\App\Modules\RecycleBin\Views\ListView \App\Modules\Base\Views\Index
+\App\Modules\RecycleBin\Views\Pagination \App\Modules\Base\Views\Index
+\App\Modules\Reports\Actions\ChartSave \App\Runtime\BaseActionController
+\App\Modules\Reports\Actions\CheckDuplicate \App\Runtime\BaseActionController
+\App\Modules\Reports\Actions\DeleteAjax \App\Runtime\BaseActionController
+\App\Modules\Reports\Actions\DetailAjax \App\Runtime\BaseActionController
+\App\Modules\Reports\Actions\Folder \App\Runtime\BaseActionController
+\App\Modules\Reports\Actions\MassDelete \App\Runtime\BaseActionController
+\App\Modules\Reports\Actions\MoveReports \App\Runtime\BaseActionController
+\App\Modules\Reports\Actions\Save \App\Runtime\BaseActionController
+\App\Modules\Reports\Dashboards\Charts \App\Modules\Base\Views\Index
+\App\Modules\Reports\Models\Base_Chart \App\Runtime\BaseModel
+\App\Modules\Reports\Models\Chart \App\Runtime\BaseModel
+\App\Modules\Reports\Models\DetailView \App\Modules\Base\Models\DetailView
+\App\Modules\Reports\Models\Folder \App\Runtime\BaseModel
+\App\Modules\Reports\Models\HorizontalbarChart \VerticalbarChart
+\App\Modules\Reports\Models\LineChart \VerticalbarChart
+\App\Modules\Reports\Models\ListView \App\Modules\Base\Models\ListView
+\App\Modules\Reports\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\Reports\Models\PieChart \Base_Chart
+\App\Modules\Reports\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\Reports\Models\RecordStructure \App\Runtime\BaseModel
+\App\Modules\Reports\Models\Report \Reports
+\App\Modules\Reports\Models\ScheduleReports \App\Runtime\BaseModel
+\App\Modules\Reports\Models\VerticalbarChart \Base_Chart
+\App\Modules\Reports\ReportRun \App\CRMEntity
+\App\Modules\Reports\ReportRunQueryDependencyMatrix
+\App\Modules\Reports\ReportRunQueryPlanner
+\App\Modules\Reports\Reports \App\CRMEntity
+\App\Modules\Reports\VTScheduledReport \Reports
+\App\Modules\Reports\Views\ChartDetail \App\Modules\Base\Views\Index
+\App\Modules\Reports\Views\ChartSaveAjax \App\Modules\Base\Views\Index
+\App\Modules\Reports\Views\Detail \App\Modules\Base\Views\Detail
+\App\Modules\Reports\Views\EditFolder \App\Modules\Base\Views\Index
+\App\Modules\Reports\Views\ExportReport \App\Runtime\BaseViewController
+\App\Modules\Reports\Views\ListAjax \App\Modules\Base\Views\Index
+\App\Modules\Reports\Views\ListView \App\Modules\Base\Views\Index
+\App\Modules\Reports\Views\MoveReports \App\Modules\Base\Views\Index
+\App\Modules\Reports\Views\Pagination \App\Modules\Base\Views\Index
+\App\Modules\Reports\Views\SaveAjax \App\Modules\Base\Views\Index
+\App\Modules\Reservations\Actions\Calendar \App\Runtime\BaseActionController
+\App\Modules\Reservations\Models\Calendar \App\Runtime\BaseModel
+\App\Modules\Reservations\Models\DetailView \App\Modules\Base\Models\DetailView
+\App\Modules\Reservations\Models\Field \App\Modules\Base\Models\Field
+\App\Modules\Reservations\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\Reservations\Reservations \App\CRMEntity
+\App\Modules\Reservations\UiTypes\Time \BaseUiType
+\App\Modules\Reservations\Views\Calendar \App\Modules\Base\Views\Index
+\App\Modules\Reservations\Views\Detail \App\Modules\Base\Views\Detail
+\App\Modules\Reservations\Views\RightPanel \App\Modules\Base\Views\Index
+\App\Modules\Rss\Actions\DeleteAjax \App\Runtime\BaseActionController
+\App\Modules\Rss\Actions\GetHtml \App\Runtime\BaseActionController
+\App\Modules\Rss\Actions\MakeDefaultAjax \App\Runtime\BaseActionController
+\App\Modules\Rss\Actions\Save \App\Runtime\BaseActionController
+\App\Modules\Rss\Models\ListView \App\Modules\Base\Models\ListView
+\App\Modules\Rss\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\Rss\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\Rss\Views\ListView \App\Modules\Base\Views\Index
+\App\Modules\Rss\Views\ViewTypes \App\Modules\Base\Views\Index
+\App\Modules\SCalculations\Actions\EditFieldByModal \App\Runtime\BaseActionController
+\App\Modules\SCalculations\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\SCalculations\SCalculations \App\CRMEntity
+\App\Modules\SCalculations\Views\EditFieldByModal \App\Modules\Base\Views\Index
+\App\Modules\SMSNotifier\Actions\CheckServerInfo \App\Runtime\BaseActionController
+\App\Modules\SMSNotifier\Actions\MassSaveAjax \App\Runtime\BaseActionController
+\App\Modules\SMSNotifier\Models\DetailView \App\Modules\Base\Models\DetailView
+\App\Modules\SMSNotifier\Models\ListView \App\Modules\Base\Models\ListView
+\App\Modules\SMSNotifier\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\SMSNotifier\Models\Provider \App\Runtime\BaseModel
+\App\Modules\SMSNotifier\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\SMSNotifier\Provider
+\App\Modules\SMSNotifier\Provider
+\App\Modules\SMSNotifier\SMSNotifier \SMSNotifierBase
+\App\Modules\SMSNotifier\SMSNotifierBase \App\CRMEntity
+\App\Modules\SMSNotifier\SMSNotifierManager
+\App\Modules\SMSNotifier\VTSMSTask \VTTask
+\App\Modules\SMSNotifier\Views\CheckStatus \App\Modules\Base\Views\Index
+\App\Modules\SMSNotifier\Views\Edit \App\Modules\Base\Views\Index
+\App\Modules\SQuoteEnquiries\Actions\EditFieldByModal \App\Runtime\BaseActionController
+\App\Modules\SQuoteEnquiries\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\SQuoteEnquiries\SQuoteEnquiries \App\CRMEntity
+\App\Modules\SQuoteEnquiries\Views\EditFieldByModal \App\Modules\Base\Views\Index
+\App\Modules\SQuotes\Actions\EditFieldByModal \App\Runtime\BaseActionController
+\App\Modules\SQuotes\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\SQuotes\SQuotes \App\CRMEntity
+\App\Modules\SQuotes\Views\EditFieldByModal \App\Modules\Base\Views\Index
+\App\Modules\SRecurringOrders\Actions\EditFieldByModal \App\Runtime\BaseActionController
+\App\Modules\SRecurringOrders\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\SRecurringOrders\SRecurringOrders \App\CRMEntity
+\App\Modules\SRecurringOrders\Views\EditFieldByModal \App\Modules\Base\Views\Index
+\App\Modules\SRequirementsCards\Actions\EditFieldByModal \App\Runtime\BaseActionController
+\App\Modules\SRequirementsCards\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\SRequirementsCards\SRequirementsCards \App\CRMEntity
+\App\Modules\SRequirementsCards\Views\EditFieldByModal \App\Modules\Base\Views\Index
+\App\Modules\SSalesProcesses\Actions\RelationAjax \App\Runtime\BaseActionController
+\App\Modules\SSalesProcesses\Dashboards\ActualSalesOfTeam \Dashboard
+\App\Modules\SSalesProcesses\Dashboards\EstimatedValueByStatus \App\Modules\Base\Views\Index
+\App\Modules\SSalesProcesses\Dashboards\TeamsEstimatedSales \App\Modules\Base\Views\Index
+\App\Modules\SSalesProcesses\Models\DetailView \App\Modules\Base\Models\DetailView
+\App\Modules\SSalesProcesses\Models\Field \App\Modules\Base\Models\Field
+\App\Modules\SSalesProcesses\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\SSalesProcesses\SSalesProcesses \App\CRMEntity
+\App\Modules\SSalesProcesses\Views\Hierarchy \App\Runtime\BaseViewController
+\App\Modules\SSingleOrders\Actions\EditFieldByModal \App\Runtime\BaseActionController
+\App\Modules\SSingleOrders\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\SSingleOrders\SSingleOrders \App\CRMEntity
+\App\Modules\SSingleOrders\Views\EditFieldByModal \App\Modules\Base\Views\Index
+\App\Modules\SVendorEnquiries\Actions\EditFieldByModal \App\Runtime\BaseActionController
+\App\Modules\SVendorEnquiries\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\SVendorEnquiries\SVendorEnquiries \App\CRMEntity
+\App\Modules\SVendorEnquiries\Views\EditFieldByModal \App\Modules\Base\Views\Index
+\App\Modules\ServiceContracts\Handlers\ServiceContracts_ServiceContractsHandler_Handler
+\App\Modules\ServiceContracts\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\ServiceContracts\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\ServiceContracts\ServiceContracts \App\CRMEntity
+\App\Modules\Services\Actions\RelationAjax \App\Runtime\BaseActionController
+\App\Modules\Services\Actions\SaveAjax \App\Modules\Base\Actions\Save
+\App\Modules\Services\Models\ListView \App\Modules\Base\Models\ListView
+\App\Modules\Services\Models\MassEditRecordStructure \App\Modules\Base\Models\RecordStructure
+\App\Modules\Services\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\Services\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\Services\Models\Relation \App\Modules\Base\Models\Relation
+\App\Modules\Services\Models\RelationListView \App\Runtime\BaseModel
+\App\Modules\Services\Models\TreeView \App\Modules\Base\Models\TreeView
+\App\Modules\Services\Services \App\CRMEntity
+\App\Modules\Services\Views\Detail \App\Modules\Base\Views\Detail
+\App\Modules\Services\Views\Edit \App\Modules\Base\Views\Edit
+\App\Modules\Services\Views\MoreCurrenciesList \App\Modules\Base\Views\Index
+\App\Modules\Services\Views\Popup \App\Modules\Base\Views\Index
+\App\Modules\Services\Views\PriceBookProductPopup \App\Modules\Base\Views\Index
+\App\Modules\Services\Views\PriceBookProductPopupAjax \App\Modules\Base\Views\Index
+\App\Modules\Services\Views\QuickCreateAjax \App\Modules\Base\Views\Index
+\App\Modules\Services\Views\TreeRecords \App\Modules\Base\Views\Index
+\App\Modules\Settings\AdvancedPermission\Actions\DeleteAjax \App\Modules\Settings\Base\Actions\Delete
+\App\Modules\Settings\AdvancedPermission\Actions\RecalculatePermission \App\Modules\Settings\Base\Actions\Save
+\App\Modules\Settings\AdvancedPermission\Actions\Save \App\Modules\Settings\Base\Actions\Save
+\App\Modules\Settings\AdvancedPermission\Models\ListView \App\Modules\Settings\Base\Models\ListView
+\App\Modules\Settings\AdvancedPermission\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\AdvancedPermission\Models\Record \App\Modules\Settings\Base\Models\Record
+\App\Modules\Settings\AdvancedPermission\Views\Edit \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\AdvancedPermission\Views\RecalculatePermission \App\Modules\Settings\Base\Views\BasicModal
+\App\Modules\Settings\AdvancedPermission\Views\Settings_AdvancedPermission_Detail_View \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\ApiAddress\Actions\SaveConfig \App\Modules\Settings\Base\Actions\Basic
+\App\Modules\Settings\ApiAddress\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\ApiAddress\Views\Configuration \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\AutomaticAssignment\Actions\DeleteAjax \App\Modules\Settings\Base\Actions\Delete
+\App\Modules\Settings\AutomaticAssignment\Actions\SaveAjax \App\Modules\Settings\Base\Actions\Save
+\App\Modules\Settings\AutomaticAssignment\Models\ListView \App\Modules\Settings\Base\Models\ListView
+\App\Modules\Settings\AutomaticAssignment\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\AutomaticAssignment\Models\Record \App\Modules\Settings\Base\Models\Record
+\App\Modules\Settings\AutomaticAssignment\Views\Create \App\Modules\Settings\Base\Views\BasicModal
+\App\Modules\Settings\AutomaticAssignment\Views\Edit \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\AutomaticAssignment\Views\List \App\Modules\Settings\Base\Views\List
+\App\Modules\Settings\Base\Actions\Basic \App\Runtime\BaseActionController
+\App\Modules\Settings\Base\Actions\ConfigEditorSaveAjax \App\Modules\Settings\Base\Actions\Basic
+\App\Modules\Settings\Base\Actions\CustomRecordNumberingAjax \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\Base\Actions\Delete \App\Modules\Settings\Base\Actions\Basic
+\App\Modules\Settings\Base\Actions\Index \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\Base\Actions\ListAjax \App\Modules\Settings\Base\Views\ListAjax
+\App\Modules\Settings\Base\Actions\Save \App\Modules\Settings\Base\Actions\Basic
+\App\Modules\Settings\Base\Actions\SystemWarnings \App\Modules\Settings\Base\Actions\Basic
+\App\Modules\Settings\Base\Actions\TaxAjax \App\Modules\Settings\Base\Actions\Basic
+\App\Modules\Settings\Base\Actions\TermsAndConditionsSaveAjax \App\Modules\Settings\Base\Actions\Basic
+\App\Modules\Settings\Base\Models\ConfigModule \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\Base\Models\CustomRecordNumberingModule \App\Modules\Base\Models\Module
+\App\Modules\Settings\Base\Models\Field \App\Modules\Base\Models\Field
+\App\Modules\Settings\Base\Models\Icons
+\App\Modules\Settings\Base\Models\ListView \App\Runtime\BaseModel
+\App\Modules\Settings\Base\Models\Menu \App\Modules\Base\Models\Record
+\App\Modules\Settings\Base\Models\MenuItem \App\Modules\Base\Models\Record
+\App\Modules\Settings\Base\Models\Module \App\Modules\Base\Models\Record
+\App\Modules\Settings\Base\Models\Record \App\Runtime\BaseModel
+\App\Modules\Settings\Base\Models\Systems \App\Modules\Base\Models\Record
+\App\Modules\Settings\Base\Models\TermsAndConditions \App\Modules\Base\Models\Record
+\App\Modules\Settings\Base\Models\Tracker
+\App\Modules\Settings\Base\Views\BasicModal \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\Base\Views\ConfigEditorDetail \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Base\Views\ConfigEditorEdit \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Base\Views\Credits \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Base\Views\CustomRecordNumbering \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Base\Views\IconsModal \App\Modules\Base\Views\BasicModal
+\App\Modules\Settings\Base\Views\Index \App\Modules\Base\Views\Basic
+\App\Modules\Settings\Base\Views\IndexAjax \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Base\Views\License \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Base\Views\ListAjax \App\Modules\Settings\Base\Views\ListView
+\App\Modules\Settings\Base\Views\ListMenu \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Base\Views\ListView \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Base\Views\ListView \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Base\Views\Pagination \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\Base\Views\Policy \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Base\Views\TermsAndConditionsEdit \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\BruteForce\Actions\SaveAjax \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\BruteForce\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\BruteForce\Views\Index \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Calendar\Actions\SaveAjax \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\Calendar\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\Calendar\Views\ActivityTypes \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Calendar\Views\UserColors \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Companies\Actions\DeleteAjax \App\Modules\Settings\Base\Actions\Delete
+\App\Modules\Settings\Companies\Actions\SaveAjax \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\Companies\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\Companies\Models\Record \App\Modules\Settings\Base\Models\Record
+\App\Modules\Settings\Companies\Views\Detail \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Companies\Views\Edit \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\ConfReport\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\ConfReport\Views\Index \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\ConfReport\Views\Speed \App\Modules\Base\Views\BasicModal
+\App\Modules\Settings\CronTasks\Actions\AddCron \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\CronTasks\Actions\SaveAjax \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\CronTasks\Actions\UpdateSequence \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\CronTasks\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\CronTasks\Models\Record \App\Modules\Settings\Base\Models\Record
+\App\Modules\Settings\CronTasks\Views\AddAjax \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\CronTasks\Views\EditAjax \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\CronTasks\Views\List \App\Modules\Settings\Base\Views\List
+\App\Modules\Settings\CurrencyUpdate\Actions\GetBankCurrencies \App\Runtime\BaseActionController
+\App\Modules\Settings\CurrencyUpdate\Actions\SaveActiveBank \App\Runtime\BaseActionController
+\App\Modules\Settings\CurrencyUpdate\Models\AbstractBank
+\App\Modules\Settings\CurrencyUpdate\Models\Module \App\Modules\Base\Models\Record
+\App\Modules\Settings\CurrencyUpdate\Models\Settings_CurrencyUpdate_models_CBR_BankModel \App\Modules\Settings\CurrencyUpdate\Models\AbstractBank
+\App\Modules\Settings\CurrencyUpdate\Models\Settings_CurrencyUpdate_models_ECB_BankModel \App\Modules\Settings\CurrencyUpdate\Models\AbstractBank
+\App\Modules\Settings\CurrencyUpdate\Models\Settings_CurrencyUpdate_models_NBP_BankModel \App\Modules\Settings\CurrencyUpdate\Models\AbstractBank
+\App\Modules\Settings\CurrencyUpdate\Models\Settings_CurrencyUpdate_models_NBR_BankModel \App\Modules\Settings\CurrencyUpdate\Models\AbstractBank
+\App\Modules\Settings\CurrencyUpdate\Views\Index \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Currency\Actions\DeleteAjax \App\Modules\Settings\Base\Actions\Basic
+\App\Modules\Settings\Currency\Actions\SaveAjax \App\Modules\Settings\Base\Actions\Basic
+\App\Modules\Settings\Currency\Models\ListView \App\Modules\Settings\Base\Models\ListView
+\App\Modules\Settings\Currency\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\Currency\Models\Record \App\Modules\Settings\Base\Models\Record
+\App\Modules\Settings\Currency\Views\EditAjax \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\Currency\Views\TransformEditAjax \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\CustomView\Actions\SaveAjax \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\CustomView\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\CustomView\Views\FilterPermissions \App\Modules\Settings\Base\Views\BasicModal
+\App\Modules\Settings\CustomView\Views\Index \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\CustomView\Views\Sorting \App\Modules\Settings\Base\Views\BasicModal
+\App\Modules\Settings\DataAccess\Actions\DeleteAction \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\DataAccess\Actions\DeleteTemplate \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\DataAccess\Actions\ExecuteHandlers \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\DataAccess\Actions\Save \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\DataAccess\Actions\SaveActionConfig \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\DataAccess\Actions\SaveTpl \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\DataAccess\Actions\UpdateTpl \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\DataAccess\Helpers\DataAccess_Conditions
+\App\Modules\Settings\DataAccess\Helpers\DataAccess_ConditionsTest
+\App\Modules\Settings\DataAccess\Helpers\Oss_Tool
+\App\Modules\Settings\DataAccess\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\Settings\DataAccess\Views\Condition \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\DataAccess\Views\Settings_DataAccess_ActionConfig_View \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\DataAccess\Views\Settings_DataAccess_AddAction_View \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\DataAccess\Views\Settings_DataAccess_Index_View \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\DataAccess\Views\Settings_DataAccess_ListDoc_View \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\DataAccess\Views\Settings_DataAccess_Step1_View \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\DataAccess\Views\Settings_DataAccess_Step2_View \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\DataAccess\Views\Settings_DataAccess_Step3_View \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Dav\Actions\SaveAjax \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\Dav\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\Dav\Views\Keys \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\FinancialProcesses\Views\Index \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Github\Actions\SaveIssuesAjax \App\Modules\Settings\Base\Actions\Basic
+\App\Modules\Settings\Github\Actions\SaveKeysAjax \App\Modules\Settings\Base\Actions\Basic
+\App\Modules\Settings\Github\Models\Client
+\App\Modules\Settings\Github\Models\Issues
+\App\Modules\Settings\Github\Views\AddIssue \App\Modules\Base\Views\BasicModal
+\App\Modules\Settings\GlobalPermission\Actions\Save \App\Modules\Settings\Base\Actions\Save
+\App\Modules\Settings\GlobalPermission\Models\Record \App\Modules\Settings\Base\Models\Record
+\App\Modules\Settings\GlobalPermission\Views\Index \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Groups\Actions\DeleteAjax \App\Modules\Settings\Base\Actions\Delete
+\App\Modules\Settings\Groups\Actions\Save \App\Modules\Settings\Base\Actions\Save
+\App\Modules\Settings\Groups\Actions\Settings_Groups_EditAjax_Action \App\Modules\Settings\Base\Actions\Basic
+\App\Modules\Settings\Groups\Models\Member \App\Modules\Base\Models\Record
+\App\Modules\Settings\Groups\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\Groups\Models\Record \App\Modules\Settings\Base\Models\Record
+\App\Modules\Settings\Groups\Views\DeleteAjax \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Groups\Views\Settings_Groups_Detail_View \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Groups\Views\Settings_Groups_Edit_View \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\HideBlocks\Actions\Delete \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\HideBlocks\Actions\Save \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\HideBlocks\Models\ListView \App\Modules\Settings\Base\Models\ListView
+\App\Modules\Settings\HideBlocks\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\HideBlocks\Models\Record \App\Modules\Settings\Base\Models\Record
+\App\Modules\Settings\HideBlocks\Views\Settings_HideBlocks_Conditions_View \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\HideBlocks\Views\Settings_HideBlocks_Edit_View \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Inventory\Actions\SaveAjax \App\Modules\Settings\Base\Actions\Basic
+\App\Modules\Settings\Inventory\Models\Module \App\Modules\Base\Models\Record
+\App\Modules\Settings\Inventory\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\Settings\Inventory\Views\CreditLimits \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Inventory\Views\DiscountConfiguration \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Inventory\Views\Discounts \App\Modules\Settings\Inventory\Views\CreditLimits
+\App\Modules\Settings\Inventory\Views\ModalAjax \App\Modules\Settings\Inventory\Views\CreditLimits
+\App\Modules\Settings\Inventory\Views\TaxConfiguration \App\Modules\Settings\Inventory\Views\DiscountConfiguration
+\App\Modules\Settings\Inventory\Views\Taxes \App\Modules\Settings\Inventory\Views\CreditLimits
+\App\Modules\Settings\LangManagement\Actions\Export \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\LangManagement\Actions\GetChart \App\Modules\Settings\Base\Actions\Basic
+\App\Modules\Settings\LangManagement\Actions\SaveAjax \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\LangManagement\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\LangManagement\Views\Edit \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\LangManagement\Views\EditHelpIcon \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\LangManagement\Views\GetLabels \App\Modules\Settings\Base\Views\BasicModal
+\App\Modules\Settings\LangManagement\Views\Index \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\LayoutEditor\Actions\Block \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\LayoutEditor\Actions\Field \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\LayoutEditor\Actions\Relation \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\LayoutEditor\Actions\SaveAjax \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\LayoutEditor\Models\Block \App\Modules\Base\Models\Block
+\App\Modules\Settings\LayoutEditor\Models\Field \App\Modules\Base\Models\Field
+\App\Modules\Settings\LayoutEditor\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\Settings\LayoutEditor\Views\CreateInventoryFields \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\LayoutEditor\Views\EditField \App\Modules\Settings\Base\Views\BasicModal
+\App\Modules\Settings\LayoutEditor\Views\Index \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Leads\Actions\MappingDelete \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\Leads\Actions\MappingSave \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\Leads\Models\Field \App\Modules\Base\Models\Field
+\App\Modules\Settings\Leads\Models\Mapping \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\Leads\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\Settings\Leads\Views\MappingDetail \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Leads\Views\MappingEdit \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\LoginHistory\Actions\ListAjax \App\Modules\Settings\Base\Actions\ListAjax
+\App\Modules\Settings\LoginHistory\Models\ListView \App\Modules\Settings\Base\Models\ListView
+\App\Modules\Settings\LoginHistory\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\LoginHistory\Models\Record \App\Modules\Settings\Base\Models\Record
+\App\Modules\Settings\LoginHistory\Views\List \App\Modules\Settings\Base\Views\List
+\App\Modules\Settings\MailSmtp\Actions\DeleteAjax \App\Modules\Settings\Base\Actions\Delete
+\App\Modules\Settings\MailSmtp\Actions\SaveAjax \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\MailSmtp\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\MailSmtp\Models\Record \App\Modules\Settings\Base\Models\Record
+\App\Modules\Settings\MailSmtp\Views\Detail \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\MailSmtp\Views\Edit \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Mail\Actions\DeleteAjax \App\Modules\Settings\Base\Actions\Delete
+\App\Modules\Settings\Mail\Actions\DownloadAttachment \App\Modules\Base\Actions\Mass
+\App\Modules\Settings\Mail\Actions\MassAccept \App\Modules\Base\Actions\Mass
+\App\Modules\Settings\Mail\Actions\MassDelete \App\Modules\Base\Actions\Mass
+\App\Modules\Settings\Mail\Actions\MassSend \App\Modules\Base\Actions\Mass
+\App\Modules\Settings\Mail\Actions\SaveAjax \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\Mail\Actions\SendManuallyAjax \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\Mail\Models\Autologin
+\App\Modules\Settings\Mail\Models\Config
+\App\Modules\Settings\Mail\Models\ListView \App\Modules\Settings\Base\Models\ListView
+\App\Modules\Settings\Mail\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\Mail\Models\Record \App\Modules\Settings\Base\Models\Record
+\App\Modules\Settings\Mail\Views\Autologin \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Mail\Views\Config \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Mail\Views\Detail \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Mail\Views\List \App\Modules\Settings\Base\Views\List
+\App\Modules\Settings\MappedFields\Actions\DeleteAjax \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\MappedFields\Actions\ExportTemplate \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\MappedFields\Actions\SaveAjax \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\MappedFields\Models\Field \App\Modules\Base\Models\Field
+\App\Modules\Settings\MappedFields\Models\ListView \App\Modules\Settings\Base\Models\ListView
+\App\Modules\Settings\MappedFields\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\MappedFields\Models\Record \App\Modules\Settings\Base\Models\Record
+\App\Modules\Settings\MappedFields\Views\Edit \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\MappedFields\Views\Import \App\Modules\Settings\Base\Views\BasicModal
+\App\Modules\Settings\MappedFields\Views\List \App\Modules\Settings\Base\Views\List
+\App\Modules\Settings\MarketingProcesses\Actions\SaveAjax \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\MarketingProcesses\Models\Module \App\Modules\Base\Models\Record
+\App\Modules\Settings\MarketingProcesses\Views\Index \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Menu\Actions\SaveAjax \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\Menu\Models\Module
+\App\Modules\Settings\Menu\Models\Record \App\Modules\Settings\Base\Models\Record
+\App\Modules\Settings\Menu\Views\CreateMenu \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\Menu\Views\EditMenu \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\Menu\Views\Index \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\ModTracker\Actions\Save \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\ModTracker\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\ModTracker\Views\List \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\ModuleManager\Actions\Basic \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\ModuleManager\Actions\Library \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\ModuleManager\Actions\Settings_ModuleManager_ModuleExport_Action \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\ModuleManager\Models\Library
+\App\Modules\Settings\ModuleManager\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\Settings\ModuleManager\Views\ModuleImport \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\ModuleManager\Views\Settings_ModuleManager_CreateModule_View \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\ModuleManager\Views\Settings_ModuleManager_List_View \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Notifications\Actions\SaveAjax \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\Notifications\Views\Configuration \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Notifications\Views\Members \App\Modules\Settings\Base\Views\BasicModal
+\App\Modules\Settings\OSSMailScanner\Actions\SaveAjax \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\OSSMailScanner\Views\Folders \App\Modules\Base\Views\BasicModal
+\App\Modules\Settings\OSSMailScanner\Views\Index \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\OSSMailScanner\Views\logs \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\OSSMailView\Views\Index \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\OSSMail\Views\Index \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\OSSPasswords\Views\ConfigurePass \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\PBXManager\Actions\Gateway \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\PBXManager\Actions\SaveAjax \App\Modules\Base\Actions\Save
+\App\Modules\Settings\PBXManager\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\PBXManager\Models\Record \App\Modules\Settings\Base\Models\Record
+\App\Modules\Settings\PBXManager\Views\Index \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\PBXManager\Views\Settings_PBXManager_Edit_View \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\PDF\Actions\DeleteAjax \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\PDF\Actions\ExportTemplate \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\PDF\Actions\Save \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\PDF\Actions\Watermark \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\PDF\Models\ListView \App\Modules\Settings\Base\Models\ListView
+\App\Modules\Settings\PDF\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\PDF\Models\Record \App\Modules\Settings\Base\Models\Record
+\App\Modules\Settings\PDF\Views\Edit \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\PDF\Views\Import \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\PDF\Views\List \App\Modules\Settings\Base\Views\List
+\App\Modules\Settings\Password\Actions\Save \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\Password\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\Settings\Password\Views\Settings_Password_Index_View \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\PickListDependency\Actions\DeleteAjax \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\PickListDependency\Actions\Index \App\Modules\Settings\Base\Actions\Basic
+\App\Modules\Settings\PickListDependency\Actions\SaveAjax \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\PickListDependency\Models\ListView \App\Modules\Settings\Base\Models\ListView
+\App\Modules\Settings\PickListDependency\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\PickListDependency\Models\Record \App\Modules\Settings\Base\Models\Record
+\App\Modules\Settings\PickListDependency\Views\AddDependency \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\PickListDependency\Views\Edit \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\PickListDependency\Views\IndexAjax \App\Modules\Settings\PickListDependency\Views\Edit
+\App\Modules\Settings\PickListDependency\Views\List \App\Modules\Settings\Base\Views\List
+\App\Modules\Settings\Picklist\Actions\SaveAjax \App\Modules\Settings\Base\Actions\Basic
+\App\Modules\Settings\Picklist\Models\Field \App\Modules\Base\Models\Field
+\App\Modules\Settings\Picklist\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\Settings\Picklist\Views\Index \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Picklist\Views\IndexAjax \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\Profiles\Actions\Delete \App\Modules\Settings\Base\Actions\Basic
+\App\Modules\Settings\Profiles\Actions\Save \App\Runtime\BaseActionController
+\App\Modules\Settings\Profiles\Actions\Settings_Profiles_EditAjax_Action \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\Profiles\Models\ListView \App\Modules\Settings\Base\Models\ListView
+\App\Modules\Settings\Profiles\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\Profiles\Models\Record \App\Modules\Settings\Base\Models\Record
+\App\Modules\Settings\Profiles\Views\DeleteAjax \App\Modules\Settings\Profiles\Views\IndexAjax
+\App\Modules\Settings\Profiles\Views\Detail \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Profiles\Views\IndexAjax \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Profiles\Views\ListView \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Profiles\Views\Settings_Profiles_EditAjax_View \Settings_Profiles_Edit_View
+\App\Modules\Settings\Profiles\Views\Settings_Profiles_Edit_View \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\PublicHoliday\Actions\Holiday \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\PublicHoliday\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\PublicHoliday\Views\Configuration \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\QuickCreateEditor\Actions\SaveSequenceNumber \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\QuickCreateEditor\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\Settings\QuickCreateEditor\Views\Index \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\RealizationProcesses\Actions\SaveGeneral \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\RealizationProcesses\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\RealizationProcesses\Views\Index \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\RecordAllocation\Actions\SaveAjax \App\Modules\Settings\Base\Actions\Save
+\App\Modules\Settings\RecordAllocation\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\RecordAllocation\Views\Index \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Roles\Actions\Delete \App\Modules\Settings\Base\Actions\Basic
+\App\Modules\Settings\Roles\Actions\MoveAjax \App\Modules\Settings\Base\Actions\Basic
+\App\Modules\Settings\Roles\Actions\Save \App\Runtime\BaseActionController
+\App\Modules\Settings\Roles\Actions\Settings_Roles_EditAjax_Action \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\Roles\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\Roles\Models\Record \App\Modules\Settings\Base\Models\Record
+\App\Modules\Settings\Roles\Views\DeleteAjax \App\Modules\Settings\Roles\Views\IndexAjax
+\App\Modules\Settings\Roles\Views\Index \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Roles\Views\IndexAjax \App\Modules\Settings\Roles\Views\Index
+\App\Modules\Settings\Roles\Views\Popup \App\Modules\Base\Views\Footer
+\App\Modules\Settings\Roles\Views\Settings_Roles_EditAjax_View \App\Modules\Settings\Roles\Views\IndexAjax
+\App\Modules\Settings\Roles\Views\Settings_Roles_Edit_View \App\Modules\Settings\Roles\Views\Index
+\App\Modules\Settings\SMSNotifier\Actions\Delete \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\SMSNotifier\Actions\SaveAjax \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\SMSNotifier\Models\Field \App\Modules\Base\Models\Field
+\App\Modules\Settings\SMSNotifier\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\SMSNotifier\Models\ProviderField \App\Modules\Settings\SMSNotifier\Models\Field
+\App\Modules\Settings\SMSNotifier\Models\Record \App\Modules\Settings\Base\Models\Record
+\App\Modules\Settings\SMSNotifier\Views\Edit \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\SalesProcesses\Actions\SaveAjax \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\SalesProcesses\Models\Module \App\Modules\Base\Models\Record
+\App\Modules\Settings\SalesProcesses\Views\Index \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Search\Actions\SaveAjax \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\Search\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\Search\Views\Index \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\SharingAccess\Actions\Settings_SharingAccess_IndexAjax_Action \App\Modules\Settings\Base\Actions\Save
+\App\Modules\Settings\SharingAccess\Actions\Settings_SharingAccess_SaveAjax_Action \App\Modules\Settings\Base\Actions\Save
+\App\Modules\Settings\SharingAccess\Models\Action \App\Modules\Base\Models\Record
+\App\Modules\Settings\SharingAccess\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\Settings\SharingAccess\Models\Rule \App\Modules\Base\Models\Record
+\App\Modules\Settings\SharingAccess\Models\RuleMember \App\Modules\Base\Models\Record
+\App\Modules\Settings\SharingAccess\Views\Settings_SharingAccess_IndexAjax_View \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\SharingAccess\Views\Settings_SharingAccess_Index_View \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\SupportProcesses\Actions\SaveAjax \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\SupportProcesses\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\SupportProcesses\Views\Index \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\TimeControlProcesses\Actions\SaveAjax \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\TimeControlProcesses\Models\Module \App\Modules\Base\Models\Record
+\App\Modules\Settings\TimeControlProcesses\Views\Index \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\TreesManager\Actions\Delete \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\TreesManager\Actions\Save \App\Runtime\BaseActionController
+\App\Modules\Settings\TreesManager\Models\ListView \App\Modules\Settings\Base\Models\ListView
+\App\Modules\Settings\TreesManager\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\TreesManager\Models\Record \App\Modules\Settings\Base\Models\Record
+\App\Modules\Settings\TreesManager\Views\Edit \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\TreesManager\Views\List \App\Modules\Settings\Base\Views\List
+\App\Modules\Settings\TreesManager\Views\ReplaceTreeItem \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Updates\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\Updates\Views\Index \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Users\Actions\Logout \App\Runtime\BaseActionController
+\App\Modules\Settings\Users\Actions\SaveAjax \App\Modules\Settings\Base\Actions\Save
+\App\Modules\Settings\Users\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\Users\Models\Record \App\Modules\Settings\Base\Models\Record
+\App\Modules\Settings\Users\Views\Auth \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Users\Views\Colors \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Users\Views\Detail \App\Modules\Users\Views\PreferenceDetail
+\App\Modules\Settings\Users\Views\Edit \App\Modules\Users\Views\PreferenceEdit
+\App\Modules\Settings\Users\Views\List \App\Modules\Users\Views\ListView
+\App\Modules\Settings\Users\Views\ListView \App\Modules\Users\Views\ListView
+\App\Modules\Settings\Users\Views\Locks \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Users\Views\SwitchUsers \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\WebserviceApps\Actions\Delete \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\WebserviceApps\Actions\SaveAjax \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\WebserviceApps\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\WebserviceApps\Models\Record \App\Modules\Settings\Base\Models\Record
+\App\Modules\Settings\WebserviceApps\Views\CreateApp \App\Modules\Settings\Base\Views\BasicModal
+\App\Modules\Settings\WebserviceApps\Views\Index \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\WebserviceUsers\Actions\DeleteAjax \App\Modules\Settings\Base\Actions\Delete
+\App\Modules\Settings\WebserviceUsers\Actions\SaveAjax \App\Modules\Settings\Base\Actions\Save
+\App\Modules\Settings\WebserviceUsers\Models\ListView \App\Modules\Settings\Base\Models\ListView
+\App\Modules\Settings\WebserviceUsers\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\WebserviceUsers\Models\Record \App\Modules\Settings\Base\Models\Record
+\App\Modules\Settings\WebserviceUsers\Views\Edit \App\Modules\Settings\Base\Views\BasicModal
+\App\Modules\Settings\WebserviceUsers\Views\List \App\Modules\Settings\Base\Views\List
+\App\Modules\Settings\WidgetsManagement\Actions\CreateChart \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\WidgetsManagement\Actions\Dashboard \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\WidgetsManagement\Actions\SaveAjax \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\WidgetsManagement\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\WidgetsManagement\Views\AddChart \App\Modules\Settings\Base\Views\BasicModal
+\App\Modules\Settings\WidgetsManagement\Views\AddRss \App\Modules\Settings\Base\Views\BasicModal
+\App\Modules\Settings\WidgetsManagement\Views\Configuration \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\WidgetsManagement\Views\DashboardType \App\Modules\Settings\Base\Views\BasicModal
+\App\Modules\Settings\Widgets\Actions\SaveAjax \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\Widgets\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\Widgets\Views\Edit \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Widgets\Views\Index \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Widgets\Views\Widget \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Workflows\Actions\DeleteAjax \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\Workflows\Actions\ExportWorkflow \App\Modules\Settings\Base\Actions\Index
+\App\Modules\Settings\Workflows\Actions\Save \App\Modules\Settings\Base\Actions\Basic
+\App\Modules\Settings\Workflows\Actions\TaskAjax \App\Modules\Settings\Base\Views\IndexAjax
+\App\Modules\Settings\Workflows\Models\Field \App\Modules\Base\Models\Field
+\App\Modules\Settings\Workflows\Models\FilterRecordStructure \App\Modules\Settings\Workflows\Models\RecordStructure
+\App\Modules\Settings\Workflows\Models\ListView \App\Modules\Settings\Base\Models\ListView
+\App\Modules\Settings\Workflows\Models\Module \App\Modules\Settings\Base\Models\Module
+\App\Modules\Settings\Workflows\Models\Record \App\Modules\Settings\Base\Models\Record
+\App\Modules\Settings\Workflows\Models\RecordStructure \App\Modules\Base\Models\RecordStructure
+\App\Modules\Settings\Workflows\Models\TaskRecord \App\Modules\Settings\Base\Models\Record
+\App\Modules\Settings\Workflows\Models\TaskType \App\Modules\Base\Models\Record
+\App\Modules\Settings\Workflows\Views\CreateEntity \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Workflows\Views\Edit \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Workflows\Views\EditTask \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Workflows\Views\Import \App\Modules\Settings\Base\Views\Index
+\App\Modules\Settings\Workflows\Views\List \App\Modules\Settings\Base\Views\List
+\App\Modules\Settings\Workflows\Views\TasksList \App\Modules\Settings\Base\Views\Index
+\App\Modules\Users\Actions\BasicAjax \App\Runtime\BaseActionController
+\App\Modules\Users\Actions\CheckUserEmail \App\Runtime\BaseActionController
+\App\Modules\Users\Actions\CheckUserPass \App\Runtime\BaseActionController
+\App\Modules\Users\Actions\DeleteAjax \App\Runtime\BaseActionController
+\App\Modules\Users\Actions\DeleteImage \App\Runtime\BaseActionController
+\App\Modules\Users\Actions\ExportData \App\Runtime\BaseActionController
+\App\Modules\Users\Actions\ForgotPassword
+\App\Modules\Users\Actions\ListAjax \App\Runtime\BaseActionController
+\App\Modules\Users\Actions\Login \App\Runtime\BaseActionController
+\App\Modules\Users\Actions\Logout \App\Runtime\BaseActionController
+\App\Modules\Users\Actions\MassSave \App\Runtime\BaseActionController
+\App\Modules\Users\Actions\Save \App\Modules\Base\Actions\Save
+\App\Modules\Users\Actions\SaveAjax \App\Modules\Base\Actions\Save
+\App\Modules\Users\Actions\SwitchUsers \App\Runtime\BaseActionController
+\App\Modules\Users\Actions\UserSetupSave \App\Runtime\BaseActionController
+\App\Modules\Users\Handlers\Users_ForgotPassword_Handler
+\App\Modules\Users\Models\Colors \App\Runtime\BaseModel
+\App\Modules\Users\Models\DetailRecordStructure \App\Modules\Base\Models\RecordStructure
+\App\Modules\Users\Models\DetailView \App\Modules\Base\Models\DetailView
+\App\Modules\Users\Models\EditRecordStructure \App\Modules\Base\Models\RecordStructure
+\App\Modules\Users\Models\Field \App\Modules\Base\Models\Field
+\App\Modules\Users\Models\ListView \App\Modules\Base\Models\ListView
+\App\Modules\Users\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\Users\Models\Privileges \App\Runtime\BaseModel
+\App\Modules\Users\Models\QuickCreateRecordStructure \App\Modules\Base\Models\RecordStructure
+\App\Modules\Users\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\Users\Models\RecordStructure \App\Runtime\BaseModel
+\App\Modules\Users\Services\PrivilegeFileManager
+\App\Modules\Users\UiTypes\Boolean \App\Modules\Base\UiTypes\BaseUiType
+\App\Modules\Users\UserTimeZones
+\App\Modules\Users\Users \App\CRMEntity
+\App\Modules\Users\Views\ChangePassword \App\Modules\Base\Views\Index
+\App\Modules\Users\Views\DeleteAjax \App\Modules\Base\Views\Index
+\App\Modules\Users\Views\DeleteUser \App\Modules\Base\Views\Index
+\App\Modules\Users\Views\EditAjax \App\Modules\Base\Views\IndexAjax
+\App\Modules\Users\Views\Index \App\Modules\Base\Views\Index
+\App\Modules\Users\Views\ListAjax \App\Modules\Base\Views\Index
+\App\Modules\Users\Views\ListView \App\Modules\Settings\Base\Views\ListView
+\App\Modules\Users\Views\Login \App\Runtime\BaseViewController
+\App\Modules\Users\Views\PreferenceDetail \App\Modules\Base\Views\Detail
+\App\Modules\Users\Views\PreferenceEdit \App\Modules\Base\Views\Edit
+\App\Modules\Users\Views\QuickCreateAjax \App\Modules\Base\Views\Index
+\App\Modules\Users\Views\SwitchUsers \App\Modules\Base\Views\Index
+\App\Modules\Users\Views\TransferOwner \App\Modules\Base\Views\Index
+\App\Modules\Users\files\Image
+\App\Modules\Users\textparsers\UsersLinkToForgotPassword \App\TextParser\Base
+\App\Modules\Vendors\Models\DetailView \App\Modules\Base\Models\DetailView
+\App\Modules\Vendors\Models\ListView \App\Modules\Base\Models\ListView
+\App\Modules\Vendors\Models\Module \App\Modules\Base\Models\Module
+\App\Modules\Vendors\Models\Record \App\Modules\Base\Models\Record
+\App\Modules\Vendors\Models\Relation \App\Modules\Base\Models\Relation
+\App\Modules\Vendors\Vendors \App\CRMEntity
+\App\Modules\WSAPP\Handlers\OutlookHandler \SyncHandler
+\App\Modules\WSAPP\Handlers\OutlookVtigerCRMHandler \vtigerCRMHandler
+\App\Modules\WSAPP\Handlers\SyncHandler
+\App\Modules\WSAPP\Handlers\vtigerCRMHandler \SyncHandler
+\App\Modules\WSAPP\OutlookSyncServer \SyncServer
+\App\Modules\WSAPP\SyncServer
+\App\Modules\WSAPP\WSAPP
+\App\Modules\WSAPP\WorkFlowHandlers\WSAPPAssignToTracker \VTEventHandler
+\App\Modules\WSAPP\synclib\connectors\VtigerConnector \WSAPP_BaseConnector
+\App\Modules\WSAPP\synclib\connectors\WSAPP_BaseConnector
+\App\Modules\WSAPP\synclib\connectors\WSAPP_TargetConnector \WSAPP_BaseConnector
+\App\Modules\WSAPP\synclib\controllers\WSAPP_SynchronizeController
+\App\Modules\WSAPP\synclib\handlers\VtigerSyncEventHandler \SyncHandler
+\App\Modules\WSAPP\synclib\models\PullResultModel \WSAPP_BaseModel
+\App\Modules\WSAPP\synclib\models\SyncStateModel \WSAPP_BaseModel
+\App\Modules\WSAPP\synclib\models\TargetModel \WSAPP_SyncRecordModel
+\App\Modules\WSAPP\synclib\models\VtigerModel \WSAPP_SyncRecordModel
+\App\Modules\WSAPP\synclib\models\WSAPP_BaseModel
+\App\Modules\WSAPP\synclib\models\WSAPP_SyncRecordModel \WSAPP_BaseModel
+\App\Modules\Workflow\ExpressionEngine\VTExpressionEnv
+\App\Modules\Workflow\ExpressionEngine\VTExpressionParser
+\App\Modules\Workflow\ExpressionEngine\VTExpressionSpaceFilter
+\App\Modules\Workflow\ExpressionEngine\VTExpressionSymbol
+\App\Modules\Workflow\ExpressionEngine\VTExpressionToken
+\App\Modules\Workflow\ExpressionEngine\VTExpressionTokenizer
+\App\Modules\Workflow\ExpressionEngine\VTExpressionTreeNode
+\App\Modules\Workflow\ExpressionEngine\VTExpressionsManager
+\App\Modules\Workflow\ExpressionEngine\VTFieldExpressionEvaluater
+\App\Modules\Workflow\Tasks\VTAddressBookTask \VTTask
+\App\Modules\Workflow\Tasks\VTAutoAssign \VTTask
+\App\Modules\Workflow\Tasks\VTCreateEntityTask \VTTask
+\App\Modules\Workflow\Tasks\VTCreateEventTask \App\Modules\Workflow\VTTask
+\App\Modules\Workflow\Tasks\VTCreateTodoTask \VTTask
+\App\Modules\Workflow\Tasks\VTDummyTask \VTTask
+\App\Modules\Workflow\Tasks\VTEmailTask \VTTask
+\App\Modules\Workflow\Tasks\VTEmailTemplateTask \VTTask
+\App\Modules\Workflow\Tasks\VTEntityMethodTask \VTTask
+\App\Modules\Workflow\Tasks\VTSendNotificationTask \VTTask
+\App\Modules\Workflow\Tasks\VTSendPdf \VTTask
+\App\Modules\Workflow\Tasks\VTUpdateCalendarDates \VTTask
+\App\Modules\Workflow\Tasks\VTUpdateClosedTime \VTTask
+\App\Modules\Workflow\Tasks\VTUpdateFieldsTask \VTTask
+\App\Modules\Workflow\Tasks\VTUpdateRelatedFieldTask \VTTask
+\App\Modules\Workflow\Tasks\VTUpdateWorkTime \VTTask
+\App\Modules\Workflow\Tasks\VTWatchdog \VTTask
+\App\Modules\Workflow\VTConditionalExpression
+\App\Modules\Workflow\VTConditionalParser
+\App\Modules\Workflow\VTEntityCache
+\App\Modules\Workflow\VTEntityMethodManager
+\App\Modules\Workflow\VTJsonCondition
+\App\Modules\Workflow\VTParseFailed \Exception
+\App\Modules\Workflow\VTTask
+\App\Modules\Workflow\VTTaskManager
+\App\Modules\Workflow\VTTaskQueue
+\App\Modules\Workflow\VTTaskType
+\App\Modules\Workflow\VTWorkflowApplication
+\App\Modules\Workflow\VTWorkflowEntity
+\App\Modules\Workflow\VTWorkflowEventHandler \VTEventHandler
+\App\Modules\Workflow\VTWorkflowManager
+\App\Modules\Workflow\VTWorkflowTemplate
+\App\Modules\Workflow\VTWorkflowTemplateManager
+\App\Modules\Workflow\VTWorkflowUtils
+\App\Modules\Workflow\WorkFlowScheduler
+\App\Modules\Workflow\Workflow
+\App\Privilege
+\App\PrivilegeAdvanced
+\App\PrivilegeFile
+\App\PrivilegeQuery
+\App\PrivilegeUpdater
+\App\PrivilegeUtil
+\App\Purifier
+\App\QueryField\BaseField
+\App\QueryField\BooleanField \BaseField
+\App\QueryField\CategoryMultipicklistField \TaxesField
+\App\QueryField\CompanySelectField \PicklistField
+\App\QueryField\CurrencyField \IntegerField
+\App\QueryField\CurrencyListField \PicklistField
+\App\QueryField\DateField \BaseField
+\App\QueryField\DatetimeField \DateField
+\App\QueryField\DocumentsFileUploadField \StringField
+\App\QueryField\DoubleField \IntegerField
+\App\QueryField\EmailField \StringField
+\App\QueryField\FileLocationTypeField \PicklistField
+\App\QueryField\IdField \StringField
+\App\QueryField\ImageField \StringField
+\App\QueryField\IntegerField \BaseField
+\App\QueryField\InventoryLimitField \PicklistField
+\App\QueryField\LanguagesField \PicklistField
+\App\QueryField\ModulesField \BaseField
+\App\QueryField\MultiReferenceValueField \BaseField
+\App\QueryField\MultipicklistField \BaseField
+\App\QueryField\OwnerField \BaseField
+\App\QueryField\PercentageField \IntegerField
+\App\QueryField\PhoneField \StringField
+\App\QueryField\PicklistField \BaseField
+\App\QueryField\RangeTimeField \BaseField
+\App\QueryField\RecordNumberField \StringField
+\App\QueryField\RecurrenceField \BooleanField
+\App\QueryField\ReferenceField \BaseField
+\App\QueryField\ReferenceLinkField \ReferenceField
+\App\QueryField\ReferenceProcessField \ReferenceField
+\App\QueryField\ReferenceSubProcessField \ReferenceField
+\App\QueryField\ReminderField \IntegerField
+\App\QueryField\SalutationField \StringField
+\App\QueryField\SharedOwnerField \BaseField
+\App\QueryField\StringField \BaseField
+\App\QueryField\TaxesField \MultipicklistField
+\App\QueryField\TextField \StringField
+\App\QueryField\TimeField \BaseField
+\App\QueryField\TreeField \StringField
+\App\QueryField\UrlField \StringField
+\App\QueryField\UserCreatorField \OwnerField
+\App\QueryField\UserRoleField \StringField
+\App\QueryGenerator
+\App\Record
+\App\RecordSearch
+\App\RequestUtil
+\App\Runtime\BaseActionController
+\App\Runtime\BaseModel
+\App\Runtime\BaseViewController \App\Runtime\BaseActionController
+\App\Runtime\CRM_Viewer \Smarty
+\App\Runtime\Vtiger_Language_Handler
+\App\Runtime\Vtiger_Theme \App\Runtime\CRM_Viewer
+\App\Runtime\Yeti_Layout
+\App\SystemWarnings
+\App\SystemWarnings\SystemRequirements\ConfReport \App\SystemWarnings\Template
+\App\SystemWarnings\SystemRequirements\LibraryChat \App\SystemWarnings\Template
+\App\SystemWarnings\SystemRequirements\LibraryPDF \App\SystemWarnings\Template
+\App\SystemWarnings\SystemRequirements\LibraryPHPExcel \App\SystemWarnings\Template
+\App\SystemWarnings\SystemRequirements\LibraryRoundcube \App\SystemWarnings\Template
+\App\SystemWarnings\Template
+\App\SystemWarnings\YetiForce\Newsletter \App\SystemWarnings\Template
+\App\SystemWarnings\YetiForce\Stats \App\SystemWarnings\Template
+\App\TextParser
+\App\TextParser\Base
+\App\TextParser\GrossAmountInWords \Base
+\App\TextParser\OverdueDeadlines \Base
+\App\TextParser\ProductsTable \Base
+\App\TextParser\ProductsTableDescription \Base
+\App\TextParser\ProductsTableNew \Base
+\App\TextParser\ProductsTableRelatedModule \Base
+\App\TextParser\TableDiscountSummary \Base
+\App\TextParser\TableTaxSummary \Base
+\App\User\CurrentUser
+\App\Utils\ConfigReader
+\App\Utils\EmailTemplate
+\App\Utils\ExportUtils
+\App\Utils\GetGroupUsers
+\App\Utils\GetParentGroups
+\App\Utils\GetUserGroups
+\App\Utils\InventoryUtils
+\App\Utils\ListViewUtils
+\App\Utils\SearchUtils
+\App\Utils\UserInfoUtil
+\App\Utils\Utils
+\App\Utils\VTCacheUtils
+\App\Utils\VtlibUtils
+\App\Version
+\App\View\Assets\AssetPathResolver
+\App\View\Assets\BaseAsset
+\App\View\Assets\ScriptAsset \BaseAsset
+\App\View\Assets\StyleAsset \BaseAsset
+\App\Webservices\DataTransform
+\App\Webservices\EntityMeta
+\App\Webservices\OperationManager
+\App\Webservices\Parser
+\App\Webservices\SessionManager
+\App\Webservices\State
+\App\Webservices\VTQL_Parser
+\App\Webservices\VTQL_ParseryyStackEntry
+\App\Webservices\VTQL_ParseryyToken
+\App\Webservices\VTWS_PreserveGlobal
+\App\Webservices\VtigerActorOperation \WebserviceEntityOperation
+\App\Webservices\VtigerCRMActorMeta \EntityMeta
+\App\Webservices\VtigerCRMObject
+\App\Webservices\VtigerCRMObjectMeta \EntityMeta
+\App\Webservices\VtigerModuleOperation \WebserviceEntityOperation
+\App\Webservices\VtigerWebserviceObject
+\App\Webservices\WebServiceErrorCode
+\App\Webservices\WebServiceException \Exception
+\App\Webservices\WebserviceEntityOperation
+\App\Webservices\WebserviceField
+\ChartEdit \App\Modules\Base\Views\Edit
+\DataAccess_check_alltask
+\DataAccess_check_assigneduser
+\DataAccess_check_task
+\DataAccess_check_taskdate
+\DataAccess_check_taskstatus
+\DataAccess_colorList
+\DataAccess_show_quick_create
+\DataAccess_test
+\DataAccess_unique_account
+\DataAccess_unique_value
+\DataAccess_validate_mandatory
+\Edit \App\Modules\Base\Views\Edit
+\Edit \App\Modules\Base\Views\Edit
+\Edit \App\Modules\Base\Views\Edit
+\Edit \App\Modules\Calendar\Views\Edit
+\FileTarget \yii\log\FileTarget
+\Importers\Admin \App\Db\Importers\Base
+\Importers\Base1 \App\Db\Importers\Base
+\Importers\Base2 \App\Db\Importers\Base
+\Importers\Base3 \App\Db\Importers\Base
+\Importers\Base4 \App\Db\Importers\Base
+\Importers\Log \App\Db\Importers\Base
+\Importers\Webservice \App\Db\Importers\Base
+\Install_ConfigFileUtils_Model
+\Install_Utils_Model
+\List \App\Modules\Base\Views\List
+\Mass \App\Runtime\BaseActionController
+\OSSMailView_MailsPreview_View \App\Modules\Base\Views\IndexAjax
+\OSSMailView_mbody_View \App\Modules\Base\Views\Index
+\OSSMailView_preview_View \App\Modules\Base\Views\Index
+\OSSMailView_summary_View \App\Modules\Base\Views\Edit
+\OSSMailView_widget_View \App\Modules\Base\Views\Edit
+\OSSPasswords_Edit_View \App\Modules\Base\Views\Edit
+\OSSTimeControl_Record_Model \App\Modules\Base\Models\Record
+\PaymentsOut_step1_View \App\Modules\Base\Views\Index
+\Record \App\Modules\Base\Models\Record
+\SMSNotifier_ISMSProvider_Model
+\Services_List_View \App\Modules\Base\Views\ListView
+\SqlLogTarget \yii\log\FileTarget
+\Vtiger_CreatedNotMineActivities_Dashboard \App\Modules\Base\Views\IndexAjax
+\Vtiger_OverdueActivities_Dashboard \App\Modules\Base\Views\IndexAjax

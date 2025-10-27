@@ -1,5 +1,5 @@
 <?php
-namespace Exception;
+namespace App\Exceptions;
 
 /**
  * No Permitted Exception class
@@ -10,7 +10,7 @@ namespace Exception;
 class NoPermittedToApi extends \Exception
 {
 
-	public function __construct($message = '', $code = 0, Exception $previous = null)
+	public function __construct($message = '', $code = 0, \Exception $previous = null)
 	{
 		parent::__construct($message, $code, $previous);
 		\App\Http\Vtiger_Session::init();

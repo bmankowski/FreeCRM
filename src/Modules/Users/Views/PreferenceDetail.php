@@ -13,7 +13,6 @@ namespace App\Modules\Users\Views;
  * *********************************************************************************** */
 
 
-use App\Http\Vtiger_Request;
 
 class PreferenceDetail extends \App\Modules\Base\Views\Detail
 {
@@ -54,6 +53,7 @@ class PreferenceDetail extends \App\Modules\Base\Views\Detail
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
+		parent::preProcess($request, false);
 		if ($this->checkPermission($request)) {
 			$viewer = $this->getViewer($request);
 			if ($activeReminder = \App\Module::isModuleActive('Calendar')) {
