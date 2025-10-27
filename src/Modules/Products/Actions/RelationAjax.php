@@ -11,7 +11,7 @@ namespace App\Modules\Products\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class RelationAjax extends \App\Runtime\BaseActionController
+class RelationAjax extends \App\Base\Controllers\BaseActionController
 {
 
 	public function __construct()

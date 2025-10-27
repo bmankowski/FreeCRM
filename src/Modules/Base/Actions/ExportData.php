@@ -12,7 +12,7 @@ namespace App\Modules\Base\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class ExportData extends \App\Runtime\BaseActionController
+class ExportData extends \App\Base\Controllers\BaseActionController
 {
 
 	/**

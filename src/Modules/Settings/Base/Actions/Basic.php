@@ -13,7 +13,7 @@ use App\Modules\Settings\Base\Models\MenuItem;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Basic extends \App\Runtime\BaseActionController
+class Basic extends \App\Base\Controllers\BaseActionController
 {
 
 	public function __construct()

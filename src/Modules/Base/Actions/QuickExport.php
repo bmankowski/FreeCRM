@@ -4,7 +4,7 @@
 
 namespace App\Modules\Base\Actions;
 
-class QuickExport extends \App\Runtime\BaseActionController
+class QuickExport extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

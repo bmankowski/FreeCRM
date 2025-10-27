@@ -11,7 +11,7 @@ namespace App\Modules\CustomView\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Delete extends \App\Runtime\BaseActionController
+class Delete extends \App\Base\Controllers\BaseActionController
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

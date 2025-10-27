@@ -8,7 +8,7 @@ namespace App\Modules\OpenStreetMap\Actions;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class GetMarkers extends \App\Runtime\BaseActionController
+class GetMarkers extends \App\Base\Controllers\BaseActionController
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

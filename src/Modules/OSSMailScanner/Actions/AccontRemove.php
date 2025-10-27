@@ -12,7 +12,7 @@ namespace App\Modules\OSSMailScanner\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class AccontRemove extends \App\Runtime\BaseActionController
+class AccontRemove extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

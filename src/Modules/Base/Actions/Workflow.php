@@ -12,7 +12,7 @@ namespace App\Modules\Base\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Workflow extends \App\Runtime\BaseActionController
+class Workflow extends \App\Base\Controllers\BaseActionController
 {
 
 	public function __construct()

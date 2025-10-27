@@ -11,7 +11,7 @@ namespace App\Modules\Calendar\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class CalendarUserActions extends \App\Runtime\BaseActionController
+class CalendarUserActions extends \App\Base\Controllers\BaseActionController
 {
 
 	public function __construct()

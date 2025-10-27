@@ -8,7 +8,7 @@ namespace App\Modules\OpenStreetMap\Actions;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class GetRoute extends \App\Runtime\BaseActionController
+class GetRoute extends \App\Base\Controllers\BaseActionController
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

@@ -4,7 +4,7 @@
 
 namespace App\Modules\OSSMailScanner\Actions;
 
-class getConfig extends \App\Runtime\BaseActionController
+class getConfig extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

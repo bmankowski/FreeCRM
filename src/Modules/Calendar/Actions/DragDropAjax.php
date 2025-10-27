@@ -11,7 +11,7 @@ namespace App\Modules\Calendar\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DragDropAjax extends \App\Runtime\BaseActionController
+class DragDropAjax extends \App\Base\Controllers\BaseActionController
 {
 
 	public function __construct()

@@ -9,7 +9,7 @@ namespace App\Modules\Base\Actions;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Watchdog extends \App\Runtime\BaseActionController
+class Watchdog extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

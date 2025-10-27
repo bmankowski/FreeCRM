@@ -13,7 +13,7 @@ namespace App\Modules\Settings\TreesManager\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Save extends \App\Runtime\BaseActionController
+class Save extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

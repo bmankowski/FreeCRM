@@ -14,7 +14,7 @@ namespace App\Modules\Import\Views;
 
 
 use App\Http\Vtiger_Request;
-class Main extends \App\Runtime\BaseViewController
+class Main extends \App\Base\Controllers\BaseViewController
 {
 
 	public $request;

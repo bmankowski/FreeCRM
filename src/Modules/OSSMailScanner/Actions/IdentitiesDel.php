@@ -12,7 +12,7 @@ namespace App\Modules\OSSMailScanner\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class IdentitiesDel extends \App\Runtime\BaseActionController
+class IdentitiesDel extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

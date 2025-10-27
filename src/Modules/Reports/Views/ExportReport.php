@@ -14,7 +14,7 @@ namespace App\Modules\Reports\Views;
 
 
 use App\Http\Vtiger_Request;
-class ExportReport extends \App\Runtime\BaseViewController
+class ExportReport extends \App\Base\Controllers\BaseViewController
 {
 
 	public function __construct()

@@ -13,11 +13,11 @@
  * Abstract Base View Controller Class
  */
 
-namespace App\Runtime;
+namespace App\Base\Controllers;
 
 use App\Runtime\CRM_Viewer;
 
-abstract class BaseViewController extends \App\Runtime\BaseActionController
+abstract class BaseViewController extends \App\Base\Controllers\BaseActionController
 {
 
    public $pageTitle;

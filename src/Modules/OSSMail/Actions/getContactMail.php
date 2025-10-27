@@ -4,7 +4,7 @@
 
 namespace App\Modules\OSSMail\Actions;
 
-class getContactMail extends \App\Runtime\BaseActionController
+class getContactMail extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

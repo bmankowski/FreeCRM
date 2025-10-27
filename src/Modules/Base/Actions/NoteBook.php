@@ -12,7 +12,7 @@ namespace App\Modules\Base\Actions;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class NoteBook extends \App\Runtime\BaseActionController
+class NoteBook extends \App\Base\Controllers\BaseActionController
 {
 
 	public function __construct()

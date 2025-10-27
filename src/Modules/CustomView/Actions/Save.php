@@ -12,7 +12,7 @@ namespace App\Modules\CustomView\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Save extends \App\Runtime\BaseActionController
+class Save extends \App\Base\Controllers\BaseActionController
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

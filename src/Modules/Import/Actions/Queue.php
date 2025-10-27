@@ -12,7 +12,7 @@ namespace App\Modules\Import\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Queue extends \App\Runtime\BaseActionController
+class Queue extends \App\Base\Controllers\BaseActionController
 {
 
 	static $IMPORT_STATUS_NONE = 0;

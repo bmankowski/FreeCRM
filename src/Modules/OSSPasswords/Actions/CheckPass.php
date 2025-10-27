@@ -4,7 +4,7 @@
 
 namespace App\Modules\OSSPasswords\Actions;
 
-class CheckPass extends \App\Runtime\BaseActionController
+class CheckPass extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

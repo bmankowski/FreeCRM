@@ -12,7 +12,7 @@ namespace App\Modules\SMSNotifier\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class MassSaveAjax extends \App\Runtime\BaseActionController
+class MassSaveAjax extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

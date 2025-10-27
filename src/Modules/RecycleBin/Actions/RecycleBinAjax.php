@@ -12,7 +12,7 @@ namespace App\Modules\RecycleBin\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class RecycleBinAjax extends \App\Runtime\BaseActionController
+class RecycleBinAjax extends \App\Base\Controllers\BaseActionController
 {
 
 	public function __construct()

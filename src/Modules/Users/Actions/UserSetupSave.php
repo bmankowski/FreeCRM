@@ -12,7 +12,7 @@ namespace App\Modules\Users\Actions;
  * Contributor(s): YetiForce.com.
  * ********************************************************************************** */
 
-class UserSetupSave extends \App\Runtime\BaseActionController
+class UserSetupSave extends \App\Base\Controllers\BaseActionController
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

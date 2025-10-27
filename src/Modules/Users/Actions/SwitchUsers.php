@@ -8,7 +8,7 @@ namespace App\Modules\Users\Actions;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class SwitchUsers extends \App\Runtime\BaseActionController
+class SwitchUsers extends \App\Base\Controllers\BaseActionController
 {
 
 	/**

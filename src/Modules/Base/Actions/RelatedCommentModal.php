@@ -8,7 +8,7 @@ namespace App\Modules\Base\Actions;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class RelatedCommentModal extends \App\Runtime\BaseActionController
+class RelatedCommentModal extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

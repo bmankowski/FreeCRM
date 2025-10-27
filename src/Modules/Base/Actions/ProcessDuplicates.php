@@ -12,7 +12,7 @@ namespace App\Modules\Base\Actions;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class ProcessDuplicates extends \App\Runtime\BaseActionController
+class ProcessDuplicates extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

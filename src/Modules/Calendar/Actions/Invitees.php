@@ -4,7 +4,7 @@
 
 namespace App\Modules\Calendar\Actions;
 
-class Invitees extends \App\Runtime\BaseActionController
+class Invitees extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

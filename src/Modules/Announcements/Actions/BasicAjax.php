@@ -8,7 +8,7 @@ namespace App\Modules\Announcements\Actions;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class BasicAjax extends \App\Runtime\BaseActionController
+class BasicAjax extends \App\Base\Controllers\BaseActionController
 {
 
 	public function __construct()

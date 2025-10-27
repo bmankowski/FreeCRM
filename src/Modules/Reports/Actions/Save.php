@@ -12,7 +12,7 @@ namespace App\Modules\Reports\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Save extends \App\Runtime\BaseActionController
+class Save extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

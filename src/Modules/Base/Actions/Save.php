@@ -11,7 +11,7 @@ namespace App\Modules\Base\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Save extends \App\Runtime\BaseActionController
+class Save extends \App\Base\Controllers\BaseActionController
 {
 
 	/**

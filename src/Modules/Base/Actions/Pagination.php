@@ -8,7 +8,7 @@ namespace App\Modules\Base\Actions;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class Pagination extends \App\Runtime\BaseActionController
+class Pagination extends \App\Base\Controllers\BaseActionController
 {
 
 	public function __construct()

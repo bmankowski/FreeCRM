@@ -12,7 +12,7 @@ namespace App\Modules\OSSMailScanner\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class SaveCRMuser extends \App\Runtime\BaseActionController
+class SaveCRMuser extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

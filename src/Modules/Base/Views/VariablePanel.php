@@ -10,7 +10,7 @@ namespace App\Modules\Base\Views;
  */
 
 use App\Http\Vtiger_Request;
-class VariablePanel extends \App\Runtime\BaseViewController
+class VariablePanel extends \App\Base\Controllers\BaseViewController
 {
 
 	/**

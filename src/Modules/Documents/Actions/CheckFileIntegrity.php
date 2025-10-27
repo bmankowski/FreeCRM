@@ -12,7 +12,7 @@ namespace App\Modules\Documents\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class CheckFileIntegrity extends \App\Runtime\BaseActionController
+class CheckFileIntegrity extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

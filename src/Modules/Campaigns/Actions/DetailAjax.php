@@ -12,7 +12,7 @@ namespace App\Modules\Campaigns\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class DetailAjax extends \App\Runtime\BaseActionController
+class DetailAjax extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

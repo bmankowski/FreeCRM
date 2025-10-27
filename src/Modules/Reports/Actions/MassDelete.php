@@ -12,7 +12,7 @@ namespace App\Modules\Reports\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class MassDelete extends \App\Runtime\BaseActionController
+class MassDelete extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

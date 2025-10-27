@@ -12,7 +12,7 @@ namespace App\Modules\Import\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Data extends \App\Runtime\BaseActionController
+class Data extends \App\Base\Controllers\BaseActionController
 {
 
 	public $id;

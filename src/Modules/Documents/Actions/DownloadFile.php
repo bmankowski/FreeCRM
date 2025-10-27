@@ -11,7 +11,7 @@ namespace App\Modules\Documents\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DownloadFile extends \App\Runtime\BaseActionController
+class DownloadFile extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

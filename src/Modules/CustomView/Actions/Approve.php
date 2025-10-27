@@ -11,7 +11,7 @@ namespace App\Modules\CustomView\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Approve extends \App\Runtime\BaseActionController
+class Approve extends \App\Base\Controllers\BaseActionController
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

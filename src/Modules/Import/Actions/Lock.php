@@ -11,7 +11,7 @@ namespace App\Modules\Import\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Lock extends \App\Runtime\BaseActionController
+class Lock extends \App\Base\Controllers\BaseActionController
 {
 
 	public function __construct()

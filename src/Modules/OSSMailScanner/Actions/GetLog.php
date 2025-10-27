@@ -12,7 +12,7 @@ namespace App\Modules\OSSMailScanner\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class GetLog extends \App\Runtime\BaseActionController
+class GetLog extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

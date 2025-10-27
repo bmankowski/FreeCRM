@@ -12,7 +12,7 @@ namespace App\Modules\PBXManager\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class IncomingCallPoll extends \App\Runtime\BaseActionController
+class IncomingCallPoll extends \App\Base\Controllers\BaseActionController
 {
 
 	public function __construct()

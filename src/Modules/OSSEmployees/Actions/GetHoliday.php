@@ -4,7 +4,7 @@
 
 namespace App\Modules\OSSEmployees\Actions;
 
-class GetHoliday extends \App\Runtime\BaseActionController
+class GetHoliday extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

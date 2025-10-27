@@ -8,7 +8,7 @@ namespace App\Modules\SSalesProcesses\Actions;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class RelationAjax extends \App\Runtime\BaseActionController
+class RelationAjax extends \App\Base\Controllers\BaseActionController
 {
 
 	public function __construct()

@@ -12,7 +12,7 @@ namespace App\Modules\Base\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class RelationAjax extends \App\Runtime\BaseActionController
+class RelationAjax extends \App\Base\Controllers\BaseActionController
 {
 
 	public function __construct()

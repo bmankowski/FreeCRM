@@ -9,7 +9,7 @@ namespace App\Modules\Base\Actions;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Inventory extends \App\Runtime\BaseActionController
+class Inventory extends \App\Base\Controllers\BaseActionController
 {
 
 	public function __construct()

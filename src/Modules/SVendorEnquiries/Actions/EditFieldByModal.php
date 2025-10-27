@@ -8,7 +8,7 @@ namespace App\Modules\SVendorEnquiries\Actions;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class EditFieldByModal extends \App\Runtime\BaseActionController
+class EditFieldByModal extends \App\Base\Controllers\BaseActionController
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

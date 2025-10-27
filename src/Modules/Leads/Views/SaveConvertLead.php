@@ -12,7 +12,7 @@ namespace App\Modules\Leads\Views;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class SaveConvertLead extends \App\Runtime\BaseViewController
+class SaveConvertLead extends \App\Base\Controllers\BaseViewController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

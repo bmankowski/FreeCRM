@@ -8,7 +8,7 @@ namespace App\Modules\ModTracker\Actions;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class LastRelation extends \App\Runtime\BaseActionController
+class LastRelation extends \App\Base\Controllers\BaseActionController
 {
 
 	/**

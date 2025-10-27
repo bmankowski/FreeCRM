@@ -12,7 +12,7 @@ namespace App\Modules\Calendar\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class ImportICS extends \App\Runtime\BaseActionController
+class ImportICS extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

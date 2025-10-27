@@ -15,7 +15,7 @@ namespace App\Modules\Users\Actions;
 
 
 
-class Login extends \App\Runtime\BaseActionController
+class Login extends \App\Base\Controllers\BaseActionController
 {
 
 	public function loginRequired()

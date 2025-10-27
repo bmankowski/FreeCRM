@@ -4,7 +4,7 @@
 
 namespace App\Modules\OSSTimeControl\Actions;
 
-class GetTCInfo extends \App\Runtime\BaseActionController
+class GetTCInfo extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

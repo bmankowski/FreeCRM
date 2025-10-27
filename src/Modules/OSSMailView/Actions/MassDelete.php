@@ -8,7 +8,7 @@ namespace App\Modules\OSSMailView\Actions;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class MassDelete extends \App\Runtime\BaseActionController
+class MassDelete extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

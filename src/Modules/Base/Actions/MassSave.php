@@ -12,7 +12,7 @@ namespace App\Modules\Base\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class MassSave extends \App\Runtime\BaseActionController
+class MassSave extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

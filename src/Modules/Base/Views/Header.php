@@ -10,7 +10,7 @@
 
 namespace App\Modules\Base\Views;
 
-abstract class Header extends \App\Runtime\BaseViewController
+abstract class Header extends \App\Base\Controllers\BaseViewController
 {
 
 	public function __construct()

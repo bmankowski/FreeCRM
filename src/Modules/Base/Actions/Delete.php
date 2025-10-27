@@ -11,7 +11,7 @@ namespace App\Modules\Base\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Delete extends \App\Runtime\BaseActionController
+class Delete extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

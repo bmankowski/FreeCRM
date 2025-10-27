@@ -8,7 +8,7 @@ namespace App\Modules\Base\Actions;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class UpdateField extends \App\Runtime\BaseActionController
+class UpdateField extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

@@ -12,7 +12,7 @@ namespace App\Modules\PriceBooks\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class ProductListPrice extends \App\Runtime\BaseActionController
+class ProductListPrice extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

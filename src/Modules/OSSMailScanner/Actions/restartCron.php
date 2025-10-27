@@ -12,7 +12,7 @@ namespace App\Modules\OSSMailScanner\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class restartCron extends \App\Runtime\BaseActionController
+class restartCron extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

@@ -12,7 +12,7 @@ namespace App\Modules\OSSMail\Actions;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class SetUser extends \App\Runtime\BaseActionController
+class SetUser extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

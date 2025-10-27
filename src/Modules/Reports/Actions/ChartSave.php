@@ -11,7 +11,7 @@ namespace App\Modules\Reports\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class ChartSave extends \App\Runtime\BaseActionController
+class ChartSave extends \App\Base\Controllers\BaseActionController
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

@@ -11,7 +11,7 @@ namespace App\Modules\Rss\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class GetHtml extends \App\Runtime\BaseActionController
+class GetHtml extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

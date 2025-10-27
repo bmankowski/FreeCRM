@@ -9,7 +9,7 @@ namespace App\Modules\Settings\CurrencyUpdate\Actions;
  * @license licenses/License.html
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  */
-class SaveActiveBank extends \App\Runtime\BaseActionController
+class SaveActiveBank extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

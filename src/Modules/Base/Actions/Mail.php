@@ -8,7 +8,7 @@ namespace App\Modules\Base\Actions;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Mail extends \App\Runtime\BaseActionController
+class Mail extends \App\Base\Controllers\BaseActionController
 {
 
 	/**

@@ -4,7 +4,7 @@
 
 namespace App\Modules\OSSTimeControl\Actions;
 
-class Calendar extends \App\Runtime\BaseActionController
+class Calendar extends \App\Base\Controllers\BaseActionController
 {
 
 	public function __construct()

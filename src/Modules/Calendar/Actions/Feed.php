@@ -13,7 +13,7 @@ namespace App\Modules\Calendar\Actions;
  * *********************************************************************************** */
 
 
-class Feed extends \App\Runtime\BaseActionController
+class Feed extends \App\Base\Controllers\BaseActionController
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

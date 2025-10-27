@@ -10,7 +10,7 @@ namespace App\Modules\SSalesProcesses\Views;
  */
 
 use App\Http\Vtiger_Request;
-class Hierarchy extends \App\Runtime\BaseViewController
+class Hierarchy extends \App\Base\Controllers\BaseViewController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

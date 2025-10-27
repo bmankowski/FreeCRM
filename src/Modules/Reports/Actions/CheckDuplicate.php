@@ -12,7 +12,7 @@ namespace App\Modules\Reports\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class CheckDuplicate extends \App\Runtime\BaseActionController
+class CheckDuplicate extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

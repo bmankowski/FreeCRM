@@ -11,7 +11,7 @@ namespace App\Modules\Users\Actions;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class ListAjax extends \App\Runtime\BaseActionController
+class ListAjax extends \App\Base\Controllers\BaseActionController
 {
 
 	public function __construct()

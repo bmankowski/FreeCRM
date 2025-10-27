@@ -8,7 +8,7 @@ namespace App\Modules\Calendar\Actions;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class GetFreeTime extends \App\Runtime\BaseActionController
+class GetFreeTime extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

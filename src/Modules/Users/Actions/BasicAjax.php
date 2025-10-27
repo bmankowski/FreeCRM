@@ -11,7 +11,7 @@ namespace App\Modules\Users\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class BasicAjax extends \App\Runtime\BaseActionController
+class BasicAjax extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

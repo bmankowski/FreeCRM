@@ -2,7 +2,7 @@
 
 namespace App\Modules\Users\Actions;
 
-class CheckUserEmail extends \App\Runtime\BaseActionController
+class CheckUserEmail extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

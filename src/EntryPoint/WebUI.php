@@ -22,7 +22,7 @@ namespace App\EntryPoint;
 
 
 use App\Debugger;
-use App\Runtime\BaseActionController;
+use App\Base\Controllers\BaseActionController;
 use App\Cache\Cache;
 use App\Db;
 use App\Log;
@@ -204,7 +204,7 @@ class WebUI extends EntryPoint
 	/**
 	 * Trigger permission check for the current request
 	 * 
-	 * @param \App\Runtime\BaseActionController $handler
+	 * @param \App\Base\Controllers\BaseActionController $handler
 	 * @param \App\Http\Vtiger_Request $request
 	 * @throws \App\Exceptions\AppException When module is not found
 	 * @throws \App\Exceptions\NoPermitted When user lacks permissions
@@ -232,7 +232,7 @@ class WebUI extends EntryPoint
 	/**
 	 * Trigger pre-process phase
 	 * 
-	 * @param \App\Runtime\BaseActionController $handler
+	 * @param \App\Base\Controllers\BaseActionController $handler
 	 * @param \App\Http\Vtiger_Request $request
 	 * @return bool|null True for AJAX requests, null otherwise
 
@@ -251,7 +251,7 @@ class WebUI extends EntryPoint
 	/**
 	 * Trigger post-process phase
 	 * 
-	 * @param \App\Runtime\BaseActionController $handler
+	 * @param \App\Base\Controllers\BaseActionController $handler
 	 * @param \App\Http\Vtiger_Request $request
 	 * @return bool|null True for AJAX requests, null otherwise
 	 */
@@ -612,7 +612,7 @@ class WebUI extends EntryPoint
 	 * @param string $componentType
 	 * @param string $componentName
 	 * @param string|null $qualifiedModuleName
-	 * @return \App\Runtime\BaseActionController
+	 * @return \App\Base\Controllers\BaseActionController
 	 * @throws \App\Exceptions\AppException When handler class not found
 	 */
 	private function createHandler($componentType, $componentName, $qualifiedModuleName)
@@ -636,7 +636,7 @@ class WebUI extends EntryPoint
 	/**
 	 * Execute handler with full lifecycle
 	 * 
-	 * @param \App\Runtime\BaseActionController $handler
+	 * @param \App\Base\Controllers\BaseActionController $handler
 	 * @param \App\Http\Vtiger_Request $request
 	 * @param string $module
 	 * @param string|null $qualifiedModuleName
@@ -662,7 +662,7 @@ class WebUI extends EntryPoint
 	/**
 	 * Validate handler request
 	 * 
-	 * @param \App\Runtime\BaseActionController $handler
+	 * @param \App\Base\Controllers\BaseActionController $handler
 	 * @param \App\Http\Vtiger_Request $request
 	 */
 	private function validateHandler($handler, \App\Http\Vtiger_Request $request)
@@ -676,7 +676,7 @@ class WebUI extends EntryPoint
 	/**
 	 * Check if handler requires login
 	 * 
-	 * @param \App\Runtime\BaseActionController $handler
+	 * @param \App\Base\Controllers\BaseActionController $handler
 	 * @param \App\Http\Vtiger_Request $request
 	 */
 	private function checkHandlerLogin($handler, \App\Http\Vtiger_Request $request)
@@ -689,7 +689,7 @@ class WebUI extends EntryPoint
 	/**
 	 * Check handler permissions
 	 * 
-	 * @param \App\Runtime\BaseActionController $handler
+	 * @param \App\Base\Controllers\BaseActionController $handler
 	 * @param \App\Http\Vtiger_Request $request
 	 * @param string $module
 	 * @param string|null $qualifiedModuleName

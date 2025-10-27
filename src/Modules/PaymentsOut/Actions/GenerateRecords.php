@@ -4,7 +4,7 @@
 
 namespace App\Modules\PaymentsOut\Actions;
 
-class GenerateRecords extends \App\Runtime\BaseActionController
+class GenerateRecords extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

@@ -4,7 +4,7 @@
 
 namespace App\Modules\OSSEmployees\Actions;
 
-class UniqueUser extends \App\Runtime\BaseActionController
+class UniqueUser extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

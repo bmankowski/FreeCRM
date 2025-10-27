@@ -4,7 +4,7 @@
 
 namespace App\Modules\Base\Actions;
 
-class TransferOwnership extends \App\Runtime\BaseActionController
+class TransferOwnership extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

@@ -11,7 +11,7 @@ namespace App\Modules\Reports\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class DeleteAjax extends \App\Runtime\BaseActionController
+class DeleteAjax extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

@@ -4,7 +4,7 @@
 
 namespace App\Modules\OSSMail\Actions;
 
-class SaveRcConfig extends \App\Runtime\BaseActionController
+class SaveRcConfig extends \App\Base\Controllers\BaseActionController
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

@@ -12,7 +12,7 @@ namespace App\Modules\Reports\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Folder extends \App\Runtime\BaseActionController
+class Folder extends \App\Base\Controllers\BaseActionController
 {
 
 	public function __construct()

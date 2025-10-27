@@ -15,7 +15,7 @@ namespace App\Modules\Users\Views;
 use App\Http\Vtiger_Request;
 use App\AppConfig;
 
-class Login extends \App\Runtime\BaseViewController
+class Login extends \App\Base\Controllers\BaseViewController
 {
 
 	public function loginRequired()
