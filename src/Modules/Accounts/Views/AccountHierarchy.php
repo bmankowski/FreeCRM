@@ -65,8 +65,5 @@ class AccountHierarchy extends \App\Base\Controllers\BaseViewController
 		$viewer->view('AccountHierarchy.tpl', $moduleName);
 	}
 
-	public function postProcess(\App\Http\Vtiger_Request $request)
-	{
-		
-	}
+
 }

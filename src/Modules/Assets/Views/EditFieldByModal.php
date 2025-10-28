@@ -9,8 +9,6 @@ namespace App\Modules\Assets\Views;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-use App\Http\Vtiger_Request;
-
 class EditFieldByModal  extends \App\Modules\Base\Views\Index
 {
 

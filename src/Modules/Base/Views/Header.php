@@ -166,6 +166,5 @@ abstract class Header extends \App\Base\Controllers\BaseViewController
 	{
 		// Footer rendering is handled by MainLayout.tpl
 		// Variables (ACTIVITY_REMINDER, FOOTER_SCRIPTS) are assigned in BaseViewController::preProcess()
-		parent::postProcess($request);
 	}
 }
