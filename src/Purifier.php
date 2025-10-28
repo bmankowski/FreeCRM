@@ -218,7 +218,7 @@ class Purifier
 		if ((empty($string) && $skipEmpty) || preg_match("/^[_a-zA-Z0-9.,]+$/", $string)) {
 			return $string;
 		}
-		return false;
+		return null;
 	}
 
 	/**

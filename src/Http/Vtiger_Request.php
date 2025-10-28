@@ -12,10 +12,8 @@
 
 namespace App\Http;
 
-use App\AppConfig;
 use App\Json;
 use App\Purifier;
-use Exception;
 
 class Vtiger_Request
 {
@@ -303,7 +301,7 @@ class Vtiger_Request
 			} elseif ($_SERVER['HTTP_X_HTTP_METHOD'] == 'PUT') {
 				$method = 'PUT';
 			} else {
-				throw new Exception('Unexpected Header');
+				throw new \Exception('Unexpected Header');
 			}
 		}
 
