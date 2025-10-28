@@ -198,14 +198,13 @@ class CustomView
 	 */
 	public static function setDefaultSortOrderBy($moduleName, $defaultSortOrderBy = [], \App\Http\Vtiger_Request $request = null)
 	{
-		if ($request === null) {
-			$request = null /* Request should be passed as parameter */;
-		}
-		if ($request->has('orderby')) {
-			$_SESSION['lvs'][$moduleName]['sortby'] = $request->get('orderby');
-		}
-		if ($request->has('sortorder')) {
-			$_SESSION['lvs'][$moduleName]['sorder'] = $request->get('sortorder');
+		if ($request !== null) {
+			if ($request->has('orderby')) {
+				$_SESSION['lvs'][$moduleName]['sortby'] = $request->get('orderby');
+			}
+			if ($request->has('sortorder')) {
+				$_SESSION['lvs'][$moduleName]['sorder'] = $request->get('sortorder');
+			}
 		}
 		if (isset($defaultSortOrderBy['orderBy'])) {
 			$_SESSION['lvs'][$moduleName]['sortby'] = $defaultSortOrderBy['orderBy'];
@@ -224,13 +223,10 @@ class CustomView
 	 */
 	public static function hasViewChanged($moduleName, $viewId = false, \App\Http\Vtiger_Request $request = null)
 	{
-		if ($request === null) {
-			$request = null /* Request should be passed as parameter */;
-		}
 		if (empty($_SESSION['lvs'][$moduleName]['viewname'])) {
 			return true;
 		}
-		if (!$request->isEmpty('viewname') && ($request->get('viewname') !== $_SESSION['lvs'][$moduleName]['viewname'])) {
+		if ($request !== null && !$request->isEmpty('viewname') && ($request->get('viewname') !== $_SESSION['lvs'][$moduleName]['viewname'])) {
 			return true;
 		}
 		if ($viewId && ($viewId !== $_SESSION['lvs'][$moduleName]['viewname'])) {

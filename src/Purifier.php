@@ -229,6 +229,9 @@ class Purifier
 	 */
 	public static function encodeHtml($string)
 	{
+		if ($string === null || $string === '') {
+			return '';
+		}
 		if (static::$UTF8) {
 			$value = htmlspecialchars($string, ENT_QUOTES, static::$defaultCharset);
 		} else {
@@ -244,6 +247,9 @@ class Purifier
 	 */
 	public static function decodeHtml($string)
 	{
+		if ($string === null || $string === '') {
+			return '';
+		}
 		if (static::$UTF8) {
 			$value = html_entity_decode($string, ENT_QUOTES, static::$defaultCharset);
 		} else {

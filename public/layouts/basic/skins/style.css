@@ -3288,6 +3288,10 @@ span[name=existingImages] img{
 .listViewEntriesTable .picklistSearchField{
 	min-width: 150px;
 }
+.listViewEntriesTable .picklistSearchField select.listSearchContributor{
+	width: 100%;
+	min-width: 150px;
+}
 .listViewEntriesTable .boolenSearchField{
 	min-width: 90px;
 }

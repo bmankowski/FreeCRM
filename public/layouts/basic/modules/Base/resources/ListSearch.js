@@ -62,7 +62,28 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 		listViewContainer.find('.listViewEntriesTable .select2noactive').each(function (index, domElement) {
 			var select = $(domElement);
 			if (!select.data('select2')) {
-				app.showSelect2ElementView(select, {placeholder: app.vtranslate('JS_SELECT_AN_OPTION')});
+				var params = {placeholder: app.vtranslate('JS_SELECT_AN_OPTION')};
+				// Check if this is an ajax-enabled owner field
+				if (select.data('ajax-search') == '1') {
+					params.ajax = {
+						url: select.data('ajax-url'),
+						dataType: 'json',
+						delay: 250,
+						data: function (params) {
+							return {
+								search: params.term,
+								page: params.page || 1
+							};
+						},
+						processResults: function (data) {
+							return {
+								results: data.result || data
+							};
+						}
+					};
+					params.minimumInputLength = select.data('minimum-input') || 1;
+				}
+				app.showSelect2ElementView(select, params);
 			}
 		});
 
