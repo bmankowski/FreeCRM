@@ -31,7 +31,10 @@
 		<div class="col-xs-12 col-sm-4 btn-toolbar">
 			{include file='ListViewActions.tpl'|@vtemplate_path}
 		</div>
-	</div>
+	</div> <!-- close listViewActionsDiv row -->
 	<div id="listViewContents" class="listViewContentDiv">
+		{* Content will be inserted here *}
+	</div> <!-- close listViewContentDiv -->
+</div> <!-- close listViewPageDiv -->
 <!--/layouts/basic/modules/Base/FindDuplicateHeader.tpl -->
 {/strip}

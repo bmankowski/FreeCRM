@@ -80,15 +80,15 @@
 			<input type="hidden" id="fieldsReferencesDependent"
 				value="{AppConfig::security('FIELDS_REFERENCES_DEPENDENT')}" />
 		</div>
-		<div id="page">
-			<!-- container which holds data temporarly for pjax calls -->
-			<div id="pjaxContainer" class="hide noprint"></div>
-			{assign var="ANNOUNCEMENTS" value=\App\Modules\Base\Models\Module::getInstance('Announcements')}
-			{if $ANNOUNCEMENTS && $ANNOUNCEMENTS->checkActive($VIEW)}
-				{include file='Announcement.tpl'|@vtemplate_path:$MODULE}
-			{/if}
-			{if $SHOW_BODY_HEADER}
-				{include file='Body.tpl'|@vtemplate_path:$MODULE}
-			{/if}
-			<!--/layouts/basic/modules/Base/Header.tpl -->
+	{* Announcements *}
+	{assign var="ANNOUNCEMENTS" value=\App\Modules\Base\Models\Module::getInstance('Announcements')}
+	{if $ANNOUNCEMENTS && $ANNOUNCEMENTS->checkActive($VIEW)}
+		{include file='Announcement.tpl'|@vtemplate_path:$MODULE}
+	{/if}
+	{* Body.tpl provides self-contained navigation wrapper *}
+	{if $SHOW_BODY_HEADER}
+		{include file='Body.tpl'|@vtemplate_path:$MODULE}
+	{/if}
+	{* View content will be wrapped in div#page by PreProcess templates *}
+	<!--/layouts/basic/modules/Base/Header.tpl -->
 {/strip}

@@ -62,7 +62,7 @@
 			{/foreach}
 		{/if}
 			{include file="DetailViewHeaderTitle.tpl"|vtemplate_path:$MODULE}
-		</div>
+		</div> <!-- close detailViewTitle -->
 		<div class="detailViewInfo row">
 			{include file="RelatedListButtons.tpl"|vtemplate_path:$MODULE}
 			<div class="col-md-12 {if !empty($DETAILVIEW_LINKS['DETAILVIEWTAB']) || !empty($DETAILVIEW_LINKS['DETAILVIEWRELATED']) } details {/if}">
@@ -71,6 +71,12 @@
 						<input type="hidden" name="picklistDependency" value="{\App\Modules\Base\Helpers\Util::toSafeHTML($PICKLIST_DEPENDENCY_DATASOURCE)}"> 
 					{/if} 
 					<div class="contents">
+						{* Content will be inserted here by parent template *}
+						{$DETAIL_VIEW_CONTENT}
+					</div> <!-- close contents -->
+				</form> <!-- close detailView form -->
+			</div> <!-- close col-md-12 details -->
+		</div> <!-- close detailViewInfo row -->
+	</div> <!-- close detailViewContainer -->
 <!--/layouts/basic/modules/Base/DetailViewHeader.tpl -->
-					{/strip}
-
+{/strip}

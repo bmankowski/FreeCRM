@@ -79,9 +79,7 @@ class ListView extends \App\Modules\Base\Views\Index
 		$this->initializeListViewContents($request, $viewer);
 		$viewer->assign('VIEWID', $this->viewName);
 		$viewer->assign('MODULE_MODEL', \App\Modules\Base\Models\Module::getInstance($moduleName));
-		if ($display) {
-			$this->preProcessDisplay($request);
-		}
+		// MainLayout handles rendering, no separate preProcess template needed
 	}
 
 	public function preProcessTplName(\App\Http\Vtiger_Request $request)
@@ -125,17 +123,18 @@ class ListView extends \App\Modules\Base\Views\Index
 			$viewer->assign('MODULE_NAME', $moduleName);
 			$viewer->assign('MODULE_MODEL', \App\Modules\Base\Models\Module::getInstance($moduleName));
 			$viewer->assign('VIEWID', $this->viewName);
+			// For AJAX requests, render only the contents
+			$viewer->view('ListViewContents.tpl', $moduleName);
+		} else {
+			// For non-AJAX requests, render full page with MainLayout
+			$viewer->assign('VIEW', $request->get('view'));
+			$viewer->view('ListView.tpl', $moduleName);
 		}
-		$viewer->assign('VIEW', $request->get('view'));
-		$viewer->view('ListViewContents.tpl', $moduleName);
 	}
 
 	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-
-		$viewer->view('ListViewPostProcess.tpl', $moduleName);
+		// MainLayout handles footer rendering, no separate postProcess template needed
 		parent::postProcess($request);
 	}
 

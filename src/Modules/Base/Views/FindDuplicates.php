@@ -18,9 +18,10 @@ class FindDuplicates  extends \App\Modules\Base\Views\Index
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
+		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
 		$this->initializeListViewContents($request, $viewer);
-		parent::preProcess($request, $display);
+		// MainLayout handles rendering, no separate preProcess template needed
 	}
 
 	public function preProcessTplName(\App\Http\Vtiger_Request $request)
@@ -35,7 +36,8 @@ class FindDuplicates  extends \App\Modules\Base\Views\Index
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$this->initializeListViewContents($request, $viewer);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
-		$viewer->view('FindDuplicateContents.tpl', $moduleName);
+		// Render full page with MainLayout
+		$viewer->view('FindDuplicates.tpl', $moduleName);
 	}
 
 	/**

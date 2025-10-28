@@ -63,7 +63,11 @@ class Detail extends \App\Modules\Base\Views\Index
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
+		$this->assignDetailViewData($request);
+	}
 
+	protected function assignDetailViewData(\App\Http\Vtiger_Request $request)
+	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 		if (!$this->record) {
@@ -198,10 +202,7 @@ class Detail extends \App\Modules\Base\Views\Index
 
 		$picklistDependencyDatasource = \App\Modules\PickList\DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 		$viewer->assign('PICKLIST_DEPENDENCY_DATASOURCE', \App\Json::encode($picklistDependencyDatasource));
-
-		if ($display) {
-			$this->preProcessDisplay($request);
-		}
+		// MainLayout handles rendering, no separate preProcess template needed
 	}
 
 	public function preProcessTplName(\App\Http\Vtiger_Request $request)
@@ -213,14 +214,19 @@ class Detail extends \App\Modules\Base\Views\Index
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
+			// AJAX mode requests - return partial content
 			echo $this->invokeExposedMethod($mode, $request);
 			return;
 		}
+		
+		// Initial page load - render full DetailView with MainLayout
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 		if (!$this->record) {
 			$this->record = \App\Modules\Base\Models\DetailView::getInstance($moduleName, $recordId);
 		}
+		
+		// Determine default mode and generate content
 		$defaultMode = $this->defaultMode;
 		if ($defaultMode == 'showDetailViewByMode') {
 			$currentUserModel = $request->getUser();
@@ -231,19 +237,20 @@ class Detail extends \App\Modules\Base\Views\Index
 		} else if ($defaultMode === false) {
 			$defaultMode = 'showDetailViewByMode';
 		}
-		echo $this->$defaultMode($request);
+		
+		// Generate the detail content
+		$detailContent = $this->$defaultMode($request);
+		
+		$recordModel = $this->record->getRecord();
+		$viewer = $this->getViewer($request);
+		$viewer->assign('RECORD', $recordModel);
+		$viewer->assign('DETAIL_CONTENT', $detailContent);
+		$viewer->view('DetailView.tpl', $moduleName);
 	}
 
 	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
-		$recordId = $request->get('record');
-		$moduleName = $request->getModule();
-		if (!$this->record) {
-			$this->record = \App\Modules\Base\Models\DetailView::getInstance($moduleName, $recordId);
-		}
-		$viewer = $this->getViewer($request);
-		$viewer->assign('MODULE_MODEL', $this->record->getModule());
-		$viewer->view('DetailViewPostProcess.tpl', $moduleName);
+		// MainLayout handles footer rendering, no separate postProcess template needed
 		parent::postProcess($request);
 	}
 

@@ -122,7 +122,8 @@
 					</div>
 				</div>
 			{/if}
-		</div>
-		<div class="listViewContentDiv" id="listViewContents">
+		</div> <!-- close listViewActionsDiv -->
+	</div> <!-- close listViewTopMenuDiv -->
+	<div class="listViewContentDiv" id="listViewContents">
 <!--/layouts/basic/modules/Base/ListViewHeader.tpl -->
-		{/strip}
+	{/strip}

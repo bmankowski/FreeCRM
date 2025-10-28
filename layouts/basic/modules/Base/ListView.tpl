@@ -9,7 +9,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- layouts/basic/modules/Base/DetailView.tpl -->
+<!-- layouts/basic/modules/Base/ListView.tpl -->
 {extends file="MainLayout.tpl"|@vtemplate_path}
 
 {block name="content"}
@@ -19,13 +19,29 @@
 			<div class="mainContainer">
 				<div class="contentsDiv">
 					
-					{* DetailViewHeader.tpl is now self-contained - all divs it opens are closed within it *}
-					{include file="DetailViewHeader.tpl"|vtemplate_path:$MODULE_NAME DETAIL_VIEW_CONTENT=$DETAIL_CONTENT}
+					{* Header with breadcrumbs and action buttons *}
+					<div class="widget_header row marginBottom10px">
+						<div class="col-sm-6 col-xs-12">
+							{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+						</div>
+						<div class="col-sm-6 col-xs-12">
+							<div class="pull-right">
+								{foreach item=LINK from=$HEADER_LINKS['LIST_VIEW_HEADER']}
+									{include file='ButtonLink.tpl'|@vtemplate_path:$MODULE BUTTON_VIEW='listViewHeader'}
+								{/foreach}
+							</div>
+						</div>
+					</div>
+					
+					{* List view table and controls *}
+					{include file="ListViewHeader.tpl"|vtemplate_path:$MODULE}
+					{include file="ListViewContents.tpl"|vtemplate_path:$MODULE}
 					
 				</div> <!-- close contentsDiv -->
 			</div> <!-- close mainContainer -->
 		</div> <!-- close bodyContents -->
 	</div> <!-- close page -->
 {/block}
-<!--/layouts/basic/modules/Base/DetailView.tpl -->
+<!--/layouts/basic/modules/Base/ListView.tpl -->
 {/strip}
+

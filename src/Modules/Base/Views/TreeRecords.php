@@ -24,7 +24,7 @@ class TreeRecords  extends \App\Modules\Base\Views\Index
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
-		parent::preProcess($request);
+		parent::preProcess($request, false);
 		$moduleName = $request->getModule();
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$treeViewModel = \App\Modules\Base\Models\TreeView::getInstance($moduleModel);
@@ -33,54 +33,52 @@ class TreeRecords  extends \App\Modules\Base\Views\Index
 		$viewer = $this->getViewer($request);
 		$viewer->assign('TREE_LIST', \App\Json::encode($treeList));
 		$viewer->assign('SELECTABLE_CATEGORY', 0);
-		$viewer->view('TreeRecordsPreProcess.tpl', $moduleName);
+		$viewer->assign('CUSTOM_VIEWS', \App\Modules\CustomView\Models\Record::getAllByGroup($moduleName));
+		// MainLayout handles rendering, no separate preProcess/postProcess templates needed
 	}
 
 	public function postProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
-		$moduleName = $request->getModule();
-		$viewer = $this->getViewer($request);
-		$viewer->assign('CUSTOM_VIEWS', \App\Modules\CustomView\Models\Record::getAllByGroup($moduleName));
-		if ($display) {
-			$this->postProcessDisplay($request);
-		}
+		// MainLayout handles footer rendering, no separate postProcess template needed
 		parent::postProcess($request);
 	}
 
 	protected function postProcessDisplay(\App\Http\Vtiger_Request $request)
 	{
-		$viewer = $this->getViewer($request);
-		$viewer->view('TreeRecordsPostProcess.tpl', $request->getModule());
+		// No longer needed - MainLayout handles display
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$branches = $request->get('branches');
 		$filter = $request->get('filter');
-		if (empty($branches)) {
-			return;
-		}
-
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
-		$treeViewModel = \App\Modules\Base\Models\TreeView::getInstance($moduleModel);
+		
+		if (!empty($branches)) {
+			// AJAX request for tree branch data - return partial content
+			$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
+			$treeViewModel = \App\Modules\Base\Models\TreeView::getInstance($moduleModel);
 
-		$pagingModel = new \App\Modules\Base\Models\Paging();
-		$pagingModel->set('limit', 'no_limit');
-		$listViewModel = \App\Modules\Base\Models\ListView::getInstance($moduleName, $filter);
-		$listViewModel->set('search_params', $treeViewModel->getSearchParams($branches));
+			$pagingModel = new \App\Modules\Base\Models\Paging();
+			$pagingModel->set('limit', 'no_limit');
+			$listViewModel = \App\Modules\Base\Models\ListView::getInstance($moduleName, $filter);
+			$listViewModel->set('search_params', $treeViewModel->getSearchParams($branches));
 
-		$listEntries = $listViewModel->getListViewEntries($pagingModel);
-		if (count($listEntries) === 0) {
-			return;
+			$listEntries = $listViewModel->getListViewEntries($pagingModel);
+			if (count($listEntries) === 0) {
+				return;
+			}
+			$listHeaders = $listViewModel->getListViewHeaders();
+
+			$viewer->assign('ENTRIES', $listEntries);
+			$viewer->assign('HEADERS', $listHeaders);
+			$viewer->assign('MODULE', $moduleName);
+			$viewer->view('TreeRecords.tpl', $moduleName);
+		} else {
+			// Initial page load - render full page with MainLayout
+			$viewer->view('TreeRecords.tpl', $moduleName);
 		}
-		$listHeaders = $listViewModel->getListViewHeaders();
-
-		$viewer->assign('ENTRIES', $listEntries);
-		$viewer->assign('HEADERS', $listHeaders);
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->view('TreeRecords.tpl', $moduleName);
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)

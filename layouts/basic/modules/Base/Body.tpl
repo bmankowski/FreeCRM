@@ -12,8 +12,7 @@
 				{include file='BodyLeft.tpl'|@vtemplate_path:$MODULE DEVICE=Desktop}
 			</div>
 			{include file='BodyHeader.tpl'|@vtemplate_path:$MODULE}
-			<div class="basePanel noSpaces {if $LEFTPANELHIDE} menuOpen{/if}">
-				<div class="mainBody {if AppConfig::module('Users','IS_VISIBLE_USER_INFO_FOOTER')}userInfoFooter{/if}">
-				{include file='BodyContent.tpl'|@vtemplate_path:$MODULE}
+		</div> <!-- close baseContainer -->
+	</div> <!-- close container-fluid-main -->
 <!--/layouts/basic/modules/Base/Body.tpl -->
 {/strip}

@@ -1,34 +1,31 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
+{*<!--
+/**
+ * Basic TreeView View Template
+ * @package YetiForce.TreeView
+ * @license licenses/License.html
+ * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ */
+-->*}
 {strip}
 <!-- layouts/basic/modules/Base/TreeRecords.tpl -->
-	<table class="table table-striped">
-		<thead>
-			<tr>
-				{foreach item=HEADER from=$HEADERS}
-					<th>
-						{$HEADER->get('label')|t:$MODULE}
-					</th>
-				{/foreach}
-			</tr>
-		</thead>
-		<tbody>
-			{foreach item=ENTRY from=$ENTRIES name=listview}
-				<tr>
-					{foreach item=HEADER from=$HEADERS}
-						{assign var=HEADERNAME value=$HEADER->get('name')}
-						<td>
-							{if $HEADER->isNameField() eq true}
-								<a {if $HEADER->isNameField() eq true}class="moduleColor_{$MODULE}"{/if} href="{$ENTRY->getDetailViewUrl()}">
-									{$ENTRY->getListViewDisplayValue($HEADERNAME)}
-								</a>
-							{else}
-								{$ENTRY->getListViewDisplayValue($HEADERNAME)}
-							{/if}
-						</td>
-					{/foreach}
-				</tr>
-			{/foreach}
-		</tbody>
-	</table>
+{extends file="MainLayout.tpl"|@vtemplate_path}
+
+{block name="content"}
+	<div id="page">
+		<div id="pjaxContainer" class="hide noprint"></div>
+		<div class="bodyContents">
+			<div class="mainContainer">
+				<div class="contentsDiv">
+					
+					{* Tree view specific content *}
+					<div class="treeRecordsContainer">
+						{* Tree navigation and records will be loaded here *}
+					</div>
+					
+				</div> <!-- close contentsDiv -->
+			</div> <!-- close mainContainer -->
+		</div> <!-- close bodyContents -->
+	</div> <!-- close page -->
+{/block}
 <!--/layouts/basic/modules/Base/TreeRecords.tpl -->
 {/strip}

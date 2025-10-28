@@ -11,8 +11,21 @@
 -->*}
 {strip}
 <!-- layouts/basic/modules/Base/Index.tpl -->
-<div class="mainContainer container">
+{extends file="MainLayout.tpl"|@vtemplate_path}
 
-</div>
+{block name="content"}
+	<div id="page">
+		<div id="pjaxContainer" class="hide noprint"></div>
+		<div class="bodyContents">
+			<div class="mainContainer">
+				<div class="contentsDiv col-md-12 marginLeftZero" id="centerPanel" style="min-height:550px;">
+					<div class="mainContainer container">
+						{* Index view content here *}
+					</div> <!-- close mainContainer container -->
+				</div> <!-- close contentsDiv -->
+			</div> <!-- close mainContainer -->
+		</div> <!-- close bodyContents -->
+	</div> <!-- close page -->
+{/block}
 <!--/layouts/basic/modules/Base/Index.tpl -->
 {/strip}

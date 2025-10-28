@@ -44,9 +44,7 @@ class Index extends \App\Modules\Base\Views\Basic
 			if (!$moduleModel) {
 				// Non-entity or unsupported module (e.g. Home); skip permission block
 				$viewer->assign('CURRENT_VIEW', $request->get('view'));
-				if ($display) {
-					$this->preProcessDisplay($request);
-				}
+				// MainLayout handles rendering, no separate preProcess template needed
 				return;
 			}
 			$currentUser = $request->getUser();
@@ -66,9 +64,7 @@ class Index extends \App\Modules\Base\Views\Basic
 		$viewer->assign('ACTIVE_SIDEBAR_LINK', $activeLinkLabel);
 		}
 		$viewer->assign('CURRENT_VIEW', $request->get('view'));
-		if ($display) {
-			$this->preProcessDisplay($request);
-		}
+		// MainLayout handles rendering, no separate preProcess template needed
 	}
 
 	protected function preProcessTplName(\App\Http\Vtiger_Request $request)
@@ -84,10 +80,7 @@ class Index extends \App\Modules\Base\Views\Basic
 
 	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
-		$moduleName = $request->getModule();
-		$viewer = $this->getViewer($request);
-		$viewer->view('IndexPostProcess.tpl', $moduleName);
-
+		// MainLayout handles footer rendering, no separate postProcess template needed
 		parent::postProcess($request);
 	}
 

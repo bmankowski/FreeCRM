@@ -9,7 +9,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- layouts/basic/modules/Base/DetailView.tpl -->
+<!-- layouts/basic/modules/Base/FindDuplicates.tpl -->
 {extends file="MainLayout.tpl"|@vtemplate_path}
 
 {block name="content"}
@@ -19,13 +19,17 @@
 			<div class="mainContainer">
 				<div class="contentsDiv">
 					
-					{* DetailViewHeader.tpl is now self-contained - all divs it opens are closed within it *}
-					{include file="DetailViewHeader.tpl"|vtemplate_path:$MODULE_NAME DETAIL_VIEW_CONTENT=$DETAIL_CONTENT}
+					{* Find Duplicates Header and Search Form *}
+					{include file="FindDuplicateHeader.tpl"|vtemplate_path:$MODULE}
+					
+					{* Duplicate Records Results *}
+					{include file="FindDuplicateContents.tpl"|vtemplate_path:$MODULE}
 					
 				</div> <!-- close contentsDiv -->
 			</div> <!-- close mainContainer -->
 		</div> <!-- close bodyContents -->
 	</div> <!-- close page -->
 {/block}
-<!--/layouts/basic/modules/Base/DetailView.tpl -->
+<!--/layouts/basic/modules/Base/FindDuplicates.tpl -->
 {/strip}
+

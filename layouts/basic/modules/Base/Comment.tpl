@@ -121,7 +121,8 @@
 				</div>
 			</div>
 		</div>
-		<div>
+	</div> <!-- close singleComment -->
+</div> <!-- close commentDiv -->
 <!--/layouts/basic/modules/Base/Comment.tpl -->
-		{/strip}
+{/strip}
 

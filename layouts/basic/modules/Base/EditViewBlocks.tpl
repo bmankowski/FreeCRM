@@ -151,5 +151,7 @@
 				</div>
 			{/if}
 		{/foreach}
+	</form> <!-- close recordEditView form -->
+</div> <!-- close editViewContainer -->
 <!--/layouts/basic/modules/Base/EditViewBlocks.tpl -->
-	{/strip}
+{/strip}

@@ -16,9 +16,8 @@
 					{include file='BodyLeft.tpl'|@vtemplate_path:$MODULE DEVICE=Desktop}
 				</div>
 				{include file='BodyHeader.tpl'|@vtemplate_path:$MODULE}
-				<div class="basePanel noSpaces {if $LEFTPANELHIDE} menuOpen{/if}">
-					<div class="mainBody">
-					{include file='BodyContent.tpl'|@vtemplate_path:$MODULE}
-				{/if}
+			{/if}
+		</div> <!-- close baseContainer -->
+	</div> <!-- close container-fluid-main -->
 <!--/layouts/basic/modules/Users/Body.tpl -->
-			{/strip}
+{/strip}

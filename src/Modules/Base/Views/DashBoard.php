@@ -71,6 +71,11 @@ class DashBoard  extends \App\Modules\Base\Views\Index
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
+		$this->assignDashboardData($request);
+	}
+
+	protected function assignDashboardData(\App\Http\Vtiger_Request $request)
+	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$currentDashboard = $request->get('dashboardId');
@@ -102,9 +107,6 @@ class DashBoard  extends \App\Modules\Base\Views\Index
 		$viewer->assign('WIDGETS', $widgets);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
-		if ($display) {
-			$this->preProcessDisplay($request);
-		}
 	}
 
 	public function preProcessTplName(\App\Http\Vtiger_Request $request)
@@ -132,11 +134,13 @@ class DashBoard  extends \App\Modules\Base\Views\Index
 		}
 
 		$viewer->assign('WIDGETS', $widgets);
-		$viewer->view('dashboards/DashBoardContents.tpl', $moduleName);
+		// Render single template that extends MainLayout
+		$viewer->view('DashBoard.tpl', $moduleName);
 	}
 
 	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
+		// MainLayout handles footer rendering, no template needed here
 		parent::postProcess($request);
 	}
 

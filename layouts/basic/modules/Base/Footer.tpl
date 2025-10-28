@@ -11,11 +11,6 @@
 -->*}
 {strip}
 <!-- layouts/basic/modules/Base/Footer.tpl -->
-</div>
-</div>
-</div>
-</div>
-</div>
 <div class="clearfix"></div>
 <input id="activityReminder" class="hide noprint" type="hidden" value="{$ACTIVITY_REMINDER}"/>
 {if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}
@@ -101,7 +96,6 @@
 </div>
 {* javascript files *}
 {include file='JSResources.tpl'|@vtemplate_path}
-</div>
 {if \App\Debugger::isDebugBar()}
 	{\App\Debugger::getDebugBar()->getJavascriptRenderer()->render()}
 {/if}
