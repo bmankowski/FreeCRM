@@ -16,7 +16,7 @@ namespace App\Modules\Settings\SalesProcesses\Models;
 class Module extends \App\Modules\Base\Models\Record
 {
 
-	public static function getCleanInstance()
+	public static function getCleanInstance($moduleName)
 	{
 		$instance = new self();
 		return $instance;

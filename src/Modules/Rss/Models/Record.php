@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Rss\Models;
-use App\Modules\Settings\SMSNotifierModels\Record;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -14,7 +13,7 @@ use App\Modules\Settings\SMSNotifierModels\Record;
 require_once 'libraries/RSSFeeds/Feed.php';
 
 // for rss caching
-Feed::$cacheDir = 'cache/rss_cache';
+\Feed::$cacheDir = 'cache/rss_cache';
 
 class Record extends \App\Modules\Base\Models\Record
 {
@@ -138,7 +137,7 @@ class Record extends \App\Modules\Base\Models\Record
 			$recordModel = new self();
 			$recordModel->setData($rowData);
 			$recordModel->setModule($qualifiedModuleName);
-			$rss = Feed::loadRss($recordModel->get('rssurl'));
+			$rss = \Feed::loadRss($recordModel->get('rssurl'));
 			$recordModel->setSenderInfo($rss->item);
 			$recordModel->setRssValues($rss);
 			$recordModel->setRssObject($rss);
@@ -180,14 +179,14 @@ class Record extends \App\Modules\Base\Models\Record
 	public function validateRssUrl($url)
 	{
 		try {
-			$rss = Feed::loadRss($url);
+			$rss = \Feed::loadRss($url);
 			if ($rss) {
 				$this->setRssValues($rss);
 				return true;
 			} else {
 				return false;
 			}
-		} catch (FeedException $ex) {
+		} catch (\FeedException $ex) {
 			return false;
 		}
 	}

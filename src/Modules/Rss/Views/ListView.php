@@ -56,7 +56,7 @@ class ListView  extends \App\Modules\Base\Views\Index
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
 
-	public function initializeListViewContents(\App\Http\Vtiger_Request $request, CRM_Viewer $viewer)
+	public function initializeListViewContents(\App\Http\Vtiger_Request $request, \App\Runtime\CRM_Viewer $viewer)
 	{
 		$module = $request->getModule();
 		$recordId = $request->get('id');
@@ -133,7 +133,7 @@ class ListView  extends \App\Modules\Base\Views\Index
 			foreach ($fieldDetails as $name => $value) {
 				$fieldModel->set($name, $value);
 			}
-			$fieldModel->module = $module;
+			$fieldModel->setModule($module);
 			$fieldModelsList[$fieldName] = $fieldModel;
 		}
 		return $fieldModelsList;
