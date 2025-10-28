@@ -47,12 +47,20 @@ while IFS= read -r url || [ -n "$url" ]; do
         exit 1
     fi
     
-    # Check for common PHP error patterns (more specific to avoid false positives)
-    errors=$(echo "$response" | grep -E "<b>Fatal error</b>|<b>Parse error</b>|<b>Warning</b>:|<b>Notice</b>:|Uncaught Exception|Stack trace:|Fatal error:|Parse error:|Call to undefined" | head -5)
+    # Check for common PHP error patterns (both HTML and plain text formats)
     
-    if [ -n "$errors" ]; then
+    # Check for HTML-formatted errors (most common in web responses)
+    if echo "$response" | grep -qE "^(Fatal error|Parse error|Warning|Notice):|Cannot redeclare|Call to undefined|static"; then
         echo -e "${RED}✗ ERRORS FOUND:${NC}"
-        echo "$errors"
+        echo "$response" | grep -E "<b>(Fatal error|Parse error|Warning|Notice)</b>|Cannot redeclare|Call to undefined" | head -5
+        echo -e "\n${RED}Testing stopped due to errors${NC}"
+        exit 1
+    fi
+    
+    # Check for plain text errors (appear when PHP fails before rendering)
+    if echo "$response" | grep -qE "^(Fatal error|Parse error|Warning|Notice):|Uncaught Exception|Stack trace:"; then
+        echo -e "${RED}✗ ERRORS FOUND:${NC}"
+        echo "$response" | grep -E "^(Fatal error|Parse error|Warning|Notice):|Uncaught Exception|Stack trace:" | head -5
         echo -e "\n${RED}Testing stopped due to errors${NC}"
         exit 1
     fi

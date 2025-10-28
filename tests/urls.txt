@@ -1,3 +1,4 @@
+http://localhost/index.php?module=PDF&parent=Settings&view=List&block=4&fieldid=35
 http://localhost/index.php
 http://localhost/index.php?module=Leads&view=Detail&record=112
 http://localhost/index.php?module=Users&action=Login
@@ -169,7 +170,7 @@ http://localhost/index.php?module=Users&view=Auth&parent=Settings&block=5&fieldi
 http://localhost/index.php?module=CurrencyUpdate&view=Index&parent=Settings&block=5&fieldid=88
 http://localhost/index.php?module=ApiAddress&parent=Settings&view=Configuration&block=5&fieldid=61
 http://localhost/index.php?parent=Settings&module=Dav&view=Keys&block=5&fieldid=77
-http://localhost/index.php?module=WebserviceApps&view=Index&parent=Settings&block=5&fieldid=100
+http://localhost/index.php?module=WebserviceApps&view=Index&parent=Settings&block=5&fieldid=100 
 http://localhost/index.php?module=WebserviceUsers&view=List&parent=Settings&block=5&fieldid=106
 http://localhost/index.php?module=PBXManager&parent=Settings&view=Index&block=5&fieldid=29
 http://localhost/index.php?module=Workflows&parent=Settings&view=List&block=15&fieldid=24
@@ -198,3 +199,5 @@ http://localhost/index.php?module=SupportProcesses&view=Index&parent=Settings&bl
 http://localhost/index.php?module=TimeControlProcesses&parent=Settings&view=Index&block=6&fieldid=86
 http://localhost/index.php?module=Vtiger&view=Credits&parent=Settings&block=9&fieldid=59
 http://localhost/index.php?module=Vtiger&parent=Settings&view=License&block=9&fieldid=49
+http://localhost/index.php?module=CustomView&parent=Settings&view=Index&block=13&fieldid=57
+http://localhost/index.php?module=PDF&parent=Settings&view=List&block=4&fieldid=35

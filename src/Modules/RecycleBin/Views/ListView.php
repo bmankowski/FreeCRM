@@ -63,7 +63,7 @@ class ListView extends \App\Modules\Base\Views\Index
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
 
-	public function initializeListViewContents(\App\Http\Vtiger_Request $request, CRM_Viewer $viewer)
+	public function initializeListViewContents(\App\Http\Vtiger_Request $request, \App\Runtime\CRM_Viewer $viewer)
 	{
 		$moduleName = $request->getModule();
 		$sourceModule = $request->get('sourceModule');
@@ -100,23 +100,27 @@ class ListView extends \App\Modules\Base\Views\Index
 		$pagingModel->set('page', $pageNumber);
 		if (empty($orderBy) && empty($sortOrder)) {
 			$moduleInstance = \App\CRMEntity::getInstance($moduleName);
-			$orderBy = $moduleInstance->default_order_by;
-			$sortOrder = $moduleInstance->default_sort_order;
+			$orderBy = isset($moduleInstance->default_order_by) ? $moduleInstance->default_order_by : 'modifiedtime';
+			$sortOrder = isset($moduleInstance->default_sort_order) ? $moduleInstance->default_sort_order : 'DESC';
 		}
 		if (!empty($orderBy)) {
 			$listViewModel->set('orderby', $orderBy);
 			$listViewModel->set('sortorder', $sortOrder);
 		}
 
-		if (!$this->listViewHeaders) {
+		if (!isset($this->listViewHeaders)) {
 			$this->listViewHeaders = $listViewModel->getListViewHeaders();
 		}
-		if (!$this->listViewEntries) {
+		if (!isset($this->listViewEntries)) {
 			$this->listViewEntries = $listViewModel->getListViewEntries($pagingModel);
 		}
 		$noOfEntries = count($this->listViewEntries);
 
 		$viewer->assign('MODULE', $moduleName);
+
+		// Initialize HEADER_LINKS to prevent template errors
+		$headerLinks = ['LIST_VIEW_HEADER' => []];
+		$viewer->assign('HEADER_LINKS', $headerLinks);
 
 		$viewer->assign('LISTVIEW_LINKS', $moduleModel->getListViewLinks(false));
 		$viewer->assign('LISTVIEW_MASSACTIONS', $linkModels);

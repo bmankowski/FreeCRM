@@ -74,8 +74,8 @@ class Reports extends \App\CRMEntity
 		$this->initListOfModules();
 		if ($reportid != "") {
 			// Lookup information in cache first
-			$cachedInfo = VTCacheUtils::lookupReport_Info($currentUser->id, $reportid);
-			$subordinate_users = VTCacheUtils::lookupReport_SubordinateUsers($reportid);
+			$cachedInfo = \App\Utils\VTCacheUtils::lookupReport_Info($currentUser->id, $reportid);
+			$subordinate_users = \App\Utils\VTCacheUtils::lookupReport_SubordinateUsers($reportid);
 
 			if ($cachedInfo === false) {
 				$ssql = "select vtiger_reportmodules.*,vtiger_report.* from vtiger_report inner join vtiger_reportmodules on vtiger_report.reportid = vtiger_reportmodules.reportmodulesid";
@@ -84,7 +84,7 @@ class Reports extends \App\CRMEntity
 
 				require_once(ROOT_DIRECTORY . '/src/Utils/GetUserGroups.php');
 				require('user_privileges/user_privileges_' . $currentUser->id . '.php');
-				$userGroups = new GetUserGroups();
+				$userGroups = new \App\Utils\GetUserGroups();
 				$userGroups->getAllUserGroups($currentUser->id);
 				$user_groups = $userGroups->user_groups;
 				if (!empty($user_groups) && $is_admin === false) {
@@ -105,20 +105,20 @@ class Reports extends \App\CRMEntity
 				}
 
 				// Update subordinate user information for re-use
-				VTCacheUtils::updateReport_SubordinateUsers($reportid, $subordinate_users);
+				\App\Utils\VTCacheUtils::updateReport_SubordinateUsers($reportid, $subordinate_users);
 
 				$result = $adb->pquery($ssql, $params);
 				if ($result && $adb->num_rows($result)) {
 					$reportmodulesrow = $adb->fetch_array($result);
 
 					// Update information in cache now
-					VTCacheUtils::updateReport_Info(
+					\App\Utils\VTCacheUtils::updateReport_Info(
 						$currentUser->id, $reportid, $reportmodulesrow["primarymodule"], $reportmodulesrow["secondarymodules"], $reportmodulesrow["reporttype"], $reportmodulesrow["reportname"], $reportmodulesrow["description"], $reportmodulesrow["folderid"], $reportmodulesrow["owner"]
 					);
 				}
 
 				// Re-look at cache to maintain code-consistency below
-				$cachedInfo = VTCacheUtils::lookupReport_Info($currentUser->id, $reportid);
+				$cachedInfo = \App\Utils\VTCacheUtils::lookupReport_Info($currentUser->id, $reportid);
 			}
 
 			if ($cachedInfo) {
@@ -178,7 +178,7 @@ class Reports extends \App\CRMEntity
 		// Prefetch module info to check active or not and also get list of tabs
 		$modulerows = \App\Utils\VtlibUtils::prefetchModuleActiveInfo(false);
 
-		$cachedInfo = VTCacheUtils::lookupReport_ListofModuleInfos();
+		$cachedInfo = \App\Utils\VTCacheUtils::lookupReport_ListofModuleInfos();
 
 		if ($cachedInfo !== false) {
 			$this->module_list = $cachedInfo['module_list'];
@@ -272,7 +272,7 @@ class Reports extends \App\CRMEntity
 					}
 				}
 				// Put the information in cache for re-use
-				VTCacheUtils::updateReport_ListofModuleInfos($this->module_list, $this->related_modules);
+				\App\Utils\VTCacheUtils::updateReport_ListofModuleInfos($this->module_list, $this->related_modules);
 			}
 		}
 	}
@@ -401,11 +401,13 @@ class Reports extends \App\CRMEntity
 			$params[] = $rpt_fldr_id;
 		}
 
-		require('user_privileges/user_privileges_' . $currentUser->getId() . '.php');
-		require_once(ROOT_DIRECTORY . '/src/Utils/GetUserGroups.php');
-		$userGroups = new GetUserGroups();
+		$userPrivileges = require('user_privileges/user_privileges_' . $currentUser->getId() . '.php');
+		$current_user_parent_role_seq = isset($userPrivileges['parent_role_seq']) ? $userPrivileges['parent_role_seq'] : '';
+		
+		$userGroups = new \App\Utils\GetUserGroups();
 		$userGroups->getAllUserGroups($currentUser->getId());
 		$user_groups = $userGroups->user_groups;
+		$user_group_query = '';
 		if (!empty($user_groups) && $is_admin === false) {
 			$user_group_query = " (shareid IN (" . \App\Utils\Utils::generateQuestionMarks($user_groups) . ") AND setype='groups') OR";
 			array_push($params, $user_groups);
