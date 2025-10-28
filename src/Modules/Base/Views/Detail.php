@@ -213,7 +213,7 @@ class Detail extends \App\Modules\Base\Views\Index
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
-		if (!empty($mode)) {
+		if ($request->isAjax()) {
 			// AJAX mode requests - return partial content
 			echo $this->invokeExposedMethod($mode, $request);
 			return;

@@ -164,15 +164,8 @@ abstract class Header extends \App\Base\Controllers\BaseViewController
 	
 	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
-		$viewer = $this->getViewer($request);
-		$currentUser = $request->getUser();
-		
-		// Assign footer-specific variables
-		$viewer->assign('ACTIVITY_REMINDER', $currentUser->getCurrentUserActivityReminderInSeconds());
-		$viewer->assign('COMPANY_LOGO', \App\Company::getInstanceById()->getLogo());
-		$viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
-		
-		// Render the footer template
-		$viewer->view('Footer.tpl');
+		// Footer rendering is handled by MainLayout.tpl
+		// Variables (ACTIVITY_REMINDER, FOOTER_SCRIPTS) are assigned in BaseViewController::preProcess()
+		parent::postProcess($request);
 	}
 }

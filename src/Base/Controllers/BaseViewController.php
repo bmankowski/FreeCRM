@@ -34,6 +34,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 	   $viewer->assign('BREADCRUMB_TITLE', $this->getBreadcrumbTitle($vtigerRequest));
 	   $viewer->assign('BREADCRUMBS', $this->buildBreadcrumbs($vtigerRequest));
 	   $viewer->assign('HEADER_SCRIPTS', $this->getHeaderScripts($vtigerRequest));
+	   $viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($vtigerRequest));
 	   $viewer->assign('STYLES', $this->getHeaderCss($vtigerRequest));
 	   $viewer->assign('SKIN_PATH', \App\Runtime\Vtiger_Theme::getCurrentUserThemePath());
 	   $viewer->assign('LAYOUT_PATH', 'layouts/' . \App\Runtime\Yeti_Layout::getActiveLayout());
@@ -42,8 +43,13 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 	   $viewer->assign('LANGUAGE', \App\Runtime\Vtiger_Language_Handler::getLanguage());
 	   $viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
 	   $viewer->assign('USER_MODEL', $vtigerRequest->getUser());
+
+
+
+	   
 	//    $viewer->assign('MODULE', $moduleName);
 	   $viewer->assign('VIEW', $vtigerRequest->get('view'));
+	   $viewer->assign('ACTIVITY_REMINDER', $vtigerRequest->getUser()->getCurrentUserActivityReminderInSeconds());
 	   $viewer->assign('PARENT_MODULE', $vtigerRequest->get('parent'));
 	   
 	   // Build array of all module active statuses for templates
