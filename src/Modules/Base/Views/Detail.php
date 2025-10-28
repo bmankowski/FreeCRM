@@ -12,11 +12,6 @@ namespace App\Modules\Base\Views;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-
-use App\Http\Vtiger_Request;
-use App\AppConfig;
-
-
 class Detail extends \App\Modules\Base\Views\Index
 {
 
@@ -172,34 +167,34 @@ class Detail extends \App\Modules\Base\Views\Index
 			}
 		}
 
-	// Process header widgets
-	$processedHeaderWidgets = [];
-	if (!empty($detailViewLinks['DETAIL_VIEW_HEADER_WIDGET'])) {
-		$widgetModel = new \App\Modules\Base\Models\Widget();
-		foreach ($detailViewLinks['DETAIL_VIEW_HEADER_WIDGET'] as $widget) {
-			$processedHeaderWidgets[] = $widgetModel->processWidget($widget, $recordModel);
+		// Process header widgets
+		$processedHeaderWidgets = [];
+		if (!empty($detailViewLinks['DETAIL_VIEW_HEADER_WIDGET'])) {
+			$widgetModel = new \App\Modules\Base\Models\Widget();
+			foreach ($detailViewLinks['DETAIL_VIEW_HEADER_WIDGET'] as $widget) {
+				$processedHeaderWidgets[] = $widgetModel->processWidget($widget, $recordModel);
+			}
 		}
-	}
 
-	$viewer->assign('SELECTED_TAB_LABEL', $selectedTabLabel);
-	$viewer->assign('MODULE_MODEL', $moduleModel);
-	$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
-	$viewer->assign('PROCESSED_HEADER_WIDGETS', $processedHeaderWidgets);
-	$viewer->assign('DETAILVIEW_WIDGETS', $this->record->widgets);
+		$viewer->assign('SELECTED_TAB_LABEL', $selectedTabLabel);
+		$viewer->assign('MODULE_MODEL', $moduleModel);
+		$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
+		$viewer->assign('PROCESSED_HEADER_WIDGETS', $processedHeaderWidgets);
+		$viewer->assign('DETAILVIEW_WIDGETS', $this->record->widgets);
 		$viewer->assign('FIELDS_HEADER', $fieldsInHeader);
 		$viewer->assign('CUSTOM_FIELDS_HEADER', $this->record->getCustomHeaderFields());
 		$viewer->assign('IS_EDITABLE', $this->record->getRecord()->isEditable($moduleName));
 		$viewer->assign('IS_DELETABLE', $this->record->getRecord()->isDeletable($moduleName));
 
-	$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
-	$linkModels = $this->record->getSideBarLinks($linkParams);
-	
-	// Process sidebar links to determine active link
-	$activeLinkLabel = $this->processSidebarLinks($linkModels, $request);
-	
-	$viewer->assign('QUICK_LINKS', $linkModels);
-	$viewer->assign('ACTIVE_SIDEBAR_LINK', $activeLinkLabel);
-	$viewer->assign('DEFAULT_RECORD_VIEW', $currentUserModel->get('default_record_view'));
+		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
+		$linkModels = $this->record->getSideBarLinks($linkParams);
+
+		// Process sidebar links to determine active link
+		$activeLinkLabel = $this->processSidebarLinks($linkModels, $request);
+
+		$viewer->assign('QUICK_LINKS', $linkModels);
+		$viewer->assign('ACTIVE_SIDEBAR_LINK', $activeLinkLabel);
+		$viewer->assign('DEFAULT_RECORD_VIEW', $currentUserModel->get('default_record_view'));
 
 		$picklistDependencyDatasource = \App\Modules\PickList\DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 		$viewer->assign('PICKLIST_DEPENDENCY_DATASOURCE', \App\Json::encode($picklistDependencyDatasource));
@@ -744,13 +739,13 @@ class Detail extends \App\Modules\Base\Views\Index
 		$relationField = $relationModel->getRelationField();
 		$noOfEntries = count($models);
 
-	if ($columns) {
-		$header = array_splice($header, 0, $columns);
-	}
-	$colorList = [];
-	foreach ($models as $record) {
-		$colorList[$record->getId()] = \App\Modules\Settings\DataAccess\Models\Module::executeColorListHandlers($relatedModuleName, $record->getId(), $record);
-	}
+		if ($columns) {
+			$header = array_splice($header, 0, $columns);
+		}
+		$colorList = [];
+		foreach ($models as $record) {
+			$colorList[$record->getId()] = \App\Modules\Settings\DataAccess\Models\Module::executeColorListHandlers($relatedModuleName, $record->getId(), $record);
+		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('COLOR_LIST', $colorList);
 		$viewer->assign('MODULE', $moduleName);

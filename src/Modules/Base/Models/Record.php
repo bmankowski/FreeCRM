@@ -39,7 +39,7 @@ class Record extends \App\Runtime\BaseModel
 	 */
 	public function getId()
 	{
-		return $this->get('id');
+		return (int)$this->get('id');
 	}
 
 	/**

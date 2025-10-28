@@ -319,7 +319,6 @@ class Vtiger_Request
 				$moduleName = $parentModule . ':' . $moduleName;
 			}
 		}
-
 		return $moduleName;
 	}
 

@@ -173,30 +173,15 @@ class WebUI extends EntryPoint
 		$user = parent::getLogin();
 
 		if (!$user && \App\Http\Vtiger_Session::has('authenticated_user_id')) {
-			$user = $this->restoreUserFromSession();
+			$userid = \App\Http\Vtiger_Session::get('authenticated_user_id');
+			$appKey = \App\Http\Vtiger_Session::get('app_unique_key');
+
+			if ($userid && \App\AppConfig::main('application_unique_key') === $appKey) {
+				$user = \App\CRMEntity::getInstance('Users');
+				$user->retrieveCurrentUserInfoFromFile($userid);
+				$this->setLogin($user);
+			}
 		}
-
-		return $user;
-	}
-
-	/**
-	 * Restore user from session data
-	 * 
-	 * @return \Users|false User object or false if restoration fails
-	 */
-	private function restoreUserFromSession()
-	{
-		$userid = \App\Http\Vtiger_Session::get('authenticated_user_id');
-		$appKey = \App\Http\Vtiger_Session::get('app_unique_key');
-
-		if (!$userid || \App\AppConfig::main('application_unique_key') !== $appKey) {
-			return false;
-		}
-
-		\App\Modules\Users\Models\Record::getCurrentUserModel();
-		$user = \App\CRMEntity::getInstance('Users');
-		$user->retrieveCurrentUserInfoFromFile($userid);
-		$this->setLogin($user);
 
 		return $user;
 	}
@@ -260,10 +245,7 @@ class WebUI extends EntryPoint
 		if ($request->isAjax()) {
 			return true;
 		}
-
-		/** @phpstan-ignore-next-line */
-		$handler->postProcess($request);
-		return null;
+		return $handler->postProcess($request);
 	}
 
 	/**
@@ -645,14 +627,12 @@ class WebUI extends EntryPoint
 	private function executeHandler($handler, \App\Http\Vtiger_Request $request, $module, $qualifiedModuleName)
 	{
 		vglobal('currentModule', $module);
-
+		
 		$this->validateHandler($handler, $request);
 		$this->checkHandlerLogin($handler, $request);
 		$this->checkHandlerPermissions($handler, $request, $module, $qualifiedModuleName);
 		$this->handleNotPermittedListModules($module, $request);
-
 		$this->triggerPreProcess($handler, $request);
-		/** @phpstan-ignore-next-line */
 		$response = $handler->process($request);
 		$this->triggerPostProcess($handler, $request);
 
@@ -668,7 +648,7 @@ class WebUI extends EntryPoint
 	private function validateHandler($handler, \App\Http\Vtiger_Request $request)
 	{
 		if (\App\AppConfig::main('csrfProtection') && \App\AppConfig::main('systemMode') !== 'demo') {
-			/** @phpstan-ignore-next-line */
+			 
 			$handler->validateRequest($request);
 		}
 	}

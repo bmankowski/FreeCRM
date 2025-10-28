@@ -26,6 +26,38 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
    {
 	   parent::__construct();
    }
+   public function preProcess(\App\Http\Vtiger_Request $vtigerRequest, $display = true)
+   {
+	   $moduleName = $vtigerRequest->getModule();
+	   $viewer = $this->getViewer($vtigerRequest);
+	   $viewer->assign('PAGETITLE', $this->getPageTitle($vtigerRequest));
+	   $viewer->assign('BREADCRUMB_TITLE', $this->getBreadcrumbTitle($vtigerRequest));
+	   $viewer->assign('BREADCRUMBS', $this->buildBreadcrumbs($vtigerRequest));
+	   $viewer->assign('HEADER_SCRIPTS', $this->getHeaderScripts($vtigerRequest));
+	   $viewer->assign('STYLES', $this->getHeaderCss($vtigerRequest));
+	   $viewer->assign('SKIN_PATH', \App\Runtime\Vtiger_Theme::getCurrentUserThemePath());
+	   $viewer->assign('LAYOUT_PATH', 'layouts/' . \App\Runtime\Yeti_Layout::getActiveLayout());
+	   $viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($vtigerRequest));
+	   $viewer->assign('HTMLLANG', \App\Runtime\Vtiger_Language_Handler::getShortLanguageName());
+	   $viewer->assign('LANGUAGE', \App\Runtime\Vtiger_Language_Handler::getLanguage());
+	   $viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
+	   $viewer->assign('USER_MODEL', $vtigerRequest->getUser());
+	//    $viewer->assign('MODULE', $moduleName);
+	   $viewer->assign('VIEW', $vtigerRequest->get('view'));
+	   $viewer->assign('PARENT_MODULE', $vtigerRequest->get('parent'));
+	   
+	   // Build array of all module active statuses for templates
+	   $activeModules = [];
+	   $allModules = \vtlib\Functions::getAllModules(false, true);  // Get ALL modules, not just entity types
+	   foreach ($allModules as $module) {
+		   $activeModules[$module['name']] = \App\Module::isModuleActive($module['name']);
+	   }
+	   $viewer->assign('ACTIVE_MODULES', $activeModules);
+	   
+	   if ($display) {
+		   $this->preProcessDisplay($vtigerRequest);
+	   }
+   }
 
    public function getViewer(\App\Http\Vtiger_Request $vtigerRequest)
    {
@@ -64,7 +96,6 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 	   if (!empty($this->pageTitle)) {
 		   return $this->pageTitle;
 	   }
-
 	   return 0;
    }
 
@@ -174,38 +205,6 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 	   return $activeLinkLabel;
    }
 
-   public function preProcess(\App\Http\Vtiger_Request $vtigerRequest, $display = true)
-   {
-	   $moduleName = $vtigerRequest->getModule();
-	   $viewer = $this->getViewer($vtigerRequest);
-	   $viewer->assign('PAGETITLE', $this->getPageTitle($vtigerRequest));
-	   $viewer->assign('BREADCRUMB_TITLE', $this->getBreadcrumbTitle($vtigerRequest));
-	   $viewer->assign('BREADCRUMBS', $this->buildBreadcrumbs($vtigerRequest));
-	   $viewer->assign('HEADER_SCRIPTS', $this->getHeaderScripts($vtigerRequest));
-	   $viewer->assign('STYLES', $this->getHeaderCss($vtigerRequest));
-	   $viewer->assign('SKIN_PATH', \App\Runtime\Vtiger_Theme::getCurrentUserThemePath());
-	   $viewer->assign('LAYOUT_PATH', 'layouts/' . \App\Runtime\Yeti_Layout::getActiveLayout());
-	   $viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($vtigerRequest));
-	   $viewer->assign('HTMLLANG', \App\Runtime\Vtiger_Language_Handler::getShortLanguageName());
-	   $viewer->assign('LANGUAGE', \App\Runtime\Vtiger_Language_Handler::getLanguage());
-	   $viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
-	   $viewer->assign('USER_MODEL', $vtigerRequest->getUser());
-	   $viewer->assign('MODULE', $moduleName);
-	   $viewer->assign('VIEW', $vtigerRequest->get('view'));
-	   $viewer->assign('PARENT_MODULE', $vtigerRequest->get('parent'));
-	   
-	   // Build array of all module active statuses for templates
-	   $activeModules = [];
-	   $allModules = \vtlib\Functions::getAllModules(false, true);  // Get ALL modules, not just entity types
-	   foreach ($allModules as $module) {
-		   $activeModules[$module['name']] = \App\Module::isModuleActive($module['name']);
-	   }
-	   $viewer->assign('ACTIVE_MODULES', $activeModules);
-	   
-	   if ($display) {
-		   $this->preProcessDisplay($vtigerRequest);
-	   }
-   }
 
    protected function preProcessTplName(\App\Http\Vtiger_Request $vtigerRequest)
    {
