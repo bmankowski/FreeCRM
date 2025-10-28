@@ -306,8 +306,11 @@ class Vtiger_Language_Handler
 	{
 		return Vtiger_Language_Handler::getTranslatedString('SINGLE_' . $moduleName, $moduleName);
 	}
-	public static function translate(string $key, ...$args)
+	public static function translate(?string $key, ...$args)
 	{
+		if (empty($key)) {
+			return 'NO KEY';
+		}
 		// Use the existing Vtiger translation system
 		try {
 			// First argument after key is module name, rest are sprintf parameters

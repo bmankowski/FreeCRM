@@ -226,20 +226,26 @@ class Detail extends \App\Modules\Base\Views\Index
 			$this->record = \App\Modules\Base\Models\DetailView::getInstance($moduleName, $recordId);
 		}
 		
-		// Determine default mode and generate content
-		$defaultMode = $this->defaultMode;
-		if ($defaultMode == 'showDetailViewByMode') {
-			$currentUserModel = $request->getUser();
-			$this->record->getWidgets(['MODULE' => $moduleName, 'RECORD' => $recordId]);
-			if (!($currentUserModel->get('default_record_view') === 'Summary' && $this->record->widgetsList)) {
-				$defaultMode = 'showModuleDetailView';
+		// Check if URL contains mode parameter for direct access to specific tab/view
+		if (!empty($mode) && method_exists($this, $mode)) {
+			// Direct URL access to specific mode (e.g., showRelatedList)
+			$detailContent = $this->$mode($request);
+		} else {
+			// Determine default mode and generate content
+			$defaultMode = $this->defaultMode;
+			if ($defaultMode == 'showDetailViewByMode') {
+				$currentUserModel = $request->getUser();
+				$this->record->getWidgets(['MODULE' => $moduleName, 'RECORD' => $recordId]);
+				if (!($currentUserModel->get('default_record_view') === 'Summary' && $this->record->widgetsList)) {
+					$defaultMode = 'showModuleDetailView';
+				}
+			} else if ($defaultMode === false) {
+				$defaultMode = 'showDetailViewByMode';
 			}
-		} else if ($defaultMode === false) {
-			$defaultMode = 'showDetailViewByMode';
+			
+			// Generate the detail content
+			$detailContent = $this->$defaultMode($request);
 		}
-		
-		// Generate the detail content
-		$detailContent = $this->$defaultMode($request);
 		
 		$recordModel = $this->record->getRecord();
 		$viewer = $this->getViewer($request);
