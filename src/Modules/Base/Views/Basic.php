@@ -20,7 +20,7 @@
 
 namespace App\Modules\Base\Views;
 
-abstract class Basic extends Footer
+abstract class Basic extends Header
 {
 
 	public function __construct()
