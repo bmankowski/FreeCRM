@@ -2,7 +2,7 @@
 
 # Script to check if all opened divs are closed within the same .tpl file
 # Author: Template Refactor Team
-# Usage: ./refactor/check-div-balance.sh [directory]
+# Usage: ./refactor/check-div-balance.sh [file|directory]
 
 # Colors for output
 RED='\033[0;31m'
@@ -12,13 +12,11 @@ BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Default to layouts directory if no argument provided
-SEARCH_DIR="${1:-layouts/basic}"
+SEARCH_PATH="${1:-layouts/basic}"
 
 echo -e "${BLUE}========================================${NC}"
 echo -e "${BLUE}  Checking DIV Balance in TPL Files${NC}"
 echo -e "${BLUE}========================================${NC}"
-echo ""
-echo "Searching in: $SEARCH_DIR"
 echo ""
 
 # Counters
@@ -28,9 +26,28 @@ unbalanced_files=0
 
 # Arrays to store results
 declare -a unbalanced_list
+declare -a files_to_check
 
-# Find all .tpl files and check them
-while IFS= read -r file; do
+# Determine if argument is a file or directory
+if [ -f "$SEARCH_PATH" ]; then
+    # Single file
+    echo "Checking file: $SEARCH_PATH"
+    echo ""
+    files_to_check=("$SEARCH_PATH")
+elif [ -d "$SEARCH_PATH" ]; then
+    # Directory - find all .tpl files
+    echo "Searching in directory: $SEARCH_PATH"
+    echo ""
+    while IFS= read -r file; do
+        files_to_check+=("$file")
+    done < <(find "$SEARCH_PATH" -name "*.tpl" -type f | sort)
+else
+    echo -e "${RED}Error: '$SEARCH_PATH' is not a valid file or directory${NC}"
+    exit 1
+fi
+
+# Check all files
+for file in "${files_to_check[@]}"; do
     ((total_files++))
     
     # Count opening and closing divs
@@ -51,7 +68,7 @@ while IFS= read -r file; do
             echo -e "${YELLOW}⚠${NC} UNBALANCED - $file (${opened} opened, ${closed} closed, ${YELLOW}${balance#-} EXTRA CLOSES${NC})"
         fi
     fi
-done < <(find "$SEARCH_DIR" -name "*.tpl" -type f | sort)
+done
 
 # Summary
 echo ""
