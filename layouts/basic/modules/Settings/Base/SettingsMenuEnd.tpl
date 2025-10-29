@@ -11,9 +11,9 @@
 -->*}
 {strip}
 <!-- layouts/basic/modules/Settings/Base/SettingsMenuEnd.tpl -->
-	</div>
-			</div>
-		</div>
-	</div>
+			</div> <!-- close contentsDiv -->
+        </div> <!-- close mainContainer -->
+    </div> <!-- close bodyContents -->
+	{include file='Footer.tpl'|@vtemplate_path:$MODULE}
 <!--/layouts/basic/modules/Settings/Base/SettingsMenuEnd.tpl -->
 {/strip}
