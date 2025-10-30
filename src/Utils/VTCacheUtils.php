@@ -125,8 +125,8 @@ class VTCacheUtils
 
 	static function lookupFieldInfo_Module($module, $presencein = array('0', '2'))
 	{
-		$tabid = \App\Module::getModuleId($module);
-		$modulefields = false;
+        $tabid = \App\Module::getModuleId($module);
+        $modulefields = [];
 		$fieldInfo = \App\Cache\Cache::get('fieldInfo', $tabid);
 		if (isset($fldcache) && $fldcache) {
 			$fldcache = $fieldInfo;

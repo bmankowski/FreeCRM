@@ -11,14 +11,14 @@
 -->*}
 {strip}
 <!-- layouts/basic/modules/Base/PopupContents.tpl -->
-	<input type='hidden' id='pageNumber' value="{$PAGE_NUMBER}">
+	<input type='hidden' id='pageNumber' value="{$PAGE_NUMBER|default:1}">
 	<input type='hidden' id='pageLimit' value="{$PAGING_MODEL->getPageLimit()}">
-	<input type="hidden" id="noOfEntries" value="{$LISTVIEW_ENTRIES_COUNT}">
+	<input type="hidden" id="noOfEntries" value="{$LISTVIEW_ENTRIES_COUNT|default:0}">
 	<input type="hidden" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
 	<input type="hidden" id="pageEndRange" value="{$PAGING_MODEL->getRecordEndRange()}" />
 	<input type="hidden" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}" />
 	<input type="hidden" id="nextPageExist" value="{$PAGING_MODEL->isNextPageExists()}" />
-	<input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
+	<input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT|default:0}" />
 	<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}" />
 	<div class="contents-topscroll">
 		<div class="topscroll-div">
@@ -26,9 +26,13 @@
 		</div>
 	</div>
 	<div class="popupEntriesDiv relatedContents contents-bottomscroll">
-		<input type="hidden" value="{$ORDER_BY}" id="orderBy">
-		<input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
-		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
+		<input type="hidden" value="{$ORDER_BY|default:''}" id="orderBy">
+		<input type="hidden" value="{$SORT_ORDER|default:''}" id="sortOrder">
+		{if $USER_MODEL}
+			{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
+		{else}
+			{assign var=WIDTHTYPE value='medium'}
+		{/if}
 		<div class="bottomscroll-div">
 			<table class="table table-bordered listViewEntriesTable">
 				<thead>
@@ -55,7 +59,13 @@
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 							<td class="{$WIDTHTYPE}">
 								{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
-								{include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$MODULE_NAME) FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_DETAILS[$LISTVIEW_HEADER->getName()] USER_MODEL=$USER_MODEL}
+								{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getName()}
+								{if isset($SEARCH_DETAILS[$LISTVIEW_HEADER_NAME])}
+									{assign var=SEARCH_INFO value=$SEARCH_DETAILS[$LISTVIEW_HEADER_NAME]}
+								{else}
+									{assign var=SEARCH_INFO value=[]}
+								{/if}
+								{include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$MODULE_NAME) FIELD_MODEL=$LISTVIEW_HEADER SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL}
 							</td>
 						{/foreach}
 						<td class="{$WIDTHTYPE}"><button class="btn btn-default" data-trigger="listSearch">{'LBL_SEARCH'|t:$MODULE_NAME }</button></td>
