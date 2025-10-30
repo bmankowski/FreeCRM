@@ -267,7 +267,18 @@ class Popup  extends \App\Modules\Base\Views\Index
 
 		$viewer->assign('MULTI_SELECT', $multiSelectMode);
 		$viewer->assign('CURRENT_USER_MODEL', $request->getUser());
+		// Ensure search details exist for all headers to avoid undefined index notices in templates
+		if (is_array($this->listViewHeaders)) {
+			foreach ($this->listViewHeaders as $header) {
+				$headerName = $header->getName();
+				if (!isset($searchParmams[$headerName])) {
+					$searchParmams[$headerName] = ['searchValue' => '', 'fieldName' => $headerName];
+				}
+			}
+		}
 		$viewer->assign('SEARCH_DETAILS', $searchParmams);
+		// Enable the switch button block in popup actions; it will be disabled automatically if no related parent id
+		$viewer->assign('SWITCH', true);
 	}
 
 	/**

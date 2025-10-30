@@ -129,19 +129,6 @@
 
 						</div> <!-- close baseContainer -->
 					</div> <!-- close container-fluid-main -->
-				{else}
-					{* No navigation - just render main content *}
-					{block name="main_content_no_nav"}
-						<div class="basePanel noSpaces">
-							<div class="mainBody {if AppConfig::module('Users','IS_VISIBLE_USER_INFO_FOOTER')}userInfoFooter{/if}">
-								<div class="container-fluid bodyContent noSpaces">
-									{block name="content"}
-										<!-- Child templates define their content here -->
-									{/block}
-								</div> <!-- close bodyContent -->
-							</div> <!-- close mainBody -->
-						</div> <!-- close basePanel -->
-					{/block}
 				{/if}
 			{/block}
 
