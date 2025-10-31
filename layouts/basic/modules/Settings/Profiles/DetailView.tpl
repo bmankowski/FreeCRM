@@ -7,19 +7,25 @@
    * Portions created by vtiger are Copyright (C) vtiger.
    * All Rights Reserved.
   *
- ********************************************************************************/
+********************************************************************************/
 -->*}
 {strip}
 <!-- layouts/basic/modules/Settings/Profiles/DetailView.tpl -->
-<div class="">
-	<div class="widget_header row">
+{extends file="MainLayout.tpl"|@vtemplate_path}
+
+{block name="content"}
+	<div id="page">
+		<div class="mainContainer">
+			<div class="contentsDiv">
+				
+				<div class="widget_header row">
 		<div class="col-md-10">{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}</div>
 		<div class="col-md-2">
 			<button class="btn btn-info pull-right" type="button" onclick='window.location.href="{$RECORD_MODEL->getEditViewUrl()}"'>{"LBL_EDIT"|t:$QUALIFIED_MODULE}</button>
 		</div>
-	</div>
-	<div class="clearfix"></div>
-	<div class="profileDetailView">
+				</div>
+				<div class="clearfix"></div>
+				<div class="profileDetailView">
 		<div>
 			<div class="row">
 				<div class="col-md-12">
@@ -206,9 +212,13 @@
 					{/foreach}
 				</tbody>
 			</table>
-		</div>
-	</div>
-	<br>
-</div>
+				</div>
+				</div>
+				<br>
+				
+			</div> <!-- close contentsDiv -->
+		</div> <!-- close mainContainer -->
+	</div> <!-- close page -->
+{/block}
 <!--/layouts/basic/modules/Settings/Profiles/DetailView.tpl -->
 {/strip}

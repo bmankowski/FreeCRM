@@ -1,4 +1,11 @@
 {strip}
+{extends file="MainLayout.tpl"|@vtemplate_path}
+
+{block name="content"}
+	<div id="page">
+		<div class="mainContainer">
+			<div class="contentsDiv">
+				
 <!-- layouts/basic/modules/Settings/MailSmtp/DetailView.tpl --> {*
 <!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 	<div class="widget_header row">

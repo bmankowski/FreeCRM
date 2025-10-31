@@ -166,7 +166,7 @@ class WebUI extends EntryPoint
 	/**
 	 * Get the instance of the logged in User
 	 * 
-	 * @return \Users|false User object or false if not logged in
+	 * @return \Users|false User object or null if not logged in
 	 */
 	public function getLogin()
 	{
@@ -182,7 +182,6 @@ class WebUI extends EntryPoint
 				$this->setLogin($user);
 			}
 		}
-
 		return $user;
 	}
 
@@ -399,17 +398,15 @@ class WebUI extends EntryPoint
 	private function initializeGlobals(\App\Http\Vtiger_Request $request)
 	{
 		$currentUser = $this->getLogin();
-		
+
 		// Attach user to request if authenticated
 		if ($currentUser && $currentUser->id) {
 			$userModel = \App\Modules\Users\Models\Record::getInstanceById($currentUser->id, 'Users');
 			$request->setUser($userModel);
 		}
-
-		$currentLanguage = \App\Runtime\Vtiger_Language_Handler::getLanguage();
-		vglobal('current_language', $currentLanguage);
-
 		if ($currentUser) {
+			$currentLanguage = \App\Runtime\Vtiger_Language_Handler::getLanguage();
+			vglobal('current_language', $currentLanguage);
 			$this->loadLanguageStrings($request, $currentLanguage);
 		}
 
@@ -627,7 +624,7 @@ class WebUI extends EntryPoint
 	private function executeHandler($handler, \App\Http\Vtiger_Request $request, $module, $qualifiedModuleName)
 	{
 		vglobal('currentModule', $module);
-		
+
 		$this->validateHandler($handler, $request);
 		$this->checkHandlerLogin($handler, $request);
 		$this->checkHandlerPermissions($handler, $request, $module, $qualifiedModuleName);
@@ -648,7 +645,7 @@ class WebUI extends EntryPoint
 	private function validateHandler($handler, \App\Http\Vtiger_Request $request)
 	{
 		if (\App\AppConfig::main('csrfProtection') && \App\AppConfig::main('systemMode') !== 'demo') {
-			 
+
 			$handler->validateRequest($request);
 		}
 	}
@@ -686,7 +683,7 @@ class WebUI extends EntryPoint
 
 		// Settings and Users modules have their own permission checks
 		if (($isSettingsModule || $isUsersModule) && method_exists($handler, 'checkPermission')) {
-			
+
 			$handler->checkPermission($request);
 		}
 	}

@@ -1,4 +1,11 @@
 {strip}
+{extends file="MainLayout.tpl"|@vtemplate_path}
+
+{block name="content"}
+	<div id="page">
+		<div class="mainContainer">
+			<div class="contentsDiv">
+				
 <!-- layouts/basic/modules/Settings/Companies/EditView.tpl --> {*
 <!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 	<div class="row widget_header">
@@ -75,4 +82,8 @@
 		</form>
 	</div>
 <!--/layouts/basic/modules/Settings/Companies/EditView.tpl -->
+			</div> <!-- close contentsDiv -->
+		</div> <!-- close mainContainer -->
+	</div> <!-- close page -->
+{/block}
 {/strip}

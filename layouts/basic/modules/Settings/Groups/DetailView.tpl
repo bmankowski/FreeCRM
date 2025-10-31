@@ -11,7 +11,14 @@
 -->*}
 {strip}
 <!-- layouts/basic/modules/Settings/Groups/DetailView.tpl -->
-	<div class="widget_header row">
+{extends file="MainLayout.tpl"|@vtemplate_path}
+
+{block name="content"}
+	<div id="page">
+		<div class="mainContainer">
+			<div class="contentsDiv">
+				
+				<div class="widget_header row">
 		<div class="col-md-8">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 				{if isset($SELECTED_PAGE)}
@@ -88,6 +95,12 @@
 					</div>
 				</div>
 			</form>
-		</div>
-	</div>
-{strip}
+				</div>
+				</div>
+				
+			</div> <!-- close contentsDiv -->
+		</div> <!-- close mainContainer -->
+	</div> <!-- close page -->
+{/block}
+<!--/layouts/basic/modules/Settings/Groups/DetailView.tpl -->
+{/strip}

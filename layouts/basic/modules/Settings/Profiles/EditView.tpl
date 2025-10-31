@@ -10,6 +10,13 @@
 ********************************************************************************/
 -->*}
 {strip}
+{extends file="MainLayout.tpl"|@vtemplate_path}
+
+{block name="content"}
+	<div id="page">
+		<div class="mainContainer">
+			<div class="contentsDiv">
+				
 <!-- layouts/basic/modules/Settings/Profiles/EditView.tpl -->
 	<div class="">
 		<form id="EditView" name="EditProfile" action="index.php" method="post" class="form-horizontal">

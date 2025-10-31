@@ -7,6 +7,13 @@
 * All Rights Reserved.
 *************************************************************************************}
 {strip}
+{extends file="MainLayout.tpl"|@vtemplate_path}
+
+{block name="content"}
+	<div id="page">
+		<div class="mainContainer">
+			<div class="contentsDiv">
+				
 <!-- layouts/basic/modules/Settings/Groups/EditView.tpl -->
 	<div class="editViewContainer">
 		<form name="EditGroup" action="index.php" method="post" id="EditView" class="form-horizontal">
@@ -97,4 +104,8 @@
 		</form>
 	</div>
 <!--/layouts/basic/modules/Settings/Groups/EditView.tpl -->
+			</div> <!-- close contentsDiv -->
+		</div> <!-- close mainContainer -->
+	</div> <!-- close page -->
+{/block}
 {/strip}

@@ -10,6 +10,13 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
+{extends file="MainLayout.tpl"|@vtemplate_path}
+
+{block name="content"}
+	<div id="page">
+		<div class="mainContainer">
+			<div class="contentsDiv">
+				
 <!-- layouts/basic/modules/Settings/TreesManager/EditView.tpl -->
 <div class=" editViewContainer">
 	<form class="form-horizontal recordEditView" id="EditView" name="EditView" method="post" action="index.php" enctype="multipart/form-data">
@@ -104,4 +111,8 @@
 	<div class="clearfix"></div>
 </div>
 <!--/layouts/basic/modules/Settings/TreesManager/EditView.tpl -->
+			</div> <!-- close contentsDiv -->
+		</div> <!-- close mainContainer -->
+	</div> <!-- close page -->
+{/block}
 {/strip}
