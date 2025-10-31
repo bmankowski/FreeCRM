@@ -109,24 +109,10 @@ class Index extends \App\Modules\Base\Views\Basic
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
-		$this->preProcessSettings($request);
-	}
-
-	public function postProcess(\App\Http\Vtiger_Request $request)
-	{
-		$this->postProcessSettings($request);
-		parent::postProcess($request);
-	}
-
-	/**
-	 * Pre process settings
-	 * @param \App\Http\Vtiger_Request $request
-	 */
-	public function preProcessSettings(\App\Http\Vtiger_Request $request)
-	{
+		
+		// Assign Settings-specific menu and selected page
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$qualifiedModuleName = $request->getModule(false);
 		$selectedMenuId = $request->get('block');
 		$fieldId = $request->get('fieldid');
 		$settingsModel = \App\Modules\Settings\Base\Models\Module::getInstance();
@@ -136,26 +122,48 @@ class Index extends \App\Modules\Base\Views\Basic
 			$viewer->assign('SELECTED_PAGE', $settingsModel->get('selected'));
 		}
 		$viewer->assign('MENUS', $menu);
-		$viewer->view('SettingsMenuStart.tpl', $qualifiedModuleName);
+		
+		// MainLayout handles rendering, no separate preProcess template needed
+	}
+
+	public function postProcess(\App\Http\Vtiger_Request $request)
+	{
+		// MainLayout handles footer rendering, no separate postProcess template needed
+		parent::postProcess($request);
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();
 		if (!empty($mode)) {
+			// AJAX mode requests - return partial content
 			echo $this->invokeExposedMethod($mode, $request);
 			return;
 		}
-		$this->getViewer($request)->view('SettingsIndexHeader.tpl', $request->getModule(false));
-	}
+		
+		// Initial page load - render full Settings Index with MainLayout
+		$viewer = $this->getViewer($request);
+		$qualifiedModuleName = $request->getModule(false);
+		
+		// Get initial data for the index view
+		$usersCount = \App\Modules\Users\Models\Record::getCount(true);
+		$allWorkflows = \App\Modules\Settings\Workflows\Models\Record::getAllAmountWorkflowsAmount();
+		$activeModules = \App\Modules\Settings\ModuleManager\Models\Module::getModulesCount(true);
+		$pinnedSettingsShortcuts = \App\Modules\Settings\Base\Models\MenuItem::getPinnedItems();
+		$warnings = \App\SystemWarnings::getWarnings('all');
 
-	public function postProcessSettings(\App\Http\Vtiger_Request $request)
-	{
-		$this->getViewer($request)->view('SettingsMenuEnd.tpl', $request->getModule(false));
+		$viewer->assign('WARNINGS_COUNT', count($warnings));
+		$viewer->assign('WARNINGS', !\App\Http\Vtiger_Session::has('SystemWarnings') ? $warnings : []);
+		$viewer->assign('USERS_COUNT', $usersCount);
+		$viewer->assign('ALL_WORKFLOWS', $allWorkflows);
+		$viewer->assign('ACTIVE_MODULES', $activeModules);
+		$viewer->assign('SETTINGS_SHORTCUTS', $pinnedSettingsShortcuts);
+		
+		$viewer->view('IndexView.tpl', $qualifiedModuleName);
 	}
 
 	/**
-	 * Index
+	 * Index - AJAX content for index tab
 	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function index(\App\Http\Vtiger_Request $request)
@@ -174,7 +182,7 @@ class Index extends \App\Modules\Base\Views\Basic
 		$viewer->assign('ALL_WORKFLOWS', $allWorkflows);
 		$viewer->assign('ACTIVE_MODULES', $activeModules);
 		$viewer->assign('SETTINGS_SHORTCUTS', $pinnedSettingsShortcuts);
-		$viewer->view('Index.tpl', $qualifiedModuleName);
+		$viewer->view('IndexContent.tpl', $qualifiedModuleName);
 	}
 
 	public function github(\App\Http\Vtiger_Request $request)
@@ -256,6 +264,8 @@ class Index extends \App\Modules\Base\Views\Basic
 
 	protected function getMenu()
 	{
+		// Settings pages use their own menu system set in preProcess
+		// Return empty array to prevent parent from overriding
 		return [];
 	}
 
