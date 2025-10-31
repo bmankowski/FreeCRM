@@ -175,7 +175,7 @@ class TimeControl  extends \App\Modules\Base\Views\Index
 		}
 		$data = $this->getWidgetTimeControl($user, $time);
 		$daysAmount = count($data['ticks']);
-		$listViewUrl = 'index.php?module=OSSTimeControl&view=List&viewname=All';
+		$listViewUrl = 'index.php?module=OSSTimeControl&view=ListView&viewname=All';
 		for ($i = 0; $i < $daysAmount; $i++) {
 			$data['links'][$i][0] = $i;
 			$data['links'][$i][1] = $listViewUrl . $this->getSearchParams($user, $data['days'][$i]);

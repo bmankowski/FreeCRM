@@ -11,7 +11,7 @@ use App\Modules\Settings\LoginHistoryModels\Record;
  * @license licenses/License.html
  * @author Mriusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class List extends \App\Modules\Settings\Base\Views\List
+class ListView extends \App\Modules\Settings\Base\Views\ListView
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)

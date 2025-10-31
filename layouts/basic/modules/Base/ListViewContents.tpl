@@ -100,7 +100,7 @@
 							</td>
 						{/foreach}
 						<td>
-							<a class="btn btn-default" href="index.php?view=List&module={$MODULE}">
+							<a class="btn btn-default" href="index.php?view=ListView&module={$MODULE}">
 								<span class="glyphicon glyphicon-remove"></span>
 							</a>
 						</td>

@@ -31,7 +31,7 @@
 
 	{if count($WIDGET_RECORDS) >= $WIDGET_MODEL->getRecordLimit()}
 		<div class="">
-			<a class="pull-right" href="index.php?module={$WIDGET_MODEL->getTargetModule()}&view=List&mode=showListViewRecords&viewname={$WIDGET->get('filterid')}">{"LBL_MORE"|t}</a>
+			<a class="pull-right" href="index.php?module={$WIDGET_MODEL->getTargetModule()}&view=ListView&mode=showListViewRecords&viewname={$WIDGET->get('filterid')}">{"LBL_MORE"|t}</a>
 		</div>
 	{/if}
 

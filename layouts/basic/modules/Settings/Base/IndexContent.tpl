@@ -62,7 +62,7 @@
 	<div class="settingsIndexPage">
 		<div class="">
 			<span class="col-md-3 settingsSummary">
-				<a href="index.php?module=Users&parent=Settings&view=List">
+				<a href="index.php?module=Users&parent=Settings&view=ListView">
 					<h2 style="font-size: 44px" class="summaryCount">{$USERS_COUNT}</h2> 
 					<p class="summaryText" style="margin-top:20px;">{"LBL_ACTIVE_USERS"|t:$QUALIFIED_MODULE}</p> 
 				</a>
@@ -74,13 +74,13 @@
 				</a>
 			</span>
 			<span class="col-md-3 settingsSummary">
-				<a href="index.php?module=Workflows&parent=Settings&view=List">
+				<a href="index.php?module=Workflows&parent=Settings&view=ListView">
 					<h2 style="font-size: 44px" class="summaryCount">{$ALL_WORKFLOWS}</h2> 
                     <p class="summaryText" style="margin-top:20px;">{"LBL_WORKFLOWS_ACTIVE"|t:$QUALIFIED_MODULE}</p> 
 				</a>
 			</span>
 			<span class="col-md-3 settingsSummary">
-				<a href="index.php?module=ModuleManager&parent=Settings&view=List">
+				<a href="index.php?module=ModuleManager&parent=Settings&view=ListView">
 					<h2 style="font-size: 44px" class="summaryCount">{$ACTIVE_MODULES}</h2> 
 					<p class="summaryText" style="margin-top:20px;">{"LBL_MODULES"|t:$QUALIFIED_MODULE}</p>
 				</a>

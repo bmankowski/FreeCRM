@@ -221,6 +221,6 @@ class ChartFilter extends \App\Runtime\BaseModel
 
 	public function getListViewURL()
 	{
-		return 'index.php?module=' . $this->getTargetModule() . '&view=List&viewname=' . $this->widgetModel->get('filterid');
+		return 'index.php?module=' . $this->getTargetModule() . '&view=ListView&viewname=' . $this->widgetModel->get('filterid');
 	}
 }

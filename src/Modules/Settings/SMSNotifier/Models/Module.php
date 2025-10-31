@@ -56,7 +56,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 */
 	public function getListViewUrl()
 	{
-		return "index.php?module=" . $this->getName() . "&parent=" . $this->getParentName() . "&view=List";
+		return "index.php?module=" . $this->getName() . "&parent=" . $this->getParentName() . "&view=ListView";
 	}
 
 	/**

@@ -36,7 +36,7 @@ class Library extends \App\Modules\Settings\Base\Views\IndexAjax
 	public function update(\App\Http\Vtiger_Request $request)
 	{
 		\App\Modules\Settings\ModuleManager\Models\Library::update($request->get('name'));
-		header("Location: index.php?module=ModuleManager&parent=Settings&view=List");
+		header("Location: index.php?module=ModuleManager&parent=Settings&view=ListView");
 	}
 
 	/**
@@ -46,6 +46,6 @@ class Library extends \App\Modules\Settings\Base\Views\IndexAjax
 	public function download(\App\Http\Vtiger_Request $request)
 	{
 		\App\Modules\Settings\ModuleManager\Models\Library::download($request->get('name'));
-		header("Location: index.php?module=ModuleManager&parent=Settings&view=List");
+		header("Location: index.php?module=ModuleManager&parent=Settings&view=ListView");
 	}
 }

@@ -39,7 +39,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 */
 	public function getListViewUrl()
 	{
-		return "index.php?module=HideBlocks&parent=Settings&view=List";
+		return "index.php?module=HideBlocks&parent=Settings&view=ListView";
 	}
 
 	/**

@@ -198,7 +198,7 @@ Vtiger_List_Js("Reports_List_Js", {
 		var cvId = this.getCurrentCvId();
 		if (data.success) {
 			var module = app.getModuleName();
-			AppConnector.request('index.php?module=' + module + '&view=List&viewname=' + cvId).then(
+			AppConnector.request('index.php?module=' + module + '&view=ListView&viewname=' + cvId).then(
 					function (data) {
 						jQuery('#recordsCount').val('');
 						jQuery('#totalPageCount').text('');
@@ -232,7 +232,7 @@ Vtiger_List_Js("Reports_List_Js", {
 							var liElement = jQuery(event.currentTarget).closest('.select2-results__option');
 							var currentOptionElement = thisInstance.getSelectOptionFromChosenOption(liElement);
 							var deleteUrl = currentOptionElement.data('deleteurl');
-							var newEle = '<form action="index.php?module=Reports&view=List" method="POST">';
+							var newEle = '<form action="index.php?module=Reports&view=ListView" method="POST">';
 							if (typeof csrfMagicName !== 'undefined') {
 								newEle += '<input type = "hidden" name ="' + csrfMagicName + '"  value=\'' + csrfMagicToken + '\'>';
 							}

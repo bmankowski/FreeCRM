@@ -215,7 +215,7 @@ Aliases heavily used in templates will require:
 All standard tests passed:
 - ✅ Login (`/index.php?module=Users&action=Login`)
 - ✅ Detail View (`/index.php?module=Leads&view=Detail&record=112`)
-- ✅ List View (`/index.php?module=Leads&view=List&mid=48&parent=47`)
+- ✅ List View (`/index.php?module=Leads&view=ListView&mid=48&parent=47`)
 - ✅ Dashboard (`/index.php?module=Home&view=DashBoard`)
 - ✅ No fatal errors in logs
 - ✅ Zero deprecation warnings

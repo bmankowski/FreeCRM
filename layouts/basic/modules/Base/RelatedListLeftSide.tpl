@@ -38,7 +38,7 @@
 			{/if}
 			{if $IS_EDITABLE && $RELATED_RECORD->isEditable()}
 				{if $RELATED_MODULE_NAME eq 'PriceBooks'}
-					<a data-url="index.php?module=PriceBooks&view=ListPriceUpdate&record={$PARENT_RECORD->getId()}&relid={$RELATED_RECORD->getId()}&currentPrice={$LISTPRICE}"
+					<a data-url="index.php?module=PriceBooks&view=ListViewPriceUpdate&record={$PARENT_RECORD->getId()}&relid={$RELATED_RECORD->getId()}&currentPrice={$LISTPRICE}"
 					   class="editListPrice cursorPointer" data-related-recordid='{$RELATED_RECORD->getId()}' data-list-price={$LISTPRICE}>
 						<span class="glyphicon glyphicon-pencil alignMiddle" title="{"LBL_EDIT"|t:$MODULE}"></span>
 					</a>&nbsp;

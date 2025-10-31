@@ -610,7 +610,7 @@ class UserPrivilegeIntegrationTest extends TestCase
 # After each phase, run these tests:
 curl -s -c /tmp/cookies.txt -b /tmp/cookies.txt -L -d "username=admin&password=admin" -X POST "http://localhost/index.php?module=Users&action=Login"
 curl -s -c /tmp/cookies.txt -b /tmp/cookies.txt -L -d "username=admin&password=admin" -X POST "http://localhost/index.php?module=Leads&view=Detail&record=112"
-curl -s -c /tmp/cookies.txt -b /tmp/cookies.txt -L -d "username=admin&password=admin" -X POST "http://localhost/index.php?module=Leads&view=List&mid=48&parent=47"
+curl -s -c /tmp/cookies.txt -b /tmp/cookies.txt -L -d "username=admin&password=admin" -X POST "http://localhost/index.php?module=Leads&view=ListView&mid=48&parent=47"
 curl -s -c /tmp/cookies.txt -b /tmp/cookies.txt -L -d "username=admin&password=admin" -X POST "http://localhost/index.php?module=Vtiger&parent=Settings&view=Index"
 ```
 

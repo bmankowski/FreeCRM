@@ -59,7 +59,7 @@
 					<a href="index.php?module={$MODULE}&view=Import&mode=undoImport" name="next" class="marginLeft10 delete btn btn-danger">
 						<strong>{'LBL_UNDO_LAST_IMPORT'|t:$MODULE}</strong>
 					<a/>
-					<a href="index.php?module={$MODULE}&view=List" name="next" class="marginLeft10 create btn btn-success">
+					<a href="index.php?module={$MODULE}&view=ListView" name="next" class="marginLeft10 create btn btn-success">
 						<strong>{'LBL_FINISH'|t:$MODULE}</strong>
 					</a>
 				</div>

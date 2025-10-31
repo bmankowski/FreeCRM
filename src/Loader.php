@@ -70,7 +70,7 @@ class Loader
 			$moduleName = str_replace(':', '\\', $moduleName);
 		}
 
-	// Handle special case: view=List maps to ListView class (PHP reserved keyword workaround)
+	// Handle special case: view=ListView maps to ListView class (PHP reserved keyword workaround)
 	if ($componentType === 'View' && $componentName === 'List') {
 		$componentName = 'ListView';
 	}

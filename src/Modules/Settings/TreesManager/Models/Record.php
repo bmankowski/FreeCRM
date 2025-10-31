@@ -76,7 +76,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public function getListViewUrl()
 	{
-		return "index.php?module=TreesManager&parent=Settings&view=List";
+		return "index.php?module=TreesManager&parent=Settings&view=ListView";
 	}
 
 	/**

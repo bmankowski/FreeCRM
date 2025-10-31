@@ -22,7 +22,7 @@ class LibraryChat extends \App\SystemWarnings\Template
 	{
 		$this->status = \App\Modules\Settings\ModuleManager\Models\Library::checkLibrary('AJAXChat') ? 0 : 1;
 		if ($this->status === 0) {
-			$this->link = 'index.php?module=ModuleManager&parent=Settings&view=List';
+			$this->link = 'index.php?module=ModuleManager&parent=Settings&view=ListView';
 			$this->linkTitle = \App\Runtime\Vtiger_Language_Handler::translate('BTN_DOWNLOAD_LIBRARY', 'Settings:SystemWarnings');
 			$this->description = \App\Runtime\Vtiger_Language_Handler::translate('LBL_MISSING_LIBRARY', 'Settings:SystemWarnings', \App\Modules\Settings\ModuleManager\Models\Library::TEMP_DIR);
 		}

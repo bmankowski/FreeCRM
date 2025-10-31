@@ -50,7 +50,7 @@
 						{'LBL_NOTIFICATIONS'|t}
 					</div>
  					<div class="pull-right">
- 						<a class="btn btn-default isBadge" title="{'LBL_NOTIFICATIONS'|t}" href="index.php?module=Notification&view=List">
+ 						<a class="btn btn-default isBadge" title="{'LBL_NOTIFICATIONS'|t}" href="index.php?module=Notification&view=ListView">
 							<span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
 							<span class="badge hide">0</span>
 						</a>

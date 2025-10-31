@@ -126,7 +126,7 @@ protected $entityTypeName;
 All functionality tested and working:
 ```bash
 ✅ Login: http://localhost/index.php?module=Users&action=Login
-✅ Leads List: http://localhost/index.php?module=Leads&view=List
+✅ Leads List: http://localhost/index.php?module=Leads&view=ListView
 ✅ Settings: http://localhost/index.php?module=Vtiger&parent=Settings&view=Index
 ```
 

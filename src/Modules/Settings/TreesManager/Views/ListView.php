@@ -1,7 +1,6 @@
 <?php
 
-namespace App\Modules\Settings\ModTracker\Views;
-use App\Modules\Settings\ModTrackerModels\Module;
+namespace App\Modules\Settings\TreesManager\Views;
 
 
 /* +***********************************************************************************************************************************
@@ -14,18 +13,13 @@ use App\Modules\Settings\ModTrackerModels\Module;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class List extends \App\Modules\Settings\Base\Views\Index
+class ListView extends \App\Modules\Settings\Base\Views\ListView
 {
 
-	public function process(\App\Http\Vtiger_Request $request)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
-		$moduleName = $request->getModule();
-		$qualifiedModuleName = $request->getModule(false);
-		$moduleModel = new \App\Modules\Settings\ModTracker\Models\Module();
 		$viewer = $this->getViewer($request);
-		$viewer->assign('MODULE_MODEL', $moduleModel);
-		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->view('List.tpl', $qualifiedModuleName);
+		$viewer->assign('SUPPORTED_MODULE_MODELS', \App\Modules\Settings\Workflows\Models\Module::getSupportedModules());
+		parent::preProcess($request, $display);
 	}
 }

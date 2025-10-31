@@ -54,7 +54,7 @@ Settings_MappedFields_Edit_Js("Settings_MappedFields_Edit4_Js", {}, {
 				Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_MF_SAVED_SUCCESSFULLY')});
 
 				setTimeout(function () {
-					window.location.href = "index.php?module=MappedFields&parent=Settings&page=1&view=List";
+					window.location.href = "index.php?module=MappedFields&parent=Settings&page=1&view=ListView";
 					progressIndicatorElement.progressIndicator({
 						'mode': 'hide'
 					});

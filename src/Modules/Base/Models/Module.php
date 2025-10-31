@@ -1338,7 +1338,7 @@ class Module extends \vtlib\Module
 		$settingsLinks[] = array(
 			'linktype' => 'LISTVIEWSETTING',
 			'linklabel' => 'LBL_TREES_MANAGER',
-			'linkurl' => 'index.php?parent=Settings&module=TreesManager&view=List&sourceModule=' . $this->getName(),
+			'linkurl' => 'index.php?parent=Settings&module=TreesManager&view=ListView&sourceModule=' . $this->getName(),
 			'linkicon' => $layoutEditorImagePath
 		);
 		$settingsLinks[] = array(
@@ -1351,7 +1351,7 @@ class Module extends \vtlib\Module
 			$settingsLinks[] = array(
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_EDIT_WORKFLOWS',
-				'linkurl' => 'index.php?parent=Settings&module=Workflows&view=List&sourceModule=' . $this->getName(),
+				'linkurl' => 'index.php?parent=Settings&module=Workflows&view=ListView&sourceModule=' . $this->getName(),
 				'linkicon' => $editWorkflowsImagePath
 			);
 		}
@@ -1365,7 +1365,7 @@ class Module extends \vtlib\Module
 		$settingsLinks[] = array(
 			'linktype' => 'LISTVIEWSETTING',
 			'linklabel' => 'LBL_PICKLIST_DEPENDENCY',
-			'linkurl' => 'index.php?parent=Settings&module=PickListDependency&view=List&formodule=' . $this->getName(),
+			'linkurl' => 'index.php?parent=Settings&module=PickListDependency&view=ListView&formodule=' . $this->getName(),
 			'linkicon' => ''
 		);
 		if ($this->hasSequenceNumberField()) {

@@ -10,7 +10,7 @@
 		<h4 class="alert-heading">{"OSSMailScanner"|t:"OSSMailScanner"} - {"Alert_active_cron"|t:"OSSMailScanner"}</h4>
 		<p>{"Alert_active_cron_desc"|t:"OSSMailScanner"}</p>
 		<p>
-			<a class="btn btn-default" href="index.php?module=CronTasks&parent=Settings&view=List">{"Scheduler"|t:"Settings:Vtiger"}</a>
+			<a class="btn btn-default" href="index.php?module=CronTasks&parent=Settings&view=ListView">{"Scheduler"|t:"Settings:Vtiger"}</a>
 		</p>
 	</div>	
 {/if}
@@ -20,7 +20,7 @@
 		<h4 class="alert-heading">{"OSSMailScanner"|t:"OSSMailScanner"} - {"Alert_active_crontime"|t:"OSSMailScanner"}</h4>
 		<p>{"Alert_active_crontime_desc"|t:"OSSMailScanner"}</p>
 		<p>
-			<a class="btn btn-default" href="index.php?module=CronTasks&parent=Settings&view=List">{"Scheduler"|t:"Settings:Vtiger"}</a>
+			<a class="btn btn-default" href="index.php?module=CronTasks&parent=Settings&view=ListView">{"Scheduler"|t:"Settings:Vtiger"}</a>
 		</p>
 	</div>	
 {/if}
@@ -40,7 +40,7 @@
                 <h4 class="alert-heading">{"OSSMail"|t:"OSSMail"} - {"Alert_no_module_title"|t:"OSSMailScanner"}</h4>
                 <p>{"Alert_no_module_desc"|t:"OSSMailScanner"}</p>
                 <p>
-                    <a class="btn btn-danger" href="index.php?module=ModuleManager&parent=Settings&view=List">{"LBL_STUDIO"|t:"Settings:Vtiger"}</a>
+                    <a class="btn btn-danger" href="index.php?module=ModuleManager&parent=Settings&view=ListView">{"LBL_STUDIO"|t:"Settings:Vtiger"}</a>
                     <a class="btn btn-default" href="index.php?module=ModuleManager&parent=Settings&view=ModuleImport&mode=importUserModuleStep1">{"LBL_IMPORT_MODULE_FROM_FILE"|t:"Settings:ModuleManager"}</a>
                 </p>
             </div>	

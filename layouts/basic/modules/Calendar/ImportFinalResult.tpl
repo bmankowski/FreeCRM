@@ -30,7 +30,7 @@
 		</tr>
 		<tr>
 			<td align="right" colspan="2">
-				<a href="index.php?module={$MODULE}&view=List" button name="next" class="create btn btn-success">
+				<a href="index.php?module={$MODULE}&view=ListView" button name="next" class="create btn btn-success">
 					<strong>{'LBL_FINISH'|t:$MODULE}</strong>
 				</a>
 			</td>

@@ -98,7 +98,7 @@ class AllTimeControl  extends \App\Modules\Base\Views\Index
 				$newArray = [$key, $accessibleUsers[$value]];
 				array_push($ticks, $newArray);
 			}
-			$listViewUrl = 'index.php?module=OSSTimeControl&view=List&viewname=All';
+			$listViewUrl = 'index.php?module=OSSTimeControl&view=ListView&viewname=All';
 			$counter = 0;
 			foreach ($ticks as $key => $value) {
 				$response['links'][$counter][0] = $counter;

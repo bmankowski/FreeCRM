@@ -39,7 +39,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 				$advancedLinks[] = [
 					'linktype' => 'DETAILVIEWBASIC',
 					'linklabel' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_EXPORT_PDF'),
-					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List");',
+					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=ListView");',
 					'linkicon' => 'glyphicon glyphicon-save-file',
 					'title' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_EXPORT_PDF')
 				];
@@ -73,7 +73,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 			if (count($templates) > 0) {
 				$basicLinks[] = [
 					'linktype' => 'LISTVIEWBASIC',
-					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=List");',
+					'linkurl' => 'javascript:Vtiger_Header_Js.getInstance().showPdfModal("index.php?module=' . $moduleModel->getName() . '&view=PDF&fromview=ListView");',
 					'linkicon' => 'glyphicon glyphicon-save-file',
 					'title' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_EXPORT_PDF')
 				];

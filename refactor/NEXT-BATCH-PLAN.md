@@ -88,7 +88,7 @@ sed -i '/Vtiger_Utility_Model/d; /Vtiger_TreeView_Model/d; /Vtiger_DashBoard_Mod
 # Test
 curl -s -c /tmp/cookies.txt -b /tmp/cookies.txt -L -d "username=admin&password=admin" -X POST "http://localhost/index.php?module=Users&action=Login"
 curl -s -c /tmp/cookies.txt -b /tmp/cookies.txt -L "http://localhost/index.php?module=Leads&view=Detail&record=112"
-curl -s -c /tmp/cookies.txt -b /tmp/cookies.txt -L "http://localhost/index.php?module=Leads&view=List&mid=48&parent=47"
+curl -s -c /tmp/cookies.txt -b /tmp/cookies.txt -L "http://localhost/index.php?module=Leads&view=ListView&mid=48&parent=47"
 
 # If tests pass, remove migrated aliases
 sed -i '/Settings_Vtiger_Module_Model/d; /VTWorkflowManager/d; /Settings_Vtiger_Record_Model/d; /Vtiger_Paging_Model/d; /Vtiger_DetailView_Model/d; /Vtiger_DependencyPicklist/d; /VTJsonCondition/d; /Vtiger_TreeCategoryModal_Model/d' src/GlobalAliases.php

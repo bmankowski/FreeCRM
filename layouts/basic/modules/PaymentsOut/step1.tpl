@@ -99,7 +99,7 @@
 		*}
 		<div class="pull-right">
 						<button class="btn btn-default addButton" id="createRecordButton" onclick="generateRecords();" data-dismiss="modal" aria-hidden="true" >{"Create records"|t:$MODULENAME}</button>
-						<a href="index.php?module=PaymentsOut&view=List" id="go" class="btn btn-default addButton hide">{"Go to Payments"|t:$MODULENAME}</a>&nbsp
+						<a href="index.php?module=PaymentsOut&view=ListView" id="go" class="btn btn-default addButton hide">{"Go to Payments"|t:$MODULENAME}</a>&nbsp
                         <a href="index.php?module=PaymentsOut&view=PaymentsImport#" class="btn btn-default">{"Back"|t:$MODULENAME}</a>
         </div>
     </div>

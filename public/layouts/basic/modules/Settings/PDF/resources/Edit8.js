@@ -54,7 +54,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit8_Js", {}, {
 						Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_PDF_SAVED_SUCCESSFULLY')});
 
 						setTimeout(function () {
-							window.location.href = "index.php?module=PDF&parent=Settings&page=1&view=List";
+							window.location.href = "index.php?module=PDF&parent=Settings&page=1&view=ListView";
 							progressIndicatorElement.progressIndicator({
 								'mode': 'hide'
 							});

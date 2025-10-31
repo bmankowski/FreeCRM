@@ -27,7 +27,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 */
 	public function getDefaultUrl()
 	{
-		return 'index.php?module=AdvancedPermission&parent=Settings&view=List';
+		return 'index.php?module=AdvancedPermission&parent=Settings&view=ListView';
 	}
 
 	/**

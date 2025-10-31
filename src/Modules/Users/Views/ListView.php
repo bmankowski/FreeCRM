@@ -13,7 +13,7 @@ namespace App\Modules\Users\Views;
  * ********************************************************************************** */
 
 
-class List extends \App\Modules\Base\Views\List
+class ListView extends \App\Modules\Base\Views\ListAjax
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

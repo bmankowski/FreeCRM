@@ -11,7 +11,7 @@ namespace App\Modules\Settings\WebserviceUsers\Views;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-class List extends \App\Modules\Settings\Base\Views\List
+class ListView extends \App\Modules\Settings\Base\Views\ListView
 {
 
 	/**

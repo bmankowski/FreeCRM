@@ -27,7 +27,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	public function getDefaultUrl()
 	{
 		$menu = \App\Modules\Settings\Base\Models\MenuItem::getInstance('LBL_EMAILS_TO_SEND');
-		return 'index.php?module=Mail&parent=Settings&view=List&fieldid=' . $menu->get('fieldid');
+		return 'index.php?module=Mail&parent=Settings&view=ListView&fieldid=' . $menu->get('fieldid');
 	}
 
 	/**

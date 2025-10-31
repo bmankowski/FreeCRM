@@ -152,7 +152,7 @@ class MiniList extends \App\Runtime\BaseModel
 
 	public function getListViewURL($user = false)
 	{
-		$url = 'index.php?module=' . $this->getTargetModule() . '&view=List&viewname=' . $this->widgetModel->get('filterid');
+		$url = 'index.php?module=' . $this->getTargetModule() . '&view=ListView&viewname=' . $this->widgetModel->get('filterid');
 		if (!$user) {
 			$user = \App\Modules\Users\Models\Record::getCurrentUserId();
 		}

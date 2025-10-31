@@ -183,7 +183,7 @@ jQuery.Class('Settings_Module_Manager_Js', {
 							type: 'info'
 						};
 						Vtiger_Helper_Js.showPnotify(params);
-						window.location.href = 'index.php?module=ModuleManager&parent=Settings&view=List';
+						window.location.href = 'index.php?module=ModuleManager&parent=Settings&view=ListView';
 					},
 					function (error) {}
 			);

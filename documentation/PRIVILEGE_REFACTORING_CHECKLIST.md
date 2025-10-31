@@ -89,7 +89,7 @@ git diff --stat
   ```bash
   curl -s -c /tmp/cookies.txt -b /tmp/cookies.txt -L -d "username=admin&password=admin" -X POST "http://localhost/index.php?module=Users&action=Login"
   curl -s -c /tmp/cookies.txt -b /tmp/cookies.txt -L "http://localhost/index.php?module=Leads&view=Detail&record=112"
-  curl -s -c /tmp/cookies.txt -b /tmp/cookies.txt -L "http://localhost/index.php?module=Leads&view=List"
+  curl -s -c /tmp/cookies.txt -b /tmp/cookies.txt -L "http://localhost/index.php?module=Leads&view=ListView"
   curl -s -c /tmp/cookies.txt -b /tmp/cookies.txt -L "http://localhost/index.php?module=Vtiger&parent=Settings&view=Index"
   ```
 - [ ] Check error logs: `cache/logs/system.log`
@@ -436,7 +436,7 @@ curl -s -c /tmp/cookies.txt -b /tmp/cookies.txt -L \
 
 # 2. List view test
 curl -s -c /tmp/cookies.txt -b /tmp/cookies.txt -L \
-  "http://localhost/index.php?module=Leads&view=List" | grep -q "Leads"
+  "http://localhost/index.php?module=Leads&view=ListView" | grep -q "Leads"
 
 # 3. Detail view test
 curl -s -c /tmp/cookies.txt -b /tmp/cookies.txt -L \

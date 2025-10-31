@@ -473,7 +473,7 @@ Per module:
 # Full application test
 php tests/run-all-tests.php
 # Load test (performance)
-ab -n 1000 -c 10 https://freecrm.local/index.php?module=Users&view=List
+ab -n 1000 -c 10 https://freecrm.local/index.php?module=Users&view=ListView
 ```
 
 ### 6. **Staging Deployment**

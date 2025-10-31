@@ -13,7 +13,7 @@ namespace App\Modules\Settings\CronTasks\Views;
  * *********************************************************************************** */
 
 
-class List extends \App\Modules\Settings\Base\Views\List
+class ListView extends \App\Modules\Settings\Base\Views\ListView
 {
 
 	public function initializeListViewContents(\App\Http\Vtiger_Request $request, CRM_Viewer $viewer)

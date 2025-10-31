@@ -70,7 +70,7 @@ class Menu extends \App\Modules\Base\Models\Record
 	 */
 	public function getListUrl()
 	{
-		return 'index.php?module=Vtiger&parent=Settings&view=ListMenu&block=' . $this->getId();
+		return 'index.php?module=Vtiger&parent=Settings&view=ListViewMenu&block=' . $this->getId();
 	}
 
 	/**

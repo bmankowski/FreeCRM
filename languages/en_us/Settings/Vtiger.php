@@ -317,7 +317,7 @@ $languageStrings = [
 	'LBL_SELECT_ICON' => 'Select icon',
 	'LBL_ICON_NAME' => 'Icon name',
 	'LBL_ICON_EXAMPLE' => 'Icon example',
-	'ERR_NO_REQUIRED_LIBRARY' => 'Could not find required %s library. Some features were disabled. Go to <a href="index.php?module=ModuleManager&parent=Settings&view=List">Modules – installation</a> to download.',
+	'ERR_NO_REQUIRED_LIBRARY' => 'Could not find required %s library. Some features were disabled. Go to <a href="index.php?module=ModuleManager&parent=Settings&view=ListView">Modules – installation</a> to download.',
 	// System warnings
 	'LBL_SYSTEM_WARNINGS' => 'System warnings',
 	'LBL_WARNINGS_FOLDERS' => 'Warning category',

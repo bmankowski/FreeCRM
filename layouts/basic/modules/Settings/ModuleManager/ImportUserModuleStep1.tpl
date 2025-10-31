@@ -55,7 +55,7 @@
 					</div>
 					<div class="modal-footer">
 						<div class="col-md-1 pull-right cancelLinkContainer">
-							<a class="cancelLink btn btn-warning" href="index.php?module=ModuleManager&parent=Settings&view=List">{"LBL_CANCEL"|t:$QUALIFIED_MODULE}</a>
+							<a class="cancelLink btn btn-warning" href="index.php?module=ModuleManager&parent=Settings&view=ListView">{"LBL_CANCEL"|t:$QUALIFIED_MODULE}</a>
 						</div>
 						<button class="btn btn-success" type="submit" name="saveButton"><strong>{"LBL_IMPORT"|t:$QUALIFIED_MODULE}</strong></button>
 					</div>

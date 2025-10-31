@@ -28,7 +28,7 @@
 							<span class="glyphicon glyphicon-plus" title="{"LBL_ADD_RECORD"|t}" alt="{"LBL_ADD_RECORD"|t}"></span>
 						</button>
 					{/if}
-					<button type="button"  class="btn btn-default" href="index.php?module=Notification&view=List">
+					<button type="button"  class="btn btn-default" href="index.php?module=Notification&view=ListView">
 						<span class="glyphicon glyphicon-th-list" title="{"LBL_GO_TO_RECORDS_LIST"|t}" alt="{"LBL_GO_TO_RECORDS_LIST"|t}"></span>
 					</button>
 				</div>

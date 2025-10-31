@@ -80,7 +80,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 */
 	public static function getDefaultUrl()
 	{
-		return 'index.php?module=PDF&parent=Settings&view=List';
+		return 'index.php?module=PDF&parent=Settings&view=ListView';
 	}
 
 	/**

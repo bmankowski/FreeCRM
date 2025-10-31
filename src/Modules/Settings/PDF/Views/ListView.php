@@ -11,7 +11,7 @@ namespace App\Modules\Settings\PDF\Views;
  * @author Maciej Stencel <m.stencel@yetiforce.com>
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class List extends \App\Modules\Settings\Base\Views\List
+class ListView extends \App\Modules\Settings\Base\Views\ListView
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)

@@ -13,7 +13,7 @@ namespace App\Modules\Settings\Base\Actions;
  * ********************************************************************************** */
 
 
-class ListAjax extends \App\Modules\Settings\Base\Views\ListAjax
+class ListAjax extends \App\Modules\Settings\Base\Views\ListViewAjax
 {
 
 	public function __construct()

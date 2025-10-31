@@ -12,7 +12,7 @@ namespace App\Modules\Settings\PickListDependency\Views;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class List extends \App\Modules\Settings\Base\Views\List
+class ListView extends \App\Modules\Settings\Base\Views\ListView
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)

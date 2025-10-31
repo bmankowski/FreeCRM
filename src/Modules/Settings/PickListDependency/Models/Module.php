@@ -28,7 +28,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 */
 	public function getDefaultUrl()
 	{
-		return 'index.php?module=PickListDependency&parent=Settings&view=List';
+		return 'index.php?module=PickListDependency&parent=Settings&view=ListView';
 	}
 
 	/**

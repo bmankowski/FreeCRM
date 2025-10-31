@@ -21,7 +21,7 @@ class AddCron extends \App\Modules\Settings\Base\Actions\Index
 			$request->get('cron_name'), $request->get('path'), $this->calculateFrequency($request->get('frequency_value'), $request->get('time_format')), $request->get('cron_module'), $request->get('status'), $this->getSquence(), $request->get('description')
 		);
 
-		header('Location: index.php?module=CronTasks&parent=Settings&view=List');
+		header('Location: index.php?module=CronTasks&parent=Settings&view=ListView');
 	}
 
 	public function calculateFrequency($val, $format)

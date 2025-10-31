@@ -14,7 +14,7 @@
 	   onclick="location.href='index.php?module={$FOR_MODULE}&view=Import&return_module={$FOR_MODULE}&return_action=index'" ><strong>{'LBL_IMPORT_MORE'|t:$MODULE}</strong></button>
 &nbsp;&nbsp;
 <button name="next" class="cancel btn btn-primary marginBottom10px"
-		onclick="return window.open('index.php?module={$MODULE}&for_module={$FOR_MODULE}&view=List&start=1&foruser={$OWNER_ID}','test','width=700,height=650,resizable=1,scrollbars=0,top=150,left=200');"><strong>{'LBL_VIEW_LAST_IMPORTED_RECORDS'|t:$MODULE}</strong></button>
+		onclick="return window.open('index.php?module={$MODULE}&for_module={$FOR_MODULE}&view=ListView&start=1&foruser={$OWNER_ID}','test','width=700,height=650,resizable=1,scrollbars=0,top=150,left=200');"><strong>{'LBL_VIEW_LAST_IMPORTED_RECORDS'|t:$MODULE}</strong></button>
 &nbsp;&nbsp;
 {if $MERGE_ENABLED eq '0'}
 <button name="next" class="delete btn btn-danger marginBottom10px"
@@ -22,4 +22,4 @@
 &nbsp;&nbsp;
 {/if}
 <button name="cancel" class="edit btn btn-success marginBottom10px"
-		onclick="location.href='index.php?module={$FOR_MODULE}&view=List{if $FOR_MODULE eq 'Users'}&parent=Settings{/if}'"><strong>{'LBL_FINISH_BUTTON_LABEL'|t:$MODULE}</strong></button>
+		onclick="location.href='index.php?module={$FOR_MODULE}&view=ListView{if $FOR_MODULE eq 'Users'}&parent=Settings{/if}'"><strong>{'LBL_FINISH_BUTTON_LABEL'|t:$MODULE}</strong></button>

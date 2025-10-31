@@ -87,7 +87,7 @@ class Module extends \App\Modules\Base\Models\Module
 			$settingsLinks[] = array(
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_EDIT_WORKFLOWS',
-				'linkurl' => 'index.php?parent=Settings&module=Workflows&view=List&sourceModule=' . $this->getName(),
+				'linkurl' => 'index.php?parent=Settings&module=Workflows&view=ListView&sourceModule=' . $this->getName(),
 				'linkicon' => $editWorkflowsImagePath
 			);
 		}

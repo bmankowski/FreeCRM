@@ -24,7 +24,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 */
 	public function getDefaultUrl()
 	{
-		return 'index.php?module=MailSmtp&parent=Settings&view=List';
+		return 'index.php?module=MailSmtp&parent=Settings&view=ListView';
 	}
 	
 	/**

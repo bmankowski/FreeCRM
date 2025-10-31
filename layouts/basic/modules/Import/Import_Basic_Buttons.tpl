@@ -15,8 +15,8 @@
 &nbsp;&nbsp;
 <button class="btn btn-warning" type="reset"
 		{if $FOR_MODULE eq 'Users'}
-			onclick="location.href = 'index.php?module={$FOR_MODULE}&view=List&parent=Settings'"
+			onclick="location.href = 'index.php?module={$FOR_MODULE}&view=ListView&parent=Settings'"
 		{else}
-			onclick="location.href = 'index.php?module={$FOR_MODULE}&view=List'"
+			onclick="location.href = 'index.php?module={$FOR_MODULE}&view=ListView'"
 		{/if}
 >{"LBL_CANCEL"|t:$MODULE}</button>

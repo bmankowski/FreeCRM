@@ -58,7 +58,7 @@
 							</tbody>
 						</table>
 						<div class="modal-footer">
-							<a href="index.php?module=ModuleManager&parent=Settings&view=List" class="btn btn-success"><strong>{"LBL_FINISH"|t:$QUALIFIED_MODULE}</strong></a>
+							<a href="index.php?module=ModuleManager&parent=Settings&view=ListView" class="btn btn-success"><strong>{"LBL_FINISH"|t:$QUALIFIED_MODULE}</strong></a>
 						</div>
 					</form>
 				</div>

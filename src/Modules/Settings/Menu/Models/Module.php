@@ -93,7 +93,7 @@ class Module
 				break;
 			case 4: $url = addslashes($row['dataurl']);
 				break;
-			case 7: $url = 'index.php?module=' . $row['name'] . '&view=List&viewname=' . $row['dataurl'] . '&mid=' . $row['id'] . '&parent=' . $row['parentid'];
+			case 7: $url = 'index.php?module=' . $row['name'] . '&view=ListView&viewname=' . $row['dataurl'] . '&mid=' . $row['id'] . '&parent=' . $row['parentid'];
 				break;
 			default: $url = null;
 				break;
