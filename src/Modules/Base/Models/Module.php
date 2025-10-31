@@ -341,7 +341,7 @@ class Module extends \vtlib\Module
 	 */
 	public function getListViewName()
 	{
-		return 'List';
+		return 'ListView';
 	}
 
 	/**
