@@ -319,10 +319,10 @@ class DetailView extends \App\Runtime\BaseModel
 		$modelWidgets = $moduleModel->getWidgets($module);
 		foreach ($modelWidgets as $widgetCol) {
 			foreach ($widgetCol as $widget) {
-				$widgetName = 'Vtiger_' . $widget['type'] . '_Widget';
-				if (class_exists($widgetName)) {
+				$widgetClassName = \App\Loader::getComponentClassName('Widget', $widget['type'], 'Base');
+				if (class_exists($widgetClassName)) {
 					$this->widgetsList[] = $widget['type'];
-					$widgetInstance = new $widgetName($module, $moduleModel, $record, $widget);
+					$widgetInstance = new $widgetClassName($module, $moduleModel, $record, $widget);
 					$widgetObject = $widgetInstance->getWidget();
 					if (count($widgetObject) > 0) {
 						$this->widgets[$widgetObject['wcol']][] = $widgetObject;

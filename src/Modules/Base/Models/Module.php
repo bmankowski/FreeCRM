@@ -29,6 +29,7 @@ class Module extends \vtlib\Module
 	protected $nameFields;
 	protected $moduleMeta;
 	protected $fields;
+	protected $summaryFields;
 	protected $relations = null;
 	protected $moduleType = '0';
 	protected $entityInstance;
