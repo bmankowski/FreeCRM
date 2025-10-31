@@ -170,7 +170,7 @@ http://localhost/index.php?module=Users&view=Auth&parent=Settings&block=5&fieldi
 http://localhost/index.php?module=CurrencyUpdate&view=Index&parent=Settings&block=5&fieldid=88
 http://localhost/index.php?module=ApiAddress&parent=Settings&view=Configuration&block=5&fieldid=61
 http://localhost/index.php?parent=Settings&module=Dav&view=Keys&block=5&fieldid=77
-http://localhost/index.php?module=WebserviceApps&view=Index&parent=Settings&block=5&fieldid=100 
+http://localhost/index.php?module=WebserviceApps&view=Index&parent=Settings&block=5&fieldid=100
 http://localhost/index.php?module=WebserviceUsers&view=ListView&parent=Settings&block=5&fieldid=106
 http://localhost/index.php?module=PBXManager&parent=Settings&view=Index&block=5&fieldid=29
 http://localhost/index.php?module=Workflows&parent=Settings&view=ListView&block=15&fieldid=24
