@@ -91,7 +91,7 @@ class Folder extends \App\Runtime\BaseModel
 			'orderBy' => $this->get('orderby'),
 			'sortBy' => $this->get('sortby'));
 
-		$reportClassInstance = \App\Modules\Base\Models\Module::getClassInstance('Reports');
+		$reportClassInstance = new \App\Modules\Reports\Reports();
 
 		$fldrId = $this->getId();
 		if ($fldrId == 'All') {
