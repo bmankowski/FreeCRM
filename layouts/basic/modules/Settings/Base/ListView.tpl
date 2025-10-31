@@ -1,19 +1,82 @@
 {*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
+* ("License"); You may not use this file except in compliance with the License
+* The Original Code is:  vtiger CRM Open Source
+* The Initial Developer of the Original Code is vtiger.
+* Portions created by vtiger are Copyright (C) vtiger.
+* All Rights Reserved.
 *
- ********************************************************************************/
+********************************************************************************/
 -->*}
 {strip}
 <!-- layouts/basic/modules/Settings/Base/ListView.tpl -->
-<div>
-	<div class="listViewTopMenuDiv">{include file='ListViewHeader.tpl'|@vtemplate_path:$QUALIFIED_MODULE}</div>
-	<div class="listViewContentDiv listViewPageDiv" id="listViewContents"><br>{include file='ListViewContents.tpl'|@vtemplate_path:$QUALIFIED_MODULE}</div>
-</div>
+{extends file="MainLayout.tpl"|@vtemplate_path}
+
+{block name="content"}
+	<div id="page">
+		<div class="mainContainer">
+			<div class="contentsDiv">
+				
+				{* Header with breadcrumbs *}
+				<div class="widget_header row marginBottom10px">
+					<div class="col-xs-12">
+						{include file='BreadCrumbs.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+					</div>
+				</div>
+				
+				{* List view actions and filters *}
+				<div class="listViewActionsDiv row marginBottom10px">
+					<div class="{if $SUPPORTED_MODULE_MODELS}col-md-5{else}col-md-8{/if} btn-toolbar">
+						{foreach item=LINK from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
+							{if $LINK->getLabel()}
+								{assign var="LABEL" value={$LINK->getLabel()|t:$QUALIFIED_MODULE}}
+							{/if}
+							<button type="button" title="{if $LINK->getLabel()}{$LABEL}{/if}" 
+									class="btn{if $LINK->getClassName()} {$LINK->getClassName()}{else} btn-default{/if}" 
+									{if $LINK->getUrl()}
+										{if stripos($LINK->getUrl(), 'javascript:')===0} onclick='{$LINK->getUrl()|substr:strlen("javascript:")};'
+										{else} onclick='window.location.href = "{$LINK->getUrl()}"' {/if}
+									{/if} 
+									{if $LINK->get('linkdata') neq '' && is_array($LINK->get('linkdata'))}
+										{foreach from=$LINK->get('linkdata') key=NAME item=DATA}
+											data-{$NAME}="{$DATA}" 
+										{/foreach}
+									{/if}>
+								{if $LINK->get('linkicon')}
+									<span class="{$LINK->get('linkicon')}"></span>
+								{/if}
+								{if $LINK->getLabel() && $LINK->get('showLabel') eq 1}
+									&nbsp;<strong>{$LABEL}</strong>
+								{/if}
+							</button>
+						{/foreach}
+					</div>
+					{if $SUPPORTED_MODULE_MODELS}
+						<div class="col-md-3 btn-toolbar marginLeftZero">
+							<select class="chzn-select form-control" id="moduleFilter">
+								<option value="">{"LBL_ALL"|t:$QUALIFIED_MODULE}</option>
+								{foreach item=MODULE_MODEL key=TAB_ID from=$SUPPORTED_MODULE_MODELS}
+									<option {if $SOURCE_MODULE eq $MODULE_MODEL->getName()} selected="" {/if} value="{$TAB_ID}">
+										{$MODULE_MODEL->getName()|t:$MODULE_MODEL->getName()}
+									</option>
+								{/foreach}
+							</select>
+						</div>
+					{/if}
+					<div class="col-md-4">
+						{include file='ListViewActions.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+					</div>
+				</div>
+				
+				{* List view table *}
+				<div class="listViewContentDiv" id="listViewContents">
+					{include file='ListViewContents.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+				</div>
+				
+			</div> <!-- close contentsDiv -->
+		</div> <!-- close mainContainer -->
+	</div> <!-- close page -->
+{/block}
 <!--/layouts/basic/modules/Settings/Base/ListView.tpl -->
 {/strip}

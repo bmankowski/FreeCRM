@@ -141,25 +141,15 @@ class Index extends \App\Modules\Base\Views\Basic
 			return;
 		}
 		
-		// Initial page load - render full Settings Index with MainLayout
+		// Initial page load - render full page with MainLayout
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
 		
-		// Get initial data for the index view
-		$usersCount = \App\Modules\Users\Models\Record::getCount(true);
-		$allWorkflows = \App\Modules\Settings\Workflows\Models\Record::getAllAmountWorkflowsAmount();
-		$activeModules = \App\Modules\Settings\ModuleManager\Models\Module::getModulesCount(true);
-		$pinnedSettingsShortcuts = \App\Modules\Settings\Base\Models\MenuItem::getPinnedItems();
+		// Prepare initial data for tabs (needed for warnings count)
 		$warnings = \App\SystemWarnings::getWarnings('all');
-
 		$viewer->assign('WARNINGS_COUNT', count($warnings));
-		$viewer->assign('WARNINGS', !\App\Http\Vtiger_Session::has('SystemWarnings') ? $warnings : []);
-		$viewer->assign('USERS_COUNT', $usersCount);
-		$viewer->assign('ALL_WORKFLOWS', $allWorkflows);
-		$viewer->assign('ACTIVE_MODULES', $activeModules);
-		$viewer->assign('SETTINGS_SHORTCUTS', $pinnedSettingsShortcuts);
 		
-		$viewer->view('IndexView.tpl', $qualifiedModuleName);
+		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
 
 	/**

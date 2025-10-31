@@ -1,0 +1,98 @@
+{*<!--
+/*********************************************************************************
+ * FreeCRM - Open Source CRM
+ * This template is part of FreeCRM.
+ ********************************************************************************/
+-->*}
+{strip}
+<!-- layouts/basic/modules/Settings/Users/ListView.tpl -->
+{extends file="MainLayout.tpl"|@vtemplate_path}
+
+{block name="content"}
+	<div id="page">
+		<div class="mainContainer">
+			<div class="contentsDiv">
+				
+				{* Header with breadcrumbs *}
+				<div class="widget_header row marginBottom10px">
+					<div class="col-xs-12">
+						{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+					</div>
+				</div>
+				
+				{* List view actions and filters *}
+				<div class="listViewActionsDiv row marginBottom10px">
+					<div class="col-md-4 btn-toolbar">
+						<span class="btn-group listViewMassActions">
+							{if count($LISTVIEW_MASSACTIONS) gt 0 || $LISTVIEW_LINKS['LISTVIEW']|@count gt 0}
+								<button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+									<strong>{"LBL_ACTIONS"|t:$MODULE}</strong>&nbsp;&nbsp;<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu">
+									{foreach item="LISTVIEW_MASSACTION" from=$LISTVIEW_MASSACTIONS name=actionCount}
+										<li id="{$MODULE}_listView_massAction_{\App\Modules\Base\Helpers\Util::replaceSpaceWithUnderScores($LISTVIEW_MASSACTION->getLabel())}">
+											<a href="javascript:void(0);" 
+											   {if stripos($LISTVIEW_MASSACTION->getUrl(), 'javascript:')===0}
+												   onclick='{$LISTVIEW_MASSACTION->getUrl()|substr:strlen("javascript:")};'
+											   {else} 
+												   onclick="Vtiger_List_Js.triggerMassAction('{$LISTVIEW_MASSACTION->getUrl()}')"
+											   {/if}>
+												{$LISTVIEW_MASSACTION->getLabel()|t:$MODULE}
+											</a>
+										</li>
+										{if $smarty.foreach.actionCount.last eq true}
+											<li class="divider"></li>
+										{/if}
+									{/foreach}
+									{foreach item=LISTVIEW_ADVANCEDACTIONS from=$LISTVIEW_LINKS['LISTVIEW']}
+										<li id="{$MODULE}_listView_advancedAction_{\App\Modules\Base\Helpers\Util::replaceSpaceWithUnderScores($LISTVIEW_ADVANCEDACTIONS->getLabel())}">
+											<a {if stripos($LISTVIEW_ADVANCEDACTIONS->getUrl(), 'javascript:')===0} 
+												   href="javascript:void(0);" 
+												   onclick='{$LISTVIEW_ADVANCEDACTIONS->getUrl()|substr:strlen("javascript:")};'
+											   {else} 
+												   href='{$LISTVIEW_ADVANCEDACTIONS->getUrl()}' 
+											   {/if}>
+												{$LISTVIEW_ADVANCEDACTIONS->getLabel()|t:$MODULE}
+											</a>
+										</li>
+									{/foreach}
+								</ul>
+							{/if}
+						</span>
+						{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
+							<span class="btn-group">
+								<button class="btn btn-default addButton" 
+										{if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0} 
+											onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'
+										{else} 
+											onclick='window.location.href="{$LISTVIEW_BASICACTION->getUrl()}"' 
+										{/if}>
+									<span class="glyphicon glyphicon-plus"></span>&nbsp;
+									<strong>{"LBL_ADD_RECORD"|t:$QUALIFIED_MODULE}</strong>
+								</button>
+							</span>
+						{/foreach}
+					</div>
+					<div class="col-md-4 btn-toolbar marginLeftZero">
+						<select class="select2" id="usersFilter" name="status" style="min-width:350px;">
+							<option value="Active">{"LBL_ACTIVE_USERS"|t:$QUALIFIED_MODULE}</option>
+							<option value="Inactive">{"LBL_INACTIVE_USERS"|t:$QUALIFIED_MODULE}</option>
+						</select>
+					</div>
+					<div class="col-md-4">
+						{include file='ListViewActions.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+					</div>
+				</div>
+				
+				{* List view table *}
+				<div class="listViewContentDiv" id="listViewContents">
+					{include file='ListViewContents.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+				</div>
+				
+			</div> <!-- close contentsDiv -->
+		</div> <!-- close mainContainer -->
+	</div> <!-- close page -->
+{/block}
+<!--/layouts/basic/modules/Settings/Users/ListView.tpl -->
+{/strip}
+

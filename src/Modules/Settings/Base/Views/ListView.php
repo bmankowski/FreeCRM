@@ -30,19 +30,32 @@ class ListView extends \App\Modules\Settings\Base\Views\Index
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
-
+		
+		// Prepare list view data for MainLayout
 		$viewer = $this->getViewer($request);
 		$this->initializeListViewContents($request, $viewer);
 		$sourceModule = $request->get('sourceModule');
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
-		$viewer->view('ListViewHeader.tpl', $request->getModule(false));
+		
+		// MainLayout handles rendering, no separate preProcess template needed
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
+		if ($request->isAjax()) {
+			// AJAX requests - return only list content
+			$viewer = $this->getViewer($request);
+			$this->initializeListViewContents($request, $viewer);
+			$viewer->view('ListViewContents.tpl', $request->getModule(false));
+			return;
+		}
+		
+		// Initial page load - render full page with MainLayout
 		$viewer = $this->getViewer($request);
 		$this->initializeListViewContents($request, $viewer);
-		$viewer->view('ListViewContents.tpl', $request->getModule(false));
+		$sourceModule = $request->get('sourceModule');
+		$viewer->assign('SOURCE_MODULE', $sourceModule);
+		$viewer->view('ListView.tpl', $request->getModule(false));
 	}
 	/*
 	 * Function to initialize the required data in smarty to display the List View Contents
