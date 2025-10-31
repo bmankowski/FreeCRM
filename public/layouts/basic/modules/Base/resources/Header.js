@@ -444,7 +444,7 @@ jQuery.Class("Vtiger_Header_Js", {
 								var parentModule = app.getModuleName();
 								var viewname = app.getViewName();
 								if ((module == parentModule) && (viewname == "List")) {
-									var listinstance = new Vtiger_List_Js();
+									var listinstance = new Vtiger_ListView_Js();
 									listinstance.getListViewRecords();
 								}
 								submitSuccessCallbackFunction(data);
@@ -813,7 +813,7 @@ jQuery.Class("Vtiger_Header_Js", {
 	showPdfModal: function (url) {
 		var params = {};
 		if (app.getViewName() == 'List') {
-			var selected = Vtiger_List_Js.getSelectedRecordsParams(false, true);
+			var selected = Vtiger_ListView_Js.getSelectedRecordsParams(false, true);
 			jQuery.extend(params, selected);
 		}
 		url += '&' + jQuery.param(params);

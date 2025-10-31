@@ -162,7 +162,7 @@ class ListView extends \App\Modules\Settings\Base\Views\ListView
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$jsFileNames = [
-			'modules.Base.resources.List',
+			'modules.Base.resources.ListView',
 			'modules.Users.resources.List',
 		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

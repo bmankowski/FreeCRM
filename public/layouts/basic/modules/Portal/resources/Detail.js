@@ -15,7 +15,7 @@ Vtiger_Detail_Js("Portal_Detail_Js",{},{
                 'parent' : app.getParentModuleName(),
                 'view' : 'EditAjax'
             };
-            Portal_List_Js.editBookmark(params);
+            Portal_ListView_Js.editBookmark(params);
         });
     },
     

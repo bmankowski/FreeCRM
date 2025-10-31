@@ -66,7 +66,7 @@ var Vtiger_Index_Js = {
 								}
 							}
 						} else {
-							Vtiger_List_Js.getInstance().getListViewRecords();
+							Vtiger_ListView_Js.getInstance().getListViewRecords();
 						}
 					});
 				}
@@ -618,7 +618,7 @@ var Vtiger_Index_Js = {
 		app.saveAjax('', null, params).then(function (e) {
 			app.hideModalWindow();
 			if (app.getViewName() === 'List') {
-				var listinstance = new Vtiger_List_Js();
+				var listinstance = new Vtiger_ListView_Js();
 				listinstance.getListViewRecords();
 			}
 		})

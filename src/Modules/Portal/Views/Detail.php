@@ -45,9 +45,9 @@ class Detail  extends \App\Modules\Base\Views\Detail
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'modules.Base.resources.List',
+			'modules.Base.resources.ListView',
 			'modules.Base.resources.Detail',
-			"modules.$moduleName.resources.List",
+			"modules.$moduleName.resources.ListView",
 			"modules.$moduleName.resources.Detail",
 		);
 

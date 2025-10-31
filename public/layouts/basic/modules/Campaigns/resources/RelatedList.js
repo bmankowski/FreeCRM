@@ -12,7 +12,7 @@ Vtiger_RelatedList_Js("Campaigns_RelatedList_Js", {
 	 * @params: send email url , module name.
 	 */
 	triggerSendEmail: function () {
-		Vtiger_List_Js.triggerSendEmail({
+		Vtiger_ListView_Js.triggerSendEmail({
 			relatedLoad: true,
 			sourceModule: app.getModuleName(),
 			sourceRecord: app.getRecordId(),
@@ -27,7 +27,7 @@ Vtiger_RelatedList_Js("Campaigns_RelatedList_Js", {
 		this._super(params).then(function (data) {
 			thisInstance.registerEvents();
 			var moduleName = app.getModuleName();
-			var className = moduleName + "_List_Js";
+			var className = moduleName + "_ListView_Js";
 			var listInstance = new window[className]();
 			listInstance.registerEvents();
 			aDeferred.resolve(data);

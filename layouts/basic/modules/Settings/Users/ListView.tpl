@@ -35,7 +35,7 @@
 											   {if stripos($LISTVIEW_MASSACTION->getUrl(), 'javascript:')===0}
 												   onclick='{$LISTVIEW_MASSACTION->getUrl()|substr:strlen("javascript:")};'
 											   {else} 
-												   onclick="Vtiger_List_Js.triggerMassAction('{$LISTVIEW_MASSACTION->getUrl()}')"
+												   onclick="Vtiger_ListView_Js.triggerMassAction('{$LISTVIEW_MASSACTION->getUrl()}')"
 											   {/if}>
 												{$LISTVIEW_MASSACTION->getLabel()|t:$MODULE}
 											</a>

@@ -28,7 +28,7 @@ class ListView extends \App\Modules\Base\Views\ListAjax
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$jsFileNames = [
-			'modules.Base.resources.List',
+			'modules.Base.resources.ListView',
 			'modules.Users.resources.List',
 		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

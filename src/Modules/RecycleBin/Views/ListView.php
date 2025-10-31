@@ -166,8 +166,8 @@ class ListView extends \App\Modules\Base\Views\Index
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 		$jsFileNames = array(
-			'modules.Base.resources.List',
-			"modules.$moduleName.resources.List",
+			'modules.Base.resources.ListView',
+			"modules.$moduleName.resources.ListView",
 			'modules.CustomView.resources.CustomView',
 			"modules.$moduleName.resources.CustomView",
 			'modules.Base.resources.CkEditor'

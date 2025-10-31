@@ -127,8 +127,8 @@
 										{if $LISTVIEW_ENTRY->get('status') eq 'Active'}
 										<a id="{$MODULE}_LISTVIEW_ROW_{$LISTVIEW_ENTRY->getId()}_DELETE" class="deleteRecordButton"><span title="{"LBL_DELETE"|t:$MODULE}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
 										{else}
-										<a onclick="Settings_Users_List_Js.restoreUser({$LISTVIEW_ENTRY->getId()}, event);"><span title="{"LBL_RESTORE"|t:$MODULE}" class="glyphicon glyphicon-refresh alignMiddle"></span></a>&nbsp;
-										<a onclick="Settings_Users_List_Js.deleteUserPermanently({$LISTVIEW_ENTRY->getId()}, event);"><span title="{"LBL_DELETE"|t:$MODULE}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
+										<a onclick="Settings_Users_ListView_Js.restoreUser({$LISTVIEW_ENTRY->getId()}, event);"><span title="{"LBL_RESTORE"|t:$MODULE}" class="glyphicon glyphicon-refresh alignMiddle"></span></a>&nbsp;
+										<a onclick="Settings_Users_ListView_Js.deleteUserPermanently({$LISTVIEW_ENTRY->getId()}, event);"><span title="{"LBL_DELETE"|t:$MODULE}" class="glyphicon glyphicon-trash alignMiddle"></span></a>
 										{/if}
 									{/if}
 							</span>

@@ -88,7 +88,7 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 							}
 						}
 						if (viewName == 'List') {
-							var listinstance = new Vtiger_List_Js();
+							var listinstance = new Vtiger_ListView_Js();
 							listinstance.getListViewRecords();
 						}
 						if (viewName == 'DashBoard') {

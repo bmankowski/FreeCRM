@@ -23,7 +23,7 @@
 					<span class="btn-group listViewMassActions">
                         <button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><strong>{"LBL_ACTIONS"|t:$MODULE}</strong>&nbsp;&nbsp;<span class="caret"></span></button>
                         <ul class="dropdown-menu">
-                            <li id="massDelete"><a href="javascript:void(0);" onclick="Portal_List_Js.massDeleteRecords();">{"LBL_DELETE"|t:$MODULE}</a></li>
+                            <li id="massDelete"><a href="javascript:void(0);" onclick="Portal_ListView_Js.massDeleteRecords();">{"LBL_DELETE"|t:$MODULE}</a></li>
                         </ul>
 					</span>
                     <span class="btn-group">

@@ -51,7 +51,7 @@ class FindDuplicates  extends \App\Modules\Base\Views\Index
 		$moduleName = $request->getModule();
 		unset($headerScriptInstances['modules.Base.resources.FindDuplicates']);
 		$jsFileNames = [
-			'modules.Base.resources.List',
+			'modules.Base.resources.ListView',
 			'modules.Base.resources.FindDuplicates',
 		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

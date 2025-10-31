@@ -149,8 +149,8 @@ class ListView extends \App\Modules\Base\Views\Index
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'modules.Base.resources.List',
-			"modules.$moduleName.resources.List",
+			'modules.Base.resources.ListView',
+			"modules.$moduleName.resources.ListView",
 			'~libraries/jquery/colorpicker/js/colorpicker.js',
 			'modules.CustomView.resources.CustomView',
 			"modules.$moduleName.resources.CustomView",

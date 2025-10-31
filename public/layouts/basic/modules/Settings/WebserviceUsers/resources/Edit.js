@@ -27,7 +27,7 @@ Vtiger_Edit_Js('Settings_WebserviceUsers_Edit_Js', {}, {
 				app.saveAjax('', formData, param).then(function (data) {
 					if (data.result) {
 						Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_SAVE_SUCCESS')});
-						listInstance = Settings_WebserviceUsers_List_Js.getInstance();
+						listInstance = Settings_WebserviceUsers_ListView_Js.getInstance();
 						listInstance.reloadTab();
 					} else {
 						Vtiger_Helper_Js.showPnotify(app.vtranslate('JS_ERROR'));

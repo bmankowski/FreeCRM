@@ -6,14 +6,14 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  ************************************************************************************/
-Vtiger_List_Js('Vtiger_FindDuplicates_Js',{
+Vtiger_ListView_Js('Vtiger_FindDuplicates_Js',{
 
 	massDeleteRecords : function(url) {
 		var listInstance = new Vtiger_FindDuplicates_Js();
         var fields = jQuery('#duplicateSearchFields').val();
         var ignoreEmpty = jQuery('#ignoreEmpty').val();
         url += '&mode=FindDuplicates&fields=' + fields + '&ignoreEmpty=' + ignoreEmpty;
-		Vtiger_List_Js.massDeleteRecords(url,listInstance);
+		Vtiger_ListView_Js.massDeleteRecords(url,listInstance);
 	}
 },{
 

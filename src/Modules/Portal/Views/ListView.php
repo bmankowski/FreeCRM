@@ -96,8 +96,8 @@ class ListView  extends \App\Modules\Base\Views\Index
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'modules.Base.resources.List',
-			"modules.$moduleName.resources.List",
+			'modules.Base.resources.ListView',
+			"modules.$moduleName.resources.ListView",
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

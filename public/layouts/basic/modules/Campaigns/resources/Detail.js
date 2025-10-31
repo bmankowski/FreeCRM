@@ -139,7 +139,7 @@ Vtiger_Detail_Js("Campaigns_Detail_Js", {}, {
 								relatedController.loadRelatedList().then(function (data) {
 									var emailEnabledModule = jQuery(data).find('[name="emailEnabledModules"]').val();
 									if (jQuery('#selectedIds').length) {
-										var listInstance = Vtiger_List_Js.getInstance();
+										var listInstance = Vtiger_ListView_Js.getInstance();
 										var selectedIds = listInstance.readSelectedIds();
 										if (selectedIds != 'all') {
 											relatedRecordid = relatedRecordid.toString();
@@ -244,7 +244,7 @@ Vtiger_Detail_Js("Campaigns_Detail_Js", {}, {
 	 */
 	registerEmailEnabledActions: function () {
 		var moduleName = app.getModuleName();
-		var className = moduleName + "_List_Js";
+		var className = moduleName + "_ListView_Js";
 		var listInstance = new window[className]();
 		listInstance.registerEvents();
 		listInstance.markSelectedRecords();
@@ -281,7 +281,7 @@ Vtiger_Detail_Js("Campaigns_Detail_Js", {}, {
 							element.progressIndicator({'mode': 'hide'});
 							var emailEnabledModule = jQuery(data).find('[name="emailEnabledModules"]').val();
 							if (emailEnabledModule) {
-								var listInstance = new Campaigns_List_Js();
+								var listInstance = new Campaigns_ListView_Js();
 								listInstance.registerEvents();
 								thisInstance.registerRelatedListEvents();
 							}
@@ -314,7 +314,7 @@ Vtiger_Detail_Js("Campaigns_Detail_Js", {}, {
 		this._super();
 		this.registerRelatedListEvents();
 		//Calling registerevents of campaigns list to handle checkboxs click of related records
-		var listInstance = Vtiger_List_Js.getInstance();
+		var listInstance = Vtiger_ListView_Js.getInstance();
 		listInstance.registerEvents();
 	}
 });

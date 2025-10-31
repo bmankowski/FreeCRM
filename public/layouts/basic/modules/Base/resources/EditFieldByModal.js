@@ -56,7 +56,7 @@ jQuery.Class("Vtiger_EditFieldByModal_Js", {
 							}
 						}
 						if (viewName == 'List') {
-							var listInstance = new Vtiger_List_Js();
+							var listInstance = new Vtiger_ListView_Js();
 							listInstance.getListViewRecords();
 						}
 						if (viewName == 'DashBoard') {

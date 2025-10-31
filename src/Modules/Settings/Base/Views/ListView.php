@@ -145,7 +145,7 @@ class ListView extends \App\Modules\Settings\Base\Views\Index
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'modules.Base.resources.List',
+			'modules.Base.resources.ListView',
 			'modules.Settings.Vtiger.resources.List',
 			"modules.Settings.$moduleName.resources.List",
 			"modules.Settings.Vtiger.resources.$moduleName",

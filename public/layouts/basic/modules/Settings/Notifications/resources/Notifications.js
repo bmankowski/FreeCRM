@@ -1,5 +1,5 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-jQuery.Class('Settings_Notifications_List_Js', {}, {
+jQuery.Class('Settings_Notifications_ListView_Js', {}, {
 	registerSave: function (container, id) {
 		var thisInstance = this;
 		var containerValidate = container.find('.validationEngineContainer');
