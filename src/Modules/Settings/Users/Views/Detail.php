@@ -95,48 +95,18 @@ class Detail extends \App\Modules\Users\Views\PreferenceDetail {
 		// Assign breadcrumbs for Settings pages
 		$viewer = $this->getViewer($request);
 		$viewer->assign('BREADCRUMBS', $this->buildBreadcrumbs($request));
-		$this->preProcessSettings($request);
-	}
-
-	/**
-	 * Pre process settings
-	 * @param \App\Http\Vtiger_Request $request
-	 */
-	public function preProcessSettings(\App\Http\Vtiger_Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-		$qualifiedModuleName = $request->getModule(false);
-		$selectedMenuId = $request->get('block');
-		$fieldId = $request->get('fieldid');
-		$settingsModel = new \App\Modules\Settings\Base\Models\Module();
-		$menuModels = $settingsModel->getMenus($request);
-		$menu = $settingsModel->prepareMenuToDisplay($menuModels, $moduleName, $selectedMenuId, $fieldId);
-		$viewer->assign('MENUS', $menu);
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->view('SettingsMenuStart.tpl', $qualifiedModuleName);
-	}
-
-	public function postProcessSettings(\App\Http\Vtiger_Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$qualifiedModuleName = $request->getModule(false);
-		$viewer->view('SettingsMenuEnd.tpl', $qualifiedModuleName);
+		// MainLayout handles rendering, no separate preProcess template needed
 	}
 
 	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
-		$this->postProcessSettings($request);
+		// MainLayout handles footer rendering
 		parent::postProcess($request);
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$viewer = $this->getViewer($request);
-
-		$viewer->assign('CURRENT_USER_MODEL', $request->getUser());
-		$viewer->view('UserViewHeader.tpl', $request->getModule());
+		// Call parent process which handles both AJAX and full page rendering
 		parent::process($request);
 	}
 
