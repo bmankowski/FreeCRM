@@ -113,11 +113,20 @@ class SSalesProcesses extends \App\CRMEntity
 	/**
 	 * Function to get sales hierarchy of the given Sale
 	 * @param integer $id - ssalesprocessesid
+	 * @param boolean $getRawData
+	 * @param boolean $getLinks
+	 * @param \App\Modules\Users\Models\Record $currentUser - User model (optional, will use getCurrentUserModel if null)
 	 * returns Sales hierarchy in array format
 	 */
-	public function getHierarchy($id, $getRawData = false, $getLinks = true)
+	public function getHierarchy($id, $getRawData = false, $getLinks = true, $currentUser = null)
 	{
 		\App\Log::trace("Entering getHierarchy(" . $id . ") method ...");
+		
+		// Fallback for backward compatibility
+		if ($currentUser === null) {
+			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		}
+		
 		$listviewHeader = [];
 		$listviewEntries = [];
 		$listColumns = \App\AppConfig::module('SSalesProcesses', 'COLUMNS_IN_HIERARCHY');
@@ -135,7 +144,7 @@ class SSalesProcesses extends \App\CRMEntity
 		$baseId = current(array_keys($salesProcessesList));
 		$salesProcessesList = [$baseId => $salesProcessesList[$baseId]];
 		$salesProcessesList[$baseId] = $this->getChildSales($baseId, $salesProcessesList[$baseId], $salesProcessesList[$baseId]['depth']);
-		$salesProcessesHierarchy = $this->getHierarchyData($id, $salesProcessesList[$baseId], $baseId, $listviewEntries, $getRawData, $getLinks);
+		$salesProcessesHierarchy = $this->getHierarchyData($id, $salesProcessesList[$baseId], $baseId, $listviewEntries, $getRawData, $getLinks, $currentUser);
 		$salesProcessesHierarchy = ['header' => $listviewHeader, 'entries' => $listviewEntries];
 		\App\Log::trace('Exiting getHierarchy method ...');
 		return $salesProcessesHierarchy;
@@ -147,14 +156,17 @@ class SSalesProcesses extends \App\CRMEntity
 	 * @param array $salesProcessesInfoBase 
 	 * @param integer $salesProcessesId - ssalesprocessesid
 	 * @param array $listviewEntries 
+	 * @param boolean $getRawData
+	 * @param boolean $getLinks
+	 * @param \App\Modules\Users\Models\Record $currentUser - User model (optional, will use getCurrentUserModel if null)
 	 * returns All the parent sales of the given Sale in array format
 	 */
-	public function getHierarchyData($id, $salesProcessesInfoBase, $salesProcessesId, &$listviewEntries, $getRawData = false, $getLinks = true)
+	public function getHierarchyData($id, $salesProcessesInfoBase, $salesProcessesId, &$listviewEntries, $getRawData = false, $getLinks = true, $currentUser = null)
 	{
 
 		\App\Log::trace('Entering getHierarchyData(' . $id . ',' . $salesProcessesId . ') method ...');
 
-		$currentUser = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
+
 		$hasRecordViewAccess = $currentUser->isAdminUser() || \App\Privilege::isPermitted('SSalesProcesses', 'DetailView', $salesProcessesId);
 		$listColumns = \App\AppConfig::module('SSalesProcesses', 'COLUMNS_IN_HIERARCHY');
 
@@ -192,7 +204,7 @@ class SSalesProcesses extends \App\CRMEntity
 
 		foreach ($salesProcessesInfoBase as $accId => $salesProcessesInfo) {
 			if (is_array($salesProcessesInfo) && intval($accId)) {
-				$listviewEntries = $this->getHierarchyData($id, $salesProcessesInfo, $accId, $listviewEntries, $getRawData, $getLinks);
+				$listviewEntries = $this->getHierarchyData($id, $salesProcessesInfo, $accId, $listviewEntries, $getRawData, $getLinks, $currentUser);
 			}
 		}
 
