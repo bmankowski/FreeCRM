@@ -118,14 +118,9 @@ class SSalesProcesses extends \App\CRMEntity
 	 * @param \App\Modules\Users\Models\Record $currentUser - User model (optional, will use getCurrentUserModel if null)
 	 * returns Sales hierarchy in array format
 	 */
-	public function getHierarchy($id, $getRawData = false, $getLinks = true, $currentUser = null)
+	public function getHierarchy($id, $getRawData = false, $getLinks = true, $currentUser)
 	{
 		\App\Log::trace("Entering getHierarchy(" . $id . ") method ...");
-		
-		// Fallback for backward compatibility
-		if ($currentUser === null) {
-			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
-		}
 		
 		$listviewHeader = [];
 		$listviewEntries = [];
@@ -161,11 +156,10 @@ class SSalesProcesses extends \App\CRMEntity
 	 * @param \App\Modules\Users\Models\Record $currentUser - User model (optional, will use getCurrentUserModel if null)
 	 * returns All the parent sales of the given Sale in array format
 	 */
-	public function getHierarchyData($id, $salesProcessesInfoBase, $salesProcessesId, &$listviewEntries, $getRawData = false, $getLinks = true, $currentUser = null)
+	public function getHierarchyData($id, $salesProcessesInfoBase, $salesProcessesId, &$listviewEntries, $getRawData = false, $getLinks = true, $currentUser)
 	{
 
 		\App\Log::trace('Entering getHierarchyData(' . $id . ',' . $salesProcessesId . ') method ...');
-
 
 		$hasRecordViewAccess = $currentUser->isAdminUser() || \App\Privilege::isPermitted('SSalesProcesses', 'DetailView', $salesProcessesId);
 		$listColumns = \App\AppConfig::module('SSalesProcesses', 'COLUMNS_IN_HIERARCHY');

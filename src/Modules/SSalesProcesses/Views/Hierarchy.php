@@ -30,9 +30,10 @@ class Hierarchy extends \App\Base\Controllers\BaseViewController
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
+		$currentUser = $request->getUser();
 
 		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, $moduleName);
-		$hierarchy = $recordModel->getHierarchy();
+		$hierarchy = $recordModel->getHierarchy($currentUser);
 
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('HIERARCHY', $hierarchy);

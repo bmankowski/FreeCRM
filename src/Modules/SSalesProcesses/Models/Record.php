@@ -13,11 +13,11 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function returns the details of IStorages Hierarchy
+	 * @param \App\Modules\Users\Models\Record $currentUser - User model (required)
 	 * @return array
 	 */
-	public function getHierarchy()
+	public function getHierarchy($currentUser)
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$focus = \App\CRMEntity::getInstance($this->getModuleName());
 		$hierarchy = $focus->getHierarchy($this->getId(), false, true, $currentUser);
 		foreach ($hierarchy['entries'] as $storageId => $storageInfo) {
