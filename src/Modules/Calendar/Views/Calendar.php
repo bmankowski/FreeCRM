@@ -31,14 +31,28 @@ class Calendar  extends \App\Modules\Base\Views\Index
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
-		if ($display) {
-			$this->preProcessDisplay($request);
+		$viewer = $this->getViewer($request);
+		$moduleName = $request->getModule();
+		if (!empty($moduleName)) {
+			$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
+			if ($moduleModel) {
+				$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
+				$linkModels = $moduleModel->getSideBarLinks($linkParams);
+				
+				// Process sidebar links to determine active link
+				$activeLinkLabel = $this->processSidebarLinks($linkModels, $request);
+
+				$viewer->assign('QUICK_LINKS', $linkModels);
+				$viewer->assign('ACTIVE_SIDEBAR_LINK', $activeLinkLabel);
+			}
 		}
+		$viewer->assign('CURRENT_VIEW', $request->get('view'));
+		// MainLayout handles rendering, no separate preProcess template needed
 	}
 
 	protected function preProcessTplName(\App\Http\Vtiger_Request $request)
 	{
-		return 'CalendarViewPreProcess.tpl';
+		return 'IndexViewPreProcess.tpl';
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
@@ -88,11 +102,7 @@ class Calendar  extends \App\Modules\Base\Views\Index
 
 	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-		$calendarFilters = \App\Modules\Calendar\Models\CalendarFilters::getCleanInstance();
-		$viewer->assign('CALENDAR_FILTERS', $calendarFilters);
-		$viewer->view('CalendarViewPostProcess.tpl', $moduleName);
+		// MainLayout handles footer rendering, no separate postProcess template needed
 		parent::postProcess($request);
 	}
 }
