@@ -494,7 +494,8 @@ btn-danger:hover{
 	transition: all ease-in 0s 0.25s;
 	display: none;
 }
-.nav li:hover > .slimScrollDiv >.subMenu{
+.nav li:hover > .slimScrollDiv >.subMenu,
+.nav li > .slimScrollDiv > .subMenu.show-submenu{
 	left: auto !important;
 	display: block;
 	z-index:1;

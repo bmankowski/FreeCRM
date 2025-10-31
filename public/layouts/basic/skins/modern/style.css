@@ -712,7 +712,9 @@ div#calendarview.fc.fc-ltr {
 .dashboard_notebookWidget_view .pull-right .btn {
     margin-bottom: 8px;
 }
-.nav li:hover>.slimScrollDiv>.subMenu, .baseContainer:not(.leftPanelOpen) .leftPanel:hover+.bodyHeader {
+.nav li:hover>.slimScrollDiv>.subMenu,
+.nav li>.slimScrollDiv>.subMenu.show-submenu,
+.baseContainer:not(.leftPanelOpen) .leftPanel:hover+.bodyHeader {
     left: 200px;
 }
 .leftPanel .nav .subMenu li,.leftPanel .nav .subMenu:after {

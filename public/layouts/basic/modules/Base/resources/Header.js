@@ -903,6 +903,56 @@ jQuery.Class("Vtiger_Header_Js", {
 		$(".slimScrollSubMenu .slimScrollDiv").each(function () {
 			$(this).closest(' .slimScrollSubMenu').css('overflow', 'initial');
 		});
+		
+		// Fix for submenu disappearing when hovering over main menu scrollbar
+		var $activeMenuItem = null;
+		
+		// Track which menu item is currently showing submenu
+		$('.nav.modulesList > li[aria-haspopup="true"]').on('mouseenter', function() {
+			// Immediately hide the previous active submenu to avoid overlay
+			if ($activeMenuItem && $activeMenuItem[0] !== $(this)[0]) {
+				$activeMenuItem.find('.subMenu').removeClass('show-submenu');
+			}
+			$activeMenuItem = $(this);
+			$(this).find('.subMenu').addClass('show-submenu');
+		});
+		
+		$('.nav.modulesList > li[aria-haspopup="true"]').on('mouseleave', function() {
+			var $item = $(this);
+			// Don't hide immediately - check if we're moving to scrollbar
+			setTimeout(function() {
+				// Only hide if we're not hovering the scrollbar AND not back on the menu item
+				if (!$('.slimScrollMenu .ps-scrollbar-y-rail:hover').length && 
+					!$('.slimScrollMenu .ps-scrollbar-y:hover').length &&
+					!$item.is(':hover')) {
+					$item.find('.subMenu').removeClass('show-submenu');
+					if ($activeMenuItem && $activeMenuItem[0] === $item[0]) {
+						$activeMenuItem = null;
+					}
+				}
+			}, 50); // Minimal delay just to detect the transition
+		});
+		
+		// Keep submenu visible when hovering main menu scrollbar
+		$('.slimScrollMenu').on('mouseenter', '.ps-scrollbar-y-rail, .ps-scrollbar-y', function() {
+			// Scrollbar is hovered, keep active submenu open
+			if ($activeMenuItem) {
+				$activeMenuItem.find('.subMenu').addClass('show-submenu');
+			}
+		});
+		
+		// When leaving scrollbar, check if we should hide the submenu
+		$('.slimScrollMenu').on('mouseleave', '.ps-scrollbar-y-rail, .ps-scrollbar-y', function() {
+			setTimeout(function() {
+				// Hide if we're not on the menu item anymore
+				if ($activeMenuItem && !$activeMenuItem.is(':hover') && 
+					!$('.slimScrollMenu .ps-scrollbar-y-rail:hover').length &&
+					!$('.slimScrollMenu .ps-scrollbar-y:hover').length) {
+					$activeMenuItem.find('.subMenu').removeClass('show-submenu');
+					$activeMenuItem = null;
+				}
+			}, 50);
+		});
 	},
 	registerToggleButton: function () {
 		$(".buttonTextHolder .dropdown-menu li a").click(function () {

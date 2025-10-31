@@ -3654,7 +3654,8 @@ span[name=existingImages] img{
 .nav li{
 	position: static;
 }
-.nav li:hover > .slimScrollDiv >.subMenu{
+.nav li:hover > .slimScrollDiv >.subMenu,
+.nav li > .slimScrollDiv > .subMenu.show-submenu{
 	display: block;
 	position: absolute;
 	left: 230px;
@@ -3665,7 +3666,8 @@ span[name=existingImages] img{
 	left: 300px;
 	top: 0;
 }
-.nav li:hover .subMenu a{
+.nav li:hover .subMenu a,
+.nav li .subMenu.show-submenu a{
 	color: #000;
 }
 
