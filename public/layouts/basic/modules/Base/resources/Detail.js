@@ -571,9 +571,17 @@ jQuery.Class("Vtiger_Detail_Js", {
 				function (data) {
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
 					if (commentMode == 'add') {
-						thisInstance.addRelationBetweenRecords('ModComments', data.result.id, thisInstance.getTabByLabel(thisInstance.detailViewRecentCommentsTabLabel))
+						thisInstance.addRelationBetweenRecords('ModComments', data.result.id, thisInstance.getSelectedTab()).then(
+							function() {
+								aDeferred.resolve(data);
+							},
+							function(textStatus, errorThrown) {
+								aDeferred.resolve(data);
+							}
+						);
+					} else {
+						aDeferred.resolve(data);
 					}
-					aDeferred.resolve(data);
 				},
 				function (textStatus, errorThrown) {
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});

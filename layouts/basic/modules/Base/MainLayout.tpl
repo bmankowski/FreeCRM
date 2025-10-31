@@ -34,7 +34,7 @@
 			{block name="header_scripts"}
 				{foreach key=index item=jsModel from=$HEADER_SCRIPTS}
 					<script type="{$jsModel->getType()}" src="{vresource_url($jsModel->getSrc())}">
-						</script>
+														</script>
 				{/foreach}
 				<!--[if IE]>
 				<script type="text/javascript" src="libraries/html5shim/html5.js"></script>
@@ -100,36 +100,34 @@
 			{/block}
 
 			{block name="main_container"}
-				{if $SHOW_BODY_HEADER}
-					<div class="container-fluid container-fluid-main">
-						<div class="baseContainer {if AppConfig::module('Users','IS_VISIBLE_USER_INFO_FOOTER')}userInfoFooter{/if}">
-							{block name="navigation"}
-								{assign var=LEFTPANELHIDE value=$USER_MODEL->get('leftpanelhide')}
-								{include file='BodyHeaderMobile.tpl'|@vtemplate_path:$MODULE}
-								<div class="mobileLeftPanel noSpaces">
-									{include file='BodyLeft.tpl'|@vtemplate_path:$MODULE DEVICE=Mobile}
-								</div>
-								<div class="leftPanel noSpaces">
-									{include file='BodyLeft.tpl'|@vtemplate_path:$MODULE DEVICE=Desktop}
-								</div>
-								{include file='BodyHeader.tpl'|@vtemplate_path:$MODULE}
-							{/block}
+				<div class="container-fluid container-fluid-main">
+					<div class="baseContainer {if AppConfig::module('Users','IS_VISIBLE_USER_INFO_FOOTER')}userInfoFooter{/if}">
+						{block name="navigation"}
+							{assign var=LEFTPANELHIDE value=$USER_MODEL->get('leftpanelhide')}
+							{include file='BodyHeaderMobile.tpl'|@vtemplate_path:$MODULE}
+							<div class="mobileLeftPanel noSpaces">
+								{include file='BodyLeft.tpl'|@vtemplate_path:$MODULE DEVICE=Mobile}
+							</div>
+							<div class="leftPanel noSpaces">
+								{include file='BodyLeft.tpl'|@vtemplate_path:$MODULE DEVICE=Desktop}
+							</div>
+							{include file='BodyHeader.tpl'|@vtemplate_path:$MODULE}
+						{/block}
 
-							{block name="main_content"}
-								<div class="basePanel noSpaces {if $LEFTPANELHIDE} menuOpen{/if}">
-									<div class="mainBody {if AppConfig::module('Users','IS_VISIBLE_USER_INFO_FOOTER')}userInfoFooter{/if}">
-										<div class="container-fluid bodyContent bodyContents noSpaces">
-											{block name="content"}
-												<!-- Child templates define their content here -->
-											{/block}
-										</div> <!-- close bodyContent -->
-									</div> <!-- close mainBody -->
-								</div> <!-- close basePanel -->
-							{/block}
+						{block name="main_content"}
+							<div class="basePanel noSpaces {if $LEFTPANELHIDE} menuOpen{/if}">
+								<div class="mainBody {if AppConfig::module('Users','IS_VISIBLE_USER_INFO_FOOTER')}userInfoFooter{/if}">
+									<div class="container-fluid bodyContent bodyContents noSpaces">
+										{block name="content"}
+											<!-- Child templates define their content here -->
+										{/block}
+									</div> <!-- close bodyContent -->
+								</div> <!-- close mainBody -->
+							</div> <!-- close basePanel -->
+						{/block}
 
-						</div> <!-- close baseContainer -->
-					</div> <!-- close container-fluid-main -->
-				{/if}
+					</div> <!-- close baseContainer -->
+				</div> <!-- close container-fluid-main -->
 			{/block}
 
 			{block name="footer"}
