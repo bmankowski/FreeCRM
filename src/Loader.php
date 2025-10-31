@@ -70,13 +70,18 @@ class Loader
 			$moduleName = str_replace(':', '\\', $moduleName);
 		}
 
-		// Handle special case: view=List maps to ListView class (PHP reserved keyword workaround)
-		if ($componentType === 'View' && $componentName === 'List') {
-			$componentName = 'ListView';
-		}
+	// Handle special case: view=List maps to ListView class (PHP reserved keyword workaround)
+	if ($componentType === 'View' && $componentName === 'List') {
+		$componentName = 'ListView';
+	}
 
-		// Convert type to plural directory name: View → Views, Action → Actions, Model → Models
+	// Convert type to plural directory name: View → Views, Action → Actions, Model → Models
+	// Special case for UIType → UiTypes (preserve camelCase)
+	if ($componentType === 'UIType') {
+		$typeDir = 'UiTypes';
+	} else {
 		$typeDir = ucfirst(strtolower($componentType)) . 's';
+	}
 
 		// Build fully qualified PSR-4 class name and file path
 		$className = "App\\Modules\\{$moduleName}\\{$typeDir}\\{$componentName}";
@@ -150,11 +155,16 @@ class Loader
 		string $componentName,
 		string $moduleName = 'Base'
 	): string {
-		// Handle Settings:SubModule
-		$modulePath = str_replace(':', DIRECTORY_SEPARATOR, $moduleName);
-		
-		// Pluralize type
+	// Handle Settings:SubModule
+	$modulePath = str_replace(':', DIRECTORY_SEPARATOR, $moduleName);
+	
+	// Pluralize type
+	// Special case for UIType → UiTypes (preserve camelCase)
+	if ($componentType === 'UIType') {
+		$typeDir = 'UiTypes';
+	} else {
 		$typeDir = ucfirst(strtolower($componentType)) . 's';
+	}
 		
 		return "src/Modules/{$modulePath}/{$typeDir}/{$componentName}.php";
 	}

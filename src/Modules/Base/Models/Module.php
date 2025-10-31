@@ -1165,10 +1165,10 @@ class Module extends \vtlib\Module
 		if (!$user) {
 			$user = $currentUser->getId();
 		}
-		$moduleName = 'Calendar';
-		$currentActivityLabels = \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current');
-		$nowInUserFormat = \App\Modules\Base\UiTypes\Datetime::getDisplayDateValue(date('Y-m-d H:i:s'));
-		$nowInDBFormat = \App\Modules\Base\UiTypes\Datetime::getDBDateTimeValue($nowInUserFormat);
+	$moduleName = 'Calendar';
+	$currentActivityLabels = \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current');
+	$nowInUserFormat = \App\Modules\Base\UiTypes\Datetime::getDisplayDateTimeValue(date('Y-m-d H:i:s'));
+	$nowInDBFormat = \App\Modules\Base\UiTypes\Datetime::getDBDateTimeValue($nowInUserFormat);
 		list($currentDate, $currentTime) = explode(' ', $nowInDBFormat);
 
 		$referenceLinkClass = \App\Loader::getComponentClassName('UIType', 'ReferenceLink', $moduleName);

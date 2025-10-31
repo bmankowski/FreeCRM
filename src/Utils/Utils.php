@@ -101,12 +101,12 @@ class Utils
 			$cachedModuleFields = \App\Utils\VTCacheUtils::lookupFieldInfo_Module($module);
 		}
 
-		if ($module == 'Calendar') {
+	if ($module == 'Calendar') {
+		$cachedEventsFields = \App\Utils\VTCacheUtils::lookupFieldInfo_Module('Events');
+		if (!$cachedEventsFields) {
+			self::getColumnFields('Events');
 			$cachedEventsFields = \App\Utils\VTCacheUtils::lookupFieldInfo_Module('Events');
-			if (!$cachedEventsFields) {
-				getColumnFields('Events');
-				$cachedEventsFields = \App\Utils\VTCacheUtils::lookupFieldInfo_Module('Events');
-			}
+		}
 
 			if (!$cachedModuleFields) {
 				$cachedModuleFields = $cachedEventsFields;
