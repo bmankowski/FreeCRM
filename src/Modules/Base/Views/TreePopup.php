@@ -54,6 +54,7 @@ class TreePopup  extends \App\Modules\Base\Views\Index
 		}
 		$tree = $recordModel->getTree($type, $value);
 		$viewer->assign('TREE', \App\Json::encode($tree));
+		$viewer->assign('LAST_ID', $recordModel->get('lastId'));
 		$viewer->assign('SRC_RECORD', $srcRecord);
 		$viewer->assign('SRC_FIELD', $srcField);
 		$viewer->assign('TEMPLATE', $template);

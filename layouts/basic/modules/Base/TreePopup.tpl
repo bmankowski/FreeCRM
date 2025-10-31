@@ -13,7 +13,7 @@
 	{assign var="FIELD_INSTANCE" value=\App\Modules\Base\Models\Field::getInstance($SRC_FIELD,$MODULE_INSTANCE)}
 	<div class="panel panel-default marginTop10">
 		<div class="panel-heading">
-			<h3 class="no-margin">{"LBL_SELECT_TREE_ITEM"|t:$MODULE} {$FIELD_INSTANCE->get('label')|t:$MODULE}</h3>
+			<h3 class="no-margin">{"LBL_SELECT_TREE_ITEM"|t:$MODULE}: {if $FIELD_INSTANCE}{$FIELD_INSTANCE->get('label')|t:$MODULE}{else}{$SRC_FIELD}{/if}</h3>
 		</div>
 		<div class="panel-body">
 			<div class="contentsBackground">

@@ -47,9 +47,10 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 
 
 	   
-	//    $viewer->assign('MODULE', $moduleName);
+//    $viewer->assign('MODULE', $moduleName);
 	   $viewer->assign('VIEW', $vtigerRequest->get('view'));
-	   $viewer->assign('ACTIVITY_REMINDER', $vtigerRequest->getUser()->getCurrentUserActivityReminderInSeconds());
+	   $userModel = $vtigerRequest->getUser();
+	   $viewer->assign('ACTIVITY_REMINDER', $userModel ? $userModel->getCurrentUserActivityReminderInSeconds() : 0);
 	   $viewer->assign('PARENT_MODULE', $vtigerRequest->get('parent'));
 	   
 	   // Build array of all module active statuses for templates
