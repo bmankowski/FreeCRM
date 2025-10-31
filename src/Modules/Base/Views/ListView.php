@@ -260,6 +260,7 @@ class ListView extends \App\Modules\Base\Views\Index
 			$this->listViewEntries = $this->listViewModel->getListViewEntries($pagingModel);
 		}
 		$noOfEntries = count($this->listViewEntries);
+		$viewer->assign('MODULE_MODEL', $this->listViewModel->getModule());
 		$viewer->assign('MODULE', $moduleName);
 		if (!$this->listViewLinks) {
 			$this->listViewLinks = $this->listViewModel->getListViewLinks($linkParams);
@@ -273,9 +274,9 @@ class ListView extends \App\Modules\Base\Views\Index
 		$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);
 		$viewer->assign('SORT_IMAGE', $sortImage);
 		$viewer->assign('COLUMN_NAME', $orderBy);
-		$viewer->assign('LISTVIEW_ENTRIES_COUNT', $noOfEntries);
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
+		$viewer->assign('LISTVIEW_ENTRIES_COUNT', $noOfEntries);
 		$totalCount = false;
 		if (\App\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			if (!$this->listViewCount) {

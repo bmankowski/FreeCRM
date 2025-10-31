@@ -50,6 +50,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 			$listViewEntries[$row['portalid']]['createdtime'] = \App\Modules\Base\UiTypes\Date::getDisplayDateValue($row['createdtime']);
 		}
 		$index = 0;
+		$listViewRecordModels = [];
 		foreach ($listViewEntries as $recordId => $record) {
 			$record['id'] = $recordId;
 			$listViewRecordModels[$recordId] = $moduleModel->getRecordFromArray($record, $dataReader[$index++]);
