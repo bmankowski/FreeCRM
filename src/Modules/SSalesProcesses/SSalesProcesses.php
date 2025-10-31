@@ -115,7 +115,7 @@ class SSalesProcesses extends \App\CRMEntity
 	 * @param integer $id - ssalesprocessesid
 	 * @param boolean $getRawData
 	 * @param boolean $getLinks
-	 * @param \App\Modules\Users\Models\Record $currentUser - User model (optional, will use getCurrentUserModel if null)
+	 * @param \App\Modules\Users\Models\Record $currentUser - User model
 	 * returns Sales hierarchy in array format
 	 */
 	public function getHierarchy($id, $getRawData = false, $getLinks = true, $currentUser)
