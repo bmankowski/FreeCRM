@@ -71,8 +71,6 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	public static $step6Fields = ['conditions',];
 	public static $step7Fields = ['template_members'];
 	public static $step8Fields = ['watermark_type', 'watermark_text', 'watermark_size', 'watermark_angle', 'watermark_image'];
-	public static $module = 'PDF';
-	public static $parent = 'Settings';
 	public static $uploadPath = 'storage/Pdf/watermark/';
 	protected $viewToPicklistValue = ['Detail' => 'PLL_DETAILVIEW', 'List' => 'PLL_LISTVIEW'];
 
