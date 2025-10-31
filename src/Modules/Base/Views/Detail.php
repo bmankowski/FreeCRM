@@ -325,7 +325,8 @@ class Detail extends \App\Modules\Base\Views\Index
 
 		$moduleModel = $recordModel->getModule();
 
-		$viewer = $this->getViewer($request);
+		// CRITICAL: Use the SAME viewer instance from preProcess
+		$viewer = $this->viewer ? $this->viewer : $this->getViewer($request);
 		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
@@ -349,7 +350,8 @@ class Detail extends \App\Modules\Base\Views\Index
 		$recordStrucure = \App\Modules\Base\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Base\Models\RecordStructure::RECORD_STRUCTURE_MODE_SUMMARY);
 
 		$moduleModel = $recordModel->getModule();
-		$viewer = $this->getViewer($request);
+		// CRITICAL: Use the SAME viewer instance that was used in preProcess, don't create a new one
+		$viewer = $this->viewer ? $this->viewer : $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('USER_MODEL', $request->getUser());
@@ -380,7 +382,8 @@ class Detail extends \App\Modules\Base\Views\Index
 		$detailViewLinkParams = array('MODULE' => $moduleName, 'RECORD' => $recordId);
 		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
 		$this->record->getWidgets($detailViewLinkParams);
-		$viewer = $this->getViewer($request);
+		// CRITICAL: Use the SAME viewer instance from preProcess
+		$viewer = $this->viewer ? $this->viewer : $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('MODULE_SUMMARY', $this->showModuleSummaryView($request));
 		$viewer->assign('DETAILVIEW_WIDGETS', $this->record->widgets);

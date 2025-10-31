@@ -15,16 +15,14 @@
 {block name="content"}
 	<div id="page">
 		<div id="pjaxContainer" class="hide noprint"></div>
-		<div class="bodyContents">
-			<div class="mainContainer">
-				<div class="contentsDiv">
-					
-					{* DetailViewHeader.tpl is now self-contained - all divs it opens are closed within it *}
-					{include file="DetailViewHeader.tpl"|vtemplate_path:$MODULE_NAME DETAIL_VIEW_CONTENT=$DETAIL_CONTENT}
-					
-				</div> <!-- close contentsDiv -->
-			</div> <!-- close mainContainer -->
-		</div> <!-- close bodyContents -->
+		<div class="mainContainer">
+			<div class="contentsDiv">
+				
+				{* DetailViewHeader.tpl is now self-contained - all divs it opens are closed within it *}
+				{include file="DetailViewHeader.tpl"|vtemplate_path:$MODULE_NAME DETAIL_VIEW_CONTENT=$DETAIL_CONTENT}
+				
+			</div> <!-- close contentsDiv -->
+		</div> <!-- close mainContainer -->
 	</div> <!-- close page -->
 {/block}
 <!--/layouts/basic/modules/Base/DetailView.tpl -->

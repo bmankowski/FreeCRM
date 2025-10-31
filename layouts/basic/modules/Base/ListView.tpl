@@ -15,31 +15,29 @@
 {block name="content"}
 	<div id="page">
 		<div id="pjaxContainer" class="hide noprint"></div>
-		<div class="bodyContents">
-			<div class="mainContainer">
-				<div class="contentsDiv">
-					
-					{* Header with breadcrumbs and action buttons *}
-					<div class="widget_header row marginBottom10px">
-						<div class="col-sm-6 col-xs-12">
-							{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-						</div>
-						<div class="col-sm-6 col-xs-12">
-							<div class="pull-right">
-								{foreach item=LINK from=$HEADER_LINKS['LIST_VIEW_HEADER']}
-									{include file='ButtonLink.tpl'|@vtemplate_path:$MODULE BUTTON_VIEW='listViewHeader'}
-								{/foreach}
-							</div>
+		<div class="mainContainer">
+			<div class="contentsDiv">
+				
+				{* Header with breadcrumbs and action buttons *}
+				<div class="widget_header row marginBottom10px">
+					<div class="col-sm-6 col-xs-12">
+						{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+					</div>
+					<div class="col-sm-6 col-xs-12">
+						<div class="pull-right">
+							{foreach item=LINK from=$HEADER_LINKS['LIST_VIEW_HEADER']}
+								{include file='ButtonLink.tpl'|@vtemplate_path:$MODULE BUTTON_VIEW='listViewHeader'}
+							{/foreach}
 						</div>
 					</div>
-					
-					{* List view table and controls *}
-					{include file="ListViewHeader.tpl"|vtemplate_path:$MODULE}
-					{include file="ListViewContents.tpl"|vtemplate_path:$MODULE}
-					
-				</div> <!-- close contentsDiv -->
-			</div> <!-- close mainContainer -->
-		</div> <!-- close bodyContents -->
+				</div>
+				
+				{* List view table and controls *}
+				{include file="ListViewHeader.tpl"|vtemplate_path:$MODULE}
+				{include file="ListViewContents.tpl"|vtemplate_path:$MODULE}
+				
+			</div> <!-- close contentsDiv -->
+		</div> <!-- close mainContainer -->
 	</div> <!-- close page -->
 {/block}
 <!--/layouts/basic/modules/Base/ListView.tpl -->

@@ -16,11 +16,10 @@
 {block name="content"}
 	<div id="page">
 		<div id="pjaxContainer" class="hide noprint"></div>
-		<div class="bodyContents">
-			<div class="mainContainer">
-				<div class="contentsDiv col-md-12 marginLeftZero" id="centerPanel" style="min-height:550px;">
-					
-					{include file="dashboards/DashBoardHeader.tpl"|vtemplate_path:$MODULE_NAME DASHBOARDHEADER_TITLE=$MODULE|t:$MODULE}
+		<div class="mainContainer">
+			<div class="contentsDiv col-md-12 marginLeftZero" id="centerPanel" style="min-height:550px;">
+				
+				{include file="dashboards/DashBoardHeader.tpl"|vtemplate_path:$MODULE_NAME DASHBOARDHEADER_TITLE=$MODULE|t:$MODULE}
 					
 					<div class="dashboardViewContainer">
 						{if count($DASHBOARD_TYPES) > 1}
@@ -63,7 +62,6 @@
 					</div> <!-- close dashboardViewContainer -->
 				</div> <!-- close contentsDiv -->
 			</div> <!-- close mainContainer -->
-		</div> <!-- close bodyContents -->
 	</div> <!-- close page -->
 {/block}
 <!--/layouts/basic/modules/Base/DashBoard.tpl -->

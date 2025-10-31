@@ -12,12 +12,11 @@ namespace App\Modules\Leads\Views;
  * *********************************************************************************** */
 
 
-use App\Http\Vtiger_Request;
 class Detail extends \App\Modules\Base\Views\Detail
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
-	{
+	{		
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CONVERSION_AVAILABLE_STATUS', \App\Json::encode(\App\Modules\Leads\Models\Module::getConversionAvaibleStatuses()));
 		parent::preProcess($request);

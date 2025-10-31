@@ -118,7 +118,7 @@
 							{block name="main_content"}
 								<div class="basePanel noSpaces {if $LEFTPANELHIDE} menuOpen{/if}">
 									<div class="mainBody {if AppConfig::module('Users','IS_VISIBLE_USER_INFO_FOOTER')}userInfoFooter{/if}">
-										<div class="container-fluid bodyContent noSpaces">
+										<div class="container-fluid bodyContent bodyContents noSpaces">
 											{block name="content"}
 												<!-- Child templates define their content here -->
 											{/block}

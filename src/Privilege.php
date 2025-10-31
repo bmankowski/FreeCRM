@@ -183,7 +183,7 @@ class Privilege
 		}
 		
 		// Check if action exists
-		if ($actionid === false) {
+		if (empty($actionid)) {
 			return static::returnPermissionResult(false, 'SEC_ACTION_DOES_NOT_EXIST');
 		}
 		

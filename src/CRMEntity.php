@@ -217,7 +217,7 @@ class CRMEntity
 		} else {
 			$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
 		}
-		if ($cachedModuleFields === false) {
+		if (empty($cachedModuleFields)) {
 			// Pull fields and cache for further use
 			$tabid = Module::getModuleId($module);
 			$query = (new Db\Query())
@@ -264,15 +264,15 @@ class CRMEntity
 				}
 			}
 
-			$query->where(['vtiger_crmentity.crmid' => $record]);
-			if ($module != '') {
-				$query->andWhere(['vtiger_crmentity.setype' => $module]);
-			}
-			$resultRow = $query->one();
-			if (empty($resultRow)) {
-				throw new \App\Exceptions\NoPermittedToRecord('LBL_RECORD_NOT_FOUND');
-			} else {
-				if (!empty($resultRow['deleted'])) {
+		$query->where(['vtiger_crmentity.crmid' => $record]);
+		if ($module != '') {
+			$query->andWhere(['vtiger_crmentity.setype' => $module]);
+		}
+		$resultRow = $query->one();
+		if (empty($resultRow)) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_RECORD_NOT_FOUND');
+		} else {
+			if (!empty($resultRow['deleted'])) {
 					throw new \App\Exceptions\NoPermittedToRecord('LBL_RECORD_DELETE');
 				}
 				$showsAdditionalLabels = vglobal('showsAdditionalLabels');
@@ -1292,7 +1292,7 @@ class CRMEntity
 		$adb = \App\Database\PearDatabase::getInstance();
 		// Look for fields that has presence value NOT IN (0,2)
 		$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module, array('1'));
-		if ($cachedModuleFields === false) {
+		if (empty($cachedModuleFields)) {
 			// Initialize the fields calling suitable API
 			\App\Utils\Utils::getColumnFields($module);
 			$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module, array('1'));
@@ -1549,7 +1549,7 @@ class CRMEntity
 				$this->table_name => $this->table_index
 			]
 		];
-		if ($secmodule === false) {
+		if (empty($secmodule)) {
 			return $relTables;
 		}
 		return $relTables[$secmodule];

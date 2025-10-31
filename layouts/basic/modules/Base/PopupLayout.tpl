@@ -87,7 +87,7 @@
 					{block name="main_content"}
 						<div class="basePanel noSpaces">
 							<div class="mainBody">
-								<div class="container-fluid bodyContent noSpaces">
+								<div class="container-fluid bodyContent bodyContents noSpaces">
 									{block name="content"}
 										<!-- Child templates define their content here -->
 									{/block}
