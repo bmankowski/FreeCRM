@@ -13,7 +13,7 @@ namespace App\Modules\Users\Views;
  * ********************************************************************************** */
 
 
-class ListView extends \App\Modules\Settings\Base\Views\ListView
+class List extends \App\Modules\Base\Views\List
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
@@ -40,12 +40,18 @@ class ListView extends \App\Modules\Settings\Base\Views\ListView
 	{
 		$viewer = $this->getViewer($request);
 		$this->initializeListViewContents($request, $viewer);
-		$viewer->view('ListViewContents.tpl', $request->getModule(false));
+		$viewer->view('ListView.tpl', $request->getModule(false));
 	}
 	/*
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
 
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true){
+		return true;
+	}
+	public function postProcess(\App\Http\Vtiger_Request $request, $display = true){
+		return true;
+	}
 	public function initializeListViewContents(\App\Http\Vtiger_Request $request, \App\Runtime\CRM_Viewer $viewer)
 	{
 		$moduleName = $request->getModule();

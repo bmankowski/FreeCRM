@@ -13,7 +13,7 @@ namespace App\Modules\Settings\Base\Views;
  * ********************************************************************************** */
 
 
-class ListView extends \App\Modules\Settings\Base\Views\Index
+class List extends \App\Modules\Settings\Base\Views\Index
 {
 
 	protected $listViewEntries = false;
