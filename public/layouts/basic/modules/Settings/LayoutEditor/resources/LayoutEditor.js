@@ -535,7 +535,10 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		AppConnector.request(params).then(
 				function (data) {
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					window.location.reload();
+					var selectedModule = jQuery('#selectedModuleName').val();
+					var currentUrl = new URL(window.location.href);
+					currentUrl.searchParams.set('sourceModule', selectedModule);
+					window.location.href = currentUrl.toString();
 					var params = {};
 					params['text'] = app.vtranslate('JS_FIELD_SEQUENCE_UPDATED');
 					Settings_Vtiger_Index_Js.showMessage(params);
@@ -1402,7 +1405,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		params['view'] = 'Index';
 		params['sourceModule'] = selectedModule;
 
-		AppConnector.requestPjax(params).then(
+		AppConnector.request(params).then(
 				function (data) {
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
 					aDeferred.resolve(data);
@@ -1431,7 +1434,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		params['mode'] = 'showRelatedListLayout';
 		params['sourceModule'] = selectedModule;
 
-		AppConnector.requestPjax(params).then(
+		AppConnector.request(params).then(
 				function (data) {
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
 					aDeferred.resolve(data);
@@ -1610,11 +1613,12 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 						params['status'] = state ? 0 : 1;
 						app.saveAjax('setInventory', params).then(function (data) {
 							if (data.result) {
-								//Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
-								window.location.reload();
+								var selectedModule = jQuery('#selectedModuleName').val();
+								var currentUrl = new URL(window.location.href);
+								currentUrl.searchParams.set('sourceModule', selectedModule);
+								window.location.href = currentUrl.toString();
 							}
 						});
-						//window.location.reload();
 					},
 					function (error, err) {
 						switchBtn.bootstrapSwitch('toggleState', true);

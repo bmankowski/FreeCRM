@@ -80,7 +80,13 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('IN_ACTIVE_FIELDS', $inactiveFields);
 		$viewer->assign('IS_INVENTORY', $moduleModel->isInventory());
 		$viewer->assign('INVENTORY_MODEL', \App\Modules\Base\Models\InventoryField::getInstance($sourceModule));
-		$viewer->view('Index.tpl', $qualifiedModule);
+		
+		// Check if this is an AJAX request - if so, return only content without MainLayout
+		if ($request->isAjax()) {
+			$viewer->view('FieldLayout.tpl', $qualifiedModule);
+		} else {
+			$viewer->view('Index.tpl', $qualifiedModule);
+		}
 	}
 
 	public function showRelatedListLayout(\App\Http\Vtiger_Request $request)
@@ -97,13 +103,17 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$relatedModuleModels = $moduleModel->getRelations();
 
 		$qualifiedModule = $request->getModule(false);
+		$moduleName = $request->getModule();
+		
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
 		$viewer->assign('SUPPORTED_MODULES', $supportedModulesList);
 		$viewer->assign('RELATED_MODULES', $relatedModuleModels);
-		$viewer->assign('MODULE', $qualifiedModule);
+		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
+		$viewer->assign('PARENT_MODULE', $request->get('parent'));
+		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->view('RelatedList.tpl', $qualifiedModule);
 	}
 
