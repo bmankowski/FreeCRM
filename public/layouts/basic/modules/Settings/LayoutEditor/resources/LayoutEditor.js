@@ -1917,7 +1917,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 jQuery(document).ready(function () {
 	var instance = new Settings_LayoutEditor_Js();
 	instance.registerEvents();
-})
+});
 
 Vtiger_WholeNumberGreaterThanZero_Validator_Js("Vtiger_FloatingDigits_Validator_Js", {
 	/**

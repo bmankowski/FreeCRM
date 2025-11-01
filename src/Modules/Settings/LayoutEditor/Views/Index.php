@@ -63,6 +63,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		}
 
 		$qualifiedModule = $request->getModule(false);
+		$moduleName = $request->getModule();
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
@@ -72,8 +73,10 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('ADD_SUPPORTED_FIELD_TYPES', $moduleModel->getAddSupportedFieldTypes());
 		$viewer->assign('DISPLAY_TYPE_LIST', \App\Modules\Base\Models\Field::showDisplayTypeList());
 		$viewer->assign('USER_MODEL', $request->getUser());
-		$viewer->assign('MODULE', $qualifiedModule);
+		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
+		$viewer->assign('PARENT_MODULE', $request->get('parent'));
+		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('IN_ACTIVE_FIELDS', $inactiveFields);
 		$viewer->assign('IS_INVENTORY', $moduleModel->isInventory());
 		$viewer->assign('INVENTORY_MODEL', \App\Modules\Base\Models\InventoryField::getInstance($sourceModule));
@@ -108,7 +111,10 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
-		$jsFileNames = ['libraries.jquery.clipboardjs.clipboard'];
+		$jsFileNames = [
+			'libraries.jquery.clipboardjs.clipboard',
+			'modules.Settings.LayoutEditor.resources.LayoutEditor'
+		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;
