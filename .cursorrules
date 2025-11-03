@@ -4,11 +4,6 @@ Never create aliases like class_alias!
 If you need to perform many changes in file use sed.
 If there are any errors - do not stop - continue!
 
-## Testing Changes
-IMPORTANT! After changes to the application, always verify they work by testing with test:
-```bash
-./tests/testurls.sh
-```
 
 Do not rely solely on CLI tests. The application must be tested through the web server to ensure proper functionality.
 
@@ -50,21 +45,6 @@ App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();  // Looks 
 \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();  // References global Users_Privileges_Model
 ```
 
-### Pattern 3: PHP Built-in Classes
-**Error**: `Class "FreeCRM\Fields\DateTime" not found`
-**Cause**: PHP built-in classes referenced without leading backslash in namespaced file
-**Fix**: Add `use` statements at the top of file
-```php
-// At top of file after namespace declaration:
-use DateTime;
-use DateTimeZone;
-use Exception;
-
-// Then use without backslash:
-new DateTime();
-new DateTimeZone($tz);
-new Exception($msg);
-```
 
 **Note**: 
 - use fully qualified class names

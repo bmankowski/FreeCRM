@@ -109,8 +109,7 @@ class SharedOwner extends BaseUiType
 		$isAdmin = \App\Modules\Users\Models\Record::getCurrentUserModel()->isAdmin();
 		foreach ($values as $key => $shownerid) {
 			if (\App\Fields\Owner::getType($shownerid) === 'Users') {
-				$userModel = \App\Modules\Users\Models\Privileges::getInstanceById($shownerid);
-				$userModel->setModule('Users');
+				$userModel = \App\Modules\Users\Models\Record::getInstanceById($shownerid, 'Users');
 				$display[$key] = $userModel->getName();
 				if ($userModel->get('status') === 'Inactive') {
 					$shownerData[$key]['inactive'] = true;

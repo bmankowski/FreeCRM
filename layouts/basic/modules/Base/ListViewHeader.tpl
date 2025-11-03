@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- layouts/basic/modules/Base/ListViewHeader.tpl -->
+	<!-- layouts/basic/modules/Base/ListViewHeader.tpl -->
 	<div class="listViewPageDiv">
 		<div class="listViewTopMenuDiv noprint">
 			<div class="listViewActionsDiv row">
@@ -18,34 +18,39 @@
 					{include file='ButtonViewLinks.tpl'|@vtemplate_path LINKS=$QUICK_LINKS['SIDEBARLINK']}
 					<div class="btn-group listViewMassActions">
 						{if count($LISTVIEW_MASSACTIONS) gt 0 || $LISTVIEW_LINKS['LISTVIEW']|@count gt 0}
-							<button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><strong>{"LBL_ACTIONS"|t:$MODULE}</strong>&nbsp;&nbsp;<span class="caret"></span></button>
+							<button class="btn btn-default dropdown-toggle"
+								data-toggle="dropdown"><strong>{"LBL_ACTIONS"|t:$MODULE}</strong>&nbsp;&nbsp;<span
+									class="caret"></span></button>
 							<ul class="dropdown-menu">
 								{foreach item="LISTVIEW_MASSACTION" from=$LISTVIEW_MASSACTIONS name=actionCount}
-									<li id="{$MODULE}_listView_massAction_{\App\Modules\Base\Helpers\Util::replaceSpaceWithUnderScores($LISTVIEW_MASSACTION->getLabel())}"><a href="javascript:void(0);" {if stripos($LISTVIEW_MASSACTION->getUrl(), 'javascript:')===0}onclick='{$LISTVIEW_MASSACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick="Vtiger_ListView_Js.triggerMassAction('{$LISTVIEW_MASSACTION->getUrl()}')"{/if} >{$LISTVIEW_MASSACTION->getLabel()|t:$MODULE}</a></li>
-										{if $smarty.foreach.actionCount.last eq true}
+									<li
+										id="{$MODULE}_listView_massAction_{\App\Modules\Base\Helpers\Util::replaceSpaceWithUnderScores($LISTVIEW_MASSACTION->getLabel())}">
+										<a href="javascript:void(0);"
+											{if stripos($LISTVIEW_MASSACTION->getUrl(), 'javascript:')===0}onclick='{$LISTVIEW_MASSACTION->getUrl()|substr:strlen("javascript:")};'
+											{else}
+												onclick="Vtiger_ListView_Js.triggerMassAction('{$LISTVIEW_MASSACTION->getUrl()}')"
+											{/if}>{$LISTVIEW_MASSACTION->getLabel()|t:$MODULE}</a></li>
+									{if $smarty.foreach.actionCount.last eq true}
 										<li class="divider"></li>
-										{/if}
-									{/foreach}
-									{if $LISTVIEW_LINKS['LISTVIEW']|@count gt 0}
-										{foreach item=LISTVIEW_ADVANCEDACTIONS from=$LISTVIEW_LINKS['LISTVIEW']}
-										<li id="{$MODULE}_listView_advancedAction_{\App\Modules\Base\Helpers\Util::replaceSpaceWithUnderScores($LISTVIEW_ADVANCEDACTIONS->getLabel())}">
+									{/if}
+								{/foreach}
+								{if $LISTVIEW_LINKS['LISTVIEW']|@count gt 0}
+									{foreach item=LISTVIEW_ADVANCEDACTIONS from=$LISTVIEW_LINKS['LISTVIEW']}
+										<li
+											id="{$MODULE}_listView_advancedAction_{\App\Modules\Base\Helpers\Util::replaceSpaceWithUnderScores($LISTVIEW_ADVANCEDACTIONS->getLabel())}">
 											<a {if stripos($LISTVIEW_ADVANCEDACTIONS->getUrl(), 'javascript:')===0}
-													href="javascript:void(0);" onclick='{$LISTVIEW_ADVANCEDACTIONS->getUrl()|substr:strlen("javascript:")};'
-												{else} 
-													href='{$LISTVIEW_ADVANCEDACTIONS->getUrl()}'
-												{/if}
+													href="javascript:void(0);"
+												onclick='{$LISTVIEW_ADVANCEDACTIONS->getUrl()|substr:strlen("javascript:")};' {else}
+												href='{$LISTVIEW_ADVANCEDACTIONS->getUrl()}' {/if}
 												{if $LISTVIEW_ADVANCEDACTIONS->get('linkclass') neq ''}
-													class="{$LISTVIEW_ADVANCEDACTIONS->get('linkclass')}"
-												{/if}
+												class="{$LISTVIEW_ADVANCEDACTIONS->get('linkclass')}" {/if}
 												{if $LISTVIEW_ADVANCEDACTIONS->get('linkdata') && count($LISTVIEW_ADVANCEDACTIONS->get('linkdata')) gt 0}
 													{foreach from=$LISTVIEW_ADVANCEDACTIONS->get('linkdata') key=NAME item=DATA}
-														data-{$NAME}="{$DATA}" 
-													{/foreach}
-												{/if}
-											>{$LISTVIEW_ADVANCEDACTIONS->getLabel()|t:$MODULE}</a>
+													data-{$NAME}="{$DATA}" {/foreach}
+												{/if}>{$LISTVIEW_ADVANCEDACTIONS->getLabel()|t:$MODULE}</a>
 										</li>
-										{/foreach}
-									{/if}
+									{/foreach}
+								{/if}
 							</ul>
 						{/if}
 					</div>
@@ -58,21 +63,40 @@
 						{if $CUSTOM_VIEWS|@count gt 0}
 							<select id="customFilter" title="{"LBL_CUSTOM_FILTER"|t}">
 								{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
-									<optgroup label='{'LBL_CV_GROUP_'|cat:strtoupper($GROUP_LABEL)|t}' >
-										{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS} 
-											<option data-orderby="{$CUSTOM_VIEW->getSortOrderBy('orderBy')}" data-sortorder="{$CUSTOM_VIEW->getSortOrderBy('sortOrder')}" data-editurl="{$CUSTOM_VIEW->getEditUrl()}" data-deleteurl="{$CUSTOM_VIEW->getDeleteUrl()}" data-approveurl="{$CUSTOM_VIEW->getApproveUrl()}" data-denyurl="{$CUSTOM_VIEW->getDenyUrl()}" data-duplicateurl="{$CUSTOM_VIEW->getDuplicateUrl()}" {/strip} {strip}
-													data-editable="{$CUSTOM_VIEW->isEditable()}" data-deletable="{$CUSTOM_VIEW->isDeletable()}" {/strip} {strip}
-													data-pending="{$CUSTOM_VIEW->isPending()}" {/strip} {strip}
-													data-public="{$CUSTOM_VIEW->isPublic() && $USER_MODEL->isAdminUser()}" id="filterOptionId_{$CUSTOM_VIEW->get('cvid')}" {/strip} {strip}
-													value="{$CUSTOM_VIEW->get('cvid')}" {/strip} {strip}
-													data-id="{$CUSTOM_VIEW->get('cvid')}" {if $VIEWID neq '' && $VIEWID neq '0'  && $VIEWID == $CUSTOM_VIEW->getId()} selected="selected" {elseif ($VIEWID == '' or $VIEWID == '0')&& $CUSTOM_VIEW->isDefault() eq 'true'} selected="selected" {/if} class="filterOptionId_{$CUSTOM_VIEW->get('cvid')}">{$CUSTOM_VIEW->get('viewname')|t:$MODULE}{if $GROUP_LABEL neq 'Mine' && $GROUP_LABEL neq 'System'} [ {$CUSTOM_VIEW->getOwnerName()} ]  {/if}</option>
+									<optgroup label='{'LBL_CV_GROUP_'|cat:strtoupper($GROUP_LABEL)|t}'>
+										{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
+											<option data-orderby="{$CUSTOM_VIEW->getSortOrderBy('orderBy')}"
+												data-sortorder="{$CUSTOM_VIEW->getSortOrderBy('sortOrder')}"
+												data-editurl="{$CUSTOM_VIEW->getEditUrl()}"
+												data-deleteurl="{$CUSTOM_VIEW->getDeleteUrl()}"
+												data-approveurl="{$CUSTOM_VIEW->getApproveUrl()}"
+												data-denyurl="{$CUSTOM_VIEW->getDenyUrl()}"
+												data-duplicateurl="{$CUSTOM_VIEW->getDuplicateUrl()}" {/strip} {strip}
+												data-editable="{$CUSTOM_VIEW->isEditable()}"
+												data-deletable="{$CUSTOM_VIEW->isDeletable()}" {/strip} {strip}
+												data-pending="{$CUSTOM_VIEW->isPending()}" {/strip} {strip}
+												data-public="{$CUSTOM_VIEW->isPublic() && $USER_MODEL->isAdminUser()}"
+												id="filterOptionId_{$CUSTOM_VIEW->get('cvid')}" {/strip} {strip}
+												value="{$CUSTOM_VIEW->get('cvid')}" {/strip} {strip}
+												data-id="{$CUSTOM_VIEW->get('cvid')}"
+												{if $VIEWID neq '' && $VIEWID neq '0'  && $VIEWID == $CUSTOM_VIEW->getId()}
+													selected="selected"
+												{elseif ($VIEWID == '' or $VIEWID == '0')&& $CUSTOM_VIEW->isDefault() eq 'true'}
+												selected="selected" {/if} class="filterOptionId_{$CUSTOM_VIEW->get('cvid')}">
+												{$CUSTOM_VIEW->get('viewname')|t:$MODULE}{if $GROUP_LABEL neq 'Mine' && $GROUP_LABEL neq 'System'}
+												[ {$CUSTOM_VIEW->getOwnerName()} ] {/if}</option>
 										{/foreach}
 									</optgroup>
 								{/foreach}
 								{if isset($FOLDERS)}
-									<optgroup id="foldersBlock" label='{"LBL_FOLDERS"|t:$MODULE}' >
+									<optgroup id="foldersBlock" label='{"LBL_FOLDERS"|t:$MODULE}'>
 										{foreach item=FOLDER from=$FOLDERS}
-											<option data-foldername="{$FOLDER->getName()}" {if decode_html($FOLDER->getName()) eq $FOLDER_NAME} selected=""{/if} data-folderid="{$FOLDER->get('folderid')}" data-deletable="{!($FOLDER->hasDocuments())}" class="filterOptionId_folder{$FOLDER->get('folderid')} folderOption{if $FOLDER->getName() eq 'Default'} defaultFolder {/if}" id="filterOptionId_folder{$FOLDER->get('folderid')}" data-id="{$DEFAULT_CUSTOM_FILTER_ID}">{$FOLDER->getName()|t:$MODULE}</option>
+											<option data-foldername="{$FOLDER->getName()}"
+												{if decode_html($FOLDER->getName()) eq $FOLDER_NAME} selected="" {/if}
+												data-folderid="{$FOLDER->get('folderid')}" data-deletable="{!($FOLDER->hasDocuments())}"
+												class="filterOptionId_folder{$FOLDER->get('folderid')} folderOption{if $FOLDER->getName() eq 'Default'} defaultFolder {/if}"
+												id="filterOptionId_folder{$FOLDER->get('folderid')}"
+												data-id="{$DEFAULT_CUSTOM_FILTER_ID}">{$FOLDER->getName()|t:$MODULE}</option>
 										{/foreach}
 									</optgroup>
 								{/if}
@@ -81,11 +105,13 @@
 								<div class="filterActionsDiv hide">
 									<hr>
 									<ul class="filterActions">
-										<li data-value="create" id="createFilter" data-createurl="{$CUSTOM_VIEW->getCreateUrl()}"><span class="glyphicon glyphicon-plus-sign"></span> {"LBL_CREATE_NEW_FILTER"|t}</li>
+										<li data-value="create" id="createFilter" data-createurl="{$CUSTOM_VIEW->getCreateUrl()}">
+											<span class="glyphicon glyphicon-plus-sign"></span> {"LBL_CREATE_NEW_FILTER"|t}</li>
 									</ul>
 								</div>
 							{/if}
-							<img class="filterImage" alt="{"LBL_FILTER"|t}" src="{'filter.png'|vimage_path}" style="display:none;height:13px;margin-right:2px;vertical-align: middle;">
+							<img class="filterImage" alt="{"LBL_FILTER"|t}" src="{'filter.png'|vimage_path}"
+								style="display:none;height:13px;margin-right:2px;vertical-align: middle;">
 						{else}
 							<input type="hidden" value="0" id="customFilter" />
 						{/if}
@@ -95,24 +121,31 @@
 					{include file='ListViewActions.tpl'|@vtemplate_path}
 				</div>
 				<span class="hide filterActionImages pull-right">
-					<span title="{"LBL_DENY"|t:$MODULE}" data-value="deny" class="icon-ban-circle alignMiddle denyFilter filterActionImage pull-right"></span>
-					<span title="{"LBL_APPROVE"|t:$MODULE}" data-value="approve" class="glyphicon glyphicon-ok alignMiddle approveFilter filterActionImage pull-right"></span>
-					<span title="{"LBL_DELETE"|t:$MODULE}" data-value="delete" class="glyphicon glyphicon-trash alignMiddle deleteFilter filterActionImage pull-right"></span>
-					<span title="{"LBL_EDIT"|t:$MODULE}" data-value="edit" class="glyphicon glyphicon-pencil alignMiddle editFilter filterActionImage pull-right"></span>
-					<span title="{"LBL_DUPLICATE"|t:$MODULE}" data-value="duplicate" class="glyphicon glyphicon-retweet alignMiddle duplicateFilter filterActionImage pull-right"></span>
+					<span title="{"LBL_DENY"|t:$MODULE}" data-value="deny"
+						class="icon-ban-circle alignMiddle denyFilter filterActionImage pull-right"></span>
+					<span title="{"LBL_APPROVE"|t:$MODULE}" data-value="approve"
+						class="glyphicon glyphicon-ok alignMiddle approveFilter filterActionImage pull-right"></span>
+					<span title="{"LBL_DELETE"|t:$MODULE}" data-value="delete"
+						class="glyphicon glyphicon-trash alignMiddle deleteFilter filterActionImage pull-right"></span>
+					<span title="{"LBL_EDIT"|t:$MODULE}" data-value="edit"
+						class="glyphicon glyphicon-pencil alignMiddle editFilter filterActionImage pull-right"></span>
+					<span title="{"LBL_DUPLICATE"|t:$MODULE}" data-value="duplicate"
+						class="glyphicon glyphicon-retweet alignMiddle duplicateFilter filterActionImage pull-right"></span>
 				</span>
 			</div>
 			{if $CUSTOM_VIEWS|@count gt 0}
 				<div class="row">
 					<div class="col-xs-12 btn-toolbar">
 						{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
-							{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS} 
+							{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
 								{if $CUSTOM_VIEW->isFeatured()}
 									<h5 class="btn-group resetButton cursorPointer">
-										<span class="label label-default btn-success featuredLabel" data-cvid="{$CUSTOM_VIEW->getId()}" {if $CUSTOM_VIEW->get('color')}style="background-color: {$CUSTOM_VIEW->get('color')};"{/if}>
+										<span class="label label-default btn-success featuredLabel" data-cvid="{$CUSTOM_VIEW->getId()}"
+											{if $CUSTOM_VIEW->get('color')}style="background-color: {$CUSTOM_VIEW->get('color')};" {/if}>
 											{$CUSTOM_VIEW->get('viewname')|t:$MODULE}
 											{if $CUSTOM_VIEW->get('description')}
-												&nbsp;<span class="popoverTooltip glyphicon glyphicon-info-sign"  data-placement="auto right" data-content="{\App\Modules\Base\Helpers\Util::toSafeHTML($CUSTOM_VIEW->get('description'))}"></span>
+												&nbsp;<span class="popoverTooltip glyphicon glyphicon-info-sign" data-placement="auto right"
+													data-content="{\App\Modules\Base\Helpers\Util::toSafeHTML($CUSTOM_VIEW->get('description'))}"></span>
 											{/if}
 										</span>
 									</h5>
@@ -124,5 +157,5 @@
 			{/if}
 		</div> <!-- close listViewActionsDiv -->
 	</div> <!-- close listViewTopMenuDiv -->
-<!--/layouts/basic/modules/Base/ListViewHeader.tpl -->
-	{/strip}
+	<!--/layouts/basic/modules/Base/ListViewHeader.tpl -->
+{/strip}
