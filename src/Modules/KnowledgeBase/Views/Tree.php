@@ -8,7 +8,6 @@ namespace App\Modules\KnowledgeBase\Views;
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
-use App\Http\Vtiger_Request;
 class Tree  extends \App\Modules\Base\Views\Index
 {
 

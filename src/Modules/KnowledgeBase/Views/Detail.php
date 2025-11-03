@@ -9,7 +9,6 @@ namespace App\Modules\KnowledgeBase\Views;
  * @author Krzysztof Gastołek <krzysztof.gastolek@wars.pl>
  */
 
-use App\Http\Vtiger_Request;
 class Detail  extends \App\Modules\Base\Views\Detail
 {
 

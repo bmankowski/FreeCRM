@@ -9,7 +9,6 @@ namespace App\Modules\KnowledgeBase\Views;
  * @author Krzysztof Gastołek <krzysztof.gastolek@wars.pl>
  */
 
-use App\Http\Vtiger_Request;
 class FullScreen  extends \App\Modules\Base\Views\Index
 {
 
