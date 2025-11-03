@@ -177,7 +177,7 @@ class ScheduleReports extends \App\Runtime\BaseModel
 			foreach ($recipientsList as $userId) {
 				if (!\App\Modules\Base\Helpers\Util::isUserDeleted($userId)) {
 					$userName = \App\Fields\Owner::getUserLabel($userId);
-					$userEmail = \App\Modules\Users\Models\Record::getInstanceById($userId, 'Users')->getDetail('email1');
+					$userEmail = \App\Modules\Users\Models\Record::getInstanceById($userId, 'Users')->get('email1');
 					if (!in_array($userEmail, $recipientsEmails)) {
 						$recipientsEmails[$userName] = $userEmail;
 					}
@@ -232,7 +232,7 @@ class ScheduleReports extends \App\Runtime\BaseModel
 		$accountOwnerId = \App\Modules\Users\Users::getActiveAdminId();
 		\App\Mailer::sendFromTemplate([
 			'to' => $to,
-			'cc' => [\App\Modules\Users\Models\Record::getInstanceById($accountOwnerId, 'Users')->getDetail('email1') => \App\Fields\Owner::getUserLabel($accountOwnerId)],
+			'cc' => [\App\Modules\Users\Models\Record::getInstanceById($accountOwnerId, 'Users')->get('email1') => \App\Fields\Owner::getUserLabel($accountOwnerId)],
 			'template' => 'ScheduleReprots',
 			'attachments' => $attachments,
 			'reportName' => $reportRecordModel->getName(),

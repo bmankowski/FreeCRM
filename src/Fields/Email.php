@@ -88,6 +88,6 @@ class Email
 	public static function getUserMail($userId)
 	{
 		$userModel = \App\Modules\Users\Models\Record::getInstanceById($userId, 'Users');
-		return $userModel->getDetail('email1');
+		return $userModel->get('email1');
 	}
 }

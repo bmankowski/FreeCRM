@@ -44,14 +44,14 @@ class VTSendNotificationTask extends VTTask
 			$result_invitees = $db->pquery('SELECT * FROM u_yf_activity_invitation WHERE activityid = ?', array($entityId));
 			while ($recordinfo = $db->fetch_array($result_invitees)) {
 				$userModel = \App\Modules\Users\Models\Record::getInstanceById($recordinfo['inviteeid'], 'Users');
-				if ($userModel->getDetail('status') === 'Active') {
+				if ($userModel->get('status') === 'Active') {
 					\App\Mailer::sendFromTemplate([
 						'template' => $this->template,
 						'moduleName' => $recordModel->getModuleName(),
 						'recordId' => $entityId,
-						'to' => $userModel->getDetail('email1'),
+						'to' => $userModel->get('email1'),
 						'cc' => $this->copy_email,
-						'language' => $userModel->getDetail('language'),
+						'language' => $userModel->get('language'),
 						'to_email_mod' => 'Users',
 						'params' => ['ics' => $iCal]
 					]);

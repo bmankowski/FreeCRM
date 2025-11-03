@@ -240,7 +240,7 @@ class Util {
 	 */
 	public static function getMaxUploadSize()
 	{
-		$upload_maxsize = vglobal('upload_maxsize');
+		$upload_maxsize = (int) vglobal('upload_maxsize');
 		return ceil($upload_maxsize / (1024 * 1024));
 	}
 
@@ -251,9 +251,8 @@ class Util {
 	 */
 	public static function getOwnerName($ownerId)
 	{
-		$cache = \App\Cache\Cache::getInstance();
-		if ($cache->hasOwnerDbName($ownerId)) {
-			return $cache->getOwnerDbName($ownerId);
+		if (\App\Cache\Cache::has('OwnerDbName', $ownerId)) {
+			return \App\Cache\Cache::get('OwnerDbName', $ownerId);
 		}
 
 		$ownerModel = \App\Modules\Users\Models\Record::getInstanceById($ownerId, 'Users');
@@ -268,7 +267,7 @@ class Util {
 			}
 		}
 		if (!empty($ownerName)) {
-			$cache->setOwnerDbName($ownerId, $ownerName);
+			\App\Cache\Cache::save('OwnerDbName', $ownerId, $ownerName);
 		}
 		return $ownerName;
 	}

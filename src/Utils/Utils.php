@@ -136,9 +136,8 @@ class Utils
 
 		\App\Log::trace("Entering getUserId_Ol(" . $username . ") method ...");
 		\App\Log::trace("in getUserId_Ol " . $username);
-		$cache = \App\Cache\Cache::getInstance();
-		if ($cache->getUserId($username) || $cache->getUserId($username) === 0) {
-			return $cache->getUserId($username);
+		if (\App\Cache\Cache::has('UserId', $username)) {
+			return \App\Cache\Cache::get('UserId', $username);
 		} else {
 			$adb = \App\Database\PearDatabase::getInstance();
 			$sql = "select id from vtiger_users where user_name=?";
@@ -150,7 +149,7 @@ class Utils
 				$user_id = 0;
 			}
 			\App\Log::trace("Exiting getUserId_Ol method ...");
-			$cache->setUserId($username, $user_id);
+			\App\Cache\Cache::save('UserId', $username, $user_id);
 			return $user_id;
 		}
 	}

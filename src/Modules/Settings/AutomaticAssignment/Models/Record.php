@@ -503,7 +503,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	{
 		foreach ($users as $key => $userId) {
 			$userModel = \App\Modules\Users\Models\Record::getInstanceById($userId, 'Users');
-			if (!$userModel->isActive() || !$userModel->getDetail('available') || !$userModel->getDetail('auto_assign') || $this->getCustomConditions($userModel)) {
+			if (!$userModel->isActive() || !$userModel->get('available') || !$userModel->get('auto_assign') || $this->getCustomConditions($userModel)) {
 				unset($users[$key]);
 			}
 		}
@@ -525,10 +525,10 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		foreach ($this->customConditions as $moduleFields => $condition) {
 			switch ($condition[1]) {
 				case 'like':
-					$result = strpos($userModel->getDetail($condition[0]), $this->sourceRecordModel->get($moduleFields)) !== false;
+					$result = strpos($userModel->get($condition[0]), $this->sourceRecordModel->get($moduleFields)) !== false;
 					break;
 				case '=':
-					$result = $this->sourceRecordModel->get($moduleFields) === $userModel->getDetail($condition[0]);
+					$result = $this->sourceRecordModel->get($moduleFields) === $userModel->get($condition[0]);
 					break;
 				default:
 					$result = true;

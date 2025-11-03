@@ -377,12 +377,12 @@ class WebserviceField
 
 	public function getPicklistDetails()
 	{
-		$cache = \App\Cache\Cache::getInstance();
-		if ($cache->getPicklistDetails($this->getTabId(), $this->getFieldName())) {
-			return $cache->getPicklistDetails($this->getTabId(), $this->getFieldName());
+		$cacheKey = $this->getTabId() . '-' . $this->getFieldName();
+		if (\App\Cache\Cache::has('PicklistDetails', $cacheKey)) {
+			return \App\Cache\Cache::get('PicklistDetails', $cacheKey);
 		} else {
 			$picklistDetails = $this->getPickListOptions($this->getFieldName());
-			$cache->setPicklistDetails($this->getTabId(), $this->getFieldName(), $picklistDetails);
+			\App\Cache\Cache::save('PicklistDetails', $cacheKey, $picklistDetails);
 			return $picklistDetails;
 		}
 	}

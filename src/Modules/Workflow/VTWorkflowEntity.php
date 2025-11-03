@@ -65,19 +65,17 @@ class VTWorkflowEntity {
 	 */
 	function getModuleName()
 	{
-		$cache = \App\Cache\Cache::getInstance();
-
 		if ($this->moduleName == null) {
 			$adb = \App\Database\PearDatabase::getInstance();
 			$wsId = $this->data['id'];
 			$parts = explode('x', $wsId);
-			if ($cache->getModuleName($parts[0])) {
-				$this->moduleName = $cache->getModuleName($parts[0]);
+			if (\App\Cache\Cache::has('WorkflowModuleName', $parts[0])) {
+				$this->moduleName = \App\Cache\Cache::get('WorkflowModuleName', $parts[0]);
 			} else {
 				$result = $adb->pquery('select name from vtiger_ws_entity where id=?', array($parts[0]));
 				$rowData = $adb->raw_query_result_rowdata($result, 0);
 				$this->moduleName = $rowData['name'];
-				$cache->setModuleName($parts[0], $this->moduleName);
+				\App\Cache\Cache::save('WorkflowModuleName', $parts[0], $this->moduleName);
 			}
 		}
 		return $this->moduleName;

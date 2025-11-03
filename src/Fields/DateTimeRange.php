@@ -17,10 +17,10 @@ class DateTimeRange
 	public static function getDateRangeByType($type, $dateObject = null)
 	{
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
-		$weekStartDay = $currentUser->getDetail('dayoftheweek');
+		$weekStartDay = $currentUser->get('dayoftheweek');
 
 		if (!$dateObject) {
-			$timeZone = $timezone = new DateTimeZone($currentUser->getDetail('time_zone'));
+			$timeZone = $timezone = new DateTimeZone($currentUser->get('time_zone'));
 			$dateObject = new DateTime();
 			$dateObject->setTimezone($timeZone);
 		} else if (is_string($dateObject)) {

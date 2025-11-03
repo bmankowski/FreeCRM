@@ -100,26 +100,26 @@ class Utils {
 
 	public static function getAssignedToUserList($module)
 	{
-		$cache = \App\Cache\Cache::getInstance();
 		$current_user = \App\Modules\Users\Models\Record::getCurrentUserModel();
-		if ($cache->getUserList($module, $currentUser->id)) {
-			return $cache->getUserList($module, $currentUser->id);
+		$cacheKey = $module . '-' . $current_user->id;
+		if (\App\Cache\Cache::has('ImportUserList', $cacheKey)) {
+			return \App\Cache\Cache::get('ImportUserList', $cacheKey);
 		} else {
-			$userList = \App\Fields\Owner::getInstance()->getUsers(false, 'Active', $currentUser->id);
-			$cache->setUserList($module, $userList, $currentUser->id);
+			$userList = \App\Fields\Owner::getInstance()->getUsers(false, 'Active', $current_user->id);
+			\App\Cache\Cache::save('ImportUserList', $cacheKey, $userList);
 			return $userList;
 		}
 	}
 
 	public static function getAssignedToGroupList($module)
 	{
-		$cache = \App\Cache\Cache::getInstance();
 		$current_user = \App\Modules\Users\Models\Record::getCurrentUserModel();
-		if ($cache->getGroupList($module, $currentUser->id)) {
-			return $cache->getGroupList($module, $currentUser->id);
+		$cacheKey = $module . '-' . $current_user->id;
+		if (\App\Cache\Cache::has('ImportGroupList', $cacheKey)) {
+			return \App\Cache\Cache::get('ImportGroupList', $cacheKey);
 		} else {
 			$groupList = \App\Fields\Owner::getInstance()->getGroups(false);
-			$cache->setGroupList($module, $groupList, $currentUser->id);
+			\App\Cache\Cache::save('ImportGroupList', $cacheKey, $groupList);
 			return $groupList;
 		}
 	}
