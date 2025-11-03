@@ -5,7 +5,6 @@
 
 namespace App\Modules\Base\Views;
 
-use App\Http\Vtiger_Request;
 class Pagination  extends \App\Modules\Base\Views\Index
 {
 

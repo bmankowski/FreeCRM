@@ -124,6 +124,5 @@
 			{/if}
 		</div> <!-- close listViewActionsDiv -->
 	</div> <!-- close listViewTopMenuDiv -->
-	<div class="listViewContentDiv" id="listViewContents">
 <!--/layouts/basic/modules/Base/ListViewHeader.tpl -->
 	{/strip}

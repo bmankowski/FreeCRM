@@ -228,9 +228,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 
    protected function preProcessDisplay(\App\Http\Vtiger_Request $vtigerRequest)
    {
-	   $viewer = $this->getViewer($vtigerRequest);
-	   $viewer->view($this->preProcessTplName($vtigerRequest), $vtigerRequest->getModule());
-   }
+  }
 
    /**
 	* Post process

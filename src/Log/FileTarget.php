@@ -30,7 +30,7 @@ class FileTarget extends \yii\log\FileTarget
 	 * @var array list of the PHP predefined variables that should be logged in a message.
 	 * Note that a variable must be accessible via `$GLOBALS`. Otherwise it won't be logged.
 	 */
-	public $logVars = ['_GET', '_POST', '_FILES', '_COOKIE', '_SESSION'];
+	public $logVars = ['_GET', '_POST', '_FILES', '_SESSION'];
 
 	/**
 	 * Initializes the route.
@@ -104,7 +104,27 @@ class FileTarget extends \yii\log\FileTarget
 	if (isset($message[4])) {
 		$traces = $message[4];
 		if (is_array($traces)) {
-			$traces = \yii\helpers\VarDumper::export($traces);
+			// Format stack trace in readable format instead of array dump
+			$formattedTrace = '';
+			foreach ($traces as $index => $trace) {
+				$file = $trace['file'] ?? 'unknown';
+				$line = $trace['line'] ?? '?';
+				$function = $trace['function'] ?? '';
+				$class = $trace['class'] ?? '';
+				$type = $trace['type'] ?? '';
+				
+				// Shorten file path by removing root directory
+				$file = str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $file);
+				
+				$formattedTrace .= "  #$index $file:$line";
+				if ($class) {
+					$formattedTrace .= " - $class$type$function()";
+				} else {
+					$formattedTrace .= " - $function()";
+				}
+				$formattedTrace .= "\n";
+			}
+			$traces = rtrim($formattedTrace);
 		}
 	}
 	if ($category !== '') {

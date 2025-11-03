@@ -106,7 +106,7 @@ class ListView extends \App\Modules\Base\Views\Index
 			if (!isset($this->viewName)) {
 				$this->viewName = \App\CustomView::getInstance($moduleName)->getViewId();
 			}
-			if (\App\CustomView::hasViewChanged($moduleName, $this->viewName)) {
+			if (\App\CustomView::hasViewChanged($moduleName, $this->viewName, $request)) {
 				$customViewModel = \App\Modules\CustomView\Models\Record::getInstanceById($this->viewName);
 				if ($customViewModel) {
 					\App\CustomView::setDefaultSortOrderBy($moduleName, ['orderBy' => $customViewModel->getSortOrderBy('orderBy'), 'sortOrder' => $customViewModel->getSortOrderBy('sortOrder')]);
