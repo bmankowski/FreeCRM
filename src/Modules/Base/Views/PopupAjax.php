@@ -14,7 +14,7 @@ namespace App\Modules\Base\Views;
 
 
 use App\Http\Vtiger_Request;
-class PopupAjax  extends \App\Modules\Base\Views\Index
+class PopupAjax  extends \App\Modules\Base\Views\Popup
 {
 
 	public function __construct()
