@@ -193,6 +193,29 @@ class SharedOwner extends BaseUiType
 	}
 
 	/**
+	 * Prepare search view data for the field
+	 * @param string $moduleName
+	 * @param int $viewId
+	 * @return array
+	 */
+	public function getSearchViewData($moduleName, $viewId = null)
+	{
+		if ($viewId && \App\AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')) {
+			$usersGroupList = self::getSearchViewList($moduleName, $viewId);
+			$users = $usersGroupList['users'];
+			$groups = $usersGroupList['group'];
+		} else {
+			$users = \App\Fields\Owner::getInstance()->getAccessibleUsers();
+			$groups = \App\Fields\Owner::getInstance()->getAccessibleGroups();
+		}
+		
+		return [
+			'users' => $users,
+			'groups' => $groups
+		];
+	}
+
+	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param mixed $value
 	 * @param \App\Modules\Base\Models\Record $recordModel
