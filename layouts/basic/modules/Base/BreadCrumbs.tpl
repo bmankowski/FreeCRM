@@ -3,7 +3,7 @@
 <!-- layouts/basic/modules/Base/BreadCrumbs.tpl -->
 	<div class="breadCrumbs" >
 		{assign var=HOMEICON value='userIcon-Home'}
-		{if $BREADCRUMBS}
+		{if isset($BREADCRUMBS) && $BREADCRUMBS}
 			<div class="breadcrumbsContainer">
 				<h2 class="breadcrumbsLinks textOverflowEllipsis">
 					<a href="{AppConfig::main('site_URL')}">
@@ -11,7 +11,7 @@
 					</a>
 					&nbsp;|&nbsp;
 					{foreach key=key item=item from=$BREADCRUMBS name=breadcrumbs}
-						{if $key != 0 && $ITEM_PREV}
+						{if $key != 0 && isset($ITEM_PREV) && $ITEM_PREV}
 							<span class="separator">&nbsp;{$BREADCRUMBS_SEPARATOR}&nbsp;</span>
 						{/if}
 						{if isset($item['url'])}

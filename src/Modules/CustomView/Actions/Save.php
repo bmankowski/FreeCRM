@@ -17,7 +17,8 @@ class Save extends \App\Base\Controllers\BaseActionController
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$moduleModel = \App\Modules\Base\Models\Module::getInstance($request->get('source_module'));
+		$moduleName = $request->get('source_module');
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$customViewModel = $this->getCVModelFromRequest($request);
 		$response = new \App\Http\Vtiger_Response();
 

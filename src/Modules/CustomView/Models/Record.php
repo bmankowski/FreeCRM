@@ -410,6 +410,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 				$groupColumns = $groupInfo['columns'];
 				$groupCondition = isset($groupInfo['condition']) ? $groupInfo['condition'] : false;
+				$groupConditionExpression = '';
 
 				foreach ($groupColumns as $columnIndex => $columnCondition) {
 					if (empty($columnCondition))
@@ -479,7 +480,6 @@ class Record extends \App\Modules\Base\Models\Record
 						])->execute();
 
 					// Update the condition expression for the group to which the condition column belongs
-					$groupConditionExpression = '';
 					if (!empty($advFilterList[$groupIndex]["conditionexpression"])) {
 						$groupConditionExpression = $advFilterList[$groupIndex]["conditionexpression"];
 					}

@@ -188,7 +188,7 @@
 								{assign var="ALL_UTILITY_ACTIONS_ARRAY" value=array()}
 								{foreach from=$ALL_UTILITY_ACTIONS item=ACTION_MODEL}
 									{if $ACTION_MODEL->isModuleEnabled($PROFILE_MODULE)}
-										{assign var="testArray" array_push($ALL_UTILITY_ACTIONS_ARRAY,$ACTION_MODEL)}
+										{append var='ALL_UTILITY_ACTIONS_ARRAY' value=$ACTION_MODEL}
 									{/if}
 								{/foreach}
 								{foreach from=$ALL_UTILITY_ACTIONS_ARRAY item=ACTION_MODEL name="actions"}
