@@ -92,5 +92,3 @@ new Exception($msg);
 - PHP deprecation warnings in CLI are non-critical if web version works
 - Session warnings in CLI mode are expected and harmless
 
-#JavaScript and CSS
- - Minify using Terser 

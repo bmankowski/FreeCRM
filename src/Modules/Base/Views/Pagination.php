@@ -15,6 +15,35 @@ class Pagination  extends \App\Modules\Base\Views\Index
 		$this->exposeMethod('getRelationPagination');
 	}
 
+	public function preProcessAjax(\App\Http\Vtiger_Request $request)
+	{
+		// Skip MainLayout rendering for AJAX requests
+	}
+
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
+	{
+		// Skip all preProcess - Pagination only renders fragment
+	}
+
+	protected function preProcessDisplay(\App\Http\Vtiger_Request $request)
+	{
+		// Skip template rendering
+	}
+
+	public function postProcess(\App\Http\Vtiger_Request $request)
+	{
+		// Skip postProcess
+	}
+
+	public function process(\App\Http\Vtiger_Request $request)
+	{
+		$mode = $request->get('mode');
+		if (!empty($mode)) {
+			$this->invokeExposedMethod($mode, $request);
+			return;
+		}
+	}
+
 	public function getRelationPagination(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);

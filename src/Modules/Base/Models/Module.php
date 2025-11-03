@@ -410,7 +410,7 @@ class Module extends \vtlib\Module
 	 */
 	public function getDefaultViewName()
 	{
-		return 'List';
+		return 'ListView';
 	}
 
 	/**

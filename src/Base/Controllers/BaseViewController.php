@@ -228,7 +228,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 
    protected function preProcessDisplay(\App\Http\Vtiger_Request $vtigerRequest)
    {
-  }
+   }
 
    /**
 	* Post process
