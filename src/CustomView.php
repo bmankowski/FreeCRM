@@ -2,7 +2,6 @@
 namespace App;
 
 use App\Cache\Cache;
-use App\AppConfig;
 
 use \App\Db;
 
@@ -93,7 +92,7 @@ class CustomView
 	{
 		$dateFilters = self::DATE_FILTER_CONDITIONS;
 		foreach (array_keys($dateFilters) as $filterType) {
-			$dateValues = \DateTimeRange::getDateRangeByType($filterType);
+			$dateValues = \App\Fields\DateTimeRange::getDateRangeByType($filterType);
 			$dateFilters[$filterType]['startdate'] = $dateValues[0];
 			$dateFilters[$filterType]['enddate'] = $dateValues[1];
 		}
@@ -221,7 +220,7 @@ class CustomView
 	 * @param \App\Http\Vtiger_Request|null $request
 	 * @return boolean
 	 */
-	public static function hasViewChanged($moduleName, $viewId = false, \App\Http\Vtiger_Request $request = null)
+	public static function hasViewChanged($moduleName, $viewId = false, \App\Http\Vtiger_Request $request)
 	{
 		if (empty($_SESSION['lvs'][$moduleName]['viewname'])) {
 			return true;
@@ -360,7 +359,7 @@ class CustomView
 				$stdfilterlist['enddate'] = $endDateTime->getDisplayDate();
 			}
 		} else { //if it is not custom get the date according to the selected duration
-			$datefilter = \DateTimeRange::getDateRangeByType($dateFilterRow['stdfilter']);
+			$datefilter = \App\Fields\DateTimeRange::getDateRangeByType($dateFilterRow['stdfilter']);
 			$startDateTime = new \DateTimeField($datefilter[0] . ' ' . date('H:i:s'));
 			$stdfilterlist['startdate'] = $startDateTime->getDisplayDate();
 			$endDateTime = new \DateTimeField($datefilter[1] . ' ' . date('H:i:s'));

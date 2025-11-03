@@ -510,7 +510,7 @@ class CustomView extends \App\CRMEntity
 				$stdfilterlist["enddate"] = $stdfilterrow["enddate"];
 			}
 		} else { //if it is not custom get the date according to the selected duration
-			$datefilter = \DateTimeRange::getDateRangeByType($stdfilterrow["stdfilter"]);
+			$datefilter = \App\Fields\DateTimeRange::getDateRangeByType($stdfilterrow["stdfilter"]);
 			$stdfilterlist["startdate"] = $datefilter[0];
 			$stdfilterlist["enddate"] = $datefilter[1];
 		}

@@ -88,7 +88,7 @@ class DatetimeField extends DateField
 		if ($this->operator === 'custom') {
 			$date = $this->getArrayValue();
 		} else {
-			$date = \DateTimeRange::getDateRangeByType($this->operator);
+			$date = \App\Fields\DateTimeRange::getDateRangeByType($this->operator);
 		}
 		return [$date[0] . ' 00:00:00', $date[1] . ' 23:59:59'];
 	}

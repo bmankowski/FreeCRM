@@ -65,7 +65,7 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 				$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceForModule($moduleModel);
 				$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
 				$viewer->assign('SOURCE_MODULE', $moduleSourceName);
-				$viewer->assign('ADVANCE_CRITERIA', \App\Modules\Base\AdvancedFilter::transformToAdvancedFilterCondition($moduleInstance->get('conditions')));
+				$viewer->assign('ADVANCE_CRITERIA', \App\Modules\Base\Helpers\AdvancedFilter::transformToAdvancedFilterCondition($moduleInstance->get('conditions')));
 				$viewer->view('Step3.tpl', $qualifiedModuleName);
 				break;
 			case 'step2':

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Base;
+namespace App\Modules\Base\Helpers;
 
 /**
  * Advanced Filter Class

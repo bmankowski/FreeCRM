@@ -22,7 +22,7 @@ class Field extends \App\Modules\Base\Models\Field
 	 */
 	public static function getAdvancedFilterOptions()
 	{
-		return \App\Modules\Base\AdvancedFilter::getAdvancedFilterOptions();
+		return \App\Modules\Base\Helpers\AdvancedFilter::getAdvancedFilterOptions();
 	}
 
 	/**
@@ -31,7 +31,7 @@ class Field extends \App\Modules\Base\Models\Field
 	 */
 	public static function getAdvancedFilterOpsByFieldType()
 	{
-		return \App\Modules\Base\AdvancedFilter::getAdvancedFilterOpsByFieldType();
+		return \App\Modules\Base\Helpers\AdvancedFilter::getAdvancedFilterOpsByFieldType();
 	}
 
 	/**

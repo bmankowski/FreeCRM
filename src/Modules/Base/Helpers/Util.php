@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Base\helpers;
+namespace App\Modules\Base\Helpers;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -297,7 +297,7 @@ class Util {
 	/**
 	 * Function to get the datetime value in user preferred hour format
 	 * @param <DateTime> $dateTime
-	 * @param <\App\Modules\Base\Models\Users> $userObject
+	 * @param \App\Modules\Users\Models\Record $userObject
 	 * @return string date and time with hour format
 	 */
 	public static function convertDateTimeIntoUsersDisplayFormat($dateTime, $userObject = null)
@@ -382,7 +382,7 @@ class Util {
 					$fieldValue = \App\Modules\Base\UiTypes\Time::getTimeValueWithSeconds($fieldValue);
 				}
 				if ($field->getFieldDataType() === 'currency') {
-					$fieldValue = CurrencyField::convertToDBFormat($fieldValue);
+					$fieldValue = \App\Fields\CurrencyField::convertToDBFormat($fieldValue);
 				}
 				if ($fieldName === 'date_start' || $fieldName === 'due_date' || $field->getFieldDataType() === 'datetime') {
 					$dateValues = explode(',', $fieldValue);

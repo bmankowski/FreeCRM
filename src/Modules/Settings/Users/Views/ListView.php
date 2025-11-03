@@ -8,6 +8,8 @@ namespace App\Modules\Settings\Users\Views;
  */
 class ListView extends \App\Modules\Settings\Base\Views\ListView
 {
+	protected $listViewModel;
+
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$currentUserModel = $request->getUser();

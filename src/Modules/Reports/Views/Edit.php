@@ -286,7 +286,7 @@ class Edit extends \App\Modules\Base\Views\Edit
 		$viewer->assign('SECONDARY_MODULES', $secondaryModules);
 		$viewer->assign('PRIMARY_MODULE_RECORD_STRUCTURE', $primaryModuleRecordStructure);
 		$viewer->assign('SECONDARY_MODULE_RECORD_STRUCTURES', $secondaryModuleRecordStructures);
-		$viewer->assign('DATE_FILTERS', \App\Modules\Base\AdvancedFilter::getDateFilter($moduleName));
+		$viewer->assign('DATE_FILTERS', \App\Modules\Base\Helpers\AdvancedFilter::getDateFilter($moduleName));
 		if (($primaryModule == 'Calendar') || (in_array('Calendar', $secondaryModules))) {
 			$advanceFilterOpsByFieldType = \App\Modules\Calendar\Models\Field::getAdvancedFilterOpsByFieldType();
 		} else {

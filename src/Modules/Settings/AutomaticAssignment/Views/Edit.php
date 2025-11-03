@@ -66,11 +66,11 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 		if ($conditions) {
 			$conditions = \App\Json::decode($conditions);
 		}
-		$criteria = \App\Modules\Base\AdvancedFilter::transformToAdvancedFilterCondition($conditions);
-		$viewer->assign('ADVANCE_CRITERIA', \App\Modules\Base\AdvancedFilter::transformToAdvancedFilterCondition($conditions));
+		$criteria = \App\Modules\Base\Helpers\AdvancedFilter::transformToAdvancedFilterCondition($conditions);
+		$viewer->assign('ADVANCE_CRITERIA', \App\Modules\Base\Helpers\AdvancedFilter::transformToAdvancedFilterCondition($conditions));
 
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
-		$viewer->assign('DATE_FILTERS', \App\Modules\Base\AdvancedFilter::getDateFilter($sourceModuleName));
+		$viewer->assign('DATE_FILTERS', \App\Modules\Base\Helpers\AdvancedFilter::getDateFilter($sourceModuleName));
 
 		if ($sourceModuleName === 'Calendar') {
 			$advanceFilterOpsByFieldType = \App\Modules\Calendar\Models\Field::getAdvancedFilterOpsByFieldType();

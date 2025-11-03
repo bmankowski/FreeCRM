@@ -85,7 +85,7 @@ class DateField extends BaseField
 		if ($this->operator === 'custom') {
 			$date = $this->getArrayValue();
 		} else {
-			$date = \DateTimeRange::getDateRangeByType($this->operator);
+			$date = \App\Fields\DateTimeRange::getDateRangeByType($this->operator);
 		}
 		return $date;
 	}
