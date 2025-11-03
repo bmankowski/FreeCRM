@@ -33,6 +33,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 	   $viewer->assign('PAGETITLE', $this->getPageTitle($vtigerRequest));
 	   $viewer->assign('BREADCRUMB_TITLE', $this->getBreadcrumbTitle($vtigerRequest));
 	   $viewer->assign('BREADCRUMBS', $this->buildBreadcrumbs($vtigerRequest));
+	   $viewer->assign('BREADCRUMBS_SEPARATOR', \App\AppConfig::main('breadcrumbs_separator'));
 	   $viewer->assign('HEADER_SCRIPTS', $this->getHeaderScripts($vtigerRequest));
 	   $viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($vtigerRequest));
 	   $viewer->assign('STYLES', $this->getHeaderCss($vtigerRequest));
@@ -51,6 +52,8 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 	   $viewer->assign('VIEW', $vtigerRequest->get('view'));
 	   $userModel = $vtigerRequest->getUser();
 	   $viewer->assign('ACTIVITY_REMINDER', $userModel ? $userModel->getCurrentUserActivityReminderInSeconds() : 0);
+	   // Calculate script execution time
+	   $viewer->assign('SCRIPT_TIME', isset($GLOBALS['startTime']) ? round(microtime(true) - $GLOBALS['startTime'], 3) : 0);
 	   $viewer->assign('PARENT_MODULE', $vtigerRequest->get('parent'));
 	   
 	   // Build array of all module active statuses for templates

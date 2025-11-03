@@ -12,7 +12,7 @@
 					&nbsp;|&nbsp;
 					{foreach key=key item=item from=$BREADCRUMBS name=breadcrumbs}
 						{if $key != 0 && $ITEM_PREV}
-							<span class="separator">&nbsp;{vglobal('breadcrumbs_separator')}&nbsp;</span>
+							<span class="separator">&nbsp;{$BREADCRUMBS_SEPARATOR}&nbsp;</span>
 						{/if}
 						{if isset($item['url'])}
 							<a href="{$item['url']}">

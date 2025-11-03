@@ -12,9 +12,9 @@
  * Function to get or set a global variable
  * @param mixed $key
  * @param mixed $value
- * @return value of the given key or null if the key is not set
+ * @return ?mixed value of the given key or null if the key is not set
  */
-function vglobal($key, $value = null)
+function vglobal($key, $value = null): mixed
 {
 	if ($value !== null) {
         $GLOBALS[$key] = $value;
