@@ -45,7 +45,7 @@ class Record extends \App\Runtime\BaseModel
 	/**
 	 * Function to get the value for a given key
 	 * @param $key
-	 * @return Value for the given key
+	 * @return ?mixed for the given key
 	 */
 	public function get($key)
 	{
