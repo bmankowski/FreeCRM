@@ -54,6 +54,9 @@ class Multipicklist extends BaseUiType
 	 */
 	public function getEditViewDisplayValue($value, $record = false)
 	{
+		if (empty($value)) {
+			return [];
+		}
 		return explode(' |##| ', $value);
 	}
 
