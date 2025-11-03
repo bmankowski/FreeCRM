@@ -603,6 +603,7 @@ class Record extends \App\Modules\Base\Models\Record
 			return [];
 		}
 
+		$stdfilterlist = [];
 		$query = 'SELECT vtiger_cvstdfilter.* FROM vtiger_cvstdfilter
 					INNER JOIN vtiger_customview ON vtiger_customview.cvid = vtiger_cvstdfilter.cvid
 				WHERE vtiger_cvstdfilter.cvid = ?';
@@ -610,7 +611,6 @@ class Record extends \App\Modules\Base\Models\Record
 		$result = $db->pquery($query, $params);
 		$stdfilterrow = $db->fetch_array($result);
 		if (!empty($stdfilterrow)) {
-			$stdfilterlist = [];
 			$stdfilterlist["columnname"] = $stdfilterrow["columnname"];
 			$stdfilterlist["stdfilter"] = $stdfilterrow["stdfilter"];
 

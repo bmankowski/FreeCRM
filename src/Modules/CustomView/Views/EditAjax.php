@@ -69,8 +69,10 @@ class EditAjax extends \App\Modules\Base\Views\IndexAjax
 			$viewer->assign('EVENT_RECORD_STRUCTURE', $eventBlocksFields);
 		}
 		$viewer->assign('CUSTOMVIEW_MODEL', $customViewModel);
-		if ($duplicate != '1') {
+		if ($duplicate != '1' && !empty($record)) {
 			$viewer->assign('RECORD_ID', $record);
+		} else {
+			$viewer->assign('RECORD_ID', '');
 		}
 		$viewer->assign('MODULE', $module);
 		$viewer->assign('SOURCE_MODULE', $moduleName);
