@@ -94,7 +94,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 * Function to delete filter
 	 * @param array $params
 	 */
-	public static function delete($params)
+	public static function deleteFilter($params)
 	{
 		$db = \App\Db::getInstance();
 		$cvId = $params['cvid'];

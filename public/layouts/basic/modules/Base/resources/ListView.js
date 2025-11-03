@@ -715,7 +715,7 @@ jQuery.Class("Vtiger_ListView_Js", {
 			module: module,
 			parent: parent,
 			page: pageNumber,
-			view: "List",
+			view: "ListView",
 			viewname: cvId,
 			orderby: orderBy,
 			sortorder: sortOrder

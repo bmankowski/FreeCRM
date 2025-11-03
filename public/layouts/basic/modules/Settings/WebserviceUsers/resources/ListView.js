@@ -52,7 +52,7 @@ Settings_Vtiger_ListView_Js('Settings_WebserviceUsers_ListView_Js', {}, {
 			module: app.getModuleName(),
 			parent: app.getParentModuleName(),
 			page: jQuery('#pageNumber').val(),
-			view: "List",
+			view: "ListView",
 			viewname: null,
 			orderby: jQuery('#orderBy').val(),
 			sortorder: jQuery("#sortOrder").val(),

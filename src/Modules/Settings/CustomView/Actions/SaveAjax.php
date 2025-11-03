@@ -26,10 +26,10 @@ class SaveAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 	public function delete(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('param');
-		\App\Modules\Settings\CustomView\Models\Module::delete($params);
+		\App\Modules\Settings\CustomView\Models\Module::deleteFilter($params);
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(array(
-			'success' => $saveResp['success'],
+			'success' => true,
 			'message' => \App\Runtime\Vtiger_Language_Handler::translate('Delete CustomView', $request->getModule(false))
 		));
 		$response->emit();

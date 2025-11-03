@@ -111,7 +111,7 @@ Settings_Vtiger_ListView_Js("Settings_Mail_ListView_Js", {}, {
 			module: app.getModuleName(),
 			parent: app.getParentModuleName(),
 			page: 1,
-			view: "List",
+			view: "ListView",
 			searchParams: searchParams
 		}
 		return params
