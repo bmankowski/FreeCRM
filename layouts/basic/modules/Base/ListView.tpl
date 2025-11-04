@@ -9,15 +9,14 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- layouts/basic/modules/Base/ListView.tpl -->
-{extends file="MainLayout.tpl"|@vtemplate_path}
+	<!-- layouts/basic/modules/Base/ListView.tpl -->
+	{extends file="MainLayout.tpl"|@vtemplate_path}
 
-{block name="content"}
-	<div id="page">
+	{block name="content"}
 		<div id="pjaxContainer" class="hide noprint"></div>
 		<div class="mainContainer">
 			<div class="contentsDiv">
-				
+
 				{* Header with breadcrumbs and action buttons *}
 				<div class="widget_header row marginBottom10px">
 					<div class="col-sm-6 col-xs-12">
@@ -31,17 +30,15 @@
 						</div>
 					</div>
 				</div>
-				
+
 				{* Wrap list view header and contents in listViewPageDiv *}
 				<div class="listViewPageDiv">
 					{include file="ListViewHeader.tpl"|vtemplate_path:$MODULE}
 					{include file="ListViewContents.tpl"|vtemplate_path:$MODULE}
 				</div> <!-- close listViewPageDiv -->
-				
+
 			</div> <!-- close contentsDiv -->
 		</div> <!-- close mainContainer -->
-	</div> <!-- close page -->
-{/block}
-<!--/layouts/basic/modules/Base/ListView.tpl -->
+	{/block}
+	<!--/layouts/basic/modules/Base/ListView.tpl -->
 {/strip}
-

@@ -34,7 +34,7 @@
 			{block name="header_scripts"}
 				{foreach key=index item=jsModel from=$HEADER_SCRIPTS}
 					<script type="{$jsModel->getType()}" src="{vresource_url($jsModel->getSrc())}">
-														</script>
+																																		</script>
 				{/foreach}
 				<!--[if IE]>
 				<script type="text/javascript" src="libraries/html5shim/html5.js"></script>
@@ -91,48 +91,52 @@
 						value="{AppConfig::security('FIELDS_REFERENCES_DEPENDENT')}" />
 				</div>
 			{/block}
+			<div id="page">
+				<div id="pjaxContainer" class="hide noprint"></div>
+				{block name="main_container"}
+					<div class="container-fluid container-fluid-main">
+						<div class="baseContainer {if AppConfig::module('Users','IS_VISIBLE_USER_INFO_FOOTER')}userInfoFooter{/if}">
+							{block name="announcements"}
+								{assign var="ANNOUNCEMENTS" value=\App\Modules\Base\Models\Module::getInstance('Announcements')}
+								{if $ANNOUNCEMENTS && $ANNOUNCEMENTS->checkActive($VIEW)}
+									{include file='Announcement.tpl'|@vtemplate_path:$MODULE}
+								{/if}
+							{/block}
 
-			{block name="announcements"}
-				{assign var="ANNOUNCEMENTS" value=\App\Modules\Base\Models\Module::getInstance('Announcements')}
-				{if $ANNOUNCEMENTS && $ANNOUNCEMENTS->checkActive($VIEW)}
-					{include file='Announcement.tpl'|@vtemplate_path:$MODULE}
-				{/if}
-			{/block}
+							{block name="navigation"}
+								{assign var=LEFTPANELHIDE value=$USER_MODEL->get('leftpanelhide')}
+								{include file='BodyHeaderMobile.tpl'|@vtemplate_path:$MODULE}
+								<div class="mobileLeftPanel noSpaces">
+									{include file='BodyLeft.tpl'|@vtemplate_path:$MODULE DEVICE=Mobile}
+								</div>
+								<div class="leftPanel noSpaces">
+									{include file='BodyLeft.tpl'|@vtemplate_path:$MODULE DEVICE=Desktop}
+								</div>
+								{include file='BodyHeader.tpl'|@vtemplate_path:$MODULE}
+							{/block}
 
-			{block name="main_container"}
-				<div class="container-fluid container-fluid-main">
-					<div class="baseContainer {if AppConfig::module('Users','IS_VISIBLE_USER_INFO_FOOTER')}userInfoFooter{/if}">
-						{block name="navigation"}
-							{assign var=LEFTPANELHIDE value=$USER_MODEL->get('leftpanelhide')}
-							{include file='BodyHeaderMobile.tpl'|@vtemplate_path:$MODULE}
-							<div class="mobileLeftPanel noSpaces">
-								{include file='BodyLeft.tpl'|@vtemplate_path:$MODULE DEVICE=Mobile}
-							</div>
-							<div class="leftPanel noSpaces">
-								{include file='BodyLeft.tpl'|@vtemplate_path:$MODULE DEVICE=Desktop}
-							</div>
-							{include file='BodyHeader.tpl'|@vtemplate_path:$MODULE}
-						{/block}
+							{block name="main_content"}
+								<div class="basePanel noSpaces {if $LEFTPANELHIDE} menuOpen{/if}">
+									<div
+										class="mainBody {if AppConfig::module('Users','IS_VISIBLE_USER_INFO_FOOTER')}userInfoFooter{/if}">
+										<div class="container-fluid bodyContent noSpaces">
+											<div class="bodyContents">
+												{block name="content"}
+													<!-- Child templates define their content here -->
+												{/block}
+											</div>
+										</div> <!-- close bodyContent -->
+									</div> <!-- close mainBody -->
+								</div> <!-- close basePanel -->
+							{/block}
 
-						{block name="main_content"}
-							<div class="basePanel noSpaces {if $LEFTPANELHIDE} menuOpen{/if}">
-								<div class="mainBody {if AppConfig::module('Users','IS_VISIBLE_USER_INFO_FOOTER')}userInfoFooter{/if}">
-									<div class="container-fluid bodyContent bodyContents noSpaces">
-										{block name="content"}
-											<!-- Child templates define their content here -->
-										{/block}
-									</div> <!-- close bodyContent -->
-								</div> <!-- close mainBody -->
-							</div> <!-- close basePanel -->
-						{/block}
+						</div> <!-- close baseContainer -->
+					</div> <!-- close container-fluid-main -->
+				{/block}
 
-					</div> <!-- close baseContainer -->
-				</div> <!-- close container-fluid-main -->
-			{/block}
-
-			{block name="footer"}
-				{include file='Footer.tpl'|@vtemplate_path:$MODULE}
-			{/block}
-
+				{block name="footer"}
+					{include file='Footer.tpl'|@vtemplate_path:$MODULE}
+				{/block}
+			</div>
 			<!--/layouts/basic/modules/Base/MainLayout.tpl -->
 	{/strip}

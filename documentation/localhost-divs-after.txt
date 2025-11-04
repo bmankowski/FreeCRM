@@ -1,0 +1,556 @@
+<head></head>
+<body>
+  <div class="hide noprint" id="js_strings"></div>
+  <div id="configuration"></div>
+  <div id="page">
+    <div class="hide noprint" id="pjaxContainer"></div>
+    <div class="container-fluid container-fluid-main">
+      <div class="baseContainer">
+        <div class="actionMenu">
+          <div class="row">
+            <div class="dropdown quickAction historyBtn">
+              <div class="pull-left"></div>
+              <div class="pull-right"></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="remindersNotice quickAction autoRefreshing">
+              <div class="pull-left"></div>
+              <div class="pull-right"></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="notificationsNotice quickAction">
+              <div class="pull-left"></div>
+              <div class="pull-right"></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="dropdown quickAction">
+              <div class="pull-left"></div>
+              <div class="pull-right">
+                <div class="panel-default">
+                  <div class="panel-heading"></div>
+                  <div class="panel-body paddingLRZero">
+                    <div class="rows">
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4"></div>
+                    </div>
+                    <div class="rows">
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4"></div>
+                    </div>
+                    <div class="rows">
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4"></div>
+                    </div>
+                    <div class="rows">
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4"></div>
+                    </div>
+                    <div class="rows">
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4"></div>
+                    </div>
+                    <div class="rows">
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4"></div>
+                    </div>
+                    <div class="rows">
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4"></div>
+                    </div>
+                    <div class="rows">
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4"></div>
+                    </div>
+                    <div class="rows">
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4"></div>
+                    </div>
+                    <div class="rows">
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4"></div>
+                    </div>
+                    <div class="rows">
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="searchMenu globalSearchInput">
+          <div class="input-group">
+            <div class="input-group-btn">
+              <div class="pull-right"></div>
+            </div>
+          </div>
+          <div class="input-group">
+            <div class="input-group-btn">
+              <div class="pull-right"></div>
+            </div>
+          </div>
+        </div>
+        <div class="mobileLeftPanel noSpaces">
+          <div class="container-fluid userDetailsContainer">
+            <div class="row padding0">
+              <div class="col-md-2 noSpaces"></div>
+              <div class="col-md-10 userDetails">
+                <div class="col-xs-12 noSpaces userName"></div>
+              </div>
+            </div>
+          </div>
+          <div class="menuContainer">
+            <div class="mobileLeftPanelContainer">
+              <div>
+                <div></div>
+              </div>
+              <div>
+                <div></div>
+              </div>
+              <div>
+                <div></div>
+              </div>
+              <div>
+                <div></div>
+              </div>
+              <div>
+                <div></div>
+              </div>
+              <div>
+                <div></div>
+              </div>
+              <div>
+                <div></div>
+              </div>
+              <div>
+                <div></div>
+              </div>
+              <div>
+                <div></div>
+              </div>
+              <div>
+                <div></div>
+              </div>
+              <div>
+                <div></div>
+              </div>
+              <div>
+                <div></div>
+              </div>
+              <div>
+                <div></div>
+              </div>
+              <div>
+                <div></div>
+              </div>
+              <div>
+                <div></div>
+              </div>
+              <div>
+                <div></div>
+              </div>
+              <div>
+                <div></div>
+              </div>
+              <div>
+                <div></div>
+              </div>
+              <div>
+                <div></div>
+              </div>
+              <div>
+                <div></div>
+              </div>
+              <div>
+                <div></div>
+              </div>
+              <div>
+                <div></div>
+              </div>
+              <div>
+                <div></div>
+              </div>
+              <div>
+                <div></div>
+              </div>
+              <div>
+                <div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="leftPanel noSpaces">
+          <div class="container-fluid userDetailsContainer">
+            <div class="row padding0">
+              <div class="col-md-2 noSpaces"></div>
+              <div class="col-md-10 userDetails">
+                <div class="col-xs-12 noSpaces userName"></div>
+              </div>
+            </div>
+          </div>
+          <div class="menuContainer slimScrollMenu">
+            <div class="iconContainer">
+              <div class="iconImage"></div>
+            </div>
+            <div class="labelConstainer">
+              <div class="labelValue"></div>
+            </div>
+            <div class="iconContainer">
+              <div class="iconImage"></div>
+            </div>
+            <div class="labelConstainer">
+              <div class="labelValue"></div>
+            </div>
+            <div class="iconContainer">
+              <div class="iconImage"></div>
+            </div>
+            <div class="labelConstainer">
+              <div class="labelValue"></div>
+            </div>
+            <div class="iconContainer">
+              <div class="iconImage"></div>
+            </div>
+            <div class="labelConstainer">
+              <div class="labelValue"></div>
+            </div>
+            <div class="iconContainer">
+              <div class="iconImage"></div>
+            </div>
+            <div class="labelConstainer">
+              <div class="labelValue"></div>
+            </div>
+            <div class="iconContainer">
+              <div class="iconImage"></div>
+            </div>
+            <div class="labelConstainer">
+              <div class="labelValue"></div>
+            </div>
+            <div class="iconContainer">
+              <div class="iconImage"></div>
+            </div>
+            <div class="labelConstainer">
+              <div class="labelValue"></div>
+            </div>
+            <div class="iconContainer">
+              <div class="iconImage"></div>
+            </div>
+            <div class="labelConstainer">
+              <div class="labelValue"></div>
+            </div>
+            <div class="iconContainer">
+              <div class="iconImage"></div>
+            </div>
+            <div class="labelConstainer">
+              <div class="labelValue"></div>
+            </div>
+            <div class="iconContainer">
+              <div class="iconImage"></div>
+            </div>
+            <div class="labelConstainer">
+              <div class="labelValue"></div>
+            </div>
+            <div class="iconContainer">
+              <div class="iconImage"></div>
+            </div>
+            <div class="labelConstainer">
+              <div class="labelValue"></div>
+            </div>
+            <div class="labelConstainer">
+              <div class="labelValue"></div>
+            </div>
+            <div class="labelConstainer">
+              <div class="labelValue"></div>
+            </div>
+            <div class="labelConstainer">
+              <div class="labelValue"></div>
+            </div>
+          </div>
+        </div>
+        <div class="container-fluid bodyHeader noSpaces commonActionsContainer">
+          <div class="row noSpaces">
+            <div class="rightHeader paddingRight10">
+              <div class="pull-right rightHeaderBtn">
+                <div class="panel-default">
+                  <div class="panel-heading"></div>
+                  <div class="panel-body paddingLRZero">
+                    <div>
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4"></div>
+                    </div>
+                    <div>
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4"></div>
+                    </div>
+                    <div>
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4"></div>
+                    </div>
+                    <div>
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4"></div>
+                    </div>
+                    <div>
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4"></div>
+                    </div>
+                    <div>
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4"></div>
+                    </div>
+                    <div>
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4"></div>
+                    </div>
+                    <div>
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4"></div>
+                    </div>
+                    <div>
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4"></div>
+                    </div>
+                    <div>
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4"></div>
+                    </div>
+                    <div>
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4 paddingRightZero"></div>
+                      <div class="col-xs-4"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="pull-left selectSearch">
+                <div class="input-group globalSearchInput">
+                  <div class="btn-group"></div>
+                </div>
+              </div>
+              <div class="pull-right rightHeaderBtnMenu">
+                <div class="quickAction"></div>
+              </div>
+              <div class="pull-right actionMenuBtn">
+                <div class="quickAction"></div>
+              </div>
+              <div class="pull-left searchMenuBtn">
+                <div class="quickAction"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="basePanel noSpaces">
+          <div class="mainBody">
+            <div class="container-fluid bodyContent noSpaces">
+              <div class="bodyContents">
+                <div class="hide noprint" id="pjaxContainer"></div>
+                <div class="mainContainer">
+                  <div class="contentsDiv">
+                    <div class="widget_header row marginBottom10px">
+                      <div class="col-sm-6 col-xs-12">
+                        <div class="breadCrumbs">
+                          <div class="breadcrumbsContainer"></div>
+                        </div>
+                      </div>
+                      <div class="col-sm-6 col-xs-12">
+                        <div class="pull-right">
+                          <div class="btn-group"></div>
+                          <div class="btn-group"></div>
+                          <div class="btn-group"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="listViewPageDiv">
+                      <div class="listViewPageDiv">
+                        <div class="listViewTopMenuDiv noprint">
+                          <div class="listViewActionsDiv row">
+                            <div class="btn-toolbar col-md-4 col-sm-6 col-xs-12">
+                              <div class="btn-group listViewMassActions"></div>
+                              <div class="btn-group"></div>
+                            </div>
+                            <div class="btn-toolbar col-md-3 col-sm-5 col-xs-12 pull-right-sm pull-left-xs">
+                              <div class="customFilterMainSpan btn-group">
+                                <div class="filterActionsDiv hide"></div>
+                              </div>
+                            </div>
+                            <div class="col-xs-12 col-md-5 btn-toolbar paddingRightZero">
+                              <div class="listViewActions pull-right paginationDiv paddingLeft5px">
+                                <div></div>
+                              </div>
+                              <div class="clearfix"></div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-xs-12 btn-toolbar"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="listViewContentDiv" id="listViewContents">
+                        <div class="alphabetModal">
+                          <div class="modal fade">
+                            <div class="modal-dialog">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <div class="row no-margin">
+                                    <div class="col-md-7 col-xs-10"></div>
+                                    <div class="pull-right">
+                                      <div class="pull-right"></div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="modal-body">
+                                  <div class="alphabetSorting noprint paddingLRZero">
+                                    <div class="alphabetContents alphabet_30 row">
+                                      <div class="alphabetSearch cursorPointer"></div>
+                                      <div class="alphabetSearch cursorPointer"></div>
+                                      <div class="alphabetSearch cursorPointer"></div>
+                                      <div class="alphabetSearch cursorPointer"></div>
+                                      <div class="alphabetSearch cursorPointer"></div>
+                                      <div class="alphabetSearch cursorPointer"></div>
+                                      <div class="alphabetSearch cursorPointer"></div>
+                                      <div class="alphabetSearch cursorPointer"></div>
+                                      <div class="alphabetSearch cursorPointer"></div>
+                                      <div class="alphabetSearch cursorPointer"></div>
+                                      <div class="alphabetSearch cursorPointer"></div>
+                                      <div class="alphabetSearch cursorPointer"></div>
+                                      <div class="alphabetSearch cursorPointer"></div>
+                                      <div class="alphabetSearch cursorPointer"></div>
+                                      <div class="alphabetSearch cursorPointer"></div>
+                                      <div class="alphabetSearch cursorPointer"></div>
+                                      <div class="alphabetSearch cursorPointer"></div>
+                                      <div class="alphabetSearch cursorPointer"></div>
+                                      <div class="alphabetSearch cursorPointer"></div>
+                                      <div class="alphabetSearch cursorPointer"></div>
+                                      <div class="alphabetSearch cursorPointer"></div>
+                                      <div class="alphabetSearch cursorPointer"></div>
+                                      <div class="alphabetSearch cursorPointer"></div>
+                                      <div class="alphabetSearch cursorPointer"></div>
+                                      <div class="alphabetSearch cursorPointer"></div>
+                                      <div class="alphabetSearch cursorPointer"></div>
+                                      <div class="alphabetSearch cursorPointer"></div>
+                                      <div class="alphabetSearch cursorPointer"></div>
+                                      <div class="alphabetSearch cursorPointer"></div>
+                                      <div class="alphabetSearch cursorPointer"></div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="modal-footer">
+                                  <div class="pull-right"></div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="alert-block msgDiv noprint" id="selectAllMsgDiv"></div>
+                        <div class="alert-block msgDiv noprint" id="deSelectAllMsgDiv"></div>
+                        <div class="contents-topscroll noprint stick">
+                          <div class="topscroll-div"></div>
+                        </div>
+                        <div class="listViewEntriesDiv contents-bottomscroll">
+                          <div class="bottomscroll-div">
+                            <div class="listViewLoadingImageBlock hide modal noprint" id="loadingListViewModal"></div>
+                            <div class="searchField">
+                              <div class="input-group col-xs-12">
+                                <div class="input-group-btn alphabetBtnContainer"></div>
+                              </div>
+                            </div>
+                            <div class="picklistSearchField"></div>
+                            <div class="picklistSearchField"></div>
+                            <div class="picklistSearchField"></div>
+                            <div></div>
+                            <div class="actions">
+                              <div class="actionImages hide">
+                                <div class="btn-group"></div>
+                                <div class="btn-group"></div>
+                                <div class="btn-group"></div>
+                                <div class="btn-group"></div>
+                                <div class="btn-group"></div>
+                              </div>
+                            </div>
+                            <div></div>
+                            <div></div>
+                            <div class="actions">
+                              <div class="actionImages hide">
+                                <div class="btn-group"></div>
+                                <div class="btn-group"></div>
+                                <div class="btn-group"></div>
+                                <div class="btn-group"></div>
+                                <div class="btn-group"></div>
+                              </div>
+                            </div>
+                            <div></div>
+                            <div></div>
+                            <div class="actions">
+                              <div class="actionImages hide">
+                                <div class="btn-group"></div>
+                                <div class="btn-group"></div>
+                                <div class="btn-group"></div>
+                                <div class="btn-group"></div>
+                                <div class="btn-group"></div>
+                              </div>
+                            </div>
+                            <div></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="vtFooter">
+      <div class="pull-left"></div>
+      <div class="pull-right"></div>
+    </div>
+    <div class="modal fade" id="yetiforceDetails">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header"></div>
+          <div class="modal-body"></div>
+          <div class="modal-footer"></div>
+        </div>
+      </div>
+    </div>
+    <div></div>
+  </div>
+</body>
+
+
+============================================================
+HTML STRUCTURE VALIDATION ANALYSIS
+============================================================
+
+✓ All tags are properly closed and matched!
+
+Total tag pairs analyzed: 383
+============================================================

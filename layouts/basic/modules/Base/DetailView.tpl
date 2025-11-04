@@ -9,21 +9,18 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- layouts/basic/modules/Base/DetailView.tpl -->
-{extends file="MainLayout.tpl"|@vtemplate_path}
+	<!-- layouts/basic/modules/Base/DetailView.tpl -->
+	{extends file="MainLayout.tpl"|@vtemplate_path}
 
-{block name="content"}
-	<div id="page">
-		<div id="pjaxContainer" class="hide noprint"></div>
+	{block name="content"}
 		<div class="mainContainer">
 			<div class="contentsDiv">
-				
+
 				{* DetailViewHeader.tpl is now self-contained - all divs it opens are closed within it *}
 				{include file="DetailViewHeader.tpl"|vtemplate_path:$MODULE_NAME DETAIL_VIEW_CONTENT=$DETAIL_CONTENT}
-				
-			</div> <!-- close contentsDiv -->
-		</div> <!-- close mainContainer -->
-	</div> <!-- close page -->
-{/block}
-<!--/layouts/basic/modules/Base/DetailView.tpl -->
+
+			</div>
+		</div> 
+	{/block}
+	<!--/layouts/basic/modules/Base/DetailView.tpl -->
 {/strip}
