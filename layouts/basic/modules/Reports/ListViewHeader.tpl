@@ -11,7 +11,6 @@
 -->*}
 {strip}
 <!-- layouts/basic/modules/Reports/ListViewHeader.tpl -->
-<div class="listViewPageDiv">
 	<div class="listViewTopMenuDiv">
 		<div class="listViewActionsDiv row">
 			<span class="btn-toolbar col-md-4">
@@ -57,7 +56,6 @@
 				{include file='ListViewActions.tpl'|@vtemplate_path:$MODULE}
 			</span>
 		</div>
-	</div>
 <div class="listViewContentDiv" id="listViewContents">
 <!--/layouts/basic/modules/Reports/ListViewHeader.tpl -->
 {/strip}

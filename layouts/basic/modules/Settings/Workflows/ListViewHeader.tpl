@@ -11,7 +11,6 @@
 -->*}
 {strip}
 <!-- layouts/basic/modules/Settings/Workflows/ListViewHeader.tpl -->
-<div class="listViewPageDiv">
 	<div class="listViewTopMenuDiv">
         <div class="widget_header row">
             <div class="col-md-6">
@@ -67,7 +66,6 @@
 				{include file='ListViewActions.tpl'|@vtemplate_path}
 			</div>
 		</div>
-	</div>
 	<div class="listViewContentDiv" id="listViewContents">
 <!--/layouts/basic/modules/Settings/Workflows/ListViewHeader.tpl -->
 {/strip}

@@ -37,7 +37,5 @@
 									{include file='ListViewActions.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 								</div>
 							</div>
-							<div class="clearfix"></div>
-							<div class="listViewContentDiv listViewPageDiv" id="listViewContents">
 <!--/layouts/basic/modules/Settings/AdvancedPermission/ListViewHeader.tpl -->
 								{/strip}

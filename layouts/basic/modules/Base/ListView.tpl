@@ -13,7 +13,6 @@
 	{extends file="MainLayout.tpl"|@vtemplate_path}
 
 	{block name="content"}
-		<div id="pjaxContainer" class="hide noprint"></div>
 		<div class="mainContainer">
 			<div class="contentsDiv">
 

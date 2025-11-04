@@ -1,7 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 <!-- layouts/basic/modules/Settings/MappedFields/ListViewHeader.tpl -->
-	<div class="listViewPageDiv" id="listViewContainer">
 		<div class="listViewTopMenuDiv">
 			<div class="widget_header row">
 				<div class="col-xs-12">
@@ -34,7 +33,6 @@
 					{include file='ListViewActions.tpl'|@vtemplate_path}
 				</div>
 			</div>
-		</div>
 		<div class="listViewContentDiv" id="listViewContents">
 <!--/layouts/basic/modules/Settings/MappedFields/ListViewHeader.tpl -->
 		{/strip}

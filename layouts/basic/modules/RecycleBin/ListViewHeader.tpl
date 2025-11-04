@@ -11,7 +11,6 @@
 -->*}
 {strip}
 <!-- layouts/basic/modules/RecycleBin/ListViewHeader.tpl -->
-	<div class="listViewPageDiv">
 		<div class="listViewTopMenuDiv">
 			<div class="listViewActionsDiv row">
 				<span class="btn-toolbar col-md-4">
@@ -52,7 +51,6 @@
 			<span class="col-md-4 btn-toolbar">
 				{include file='ListViewActions.tpl'|@vtemplate_path}
 			</span>
-		</div>
 		</div>
 	<div class="listViewContentDiv" id="listViewContents">
 <!--/layouts/basic/modules/RecycleBin/ListViewHeader.tpl -->

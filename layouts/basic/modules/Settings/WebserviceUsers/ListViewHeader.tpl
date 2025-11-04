@@ -14,7 +14,6 @@
 				</li>
 			{/foreach}
 		</ul>
-	</div>
 	<div class="tab-content listViewContent">
 <!--/layouts/basic/modules/Settings/WebserviceUsers/ListViewHeader.tpl -->
 {/strip}

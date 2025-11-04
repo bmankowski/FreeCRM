@@ -4,8 +4,6 @@
 {extends file="MainLayout.tpl"|@vtemplate_path}
 
 {block name="content"}
-	<div id="page">
-		<div id="pjaxContainer" class="hide noprint"></div>
 		<div class="mainContainer">
 			<div class="contentsDiv col-md-12 marginLeftZero" id="centerPanel" style="min-height:550px;">
 				{include file="EditViewBlocks.tpl"|@vtemplate_path:$MODULE}
@@ -15,7 +13,6 @@
 				{include file="EditViewActions.tpl"|@vtemplate_path:$MODULE}
 			</div> <!-- close contentsDiv -->
 		</div> <!-- close mainContainer -->
-	</div> <!-- close page -->
 {/block}
 <!--/layouts/basic/modules/Base/EditView.tpl -->
 {/strip}

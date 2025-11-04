@@ -16,7 +16,6 @@
 				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 			</div>
 		</div>
-    	<div class="listViewPageDiv" id="portalListViewPage">
 		<div class="listViewTopMenuDiv noprint">
 			<div class="listViewActionsDiv row">
 				<div class="btn-toolbar col-md-6">
@@ -38,7 +37,6 @@
 					</div>
 				</div>
             </div>
-		</div>
         <div class="listViewContentDiv" id="listViewContents">
 <!--/layouts/basic/modules/Portal/ListViewHeader.tpl -->
 {/strip}

@@ -11,8 +11,6 @@
 {extends file="MainLayout.tpl"|@vtemplate_path}
 
 {block name="content"}
-	<div id="page">
-		<div id="pjaxContainer" class="hide noprint"></div>
 		<div class="bodyContents">
 			<div class="mainContainer">
 				<div class="contentsDiv">
@@ -25,7 +23,6 @@
 				</div> <!-- close contentsDiv -->
 			</div> <!-- close mainContainer -->
 		</div> <!-- close bodyContents -->
-	</div> <!-- close page -->
 {/block}
 <!--/layouts/basic/modules/Base/TreeRecords.tpl -->
 {/strip}

@@ -14,8 +14,6 @@
 {extends file="MainLayout.tpl"|@vtemplate_path}
 
 {block name="content"}
-	<div id="page">
-		<div id="pjaxContainer" class="hide noprint"></div>
 		<div class="mainContainer">
 			<div class="contentsDiv col-md-12 marginLeftZero" id="centerPanel" style="min-height:550px;">
 				<div class="mainContainer container">
@@ -23,7 +21,6 @@
 				</div> <!-- close mainContainer container -->
 			</div> <!-- close contentsDiv -->
 		</div> <!-- close mainContainer -->
-	</div> <!-- close page -->
 {/block}
 <!--/layouts/basic/modules/Base/Index.tpl -->
 {/strip}

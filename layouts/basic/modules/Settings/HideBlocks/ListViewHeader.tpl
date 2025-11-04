@@ -31,7 +31,6 @@
 			{include file='ListViewActions.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 		</div>
 		<div class="clearfix"></div>
-	</div>
 	<div class="listViewContentDiv" id="listViewContents">
 <!--/layouts/basic/modules/Settings/HideBlocks/ListViewHeader.tpl -->
 {/strip}

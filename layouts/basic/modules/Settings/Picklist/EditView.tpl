@@ -13,7 +13,6 @@
 {extends file="MainLayout.tpl"|@vtemplate_path}
 
 {block name="content"}
-	<div id="page">
 		<div class="mainContainer">
 			<div class="contentsDiv">
 				
@@ -72,6 +71,5 @@
 <!--/layouts/basic/modules/Settings/Picklist/EditView.tpl -->
 			</div> <!-- close contentsDiv -->
 		</div> <!-- close mainContainer -->
-	</div> <!-- close page -->
 {/block}
 {/strip}

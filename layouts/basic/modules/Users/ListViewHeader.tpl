@@ -11,7 +11,6 @@
 -->*}
 {strip}
 <!-- layouts/basic/modules/Users/ListViewHeader.tpl -->
-<div class=" listViewPageDiv">
 	<div class='widget_header row '>
 		<div class="col-xs-12">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
@@ -54,7 +53,6 @@
 		<div class="col-md-4">
 			{include file='ListViewActions.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 		</div>	
-	</div>
 	<div class="listViewContentDiv" id="listViewContents">
 <!--/layouts/basic/modules/Users/ListViewHeader.tpl -->
 {/strip}

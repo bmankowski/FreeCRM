@@ -11,7 +11,6 @@
 -->*}
 {strip}
 <!-- layouts/basic/modules/Settings/TreesManager/ListViewHeader.tpl -->
-<div class="listViewPageDiv">
 	<div class="listViewTopMenuDiv">
 		<div class="widget_header row">
 			<div class="col-xs-12">
@@ -51,7 +50,5 @@
 			</div>
 		</div>
 		</div>
-	</div>
-	<div class="listViewContentDiv listViewPageDiv" id="listViewContents">
 <!--/layouts/basic/modules/Settings/TreesManager/ListViewHeader.tpl -->
 {/strip}

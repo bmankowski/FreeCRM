@@ -11,7 +11,6 @@
 -->*}
 {strip}
 	<!-- layouts/basic/modules/Base/ListViewHeader.tpl -->
-	<div class="listViewPageDiv">
 		<div class="listViewTopMenuDiv noprint">
 			<div class="listViewActionsDiv row">
 				<div class="btn-toolbar col-md-4 col-sm-6 col-xs-12">
@@ -158,6 +157,5 @@
 				</div>
 			{/if}
 		</div>
-	</div>
 	<!--/layouts/basic/modules/Base/ListViewHeader.tpl -->
 {/strip}
