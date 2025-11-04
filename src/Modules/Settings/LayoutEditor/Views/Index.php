@@ -114,7 +114,13 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->assign('PARENT_MODULE', $request->get('parent'));
 		$viewer->assign('VIEW', $request->get('view'));
-		$viewer->view('RelatedList.tpl', $qualifiedModule);
+		
+		// Check if this is an AJAX request - if so, return only content without MainLayout
+		if ($request->isAjax()) {
+			$viewer->view('RelatedList.tpl', $qualifiedModule);
+		} else {
+			$viewer->view('RelatedListIndex.tpl', $qualifiedModule);
+		}
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)

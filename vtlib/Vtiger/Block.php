@@ -201,7 +201,7 @@ class Block
 				->all();
 			\App\Cache\Cache::save('BlocksForModule', $moduleInstance->id, $blocks);
 		}
-		$instances = false;
+		$instances = null;
 		foreach ($blocks as $row) {
 			$instance = new self();
 			$instance->initialize($row, $moduleInstance);
