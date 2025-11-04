@@ -153,7 +153,7 @@ class QueryGenerator
 
 	/**
 	 * Set query fields
-	 * @param type $fields
+	 * @param array $fields
 	 */
 	public function setFields($fields)
 	{
@@ -515,7 +515,7 @@ class QueryGenerator
 			if (is_array($this->stdFilterList)) {
 				if (!empty($this->stdFilterList['columnname'])) {
 					list ($tableName, $columnName, $fieldName, $moduleFieldLabel, $fieldType) = explode(':', $this->stdFilterList['columnname']);
-					$this->addRequiredCondition([
+					$this->addNativeCondition([
 						'between',
 						$fieldName,
 						$this->fixDateTimeValue($fieldName, $this->stdFilterList['startdate']),
@@ -920,9 +920,9 @@ class QueryGenerator
 				if ($type === 'currency') {
 					// Some of the currency fields like Unit Price, Total, Sub-total etc of Inventory modules, do not need currency conversion
 					if ($field->getUIType() === 72) {
-						$value = \CurrencyField::convertToDBFormat($value, null, true);
+						$value = \App\Modules\Base\UiTypes\Currency::convertToDBFormat($value, null, true);
 					} else {
-						$value = \CurrencyField::convertToDBFormat($value);
+						$value = \App\Modules\Base\UiTypes\Currency::convertToDBFormat($value);
 					}
 				}
 			}

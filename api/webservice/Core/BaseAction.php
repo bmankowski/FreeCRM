@@ -51,7 +51,7 @@ class BaseAction
 	 * @return boolean
 	 * @throws \Api\Core\Exception
 	 */
-	public function checkPermission()
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		if (empty($this->controller->headers['X-TOKEN'])) {
 			throw new \Api\Core\Exception('Invalid token', 401);

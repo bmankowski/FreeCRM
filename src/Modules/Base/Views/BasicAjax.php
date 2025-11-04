@@ -13,7 +13,6 @@ namespace App\Modules\Base\Views;
  * ********************************************************************************** */
 
 
-use App\Http\Vtiger_Request;
 class BasicAjax  extends \App\Modules\Base\Views\Index
 {
 
@@ -24,7 +23,7 @@ class BasicAjax  extends \App\Modules\Base\Views\Index
 		$this->exposeMethod('showSearchResults');
 	}
 
-	public function checkPermission()
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		
 	}

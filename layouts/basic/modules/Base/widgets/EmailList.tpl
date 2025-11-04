@@ -42,16 +42,16 @@
 				<div class="row">
 					<div class="col-xs-6 paddingRightZero">
 						<select name="mail-type" title="{"LBL_CHANGE_MAIL_TYPE"|t}" class="form-control input-sm">
-							<option value="All" {if $TYPE eq 'all'} selected="selected"{/if}>
+							<option value="All" {if isset($TYPE) && $TYPE eq 'all'} selected="selected"{/if}>
 								{"LBL_ALL"|t:"OSSMailView"}
 							</option>
-							<option value="0" {if $TYPE eq '0'} selected="selected"{/if}>
+							<option value="0" {if isset($TYPE) && $TYPE eq '0'} selected="selected"{/if}>
 								{"LBL_OUTCOMING"|t:"OSSMailView"}
 							</option>
-							<option value="1" {if $TYPE eq '1'} selected="selected"{/if}>
+							<option value="1" {if isset($TYPE) && $TYPE eq '1'} selected="selected"{/if}>
 								{"LBL_INCOMING"|t:"OSSMailView"}
 							</option>
-							<option value="2" {if $TYPE eq '2'} selected="selected"{/if}>
+							<option value="2" {if isset($TYPE) && $TYPE eq '2'} selected="selected"{/if}>
 								{"LBL_INTERNAL"|t:"OSSMailView"}
 							</option>
 						</select>

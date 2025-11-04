@@ -17,7 +17,7 @@ class Login extends \Api\Core\BaseAction
 	 * Check permission to method
 	 * @return boolean
 	 */
-	public function checkPermission()
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		return true;
 	}

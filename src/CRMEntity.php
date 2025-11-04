@@ -40,6 +40,7 @@ class CRMEntity
 	public $moduleName;
 	public $column_fields;
 	public $list_fields;
+	public $list_fields_name;
 	public $search_fields;
 	public $table_name;
 	public $table_index;
