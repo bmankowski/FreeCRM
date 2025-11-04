@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\RealizationProcesses\Views;
-use App\Modules\Settings\RealizationProcessesModels\Module;
-use App\Modules\Settings\RealizationProcessesViews\Index;
 
 
 /* +***********************************************************************************************************************************
@@ -31,7 +29,12 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('PROJECT_STATUS', $projectStatus);
 		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 
-		$viewer->view('Index.tpl', $qualifiedModule);
+		// Check if this is an AJAX request - if so, return only content without MainLayout
+		if ($request->isAjax()) {
+			$viewer->view('IndexContent.tpl', $qualifiedModule);
+		} else {
+			$viewer->view('Index.tpl', $qualifiedModule);
+		}
 		\App\Log::trace("Exiting \App\Modules\Settings\RealizationProcesses\Views\Index::process() method ...");
 	}
 }

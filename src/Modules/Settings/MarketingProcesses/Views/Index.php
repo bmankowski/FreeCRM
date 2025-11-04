@@ -30,7 +30,14 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('LEADS_MODULE_MODEL', \App\Modules\Base\Models\Module::getInstance('Leads'));
 		$viewer->assign('ACCOUNTS_MODULE_MODEL', \App\Modules\Base\Models\Module::getInstance('Accounts'));
-		$viewer->view('Index.tpl', $qualifiedModule);
+		
+		if ($request->isAjax()) {
+			// AJAX request - return content only
+			$viewer->view('IndexContent.tpl', $qualifiedModule);
+		} else {
+			// Initial page load - return full page with MainLayout
+			$viewer->view('Index.tpl', $qualifiedModule);
+		}
 		\App\Log::trace('End ' . __METHOD__);
 	}
 

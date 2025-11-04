@@ -34,7 +34,13 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('SETTINGS_MODULE_NAME', $qualifiedModuleName);
 		$viewer->assign('DOCUMENT_LIST', $qualifiedModuleName);
 
-		echo $viewer->view('Index.tpl', $qualifiedModuleName, true);
+		if ($request->isAjax()) {
+			// AJAX request - return content only
+			$viewer->view('IndexContent.tpl', $qualifiedModuleName);
+		} else {
+			// Initial page load - return full page with MainLayout
+			$viewer->view('Index.tpl', $qualifiedModuleName);
+		}
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)

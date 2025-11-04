@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\SupportProcesses\Models;
-use App\Modules\Settings\SupportProcessesModels\Module;
 
 
 /* +***********************************************************************************************************************************
@@ -17,7 +16,7 @@ use App\Modules\Settings\SupportProcessesModels\Module;
 class Module extends \App\Modules\Settings\Base\Models\Module
 {
 
-	public static function getCleanInstance()
+	public static function getCleanInstance($moduleName)
 	{
 		$instance = new self();
 		return $instance;

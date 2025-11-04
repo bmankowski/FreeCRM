@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\TimeControlProcesses\Views;
-use App\Modules\Settings\TimeControlProcessesModels\Module;
 
 
 /* +***********************************************************************************************************************************
@@ -22,14 +21,22 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		
 		\App\Log::trace('Start ' . __METHOD__);
 		$qualifiedModule = $request->getModule(false);
-		$moduleModel = \App\Modules\Settings\TimeControlProcesses\Models\Module::getCleanInstance();
+		$moduleModel = \App\Modules\Settings\TimeControlProcesses\Models\Module::getCleanInstance($qualifiedModule);
 		$currentUser = $request->getUser();
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->assign('USER_MODEL', $currentUser);
 		$viewer->assign('MODULE_MODEL', $moduleModel->getConfigInstance());
-		$viewer->view('Index.tpl', $qualifiedModule);
+		
+		// Add AJAX detection for MainLayout conversion
+		if ($request->isAjax()) {
+			// AJAX request - return content only
+			$viewer->view('IndexContent.tpl', $qualifiedModule);
+		} else {
+			// Initial page load - return full page with MainLayout
+			$viewer->view('Index.tpl', $qualifiedModule);
+		}
 		\App\Log::trace('End ' . __METHOD__);
 	}
 

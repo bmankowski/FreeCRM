@@ -1,60 +1,13 @@
-{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 <!-- layouts/basic/modules/Settings/LangManagement/Index.tpl -->
-<div class=" LangManagement">
-	<div class="widget_header row">
-		<div class="col-md-12">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-			&nbsp;{"LBL_Module_desc"|t:$QUALIFIED_MODULE}
-		</div>
-	</div>
-	<hr>
-	{if \AppConfig::performance('LOAD_CUSTOM_FILES')}
-		<div class="alert alert-info fade in">
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			</button>
-			{'LBL_CUSTOM_TYPE_INFO'|t:$QUALIFIED_MODULE}
-		</div>
-	{/if}
-	<div class="">
-        <div class="contents tabbable">
-            <ul class="nav nav-tabs layoutTabs massEditTabs">
-                <li class="active">
-					<a data-toggle="tab" href="#lang_list">
-						<strong>{"LBL_TAB_LIST"|t:$QUALIFIED_MODULE}</strong>
-					</a>
-				</li>
-                <li class="edit_lang">
-					<a data-toggle="tab" href="#edit_lang" data-mode="editLang">
-						<strong>{"LBL_TAB_EDITLANG"|t:$QUALIFIED_MODULE}</strong>
-					</a>
-				</li>
-				<li class="editHelpIcon">
-					<a data-toggle="tab" href="#editHelpIcon" data-mode="editHelpIcon">
-						<strong>{"LBL_EDIT_HELP_ICON"|t:$QUALIFIED_MODULE}</strong>
-					</a>
-				</li>
-                <li class="lang_stats">
-					<a data-toggle="tab" href="#lang_stats">
-						<strong>{"LBL_TAB_STATS"|t:$QUALIFIED_MODULE}</strong>
-					</a>
-				</li>
-            </ul>
-			<div class="tab-content layoutContent padding10 themeTableColor overflowVisible">
-				<div class="tab-pane active" id="lang_list">
-					{include file='LangList.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
-				</div>
-				<div class="tab-pane" id="edit_lang" data-mode="editLang"></div>
-				<div class="tab-pane" id="editHelpIcon" data-mode="editHelpIcon"></div>
-				<div class="tab-pane" id="lang_stats">
-					{include file='Stats.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="clearfix"></div>
-	{include file='AddLanguage.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
-	{include file='AddTranslation.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+{extends file="MainLayout.tpl"|@vtemplate_path}
+
+{block name="content"}
+    <div class="mainContainer">
+        <div class="contentsDiv">
+            {include file='IndexContent.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+        </div> <!-- close contentsDiv -->
+    </div> <!-- close mainContainer -->
+{/block}
 <!--/layouts/basic/modules/Settings/LangManagement/Index.tpl -->
 {/strip}

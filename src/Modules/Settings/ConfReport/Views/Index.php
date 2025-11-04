@@ -23,6 +23,12 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer->assign('CCURL', 'index.php?module=OSSMail&view=CheckConfig');
 		$viewer->assign('MODULE', $qualifiedModuleName);
-		$viewer->view('Index.tpl', $qualifiedModuleName);
+		
+		// Check if this is an AJAX request - if so, return only content without MainLayout
+		if ($request->isAjax()) {
+			$viewer->view('IndexContent.tpl', $qualifiedModuleName);
+		} else {
+			$viewer->view('Index.tpl', $qualifiedModuleName);
+		}
 	}
 }

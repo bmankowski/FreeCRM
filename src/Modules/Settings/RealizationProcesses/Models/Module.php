@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\RealizationProcesses\Models;
-use App\Modules\Settings\RealizationProcessesModels\Module;
 
 
 /* +***********************************************************************************************************************************

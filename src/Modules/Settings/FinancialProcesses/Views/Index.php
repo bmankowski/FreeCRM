@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\FinancialProcesses\Views;
-use App\Modules\Settings\FinancialProcessesViews\Index;
 
 
 /* +***********************************************************************************************************************************
@@ -26,7 +25,14 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 
 		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 
-		$viewer->view('Index.tpl', $qualifiedModule);
+		// Add AJAX detection for MainLayout conversion
+		if ($request->isAjax()) {
+			// AJAX request - return content only
+			$viewer->view('IndexContent.tpl', $qualifiedModule);
+		} else {
+			// Initial page load - return full page with MainLayout
+			$viewer->view('Index.tpl', $qualifiedModule);
+		}
 		\App\Log::trace("Exiting \App\Modules\Settings\FinancialProcesses\Views\Index::process() method ...");
 	}
 }

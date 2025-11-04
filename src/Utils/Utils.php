@@ -660,7 +660,7 @@ class Utils
 	{
 		$currentModule = vglobal('currentModule');
 
-		$dateDiff = dateDiff($d1, $d2);
+		$dateDiff = self::dateDiff($d1, $d2);
 
 		$years = $dateDiff['years'];
 		$months = $dateDiff['months'];

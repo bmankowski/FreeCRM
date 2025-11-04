@@ -27,7 +27,15 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->view('Index.tpl', $qualifiedModuleName);
+		
+		// Add AJAX detection for MainLayout conversion
+		if ($request->isAjax()) {
+			// AJAX request - return content only
+			$viewer->view('IndexContent.tpl', $qualifiedModuleName);
+		} else {
+			// Initial page load - return full page with MainLayout
+			$viewer->view('Index.tpl', $qualifiedModuleName);
+		}
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
