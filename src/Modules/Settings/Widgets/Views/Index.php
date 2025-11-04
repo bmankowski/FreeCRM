@@ -40,7 +40,14 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('SWITCHES_HEADER', json_encode($moduleModel->getHeaderSwitch()));
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->view('Index.tpl', $qualifiedModuleName);
+		
+		if ($request->isAjax()) {
+			// AJAX handling - return only contents without MainLayout
+			$viewer->view('IndexContent.tpl', $qualifiedModuleName);
+		} else {
+			// Full page rendering - use Index.tpl which extends MainLayout
+			$viewer->view('Index.tpl', $qualifiedModuleName);
+		}
 	}
 
 	public function getHeaderCss(\App\Http\Vtiger_Request $request)

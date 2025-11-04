@@ -236,3 +236,4 @@ These are import wizard pages:
 - **Views that may intentionally not use MainLayout**: ~8-10 views
 - **Fragment/partial templates**: Excluded from this analysis
 
+

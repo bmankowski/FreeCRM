@@ -16,8 +16,11 @@ namespace App\Modules\Settings\Base\Views;
 class ListView extends \App\Modules\Settings\Base\Views\Index
 {
 
-	protected $listViewEntries = false;
-	protected $listViewHeaders = false;
+	protected $listViewEntries = null;
+	protected $listViewHeaders = null;
+	protected $listViewModel = null;
+	protected $listViewLinks;
+	protected $listViewCount;
 
 	public function __construct()
 	{
