@@ -1,0 +1,728 @@
+<head></head>
+<body class="desktop no-touch body--light">
+  <div id="configuration"></div>
+  <div class="remindersNotificationContainer">
+    <div class="remindersContent pb-5">
+      <div class="alert alert-info"></div>
+      <div class="tpl-remiders-bottom-buttons btn-group btn-toolbar mr-md-2 flex-md-nowrap"></div>
+    </div>
+  </div>
+  <div class="remindersNoticeContainer">
+    <div class="tpl-Calendar-Reminders remindersContent">
+      <div class="alert alert-info"></div>
+    </div>
+  </div>
+  <div id="page">
+    <div class="container-fluid container-fluid-main o-leads-list-container">
+      <div class="o-base-container js-base-container c-menu--animation">
+        <div class="js-sidebar c-menu__container noSpaces">
+          <div class="container-fluid c-menu__header">
+            <div class="row">
+              <div class="col-2 p-0"></div>
+              <div class="col-10 userDetails">
+                <div class="row">
+                  <div class="col-10 p-0 userName"></div>
+                  <div class="col-2 p-0 text-center js-menu--pin u-opacity-muted"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="js-menu--scroll c-menu__body ps ps--active-y">
+            <div class="tpl-menu-SubMenu js-submenu collapse" id="submenu-333"></div>
+            <div class="tpl-menu-SubMenu js-submenu collapse" id="submenu-343"></div>
+            <div class="tpl-menu-SubMenu js-submenu collapse" id="submenu-344"></div>
+            <div class="tpl-menu-SubMenu js-submenu collapse" id="submenu-345"></div>
+            <div class="tpl-menu-SubMenu js-submenu collapse" id="submenu-384"></div>
+            <div class="ps__rail-x">
+              <div class="ps__thumb-x"></div>
+            </div>
+            <div class="ps__rail-y">
+              <div class="ps__thumb-y"></div>
+            </div>
+          </div>
+        </div>
+        <div class="o-navbar__left d-inline-flex">
+          <div class="rightHeaderBtnMenu">
+            <div class="quickAction"></div>
+          </div>
+          <div class="js-global-search__input o-global-search__input o-global-search__input--desktop input-group input-group-sm d-none d-xl-flex mr-2">
+            <div class="input-group-prepend select2HeaderWidth"></div>
+            <div class="input-group-append bg-white rounded-right">
+              <div class="btn-group u-remove-dropdown-icon"></div>
+            </div>
+          </div>
+          <div class="searchMenu d-xl-none">
+            <div class="searchMenuBtn">
+              <div class="quickAction"></div>
+            </div>
+            <div class="o-search-menu__container" id="o-search-menu__container">
+              <div class="input-group mb-3">
+                <div class="form-control select2WithButtonWidth"></div>
+                <div class="input-group-append"></div>
+              </div>
+              <div class="input-group mb-3 js-global-search__input o-global-search__input">
+                <div class="input-group-append"></div>
+              </div>
+              <div class="searchMenuBtn"></div>
+            </div>
+          </div>
+        </div>
+        <div class="o-navbar__right ml-auto d-inline-flex flex-sm-nowrap">
+          <div class="o-action-menu__container d-flex flex-md-nowrap flex-column flex-md-row" id="o-action-menu__container">
+            <div class="o-action-menu__item commonActionsContainer"></div>
+            <div class="o-action-menu__item">
+              <div id="KnowledgeBaseModal"></div>
+            </div>
+            <div class="o-action-menu__item"></div>
+            <div class="o-action-menu__item"></div>
+            <div class="o-action-menu__item">
+              <div class="dropdown">
+                <div class="tpl-Base-BrowsingHistory dropdown-menu historyList js-scrollbar ps">
+                  <div class="dropdown-divider"></div>
+                  <div class="ps__rail-x">
+                    <div class="ps__thumb-x"></div>
+                  </div>
+                  <div class="ps__rail-y">
+                    <div class="ps__thumb-y"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="o-action-menu__item"></div>
+            <div class="o-action-menu__item"></div>
+            <div class="o-action-menu__item">
+              <div class="dropdown">
+                <div class="dropdown-menu historyList p-0 u-max-w-sm-100 u-min-w-300pxr">
+                  <div class="user-info-body container-fluid m-0 pl-2 pr-2 pt-2">
+                    <div class="user-info row w-100 m-0 p-0">
+                      <div class="col-12 p-1">
+                        <div class="user-photo mr-2 float-left"></div>
+                        <div class="user-detail"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="user-links container-fluid d-block mt-2 p-0 u-max-w-xsm-100">
+                    <div class="user-menu-element row p-0 m-0">
+                      <div class="col-12 pt-1 pb-1 bg-light border border-light"></div>
+                    </div>
+                    <div class="user-menu-element row">
+                      <div class="col-12 u-bg-light-darken"></div>
+                    </div>
+                    <div class="user-menu-element row">
+                      <div class="col-12 u-bg-light-darken"></div>
+                    </div>
+                    <div class="user-menu-element row">
+                      <div class="col-12 u-bg-light-darken"></div>
+                    </div>
+                    <div class="user-menu-element row">
+                      <div class="col-12 u-bg-light-darken"></div>
+                    </div>
+                    <div class="dropdown-divider d-none d-sm-none d-md-block"></div>
+                    <div class="user-menu-element row">
+                      <div class="col-12 u-bg-light-darken"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tpl-Base-QuickCreateModel quickCreateModules modal" id="quickCreateModules">
+          <div class="modal-dialog c-modal-xxl">
+            <div class="modal-content">
+              <div class="modal-header row no-gutters">
+                <div class="col col-md-5 col-lg-6 col-xl-8 my-auto pb-1 pb-md-0"></div>
+                <div class="col-md-6 col-lg-5 col-xl-3 order-last order-md-0">
+                  <div class="input-group">
+                    <div class="input-group-prepend"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-body">
+                <div class="u-columns-width-300px-rem u-columns-count-5">
+                  <div class="card u-columns__item mb-2 js-quickcreate-search-block"></div>
+                  <div class="card u-columns__item mb-2 js-quickcreate-search-block"></div>
+                  <div class="card u-columns__item mb-2 js-quickcreate-search-block"></div>
+                  <div class="card u-columns__item mb-2 js-quickcreate-search-block"></div>
+                  <div class="card u-columns__item mb-2 js-quickcreate-search-block"></div>
+                  <div class="card u-columns__item mb-2 js-quickcreate-search-block"></div>
+                </div>
+              </div>
+              <div class="modal-footer"></div>
+            </div>
+          </div>
+        </div>
+        <div class="basePanel">
+          <div class="mainBody os-host os-theme-dark os-host-overflow os-host-overflow-x os-host-resize-disabled os-host-scrollbar-horizontal-hidden os-host-scrollbar-vertical-hidden os-host-transition">
+            <div class="os-resize-observer-host observed">
+              <div class="os-resize-observer"></div>
+            </div>
+            <div class="os-size-auto-observer observed">
+              <div class="os-resize-observer"></div>
+            </div>
+            <div class="os-content-glue"></div>
+            <div class="os-padding">
+              <div class="os-viewport os-viewport-native-scrollbars-invisible">
+                <div class="os-content">
+                  <div class="container-fluid bodyContent noSpaces">
+                    <div class="bodyContents">
+                      <div class="mainContainer pt-md-0 pt-1">
+                        <div class="o-breadcrumb widget_header mb-2 d-flex justify-content-between px-2">
+                          <div class="o-breadcrumb__container"></div>
+                          <div class="my-auto o-header-toggle__actions js-header-toggle__actions" id="o-view-actions__container">
+                            <div class="btn-toolbar btn-group flex-md-nowrap">
+                              <div class="c-btn-link btn-group c-btn-link--responsive"></div>
+                              <div class="c-btn-link btn-group c-btn-link--responsive"></div>
+                              <div class="c-btn-link btn-group c-btn-link--responsive"></div>
+                              <div class="c-btn-link btn-group c-btn-link--responsive"></div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="contentsDiv">
+                          <div class="listViewPageDiv">
+                            <div class="listViewTopMenuDiv noprint">
+                              <div class="listViewActionsDiv row">
+                                <div class="col-12 d-inline-flex flex-wrap">
+                                  <div class="c-list__buttons d-flex flex-wrap flex-sm-nowrap u-w-sm-down-100">
+                                    <div class="d-inline-block buttonTextHolder mr-sm-1 mb-1 mb-sm-0 c-btn-block-sm-down">
+                                      <div class="dropdown-menu"></div>
+                                    </div>
+                                    <div class="d-inline-block listViewMassActions mr-sm-1 mb-1 mb-sm-0 c-btn-block-sm-down">
+                                      <div class="dropdown-menu"></div>
+                                    </div>
+                                    <div class="c-btn-link btn-group mr-sm-1 mb-1 c-btn-block-sm-down"></div>
+                                  </div>
+                                  <div class="customFilterMainSpan ml-auto mx-xl-auto"></div>
+                                  <div class="c-list__right-container d-flex flex-nowrap u-overflow-scroll-non-desktop">
+                                    <div class="listViewActions paginationDiv pl-1 d-flex justify-content-end"></div>
+                                    <div class="pl-1">
+                                      <div class="dropdown dropdownEntityState u-remove-dropdown-icon"></div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="alert-block msgDiv noprint" id="selectAllMsgDiv"></div>
+                            <div class="alert-block msgDiv noprint" id="deSelectAllMsgDiv"></div>
+                            <div class="listViewContentDiv ps ps--active-y" id="listViewContents">
+                              <div class="alphabetModal">
+                                <div class="modal fade">
+                                  <div class="modal-dialog">
+                                    <div class="modal-content">
+                                      <div class="modal-header"></div>
+                                      <div class="modal-body p-1">
+                                        <div class="text-center noprint">
+                                          <div class="p-0 m-auto alphabet_30 row">
+                                            <div class="alphabetSearch u-cursor-pointer"></div>
+                                            <div class="alphabetSearch u-cursor-pointer"></div>
+                                            <div class="alphabetSearch u-cursor-pointer"></div>
+                                            <div class="alphabetSearch u-cursor-pointer"></div>
+                                            <div class="alphabetSearch u-cursor-pointer"></div>
+                                            <div class="alphabetSearch u-cursor-pointer"></div>
+                                            <div class="alphabetSearch u-cursor-pointer"></div>
+                                            <div class="alphabetSearch u-cursor-pointer"></div>
+                                            <div class="alphabetSearch u-cursor-pointer"></div>
+                                            <div class="alphabetSearch u-cursor-pointer"></div>
+                                            <div class="alphabetSearch u-cursor-pointer"></div>
+                                            <div class="alphabetSearch u-cursor-pointer"></div>
+                                            <div class="alphabetSearch u-cursor-pointer"></div>
+                                            <div class="alphabetSearch u-cursor-pointer"></div>
+                                            <div class="alphabetSearch u-cursor-pointer"></div>
+                                            <div class="alphabetSearch u-cursor-pointer"></div>
+                                            <div class="alphabetSearch u-cursor-pointer"></div>
+                                            <div class="alphabetSearch u-cursor-pointer"></div>
+                                            <div class="alphabetSearch u-cursor-pointer"></div>
+                                            <div class="alphabetSearch u-cursor-pointer"></div>
+                                            <div class="alphabetSearch u-cursor-pointer"></div>
+                                            <div class="alphabetSearch u-cursor-pointer"></div>
+                                            <div class="alphabetSearch u-cursor-pointer"></div>
+                                            <div class="alphabetSearch u-cursor-pointer"></div>
+                                            <div class="alphabetSearch u-cursor-pointer"></div>
+                                            <div class="alphabetSearch u-cursor-pointer"></div>
+                                            <div class="alphabetSearch u-cursor-pointer"></div>
+                                            <div class="alphabetSearch u-cursor-pointer"></div>
+                                            <div class="alphabetSearch u-cursor-pointer"></div>
+                                            <div class="alphabetSearch u-cursor-pointer"></div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div class="modal-footer"></div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="clearfix"></div>
+                              <div class="listViewEntriesDiv u-overflow-scroll-non-desktop">
+                                <div class="listViewLoadingImageBlock d-none modal noprint" id="loadingListViewModal"></div>
+                                <div class="d-flex align-items-center">
+                                  <div class="js-list-reload"></div>
+                                </div>
+                                <div class="flexWrapper"></div>
+                                <div class="picklistSearchField u-min-w-150pxr"></div>
+                                <div class="searchField u-min-w-150pxr">
+                                  <div class="input-group col-12 px-0">
+                                    <div class="input-group-append alphabetBtnContainer"></div>
+                                  </div>
+                                </div>
+                                <div class="searchField u-min-w-150pxr">
+                                  <div class="input-group">
+                                    <div class="input-group-append">
+                                      <div class="input-group-text px-1"></div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="picklistSearchField input-group u-min-w-150pxr"></div>
+                                <div class="searchField u-min-w-150pxr">
+                                  <div class="input-group">
+                                    <div class="input-group-append">
+                                      <div class="input-group-text px-1"></div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="searchField u-min-w-150pxr">
+                                  <div class="input-group">
+                                    <div class="input-group-append">
+                                      <div class="input-group-text px-1"></div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                  <div></div>
+                                  <div class="actions">
+                                    <div class="dropright u-remove-dropdown-icon">
+                                      <div class="dropdown-menu">
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="d-flex align-items-center"></div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                  <div></div>
+                                  <div class="actions">
+                                    <div class="dropright u-remove-dropdown-icon">
+                                      <div class="dropdown-menu">
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="d-flex align-items-center"></div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                  <div></div>
+                                  <div class="actions">
+                                    <div class="dropright u-remove-dropdown-icon">
+                                      <div class="dropdown-menu">
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="d-flex align-items-center"></div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                  <div></div>
+                                  <div class="actions">
+                                    <div class="dropright u-remove-dropdown-icon">
+                                      <div class="dropdown-menu">
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="d-flex align-items-center"></div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                  <div></div>
+                                  <div class="actions">
+                                    <div class="dropright u-remove-dropdown-icon">
+                                      <div class="dropdown-menu">
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="d-flex align-items-center"></div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                  <div></div>
+                                  <div class="actions">
+                                    <div class="dropright u-remove-dropdown-icon">
+                                      <div class="dropdown-menu">
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="d-flex align-items-center"></div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                  <div></div>
+                                  <div class="actions">
+                                    <div class="dropright u-remove-dropdown-icon">
+                                      <div class="dropdown-menu">
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="d-flex align-items-center"></div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                  <div></div>
+                                  <div class="actions">
+                                    <div class="dropright u-remove-dropdown-icon">
+                                      <div class="dropdown-menu">
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="d-flex align-items-center"></div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                  <div></div>
+                                  <div class="actions">
+                                    <div class="dropright u-remove-dropdown-icon">
+                                      <div class="dropdown-menu">
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="d-flex align-items-center"></div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                  <div></div>
+                                  <div class="actions">
+                                    <div class="dropright u-remove-dropdown-icon">
+                                      <div class="dropdown-menu">
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="d-flex align-items-center"></div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                  <div></div>
+                                  <div class="actions">
+                                    <div class="dropright u-remove-dropdown-icon">
+                                      <div class="dropdown-menu">
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="d-flex align-items-center"></div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                  <div></div>
+                                  <div class="actions">
+                                    <div class="dropright u-remove-dropdown-icon">
+                                      <div class="dropdown-menu">
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="d-flex align-items-center"></div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                  <div></div>
+                                  <div class="actions">
+                                    <div class="dropright u-remove-dropdown-icon">
+                                      <div class="dropdown-menu">
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="d-flex align-items-center"></div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                  <div></div>
+                                  <div class="actions">
+                                    <div class="dropright u-remove-dropdown-icon">
+                                      <div class="dropdown-menu">
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="d-flex align-items-center"></div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                  <div></div>
+                                  <div class="actions">
+                                    <div class="dropright u-remove-dropdown-icon">
+                                      <div class="dropdown-menu">
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="d-flex align-items-center"></div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                  <div></div>
+                                  <div class="actions">
+                                    <div class="dropright u-remove-dropdown-icon">
+                                      <div class="dropdown-menu">
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="d-flex align-items-center"></div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                  <div></div>
+                                  <div class="actions">
+                                    <div class="dropright u-remove-dropdown-icon">
+                                      <div class="dropdown-menu">
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="d-flex align-items-center"></div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                  <div></div>
+                                  <div class="actions">
+                                    <div class="dropright u-remove-dropdown-icon">
+                                      <div class="dropdown-menu">
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="d-flex align-items-center"></div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                  <div></div>
+                                  <div class="actions">
+                                    <div class="dropright u-remove-dropdown-icon">
+                                      <div class="dropdown-menu">
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="d-flex align-items-center"></div>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                  <div></div>
+                                  <div class="actions">
+                                    <div class="dropright u-remove-dropdown-icon">
+                                      <div class="dropdown-menu">
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                        <div class="c-btn-link btn-group"></div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="d-flex align-items-center"></div>
+                                </div>
+                              </div>
+                              <div class="ps__rail-x">
+                                <div class="ps__thumb-x"></div>
+                              </div>
+                              <div class="ps__rail-y">
+                                <div class="ps__thumb-y"></div>
+                              </div>
+                              <div class="ps__rail-x">
+                                <div class="ps__thumb-x"></div>
+                              </div>
+                              <div class="ps__rail-y">
+                                <div class="ps__thumb-y"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="os-scrollbar os-scrollbar-horizontal os-scrollbar-unusable os-scrollbar-auto-hidden">
+              <div class="os-scrollbar-track os-scrollbar-track-off">
+                <div class="os-scrollbar-handle"></div>
+              </div>
+            </div>
+            <div class="os-scrollbar os-scrollbar-vertical os-scrollbar-unusable os-scrollbar-auto-hidden">
+              <div class="os-scrollbar-track os-scrollbar-track-off">
+                <div class="os-scrollbar-handle"></div>
+              </div>
+            </div>
+            <div class="os-scrollbar-corner"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid px-0 px-md-1">
+      <div class="float-right p-0"></div>
+      <div class="mx-auto w-75"></div>
+    </div>
+    <div id="javascript"></div>
+  </div>
+  <div class="q-loading-bar q-loading-bar--top"></div>
+  <div class="q-notifications">
+    <div class="q-notifications__list q-notifications__list--top fixed column no-wrap items-start"></div>
+    <div class="q-notifications__list q-notifications__list--top fixed column no-wrap items-end"></div>
+    <div class="q-notifications__list q-notifications__list--bottom fixed column no-wrap items-start"></div>
+    <div class="q-notifications__list q-notifications__list--bottom fixed column no-wrap items-end"></div>
+    <div class="q-notifications__list q-notifications__list--top fixed column no-wrap items-center"></div>
+    <div class="q-notifications__list q-notifications__list--bottom fixed column no-wrap items-center"></div>
+    <div class="q-notifications__list q-notifications__list--center fixed column no-wrap items-start justify-center"></div>
+    <div class="q-notifications__list q-notifications__list--center fixed column no-wrap items-end justify-center"></div>
+    <div class="q-notifications__list q-notifications__list--center fixed column no-wrap flex-center"></div>
+  </div>
+  <div class="daterangepicker ltr show-calendar opensleft">
+    <div class="ranges"></div>
+    <div class="drp-calendar left">
+      <div class="calendar-table"></div>
+      <div class="calendar-time"></div>
+    </div>
+    <div class="drp-calendar right">
+      <div class="calendar-table"></div>
+      <div class="calendar-time"></div>
+    </div>
+    <div class="drp-buttons"></div>
+  </div>
+  <div class="ui-helper-hidden-accessible"></div>
+  <div class="ui-helper-hidden-accessible"></div>
+</body>
+
+
+============================================================
+HTML STRUCTURE VALIDATION ANALYSIS
+============================================================
+
+✓ All tags are properly closed and matched!
+
+Total tag pairs analyzed: 527
+============================================================

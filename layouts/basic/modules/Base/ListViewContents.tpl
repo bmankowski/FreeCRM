@@ -11,7 +11,7 @@
 -->*}
 {strip}
 	<!-- layouts/basic/modules/Base/ListViewContents.tpl -->
-	<div id="listViewContents" class="listViewContents">
+	<div id="listViewContents" class="listViewContentDiv">
 		<input type="hidden" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
 		<input type="hidden" id="pageEndRange" value="{$PAGING_MODEL->getRecordEndRange()}" />
 		<input type="hidden" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}" />
@@ -153,8 +153,8 @@
 						</tbody>
 					</table>
 				{/if}
-			</div>
-		</div>
-	</div>
+			</div> <!-- close bottomscroll-div -->
+		</div> <!-- close listViewEntriesDiv -->
+	</div> <!-- close listViewContentDiv -->
 <!--/layouts/basic/modules/Base/ListViewContents.tpl -->
 {/strip}

@@ -32,9 +32,11 @@
 					</div>
 				</div>
 				
-				{* List view table and controls *}
-				{include file="ListViewHeader.tpl"|vtemplate_path:$MODULE}
-				{include file="ListViewContents.tpl"|vtemplate_path:$MODULE}
+				{* Wrap list view header and contents in listViewPageDiv *}
+				<div class="listViewPageDiv">
+					{include file="ListViewHeader.tpl"|vtemplate_path:$MODULE}
+					{include file="ListViewContents.tpl"|vtemplate_path:$MODULE}
+				</div> <!-- close listViewPageDiv -->
 				
 			</div> <!-- close contentsDiv -->
 		</div> <!-- close mainContainer -->

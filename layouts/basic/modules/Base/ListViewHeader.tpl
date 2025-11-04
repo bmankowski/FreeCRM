@@ -29,7 +29,8 @@
 											{if stripos($LISTVIEW_MASSACTION->getUrl(), 'javascript:')===0}onclick='{$LISTVIEW_MASSACTION->getUrl()|substr:strlen("javascript:")};'
 											{else}
 												onclick="Vtiger_ListView_Js.triggerMassAction('{$LISTVIEW_MASSACTION->getUrl()}')"
-											{/if}>{$LISTVIEW_MASSACTION->getLabel()|t:$MODULE}</a></li>
+											{/if}>{$LISTVIEW_MASSACTION->getLabel()|t:$MODULE}</a>
+									</li>
 									{if $smarty.foreach.actionCount.last eq true}
 										<li class="divider"></li>
 									{/if}
@@ -106,7 +107,8 @@
 									<hr>
 									<ul class="filterActions">
 										<li data-value="create" id="createFilter" data-createurl="{$CUSTOM_VIEW->getCreateUrl()}">
-											<span class="glyphicon glyphicon-plus-sign"></span> {"LBL_CREATE_NEW_FILTER"|t}</li>
+											<span class="glyphicon glyphicon-plus-sign"></span> {"LBL_CREATE_NEW_FILTER"|t}
+										</li>
 									</ul>
 								</div>
 							{/if}
@@ -155,7 +157,7 @@
 					</div>
 				</div>
 			{/if}
-		</div> <!-- close listViewActionsDiv -->
-	</div> <!-- close listViewTopMenuDiv -->
+		</div>
+	</div>
 	<!--/layouts/basic/modules/Base/ListViewHeader.tpl -->
 {/strip}
