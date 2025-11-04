@@ -11,6 +11,7 @@ namespace App\Modules\Users\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
+#[\AllowDynamicProperties]
 class Record extends \App\Modules\Base\Models\Record
 {
 	/** @var bool Authentication state */

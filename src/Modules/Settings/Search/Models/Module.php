@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\Search\Models;
-use App\Modules\Settings\SearchModels\Module;
-
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -65,7 +63,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		return $return;
 	}
 
-	public static function save($params)
+	public static function saveSearch($params)
 	{
 		$db = \App\Db::getInstance();
 		$name = $params['name'];

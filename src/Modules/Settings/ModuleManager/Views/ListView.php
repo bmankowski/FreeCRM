@@ -28,6 +28,12 @@ class ListView extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('USER_MODEL', $request->getUser());
 
-		echo $viewer->view('ListContents.tpl', $qualifiedModuleName, true);
+		if ($request->isAjax()) {
+			// AJAX request - return content only
+			$viewer->view('ListContents.tpl', $qualifiedModuleName);
+		} else {
+			// Initial page load - return full page with MainLayout
+			$viewer->view('ListViewIndex.tpl', $qualifiedModuleName);
+		}
 	}
 }

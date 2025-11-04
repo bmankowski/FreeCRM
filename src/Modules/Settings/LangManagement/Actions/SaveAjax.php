@@ -127,7 +127,7 @@ class SaveAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 	public function delete(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		$saveResp = \App\Modules\Settings\LangManagement\Models\Module::delete($params);
+		$saveResp = \App\Modules\Settings\LangManagement\Models\Module::deleteLanguage($params);
 		$response = new \App\Http\Vtiger_Response();
 		if ($saveResp) {
 			$response->setResult(['success' => true, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_DeleteDataOK', $request->getModule(false))]);

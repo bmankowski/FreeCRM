@@ -29,7 +29,12 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->assign('DEPENDENT_MODULES', \App\Modules\Settings\SharingAccess\Models\Module::getDependentModules());
 
-		$viewer->view('Index.tpl', $qualifiedModuleName);
+		// Check if this is an AJAX request - if so, return only content without MainLayout
+		if ($request->isAjax()) {
+			$viewer->view('IndexContent.tpl', $qualifiedModuleName);
+		} else {
+			$viewer->view('Index.tpl', $qualifiedModuleName);
+		}
 	}
 
 	/**

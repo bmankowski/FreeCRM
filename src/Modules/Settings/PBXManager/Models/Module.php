@@ -18,9 +18,10 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	/**
 	 * Function to get the module model
+	 * @param string $moduleName
 	 * @return string
 	 */
-	public static function getCleanInstance()
+	public static function getCleanInstance($moduleName = null)
 	{
 		return new self;
 	}

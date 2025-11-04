@@ -29,13 +29,13 @@ class SaveAjax extends \App\Modules\Base\Actions\Save
 		$id = $request->get('id');
 		$qualifiedModuleName = 'PBXManager';
 
-		$recordModel = Settings_PBXManager_Record_Model::getCleanInstance();
+		$recordModel = \App\Modules\Settings\PBXManager\Models\Record::getCleanInstance();
 		$recordModel->set('gateway', $qualifiedModuleName);
 		if ($id) {
 			$recordModel->set('id', $id);
 		}
 
-		foreach (PBXManager_PBXManager_Connector::getSettingsParameters() as $field => $type) {
+		foreach (\App\Modules\PBXManager\Connectors\PBXManager::getSettingsParameters() as $field => $type) {
 			$recordModel->set($field, $request->get($field));
 		}
 

@@ -73,7 +73,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		$db = \App\Db::getInstance();
 		$parameters = '';
 		$selectedGateway = $this->get('gateway');
-		foreach (PBXManager_PBXManager_Connector::getSettingsParameters() as $field => $type) {
+		foreach (\App\Modules\PBXManager\Connectors\PBXManager::getSettingsParameters() as $field => $type) {
 			$parameters[$field] = $this->get($field);
 		}
 		$this->set('parameters', \App\Json::encode($parameters));

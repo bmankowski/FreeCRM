@@ -1,16 +1,14 @@
 {*<!--
 /*+***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
+FreeCRM - Customer Relationship Management System
+ * @project FreeCRM
+ * @author bmankowski@gmail.com
+ * @copyright (c) FreeCRM
+ * @license FreeCRM Public License 1.1
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<!-- layouts/basic/modules/Settings/Calendar/UserColors.tpl -->
+<!-- layouts/basic/modules/Settings/Calendar/UserColorsContent.tpl -->
 <div class=" UserColors">
 	<div class="widget_header row">
 		<div class="col-md-12">
@@ -72,13 +70,13 @@
 								<td class="col-md-9">
 									<div class="col-md-4">
 										<select class="chzn-select workignDaysField pull-left" multiple id="update_workingdays" name="notworkingdays" data-metod="updateNotWorkingDays">
-											<option value="1" {if in_array(1, $NOTWORKINGDAYS)} selected {/if} >{PLL_MONDAY|t:$QUALIFIED_MODULE}</option>
-											<option value="2" {if in_array(2, $NOTWORKINGDAYS)} selected {/if} >{PLL_TUESDAY|t:$QUALIFIED_MODULE}</option>
-											<option value="3" {if in_array(3, $NOTWORKINGDAYS)} selected {/if} >{PLL_WEDNESDAY|t:$QUALIFIED_MODULE}</option>
-											<option value="4" {if in_array(4, $NOTWORKINGDAYS)} selected {/if} >{PLL_THURSDAY|t:$QUALIFIED_MODULE}</option>
-											<option value="5" {if in_array(5, $NOTWORKINGDAYS)} selected {/if} >{PLL_FRIDAY|t:$QUALIFIED_MODULE}</option>
-											<option value="6" {if in_array(6, $NOTWORKINGDAYS)} selected {/if} >{PLL_SATURDAY|t:$QUALIFIED_MODULE}</option>
-											<option value="7" {if in_array(7, $NOTWORKINGDAYS)} selected {/if} >{PLL_SUNDAY|t:$QUALIFIED_MODULE}</option>
+											<option value="1" {if in_array(1, $NOTWORKINGDAYS)} selected {/if} >{"PLL_MONDAY"|t:$QUALIFIED_MODULE}</option>
+											<option value="2" {if in_array(2, $NOTWORKINGDAYS)} selected {/if} >{"PLL_TUESDAY"|t:$QUALIFIED_MODULE}</option>
+											<option value="3" {if in_array(3, $NOTWORKINGDAYS)} selected {/if} >{"PLL_WEDNESDAY"|t:$QUALIFIED_MODULE}</option>
+											<option value="4" {if in_array(4, $NOTWORKINGDAYS)} selected {/if} >{"PLL_THURSDAY"|t:$QUALIFIED_MODULE}</option>
+											<option value="5" {if in_array(5, $NOTWORKINGDAYS)} selected {/if} >{"PLL_FRIDAY"|t:$QUALIFIED_MODULE}</option>
+											<option value="6" {if in_array(6, $NOTWORKINGDAYS)} selected {/if} >{"PLL_SATURDAY"|t:$QUALIFIED_MODULE}</option>
+											<option value="7" {if in_array(7, $NOTWORKINGDAYS)} selected {/if} >{"PLL_SUNDAY"|t:$QUALIFIED_MODULE}</option>
 										</select>
 									</div>
 								</td>
@@ -112,5 +110,5 @@
 			</div>
 		</div>
 	</div>
-<!--/layouts/basic/modules/Settings/Calendar/UserColors.tpl -->
+<!--/layouts/basic/modules/Settings/Calendar/UserColorsContent.tpl -->
 {/strip}

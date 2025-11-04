@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\PBXManager;
+namespace App\Modules\PBXManager\Connectors;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -12,7 +12,7 @@ namespace App\Modules\PBXManager;
  * *********************************************************************************** */
 
 
-class Connector {
+class PBXManager {
 
 	private static $SETTINGS_REQUIRED_PARAMETERS = array('webappurl' => 'text', 'outboundcontext' => 'text', 'outboundtrunk' => 'text', 'vtigersecretkey' => 'text');
 	private static $RINGING_CALL_PARAMETERS = array('From' => 'callerIdNumber', 'SourceUUID' => 'callUUID', 'Direction' => 'Direction');

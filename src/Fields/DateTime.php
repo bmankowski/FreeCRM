@@ -34,7 +34,7 @@ class DateTime
 	 */
 	public static function currentUserDisplayDate($value)
 	{
-		$date = new \DateTimeField($value);
+		$date = new \App\Fields\DateTimeField($value);
 		return $date->getDisplayDate();
 	}
 }

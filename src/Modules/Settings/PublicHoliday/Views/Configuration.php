@@ -1,9 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\PublicHoliday\Views;
-use App\Modules\Settings\PublicHolidayModels\Module;
-use App\Modules\Settings\PublicHolidayViews\Configuration;
-
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -41,7 +38,13 @@ class Configuration extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('CURRENTUSER', $currentUser);
 		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 
-		echo $viewer->view('Configuration.tpl', $request->getModule(false), true);
+		if ($request->isAjax()) {
+			// AJAX request - return content only
+			$viewer->view('ConfigurationContent.tpl', $request->getModule(false));
+		} else {
+			// Initial page load - return full page with MainLayout
+			$viewer->view('Configuration.tpl', $request->getModule(false));
+		}
 		\App\Log::trace("Exiting \App\Modules\Settings\PublicHoliday\Views\Configuration::process() method ...");
 	}
 }

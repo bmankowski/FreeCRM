@@ -147,6 +147,8 @@ class CRM_Viewer extends \Smarty
 		$this->registerClass('vtlib\\Functions', 'vtlib\\Functions');
 		// Register additional model classes used in templates
 		$this->registerClass('\App\\Modules\\Users\\Models\\Privileges', '\App\\Modules\\Users\\Models\\Privileges');
+		$this->registerClass('\App\\Modules\\Users\\Models\\Record', '\App\\Modules\\Users\\Models\\Record');
+		$this->registerClass('\App\\Modules\\Settings\\Roles\\Models\\Record', '\App\\Modules\\Settings\\Roles\\Models\\Record');
 		$this->registerClass('\App\\Modules\\Base\\Models\\Module', '\App\\Modules\\Base\\Models\\Module');
 		$this->registerClass('\App\\Modules\\Base\\Models\\Field', '\App\\Modules\\Base\\Models\\Field');
 		$this->registerClass('\App\\Modules\\Base\\Models\\InventoryField', '\App\\Modules\\Base\\Models\\InventoryField');

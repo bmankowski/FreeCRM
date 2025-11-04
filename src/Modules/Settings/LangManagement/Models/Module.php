@@ -353,9 +353,9 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		return ['success' => true, 'data' => 'LBL_AddDataOK'];
 	}
 
-	public function save($params)
+	public function save($params = null)
 	{
-		if ($params['type'] == 'Checkbox') {
+		if ($params && $params['type'] == 'Checkbox') {
 			$val = $params['val'] == 'true' ? 1 : 0;
 			\App\Db::getInstance()->createCommand()
 				->update('vtiger_language', [$params['name'] => $val], ['prefix' => $params['prefix']])
@@ -377,7 +377,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		return array('success' => true, 'data' => 'LBL_SUCCESSFULLY_UPDATED');
 	}
 
-	public static function delete($params)
+	public static function deleteLanguage($params)
 	{
 		$dir = 'languages/' . $params['prefix'];
 		if (file_exists($dir)) {

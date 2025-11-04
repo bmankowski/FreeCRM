@@ -30,7 +30,13 @@ class Locks extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->view('Locks.tpl', $qualifiedModuleName);
+		
+		// Check if this is an AJAX request - if so, return only content without MainLayout
+		if ($request->isAjax()) {
+			$viewer->view('LocksContent.tpl', $qualifiedModuleName);
+		} else {
+			$viewer->view('Locks.tpl', $qualifiedModuleName);
+		}
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)

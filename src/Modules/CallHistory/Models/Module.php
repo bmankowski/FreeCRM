@@ -54,7 +54,7 @@ class Module extends \App\Modules\Base\Models\Module
 		$editWorkflowsImagePath = \App\Runtime\Vtiger_Theme::getImagePath('EditWorkflows.png');
 		$settingsLinks = array();
 
-		if (VTWorkflowUtils::checkModuleWorkflow($this->getName())) {
+		if (\App\Modules\Workflow\VTWorkflowUtils::checkModuleWorkflow($this->getName())) {
 			$settingsLinks[] = array(
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_EDIT_WORKFLOWS',

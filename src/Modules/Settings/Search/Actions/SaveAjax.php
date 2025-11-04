@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\Search\Actions;
-use App\Modules\Settings\SearchModels\Module;
-
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -28,7 +26,7 @@ class SaveAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 	public function Save(\App\Http\Vtiger_Request $request)
 	{
 		$params = $request->get('params');
-		\App\Modules\Settings\Search\Models\Module::save($params);
+		\App\Modules\Settings\Search\Models\Module::saveSearch($params);
 		$message = 'LBL_SAVE_CHANGES_LABLE';
 		if ($params['name'] == 'turn_off')
 			$message = 'LBL_SAVE_CHANGES_SEARCHING';

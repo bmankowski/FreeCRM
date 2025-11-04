@@ -33,8 +33,10 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
 		if ($request->isAjax()) {
-			$viewer->view('IndexContents.tpl', $qualifiedModuleName);
+			// AJAX request - return content only
+			$viewer->view('IndexContent.tpl', $qualifiedModuleName);
 		} else {
+			// Initial page load - return full page with MainLayout
 			$viewer->view('Index.tpl', $qualifiedModuleName);
 		}
 	}

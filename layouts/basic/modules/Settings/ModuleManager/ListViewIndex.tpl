@@ -1,0 +1,23 @@
+{*<!--
+/*********************************************************************************
+FreeCRM - Customer Relationship Management System
+ * @project FreeCRM
+ * @author bmankowski@gmail.com
+ * @copyright (c) FreeCRM
+ * @license FreeCRM Public License 1.1
+**************************************/
+-->*}
+{strip}
+<!-- layouts/basic/modules/Settings/ModuleManager/ListViewIndex.tpl -->
+{extends file="MainLayout.tpl"|@vtemplate_path}
+
+{block name="content"}
+	<div class="mainContainer">
+		<div class="contentsDiv">
+			{include file='ListContents.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+		</div> <!-- close contentsDiv -->
+	</div> <!-- close mainContainer -->
+{/block}
+<!--/layouts/basic/modules/Settings/ModuleManager/ListViewIndex.tpl -->
+{/strip}
+

@@ -15,7 +15,7 @@ class Controller {
 
 	public function getConnector()
 	{
-		return new PBXManager_PBXManager_Connector;
+		return new \App\Modules\PBXManager\Connectors\PBXManager;
 	}
 
 	/**

@@ -70,6 +70,6 @@ class Server extends \App\Runtime\BaseModel
 
 	public function getConnector()
 	{
-		return new PBXManager_PBXManager_Connector;
+		return new \App\Modules\PBXManager\Connectors\PBXManager;
 	}
 }

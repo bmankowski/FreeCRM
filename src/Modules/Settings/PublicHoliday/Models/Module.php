@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\PublicHoliday\Models;
-use App\Modules\Settings\PublicHolidayModels\Module;
-
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
@@ -58,13 +56,13 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 * @param <Int> $id - id of holiday
 	 * @return - true on success, false on failure
 	 */
-	public static function delete($id)
+	public static function deleteHoliday($id)
 	{
-		\App\Log::trace("Entering \App\Modules\Settings\PublicHoliday\Models\Module::delete(" . $id . ") method ...");
+		\App\Log::trace("Entering \App\Modules\Settings\PublicHoliday\Models\Module::deleteHoliday(" . $id . ") method ...");
 		$deleted = \App\Db::getInstance()->createCommand()
 			->delete('vtiger_publicholiday', ['publicholidayid' => $id])
 			->execute();
-		\App\Log::trace("Exiting \App\Modules\Settings\PublicHoliday\Models\Module::delete() method ...");
+		\App\Log::trace("Exiting \App\Modules\Settings\PublicHoliday\Models\Module::deleteHoliday() method ...");
 		if ($deleted === 1)
 			return true;
 		else
@@ -78,16 +76,16 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 * @param string $type - type of the holiday
 	 * @return - true on success, false on failure
 	 */
-	public static function save($date, $name, $type)
+	public static function saveHoliday($date, $name, $type)
 	{
-		\App\Log::trace("Entering \App\Modules\Settings\PublicHoliday\Models\Module::save(" . $date . ', ' . $name . ', ' . $type . ") method ...");
+		\App\Log::trace("Entering \App\Modules\Settings\PublicHoliday\Models\Module::saveHoliday(" . $date . ', ' . $name . ', ' . $type . ") method ...");
 		$saved = \App\Db::getInstance()->createCommand()
 				->insert('vtiger_publicholiday', [
 					'holidaydate' => $date,
 					'holidayname' => $name,
 					'holidaytype' => $type
 				])->execute();
-		\App\Log::trace("Exiting \App\Modules\Settings\PublicHoliday\Models\Module::save() method ...");
+		\App\Log::trace("Exiting \App\Modules\Settings\PublicHoliday\Models\Module::saveHoliday() method ...");
 		if ($saved === 1)
 			return true;
 		else

@@ -27,7 +27,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 
 	public function gatewayInfo(\App\Http\Vtiger_Request $request)
 	{
-		$recordModel = Settings_PBXManager_Record_Model::getInstance();
+		$recordModel = \App\Modules\Settings\PBXManager\Models\Record::getInstance();
 		$moduleModel = \App\Modules\Settings\PBXManager\Models\Module::getCleanInstance();
 		$viewer = $this->getViewer($request);
 
@@ -36,6 +36,13 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('MODULE', $request->getModule(false));
 		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 		$viewer->assign('RECORD_MODEL', $recordModel);
-		$viewer->view('index.tpl', $request->getModule(false));
+		
+		if ($request->isAjax()) {
+			// AJAX request - return content only
+			$viewer->view('IndexContent.tpl', $request->getModule(false));
+		} else {
+			// Initial page load - return full page with MainLayout
+			$viewer->view('index.tpl', $request->getModule(false));
+		}
 	}
 }

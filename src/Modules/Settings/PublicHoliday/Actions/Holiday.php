@@ -36,7 +36,7 @@ class Holiday extends \App\Modules\Settings\Base\Actions\Index
 		try {
 			$id = $request->get('id');
 
-			if (\App\Modules\Settings\PublicHoliday\Models\Module::delete($id)) {
+			if (\App\Modules\Settings\PublicHoliday\Models\Module::deleteHoliday($id)) {
 				$response->setResult(array('success' => true, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('JS_HOLIDAY_DELETE_OK', $moduleName)));
 			} else {
 				$response->setResult(array('success' => false, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('JS_HOLIDAY_DELETE_ERROR', $moduleName)));
@@ -73,7 +73,7 @@ class Holiday extends \App\Modules\Settings\Base\Actions\Index
 					$response->setResult(array('success' => false, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_EDIT_DATE_ERROR', $moduleName)));
 				}
 			} else {
-				if (\App\Modules\Settings\PublicHoliday\Models\Module::save($date, $name, $type)) {
+				if (\App\Modules\Settings\PublicHoliday\Models\Module::saveHoliday($date, $name, $type)) {
 					$response->setResult(array('success' => true, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_NEW_DATE_OK', $moduleName)));
 				} else {
 					$response->setResult(array('success' => false, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_NEW_DATE_ERROR', $moduleName)));

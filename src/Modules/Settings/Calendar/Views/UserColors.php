@@ -27,7 +27,15 @@ class UserColors extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('NOTWORKINGDAYS', $notWorkDays);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->view('UserColors.tpl', $qualifiedModuleName);
+		
+		// Add AJAX detection for MainLayout conversion
+		if ($request->isAjax()) {
+			// AJAX request - return content only
+			$viewer->view('UserColorsContent.tpl', $qualifiedModuleName);
+		} else {
+			// Initial page load - return full page with MainLayout
+			$viewer->view('UserColorsIndex.tpl', $qualifiedModuleName);
+		}
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
