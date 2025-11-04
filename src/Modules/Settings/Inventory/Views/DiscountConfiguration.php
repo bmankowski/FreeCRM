@@ -33,7 +33,13 @@ class DiscountConfiguration extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->assign('USER_MODEL', $currentUser);
 		$viewer->assign('CONFIG', $config);
-		$viewer->view('Config.tpl', $qualifiedModule);
+		
+		// Check if this is an AJAX request - if so, return only content without MainLayout
+		if ($request->isAjax()) {
+			$viewer->view('Config.tpl', $qualifiedModule);
+		} else {
+			$viewer->view('ConfigIndex.tpl', $qualifiedModule);
+		}
 		\App\Log::trace('End ' . __METHOD__);
 	}
 

@@ -12,7 +12,7 @@ namespace App\Modules\Settings\Roles\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Settings_Roles_EditAjax_Action extends \App\Modules\Settings\Base\Views\IndexAjax
+class EditAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 {
 
 	public function __construct()

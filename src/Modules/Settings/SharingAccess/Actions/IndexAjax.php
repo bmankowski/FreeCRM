@@ -18,7 +18,7 @@ use App\Modules\Settings\Base\Models\Tracker;
 
 use App\Http\Vtiger_Response;
 use App\Http\Vtiger_Request;
-class Settings_SharingAccess_IndexAjax_Action extends \App\Modules\Settings\Base\Actions\Save
+class IndexAjax extends \App\Modules\Settings\Base\Actions\Save
 {
 
 	public function __construct()

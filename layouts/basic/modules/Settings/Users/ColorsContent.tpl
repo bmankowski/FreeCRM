@@ -10,7 +10,7 @@
  *************************************************************************************************************************************/
 -->*}
 {strip}
-<!-- layouts/basic/modules/Settings/Users/Colors.tpl -->
+<!-- layouts/basic/modules/Settings/Users/ColorsContent.tpl -->
 <div class="UserColors">
 	<div class="widget_header row">
 		<div class="col-md-12">
@@ -178,5 +178,5 @@
 		</div>
 	</div>
 </div>
-<!--/layouts/basic/modules/Settings/Users/Colors.tpl -->
+<!--/layouts/basic/modules/Settings/Users/ColorsContent.tpl -->
 {/strip}

@@ -106,13 +106,13 @@ class Mapping extends \App\Modules\Settings\Base\Models\Module
 			if (!empty($fieldIdsList)) {
 				$fieldLabelsList = $this->getFieldsInfo(array_unique($fieldIdsList));
 			}
-			foreach ($mapping as $mappingId => $mappingDetails) {
-				$finalMapping[$mappingId] = array(
-					'editable' => $mappingDetails['editable'],
-					'Leads' => $fieldLabelsList[$mappingDetails['leadfid']],
-					'Accounts' => $fieldLabelsList[$mappingDetails['accountfid']]
-				);
-			}
+		foreach ($mapping as $mappingId => $mappingDetails) {
+			$finalMapping[$mappingId] = array(
+				'editable' => $mappingDetails['editable'],
+				'Leads' => $fieldLabelsList[$mappingDetails['leadfid']] ?? null,
+				'Accounts' => $fieldLabelsList[$mappingDetails['accountfid']] ?? null
+			);
+		}
 
 			$this->mapping = $finalMapping;
 		}
@@ -153,7 +153,7 @@ class Mapping extends \App\Modules\Settings\Base\Models\Module
 	 * Function to save the mapping info
 	 * @param <Array> $mapping info
 	 */
-	public function save($mapping)
+	public function saveMapping($mapping)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
 		$deleteMappingsList = $updateMappingsList = $createMappingsList = [];
@@ -253,7 +253,7 @@ class Mapping extends \App\Modules\Settings\Base\Models\Module
 	 * Function to get instance
 	 * @return <\App\Modules\Settings\Leads\Models\Mapping>
 	 */
-	public static function getCleanInstance()
+	public static function getCleanInstance($moduleName = null)
 	{
 		return new self();
 	}
@@ -265,7 +265,7 @@ class Mapping extends \App\Modules\Settings\Base\Models\Module
 	 */
 	public static function deleteMapping($mappingIdsList, $editableParam = false)
 	{
-		if($conditions)
+		if($editableParam)
 			$params = ['cfmid' => $mappingIdsList, 'editable' => 1];
 		else
 			$params = ['cfmid' => $mappingIdsList];

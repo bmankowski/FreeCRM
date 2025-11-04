@@ -23,7 +23,15 @@ class MappingDetail extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('MODULE_MODEL', \App\Modules\Settings\Leads\Models\Mapping::getInstance());
 		$viewer->assign('ERROR_MESSAGE', $request->get('errorMessage'));
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->view('MappingDetail.tpl', $qualifiedModuleName);
+		
+		// Add AJAX detection for MainLayout conversion
+		if ($request->isAjax()) {
+			// AJAX request - return content only
+			$viewer->view('MappingDetailContent.tpl', $qualifiedModuleName);
+		} else {
+			// Initial page load - return full page with MainLayout
+			$viewer->view('MappingDetailIndex.tpl', $qualifiedModuleName);
+		}
 	}
 
 	/**

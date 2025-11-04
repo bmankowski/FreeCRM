@@ -56,10 +56,10 @@ class Configuration extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('WIDGETS_WITH_FILTER_DATE', \App\Modules\Settings\WidgetsManagement\Models\Module::getWidgetsWithDate());
 		$viewer->assign('WIDGETS_WITH_FILTER_USERS', $widgetsWithFilterUsers);
 		$viewer->assign('ALL_AUTHORIZATION', $authorization);
-		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
-		$viewer->assign('SUPPORTED_MODULES', array_keys($dashboardModules));
-		$viewer->assign('DASHBOARD_AUTHORIZATION_BLOCKS', $bloks[$sourceModule]);
-		$viewer->assign('WIDGETS_AUTHORIZATION_INFO', $dashboardStored);
+	$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
+	$viewer->assign('SUPPORTED_MODULES', array_keys($dashboardModules));
+	$viewer->assign('DASHBOARD_AUTHORIZATION_BLOCKS', $bloks[$sourceModule] ?? []);
+	$viewer->assign('WIDGETS_AUTHORIZATION_INFO', $dashboardStored);
 		$viewer->assign('SPECIAL_WIDGETS', $specialWidgets);
 		$viewer->assign('CURRENTUSER', $currentUser);
 		$viewer->assign('WIDGETS', $widgets);
@@ -69,7 +69,14 @@ class Configuration extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 		$viewer->assign('RESTRICT_FILTER', $restrictFilter);
 
-		echo $viewer->view('Configuration.tpl', $request->getModule(false), true);
+		// Add AJAX detection for MainLayout conversion
+		if ($request->isAjax()) {
+			// AJAX request - return content only
+			echo $viewer->view('ConfigurationContent.tpl', $request->getModule(false), true);
+		} else {
+			// Initial page load - return full page with MainLayout
+			echo $viewer->view('ConfigurationIndex.tpl', $request->getModule(false), true);
+		}
 		\App\Log::trace(__METHOD__ . ' | End');
 	}
 }

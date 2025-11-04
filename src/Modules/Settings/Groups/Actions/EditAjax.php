@@ -12,7 +12,7 @@ namespace App\Modules\Settings\Groups\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Settings_Groups_EditAjax_Action extends \App\Modules\Settings\Base\Actions\Basic
+class EditAjax extends \App\Modules\Settings\Base\Actions\Basic
 {
 
 	public function __construct()

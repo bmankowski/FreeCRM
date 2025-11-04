@@ -10,7 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
-<!-- layouts/basic/modules/Settings/Leads/MappingDetail.tpl -->
+<!-- layouts/basic/modules/Settings/Leads/MappingDetailContent.tpl -->
 	<div class="row widget_header">
 		<div class="col-md-8">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
@@ -45,13 +45,13 @@
 			<tbody>
 				{foreach key=MAPPING_ID item=MAPPING from=$MODULE_MODEL->getMapping()}
 					<tr class="listViewEntries" data-cfmid="{$MAPPING_ID}">
-						<td>{$MAPPING['Leads']['label']|t:'Leads'}</td>
-						<td>{$MAPPING['Leads']['fieldDataType']|t:$QUALIFIED_MODULE}</td>
-						<td>{$MAPPING['Accounts']['label']|t:'Accounts'}</td>
+						<td>{if $MAPPING['Leads']}{$MAPPING['Leads']['label']|t:'Leads'}{else}NO KEY{/if}</td>
+						<td>{if $MAPPING['Leads'] && isset($MAPPING['Leads']['fieldDataType'])}{$MAPPING['Leads']['fieldDataType']|t:$QUALIFIED_MODULE}{/if}</td>
+						<td>{if $MAPPING['Accounts']}{$MAPPING['Accounts']['label']|t:'Accounts'}{else}NO KEY{/if}</td>
 					</tr>
 				{/foreach}
 			</tbody>
 		</table>
 	</div>
-<!--/layouts/basic/modules/Settings/Leads/MappingDetail.tpl -->
+<!--/layouts/basic/modules/Settings/Leads/MappingDetailContent.tpl -->
 {/strip}

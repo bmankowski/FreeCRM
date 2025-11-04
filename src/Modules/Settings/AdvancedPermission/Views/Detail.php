@@ -11,7 +11,7 @@ namespace App\Modules\Settings\AdvancedPermission\Views;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-class Settings_AdvancedPermission_Detail_View extends \App\Modules\Settings\Base\Views\Index
+class Detail extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

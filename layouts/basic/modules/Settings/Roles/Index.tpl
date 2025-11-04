@@ -5,32 +5,18 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): FreeCRM
  *************************************************************************************}
 {strip}
 <!-- layouts/basic/modules/Settings/Roles/Index.tpl -->
-<div class="">
-	<div class="widget_header row">
-		<div class="col-xs-12">
-			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-				{if isset($SELECTED_PAGE)}
-					{$SELECTED_PAGE->get('description')|t:$QUALIFIED_MODULE}
-				{/if}
-		</div>
-	</div>
-	<div class="clearfix treeView">
-		<ul>
-			<li data-role="{$ROOT_ROLE->getParentRoleString()}" data-roleid="{$ROOT_ROLE->getId()}">
-				<div class="toolbar-handle">
-					<a href="javascript:;" class="btn btn-default draggable droppable">{$ROOT_ROLE->getName()|t:$QUALIFIED_MODULE}</a>
-					<div class="toolbar" title="{"LBL_ADD_RECORD"|t:$QUALIFIED_MODULE}">
-						&nbsp;<a href="{$ROOT_ROLE->getCreateChildUrl()}" data-url="{$ROOT_ROLE->getCreateChildUrl()}" data-action="modal"><span class="glyphicon glyphicon-plus-sign"></span></a>
-					</div>
-				</div>
-				{assign var="ROLE" value=$ROOT_ROLE}
-				{include file=vtemplate_path("RoleTree.tpl", "Settings:Roles")}
-			</li>
-		</ul>
-	</div>
-</div>
+{extends file="MainLayout.tpl"|@vtemplate_path}
+
+{block name="content"}
+	<div class="mainContainer">
+		<div class="contentsDiv">
+			{include file='IndexContent.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+		</div> <!-- close contentsDiv -->
+	</div> <!-- close mainContainer -->
+{/block}
 <!--/layouts/basic/modules/Settings/Roles/Index.tpl -->
 {/strip}

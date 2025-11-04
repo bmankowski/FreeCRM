@@ -12,7 +12,7 @@ namespace App\Modules\Settings\ModuleManager\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Settings_ModuleManager_ModuleExport_Action extends \App\Modules\Settings\Base\Views\IndexAjax
+class ModuleExport extends \App\Modules\Settings\Base\Views\IndexAjax
 {
 
 	public function __construct()

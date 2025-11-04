@@ -11,7 +11,7 @@ namespace App\Modules\Settings\CurrencyUpdate\Models;
 /**
  * Class for connection to Nation Bank of Romania currency exchange rates
  */
-class Settings_CurrencyUpdate_models_NBR_BankModel extends \App\Modules\Settings\CurrencyUpdate\Models\AbstractBank
+class NBR extends \App\Modules\Settings\CurrencyUpdate\Models\AbstractBank
 {
 	/*
 	 * Returns bank name

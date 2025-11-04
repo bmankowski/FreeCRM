@@ -27,7 +27,7 @@ class MappingSave extends \App\Modules\Settings\Base\Actions\Index
 
 		$response = new \App\Http\Vtiger_Response();
 		if ($mapping) {
-			$mappingModel->save($mapping);
+			$mappingModel->saveMapping($mapping);
 			$result = array('status' => true);
 		} else {
 			$result['status'] = false;

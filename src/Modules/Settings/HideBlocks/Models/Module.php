@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\HideBlocks\Models;
-use App\Modules\Settings\HideBlocksModels\Module;
 
 
 /* +***********************************************************************************************************************************

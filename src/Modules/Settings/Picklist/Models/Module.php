@@ -276,10 +276,10 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function to get the instance of Vtiger Module Model from a given vtlib\Module object
-	 * @param vtlib\Module $moduleObj
+	 * @param \vtlib\Module $moduleObj
 	 * @return \App\Modules\Base\Models\Module instance
 	 */
-	public static function getInstanceFromModuleObject(vtlib\Module $moduleObj)
+	public static function getInstanceFromModuleObject(\vtlib\Module $moduleObj)
 	{
 		$objectProperties = get_object_vars($moduleObj);
 		$moduleModel = new self();

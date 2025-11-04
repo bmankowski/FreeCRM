@@ -13,7 +13,7 @@ namespace App\Modules\Settings\HideBlocks\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Settings_HideBlocks_Edit_View extends \App\Modules\Settings\Base\Views\Index
+class Edit extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -23,6 +23,7 @@ class Settings_HideBlocks_Edit_View extends \App\Modules\Settings\Base\Views\Ind
 		$mode = '';
 		$enabled = 0;
 		$views = array();
+		$blockId = '';
 		$viewer = $this->getViewer($request);
 		$moduleModel = \App\Modules\Settings\Base\Models\Module::getInstance($qualifiedModuleName);
 		if ($recordId) {
@@ -31,13 +32,14 @@ class Settings_HideBlocks_Edit_View extends \App\Modules\Settings\Base\Views\Ind
 			$enabled = $recordModel->get('enabled');
 			if ($recordModel->get('view') != '')
 				$views = explode(',', $recordModel->get('view'));
-			$viewer->assign('BLOCK_ID', $recordModel->get('blockid'));
+			$blockId = $recordModel->get('blockid');
 		}
 
 		$viewer->assign('MODE', $mode);
 		$viewer->assign('RECORD_ID', $recordId);
 		$viewer->assign('ENABLED', $enabled);
 		$viewer->assign('SELECTED_VIEWS', $views);
+		$viewer->assign('BLOCK_ID', $blockId);
 		$viewer->assign('MODULE', 'HideBlocks');
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('BLOCKS', $moduleModel->getAllBlock());

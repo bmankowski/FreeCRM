@@ -14,7 +14,7 @@ use App\Modules\Settings\PasswordModels\Record;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Settings_Password_Index_View extends \App\Modules\Settings\Base\Views\Index
+class Index extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

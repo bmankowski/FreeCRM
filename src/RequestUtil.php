@@ -31,7 +31,7 @@ class RequestUtil
 
 	public static function getBrowserInfo()
 	{
-		if (static::$browserCache === false) {
+		if (static::$browserCache === null) {
 			$browserAgent = strtolower($_SERVER['HTTP_USER_AGENT']);
 
 			$browser = new \stdClass;

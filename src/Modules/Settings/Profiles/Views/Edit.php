@@ -13,7 +13,7 @@ namespace App\Modules\Settings\Profiles\Views;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Settings_Profiles_Edit_View extends \App\Modules\Settings\Base\Views\Index
+class Edit extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function getBreadcrumbTitle(\App\Http\Vtiger_Request $request)

@@ -12,7 +12,7 @@ namespace App\Modules\Settings\CurrencyUpdate\Models;
 /**
  * Class for connection to European Central Bank currency exchange rates
  */
-class Settings_CurrencyUpdate_models_ECB_BankModel extends \App\Modules\Settings\CurrencyUpdate\Models\AbstractBank
+class ECB extends \App\Modules\Settings\CurrencyUpdate\Models\AbstractBank
 {
 	/*
 	 * Returns bank name

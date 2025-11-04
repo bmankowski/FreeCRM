@@ -14,7 +14,7 @@ use App\Modules\Settings\SharingAccessModels\RuleMember;
  * *********************************************************************************** */
 
 
-class Settings_SharingAccess_IndexAjax_View extends \App\Modules\Settings\Base\Views\IndexAjax
+class IndexAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 {
 
 	public function __construct()

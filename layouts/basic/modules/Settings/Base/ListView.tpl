@@ -24,7 +24,7 @@
 				</div>
 				{* List view actions and filters *}
 				<div class="listViewActionsDiv row marginBottom10px">
-					<div class="{if $SUPPORTED_MODULE_MODELS}col-md-5{else}col-md-8{/if} btn-toolbar">
+					<div class="{if isset($SUPPORTED_MODULE_MODELS) && $SUPPORTED_MODULE_MODELS}col-md-5{else}col-md-8{/if} btn-toolbar">
 						{foreach item=LINK from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
 							{if $LINK->getLabel()}
 								{assign var="LABEL" value={$LINK->getLabel()|t:$QUALIFIED_MODULE}}
@@ -41,13 +41,13 @@
 									{if $LINK->get('linkicon')}
 										<span class="{$LINK->get('linkicon')}"></span>
 									{/if}
-									{if $LINK->getLabel() && $LINK->get('showLabel') eq 1}
+									{if $LINK->getLabel() && $LINK->get('showLabel') neq 0}
 										&nbsp;<strong>{$LABEL}</strong>
 									{/if}
 								</button>
 							{/foreach}
 						</div>
-						{if $SUPPORTED_MODULE_MODELS}
+						{if isset($SUPPORTED_MODULE_MODELS) && $SUPPORTED_MODULE_MODELS}
 							<div class="col-md-3 btn-toolbar marginLeftZero">
 								<select class="chzn-select form-control" id="moduleFilter">
 									<option value="">{"LBL_ALL"|t:$QUALIFIED_MODULE}</option>

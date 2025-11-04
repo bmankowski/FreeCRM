@@ -12,7 +12,7 @@ namespace App\Modules\Settings\CurrencyUpdate\Models;
 /**
  * Class for connection to Central Bank of Russia currency exchange rates
  */
-class Settings_CurrencyUpdate_models_CBR_BankModel extends \App\Modules\Settings\CurrencyUpdate\Models\AbstractBank
+class CBR extends \App\Modules\Settings\CurrencyUpdate\Models\AbstractBank
 {
 	/*
 	 * Returns bank name

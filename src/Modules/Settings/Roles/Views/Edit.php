@@ -13,7 +13,7 @@ use App\Modules\Settings\RolesViews\Index;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Settings_Roles_Edit_View extends \App\Modules\Settings\Roles\Views\Index
+class Edit extends \App\Modules\Settings\Roles\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

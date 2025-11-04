@@ -13,7 +13,7 @@ namespace App\Modules\Settings\DataAccess\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Settings_DataAccess_ListDoc_View extends \App\Modules\Settings\Base\Views\Index
+class ListDoc extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)

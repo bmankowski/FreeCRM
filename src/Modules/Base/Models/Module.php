@@ -1347,7 +1347,7 @@ class Module extends \vtlib\Module
 			'linkurl' => 'index.php?parent=Settings&module=Widgets&view=Index&sourceModule=' . $this->getName(),
 			'linkicon' => $layoutEditorImagePath
 		);
-		if (VTWorkflowUtils::checkModuleWorkflow($this->getName())) {
+		if (\App\Modules\Workflow\VTWorkflowUtils::checkModuleWorkflow($this->getName())) {
 			$settingsLinks[] = array(
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_EDIT_WORKFLOWS',

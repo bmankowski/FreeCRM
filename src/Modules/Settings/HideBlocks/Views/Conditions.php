@@ -13,7 +13,7 @@ namespace App\Modules\Settings\HideBlocks\Views;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Settings_HideBlocks_Conditions_View extends \App\Modules\Settings\Base\Views\Index
+class Conditions extends \App\Modules\Settings\Base\Views\Index
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

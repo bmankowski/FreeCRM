@@ -88,10 +88,10 @@ class Field extends \App\Modules\Base\Models\Field
 
 	/**
 	 * Static Function to get the instance fo Vtiger Field Model from a given vtlib\Field object
-	 * @param vtlib\Field $fieldObj - vtlib field object
+	 * @param \vtlib\Field $fieldObj - vtlib field object
 	 * @return \App\Modules\Base\Models\Field instance
 	 */
-	public static function getInstanceFromFieldObject(vtlib\Field $fieldObj)
+	public static function getInstanceFromFieldObject(\vtlib\Field $fieldObj)
 	{
 		$objectProperties = get_object_vars($fieldObj);
 		$fieldModel = new self();

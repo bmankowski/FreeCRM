@@ -56,7 +56,12 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);
 		$viewer->assign('QUALIFIED_NAME', $qualifiedName);
 
-		$viewer->view('Index.tpl', $qualifiedName);
+		// Check if this is an AJAX request - if so, return only content without MainLayout
+		if ($request->isAjax()) {
+			$viewer->view('IndexContent.tpl', $qualifiedName);
+		} else {
+			$viewer->view('Index.tpl', $qualifiedName);
+		}
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)

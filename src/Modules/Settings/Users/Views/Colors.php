@@ -27,7 +27,15 @@ class Colors extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('TABLES_ALL', $tablesAll);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->view('Colors.tpl', $qualifiedModuleName);
+		
+		// Add AJAX detection for MainLayout conversion
+		if ($request->isAjax()) {
+			// AJAX request - return content only
+			$viewer->view('ColorsContent.tpl', $qualifiedModuleName);
+		} else {
+			// Initial page load - return full page with MainLayout
+			$viewer->view('ColorsIndex.tpl', $qualifiedModuleName);
+		}
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)

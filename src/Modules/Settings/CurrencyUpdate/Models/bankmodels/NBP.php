@@ -12,7 +12,7 @@ namespace App\Modules\Settings\CurrencyUpdate\Models;
 /**
  * Class for connection to Narodowy Bank Polski currency exchange rates
  */
-class Settings_CurrencyUpdate_models_NBP_BankModel extends \App\Modules\Settings\CurrencyUpdate\Models\AbstractBank
+class NBP extends \App\Modules\Settings\CurrencyUpdate\Models\AbstractBank
 {
 	/*
 	 * Returns bank name

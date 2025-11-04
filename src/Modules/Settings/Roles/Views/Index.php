@@ -26,7 +26,13 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('ROLES', $allRoles);
 		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('TYPE', $request->get('type'));
-		$viewer->view('Index.tpl', $qualifiedModuleName);
+		
+		// Check if this is an AJAX request - if so, return only content without MainLayout
+		if ($request->isAjax()) {
+			$viewer->view('IndexContent.tpl', $qualifiedModuleName);
+		} else {
+			$viewer->view('Index.tpl', $qualifiedModuleName);
+		}
 	}
 
 	/**

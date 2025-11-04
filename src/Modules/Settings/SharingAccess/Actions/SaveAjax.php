@@ -14,7 +14,7 @@ use App\Modules\Settings\Base\Models\Tracker;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class Settings_SharingAccess_SaveAjax_Action extends \App\Modules\Settings\Base\Actions\Save
+class SaveAjax extends \App\Modules\Settings\Base\Actions\Save
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

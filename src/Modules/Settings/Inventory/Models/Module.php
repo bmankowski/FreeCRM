@@ -12,7 +12,7 @@ namespace App\Modules\Settings\Inventory\Models;
 class Module extends \App\Modules\Base\Models\Record
 {
 
-	public static function getCleanInstance()
+	public static function getCleanInstance($moduleName = null)
 	{
 		return new self();
 	}
