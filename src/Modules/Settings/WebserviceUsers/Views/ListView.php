@@ -17,9 +17,9 @@ class ListView extends \App\Modules\Settings\Base\Views\ListView
 	/**
 	 * Initiate data values for listview
 	 * @param \App\Http\Vtiger_Request $request
-	 * @param CRM_Viewer $viewer
+	 * @param \App\Runtime\CRM_Viewer $viewer
 	 */
-	public function initializeListViewContents(\App\Http\Vtiger_Request $request, CRM_Viewer $viewer)
+	public function initializeListViewContents(\App\Http\Vtiger_Request $request, \App\Runtime\CRM_Viewer $viewer)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		if (!$request->has('typeApi')) {

@@ -42,9 +42,9 @@
 										{$FIELD_DATA[$FIELD_NAME]|t:$FIELD_DATA[$FIELD_NAME]}
 									{else if $FIELD_DETAILS['fieldType'] == 'checkbox'}
 										{if $FIELD_DATA[$FIELD_NAME]|t == 'true'}
-											{LBL_YES|t}
+											{'LBL_YES'|t}
 										{else}
-											{LBL_NO|t}
+											{'LBL_NO'|t}
 										{/if}
 									{elseif $FIELD_DETAILS['fieldType'] == 'picklist'}
 										{assign var=PICKLIST value=$MODEL->getPicklistValues($FIELD_NAME)}

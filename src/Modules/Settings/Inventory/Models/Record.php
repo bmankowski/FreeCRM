@@ -32,7 +32,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	public function getValue()
 	{
-		return CurrencyField::convertToUserFormat($this->get('value'), null, true);
+		return \App\Fields\CurrencyField::convertToUserFormat($this->get('value'), null, true);
 	}
 
 	public function getStatus()

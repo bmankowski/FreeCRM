@@ -13,8 +13,6 @@ namespace App\Modules\Settings\PickListDependency\Models;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************** */
 
-require_once ROOT_DIRECTORY . '/modules/PickList/DependentPickListUtils.php';
-
 class Module extends \App\Modules\Settings\Base\Models\Module
 {
 

@@ -24,7 +24,7 @@ class Record extends \App\Modules\Base\Models\Record
 	{
 		$accountsPriority = ['CreatedEmail', 'CreatedHelpDesk', 'BindAccounts', 'BindContacts', 'BindLeads', 'BindHelpDesk', 'BindSSalesProcesses'];
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance('OSSMailScanner');
-		$iterator = new DirectoryIterator($moduleModel->actionsDir);
+		$iterator = new \DirectoryIterator($moduleModel->actionsDir);
 		$actions = [];
 		foreach ($iterator as $i => $fileInfo) {
 			if (!$fileInfo->isDot()) {

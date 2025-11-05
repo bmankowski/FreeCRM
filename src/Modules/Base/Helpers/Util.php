@@ -304,7 +304,7 @@ class Util {
 		if ($userObject) {
 			$userModel = \App\Modules\Users\Models\Privileges::getInstanceFromUserObject($userObject);
 		} else {
-			$userModel = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
+			$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		}
 
 		$date = new \DateTime($dateTime);

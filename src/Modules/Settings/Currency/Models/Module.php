@@ -36,8 +36,11 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		return self::tableName;
 	}
 
-	public static function delete($recordId)
+	public function delete($recordId = null)
 	{
+		if ($recordId === null) {
+			$recordId = $this->getId();
+		}
 		\App\Db::getInstance()->createCommand()->update(self::tableName, ['deleted' => 1], ['id' => $recordId])->execute();
 		\App\Modules\Settings\Currency\Models\Record::clearCache();
 	}

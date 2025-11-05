@@ -12,7 +12,7 @@ namespace App\Modules\Settings\Profiles\Views;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class ListView extends \App\Modules\Settings\Base\Views\Index
+class ListView extends \App\Modules\Settings\Base\Views\ListView
 {
 
 	public function getBreadcrumbTitle(\App\Http\Vtiger_Request $request)
@@ -24,13 +24,15 @@ class ListView extends \App\Modules\Settings\Base\Views\Index
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
-
-		$viewer->assign('MODULE', $moduleName);
+		
+		// Initialize list view using parent method
+		$this->initializeListViewContents($request, $viewer);
+		
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('ALL_RECORDS', \App\Modules\Settings\Profiles\Models\Record::getAll());
+		$viewer->assign('MODULE', $request->getModule());
 		$viewer->assign('USER_MODEL', $request->getUser());
+		$viewer->assign('ALL_RECORDS', \App\Modules\Settings\Profiles\Models\Record::getAll());
 
 		$viewer->view('ListView.tpl', $qualifiedModuleName);
 	}

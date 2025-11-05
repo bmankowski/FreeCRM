@@ -15,9 +15,11 @@ class Module extends \App\Modules\Base\Models\Record
 {
 	/*
 	 * Returns objects instance
+	 * @param string $moduleName - Module name
+	 * @return self - instance
 	 */
 
-	public static function getCleanInstance()
+	public static function getCleanInstance($moduleName = 'CurrencyUpdate')
 	{
 		$instance = new self();
 		return $instance;
@@ -102,7 +104,7 @@ class Module extends \App\Modules\Base\Models\Record
 				$db->createCommand()->delete('yetiforce_currencyupdate_banks', ['id' => $id])->execute();
 			}
 		}
-		foreach (new DirectoryIterator(__DIR__ . '/bankmodels/') as $fileInfo) {
+		foreach (new \DirectoryIterator(__DIR__ . '/bankmodels/') as $fileInfo) {
 			$fileName = $fileInfo->getFilename();
 			$extension = end(explode('.', $fileName));
 			$bankClassName = basename($fileName, '.' . $extension);

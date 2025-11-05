@@ -21,13 +21,13 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 	{
 		$moduleName = $request->getModule();
 		$mailModuleActive = \vtlib\Functions::getModuleId('OSSMail');
-		/** @var OSSMail_Record_Model $mailScannerRecordModel */
+		/** @var \App\Modules\OSSMailScanner\Models\Record $mailScannerRecordModel */
 		$mailScannerRecordModel = Record::getCleanInstance('OSSMailScanner');
 		$identityList = [];
 		if ($mailModuleActive) {
-			$accountsList = OSSMail_Record_Model::getAccountsList();
+			$accountsList = \App\Modules\OSSMail\Models\Record::getAccountsList();
 			foreach ($accountsList as $key => $account) {
-				$identityList[$account['user_id']] = OSSMailScanner_Record_Model::getIdentities($account['user_id']);
+				$identityList[$account['user_id']] = \App\Modules\OSSMailScanner\Models\Record::getIdentities($account['user_id']);
 			}
 		}
 

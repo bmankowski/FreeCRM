@@ -18,8 +18,11 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		'sharedOwner' => 'user_privileges/sharedOwner.php',
 	];
 
-	public function save($data)
+	public function save($request = null)
 	{
+		// Handle both old array format and new request format
+		$data = is_array($request) ? $request : ($request ? $request->getAll() : []);
+		
 		$moduleName = $data['module'];
 		$userId = $data['userid'];
 		$userData = isset($data['ids']) ? $data['ids'] : [];
