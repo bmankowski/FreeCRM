@@ -316,7 +316,7 @@ class OSSPasswords extends \App\CRMEntity
 			require_once( 'src/Modules/Settings/' . $moduleName . '/Views/uninstall.php' );
 			\App\Log::trace('After uninstall script.');
 
-			header('Location: index.php?module=Vtiger&parent=Settings&view=Index');
+			header('Location: index.php?module=Dashboard&parent=Settings&view=Index');
 		} else if ($eventType == 'module.preupdate') {
 			
 		} else if ($eventType == 'module.postupdate') {

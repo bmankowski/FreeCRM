@@ -37,7 +37,7 @@ class Detail extends \App\Modules\Users\Views\PreferenceDetail {
 		// Settings home breadcrumb
 		$breadcrumbs[] = [
 			'name' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_SETTINGS', $qualifiedModuleName),
-			'url' => 'index.php?module=Vtiger&parent=Settings&view=Index',
+			'url' => 'index.php?module=Dashboard&parent=Settings&view=Index',
 		];
 		
 		// Add specific settings module breadcrumb

@@ -21,11 +21,6 @@ class Index extends \App\Modules\Base\Views\Basic
 	{
 		\App\Modules\Settings\Base\Models\Tracker::addBasic('view');
 		parent::__construct();
-		$this->exposeMethod('DonateUs');
-		$this->exposeMethod('index');
-		$this->exposeMethod('github');
-		$this->exposeMethod('systemWarnings');
-		$this->exposeMethod('getWarningsList');
 	}
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
@@ -52,7 +47,7 @@ class Index extends \App\Modules\Base\Views\Basic
 		// Settings home breadcrumb
 		$breadcrumbs[] = [
 			'name' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_SETTINGS', $qualifiedModuleName),
-			'url' => 'index.php?module=Vtiger&parent=Settings&view=Index',
+			'url' => 'index.php?module=Dashboard&parent=Settings&view=Index',
 		];
 		
 		// Add specific settings module breadcrumb if not on Settings home
@@ -134,122 +129,9 @@ class Index extends \App\Modules\Base\Views\Basic
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$mode = $request->getMode();
-		if (!empty($mode)) {
-			// AJAX mode requests - return partial content
-			echo $this->invokeExposedMethod($mode, $request);
-			return;
-		}
-		
-		// Initial page load - render full page with MainLayout
-		$viewer = $this->getViewer($request);
-		$qualifiedModuleName = $request->getModule(false);
-		
-		// Prepare initial data for tabs (needed for warnings count)
-		$warnings = \App\SystemWarnings::getWarnings('all');
-		$viewer->assign('WARNINGS_COUNT', count($warnings));
-		
-		$viewer->view('Index.tpl', $qualifiedModuleName);
-	}
-
-	/**
-	 * Index - AJAX content for index tab
-	 * @param \App\Http\Vtiger_Request $request
-	 */
-	public function index(\App\Http\Vtiger_Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$qualifiedModuleName = $request->getModule(false);
-		$usersCount = \App\Modules\Users\Models\Record::getCount(true);
-		$allWorkflows = \App\Modules\Settings\Workflows\Models\Record::getAllAmountWorkflowsAmount();
-		$activeModules = \App\Modules\Settings\ModuleManager\Models\Module::getModulesCount(true);
-		$pinnedSettingsShortcuts = \App\Modules\Settings\Base\Models\MenuItem::getPinnedItems();
-		$warnings = \App\SystemWarnings::getWarnings('all');
-
-		$viewer->assign('WARNINGS_COUNT', count($warnings));
-		$viewer->assign('WARNINGS', !\App\Http\Vtiger_Session::has('SystemWarnings') ? $warnings : []);
-		$viewer->assign('USERS_COUNT', $usersCount);
-		$viewer->assign('ALL_WORKFLOWS', $allWorkflows);
-		$viewer->assign('ACTIVE_MODULES', $activeModules);
-		$viewer->assign('SETTINGS_SHORTCUTS', $pinnedSettingsShortcuts);
-		$viewer->view('IndexContent.tpl', $qualifiedModuleName);
-	}
-
-	public function github(\App\Http\Vtiger_Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$qualifiedModuleName = 'Settings:Github';
-		$clientModel = \App\Modules\Settings\Github\Models\Client::getInstance();
-		$isAuthor = $request->get('author');
-		$isAuthor = $isAuthor == 'true' ? true : false;
-		$pageNumber = $request->get('page');
-		if (empty($pageNumber)) {
-			$pageNumber = 1;
-		}
-
-		$state = empty($request->get('state')) ? 'open' : $request->get('state');
-		$issues = $clientModel->getAllIssues($pageNumber, $state, $isAuthor);
-		$pagingModel = new \App\Modules\Base\Models\Paging();
-		$pagingModel->set('page', $pageNumber);
-		$pagingModel->set('totalCount', \App\Modules\Settings\Github\Models\Issues::$totalCount);
-
-		$pageCount = $pagingModel->getPageCount();
-		$startPaginFrom = $pagingModel->getStartPagingFrom();
-
-		$viewer->assign('IS_AUTHOR', $isAuthor);
-		$viewer->assign('PAGE_NUMBER', $pageNumber);
-		$viewer->assign('ISSUES_STATE', $state);
-		$viewer->assign('PAGE_COUNT', $pageCount);
-		$viewer->assign('LISTVIEW_ENTRIES_COUNT', false);
-		$viewer->assign('LISTVIEW_COUNT', \App\Modules\Settings\Github\Models\Issues::$totalCount);
-		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
-		$viewer->assign('PAGING_MODEL', $pagingModel);
-		$viewer->assign('MODULE', $qualifiedModuleName);
-		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('GITHUB_ISSUES', $issues);
-		$viewer->assign('GITHUB_CLIENT_MODEL', $clientModel);
-		$viewer->view('Github.tpl', $qualifiedModuleName);
-	}
-
-	public function DonateUs(\App\Http\Vtiger_Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$qualifiedModuleName = $request->getModule(false);
-		$viewer->view('DonateUs.tpl', $qualifiedModuleName);
-	}
-
-	/**
-	 * Displays warnings system
-	 * 
-	 * @param \App\Http\Vtiger_Request $request
-	 */
-	public function systemWarnings(\App\Http\Vtiger_Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$qualifiedModuleName = $request->getModule(false);
-
-		$folders = array_values(\App\SystemWarnings::getFolders());
-		$viewer->assign('MODULE', $qualifiedModuleName);
-		$viewer->assign('FOLDERS', \App\Json::encode($folders));
-		$viewer->view('SystemWarnings.tpl', $qualifiedModuleName);
-	}
-
-	/**
-	 * Displays a list of system warnings
-	 * 
-	 * @param \App\Http\Vtiger_Request $request
-	 */
-	public function getWarningsList(\App\Http\Vtiger_Request $request)
-	{
-		$folder = $request->get('folder');
-		$active = $request->getBoolean('active');
-		$viewer = $this->getViewer($request);
-		$qualifiedModuleName = $request->getModule(false);
-
-		$list = \App\SystemWarnings::getWarnings($folder, $active);
-		$viewer->assign('MODULE', $qualifiedModuleName);
-		$viewer->assign('WARNINGS_LIST', $list);
-		$viewer->view('SystemWarningsList.tpl', $qualifiedModuleName);
+		// Redirect to Dashboard for Settings homepage
+		header('Location: index.php?module=Dashboard&parent=Settings&view=Index');
+		exit();
 	}
 
 	protected function getMenu()
@@ -259,51 +141,6 @@ class Index extends \App\Modules\Base\Views\Basic
 		return [];
 	}
 
-	/**
-	 * Function to get the list of Script models to be included
-	 * @param \App\Http\Vtiger_Request $request
-	 * @return <Array> - List of ScriptAsset instances
-	 */
-	public function getFooterScripts(\App\Http\Vtiger_Request $request)
-	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
-
-		$jsFileNames = array(
-			'modules.Base.resources.Vtiger',
-			'libraries.jquery.ckeditor.ckeditor',
-			'libraries.jquery.ckeditor.adapters.jquery',
-			'libraries.jquery.jstree.jstree',
-			'~libraries/jquery/datatables/media/js/jquery.dataTables.js',
-			'~libraries/jquery/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.js',
-			'modules.Base.resources.CkEditor',
-			'modules.Settings.Vtiger.resources.Vtiger',
-			'modules.Settings.Vtiger.resources.Edit',
-			"modules.Settings.$moduleName.resources.$moduleName",
-			'modules.Settings.Vtiger.resources.Index',
-			"modules.Settings.$moduleName.resources.Index",
-		);
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		return array_merge($headerScriptInstances, $jsScriptInstances);
-	}
-
-	/**
-	 * Retrieves css styles that need to loaded in the page
-	 * @param \App\Http\Vtiger_Request $request - request model
-	 * @return <array> - array of StyleAsset
-	 */
-	public function getHeaderCss(\App\Http\Vtiger_Request $request)
-	{
-		$headerCssInstances = parent::getHeaderCss($request);
-		$cssFileNames = array(
-			'libraries.jquery.jstree.themes.proton.style',
-			'~libraries/jquery/datatables/media/css/jquery.dataTables_themeroller.css',
-			'~libraries/jquery/datatables/plugins/integration/bootstrap/3/dataTables.bootstrap.css',
-		);
-		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		return array_merge($cssInstances, $headerCssInstances);
-	}
 
 	public static function getSelectedFieldFromModule($menuModels, $moduleName)
 	{

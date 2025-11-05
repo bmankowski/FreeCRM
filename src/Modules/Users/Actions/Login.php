@@ -78,11 +78,11 @@ class Login extends \App\Base\Controllers\BaseActionController
 				$return_params = urldecode($_SESSION['return_params']);
 				header("Location: index.php?$return_params");
 			} else {
-				if (\App\AppConfig::performance('SHOW_ADMIN_PANEL') && \App\Modules\Users\Models\Record::getInstanceById($userId, 'Users')->isAdmin()) {
-					header('Location: index.php?module=Vtiger&parent=Settings&view=Index');
-				} else {
-					header('Location: index.php');
-				}
+			if (\App\AppConfig::performance('SHOW_ADMIN_PANEL') && \App\Modules\Users\Models\Record::getInstanceById($userId, 'Users')->isAdmin()) {
+				header('Location: index.php?module=Dashboard&parent=Settings&view=Index');
+			} else {
+				header('Location: index.php');
+			}
 			}
 		} else {
 			if ($bfInstance) {
