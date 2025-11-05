@@ -14,7 +14,7 @@ FreeCRM - Customer Relationship Management System
 {block name="content"}
 	<div class="mainContainer">
 		<div class="contentsDiv">
-			{include file='ListContents.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+			{include file='ListContent.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 		</div> <!-- close contentsDiv -->
 	</div> <!-- close mainContainer -->
 {/block}

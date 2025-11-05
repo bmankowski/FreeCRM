@@ -30,7 +30,7 @@ class ListView extends \App\Modules\Settings\Base\Views\Index
 
 		if ($request->isAjax()) {
 			// AJAX request - return content only
-			$viewer->view('ListContents.tpl', $qualifiedModuleName);
+			$viewer->view('ListContent.tpl', $qualifiedModuleName);
 		} else {
 			// Initial page load - return full page with MainLayout
 			$viewer->view('ListViewIndex.tpl', $qualifiedModuleName);

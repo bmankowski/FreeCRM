@@ -10,7 +10,7 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- layouts/basic/modules/Settings/EmailTemplate/ListContents.tpl -->
+<!-- layouts/basic/modules/Settings/EmailTemplate/ListContent.tpl -->
 <div id="popupPageContainer">
 	<div class="emailTemplatesContainer">
 		<h3>{$MODULE|t:$QUALIFIED_MODULE}</h3>
@@ -42,5 +42,5 @@
 	</div>
 		<input type="hidden" class="triggerEventName" value="{$smarty.request.triggerEventName}"/>
 </div>
-<!--/layouts/basic/modules/Settings/EmailTemplate/ListContents.tpl -->
+<!--/layouts/basic/modules/Settings/EmailTemplate/ListContent.tpl -->
 {/strip}
