@@ -15,7 +15,6 @@
 	{block name="content"}
 		<div class="mainContainer">
 			<div class="contentsDiv">
-
 				{* Header with breadcrumbs and action buttons *}
 				<div class="widget_header row marginBottom10px">
 					<div class="col-sm-6 col-xs-12">
@@ -29,7 +28,6 @@
 						</div>
 					</div>
 				</div>
-
 				{* Wrap list view header and contents in listViewPageDiv *}
 				<div class="listViewPageDiv">
 					{include file="ListViewHeader.tpl"|vtemplate_path:$MODULE}

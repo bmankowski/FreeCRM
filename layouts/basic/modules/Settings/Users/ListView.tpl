@@ -5,20 +5,20 @@
  ********************************************************************************/
 -->*}
 {strip}
-<!-- layouts/basic/modules/Settings/Users/ListView.tpl -->
-{extends file="MainLayout.tpl"|@vtemplate_path}
+	<!-- layouts/basic/modules/Settings/Users/ListView.tpl -->
+	{extends file="MainLayout.tpl"|@vtemplate_path}
 
-{block name="content"}
+	{block name="content"}
 		<div class="mainContainer">
 			<div class="contentsDiv">
-				
+
 				{* Header with breadcrumbs *}
 				<div class="widget_header row marginBottom10px">
 					<div class="col-xs-12">
 						{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 					</div>
 				</div>
-				
+
 				{* List view actions and filters *}
 				<div class="listViewActionsDiv row marginBottom10px">
 					<div class="col-md-4 btn-toolbar">
@@ -29,13 +29,13 @@
 								</button>
 								<ul class="dropdown-menu">
 									{foreach item="LISTVIEW_MASSACTION" from=$LISTVIEW_MASSACTIONS name=actionCount}
-										<li id="{$MODULE}_listView_massAction_{\App\Modules\Base\Helpers\Util::replaceSpaceWithUnderScores($LISTVIEW_MASSACTION->getLabel())}">
-											<a href="javascript:void(0);" 
-											   {if stripos($LISTVIEW_MASSACTION->getUrl(), 'javascript:')===0}
-												   onclick='{$LISTVIEW_MASSACTION->getUrl()|substr:strlen("javascript:")};'
-											   {else} 
-												   onclick="Vtiger_ListView_Js.triggerMassAction('{$LISTVIEW_MASSACTION->getUrl()}')"
-											   {/if}>
+										<li
+											id="{$MODULE}_listView_massAction_{\App\Modules\Base\Helpers\Util::replaceSpaceWithUnderScores($LISTVIEW_MASSACTION->getLabel())}">
+											<a href="javascript:void(0);"
+												{if stripos($LISTVIEW_MASSACTION->getUrl(), 'javascript:')===0}
+												onclick='{$LISTVIEW_MASSACTION->getUrl()|substr:strlen("javascript:")};' {else}
+													onclick="Vtiger_ListView_Js.triggerMassAction('{$LISTVIEW_MASSACTION->getUrl()}')"
+												{/if}>
 												{$LISTVIEW_MASSACTION->getLabel()|t:$MODULE}
 											</a>
 										</li>
@@ -44,13 +44,12 @@
 										{/if}
 									{/foreach}
 									{foreach item=LISTVIEW_ADVANCEDACTIONS from=$LISTVIEW_LINKS['LISTVIEW']}
-										<li id="{$MODULE}_listView_advancedAction_{\App\Modules\Base\Helpers\Util::replaceSpaceWithUnderScores($LISTVIEW_ADVANCEDACTIONS->getLabel())}">
-											<a {if stripos($LISTVIEW_ADVANCEDACTIONS->getUrl(), 'javascript:')===0} 
-												   href="javascript:void(0);" 
-												   onclick='{$LISTVIEW_ADVANCEDACTIONS->getUrl()|substr:strlen("javascript:")};'
-											   {else} 
-												   href='{$LISTVIEW_ADVANCEDACTIONS->getUrl()}' 
-											   {/if}>
+										<li
+											id="{$MODULE}_listView_advancedAction_{\App\Modules\Base\Helpers\Util::replaceSpaceWithUnderScores($LISTVIEW_ADVANCEDACTIONS->getLabel())}">
+											<a {if stripos($LISTVIEW_ADVANCEDACTIONS->getUrl(), 'javascript:')===0}
+													href="javascript:void(0);"
+												onclick='{$LISTVIEW_ADVANCEDACTIONS->getUrl()|substr:strlen("javascript:")};' {else}
+												href='{$LISTVIEW_ADVANCEDACTIONS->getUrl()}' {/if}>
 												{$LISTVIEW_ADVANCEDACTIONS->getLabel()|t:$MODULE}
 											</a>
 										</li>
@@ -60,12 +59,10 @@
 						</span>
 						{foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
 							<span class="btn-group">
-								<button class="btn btn-default addButton" 
-										{if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0} 
-											onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'
-										{else} 
-											onclick='window.location.href="{$LISTVIEW_BASICACTION->getUrl()}"' 
-										{/if}>
+								<button class="btn btn-default addButton"
+									{if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0}
+									onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};' {else}
+									onclick='window.location.href="{$LISTVIEW_BASICACTION->getUrl()}"' {/if}>
 									<span class="glyphicon glyphicon-plus"></span>&nbsp;
 									<strong>{"LBL_ADD_RECORD"|t:$QUALIFIED_MODULE}</strong>
 								</button>
@@ -82,15 +79,14 @@
 						{include file='ListViewActions.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 					</div>
 				</div>
-				
+
 				{* List view table *}
 				<div class="listViewContentDiv" id="listViewContents">
 					{include file='ListViewContents.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 				</div>
-				
+
 			</div> <!-- close contentsDiv -->
 		</div> <!-- close mainContainer -->
-{/block}
-<!--/layouts/basic/modules/Settings/Users/ListView.tpl -->
+	{/block}
+	<!--/layouts/basic/modules/Settings/Users/ListView.tpl -->
 {/strip}
-

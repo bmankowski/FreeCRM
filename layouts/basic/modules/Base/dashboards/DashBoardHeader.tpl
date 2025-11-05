@@ -10,7 +10,7 @@
 ************************************************************************************/
 -->*}
 {strip}
-<!-- layouts/basic/modules/Base/dashboards/DashBoardHeader.tpl -->
+	<!-- layouts/basic/modules/Base/dashboards/DashBoardHeader.tpl -->
 	<div class="widget_header row">
 		<div class="col-xs-9 col-sm-4 col-md-6">
 			<div class="btn-group listViewMassActions modOn_{$MODULE} pull-left paddingRight10">
@@ -19,5 +19,5 @@
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 		</div>
 	</div>
-<!--/layouts/basic/modules/Base/dashboards/DashBoardHeader.tpl -->
+	<!--/layouts/basic/modules/Base/dashboards/DashBoardHeader.tpl -->
 {/strip}
