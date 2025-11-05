@@ -84,7 +84,12 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('MAINCURR', $mainCurrencyInfo);
 		$viewer->assign('SUPPORTED_CURRENCIES', $moduleModel->getSupportedCurrencies());
 		$viewer->assign('UNSUPPORTED_CURRENCIES', $moduleModel->getUnSupportedCurrencies());
-		$viewer->view('Index.tpl', $qualifiedModule);
+		
+		if ($request->isAjax()) {
+			$viewer->view('IndexContent.tpl', $qualifiedModule);
+		} else {
+			$viewer->view('IndexView.tpl', $qualifiedModule);
+		}
 		\App\Log::trace('End ' . __METHOD__);
 	}
 }

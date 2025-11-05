@@ -28,7 +28,12 @@ class Config extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('MODULE_MODEL', \App\Modules\Settings\Mail\Models\Config::getInstance());
 		$viewer->assign('ERROR_MESSAGE', $request->get('errorMessage'));
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->view('Config.tpl', $qualifiedModuleName);
+		
+		if ($request->isAjax()) {
+			$viewer->view('ConfigContent.tpl', $qualifiedModuleName);
+		} else {
+			$viewer->view('ConfigIndex.tpl', $qualifiedModuleName);
+		}
 	}
 
 	/**

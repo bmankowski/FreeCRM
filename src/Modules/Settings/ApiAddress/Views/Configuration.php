@@ -23,10 +23,16 @@ class Configuration extends \App\Modules\Settings\Base\Views\Index
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
+		$qualifiedModuleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 
 		$viewer->assign('CONFIG', \App\Modules\Settings\ApiAddress\Models\Module::getInstance('Settings:ApiAddress')->getConfig());
-		$viewer->assign('MODULENAME', $request->getModule(false));
-		echo $viewer->view('Configuration.tpl', $request->getModule(false), true);
+		$viewer->assign('MODULENAME', $qualifiedModuleName);
+		
+		if ($request->isAjax()) {
+			$viewer->view('ConfigurationContent.tpl', $qualifiedModuleName);
+		} else {
+			$viewer->view('ConfigurationIndex.tpl', $qualifiedModuleName);
+		}
 	}
 }

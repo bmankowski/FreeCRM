@@ -38,7 +38,12 @@ class CreditLimits extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('INVENTORY_DATA', $allData);
 		$viewer->assign('VIEW', $view);
 		$viewer->assign('CURRENCY', \App\Modules\Base\Helpers\Util::getBaseCurrency());
-		$viewer->view('Index.tpl', $qualifiedModuleName);
+		
+		if ($request->isAjax()) {
+			$viewer->view('IndexContent.tpl', $qualifiedModuleName);
+		} else {
+			$viewer->view('IndexView.tpl', $qualifiedModuleName);
+		}
 	}
 
 	public function getPageLabels(\App\Http\Vtiger_Request $request)

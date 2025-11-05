@@ -27,6 +27,11 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULENAME', $moduleName);
 		$viewer->assign('WIDGET_CFG', $WidgetCfg);
-		echo $viewer->view('index.tpl', $moduleName, true);
+
+		if ($request->isAjax()) {
+			$viewer->view('indexContent.tpl', $moduleName);
+		} else {
+			$viewer->view('indexIndex.tpl', $moduleName);
+		}
 	}
 }

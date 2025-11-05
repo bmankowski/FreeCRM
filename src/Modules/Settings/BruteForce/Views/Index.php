@@ -20,6 +20,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 	 */
 	public function process(\App\Http\Vtiger_Request $request)
 	{
+		$qualifiedModuleName = $request->getModule(false);
 		$bfInstance = \App\Modules\Settings\BruteForce\Models\Module::getCleanInstance();
 		$viewer = $this->getViewer($request);
 		$adminUsers = \App\Modules\Settings\BruteForce\Models\Module::getAdminUsers();
@@ -30,6 +31,11 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('BLOCKED', $bfInstance->getBlockedIp());
 		$viewer->assign('ADMIN_USERS', $adminUsers);
 		$viewer->assign('USERS_FOR_NOTIFICATIONS', $usersForNotifications);
-		$viewer->view('Index.tpl', $request->getModule(false));
+		
+		if ($request->isAjax()) {
+			$viewer->view('IndexContent.tpl', $qualifiedModuleName);
+		} else {
+			$viewer->view('IndexView.tpl', $qualifiedModuleName);
+		}
 	}
 }

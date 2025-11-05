@@ -26,9 +26,14 @@ class Keys extends \App\Modules\Settings\Base\Views\Index
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('USERS', \App\Modules\Users\Models\Record::getAll());
-		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('ENABLEDAV', !in_array('dav', $enabledServices));
-		$viewer->view('Keys.tpl', $qualifiedModuleName);
+	$viewer->assign('USERS', \App\Modules\Users\Models\Record::getAll());
+	$viewer->assign('MODULE', $moduleName);
+	$viewer->assign('ENABLEDAV', !in_array('dav', $enabledServices));
+	
+	if ($request->isAjax()) {
+		$viewer->view('KeysContent.tpl', $qualifiedModuleName);
+	} else {
+		$viewer->view('KeysIndex.tpl', $qualifiedModuleName);
+	}
 	}
 }

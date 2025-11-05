@@ -26,6 +26,11 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('GLOBALPERMISSIONS', $globalPermissions);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->view('Index.tpl', $qualifiedModuleName);
+		
+		if ($request->isAjax()) {
+			$viewer->view('IndexContent.tpl', $qualifiedModuleName);
+		} else {
+			$viewer->view('IndexView.tpl', $qualifiedModuleName);
+		}
 	}
 }

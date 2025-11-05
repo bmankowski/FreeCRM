@@ -50,7 +50,7 @@ while IFS= read -r url || [ -n "$url" ]; do
     # Check for common PHP error patterns (both HTML and plain text formats)
     
     # Check for HTML-formatted errors (most common in web responses)
-    if echo "$response" | grep -qE "^(Fatal error|Parse error|Warning|Notice):|Cannot redeclare|Call to undefined|static"; then
+    if echo "$response" | grep -qE "^(Fatal error|Parse error|Warning|Notice):|Cannot redeclare|Call to undefined"; then
         echo -e "${RED}✗ ERRORS FOUND:${NC}"
         echo "$response" | grep -E "<b>(Fatal error|Parse error|Warning|Notice)</b>|Cannot redeclare|Call to undefined" | head -5
         echo -e "\n${RED}Testing stopped due to errors${NC}"

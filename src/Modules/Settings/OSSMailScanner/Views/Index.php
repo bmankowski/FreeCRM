@@ -43,22 +43,28 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 			}
 		}
 
-	$checkCron = $mailScannerRecordModel->get_cron();
-	$usersEntityInfo = \App\Module::getEntityInfo('Users');
-	$viewer = $this->getViewer($request);
-	$viewer->assign('RECORD_MODEL', $mailScannerRecordModel);
-	$viewer->assign('ACCOUNTS_LIST', $accountsList);
-	$viewer->assign('ACTIONS_LIST', $actionsList);
-	$viewer->assign('CONFIGFOLDERLIST', $ConfigFolderList);
-	$viewer->assign('WIDGET_CFG', $widgetCfg);
-	$viewer->assign('EMAILSEARCH', $emailSearch);
-	$viewer->assign('EMAILSEARCHLIST', $emailSearchList);
-	$viewer->assign('RECORDNUMBERING', $numbering);
-	$viewer->assign('ERRORNOMODULE', !$mailModuleActive);
-	$viewer->assign('MODULENAME', $moduleName);
-	$viewer->assign('IDENTITYLIST', $identityList);
-	$viewer->assign('CHECKCRON', $checkCron);
-	$viewer->assign('USERS_ENTITY_INFO', $usersEntityInfo);
-		echo $viewer->view('Index.tpl', $request->getModule(false), true);
+		$checkCron = $mailScannerRecordModel->get_cron();
+		$usersEntityInfo = \App\Module::getEntityInfo('Users');
+		$viewer = $this->getViewer($request);
+		$viewer->assign('RECORD_MODEL', $mailScannerRecordModel);
+		$viewer->assign('ACCOUNTS_LIST', $accountsList);
+		$viewer->assign('ACTIONS_LIST', $actionsList);
+		$viewer->assign('CONFIGFOLDERLIST', $ConfigFolderList);
+		$viewer->assign('WIDGET_CFG', $widgetCfg);
+		$viewer->assign('EMAILSEARCH', $emailSearch);
+		$viewer->assign('EMAILSEARCHLIST', $emailSearchList);
+		$viewer->assign('RECORDNUMBERING', $numbering);
+		$viewer->assign('ERRORNOMODULE', !$mailModuleActive);
+		$viewer->assign('MODULENAME', $moduleName);
+		$viewer->assign('IDENTITYLIST', $identityList);
+		$viewer->assign('CHECKCRON', $checkCron);
+		$viewer->assign('USERS_ENTITY_INFO', $usersEntityInfo);
+
+		$qualifiedModuleName = $request->getModule(false);
+		if ($request->isAjax()) {
+			$viewer->view('IndexContent.tpl', $qualifiedModuleName);
+		} else {
+			$viewer->view('IndexView.tpl', $qualifiedModuleName);
+		}
 	}
 }

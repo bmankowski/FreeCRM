@@ -24,7 +24,12 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('DETAIL', \App\Modules\Settings\Password\Models\Record::getPassDetail());
-		$viewer->view('Index.tpl', $qualifiedModuleName);
+
+		if ($request->isAjax()) {
+			$viewer->view('IndexContent.tpl', $qualifiedModuleName);
+		} else {
+			$viewer->view('IndexView.tpl', $qualifiedModuleName);
+		}
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)

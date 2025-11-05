@@ -25,7 +25,12 @@ class Auth extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('MODULE_MODEL', $settingsModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->view('Auth.tpl', $qualifiedModuleName);
+
+		if ($request->isAjax()) {
+			$viewer->view('AuthContent.tpl', $qualifiedModuleName);
+		} else {
+			$viewer->view('AuthIndex.tpl', $qualifiedModuleName);
+		}
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)

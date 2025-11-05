@@ -29,7 +29,12 @@ class Autologin extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('MODULE_MODEL', \App\Modules\Settings\Mail\Models\Autologin::getInstance());
 		$viewer->assign('ERROR_MESSAGE', $request->get('errorMessage'));
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->view('Autologin.tpl', $qualifiedModuleName);
+		
+		if ($request->isAjax()) {
+			$viewer->view('AutologinContent.tpl', $qualifiedModuleName);
+		} else {
+			$viewer->view('AutologinIndex.tpl', $qualifiedModuleName);
+		}
 	}
 
 	/**

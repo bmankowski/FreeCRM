@@ -24,7 +24,12 @@ class SwitchUsers extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->view('SwitchUsers.tpl', $qualifiedModuleName);
+
+		if ($request->isAjax()) {
+			$viewer->view('SwitchUsersContent.tpl', $qualifiedModuleName);
+		} else {
+			$viewer->view('SwitchUsersIndex.tpl', $qualifiedModuleName);
+		}
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)

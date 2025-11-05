@@ -44,7 +44,7 @@ class ConfigurePass extends \App\Modules\Settings\Base\Views\Index
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		
+
 		$adb = \App\Database\PearDatabase::getInstance();
 		$currentUser = \App\User\CurrentUser::get();
 
@@ -254,6 +254,10 @@ class ConfigurePass extends \App\Modules\Settings\Base\Views\Index
 		// encryption variables
 		$viewer->assign('CONFIG', (!$config ? false : array('key' => $config['key'])));
 
-		$viewer->view('ConfigurePass.tpl', $moduleName);
+		if ($request->isAjax()) {
+			$viewer->view('ConfigurePassContent.tpl', $moduleName);
+		} else {
+			$viewer->view('ConfigurePassIndex.tpl', $moduleName);
+		}
 	}
 }

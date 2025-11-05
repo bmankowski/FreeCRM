@@ -27,6 +27,11 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 
 		$viewer->assign('UPDATES', $updates);
 		$viewer->assign('MODULE', $qualifiedModuleName);
-		$viewer->view('Index.tpl', $qualifiedModuleName);
+
+		if ($request->isAjax()) {
+			$viewer->view('IndexContent.tpl', $qualifiedModuleName);
+		} else {
+			$viewer->view('IndexView.tpl', $qualifiedModuleName);
+		}
 	}
 }

@@ -31,7 +31,12 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('ROLEID', $roleId);
 		$viewer->assign('DATA', $settingsModel->getAll(filter_var($roleId, FILTER_SANITIZE_NUMBER_INT)));
 		$viewer->assign('LASTID', \App\Modules\Settings\Menu\Models\Module::getLastId());
-		$viewer->view('Index.tpl', $qualifiedModuleName);
+		
+		if ($request->isAjax()) {
+			$viewer->view('IndexContent.tpl', $qualifiedModuleName);
+		} else {
+			$viewer->view('IndexView.tpl', $qualifiedModuleName);
+		}
 	}
 
 	/**

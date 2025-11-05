@@ -65,6 +65,10 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('RECORDS_STRUCTURE', $quickCreateContents);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 
-		$viewer->view('Index.tpl', $qualifiedModule);
+		if ($request->isAjax()) {
+			$viewer->view('IndexContent.tpl', $qualifiedModule);
+		} else {
+			$viewer->view('IndexView.tpl', $qualifiedModule);
+		}
 	}
 }

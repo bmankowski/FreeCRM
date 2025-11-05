@@ -25,10 +25,16 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 			$OSSMailScanner_Record_Model = \App\Modules\Base\Models\Record::getCleanInstance('OSSMailScanner');
 			$WidgetCfg = $OSSMailScanner_Record_Model->getConfig(false);
 		}
-		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
+		$qualifiedModuleName = $request->getModule(false);
+		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('RecordModel', $OSSMail_Record_Model);
 		$viewer->assign('WIDGET_CFG', $WidgetCfg);
 		$viewer->assign('MODULENAME', $moduleName);
-		echo $viewer->view('config.tpl', $moduleName, true);
+
+		if ($request->isAjax()) {
+			$viewer->view('configContent.tpl', $moduleName);
+		} else {
+			$viewer->view('configIndex.tpl', $moduleName);
+		}
 	}
 }

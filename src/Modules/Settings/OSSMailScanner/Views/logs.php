@@ -36,7 +36,12 @@ class logs extends \App\Modules\Settings\Base\Views\Index
 			$viewer->assign('STOP_BUTTON_STATUS', 'false');
 		}
 
-		echo $viewer->view('logs.tpl', $request->getModule(false), true);
+		$qualifiedModuleName = $request->getModule(false);
+		if ($request->isAjax()) {
+			$viewer->view('logsContent.tpl', $qualifiedModuleName);
+		} else {
+			$viewer->view('logsIndex.tpl', $qualifiedModuleName);
+		}
 	}
 
 	public function getNumLog()

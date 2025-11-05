@@ -28,10 +28,16 @@ class Configuration extends \App\Modules\Settings\Base\Views\Index
 			$srcModule = key($modules);
 		}
 		$viewer = $this->getViewer($request);
+		$qualifiedModuleName = $request->getModule(false);
 		$viewer->assign('WATCHDOG_MODULE', \App\Modules\Base\Models\Watchdog::getInstance($srcModule));
 		$viewer->assign('SELECTED_MODULE', $srcModule);
 		$viewer->assign('SUPPORTED_MODULES', $modules);
-		$viewer->view('Configuration.tpl', $request->getModule(false));
+		
+		if ($request->isAjax()) {
+			$viewer->view('ConfigurationContent.tpl', $qualifiedModuleName);
+		} else {
+			$viewer->view('ConfigurationIndex.tpl', $qualifiedModuleName);
+		}
 	}
 
 	/**
