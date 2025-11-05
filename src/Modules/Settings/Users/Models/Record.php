@@ -55,5 +55,60 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		}
 		return $this->userModel;
 	}
+
+	/**
+	 * Function to get the list view actions for the record
+	 * @return array - Array of \App\Modules\Base\Models\Link instances
+	 */
+	public function getRecordLinks()
+	{
+		$links = [];
+		
+		$recordLinks = [
+			[
+				'linktype' => 'LISTVIEWRECORD',
+				'linklabel' => 'LBL_EDIT_RECORD',
+				'linkurl' => 'index.php?module=Users&parent=Settings&view=Edit&record=' . $this->getId(),
+				'linkicon' => 'glyphicon glyphicon-pencil'
+			],
+			[
+				'linktype' => 'LISTVIEWRECORD',
+				'linklabel' => 'LBL_DELETE_RECORD',
+				'linkurl' => 'index.php?module=Users&parent=Settings&action=DeleteUser&record=' . $this->getId(),
+				'linkicon' => 'glyphicon glyphicon-trash'
+			]
+		];
+		
+		foreach ($recordLinks as $recordLink) {
+			$links[] = \App\Modules\Base\Models\Link::getInstanceFromValues($recordLink);
+		}
+		
+		return $links;
+	}
+
+	/**
+	 * Function to get the display value
+	 * @param string $key
+	 * @return mixed
+	 */
+	public function getDisplayValue($key)
+	{
+		$value = $this->get($key);
+		
+		// Handle is_admin field
+		if ($key === 'is_admin') {
+			if ($value === 'on' || $value === 1 || $value === '1' || $value === true) {
+				return \App\Runtime\Vtiger_Language_Handler::translate('LBL_YES', 'Users');
+			}
+			return \App\Runtime\Vtiger_Language_Handler::translate('LBL_NO', 'Users');
+		}
+		
+		// Handle status field  
+		if ($key === 'status') {
+			return \App\Runtime\Vtiger_Language_Handler::translate($value, 'Users');
+		}
+		
+		return $value;
+	}
 }
 

@@ -286,7 +286,7 @@ class Record extends \App\Modules\Base\Models\Record
 			case 'currency_id':
 				return \App\Fields\CurrencyField::getDBCurrencyId();
 			case 'accesskey':
-				return vtws_generateRandomAccessKey(16);
+				return \vtws_generateRandomAccessKey(16);
 			case 'language':
 				return \App\Runtime\Vtiger_Language_Handler::getLanguage();
 			case 'time_zone':
@@ -295,6 +295,16 @@ class Record extends \App\Modules\Base\Models\Record
 				return \App\Runtime\CRM_Viewer::DEFAULTTHEME;
 			case 'is_admin':
 				return 'off';
+			case 'internal_mailer':
+				return 1;
+			case 'emailoptout':
+				return 1;
+			case 'available':
+				return 0;
+			case 'auto_assign':
+				return 0;
+			case 'roleid':
+				return 'H1';
 		}
 		return false;
 	}

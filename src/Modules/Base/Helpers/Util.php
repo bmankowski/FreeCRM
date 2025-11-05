@@ -352,7 +352,7 @@ class Util {
 	public static function getGroupsIdsForUsers($userId)
 	{
 
-		$userGroupInstance = new GetUserGroups();
+		$userGroupInstance = new \App\Utils\GetUserGroups();
 		$userGroupInstance->getAllUserGroups($userId);
 		return $userGroupInstance->user_groups;
 	}

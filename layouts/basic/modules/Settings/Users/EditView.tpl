@@ -8,23 +8,17 @@ FreeCRM - Customer Relationship Management System
  *************************************************************************************************************************************/
 -->*}
 {strip}
-	<!-- layouts/basic/modules/Settings/Users/ListView.tpl -->
+	<!-- layouts/basic/modules/Settings/Users/EditView.tpl -->
 	{extends file="MainLayout.tpl"|@vtemplate_path}
 
 	{block name="content"}
 		<div class="mainContainer">
 			<div class="contentsDiv">
-				{* Header with breadcrumbs *}
-				<div class="widget_header row marginBottom10px">
-					<div class="col-xs-12">
-						{include file='BreadCrumbs.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
-					</div>
-				</div>
-				
-				{include file='ListViewContent.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+				{include file='../Users/EditView.tpl'|@vtemplate_path:'Users'}
 			</div> <!-- close contentsDiv -->
 		</div> <!-- close mainContainer -->
 	{/block}
-	<!--/layouts/basic/modules/Settings/Users/ListView.tpl -->
+	<!--/layouts/basic/modules/Settings/Users/EditView.tpl -->
 {/strip}
+
 

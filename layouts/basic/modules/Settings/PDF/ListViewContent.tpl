@@ -1,6 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- layouts/basic/modules/Settings/MappedFields/ListViewContents.tpl -->
+<!-- layouts/basic/modules/Settings/PDF/ListViewContent.tpl -->
 	<input type="hidden" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
 	<input type="hidden" id="pageEndRange" value="{$PAGING_MODEL->getRecordEndRange()}" />
 	<input type="hidden" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}" />
@@ -39,22 +39,24 @@
 							<td class="listViewEntryValue {$WIDTHTYPE}" data-name="{$LISTVIEW_HEADERNAME}" width="{$WIDTH}%" nowrap>
 								&nbsp;{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)|t:$QUALIFIED_MODULE}
 								{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
-								</td><td nowrap class="{$WIDTHTYPE} tdActions">
+								</td><td nowrap class="{$WIDTHTYPE}">
 									<div class="pull-right actions">
 										<span class="actionImages">
 											{foreach item=RECORD_LINK from=$LISTVIEW_ENTRY->getRecordLinks()}
 												{assign var="RECORD_LINK_URL" value=$RECORD_LINK->getUrl()}
-												{if $RECORD_LINK_URL}
+												{if $RECORD_LINK->getLabel() eq 'LBL_DELETE_RECORD'}
+													<span class="{$RECORD_LINK->getIcon()} alignMiddle templateDelete" title="{$RECORD_LINK->getLabel()|t:$QUALIFIED_MODULE}"></span>
+												{elseif $RECORD_LINK->getLabel() eq 'LBL_EXPORT_RECORD'}
+													<a href="{$RECORD_LINK_URL}"><span class="{$RECORD_LINK->getIcon()} alignMiddle"></span></a>
+												{else}
 													<a {if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="
-																										 {$RECORD_LINK_URL|substr:strlen("javascript:")};
+														{$RECORD_LINK_URL|substr:strlen("javascript:")};
 															if (event.stopPropagation){ldelim}
-																		event.stopPropagation();{rdelim} else{ldelim}
-																					event.cancelBubble = true;{rdelim}
-																										 " {else} href='{$RECORD_LINK_URL}' {/if} class="{$RECORD_LINK->get('class')}">
+																event.stopPropagation();{rdelim} else{ldelim}
+																event.cancelBubble = true;{rdelim}
+														" {else} href='{$RECORD_LINK_URL}' {/if} class="{$RECORD_LINK->get('class')}">
 														<span class="{$RECORD_LINK->getIcon()} alignMiddle" title="{$RECORD_LINK->getLabel()|t:$QUALIFIED_MODULE}"></span>
 													</a>
-												{else}
-													<span class="{$RECORD_LINK->getIcon()} alignMiddle {$RECORD_LINK->get('class')}" title="{$RECORD_LINK->getLabel()|t:$QUALIFIED_MODULE}"></span>
 												{/if}
 												{if !$RECORD_LINK@last}
 													&nbsp;&nbsp;
@@ -84,5 +86,5 @@
 			</table>
 		{/if}
 	</div>
-<!--/layouts/basic/modules/Settings/MappedFields/ListViewContents.tpl -->
+<!--/layouts/basic/modules/Settings/PDF/ListViewContent.tpl -->
 {/strip}

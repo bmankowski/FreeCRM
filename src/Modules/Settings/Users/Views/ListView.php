@@ -18,6 +18,49 @@ class ListView extends \App\Modules\Settings\Base\Views\ListView
 		}
 	}
 	
+	/**
+	 * Get breadcrumb title - return null to avoid extra text in breadcrumbs
+	 */
+	public function getBreadcrumbTitle(\App\Http\Vtiger_Request $request)
+	{
+		return null;
+	}
+	
+	/**
+	 * Build breadcrumbs for Users ListView
+	 * Don't show view-specific breadcrumb, just module name is enough
+	 */
+	protected function buildBreadcrumbs(\App\Http\Vtiger_Request $request)
+	{
+		$breadcrumbs = [];
+		$moduleName = $request->getModule();
+		$qualifiedModuleName = $request->getModule(false);
+		
+		// Settings home breadcrumb
+		$breadcrumbs[] = [
+			'name' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_SETTINGS', $qualifiedModuleName),
+			'url' => 'index.php?module=Dashboard&parent=Settings&view=Index',
+		];
+		
+		// Find Users menu item and build breadcrumb from it
+		$fieldId = $request->get('fieldid');
+		$menu = \App\Modules\Settings\Base\Models\MenuItem::getAll();
+		foreach ($menu as &$menuModel) {
+			if ($menuModel->getModule() == $moduleName) {
+				$parent = $menuModel->getMenu();
+				$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate($parent->get('label'), $qualifiedModuleName)];
+				$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate($menuModel->get('name'), $qualifiedModuleName),
+					'url' => $menuModel->getUrl()
+				];
+				break;
+			}
+		}
+		
+		// Don't add view-specific breadcrumb for ListView - module name is enough
+		
+		return $breadcrumbs;
+	}
+	
 	public function initializeListViewContents(\App\Http\Vtiger_Request $request, \App\Runtime\CRM_Viewer $viewer)
 	{
 		$moduleName = $request->getModule();
@@ -105,7 +148,14 @@ class ListView extends \App\Modules\Settings\Base\Views\ListView
 			$this->listViewHeaders = $this->listViewModel->getListViewHeaders();
 		}
 		if (!$this->listViewEntries) {
-			$this->listViewEntries = $this->listViewModel->getListViewEntries($pagingModel);
+			$rawEntries = $this->listViewModel->getListViewEntries($pagingModel);
+			// Convert regular User records to Settings User records
+			$this->listViewEntries = [];
+			foreach ($rawEntries as $id => $userRecord) {
+				$settingsRecord = new \App\Modules\Settings\Users\Models\Record();
+				$settingsRecord->setData($userRecord->getData());
+				$this->listViewEntries[$id] = $settingsRecord;
+			}
 		}
 		$noOfEntries = count($this->listViewEntries);
 
@@ -133,7 +183,7 @@ class ListView extends \App\Modules\Settings\Base\Views\ListView
 		$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);
 		$viewer->assign('SORT_IMAGE', $sortImage);
 		$viewer->assign('COLUMN_NAME', $orderBy);
-		$viewer->assign('QUALIFIED_MODULE', $moduleName);
+		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 		$viewer->assign('LISTVIEW_ENTRIES_COUNT', $noOfEntries);
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
@@ -165,7 +215,8 @@ class ListView extends \App\Modules\Settings\Base\Views\ListView
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$jsFileNames = [
 			'modules.Base.resources.ListView',
-			'modules.Users.resources.List',
+			'modules.Settings.Vtiger.resources.ListView',
+			'modules.Settings.Users.resources.ListView',
 		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);

@@ -76,7 +76,7 @@ class Pagination extends \App\Modules\Settings\Base\Views\IndexAjax
 		$viewer->assign('LISTVIEW_COUNT', $totalCount);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
-		echo $viewer->view('Pagination.tpl', $moduleName, true);
+		echo $viewer->view('Pagination.tpl', $qualifiedModuleName, true);
 	}
 
 	public function transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel)

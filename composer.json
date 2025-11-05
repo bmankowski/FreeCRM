@@ -73,7 +73,8 @@
 		"files": [
 			"src/Runtime/Globals.php",
 			"src/Runtime/TemplateHelpers.php",
-			"vtlib/Vtiger/Deprecated.php"
+			"vtlib/Vtiger/Deprecated.php",
+			"src/Webservices/Utils.php"
 		]
 	},
 	"repositories": {

@@ -36,6 +36,15 @@ class UserRole extends BaseUiType
 	}
 
 	/**
+	 * Function to get the Template name for the current UI Type Object
+	 * @return string - Template Name
+	 */
+	public function getTemplateName()
+	{
+		return 'uitypes/Picklist.tpl';
+	}
+
+	/**
 	 * Function to get all the available picklist values for the current field
 	 * @return string[]
 	 */

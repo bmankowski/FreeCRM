@@ -30,8 +30,8 @@
 				</div>
 				{* Wrap list view header and contents in listViewPageDiv *}
 				<div class="listViewPageDiv">
-					{include file="ListViewHeader.tpl"|vtemplate_path:$MODULE}
-					{include file="ListViewContents.tpl"|vtemplate_path:$MODULE}
+					{include file="ListViewHeader.tpl"|vtemplate_path:$QUALIFIED_MODULE}
+					{include file="ListViewContents.tpl"|vtemplate_path:$QUALIFIED_MODULE}
 				</div> <!-- close listViewPageDiv -->
 
 			</div> <!-- close contentsDiv -->

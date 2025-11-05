@@ -1,7 +1,6 @@
- {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
- 
+{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
-<!-- layouts/basic/modules/Settings/TreesManager/ListViewContents.tpl -->
+<!-- layouts/basic/modules/Settings/Profiles/ListViewContent.tpl -->
 <input type="hidden" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
 <input type="hidden" id="pageEndRange" value="{$PAGING_MODEL->getRecordEndRange()}" />
 <input type="hidden" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}" />
@@ -45,7 +44,6 @@
 				{/if}
 			</td>
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-				
 					{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 					{assign var=LAST_COLUMN value=$LISTVIEW_HEADER@last}
 					<td class="listViewEntryValue {$WIDTHTYPE}"  width="{$WIDTH}%" nowrap>
@@ -56,11 +54,20 @@
 									<span class="actionImages">
 										{foreach item=RECORD_LINK from=$LISTVIEW_ENTRY->getRecordLinks()}
 											{assign var="RECORD_LINK_URL" value=$RECORD_LINK->getUrl()}
-											<a class="{if $LISTVIEW_ENTRY->get('access') eq '0' && $RECORD_LINK->get('linklabel') eq 'LBL_DELETE'} hide {/if}"{if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="{$RECORD_LINK_URL|substr:strlen("javascript:")};if(event.stopPropagation){ldelim}event.stopPropagation();{rdelim}else{ldelim}event.cancelBubble=true;{rdelim}" {else} href='{$RECORD_LINK_URL}' {/if}>
-												<span class="{$RECORD_LINK->getIcon()} alignMiddle" title="{$RECORD_LINK->getLabel()|t:$QUALIFIED_MODULE}"></span>
-											</a>
+											{assign var="RECORD_LINK_LABEL" value=$RECORD_LINK->getLabel()}
+											{if $LISTVIEW_ENTRIES_COUNT == 1}
+												{if $RECORD_LINK_LABEL neq 'LBL_DELETE_RECORD'}
+													<a {if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="{$RECORD_LINK_URL|substr:strlen("javascript:")};if(event.stopPropagation){ldelim}event.stopPropagation();{rdelim}else{ldelim}event.cancelBubble=true;{rdelim}" {else} href='{$RECORD_LINK_URL}' {/if}>
+														<span class="{$RECORD_LINK->getIcon()} alignMiddle" title="{$RECORD_LINK->getLabel()|t:$QUALIFIED_MODULE}"></span>
+													</a>
+												{/if}
+											{else}
+												<a {if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="{$RECORD_LINK_URL|substr:strlen("javascript:")};if(event.stopPropagation){ldelim}event.stopPropagation();{rdelim}else{ldelim}event.cancelBubble=true;{rdelim}" {else} href='{$RECORD_LINK_URL}' {/if}>
+													<span class="{$RECORD_LINK->getIcon()} alignMiddle" title="{$RECORD_LINK->getLabel()|t:$QUALIFIED_MODULE}"></span>
+												</a>
+											{/if}
 											{if !$RECORD_LINK@last}
-												&nbsp;&nbsp;
+												&nbsp;
 											{/if}
 										{/foreach}
 									</span>
@@ -87,5 +94,5 @@
 	</table>
 	{/if}
 </div>
-<!--/layouts/basic/modules/Settings/TreesManager/ListViewContents.tpl -->
+<!--/layouts/basic/modules/Settings/Profiles/ListViewContent.tpl -->
 {/strip}

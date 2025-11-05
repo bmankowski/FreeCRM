@@ -10,6 +10,7 @@ use App\PrivilegeUtil;
 use App\Utils\GetGroupUsers;
 use App\Utils\UserInfoUtil;
 use App\Modules\Users\Models\Privileges;
+use App\Modules\Users\Models\Record;
 use vtlib\Functions;
 
 /**
@@ -76,7 +77,7 @@ class PrivilegeFileManager
             fclose($handle);
             PrivilegeFile::createUserPrivilegesFile($userId);
             Privileges::clearCache($userId);
-            User::clearCache($userId);
+            Record::clearCache($userId);
             return true;
         }
         return false;

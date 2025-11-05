@@ -46,7 +46,9 @@
 										<strong>{$USER_MODEL->getName()}</strong>
 									</td>
 									<td>
-										{\App\PrivilegeUtil::getRoleName($USER_MODEL->getRole())|t:$MODULE_NAME}
+										{if isset($USER_ROLE_NAMES[$USER_ID])}
+											{$USER_ROLE_NAMES[$USER_ID]|t:$MODULE_NAME}
+										{/if}
 									</td>
 									<td>
 										{$VALUE}

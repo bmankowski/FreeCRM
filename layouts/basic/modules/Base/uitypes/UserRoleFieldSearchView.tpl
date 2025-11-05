@@ -15,8 +15,9 @@
 				{/if}
 				data-fieldinfo="{$FIELD_INFO}">
 			{if AppConfig::performance('SEARCH_ROLES_BY_AJAX')}
+				{assign var=ALL_ROLE_NAMES value=$FIELD_MODEL->getPicklistValues()}
 				{foreach from=$SEARCH_VALUES item=PICKLIST_VALUE}
-					<option value="{$PICKLIST_VALUE}" selected>{\App\PrivilegeUtil::getRoleName($PICKLIST_VALUE)}</option>
+					<option value="{$PICKLIST_VALUE}" selected>{if isset($ALL_ROLE_NAMES[$PICKLIST_VALUE])}{$ALL_ROLE_NAMES[$PICKLIST_VALUE]}{else}{$PICKLIST_VALUE}{/if}</option>
 				{/foreach}
 			{else}
 				{foreach key=PICKLIST_VALUE item=PICKLIST_NAME from=$FIELD_MODEL->getPicklistValues()}

@@ -66,7 +66,7 @@
 
 					{* List view table *}
 					<div class="listViewContentDiv" id="listViewContents">
-						{include file='ListViewContents.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+						{include file='ListViewContent.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 					</div>
 				</div>
 			</div>

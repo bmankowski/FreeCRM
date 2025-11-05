@@ -264,6 +264,8 @@ class Field extends \vtlib\Field
 						break;
 					case 69: $fieldDataType = 'image';
 						break;
+					case 98: $fieldDataType = 'userRole';
+						break;
 					case 117: $fieldDataType = 'currencyList';
 						break;
 					case 120: $fieldDataType = 'sharedOwner';

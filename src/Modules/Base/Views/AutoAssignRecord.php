@@ -55,10 +55,22 @@ class AutoAssignRecord  extends \App\Modules\Base\Views\Index
 		$autoAssignModel = \App\Modules\Settings\Base\Models\Module::getInstance('Settings:AutomaticAssignment');
 		$autoAssignRecord = $autoAssignModel->searchRecord($recordModel);
 
+		// Prepare role names for users to avoid calling static methods in template
+		$userRoleNames = [];
+		$availableUsers = $autoAssignRecord->getAvailableUsers();
+		if ($availableUsers) {
+			foreach ($availableUsers as $userId => $value) {
+				$userModel = \App\Modules\Users\Models\Record::getUserModel($userId);
+				$roleId = $userModel->getRole();
+				$userRoleNames[$userId] = \App\PrivilegeUtil::getRoleName($roleId);
+			}
+		}
+
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('AUTO_ASSIGN_RECORD', $autoAssignRecord);
+		$viewer->assign('USER_ROLE_NAMES', $userRoleNames);
 		$this->preProcess($request);
 		$viewer->view('AutoAssignRecord.tpl', $moduleName);
 		$this->postProcess($request);
