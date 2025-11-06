@@ -193,7 +193,7 @@ class CustomView
 	/**
 	 * Set default sort order by
 	 * @param string $moduleName
-	 * @param string $defaultSortOrderBy
+	 * @param array $defaultSortOrderBy
 	 */
 	public static function setDefaultSortOrderBy($moduleName, $defaultSortOrderBy = [], \App\Http\Vtiger_Request $request = null)
 	{

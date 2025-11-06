@@ -12,8 +12,6 @@ namespace App\Modules\Base\Views;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-
-use App\Http\Vtiger_Request;
 class ListView extends \App\Modules\Base\Views\Index
 {
 
@@ -120,6 +118,7 @@ class ListView extends \App\Modules\Base\Views\Index
 			$viewer->view('ListViewContents.tpl', $moduleName);
 		} else {
 			// For non-AJAX requests, prepare list view data then render full page
+			$this->assignSidebarData($request);
 			$this->prepareListViewData($request);
 			$viewer->assign('VIEW', $request->get('view'));
 			$viewer->view('ListView.tpl', $moduleName);

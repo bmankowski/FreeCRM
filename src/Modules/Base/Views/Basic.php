@@ -120,6 +120,7 @@ abstract class Basic extends \App\Base\Controllers\BaseViewController
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
+		$this->assignBasicViewData($request);
 		// MainLayout handles rendering, no separate preProcess template needed
 	}
 	
