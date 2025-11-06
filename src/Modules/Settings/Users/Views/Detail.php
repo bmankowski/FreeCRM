@@ -98,18 +98,6 @@ class Detail extends \App\Modules\Users\Views\PreferenceDetail {
 		// MainLayout handles rendering, no separate preProcess template needed
 	}
 
-	public function postProcess(\App\Http\Vtiger_Request $request)
-	{
-		// MainLayout handles footer rendering
-		parent::postProcess($request);
-	}
-
-	public function process(\App\Http\Vtiger_Request $request)
-	{
-		// Call parent process which handles both AJAX and full page rendering
-		parent::process($request);
-	}
-
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);

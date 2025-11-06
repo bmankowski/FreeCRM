@@ -38,12 +38,6 @@ class Detail  extends \App\Modules\Base\Views\Detail
 		$viewer->assign('EXTENSION_ICON', $fileIcon);
 	}
 
-	public function process(\App\Http\Vtiger_Request $request)
-	{
-		// Data already assigned in preProcess, just render
-		parent::process($request);
-	}
-
 	/**
 	 * Function to get Ajax is enabled or not
 	 * @param \App\Modules\Base\Models\Record record model

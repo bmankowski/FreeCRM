@@ -121,12 +121,6 @@ class Index extends \App\Modules\Base\Views\Basic
 		// MainLayout handles rendering, no separate preProcess template needed
 	}
 
-	public function postProcess(\App\Http\Vtiger_Request $request)
-	{
-		// MainLayout handles footer rendering, no separate postProcess template needed
-		parent::postProcess($request);
-	}
-
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		// Redirect to Dashboard for Settings homepage

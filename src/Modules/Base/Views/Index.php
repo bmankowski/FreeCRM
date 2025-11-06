@@ -70,12 +70,6 @@ class Index extends \App\Modules\Base\Views\Basic
 		$viewer->assign('CURRENT_VIEW', $request->get('view'));
 	}
 
-	public function postProcess(\App\Http\Vtiger_Request $request)
-	{
-		// MainLayout handles footer rendering, no separate postProcess template needed
-		parent::postProcess($request);
-	}
-
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);

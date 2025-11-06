@@ -163,11 +163,6 @@ abstract class Basic extends \App\Base\Controllers\BaseViewController
 		return \App\Modules\Base\Models\Menu::getAll(true);
 	}
 
-	public function postProcess(\App\Http\Vtiger_Request $request)
-	{
-		parent::postProcess($request);
-	}
-
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Http\Vtiger_Request $request

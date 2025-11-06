@@ -133,12 +133,6 @@ class ListView extends \App\Modules\Base\Views\Index
 		$viewer->view('ListView.tpl', $moduleName);
 	}
 
-	public function postProcess(\App\Http\Vtiger_Request $request)
-	{
-		// MainLayout.tpl handles footer rendering, no separate postProcess template needed
-		parent::postProcess($request);
-	}
-
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Http\Vtiger_Request $request

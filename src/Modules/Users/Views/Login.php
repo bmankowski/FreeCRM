@@ -26,18 +26,6 @@ class Login extends \App\Base\Controllers\BaseViewController
 		return true;
 	}
 
-	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
-	{
-		parent::preProcess($request, false);
-		// MainLayout handles rendering, no separate preProcess template needed
-	}
-
-	public function postProcess(\App\Http\Vtiger_Request $request)
-	{
-		// MainLayout handles footer rendering
-		parent::postProcess($request);
-	}
-
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);

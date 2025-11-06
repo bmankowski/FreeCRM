@@ -29,12 +29,6 @@ class Calendar  extends \App\Modules\Base\Views\Index
 		$viewer->view('CalendarView.tpl', $request->getModule());
 	}
 
-	public function postProcess(\App\Http\Vtiger_Request $request)
-	{
-		// MainLayout.tpl handles footer rendering, no separate postProcess template needed
-		parent::postProcess($request);
-	}
-
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);

@@ -24,9 +24,4 @@ class Detail extends \App\Modules\Base\Views\Detail
 		$viewer->assign('CONVERSION_AVAILABLE_STATUS', \App\Json::encode(\App\Modules\Leads\Models\Module::getConversionAvaibleStatuses()));
 	}
 
-	public function process(\App\Http\Vtiger_Request $request)
-	{
-		// Data already assigned in preProcess, just render
-		parent::process($request);
-	}
 }

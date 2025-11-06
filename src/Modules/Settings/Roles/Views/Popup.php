@@ -23,12 +23,6 @@ class Popup extends \App\Modules\Base\Views\Basic
 		}
 	}
 
-	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
-	{
-		parent::preProcess($request, false);
-		// Minimal preProcess for popup - no full header needed
-	}
-
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);

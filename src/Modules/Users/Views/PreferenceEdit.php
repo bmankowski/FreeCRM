@@ -86,9 +86,4 @@ class PreferenceEdit extends \App\Modules\Base\Views\Edit
 		$viewer->assign('USER_MODEL', $currentUser);
 	}
 
-	public function process(\App\Http\Vtiger_Request $request)
-	{
-		// Data already assigned in preProcess, just render
-		parent::process($request);
-	}
 }

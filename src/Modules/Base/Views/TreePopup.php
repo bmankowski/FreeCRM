@@ -66,12 +66,6 @@ class TreePopup  extends \App\Modules\Base\Views\Index
 		$viewer->view('TreePopup.tpl', $moduleName);
 	}
 
-	public function postProcess(\App\Http\Vtiger_Request $request)
-	{
-		// PopupLayout.tpl handles footer rendering including scripts
-		parent::postProcess($request);
-	}
-
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Http\Vtiger_Request $request

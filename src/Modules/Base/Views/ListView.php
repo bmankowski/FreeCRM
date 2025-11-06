@@ -61,7 +61,8 @@ class ListView extends \App\Modules\Base\Views\Index
 	{
 		parent::preProcess($request, false);
 		if ($request->isAjax()) {
-			// AJAX requests don't need full page data
+			// AJAX requests need list data but not sidebar/layout data
+			$this->prepareAjaxListViewData($request);
 			return;
 		}
 		// Prepare data for non-AJAX (full page) requests
@@ -69,6 +70,22 @@ class ListView extends \App\Modules\Base\Views\Index
 		$this->prepareListViewData($request);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('VIEW', $request->get('view'));
+	}
+	
+	protected function prepareAjaxListViewData(\App\Http\Vtiger_Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		$moduleName = $request->getModule();
+		
+		// Assign common data needed by AJAX list view
+		if (!isset($this->viewName)) {
+			$this->viewName = \App\CustomView::getInstance($moduleName)->getViewId();
+		}
+		
+		$viewer->assign('USER_MODEL', $request->getUser());
+		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('MODULE_MODEL', \App\Modules\Base\Models\Module::getInstance($moduleName));
+		$viewer->assign('VIEWID', $this->viewName);
 	}
 	
 	protected function prepareListViewData(\App\Http\Vtiger_Request $request)
@@ -102,10 +119,7 @@ class ListView extends \App\Modules\Base\Views\Index
 		$moduleName = $request->getModule();
 		
 		if ($request->isAjax()) {
-			// Keep AJAX assignments here (different data than full page)
-			if (!isset($this->viewName)) {
-				$this->viewName = \App\CustomView::getInstance($moduleName)->getViewId();
-			}
+			// AJAX-specific logic (data already assigned in preProcess)
 			if (\App\CustomView::hasViewChanged($moduleName, $this->viewName, $request)) {
 				$customViewModel = \App\Modules\CustomView\Models\Record::getInstanceById($this->viewName);
 				if ($customViewModel) {
@@ -119,21 +133,11 @@ class ListView extends \App\Modules\Base\Views\Index
 				}
 			}
 			$this->initializeListViewContents($request, $viewer);
-			$viewer->assign('USER_MODEL', $request->getUser());
-			$viewer->assign('MODULE_NAME', $moduleName);
-			$viewer->assign('MODULE_MODEL', \App\Modules\Base\Models\Module::getInstance($moduleName));
-			$viewer->assign('VIEWID', $this->viewName);
 			$viewer->view('ListViewContents.tpl', $moduleName);
 		} else {
 			// For non-AJAX requests, just render (data already assigned in preProcess)
 			$viewer->view('ListView.tpl', $moduleName);
 		}
-	}
-
-	public function postProcess(\App\Http\Vtiger_Request $request)
-	{
-		// MainLayout handles footer rendering, no separate postProcess template needed
-		parent::postProcess($request);
 	}
 
 	/**

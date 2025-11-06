@@ -54,7 +54,13 @@ class Edit extends \App\Modules\Base\Views\Index
 		return $pageTitle;
 	}
 
-	public function process(\App\Http\Vtiger_Request $request)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
+	{
+		parent::preProcess($request, false);
+		$this->assignEditViewData($request);
+	}
+
+	protected function assignEditViewData(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -151,6 +157,13 @@ class Edit extends \App\Modules\Base\Views\Index
 		$viewer->assign('APIADDRESS_ACTIVE', \App\Modules\Settings\ApiAddress\Models\Module::isActive());
 		$viewer->assign('MAX_UPLOAD_LIMIT_MB', \App\Modules\Base\Helpers\Util::getMaxUploadSize());
 		$viewer->assign('MAX_UPLOAD_LIMIT', vglobal('upload_maxsize'));
+	}
+
+	public function process(\App\Http\Vtiger_Request $request)
+	{
+		// Data already assigned in preProcess, just render
+		$viewer = $this->getViewer($request);
+		$moduleName = $request->getModule();
 		$viewer->view('EditView.tpl', $moduleName);
 	}
 

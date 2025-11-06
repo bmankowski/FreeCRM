@@ -42,12 +42,6 @@ class ListView  extends \App\Modules\Base\Views\Index
 		// Data already assigned in preProcess, just render
 		$viewer->view('ListView.tpl', $moduleName);
 	}
-
-	public function postProcess(\App\Http\Vtiger_Request $request)
-	{
-		// MainLayout.tpl handles footer rendering, no separate postProcess template needed
-		parent::postProcess($request);
-	}
 	/*
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */

@@ -13,7 +13,6 @@ namespace App\Modules\ModComments\Views;
  * *********************************************************************************** */
 
 
-use App\Http\Vtiger_Request;
 class DetailAjax extends \App\Modules\Base\Views\Index
 {
 

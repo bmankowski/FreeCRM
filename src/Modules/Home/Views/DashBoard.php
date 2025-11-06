@@ -32,12 +32,6 @@ class DashBoard extends \App\Modules\Base\Views\DashBoard
 		$viewer->assign('MODULES_WITH_WIDGET', $modulesWithWidget);
 	}
 
-	public function process(\App\Http\Vtiger_Request $request)
-	{
-		// Data already assigned in preProcess, just render
-		parent::process($request);
-	}
-
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);

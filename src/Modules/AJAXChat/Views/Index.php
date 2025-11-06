@@ -12,11 +12,6 @@ use App\Http\Vtiger_Request;
 class Index  extends \App\Modules\Base\Views\Index
 {
 
-	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
-	{
-		parent::preProcess($request, false);
-	}
-
 	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		

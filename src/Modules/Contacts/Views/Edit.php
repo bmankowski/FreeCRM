@@ -13,11 +13,14 @@ namespace App\Modules\Contacts\Views;
 
 
 use App\Http\Vtiger_Request;
-class Edit  extends \App\Modules\Base\Views\Index
+class Edit  extends \App\Modules\Base\Views\Edit
 {
 
-	public function process(\App\Http\Vtiger_Request $request)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
+		parent::preProcess($request, false);
+		
+		// Assign Contacts-specific edit data
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 		$recordModel = $this->record;
@@ -42,7 +45,6 @@ class Edit  extends \App\Modules\Base\Views\Index
 			$salutationFieldModel->set('fieldvalue', $recordModel->get('salutationtype'));
 		}
 		$viewer->assign('SALUTATION_FIELD_MODEL', $salutationFieldModel);
-
-		parent::process($request);
 	}
+
 }

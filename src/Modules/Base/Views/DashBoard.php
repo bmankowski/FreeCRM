@@ -134,12 +134,6 @@ class DashBoard  extends \App\Modules\Base\Views\Index
 		$viewer->view('DashBoard.tpl', $moduleName);
 	}
 
-	public function postProcess(\App\Http\Vtiger_Request $request)
-	{
-		// MainLayout handles footer rendering, no template needed here
-		parent::postProcess($request);
-	}
-
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Http\Vtiger_Request $request

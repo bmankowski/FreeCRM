@@ -117,12 +117,6 @@ class Edit extends \App\Modules\Users\Views\PreferenceEdit
 		// MainLayout handles rendering, no separate preProcess template needed
 	}
 
-	public function postProcess(\App\Http\Vtiger_Request $request)
-	{
-		// MainLayout handles footer rendering
-		parent::postProcess($request);
-	}
-
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);

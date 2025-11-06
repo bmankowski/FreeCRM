@@ -85,10 +85,4 @@ class Calendar  extends \App\Modules\Base\Views\Index
 		// Data already assigned in preProcess, just render
 		$viewer->view('CalendarView.tpl', $moduleName);
 	}
-
-	public function postProcess(\App\Http\Vtiger_Request $request)
-	{
-		// MainLayout handles footer rendering, no separate postProcess template needed
-		parent::postProcess($request);
-	}
 }

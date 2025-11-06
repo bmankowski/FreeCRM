@@ -17,17 +17,9 @@ use App\Http\Vtiger_Request;
 class CheckConfig  extends \App\Modules\Base\Views\Index
 {
 
-	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
-	{
-		parent::preProcess($request, false);
-	}
-
 	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		
 	}
 
-	public function process(\App\Http\Vtiger_Request $request)
-	{
-	}
 }

@@ -12,11 +12,6 @@
 class OSSMailView_mbody_View extends \App\Modules\Base\Views\Index
 {
 
-	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
-	{
-		parent::preProcess($request, false);
-	}
-
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();

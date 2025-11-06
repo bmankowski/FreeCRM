@@ -22,18 +22,6 @@ class TreeRecords  extends \App\Modules\Base\Views\Index
 		return $pageTitle;
 	}
 
-	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
-	{
-		parent::preProcess($request, false);
-		// MainLayout handles rendering, no separate preProcess/postProcess templates needed
-	}
-
-	public function postProcess(\App\Http\Vtiger_Request $request, $display = true)
-	{
-		// MainLayout handles footer rendering, no separate postProcess template needed
-		parent::postProcess($request);
-	}
-
 	protected function postProcessDisplay(\App\Http\Vtiger_Request $request)
 	{
 		// No longer needed - MainLayout handles display

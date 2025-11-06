@@ -215,6 +215,7 @@ class Detail extends \App\Modules\Base\Views\Index
 		}
 		
 		// Initial page load - render full DetailView with MainLayout
+		// Data already assigned in preProcess via assignDetailViewData()
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 		if (!$this->record) {
@@ -242,17 +243,10 @@ class Detail extends \App\Modules\Base\Views\Index
 			$detailContent = $this->$defaultMode($request);
 		}
 		
-		$recordModel = $this->record->getRecord();
+		// RECORD already assigned in preProcess, only assign DETAIL_CONTENT
 		$viewer = $this->getViewer($request);
-		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('DETAIL_CONTENT', $detailContent);
 		$viewer->view('DetailView.tpl', $moduleName);
-	}
-
-	public function postProcess(\App\Http\Vtiger_Request $request)
-	{
-		// MainLayout handles footer rendering, no separate postProcess template needed
-		parent::postProcess($request);
 	}
 
 	public function getHeaderCss(\App\Http\Vtiger_Request $request)

@@ -23,8 +23,4 @@ class OSSMailView_summary_View extends \App\Modules\Base\Views\Edit
 		
 	}
 
-	public function process(\App\Http\Vtiger_Request $request)
-	{
-		
-	}
 }

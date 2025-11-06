@@ -24,11 +24,6 @@ class OSSMailView_preview_View extends \App\Modules\Base\Views\Index
 		return true;
 	}
 
-	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
-	{
-		parent::preProcess($request, false);
-	}
-
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
