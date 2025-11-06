@@ -36,17 +36,24 @@
 				</span>
 			</div>
 		</div>
-			{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
-				{if $BLOCK_FIELDS|@count gt 0}
-				<div class="panel panel-default row marginLeftZero marginRightZero blockContainer" data-label="{$BLOCK_LABEL|t:$MODULE}">
-					<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
-						<div class="iconCollapse">
-							<span class="cursorPointer blockToggle glyphicon glyphicon-menu-right {if !($IS_HIDDEN)}hide{/if}" data-mode="hide" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
-							<span class="cursorPointer blockToggle glyphicon glyphicon glyphicon-menu-down {if ($IS_HIDDEN)}hide{/if}" data-mode="show" data-id={$BLOCK_LIST[$BLOCK_LABEL]->get('id')}></span>
-							<h4>{$BLOCK_LABEL|t:$MODULE}</h4>
-						</div>
+		{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
+			{if $BLOCK_FIELDS|@count gt 0}
+			{assign var=BLOCK_ID value=0}
+			{assign var=IS_HIDDEN value=false}
+			{if isset($BLOCK_LIST[$BLOCK_LABEL]) && $BLOCK_LIST[$BLOCK_LABEL]}
+				{assign var=BLOCK value=$BLOCK_LIST[$BLOCK_LABEL]}
+				{assign var=BLOCK_ID value=$BLOCK->get('id')}
+				{assign var=IS_HIDDEN value=$BLOCK->isHidden()}
+			{/if}
+			<div class="panel panel-default row marginLeftZero marginRightZero blockContainer" data-label="{$BLOCK_LABEL|t:$MODULE}">
+				<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
+					<div class="iconCollapse">
+						<span class="cursorPointer blockToggle glyphicon glyphicon-menu-right {if !($IS_HIDDEN)}hide{/if}" data-mode="hide" data-id={$BLOCK_ID}></span>
+						<span class="cursorPointer blockToggle glyphicon glyphicon glyphicon-menu-down {if ($IS_HIDDEN)}hide{/if}" data-mode="show" data-id={$BLOCK_ID}></span>
+						<h4>{$BLOCK_LABEL|t:$MODULE}</h4>
 					</div>
-				<div class="col-md-12 paddingLRZero panel-body blockContent {if $IS_HIDDEN}hide{/if}">	
+				</div>
+			<div class="col-md-12 paddingLRZero panel-body blockContent {if $IS_HIDDEN}hide{/if}">
 					<div class="col-md-12 paddingLRZero">
 				{assign var=COUNTER value=0}
 				{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}

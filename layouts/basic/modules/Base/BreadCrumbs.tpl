@@ -3,6 +3,7 @@
 <!-- layouts/basic/modules/Base/BreadCrumbs.tpl -->
 	<div class="breadCrumbs" >
 		{assign var=HOMEICON value='userIcon-Home'}
+		{if !isset($BREADCRUMBS_SEPARATOR)}{assign var=BREADCRUMBS_SEPARATOR value='>'}{/if}
 		{if isset($BREADCRUMBS) && $BREADCRUMBS}
 			<div class="breadcrumbsContainer">
 				<h2 class="breadcrumbsLinks textOverflowEllipsis">
