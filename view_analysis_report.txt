@@ -1,0 +1,3332 @@
+================================================================================
+FreeCRM View Assignment Analyzer
+================================================================================
+
+Analyzing project at: /home/bmankowski/projects/FreeCRM
+
+Finding View files...
+Found 211 files to analyze
+
+Parsing files...
+Parsed 208 classes
+
+Building inheritance tree...
+
+================================================================================
+INHERITANCE TREE WITH VIEWER ASSIGNMENTS
+================================================================================
+
+📁 BaseViewController
+   File: src/Base/Controllers/BaseViewController.php
+   Namespace: App\Base\Controllers
+   Viewer Assignments in preProcess [ ⚠ does NOT call parent::preProcess]:
+      • PAGETITLE = $this->getPageTitle($vtigerRequest)
+      • BREADCRUMB_TITLE = $this->getBreadcrumbTitle($vtigerRequest)
+      • BREADCRUMBS = $this->buildBreadcrumbs($vtigerRequest)
+      • BREADCRUMBS_SEPARATOR = $this->getBreadcrumbsSeparator()
+      • HEADER_SCRIPTS = $this->getHeaderScripts($vtigerRequest)
+      • FOOTER_SCRIPTS = $this->getFooterScripts($vtigerRequest)
+      • STYLES = $this->getHeaderCss($vtigerRequest)
+      • SKIN_PATH = \App\Runtime\Vtiger_Theme::getCurrentUserThemePath()
+      • LAYOUT_PATH = 'layouts/' . \App\Runtime\Yeti_Layout::getActiveLayout()
+      • LANGUAGE_STRINGS = $this->getJSLanguageStrings($vtigerRequest)
+      • HTMLLANG = \App\Runtime\Vtiger_Language_Handler::getShortLanguageName()
+      • LANGUAGE = \App\Runtime\Vtiger_Language_Handler::getLanguage()
+      • SHOW_BODY_HEADER = $this->showBodyHeader()
+      • USER_MODEL = $vtigerRequest->getUser()
+      • APPTITLE = \App\Runtime\Vtiger_Language_Handler::translate('APPTITLE')
+      • YETIFORCE_VERSION = \App\Version::get()
+      • MODULE_NAME = $vtigerRequest->getModule()
+      • MODULE = $moduleName
+      • VIEW = $vtigerRequest->get('view')
+      • ACTIVITY_REMINDER = $userModel ? $userModel->getCurrentUserActivityReminderInSeconds() : 0
+      • SCRIPT_TIME = isset($GLOBALS['startTime']) ? round(microtime(true) - $GLOBALS['startTime'],...
+      • PARENT_MODULE = $vtigerRequest->get('parent')
+      • ACTIVE_MODULES = $activeModules
+
+  📁 AccountHierarchy
+     File: src/Modules/Accounts/Views/AccountHierarchy.php
+     Namespace: App\Modules\Accounts\Views
+     Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+        • LAST_MODIFIED = $lastModifiedField
+        • MODULE = $moduleName
+        • ACCOUNT_HIERARCHY = $hierarchy
+
+  📁 Basic
+     File: src/Modules/Base/Views/Basic.php
+     Namespace: App\Modules\Base\Views
+     Viewer Assignments in preProcess [ ✓ calls parent::preProcess]:
+        • CURRENTDATE = $currentDate
+        • MODULE = $selectedModule
+        • MODULE_NAME = $selectedModule
+        • QUALIFIED_MODULE = $request->getModule(false)
+        • PARENT_MODULE = $request->get('parent')
+        • MENUS = $this->getMenu()
+        • VIEW = $request->get('view')
+        • COMPANY_LOGO = $companyLogo
+        • HOME_MODULE_MODEL = $homeModuleModel
+        • MENU_HEADER_LINKS = $this->getMenuHeaderLinks($request)
+        • SEARCHABLE_MODULES = \App\Modules\Base\Models\Module::getSearchableModules()
+        • SEARCHED_MODULE = $selectedModule
+        • CHAT_ACTIVE = \App\Module::isModuleActive('AJAXChat')
+        • REMINDER_ACTIVE = $activeReminder
+
+    📁 Index
+       File: src/Modules/Base/Views/Index.php
+       Namespace: App\Modules\Base\Views
+       preProcess: [✓ calls parent::preProcess, no local assignments]
+
+      📁 Index
+         File: src/Modules/AJAXChat/Views/Index.php
+         Namespace: App\Modules\AJAXChat\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • URLCSS = $shortURL . \App\Runtime\Yeti_Layout::getLayoutFile('src/Modules/AJAXChat/Cha...
+            • URL = $shortURL . "libraries/AJAXChat/index.php"
+
+      📁 EditFieldByModal
+         File: src/Modules/Assets/Views/EditFieldByModal.php
+         Namespace: App\Modules\Assets\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • MODULE_NAME = $moduleName
+            • RECORD = $recordModel
+            • FIELD_LIST = $fields
+            • SHOW_FIELDS = $showFields
+            • RESTRICTS_ITEM = $this->getRestrictItems()
+            • RELATED_RECORD = $relatedRecord
+            • RELATED_RECORD_METADATA = $metaData
+            • RELATED_MODULE_BASIC = $relatedModuleBasicName
+            • RELATED_MODULE = $relationsModules
+            • RELATED_EXISTS = $relationsModules ? true : false
+            • HIERARCHY_ID = $hierarchyId
+            • HIERARCHY_FIELD = $hierarchy
+
+      📁 GetHierarchy
+         File: src/Modules/Assets/Views/GetHierarchy.php
+         Namespace: App\Modules\Assets\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • MODULE = $hierarchyModuleName
+            • ACCOUNT_HIERARCHY = $hierarchy
+
+      📁 AddNotePad
+         File: src/Modules/Base/Views/AddNotePad.php
+         Namespace: App\Modules\Base\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • MODULE = $moduleName
+
+      📁 AutoAssignRecord
+         File: src/Modules/Base/Views/AutoAssignRecord.php
+         Namespace: App\Modules\Base\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • MODULE_NAME = $moduleName
+            • RECORD = $recordModel
+            • AUTO_ASSIGN_RECORD = $autoAssignRecord
+            • USER_ROLE_NAMES = $userRoleNames
+
+      📁 BasicAjax
+         File: src/Modules/Base/Views/BasicAjax.php
+         Namespace: App\Modules\Base\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 BasicModal
+         File: src/Modules/Base/Views/BasicModal.php
+         Namespace: App\Modules\Base\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 ChartFilter
+         File: src/Modules/Base/Views/ChartFilter.php
+         Namespace: App\Modules\Base\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • MODULE_NAME = $moduleName
+            • WIZARD_STEP = $request->get('step')
+            • CHART_TYPES = $chartTypes
+            • MODULES = $modules
+            • ALLFILTERS = $filters
+            • MODULE_FIELDS = $selectedModuleModel->getFields()
+            • SELECTED_MODULE = $selectedModuleName
+
+      📁 DashBoard
+         File: src/Modules/Base/Views/DashBoard.php
+         Namespace: App\Modules\Base\Views
+         Viewer Assignments in preProcess [ ✓ calls parent::preProcess]:
+            • WIDGETS = $widgets
+
+        📁 DashBoard
+           File: src/Modules/Home/Views/DashBoard.php
+           Namespace: App\Modules\Home\Views
+           Viewer Assignments in preProcess [ ✓ calls parent::preProcess]:
+              • MODULES_WITH_WIDGET = $modulesWithWidget
+
+      📁 Detail
+         File: src/Modules/Base/Views/Detail.php
+         Namespace: App\Modules\Base\Views
+         preProcess: [✓ calls parent::preProcess, no local assignments]
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • DETAIL_CONTENT = $detailContent
+
+        📁 Detail
+           File: src/Modules/Announcements/Views/Detail.php
+           Namespace: App\Modules\Announcements\Views
+           (no viewer assignments in preProcess or process)
+
+        📁 Detail
+           File: src/Modules/Calendar/Views/Detail.php
+           Namespace: App\Modules\Calendar\Views
+           preProcess: [✓ calls parent::preProcess, no local assignments]
+
+        📁 Detail
+           File: src/Modules/Campaigns/Views/Detail.php
+           Namespace: App\Modules\Campaigns\Views
+           (no viewer assignments in preProcess or process)
+
+        📁 Detail
+           File: src/Modules/Contacts/Views/Detail.php
+           Namespace: App\Modules\Contacts\Views
+           (no viewer assignments in preProcess or process)
+
+        📁 Detail
+           File: src/Modules/Documents/Views/Detail.php
+           Namespace: App\Modules\Documents\Views
+           Viewer Assignments in preProcess [ ✓ calls parent::preProcess]:
+              • NO_SUMMARY = true
+              • EXTENSION_ICON = $fileIcon
+
+        📁 Detail
+           File: src/Modules/HelpDesk/Views/Detail.php
+           Namespace: App\Modules\HelpDesk\Views
+           (no viewer assignments in preProcess or process)
+
+        📁 Detail
+           File: src/Modules/KnowledgeBase/Views/Detail.php
+           Namespace: App\Modules\KnowledgeBase\Views
+           (no viewer assignments in preProcess or process)
+
+        📁 Detail
+           File: src/Modules/Leads/Views/Detail.php
+           Namespace: App\Modules\Leads\Views
+           Viewer Assignments in preProcess [ ✓ calls parent::preProcess]:
+              • CONVERSION_AVAILABLE_STATUS = \App\Json::encode(\App\Modules\Leads\Models\Module::getConversionAvaibleStatu...
+
+        📁 Detail
+           File: src/Modules/OSSEmployees/Views/Detail.php
+           Namespace: App\Modules\OSSEmployees\Views
+           (no viewer assignments in preProcess or process)
+
+        📁 Detail
+           File: src/Modules/OSSMailView/Views/Detail.php
+           Namespace: App\Modules\OSSMailView\Views
+           (no viewer assignments in preProcess or process)
+
+        📁 Detail
+           File: src/Modules/OSSPasswords/Views/Detail.php
+           Namespace: App\Modules\OSSPasswords\Views
+           (no viewer assignments in preProcess or process)
+
+        📁 Detail
+           File: src/Modules/OSSTimeControl/Views/Detail.php
+           Namespace: App\Modules\OSSTimeControl\Views
+           (no viewer assignments in preProcess or process)
+
+        📁 Detail
+           File: src/Modules/PBXManager/Views/Detail.php
+           Namespace: App\Modules\PBXManager\Views
+           preProcess: [✓ calls parent::preProcess, no local assignments]
+
+        📁 Detail
+           File: src/Modules/Portal/Views/Detail.php
+           Namespace: App\Modules\Portal\Views
+           preProcess: [✓ calls parent::preProcess, no local assignments]
+           Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+              • MODULE = $module
+              • RECORD_ID = $recordId
+              • URL = $url
+              • RECORDS_LIST = $recordList
+
+        📁 Detail
+           File: src/Modules/PriceBooks/Views/Detail.php
+           Namespace: App\Modules\PriceBooks\Views
+           (no viewer assignments in preProcess or process)
+
+        📁 Detail
+           File: src/Modules/Products/Views/Detail.php
+           Namespace: App\Modules\Products\Views
+           (no viewer assignments in preProcess or process)
+
+        📁 Detail
+           File: src/Modules/Project/Views/Detail.php
+           Namespace: App\Modules\Project\Views
+           (no viewer assignments in preProcess or process)
+
+        📁 Detail
+           File: src/Modules/Reports/Views/Detail.php
+           Namespace: App\Modules\Reports\Views
+           preProcess: [✓ calls parent::preProcess, no local assignments]
+
+        📁 Detail
+           File: src/Modules/Reservations/Views/Detail.php
+           Namespace: App\Modules\Reservations\Views
+           (no viewer assignments in preProcess or process)
+
+        📁 Detail
+           File: src/Modules/Services/Views/Detail.php
+           Namespace: App\Modules\Services\Views
+           (no viewer assignments in preProcess or process)
+
+        📁 PreferenceDetail
+           File: src/Modules/Users/Views/PreferenceDetail.php
+           Namespace: App\Modules\Users\Views
+           Viewer Assignments in preProcess [ ✓ calls parent::preProcess]:
+              • CURRENTDATE = $currentDate
+              • MODULE = $selectedModule
+              • MODULE_NAME = $selectedModule
+              • QUALIFIED_MODULE = $selectedModule
+              • PARENT_MODULE = $request->get('parent')
+              • MENUS = \App\Modules\Base\Models\Menu::getAll(true)
+              • VIEW = $request->get('view')
+              • USER_MODEL = $currentUser
+              • HOME_MODULE_MODEL = $homeModuleModel
+              • MENU_HEADER_LINKS = $this->getMenuHeaderLinks($request)
+              • SEARCHABLE_MODULES = \App\Modules\Base\Models\Module::getSearchableModules()
+              • CHAT_ACTIVE = \App\Module::isModuleActive('AJAXChat')
+              • REMINDER_ACTIVE = $activeReminder
+              • SHOW_BODY_HEADER = $this->showBodyHeader()
+              • RECORD = $recordModel
+              • MODULE_MODEL = $detailViewModel->getModule()
+              • DETAILVIEW_LINKS = $detailViewLinks
+              • IS_EDITABLE = $detailViewModel->getRecord()->isEditable($moduleName)
+              • IS_DELETABLE = $detailViewModel->getRecord()->isDeletable($moduleName)
+              • QUICK_LINKS = $linkModels
+              • ACTIVE_SIDEBAR_LINK = $activeLinkLabel
+              • DAY_STARTS = \App\Json::encode($dayStartPicklistValues)
+              • IMAGE_DETAILS = $recordModel->getImageDetails()
+           process: [✓ calls parent::process, no local assignments]
+
+      📁 Edit
+         File: src/Modules/Base/Views/Edit.php
+         Namespace: App\Modules\Base\Views
+         preProcess: [✓ calls parent::preProcess, no local assignments]
+
+        📁 Edit
+           File: src/Modules/Calendar/Views/Edit.php
+           Namespace: App\Modules\Calendar\Views
+           (no viewer assignments in preProcess or process)
+
+        📁 Edit
+           File: src/Modules/Contacts/Views/Edit.php
+           Namespace: App\Modules\Contacts\Views
+           Viewer Assignments in preProcess [ ✓ calls parent::preProcess]:
+              • IMAGE_DETAILS = $recordModel->getImageDetails()
+              • SALUTATION_FIELD_MODEL = $salutationFieldModel
+
+        📁 ChartEdit
+           File: src/Modules/Reports/Views/ChartEdit.php
+           Namespace: App\Modules\Reports\Views
+           preProcess: [✓ calls parent::preProcess, no local assignments]
+
+        📁 Edit
+           File: src/Modules/Reports/Views/Edit.php
+           Namespace: App\Modules\Reports\Views
+           preProcess: [✓ calls parent::preProcess, no local assignments]
+
+        📁 Edit
+           File: src/Modules/Services/Views/Edit.php
+           Namespace: App\Modules\Services\Views
+           (no viewer assignments in preProcess or process)
+
+        📁 PreferenceEdit
+           File: src/Modules/Users/Views/PreferenceEdit.php
+           Namespace: App\Modules\Users\Views
+           Viewer Assignments in preProcess [ ✓ calls parent::preProcess]:
+              • CURRENTDATE = $currentDate
+              • MODULE = $selectedModule
+              • MODULE_NAME = $selectedModule
+              • QUALIFIED_MODULE = $selectedModule
+              • PARENT_MODULE = $request->get('parent')
+              • MENUS = \App\Modules\Base\Models\Menu::getAll(true)
+              • VIEW = $request->get('view')
+              • HOME_MODULE_MODEL = $homeModuleModel
+              • MENU_HEADER_LINKS = $this->getMenuHeaderLinks($request)
+              • SEARCHABLE_MODULES = \App\Modules\Base\Models\Module::getSearchableModules()
+              • CHAT_ACTIVE = \App\Module::isModuleActive('AJAXChat')
+              • REMINDER_ACTIVE = $activeReminder
+              • SHOW_BODY_HEADER = $this->showBodyHeader()
+              • IS_PREFERENCE = true
+              • DAY_STARTS = \App\Json::encode($dayStartPicklistValues)
+              • IMAGE_DETAILS = $recordModel->getImageDetails()
+              • USER_MODEL = $currentUser
+
+        📁 Edit
+           File: src/Modules/Products/Views/Edit.php
+           Namespace: (global)
+           Viewer Assignments in process [ ✓ calls parent::process]:
+              • BASE_CURRENCY_NAME = 'curname' . $baseCurrenctDetails['currencyid']
+              • BASE_CURRENCY_ID = $baseCurrenctDetails['currencyid']
+              • BASE_CURRENCY_SYMBOL = $baseCurrenctDetails['symbol']
+              • IMAGE_DETAILS = $recordModel->getImageDetails()
+
+        📁 OSSMailView_summary_View
+           File: src/Modules/OSSMailView/Views/summary.php
+           Namespace: (global)
+           (no viewer assignments in preProcess or process)
+
+        📁 OSSMailView_widget_View
+           File: src/Modules/OSSMailView/Views/widget.php
+           Namespace: (global)
+           Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+              • RECOLDLIST = $recordModel->$mode($srecord, $smodule, $config, $type, $mailFilter)
+              • MODULENAME = $moduleName
+              • SMODULENAME = $smodule
+              • RECORD = $record
+              • SRECORD = $srecord
+              • TYPE = $type
+              • POPUP = $config['popup']
+              • PRIVILEGESMODEL = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel()
+
+        📁 OSSPasswords_Edit_View
+           File: src/Modules/OSSPasswords/Views/Edit.php
+           Namespace: (global)
+           Viewer Assignments in process [ ✓ calls parent::process]:
+              • ENCRYPTED = true
+              • ENC_KEY = $config['key']
+              • ENCRYPTED = false
+              • ENC_KEY = ''
+              • VIEW = $request->get('view')
+              • GENERATEPASS = $GenerateButton
+              • passLengthMin = $passwordConfig['pass_length_min']
+              • passLengthMax = $passwordConfig['pass_length_max']
+              • allowChars = $passwordConfig['pass_allow_chars']
+
+      📁 EditFieldByModal
+         File: src/Modules/Base/Views/EditFieldByModal.php
+         Namespace: App\Modules\Base\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • MODULE_NAME = $moduleName
+            • RECORD = $recordModel
+            • SHOW_FIELDS = $this->getFieldsToShow()
+            • RECORD_STRUCTURE = $structuredValues
+            • RESTRICTS_ITEM = $this->getRestrictItems()
+            • CONDITION_TO_RESTRICTS = $this->getConditionToRestricts($moduleName, $ID)
+
+      📁 Export
+         File: src/Modules/Base/Views/Export.php
+         Namespace: App\Modules\Base\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • SELECTED_IDS = $selectedIds
+            • EXCLUDED_IDS = $excludedIds
+            • VIEWID = $viewId
+            • PAGE = $page
+            • SOURCE_MODULE = $sourceModule
+            • MODULE = 'Export'
+            • XML_TPL_LIST = \App\Modules\Import\Models\Module::getListTplForXmlType($sourceModule)
+            • EXPORT_TYPE = ['LBL_CSV' => 'csv', 'LBL_XML' => 'xml']
+            • OPERATOR = $operator
+            • ALPHABET_VALUE = $searchValue
+            • SEARCH_KEY = $searchKey
+            • SEARCH_PARAMS = $request->get('search_params')
+
+      📁 FileUpload
+         File: src/Modules/Base/Views/FileUpload.php
+         Namespace: App\Modules\Base\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • INPUT_NAME = $request->get('inputName')
+            • FILE_TYPE = $request->get('fileType')
+            • RECORD = $request->get('record')
+
+      📁 FindDuplicates
+         File: src/Modules/Base/Views/FindDuplicates.php
+         Namespace: App\Modules\Base\Views
+         preProcess: [✓ calls parent::preProcess, no local assignments]
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • MODULE_MODEL = $moduleModel
+
+      📁 FindDuplicatesAjax
+         File: src/Modules/Base/Views/FindDuplicatesAjax.php
+         Namespace: App\Modules\Base\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 GenerateModal
+         File: src/Modules/Base/Views/GenerateModal.php
+         Namespace: App\Modules\Base\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • ALL_RECORDS = $allRecords
+            • RECORD = $recordId
+            • TEMPLATES = $templates
+            • VIEW = $view
+            • MODULE_NAME = $moduleName
+            • BASE_MODULE_NAME = 'Vtiger'
+
+      📁 Import
+         File: src/Modules/Base/Views/Import.php
+         Namespace: App\Modules\Base\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 IndexAjax
+         File: src/Modules/Base/Views/IndexAjax.php
+         Namespace: App\Modules\Base\Views
+         (no viewer assignments in preProcess or process)
+
+        📁 EditAjax
+           File: src/Modules/CustomView/Views/EditAjax.php
+           Namespace: App\Modules\CustomView\Views
+           Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+              • MODE = 'edit'
+              • MODE = ''
+              • ADVANCE_CRITERIA = $customViewModel->transformToNewAdvancedFilter()
+              • CURRENTDATE = date('Y-n-j')
+              • DATE_FILTERS = \App\Modules\Base\Helpers\AdvancedFilter::getDateFilter($module)
+              • ADVANCED_FILTER_OPTIONS = \App\CustomView::ADVANCED_FILTER_OPTIONS
+              • ADVANCED_FILTER_OPTIONS_BY_TYPE = $advanceFilterOpsByFieldType
+              • RECORD_STRUCTURE_MODEL = $recordStructureInstance
+              • RECORD_STRUCTURE = $recordStructure
+              • EVENT_RECORD_STRUCTURE_MODEL = $relatedRecordStructureInstance
+              • EVENT_RECORD_STRUCTURE = $eventBlocksFields
+              • CUSTOMVIEW_MODEL = $customViewModel
+              • RECORD_ID = $record
+              • RECORD_ID = ''
+              • MODULE = $module
+              • SOURCE_MODULE = $moduleName
+              • USER_MODEL = $request->getUser()
+              • CV_PRIVATE_VALUE = \App\CustomView::CV_STATUS_DEFAULT
+              • CV_PRIVATE_VALUE = \App\CustomView::CV_STATUS_PRIVATE
+              • CV_PENDING_VALUE = \App\CustomView::CV_STATUS_PENDING
+              • CV_PUBLIC_VALUE = \App\CustomView::CV_STATUS_PUBLIC
+              • MODULE_MODEL = $moduleModel
+
+        📁 EditAjax
+           File: src/Modules/Users/Views/EditAjax.php
+           Namespace: App\Modules\Users\Views
+           (no viewer assignments in preProcess or process)
+
+        📁 OSSMailView_MailsPreview_View
+           File: src/Modules/OSSMailView/Views/MailsPreview.php
+           Namespace: (global)
+           Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+              • RECOLDLIST = $recordModel->$mode($srecord, $smodule, $config, $type, $mailFilter)
+              • SENDURLDDATA = $urldata
+              • MODULENAME = $moduleName
+              • SMODULENAME = $smodule
+              • RECORD = $record
+              • SRECORD = $srecord
+              • TYPE = $type
+              • POPUP = $config['popup']
+              • USER_MODEL = $request->getUser()
+
+      📁 Inventory
+         File: src/Modules/Base/Views/Inventory.php
+         Namespace: App\Modules\Base\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 ListAjax
+         File: src/Modules/Base/Views/ListAjax.php
+         Namespace: App\Modules\Base\Views
+         (no viewer assignments in preProcess or process)
+
+        📁 ListView
+           File: src/Modules/Users/Views/ListView.php
+           Namespace: App\Modules\Users\Views
+           Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+              • OPERATOR = $operator
+              • ALPHABET_VALUE = $searchValue
+              • MODULE = $moduleName
+              • LISTVIEW_LINKS = $this->listViewLinks
+              • LISTVIEW_MASSACTIONS = $linkModels['LISTVIEWMASSACTION']
+              • PAGING_MODEL = $pagingModel
+              • PAGE_NUMBER = $pageNumber
+              • ORDER_BY = $orderBy
+              • SORT_ORDER = $sortOrder
+              • NEXT_SORT_ORDER = $nextSortOrder
+              • SORT_IMAGE = $sortImage
+              • COLUMN_NAME = $orderBy
+              • QUALIFIED_MODULE = $moduleName
+              • LISTVIEW_ENTRIES_COUNT = $noOfEntries
+              • LISTVIEW_HEADERS = $this->listViewHeaders
+              • LISTVIEW_ENTRIES = $this->listViewEntries
+              • LISTVIEW_COUNT = $this->listViewCount
+              • LISTVIEW_COUNT = $noOfEntries
+              • PAGE_COUNT = $pageCount
+              • START_PAGIN_FROM = $startPaginFrom
+              • MODULE_MODEL = $this->listViewModel->getModule()
+              • IS_MODULE_EDITABLE = $this->listViewModel->getModule()->isPermitted('EditView')
+              • IS_MODULE_DELETABLE = $this->listViewModel->getModule()->isPermitted('Delete')
+              • USER_MODEL = $request->getUser()
+              • SEARCH_DETAILS = $searchParmams
+
+      📁 ListView
+         File: src/Modules/Base/Views/ListView.php
+         Namespace: App\Modules\Base\Views
+         Viewer Assignments in preProcess [ ✓ calls parent::preProcess]:
+            • VIEW = $request->get('view')
+            • CUSTOM_VIEWS = \App\Modules\CustomView\Models\Record::getAllByGroup($moduleName, $mid)
+            • HEADER_LINKS = $this->listViewModel->getHederLinks($linkParams)
+            • VIEWID = $this->viewName
+            • MODULE_MODEL = \App\Modules\Base\Models\Module::getInstance($moduleName)
+
+        📁 ListView
+           File: src/Modules/Rss/Views/ListView.php
+           Namespace: App\Modules\Rss\Views
+           (no viewer assignments in preProcess or process)
+
+        📁 Services_List_View
+           File: src/Modules/Services/Views/ListView.php
+           Namespace: (global)
+           (no viewer assignments in preProcess or process)
+
+      📁 MassActionAjax
+         File: src/Modules/Base/Views/MassActionAjax.php
+         Namespace: App\Modules\Base\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 MergeRecord
+         File: src/Modules/Base/Views/MergeRecord.php
+         Namespace: App\Modules\Base\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • RECORDS = $records
+            • RECORDMODELS = $recordModels
+            • FIELDS = $fieldModels
+            • MODULE = $module
+
+      📁 MiniListWizard
+         File: src/Modules/Base/Views/MiniListWizard.php
+         Namespace: App\Modules\Base\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • MODULE_NAME = $moduleName
+            • WIZARD_STEP = $request->get('step')
+            • MODULES = $modules
+            • ALLFILTERS = $filters
+            • QUERY_GENERATOR = $queryGenerator
+            • SELECTED_MODULE = $selectedModule
+
+      📁 PDF
+         File: src/Modules/Base/Views/PDF.php
+         Namespace: App\Modules\Base\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • TEMPLATES = $pdfModel->getActiveTemplatesForRecord($recordId, $view, $moduleName)
+            • TEMPLATES = $pdfModel->getActiveTemplatesForModule($moduleName, $view)
+            • ALL_RECORDS = $allRecords
+            • EXPORT_VARS = $postVars
+            • MODULE_NAME = $moduleName
+
+      📁 Pagination
+         File: src/Modules/Base/Views/Pagination.php
+         Namespace: App\Modules\Base\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 Popup
+         File: src/Modules/Base/Views/Popup.php
+         Namespace: App\Modules\Base\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • TRIGGER_EVENT_NAME = $request->get('triggerEventName')
+            • FOOTER_SCRIPTS = $this->getFooterScripts($request)
+
+        📁 PopupAjax
+           File: src/Modules/Base/Views/PopupAjax.php
+           Namespace: App\Modules\Base\Views
+           (no viewer assignments in preProcess or process)
+
+      📁 QuickCreateAjax
+         File: src/Modules/Base/Views/QuickCreateAjax.php
+         Namespace: App\Modules\Base\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • PICKIST_DEPENDENCY_DATASOURCE = \App\Json::encode($picklistDependencyDatasource)
+            • QUICKCREATE_LINKS = \App\Modules\Base\Models\Link::getAllByType($moduleModel->getId(), ['QUICKCRE...
+            • MAPPING_RELATED_FIELD = \App\Json::encode($mappingRelatedField)
+            • SOURCE_RELATED_FIELD = $fieldValues
+            • CURRENTDATE = date('Y-n-j')
+            • MODULE = $moduleName
+            • SINGLE_MODULE = 'SINGLE_' . $moduleName
+            • MODULE_MODEL = $moduleModel
+            • RECORD_STRUCTURE_MODEL = $recordStructureInstance
+            • RECORD_STRUCTURE = $recordStructure
+            • USER_MODEL = $request->getUser()
+            • VIEW = $request->get('view')
+            • MODE = 'edit'
+            • SCRIPTS = $this->getFooterScripts($request)
+            • MAX_UPLOAD_LIMIT_MB = \App\Modules\Base\Helpers\Util::getMaxUploadSize()
+            • MAX_UPLOAD_LIMIT = vglobal('upload_maxsize')
+
+      📁 QuickDetailModal
+         File: src/Modules/Base/Views/QuickDetailModal.php
+         Namespace: App\Modules\Base\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • RECORD = $recordModel
+            • MODULE_NAME = $moduleName
+            • WIDGETS = $widgets
+
+      📁 RelatedCommentModal
+         File: src/Modules/Base/Views/RelatedCommentModal.php
+         Namespace: App\Modules\Base\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • MODULE = $moduleName
+            • RELATED_RECORD = $relatedRecord
+            • RELATED_MODULE = $relatedModuleName
+            • COMMENT = $rcmModel->getComment()
+
+      📁 RelatedList
+         File: src/Modules/Base/Views/RelatedList.php
+         Namespace: App\Modules\Base\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • OPERATOR = $operator
+            • ALPHABET_VALUE = $searchValue
+            • COLOR_LIST = $colorList
+            • RELATED_RECORDS = $models
+            • PARENT_RECORD = $parentRecordModel
+            • RELATED_LIST_LINKS = $links
+            • RELATED_HEADERS = $header
+            • RELATED_MODULE = $relatedModuleModel
+            • RELATED_MODULE_NAME = $relatedModuleName
+            • RELATED_ENTIRES_COUNT = $noOfEntries
+            • RELATION_FIELD = $relationField
+            • LISTVIEW_COUNT = $totalCount
+            • TOTAL_ENTRIES = $totalCount
+            • LISTVIEW_COUNT = 0
+            • TOTAL_ENTRIES = 0
+            • PAGE_COUNT = $pageCount
+            • PAGE_NUMBER = $pageNumber
+            • START_PAGIN_FROM = $startPaginFrom
+            • MODULE = $moduleName
+            • PAGING_MODEL = $pagingModel
+            • ORDER_BY = $orderBy
+            • SORT_ORDER = $sortOrder
+            • NEXT_SORT_ORDER = $nextSortOrder
+            • SORT_IMAGE = $sortImage
+            • COLUMN_NAME = $orderBy
+            • INVENTORY_FIELDS = $relationModel->getRelationInventoryFields()
+            • SHOW_CREATOR_DETAIL = $relationModel->showCreatorDetail()
+            • SHOW_COMMENT = $relationModel->showComment()
+            • FAVORITES = $favorites
+            • IS_FAVORITES = $isFavorites
+            • IS_EDITABLE = $relationModel->isEditable()
+            • IS_DELETABLE = $relationModel->isDeletable()
+            • USER_MODEL = $request->getUser()
+            • SEARCH_DETAILS = $searchParmams
+            • VIEW = $request->get('view')
+            • IS_CREATE_PERMITTED = \App\Modules\Users\Models\Privileges::isPermitted($relatedModuleName, 'Create...
+
+      📁 SendMailModal
+         File: src/Modules/Base/Views/SendMailModal.php
+         Namespace: App\Modules\Base\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • TEMPLATE_MODULE = $templateModule
+            • RECORDS = $this->getRecordsListFromRequest($request)
+            • FIELDS = $this->fields
+            • MODULE = $moduleName
+            • USER_MODEL = $request->getUser()
+
+      📁 ShowWidget
+         File: src/Modules/Base/Views/ShowWidget.php
+         Namespace: App\Modules\Base\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 SmartDetail
+         File: src/Modules/Base/Views/SmartDetail.php
+         Namespace: App\Modules\Base\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • VIEW = $request->get('view')
+            • RECORD = $recordModel
+            • RECORD_STRUCTURE = $structuredValues
+            • BLOCK_LIST = $moduleModel->getBlocks()
+            • USER_MODEL = $request->getUser()
+            • MODULE_NAME = $moduleName
+            • IS_AJAX_ENABLED = false
+
+      📁 TimeLineModal
+         File: src/Modules/Base/Views/TimeLineModal.php
+         Namespace: App\Modules\Base\Views
+         preProcess: [✓ calls parent::preProcess, no local assignments]
+
+      📁 TooltipAjax
+         File: src/Modules/Base/Views/TooltipAjax.php
+         Namespace: App\Modules\Base\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 TreeCategoryModal
+         File: src/Modules/Base/Views/TreeCategoryModal.php
+         Namespace: App\Modules\Base\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • TREE = \App\Json::encode($treeCategoryModel->getTreeData())
+            • SRC_RECORD = $srcRecord
+            • SRC_MODULE = $srcModule
+            • TEMPLATE = $treeCategoryModel->getTemplate()
+            • MODULE = $moduleName
+            • SELECTABLE_CATEGORY = \App\AppConfig::relation('SELECTABLE_CATEGORY') ? 1 : 0
+            • RELATION_TYPE = $this->relationType
+            • USER_MODEL = $request->getUser()
+
+      📁 TreePopup
+         File: src/Modules/Base/Views/TreePopup.php
+         Namespace: App\Modules\Base\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • TREE = \App\Json::encode($tree)
+            • LAST_ID = $recordModel->get('lastId')
+            • SRC_RECORD = $srcRecord
+            • SRC_FIELD = $srcField
+            • TEMPLATE = $template
+            • MODULE = $moduleName
+            • IS_MULTIPLE = $request->get('multiple')
+            • TRIGGER_EVENT_NAME = $request->get('triggerEventName')
+            • USER_MODEL = $request->getUser()
+            • FOOTER_SCRIPTS = $this->getFooterScripts($request)
+
+      📁 TreeRecords
+         File: src/Modules/Base/Views/TreeRecords.php
+         Namespace: App\Modules\Base\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • TREE_LIST = \App\Json::encode($treeList)
+            • SELECTABLE_CATEGORY = 0
+            • CUSTOM_VIEWS = \App\Modules\CustomView\Models\Record::getAllByGroup($moduleName)
+            • ENTRIES = $listEntries
+            • HEADERS = $listHeaders
+            • MODULE = $moduleName
+
+      📁 WidgetFullscreen
+         File: src/Modules/Base/Views/WidgetFullscreen.php
+         Namespace: App\Modules\Base\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • RECORD = $recordModel
+            • MODULE_NAME = $moduleName
+            • CONTENT = $content
+            • TITLE = $title
+
+      📁 WorkflowTrigger
+         File: src/Modules/Base/Views/WorkflowTrigger.php
+         Namespace: App\Modules\Base\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • RECORD = $record
+            • MODULE = $moduleName
+            • WORKFLOWS = $workflows
+            • USER_MODEL = $request->getUser()
+
+      📁 ActivityStateModal
+         File: src/Modules/Calendar/Views/ActivityStateModal.php
+         Namespace: App\Modules\Calendar\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • PERMISSION_TO_SENDE_MAIL = $permissionToSendEmail
+            • MODULE_NAME = $moduleName
+            • RECORD = $recordInstance
+            • USER_MODEL = $request->getUser()
+            • SCRIPTS = $this->getScripts($request)
+
+      📁 Calendar
+         File: src/Modules/Calendar/Views/Calendar.php
+         Namespace: App\Modules\Calendar\Views
+         Viewer Assignments in preProcess [ ✓ calls parent::preProcess]:
+            • MODULE_NAME = $moduleName
+            • CURRENT_VIEW = $request->get('view')
+            • CURRENT_USER = $currentUserModel
+            • EVENT_LIMIT = \App\AppConfig::module('Calendar', 'EVENT_LIMIT')
+            • WEEK_VIEW = \App\AppConfig::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'agendaWeek' : 'ba...
+            • DAY_VIEW = \App\AppConfig::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'agendaDay' : 'basi...
+            • ACTIVITY_STATE_LABELS = \App\Json::encode([ 'current' => \App\Modules\Calendar\Models\Module::getComp...
+
+      📁 Import
+         File: src/Modules/Calendar/Views/Import.php
+         Namespace: App\Modules\Calendar\Views
+         preProcess: [✓ calls parent::preProcess, no local assignments]
+
+      📁 InRelation
+         File: src/Modules/Calendar/Views/InRelation.php
+         Namespace: App\Modules\Calendar\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • OPERATOR = $operator
+            • ALPHABET_VALUE = $searchValue
+            • TOTAL_ENTRIES = (int) $totalCount
+            • LISTVIEW_COUNT = (int) $totalCount
+            • TOTAL_ENTRIES = 0
+            • LISTVIEW_COUNT = 0
+            • RELATED_RECORDS = $models
+            • PARENT_RECORD = $parentRecordModel
+            • RELATED_LIST_LINKS = $links
+            • RELATED_HEADERS = $header
+            • RELATED_MODULE = $relatedModuleModel
+            • RELATED_MODULE_NAME = $relatedModuleName
+            • RELATED_ENTIRES_COUNT = $noOfEntries
+            • RELATION_FIELD = $relationField
+            • TIME = $time
+            • PAGE_COUNT = $pageCount
+            • PAGE_NUMBER = $pageNumber
+            • START_PAGIN_FROM = $startPaginFrom
+            • MODULE = $moduleName
+            • PAGING_MODEL = $pagingModel
+            • ORDER_BY = $orderBy
+            • SORT_ORDER = $sortOrder
+            • NEXT_SORT_ORDER = $nextSortOrder
+            • SORT_IMAGE = $sortImage
+            • COLUMN_NAME = $orderBy
+            • IS_EDITABLE = $relationModel->isEditable()
+            • IS_DELETABLE = $relationModel->isDeletable()
+            • USER_MODEL = $request->getUser()
+            • VIEW = $request->get('view')
+            • SHOW_CREATOR_DETAIL = $relationModel->showCreatorDetail()
+            • SHOW_COMMENT = $relationModel->showComment()
+            • FAVORITES = $favorites
+            • IS_FAVORITES = $isFavorites
+            • SEARCH_DETAILS = $searchParmams
+            • IS_CREATE_PERMITTED = \App\Modules\Users\Models\Privileges::isPermitted($relatedModuleName, 'Create...
+
+      📁 QuickCreateAjax
+         File: src/Modules/Calendar/Views/QuickCreateAjax.php
+         Namespace: App\Modules\Calendar\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • QUICKCREATE_LINKS = \App\Modules\Base\Models\Link::getAllByType($moduleModel->getId(), ['QUICKCRE...
+            • PICKIST_DEPENDENCY_DATASOURCE = \App\Json::encode($picklistDependencyDatasource)
+            • MAPPING_RELATED_FIELD = \App\Json::encode($mappingRelatedField)
+            • SOURCE_RELATED_FIELD = $fieldValues
+            • THREEDAYSAGO = date('Y-n-j', strtotime('-3 day'))
+            • TWODAYSAGO = date('Y-n-j', strtotime('-2 day'))
+            • ONEDAYAGO = date('Y-n-j', strtotime('yesterday'))
+            • CURRENTDATE = date('Y-n-j')
+            • ONEDAYLATER = date('Y-n-j', strtotime('tomorrow'))
+            • TWODAYLATER = date('Y-n-j', strtotime('+2 day'))
+            • THREEDAYSLATER = date('Y-n-j', strtotime('+3 day'))
+            • MODULE = $moduleName
+            • QUICK_CREATE_CONTENTS = $quickCreateContents
+            • USER_MODEL = $request->getUser()
+            • SCRIPTS = $this->getFooterScripts($request)
+
+      📁 Reminders
+         File: src/Modules/Calendar/Views/Reminders.php
+         Namespace: App\Modules\Calendar\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • COLOR_LIST = array_filter($colorList)
+            • PERMISSION_TO_SENDE_MAIL = $permissionToSendEmail
+            • MODULE_NAME = $moduleName
+            • USER_MODEL = $request->getUser()
+            • RECORDS = $recordModels
+
+      📁 RightPanel
+         File: src/Modules/Calendar/Views/RightPanel.php
+         Namespace: App\Modules\Calendar\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 SharedCalendar
+         File: src/Modules/Calendar/Views/SharedCalendar.php
+         Namespace: App\Modules\Calendar\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • CURRENT_USER = $currentUserModel
+
+      📁 ViewTypes
+         File: src/Modules/Calendar/Views/ViewTypes.php
+         Namespace: App\Modules\Calendar\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 RelatedList
+         File: src/Modules/Campaigns/Views/RelatedList.php
+         Namespace: App\Modules\Campaigns\Views
+         Viewer Assignments in process [ ✓ calls parent::process]:
+            • CUSTOM_VIEWS = \App\Modules\CustomView\Models\Record::getAllByGroup($relatedModuleName)
+            • STATUS_VALUES = $relationModel->getCampaignRelationStatusValues()
+            • SELECTED_IDS = $request->get('selectedIds')
+            • EXCLUDED_IDS = $request->get('excludedIds')
+
+      📁 Popup
+         File: src/Modules/Contacts/Views/Popup.php
+         Namespace: App\Modules\Contacts\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 QuickCreateAjax
+         File: src/Modules/Contacts/Views/QuickCreateAjax.php
+         Namespace: App\Modules\Contacts\Views
+         Viewer Assignments in process [ ✓ calls parent::process]:
+            • SALUTATION_FIELD_MODEL = $salutationFieldModel
+
+      📁 MassAddDocuments
+         File: src/Modules/Documents/Views/MassAddDocuments.php
+         Namespace: App\Modules\Documents\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • MODULE = $moduleName
+
+      📁 MoveDocuments
+         File: src/Modules/Documents/Views/MoveDocuments.php
+         Namespace: App\Modules\Documents\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • MODULE = $moduleName
+            • FOLDERS = $moduleModel->getAllFolders()
+            • SELECTED_IDS = $request->get('selected_ids')
+            • EXCLUDED_IDS = $request->get('excluded_ids')
+            • VIEWNAME = $request->get('viewname')
+            • OPERATOR = $operator
+            • ALPHABET_VALUE = $searchValue
+            • SEARCH_KEY = $searchKey
+
+      📁 Edit
+         File: src/Modules/EmailTemplates/Views/Edit.php
+         Namespace: App\Modules\EmailTemplates\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 Calendar
+         File: src/Modules/Events/Views/Calendar.php
+         Namespace: App\Modules\Events\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 SharedCalendar
+         File: src/Modules/Events/Views/SharedCalendar.php
+         Namespace: App\Modules\Events\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 Edit
+         File: src/Modules/Faq/Views/Edit.php
+         Namespace: App\Modules\Faq\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • MODE = ''
+            • RECORD_ID = $record
+            • MODE = 'edit'
+            • MODE = ''
+            • VIEW_MODE = $viewMode
+            • IS_RELATION_OPERATION = $isRelationOperation
+            • SOURCE_MODULE = $sourceModule
+            • SOURCE_RECORD = $sourceRecord
+            • PICKIST_DEPENDENCY_DATASOURCE = \App\Json::encode($picklistDependencyDatasource)
+            • MAPPING_RELATED_FIELD = \App\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleNa...
+            • RECORD_STRUCTURE_MODEL = $recordStructureInstance
+            • RECORD_STRUCTURE = $recordStructure
+            • MODULE = $moduleName
+            • RECORD = $recordModel
+            • BLOCK_LIST = $moduleModel->getBlocks()
+            • CURRENTDATE = date('Y-n-j')
+            • USER_MODEL = $request->getUser()
+            • MAX_UPLOAD_LIMIT_MB = \App\Modules\Base\Helpers\Util::getMaxUploadSize()
+            • MAX_UPLOAD_LIMIT = vglobal('upload_maxsize')
+
+      📁 Index
+         File: src/Modules/Home/Views/Index.php
+         Namespace: App\Modules\Home\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 EditFieldByModal
+         File: src/Modules/IGDNC/Views/EditFieldByModal.php
+         Namespace: App\Modules\IGDNC\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 EditFieldByModal
+         File: src/Modules/IGDN/Views/EditFieldByModal.php
+         Namespace: App\Modules\IGDN\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 EditFieldByModal
+         File: src/Modules/IIDN/Views/EditFieldByModal.php
+         Namespace: App\Modules\IIDN\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 EditFieldByModal
+         File: src/Modules/IPreOrder/Views/EditFieldByModal.php
+         Namespace: App\Modules\IPreOrder\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 EditFieldByModal
+         File: src/Modules/ISTDN/Views/EditFieldByModal.php
+         Namespace: App\Modules\ISTDN\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 EditFieldByModal
+         File: src/Modules/ISTRN/Views/EditFieldByModal.php
+         Namespace: App\Modules\ISTRN\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 Index
+         File: src/Modules/Install/Views/Index.php
+         Namespace: App\Modules\Install\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 Content
+         File: src/Modules/KnowledgeBase/Views/Content.php
+         Namespace: App\Modules\KnowledgeBase\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • VIEW = $request->get('view')
+            • ENTRIES = $listEntries
+            • HEADERS = $headers
+            • MODULE_NAME = $moduleName
+
+      📁 FullScreen
+         File: src/Modules/KnowledgeBase/Views/FullScreen.php
+         Namespace: App\Modules\KnowledgeBase\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • IS_POPUP = true
+
+      📁 PreviewContent
+         File: src/Modules/KnowledgeBase/Views/PreviewContent.php
+         Namespace: App\Modules\KnowledgeBase\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • IS_POPUP = false
+            • TEMPLATE = $template
+            • CONTENT = $content
+            • RECORD = $recordModel
+            • VIEW = $request->get('view')
+            • MODULE_NAME = $moduleName
+
+      📁 Tree
+         File: src/Modules/KnowledgeBase/Views/Tree.php
+         Namespace: App\Modules\KnowledgeBase\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • MODULE = $moduleName
+            • QUICK_LINKS = $linkModels
+            • ACTIVE_SIDEBAR_LINK = $activeLinkLabel
+
+      📁 ConvertLead
+         File: src/Modules/Leads/Views/ConvertLead.php
+         Namespace: App\Modules\Leads\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • MODULE = $moduleName
+            • USER_MODEL = $request->getUser()
+            • CURRENT_USER_PRIVILEGE = $currentUserPriviligeModel
+            • RECORD = $recordModel
+            • CONVERT_LEAD_FIELDS = $recordModel->getConvertLeadFields()
+            • CONVERSION_CONFIG = $marketingProcessConfig
+            • ASSIGN_TO = $assignedToFieldModel
+
+      📁 DetailAjax
+         File: src/Modules/ModComments/Views/DetailAjax.php
+         Namespace: App\Modules\ModComments\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • CURRENTUSER = $currentUserModel
+            • COMMENT = $recordModel
+            • COMMENTS_MODULE_MODEL = $modCommentsModel
+
+      📁 View
+         File: src/Modules/ModComments/Views/ListView.php
+         Namespace: App\Modules\ModComments\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 ListAjax
+         File: src/Modules/ModTracker/Views/ListAjax.php
+         Namespace: App\Modules\ModTracker\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • RECENT_ACTIVITIES = $recentActivities
+            • MODULE_NAME = $moduleName
+            • PAGING_MODEL = $pagingModel
+
+      📁 NotificationConfig
+         File: src/Modules/Notification/Views/NotificationConfig.php
+         Namespace: App\Modules\Notification\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • MODULE_LIST = $moduleList
+            • WATCHING_MODEL = \App\Modules\Base\Models\Watchdog::getInstance($moduleName)
+            • WATCHING_MODULES = $watchingModules
+            • SELECT_ALL_MODULES = $selectedAllModules
+            • IS_ALL_EMAIL_NOTICE = $selectedAllSendNotice
+            • MODULE = $moduleName
+            • FREQUENCY = $scheduleData['frequency']
+            • SCHEDULE_DATA = $scheduleData
+            • CRON_INFO = \vtlib\Cron::getInstance('LBL_SEND_NOTIFICATIONS')
+
+      📁 Reminders
+         File: src/Modules/Notification/Views/Reminders.php
+         Namespace: App\Modules\Notification\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • RECORDS = $entries
+            • COLORS = $colors
+
+      📁 ChangeType
+         File: src/Modules/OSSMailView/Views/ChangeType.php
+         Namespace: App\Modules\OSSMailView\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • MODULE = $module
+            • TYPE_LIST = $type_list
+
+      📁 ListView
+         File: src/Modules/OSSMailView/Views/ListView.php
+         Namespace: App\Modules\OSSMailView\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 sview
+         File: src/Modules/OSSMailView/Views/sview.php
+         Namespace: App\Modules\OSSMailView\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • MODULENAME = $moduleName
+            • NOLOADLIBS = $load
+            • FROM = $from
+            • TO = $to
+            • CC = $cc
+            • BCC = $bcc
+            • SUBJECT = $subject
+            • URL = "index.php?module=$moduleName&view=mbody&record=$record"
+            • OWNER = $owner
+            • SENT = $sent
+            • ATTACHMENTS = $attachments
+            • RECORD = $record
+
+      📁 CheckConfig
+         File: src/Modules/OSSMail/Views/CheckConfig.php
+         Namespace: App\Modules\OSSMail\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 MailActionBar
+         File: src/Modules/OSSMail/Views/MailActionBar.php
+         Namespace: App\Modules\OSSMail\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • RECORD = $record
+            • RELATED_RECORDS = $relatedRecords
+            • MODULE_NAME = $moduleName
+            • URL = \App\AppConfig::main('site_URL')
+
+      📁 compose
+         File: src/Modules/OSSMail/Views/compose.php
+         Namespace: App\Modules\OSSMail\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 index
+         File: src/Modules/OSSMail/Views/index.php
+         Namespace: App\Modules\OSSMail\Views
+         preProcess: [✓ calls parent::preProcess, no local assignments]
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • URL = $this->mainUrl
+
+      📁 InRelation
+         File: src/Modules/OSSPasswords/Views/InRelation.php
+         Namespace: App\Modules\OSSPasswords\Views
+         Viewer Assignments in process [ ✓ calls parent::process]:
+            • RELATED_SCRIPTS = $this->getScripts($request)
+
+      📁 ListView
+         File: src/Modules/OSSPasswords/Views/ListView.php
+         Namespace: App\Modules\OSSPasswords\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 Popup
+         File: src/Modules/OSSPasswords/Views/Popup.php
+         Namespace: App\Modules\OSSPasswords\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 PopupAjax
+         File: src/Modules/OSSPasswords/Views/PopupAjax.php
+         Namespace: App\Modules\OSSPasswords\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 QuickCreateAjax
+         File: src/Modules/OSSPasswords/Views/QuickCreateAjax.php
+         Namespace: App\Modules\OSSPasswords\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • QUICKCREATE_LINKS = \App\Modules\Base\Models\Link::getAllByType($moduleModel->getId(), ['QUICKCRE...
+            • RELATEDMODULE = $relatedModule
+            • GENERATEPASS = 'Generate Password'
+            • VIEW = $request->get('view')
+            • VALIDATE_STRINGS = \App\Runtime\Vtiger_Language_Handler::translate('Very Weak', $relatedModule) ...
+            • Very Weak = 'Very Weak'
+            • Weak = 'Weak'
+            • Better = 'Better'
+            • Medium = 'Medium'
+            • Strong = 'Strong'
+            • Very Strong = 'Very Strong'
+            • PICKIST_DEPENDENCY_DATASOURCE = \App\Json::encode($picklistDependencyDatasource)
+            • MAPPING_RELATED_FIELD = \App\Json::encode($mappingRelatedField)
+            • CURRENTDATE = date('Y-n-j')
+            • MODULE = $moduleName
+            • SINGLE_MODULE = 'SINGLE_' . $moduleName
+            • MODULE_MODEL = $moduleModel
+            • RECORD = $recordModel
+            • RECORD_STRUCTURE_MODEL = $recordStructureInstance
+            • RECORD_STRUCTURE = $recordStructure
+            • USER_MODEL = $request->getUser()
+            • passLengthMin = $passwordConfig['pass_length_min']
+            • passLengthMax = $passwordConfig['pass_length_max']
+            • allowChars = $passwordConfig['pass_allow_chars']
+            • SCRIPTS = $this->getFooterScripts($request)
+
+      📁 EditFieldByModal
+         File: src/Modules/OSSSoldServices/Views/EditFieldByModal.php
+         Namespace: App\Modules\OSSSoldServices\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 GetHierarchy
+         File: src/Modules/OSSSoldServices/Views/GetHierarchy.php
+         Namespace: App\Modules\OSSSoldServices\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 Calendar
+         File: src/Modules/OSSTimeControl/Views/Calendar.php
+         Namespace: App\Modules\OSSTimeControl\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • CURRENT_USER = $currentUserModel
+            • EVENT_LIMIT = \App\AppConfig::module('Calendar', 'EVENT_LIMIT')
+            • WEEK_VIEW = \App\AppConfig::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'agendaWeek' : 'ba...
+            • DAY_VIEW = \App\AppConfig::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'agendaDay' : 'basi...
+
+      📁 InRelation
+         File: src/Modules/OSSTimeControl/Views/InRelation.php
+         Namespace: App\Modules\OSSTimeControl\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • RELATED_SUMMARY = $relatedSummary
+            • RELATED_MODULE_NAME = $relatedModuleName
+            • RELATED_RECORDS = $models
+            • PARENT_RECORD = $parentRecordModel
+            • RELATED_LIST_LINKS = $links
+            • RELATED_HEADERS = $header
+            • RELATED_MODULE = $relatedModuleModel
+            • RELATED_ENTIRES_COUNT = $noOfEntries
+            • RELATION_FIELD = $relationField
+            • TOTAL_ENTRIES = (int) $totalCount
+            • LISTVIEW_COUNT = (int) $totalCount
+            • LISTVIEW_COUNT = 0
+            • TOTAL_ENTRIES = 0
+            • PAGE_COUNT = $pageCount
+            • PAGE_NUMBER = $requestedPage
+            • MODULE = $moduleName
+            • PAGING_MODEL = $pagingModel
+            • START_PAGIN_FROM = $startPaginFrom
+            • ORDER_BY = $orderBy
+            • SORT_ORDER = $sortOrder
+            • NEXT_SORT_ORDER = $nextSortOrder
+            • SORT_IMAGE = $sortImage
+            • COLUMN_NAME = $orderBy
+            • IS_EDITABLE = $relationModel->isEditable()
+            • IS_DELETABLE = $relationModel->isDeletable()
+            • SHOW_CREATOR_DETAIL = $relationModel->showCreatorDetail()
+            • SHOW_COMMENT = $relationModel->showComment()
+            • USER_MODEL = $request->getUser()
+            • SEARCH_DETAILS = $searchParmams
+            • VIEW = $request->get('view')
+            • IS_CREATE_PERMITTED = \App\Modules\Users\Models\Privileges::isPermitted($relatedModuleName, 'Create...
+            • FAVORITES = $favorites
+            • IS_FAVORITES = $isFavorites
+
+      📁 RightPanel
+         File: src/Modules/OSSTimeControl/Views/RightPanel.php
+         Namespace: App\Modules\OSSTimeControl\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 MapModal
+         File: src/Modules/OpenStreetMap/Views/MapModal.php
+         Namespace: App\Modules\OpenStreetMap\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • ALLOWED_MODULES = $moduleModel->getAllowedModules()
+            • FIELDS_TO_GROUP = $fieldsToGroup
+            • CACHE_GROUP_RECORDS = $cacheRecords
+            • MODULE_NAME = $moduleName
+            • SRC_MODULE = $request->get('srcModule')
+
+      📁 PaymentsImport
+         File: src/Modules/PaymentsIn/Views/PaymentsImport.php
+         Namespace: App\Modules\PaymentsIn\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • MODULENAME = $moduleName
+            • TYP = $type
+            • BANK = $bank
+
+      📁 PaymentsIn_step1_View
+         File: src/Modules/PaymentsIn/Views/step1.php
+         Namespace: App\Modules\PaymentsIn\Views
+         preProcess: [✓ calls parent::preProcess, no local assignments]
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • MODULENAME = $moduleName
+            • PAYMENTSIN = $paymentsIn
+            • COUNT = count($paymentsIn)
+            • JSON = $json
+
+      📁 PaymentsImport
+         File: src/Modules/PaymentsOut/Views/PaymentsImport.php
+         Namespace: App\Modules\PaymentsOut\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • MODULENAME = $moduleName
+            • TYP = $type
+            • BANK = $bank
+
+      📁 EditAjax
+         File: src/Modules/Portal/Views/EditAjax.php
+         Namespace: App\Modules\Portal\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • RECORD = $recordId
+            • BOOKMARK_NAME = $data['bookmarkName']
+            • BOOKMARK_URL = $data['bookmarkUrl']
+            • MODULE = $moduleName
+
+      📁 ListView
+         File: src/Modules/Portal/Views/ListView.php
+         Namespace: App\Modules\Portal\Views
+         Viewer Assignments in preProcess [ ✓ calls parent::preProcess]:
+            • PAGE_NUMBER = $pageNumber
+            • MODULE = $moduleName
+            • PAGE_COUNT = $pageCount
+            • LISTVIEW_COUNT = $pagingInfo['recordCount']
+            • START_PAGIN_FROM = $startPaginFrom
+            • PAGING_MODEL = $pagingModel
+            • LISTVIEW_ENTRIES = $listviewEntries
+            • ALPHABET_VALUE = $searchValue
+            • COLUMN_NAME = $orderBy
+            • SORT_ORDER = $sortOrder
+            • SORT_IMAGE = $sortImage
+            • NEXT_SORT_ORDER = $nextSortOrder
+            • RECORD_COUNT = count($listviewEntries)
+            • CURRENT_PAGE = $pageNumber
+            • PAGING_INFO = $pagingInfo
+
+      📁 Pagination
+         File: src/Modules/Portal/Views/Pagination.php
+         Namespace: App\Modules\Portal\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 Edit
+         File: src/Modules/PriceBooks/Views/Edit.php
+         Namespace: App\Modules\PriceBooks\Views
+         Viewer Assignments in process [ ✓ calls parent::process]:
+            • IS_RELATION = $request->get('relationOperation')
+
+      📁 ListPriceUpdate
+         File: src/Modules/PriceBooks/Views/ListPriceUpdate.php
+         Namespace: App\Modules\PriceBooks\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • MODULE = $moduleName
+            • PRICEBOOK_ID = $priceBookId
+            • REL_ID = $relId
+            • CURRENT_PRICE = $currentPrice
+            • USER_MODEL = $request->getUser()
+
+      📁 Popup
+         File: src/Modules/PriceBooks/Views/Popup.php
+         Namespace: App\Modules\PriceBooks\Views
+         (no viewer assignments in preProcess or process)
+
+        📁 ListView
+           File: src/Modules/Import/Views/ListView.php
+           Namespace: App\Modules\Import\Views
+           Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+              • MODULE_NAME = $moduleName
+
+      📁 PopupAjax
+         File: src/Modules/PriceBooks/Views/PopupAjax.php
+         Namespace: App\Modules\PriceBooks\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 ProductPriceBookPopup
+         File: src/Modules/PriceBooks/Views/ProductPriceBookPopup.php
+         Namespace: App\Modules\PriceBooks\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • MODULE_NAME = $moduleName
+            • TRIGGER_EVENT_NAME = $request->get('triggerEventName')
+            • USER_MODEL = $request->getUser()
+
+      📁 ProductPriceBookPopupAjax
+         File: src/Modules/PriceBooks/Views/ProductPriceBookPopupAjax.php
+         Namespace: App\Modules\PriceBooks\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • MODULE_NAME = $moduleName
+            • USER_MODEL = $request->getUser()
+
+      📁 QuickCreateAjax
+         File: src/Modules/PriceBooks/Views/QuickCreateAjax.php
+         Namespace: App\Modules\PriceBooks\Views
+         Viewer Assignments in process [ ✓ calls parent::process]:
+            • IS_RELATION = $request->get('relationOperation')
+
+      📁 MoreCurrenciesList
+         File: src/Modules/Products/Views/MoreCurrenciesList.php
+         Namespace: App\Modules\Products\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • MODULE = $moduleName
+            • PRICE_DETAILS = $priceDetails
+            • USER_MODEL = $request->getUser()
+
+      📁 Popup
+         File: src/Modules/Products/Views/Popup.php
+         Namespace: App\Modules\Products\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 PriceBookProductPopup
+         File: src/Modules/Products/Views/PriceBookProductPopup.php
+         Namespace: App\Modules\Products\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • MODULE_NAME = $moduleName
+            • TRIGGER_EVENT_NAME = $request->get('triggerEventName')
+            • USER_MODEL = $request->getUser()
+
+      📁 PriceBookProductPopupAjax
+         File: src/Modules/Products/Views/PriceBookProductPopupAjax.php
+         Namespace: App\Modules\Products\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • MODULE_NAME = $moduleName
+            • USER_MODEL = $request->getUser()
+
+      📁 QuickCreateAjax
+         File: src/Modules/Products/Views/QuickCreateAjax.php
+         Namespace: App\Modules\Products\Views
+         Viewer Assignments in process [ ✓ calls parent::process]:
+            • BASE_CURRENCY_ID = $baseCurrenctDetails['currencyid']
+            • BASE_CURRENCY_NAME = 'curname' . $baseCurrenctDetails['currencyid']
+            • BASE_CURRENCY_SYMBOL = $baseCurrenctDetails['symbol']
+
+      📁 TreeRecords
+         File: src/Modules/Products/Views/TreeRecords.php
+         Namespace: App\Modules\Products\Views
+         Viewer Assignments in preProcess [ ✓ calls parent::preProcess]:
+            • SELECTABLE_CATEGORY = \App\AppConfig::relation('SELECTABLE_CATEGORY') ? 1 : 0
+            • CUSTOM_VIEWS = \App\Modules\CustomView\Models\Record::getAllByGroup($baseModuleName)
+            • ENTRIES = $listEntries
+            • HEADERS = $listHeaders
+            • MODULE = $baseModuleName
+
+      📁 Widget
+         File: src/Modules/Products/Views/Widget.php
+         Namespace: App\Modules\Products\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 ListAjax
+         File: src/Modules/RecycleBin/Views/ListAjax.php
+         Namespace: App\Modules\RecycleBin\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 ListView
+         File: src/Modules/RecycleBin/Views/ListView.php
+         Namespace: App\Modules\RecycleBin\Views
+         Viewer Assignments in preProcess [ ✓ calls parent::preProcess]:
+            • MODULE_MODEL = $moduleModel
+            • QUICK_LINKS = $quickLinkModels
+            • ACTIVE_SIDEBAR_LINK = $activeLinkLabel
+            • MODULE = $moduleName
+            • HEADER_LINKS = $headerLinks
+            • LISTVIEW_LINKS = $moduleModel->getListViewLinks(false)
+            • LISTVIEW_MASSACTIONS = $linkModels
+            • PAGING_MODEL = $pagingModel
+            • PAGE_NUMBER = $pageNumber
+            • ORDER_BY = $orderBy
+            • SORT_ORDER = $sortOrder
+            • NEXT_SORT_ORDER = $nextSortOrder
+            • SORT_IMAGE = $sortImage
+            • COLUMN_NAME = $orderBy
+            • LISTVIEW_ENTRIES_COUNT = $noOfEntries
+            • LISTVIEW_HEADERS = $this->listViewHeaders
+            • LISTVIEW_ENTRIES = $this->listViewEntries
+            • MODULE_LIST = $moduleModel->getAllModuleList()
+            • SOURCE_MODULE = $sourceModule
+            • DELETED_RECORDS_TOTAL_COUNT = $moduleModel->getDeletedRecordsTotalCount()
+            • LISTVIEW_COUNT = $this->listViewCount
+            • PAGE_COUNT = $pageCount
+            • START_PAGIN_FROM = $startPaginFrom
+            • IS_MODULE_DELETABLE = $listViewModel->getModule()->isPermitted('Delete')
+
+      📁 Pagination
+         File: src/Modules/RecycleBin/Views/Pagination.php
+         Namespace: App\Modules\RecycleBin\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 ChartDetail
+         File: src/Modules/Reports/Views/ChartDetail.php
+         Namespace: App\Modules\Reports\Views
+         preProcess: [✓ calls parent::preProcess, no local assignments]
+
+      📁 ChartSaveAjax
+         File: src/Modules/Reports/Views/ChartSaveAjax.php
+         Namespace: App\Modules\Reports\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • CLICK_THROUGH = true
+            • CHART_TYPE = $reportChartModel->getChartType()
+            • DATA = json_encode($data, JSON_HEX_APOS)
+            • MODULE = $moduleName
+
+      📁 EditFolder
+         File: src/Modules/Reports/Views/EditFolder.php
+         Namespace: App\Modules\Reports\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • FOLDER_MODEL = $folderModel
+            • MODULE = $moduleName
+
+      📁 ListAjax
+         File: src/Modules/Reports/Views/ListAjax.php
+         Namespace: App\Modules\Reports\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • LISTVIEW_LINKS = $linkModels
+            • FOLDERS = $folders
+
+      📁 ListView
+         File: src/Modules/Reports/Views/ListView.php
+         Namespace: App\Modules\Reports\Views
+         preProcess: [✓ calls parent::preProcess, no local assignments]
+
+      📁 MoveReports
+         File: src/Modules/Reports/Views/MoveReports.php
+         Namespace: App\Modules\Reports\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • FOLDERS = $folderList
+            • SELECTED_IDS = $request->get('selected_ids')
+            • EXCLUDED_IDS = $request->get('excluded_ids')
+            • VIEWNAME = $request->get('viewname')
+            • MODULE = $moduleName
+
+      📁 Pagination
+         File: src/Modules/Reports/Views/Pagination.php
+         Namespace: App\Modules\Reports\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 SaveAjax
+         File: src/Modules/Reports/Views/SaveAjax.php
+         Namespace: App\Modules\Reports\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • PRIMARY_MODULE = $reportModel->getPrimaryModule()
+            • CALCULATION_FIELDS = $calculation
+            • DATA = $data
+            • RECORD_ID = $record
+            • PAGING_MODEL = $pagingModel
+            • MODULE = $moduleName
+            • NEW_COUNT = $reportData['count']
+            • REPORT_RUN_INSTANCE = ReportRun::getInstance($record)
+
+      📁 Calendar
+         File: src/Modules/Reservations/Views/Calendar.php
+         Namespace: App\Modules\Reservations\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • CURRENT_USER = $currentUserModel
+            • EVENT_LIMIT = \App\AppConfig::module('Calendar', 'EVENT_LIMIT')
+            • WEEK_VIEW = \App\AppConfig::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'agendaWeek' : 'ba...
+            • DAY_VIEW = \App\AppConfig::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'agendaDay' : 'basi...
+
+      📁 RightPanel
+         File: src/Modules/Reservations/Views/RightPanel.php
+         Namespace: App\Modules\Reservations\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 ViewTypes
+         File: src/Modules/Rss/Views/ViewTypes.php
+         Namespace: App\Modules\Rss\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 EditFieldByModal
+         File: src/Modules/SCalculations/Views/EditFieldByModal.php
+         Namespace: App\Modules\SCalculations\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 CheckStatus
+         File: src/Modules/SMSNotifier/Views/CheckStatus.php
+         Namespace: App\Modules\SMSNotifier\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • RECORD = $notifierRecordModel
+
+      📁 Edit
+         File: src/Modules/SMSNotifier/Views/Edit.php
+         Namespace: App\Modules\SMSNotifier\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 EditFieldByModal
+         File: src/Modules/SQuoteEnquiries/Views/EditFieldByModal.php
+         Namespace: App\Modules\SQuoteEnquiries\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 EditFieldByModal
+         File: src/Modules/SQuotes/Views/EditFieldByModal.php
+         Namespace: App\Modules\SQuotes\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 EditFieldByModal
+         File: src/Modules/SRecurringOrders/Views/EditFieldByModal.php
+         Namespace: App\Modules\SRecurringOrders\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 EditFieldByModal
+         File: src/Modules/SRequirementsCards/Views/EditFieldByModal.php
+         Namespace: App\Modules\SRequirementsCards\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 EditFieldByModal
+         File: src/Modules/SSingleOrders/Views/EditFieldByModal.php
+         Namespace: App\Modules\SSingleOrders\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 EditFieldByModal
+         File: src/Modules/SVendorEnquiries/Views/EditFieldByModal.php
+         Namespace: App\Modules\SVendorEnquiries\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 MoreCurrenciesList
+         File: src/Modules/Services/Views/MoreCurrenciesList.php
+         Namespace: App\Modules\Services\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 Popup
+         File: src/Modules/Services/Views/Popup.php
+         Namespace: App\Modules\Services\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 PriceBookProductPopup
+         File: src/Modules/Services/Views/PriceBookProductPopup.php
+         Namespace: App\Modules\Services\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 PriceBookProductPopupAjax
+         File: src/Modules/Services/Views/PriceBookProductPopupAjax.php
+         Namespace: App\Modules\Services\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 QuickCreateAjax
+         File: src/Modules/Services/Views/QuickCreateAjax.php
+         Namespace: App\Modules\Services\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 TreeRecords
+         File: src/Modules/Services/Views/TreeRecords.php
+         Namespace: App\Modules\Services\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 ChangePassword
+         File: src/Modules/Users/Views/ChangePassword.php
+         Namespace: App\Modules\Users\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • MODULE = $moduleName
+
+      📁 DeleteAjax
+         File: src/Modules/Users/Views/DeleteAjax.php
+         Namespace: App\Modules\Users\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • USERID = $userid
+            • DELETE_USER_NAME = $userRecordModel->getName()
+            • USER_LIST = $usersList
+
+      📁 DeleteUser
+         File: src/Modules/Users/Views/DeleteUser.php
+         Namespace: App\Modules\Users\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • MODULE = $moduleName
+            • USERID = $userid
+            • DELETE_USER_NAME = $userRecordModel->getName()
+            • USER_LIST = $usersList
+            • PERMANENT = true
+
+      📁 ListAjax
+         File: src/Modules/Users/Views/ListAjax.php
+         Namespace: App\Modules\Users\Views
+         (no viewer assignments in preProcess or process)
+
+      📁 QuickCreateAjax
+         File: src/Modules/Users/Views/QuickCreateAjax.php
+         Namespace: App\Modules\Users\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • CURRENTDATE = date('Y-n-j')
+            • MODULE = $moduleName
+            • SINGLE_MODULE = 'SINGLE_' . $moduleName
+            • MODULE_MODEL = $moduleModel
+            • RECORD_STRUCTURE_MODEL = $recordStructureInstance
+            • RECORD_STRUCTURE = $recordStructureInstance->getStructure()
+            • USER_MODEL = $request->getUser()
+            • SCRIPTS = $this->getFooterScripts($request)
+
+      📁 SwitchUsers
+         File: src/Modules/Users/Views/SwitchUsers.php
+         Namespace: App\Modules\Users\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • SWITCH_USERS = $users
+            • MODULE_NAME = $moduleName
+            • BASE_USER_ID = $baseUserId
+
+      📁 TransferOwner
+         File: src/Modules/Users/Views/TransferOwner.php
+         Namespace: App\Modules\Users\Views
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • USERID = $userid
+            • TRANSFER_USER_NAME = $userRecordModel->getName()
+            • USER_LIST = $usersList
+
+      📁 OSSMailView_mbody_View
+         File: src/Modules/OSSMailView/Views/mbody.php
+         Namespace: (global)
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • MODULENAME = $moduleName
+            • CONTENT = \vtlib\Functions::getHtmlOrPlainText($content)
+            • RECORD = $record
+
+      📁 OSSMailView_preview_View
+         File: src/Modules/OSSMailView/Views/preview.php
+         Namespace: (global)
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • MODULENAME = $moduleName
+            • NOLOADLIBS = $load
+            • FROM = $from
+            • TO = $to
+            • CC = $cc
+            • BCC = $bcc
+            • SUBJECT = $subject
+            • URL = "index.php?module=$moduleName&view=mbody&record=$record"
+            • OWNER = $owner
+            • SENT = $sent
+            • ATTACHMENTS = $attachments
+            • RECORD = $record
+            • RECORD_MODEL = $recordModel
+            • ISMODAL = $request->isAjax()
+            • SCRIPTS = $this->getModalScripts($request)
+            • SMODULENAME = $request->get('smodule')
+            • SRECORD = $request->get('srecord')
+
+      📁 PaymentsOut_step1_View
+         File: src/Modules/PaymentsOut/Views/step1.php
+         Namespace: (global)
+         preProcess: [✓ calls parent::preProcess, no local assignments]
+         Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+            • MODULENAME = $moduleName
+            • PAYMENTSOUT = $paymentsOut
+            • COUNT = count($paymentsOut)
+            • JSON = $json
+
+  📁 VariablePanel
+     File: src/Modules/Base/Views/VariablePanel.php
+     Namespace: App\Modules\Base\Views
+     Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+        • MODULE = $moduleName
+        • SELECTED_MODULE = $request->get('selectedModule')
+        • PARSER_TYPE = $request->get('type')
+        • GRAY = true
+
+  📁 Hierarchy
+     File: src/Modules/IStorages/Views/Hierarchy.php
+     Namespace: App\Modules\IStorages\Views
+     Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+        • MODULE = $moduleName
+        • HIERARCHY = $hierarchy
+
+  📁 Main
+     File: src/Modules/Import/Views/Main.php
+     Namespace: App\Modules\Import\Views
+     (no viewer assignments in preProcess or process)
+
+  📁 SaveConvertLead
+     File: src/Modules/Leads/Views/SaveConvertLead.php
+     Namespace: App\Modules\Leads\Views
+     (no viewer assignments in preProcess or process)
+
+  📁 EmployeeHierarchy
+     File: src/Modules/OSSEmployees/Views/EmployeeHierarchy.php
+     Namespace: App\Modules\OSSEmployees\Views
+     Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+        • MODULE = $moduleName
+        • EMPLOYEES_HIERARCHY = $hierarchy
+
+  📁 ExportReport
+     File: src/Modules/Reports/Views/ExportReport.php
+     Namespace: App\Modules\Reports\Views
+     (no viewer assignments in preProcess or process)
+
+  📁 Hierarchy
+     File: src/Modules/SSalesProcesses/Views/Hierarchy.php
+     Namespace: App\Modules\SSalesProcesses\Views
+     Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+        • MODULE = $moduleName
+        • HIERARCHY = $hierarchy
+
+  📁 Login
+     File: src/Modules/Users/Views/Login.php
+     Namespace: App\Modules\Users\Views
+     Viewer Assignments in process [ ⚠ does NOT call parent::process]:
+        • MODULE = $selectedModule
+        • MODULE_NAME = $selectedModule
+        • QUALIFIED_MODULE = $selectedModule
+        • VIEW = $request->get('view')
+        • COMPANY_LOGO = $companyLogo
+        • USER_MODEL = $request->getUser()
+        • CURRENT_VERSION = \App\Version::get()
+        • LANGUAGE_SELECTION = \App\AppConfig::main('langInLoginView')
+        • LAYOUT_SELECTION = \App\AppConfig::main('layoutInLoginView')
+        • ERROR = $request->get('error')
+        • FPERROR = $request->get('fpError')
+        • STATUS = $request->get('status')
+        • STATUS_ERROR = $request->get('statusError')
+
+
+================================================================================
+DUPLICATE ASSIGNMENTS TREE
+Classes with duplicate preProcess assignments (same var + value as parent)
+================================================================================
+
+📁 PreferenceDetail
+   File: src/Modules/Users/Views/PreferenceDetail.php
+   Duplicate assignments in preProcess (already set by parent):
+      ⚠️  CURRENTDATE = $currentDate
+          (already set by Basic)
+      ⚠️  MODULE = $selectedModule
+          (already set by Basic)
+      ⚠️  MODULE_NAME = $selectedModule
+          (already set by Basic)
+      ⚠️  PARENT_MODULE = $request->get('parent')
+          (already set by Basic)
+      ⚠️  VIEW = $request->get('view')
+          (already set by Basic)
+      ⚠️  HOME_MODULE_MODEL = $homeModuleModel
+          (already set by Basic)
+      ⚠️  MENU_HEADER_LINKS = $this->getMenuHeaderLinks($request)
+          (already set by Basic)
+      ⚠️  SEARCHABLE_MODULES = \App\Modules\Base\Models\Module::getSearchableModules()
+          (already set by Basic)
+      ⚠️  CHAT_ACTIVE = \App\Module::isModuleActive('AJAXChat')
+          (already set by Basic)
+      ⚠️  REMINDER_ACTIVE = $activeReminder
+          (already set by Basic)
+      ⚠️  SHOW_BODY_HEADER = $this->showBodyHeader()
+          (already set by BaseViewController)
+
+📁 PreferenceEdit
+   File: src/Modules/Users/Views/PreferenceEdit.php
+   Duplicate assignments in preProcess (already set by parent):
+      ⚠️  CURRENTDATE = $currentDate
+          (already set by Basic)
+      ⚠️  MODULE = $selectedModule
+          (already set by Basic)
+      ⚠️  MODULE_NAME = $selectedModule
+          (already set by Basic)
+      ⚠️  PARENT_MODULE = $request->get('parent')
+          (already set by Basic)
+      ⚠️  VIEW = $request->get('view')
+          (already set by Basic)
+      ⚠️  HOME_MODULE_MODEL = $homeModuleModel
+          (already set by Basic)
+      ⚠️  MENU_HEADER_LINKS = $this->getMenuHeaderLinks($request)
+          (already set by Basic)
+      ⚠️  SEARCHABLE_MODULES = \App\Modules\Base\Models\Module::getSearchableModules()
+          (already set by Basic)
+      ⚠️  CHAT_ACTIVE = \App\Module::isModuleActive('AJAXChat')
+          (already set by Basic)
+      ⚠️  REMINDER_ACTIVE = $activeReminder
+          (already set by Basic)
+      ⚠️  SHOW_BODY_HEADER = $this->showBodyHeader()
+          (already set by BaseViewController)
+
+📁 ListView
+   File: src/Modules/Base/Views/ListView.php
+   Duplicate assignments in preProcess (already set by parent):
+      ⚠️  VIEW = $request->get('view')
+          (already set by Basic)
+
+
+⚠️  Total duplicate assignments found: 23
+
+
+================================================================================
+SUMMARY: All Viewer Assignments by Variable Name
+================================================================================
+
+
+ACCOUNT_HIERARCHY:
+   $hierarchy
+      Used in process: AccountHierarchy, GetHierarchy
+
+ACTIVE_MODULES:
+   $activeModules
+      Used in preProcess: BaseViewController
+
+ACTIVE_SIDEBAR_LINK:
+   $activeLinkLabel
+      Used in preProcess: ListView, PreferenceDetail
+   $activeLinkLabel
+      Used in process: Tree
+
+ACTIVITY_REMINDER:
+   $userModel ? $userModel->getCurrentUserActivityReminderInSeconds() : 0
+      Used in preProcess: BaseViewController
+
+ACTIVITY_STATE_LABELS:
+   \App\Json::encode([ 'current' => \App\Modules\Calendar\Models\Module::getComponentActivityStateLa...
+      Used in preProcess: Calendar
+
+ADVANCED_FILTER_OPTIONS:
+   \App\CustomView::ADVANCED_FILTER_OPTIONS
+      Used in process: EditAjax
+
+ADVANCED_FILTER_OPTIONS_BY_TYPE:
+   $advanceFilterOpsByFieldType
+      Used in process: EditAjax
+
+ADVANCE_CRITERIA:
+   $customViewModel->transformToNewAdvancedFilter()
+      Used in process: EditAjax
+
+ALLFILTERS:
+   $filters
+      Used in process: ChartFilter, MiniListWizard
+
+ALLOWED_MODULES:
+   $moduleModel->getAllowedModules()
+      Used in process: MapModal
+
+ALL_RECORDS:
+   $allRecords
+      Used in process: GenerateModal, PDF
+
+ALPHABET_VALUE:
+   $searchValue
+      Used in preProcess: ListView
+   $searchValue
+      Used in process: Export, InRelation, ListView, MoveDocuments, RelatedList
+
+APPTITLE:
+   \App\Runtime\Vtiger_Language_Handler::translate('APPTITLE')
+      Used in preProcess: BaseViewController
+
+ASSIGN_TO:
+   $assignedToFieldModel
+      Used in process: ConvertLead
+
+ATTACHMENTS:
+   $attachments
+      Used in process: OSSMailView_preview_View, sview
+
+AUTO_ASSIGN_RECORD:
+   $autoAssignRecord
+      Used in process: AutoAssignRecord
+
+BANK:
+   $bank
+      Used in process: PaymentsImport
+
+BASE_CURRENCY_ID:
+   $baseCurrenctDetails['currencyid']
+      Used in process: Edit, QuickCreateAjax
+
+BASE_CURRENCY_NAME:
+   'curname' . $baseCurrenctDetails['currencyid']
+      Used in process: Edit, QuickCreateAjax
+
+BASE_CURRENCY_SYMBOL:
+   $baseCurrenctDetails['symbol']
+      Used in process: Edit, QuickCreateAjax
+
+BASE_MODULE_NAME:
+   'Vtiger'
+      Used in process: GenerateModal
+
+BASE_USER_ID:
+   $baseUserId
+      Used in process: SwitchUsers
+
+BCC:
+   $bcc
+      Used in process: OSSMailView_preview_View, sview
+
+BLOCK_LIST:
+   $moduleModel->getBlocks()
+      Used in process: Edit, SmartDetail
+
+BOOKMARK_NAME:
+   $data['bookmarkName']
+      Used in process: EditAjax
+
+BOOKMARK_URL:
+   $data['bookmarkUrl']
+      Used in process: EditAjax
+
+BREADCRUMBS:
+   $this->buildBreadcrumbs($vtigerRequest)
+      Used in preProcess: BaseViewController
+
+BREADCRUMBS_SEPARATOR:
+   $this->getBreadcrumbsSeparator()
+      Used in preProcess: BaseViewController
+
+BREADCRUMB_TITLE:
+   $this->getBreadcrumbTitle($vtigerRequest)
+      Used in preProcess: BaseViewController
+
+Better:
+   'Better'
+      Used in process: QuickCreateAjax
+
+CACHE_GROUP_RECORDS:
+   $cacheRecords
+      Used in process: MapModal
+
+CALCULATION_FIELDS:
+   $calculation
+      Used in process: SaveAjax
+
+CC:
+   $cc
+      Used in process: OSSMailView_preview_View, sview
+
+CHART_TYPE:
+   $reportChartModel->getChartType()
+      Used in process: ChartSaveAjax
+
+CHART_TYPES:
+   $chartTypes
+      Used in process: ChartFilter
+
+CHAT_ACTIVE:
+   \App\Module::isModuleActive('AJAXChat')
+      Used in preProcess: Basic, PreferenceDetail, PreferenceEdit
+
+CLICK_THROUGH:
+   true
+      Used in process: ChartSaveAjax
+
+COLORS:
+   $colors
+      Used in process: Reminders
+
+COLOR_LIST:
+   $colorList
+      Used in process: RelatedList
+   array_filter($colorList)
+      Used in process: Reminders
+
+COLUMN_NAME:
+   $orderBy
+      Used in preProcess: ListView
+   $orderBy
+      Used in process: InRelation, ListView, RelatedList
+
+COMMENT:
+   $rcmModel->getComment()
+      Used in process: RelatedCommentModal
+   $recordModel
+      Used in process: DetailAjax
+
+COMMENTS_MODULE_MODEL:
+   $modCommentsModel
+      Used in process: DetailAjax
+
+COMPANY_LOGO:
+   $companyLogo
+      Used in preProcess: Basic
+   $companyLogo
+      Used in process: Login
+
+CONDITION_TO_RESTRICTS:
+   $this->getConditionToRestricts($moduleName, $ID)
+      Used in process: EditFieldByModal
+
+CONTENT:
+   $content
+      Used in process: PreviewContent, WidgetFullscreen
+   \vtlib\Functions::getHtmlOrPlainText($content)
+      Used in process: OSSMailView_mbody_View
+
+CONVERSION_AVAILABLE_STATUS:
+   \App\Json::encode(\App\Modules\Leads\Models\Module::getConversionAvaibleStatuses())
+      Used in preProcess: Detail
+
+CONVERSION_CONFIG:
+   $marketingProcessConfig
+      Used in process: ConvertLead
+
+CONVERT_LEAD_FIELDS:
+   $recordModel->getConvertLeadFields()
+      Used in process: ConvertLead
+
+COUNT:
+   count($paymentsIn)
+      Used in process: PaymentsIn_step1_View
+   count($paymentsOut)
+      Used in process: PaymentsOut_step1_View
+
+CRON_INFO:
+   \vtlib\Cron::getInstance('LBL_SEND_NOTIFICATIONS')
+      Used in process: NotificationConfig
+
+CURRENTDATE:
+   $currentDate
+      Used in preProcess: Basic, PreferenceDetail, PreferenceEdit
+   date('Y-n-j')
+      Used in process: Edit, EditAjax, QuickCreateAjax
+
+CURRENTUSER:
+   $currentUserModel
+      Used in process: DetailAjax
+
+CURRENT_PAGE:
+   $pageNumber
+      Used in preProcess: ListView
+
+CURRENT_PRICE:
+   $currentPrice
+      Used in process: ListPriceUpdate
+
+CURRENT_USER:
+   $currentUserModel
+      Used in preProcess: Calendar
+   $currentUserModel
+      Used in process: Calendar, SharedCalendar
+
+CURRENT_USER_PRIVILEGE:
+   $currentUserPriviligeModel
+      Used in process: ConvertLead
+
+CURRENT_VERSION:
+   \App\Version::get()
+      Used in process: Login
+
+CURRENT_VIEW:
+   $request->get('view')
+      Used in preProcess: Calendar
+
+CUSTOMVIEW_MODEL:
+   $customViewModel
+      Used in process: EditAjax
+
+CUSTOM_VIEWS:
+   \App\Modules\CustomView\Models\Record::getAllByGroup($baseModuleName)
+      Used in preProcess: TreeRecords
+   \App\Modules\CustomView\Models\Record::getAllByGroup($moduleName)
+      Used in process: TreeRecords
+   \App\Modules\CustomView\Models\Record::getAllByGroup($moduleName, $mid)
+      Used in preProcess: ListView
+   \App\Modules\CustomView\Models\Record::getAllByGroup($relatedModuleName)
+      Used in process: RelatedList
+
+CV_PENDING_VALUE:
+   \App\CustomView::CV_STATUS_PENDING
+      Used in process: EditAjax
+
+CV_PRIVATE_VALUE:
+   \App\CustomView::CV_STATUS_DEFAULT
+      Used in process: EditAjax
+   \App\CustomView::CV_STATUS_PRIVATE
+      Used in process: EditAjax
+
+CV_PUBLIC_VALUE:
+   \App\CustomView::CV_STATUS_PUBLIC
+      Used in process: EditAjax
+
+DATA:
+   $data
+      Used in process: SaveAjax
+   json_encode($data, JSON_HEX_APOS)
+      Used in process: ChartSaveAjax
+
+DATE_FILTERS:
+   \App\Modules\Base\Helpers\AdvancedFilter::getDateFilter($module)
+      Used in process: EditAjax
+
+DAY_STARTS:
+   \App\Json::encode($dayStartPicklistValues)
+      Used in preProcess: PreferenceDetail, PreferenceEdit
+
+DAY_VIEW:
+   \App\AppConfig::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'agendaDay' : 'basicDay'
+      Used in preProcess: Calendar
+   \App\AppConfig::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'agendaDay' : 'basicDay'
+      Used in process: Calendar
+
+DELETED_RECORDS_TOTAL_COUNT:
+   $moduleModel->getDeletedRecordsTotalCount()
+      Used in preProcess: ListView
+
+DELETE_USER_NAME:
+   $userRecordModel->getName()
+      Used in process: DeleteAjax, DeleteUser
+
+DETAILVIEW_LINKS:
+   $detailViewLinks
+      Used in preProcess: PreferenceDetail
+
+DETAIL_CONTENT:
+   $detailContent
+      Used in process: Detail
+
+EMPLOYEES_HIERARCHY:
+   $hierarchy
+      Used in process: EmployeeHierarchy
+
+ENCRYPTED:
+   false
+      Used in process: OSSPasswords_Edit_View
+   true
+      Used in process: OSSPasswords_Edit_View
+
+ENC_KEY:
+   $config['key']
+      Used in process: OSSPasswords_Edit_View
+   ''
+      Used in process: OSSPasswords_Edit_View
+
+ENTRIES:
+   $listEntries
+      Used in preProcess: TreeRecords
+   $listEntries
+      Used in process: Content, TreeRecords
+
+ERROR:
+   $request->get('error')
+      Used in process: Login
+
+EVENT_LIMIT:
+   \App\AppConfig::module('Calendar', 'EVENT_LIMIT')
+      Used in preProcess: Calendar
+   \App\AppConfig::module('Calendar', 'EVENT_LIMIT')
+      Used in process: Calendar
+
+EVENT_RECORD_STRUCTURE:
+   $eventBlocksFields
+      Used in process: EditAjax
+
+EVENT_RECORD_STRUCTURE_MODEL:
+   $relatedRecordStructureInstance
+      Used in process: EditAjax
+
+EXCLUDED_IDS:
+   $excludedIds
+      Used in process: Export
+   $request->get('excludedIds')
+      Used in process: RelatedList
+   $request->get('excluded_ids')
+      Used in process: MoveDocuments, MoveReports
+
+EXPORT_TYPE:
+   ['LBL_CSV' => 'csv', 'LBL_XML' => 'xml']
+      Used in process: Export
+
+EXPORT_VARS:
+   $postVars
+      Used in process: PDF
+
+EXTENSION_ICON:
+   $fileIcon
+      Used in preProcess: Detail
+
+FAVORITES:
+   $favorites
+      Used in process: InRelation, RelatedList
+
+FIELDS:
+   $fieldModels
+      Used in process: MergeRecord
+   $this->fields
+      Used in process: SendMailModal
+
+FIELDS_TO_GROUP:
+   $fieldsToGroup
+      Used in process: MapModal
+
+FIELD_LIST:
+   $fields
+      Used in process: EditFieldByModal
+
+FILE_TYPE:
+   $request->get('fileType')
+      Used in process: FileUpload
+
+FOLDERS:
+   $folderList
+      Used in process: MoveReports
+   $folders
+      Used in process: ListAjax
+   $moduleModel->getAllFolders()
+      Used in process: MoveDocuments
+
+FOLDER_MODEL:
+   $folderModel
+      Used in process: EditFolder
+
+FOOTER_SCRIPTS:
+   $this->getFooterScripts($request)
+      Used in process: Popup, TreePopup
+   $this->getFooterScripts($vtigerRequest)
+      Used in preProcess: BaseViewController
+
+FPERROR:
+   $request->get('fpError')
+      Used in process: Login
+
+FREQUENCY:
+   $scheduleData['frequency']
+      Used in process: NotificationConfig
+
+FROM:
+   $from
+      Used in process: OSSMailView_preview_View, sview
+
+GENERATEPASS:
+   $GenerateButton
+      Used in process: OSSPasswords_Edit_View
+   'Generate Password'
+      Used in process: QuickCreateAjax
+
+GRAY:
+   true
+      Used in process: VariablePanel
+
+HEADERS:
+   $headers
+      Used in process: Content
+   $listHeaders
+      Used in preProcess: TreeRecords
+   $listHeaders
+      Used in process: TreeRecords
+
+HEADER_LINKS:
+   $headerLinks
+      Used in preProcess: ListView
+   $this->listViewModel->getHederLinks($linkParams)
+      Used in preProcess: ListView
+
+HEADER_SCRIPTS:
+   $this->getHeaderScripts($vtigerRequest)
+      Used in preProcess: BaseViewController
+
+HIERARCHY:
+   $hierarchy
+      Used in process: Hierarchy
+
+HIERARCHY_FIELD:
+   $hierarchy
+      Used in process: EditFieldByModal
+
+HIERARCHY_ID:
+   $hierarchyId
+      Used in process: EditFieldByModal
+
+HOME_MODULE_MODEL:
+   $homeModuleModel
+      Used in preProcess: Basic, PreferenceDetail, PreferenceEdit
+
+HTMLLANG:
+   \App\Runtime\Vtiger_Language_Handler::getShortLanguageName()
+      Used in preProcess: BaseViewController
+
+IMAGE_DETAILS:
+   $recordModel->getImageDetails()
+      Used in preProcess: Edit, PreferenceDetail, PreferenceEdit
+   $recordModel->getImageDetails()
+      Used in process: Edit
+
+INPUT_NAME:
+   $request->get('inputName')
+      Used in process: FileUpload
+
+INVENTORY_FIELDS:
+   $relationModel->getRelationInventoryFields()
+      Used in process: RelatedList
+
+ISMODAL:
+   $request->isAjax()
+      Used in process: OSSMailView_preview_View
+
+IS_AJAX_ENABLED:
+   false
+      Used in process: SmartDetail
+
+IS_ALL_EMAIL_NOTICE:
+   $selectedAllSendNotice
+      Used in process: NotificationConfig
+
+IS_CREATE_PERMITTED:
+   \App\Modules\Users\Models\Privileges::isPermitted($relatedModuleName, 'CreateView')
+      Used in process: InRelation, RelatedList
+
+IS_DELETABLE:
+   $detailViewModel->getRecord()->isDeletable($moduleName)
+      Used in preProcess: PreferenceDetail
+   $relationModel->isDeletable()
+      Used in process: InRelation, RelatedList
+
+IS_EDITABLE:
+   $detailViewModel->getRecord()->isEditable($moduleName)
+      Used in preProcess: PreferenceDetail
+   $relationModel->isEditable()
+      Used in process: InRelation, RelatedList
+
+IS_FAVORITES:
+   $isFavorites
+      Used in process: InRelation, RelatedList
+
+IS_MODULE_DELETABLE:
+   $listViewModel->getModule()->isPermitted('Delete')
+      Used in preProcess: ListView
+   $this->listViewModel->getModule()->isPermitted('Delete')
+      Used in process: ListView
+
+IS_MODULE_EDITABLE:
+   $this->listViewModel->getModule()->isPermitted('EditView')
+      Used in process: ListView
+
+IS_MULTIPLE:
+   $request->get('multiple')
+      Used in process: TreePopup
+
+IS_POPUP:
+   false
+      Used in process: PreviewContent
+   true
+      Used in process: FullScreen
+
+IS_PREFERENCE:
+   true
+      Used in preProcess: PreferenceEdit
+
+IS_RELATION:
+   $request->get('relationOperation')
+      Used in process: Edit, QuickCreateAjax
+
+IS_RELATION_OPERATION:
+   $isRelationOperation
+      Used in process: Edit
+
+JSON:
+   $json
+      Used in process: PaymentsIn_step1_View, PaymentsOut_step1_View
+
+LANGUAGE:
+   \App\Runtime\Vtiger_Language_Handler::getLanguage()
+      Used in preProcess: BaseViewController
+
+LANGUAGE_SELECTION:
+   \App\AppConfig::main('langInLoginView')
+      Used in process: Login
+
+LANGUAGE_STRINGS:
+   $this->getJSLanguageStrings($vtigerRequest)
+      Used in preProcess: BaseViewController
+
+LAST_ID:
+   $recordModel->get('lastId')
+      Used in process: TreePopup
+
+LAST_MODIFIED:
+   $lastModifiedField
+      Used in process: AccountHierarchy
+
+LAYOUT_PATH:
+   'layouts/' . \App\Runtime\Yeti_Layout::getActiveLayout()
+      Used in preProcess: BaseViewController
+
+LAYOUT_SELECTION:
+   \App\AppConfig::main('layoutInLoginView')
+      Used in process: Login
+
+LISTVIEW_COUNT:
+   $noOfEntries
+      Used in process: ListView
+   $pagingInfo['recordCount']
+      Used in preProcess: ListView
+   $this->listViewCount
+      Used in preProcess: ListView
+   $this->listViewCount
+      Used in process: ListView
+   $totalCount
+      Used in process: RelatedList
+   (int) $totalCount
+      Used in process: InRelation
+   0
+      Used in process: InRelation, RelatedList
+
+LISTVIEW_ENTRIES:
+   $listviewEntries
+      Used in preProcess: ListView
+   $this->listViewEntries
+      Used in preProcess: ListView
+   $this->listViewEntries
+      Used in process: ListView
+
+LISTVIEW_ENTRIES_COUNT:
+   $noOfEntries
+      Used in preProcess: ListView
+   $noOfEntries
+      Used in process: ListView
+
+LISTVIEW_HEADERS:
+   $this->listViewHeaders
+      Used in preProcess: ListView
+   $this->listViewHeaders
+      Used in process: ListView
+
+LISTVIEW_LINKS:
+   $linkModels
+      Used in process: ListAjax
+   $moduleModel->getListViewLinks(false)
+      Used in preProcess: ListView
+   $this->listViewLinks
+      Used in process: ListView
+
+LISTVIEW_MASSACTIONS:
+   $linkModels
+      Used in preProcess: ListView
+   $linkModels['LISTVIEWMASSACTION']
+      Used in process: ListView
+
+MAPPING_RELATED_FIELD:
+   \App\Json::encode($mappingRelatedField)
+      Used in process: QuickCreateAjax
+   \App\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName))
+      Used in process: Edit
+
+MAX_UPLOAD_LIMIT:
+   vglobal('upload_maxsize')
+      Used in process: Edit, QuickCreateAjax
+
+MAX_UPLOAD_LIMIT_MB:
+   \App\Modules\Base\Helpers\Util::getMaxUploadSize()
+      Used in process: Edit, QuickCreateAjax
+
+MENUS:
+   $this->getMenu()
+      Used in preProcess: Basic
+   \App\Modules\Base\Models\Menu::getAll(true)
+      Used in preProcess: PreferenceDetail, PreferenceEdit
+
+MENU_HEADER_LINKS:
+   $this->getMenuHeaderLinks($request)
+      Used in preProcess: Basic, PreferenceDetail, PreferenceEdit
+
+MODE:
+   ''
+      Used in process: Edit, EditAjax
+   'edit'
+      Used in process: Edit, EditAjax, QuickCreateAjax
+
+MODULE:
+   $baseModuleName
+      Used in preProcess: TreeRecords
+   $hierarchyModuleName
+      Used in process: GetHierarchy
+   $module
+      Used in process: ChangeType, Detail, EditAjax, MergeRecord
+   $moduleName
+      Used in preProcess: BaseViewController, ListView
+   $moduleName
+      Used in process: AccountHierarchy, AddNotePad, ChangePassword, ChartSaveAjax, ConvertLead, DeleteUser, Edit, EditAjax, EditFolder, EmployeeHierarchy, Hierarchy, InRelation, ListPriceUpdate, ListView, MassAddDocuments, MoreCurrenciesList, MoveDocuments, MoveReports, NotificationConfig, QuickCreateAjax, RelatedCommentModal, RelatedList, SaveAjax, SendMailModal, Tree, TreeCategoryModal, TreePopup, TreeRecords, VariablePanel, WorkflowTrigger
+   $selectedModule
+      Used in preProcess: Basic, PreferenceDetail, PreferenceEdit
+   $selectedModule
+      Used in process: Login
+   'Export'
+      Used in process: Export
+
+MODULENAME:
+   $moduleName
+      Used in process: OSSMailView_MailsPreview_View, OSSMailView_mbody_View, OSSMailView_preview_View, OSSMailView_widget_View, PaymentsImport, PaymentsIn_step1_View, PaymentsOut_step1_View, sview
+
+MODULES:
+   $modules
+      Used in process: ChartFilter, MiniListWizard
+
+MODULES_WITH_WIDGET:
+   $modulesWithWidget
+      Used in preProcess: DashBoard
+
+MODULE_FIELDS:
+   $selectedModuleModel->getFields()
+      Used in process: ChartFilter
+
+MODULE_LIST:
+   $moduleList
+      Used in process: NotificationConfig
+   $moduleModel->getAllModuleList()
+      Used in preProcess: ListView
+
+MODULE_MODEL:
+   $detailViewModel->getModule()
+      Used in preProcess: PreferenceDetail
+   $moduleModel
+      Used in preProcess: ListView
+   $moduleModel
+      Used in process: EditAjax, FindDuplicates, QuickCreateAjax
+   $this->listViewModel->getModule()
+      Used in process: ListView
+   \App\Modules\Base\Models\Module::getInstance($moduleName)
+      Used in preProcess: ListView
+
+MODULE_NAME:
+   $moduleName
+      Used in preProcess: Calendar
+   $moduleName
+      Used in process: ActivityStateModal, AutoAssignRecord, ChartFilter, Content, EditFieldByModal, GenerateModal, ListAjax, ListView, MailActionBar, MapModal, MiniListWizard, PDF, PreviewContent, PriceBookProductPopup, PriceBookProductPopupAjax, ProductPriceBookPopup, ProductPriceBookPopupAjax, QuickDetailModal, Reminders, SmartDetail, SwitchUsers, WidgetFullscreen
+   $selectedModule
+      Used in preProcess: Basic, PreferenceDetail, PreferenceEdit
+   $selectedModule
+      Used in process: Login
+   $vtigerRequest->getModule()
+      Used in preProcess: BaseViewController
+
+Medium:
+   'Medium'
+      Used in process: QuickCreateAjax
+
+NEW_COUNT:
+   $reportData['count']
+      Used in process: SaveAjax
+
+NEXT_SORT_ORDER:
+   $nextSortOrder
+      Used in preProcess: ListView
+   $nextSortOrder
+      Used in process: InRelation, ListView, RelatedList
+
+NOLOADLIBS:
+   $load
+      Used in process: OSSMailView_preview_View, sview
+
+NO_SUMMARY:
+   true
+      Used in preProcess: Detail
+
+ONEDAYAGO:
+   date('Y-n-j', strtotime('yesterday'))
+      Used in process: QuickCreateAjax
+
+ONEDAYLATER:
+   date('Y-n-j', strtotime('tomorrow'))
+      Used in process: QuickCreateAjax
+
+OPERATOR:
+   $operator
+      Used in process: Export, InRelation, ListView, MoveDocuments, RelatedList
+
+ORDER_BY:
+   $orderBy
+      Used in preProcess: ListView
+   $orderBy
+      Used in process: InRelation, ListView, RelatedList
+
+OWNER:
+   $owner
+      Used in process: OSSMailView_preview_View, sview
+
+PAGE:
+   $page
+      Used in process: Export
+
+PAGETITLE:
+   $this->getPageTitle($vtigerRequest)
+      Used in preProcess: BaseViewController
+
+PAGE_COUNT:
+   $pageCount
+      Used in preProcess: ListView
+   $pageCount
+      Used in process: InRelation, ListView, RelatedList
+
+PAGE_NUMBER:
+   $pageNumber
+      Used in preProcess: ListView
+   $pageNumber
+      Used in process: InRelation, ListView, RelatedList
+   $requestedPage
+      Used in process: InRelation
+
+PAGING_INFO:
+   $pagingInfo
+      Used in preProcess: ListView
+
+PAGING_MODEL:
+   $pagingModel
+      Used in preProcess: ListView
+   $pagingModel
+      Used in process: InRelation, ListAjax, ListView, RelatedList, SaveAjax
+
+PARENT_MODULE:
+   $request->get('parent')
+      Used in preProcess: Basic, PreferenceDetail, PreferenceEdit
+   $vtigerRequest->get('parent')
+      Used in preProcess: BaseViewController
+
+PARENT_RECORD:
+   $parentRecordModel
+      Used in process: InRelation, RelatedList
+
+PARSER_TYPE:
+   $request->get('type')
+      Used in process: VariablePanel
+
+PAYMENTSIN:
+   $paymentsIn
+      Used in process: PaymentsIn_step1_View
+
+PAYMENTSOUT:
+   $paymentsOut
+      Used in process: PaymentsOut_step1_View
+
+PERMANENT:
+   true
+      Used in process: DeleteUser
+
+PERMISSION_TO_SENDE_MAIL:
+   $permissionToSendEmail
+      Used in process: ActivityStateModal, Reminders
+
+PICKIST_DEPENDENCY_DATASOURCE:
+   \App\Json::encode($picklistDependencyDatasource)
+      Used in process: Edit, QuickCreateAjax
+
+POPUP:
+   $config['popup']
+      Used in process: OSSMailView_MailsPreview_View, OSSMailView_widget_View
+
+PRICEBOOK_ID:
+   $priceBookId
+      Used in process: ListPriceUpdate
+
+PRICE_DETAILS:
+   $priceDetails
+      Used in process: MoreCurrenciesList
+
+PRIMARY_MODULE:
+   $reportModel->getPrimaryModule()
+      Used in process: SaveAjax
+
+PRIVILEGESMODEL:
+   \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel()
+      Used in process: OSSMailView_widget_View
+
+QUALIFIED_MODULE:
+   $moduleName
+      Used in process: ListView
+   $request->getModule(false)
+      Used in preProcess: Basic
+   $selectedModule
+      Used in preProcess: PreferenceDetail, PreferenceEdit
+   $selectedModule
+      Used in process: Login
+
+QUERY_GENERATOR:
+   $queryGenerator
+      Used in process: MiniListWizard
+
+QUICKCREATE_LINKS:
+   \App\Modules\Base\Models\Link::getAllByType($moduleModel->getId(), ['QUICKCREATE_VIEW_HEADER'])
+      Used in process: QuickCreateAjax
+
+QUICK_CREATE_CONTENTS:
+   $quickCreateContents
+      Used in process: QuickCreateAjax
+
+QUICK_LINKS:
+   $linkModels
+      Used in preProcess: PreferenceDetail
+   $linkModels
+      Used in process: Tree
+   $quickLinkModels
+      Used in preProcess: ListView
+
+RECENT_ACTIVITIES:
+   $recentActivities
+      Used in process: ListAjax
+
+RECOLDLIST:
+   $recordModel->$mode($srecord, $smodule, $config, $type, $mailFilter)
+      Used in process: OSSMailView_MailsPreview_View, OSSMailView_widget_View
+
+RECORD:
+   $notifierRecordModel
+      Used in process: CheckStatus
+   $record
+      Used in process: MailActionBar, OSSMailView_MailsPreview_View, OSSMailView_mbody_View, OSSMailView_preview_View, OSSMailView_widget_View, WorkflowTrigger, sview
+   $recordId
+      Used in process: EditAjax, GenerateModal
+   $recordInstance
+      Used in process: ActivityStateModal
+   $recordModel
+      Used in preProcess: PreferenceDetail
+   $recordModel
+      Used in process: AutoAssignRecord, ConvertLead, Edit, EditFieldByModal, PreviewContent, QuickCreateAjax, QuickDetailModal, SmartDetail, WidgetFullscreen
+   $request->get('record')
+      Used in process: FileUpload
+
+RECORDMODELS:
+   $recordModels
+      Used in process: MergeRecord
+
+RECORDS:
+   $entries
+      Used in process: Reminders
+   $recordModels
+      Used in process: Reminders
+   $records
+      Used in process: MergeRecord
+   $this->getRecordsListFromRequest($request)
+      Used in process: SendMailModal
+
+RECORDS_LIST:
+   $recordList
+      Used in process: Detail
+
+RECORD_COUNT:
+   count($listviewEntries)
+      Used in preProcess: ListView
+
+RECORD_ID:
+   $record
+      Used in process: Edit, EditAjax, SaveAjax
+   $recordId
+      Used in process: Detail
+   ''
+      Used in process: EditAjax
+
+RECORD_MODEL:
+   $recordModel
+      Used in process: OSSMailView_preview_View
+
+RECORD_STRUCTURE:
+   $recordStructure
+      Used in process: Edit, EditAjax, QuickCreateAjax
+   $recordStructureInstance->getStructure()
+      Used in process: QuickCreateAjax
+   $structuredValues
+      Used in process: EditFieldByModal, SmartDetail
+
+RECORD_STRUCTURE_MODEL:
+   $recordStructureInstance
+      Used in process: Edit, EditAjax, QuickCreateAjax
+
+RELATEDMODULE:
+   $relatedModule
+      Used in process: QuickCreateAjax
+
+RELATED_ENTIRES_COUNT:
+   $noOfEntries
+      Used in process: InRelation, RelatedList
+
+RELATED_EXISTS:
+   $relationsModules ? true : false
+      Used in process: EditFieldByModal
+
+RELATED_HEADERS:
+   $header
+      Used in process: InRelation, RelatedList
+
+RELATED_LIST_LINKS:
+   $links
+      Used in process: InRelation, RelatedList
+
+RELATED_MODULE:
+   $relatedModuleModel
+      Used in process: InRelation, RelatedList
+   $relatedModuleName
+      Used in process: RelatedCommentModal
+   $relationsModules
+      Used in process: EditFieldByModal
+
+RELATED_MODULE_BASIC:
+   $relatedModuleBasicName
+      Used in process: EditFieldByModal
+
+RELATED_MODULE_NAME:
+   $relatedModuleName
+      Used in process: InRelation, RelatedList
+
+RELATED_RECORD:
+   $relatedRecord
+      Used in process: EditFieldByModal, RelatedCommentModal
+
+RELATED_RECORDS:
+   $models
+      Used in process: InRelation, RelatedList
+   $relatedRecords
+      Used in process: MailActionBar
+
+RELATED_RECORD_METADATA:
+   $metaData
+      Used in process: EditFieldByModal
+
+RELATED_SCRIPTS:
+   $this->getScripts($request)
+      Used in process: InRelation
+
+RELATED_SUMMARY:
+   $relatedSummary
+      Used in process: InRelation
+
+RELATION_FIELD:
+   $relationField
+      Used in process: InRelation, RelatedList
+
+RELATION_TYPE:
+   $this->relationType
+      Used in process: TreeCategoryModal
+
+REL_ID:
+   $relId
+      Used in process: ListPriceUpdate
+
+REMINDER_ACTIVE:
+   $activeReminder
+      Used in preProcess: Basic, PreferenceDetail, PreferenceEdit
+
+REPORT_RUN_INSTANCE:
+   ReportRun::getInstance($record)
+      Used in process: SaveAjax
+
+RESTRICTS_ITEM:
+   $this->getRestrictItems()
+      Used in process: EditFieldByModal
+
+SALUTATION_FIELD_MODEL:
+   $salutationFieldModel
+      Used in preProcess: Edit
+   $salutationFieldModel
+      Used in process: QuickCreateAjax
+
+SCHEDULE_DATA:
+   $scheduleData
+      Used in process: NotificationConfig
+
+SCRIPTS:
+   $this->getFooterScripts($request)
+      Used in process: QuickCreateAjax
+   $this->getModalScripts($request)
+      Used in process: OSSMailView_preview_View
+   $this->getScripts($request)
+      Used in process: ActivityStateModal
+
+SCRIPT_TIME:
+   isset($GLOBALS['startTime']) ? round(microtime(true) - $GLOBALS['startTime'], 3) : 0
+      Used in preProcess: BaseViewController
+
+SEARCHABLE_MODULES:
+   \App\Modules\Base\Models\Module::getSearchableModules()
+      Used in preProcess: Basic, PreferenceDetail, PreferenceEdit
+
+SEARCHED_MODULE:
+   $selectedModule
+      Used in preProcess: Basic
+
+SEARCH_DETAILS:
+   $searchParmams
+      Used in process: InRelation, ListView, RelatedList
+
+SEARCH_KEY:
+   $searchKey
+      Used in process: Export, MoveDocuments
+
+SEARCH_PARAMS:
+   $request->get('search_params')
+      Used in process: Export
+
+SELECTABLE_CATEGORY:
+   0
+      Used in process: TreeRecords
+   \App\AppConfig::relation('SELECTABLE_CATEGORY') ? 1 : 0
+      Used in preProcess: TreeRecords
+   \App\AppConfig::relation('SELECTABLE_CATEGORY') ? 1 : 0
+      Used in process: TreeCategoryModal
+
+SELECTED_IDS:
+   $request->get('selectedIds')
+      Used in process: RelatedList
+   $request->get('selected_ids')
+      Used in process: MoveDocuments, MoveReports
+   $selectedIds
+      Used in process: Export
+
+SELECTED_MODULE:
+   $request->get('selectedModule')
+      Used in process: VariablePanel
+   $selectedModule
+      Used in process: MiniListWizard
+   $selectedModuleName
+      Used in process: ChartFilter
+
+SELECT_ALL_MODULES:
+   $selectedAllModules
+      Used in process: NotificationConfig
+
+SENDURLDDATA:
+   $urldata
+      Used in process: OSSMailView_MailsPreview_View
+
+SENT:
+   $sent
+      Used in process: OSSMailView_preview_View, sview
+
+SHOW_BODY_HEADER:
+   $this->showBodyHeader()
+      Used in preProcess: BaseViewController, PreferenceDetail, PreferenceEdit
+
+SHOW_COMMENT:
+   $relationModel->showComment()
+      Used in process: InRelation, RelatedList
+
+SHOW_CREATOR_DETAIL:
+   $relationModel->showCreatorDetail()
+      Used in process: InRelation, RelatedList
+
+SHOW_FIELDS:
+   $showFields
+      Used in process: EditFieldByModal
+   $this->getFieldsToShow()
+      Used in process: EditFieldByModal
+
+SINGLE_MODULE:
+   'SINGLE_' . $moduleName
+      Used in process: QuickCreateAjax
+
+SKIN_PATH:
+   \App\Runtime\Vtiger_Theme::getCurrentUserThemePath()
+      Used in preProcess: BaseViewController
+
+SMODULENAME:
+   $request->get('smodule')
+      Used in process: OSSMailView_preview_View
+   $smodule
+      Used in process: OSSMailView_MailsPreview_View, OSSMailView_widget_View
+
+SORT_IMAGE:
+   $sortImage
+      Used in preProcess: ListView
+   $sortImage
+      Used in process: InRelation, ListView, RelatedList
+
+SORT_ORDER:
+   $sortOrder
+      Used in preProcess: ListView
+   $sortOrder
+      Used in process: InRelation, ListView, RelatedList
+
+SOURCE_MODULE:
+   $moduleName
+      Used in process: EditAjax
+   $sourceModule
+      Used in preProcess: ListView
+   $sourceModule
+      Used in process: Edit, Export
+
+SOURCE_RECORD:
+   $sourceRecord
+      Used in process: Edit
+
+SOURCE_RELATED_FIELD:
+   $fieldValues
+      Used in process: QuickCreateAjax
+
+SRC_FIELD:
+   $srcField
+      Used in process: TreePopup
+
+SRC_MODULE:
+   $request->get('srcModule')
+      Used in process: MapModal
+   $srcModule
+      Used in process: TreeCategoryModal
+
+SRC_RECORD:
+   $srcRecord
+      Used in process: TreeCategoryModal, TreePopup
+
+SRECORD:
+   $request->get('srecord')
+      Used in process: OSSMailView_preview_View
+   $srecord
+      Used in process: OSSMailView_MailsPreview_View, OSSMailView_widget_View
+
+START_PAGIN_FROM:
+   $startPaginFrom
+      Used in preProcess: ListView
+   $startPaginFrom
+      Used in process: InRelation, ListView, RelatedList
+
+STATUS:
+   $request->get('status')
+      Used in process: Login
+
+STATUS_ERROR:
+   $request->get('statusError')
+      Used in process: Login
+
+STATUS_VALUES:
+   $relationModel->getCampaignRelationStatusValues()
+      Used in process: RelatedList
+
+STYLES:
+   $this->getHeaderCss($vtigerRequest)
+      Used in preProcess: BaseViewController
+
+SUBJECT:
+   $subject
+      Used in process: OSSMailView_preview_View, sview
+
+SWITCH_USERS:
+   $users
+      Used in process: SwitchUsers
+
+Strong:
+   'Strong'
+      Used in process: QuickCreateAjax
+
+TEMPLATE:
+   $template
+      Used in process: PreviewContent, TreePopup
+   $treeCategoryModel->getTemplate()
+      Used in process: TreeCategoryModal
+
+TEMPLATES:
+   $pdfModel->getActiveTemplatesForModule($moduleName, $view)
+      Used in process: PDF
+   $pdfModel->getActiveTemplatesForRecord($recordId, $view, $moduleName)
+      Used in process: PDF
+   $templates
+      Used in process: GenerateModal
+
+TEMPLATE_MODULE:
+   $templateModule
+      Used in process: SendMailModal
+
+THREEDAYSAGO:
+   date('Y-n-j', strtotime('-3 day'))
+      Used in process: QuickCreateAjax
+
+THREEDAYSLATER:
+   date('Y-n-j', strtotime('+3 day'))
+      Used in process: QuickCreateAjax
+
+TIME:
+   $time
+      Used in process: InRelation
+
+TITLE:
+   $title
+      Used in process: WidgetFullscreen
+
+TO:
+   $to
+      Used in process: OSSMailView_preview_View, sview
+
+TOTAL_ENTRIES:
+   $totalCount
+      Used in process: RelatedList
+   (int) $totalCount
+      Used in process: InRelation
+   0
+      Used in process: InRelation, RelatedList
+
+TRANSFER_USER_NAME:
+   $userRecordModel->getName()
+      Used in process: TransferOwner
+
+TREE:
+   \App\Json::encode($tree)
+      Used in process: TreePopup
+   \App\Json::encode($treeCategoryModel->getTreeData())
+      Used in process: TreeCategoryModal
+
+TREE_LIST:
+   \App\Json::encode($treeList)
+      Used in process: TreeRecords
+
+TRIGGER_EVENT_NAME:
+   $request->get('triggerEventName')
+      Used in process: Popup, PriceBookProductPopup, ProductPriceBookPopup, TreePopup
+
+TWODAYLATER:
+   date('Y-n-j', strtotime('+2 day'))
+      Used in process: QuickCreateAjax
+
+TWODAYSAGO:
+   date('Y-n-j', strtotime('-2 day'))
+      Used in process: QuickCreateAjax
+
+TYP:
+   $type
+      Used in process: PaymentsImport
+
+TYPE:
+   $type
+      Used in process: OSSMailView_MailsPreview_View, OSSMailView_widget_View
+
+TYPE_LIST:
+   $type_list
+      Used in process: ChangeType
+
+URL:
+   "index.php?module=$moduleName&view=mbody&record=$record"
+      Used in process: OSSMailView_preview_View, sview
+   $shortURL . "libraries/AJAXChat/index.php"
+      Used in process: Index
+   $this->mainUrl
+      Used in process: index
+   $url
+      Used in process: Detail
+   \App\AppConfig::main('site_URL')
+      Used in process: MailActionBar
+
+URLCSS:
+   $shortURL . \App\Runtime\Yeti_Layout::getLayoutFile('src/Modules/AJAXChat/Chat.css')
+      Used in process: Index
+
+USERID:
+   $userid
+      Used in process: DeleteAjax, DeleteUser, TransferOwner
+
+USER_LIST:
+   $usersList
+      Used in process: DeleteAjax, DeleteUser, TransferOwner
+
+USER_MODEL:
+   $currentUser
+      Used in preProcess: PreferenceDetail, PreferenceEdit
+   $request->getUser()
+      Used in process: ActivityStateModal, ConvertLead, Edit, EditAjax, InRelation, ListPriceUpdate, ListView, Login, MoreCurrenciesList, OSSMailView_MailsPreview_View, PriceBookProductPopup, PriceBookProductPopupAjax, ProductPriceBookPopup, ProductPriceBookPopupAjax, QuickCreateAjax, RelatedList, Reminders, SendMailModal, SmartDetail, TreeCategoryModal, TreePopup, WorkflowTrigger
+   $vtigerRequest->getUser()
+      Used in preProcess: BaseViewController
+
+USER_ROLE_NAMES:
+   $userRoleNames
+      Used in process: AutoAssignRecord
+
+VALIDATE_STRINGS:
+   \App\Runtime\Vtiger_Language_Handler::translate('Very Weak', $relatedModule) . ',' . \App\Runtime...
+      Used in process: QuickCreateAjax
+
+VIEW:
+   $request->get('view')
+      Used in preProcess: Basic, ListView, PreferenceDetail, PreferenceEdit
+   $request->get('view')
+      Used in process: Content, InRelation, Login, OSSPasswords_Edit_View, PreviewContent, QuickCreateAjax, RelatedList, SmartDetail
+   $view
+      Used in process: GenerateModal
+   $vtigerRequest->get('view')
+      Used in preProcess: BaseViewController
+
+VIEWID:
+   $this->viewName
+      Used in preProcess: ListView
+   $viewId
+      Used in process: Export
+
+VIEWNAME:
+   $request->get('viewname')
+      Used in process: MoveDocuments, MoveReports
+
+VIEW_MODE:
+   $viewMode
+      Used in process: Edit
+
+Very Strong:
+   'Very Strong'
+      Used in process: QuickCreateAjax
+
+Very Weak:
+   'Very Weak'
+      Used in process: QuickCreateAjax
+
+WATCHING_MODEL:
+   \App\Modules\Base\Models\Watchdog::getInstance($moduleName)
+      Used in process: NotificationConfig
+
+WATCHING_MODULES:
+   $watchingModules
+      Used in process: NotificationConfig
+
+WEEK_VIEW:
+   \App\AppConfig::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'agendaWeek' : 'basicWeek'
+      Used in preProcess: Calendar
+   \App\AppConfig::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'agendaWeek' : 'basicWeek'
+      Used in process: Calendar
+
+WIDGETS:
+   $widgets
+      Used in preProcess: DashBoard
+   $widgets
+      Used in process: QuickDetailModal
+
+WIZARD_STEP:
+   $request->get('step')
+      Used in process: ChartFilter, MiniListWizard
+
+WORKFLOWS:
+   $workflows
+      Used in process: WorkflowTrigger
+
+Weak:
+   'Weak'
+      Used in process: QuickCreateAjax
+
+XML_TPL_LIST:
+   \App\Modules\Import\Models\Module::getListTplForXmlType($sourceModule)
+      Used in process: Export
+
+YETIFORCE_VERSION:
+   \App\Version::get()
+      Used in preProcess: BaseViewController
+
+allowChars:
+   $passwordConfig['pass_allow_chars']
+      Used in process: OSSPasswords_Edit_View, QuickCreateAjax
+
+passLengthMax:
+   $passwordConfig['pass_length_max']
+      Used in process: OSSPasswords_Edit_View, QuickCreateAjax
+
+passLengthMin:
+   $passwordConfig['pass_length_min']
+      Used in process: OSSPasswords_Edit_View, QuickCreateAjax
+
+================================================================================
+Analysis complete! Total classes: 208
+================================================================================

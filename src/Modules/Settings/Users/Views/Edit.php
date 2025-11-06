@@ -43,77 +43,11 @@ class Edit extends \App\Modules\Users\Views\PreferenceEdit
 		throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 	}
 
-	protected function buildBreadcrumbs(\App\Http\Vtiger_Request $request)
-	{
-		$breadcrumbs = [];
-		$pageTitle = $this->getBreadcrumbTitle($request);
-		$moduleName = $request->getModule();
-		$view = $request->get('view');
-		$qualifiedModuleName = $request->getModule(false);
-		
-		// Settings home breadcrumb
-		$breadcrumbs[] = [
-			'name' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_SETTINGS', $qualifiedModuleName),
-			'url' => 'index.php?module=Dashboard&parent=Settings&view=Index',
-		];
-		
-		// Add specific settings module breadcrumb
-		$fieldId = $request->get('fieldid');
-		$menu = \App\Modules\Settings\Base\Models\MenuItem::getAll();
-		foreach ($menu as &$menuModel) {
-			if (empty($fieldId)) {
-				if ($menuModel->getModule() == $moduleName) {
-					$parent = $menuModel->getMenu();
-					$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate($parent->get('label'), $qualifiedModuleName)];
-					$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate($menuModel->get('name'), $qualifiedModuleName),
-						'url' => $menuModel->getUrl()
-					];
-					break;
-				}
-			} else {
-				if ($fieldId == $menuModel->getId()) {
-					$parent = $menuModel->getMenu();
-					$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate($parent->get('label'), $qualifiedModuleName)];
-					$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate($menuModel->get('name'), $qualifiedModuleName),
-						'url' => $menuModel->getUrl()
-					];
-					break;
-				}
-			}
-		}
-		
-		// Add page-specific breadcrumb
-		if (is_array($pageTitle)) {
-			foreach ($pageTitle as $title) {
-				$breadcrumbs[] = $title;
-			}
-		} else {
-			if ($pageTitle) {
-				$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate($pageTitle, $moduleName)];
-			} elseif ($view == 'Edit' && $request->get('record') == '') {
-				$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_CREATE', $qualifiedModuleName)];
-			} elseif ($view != '' && $view != 'List') {
-				$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_' . strtoupper($view), $qualifiedModuleName)];
-			}
-			if ($request->get('record') != '') {
-				$recordLabel = \App\Fields\Owner::getUserLabel($request->get('record'));
-				if ($recordLabel != '') {
-					$breadcrumbs[] = ['name' => $recordLabel];
-				}
-			}
-		}
-		
-		return $breadcrumbs;
-	}
-
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('IS_PREFERENCE', false);
-		// Assign breadcrumbs for Settings pages
-		$viewer->assign('BREADCRUMBS', $this->buildBreadcrumbs($request));
-		$viewer->assign('BREADCRUMBS_SEPARATOR', \App\AppConfig::main('breadcrumbs_separator'));
 		// MainLayout handles rendering, no separate preProcess template needed
 	}
 

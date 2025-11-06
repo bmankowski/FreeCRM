@@ -120,12 +120,6 @@ abstract class Basic extends \App\Base\Controllers\BaseViewController
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
-		$this->assignBasicViewData($request);
-		// MainLayout handles rendering, no separate preProcess template needed
-	}
-	
-	protected function assignBasicViewData(\App\Http\Vtiger_Request $request)
-	{
 		$viewer = $this->getViewer($request);
 
 		if ($activeReminder = \App\Module::isModuleActive('Calendar')) {
@@ -156,6 +150,7 @@ abstract class Basic extends \App\Base\Controllers\BaseViewController
 		}
 		$viewer->assign('CHAT_ACTIVE', \App\Module::isModuleActive('AJAXChat'));
 		$viewer->assign('REMINDER_ACTIVE', $activeReminder);
+		// MainLayout handles rendering, no separate preProcess template needed
 	}
 
 	protected function getMenu()
@@ -171,7 +166,7 @@ abstract class Basic extends \App\Base\Controllers\BaseViewController
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
-		
+
 		// Add header scripts from links
 		$headerScripts = \App\Modules\Base\Models\Link::getAllByType(\vtlib\Link::IGNORE_MODULE, array('HEADERSCRIPT'));
 		foreach ($headerScripts as $headerType => $headerScriptsValue) {
@@ -181,7 +176,7 @@ abstract class Basic extends \App\Base\Controllers\BaseViewController
 				}
 			}
 		}
-		
+
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(

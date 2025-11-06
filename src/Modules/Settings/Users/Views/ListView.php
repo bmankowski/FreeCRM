@@ -20,45 +20,11 @@ class ListView extends \App\Modules\Settings\Base\Views\ListView
 	
 	/**
 	 * Get breadcrumb title - return null to avoid extra text in breadcrumbs
+	 * The base buildBreadcrumbs will use this and not add view-specific breadcrumb
 	 */
 	public function getBreadcrumbTitle(\App\Http\Vtiger_Request $request)
 	{
 		return null;
-	}
-	
-	/**
-	 * Build breadcrumbs for Users ListView
-	 * Don't show view-specific breadcrumb, just module name is enough
-	 */
-	protected function buildBreadcrumbs(\App\Http\Vtiger_Request $request)
-	{
-		$breadcrumbs = [];
-		$moduleName = $request->getModule();
-		$qualifiedModuleName = $request->getModule(false);
-		
-		// Settings home breadcrumb
-		$breadcrumbs[] = [
-			'name' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_SETTINGS', $qualifiedModuleName),
-			'url' => 'index.php?module=Dashboard&parent=Settings&view=Index',
-		];
-		
-		// Find Users menu item and build breadcrumb from it
-		$fieldId = $request->get('fieldid');
-		$menu = \App\Modules\Settings\Base\Models\MenuItem::getAll();
-		foreach ($menu as &$menuModel) {
-			if ($menuModel->getModule() == $moduleName) {
-				$parent = $menuModel->getMenu();
-				$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate($parent->get('label'), $qualifiedModuleName)];
-				$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate($menuModel->get('name'), $qualifiedModuleName),
-					'url' => $menuModel->getUrl()
-				];
-				break;
-			}
-		}
-		
-		// Don't add view-specific breadcrumb for ListView - module name is enough
-		
-		return $breadcrumbs;
 	}
 	
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)

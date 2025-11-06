@@ -15,10 +15,10 @@ namespace App\Modules\Base\Views;
 class ListView extends \App\Modules\Base\Views\Index
 {
 
-	protected $listViewEntries = false;
-	protected $listViewCount = false;
-	protected $listViewLinks = false;
-	protected $listViewHeaders = false;
+	protected $listViewEntries = null;
+	protected $listViewCount = null;
+	protected $listViewLinks = null;
+	protected $listViewHeaders = null;
 	protected $listViewModel;
 	protected $viewName;
 
@@ -65,11 +65,26 @@ class ListView extends \App\Modules\Base\Views\Index
 			$this->prepareAjaxListViewData($request);
 			return;
 		}
-		// Prepare data for non-AJAX (full page) requests
-		$this->assignSidebarData($request);
-		$this->prepareListViewData($request);
 		$viewer = $this->getViewer($request);
+		$moduleName = $request->getModule();
+
+		$mid = false;
+		if ($request->has('mid')) {
+			$mid = $request->get('mid');
+		}
+
+		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
+
+		$this->viewName = \App\CustomView::getInstance($moduleName)->getViewId();
+		$this->listViewModel = \App\Modules\Base\Models\ListView::getInstance($moduleName, $this->viewName);
+		$this->initializeListViewContents($request, $viewer);
+
+		// Assign all viewer data at the end
 		$viewer->assign('VIEW', $request->get('view'));
+		$viewer->assign('CUSTOM_VIEWS', \App\Modules\CustomView\Models\Record::getAllByGroup($moduleName, $mid));
+		$viewer->assign('HEADER_LINKS', $this->listViewModel->getHederLinks($linkParams));
+		$viewer->assign('VIEWID', $this->viewName);
+		$viewer->assign('MODULE_MODEL', \App\Modules\Base\Models\Module::getInstance($moduleName));
 	}
 	
 	protected function prepareAjaxListViewData(\App\Http\Vtiger_Request $request)
@@ -81,32 +96,13 @@ class ListView extends \App\Modules\Base\Views\Index
 		if (!isset($this->viewName)) {
 			$this->viewName = \App\CustomView::getInstance($moduleName)->getViewId();
 		}
-		
+		$this->initializeListViewContents($request, $viewer);	
 		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('MODULE_MODEL', \App\Modules\Base\Models\Module::getInstance($moduleName));
 		$viewer->assign('VIEWID', $this->viewName);
 	}
 	
-	protected function prepareListViewData(\App\Http\Vtiger_Request $request)
-	{
-		$moduleName = $request->getModule();
-		$viewer = $this->getViewer($request);
-
-		$mid = false;
-		if ($request->has('mid')) {
-			$mid = $request->get('mid');
-		}
-
-		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
-		$viewer->assign('CUSTOM_VIEWS', \App\Modules\CustomView\Models\Record::getAllByGroup($moduleName, $mid));
-		$this->viewName = \App\CustomView::getInstance($moduleName)->getViewId();
-		$this->listViewModel = \App\Modules\Base\Models\ListView::getInstance($moduleName, $this->viewName);
-		$viewer->assign('HEADER_LINKS', $this->listViewModel->getHederLinks($linkParams));
-		$this->initializeListViewContents($request, $viewer);
-		$viewer->assign('VIEWID', $this->viewName);
-		$viewer->assign('MODULE_MODEL', \App\Modules\Base\Models\Module::getInstance($moduleName));
-	}
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
@@ -114,7 +110,6 @@ class ListView extends \App\Modules\Base\Views\Index
 		$moduleName = $request->getModule();
 		
 		if ($request->isAjax()) {
-			// AJAX-specific logic (data already assigned in preProcess)
 			if (\App\CustomView::hasViewChanged($moduleName, $this->viewName, $request)) {
 				$customViewModel = \App\Modules\CustomView\Models\Record::getInstanceById($this->viewName);
 				if ($customViewModel) {
@@ -127,7 +122,7 @@ class ListView extends \App\Modules\Base\Views\Index
 					\App\CustomView::setCurrentPage($moduleName, $this->viewName, $request->get('page'));
 				}
 			}
-			$this->initializeListViewContents($request, $viewer);
+
 			$viewer->view('ListViewContents.tpl', $moduleName);
 		} else {
 			// For non-AJAX requests, just render (data already assigned in preProcess)
