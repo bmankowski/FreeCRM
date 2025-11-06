@@ -16,47 +16,39 @@ namespace App\Modules\RecycleBin\Views;
 use App\Http\Vtiger_Request;
 class ListView extends \App\Modules\Base\Views\Index
 {
+	protected $listViewHeaders = [];
+	protected $listViewEntries = [];
+	protected $listViewCount = 0;
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-
-		$moduleModel = \App\Modules\RecycleBin\Models\Module::getInstance($moduleName);
-
-		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
-
-		$quickLinkModels = $moduleModel->getSideBarLinks($linkParams);
-
-		// Process sidebar links to determine active link
-		$activeLinkLabel = $this->processSidebarLinks($quickLinkModels, $request);
-
-		$viewer->assign('QUICK_LINKS', $quickLinkModels);
-		$viewer->assign('ACTIVE_SIDEBAR_LINK', $activeLinkLabel);
-		$this->initializeListViewContents($request, $viewer);
-
-		if ($display) {
-			$this->preProcessDisplay($request);
-		}
-	}
-
-	public function preProcessTplName(\App\Http\Vtiger_Request $request)
-	{
-		return 'ListViewPreProcess.tpl';
+		// MainLayout.tpl handles rendering, no separate preProcess template needed
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
+		$moduleName = $request->getModule();
+
+		$moduleModel = \App\Modules\RecycleBin\Models\Module::getInstance($moduleName);
+		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
+		$quickLinkModels = $moduleModel->getSideBarLinks($linkParams);
+
+		// Process sidebar links to determine active link
+		$activeLinkLabel = $this->processSidebarLinks($quickLinkModels, $request);
+
+		$viewer->assign('MODULE_MODEL', $moduleModel);
+		$viewer->assign('QUICK_LINKS', $quickLinkModels);
+		$viewer->assign('ACTIVE_SIDEBAR_LINK', $activeLinkLabel);
+
 		$this->initializeListViewContents($request, $viewer);
-		$viewer->view('ListViewContents.tpl', $request->getModule());
+		$viewer->view('ListView.tpl', $request->getModule());
 	}
 
 	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
-		$viewer = $this->getViewer($request);
-		$viewer->view('ListViewPostProcess.tpl', $request->getModule());
+		// MainLayout.tpl handles footer rendering, no separate postProcess template needed
 		parent::postProcess($request);
 	}
 	/*
@@ -108,13 +100,13 @@ class ListView extends \App\Modules\Base\Views\Index
 			$listViewModel->set('sortorder', $sortOrder);
 		}
 
-		if (!isset($this->listViewHeaders)) {
+		if (empty($this->listViewHeaders)) {
 			$this->listViewHeaders = $listViewModel->getListViewHeaders();
 		}
-		if (!isset($this->listViewEntries)) {
+		if (empty($this->listViewEntries)) {
 			$this->listViewEntries = $listViewModel->getListViewEntries($pagingModel);
 		}
-		$noOfEntries = count($this->listViewEntries);
+		$noOfEntries = is_array($this->listViewEntries) ? count($this->listViewEntries) : 0;
 
 		$viewer->assign('MODULE', $moduleName);
 
@@ -141,13 +133,12 @@ class ListView extends \App\Modules\Base\Views\Index
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
 		$viewer->assign('DELETED_RECORDS_TOTAL_COUNT', $moduleModel->getDeletedRecordsTotalCount());
 
-		if (\App\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
-			if (!$this->listViewCount) {
-				$this->listViewCount = $listViewModel->getListViewCount();
-			}
-			$pagingModel->set('totalCount', (int) $this->listViewCount);
-			$viewer->assign('LISTVIEW_COUNT', $this->listViewCount);
+		if (!$this->listViewCount) {
+			$this->listViewCount = $listViewModel->getListViewCount();
 		}
+		$pagingModel->set('totalCount', (int) $this->listViewCount);
+		$viewer->assign('LISTVIEW_COUNT', $this->listViewCount);
+
 		$pageCount = $pagingModel->getPageCount();
 		$startPaginFrom = $pagingModel->getStartPagingFrom();
 

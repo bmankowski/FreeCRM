@@ -1,0 +1,28 @@
+================================================================================
+FreeCRM Controller Analysis: Template Rendering in pre/postProcess
+================================================================================
+
+Found 212 controller files to analyze...
+
+Found 2 method(s) that render templates:
+
+1. src/Modules/Install/Views/Index.php
+   Class: Index
+   Method: preProcess()
+   Renders found: 1
+      1. Match: echo $this->viewer->fetch(
+         Context: s->viewer->error_reporting = E_ALL & ~E_NOTICE;
+		echo $this->viewer->fetch('InstallPreProcess.tpl')...
+
+2. src/Modules/Install/Views/Index.php
+   Class: Index
+   Method: postProcess()
+   Renders found: 1
+      1. Match: echo $this->viewer->fetch(
+         Context: echo $this->viewer->fetch('InstallPostProcess.tpl');
+		if ($request->getMode() === 'Step7') {
+			$th...
+
+================================================================================
+Summary: 2 methods need refactoring
+================================================================================

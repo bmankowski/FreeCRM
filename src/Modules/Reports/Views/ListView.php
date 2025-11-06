@@ -32,74 +32,7 @@ class ListView extends \App\Modules\Base\Views\Index
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
-
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
-
-		$folders = $moduleModel->getFolders();
-		$listViewModel = new \App\Modules\Reports\Models\ListView();
-		$listViewModel->set('module', $moduleModel);
-
-		$folderId = $request->get('viewname');
-		if (empty($folderId) || $folderId == 'undefined') {
-			$folderId = 'All';
-		}
-		$sortBy = $request->get('sortorder');
-		$orderBy = $request->get('orderby');
-
-		$listViewModel->set('folderid', $folderId);
-		$listViewModel->set('orderby', $orderBy);
-		$listViewModel->set('sortorder', $sortBy);
-
-		$linkModels = $listViewModel->getListViewLinks(false);
-		$pageNumber = $request->get('page');
-		$listViewMassActionModels = $listViewModel->getListViewMassActions(false);
-
-		if (empty($pageNumber)) {
-			$pageNumber = '1';
-		}
-		$pagingModel = new \App\Modules\Base\Models\Paging();
-		$pagingModel->set('page', $pageNumber);
-		$viewer->assign('PAGING_MODEL', $pagingModel);
-
-		if (!$this->listViewHeaders) {
-			$this->listViewHeaders = $listViewModel->getListViewHeaders();
-		}
-		if (!$this->listViewEntries) {
-			$this->listViewEntries = $listViewModel->getListViewEntries($pagingModel);
-		}
-
-		$noOfEntries = count($this->listViewEntries);
-
-		$viewer->assign('LISTVIEW_LINKS', $linkModels);
-		$viewer->assign('FOLDERS', $folders);
-		$viewer->assign('VIEWNAME', $folderId);
-		$viewer->assign('PAGE_NUMBER', $pageNumber);
-		$viewer->assign('LISTVIEW_MASSACTIONS', $listViewMassActionModels);
-		$viewer->assign('LISTVIEW_ENTRIES_COUNT', $noOfEntries);
-
-
-		if (!$this->listViewCount) {
-			$this->listViewCount = $listViewModel->getListViewCount();
-		}
-		$totalCount = $this->listViewCount;
-		$pagingModel->set('totalCount', (int) $totalCount);
-		$pageCount = $pagingModel->getPageCount();
-		$startPaginFrom = $pagingModel->getStartPagingFrom();
-
-		$viewer->assign('PAGE_COUNT', $pageCount);
-		$viewer->assign('LISTVIEW_COUNT', $totalCount);
-		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
-
-		if ($display) {
-			$this->preProcessDisplay($request);
-		}
-	}
-
-	public function preProcessTplName(\App\Http\Vtiger_Request $request)
-	{
-		return 'ListViewPreProcess.tpl';
+		// MainLayout.tpl handles rendering, no separate preProcess template needed
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -132,6 +65,7 @@ class ListView extends \App\Modules\Base\Views\Index
 			$listViewModel->set('orderby', $orderBy);
 			$listViewModel->set('sortorder', $sortOrder);
 		}
+		$linkModels = $listViewModel->getListViewLinks(false);
 		$listViewMassActionModels = $listViewModel->getListViewMassActions(false);
 		if (empty($pageNumber)) {
 			$pageNumber = '1';
@@ -141,6 +75,8 @@ class ListView extends \App\Modules\Base\Views\Index
 		$pagingModel->set('page', $pageNumber);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 
+		$viewer->assign('LISTVIEW_LINKS', $linkModels);
+		$viewer->assign('FOLDERS', $folders);
 		$viewer->assign('LISTVIEW_MASSACTIONS', $listViewMassActionModels);
 
 		if (!$this->listViewHeaders) {
@@ -173,25 +109,25 @@ class ListView extends \App\Modules\Base\Views\Index
 				$this->listViewCount = $listViewModel->getListViewCount();
 			}
 			$totalCount = $this->listViewCount;
+			$pagingModel->set('totalCount', (int) $totalCount);
 			$pageLimit = $pagingModel->getPageLimit();
 			$pageCount = ceil((int) $totalCount / (int) $pageLimit);
+			$startPaginFrom = $pagingModel->getStartPagingFrom();
 
 			if ($pageCount == 0) {
 				$pageCount = 1;
 			}
 			$viewer->assign('PAGE_COUNT', $pageCount);
 			$viewer->assign('LISTVIEW_COUNT', $totalCount);
+			$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 		}
 
-		$viewer->view('ListViewContents.tpl', $moduleName);
+		$viewer->view('ListView.tpl', $moduleName);
 	}
 
 	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-
-		$viewer->view('ListViewPostProcess.tpl', $moduleName);
+		// MainLayout.tpl handles footer rendering, no separate postProcess template needed
 		parent::postProcess($request);
 	}
 

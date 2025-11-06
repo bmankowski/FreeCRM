@@ -1,5 +1,8 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
+{extends file='MainLayout.tpl'|@vtemplate_path:$MODULE}
+
+{block name="content"}
 <!-- layouts/basic/modules/Reservations/CalendarView.tpl -->
 <input type="hidden" id="currentView" value="{$VIEW}" />
 <input type="hidden" id="activity_view" value="{$CURRENT_USER->get('activity_view')}" />
@@ -30,4 +33,5 @@
 	</div>
 </div>
 <!--/layouts/basic/modules/Reservations/CalendarView.tpl -->
+{/block}
 {/strip}

@@ -12,7 +12,7 @@ namespace App\Modules\Settings\Roles\Views;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Popup extends \App\Modules\Base\Views\Header
+class Popup extends \App\Modules\Base\Views\Basic
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
@@ -21,6 +21,12 @@ class Popup extends \App\Modules\Base\Views\Header
 		if (!$currentUser->isAdminUser()) {
 			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
+	}
+
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
+	{
+		parent::preProcess($request, false);
+		// Minimal preProcess for popup - no full header needed
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -45,17 +51,11 @@ class Popup extends \App\Modules\Base\Views\Header
 		$viewer->view('Popup.tpl', $qualifiedModuleName);
 	}
 
-	/**
-	 * Post process - renders lightweight popup footer (no full app footer)
-	 * @param \App\Http\Vtiger_Request $request
-	 */
 	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
-		// Popups don't need the full Footer.tpl, they can render minimal or no footer
-		// You could create a PopupFooter.tpl if needed, or just render scripts inline
-		echo '</body></html>';
+		// PopupLayout.tpl or MainLayout.tpl handles footer rendering including scripts
 	}
 
 	/**

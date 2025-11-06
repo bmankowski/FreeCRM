@@ -18,11 +18,8 @@ class ListView  extends \App\Modules\Base\Views\Index
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
-		parent::preProcess($request);
-
-		$viewer = $this->getViewer($request);
-		$this->initializeListViewContents($request, $viewer);
-		$viewer->view('ListViewHeader.tpl', $request->getModule(false));
+		parent::preProcess($request, false);
+		// MainLayout.tpl handles rendering, no separate preProcess template needed
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -30,7 +27,7 @@ class ListView  extends \App\Modules\Base\Views\Index
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 		$this->initializeListViewContents($request, $viewer);
-		$viewer->view('ListViewContents.tpl', $moduleName);
+		$viewer->view('ListView.tpl', $moduleName);
 	}
 
 	public function initializeListViewContents(\App\Http\Vtiger_Request $request, \App\Runtime\CRM_Viewer $viewer)

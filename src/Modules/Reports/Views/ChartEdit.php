@@ -9,6 +9,9 @@
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
+namespace App\Modules\Reports\Views;
+
+use App\Http\Vtiger_Request;
 class ChartEdit extends \App\Modules\Base\Views\Edit
 {
 
@@ -38,7 +41,12 @@ class ChartEdit extends \App\Modules\Base\Views\Edit
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
-		parent::preProcess($request);
+		parent::preProcess($request, false);
+		// MainLayout.tpl handles rendering, no separate preProcess template needed
+	}
+
+	protected function prepareEditChartData(\App\Http\Vtiger_Request $request)
+	{
 		$viewer = $this->getViewer($request);
 		$record = $request->get('record');
 		$moduleName = $request->getModule();
@@ -64,11 +72,13 @@ class ChartEdit extends \App\Modules\Base\Views\Edit
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('VIEW', 'ChartEdit');
 		$viewer->assign('RECORD_MODE', $request->getMode());
-		$viewer->view('EditChartHeader.tpl', $request->getModule());
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
+		// Prepare data and check permissions (will throw exception if denied)
+		$this->prepareEditChartData($request);
+
 		$mode = $request->getMode();
 		if (!empty($mode)) {
 			echo $this->invokeExposedMethod($mode, $request);

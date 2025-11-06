@@ -30,13 +30,17 @@ class ChartDetail  extends \App\Modules\Base\Views\Index
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
+		parent::preProcess($request, false);
+		// MainLayout.tpl handles rendering, no separate preProcess template needed
+	}
+
+	protected function prepareChartData(\App\Http\Vtiger_Request $request)
+	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 
 		$this->record = $detailViewModel = \App\Modules\Reports\Models\DetailView::getInstance($moduleName, $recordId);
-
-		parent::preProcess($request);
 
 		$reportModel = $detailViewModel->getRecord();
 		$reportModel->setModule('Reports');
@@ -83,12 +87,13 @@ class ChartDetail  extends \App\Modules\Base\Views\Index
 		$viewer->assign('RECORD', $recordId);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('CHART_MODEL', $reportChartModel);
-
-		$viewer->view('ChartReportHeader.tpl', $moduleName);
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
+		// Prepare chart data and check permissions (will throw exception if denied)
+		$this->prepareChartData($request);
+
 		$mode = $request->getMode();
 		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);

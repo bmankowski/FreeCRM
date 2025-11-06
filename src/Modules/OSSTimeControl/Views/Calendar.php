@@ -31,9 +31,7 @@ class Calendar  extends \App\Modules\Base\Views\Index
 
 	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
-		$moduleName = $request->getModule();
-		$viewer = $this->getViewer($request);
-		$viewer->view('CalendarViewPostProcess.tpl', $moduleName);
+		// MainLayout.tpl handles footer rendering, no separate postProcess template needed
 		parent::postProcess($request);
 	}
 

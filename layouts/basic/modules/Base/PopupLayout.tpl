@@ -23,7 +23,7 @@
 			{block name="header_scripts"}
 				{foreach key=index item=jsModel from=$HEADER_SCRIPTS}
 					<script type="{$jsModel->getType()}" src="{vresource_url($jsModel->getSrc())}">
-						</script>
+										</script>
 				{/foreach}
 				<!--[if IE]>
 				<script type="text/javascript" src="libraries/html5shim/html5.js"></script>
@@ -50,58 +50,67 @@
 	<body {block name="body_attrs"}data-language="{$LANGUAGE}" data-skinpath="{$SKIN_PATH}" data-layoutpath="{$LAYOUT_PATH}"
 			{if $USER_MODEL}{$USER_MODEL->getBodyLocks()}{/if}{/block}>
 
-		{block name="body_start"}
-			<div id="js_strings" class="hide noprint">{\App\Json::encode($LANGUAGE_STRINGS)}</div>
-			<div id="configuration">
-				{if $USER_MODEL}
-					<input type="hidden" id="start_day" value="{$USER_MODEL->get('dayoftheweek')}" />
-					<input type="hidden" id="row_type" value="{$USER_MODEL->get('rowheight')}" />
-					<input type="hidden" id="current_user_id" value="{$USER_MODEL->get('id')}" />
-					<input type="hidden" id="userDateFormat" value="{$USER_MODEL->get('date_format')}" />
-					<input type="hidden" id="userTimeFormat" value="{$USER_MODEL->get('hour_format')}" />
-					<input type="hidden" id="numberOfCurrencyDecimal" value="{$USER_MODEL->get('no_of_currency_decimals')}" />
-					<input type="hidden" id="currencyGroupingSeparator" value="{$USER_MODEL->get('currency_grouping_separator')}" />
-					<input type="hidden" id="currencyDecimalSeparator" value="{$USER_MODEL->get('currency_decimal_separator')}" />
-					<input type="hidden" id="currencyGroupingPattern" value="{$USER_MODEL->get('currency_grouping_pattern')}" />
-					<input type="hidden" id="truncateTrailingZeros" value="{$USER_MODEL->get('truncate_trailing_zeros')}" />
-				{/if}
-				<input type="hidden" id="backgroundClosingModal" value="{vglobal('backgroundClosingModal')}" />
-				<input type="hidden" id="gsAutocomplete" value="{AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE')}" />
-				<input type="hidden" id="gsMinLength" value="{AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH')}" />
-				<input type="hidden" id="gsAmountResponse" value="{AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT')}" />
-				<input type="hidden" id="module" value="{$MODULE}" />
-				<input type="hidden" id="parent" value="{$PARENT_MODULE}" />
-				<input type="hidden" id="view" value="{$VIEW}" />
-				<input type="hidden" id="sounds"
-					value="{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode(AppConfig::sounds()))}" />
-				<input type="hidden" id="intervalForNotificationNumberCheck"
-					value="{AppConfig::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK')}" />
-				<input type="hidden" id="fieldsReferencesDependent"
-					value="{AppConfig::security('FIELDS_REFERENCES_DEPENDENT')}" />
-			</div>
-		{/block}
+			{block name="body_start"}
+				<div id="js_strings" class="hide noprint">{\App\Json::encode($LANGUAGE_STRINGS)}</div>
+				<div id="configuration">
+					{if $USER_MODEL}
+						<input type="hidden" id="start_day" value="{$USER_MODEL->get('dayoftheweek')}" />
+						<input type="hidden" id="row_type" value="{$USER_MODEL->get('rowheight')}" />
+						<input type="hidden" id="current_user_id" value="{$USER_MODEL->get('id')}" />
+						<input type="hidden" id="userDateFormat" value="{$USER_MODEL->get('date_format')}" />
+						<input type="hidden" id="userTimeFormat" value="{$USER_MODEL->get('hour_format')}" />
+						<input type="hidden" id="numberOfCurrencyDecimal" value="{$USER_MODEL->get('no_of_currency_decimals')}" />
+						<input type="hidden" id="currencyGroupingSeparator" value="{$USER_MODEL->get('currency_grouping_separator')}" />
+						<input type="hidden" id="currencyDecimalSeparator" value="{$USER_MODEL->get('currency_decimal_separator')}" />
+						<input type="hidden" id="currencyGroupingPattern" value="{$USER_MODEL->get('currency_grouping_pattern')}" />
+						<input type="hidden" id="truncateTrailingZeros" value="{$USER_MODEL->get('truncate_trailing_zeros')}" />
+					{/if}
+					<input type="hidden" id="backgroundClosingModal" value="{vglobal('backgroundClosingModal')}" />
+					<input type="hidden" id="gsAutocomplete" value="{AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE')}" />
+					<input type="hidden" id="gsMinLength" value="{AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH')}" />
+					<input type="hidden" id="gsAmountResponse" value="{AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT')}" />
+					<input type="hidden" id="module" value="{$MODULE}" />
+					<input type="hidden" id="parent" value="{$PARENT_MODULE}" />
+					<input type="hidden" id="view" value="{$VIEW}" />
+					<input type="hidden" id="sounds"
+						value="{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode(AppConfig::sounds()))}" />
+					<input type="hidden" id="intervalForNotificationNumberCheck"
+						value="{AppConfig::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK')}" />
+					<input type="hidden" id="fieldsReferencesDependent"
+						value="{AppConfig::security('FIELDS_REFERENCES_DEPENDENT')}" />
+				</div>
+			{/block}
 
-		{block name="main_container"}
-			<div class="container-fluid container-fluid-main">
-				<div class="baseContainer">
-					{block name="main_content"}
-						<div class="basePanel noSpaces">
-							<div class="mainBody">
-								<div class="container-fluid bodyContent bodyContents noSpaces">
-									{block name="content"}
-										<!-- Child templates define their content here -->
-									{/block}
+			{block name="main_container"}
+				<div class="container-fluid container-fluid-main">
+					<div class="baseContainer">
+						{block name="main_content"}
+							<div class="basePanel noSpaces">
+								<div class="mainBody">
+									<div class="container-fluid bodyContent bodyContents noSpaces">
+										{block name="content"}
+											<!-- Child templates define their content here -->
+										{/block}
+									</div>
 								</div>
 							</div>
-						</div>
-					{/block}
+						{/block}
+					</div>
 				</div>
-			</div>
-		{/block}
+			{/block}
 
-		{block name="footer"}{/block}
+			{block name="footer"}
+				{* javascript files *}
+				{include file='JSResources.tpl'|@vtemplate_path}
+				<script type="text/javascript">
+					jQuery(document).ready(function() {
+						jQuery.triggerParentEvent('Vtiger.OnPopupWindowLoad.Event');
+					});
+				</script>
+			</body>
+
+			</html>
+		{/block}
 
 		<!--/layouts/basic/modules/Base/PopupLayout.tpl -->
 	{/strip}
-
-

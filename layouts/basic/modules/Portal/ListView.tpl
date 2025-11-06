@@ -1,0 +1,144 @@
+{*<!--
+/*********************************************************************************
+** The contents of this file are subject to the vtiger CRM Public License Version 1.0
+* ("License"); You may not use this file except in compliance with the License
+* The Original Code is:  vtiger CRM Open Source
+* The Initial Developer of the Original Code is vtiger.
+* Portions created by vtiger are Copyright (C) vtiger.
+* All Rights Reserved.
+*
+********************************************************************************/
+-->*}
+{strip}
+{extends file='MainLayout.tpl'|@vtemplate_path:$MODULE}
+
+{block name="content"}
+<!-- layouts/basic/modules/Portal/ListView.tpl -->
+<div class='widget_header row '>
+	<div class="col-xs-12">
+		{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+	</div>
+</div>
+<div class="listViewTopMenuDiv noprint">
+	<div class="listViewActionsDiv row">
+		<div class="btn-toolbar col-md-6">
+			<span class="btn-group listViewMassActions">
+				<button class="btn btn-default dropdown-toggle" data-toggle="dropdown"><strong>{"LBL_ACTIONS"|t:$MODULE}</strong>&nbsp;&nbsp;<span class="caret"></span></button>
+				<ul class="dropdown-menu">
+					<li id="massDelete"><a href="javascript:void(0);" onclick="Portal_ListView_Js.massDeleteRecords();">{"LBL_DELETE"|t:$MODULE}</a></li>
+				</ul>
+			</span>
+			<span class="btn-group">
+				<button class="btn btn-default addButton addBookmark"><span class="glyphicon glyphicon-plus"></span>&nbsp;<strong>{"LBL_ADD_BOOKMARK"|t:$MODULE}</strong></button>
+			</span>
+		</div>
+		<div class="col-md-6 btn-toolbar row">
+			<div class="listViewActions pull-right">
+				<div class="paginationDiv pull-right">
+					{include file='Pagination.tpl'|@vtemplate_path:$MODULE}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="listViewContentDiv" id="listViewContents">
+		<input type="hidden" id="pageNumber" value="{$CURRENT_PAGE}">
+		<input type="hidden" id="totalCount" value="{$PAGING_INFO['recordCount']}" />
+		<input type="hidden" id="totalPageCount" value="{$PAGING_INFO['pageCount']}" />
+		<input type="hidden" id="recordsCount" value="{$PAGING_INFO['recordCount']}"/>
+		<input type="hidden" id="selectedIds" name="selectedIds" />
+		<input type="hidden" id="excludedIds" name="excludedIds" />
+		<input type="hidden" id="alphabetValue" value="{$ALPHABET_VALUE}" />
+		<input type="hidden" id="pageStartRange" value="{$PAGING_INFO['startSequence']}" />
+		<input type="hidden" id="pageEndRange" value="{$PAGING_INFO['endSequence']}" />
+		<input type="hidden" id="previousPageExist" {if $CURRENT_PAGE neq 1}value="1"{/if} />
+		<input type="hidden" id="nextPageExist" value="{$PAGING_INFO['nextPageExists']}" />
+		<input type="hidden" id="pageLimit" value="{$PAGING_INFO['pageLimit']}" />
+		<input type="hidden" id="noOfEntries" value="{$PAGING_INFO['recordCount']}" />
+		<div id="selectAllMsgDiv" class="alert-block msgDiv noprint">
+			<strong><a id="selectAllMsg">{"LBL_SELECT_ALL"|t:$MODULE}&nbsp;{$MODULE|t:$MODULE}&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
+		</div>
+		<div id="deSelectAllMsgDiv" class="alert-block msgDiv noprint">
+			<strong><a id="deSelectAllMsg">{"LBL_DESELECT_ALL_RECORDS"|t:$MODULE}</a></strong>
+		</div>
+		<div class="contents-topscroll noprint stick" data-position="top">
+			<div class="topscroll-div"></div>
+		</div>
+		<div class="listViewContentDiv" id="listViewContents">
+			<div class="listViewEntriesDiv contents-bottomscroll">
+				<div class="bottomscroll-div">
+					<input type="hidden" value="{$COLUMN_NAME}" id="orderBy">
+					<input type="hidden" value="{$SORT_ORDER}" id="sortOrder">
+					<span class="listViewLoadingImageBlock hide modal noprint" id="loadingListViewModal">
+						<img class="listViewLoadingImage" src="{vimage_path('loading.gif')}" alt="no-image" title="{'LBL_LOADING'|t}"/>
+						<p class="listViewLoadingMsg">{'LBL_LOADING_LISTVIEW_CONTENTS'|t}........</p>
+					</span>
+					{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
+					<table class="table table-bordered listViewEntriesTable">
+						<thead>
+							<tr class="listViewHeaders">
+								<th width="5%">
+									<input type="checkbox" title="{"LBL_SELECT_ALL"|t}" id="listViewEntriesMainCheckBox" />
+								</th>
+								<th nowrap>
+									<a href="javascript:void(0);" id="portalname" class="portalListViewHeader" 
+									   data-nextsortorderval="{if $COLUMN_NAME eq 'portalname'}{$NEXT_SORT_ORDER}{else}ASC{/if}">{"LBL_BOOKMARK_NAME"|t:$MODULE}
+										&nbsp;&nbsp;{if $COLUMN_NAME eq 'portalname'}<img class="{$SORT_IMAGE} icon-white">{/if}</a>
+								</th>
+								<th nowrap>
+									<a href="javascript:void(0);" id="portalurl" class="portalListViewHeader"
+									   data-nextsortorderval="{if $COLUMN_NAME eq 'portalurl'}{$NEXT_SORT_ORDER}{else}ASC{/if}">{"LBL_BOOKMARK_URL"|t:$MODULE}
+										&nbsp;&nbsp;{if $COLUMN_NAME eq 'portalurl'}<img class="{$SORT_IMAGE} icon-white">{/if}</a></a>
+								</th>
+								<th nowrap>
+									<a href="javascript:void(0);" id="createdtime" class="portalListViewHeader"
+									   data-nextsortorderval="{if $COLUMN_NAME eq 'createdtime'}{$NEXT_SORT_ORDER}{else}ASC{/if}">{"LBL_CREATED_ON"|t:$MODULE}
+										&nbsp;&nbsp;{if $COLUMN_NAME eq 'createdtime'}<img class="{$SORT_IMAGE} icon-white">{/if}</a></a>
+								</th>
+								<th nowrap class="{$WIDTHTYPE}"></th>
+							</tr>
+						</thead>
+						<tbody>
+							{foreach item=LISTVIEW_ENTRY key=RECORD_ID from=$LISTVIEW_ENTRIES}
+								<tr class="listViewEntries" data-id="{$RECORD_ID}" data-recordurl="index.php?module=Portal&view=Detail&record={$RECORD_ID}">
+									<td width="5%" class="{$WIDTHTYPE}">
+										<input type="checkbox" value="{$RECORD_ID}" title="{"LBL_SELECT_SINGLE_ROW"|t}" class="listViewEntriesCheckBox" />
+									</td>
+									<td class="listViewEntryValue {$WIDTHTYPE}" nowrap>
+										<a href="index.php?module=Portal&view=Detail&record={$RECORD_ID}" sl-processed="1">{$LISTVIEW_ENTRY->get('portalname')}</a>
+									</td>
+									<td class="listViewEntryValue {$WIDTHTYPE}" nowrap>
+										<a class="urlField cursorPointer" href="{if substr($LISTVIEW_ENTRY->get('portalurl'), 0, 4) neq 'http'}//{/if}{$LISTVIEW_ENTRY->get('portalurl')}" target="_blank" sl-processed="1">{$LISTVIEW_ENTRY->get('portalurl')}</a>
+									</td>
+									<td class="listViewEntryValue {$WIDTHTYPE}" nowrap>{$LISTVIEW_ENTRY->get('createdtime')}</td>
+									<td nowrap class="{$WIDTHTYPE}">
+										<div class="actions pull-right">
+											<span class="actionImages">
+												<span title="{"LBL_EDIT"|t:$MODULE}" class="glyphicon glyphicon-pencil alignMiddle editRecord"></span>&nbsp;
+												<span title="{"LBL_DELETE"|t:$MODULE}" class="glyphicon glyphicon-trash alignMiddle deleteRecord"></span>
+											</span>
+										</div>
+									</td>
+								</tr>
+							{/foreach}
+						</tbody>
+					</table>
+					{if $PAGING_INFO['recordCount'] eq '0'}
+						<table class="emptyRecordsDiv">
+							<tbody>
+								<tr>
+									<td>
+										<button class="addBookmark btn btn-link tdUnderline"> {"LBL_NO"|t} {"LBL_FOUND"|t} {"LBL_BOOKMARKS"|t:$MODULE}. {"LBL_BOOKMARK"|t:$MODULE}</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					{/if}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--/layouts/basic/modules/Portal/ListView.tpl -->
+{/block}
+{/strip}
+

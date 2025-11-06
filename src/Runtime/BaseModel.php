@@ -128,4 +128,16 @@ class BaseModel
 	{
 		return \App\Purifier::encodeHtml($this->get($key));
 	}
+
+	/**
+	 * Function to check if the field is sortable in list view
+	 * Used by Settings modules where list headers are BaseModel objects
+	 * @return boolean - true if sortable, false otherwise
+	 */
+	public function isListviewSortable()
+	{
+		// If 'sort' property is explicitly set, use that value
+		// Otherwise default to true (sortable)
+		return $this->has('sort') ? (bool)$this->get('sort') : true;
+	}
 }

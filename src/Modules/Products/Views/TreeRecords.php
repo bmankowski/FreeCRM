@@ -15,9 +15,8 @@ class TreeRecords  extends \App\Modules\Base\Views\Index
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
-		parent::preProcess($request);
-		$viewer = $this->getViewer($request);
-		$viewer->assign('SELECTABLE_CATEGORY', \App\AppConfig::relation('SELECTABLE_CATEGORY') ? 1 : 0);
+		parent::preProcess($request, false);
+		// MainLayout.tpl handles rendering, no separate preProcess template needed
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -59,6 +58,8 @@ class TreeRecords  extends \App\Modules\Base\Views\Index
 		}
 		$listHeaders = $listViewModel->getListViewHeaders();
 
+		$viewer->assign('SELECTABLE_CATEGORY', \App\AppConfig::relation('SELECTABLE_CATEGORY') ? 1 : 0);
+		$viewer->assign('CUSTOM_VIEWS', \App\Modules\CustomView\Models\Record::getAllByGroup($baseModuleName));
 		$viewer->assign('ENTRIES', $listEntries);
 		$viewer->assign('HEADERS', $listHeaders);
 		$viewer->assign('MODULE', $baseModuleName);
@@ -67,10 +68,7 @@ class TreeRecords  extends \App\Modules\Base\Views\Index
 
 	public function postProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
-		$viewer = $this->getViewer($request);
-		$baseModuleName = 'Accounts';
-		$viewer->assign('CUSTOM_VIEWS', \App\Modules\CustomView\Models\Record::getAllByGroup($baseModuleName));
-		$viewer->view('TreeRecordsPostProcess.tpl', $request->getModule());
+		// MainLayout.tpl handles footer rendering, no separate postProcess template needed
 		parent::postProcess($request, false);
 	}
 }
