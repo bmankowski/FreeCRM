@@ -42,6 +42,9 @@ class PreferenceEdit extends \App\Modules\Base\Views\Edit
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
+		// Call parent with false to prevent old-style template rendering
+		parent::preProcess($request, false);
+		
 		if ($this->checkPermission($request)) {
 			$currentUser = $request->getUser();
 			$viewer = $this->getViewer($request);
@@ -67,27 +70,9 @@ class PreferenceEdit extends \App\Modules\Base\Views\Edit
 			$viewer->assign('CHAT_ACTIVE', \App\Module::isModuleActive('AJAXChat'));
 			$viewer->assign('REMINDER_ACTIVE', $activeReminder);
 			$viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
-			//Additional parameters
-			$viewer->assign('CURRENT_VIEW', $request->get('view'));
-			$viewer->assign('PAGETITLE', $this->getPageTitle($request));
-			$viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
-			$viewer->assign('STYLES', $this->getHeaderCss($request));
-			$viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
-			$viewer->assign('SKIN_PATH', \App\Runtime\Vtiger_Theme::getCurrentUserThemePath());
 			$viewer->assign('IS_PREFERENCE', true);
-			$viewer->assign('HTMLLANG', \App\Runtime\Vtiger_Language_Handler::getShortLanguageName());
-			$viewer->assign('LANGUAGE', $currentUser->get('language'));
-			$viewer->assign('HEADER_SCRIPTS', $this->getHeaderScripts($request));
-			if ($display) {
-				$this->preProcessDisplay($request);
-			}
+			// MainLayout handles rendering, no separate preProcess template needed
 		}
-	}
-
-	protected function preProcessDisplay(\App\Http\Vtiger_Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$viewer->view($this->preProcessTplName($request), $request->getModule());
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)

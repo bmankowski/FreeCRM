@@ -101,26 +101,8 @@ class PreferenceDetail extends \App\Modules\Base\Views\Detail
 
 			$viewer->assign('QUICK_LINKS', $linkModels);
 			$viewer->assign('ACTIVE_SIDEBAR_LINK', $activeLinkLabel);
-			$viewer->assign('PAGETITLE', $this->getPageTitle($request));
-			$viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
-			$viewer->assign('STYLES', $this->getHeaderCss($request));
-			$viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
-			$viewer->assign('CURRENT_VIEW', $request->get('view'));
-			$viewer->assign('SKIN_PATH', \App\Runtime\Vtiger_Theme::getCurrentUserThemePath());
-			$viewer->assign('LAYOUT_PATH', 'layouts/' . \App\Runtime\Yeti_Layout::getActiveLayout());
-			$viewer->assign('HTMLLANG', \App\Runtime\Vtiger_Language_Handler::getShortLanguageName());
-			$viewer->assign('LANGUAGE', $currentUser->get('language'));
-			$viewer->assign('HEADER_SCRIPTS', $this->getHeaderScripts($request));
-			if ($display) {
-				$this->preProcessDisplay($request);
-			}
+			// MainLayout handles rendering, no separate preProcess template needed
 		}
-	}
-
-	protected function preProcessDisplay(\App\Http\Vtiger_Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$viewer->view($this->preProcessTplName($request), $request->getModule());
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)

@@ -23,10 +23,10 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
-		parent::preProcess($request);
+		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD_MODE', $request->getMode());
-		$viewer->view('EditHeader.tpl', $request->getModule(false));
+		// MainLayout handles rendering, no separate preProcess template needed
 	}
 
 	public function step($step, \App\Http\Vtiger_Request $request)

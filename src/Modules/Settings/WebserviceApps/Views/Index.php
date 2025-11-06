@@ -15,13 +15,13 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
-		parent::preProcess($request, $display);
+		parent::preProcess($request, false);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->view('IndexPreProcess.tpl', $qualifiedModuleName);
+		// MainLayout handles rendering, no separate preProcess template needed
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)
