@@ -21,15 +21,26 @@ class Detail extends \App\Modules\Base\Views\Detail
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
+		// MainLayout handles rendering, no separate preProcess template needed
+	}
 
+	/**
+	 * Function shows the entire detail for the record
+	 * @param \App\Http\Vtiger_Request $request
+	 * @return <type>
+	 */
+	public function showModuleDetailView(\App\Http\Vtiger_Request $request)
+	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
+
 		if (!empty($recordId)) {
 			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId);
 			$activityType = $recordModel->getType();
 			if ($activityType == 'Events')
 				$moduleName = 'Events';
 		}
+		
 		if (!$this->record) {
 			$this->record = \App\Modules\Base\Models\DetailView::getInstance($moduleName, $recordId);
 		}
@@ -51,6 +62,7 @@ class Detail extends \App\Modules\Base\Views\Detail
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('NAVIGATION', $navigationInfo);
 		$viewer->assign('NO_PAGINATION', true);
+		
 		//Intially make the prev and next records as null
 		$prevRecordId = null;
 		$nextRecordId = null;
@@ -103,38 +115,9 @@ class Detail extends \App\Modules\Base\Views\Detail
 		$viewer->assign('QUICK_LINKS', $linkModels);
 		$viewer->assign('ACTIVE_SIDEBAR_LINK', $activeLinkLabel);
 		$viewer->assign('NO_SUMMARY', true);
-
-		if ($display) {
-			$this->preProcessDisplay($request);
-		}
-	}
-
-	/**
-	 * Function shows the entire detail for the record
-	 * @param \App\Http\Vtiger_Request $request
-	 * @return <type>
-	 */
-	public function showModuleDetailView(\App\Http\Vtiger_Request $request)
-	{
-		$recordId = $request->get('record');
-		$moduleName = $request->getModule();
-
-		if (!empty($recordId)) {
-			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId);
-			$activityType = $recordModel->getType();
-			if ($activityType == 'Events')
-				$moduleName = 'Events';
-		}
-
-		$detailViewModel = \App\Modules\Base\Models\DetailView::getInstance($moduleName, $recordId);
-		$recordModel = $detailViewModel->getRecord();
-		$recordStrucure = \App\Modules\Base\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Base\Models\RecordStructure::RECORD_STRUCTURE_MODE_DETAIL);
+		
 		$structuredValues = $recordStrucure->getStructure();
-		$moduleModel = $recordModel->getModule();
-
-		$viewer = $this->getViewer($request);
 		$viewer->assign('VIEW', $request->get('view'));
-		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStrucure);

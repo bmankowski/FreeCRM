@@ -31,22 +31,6 @@ class Calendar  extends \App\Modules\Base\Views\Index
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-		if (!empty($moduleName)) {
-			$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
-			if ($moduleModel) {
-				$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
-				$linkModels = $moduleModel->getSideBarLinks($linkParams);
-				
-				// Process sidebar links to determine active link
-				$activeLinkLabel = $this->processSidebarLinks($linkModels, $request);
-
-				$viewer->assign('QUICK_LINKS', $linkModels);
-				$viewer->assign('ACTIVE_SIDEBAR_LINK', $activeLinkLabel);
-			}
-		}
-		$viewer->assign('CURRENT_VIEW', $request->get('view'));
 		// MainLayout handles rendering, no separate preProcess template needed
 	}
 
@@ -88,7 +72,15 @@ class Calendar  extends \App\Modules\Base\Views\Index
 	{
 		$mode = $request->getMode();
 		$viewer = $this->getViewer($request);
+		$moduleName = $request->getModule();
 		$currentUserModel = $request->getUser();
+		
+		// Call parent data assignment methods since we override process()
+		$this->assignBasicViewData($request);
+		$this->assignSidebarData($request);
+		
+		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('CURRENT_VIEW', $request->get('view'));
 		$viewer->assign('CURRENT_USER', $currentUserModel);
 		$viewer->assign('EVENT_LIMIT', \App\AppConfig::module('Calendar', 'EVENT_LIMIT'));
 		$viewer->assign('WEEK_VIEW', \App\AppConfig::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'agendaWeek' : 'basicWeek');
@@ -97,7 +89,7 @@ class Calendar  extends \App\Modules\Base\Views\Index
 				'current' => \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current'),
 				'history' => \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('history')
 		]));
-		$viewer->view('CalendarView.tpl', $request->getModule());
+		$viewer->view('CalendarView.tpl', $moduleName);
 	}
 
 	public function postProcess(\App\Http\Vtiger_Request $request)

@@ -46,14 +46,14 @@ class Popup  extends \App\Modules\Base\Views\Index
 
 		$this->initializeListViewContents($request, $viewer);
 		$viewer->assign('TRIGGER_EVENT_NAME', $request->get('triggerEventName'));
+		$viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
 		$viewer->view('Popup.tpl', $moduleName);
 	}
 
 	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
-		$viewer = $this->getViewer($request);
-		$viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
 		// PopupLayout.tpl handles footer rendering including scripts
+		parent::postProcess($request);
 	}
 
 	/**

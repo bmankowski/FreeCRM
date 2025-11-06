@@ -1,0 +1,179 @@
+================================================================================
+FreeCRM Controller Analysis: pre/postProcess Methods Doing Work
+================================================================================
+
+Found 212 controller files to analyze...
+
+=== METHODS THAT ONLY ASSIGN DATA (14) ===
+
+1. src/Modules/Base/Views/Basic.php
+   Class: Basic
+   Method: preProcess()
+   Work types: viewer assignments, conditional logic
+   Lines: 36
+   Preview:
+      parent::preProcess($request, false);
+      		$viewer = $this->getViewer($request);
+      
+      		if ($activeReminder = \App\Module::isModuleActive('Calendar')) {
+      			$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+      ...
+
+2. src/Modules/Base/Views/Index.php
+   Class: Index
+   Method: preProcess()
+   Work types: viewer assignments, conditional logic, creates objects
+   Lines: 31
+   Preview:
+      parent::preProcess($request, false);
+      		$viewer = $this->getViewer($request);
+      		$moduleName = $request->getModule();
+      		if (!empty($moduleName)) {
+      			$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
+      ...
+
+3. src/Modules/Base/Views/ListView.php
+   Class: ListView
+   Method: preProcess()
+   Work types: viewer assignments, sets properties, conditional logic
+   Lines: 21
+   Preview:
+      parent::preProcess($request, false);
+      
+      		$moduleName = $request->getModule();
+      		$viewer = $this->getViewer($request);
+      
+      ...
+
+4. src/Modules/Base/Views/Popup.php
+   Class: Popup
+   Method: postProcess()
+   Work types: viewer assignments, method calls
+   Lines: 5
+   Preview:
+      $viewer = $this->getViewer($request);
+      		$viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
+
+5. src/Modules/Base/Views/TreePopup.php
+   Class: TreePopup
+   Method: postProcess()
+   Work types: viewer assignments, method calls
+   Lines: 5
+   Preview:
+      $viewer = $this->getViewer($request);
+      		$viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
+
+6. src/Modules/Base/Views/TreeRecords.php
+   Class: TreeRecords
+   Method: preProcess()
+   Work types: viewer assignments
+   Lines: 13
+   Preview:
+      parent::preProcess($request, false);
+      		$moduleName = $request->getModule();
+      		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
+      		$treeViewModel = \App\Modules\Base\Models\TreeView::getInstance($moduleModel);
+      
+      ...
+
+7. src/Modules/Calendar/Views/Calendar.php
+   Class: Calendar
+   Method: preProcess()
+   Work types: viewer assignments, conditional logic
+   Lines: 20
+   Preview:
+      parent::preProcess($request, false);
+      		$viewer = $this->getViewer($request);
+      		$moduleName = $request->getModule();
+      		if (!empty($moduleName)) {
+      			$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
+      ...
+
+8. src/Modules/Calendar/Views/Detail.php
+   Class: Detail
+   Method: preProcess()
+   Work types: viewer assignments, sets properties, conditional logic
+   Lines: 89
+   Preview:
+      parent::preProcess($request, false);
+      
+      		$recordId = $request->get('record');
+      		$moduleName = $request->getModule();
+      		if (!empty($recordId)) {
+      ...
+
+9. src/Modules/Documents/Views/Detail.php
+   Class: Detail
+   Method: preProcess()
+   Work types: viewer assignments, method calls
+   Lines: 11
+   Preview:
+      $recordId = $request->get('record');
+      		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId);
+      		$fileType = $recordModel->get('filetype');
+      		$fileIcon = \App\Layout\Icon::getIconByFileType($fileType);
+      
+      ...
+
+10. src/Modules/Home/Views/DashBoard.php
+   Class: DashBoard
+   Method: preProcess()
+   Work types: viewer assignments, conditional logic
+   Lines: 12
+   Preview:
+      parent::preProcess($request, false);
+      		$moduleName = $request->getModule();
+      		$currentDashboard = $request->get('dashboardId');
+      		if (empty($currentDashboard)) {
+      			$currentDashboard = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDashboard();
+      ...
+
+11. src/Modules/Leads/Views/Detail.php
+   Class: Detail
+   Method: preProcess()
+   Work types: viewer assignments, method calls
+   Lines: 5
+   Preview:
+      $viewer = $this->getViewer($request);
+      		$viewer->assign('CONVERSION_AVAILABLE_STATUS', \App\Json::encode(\App\Modules\Leads\Models\Module::getConversionAvaibleStatuses()));
+      		parent::preProcess($request);
+
+12. src/Modules/Users/Views/Login.php
+   Class: Login
+   Method: preProcess()
+   Work types: viewer assignments, conditional logic
+   Lines: 18
+   Preview:
+      parent::preProcess($request, false);
+      		$viewer = $this->getViewer($request);
+      
+      		$selectedModule = $request->getModule();
+      		$companyDetails = \App\Company::getInstanceById();
+      ...
+
+13. src/Modules/Users/Views/PreferenceDetail.php
+   Class: PreferenceDetail
+   Method: preProcess()
+   Work types: viewer assignments, conditional logic
+   Lines: 52
+   Preview:
+      parent::preProcess($request, false);
+      		if ($this->checkPermission($request)) {
+      			$viewer = $this->getViewer($request);
+      			if ($activeReminder = \App\Module::isModuleActive('Calendar')) {
+      				$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+      ...
+
+14. src/Modules/Users/Views/PreferenceEdit.php
+   Class: PreferenceEdit
+   Method: preProcess()
+   Work types: viewer assignments, conditional logic
+   Lines: 33
+   Preview:
+      parent::preProcess($request, false);
+      		
+      		if ($this->checkPermission($request)) {
+      			$currentUser = $request->getUser();
+      			$viewer = $this->getViewer($request);
+      ...
+

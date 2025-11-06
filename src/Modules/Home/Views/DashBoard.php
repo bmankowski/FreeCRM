@@ -20,6 +20,11 @@ class DashBoard extends \App\Modules\Base\Views\DashBoard
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
+		// MainLayout handles rendering, no separate preProcess template needed
+	}
+
+	public function process(\App\Http\Vtiger_Request $request)
+	{
 		$moduleName = $request->getModule();
 		$currentDashboard = $request->get('dashboardId');
 		if (empty($currentDashboard)) {
@@ -28,7 +33,8 @@ class DashBoard extends \App\Modules\Base\Views\DashBoard
 		$viewer = $this->getViewer($request);
 		$modulesWithWidget = \App\Modules\Base\Models\DashBoard::getModulesWithWidgets($moduleName, $currentDashboard);
 		$viewer->assign('MODULES_WITH_WIDGET', $modulesWithWidget);
-		$this->preProcessDisplay($request);
+		
+		parent::process($request);
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)

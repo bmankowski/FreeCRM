@@ -120,6 +120,11 @@ abstract class Basic extends \App\Base\Controllers\BaseViewController
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
+		// MainLayout handles rendering, no separate preProcess template needed
+	}
+	
+	protected function assignBasicViewData(\App\Http\Vtiger_Request $request)
+	{
 		$viewer = $this->getViewer($request);
 
 		if ($activeReminder = \App\Module::isModuleActive('Calendar')) {
@@ -150,9 +155,6 @@ abstract class Basic extends \App\Base\Controllers\BaseViewController
 		}
 		$viewer->assign('CHAT_ACTIVE', \App\Module::isModuleActive('AJAXChat'));
 		$viewer->assign('REMINDER_ACTIVE', $activeReminder);
-		if ($display) {
-			$this->preProcessDisplay($request);
-		}
 	}
 
 	protected function getMenu()

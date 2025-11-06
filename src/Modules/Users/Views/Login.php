@@ -29,9 +29,21 @@ class Login extends \App\Base\Controllers\BaseViewController
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
-		$viewer = $this->getViewer($request);
+		// MainLayout handles rendering, no separate preProcess template needed
+	}
 
+	public function postProcess(\App\Http\Vtiger_Request $request)
+	{
+		// MainLayout handles footer rendering
+		parent::postProcess($request);
+	}
+
+	public function process(\App\Http\Vtiger_Request $request)
+	{
+		$viewer = $this->getViewer($request);
 		$selectedModule = $request->getModule();
+		
+		// Assignments moved from preProcess
 		$companyDetails = \App\Company::getInstanceById();
 		$companyLogo = $companyDetails->getLogo();
 		$viewer->assign('MODULE', $selectedModule);
@@ -41,20 +53,7 @@ class Login extends \App\Base\Controllers\BaseViewController
 		$viewer->assign('COMPANY_LOGO', $companyLogo);
 		// On login page, use backward compatibility method since no user is authenticated
 		$viewer->assign('USER_MODEL', $request->getUser());
-		if ($display) {
-			$this->preProcessDisplay($request);
-		}
-	}
-
-	public function postProcess(\App\Http\Vtiger_Request $request)
-	{
 		
-	}
-
-	public function process(\App\Http\Vtiger_Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$viewer->assign('MODULE', $request->getModule());
 		$viewer->assign('CURRENT_VERSION', \App\Version::get());
 		$viewer->assign('LANGUAGE_SELECTION', \App\AppConfig::main('langInLoginView'));
 		$viewer->assign('LAYOUT_SELECTION', \App\AppConfig::main('layoutInLoginView'));

@@ -25,15 +25,6 @@ class TreeRecords  extends \App\Modules\Base\Views\Index
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
-		$moduleName = $request->getModule();
-		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
-		$treeViewModel = \App\Modules\Base\Models\TreeView::getInstance($moduleModel);
-
-		$treeList = $treeViewModel->getTreeList();
-		$viewer = $this->getViewer($request);
-		$viewer->assign('TREE_LIST', \App\Json::encode($treeList));
-		$viewer->assign('SELECTABLE_CATEGORY', 0);
-		$viewer->assign('CUSTOM_VIEWS', \App\Modules\CustomView\Models\Record::getAllByGroup($moduleName));
 		// MainLayout handles rendering, no separate preProcess/postProcess templates needed
 	}
 
@@ -54,12 +45,17 @@ class TreeRecords  extends \App\Modules\Base\Views\Index
 		$filter = $request->get('filter');
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
+		$treeViewModel = \App\Modules\Base\Models\TreeView::getInstance($moduleModel);
+
+		// Assign tree data needed for initial page load
+		$treeList = $treeViewModel->getTreeList();
+		$viewer->assign('TREE_LIST', \App\Json::encode($treeList));
+		$viewer->assign('SELECTABLE_CATEGORY', 0);
+		$viewer->assign('CUSTOM_VIEWS', \App\Modules\CustomView\Models\Record::getAllByGroup($moduleName));
 		
 		if (!empty($branches)) {
 			// AJAX request for tree branch data - return partial content
-			$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
-			$treeViewModel = \App\Modules\Base\Models\TreeView::getInstance($moduleModel);
-
 			$pagingModel = new \App\Modules\Base\Models\Paging();
 			$pagingModel->set('limit', 'no_limit');
 			$listViewModel = \App\Modules\Base\Models\ListView::getInstance($moduleName, $filter);
@@ -74,11 +70,9 @@ class TreeRecords  extends \App\Modules\Base\Views\Index
 			$viewer->assign('ENTRIES', $listEntries);
 			$viewer->assign('HEADERS', $listHeaders);
 			$viewer->assign('MODULE', $moduleName);
-			$viewer->view('TreeRecords.tpl', $moduleName);
-		} else {
-			// Initial page load - render full page with MainLayout
-			$viewer->view('TreeRecords.tpl', $moduleName);
 		}
+		
+		$viewer->view('TreeRecords.tpl', $moduleName);
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)

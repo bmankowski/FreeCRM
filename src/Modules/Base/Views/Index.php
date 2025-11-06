@@ -37,6 +37,11 @@ class Index extends \App\Modules\Base\Views\Basic
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
+		// MainLayout handles rendering, no separate preProcess template needed
+	}
+	
+	protected function assignSidebarData(\App\Http\Vtiger_Request $request)
+	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		if (!empty($moduleName)) {
@@ -44,7 +49,6 @@ class Index extends \App\Modules\Base\Views\Basic
 			if (!$moduleModel) {
 				// Non-entity or unsupported module (e.g. Home); skip permission block
 				$viewer->assign('CURRENT_VIEW', $request->get('view'));
-				// MainLayout handles rendering, no separate preProcess template needed
 				return;
 			}
 			$currentUser = $request->getUser();
@@ -54,17 +58,16 @@ class Index extends \App\Modules\Base\Views\Basic
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 
-		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
-		$linkModels = $moduleModel->getSideBarLinks($linkParams);
-		
-		// Process sidebar links to determine active link
-		$activeLinkLabel = $this->processSidebarLinks($linkModels, $request);
+			$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
+			$linkModels = $moduleModel->getSideBarLinks($linkParams);
+			
+			// Process sidebar links to determine active link
+			$activeLinkLabel = $this->processSidebarLinks($linkModels, $request);
 
-		$viewer->assign('QUICK_LINKS', $linkModels);
-		$viewer->assign('ACTIVE_SIDEBAR_LINK', $activeLinkLabel);
+			$viewer->assign('QUICK_LINKS', $linkModels);
+			$viewer->assign('ACTIVE_SIDEBAR_LINK', $activeLinkLabel);
 		}
 		$viewer->assign('CURRENT_VIEW', $request->get('view'));
-		// MainLayout handles rendering, no separate preProcess template needed
 	}
 
 	protected function preProcessTplName(\App\Http\Vtiger_Request $request)
@@ -86,6 +89,7 @@ class Index extends \App\Modules\Base\Views\Basic
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
+		$this->assignSidebarData($request);
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 		$viewer->view('Index.tpl', $moduleName);

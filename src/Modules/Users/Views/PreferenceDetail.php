@@ -54,66 +54,63 @@ class PreferenceDetail extends \App\Modules\Base\Views\Detail
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
-		if ($this->checkPermission($request)) {
-			$viewer = $this->getViewer($request);
-			if ($activeReminder = \App\Module::isModuleActive('Calendar')) {
-				$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
-				$activeReminder = $userPrivilegesModel->hasModulePermission('Calendar');
-			}
-			$currentUser = $request->getUser();
-			$selectedModule = $request->getModule();
-			$currentDate = \App\Modules\Base\UiTypes\Date::getDisplayDateValue(date('Y-n-j'));
-			$viewer->assign('CURRENTDATE', $currentDate);
-			$viewer->assign('MODULE', $selectedModule);
-			$viewer->assign('MODULE_NAME', $selectedModule);
-			$viewer->assign('QUALIFIED_MODULE', $selectedModule);
-			$viewer->assign('PARENT_MODULE', $request->get('parent'));
-			$viewer->assign('MENUS', \App\Modules\Base\Models\Menu::getAll(true));
-			$viewer->assign('VIEW', $request->get('view'));
-			$viewer->assign('USER_MODEL', $currentUser);
-
-			$homeModuleModel = \App\Modules\Base\Models\Module::getInstance('Home');
-			$viewer->assign('HOME_MODULE_MODEL', $homeModuleModel);
-			$viewer->assign('MENU_HEADER_LINKS', $this->getMenuHeaderLinks($request));
-			$viewer->assign('SEARCHABLE_MODULES', \App\Modules\Base\Models\Module::getSearchableModules());
-			$viewer->assign('CHAT_ACTIVE', \App\Module::isModuleActive('AJAXChat'));
-			$viewer->assign('REMINDER_ACTIVE', $activeReminder);
-			$viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
-
-			//Additional parameters
-			$recordId = $request->get('record');
-			$moduleName = $request->getModule();
-			$detailViewModel = \App\Modules\Base\Models\DetailView::getInstance($moduleName, $recordId);
-			$recordModel = $detailViewModel->getRecord();
-			$detailViewLinkParams = array('MODULE' => $moduleName, 'RECORD' => $recordId);
-			$detailViewLinks = $detailViewModel->getDetailViewLinks($detailViewLinkParams);
-			$viewer->assign('RECORD', $recordModel);
-			$viewer->assign('MODULE_MODEL', $detailViewModel->getModule());
-			$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
-			$viewer->assign('IS_EDITABLE', $detailViewModel->getRecord()->isEditable($moduleName));
-			$viewer->assign('IS_DELETABLE', $detailViewModel->getRecord()->isDeletable($moduleName));
-
-			$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
-			$linkModels = $detailViewModel->getSideBarLinks($linkParams);
-
-			// Process sidebar links to determine active link
-			$activeLinkLabel = $this->processSidebarLinks($linkModels, $request);
-
-			$viewer->assign('QUICK_LINKS', $linkModels);
-			$viewer->assign('ACTIVE_SIDEBAR_LINK', $activeLinkLabel);
-			// MainLayout handles rendering, no separate preProcess template needed
-		}
+		// MainLayout handles rendering, no separate preProcess template needed
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
+		$viewer = $this->getViewer($request);
+		$currentUser = $request->getUser();
 
 		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, $moduleName);
 		$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Base\Models\RecordStructure::RECORD_STRUCTURE_MODE_EDIT);
 		$dayStartPicklistValues = \App\Modules\Users\Models\Record::getDayStartsPicklistValues($recordStructureInstance->getStructure());
-		$viewer = $this->getViewer($request);
+		
+		// Assignments moved from preProcess
+		if ($activeReminder = \App\Module::isModuleActive('Calendar')) {
+			$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+			$activeReminder = $userPrivilegesModel->hasModulePermission('Calendar');
+		}
+		$selectedModule = $request->getModule();
+		$currentDate = \App\Modules\Base\UiTypes\Date::getDisplayDateValue(date('Y-n-j'));
+		$viewer->assign('CURRENTDATE', $currentDate);
+		$viewer->assign('MODULE', $selectedModule);
+		$viewer->assign('MODULE_NAME', $selectedModule);
+		$viewer->assign('QUALIFIED_MODULE', $selectedModule);
+		$viewer->assign('PARENT_MODULE', $request->get('parent'));
+		$viewer->assign('MENUS', \App\Modules\Base\Models\Menu::getAll(true));
+		$viewer->assign('VIEW', $request->get('view'));
+		$viewer->assign('USER_MODEL', $currentUser);
+
+		$homeModuleModel = \App\Modules\Base\Models\Module::getInstance('Home');
+		$viewer->assign('HOME_MODULE_MODEL', $homeModuleModel);
+		$viewer->assign('MENU_HEADER_LINKS', $this->getMenuHeaderLinks($request));
+		$viewer->assign('SEARCHABLE_MODULES', \App\Modules\Base\Models\Module::getSearchableModules());
+		$viewer->assign('CHAT_ACTIVE', \App\Module::isModuleActive('AJAXChat'));
+		$viewer->assign('REMINDER_ACTIVE', $activeReminder);
+		$viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
+
+		// Detail view specific assignments
+		$detailViewModel = \App\Modules\Base\Models\DetailView::getInstance($moduleName, $recordId);
+		$detailViewLinkParams = array('MODULE' => $moduleName, 'RECORD' => $recordId);
+		$detailViewLinks = $detailViewModel->getDetailViewLinks($detailViewLinkParams);
+		$viewer->assign('RECORD', $recordModel);
+		$viewer->assign('MODULE_MODEL', $detailViewModel->getModule());
+		$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);
+		$viewer->assign('IS_EDITABLE', $detailViewModel->getRecord()->isEditable($moduleName));
+		$viewer->assign('IS_DELETABLE', $detailViewModel->getRecord()->isDeletable($moduleName));
+
+		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
+		$linkModels = $detailViewModel->getSideBarLinks($linkParams);
+
+		// Process sidebar links to determine active link
+		$activeLinkLabel = $this->processSidebarLinks($linkModels, $request);
+
+		$viewer->assign('QUICK_LINKS', $linkModels);
+		$viewer->assign('ACTIVE_SIDEBAR_LINK', $activeLinkLabel);
+
 		$viewer->assign('DAY_STARTS', \App\Json::encode($dayStartPicklistValues));
 		$viewer->assign('IMAGE_DETAILS', $recordModel->getImageDetails());
 

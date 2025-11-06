@@ -62,14 +62,14 @@ class TreePopup  extends \App\Modules\Base\Views\Index
 		$viewer->assign('IS_MULTIPLE', $request->get('multiple'));
 		$viewer->assign('TRIGGER_EVENT_NAME', $request->get('triggerEventName'));
 		$viewer->assign('USER_MODEL', $request->getUser());
+		$viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
 		$viewer->view('TreePopup.tpl', $moduleName);
 	}
 
 	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
-		$viewer = $this->getViewer($request);
-		$viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
 		// PopupLayout.tpl handles footer rendering including scripts
+		parent::postProcess($request);
 	}
 
 	/**
