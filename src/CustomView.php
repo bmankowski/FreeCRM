@@ -195,7 +195,7 @@ class CustomView
 	 * @param string $moduleName
 	 * @param array $defaultSortOrderBy
 	 */
-	public static function setDefaultSortOrderBy($moduleName, $defaultSortOrderBy = [], \App\Http\Vtiger_Request $request = null)
+	public static function setDefaultSortOrderBy($moduleName, $defaultSortOrderBy = [])
 	{
 		if ($request !== null) {
 			if ($request->has('orderby')) {
