@@ -780,15 +780,14 @@ class Module extends \vtlib\Module
 	 * @param <Number> $limit
 	 * @return <Array> - List of \App\Modules\Base\Models\Record or Module Specific Record Model instances
 	 */
-	public function getRecentRecords($limit = 10)
+	public function getRecentRecords(int $userId, int $limit = 10)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
 
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$deletedCondition = $this->getDeletedRecordCondition();
 		$nonAdminQuery .= \App\Modules\Users\Models\Privileges::getNonAdminAccessControlQuery($this->getName());
 		$query = sprintf('SELECT * FROM vtiger_crmentity %s WHERE setype=? && %s && modifiedby = ? ORDER BY modifiedtime DESC LIMIT ?', $nonAdminQuery, $deletedCondition);
-		$params = array($this->getName(), $currentUserModel->id, $limit);
+		$params = array($this->getName(), $userId, $limit);
 		$result = $db->pquery($query, $params);
 
 		$recentRecords = [];

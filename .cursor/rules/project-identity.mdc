@@ -1,0 +1,31 @@
+---
+description: "FreeCRM project identity and branding"
+alwaysApply: true
+---
+
+# FreeCRM Project Identity
+
+## Project Name
+This is **FreeCRM**, NOT YetiForce, NOT SugarCRM, NOT Vtiger.
+
+While FreeCRM is based on YetiForce (which was originally forked from Vtiger CRM), this is a distinct project with its own identity and modifications.
+
+## Key Information
+- **Project Name**: FreeCRM
+- **Type**: Customer Relationship Management (CRM) system
+- **Primary Namespace**: `FreeCRM\` (PSR-4 autoloaded from `src/`)
+- **Language**: PHP (targeting modern versions)
+- **Framework**: Yii2
+
+## Branding Guidelines
+- When creating new files, use FreeCRM branding in headers
+- When suggesting improvements or creating new features, brand them as FreeCRM features
+- Any references to YetiForce in documentation or comments should be understood as historical context only
+- The project inherits some YetiForce/Vtiger structures but is evolving independently
+
+## Author Information
+- **Author**: bmankowski@gmail.com
+- **License**: FreeCRM Public License 1.1
+
+For architecture details, see `architecture.mdc`.
+For namespace conventions, see `php-namespaces.mdc`.

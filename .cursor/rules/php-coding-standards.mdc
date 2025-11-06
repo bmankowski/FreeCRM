@@ -1,0 +1,47 @@
+---
+description: "PHP coding style standards for FreeCRM"
+globs: ["**/*.php"]
+---
+
+# PHP Coding Standards for FreeCRM
+
+## Code Style
+- Follow **PSR-12** coding style standard
+- Use 4 spaces for indentation (no tabs)
+- Use type hints for parameters and return types (PHP 7.0+)
+- Use strict types where possible: `declare(strict_types=1);`
+- Use meaningful variable and method names (camelCase for methods, PascalCase for classes)
+
+## Documentation
+- Add PHPDoc blocks for all classes, methods, and properties
+- Include `@param`, `@return`, and `@throws` tags
+- Document any YetiForce/Vtiger legacy compatibility notes
+- Add inline comments for complex logic
+
+## Modern PHP Practices
+- Prefer dependency injection over global state
+- Use try-catch for exception handling
+- Avoid deprecated PHP features
+- Use null coalescing operator (`??`) and spaceship operator (`<=>`) where appropriate
+- Use short array syntax `[]` instead of `array()`
+- Use `::class` for class name references
+
+## Error Handling
+- Throw specific exceptions, not generic `Exception`
+- Log errors appropriately using the logging system
+- Provide meaningful error messages
+
+## Security
+- Never use `eval()` or similar dangerous functions
+- Always sanitize user input
+- Use prepared statements for database queries
+- Validate all incoming data
+- Escape output appropriately
+
+## Legacy Code
+- When modifying legacy code (non-FreeCRM namespace), maintain existing style for consistency
+- Add comments explaining any FreeCRM-specific modifications
+- Plan gradual migration to FreeCRM namespace when feasible
+
+For namespace conventions, see `php-namespaces.mdc`.
+For file headers, see `file-headers.mdc`.

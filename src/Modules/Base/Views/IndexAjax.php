@@ -50,7 +50,7 @@ class IndexAjax  extends \App\Modules\Base\Views\Index
 		$moduleName = $request->getModule();
 
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
-		$recentRecords = $moduleModel->getRecentRecords();
+		$recentRecords = $moduleModel->getRecentRecords($request->getUserId());
 
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('RECORDS', $recentRecords);

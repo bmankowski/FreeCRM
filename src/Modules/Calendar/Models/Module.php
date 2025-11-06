@@ -207,6 +207,7 @@ class Module extends \App\Modules\Base\Models\Module
 		$keysValuesToReplace = array('taskpriority' => 'priority');
 
 		foreach ($moduleFields as $fieldName => $fieldValue) {
+			/** @var \App\Modules\Base\Models\Field $fieldModel */
 			$fieldModel = \App\Modules\Base\Models\Field::getInstance($fieldName, $this);
 			if ($fieldName != 'id' && $fieldModel->getPermissions()) {
 				if (!in_array($fieldName, $keysToReplace)) {
@@ -230,6 +231,7 @@ class Module extends \App\Modules\Base\Models\Module
 		$keysValuesToReplace = array('taskpriority' => 'priority', 'activitystatus' => 'status');
 
 		foreach ($moduleFields as $fieldName => $fieldValue) {
+			/** @var \App\Modules\Base\Models\Field $fieldModel */
 			$fieldModel = \App\Modules\Base\Models\Field::getInstance($fieldName, $this);
 			if ($fieldName != 'id' && $fieldModel->getPermissions()) {
 				if (!in_array($fieldName, $keysToReplace)) {
@@ -344,27 +346,27 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function to delete shared users
-	 * @param type $currentUserId
+	 * @param int $userId
 	 */
-	public function deleteSharedUsers($currentUserId)
+	public function deleteSharedUsers(int $userId)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
 		$delquery = "DELETE FROM vtiger_sharedcalendar WHERE userid=?";
-		$db->pquery($delquery, array($currentUserId));
+		$db->pquery($delquery, array($userId));
 	}
 
 	/**
 	 * Function to insert shared users
-	 * @param type $currentUserId
-	 * @param type $sharedIds
+	 * @param int  $userId
+	 * @param array $sharedIds
 	 */
-	public function insertSharedUsers($currentUserId, $sharedIds, $sharedType = false)
+	public function insertSharedUsers(int $userId, array $sharedIds, bool $sharedType = false)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
 		foreach ($sharedIds as $sharedId) {
-			if ($sharedId != $currentUserId) {
+			if ($sharedId != $userId) {
 				$sql = "INSERT INTO vtiger_sharedcalendar VALUES (?,?)";
-				$db->pquery($sql, array($currentUserId, $sharedId));
+				$db->pquery($sql, array($userId, $sharedId));
 			}
 		}
 	}
@@ -382,11 +384,9 @@ class Module extends \App\Modules\Base\Models\Module
 	 * @param <Number> $limit
 	 * @return <Array> - List of \App\Modules\Calendar\Models\Record
 	 */
-	public function getRecentRecords($limit = 10)
+	public function getRecentRecords(int $userId, int $limit = 10)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
-
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$deletedCondition = parent::getDeletedRecordCondition();
 		$nonAdminQuery .= \App\Modules\Users\Models\Privileges::getNonAdminAccessControlQuery($this->getName());
 
@@ -395,7 +395,7 @@ class Module extends \App\Modules\Base\Models\Module
 			$query .= " INNER JOIN vtiger_activity ON vtiger_crmentity.crmid = vtiger_activity.activityid " . $nonAdminQuery;
 		}
 		$query .= ' WHERE setype=? && %s && modifiedby = ? ORDER BY modifiedtime DESC LIMIT ?';
-		$params = [$this->getName(), $currentUserModel->id, $limit];
+		$params = [$this->getName(), $userId, $limit];
 		$query = sprintf($query, $deletedCondition);
 		$result = $db->pquery($query, $params);
 		$noOfRows = $db->num_rows($result);

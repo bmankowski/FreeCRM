@@ -21,17 +21,26 @@ class Edit extends \App\Modules\Users\Views\PreferenceEdit
 		$moduleName = $request->getModule();
 		$currentUserModel = $request->getUser();
 		$record = $request->get('record');
-		if (!empty($record) && $currentUserModel->get('id') != $record) {
-			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($record, $moduleName);
-			if ($recordModel->get('status') != 'Active') {
-				throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
-			}
-		}
-		if (($currentUserModel->isAdminUser() === true || ($currentUserModel->get('id') == $record && \App\AppConfig::security('SHOW_MY_PREFERENCES')))) {
+		
+		// Admins can edit any user (active or inactive)
+		if ($currentUserModel->isAdminUser() === true) {
 			return true;
-		} else {
-			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
+		
+		// Non-admins can only edit their own record if preferences are allowed
+		if ($currentUserModel->get('id') == $record && \App\AppConfig::security('SHOW_MY_PREFERENCES')) {
+			// Check that the user being edited is active
+			if (!empty($record)) {
+				$recordModel = \App\Modules\Users\Models\Record::getInstanceById($record, $moduleName);
+				if ($recordModel->get('status') != 'Active') {
+					throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
+				}
+			}
+			return true;
+		}
+		
+		// Otherwise deny access
+		throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 	}
 
 	protected function buildBreadcrumbs(\App\Http\Vtiger_Request $request)

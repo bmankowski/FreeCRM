@@ -1,0 +1,42 @@
+---
+description: "Error checking and debugging guidelines for FreeCRM"
+alwaysApply: true
+---
+
+# Error Checking Guidelines
+
+## Log File Locations
+
+### System Log
+- **Path**: `cache/logs/system.log`
+- **Purpose**: Runtime errors and application issues
+- **When to check**: After making changes, before considering task complete
+
+## Error Severity Guidelines
+
+### Critical Errors (Must Fix)
+- Runtime errors in web context
+- Fatal errors that break functionality
+- Errors in `cache/logs/system.log`
+
+### Non-Critical Warnings (Can Ignore)
+- **PHP deprecation warnings in CLI** - non-critical if web version works
+- **Session warnings in CLI mode** - expected and harmless
+- CLI-specific warnings that don't appear in web context
+
+## Debugging Workflow
+
+1. Make code changes
+2. Test in web browser
+3. Check `cache/logs/system.log` for new errors
+4. If errors exist, fix them
+5. If only CLI warnings exist but web works, proceed
+6. Verify functionality through user interface
+
+## Best Practices
+
+- Always check logs after significant changes
+- Distinguish between CLI and web context errors
+- Prioritize web server functionality over CLI
+- Use curl commands to test API endpoints
+- Monitor logs during testing sessions

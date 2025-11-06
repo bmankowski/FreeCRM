@@ -28,17 +28,16 @@ class Module extends \App\Modules\Base\Models\Module
 	 * @param <Number> $limit
 	 * @return <Array> - List of \App\Modules\Base\Models\Record or Module Specific Record Model instances
 	 */
-	public function getRecentRecords($limit = 10)
+	public function getRecentRecords(int $userId, int $limit = 10)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
 
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$deletedCondition = $this->getDeletedRecordCondition();
 		$query = 'SELECT * FROM vtiger_crmentity ' .
 			' INNER JOIN vtiger_leaddetails ON
                 vtiger_leaddetails.leadid = vtiger_crmentity.crmid
                 WHERE setype=? && ' . $deletedCondition . ' && modifiedby = ? ORDER BY modifiedtime DESC LIMIT ?';
-		$params = array($this->get('name'), $currentUserModel->id, $limit);
+		$params = array($this->get('name'), $userId, $limit);
 		$result = $db->pquery($query, $params);
 		$noOfRows = $db->num_rows($result);
 

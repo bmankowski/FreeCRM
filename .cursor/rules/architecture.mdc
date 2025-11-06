@@ -1,6 +1,5 @@
 ---
-title: FreeCRM Architecture Guidelines
-apply: agent-requested
+description: "FreeCRM architecture and directory structure guidelines"
 ---
 
 # FreeCRM Architecture
@@ -11,6 +10,7 @@ apply: agent-requested
 Main application code using `FreeCRM\` namespace:
 - `/src/EntryPoint/` - Application entry points (WebUI, API, etc.)
 - `/src/Rector/` - Code refactoring rules
+- `/src/Modules/` - Modern module implementations
 - Follow domain-driven design principles for new features
 
 ### `/include/` - Legacy Runtime
@@ -36,6 +36,12 @@ REST and SOAP APIs:
 - Namespace: `Api\`
 - Modern API implementations should go here
 
+### `/public/` - Public Assets
+Web-accessible files:
+- `/public/layouts/` - Smarty templates and CSS
+- `/public/src/` - JavaScript source files
+- Entry points (index.php, etc.)
+
 ## Design Principles
 
 1. **Separation of Concerns**: Keep business logic, presentation, and data access separate
@@ -59,9 +65,10 @@ REST and SOAP APIs:
 ## Module Development
 
 When creating new modules:
-1. Use FreeCRM namespace for core logic
+1. Use FreeCRM namespace for core logic in `/src/`
 2. Follow existing module structure for compatibility
 3. Register via vtlib for CRM integration
 4. Provide proper permissions and access control
 5. Document module dependencies
 
+For namespace conventions, see `php-namespaces.mdc`.

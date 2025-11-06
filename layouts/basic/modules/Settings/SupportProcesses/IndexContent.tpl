@@ -52,3 +52,5 @@ FreeCRM - Customer Relationship Management System
 	</div>
 	<!--/layouts/basic/modules/Settings/SupportProcesses/IndexContent.tpl -->
 {/strip}
+
+

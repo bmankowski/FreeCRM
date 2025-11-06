@@ -1,0 +1,34 @@
+---
+description: "Composer autoloading rules for FreeCRM"
+globs: ["composer.json", "composer.lock"]
+---
+
+# Autoloading Rules
+
+## Composer Autoloading
+
+After making changes to `composer.json`, always regenerate the autoloader:
+
+```bash
+composer dump-autoload
+```
+
+## When to Regenerate Autoloader
+
+- After adding new namespace mappings
+- After changing PSR-4 autoload configurations
+- After adding new classes that aren't being found
+- After modifying classmap entries
+
+## Autoload Configuration
+
+The project uses PSR-4 autoloading. Ensure all class locations match their namespaces according to PSR-4 standards.
+
+## Troubleshooting
+
+If classes are not being found:
+1. Check namespace matches directory structure
+2. Verify `composer.json` autoload section
+3. Run `composer dump-autoload`
+4. Clear any application caches
+5. Test with web server, not just CLI

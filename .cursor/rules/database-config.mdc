@@ -1,0 +1,25 @@
+---
+description: "Database configuration and credentials for FreeCRM"
+---
+
+# Database Configuration
+
+## Database Credentials
+
+Use these credentials when connecting to the database:
+
+- **User**: `yetiforce`
+- **Password**: `yetiforce123`
+
+## Usage
+
+These credentials are for the development environment. Reference them when:
+- Configuring database connections
+- Running database migrations
+- Executing database queries
+- Testing database functionality
+- Troubleshooting connection issues
+
+## Security Note
+
+These are development credentials. Production environments should use different, secure credentials managed through environment variables or secure configuration management.

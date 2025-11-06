@@ -87,21 +87,21 @@ class Save extends \App\Modules\Base\Actions\Save
 			$accessibleUsers = \App\Fields\Owner::getInstance('Calendar', $currentUserModel)->getAccessibleUsersForModule();
 
 			if ($sharedType == 'private') {
-				$calendarModuleModel->deleteSharedUsers($currentUserModel->getId());
+				$calendarModuleModel->deleteSharedUsers($recordModel->getId());
 			} else if ($sharedType == 'public') {
 				$allUsers = $currentUserModel->getAll(true);
 				$accessibleUsers = array();
 				foreach ($allUsers as $id => $userModel) {
 					$accessibleUsers[$id] = $id;
 				}
-				$calendarModuleModel->deleteSharedUsers($currentUserModel->getId());
-				$calendarModuleModel->insertSharedUsers($currentUserModel->getId(), array_keys($accessibleUsers));
+				$calendarModuleModel->deleteSharedUsers($recordModel->getId());
+				$calendarModuleModel->insertSharedUsers($recordModel->getId(), array_keys($accessibleUsers));
 			} else {
 				if (!empty($sharedIds)) {
-					$calendarModuleModel->deleteSharedUsers($currentUserModel->getId());
-					$calendarModuleModel->insertSharedUsers($currentUserModel->getId(), $sharedIds);
+					$calendarModuleModel->deleteSharedUsers($recordModel->getId());
+					$calendarModuleModel->insertSharedUsers($recordModel->getId(), $sharedIds);
 				} else {
-					$calendarModuleModel->deleteSharedUsers($currentUserModel->getId());
+					$calendarModuleModel->deleteSharedUsers($recordModel->getId());
 				}
 			}
 			if ($request->get('relationOperation')) {

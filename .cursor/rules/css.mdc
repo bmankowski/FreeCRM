@@ -1,3 +1,8 @@
+---
+description: "CSS development and minification workflow for FreeCRM"
+globs: ["**/*.css", "**/*.scss", "package.json"]
+---
+
 # CSS Guidelines
 
 ## File Structure
@@ -73,4 +78,3 @@ When testing CSS changes, use hard refresh to clear browser cache:
 - **Chrome/Edge**: `Ctrl + F5` or `Ctrl + Shift + R`
 - **Firefox**: `Ctrl + Shift + R`
 - **Safari**: `Cmd + Shift + R`
-

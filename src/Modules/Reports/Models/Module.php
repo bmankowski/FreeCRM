@@ -94,7 +94,7 @@ class Module extends \App\Modules\Base\Models\Module
 	 * @param <Number> $limit
 	 * @return <Array of \App\Modules\Reports\Models\Record>
 	 */
-	public function getRecentRecords($limit = 10)
+	public function getRecentRecords(int $userId, int $limit = 10)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
 

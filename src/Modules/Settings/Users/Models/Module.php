@@ -140,7 +140,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		return $name;
 	}
 
-	public function refreshSwitchUsers()
+	public function 	refreshSwitchUsers()
 	{
 		$switchUsers = $this->getSwitchUsers();
 		$content = '<?php' . PHP_EOL . '$switchUsersRaw = [';

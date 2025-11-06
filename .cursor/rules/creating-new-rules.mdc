@@ -1,0 +1,67 @@
+---
+description: "Guide for creating new .mdc rule files in FreeCRM"
+alwaysApply: false
+globs: [".cursor/rules/*.mdc"]
+---
+
+# Creating New .mdc Rule Files
+
+## File Structure
+
+Every `.mdc` file must have:
+1. **YAML front matter** (between `---` markers)
+2. **Markdown content** with the actual rules
+
+## YAML Front Matter Options
+
+```yaml
+---
+description: "Brief description of what this rule covers"
+alwaysApply: true   # OR use globs (choose one)
+globs: ["**/*.php"] # OR use alwaysApply (choose one)
+---
+```
+
+## When to Use What
+
+### Use `alwaysApply: true` for:
+- Universal project guidelines (error checking, testing, project identity)
+- Workflow rules that apply to all tasks
+- Critical standards that should never be ignored
+
+### Use `globs: [...]` for:
+- File-type specific rules (PHP, CSS, JavaScript)
+- Context-specific guidelines
+- Rules that only make sense for certain file patterns
+
+**Examples:**
+```yaml
+globs: ["src/**/*.php", "modules/**/*.php"]  # PHP files
+globs: ["**/*.css", "**/*.scss"]              # Stylesheets
+globs: [".cursor/rules/*.mdc"]                # Rule files themselves
+```
+
+### Use neither for:
+- Reference documentation (agent-requestable only)
+- Architecture guides
+- Documentation that's pulled in when needed
+
+## Best Practices
+
+1. **Be concise** – Write clear, actionable rules; avoid lengthy explanations.
+2. **Single responsibility** – Cover only one topic per file; do not mix unrelated guidelines.
+3. **Clear YAML descriptions** – Write precise, meaningful descriptions in the YAML front matter.
+4. **Provide examples** – Include correct and incorrect usage patterns wherever possible.
+5. **Eliminate duplication** – Do not repeat the same rule across multiple files.
+6. **Limit rule length** – Ensure each rule stays under 500 lines.
+7. **Use cross-references** – Reference other rule files instead of copying their content.
+8. **Maintain accurate metadata** – Update front matter (e.g., globs, alwaysApply) if the rule’s scope changes.
+9. **Write in practical language** – Make rules direct and easy to follow for developers.
+
+## File Naming Convention
+
+Use descriptive kebab-case names:
+- `php-namespaces.mdc` ✓
+- `error-checking.mdc` ✓
+- `creating-rules.mdc` ✓
+- `rules.mdc` ✗ (too generic)

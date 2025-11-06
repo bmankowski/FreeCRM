@@ -1,0 +1,22 @@
+---
+description: "Core project guidelines for FreeCRM development"
+alwaysApply: true
+---
+
+# FreeCRM General Guidelines
+
+## File Management
+- **Do not create new files if possible** - prefer editing existing files
+- **Never create aliases** like `class_alias()`
+
+## Bulk Editing
+- **Use sed for multiple changes** - when performing many changes in a single file, use sed instead of individual edits
+
+## Error Handling
+- **Continue on errors** - if there are any errors during development, do not stop - continue with the task
+- The application is resilient and partial fixes are valuable
+
+## Development Philosophy
+- Prefer modifying existing code over creating new structures
+- Keep the codebase maintainable and avoid unnecessary complexity
+- Focus on incremental improvements

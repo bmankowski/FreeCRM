@@ -1,6 +1,5 @@
 ---
-title: File Headers and Templates
-apply: always
+description: "File header templates for new files in FreeCRM"
 ---
 
 # File Headers for New Files
@@ -17,7 +16,7 @@ Every new PHP file MUST include the following header block at the top:
  * @project FreeCRM
  * @author bmankowski@gmail.com
  * @copyright (c) FreeCRM
- * @license FreeCRM Public License 1.1
+ * @license FreeCRM Public License 1.0
  */
 ```
 
@@ -33,7 +32,7 @@ When creating a new PHP class file in the `src/` directory:
  * @project FreeCRM
  * @author bmankowski@gmail.com
  * @copyright (c) FreeCRM
- * @license FreeCRM Public License 1.1
+ * @license FreeCRM Public License 1.0
  */
 
 declare(strict_types=1);
@@ -93,5 +92,4 @@ Add a comment in the appropriate format for the file type mentioning:
 - **Always add headers to new files** - This is mandatory for all new files created
 - **Existing files** - When modifying existing files, do NOT change or remove existing headers
 - **Consistency** - Maintain the same format across all files of the same type
-- **Namespace** - Replace `[SubNamespace]` with the appropriate namespace based on file location
-
+- **Namespace** - Replace `[SubNamespace]` with the appropriate namespace based on file location (see `php-namespaces.mdc`)
