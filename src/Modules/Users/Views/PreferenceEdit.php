@@ -35,11 +35,6 @@ class PreferenceEdit extends \App\Modules\Base\Views\Edit
 		}
 	}
 
-	public function preProcessTplName(\App\Http\Vtiger_Request $request)
-	{
-		return 'UserEditViewPreProcess.tpl';
-	}
-
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		// Call parent with false to prevent old-style template rendering

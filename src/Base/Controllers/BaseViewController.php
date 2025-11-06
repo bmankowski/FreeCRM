@@ -215,12 +215,6 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 	   return $activeLinkLabel;
    }
 
-
-   protected function preProcessTplName(\App\Http\Vtiger_Request $vtigerRequest)
-   {
-	   return 'Header.tpl';
-   }
-
    protected function showBodyHeader()
    {
 	   return true;

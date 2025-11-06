@@ -33,16 +33,6 @@ class PreferenceDetail extends \App\Modules\Base\Views\Detail
 	}
 
 	/**
-	 * Function to returns the preProcess Template Name
-	 * @param <type> $request
-	 * @return string
-	 */
-	public function preProcessTplName(\App\Http\Vtiger_Request $request)
-	{
-		return 'PreferenceDetailViewPreProcess.tpl';
-	}
-
-	/**
 	 * Function shows basic detail for the record
 	 * @param <type> $request
 	 */

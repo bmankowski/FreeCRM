@@ -70,17 +70,6 @@ class Index extends \App\Modules\Base\Views\Basic
 		$viewer->assign('CURRENT_VIEW', $request->get('view'));
 	}
 
-	protected function preProcessTplName(\App\Http\Vtiger_Request $request)
-	{
-		return 'IndexViewPreProcess.tpl';
-	}
-
-	//Note : To get the right hook for immediate parent in PHP,
-	// specially in case of deep hierarchy
-	/* function preProcessParentTplName(\App\Http\Vtiger_Request $request) {
-	  return parent::preProcessTplName($request);
-	  } */
-
 	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		// MainLayout handles footer rendering, no separate postProcess template needed

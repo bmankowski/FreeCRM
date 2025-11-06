@@ -63,11 +63,6 @@ abstract class BaseActionController
 		
 	}
 
-	protected function preProcessTplName(\App\Http\Vtiger_Request $vtigerRequest)
-	{
-		return false;
-	}
-
 	public function postProcess(\App\Http\Vtiger_Request $vtigerRequest)
 	{
 		return true;

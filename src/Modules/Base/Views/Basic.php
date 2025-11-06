@@ -162,20 +162,8 @@ abstract class Basic extends \App\Base\Controllers\BaseViewController
 		return \App\Modules\Base\Models\Menu::getAll(true);
 	}
 
-	protected function preProcessTplName(\App\Http\Vtiger_Request $request)
-	{
-		return 'BasicHeader.tpl';
-	}
-
-	//Note: To get the right hook for immediate parent in PHP,
-	// specially in case of deep hierarchy
-	/* function preProcessParentTplName(\App\Http\Vtiger_Request $request) {
-	  return parent::preProcessTplName($request);
-	  } */
-
 	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
-		$viewer = $this->getViewer($request);
 		parent::postProcess($request);
 	}
 

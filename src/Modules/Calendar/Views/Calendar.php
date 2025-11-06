@@ -34,11 +34,6 @@ class Calendar  extends \App\Modules\Base\Views\Index
 		// MainLayout handles rendering, no separate preProcess template needed
 	}
 
-	protected function preProcessTplName(\App\Http\Vtiger_Request $request)
-	{
-		return 'IndexViewPreProcess.tpl';
-	}
-
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);

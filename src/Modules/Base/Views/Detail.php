@@ -205,11 +205,6 @@ class Detail extends \App\Modules\Base\Views\Index
 		// MainLayout handles rendering, no separate preProcess template needed
 	}
 
-	public function preProcessTplName(\App\Http\Vtiger_Request $request)
-	{
-		return 'DetailViewPreProcess.tpl';
-	}
-
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$mode = $request->getMode();

@@ -109,11 +109,6 @@ class DashBoard  extends \App\Modules\Base\Views\Index
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 	}
 
-	public function preProcessTplName(\App\Http\Vtiger_Request $request)
-	{
-		return 'dashboards/DashBoardPreProcess.tpl';
-	}
-
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);

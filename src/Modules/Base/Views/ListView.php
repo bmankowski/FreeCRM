@@ -85,17 +85,6 @@ class ListView extends \App\Modules\Base\Views\Index
 		$viewer->assign('MODULE_MODEL', \App\Modules\Base\Models\Module::getInstance($moduleName));
 	}
 
-	public function preProcessTplName(\App\Http\Vtiger_Request $request)
-	{
-		return 'ListViewPreProcess.tpl';
-	}
-
-	//Note : To get the right hook for immediate parent in PHP,
-	// specially in case of deep hierarchy
-	/* function preProcessParentTplName(\App\Http\Vtiger_Request $request) {
-	  return parent::preProcessTplName($request);
-	  } */
-
 	protected function preProcessDisplay(\App\Http\Vtiger_Request $request)
 	{
 		parent::preProcessDisplay($request);
