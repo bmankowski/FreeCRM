@@ -328,10 +328,7 @@ class Index extends \App\Modules\Base\Views\Index
 		return $application_unique_key;
 	}
 
-	protected function preProcessDisplay(\App\Http\Vtiger_Request $request)
-	{
-		
-	}
+
 
 	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{

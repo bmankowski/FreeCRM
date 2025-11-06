@@ -25,11 +25,6 @@ class Pagination  extends \App\Modules\Base\Views\Index
 		// Skip all preProcess - Pagination only renders fragment
 	}
 
-	protected function preProcessDisplay(\App\Http\Vtiger_Request $request)
-	{
-		// Skip template rendering
-	}
-
 	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
 		// Skip postProcess

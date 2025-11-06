@@ -1,95 +1,90 @@
 <?php
 
+/**
+ * RSS ListView View
+ *
+ * @package   Modules\Rss\Views
+ * @author    bmankowski@gmail.com
+ * @copyright FreeCRM Public License 1.1
+ */
+
 namespace App\Modules\Rss\Views;
 
-/* +**********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.0
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * ********************************************************************************** */
-
-
-class ListView  extends \App\Modules\Base\Views\Index
+/**
+ * RSS ListView Class
+ */
+class ListView extends \App\Modules\Base\Views\ListView
 {
-
-	public function checkPermission(\App\Http\Vtiger_Request $request)
-	{
-		$currentUserPriviligesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
-		if (!$currentUserPriviligesModel->hasModulePermission($request->getModule())) {
-			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
-		}
-	}
-
-	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
-	{
-		parent::preProcess($request, false);
-		
-		// Prepare Rss list view data
-		$viewer = $this->getViewer($request);
-		$this->initializeListViewContents($request, $viewer);
-	}
-
-	public function process(\App\Http\Vtiger_Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-		// Data already assigned in preProcess, just render
-		$viewer->view('ListView.tpl', $moduleName);
-	}
-	/*
-	 * Function to initialize the required data in smarty to display the List View Contents
+	/**
+	 * Pre-process the request - setup RSS-specific list view
+	 *
+	 * @param \App\Http\Vtiger_Request $request Request instance
+	 * @param bool                     $display Whether to display
+	 *
+	 * @return void
 	 */
-
-	public function initializeListViewContents(\App\Http\Vtiger_Request $request, \App\Runtime\CRM_Viewer $viewer)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true): void
 	{
-		$module = $request->getModule();
-		$recordId = $request->get('id');
-		$moduleModel = \App\Modules\Base\Models\Module::getInstance($module);
-		if ($recordId) {
-			/* @var \App\Modules\Rss\Models\Record $recordInstance */
-			$recordInstance = \App\Modules\Rss\Models\Record::getInstanceById($recordId, $module);
-		} else {
-			/* @var \App\Modules\Rss\Models\Record $recordInstance */
-			$recordInstance = \App\Modules\Rss\Models\Record::getCleanInstance($module);
-			$recordInstance->getDefaultRss();
-			$recordInstance = \App\Modules\Rss\Models\Record::getInstanceById($recordInstance->getId(), $module);
+		// Call parent's parent (Index::preProcess) to get base functionality
+		// Skip ListView::preProcess because RSS doesn't use standard list view model
+		\App\Modules\Base\Views\Index::preProcess($request, false);
+		
+		// Handle RSS-specific setup
+		if (!$request->isAjax()) {
+			$this->assignSidebarData($request);
+			$this->prepareRssListViewData($request);
 		}
-
-	$viewer = $this->getViewer($request);
-	$viewer->assign('MODULE', $module);
-	$viewer->assign('RECORD', $recordInstance);
-	$linkParams = array('MODULE' => $module, 'ACTION' => $request->get('view'));
-	$linkModels = $moduleModel->getSideBarLinks($linkParams);
-	
-	// Process sidebar links to determine active link
-	$activeLinkLabel = $this->processSidebarLinks($linkModels, $request);
-	
-	$viewer->assign('QUICK_LINKS', $linkModels);
-	$viewer->assign('ACTIVE_SIDEBAR_LINK', $activeLinkLabel);
-	$viewer->assign('MODULE_MODEL', $moduleModel);
-	$viewer->assign('LISTVIEW_HEADERS', $this->getListViewRssHeaders($module));
 	}
 
 	/**
-	 * Function to get the list of Script models to be included
-	 * @param \App\Http\Vtiger_Request $request
-	 * @return <Array> - List of \App\Modules\Base\Models\JsScript instances
+	 * Prepare RSS-specific list view data
+	 *
+	 * @param \App\Http\Vtiger_Request $request Request instance
+	 *
+	 * @return void
+	 */
+	protected function prepareRssListViewData(\App\Http\Vtiger_Request $request): void
+	{
+		$moduleName = $request->getModule();
+		$viewer = $this->getViewer($request);
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
+
+		// Get RSS record instance
+		$recordId = $request->get('id');
+		if ($recordId) {
+			/** @var \App\Modules\Rss\Models\Record $recordInstance */
+			$recordInstance = \App\Modules\Rss\Models\Record::getInstanceById($recordId, $moduleName);
+		} else {
+			/** @var \App\Modules\Rss\Models\Record $recordInstance */
+			$recordInstance = \App\Modules\Rss\Models\Record::getCleanInstance($moduleName);
+			$recordInstance->getDefaultRss();
+			$recordInstance = \App\Modules\Rss\Models\Record::getInstanceById($recordInstance->getId(), $moduleName);
+		}
+
+		// Assign RSS-specific data
+		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('RECORD', $recordInstance);
+		$viewer->assign('MODULE_MODEL', $moduleModel);
+		$viewer->assign('LISTVIEW_HEADERS', $this->getListViewRssHeaders($moduleName));
+		$viewer->assign('VIEW', $request->get('view'));
+	}
+
+	/**
+	 * Get the list of Script models to be included
+	 *
+	 * @param \App\Http\Vtiger_Request $request Request instance
+	 *
+	 * @return array List of script instances
 	 */
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$moduleName = $request->getModule();
 
-		$jsFileNames = array(
-			'modules.Base.resources.ListView',
-			"modules.$moduleName.resources.ListView",
-			'modules.CustomView.resources.CustomView',
-			"modules.$moduleName.resources.CustomView",
+		// RSS-specific JavaScript files
+		$jsFileNames = [
 			'modules.Base.resources.CkEditor'
-		);
+		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
@@ -97,27 +92,32 @@ class ListView  extends \App\Modules\Base\Views\Index
 	}
 
 	/**
-	 * Function to get the list view header
-	 * @return <Array> - List of \App\Modules\Base\Models\Field instances
+	 * Get the list view headers for RSS module
+	 *
+	 * @param string $module Module name
+	 *
+	 * @return \App\Modules\Base\Models\Field[] List of Field instances
 	 */
-	public function getListViewRssHeaders($module)
+	protected function getListViewRssHeaders(string $module): array
 	{
-		$headerFields = array(
-			'title' => array(
+		$headerFields = [
+			'title' => [
 				'uitype' => '1',
 				'name' => 'title',
 				'label' => 'LBL_SUBJECT',
 				'typeofdata' => 'V~O',
 				'diplaytype' => '1',
-			),
-			'sender' => array(
+			],
+			'sender' => [
 				'uitype' => '1',
 				'name' => 'sender',
 				'label' => 'LBL_SENDER',
 				'typeofdata' => 'V~O',
 				'diplaytype' => '1',
-			)
-		);
+			]
+		];
+
+		$fieldModelsList = [];
 		foreach ($headerFields as $fieldName => $fieldDetails) {
 			$fieldModel = new \App\Modules\Base\Models\Field();
 			foreach ($fieldDetails as $name => $value) {

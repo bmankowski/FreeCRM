@@ -108,11 +108,6 @@ class ListView extends \App\Modules\Base\Views\Index
 		$viewer->assign('MODULE_MODEL', \App\Modules\Base\Models\Module::getInstance($moduleName));
 	}
 
-	protected function preProcessDisplay(\App\Http\Vtiger_Request $request)
-	{
-		parent::preProcessDisplay($request);
-	}
-
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);

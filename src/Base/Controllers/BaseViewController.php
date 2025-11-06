@@ -45,9 +45,6 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 	   $viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
 	   $viewer->assign('USER_MODEL', $vtigerRequest->getUser());
 
-
-
-	   
 //    $viewer->assign('MODULE', $moduleName);
 	   $viewer->assign('VIEW', $vtigerRequest->get('view'));
 	   $userModel = $vtigerRequest->getUser();
@@ -63,10 +60,6 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 		   $activeModules[$module['name']] = \App\Module::isModuleActive($module['name']);
 	   }
 	   $viewer->assign('ACTIVE_MODULES', $activeModules);
-	   
-	   if ($display) {
-		   $this->preProcessDisplay($vtigerRequest);
-	   }
    }
 
    public function getViewer(\App\Http\Vtiger_Request $vtigerRequest)
@@ -220,9 +213,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 	   return true;
    }
 
-   protected function preProcessDisplay(\App\Http\Vtiger_Request $vtigerRequest)
-   {
-   }
+
 
    /**
 	* Post process
