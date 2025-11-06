@@ -29,10 +29,7 @@ class ListView  extends \App\Modules\Base\Views\Index
 		
 		// Prepare Rss list view data
 		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$this->initializeListViewContents($request, $viewer);
-		$viewer->assign('MODULE_MODEL', $moduleModel);
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -72,7 +69,8 @@ class ListView  extends \App\Modules\Base\Views\Index
 	
 	$viewer->assign('QUICK_LINKS', $linkModels);
 	$viewer->assign('ACTIVE_SIDEBAR_LINK', $activeLinkLabel);
-		$viewer->assign('LISTVIEW_HEADERS', $this->getListViewRssHeaders($module));
+	$viewer->assign('MODULE_MODEL', $moduleModel);
+	$viewer->assign('LISTVIEW_HEADERS', $this->getListViewRssHeaders($module));
 	}
 
 	/**
