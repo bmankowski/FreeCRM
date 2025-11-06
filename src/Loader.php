@@ -183,20 +183,24 @@ class Loader
 	 */
 	public static function resolveNameToPath($qualifiedName, $fileExtension = 'php')
 	{
-		$allowedExtensions = ['php', 'js', 'css', 'less'];
-		if (!in_array($fileExtension, $allowedExtensions)) {
-			return '';
-		}
-
+		$allowedExtensions = ['php', 'js', 'css', 'less', 'png', 'jpg', 'jpeg', 'gif', 'svg', 'ico', 'woff', 'woff2', 'ttf', 'eot'];
+		
 		// Handle ~ prefix (literal path from root)
 		if (strpos($qualifiedName, '~') === 0) {
 			$file = str_replace('~', '', $qualifiedName);
+			// Try to detect extension from file path if not provided explicitly
+			if ($fileExtension === 'php') {
+				$pathExtension = pathinfo($file, PATHINFO_EXTENSION);
+				if ($pathExtension && in_array($pathExtension, $allowedExtensions)) {
+					$fileExtension = $pathExtension;
+				}
+			}
 		} else {
 			$file = str_replace('.', DIRECTORY_SEPARATOR, $qualifiedName) . '.' . $fileExtension;
 		}
 		
-		// Check public/ for JS/CSS files first
-		if (in_array($fileExtension, ['js', 'css', 'less'])) {
+		// Check public/ for web assets (JS/CSS/images/fonts) first
+		if (in_array($fileExtension, ['js', 'css', 'less', 'png', 'jpg', 'jpeg', 'gif', 'svg', 'ico', 'woff', 'woff2', 'ttf', 'eot'])) {
 			$publicFile = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . $file;
 			if (file_exists($publicFile)) {
 				return $publicFile;
