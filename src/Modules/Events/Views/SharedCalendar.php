@@ -12,7 +12,6 @@ namespace App\Modules\Events\Views;
  * *********************************************************************************** */
 
 
-use App\Http\Vtiger_Request;
 class SharedCalendar  extends \App\Modules\Base\Views\Index
 {
 

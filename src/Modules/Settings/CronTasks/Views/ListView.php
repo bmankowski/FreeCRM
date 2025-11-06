@@ -16,8 +16,11 @@ namespace App\Modules\Settings\CronTasks\Views;
 class ListView extends \App\Modules\Settings\Base\Views\ListView
 {
 
-	public function initializeListViewContents(\App\Http\Vtiger_Request $request, \App\Runtime\CRM_Viewer $viewer)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
+		parent::preProcess($request, false);
+
+		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$pageNumber = $request->get('page');
@@ -97,5 +100,7 @@ class ListView extends \App\Modules\Settings\Base\Views\ListView
 		$viewer->assign('LISTVIEW_COUNT', $totalCount);
 		$viewer->assign('PAGE_COUNT', $pageCount);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
+		$sourceModule = $request->get('sourceModule');
+		$viewer->assign('SOURCE_MODULE', $sourceModule);
 	}
 }

@@ -14,12 +14,7 @@ namespace App\Modules\Settings\WebserviceUsers\Views;
 class ListView extends \App\Modules\Settings\Base\Views\ListView
 {
 
-	/**
-	 * Initiate data values for listview
-	 * @param \App\Http\Vtiger_Request $request
-	 * @param \App\Runtime\CRM_Viewer $viewer
-	 */
-	public function initializeListViewContents(\App\Http\Vtiger_Request $request, \App\Runtime\CRM_Viewer $viewer)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		if (!$request->has('typeApi')) {
@@ -28,7 +23,8 @@ class ListView extends \App\Modules\Settings\Base\Views\ListView
 		$typeApi = $request->get('typeApi');
 		$this->listViewModel = \App\Modules\Settings\Base\Models\ListView::getInstance($qualifiedModuleName);
 		$this->listViewModel->getModule()->typeApi = $typeApi;
-		parent::initializeListViewContents($request, $viewer);
+		parent::preProcess($request, $display);
+		$viewer = $this->getViewer($request);
 		$viewer->assign('TYPE_API', $typeApi);
 	}
 }

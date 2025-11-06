@@ -13,7 +13,6 @@ namespace App\Modules\Documents\Views;
  * ********************************************************************************** */
 
 
-use App\Http\Vtiger_Request;
 class Detail  extends \App\Modules\Base\Views\Detail
 {
 

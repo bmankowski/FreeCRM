@@ -61,8 +61,12 @@ class ListView extends \App\Modules\Settings\Base\Views\ListView
 		return $breadcrumbs;
 	}
 	
-	public function initializeListViewContents(\App\Http\Vtiger_Request $request, \App\Runtime\CRM_Viewer $viewer)
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
+		// Skip parent preProcess to avoid duplication, call grandparent instead
+		\App\Modules\Settings\Base\Views\Index::preProcess($request, false);
+
+		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$cvId = $request->get('viewname');
 		$pageNumber = $request->get('page');
@@ -208,7 +212,10 @@ class ListView extends \App\Modules\Settings\Base\Views\ListView
 		$viewer->assign('IS_MODULE_DELETABLE', $this->listViewModel->getModule()->isPermitted('Delete'));
 		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->assign('SEARCH_DETAILS', $searchParmams);
+		$sourceModule = $request->get('sourceModule');
+		$viewer->assign('SOURCE_MODULE', $sourceModule);
 	}
+	
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{

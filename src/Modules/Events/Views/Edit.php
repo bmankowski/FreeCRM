@@ -24,7 +24,6 @@ class Edit extends \App\Modules\Calendar\Views\Edit
 			'modules.Calendar.resources.Edit'
 		);
 
-
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;

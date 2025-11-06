@@ -32,32 +32,6 @@ class ListView extends \App\Modules\Settings\Base\Views\Index
 		parent::preProcess($request, false);
 
 		$viewer = $this->getViewer($request);
-		$this->initializeListViewContents($request, $viewer);
-		$sourceModule = $request->get('sourceModule');
-		$viewer->assign('SOURCE_MODULE', $sourceModule);
-		// MainLayout handles rendering, no separate preProcess template needed
-	}
-
-	public function process(\App\Http\Vtiger_Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-		
-		if ($request->isAjax()) {
-			// AJAX handling - return only contents
-			$viewer->view('ListViewContent.tpl', $request->getModule(false));
-		} else {
-			// Full page rendering - use ListView.tpl which extends MainLayout
-			$viewer->assign('VIEW', $request->get('view'));
-			$viewer->view('ListView.tpl', $request->getModule(false));
-		}
-	}
-	/*
-	 * Function to initialize the required data in smarty to display the List View Contents
-	 */
-
-	public function initializeListViewContents(\App\Http\Vtiger_Request $request, \App\Runtime\CRM_Viewer $viewer)
-	{
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$pageNumber = $request->get('page');
@@ -143,6 +117,23 @@ class ListView extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('PAGE_COUNT', $pageCount);
 		$viewer->assign('LISTVIEW_COUNT', $totalCount);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
+		$viewer->assign('SOURCE_MODULE', $sourceModule);
+		// MainLayout handles rendering, no separate preProcess template needed
+	}
+
+	public function process(\App\Http\Vtiger_Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		$moduleName = $request->getModule();
+		
+		if ($request->isAjax()) {
+			// AJAX handling - return only contents
+			$viewer->view('ListViewContent.tpl', $request->getModule(false));
+		} else {
+			// Full page rendering - use ListView.tpl which extends MainLayout
+			$viewer->assign('VIEW', $request->get('view'));
+			$viewer->view('ListView.tpl', $request->getModule(false));
+		}
 	}
 
 	/**

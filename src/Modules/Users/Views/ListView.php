@@ -39,21 +39,6 @@ class ListView extends \App\Modules\Base\Views\ListAjax
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		$this->initializeListViewContents($request, $viewer);
-		$viewer->view('ListView.tpl', $request->getModule(false));
-	}
-	/*
-	 * Function to initialize the required data in smarty to display the List View Contents
-	 */
-
-	public function preProcess(\App\Http\Vtiger_Request $request, $display = true){
-		return true;
-	}
-	public function postProcess(\App\Http\Vtiger_Request $request, $display = true){
-		return true;
-	}
-	public function initializeListViewContents(\App\Http\Vtiger_Request $request, \App\Runtime\CRM_Viewer $viewer)
-	{
 		$moduleName = $request->getModule();
 		$cvId = $request->get('viewname');
 		$pageNumber = $request->get('page');
@@ -192,6 +177,14 @@ class ListView extends \App\Modules\Base\Views\ListAjax
 		$viewer->assign('IS_MODULE_DELETABLE', $this->listViewModel->getModule()->isPermitted('Delete'));
 		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->assign('SEARCH_DETAILS', $searchParmams);
+		$viewer->view('ListView.tpl', $request->getModule(false));
+	}
+
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true){
+		return true;
+	}
+	public function postProcess(\App\Http\Vtiger_Request $request, $display = true){
+		return true;
 	}
 
 	/**

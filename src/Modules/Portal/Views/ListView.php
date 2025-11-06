@@ -12,28 +12,15 @@ namespace App\Modules\Portal\Views;
  * *********************************************************************************** */
 
 
-class ListView  extends \App\Modules\Base\Views\Index
+class ListView extends \App\Modules\Base\Views\Index
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
-		
+
 		// Prepare Portal list view data
 		$viewer = $this->getViewer($request);
-		$this->initializeListViewContents($request, $viewer);
-	}
-
-	public function process(\App\Http\Vtiger_Request $request)
-	{
-		$moduleName = $request->getModule();
-		$viewer = $this->getViewer($request);
-		// Data already assigned in preProcess, just render
-		$viewer->view('ListView.tpl', $moduleName);
-	}
-
-	public function initializeListViewContents(\App\Http\Vtiger_Request $request, \App\Runtime\CRM_Viewer $viewer)
-	{
 		$moduleName = $request->getModule();
 		$pageNumber = $request->get('page');
 		$orderBy = $request->get('orderby');
@@ -87,6 +74,14 @@ class ListView  extends \App\Modules\Base\Views\Index
 		$viewer->assign('RECORD_COUNT', count($listviewEntries));
 		$viewer->assign('CURRENT_PAGE', $pageNumber);
 		$viewer->assign('PAGING_INFO', $pagingInfo);
+	}
+
+	public function process(\App\Http\Vtiger_Request $request)
+	{
+		$moduleName = $request->getModule();
+		$viewer = $this->getViewer($request);
+		// Data already assigned in preProcess, just render
+		$viewer->view('ListView.tpl', $moduleName);
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)

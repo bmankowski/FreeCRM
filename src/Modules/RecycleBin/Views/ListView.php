@@ -38,22 +38,7 @@ class ListView extends \App\Modules\Base\Views\Index
 		$viewer->assign('QUICK_LINKS', $quickLinkModels);
 		$viewer->assign('ACTIVE_SIDEBAR_LINK', $activeLinkLabel);
 
-		$this->initializeListViewContents($request, $viewer);
-	}
-
-	public function process(\App\Http\Vtiger_Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		// Data already assigned in preProcess, just render
-		$viewer->view('ListView.tpl', $request->getModule());
-	}
-	/*
-	 * Function to initialize the required data in smarty to display the List View Contents
-	 */
-
-	public function initializeListViewContents(\App\Http\Vtiger_Request $request, \App\Runtime\CRM_Viewer $viewer)
-	{
-		$moduleName = $request->getModule();
+		// Initialize list view contents
 		$sourceModule = $request->get('sourceModule');
 
 		$pageNumber = $request->get('page');
@@ -142,6 +127,13 @@ class ListView extends \App\Modules\Base\Views\Index
 		$viewer->assign('PAGE_COUNT', $pageCount);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 		$viewer->assign('IS_MODULE_DELETABLE', $listViewModel->getModule()->isPermitted('Delete'));
+	}
+
+	public function process(\App\Http\Vtiger_Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		// Data already assigned in preProcess, just render
+		$viewer->view('ListView.tpl', $request->getModule());
 	}
 
 	/**
