@@ -10,6 +10,9 @@
 ********************************************************************************/
 -->*}
 {strip}
+{extends file='InstallLayout.tpl'}
+
+{block name="content"}
 <!-- install/tpl/Step7.tpl -->
 	<center>{'LBL_LOADING_PLEASE_WAIT'|t}...</center>
 	<form class="form-horizontal" name="step7" method="post" action="../index.php?module=Users&action=Login">
@@ -26,4 +29,5 @@
 		});
 	</script>
 <!--/install/tpl/Step7.tpl -->
+{/block}
 {/strip}

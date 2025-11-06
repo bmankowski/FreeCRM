@@ -11,6 +11,9 @@
 *************************************************************************************************************************************/
 -->*}
 {strip}
+{extends file='InstallLayout.tpl'}
+
+{block name="content"}
 <!-- install/tpl/mStep2.tpl -->
 	<div id="progressIndicator" class="row main-container hide">
 		<div class="inner-container">
@@ -94,4 +97,5 @@
 		</div>
 	</div>
 <!--/install/tpl/mStep2.tpl -->
+{/block}
 {/strip}

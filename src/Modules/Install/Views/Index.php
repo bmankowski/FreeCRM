@@ -92,7 +92,7 @@ class Index extends \App\Modules\Base\Views\Index
 		define('INSTALLATION_MODE', true);
 		define('INSTALLATION_MODE_DEBUG', $this->debug);
 		$this->viewer->error_reporting = E_ALL & ~E_NOTICE;
-		echo $this->viewer->fetch('InstallPreProcess.tpl');
+		// InstallLayout.tpl handles header rendering, no separate preProcess template needed
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -110,7 +110,7 @@ class Index extends \App\Modules\Base\Views\Index
 
 	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
-		echo $this->viewer->fetch('InstallPostProcess.tpl');
+		// InstallLayout.tpl handles footer rendering, no separate postProcess template needed
 		if ($request->getMode() === 'Step7') {
 			$this->cleanInstallationFiles();
 		}
@@ -127,19 +127,19 @@ class Index extends \App\Modules\Base\Views\Index
 		}
 		$this->viewer->assign('LANGUAGES', Install_Utils_Model::getLanguages());
 		$this->viewer->assign('IS_MIGRATE', $isMigrate);
-		echo $this->viewer->fetch('Step1.tpl');
+		$this->viewer->view('Step1.tpl');
 	}
 
 	public function Step2(\App\Http\Vtiger_Request $request)
 	{
-		echo $this->viewer->fetch('Step2.tpl');
+		$this->viewer->view('Step2.tpl');
 	}
 
 	public function Step3(\App\Http\Vtiger_Request $request)
 	{
 		$this->viewer->assign('FAILED_FILE_PERMISSIONS', \App\Modules\Settings\ConfReport\Models\Module::getPermissionsFiles(true));
 		$this->viewer->assign('MODULE', 'Settings::ConfReport');
-		echo $this->viewer->fetch('Step3.tpl');
+		$this->viewer->view('Step3.tpl');
 	}
 
 	public function Step4(\App\Http\Vtiger_Request $request)
@@ -158,7 +158,7 @@ class Index extends \App\Modules\Base\Views\Index
 		$this->viewer->assign('ADMIN_PASSWORD', $defaultParameters['admin_password']);
 		$this->viewer->assign('ADMIN_EMAIL', $defaultParameters['admin_email']);
 
-		echo $this->viewer->fetch('Step4.tpl');
+		$this->viewer->view('Step4.tpl');
 	}
 
 	public function Step5(\App\Http\Vtiger_Request $request)
@@ -196,7 +196,7 @@ class Index extends \App\Modules\Base\Views\Index
 		$this->viewer->assign('DB_CONNECTION_INFO', $dbConnection);
 		$this->viewer->assign('INFORMATION', $requestData);
 		$this->viewer->assign('AUTH_KEY', $authKey);
-		echo $this->viewer->fetch('Step5.tpl');
+		$this->viewer->view('Step5.tpl');
 	}
 
 	public function Step6(\App\Http\Vtiger_Request $request)
@@ -206,7 +206,7 @@ class Index extends \App\Modules\Base\Views\Index
 		$configFile->createConfigFile();
 		$this->viewer->assign('AUTH_KEY', $_SESSION['config_file_info']['authentication_key']);
 		$this->viewer->assign('INDUSTRY', Install_Utils_Model::getIndustryList());
-		echo $this->viewer->fetch('Step6.tpl');
+		$this->viewer->view('Step6.tpl');
 	}
 
 	public function Step7(\App\Http\Vtiger_Request $request)
@@ -225,7 +225,7 @@ class Index extends \App\Modules\Base\Views\Index
 			$this->viewer->assign('PASSWORD', $_SESSION['config_file_info']['password']);
 			$this->viewer->assign('APPUNIQUEKEY', $this->retrieveConfiguredAppUniqueKey());
 			$this->viewer->assign('CURRENT_VERSION', \App\Version::get());
-			echo $this->viewer->fetch('Step7.tpl');
+			$this->viewer->view('Step7.tpl');
 		}
 	}
 
@@ -239,7 +239,7 @@ class Index extends \App\Modules\Base\Views\Index
 		}
 		$this->viewer->assign('EXAMPLE_DIRECTORY', $rootDirectory);
 		$this->viewer->assign('SCHEMALISTS', $schemaLists);
-		echo $this->viewer->fetch('mStep0.tpl');
+		$this->viewer->view('mStep0.tpl');
 	}
 
 	public function mStep1(\App\Http\Vtiger_Request $request)
@@ -252,7 +252,7 @@ class Index extends \App\Modules\Base\Views\Index
 		}
 		$this->viewer->assign('EXAMPLE_DIRECTORY', $rootDirectory);
 		$this->viewer->assign('SCHEMALISTS', $schemaLists);
-		echo $this->viewer->fetch('mStep1.tpl');
+		$this->viewer->view('mStep1.tpl');
 	}
 
 	public function mStep2(\App\Http\Vtiger_Request $request)
@@ -265,7 +265,7 @@ class Index extends \App\Modules\Base\Views\Index
 		}
 		$this->viewer->assign('EXAMPLE_DIRECTORY', $rootDirectory);
 		$this->viewer->assign('SCHEMALISTS', $schemaLists);
-		echo $this->viewer->fetch('mStep2.tpl');
+		$this->viewer->view('mStep2.tpl');
 	}
 
 	public function mStep3(\App\Http\Vtiger_Request $request)
@@ -313,11 +313,11 @@ class Index extends \App\Modules\Base\Views\Index
 		$this->viewer->assign('MIGRATIONURL', $migrationURL);
 		$this->viewer->assign('ERRORTEXT', $errorText);
 		$this->viewer->assign('MIGRATIONRESULT', $migrationResult);
-		echo $this->viewer->fetch('mStep3.tpl');
+		$this->viewer->view('mStep3.tpl');
 		if ($loginStatus) {
-			echo $this->viewer->fetch('mStep3Pre.tpl');
+			$this->viewer->view('mStep3Pre.tpl');
 			$migrationResult = $initSchema->executeMigrationSchema($system, $username, $source_directory);
-			echo $this->viewer->fetch('mStep3Post.tpl');
+			$this->viewer->view('mStep3Post.tpl');
 		}
 	}
 

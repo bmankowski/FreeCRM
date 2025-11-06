@@ -11,6 +11,9 @@
 *************************************************************************************************************************************/
 -->*}
 {strip}
+{extends file='InstallLayout.tpl'}
+
+{block name="content"}
 <!-- install/tpl/mStep1.tpl -->
 	<div class="row main-container">
 		<div class="inner-container">
@@ -40,4 +43,5 @@
 		</div>
 	</div>
 <!--/install/tpl/mStep1.tpl -->
+{/block}
 {/strip}

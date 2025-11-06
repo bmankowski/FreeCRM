@@ -10,6 +10,9 @@
 ********************************************************************************/
 -->*}
 {strip}
+{extends file='InstallLayout.tpl'}
+
+{block name="content"}
 <!-- install/tpl/Step5.tpl -->
 	<form class="form-horizontal" name="step5" method="post" action="Install.php">
 		<input type="hidden" name="mode" value="Step6" />
@@ -148,4 +151,5 @@
 		</div>
 	</form>
 <!--/install/tpl/Step5.tpl -->
+{/block}
 {/strip}

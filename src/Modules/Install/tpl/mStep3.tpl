@@ -11,6 +11,9 @@
 *************************************************************************************************************************************/
 -->*}
 {strip}
+{extends file='InstallLayout.tpl'}
+
+{block name="content"}
 <!-- install/tpl/mStep3.tpl -->
 	{if $ERRORTEXT neq ''}
 		<div class="row main-container">
@@ -30,4 +33,5 @@
 		</div>
 	{/if}
 <!--/install/tpl/mStep3.tpl -->
+{/block}
 {/strip}
