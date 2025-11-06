@@ -16,11 +16,8 @@ class TreeRecords  extends \App\Modules\Base\Views\Index
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
-		// MainLayout.tpl handles rendering, no separate preProcess template needed
-	}
-
-	public function process(\App\Http\Vtiger_Request $request)
-	{
+		
+		// Prepare tree records data
 		$branches = $request->get('branches');
 		$filter = $request->get('filter');
 		$category = $request->get('category');
@@ -63,6 +60,13 @@ class TreeRecords  extends \App\Modules\Base\Views\Index
 		$viewer->assign('ENTRIES', $listEntries);
 		$viewer->assign('HEADERS', $listHeaders);
 		$viewer->assign('MODULE', $baseModuleName);
+	}
+
+	public function process(\App\Http\Vtiger_Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		$moduleName = $request->getModule();
+		// Data already assigned in preProcess, just render
 		$viewer->view('TreeRecords.tpl', $moduleName);
 	}
 

@@ -12,21 +12,23 @@ namespace App\Modules\Portal\Views;
  * *********************************************************************************** */
 
 
-use App\Http\Vtiger_Request;
 class ListView  extends \App\Modules\Base\Views\Index
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
-		// MainLayout.tpl handles rendering, no separate preProcess template needed
+		
+		// Prepare Portal list view data
+		$viewer = $this->getViewer($request);
+		$this->initializeListViewContents($request, $viewer);
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
-		$this->initializeListViewContents($request, $viewer);
+		// Data already assigned in preProcess, just render
 		$viewer->view('ListView.tpl', $moduleName);
 	}
 

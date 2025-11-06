@@ -31,7 +31,22 @@ class Calendar  extends \App\Modules\Base\Views\Index
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
-		// MainLayout handles rendering, no separate preProcess template needed
+		
+		// Assign Calendar-specific data
+		$viewer = $this->getViewer($request);
+		$moduleName = $request->getModule();
+		$currentUserModel = $request->getUser();
+		
+		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('CURRENT_VIEW', $request->get('view'));
+		$viewer->assign('CURRENT_USER', $currentUserModel);
+		$viewer->assign('EVENT_LIMIT', \App\AppConfig::module('Calendar', 'EVENT_LIMIT'));
+		$viewer->assign('WEEK_VIEW', \App\AppConfig::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'agendaWeek' : 'basicWeek');
+		$viewer->assign('DAY_VIEW', \App\AppConfig::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'agendaDay' : 'basicDay');
+		$viewer->assign('ACTIVITY_STATE_LABELS', \App\Json::encode([
+				'current' => \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current'),
+				'history' => \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('history')
+		]));
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
@@ -65,25 +80,9 @@ class Calendar  extends \App\Modules\Base\Views\Index
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$mode = $request->getMode();
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$currentUserModel = $request->getUser();
-		
-		// Call parent data assignment methods since we override process()
-		$this->assignBasicViewData($request);
-		$this->assignSidebarData($request);
-		
-		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('CURRENT_VIEW', $request->get('view'));
-		$viewer->assign('CURRENT_USER', $currentUserModel);
-		$viewer->assign('EVENT_LIMIT', \App\AppConfig::module('Calendar', 'EVENT_LIMIT'));
-		$viewer->assign('WEEK_VIEW', \App\AppConfig::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'agendaWeek' : 'basicWeek');
-		$viewer->assign('DAY_VIEW', \App\AppConfig::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'agendaDay' : 'basicDay');
-		$viewer->assign('ACTIVITY_STATE_LABELS', \App\Json::encode([
-				'current' => \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current'),
-				'history' => \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('history')
-		]));
+		// Data already assigned in preProcess, just render
 		$viewer->view('CalendarView.tpl', $moduleName);
 	}
 

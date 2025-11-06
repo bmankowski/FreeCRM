@@ -179,7 +179,7 @@ class Detail extends \App\Modules\Base\Views\Index
 				$processedHeaderWidgets[] = $widgetModel->processWidget($widget, $recordModel);
 			}
 		}
-
+		
 		$viewer->assign('SELECTED_TAB_LABEL', $selectedTabLabel);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('DETAILVIEW_LINKS', $detailViewLinks);

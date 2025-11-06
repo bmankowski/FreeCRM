@@ -13,7 +13,6 @@ namespace App\Modules\RecycleBin\Views;
  * ********************************************************************************** */
 
 
-use App\Http\Vtiger_Request;
 class ListView extends \App\Modules\Base\Views\Index
 {
 	protected $listViewHeaders = [];
@@ -23,11 +22,8 @@ class ListView extends \App\Modules\Base\Views\Index
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
-		// MainLayout.tpl handles rendering, no separate preProcess template needed
-	}
-
-	public function process(\App\Http\Vtiger_Request $request)
-	{
+		
+		// Prepare RecycleBin list view data
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
@@ -43,6 +39,12 @@ class ListView extends \App\Modules\Base\Views\Index
 		$viewer->assign('ACTIVE_SIDEBAR_LINK', $activeLinkLabel);
 
 		$this->initializeListViewContents($request, $viewer);
+	}
+
+	public function process(\App\Http\Vtiger_Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		// Data already assigned in preProcess, just render
 		$viewer->view('ListView.tpl', $request->getModule());
 	}
 
@@ -75,6 +77,7 @@ class ListView extends \App\Modules\Base\Views\Index
 			$pageNumber = '1';
 		}
 
+		/** @var \App\Modules\RecycleBin\Models\Module $moduleModel */
 		$moduleModel = \App\Modules\RecycleBin\Models\Module::getInstance($moduleName);
 		//If sourceModule is empty, pick the first module name from the list
 		if (empty($sourceModule)) {
@@ -178,7 +181,7 @@ class ListView extends \App\Modules\Base\Views\Index
 		$sourceModule = $request->get('sourceModule');
 		$listViewModel = \App\Modules\RecycleBin\Models\ListView::getInstance($moduleName, $sourceModule);
 
-		$listViewCount = $listViewModel->getListViewCount($request);
+		$listViewCount = $listViewModel->getListViewCount();
 		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pageLimit = $pagingModel->getPageLimit();
 		$pageCount = ceil((int) $listViewCount / (int) $pageLimit);

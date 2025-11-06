@@ -44,11 +44,8 @@ class PreferenceDetail extends \App\Modules\Base\Views\Detail
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
-		// MainLayout handles rendering, no separate preProcess template needed
-	}
-
-	public function process(\App\Http\Vtiger_Request $request)
-	{
+		
+		// Prepare all preference detail data
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
@@ -58,7 +55,7 @@ class PreferenceDetail extends \App\Modules\Base\Views\Detail
 		$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Base\Models\RecordStructure::RECORD_STRUCTURE_MODE_EDIT);
 		$dayStartPicklistValues = \App\Modules\Users\Models\Record::getDayStartsPicklistValues($recordStructureInstance->getStructure());
 		
-		// Assignments moved from preProcess
+		// Assignments moved from process
 		if ($activeReminder = \App\Module::isModuleActive('Calendar')) {
 			$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 			$activeReminder = $userPrivilegesModel->hasModulePermission('Calendar');
@@ -103,7 +100,11 @@ class PreferenceDetail extends \App\Modules\Base\Views\Detail
 
 		$viewer->assign('DAY_STARTS', \App\Json::encode($dayStartPicklistValues));
 		$viewer->assign('IMAGE_DETAILS', $recordModel->getImageDetails());
+	}
 
+	public function process(\App\Http\Vtiger_Request $request)
+	{
+		// Data already assigned in preProcess, just render
 		return parent::process($request);
 	}
 

@@ -13,7 +13,6 @@ namespace App\Modules\Reports\Views;
  * *********************************************************************************** */
 
 
-use App\Http\Vtiger_Request;
 class Detail  extends \App\Modules\Base\Views\Detail
 {
 
@@ -37,7 +36,8 @@ class Detail  extends \App\Modules\Base\Views\Detail
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
-		// MainLayout.tpl handles rendering, no separate preProcess template needed
+		// Prepare report data and check permissions (will throw exception if denied)
+		$this->prepareReportData($request);
 	}
 
 	protected function prepareReportData(\App\Http\Vtiger_Request $request)
@@ -133,14 +133,12 @@ class Detail  extends \App\Modules\Base\Views\Detail
 		$viewer->assign('REPORT_MODEL', $reportModel);
 		$viewer->assign('RECORD_ID', $recordId);
 		$viewer->assign('COUNT', $this->count);
-		$viewer->assign('MODULE', $moduleName);
+
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		// Prepare report data and check permissions (will throw exception if denied)
-		$this->prepareReportData($request);
-
+		// Data already assigned in preProcess
 		$mode = $request->getMode();
 		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);

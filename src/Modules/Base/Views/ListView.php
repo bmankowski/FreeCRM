@@ -60,7 +60,15 @@ class ListView extends \App\Modules\Base\Views\Index
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
-		// MainLayout handles rendering, no separate preProcess template needed
+		if ($request->isAjax()) {
+			// AJAX requests don't need full page data
+			return;
+		}
+		// Prepare data for non-AJAX (full page) requests
+		$this->assignSidebarData($request);
+		$this->prepareListViewData($request);
+		$viewer = $this->getViewer($request);
+		$viewer->assign('VIEW', $request->get('view'));
 	}
 	
 	protected function prepareListViewData(\App\Http\Vtiger_Request $request)
@@ -94,6 +102,7 @@ class ListView extends \App\Modules\Base\Views\Index
 		$moduleName = $request->getModule();
 		
 		if ($request->isAjax()) {
+			// Keep AJAX assignments here (different data than full page)
 			if (!isset($this->viewName)) {
 				$this->viewName = \App\CustomView::getInstance($moduleName)->getViewId();
 			}
@@ -114,13 +123,9 @@ class ListView extends \App\Modules\Base\Views\Index
 			$viewer->assign('MODULE_NAME', $moduleName);
 			$viewer->assign('MODULE_MODEL', \App\Modules\Base\Models\Module::getInstance($moduleName));
 			$viewer->assign('VIEWID', $this->viewName);
-			// For AJAX requests, render only the contents
 			$viewer->view('ListViewContents.tpl', $moduleName);
 		} else {
-			// For non-AJAX requests, prepare list view data then render full page
-			$this->assignSidebarData($request);
-			$this->prepareListViewData($request);
-			$viewer->assign('VIEW', $request->get('view'));
+			// For non-AJAX requests, just render (data already assigned in preProcess)
 			$viewer->view('ListView.tpl', $moduleName);
 		}
 	}

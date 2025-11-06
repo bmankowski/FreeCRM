@@ -13,7 +13,6 @@ namespace App\Modules\Reports\Views;
  * ********************************************************************************** */
 
 
-use App\Http\Vtiger_Request;
 class ListView extends \App\Modules\Base\Views\Index
 {
 
@@ -32,10 +31,12 @@ class ListView extends \App\Modules\Base\Views\Index
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
-		// MainLayout.tpl handles rendering, no separate preProcess template needed
+		
+		// Prepare Reports list view data
+		$this->prepareReportsListView($request);
 	}
-
-	public function process(\App\Http\Vtiger_Request $request)
+	
+	protected function prepareReportsListView(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -89,6 +90,7 @@ class ListView extends \App\Modules\Base\Views\Index
 		if (!$this->listViewEntries) {
 			$this->listViewEntries = $listViewModel->getListViewEntries($pagingModel);
 		}
+		
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$noOfEntries = count($this->listViewEntries);
 
@@ -121,7 +123,13 @@ class ListView extends \App\Modules\Base\Views\Index
 			$viewer->assign('LISTVIEW_COUNT', $totalCount);
 			$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 		}
+	}
 
+	public function process(\App\Http\Vtiger_Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		$moduleName = $request->getModule();
+		// Data already assigned in preProcess, just render
 		$viewer->view('ListView.tpl', $moduleName);
 	}
 

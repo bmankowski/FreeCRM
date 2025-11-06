@@ -37,7 +37,7 @@ class Index extends \App\Modules\Base\Views\Basic
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
-		// MainLayout handles rendering, no separate preProcess template needed
+		$this->assignSidebarData($request);
 	}
 	
 	protected function assignSidebarData(\App\Http\Vtiger_Request $request)
@@ -78,9 +78,8 @@ class Index extends \App\Modules\Base\Views\Basic
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$this->assignSidebarData($request);
-		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
+		$moduleName = $request->getModule();
 		$viewer->view('Index.tpl', $moduleName);
 	}
 

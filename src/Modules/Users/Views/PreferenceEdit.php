@@ -39,11 +39,8 @@ class PreferenceEdit extends \App\Modules\Base\Views\Edit
 	{
 		// Call parent with false to prevent old-style template rendering
 		parent::preProcess($request, false);
-		// MainLayout handles rendering, no separate preProcess template needed
-	}
-
-	public function process(\App\Http\Vtiger_Request $request)
-	{
+		
+		// Prepare all preference edit data
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 		$viewer = $this->getViewer($request);
@@ -58,7 +55,7 @@ class PreferenceEdit extends \App\Modules\Base\Views\Edit
 		$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Base\Models\RecordStructure::RECORD_STRUCTURE_MODE_EDIT);
 		$dayStartPicklistValues = \App\Modules\Users\Models\Record::getDayStartsPicklistValues($recordStructureInstance->getStructure());
 
-		// Assignments moved from preProcess
+		// Assignments moved from process
 		if ($activeReminder = \App\Module::isModuleActive('Calendar')) {
 			$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 			$activeReminder = $userPrivilegesModel->hasModulePermission('Calendar');
@@ -87,7 +84,11 @@ class PreferenceEdit extends \App\Modules\Base\Views\Edit
 			$viewer->assign('IMAGE_DETAILS', $recordModel->getImageDetails());
 		}
 		$viewer->assign('USER_MODEL', $currentUser);
+	}
 
+	public function process(\App\Http\Vtiger_Request $request)
+	{
+		// Data already assigned in preProcess, just render
 		parent::process($request);
 	}
 }

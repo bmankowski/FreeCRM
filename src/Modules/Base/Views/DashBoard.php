@@ -72,6 +72,23 @@ class DashBoard  extends \App\Modules\Base\Views\Index
 	{
 		parent::preProcess($request, false);
 		$this->assignDashboardData($request);
+		
+		// Assign process data in preProcess for inheritance
+		$viewer = $this->getViewer($request);
+		$moduleName = $request->getModule();
+		$currentDashboard = $request->get('dashboardId');
+		if (empty($currentDashboard)) {
+			$currentDashboard = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDashboard();
+		}
+		$dashBoardModel = \App\Modules\Base\Models\DashBoard::getInstance($moduleName);
+		$dashBoardModel->set('dashboardId', $currentDashboard);
+		//check profile permissions for Dashboards
+		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
+		if ($permission) {
+			$widgets = $dashBoardModel->getDashboards();
+			$viewer->assign('WIDGETS', $widgets);
+		}
 	}
 
 	protected function assignDashboardData(\App\Http\Vtiger_Request $request)
@@ -113,23 +130,7 @@ class DashBoard  extends \App\Modules\Base\Views\Index
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$currentDashboard = $request->get('dashboardId');
-		if (empty($currentDashboard)) {
-			$currentDashboard = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDashboard();
-		}
-		$dashBoardModel = \App\Modules\Base\Models\DashBoard::getInstance($moduleName);
-		$dashBoardModel->set('dashboardId', $currentDashboard);
-		//check profile permissions for Dashboards
-		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
-		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
-		if ($permission) {
-			$widgets = $dashBoardModel->getDashboards();
-		} else {
-			return;
-		}
-
-		$viewer->assign('WIDGETS', $widgets);
-		// Render single template that extends MainLayout
+		// Data already assigned in preProcess, just render
 		$viewer->view('DashBoard.tpl', $moduleName);
 	}
 

@@ -31,7 +31,8 @@ class ChartDetail  extends \App\Modules\Base\Views\Index
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
-		// MainLayout.tpl handles rendering, no separate preProcess template needed
+		// Prepare chart data and check permissions (will throw exception if denied)
+		$this->prepareChartData($request);
 	}
 
 	protected function prepareChartData(\App\Http\Vtiger_Request $request)
@@ -91,9 +92,7 @@ class ChartDetail  extends \App\Modules\Base\Views\Index
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		// Prepare chart data and check permissions (will throw exception if denied)
-		$this->prepareChartData($request);
-
+		// Data already assigned in preProcess
 		$mode = $request->getMode();
 		if (!empty($mode)) {
 			$this->invokeExposedMethod($mode, $request);

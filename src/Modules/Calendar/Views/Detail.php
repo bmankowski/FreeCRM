@@ -21,15 +21,12 @@ class Detail extends \App\Modules\Base\Views\Detail
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
-		// MainLayout handles rendering, no separate preProcess template needed
+		
+		// Prepare all detail view data
+		$this->prepareDetailViewData($request);
 	}
-
-	/**
-	 * Function shows the entire detail for the record
-	 * @param \App\Http\Vtiger_Request $request
-	 * @return <type>
-	 */
-	public function showModuleDetailView(\App\Http\Vtiger_Request $request)
+	
+	protected function prepareDetailViewData(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
@@ -46,14 +43,7 @@ class Detail extends \App\Modules\Base\Views\Detail
 		}
 		$recordModel = $this->record->getRecord();
 		$recordStrucure = \App\Modules\Base\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Base\Models\RecordStructure::RECORD_STRUCTURE_MODE_DETAIL);
-		$summaryInfo = array();
-		// Take first block information as summary information
-		$stucturedValues = $recordStrucure->getStructure();
-		foreach ($stucturedValues as $blockLabel => $fieldList) {
-			$summaryInfo[$blockLabel] = $fieldList;
-			break;
-		}
-
+		
 		$detailViewLinkParams = array('MODULE' => $moduleName, 'RECORD' => $recordId);
 		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
 		$navigationInfo = null; //ListViewSession::getListViewNavigation($recordId);
@@ -128,7 +118,27 @@ class Detail extends \App\Modules\Base\Views\Detail
 		if ($moduleName == 'Events') {
 			$viewer->assign('INVITIES_SELECTED', $recordModel->getInvities());
 		}
+	}
 
+	/**
+	 * Function shows the entire detail for the record
+	 * @param \App\Http\Vtiger_Request $request
+	 * @return <type>
+	 */
+	public function showModuleDetailView(\App\Http\Vtiger_Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		$moduleName = $request->getModule();
+		
+		$recordId = $request->get('record');
+		if (!empty($recordId)) {
+			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId);
+			$activityType = $recordModel->getType();
+			if ($activityType == 'Events')
+				$moduleName = 'Events';
+		}
+		
+		// Data already assigned in preProcess, just render
 		return $viewer->view('DetailViewFullContents.tpl', $moduleName, true);
 	}
 

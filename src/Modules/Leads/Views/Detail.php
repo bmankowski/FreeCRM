@@ -18,14 +18,15 @@ class Detail extends \App\Modules\Base\Views\Detail
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
-		// MainLayout handles rendering, no separate preProcess template needed
+		
+		// Assign Leads-specific data
+		$viewer = $this->getViewer($request);
+		$viewer->assign('CONVERSION_AVAILABLE_STATUS', \App\Json::encode(\App\Modules\Leads\Models\Module::getConversionAvaibleStatuses()));
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$viewer = $this->getViewer($request);
-		$viewer->assign('CONVERSION_AVAILABLE_STATUS', \App\Json::encode(\App\Modules\Leads\Models\Module::getConversionAvaibleStatuses()));
-		
+		// Data already assigned in preProcess, just render
 		parent::process($request);
 	}
 }

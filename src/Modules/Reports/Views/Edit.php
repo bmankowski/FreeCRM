@@ -42,7 +42,8 @@ class Edit extends \App\Modules\Base\Views\Edit
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
-		// MainLayout.tpl handles rendering, no separate preProcess template needed
+		// Prepare data and check permissions (will throw exception if denied)
+		$this->prepareEditData($request);
 	}
 
 	protected function prepareEditData(\App\Http\Vtiger_Request $request)
@@ -74,9 +75,7 @@ class Edit extends \App\Modules\Base\Views\Edit
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		// Prepare data and check permissions (will throw exception if denied)
-		$this->prepareEditData($request);
-
+		// Data already assigned in preProcess
 		$mode = $request->getMode();
 		if (!empty($mode)) {
 			echo $this->invokeExposedMethod($mode, $request);

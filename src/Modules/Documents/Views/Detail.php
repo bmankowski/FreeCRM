@@ -26,11 +26,8 @@ class Detail  extends \App\Modules\Base\Views\Detail
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
-		// MainLayout handles rendering, no separate preProcess template needed
-	}
-
-	public function process(\App\Http\Vtiger_Request $request)
-	{
+		
+		// Assign Documents-specific data
 		$recordId = $request->get('record');
 		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId);
 		$fileType = $recordModel->get('filetype');
@@ -39,7 +36,11 @@ class Detail  extends \App\Modules\Base\Views\Detail
 		$viewer = $this->getViewer($request);
 		$viewer->assign('NO_SUMMARY', true);
 		$viewer->assign('EXTENSION_ICON', $fileIcon);
-		
+	}
+
+	public function process(\App\Http\Vtiger_Request $request)
+	{
+		// Data already assigned in preProcess, just render
 		parent::process($request);
 	}
 

@@ -12,7 +12,6 @@ namespace App\Modules\Rss\Views;
  * ********************************************************************************** */
 
 
-use App\Http\Vtiger_Request;
 class ListView  extends \App\Modules\Base\Views\Index
 {
 
@@ -27,16 +26,20 @@ class ListView  extends \App\Modules\Base\Views\Index
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
-		// MainLayout.tpl handles rendering, no separate preProcess template needed
+		
+		// Prepare Rss list view data
+		$viewer = $this->getViewer($request);
+		$moduleName = $request->getModule();
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
+		$this->initializeListViewContents($request, $viewer);
+		$viewer->assign('MODULE_MODEL', $moduleModel);
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
-		$this->initializeListViewContents($request, $viewer);
-		$viewer->assign('MODULE_MODEL', $moduleModel);
+		// Data already assigned in preProcess, just render
 		$viewer->view('ListView.tpl', $moduleName);
 	}
 
@@ -55,8 +58,10 @@ class ListView  extends \App\Modules\Base\Views\Index
 		$recordId = $request->get('id');
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($module);
 		if ($recordId) {
+			/* @var \App\Modules\Rss\Models\Record $recordInstance */
 			$recordInstance = \App\Modules\Rss\Models\Record::getInstanceById($recordId, $module);
 		} else {
+			/* @var \App\Modules\Rss\Models\Record $recordInstance */
 			$recordInstance = \App\Modules\Rss\Models\Record::getCleanInstance($module);
 			$recordInstance->getDefaultRss();
 			$recordInstance = \App\Modules\Rss\Models\Record::getInstanceById($recordInstance->getId(), $module);
