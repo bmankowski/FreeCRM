@@ -55,7 +55,7 @@ jQuery.Class("Vtiger_EditFieldByModal_Js", {
 								progressIndicatorElement.progressIndicator({'mode': 'hide'});
 							}
 						}
-						if (viewName == 'List') {
+						if (viewName == 'ListView') {
 							var listInstance = new Vtiger_ListView_Js();
 							listInstance.getListViewRecords();
 						}

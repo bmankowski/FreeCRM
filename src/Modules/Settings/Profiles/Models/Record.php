@@ -26,7 +26,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	const PROFILE_FIELD_READWRITE = 2;
 
 	private static $fieldLockedUiTypes = array('70');
-	
+
 	protected $global_permissions;
 	protected $profile_tab_permissions;
 	protected $profile_action_permissions;
@@ -145,8 +145,10 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	{
 		$globalPermissions = $this->getGlobalPermissions();
 		$editAllPermission = $globalPermissions[\App\Modules\Settings\Profiles\Models\Module::GLOBAL_ACTION_EDIT];
-		if ($this->hasGlobalReadPermission() &&
-			$editAllPermission == \App\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE) {
+		if (
+			$this->hasGlobalReadPermission() &&
+			$editAllPermission == \App\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE
+		) {
 			return true;
 		}
 		return false;
@@ -291,8 +293,8 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			$profile2TabFieldPermissions = [];
 			if ($this->getId()) {
 				$dataReader = (new \App\Db\Query())->from('vtiger_profile2field')
-						->where(['profileid' => $this->getId(), 'tabid' => $tabId])
-						->createCommand()->query();
+					->where(['profileid' => $this->getId(), 'tabid' => $tabId])
+					->createCommand()->query();
 				while ($row = $dataReader->read()) {
 					$fieldId = $row['fieldid'];
 					$visible = $row['visible'];
@@ -836,7 +838,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	{
 		$php_max_execution_time = vglobal('php_max_execution_time');
 		set_time_limit($php_max_execution_time);
-		 
+
 
 		$userIdsList = self::getUsersList($this->getId());
 		if ($userIdsList) {

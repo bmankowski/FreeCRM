@@ -265,15 +265,18 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 	},
 	getInstanceByView: function () {
 		var viewName = app.getViewName();
+		console.log('ListSearch.js UPDATED VERSION LOADED - viewName:', viewName);
 		var instance = false;
 		if (viewName === 'Detail') {
 			instance = Vtiger_Detail_Js.getInstance();
 			instance.reloadFunctionName = 'loadRelatedList';
-		} else if (viewName == 'List') {
+		} else if (viewName == 'ListView') {
+			console.log('ListView condition matched! Creating instance.');
 			instance = new Vtiger_ListView_Js();
 			instance.reloadFunctionName = 'getListViewRecords';
 			instance.execute = ['updatePagination'];
 		}
+		console.log('Returning instance:', instance);
 		return instance;
 	},
 	reloadList: function (params) {

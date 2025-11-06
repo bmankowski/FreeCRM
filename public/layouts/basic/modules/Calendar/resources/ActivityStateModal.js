@@ -87,7 +87,7 @@ jQuery.Class("Calendar_ActivityStateModal_Js", {}, {
 								}
 							}
 						}
-						if (viewName == 'List') {
+						if (viewName == 'ListView') {
 							var listinstance = new Vtiger_ListView_Js();
 							listinstance.getListViewRecords();
 						}

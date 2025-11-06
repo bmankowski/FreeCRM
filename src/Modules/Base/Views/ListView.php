@@ -122,6 +122,7 @@ class ListView extends \App\Modules\Base\Views\Index
 				}
 			}
 
+			$this->prepareAjaxListViewData($request);
 			$viewer->view('ListViewContents.tpl', $moduleName);
 		} else {
 			// For non-AJAX requests, just render (data already assigned in preProcess)
