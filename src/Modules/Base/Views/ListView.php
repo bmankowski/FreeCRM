@@ -80,7 +80,6 @@ class ListView extends \App\Modules\Base\Views\Index
 		$this->initializeListViewContents($request, $viewer);
 
 		// Assign all viewer data at the end
-		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('CUSTOM_VIEWS', \App\Modules\CustomView\Models\Record::getAllByGroup($moduleName, $mid));
 		$viewer->assign('HEADER_LINKS', $this->listViewModel->getHederLinks($linkParams));
 		$viewer->assign('VIEWID', $this->viewName);
@@ -141,6 +140,7 @@ class ListView extends \App\Modules\Base\Views\Index
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
+			'modules.Base.resources.Vtiger',
 			'modules.Base.resources.ListView',
 			"modules.$moduleName.resources.ListView",
 			'~libraries/jquery/colorpicker/js/colorpicker.js',

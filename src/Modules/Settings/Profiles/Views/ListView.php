@@ -15,28 +15,6 @@ namespace App\Modules\Settings\Profiles\Views;
 class ListView extends \App\Modules\Settings\Base\Views\ListView
 {
 
-	public function getBreadcrumbTitle(\App\Http\Vtiger_Request $request)
-	{
-		$moduleName = $request->getModule();
-		return \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_LIST', $moduleName);
-	}
-
-	public function process(\App\Http\Vtiger_Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$qualifiedModuleName = $request->getModule(false);
-		
-		// Initialize list view using parent method
-		$this->initializeListViewContents($request, $viewer);
-		
-		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('MODULE', $request->getModule());
-		$viewer->assign('USER_MODEL', $request->getUser());
-		$viewer->assign('ALL_RECORDS', \App\Modules\Settings\Profiles\Models\Record::getAll());
-
-		$viewer->view('ListView.tpl', $qualifiedModuleName);
-	}
-
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Http\Vtiger_Request $request

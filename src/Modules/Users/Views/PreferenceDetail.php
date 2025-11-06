@@ -55,29 +55,10 @@ class PreferenceDetail extends \App\Modules\Base\Views\Detail
 		$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceFromRecordModel($recordModel, \App\Modules\Base\Models\RecordStructure::RECORD_STRUCTURE_MODE_EDIT);
 		$dayStartPicklistValues = \App\Modules\Users\Models\Record::getDayStartsPicklistValues($recordStructureInstance->getStructure());
 		
-		// Assignments moved from process
-		if ($activeReminder = \App\Module::isModuleActive('Calendar')) {
-			$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
-			$activeReminder = $userPrivilegesModel->hasModulePermission('Calendar');
-		}
-		$selectedModule = $request->getModule();
-		$currentDate = \App\Modules\Base\UiTypes\Date::getDisplayDateValue(date('Y-n-j'));
-		$viewer->assign('CURRENTDATE', $currentDate);
-		$viewer->assign('MODULE', $selectedModule);
-		$viewer->assign('MODULE_NAME', $selectedModule);
-		$viewer->assign('QUALIFIED_MODULE', $selectedModule);
-		$viewer->assign('PARENT_MODULE', $request->get('parent'));
+		// Unique assignments for PreferenceDetail
+		$viewer->assign('QUALIFIED_MODULE', $moduleName);
 		$viewer->assign('MENUS', \App\Modules\Base\Models\Menu::getAll(true));
-		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('USER_MODEL', $currentUser);
-
-		$homeModuleModel = \App\Modules\Base\Models\Module::getInstance('Home');
-		$viewer->assign('HOME_MODULE_MODEL', $homeModuleModel);
-		$viewer->assign('MENU_HEADER_LINKS', $this->getMenuHeaderLinks($request));
-		$viewer->assign('SEARCHABLE_MODULES', \App\Modules\Base\Models\Module::getSearchableModules());
-		$viewer->assign('CHAT_ACTIVE', \App\Module::isModuleActive('AJAXChat'));
-		$viewer->assign('REMINDER_ACTIVE', $activeReminder);
-		$viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
 
 		// Detail view specific assignments
 		$detailViewModel = \App\Modules\Base\Models\DetailView::getInstance($moduleName, $recordId);

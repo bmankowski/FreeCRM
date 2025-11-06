@@ -91,7 +91,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 			$title .= ' - ' . $pageTitle;
 		}
 
-		return $title;
+		return $this->pageTitle = $title;
 	}
 
 	public function getBreadcrumbTitle(\App\Http\Vtiger_Request $vtigerRequest)
@@ -99,7 +99,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 		if (!empty($this->pageTitle)) {
 			return $this->pageTitle;
 		}
-		return 0;
+		return "";
 	}
 	protected function getBreadcrumbsSeparator()
 	{
