@@ -28,9 +28,9 @@ class Save extends \App\Base\Controllers\BaseActionController
 		$recordId = $request->get('record');
 
 		if (!empty($recordId)) {
-			$recordModel = \App\Modules\Settings\Profiles\Model\Record::getInstanceById($recordId);
+			$recordModel = \App\Modules\Settings\Profiles\Models\Record::getInstanceById($recordId);
 		} else {
-			$recordModel = new \App\Modules\Settings\Profiles\Model\Record();
+			$recordModel = new \App\Modules\Settings\Profiles\Models\Record();
 		}
 		if ($recordModel) {
 			$recordModel->set('profilename', $request->get('profilename'));

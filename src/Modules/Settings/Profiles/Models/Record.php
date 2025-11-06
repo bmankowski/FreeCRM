@@ -26,6 +26,13 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	const PROFILE_FIELD_READWRITE = 2;
 
 	private static $fieldLockedUiTypes = array('70');
+	
+	protected $global_permissions;
+	protected $profile_tab_permissions;
+	protected $profile_action_permissions;
+	protected $profile_utility_permissions;
+	protected $profile_tab_field_permissions;
+	protected $module_permissions;
 
 	/**
 	 * Function to get the Id
@@ -494,11 +501,11 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 						$moduleFields = $moduleModel->getFields();
 						foreach ($moduleFields as $fieldModel) {
 							if ($fieldModel->isWritable()) {
-								$permissions['fields'][$fieldModel->getId()] = \App\Modules\Settings\Profiles\Model\Record::PROFILE_FIELD_READWRITE;
+								$permissions['fields'][$fieldModel->getId()] = \App\Modules\Settings\Profiles\Models\Record::PROFILE_FIELD_READWRITE;
 							} elseif ($fieldModel->isViewEnabled()) {
-								$permissions['fields'][$fieldModel->getId()] = \App\Modules\Settings\Profiles\Model\Record::PROFILE_FIELD_READONLY;
+								$permissions['fields'][$fieldModel->getId()] = \App\Modules\Settings\Profiles\Models\Record::PROFILE_FIELD_READONLY;
 							} else {
-								$permissions['fields'][$fieldModel->getId()] = \App\Modules\Settings\Profiles\Model\Record::PROFILE_FIELD_INACTIVE;
+								$permissions['fields'][$fieldModel->getId()] = \App\Modules\Settings\Profiles\Models\Record::PROFILE_FIELD_INACTIVE;
 							}
 						}
 					}
@@ -646,10 +653,10 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 				foreach ($permissions['fields'] as $fieldId => $stateValue) {
 					$adb->createCommand()->delete('vtiger_profile2field', ['profileid' => $profileId, 'tabid' => $tabId, 'fieldid' => $fieldId])
 						->execute();
-					if ($stateValue == \App\Modules\Settings\Profiles\Model\Record::PROFILE_FIELD_INACTIVE) {
+					if ($stateValue == \App\Modules\Settings\Profiles\Models\Record::PROFILE_FIELD_INACTIVE) {
 						$visible = \App\Modules\Settings\Profiles\Models\Module::FIELD_INACTIVE;
 						$readOnly = \App\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE;
-					} elseif ($stateValue == \App\Modules\Settings\Profiles\Model\Record::PROFILE_FIELD_READONLY) {
+					} elseif ($stateValue == \App\Modules\Settings\Profiles\Models\Record::PROFILE_FIELD_READONLY) {
 						$visible = \App\Modules\Settings\Profiles\Models\Module::FIELD_ACTIVE;
 						$readOnly = \App\Modules\Settings\Profiles\Models\Module::FIELD_READONLY;
 					} else {
@@ -716,7 +723,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	/**
 	 * Function to get all the profiles linked to the given role
 	 * @param string - $roleId
-	 * @return <Array> - Array of \App\Modules\Settings\Profiles\Model\Record instances
+	 * @return <Array> - Array of \App\Modules\Settings\Profiles\Models\Record instances
 	 */
 	public static function getAllByRole($roleId)
 	{
@@ -741,7 +748,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to get all the profiles
-	 * @return <Array> - Array of \App\Modules\Settings\Profiles\Model\Record instances
+	 * @return <Array> - Array of \App\Modules\Settings\Profiles\Models\Record instances
 	 */
 	public static function getAll()
 	{
@@ -760,7 +767,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	/**
 	 * Function to get the instance of Profile model, given profile id
 	 * @param <Integer> $profileId
-	 * @return \App\Modules\Settings\Profiles\Model\Record instance, if exists. Null otherwise
+	 * @return \App\Modules\Settings\Profiles\Models\Record instance, if exists. Null otherwise
 	 */
 	public static function getInstanceById($profileId)
 	{

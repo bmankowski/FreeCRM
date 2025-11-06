@@ -33,6 +33,7 @@ class Module extends \vtlib\Module
 	protected $relations = null;
 	protected $moduleType = '0';
 	protected $entityInstance;
+	protected $permissions;
 
 	/**
 	 * Function to get the Module/Tab id

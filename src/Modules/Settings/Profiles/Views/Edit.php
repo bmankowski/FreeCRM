@@ -20,7 +20,7 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 	{
 		$moduleName = $request->getModule();
 		if ($request->get('record')) {
-			$recordModel = \App\Modules\Settings\Profiles\Model\Record::getInstanceById($request->get('record'));
+			$recordModel = \App\Modules\Settings\Profiles\Models\Record::getInstanceById($request->get('record'));
 			$title = $recordModel->getName();
 		} else {
 			$title = \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_EDIT', $moduleName);
@@ -46,17 +46,17 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 		$fromRecord = $request->get('from_record');
 
 		if (!empty($record)) {
-			$recordModel = \App\Modules\Settings\Profiles\Model\Record::getInstanceById($record);
+			$recordModel = \App\Modules\Settings\Profiles\Models\Record::getInstanceById($record);
 			$viewer->assign('MODE', 'edit');
 		} elseif (!empty($fromRecord)) {
-			$recordModel = \App\Modules\Settings\Profiles\Model\Record::getInstanceById($fromRecord);
+			$recordModel = \App\Modules\Settings\Profiles\Models\Record::getInstanceById($fromRecord);
 			$recordModel->getModulePermissions();
 			$recordModel->getGlobalPermissions();
 			$recordModel->set('profileid', '');
 			$viewer->assign('MODE', '');
 			$viewer->assign('IS_DUPLICATE_RECORD', $fromRecord);
 		} else {
-			$recordModel = new \App\Modules\Settings\Profiles\Model\Record();
+			$recordModel = new \App\Modules\Settings\Profiles\Models\Record();
 			$viewer->assign('MODE', '');
 		}
 		$viewer->assign('ALL_PROFILES', $recordModel->getAll());
@@ -81,7 +81,7 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 
 		$jsFileNames = array(
 			'modules.Settings.Vtiger.resources.Edit',
-			"modules.Settings.$moduleName.resources.Edit"
+			"modules.Settings.$moduleName.resources.Profiles"
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

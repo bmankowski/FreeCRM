@@ -183,8 +183,6 @@
 															</div>
 														{/if}
 													</div>
-													</ul>
-													</div>
 												</td>
 											</tr>
 										{/if}
@@ -239,4 +237,7 @@
 				</form>
 			</div>
 <!--/layouts/basic/modules/Settings/Profiles/EditView.tpl -->
-			{/strip}
+		</div>
+	</div>
+{/block}
+{/strip}

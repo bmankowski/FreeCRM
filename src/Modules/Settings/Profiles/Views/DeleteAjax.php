@@ -23,11 +23,11 @@ class DeleteAjax extends \App\Modules\Settings\Profiles\Views\IndexAjax
 		$qualifiedModuleName = $request->getModule(false);
 		$recordId = $request->get('record');
 
-		$recordModel = \App\Modules\Settings\Profiles\Model\Record::getInstanceById($recordId);
+		$recordModel = \App\Modules\Settings\Profiles\Models\Record::getInstanceById($recordId);
 
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('ALL_RECORDS', \App\Modules\Settings\Profiles\Model\Record::getAll());
+		$viewer->assign('ALL_RECORDS', \App\Modules\Settings\Profiles\Models\Record::getAll());
 		$viewer->assign('RECORD_MODEL', $recordModel);
 
 		echo $viewer->view('DeleteTransferForm.tpl', $qualifiedModuleName, true);

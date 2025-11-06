@@ -23,8 +23,8 @@ class Delete extends \App\Modules\Settings\Base\Actions\Basic
 		$transferRecordId = $request->get('transfer_record');
 
 		$moduleModel = \App\Modules\Settings\Base\Models\Module::getInstance($qualifiedModuleName);
-		$recordModel = \App\Modules\Settings\Profiles\Model\Record::getInstanceById($recordId);
-		$transferToProfile = \App\Modules\Settings\Profiles\Model\Record::getInstanceById($transferRecordId);
+		$recordModel = \App\Modules\Settings\Profiles\Models\Record::getInstanceById($recordId);
+		$transferToProfile = \App\Modules\Settings\Profiles\Models\Record::getInstanceById($transferRecordId);
 		if ($recordModel && $transferToProfile) {
 			$recordModel->delete($transferToProfile);
 		}
