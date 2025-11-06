@@ -73,7 +73,7 @@ class Save extends \App\Base\Controllers\BaseActionController
 			//After role updation recreating user privilege files
 			if ($roleProfiles) {
 				foreach ($roleProfiles as $profileId) {
-					$profileRecordModel = \App\Modules\Settings\Profiles\Model\Record::getInstanceById($profileId);
+					$profileRecordModel = \App\Modules\Settings\Profiles\Models\Record::getInstanceById($profileId);
 					$profileRecordModel->recalculate(array($recordId));
 				}
 			}

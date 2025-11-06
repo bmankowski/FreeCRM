@@ -251,12 +251,12 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to get all the profiles associated with the current role
-	 * @return <Array> \App\Modules\Settings\Profiles\Model\Record instances
+	 * @return <Array> \App\Modules\Settings\Profiles\Models\Record instances
 	 */
 	public function getProfiles()
 	{
 		if (!isset($this->profiles)) {
-			$this->profiles = \App\Modules\Settings\Profiles\Model\Record::getAllByRole($this->getId());
+			$this->profiles = \App\Modules\Settings\Profiles\Models\Record::getAllByRole($this->getId());
 		}
 		return $this->profiles;
 	}

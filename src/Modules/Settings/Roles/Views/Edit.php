@@ -41,7 +41,7 @@ class Edit extends \App\Modules\Settings\Roles\Views\Index
 		}
 
 		$viewer->assign('PROFILE_DIRECTLY_RELATED_TO_ROLE', $roleDirectlyRelated);
-		$viewer->assign('ALL_PROFILES', \App\Modules\Settings\Profiles\Model\Record::getAll());
+		$viewer->assign('ALL_PROFILES', \App\Modules\Settings\Profiles\Models\Record::getAll());
 		$viewer->assign('ROLE_USERS', $recordModel->getUsers());
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('RECORD_ID', $record);

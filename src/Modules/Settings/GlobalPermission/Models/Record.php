@@ -68,7 +68,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		$php_max_execution_time = vglobal('php_max_execution_time');
 		set_time_limit($php_max_execution_time);
 		 
-		$userIdsList = \App\Modules\Settings\Profiles\Model\Record::getUsersList();
+		$userIdsList = \App\Modules\Settings\Profiles\Models\Record::getUsersList();
 		if ($userIdsList) {
 			foreach ($userIdsList as $userId) {
 				\App\Modules\Users\Services\PrivilegeFileManager::createUserPrivilegesFile($userId);

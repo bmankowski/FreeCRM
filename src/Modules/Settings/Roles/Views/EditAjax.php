@@ -33,7 +33,7 @@ class EditAjax extends \App\Modules\Settings\Roles\Views\IndexAjax
 			$viewer->assign('MODE', '');
 		}
 
-		$viewer->assign('ALL_PROFILES', \App\Modules\Settings\Profiles\Model\Record::getAll());
+		$viewer->assign('ALL_PROFILES', \App\Modules\Settings\Profiles\Models\Record::getAll());
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
