@@ -211,3 +211,4 @@ Apply this rule when working with database schemas.
 6. **Document**: Add descriptions to help AI and team understand rule purpose
 
 
+

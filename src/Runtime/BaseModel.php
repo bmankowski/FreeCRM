@@ -31,7 +31,7 @@ class BaseModel
 	/**
 	 * Function to get the value for a given key
 	 * @param $key
-	 * @return Value for the given key
+	 * @return mixed for the given key
 	 */
 	public function get($key)
 	{
@@ -42,7 +42,7 @@ class BaseModel
 	 * Function to get the value if its safe to use for SQL Query (column).
 	 * @param string $key
 	 * @param boolean $skipEmpty - Skip the check if string is empty
-	 * @return Value for the given key
+	 * @return mixed for the given key
 	 */
 	public function getForSql($key, $skipEmtpy = true)
 	{

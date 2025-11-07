@@ -87,3 +87,4 @@ $aliasMap = [
     'Settings_CurrencyUpdate_AbstractBank_Model' => 'App\Modules\Settings\CurrencyUpdate\Models\AbstractBank',
     'Settings_Github_Client_Model' => 'App\Modules\Settings\Github\Models\Client',
     'Settings_ApiAddress_Module_Model' => 'App\Modules\Settings\ApiAddress\Models\Module',
+];

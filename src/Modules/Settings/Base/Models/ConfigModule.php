@@ -1,9 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\Base\Models;
-use App\Modules\Settings\Base\Models\MenuItem;
-use App\Modules\Settings\Base\Models\ConfigModule;
-
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0

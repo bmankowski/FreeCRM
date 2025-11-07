@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\Base\Models;
-use App\Modules\Settings\Base\Models\Menu;
 
 
 /* +***********************************************************************************
@@ -183,9 +182,9 @@ class MenuItem extends \App\Modules\Base\Models\Record
 	 * Function to get the instance of the Menu Item model, given name and Menu instance
 	 * @param string $name
 	 * @param <\App\Modules\Settings\Base\Models\Menu> $menuModel
-	 * @return \App\Modules\Settings\Base\Models\MenuItem instance
+	 * @return ?\App\Modules\Settings\Base\Models\MenuItem instance
 	 */
-	public static function getInstance($name, $menuModel = false)
+	public static function getInstance($name, $menuModel)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
 
@@ -208,16 +207,16 @@ class MenuItem extends \App\Modules\Base\Models\Record
 			}
 			return $menuItem;
 		}
-		return false;
+		return null;
 	}
 
 	/**
 	 * Function to get the instance of the Menu Item model, given item id and Menu instance
 	 * @param string $name
 	 * @param <\App\Modules\Settings\Base\Models\Menu> $menuModel
-	 * @return \App\Modules\Settings\Base\Models\MenuItem instance
+	 * @return ?\App\Modules\Settings\Base\Models\MenuItem instance
 	 */
-	public static function getInstanceById($id, $menuModel = false)
+	public static function getInstanceById($id, $menuModel=null)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
 
@@ -240,7 +239,7 @@ class MenuItem extends \App\Modules\Base\Models\Record
 			}
 			return $menuItem;
 		}
-		return false;
+		return null;
 	}
 
 	/**

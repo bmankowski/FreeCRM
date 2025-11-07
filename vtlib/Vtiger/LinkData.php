@@ -37,8 +37,6 @@ class LinkData
 		if (isset($this->input[$name])) {
 			return $this->input[$name];
 		}
-		// Fallback during migration - will be removed once all callers updated
-		return \App\Http\$request->get($name);
 	}
 
 	/**

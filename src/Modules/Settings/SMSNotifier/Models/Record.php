@@ -1,9 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\SMSNotifier\Models;
-use App\Modules\Settings\SMSNotifierModels\Record;
-use App\Modules\Settings\SMSNotifierModels\Module;
-use App\Modules\Settings\SMSNotifierModels\Field;
 
 
 /* +***********************************************************************************
@@ -18,6 +15,8 @@ use App\Modules\Settings\SMSNotifierModels\Field;
 class Record extends \App\Modules\Settings\Base\Models\Record
 {
 
+	protected $module;
+	
 	/**
 	 * Function to get Id of this record instance
 	 * @return <Integer> Id
@@ -155,7 +154,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 * Function to get record instance by using id and moduleName
 	 * @param int $recordId
 	 * @param string $qualifiedModuleName
-	 * @return \App\Modules\Settings\SMSNotifier\Models\Record RecordModel
+	 * @return ?\App\Modules\Settings\SMSNotifier\Models\Record RecordModel
 	 */
 	static public function getInstanceById($recordId, $qualifiedModuleName)
 	{
@@ -167,7 +166,8 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			$rowData = $db->query_result_rowdata($result, 0);
 
 			$recordModel = new self();
-			$recordModel->setData($rowData)->setModule($moduleModel);
+			$recordModel->setData($rowData);
+			$recordModel->setModule($moduleModel);
 
 			$parameters = \App\Json::decode(\App\Utils\ListViewUtils::decodeHtml($recordModel->get('parameters')));
 			foreach ($parameters as $fieldName => $fieldValue) {
@@ -176,7 +176,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 			return $recordModel;
 		}
-		return false;
+		return null;
 	}
 
 	/**

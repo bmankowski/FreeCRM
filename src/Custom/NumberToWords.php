@@ -137,7 +137,7 @@ class NumberToWords
 
 		$return = '';
 
-		if ($in{0} == '-') {
+		if (isset($in[0]) && $in[0] === '-') {
 			$in = substr($in, 1);
 			$return = self::$words[0] . ' ';
 		}

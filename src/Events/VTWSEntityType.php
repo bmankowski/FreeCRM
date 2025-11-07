@@ -11,11 +11,6 @@
 namespace App\Events;
 
 use Exception;
-use ReflectionObject;
-
- */
-
-
 
 class VTWSEntityType
 {
@@ -49,7 +44,7 @@ class VTWSEntityType
 	function usingGlobalCurrentUser($entityTypeName)
 	{
 		$currentUser = \App\User\CurrentUser::get('current_user');
-		return new VTWSEntityType($entityTypeName, $current_user);
+		return new VTWSEntityType($entityTypeName, $currentUser);
 	}
 
 	function forUser($entityTypeName, $user)

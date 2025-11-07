@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\Mail\Views;
-use App\Modules\Settings\MailModels\Autologin;
 
 
 /* +***********************************************************************************************************************************
