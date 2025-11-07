@@ -20,7 +20,7 @@ return array(
     'Doctrine\\Deprecations\\' => array($vendorDir . '/doctrine/deprecations/src'),
     'Doctrine\\Common\\Collections\\' => array($vendorDir . '/doctrine/collections/lib/Doctrine/Common/Collections'),
     'DebugBar\\' => array($vendorDir . '/php-debugbar/src/DebugBar'),
+    'App\\Api\\' => array($baseDir . '/src/Api'),
     'App\\' => array($baseDir . '/src'),
-    'Api\\' => array($baseDir . '/api/webservice'),
     'Antlr\\Antlr4\\Runtime\\' => array($vendorDir . '/antlr/antlr4-php-runtime/src'),
 );

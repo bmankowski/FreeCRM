@@ -1,5 +1,5 @@
 <?php
-namespace Api\Webservice;
+namespace App\Api\Webservice;
 
 /**
  * Base class to handle communication via web services
@@ -105,16 +105,16 @@ class Controller
 		$action = $this->request->get('action');
 		$module = $this->request->get('module');
 		if ($module) {
-			$className = "Api\\$type\\$module\\$action";
+			$className = "App\Api\\$type\\$module\\$action";
 			if (class_exists($className)) {
 				return $className;
 			};
-			$className = "Api\\$type\\BaseModule\\$action";
+			$className = "App\Api\\$type\\BaseModule\\$action";
 			if (class_exists($className)) {
 				return $className;
 			}
 		}
-		$className = "Api\\$type\\BaseAction\\$action";
+		$className = "App\Api\\$type\\BaseAction\\$action";
 		if (!$module && class_exists($className)) {
 			return $className;
 		}

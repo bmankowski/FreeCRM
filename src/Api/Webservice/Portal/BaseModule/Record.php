@@ -1,5 +1,5 @@
 <?php
-namespace Api\Portal\BaseModule;
+namespace App\Api\Portal\BaseModule;
 
 /**
  * Get record detail class
@@ -8,7 +8,7 @@ namespace Api\Portal\BaseModule;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class Record extends \Api\Core\BaseAction
+class Record extends \App\Api\Core\BaseAction
 {
 
 	/** @var string[] Allowed request methods */
@@ -23,7 +23,7 @@ class Record extends \Api\Core\BaseAction
 	/**
 	 * Check permission to method
 	 * @return boolean
-	 * @throws \Api\Core\Exception
+	 * @throws \App\Api\Core\Exception
 	 */
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
@@ -33,28 +33,28 @@ class Record extends \Api\Core\BaseAction
 		if ('POST' === $method) {
 			$this->recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
 			if (!$this->recordModel->isCreateable()) {
-				throw new \Api\Core\Exception('No permissions to create record', 401);
+				throw new \App\Api\Core\Exception('No permissions to create record', 401);
 			}
 		} else {
 			$record = $this->controller->request->get('record');
 			if (!$record || !\App\Record::isExists($record, $moduleName)) {
-				throw new \Api\Core\Exception('Record doesn\'t exist', 401);
+				throw new \App\Api\Core\Exception('Record doesn\'t exist', 401);
 			}
 			$this->recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
 			switch ($method) {
 				case 'DELETE':
 					if (!$this->recordModel->isDeletable()) {
-						throw new \Api\Core\Exception('No permissions to remove record', 401);
+						throw new \App\Api\Core\Exception('No permissions to remove record', 401);
 					}
 					break;
 				case 'GET':
 					if (!$this->recordModel->isViewable()) {
-						throw new \Api\Core\Exception('No permissions to view record', 401);
+						throw new \App\Api\Core\Exception('No permissions to view record', 401);
 					}
 					break;
 				case 'PUT':
 					if (!$this->recordModel->isEditable()) {
-						throw new \Api\Core\Exception('No permissions to edit record', 401);
+						throw new \App\Api\Core\Exception('No permissions to edit record', 401);
 					}
 					break;
 				default:

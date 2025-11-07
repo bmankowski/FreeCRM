@@ -65,9 +65,9 @@ return RectorConfig::configure()
             // Order matters: most specific paths first
             'include/exceptions/' => 'Exception\\',
             'include/' => 'includes\\',
+            'src/Api/' => 'App\\Api\\',
             'src/' => 'App\\',
             'vtlib/Vtiger/' => 'vtlib\\',
-            'api/webservice/' => 'Api\\',
         ]
     ])
     

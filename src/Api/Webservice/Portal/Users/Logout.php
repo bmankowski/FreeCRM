@@ -1,5 +1,5 @@
 <?php
-namespace Api\Portal\Users;
+namespace App\Api\Portal\Users;
 
 /**
  * Users logout action class
@@ -7,7 +7,7 @@ namespace Api\Portal\Users;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Logout extends \Api\Core\BaseAction
+class Logout extends \App\Api\Core\BaseAction
 {
 
 	/** @var string[] Allowed request methods */
@@ -15,7 +15,7 @@ class Logout extends \Api\Core\BaseAction
 
 	/**
 	 * Check permission to module
-	 * @throws \Api\Core\Exception
+	 * @throws \App\Api\Core\Exception
 	 */
 	public function checkPermissionToModule()
 	{

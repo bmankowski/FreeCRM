@@ -1,5 +1,5 @@
 <?php
-namespace Api\Portal\BaseModule;
+namespace App\Api\Portal\BaseModule;
 
 /**
  * Get Privileges class
@@ -10,7 +10,7 @@ namespace Api\Portal\BaseModule;
  */
 
 use App\Modules\Vtiger\Models\Action as Vtiger_Action_Model;
-class Privileges extends \Api\Core\BaseAction
+class Privileges extends \App\Api\Core\BaseAction
 {
 
 	/** @var string[] Allowed request methods */

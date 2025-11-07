@@ -1,5 +1,5 @@
 <?php
-namespace Api\Portal\BaseModule;
+namespace App\Api\Portal\BaseModule;
 
 /**
  * Records hierarchy action class
@@ -7,7 +7,7 @@ namespace Api\Portal\BaseModule;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Hierarchy extends \Api\Core\BaseAction
+class Hierarchy extends \App\Api\Core\BaseAction
 {
 
 	/** @var string[] Allowed request methods */
@@ -29,13 +29,13 @@ class Hierarchy extends \Api\Core\BaseAction
 	/**
 	 * Check permission to method
 	 * @return boolean
-	 * @throws \Api\Core\Exception
+	 * @throws \App\Api\Core\Exception
 	 */
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$return = parent::checkPermission();
 		if ($this->getPermissionType() === 1) {
-			throw new \Api\Core\Exception('Not available for this type of user', 405);
+			throw new \App\Api\Core\Exception('Not available for this type of user', 405);
 		}
 		$this->moduleName = $this->controller->request->get('module');
 		return $return;
@@ -51,7 +51,7 @@ class Hierarchy extends \Api\Core\BaseAction
 		if ($this->getPermissionType() > 2) {
 			$fields = \App\Field::getRelatedFieldForModule($this->moduleName);
 			if (!isset($fields[$this->moduleName])) {
-				throw new \Api\Core\Exception('No hierarchy', 405);
+				throw new \App\Api\Core\Exception('No hierarchy', 405);
 			}
 			$field = $fields[$this->moduleName];
 			$entityFieldInfo = \App\Module::getEntityInfo($this->moduleName);

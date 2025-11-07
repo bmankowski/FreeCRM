@@ -1,4 +1,5 @@
 <?php
+namespace App\Api\Core\Auth;
 
 /**
  * Digest Authorization class

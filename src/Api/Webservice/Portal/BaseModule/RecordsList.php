@@ -1,5 +1,5 @@
 <?php
-namespace Api\Portal\BaseModule;
+namespace App\Api\Portal\BaseModule;
 
 /**
  * Get record list class
@@ -7,7 +7,7 @@ namespace Api\Portal\BaseModule;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class RecordsList extends \Api\Core\BaseAction
+class RecordsList extends \App\Api\Core\BaseAction
 {
 
 	/** @var string[] Allowed request methods */
@@ -49,7 +49,7 @@ class RecordsList extends \Api\Core\BaseAction
 	/**
 	 * Get query record list
 	 * @return \App\QueryGenerator
-	 * @throws \Api\Core\Exception
+	 * @throws \App\Api\Core\Exception
 	 */
 	public function getQuery()
 	{
@@ -78,7 +78,7 @@ class RecordsList extends \Api\Core\BaseAction
 	/**
 	 * Get query by parent record
 	 * @param \App\QueryGenerator $queryGenerator
-	 * @throws \Api\Core\Exception
+	 * @throws \App\Api\Core\Exception
 	 */
 	public function getQueryByParentRecord(\App\QueryGenerator $queryGenerator)
 	{
@@ -111,7 +111,7 @@ class RecordsList extends \Api\Core\BaseAction
 			}
 		}
 		if (!$foundField) {
-			throw new \Api\Core\Exception('Invalid module, no relationship', 400);
+			throw new \App\Api\Core\Exception('Invalid module, no relationship', 400);
 		}
 	}
 }

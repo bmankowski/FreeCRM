@@ -66,8 +66,8 @@ class ComposerStaticInitYT
         ),
         'A' => 
         array (
+            'App\\Api\\' => 8,
             'App\\' => 4,
-            'Api\\' => 4,
             'Antlr\\Antlr4\\Runtime\\' => 21,
         ),
     );
@@ -129,13 +129,13 @@ class ComposerStaticInitYT
         array (
             0 => __DIR__ . '/..' . '/php-debugbar/src/DebugBar',
         ),
+        'App\\Api\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/Api',
+        ),
         'App\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
-        ),
-        'Api\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/api/webservice',
         ),
         'Antlr\\Antlr4\\Runtime\\' => 
         array (

@@ -790,7 +790,7 @@ update_composer() {
 			"vtlib\\": "vtlib/Vtiger/",
 			"includes\\": "include/",
 			"App\\": "vendor/yetiforce/",
-			"Api\\": "api/webservice/",
+			"App\\Api\\": "src/Api/",
 			"Exception\\": "include/exceptions/",
 			"DebugBar\\": "vendor/php-debugbar/src/DebugBar/",
 			"Vtiger\\Core\\": "include/core/",

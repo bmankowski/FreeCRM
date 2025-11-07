@@ -1,5 +1,5 @@
 <?php
-namespace Api\Core;
+namespace App\Api\Core;
 
 /**
  * Web service response class 

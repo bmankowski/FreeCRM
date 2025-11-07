@@ -1,5 +1,5 @@
 <?php
-namespace Api\Portal\BaseModule;
+namespace App\Api\Portal\BaseModule;
 
 /**
  * Get fields class
@@ -7,7 +7,7 @@ namespace Api\Portal\BaseModule;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Fields extends \Api\Core\BaseAction
+class Fields extends \App\Api\Core\BaseAction
 {
 
 	/** @var string[] Allowed request methods */

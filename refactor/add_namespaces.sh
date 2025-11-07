@@ -45,14 +45,14 @@ get_namespace() {
             namespace="vtlib\\\\${dirpath//\//\\\\}"
         fi
         
-    elif [[ "$filepath" =~ ^api/webservice/ ]]; then
-        local subpath="${filepath#api/webservice/}"
+    elif [[ "$filepath" =~ ^src/Api/ ]]; then
+        local subpath="${filepath#src/Api/}"
         local dirpath=$(dirname "$subpath")
         
         if [ "$dirpath" = "." ]; then
-            namespace="Api"
+            namespace="App\\Api"
         else
-            namespace="Api\\\\${dirpath//\//\\\\}"
+            namespace="App\\Api\\${dirpath//\//\\}"
         fi
     fi
     

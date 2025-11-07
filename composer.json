@@ -65,8 +65,8 @@
 	"autoload": {
 		"psr-4": {
 			"vtlib\\": "vtlib/Vtiger/",
+			"App\\Api\\": "src/Api/",
 			"App\\": "src/",
-			"Api\\": "api/webservice/",
 			"Exception\\": "src/Exceptions/",
 			"DebugBar\\": "vendor/php-debugbar/src/DebugBar/"
 		},

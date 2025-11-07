@@ -1,5 +1,5 @@
 <?php
-namespace Api\Portal\Users;
+namespace App\Api\Portal\Users;
 
 /**
  * Users Login action class
@@ -7,7 +7,7 @@ namespace Api\Portal\Users;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Login extends \Api\Core\BaseAction
+class Login extends \App\Api\Core\BaseAction
 {
 
 	/** @var string[] Allowed request methods */
@@ -24,7 +24,7 @@ class Login extends \Api\Core\BaseAction
 
 	/**
 	 * Check permission to module
-	 * @throws \Api\Core\Exception
+	 * @throws \App\Api\Core\Exception
 	 */
 	public function checkPermissionToModule()
 	{
@@ -43,10 +43,10 @@ class Login extends \Api\Core\BaseAction
 				->where(['user_name' => $this->controller->request->get('userName'), 'status' => 1])
 				->limit(1)->one($db);
 		if (!$row) {
-			throw new \Api\Core\Exception('Invalid data access', 401);
+			throw new \App\Api\Core\Exception('Invalid data access', 401);
 		}
 		if ($row['password_t'] !== $this->controller->request->get('password')) {
-			throw new \Api\Core\Exception('Invalid user password', 401);
+			throw new \App\Api\Core\Exception('Invalid user password', 401);
 		}
 		$db->createCommand()
 			->update('w_#__portal_user', [

@@ -1,5 +1,5 @@
 <?php
-namespace Api\Core;
+namespace App\Api\Core;
 
 /**
  * Module class 
@@ -22,7 +22,7 @@ class Module
 		if (isset(static::$permittedModules)) {
 			return static::$permittedModules;
 		}
-		$action = \Api\Controller::getAction();
+		$action = \App\Api\Webservice\Controller::getAction();
 		//$permissionType = $action->getPermissionType();
 		$modules = [];
 		foreach (\vtlib\Functions::getAllModules(true, false, 0) as $value) {
