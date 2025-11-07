@@ -27,7 +27,7 @@ class Record extends \App\Runtime\BaseModel
 	protected $handlerExceptions;
 	public $summaryRowCount = 4;
 	public $isNew = true;
-	
+
 	// Commonly used dynamic properties - declared to avoid PHP 8.2+ deprecation warnings
 	protected $entity;            // \App\CRMEntity instance
 	protected $isWatchingRecord;  // Boolean - whether user is watching this record
@@ -384,7 +384,7 @@ class Record extends \App\Runtime\BaseModel
 		if ($this->getModule()->isInventory()) {
 			$this->initInventoryData($request);
 		}
-		
+
 		// Extract relation and action parameters from request
 		$relationParams = null;
 		if ($request) {
@@ -399,7 +399,7 @@ class Record extends \App\Runtime\BaseModel
 				'__request' => $request
 			];
 		}
-		
+
 		$this->getModule()->saveRecord($this, $relationParams);
 		$db->completeTransaction();
 
@@ -777,7 +777,7 @@ class Record extends \App\Runtime\BaseModel
 			return [];
 		}
 		$summaryBlocks = [];
-		$dir = new DirectoryIterator($path);
+		$dir = new \DirectoryIterator($path);
 		$blockCount = 0;
 
 		foreach ($dir as $fileinfo) {
@@ -820,6 +820,8 @@ class Record extends \App\Runtime\BaseModel
 	public function setRecordFieldValues($parentRecordModel)
 	{
 		$newInvData = [];
+		$inventoryFields = [];
+		$sourceInv = [];
 		$mfInstance = \App\Modules\Base\Models\MappedFields::getInstanceByModules($parentRecordModel->getModule()->getId(), $this->getModule()->getId());
 		if ($mfInstance) {
 			$moduleFields = $this->getModule()->getFields();
@@ -953,16 +955,17 @@ class Record extends \App\Runtime\BaseModel
 		$fields = $inventory->getColumns();
 		$summaryFields = $inventory->getSummaryFields();
 		$inventoryData = $summary = [];
-		
+
 		// Request should be passed as parameter
-		if ($request !== null) {
-			// Request passed explicitly
-		} elseif (isset($this->inventoryRawData)) {
+		if ($request === null && isset($this->inventoryRawData)) {
 			$request = $this->inventoryRawData;
-		} else {
-			// Request should be passed as parameter
 		}
-		
+		if ($request === null || !is_object($request) || !method_exists($request, 'has')) {
+			$this->inventoryData = [];
+			\App\Log::warning('Request is null or not an object or does not have the has method');
+			return;
+		}
+
 		if ($request->has('inventoryItemsNo')) {
 			$numRow = $request->get('inventoryItemsNo');
 			for ($i = 1; $i <= $numRow; $i++) {
