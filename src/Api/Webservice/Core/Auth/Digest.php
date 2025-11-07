@@ -1,55 +1,62 @@
 <?php
-namespace App\Api\Core\Auth;
+namespace App\Api\Webservice\Core\Auth;
 
 /**
- * Digest Authorization class
- * @package YetiForce.WebserviceAuth
- * @license licenses/License.html
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * Digest authorization placeholder.
+ *
+ * Historical code referenced a digest implementation, but it relied on
+ * undefined collaborators and was never functional in FreeCRM.  Keeping a
+ * dedicated class allows configuration values such as AUTH_METHOD=Digest to
+ * fail fast with a clear message instead of producing fatal errors.
  */
-class DigestAuth
+class Digest
 {
+	/** @var object|null */
+	protected $api;
 
-	public function authenticate()
+	/** @var array|null */
+	protected $currentServer;
+
+	/**
+	 * Fail fast when digest auth is requested.
+	 *
+	 * @param string $realm
+	 * @throws \RuntimeException
+	 */
+	public function authenticate($realm)
 	{
-		$userpass = $this->getCredentials();
-		if (!$userpass) {
-			$auth->requireLogin();
-			throw new APIException('No basic authentication headers were found', 401);
-		}
-
-		// Authenticates the user
-		if (!$this->validateUserPass($userpass[0], $userpass[1])) {
-			$auth->requireLogin();
-			throw new APIException('Username or password does not match', 401);
-		}
-		$this->currentUser = $userpass[0];
-		return true;
+		throw new \RuntimeException('Digest authorization is not implemented', 501);
 	}
 
-	public function getCredentials()
+	/**
+	 * Placeholder validation logic for digest auth.
+	 *
+	 * @param string $username
+	 * @param string $password
+	 * @return bool
+	 */
+	protected function validatePass($username, $password)
 	{
-		$auth = $this->api->request->getHeader('Authorization');
-
-		if (!$auth) {
-			return null;
-		}
-		if (strtolower(substr($auth, 0, 6)) !== 'basic ') {
-			return null;
-		}
-		return explode(':', base64_decode(substr($auth, 6)), 2);
+		return false;
 	}
 
-	public function requireLogin()
+	/**
+	 * Provide API controller context.
+	 *
+	 * @param object $api
+	 */
+	public function setApi($api)
 	{
-		$this->api->response->addHeader('WWW-Authenticate', 'Basic realm="' . $this->realm . '"');
-		$this->api->response->setStatus(401);
+		$this->api = $api;
 	}
 
-	public function getDigestHash($realm, $username)
+	/**
+	 * Expose authentication payload returned to callers.
+	 *
+	 * @return array|null
+	 */
+	public function getCurrentServer()
 	{
-		$stmt = $this->pdo->prepare(sprintf('SELECT digesta1 FROM %s WHERE username = ?', $this->tableName));
-		$stmt->execute([$username]);
-		return $stmt->fetchColumn() ?: null;
+		return $this->currentServer;
 	}
 }

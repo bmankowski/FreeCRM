@@ -1,5 +1,5 @@
 <?php
-namespace App\Api\Core\Auth;
+namespace App\Api\Webservice\Core\Auth;
 
 /**
  * Base Abstract Authorization class

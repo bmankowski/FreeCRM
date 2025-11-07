@@ -17,7 +17,7 @@ try {
 		$controller->process();
 	}
 	$controller->postProcess();
-} catch (\App\Api\Core\Exception $e) {
+} catch (\App\Api\Webservice\Core\Exception $e) {
 	$e->handleError();
 } catch (Exception\NoPermittedToApi $e) {
 	echo json_encode([

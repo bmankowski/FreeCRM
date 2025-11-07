@@ -1,5 +1,5 @@
 <?php
-namespace App\Api\Core;
+namespace App\Api\Webservice\Core;
 
 /**
  * Web service exception class 
@@ -10,7 +10,7 @@ namespace App\Api\Core;
 class Exception extends \Exception
 {
 
-	public function __construct($message, $code = 200, Exception $previous = null)
+    public function __construct($message, $code = 200, \Exception $previous = null)
 	{
 		if (!empty($previous)) {
 			parent::__construct($message, $code, $previous);

@@ -7,7 +7,7 @@ namespace App\Api\Portal\BaseAction;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Modules extends \App\Api\Core\BaseAction
+class Modules extends \App\Api\Webservice\Core\BaseAction
 {
 
 	/** @var string[] Allowed request methods */
@@ -19,6 +19,6 @@ class Modules extends \App\Api\Core\BaseAction
 	 */
 	public function get()
 	{
-		return \App\Api\Core\Module::getPermittedModules();
+		return \App\Api\Webservice\Core\Module::getPermittedModules();
 	}
 }

@@ -1,5 +1,5 @@
 <?php
-namespace App\Api\Core;
+namespace App\Api\Webservice\Core;
 
 /**
  * Module class 

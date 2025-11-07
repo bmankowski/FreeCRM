@@ -7,7 +7,7 @@ namespace App\Api\Portal\Users;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Logout extends \App\Api\Core\BaseAction
+class Logout extends \App\Api\Webservice\Core\BaseAction
 {
 
 	/** @var string[] Allowed request methods */
@@ -15,7 +15,7 @@ class Logout extends \App\Api\Core\BaseAction
 
 	/**
 	 * Check permission to module
-	 * @throws \App\Api\Core\Exception
+	 * @throws \App\Api\Webservice\Core\Exception
 	 */
 	public function checkPermissionToModule()
 	{

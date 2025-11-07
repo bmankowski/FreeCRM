@@ -1,5 +1,5 @@
 <?php
-namespace App\Api\Core;
+namespace App\Api\Webservice\Core;
 use App\AppConfig;
 /**
  * API Authorization class
@@ -15,7 +15,7 @@ class Auth
 	public static function init($self)
 	{
 		$method = AppConfig::api('AUTH_METHOD');
-		$class = "App\Api\Core\Auth\\$method";
+		$class = "App\Api\Webservice\Core\Auth\\$method";
 		$intance = new $class();
 		$intance->setApi($self);
 		$intance->authenticate(static::$realm);

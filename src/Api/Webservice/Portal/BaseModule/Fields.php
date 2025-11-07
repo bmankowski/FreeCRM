@@ -7,7 +7,7 @@ namespace App\Api\Portal\BaseModule;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Fields extends \App\Api\Core\BaseAction
+class Fields extends \App\Api\Webservice\Core\BaseAction
 {
 
 	/** @var string[] Allowed request methods */

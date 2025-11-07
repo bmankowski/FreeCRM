@@ -1,5 +1,5 @@
 <?php
-namespace App\Api\Core;
+namespace App\Api\Webservice\Core;
 
 /**
  * Base action class
@@ -22,14 +22,14 @@ class BaseAction
 	public function checkAction()
 	{
 		if ((isset($this->allowedMethod) && !in_array($this->controller->method, $this->allowedMethod)) || !method_exists($this, $this->controller->method)) {
-			throw new \App\Api\Core\Exception('Invalid method', 405);
+			throw new \App\Api\Webservice\Core\Exception('Invalid method', 405);
 		}
 		$this->checkPermissionToModule();
 		$this->checkPermission();
 		/*
 		  $acceptableUrl = $this->controller->app['acceptable_url'];
 		  if ($acceptableUrl && rtrim($this->controller->app['acceptable_url'], '/') != rtrim($params['fromUrl'], '/')) {
-		  throw new \App\Api\Core\Exception('LBL_INVALID_SERVER_URL', 401);
+		  throw new \App\Api\Webservice\Core\Exception('LBL_INVALID_SERVER_URL', 401);
 		  }
 		 */
 		return true;
@@ -37,24 +37,24 @@ class BaseAction
 
 	/**
 	 * Check permission to module
-	 * @throws \App\Api\Core\Exception
+	 * @throws \App\Api\Webservice\Core\Exception
 	 */
 	public function checkPermissionToModule()
 	{
 		if (!$this->controller->request->isEmpty('module') && !Module::checkModuleAccess($this->controller->request->get('module'))) {
-			throw new \App\Api\Core\Exception('No permissions for module', 403);
+			throw new \App\Api\Webservice\Core\Exception('No permissions for module', 403);
 		}
 	}
 
 	/**
 	 * Check permission to method
 	 * @return boolean
-	 * @throws \App\Api\Core\Exception
+	 * @throws \App\Api\Webservice\Core\Exception
 	 */
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		if (empty($this->controller->headers['X-TOKEN'])) {
-			throw new \App\Api\Core\Exception('Invalid token', 401);
+			throw new \App\Api\Webservice\Core\Exception('Invalid token', 401);
 		}
 		$apiType = strtolower($this->controller->app['type']);
 		$sessionTable = "w_#__{$apiType}_session";
@@ -65,7 +65,7 @@ class BaseAction
 			->where(["$sessionTable.id" => $this->controller->headers['X-TOKEN'], "$userTable.status" => 1])
 			->one($db);
 		if (empty($row)) {
-			throw new \App\Api\Core\Exception('Invalid token', 401);
+			throw new \App\Api\Webservice\Core\Exception('Invalid token', 401);
 		}
 		$this->session = new \App\Runtime\BaseModel();
 		$this->session->setData($row);
@@ -143,7 +143,7 @@ class BaseAction
 				if (isset($records[$parentId])) {
 					return $parentId;
 				} else {
-					throw new \App\Api\Core\Exception('No permission to X-PARENT-ID', 403);
+					throw new \App\Api\Webservice\Core\Exception('No permission to X-PARENT-ID', 403);
 				}
 			}
 		}

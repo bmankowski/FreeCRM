@@ -10,7 +10,7 @@ namespace App\Api\Portal\BaseModule;
  */
 
 use App\Modules\Vtiger\Models\Action as Vtiger_Action_Model;
-class Privileges extends \App\Api\Core\BaseAction
+class Privileges extends \App\Api\Webservice\Core\BaseAction
 {
 
 	/** @var string[] Allowed request methods */

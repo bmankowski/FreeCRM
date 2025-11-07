@@ -1,5 +1,5 @@
 <?php
-namespace App\Api\Core\Auth;
+namespace App\Api\Webservice\Core\Auth;
 
 /**
  * Basic Authorization class
@@ -14,11 +14,11 @@ class Basic extends AbstractAuth
 	{
 		if (!isset($_SERVER['PHP_AUTH_USER'])) {
 			$this->requireLogin($realm);
-			throw new \App\Api\Core\Exception('Unauthorized', 401);
+			throw new \App\Api\Webservice\Core\Exception('Unauthorized', 401);
 		}
 		if (!$this->validatePass($_SERVER['PHP_AUTH_USER'], $_SERVER['PHP_AUTH_PW'])) {
 			$this->requireLogin($realm);
-			throw new \App\Api\Core\Exception('Wrong Credentials', 401);
+			throw new \App\Api\Webservice\Core\Exception('Wrong Credentials', 401);
 		}
 		return true;
 	}
