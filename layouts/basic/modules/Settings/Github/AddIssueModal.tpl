@@ -40,7 +40,7 @@
 									<br>
 									<hr>
 										{"LBL_DEFAULT_DESCRIPTION"|t:$QUALIFIED_MODULE}
-										{\App\Version::get()}
+										{$YETIFORCE_VERSION}
 									<br>
 										{"LBL_PHP_VERSION"|t:$QUALIFIED_MODULE}: {$PHP_VERSION}
 									<br>

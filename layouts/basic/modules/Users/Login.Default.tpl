@@ -1,110 +1,113 @@
 {*<!--
 /*********************************************************************************
 ** The contents of this file are subject to the vtiger CRM Public License Version 1.0
-* ("License"); You may not use this file except in compliance with the License
-* The Original Code is:  vtiger CRM Open Source
-* The Initial Developer of the Original Code is vtiger.
-* Portions created by vtiger are Copyright (C) vtiger.
-* All Rights Reserved.
-* Contributor(s): YetiForce.com
+ * ("License"); You may not use this file except in compliance with the License
+ * The Original Code is:  vtiger CRM Open Source
+ * The Initial Developer of the Original Code is vtiger.
+ * Portions created by vtiger are Copyright (C) vtiger.
+ * All Rights Reserved.
+ * Contributor(s): YetiForce.com
 ********************************************************************************/
 -->*}
 {strip}
+<!DOCTYPE html>
+<html lang="{$HTMLLANG}">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>FreeCRM - Login</title>
+	{foreach key=index item=cssModel from=$STYLES}
+		<link rel="{$cssModel->getRel()}" href="{vresource_url($cssModel->getHref())}" />
+	{/foreach}
+</head>
+<body>
 <!-- layouts/basic/modules/Users/Login.Default.tpl -->
 	{assign var="COMPANY_DETAILS" value=App\Company::getInstanceById()}
 	{assign var="MODULE" value='Users'}
-	<div class="container">
+	<div class="login-wrapper">
 		<div id="login-area" class="login-area">
-			<div class="login-space"></div>
-			<div class="logo">
-			{* <img title="{$COMPANY_DETAILS->get('name')}" height="{$COMPANY_DETAILS->get('logo_login_height')}px" class="logo" src="{$COMPANY_DETAILS->getLogo('logo_login')->get('imageUrl')}" alt="{$COMPANY_DETAILS->get('name')}"> *}
-			<img title="{$COMPANY_DETAILS->get('name')}" height="{$COMPANY_DETAILS->get('logo_login_height')}px" class="logo" src="{$COMPANY_DETAILS->getLogo('logo_login')->get('imageUrl')}" alt="{$COMPANY_DETAILS->get('name')}">
-			</div>
-			<div class="" id="loginDiv">
-				<div class='fieldContainer marginLeft0 marginRight0 row col-md-12'>
+			<div class="login-card">
+				<div class="login-logo">
+					<img title="{$COMPANY_DETAILS->get('name')}" height="{$COMPANY_DETAILS->get('logo_login_height')}px" src="{$COMPANY_DETAILS->getLogo('logo_login')->get('imageUrl')}" alt="{$COMPANY_DETAILS->get('name')}">
+					{if $CURRENT_VERSION}
+						<p class="login-meta text-muted">Powered by FreeCRM&nbsp;{$CURRENT_VERSION}</p>
+					{/if}
+				</div>
+				<div class="login-section" id="loginDiv">
 					<form class="login-form" action="index.php?module=Users&action=Login" method="POST" {if !AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if}>
-						<div class='marginLeft0  marginRight0 row col-xs-10'>
-							<div class="form-group first-group has-feedback">
+						<div class="login-fields">
+							<div class="form-group has-feedback">
 								<label for="username" class="sr-only">{"LBL_USER"|t:$MODULE}</label>
-								<input name="username" type="text" id="username" class="form-control input-lg" {if vglobal('systemMode') == 'demo'}value="demo"{/if} placeholder="{"LBL_USER"|t:$MODULE}" required="" {if !AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if} autofocus="">
+								<input name="username" type="text" id="username" class="form-control input-lg" {if vglobal('systemMode') == 'demo'}value="demo"{/if} placeholder="{"LBL_USER"|t:$MODULE}" required {if !AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if} autofocus>
 								<span class="adminIcon-user form-control-feedback" aria-hidden="true"></span>
 							</div>
-							<div class="form-group {if $LANGUAGE_SELECTION || $LAYOUT_SELECTION}first-group {/if} has-feedback">
+							<div class="form-group has-feedback">
 								<label for="password" class="sr-only">{"Password"|t:$MODULE}</label>
-								<input name="password" type="password" class="form-control input-lg" title="{"Password"|t:$MODULE}" id="password" name="password" {if vglobal('systemMode') == 'demo'}value="demo"{/if} {if !AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if} placeholder="{"Password"|t:$MODULE}">
+								<input name="password" type="password" class="form-control input-lg" title="{"Password"|t:$MODULE}" id="password" {if vglobal('systemMode') == 'demo'}value="demo"{/if} {if !AppConfig::security('LOGIN_PAGE_REMEMBER_CREDENTIALS')}autocomplete="off"{/if} placeholder="{"Password"|t:$MODULE}">
 								<span class="userIcon-OSSPasswords form-control-feedback" aria-hidden="true"></span>
 							</div>
-							{assign var=COUNTERFIELDS value=2}
 							{if $LANGUAGE_SELECTION}
-								{assign var=COUNTERFIELDS value=$COUNTERFIELDS+1}
 								{assign var=DEFAULT_LANGUAGE value=AppConfig::main('default_language')}
-								<div class="form-group {if $LAYOUT_SELECTION}first-group {/if}">
+								<div class="form-group">
 									<select class="input-lg form-control" title="{"LBL_CHOOSE_LANGUAGE"|t:$MODULE}" name="loginLanguage">
 										{foreach item=VALUE key=KEY from=Vtiger_Language_Handler::getAllLanguages()}
 											<option {if $KEY eq $DEFAULT_LANGUAGE} selected {/if}  value="{\App\Modules\Base\Helpers\Util::toSafeHTML($KEY)}">{$VALUE}</option>
 										{/foreach}
-									</select>	
+									</select>
 								</div>
 							{/if}
 							{if $LAYOUT_SELECTION}
-								{assign var=COUNTERFIELDS value=$COUNTERFIELDS+1}
 								<div class="form-group">
 									<select class="input-lg form-control" title="{"LBL_SELECT_LAYOUT"|t:$MODULE}" name="layout">
 										{foreach item=VALUE key=KEY from=\App\Runtime\Yeti_Layout::getAllLayouts()}
 											<option value="{\App\Modules\Base\Helpers\Util::toSafeHTML($KEY)}">{$VALUE}</option>
 										{/foreach}
-									</select>	
+									</select>
 								</div>
 							{/if}
 						</div>
-						<div class='col-xs-2 marginRight0' >
-							<button class="btn btn-lg btn-primary btn-block heightDiv_{$COUNTERFIELDS}" type="submit" title="{"LBL_SIGN_IN"|t:$MODULE_NAME}">
-								<strong>></strong>
-							</button>
-						</div>
+						<button class="btn btn-primary btn-block login-submit" type="submit" title="{"LBL_SIGN_IN"|t:$MODULE_NAME}">
+							{"LBL_SIGN_IN"|t:$MODULE_NAME}
+						</button>
 					</form>
+					{if AppConfig::security('RESET_LOGIN_PASSWORD')}
+						<div class="login-footer">
+							<a href="#" id="forgotpass" class="login-link">{"ForgotPassword"|t:$MODULE}?</a>
+						</div>
+					{/if}
+					<div class="login-alerts">
+						{if $ERROR eq 1}
+							<div class="alert alert-warning">
+								<p>{'Invalid username or password.'|t:$MODULE}</p>
+							</div>
+						{/if}
+						{if $ERROR eq 2}
+							<div class="alert alert-warning">
+								<p>{'Too many failed login attempts.'|t:$MODULE}</p>
+							</div>
+						{/if}
+						{if $FPERROR}
+							<div class="alert alert-warning">
+								<p>{'Invalid Username or Email address.'|t:$MODULE}</p>
+							</div>
+						{/if}
+						{if $STATUS}
+							<div class="alert alert-success">
+								<p>{"LBL_MAIL_WAITING_TO_SENT"|t:$MODULE}</p>
+							</div>
+						{/if}
+						{if $STATUS_ERROR}
+							<div class="alert alert-warning">
+								<p>{'Outgoing mail server was not configured.'|t:$MODULE}</p>
+							</div>
+						{/if}
+					</div>
 				</div>
 				{if AppConfig::security('RESET_LOGIN_PASSWORD')}
-					<div class="form-group">
-						<div class="">
-							<a href="#" id="forgotpass" >{"ForgotPassword"|t:$MODULE}?</a>
-						</div>
-					</div>
-				{/if}
-				<div class="form-group col-xs-12 noPadding">
-					{if $ERROR eq 1}
-						<div class="alert alert-warning">
-							<p>{'Invalid username or password.'|t:$MODULE}</p>
-						</div>
-					{/if}
-					{if $ERROR eq 2}
-						<div class="alert alert-warning">
-							<p>{'Too many failed login attempts.'|t:$MODULE}</p>
-						</div>
-					{/if}
-					{if $FPERROR}
-						<div class="alert alert-warning">
-							<p>{'Invalid Username or Email address.'|t:$MODULE}</p>
-						</div>
-					{/if}
-					{if $STATUS}
-						<div class="alert alert-success">
-							<p>{"LBL_MAIL_WAITING_TO_SENT"|t:$MODULE}</p>
-						</div>
-					{/if}
-					{if $STATUS_ERROR}
-						<div class="alert alert-warning">
-							<p>{'Outgoing mail server was not configured.'|t:$MODULE}</p>
-						</div>
-					{/if}
-				</div>
-			</div>	
-			{if AppConfig::security('RESET_LOGIN_PASSWORD')}
-				<div class="hide" id="forgotPasswordDiv">
-					<div class='fieldContainer marginLeft0 marginRight0 row col-md-12'>
+					<div class="login-section hide" id="forgotPasswordDiv">
 						<form class="login-form" action="modules/Users/actions/ForgotPassword.php" method="POST">
-							<div class='marginLeft0  marginRight0 row col-xs-10'>	
-								<div class="form-group first-group has-feedback">
+							<div class="login-fields">
+								<div class="form-group has-feedback">
 									<label for="username" class="sr-only">{"LBL_USER"|t:$MODULE}</label>
 									<input type="text" class="form-control input-lg" title="{"LBL_USER"|t:$MODULE}" id="username" name="user_name" placeholder="{"LBL_USER"|t:$MODULE}">
 									<span class="adminIcon-user form-control-feedback" aria-hidden="true"></span>
@@ -115,19 +118,16 @@
 									<span class="glyphicon glyphicon-envelope form-control-feedback" aria-hidden="true"></span>
 								</div>
 							</div>
-							<div class='col-xs-2 marginRight0' >
-								<button type="submit" style='height:102px' id="retrievePassword" class="btn btn-lg btn-primary btn-block sbutton" title="Retrieve Password">
-									{'LBL_SEND'|t:$MODULE}
-									<strong>></strong>
-								</button>
-							</div>
+							<button type="submit" id="retrievePassword" class="btn btn-primary btn-block login-submit" title="Retrieve Password">
+								{'LBL_SEND'|t:$MODULE}
+							</button>
 						</form>
+						<div class="login-footer">
+							<a href="#" id="backButton" class="login-link">{"LBL_TO_CRM"|t:$MODULE}</a>
+						</div>
 					</div>
-					<div class="login-text form-group">
-						<a href="#" id="backButton" >{"LBL_TO_CRM"|t:$MODULE}</a>
-					</div>
-				</div>
-			{/if}
+				{/if}
+			</div>
 		</div>
 	</div>
 	<script>
@@ -169,5 +169,7 @@
 			});
 		});
 	</script>
+</body>
+</html>
 <!--/layouts/basic/modules/Users/Login.Default.tpl -->
 {/strip}

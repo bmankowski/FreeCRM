@@ -30,7 +30,7 @@ class Login extends \App\Base\Controllers\BaseViewController
 	{
 		$viewer = $this->getViewer($request);
 		$selectedModule = $request->getModule();
-		
+
 		// Assignments moved from preProcess
 		$companyDetails = \App\Company::getInstanceById();
 		$companyLogo = $companyDetails->getLogo();
@@ -41,7 +41,7 @@ class Login extends \App\Base\Controllers\BaseViewController
 		$viewer->assign('COMPANY_LOGO', $companyLogo);
 		// On login page, use backward compatibility method since no user is authenticated
 		$viewer->assign('USER_MODEL', $request->getUser());
-		
+
 		$viewer->assign('CURRENT_VERSION', \App\Version::get());
 		$viewer->assign('LANGUAGE_SELECTION', \App\AppConfig::main('langInLoginView'));
 		$viewer->assign('LAYOUT_SELECTION', \App\AppConfig::main('layoutInLoginView'));
@@ -49,6 +49,7 @@ class Login extends \App\Base\Controllers\BaseViewController
 		$viewer->assign('FPERROR', $request->get('fpError'));
 		$viewer->assign('STATUS', $request->get('status'));
 		$viewer->assign('STATUS_ERROR', $request->get('statusError'));
+		$viewer->assign('STYLES', $this->getHeaderCss($request));
 		$viewer->view('Login.tpl', 'Users');
 	}
 
