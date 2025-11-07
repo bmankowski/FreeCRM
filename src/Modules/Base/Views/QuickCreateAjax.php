@@ -80,6 +80,16 @@ class QuickCreateAjax extends \App\Modules\Base\Views\Index
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->assign('VIEW', $request->get('view'));
+		if (method_exists($recordModel, 'getBaseCurrencyDetails')) {
+			$baseCurrencyDetails = $recordModel->getBaseCurrencyDetails();
+			if (!empty($baseCurrencyDetails['currencyid'])) {
+				$viewer->assign('BASE_CURRENCY_ID', $baseCurrencyDetails['currencyid']);
+				$viewer->assign('BASE_CURRENCY_NAME', 'curname' . $baseCurrencyDetails['currencyid']);
+			}
+			if (!empty($baseCurrencyDetails['symbol'])) {
+				$viewer->assign('BASE_CURRENCY_SYMBOL', $baseCurrencyDetails['symbol']);
+			}
+		}
 		$viewer->assign('MODE', 'edit');
 		$viewer->assign('SCRIPTS', $this->getFooterScripts($request));
 

@@ -16,6 +16,12 @@ class Record extends \App\Modules\Base\Models\Record
 {
 
 	/**
+	 * Holds current mode (edit/create)
+	 * @var string
+	 */
+	protected $mode = '';
+
+	/**
 	 * Function to get Taxes Url
 	 * @return string Url
 	 */
@@ -96,7 +102,7 @@ class Record extends \App\Modules\Base\Models\Record
 			$baseCurrency = $this->getProductBaseCurrency($recordId, $this->getModuleName());
 		} else {
 			$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
-			$baseCurrency = \vtlib\Functions::userCurrencyId($currentUserModel->getId());
+			$baseCurrency = \App\Utils\InventoryUtils::getUserCurrencyId($currentUserModel);
 		}
 		$baseCurrencyDetails = array('currencyid' => $baseCurrency);
 
@@ -350,8 +356,7 @@ class Record extends \App\Modules\Base\Models\Record
 		} else {
 			if ($available == 'available') { // Create View
 				$currentUser = \App\User\CurrentUser::get();
-
-				$user_currency_id = \vtlib\Functions::userCurrencyId($currentUser->id);
+				$userCurrencyId = \App\Utils\InventoryUtils::getUserCurrencyId($currentUser);
 
 				$query = "select vtiger_currency_info.* from vtiger_currency_info
 					where vtiger_currency_info.currency_status = 'Active' and vtiger_currency_info.deleted=0";
@@ -370,8 +375,12 @@ class Record extends \App\Modules\Base\Models\Record
 					// Get the conversion rate for the given currency, get the conversion rate of the product currency(logged in user's currency) to base currency.
 					// Both together will be the actual conversion rate for the given currency.
 					$conversion_rate = $adb->query_result($res, $i, 'conversion_rate');
-					$user_cursym_convrate = \vtlib\Functions::getCurrencySymbolandRate($user_currency_id);
-					$product_base_conv_rate = 1 / $user_cursym_convrate['rate'];
+					$userCurrencyData = \vtlib\Functions::getCurrencySymbolandRate($userCurrencyId);
+					$userRate = (float) ($userCurrencyData['rate'] ?? 0);
+					if ($userRate <= 0) {
+						$userRate = 1;
+					}
+					$product_base_conv_rate = 1 / $userRate;
 					$actual_conversion_rate = $product_base_conv_rate * $conversion_rate;
 
 					$price_details[$i]['check_value'] = false;
@@ -379,7 +388,7 @@ class Record extends \App\Modules\Base\Models\Record
 					$price_details[$i]['conversionrate'] = $actual_conversion_rate;
 
 					$is_basecurrency = false;
-					if ($currency_id == $user_currency_id) {
+					if ($currency_id == $userCurrencyId) {
 						$is_basecurrency = true;
 					}
 					$price_details[$i]['is_basecurrency'] = $is_basecurrency;
@@ -408,26 +417,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	public function getBaseConversionRateForProduct($productid, $mode = 'edit', $module = 'Products')
 	{
-		$adb = \App\Database\PearDatabase::getInstance();
-		$currentUser = \App\User\CurrentUser::get();
-		if ($mode == 'edit') {
-			if ($module == 'Services') {
-				$sql = 'select conversion_rate from vtiger_service inner join vtiger_currency_info
-					on vtiger_service.currency_id = vtiger_currency_info.id where vtiger_service.serviceid=?';
-			} else {
-				$sql = 'select conversion_rate from vtiger_products inner join vtiger_currency_info
-					on vtiger_products.currency_id = vtiger_currency_info.id where vtiger_products.productid=?';
-			}
-			$params = array($productid);
-		} else {
-			$sql = 'select conversion_rate from vtiger_currency_info where id=?';
-			$params = array(\vtlib\Functions::userCurrencyId($currentUser->id));
-		}
-
-		$res = $adb->pquery($sql, $params);
-		$conv_rate = $adb->query_result($res, 0, 'conversion_rate');
-
-		return 1 / $conv_rate;
+		return \App\Utils\InventoryUtils::getBaseConversionRateForProduct($productid, $mode, $module);
 	}
 
 	/**
@@ -447,15 +437,18 @@ class Record extends \App\Modules\Base\Models\Record
 		if ($request === null) {
 			// Request should be passed as parameter
 		}
+		if ($request) {
+			$this->mode = (string) $request->get('mode');
+		}
 		parent::saveToDb();
 		//Inserting into product_taxrel table
-		if ($request->get('ajxaction') != 'DETAILVIEW' && $request->get('action') != 'MassSave' && $request->get('action') != 'ProcessDuplicates') {
+		if ($request && $request->get('ajxaction') != 'DETAILVIEW' && $request->get('action') != 'MassSave' && $request->get('action') != 'ProcessDuplicates') {
 			$this->insertPriceInformation($request);
 		}
 		// Update unit price value in vtiger_productcurrencyrel
 		$this->updateUnitPrice();
 		//Inserting into attachments
-		if ($request->get('module') === 'Products') {
+		if ($request && $request->get('module') === 'Products') {
 			$this->insertAttachment($request);
 		}
 	}
@@ -482,7 +475,11 @@ class Record extends \App\Modules\Base\Models\Record
 		}
 		\App\Log::trace('Entering ' . __METHOD__);
 		$db = \App\Db::getInstance();
-		$productBaseConvRate = \App\Utils\InventoryUtils::getBaseConversionRateForProduct($this->getId(), $this->mode);
+		$mode = $this->mode ?: ($request ? (string) $request->get('mode') : '');
+		if ($mode === '' && !$this->isNew()) {
+			$mode = 'edit';
+		}
+		$productBaseConvRate = \App\Utils\InventoryUtils::getBaseConversionRateForProduct($this->getId(), $mode);
 		$currencySet = false;
 		$currencyDetails = \vtlib\Functions::getAllCurrency(true);
 		if (!$this->isNew()) {

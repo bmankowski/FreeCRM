@@ -11,7 +11,7 @@ namespace App\Modules\Products\Actions;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Save extends \App\Base\Controllers\BaseActionController
+class Save extends \App\Modules\Base\Actions\Save
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

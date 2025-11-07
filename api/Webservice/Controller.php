@@ -1,5 +1,5 @@
 <?php
-namespace Api;
+namespace Api\Webservice;
 
 /**
  * Base class to handle communication via web services

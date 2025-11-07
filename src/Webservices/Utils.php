@@ -227,11 +227,11 @@ function vtws_runQueryAsTransaction($query, $params, &$result)
 	return !$error;
 }
 
+
 function vtws_getCalendarEntityType($id)
 {
-	$seType = \Vtiger_Cache::get('vtws_getCalendarEntityType', $id);
-	if ($seType !== false) {
-		return $seType;
+	if (\App\Cache\Cache::has('vtws_getCalendarEntityType', $id)) {
+		return \App\Cache\Cache::get('vtws_getCalendarEntityType', $id);
 	}
 	$adb = \App\Database\PearDatabase::getInstance();
 
@@ -246,7 +246,7 @@ function vtws_getCalendarEntityType($id)
 			}
 		}
 	}
-	\Vtiger_Cache::set('vtws_getCalendarEntityType', $id, $seType);
+	\App\Cache\Cache::save('vtws_getCalendarEntityType', $id, $seType);
 	return $seType;
 }
 /* * *

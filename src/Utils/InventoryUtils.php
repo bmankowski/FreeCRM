@@ -8,6 +8,39 @@ namespace App\Utils;
 class InventoryUtils
 {
 	/**
+	 * Resolve currency id for given user (falls back to base currency)
+	 */
+	public static function getUserCurrencyId(?\App\Modules\Users\Models\Record $user = null): int
+	{
+		$userId = null;
+		if ($user) {
+			if (method_exists($user, 'getId')) {
+				$userId = $user->getId();
+			} elseif (isset($user->id)) {
+				$userId = (int) $user->id;
+			}
+		}
+		if (!$userId) {
+			$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
+		}
+		if ($userId) {
+			$currencyId = \vtlib\Functions::userCurrencyId($userId);
+			if ($currencyId) {
+				return (int) $currencyId;
+			}
+		}
+		$baseCurrency = \App\Modules\Base\Helpers\Util::getBaseCurrency();
+		if ($baseCurrency && isset($baseCurrency['id'])) {
+			return (int) $baseCurrency['id'];
+		}
+		$fallbackId = (new \App\Db\Query())->select('id')->from('vtiger_currency_info')
+			->where(['currency_status' => 'Active'])
+			->orderBy(['defaultid' => SORT_ASC])
+			->scalar();
+		return (int) ($fallbackId ?: 1);
+	}
+
+	/**
 	 * Get the currency information for an inventory entity (PO or Invoice)
 	 * @param string $module Module name
 	 * @param int $id Entity ID
@@ -117,8 +150,7 @@ class InventoryUtils
 		} else {
 			if ($available == 'available') { // Create View
 				$currentUser = \App\User\CurrentUser::get();
-
-				$user_currency_id = \vtlib\Functions::userCurrencyId($currentUser->id);
+				$userCurrencyId = self::getUserCurrencyId($currentUser);
 
 				$query = "select vtiger_currency_info.* from vtiger_currency_info
 					where vtiger_currency_info.currency_status = 'Active' and vtiger_currency_info.deleted=0";
@@ -137,8 +169,12 @@ class InventoryUtils
 					// Get the conversion rate for the given currency, get the conversion rate of the product currency(logged in user's currency) to base currency.
 					// Both together will be the actual conversion rate for the given currency.
 					$conversion_rate = $adb->query_result($res, $i, 'conversion_rate');
-					$user_cursym_convrate = \vtlib\Functions::getCurrencySymbolandRate($user_currency_id);
-					$product_base_conv_rate = 1 / $user_cursym_convrate['rate'];
+					$userCurrencyData = \vtlib\Functions::getCurrencySymbolandRate($userCurrencyId);
+					$userRate = (float) ($userCurrencyData['rate'] ?? 0);
+					if ($userRate <= 0) {
+						$userRate = 1;
+					}
+					$product_base_conv_rate = 1 / $userRate;
 					$actual_conversion_rate = $product_base_conv_rate * $conversion_rate;
 
 					$price_details[$i]['check_value'] = false;
@@ -146,7 +182,7 @@ class InventoryUtils
 					$price_details[$i]['conversionrate'] = $actual_conversion_rate;
 
 					$is_basecurrency = false;
-					if ($currency_id == $user_currency_id) {
+					if ($currency_id == $userCurrencyId) {
 						$is_basecurrency = true;
 					}
 					$price_details[$i]['is_basecurrency'] = $is_basecurrency;
@@ -192,8 +228,8 @@ class InventoryUtils
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 		$nameCache = $productid . $mode . $module;
-		$convRate = \Vtiger_Cache::get('getBaseConversionRateForProduct', $nameCache);
-		if ($convRate !== false) {
+		if (\App\Cache\Cache::has('getBaseConversionRateForProduct', $nameCache)) {
+			$convRate = \App\Cache\Cache::get('getBaseConversionRateForProduct', $nameCache);
 			return $convRate;
 		}
 		$currentUser = \App\User\CurrentUser::get();
@@ -208,13 +244,16 @@ class InventoryUtils
 			$params = array($productid);
 		} else {
 			$sql = "select conversion_rate from vtiger_currency_info where id=?";
-			$params = array(\vtlib\Functions::userCurrencyId($currentUser->id));
+			$params = array(self::getUserCurrencyId($currentUser));
 		}
 
 		$result = $adb->pquery($sql, $params);
-		$convRate = $adb->getSingleValue($result);
+		$convRate = (float) $adb->getSingleValue($result);
+		if ($convRate <= 0) {
+			$convRate = 1;
+		}
 		$convRate = 1 / $convRate;
-		\Vtiger_Cache::set('getBaseConversionRateForProduct', $nameCache, $convRate);
+		\App\Cache\Cache::save('getBaseConversionRateForProduct', $nameCache, $convRate);
 		return $convRate;
 	}
 

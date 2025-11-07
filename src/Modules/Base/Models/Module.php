@@ -235,10 +235,17 @@ class Module extends \vtlib\Module
 		}
 		$eventHandler->trigger('EntityBeforeSave');
 
+		$request = null;
+		if ($relationParams && isset($relationParams['__request'])) {
+			$request = $relationParams['__request'];
+		}
+		if ($relationParams && isset($relationParams['__request'])) {
+			unset($relationParams['__request']);
+		}
 		if (!$recordModel->isNew() && !$recordModel->isMandatorySave() && empty($recordModel->getPreviousValue())) {
 			\App\Log::info('ERR_NO_DATA');
 		} else {
-			$recordModel->saveToDb($relationParams);
+			$recordModel->saveToDb($relationParams, $request);
 		}
 
 		$recordId = $recordModel->getId();

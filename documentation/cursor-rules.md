@@ -210,3 +210,4 @@ Apply this rule when working with database schemas.
 5. **Version Control**: Commit `.cursor/rules/` to repository
 6. **Document**: Add descriptions to help AI and team understand rule purpose
 
+

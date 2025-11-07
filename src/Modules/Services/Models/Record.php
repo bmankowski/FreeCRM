@@ -11,7 +11,7 @@ namespace App\Modules\Services\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Record extends \App\Modules\Base\Models\Record
+class Record extends \App\Modules\Products\Models\Record
 {
 
 	/**

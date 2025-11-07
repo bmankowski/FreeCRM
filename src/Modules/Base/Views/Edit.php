@@ -150,6 +150,16 @@ class Edit extends \App\Modules\Base\Views\Index
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('MODULE_TYPE', $moduleModel->getModuleType());
 		$viewer->assign('RECORD', $recordModel);
+		if (method_exists($recordModel, 'getBaseCurrencyDetails')) {
+			$baseCurrencyDetails = $recordModel->getBaseCurrencyDetails();
+			if (!empty($baseCurrencyDetails['currencyid'])) {
+				$viewer->assign('BASE_CURRENCY_ID', $baseCurrencyDetails['currencyid']);
+				$viewer->assign('BASE_CURRENCY_NAME', 'curname' . $baseCurrencyDetails['currencyid']);
+			}
+			if (!empty($baseCurrencyDetails['symbol'])) {
+				$viewer->assign('BASE_CURRENCY_SYMBOL', $baseCurrencyDetails['symbol']);
+			}
+		}
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('USER_MODEL', $request->getUser());

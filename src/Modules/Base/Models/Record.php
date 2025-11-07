@@ -395,7 +395,8 @@ class Record extends \App\Runtime\BaseModel
 				'return_action' => $request->get('return_action'),
 				'action' => $request->get('action'),
 				'field' => $request->get('field'),
-				'current_module' => $request->getModule()
+				'current_module' => $request->getModule(),
+				'__request' => $request
 			];
 		}
 		

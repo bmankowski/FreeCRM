@@ -208,33 +208,29 @@ class Field extends FieldBasic
 
 	/**
 	 * Get Field instances related to block
-	 * @param vtlib\Block Instnace of block to use
+	 * @param vtlib\Block Instance of block to use
 	 * @param Module Instance of module to which block is associated
 	 */
-	public static function getAllForBlock($blockInstance, \App\Modules\Vtiger\Models\Module $moduleInstance)
+	public static function getAllForBlock($blockInstance, ?\App\Modules\Base\Models\Module $moduleInstance = null)
 	{
-		/** @var \App\Runtime\Vtiger_Cache $cache */
-		$cache = \App\Cache\Cache::getInstance();
-		if ($cache->getBlockFields($blockInstance->id, $moduleInstance->id)) {
-			return $cache->getBlockFields($blockInstance->id, $moduleInstance->id);
-		} else {
-			$instances = false;
-			$query = false;
-			$queryParams = false;
-			if ($moduleInstance) {
-				$query = (new \App\Db\Query())->from('vtiger_field')->where(['block' => $blockInstance->id, 'tabid' => $moduleInstance->id])->orderBy('sequence');
-			} else {
-				$query = (new \App\Db\Query())->from('vtiger_field')->where(['block' => $blockInstance->id])->orderBy('sequence');
-			}
-			$dataReader = $query->createCommand()->query();
-			while ($row = $dataReader->read()) {
-				$instance = new self();
-				$instance->initialize($row, $moduleInstance, $blockInstance);
-				$instances[] = $instance;
-			}
-			$cache->setBlockFields($blockInstance->id, $moduleInstance->id, $instances);
-			return $instances;
+		$moduleId = $moduleInstance ? $moduleInstance->id : null;
+		$cacheKey = [$blockInstance->id, $moduleId];
+		if (\App\Cache\Cache::has('BlockFields', $cacheKey)) {
+			return \App\Cache\Cache::get('BlockFields', $cacheKey);
 		}
+		$query = (new \App\Db\Query())->from('vtiger_field')->where(['block' => $blockInstance->id])->orderBy('sequence');
+		if ($moduleInstance) {
+			$query->andWhere(['tabid' => $moduleInstance->id]);
+		}
+		$instances = [];
+		$dataReader = $query->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			$instance = new self();
+			$instance->initialize($row, $moduleInstance, $blockInstance);
+			$instances[] = $instance;
+		}
+		\App\Cache\Cache::save('BlockFields', $cacheKey, $instances, \App\Cache\Cache::LONG);
+		return $instances;
 	}
 
 	/**
