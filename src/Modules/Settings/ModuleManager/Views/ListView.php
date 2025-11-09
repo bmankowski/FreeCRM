@@ -36,4 +36,20 @@ class ListView extends \App\Modules\Settings\Base\Views\Index
 			$viewer->view('ListViewIndex.tpl', $qualifiedModuleName);
 		}
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
+	{
+		$footerScripts = parent::getFooterScripts($request);
+		$moduleName = $request->getModule();
+
+		$jsFileNames = [
+			"modules.Settings.$moduleName.resources.ModuleManager",
+		];
+
+		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
+		return array_merge($footerScripts, $jsScriptInstances);
+	}
 }

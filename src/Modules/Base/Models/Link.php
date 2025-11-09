@@ -361,7 +361,7 @@ class Link extends \vtlib\Link
 	 * @param <Array> $parameters
 	 * @return <Array> - List of \App\Modules\Base\Models\Link instances
 	 */
-	public static function getAllByType($tabid, $type = false, $parameters = false)
+	public static function getAllByType($tabid, $type = false, $parameters = false): array
 	{
 		$links = \App\Cache\Cache::get('links-' . $tabid, $type);
 		if (!$links) {

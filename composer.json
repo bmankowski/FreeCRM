@@ -64,8 +64,9 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"vtlib\\": "vtlib/Vtiger/",
+			"vtlib\\": "src/ModuleManagement/Adapters/",
 			"App\\Api\\": "src/Api/",
+			"App\\ModuleManagement\\": "src/ModuleManagement/",
 			"App\\": "src/",
 			"Exception\\": "src/Exceptions/",
 			"DebugBar\\": "vendor/php-debugbar/src/DebugBar/"
@@ -73,7 +74,8 @@
 		"files": [
 			"src/Runtime/Globals.php",
 			"src/Runtime/TemplateHelpers.php",
-			"vtlib/Vtiger/Deprecated.php",
+			"src/ModuleManagement/Adapters/Deprecated.php",
+			"src/ModuleManagement/Adapters/StringTemplate.php",
 			"src/Webservices/Utils.php"
 		]
 	},

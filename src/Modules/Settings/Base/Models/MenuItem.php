@@ -184,7 +184,7 @@ class MenuItem extends \App\Modules\Base\Models\Record
 	 * @param <\App\Modules\Settings\Base\Models\Menu> $menuModel
 	 * @return ?\App\Modules\Settings\Base\Models\MenuItem instance
 	 */
-	public static function getInstance($name, $menuModel)
+	public static function getInstance($name, $menuModel = null)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
 
@@ -192,7 +192,7 @@ class MenuItem extends \App\Modules\Base\Models\Record
 		$params = [$name];
 
 		if ($menuModel) {
-			$sql .= ' WHERE blockid = ?';
+			$sql .= ' AND blockid = ?';
 			$params[] = $menuModel->getId();
 		}
 		$result = $db->pquery($sql, $params);
@@ -224,7 +224,7 @@ class MenuItem extends \App\Modules\Base\Models\Record
 		$params = array($id);
 
 		if ($menuModel) {
-			$sql .= ' WHERE blockid = ?';
+			$sql .= ' AND blockid = ?';
 			$params[] = $menuModel->getId();
 		}
 		$result = $db->pquery($sql, $params);

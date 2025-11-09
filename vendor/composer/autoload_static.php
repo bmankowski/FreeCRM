@@ -15,7 +15,8 @@ class ComposerStaticInitYT
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
         '1d6f6c0628aba5d91efef443adeecbc0' => __DIR__ . '/../..' . '/src/Runtime/Globals.php',
         'be7f8f4a06ddef5737f29c25b6a403f8' => __DIR__ . '/../..' . '/src/Runtime/TemplateHelpers.php',
-        '0b7deb1a752d6f8b7a7c214200c6c25f' => __DIR__ . '/../..' . '/vtlib/Vtiger/Deprecated.php',
+        'eb872a555a499906a0af2a2b3606234e' => __DIR__ . '/../..' . '/src/ModuleManagement/Adapters/Deprecated.php',
+        'e40b9f73ccfc3e2d54b5ea3943d84077' => __DIR__ . '/../..' . '/src/ModuleManagement/Adapters/StringTemplate.php',
         'a0916c6b43302346466cd82934c59bc1' => __DIR__ . '/../..' . '/src/Webservices/Utils.php',
     );
 
@@ -66,6 +67,7 @@ class ComposerStaticInitYT
         ),
         'A' => 
         array (
+            'App\\ModuleManagement\\' => 21,
             'App\\Api\\' => 8,
             'App\\' => 4,
             'Antlr\\Antlr4\\Runtime\\' => 21,
@@ -83,7 +85,7 @@ class ComposerStaticInitYT
         ),
         'vtlib\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/vtlib/Vtiger',
+            0 => __DIR__ . '/../..' . '/src/ModuleManagement/Adapters',
         ),
         'cebe\\markdown\\' => 
         array (
@@ -128,6 +130,10 @@ class ComposerStaticInitYT
         'DebugBar\\' => 
         array (
             0 => __DIR__ . '/..' . '/php-debugbar/src/DebugBar',
+        ),
+        'App\\ModuleManagement\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src/ModuleManagement',
         ),
         'App\\Api\\' => 
         array (

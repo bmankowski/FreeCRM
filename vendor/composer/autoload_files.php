@@ -14,6 +14,7 @@ return array(
     '667aeda72477189d0494fecd327c3641' => $vendorDir . '/symfony/var-dumper/Resources/functions/dump.php',
     '1d6f6c0628aba5d91efef443adeecbc0' => $baseDir . '/src/Runtime/Globals.php',
     'be7f8f4a06ddef5737f29c25b6a403f8' => $baseDir . '/src/Runtime/TemplateHelpers.php',
-    '0b7deb1a752d6f8b7a7c214200c6c25f' => $baseDir . '/vtlib/Vtiger/Deprecated.php',
+    'eb872a555a499906a0af2a2b3606234e' => $baseDir . '/src/ModuleManagement/Adapters/Deprecated.php',
+    'e40b9f73ccfc3e2d54b5ea3943d84077' => $baseDir . '/src/ModuleManagement/Adapters/StringTemplate.php',
     'a0916c6b43302346466cd82934c59bc1' => $baseDir . '/src/Webservices/Utils.php',
 );

@@ -151,13 +151,42 @@ class Field extends \vtlib\Field
 
 	public function getModule()
 	{
-		if (!isset($this->module)) {
-			$moduleObj = $this->block->module;
-			//fix for opensource emailTemplate listview break
+		if (!isset($this->module) || !$this->module) {
+			$moduleObj = null;
+			$block = $this->get('block');
+			if (is_object($block) && isset($block->module)) {
+				$moduleObj = $block->module;
+			} elseif (is_numeric($block)) {
+				$blockInstance = \vtlib\Block::getInstance((int) $block);
+				if ($blockInstance && isset($blockInstance->module)) {
+					$moduleObj = $blockInstance->module;
+				}
+			}
+
+			if (!$moduleObj && $this->getModuleId()) {
+				$moduleObj = \vtlib\Module::getInstance($this->getModuleId());
+			}
+
 			if (empty($moduleObj)) {
 				return false;
 			}
-			$this->module = \App\Modules\Base\Models\Module::getInstanceFromModuleObject($moduleObj);
+
+			if ($moduleObj instanceof \App\Modules\Base\Models\Module) {
+				$this->module = $moduleObj;
+			} elseif ($moduleObj instanceof \vtlib\Module) {
+				$this->module = \App\Modules\Base\Models\Module::getInstanceFromModuleObject($moduleObj);
+			} else {
+				$moduleName = null;
+				if (is_string($moduleObj)) {
+					$moduleName = $moduleObj;
+				} elseif (is_numeric($moduleObj)) {
+					$moduleName = \App\Module::getModuleName((int) $moduleObj);
+				}
+
+				if ($moduleName) {
+					$this->module = \App\Modules\Base\Models\Module::getInstance($moduleName);
+				}
+			}
 		}
 		return $this->module;
 	}
@@ -165,6 +194,58 @@ class Field extends \vtlib\Field
 	public function setModule($moduleInstance)
 	{
 		$this->module = $moduleInstance;
+	}
+
+	public function getBlockId()
+	{
+		$block = $this->get('block');
+		if (is_object($block) && method_exists($block, 'getId')) {
+			return $block->getId();
+		}
+		return $block;
+	}
+
+	public function initialize($valuemap)
+	{
+		$map = [
+			'fieldid' => 'id',
+			'tabid' => 'tabid',
+			'fieldname' => 'name',
+			'fieldlabel' => 'label',
+			'tablename' => 'table',
+			'columnname' => 'column',
+			'uitype' => 'uitype',
+			'typeofdata' => 'typeofdata',
+			'helpinfo' => 'helpinfo',
+			'masseditable' => 'masseditable',
+			'header_field' => 'header_field',
+			'maxlengthtext' => 'maxlengthtext',
+			'maxwidthcolumn' => 'maxwidthcolumn',
+			'displaytype' => 'displaytype',
+			'generatedtype' => 'generatedtype',
+			'readonly' => 'readonly',
+			'presence' => 'presence',
+			'defaultvalue' => 'defaultvalue',
+			'quickcreate' => 'quickcreate',
+			'sequence' => 'sequence',
+			'quickcreatesequence' => 'quicksequence',
+			'summaryfield' => 'summaryfield',
+			'fieldparams' => 'fieldparams',
+			'maximumlength' => 'maximumlength',
+			'block' => 'block',
+			'info_type' => 'info_type',
+		];
+		foreach ($map as $source => $target) {
+			if (array_key_exists($source, $valuemap)) {
+				$this->set($target, $valuemap[$source]);
+			}
+		}
+		return $this;
+	}
+
+	public function getModuleId()
+	{
+		return $this->get('tabid');
 	}
 
 	/**

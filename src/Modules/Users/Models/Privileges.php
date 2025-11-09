@@ -110,6 +110,9 @@ class Privileges extends \App\Runtime\BaseModel
 		$actionId = $action->getId();
 		$profileTabsPermissions = $this->get('profile_action_permission');
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($mixed);
+		if (!$moduleModel) {
+			return false;
+		}
 		return $moduleModel->isActive() && (($this->get("is_admin") == "on" || $profileTabsPermissions[$moduleModel->getId()][$actionId] === \App\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE));
 	}
 
@@ -143,6 +146,21 @@ class Privileges extends \App\Runtime\BaseModel
 		}
 		$privileges = require("user_privileges/user_privileges_{$userId}.php");
 
+		if (!isset($is_admin) && is_array($privileges) && isset($privileges['details'])) {
+			$is_admin = !empty($privileges['details']['is_admin']);
+			$user_info = $privileges['details'];
+			$current_user_roles = $privileges['details']['roleid'] ?? '';
+			$current_user_parent_role_seq = $privileges['parent_role_seq'] ?? '';
+			$current_user_profiles = $privileges['profiles'] ?? [];
+			$current_user_groups = $privileges['groups'] ?? [];
+			$parent_roles = $privileges['parent_roles'] ?? [];
+			$subordinate_roles = \App\PrivilegeUtil::getRoleSubordinates($current_user_roles);
+			$subordinate_roles_users = \App\Utils\UserInfoUtil::getSubordinateRoleAndUsers($current_user_roles);
+			$profileGlobalPermission = \App\Utils\UserInfoUtil::getCombinedUserGlobalPermissions($userId);
+			$profileTabsPermission = \App\Utils\UserInfoUtil::getCombinedUserTabsPermissions($userId);
+			$profileActionPermission = \App\Utils\UserInfoUtil::getCombinedUserActionPermissions($userId);
+		}
+
 		$valueMap = [];
 		$valueMap['id'] = $userId;
 		$valueMap['is_admin'] = (bool) $is_admin;
@@ -156,12 +174,12 @@ class Privileges extends \App\Runtime\BaseModel
 			$valueMap['profile_tabs_permission'] = $profileTabsPermission;
 			$valueMap['profile_action_permission'] = $profileActionPermission;
 			$valueMap['groups'] = $current_user_groups;
-		$valueMap['subordinate_roles'] = $subordinate_roles;
-		$valueMap['parent_roles'] = $parent_roles;
-		$valueMap['subordinate_roles_users'] = $subordinate_roles_users;
-		$sharingPrivileges = \App\Privilege::getSharingFile($userId);
-		$valueMap['defaultOrgSharingPermission'] = $sharingPrivileges['defOrgShare'];
-		$valueMap['related_module_share'] = $sharingPrivileges['relatedModuleShare'];
+			$valueMap['subordinate_roles'] = $subordinate_roles;
+			$valueMap['parent_roles'] = $parent_roles;
+			$valueMap['subordinate_roles_users'] = $subordinate_roles_users;
+			$sharingPrivileges = \App\Privilege::getSharingFile($userId);
+			$valueMap['defaultOrgSharingPermission'] = $sharingPrivileges['defOrgShare'];
+			$valueMap['related_module_share'] = $sharingPrivileges['relatedModuleShare'];
 		}
 		self::$userPrivilegesCache[$userId] = $valueMap;
 		return $valueMap;
@@ -523,7 +541,8 @@ class Privileges extends \App\Runtime\BaseModel
 	 */
 	public function isAdminUser()
 	{
-		return $this->get('is_admin') === 'on' || $this->get('is_admin') === '1' || $this->get('is_admin') === 1;
+		$isAdmin = $this->get('is_admin');
+		return $isAdmin === 'on' || $isAdmin === '1' || $isAdmin === 1 || $isAdmin === true;
 	}
 
 	/**

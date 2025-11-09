@@ -121,13 +121,54 @@ class Module extends \vtlib\Module
 		return $this;
 	}
 
+	public function initialize($valuemap)
+	{
+		$map = [
+			'tabid' => 'id',
+			'name' => 'name',
+			'tablabel' => 'label',
+			'version' => 'version',
+			'presence' => 'presence',
+			'ownedby' => 'ownedby',
+			'tabsequence' => 'tabsequence',
+			'parent' => 'parent',
+			'customized' => 'customized',
+			'isentitytype' => 'isentitytype',
+			'type' => 'type',
+		];
+		foreach ($map as $source => $target) {
+			if (array_key_exists($source, $valuemap)) {
+				$this->set($target, $valuemap[$source]);
+			}
+		}
+		if (isset($valuemap['minversion'])) {
+			$this->set('minversion', $valuemap['minversion']);
+		}
+		if (isset($valuemap['maxversion'])) {
+			$this->set('maxversion', $valuemap['maxversion']);
+		}
+		if (isset($valuemap['entityidcolumn'])) {
+			$this->set('entityidcolumn', $valuemap['entityidcolumn']);
+		}
+		if (isset($valuemap['entityidfield'])) {
+			$this->set('entityidfield', $valuemap['entityidfield']);
+		}
+		if (isset($valuemap['basetable'])) {
+			$this->set('basetable', $valuemap['basetable']);
+		}
+		if (isset($valuemap['basetableid'])) {
+			$this->set('basetableid', $valuemap['basetableid']);
+		}
+		return $this;
+	}
+
 	/**
 	 * Function checks if the module is Active
 	 * @return boolean
 	 */
-	public function isActive()
+	public function isActive(): bool
 	{
-		return in_array($this->get('presence'), array(0, 2));
+		return in_array($this->get('presence'), [0, 2], true);
 	}
 
 	/**
@@ -187,7 +228,7 @@ class Module extends \vtlib\Module
 				\App\Cache\Cache::save('module', $moduleObject->name, $instance);
 			}
 		}
-		return $instance;
+		return $instance ?: null;
 	}
 
 	/**
@@ -215,7 +256,13 @@ class Module extends \vtlib\Module
 	{
 		$modelClassName = \App\Loader::getComponentClassName('Model', 'Module', $valueArray['name']);
 		$instance = new $modelClassName();
-		$instance->initialize($valueArray);
+		if (method_exists($instance, 'initialize')) {
+			$instance->initialize($valueArray);
+		} else {
+			foreach ($valueArray as $propertyName => $propertyValue) {
+				$instance->$propertyName = $propertyValue;
+			}
+		}
 		return $instance;
 	}
 

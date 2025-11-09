@@ -91,8 +91,19 @@ class PrivilegeFileManager
      */
     public static function createUserSharingPrivilegesFile($userId): bool
     {
-        \vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/user_privileges_' . $userId . '.php');
-        require('user_privileges/user_privileges_' . $userId . '.php');
+		\vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/user_privileges_' . $userId . '.php');
+		$userPrivilegesData = require 'user_privileges/user_privileges_' . $userId . '.php';
+		if (is_array($userPrivilegesData)) {
+			if (!isset($current_user_roles)) {
+				$current_user_roles = $userPrivilegesData['details']['roleid'] ?? '';
+			}
+			if (!isset($parent_roles)) {
+				$parent_roles = $userPrivilegesData['parent_roles'] ?? [];
+			}
+			if (!isset($current_user_groups)) {
+				$current_user_groups = $userPrivilegesData['groups'] ?? [];
+			}
+		}
         $handle = @fopen(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'user_privileges/sharing_privileges_' . $userId . '.php', "w+");
 
         if ($handle) {

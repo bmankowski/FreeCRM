@@ -22,26 +22,37 @@ class Field extends \App\Modules\Base\Models\Field
 	public function delete()
 	{
 		$db = \App\Db::getInstance();
-		parent::delete();
+		$fieldId = $this->getId();
+		$moduleId = $this->getModuleId();
+		$fieldName = $this->getName();
+
+		$fieldService = \App\ModuleManagement\ServiceLocator::getFieldService();
+		$fieldService->delete($fieldId);
+
+		\App\Cache\Cache::delete('ModuleFields', $moduleId);
+		\App\Cache\Cache::delete('fieldInfo', $moduleId);
+		\App\Cache\Cache::delete('field-' . $moduleId, $fieldId);
+		\App\Cache\Cache::delete('field-' . $moduleId, $fieldName);
+		if (isset(\App\Utils\VTCacheUtils::$_fieldinfo_cache[$moduleId][$fieldName])) {
+			unset(\App\Utils\VTCacheUtils::$_fieldinfo_cache[$moduleId][$fieldName]);
+		}
 
 		$fldModule = $this->getModuleName();
-		$id = $this->getId();
 		$uitype = $this->get('uitype');
 		$typeofdata = $this->get('typeofdata');
-		$fieldname = $this->getName();
 		$oldfieldlabel = $this->get('label');
 		$tablename = $this->get('table');
 		$columnName = $this->get('column');
 		$fieldtype = explode("~", $typeofdata);
-		$tabId = $this->getModuleId();
+		$tabId = $moduleId;
 
 		$focus = \App\CRMEntity::getInstance($fldModule);
 
-		$deleteColumnName = $tablename . ":" . $columnName . ":" . $fieldname . ":" . $fldModule . "_" . str_replace(" ", "_", $oldfieldlabel) . ":" . $fieldtype[0];
-		$columnCvstdfilter = $tablename . ":" . $columnName . ":" . $fieldname . ":" . $fldModule . "_" . str_replace(" ", "_", $oldfieldlabel);
-		$selectColumnname = $tablename . ":" . $columnName . ":" . $fldModule . "_" . str_replace(" ", "_", $oldfieldlabel) . ":" . $fieldname . ":" . $fieldtype[0];
+		$deleteColumnName = $tablename . ":" . $columnName . ":" . $fieldName . ":" . $fldModule . "_" . str_replace(" ", "_", $oldfieldlabel) . ":" . $fieldtype[0];
+		$columnCvstdfilter = $tablename . ":" . $columnName . ":" . $fieldName . ":" . $fldModule . "_" . str_replace(" ", "_", $oldfieldlabel);
+		$selectColumnname = $tablename . ":" . $columnName . ":" . $fldModule . "_" . str_replace(" ", "_", $oldfieldlabel) . ":" . $fieldName . ":" . $fieldtype[0];
 		$reportsummaryColumn = $tablename . ":" . $columnName . ":" . str_replace(" ", "_", $oldfieldlabel);
-		if ($tablename != 'vtiger_crmentity') {
+		if ($tablename != 'vtiger_crmentity' && $db->isTableExists($tablename) && $db->getSchema()->getTableSchema($tablename, true)->getColumn($columnName)) {
 			$db->createCommand()->dropColumn($tablename, $columnName)->execute();
 		}
 		//we have to remove the entries in customview and report related tables which have this field ($colName)
@@ -55,10 +66,10 @@ class Field extends \App\Modules\Base\Models\Field
 		$db->createCommand()->delete('vtiger_reportsummary', ['like', 'columnname', $reportsummaryColumn])->execute();
 		//Deleting from convert lead mapping vtiger_table- Jaguar
 		if ($fldModule == 'Leads') {
-			$db->createCommand()->delete('vtiger_convertleadmapping', ['leadfid' => $id])->execute();
+			$db->createCommand()->delete('vtiger_convertleadmapping', ['leadfid' => $fieldId])->execute();
 		} elseif ($fldModule == 'Accounts') {
 			$mapDelId = ['Accounts' => 'accountfid'];
-			$db->createCommand()->update('vtiger_convertleadmapping', [$mapDelId[$fldModule] => 0], [$mapDelId[$fldModule] => $id])->execute();
+			$db->createCommand()->update('vtiger_convertleadmapping', [$mapDelId[$fldModule] => 0], [$mapDelId[$fldModule] => $fieldId])->execute();
 		}
 
 		//HANDLE HERE - we have to remove the table for other picklist type values which are text area and multiselect combo box
@@ -131,6 +142,9 @@ class Field extends \App\Modules\Base\Models\Field
 	public function isMandatoryOptionDisabled()
 	{
 		$moduleModel = $this->getModule();
+		if (!$moduleModel || !method_exists($moduleModel, 'getCumplosoryMandatoryFieldList')) {
+			return false;
+		}
 		$complusoryMandatoryFieldList = $moduleModel->getCumplosoryMandatoryFieldList();
 		//uitypes for which mandatory switch is disabled
 		$mandatoryRestrictedUitypes = array('4', '70');
@@ -162,6 +176,9 @@ class Field extends \App\Modules\Base\Models\Field
 	public function isQuickCreateOptionDisabled()
 	{
 		$moduleModel = $this->getModule();
+		if (!$moduleModel || !method_exists($moduleModel, 'isQuickCreateSupported')) {
+			return true;
+		}
 		if ($this->get('quickcreate') == 0 || $this->get('quickcreate') == 3 || !$moduleModel->isQuickCreateSupported() || $this->get('uitype') == 69) {
 			return true;
 		}
@@ -207,8 +224,25 @@ class Field extends \App\Modules\Base\Models\Field
 	 */
 	public function isEditable()
 	{
-		$moduleName = $this->block->module->name;
-		if (in_array($moduleName, array('Calendar', 'Events'))) {
+		$moduleModel = $this->module ?? null;
+		if (!$moduleModel) {
+			$moduleModel = $this->getModule();
+		}
+
+		$moduleName = null;
+		if ($moduleModel instanceof \App\Modules\Base\Models\Module) {
+			$moduleName = $moduleModel->getName();
+		} elseif ($moduleModel instanceof \vtlib\Module) {
+			$moduleName = $moduleModel->name;
+		} elseif (is_string($moduleModel)) {
+			$moduleName = $moduleModel;
+		}
+
+		if (!$moduleName && $this->getModuleId()) {
+			$moduleName = \App\Module::getModuleName($this->getModuleId());
+		}
+
+		if ($moduleName && in_array($moduleName, ['Calendar', 'Events'], true)) {
 			return false;
 		}
 		return true;

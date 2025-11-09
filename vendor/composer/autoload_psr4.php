@@ -8,7 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'yii\\composer\\' => array($vendorDir . '/yiisoft/yii2-composer'),
     'yii\\' => array($vendorDir . '/yiisoft/yii2'),
-    'vtlib\\' => array($baseDir . '/vtlib/Vtiger'),
+    'vtlib\\' => array($baseDir . '/src/ModuleManagement/Adapters'),
     'cebe\\markdown\\' => array($vendorDir . '/cebe/markdown'),
     'Whoops\\' => array($vendorDir . '/filp/whoops/src/Whoops'),
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
@@ -20,6 +20,7 @@ return array(
     'Doctrine\\Deprecations\\' => array($vendorDir . '/doctrine/deprecations/src'),
     'Doctrine\\Common\\Collections\\' => array($vendorDir . '/doctrine/collections/lib/Doctrine/Common/Collections'),
     'DebugBar\\' => array($vendorDir . '/php-debugbar/src/DebugBar'),
+    'App\\ModuleManagement\\' => array($baseDir . '/src/ModuleManagement'),
     'App\\Api\\' => array($baseDir . '/src/Api'),
     'App\\' => array($baseDir . '/src'),
     'Antlr\\Antlr4\\Runtime\\' => array($vendorDir . '/antlr/antlr4-php-runtime/src'),

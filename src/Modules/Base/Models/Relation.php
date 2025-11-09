@@ -798,7 +798,7 @@ class Relation extends \App\Runtime\BaseModel
 	{
 		$fields = $this->get('fields');
 		if (!$fields) {
-			$fields = false;
+			$fields = [];
 			$relatedModel = $this->getRelationModuleModel();
 			$relatedModelFields = $relatedModel->getFields();
 

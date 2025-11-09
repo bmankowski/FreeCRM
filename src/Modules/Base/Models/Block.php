@@ -175,10 +175,45 @@ class Block extends \vtlib\Block
 	public static function getInstanceFromBlockObject(\vtlib\Block $blockObject)
 	{
 		$objectProperties = get_object_vars($blockObject);
-		$blockClassName = \App\Loader::getComponentClassName('Model', 'Block', $blockObject->module->name);
+		$moduleName = null;
+		if (isset($blockObject->module)) {
+			$moduleRef = $blockObject->module;
+			if ($moduleRef instanceof self) {
+				$moduleRef = $moduleRef->module;
+			}
+			if (is_object($moduleRef)) {
+				if ($moduleRef instanceof \App\Modules\Base\Models\Module) {
+					$moduleName = $moduleRef->getName();
+				} elseif ($moduleRef instanceof \vtlib\Module && isset($moduleRef->name)) {
+					$moduleName = $moduleRef->name;
+				}
+			} elseif (is_string($moduleRef)) {
+				$moduleName = $moduleRef;
+			} elseif (is_numeric($moduleRef)) {
+				$moduleName = \App\Module::getModuleName((int) $moduleRef);
+			}
+		}
+		if (!$moduleName && isset($blockObject->module) && isset($blockObject->module->id)) {
+			$moduleName = \App\Module::getModuleName((int) $blockObject->module->id);
+		}
+		if (!$moduleName && isset($blockObject->tabid)) {
+			$moduleName = \App\Module::getModuleName((int) $blockObject->tabid);
+		}
+
+		try {
+			$blockClassName = $moduleName ? \App\Loader::getComponentClassName('Model', 'Block', $moduleName) : self::class;
+		} catch (\Exception $e) {
+			$blockClassName = self::class;
+		}
 		$blockModel = new $blockClassName();
 		foreach ($objectProperties as $properName => $propertyValue) {
 			$blockModel->$properName = $propertyValue;
+		}
+		if ($moduleName && (!isset($blockModel->module) || !$blockModel->module)) {
+			$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
+			if ($moduleModel) {
+				$blockModel->module = $moduleModel;
+			}
 		}
 		return $blockModel;
 	}

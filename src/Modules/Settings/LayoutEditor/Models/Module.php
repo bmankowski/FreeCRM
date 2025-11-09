@@ -35,7 +35,7 @@ class Module extends \App\Modules\Base\Models\Module
 				$blockId[] = $block->get('id');
 			}
 			if (count($blockId) > 0) {
-				$fieldList = \App\Modules\Settings\LayoutEditor\Models\Field::getInstanceFromBlockIdList($blockId);
+				$fieldList = \App\Modules\Settings\LayoutEditor\Models\Field::getInstanceFromBlockIdList($blockId, $this);
 			}
 			//To handle special case for invite users
 			if ($this->getName() == 'Events') {
