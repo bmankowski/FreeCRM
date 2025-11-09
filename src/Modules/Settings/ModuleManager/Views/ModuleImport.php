@@ -68,7 +68,13 @@ class ModuleImport extends \App\Modules\Settings\Base\Views\Index
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->view('ImportUserModuleStep1.tpl', $qualifiedModuleName);
+		if ($request->isAjax()) {
+			$viewer->view('ImportUserModuleStep1.tpl', $qualifiedModuleName);
+			return;
+		}
+
+		$viewer->assign('CURRENT_VIEW_TEMPLATE', 'ImportUserModuleStep1.tpl');
+		$viewer->view('ModuleImportIndex.tpl', $qualifiedModuleName);
 	}
 
 	public function importUserModuleStep2(\App\Http\Vtiger_Request $request)
