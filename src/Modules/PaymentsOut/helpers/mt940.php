@@ -44,7 +44,7 @@ class mt940 {
 	{
 		$xml = "<mt940>\n";
 		foreach (get_object_vars($this) as $key => $value) {
-			if ($key{0} != '_') {
+			if ($key[0] != '_') {
 				$xml .= $this->createXML($key, $value, 0);
 			}
 		}

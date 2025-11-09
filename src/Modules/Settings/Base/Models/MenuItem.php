@@ -308,7 +308,7 @@ class MenuItem extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to get name module
-	 * @return type module name
+	 * @return string module name
 	 */
 	public function getModule()
 	{

@@ -1224,7 +1224,7 @@ class ReportRun extends \App\CRMEntity
 				$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
 				$fieldType = null;
 				if (!empty($fieldInfo)) {
-					$field = WebserviceField::fromArray($adb, $fieldInfo);
+					$field = \App\Webservices\WebserviceField::fromArray($adb, $fieldInfo);
 					$fieldType = $field->getFieldDataType();
 				}
 
@@ -1490,6 +1490,7 @@ class ReportRun extends \App\CRMEntity
 				$this->orderbylistcolumns[] = $fieldcolname;
 				$n = $n + 1;
 				$selectedfields = explode(':', $fieldcolname);
+				$sSQL = '';
 				if ($n > 1) {
 					$sSQL .= ', ';
 					$this->orderbylistsql .= ', ';
@@ -3486,3 +3487,4 @@ class ReportRun extends \App\CRMEntity
 		}
 		return $columnsSqlList;
 	}
+}

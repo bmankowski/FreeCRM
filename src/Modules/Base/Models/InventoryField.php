@@ -185,10 +185,13 @@ class InventoryField extends \App\Runtime\BaseModel
 		foreach ($fieldPaths as $fieldPath) {
 			if (!is_dir($fieldPath))
 				continue;
-			foreach (new DirectoryIterator($fieldPath) as $fileinfo) {
+			foreach (new \DirectoryIterator($fieldPath) as $fileinfo) {
 				if ($fileinfo->isFile() && $fileinfo->getFilename() != 'Basic.php') {
 					$fieldName = str_replace('.php', '', $fileinfo->getFilename());
-					$className = \App\Loader::getComponentClassName('InventoryField', $fieldName, $moduleName);
+					$className = \App\Loader::getComponentClassName('InventoryField', $fieldName, $moduleName, false);
+					if ($className === false) {
+						continue;
+					}
 					$instance = new $className();
 					$fields[$fieldName] = $instance->set('module', $moduleName);
 				}

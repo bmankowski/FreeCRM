@@ -15,7 +15,6 @@
 
 namespace App\Database;
 
-use App\AppConfig;
 
 class PearDatabase
 {
@@ -23,7 +22,6 @@ class PearDatabase
 	 * @var array Cache for query results to avoid dynamic property warnings
 	 */
 	private static $resultCache = [];
-
 	protected $database = null;
 	protected $stmt = null;
 	public $dieOnError = false;
@@ -413,18 +411,18 @@ class PearDatabase
 	 * A function to insert data into the database
 	 * @param string $table Table name
 	 * @param array $data Query data
-	 * @return array Row count and last insert id
+	 * @return ?array|null Row count and last insert id
 	 */
 	public function insert($table, array $data)
 	{
 		if (!$table) {
 			\App\Log::error('Missing table name');
 			$this->checkError('Missing table name');
-			return false;
+			return 	null;
 		} else if (!is_array($data)) {
 			\App\Log::error('Missing data, data must be an array');
 			$this->checkError('Missing table name');
-			return false;
+			return null;
 		}
 		$columns = '';
 		foreach ($data as $column => $cur) {

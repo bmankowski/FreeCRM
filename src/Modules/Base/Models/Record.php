@@ -645,7 +645,7 @@ class Record extends \App\Runtime\BaseModel
 
 	/**
 	 * The function decide about mandatory save record
-	 * @return type
+	 * @return bool
 	 */
 	public function isMandatorySave()
 	{

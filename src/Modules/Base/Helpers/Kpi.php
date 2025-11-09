@@ -19,7 +19,7 @@ class Kpi {
 	public $service = false;
 	public $type = false;
 
-	public function \App\Modules\Base\Helpers\Kpi($request)
+	public function __construct($request)
 	{
 		$this->time = $request->get('time');
 		$this->service = $request->get('service');
@@ -191,6 +191,7 @@ class Kpi {
 		$result = $adb->pquery($sql, $params, true);
 		$all = 0;
 		$accepted = 0;
+		$sum = 0;
 		$countResult = $adb->num_rows($result);
 		for ($i = 0; $i < $countResult; $i++) {
 			$sum+= $adb->query_result_raw($result, $i, 'ordertime');
@@ -227,6 +228,7 @@ class Kpi {
 		$result = $adb->pquery($sql, $params, true);
 		$all = 0;
 		$accepted = 0;
+		$sum = 0;
 		$countResult = $adb->num_rows($result);
 		for ($i = 0; $i < $countResult; $i++) {
 			$sum+= $adb->query_result_raw($result, $i, 'ordertime');
@@ -267,6 +269,7 @@ class Kpi {
 		$result = $adb->pquery($sql, $params, true);
 		$all = 0;
 		$accepted = 0;
+		$sum = 0;
 		$countResult = $adb->num_rows($result);
 		for ($i = 0; $i < $countResult; $i++) {
 			$sum+= $adb->query_result_raw($result, $i, 'ordertime');

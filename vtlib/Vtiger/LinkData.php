@@ -50,7 +50,7 @@ class LinkData
 
 	/**
 	 *
-	 * @return Users 
+	 * @return mixed
 	 */
 	public function getUser()
 	{

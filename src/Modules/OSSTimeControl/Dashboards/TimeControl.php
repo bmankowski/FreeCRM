@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Modules\OSSTimeControl\Dashboards;
-use App\Modules\Settings\TimeControlProcessesModels\Module;
-use App\Modules\Settings\PublicHolidayModels\Module;
 
 /* +***********************************************************************************************************************************
  * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except

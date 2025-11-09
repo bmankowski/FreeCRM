@@ -92,7 +92,7 @@ class BaseModel
 
 	/**
 	 * Function to check if the key is empty.
-	 * @param type $key
+	 * @param string $key
 	 */
 	public function isEmpty($key)
 	{
@@ -104,7 +104,7 @@ class BaseModel
 
 	/**
 	 * Function to remove the value
-	 * @param type $key
+	 * @param string $key
 	 */
 	public function remove($key)
 	{

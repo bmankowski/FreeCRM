@@ -129,6 +129,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$moduleName = $request->getModule();
 		$jsFileNames = [
 			'libraries.jquery.clipboardjs.clipboard',
+			'modules.Settings.Vtiger.resources.Index',
 			'modules.Settings.LayoutEditor.resources.LayoutEditor'
 		];
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
