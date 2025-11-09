@@ -1293,6 +1293,7 @@ class ReportRun extends \App\CRMEntity
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 		global $modules;
+		$sSQL = '';
 
 
 		$sreportstdfiltersql = "select vtiger_reportdatefilter.* from vtiger_report";
