@@ -25,7 +25,7 @@
 			<div class="alert alert-block alert-danger fade in">
 				<button type="button" class="close" data-dismiss="alert">×</button>
 				<h4 class="alert-heading">{"LBL_TOO_SMALL_UPLOAD_LIMIT"|t:$QUALIFIED_MODULE}</h4>
-				<p>{'LBL_TOO_SMALL_UPLOAD_LIMIT_DESC'|t:$QUALIFIED_MODULE:vtlib\Functions::showBytes($MAXUPLOADSIZE)}</p>
+				<p>{'LBL_TOO_SMALL_UPLOAD_LIMIT_DESC'|t:$QUALIFIED_MODULE:\App\Modules\Base\Helpers\Util::formatBytesToHumanReadable($MAXUPLOADSIZE)}</p>
 			</div>	
 		{/if}
 		<div class="contents">

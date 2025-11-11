@@ -80,7 +80,7 @@
 												</div>
 											</div>
 											<label class="control-label">
-												(upload_max_filesize: {vtlib\Functions::showBytes($MAXUPLOADSIZE)})
+												(upload_max_filesize: {\App\Modules\Base\Helpers\Util::formatBytesToHumanReadable($MAXUPLOADSIZE)})
 											</label>
 										{else}
 											<div class="col-md-4">

@@ -245,6 +245,79 @@ class Util {
 	}
 
 	/**
+	 * Parse byte string (e.g., "128M", "2G") to numeric bytes
+	 * 
+	 * @param mixed $str Byte string or numeric value
+	 * @return float Bytes as numeric value
+	 */
+	public static function parseBytes($str)
+	{
+		if (is_numeric($str)) {
+			return floatval($str);
+		}
+
+		if (preg_match('/([0-9\.]+)\s*([a-z]*)/i', $str, $regs)) {
+			$bytes = floatval($regs[1]);
+			switch (strtolower($regs[2])) {
+				case 'g':
+				case 'gb':
+					$bytes *= 1073741824;
+					break;
+				case 'm':
+				case 'mb':
+					$bytes *= 1048576;
+					break;
+				case 'k':
+				case 'kb':
+					$bytes *= 1024;
+					break;
+			}
+		}
+
+		return floatval($bytes);
+	}
+
+	/**
+	 * Convert bytes to human-readable format (e.g., "2.5 MB", "1 GB")
+	 * 
+	 * @param mixed $bytes Bytes value (can be string like "128M" or numeric)
+	 * @param string|null $unit Reference to store the unit (GB, MB, KB, B)
+	 * @return string Formatted string like "2.5 MB"
+	 */
+	public static function formatBytesToHumanReadable($bytes, &$unit = null)
+	{
+		$bytes = self::parseBytes($bytes);
+		$negative = $bytes < 0;
+		$bytes = abs($bytes);
+		$units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+		$unitIndex = 0;
+		$maxIndex = count($units) - 1;
+
+		while ($bytes >= 1024 && $unitIndex < $maxIndex) {
+			$bytes /= 1024;
+			++$unitIndex;
+		}
+
+		$unit = $units[$unitIndex];
+		if (0 === $unitIndex) {
+			$value = round($bytes);
+			$str = sprintf('%d %s', $value, $unit);
+		} elseif (1 === $unitIndex) {
+			$value = round($bytes);
+			$str = sprintf('%d %s', $value, $unit);
+		} else {
+			$format = $bytes >= 10 ? '%.0f %s' : '%.2f %s';
+			$str = sprintf($format, $bytes, $unit);
+		}
+
+		if ($negative) {
+			$str = '-' . $str;
+		}
+
+		return $str;
+	}
+
+	/**
 	 * Function to get Owner name for ownerId
 	 * @param integer $ownerId
 	 * @return string $ownerName
@@ -334,19 +407,6 @@ class Util {
 		}
 
 		return $time;
-	}
-
-	/**
-	 * Function gets the CRM's base Currency information according to user preference
-	 * @return array
-	 */
-	public static function getCurrentInfoOfUser()
-	{
-		$db = \App\Database\PearDatabase::getInstance();
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
-		$result = $db->pquery('SELECT * FROM vtiger_currency_info WHERE id = ?', array($currentUser->get('currency_id')));
-		if ($db->num_rows($result))
-			return $db->query_result_rowdata($result, 0);
 	}
 
 	public static function getGroupsIdsForUsers($userId)

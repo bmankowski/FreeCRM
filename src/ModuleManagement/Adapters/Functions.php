@@ -303,9 +303,9 @@ class Functions
 		$cacheName = 'getModuleFieldInfosByName';
 		if (!\App\Cache\Cache::has($cacheName, $module)) {
 			$dataReader = (new \App\Db\Query())
-					->from('vtiger_field')
-					->where(['tabid' => $module === 'Calendar' ? [9, 16] : self::getModuleId($module)])
-					->createCommand()->query();
+				->from('vtiger_field')
+				->where(['tabid' => $module === 'Calendar' ? [9, 16] : self::getModuleId($module)])
+				->createCommand()->query();
 			$fieldInfoByName = $fieldInfoByColumn = [];
 			while ($row = $dataReader->read()) {
 				$fieldInfoByName[$row['fieldname']] = $row;
@@ -446,9 +446,11 @@ class Functions
 			$token_data = '$custom-' . $columnname . '$';
 			$token_value = '';
 			switch ($columnname) {
-				case 'currentdate': $token_value = date("F j, Y");
+				case 'currentdate':
+					$token_value = date("F j, Y");
 					break;
-				case 'currenttime': $token_value = date("G:i:s T");
+				case 'currenttime':
+					$token_value = date("G:i:s T");
 					break;
 			}
 			$description = str_replace($token_data, $token_value, $description);
@@ -513,50 +515,50 @@ class Functions
 		$field = $table_name . ':' . $column_name;
 		//Add the field details in this array if you want to change the advance filter field details
 
-		static $new_field_details = Array(
-			//Contacts Related Fields
-			'vtiger_contactdetails:parentid' => 'V',
-			'vtiger_contactsubdetails:birthday' => 'D',
-			'vtiger_contactdetails:email' => 'V',
-			'vtiger_contactdetails:secondaryemail' => 'V',
-			//Account Related Fields
-			'vtiger_account:parentid' => 'V',
-			'vtiger_account:email1' => 'V',
-			'vtiger_account:email2' => 'V',
-			//Lead Related Fields
-			'vtiger_leaddetails:email' => 'V',
-			'vtiger_leaddetails:secondaryemail' => 'V',
-			//Documents Related Fields
-			'vtiger_senotesrel:crmid' => 'V',
-			//HelpDesk Related Fields
-			'vtiger_troubletickets:parent_id' => 'V',
-			'vtiger_troubletickets:product_id' => 'V',
-			//Product Related Fields
-			'vtiger_products:discontinued' => 'C',
-			'vtiger_products:vendor_id' => 'V',
-			'vtiger_products:parentid' => 'V',
-			//Faq Related Fields
-			'vtiger_faq:product_id' => 'V',
-			//Vendor Related Fields
-			'vtiger_vendor:email' => 'V',
-			//Campaign Related Fields
-			'vtiger_campaign:product_id' => 'V',
-			//Related List Entries(For Report Module)
-			'vtiger_activityproductrel:activityid' => 'V',
-			'vtiger_activityproductrel:productid' => 'V',
-			'vtiger_campaign_records:campaignid' => 'V',
-			'vtiger_campaign_records:crmid' => 'V',
-			'vtiger_pricebookproductrel:pricebookid' => 'V',
-			'vtiger_pricebookproductrel:productid' => 'V',
-			'vtiger_senotesrel:crmid' => 'V',
-			'vtiger_senotesrel:notesid' => 'V',
-			'vtiger_seproductsrel:crmid' => 'V',
-			'vtiger_seproductsrel:productid' => 'V',
-			'vtiger_seticketsrel:crmid' => 'V',
-			'vtiger_seticketsrel:ticketid' => 'V',
-			'vtiger_vendorcontactrel:vendorid' => 'V',
-			'vtiger_vendorcontactrel:contactid' => 'V',
-			'vtiger_pricebook:currency_id' => 'V',
+		static $new_field_details = array(
+		//Contacts Related Fields
+		'vtiger_contactdetails:parentid' => 'V',
+		'vtiger_contactsubdetails:birthday' => 'D',
+		'vtiger_contactdetails:email' => 'V',
+		'vtiger_contactdetails:secondaryemail' => 'V',
+		//Account Related Fields
+		'vtiger_account:parentid' => 'V',
+		'vtiger_account:email1' => 'V',
+		'vtiger_account:email2' => 'V',
+		//Lead Related Fields
+		'vtiger_leaddetails:email' => 'V',
+		'vtiger_leaddetails:secondaryemail' => 'V',
+		//Documents Related Fields
+		'vtiger_senotesrel:crmid' => 'V',
+		//HelpDesk Related Fields
+		'vtiger_troubletickets:parent_id' => 'V',
+		'vtiger_troubletickets:product_id' => 'V',
+		//Product Related Fields
+		'vtiger_products:discontinued' => 'C',
+		'vtiger_products:vendor_id' => 'V',
+		'vtiger_products:parentid' => 'V',
+		//Faq Related Fields
+		'vtiger_faq:product_id' => 'V',
+		//Vendor Related Fields
+		'vtiger_vendor:email' => 'V',
+		//Campaign Related Fields
+		'vtiger_campaign:product_id' => 'V',
+		//Related List Entries(For Report Module)
+		'vtiger_activityproductrel:activityid' => 'V',
+		'vtiger_activityproductrel:productid' => 'V',
+		'vtiger_campaign_records:campaignid' => 'V',
+		'vtiger_campaign_records:crmid' => 'V',
+		'vtiger_pricebookproductrel:pricebookid' => 'V',
+		'vtiger_pricebookproductrel:productid' => 'V',
+		'vtiger_senotesrel:crmid' => 'V',
+		'vtiger_senotesrel:notesid' => 'V',
+		'vtiger_seproductsrel:crmid' => 'V',
+		'vtiger_seproductsrel:productid' => 'V',
+		'vtiger_seticketsrel:crmid' => 'V',
+		'vtiger_seticketsrel:ticketid' => 'V',
+		'vtiger_vendorcontactrel:vendorid' => 'V',
+		'vtiger_vendorcontactrel:contactid' => 'V',
+		'vtiger_pricebook:currency_id' => 'V',
 		);
 
 		//If the Fields details does not match with the array, then we return the same typeofdata
@@ -876,38 +878,10 @@ class Functions
 		return floatval($bytes);
 	}
 
+
 	public static function showBytes($bytes, &$unit = null)
 	{
-		$bytes = self::parseBytes($bytes);
-		if ($bytes >= 1073741824) {
-			$unit = 'GB';
-			$gb = $bytes / 1073741824;
-			$str = sprintf($gb >= 10 ? "%d " : "%.2f ", $gb) . $unit;
-		} else if ($bytes >= 1048576) {
-			$unit = 'MB';
-			$mb = $bytes / 1048576;
-			$str = sprintf($mb >= 10 ? "%d " : "%.2f ", $mb) . $unit;
-		} else if ($bytes >= 1024) {
-			$unit = 'KB';
-			$str = sprintf("%d ", round($bytes / 1024)) . $unit;
-		} else {
-			$unit = 'B';
-			$str = sprintf('%d ', $bytes) . $unit;
-		}
-
-		return $str;
-	}
-
-	public static function getMaxUploadSize()
-	{
-		// find max filesize value
-		$maxFileSize = self::parseBytes(ini_get('upload_max_filesize'));
-		$maxPostSize = self::parseBytes(ini_get('post_max_size'));
-
-		if ($maxPostSize && $maxPostSize < $maxFileSize) {
-			$maxFileSize = $maxPostSize;
-		}
-		return $maxFileSize;
+		return \App\Modules\Base\Helpers\Util::formatBytesToHumanReadable($bytes, $unit);
 	}
 
 	public static function getMinimizationOptions($type = 'js')
@@ -1007,70 +981,365 @@ class Functions
 		$str = mb_convert_encoding((string) $str, 'UTF-8', mb_list_encodings());
 		$char_map = array(
 			// Latin
-			'Ă€' => 'A', 'Ă' => 'A', 'Ă‚' => 'A', 'Ă' => 'A', 'Ă„' => 'A', 'Ă…' => 'A', 'Ă†' => 'AE', 'Ă‡' => 'C',
-			'Ă' => 'E', 'Ă‰' => 'E', 'ĂŠ' => 'E', 'Ă‹' => 'E', 'ĂŚ' => 'I', 'ĂŤ' => 'I', 'ĂŽ' => 'I', 'ĂŹ' => 'I',
-			'Ă' => 'D', 'Ă‘' => 'N', 'Ă’' => 'O', 'Ă“' => 'O', 'Ă”' => 'O', 'Ă•' => 'O', 'Ă–' => 'O', 'Ĺ' => 'O',
-			'Ă' => 'O', 'Ă™' => 'U', 'Ăš' => 'U', 'Ă›' => 'U', 'Ăś' => 'U', 'Ĺ°' => 'U', 'Ăť' => 'Y', 'Ăž' => 'TH',
+			'Ă€' => 'A',
+			'Ă' => 'A',
+			'Ă‚' => 'A',
+			'Ă' => 'A',
+			'Ă„' => 'A',
+			'Ă…' => 'A',
+			'Ă†' => 'AE',
+			'Ă‡' => 'C',
+			'Ă' => 'E',
+			'Ă‰' => 'E',
+			'ĂŠ' => 'E',
+			'Ă‹' => 'E',
+			'ĂŚ' => 'I',
+			'ĂŤ' => 'I',
+			'ĂŽ' => 'I',
+			'ĂŹ' => 'I',
+			'Ă' => 'D',
+			'Ă‘' => 'N',
+			'Ă’' => 'O',
+			'Ă“' => 'O',
+			'Ă”' => 'O',
+			'Ă•' => 'O',
+			'Ă–' => 'O',
+			'Ĺ' => 'O',
+			'Ă' => 'O',
+			'Ă™' => 'U',
+			'Ăš' => 'U',
+			'Ă›' => 'U',
+			'Ăś' => 'U',
+			'Ĺ°' => 'U',
+			'Ăť' => 'Y',
+			'Ăž' => 'TH',
 			'Ăź' => 'ss',
-			'Ă ' => 'a', 'Ăˇ' => 'a', 'Ă˘' => 'a', 'ĂŁ' => 'a', 'Ă¤' => 'a', 'ĂĄ' => 'a', 'Ă¦' => 'ae', 'Ă§' => 'c',
-			'Ă¨' => 'e', 'Ă©' => 'e', 'ĂŞ' => 'e', 'Ă«' => 'e', 'á»‡' => 'e', 'Ă¬' => 'i', 'Ă­' => 'i', 'Ă®' => 'i',
-			'ĂŻ' => 'i', 'Ä©' => 'i', 'Ă°' => 'd', 'Ă±' => 'n', 'Ă˛' => 'o', 'Ăł' => 'o', 'Ă´' => 'o', 'á»™' => 'o',
-			'Ăµ' => 'o', 'Ă¶' => 'o', 'Ĺ‘' => 'o', 'Ă¸' => 'o', 'Ăą' => 'u', 'Ăş' => 'u', 'Ă»' => 'u', 'ĂĽ' => 'u',
-			'Ĺ±' => 'u', 'á»§' => 'u', 'Ă˝' => 'y', 'Ăľ' => 'th', 'Ăż' => 'y',
+			'Ă ' => 'a',
+			'Ăˇ' => 'a',
+			'Ă˘' => 'a',
+			'ĂŁ' => 'a',
+			'Ă¤' => 'a',
+			'ĂĄ' => 'a',
+			'Ă¦' => 'ae',
+			'Ă§' => 'c',
+			'Ă¨' => 'e',
+			'Ă©' => 'e',
+			'ĂŞ' => 'e',
+			'Ă«' => 'e',
+			'á»‡' => 'e',
+			'Ă¬' => 'i',
+			'Ă­' => 'i',
+			'Ă®' => 'i',
+			'ĂŻ' => 'i',
+			'Ä©' => 'i',
+			'Ă°' => 'd',
+			'Ă±' => 'n',
+			'Ă˛' => 'o',
+			'Ăł' => 'o',
+			'Ă´' => 'o',
+			'á»™' => 'o',
+			'Ăµ' => 'o',
+			'Ă¶' => 'o',
+			'Ĺ‘' => 'o',
+			'Ă¸' => 'o',
+			'Ăą' => 'u',
+			'Ăş' => 'u',
+			'Ă»' => 'u',
+			'ĂĽ' => 'u',
+			'Ĺ±' => 'u',
+			'á»§' => 'u',
+			'Ă˝' => 'y',
+			'Ăľ' => 'th',
+			'Ăż' => 'y',
 			// Latin symbols
 			'Â©' => '(c)',
 			// Greek
-			'Î‘' => 'A', 'Î’' => 'B', 'Î“' => 'G', 'Î”' => 'D', 'Î•' => 'E', 'Î–' => 'Z', 'Î—' => 'H', 'Î' => '8',
-			'Î™' => 'I', 'Îš' => 'K', 'Î›' => 'L', 'Îś' => 'M', 'Îť' => 'N', 'Îž' => '3', 'Îź' => 'O', 'Î ' => 'P',
-			'Îˇ' => 'R', 'ÎŁ' => 'S', 'Î¤' => 'T', 'ÎĄ' => 'Y', 'Î¦' => 'F', 'Î§' => 'X', 'Î¨' => 'PS', 'Î©' => 'W',
-			'Î†' => 'A', 'Î' => 'E', 'ÎŠ' => 'I', 'ÎŚ' => 'O', 'ÎŽ' => 'Y', 'Î‰' => 'H', 'ÎŹ' => 'W', 'ÎŞ' => 'I',
+			'Î‘' => 'A',
+			'Î’' => 'B',
+			'Î“' => 'G',
+			'Î”' => 'D',
+			'Î•' => 'E',
+			'Î–' => 'Z',
+			'Î—' => 'H',
+			'Î' => '8',
+			'Î™' => 'I',
+			'Îš' => 'K',
+			'Î›' => 'L',
+			'Îś' => 'M',
+			'Îť' => 'N',
+			'Îž' => '3',
+			'Îź' => 'O',
+			'Î ' => 'P',
+			'Îˇ' => 'R',
+			'ÎŁ' => 'S',
+			'Î¤' => 'T',
+			'ÎĄ' => 'Y',
+			'Î¦' => 'F',
+			'Î§' => 'X',
+			'Î¨' => 'PS',
+			'Î©' => 'W',
+			'Î†' => 'A',
+			'Î' => 'E',
+			'ÎŠ' => 'I',
+			'ÎŚ' => 'O',
+			'ÎŽ' => 'Y',
+			'Î‰' => 'H',
+			'ÎŹ' => 'W',
+			'ÎŞ' => 'I',
 			'Î«' => 'Y',
-			'Î±' => 'a', 'Î˛' => 'b', 'Îł' => 'g', 'Î´' => 'd', 'Îµ' => 'e', 'Î¶' => 'z', 'Î·' => 'h', 'Î¸' => '8',
-			'Îą' => 'i', 'Îş' => 'k', 'Î»' => 'l', 'ÎĽ' => 'm', 'Î˝' => 'n', 'Îľ' => '3', 'Îż' => 'o', 'Ď€' => 'p',
-			'Ď' => 'r', 'Ď' => 's', 'Ď„' => 't', 'Ď…' => 'y', 'Ď†' => 'f', 'Ď‡' => 'x', 'Ď' => 'ps', 'Ď‰' => 'w',
-			'Î¬' => 'a', 'Î­' => 'e', 'ÎŻ' => 'i', 'ĎŚ' => 'o', 'ĎŤ' => 'y', 'Î®' => 'h', 'ĎŽ' => 'w', 'Ď‚' => 's',
-			'ĎŠ' => 'i', 'Î°' => 'y', 'Ď‹' => 'y', 'Î' => 'i',
+			'Î±' => 'a',
+			'Î˛' => 'b',
+			'Îł' => 'g',
+			'Î´' => 'd',
+			'Îµ' => 'e',
+			'Î¶' => 'z',
+			'Î·' => 'h',
+			'Î¸' => '8',
+			'Îą' => 'i',
+			'Îş' => 'k',
+			'Î»' => 'l',
+			'ÎĽ' => 'm',
+			'Î˝' => 'n',
+			'Îľ' => '3',
+			'Îż' => 'o',
+			'Ď€' => 'p',
+			'Ď' => 'r',
+			'Ď' => 's',
+			'Ď„' => 't',
+			'Ď…' => 'y',
+			'Ď†' => 'f',
+			'Ď‡' => 'x',
+			'Ď' => 'ps',
+			'Ď‰' => 'w',
+			'Î¬' => 'a',
+			'Î­' => 'e',
+			'ÎŻ' => 'i',
+			'ĎŚ' => 'o',
+			'ĎŤ' => 'y',
+			'Î®' => 'h',
+			'ĎŽ' => 'w',
+			'Ď‚' => 's',
+			'ĎŠ' => 'i',
+			'Î°' => 'y',
+			'Ď‹' => 'y',
+			'Î' => 'i',
 			// Turkish
-			'Ĺž' => 'S', 'Ä°' => 'I', 'Ă‡' => 'C', 'Ăś' => 'U', 'Ă–' => 'O', 'Äž' => 'G',
-			'Ĺź' => 's', 'Ä±' => 'i', 'Ă§' => 'c', 'ĂĽ' => 'u', 'Ă¶' => 'o', 'Äź' => 'g',
+			'Ĺž' => 'S',
+			'Ä°' => 'I',
+			'Ă‡' => 'C',
+			'Ăś' => 'U',
+			'Ă–' => 'O',
+			'Äž' => 'G',
+			'Ĺź' => 's',
+			'Ä±' => 'i',
+			'Ă§' => 'c',
+			'ĂĽ' => 'u',
+			'Ă¶' => 'o',
+			'Äź' => 'g',
 			// Russian
-			'Đ' => 'A', 'Đ‘' => 'B', 'Đ’' => 'V', 'Đ“' => 'G', 'Đ”' => 'D', 'Đ•' => 'E', 'Đ' => 'Yo', 'Đ–' => 'Zh',
-			'Đ—' => 'Z', 'Đ' => 'I', 'Đ™' => 'J', 'Đš' => 'K', 'Đ›' => 'L', 'Đś' => 'M', 'Đť' => 'N', 'Đž' => 'O',
-			'Đź' => 'P', 'Đ ' => 'R', 'Đˇ' => 'S', 'Đ˘' => 'T', 'ĐŁ' => 'U', 'Đ¤' => 'F', 'ĐĄ' => 'H', 'Đ¦' => 'C',
-			'Đ§' => 'Ch', 'Đ¨' => 'Sh', 'Đ©' => 'Sh', 'ĐŞ' => '', 'Đ«' => 'Y', 'Đ¬' => '', 'Đ­' => 'E', 'Đ®' => 'Yu',
+			'Đ' => 'A',
+			'Đ‘' => 'B',
+			'Đ’' => 'V',
+			'Đ“' => 'G',
+			'Đ”' => 'D',
+			'Đ•' => 'E',
+			'Đ' => 'Yo',
+			'Đ–' => 'Zh',
+			'Đ—' => 'Z',
+			'Đ' => 'I',
+			'Đ™' => 'J',
+			'Đš' => 'K',
+			'Đ›' => 'L',
+			'Đś' => 'M',
+			'Đť' => 'N',
+			'Đž' => 'O',
+			'Đź' => 'P',
+			'Đ ' => 'R',
+			'Đˇ' => 'S',
+			'Đ˘' => 'T',
+			'ĐŁ' => 'U',
+			'Đ¤' => 'F',
+			'ĐĄ' => 'H',
+			'Đ¦' => 'C',
+			'Đ§' => 'Ch',
+			'Đ¨' => 'Sh',
+			'Đ©' => 'Sh',
+			'ĐŞ' => '',
+			'Đ«' => 'Y',
+			'Đ¬' => '',
+			'Đ­' => 'E',
+			'Đ®' => 'Yu',
 			'ĐŻ' => 'Ya',
-			'Đ°' => 'a', 'Đ±' => 'b', 'Đ˛' => 'v', 'Đł' => 'g', 'Đ´' => 'd', 'Đµ' => 'e', 'Ń‘' => 'yo', 'Đ¶' => 'zh',
-			'Đ·' => 'z', 'Đ¸' => 'i', 'Đą' => 'j', 'Đş' => 'k', 'Đ»' => 'l', 'ĐĽ' => 'm', 'Đ˝' => 'n', 'Đľ' => 'o',
-			'Đż' => 'p', 'Ń€' => 'r', 'Ń' => 's', 'Ń‚' => 't', 'Ń' => 'u', 'Ń„' => 'f', 'Ń…' => 'h', 'Ń†' => 'c',
-			'Ń‡' => 'ch', 'Ń' => 'sh', 'Ń‰' => 'sh', 'ŃŠ' => '', 'Ń‹' => 'y', 'ŃŚ' => '', 'ŃŤ' => 'e', 'ŃŽ' => 'yu',
+			'Đ°' => 'a',
+			'Đ±' => 'b',
+			'Đ˛' => 'v',
+			'Đł' => 'g',
+			'Đ´' => 'd',
+			'Đµ' => 'e',
+			'Ń‘' => 'yo',
+			'Đ¶' => 'zh',
+			'Đ·' => 'z',
+			'Đ¸' => 'i',
+			'Đą' => 'j',
+			'Đş' => 'k',
+			'Đ»' => 'l',
+			'ĐĽ' => 'm',
+			'Đ˝' => 'n',
+			'Đľ' => 'o',
+			'Đż' => 'p',
+			'Ń€' => 'r',
+			'Ń' => 's',
+			'Ń‚' => 't',
+			'Ń' => 'u',
+			'Ń„' => 'f',
+			'Ń…' => 'h',
+			'Ń†' => 'c',
+			'Ń‡' => 'ch',
+			'Ń' => 'sh',
+			'Ń‰' => 'sh',
+			'ŃŠ' => '',
+			'Ń‹' => 'y',
+			'ŃŚ' => '',
+			'ŃŤ' => 'e',
+			'ŃŽ' => 'yu',
 			'ŃŹ' => 'ya',
 			// Russian by vovpff
-			'Ж' => 'Zh', 'Ч' => 'Ch', 'Ш' => 'Sh', 'Щ' => 'Sh', 'Ю' => 'Yu', 'Я' => 'Ya', 'А' => 'A', 'Б' => 'B',
-			'В' => 'V', 'Г' => 'G', 'Д' => 'D', 'Е' => 'E', 'Ё' => 'E', 'З' => 'Z', 'И' => 'I', 'Й' => 'Y', 'К' => 'K',
-			'Л' => 'L', 'М' => 'M', 'Н' => 'N', 'О' => 'O', 'П' => 'P', 'Р' => 'R', 'С' => 'S', 'Т' => 'T', 'У' => 'U',
-			'Ф' => 'F', 'Х' => 'H', 'Ц' => 'C', 'Ъ' => '', 'Ы' => 'I', 'Ь' => '', 'Э' => 'E', 'ж' => 'zh', 'ч' => 'ch',
-			'ш' => 'sh', 'щ' => 'sh', 'ю' => 'yu', 'я' => 'ya', 'а' => 'a', 'б' => 'b', 'в' => 'v', 'г' => 'g',
-			'д' => 'd', 'е' => 'e', 'ё' => 'e', 'з' => 'z', 'и' => 'i', 'й' => 'y', 'к' => 'k', 'л' => 'l', 'м' => 'm',
-			'н' => 'n', 'о' => 'o', 'п' => 'p', 'р' => 'r', 'с' => 's', 'т' => 't', 'у' => 'u', 'ф' => 'f', 'х' => 'h',
-			'ц' => 'c', 'ъ' => '', 'ы' => 'i', 'ь' => '', 'э' => 'e',
+			'Ж' => 'Zh',
+			'Ч' => 'Ch',
+			'Ш' => 'Sh',
+			'Щ' => 'Sh',
+			'Ю' => 'Yu',
+			'Я' => 'Ya',
+			'А' => 'A',
+			'Б' => 'B',
+			'В' => 'V',
+			'Г' => 'G',
+			'Д' => 'D',
+			'Е' => 'E',
+			'Ё' => 'E',
+			'З' => 'Z',
+			'И' => 'I',
+			'Й' => 'Y',
+			'К' => 'K',
+			'Л' => 'L',
+			'М' => 'M',
+			'Н' => 'N',
+			'О' => 'O',
+			'П' => 'P',
+			'Р' => 'R',
+			'С' => 'S',
+			'Т' => 'T',
+			'У' => 'U',
+			'Ф' => 'F',
+			'Х' => 'H',
+			'Ц' => 'C',
+			'Ъ' => '',
+			'Ы' => 'I',
+			'Ь' => '',
+			'Э' => 'E',
+			'ж' => 'zh',
+			'ч' => 'ch',
+			'ш' => 'sh',
+			'щ' => 'sh',
+			'ю' => 'yu',
+			'я' => 'ya',
+			'а' => 'a',
+			'б' => 'b',
+			'в' => 'v',
+			'г' => 'g',
+			'д' => 'd',
+			'е' => 'e',
+			'ё' => 'e',
+			'з' => 'z',
+			'и' => 'i',
+			'й' => 'y',
+			'к' => 'k',
+			'л' => 'l',
+			'м' => 'm',
+			'н' => 'n',
+			'о' => 'o',
+			'п' => 'p',
+			'р' => 'r',
+			'с' => 's',
+			'т' => 't',
+			'у' => 'u',
+			'ф' => 'f',
+			'х' => 'h',
+			'ц' => 'c',
+			'ъ' => '',
+			'ы' => 'i',
+			'ь' => '',
+			'э' => 'e',
 			// Ukrainian
-			'Đ„' => 'Ye', 'Đ†' => 'I', 'Đ‡' => 'Yi', 'Ň' => 'G',
-			'Ń”' => 'ye', 'Ń–' => 'i', 'Ń—' => 'yi', 'Ň‘' => 'g',
+			'Đ„' => 'Ye',
+			'Đ†' => 'I',
+			'Đ‡' => 'Yi',
+			'Ň' => 'G',
+			'Ń”' => 'ye',
+			'Ń–' => 'i',
+			'Ń—' => 'yi',
+			'Ň‘' => 'g',
 			// Czech
-			'ÄŚ' => 'C', 'ÄŽ' => 'D', 'Äš' => 'E', 'Ĺ‡' => 'N', 'Ĺ' => 'R', 'Ĺ ' => 'S', 'Ĺ¤' => 'T', 'Ĺ®' => 'U',
+			'ÄŚ' => 'C',
+			'ÄŽ' => 'D',
+			'Äš' => 'E',
+			'Ĺ‡' => 'N',
+			'Ĺ' => 'R',
+			'Ĺ ' => 'S',
+			'Ĺ¤' => 'T',
+			'Ĺ®' => 'U',
 			'Ĺ˝' => 'Z',
-			'ÄŤ' => 'c', 'ÄŹ' => 'd', 'Ä›' => 'e', 'Ĺ' => 'n', 'Ĺ™' => 'r', 'Ĺˇ' => 's', 'ĹĄ' => 't', 'ĹŻ' => 'u',
+			'ÄŤ' => 'c',
+			'ÄŹ' => 'd',
+			'Ä›' => 'e',
+			'Ĺ' => 'n',
+			'Ĺ™' => 'r',
+			'Ĺˇ' => 's',
+			'ĹĄ' => 't',
+			'ĹŻ' => 'u',
 			'Ĺľ' => 'z',
 			// Polish
-			'Ä„' => 'A', 'Ä†' => 'C', 'Ä' => 'e', 'Ĺ' => 'L', 'Ĺ' => 'N', 'Ă“' => 'o', 'Ĺš' => 'S', 'Ĺą' => 'Z',
+			'Ä„' => 'A',
+			'Ä†' => 'C',
+			'Ä' => 'e',
+			'Ĺ' => 'L',
+			'Ĺ' => 'N',
+			'Ă“' => 'o',
+			'Ĺš' => 'S',
+			'Ĺą' => 'Z',
 			'Ĺ»' => 'Z',
-			'Ä…' => 'a', 'Ä‡' => 'c', 'Ä™' => 'e', 'Ĺ‚' => 'l', 'Ĺ„' => 'n', 'Ăł' => 'o', 'Ĺ›' => 's', 'Ĺş' => 'z',
+			'Ä…' => 'a',
+			'Ä‡' => 'c',
+			'Ä™' => 'e',
+			'Ĺ‚' => 'l',
+			'Ĺ„' => 'n',
+			'Ăł' => 'o',
+			'Ĺ›' => 's',
+			'Ĺş' => 'z',
 			'ĹĽ' => 'z',
 			// Latvian
-			'Ä€' => 'A', 'ÄŚ' => 'C', 'Ä’' => 'E', 'Ä˘' => 'G', 'ÄŞ' => 'i', 'Ä¶' => 'k', 'Ä»' => 'L', 'Ĺ…' => 'N',
-			'Ĺ ' => 'S', 'ĹŞ' => 'u', 'Ĺ˝' => 'Z',
-			'Ä' => 'a', 'ÄŤ' => 'c', 'Ä“' => 'e', 'ÄŁ' => 'g', 'Ä«' => 'i', 'Ä·' => 'k', 'ÄĽ' => 'l', 'Ĺ†' => 'n',
-			'Ĺˇ' => 's', 'Ĺ«' => 'u', 'Ĺľ' => 'z'
+			'Ä€' => 'A',
+			'ÄŚ' => 'C',
+			'Ä’' => 'E',
+			'Ä˘' => 'G',
+			'ÄŞ' => 'i',
+			'Ä¶' => 'k',
+			'Ä»' => 'L',
+			'Ĺ…' => 'N',
+			'Ĺ ' => 'S',
+			'ĹŞ' => 'u',
+			'Ĺ˝' => 'Z',
+			'Ä' => 'a',
+			'ÄŤ' => 'c',
+			'Ä“' => 'e',
+			'ÄŁ' => 'g',
+			'Ä«' => 'i',
+			'Ä·' => 'k',
+			'ÄĽ' => 'l',
+			'Ĺ†' => 'n',
+			'Ĺˇ' => 's',
+			'Ĺ«' => 'u',
+			'Ĺľ' => 'z'
 		);
 
 		// Transliterate characters to ASCII
