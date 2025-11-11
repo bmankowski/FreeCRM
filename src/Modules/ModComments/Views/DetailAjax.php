@@ -29,9 +29,12 @@ class DetailAjax extends \App\Modules\Base\Views\Index
 		$modCommentsModel = \App\Modules\Base\Models\Module::getInstance('ModComments');
 
 		$viewer = $this->getViewer($request);
+		$relatedTo = $recordModel->get('related_to');
+		$relatedModule = $relatedTo ? \App\Record::getType($relatedTo) : null;
 		$viewer->assign('CURRENTUSER', $currentUserModel);
 		$viewer->assign('COMMENT', $recordModel);
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
+		$viewer->assign('RELATED_MODULE', $relatedModule);
 		echo $viewer->view('Comment.tpl', $moduleName, true);
 	}
 }

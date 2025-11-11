@@ -2,7 +2,7 @@
 {strip}
 <!-- layouts/basic/modules/Base/EditViewInventoryItem.tpl -->
 	{if !empty($ITEM_DATA['name'])}
-		{assign var="REFERENCE_MODULE" value=vtlib\Functions::getCRMRecordType($ITEM_DATA['name'])}
+		{assign var="REFERENCE_MODULE" value=\App\Record::getType($ITEM_DATA['name'])}
 	{elseif $MAIN_PARAMS}
 		{assign var="REFERENCE_MODULE" value=reset($MAIN_PARAMS['modules'])}
 	{/if}

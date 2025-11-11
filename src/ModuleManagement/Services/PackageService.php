@@ -1026,7 +1026,7 @@ class PackageService
 		if (empty($modulenode->eventHandlers) || empty($modulenode->eventHandlers->event)) {
 			return;
 		}
-		$moduleId = \App\Utils\\App\Utils\ModuleUtils::getModuleId($module->getName());
+		$moduleId = \App\Utils\ModuleUtils::getModuleId($module->getName());
 		foreach ($modulenode->eventHandlers->event as $eventNode) {
 			\App\EventHandler::registerHandler(
 				(string) $eventNode->eventName,
@@ -2322,7 +2322,7 @@ class PackageService
 		if (empty($modulenode->eventHandlers) || empty($modulenode->eventHandlers->event)) {
 			return;
 		}
-		$moduleId = \App\Utils\\App\Utils\ModuleUtils::getModuleId($module->getName());
+		$moduleId = \App\Utils\ModuleUtils::getModuleId($module->getName());
 		// Delete existing handlers
 		$this->db->createCommand()->delete('vtiger_eventhandlers', ['owner_id' => $moduleId])->execute();
 		// Import new handlers

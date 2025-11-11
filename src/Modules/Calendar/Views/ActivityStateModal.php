@@ -20,6 +20,12 @@ class ActivityStateModal  extends \App\Modules\Base\Views\Index
 		$id = $request->get('record');
 		$recordInstance = \App\Modules\Base\Models\Record::getInstanceById($id, $moduleName);
 		$permissionToSendEmail = \App\Utils\ModuleUtils::isModuleActive('OSSMail') && \App\Modules\Users\Models\Privileges::isPermitted('OSSMail');
+		
+		// Pre-process record to add link_module_name if link exists
+		$linkId = $recordInstance->get('link');
+		if ($linkId) {
+			$recordInstance->set('link_module_name', \App\Record::getType($linkId));
+		}
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PERMISSION_TO_SENDE_MAIL', $permissionToSendEmail);

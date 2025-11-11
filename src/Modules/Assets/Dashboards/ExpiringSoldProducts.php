@@ -56,6 +56,13 @@ class ExpiringSoldProducts  extends \App\Modules\Base\Views\Index
 		}
 		$query->orderBy('vtiger_assets.dateinservice');
 		$query->limit($limit);
-		return $query->all();
+		$data = $query->all();
+		// Add module type for each row with parent_id
+		foreach ($data as &$row) {
+			if (!empty($row['parent_id'])) {
+				$row['parent_module'] = \App\Record::getType($row['parent_id']);
+			}
+		}
+		return $data;
 	}
 }

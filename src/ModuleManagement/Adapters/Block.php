@@ -152,7 +152,7 @@ class Block
 		} elseif ($this->module && is_string($this->module)) {
 			$moduleName = $this->module;
 		} elseif (isset($this->module->id)) {
-			$moduleName = \App\Utils\\App\Utils\ModuleUtils::getModuleName((int) $this->module->id);
+			$moduleName = \App\Utils\ModuleUtils::getModuleName((int) $this->module->id);
 		}
 		if ($moduleName) {
 			\App\Cache\Cache::delete('ModuleBlock', $moduleName);
@@ -179,10 +179,10 @@ class Block
 		} elseif ($this->module instanceof \vtlib\Module && isset($this->module->name)) {
 			$moduleName = $this->module->name;
 		} elseif (isset($this->module->id)) {
-			$moduleName = \App\Utils\\App\Utils\ModuleUtils::getModuleName((int) $this->module->id);
+			$moduleName = \App\Utils\ModuleUtils::getModuleName((int) $this->module->id);
 		}
 		if (!$moduleName && isset($this->tabid)) {
-			$moduleName = \App\Utils\\App\Utils\ModuleUtils::getModuleName((int) $this->tabid);
+			$moduleName = \App\Utils\ModuleUtils::getModuleName((int) $this->tabid);
 		}
 		if ($moduleName) {
 			\App\Cache\Cache::delete('ModuleBlock', $moduleName);
@@ -210,7 +210,7 @@ class Block
 				} elseif (method_exists($this->module, 'getId')) {
 					$moduleId = (int) $this->module->getId();
 				} elseif (isset($this->module->name)) {
-					$moduleId = (int) \App\Utils\\App\Utils\ModuleUtils::getModuleId($this->module->name);
+					$moduleId = (int) \App\Utils\ModuleUtils::getModuleId($this->module->name);
 				}
 			} elseif (is_numeric($this->module)) {
 				$moduleId = (int) $this->module;
@@ -219,7 +219,7 @@ class Block
 		if (!$moduleId && method_exists($fieldInstance, 'getModuleName')) {
 			$moduleName = $fieldInstance->getModuleName();
 			if ($moduleName) {
-				$moduleId = (int) \App\Utils\\App\Utils\ModuleUtils::getModuleId($moduleName);
+				$moduleId = (int) \App\Utils\ModuleUtils::getModuleId($moduleName);
 			}
 		}
 		if (!$moduleId) {

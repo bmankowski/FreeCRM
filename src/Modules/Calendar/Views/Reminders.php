@@ -29,6 +29,10 @@ class Reminders  extends \App\Modules\Base\Views\Index
 		$colorList = [];
 		foreach ($recordModels as $record) {
 			$record->updateReminderStatus(2);
+			$linkId = $record->get('link');
+			if ($linkId) {
+				$record->set('link_module_name', \App\Record::getType($linkId));
+			}
 			$colorList[$record->getId()] = \App\Modules\Settings\DataAccess\Models\Module::executeColorListHandlers($moduleName, $record->getId(), $record);
 		}
 		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
