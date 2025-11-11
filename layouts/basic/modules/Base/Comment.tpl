@@ -36,7 +36,7 @@
 										{$RELATED_MODULE|t:$RELATED_MODULE}:
 									</strong>
 									<strong class="commentRelatedTitle">
-										{vtlib\Functions::getCRMRecordLabel($RELATED_TO)}
+										{\App\Record::getLabel($RELATED_TO)}
 									</strong>
 								</a>
 							{/if}

@@ -15,11 +15,11 @@
 ## Use Case Details & Alternatives
 
 ### Module & Record Metadata
-- **vtlib helpers used**: `vtlib\Functions::getModuleName()`, `vtlib\Functions::getModuleId()`, `\vtlib\Functions::getAllModules()`, `\vtlib\Functions::getCRMRecordType()`, `vtlib\Functions::getCRMRecordLabel()`, `vtlib\Functions::getCRMRecordMetadata()`.
+- **vtlib helpers used**: `vtlib\Functions::getModuleName()`, `vtlib\Functions::getModuleId()`, `\vtlib\Functions::getAllModules()`, `\vtlib\Functions::getCRMRecordType()`, `vtlib\Functions::getCRMRecordMetadata()`.
 - **Template touchpoints**: `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Settings/Widgets/IndexContent.tpl`, `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Settings/Users/ColorsContent.tpl`, `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Settings/Menu/types/HomeIcon.tpl`, `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Settings/LangManagement/EditHelpIcon.tpl`, `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Calendar/Reminders.tpl`, `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Base/RelatedListContents.tpl`, `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Assets/dashboards/ExpiringSoldProductsContents.tpl`, `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Base/Comment.tpl`, `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Events/InviteRow.tpl`.
 - **Modern options**:
   - Controllers can resolve module metadata via `App\Utils\ModuleUtils::getModuleName()` / `App\Utils\ModuleUtils::getModuleId()` and inject results into the view model. (Note: `App\Utils\ModuleUtils::getModuleName()` still proxies to vtlib internally, so long-term plan is to move logic into `ModuleManagement\Services\ModuleService`.)
-  - Record-level lookups should use `App\Record::getType($id)` and `App\Record::getLabel($id)`; when templates need additional information provide it via controller assignments (e.g., owner names, URLs) instead of calling vtlib.
+  - Record-level lookups should use `App\Record::getType($id)`; when templates need additional information provide it via controller assignments (e.g., owner names, URLs) instead of calling vtlib.
   - For lists of modules provide pre-fetched data from `App\Utils\ModuleUtils::getAllEntityModuleInfo()` or the new `ModuleManagement\Models\Module` collection.
   - For `vtlib\Functions::getCRMRecordMetadata()` there is no modern helper yet; expose metadata through an upcoming record service and cache the payload at the controller level until the service exists.
 
@@ -27,8 +27,6 @@
 - `vtlib\Functions::getModuleName()` → `App\Utils\ModuleUtils::getModuleName($tabId)` (uses vtlib internally today; replace with ModuleManagement service once available).
 - `vtlib\Functions::getModuleId()` → `App\Utils\ModuleUtils::getModuleId($moduleName)`.
 - `\vtlib\Functions::getAllModules()` → `App\Utils\ModuleUtils::getAllEntityModuleInfo()`; future: dedicated `ModuleManagement\Services\ModuleService::getAll()`.
-- `\vtlib\Functions::getCRMRecordType()` → `App\Record::getType($crmid)`.
-- `vtlib\Functions::getCRMRecordLabel()` → `App\Record::getLabel($crmid)`.
 - `vtlib\Functions::getCRMRecordMetadata()` → **Gap**: no PSR service yet; plan to introduce `ModuleManagement\Services\RecordMetadataService::getMetadata($id)`.
 
 ### Owner & Assignment Labels
@@ -155,56 +153,6 @@ $viewer->assign('ACTIVE_MODULES', $activeModules);
 
 ---
 
-#### `vtlib\Functions::getCRMRecordType($crmid)`
-
-**Current Alternative:** `App\Record::getType($recordId)`
-
-**Template Usage:**
-```smarty
-{assign var="ROW_MODULE" value=vtlib\Functions::getCRMRecordType($INVENTORY_ROW['name'])}
-```
-
-**Controller Migration:**
-```php
-// In controller - prepare data before template
-foreach ($inventoryRows as &$row) {
-    $row['module_name'] = \App\Record::getType($row['name']);
-}
-$viewer->assign('INVENTORY_ROWS', $inventoryRows);
-
-// In template (after migration)
-{assign var="ROW_MODULE" value=$INVENTORY_ROW.module_name}
-```
-
----
-
-#### `vtlib\Functions::getCRMRecordLabel($crmid)`
-
-**Current Alternative:** `App\Record::getLabel($crmid)`
-
-**Template Usage:**
-```smarty
-{vtlib\Functions::getCRMRecordLabel($ROW.parent_id)}
-```
-
-**Controller Migration:**
-```php
-// In controller
-$recordIds = array_column($rows, 'parent_id');
-$labels = \App\Record::getLabel($recordIds); // Supports array input
-foreach ($rows as &$row) {
-    $row['parent_label'] = $labels[$row['parent_id']] ?? '';
-}
-$viewer->assign('ROWS', $rows);
-
-// In template (after migration)
-{$ROW.parent_label}
-```
-
-**Note:** `App\Record::getLabel()` accepts single ID or array of IDs for batch processing.
-
----
-
 #### `vtlib\Functions::getCRMRecordMetadata($crmid)`
 
 **Current Alternative:** **Gap - No modern replacement yet**
@@ -222,7 +170,6 @@ $metadata = [];
 foreach ($inviteeIds as $id) {
     $metadata[$id] = [
         'setype' => \App\Record::getType($id),
-        'label' => \App\Record::getLabel($id),
         'smownerid' => // fetch from vtiger_crmentity if needed
     ];
 }
@@ -691,5 +638,5 @@ class Language
 | `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Base/EditViewInventoryItem.tpl` | `vtlib\Functions::getCRMRecordType()` | Determine referenced module |
 | `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Base/EditViewInventory.tpl` | `vtlib\Functions::getCurrencySymbolandRate()` | Display currency symbol/rate |
 | `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Base/DetailViewInventoryView.tpl` | `vtlib\Functions::getCurrencySymbolandRate()`, `vtlib\Functions::getCRMRecordType()` | Render inventory totals |
-| `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Assets/dashboards/ExpiringSoldProductsContents.tpl` | `vtlib\Functions::getCRMRecordType()`, `vtlib\Functions::getCRMRecordLabel()` | Link to parent records |
-| `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Base/Comment.tpl` | `vtlib\Functions::getCRMRecordType()`, `vtlib\Functions::getCRMRecordLabel()` | Show comment relation |
+| `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Assets/dashboards/ExpiringSoldProductsContents.tpl` | `vtlib\Functions::getCRMRecordType()` | Link to parent records |
+| `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Base/Comment.tpl` | `vtlib\Functions::getCRMRecordType()` | Show comment relation |
