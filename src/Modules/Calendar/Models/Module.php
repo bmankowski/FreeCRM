@@ -320,7 +320,7 @@ class Module extends \App\Modules\Base\Models\Module
 		for ($i = 0; $i < $rows; $i++) {
 			$activityTypes = $db->query_result_rowdata($result, $i);
 			$moduleInstance = \App\Modules\Base\Models\Module::getInstance($activityTypes['module']);
-			$fieldInstance = vtlib\Field::getInstance($activityTypes['fieldname'], $moduleInstance);
+			$fieldInstance = \App\Modules\Base\Models\Field::getInstance($activityTypes['fieldname'], $moduleInstance);
 			if ($fieldInstance) {
 				$fieldLabel = $fieldInstance->label;
 			} else {

@@ -118,7 +118,7 @@ class PaymentsIn extends \App\CRMEntity
 			\App\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions:: getModuleId($modulename));
 
 			$moduleInstance = \App\Modules\Base\Models\Module::getInstance('Accounts');
-			$blockInstance = vtlib\Block::getInstance('LBL_ACCOUNT_INFORMATION', $moduleInstance);
+			$blockInstance = \App\Modules\Base\Models\Block::getInstance('LBL_ACCOUNT_INFORMATION', $moduleInstance);
 			$fieldInstance = new vtlib\Field();
 			$fieldInstance->name = 'payment_balance';
 			$fieldInstance->table = 'vtiger_account';

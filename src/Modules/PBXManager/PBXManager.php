@@ -120,7 +120,7 @@ class PBXManager extends \App\CRMEntity
 		$module = \App\Modules\Base\Models\Module::getInstance('Users');
 		if ($module) {
 			$module->initTables();
-			$blockInstance = vtlib\Block::getInstance('LBL_MORE_INFORMATION', $module);
+			$blockInstance = \App\Modules\Base\Models\Block::getInstance('LBL_MORE_INFORMATION', $module);
 			if ($blockInstance) {
 				$fieldInstance = new vtlib\Field();
 				$fieldInstance->name = 'phone_crm_extension';

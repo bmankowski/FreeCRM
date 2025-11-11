@@ -37,7 +37,7 @@ class Conditions extends \App\Modules\Settings\Base\Views\Index
 		$recordStrucure = \App\Modules\Base\Models\RecordStructure::getInstanceForModule($moduleModel);
 		$structuredValues = $recordStrucure->getStructure();
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
-		$blockInstance = vtlib\Block::getInstance($blockId, $moduleModel);
+		$blockInstance = \App\Modules\Base\Models\Block::getInstance($blockId, $moduleModel);
 		$blockLabel = $blockInstance->label;
 		$blockModelList = $moduleModel->getBlocks();
 		$blockModel = $blockModelList[$blockLabel];

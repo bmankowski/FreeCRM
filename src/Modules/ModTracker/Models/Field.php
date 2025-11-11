@@ -106,9 +106,9 @@ class Field extends \App\Modules\Base\Models\Field
 		if ($this->getFieldInstance()->getFieldDataType() != 'text') {
 			return $value;
 		}
-		$teaser = \vtlib\Functions:: textLength($value, \App\AppConfig::module('ModTracker', 'TEASER_TEXT_LENGTH'));
+		$teaser = \App\ModuleManagement\Adapters\Functions::textLength($value, \App\AppConfig::module('ModTracker', 'TEASER_TEXT_LENGTH'));
 		if (substr($teaser, -3) == '...') {
-			$value = \App\Purifier::purify(\vtlib\Functions:: removeHtmlTags(array('br', 'link', 'style', 'a', 'img', 'script', 'base'), $value));
+			$value = \App\Purifier::purify(\App\ModuleManagement\Adapters\Functions::removeHtmlTags(array('br', 'link', 'style', 'a', 'img', 'script', 'base'), $value));
 			$this->set('fullPreValue', $value);
 		}
 		return $teaser;
@@ -124,9 +124,9 @@ class Field extends \App\Modules\Base\Models\Field
 		if ($this->getFieldInstance()->getFieldDataType() != 'text') {
 			return $value;
 		}
-		$teaser = \vtlib\Functions:: textLength($value, \App\AppConfig::module('ModTracker', 'TEASER_TEXT_LENGTH'));
+		$teaser = \App\ModuleManagement\Adapters\Functions::textLength($value, \App\AppConfig::module('ModTracker', 'TEASER_TEXT_LENGTH'));
 		if (substr($teaser, -3) == '...') {
-			$value = \App\Purifier::purify(\vtlib\Functions:: removeHtmlTags(array('br', 'link', 'style', 'a', 'img', 'script', 'base'), $value));
+			$value = \App\Purifier::purify(\App\ModuleManagement\Adapters\Functions::removeHtmlTags(array('br', 'link', 'style', 'a', 'img', 'script', 'base'), $value));
 			$this->set('fullPostValue', $value);
 		}
 		return $teaser;
@@ -153,9 +153,9 @@ class Field extends \App\Modules\Base\Models\Field
 
 	/**
 	 * Function returns the module name of the field
-	 * @return string
+	 * @return string|null
 	 */
-	public function getModuleName()
+	public function getModuleName(): ?string
 	{
 		return $this->getParent()->getParent()->getModule()->getName();
 	}

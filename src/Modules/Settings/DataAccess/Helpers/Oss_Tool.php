@@ -51,7 +51,7 @@ class Oss_Tool
 			$blockId = \vtlib\Deprecated::getBlockId($tabid, $blockLabel);
 
 			$moduleInstance = \App\Modules\Base\Models\Module::getInstance($moduleName);
-			$blockInstance = vtlib\Block::getInstance($blockId, $moduleInstance);
+			$blockInstance = \App\Modules\Base\Models\Block::getInstance($blockId, $moduleInstance);
 
 			$fieldInstance = new vtlib\Field();
 			$fieldInstance->name = $fieldName;
@@ -83,7 +83,7 @@ class Oss_Tool
 			$blockId = \vtlib\Deprecated::getBlockId($tabid, $blockLabel);
 
 			$moduleInstance = \App\Modules\Base\Models\Module::getInstance($moduleName);
-			$blockInstance = vtlib\Block::getInstance($blockId, $moduleInstance);
+			$blockInstance = \App\Modules\Base\Models\Block::getInstance($blockId, $moduleInstance);
 
 			$field = new vtlib\Field();
 
@@ -135,7 +135,7 @@ class Oss_Tool
 			$blockId = \vtlib\Deprecated::getBlockId($tabid, $blockLabel);
 
 			$moduleInstance = \App\Modules\Base\Models\Module::getInstance($moduleName);
-			$blockInstance = vtlib\Block::getInstance($blockId, $moduleInstance);
+			$blockInstance = \App\Modules\Base\Models\Block::getInstance($blockId, $moduleInstance);
 
 			$field = new vtlib\Field();
 
@@ -203,7 +203,7 @@ class Oss_Tool
 			$blockId = \vtlib\Deprecated::getBlockId($tabid, $blockLabel);
 
 			$moduleInstance = \App\Modules\Base\Models\Module::getInstance($moduleName);
-			$blockInstance = vtlib\Block::getInstance($blockId, $moduleInstance);
+			$blockInstance = \App\Modules\Base\Models\Block::getInstance($blockId, $moduleInstance);
 
 			$fieldInstance = new vtlib\Field();
 			$fieldInstance->name = strtolower($fieldName);

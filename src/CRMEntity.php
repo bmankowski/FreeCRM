@@ -288,7 +288,7 @@ class CRMEntity
 						$this->column_fields[$fieldInfo['fieldname'] . '_label'] = \App\Record::getLabel($fieldvalue);
 					}
 					if ($showsAdditionalLabels && in_array($fieldInfo['uitype'], [52, 53])) {
-						$this->column_fields[$fieldInfo['fieldname'] . '_label'] = \vtlib\Functions::getOwnerRecordLabel($fieldvalue);
+						$this->column_fields[$fieldInfo['fieldname'] . '_label'] = \App\Fields\Owner::getLabel($fieldvalue);
 					}
 					if ($fieldInfo['uitype'] === 120) {
 						$query = (new Db\Query())->select('userid')->from('u_#__crmentity_showners')->where(['crmid' => $record])->distinct();
@@ -1238,7 +1238,7 @@ class CRMEntity
 
 		$focus1 = CRMEntity::getInstance($module);
 
-		$entityNameArr = \vtlib\Functions::getEntityModuleSQLColumnString($module);
+		$entityNameArr = \App\ModuleManagement\Adapters\Functions::getEntityModuleSQLColumnString($module);
 		$entityName = $entityNameArr['fieldname'];
 		$query = "SELECT vtiger_crmentity.deleted, $focus1->table_name.*
 					FROM $focus1->table_name
@@ -1348,7 +1348,7 @@ class CRMEntity
 			}
 		}
 
-		$entityfields = \vtlib\Functions::getEntityModuleSQLColumnString($module);
+		$entityfields = \App\ModuleManagement\Adapters\Functions::getEntityModuleSQLColumnString($module);
 		$querycolumnnames = implode(',', $lookupcolumns);
 		$entitycolumnnames = $entityfields['fieldname'];
 		$query = "select crmid as id, $querycolumnnames, $entitycolumnnames as name ";

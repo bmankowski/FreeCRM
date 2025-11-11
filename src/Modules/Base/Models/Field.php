@@ -157,7 +157,7 @@ class Field extends \vtlib\Field
 			if (is_object($block) && isset($block->module)) {
 				$moduleObj = $block->module;
 			} elseif (is_numeric($block)) {
-				$blockInstance = \vtlib\Block::getInstance((int) $block);
+				$blockInstance = \App\Modules\Base\Models\Block::getInstance((int) $block);
 				if ($blockInstance && isset($blockInstance->module)) {
 					$moduleObj = $blockInstance->module;
 				}
