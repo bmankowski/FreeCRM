@@ -46,7 +46,7 @@
 			<div class="col-md-4">
 				<select class="chzn-select form-control" name="email" data-placeholder="{'LBL_SELECT_FIELD'|t:$QUALIFIED_MODULE}" multiple  data-validation-engine="validate[required]">
 					<option value="none"></option>
-					{assign var=TEXT_PARSER value=App\TextParser::getInstance($SOURCE_MODULE)}
+					{assign var=TEXT_PARSER value=$TEXT_PARSER}
 					{foreach item=FIELDS key=BLOCK_NAME from=$TEXT_PARSER->getRecordVariable('email')}
 						<optgroup label="{$BLOCK_NAME|t:$SOURCE_MODULE}">
 							{foreach item=ITEM from=$FIELDS}

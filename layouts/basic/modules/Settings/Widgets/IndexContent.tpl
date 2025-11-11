@@ -47,7 +47,7 @@
                                         </div>
                                         <div class="col-md-5">
                                             {if $WIDGET['label'] eq '' && isset($WIDGET['data']['relatedmodule'])}
-                                                {\App\Utils\ModuleUtils::getModuleName($WIDGET['data']['relatedmodule'])|t:\App\Utils\ModuleUtils::getModuleName($WIDGET['data']['relatedmodule'])}
+                                                {$WIDGET_MODULE_NAMES[$column][$key]|t:$WIDGET_MODULE_NAMES[$column][$key]}
                                             {else}
                                                 {$WIDGET['label']|t:$SOURCEMODULE}&nbsp;
                                             {/if}

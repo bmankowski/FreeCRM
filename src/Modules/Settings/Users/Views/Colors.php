@@ -28,6 +28,9 @@ class Colors extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
 		
+		// Prepare Colors-specific data for ColorsContent template
+		$this->prepareColorsData($viewer, $tablesAll);
+		
 		// Add AJAX detection for MainLayout conversion
 		if ($request->isAjax()) {
 			// AJAX request - return content only
@@ -36,6 +39,33 @@ class Colors extends \App\Modules\Settings\Base\Views\Index
 			// Initial page load - return full page with MainLayout
 			$viewer->view('ColorsIndex.tpl', $qualifiedModuleName);
 		}
+	}
+	
+	/**
+	 * Prepare data for ColorsContent template
+	 * Moves function calls from templates to controller for better MVC separation
+	 */
+	protected function prepareColorsData($viewer, $tablesAll)
+	{
+		// Prepare color data
+		$viewer->assign('USER_COLORS', \App\Modules\Users\Models\Colors::getUserColors());
+		$viewer->assign('GROUP_COLORS', \App\Modules\Users\Models\Colors::getGroupColors());
+		$viewer->assign('MODULE_COLORS', \App\Modules\Users\Models\Colors::getModulesColors());
+		
+		// Prepare module names and field values for tables
+		$moduleNames = [];
+		$fieldValues = [];
+		foreach ($tablesAll as $process => $elements) {
+			foreach ($elements as $item) {
+				if (empty($item)) {
+					continue;
+				}
+				$moduleNames[$item['tabid']] = \App\Utils\ModuleUtils::getModuleName($item['tabid']);
+				$fieldValues[$item['fieldname']] = \App\Modules\Users\Models\Colors::getValuesFromField($item['fieldname']);
+			}
+		}
+		$viewer->assign('MODULE_NAMES', $moduleNames);
+		$viewer->assign('FIELD_VALUES', $fieldValues);
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)

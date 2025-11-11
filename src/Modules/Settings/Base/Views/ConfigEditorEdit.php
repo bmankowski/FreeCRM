@@ -32,6 +32,25 @@ class ConfigEditorEdit extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('MODEL', $moduleModel);
 		$viewer->assign('MAX_UPLOAD_SIZE_BYTES', $maxUploadBytes);
 		$viewer->assign('MAX_UPLOAD_SIZE_HUMAN', $maxUploadSizeHuman);
+		
+		// Prepare field validation data with JSON encoding
+		$fieldValidation = [
+			'HELPDESK_SUPPORT_EMAIL_REPLY' => ['name'=>'Email'],
+			'upload_maxsize' => ['name' => 'number'],
+			'history_max_viewed' => ['name' => 'NumberRange5'],
+			'popupType' =>['name' => 'NumberRange2'],
+			'title_max_length' => ['name' => 'NumberRange100'],
+			'MINIMUM_CRON_FREQUENCY' => ['name' => 'NumberRange100'],
+			'href_max_length' => ['name' => 'NumberRange100'],
+			'listview_max_textlength' => ['name' => 'NumberRange100'],
+			'list_max_entries_per_page' => ['name' => 'NumberRange100']
+		];
+		$fieldValidationJson = [];
+		foreach ($fieldValidation as $fieldName => $validation) {
+			$fieldValidationJson[$fieldName] = \App\Json::encode([$validation]);
+		}
+		$viewer->assign('FIELD_VALIDATION_JSON', $fieldValidationJson);
+		
 		$viewer->view('ConfigEditorEdit.tpl', $qualifiedName);
 	}
 

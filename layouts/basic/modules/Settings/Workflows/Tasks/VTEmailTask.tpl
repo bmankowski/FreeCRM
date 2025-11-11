@@ -19,7 +19,7 @@
 					<div class="col-md-10 paddingLRZero">
 						<select id="task_timefields" name="smtp" class="chzn-select form-control " data-placeholder="{"LBL_SELECT_OPTIONS"|t:$QUALIFIED_MODULE}">
 							<option value="">{"LBL_DEFAULT"|t}</option>
-							{foreach from=App\Mail::getAll() item=ITEM key=ID}
+							{foreach from=$MAIL_ACCOUNTS item=ITEM key=ID}
 								<option value="{$ID}" {if $TASK_OBJECT->smtp == $ID}selected{/if}>{$ITEM['name']}({$ITEM['host']})</option>
 							{/foreach}	
 						</select>

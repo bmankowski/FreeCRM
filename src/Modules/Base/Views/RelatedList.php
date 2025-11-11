@@ -144,6 +144,90 @@ class RelatedList  extends \App\Modules\Base\Views\Index
 	$viewer->assign('SEARCH_DETAILS', $searchParmams);
 	$viewer->assign('VIEW', $request->get('view'));
 	$viewer->assign('IS_CREATE_PERMITTED', \App\Modules\Users\Models\Privileges::isPermitted($relatedModuleName, 'CreateView'));
+	
+	// Prepare data for RelatedListLeftSide template - move function calls from templates to controller
+	$this->prepareRelatedListLeftSideData($viewer, $models, $relatedModuleModel, $request->getUser());
+	
+	// Prepare data for RelatedList template - move function calls from templates to controller
+	$viewer->assign('AUTO_REFRESH_LIST_ON_CHANGE', \App\AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE'));
+	
 	return $viewer->view('RelatedList.tpl', $moduleName, 'true');
+	}
+
+	/**
+	 * Prepare data for RelatedListLeftSide template
+	 * Moves function calls from templates to controller for better MVC separation
+	 */
+	protected function prepareRelatedListLeftSideData($viewer, $models, $relatedModuleModel, $userModel)
+	{
+		// Prepare global config and permissions (checked once, not per record)
+		$isActiveSendingMails = \App\AppConfig::main('isActiveSendingMails');
+		$canUseOSSMail = \App\Modules\Users\Models\Privileges::isPermitted('OSSMail');
+		$modTrackerUnreviewedCount = \App\AppConfig::module('ModTracker', 'UNREVIEWED_COUNT');
+		$canReviewUpdates = $relatedModuleModel->isPermitted('ReviewingUpdates');
+		$isTrackingEnabled = $relatedModuleModel->isTrackingEnabled();
+		
+		$viewer->assign('CAN_SEND_MAILS', $isActiveSendingMails && $canUseOSSMail);
+		$viewer->assign('SHOW_MODTRACKER_UNREVIEWED', $modTrackerUnreviewedCount && $canReviewUpdates && $isTrackingEnabled);
+		
+		// Prepare per-record OSSMail URLs
+		$osSMailUrls = [];
+		$internalMailer = $userModel->get('internal_mailer') == 1;
+		
+		foreach ($models as $record) {
+			$recordId = $record->getId();
+			$moduleName = $record->getModuleName();
+			
+			if ($isActiveSendingMails && $canUseOSSMail) {
+				if ($internalMailer) {
+					$osSMailUrls[$recordId] = [
+						'type' => 'compose',
+						'url' => \App\Modules\OSSMail\Models\Module::getComposeUrl($moduleName, $recordId, 'Detail', 'new')
+					];
+				} else {
+					$externalUrl = \App\Modules\OSSMail\Models\Module::getExternalUrl($moduleName, $recordId, 'Detail', 'new');
+					if ($externalUrl && $externalUrl != 'mailto:?') {
+						$osSMailUrls[$recordId] = [
+							'type' => 'external',
+							'url' => $externalUrl
+						];
+					}
+				}
+			}
+		}
+		
+		$viewer->assign('OSSMail_URLS', $osSMailUrls);
+		
+		// Prepare Documents-specific data if related module is Documents
+		$relatedModuleName = $relatedModuleModel->getName();
+		if ($relatedModuleName === 'Documents') {
+			$this->prepareDocumentsRelatedListData($viewer, $models);
+		}
+		
+		// Prepare Calendar-specific data if related module is Calendar
+		if ($relatedModuleName === 'Calendar') {
+			$this->prepareCalendarRelatedListData($viewer);
+		}
+	}
+	
+	/**
+	 * Prepare Documents-specific data for RelatedListLeftSide template
+	 */
+	protected function prepareDocumentsRelatedListData($viewer, $models)
+	{
+		$imageClasses = [];
+		foreach ($models as $record) {
+			$recordId = $record->getId();
+			$imageClasses[$recordId] = \App\Modules\Documents\Models\Record::getFileIconByFileType($record->get('filetype'));
+		}
+		$viewer->assign('DOCUMENT_IMAGE_CLASSES', $imageClasses);
+	}
+	
+	/**
+	 * Prepare Calendar-specific data for RelatedListLeftSide template
+	 */
+	protected function prepareCalendarRelatedListData($viewer)
+	{
+		$viewer->assign('CURRENT_ACTIVITY_LABELS', \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current'));
 	}
 }

@@ -148,6 +148,65 @@ class EditTask extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('ASSIGNED_TO', $assignedToValues);
 		$viewer->assign('EMAIL_FIELD_OPTION', $emailFieldoptions);
 		$viewer->assign('FROM_EMAIL_FIELD_OPTION', $fromEmailFieldOptions);
+		
+		// Prepare workflow task-specific data for task templates
+		$this->prepareWorkflowTaskData($viewer, $taskObject, $taskType, $sourceModule);
+		
 		$viewer->view('EditTask.tpl', $qualifiedModuleName);
+	}
+	
+	/**
+	 * Prepare data for workflow task templates
+	 * Moves function calls from templates to controller for better MVC separation
+	 */
+	protected function prepareWorkflowTaskData($viewer, $taskObject, $taskType, $sourceModule)
+	{
+		// Prepare datetime value for 'now'
+		$dateTimeValue = \App\Modules\Base\UiTypes\Datetime::getDateTimeValue('now');
+		$viewer->assign('DATE_TIME_VALUE_NOW', $dateTimeValue);
+		
+		// Prepare notification type picklist values
+		$viewer->assign('NOTIFICATION_TYPE_VALUES', \App\Fields\Picklist::getPickListValues('notification_type'));
+		
+		// Prepare privilege members
+		$viewer->assign('PRIVILEGE_MEMBERS', \App\PrivilegeUtil::getMembers());
+		
+		// Prepare mail accounts for email tasks
+		$viewer->assign('MAIL_ACCOUNTS', \App\Mail::getAll());
+		
+		// Prepare field value mappings with JSON encoding/decoding
+		if (isset($taskObject->field_value_mapping) && !empty($taskObject->field_value_mapping)) {
+			$fieldValueMapping = \App\Json::decode($taskObject->field_value_mapping);
+			$viewer->assign('FIELD_VALUE_MAPPING_DECODED', $fieldValueMapping);
+			$viewer->assign('FIELD_VALUE_MAPPING_JSON', \App\Modules\Base\Helpers\Util::toSafeHTML($taskObject->field_value_mapping));
+		} else {
+			$viewer->assign('FIELD_VALUE_MAPPING_DECODED', []);
+			$viewer->assign('FIELD_VALUE_MAPPING_JSON', '');
+		}
+		
+		// Prepare field info JSON for each field (used in VTUpdateFieldsTask)
+		$moduleModel = $viewer->getTemplateVars('MODULE_MODEL');
+		if ($moduleModel) {
+			$fieldInfoJson = [];
+			foreach ($moduleModel->getFields() as $fieldModel) {
+				$fieldName = $fieldModel->get('name');
+				$fieldInfo = $fieldModel->getFieldInfo();
+				$fieldInfoJson[$fieldName] = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($fieldInfo));
+			}
+			$viewer->assign('FIELD_INFO_JSON', $fieldInfoJson);
+			
+			// Prepare field info JSON for related fields (used in VTUpdateRelatedFieldTask)
+			$relatedFieldInfoJson = [];
+			foreach ($moduleModel->getRelations() as $relationModel) {
+				$relationModuleName = $relationModel->getRelationModuleName();
+				$relationModuleModel = $relationModel->getRelationModuleModel();
+				foreach ($relationModuleModel->getFields() as $fieldModel) {
+					$fieldName = $relationModuleName . '::' . $fieldModel->get('name');
+					$fieldInfo = $fieldModel->getFieldInfo();
+					$relatedFieldInfoJson[$fieldName] = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($fieldInfo));
+				}
+			}
+			$viewer->assign('RELATED_FIELD_INFO_JSON', $relatedFieldInfoJson);
+		}
 	}
 }

@@ -5,7 +5,7 @@
 		<span class="col-md-3">{"LBL_SELECT_ACTION_TYPE"|t:$QUALIFIED_MODULE}</span>
 		<div class="col-md-9">
 			<select class="chzn-select form-control" name="type" data-validation-engine="validate[required]">
-				{foreach from=\App\Fields\Picklist::getPickListValues('notification_type') key=KEY item=ITEM}
+				{foreach from=$NOTIFICATION_TYPE_VALUES key=KEY item=ITEM}
 					<option {if $TASK_OBJECT->type eq $ITEM}selected{/if} value="{$ITEM}">{$ITEM|t:$TASK_OBJECT->srcWatchdogModule}</option>
 				{/foreach}
 			</select>
@@ -21,7 +21,7 @@
 				<option {if $TASK_OBJECT->recipients eq 'owner'}selected{/if} value="owner">
 					{"LBL_OWNER_REKORD"|t:$QUALIFIED_MODULE}
 				</option>
-				{foreach from=\App\PrivilegeUtil::getMembers() key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
+				{foreach from=$PRIVILEGE_MEMBERS key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
 					<optgroup label="{$GROUP_LABEL|t}">
 						{foreach from=$ALL_GROUP_MEMBERS key=MEMBER_ID item=MEMBER}
 							<option class="{$MEMBER['type']}" value="{$MEMBER_ID}" {if $TASK_OBJECT->recipients eq $MEMBER_ID}selected{/if}>{$MEMBER['name']|t}</option>

@@ -35,7 +35,7 @@
 					<tr data-rownumber="0">
 						<th class="btn-toolbar">
 							{foreach item=MAIN_MODULE from=$MAIN_PARAMS['modules']}
-								{assign var="CRMENTITY" value=CRMEntity::getInstance($MAIN_MODULE)}
+								{assign var="CRMENTITY" value=$INVENTORY_CRM_ENTITIES[$MAIN_MODULE]}
 								<span class="btn-group">
 									<button type="button" data-module="{$MAIN_MODULE}" data-field="{$CRMENTITY->table_index}" 
 											data-wysiwyg="{$INVENTORY_FIELD->isWysiwygType($MAIN_MODULE)}" class="btn btn-default addItem">

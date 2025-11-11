@@ -31,6 +31,9 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('LEADS_MODULE_MODEL', \App\Modules\Base\Models\Module::getInstance('Leads'));
 		$viewer->assign('ACCOUNTS_MODULE_MODEL', \App\Modules\Base\Models\Module::getInstance('Accounts'));
 		
+		// Prepare MarketingProcesses-specific data for IndexContent template
+		$this->prepareMarketingProcessesData($viewer);
+		
 		if ($request->isAjax()) {
 			// AJAX request - return content only
 			$viewer->view('IndexContent.tpl', $qualifiedModule);
@@ -39,6 +42,26 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 			$viewer->view('Index.tpl', $qualifiedModule);
 		}
 		\App\Log::trace('End ' . __METHOD__);
+	}
+	
+	/**
+	 * Prepare data for MarketingProcesses IndexContent template
+	 * Moves function calls from templates to controller for better MVC separation
+	 */
+	protected function prepareMarketingProcessesData($viewer)
+	{
+		$moduleModel = $viewer->getTemplateVars('MODULE_MODEL');
+		$conversion = $moduleModel->getConfig('conversion');
+		
+		// Decode mapping JSON
+		$mapping = [];
+		if (!empty($conversion['mapping'])) {
+			$mapping = \App\Json::decode($conversion['mapping']);
+		}
+		$viewer->assign('CONVERSION_MAPPING', $mapping);
+		
+		// Prepare accessible groups for Leads
+		$viewer->assign('ALL_ACTIVEGROUP_LIST', \App\Fields\Owner::getInstance('Leads')->getAccessibleGroups());
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)

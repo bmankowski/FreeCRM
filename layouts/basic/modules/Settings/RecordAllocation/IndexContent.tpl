@@ -2,8 +2,6 @@
 {strip}
 <!-- layouts/basic/modules/Settings/RecordAllocation/Index.tpl -->
 	<input type="hidden" id="fieldType" value="{$TYPE}"/>
-	{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance()->getAccessibleUsers('Public')}
-	{assign var=ALL_MODULE_LIST value=\App\Modules\Base\Models\Module::getAll([0],[],true)}
 	<div class="">
 		<div class="alert alert-danger fade in">
 			<a href="#" class="close" data-dismiss="alert">&times;</a>
@@ -19,8 +17,9 @@
 	{foreach from=$ALL_MODULE_LIST key=MODULE_ID item=MODULE_MODEL name=modules}
 		{assign 'INDEX' $smarty.foreach.modules.iteration}
 		{assign 'MODULE_NAME' $MODULE_MODEL->getName()}
-		{assign var=DATA value=\App\Modules\Settings\RecordAllocation\Models\Module::getRecordAllocationByModule($TYPE, $MODULE_NAME)}
-		{if $DATA}
+		{if isset($MODULE_ALLOCATION_DATA[$MODULE_NAME])}
+			{assign var=DATA value=$MODULE_ALLOCATION_DATA[$MODULE_NAME]}
+			{assign var=DATA_JSON value=$MODULE_DATA_JSON[$MODULE_NAME]}
 			{include file='AddPanel.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 		{/if}
 	{/foreach}

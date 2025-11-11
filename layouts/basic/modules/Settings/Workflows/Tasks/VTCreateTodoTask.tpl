@@ -74,8 +74,7 @@
 					{if $TASK_OBJECT->time neq ''}
 						{assign var=TIME value=$TASK_OBJECT->time}
 					{else}
-						{assign var=DATE_TIME_VALUE value=\App\Modules\Base\UiTypes\Datetime::getDateTimeValue('now')}
-						{assign var=DATE_TIME_COMPONENTS value=explode(' ' ,$DATE_TIME_VALUE)}
+						{assign var=DATE_TIME_COMPONENTS value=explode(' ' ,$DATE_TIME_VALUE_NOW)}
 						{assign var=TIME value=implode(' ',array($DATE_TIME_COMPONENTS[1],$DATE_TIME_COMPONENTS[2]))}
 					{/if}
 					<input  type="text" class="clockPicker form-control" value="{$TIME}" name="time" />

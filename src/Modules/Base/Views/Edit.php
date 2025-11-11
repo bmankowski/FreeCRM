@@ -167,6 +167,61 @@ class Edit extends \App\Modules\Base\Views\Index
 		$viewer->assign('APIADDRESS_ACTIVE', \App\Modules\Settings\ApiAddress\Models\Module::isActive());
 		$viewer->assign('MAX_UPLOAD_LIMIT_MB', \App\Modules\Base\Helpers\Util::getMaxUploadSize());
 		$viewer->assign('MAX_UPLOAD_LIMIT', vglobal('upload_maxsize'));
+		
+		// Prepare inventory data if module supports inventory
+		if ($moduleModel->isInventory()) {
+			$this->prepareInventoryData($viewer, $moduleName, $recordModel);
+		}
+	}
+
+	/**
+	 * Prepare data for EditViewInventory template
+	 * Moves function calls from templates to controller for better MVC separation
+	 */
+	protected function prepareInventoryData($viewer, $moduleName, $recordModel)
+	{
+		$inventoryField = \App\Modules\Base\Models\InventoryField::getInstance($moduleName);
+		$fields = $inventoryField->getFields(true);
+		
+		if (count($fields) != 0) {
+			$viewer->assign('INVENTORY_FIELD', $inventoryField);
+			$viewer->assign('INVENTORY_FIELDS', $fields);
+			$viewer->assign('DISCOUNTS_CONFIG', \App\Modules\Base\Models\Inventory::getDiscountsConfig());
+			$viewer->assign('TAXS_CONFIG', \App\Modules\Base\Models\Inventory::getTaxesConfig());
+			$viewer->assign('BASE_CURRENCY', \App\Modules\Base\Helpers\Util::getBaseCurrency());
+			
+			$columns = $inventoryField->getColumns();
+			$inventoryRows = $recordModel->getInventoryData();
+			$mainParams = $inventoryField->getMainParams($fields[1]);
+			
+			$viewer->assign('INVENTORY_COLUMNS', $columns);
+			$viewer->assign('INVENTORY_ROWS', $inventoryRows);
+			$viewer->assign('INVENTORY_MAIN_PARAMS', $mainParams);
+			$viewer->assign('INVENTORY_COUNT_FIELDS0', count($fields[0]));
+			$viewer->assign('INVENTORY_COUNT_FIELDS1', count($fields[1]));
+			$viewer->assign('INVENTORY_COUNT_FIELDS2', count($fields[2]));
+			
+			// Prepare currency symbol and rate if currency column exists
+			if (in_array("currency", $columns)) {
+				if (count($inventoryRows) > 0) {
+					$currency = $inventoryRows[0]['currency'];
+				} else {
+					$baseCurrency = \App\Modules\Base\Helpers\Util::getBaseCurrency();
+					$currency = $baseCurrency['id'];
+				}
+				$viewer->assign('INVENTORY_CURRENCY', $currency);
+				$viewer->assign('CURRENCY_SYMBOLAND', \vtlib\Functions::getCurrencySymbolandRate($currency));
+			}
+			
+			$viewer->assign('INVENTORY_ITEMS_NO', count($inventoryRows));
+			
+			// Prepare CRMEntity instances for main modules
+			$crmEntities = [];
+			foreach ($mainParams['modules'] as $mainModule) {
+				$crmEntities[$mainModule] = \CRMEntity::getInstance($mainModule);
+			}
+			$viewer->assign('INVENTORY_CRM_ENTITIES', $crmEntities);
+		}
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)

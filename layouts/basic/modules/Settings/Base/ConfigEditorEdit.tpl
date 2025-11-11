@@ -27,15 +27,6 @@
 				</div>
 				<hr>
 				{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-				{assign var=FIELD_VALIDATION  value=['HELPDESK_SUPPORT_EMAIL_REPLY' => ['name'=>'Email'],
-												'upload_maxsize' => ['name' => 'number'],
-												'history_max_viewed' => ['name' => 'NumberRange5'],
-												'popupType' =>['name' => 'NumberRange2'],
-												'title_max_length' => ['name' => 'NumberRange100'],
-												'MINIMUM_CRON_FREQUENCY' => ['name' => 'NumberRange100'],
-												'href_max_length' => ['name' => 'NumberRange100'],
- 												'listview_max_textlength' => ['name' => 'NumberRange100'],
-												'list_max_entries_per_page' => ['name' => 'NumberRange100']]}
 				<table class="table table-bordered table-condensed themeTableColor">
 					<thead>
 						<tr class="blockHeader"><th colspan="2" class="{$WIDTHTYPE}">{"LBL_CONFIG_FILE"|t:$QUALIFIED_MODULE}</th></tr>
@@ -74,7 +65,7 @@
 										{if $FIELD_NAME == 'upload_maxsize'}
 											<div class="col-md-4">
 												<div class="input-group">
-													<input type="text" class="form-control" name="{$FIELD_NAME}" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if $FIELD_VALIDATION[$FIELD_NAME]} data-validator={\App\Json::encode([$FIELD_VALIDATION[$FIELD_NAME]])} {/if} value="{$FIELD_DATA[$FIELD_NAME]}" />
+													<input type="text" class="form-control" name="{$FIELD_NAME}" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if $FIELD_VALIDATION_JSON[$FIELD_NAME]} data-validator={$FIELD_VALIDATION_JSON[$FIELD_NAME]} {/if} value="{$FIELD_DATA[$FIELD_NAME]}" />
 													<div class="input-group-addon">{"LBL_MB"|t:$QUALIFIED_MODULE}</div>
 												</div>
 											</div>
@@ -83,7 +74,7 @@
 											</label>
 										{else}
 											<div class="col-md-4">
-												<input type="text" class="form-control" name="{$FIELD_NAME}" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if $FIELD_VALIDATION[$FIELD_NAME]} data-validator={\App\Json::encode([$FIELD_VALIDATION[$FIELD_NAME]])} {/if} value="{$FIELD_DATA[$FIELD_NAME]}" />
+												<input type="text" class="form-control" name="{$FIELD_NAME}" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if $FIELD_VALIDATION_JSON[$FIELD_NAME]} data-validator={$FIELD_VALIDATION_JSON[$FIELD_NAME]} {/if} value="{$FIELD_DATA[$FIELD_NAME]}" />
 											</div>
 										{/if}
 									{/if}

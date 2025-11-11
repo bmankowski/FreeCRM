@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules\Leads\Views;
+namespace App\Modules\Accounts\Views;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -19,11 +19,11 @@ class Detail extends \App\Modules\Base\Views\Detail
 	{
 		parent::preProcess($request, false);
 		
-		// Assign Leads-specific data
-		// Prepare conversion status data in controller instead of calling functions in template
+		// Prepare Accounts-specific data in controller instead of calling functions in template
 		$viewer = $this->getViewer($request);
-		$conversionStatusJson = \App\Json::encode(\App\Modules\Leads\Models\Module::getConversionAvaibleStatuses());
-		$viewer->assign('CONVERSION_AVAILABLE_STATUS', \App\Modules\Base\Helpers\Util::toSafeHTML($conversionStatusJson));
+		$moduleName = $request->getModule();
+		$viewer->assign('COUNT_IN_HIERARCHY', \App\AppConfig::module($moduleName, 'COUNT_IN_HIERARCHY'));
 	}
 
 }
+

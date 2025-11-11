@@ -48,7 +48,8 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		
 		// Prepare initial data for tabs (needed for warnings count)
 		$warnings = \App\SystemWarnings::getWarnings('all');
-		$viewer->assign('WARNINGS_COUNT', count($warnings));
+		$warningsCount = count($warnings);
+		$viewer->assign('WARNINGS_COUNT', $warningsCount);
 		
 		// Assign initial dashboard data for IndexContent.tpl
 		$usersCount = \App\Modules\Users\Models\Record::getCount(true);
@@ -61,6 +62,9 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('ALL_WORKFLOWS', $allWorkflows);
 		$viewer->assign('ACTIVE_MODULES', $activeModules);
 		$viewer->assign('SETTINGS_SHORTCUTS', $pinnedSettingsShortcuts);
+		
+		// Prepare Dashboard-specific data for Index template
+		$this->prepareDashboardData($viewer, $warningsCount);
 		
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
@@ -78,14 +82,41 @@ class Index extends \App\Modules\Settings\Base\Views\Index
         $activeModules = \App\Modules\Settings\ModuleManager\Models\Module::getModulesCount(true);
         $pinnedSettingsShortcuts = \App\Modules\Settings\Base\Models\MenuItem::getPinnedItems();
         $warnings = \App\SystemWarnings::getWarnings('all');
+        $warningsCount = count($warnings);
 
-        $viewer->assign('WARNINGS_COUNT', count($warnings));
+        $viewer->assign('WARNINGS_COUNT', $warningsCount);
         $viewer->assign('WARNINGS', !\App\Http\Vtiger_Session::has('SystemWarnings') ? $warnings : []);
         $viewer->assign('USERS_COUNT', $usersCount);
         $viewer->assign('ALL_WORKFLOWS', $allWorkflows);
         $viewer->assign('ACTIVE_MODULES', $activeModules);
         $viewer->assign('SETTINGS_SHORTCUTS', $pinnedSettingsShortcuts);
+        
+        // Prepare Dashboard-specific data for IndexContent template
+        $this->prepareDashboardData($viewer, $warningsCount);
+        
         $viewer->view('IndexContent.tpl', $qualifiedModuleName);
+    }
+    
+    /**
+     * Prepare data for Dashboard Index template
+     * Moves function calls from templates to controller for better MVC separation
+     */
+    protected function prepareDashboardData($viewer, $warningsCount)
+    {
+        // Prepare JSON-encoded warnings count for tab params
+        $warningsParamsJson = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode(['count' => $warningsCount]));
+        $viewer->assign('WARNINGS_PARAMS_JSON', $warningsParamsJson);
+        
+        // Prepare module names for settings shortcuts
+        $settingsShortcuts = $viewer->getTemplateVars('SETTINGS_SHORTCUTS');
+        $shortcutModuleNames = [];
+        if ($settingsShortcuts) {
+            foreach ($settingsShortcuts as $shortcut) {
+                $linkto = $shortcut->get('linkto');
+                $shortcutModuleNames[$shortcut->getId()] = \App\Modules\Base\Models\Menu::getModuleNameFromUrl($linkto);
+            }
+        }
+        $viewer->assign('SHORTCUT_MODULE_NAMES', $shortcutModuleNames);
     }
 
     public function github(\App\Http\Vtiger_Request $request)
@@ -135,8 +166,9 @@ class Index extends \App\Modules\Settings\Base\Views\Index
         $qualifiedModuleName = $request->getModule(false);
 
         $folders = array_values(\App\SystemWarnings::getFolders());
+        $foldersJson = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($folders));
         $viewer->assign('MODULE', $qualifiedModuleName);
-        $viewer->assign('FOLDERS', \App\Json::encode($folders));
+        $viewer->assign('FOLDERS_JSON', $foldersJson);
         $viewer->view('SystemWarnings.tpl', $qualifiedModuleName);
     }
 

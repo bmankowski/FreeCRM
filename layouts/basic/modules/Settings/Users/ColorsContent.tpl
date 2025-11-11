@@ -41,7 +41,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						{foreach from=\App\Modules\Users\Models\Colors::getUserColors() item=item key=key}
+						{foreach from=$USER_COLORS item=item key=key}
 							<tr data-id="{$item.id}" data-color="{$item.color}">
 								<td>{$item.first}</td>
 								<td>{$item.last}</td>
@@ -65,7 +65,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						{foreach from=\App\Modules\Users\Models\Colors::getGroupColors() item=item key=key}
+						{foreach from=$GROUP_COLORS item=item key=key}
 							<tr data-id="{$item.id}" data-color="{$item.color}">
 								<td>{$item.groupname}</td>
 								<td class="calendarColor" style="background: {$item.color};"></td>
@@ -89,7 +89,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						{foreach from=\App\Modules\Users\Models\Colors::getModulesColors() item=item key=key}
+						{foreach from=$MODULE_COLORS item=item key=key}
 							<tr data-id="{$item.id}" data-color="{$item.color}">
 								<td>{$item.module|t:$item.module}</td>
 								<td>
@@ -116,10 +116,9 @@
 								<div class="accordion-heading">
 									{assign var=TABLE value='vtiger_'|cat:$ITEM.fieldname}
 									<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#{$TABLE}">
-										{assign var=ITEM_MODULE_NAME value=\App\Utils\ModuleUtils::getModuleName($ITEM.tabid)}
-										{$ITEM_MODULE_NAME|t:$ITEM_MODULE_NAME}
+										{$MODULE_NAMES[$ITEM.tabid]|t:$MODULE_NAMES[$ITEM.tabid]}
 										:&ensp;
-										{$ITEM.fieldlabel|t:$ITEM_MODULE_NAME}
+										{$ITEM.fieldlabel|t:$MODULE_NAMES[$ITEM.tabid]}
 									</a>
 								</div>
 								<div id="{$TABLE}" class="accordion-body collapse {if	$smarty.foreach.ELEMENT.index eq 0 } in {/if}">
@@ -127,16 +126,15 @@
 										<table class="table customTableRWD table-bordered table-condensed listViewEntriesTable" data-fieldname="{$ITEM.fieldname}">
 											<thead>
 												<tr class="blockHeader">
-													<th><strong>{$ITEM.fieldlabel|t:$ITEM_MODULE_NAME}</strong></th>
+													<th><strong>{$ITEM.fieldlabel|t:$MODULE_NAMES[$ITEM.tabid]}</strong></th>
 													<th><strong>{"LBL_COLOR"|t:$QUALIFIED_MODULE}</strong></th>
 													<th data-hide='phone'><strong>{"LBL_TOOLS"|t:$QUALIFIED_MODULE}</strong></th>
 												</tr>
 											</thead>
 											<tbody>
-												{assign var=FIELD value=\App\Modules\Users\Models\Colors::getValuesFromField($ITEM.fieldname)}
-												{foreach from=$FIELD item=INNER_ITEM key=INNER_KEY}
+												{foreach from=$FIELD_VALUES[$ITEM.fieldname] item=INNER_ITEM key=INNER_KEY}
 													<tr data-table="{$TABLE}" data-id="{$INNER_ITEM['id']}" data-color="{$INNER_ITEM['color']}">
-														<td>{$INNER_ITEM['value']|t:$ITEM_MODULE_NAME}</td>
+														<td>{$INNER_ITEM['value']|t:$MODULE_NAMES[$ITEM.tabid]}</td>
 														<td class="calendarColor" style="background: {$INNER_ITEM['color']};"></td>
 														<td>
 															<button class="btn btn-sm marginLeft10 btn-primary updateColor" data-metod="updateColorForProcesses">{"LBL_UPDATE_COLOR"|t:$QUALIFIED_MODULE}</button>&ensp;

@@ -81,6 +81,9 @@ class ModuleImport extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('MAX_UPLOAD_SIZE_HUMAN', $maxUploadSizeHuman);
 		$viewer->assign('MAX_UPLOAD_SIZE_TOO_SMALL', $isUploadLimitTooSmall);
 		
+		// Prepare JSON validator data for template
+		$viewer->assign('UPLOAD_MODULE_ZIP_VALIDATOR', \App\Json::encode([['name'=>'UploadModuleZip']]));
+		
 		if ($request->isAjax()) {
 			$viewer->view('ImportUserModuleStep1.tpl', $qualifiedModuleName);
 			return;

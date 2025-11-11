@@ -29,6 +29,7 @@ class Link extends \vtlib\Link
 	protected $active;             // Boolean - whether link is active
 	protected $relatedModuleName;  // Related module name (module or parent:module)
 	protected $showLabel;          // Boolean - whether to show label
+	protected $class;              // CSS class property (commonly used in link data)
 
 	/**
 	 * Function to get the value of a given property
@@ -194,7 +195,7 @@ class Link extends \vtlib\Link
 	 */
 	public function hasChild()
 	{
-		(count($this->childlinks) > 0) ? true : false;
+		return count($this->childlinks) > 0;
 	}
 
 	public function isPageLoadLink()

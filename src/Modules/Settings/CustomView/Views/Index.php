@@ -32,6 +32,12 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
+		
+		// Prepare CustomView-specific data for IndexContents template
+		if ($supportedModuleId) {
+			$this->prepareCustomViewIndexData($viewer, $supportedModuleId);
+		}
+		
 		if ($request->isAjax()) {
 			// AJAX request - return content only
 			$viewer->view('IndexContent.tpl', $qualifiedModuleName);
@@ -39,6 +45,23 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 			// Initial page load - return full page with MainLayout
 			$viewer->view('Index.tpl', $qualifiedModuleName);
 		}
+	}
+	
+	/**
+	 * Prepare data for CustomView IndexContents template
+	 * Moves function calls from templates to controller for better MVC separation
+	 */
+	protected function prepareCustomViewIndexData($viewer, $sourceModuleId)
+	{
+		// Prepare owner labels for custom views
+		$customViews = $viewer->getTemplateVars('MODULE_MODEL')->getCustomViews($sourceModuleId);
+		$ownerLabels = [];
+		foreach ($customViews as $key => $item) {
+			if (isset($item['userid'])) {
+				$ownerLabels[$key] = \App\Fields\Owner::getLabel($item['userid']);
+			}
+		}
+		$viewer->assign('OWNER_LABELS', $ownerLabels);
 	}
 
 	/**

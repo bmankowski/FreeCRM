@@ -86,11 +86,35 @@ class NewAccounts  extends \App\Modules\Base\Views\Index
 		$viewer->assign('ACCESSIBLE_USERS', $accessibleUsers);
 		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
+		
+		// Prepare data for templates - move function calls from templates to controller
+		$this->prepareNewAccountsData($viewer, $newAccounts, $moduleName);
+		
 		$content = $request->get('content');
 		if (!empty($content)) {
 			$viewer->view('dashboards/NewAccountsContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/NewAccounts.tpl', $moduleName);
 		}
+	}
+
+	/**
+	 * Prepare data for NewAccounts templates
+	 * Moves function calls from templates to controller for better MVC separation
+	 */
+	protected function prepareNewAccountsData($viewer, $newAccounts, $moduleName)
+	{
+		// Prepare permissions and formatted dates per record
+		$permissions = [];
+		$formattedDates = [];
+		
+		foreach ($newAccounts as $recordId => $account) {
+			$permissions[$recordId] = \App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $recordId);
+			$formattedDates[$recordId] = \App\Modules\Base\Helpers\Util::formatDateDiffInStrings($account['createdtime']);
+		}
+		
+		$viewer->assign('CAN_CREATE_ACCOUNT', \App\Modules\Users\Models\Privileges::isPermitted('Accounts', 'CreateView'));
+		$viewer->assign('ACCOUNT_PERMISSIONS', $permissions);
+		$viewer->assign('FORMATTED_DATES', $formattedDates);
 	}
 }

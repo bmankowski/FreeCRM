@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 <!-- layouts/basic/modules/Documents/RelatedListLeftSide.tpl -->
-	{assign var=IMAGE_CLASS value=\App\Modules\Documents\Models\Record::getFileIconByFileType($RELATED_RECORD->get('filetype'))}
+	{assign var=IMAGE_CLASS value=$DOCUMENT_IMAGE_CLASSES[$RELATED_RECORD->getId()]}
 	<span class="{$IMAGE_CLASS} fa-lg">{if $IMAGE_CLASS neq 'userIcon-Documents'}&nbsp;{/if}</span>
 	{if $IS_FAVORITES}
 		{assign var=RECORD_IS_FAVORITE value=(int)in_array($RELATED_RECORD->getId(),$FAVORITES)}
@@ -22,7 +22,6 @@
 				</a>&nbsp;
 			{/if}
 			{if $RELATED_MODULE_NAME eq 'Calendar'}
-				{assign var=CURRENT_ACTIVITY_LABELS value=\App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current')}
 				{if $IS_EDITABLE && in_array($RELATED_RECORD->get('activitystatus'),$CURRENT_ACTIVITY_LABELS)}
 					<a class="showModal" data-url="{$RELATED_RECORD->getActivityStateModalUrl()}">
 						<span title="{"LBL_SET_RECORD_STATUS"|t:$MODULE}" class="glyphicon glyphicon-ok alignMiddle"></span>
@@ -69,7 +68,7 @@
 			{/if}
 		</span>
 	</div>
-	{if AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $RELATED_MODULE->isPermitted('ReviewingUpdates') && $RELATED_MODULE->isTrackingEnabled() && $RELATED_RECORD->isViewable()}
+	{if $SHOW_MODTRACKER_UNREVIEWED && $RELATED_RECORD->isViewable()}
 		<div>
 			<a href="{$RELATED_RECORD->getUpdatesUrl()}" class="unreviewed alignMiddle">
 				<span class="badge bgDanger all" title="{"LBL_NUMBER_UNREAD_CHANGES"|t:"ModTracker"}"></span>

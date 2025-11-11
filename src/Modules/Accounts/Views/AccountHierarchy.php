@@ -62,7 +62,26 @@ class AccountHierarchy extends \App\Base\Controllers\BaseViewController
 		$viewer->assign('LAST_MODIFIED', $lastModifiedField);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('ACCOUNT_HIERARCHY', $hierarchy);
+		
+		// Prepare data for template - move function calls from templates to controller
+		$this->prepareAccountHierarchyData($viewer, $hierarchy, $moduleName);
+		
 		$viewer->view('AccountHierarchy.tpl', $moduleName);
+	}
+
+	/**
+	 * Prepare data for AccountHierarchy template
+	 * Moves function calls from templates to controller for better MVC separation
+	 */
+	protected function prepareAccountHierarchyData($viewer, $hierarchy, $moduleName)
+	{
+		// Prepare edit permissions per record
+		$editPermissions = [];
+		foreach ($hierarchy['entries'] as $recordId => $entry) {
+			$editPermissions[$recordId] = \App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'EditView', $recordId);
+		}
+		
+		$viewer->assign('EDIT_PERMISSIONS', $editPermissions);
 	}
 
 

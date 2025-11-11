@@ -13,16 +13,16 @@
 	<div class="actions">
 		<span class="glyphicon glyphicon-wrench toolsAction alignMiddle"></span>
 		<span class="actionImages hide">
-			{if AppConfig::main('isActiveSendingMails') && \App\Modules\Users\Models\Privileges::isPermitted('OSSMail')}
+			{if $CAN_SEND_MAILS}
 				{if $USER_MODEL->get('internal_mailer') == 1}
-					{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl($RELATED_RECORD->getModuleName(), $RELATED_RECORD->getId(), 'Detail', 'new')}
-					<a target="_blank"  href="{$COMPOSE_URL}" title="{"LBL_SEND_EMAIL"|t}">
-						<span class="glyphicon glyphicon-envelope alignMiddle" aria-hidden="true"></span>
-					</a>&nbsp;
+					{if isset($OSSMail_URLS[$RELATED_RECORD->getId()]) && $OSSMail_URLS[$RELATED_RECORD->getId()]['type'] == 'compose'}
+						<a target="_blank" href="{$OSSMail_URLS[$RELATED_RECORD->getId()]['url']}" title="{"LBL_SEND_EMAIL"|t}">
+							<span class="glyphicon glyphicon-envelope alignMiddle" aria-hidden="true"></span>
+						</a>&nbsp;
+					{/if}
 				{else}
-					{assign var=URLDATA value=OSSMail_Module_Model::getExternalUrl($RELATED_RECORD->getModuleName(), $RELATED_RECORD->getId(), 'Detail', 'new')}
-					{if $URLDATA && $URLDATA != 'mailto:?'}
-						<a href="{$URLDATA}" title="{"LBL_CREATEMAIL"|t:"OSSMailView"}">
+					{if isset($OSSMail_URLS[$RELATED_RECORD->getId()]) && $OSSMail_URLS[$RELATED_RECORD->getId()]['type'] == 'external'}
+						<a href="{$OSSMail_URLS[$RELATED_RECORD->getId()]['url']}" title="{"LBL_CREATEMAIL"|t:"OSSMailView"}">
 							<span class="glyphicon glyphicon-envelope alignMiddle" title="{"LBL_CREATEMAIL"|t:"OSSMailView"}"></span>
 						</a>&nbsp;
 					{/if}
@@ -68,7 +68,7 @@
 			{/if}
 		</span>
 	</div>
-	{if AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $RELATED_MODULE->isPermitted('ReviewingUpdates') && $RELATED_MODULE->isTrackingEnabled() && $RELATED_RECORD->isViewable()}
+	{if $SHOW_MODTRACKER_UNREVIEWED && $RELATED_RECORD->isViewable()}
 		<div>
 			<a href="{$RELATED_RECORD->getUpdatesUrl()}" class="unreviewed alignMiddle">
 				<span class="badge bgDanger all" title="{"LBL_NUMBER_UNREAD_CHANGES"|t:"ModTracker"}"></span>

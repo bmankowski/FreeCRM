@@ -82,11 +82,31 @@ class NeglectedAccounts  extends \App\Modules\Base\Views\Index
 		$viewer->assign('ACCESSIBLE_GROUPS', $accessibleGroups);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('USER_CONDITIONS', $this->conditions);
+		
+		// Prepare data for templates - move function calls from templates to controller
+		$this->prepareNeglectedAccountsData($viewer, $accounts, $moduleName);
+		
 		$content = $request->get('content');
 		if (!empty($content)) {
 			$viewer->view('dashboards/NeglectedAccountsContents.tpl', $moduleName);
 		} else {
 			$viewer->view('dashboards/NeglectedAccounts.tpl', $moduleName);
 		}
+	}
+
+	/**
+	 * Prepare data for NeglectedAccounts templates
+	 * Moves function calls from templates to controller for better MVC separation
+	 */
+	protected function prepareNeglectedAccountsData($viewer, $accounts, $moduleName)
+	{
+		// Prepare permissions per record
+		$permissions = [];
+		foreach ($accounts as $recordId => $account) {
+			$permissions[$recordId] = \App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $recordId);
+		}
+		
+		$viewer->assign('CAN_CREATE_ACCOUNT', \App\Modules\Users\Models\Privileges::isPermitted('Accounts', 'CreateView'));
+		$viewer->assign('ACCOUNT_PERMISSIONS', $permissions);
 	}
 }

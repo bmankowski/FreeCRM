@@ -285,5 +285,8 @@ class ListView extends \App\Modules\Base\Views\Index
 		$viewer->assign('IS_MODULE_EDITABLE', $this->listViewModel->getModule()->isPermitted('EditView'));
 		$viewer->assign('IS_MODULE_DELETABLE', $this->listViewModel->getModule()->isPermitted('Delete'));
 		$viewer->assign('SEARCH_DETAILS', $searchParams);
+		
+		// Prepare data for ListViewContents template - move function calls from templates to controller
+		$viewer->assign('AUTO_REFRESH_LIST_ON_CHANGE', \App\AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE'));
 	}
 }

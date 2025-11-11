@@ -39,6 +39,48 @@ class CreateEntity extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('SOURCE_MODULE', $workflowModuleModel->getName());
 		$viewer->assign('RELATED_MODULE_MODEL_NAME', '');
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
+		
+		// Prepare CreateEntity-specific data for CreateEntity template
+		$this->prepareCreateEntityData($viewer, $workflowModel, $relatedModuleModel);
+		
 		$viewer->view('CreateEntity.tpl', $qualifiedModuleName);
+	}
+	
+	/**
+	 * Prepare data for CreateEntity template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareCreateEntityData($viewer, $workflowModel, $relatedModuleModel)
+	{
+		$taskObject = null;
+		$taskId = $viewer->getTemplateVars('TASK_ID');
+		if ($taskId) {
+			$taskModel = \App\Modules\Settings\Workflows\Models\TaskRecord::getInstance($taskId);
+			$taskObject = $taskModel->getTaskObject();
+		}
+		
+		// Prepare field value mapping with JSON decoding
+		if ($taskObject && isset($taskObject->field_value_mapping) && !empty($taskObject->field_value_mapping)) {
+			$fieldValueMapping = \App\Json::decode($taskObject->field_value_mapping);
+			$viewer->assign('FIELD_VALUE_MAPPING_DECODED', $fieldValueMapping);
+		} else {
+			$viewer->assign('FIELD_VALUE_MAPPING_DECODED', []);
+		}
+		
+		// Prepare field info JSON for related module fields
+		if ($relatedModuleModel) {
+			$fieldInfoJson = [];
+			foreach ($relatedModuleModel->getFields() as $fieldModel) {
+				$fieldName = $fieldModel->get('name');
+				$fieldInfo = $fieldModel->getFieldInfo();
+				// Handle owner field special options
+				if ($fieldModel->getFieldDataType() == 'owner') {
+					$specialOption = [\App\Runtime\Vtiger_Language_Handler::translate('LBL_SPECIAL_OPTIONS', $viewer->getTemplateVars('QUALIFIED_MODULE')) => ['assigned_user_id' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_PARENT_OWNER', $viewer->getTemplateVars('QUALIFIED_MODULE'))]];
+					$fieldInfo['picklistvalues'] = array_merge($fieldInfo['picklistvalues'], $specialOption);
+				}
+				$fieldInfoJson[$fieldName] = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($fieldInfo));
+			}
+			$viewer->assign('RELATED_FIELD_INFO_JSON', $fieldInfoJson);
+		}
 	}
 }

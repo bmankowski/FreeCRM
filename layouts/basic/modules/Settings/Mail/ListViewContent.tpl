@@ -1,7 +1,7 @@
 {strip}
 <!-- layouts/basic/modules/Settings/Mail/ListViewContent.tpl -->
 	{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
-	<input type="hidden" id="autoRefreshListOnChange" value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}" />
+	<input type="hidden" id="autoRefreshListOnChange" value="{$AUTO_REFRESH_LIST_ON_CHANGE}" />
 	<input type="hidden" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
 	<input type="hidden" id="pageEndRange" value="{$PAGING_MODEL->getRecordEndRange()}" />
 	<input type="hidden" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}" />
@@ -42,8 +42,8 @@
 						<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="glyphicon glyphicon-search"></span></a>
 					</td>
 					{assign var="FILTER_FIELDS" value=$MODULE_MODEL->getFilterFields()}
-					{assign var="SMTP_NAMES" value=\App\Modules\Settings\MailSmtp\Models\Module::getSmtpNames()}
-					{assign var="STATUSES" value=App\Mailer::$statuses}
+					{assign var="SMTP_NAMES" value=$SMTP_NAMES}
+					{assign var="STATUSES" value=$MAILER_STATUSES}
 					{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 						{assign var="HEADER_NAME" value=$LISTVIEW_HEADER->get('name')}
 						{if in_array($HEADER_NAME, $FILTER_FIELDS)}

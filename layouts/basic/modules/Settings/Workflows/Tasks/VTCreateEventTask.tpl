@@ -71,8 +71,7 @@
 			{if $TASK_OBJECT->startTime neq ''}
 				{assign var=START_TIME value=$TASK_OBJECT->startTime}
 			{else}
-				{assign var=DATE_TIME_VALUE value=\App\Modules\Base\UiTypes\Datetime::getDateTimeValue('now')}
-				{assign var=DATE_TIME_COMPONENTS value=explode(' ' ,$DATE_TIME_VALUE)}
+				{assign var=DATE_TIME_COMPONENTS value=explode(' ' ,$DATE_TIME_VALUE_NOW)}
 				{assign var=START_TIME value=implode(' ',array($DATE_TIME_COMPONENTS[1],$DATE_TIME_COMPONENTS[2]))}
 			{/if}
 			<span class="col-md-2 control-label">{"LBL_START_TIME"|t:$QUALIFIED_MODULE}</span>
@@ -110,8 +109,7 @@
 			{if $TASK_OBJECT->endTime neq ''}
 				{assign var=END_TIME value=$TASK_OBJECT->endTime}
 			{else}
-				{assign var=DATE_TIME_VALUE value=\App\Modules\Base\UiTypes\Datetime::getDateTimeValue('now')}
-				{assign var=DATE_TIME_COMPONENTS value=explode(' ' ,$DATE_TIME_VALUE)}
+				{assign var=DATE_TIME_COMPONENTS value=explode(' ' ,$DATE_TIME_VALUE_NOW)}
 				{assign var=END_TIME value=implode(' ',array($DATE_TIME_COMPONENTS[1],$DATE_TIME_COMPONENTS[2]))}
 			{/if}
 			<span class="col-md-2 control-label">{"LBL_END_TIME"|t:$QUALIFIED_MODULE}</span>

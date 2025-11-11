@@ -18,7 +18,7 @@
 					<ul class="dropdown-menu">
 						{foreach item="LISTVIEW_MASSACTION" from=$LISTVIEW_MASSACTIONS name=actionCount}
 							<li
-								id="{$MODULE}_listView_massAction_{\App\Modules\Base\Helpers\Util::replaceSpaceWithUnderScores($LISTVIEW_MASSACTION->getLabel())}">
+								id="{$MODULE}_listView_massAction_{$MASS_ACTION_IDS[$LISTVIEW_MASSACTION->getLabel()]}">
 								<a href="javascript:void(0);" {if stripos($LISTVIEW_MASSACTION->getUrl(), 'javascript:')===0}
 									onclick='{$LISTVIEW_MASSACTION->getUrl()|substr:strlen("javascript:")};' {else}
 									onclick="Vtiger_ListView_Js.triggerMassAction('{$LISTVIEW_MASSACTION->getUrl()}')" {/if}>
@@ -31,7 +31,7 @@
 						{/foreach}
 						{foreach item=LISTVIEW_ADVANCEDACTIONS from=$LISTVIEW_LINKS['LISTVIEW']}
 							<li
-								id="{$MODULE}_listView_advancedAction_{\App\Modules\Base\Helpers\Util::replaceSpaceWithUnderScores($LISTVIEW_ADVANCEDACTIONS->getLabel())}">
+								id="{$MODULE}_listView_advancedAction_{$ADVANCED_ACTION_IDS[$LISTVIEW_ADVANCEDACTIONS->getLabel()]}">
 								<a {if stripos($LISTVIEW_ADVANCEDACTIONS->getUrl(), 'javascript:')===0} href="javascript:void(0);"
 									onclick='{$LISTVIEW_ADVANCEDACTIONS->getUrl()|substr:strlen("javascript:")};' {else}
 									href='{$LISTVIEW_ADVANCEDACTIONS->getUrl()}' {/if}>

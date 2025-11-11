@@ -17,7 +17,7 @@
 			{foreach from=$NEW_ACCOUNTS key=RECORD_ID item=ACCOUNTS_MODEL}
 				<div class="col-xs-12 paddingLRZero">
 					<div class="col-xs-4">
-						{if \App\Modules\Users\Models\Privileges::isPermitted($MODULE_NAME, 'DetailView', $RECORD_ID)}
+						{if $ACCOUNT_PERMISSIONS[$RECORD_ID]}
 							<a href="index.php?module=Accounts&view=Detail&record={$RECORD_ID}">
 								<b>{$ACCOUNTS_MODEL['accountname']}</b>
 							</a>
@@ -30,7 +30,7 @@
 					</div>
 					<div class="col-xs-4">
 						<span title="{$ACCOUNTS_MODEL['createdtime']}">
-							{\App\Modules\Base\Helpers\Util::formatDateDiffInStrings($ACCOUNTS_MODEL['createdtime'])}
+							{$FORMATTED_DATES[$RECORD_ID]}
 						</span>
 					</div>
 				</div>

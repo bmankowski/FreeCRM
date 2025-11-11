@@ -47,12 +47,44 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('TYPE', $type);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
+		
+		// Prepare RecordAllocation-specific data for IndexContent template
+		$this->prepareRecordAllocationData($viewer, $type);
 
 		if ($request->isAjax()) {
 			$viewer->view('IndexContent.tpl', $qualifiedModuleName);
 		} else {
 			$viewer->view('IndexView.tpl', $qualifiedModuleName);
 		}
+	}
+	
+	/**
+	 * Prepare data for RecordAllocation IndexContent template
+	 * Moves function calls from templates to controller for better MVC separation
+	 */
+	protected function prepareRecordAllocationData($viewer, $type)
+	{
+		$viewer->assign('ALL_ACTIVEUSER_LIST', \App\Fields\Owner::getInstance()->getAccessibleUsers('Public'));
+		$allModuleList = \App\Modules\Base\Models\Module::getAll([0], [], true);
+		$viewer->assign('ALL_MODULE_LIST', $allModuleList);
+		
+		// Prepare record allocation data per module
+		$moduleAllocationData = [];
+		$moduleGroupLists = [];
+		$moduleDataJson = [];
+		foreach ($allModuleList as $moduleId => $moduleModel) {
+			$moduleName = $moduleModel->getName();
+			$data = \App\Modules\Settings\RecordAllocation\Models\Module::getRecordAllocationByModule($type, $moduleName);
+			if ($data) {
+				$moduleAllocationData[$moduleName] = $data;
+				$moduleDataJson[$moduleName] = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($data));
+			}
+			// Prepare group lists per module for AddPanel
+			$moduleGroupLists[$moduleName] = \App\Fields\Owner::getInstance($moduleName)->getAccessibleGroups('Public');
+		}
+		$viewer->assign('MODULE_ALLOCATION_DATA', $moduleAllocationData);
+		$viewer->assign('MODULE_GROUP_LISTS', $moduleGroupLists);
+		$viewer->assign('MODULE_DATA_JSON', $moduleDataJson);
 	}
 
 	public function getPanel(\App\Http\Vtiger_Request $request)
@@ -64,15 +96,34 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		if (empty($type)) {
 			$type = 'owner';
 		}
+		$sourceModule = $request->get('sourceModule');
 		$viewer = $this->getViewer($request);
 		$viewer->assign('TYPE', $type);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->assign('MODULE_NAME', $request->get('sourceModule'));
-		$viewer->assign('MODULE_ID', \vtlib\Functions:: getModuleId($request->get('sourceModule')));
+		$viewer->assign('MODULE_NAME', $sourceModule);
+		$viewer->assign('MODULE_ID', \vtlib\Functions::getModuleId($sourceModule));
 		$viewer->assign('INDEX', ++$index);
-		$viewer->assign('DATA', \App\Modules\Settings\RecordAllocation\Models\Module::getRecordAllocationByModule($type, $request->get('sourceModule')));
+		$viewer->assign('DATA', \App\Modules\Settings\RecordAllocation\Models\Module::getRecordAllocationByModule($type, $sourceModule));
 		$viewer->assign('MODULE', $moduleName);
+		
+		// Prepare AddPanel-specific data
+		$this->prepareAddPanelData($viewer, $sourceModule);
+		
 		$viewer->view('AddPanel.tpl', $qualifiedModuleName);
+	}
+	
+	/**
+	 * Prepare data for AddPanel template
+	 * Moves function calls from templates to controller for better MVC separation
+	 */
+	protected function prepareAddPanelData($viewer, $moduleName)
+	{
+		$viewer->assign('ALL_ACTIVEUSER_LIST', \App\Fields\Owner::getInstance()->getAccessibleUsers('Public'));
+		$viewer->assign('ALL_ACTIVEGROUP_LIST', \App\Fields\Owner::getInstance($moduleName)->getAccessibleGroups('Public'));
+		
+		// Prepare JSON-encoded data
+		$data = $viewer->getTemplateVars('DATA');
+		$viewer->assign('DATA_JSON', \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($data ? $data : [])));
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)

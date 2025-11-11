@@ -45,6 +45,12 @@ class MoveDocuments  extends \App\Modules\Base\Views\Index
 			$viewer->assign('ALPHABET_VALUE', $searchValue);
 			$viewer->assign('SEARCH_KEY', $searchKey);
 		}
+		
+		// Prepare data for template - move function calls from templates to controller
+		$selectedIds = $request->get('selected_ids');
+		$excludedIds = $request->get('excluded_ids');
+		$viewer->assign('SELECTED_IDS_JSON', \App\Json::encode($selectedIds ? $selectedIds : []));
+		$viewer->assign('EXCLUDED_IDS_JSON', \App\Json::encode($excludedIds ? $excludedIds : []));
 
 		$viewer->view('MoveDocuments.tpl', $moduleName);
 	}

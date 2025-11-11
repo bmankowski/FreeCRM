@@ -180,6 +180,39 @@ class ListView extends \App\Modules\Settings\Base\Views\ListView
 		$viewer->assign('SEARCH_DETAILS', $searchParmams);
 		$sourceModule = $request->get('sourceModule');
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
+		
+		// Prepare Users-specific data for ListViewContent template
+		$this->prepareUsersListViewData($viewer);
+	}
+	
+	/**
+	 * Prepare data for Users ListViewContent template
+	 * Moves function calls from templates to controller for better MVC separation
+	 */
+	protected function prepareUsersListViewData($viewer)
+	{
+		// Prepare IDs for mass actions and advanced actions
+		$massActionIds = [];
+		$advancedActionIds = [];
+		
+		$listViewMassActions = $viewer->getTemplateVars('LISTVIEW_MASSACTIONS');
+		if ($listViewMassActions) {
+			foreach ($listViewMassActions as $massAction) {
+				$label = $massAction->getLabel();
+				$massActionIds[$label] = \App\Modules\Base\Helpers\Util::replaceSpaceWithUnderScores($label);
+			}
+		}
+		
+		$listViewLinks = $viewer->getTemplateVars('LISTVIEW_LINKS');
+		if ($listViewLinks && isset($listViewLinks['LISTVIEW'])) {
+			foreach ($listViewLinks['LISTVIEW'] as $advancedAction) {
+				$label = $advancedAction->getLabel();
+				$advancedActionIds[$label] = \App\Modules\Base\Helpers\Util::replaceSpaceWithUnderScores($label);
+			}
+		}
+		
+		$viewer->assign('MASS_ACTION_IDS', $massActionIds);
+		$viewer->assign('ADVANCED_ACTION_IDS', $advancedActionIds);
 	}
 	
 

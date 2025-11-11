@@ -33,13 +33,17 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('SOURCE', $source);
 		$viewer->assign('SOURCEMODULE', \App\Utils\ModuleUtils::getModuleName($source));
-		$viewer->assign('WIDGETS', $moduleModel->getWidgets($source));
+		$widgets = $moduleModel->getWidgets($source);
+		$viewer->assign('WIDGETS', $widgets);
 		$viewer->assign('RELATEDMODULES', $RelatedModule);
 		$viewer->assign('FILTERS', json_encode($moduleModel->getFiletrs($RelatedModule)));
 		$viewer->assign('CHECKBOXS', json_encode($moduleModel->getCheckboxs($RelatedModule)));
 		$viewer->assign('SWITCHES_HEADER', json_encode($moduleModel->getHeaderSwitch()));
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
+		
+		// Prepare Widgets-specific data for IndexContent template
+		$this->prepareWidgetsData($viewer, $widgets);
 		
 		if ($request->isAjax()) {
 			// AJAX handling - return only contents without MainLayout
@@ -48,6 +52,25 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 			// Full page rendering - use Index.tpl which extends MainLayout
 			$viewer->view('Index.tpl', $qualifiedModuleName);
 		}
+	}
+	
+	/**
+	 * Prepare data for Widgets IndexContent template
+	 * Moves function calls from templates to controller for better MVC separation
+	 */
+	protected function prepareWidgetsData($viewer, $widgets)
+	{
+		// Prepare module names for widgets
+		$widgetModuleNames = [];
+		foreach ($widgets as $column => $widgetColumn) {
+			foreach ($widgetColumn as $key => $widget) {
+				if (empty($widget['label']) && isset($widget['data']['relatedmodule'])) {
+					$moduleName = \App\Utils\ModuleUtils::getModuleName($widget['data']['relatedmodule']);
+					$widgetModuleNames[$column][$key] = $moduleName;
+				}
+			}
+		}
+		$viewer->assign('WIDGET_MODULE_NAMES', $widgetModuleNames);
 	}
 
 	public function getHeaderCss(\App\Http\Vtiger_Request $request)

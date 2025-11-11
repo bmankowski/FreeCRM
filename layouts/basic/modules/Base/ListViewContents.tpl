@@ -19,7 +19,7 @@
 		<input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
 		<input type="hidden" id="listMaxEntriesMassEdit" value="{vglobal('listMaxEntriesMassEdit')}" />
 		<input type="hidden" id="autoRefreshListOnChange"
-			value="{AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}" />
+			value="{$AUTO_REFRESH_LIST_ON_CHANGE}" />
 		<input type='hidden' value="{$PAGE_NUMBER}" id='pageNumber'>
 		<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 		<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">

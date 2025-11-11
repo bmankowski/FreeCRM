@@ -61,7 +61,7 @@ FreeCRM - Customer Relationship Management System
 								<th class="blockHeader">{"Leads"|t:$QUALIFIED_MODULE}</th>
 								<th class="blockHeader">{"Accounts"|t:$QUALIFIED_MODULE}</th>
 							</tr>
-							{assign var=MAPPING value=\App\Json::decode($CONVERSION.mapping)}
+							{assign var=MAPPING value=$CONVERSION_MAPPING}
 							{assign var=LEAD_FIELDS value=$LEADS_MODULE_MODEL->getFields()}
 							{assign var=ACCOUNT_FIELDS value=$ACCOUNTS_MODULE_MODEL->getFields()}
 							{foreach item=MAPPING_ARRAY from=$MAPPING  name="mappingLoop"}
@@ -142,7 +142,6 @@ FreeCRM - Customer Relationship Management System
 					<tr>
 						<td><label>{"LBL_GROUPS_INFO"|t:$QUALIFIED_MODULE}</label></td>
 						<td class="col-md-6">
-							{assign var=ALL_ACTIVEGROUP_LIST value=\App\Fields\Owner::getInstance('Leads')->getAccessibleGroups()}
 							<select class="chzn-select configField" name="groups" data-type="lead" multiple>
 								{foreach key=OWNER_ID item=OWNER_NAME from=$ALL_ACTIVEGROUP_LIST}
 									<option value="{$OWNER_ID}" {if in_array($OWNER_ID, $LEAD['groups'])}selected{/if} >
