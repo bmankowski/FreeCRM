@@ -91,6 +91,15 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 				break;
 
 			case 'step2':
+				// Prepare languages list for template
+				$languages = [];
+				$query = (new \App\Db\Query())->from('vtiger_language')->select('prefix,label')->where(['active' => 1]);
+				$dataReader = $query->createCommand()->query();
+				while ($row = $dataReader->read()) {
+					$languages[$row['prefix']] = $row['label'];
+				}
+				asort($languages);
+				$viewer->assign('LANGUAGES', $languages);
 				$viewer->view('Step2.tpl', $qualifiedModuleName);
 				break;
 

@@ -112,7 +112,7 @@
 							</span>
 						{/if}
 						<span class="pull-right popoverTooltip delay0" data-placement="top" data-original-title="{$RECORD->get('activitytype')|t:$MODULE_NAME}: {$RECORD->get('subject')}" 
-							  data-content="{"Status"|t:$MODULE_NAME}: {$STATUS|t:$MODULE_NAME}<br />{"Start Time"|t:"Calendar"}: {$START_DATE} {$START_TIME}<br />{"End Time"|t:"Calendar"}: {$END_DATE} {$END_TIME}<hr />{"Created By"|t:$MODULE_NAME}: {vtlib\Functions::getOwnerRecordLabel( $RECORD->get('smcreatorid') )}<br />{"Assigned To"|t:$MODULE_NAME}: {vtlib\Functions::getOwnerRecordLabel( $RECORD->get('smownerid') )}
+							  data-content="{"Status"|t:$MODULE_NAME}: {$STATUS|t:$MODULE_NAME}<br />{"Start Time"|t:"Calendar"}: {$START_DATE} {$START_TIME}<br />{"End Time"|t:"Calendar"}: {$END_DATE} {$END_TIME}<hr />{"Created By"|t:$MODULE_NAME}: {\App\Fields\Owner::getLabel( $RECORD->get('smcreatorid') )}<br />{"Assigned To"|t:$MODULE_NAME}: {\App\Fields\Owner::getLabel( $RECORD->get('smownerid') )}
 							  {if $SHAREDOWNER}<div> 
 								  {"Share with users"|t:$MODULE_NAME}:&nbsp;
 								  {foreach $SHAREDOWNER item=SOWNERID name=sowner}
@@ -127,7 +127,7 @@
 								  {if $RECORD->get('selectedusers') && count($RECORD->get('selectedusers')) > 0}
 									  <br />{"LBL_INVITE_RECORDS"|t:$MODULE_NAME}: 
 									  {foreach item=USER key=KEY from=$RECORD->get('selectedusers')}
-									  {if $USER}{vtlib\Functions::getOwnerRecordLabel( $USER )}{/if}
+									  {if $USER}{\App\Fields\Owner::getLabel( $USER )}{/if}
 								  {/foreach}
 							  {/if}
 						{/if}

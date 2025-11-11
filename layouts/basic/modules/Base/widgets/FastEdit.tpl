@@ -7,7 +7,7 @@
 				<span class="margin0px"><h4>{$WIDGET['label']|t:$MODULE_NAME}</h4></span>
 			</div>
 		{/if}
-		{assign var=MODULEINSTANCE value=vtlib\Module::getInstance($MODULE_NAME)}
+		{assign var=MODULEINSTANCE value=\App\Modules\Base\Models\Module::getInstance($MODULE_NAME)}
 		{if !$WIDGET['data']['FastEdit']}
 			{"LBL_RECORDS_NO_FOUND"|t:$MODULE_NAME}
 		{else}

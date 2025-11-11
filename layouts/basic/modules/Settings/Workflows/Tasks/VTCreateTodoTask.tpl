@@ -152,8 +152,14 @@
 			<span class="col-md-5">
 				<select multiple name="duplicateStatus" class="chzn-select form-control">
 					<option value="">{"LBL_SELECT_OPTION"|t:"Vtiger"}</option>
+					{assign var=DUPLICATE_STATUS value=$TASK_OBJECT->duplicateStatus}
+					{if !is_array($DUPLICATE_STATUS) && $DUPLICATE_STATUS neq ''}
+						{assign var=DUPLICATE_STATUS value=explode(',', $DUPLICATE_STATUS)}
+					{elseif $DUPLICATE_STATUS eq ''}
+						{assign var=DUPLICATE_STATUS value=[]}
+					{/if}
 					{foreach from=App\Fields\Picklist::getPickListValues('activitystatus') key=KEY item=ITEM}
-						<option value="{$ITEM}" {if in_array($ITEM,vtlib\Functions::getArrayFromValue($TASK_OBJECT->duplicateStatus))} selected="" {/if}>{$ITEM|t:"Calendar"}</option>
+						<option value="{$ITEM}" {if in_array($ITEM, $DUPLICATE_STATUS)} selected="" {/if}>{$ITEM|t:"Calendar"}</option>
 					{/foreach}
 				</select>
 			</span>

@@ -5,23 +5,29 @@ Templates should stop invoking `vtlib` directly. Use controller-prepared data or
 
 ## Quick Reference: vtlib → Modern Alternatives
 
+### Module & Record Metadata
+- `vtlib\Functions::getModuleName($tabId)` → `App\Utils\ModuleUtils::getModuleName($tabId)`
+- `vtlib\Functions::getModuleId($moduleName)` → `App\Utils\ModuleUtils::getModuleId($moduleName)`
+- `vtlib\Functions::getAllModules(...)` → `App\ModuleManagement\Adapters\Functions::getAllModules(...)`
+- `vtlib\Functions::getCRMRecordType($id)` → `App\Record::getType($id)`
+- `vtlib\Functions::getCRMRecordMetadata($id)` → Query `vtiger_crmentity` + `App\Record::getLabel()` in controller
 
 ### Owner & Assignment
 - `vtlib\Functions::getOwnerRecordLabel($id)` → `App\Fields\Owner::getLabel($id)` *(supports arrays)*
-- `vtlib\Functions::getArrayFromValue($value)` → **Gap** - use `App\Json::decode()` for JSON or `explode(' |##| ', $value)` for delimited strings
+- `vtlib\Functions::getArrayFromValue($value)` → Use `App\Json::decode()` for JSON or `explode(',', $value)` for delimited strings
 
 ### Currency
-- `vtlib\Functions::getAllCurrency($onlyActive)` → **Gap** - query `vtiger_currency_info` directly in controller
-- `vtlib\Functions::getCurrencySymbolandRate($id)` → **Gap** - query `vtiger_currency_info` directly in controller
+- `vtlib\Functions::getAllCurrency($onlyActive)` → `App\ModuleManagement\Adapters\Functions::getAllCurrency($onlyActive)`
+- `vtlib\Functions::getCurrencySymbolandRate($id)` → `App\ModuleManagement\Adapters\Functions::getCurrencySymbolandRate($id)`
 
 ### Text Formatting
-- `vtlib\Functions::removeHtmlTags($tags, $html)` → **Gap** - use `App\Purifier::purifyHtml()` + manual tag removal in controller
-- `vtlib\Functions::textLength($text, $length, $addDots)` → **Gap** - use `mb_substr()` in controller
-- `vtlib\Functions::decimalTimeFormat($decTime)` → **Gap** - use `App\ModuleManagement\Adapters\Functions::decimalTimeFormat()` temporarily
+- `vtlib\Functions::removeHtmlTags($tags, $html)` → `App\ModuleManagement\Adapters\Functions::removeHtmlTags($tags, $html)`
+- `vtlib\Functions::textLength($text, $length, $addDots)` → `App\ModuleManagement\Adapters\Functions::textLength($text, $length, $addDots)`
+- `vtlib\Functions::decimalTimeFormat($decTime)` → `App\ModuleManagement\Adapters\Functions::decimalTimeFormat($decTime)`
 
 ### Legacy Module/Language
-- `vtlib\Module::getInstance($name)` → `App\Modules\Base\Models\Module::getInstance($name)` *(prepare field data in controller)*
-- `vtlib\Language::getAll()` → **Gap** - query `vtiger_language` directly in controller
+- `vtlib\Module::getInstance($name)` → `App\Modules\Base\Models\Module::getInstance($name)`
+- `vtlib\Language::getAll()` → Query `vtiger_language` directly in controller and assign to viewer
 
 ## Migration Pattern
 
@@ -46,7 +52,14 @@ $viewer->assign('MODULE_NAME', $moduleName);
 2. Shared components (`Base/RelatedListContents.tpl`, `Base/Comment.tpl`)
 3. Settings templates (less critical but should be migrated)
 
-## Known Gaps (Need Implementation)
+## Status
+All `vtlib` function calls have been migrated from Smarty templates. Templates now use:
+- Modern `App\` namespace classes
+- `App\ModuleManagement\Adapters\Functions` adapter functions
+- Controller-prepared data assigned to viewer
+
+## Future Improvements
+While templates are migrated, consider creating dedicated service classes for:
 - `ModuleManagement\Services\CurrencyService::getAll()`
 - `App\Fields\Currency::getSymbolAndRate()`
 - `App\Utils\Html::stripTags()`

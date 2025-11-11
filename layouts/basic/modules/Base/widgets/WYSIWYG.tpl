@@ -5,7 +5,7 @@
 			<span class="col-md-5 margin0px"><h4>{$WIDGET['label']|t:$MODULE_NAME}</h4></span>
 		</div>
 		<div class="defaultMarginP">
-			{assign var=FULL_TEXT value=vtlib\Functions::removeHtmlTags(array('link', 'style', 'img', 'script', 'base'),decode_html($RECORD->get($WIDGET['data']['field_name'])))}
+			{assign var=FULL_TEXT value=\App\ModuleManagement\Adapters\Functions::removeHtmlTags(array('link', 'style', 'img', 'script', 'base'),decode_html($RECORD->get($WIDGET['data']['field_name'])))}
 			<div class="moreContent table-responsive">
 				<span class="teaserContent">
 					{\App\Modules\Base\Helpers\Util::toVtiger6SafeHTML($FULL_TEXT)|substr:0:600}

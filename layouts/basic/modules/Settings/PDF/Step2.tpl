@@ -90,7 +90,7 @@
 					<div class="col-sm-6 controls">
 						<select class="select2 form-control" id="language" name="language">
 							<option value="">{'LBL_DEFAULT'|t}</option>
-							{foreach from=vtlib\Language::getAll() key=CODE item=NAME}
+							{foreach from=$LANGUAGES key=CODE item=NAME}
 								<option value="{$CODE}" {if $PDF_MODEL->get('language') eq $CODE} selected="selected" {/if}>
 									{$NAME|t:$QUALIFIED_MODULE}
 								</option>

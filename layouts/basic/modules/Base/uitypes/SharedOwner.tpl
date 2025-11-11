@@ -10,7 +10,9 @@
 		{assign var=CURRENT_USER_ID value=$USER_MODEL->get('id')}
 		{assign var=FIELD_VALUE value=$FIELD_MODEL->get('fieldvalue')}
 		{if $FIELD_VALUE neq '' }
-			{assign var=FIELD_VALUE value=vtlib\Functions::getArrayFromValue($FIELD_VALUE)}
+			{if !is_array($FIELD_VALUE)}
+				{assign var=FIELD_VALUE value=explode(',', $FIELD_VALUE)}
+			{/if}
 			{assign var=NOT_DISPLAY_LIST value=array_diff_key(array_flip($FIELD_VALUE), $ALL_ACTIVEUSER_LIST, $ALL_ACTIVEGROUP_LIST)}
 		{else}
 			{assign var=FIELD_VALUE value=[]}
@@ -23,7 +25,7 @@
 				{/if}>
 			{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')} 
 				{foreach item=USER from=$FIELD_VALUE}
-					{assign var=OWNER_NAME value=vtlib\Functions::getOwnerRecordLabel($USER)}
+					{assign var=OWNER_NAME value=\App\Fields\Owner::getLabel($USER)}
 					<option value="{$USER}" data-picklistvalue="{$OWNER_NAME}" selected="selected">
 						{$OWNER_NAME}
 					</option>
