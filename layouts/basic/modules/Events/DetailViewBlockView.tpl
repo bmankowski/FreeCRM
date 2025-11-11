@@ -34,8 +34,8 @@
 							{foreach key=KEY item=INVITIE from=$INVITIES_SELECTED}
 								{assign var=LABEL value=''}
 								{assign var=TITLE value=''}
-								{if $INVITIE['crmid']}
-									{assign var=INVITIE_RECORD value=vtlib\Functions::getCRMRecordMetadata($INVITIE['crmid'])}
+								{if $INVITIE['crmid'] && isset($INVITIE['metadata'])}
+									{assign var=INVITIE_RECORD value=$INVITIE['metadata']}
 									{assign var=LABEL value=$INVITIE_RECORD['label']}
 									{assign var=TITLE value=Vtiger_Language_Handler::getTranslateSingularModuleName($INVITIE_RECORD['setype'])|cat:': '|cat:$LABEL|cat:' - '|cat:$INVITIE['email']}
 									{assign var=ICON value='<span class="userIcon-'|cat:$INVITIE_RECORD['setype']|cat:'" aria-hidden="true"></span>'}

@@ -39,6 +39,9 @@ class EditHelpIcon extends \App\Modules\Settings\Base\Views\Index
 		}
 		$Langs = $moduleModel->getLang();
 		$viewer = $this->getViewer($request);
+		// Prepare modules list for EditHelpIcon template - use adapter to match vtlib structure
+		$allModules = \App\ModuleManagement\Adapters\Functions::getAllModules(true, false, 0);
+		$viewer->assign('ALL_MODULES', $allModules);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('REQUEST', $request);
 		$viewer->assign('LANGS', $Langs);

@@ -44,6 +44,11 @@ class CreateMenu extends \App\Modules\Settings\Base\Views\IndexAjax
 		$viewer->assign('ICONS_LABEL', \App\Modules\Settings\Menu\Models\Record::getIcons());
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('TYPE', $type);
+		// Prepare module ID for HomeIcon type
+		if ($type == 6) { // HomeIcon type
+			$homeModuleId = \App\Utils\ModuleUtils::getModuleId('Home');
+			$viewer->assign('HOME_MODULE_ID', $homeModuleId);
+		}
 		$viewer->view('CreateMenuStep2.tpl', $qualifiedModuleName);
 	}
 }

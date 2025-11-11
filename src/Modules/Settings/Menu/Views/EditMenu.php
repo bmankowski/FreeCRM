@@ -21,11 +21,17 @@ class EditMenu extends \App\Modules\Settings\Base\Views\IndexAjax
 		$qualifiedModuleName = $request->getModule(false);
 		$id = $request->get('id');
 		$viewer = $this->getViewer($request);
+		$record = \App\Modules\Settings\Menu\Models\Record::getInstanceById($id);
 		$viewer->assign('MODULE_MODEL', \App\Modules\Settings\Menu\Models\Module::getInstance());
-		$viewer->assign('RECORD', \App\Modules\Settings\Menu\Models\Record::getInstanceById($id));
+		$viewer->assign('RECORD', $record);
 		$viewer->assign('ICONS_LABEL', \App\Modules\Settings\Menu\Models\Record::getIcons());
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('ID', $id);
+		// Prepare module ID for HomeIcon type
+		if ($record->get('type') == 6) { // HomeIcon type
+			$homeModuleId = \App\Utils\ModuleUtils::getModuleId('Home');
+			$viewer->assign('HOME_MODULE_ID', $homeModuleId);
+		}
 		$viewer->view('EditMenu.tpl', $qualifiedModuleName);
 	}
 }

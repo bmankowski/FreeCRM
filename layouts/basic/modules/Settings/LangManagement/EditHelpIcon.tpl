@@ -23,7 +23,7 @@
 			<label class="control-label col-md-1" >{"Modules"|t:$QUALIFIED_MODULE}:</label>
 			<div class="col-md-3">
 				<select class="form-control mods_list" name="mods_list" id="mods_list" data-target="HelpInfo">
-					{foreach item=MODULE_INFO from=\vtlib\Functions::getAllModules(true, false, 0)}
+					{foreach item=MODULE_INFO from=$ALL_MODULES}
 						<option value="{$MODULE_INFO['name']}" {if $MODULE_INFO['name'] eq $REQUEST->get('mod')}selected{/if}>{$MODULE_INFO['name'], $MODULE_INFO['name']|t}</option>
 					{/foreach}
 				</select>

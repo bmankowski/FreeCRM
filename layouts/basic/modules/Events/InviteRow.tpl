@@ -6,8 +6,8 @@
 	<div class="inviteRow" data-crmid="{$INVITIE['crmid']}" data-ivid="{$INVITIE['inviteesid']}" data-email="{$INVITIE['email']}">
 		<div class="input-group input-group-sm">
 			<span class="input-group-addon inviteIcon">
-				{if $INVITIE['crmid']}
-					{assign var=INVITIE_RECORD value=vtlib\Functions::getCRMRecordMetadata($INVITIE['crmid'])}
+				{if $INVITIE['crmid'] && isset($INVITIE['metadata'])}
+					{assign var=INVITIE_RECORD value=$INVITIE['metadata']}
 					{assign var=LABEL value=$INVITIE_RECORD['label']}
 					{assign var=TITLE value=Vtiger_Language_Handler::getTranslateSingularModuleName($INVITIE_RECORD['setype'])|cat:': '|cat:$LABEL|cat:' - '|cat:$INVITIE['email']}
 					<span class="userIcon-{$INVITIE_RECORD['setype']}" aria-hidden="true"></span>

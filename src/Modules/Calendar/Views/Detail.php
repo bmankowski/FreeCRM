@@ -116,7 +116,25 @@ class Detail extends \App\Modules\Base\Views\Detail
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 
 		if ($moduleName == 'Events') {
-			$viewer->assign('INVITIES_SELECTED', $recordModel->getInvities());
+			$invitees = $recordModel->getInvities();
+			// Enrich invitees with record metadata (replacing vtlib\Functions::getCRMRecordMetadata)
+			$inviteeIds = array_filter(array_column($invitees, 'crmid'));
+			if (!empty($inviteeIds)) {
+				$metadata = (new \App\Db\Query())
+					->select(['crmid', 'setype', 'deleted', 'smcreatorid', 'smownerid', 'createdtime', 'private'])
+					->from('vtiger_crmentity')
+					->where(['in', 'crmid', $inviteeIds])
+					->indexBy('crmid')
+					->all();
+				// Add metadata and labels to each invitee
+				foreach ($invitees as &$invitee) {
+					if (!empty($invitee['crmid']) && isset($metadata[$invitee['crmid']])) {
+						$invitee['metadata'] = $metadata[$invitee['crmid']];
+						$invitee['metadata']['label'] = \App\Record::getLabel($invitee['crmid']);
+					}
+				}
+			}
+			$viewer->assign('INVITIES_SELECTED', $invitees);
 		}
 	}
 

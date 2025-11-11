@@ -133,7 +133,25 @@ class Edit extends \App\Modules\Base\Views\Edit
 		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode(\App\Modules\PickList\DependencyPicklist::getPicklistDependencyDatasource($moduleName)));
 		$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));
-		$viewer->assign('INVITIES_SELECTED', $recordModel->getInvities());
+		// Enrich invitees with record metadata (replacing vtlib\Functions::getCRMRecordMetadata)
+		$invitees = $recordModel->getInvities();
+		$inviteeIds = array_filter(array_column($invitees, 'crmid'));
+		if (!empty($inviteeIds)) {
+			$metadata = (new \App\Db\Query())
+				->select(['crmid', 'setype', 'deleted', 'smcreatorid', 'smownerid', 'createdtime', 'private'])
+				->from('vtiger_crmentity')
+				->where(['in', 'crmid', $inviteeIds])
+				->indexBy('crmid')
+				->all();
+			// Add metadata and labels to each invitee
+			foreach ($invitees as &$invitee) {
+				if (!empty($invitee['crmid']) && isset($metadata[$invitee['crmid']])) {
+					$invitee['metadata'] = $metadata[$invitee['crmid']];
+					$invitee['metadata']['label'] = \App\Record::getLabel($invitee['crmid']);
+				}
+			}
+		}
+		$viewer->assign('INVITIES_SELECTED', $invitees);
 		$viewer->assign('CURRENT_USER', $currentUser);
 
 		$viewer->view('EditView.tpl', $moduleName);
