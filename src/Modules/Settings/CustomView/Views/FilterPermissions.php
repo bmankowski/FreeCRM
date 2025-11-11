@@ -27,7 +27,20 @@ class FilterPermissions extends \App\Modules\Settings\Base\Views\BasicModal
 		$viewer->assign('CVID', $request->get('cvid'));
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$this->preProcess($request);
+		
+		// Prepare CustomView FilterPermissions-specific data for FilterPermissions template
+		$this->prepareCustomViewFilterPermissionsData($viewer);
+		
 		$viewer->view('FilterPermissions.tpl', $moduleName);
 		$this->postProcess($request);
+	}
+	
+	/**
+	 * Prepare data for CustomView FilterPermissions template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareCustomViewFilterPermissionsData($viewer)
+	{
+		$viewer->assign('MEMBERS', \App\Modules\Settings\Groups\Models\Member::getAll());
 	}
 }

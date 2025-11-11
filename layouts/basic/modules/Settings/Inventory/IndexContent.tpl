@@ -11,7 +11,7 @@
 	</div>
 	{if $VIEW == 'CreditLimits'}
 		{assign var=CURRENCY_BOOL value=true}
-		<input type="hidden" id="currency" value='{\App\Json::encode($CURRENCY)}' />
+		<input type="hidden" id="currency" value='{$CURRENCY_JSON}' />
 		<div class="alert alert-info fade in marginBottom5">
 			<a href="#" class="close" data-dismiss="alert">&times;</a>
 			{"LBL_CREDITLIMITS_INFO"|t:$QUALIFIED_MODULE}

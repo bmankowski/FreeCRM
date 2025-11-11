@@ -15,7 +15,7 @@ FreeCRM - Customer Relationship Management System
 			<input type="hidden" name="module" value="SharingAccess" />
 			<input type="hidden" name="action" value="SaveAjax" />
 			<input type="hidden" name="parent" value="Settings" />
-			<input type="hidden" class="dependentModules" value='{\App\Json::encode($DEPENDENT_MODULES)}' />
+			<input type="hidden" class="dependentModules" value='{$DEPENDENT_MODULES_JSON}' />
 			
 				<div class="widget_header row">
 					<div class="col-md-8">

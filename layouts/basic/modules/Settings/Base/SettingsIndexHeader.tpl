@@ -9,7 +9,7 @@
 		<ul class="nav nav-tabs massEditTabs">
 			{*<li  data-mode="DonateUs"><a data-toggle="tab"><strong>{"LBL_DONATE_US"|t:$QUALIFIED_MODULE}</strong></a></li>*}
 			<li class="active" data-mode="index"
-				data-params="{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode(['count'=>$WARNINGS_COUNT|default:0]))}">
+				data-params="{$WARNINGS_COUNT_JSON}">
 				<a data-toggle="tab"><strong>{"LBL_START"|t:$QUALIFIED_MODULE}</strong></a></li>
 			<li data-mode="github"><a data-toggle="tab"><strong>{"LBL_GITHUB"|t:$QUALIFIED_MODULE}</strong></a></li>
 			<li data-mode="systemWarnings"><a

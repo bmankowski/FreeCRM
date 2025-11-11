@@ -40,6 +40,20 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $request->getModule(false));
+		
+		// Prepare PBXManager Edit-specific data for Edit template
+		$this->preparePBXManagerEditData($viewer);
+		
 		$viewer->view('Edit.tpl', $request->getModule(false));
+	}
+	
+	/**
+	 * Prepare data for PBXManager Edit template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function preparePBXManagerEditData($viewer)
+	{
+		$viewer->assign('SETTINGS_PARAMETERS', \App\Modules\PBXManager\Connectors\PBXManager::getSettingsParameters());
+		$viewer->assign('MODULE_MODEL', \App\Modules\Settings\PBXManager\Models\Module::getCleanInstance());
 	}
 }

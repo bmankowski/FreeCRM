@@ -20,6 +20,19 @@ class ListView extends \App\Modules\Settings\Base\Views\ListView
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SUPPORTED_MODULE_MODELS', \App\Modules\Settings\Workflows\Models\Module::getSupportedModules());
 		$viewer->assign('CRON_RECORD_MODEL', \App\Modules\Settings\CronTasks\Models\Record::getInstanceByName('LBL_WORKFLOW'));
+		
+		// Prepare Workflows-specific data for ListViewHeader template
+		$this->prepareWorkflowsListViewData($viewer);
+		
 		parent::preProcess($request, $display);
+	}
+	
+	/**
+	 * Prepare data for Workflows ListViewHeader template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareWorkflowsListViewData($viewer)
+	{
+		$viewer->assign('IMPORT_VIEW_URL', \App\Modules\Settings\Workflows\Models\Module::getImportViewUrl());
 	}
 }

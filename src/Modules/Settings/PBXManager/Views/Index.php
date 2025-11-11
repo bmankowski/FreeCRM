@@ -37,6 +37,9 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		
+		// Prepare PBXManager IndexContent-specific data for IndexContent template
+		$this->preparePBXManagerIndexContentData($viewer);
+		
 		if ($request->isAjax()) {
 			// AJAX request - return content only
 			$viewer->view('IndexContent.tpl', $request->getModule(false));
@@ -44,5 +47,14 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 			// Initial page load - return full page with MainLayout
 			$viewer->view('index.tpl', $request->getModule(false));
 		}
+	}
+	
+	/**
+	 * Prepare data for PBXManager IndexContent template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function preparePBXManagerIndexContentData($viewer)
+	{
+		$viewer->assign('SETTINGS_PARAMETERS', \App\Modules\PBXManager\Connectors\PBXManager::getSettingsParameters());
 	}
 }

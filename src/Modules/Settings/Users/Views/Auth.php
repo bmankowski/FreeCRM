@@ -25,12 +25,24 @@ class Auth extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('MODULE_MODEL', $settingsModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
+		
+		// Prepare Auth-specific data for AuthContent template
+		$this->prepareAuthData($viewer);
 
 		if ($request->isAjax()) {
 			$viewer->view('AuthContent.tpl', $qualifiedModuleName);
 		} else {
 			$viewer->view('AuthIndex.tpl', $qualifiedModuleName);
 		}
+	}
+	
+	/**
+	 * Prepare data for AuthContent template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareAuthData($viewer)
+	{
+		$viewer->assign('ALL_USERS', \App\Fields\Owner::getAllUsers());
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)

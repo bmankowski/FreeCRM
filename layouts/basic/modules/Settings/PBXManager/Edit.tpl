@@ -12,7 +12,7 @@
 {strip}
 <!-- layouts/basic/modules/Settings/PBXManager/Edit.tpl -->
 	<div class="">
-		{assign var=MODULE_MODEL value=Settings_PBXManager_Module_Model::getCleanInstance()}
+		{assign var=MODULE_MODEL value=$MODULE_MODEL}
 		<form id="MyModal" class="form-horizontal" data-detail-url="{$MODULE_MODEL->getDetailViewUrl()}">
 			<div class="widget_header row">
 				<div class="col-md-8">
@@ -35,7 +35,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					{assign var=FIELDS value=\App\Modules\PBXManager\Connectors\PBXManager::getSettingsParameters()}
+					{assign var=FIELDS value=$SETTINGS_PARAMETERS}
 					{foreach item=FIELD_TYPE key=FIELD_NAME from=$FIELDS}
 							<tr><td width="25%"><label class="muted pull-right marginRight10px"><span class="redColor">*</span>{$FIELD_NAME|t:$QUALIFIED_MODULE}</label></td>
 								<td style="border-left: none;"><input type="{$FIELD_TYPE}" class="form-control" name="{$FIELD_NAME}" data-validation-engine='validate[required]' value="{$RECORD_MODEL->get($FIELD_NAME)}" /></td></tr>

@@ -56,7 +56,32 @@ class IndexAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 		$viewer->assign('SELECTED_PICKLISTFIELD_NON_EDITABLE_VALUES', $selectedFieldNonEditablePickListValues);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedName);
+		
+		// Prepare Picklist EditView-specific data for EditView template
+		$this->preparePicklistEditViewData($viewer, $selectedFieldEditablePickListValues, $valueToEdit);
+		
 		echo $viewer->view('EditView.tpl', $qualifiedName, true);
+	}
+	
+	/**
+	 * Prepare data for Picklist EditView template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function preparePicklistEditViewData($viewer, $selectedFieldEditablePickListValues, $valueToEdit)
+	{
+		// Prepare JSON-encoded picklist values with toSafeHTML
+		$pickListValuesJson = \App\Json::encode($selectedFieldEditablePickListValues);
+		$viewer->assign('PICKLIST_VALUES_JSON', \App\Modules\Base\Helpers\Util::toSafeHTML($pickListValuesJson));
+		
+		// Prepare safe HTML for picklist values in options
+		$safePicklistValues = [];
+		foreach ($selectedFieldEditablePickListValues as $key => $value) {
+			$safePicklistValues[$key] = \App\Modules\Base\Helpers\Util::toSafeHTML($value);
+		}
+		$viewer->assign('SAFE_PICKLIST_VALUES', $safePicklistValues);
+		
+		// Prepare validator JSON
+		$viewer->assign('FIELD_LABEL_VALIDATOR_JSON', \App\Json::encode([['name'=>'FieldLabel']]));
 	}
 
 	public function showDeleteView(\App\Http\Vtiger_Request $request)
@@ -122,7 +147,32 @@ class IndexAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedName);
 		$viewer->assign('ROLES_LIST', \App\Modules\Settings\Roles\Models\Record::getAll());
 		$viewer->assign('SELECTED_PICKLISTFIELD_ALL_VALUES', $selectedFieldAllPickListValues);
+		
+		// Prepare Picklist PickListValueDetail-specific data (includes CreateView)
+		$this->preparePicklistValueDetailData($viewer, $selectedFieldAllPickListValues);
+		
 		$viewer->view('PickListValueDetail.tpl', $qualifiedName);
+	}
+	
+	/**
+	 * Prepare data for Picklist PickListValueDetail template (includes CreateView)
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function preparePicklistValueDetailData($viewer, $selectedFieldAllPickListValues)
+	{
+		// Prepare safe HTML for picklist values in data-key attributes
+		$safePicklistValues = [];
+		foreach ($selectedFieldAllPickListValues as $key => $value) {
+			$safePicklistValues[$key] = \App\Modules\Base\Helpers\Util::toSafeHTML($value);
+		}
+		$viewer->assign('SAFE_PICKLIST_VALUES', $safePicklistValues);
+		
+		// Prepare JSON-encoded picklist values with toSafeHTML for CreateView
+		$pickListValuesJson = \App\Json::encode($selectedFieldAllPickListValues);
+		$viewer->assign('PICKLIST_VALUES_JSON', \App\Modules\Base\Helpers\Util::toSafeHTML($pickListValuesJson));
+		
+		// Prepare validator JSON for CreateView
+		$viewer->assign('FIELD_LABEL_VALIDATOR_JSON', \App\Json::encode([['name'=>'FieldLabel']]));
 	}
 
 	public function getPickListValueByRole(\App\Http\Vtiger_Request $request)
@@ -172,6 +222,20 @@ class IndexAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedName);
 		$viewer->assign('ROLES_LIST', \App\Modules\Settings\Roles\Models\Record::getAll());
 		$viewer->assign('SELECTED_PICKLISTFIELD_ALL_VALUES', $selectedFieldAllPickListValues);
+		
+		// Prepare Picklist AssignValueToRole-specific data for AssignValueToRole template
+		$this->preparePicklistAssignValueToRoleData($viewer, $selectedFieldAllPickListValues);
+		
 		$viewer->view('AssignValueToRole.tpl', $qualifiedName);
+	}
+	
+	/**
+	 * Prepare data for Picklist AssignValueToRole template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function preparePicklistAssignValueToRoleData($viewer, $selectedFieldAllPickListValues)
+	{
+		// Prepare JSON-encoded picklist values
+		$viewer->assign('PICKLIST_VALUES_JSON', \App\Json::encode($selectedFieldAllPickListValues));
 	}
 }

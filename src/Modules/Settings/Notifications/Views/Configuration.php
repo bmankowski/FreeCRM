@@ -33,11 +33,23 @@ class Configuration extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('SELECTED_MODULE', $srcModule);
 		$viewer->assign('SUPPORTED_MODULES', $modules);
 		
+		// Prepare Notifications ConfigurationContent-specific data for ConfigurationContent template
+		$this->prepareNotificationsConfigurationData($viewer);
+		
 		if ($request->isAjax()) {
 			$viewer->view('ConfigurationContent.tpl', $qualifiedModuleName);
 		} else {
 			$viewer->view('ConfigurationIndex.tpl', $qualifiedModuleName);
 		}
+	}
+	
+	/**
+	 * Prepare data for Notifications ConfigurationContent template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareNotificationsConfigurationData($viewer)
+	{
+		$viewer->assign('WATCHDOG_ENABLED', \App\AppConfig::module('ModTracker', 'WATCHDOG'));
 	}
 
 	/**

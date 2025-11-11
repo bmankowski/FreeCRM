@@ -17,8 +17,8 @@
 						{"LBL_SELECT_USER"|t:$QUALIFIED_MODULE}
 					</label>
 					<select id="exceptions" class="select2 form-control"  multiple="true" name="exceptions[]">
-						{foreach from=\App\PrivilegeUtil::getUserByMember($MEMBER) item=USER_ID}
-							<option value="{$USER_ID}" {if in_array($USER_ID, $MEMBERS)}selected{/if}>{\App\Fields\Owner::getUserLabel($USER_ID)}</option>
+						{foreach from=$USER_IDS item=USER_ID}
+							<option value="{$USER_ID}" {if in_array($USER_ID, $MEMBERS)}selected{/if}>{$USER_LABELS[$USER_ID]}</option>
 						{/foreach}
 					</select>
 				</div>

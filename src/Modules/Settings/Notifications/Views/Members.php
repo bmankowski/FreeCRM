@@ -51,8 +51,21 @@ class Members extends \App\Modules\Settings\Base\Views\BasicModal
 		$viewer->assign('SRC_MODULE', $srcModule);
 		$viewer->assign('RESTRICT_MEMBERS', $watchdogModel->getWatchingMembers());
 		$this->preProcess($request);
+		
+		// Prepare Notifications Members-specific data for Members template
+		$this->prepareNotificationsMembersData($viewer);
+		
 		$viewer->view('Members.tpl', $moduleName);
 		$this->postProcess($request);
+	}
+	
+	/**
+	 * Prepare data for Notifications Members template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareNotificationsMembersData($viewer)
+	{
+		$viewer->assign('PRIVILEGE_MEMBERS', \App\PrivilegeUtil::getMembers());
 	}
 
 	/**
@@ -70,7 +83,26 @@ class Members extends \App\Modules\Settings\Base\Views\BasicModal
 		$viewer->assign('SRC_MODULE', $srcModule);
 		$viewer->assign('MEMBERS', $watchdogModel->getWatchingExceptions($member));
 		$this->preProcess($request);
+		
+		// Prepare Notifications MembersExceptions-specific data for MembersExceptions template
+		$this->prepareNotificationsMembersExceptionsData($viewer, $member);
+		
 		$viewer->view('MembersExceptions.tpl', $moduleName);
 		$this->postProcess($request);
+	}
+	
+	/**
+	 * Prepare data for Notifications MembersExceptions template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareNotificationsMembersExceptionsData($viewer, $member)
+	{
+		$userIds = \App\PrivilegeUtil::getUserByMember($member);
+		$userLabels = [];
+		foreach ($userIds as $userId) {
+			$userLabels[$userId] = \App\Fields\Owner::getUserLabel($userId);
+		}
+		$viewer->assign('USER_IDS', $userIds);
+		$viewer->assign('USER_LABELS', $userLabels);
 	}
 }

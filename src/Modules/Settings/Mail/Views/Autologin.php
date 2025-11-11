@@ -29,11 +29,23 @@ class Autologin extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('ERROR_MESSAGE', $request->get('errorMessage'));
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		
+		// Prepare Mail AutologinContent-specific data for AutologinContent template
+		$this->prepareMailAutologinData($viewer);
+		
 		if ($request->isAjax()) {
 			$viewer->view('AutologinContent.tpl', $qualifiedModuleName);
 		} else {
 			$viewer->view('AutologinIndex.tpl', $qualifiedModuleName);
 		}
+	}
+	
+	/**
+	 * Prepare data for Mail AutologinContent template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareMailAutologinData($viewer)
+	{
+		$viewer->assign('ALL_ACTIVEUSER_LIST', \App\Fields\Owner::getInstance()->getAccessibleUsers());
 	}
 
 	/**

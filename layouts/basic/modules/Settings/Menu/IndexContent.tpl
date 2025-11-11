@@ -20,7 +20,7 @@
 			<div class="col-xs-6 pull-right ">
 				<select class="select2 form-control" name="roleMenu">
 					<option value="0" {if $ROLEID eq 0} selected="" {/if}>{"LBL_DEFAULT_MENU"|t:$QUALIFIED_MODULE}</option>
-					{foreach item=ROLE key=KEY from=\App\Modules\Settings\Roles\Models\Record::getAll()}
+					{foreach item=ROLE key=KEY from=$ALL_ROLES}
 						<option value="{$KEY}" {if $ROLEID === $KEY} selected="" {/if}>{$ROLE->getName()|t}</option>
 					{/foreach}
 				</select>
@@ -33,7 +33,7 @@
 	{/if}
 	<div class="treeMenuContainer">
 		<input type="hidden" id="treeLastID" value="{$LASTID}" />
-		<input type="hidden" name="tree" id="treeValues" value='{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($DATA))}' />
+		<input type="hidden" name="tree" id="treeValues" value='{$DATA_JSON}' />
 		<div id="treeContent"></div>
 	</div>
 	<div class="modal fade copyMenuModal">

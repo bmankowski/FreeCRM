@@ -52,9 +52,9 @@
 				</div>
 
 				<div id="moduleBlocks">
-					<input type="hidden" name="filter_date" value='{\App\Json::encode($WIDGETS_WITH_FILTER_DATE)}'>
-					<input type="hidden" name="filter_users" value='{\App\Json::encode($WIDGETS_WITH_FILTER_USERS)}'>
-					<input type="hidden" name="filter_restrict" value='{\App\Json::encode($RESTRICT_FILTER)}'>
+					<input type="hidden" name="filter_date" value='{$FILTER_DATE_JSON}'>
+					<input type="hidden" name="filter_users" value='{$FILTER_USERS_JSON}'>
+					<input type="hidden" name="filter_restrict" value='{$FILTER_RESTRICT_JSON}'>
 					{foreach key=AUTHORIZATION_KEY item=AUTHORIZATION_INFO from=$DASHBOARD_AUTHORIZATION_BLOCKS}
 						{assign var=AUTHORIZATION_NAME value=$AUTHORIZATION_INFO.name}
 						<div id="block_{$AUTHORIZATION_KEY}" class="editFieldsTable block_{$AUTHORIZATION_KEY} marginBottom10px border1px blockSortable" data-block-id="{$AUTHORIZATION_KEY}" data-sequence="" data-code="{$AUTHORIZATION_INFO.code}" style="border-radius: 4px 4px 0px 0px;background: white;">

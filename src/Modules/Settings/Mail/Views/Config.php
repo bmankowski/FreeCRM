@@ -29,11 +29,23 @@ class Config extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('ERROR_MESSAGE', $request->get('errorMessage'));
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		
+		// Prepare Mail ConfigContent-specific data for ConfigContent template
+		$this->prepareMailConfigData($viewer);
+		
 		if ($request->isAjax()) {
 			$viewer->view('ConfigContent.tpl', $qualifiedModuleName);
 		} else {
 			$viewer->view('ConfigIndex.tpl', $qualifiedModuleName);
 		}
+	}
+	
+	/**
+	 * Prepare data for Mail ConfigContent template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareMailConfigData($viewer)
+	{
+		$viewer->assign('ALL_ACTIVEUSER_LIST', \App\Fields\Owner::getInstance()->getAccessibleUsers());
 	}
 
 	/**

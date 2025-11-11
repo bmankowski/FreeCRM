@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
 {strip}
 <!-- layouts/basic/modules/Settings/CustomView/Sorting.tpl -->
-	{assign 'CUSTOM_VIEW' \App\Modules\CustomView\Models\Record::getInstanceById($CVID)}
+	{assign 'CUSTOM_VIEW' $CUSTOM_VIEW}
 	{assign 'SORT_ORDER_BY' ","|explode:$CUSTOM_VIEW->get('sort')}
 	{assign 'SORT_ORDER' $SORT_ORDER_BY[1]}
 	{if !$SORT_ORDER}

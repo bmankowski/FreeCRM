@@ -27,11 +27,23 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 
 		$viewer->assign('UPDATES', $updates);
 		$viewer->assign('MODULE', $qualifiedModuleName);
+		
+		// Prepare Updates-specific data for IndexContent template
+		$this->prepareUpdatesData($viewer);
 
 		if ($request->isAjax()) {
 			$viewer->view('IndexContent.tpl', $qualifiedModuleName);
 		} else {
 			$viewer->view('IndexView.tpl', $qualifiedModuleName);
 		}
+	}
+	
+	/**
+	 * Prepare data for Updates IndexContent template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareUpdatesData($viewer)
+	{
+		$viewer->assign('USER_MODULE_IMPORT_URL', \App\Modules\Settings\ModuleManager\Models\Module::getUserModuleImportUrl());
 	}
 }

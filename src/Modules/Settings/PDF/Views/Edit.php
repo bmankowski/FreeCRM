@@ -57,6 +57,8 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 				break;
 
 			case 'step7':
+				// Prepare PDF Step7-specific data for Step7 template
+				$this->preparePDFStep7Data($viewer);
 				$viewer->view('Step7.tpl', $qualifiedModuleName);
 				break;
 
@@ -110,6 +112,15 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 				$viewer->view('Step1.tpl', $qualifiedModuleName);
 				break;
 		}
+	}
+	
+	/**
+	 * Prepare data for PDF Step7 template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function preparePDFStep7Data($viewer)
+	{
+		$viewer->assign('ALL_GROUP_MEMBERS', \App\Modules\Settings\Groups\Models\Member::getAll(false));
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)

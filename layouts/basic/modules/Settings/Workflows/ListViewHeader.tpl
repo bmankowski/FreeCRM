@@ -44,7 +44,7 @@
 					<i class="glyphicon glyphicon-plus"></i>&nbsp;
 					<strong>{"LBL_NEW"|t:$QUALIFIED_MODULE} {"LBL_WORKFLOW"|t:$QUALIFIED_MODULE}</strong>
 				</button>
-				<button class="btn btn-default importButton" id="importButton" data-url="{\App\Modules\Settings\Workflows\Models\Module::getImportViewUrl()}" title="{"LBL_IMPORT_TEMPLATE"|t:$QUALIFIED_MODULE}">
+				<button class="btn btn-default importButton" id="importButton" data-url="{$IMPORT_VIEW_URL}" title="{"LBL_IMPORT_TEMPLATE"|t:$QUALIFIED_MODULE}">
 					<i class="glyphicon glyphicon-import"></i>
 				</button>
 			</div>

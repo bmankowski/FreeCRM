@@ -37,13 +37,26 @@ class CreditLimits extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('INVENTORY_DATA', $allData);
 		$viewer->assign('VIEW', $view);
-		$viewer->assign('CURRENCY', \App\Modules\Base\Helpers\Util::getBaseCurrency());
+		$currency = \App\Modules\Base\Helpers\Util::getBaseCurrency();
+		$viewer->assign('CURRENCY', $currency);
+		
+		// Prepare Inventory IndexContent-specific data for IndexContent template
+		$this->prepareInventoryIndexContentData($viewer, $currency);
 		
 		if ($request->isAjax()) {
 			$viewer->view('IndexContent.tpl', $qualifiedModuleName);
 		} else {
 			$viewer->view('IndexView.tpl', $qualifiedModuleName);
 		}
+	}
+	
+	/**
+	 * Prepare data for Inventory IndexContent template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareInventoryIndexContentData($viewer, $currency)
+	{
+		$viewer->assign('CURRENCY_JSON', \App\Json::encode($currency));
 	}
 
 	public function getPageLabels(\App\Http\Vtiger_Request $request)

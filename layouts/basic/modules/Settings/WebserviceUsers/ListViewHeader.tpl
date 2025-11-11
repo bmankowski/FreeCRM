@@ -8,7 +8,7 @@
 	</div>
 	<div class="row no-margin">
 		<ul id="tabs" class="nav nav-tabs " data-tabs="tabs">
-			{foreach item=VALUE from=\App\Modules\Settings\WebserviceApps\Models\Module::getTypes() name=typeLoop}
+			{foreach item=VALUE from=$WEBSERVICE_TYPES name=typeLoop}
 				<li class="tabApi{if $smarty.foreach.typeLoop.first} active{/if}" data-typeapi="{$VALUE}">
 					<a data-toggle="tab"><strong>{$VALUE|t:$QUALIFIED_MODULE}</strong></a>
 				</li>

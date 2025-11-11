@@ -31,7 +31,7 @@ FreeCRM - Customer Relationship Management System
 					</tr>
 				</thead>
 				<tbody>
-					{assign var=FIELDS value=\App\Modules\PBXManager\Connectors\PBXManager::getSettingsParameters()}
+					{assign var=FIELDS value=$SETTINGS_PARAMETERS}
 					{foreach item=FIELD_TYPE key=FIELD_NAME from=$FIELDS}
 						<tr><td width="25%"><label class="muted pull-right marginRight10px">{$FIELD_NAME|t:$QUALIFIED_MODULE}</label></td>
 							<td style="border-left: none;"><span>{$RECORD_MODEL->get($FIELD_NAME)}</span></td></tr>

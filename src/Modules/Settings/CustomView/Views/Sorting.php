@@ -40,7 +40,20 @@ class Sorting extends \App\Modules\Settings\Base\Views\BasicModal
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('CVID', $request->get('cvid'));
 		$this->preProcess($request);
+		
+		// Prepare CustomView Sorting-specific data for Sorting template
+		$this->prepareCustomViewSortingData($viewer, $request->get('cvid'));
+		
 		$viewer->view('Sorting.tpl', $moduleName);
 		$this->postProcess($request);
+	}
+	
+	/**
+	 * Prepare data for CustomView Sorting template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareCustomViewSortingData($viewer, $cvid)
+	{
+		$viewer->assign('CUSTOM_VIEW', \App\Modules\CustomView\Models\Record::getInstanceById($cvid));
 	}
 }

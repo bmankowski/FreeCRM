@@ -68,6 +68,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		
 		$viewer->view('Index.tpl', $qualifiedModuleName);
 	}
+	
 
     /**
      * Index - AJAX content for index tab
@@ -103,6 +104,10 @@ class Index extends \App\Modules\Settings\Base\Views\Index
      */
     protected function prepareDashboardData($viewer, $warningsCount)
     {
+        // Prepare JSON-encoded warnings count for tab data-params
+        $warningsCountJson = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode(['count' => $warningsCount]));
+        $viewer->assign('WARNINGS_COUNT_JSON', $warningsCountJson);
+        
         // Prepare JSON-encoded warnings count for tab params
         $warningsParamsJson = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode(['count' => $warningsCount]));
         $viewer->assign('WARNINGS_PARAMS_JSON', $warningsParamsJson);

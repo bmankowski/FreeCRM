@@ -7,7 +7,7 @@
 			&nbsp;{"LBL_MAIL_GENERAL_CONFIGURATION_DESCRIPTION"|t:$QUALIFIED_MODULE}
 		</div>
 	</div>
-	{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
+	{assign var=ALL_ACTIVEUSER_LIST value=$ALL_ACTIVEUSER_LIST}
 	<ul id="tabs" class="nav nav-tabs nav-justified" data-tabs="tabs">
 		<li class="active"><a href="#configuration" data-toggle="tab">{"LBL_MAIL_ICON_CONFIG"|t:$QUALIFIED_MODULE}</a></li>
 		<li><a href="#signature" data-toggle="tab">{"LBL_SIGNATURE"|t:$QUALIFIED_MODULE}</a></li>

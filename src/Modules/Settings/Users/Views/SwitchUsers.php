@@ -24,12 +24,25 @@ class SwitchUsers extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('MODULE', $moduleName);
+		
+		// Prepare SwitchUsers-specific data for SwitchUsersContent template
+		$this->prepareSwitchUsersData($viewer);
 
 		if ($request->isAjax()) {
 			$viewer->view('SwitchUsersContent.tpl', $qualifiedModuleName);
 		} else {
 			$viewer->view('SwitchUsersIndex.tpl', $qualifiedModuleName);
 		}
+	}
+	
+	/**
+	 * Prepare data for SwitchUsersContent template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareSwitchUsersData($viewer)
+	{
+		$viewer->assign('USERS', \App\Modules\Users\Models\Record::getAll());
+		$viewer->assign('ROLES', \App\Modules\Settings\Roles\Models\Record::getAll());
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)

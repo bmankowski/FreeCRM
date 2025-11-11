@@ -31,12 +31,25 @@ class Locks extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('MODULE', $moduleName);
 		
+		// Prepare Locks-specific data for LocksContent template
+		$this->prepareLocksData($viewer);
+		
 		// Check if this is an AJAX request - if so, return only content without MainLayout
 		if ($request->isAjax()) {
 			$viewer->view('LocksContent.tpl', $qualifiedModuleName);
 		} else {
 			$viewer->view('Locks.tpl', $qualifiedModuleName);
 		}
+	}
+	
+	/**
+	 * Prepare data for LocksContent template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareLocksData($viewer)
+	{
+		$viewer->assign('USERS', \App\Modules\Users\Models\Record::getAll());
+		$viewer->assign('ROLES', \App\Modules\Settings\Roles\Models\Record::getAll());
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)

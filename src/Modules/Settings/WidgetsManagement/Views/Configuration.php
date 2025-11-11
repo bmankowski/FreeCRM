@@ -68,6 +68,9 @@ class Configuration extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('TITLE_OF_LIMIT', $widgetsWithLimit);
 		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
 		$viewer->assign('RESTRICT_FILTER', $restrictFilter);
+		
+		// Prepare WidgetsManagement-specific data for ConfigurationContent template
+		$this->prepareWidgetsManagementData($viewer, $widgetsWithFilterDate, $widgetsWithFilterUsers, $restrictFilter);
 
 		// Add AJAX detection for MainLayout conversion
 		if ($request->isAjax()) {
@@ -78,5 +81,49 @@ class Configuration extends \App\Modules\Settings\Base\Views\Index
 			echo $viewer->view('ConfigurationIndex.tpl', $request->getModule(false), true);
 		}
 		\App\Log::trace(__METHOD__ . ' | End');
+	}
+	
+	/**
+	 * Prepare data for WidgetsManagement ConfigurationContent template
+	 * Moves function calls from templates to controller for better MVC separation
+	 */
+	protected function prepareWidgetsManagementData($viewer, $widgetsWithFilterDate, $widgetsWithFilterUsers, $restrictFilter)
+	{
+		// Prepare JSON-encoded filter data
+		$viewer->assign('FILTER_DATE_JSON', \App\Json::encode($widgetsWithFilterDate));
+		$viewer->assign('FILTER_USERS_JSON', \App\Json::encode($widgetsWithFilterUsers));
+		$viewer->assign('FILTER_RESTRICT_JSON', \App\Json::encode($restrictFilter));
+		
+		// Prepare decoded widget data for WidgetConfig template
+		$dashboardStored = $viewer->getTemplateVars('WIDGETS_AUTHORIZATION_INFO');
+		$widgetInfoDecoded = [];
+		$widgetSizeDecoded = [];
+		$widgetOwnersDecoded = [];
+		
+		if ($dashboardStored) {
+			foreach ($dashboardStored as $authKey => $widgets) {
+				foreach ($widgets as $widgetModel) {
+					$widgetId = $widgetModel->get('id');
+					// Decode widget data
+					$data = $widgetModel->get('data');
+					if ($data) {
+						$widgetInfoDecoded[$widgetId] = \App\Json::decode(html_entity_decode($data));
+					}
+					// Decode widget size
+					$size = $widgetModel->get('size');
+					if ($size) {
+						$widgetSizeDecoded[$widgetId] = \App\Json::decode(html_entity_decode($size));
+					}
+					// Decode widget owners
+					$owners = $widgetModel->get('owners');
+					if ($owners) {
+						$widgetOwnersDecoded[$widgetId] = \App\Json::decode(html_entity_decode($owners));
+					}
+				}
+			}
+		}
+		$viewer->assign('WIDGET_INFO_DECODED', $widgetInfoDecoded);
+		$viewer->assign('WIDGET_SIZE_DECODED', $widgetSizeDecoded);
+		$viewer->assign('WIDGET_OWNERS_DECODED', $widgetOwnersDecoded);
 	}
 }

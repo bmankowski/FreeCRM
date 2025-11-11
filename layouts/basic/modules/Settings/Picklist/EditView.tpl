@@ -31,7 +31,7 @@
 				<input type="hidden" name="action" value="SaveAjax" />
 				<input type="hidden" name="mode" value="rename" />
 				<input type="hidden" name="picklistName" value="{$FIELD_MODEL->get('name')}" />
-				<input type="hidden" name="pickListValues" value='{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($SELECTED_PICKLISTFIELD_EDITABLE_VALUES))}' />
+				<input type="hidden" name="pickListValues" value='{$PICKLIST_VALUES_JSON}' />
 				<div class="modal-body tabbable">
 					<div class="form-group">
 						<div class="col-md-3 control-label">{"LBL_ITEM_TO_RENAME"|t:$QUALIFIED_MODULE}</div>
@@ -40,7 +40,7 @@
 							<select class="chzn-select form-control" name="oldValue">
 								<optgroup>
 									{foreach from=$PICKLIST_VALUES key=PICKLIST_VALUE_KEY item=PICKLIST_VALUE}
-										<option {if $FIELD_VALUE eq $PICKLIST_VALUE} selected="" {/if}value="{\App\Modules\Base\Helpers\Util::toSafeHTML($PICKLIST_VALUE)}" data-id={$PICKLIST_VALUE_KEY}>{$PICKLIST_VALUE|t:$SOURCE_MODULE}</option>
+										<option {if $FIELD_VALUE eq $PICKLIST_VALUE} selected="" {/if}value="{$SAFE_PICKLIST_VALUES[$PICKLIST_VALUE_KEY]}" data-id={$PICKLIST_VALUE_KEY}>{$PICKLIST_VALUE|t:$SOURCE_MODULE}</option>
 									{/foreach}	
 								</optgroup>
 							</select>	
@@ -48,7 +48,7 @@
 					</div>
 					<div class="form-group">
 						<div class="col-md-3 control-label"><span class="redColor">*</span>{"LBL_ENTER_NEW_NAME"|t:$QUALIFIED_MODULE}</div>
-						<div class="col-md-9 controls"><input type="text" class="form-control" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator={\App\Json::encode([['name'=>'FieldLabel']])} name="newValue"></div>
+						<div class="col-md-9 controls"><input type="text" class="form-control" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator={$FIELD_LABEL_VALIDATOR_JSON} name="newValue"></div>
 					</div>
 					{if $SELECTED_PICKLISTFIELD_NON_EDITABLE_VALUES}
 					<div class="form-group">

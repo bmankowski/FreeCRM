@@ -174,6 +174,12 @@ class EditTask extends \App\Modules\Settings\Base\Views\Index
 		// Prepare mail accounts for email tasks
 		$viewer->assign('MAIL_ACCOUNTS', \App\Mail::getAll());
 		
+		// Prepare taskFields JSON for VTCreateEntityTask
+		if ($taskType === 'VTCreateEntityTask' && method_exists($taskObject, 'getFieldNames')) {
+			$taskFields = $taskObject->getFieldNames();
+			$viewer->assign('TASK_FIELDS_JSON', \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($taskFields)));
+		}
+		
 		// Prepare field value mappings with JSON encoding/decoding
 		if (isset($taskObject->field_value_mapping) && !empty($taskObject->field_value_mapping)) {
 			$fieldValueMapping = \App\Json::decode($taskObject->field_value_mapping);

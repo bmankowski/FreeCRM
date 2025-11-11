@@ -48,6 +48,19 @@ class Edit extends \App\Modules\Settings\Roles\Views\Index
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('TYPE', $request->get('type'));
 		$viewer->assign('USER_MODEL', $request->getUser());
+		
+		// Prepare Roles EditView-specific data for EditView template
+		$this->prepareRolesEditViewData($viewer);
+		
 		$viewer->view('EditView.tpl', $qualifiedModuleName);
+	}
+	
+	/**
+	 * Prepare data for Roles EditView template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareRolesEditViewData($viewer)
+	{
+		$viewer->assign('ALL_MODULES', \App\Modules\Base\Models\Module::getAll([0], [], true));
 	}
 }

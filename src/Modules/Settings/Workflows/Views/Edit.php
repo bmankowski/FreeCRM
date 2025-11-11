@@ -78,7 +78,28 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 		$admin = \App\Modules\Users\Users::getActiveAdminUser();
 		$viewer->assign('ACTIVE_ADMIN', $admin);
 		$viewer->assign('WEEK_START_ID', $weekDays[$currentUser->get('dayoftheweek')]);
+		
+		// Prepare Step1-specific data for Step1 template
+		$this->prepareWorkflowsStep1Data($viewer, $workflowModel);
+		
 		$viewer->view('Step1.tpl', $qualifiedModuleName);
+	}
+	
+	/**
+	 * Prepare data for Workflows Step1 template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareWorkflowsStep1Data($viewer, $workflowModel)
+	{
+		$workflowModelObj = $workflowModel->getWorkflowObject();
+		// Prepare decoded schedule data
+		$schdayofweek = $workflowModelObj->schdayofweek;
+		$schdayofmonth = $workflowModelObj->schdayofmonth;
+		$schannualdates = $workflowModelObj->schannualdates;
+		
+		$viewer->assign('DAY_OF_WEEK_DECODED', $schdayofweek ? \App\Json::decode($schdayofweek) : []);
+		$viewer->assign('DAYS_OF_MONTH_DECODED', $schdayofmonth ? \App\Json::decode($schdayofmonth) : []);
+		$viewer->assign('SPECIFIC_DATE_DECODED', $schannualdates ? \App\Json::decode($schannualdates) : []);
 	}
 
 	public function step2(\App\Http\Vtiger_Request $request)
@@ -134,8 +155,48 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('IS_FILTER_SAVED_NEW', $workFlowModel->isFilterSavedInNew());
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
+		
+		// Prepare Step2-specific data for Step2 template
+		$this->prepareWorkflowsStep2Data($viewer, $workFlowModel);
 
 		$viewer->view('Step2.tpl', $qualifiedModuleName);
+	}
+	
+	/**
+	 * Prepare data for Workflows Step2 template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareWorkflowsStep2Data($viewer, $workFlowModel)
+	{
+		// Prepare JSON-encoded workflow data
+		$conditions = $workFlowModel->get('conditions');
+		$schdayofweek = $workFlowModel->get('schdayofweek');
+		$schdayofmonth = $workFlowModel->get('schdayofmonth');
+		$schannualdates = $workFlowModel->get('schannualdates');
+		
+		$viewer->assign('OLDER_CONDITIONS_JSON', \App\Json::encode($conditions ? $conditions : []));
+		$viewer->assign('SCHDAYOFWEEK_JSON', \App\Json::encode($schdayofweek ? $schdayofweek : []));
+		$viewer->assign('SCHDAYOFMONTH_JSON', \App\Json::encode($schdayofmonth ? $schdayofmonth : []));
+		$viewer->assign('SCHANNUALDATES_JSON', \App\Json::encode($schannualdates ? $schannualdates : []));
+		
+		// Prepare field info JSON for AdvanceFilterCondition template
+		$recordStructure = $viewer->getTemplateVars('RECORD_STRUCTURE');
+		$fieldInfoJson = [];
+		$fieldValidatorJson = [];
+		if ($recordStructure) {
+			foreach ($recordStructure as $blockLabel => $blockFields) {
+				foreach ($blockFields as $fieldName => $fieldModel) {
+					$fieldInfo = $fieldModel->getFieldInfo();
+					$fieldInfoJson[$fieldName] = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($fieldInfo));
+					$validator = $fieldModel->getValidator();
+					if ($validator) {
+						$fieldValidatorJson[$fieldName] = \App\Json::encode($validator);
+					}
+				}
+			}
+		}
+		$viewer->assign('FIELD_INFO_JSON', $fieldInfoJson);
+		$viewer->assign('FIELD_VALIDATOR_JSON', $fieldValidatorJson);
 	}
 
 	public function Step3(\App\Http\Vtiger_Request $request)

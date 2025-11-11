@@ -17,7 +17,7 @@
 						{"LBL_SELECT_MEMBERS"|t:$QUALIFIED_MODULE}
 					</label>
 					<select id="members" class="select2 form-control"  multiple="true" name="members[]">
-						{foreach from=\App\PrivilegeUtil::getMembers() key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
+						{foreach from=$PRIVILEGE_MEMBERS key=GROUP_LABEL item=ALL_GROUP_MEMBERS}
 							<optgroup label="{$GROUP_LABEL|t}">
 								{foreach from=$ALL_GROUP_MEMBERS key=MEMBER_ID item=MEMBER}
 									{if !in_array($MEMBER_ID, $RESTRICT_MEMBERS)}

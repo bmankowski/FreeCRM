@@ -25,11 +25,11 @@
 				<input type="hidden" name="action" value="SaveAjax" />
 				<input type="hidden" name="mode" value="add" />
 				<input type="hidden" name="picklistName" value="{$SELECTED_PICKLIST_FIELDMODEL->get('name')}" />
-				<input type="hidden" name="pickListValues" value='{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($SELECTED_PICKLISTFIELD_ALL_VALUES))}' />
+				<input type="hidden" name="pickListValues" value='{$PICKLIST_VALUES_JSON}' />
 				<div class="modal-body tabbable">
 					<div class="form-group">
 						<div class="col-md-3 control-label"><span class="redColor">*</span>{"LBL_ITEM_VALUE"|t:$QUALIFIED_MODULE}</div>
-						<div class="col-md-9 controls"><input class="form-control" type="text" data-prompt-position="topLeft:70" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator={\App\Json::encode([['name'=>'FieldLabel']])} name="newValue"></div>
+						<div class="col-md-9 controls"><input class="form-control" type="text" data-prompt-position="topLeft:70" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator={$FIELD_LABEL_VALIDATOR_JSON} name="newValue"></div>
 					</div>
 					{if $SELECTED_PICKLIST_FIELDMODEL->isRoleBased()}
 						<div class="form-group">	

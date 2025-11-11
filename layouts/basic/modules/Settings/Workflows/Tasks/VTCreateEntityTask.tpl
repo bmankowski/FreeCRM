@@ -12,7 +12,7 @@
 {strip}
 <!-- layouts/basic/modules/Settings/Workflows/Tasks/VTCreateEntityTask.tpl -->
 	{assign var=MAPPING_PANEL value=$TASK_OBJECT->mappingPanel}
-	<input type="hidden" id="taskFields" value="{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($TASK_OBJECT->getFieldNames()))}"/>
+	<input type="hidden" id="taskFields" value="{$TASK_FIELDS_JSON}"/>
 	<input type="hidden" id="mappingPanel" value="{$MAPPING_PANEL}"/>
 
 	<div class="form-group text-center">

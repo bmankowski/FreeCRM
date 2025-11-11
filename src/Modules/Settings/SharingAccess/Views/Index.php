@@ -27,7 +27,11 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('ALL_ACTIONS', \App\Modules\Settings\SharingAccess\Models\Action::getAll());
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('USER_MODEL', $request->getUser());
-		$viewer->assign('DEPENDENT_MODULES', \App\Modules\Settings\SharingAccess\Models\Module::getDependentModules());
+		$dependentModules = \App\Modules\Settings\SharingAccess\Models\Module::getDependentModules();
+		$viewer->assign('DEPENDENT_MODULES', $dependentModules);
+		
+		// Prepare SharingAccess-specific data for IndexContent template
+		$this->prepareSharingAccessIndexData($viewer, $dependentModules);
 
 		// Check if this is an AJAX request - if so, return only content without MainLayout
 		if ($request->isAjax()) {
@@ -35,6 +39,15 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		} else {
 			$viewer->view('Index.tpl', $qualifiedModuleName);
 		}
+	}
+	
+	/**
+	 * Prepare data for SharingAccess IndexContent template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareSharingAccessIndexData($viewer, $dependentModules)
+	{
+		$viewer->assign('DEPENDENT_MODULES_JSON', \App\Json::encode($dependentModules));
 	}
 
 	/**

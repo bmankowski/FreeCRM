@@ -57,6 +57,8 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 
 		switch ($step) {
 			case 'step4':
+				// Prepare MappedFields Step4-specific data for Step4 template
+				$this->prepareMappedFieldsStep4Data($viewer);
 				$viewer->view('Step4.tpl', $qualifiedModuleName);
 				break;
 			case 'step3':
@@ -103,5 +105,14 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;
+	}
+	
+	/**
+	 * Prepare data for MappedFields Step4 template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareMappedFieldsStep4Data($viewer)
+	{
+		$viewer->assign('GROUP_MEMBERS', \App\Modules\Settings\Groups\Models\Member::getAll(false));
 	}
 }

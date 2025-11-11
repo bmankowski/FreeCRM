@@ -29,14 +29,32 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('ROLES_CONTAIN_MENU', $rolesContainMenu);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('ROLEID', $roleId);
-		$viewer->assign('DATA', $settingsModel->getAll(filter_var($roleId, FILTER_SANITIZE_NUMBER_INT)));
+		$data = $settingsModel->getAll(filter_var($roleId, FILTER_SANITIZE_NUMBER_INT));
+		$viewer->assign('DATA', $data);
 		$viewer->assign('LASTID', \App\Modules\Settings\Menu\Models\Module::getLastId());
+		
+		// Prepare Menu IndexContent-specific data for IndexContent template
+		$this->prepareMenuIndexContentData($viewer, $data);
 		
 		if ($request->isAjax()) {
 			$viewer->view('IndexContent.tpl', $qualifiedModuleName);
 		} else {
 			$viewer->view('IndexView.tpl', $qualifiedModuleName);
 		}
+	}
+	
+	/**
+	 * Prepare data for Menu IndexContent template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareMenuIndexContentData($viewer, $data)
+	{
+		// Prepare JSON-encoded data with toSafeHTML
+		$dataJson = \App\Json::encode($data);
+		$viewer->assign('DATA_JSON', \App\Modules\Base\Helpers\Util::toSafeHTML($dataJson));
+		
+		// Prepare roles list
+		$viewer->assign('ALL_ROLES', \App\Modules\Settings\Roles\Models\Record::getAll());
 	}
 
 	/**

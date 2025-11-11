@@ -69,7 +69,7 @@
 							</div>
 							<div class="col-md-8">
 								<select multiple="" name="users" class="select2 configField form-control" data-type="ldap" style="width: 100%;">
-									{foreach key=KEY item=USER from=App\Fields\Owner::getAllUsers()}
+									{foreach key=KEY item=USER from=$ALL_USERS}
 										<option value="{$USER['id']}" {if in_array($USER['id'], $CONFIG['users'])} selected {/if}>{$USER['fullName']}</option>
 									{/foreach}
 								</select>

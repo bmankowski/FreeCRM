@@ -44,7 +44,21 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('SOURCE_MODULE', $sourceModuleId);
 		$viewer->assign('USER_MODEL', $request->getUser());
+		
+		// Prepare TreesManager-specific data for EditView template
+		$this->prepareTreesManagerEditViewData($viewer, $tree);
+		
 		$viewer->view('EditView.tpl', $qualifiedModuleName);
+	}
+	
+	/**
+	 * Prepare data for TreesManager EditView template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareTreesManagerEditViewData($viewer, $tree)
+	{
+		$treeJson = \App\Json::encode($tree);
+		$viewer->assign('TREE_SAFE_HTML', \App\Modules\Base\Helpers\Util::toSafeHTML($treeJson));
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)

@@ -72,8 +72,21 @@ class Import extends \App\Modules\Settings\Base\Views\Index
 		}
 
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
+		
+		// Prepare Import-specific data for Import template
+		$this->prepareWorkflowsImportData($viewer);
+		
 		$viewer->view('Import.tpl', $qualifiedModule);
 		\App\Log::trace('End ' . __METHOD__);
+	}
+	
+	/**
+	 * Prepare data for Workflows Import template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareWorkflowsImportData($viewer)
+	{
+		$viewer->assign('DEFAULT_URL', \App\Modules\Settings\Workflows\Models\Module::getDefaultUrl());
 	}
 
 	public function getHeaderCss(\App\Http\Vtiger_Request $request)

@@ -33,8 +33,8 @@
 						{$FIELD_INFO['value'] = decode_html($CONDITION_INFO['value'])}
 						selected="selected"
 					{/if}
-					data-fieldinfo='{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($FIELD_INFO))}' 
-                    {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if}>
+					data-fieldinfo='{$FIELD_INFO_JSON[$FIELD_NAME]}' 
+                    {if !empty($FIELD_VALIDATOR_JSON[$FIELD_NAME])}data-validator='{$FIELD_VALIDATOR_JSON[$FIELD_NAME]}'{/if}>
 					{if $SELECTED_MODULE_NAME neq $MODULE_MODEL->get('name')} 
 						({$MODULE_MODEL->get('name')|t:$MODULE_MODEL->get('name')})  {$FIELD_MODEL->get('label')|t:$MODULE_MODEL->get('name')}
 					{else}

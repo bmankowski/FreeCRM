@@ -44,13 +44,26 @@ class CreateApp extends \App\Modules\Settings\Base\Views\BasicModal
 		}
 		$typesServers = \App\Modules\Settings\WebserviceApps\Models\Module::getTypes();
 		$viewer = $this->getViewer($request);
-		$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy('SSingleOrders')));
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('TYPES_SERVERS', $typesServers);
 		$viewer->assign('MODULE', $moduleName);
+		
+		// Prepare CreateApp-specific data for CreateApp template
+		$this->prepareWebserviceAppsCreateAppData($viewer);
+		
 		$viewer->view('CreateApp.tpl', $qualifiedModuleName);
 		parent::postProcess($request);
+	}
+	
+	/**
+	 * Prepare data for WebserviceApps CreateApp template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareWebserviceAppsCreateAppData($viewer)
+	{
+		$mappingRelatedField = \App\ModuleHierarchy::getRelationFieldByHierarchy('SSingleOrders');
+		$viewer->assign('MAPPING_RELATED_FIELD', \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($mappingRelatedField)));
 	}
 
 	public function getModalScripts(\App\Http\Vtiger_Request $request)

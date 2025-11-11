@@ -7,7 +7,7 @@
 			&nbsp;{"LBL_AUTOLOGIN_DESCRIPTION"|t:$QUALIFIED_MODULE}
 		</div>
 	</div>
-	{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
+	{assign var=ALL_ACTIVEUSER_LIST value=$ALL_ACTIVEUSER_LIST}
 	<ul id="tabs" class="nav nav-tabs nav-justified" data-tabs="tabs">
 		<li class="active"><a href="#user_list" data-toggle="tab">{"LBL_USER_LIST"|t:$QUALIFIED_MODULE} </a></li>
 		<li><a href="#configuration" data-toggle="tab">{"LBL_CONFIGURATION"|t:$QUALIFIED_MODULE} </a></li>

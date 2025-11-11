@@ -65,8 +65,36 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('NON_MAPPED_SOURCE_VALUES', $nonMappedSourceValues);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedName);
 		$viewer->assign('RECORD_MODEL', $recordModel);
+		
+		// Prepare PickListDependency DependencyGraph-specific data for DependencyGraph template
+		$this->preparePickListDependencyGraphData($viewer, $recordModel->getSourcePickListValues(), $recordModel->getTargetPickListValues());
 
 		return $viewer->view('DependencyGraph.tpl', $qualifiedName, true);
+	}
+	
+	/**
+	 * Prepare data for PickListDependency DependencyGraph template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function preparePickListDependencyGraphData($viewer, $sourcePicklistValues, $targetPicklistValues)
+	{
+		// Prepare JSON-encoded source picklist values with toSafeHTML
+		$sourceValuesJson = \App\Json::encode($sourcePicklistValues);
+		$viewer->assign('SOURCE_PICKLIST_VALUES_JSON', \App\Modules\Base\Helpers\Util::toSafeHTML($sourceValuesJson));
+		
+		// Prepare safe HTML for source picklist values
+		$safeSourceValues = [];
+		foreach ($sourcePicklistValues as $value) {
+			$safeSourceValues[$value] = \App\Modules\Base\Helpers\Util::toSafeHTML($value);
+		}
+		$viewer->assign('SAFE_SOURCE_VALUES', $safeSourceValues);
+		
+		// Prepare safe HTML for target picklist values
+		$safeTargetValues = [];
+		foreach ($targetPicklistValues as $value) {
+			$safeTargetValues[$value] = \App\Modules\Base\Helpers\Util::toSafeHTML($value);
+		}
+		$viewer->assign('SAFE_TARGET_VALUES', $safeTargetValues);
 	}
 
 	/**
