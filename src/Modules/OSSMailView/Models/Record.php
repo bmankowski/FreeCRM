@@ -38,7 +38,7 @@ class Record extends \App\Modules\Base\Models\Record
 	{
 		$value = parent::get($key);
 		if ($key === 'content' && $view === 'Detail') {
-			return \vtlib\Functions::removeHtmlTags(array('link', 'style', 'a', 'img', 'script', 'base'), \vtlib\Functions::getHtmlOrPlainText($value));
+			return \vtlib\Functions::removeHtmlTags(array('link', 'style', 'a', 'img', 'script', 'base'), \App\ModuleManagement\Adapters\Functions::getHtmlOrPlainText($value));
 		}
 		if ($key === 'uid' || $key === 'content') {
 			return \App\Utils\ListViewUtils::decodeHtml($value);
@@ -107,7 +107,7 @@ class Record extends \App\Modules\Base\Models\Record
 				$from = ($from && $from != '') ? $from : $row['from_email'];
 				$to = $this->findRecordsById($row['to_id']);
 				$to = ($to && $to != '') ? $to : $row['to_email'];
-				$content = \vtlib\Functions::removeHtmlTags(['link', 'style', 'a', 'img', 'script', 'base'], \vtlib\Functions::getHtmlOrPlainText($row['content']));
+				$content = \vtlib\Functions::removeHtmlTags(['link', 'style', 'a', 'img', 'script', 'base'], \App\ModuleManagement\Adapters\Functions::getHtmlOrPlainText($row['content']));
 				$return[] = [
 					'id' => $row['ossmailviewid'],
 					'date' => $row['date'],
