@@ -39,7 +39,7 @@ class PicklistField extends Basic
 	{
 		$modules = $this->getParamsConfig();
 		if (!empty($rowId)) {
-			$moduleName = \vtlib\Functions::getCRMRecordType($rowId);
+			$moduleName = \App\Record::getType($rowId);
 			foreach ($modules as $module => $field) {
 				if ($module != $moduleName) {
 					unset($modules[$module]);

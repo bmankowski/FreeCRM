@@ -422,7 +422,10 @@ class Relation extends \App\Runtime\BaseModel
 				}
 			}
 		}
-		switch ($request !== null ? $request->get('time') : null) {
+		// Get 'time' parameter from model data if set
+		// This should be set by RelationListView or calling code when filtering by 'current' or 'history' is needed
+		$time = $this->get('time');
+		switch ($time) {
 			case 'current':
 				$queryGenerator->addNativeCondition(['vtiger_activity.status' => \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current')]);
 				break;
@@ -473,13 +476,13 @@ class Relation extends \App\Runtime\BaseModel
 		if ($this->has('RelationInventoryFields')) {
 			return $this->get('RelationInventoryFields');
 		}
-	$columns = (new \App\Db\Query())
-		->select(['fieldname'])
-		->from('a_#__relatedlists_inv_fields')
-		->where(['relation_id' => $this->getId()])
-		->orderBy('sequence')
-		->column();
-	$inventoryFields = InventoryField::getInstance($this->get('modulename'))->getFields();
+		$columns = (new \App\Db\Query())
+			->select(['fieldname'])
+			->from('a_#__relatedlists_inv_fields')
+			->where(['relation_id' => $this->getId()])
+			->orderBy('sequence')
+			->column();
+		$inventoryFields = InventoryField::getInstance($this->get('modulename'))->getFields();
 		$fields = [];
 		foreach ($columns as &$column) {
 			if (!empty($inventoryFields[$column]) && $inventoryFields[$column]->isVisible()) {
@@ -750,9 +753,13 @@ class Relation extends \App\Runtime\BaseModel
 	{
 		$db = \App\Database\PearDatabase::getInstance();
 		foreach ($modules as $module) {
-			$db->update('vtiger_relatedlists', [
-				'sequence' => (int) $module['index'] + 1
-				], 'relation_id = ?', [$module['relationId']]
+			$db->update(
+				'vtiger_relatedlists',
+				[
+					'sequence' => (int) $module['index'] + 1
+				],
+				'relation_id = ?',
+				[$module['relationId']]
 			);
 		}
 	}
@@ -842,20 +849,20 @@ class Relation extends \App\Runtime\BaseModel
 		$result = false;
 		if ('add' === $action) {
 			$result = $db->createCommand()->insert('u_#__favorites', [
-					'crmid' => $data['crmid'],
-					'module' => $moduleName,
-					'relcrmid' => $data['relcrmid'],
-					'relmodule' => $this->getRelationModuleName(),
-					'userid' => \App\Modules\Users\Models\Record::getCurrentUserId()
-				])->execute();
+				'crmid' => $data['crmid'],
+				'module' => $moduleName,
+				'relcrmid' => $data['relcrmid'],
+				'relmodule' => $this->getRelationModuleName(),
+				'userid' => \App\Modules\Users\Models\Record::getCurrentUserId()
+			])->execute();
 		} elseif ('delete' === $action) {
 			$result = $db->createCommand()->delete('u_#__favorites', [
-					'crmid' => $data['crmid'],
-					'module' => $moduleName,
-					'relcrmid' => $data['relcrmid'],
-					'relmodule' => $this->getRelationModuleName(),
-					'userid' => \App\Modules\Users\Models\Record::getCurrentUserId()
-				])->execute();
+				'crmid' => $data['crmid'],
+				'module' => $moduleName,
+				'relcrmid' => $data['relcrmid'],
+				'relmodule' => $this->getRelationModuleName(),
+				'userid' => \App\Modules\Users\Models\Record::getCurrentUserId()
+			])->execute();
 		}
 		return $result;
 	}

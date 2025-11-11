@@ -143,7 +143,7 @@ class Record extends \App\Modules\Base\Models\Record
 				$idsArray[0] = $ids;
 			}
 			foreach ($idsArray as $id) {
-				$module = \vtlib\Functions::getCRMRecordType($id);
+				$module = \App\Record::getType($id);
 				$label = \vtlib\Functions::getCRMRecordLabel($id);
 				$return .= '<a href="index.php?module=' . $module . '&view=Detail&record=' . $id . '" target="' . $config['target'] . '"> ' . $label . '</a>,';
 			}
@@ -171,7 +171,7 @@ class Record extends \App\Modules\Base\Models\Record
 					break;
 			}
 			if (\App\Utils\Utils::isRecordExists($accountId)) {
-				$setype = \vtlib\Functions::getCRMRecordType($accountId);
+				$setype = \App\Record::getType($accountId);
 				$returnEmail = $this->findEmail($accountId, $setype);
 			}
 		} else {

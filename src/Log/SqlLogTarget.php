@@ -116,6 +116,6 @@ class SqlLogTarget extends \yii\log\FileTarget
 		if (!empty($traces)) {
 			$traces = "\n" . $traces;
 		}
-		return date('Y-m-d H:i:s', $timestamp) . " [$level] [$category] $text" . $traces;
+		return date('Y-m-d H:i:s', (int) $timestamp) . " [$level] [$category] $text" . $traces;
 	}
 }

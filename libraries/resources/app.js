@@ -1509,22 +1509,32 @@ var app = {
 		return parseFloat(val);
 	},
 	errorLog: function (error, err, errorThrown) {
-		if (typeof error == 'object' && error.responseText) {
-			error = error.responseText;
+		// Guard against recursion if console.error has been overridden
+		if (app.errorLog._inProgress) {
+			// Already logging, prevent recursion by returning early
+			return;
 		}
-		if (typeof error == 'object' && error.statusText) {
-			error = error.statusText;
+		app.errorLog._inProgress = true;
+		try {
+			if (typeof error == 'object' && error.responseText) {
+				error = error.responseText;
+			}
+			if (typeof error == 'object' && error.statusText) {
+				error = error.statusText;
+			}
+			if (error) {
+				console.error(error);
+			}
+			if (err) {
+				console.error(err);
+			}
+			if (errorThrown) {
+				console.error(errorThrown);
+			}
+			console.log('-----------------');
+		} finally {
+			app.errorLog._inProgress = false;
 		}
-		if (error) {
-			console.error(error);
-		}
-		if (err) {
-			console.error(err);
-		}
-		if (errorThrown) {
-			console.error(errorThrown);
-		}
-		console.log('-----------------');
 	},
 	registerModal: function (container) {
 		if (typeof container == 'undefined') {

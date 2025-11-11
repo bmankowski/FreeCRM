@@ -222,7 +222,7 @@ class Module extends \App\Modules\Base\Models\Module
 				if (\App\Utils\Utils::isRecordExists($row['projectid'])) {
 					$record = \App\Modules\Base\Models\Record::getInstanceById($row['projectid'], 'Project');
 					if (\App\Utils\Utils::isRecordExists($record->get('linktoaccountscontacts'))) {
-						$model->set('account', '<a href="index.php?module=' . \vtlib\Functions::getCRMRecordType($record->get('linktoaccountscontacts')) . '&view=Detail&record=' . $record->get('linktoaccountscontacts') . '">' . \vtlib\Functions::getCRMRecordLabel($record->get('linktoaccountscontacts')) . '</a>');
+						$model->set('account', '<a href="index.php?module=' . \App\Record::getType($record->get('linktoaccountscontacts')) . '&view=Detail&record=' . $record->get('linktoaccountscontacts') . '">' . \vtlib\Functions::getCRMRecordLabel($record->get('linktoaccountscontacts')) . '</a>');
 					}
 				}
 			}

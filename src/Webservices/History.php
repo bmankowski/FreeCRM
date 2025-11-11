@@ -155,7 +155,7 @@ function vtws_history_entityIdHelper($moduleName, $id)
 	if (!isset($wsEntityIdCache[$moduleName][$id])) {
 		// Determine moduleName based on $id
 		if (empty($moduleName)) {
-			$moduleName = \vtlib\Functions::getCRMRecordType($id);
+			$moduleName = \App\Record::getType($id);
 		}
 		if ($moduleName == 'Calendar') {
 			$moduleName = vtws_getCalendarEntityType($id);

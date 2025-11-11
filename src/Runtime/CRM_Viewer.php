@@ -101,6 +101,40 @@ class CRM_Viewer extends \Smarty
 		}
 
 		$this->registerSmartyPlugins();
+		
+		// Ensure YETIFORCE_VERSION is always available in templates
+		$this->assign('YETIFORCE_VERSION', \App\Version::get());
+		
+		// Assign default template variables to prevent undefined key warnings
+		$this->assignDefaultTemplateVariables();
+	}
+	
+	/**
+	 * Assign default template variables to prevent undefined key warnings
+	 * These defaults will be overridden by controllers when they set actual values
+	 */
+	protected function assignDefaultTemplateVariables()
+	{
+		$this->assign('PAGETITLE', '');
+		$this->assign('QUALIFIED_MODULE', '');
+		$this->assign('MODULE', '');
+		$this->assign('MODULE_NAME', '');
+		$this->assign('VIEW', '');
+		$this->assign('PARENT_MODULE', '');
+		$this->assign('STYLES', []);
+		$this->assign('HEADER_SCRIPTS', []);
+		$this->assign('FOOTER_SCRIPTS', []);
+		$this->assign('SKIN_PATH', '');
+		$this->assign('LAYOUT_PATH', 'layouts/' . self::getLayoutName());
+		$this->assign('LANGUAGE_STRINGS', []);
+		$this->assign('HTMLLANG', 'en');
+		$this->assign('LANGUAGE', 'en_us');
+		$this->assign('ACTIVITY_REMINDER', 0);
+		$this->assign('MENUS', []);
+		$this->assign('MENU_HEADER_LINKS', []);
+		$this->assign('SEARCHABLE_MODULES', []);
+		$this->assign('CHAT_ACTIVE', false);
+		$this->assign('REMINDER_ACTIVE', false);
 	}
 
 	/**
@@ -136,6 +170,7 @@ class CRM_Viewer extends \Smarty
 		$this->registerClass('\App\\Json', '\App\\Json');
 		$this->registerClass('\App\\Debugger', '\App\\Debugger');
 		$this->registerClass('App\\Company', '\App\\Company');
+		$this->registerClass('\App\\Record', '\App\\Record');
 		// Register UIType and utility classes used in templates
 		$this->registerClass('Vtiger_Datetime_UIType', '\App\\Modules\\Base\\UiTypes\\Datetime');
 		$this->registerClass('\App\\Fields\\Owner', '\App\\Fields\\Owner');
@@ -242,7 +277,7 @@ class CRM_Viewer extends \Smarty
 			throw new \Exception('Invalid template name provided');
 		}
 
-		$moduleName = str_replace(':', '/', $moduleName);
+		$moduleName = str_replace(':', '/', (string)$moduleName);
 		$cacheKey = $templateName . $moduleName;
 		// TODO: BMN repair Ten cache tutaj zwaraca połączone wartości, nie wiem skąd to się bierze
 		// if (\App\Cache\Cache::has('ViewerTemplatePath', $cacheKey)) {

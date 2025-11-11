@@ -84,7 +84,7 @@ function HelpDeskNewCommentAccount(\App\Modules\Base\Models\Record $recordModel)
 	$db = \App\Database\PearDatabase::getInstance();
 	\App\Log::trace('Entering HelpDeskNewCommentAccount');
 	$relatedToId = $recordModel->get('related_to');
-	$moduleName = \vtlib\Functions::getCRMRecordType($relatedToId);
+	$moduleName = \App\Record::getType($relatedToId);
 	$mail = false;
 	if (!empty($relatedToId) && $moduleName == 'HelpDesk') {
 		if ($moduleName == 'HelpDesk') {

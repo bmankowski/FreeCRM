@@ -113,7 +113,7 @@ class Currency extends BaseUiType
 		if ($uiType === 72 && $recordId) {
 			$moduleName = $this->get('field')->getModuleName();
 			if (!$moduleName)
-				$moduleName = \vtlib\Functions::getCRMRecordType($recordId);
+				$moduleName = \App\Record::getType($recordId);
 			if ($this->get('field')->getName() === 'unit_price') {
 				$currencyId = \App\Utils\InventoryUtils::getProductBaseCurrency($recordId, $moduleName);
 				$cursym_convrate = \vtlib\Functions::getCurrencySymbolandRate($currencyId);

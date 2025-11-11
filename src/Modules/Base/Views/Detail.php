@@ -535,6 +535,7 @@ class Detail extends \App\Modules\Base\Views\Index
 		$childComments = $parentCommentModel->getChildComments();
 		$currentUserModel = $request->getUser();
 		$modCommentsModel = \App\Modules\Base\Models\Module::getInstance('ModComments');
+		$moduleName = $request->getModule();
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PARENT_COMMENTS', $childComments);
@@ -542,6 +543,8 @@ class Detail extends \App\Modules\Base\Views\Index
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);
 		$viewer->assign('TYPE_VIEW', "List");
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+		$viewer->assign('CURRENT_COMMENT', null);
+		$viewer->assign('MODULE_NAME', $moduleName);
 		return $viewer->view('CommentsList.tpl', $moduleName, true);
 	}
 
@@ -723,6 +726,13 @@ class Detail extends \App\Modules\Base\Views\Index
 		$parentRecordModel = \App\Modules\Base\Models\Record::getInstanceById($parentId, $moduleName);
 		$relationListView = \App\Modules\Base\Models\RelationListView::getInstance($parentRecordModel, $relatedModuleName);
 		$relationModel = $relationListView->getRelationModel();
+		
+		// Set 'time' parameter on relation model if provided (for Calendar activities filtering)
+		$time = $request->get('time');
+		if (!empty($time) && $relatedModuleName === 'Calendar') {
+			$relationModel->set('time', $time);
+		}
+		
 		if ($relationModel->isFavorites() && \App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'FavoriteRecords')) {
 			$favorites = $relationListView->getFavoriteRecords();
 			if (!empty($favorites)) {
@@ -754,6 +764,7 @@ class Detail extends \App\Modules\Base\Views\Index
 		$viewer = $this->getViewer($request);
 		$viewer->assign('COLOR_LIST', $colorList);
 		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('MODULE_NAME', $relatedModuleName);
 		$viewer->assign('LIMIT', $request->get('limit'));
 		$viewer->assign('RELATED_RECORDS', $models);
 		$viewer->assign('RELATED_HEADERS', $header);

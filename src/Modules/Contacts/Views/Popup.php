@@ -32,7 +32,7 @@ class Popup  extends \App\Modules\Base\Views\Index
 		if ($moduleName == 'Contacts' && $sourceModule == 'HelpDesk' && \App\Utils\Utils::isRecordExists($sourceRecord) && strpos($_SERVER['QUERY_STRING'], 'module=Contacts&src_module=HelpDesk') === 0) {
 			$helpDeskRecord = \App\Modules\Base\Models\Record::getInstanceById($sourceRecord, 'HelpDesk');
 			$relId = $helpDeskRecord->get('parent_id');
-			if (\vtlib\Functions::getCRMRecordType($relId) === $relParentModule) {
+			if (\App\Record::getType($relId) === $relParentModule) {
 				$request->set('related_parent_module', $relParentModule);
 				$request->set('related_parent_id', $relId);
 				$viewer->assign('SWITCH', true);
@@ -42,7 +42,7 @@ class Popup  extends \App\Modules\Base\Views\Index
 		if ($moduleName == 'Contacts' && $sourceModule == 'SSalesProcesses' && \App\Utils\Utils::isRecordExists($sourceRecord) && strpos($_SERVER['QUERY_STRING'], 'module=Contacts&src_module=SSalesProcesses') === 0) {
 			$moduleRecord = \App\Modules\Base\Models\Record::getInstanceById($sourceRecord, 'SSalesProcesses');
 			$relId = $moduleRecord->get('related_to');
-			if (\vtlib\Functions::getCRMRecordType($relId) === $relParentModule) {
+			if (\App\Record::getType($relId) === $relParentModule) {
 				$request->set('related_parent_module', $relParentModule);
 				$request->set('related_parent_id', $relId);
 				$viewer->assign('SWITCH', true);
@@ -52,7 +52,7 @@ class Popup  extends \App\Modules\Base\Views\Index
 		if ($moduleName == 'Contacts' && $sourceModule == 'Project' && \App\Utils\Utils::isRecordExists($sourceRecord) && strpos($_SERVER['QUERY_STRING'], 'module=Contacts&src_module=Project') === 0) {
 			$moduleRecord = \App\Modules\Base\Models\Record::getInstanceById($sourceRecord, 'Project');
 			$relId = $moduleRecord->get('linktoaccountscontacts');
-			if (\vtlib\Functions::getCRMRecordType($relId) === $relParentModule) {
+			if (\App\Record::getType($relId) === $relParentModule) {
 				$request->set('related_parent_module', $relParentModule);
 				$request->set('related_parent_id', $relId);
 				$viewer->assign('SWITCH', true);

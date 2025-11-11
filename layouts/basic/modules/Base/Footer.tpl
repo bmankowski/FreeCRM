@@ -89,7 +89,14 @@
 				</p>
 			</div>
 			<div class="modal-footer">
-				<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{"LBL_CANCEL"|t:$MODULE}</strong></button>
+				{if isset($MODULE) && $MODULE}
+					{assign var=CANCEL_MODULE value=$MODULE}
+				{elseif isset($MODULE_NAME) && $MODULE_NAME}
+					{assign var=CANCEL_MODULE value=$MODULE_NAME}
+				{else}
+					{assign var=CANCEL_MODULE value='Base'}
+				{/if}
+				<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{"LBL_CANCEL"|t:$CANCEL_MODULE}</strong></button>
 			</div>
 		</div>
 	</div>

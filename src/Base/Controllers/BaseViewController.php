@@ -47,8 +47,8 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 		$viewer->assign('APPTITLE', \App\Runtime\Vtiger_Language_Handler::translate('APPTITLE'));
 		$viewer->assign('YETIFORCE_VERSION', \App\Version::get());
 		$viewer->assign('MODULE_NAME', $vtigerRequest->getModule());
-
-		//    $viewer->assign('MODULE', $moduleName);
+		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('QUALIFIED_MODULE', $vtigerRequest->getModule(false));
 		$viewer->assign('VIEW', $vtigerRequest->get('view'));
 		$userModel = $vtigerRequest->getUser();
 		$viewer->assign('ACTIVITY_REMINDER', $userModel ? $userModel->getCurrentUserActivityReminderInSeconds() : 0);

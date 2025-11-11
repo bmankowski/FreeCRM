@@ -260,8 +260,7 @@ class Functions
 
 	public static function getCRMRecordType($id)
 	{
-		$metadata = self::getCRMRecordMetadata($id);
-		return $metadata ? $metadata['setype'] : NULL;
+		return \App\Record::getType($id);
 	}
 
 	public static function getCRMRecordLabel($id, $default = '')
@@ -342,9 +341,9 @@ class Functions
 	// Utility
 	public static function formatDecimal($value)
 	{
-		$fld_value = explode('.', $value);
+		$fld_value = explode('.', (string)$value);
 		if (!empty($fld_value[1])) {
-			$fld_value = rtrim($value, '0');
+			$fld_value = rtrim((string)$value, '0');
 			$value = rtrim($fld_value, '.');
 		}
 		return $value;

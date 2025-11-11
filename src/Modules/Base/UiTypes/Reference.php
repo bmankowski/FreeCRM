@@ -33,7 +33,7 @@ class Reference extends BaseUiType
 	{
 		$fieldModel = $this->get('field');
 		$referenceModuleList = $fieldModel->getReferenceList();
-		$referenceEntityType = \vtlib\Functions::getCRMRecordType($value);
+		$referenceEntityType = \App\Record::getType($value);
 		if (!empty($referenceModuleList) && in_array($referenceEntityType, $referenceModuleList)) {
 			return \App\Modules\Base\Models\Module::getInstance($referenceEntityType);
 		} elseif (!empty($referenceModuleList) && in_array('Users', $referenceModuleList)) {

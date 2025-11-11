@@ -32,11 +32,17 @@
 					<li class="commentDetails">
 					{include file='Comment.tpl'|@vtemplate_path COMMENT=$COMMENT COMMENT_MODULE_MODEL=$COMMENTS_MODULE_MODEL CHILDS_ROOT_PARENT_MODEL=$CHILDS_ROOT_PARENT_MODEL}
 
+					{assign var=CHILD_COMMENTS_MODEL value=false}
 					{if isset($CHILDS_ROOT_PARENT_MODEL) && $CHILDS_ROOT_PARENT_MODEL}
 						{if $CHILDS_ROOT_PARENT_MODEL->getId() eq $PARENT_COMMENT_ID}		
 							{assign var=CHILD_COMMENTS_MODEL value=$CHILDS_ROOT_PARENT_MODEL->getChildComments()}
-							{include file='CommentsListIteration.tpl'|@vtemplate_path CHILD_COMMENTS_MODEL=$CHILD_COMMENTS_MODEL}
 						{/if}
+					{/if}
+					{if empty($CHILD_COMMENTS_MODEL)}
+						{assign var=CHILD_COMMENTS_MODEL value=$COMMENT->getChildComments()}
+					{/if}
+					{if !empty($CHILD_COMMENTS_MODEL)}
+						{include file='CommentsListIteration.tpl'|@vtemplate_path CHILD_COMMENTS_MODEL=$CHILD_COMMENTS_MODEL}
 					{/if}
 					</li>	
 				{/foreach}

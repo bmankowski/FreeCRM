@@ -78,7 +78,7 @@ class MappedFields extends \App\Runtime\BaseModel
 			return [];
 		}
 		if (!$moduleName) {
-			$moduleName = \vtlib\Functions::getCRMRecordType($recordId);
+			$moduleName = \App\Record::getType($recordId);
 		}
 
 		$templates = $this->getTemplatesByModule($moduleName);

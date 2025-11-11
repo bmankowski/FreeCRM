@@ -31,7 +31,7 @@ class Popup  extends \App\Modules\Base\Views\Index
 			$relParentModule = 'Accounts';
 			$record = \App\Modules\Base\Models\Record::getInstanceById($sourceRecord, $sourceModule);
 			$relId = $record->get($filterField[$sourceModule]);
-			if (\vtlib\Functions::getCRMRecordType($relId) === $relParentModule) {
+			if (\App\Record::getType($relId) === $relParentModule) {
 				$request->set('related_parent_module', $relParentModule);
 				$request->set('related_parent_id', $relId);
 				$viewer->assign('SWITCH', true);
