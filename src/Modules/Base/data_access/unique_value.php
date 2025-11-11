@@ -84,7 +84,7 @@ class DataAccess_unique_value
 				$num = $db->num_rows($result);
 				for ($i = 0; $i < $num; $i++) {
 					$id = $db->query_result_raw($result, $i, $index);
-					$metadata = \App\ModuleManagement\Adapters\Functions::getCRMRecordMetadata($id);
+					$metadata = \vtlib\Functions::getCRMRecordMetadata($id);
 					if ($metadata['setype'] == $DestModuleName) {
 						$save_record1 = false;
 						$deletedLabel = $metadata['deleted'] ? ' - ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_RECORD_DELETED', 'DataAccess') : '';
@@ -125,7 +125,7 @@ class DataAccess_unique_value
 				$num = $db->num_rows($result);
 				for ($i = 0; $i < $num; $i++) {
 					$id = $db->query_result_raw($result, $i, $index);
-					$metadata = \App\ModuleManagement\Adapters\Functions::getCRMRecordMetadata($id);
+					$metadata = \vtlib\Functions::getCRMRecordMetadata($id);
 					if ($metadata['setype'] == $DestModuleName) {
 						$save_record2 = false;
 						$deletedLabel = $metadata['deleted'] ? ' - ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_RECORD_DELETED', 'DataAccess') : '';

@@ -102,7 +102,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		$user = \App\Modules\Users\Models\Record::getInstanceById($params['user'], 'Users');
 		$user_name = $user->get('user_name');
 		$davStorageDir = vglobal('davStorageDir');
-		\App\ModuleManagement\Adapters\Functions::recurseDelete($davStorageDir . '/' . $user_name);
+		\vtlib\Functions::recurseDelete($davStorageDir . '/' . $user_name);
 	}
 
 	public function getTypes()

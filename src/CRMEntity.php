@@ -1238,7 +1238,7 @@ class CRMEntity
 
 		$focus1 = CRMEntity::getInstance($module);
 
-		$entityNameArr = \App\ModuleManagement\Adapters\Functions::getEntityModuleSQLColumnString($module);
+		$entityNameArr = \vtlib\Functions::getEntityModuleSQLColumnString($module);
 		$entityName = $entityNameArr['fieldname'];
 		$query = "SELECT vtiger_crmentity.deleted, $focus1->table_name.*
 					FROM $focus1->table_name
@@ -1348,7 +1348,7 @@ class CRMEntity
 			}
 		}
 
-		$entityfields = \App\ModuleManagement\Adapters\Functions::getEntityModuleSQLColumnString($module);
+		$entityfields = \vtlib\Functions::getEntityModuleSQLColumnString($module);
 		$querycolumnnames = implode(',', $lookupcolumns);
 		$entitycolumnnames = $entityfields['fieldname'];
 		$query = "select crmid as id, $querycolumnnames, $entitycolumnnames as name ";

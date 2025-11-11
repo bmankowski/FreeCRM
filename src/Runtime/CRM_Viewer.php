@@ -202,6 +202,7 @@ class CRM_Viewer extends \Smarty
 		$this->registerPlugin('modifier', 'strrpos', 'strrpos');
 		$this->registerPlugin('modifier', 'stripos', 'stripos');
 		$this->registerPlugin('modifier', 'strtoupper', 'strtoupper');
+		$this->registerPlugin('modifier', 'lcfirst', 'lcfirst');
 		$this->registerPlugin('modifier', 'array_flip', 'array_flip');
 		$this->registerPlugin('modifier', 'array_diff_key', 'array_diff_key');
 		$this->registerPlugin('modifier', 'explode', 'explode');
@@ -217,6 +218,8 @@ class CRM_Viewer extends \Smarty
 		$this->registerPlugin('modifier', 'array_map', 'array_map');
 		$this->registerPlugin('modifier', 'method_exists', 'method_exists');
 		$this->registerPlugin('modifier', 'get_class', 'get_class');
+		// Register json_decode modifier - wrapper for \App\Json::decode with support for assoc parameter
+		$this->registerPlugin('modifier', 'json_decode', [self::class, 'jsonDecodeModifier']);
 		$this->registerPlugin('function', 'strpos', 'strpos');
 		$this->registerPlugin('function', 'explode', 'explode');
 		$this->registerPlugin('function', 'htmlspecialchars', 'htmlspecialchars');
@@ -240,6 +243,18 @@ class CRM_Viewer extends \Smarty
 			Log::error('Smarty plugin registration error: ' . $exception->getMessage());
 			throw $exception;
 		}
+	}
+
+	/**
+	 * Smarty modifier wrapper for json_decode
+	 * Supports the assoc parameter for returning associative arrays
+	 * @param string $json JSON string to decode
+	 * @param bool $assoc Whether to return associative arrays (default: true)
+	 * @return mixed Decoded JSON data
+	 */
+	public static function jsonDecodeModifier($json, $assoc = true)
+	{
+		return \App\Json::decode($json, $assoc ? \App\Json::TYPE_ARRAY : \App\Json::TYPE_OBJECT);
 	}
 
 	/**

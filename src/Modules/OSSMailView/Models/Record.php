@@ -38,7 +38,7 @@ class Record extends \App\Modules\Base\Models\Record
 	{
 		$value = parent::get($key);
 		if ($key === 'content' && $view === 'Detail') {
-			return \App\ModuleManagement\Adapters\Functions::removeHtmlTags(array('link', 'style', 'a', 'img', 'script', 'base'), \App\ModuleManagement\Adapters\Functions::getHtmlOrPlainText($value));
+			return \vtlib\Functions::removeHtmlTags(array('link', 'style', 'a', 'img', 'script', 'base'), \vtlib\Functions::getHtmlOrPlainText($value));
 		}
 		if ($key === 'uid' || $key === 'content') {
 			return \App\Utils\ListViewUtils::decodeHtml($value);
@@ -107,11 +107,11 @@ class Record extends \App\Modules\Base\Models\Record
 				$from = ($from && $from != '') ? $from : $row['from_email'];
 				$to = $this->findRecordsById($row['to_id']);
 				$to = ($to && $to != '') ? $to : $row['to_email'];
-				$content = \App\ModuleManagement\Adapters\Functions::removeHtmlTags(['link', 'style', 'a', 'img', 'script', 'base'], \App\ModuleManagement\Adapters\Functions::getHtmlOrPlainText($row['content']));
+				$content = \vtlib\Functions::removeHtmlTags(['link', 'style', 'a', 'img', 'script', 'base'], \vtlib\Functions::getHtmlOrPlainText($row['content']));
 				$return[] = [
 					'id' => $row['ossmailviewid'],
 					'date' => $row['date'],
-					'firstLetter' => strtoupper(\App\ModuleManagement\Adapters\Functions::textLength(trim(strip_tags($from)), 1, false)),
+					'firstLetter' => strtoupper(\vtlib\Functions::textLength(trim(strip_tags($from)), 1, false)),
 					'subjectRaw' => $row['subject'],
 					'subject' => '<a href="index.php?module=OSSMailView&view=preview&record=' . $row['ossmailviewid'] . '" target="' . $config['target'] . '"> ' . $row['subject'] . '</a>',
 					'attachments' => $row['attachments_exist'],
@@ -122,7 +122,7 @@ class Record extends \App\Modules\Base\Models\Record
 					'to' => $to,
 					'url' => "index.php?module=OSSMailView&view=preview&record={$row['ossmailviewid']}&srecord=$srecord&smodule=$smodule",
 					'type' => $row['type'],
-					'teaser' => \App\ModuleManagement\Adapters\Functions::textLength(trim(preg_replace('/[ \t]+/', ' ', strip_tags($content))), 100),
+					'teaser' => \vtlib\Functions::textLength(trim(preg_replace('/[ \t]+/', ' ', strip_tags($content))), 100),
 					'body' => $content,
 					'bodyRaw' => $row['content'],
 				];

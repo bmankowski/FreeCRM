@@ -45,7 +45,7 @@ class InventoryField extends \App\Runtime\BaseModel
 	 * Loading the Inventory data
 	 * @param boolean $returnInBlock Should the result be divided into blocks
 	 * @param array $ids
-	 * @return array Inventory data
+	 * @return array|null Inventory data, or null if table doesn't exist
 	 */
 	public function getFields($returnInBlock = false, $ids = [], $viewType = false)
 	{
@@ -55,7 +55,7 @@ class InventoryField extends \App\Runtime\BaseModel
 		if (!isset($this->fields[$key])) {
 			$table = $this->getTableName('fields');
 			if (!\App\Db::getInstance()->isTableExists($table)) {
-				return false;
+				return null;
 			}
 			$query = (new \App\Db\Query())->from($table)->where(['presence' => 0])->orderBy('sequence', SORT_ASC);
 			if ($ids) {
@@ -67,14 +67,20 @@ class InventoryField extends \App\Runtime\BaseModel
 				if ($viewType != 'Settings' && !$this->isActiveField($row)) {
 					continue;
 				}
-				$inventoryFieldInstance = $this->getInventoryFieldInstance($row);
-				if ($viewType == 'Detail' && !$inventoryFieldInstance->isVisible()) {
+				try {
+					$inventoryFieldInstance = $this->getInventoryFieldInstance($row);
+					if ($viewType == 'Detail' && !$inventoryFieldInstance->isVisible()) {
+						continue;
+					}
+					if ($returnInBlock) {
+						$fields[$row['block']][$row['columnname']] = $inventoryFieldInstance;
+					} else {
+						$fields[$row['columnname']] = $inventoryFieldInstance;
+					}
+				} catch (\Exception $e) {
+					// Skip fields that can't be instantiated (missing class)
+					\App\Log::warning('Failed to load inventory field: ' . $row['invtype'] . ' - ' . $e->getMessage());
 					continue;
-				}
-				if ($returnInBlock) {
-					$fields[$row['block']][$row['columnname']] = $inventoryFieldInstance;
-				} else {
-					$fields[$row['columnname']] = $inventoryFieldInstance;
 				}
 			}
 			$this->fields[$key] = $fields;
@@ -205,7 +211,7 @@ class InventoryField extends \App\Runtime\BaseModel
 	/**
 	 * Retrieve list of parameters
 	 * @param array $fields Array of instances fields (Vtiger_Basic_InventoryField)
-	 * @return array Array of parameters
+	 * @return array|false Array of parameters, or false if not found
 	 */
 	public static function getMainParams($fields)
 	{
@@ -217,10 +223,11 @@ class InventoryField extends \App\Runtime\BaseModel
 			foreach ($fields as $field) {
 				if ($field->getName() == 'Name') {
 					$params = \App\Json::decode($field->get('params'));
+					break;
 				}
 			}
 		}
-		if (is_string($params['modules'])) {
+		if (is_array($params) && isset($params['modules']) && is_string($params['modules'])) {
 			$params['modules'] = [$params['modules']];
 		}
 		\App\Log::trace('Exiting ' . __METHOD__);

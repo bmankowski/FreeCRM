@@ -183,87 +183,91 @@ class Edit extends \App\Modules\Base\Views\Index
 		$inventoryField = \App\Modules\Base\Models\InventoryField::getInstance($moduleName);
 		$fields = $inventoryField->getFields(true);
 		
-		if (count($fields) != 0) {
-			$viewer->assign('INVENTORY_FIELD', $inventoryField);
-			$viewer->assign('FIELDS', $fields); // Template uses FIELDS, not INVENTORY_FIELDS
-			$viewer->assign('DISCOUNTS_CONFIG', \App\Modules\Base\Models\Inventory::getDiscountsConfig());
-			$viewer->assign('TAXS_CONFIG', \App\Modules\Base\Models\Inventory::getTaxesConfig());
-			$viewer->assign('BASE_CURRENCY', \App\Modules\Base\Helpers\Util::getBaseCurrency());
-			
-			$columns = $inventoryField->getColumns();
-			// Ensure columns is always an array
-			if (!is_array($columns)) {
-				$columns = [];
-			}
-			$inventoryRows = $recordModel->getInventoryData();
-			// Ensure inventoryRows is always an array, even if empty
-			if (!is_array($inventoryRows)) {
-				$inventoryRows = [];
-			}
-			$mainParams = $inventoryField->getMainParams($fields[1]);
-			// Ensure mainParams is always an array with expected structure
-			if (!is_array($mainParams)) {
-				$mainParams = ['modules' => [], 'limit' => 0];
-			}
-			if (!isset($mainParams['modules'])) {
-				$mainParams['modules'] = [];
-			}
-			if (!isset($mainParams['limit'])) {
-				$mainParams['limit'] = 0;
-			}
-			
-			$viewer->assign('COLUMNS', $columns); // Template uses COLUMNS
-			$viewer->assign('INVENTORY_ROWS', $inventoryRows);
-			$viewer->assign('MAIN_PARAMS', $mainParams); // Template uses MAIN_PARAMS
-			$viewer->assign('COUNT_FIELDS0', count($fields[0])); // Template uses COUNT_FIELDS0
-			$viewer->assign('COUNT_FIELDS1', count($fields[1])); // Template uses COUNT_FIELDS1
-			$viewer->assign('COUNT_FIELDS2', count($fields[2])); // Template uses COUNT_FIELDS2
-			
-			// Prepare currency symbol and rate if currency column exists
-			if (in_array("currency", $columns)) {
-				if (count($inventoryRows) > 0 && !empty($inventoryRows[0]['currency'])) {
-					$currency = $inventoryRows[0]['currency'];
-				} else {
-					$baseCurrency = \App\Modules\Base\Helpers\Util::getBaseCurrency();
-					$currency = $baseCurrency['id'];
-				}
-				$viewer->assign('CURRENCY', $currency);
-				$viewer->assign('CURRENCY_SYMBOLAND', \vtlib\Functions::getCurrencySymbolandRate($currency));
-			}
-			
-			$viewer->assign('INVENTORY_ITEMS_NO', count($inventoryRows));
-			
-			// Prepare CRMEntity instances for main modules
-			$crmEntities = [];
-			$wysiwygTypes = [];
-			if (is_array($mainParams['modules']) && !empty($mainParams['modules'])) {
-				foreach ($mainParams['modules'] as $mainModule) {
-					$crmEntities[$mainModule] = \CRMEntity::getInstance($mainModule);
-					$wysiwygTypes[$mainModule] = $inventoryField->isWysiwygType($mainModule);
-				}
-			}
-			$viewer->assign('INVENTORY_CRM_ENTITIES', $crmEntities);
-			$viewer->assign('INVENTORY_WYSIWYG_TYPES', $wysiwygTypes);
-			
-			// Pre-calculate reference field
-			$viewer->assign('INVENTORY_REFERENCE_FIELD', $inventoryField->getReferenceField());
-			
-			// Pre-calculate summary values for footer
-			$summaryValues = [];
-			foreach ($fields[1] as $field) {
-				if ($field->isSummary()) {
-					$sum = 0;
-					foreach ($inventoryRows as $itemValue) {
-						$sum += ($itemValue[$field->get('columnname')] ?? 0);
-					}
-					$summaryValues[$field->getName()] = \App\Fields\CurrencyField::convertToUserFormat($sum, null, true);
-				}
-			}
-			$viewer->assign('INVENTORY_SUMMARY_VALUES', $summaryValues);
-			
-			// Pre-assign default inventory data fields
-			$viewer->assign('ITEM_DATA', $recordModel->getInventoryDefaultDataFields());
+		// getFields() can return null if table doesn't exist or there's an error
+		if ($fields === null || !is_array($fields) || count($fields) == 0) {
+			// No inventory fields configured, skip inventory data preparation
+			return;
 		}
+		
+		$viewer->assign('INVENTORY_FIELD', $inventoryField);
+		$viewer->assign('FIELDS', $fields); // Template uses FIELDS, not INVENTORY_FIELDS
+		$viewer->assign('DISCOUNTS_CONFIG', \App\Modules\Base\Models\Inventory::getDiscountsConfig());
+		$viewer->assign('TAXS_CONFIG', \App\Modules\Base\Models\Inventory::getTaxesConfig());
+		$viewer->assign('BASE_CURRENCY', \App\Modules\Base\Helpers\Util::getBaseCurrency());
+		
+		$columns = $inventoryField->getColumns();
+		// Ensure columns is always an array
+		if (!is_array($columns)) {
+			$columns = [];
+		}
+		$inventoryRows = $recordModel->getInventoryData();
+		// Ensure inventoryRows is always an array, even if empty
+		if (!is_array($inventoryRows)) {
+			$inventoryRows = [];
+		}
+		$mainParams = $inventoryField->getMainParams($fields[1]);
+		// Ensure mainParams is always an array with expected structure
+		if (!is_array($mainParams)) {
+			$mainParams = ['modules' => [], 'limit' => 0];
+		}
+		if (!isset($mainParams['modules'])) {
+			$mainParams['modules'] = [];
+		}
+		if (!isset($mainParams['limit'])) {
+			$mainParams['limit'] = 0;
+		}
+		
+		$viewer->assign('COLUMNS', $columns); // Template uses COLUMNS
+		$viewer->assign('INVENTORY_ROWS', $inventoryRows);
+		$viewer->assign('MAIN_PARAMS', $mainParams); // Template uses MAIN_PARAMS
+		$viewer->assign('COUNT_FIELDS0', count($fields[0])); // Template uses COUNT_FIELDS0
+		$viewer->assign('COUNT_FIELDS1', count($fields[1])); // Template uses COUNT_FIELDS1
+		$viewer->assign('COUNT_FIELDS2', count($fields[2])); // Template uses COUNT_FIELDS2
+		
+		// Prepare currency symbol and rate if currency column exists
+		if (in_array("currency", $columns)) {
+			if (count($inventoryRows) > 0 && !empty($inventoryRows[0]['currency'])) {
+				$currency = $inventoryRows[0]['currency'];
+			} else {
+				$baseCurrency = \App\Modules\Base\Helpers\Util::getBaseCurrency();
+				$currency = $baseCurrency['id'];
+			}
+			$viewer->assign('CURRENCY', $currency);
+			$viewer->assign('CURRENCY_SYMBOLAND', \vtlib\Functions::getCurrencySymbolandRate($currency));
+		}
+		
+		$viewer->assign('INVENTORY_ITEMS_NO', count($inventoryRows));
+		
+		// Prepare CRMEntity instances for main modules
+		$crmEntities = [];
+		$wysiwygTypes = [];
+		if (is_array($mainParams['modules']) && !empty($mainParams['modules'])) {
+			foreach ($mainParams['modules'] as $mainModule) {
+				$crmEntities[$mainModule] = \CRMEntity::getInstance($mainModule);
+				$wysiwygTypes[$mainModule] = $inventoryField->isWysiwygType($mainModule);
+			}
+		}
+		$viewer->assign('INVENTORY_CRM_ENTITIES', $crmEntities);
+		$viewer->assign('INVENTORY_WYSIWYG_TYPES', $wysiwygTypes);
+		
+		// Pre-calculate reference field
+		$viewer->assign('INVENTORY_REFERENCE_FIELD', $inventoryField->getReferenceField());
+		
+		// Pre-calculate summary values for footer
+		$summaryValues = [];
+		foreach ($fields[1] as $field) {
+			if ($field->isSummary()) {
+				$sum = 0;
+				foreach ($inventoryRows as $itemValue) {
+					$sum += ($itemValue[$field->get('columnname')] ?? 0);
+				}
+				$summaryValues[$field->getName()] = \App\Fields\CurrencyField::convertToUserFormat($sum, null, true);
+			}
+		}
+		$viewer->assign('INVENTORY_SUMMARY_VALUES', $summaryValues);
+		
+		// Pre-assign default inventory data fields
+		$viewer->assign('ITEM_DATA', $recordModel->getInventoryDefaultDataFields());
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)
