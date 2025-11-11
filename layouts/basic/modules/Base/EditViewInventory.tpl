@@ -1,29 +1,8 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 <!-- layouts/basic/modules/Base/EditViewInventory.tpl -->
-	{assign var="INVENTORY_FIELD" value=\App\Modules\Base\Models\InventoryField::getInstance($MODULE)}
-	{assign var="FIELDS" value=$INVENTORY_FIELD->getFields(true)}
+	{* All data is now prepared in controller - no function calls in template *}
 	{if count($FIELDS) neq 0}
-		{assign var="DISCOUNTS_CONFIG" value=\App\Modules\Base\Models\Inventory::getDiscountsConfig()}
-		{assign var="TAXS_CONFIG" value=\App\Modules\Base\Models\Inventory::getTaxesConfig()}
-		{assign var="BASE_CURRENCY" value=\App\Modules\Base\Helpers\Util::getBaseCurrency()}
-
-		{assign var="COLUMNS" value=$INVENTORY_FIELD->getColumns()}
-		{assign var="INVENTORY_ROWS" value=$RECORD->getInventoryData()}
-		{assign var="MAIN_PARAMS" value=$INVENTORY_FIELD->getMainParams($FIELDS[1])}
-		{assign var="COUNT_FIELDS0" value=count($FIELDS[0])}
-		{assign var="COUNT_FIELDS1" value=count($FIELDS[1])}
-		{assign var="COUNT_FIELDS2" value=count($FIELDS[2])}
-
-		{if in_array("currency",$COLUMNS)}
-			{if count($INVENTORY_ROWS) > 0}
-				{assign var="CURRENCY" value=$INVENTORY_ROWS[0]['currency']}
-			{else}
-				{assign var="CURRENCY" value=$BASE_CURRENCY['id']}
-			{/if}
-			{assign var="CURRENCY_SYMBOLAND" value=\vtlib\Functions:: getCurrencySymbolandRate($CURRENCY)}
-		{/if}
-		{assign var="INVENTORY_ITEMS_NO" value=count($INVENTORY_ROWS)}
 		<input type="hidden" class="aggregationTypeDiscount" value="{$DISCOUNTS_CONFIG['aggregation']}">
 		<input type="hidden" class="aggregationTypeTax" value="{$TAXS_CONFIG['aggregation']}">
 		<input name="inventoryItemsNo" id="inventoryItemsNo" type="hidden" value="{if $INVENTORY_ITEMS_NO}{$INVENTORY_ITEMS_NO}{else}1{/if}" />
@@ -34,21 +13,29 @@
 				<thead>
 					<tr data-rownumber="0">
 						<th class="btn-toolbar">
-							{foreach item=MAIN_MODULE from=$MAIN_PARAMS['modules']}
-								{assign var="CRMENTITY" value=$INVENTORY_CRM_ENTITIES[$MAIN_MODULE]}
-								<span class="btn-group">
-									<button type="button" data-module="{$MAIN_MODULE}" data-field="{$CRMENTITY->table_index}" 
-											data-wysiwyg="{$INVENTORY_FIELD->isWysiwygType($MAIN_MODULE)}" class="btn btn-default addItem">
-										<span class="glyphicon glyphicon-plus"></span>&nbsp;<strong>{"LBL_ADD"|t:$MODULE} {'SINGLE_'|cat:$MAIN_MODULE|t:$MAIN_MODULE}</strong>
-									</button>
-								</span>
-							{/foreach}
+							{if isset($MAIN_PARAMS['modules']) && is_array($MAIN_PARAMS['modules'])}
+								{foreach item=MAIN_MODULE from=$MAIN_PARAMS['modules']}
+									{if isset($INVENTORY_CRM_ENTITIES[$MAIN_MODULE]) && isset($INVENTORY_WYSIWYG_TYPES[$MAIN_MODULE])}
+										{assign var="CRMENTITY" value=$INVENTORY_CRM_ENTITIES[$MAIN_MODULE]}
+										<span class="btn-group">
+											<button type="button" data-module="{$MAIN_MODULE}" data-field="{$CRMENTITY->table_index}" 
+													data-wysiwyg="{$INVENTORY_WYSIWYG_TYPES[$MAIN_MODULE]}" class="btn btn-default addItem">
+												<span class="glyphicon glyphicon-plus"></span>&nbsp;<strong>{"LBL_ADD"|t:$MODULE} {'SINGLE_'|cat:$MAIN_MODULE|t:$MAIN_MODULE}</strong>
+											</button>
+										</span>
+									{/if}
+								{/foreach}
+							{/if}
 						</th>
 						{foreach item=FIELD from=$FIELDS[0]}
 							<th {if !$FIELD->isEditable()}class="hide"{/if}>
 								<span class="inventoryLineItemHeader">{$FIELD->get('label')|t:$MODULE}</span>&nbsp;&nbsp;
 								{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
-								{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE ITEM_VALUE=$INVENTORY_ROWS[0][$FIELD->get('columnname')]}
+								{assign var="FIRST_ROW_VALUE" value=""}
+								{if count($INVENTORY_ROWS) > 0 && isset($INVENTORY_ROWS[0][$FIELD->get('columnname')])}
+									{assign var="FIRST_ROW_VALUE" value=$INVENTORY_ROWS[0][$FIELD->get('columnname')]}
+								{/if}
+								{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE ITEM_VALUE=$FIRST_ROW_VALUE}
 							</th>
 						{/foreach}
 					</tr>
@@ -84,14 +71,10 @@
 						{foreach item=FIELD from=$FIELDS[1]}
 							<td colspan="1" class="col{$FIELD->getName()}{if !$FIELD->isEditable()} hide{/if} textAlignRight 
 								{if !$FIELD->isSummary()} hideTd{else} wisableTd{/if}" data-sumfield="{lcfirst($FIELD->get('invtype'))}">
-								{if $FIELD->isSummary()}
-									{assign var="SUM" value=0}
-									{foreach key=KEY item=ITEM_VALUE from=$INVENTORY_ROWS}
-										{assign var="SUM" value=($SUM + $ITEM_VALUE[$FIELD->get('columnname')])}
-									{/foreach}
-									{CurrencyField::convertToUserFormat($SUM, null, true)}
+								{if $FIELD->isSummary() && isset($INVENTORY_SUMMARY_VALUES[$FIELD->getName()])}
+									{$INVENTORY_SUMMARY_VALUES[$FIELD->getName()]}
 								{/if}
-								{if $FIELD->getName() == 'Name' && in_array("price",$COLUMNS)}
+								{if $FIELD->getName() == 'Name' && isset($COLUMNS) && is_array($COLUMNS) && in_array("price",$COLUMNS)}
 									{"LBL_SUMMARY"|t:$MODULE}
 								{/if}
 							</td>
@@ -101,7 +84,7 @@
 			</table>
 		</div>
 		{include file='EditViewInventorySummary.tpl'|@vtemplate_path:$MODULE}
-		{assign var="ITEM_DATA" value=$RECORD->getInventoryDefaultDataFields()}
+		{* ITEM_DATA is now prepared in controller *}
 		<table id="blackIthemTable" class="noValidate hide">
 			<tbody>
 				{assign var="ROW_NO" value='_NUM_'}

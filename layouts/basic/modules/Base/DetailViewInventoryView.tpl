@@ -1,25 +1,8 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 <!-- layouts/basic/modules/Base/DetailViewInventoryView.tpl -->
-	{assign var="INVENTORY_FIELD" value=\App\Modules\Base\Models\InventoryField::getInstance($MODULE_NAME)}
-	{assign var="FIELDS" value=$INVENTORY_FIELD->getFields(true, [], 'Detail')}
-
+	{* All data is now prepared in controller - no function calls in template *}
 	{if count($FIELDS) neq 0}
-		{assign var="COLUMNS" value=$INVENTORY_FIELD->getColumns()}
-		{assign var="INVENTORY_ROWS" value=$RECORD->getInventoryData()}
-		{assign var="MAIN_PARAMS" value=$INVENTORY_FIELD->getMainParams($FIELDS[1])}
-		{assign var="COUNT_FIELDS0" value=count($FIELDS[0])}
-		{assign var="COUNT_FIELDS1" value=count($FIELDS[1])}
-		{assign var="COUNT_FIELDS2" value=count($FIELDS[2])}
-		{assign var="BASE_CURRENCY" value=\App\Modules\Base\Helpers\Util::getBaseCurrency()}
-		{if in_array("currency",$COLUMNS)}
-			{if count($INVENTORY_ROWS) > 0 && $INVENTORY_ROWS[0]['currency'] != NULL}
-				{assign var="CURRENCY" value=$INVENTORY_ROWS[0]['currency']}
-			{else}
-				{assign var="CURRENCY" value=$BASE_CURRENCY['id']}
-			{/if}
-			{assign var="CURRENCY_SYMBOLAND" value=\vtlib\Functions:: getCurrencySymbolandRate($CURRENCY)}
-		{/if}
 		{if count($FIELDS[0]) neq 0}
 			<table class="table table-bordered inventoryHeader blockContainer">
 				<thead>
@@ -36,7 +19,7 @@
 				</thead>
 			</table>
 		{/if}
-		{assign var="FIELDS_TEXT_ALIGN_RIGHT" value=['TotalPrice','Tax','MarginP','Margin','Purchase','Discount','NetPrice','GrossPrice','UnitPrice','Quantity']}
+		{* FIELDS_TEXT_ALIGN_RIGHT is now prepared in controller *}
 		<table class="table blockContainer inventoryItems">
 			<thead>
 				<tr>
@@ -50,8 +33,9 @@
 			<tbody>
 				{foreach key=KEY item=INVENTORY_ROW from=$INVENTORY_ROWS}
 					{assign var="ROW_NO" value=$KEY+1}
-					{if $INVENTORY_ROW['name']}
-						{assign var="ROW_MODULE" value=\App\Record::getType($INVENTORY_ROW['name'])}
+					{* ROW_MODULE is now pre-calculated in controller *}
+					{if isset($INVENTORY_ROW_MODULES[$KEY])}
+						{assign var="ROW_MODULE" value=$INVENTORY_ROW_MODULES[$KEY]}
 					{/if}
 					<tr>
 						{foreach item=FIELD from=$FIELDS[1]}
@@ -68,8 +52,7 @@
 					{foreach item=FIELD from=$FIELDS[1]}
 						<td {if $FIELD->get('colspan') neq 0 } style="width: {$FIELD->get('colspan')}%" {/if}  class="col{$FIELD->getName()} textAlignRight {if !$FIELD->isSummary()}hideTd{else}wisableTd{/if}" data-sumfield="{lcfirst($FIELD->get('invtype'))}">
 							{if $FIELD->isSummary()}
-								{assign var="SUM" value=$FIELD->getSummaryValuesFromData($INVENTORY_ROWS)}
-								{CurrencyField::convertToUserFormat($SUM, null, true)}
+								{$INVENTORY_SUMMARY_VALUES[$FIELD->getName()]}
 							{/if}
 						</td>
 					{/foreach}

@@ -124,6 +124,7 @@ class ConfigurePass extends \App\Modules\Settings\Base\Views\Index
 					$info = 'Encryption password is already created.';
 				} else if ($newPassword != false) {
 					// create new config
+					/** @var \App\Modules\OSSPasswords\Models\Record $recordModel */
 					$recordModel = \App\Modules\Base\Models\Record::getCleanInstance($moduleName);
 
 					$config = ["encode" => ['key' => "$newPassword"]];

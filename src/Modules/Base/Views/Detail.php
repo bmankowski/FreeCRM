@@ -202,7 +202,74 @@ class Detail extends \App\Modules\Base\Views\Index
 
 		$picklistDependencyDatasource = \App\Modules\PickList\DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 		$viewer->assign('PICKLIST_DEPENDENCY_DATASOURCE', \App\Json::encode($picklistDependencyDatasource));
+		
+		// Prepare inventory data if module supports inventory
+		if ($moduleModel->isInventory()) {
+			$this->prepareDetailInventoryData($viewer, $moduleName, $recordModel);
+		}
 		// MainLayout handles rendering, no separate preProcess template needed
+	}
+	
+	/**
+	 * Prepare data for DetailViewInventoryView template
+	 * Moves function calls from templates to controller for better MVC separation
+	 */
+	protected function prepareDetailInventoryData($viewer, $moduleName, $recordModel)
+	{
+		$inventoryField = \App\Modules\Base\Models\InventoryField::getInstance($moduleName);
+		$fields = $inventoryField->getFields(true, [], 'Detail');
+		
+		if (count($fields) != 0) {
+			$viewer->assign('INVENTORY_FIELD', $inventoryField);
+			$viewer->assign('FIELDS', $fields);
+			
+			$columns = $inventoryField->getColumns();
+			$inventoryRows = $recordModel->getInventoryData();
+			$mainParams = $inventoryField->getMainParams($fields[1]);
+			
+			$viewer->assign('COLUMNS', $columns);
+			$viewer->assign('INVENTORY_ROWS', $inventoryRows);
+			$viewer->assign('MAIN_PARAMS', $mainParams);
+			$viewer->assign('COUNT_FIELDS0', count($fields[0]));
+			$viewer->assign('COUNT_FIELDS1', count($fields[1]));
+			$viewer->assign('COUNT_FIELDS2', count($fields[2]));
+			
+			$baseCurrency = \App\Modules\Base\Helpers\Util::getBaseCurrency();
+			$viewer->assign('BASE_CURRENCY', $baseCurrency);
+			
+			// Prepare currency symbol and rate if currency column exists
+			if (in_array("currency", $columns)) {
+				if (count($inventoryRows) > 0 && !empty($inventoryRows[0]['currency'])) {
+					$currency = $inventoryRows[0]['currency'];
+				} else {
+					$currency = $baseCurrency['id'];
+				}
+				$viewer->assign('CURRENCY', $currency);
+				$viewer->assign('CURRENCY_SYMBOLAND', \vtlib\Functions::getCurrencySymbolandRate($currency));
+			}
+			
+			// Pre-calculate record types for inventory rows (used in template loop)
+			$rowModules = [];
+			foreach ($inventoryRows as $key => $inventoryRow) {
+				if (!empty($inventoryRow['name'])) {
+					$rowModules[$key] = \App\Record::getType($inventoryRow['name']);
+				}
+			}
+			$viewer->assign('INVENTORY_ROW_MODULES', $rowModules);
+			
+			// Pre-calculate summary values for footer
+			$summaryValues = [];
+			foreach ($fields[1] as $field) {
+				if ($field->isSummary()) {
+					$sum = $field->getSummaryValuesFromData($inventoryRows);
+					$summaryValues[$field->getName()] = \App\Fields\CurrencyField::convertToUserFormat($sum, null, true);
+				}
+			}
+			$viewer->assign('INVENTORY_SUMMARY_VALUES', $summaryValues);
+			
+			// Pre-assign fields text align right array (used for styling)
+			$viewer->assign('FIELDS_TEXT_ALIGN_RIGHT', ['TotalPrice','Tax','MarginP','Margin','Purchase','Discount','NetPrice','GrossPrice','UnitPrice','Quantity']);
+		}
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)
