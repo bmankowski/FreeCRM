@@ -55,7 +55,7 @@ class RelationAjax extends \App\Base\Controllers\BaseActionController
 
 		$relatedModule = $request->get('related_module');
 		if (is_numeric($relatedModule)) {
-			$relatedModule = \\App\Utils\ModuleUtils::getModuleName($relatedModule);
+			$relatedModule = \App\Utils\ModuleUtils::getModuleName($relatedModule);
 		}
 		$relatedRecordIdList = $request->get('related_record_list');
 

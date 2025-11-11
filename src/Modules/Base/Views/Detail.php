@@ -718,7 +718,7 @@ class Detail extends \App\Modules\Base\Views\Index
 		}
 		if (empty($orderBy) && empty($sortOrder)) {
 			if (is_numeric($relatedModuleName))
-				$relatedModuleName = \vtlib\Functions::getModuleName($relatedModuleName);
+				$relatedModuleName = \App\Utils\ModuleUtils::getModuleName($relatedModuleName);
 			$relatedInstance = \App\CRMEntity::getInstance($relatedModuleName);
 			$orderBy = $relatedInstance->default_order_by;
 			$sortOrder = $relatedInstance->default_sort_order;

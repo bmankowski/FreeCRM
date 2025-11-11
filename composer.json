@@ -64,7 +64,7 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"vtlib\\": "src/ModuleManagement/Adapters/Compatibility/",
+			"vtlib\\": "src/ModuleManagement/Adapters/",
 			"App\\": "src/",
 			"Exception\\": "src/Exceptions/",
 			"DebugBar\\": "vendor/php-debugbar/src/DebugBar/"

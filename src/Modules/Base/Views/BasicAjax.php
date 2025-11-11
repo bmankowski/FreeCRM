@@ -140,7 +140,7 @@ class BasicAjax  extends \App\Modules\Base\Views\Index
 			$matchingRecords = \App\Modules\Base\Models\Record::getSearchResult($searchKey, $searchModule, $limit, $operator);
 			if (\App\AppConfig::search('GLOBAL_SEARCH_SORTING_RESULTS') === 1) {
 				$matchingRecordsList = [];
-				foreach (\App\Utils\\App\Utils\ModuleUtils::getAllEntityModuleInfo(true) as &$module) {
+				foreach (\App\Utils\App\Utils\ModuleUtils::getAllEntityModuleInfo(true) as &$module) {
 					if (isset($matchingRecords[$module['modulename']]) && $module['turn_off'] == 1) {
 						$matchingRecordsList[$module['modulename']] = $matchingRecords[$module['modulename']];
 					}
