@@ -77,7 +77,7 @@ class DataAccess_unique_account
 			}
 			while ($row = $db->getRow($result)) {
 				if ($row['accountname'] == $accountName) {
-					$metaData = \vtlib\Functions::getCRMRecordMetadata($row['accountid']);
+					$metaData = \App\ModuleManagement\Adapters\Functions::getCRMRecordMetadata($row['accountid']);
 					$save = false;
 					$fieldlabel .= '<li><a target="_blank" href="index.php?module=Accounts&view=Detail&record=' . $row['accountid'] . '"><strong>' . \App\Record::getLabel($row['accountid']) . '</strong></a> (' . \vtlib\Functions::getOwnerRecordLabel($metaData['smownerid']) . '),</li>';
 				}
@@ -87,7 +87,7 @@ class DataAccess_unique_account
 			$sql = "SELECT accountid FROM vtiger_account WHERE $where;";
 			$result = $db->pquery($sql, $params);
 			while ($id = $db->getSingleValue($result)) {
-				$metaData = \vtlib\Functions::getCRMRecordMetadata($id);
+				$metaData = \App\ModuleManagement\Adapters\Functions::getCRMRecordMetadata($id);
 				$save = false;
 				$deletedLabel = $metaData['deleted'] ? ' - ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_RECORD_DELETED', 'DataAccess') : '';
 				$fieldlabel .= '<li><a target="_blank" href="index.php?module=Accounts&view=Detail&record=' . $id . '"><strong>' . \App\Record::getLabel($id) . '</strong></a> (' . \vtlib\Functions::getOwnerRecordLabel($metaData['smownerid']) . ')' . $deletedLabel . ',</li>';

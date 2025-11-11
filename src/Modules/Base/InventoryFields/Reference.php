@@ -27,7 +27,7 @@ class Reference extends Basic
 		if ($value == 0) {
 			return '';
 		}
-		$metaData = \vtlib\Functions::getCRMRecordMetadata($value);
+		$metaData = \App\ModuleManagement\Adapters\Functions::getCRMRecordMetadata($value);
 		$linkValue = '<a class="moduleColor_' . $metaData['setype'] . '" href="index.php?module=' . $metaData['setype'] . '&view=Detail&record=' . $value . '" title="' . \App\Runtime\Vtiger_Language_Handler::translate($metaData['setype'], $metaData['setype']) . '">' . \App\Record::getLabel($value) . '</a>';
 		return $linkValue;
 	}
@@ -55,7 +55,7 @@ class Reference extends Basic
 	public function getReferenceModule($record)
 	{
 		if (!empty($record)) {
-			$metadata = \vtlib\Functions::getCRMRecordMetadata($record);
+			$metadata = \App\ModuleManagement\Adapters\Functions::getCRMRecordMetadata($record);
 			return $metadata['setype'];
 		}
 		return '';

@@ -510,7 +510,7 @@ class Field extends \vtlib\Field
 	 */
 	public function getModulesListValues()
 	{
-		$allModules = \vtlib\Functions::getAllModules(true, false, 0);
+		$allModules = \App\ModuleManagement\Adapters\Functions::getAllModules(true, false, 0);
 		$modules = [];
 		foreach ($allModules as $module) {
 			$modules[$module['tabid']] = [
@@ -558,7 +558,7 @@ class Field extends \vtlib\Field
 		if ($this->getFieldDataType() === 'reference') {
 			$fieldType = 'V';
 		} else {
-			$fieldType = \vtlib\Functions::transformFieldTypeOfData($this->get('table'), $this->get('column'), $fieldType);
+			$fieldType = \App\ModuleManagement\Adapters\Functions::transformFieldTypeOfData($this->get('table'), $this->get('column'), $fieldType);
 		}
 		return $this->fieldType = $fieldType;
 	}
@@ -747,7 +747,7 @@ class Field extends \vtlib\Field
 		if ($this->getFieldDataType() === 'reference') {
 			$fieldType = 'V';
 		} else {
-			$fieldType = \vtlib\Functions::transformFieldTypeOfData($tableName, $columnName, $fieldType);
+			$fieldType = \App\ModuleManagement\Adapters\Functions::transformFieldTypeOfData($tableName, $columnName, $fieldType);
 		}
 		$escapedFieldLabel = str_replace(' ', '_', $fieldLabel);
 		$moduleFieldLabel = "{$moduleName}_{$escapedFieldLabel}";
@@ -772,7 +772,7 @@ class Field extends \vtlib\Field
 		if ($this->getFieldDataType() == 'reference') {
 			$fieldType = 'V';
 		} else {
-			$fieldType = \vtlib\Functions::transformFieldTypeOfData($tableName, $columnName, $fieldType);
+			$fieldType = \App\ModuleManagement\Adapters\Functions::transformFieldTypeOfData($tableName, $columnName, $fieldType);
 		}
 		$escapedFieldLabel = str_replace(' ', '_', $fieldLabel);
 		$moduleFieldLabel = $moduleName . '_' . $escapedFieldLabel;
