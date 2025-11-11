@@ -46,7 +46,7 @@ FreeCRM - Customer Relationship Management System
 						</tr>
 					</thead>
 					<tbody>
-						{foreach from=\App\Modules\Settings\ConfReport\Models\Module::getConfigurationLibrary() key=key item=item}
+						{foreach from=$CONFIGURATION_LIBRARY key=key item=item}
 							<tr {if $item.status == 'LBL_NO'}class="danger" {/if}>
 								<td><label>{$key|t:$MODULE}</label></td>
 								<td><label>{$item.status|t:$MODULE}</label></td>
@@ -77,7 +77,7 @@ FreeCRM - Customer Relationship Management System
 						</tr>
 					</thead>
 					<tbody>
-						{foreach from=\App\Modules\Settings\ConfReport\Models\Module::getConfigurationValue() key=key item=item}
+						{foreach from=$CONFIGURATION_VALUES key=key item=item}
 							<tr {if $item.status}class="danger" {/if}>
 								<td><label>{$key}</label></td>
 								<td><label>{$item.prefer|t:$MODULE}</label></td>
@@ -104,7 +104,7 @@ FreeCRM - Customer Relationship Management System
 						</tr>
 					</thead>
 					<tbody>
-						{foreach from=\App\Modules\Settings\ConfReport\Models\Module::getSystemInfo() key=key item=item}
+						{foreach from=$SYSTEM_INFO key=key item=item}
 							<tr>
 								<td><label>{$key|t:$MODULE}</label></td>
 								<td><label>{$item}</label></td>
@@ -130,7 +130,7 @@ FreeCRM - Customer Relationship Management System
 						</tr>
 					</thead>
 					<tbody>
-						{foreach from=\App\Modules\Settings\ConfReport\Models\Module::getHardwareInfo() key=key item=item}
+						{foreach from=$HARDWARE_INFO key=key item=item}
 							<tr>
 								<td><label>{$key|t:$MODULE}</label></td>
 								<td>
@@ -164,7 +164,7 @@ FreeCRM - Customer Relationship Management System
 						</tr>
 					</thead>
 					<tbody>
-						{foreach from=\App\Modules\Settings\ConfReport\Models\Module::getPermissionsFiles() key=key item=item}
+						{foreach from=$PERMISSIONS_FILES key=key item=item}
 							<tr {if $item.permission eq 'FailedPermission'}class="danger" {/if}>
 								<td width="23%"><label class="marginRight5px">{$key|t:$MODULE}</label></td>
 								<td width="23%"><label class="marginRight5px">{$item.path|t:$MODULE}</label></td>

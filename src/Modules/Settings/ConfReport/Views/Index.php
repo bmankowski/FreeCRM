@@ -21,6 +21,10 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		\App\Cache\Cache::clear();
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
+		
+		// Prepare all data in controller instead of calling functions in template
+		$this->prepareConfReportData($viewer, $qualifiedModuleName);
+		
 		$viewer->assign('CCURL', 'index.php?module=OSSMail&view=CheckConfig');
 		$viewer->assign('MODULE', $qualifiedModuleName);
 		
@@ -30,5 +34,23 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		} else {
 			$viewer->view('Index.tpl', $qualifiedModuleName);
 		}
+	}
+
+	/**
+	 * Prepare configuration report data
+	 * Moves data preparation from template to controller for better MVC separation
+	 */
+	protected function prepareConfReportData($viewer, $module)
+	{
+		$viewer->assign('CONFIGURATION_LIBRARY', 
+			\App\Modules\Settings\ConfReport\Models\Module::getConfigurationLibrary());
+		$viewer->assign('CONFIGURATION_VALUES', 
+			\App\Modules\Settings\ConfReport\Models\Module::getConfigurationValue());
+		$viewer->assign('SYSTEM_INFO', 
+			\App\Modules\Settings\ConfReport\Models\Module::getSystemInfo());
+		$viewer->assign('HARDWARE_INFO', 
+			\App\Modules\Settings\ConfReport\Models\Module::getHardwareInfo());
+		$viewer->assign('PERMISSIONS_FILES', 
+			\App\Modules\Settings\ConfReport\Models\Module::getPermissionsFiles());
 	}
 }
