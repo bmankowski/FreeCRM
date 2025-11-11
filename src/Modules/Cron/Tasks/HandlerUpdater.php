@@ -17,7 +17,7 @@ do {
 	try {
 		$rows = (new \App\Db\Query())->from('s_#__handler_updater')->limit($updaterLimit)->all($db);
 		foreach ($rows as &$row) {
-			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($row['crmid'], \App\Module::getModuleName($row['tabid']));
+			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($row['crmid'], \App\Utils\ModuleUtils::getModuleName($row['tabid']));
 			$eventHandler->setRecordModel($recordModel);
 			$eventHandler->setModuleName($recordModel->getModuleName());
 			$eventHandler->setParams($row['params']);

@@ -871,7 +871,7 @@ class PackageImport extends PackageExport
 		if (empty($modulenode->eventHandlers) || empty($modulenode->eventHandlers->event)) {
 			return;
 		}
-		$moduleId = \App\Module::getModuleId($moduleInstance->name);
+		$moduleId = \App\Utils\ModuleUtils::getModuleId($moduleInstance->name);
 		foreach ($modulenode->eventHandlers->event as &$eventNode) {
 			\App\EventHandler::registerHandler($eventNode->eventName, $eventNode->className, $eventNode->includeModules, $eventNode->excludeModules, $eventNode->priority, $eventNode->isActive, $moduleId);
 		}

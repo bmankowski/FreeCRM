@@ -240,7 +240,7 @@ class FieldBasic
 	public function getModuleName()
 	{
 		if ($this->tabid) {
-			return \App\Module::getModuleName($this->tabid);
+			return \App\Utils\ModuleUtils::getModuleName($this->tabid);
 		}
 		return $this->block->module->name;
 	}

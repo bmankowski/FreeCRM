@@ -60,7 +60,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public function getSourceModuleName()
 	{
-		return \App\Module::getModuleName($this->get('tabid'));
+		return \App\Utils\ModuleUtils::getModuleName($this->get('tabid'));
 	}
 
 	/**
@@ -445,7 +445,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 				$fieldInstance = $this->getFieldInstanceByName('value');
 				return $fieldInstance->get('label');
 			case 'tabid':
-				return \App\Module::getModuleName($this->get($name));
+				return \App\Utils\ModuleUtils::getModuleName($this->get($name));
 			case 'active':
 				return empty($this->get($name)) ? 'LBL_NO' : 'LBL_YES';
 			case 'roleid':

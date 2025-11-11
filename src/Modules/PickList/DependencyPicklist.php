@@ -20,7 +20,7 @@ class DependencyPicklist {
 		if (empty($module)) {
 			$result = $adb->pquery('SELECT DISTINCT sourcefield, targetfield, tabid FROM vtiger_picklist_dependency', array());
 		} else {
-			$tabId = \App\Module::getModuleId($module);
+			$tabId = \App\Utils\ModuleUtils::getModuleId($module);
 			$result = $adb->pquery('SELECT DISTINCT sourcefield, targetfield, tabid FROM vtiger_picklist_dependency WHERE tabid=?', array($tabId));
 		}
 		$noofrows = $adb->num_rows($result);
@@ -42,7 +42,7 @@ class DependencyPicklist {
 
 				$fieldResult = $adb->pquery('SELECT fieldlabel FROM vtiger_field WHERE fieldname = ?', array($targetField));
 				$targetFieldLabel = $adb->query_result($fieldResult, 0, 'fieldlabel');
-				$forModule = \App\Module::getModuleName($fieldTabId);
+				$forModule = \App\Utils\ModuleUtils::getModuleName($fieldTabId);
 				$dependentPicklists[] = array(
 					'sourcefield' => $sourceField,
 					'sourcefieldlabel' => \App\Runtime\Vtiger_Language_Handler::translate($sourceFieldLabel, $forModule),
@@ -59,7 +59,7 @@ class DependencyPicklist {
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 
-		$tabId = \App\Module::getModuleId($module);
+		$tabId = \App\Utils\ModuleUtils::getModuleId($module);
 
 		$query = "select vtiger_field.fieldlabel,vtiger_field.fieldname" .
 			" FROM vtiger_field inner join vtiger_picklist on vtiger_field.fieldname = vtiger_picklist.name" .
@@ -81,7 +81,7 @@ class DependencyPicklist {
 	static function savePickListDependencies($module, $dependencyMap)
 	{
 		$db = \App\Db::getInstance();
-		$tabId = \App\Module::getModuleId($module);
+		$tabId = \App\Utils\ModuleUtils::getModuleId($module);
 		$sourceField = $dependencyMap['sourcefield'];
 		$targetField = $dependencyMap['targetfield'];
 
@@ -131,7 +131,7 @@ class DependencyPicklist {
 	static function deletePickListDependencies($module, $sourceField, $targetField)
 	{
 		\App\Db::getInstance()->createCommand()->delete('vtiger_picklist_dependency', [
-			'tabid' => \App\Module::getModuleId($module),
+			'tabid' => \App\Utils\ModuleUtils::getModuleId($module),
 			'sourcefield' => $sourceField,
 			'targetfield' => $targetField
 		])->execute();
@@ -141,7 +141,7 @@ class DependencyPicklist {
 	{
 		$dependencyMap['sourcefield'] = $sourceField;
 		$dependencyMap['targetfield'] = $targetField;
-		$dataReader = (new \App\Db\Query())->from('vtiger_picklist_dependency')->where(['tabid' => \App\Module::getModuleId($module), 'sourcefield' => $sourceField, 'targetfield' => $targetField])
+		$dataReader = (new \App\Db\Query())->from('vtiger_picklist_dependency')->where(['tabid' => \App\Utils\ModuleUtils::getModuleId($module), 'sourcefield' => $sourceField, 'targetfield' => $targetField])
 			->createCommand()->query();
 		$valueMapping = [];
 		while ($row = $dataReader->read()) {
@@ -158,7 +158,7 @@ class DependencyPicklist {
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 
-		$tabId = \App\Module::getModuleId($module);
+		$tabId = \App\Utils\ModuleUtils::getModuleId($module);
 
 		$result = $adb->pquery('SELECT * FROM vtiger_picklist_dependency WHERE tabid=?', array($tabId));
 		$noofrows = $adb->num_rows($result);
@@ -203,7 +203,7 @@ class DependencyPicklist {
 	{
 		// If another parent field exists for the same target field - 2 parent fields should not be allowed for a target field
 		return (new \App\Db\Query())->from('vtiger_picklist_dependency')
-				->where(['tabid' => \App\Module::getModuleId($module), 'targetfield' => $targetField, 'sourcefield' => $sourceField, 'targetfield' => $targetField])
+				->where(['tabid' => \App\Utils\ModuleUtils::getModuleId($module), 'targetfield' => $targetField, 'sourcefield' => $sourceField, 'targetfield' => $targetField])
 				->exists();
 	}
 

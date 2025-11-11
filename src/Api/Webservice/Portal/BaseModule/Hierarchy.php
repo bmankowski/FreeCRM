@@ -54,7 +54,7 @@ class Hierarchy extends \App\Api\Webservice\Core\BaseAction
 				throw new \App\Api\Webservice\Core\Exception('No hierarchy', 405);
 			}
 			$field = $fields[$this->moduleName];
-			$entityFieldInfo = \App\Module::getEntityInfo($this->moduleName);
+			$entityFieldInfo = \App\Utils\ModuleUtils::getEntityInfo($this->moduleName);
 			$queryGenerator = new \App\QueryGenerator($this->moduleName);
 			$this->mainFieldName = $entityFieldInfo['fieldname'];
 			$this->childField = $field['fieldname'];

@@ -82,7 +82,7 @@ class Utils {
 	{
 
 		$errorMessage = \App\Runtime\Vtiger_Language_Handler::translate('ERR_MODULE_IMPORT_LOCKED', 'Import');
-		$errorDetails = array(\App\Runtime\Vtiger_Language_Handler::translate('LBL_MODULE_NAME', 'Import') => \App\Module::getModuleName($lockInfo['tabid']),
+		$errorDetails = array(\App\Runtime\Vtiger_Language_Handler::translate('LBL_MODULE_NAME', 'Import') => \App\Utils\ModuleUtils::getModuleName($lockInfo['tabid']),
 			\App\Runtime\Vtiger_Language_Handler::translate('LBL_USER_NAME', 'Import') => \App\Fields\Owner::getUserLabel($lockInfo['userid']),
 			\App\Runtime\Vtiger_Language_Handler::translate('LBL_LOCKED_TIME', 'Import') => $lockInfo['locked_since']);
 

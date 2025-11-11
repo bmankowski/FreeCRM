@@ -25,7 +25,7 @@ namespace App;
 use App\Utils\VTCacheUtils;
 use App\Cache\Cache;
 use App\Log;
-use App\Module;
+use App\Utils\ModuleUtils;
 use App\Db;
 use App\Privilege;
 
@@ -68,7 +68,7 @@ class CRMEntity
 	{
 		$modName = $module;
 		if (is_numeric($module)) {
-			$modName = \App\Module::getModuleName($module);
+			$modName = \App\Utils\ModuleUtils::getModuleName($module);
 		}
 		if ($module === 'Calendar' || $module === 'Events') {
 			$module = 'Calendar';
@@ -220,7 +220,7 @@ class CRMEntity
 		}
 		if (empty($cachedModuleFields)) {
 			// Pull fields and cache for further use
-			$tabid = Module::getModuleId($module);
+			$tabid = \App\Utils\ModuleUtils::getModuleId($module);
 			$query = (new Db\Query())
 				->select(['fieldname', 'fieldid', 'fieldlabel', 'columnname', 'tablename', 'uitype', 'typeofdata', 'presence'])
 				->from('vtiger_field')
@@ -345,7 +345,7 @@ class CRMEntity
 	public function constructCustomQueryAddendum($tablename, $module)
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
-		$tabid = Module::getModuleId($module);
+		$tabid = \App\Utils\ModuleUtils::getModuleId($module);
 		$sql1 = "select columnname,fieldlabel from vtiger_field where generatedtype=2 and tabid=? and vtiger_field.presence in (0,2)";
 		$result = $adb->pquery($sql1, array($tabid));
 		$numRows = $adb->num_rows($result);
@@ -380,7 +380,7 @@ class CRMEntity
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 
-		$tabid = Module::getModuleId($module);
+		$tabid = \App\Utils\ModuleUtils::getModuleId($module);
 		$sql = "select * from vtiger_field where tabid= ? and typeofdata like '%M%' and uitype not in ('53','70') and vtiger_field.presence in (0,2)";
 		$result = $adb->pquery($sql, array($tabid));
 		$numRows = $adb->num_rows($result);
@@ -512,7 +512,7 @@ class CRMEntity
 	{
 		Log::trace("Entered updateMissingSeqNumber function");
 		\App\Utils\VtlibUtils::setupModuleVars($module, $this);
-		$tabid = Module::getModuleId($module);
+		$tabid = \App\Utils\ModuleUtils::getModuleId($module);
 		if (!\App\Fields\RecordNumber::isModuleSequenceConfigured($tabid))
 			return;
 
@@ -1019,7 +1019,7 @@ class CRMEntity
 
 	public function getListViewSecurityParameter($module)
 	{
-	$tabid = Module::getModuleId($module);
+	$tabid = \App\Utils\ModuleUtils::getModuleId($module);
 	$currentUser = \App\User\CurrentUser::get();
 	if ($currentUser) {
 		$privileges = \App\Modules\Users\Models\Privileges::getPrivilegesFile($currentUser->getId());
@@ -1448,7 +1448,7 @@ class CRMEntity
 	public function getNonAdminModuleAccessQuery($module, $user)
 	{
 		require('user_privileges/sharing_privileges_' . $user->id . '.php');
-		$tabId = Module::getModuleId($module);
+		$tabId = \App\Utils\ModuleUtils::getModuleId($module);
 		$sharingRuleInfoVariable = $module . '_share_read_permission';
 		$sharingRuleInfo = $$sharingRuleInfoVariable;
 		$sharedTabId = null;
@@ -1474,7 +1474,7 @@ class CRMEntity
 	{
 		$module = null;
 		if (!empty($tabId)) {
-			$module = Module::getModuleName($tabId);
+			$module = \App\Utils\ModuleUtils::getModuleName($tabId);
 		}
 		$query = $this->getNonAdminAccessQuery($module, $user, $parentRole, $userGroups);
 		$query = "create temporary table IF NOT EXISTS $tableName(id int(11) primary key) ignore " .
@@ -1498,7 +1498,7 @@ class CRMEntity
 		require('user_privileges/user_privileges_' . $user->id . '.php');
 		require('user_privileges/sharing_privileges_' . $user->id . '.php');
 		$query = ' ';
-		$tabId = Module::getModuleId($module);
+		$tabId = \App\Utils\ModuleUtils::getModuleId($module);
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabId] == 3) {
 			$tableName = 'vt_tmp_u' . $user->id;
 			$sharingRuleInfoVariable = $module . '_share_read_permission';

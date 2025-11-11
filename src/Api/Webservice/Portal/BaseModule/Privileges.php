@@ -26,7 +26,7 @@ class Privileges extends \App\Api\Webservice\Core\BaseAction
 	$userId = $this->session->get('user_id');
 	$privileges = [];
 	if (\App\Modules\Users\Models\Record::isExists($userId)) {
-		$moduleId = \App\Module::getModuleId($moduleName);
+		$moduleId = \App\Utils\ModuleUtils::getModuleId($moduleName);
 		$actionPermissions = \App\Modules\Users\Models\Record::getPrivilegesFile($userId);
 			if ($actionPermissions === null) {
 				\App\Log::error("User privileges file not found for user: $userId");

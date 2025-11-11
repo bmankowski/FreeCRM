@@ -60,7 +60,7 @@ class TreeView extends \App\Runtime\BaseModel
 		}
 		$fieldTemp = (new \App\Db\Query())->select(['tablename', 'columnname', 'fieldname', 'fieldparams'])
 				->from('vtiger_field')
-				->where(['uitype' => 302, 'tabid' => \App\Module::getModuleId($this->getModuleName())])
+				->where(['uitype' => 302, 'tabid' => \App\Utils\ModuleUtils::getModuleId($this->getModuleName())])
 				->one();
 		if (!$fieldTemp) {
 			\vtlib\Functions::throwNewException(\App\Runtime\Vtiger_Language_Handler::translate('ERR_TREE_NOT_FOUND', $this->getModuleName()));

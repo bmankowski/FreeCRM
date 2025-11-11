@@ -160,7 +160,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 				->createCommand()->query();
 		$module = $this->get('module');
 		if (is_numeric($module)) {
-			$module = \App\Module::getModuleName($module);
+			$module = \App\Utils\ModuleUtils::getModuleName($module);
 		}
 		while ($row = $dataReader->read()) {
 			$treeID = (int) str_replace('T', '', $row['tree']);

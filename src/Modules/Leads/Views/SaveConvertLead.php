@@ -58,7 +58,7 @@ class SaveConvertLead extends \App\Base\Controllers\BaseViewController
 		$convertLeadFields = $recordModel->getConvertLeadFields();
 		$availableModules = ['Accounts'];
 		foreach ($availableModules as $module) {
-			if (\App\Module::isModuleActive($module) && in_array($module, $modules)) {
+			if (\App\Utils\ModuleUtils::isModuleActive($module) && in_array($module, $modules)) {
 				$entityValues['entities'][$module]['create'] = true;
 				$entityValues['entities'][$module]['name'] = $module;
 				foreach ($convertLeadFields[$module] as $fieldModel) {

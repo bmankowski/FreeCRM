@@ -199,7 +199,7 @@ class Functions
 	public static function getEntityModuleSQLColumnString($mixed)
 	{
 		$data = [];
-		$info = \App\Module::getEntityInfo($mixed);
+		$info = \App\Utils\\App\Utils\ModuleUtils::getEntityInfo($mixed);
 		if ($info) {
 			$data['tablename'] = $info['tablename'];
 			$fieldnames = $info['fieldname'];
@@ -298,7 +298,7 @@ class Functions
 	public static function getModuleFieldInfos($module, $returnByColumn = false)
 	{
 		if (is_numeric($module)) {
-			$module = \App\Module::getModuleName($module);
+			$module = \App\Utils\\App\Utils\ModuleUtils::getModuleName($module);
 		}
 		$cacheName = 'getModuleFieldInfosByName';
 		if (!\App\Cache\Cache::has($cacheName, $module)) {

@@ -280,7 +280,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		$output['langs'] = $langs;
 		$dataReader = (new \App\Db\Query())
 				->from('vtiger_field')
-				->where(['tabid' => \App\Module::getModuleId($mod), 'presence' => [0, 2]])
+				->where(['tabid' => \App\Utils\ModuleUtils::getModuleId($mod), 'presence' => [0, 2]])
 				->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$output['php'][$mod . '|' . $row['fieldlabel']]['label'] = \App\Runtime\Vtiger_Language_Handler::translate($row['fieldlabel'], $mod);

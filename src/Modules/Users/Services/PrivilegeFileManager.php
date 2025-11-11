@@ -4,7 +4,7 @@ namespace App\Modules\Users\Services;
 
 use App\CRMEntity;
 use App\Database\PearDatabase;
-use App\Module;
+use App\Utils\ModuleUtils;
 use App\PrivilegeFile;
 use App\PrivilegeUtil;
 use App\Utils\GetGroupUsers;
@@ -145,7 +145,7 @@ class PrivilegeFileManager
                 $newbuf .= "\$Accounts_HelpDesk_share_write_permission=array('ROLE'=>" . self::constructTwoDimensionalCharIntSingleValueArray($acc_tkt_share_write_per['ROLE']) . ",'GROUP'=>" . self::constructTwoDimensionalValueArray($acc_tkt_share_write_per['GROUP']) . ");\n";
                 $sharingPrivileges['permission']['Accounts_HelpDesk'] = ['read' => $acc_tkt_share_read_per, 'write' => $acc_tkt_share_write_per];
 
-                $custom_modules = Module::getSharingModuleList(['Accounts', 'Contacts']);
+                $custom_modules = \App\Utils\ModuleUtils::getSharingModuleList(['Accounts', 'Contacts']);
                 foreach ($custom_modules as &$module_name) {
                     $mod_share_perm_array = PrivilegeUtil::getUserModuleSharingObjects($module_name, $userId, $def_org_share, $current_user_roles, $parent_roles, $current_user_groups);
 
@@ -196,8 +196,8 @@ class PrivilegeFileManager
         $mod_share_read_permission['GROUP'] = [];
         $mod_share_write_permission['GROUP'] = [];
 
-        $par_mod_id = Module::getModuleId($parentModule);
-        $share_mod_id = Module::getModuleId($shareModule);
+        $par_mod_id = \App\Utils\ModuleUtils::getModuleId($parentModule);
+        $share_mod_id = \App\Utils\ModuleUtils::getModuleId($shareModule);
 
         if ($defOrgShare[$share_mod_id] == 3 || $defOrgShare[$share_mod_id] == 0) {
             $role_read_per = [];
@@ -352,10 +352,10 @@ class PrivilegeFileManager
         }
         //Populating Values into the temp related sharing tables
         foreach ($related_module_share as $rel_tab_id => $tabid_arr) {
-            $rel_tab_name = Module::getModuleName($rel_tab_id);
+            $rel_tab_name = \App\Utils\ModuleUtils::getModuleName($rel_tab_id);
             if (!empty($rel_tab_name)) {
                 foreach ($tabid_arr as $taid) {
-                    $tab_name = Module::getModuleName($taid);
+                    $tab_name = \App\Utils\ModuleUtils::getModuleName($taid);
 
                     $relmodule_sharing_read_permvar = $tab_name . '_' . $rel_tab_name . '_share_read_permission';
                     $relmodule_sharing_write_permvar = $tab_name . '_' . $rel_tab_name . '_share_write_permission';
@@ -381,7 +381,7 @@ class PrivilegeFileManager
     public static function populateSharingPrivileges($enttype, $userId, $module, $pertype, $varNameArr = false): void
     {
         $adb = PearDatabase::getInstance();
-        $tabid = Module::getModuleId($module);
+        $tabid = \App\Utils\ModuleUtils::getModuleId($module);
 
         if (!$varNameArr) {
             \vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/sharing_privileges_' . $userId . '.php');
@@ -459,8 +459,8 @@ class PrivilegeFileManager
     public static function populateRelatedSharingPrivileges($enttype, $userId, $module, $relmodule, $pertype, $varNameArr = false): void
     {
         $adb = PearDatabase::getInstance();
-        $tabid = Module::getModuleId($module);
-        $reltabid = Module::getModuleId($relmodule);
+        $tabid = \App\Utils\ModuleUtils::getModuleId($module);
+        $reltabid = \App\Utils\ModuleUtils::getModuleId($relmodule);
 
         if (!$varNameArr) {
             \vtlib\Deprecated::checkFileAccessForInclusion('user_privileges/sharing_privileges_' . $userId . '.php');

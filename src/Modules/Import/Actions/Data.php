@@ -490,7 +490,7 @@ class Data extends \App\Base\Controllers\BaseActionController
 			if ($fieldValueDetails && count($fieldValueDetails) > 1) {
 				$referenceModuleName = trim($fieldValueDetails[0]);
 				$entityLabel = trim($fieldValueDetails[1]);
-				if (\App\Module::isModuleActive($referenceModuleName)) {
+				if (\App\Utils\ModuleUtils::isModuleActive($referenceModuleName)) {
 					$entityId = \App\Record::getCrmIdByLabel($referenceModuleName, \App\Utils\ListViewUtils::decodeHtml($entityLabel));
 				} else {
 					$referenceModuleName = $defaultFieldValues[$fieldName];

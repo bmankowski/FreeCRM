@@ -161,7 +161,7 @@ class OSSMailView extends \App\CRMEntity
 		require('user_privileges/sharing_privileges_' . $currentUser->id . '.php');
 
 		$sec_query = '';
-		$tabid = \App\Module::getModuleId($module);
+		$tabid = \App\Utils\ModuleUtils::getModuleId($module);
 
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
 
@@ -232,7 +232,7 @@ class OSSMailView extends \App\CRMEntity
 		require('user_privileges/sharing_privileges_' . $currentUser->id . '.php');
 
 		// Security Check for Field Access
-		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[\App\Module::getModuleId('OSSMailView')] == 3) {
+		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[\App\Utils\ModuleUtils::getModuleId('OSSMailView')] == 3) {
 			//Added security check to get the permitted records only
 			$query = $query . " " . \App\Utils\UserInfoUtil::getListViewSecurityParameter($thismodule);
 		}

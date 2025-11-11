@@ -20,7 +20,7 @@ class ListViewUtils
 		$currentUser = \App\User\CurrentUser::get();
 		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 		require('user_privileges/sharing_privileges_' . $currentUser->id . '.php');
-		$tab_id = \App\Module::getModuleId($module);
+		$tab_id = \App\Utils\ModuleUtils::getModuleId($module);
 		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => 'vtiger_users.first_name', 'last_name' =>
 				'vtiger_users.last_name'), 'Users');
 		switch ($module) {
@@ -333,7 +333,7 @@ class ListViewUtils
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 		$sql = "select fieldid, uitype from vtiger_field where tabid=? and fieldname=?";
-		$result = $adb->pquery($sql, array(\App\Module::getModuleId($module), $fieldname));
+		$result = $adb->pquery($sql, array(\App\Utils\ModuleUtils::getModuleId($module), $fieldname));
 
 		$data = null;
 		if ($adb->num_rows($result) > 0) {

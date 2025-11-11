@@ -69,11 +69,11 @@ class Privilege
 		
 		// Step 4: Get module and action IDs
 		$checkModule = ($moduleName == 'Events') ? 'Calendar' : $moduleName;
-		$tabid = Module::getModuleId($moduleName);
+		$tabid = \App\Utils\ModuleUtils::getModuleId($moduleName);
 		$actionid = \App\Utils\Utils::getActionid($actionName);
 		
 		// Step 5: Check if module is active
-		if (!Module::isModuleActive($checkModule)) {
+		if (!\App\Utils\ModuleUtils::isModuleActive($checkModule)) {
 			return static::returnPermissionResult(false, 'SEC_MODULE_IS_INACTIVE');
 		}
 		
@@ -439,7 +439,7 @@ class Privilege
 					if (\App\AppConfig::security('PERMITTED_BY_SHARING')) {
 						$relatedPermission = static::isPermittedBySharing(
 							$parentMetaData['setype'], 
-							Module::getModuleId($parentMetaData['setype']), 
+							\App\Utils\ModuleUtils::getModuleId($parentMetaData['setype']), 
 							$actionid, 
 							$parentRecord, 
 							$userId

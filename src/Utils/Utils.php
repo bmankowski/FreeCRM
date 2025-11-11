@@ -173,7 +173,7 @@ class Utils
 			\App\Log::trace('Exiting getActionid method ... - ' . $actionid);
 			return $actionid;
 		}
-		$actionIds = \App\Module::getTabData('actionId');
+		$actionIds = \App\Utils\ModuleUtils::getTabData('actionId');
 		if (isset($actionIds[$action])) {
 			$actionid = $actionIds[$action];
 		}
@@ -427,7 +427,7 @@ class Utils
 	public static function get_use_asterisk($id)
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
-		if (!\App\Module::isModuleActive('PBXManager') || isPermitted('PBXManager', 'index') == 'no') {
+		if (!\App\Utils\ModuleUtils::isModuleActive('PBXManager') || isPermitted('PBXManager', 'index') == 'no') {
 			return false;
 		}
 		$sql = "select * from vtiger_asteriskextensions where userid = ?";

@@ -173,10 +173,10 @@ class ModulePermissionChecker implements PermissionChecker
     public function check(PermissionContext $context): PermissionResult
     {
         $privileges = $context->getUserPrivileges();
-        $tabId = \App\Module::getModuleId($context->getModuleName());
+        $tabId = \App\Utils\ModuleUtils::getModuleId($context->getModuleName());
         
         // Check if module is active
-        if (!\App\Module::isModuleActive($context->getModuleName())) {
+        if (!\App\Utils\ModuleUtils::isModuleActive($context->getModuleName())) {
             return PermissionResult::deny(
                 'Module is not active',
                 $this->getName(),

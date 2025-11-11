@@ -221,7 +221,7 @@ class SSalesProcesses extends \App\CRMEntity
 			return $parentSSalesProcesses;
 		}
 
-		$userNameSql = \App\Module::getSqlForNameInDisplayFormat('Users');
+		$userNameSql = \App\Utils\ModuleUtils::getSqlForNameInDisplayFormat('Users');
 		$row = (new \App\Db\Query())->select([
 				'u_#__ssalesprocesses.*',
 				new \yii\db\Expression("CASE when (vtiger_users.user_name not like '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name")
@@ -281,7 +281,7 @@ class SSalesProcesses extends \App\CRMEntity
 			\App\Log::error('Exiting getChildSales method ... - exceeded maximum depth of hierarchy');
 			return $childSalesProcesses;
 		}
-		$userNameSql = \App\Module::getSqlForNameInDisplayFormat('Users');
+		$userNameSql = \App\Utils\ModuleUtils::getSqlForNameInDisplayFormat('Users');
 		$dataReader = (new \App\Db\Query())->select([
 					'u_#__ssalesprocesses.*',
 					new \yii\db\Expression("CASE when (vtiger_users.user_name NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END as user_name")

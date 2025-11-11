@@ -60,7 +60,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	public function getModule($raw = true)
 	{
-		$moduleName = \App\Modules\Settings\PBXManager\Models\Module::getModuleName();
+		$moduleName = \App\Modules\Settings\PBXManager\Models\\App\Utils\ModuleUtils::getModuleName();
 		if (!$raw) {
 			$parentModule = \App\Modules\Settings\PBXManager\Models\Module::getParentName();
 			if (!empty($parentModule)) {

@@ -23,7 +23,7 @@ class CustomRecordNumbering extends \App\Modules\Settings\Base\Views\Index
 
 		$sourceModule = $request->get('sourceModule');
 		if ($sourceModule) {
-			$defaultModuleModel = $supportedModules[\App\Module::getModuleId($sourceModule)];
+			$defaultModuleModel = $supportedModules[\App\Utils\ModuleUtils::getModuleId($sourceModule)];
 		} else {
 			$defaultModuleModel = reset($supportedModules);
 		}

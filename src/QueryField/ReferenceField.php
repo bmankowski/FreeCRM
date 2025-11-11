@@ -26,7 +26,7 @@ class ReferenceField extends BaseField
 		}
 		$relatedTableName = [];
 		foreach ($this->getTables() as &$moduleName) {
-			$entityFieldInfo = \App\Module::getEntityInfo($moduleName);
+			$entityFieldInfo = \App\Utils\ModuleUtils::getEntityInfo($moduleName);
 			$referenceTable = $entityFieldInfo['tablename'] . $this->fieldModel->getFieldName();
 			if (count($entityFieldInfo['fieldnameArr']) > 1) {
 				$sqlString = 'CONCAT(';

@@ -60,7 +60,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 		$activeModules = [];
 		$allModules = \vtlib\Functions::getAllModules(false, true);  // Get ALL modules, not just entity types
 		foreach ($allModules as $module) {
-			$activeModules[$module['name']] = \App\Module::isModuleActive($module['name']);
+			$activeModules[$module['name']] = \App\Utils\ModuleUtils::isModuleActive($module['name']);
 		}
 		$viewer->assign('ACTIVE_MODULES', $activeModules);
 	}

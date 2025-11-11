@@ -93,7 +93,7 @@ class CustomView extends \App\CRMEntity
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 		$currentUser = \App\User\CurrentUser::get();
-		$tabid = \App\Module::getModuleId($this->customviewmodule);
+		$tabid = \App\Utils\ModuleUtils::getModuleId($this->customviewmodule);
 
 		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 
@@ -133,7 +133,7 @@ class CustomView extends \App\CRMEntity
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 		$currentUser = \App\User\CurrentUser::get();
-		$tabid = \App\Module::getModuleId($this->customviewmodule);
+		$tabid = \App\Utils\ModuleUtils::getModuleId($this->customviewmodule);
 
 		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 

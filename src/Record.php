@@ -103,7 +103,7 @@ class Record
 		$entityDisplay = [];
 		$cacheName = 'computeLabelsQuery';
 		if (!\App\Cache\Cache::has($cacheName, $moduleName)) {
-			$metainfo = \App\Module::getEntityInfo($moduleName);
+			$metainfo = \App\Utils\ModuleUtils::getEntityInfo($moduleName);
 			if (empty($metainfo)) {
 				return $entityDisplay;
 			}
@@ -135,7 +135,7 @@ class Record
 			\App\Cache\Cache::save($cacheName, $moduleName, clone $query);
 		} else {
 			$query = \App\Cache\Cache::get($cacheName, $moduleName);
-			$metainfo = \App\Module::getEntityInfo($moduleName);
+			$metainfo = \App\Utils\ModuleUtils::getEntityInfo($moduleName);
 			$moduleInfoExtend = Functions::getModuleFieldInfos($moduleName, true);
 			if (empty($moduleInfoExtend) || empty($metainfo)) {
 				return [];
@@ -218,7 +218,7 @@ class Record
 	 */
 	public static function updateLabelOnSave($recordModel)
 	{
-		$metaInfo = \App\Module::getEntityInfo($recordModel->getModuleName());
+		$metaInfo = \App\Utils\ModuleUtils::getEntityInfo($recordModel->getModuleName());
 		$labelName = [];
 		foreach ($metaInfo['fieldnameArr'] as &$columnName) {
 			$fieldModel = $recordModel->getModule()->getFieldByColumn($columnName);
@@ -261,7 +261,7 @@ class Record
 	public static function isExists($recordId, $moduleName = false)
 	{
 		$recordMetaData = Functions::getCRMRecordMetadata($recordId);
-		return (isset($recordMetaData) && $recordMetaData['deleted'] === 0 && ($moduleName ? $recordMetaData['setype'] === \App\Module::getTabName($moduleName) : true)) ? true : false;
+		return (isset($recordMetaData) && $recordMetaData['deleted'] === 0 && ($moduleName ? $recordMetaData['setype'] === \App\Utils\ModuleUtils::getTabName($moduleName) : true)) ? true : false;
 	}
 
 	/**

@@ -751,10 +751,10 @@ class Module extends \vtlib\Module
 	{
 		$tabId = $this->getId();
 		if ($this->getName() === 'Events') {
-			$tabId = \App\Module::getModuleId('Calendar');
+			$tabId = \App\Utils\ModuleUtils::getModuleId('Calendar');
 		}
 		if ($this->getName() === 'Calendar' && $recordModel->get('activitytype') !== 'Task') {
-			$tabId = \App\Module::getModuleId('Events');
+			$tabId = \App\Utils\ModuleUtils::getModuleId('Events');
 		}
 		$editFields = [];
 		foreach (\App\Field::getFieldsPermissions($tabId, false) as &$field) {
@@ -826,7 +826,7 @@ class Module extends \vtlib\Module
 	 */
 	public function getNameFields()
 	{
-		$entityInfo = \App\Module::getEntityInfo($this->getId());
+		$entityInfo = \App\Utils\ModuleUtils::getEntityInfo($this->getId());
 		return $entityInfo['fieldnameArr'];
 	}
 
@@ -1006,7 +1006,7 @@ class Module extends \vtlib\Module
 		$searchableModules = [];
 		foreach ($entityModules as $tabid => $moduleModel) {
 			$moduleName = $moduleModel->getName();
-			$entityInfo = \App\Module::getEntityInfo($tabid);
+			$entityInfo = \App\Utils\ModuleUtils::getEntityInfo($tabid);
 			if ($moduleName == 'Users' || $moduleName == 'Events' || !$entityInfo['turn_off'])
 				continue;
 			if ($userPrivModel->hasModuleActionPermission($moduleModel->getId(), 'DetailView')) {

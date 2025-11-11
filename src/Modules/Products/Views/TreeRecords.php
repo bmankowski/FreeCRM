@@ -45,7 +45,7 @@ class TreeRecords  extends \App\Modules\Base\Views\Index
 			$query = (new \App\Db\Query())
 				->select(['crmid'])
 				->from('u_#__crmentity_rel_tree')
-				->where(['module' => \App\Module::getModuleId($baseModuleName), 'relmodule' => \App\Module::getModuleId($moduleName), 'tree' => $category]);
+				->where(['module' => \App\Utils\ModuleUtils::getModuleId($baseModuleName), 'relmodule' => \App\Utils\ModuleUtils::getModuleId($moduleName), 'tree' => $category]);
 			$queryGenerator->addNativeCondition(['in', 'crmid', $query], false);
 		}
 		$listViewModel->set('query_generator', $queryGenerator);

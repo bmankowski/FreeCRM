@@ -128,7 +128,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		if (key_exists($id, self::$users)) {
 			return self::$users[$id];
 		}
-		$entityData = \App\Module::getEntityInfo('Users');
+		$entityData = \App\Utils\ModuleUtils::getEntityInfo('Users');
 		$user = new \App\Modules\Users\Users();
 		$currentUser = $user->retrieveCurrentUserInfoFromFile($id);
 		$colums = [];

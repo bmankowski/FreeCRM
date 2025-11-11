@@ -19,7 +19,7 @@ class ActivityStateModal  extends \App\Modules\Base\Views\Index
 		$moduleName = $request->getModule();
 		$id = $request->get('record');
 		$recordInstance = \App\Modules\Base\Models\Record::getInstanceById($id, $moduleName);
-		$permissionToSendEmail = \App\Module::isModuleActive('OSSMail') && \App\Modules\Users\Models\Privileges::isPermitted('OSSMail');
+		$permissionToSendEmail = \App\Utils\ModuleUtils::isModuleActive('OSSMail') && \App\Modules\Users\Models\Privileges::isPermitted('OSSMail');
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PERMISSION_TO_SENDE_MAIL', $permissionToSendEmail);

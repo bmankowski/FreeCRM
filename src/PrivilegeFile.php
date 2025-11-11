@@ -19,7 +19,7 @@ class PrivilegeFile
 	public static function createUsersFile()
 	{
 		$db = \App\Database\PearDatabase::getInstance();
-		$entityData = Module::getEntityInfo('Users');
+		$entityData = \App\Utils\ModuleUtils::getEntityInfo('Users');
 		$result = $db->query('SELECT id,first_name,last_name,is_admin,cal_color,status,email1,user_name,deleted FROM vtiger_users');
 		$users = [];
 		// Get the id and the name.
@@ -59,7 +59,7 @@ class PrivilegeFile
 		$userInstance = \App\CRMEntity::getInstance('Users');
 		$userInstance->retrieve_entity_info($userId, 'Users');
 		$userInstance->column_fields['is_admin'] = $userInstance->is_admin === 'on';
-		$entityData = Module::getEntityInfo('Users');
+		$entityData = \App\Utils\ModuleUtils::getEntityInfo('Users');
 		$displayName = '';
 		foreach ($entityData['fieldnameArr'] as &$field) {
 			$displayName .= ' ' . $userInstance->column_fields[$field];

@@ -60,7 +60,7 @@ class QuickDetailModal  extends \App\Modules\Base\Views\Index
 						if (!empty($widget['label'])) {
 							$label = \App\Runtime\Vtiger_Language_Handler::translate($widget['label'], $moduleName);
 						} elseif ($widget['type'] === 'RelatedModule') {
-							$relatedModule = \App\Module::getModuleName($widget['data']['relatedmodule']);
+							$relatedModule = \App\Utils\ModuleUtils::getModuleName($widget['data']['relatedmodule']);
 							$label = \App\Runtime\Vtiger_Language_Handler::translate($relatedModule, $relatedModule);
 						}
 						$widgets[] = ['title' => $label, 'content' => $detailView->$method($widgetRequest)];

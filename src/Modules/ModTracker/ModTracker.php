@@ -80,7 +80,7 @@ class ModTracker {
 		foreach ($rows as &$row) {
 			if ($row['visible'] === 1) {
 				\App\Cache\Cache::save('isTrackingEnabledForModule', $row['tabid'], true, \App\Cache\Cache::LONG);
-				$modules[] = \App\Module::getModuleName($row['tabid']);
+				$modules[] = \App\Utils\ModuleUtils::getModuleName($row['tabid']);
 			} else {
 				\App\Cache\Cache::save('isTrackingEnabledForModule', $row['tabid'], false, \App\Cache\Cache::LONG);
 			}
@@ -135,7 +135,7 @@ class ModTracker {
 	 */
 	public static function isTrackingEnabledForModule($moduleName)
 	{
-		$tabId = \App\Module::getModuleId($moduleName);
+		$tabId = \App\Utils\ModuleUtils::getModuleId($moduleName);
 		if (\App\Cache\Cache::has('isTrackingEnabledForModule', $tabId)) {
 			return \App\Cache\Cache::get('isTrackingEnabledForModule', $tabId);
 		}

@@ -39,7 +39,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 				->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$moduleId = $row['module_id'];
-			$moduleName = \App\Module::getModuleName($moduleId);
+			$moduleName = \App\Utils\ModuleUtils::getModuleName($moduleId);
 			$return[$moduleName]['id'] = $moduleId;
 			$status = \App\Json::decode(html_entity_decode($row['status_indicate_closing']));
 			if (!is_array($status)) {

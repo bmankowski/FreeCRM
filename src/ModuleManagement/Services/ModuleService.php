@@ -308,7 +308,7 @@ class ModuleService
 		$isentitytype = (bool) $data['isentitytype'];
 		
 		if ($isentitytype || $data['name'] === 'Users') {
-			$entitydata = \App\Module::getEntityInfo($data['name']);
+			$entitydata = \App\Utils\\App\Utils\ModuleUtils::getEntityInfo($data['name']);
 			if ($entitydata) {
 				$basetable = $entitydata['tablename'];
 				$basetableid = $entitydata['entityidfield'];

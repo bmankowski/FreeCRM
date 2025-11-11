@@ -506,7 +506,7 @@ class PrivilegeUtil
 	 */
 	public static function getUserModuleSharingObjects($module, $userid, $defOrgShare, $currentUserRoles, $parentRoles, $currentUserGroups)
 	{
-		$modTabId = \App\Module::getModuleId($module);
+		$modTabId = \App\Utils\ModuleUtils::getModuleId($module);
 		$modShareWritePermission = $modShareReadPermission = ['ROLE' => [], 'GROUP' => []];
 		$modDefOrgShare = null;
 		if (isset($defOrgShare[$modTabId])) {

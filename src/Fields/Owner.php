@@ -166,7 +166,7 @@ class Owner
 		$cacheKeyRole = is_array($roles) ? md5(json_encode($roles)) : $roles;
 		$cacheKey = $cacheKeyMod . $status . $cacheKeyAss . $private . $cacheKeyRole;
 		if (!\App\Cache\Cache::has('getUsers', $cacheKey)) {
-			$entityData = \App\Module::getEntityInfo('Users');
+			$entityData = \App\Utils\ModuleUtils::getEntityInfo('Users');
 			$query = $this->getQueryInitUsers($private, $status, $roles);
 			if (!empty($assignedUser)) {
 				$query->where(['vtiger_users.id' => $assignedUser]);
@@ -197,7 +197,7 @@ class Owner
 	 */
 	public function getQueryInitUsers($private = false, $status = false, $roles = false)
 	{
-		$entityData = \App\Module::getEntityInfo('Users');
+		$entityData = \App\Utils\ModuleUtils::getEntityInfo('Users');
 	$selectFields = array_unique(array_merge($entityData['fieldnameArr'], ['id' => 'id', 'is_admin', 'cal_color', 'status']));
 	// Including deleted vtiger_users for now.
 	if ($private === 'private') {
@@ -223,7 +223,7 @@ class Owner
 				select($selectFields)
 				->from('vtiger_tmp_write_user_sharing_per')
 				->innerJoin('vtiger_users', 'vtiger_tmp_write_user_sharing_per.shareduserid = vtiger_users.id')
-				->where(['vtiger_tmp_write_user_sharing_per.userid' => $this->currentUser->getId(), 'vtiger_tmp_write_user_sharing_per.tabid' => \App\Module::getModuleId($this->moduleName)]);
+				->where(['vtiger_tmp_write_user_sharing_per.userid' => $this->currentUser->getId(), 'vtiger_tmp_write_user_sharing_per.tabid' => \App\Utils\ModuleUtils::getModuleId($this->moduleName)]);
 			$query->union($queryByUserRole)->union($queryBySharing);
 		} elseif ($roles !== false) {
 			$query = (new \App\Db\Query())->select($selectFields)->from('vtiger_users')->innerJoin('vtiger_user2role', 'vtiger_users.id = vtiger_user2role.userid')->where(['vtiger_user2role.roleid' => $roles]);
@@ -234,7 +234,7 @@ class Owner
 		}
 		$where = []; // PHP 8.2+: Initialize as array instead of false to avoid deprecation warning
 		if (!empty($this->searchValue)) {
-			$where []= ['like', \App\Module::getSqlForNameInDisplayFormat('Users'), $this->searchValue];
+			$where []= ['like', \App\Utils\ModuleUtils::getSqlForNameInDisplayFormat('Users'), $this->searchValue];
 		}
 		if ($status) {
 			$where []= ['status' => $status];
@@ -286,7 +286,7 @@ class Owner
 		$moduleName = '';
 		if (($request === null || $request->get('parent') != 'Settings') && $this->moduleName) {
 			$moduleName = $this->moduleName;
-			$tabid = \App\Module::getModuleId($moduleName);
+			$tabid = \App\Utils\ModuleUtils::getModuleId($moduleName);
 		}
 		$cacheKey = $addBlank . $private . $moduleName;
 		if (\App\Cache\Cache::has('OwnerGroups', $cacheKey)) {

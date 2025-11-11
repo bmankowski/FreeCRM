@@ -100,7 +100,7 @@ class UserInfoUtil
 		}
 
 		//Retreiving the Tabid and Action Id
-		$tabid = \App\Module::getModuleId($module);
+		$tabid = \App\Utils\ModuleUtils::getModuleId($module);
 		$actionid = \App\Utils\Utils::getActionid($actionname);
 		$checkModule = $module;
 
@@ -108,7 +108,7 @@ class UserInfoUtil
 			$checkModule = 'Calendar';
 		}
 
-		if (\App\Module::isModuleActive($checkModule)) {
+		if (\App\Utils\ModuleUtils::isModuleActive($checkModule)) {
 
 			//Checking whether the user is admin
 			if ($userPrivileges['is_admin']) {
@@ -259,7 +259,7 @@ class UserInfoUtil
 									break;
 								case 2:
 									if (\App\AppConfig::security('PERMITTED_BY_SHARING')) {
-										$permission = \App\Utils\UserInfoUtil::isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $parentRecord);
+										$permission = \App\Utils\UserInfoUtil::isPermittedBySharing($recordMetaData['setype'], \App\Utils\ModuleUtils::getModuleId($recordMetaData['setype']), $actionid, $parentRecord);
 										$relatedPermission = $permission == 'yes' ? true : false;
 									}
 									break;
@@ -343,7 +343,7 @@ class UserInfoUtil
 		$ownerid = '';
 		$sharePer = 'no';
 
-		$sharingModuleList = \App\Module::getSharingModuleList();
+		$sharingModuleList = \App\Utils\ModuleUtils::getSharingModuleList();
 		if (!in_array($module, $sharingModuleList)) {
 			$sharePer = 'no';
 			return $sharePer;
@@ -392,7 +392,7 @@ class UserInfoUtil
 			foreach ($relatedModuleArray as $parModId) {
 				$parRecordOwner = \App\PrivilegeUtil::getParentRecordOwner($tabid, $parModId, $record_id);
 				if (sizeof($parRecordOwner) > 0) {
-					$parModName = \App\Module::getModuleName($parModId);
+					$parModName = \App\Utils\ModuleUtils::getModuleName($parModId);
 					$rel_var = $parModName . "_" . $module . "_share_read_permission";
 					$read_related_per_arr = $$rel_var;
 					$rel_owner_type = '';
@@ -453,7 +453,7 @@ class UserInfoUtil
 		$ownerid = '';
 		$sharePer = 'no';
 
-		$sharingModuleList = \App\Module::getSharingModuleList();
+		$sharingModuleList = \App\Utils\ModuleUtils::getSharingModuleList();
 		if (!in_array($module, $sharingModuleList)) {
 			$sharePer = 'no';
 			return $sharePer;
@@ -501,7 +501,7 @@ class UserInfoUtil
 			foreach ($relatedModuleArray as $parModId) {
 				$parRecordOwner = \App\PrivilegeUtil::getParentRecordOwner($tabid, $parModId, $record_id);
 				if (sizeof($parRecordOwner) > 0) {
-					$parModName = \App\Module::getModuleName($parModId);
+					$parModName = \App\Utils\ModuleUtils::getModuleName($parModId);
 					$rel_var = $parModName . "_" . $module . "_share_write_permission";
 					$write_related_per_arr = $$rel_var;
 					$rel_owner_type = '';
@@ -1130,7 +1130,7 @@ class UserInfoUtil
 			}
 		}
 
-		$homeTabid = \App\Module::getModuleId('Home');
+		$homeTabid = \App\Utils\ModuleUtils::getModuleId('Home');
 		if (!array_key_exists($homeTabid, $userTabPerrArr)) {
 			$userTabPerrArr[$homeTabid] = 0;
 		}
@@ -1224,7 +1224,7 @@ class UserInfoUtil
 		$adb = \App\Database\PearDatabase::getInstance();
 		$currentUser = \App\User\CurrentUser::get();
 		$grp_array = [];
-		$tabid = \App\Module::getModuleId($module);
+		$tabid = \App\Utils\ModuleUtils::getModuleId($module);
 		$query = "select sharedgroupid from vtiger_tmp_write_group_sharing_per where userid=? and tabid=?";
 		$result = $adb->pquery($query, array($currentUser->getId(), $tabid));
 		$num_rows = $adb->num_rows($result);
@@ -1263,7 +1263,7 @@ class UserInfoUtil
 		\App\Log::trace("Entering getListViewSecurityParameter(" . $module . ") method ...");
 		$adb = \App\Database\PearDatabase::getInstance();
 
-		$tabid = \App\Module::getModuleId($module);
+		$tabid = \App\Utils\ModuleUtils::getModuleId($module);
 		$currentUser = \App\User\CurrentUser::get();
 		if ($current_user) {
 			require('user_privileges/user_privileges_' . $currentUser->getId() . '.php');
@@ -1389,13 +1389,13 @@ class UserInfoUtil
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1) {
 			foreach ($tab_seq_array as $tabid => $seq_value) {
 				if ($seq_value === 0 && $profileTabsPermission[$tabid] === 0) {
-					$permittedModules[] = \App\Module::getModuleName($tabid);
+					$permittedModules[] = \App\Utils\ModuleUtils::getModuleName($tabid);
 				}
 			}
 		} else {
 			foreach ($tab_seq_array as $tabid => $seq_value) {
 				if ($seq_value === 0) {
-					$permittedModules[] = \App\Module::getModuleName($tabid);
+					$permittedModules[] = \App\Utils\ModuleUtils::getModuleName($tabid);
 				}
 			}
 		}
@@ -1431,7 +1431,7 @@ class UserInfoUtil
 				}
 			}
 		}
-		$homeTabid = \App\Module::getModuleId('Home');
+		$homeTabid = \App\Utils\ModuleUtils::getModuleId('Home');
 		if (!in_array($homeTabid, $permittedModules)) {
 			$permittedModules[] = $homeTabid;
 		}

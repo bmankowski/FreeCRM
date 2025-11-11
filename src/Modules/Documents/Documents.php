@@ -371,7 +371,7 @@ class Documents extends \App\CRMEntity
 	static function isLinkPermitted($linkData)
 	{
 		$moduleName = 'Documents';
-		if (\App\Module::isModuleActive($moduleName) && \App\Utils\UserInfoUtil::isPermitted($moduleName, 'EditView') == 'yes') {
+		if (\App\Utils\ModuleUtils::isModuleActive($moduleName) && \App\Utils\UserInfoUtil::isPermitted($moduleName, 'EditView') == 'yes') {
 			return true;
 		}
 		return false;

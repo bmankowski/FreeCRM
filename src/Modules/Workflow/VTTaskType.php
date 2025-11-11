@@ -66,7 +66,7 @@ class VTTaskType
 			$excludeModules = $modules['exclude'];
 
 			if (!empty($sourceModule)) {
-				if (\App\Module::getModuleId($sourceModule) == null || !\App\Module::isModuleActive($sourceModule)) {
+				if (\App\Utils\ModuleUtils::getModuleId($sourceModule) == null || !\App\Utils\ModuleUtils::isModuleActive($sourceModule)) {
 					continue;
 				}
 			}

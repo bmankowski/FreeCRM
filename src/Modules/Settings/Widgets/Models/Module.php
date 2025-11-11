@@ -19,7 +19,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	public static function getWidgets($module = false)
 	{
 		if ($module && !is_numeric($module)) {
-			$module = \App\Module::getModuleId($module);
+			$module = \App\Utils\ModuleUtils::getModuleId($module);
 		}
 		if (\App\Cache\Cache::has('ModuleWidgets', $module)) {
 			return \App\Cache\Cache::get('ModuleWidgets', $module);
@@ -252,7 +252,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	public static function getHeaderSwitch($index = [])
 	{
 		$data = [
-			\App\Module::getModuleId('SSalesProcesses') => [ 0 =>
+			\App\Utils\ModuleUtils::getModuleId('SSalesProcesses') => [ 0 =>
 				[
 					'type' => 1,
 					'label' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_HEADERSWITCH_OPEN_CLOSED', 'SSalesProcesses'), // used only in configuration
@@ -277,7 +277,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	public static function getHeaderButtons($moduleId)
 	{
 		$linkList = [];
-		$moduleName = \App\Module::getModuleName($moduleId);
+		$moduleName = \App\Utils\ModuleUtils::getModuleName($moduleId);
 		if ($moduleName === 'Documents') {
 			$linkList[] = [
 				'linklabel' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_MASS_ADD', $moduleName),

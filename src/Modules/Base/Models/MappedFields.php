@@ -103,7 +103,7 @@ class MappedFields extends \App\Runtime\BaseModel
 			$rows = \App\Cache\Cache::get('MappedFieldsTemplatesByModule', $moduleName);
 		} else {
 			$rows = (new \App\Db\Query())->from(self::$baseTable)
-				->where(['tabid' => \App\Module::getModuleId($moduleName), 'status' => 1])
+				->where(['tabid' => \App\Utils\ModuleUtils::getModuleId($moduleName), 'status' => 1])
 				->all();
 			\App\Cache\Cache::save('MappedFieldsTemplatesByModule', $moduleName, $rows);
 		}

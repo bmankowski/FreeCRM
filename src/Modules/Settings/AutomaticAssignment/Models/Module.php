@@ -145,7 +145,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 			$query = (new \App\Db\Query())
 				->select(['field', 'value', 'id'])
 				->from($this->baseTable)
-				->where(['tabid' => \App\Module::getModuleId($recordModel->getModuleName()), 'active' => 1]);
+				->where(['tabid' => \App\Utils\ModuleUtils::getModuleId($recordModel->getModuleName()), 'active' => 1]);
 			if ($role) {
 				$query->andWhere(['roleid' => $role]);
 			}
@@ -175,7 +175,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	public function clearCache($param)
 	{
 		if (!empty($param) && isset($param['tabid']) && isset($param['roleid'])) {
-			$tabId = \App\Module::getModuleName($param['tabid']);
+			$tabId = \App\Utils\ModuleUtils::getModuleName($param['tabid']);
 			$cacheKey = $tabId . $param['roleid'];
 			\App\Cache\Cache::delete(get_class() . '::searchRecord', $cacheKey);
 		}

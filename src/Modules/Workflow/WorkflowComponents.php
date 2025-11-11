@@ -45,11 +45,11 @@ function vtJsonDependentModules($adb, \App\Http\Vtiger_Request $request)
 		$fieldName = $adb->query_result($result, $i, 'fieldname');
 		$typeOfData = $adb->query_result($result, $i, 'typeofdata');
 		$referenceModule = $adb->query_result($result, $i, 'reference_module');
-		$tabModuleName = \App\Module::getModuleName($tabId);
+		$tabModuleName = \App\Utils\ModuleUtils::getModuleName($tabId);
 		if (in_array($tabModuleName, $filterModules))
 			continue;
 		if ($referenceModule == $moduleName && $tabModuleName != $moduleName) {
-			if (!\App\Module::isModuleActive($tabModuleName))
+			if (!\App\Utils\ModuleUtils::isModuleActive($tabModuleName))
 				continue;
 			$dependentFields[$tabModuleName] = array('fieldname' => $fieldName, 'modulelabel' => \App\Runtime\Vtiger_Language_Handler::translate($tabModuleName, $tabModuleName));
 		} else {

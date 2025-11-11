@@ -170,7 +170,7 @@ class ProjectTask extends \App\CRMEntity
 		require('user_privileges/sharing_privileges_' . $currentUser->id . '.php');
 
 		$sec_query = '';
-		$tabid = \App\Module::getModuleId($module);
+		$tabid = \App\Utils\ModuleUtils::getModuleId($module);
 
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
 
@@ -364,7 +364,7 @@ class ProjectTask extends \App\CRMEntity
 	static function isLinkPermitted($linkData)
 	{
 		$moduleName = "ProjectTask";
-		if (\App\Module::isModuleActive($moduleName) && \App\Utils\UserInfoUtil::isPermitted($moduleName, 'EditView') == 'yes') {
+		if (\App\Utils\ModuleUtils::isModuleActive($moduleName) && \App\Utils\UserInfoUtil::isPermitted($moduleName, 'EditView') == 'yes') {
 			return true;
 		}
 		return false;

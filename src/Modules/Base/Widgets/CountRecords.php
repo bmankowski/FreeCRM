@@ -44,7 +44,7 @@ class CountRecords extends \App\Modules\Base\Widgets\Basic
 		$parentRecordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId);
 		foreach ($modules as $relatedModuleName) {
 			$relationListView = \App\Modules\Base\Models\RelationListView::getInstance($parentRecordModel, $relatedModuleName);
-			if (!\App\Module::isModuleActive($relatedModuleName) || !$relationListView->getRelationModel()) {
+			if (!\App\Utils\ModuleUtils::isModuleActive($relatedModuleName) || !$relationListView->getRelationModel()) {
 				continue;
 			}
 			$countRecords[$relatedModuleName] = (int) $relationListView->getRelatedEntriesCount();

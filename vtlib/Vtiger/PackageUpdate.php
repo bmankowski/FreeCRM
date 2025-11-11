@@ -431,7 +431,7 @@ class PackageUpdate extends PackageImport
 		if (empty($modulenode->eventHandlers) || empty($modulenode->eventHandlers->event)) {
 			return;
 		}
-		$moduleId = \App\Module::getModuleId($moduleInstance->name);
+		$moduleId = \App\Utils\ModuleUtils::getModuleId($moduleInstance->name);
 		\App\Db::getInstance()->createCommand()->delete('vtiger_eventhandlers', ['owner_id' => $moduleId])->execute();
 		foreach ($modulenode->eventHandlers->event as &$eventNode) {
 			\App\EventHandler::registerHandler($eventNode->eventName, $eventNode->className, $eventNode->includeModules, $eventNode->excludeModules, $eventNode->priority, $eventNode->isActive, $moduleId);

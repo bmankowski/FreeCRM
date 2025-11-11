@@ -18,15 +18,15 @@
 - **vtlib helpers used**: `vtlib\Functions::getModuleName()`, `vtlib\Functions::getModuleId()`, `\vtlib\Functions::getAllModules()`, `\vtlib\Functions::getCRMRecordType()`, `vtlib\Functions::getCRMRecordLabel()`, `vtlib\Functions::getCRMRecordMetadata()`.
 - **Template touchpoints**: `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Settings/Widgets/IndexContent.tpl`, `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Settings/Users/ColorsContent.tpl`, `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Settings/Menu/types/HomeIcon.tpl`, `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Settings/LangManagement/EditHelpIcon.tpl`, `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Calendar/Reminders.tpl`, `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Base/RelatedListContents.tpl`, `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Assets/dashboards/ExpiringSoldProductsContents.tpl`, `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Base/Comment.tpl`, `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Events/InviteRow.tpl`.
 - **Modern options**:
-  - Controllers can resolve module metadata via `App\Module::getModuleName()` / `App\Module::getModuleId()` and inject results into the view model. (Note: `App\Module::getModuleName()` still proxies to vtlib internally, so long-term plan is to move logic into `ModuleManagement\Services\ModuleService`.)
+  - Controllers can resolve module metadata via `App\ModuleUtils::getModuleName()` / `App\ModuleUtils::getModuleId()` and inject results into the view model. (Note: `App\ModuleUtils::getModuleName()` still proxies to vtlib internally, so long-term plan is to move logic into `ModuleManagement\Services\ModuleService`.)
   - Record-level lookups should use `App\Record::getType($id)` and `App\Record::getLabel($id)`; when templates need additional information provide it via controller assignments (e.g., owner names, URLs) instead of calling vtlib.
-  - For lists of modules provide pre-fetched data from `App\Module::getAllEntityModuleInfo()` or the new `ModuleManagement\Models\Module` collection.
+  - For lists of modules provide pre-fetched data from `App\ModuleUtils::getAllEntityModuleInfo()` or the new `ModuleManagement\Models\Module` collection.
   - For `vtlib\Functions::getCRMRecordMetadata()` there is no modern helper yet; expose metadata through an upcoming record service and cache the payload at the controller level until the service exists.
 
 #### Current Alternatives
-- `vtlib\Functions::getModuleName()` → `App\Module::getModuleName($tabId)` (uses vtlib internally today; replace with ModuleManagement service once available).
-- `vtlib\Functions::getModuleId()` → `App\Module::getModuleId($moduleName)`.
-- `\vtlib\Functions::getAllModules()` → `App\Module::getAllEntityModuleInfo()`; future: dedicated `ModuleManagement\Services\ModuleService::getAll()`.
+- `vtlib\Functions::getModuleName()` → `App\ModuleUtils::getModuleName($tabId)` (uses vtlib internally today; replace with ModuleManagement service once available).
+- `vtlib\Functions::getModuleId()` → `App\ModuleUtils::getModuleId($moduleName)`.
+- `\vtlib\Functions::getAllModules()` → `App\ModuleUtils::getAllEntityModuleInfo()`; future: dedicated `ModuleManagement\Services\ModuleService::getAll()`.
 - `\vtlib\Functions::getCRMRecordType()` → `App\Record::getType($crmid)`.
 - `vtlib\Functions::getCRMRecordLabel()` → `App\Record::getLabel($crmid)`.
 - `vtlib\Functions::getCRMRecordMetadata()` → **Gap**: no PSR service yet; plan to introduce `ModuleManagement\Services\RecordMetadataService::getMetadata($id)`.
@@ -80,7 +80,7 @@
 
 #### `vtlib\Functions::getModuleName($tabId)`
 
-**Current Alternative:** `App\Module::getModuleName($tabId)`
+**Current Alternative:** `App\ModuleUtils::getModuleName($tabId)`
 
 **Template Usage:**
 ```smarty
@@ -91,20 +91,20 @@
 ```php
 // In controller
 $moduleId = $widget['data']['relatedmodule'];
-$moduleName = \App\Module::getModuleName($moduleId);
+$moduleName = \App\ModuleUtils::getModuleName($moduleId);
 $viewer->assign('RELATED_MODULE_NAME', $moduleName);
 
 // In template (after migration)
 {$RELATED_MODULE_NAME}
 ```
 
-**Note:** `App\Module::getModuleName()` currently proxies to vtlib internally. Long-term: use `ModuleManagement\Services\ModuleService::getModuleName()` once implemented.
+**Note:** `App\ModuleUtils::getModuleName()` currently proxies to vtlib internally. Long-term: use `ModuleManagement\Services\ModuleService::getModuleName()` once implemented.
 
 ---
 
 #### `vtlib\Functions::getModuleId($moduleName)`
 
-**Current Alternative:** `App\Module::getModuleId($moduleName)`
+**Current Alternative:** `App\ModuleUtils::getModuleId($moduleName)`
 
 **Template Usage:**
 ```smarty
@@ -114,7 +114,7 @@ $viewer->assign('RELATED_MODULE_NAME', $moduleName);
 **Controller Migration:**
 ```php
 // In controller
-$moduleId = \App\Module::getModuleId('Home');
+$moduleId = \App\ModuleUtils::getModuleId('Home');
 $viewer->assign('HOME_MODULE_ID', $moduleId);
 
 // In template (after migration)
@@ -125,7 +125,7 @@ $viewer->assign('HOME_MODULE_ID', $moduleId);
 
 #### `vtlib\Functions::getAllModules($includeInactive, $onlyActive, $tabId, $restricted, $presence)`
 
-**Current Alternative:** `App\Module::getAllEntityModuleInfo($sort = false)`
+**Current Alternative:** `App\ModuleUtils::getAllEntityModuleInfo($sort = false)`
 
 **Template Usage:**
 ```smarty
@@ -135,7 +135,7 @@ $viewer->assign('HOME_MODULE_ID', $moduleId);
 **Controller Migration:**
 ```php
 // In controller
-$allModules = \App\Module::getAllEntityModuleInfo(true); // true = sorted
+$allModules = \App\ModuleUtils::getAllEntityModuleInfo(true); // true = sorted
 $viewer->assign('ALL_MODULES', $allModules);
 
 // In template (after migration)
@@ -144,7 +144,7 @@ $viewer->assign('ALL_MODULES', $allModules);
 
 **Note:** `getAllEntityModuleInfo()` returns different structure. Filter active modules in controller:
 ```php
-$allModules = \App\Module::getAllEntityModuleInfo(true);
+$allModules = \App\ModuleUtils::getAllEntityModuleInfo(true);
 $activeModules = array_filter($allModules, function($module) {
     return isset($module['presence']) && $module['presence'] == 0;
 });
@@ -426,88 +426,6 @@ class Currency
 
 ---
 
-#### `vtlib\Functions::getMaxUploadSize()`
-
-**Current Alternative:** ✅ **Migrated** - Data prepared in controllers
-
-**Status:** No longer used in templates. Controllers prepare upload limit data.
-
-**Template Usage (Legacy):**
-```smarty
-{assign var=MAXUPLOADSIZE value=vtlib\Functions::getMaxUploadSize()}
-```
-
-**Controller Migration:**
-```php
-// In controller - prepare all upload limit data
-$maxUploadBytes = min(
-    \App\Modules\Base\Helpers\Util::parseHumanReadableToBytes(ini_get('upload_max_filesize')),
-    \App\Modules\Base\Helpers\Util::parseHumanReadableToBytes(ini_get('post_max_size'))
-);
-$maxUploadSizeHuman = \App\Modules\Base\Helpers\Util::formatBytesToHumanReadable($maxUploadBytes);
-$isUploadLimitTooSmall = $maxUploadBytes < 5242880; // 5MB in bytes
-
-$viewer->assign('MAX_UPLOAD_SIZE_BYTES', $maxUploadBytes);
-$viewer->assign('MAX_UPLOAD_SIZE_HUMAN', $maxUploadSizeHuman);
-$viewer->assign('MAX_UPLOAD_SIZE_TOO_SMALL', $isUploadLimitTooSmall);
-
-// In template (after migration)
-{if $MAX_UPLOAD_SIZE_TOO_SMALL}
-    <div class="alert">Upload limit: {$MAX_UPLOAD_SIZE_HUMAN}</div>
-{/if}
-```
-
-**Note:** `getMaxUploadSize()` returns size in MB (from vglobal). For actual PHP limits, use `parseHumanReadableToBytes()` with `ini_get()` as shown above.
-
-**Examples:**
-- `ModuleImport::importUserModuleStep1()` - prepares upload limits for module import
-- `ConfigEditorEdit::process()` - prepares upload limits for config editor
-
----
-
-#### `vtlib\Functions::showBytes($bytes, &$unit = null)`
-
-**Current Alternative:** ✅ **Implemented & Migrated** - `App\Modules\Base\Helpers\Util::formatBytesToHumanReadable($bytes, &$unit = null)`
-
-**Status:** No longer used in templates. Controllers prepare formatted values.
-
-**Location:** `App\Modules\Base\Helpers\Util::formatBytesToHumanReadable()`
-
-**Rationale:** 
-- `App\Modules\Base\Helpers\Util` already contains `getMaxUploadSize()` (line 241)
-- Both functions are related to file/upload size formatting
-- Keeps related functionality together
-- No need to create a new class
-
-**Template Usage (Legacy):**
-```smarty
-{vtlib\Functions::showBytes($MAXUPLOADSIZE)}
-{\App\Modules\Base\Helpers\Util::formatBytesToHumanReadable($MAXUPLOADSIZE)}
-```
-
-**Modern Usage (Controller prepares data):**
-```php
-// In controller - prepare formatted value
-$maxUploadBytes = min(
-    \App\Modules\Base\Helpers\Util::parseHumanReadableToBytes(ini_get('upload_max_filesize')),
-    \App\Modules\Base\Helpers\Util::parseHumanReadableToBytes(ini_get('post_max_size'))
-);
-$humanReadable = \App\Modules\Base\Helpers\Util::formatBytesToHumanReadable($maxUploadBytes);
-$viewer->assign('MAX_UPLOAD_SIZE_HUMAN', $humanReadable);
-
-// In template - just use the prepared variable
-{$MAX_UPLOAD_SIZE_HUMAN}
-```
-
-**Related Function:**
-- `App\Modules\Base\Helpers\Util::parseHumanReadableToBytes($str)` - Converts human-readable strings (e.g., "128M", "2G") to numeric bytes
-
-**Examples:**
-- `ModuleImport::importUserModuleStep1()` - prepares `MAX_UPLOAD_SIZE_HUMAN` for display
-- `ConfigEditorEdit::process()` - prepares `MAX_UPLOAD_SIZE_HUMAN` for config editor
-
----
-
 ### Text Sanitization & Formatting Functions
 
 #### `vtlib\Functions::removeHtmlTags($tags, $html)`
@@ -749,11 +667,9 @@ class Language
 | `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Settings/Workflows/Tasks/VTCreateTodoTask.tpl` | `vtlib\Functions::getArrayFromValue()` | Parse multi-value workflow field |
 | `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Settings/Users/ColorsContent.tpl` | `vtlib\Functions::getModuleName()` | Resolve module label in color grid |
 | `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Settings/Menu/types/HomeIcon.tpl` | `vtlib\Functions::getModuleId()` | Hidden input with module id |
-| `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Settings/ModuleManager/ImportUserModuleStep1.tpl` | ✅ **Migrated** - Uses controller-prepared `MAX_UPLOAD_SIZE_HUMAN` | Show upload limit warning |
 | `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Settings/PDF/Step2.tpl` | `vtlib\Language::getAll()` | Load language list |
 | `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Settings/LangManagement/EditHelpIcon.tpl` | `\vtlib\Functions::getAllModules()` | Iterate modules for help icons |
 | `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Settings/CustomView/IndexContents.tpl` | `vtlib\Functions::getOwnerRecordLabel()` | Show creator label |
-| `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Settings/Base/ConfigEditorEdit.tpl` | ✅ **Migrated** - Uses controller-prepared `MAX_UPLOAD_SIZE_HUMAN` | Display PHP upload limits |
 | `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/OSSMail/MailActionBarRow.tpl` | `vtlib\Functions::textLength()` | Truncate link labels |
 | `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/OSSTimeControl/RelatedSummary.tpl` | `vtlib\Functions::decimalTimeFormat()` | Render total time summary |
 | `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Import/Import_Step4.tpl` | `\vtlib\Functions::textLength()` | Truncate imported values |

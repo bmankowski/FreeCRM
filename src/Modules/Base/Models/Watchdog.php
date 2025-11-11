@@ -45,7 +45,7 @@ class Watchdog extends \App\Runtime\BaseModel
 		$moduleId = false;
 		if (is_numeric($moduleName)) {
 			$moduleId = $moduleName;
-			$moduleName = \App\Module::getModuleName($moduleName);
+			$moduleName = \App\Utils\ModuleUtils::getModuleName($moduleName);
 		}
 		if (empty($userId)) {
 			$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
@@ -57,7 +57,7 @@ class Watchdog extends \App\Runtime\BaseModel
 		$modelClassName = \App\Loader::getComponentClassName('Model', 'Watchdog', $moduleName);
 		$instance = new $modelClassName();
 		$instance->set('module', $moduleName);
-		$instance->set('moduleId', $moduleId ? $moduleId : \App\Module::getModuleId($moduleName));
+		$instance->set('moduleId', $moduleId ? $moduleId : \App\Utils\ModuleUtils::getModuleId($moduleName));
 		$instance->set('userId', $userId);
 		if (static::$cache === false) {
 			static::$cache = require static::$cacheFile;
@@ -191,7 +191,7 @@ class Watchdog extends \App\Runtime\BaseModel
 		$data['modules'] = explode(',', $data['modules']);
 		if ($isName) {
 			foreach ($data['modules'] as $key => &$moduleId) {
-				$moduleId = \App\Module::getModuleName($moduleId);
+				$moduleId = \App\Utils\ModuleUtils::getModuleName($moduleId);
 			}
 		}
 		\App\Cache\Cache::save('getWatchingModulesSchedule', $cacheName, $data);
@@ -394,7 +394,7 @@ class Watchdog extends \App\Runtime\BaseModel
 		$exceptions = (new \App\Db\Query())
 				->select(['exceptions'])
 				->from('u_#__watchdog_module')
-				->where(['module' => \App\Module::getModuleId($this->get('module')), 'member' => $member])->scalar();
+				->where(['module' => \App\Utils\ModuleUtils::getModuleId($this->get('module')), 'member' => $member])->scalar();
 		return explode(',', $exceptions);
 	}
 

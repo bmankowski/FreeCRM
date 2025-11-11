@@ -86,7 +86,7 @@ class ListView extends \App\Runtime\BaseModel
 		if (!empty($orderBy) && $orderBy === 'smownerid') {
 			$fieldModel = \App\Modules\Base\Models\Field::getInstance('assigned_user_id', $moduleModel);
 			if ($fieldModel->getFieldDataType() == 'owner') {
-				$orderBy = 'COALESCE(' . \App\Module::getSqlForNameInDisplayFormat('Users') . ',vtiger_groups.groupname)';
+				$orderBy = 'COALESCE(' . \App\Utils\ModuleUtils::getSqlForNameInDisplayFormat('Users') . ',vtiger_groups.groupname)';
 			}
 		}
 		if (!empty($orderBy)) {

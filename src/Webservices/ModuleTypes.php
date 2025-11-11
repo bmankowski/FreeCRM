@@ -58,7 +58,7 @@ function vtws_listtypes($fieldTypeList, $user)
 			$it = new SqlResultIterator($db, $result);
 			$moduleList = [];
 			foreach ($it as $row) {
-				$moduleList[] = \App\Module::getModuleName($row->tabid);
+				$moduleList[] = \App\Utils\ModuleUtils::getModuleName($row->tabid);
 			}
 			$allModuleNames = array_intersect($moduleList, $allModuleNames);
 

@@ -40,7 +40,7 @@ class Queue extends \App\Base\Controllers\BaseActionController
 		}
 		\App\Db::getInstance()->createCommand()->insert('vtiger_import_queue', [
 			'userid' => $user->id,
-			'tabid' => \App\Module::getModuleId($request->get('module')),
+			'tabid' => \App\Utils\ModuleUtils::getModuleId($request->get('module')),
 			'field_mapping' => \App\Json::encode($request->get('field_mapping')),
 			'default_values' => \App\Json::encode($request->get('default_values')),
 			'merge_type' => $request->get('merge_type'),
@@ -88,7 +88,7 @@ class Queue extends \App\Base\Controllers\BaseActionController
 	 */
 	public static function getImportInfo($module, $user)
 	{
-		$rowData = (new \App\Db\Query())->from('vtiger_import_queue')->where(['tabid' => \App\Module::getModuleId($module), 'userid' => $user->id])->one();
+		$rowData = (new \App\Db\Query())->from('vtiger_import_queue')->where(['tabid' => \App\Utils\ModuleUtils::getModuleId($module), 'userid' => $user->id])->one();
 		if ($rowData) {
 			return self::getImportInfoFromResult($rowData);
 		}
@@ -140,7 +140,7 @@ class Queue extends \App\Base\Controllers\BaseActionController
 	{
 		return [
 			'id' => $rowData['importid'],
-			'module' => \App\Module::getModuleName($rowData['tabid']),
+			'module' => \App\Utils\ModuleUtils::getModuleName($rowData['tabid']),
 			'field_mapping' => \App\Json::decode($rowData['field_mapping']),
 			'default_values' => \App\Json::decode($rowData['default_values']),
 			'merge_type' => $rowData['merge_type'],

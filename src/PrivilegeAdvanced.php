@@ -52,7 +52,7 @@ class PrivilegeAdvanced
 		if (static::$cache === false) {
 			static::$cache = require static::$cacheFile;
 		}
-		$tabid = Module::getModuleId($moduleName);
+		$tabid = \App\Utils\ModuleUtils::getModuleId($moduleName);
 		return isset(static::$cache[$tabid]) ? static::$cache[$tabid] : false;
 	}
 

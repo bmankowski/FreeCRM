@@ -30,7 +30,7 @@ class OpenTickets  extends \App\Modules\Base\Views\Index
 		$moduleName = 'HelpDesk';
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$query = new \App\Db\Query();
-		$userNameSql = \App\Module::getSqlForNameInDisplayFormat('Users');
+		$userNameSql = \App\Utils\ModuleUtils::getSqlForNameInDisplayFormat('Users');
 		$query->select(['count' => new \yii\db\Expression('COUNT(*)'),
 				'name' => new \yii\db\Expression("CASE WHEN ($userNameSql NOT LIKE '') THEN $userNameSql ELSE vtiger_groups.groupname END"),
 				'color' => new \yii\db\Expression("CASE WHEN ($userNameSql NOT LIKE '') THEN

@@ -70,7 +70,7 @@ class CustomRecordNumberingModule extends \App\Modules\Base\Models\Module
 	{
 		$prefix = $this->get('prefix');
 		$postfix = $this->get('postfix');
-		$tabId = \App\Module::getModuleId($this->getName());
+		$tabId = \App\Utils\ModuleUtils::getModuleId($this->getName());
 		$status = \App\Fields\RecordNumber::setNumber($tabId, $prefix, $this->get('sequenceNumber'), $postfix);
 		$success = ['success' => $status];
 		if (!$status) {

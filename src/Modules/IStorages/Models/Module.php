@@ -101,7 +101,7 @@ class Module extends \App\Modules\Base\Models\Module
 		foreach (self::$modulesToCalculate as $type => $modules) {
 			$sql = [];
 			foreach ($modules as $moduleName) {
-				if (\App\Module::isModuleActive($moduleName) === false) {
+				if (\App\Utils\ModuleUtils::isModuleActive($moduleName) === false) {
 					continue;
 				}
 				$inventoryTableName = \App\Modules\Base\Models\InventoryField::getInstance($moduleName)->getTableName();

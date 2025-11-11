@@ -62,7 +62,7 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 		$qualifiedModuleName = $request->getModule(false);
 		$record = $request->get('record');
 		$recordModel = \App\Modules\Settings\AdvancedPermission\Models\Record::getInstance($record);
-		$selectedModule = \App\Module::getModuleName($recordModel->get('tabid'));
+		$selectedModule = \App\Utils\ModuleUtils::getModuleName($recordModel->get('tabid'));
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($selectedModule);
 		$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceForModule($moduleModel);
 

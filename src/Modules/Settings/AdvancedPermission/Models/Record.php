@@ -111,7 +111,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		}
 		\App\PrivilegeAdvanced::reloadCache();
 		if ($this->has('conditions')) {
-			\App\Privilege::setUpdater(\App\Module::getModuleName($this->get('tabid')));
+			\App\Privilege::setUpdater(\App\Utils\ModuleUtils::getModuleName($this->get('tabid')));
 		}
 	}
 
@@ -125,7 +125,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		$value = $this->get($key);
 		switch ($key) {
 			case 'tabid':
-				$value = \App\Module::getModuleName($value);
+				$value = \App\Utils\ModuleUtils::getModuleName($value);
 				break;
 			case 'status':
 				if (isset(\App\Modules\Settings\AdvancedPermission\Models\Module::$status[$value])) {
@@ -183,7 +183,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			->execute();
 		\App\PrivilegeAdvanced::reloadCache();
 		if ($this->has('conditions')) {
-			\App\Privilege::setUpdater(\App\Module::getModuleName($this->get('tabid')));
+			\App\Privilege::setUpdater(\App\Utils\ModuleUtils::getModuleName($this->get('tabid')));
 		}
 	}
 

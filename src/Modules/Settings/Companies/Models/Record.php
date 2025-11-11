@@ -110,7 +110,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 				$value = $this->getDisplayCheckboxValue($value);
 				break;
 			case 'tabid':
-				$value = \App\Module::getModuleName($value);
+				$value = \App\Utils\ModuleUtils::getModuleName($value);
 				break;
 			case 'industry':
 				$value = \App\Runtime\Vtiger_Language_Handler::translate($value);

@@ -238,7 +238,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 				->createCommand()->query();
 		$widgets = [];
 		while ($row = $dataReader->read()) {
-			$moduleName = \App\Module::getModuleName($row['tabid']);
+			$moduleName = \App\Utils\ModuleUtils::getModuleName($row['tabid']);
 			$widgets[$moduleName][] = \App\Modules\Base\Models\Widget::getInstanceFromValues($row);
 		}
 		\App\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::getSelectableDashboard() method ...");
@@ -293,7 +293,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	{
 		\App\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::addBlock(" . $data . ", " . $moduleName . ") method ...");
 		$db = \App\Db::getInstance();
-		$tabId = \App\Module::getModuleId($moduleName);
+		$tabId = \App\Utils\ModuleUtils::getModuleId($moduleName);
 		$db->createCommand()
 			->insert('vtiger_module_dashboard_blocks', [
 				'authorized' => $data['authorized'],
@@ -355,7 +355,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 				'owners' => $owners,
 				'isdefault' => $data['isdefault'],
 				'active' => $active,
-				'module' => \App\Module::getModuleId($moduleName),
+				'module' => \App\Utils\ModuleUtils::getModuleId($moduleName),
 				'cache' => $data['cache'],
 				'date' => $data['default_date'],
 				'dashboardid' => empty($data['dashboardId']) ? self::getDefaultDashboard() : $data['dashboardId']
@@ -389,7 +389,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	public static function getBlocksFromModule($moduleName, $authorized = '', $dashboard)
 	{
 		\App\Log::trace('getBlocksFromModule(' . $moduleName . ', ' . $authorized . ') method ...');
-		$tabId = \App\Module::getModuleId($moduleName);
+		$tabId = \App\Utils\ModuleUtils::getModuleId($moduleName);
 		$data = [];
 		if ($dashboard === false)
 			$dashboard = null;
@@ -409,7 +409,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	public static function getSpecialWidgets($moduleName)
 	{
 		\App\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::getSpecialWidgets($moduleName) method ...");
-		$tabId = \App\Module::getModuleId($moduleName);
+		$tabId = \App\Utils\ModuleUtils::getModuleId($moduleName);
 		$query = (new \App\Db\Query())->from('vtiger_links')
 			->where(['tabid' => $tabId, 'linklabel' => self::getWidgetSpecial()]);
 		$dataReader = $query->createCommand()->query();
@@ -428,7 +428,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	public function getDashboardForModule($moduleName)
 	{
 		\App\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::getDashboardForModule(" . $moduleName . ") method ...");
-		$tabId = \App\Module::getModuleId($moduleName);
+		$tabId = \App\Utils\ModuleUtils::getModuleId($moduleName);
 		$data = [];
 		$dataReader = (new \App\Db\Query())->select([
 					'mdw.blockid', 'mdw.data', 'mdw.title', 'mdw.filterid', 'mdw.id',

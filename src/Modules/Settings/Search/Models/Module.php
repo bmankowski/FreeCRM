@@ -82,7 +82,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	public static function updateLabels($params)
 	{
-		$moduleName = \App\Module::getModuleName((int) $params['tabid']);
+		$moduleName = \App\Utils\ModuleUtils::getModuleName((int) $params['tabid']);
 		$db = \App\Db::getInstance();
 		$db->createCommand()->update('u_#__crmentity_search_label', ['searchlabel' => ''], ['setype' => $moduleName])->execute();
 		$subQuery = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['setype' => $moduleName]);

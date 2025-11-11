@@ -56,7 +56,7 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 				'related' => 'Charts'
 			];
 		}
-		$showPSTab = (!\App\AppConfig::module($moduleName, 'HIDE_SUMMARY_PRODUCTS_SERVICES')) && (\App\Module::isModuleActive('Products') || \App\Module::isModuleActive('Services') || \App\Module::isModuleActive('Assets') || \App\Module::isModuleActive('OSSSoldServices'));
+		$showPSTab = (!\App\AppConfig::module($moduleName, 'HIDE_SUMMARY_PRODUCTS_SERVICES')) && (\App\Utils\ModuleUtils::isModuleActive('Products') || \App\Utils\ModuleUtils::isModuleActive('Services') || \App\Utils\ModuleUtils::isModuleActive('Assets') || \App\Utils\ModuleUtils::isModuleActive('OSSSoldServices'));
 		if ($showPSTab) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',

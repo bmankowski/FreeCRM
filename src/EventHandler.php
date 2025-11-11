@@ -346,7 +346,7 @@ class EventHandler
 		if (!$isExists) {
 			$db->createCommand()
 				->insert('s_#__handler_updater', [
-					'tabid' => Module::getModuleId($this->getModuleName()),
+					'tabid' => \App\Utils\ModuleUtils::getModuleId($this->getModuleName()),
 					'crmid' => $this->getRecordModel()->getId(),
 					'userid' => \App\Modules\Users\Models\Record::getCurrentUserId(),
 					'handler_name' => $name,

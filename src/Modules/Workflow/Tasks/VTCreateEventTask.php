@@ -58,7 +58,7 @@ class VTCreateEventTask extends \App\Modules\Workflow\VTTask
 	 */
 	public function doTask($recordModel)
 	{
-		if (!\App\Module::isModuleActive('Calendar')) {
+		if (!\App\Utils\ModuleUtils::isModuleActive('Calendar')) {
 			return;
 		}
 		$currentUser = \App\User\CurrentUser::get();

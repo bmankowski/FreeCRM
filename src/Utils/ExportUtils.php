@@ -19,7 +19,7 @@ class ExportUtils
 
 		\App\Log::trace("Entering into the function getPermittedBlocks($module, $disp_view)");
 
-		$tabid = \App\Module::getModuleId($module);
+		$tabid = \App\Utils\ModuleUtils::getModuleId($module);
 		$block_detail = [];
 		$query = "select blockid,blocklabel,show_title from vtiger_blocks where tabid=? and $disp_view=0 and visible = 0 order by sequence";
 		$result = $adb->pquery($query, array($tabid));
@@ -50,7 +50,7 @@ class ExportUtils
 
 		// To get the permitted blocks
 		$blockid_list = self::getPermittedBlocks($module, $disp_view);
-		$tabid = \App\Module::getModuleId($module);
+		$tabid = \App\Utils\ModuleUtils::getModuleId($module);
 
 		$currentUser = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if ($module === 'Users') {

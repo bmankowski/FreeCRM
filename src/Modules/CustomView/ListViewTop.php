@@ -52,7 +52,7 @@ function getMetricList($filters = [])
 
 	$metriclists = [];
 	while ($row = $db->getRow($result)) {
-		if (\App\Module::isModuleActive($row['entitytype'])) {
+		if (\App\Utils\ModuleUtils::isModuleActive($row['entitytype'])) {
 			if (\App\Modules\Users\Models\Privileges::isPermitted($row['entitytype'])) {
 				$metriclists[] = [
 					'id' => $row['cvid'],

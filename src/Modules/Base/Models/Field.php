@@ -180,7 +180,7 @@ class Field extends \vtlib\Field
 				if (is_string($moduleObj)) {
 					$moduleName = $moduleObj;
 				} elseif (is_numeric($moduleObj)) {
-					$moduleName = \App\Module::getModuleName((int) $moduleObj);
+					$moduleName = \App\Utils\ModuleUtils::getModuleName((int) $moduleObj);
 				}
 
 				if ($moduleName) {
@@ -1261,7 +1261,7 @@ class Field extends \vtlib\Field
 			return $fieldModel;
 		}
 		$field = \App\Field::getFieldInfo($fieldId);
-		$className = \App\Loader::getComponentClassName('Model', 'Field', \App\Module::getModuleName($field['tabid']));
+		$className = \App\Loader::getComponentClassName('Model', 'Field', \App\Utils\ModuleUtils::getModuleName($field['tabid']));
 		$fieldModel = new $className();
 		$fieldModel->initialize($field);
 		\App\Cache\Cache::save('FieldModel', $fieldId, $fieldModel);

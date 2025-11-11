@@ -19,6 +19,6 @@ class RecordNumber extends BaseUiType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		return \App\Fields\RecordNumber::incrementNumber(\App\Module::getModuleId($recordModel->getModuleName()));
+		return \App\Fields\RecordNumber::incrementNumber(\App\Utils\ModuleUtils::getModuleId($recordModel->getModuleName()));
 	}
 }

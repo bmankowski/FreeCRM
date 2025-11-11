@@ -34,7 +34,7 @@ class VTCreateEntityTask extends VTTask
 		$moduleName = $recordModel->getModuleName();
 		$recordId = $recordModel->getId();
 		$entityType = $this->entity_type;
-		if (!\App\Module::isModuleActive($entityType)) {
+		if (!\App\Utils\ModuleUtils::isModuleActive($entityType)) {
 			return;
 		}
 		$fieldValueMapping = [];

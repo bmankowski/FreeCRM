@@ -190,14 +190,14 @@ class Block extends \vtlib\Block
 			} elseif (is_string($moduleRef)) {
 				$moduleName = $moduleRef;
 			} elseif (is_numeric($moduleRef)) {
-				$moduleName = \App\Module::getModuleName((int) $moduleRef);
+				$moduleName = \App\Utils\ModuleUtils::getModuleName((int) $moduleRef);
 			}
 		}
 		if (!$moduleName && isset($blockObject->module) && isset($blockObject->module->id)) {
-			$moduleName = \App\Module::getModuleName((int) $blockObject->module->id);
+			$moduleName = \App\Utils\ModuleUtils::getModuleName((int) $blockObject->module->id);
 		}
 		if (!$moduleName && isset($blockObject->tabid)) {
-			$moduleName = \App\Module::getModuleName((int) $blockObject->tabid);
+			$moduleName = \App\Utils\ModuleUtils::getModuleName((int) $blockObject->tabid);
 		}
 
 		try {

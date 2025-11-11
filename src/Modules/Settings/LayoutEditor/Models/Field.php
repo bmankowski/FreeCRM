@@ -239,7 +239,7 @@ class Field extends \App\Modules\Base\Models\Field
 		}
 
 		if (!$moduleName && $this->getModuleId()) {
-			$moduleName = \App\Module::getModuleName($this->getModuleId());
+			$moduleName = \App\Utils\ModuleUtils::getModuleName($this->getModuleId());
 		}
 
 		if ($moduleName && in_array($moduleName, ['Calendar', 'Events'], true)) {

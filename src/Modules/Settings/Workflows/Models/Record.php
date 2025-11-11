@@ -369,11 +369,11 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		$skipFieldsList = [];
 		while ($row = $dataReader->read()) {
 			$fieldName = $row['fieldname'];
-			$tabModuleName = \App\Module::getModuleName($row['tabid']);
+			$tabModuleName = \App\Utils\ModuleUtils::getModuleName($row['tabid']);
 			if (in_array($tabModuleName, $filterModules))
 				continue;
 			if ($row['reference_module'] == $moduleName && $tabModuleName != $moduleName) {
-				if (!\App\Module::isModuleActive($tabModuleName))
+				if (!\App\Utils\ModuleUtils::isModuleActive($tabModuleName))
 					continue;
 				$dependentFields[$tabModuleName] = ['fieldname' => $fieldName, 'modulelabel' => \App\Runtime\Vtiger_Language_Handler::translate($tabModuleName, $tabModuleName)];
 			} else {

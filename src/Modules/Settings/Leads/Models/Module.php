@@ -42,7 +42,7 @@ class Module extends \App\Modules\Base\Models\Module
 	public function getMappingSupportedFieldIdsList()
 	{
 		if (empty($this->supportedFieldIdsList)) {
-			$selectedTabidsList[] = \App\Module::getModuleId($this->getName());
+			$selectedTabidsList[] = \App\Utils\ModuleUtils::getModuleId($this->getName());
 			$presense = [0, 2];
 			$restrictedFieldNames = ['campaignrelstatus'];
 			$restrictedUitypes = $this->getRestrictedUitypes();

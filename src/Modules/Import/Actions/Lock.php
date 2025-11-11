@@ -37,7 +37,7 @@ class Lock extends \App\Base\Controllers\BaseActionController
 				locked_since DATETIME)", true);
 		}
 
-		$adb->pquery('INSERT INTO vtiger_import_locks VALUES(?,?,?,?,?)', array($adb->getUniqueID('vtiger_import_locks'), $user->id, \App\Module::getModuleId($module), $importId, date('Y-m-d H:i:s')));
+		$adb->pquery('INSERT INTO vtiger_import_locks VALUES(?,?,?,?,?)', array($adb->getUniqueID('vtiger_import_locks'), $user->id, \App\Utils\ModuleUtils::getModuleId($module), $importId, date('Y-m-d H:i:s')));
 	}
 
 	public static function unLock($user, $module = false)
@@ -48,7 +48,7 @@ class Lock extends \App\Base\Controllers\BaseActionController
 			$params = array(method_exists($user, 'get') ? $user->get('id') : $user->id);
 			if ($module != false) {
 				$query .= ' && tabid=?';
-				array_push($params, \App\Module::getModuleId($module));
+				array_push($params, \App\Utils\ModuleUtils::getModuleId($module));
 			}
 			$adb->pquery($query, $params);
 		}
@@ -59,7 +59,7 @@ class Lock extends \App\Base\Controllers\BaseActionController
 		$adb = \App\Database\PearDatabase::getInstance();
 
 		if (\vtlib\Utils::CheckTable('vtiger_import_locks')) {
-			$lockResult = $adb->pquery('SELECT * FROM vtiger_import_locks WHERE tabid=?', array(\App\Module::getModuleId($module)));
+			$lockResult = $adb->pquery('SELECT * FROM vtiger_import_locks WHERE tabid=?', array(\App\Utils\ModuleUtils::getModuleId($module)));
 
 			if ($lockResult && $adb->num_rows($lockResult) > 0) {
 				$lockInfo = $adb->query_result_rowdata($lockResult, 0);

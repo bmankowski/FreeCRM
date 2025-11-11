@@ -122,7 +122,7 @@ abstract class Basic extends \App\Base\Controllers\BaseViewController
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
 
-		if ($activeReminder = \App\Module::isModuleActive('Calendar')) {
+		if ($activeReminder = \App\Utils\ModuleUtils::isModuleActive('Calendar')) {
 			$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 			$activeReminder = $userPrivilegesModel->hasModulePermission('Calendar');
 		}
@@ -148,7 +148,7 @@ abstract class Basic extends \App\Base\Controllers\BaseViewController
 		if (\App\AppConfig::search('GLOBAL_SEARCH_SELECT_MODULE')) {
 			$viewer->assign('SEARCHED_MODULE', $selectedModule);
 		}
-		$viewer->assign('CHAT_ACTIVE', \App\Module::isModuleActive('AJAXChat'));
+		$viewer->assign('CHAT_ACTIVE', \App\Utils\ModuleUtils::isModuleActive('AJAXChat'));
 		$viewer->assign('REMINDER_ACTIVE', $activeReminder);
 		// MainLayout handles rendering, no separate preProcess template needed
 	}

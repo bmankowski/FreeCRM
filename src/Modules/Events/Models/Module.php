@@ -32,7 +32,7 @@ class Module extends \App\Modules\Base\Models\Module
 	 */
 	public function getNameFields()
 	{
-		$entityInfo = \App\Module::getEntityInfo('Calendar');
+		$entityInfo = \App\Utils\ModuleUtils::getEntityInfo('Calendar');
 		return $entityInfo['fieldnameArr'];
 	}
 }

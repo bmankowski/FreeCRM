@@ -68,10 +68,10 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 		];
 
 		if ($moduleName === 'Leads') {
-			$showPSTab = (!\App\AppConfig::module($moduleName, 'HIDE_SUMMARY_PRODUCTS_SERVICES')) && (\App\Module::isModuleActive('OutsourcedProducts') || \App\Module::isModuleActive('Products') || \App\Module::isModuleActive('Services') || \App\Module::isModuleActive('OSSOutsourcedServices'));
+			$showPSTab = (!\App\AppConfig::module($moduleName, 'HIDE_SUMMARY_PRODUCTS_SERVICES')) && (\App\Utils\ModuleUtils::isModuleActive('OutsourcedProducts') || \App\Utils\ModuleUtils::isModuleActive('Products') || \App\Utils\ModuleUtils::isModuleActive('Services') || \App\Utils\ModuleUtils::isModuleActive('OSSOutsourcedServices'));
 		}
 		if ($moduleName === 'Accounts') {
-			$showPSTab = (!\App\AppConfig::module($moduleName, 'HIDE_SUMMARY_PRODUCTS_SERVICES')) && (\App\Module::isModuleActive('OutsourcedProducts') || \App\Module::isModuleActive('Products') || \App\Module::isModuleActive('Services') || \App\Module::isModuleActive('OSSOutsourcedServices') || \App\Module::isModuleActive('Assets') || \App\Module::isModuleActive('OSSSoldServices'));
+			$showPSTab = (!\App\AppConfig::module($moduleName, 'HIDE_SUMMARY_PRODUCTS_SERVICES')) && (\App\Utils\ModuleUtils::isModuleActive('OutsourcedProducts') || \App\Utils\ModuleUtils::isModuleActive('Products') || \App\Utils\ModuleUtils::isModuleActive('Services') || \App\Utils\ModuleUtils::isModuleActive('OSSOutsourcedServices') || \App\Utils\ModuleUtils::isModuleActive('Assets') || \App\Utils\ModuleUtils::isModuleActive('OSSSoldServices'));
 		}
 		if ('Contacts' != $moduleName && $showPSTab) {
 			$relatedLinks[] = array(

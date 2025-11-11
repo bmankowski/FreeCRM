@@ -301,7 +301,7 @@ class Activity extends \App\CRMEntity
 		require('user_privileges/user_privileges_' . $user->id . '.php');
 		require('user_privileges/sharing_privileges_' . $user->id . '.php');
 		$query = ' ';
-		$tabId = \App\Module::getModuleId($module);
+		$tabId = \App\Utils\ModuleUtils::getModuleId($module);
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabId] == 3) {
 			$tableName = 'vt_tmp_u' . $user->id . '_t' . $tabId;
 			$sharingRuleInfoVariable = $module . '_share_read_permission';
@@ -341,7 +341,7 @@ class Activity extends \App\CRMEntity
 	{
 		$module = null;
 		if (!empty($tabId)) {
-			$module = \App\Module::getModuleName($tabId);
+			$module = \App\Utils\ModuleUtils::getModuleName($tabId);
 		}
 		$query = $this->getNonAdminAccessQuery($module, $user, $parentRole, $userGroups);
 		$query = "create temporary table IF NOT EXISTS $tableName(id int(11) primary key, shared " .
@@ -397,7 +397,7 @@ class Activity extends \App\CRMEntity
 		} else {
 			$dataReader = (new \App\Db\Query())->select(['name' => 'fieldname', 'id' => 'fieldid', 'label' => 'fieldlabel', 'column' => 'columnname', 'table' => 'tablename', 'vtiger_field.*'])
 					->from('vtiger_field')
-					->where(['uitype' => [66, 67, 68], 'tabid' => \App\Module::getModuleId($module)])
+					->where(['uitype' => [66, 67, 68], 'tabid' => \App\Utils\ModuleUtils::getModuleId($module)])
 					->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				$className = \App\Loader::getComponentClassName('Model', 'Field', $module);

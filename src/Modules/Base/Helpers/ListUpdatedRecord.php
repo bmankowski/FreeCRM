@@ -35,7 +35,7 @@ class ListUpdatedRecord {
 			$limit = 200;
 		}
 		$select = array_values($columnList);
-		$select['smownerid'] = \App\Module::getSqlForNameInDisplayFormat('Users');
+		$select['smownerid'] = \App\Utils\ModuleUtils::getSqlForNameInDisplayFormat('Users');
 		$dataReader = (new \App\Db\Query())->select($select)->from('vtiger_crmentity')
 			->leftJoin('u_#__crmentity_label', 'u_#__crmentity_label.crmid = vtiger_crmentity.crmid')
 			->innerJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')

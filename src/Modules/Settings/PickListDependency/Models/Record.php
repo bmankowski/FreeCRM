@@ -59,7 +59,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	public function getAllPickListFields()
 	{
 		
-		$tabId = \App\Module::getModuleId($this->get('sourceModule'));
+		$tabId = \App\Utils\ModuleUtils::getModuleId($this->get('sourceModule'));
 
 		$query = (new \App\Db\Query)->select(['vtiger_field.fieldlabel', 'vtiger_field.fieldname'])->from('vtiger_field')
 			->where(['displaytype' => 1, 'vtiger_field.tabid' => $tabId, 'vtiger_field.uitype' => [15, 16], 'vtiger_field.presence' => [0, 2]])
@@ -134,7 +134,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	private function loadFieldLabels()
 	{
-		$tabId = \App\Module::getModuleId($this->get('sourceModule'));
+		$tabId = \App\Utils\ModuleUtils::getModuleId($this->get('sourceModule'));
 		$fieldNames = array($this->get('sourcefield'), $this->get('targetfield'));
 		$dataReader = (new \App\Db\Query())->select(['fieldlabel', 'fieldname'])
 				->from('vtiger_field')

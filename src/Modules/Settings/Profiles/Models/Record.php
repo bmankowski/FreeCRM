@@ -882,7 +882,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			$db = \App\Database\PearDatabase::getInstance();
 			$userRecordModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 			$module = $userRecordModel->getModuleName();
-			$tabId = \App\Module::getModuleId($module);
+			$tabId = \App\Utils\ModuleUtils::getModuleId($module);
 			$userModuleModel = \App\Modules\Users\Models\Module::getInstance($module);
 			$moduleFields = $userModuleModel->getFields();
 

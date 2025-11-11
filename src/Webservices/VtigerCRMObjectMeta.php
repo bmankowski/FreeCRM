@@ -13,7 +13,7 @@ namespace App\Webservices;
 
 use App\Database\PearDatabase;
 use App\AppConfig;
-use App\Module;
+use App\Utils\ModuleUtils;
 use App\Field;
 use App\Record;
 use \App\Modules\Users\Models\Privileges;
@@ -67,7 +67,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 	public function getTabId()
 	{
 		if ($this->tabId === null) {
-			$this->tabId = Module::getModuleId($this->objectName);
+			$this->tabId = \App\Utils\ModuleUtils::getModuleId($this->objectName);
 		}
 		return $this->tabId;
 	}
@@ -79,7 +79,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 	 */
 	public function getEffectiveTabId()
 	{
-		return Module::getModuleId($this->getTabName());
+		return \App\Utils\ModuleUtils::getModuleId($this->getTabName());
 	}
 
 	public function getTabName()
@@ -93,7 +93,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 	private function computeAccess()
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
-		$active = Module::isModuleActive($this->getTabName());
+		$active = \App\Utils\ModuleUtils::isModuleActive($this->getTabName());
 		if ($active === false) {
 			$this->hasAccess = false;
 			$this->hasReadAccess = false;
@@ -428,7 +428,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 
 	public function getNameFields()
 	{
-		$data = Module::getEntityInfo(Module::getModuleName($this->getEffectiveTabId()));
+		$data = \App\Utils\ModuleUtils::getEntityInfo(\App\Utils\ModuleUtils::getModuleName($this->getEffectiveTabId()));
 		$fieldNames = '';
 		if ($data) {
 			$fieldNames = $data['fieldname'];

@@ -34,7 +34,7 @@ class PrivilegeQuery
 			}
 		}
 		$query = [];
-		$tabId = Module::getModuleId($moduleName);
+		$tabId = ModuleUtils::getModuleId($moduleName);
 		if ($userModel->is_admin === 'off' && $userModel->profile_global_permission[1] == 1 && $userModel->profile_global_permission[2] == 1 && $userModel->defaultOrgSharingPermission[$tabId] === 3) {
 
 			$query[] = "vtiger_crmentity.smownerid = '$userId'";
@@ -95,7 +95,7 @@ public static function getConditions(\App\Db\Query $query, $moduleName, $user = 
 				}
 			}
 		}
-		$tabId = Module::getModuleId($moduleName);
+		$tabId = ModuleUtils::getModuleId($moduleName);
 		if (!$userModel->isAdminUser() && $userModel->profile_global_permission[1] == 1 && $userModel->profile_global_permission[2] == 1 && $userModel->defaultOrgSharingPermission[$tabId] === 3) {
 			$conditions = ['or'];
 			$conditions[] = ['vtiger_crmentity.smownerid' => $userId];

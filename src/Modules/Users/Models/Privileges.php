@@ -25,7 +25,7 @@ class Privileges extends \App\Runtime\BaseModel
 	 */
 	public function getName()
 	{
-		$entityData = \App\Module::getEntityInfo('Users');
+		$entityData = \App\Utils\ModuleUtils::getEntityInfo('Users');
 		$colums = [];
 		foreach ($entityData['fieldnameArr'] as $fieldname) {
 			$colums[] = $this->get($fieldname);
@@ -437,7 +437,7 @@ class Privileges extends \App\Runtime\BaseModel
 								$relatedPermission = in_array($currentUserId, \App\Modules\Base\UiTypes\SharedOwner::getSharedOwners($id, $recordMetaData['setype']));
 								break;
 							case 2:
-								$permission = \App\Utils\UserInfoUtil::isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $id);
+								$permission = \App\Utils\UserInfoUtil::isPermittedBySharing($recordMetaData['setype'], \App\Utils\ModuleUtils::getModuleId($recordMetaData['setype']), $actionid, $id);
 								$relatedPermission = $permission == 'yes' ? true : false;
 								break;
 						}
@@ -474,7 +474,7 @@ class Privileges extends \App\Runtime\BaseModel
 								$relatedPermission = in_array($currentUserId, \App\Modules\Base\UiTypes\SharedOwner::getSharedOwners($id, $recordMetaData['setype']));
 								break;
 							case 2:
-								$permission = \App\Utils\UserInfoUtil::isPermittedBySharing($recordMetaData['setype'], \App\Module::getModuleId($recordMetaData['setype']), $actionid, $id);
+								$permission = \App\Utils\UserInfoUtil::isPermittedBySharing($recordMetaData['setype'], \App\Utils\ModuleUtils::getModuleId($recordMetaData['setype']), $actionid, $id);
 								$relatedPermission = $permission == 'yes' ? true : false;
 								break;
 						}

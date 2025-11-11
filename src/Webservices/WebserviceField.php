@@ -404,7 +404,7 @@ class WebserviceField
 				$elem = [];
 				$picklistValue = $db->query_result($result, $i, $fieldName);
 				$picklistValue = \App\Utils\ListViewUtils::decodeHtml($picklistValue);
-				$moduleName = \App\Module::getModuleName($this->getTabId());
+				$moduleName = \App\Utils\ModuleUtils::getModuleName($this->getTabId());
 				if ($moduleName == 'Events')
 					$moduleName = 'Calendar';
 				$elem["label"] = \App\Runtime\Vtiger_Language_Handler::translate($picklistValue, $moduleName);
@@ -417,7 +417,7 @@ class WebserviceField
 			for ($i = 0; $i < sizeof($details); ++$i) {
 				$elem = [];
 				$picklistValue = \App\Utils\ListViewUtils::decodeHtml($details[$i]);
-				$moduleName = \App\Module::getModuleName($this->getTabId());
+				$moduleName = \App\Utils\ModuleUtils::getModuleName($this->getTabId());
 				if ($moduleName == 'Events')
 					$moduleName = 'Calendar';
 				$elem["label"] = \App\Runtime\Vtiger_Language_Handler::translate($picklistValue, $moduleName);
@@ -443,7 +443,7 @@ class WebserviceField
 		$db = \App\Database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT module FROM vtiger_trees_templates WHERE templateid = ?', [$this->getFieldParams()]);
 		$module = $db->getSingleValue($result);
-		$moduleName = \App\Module::getModuleName($module);
+		$moduleName = \App\Utils\ModuleUtils::getModuleName($module);
 
 		$result = $db->pquery('SELECT tree,label FROM vtiger_trees_templates_data WHERE templateid = ?', [$this->getFieldParams()]);
 		while ($row = $db->fetch_array($result)) {

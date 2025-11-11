@@ -52,7 +52,7 @@ class ListView extends \App\Modules\Settings\Base\Models\ListView
 		}
 		$sourceModule = $this->get('sourceModule');
 		if (!empty($sourceModule)) {
-			$listQuery->where(['module' => \App\Module::getModuleId($sourceModule)]);
+			$listQuery->where(['module' => \App\Utils\ModuleUtils::getModuleId($sourceModule)]);
 		}
 
 

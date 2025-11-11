@@ -17,7 +17,7 @@ namespace App\Runtime;
 use App\Http\App\Http\Vtiger_Session;
 use App\Purifier;
 use App\Log;
-use App\Module;
+use App\Utils\ModuleUtils;
 
 class Vtiger_Language_Handler
 {
@@ -80,7 +80,7 @@ class Vtiger_Language_Handler
 
 		if (is_numeric($module)) {
 			// ok, we have a tab id, lets turn it into name
-			$module = Module::getModuleName($module);
+			$module = \App\Utils\ModuleUtils::getModuleName($module);
 		} else {
 			$module = str_replace(':', '.', $module);
 		}

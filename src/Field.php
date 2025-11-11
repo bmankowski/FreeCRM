@@ -68,7 +68,7 @@ class Field
 	{
 		$tabId = $tabMix;
 		if (!is_numeric($tabMix)) {
-			$tabId = Module::getModuleId($tabMix);
+			$tabId = \App\Utils\ModuleUtils::getModuleId($tabMix);
 		}
 		Log::trace('Entering ' . __METHOD__ . ": $tabId,$fieldMix");
 		if ($readOnly && isset(static::$fieldPermissionCacheRead[$tabId][$fieldMix])) {
@@ -118,7 +118,7 @@ class Field
 	{
 		$tabId = $tabMix;
 		if (!is_numeric($tabMix)) {
-			$tabId = Module::getModuleId($tabMix);
+			$tabId = \App\Utils\ModuleUtils::getModuleId($tabMix);
 		}
 		Log::trace('Entering ' . __METHOD__ . ": $tabId,$columnName");
 		if ($readOnly && isset(static::$columnPermissionCacheRead[$tabId][$columnName])) {

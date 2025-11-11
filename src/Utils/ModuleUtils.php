@@ -1,15 +1,28 @@
 <?php
-namespace App;
+namespace App\Utils;
 
 use App\Cache\Cache;
 
 /**
- * Modules basic class
+ * Module Utils - Utility class for module metadata operations
+ * 
+ * This is a static utility class providing helper methods for working with module metadata.
+ * It does NOT represent a specific module instance - use App\Modules\Base\Models\Module::getInstance()
+ * for that purpose.
+ * 
+ * All methods are static - no instantiation needed or possible.
+ * 
+ * Responsibilities:
+ * - Module ID/Name conversions (getModuleId, getModuleName)
+ * - Module entity info retrieval (getEntityInfo, getAllEntityModuleInfo)
+ * - Module status checks (isModuleActive)
+ * - Tab data access (getTabData)
+ * 
  * @package YetiForce.App
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Module
+class ModuleUtils
 {
 
 	protected static $moduleEntityCacheById = [];
@@ -104,7 +117,12 @@ class Module
 
 	public static function getModuleName($tabId)
 	{
-		return \vtlib\Functions::getModuleName($tabId);
+		$tabIdMap = static::getTabData('tabId');
+		if ($tabIdMap === false) {
+			return false;
+		}
+		$tabNameMap = array_flip($tabIdMap);
+		return isset($tabNameMap[$tabId]) ? $tabNameMap[$tabId] : false;
 	}
 
 	/**
@@ -156,3 +174,4 @@ class Module
 		return $formattedName;
 	}
 }
+

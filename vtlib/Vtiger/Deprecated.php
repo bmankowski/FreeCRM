@@ -20,7 +20,7 @@ class Deprecated
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 		$rowdata = $adb->query_result_rowdata($result, $row_count);
-		$entity_field_info = \App\Module::getEntityInfo($module);
+		$entity_field_info = \App\Utils\ModuleUtils::getEntityInfo($module);
 		$fieldsName = $entity_field_info['fieldname'];
 		$name = '';
 		if ($rowdata != '' && count($rowdata) > 0) {
@@ -32,7 +32,7 @@ class Deprecated
 
 	public static function getFullNameFromArray($module, $fieldValues)
 	{
-		$entityInfo = \App\Module::getEntityInfo($module);
+		$entityInfo = \App\Utils\ModuleUtils::getEntityInfo($module);
 		$fieldsName = $entityInfo['fieldname'];
 		$displayName = self::getCurrentUserEntityFieldNameDisplay($module, $fieldsName, $fieldValues);
 		return $displayName;
@@ -296,7 +296,7 @@ class Deprecated
 
 	public static function getSqlForNameInDisplayFormat($input, $module, $glue = ' ')
 	{
-		$entityFieldInfo = \App\Module::getEntityInfo($module);
+		$entityFieldInfo = \App\Utils\ModuleUtils::getEntityInfo($module);
 		$fieldsName = $entityFieldInfo['fieldnameArr'];
 		if (is_array($fieldsName)) {
 			foreach ($fieldsName as &$value) {

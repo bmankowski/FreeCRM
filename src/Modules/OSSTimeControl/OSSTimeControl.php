@@ -104,7 +104,7 @@ class OSSTimeControl extends \App\CRMEntity
 
 		if ($event_type == 'module.postinstall') {
 
-			$tabid = \App\Module::getModuleId($modulename);
+			$tabid = \App\Utils\ModuleUtils::getModuleId($modulename);
 			$adb->query("UPDATE `vtiger_field` SET `summaryfield` = '1' WHERE `tabid` = $tabid && `columnname` IN ('name','osstimecontrol_no','osstimecontrol_status','smownerid','date_start','time_start','time_end','due_date','sum_time','platnosc');", true);
 			\App\Fields\RecordNumber::setNumber($modulename, 'TC', '1');
 			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
@@ -164,7 +164,7 @@ class OSSTimeControl extends \App\CRMEntity
 		} else {
 			$dataReader = (new \App\Db\Query())->select(['name' => 'fieldname', 'id' => 'fieldid', 'label' => 'fieldlabel', 'column' => 'columnname', 'table' => 'tablename', 'vtiger_field.*'])
 					->from('vtiger_field')
-					->where(['uitype' => [66, 67, 68], 'tabid' => \App\Module::getModuleId($currentModule)])
+					->where(['uitype' => [66, 67, 68], 'tabid' => \App\Utils\ModuleUtils::getModuleId($currentModule)])
 					->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				$className = \App\Loader::getComponentClassName('Model', 'Field', $currentModule);
@@ -181,7 +181,7 @@ class OSSTimeControl extends \App\CRMEntity
 		}
 		foreach ($results as $row) {
 			\App\Db::getInstance()->createCommand()
-				->update($row['tablename'], [$row['columnname'] => 0], [$row['columnname'] => $returnId, \App\CRMEntity::getInstance(\App\Module::getModuleName($row['tabid']))->table_index => $id])->execute();
+				->update($row['tablename'], [$row['columnname'] => 0], [$row['columnname'] => $returnId, \App\CRMEntity::getInstance(\App\Utils\ModuleUtils::getModuleName($row['tabid']))->table_index => $id])->execute();
 		}
 	}
 

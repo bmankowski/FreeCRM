@@ -79,7 +79,7 @@ class ModuleBasic
 	 */
 	public function initialize2()
 	{
-		$entitydata = \App\Module::getEntityInfo($this->name);
+		$entitydata = \App\Utils\ModuleUtils::getEntityInfo($this->name);
 		if ($entitydata) {
 			$this->basetable = $entitydata['tablename'];
 			$this->basetableid = $entitydata['entityidfield'];

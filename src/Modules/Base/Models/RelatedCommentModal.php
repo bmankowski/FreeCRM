@@ -64,7 +64,7 @@ class RelatedCommentModal extends \App\Runtime\BaseModel
 	{
 		return (new \App\Db\Query())->select(['rel_comment'])
 				->from('u_#__crmentity_rel_tree')
-				->where(['crmid' => $this->get('record'), 'tree' => $this->get('relatedRecord'), 'relmodule' => \App\Module::getModuleId($this->get('relatedModuleName'))]);
+				->where(['crmid' => $this->get('record'), 'tree' => $this->get('relatedRecord'), 'relmodule' => \App\Utils\ModuleUtils::getModuleId($this->get('relatedModuleName'))]);
 	}
 
 	public function isEditable()
@@ -78,7 +78,7 @@ class RelatedCommentModal extends \App\Runtime\BaseModel
 		if (substr($this->get('relatedRecord'), 0, 1) === 'T') {
 			$db->createCommand()->update('u_#__crmentity_rel_tree', [
 				'rel_comment' => $comment
-				], ['crmid' => $this->get('record'), 'tree' => $this->get('relatedRecord'), 'relmodule' => \App\Module::getModuleId($this->get('relatedModuleName'))]
+				], ['crmid' => $this->get('record'), 'tree' => $this->get('relatedRecord'), 'relmodule' => \App\Utils\ModuleUtils::getModuleId($this->get('relatedModuleName'))]
 			)->execute();
 		} else {
 			$relationTable = $this->getRelationTable();

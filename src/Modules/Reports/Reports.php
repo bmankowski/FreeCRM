@@ -144,7 +144,7 @@ class Reports extends \App\CRMEntity
 		$adb = \App\Database\PearDatabase::getInstance();
 		if (!isset($module))
 			return;
-		$tabid = \App\Module::getModuleId($module);
+		$tabid = \App\Utils\ModuleUtils::getModuleId($module);
 		if ($module == 'Calendar') {
 			$tabid = [9, 16];
 		}
@@ -260,7 +260,7 @@ class Reports extends \App\CRMEntity
 
 							$rel_mod = array();
 							foreach ($old_related_modules[$module] as $key => $name) {
-								if (\App\Module::isModuleActive($name) && \App\Utils\UserInfoUtil::isPermitted($name, 'index', '')) {
+								if (\App\Utils\ModuleUtils::isModuleActive($name) && \App\Utils\UserInfoUtil::isPermitted($name, 'index', '')) {
 									$rel_mod[] = $name;
 								}
 							}
@@ -575,7 +575,7 @@ class Reports extends \App\CRMEntity
 			$block = explode(',', $block);
 		$skipTalbes = array('vtiger_attachments');
 
-		$tabid = \App\Module::getModuleId($module);
+		$tabid = \App\Utils\ModuleUtils::getModuleId($module);
 		if ($module == 'Calendar') {
 			$tabid = array('9', '16');
 		}
@@ -816,7 +816,7 @@ class Reports extends \App\CRMEntity
 
 			$selmod_field_disabled = true;
 			foreach ($selected_mod as $smod) {
-				if ((stripos($fieldcolname, ':' . $smod . '__') > -1) && \App\Module::isModuleActive($smod)) {
+				if ((stripos($fieldcolname, ':' . $smod . '__') > -1) && \App\Utils\ModuleUtils::isModuleActive($smod)) {
 					$selmod_field_disabled = false;
 					break;
 				}
@@ -1029,7 +1029,7 @@ class Reports extends \App\CRMEntity
 		$adb = \App\Database\PearDatabase::getInstance();
 		$currentUser = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 
-		$tabid = \App\Module::getModuleId($module);
+		$tabid = \App\Utils\ModuleUtils::getModuleId($module);
 		$escapedchars = Array('__SUM', '__AVG', '__MIN', '__MAX');
 		$sparams = array($tabid);
 		$profileList = $currentUser->getProfiles();
@@ -1158,7 +1158,7 @@ function getReportsModuleList($focus)
 function getReportRelatedModules($module, $focus)
 {
 	$optionhtml = [];
-	if (\App\Module::isModuleActive($module)) {
+	if (\App\Utils\ModuleUtils::isModuleActive($module)) {
 		if (!empty($focus->related_modules[$module])) {
 			foreach ($focus->related_modules[$module] as $rel_modules) {
 				if (\App\Utils\UserInfoUtil::isPermitted($rel_modules, 'index') == "yes") {

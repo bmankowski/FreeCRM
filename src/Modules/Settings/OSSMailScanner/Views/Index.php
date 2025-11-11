@@ -44,7 +44,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		}
 
 		$checkCron = $mailScannerRecordModel->get_cron();
-		$usersEntityInfo = \App\Module::getEntityInfo('Users');
+		$usersEntityInfo = \App\Utils\ModuleUtils::getEntityInfo('Users');
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD_MODEL', $mailScannerRecordModel);
 		$viewer->assign('ACCOUNTS_LIST', $accountsList);

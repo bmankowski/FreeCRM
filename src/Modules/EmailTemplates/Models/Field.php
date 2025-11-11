@@ -23,10 +23,10 @@ class Field extends \App\Modules\Base\Models\Field
 	public function getModulesListValues()
 	{
 		$modules = parent::getModulesListValues();
-		$modules[\App\Module::getModuleId('Reports')] = ['name' => 'Reports', 'label' => \App\Runtime\Vtiger_Language_Handler::translate('Reports', 'Reports')];
-		$modules[\App\Module::getModuleId('Users')] = ['name' => 'Users', 'label' => \App\Runtime\Vtiger_Language_Handler::translate('Users', 'Users')];
-		$modules[\App\Module::getModuleId('Events')] = ['name' => 'Events', 'label' => \App\Runtime\Vtiger_Language_Handler::translate('Events', 'Events')];
-		$modules[\App\Module::getModuleId('ModComments')] = ['name' => 'ModComments', 'label' => \App\Runtime\Vtiger_Language_Handler::translate('ModComments')];
+		$modules[\App\Utils\ModuleUtils::getModuleId('Reports')] = ['name' => 'Reports', 'label' => \App\Runtime\Vtiger_Language_Handler::translate('Reports', 'Reports')];
+		$modules[\App\Utils\ModuleUtils::getModuleId('Users')] = ['name' => 'Users', 'label' => \App\Runtime\Vtiger_Language_Handler::translate('Users', 'Users')];
+		$modules[\App\Utils\ModuleUtils::getModuleId('Events')] = ['name' => 'Events', 'label' => \App\Runtime\Vtiger_Language_Handler::translate('Events', 'Events')];
+		$modules[\App\Utils\ModuleUtils::getModuleId('ModComments')] = ['name' => 'ModComments', 'label' => \App\Runtime\Vtiger_Language_Handler::translate('ModComments')];
 		return $modules;
 	}
 }

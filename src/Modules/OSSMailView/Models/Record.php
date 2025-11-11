@@ -339,7 +339,7 @@ class Record extends \App\Modules\Base\Models\Record
 		$result = $db->pquery('SELECT * FROM s_yf_mail_relation_updater WHERE crmid = ?', [$record]);
 		if ($db->getRowCount($result) == 0) {
 			\App\Db::getInstance()->createCommand()->insert('s_#__mail_relation_updater', [
-				'tabid' => \App\Module::getModuleId($moduleName),
+				'tabid' => \App\Utils\ModuleUtils::getModuleId($moduleName),
 				'crmid' => $record
 			]);
 		}

@@ -33,7 +33,7 @@ class Create extends \App\Modules\Settings\Base\Views\BasicModal
 		$moduleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 		if ($request->has('tabid')) {
-			$sourceModule = \App\Module::getModuleName($request->get('tabid'));
+			$sourceModule = \App\Utils\ModuleUtils::getModuleName($request->get('tabid'));
 			$viewer->assign('SUPPORTED_FIELDS', \App\Modules\Settings\AutomaticAssignment\Models\Module::getFieldsByModule($sourceModule));
 			$viewer->assign('SELECTED_MODULE', $sourceModule);
 			$viewer->view('Create.tpl', $moduleName);

@@ -169,7 +169,7 @@ class Project extends \App\CRMEntity
 		require('user_privileges/sharing_privileges_' . $currentUser->id . '.php');
 
 		$sec_query = '';
-		$tabid = \App\Module::getModuleId($module);
+		$tabid = \App\Utils\ModuleUtils::getModuleId($module);
 
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
 
@@ -429,7 +429,7 @@ class Project extends \App\CRMEntity
 					->createCommand()->query();
 			while ($row = $dataReader->read()) {
 				\App\Db::getInstance()->createCommand()
-					->update($row['tablename'], [$row['columnname'] => null], [$row['columnname'] => $return_id, \App\CRMEntity::getInstance(\App\Module::getModuleName($row['tabid']))->table_index => $id])
+					->update($row['tablename'], [$row['columnname'] => null], [$row['columnname'] => $return_id, \App\CRMEntity::getInstance(\App\Utils\ModuleUtils::getModuleName($row['tabid']))->table_index => $id])
 					->execute();
 			}
 		}

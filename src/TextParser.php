@@ -282,7 +282,7 @@ class TextParser
 		}
 		$aparams = explode('|', $params);
 		$moduleName = array_shift($aparams);
-		if (Module::getModuleId($moduleName) !== false) {
+		if (\App\Utils\ModuleUtils::getModuleId($moduleName) !== false) {
 			$params = reset($aparams);
 			return \App\Runtime\Vtiger_Language_Handler::translate($params, $moduleName, $this->language);
 		}
@@ -642,7 +642,7 @@ class TextParser
 		$moduleName = array_shift($params);
 
 
-		if (Module::getModuleId($moduleName)) {
+		if (\App\Utils\ModuleUtils::getModuleId($moduleName)) {
 			$handlerClass = \App\Loader::getComponentClassName('TextParser', $parserName, $this->moduleName, false);
 			if (!$handlerClass) {
 				Log::error("Not found custom class: $parserName|{$this->moduleName}");
