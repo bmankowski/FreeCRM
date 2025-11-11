@@ -18,15 +18,15 @@
 - **vtlib helpers used**: `vtlib\Functions::getModuleName()`, `vtlib\Functions::getModuleId()`, `\vtlib\Functions::getAllModules()`, `\vtlib\Functions::getCRMRecordType()`, `vtlib\Functions::getCRMRecordLabel()`, `vtlib\Functions::getCRMRecordMetadata()`.
 - **Template touchpoints**: `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Settings/Widgets/IndexContent.tpl`, `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Settings/Users/ColorsContent.tpl`, `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Settings/Menu/types/HomeIcon.tpl`, `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Settings/LangManagement/EditHelpIcon.tpl`, `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Calendar/Reminders.tpl`, `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Base/RelatedListContents.tpl`, `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Assets/dashboards/ExpiringSoldProductsContents.tpl`, `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Base/Comment.tpl`, `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Events/InviteRow.tpl`.
 - **Modern options**:
-  - Controllers can resolve module metadata via `App\ModuleUtils::getModuleName()` / `App\ModuleUtils::getModuleId()` and inject results into the view model. (Note: `App\ModuleUtils::getModuleName()` still proxies to vtlib internally, so long-term plan is to move logic into `ModuleManagement\Services\ModuleService`.)
+  - Controllers can resolve module metadata via `App\Utils\ModuleUtils::getModuleName()` / `App\Utils\ModuleUtils::getModuleId()` and inject results into the view model. (Note: `App\Utils\ModuleUtils::getModuleName()` still proxies to vtlib internally, so long-term plan is to move logic into `ModuleManagement\Services\ModuleService`.)
   - Record-level lookups should use `App\Record::getType($id)` and `App\Record::getLabel($id)`; when templates need additional information provide it via controller assignments (e.g., owner names, URLs) instead of calling vtlib.
-  - For lists of modules provide pre-fetched data from `App\ModuleUtils::getAllEntityModuleInfo()` or the new `ModuleManagement\Models\Module` collection.
+  - For lists of modules provide pre-fetched data from `App\Utils\ModuleUtils::getAllEntityModuleInfo()` or the new `ModuleManagement\Models\Module` collection.
   - For `vtlib\Functions::getCRMRecordMetadata()` there is no modern helper yet; expose metadata through an upcoming record service and cache the payload at the controller level until the service exists.
 
 #### Current Alternatives
-- `vtlib\Functions::getModuleName()` → `App\ModuleUtils::getModuleName($tabId)` (uses vtlib internally today; replace with ModuleManagement service once available).
-- `vtlib\Functions::getModuleId()` → `App\ModuleUtils::getModuleId($moduleName)`.
-- `\vtlib\Functions::getAllModules()` → `App\ModuleUtils::getAllEntityModuleInfo()`; future: dedicated `ModuleManagement\Services\ModuleService::getAll()`.
+- `vtlib\Functions::getModuleName()` → `App\Utils\ModuleUtils::getModuleName($tabId)` (uses vtlib internally today; replace with ModuleManagement service once available).
+- `vtlib\Functions::getModuleId()` → `App\Utils\ModuleUtils::getModuleId($moduleName)`.
+- `\vtlib\Functions::getAllModules()` → `App\Utils\ModuleUtils::getAllEntityModuleInfo()`; future: dedicated `ModuleManagement\Services\ModuleService::getAll()`.
 - `\vtlib\Functions::getCRMRecordType()` → `App\Record::getType($crmid)`.
 - `vtlib\Functions::getCRMRecordLabel()` → `App\Record::getLabel($crmid)`.
 - `vtlib\Functions::getCRMRecordMetadata()` → **Gap**: no PSR service yet; plan to introduce `ModuleManagement\Services\RecordMetadataService::getMetadata($id)`.
@@ -80,7 +80,7 @@
 
 #### `vtlib\Functions::getModuleName($tabId)`
 
-**Current Alternative:** `App\ModuleUtils::getModuleName($tabId)`
+**Current Alternative:** `App\Utils\ModuleUtils::getModuleName($tabId)`
 
 **Template Usage:**
 ```smarty
@@ -91,20 +91,20 @@
 ```php
 // In controller
 $moduleId = $widget['data']['relatedmodule'];
-$moduleName = \App\ModuleUtils::getModuleName($moduleId);
+$moduleName = \App\Utils\ModuleUtils::getModuleName($moduleId);
 $viewer->assign('RELATED_MODULE_NAME', $moduleName);
 
 // In template (after migration)
 {$RELATED_MODULE_NAME}
 ```
 
-**Note:** `App\ModuleUtils::getModuleName()` currently proxies to vtlib internally. Long-term: use `ModuleManagement\Services\ModuleService::getModuleName()` once implemented.
+**Note:** `App\Utils\ModuleUtils::getModuleName()` currently proxies to vtlib internally. Long-term: use `ModuleManagement\Services\ModuleService::getModuleName()` once implemented.
 
 ---
 
 #### `vtlib\Functions::getModuleId($moduleName)`
 
-**Current Alternative:** `App\ModuleUtils::getModuleId($moduleName)`
+**Current Alternative:** `App\Utils\ModuleUtils::getModuleId($moduleName)`
 
 **Template Usage:**
 ```smarty
@@ -114,7 +114,7 @@ $viewer->assign('RELATED_MODULE_NAME', $moduleName);
 **Controller Migration:**
 ```php
 // In controller
-$moduleId = \App\ModuleUtils::getModuleId('Home');
+$moduleId = \App\Utils\ModuleUtils::getModuleId('Home');
 $viewer->assign('HOME_MODULE_ID', $moduleId);
 
 // In template (after migration)
@@ -125,7 +125,7 @@ $viewer->assign('HOME_MODULE_ID', $moduleId);
 
 #### `vtlib\Functions::getAllModules($includeInactive, $onlyActive, $tabId, $restricted, $presence)`
 
-**Current Alternative:** `App\ModuleUtils::getAllEntityModuleInfo($sort = false)`
+**Current Alternative:** `App\Utils\ModuleUtils::getAllEntityModuleInfo($sort = false)`
 
 **Template Usage:**
 ```smarty
@@ -135,7 +135,7 @@ $viewer->assign('HOME_MODULE_ID', $moduleId);
 **Controller Migration:**
 ```php
 // In controller
-$allModules = \App\ModuleUtils::getAllEntityModuleInfo(true); // true = sorted
+$allModules = \App\Utils\ModuleUtils::getAllEntityModuleInfo(true); // true = sorted
 $viewer->assign('ALL_MODULES', $allModules);
 
 // In template (after migration)
@@ -144,7 +144,7 @@ $viewer->assign('ALL_MODULES', $allModules);
 
 **Note:** `getAllEntityModuleInfo()` returns different structure. Filter active modules in controller:
 ```php
-$allModules = \App\ModuleUtils::getAllEntityModuleInfo(true);
+$allModules = \App\Utils\ModuleUtils::getAllEntityModuleInfo(true);
 $activeModules = array_filter($allModules, function($module) {
     return isset($module['presence']) && $module['presence'] == 0;
 });

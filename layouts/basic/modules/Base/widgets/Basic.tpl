@@ -11,7 +11,7 @@
 						<div class="widgetTitle textOverflowEllipsis">
 							<h4 class="moduleColor_{$WIDGET['label']}">
 								{if $WIDGET['label'] eq ''}
-									{vtlib\Functions::getModuleName($WIDGET['data']['relatedmodule'])|t:vtlib\Functions::getModuleName($WIDGET['data']['relatedmodule'])}
+									{\App\Utils\ModuleUtils::getModuleName($WIDGET['data']['relatedmodule'])|t:\App\Utils\ModuleUtils::getModuleName($WIDGET['data']['relatedmodule'])}
 								{else}
 									{$WIDGET['label']|t:$MODULE_NAME}
 								{/if}

@@ -47,7 +47,7 @@
                                         </div>
                                         <div class="col-md-5">
                                             {if $WIDGET['label'] eq '' && isset($WIDGET['data']['relatedmodule'])}
-                                                {vtlib\Functions::getModuleName($WIDGET['data']['relatedmodule'])|t:vtlib\Functions::getModuleName($WIDGET['data']['relatedmodule'])}
+                                                {\App\Utils\ModuleUtils::getModuleName($WIDGET['data']['relatedmodule'])|t:\App\Utils\ModuleUtils::getModuleName($WIDGET['data']['relatedmodule'])}
                                             {else}
                                                 {$WIDGET['label']|t:$SOURCEMODULE}&nbsp;
                                             {/if}
