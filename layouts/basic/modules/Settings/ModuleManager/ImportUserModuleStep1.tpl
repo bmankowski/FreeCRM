@@ -20,12 +20,11 @@
 				{/if}
 			</div>
 		</div>
-		{assign var=MAXUPLOADSIZE value=vtlib\Functions::getMaxUploadSize()}
-		{if $MAXUPLOADSIZE < 5242880}
+		{if $MAX_UPLOAD_SIZE_TOO_SMALL}
 			<div class="alert alert-block alert-danger fade in">
 				<button type="button" class="close" data-dismiss="alert">×</button>
 				<h4 class="alert-heading">{"LBL_TOO_SMALL_UPLOAD_LIMIT"|t:$QUALIFIED_MODULE}</h4>
-				<p>{'LBL_TOO_SMALL_UPLOAD_LIMIT_DESC'|t:$QUALIFIED_MODULE:\App\Modules\Base\Helpers\Util::formatBytesToHumanReadable($MAXUPLOADSIZE)}</p>
+				<p>{'LBL_TOO_SMALL_UPLOAD_LIMIT_DESC'|t:$QUALIFIED_MODULE:$MAX_UPLOAD_SIZE_HUMAN}</p>
 			</div>	
 		{/if}
 		<div class="contents">

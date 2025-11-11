@@ -72,7 +72,6 @@
 									{else}
 
 										{if $FIELD_NAME == 'upload_maxsize'}
-											{assign var=MAXUPLOADSIZE value=vtlib\Functions::getMaxUploadSize()}
 											<div class="col-md-4">
 												<div class="input-group">
 													<input type="text" class="form-control" name="{$FIELD_NAME}" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" {if $FIELD_VALIDATION[$FIELD_NAME]} data-validator={\App\Json::encode([$FIELD_VALIDATION[$FIELD_NAME]])} {/if} value="{$FIELD_DATA[$FIELD_NAME]}" />
@@ -80,7 +79,7 @@
 												</div>
 											</div>
 											<label class="control-label">
-												(upload_max_filesize: {\App\Modules\Base\Helpers\Util::formatBytesToHumanReadable($MAXUPLOADSIZE)})
+												(upload_max_filesize: {$MAX_UPLOAD_SIZE_HUMAN})
 											</label>
 										{else}
 											<div class="col-md-4">

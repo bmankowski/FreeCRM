@@ -21,8 +21,17 @@ class ConfigEditorEdit extends \App\Modules\Settings\Base\Views\Index
 		$qualifiedName = $request->getModule(false);
 		$moduleModel = \App\Modules\Settings\Base\Models\ConfigModule::getInstance();
 
+		// Prepare upload size limits for template
+		$maxUploadBytes = min(
+			\App\Modules\Base\Helpers\Util::parseHumanReadableToBytes(ini_get('upload_max_filesize')),
+			\App\Modules\Base\Helpers\Util::parseHumanReadableToBytes(ini_get('post_max_size'))
+		);
+		$maxUploadSizeHuman = \App\Modules\Base\Helpers\Util::formatBytesToHumanReadable($maxUploadBytes);
+
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODEL', $moduleModel);
+		$viewer->assign('MAX_UPLOAD_SIZE_BYTES', $maxUploadBytes);
+		$viewer->assign('MAX_UPLOAD_SIZE_HUMAN', $maxUploadSizeHuman);
 		$viewer->view('ConfigEditorEdit.tpl', $qualifiedName);
 	}
 

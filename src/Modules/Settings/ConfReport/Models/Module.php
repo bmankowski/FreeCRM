@@ -157,15 +157,15 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 			$directiveValues['default_socket_timeout']['status'] = true;
 		$directiveValues['default_socket_timeout']['current'] = ini_get('default_socket_timeout');
 
-		if (\App\Modules\Base\Helpers\Util::parseBytes(ini_get('memory_limit')) < 536870912)
+		if (\App\Modules\Base\Helpers\Util::parseHumanReadableToBytes(ini_get('memory_limit')) < 536870912)
 			$directiveValues['memory_limit']['status'] = true;
 		$directiveValues['memory_limit']['current'] = \App\Modules\Base\Helpers\Util::formatBytesToHumanReadable(ini_get('memory_limit'));
 
-		if (\App\Modules\Base\Helpers\Util::parseBytes(ini_get('post_max_size')) < 52428800)
+		if (\App\Modules\Base\Helpers\Util::parseHumanReadableToBytes(ini_get('post_max_size')) < 52428800)
 			$directiveValues['post_max_size']['status'] = true;
 		$directiveValues['post_max_size']['current'] = \App\Modules\Base\Helpers\Util::formatBytesToHumanReadable(ini_get('post_max_size'));
 
-		if (\App\Modules\Base\Helpers\Util::parseBytes(ini_get('upload_max_filesize')) < 104857600)
+		if (\App\Modules\Base\Helpers\Util::parseHumanReadableToBytes(ini_get('upload_max_filesize')) < 104857600)
 			$directiveValues['upload_max_filesize']['status'] = true;
 		$directiveValues['upload_max_filesize']['current'] = \App\Modules\Base\Helpers\Util::formatBytesToHumanReadable(ini_get('upload_max_filesize'));
 

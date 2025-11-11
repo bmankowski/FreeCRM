@@ -43,18 +43,15 @@
 - `vtlib\Functions::getArrayFromValue()` → **Gap**: no drop-in helper; controller should normalize data via `App\Json::decode()` (for JSON sources) or bespoke split logic; consider adding `App\Utils\ArrayHelper::fromDelimitedString()`.
 
 ### Currency & Upload Limits
-- **vtlib helpers used**: `vtlib\Functions::getAllCurrency()`, `vtlib\Functions::getCurrencySymbolandRate()`, `vtlib\Functions::getMaxUploadSize()`, `vtlib\Functions::showBytes()`.
-- **Template touchpoints**: `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Base/inventoryfields/EditViewCurrency.tpl`, `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Base/EditViewInventory.tpl`, `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Base/DetailViewInventoryView.tpl`, `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Settings/ModuleManager/ImportUserModuleStep1.tpl`, `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Settings/Base/ConfigEditorEdit.tpl`.
+- **vtlib helpers used**: `vtlib\Functions::getAllCurrency()`, `vtlib\Functions::getCurrencySymbolandRate()`.
+- **Template touchpoints**: `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Base/inventoryfields/EditViewCurrency.tpl`, `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Base/EditViewInventory.tpl`, `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Base/DetailViewInventoryView.tpl`.
 - **Modern options**:
-  - Use `App\Modules\Base\Helpers\Util::getMaxUploadSize()` and add a complementary formatter (e.g., `App\Utils\Formatter::bytesToHumanReadable()`) in the controller; inject both raw bytes and human-readable strings.
   - Inventory controllers already leverage `App\Modules\Base\Models\InventoryField`; extend that layer with currency lists so templates receive resolved data instead of calling `vtlib`.
   - For currency symbol/rate lookups create a new helper under `App\Fields\Currency` or `ModuleManagement\Services\CurrencyService` that wraps current vtlib logic.
 
 #### Current Alternatives
 - `vtlib\Functions::getAllCurrency()` → **Gap**: no modern helper; propose `ModuleManagement\Services\CurrencyService::getAll($onlyActive)`.
 - `vtlib\Functions::getCurrencySymbolandRate()` → **Gap**: add `App\Fields\Currency::getSymbolAndRate($currencyId)`.
-- `vtlib\Functions::getMaxUploadSize()` → `App\Modules\Base\Helpers\Util::getMaxUploadSize()`.
-- `vtlib\Functions::showBytes()` → **Gap**: introduce `App\Utils\Formatter::bytesToHumanReadable($bytes)`.
 
 ### Text Sanitization & Formatting
 - **vtlib helpers used**: `vtlib\Functions::removeHtmlTags()`, `vtlib\Functions::textLength()`, `vtlib\Functions::decimalTimeFormat()`.
@@ -431,38 +428,50 @@ class Currency
 
 #### `vtlib\Functions::getMaxUploadSize()`
 
-**Current Alternative:** `App\Modules\Base\Helpers\Util::getMaxUploadSize()`
+**Current Alternative:** ✅ **Migrated** - Data prepared in controllers
 
-**Template Usage:**
+**Status:** No longer used in templates. Controllers prepare upload limit data.
+
+**Template Usage (Legacy):**
 ```smarty
 {assign var=MAXUPLOADSIZE value=vtlib\Functions::getMaxUploadSize()}
 ```
 
 **Controller Migration:**
 ```php
-// In controller
-$maxUploadSize = \App\Modules\Base\Helpers\Util::getMaxUploadSize();
-$viewer->assign('MAX_UPLOAD_SIZE_MB', $maxUploadSize);
+// In controller - prepare all upload limit data
+$maxUploadBytes = min(
+    \App\Modules\Base\Helpers\Util::parseHumanReadableToBytes(ini_get('upload_max_filesize')),
+    \App\Modules\Base\Helpers\Util::parseHumanReadableToBytes(ini_get('post_max_size'))
+);
+$maxUploadSizeHuman = \App\Modules\Base\Helpers\Util::formatBytesToHumanReadable($maxUploadBytes);
+$isUploadLimitTooSmall = $maxUploadBytes < 5242880; // 5MB in bytes
+
+$viewer->assign('MAX_UPLOAD_SIZE_BYTES', $maxUploadBytes);
+$viewer->assign('MAX_UPLOAD_SIZE_HUMAN', $maxUploadSizeHuman);
+$viewer->assign('MAX_UPLOAD_SIZE_TOO_SMALL', $isUploadLimitTooSmall);
 
 // In template (after migration)
-{assign var=MAXUPLOADSIZE value=$MAX_UPLOAD_SIZE_MB}
+{if $MAX_UPLOAD_SIZE_TOO_SMALL}
+    <div class="alert">Upload limit: {$MAX_UPLOAD_SIZE_HUMAN}</div>
+{/if}
 ```
 
-**Note:** Returns size in MB. For bytes, use PHP `ini_get()`:
-```php
-$maxUploadBytes = min(
-    \App\ModuleManagement\Adapters\Functions::parseBytes(ini_get('upload_max_filesize')),
-    \App\ModuleManagement\Adapters\Functions::parseBytes(ini_get('post_max_size'))
-);
-```
+**Note:** `getMaxUploadSize()` returns size in MB (from vglobal). For actual PHP limits, use `parseHumanReadableToBytes()` with `ini_get()` as shown above.
+
+**Examples:**
+- `ModuleImport::importUserModuleStep1()` - prepares upload limits for module import
+- `ConfigEditorEdit::process()` - prepares upload limits for config editor
 
 ---
 
 #### `vtlib\Functions::showBytes($bytes, &$unit = null)`
 
-**Current Alternative:** **Gap - No modern replacement yet**
+**Current Alternative:** ✅ **Implemented & Migrated** - `App\Modules\Base\Helpers\Util::formatBytesToHumanReadable($bytes, &$unit = null)`
 
-**Recommended Location:** `App\Modules\Base\Helpers\Util::showBytes()`
+**Status:** No longer used in templates. Controllers prepare formatted values.
+
+**Location:** `App\Modules\Base\Helpers\Util::formatBytesToHumanReadable()`
 
 **Rationale:** 
 - `App\Modules\Base\Helpers\Util` already contains `getMaxUploadSize()` (line 241)
@@ -470,105 +479,32 @@ $maxUploadBytes = min(
 - Keeps related functionality together
 - No need to create a new class
 
-**Template Usage:**
+**Template Usage (Legacy):**
 ```smarty
 {vtlib\Functions::showBytes($MAXUPLOADSIZE)}
+{\App\Modules\Base\Helpers\Util::formatBytesToHumanReadable($MAXUPLOADSIZE)}
 ```
 
-**Temporary Workaround:**
+**Modern Usage (Controller prepares data):**
 ```php
-// In controller - use vtlib adapter temporarily
+// In controller - prepare formatted value
 $maxUploadBytes = min(
-    \App\ModuleManagement\Adapters\Functions::parseBytes(ini_get('upload_max_filesize')),
-    \App\ModuleManagement\Adapters\Functions::parseBytes(ini_get('post_max_size'))
+    \App\Modules\Base\Helpers\Util::parseHumanReadableToBytes(ini_get('upload_max_filesize')),
+    \App\Modules\Base\Helpers\Util::parseHumanReadableToBytes(ini_get('post_max_size'))
 );
-$humanReadable = \App\ModuleManagement\Adapters\Functions::showBytes($maxUploadBytes);
+$humanReadable = \App\Modules\Base\Helpers\Util::formatBytesToHumanReadable($maxUploadBytes);
 $viewer->assign('MAX_UPLOAD_SIZE_HUMAN', $humanReadable);
 
-// In template
+// In template - just use the prepared variable
 {$MAX_UPLOAD_SIZE_HUMAN}
 ```
 
-**Future:** Add to `App\Modules\Base\Helpers\Util`:
-```php
-namespace App\Modules\Base\Helpers;
+**Related Function:**
+- `App\Modules\Base\Helpers\Util::parseHumanReadableToBytes($str)` - Converts human-readable strings (e.g., "128M", "2G") to numeric bytes
 
-class Util
-{
-    // ... existing code ...
-    
-    /**
-     * Convert bytes to human-readable format (e.g., "2.5 MB", "1 GB")
-     * 
-     * @param mixed $bytes Bytes value (can be string like "128M" or numeric)
-     * @param string|null $unit Reference to store the unit (GB, MB, KB, B)
-     * @return string Formatted string like "2.5 MB"
-     */
-    public static function showBytes($bytes, &$unit = null)
-    {
-        $bytes = self::parseBytes($bytes);
-        if ($bytes >= 1073741824) {
-            $unit = 'GB';
-            $value = $bytes / 1073741824;
-            return sprintf($value >= 10 ? "%d " : "%.2f ", $value) . $unit;
-        } elseif ($bytes >= 1048576) {
-            $unit = 'MB';
-            $value = $bytes / 1048576;
-            return sprintf($value >= 10 ? "%d " : "%.2f ", $value) . $unit;
-        } elseif ($bytes >= 1024) {
-            $unit = 'KB';
-            return sprintf("%d ", round($bytes / 1024)) . $unit;
-        } else {
-            $unit = 'B';
-            return sprintf('%d ', $bytes) . $unit;
-        }
-    }
-    
-    /**
-     * Parse byte string (e.g., "128M", "2G") to numeric bytes
-     * 
-     * @param mixed $str Byte string or numeric value
-     * @return float Bytes as numeric value
-     */
-    public static function parseBytes($str)
-    {
-        if (is_numeric($str)) {
-            return floatval($str);
-        }
-        
-        if (preg_match('/([0-9\.]+)\s*([a-z]*)/i', $str, $regs)) {
-            $bytes = floatval($regs[1]);
-            switch (strtolower($regs[2])) {
-                case 'g':
-                case 'gb':
-                    $bytes *= 1073741824;
-                    break;
-                case 'm':
-                case 'mb':
-                    $bytes *= 1048576;
-                    break;
-                case 'k':
-                case 'kb':
-                    $bytes *= 1024;
-                    break;
-            }
-        }
-        
-        return floatval($bytes);
-    }
-}
-```
-
-**Usage after migration:**
-```php
-// In controller
-$maxUploadBytes = min(
-    \App\Modules\Base\Helpers\Util::parseBytes(ini_get('upload_max_filesize')),
-    \App\Modules\Base\Helpers\Util::parseBytes(ini_get('post_max_size'))
-);
-$humanReadable = \App\Modules\Base\Helpers\Util::showBytes($maxUploadBytes);
-$viewer->assign('MAX_UPLOAD_SIZE_HUMAN', $humanReadable);
-```
+**Examples:**
+- `ModuleImport::importUserModuleStep1()` - prepares `MAX_UPLOAD_SIZE_HUMAN` for display
+- `ConfigEditorEdit::process()` - prepares `MAX_UPLOAD_SIZE_HUMAN` for config editor
 
 ---
 
@@ -813,11 +749,11 @@ class Language
 | `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Settings/Workflows/Tasks/VTCreateTodoTask.tpl` | `vtlib\Functions::getArrayFromValue()` | Parse multi-value workflow field |
 | `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Settings/Users/ColorsContent.tpl` | `vtlib\Functions::getModuleName()` | Resolve module label in color grid |
 | `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Settings/Menu/types/HomeIcon.tpl` | `vtlib\Functions::getModuleId()` | Hidden input with module id |
-| `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Settings/ModuleManager/ImportUserModuleStep1.tpl` | `vtlib\Functions::getMaxUploadSize()`, `vtlib\Functions::showBytes()` | Show upload limit warning |
+| `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Settings/ModuleManager/ImportUserModuleStep1.tpl` | ✅ **Migrated** - Uses controller-prepared `MAX_UPLOAD_SIZE_HUMAN` | Show upload limit warning |
 | `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Settings/PDF/Step2.tpl` | `vtlib\Language::getAll()` | Load language list |
 | `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Settings/LangManagement/EditHelpIcon.tpl` | `\vtlib\Functions::getAllModules()` | Iterate modules for help icons |
 | `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Settings/CustomView/IndexContents.tpl` | `vtlib\Functions::getOwnerRecordLabel()` | Show creator label |
-| `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Settings/Base/ConfigEditorEdit.tpl` | `vtlib\Functions::getMaxUploadSize()`, `vtlib\Functions::showBytes()` | Display PHP upload limits |
+| `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Settings/Base/ConfigEditorEdit.tpl` | ✅ **Migrated** - Uses controller-prepared `MAX_UPLOAD_SIZE_HUMAN` | Display PHP upload limits |
 | `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/OSSMail/MailActionBarRow.tpl` | `vtlib\Functions::textLength()` | Truncate link labels |
 | `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/OSSTimeControl/RelatedSummary.tpl` | `vtlib\Functions::decimalTimeFormat()` | Render total time summary |
 | `/home/bmankowski/projects/FreeCRM/layouts/basic/modules/Import/Import_Step4.tpl` | `\vtlib\Functions::textLength()` | Truncate imported values |

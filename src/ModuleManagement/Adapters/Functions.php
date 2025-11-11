@@ -715,7 +715,7 @@ class Functions
 		}
 		// REQUEST_MODE is a global constant; ensure it exists before using
 		if (defined('REQUEST_MODE') && REQUEST_MODE === 'API') {
-			throw new \Exception\APIException($message, 401);
+			throw new \App\Exceptions\ApiException($message, 401);
 		}
 		$request = new \App\Http\Vtiger_Request($_REQUEST, $_REQUEST);
 		if ($request->isAjax()) {
@@ -853,31 +853,8 @@ class Functions
 
 	public static function parseBytes($str)
 	{
-		if (is_numeric($str)) {
-			return floatval($str);
-		}
-
-		if (preg_match('/([0-9\.]+)\s*([a-z]*)/i', $str, $regs)) {
-			$bytes = floatval($regs[1]);
-			switch (strtolower($regs[2])) {
-				case 'g':
-				case 'gb':
-					$bytes *= 1073741824;
-					break;
-				case 'm':
-				case 'mb':
-					$bytes *= 1048576;
-					break;
-				case 'k':
-				case 'kb':
-					$bytes *= 1024;
-					break;
-			}
-		}
-
-		return floatval($bytes);
+		return \App\Modules\Base\Helpers\Util::parseHumanReadableToBytes($str);
 	}
-
 
 	public static function showBytes($bytes, &$unit = null)
 	{

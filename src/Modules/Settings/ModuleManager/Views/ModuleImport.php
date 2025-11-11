@@ -67,7 +67,20 @@ class ModuleImport extends \App\Modules\Settings\Base\Views\Index
 	{
 		$viewer = $this->getViewer($request);
 		$qualifiedModuleName = $request->getModule(false);
+		
+		// Prepare upload size limits for template
+		$maxUploadBytes = min(
+			\App\Modules\Base\Helpers\Util::parseHumanReadableToBytes(ini_get('upload_max_filesize')),
+			\App\Modules\Base\Helpers\Util::parseHumanReadableToBytes(ini_get('post_max_size'))
+		);
+		$maxUploadSizeHuman = \App\Modules\Base\Helpers\Util::formatBytesToHumanReadable($maxUploadBytes);
+		$isUploadLimitTooSmall = $maxUploadBytes < 5242880; // 5MB in bytes
+		
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
+		$viewer->assign('MAX_UPLOAD_SIZE_BYTES', $maxUploadBytes);
+		$viewer->assign('MAX_UPLOAD_SIZE_HUMAN', $maxUploadSizeHuman);
+		$viewer->assign('MAX_UPLOAD_SIZE_TOO_SMALL', $isUploadLimitTooSmall);
+		
 		if ($request->isAjax()) {
 			$viewer->view('ImportUserModuleStep1.tpl', $qualifiedModuleName);
 			return;

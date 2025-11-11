@@ -245,12 +245,12 @@ class Util {
 	}
 
 	/**
-	 * Parse byte string (e.g., "128M", "2G") to numeric bytes
+	 * Parse human-readable byte string (e.g., "128M", "2G") to numeric bytes
 	 * 
 	 * @param mixed $str Byte string or numeric value
 	 * @return float Bytes as numeric value
 	 */
-	public static function parseBytes($str)
+	public static function parseHumanReadableToBytes($str)
 	{
 		if (is_numeric($str)) {
 			return floatval($str);
@@ -286,7 +286,7 @@ class Util {
 	 */
 	public static function formatBytesToHumanReadable($bytes, &$unit = null)
 	{
-		$bytes = self::parseBytes($bytes);
+		$bytes = self::parseHumanReadableToBytes($bytes);
 		$negative = $bytes < 0;
 		$bytes = abs($bytes);
 		$units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];

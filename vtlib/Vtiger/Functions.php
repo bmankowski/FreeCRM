@@ -711,7 +711,7 @@ class Functions
 		}
 		// REQUEST_MODE is a global constant; ensure it exists before using
 		if (defined('REQUEST_MODE') && REQUEST_MODE === 'API') {
-			throw new \Exception\APIException($message, 401);
+			throw new \\App\Exceptions\ApiException($message, 401);
 		}
 		$request = new \App\Http\Vtiger_Request($_REQUEST, $_REQUEST);
 		if ($request->isAjax()) {
