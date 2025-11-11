@@ -84,7 +84,7 @@ class Popup  extends \App\Modules\Base\Views\Index
 		}
 
 		if (empty($currencyId)) {
-			$defaultCurrency = \vtlib\Functions::getDefaultCurrencyInfo();
+			$defaultCurrency = \vtlib\Functions:: getDefaultCurrencyInfo();
 			$currencyId = $defaultCurrency['id'];
 		}
 		$listViewModel->set('currency_id', $currencyId);

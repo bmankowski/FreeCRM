@@ -176,7 +176,7 @@ class Coordinate extends \App\Runtime\BaseModel
 	 */
 	public function getLabelsToPopupById($crmid)
 	{
-		$recodMetaData = \vtlib\Functions::getCRMRecordMetadata($crmid);
+		$recodMetaData = \vtlib\Functions:: getCRMRecordMetadata($crmid);
 		$moduleName = $recodMetaData['setype'];
 		$queryGenerator = new \App\QueryGenerator($moduleName);
 		$fields = \App\AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');

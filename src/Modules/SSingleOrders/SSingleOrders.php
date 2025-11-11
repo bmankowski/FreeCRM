@@ -92,13 +92,13 @@ class SSingleOrders extends \App\CRMEntity
 			\App\Fields\RecordNumber::setNumber($moduleName, 'S-SO', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['SSingleOrders']);
 
-			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
+			$modcommentsModuleInstance = \App\Modules\Base\Models\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('src/Modules/ModComments/ModComments.php')) {
 				include_once 'src/Modules/ModComments/ModComments.php';
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(array('SSingleOrders'));
 			}
-			\App\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions::getModuleId($moduleName));
+			\App\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions:: getModuleId($moduleName));
 		} else if ($eventType == 'module.disabled') {
 			
 		} else if ($eventType == 'module.preuninstall') {

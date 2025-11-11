@@ -102,7 +102,7 @@ class Basic extends \App\Modules\Settings\Base\Views\IndexAjax
 		if ($importType == 'language' || $importType == 'layout') {
 			$package->import($uploadFileName);
 		} else {
-			$package->update(vtlib\Module::getInstance($importModuleName), $uploadFileName);
+			$package->update(\App\Modules\Base\Models\Module::getInstance($importModuleName), $uploadFileName);
 		}
 
 		\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
@@ -123,7 +123,7 @@ class Basic extends \App\Modules\Settings\Base\Views\IndexAjax
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleName = $request->get('moduleName');
-		$module = vtlib\Module::getInstance($moduleName);
+		$module = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		if ($module) {
 			$result = array('success' => false, 'text' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_MODULE_ALREADY_EXISTS_TRY_ANOTHER', $qualifiedModuleName));
 		} elseif (preg_match('/[^A-Za-z]/i', $moduleName)) {
@@ -155,7 +155,7 @@ class Basic extends \App\Modules\Settings\Base\Views\IndexAjax
 	public function deleteModule(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->get('forModule');
-		$moduleInstance = vtlib\Module::getInstance($moduleName);
+		$moduleInstance = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		if ($moduleInstance) {
 			$moduleInstance->delete();
 			$result = array('success' => true);

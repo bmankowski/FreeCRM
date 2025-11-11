@@ -68,7 +68,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('TYPE', $type);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE_NAME', $request->get('sourceModule'));
-		$viewer->assign('MODULE_ID', \vtlib\Functions::getModuleId($request->get('sourceModule')));
+		$viewer->assign('MODULE_ID', \vtlib\Functions:: getModuleId($request->get('sourceModule')));
 		$viewer->assign('INDEX', ++$index);
 		$viewer->assign('DATA', \App\Modules\Settings\RecordAllocation\Models\Module::getRecordAllocationByModule($type, $request->get('sourceModule')));
 		$viewer->assign('MODULE', $moduleName);

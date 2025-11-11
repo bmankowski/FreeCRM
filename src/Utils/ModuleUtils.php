@@ -142,7 +142,7 @@ class ModuleUtils
 	 */
 	public static function getSharingModuleList($eliminateModules = false)
 	{
-		$modules = \vtlib\Functions::getAllModules(true, true, 0, false, 0);
+		$modules = \vtlib\Functions:: getAllModules(true, true, 0, false, 0);
 		$sharingModules = [];
 		foreach ($modules as $tabId => $row) {
 			if (!$eliminateModules || !in_array($row['name'], $eliminateModules)) {

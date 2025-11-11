@@ -333,7 +333,7 @@ class SMSNotifierBase extends \App\CRMEntity
 	{
 
 		//adds sharing accsess
-		$SMSNotifierModule = vtlib\Module::getInstance('SMSNotifier');
+		$SMSNotifierModule = \App\Modules\Base\Models\Module::getInstance('SMSNotifier');
 		vtlib\Access::setDefaultSharing($SMSNotifierModule);
 
 		$registerLinks = false;
@@ -360,18 +360,18 @@ class SMSNotifierBase extends \App\CRMEntity
 
 		if ($unregisterLinks) {
 
-			$smsnotifierModuleInstance = vtlib\Module::getInstance('SMSNotifier');
+			$smsnotifierModuleInstance = \App\Modules\Base\Models\Module::getInstance('SMSNotifier');
 			$smsnotifierModuleInstance->deleteLink("HEADERSCRIPT", "SMSNotifierCommonJS", "src/Modules/SMSNotifier/SMSNotifierCommon.js");
 
-			$leadsModuleInstance = vtlib\Module::getInstance('Leads');
+			$leadsModuleInstance = \App\Modules\Base\Models\Module::getInstance('Leads');
 			$leadsModuleInstance->deleteLink('LISTVIEWBASIC', 'Send SMS');
 			$leadsModuleInstance->deleteLink('DETAILVIEWBASIC', 'Send SMS');
 
-			$contactsModuleInstance = vtlib\Module::getInstance('Contacts');
+			$contactsModuleInstance = \App\Modules\Base\Models\Module::getInstance('Contacts');
 			$contactsModuleInstance->deleteLink('LISTVIEWBASIC', 'Send SMS');
 			$contactsModuleInstance->deleteLink('DETAILVIEWBASIC', 'Send SMS');
 
-			$accountsModuleInstance = vtlib\Module::getInstance('Accounts');
+			$accountsModuleInstance = \App\Modules\Base\Models\Module::getInstance('Accounts');
 			$accountsModuleInstance->deleteLink('LISTVIEWBASIC', 'Send SMS');
 			$accountsModuleInstance->deleteLink('DETAILVIEWBASIC', 'Send SMS');
 		}

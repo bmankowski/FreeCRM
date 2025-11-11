@@ -217,7 +217,7 @@ class RecordOwnershipChecker implements PermissionChecker
             return PermissionResult::allow('No record to check', $this->getName());
         }
         
-        $recordMetaData = \vtlib\Functions::getCRMRecordMetadata($recordId);
+        $recordMetaData = \vtlib\Functions:: getCRMRecordMetadata($recordId);
         
         if (!$recordMetaData) {
             return PermissionResult::deny(

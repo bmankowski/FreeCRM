@@ -132,7 +132,7 @@ class Colors extends \App\Runtime\BaseModel
 
 	public static function getModulesColors($active = false)
 	{
-		$allModules = \vtlib\Functions::getAllModules(false, false, false, $active);
+		$allModules = \vtlib\Functions:: getAllModules(false, false, false, $active);
 
 		$modules = [];
 		foreach ($allModules as $tabid => $module) {

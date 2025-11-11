@@ -28,7 +28,7 @@ class Detail extends \App\Modules\Base\Views\Detail
 		$relatedModules = $request->get('relatedModules');
 		$relatedModulesNames = [];
 		foreach ($relatedModules as $tabId) {
-			$relatedModulesNames[$tabId] = \vtlib\Functions::getModuleName($tabId);
+			$relatedModulesNames[$tabId] = \App\Utils\ModuleUtils::getModuleName($tabId);
 		}
 		$countRecords = \App\Modules\Base\Widgets\CountRecords::getCountRecords($relatedModulesNames, $recordId);
 		$viewer = $this->getViewer($request);

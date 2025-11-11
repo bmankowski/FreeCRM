@@ -579,7 +579,7 @@ class ReportRun extends \App\CRMEntity
 		$fieldtablename = $adb->query_result($field_query, 0, 'tablename');
 		$fieldcolname = $adb->query_result($field_query, 0, 'columnname');
 		$typeofdata = $adb->query_result($field_query, 0, 'typeofdata');
-		$fieldtypeofdata = \vtlib\Functions::transformFieldTypeOfData($fieldtablename, $fieldcolname, $typeofdata[0]);
+		$fieldtypeofdata = \vtlib\Functions:: transformFieldTypeOfData($fieldtablename, $fieldcolname, $typeofdata[0]);
 		$uitype = $adb->query_result($field_query, 0, 'uitype');
 		if ($uitype == 68 || $uitype == 59) {
 			$fieldtypeofdata = 'V';
@@ -3419,7 +3419,7 @@ class ReportRun extends \App\CRMEntity
 					$referenceTableName = 'vtiger_vendorRelProducts';
 				} elseif ($moduleName == 'ModComments' && $referenceModule == 'Users') {
 					$referenceTableName = 'vtiger_usersModComments';
-				} elseif (in_array($referenceModule, $reportSecondaryModules) && $moduleName != \vtlib\Functions::getModuleName($fieldInstance->getTabId())) {
+				} elseif (in_array($referenceModule, $reportSecondaryModules) && $moduleName != \App\Utils\ModuleUtils::getModuleName($fieldInstance->getTabId())) {
 					$referenceTableName = "{$entityTableName}Rel$referenceModule";
 					$dependentTableName = "vtiger_crmentityRel{$referenceModule}{$fieldInstance->getFieldId()}";
 				} elseif (in_array($moduleName, $reportSecondaryModules)) {

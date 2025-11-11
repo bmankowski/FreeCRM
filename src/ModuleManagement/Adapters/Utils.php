@@ -28,7 +28,6 @@ class Utils
 	static function isNumber($value)
 	{
 		return is_numeric($value) ? intval($value) == $value : false;
-	}
 
 	/**
 	 * Function to check the file access is made within web root directory as well as is safe for php inclusion

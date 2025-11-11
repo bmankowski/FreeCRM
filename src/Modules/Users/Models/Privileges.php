@@ -388,7 +388,7 @@ class Privileges extends \App\Runtime\BaseModel
 		$currentUserGroups = $userModel->get('groups');
 		settype($currentUserGroups, 'array');
 		if (!$moduleName) {
-			$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($record);
+			$recordMetaData = \vtlib\Functions:: getCRMRecordMetadata($record);
 			$moduleName = $recordMetaData['setype'];
 		}
 		if ($moduleName == 'Events') {
@@ -423,7 +423,7 @@ class Privileges extends \App\Runtime\BaseModel
 			$result = $db->pquery('SELECT * FROM vtiger_crmentityrel WHERE crmid=? || relcrmid =?', [$record, $record]);
 			while ($row = $db->getRow($result)) {
 				$id = $row['crmid'] == $record ? $row['relcrmid'] : $row['crmid'];
-				$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($id);
+				$recordMetaData = \vtlib\Functions:: getCRMRecordMetadata($id);
 				$permissionsRoleForRelatedField = $role->get('permissionsrelatedfield');
 				$permissionsRelatedField = $permissionsRoleForRelatedField == '' ? [] : explode(',', $role->get('permissionsrelatedfield'));
 				$relatedPermission = false;
@@ -461,7 +461,7 @@ class Privileges extends \App\Runtime\BaseModel
 			$result = $db->pquery($query, [$record]);
 			while ($row = $db->getRow($result)) {
 				$id = $row['crmid'];
-				$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($id);
+				$recordMetaData = \vtlib\Functions:: getCRMRecordMetadata($id);
 				$permissionsRelatedField = $role->get('permissionsrelatedfield') == '' ? [] : explode(',', $role->get('permissionsrelatedfield'));
 				$relatedPermission = false;
 				foreach ($permissionsRelatedField as &$row) {

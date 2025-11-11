@@ -30,7 +30,7 @@ class UserRole extends BaseUiType
 		if ($currentUserModel->isAdmin() && $rawText === false) {
 			$roleRecordModel = new \App\Modules\Settings\Roles\Models\Record();
 			$roleRecordModel->set('roleid', $value);
-			return '<a href="' . $roleRecordModel->getEditViewUrl() . '">' . \vtlib\Functions::textLength($displayValue) . '</a>';
+			return '<a href="' . $roleRecordModel->getEditViewUrl() . '">' . \vtlib\Functions:: textLength($displayValue) . '</a>';
 		}
 		return $displayValue;
 	}

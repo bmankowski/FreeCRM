@@ -56,8 +56,8 @@ class NewAccounts  extends \App\Modules\Base\Views\Index
 		$user = $request->get('owner');
 		$time = $request->get('time');
 		if (empty($time)) {
-			$time['start'] = \vtlib\Functions::currentUserDisplayDateNew();
-			$time['end'] = \vtlib\Functions::currentUserDisplayDateNew();
+			$time['start'] = \vtlib\Functions:: currentUserDisplayDateNew();
+			$time['end'] = \vtlib\Functions:: currentUserDisplayDateNew();
 		}
 		$widget = \App\Modules\Base\Models\Widget::getInstance($linkId, $currentUser->getId());
 		if (empty($user)) {

@@ -156,7 +156,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 			if (!$recordModel->has($row['field'])) {
 				$fieldModel = $recordModel->getModule()->getFieldByName($row['field']);
 				$idName = $recordModel->getEntity()->tab_name_index[$fieldModel->getTableName()];
-				$value = \vtlib\Functions::getSingleFieldValue($fieldModel->getTableName(), $fieldModel->getColumnName(), $idName, $recordModel->getId());
+				$value = \vtlib\Functions:: getSingleFieldValue($fieldModel->getTableName(), $fieldModel->getColumnName(), $idName, $recordModel->getId());
 				$recordModel->set($row['field'], $value);
 			}
 			if ($row['value'] == $recordModel->get($row['field'])) {

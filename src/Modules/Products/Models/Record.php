@@ -106,7 +106,7 @@ class Record extends \App\Modules\Base\Models\Record
 		}
 		$baseCurrencyDetails = array('currencyid' => $baseCurrency);
 
-		$baseCurrencySymbolDetails = \vtlib\Functions::getCurrencySymbolandRate($baseCurrency);
+		$baseCurrencySymbolDetails = \vtlib\Functions:: getCurrencySymbolandRate($baseCurrency);
 		$baseCurrencyDetails = array_merge($baseCurrencyDetails, $baseCurrencySymbolDetails);
 		$this->set('baseCurrencyDetails', $baseCurrencyDetails);
 
@@ -237,7 +237,7 @@ class Record extends \App\Modules\Base\Models\Record
 			if ($row['setype'] === 'Leads' && $convertedInfo[$row['crmid']]) {
 				continue;
 			}
-			$recordMeta = \vtlib\Functions::getCRMRecordMetadata($row['crmid']);
+			$recordMeta = \vtlib\Functions:: getCRMRecordMetadata($row['crmid']);
 			$row['id'] = $row['crmid'];
 			$row['label'] = $labels[$row['crmid']];
 			$row['smownerid'] = $recordMeta['smownerid'];
@@ -375,7 +375,7 @@ class Record extends \App\Modules\Base\Models\Record
 					// Get the conversion rate for the given currency, get the conversion rate of the product currency(logged in user's currency) to base currency.
 					// Both together will be the actual conversion rate for the given currency.
 					$conversion_rate = $adb->query_result($res, $i, 'conversion_rate');
-					$userCurrencyData = \vtlib\Functions::getCurrencySymbolandRate($userCurrencyId);
+					$userCurrencyData = \vtlib\Functions:: getCurrencySymbolandRate($userCurrencyId);
 					$userRate = (float) ($userCurrencyData['rate'] ?? 0);
 					if ($userRate <= 0) {
 						$userRate = 1;
@@ -481,7 +481,7 @@ class Record extends \App\Modules\Base\Models\Record
 		}
 		$productBaseConvRate = \App\Utils\InventoryUtils::getBaseConversionRateForProduct($this->getId(), $mode);
 		$currencySet = false;
-		$currencyDetails = \vtlib\Functions::getAllCurrency(true);
+		$currencyDetails = \vtlib\Functions:: getAllCurrency(true);
 		if (!$this->isNew()) {
 			$db->createCommand()->delete('vtiger_productcurrencyrel', ['productid' => $this->getId()])->execute();
 		}

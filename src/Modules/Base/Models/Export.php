@@ -352,7 +352,7 @@ class Export extends \App\Runtime\BaseModel
 						$valueData = $field->getCurrencyParam([], $valueParam);
 						$valueNewData = [];
 						foreach ($valueData as $currencyId => &$data) {
-							$currencyName = \vtlib\Functions::getCurrencyName($currencyId, false);
+							$currencyName = \vtlib\Functions:: getCurrencyName($currencyId, false);
 							$data['value'] = $currencyName;
 							$valueNewData[$currencyName] = $data;
 						}

@@ -21,7 +21,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 		$OSSMail_Record_Model = \App\Modules\Base\Models\Record::getCleanInstance('OSSMail');
-		if (\vtlib\Functions::getModuleId('OSSMailScanner')) {
+		if (\vtlib\Functions:: getModuleId('OSSMailScanner')) {
 			$OSSMailScanner_Record_Model = \App\Modules\Base\Models\Record::getCleanInstance('OSSMailScanner');
 			$WidgetCfg = $OSSMailScanner_Record_Model->getConfig(false);
 		}

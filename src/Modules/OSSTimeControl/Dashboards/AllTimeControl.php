@@ -125,8 +125,8 @@ class AllTimeControl  extends \App\Modules\Base\Views\Index
 		if (empty($time)) {
 			$time = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDate($widget);
 			if ($time === false) {
-				$time['start'] = \vtlib\Functions::currentUserDisplayDateNew();
-				$time['end'] = \vtlib\Functions::currentUserDisplayDateNew();
+				$time['start'] = \vtlib\Functions:: currentUserDisplayDateNew();
+				$time['end'] = \vtlib\Functions:: currentUserDisplayDateNew();
 			} else {
 				$time['start'] = \App\Fields\DateTime::currentUserDisplayDate($time['start']);
 				$time['end'] = \App\Fields\DateTime::currentUserDisplayDate($time['end']);

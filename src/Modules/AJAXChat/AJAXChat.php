@@ -15,14 +15,14 @@ class AJAXChat {
 		if ($event_type == 'module.postinstall') {
 			
 		} else if ($event_type == 'module.disabled') {
-			$moduleInstance = vtlib\Module::getInstance($modulename);
+			$moduleInstance = \App\Modules\Base\Models\Module::getInstance($modulename);
 			$moduleInstance->deleteLink('HEADERSCRIPT', 'Chat', 'layouts/_layoutName_/modules/AJAXChat/Chat.js');
 			return;
 		} else if ($event_type == 'module.enabled') {
 			if (\App\Modules\Settings\ModuleManager\Models\Library::checkLibrary('AJAXChat')) {
 				throw new \App\Exceptions\NotAllowedMethod(\App\Runtime\Vtiger_Language_Handler::translate('ERR_NO_REQUIRED_LIBRARY', 'Settings:Vtiger', 'AJAXChat'));
 			}
-			$moduleInstance = vtlib\Module::getInstance($modulename);
+			$moduleInstance = \App\Modules\Base\Models\Module::getInstance($modulename);
 			$moduleInstance->addLink('HEADERSCRIPT', 'Chat', 'layouts/_layoutName_/modules/AJAXChat/Chat.js');
 			return;
 		} else if ($event_type == 'module.preuninstall') {

@@ -31,7 +31,7 @@ class Email extends BaseUiType
 			$moduleName = $this->get('field')->get('block')->module->name;
 			$fieldName = $this->get('field')->get('name');
 			$rawValue = $value;
-			$value = \vtlib\Functions::textLength($value);
+			$value = \vtlib\Functions:: textLength($value);
 			if ($internalMailer == 1 && \App\Modules\Users\Models\Privileges::isPermitted('OSSMail')) {
 				$url = \App\Modules\OSSMail\Models\Module::getComposeUrl($moduleName, $recordId, 'Detail', 'new');
 				$mailConfig = \App\Modules\OSSMail\Models\Module::getComposeParameters();

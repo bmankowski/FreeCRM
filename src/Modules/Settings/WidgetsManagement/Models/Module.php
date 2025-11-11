@@ -378,7 +378,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		while ($row = $dataReader->read()) {
 			$blockId = $row['id'];
 			$tabId = $row['tabid'];
-			$moduleName = \vtlib\Functions::getModuleName($tabId);
+			$moduleName = \App\Utils\ModuleUtils::getModuleName($tabId);
 			$data[$moduleName][$blockId]['name'] = $row['rolename'];
 			$data[$moduleName][$blockId]['code'] = $row['authorized'];
 		}

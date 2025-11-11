@@ -313,9 +313,9 @@ class OSSMailView extends \App\CRMEntity
 			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('email_list', 'widget_limit', '10'));
 			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('email_list', 'target', '_blank'));
 			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('email_list', 'permissions', 'vtiger'));
-			\App\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions::getModuleId($moduleName));
+			\App\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions:: getModuleId($moduleName));
 			$registerLink = true;
-			$Module = vtlib\Module::getInstance($moduleName);
+			$Module = \App\Modules\Base\Models\Module::getInstance($moduleName);
 			$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_InstallModule', $moduleName . ' ' . $Module->version, $user_id), false);
 		} else if ($eventType == 'module.disabled') {
@@ -327,7 +327,7 @@ class OSSMailView extends \App\CRMEntity
 		} else if ($eventType == 'module.preupdate') {
 			
 		} else if ($eventType == 'module.postupdate') {
-			$Module = vtlib\Module::getInstance($moduleName);
+			$Module = \App\Modules\Base\Models\Module::getInstance($moduleName);
 			$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_UpdateModule', $moduleName . ' ' . $Module->version, $user_id), false);
 		}

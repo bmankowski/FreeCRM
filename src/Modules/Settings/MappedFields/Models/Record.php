@@ -21,7 +21,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	public function getName()
 	{
-		return \vtlib\Functions::getModuleName($this->get('tabid'));
+		return \App\Utils\ModuleUtils::getModuleName($this->get('tabid'));
 	}
 
 	public function getEditViewUrl()

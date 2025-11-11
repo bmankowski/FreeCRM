@@ -37,7 +37,7 @@ class OSSMailScanner {
 			$moduleModel = \App\Modules\Settings\Picklist\Models\Module::getInstance('HelpDesk');
 			$fieldModel = \App\Modules\Settings\Picklist\Models\Field::getInstance('ticketstatus', $moduleModel);
 			$id = $moduleModel->addPickListValues($fieldModel, 'Answered');
-			$Module = vtlib\Module::getInstance($moduleName);
+			$Module = \App\Modules\Base\Models\Module::getInstance($moduleName);
 			$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_InstallModule', $moduleName . ' ' . $Module->version, $user_id), false);
 		} else if ($eventType == 'module.disabled') {
@@ -56,7 +56,7 @@ class OSSMailScanner {
 
 		} else if ($eventType == 'module.postupdate') {
 			$adb = \App\Database\PearDatabase::getInstance();
-			$Module = vtlib\Module::getInstance($moduleName);
+			$Module = \App\Modules\Base\Models\Module::getInstance($moduleName);
 			if (version_compare($Module->version, '1.21', '>')) {
 				$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
 				$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_UpdateModule', $moduleName . ' ' . $Module->version, $user_id), false);

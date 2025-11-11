@@ -122,7 +122,7 @@ class CurrencyField
 		} else {
 			$this->currencyId = self::getDBCurrencyId();
 		}
-		$currencyRateAndSymbol = \vtlib\Functions::getCurrencySymbolandRate($this->currencyId);
+		$currencyRateAndSymbol = \vtlib\Functions:: getCurrencySymbolandRate($this->currencyId);
 		$this->currencySymbol = $currencyRateAndSymbol['symbol'];
 		$this->conversionRate = $currencyRateAndSymbol['rate'];
 		$this->currencySymbolPlacement = $getCurrencyField($user, 'currency_symbol_placement', '$1.0');

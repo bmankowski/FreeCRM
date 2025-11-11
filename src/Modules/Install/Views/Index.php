@@ -344,12 +344,12 @@ class Index extends \App\Modules\Base\Views\Index
 				unlink($langPath);
 			}
 		}
-		\vtlib\Functions::recurseDelete('install');
-		\vtlib\Functions::recurseDelete('tests');
-		\vtlib\Functions::recurseDelete('config/config.template.php');
-		\vtlib\Functions::recurseDelete('.github');
-		\vtlib\Functions::recurseDelete('.gitattributes');
-		\vtlib\Functions::recurseDelete('.gitignore');
-		\vtlib\Functions::recurseDelete('.travis.yml');
+		\vtlib\Functions:: recurseDelete('install');
+		\vtlib\Functions:: recurseDelete('tests');
+		\vtlib\Functions:: recurseDelete('config/config.template.php');
+		\vtlib\Functions:: recurseDelete('.github');
+		\vtlib\Functions:: recurseDelete('.gitattributes');
+		\vtlib\Functions:: recurseDelete('.gitignore');
+		\vtlib\Functions:: recurseDelete('.travis.yml');
 	}
 }

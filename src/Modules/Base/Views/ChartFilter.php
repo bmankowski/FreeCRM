@@ -21,7 +21,7 @@ class ChartFilter  extends \App\Modules\Base\Views\Index
 		$viewer->assign('WIZARD_STEP', $request->get('step'));
 		switch ($request->get('step')) {
 			case 'step1':
-				$modules = \vtlib\Functions::getAllModules(true, false, 0);
+				$modules = \vtlib\Functions:: getAllModules(true, false, 0);
 				$chartTypes = [
 					'Pie' => 'LBL_PIE_CHART',
 					'Barchat' => 'LBL_VERTICAL_BAR_CHART',

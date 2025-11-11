@@ -159,7 +159,7 @@ class Record extends \App\Modules\Base\Models\Record
 					$fileInstance = \App\Fields\File::loadFromRequest($file);
 					if ($fileInstance->validate()) {
 						$fileName = $file['name'];
-						$fileName = \vtlib\Functions::fromHTML(preg_replace('/\s+/', '_', $fileName));
+						$fileName = \vtlib\Functions:: fromHTML(preg_replace('/\s+/', '_', $fileName));
 						$fileType = $file['type'];
 						$fileSize = $file['size'];
 						$fileLocationType = 'I';

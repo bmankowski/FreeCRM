@@ -312,7 +312,7 @@ class MenuItem extends \App\Modules\Base\Models\Record
 	 */
 	public function getModule()
 	{
-		$urlParams = \vtlib\Functions::getQueryParams($this->getUrl());
+		$urlParams = \vtlib\Functions:: getQueryParams($this->getUrl());
 		return $urlParams['module'];
 	}
 }

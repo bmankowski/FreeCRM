@@ -58,7 +58,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 
 		// Build array of all module active statuses for templates
 		$activeModules = [];
-		$allModules = \vtlib\Functions::getAllModules(false, true);  // Get ALL modules, not just entity types
+		$allModules = \vtlib\Functions:: getAllModules(false, true);  // Get ALL modules, not just entity types
 		foreach ($allModules as $module) {
 			$activeModules[$module['name']] = \App\Utils\ModuleUtils::isModuleActive($module['name']);
 		}
@@ -177,7 +177,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 				$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_HOME', $moduleName)];
 			}
 			if ($request->get('record') != '') {
-				$recordLabel = \vtlib\Functions::getCRMRecordLabel($request->get('record'));
+				$recordLabel = \vtlib\Functions:: getCRMRecordLabel($request->get('record'));
 				if ($recordLabel != '') {
 					$breadcrumbs[] = ['name' => $recordLabel];
 				}
@@ -258,7 +258,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 
 		if (isset($linkModels['SIDEBARLINK']) && is_array($linkModels['SIDEBARLINK'])) {
 			foreach ($linkModels['SIDEBARLINK'] as $link) {
-				$linkParams = \vtlib\Functions::getQueryParams($link->getUrl());
+				$linkParams = \vtlib\Functions:: getQueryParams($link->getUrl());
 				if (
 					isset($linkParams['module']) && isset($linkParams['view'])
 					&& $currentModule == $linkParams['module']
@@ -405,7 +405,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 				}
 
 				$minFilePath = str_replace('.js', '.min.js', $filePath);
-				if (\vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(\App\Loader::resolveNameToPath('~' . $minFilePath, $fileExtension))) {
+				if (\vtlib\Functions:: getMinimizationOptions($fileExtension) && is_file(\App\Loader::resolveNameToPath('~' . $minFilePath, $fileExtension))) {
 					$filePath = $minFilePath;
 				}
 
@@ -429,7 +429,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 				}
 
 				$minFilePath = str_replace('.js', '.min.js', $filePath);
-				if (\vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(\App\Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
+				if (\vtlib\Functions:: getMinimizationOptions($fileExtension) && is_file(\App\Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
 					$filePath = $minFilePath;
 				}
 
@@ -446,7 +446,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 				}
 
 				$minFilePath = str_replace('.js', '.min.js', $filePath);
-				if (\vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(\App\Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
+				if (\vtlib\Functions:: getMinimizationOptions($fileExtension) && is_file(\App\Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
 					$filePath = $minFilePath;
 				}
 
@@ -485,7 +485,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 				}
 
 				$minFilePath = str_replace('.css', '.min.css', $filePath);
-				if (\vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(\App\Loader::resolveNameToPath('~' . $minFilePath, $fileExtension))) {
+				if (\vtlib\Functions:: getMinimizationOptions($fileExtension) && is_file(\App\Loader::resolveNameToPath('~' . $minFilePath, $fileExtension))) {
 					$filePath = $minFilePath;
 				}
 
@@ -509,7 +509,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 				}
 
 				$minFilePath = str_replace('.css', '.min.css', $filePath);
-				if (\vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(\App\Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
+				if (\vtlib\Functions:: getMinimizationOptions($fileExtension) && is_file(\App\Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
 					$filePath = $minFilePath;
 				}
 
@@ -526,7 +526,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 				}
 
 				$minFilePath = str_replace('.css', '.min.css', $filePath);
-				if (\vtlib\Functions::getMinimizationOptions($fileExtension) && is_file(\App\Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
+				if (\vtlib\Functions:: getMinimizationOptions($fileExtension) && is_file(\App\Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
 					$filePath = $minFilePath;
 				}
 

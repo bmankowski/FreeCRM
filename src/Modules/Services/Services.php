@@ -445,22 +445,22 @@ class Services extends \App\CRMEntity
 		$adb = \App\Database\PearDatabase::getInstance();
 
 		if ($eventType == 'module.postinstall') {
-			$moduleInstance = vtlib\Module::getInstance($moduleName);
+			$moduleInstance = \App\Modules\Base\Models\Module::getInstance($moduleName);
 			$moduleInstance->allowSharing();
 
-			$ttModuleInstance = vtlib\Module::getInstance('HelpDesk');
+			$ttModuleInstance = \App\Modules\Base\Models\Module::getInstance('HelpDesk');
 			$ttModuleInstance->setRelatedList($moduleInstance, 'Services', array('select'));
 
-			$leadModuleInstance = vtlib\Module::getInstance('Leads');
+			$leadModuleInstance = \App\Modules\Base\Models\Module::getInstance('Leads');
 			$leadModuleInstance->setRelatedList($moduleInstance, 'Services', array('select'));
 
-			$accModuleInstance = vtlib\Module::getInstance('Accounts');
+			$accModuleInstance = \App\Modules\Base\Models\Module::getInstance('Accounts');
 			$accModuleInstance->setRelatedList($moduleInstance, 'Services', array('select'));
 
-			$conModuleInstance = vtlib\Module::getInstance('Contacts');
+			$conModuleInstance = \App\Modules\Base\Models\Module::getInstance('Contacts');
 			$conModuleInstance->setRelatedList($moduleInstance, 'Services', array('select'));
 
-			$pbModuleInstance = vtlib\Module::getInstance('PriceBooks');
+			$pbModuleInstance = \App\Modules\Base\Models\Module::getInstance('PriceBooks');
 			$pbModuleInstance->setRelatedList($moduleInstance, 'Services', array('select'), 'getPricebookServices');
 
 			// Initialize module sequence for the module
@@ -476,7 +476,7 @@ class Services extends \App\CRMEntity
 		} else if ($eventType == 'module.preupdate') {
 			
 		} else if ($eventType == 'module.postupdate') {
-			$ServicesModule = vtlib\Module::getInstance('Services');
+			$ServicesModule = \App\Modules\Base\Models\Module::getInstance('Services');
 			vtlib\Access::setDefaultSharing($ServicesModule);
 		}
 	}

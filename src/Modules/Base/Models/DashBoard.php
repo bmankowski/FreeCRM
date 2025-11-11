@@ -114,7 +114,7 @@ class DashBoard extends \App\Runtime\BaseModel
 	 */
 	public function getModuleNameFromLink($linkUrl, $linkLabel)
 	{
-		$params = \vtlib\Functions::getQueryParams($linkUrl);
+		$params = \vtlib\Functions:: getQueryParams($linkUrl);
 		$module = $params['module'];
 		if ($linkLabel == 'Overdue Activities' || $linkLabel == 'Upcoming Activities') {
 			$module = 'Calendar';
@@ -212,11 +212,11 @@ class DashBoard extends \App\Runtime\BaseModel
 		while ($row = $dataReader->read()) {
 			$tabId = $row['module'] ? $row['module'] : $row['tabid'];
 			if (!isset($modules[$tabId])) {
-				$modules[$tabId] = \vtlib\Functions::getModuleName($tabId);
+				$modules[$tabId] = \App\Utils\ModuleUtils::getModuleName($tabId);
 			}
 		}
 		ksort($modules);
-		if ($moduleName && ($tabId = \vtlib\Functions::getModuleId($moduleName))) {
+		if ($moduleName && ($tabId = \vtlib\Functions:: getModuleId($moduleName))) {
 			unset($modules[$tabId]);
 			$modules = array_merge([$tabId => $moduleName], $modules);
 		}

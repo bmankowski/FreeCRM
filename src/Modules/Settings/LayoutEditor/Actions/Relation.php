@@ -80,8 +80,8 @@ class Relation extends \App\Modules\Settings\Base\Actions\Index
 		$type = $request->get('type');
 		$actions = is_array($request->get('actions')) ? $request->get('actions') : [$request->get('actions')];
 
-		$source_Module = vtlib\Module::getInstance($source);
-		$moduleInstance = vtlib\Module::getInstance($target);
+		$source_Module = \App\Modules\Base\Models\Module::getInstance($source);
+		$moduleInstance = \App\Modules\Base\Models\Module::getInstance($target);
 		$source_Module->setRelatedList($moduleInstance, $label, $actions, $type);
 
 		$response = new \App\Http\Vtiger_Response();

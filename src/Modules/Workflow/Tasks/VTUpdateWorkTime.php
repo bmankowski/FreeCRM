@@ -50,7 +50,7 @@ class VTUpdateWorkTime extends VTTask
 		}
 
 		$referenceIds = array_diff_key($referenceIds, array_flip($globalIds));
-		$metasData = \vtlib\Functions::getCRMRecordMetadata(array_keys($referenceIds));
+		$metasData = \vtlib\Functions:: getCRMRecordMetadata(array_keys($referenceIds));
 		$modulesHierarchy = array_keys(\App\ModuleHierarchy::getModulesHierarchy());
 		foreach ($metasData as $referenceId => $metaData) {
 			if (((int) $metaData['delete']) === 0 && in_array($metaData['setype'], $modulesHierarchy)) {

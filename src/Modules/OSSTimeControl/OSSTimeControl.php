@@ -107,7 +107,7 @@ class OSSTimeControl extends \App\CRMEntity
 			$tabid = \App\Utils\ModuleUtils::getModuleId($modulename);
 			$adb->query("UPDATE `vtiger_field` SET `summaryfield` = '1' WHERE `tabid` = $tabid && `columnname` IN ('name','osstimecontrol_no','osstimecontrol_status','smownerid','date_start','time_start','time_end','due_date','sum_time','platnosc');", true);
 			\App\Fields\RecordNumber::setNumber($modulename, 'TC', '1');
-			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
+			$modcommentsModuleInstance = \App\Modules\Base\Models\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('src/Modules/ModComments/ModComments.php')) {
 				include_once 'src/Modules/ModComments/ModComments.php';
 				if (class_exists('ModComments'))
@@ -191,7 +191,7 @@ class OSSTimeControl extends \App\CRMEntity
 		if ($fieldRes->rowCount()) {
 			$results = $this->db->getArray($fieldRes);
 		} else {
-			$fieldRes = $this->db->pquery('SELECT fieldname AS `name`, fieldid AS id, fieldlabel AS label, columnname AS `column`, tablename AS `table`, vtiger_field.*  FROM vtiger_field WHERE `uitype` IN (66,67,68) && `tabid` = ?;', [\vtlib\Functions::getModuleId($module)]);
+			$fieldRes = $this->db->pquery('SELECT fieldname AS `name`, fieldid AS id, fieldlabel AS label, columnname AS `column`, tablename AS `table`, vtiger_field.*  FROM vtiger_field WHERE `uitype` IN (66,67,68) && `tabid` = ?;', [\vtlib\Functions:: getModuleId($module)]);
 			while ($row = $this->db->getRow($fieldRes)) {
 				$className = \App\Loader::getComponentClassName('Model', 'Field', $module);
 				$fieldModel = new $className();

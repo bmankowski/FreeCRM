@@ -116,7 +116,7 @@ class Currency extends BaseUiType
 				$moduleName = \App\Record::getType($recordId);
 			if ($this->get('field')->getName() === 'unit_price') {
 				$currencyId = \App\Utils\InventoryUtils::getProductBaseCurrency($recordId, $moduleName);
-				$cursym_convrate = \vtlib\Functions::getCurrencySymbolandRate($currencyId);
+				$cursym_convrate = \vtlib\Functions:: getCurrencySymbolandRate($currencyId);
 				$currencySymbol = $cursym_convrate['symbol'];
 			} else {
 				$currencyInfo = \App\Utils\InventoryUtils::getInventoryCurrencyInfo($moduleName, $recordId);

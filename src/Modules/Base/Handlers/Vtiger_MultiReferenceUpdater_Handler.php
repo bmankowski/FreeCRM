@@ -58,12 +58,12 @@ class Vtiger_MultiReferenceUpdater_Handler {
 			foreach ($referenceFields as $fieldName => $fieldModel) {
 				if (isset($previousValue[$fieldName]) && !$recordModel->isNew()) {
 					$module = \App\Record::getType($previousValue[$fieldName]);
-					if ($module && in_array(\vtlib\Functions::getModuleId($module), $moduleIds)) {
+					if ($module && in_array(\vtlib\Functions:: getModuleId($module), $moduleIds)) {
 						\App\Modules\Base\UiTypes\MultiReferenceValue::setRecordToCron($module, $moduleName, $previousValue[$fieldName]);
 					}
 				}
 				$module = \App\Record::getType($recordModel->get($fieldName));
-				if ($module && in_array(\vtlib\Functions::getModuleId($module), $moduleIds)) {
+				if ($module && in_array(\vtlib\Functions:: getModuleId($module), $moduleIds)) {
 					\App\Modules\Base\UiTypes\MultiReferenceValue::setRecordToCron($module, $moduleName, $recordModel->get($fieldName));
 				}
 			}

@@ -40,7 +40,7 @@ class Record
 				if ($id && !Cache::has('recordLabel', $id)) {
 					$metainfo = Functions::getCRMRecordMetadata($id);
 					$computeLabel = static::computeLabels($metainfo['setype'], $id);
-					$recordLabel = \vtlib\Functions::textLength(\App\Utils\ListViewUtils::decodeHtml($computeLabel[$id]), 254, false);
+					$recordLabel = \vtlib\Functions:: textLength(\App\Utils\ListViewUtils::decodeHtml($computeLabel[$id]), 254, false);
 					Cache::save('recordLabel', $id, $recordLabel);
 				}
 			}
@@ -180,8 +180,8 @@ class Record
 		$labelInfo = static::computeLabels($moduleName, $id, true);
 		if (!empty($labelInfo)) {
 			$db = \App\Db::getInstance();
-			$label = \vtlib\Functions::textLength(\App\Utils\ListViewUtils::decodeHtml($labelInfo[$id]['name']), 254, false);
-			$search = \vtlib\Functions::textLength(\App\Utils\ListViewUtils::decodeHtml($labelInfo[$id]['search']), 254, false);
+			$label = \vtlib\Functions:: textLength(\App\Utils\ListViewUtils::decodeHtml($labelInfo[$id]['name']), 254, false);
+			$search = \vtlib\Functions:: textLength(\App\Utils\ListViewUtils::decodeHtml($labelInfo[$id]['search']), 254, false);
 			if (!is_numeric($label) && empty($label)) {
 				$label = '';
 			}
@@ -229,11 +229,11 @@ class Record
 			$fieldModel = $recordModel->getModule()->getFieldByColumn($columnName);
 			$labelSearch[] = $fieldModel->getDisplayValue($recordModel->get($fieldModel->getName()), $recordModel->getId(), $recordModel);
 		}
-		$label = \vtlib\Functions::textLength(implode(' ', $labelName), 254, false);
+		$label = \vtlib\Functions:: textLength(implode(' ', $labelName), 254, false);
 		if (empty($label)) {
 			$label = '';
 		}
-		$search = \vtlib\Functions::textLength(implode(' ', $labelSearch), 254, false);
+		$search = \vtlib\Functions:: textLength(implode(' ', $labelSearch), 254, false);
 		if (empty($search)) {
 			$search = '';
 		}

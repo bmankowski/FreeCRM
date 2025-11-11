@@ -77,7 +77,7 @@ class WebUI_ErrorHandler
     private static function displayError($message)
     {
         if (\App\AppConfig::debug('EXCEPTION_ERROR_TO_SHOW')) {
-            \vtlib\Functions::throwNewException($message, false);
+            \vtlib\Functions:: throwNewException($message, false);
         }
     }
 

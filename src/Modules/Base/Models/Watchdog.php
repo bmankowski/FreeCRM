@@ -434,7 +434,7 @@ class Watchdog extends \App\Runtime\BaseModel
 				}
 			}
 		}
-		$content = '<?php return ' . \vtlib\Functions::varExportMin($cache) . ';' . PHP_EOL;
+		$content = '<?php return ' . \vtlib\Functions:: varExportMin($cache) . ';' . PHP_EOL;
 		file_put_contents(static::$cacheFile, $content, LOCK_EX);
 	}
 

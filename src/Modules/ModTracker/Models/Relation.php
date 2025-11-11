@@ -68,7 +68,7 @@ class Relation extends \App\Modules\Base\Models\Relation
 		$db->createCommand()->insert('u_#__reviewed_queue', [
 			'id' => $id,
 			'userid' => $currentUserModel->getRealId(),
-			'tabid' => \vtlib\Functions::getModuleId($module),
+			'tabid' => \vtlib\Functions:: getModuleId($module),
 			'data' => \App\Json::encode($data),
 			'time' => date('Y-m-d H:i:s')
 		])->execute();

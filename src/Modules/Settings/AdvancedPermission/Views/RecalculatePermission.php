@@ -17,7 +17,7 @@ class RecalculatePermission extends \App\Modules\Settings\Base\Views\BasicModal
 	{
 		parent::preProcess($request);
 		$qualifiedModuleName = $request->getModule(false);
-		$modules = \vtlib\Functions::getAllModules();
+		$modules = \vtlib\Functions:: getAllModules();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $request->getModule(true));
 		$viewer->assign('MODULE', $qualifiedModuleName);

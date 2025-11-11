@@ -100,7 +100,7 @@ class Files extends \App\Runtime\BaseModel
 		$filetype = $fileDetails['type'];
 		$filetmp_name = $fileDetails['tmp_name'];
 
-		$uploadFilePath = \vtlib\Functions::initStorageFileDirectory($storageName);
+		$uploadFilePath = \vtlib\Functions:: initStorageFileDirectory($storageName);
 		$db->createCommand()->insert('u_#__attachments', [
 			'name' => $filename,
 			'type' => $filetype,

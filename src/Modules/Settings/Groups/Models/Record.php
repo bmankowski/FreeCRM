@@ -191,7 +191,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			}
 			foreach ($add as &$tabId) {
 				$db->createCommand()->insert('vtiger_group2modules', ['groupid' => $groupId, 'tabid' => $tabId])->execute();
-				\App\Privilege::setUpdater(\vtlib\Functions::getModuleName($tabId));
+				\App\Privilege::setUpdater(\App\Utils\ModuleUtils::getModuleName($tabId));
 			}
 		}
 		$this->recalculate($oldUsersList);
@@ -442,7 +442,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			$data['group_members'] = [$data['group_members']];
 		}
 		foreach ($data['modules'] as $tabId) {
-			$modules[] = \vtlib\Functions::getModuleName($tabId);
+			$modules[] = \App\Utils\ModuleUtils::getModuleName($tabId);
 		}
 		$modules = implode(',', $modules);
 		$data['modules'] = $modules;

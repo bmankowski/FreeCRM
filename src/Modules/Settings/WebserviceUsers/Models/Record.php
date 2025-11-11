@@ -232,7 +232,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 				return vtlib\Language::getAll()[$this->get($name)];
 			case 'type':
 				$label = \App\Runtime\Vtiger_Language_Handler::translate($this->getTypeValues($this->get($name)), $this->getModule()->getName(true));
-				return \vtlib\Functions::textLength($label);
+				return \vtlib\Functions:: textLength($label);
 			default:
 				break;
 		}

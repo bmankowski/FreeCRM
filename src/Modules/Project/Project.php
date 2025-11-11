@@ -322,7 +322,7 @@ class Project extends \App\CRMEntity
 		if ($event_type == 'module.postinstall') {
 			$adb = \App\Database\PearDatabase::getInstance();
 
-			$moduleInstance = vtlib\Module::getInstance($modulename);
+			$moduleInstance = \App\Modules\Base\Models\Module::getInstance($modulename);
 			$projectsResult = $adb->pquery('SELECT tabid FROM vtiger_tab WHERE name=?', array('Project'));
 			$projectTabid = $adb->query_result($projectsResult, 0, 'tabid');
 
@@ -330,18 +330,18 @@ class Project extends \App\CRMEntity
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($modulename));
 
 			// Add Project module to the related list of Accounts module
-			$accountsModuleInstance = vtlib\Module::getInstance('Accounts');
+			$accountsModuleInstance = \App\Modules\Base\Models\Module::getInstance('Accounts');
 			$accountsModuleInstance->setRelatedList($moduleInstance, 'Projects', Array('ADD', 'SELECT'), 'getDependentsList');
 
 			// Add Project module to the related list of Accounts module
-			$contactsModuleInstance = vtlib\Module::getInstance('Contacts');
+			$contactsModuleInstance = \App\Modules\Base\Models\Module::getInstance('Contacts');
 			$contactsModuleInstance->setRelatedList($moduleInstance, 'Projects', Array('ADD', 'SELECT'), 'getDependentsList');
 
 			// Add Project module to the related list of HelpDesk module
-			$helpDeskModuleInstance = vtlib\Module::getInstance('HelpDesk');
+			$helpDeskModuleInstance = \App\Modules\Base\Models\Module::getInstance('HelpDesk');
 			$helpDeskModuleInstance->setRelatedList($moduleInstance, 'Projects', Array('SELECT'), 'getRelatedList');
 
-			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
+			$modcommentsModuleInstance = \App\Modules\Base\Models\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('src/Modules/ModComments/ModComments.php')) {
 				include_once 'src/Modules/ModComments/ModComments.php';
 				if (class_exists('ModComments'))
@@ -364,7 +364,7 @@ class Project extends \App\CRMEntity
 			$projectTabid = $adb->query_result($projectsResult, 0, 'tabid');
 
 			// Add Comments widget to Project module
-			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
+			$modcommentsModuleInstance = \App\Modules\Base\Models\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('src/Modules/ModComments/ModComments.php')) {
 				include_once 'src/Modules/ModComments/ModComments.php';
 				if (class_exists('ModComments'))

@@ -151,7 +151,7 @@ class Calendar extends \App\Runtime\BaseModel
 			$item['sta'] = $record['status'];
 			$item['vis'] = $record['visibility'];
 			$item['state'] = $record['state'];
-			$item['smownerid'] = \vtlib\Functions::getOwnerRecordLabel($record['smownerid']);
+			$item['smownerid'] = \vtlib\Functions:: getOwnerRecordLabel($record['smownerid']);
 
 			//translate
 			$item['labels']['sta'] = \App\Runtime\Vtiger_Language_Handler::translate($record['status'], $this->getModuleName());
@@ -165,12 +165,12 @@ class Calendar extends \App\Runtime\BaseModel
 			$item['linkm'] = $record['linkmod'];
 			//Process
 			$item['process'] = $record['process'];
-			$item['procl'] = \vtlib\Functions::textLength($this->getLabel($labels, $record['process']));
+			$item['procl'] = \vtlib\Functions:: textLength($this->getLabel($labels, $record['process']));
 			// / migoi
 			$item['procm'] = $record['processmod'];
 			//Subprocess
 			$item['subprocess'] = $record['subprocess'];
-			$item['subprocl'] = \vtlib\Functions::textLength($this->getLabel($labels, $record['subprocess']));
+			$item['subprocl'] = \vtlib\Functions:: textLength($this->getLabel($labels, $record['subprocess']));
 			$item['subprocm'] = $record['subprocessmod'];
 
 			if ($record['linkmod'] != 'Accounts' && (!empty($record['link']) || !empty($record['process']))) {
@@ -226,8 +226,8 @@ class Calendar extends \App\Runtime\BaseModel
 			$item['start_display'] = $startDateTimeDisplay;
 			$item['end_display'] = $endDateTimeDisplay;
 			$item['hour_start'] = $startTimeDisplay;
-			$hours = \vtlib\Functions::getDateTimeHoursDiff($item['start'], $item['end']);
-			$item['hours'] = \vtlib\Functions::decimalTimeFormat($hours)['short'];
+			$hours = \vtlib\Functions:: getDateTimeHoursDiff($item['start'], $item['end']);
+			$item['hours'] = \vtlib\Functions:: decimalTimeFormat($hours)['short'];
 			$item['allDay'] = $record['allday'] == 1 ? true : false;
 			$item['className'] = ' userCol_' . $record['smownerid'] . ' calCol_' . $activitytype;
 			$return[] = $item;

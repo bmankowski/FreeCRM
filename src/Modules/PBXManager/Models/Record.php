@@ -267,7 +267,7 @@ class Record extends \App\Modules\Base\Models\Record
 			}
 		}
 
-		$entityfields = \vtlib\Functions::getEntityModuleSQLColumnString($module);
+		$entityfields = \vtlib\Functions:: getEntityModuleSQLColumnString($module);
 		$querycolumnnames = implode(',', $lookupcolumns);
 		$entitycolumnnames = $entityfields['fieldname'];
 

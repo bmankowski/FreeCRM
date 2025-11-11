@@ -101,7 +101,7 @@ class ModTracker {
 			$db->createCommand()->update('vtiger_modtracker_tabs', ['visible' => 0], ['tabid' => $tabid])->execute();
 		}
 		if (static::isModtrackerLinkPresent($tabid)) {
-			$moduleInstance = vtlib\Module::getInstance($tabid);
+			$moduleInstance = \App\Modules\Base\Models\Module::getInstance($tabid);
 			$moduleInstance->deleteLink('DETAILVIEWBASIC', 'View History');
 		}
 		$db->createCommand()
@@ -123,7 +123,7 @@ class ModTracker {
 		}
 		\App\Db::getInstance()->createCommand()->update('vtiger_field', ['presence' => 2], ['tabid' => $tabid, 'fieldname' => 'was_read'])->execute();
 		if (static::isModtrackerLinkPresent($tabid)) {
-			$moduleInstance = vtlib\Module::getInstance($tabid);
+			$moduleInstance = \App\Modules\Base\Models\Module::getInstance($tabid);
 			$moduleInstance->addLink('DETAILVIEWBASIC', 'View History', "javascript:ModTrackerCommon.showhistory('\$RECORD\$')", '', '', array('path' => 'src/Modules/ModTracker/ModTracker.php', 'class' => 'ModTracker', 'method' => 'isViewPermitted'));
 		}
 		\App\Cache\Cache::save('isTrackingEnabledForModule', $tabid, true, \App\Cache\Cache::LONG);

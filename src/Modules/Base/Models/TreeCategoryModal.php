@@ -45,7 +45,7 @@ class TreeCategoryModal extends \App\Runtime\BaseModel
 			return $this->get('fieldTemp');
 		}
 		$db = \App\Database\PearDatabase::getInstance();
-		$result = $db->pquery('SELECT tablename,columnname,fieldname,fieldlabel,fieldparams FROM vtiger_field WHERE uitype = ? AND tabid = ?', [302, \vtlib\Functions::getModuleId($this->getModuleName())]);
+		$result = $db->pquery('SELECT tablename,columnname,fieldname,fieldlabel,fieldparams FROM vtiger_field WHERE uitype = ? AND tabid = ?', [302, \vtlib\Functions:: getModuleId($this->getModuleName())]);
 		$fieldTemp = $db->getRow($result);
 		$this->set('fieldTemp', $fieldTemp);
 		return $fieldTemp;

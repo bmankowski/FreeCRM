@@ -254,7 +254,7 @@ class Accounts extends \App\CRMEntity
 		$currentUser = \App\User\CurrentUser::get();
 		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 
-		$hasRecordViewAccess = (\vtlib\Functions::userIsAdministrator($currentUser)) || (\App\Utils\UserInfoUtil::isPermitted('Accounts', 'DetailView', $accountId) == 'yes');
+		$hasRecordViewAccess = (\vtlib\Functions:: userIsAdministrator($currentUser)) || (\App\Utils\UserInfoUtil::isPermitted('Accounts', 'DetailView', $accountId) == 'yes');
 		foreach ($this->hierarchyFields as &$field) {
 			$fieldName = $field['fieldname'];
 			$rawData = '';
@@ -344,7 +344,7 @@ class Accounts extends \App\CRMEntity
 				} elseif ($fieldName == 'shownerid') {
 					$sharedOwners = \App\Modules\Base\UiTypes\SharedOwner::getSharedOwners($row['accountid']);
 					if (!empty($sharedOwners)) {
-						$sharedOwners = implode(',', array_map('\vtlib\Functions::getOwnerRecordLabel', $sharedOwners));
+						$sharedOwners = implode(',', array_map('\vtlib\Functions:: getOwnerRecordLabel', $sharedOwners));
 						$parent_account_info[$fieldName] = $sharedOwners;
 					}
 				} else {
@@ -400,7 +400,7 @@ class Accounts extends \App\CRMEntity
 					} elseif ($fieldName == 'shownerid') {
 						$sharedOwners = \App\Modules\Base\UiTypes\SharedOwner::getSharedOwners($child_acc_id);
 						if (!empty($sharedOwners)) {
-							$sharedOwners = implode(',', array_map('\vtlib\Functions::getOwnerRecordLabel', $sharedOwners));
+							$sharedOwners = implode(',', array_map('\vtlib\Functions:: getOwnerRecordLabel', $sharedOwners));
 							$child_account_info[$fieldName] = $sharedOwners;
 						}
 					} else {

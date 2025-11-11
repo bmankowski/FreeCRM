@@ -15,7 +15,7 @@ class OSSTimeControl_Record_Model extends \App\Modules\Base\Models\Record
 			->where(['vtiger_crmentity.deleted' => 0, 'osstimecontrol_status' => self::recalculateStatus, $name => $id])
 			->sum('sum_time');
 		$sumTime = number_format($sumTime, 2);
-		$metaData = \vtlib\Functions::getCRMRecordMetadata($id);
+		$metaData = \vtlib\Functions:: getCRMRecordMetadata($id);
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($metaData['setype']);
 		$focus = $moduleModel->getEntityInstance();
 		if ($moduleModel->getFieldByColumn('sum_time')) {

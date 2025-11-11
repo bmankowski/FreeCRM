@@ -37,7 +37,7 @@ class TableTaxSummary extends Base
 			} else {
 				$currency = $baseCurrency['id'];
 			}
-			$currencySymbolRate = \vtlib\Functions::getCurrencySymbolandRate($currency);
+			$currencySymbolRate = \vtlib\Functions:: getCurrencySymbolandRate($currency);
 		}
 		$html .= '<style>' .
 			'.productTable{color:#000; font-size:10px}' .

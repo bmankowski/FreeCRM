@@ -39,7 +39,7 @@ class OSSMail {
 					  `info` varchar(100) DEFAULT NULL,
 					  PRIMARY KEY (`id`)
 					) ENGINE=InnoDB DEFAULT CHARSET=utf8");
-			$Module = vtlib\Module::getInstance($moduleName);
+			$Module = \App\Modules\Base\Models\Module::getInstance($moduleName);
 			$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?,?);", array('Action_InstallModule', $moduleName . ' ' . $Module->version, $user_id), false);
 		} else if ($eventType == 'module.disabled') {
@@ -57,7 +57,7 @@ class OSSMail {
 			
 		} else if ($eventType == 'module.postupdate') {
 			$adb = \App\Database\PearDatabase::getInstance();
-			$OSSMail = vtlib\Module::getInstance('OSSMail');
+			$OSSMail = \App\Modules\Base\Models\Module::getInstance('OSSMail');
 			if (version_compare($OSSMail->version, '1.39', '>')) {
 				$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
 				$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_UpdateModule', $moduleName . ' ' . $Module->version, $user_id), false);

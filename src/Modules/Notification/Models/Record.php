@@ -110,7 +110,7 @@ class Record extends \App\Modules\Base\Models\Record
 				}
 			}
 		}
-		$relatedModule = \vtlib\Functions::getCRMRecordMetadata($relatedId);
+		$relatedModule = \vtlib\Functions:: getCRMRecordMetadata($relatedId);
 		$relatedModule = $relatedModule['setype'];
 		return ['id' => $relatedId, 'module' => $relatedModule];
 	}
@@ -139,12 +139,12 @@ class Record extends \App\Modules\Base\Models\Record
 		}
 		$notificationType = $this->get('notification_type');
 		if (!\App\Modules\Users\Models\Privileges::isPermitted('Notification', 'DetailView')) {
-			\App\Log::warning('User ' . \vtlib\Functions::getOwnerRecordLabel($this->get('assigned_user_id')) . ' has no active notifications');
+			\App\Log::warning('User ' . \vtlib\Functions:: getOwnerRecordLabel($this->get('assigned_user_id')) . ' has no active notifications');
 			\App\Log::trace('Exiting ' . __METHOD__ . ' - return true');
 			return false;
 		}
 		if ($notificationType !== 'PLL_USERS' && !\App\Modules\Users\Models\Privileges::isPermitted($relatedModule, 'DetailView', $relatedId)) {
-			\App\Log::error('User ' . \vtlib\Functions::getOwnerRecordLabel($this->get('assigned_user_id')) .
+			\App\Log::error('User ' . \vtlib\Functions:: getOwnerRecordLabel($this->get('assigned_user_id')) .
 				' does not have permission for this record ' . $relatedId);
 			\App\Log::trace('Exiting ' . __METHOD__ . ' - return true');
 			return false;

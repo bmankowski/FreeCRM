@@ -32,7 +32,7 @@ class PrivilegeFile
 			$users['id'][$row['id']] = $row;
 			$users['userName'][$row['user_name']] = $row['id'];
 		}
-		file_put_contents(static::$usersFile, '<?php return ' . \vtlib\Functions::varExportMin($users) . ';');
+		file_put_contents(static::$usersFile, '<?php return ' . \vtlib\Functions:: varExportMin($users) . ';');
 	}
 
 	/**
@@ -79,18 +79,18 @@ class PrivilegeFile
 
 		$content = "<?php\n";
 		$content .= '$is_admin = ' . ($userInstance->column_fields['is_admin'] ? 'true' : 'false') . ";\n";
-		$content .= '$user_info = ' . \vtlib\Functions::varExportMin($userInstance->column_fields) . ";\n";
-		$content .= '$current_user_roles = ' . \vtlib\Functions::varExportMin($userInstance->column_fields['roleid']) . ";\n";
-		$content .= '$current_user_parent_role_seq = ' . \vtlib\Functions::varExportMin($userRoleInfo['parentrole']) . ";\n";
-		$content .= '$current_user_profiles = ' . \vtlib\Functions::varExportMin($user['profiles']) . ";\n";
-		$content .= '$profileGlobalPermission = ' . \vtlib\Functions::varExportMin($profileGlobalPermission) . ";\n";
-		$content .= '$profileTabsPermission = ' . \vtlib\Functions::varExportMin($profileTabsPermission) . ";\n";
-		$content .= '$profileActionPermission = ' . \vtlib\Functions::varExportMin($profileActionPermission) . ";\n";
-		$content .= '$current_user_groups = ' . \vtlib\Functions::varExportMin($user['groups']) . ";\n";
-		$content .= '$subordinate_roles = ' . \vtlib\Functions::varExportMin($subordinateRoles) . ";\n";
-		$content .= '$parent_roles = ' . \vtlib\Functions::varExportMin($userRoleInfo['parentRoles']) . ";\n";
-		$content .= '$subordinate_roles_users = ' . \vtlib\Functions::varExportMin($subordinateRolesUsers) . ";\n";
-		$content .= "return " . \vtlib\Functions::varExportMin($user) . ";\n";
+		$content .= '$user_info = ' . \vtlib\Functions:: varExportMin($userInstance->column_fields) . ";\n";
+		$content .= '$current_user_roles = ' . \vtlib\Functions:: varExportMin($userInstance->column_fields['roleid']) . ";\n";
+		$content .= '$current_user_parent_role_seq = ' . \vtlib\Functions:: varExportMin($userRoleInfo['parentrole']) . ";\n";
+		$content .= '$current_user_profiles = ' . \vtlib\Functions:: varExportMin($user['profiles']) . ";\n";
+		$content .= '$profileGlobalPermission = ' . \vtlib\Functions:: varExportMin($profileGlobalPermission) . ";\n";
+		$content .= '$profileTabsPermission = ' . \vtlib\Functions:: varExportMin($profileTabsPermission) . ";\n";
+		$content .= '$profileActionPermission = ' . \vtlib\Functions:: varExportMin($profileActionPermission) . ";\n";
+		$content .= '$current_user_groups = ' . \vtlib\Functions:: varExportMin($user['groups']) . ";\n";
+		$content .= '$subordinate_roles = ' . \vtlib\Functions:: varExportMin($subordinateRoles) . ";\n";
+		$content .= '$parent_roles = ' . \vtlib\Functions:: varExportMin($userRoleInfo['parentRoles']) . ";\n";
+		$content .= '$subordinate_roles_users = ' . \vtlib\Functions:: varExportMin($subordinateRolesUsers) . ";\n";
+		$content .= "return " . \vtlib\Functions:: varExportMin($user) . ";\n";
 		$result = file_put_contents($file, $content, LOCK_EX);
 		if ($result === false) {
 			\App\Log::error("Failed to write privilege file for user $userId: $file");

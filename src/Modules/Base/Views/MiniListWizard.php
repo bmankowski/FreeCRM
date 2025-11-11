@@ -26,7 +26,7 @@ class MiniListWizard  extends \App\Modules\Base\Views\Index
 
 		switch ($request->get('step')) {
 			case 'step1':
-				$modules = \vtlib\Functions::getAllModules(true, false, 0);
+				$modules = \vtlib\Functions:: getAllModules(true, false, 0);
 				//Since comments is not treated as seperate module 
 				unset($modules['ModComments']);
 				$viewer->assign('MODULES', $modules);

@@ -32,7 +32,7 @@ class DocumentsFileUpload extends BaseUiType
 	 */
 	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		return $this->getDisplayValue(\vtlib\Functions::textLength($value, $this->get('field')->get('maxlengthtext')), $record, $recordInstance, $rawText);
+		return $this->getDisplayValue(\vtlib\Functions:: textLength($value, $this->get('field')->get('maxlengthtext')), $record, $recordInstance, $rawText);
 	}
 
 	/**

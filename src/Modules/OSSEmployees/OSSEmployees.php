@@ -149,7 +149,7 @@ class OSSEmployees extends \App\CRMEntity
 						$account_depth = str_repeat(" .. ", $account_info['depth'] * 2);
 						$data = $account_depth . $data;
 					} else if ($colname == 'parentid' || $colname == 'projectid' || $colname == 'ticketid' || $colname == 'relategid') {
-						$data = '<a href="index.php?module=' . \App\Record::getType($data) . '&action=DetailView&record=' . $data . '">' . \vtlib\Functions::getCRMRecordLabel($data) . '</a>';
+						$data = '<a href="index.php?module=' . \App\Record::getType($data) . '&action=DetailView&record=' . $data . '">' . \App\Record::getLabel($data) . '</a>';
 					}
 					$account_info_data[] = $data;
 				}
@@ -266,7 +266,7 @@ class OSSEmployees extends \App\CRMEntity
 
 			\App\Fields\RecordNumber::setNumber($modulename, 'P', '1');
 			// block with comments
-			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
+			$modcommentsModuleInstance = \App\Modules\Base\Models\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('src/Modules/ModComments/ModComments.php')) {
 				include_once 'src/Modules/ModComments/ModComments.php';
 				if (class_exists('ModComments'))

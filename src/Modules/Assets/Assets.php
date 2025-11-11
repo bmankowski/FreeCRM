@@ -305,17 +305,17 @@ class Assets extends \App\CRMEntity
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($moduleName));
 
 			//adds sharing accsess
-			$AssetsModule = vtlib\Module::getInstance('Assets');
+			$AssetsModule = \App\Modules\Base\Models\Module::getInstance('Assets');
 			vtlib\Access::setDefaultSharing($AssetsModule);
 
 			//Showing Assets module in the related modules in the More Information Tab
-			$assetInstance = vtlib\Module::getInstance('Assets');
+			$assetInstance = \App\Modules\Base\Models\Module::getInstance('Assets');
 			$assetLabel = 'Assets';
 
-			$accountInstance = vtlib\Module::getInstance('Accounts');
+			$accountInstance = \App\Modules\Base\Models\Module::getInstance('Accounts');
 			$accountInstance->setRelatedlist($assetInstance, $assetLabel, array(ADD), 'getDependentsList');
 
-			$productInstance = vtlib\Module::getInstance('Products');
+			$productInstance = \App\Modules\Base\Models\Module::getInstance('Products');
 			$productInstance->setRelatedlist($assetInstance, $assetLabel, array(ADD), 'getDependentsList');
 
 			\App\Fields\RecordNumber::setNumber($moduleName, 'ASSET', 1);

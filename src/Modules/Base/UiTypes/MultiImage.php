@@ -102,7 +102,7 @@ class MultiImage extends BaseUiType
 	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$images = $this->getDisplayValue($value, $record, $recordInstance, true);
-		return !\App\AppConfig::performance('ICON_MULTIIMAGE_VIEW') ? \vtlib\Functions::textLength($images, $this->get('field')->get('maxlengthtext')) : $images;
+		return !\App\AppConfig::performance('ICON_MULTIIMAGE_VIEW') ? \vtlib\Functions:: textLength($images, $this->get('field')->get('maxlengthtext')) : $images;
 	}
 
 	/**

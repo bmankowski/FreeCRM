@@ -26,7 +26,7 @@ class EditAjax extends \App\Modules\Base\Views\IndexAjax
 		$duplicate = $request->get('duplicate');
 
 		if (is_numeric($moduleName)) {
-			$moduleName = \vtlib\Functions::getModuleName($moduleName);
+			$moduleName = \\App\Utils\ModuleUtils::getModuleName($moduleName);
 		}
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceForModule($moduleModel);

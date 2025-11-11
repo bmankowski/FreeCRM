@@ -99,8 +99,8 @@ class HolidaysEntitlement extends \App\CRMEntity
 			$moduleInstance = \App\CRMEntity::getInstance('HolidaysEntitlement');
 			\App\Fields\RecordNumber::setNumber($moduleName, 'HE', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array('HolidaysEntitlement'));
-			$moduleInstance = vtlib\Module::getInstance('HolidaysEntitlement');
-			$targetModule = vtlib\Module::getInstance('OSSEmployees');
+			$moduleInstance = \App\Modules\Base\Models\Module::getInstance('HolidaysEntitlement');
+			$targetModule = \App\Modules\Base\Models\Module::getInstance('OSSEmployees');
 			$targetModule->setRelatedList($moduleInstance, 'HolidaysEntitlement', array('ADD'), 'getDependentsList');
 		} else if ($eventType == 'module.disabled') {
 			

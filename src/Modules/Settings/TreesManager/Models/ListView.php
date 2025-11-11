@@ -66,7 +66,7 @@ class ListView extends \App\Modules\Settings\Base\Models\ListView
 			$record = new $recordModelClass();
 			$record->setData($row);
 
-			$recordModule = \vtlib\Functions::getModuleName($row['module']);
+			$recordModule = \App\Utils\ModuleUtils::getModuleName($row['module']);
 			$record->set('module', \App\Runtime\Vtiger_Language_Handler::translate($recordModule, $recordModule));
 
 			if (method_exists($record, 'getModule') && method_exists($record, 'setModule')) {

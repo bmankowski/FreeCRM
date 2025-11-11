@@ -68,7 +68,7 @@ class GetFreeTime extends \App\Base\Controllers\BaseActionController
 				])->orderBy(['time_start' => SORT_ASC])
 				->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			if (\vtlib\Functions::getDateTimeMinutesDiff($startTime, $row['time_start']) >= $durationEvent) {
+			if (\vtlib\Functions:: getDateTimeMinutesDiff($startTime, $row['time_start']) >= $durationEvent) {
 				$date = new \DateTime($row['date_start'] . ' ' . $startTime);
 				$startTime = new \App\Fields\DateTimeField($startTime);
 				$date->add(new \DateInterval('PT' . $durationEvent . 'M0S'));
@@ -83,7 +83,7 @@ class GetFreeTime extends \App\Base\Controllers\BaseActionController
 		$date->add(new \DateInterval('PT' . $durationEvent . 'M0S'));
 		$dbEndWorkHour = $dbEndDateObject->format('H:i:s');
 
-		if (\vtlib\Functions::getDateTimeMinutesDiff(date_format($date, 'H:i:s'), $dbEndWorkHour) <= 0) {
+		if (\vtlib\Functions:: getDateTimeMinutesDiff(date_format($date, 'H:i:s'), $dbEndWorkHour) <= 0) {
 			$date->add(new \DateInterval('P1D'));
 			while (in_array(date_format($date, 'w'), \App\AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW'))) {
 				$date->add(new \DateInterval('P1D'));
@@ -102,7 +102,7 @@ class GetFreeTime extends \App\Base\Controllers\BaseActionController
 		$currentUser = $request->getUser();
 		$startWorkHour = $currentUser->get('start_hour');
 		$endWorkHour = $currentUser->get('end_hour');
-		if (\vtlib\Functions::getDateTimeMinutesDiff($startWorkHour, $endWorkHour) > 0) {
+		if (\vtlib\Functions:: getDateTimeMinutesDiff($startWorkHour, $endWorkHour) > 0) {
 			$startDate = $this->getFreeTimeInDay($dateStart);
 			$data ['time_start'] = $startDate['time_start'];
 			$data ['date_start'] = \App\Fields\DateTimeField::convertToUserFormat($startDate['day']);

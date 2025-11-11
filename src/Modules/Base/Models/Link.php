@@ -372,7 +372,7 @@ class Link extends \vtlib\Link
 		$linkModels = [];
 		foreach ($links as $linkType => $linkObjects) {
 			foreach ($linkObjects as $linkObject) {
-				$queryParams = \vtlib\Functions::getQueryParams($linkObject->linkurl);
+				$queryParams = \vtlib\Functions:: getQueryParams($linkObject->linkurl);
 				if (!(isset($queryParams['module']) && !\App\Modules\Users\Models\Privileges::isPermitted($queryParams['module']))) {
 					$linkModels[$linkType][] = self::getInstanceFromLinkObject($linkObject);
 				}
@@ -399,7 +399,7 @@ class Link extends \vtlib\Link
 	{
 		$relatedModuleName = $defaultModuleName;
 		if (empty($this->relatedModuleName)) {
-			$queryParams = \vtlib\Functions::getQueryParams($this->get('linkurl'));
+			$queryParams = \vtlib\Functions:: getQueryParams($this->get('linkurl'));
 			if (isset($queryParams['module'])) {
 				// PHP 8.0+: Use isset() to avoid undefined array key warning
 				$parent = $queryParams['parent'] ?? null;

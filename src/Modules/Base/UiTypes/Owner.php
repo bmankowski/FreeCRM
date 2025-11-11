@@ -72,11 +72,11 @@ class Owner extends BaseUiType
 		$maxLengthText = $this->get('field')->get('maxlengthtext');
 		$ownerName = \App\Fields\Owner::getLabel($value);
 		if ($rawText) {
-			return \vtlib\Functions::textLength($ownerName, $maxLengthText);
+			return \vtlib\Functions:: textLength($ownerName, $maxLengthText);
 		}
 		if (\App\Fields\Owner::getType($value) === 'Users') {
 			$userModel = \App\Modules\Users\Models\Privileges::getInstanceById($value);
-			$ownerName = \vtlib\Functions::textLength($userModel->getName(), $maxLengthText);
+			$ownerName = \vtlib\Functions:: textLength($userModel->getName(), $maxLengthText);
 			if ($userModel->get('status') === 'Inactive') {
 				$ownerName = '<span class="redColor">' . $ownerName . '</span>';
 			}
@@ -90,7 +90,7 @@ class Owner extends BaseUiType
 		} else {
 			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 			if (!$currentUser->isAdminUser() || $rawText) {
-				return \vtlib\Functions::textLength($ownerName, $maxLengthText);
+				return \vtlib\Functions:: textLength($ownerName, $maxLengthText);
 			}
 			$recordModel = new \App\Modules\Settings\Groups\Models\Record();
 			$recordModel->set('groupid', $value);

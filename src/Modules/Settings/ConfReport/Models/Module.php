@@ -351,7 +351,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		$ram = $parser->getRam();
 		$precent = number_format(($ram['free'] / $ram['total']) * 100);
 		$params['LBL_RAM'] = \App\Runtime\Vtiger_Language_Handler::translate('LBL_SPACE_TOTAL', 'Settings::ConfReport') . ': ' . \App\Modules\Base\Helpers\Util::formatBytesToHumanReadable($ram['total']) . ', ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_SPACE_USED', 'Settings::ConfReport') . ': ' . \App\Modules\Base\Helpers\Util::formatBytesToHumanReadable($ram['total'] - $ram['free']) . ", " . \App\Runtime\Vtiger_Language_Handler::translate('LBL_SPACE_FREE', 'Settings::ConfReport') . ': ' . \App\Modules\Base\Helpers\Util::formatBytesToHumanReadable($ram['free']) . " ($precent%)";
-		$disk = \vtlib\Functions::getDiskSpace();
+		$disk = \vtlib\Functions:: getDiskSpace();
 		$precent = number_format(($disk['free'] / $disk['total']) * 100);
 		$params['LBL_HDD'] = \App\Runtime\Vtiger_Language_Handler::translate('LBL_SPACE_TOTAL', 'Settings::ConfReport') . ': ' . \App\Modules\Base\Helpers\Util::formatBytesToHumanReadable($disk['total']) . ', ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_SPACE_USED', 'Settings::ConfReport') . ': ' . \App\Modules\Base\Helpers\Util::formatBytesToHumanReadable($disk['used']) . ", " . \App\Runtime\Vtiger_Language_Handler::translate('LBL_SPACE_FREE', 'Settings::ConfReport') . ': ' . \App\Modules\Base\Helpers\Util::formatBytesToHumanReadable($disk['free']) . " ($precent%)";
 		return $params;
@@ -435,7 +435,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		$readE = microtime(true);
 		$read = $i / ($readE - $readS);
 		$write = $i / ($writeE - $writeS);
-		\vtlib\Functions::recurseDelete('cache/speed');
+		\vtlib\Functions:: recurseDelete('cache/speed');
 		return ['FilesRead' => number_format($read, 0, '', ' '), 'FilesWrite' => number_format($write, 0, '', ' ')];
 	}
 }

@@ -22,12 +22,12 @@ class PrivilegeUtil
 	{
 		\App\Log::trace("Entering getParentRecordOwner($tabid,$parModId,$recordId) method ...");
 		$parentRecOwner = [];
-		$parentTabName = \vtlib\Functions::getModuleName($parModId);
-		$relTabName = \vtlib\Functions::getModuleName($tabid);
+		$parentTabName = \App\Utils\ModuleUtils::getModuleName($parModId);
+		$relTabName = \App\Utils\ModuleUtils::getModuleName($tabid);
 		$fn_name = 'get' . $relTabName . 'Related' . $parentTabName;
 		$entId = static::$fn_name($recordId);
 		if ($entId != '') {
-			$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($entId);
+			$recordMetaData = \vtlib\Functions:: getCRMRecordMetadata($entId);
 			if ($recordMetaData) {
 				$ownerId = $recordMetaData['smownerid'];
 				$type = \App\Fields\Owner::getType($ownerId);

@@ -95,7 +95,7 @@ class Module extends \App\Modules\Base\Models\Module
 			$smownerid = \App\Fields\Owner::getLabel($row['smownerid']);
 			$userTime[] = [
 				'name' => [$count, $smownerid],
-				'initial' => [$count, \vtlib\Functions::getInitials($smownerid)],
+				'initial' => [$count, \vtlib\Functions:: getInitials($smownerid)],
 				'data' => [$count, $row['sumtime']]
 			];
 			$count++;

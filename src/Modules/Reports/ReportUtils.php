@@ -112,7 +112,7 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 			$curid_value = explode("::", $value);
 			$currency_id = $curid_value[0];
 			$currency_value = $curid_value[1];
-			$cur_sym_rate = \vtlib\Functions::getCurrencySymbolandRate($currency_id);
+			$cur_sym_rate = \vtlib\Functions:: getCurrencySymbolandRate($currency_id);
 			if ($value != '') {
 				if (($dbField->name == 'Products_Unit_Price')) { // need to do this only for Products Unit Price
 					if ($currency_id != 1) {
@@ -139,7 +139,7 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 			$endTime = $valueArray['calendar_end_time'];
 			if (empty($endTime)) {
 				$recordId = $valueArray['calendar_id'];
-				$endTime = \vtlib\Functions::getSingleFieldValue('vtiger_activity', 'time_end', 'activityid', $recordId);
+				$endTime = \vtlib\Functions:: getSingleFieldValue('vtiger_activity', 'time_end', 'activityid', $recordId);
 			}
 			$date = new \App\Fields\DateTimeField($value . ' ' . $endTime);
 			$fieldvalue = $date->getDisplayDate();

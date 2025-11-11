@@ -74,10 +74,10 @@ class NBR extends \App\Modules\Settings\CurrencyUpdate\Models\AbstractBank
 		$yesterday = date('Y-m-d', strtotime('-1 day'));
 
 		// check if data is correct, currency rates can be retrieved only for working days
-		$lastWorkingDay = \vtlib\Functions::getLastWorkingDay($yesterday);
+		$lastWorkingDay = \vtlib\Functions:: getLastWorkingDay($yesterday);
 
 		$today = date('Y-m-d');
-		$mainCurrency = \vtlib\Functions::getDefaultCurrencyInfo()['currency_code'];
+		$mainCurrency = \vtlib\Functions:: getDefaultCurrencyInfo()['currency_code'];
 
 
 		// how old is the currency rate

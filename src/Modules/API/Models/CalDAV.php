@@ -854,7 +854,7 @@ class CalDAV {
 		}
 		foreach ($invities as &$row) {
 			$attendee = $vcalendar->createProperty('ATTENDEE', 'mailto:' . $row['email']);
-			$attendee->add('CN', \vtlib\Functions::getCRMRecordLabel($row['crmid']));
+			$attendee->add('CN', \App\Record::getLabel($row['crmid']));
 			$attendee->add('ROLE', 'REQ-PARTICIPANT');
 			$attendee->add('PARTSTAT', $this->getAttendeeStatus($row['status'], false));
 			$attendee->add('RSVP', $row['status'] == '0' ? 'true' : 'false');

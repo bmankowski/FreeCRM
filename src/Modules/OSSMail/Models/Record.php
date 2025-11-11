@@ -114,7 +114,7 @@ class Record extends \App\Modules\Base\Models\Record
 	{
 
 		\App\Log::error("Error \App\Modules\OSSMail\Models\Record::imapConnect(): " . $error);
-		\vtlib\Functions::throwNewException(\App\Runtime\Vtiger_Language_Handler::translate('IMAP_ERROR', 'OSSMailScanner') . ': ' . $error);
+		\vtlib\Functions:: throwNewException(\App\Runtime\Vtiger_Language_Handler::translate('IMAP_ERROR', 'OSSMailScanner') . ': ' . $error);
 	}
 
 	public static function updateMailBoxmsgInfo($users)
@@ -482,7 +482,7 @@ class Record extends \App\Modules\Base\Models\Record
 						], ['crmid' => $record->getId()]
 					)->execute();
 					if (!empty($relID)) {
-						$dirName = \vtlib\Functions::initStorageFileDirectory('OSSMailView');
+						$dirName = \vtlib\Functions:: initStorageFileDirectory('OSSMailView');
 						$urlToImage = "$dirName{$attachId}_$fileName";
 						$db->createCommand()->insert('vtiger_ossmailview_files', [
 							'ossmailviewid' => $relID,
@@ -522,7 +522,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public static function saveAttachmentFile($attachId, $fileName, $fileContent)
 	{
-		$dirName = \vtlib\Functions::initStorageFileDirectory('OSSMailView');
+		$dirName = \vtlib\Functions:: initStorageFileDirectory('OSSMailView');
 		if (!is_dir($dirName)) {
 			mkdir($dirName);
 		}

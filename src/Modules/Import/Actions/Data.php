@@ -340,7 +340,7 @@ class Data extends \App\Base\Controllers\BaseActionController
 				if ($this->inventoryFieldMapData[$mapData['field']] && $this->inventoryFieldMapData[$mapData['field']][$entityName]) {
 					$fieldObject = $this->inventoryFieldMapData[$mapData['field']][$entityName];
 				} else {
-					$moduleObject = vtlib\Module::getInstance($entityName);
+					$moduleObject = \App\Modules\Base\Models\Module::getInstance($entityName);
 					$fieldObject = $moduleObject ? \App\Modules\Base\Models\Field::getInstance($mapData['field'], $moduleObject) : null;
 					if (!is_array($this->inventoryFieldMapData[$mapData['field']])) {
 						$this->inventoryFieldMapData[$mapData['field']] = [];
@@ -559,7 +559,7 @@ class Data extends \App\Base\Controllers\BaseActionController
 
 		if (!in_array($picklistValueInLowerCase, $allPicklistValuesInLowerCase)) {
 			if (\App\AppConfig::module('Import', 'ADD_PICKLIST_VALUE')) {
-				$moduleObject = \vtlib\Module::getInstance($this->module);
+				$moduleObject = \App\Modules\Base\Models\Module::getInstance($this->module);
 				$fieldObject = \vtlib\Field::getInstance($fieldName, $moduleObject);
 				$fieldObject->setPicklistValues([$fieldValue]);
 				unset($this->allPicklistValues[$fieldName]);

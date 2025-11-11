@@ -124,7 +124,7 @@ class ModuleImport extends \App\Modules\Settings\Base\Views\Index
 				$viewer->assign('MODULEIMPORT_PARAMETERS', $package->getParameters());
 
 				if (!$package->isLanguageType() && !$package->isUpdateType() && !$package->isModuleBundle()) {
-					$moduleInstance = vtlib\Module::getInstance($importModuleName);
+					$moduleInstance = \App\Modules\Base\Models\Module::getInstance($importModuleName);
 					$moduleimport_exists = ($moduleInstance) ? "true" : "false";
 					$moduleimport_dir_name = "modules/$importModuleName";
 					$moduleimport_dir_exists = (is_dir($moduleimport_dir_name) ? "true" : "false");
@@ -195,7 +195,7 @@ class ModuleImport extends \App\Modules\Settings\Base\Views\Index
 		if (strtolower($importType) == 'language') {
 			$package->import($uploadFileName);
 		} else {
-			$package->update(vtlib\Module::getInstance($importModuleName), $uploadFileName);
+			$package->update(\App\Modules\Base\Models\Module::getInstance($importModuleName), $uploadFileName);
 		}
 
 		\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);

@@ -108,16 +108,16 @@ class PaymentsIn extends \App\CRMEntity
 		if ($event_type == 'module.postinstall') {
 			$ModuleInstance = \App\CRMEntity::getInstance($modulename);
 			\App\Fields\RecordNumber::setNumber($modulename, '', '1');
-			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
+			$modcommentsModuleInstance = \App\Modules\Base\Models\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('src/Modules/ModComments/ModComments.php')) {
 				include_once 'src/Modules/ModComments/ModComments.php';
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(array('Payments'));
 			}
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($modulename));
-			\App\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions::getModuleId($modulename));
+			\App\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions:: getModuleId($modulename));
 
-			$moduleInstance = vtlib\Module::getInstance('Accounts');
+			$moduleInstance = \App\Modules\Base\Models\Module::getInstance('Accounts');
 			$blockInstance = vtlib\Block::getInstance('LBL_ACCOUNT_INFORMATION', $moduleInstance);
 			$fieldInstance = new vtlib\Field();
 			$fieldInstance->name = 'payment_balance';

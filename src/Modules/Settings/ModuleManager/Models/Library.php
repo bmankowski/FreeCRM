@@ -148,7 +148,7 @@ class Library
 	public static function update($name)
 	{
 		$lib = static::$libraries[$name];
-		\vtlib\Functions::recurseDelete($lib['dir']);
+		\vtlib\Functions:: recurseDelete($lib['dir']);
 		static::download($name);
 	}
 }

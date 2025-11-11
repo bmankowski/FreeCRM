@@ -24,7 +24,7 @@ class InventoryUtils
 			$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
 		}
 		if ($userId) {
-			$currencyId = \vtlib\Functions::userCurrencyId($userId);
+			$currencyId = \vtlib\Functions:: userCurrencyId($userId);
 			if ($currencyId) {
 				return (int) $currencyId;
 			}
@@ -76,7 +76,7 @@ class InventoryUtils
 	 */
 	public static function getAllCurrencies($available = 'available')
 	{
-		return \vtlib\Functions::getAllCurrency($available != 'all');
+		return \vtlib\Functions:: getAllCurrency($available != 'all');
 	}
 
 	/**
@@ -169,7 +169,7 @@ class InventoryUtils
 					// Get the conversion rate for the given currency, get the conversion rate of the product currency(logged in user's currency) to base currency.
 					// Both together will be the actual conversion rate for the given currency.
 					$conversion_rate = $adb->query_result($res, $i, 'conversion_rate');
-					$userCurrencyData = \vtlib\Functions::getCurrencySymbolandRate($userCurrencyId);
+					$userCurrencyData = \vtlib\Functions:: getCurrencySymbolandRate($userCurrencyId);
 					$userRate = (float) ($userCurrencyData['rate'] ?? 0);
 					if ($userRate <= 0) {
 						$userRate = 1;

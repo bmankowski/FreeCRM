@@ -318,9 +318,9 @@ class ListViewUtils
 	public static function popupDecodeHtml($str)
 	{
 		$defaultCharset = \App\AppConfig::main('default_charset');
-		$slashes_str = \vtlib\Functions::fromHTML_Popup($str);
+		$slashes_str = \vtlib\Functions:: fromHTML_Popup($str);
 		$slashes_str = htmlspecialchars($slashes_str, ENT_QUOTES, $defaultCharset);
-		return self::decodeHtml(\vtlib\Functions::br2nl($slashes_str));
+		return self::decodeHtml(\vtlib\Functions:: br2nl($slashes_str));
 	}
 
 	/**

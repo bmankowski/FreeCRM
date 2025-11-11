@@ -168,7 +168,7 @@ class PearDatabase
 				'query' => $query,
 				'params' => $params,
 			];
-			\vtlib\Functions::throwNewException($message, true, 'DatabaseException.tpl');
+			\vtlib\Functions:: throwNewException($message, true, 'DatabaseException.tpl');
 		}
 	}
 

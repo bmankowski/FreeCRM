@@ -360,15 +360,15 @@ class ServiceContracts extends \App\CRMEntity
 		$adb = \App\Database\PearDatabase::getInstance();
 
 		if ($eventType == 'module.postinstall') {
-			$moduleInstance = vtlib\Module::getInstance($moduleName);
+			$moduleInstance = \App\Modules\Base\Models\Module::getInstance($moduleName);
 
-			$accModuleInstance = vtlib\Module::getInstance('Accounts');
+			$accModuleInstance = \App\Modules\Base\Models\Module::getInstance('Accounts');
 			$accModuleInstance->setRelatedList($moduleInstance, 'Service Contracts', array('add'), 'getDependentsList');
 
-			$conModuleInstance = vtlib\Module::getInstance('Contacts');
+			$conModuleInstance = \App\Modules\Base\Models\Module::getInstance('Contacts');
 			$conModuleInstance->setRelatedList($moduleInstance, 'Service Contracts', array('add'), 'getDependentsList');
 
-			$helpDeskInstance = vtlib\Module::getInstance("HelpDesk");
+			$helpDeskInstance = \App\Modules\Base\Models\Module::getInstance("HelpDesk");
 			$helpDeskInstance->setRelatedList($moduleInstance, "Service Contracts", Array('ADD', 'SELECT'));
 
 			// Initialize module sequence for the module
@@ -520,8 +520,8 @@ class ServiceContracts extends \App\CRMEntity
 		$dueDate = $this->column_fields['due_date'];
 		$endDate = $this->column_fields['end_date'];
 
-		$usedUnits = \vtlib\Functions::formatDecimal($this->column_fields['used_units']);
-		$totalUnits = \vtlib\Functions::formatDecimal($this->column_fields['total_units']);
+		$usedUnits = \vtlib\Functions:: formatDecimal($this->column_fields['used_units']);
+		$totalUnits = \vtlib\Functions:: formatDecimal($this->column_fields['total_units']);
 
 		$contractStatus = $this->column_fields['contract_status'];
 

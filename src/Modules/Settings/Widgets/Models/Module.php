@@ -41,7 +41,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	public function getModulesList()
 	{
-		$modules = \vtlib\Functions::getAllModules();
+		$modules = \vtlib\Functions:: getAllModules();
 		foreach ($modules as $id => $module) {
 			$moduleModel = \App\Modules\Base\Models\Module::getInstance($module['name']);
 			if (!$moduleModel->isSummaryViewSupported()) {
@@ -58,7 +58,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	public function getType($module = false)
 	{
-		$moduleName = \vtlib\Functions::getModuleName($module);
+		$moduleName = \App\Utils\ModuleUtils::getModuleName($module);
 
 		$dir = 'modules/Vtiger/widgets/';
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($module);

@@ -118,7 +118,7 @@ class OutsourcedProducts extends \App\CRMEntity
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($moduleName));
 
 			//adds sharing accsess
-			$AssetsModule = vtlib\Module::getInstance($moduleName);
+			$AssetsModule = \App\Modules\Base\Models\Module::getInstance($moduleName);
 			vtlib\Access::setDefaultSharing($AssetsModule);
 
 			//Showing Assets module in the related modules in the More Information Tab

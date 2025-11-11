@@ -249,7 +249,7 @@ class Field
 			$fieldInfo = (new \App\Db\Query())->from('vtiger_field')->where(['fieldid' => $mixed])->one();
 			Cache::save('FieldInfoById', $mixed, $fieldInfo, Cache::LONG);
 		} else {
-			$fieldsInfo = \vtlib\Functions::getModuleFieldInfos($module);
+			$fieldsInfo = \vtlib\Functions:: getModuleFieldInfos($module);
 			if ($fieldsInfo && isset($fieldsInfo[$mixed])) {
 				$fieldInfo = $fieldsInfo[$mixed];
 				Cache::save('FieldInfoById', $fieldInfo['fieldid'], $fieldInfo, Cache::LONG);

@@ -164,7 +164,7 @@ class Field extends \vtlib\Field
 			}
 
 			if (!$moduleObj && $this->getModuleId()) {
-				$moduleObj = \vtlib\Module::getInstance($this->getModuleId());
+				$moduleObj = \App\Modules\Base\Models\Module::getInstance($this->getModuleId());
 			}
 
 			if (empty($moduleObj)) {

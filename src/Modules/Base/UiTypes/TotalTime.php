@@ -13,7 +13,7 @@ class TotalTime extends BaseUiType
 
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		$return = \vtlib\Functions::decimalTimeFormat($value);
+		$return = \vtlib\Functions:: decimalTimeFormat($value);
 		return $return['short'];
 	}
 }

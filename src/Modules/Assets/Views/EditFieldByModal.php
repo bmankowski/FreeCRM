@@ -42,7 +42,7 @@ class EditFieldByModal  extends \App\Modules\Base\Views\Index
 			$relatedModuleBasicName = $relationData['module'];
 			$relationsModuleName = $relationData['relatedModule'];
 			$relatedRecord = $recordModel->get($relationData['relationField']);
-			$metaData = \vtlib\Functions::getCRMRecordMetadata($relatedRecord);
+			$metaData = \vtlib\Functions:: getCRMRecordMetadata($relatedRecord);
 			if ($relatedRecord && $metaData && $metaData['setype'] == $relatedModuleBasicName && $metaData['deleted'] == 0 && \App\Modules\Users\Models\Privileges::isPermitted($relatedModuleBasicName, 'DetailView', $relatedRecord)) {
 				$relatedModuleBasic = \App\Modules\Base\Models\Module::getInstance($relatedModuleBasicName);
 				foreach ($relationsModuleName as $relationModuleName) {

@@ -43,7 +43,7 @@ class ProductsTable extends Base
 			} else {
 				$currency = $baseCurrency['id'];
 			}
-			$currencySymbolRate = \vtlib\Functions::getCurrencySymbolandRate($currency);
+			$currencySymbolRate = \vtlib\Functions:: getCurrencySymbolandRate($currency);
 		}
 		$html .= '<style>' .
 			'.colapseBorder {border-collapse: collapse;}' .

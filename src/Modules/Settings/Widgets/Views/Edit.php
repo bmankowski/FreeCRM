@@ -28,7 +28,7 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('SOURCE', $WidgetInfo['tabid']);
-		$viewer->assign('SOURCEMODULE', \vtlib\Functions::getModuleName($WidgetInfo['tabid']));
+		$viewer->assign('SOURCEMODULE', \App\Utils\ModuleUtils::getModuleName($WidgetInfo['tabid']));
 		$viewer->assign('WID', $wid);
 		$viewer->assign('WIDGETINFO', $WidgetInfo);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);

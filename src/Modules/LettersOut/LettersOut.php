@@ -316,7 +316,7 @@ class LettersOut extends \App\CRMEntity
 		if ($event_type == 'module.postinstall') {
 			$ModuleInstance = \App\CRMEntity::getInstance($modulename);
 			\App\Fields\RecordNumber::setNumber($modulename, 'LI', '1');
-			$modcommentsModuleInstance = vtlib\Module::getInstance('ModComments');
+			$modcommentsModuleInstance = \App\Modules\Base\Models\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('src/Modules/ModComments/ModComments.php')) {
 				include_once 'src/Modules/ModComments/ModComments.php';
 				if (class_exists('ModComments'))

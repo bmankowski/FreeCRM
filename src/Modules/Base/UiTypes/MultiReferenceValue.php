@@ -113,7 +113,7 @@ class MultiReferenceValue extends BaseUiType
 		$params = $this->get('field')->getFieldParams();
 		$fieldModel = $this->get('field');
 		// Get current value
-		$currentValue = \vtlib\Functions::getSingleFieldValue($fieldModel->getTableName(), $fieldModel->getColumnName(), $entity->tab_name_index[$fieldModel->getTableName()], $sourceRecord);
+		$currentValue = \vtlib\Functions:: getSingleFieldValue($fieldModel->getTableName(), $fieldModel->getColumnName(), $entity->tab_name_index[$fieldModel->getTableName()], $sourceRecord);
 		// Get value to added
 		$relatedValue = '';
 		$fieldInfo = \App\Field::getFieldInfo($params['field']);
@@ -229,7 +229,7 @@ class MultiReferenceValue extends BaseUiType
 		$params = $field->getFieldParams();
 		$fieldInfo = \App\Field::getFieldInfo($params['field']);
 		if (in_array($fieldInfo['uitype'], [15, 16, 33])) {
-			$relModuleName = \vtlib\Functions::getModuleName($fieldInfo['tabid']);
+			$relModuleName = \App\Utils\ModuleUtils::getModuleName($fieldInfo['tabid']);
 			$values = array_filter(explode(self::COMMA, $value));
 			foreach ($values as &$value) {
 				$value = \App\Runtime\Vtiger_Language_Handler::translate($value, $relModuleName);
@@ -238,6 +238,6 @@ class MultiReferenceValue extends BaseUiType
 		} else {
 			$values = $this->getDisplayValue($value, $record, $recordInstance, $rawText);
 		}
-		return \vtlib\Functions::textLength($values, $field->get('maxlengthtext'));
+		return \vtlib\Functions:: textLength($values, $field->get('maxlengthtext'));
 	}
 }

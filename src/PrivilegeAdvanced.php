@@ -38,7 +38,7 @@ class PrivilegeAdvanced
 				'members' => array_flip($users)
 			];
 		}
-		$content = '<?php return ' . \vtlib\Functions::varExportMin($cache) . ';' . PHP_EOL;
+		$content = '<?php return ' . \vtlib\Functions:: varExportMin($cache) . ';' . PHP_EOL;
 		file_put_contents(static::$cacheFile, $content, LOCK_EX);
 	}
 

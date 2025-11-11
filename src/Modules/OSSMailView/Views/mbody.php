@@ -35,7 +35,7 @@ class OSSMailView_mbody_View extends \App\Modules\Base\Views\Index
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULENAME', $moduleName);
-		$viewer->assign('CONTENT', \vtlib\Functions::getHtmlOrPlainText($content));
+		$viewer->assign('CONTENT', \vtlib\Functions:: getHtmlOrPlainText($content));
 		$viewer->assign('RECORD', $record);
 		$viewer->view('mbody.tpl', 'OSSMailView');
 	}

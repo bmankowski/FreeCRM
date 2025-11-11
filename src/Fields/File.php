@@ -186,7 +186,7 @@ class File
 		if (!$badFileExtensions) {
 			$badFileExtensions = \App\AppConfig::main('upload_badext');
 		}
-		$fileName = preg_replace('/\s+/', '_', \vtlib\Functions::slug($fileName)); //replace space with _ in filename
+		$fileName = preg_replace('/\s+/', '_', \vtlib\Functions:: slug($fileName)); //replace space with _ in filename
 		$fileName = rtrim($fileName, '\\/<>?*:"<>|');
 
 		$fileNameParts = explode('.', $fileName);

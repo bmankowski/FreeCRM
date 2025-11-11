@@ -229,7 +229,7 @@ class Module extends \App\Modules\Base\Models\Module
 				$moduleList = $params['referenceModule'];
 			$fieldModel->setRelatedModules($moduleList);
 			foreach ($moduleList as $module) {
-				$targetModule = vtlib\Module::getInstance($module);
+				$targetModule = \App\Modules\Base\Models\Module::getInstance($module);
 				$targetModule->setRelatedList($this, $moduleName, array('Add'), 'getDependentsList');
 			}
 		}

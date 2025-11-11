@@ -115,7 +115,7 @@ class BaseUiType extends \App\Runtime\BaseModel
 
 	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		return \vtlib\Functions::textLength($this->getDisplayValue($value, $record, $recordInstance, $rawText), $this->get('field')->get('maxlengthtext'));
+		return \vtlib\Functions:: textLength($this->getDisplayValue($value, $record, $recordInstance, $rawText), $this->get('field')->get('maxlengthtext'));
 	}
 
 	public function getRelatedListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)

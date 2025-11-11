@@ -25,7 +25,7 @@ class PrivilegeQuery
 				}
 			}
 			if ($role->get('listrelatedrecord') != 0) {
-				$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($relatedRecord);
+				$recordMetaData = \vtlib\Functions:: getCRMRecordMetadata($relatedRecord);
 				$recordPermission = Privilege::isPermitted($recordMetaData['setype'], 'DetailView', $relatedRecord, $userId);
 				if ($recordPermission) {
 					return '';
@@ -87,7 +87,7 @@ public static function getConditions(\App\Db\Query $query, $moduleName, $user = 
 				}
 			}
 			if ($role->get('listrelatedrecord') != 0) {
-				$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($relatedRecord);
+				$recordMetaData = \vtlib\Functions:: getCRMRecordMetadata($relatedRecord);
 				$recordPermission = Privilege::isPermitted($recordMetaData['setype'], 'DetailView', $relatedRecord, $userId);
 				if ($recordPermission) {
 					return '';

@@ -164,7 +164,7 @@ class Detail extends \App\Modules\Base\Views\Index
 		if (isset($detailViewLinks['DETAILVIEWTAB']) && is_array($detailViewLinks['DETAILVIEWTAB'])) {
 			foreach ($detailViewLinks['DETAILVIEWTAB'] as $link) {
 				if ($link->getLabel() == $selectedTabLabel) {
-					$params = \vtlib\Functions::getQueryParams($link->getUrl());
+					$params = \vtlib\Functions:: getQueryParams($link->getUrl());
 					$this->defaultMode = $params['mode'];
 					break;
 				}

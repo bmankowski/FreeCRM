@@ -319,7 +319,7 @@ class Module extends \App\Modules\Base\Models\Module
 		$calendarViewTypes = Array();
 		for ($i = 0; $i < $rows; $i++) {
 			$activityTypes = $db->query_result_rowdata($result, $i);
-			$moduleInstance = vtlib\Module::getInstance($activityTypes['module']);
+			$moduleInstance = \App\Modules\Base\Models\Module::getInstance($activityTypes['module']);
 			$fieldInstance = vtlib\Field::getInstance($activityTypes['fieldname'], $moduleInstance);
 			if ($fieldInstance) {
 				$fieldLabel = $fieldInstance->label;

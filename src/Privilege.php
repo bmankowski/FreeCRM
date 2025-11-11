@@ -154,7 +154,7 @@ class Privilege
 		
 		// Admin users have access, but check if record exists and is not deleted
 		if ($record) {
-			$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($record);
+			$recordMetaData = \vtlib\Functions:: getCRMRecordMetadata($record);
 			if (!isset($recordMetaData) || $recordMetaData['deleted'] === 1) {
 				return static::returnPermissionResult(false, 'SEC_RECORD_DOES_NOT_EXIST');
 			}
@@ -239,12 +239,12 @@ class Privilege
 		}
 		
 		// Check if module doesn't use sharing (Products, Vendors, FAQ, PriceBooks)
-		if (\vtlib\Functions::getModuleOwner($moduleName) == 1) {
+		if (\vtlib\Functions:: getModuleOwner($moduleName) == 1) {
 			return static::returnPermissionResult(true, 'SEC_MODULE_IS_OWNEDBY');
 		}
 		
 		// Get record metadata
-		$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($record);
+		$recordMetaData = \vtlib\Functions:: getCRMRecordMetadata($record);
 		if (!isset($recordMetaData) || $recordMetaData['deleted'] === 1) {
 			return static::returnPermissionResult(false, 'SEC_RECORD_DOES_NOT_EXIST');
 		}
@@ -419,7 +419,7 @@ class Privilege
 			return null;
 		}
 		
-		$parentMetaData = \vtlib\Functions::getCRMRecordMetadata($parentRecord);
+		$parentMetaData = \vtlib\Functions:: getCRMRecordMetadata($parentRecord);
 		$permissionsRelatedField = $role->get('permissionsrelatedfield');
 		$permissionsArray = ($permissionsRelatedField == '') ? [] : explode(',', $permissionsRelatedField);
 		
@@ -526,7 +526,7 @@ public static function isPermittedBySharing($moduleName, $tabId, $actionId, $rec
 		}
 		$sharingPrivilegesModule = $sharingPrivileges['permission'][$moduleName];
 
-		$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($recordId);
+		$recordMetaData = \vtlib\Functions:: getCRMRecordMetadata($recordId);
 		$ownerId = $recordMetaData['smownerid'];
 		$ownerType = \App\Fields\Owner::getType($ownerId);
 
@@ -562,7 +562,7 @@ public static function isPermittedBySharing($moduleName, $tabId, $actionId, $rec
 			foreach ($relatedModuleArray as $parModId) {
 				$parRecordOwner = PrivilegeUtil::getParentRecordOwner($tabId, $parModId, $recordId);
 				if (sizeof($parRecordOwner) > 0) {
-					$parModName = \vtlib\Functions::getModuleName($parModId);
+					$parModName = \App\Utils\ModuleUtils::getModuleName($parModId);
 					if (isset($sharingPrivileges['permission'][$parModName . '_' . $moduleName])) {
 						$readRelated = $sharingPrivileges['permission'][$parModName . '_' . $moduleName]['read'];
 
@@ -617,7 +617,7 @@ public static function isPermittedBySharing($moduleName, $tabId, $actionId, $rec
 		}
 		$sharingPrivilegesModule = $sharingPrivileges['permission'][$moduleName];
 
-		$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($recordId);
+		$recordMetaData = \vtlib\Functions:: getCRMRecordMetadata($recordId);
 		$ownerId = $recordMetaData['smownerid'];
 		$ownerType = \App\Fields\Owner::getType($ownerId);
 
@@ -649,7 +649,7 @@ public static function isPermittedBySharing($moduleName, $tabId, $actionId, $rec
 			foreach ($relatedModuleArray as $parModId) {
 				$parRecordOwner = PrivilegeUtil::getParentRecordOwner($tabId, $parModId, $recordId);
 				if (!empty($parRecordOwner)) {
-					$parModName = \vtlib\Functions::getModuleName($parModId);
+					$parModName = \App\Utils\ModuleUtils::getModuleName($parModId);
 					if (isset($sharingPrivileges['permission'][$parModName . '_' . $moduleName])) {
 						$writeRelated = $sharingPrivileges['permission'][$parModName . '_' . $moduleName]['write'];
 						$relOwnerType = '';

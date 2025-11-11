@@ -338,7 +338,7 @@ class OSSPasswords extends \App\CRMEntity
 
 		// register modtracker history updates
 		if ($addModTracker) {
-			\App\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions::getModuleId($moduleName));
+			\App\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions:: getModuleId($moduleName));
 		}
 	}
 }

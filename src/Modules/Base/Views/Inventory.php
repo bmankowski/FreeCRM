@@ -36,7 +36,7 @@ class Inventory  extends \App\Modules\Base\Views\Index
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('GLOBAL_DISCOUNTS', $inventoryModel->getGlobalDiscounts());
-		$viewer->assign('CURRENCY_SYMBOL', \App\ModuleManagement\Adapters\Functions::getCurrencySymbolandRate($currency)['symbol']);
+		$viewer->assign('CURRENCY_SYMBOL', \vtlib\Functions:: getCurrencySymbolandRate($currency)['symbol']);
 		$viewer->assign('TOTAL_PRICE', $totalPrice);
 		$viewer->assign('CONFIG', $config);
 		$viewer->assign('DISCOUNT_TYPE', $discountType);
@@ -70,7 +70,7 @@ class Inventory  extends \App\Modules\Base\Views\Index
 		$viewer->assign('RECORD', $record);
 		$viewer->assign('RECORD_MODULE', $recordModule);
 		$viewer->assign('GLOBAL_TAXES', \App\Modules\Base\Models\Inventory::getGlobalTaxes());
-		$viewer->assign('CURRENCY_SYMBOL', \App\ModuleManagement\Adapters\Functions::getCurrencySymbolandRate($currency)['symbol']);
+		$viewer->assign('CURRENCY_SYMBOL', \vtlib\Functions:: getCurrencySymbolandRate($currency)['symbol']);
 		$viewer->assign('TOTAL_PRICE', $totalPrice);
 		$viewer->assign('CONFIG', $config);
 		$viewer->assign('TAX_TYPE', $taxType);

@@ -598,7 +598,7 @@ class Record extends \App\Runtime\BaseModel
 			if ($row['setype'] === 'Leads' && $convertedInfo[$row['crmid']]) {
 				continue;
 			}
-			$recordMeta = \vtlib\Functions::getCRMRecordMetadata($row['crmid']);
+			$recordMeta = \vtlib\Functions:: getCRMRecordMetadata($row['crmid']);
 			$row['id'] = $row['crmid'];
 			$row['label'] = $labels[$row['crmid']];
 			$row['smownerid'] = $recordMeta['smownerid'];
@@ -1110,7 +1110,7 @@ class Record extends \App\Runtime\BaseModel
 		$filetmp_name = $fileDetails['tmp_name'];
 
 		//get the file path inwhich folder we want to upload the file
-		$uploadFilePath = \vtlib\Functions::initStorageFileDirectory($module);
+		$uploadFilePath = \vtlib\Functions:: initStorageFileDirectory($module);
 
 		$params = [
 			'smcreatorid' => $userId,
@@ -1329,7 +1329,7 @@ class Record extends \App\Runtime\BaseModel
 		if (!$this->has($fieldName)) {
 			$fieldModel = $this->getModule()->getFieldByName($fieldName);
 			$idName = $this->getEntity()->tab_name_index[$fieldModel->getTableName()];
-			$value = \vtlib\Functions::getSingleFieldValue($fieldModel->getTableName(), $fieldModel->getColumnName(), $idName, $this->getId());
+			$value = \vtlib\Functions:: getSingleFieldValue($fieldModel->getTableName(), $fieldModel->getColumnName(), $idName, $this->getId());
 			$this->set($fieldModel->getName(), $value);
 		}
 		return $this->get($fieldName);

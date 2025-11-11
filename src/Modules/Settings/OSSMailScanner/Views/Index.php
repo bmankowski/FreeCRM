@@ -20,7 +20,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$mailModuleActive = \vtlib\Functions::getModuleId('OSSMail');
+		$mailModuleActive = \vtlib\Functions:: getModuleId('OSSMail');
 		/** @var \App\Modules\OSSMailScanner\Models\Record $mailScannerRecordModel */
 		$mailScannerRecordModel = Record::getCleanInstance('OSSMailScanner');
 		$identityList = [];

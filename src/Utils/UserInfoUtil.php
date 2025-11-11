@@ -182,14 +182,14 @@ class UserInfoUtil
 
 			//If modules is Products,Vendors,Faq,PriceBook then no sharing
 			if ($record_id != '') {
-				if (\vtlib\Functions::getModuleOwner($module) == 1) {
+				if (\vtlib\Functions:: getModuleOwner($module) == 1) {
 					vglobal('isPermittedLog', 'SEC_MODULE_IS_OWNEDBY');
 					\App\Log::trace('Exiting isPermitted method ...');
 					return 'yes';
 				}
 			}
 
-			$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($record_id);
+			$recordMetaData = \vtlib\Functions:: getCRMRecordMetadata($record_id);
 			if (!isset($recordMetaData) || $recordMetaData['deleted'] == 1) {
 				vglobal('isPermittedLog', 'SEC_RECORD_DOES_NOT_EXIST');
 				\App\Log::trace('Exiting isPermitted method ... - no');
@@ -245,7 +245,7 @@ class UserInfoUtil
 				if ((($actionid == 3 || $actionid == 4) && $role->get('previewrelatedrecord') != 0) || (($actionid == 0 || $actionid == 1) && $role->get('editrelatedrecord') != 0)) {
 					$parentRecord = \App\Modules\Users\Models\Privileges::getParentRecord($record_id, $module, $role->get('previewrelatedrecord'), $actionid);
 					if ($parentRecord) {
-						$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($parentRecord);
+						$recordMetaData = \vtlib\Functions:: getCRMRecordMetadata($parentRecord);
 						$permissionsRoleForRelatedField = $role->get('permissionsrelatedfield');
 						$permissionsRelatedField = $permissionsRoleForRelatedField == '' ? [] : explode(',', $role->get('permissionsrelatedfield'));
 						$relatedPermission = false;

@@ -285,7 +285,7 @@ class CRMEntity
 						$fieldvalue = $resultRow[$fieldkey];
 					}
 					if ($showsAdditionalLabels && in_array($fieldInfo['uitype'], [10, 51, 73])) {
-						$this->column_fields[$fieldInfo['fieldname'] . '_label'] = \vtlib\Functions::getCRMRecordLabel($fieldvalue);
+						$this->column_fields[$fieldInfo['fieldname'] . '_label'] = \App\Record::getLabel($fieldvalue);
 					}
 					if ($showsAdditionalLabels && in_array($fieldInfo['uitype'], [52, 53])) {
 						$this->column_fields[$fieldInfo['fieldname'] . '_label'] = \vtlib\Functions::getOwnerRecordLabel($fieldvalue);

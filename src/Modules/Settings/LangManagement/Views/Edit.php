@@ -48,7 +48,7 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 		unset($mods['mods']['HelpInfo']);
 		$Langs = $moduleModel->getLang();
 		// Prepare modules list for EditHelpIcon template - use adapter to match vtlib structure
-		$allModules = \App\ModuleManagement\Adapters\Functions::getAllModules(true, false, 0);
+		$allModules = \vtlib\Functions:: getAllModules(true, false, 0);
 		$viewer->assign('ALL_MODULES', $allModules);
 		$viewer->assign('MODS', $mods);
 		$viewer->assign('MODULE_MODEL', $moduleModel);

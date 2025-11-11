@@ -43,7 +43,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 			$dateCur = date('Y-m-d', $dateCur);
 		}
 
-		$dateCur = \vtlib\Functions::getLastWorkingDay($dateCur);
+		$dateCur = \vtlib\Functions:: getLastWorkingDay($dateCur);
 
 		// get currency if not already archived
 		if ($downloadBtn) {
@@ -70,7 +70,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		// number of currencies
 		$curr_num = $moduleModel->getCurrencyNum();
 		// get info about main currency
-		$mainCurrencyInfo = \vtlib\Functions::getDefaultCurrencyInfo();
+		$mainCurrencyInfo = \vtlib\Functions:: getDefaultCurrencyInfo();
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);

@@ -72,7 +72,7 @@ class Inventory extends \App\Base\Controllers\BaseActionController
 		$baseCurrency = \App\Modules\Base\Helpers\Util::getBaseCurrency();
 		$symbol = $baseCurrency['currency_symbol'];
 		if ($baseCurrency['id'] != $currency) {
-			$selectedCurrency = \vtlib\Functions::getCurrencySymbolandRate($currency);
+			$selectedCurrency = \vtlib\Functions:: getCurrencySymbolandRate($currency);
 			$price = floatval($price) * $selectedCurrency['rate'];
 			$symbol = $selectedCurrency['symbol'];
 		}

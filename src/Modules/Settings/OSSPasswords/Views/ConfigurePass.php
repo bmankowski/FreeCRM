@@ -246,7 +246,7 @@ class ConfigurePass extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('MODULENAME', $moduleName);
 		$viewer->assign('SAVE', 'Save');
 		$viewer->assign('CANCEL', 'Cancel');
-		if (\vtlib\Functions::userIsAdministrator($current_user))
+		if (\vtlib\Functions:: userIsAdministrator($current_user))
 			$viewer->assign('ISADMIN', 1);
 		else
 			$viewer->assign('ISADMIN', 0);

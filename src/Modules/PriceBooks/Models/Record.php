@@ -92,8 +92,8 @@ class Record extends \App\Modules\Base\Models\Record
 				->where(['and', ['pricebookid' => $this->getId()], ['<>', 'usedcurrency', $pricebookCurrency]])
 				->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$productCurrencyInfo = \vtlib\Functions::getCurrencySymbolandRate($row['usedcurrency']);
-			$pricebookCurrencyInfo = \vtlib\Functions::getCurrencySymbolandRate($pricebookCurrency);
+			$productCurrencyInfo = \vtlib\Functions:: getCurrencySymbolandRate($row['usedcurrency']);
+			$pricebookCurrencyInfo = \vtlib\Functions:: getCurrencySymbolandRate($pricebookCurrency);
 			$computedListPrice = $row['listprice'] * $pricebookCurrencyInfo['rate'] / $productCurrencyInfo['rate'];
 			\App\Db::getInstance()->createCommand()
 				->update('vtiger_pricebookproductrel', ['listprice' => $computedListPrice, 'usedcurrency' => $pricebookCurrency], ['pricebookid' => $this->getId(), 'productid' => $row['productid']])

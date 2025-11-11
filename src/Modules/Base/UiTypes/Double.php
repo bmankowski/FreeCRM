@@ -30,7 +30,7 @@ class Double extends BaseUiType
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		return \vtlib\Functions::formatDecimal($value);
+		return \vtlib\Functions:: formatDecimal($value);
 	}
 
 	/**

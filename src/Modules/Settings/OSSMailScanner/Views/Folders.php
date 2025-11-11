@@ -32,7 +32,7 @@ class Folders extends \App\Modules\Base\Views\BasicModal
 		$qualifiedModuleName = $request->getModule(false);
 		$record = $request->get('record');
 		$mailDetail = OSSMail_Record_Model::getMailAccountDetail($record);
-		$mailModuleActive = \vtlib\Functions::getModuleId('OSSMail');
+		$mailModuleActive = \vtlib\Functions:: getModuleId('OSSMail');
 		$folders = [];
 		if ($mailModuleActive) {
 			$mailRecordModel = \App\Modules\Base\Models\Record::getCleanInstance('OSSMail');

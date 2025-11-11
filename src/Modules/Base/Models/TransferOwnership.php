@@ -72,7 +72,7 @@ class TransferOwnership extends \App\Runtime\BaseModel
 	public function transferRecordsOwnership($module, $transferOwnerId, $relatedModuleRecordIds)
 	{
 		$db = \App\Db::getInstance();
-		$oldOwners = \vtlib\Functions::getCRMRecordMetadata($relatedModuleRecordIds);
+		$oldOwners = \vtlib\Functions:: getCRMRecordMetadata($relatedModuleRecordIds);
 		$currentUser = \App\User\CurrentUser::get();
 		$db->createCommand()->update('vtiger_crmentity', [
 			'smownerid' => $transferOwnerId,

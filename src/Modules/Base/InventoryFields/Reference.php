@@ -42,7 +42,7 @@ class Reference extends Basic
 		if (empty($value)) {
 			return '';
 		}
-		$value = \vtlib\Functions::getCRMRecordLabel($value, $default = '');
+		$value = \App\Record::getLabel($value);
 		return $value;
 	}
 

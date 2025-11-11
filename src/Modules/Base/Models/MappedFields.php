@@ -143,7 +143,7 @@ class MappedFields extends \App\Runtime\BaseModel
 			return false;
 		}
 
-		$handlerClass = \App\Loader::getComponentClassName('Model', 'MappedFields', \vtlib\Functions::getModuleName($tabId));
+		$handlerClass = \App\Loader::getComponentClassName('Model', 'MappedFields', \App\Utils\ModuleUtils::getModuleName($tabId));
 		$mf = new $handlerClass();
 		$mf->setData($row);
 		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
@@ -228,12 +228,12 @@ class MappedFields extends \App\Runtime\BaseModel
 
 	public function getName()
 	{
-		return \vtlib\Functions::getModuleName($this->get('tabid'));
+		return \App\Utils\ModuleUtils::getModuleName($this->get('tabid'));
 	}
 
 	public function getRelatedName()
 	{
-		return \vtlib\Functions::getModuleName($this->get('reltabid'));
+		return \App\Utils\ModuleUtils::getModuleName($this->get('reltabid'));
 	}
 
 	/**

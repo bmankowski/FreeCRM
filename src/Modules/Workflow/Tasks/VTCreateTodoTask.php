@@ -65,7 +65,7 @@ class VTCreateTodoTask extends VTTask
 				['vtiger_activity.activitytype' => 'Task'],
 				['vtiger_activity.subject' => $this->todo]
 			]);
-			$status = \vtlib\Functions::getArrayFromValue($this->duplicateStatus);
+			$status = \vtlib\Functions:: getArrayFromValue($this->duplicateStatus);
 			if (count($status) > 0) {
 				$query->andWhere(['not in', 'vtiger_activity.status', $status]);
 			}

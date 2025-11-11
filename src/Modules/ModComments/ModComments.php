@@ -74,14 +74,14 @@ class ModComments extends ModCommentsCore
 
 		$commentWidgetModules = array();
 		foreach ($moduleNames as $moduleName) {
-			$module = vtlib\Module::getInstance($moduleName);
+			$module = \App\Modules\Base\Models\Module::getInstance($moduleName);
 			if ($module) {
 				$module->addLink($widgetType, $widgetName, "block://ModComments:modules/ModComments/ModComments.php");
 				$commentWidgetModules[] = $moduleName;
 			}
 		}
 		if (count($commentWidgetModules) > 0) {
-			$modCommentsModule = vtlib\Module::getInstance('ModComments');
+			$modCommentsModule = \App\Modules\Base\Models\Module::getInstance('ModComments');
 			$modCommentsModule->addLink('HEADERSCRIPT', 'ModCommentsCommonHeaderScript', 'src/Modules/ModComments/ModCommentsCommon.js');
 			$modCommentsRelatedToField = vtlib\Field::getInstance('related_to', $modCommentsModule);
 			$modCommentsRelatedToField->setRelatedModules($commentWidgetModules);
@@ -105,14 +105,14 @@ class ModComments extends ModCommentsCore
 
 		$commentWidgetModules = array();
 		foreach ($moduleNames as $moduleName) {
-			$module = vtlib\Module::getInstance($moduleName);
+			$module = \App\Modules\Base\Models\Module::getInstance($moduleName);
 			if ($module) {
 				$module->deleteLink($widgetType, $widgetName, "block://ModComments:modules/ModComments/ModComments.php");
 				$commentWidgetModules[] = $moduleName;
 			}
 		}
 		if (count($commentWidgetModules) > 0) {
-			$modCommentsModule = vtlib\Module::getInstance('ModComments');
+			$modCommentsModule = \App\Modules\Base\Models\Module::getInstance('ModComments');
 			$modCommentsRelatedToField = vtlib\Field::getInstance('related_to', $modCommentsModule);
 			$modCommentsRelatedToField->unsetRelatedModules($commentWidgetModules);
 		}

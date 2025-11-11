@@ -609,7 +609,7 @@ class Reports extends \App\CRMEntity
 			$blockid = $adb->query_result($result, $i, "block");
 
 			//Here we Changing the displaytype of the field. So that its criteria will be displayed correctly in Reports Advance Filter.
-			$fieldtypeofdata = \vtlib\Functions::transformFieldTypeOfData($fieldtablename, $fieldcolname, $fieldtypeofdata);
+			$fieldtypeofdata = \vtlib\Functions:: transformFieldTypeOfData($fieldtablename, $fieldcolname, $fieldtypeofdata);
 
 			if ($uitype == 68 || $uitype == 59) {
 				$fieldtypeofdata = 'V';

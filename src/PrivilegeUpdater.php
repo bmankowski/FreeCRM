@@ -196,7 +196,7 @@ class PrivilegeUpdater
 	 */
 	public static function setAllUpdater()
 	{
-		$modules = \vtlib\Functions::getAllModules();
+		$modules = \vtlib\Functions:: getAllModules();
 		foreach ($modules as &$module) {
 			static::setUpdater($module['name']);
 		}

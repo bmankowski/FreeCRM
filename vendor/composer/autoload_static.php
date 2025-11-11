@@ -67,8 +67,6 @@ class ComposerStaticInitYT
         ),
         'A' => 
         array (
-            'App\\ModuleManagement\\' => 21,
-            'App\\Api\\' => 8,
             'App\\' => 4,
             'Antlr\\Antlr4\\Runtime\\' => 21,
         ),
@@ -130,14 +128,6 @@ class ComposerStaticInitYT
         'DebugBar\\' => 
         array (
             0 => __DIR__ . '/..' . '/php-debugbar/src/DebugBar',
-        ),
-        'App\\ModuleManagement\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/src/ModuleManagement',
-        ),
-        'App\\Api\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/src/Api',
         ),
         'App\\' => 
         array (

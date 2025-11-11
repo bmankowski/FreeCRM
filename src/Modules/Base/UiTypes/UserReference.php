@@ -49,7 +49,7 @@ class UserReference extends BaseUiType
 		if ($currentUserModel->isAdminUser() && $rawText === false) {
 			$recordModel = \App\Modules\Users\Models\Record::getCleanInstance('Users');
 			$recordModel->set('id', $value);
-			return '<a href="' . $recordModel->getDetailViewUrl() . '">' . \vtlib\Functions::textLength($displayValue) . '</a>';
+			return '<a href="' . $recordModel->getDetailViewUrl() . '">' . \vtlib\Functions:: textLength($displayValue) . '</a>';
 		}
 		return $displayValue;
 	}

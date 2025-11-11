@@ -5,7 +5,7 @@
 		<a href="{$URL}index.php?module={$RELATED['module']}&amp;view=Detail&amp;record={$RELATED['id']}" title="{'SINGLE_'|cat:$RELATED['module']|t:$RELATED['module']}: {$RELATED['label']}" target="_blank">
 			<span class="relatedModuleIcon userIcon-{$RELATED['module']}" aria-hidden="true"></span>
 			<span class="relatedName">
-				{\App\ModuleManagement\Adapters\Functions::textLength($RELATED['label'],38)}
+				{\vtlib\Functions:: textLength($RELATED['label'],38)}
 			</span>
 		</a>
 		<div class="pull-right rowActions">

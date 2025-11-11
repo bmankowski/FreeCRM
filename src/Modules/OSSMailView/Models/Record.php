@@ -144,7 +144,7 @@ class Record extends \App\Modules\Base\Models\Record
 			}
 			foreach ($idsArray as $id) {
 				$module = \App\Record::getType($id);
-				$label = \vtlib\Functions::getCRMRecordLabel($id);
+				$label = \App\Record::getLabel($id);
 				$return .= '<a href="index.php?module=' . $module . '&view=Detail&record=' . $id . '" target="' . $config['target'] . '"> ' . $label . '</a>,';
 			}
 		}

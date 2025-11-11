@@ -60,7 +60,7 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 				$viewer->view('Step4.tpl', $qualifiedModuleName);
 				break;
 			case 'step3':
-				$moduleSourceName = \vtlib\Functions::getModuleName($moduleInstance->get('tabid'));
+				$moduleSourceName = \App\Utils\ModuleUtils::getModuleName($moduleInstance->get('tabid'));
 				$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleSourceName);
 				$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceForModule($moduleModel);
 				$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());

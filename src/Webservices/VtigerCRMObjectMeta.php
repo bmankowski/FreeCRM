@@ -215,7 +215,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		$adb = \App\Database\PearDatabase::getInstance();
 
 		// administrator's have assign privilege
-		if (\vtlib\Functions::userIsAdministrator($this->user))
+		if (\vtlib\Functions:: userIsAdministrator($this->user))
 			return true;
 
 		$idComponents = vtws_getIdComponents($webserviceId);
@@ -393,7 +393,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 			$seType = $this->objectName;
 		}
 		} else {
-			$recordMetaData = \vtlib\Functions::getCRMRecordMetadata($id);
+			$recordMetaData = \vtlib\Functions:: getCRMRecordMetadata($id);
 			if ($recordMetaData && $recordMetaData['deleted'] === 0) {
 				$seType = $recordMetaData['setype'];
 				if ($seType === 'Calendar') {

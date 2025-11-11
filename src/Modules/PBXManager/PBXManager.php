@@ -117,7 +117,7 @@ class PBXManager extends \App\CRMEntity
 	public function addUserExtensionField()
 	{
 
-		$module = vtlib\Module::getInstance('Users');
+		$module = \App\Modules\Base\Models\Module::getInstance('Users');
 		if ($module) {
 			$module->initTables();
 			$blockInstance = vtlib\Block::getInstance('LBL_MORE_INFORMATION', $module);
@@ -152,9 +152,9 @@ class PBXManager extends \App\CRMEntity
 	public function setModuleRelatedDependencies()
 	{
 
-		$pbxmanager = vtlib\Module::getInstance('PBXManager');
+		$pbxmanager = \App\Modules\Base\Models\Module::getInstance('PBXManager');
 		foreach ($this->dependentModules as $module) {
-			$moduleInstance = vtlib\Module::getInstance($module);
+			$moduleInstance = \App\Modules\Base\Models\Module::getInstance($module);
 			$moduleInstance->setRelatedList($pbxmanager, "PBXManager", array(), 'getDependentsList');
 		}
 		\App\Log::info('Successfully added Module Related lists');
@@ -166,9 +166,9 @@ class PBXManager extends \App\CRMEntity
 	public function unsetModuleRelatedDependencies()
 	{
 
-		$pbxmanager = vtlib\Module::getInstance('PBXManager');
+		$pbxmanager = \App\Modules\Base\Models\Module::getInstance('PBXManager');
 		foreach ($this->dependentModules as $module) {
-			$moduleInstance = vtlib\Module::getInstance($module);
+			$moduleInstance = \App\Modules\Base\Models\Module::getInstance($module);
 			$moduleInstance->unsetRelatedList($pbxmanager, "PBXManager", 'getDependentsList');
 		}
 		\App\Log::info('Successfully removed Module Related lists');

@@ -105,16 +105,16 @@ class Reservations extends \App\CRMEntity
 			$moduleInstance = \App\CRMEntity::getInstance('Reservations');
 			\App\Fields\RecordNumber::setNumber($moduleName, 'RES', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array('Reservations'));
-			$moduleInstance = vtlib\Module::getInstance($modulename);
-			$targetModule = vtlib\Module::getInstance('Accounts');
+			$moduleInstance = \App\Modules\Base\Models\Module::getInstance($modulename);
+			$targetModule = \App\Modules\Base\Models\Module::getInstance('Accounts');
 			$targetModule->setRelatedList($moduleInstance, 'Reservations', array('ADD'), 'getDependentsList');
-			$targetModule = vtlib\Module::getInstance('HelpDesk');
+			$targetModule = \App\Modules\Base\Models\Module::getInstance('HelpDesk');
 			$targetModule->setRelatedList($moduleInstance, 'Reservations', array('ADD'), 'getDependentsList');
-			$targetModule = vtlib\Module::getInstance('Leads');
+			$targetModule = \App\Modules\Base\Models\Module::getInstance('Leads');
 			$targetModule->setRelatedList($moduleInstance, 'Reservations', array('ADD'), 'getDependentsList');
-			$targetModule = vtlib\Module::getInstance('Project');
+			$targetModule = \App\Modules\Base\Models\Module::getInstance('Project');
 			$targetModule->setRelatedList($moduleInstance, 'Reservations', array('ADD'), 'getDependentsList');
-			$targetModule = vtlib\Module::getInstance('Vendors');
+			$targetModule = \App\Modules\Base\Models\Module::getInstance('Vendors');
 			$targetModule->setRelatedList($moduleInstance, 'Reservations', array('ADD'), 'getDependentsList');
 		} else if ($event_type == 'module.disabled') {
 			

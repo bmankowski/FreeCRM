@@ -910,7 +910,7 @@ class Module extends \vtlib\Module
 	 */
 	public static function getAll($presence = [], $restrictedModulesList = [], $isEntityType = false)
 	{
-		$allModules = \vtlib\Functions::getAllModules($isEntityType, true);
+		$allModules = \vtlib\Functions:: getAllModules($isEntityType, true);
 		$moduleModels = [];
 		foreach ($allModules as &$row) {
 			$moduleModels[$row['tabid']] = self::getInstanceFromArray($row);
@@ -1476,7 +1476,7 @@ class Module extends \vtlib\Module
 			$result = $adb->query($this->getSearchRecordsQuery($searchValue, $parentId, $parentModule));
 
 			while ($row = $adb->getRow($result)) {
-				$recordMeta = \vtlib\Functions::getCRMRecordMetadata($row['crmid']);
+				$recordMeta = \vtlib\Functions:: getCRMRecordMetadata($row['crmid']);
 				$row['id'] = $row['crmid'];
 				$row['smownerid'] = $recordMeta['smownerid'];
 				$row['createdtime'] = $recordMeta['createdtime'];

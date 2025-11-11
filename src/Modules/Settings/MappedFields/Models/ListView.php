@@ -46,8 +46,8 @@ class ListView extends \App\Modules\Settings\Base\Models\ListView
 		$listViewRecordModels = [];
 		while ($row = $dataReader->read()) {
 			$recordModel = new $recordModelClass();
-			$moduleName = \vtlib\Functions::getModuleName($row['tabid']);
-			$relModuleName = \vtlib\Functions::getModuleName($row['reltabid']);
+			$moduleName = \App\Utils\ModuleUtils::getModuleName($row['tabid']);
+			$relModuleName = \App\Utils\ModuleUtils::getModuleName($row['reltabid']);
 			$row['tabid'] = \App\Runtime\Vtiger_Language_Handler::translate($moduleName, $moduleName);
 			$row['reltabid'] = \App\Runtime\Vtiger_Language_Handler::translate($relModuleName, $relModuleName);
 			$recordModel->setData($row);

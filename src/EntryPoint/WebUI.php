@@ -720,7 +720,7 @@ class WebUI extends EntryPoint
 		);
 
 		$template = $this->getExceptionTemplate($exception);
-		\vtlib\Functions::throwNewException($exception, false, $template);
+		\vtlib\Functions:: throwNewException($exception, false, $template);
 
 		if (\App\AppConfig::debug('DISPLAY_DEBUG_BACKTRACE') && !$request->isAjax()) {
 			$this->displayDebugBacktrace($exception);

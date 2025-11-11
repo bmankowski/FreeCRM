@@ -159,7 +159,7 @@ class IStorages extends \App\CRMEntity
 		$currentUser = \App\User\CurrentUser::get();
 		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 
-		$hasRecordViewAccess = (\vtlib\Functions::userIsAdministrator($currentUser)) || (\App\Utils\UserInfoUtil::isPermitted('IStorages', 'DetailView', $iStorageId) == 'yes');
+		$hasRecordViewAccess = (\vtlib\Functions:: userIsAdministrator($currentUser)) || (\App\Utils\UserInfoUtil::isPermitted('IStorages', 'DetailView', $iStorageId) == 'yes');
 		$listColumns = \App\AppConfig::module('IStorages', 'COLUMNS_IN_HIERARCHY');
 
 		if (empty($listColumns)) {

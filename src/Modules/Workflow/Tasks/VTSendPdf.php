@@ -54,7 +54,7 @@ class VTSendPdf extends VTTask
 				$mailerContent['bcc'] = $this->copy_email;
 			}
 			$templateRecord = \App\Modules\Base\Models\PDF::getInstanceById($this->pdfTemplate);
-			$fileName = \vtlib\Functions::slug($templateRecord->getName()) . '_' . time() . '.pdf';
+			$fileName = \vtlib\Functions:: slug($templateRecord->getName()) . '_' . time() . '.pdf';
 			$pdfFile = 'cache' . DIRECTORY_SEPARATOR . 'pdf' . DIRECTORY_SEPARATOR . $fileName;
 			\App\Modules\Base\Models\PDF::exportToPdf($recordModel->getId(), $recordModel->getModuleName(), $this->pdfTemplate, $pdfFile, 'F');
 			if (!file_exists($pdfFile)) {
