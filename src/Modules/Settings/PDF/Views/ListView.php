@@ -18,6 +18,19 @@ class ListView extends \App\Modules\Settings\Base\Views\ListView
 	{
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SUPPORTED_MODULE_MODELS', \App\Modules\Settings\PDF\Models\Module::getSupportedModules());
+		
+		// Prepare PDF ListViewHeader-specific data for ListViewHeader template
+		$this->preparePDFListViewHeaderData($viewer);
+		
 		parent::preProcess($request, $display);
+	}
+	
+	/**
+	 * Prepare data for PDF ListViewHeader template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function preparePDFListViewHeaderData($viewer)
+	{
+		$viewer->assign('MPDF_LIBRARY_CHECK', \App\Modules\Settings\ModuleManager\Models\Library::checkLibrary('mPDF'));
 	}
 }

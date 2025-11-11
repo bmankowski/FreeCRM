@@ -21,8 +21,8 @@
 	{if !empty($ACTIONS_SELECTED)}
 		{foreach from=$ACTIONS_SELECTED item=item key=key}
 		<tr class="listViewEntries" data-key="{$key}">
-			<td>{\App\Modules\Settings\DataAccess\Models\Module::getActionName($item['an'],true)}</td>
-			<td>{\App\Modules\Settings\DataAccess\Models\Module::getActionName($item['an'],false)}</td>
+			<td>{$ACTION_NAMES[$key]['short']}</td>
+			<td>{$ACTION_NAMES[$key]['full']}</td>
 			<td>
 				<a href='index.php?module={$MODULE_NAME}&parent=Settings&action=DeleteAction&id={$TPL_ID}&a={$key}&m={$BASE_MODULE}'  class="pull-right marginRight10px">
 					<i type="{"REMOVE_TPL"|t:$MODULE_NAME}" class="glyphicon glyphicon-trash alignMiddle"></i>

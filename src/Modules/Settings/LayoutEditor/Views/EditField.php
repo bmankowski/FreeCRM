@@ -41,7 +41,38 @@ class EditField extends \App\Modules\Settings\Base\Views\BasicModal
 		$viewer = $this->getViewer($request);
 		$viewer->assign('FIELD_MODEL', $fieldModel);
 		$viewer->assign('SELECTED_MODULE_NAME', $fieldModel->getModule()->getName());
+		
+		// Prepare LayoutEditor EditField-specific data for EditField template
+		$this->prepareLayoutEditorEditFieldData($viewer, $fieldModel);
+		
 		$viewer->view('EditField.tpl', $qualifiedModuleName);
 		$this->postProcess($request);
+	}
+	
+	/**
+	 * Prepare data for LayoutEditor EditField template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareLayoutEditorEditFieldData($viewer, $fieldModel)
+	{
+		// Prepare field info JSON with toSafeHTML
+		$fieldInfo = $fieldModel->getFieldInfo();
+		$fieldInfoJson = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($fieldInfo));
+		$viewer->assign('FIELD_INFO_JSON', $fieldInfoJson);
+		
+		// Prepare safe HTML for picklist values
+		$picklistValues = $fieldModel->getPicklistValues();
+		$safePicklistValues = [];
+		foreach ($picklistValues as $key => $value) {
+			$safePicklistValues[$key] = \App\Modules\Base\Helpers\Util::toSafeHTML($key);
+		}
+		$viewer->assign('SAFE_PICKLIST_VALUES', $safePicklistValues);
+		
+		// Prepare display type list
+		$viewer->assign('DISPLAY_TYPE', \App\Modules\Base\Models\Field::showDisplayTypeList());
+		
+		// Prepare developer config flags
+		$viewer->assign('CHANGE_GENERATEDTYPE_ENABLED', \App\AppConfig::developer('CHANGE_GENERATEDTYPE'));
+		$viewer->assign('CHANGE_VISIBILITY_ENABLED', \App\AppConfig::developer('CHANGE_VISIBILITY'));
 	}
 }

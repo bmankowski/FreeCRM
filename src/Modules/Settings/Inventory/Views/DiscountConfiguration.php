@@ -34,6 +34,9 @@ class DiscountConfiguration extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('USER_MODEL', $currentUser);
 		$viewer->assign('CONFIG', $config);
 		
+		// Prepare Inventory Config-specific data for Config template
+		$this->prepareInventoryConfigData($viewer, $view);
+		
 		// Check if this is an AJAX request - if so, return only content without MainLayout
 		if ($request->isAjax()) {
 			$viewer->view('Config.tpl', $qualifiedModule);
@@ -41,6 +44,20 @@ class DiscountConfiguration extends \App\Modules\Settings\Base\Views\Index
 			$viewer->view('ConfigIndex.tpl', $qualifiedModule);
 		}
 		\App\Log::trace('End ' . __METHOD__);
+	}
+	
+	/**
+	 * Prepare data for Inventory Config template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareInventoryConfigData($viewer, $view)
+	{
+		// Prepare picklist values
+		$viewer->assign('AGGREGATION_PICKLIST_VALUES', \App\Modules\Settings\Inventory\Models\Module::getPicklistValues('aggregation'));
+		
+		// Determine field name based on view
+		$field = ($view == 'DiscountConfiguration') ? 'discounts' : 'taxs';
+		$viewer->assign('FIELD_PICKLIST_VALUES', \App\Modules\Settings\Inventory\Models\Module::getPicklistValues($field));
 	}
 
 	public function getPageLabels(\App\Http\Vtiger_Request $request)

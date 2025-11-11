@@ -37,6 +37,9 @@ class Configuration extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('HOLIDAYS', $holidays);
 		$viewer->assign('CURRENTUSER', $currentUser);
 		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
+		
+		// Prepare PublicHoliday ConfigurationContent-specific data for ConfigurationContent template
+		$this->preparePublicHolidayConfigurationData($viewer, $holidays, $currentUser);
 
 		if ($request->isAjax()) {
 			// AJAX request - return content only
@@ -46,5 +49,22 @@ class Configuration extends \App\Modules\Settings\Base\Views\Index
 			$viewer->view('Configuration.tpl', $request->getModule(false));
 		}
 		\App\Log::trace("Exiting \App\Modules\Settings\PublicHoliday\Views\Configuration::process() method ...");
+	}
+	
+	/**
+	 * Prepare data for PublicHoliday ConfigurationContent template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function preparePublicHolidayConfigurationData($viewer, $holidays, $currentUser)
+	{
+		// Prepare formatted dates for holidays
+		$holidayDates = [];
+		foreach ($holidays as $holiday) {
+			$holidayDates[$holiday['id']] = \App\Fields\DateTime::currentUserDisplayDate($holiday['date']);
+		}
+		$viewer->assign('HOLIDAY_DATES', $holidayDates);
+		
+		// Prepare current date formatted
+		$viewer->assign('CURRENT_DATE_FORMATTED', \App\Fields\DateTime::currentUserDisplayDate(date('Y-m-d')));
 	}
 }

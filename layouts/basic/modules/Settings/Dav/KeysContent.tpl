@@ -30,7 +30,7 @@
 			<div class="alert alert-info">
 				<button type="button" class="close" data-dismiss="alert">×</button>
 				<h4 class="alert-heading">{"LBL_ALERT_DAV_CONFIG_TITLE"|t:$QUALIFIED_MODULE}</h4>
-				<p>{'LBL_ALERT_DAV_CONFIG_DESC'|t:$QUALIFIED_MODULE:AppConfig::main('site_URL')}</p>
+				<p>{'LBL_ALERT_DAV_CONFIG_DESC'|t:$QUALIFIED_MODULE:$SITE_URL}</p>
 			</div>
 			<div>
 				<div class="contents tabbable">

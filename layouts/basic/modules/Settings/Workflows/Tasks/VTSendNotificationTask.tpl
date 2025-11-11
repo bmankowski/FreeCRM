@@ -18,7 +18,7 @@
 				<div class="col-md-7">
 					<select class="chzn-select form-control" name="template" data-validation-engine='validate[required]'>
 						<option value="">{'LBL_NONE'|t:$QUALIFIED_MODULE}</option>
-						{foreach from=App\Mail::getTempleteList($SOURCE_MODULE,'PLL_RECORD') key=key item=item}
+						{foreach from=$EMAIL_TEMPLATES key=key item=item}
 							<option {if $TASK_OBJECT->template eq $item['id']}selected=""{/if} value="{$item['id']}">{$item['name']|t:$QUALIFIED_MODULE}</option>
 						{/foreach}
 					</select>

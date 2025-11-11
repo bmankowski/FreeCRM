@@ -199,7 +199,7 @@
 							</div>
 						{/foreach}
 					</div>
-					<input type="hidden" class="inActiveFieldsArray" value='{\App\Json::encode($IN_ACTIVE_FIELDS)}' />
+					<input type="hidden" class="inActiveFieldsArray" value='{$IN_ACTIVE_FIELDS_JSON}' />
 					{include file='NewCustomBlock.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 					{include file='NewCustomField.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 					{include file='AddBlockModal.tpl'|@vtemplate_path:$QUALIFIED_MODULE}

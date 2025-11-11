@@ -155,7 +155,7 @@ FreeCRM - Customer Relationship Management System
 						<td><label>{"LBL_LEAD_STATUS"|t:$QUALIFIED_MODULE}</label></td>
 						<td class="col-md-6">
 							<select class="chzn-select configField" multiple data-type="lead" name="status">
-								{foreach  item=ITEM from=App\Fields\Picklist::getPickListValues('leadstatus')}
+								{foreach  item=ITEM from=$LEAD_STATUS_VALUES}
 									<option value="{$ITEM}" {if in_array($ITEM, $LEAD['status'])} selected {/if}  >{$ITEM|t:"Leads"}</option>
 								{/foreach}
 							</select>
@@ -165,7 +165,7 @@ FreeCRM - Customer Relationship Management System
 						<td><label>{"LBL_LEAD_CONVERT_STATUS"|t:$QUALIFIED_MODULE}</label></td>
 						<td class="col-md-6">
 							<select class="chzn-select configField" multiple data-type="lead" name="convert_status">
-								{foreach  item=ITEM from=App\Fields\Picklist::getPickListValues('leadstatus')}
+								{foreach  item=ITEM from=$LEAD_STATUS_VALUES}
 									<option value="{$ITEM}" {if in_array($ITEM, $LEAD['convert_status'])} selected {/if}  >{$ITEM|t:"Leads"}</option>
 								{/foreach}
 							</select>

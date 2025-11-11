@@ -32,12 +32,25 @@ class CustomRecordNumbering extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('SUPPORTED_MODULES', $supportedModules);
 		$viewer->assign('DEFAULT_MODULE_MODEL', $defaultModuleModel);
 		
+		// Prepare CustomRecordNumbering-specific data for CustomRecordNumbering template
+		$this->prepareCustomRecordNumberingData($viewer, $defaultModuleModel);
+		
 		// Check if this is an AJAX request - if so, return only content without MainLayout
 		if ($request->isAjax()) {
 			$viewer->view('CustomRecordNumbering.tpl', $qualifiedModuleName);
 		} else {
 			$viewer->view('CustomRecordNumberingIndex.tpl', $qualifiedModuleName);
 		}
+	}
+	
+	/**
+	 * Prepare data for CustomRecordNumbering template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareCustomRecordNumberingData($viewer, $defaultModuleModel)
+	{
+		$defaultModuleName = $defaultModuleModel->getName();
+		$viewer->assign('DEFAULT_MODULE_DATA', \App\Fields\RecordNumber::getNumber($defaultModuleName));
 	}
 
 	public function getPageTitle(\App\Http\Vtiger_Request $request)

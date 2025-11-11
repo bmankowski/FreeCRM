@@ -27,13 +27,13 @@
 </div>
 {if $FIELD_INSTANCE->getParams()}
 	<div class="paramsJson">
-		<input id="params" class="" type="hidden" value='{\App\Json::encode($FIELD_INSTANCE->getParams())}'/>
-		{assign var='PARAMS' value=\App\Json::decode($FIELD_INSTANCE->get('params'))}
+	<input id="params" class="" type="hidden" value='{$PARAMS_JSON}'/>
+	{assign var='PARAMS' value=$PARAMS_DECODED}
 		{foreach from=$FIELD_INSTANCE->getParams() item=ITEM key=KEY}
 			<div class="form-group paramsJson">
 				<label class="col-md-4 control-label">{'LBL_PARAMS_'|cat:strtoupper($ITEM)|t:$QUALIFIED_MODULE}
 					{if $ITEM eq 'limit'}
-						{assign var="GROSS_PRICE" value=\App\Modules\Base\Models\InventoryField::getFieldInstance($MODULE, 'GrossPrice')}
+						{assign var="GROSS_PRICE" value=$GROSS_PRICE_FIELD}
 						<a href="#" class="HelpInfoPopover" data-placement="top" data-content="{"LBL_PARAMS_LIMIT_CONDITIONS"|t:$QUALIFIED_MODULE}: {$GROSS_PRICE->getDefaultLabel()|t:$QUALIFIED_MODULE}">
 							<span class="glyphicon glyphicon-info-sign"></span>
 						</a>

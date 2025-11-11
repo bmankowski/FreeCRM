@@ -44,7 +44,7 @@
 			</table>	
 		</div>
 		<div class="tab-pane" id="configuration">
-			{assign var=CONFIG value=App\Modules\Settings\Mail\Models\Config::getConfig('autologin')}
+			{assign var=CONFIG value=$AUTOLOGIN_CONFIG}
 			<div class="pull-left pagination-centered ">
 				<input class="configCheckbox" type="checkbox" name="autologinActive" id="autologinActive" value="1" {if $CONFIG['autologinActive']=='true'}checked=""{/if}>
 			</div>

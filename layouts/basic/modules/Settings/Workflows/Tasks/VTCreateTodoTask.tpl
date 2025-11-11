@@ -157,7 +157,7 @@
 					{elseif $DUPLICATE_STATUS eq ''}
 						{assign var=DUPLICATE_STATUS value=[]}
 					{/if}
-					{foreach from=App\Fields\Picklist::getPickListValues('activitystatus') key=KEY item=ITEM}
+					{foreach from=$ACTIVITY_STATUS_PICKLIST_VALUES key=KEY item=ITEM}
 						<option value="{$ITEM}" {if in_array($ITEM, $DUPLICATE_STATUS)} selected="" {/if}>{$ITEM|t:"Calendar"}</option>
 					{/foreach}
 				</select>

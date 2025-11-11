@@ -11,22 +11,22 @@
 		<div>
 			<select class="form-control" id="iconsList" name="type">
 				<option value="">-</option>
-				{foreach from=\App\Modules\Settings\Base\Models\Icons::getGlyphicon() key=NAME item=CLASS}
+				{foreach from=$GLYPHICON_ICONS key=NAME item=CLASS}
 					<option value="glyphicon {$CLASS}" data-class="{$CLASS}" data-type="icon" title="{$NAME}">{$NAME}</option>
 				{/foreach}
-				{foreach from=\App\Modules\Settings\Base\Models\Icons::getUserIcon() key=NAME item=CLASS}
+				{foreach from=$USER_ICONS key=NAME item=CLASS}
 					<option value="{$CLASS}" data-class="{$CLASS}" data-type="icon" title="{$NAME}">{$NAME}</option>
 				{/foreach}
-				{foreach from=\App\Modules\Settings\Base\Models\Icons::getAdminIcon() key=NAME item=CLASS}
+				{foreach from=$ADMIN_ICONS key=NAME item=CLASS}
 					<option value="{$CLASS}" data-class="{$CLASS}" data-type="icon" title="{$NAME}">{$NAME}</option>
 				{/foreach}
-				{foreach from=\App\Modules\Settings\Base\Models\Icons::getAdditionalIcon() key=NAME item=CLASS}
+				{foreach from=$ADDITIONAL_ICONS key=NAME item=CLASS}
 					<option value="{$CLASS}" data-class="{$CLASS}" data-type="icon" title="{$NAME}">{$NAME}</option>
 				{/foreach}
-				{foreach from=\App\Modules\Settings\Base\Models\Icons::getFontAwesomeIcon() key=NAME item=CLASS}
+				{foreach from=$FONTAWESOME_ICONS key=NAME item=CLASS}
 					<option value="fa {$CLASS}" data-class="{$CLASS}" data-type="icon" title="{$NAME}">{$NAME}</option>
 				{/foreach}
-				{foreach from=\App\Modules\Settings\Base\Models\Icons::getImageIcon() key=NAME item=URL}
+				{foreach from=$IMAGE_ICONS key=NAME item=URL}
 					<option value="{$URL}" data-type="image" title="{$NAME}">{$NAME}</option>
 				{/foreach}
 			</select>

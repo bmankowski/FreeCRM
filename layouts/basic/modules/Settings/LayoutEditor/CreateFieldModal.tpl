@@ -44,7 +44,7 @@
 							</div>
 							<div class="col-md-8 controls">
 								<input type="text" maxlength="50" name="fieldLabel" value="" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" class="form-control"
-									   data-validator={\App\Json::encode([['name'=>'FieldLabel']])} />
+									   data-validator={$FIELD_LABEL_VALIDATOR_JSON} />
 							</div>
 						</div>
 						<div class="form-group">
@@ -54,7 +54,7 @@
 							</div>
 							<div class="col-md-8 controls">
 								<input type="text" maxlength="30" name="fieldName" value="" data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" class="form-control"
-									   data-validator={\App\Json::encode([['name'=>'fieldName']])} />
+									   data-validator={$FIELD_NAME_VALIDATOR_JSON} />
 							</div>
 						</div>
 						<div class="form-group">
@@ -94,7 +94,7 @@
 							</div>
 							<div class="col-md-8 controls">
 								<select id="picklistUi" class="form-control" name="pickListValues" multiple="" tabindex="-1" aria-hidden="true" placeholder="{'LBL_ENTER_PICKLIST_VALUES'|t:$QUALIFIED_MODULE}" 
-										data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator={\App\Json::encode([['name'=>'PicklistFieldValues']])}>
+										data-validation-engine="validate[required, funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" data-validator={$PICKLIST_FIELD_VALUES_VALIDATOR_JSON}>
 								</select>
 							</div>
 						</div>

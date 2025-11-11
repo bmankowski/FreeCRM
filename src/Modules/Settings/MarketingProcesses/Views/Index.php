@@ -62,6 +62,9 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		
 		// Prepare accessible groups for Leads
 		$viewer->assign('ALL_ACTIVEGROUP_LIST', \App\Fields\Owner::getInstance('Leads')->getAccessibleGroups());
+		
+		// Prepare lead status picklist values
+		$viewer->assign('LEAD_STATUS_VALUES', \App\Fields\Picklist::getPickListValues('leadstatus'));
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)

@@ -35,8 +35,20 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('USER_MODEL', $request->getUser());
-
+		
+		// Prepare Groups EditView-specific data for EditView template
+		$this->prepareGroupsEditViewData($viewer);
+		
 		$viewer->view('EditView.tpl', $qualifiedModuleName);
+	}
+	
+	/**
+	 * Prepare data for Groups EditView template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareGroupsEditViewData($viewer)
+	{
+		$viewer->assign('ALL_MODULES', \App\Modules\Base\Models\Module::getAll([0], [], true));
 	}
 
 	/**

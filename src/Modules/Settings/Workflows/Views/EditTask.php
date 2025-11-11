@@ -174,6 +174,12 @@ class EditTask extends \App\Modules\Settings\Base\Views\Index
 		// Prepare mail accounts for email tasks
 		$viewer->assign('MAIL_ACCOUNTS', \App\Mail::getAll());
 		
+		// Prepare email templates for email/notification tasks
+		$viewer->assign('EMAIL_TEMPLATES', \App\Mail::getTempleteList($sourceModule, 'PLL_RECORD'));
+		
+		// Prepare activity status picklist values for VTCreateTodoTask
+		$viewer->assign('ACTIVITY_STATUS_PICKLIST_VALUES', \App\Fields\Picklist::getPickListValues('activitystatus'));
+		
 		// Prepare taskFields JSON for VTCreateEntityTask
 		if ($taskType === 'VTCreateEntityTask' && method_exists($taskObject, 'getFieldNames')) {
 			$taskFields = $taskObject->getFieldNames();

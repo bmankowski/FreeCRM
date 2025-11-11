@@ -58,8 +58,29 @@ class Step3 extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('BASE_MODULE', $baseModule);
 		$viewer->assign('ACTIONS_SELECTED', $DataAccess['basic_info']['data']);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
+		
+		// Prepare DataAccess ListAction-specific data for ListAction template
+		$this->prepareDataAccessListActionData($viewer, $DataAccess['basic_info']['data']);
 
 		echo $viewer->view('Step3.tpl', $qualifiedModuleName, true);
+	}
+	
+	/**
+	 * Prepare data for DataAccess ListAction template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareDataAccessListActionData($viewer, $actionsSelected)
+	{
+		$actionNames = [];
+		if ($actionsSelected) {
+			foreach ($actionsSelected as $key => $action) {
+				$actionNames[$key] = [
+					'short' => \App\Modules\Settings\DataAccess\Models\Module::getActionName($action['an'], true),
+					'full' => \App\Modules\Settings\DataAccess\Models\Module::getActionName($action['an'], false)
+				];
+			}
+		}
+		$viewer->assign('ACTION_NAMES', $actionNames);
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)

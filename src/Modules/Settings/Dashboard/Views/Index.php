@@ -122,6 +122,27 @@ class Index extends \App\Modules\Settings\Base\Views\Index
             }
         }
         $viewer->assign('SHORTCUT_MODULE_NAMES', $shortcutModuleNames);
+        
+        // Prepare Stats warning template data if Stats warning is present
+        $warnings = $viewer->getTemplateVars('WARNINGS');
+        if ($warnings) {
+            foreach ($warnings as $warning) {
+                if ($warning instanceof \App\SystemWarnings\YetiForce\Stats) {
+                    $this->prepareStatsWarningData($viewer);
+                    break;
+                }
+            }
+        }
+    }
+    
+    /**
+     * Prepare data for Stats warning template
+     * Moves function calls from template to controller for better MVC separation
+     */
+    protected function prepareStatsWarningData($viewer)
+    {
+        $viewer->assign('STATS_COMPANY', \App\Company::getInstanceById());
+        $viewer->assign('STATS_INDUSTRY_LIST', \App\Modules\Settings\Companies\Models\Module::getIndustryList());
     }
 
     public function github(\App\Http\Vtiger_Request $request)

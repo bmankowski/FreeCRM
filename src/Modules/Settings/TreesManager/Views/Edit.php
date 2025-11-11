@@ -59,6 +59,9 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 	{
 		$treeJson = \App\Json::encode($tree);
 		$viewer->assign('TREE_SAFE_HTML', \App\Modules\Base\Helpers\Util::toSafeHTML($treeJson));
+		
+		// Prepare supported module models
+		$viewer->assign('SUPPORTED_MODULE_MODELS', \App\Modules\Settings\Workflows\Models\Module::getSupportedModules());
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)

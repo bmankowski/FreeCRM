@@ -119,6 +119,23 @@ class ListView extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
 		// MainLayout handles rendering, no separate preProcess template needed
+		
+		// Prepare module-specific ListViewHeader data
+		$this->prepareListViewHeaderData($viewer, $qualifiedModuleName);
+	}
+	
+	/**
+	 * Prepare data for ListViewHeader templates
+	 * Modules can override this to prepare module-specific data
+	 * Moves function calls from templates to controller for better MVC separation
+	 */
+	protected function prepareListViewHeaderData($viewer, $qualifiedModuleName)
+	{
+		// Prepare AdvancedPermission-specific data
+		if ($qualifiedModuleName === 'Settings:AdvancedPermission') {
+			$viewer->assign('PERMITTED_BY_ADVANCED_PERMISSION', \App\AppConfig::security('PERMITTED_BY_ADVANCED_PERMISSION'));
+			$viewer->assign('CACHING_PERMISSION_TO_RECORD', \App\AppConfig::security('CACHING_PERMISSION_TO_RECORD'));
+		}
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)

@@ -36,7 +36,7 @@
 											<optgroup label='{$FIELD_MODULE_NAME|t:$FIELD_MODULE_NAME}'>
 												{foreach from=$FIELD key=key item=item}
 													<option data-module="{$FIELD_MODULE_NAME}" value="{$item['name']}" {if $cnd_item['fieldname'] eq $item['name']}selected{/if}
-															data-uitype="{$item['uitype']}" data-info="{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($item['info']))}"
+															data-uitype="{$item['uitype']}" data-info="{$FIELD_INFO_JSON[$FIELD_MODULE_NAME][$item['name']]}"
 															>{$item['label']|t:$BASE_MODULE}</option>
 												{/foreach}
 											</optgroup>
@@ -45,7 +45,7 @@
 								</div>
 								<div class="col-md-3">
 									<select data-num="{$smarty.foreach.field_select.index}" class="chzn-select form-control" name="comparator">
-										{assign var=CONDITION_LIST value=\App\Modules\Settings\DataAccess\Models\Module::getConditionByType($cnd_item['field_type'])}
+										{assign var=CONDITION_LIST value=$CONDITION_LISTS_BY_TYPE[$cnd_item['field_type']]}
 										{foreach from=$CONDITION_LIST item=item key=key}
 											<option value="{$item}" {if $cnd_item['comparator'] eq $item}selected{/if}>
 												{$item|t:$QUALIFIED_MODULE}
@@ -101,7 +101,7 @@
 											<optgroup label='{$FIELD_MODULE_NAME|t:$FIELD_MODULE_NAME}'>
 												{foreach from=$FIELD key=key item=item}
 													<option data-module="{$FIELD_MODULE_NAME}" value="{$item['name']}" {if $cnd_item['fieldname'] eq $item['name']}selected{/if}
-															data-uitype="{$item['uitype']}" data-info="{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($item['info']))}"
+															data-uitype="{$item['uitype']}" data-info="{$FIELD_INFO_JSON[$FIELD_MODULE_NAME][$item['name']]}"
 															>{$item['label']|t:$BASE_MODULE}</option>
 												{/foreach}
 											</optgroup>
@@ -110,7 +110,7 @@
 								</span>
 								<span class="col-md-3">
 									<select data-num="{$smarty.foreach.field_select.index}" class="chzn-select form-control" name="comparator">
-										{assign var=CONDITION_LIST value=\App\Modules\Settings\DataAccess\Models\Module::getConditionByType($cnd_item['field_type'])}
+										{assign var=CONDITION_LIST value=$CONDITION_LISTS_BY_TYPE[$cnd_item['field_type']]}
 										{foreach from=$CONDITION_LIST item=item key=key}
 											<option value="{$item}" {if $cnd_item['comparator'] eq $item}selected{/if}>
 												{$item|t:$QUALIFIED_MODULE}
@@ -164,4 +164,4 @@
 	</div>
 	<div class="clearfix"></div>
 </form>
-<div id="condition_list" style="display: none;">{\App\Json::encode($CONDITION_BY_TYPE)}</div>
+<div id="condition_list" style="display: none;">{$CONDITION_BY_TYPE_JSON}</div>

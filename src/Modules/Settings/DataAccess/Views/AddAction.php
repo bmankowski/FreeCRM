@@ -36,6 +36,30 @@ class AddAction extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('ACTIONS_LIST', \App\Modules\Settings\DataAccess\Models\Module::listAccesDataDirector($baseModule));
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('DOCUMENT_LIST', $qualifiedModuleName);
+		
+		// Prepare DataAccess AddAction-specific data for AddAction template
+		$this->prepareDataAccessAddActionData($viewer);
+		
 		echo $viewer->view('AddAction.tpl', $qualifiedModuleName, true);
+	}
+	
+	/**
+	 * Prepare data for DataAccess AddAction template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareDataAccessAddActionData($viewer)
+	{
+		$actionsList = $viewer->getTemplateVars('ACTIONS_LIST');
+		$actionNames = [];
+		foreach ($actionsList as $action) {
+			$actionNames[$action] = [
+				'short' => \App\Modules\Settings\DataAccess\Models\Module::getActionName($action, true),
+				'full' => \App\Modules\Settings\DataAccess\Models\Module::getActionName($action, false)
+			];
+		}
+		$viewer->assign('ACTION_NAMES', $actionNames);
+		
+		// Prepare JSON-encoded actions
+		$viewer->assign('ACTIONS_JASON', \App\Json::encode($actionsList));
 	}
 }

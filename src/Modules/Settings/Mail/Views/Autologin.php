@@ -46,6 +46,7 @@ class Autologin extends \App\Modules\Settings\Base\Views\Index
 	protected function prepareMailAutologinData($viewer)
 	{
 		$viewer->assign('ALL_ACTIVEUSER_LIST', \App\Fields\Owner::getInstance()->getAccessibleUsers());
+		$viewer->assign('AUTOLOGIN_CONFIG', \App\Modules\Settings\Mail\Models\Config::getConfig('autologin'));
 	}
 
 	/**

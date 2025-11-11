@@ -43,6 +43,20 @@ class ActionConfig extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('CONFIG', $Config);
 		$viewer->assign('SAVED_DATA', $DataAccess['basic_info']['data'][$aid]);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
+		
+		// Prepare DataAccess ActionConfig-specific data for ActionConfig template
+		$this->prepareDataAccessActionConfigData($viewer, $action);
+		
 		echo $viewer->view('ActionConfig.tpl', $qualifiedModuleName, true);
+	}
+	
+	/**
+	 * Prepare data for DataAccess ActionConfig template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareDataAccessActionConfigData($viewer, $actionName)
+	{
+		$viewer->assign('ACTION_NAME_SHORT', \App\Modules\Settings\DataAccess\Models\Module::getActionName($actionName, true));
+		$viewer->assign('ACTION_NAME_FULL', \App\Modules\Settings\DataAccess\Models\Module::getActionName($actionName, false));
 	}
 }

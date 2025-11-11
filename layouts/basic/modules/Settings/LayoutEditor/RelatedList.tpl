@@ -27,7 +27,7 @@
 							{/foreach}
 						</select>
 					</div>
-					{if AppConfig::developer('CHANGE_RELATIONS')}
+					{if $CHANGE_RELATIONS_ENABLED}
 						<button class="btn btn-primary pull-right addRelation" type="button">{"LBL_ADD_RELATION"|t:$QUALIFIED_MODULE}</button>
 					{/if}	
 				</div>
@@ -48,10 +48,10 @@
 							{assign var=INVENTORY_FIELD_MODEL value=false}
 							{assign var=RELATED_MODULE_NAME value=$MODULE_MODEL->getRelationModuleName()}
 							{assign var=RELATED_MODULE_MODEL value=$MODULE_MODEL->getRelationModuleModel()}
-							{assign var=RECORD_STRUCTURE_INSTANCE value=\App\Modules\Base\Models\RecordStructure::getInstanceForModule($RELATED_MODULE_MODEL)}
+							{assign var=RECORD_STRUCTURE_INSTANCE value=$RECORD_STRUCTURES[$MODULE_MODEL->getId()]}
 							{assign var=RECORD_STRUCTURE value=$RECORD_STRUCTURE_INSTANCE->getStructure()}
 							{if $RELATED_MODULE_MODEL->isInventory()}
-								{assign var=INVENTORY_FIELD_MODEL value=\App\Modules\Base\Models\InventoryField::getInstance($RELATED_MODULE_NAME)}
+								{assign var=INVENTORY_FIELD_MODEL value=$INVENTORY_FIELDS[$MODULE_MODEL->getId()]}
 								{assign var=SELECTED_INVENTORY_FIELDS value=$MODULE_MODEL->getRelationInventoryFields()}
 							{/if}
 							{if $MODULE_MODEL->isActive()}
@@ -59,11 +59,11 @@
 							{else}
 								{assign var=STATUS value='0'}
 							{/if}
-							{assign var=SELECTED_FIELDS value=\App\Modules\Settings\LayoutEditor\Models\Module::getRelationFields($MODULE_MODEL->getId())}
+							{assign var=SELECTED_FIELDS value=$SELECTED_FIELDS[$MODULE_MODEL->getId()]}
 							<div class="relatedModule mainBlockTable panel panel-default" data-relation-id="{$MODULE_MODEL->getId()}" data-status="{$STATUS}">
                                 <div class="mainBlockTableHeader panel-heading">
 									<div class="btn-toolbar btn-group-xs pull-right">
-										{if AppConfig::developer('CHANGE_RELATIONS')}
+										{if $CHANGE_RELATIONS_ENABLED}
 											<button type="button" class="btn btn-danger removeRelation pull-right" title="{"LBL_REMOVE_RELATION"|t:$QUALIFIED_MODULE}">x</button>
 										{/if}
 										{assign var=FAVORITES value=$MODULE_MODEL->isFavorites()}
@@ -153,7 +153,7 @@
 									<label class="col-md-4 control-label">{"LBL_RELATION_TYPE"|t:$QUALIFIED_MODULE}:</label>
 									<div class="col-md-7">
 										<select name="type" class="form-control">
-											{foreach from=\App\Modules\Settings\LayoutEditor\Models\Module::getRelationsTypes() item=ITEM key=KEY}
+											{foreach from=$RELATIONS_TYPES item=ITEM key=KEY}
 												<option value="{$KEY}">{$ITEM|t:$QUALIFIED_MODULE}</option>
 											{/foreach}
 										</select>
@@ -163,7 +163,7 @@
 									<label class="col-md-4 control-label">{"LBL_RELATION_ACTIONS"|t:$QUALIFIED_MODULE}:</label>
 									<div class="col-md-7 marginTop">
 										<select multiple name="actions" class="form-control">
-											{foreach from=\App\Modules\Settings\LayoutEditor\Models\Module::getRelationsActions() item=ITEM key=KEY}
+											{foreach from=$RELATIONS_ACTIONS item=ITEM key=KEY}
 												<option value="{$KEY}">{$ITEM|t:$QUALIFIED_MODULE}</option>
 											{/foreach}
 										</select>

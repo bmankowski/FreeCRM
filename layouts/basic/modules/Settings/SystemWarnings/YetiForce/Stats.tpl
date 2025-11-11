@@ -5,7 +5,7 @@
 			{'LBL_STATS'|t:'Settings:SystemWarnings'}
 		</h3>
 		<p>{'LBL_STATS_DESC'|t:'Settings:SystemWarnings'}</p>
-		{assign var=COMPANY value=\App\Company::getInstanceById()}
+		{assign var=COMPANY value=$STATS_COMPANY}
 		<div class="input-group">
 			<span class="input-group-addon">
 				<input type="checkbox" checked>
@@ -17,7 +17,7 @@
 				<input type="checkbox" checked disabled>
 			</span>
 			<select class="select2 form-control" name="company_industry" data-validation-engine="validate[required]">
-				{foreach from=\App\Modules\Settings\Companies\Models\Module::getIndustryList() item=ITEM}
+				{foreach from=$STATS_INDUSTRY_LIST item=ITEM}
 					<option value="{$ITEM}" {if $COMPANY->get('industry') eq $ITEM}selected{/if}>{$ITEM|t}</option>
 				{/foreach}
 			</select>

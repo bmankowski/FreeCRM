@@ -27,10 +27,22 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
 		
+		// Prepare GlobalPermission IndexContent-specific data for IndexContent template
+		$this->prepareGlobalPermissionIndexContentData($viewer);
+		
 		if ($request->isAjax()) {
 			$viewer->view('IndexContent.tpl', $qualifiedModuleName);
 		} else {
 			$viewer->view('IndexView.tpl', $qualifiedModuleName);
 		}
+	}
+	
+	/**
+	 * Prepare data for GlobalPermission IndexContent template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareGlobalPermissionIndexContentData($viewer)
+	{
+		$viewer->assign('IS_PERMITTED_VALUE', \App\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE);
 	}
 }

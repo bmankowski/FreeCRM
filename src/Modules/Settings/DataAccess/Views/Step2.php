@@ -57,8 +57,54 @@ class Step2 extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('FIELD_LIST', \App\Modules\Settings\DataAccess\Models\Module::getListBaseModuleField($baseModule));
 		$viewer->assign('CONDITION_BY_TYPE', \App\Modules\Settings\DataAccess\Models\Module::getConditionByType());
+		
+		// Prepare DataAccess Step2Content-specific data for Step2Content template
+		$this->prepareDataAccessStep2ContentData($viewer, $baseModule, $idTpl);
 
 		echo $viewer->view('Step2.tpl', $qualifiedModuleName, true);
+	}
+	
+	/**
+	 * Prepare data for DataAccess Step2Content template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareDataAccessStep2ContentData($viewer, $baseModule, $idTpl)
+	{
+		// Prepare field info JSON with toSafeHTML for each field in FIELD_LIST
+		$fieldList = $viewer->getTemplateVars('FIELD_LIST');
+		$fieldInfoJson = [];
+		foreach ($fieldList as $moduleName => $fields) {
+			foreach ($fields as $field) {
+				$fieldInfoJson[$moduleName][$field['name']] = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($field['info']));
+			}
+		}
+		$viewer->assign('FIELD_INFO_JSON', $fieldInfoJson);
+		
+		// Prepare condition lists by type for existing conditions
+		$requiredConditions = $viewer->getTemplateVars('REQUIRED_CONDITIONS');
+		$optionalConditions = $viewer->getTemplateVars('OPTIONAL_CONDITIONS');
+		$conditionLists = [];
+		if ($requiredConditions) {
+			foreach ($requiredConditions as $condition) {
+				$fieldType = $condition['field_type'];
+				if (!isset($conditionLists[$fieldType])) {
+					$conditionLists[$fieldType] = \App\Modules\Settings\DataAccess\Models\Module::getConditionByType($fieldType);
+				}
+			}
+		}
+		if ($optionalConditions) {
+			foreach ($optionalConditions as $condition) {
+				$fieldType = $condition['field_type'];
+				if (!isset($conditionLists[$fieldType])) {
+					$conditionLists[$fieldType] = \App\Modules\Settings\DataAccess\Models\Module::getConditionByType($fieldType);
+				}
+			}
+		}
+		$viewer->assign('CONDITION_LISTS_BY_TYPE', $conditionLists);
+		
+		// Prepare JSON-encoded condition by type
+		$conditionByType = $viewer->getTemplateVars('CONDITION_BY_TYPE');
+		$viewer->assign('CONDITION_BY_TYPE_JSON', \App\Json::encode($conditionByType));
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)

@@ -29,6 +29,33 @@ class Condition extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('BASE_MODULE', $baseModule);
 		$viewer->assign('FIELD_LIST', \App\Modules\Settings\DataAccess\Models\Module::getListBaseModuleField($baseModule));
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
+		
+		// Prepare DataAccess Condition-specific data for Condition template
+		$this->prepareDataAccessConditionData($viewer);
+		
 		echo $viewer->view('Condition.tpl', $qualifiedModuleName, true);
+	}
+	
+	/**
+	 * Prepare data for DataAccess Condition template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareDataAccessConditionData($viewer)
+	{
+		$fieldList = $viewer->getTemplateVars('FIELD_LIST');
+		$fieldInfoJson = [];
+		$conditionListsByType = [];
+		foreach ($fieldList as $moduleName => $fields) {
+			foreach ($fields as $field) {
+				$fieldInfoJson[$moduleName][$field['name']] = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($field['info']));
+				// Prepare condition list for this field type
+				$fieldType = $field['info']['type'];
+				if (!isset($conditionListsByType[$fieldType])) {
+					$conditionListsByType[$fieldType] = \App\Modules\Settings\DataAccess\Models\Module::getConditionByType($fieldType);
+				}
+			}
+		}
+		$viewer->assign('FIELD_INFO_JSON', $fieldInfoJson);
+		$viewer->assign('CONDITION_LISTS_BY_TYPE', $conditionListsByType);
 	}
 }

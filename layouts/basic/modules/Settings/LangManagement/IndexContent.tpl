@@ -17,7 +17,7 @@ FreeCRM - Customer Relationship Management System
 		</div>
 	</div>
 	<hr>
-	{if \App\AppConfig::performance('LOAD_CUSTOM_FILES')}
+	{if $LOAD_CUSTOM_FILES}
 		<div class="alert alert-info fade in">
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 				<span aria-hidden="true">&times;</span>

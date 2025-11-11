@@ -28,6 +28,9 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
 		
+		// Prepare LangManagement IndexContent-specific data for IndexContent template
+		$this->prepareLangManagementIndexContentData($viewer);
+		
 		// Add AJAX detection for MainLayout conversion
 		if ($request->isAjax()) {
 			// AJAX request - return content only
@@ -36,6 +39,15 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 			// Initial page load - return full page with MainLayout
 			$viewer->view('Index.tpl', $qualifiedModuleName);
 		}
+	}
+	
+	/**
+	 * Prepare data for LangManagement IndexContent template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareLangManagementIndexContentData($viewer)
+	{
+		$viewer->assign('LOAD_CUSTOM_FILES', \App\AppConfig::performance('LOAD_CUSTOM_FILES'));
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)

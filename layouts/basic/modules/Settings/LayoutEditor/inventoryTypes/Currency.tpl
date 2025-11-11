@@ -27,8 +27,8 @@
 </div>
 {if $FIELD_INSTANCE->getParams()}
 	<div class="paramsJson">
-		<input id="params" class="" type="hidden" value='{\App\Json::encode($FIELD_INSTANCE->getParams())}'/>
-		{assign var='PARAMS' value=\App\Json::decode($FIELD_INSTANCE->get('params'))}
+	<input id="params" class="" type="hidden" value='{$PARAMS_JSON}'/>
+	{assign var='PARAMS' value=$PARAMS_DECODED}
 		{foreach from=$FIELD_INSTANCE->getParams() item=ITEM key=KEY}
 			<div class="form-group paramsJson">
 				<label class="col-md-4 control-label">{'LBL_PARAMS_'|cat:strtoupper($ITEM)|t:$QUALIFIED_MODULE}:</label>

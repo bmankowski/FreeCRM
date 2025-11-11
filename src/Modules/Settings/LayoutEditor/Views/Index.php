@@ -81,12 +81,30 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('IS_INVENTORY', $moduleModel->isInventory());
 		$viewer->assign('INVENTORY_MODEL', \App\Modules\Base\Models\InventoryField::getInstance($sourceModule));
 		
+		// Prepare LayoutEditor FieldLayout-specific data for FieldLayout template (includes CreateFieldModal)
+		$this->prepareLayoutEditorFieldLayoutData($viewer, $inactiveFields);
+		
 		// Check if this is an AJAX request - if so, return only content without MainLayout
 		if ($request->isAjax()) {
 			$viewer->view('FieldLayout.tpl', $qualifiedModule);
 		} else {
 			$viewer->view('Index.tpl', $qualifiedModule);
 		}
+	}
+	
+	/**
+	 * Prepare data for LayoutEditor FieldLayout template (includes CreateFieldModal)
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareLayoutEditorFieldLayoutData($viewer, $inactiveFields)
+	{
+		// Prepare JSON-encoded inactive fields
+		$viewer->assign('IN_ACTIVE_FIELDS_JSON', \App\Json::encode($inactiveFields));
+		
+		// Prepare validator JSON for CreateFieldModal
+		$viewer->assign('FIELD_LABEL_VALIDATOR_JSON', \App\Json::encode([['name'=>'FieldLabel']]));
+		$viewer->assign('FIELD_NAME_VALIDATOR_JSON', \App\Json::encode([['name'=>'fieldName']]));
+		$viewer->assign('PICKLIST_FIELD_VALUES_VALIDATOR_JSON', \App\Json::encode([['name'=>'PicklistFieldValues']]));
 	}
 
 	public function showRelatedListLayout(\App\Http\Vtiger_Request $request)
@@ -115,12 +133,52 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('PARENT_MODULE', $request->get('parent'));
 		$viewer->assign('VIEW', $request->get('view'));
 		
+		// Prepare LayoutEditor RelatedList-specific data for RelatedList template
+		$this->prepareLayoutEditorRelatedListData($viewer, $relatedModuleModels);
+		
 		// Check if this is an AJAX request - if so, return only content without MainLayout
 		if ($request->isAjax()) {
 			$viewer->view('RelatedList.tpl', $qualifiedModule);
 		} else {
 			$viewer->view('RelatedListIndex.tpl', $qualifiedModule);
 		}
+	}
+	
+	/**
+	 * Prepare data for LayoutEditor RelatedList template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareLayoutEditorRelatedListData($viewer, $relatedModuleModels)
+	{
+		// Prepare relation types and actions
+		$viewer->assign('RELATIONS_TYPES', \App\Modules\Settings\LayoutEditor\Models\Module::getRelationsTypes());
+		$viewer->assign('RELATIONS_ACTIONS', \App\Modules\Settings\LayoutEditor\Models\Module::getRelationsActions());
+		
+		// Prepare record structures and inventory fields for each related module
+		$recordStructures = [];
+		$inventoryFields = [];
+		$selectedFields = [];
+		foreach ($relatedModuleModels as $moduleModel) {
+			$relatedModuleName = $moduleModel->getRelationModuleName();
+			$relatedModuleModel = $moduleModel->getRelationModuleModel();
+			
+			// Prepare record structure
+			$recordStructures[$moduleModel->getId()] = \App\Modules\Base\Models\RecordStructure::getInstanceForModule($relatedModuleModel);
+			
+			// Prepare inventory fields if module has inventory
+			if ($relatedModuleModel->isInventory()) {
+				$inventoryFields[$moduleModel->getId()] = \App\Modules\Base\Models\InventoryField::getInstance($relatedModuleName);
+			}
+			
+			// Prepare selected fields
+			$selectedFields[$moduleModel->getId()] = \App\Modules\Settings\LayoutEditor\Models\Module::getRelationFields($moduleModel->getId());
+		}
+		$viewer->assign('RECORD_STRUCTURES', $recordStructures);
+		$viewer->assign('INVENTORY_FIELDS', $inventoryFields);
+		$viewer->assign('SELECTED_FIELDS', $selectedFields);
+		
+		// Prepare developer config flags
+		$viewer->assign('CHANGE_RELATIONS_ENABLED', \App\AppConfig::developer('CHANGE_RELATIONS'));
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)

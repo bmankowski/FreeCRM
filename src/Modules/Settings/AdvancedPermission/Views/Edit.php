@@ -50,7 +50,24 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('RECORD_ID', $record);
 		$viewer->assign('MODULE', $moduleName);
+		
+		// Prepare AdvancedPermission EditViewS1-specific data for EditViewS1 template
+		$this->prepareAdvancedPermissionEditViewS1Data($viewer);
+		
 		$viewer->view('EditViewS1.tpl', $qualifiedModuleName);
+	}
+	
+	/**
+	 * Prepare data for AdvancedPermission EditViewS1 template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareAdvancedPermissionEditViewS1Data($viewer)
+	{
+		$viewer->assign('ADVANCED_PERMISSION_ACTIONS', \App\Modules\Settings\AdvancedPermission\Models\Module::$action);
+		$viewer->assign('ADVANCED_PERMISSION_STATUSES', \App\Modules\Settings\AdvancedPermission\Models\Module::$status);
+		$viewer->assign('ADVANCED_PERMISSION_PRIORITIES', \App\Modules\Settings\AdvancedPermission\Models\Module::$priority);
+		$viewer->assign('ALL_MODULES', \App\Modules\Base\Models\Module::getAll([0], [], true));
+		$viewer->assign('PRIVILEGE_MEMBERS', \App\PrivilegeUtil::getMembers());
 	}
 
 	/**

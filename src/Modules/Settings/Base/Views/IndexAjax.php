@@ -51,6 +51,10 @@ class IndexAjax extends \App\Modules\Settings\Base\Views\Index
 		$pinnedSettingsShortcuts = \App\Modules\Settings\Base\Models\MenuItem::getPinnedItems();
 		$viewer->assign('SETTINGS_SHORTCUT', $pinnedSettingsShortcuts[$fieldid]);
 		$viewer->assign('MODULE', $qualifiedModuleName);
+		
+		// Prepare SettingsShortCut-specific data for SettingsShortCut template
+		$this->prepareSettingsShortCutData($viewer, $pinnedSettingsShortcuts[$fieldid]);
+		
 		$viewer->view('SettingsShortCut.tpl', $qualifiedModuleName);
 	}
 
@@ -61,6 +65,33 @@ class IndexAjax extends \App\Modules\Settings\Base\Views\Index
 		$pinnedSettingsShortcuts = \App\Modules\Settings\Base\Models\MenuItem::getPinnedItems();
 		$viewer->assign('SETTINGS_SHORTCUT', $pinnedSettingsShortcuts);
 		$viewer->assign('MODULE', $qualifiedModuleName);
+		
+		// Prepare ReAlignSettingsShortCut-specific data for ReAlignSettingsShortCut template
+		$this->prepareReAlignSettingsShortCutData($viewer, $pinnedSettingsShortcuts);
+		
 		$viewer->view('ReAlignSettingsShortCut.tpl', $qualifiedModuleName);
+	}
+	
+	/**
+	 * Prepare data for SettingsShortCut template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareSettingsShortCutData($viewer, $shortcut)
+	{
+		$linkto = $shortcut->get('linkto');
+		$viewer->assign('SHORTCUT_MODULE_NAME', \App\Modules\Base\Models\Menu::getModuleNameFromUrl($linkto));
+	}
+	
+	/**
+	 * Prepare data for ReAlignSettingsShortCut template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareReAlignSettingsShortCutData($viewer, $shortcuts)
+	{
+		$shortcutModuleNames = [];
+		foreach ($shortcuts as $shortcut) {
+			$shortcutModuleNames[$shortcut->getId()] = \App\Modules\Base\Models\Menu::getModuleNameFromUrl($shortcut->getUrl());
+		}
+		$viewer->assign('SHORTCUT_MODULE_NAMES', $shortcutModuleNames);
 	}
 }

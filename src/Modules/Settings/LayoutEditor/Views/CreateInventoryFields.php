@@ -60,6 +60,31 @@ class CreateInventoryFields extends \App\Modules\Settings\Base\Views\IndexAjax
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('ID', $request->get('id'));
+		
+		// Prepare LayoutEditor inventoryTypes-specific data for inventoryTypes templates
+		$this->prepareLayoutEditorInventoryTypesData($viewer, $fieldInstance);
+		
 		$viewer->view('CreateInventoryFieldsStep2.tpl', $qualifiedModuleName);
+	}
+	
+	/**
+	 * Prepare data for LayoutEditor inventoryTypes templates
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareLayoutEditorInventoryTypesData($viewer, $fieldInstance)
+	{
+		// Prepare params JSON encoding/decoding
+		$params = $fieldInstance->getParams();
+		if ($params) {
+			$viewer->assign('PARAMS_JSON', \App\Json::encode($params));
+			$viewer->assign('PARAMS_DECODED', \App\Json::decode($fieldInstance->get('params')));
+		} else {
+			$viewer->assign('PARAMS_JSON', '');
+			$viewer->assign('PARAMS_DECODED', []);
+		}
+		
+		// Prepare GrossPrice field instance for Name.tpl
+		$moduleName = $viewer->getTemplateVars('MODULE');
+		$viewer->assign('GROSS_PRICE_FIELD', \App\Modules\Base\Models\InventoryField::getFieldInstance($moduleName, 'GrossPrice'));
 	}
 }

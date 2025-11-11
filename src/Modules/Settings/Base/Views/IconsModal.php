@@ -29,9 +29,27 @@ class IconsModal extends \App\Modules\Base\Views\BasicModal
 		$qualifiedModuleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
+		
+		// Prepare IconsModal-specific data for IconsModal template
+		$this->prepareIconsModalData($viewer);
+		
 		$viewer->view('IconsModal.tpl', $qualifiedModuleName);
 
 		$this->postProcess($request);
+	}
+	
+	/**
+	 * Prepare data for IconsModal template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareIconsModalData($viewer)
+	{
+		$viewer->assign('GLYPHICON_ICONS', \App\Modules\Settings\Base\Models\Icons::getGlyphicon());
+		$viewer->assign('USER_ICONS', \App\Modules\Settings\Base\Models\Icons::getUserIcon());
+		$viewer->assign('ADMIN_ICONS', \App\Modules\Settings\Base\Models\Icons::getAdminIcon());
+		$viewer->assign('ADDITIONAL_ICONS', \App\Modules\Settings\Base\Models\Icons::getAdditionalIcon());
+		$viewer->assign('FONTAWESOME_ICONS', \App\Modules\Settings\Base\Models\Icons::getFontAwesomeIcon());
+		$viewer->assign('IMAGE_ICONS', \App\Modules\Settings\Base\Models\Icons::getImageIcon());
 	}
 
 	public function getModalScripts(\App\Http\Vtiger_Request $request)

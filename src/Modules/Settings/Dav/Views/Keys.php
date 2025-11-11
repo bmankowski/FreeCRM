@@ -30,10 +30,22 @@ class Keys extends \App\Modules\Settings\Base\Views\Index
 	$viewer->assign('MODULE', $moduleName);
 	$viewer->assign('ENABLEDAV', !in_array('dav', $enabledServices));
 	
+	// Prepare Dav KeysContent-specific data for KeysContent template
+	$this->prepareDavKeysContentData($viewer);
+	
 	if ($request->isAjax()) {
 		$viewer->view('KeysContent.tpl', $qualifiedModuleName);
 	} else {
 		$viewer->view('KeysIndex.tpl', $qualifiedModuleName);
 	}
+	}
+	
+	/**
+	 * Prepare data for Dav KeysContent template
+	 * Moves function calls from template to controller for better MVC separation
+	 */
+	protected function prepareDavKeysContentData($viewer)
+	{
+		$viewer->assign('SITE_URL', \App\AppConfig::main('site_URL'));
 	}
 }

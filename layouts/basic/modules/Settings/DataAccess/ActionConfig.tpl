@@ -25,8 +25,8 @@
 			<input type="hidden" name="data" value='' />
 			<div class="contentsBackground col-md-12" style="border:1px solid #ccc;box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);">
 				{assign var="TPL" value="data_access/$ACTION.tpl"}
-				<h4 class="padding-bottom1per"><strong>{"LBL_CONFIG_ACTION"|t:$QUALIFIED_MODULE}: {\App\Modules\Settings\DataAccess\Models\Module::getActionName($ACTIONNAME,true)}</strong></h4>
-				<div class="alert alert-info">{\App\Modules\Settings\DataAccess\Models\Module::getActionName($ACTIONNAME,false)}</div>
+				<h4 class="padding-bottom1per"><strong>{"LBL_CONFIG_ACTION"|t:$QUALIFIED_MODULE}: {$ACTION_NAME_SHORT}</strong></h4>
+				<div class="alert alert-info">{$ACTION_NAME_FULL}</div>
 				{include file=$TPL|@vtemplate_path:$ACTIONMOD}
 				<br><br>
 				<div class="pull-right paddingTop20 paddingBottom20">

@@ -14,11 +14,12 @@
 	<span class="col-md-4">
         <select data-num="{$NUM}" class="chzn-select form-control marginBottom5px comparator-select" data-placeholder="{"LBL_SELECT_FIELD"|t:$QUALIFIED_MODULE}">
             {foreach key=MODULE_NAME item=FIELD from=$FIELD_LIST}
-				{$CONDITION_LIST = \App\Modules\Settings\DataAccess\Models\Module::getConditionByType($FIELD[0]['info']['type'])}
+				{assign var=FIELD_TYPE value=$FIELD[0]['info']['type']}
+				{assign var=CONDITION_LIST value=$CONDITION_LISTS_BY_TYPE[$FIELD_TYPE]}
                 <optgroup label='{$MODULE_NAME|t:$MODULE_NAME}'>
                     {foreach from=$FIELD key=key item=item}
                         <option data-module="{$MODULE_NAME}" value="{$item['name']}" data-uitype="{$item['uitype']}" 
-                                data-info="{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($item['info']))}">{$item['label']|t:$BASE_MODULE}</option>
+                                data-info="{$FIELD_INFO_JSON[$MODULE_NAME][$item['name']]}">{$item['label']|t:$BASE_MODULE}</option>
                     {/foreach}
                 </optgroup>
             {/foreach}
