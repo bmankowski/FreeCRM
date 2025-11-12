@@ -55,7 +55,8 @@ abstract class Basic extends \App\Base\Controllers\BaseViewController
 	{
 		$userModel = $request->getUser();
 		$headerLinks = [];
-		if (\App\Modules\Users\Models\Module::getSwitchUsers()) {
+		// Show switch users icon for admin users or if switch users are configured
+		if ($userModel->isAdminUser() || \App\Modules\Users\Models\Module::getSwitchUsers()) {
 			$headerLinks[] = [
 				'linktype' => 'HEADERLINK',
 				'linklabel' => 'SwitchUsers',
