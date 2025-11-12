@@ -146,6 +146,15 @@ class Link extends \vtlib\Link
 	}
 
 	/**
+	 * Function to get linkdata
+	 * @return array
+	 */
+	public function getLinkData()
+	{
+		return $this->linkdata ?? [];
+	}
+
+	/**
 	 * Function to get the grup Class Name
 	 * @return <class name>
 	 */
@@ -310,9 +319,10 @@ class Link extends \vtlib\Link
 		$linkModel = new self();
 		$linkModel->initialize($valueMap);
 
-		// To set other properties for Link Model
+		// To set other properties for Link Model (especially linkdata which may not be set by initialize)
 		foreach ($valueMap as $property => $value) {
-			if (!isset($linkModel->$property)) {
+			// Always set linkdata if provided, even if it exists
+			if ($property === 'linkdata' || !isset($linkModel->$property)) {
 				$linkModel->$property = $value;
 			}
 		}

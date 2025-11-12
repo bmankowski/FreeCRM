@@ -12,9 +12,17 @@
 				{assign var="HREF" value=$LINK}
 			{/if}
 			{assign var="OBJ_CLASS" value=$obj->getClassName()}
+			{assign var="LINK_DATA" value=$obj->getLinkData()}
+			{assign var="HAS_MODAL" value=false}
+			{if $OBJ_CLASS && $OBJ_CLASS|strpos:"showModal" !== false}
+				{assign var="HAS_MODAL" value=true}
+				{if $HREF == '#'}
+					{assign var="HREF" value="javascript:;"}
+				{/if}
+			{/if}
 			<a class="btn btn-sm popoverTooltip {if $OBJ_CLASS && $OBJ_CLASS|strrpos:"btn-" === false}btn-default {$OBJ_CLASS}{elseif $OBJ_CLASS}{$OBJ_CLASS}{else}btn-default{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if}" data-content="{$TITLE|t}" href="{$HREF}"
-			   {if isset($obj->linkdata) && $obj->linkdata && is_array($obj->linkdata)}
-				   {foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
+			   {if !empty($LINK_DATA) && is_array($LINK_DATA)}
+				   {foreach item=DATA_VALUE key=DATA_NAME from=$LINK_DATA}
 					   data-{$DATA_NAME}="{$DATA_VALUE}" 
 				   {/foreach}
 			   {/if}>
