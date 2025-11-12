@@ -2,6 +2,8 @@
 
 namespace App\Modules\Base\InventoryFields;
 
+use App\Runtime\CRM_Viewer;
+
 /**
  * Inventory Basic Field Class
  * @package YetiForce.Fields

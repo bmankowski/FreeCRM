@@ -79,6 +79,8 @@ class Loader
 	// Special case for UIType → UiTypes (preserve camelCase)
 	if ($componentType === 'UIType') {
 		$typeDir = 'UiTypes';
+	} elseif ($componentType === 'InventoryField') {
+		$typeDir = 'InventoryFields';
 	} else {
 		$typeDir = ucfirst(strtolower($componentType)) . 's';
 	}
