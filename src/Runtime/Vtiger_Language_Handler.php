@@ -284,7 +284,18 @@ class Vtiger_Language_Handler
 	 */
 	public static function getAllLanguages()
 	{
-		return \vtlib\LanguageExport::getAll();
+		$db = \App\Database\PearDatabase::getInstance();
+		$language_query = 'SELECT prefix, label FROM vtiger_language WHERE active = 1';
+		$result = $db->pquery($language_query, []);
+		$num_rows = $db->num_rows($result);
+		$languages = [];
+		for ($i = 0; $i < $num_rows; $i++) {
+			$lang_prefix = \App\Utils\ListViewUtils::decodeHtml($db->query_result($result, $i, 'prefix'));
+			$label = \App\Utils\ListViewUtils::decodeHtml($db->query_result($result, $i, 'label'));
+			$languages[$lang_prefix] = $label;
+		}
+		asort($languages);
+		return $languages;
 	}
 
 	/**

@@ -59,6 +59,9 @@ class Functions
 		} else {
 			$currencyInfo = self::getAllCurrency();
 		}
+		if (empty($currencyid) || !isset($currencyInfo[$currencyid])) {
+			return null;
+		}
 		return $currencyInfo[$currencyid];
 	}
 
@@ -86,6 +89,9 @@ class Functions
 	public static function getCurrencyName($currencyid, $show_symbol = true)
 	{
 		$currencyInfo = self::getCurrencyInfo($currencyid);
+		if ($currencyInfo === null) {
+			return '';
+		}
 		if ($show_symbol) {
 			return sprintf("%s : %s", \App\Runtime\Vtiger_Language_Handler::translate($currencyInfo['currency_name'], 'Currency'), $currencyInfo['currency_symbol']);
 		}
@@ -95,6 +101,9 @@ class Functions
 	public static function getCurrencySymbolandRate($currencyid)
 	{
 		$currencyInfo = self::getCurrencyInfo($currencyid);
+		if ($currencyInfo === null) {
+			return ['rate' => 1, 'symbol' => ''];
+		}
 		$currencyRateSymbol = array(
 			'rate' => $currencyInfo['conversion_rate'],
 			'symbol' => $currencyInfo['currency_symbol']
@@ -920,9 +929,10 @@ class Functions
 
 	public static function getDefaultCurrencyInfo()
 	{
-		$allCurrencies = self::getAllCurrency(true);
+		// Search in all currencies (not just active), because default currency should always be available
+		$allCurrencies = self::getAllCurrency(false);
 		foreach ($allCurrencies as $currency) {
-			if ($currency['defaultid'] === '-11') {
+			if ($currency['is_default'] == 1 && $currency['deleted'] == 0) {
 				return $currency;
 			}
 		}
@@ -1339,7 +1349,12 @@ class Functions
 	public static function getConversionRateInfo($currencyId, $date = '')
 	{
 		$currencyUpdateModel = \App\Modules\Settings\CurrencyUpdate\Models\Module::getCleanInstance();
-		$defaultCurrencyId = self::getDefaultCurrencyInfo()['id'];
+		$defaultCurrencyInfo = self::getDefaultCurrencyInfo();
+		if ($defaultCurrencyInfo === false || !isset($defaultCurrencyInfo['id'])) {
+			\App\Log::error('getDefaultCurrencyInfo() returned false or missing id in ' . __METHOD__);
+			throw new \App\Exceptions\AppException('ERR_NO_DEFAULT_CURRENCY');
+		}
+		$defaultCurrencyId = $defaultCurrencyInfo['id'];
 		$info = [];
 
 		if (empty($date)) {
@@ -1353,8 +1368,12 @@ class Functions
 			$info['conversion'] = 1.0;
 		} else {
 			$value = $currencyUpdateModel->getCRMConversionRate($currencyId, $defaultCurrencyId, $date);
-			$info['value'] = $value == 0 ? 1.0 : round($value, 5);
-			$info['conversion'] = $value == 0 ? 1.0 : round(1 / $value, 5);
+			if ($value === false || $value === null || $value == 0) {
+				\App\Log::error("getCRMConversionRate returned invalid value: " . var_export($value, true) . " for currencyId: $currencyId in " . __METHOD__);
+				throw new \App\Exceptions\AppException('ERR_INVALID_CURRENCY_CONVERSION_RATE');
+			}
+			$info['value'] = round($value, 5);
+			$info['conversion'] = round(1 / $value, 5);
 		}
 
 		return $info;

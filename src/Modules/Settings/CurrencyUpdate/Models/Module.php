@@ -60,7 +60,7 @@ class Module extends \App\Modules\Base\Models\Record
 		$dataReader = (new \App\Db\Query())->select(['id', 'currency_code'])
 				->from('vtiger_currency_info')
 				->where(['currency_status' => 'Active', 'deleted' => 0])
-				->andWhere(['!=', 'defaultid', -11])->createCommand()->query();
+				->andWhere(['=', 'is_default', 0])->createCommand()->query();
 		$numToConvert = $dataReader->count();
 		if ($numToConvert >= 1) {
 			$selectBankId = $this->getActiveBankId();
@@ -257,14 +257,29 @@ class Module extends \App\Modules\Base\Models\Record
 
 	public function getCRMConversionRate($from, $to, $date = '')
 	{
-		$mainCurrencyCode = \vtlib\Functions:: getDefaultCurrencyInfo()['currency_code'];
+		$defaultCurrencyInfo = \vtlib\Functions::getDefaultCurrencyInfo();
+		if ($defaultCurrencyInfo === false || !isset($defaultCurrencyInfo['currency_code'])) {
+			\App\Log::error('getDefaultCurrencyInfo() returned false or missing currency_code in ' . __METHOD__);
+			throw new \App\Exceptions\AppException('ERR_NO_DEFAULT_CURRENCY');
+		}
+		$mainCurrencyCode = $defaultCurrencyInfo['currency_code'];
 		$activeBankId = self::getActiveBankId();
 		$exchange = false;
 		if (is_numeric($from)) {
-			$from = \vtlib\Functions:: getAllCurrency(true)[$from]['currency_code'];
+			$allCurrencies = \vtlib\Functions::getAllCurrency(true);
+			if (!isset($allCurrencies[$from]) || !isset($allCurrencies[$from]['currency_code'])) {
+				\App\Log::error("Currency ID $from not found in getAllCurrency() in " . __METHOD__);
+				throw new \App\Exceptions\AppException('ERR_CURRENCY_NOT_FOUND');
+			}
+			$from = $allCurrencies[$from]['currency_code'];
 		}
 		if (is_numeric($to)) {
-			$to = \vtlib\Functions:: getAllCurrency(true)[$to]['currency_code'];
+			$allCurrencies = \vtlib\Functions::getAllCurrency(true);
+			if (!isset($allCurrencies[$to]) || !isset($allCurrencies[$to]['currency_code'])) {
+				\App\Log::error("Currency ID $to not found in getAllCurrency() in " . __METHOD__);
+				throw new \App\Exceptions\AppException('ERR_CURRENCY_NOT_FOUND');
+			}
+			$to = $allCurrencies[$to]['currency_code'];
 		}
 		// get present conversion rate from crm
 		if (empty($date)) {
@@ -273,15 +288,33 @@ class Module extends \App\Modules\Base\Models\Record
 				->from('vtiger_currency_info')
 				->where(['currency_code' => $to])
 				->limit(1);
-			$exchange = floatval($query->scalar());
+			$exchangeRate = $query->scalar();
+			if ($exchangeRate === null || $exchangeRate === false) {
+				\App\Log::error("Conversion rate not found for currency code: $to in " . __METHOD__);
+				throw new \App\Exceptions\AppException('ERR_CURRENCY_RATE_NOT_FOUND');
+			}
+			$exchange = floatval($exchangeRate);
 			if ($from != $mainCurrencyCode) {
+				if ($exchange == 0) {
+					\App\Log::error("Zero conversion rate for currency code: $to in " . __METHOD__);
+					throw new \App\Exceptions\AppException('ERR_ZERO_CURRENCY_RATE');
+				}
 				$convertToMainCurrency = 1 / $exchange;
 				$query = new \App\Db\Query();
 				$query->select('conversion_rate')
 					->from('vtiger_currency_info')
 					->where(['currency_code' => $from])
 					->limit(1);
-				$fromExchange = floatval($query->scalar());
+				$fromExchangeRate = $query->scalar();
+				if ($fromExchangeRate === null || $fromExchangeRate === false) {
+					\App\Log::error("Conversion rate not found for currency code: $from in " . __METHOD__);
+					throw new \App\Exceptions\AppException('ERR_CURRENCY_RATE_NOT_FOUND');
+				}
+				$fromExchange = floatval($fromExchangeRate);
+				if ($fromExchange == 0) {
+					\App\Log::error("Zero conversion rate for currency code: $from in " . __METHOD__);
+					throw new \App\Exceptions\AppException('ERR_ZERO_CURRENCY_RATE');
+				}
 				$exchange = 1 / ($fromExchange * $convertToMainCurrency);
 			}
 		}

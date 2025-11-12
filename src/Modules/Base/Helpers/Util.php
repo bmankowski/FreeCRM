@@ -231,7 +231,7 @@ class Util {
 	 */
 	public static function getBaseCurrency()
 	{
-		return(new \App\Db\Query())->from('vtiger_currency_info')->where(['<', 'defaultid', '0'])->one();
+		return(new \App\Db\Query())->from('vtiger_currency_info')->where(['=', 'is_default', 1])->one();
 	}
 
 	/**

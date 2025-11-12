@@ -1,9 +1,9 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 <!-- layouts/basic/modules/Base/EditViewInventoryItem.tpl -->
-	{if !empty($ITEM_DATA['name'])}
+	{if isset($ITEM_DATA) && is_array($ITEM_DATA) && !empty($ITEM_DATA['name'])}
 		{assign var="REFERENCE_MODULE" value=\App\Record::getType($ITEM_DATA['name'])}
-	{elseif $MAIN_PARAMS}
+	{elseif isset($MAIN_PARAMS) && is_array($MAIN_PARAMS) && isset($MAIN_PARAMS['modules'])}
 		{assign var="REFERENCE_MODULE" value=reset($MAIN_PARAMS['modules'])}
 	{/if}
 	<tr class="inventoryRow" numrow="{$ROW_NO}">
@@ -18,19 +18,31 @@
 				</span>
 			{/if}
 		</td>
-		{foreach item=FIELD from=$FIELDS[1]}
-			<td class="col{$FIELD->getName()}{if !$FIELD->isEditable()} hide{/if} textAlignRight fieldValue">
-				{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
-				{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE ITEM_VALUE=$ITEM_DATA[$FIELD->get('columnname')]}
-			</td>
-		{/foreach}
+		{if isset($FIELDS) && is_array($FIELDS) && isset($FIELDS[1]) && is_array($FIELDS[1])}
+			{foreach item=FIELD from=$FIELDS[1]}
+				<td class="col{$FIELD->getName()}{if !$FIELD->isEditable()} hide{/if} textAlignRight fieldValue">
+					{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
+					{assign var="FIELD_COLUMN_NAME" value=$FIELD->get('columnname')}
+					{assign var="ITEM_VALUE" value=""}
+					{if isset($ITEM_DATA) && is_array($ITEM_DATA) && isset($ITEM_DATA[$FIELD_COLUMN_NAME])}
+						{assign var="ITEM_VALUE" value=$ITEM_DATA[$FIELD_COLUMN_NAME]}
+					{/if}
+					{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE ITEM_VALUE=$ITEM_VALUE}
+				</td>
+			{/foreach}
+		{/if}
 	</tr>
-	{if $FIELDS[2] neq 0}
+	{if isset($FIELDS) && is_array($FIELDS) && isset($FIELDS[2]) && is_array($FIELDS[2]) && count($FIELDS[2]) > 0}
 		<tr class="inventoryRowExpanded numRow{$ROW_NO} hide" numrowex="{$ROW_NO}">
 			<td class="colExpanded" colspan="{$COUNT_FIELDS1+1}">
 				{foreach item=FIELD from=$FIELDS[2]}
 					{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
-					{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE ITEM_VALUE=$ITEM_DATA[$FIELD->get('columnname')]}
+					{assign var="FIELD_COLUMN_NAME" value=$FIELD->get('columnname')}
+					{assign var="ITEM_VALUE" value=""}
+					{if isset($ITEM_DATA) && is_array($ITEM_DATA) && isset($ITEM_DATA[$FIELD_COLUMN_NAME])}
+						{assign var="ITEM_VALUE" value=$ITEM_DATA[$FIELD_COLUMN_NAME]}
+					{/if}
+					{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE ITEM_VALUE=$ITEM_VALUE}
 				{/foreach}
 			</td>
 		</tr>

@@ -27,7 +27,7 @@ class MarginP extends Basic
 	 */
 	public function getDisplayValue($value)
 	{
-		return CurrencyField::convertToUserFormat($value, null, true);
+		return \App\Fields\CurrencyField::convertToUserFormat($value, null, true);
 	}
 
 	public function getSummaryValuesFromData($data)

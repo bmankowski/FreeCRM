@@ -1,9 +1,13 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 <!-- layouts/basic/modules/Base/inventoryfields/EditViewCurrency.tpl -->
-	{assign var=CURRENCIES value=\vtlib\Functions:: getAllCurrency(true)}
+	{assign var=CURRENCIES value=\vtlib\Functions::getAllCurrency(true)}
 	{assign var=SELECTED_CURRENCY value=$ITEM_VALUE}
-	{assign var=FIELD_PARAMS value=\App\Json::decode($FIELD->get('params'))}
+	{assign var="FIELD_PARAMS_RAW" value=$FIELD->get('params')}
+	{assign var="FIELD_PARAMS" value=[]}
+	{if isset($FIELD_PARAMS_RAW) && $FIELD_PARAMS_RAW != ''}
+		{assign var="FIELD_PARAMS" value=\App\Json::decode($FIELD_PARAMS_RAW)}
+	{/if}
 
 	{if $SELECTED_CURRENCY eq ''}
 		{assign var=USER_CURRENCY_ID value=$USER_MODEL->get('currency_id')}
@@ -23,7 +27,7 @@
 		{foreach item=CURRENCY key=count from=$CURRENCIES}
 			{assign var=CURRENCY_PARAM value=$CURRENCY_PARAMS[$CURRENCY.id]}
 			<option value="{$CURRENCY.id}" class="textShadowNone" data-conversion-rate="{$CURRENCY_PARAM.conversion}" data-conversion-date="{$CURRENCY_PARAM.date}" 
-					data-conversion-symbol="{$CURRENCY.currency_symbol}" data-base-currency="{if $CURRENCY.defaultid < 0}1{else}0{/if}" 
+					data-conversion-symbol="{$CURRENCY.currency_symbol}" data-base-currency="{if $CURRENCY.is_default}1{else}0{/if}" 
 					{if $SELECTED_CURRENCY eq $CURRENCY.id}selected{/if}>
 				{$CURRENCY.currency_name|t:$MODULE} ({$CURRENCY.currency_symbol})
 			</option>

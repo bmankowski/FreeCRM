@@ -35,7 +35,7 @@ class InventoryUtils
 		}
 		$fallbackId = (new \App\Db\Query())->select('id')->from('vtiger_currency_info')
 			->where(['currency_status' => 'Active'])
-			->orderBy(['defaultid' => SORT_ASC])
+			->orderBy(['is_default' => SORT_DESC])
 			->scalar();
 		return (int) ($fallbackId ?: 1);
 	}

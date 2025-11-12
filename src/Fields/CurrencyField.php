@@ -440,7 +440,7 @@ class CurrencyField
 	 */
 	public static function getDBCurrencyId()
 	{
-		$id = (new Query())->select('id')->from('vtiger_currency_info')->where(['<', 'defaultid', 0])->scalar();
+		$id = (new Query())->select('id')->from('vtiger_currency_info')->where(['=', 'is_default', 1])->scalar();
 		if ($id) {
 			return $id;
 		}

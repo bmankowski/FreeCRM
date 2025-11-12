@@ -113,7 +113,16 @@ class Privileges extends \App\Runtime\BaseModel
 		if (!$moduleModel) {
 			return false;
 		}
-		return $moduleModel->isActive() && (($this->get("is_admin") == "on" || $profileTabsPermissions[$moduleModel->getId()][$actionId] === \App\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE));
+		$moduleId = $moduleModel->getId();
+		// Check if user is admin or has permission for this action
+		if ($this->get("is_admin") == "on") {
+			return $moduleModel->isActive();
+		}
+		// Check if profile permissions exist for this module and action
+		if (!is_array($profileTabsPermissions) || !isset($profileTabsPermissions[$moduleId]) || !isset($profileTabsPermissions[$moduleId][$actionId])) {
+			return false;
+		}
+		return $moduleModel->isActive() && ($profileTabsPermissions[$moduleId][$actionId] === \App\Modules\Settings\Profiles\Models\Module::IS_PERMITTED_VALUE);
 	}
 
 	/**

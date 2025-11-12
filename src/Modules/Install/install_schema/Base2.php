@@ -1144,11 +1144,11 @@ class Base2 extends \App\Db\Importers\Base
 					'currency_symbol' => $this->stringType(30),
 					'conversion_rate' => $this->decimal('12,5'),
 					'currency_status' => $this->stringType(25),
-					'defaultid' => $this->smallInteger(6)->notNull()->defaultValue(0),
+					'is_default' => $this->smallInteger(1)->notNull()->defaultValue(0),
 					'deleted' => $this->integer(1)->notNull()->defaultValue(0),
 				],
 				'columns_mysql' => [
-					'defaultid' => 'tinyint(6) NOT NULL DEFAULT \'0\'',
+					'is_default' => 'tinyint(1) NOT NULL DEFAULT \'0\'',
 				],
 				'index' => [
 					['currencyinfo_deleted_idx', 'deleted'],
@@ -3244,9 +3244,9 @@ class Base2 extends \App\Db\Importers\Base
 				]
 			],
 			'vtiger_currency_info' => [
-				'columns' => ['id', 'currency_name', 'currency_code', 'currency_symbol', 'conversion_rate', 'currency_status', 'defaultid', 'deleted'],
+				'columns' => ['id', 'currency_name', 'currency_code', 'currency_symbol', 'conversion_rate', 'currency_status', 'is_default', 'deleted'],
 				'values' => [
-					[1, 'Poland, Zlotych', 'PLN', 'zł', '1.00000', 'Active', '-11', 0],
+					[1, 'Poland, Zlotych', 'PLN', 'zł', '1.00000', 'Active', 1, 0],
 				]
 			],
 			'vtiger_currency_info_seq' => [

@@ -128,7 +128,10 @@ class Module extends \App\Modules\Base\Models\Module
 		}
 
 		//Updating Database
-		$query = 'UPDATE vtiger_currency_info SET currency_name = ?, currency_code = ?, currency_symbol = ? WHERE id = ?';
+		// First, set all currencies to is_default = 0
+		$db->pquery('UPDATE vtiger_currency_info SET is_default = 0', []);
+		// Then set the new default currency to is_default = 1
+		$query = 'UPDATE vtiger_currency_info SET currency_name = ?, currency_code = ?, currency_symbol = ?, is_default = 1 WHERE id = ?';
 		$params = array($currencyName, $currency_code, $currency_symbol, '1');
 		$db->pquery($query, $params);
 

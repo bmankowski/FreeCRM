@@ -4357,7 +4357,7 @@ CREATE TABLE `vtiger_currency_info` (
   `currency_symbol` varchar(30) DEFAULT NULL,
   `conversion_rate` decimal(12,5) DEFAULT NULL,
   `currency_status` varchar(25) DEFAULT NULL,
-  `defaultid` tinyint(6) NOT NULL DEFAULT '0',
+  `is_default` tinyint(1) NOT NULL DEFAULT '0',
   `deleted` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `deleted` (`deleted`)

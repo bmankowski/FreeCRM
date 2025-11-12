@@ -30,7 +30,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	public function isBaseCurrency()
 	{
-		return ($this->get('defaultid') != '-11') ? false : true;
+		return ($this->get('is_default') == 1) ? true : false;
 	}
 
 	public function getRecordLinks()
@@ -88,7 +88,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 					'currency_status' => $this->get('currency_status'),
 					'currency_symbol' => $this->get('currency_symbol'),
 					'conversion_rate' => $this->get('conversion_rate'),
-					'defaultid' => 0,
+					'is_default' => 0,
 					'deleted' => 0
 				])->execute();
 		}

@@ -15,6 +15,15 @@ namespace App\Modules\Base\UiTypes;
 class CurrencyList extends BaseUiType
 {
 
+	/**
+	 * Function to get the Template name for the current UI Type object
+	 * @return string - Template Name
+	 */
+	public function getTemplateName()
+	{
+		return 'uitypes/Picklist.tpl';
+	}
+
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$currencylist = $this->getPicklistValues();

@@ -38,7 +38,11 @@ class Field
 				->groupBy('vtiger_field.fieldid,vtiger_profile2field.readonly,vtiger_profile2field.visible');
 			$profileList = \App\Modules\Users\Models\Record::getCurrentUserModel()->getProfiles();
 			if ($profileList) {
-				$query->andWhere(['vtiger_profile2field.profileid' => $profileList]);
+				// Extract profile IDs from array (keys are IDs, values are Profile objects)
+				$profileIds = is_array($profileList) ? array_keys($profileList) : [];
+				if (!empty($profileIds)) {
+					$query->andWhere(['vtiger_profile2field.profileid' => $profileIds]);
+				}
 			}
 			$fields = $query->all();
 			Cache::save(__METHOD__ . \App\Modules\Users\Models\Record::getCurrentUserId(), $tabId, $fields);

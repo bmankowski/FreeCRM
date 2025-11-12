@@ -104,6 +104,8 @@ class Field extends \App\Modules\Base\Models\Field
 			}
 			return $fieldPickListValues;
 		}
+		// For other uitypes (including 117 for currency), let parent handle it automatically
+		// Parent will check if UITypeModel has getPicklistValues() method and use it
 		return parent::getPicklistValues($skipCheckingRole);
 	}
 
