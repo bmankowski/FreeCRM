@@ -3,7 +3,16 @@
 jQuery.Class("Vtiger_SwitchUsers_Js", {}, {
 	registerSave: function (container) {
 		var thisInstance = this;
-		container.find('.modal-body button').on('click', function () {
+		// container is the modal element (with class 'switchUsersContainer')
+		// Use event delegation on the modal itself
+		container.off('click', '.modal-body button.btn-success').on('click', '.modal-body button.btn-success', function (e) {
+			// Only handle if it's the switch button (not other buttons)
+			var button = jQuery(e.currentTarget);
+			if (button.hasClass('dismiss') || button.hasClass('getYourself') || button.hasClass('close')) {
+				return true; // Let other buttons work normally
+			}
+			e.preventDefault();
+			e.stopPropagation();
 			document.progressLoader = jQuery.progressIndicator({
 				message: app.vtranslate('JS_LOADING_PLEASE_WAIT'),
 				position: 'html',
@@ -12,18 +21,50 @@ jQuery.Class("Vtiger_SwitchUsers_Js", {}, {
 				}
 			});
 			var userId = container.find('[name="user"]').val();
+			if (!userId) {
+				document.progressLoader.progressIndicator({mode: 'hide'});
+				return false;
+			}
 			container.find('[name="id"]').val(userId);
 			container.find('form').submit();
-			return;
+			return false;
 		});
 	},
-	registerEvents: function () {
-		var container = jQuery('.switchUsersContainer');
-		this.registerSave(container);
+	registerEvents: function (container) {
+		// If container is provided (from modal callback), use it; otherwise find it
+		if (!container || !container.length) {
+			container = jQuery('.switchUsersContainer');
+		}
+		// If still not found, try to find modal
+		if (!container.length) {
+			container = jQuery('.modal.switchUsersContainer');
+		}
+		if (container.length) {
+			this.registerSave(container);
+		}
 	}
 });
 
+// Static method for callback from modal - ensure it's available on window
+if (typeof window.Vtiger_SwitchUsers_Js === 'undefined') {
+	window.Vtiger_SwitchUsers_Js = Vtiger_SwitchUsers_Js;
+}
+Vtiger_SwitchUsers_Js.registerEvents = function (container) {
+	try {
+		// container is the modal element from Bootstrap modal (passed from showModalWindow callback)
+		// It's the .modal element which has class 'switchUsersContainer'
+		// So we can use it directly
+		if (container && container.length > 0) {
+			var instance = new Vtiger_SwitchUsers_Js();
+			instance.registerEvents(container);
+		}
+	} catch (e) {
+		console.error('Error registering SwitchUsers events:', e);
+	}
+};
+
 jQuery(document).ready(function (e) {
+	// Also register on document ready for backward compatibility
 	var instance = new Vtiger_SwitchUsers_Js();
 	instance.registerEvents();
 });

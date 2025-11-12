@@ -34,7 +34,8 @@ class PrivilegeQuery
 		}
 		$query = [];
 		$tabId = \App\Utils\ModuleUtils::getModuleId($moduleName);
-		if ($userModel->is_admin === 'off' && $userModel->profile_global_permission[1] == 1 && $userModel->profile_global_permission[2] == 1 && $userModel->defaultOrgSharingPermission[$tabId] === 3) {
+		$defaultOrgSharingPermission = isset($userModel->defaultOrgSharingPermission[$tabId]) ? $userModel->defaultOrgSharingPermission[$tabId] : null;
+		if ($userModel->is_admin === 'off' && $userModel->profile_global_permission[1] == 1 && $userModel->profile_global_permission[2] == 1 && $defaultOrgSharingPermission === 3) {
 
 			$query[] = "vtiger_crmentity.smownerid = '$userId'";
 			if (!empty($userModel->groups)) {
@@ -95,7 +96,8 @@ public static function getConditions(\App\Db\Query $query, $moduleName, $user = 
 			}
 		}
 		$tabId =\App\Utils\ModuleUtils::getModuleId($moduleName);
-		if (!$userModel->isAdminUser() && $userModel->profile_global_permission[1] == 1 && $userModel->profile_global_permission[2] == 1 && $userModel->defaultOrgSharingPermission[$tabId] === 3) {
+		$defaultOrgSharingPermission = isset($userModel->defaultOrgSharingPermission[$tabId]) ? $userModel->defaultOrgSharingPermission[$tabId] : null;
+		if (!$userModel->isAdminUser() && $userModel->profile_global_permission[1] == 1 && $userModel->profile_global_permission[2] == 1 && $defaultOrgSharingPermission === 3) {
 			$conditions = ['or'];
 			$conditions[] = ['vtiger_crmentity.smownerid' => $userId];
 			if (!empty($userModel->groups)) {

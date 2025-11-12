@@ -55,6 +55,29 @@ abstract class Basic extends \App\Base\Controllers\BaseViewController
 	{
 		$userModel = $request->getUser();
 		$headerLinks = [];
+		
+		// Check if user is switched to another user
+		// realUserId is the original user ID (baseUserId from session)
+		// userId is the current switched user ID
+		$realUserId = $userModel->getRealId();
+		$currentUserId = $userModel->getId();
+		$isSwitched = ($realUserId != $currentUserId);
+		
+		// If switched, show button to return to original user
+		if ($isSwitched) {
+			$baseUserModel = \App\Modules\Users\Models\Record::getInstanceById($realUserId, 'Users');
+			$headerLinks[] = [
+				'linktype' => 'HEADERLINK',
+				'linklabel' => 'LBL_SWITCH_TO_YOURSELF',
+				'linkurl' => 'index.php?module=Users&action=SwitchUsers&id=' . $realUserId,
+				'glyphicon' => 'glyphicon glyphicon-log-out',
+				'nocaret' => true,
+				'linkdata' => [
+					'content' => 'LBL_SWITCH_TO_YOURSELF: ' . $baseUserModel->getName()
+				],
+			];
+		}
+		
 		// Show switch users icon for admin users or if switch users are configured
 		if ($userModel->isAdminUser()) {
 			$headerLinks[] = [
@@ -63,7 +86,10 @@ abstract class Basic extends \App\Base\Controllers\BaseViewController
 				'linkurl' => '',
 				'glyphicon' => 'glyphicon glyphicon-transfer',
 				'nocaret' => true,
-				'linkdata' => ['url' => $userModel->getSwitchUsersUrl()],
+				'linkdata' => [
+					'url' => $userModel->getSwitchUsersUrl(),
+					'cb' => 'Vtiger_SwitchUsers_Js.registerEvents'
+				],
 				'linkclass' => 'showModal',
 			];
 		} else {

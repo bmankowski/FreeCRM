@@ -19,9 +19,33 @@ class SwitchUsers extends \App\Base\Controllers\BaseActionController
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$userId = $request->get('id');
-		require('user_privileges/switchUsers.php');
 		$currentUserModel = $request->getUser();
 		$baseUserId = $currentUserModel->getRealId();
+		$currentUserId = $currentUserModel->getId();
+		
+		// Always allow switching back to original user (baseUserId)
+		// This handles the "switch to yourself" case when user is already switched
+		if ($userId == $baseUserId) {
+			// Verify that the target user exists
+			$targetUser = \App\Modules\Users\Models\Record::getInstanceById($userId, 'Users');
+			if (!$targetUser || !$targetUser->getId()) {
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			}
+			return; // Can always switch back to original user
+		}
+		
+		// Allow admin users to switch to any user without checking switchUsers.php
+		if ($currentUserModel->isAdminUser()) {
+			// Verify that the target user exists and is active
+			$targetUser = \App\Modules\Users\Models\Record::getInstanceById($userId, 'Users');
+			if (!$targetUser || !$targetUser->getId()) {
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			}
+			return; // Admin can switch to any user
+		}
+		
+		// For non-admin users, check switchUsers.php configuration
+		require('user_privileges/switchUsers.php');
 		if (!key_exists($baseUserId, $switchUsers) || !key_exists($userId, $switchUsers[$baseUserId])) {
 			$db = \App\Db::getInstance('log');
 			$db->createCommand()->insert('l_#__switch_users', [
@@ -32,7 +56,7 @@ class SwitchUsers extends \App\Base\Controllers\BaseActionController
 				'date' => date('Y-m-d H:i:s'),
 				'ip' => \App\RequestUtil::getRemoteIP(),
 				'agent' => $_SERVER['HTTP_USER_AGENT'],
-				'status' => 'Failed login - No permission',
+				'status' => 'No permission',
 			])->execute();
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -45,15 +69,15 @@ class SwitchUsers extends \App\Base\Controllers\BaseActionController
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$currentUserModel = $request->getUser();
-		$baseUserId = $currentUserModel->getId();
+		$baseUserId = $currentUserModel->getRealId();
 		$userId = $request->get('id');
 		$user = new \App\Modules\Users\Users();
-		$currentUser = $user->retrieveCurrentUserInfoFromFile($userId);
-		$name = $currentUserModel->getName();
-		$userName = $currentUser->column_fields['user_name'];
+		$targetUser = $user->retrieveCurrentUserInfoFromFile($userId);
+		$targetUserName = $targetUser->column_fields['user_name'];
+		$targetUserFullName = $targetUser->column_fields['first_name'] . ' ' . $targetUser->column_fields['last_name'];
 		\App\Http\Vtiger_Session::set('authenticated_user_id', $userId);
-		\App\Http\Vtiger_Session::set('user_name', $userName);
-		\App\Http\Vtiger_Session::set('full_user_name', $name);
+		\App\Http\Vtiger_Session::set('user_name', $targetUserName);
+		\App\Http\Vtiger_Session::set('full_user_name', trim($targetUserFullName));
 
 		$status = 'Switched';
 		if (empty(\App\Http\Vtiger_Session::get('baseUserId'))) {
@@ -68,11 +92,12 @@ class SwitchUsers extends \App\Base\Controllers\BaseActionController
 		}
 
 		$db = \App\Db::getInstance('log');
+		$baseUserModel = \App\Modules\Users\Models\Record::getInstanceById($baseUserId, 'Users');
 		$db->createCommand()->insert('l_#__switch_users', [
 			'baseid' => $baseUserId,
 			'destid' => $userId,
-			'busername' => $currentUserModel->getName(),
-			'dusername' => $name,
+			'busername' => $baseUserModel->getName(),
+			'dusername' => trim($targetUserFullName),
 			'date' => date('Y-m-d H:i:s'),
 			'ip' => \App\RequestUtil::getRemoteIP(),
 			'agent' => $_SERVER['HTTP_USER_AGENT'],

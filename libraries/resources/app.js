@@ -1542,10 +1542,15 @@ var app = {
 		}
 		container.off('click', 'button.showModal, a.showModal').on('click', 'button.showModal, a.showModal', function (e) {
 			e.preventDefault();
+			e.stopPropagation();
 			var currentElement = jQuery(e.currentTarget);
-			var url = currentElement.data('url');
+			var url = currentElement.attr('data-url') || currentElement.data('url');
+			// Decode HTML entities if needed (jQuery .data() should handle this, but attr() returns raw HTML)
+			if (url && typeof url === 'string' && url.indexOf('&amp;') !== -1) {
+				url = url.replace(/&amp;/g, '&');
+			}
 
-			if (typeof url != 'undefined') {
+			if (typeof url != 'undefined' && url && url.length > 0) {
 				if (currentElement.hasClass('popoverTooltip')) {
 					currentElement.popover('hide');
 				}
