@@ -71,12 +71,24 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 				'linkurl' => 'index.php?module=Users&parent=Settings&view=Edit&record=' . $this->getId(),
 				'linkicon' => 'glyphicon glyphicon-pencil'
 			],
-			[
+		];
+
+		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$canChangePassword = $currentUser && ($currentUser->isAdminUser() || $currentUser->getId() == $this->getId());
+		if ($canChangePassword) {
+			$recordLinks[] = [
 				'linktype' => 'LISTVIEWRECORD',
-				'linklabel' => 'LBL_DELETE_RECORD',
-				'linkurl' => 'index.php?module=Users&parent=Settings&action=DeleteUser&record=' . $this->getId(),
-				'linkicon' => 'glyphicon glyphicon-trash'
-			]
+				'linklabel' => 'LBL_CHANGE_PASSWORD',
+				'linkurl' => "javascript:Settings_Users_ListView_Js.triggerChangePassword('index.php?module=Users&view=EditAjax&mode=changePassword&record=" . $this->getId() . "','Users')",
+				'linkicon' => 'glyphicon glyphicon-lock',
+			];
+		}
+
+		$recordLinks[] = [
+			'linktype' => 'LISTVIEWRECORD',
+			'linklabel' => 'LBL_DELETE_RECORD',
+			'linkurl' => 'index.php?module=Users&parent=Settings&action=DeleteUser&record=' . $this->getId(),
+			'linkicon' => 'glyphicon glyphicon-trash'
 		];
 		
 		foreach ($recordLinks as $recordLink) {

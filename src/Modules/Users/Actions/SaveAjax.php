@@ -125,21 +125,45 @@ class SaveAjax extends \App\Modules\Base\Actions\Save
 	public function savePassword(\App\Http\Vtiger_Request $request)
 	{
 		$module = $request->getModule();
-		$userModel = $request->getUser();
+		$currentUserModel = $request->getUser();
+		$userId = $request->get('userid');
 		$newPassword = $request->get('new_password');
 		$oldPassword = $request->get('old_password');
+		
 		$checkPassword = \App\Modules\Settings\Password\Models\Record::checkPassword($newPassword);
-		if (!$checkPassword) {
-			$wsUserId = vtws_getWebserviceEntityId($module, $request->get('userid'));
-			$wsStatus = vtws_changePassword($wsUserId, $oldPassword, $newPassword, $newPassword, $userModel);
-		}
-		$response = new \App\Http\Vtiger_Response();
 		if ($checkPassword) {
+			$response = new \App\Http\Vtiger_Response();
 			$response->setError($checkPassword, $checkPassword);
-		} elseif ($wsStatus['message']) {
-			$response->setResult($wsStatus);
+			$response->emit();
+			return;
+		}
+		
+		// Get the user record model
+		$targetUserModel = \App\Modules\Users\Models\Record::getInstanceById($userId, $module);
+		if (!$targetUserModel) {
+			$response = new \App\Http\Vtiger_Response();
+			$response->setError('LBL_RECORD_NOT_FOUND', 'LBL_RECORD_NOT_FOUND');
+			$response->emit();
+			return;
+		}
+		
+		// Check permissions - admin can change any password, user can only change their own
+		if (!$currentUserModel->isAdminUser() && $currentUserModel->getId() != $userId) {
+			$response = new \App\Http\Vtiger_Response();
+			$response->setError('LBL_PERMISSION_DENIED', 'LBL_PERMISSION_DENIED');
+			$response->emit();
+			return;
+		}
+		
+		// Change password using Record model method
+		$success = $targetUserModel->changePassword($oldPassword, $newPassword);
+		
+		$response = new \App\Http\Vtiger_Response();
+		if ($success) {
+			$response->setResult(['message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_PASSWORD_SUCCESSFULLY_CHANGED', $module)]);
 		} else {
-			$response->setError('JS_PASSWORD_INCORRECT_OLD', 'JS_PASSWORD_INCORRECT_OLD');
+			$errorMessage = $targetUserModel->error_string ?: 'JS_PASSWORD_INCORRECT_OLD';
+			$response->setError($errorMessage, $errorMessage);
 		}
 		$response->emit();
 	}

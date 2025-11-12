@@ -8,7 +8,65 @@
  */
 var Settings_Users_ListView_Js;
 Settings_Vtiger_ListView_Js("Settings_Users_ListView_Js",{
-	/* Static methods/properties here if needed */
+	/**
+	 * Function to trigger change password for a single user
+	 * @param {string} CHPWActionUrl - URL to load the change password form
+	 * @param {string} module - Module name
+	 */
+	triggerChangePassword: function (CHPWActionUrl, module) {
+		AppConnector.request(CHPWActionUrl).then(function (data) {
+			if (data) {
+				var callback = function (modalData) {
+					var params = app.validationEngineOptions;
+					params.onValidationComplete = function (form, valid) {
+						if (valid) {
+							Settings_Users_ListView_Js.savePassword(form);
+						}
+						return false;
+					};
+					jQuery('#changePassword').validationEngine(app.validationEngineOptions);
+				};
+				app.showModalWindow(data, function (modalData) {
+					if (typeof callback === 'function') {
+						callback(modalData);
+					}
+				});
+			}
+		});
+	},
+	/**
+	 * Function to save password after form validation
+	 * @param {jQuery} form - Form element
+	 */
+	savePassword: function (form) {
+		var newPassword = form.find('[name="new_password"]');
+		var confirmPassword = form.find('[name="confirm_password"]');
+		var oldPasswordField = form.find('[name="old_password"]');
+		var userId = form.find('[name="userid"]').val();
+
+		if (newPassword.val() == confirmPassword.val()) {
+			var params = {
+				'module': app.getModuleName(),
+				'action': "SaveAjax",
+				'mode': 'savePassword',
+				'old_password': oldPasswordField.length ? oldPasswordField.val() : '',
+				'new_password': newPassword.val(),
+				'userid': userId
+			};
+			AppConnector.request(params).then(function (response) {
+				if (response.success) {
+					app.hideModalWindow();
+					Vtiger_Helper_Js.showPnotify({text: app.vtranslate(response.result.message), type: 'success'});
+				} else {
+					Vtiger_Helper_Js.showPnotify(response.error.message);
+					return false;
+				}
+			});
+		} else {
+			newPassword.validationEngine('showPrompt', app.vtranslate('JS_REENTER_PASSWORDS'), 'error', 'topLeft', true);
+			return false;
+		}
+	}
 },{
 	/**
 	 * Function to get page jump params for Users list

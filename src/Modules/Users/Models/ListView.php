@@ -55,7 +55,8 @@ class ListView extends \App\Modules\Base\Models\ListView
 		$privilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 
 		$massActionLinks = [];
-		if ($linkParams['MODULE'] == 'Users' && $linkParams['ACTION'] == 'List' && \vtlib\Functions:: userIsAdministrator($privilegesModel)) {
+		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		if ($linkParams['MODULE'] === 'Users' && $currentUserModel && $currentUserModel->isAdminUser()) {
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_PWD_EDIT',

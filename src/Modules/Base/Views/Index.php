@@ -53,9 +53,28 @@ class Index extends \App\Modules\Base\Views\Basic
 			}
 			$currentUser = $request->getUser();
 			$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getInstanceById($currentUser->getId());
-			$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
-			if (!$permission) {
-				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			
+			// Check if this is a Settings module access
+			$parent = $request->get('parent');
+			$parenttab = $request->get('parenttab');
+			$isSettingsModule = ($parent === 'Settings' || $parenttab === 'Settings' || 
+				in_array($moduleName, ['Settings', 'Administration', 'System']));
+			
+			if ($isSettingsModule) {
+				// Settings modules require admin privileges
+				// Use Record's isAdminUser() which checks database if needed
+				if (!$currentUser || !$currentUser->isAdminUser()) {
+					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+				}
+			} else {
+				// Regular module permission check
+				if (!$userPrivilegesModel) {
+					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+				}
+				$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
+				if (!$permission) {
+					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+				}
 			}
 
 			$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));

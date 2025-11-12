@@ -93,7 +93,19 @@ class Privileges extends \App\Runtime\BaseModel
 	{
 		$profileTabsPermissions = $this->get('profile_tabs_permission');
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($mixed);
-		return !empty($moduleModel) && $moduleModel->isActive() && (($this->get('is_admin') == 'on' || $profileTabsPermissions[$moduleModel->getId()] === 0));
+		if (empty($moduleModel) || !$moduleModel->isActive()) {
+			return false;
+		}
+		if ($this->get('is_admin') == 'on') {
+			return true;
+		}
+		$moduleId = $moduleModel->getId();
+		// If module permission is not set in profile, user doesn't have access (default to not permitted)
+		if (!isset($profileTabsPermissions[$moduleId])) {
+			return false;
+		}
+		// Permission value 0 means permitted, 1 means not permitted
+		return $profileTabsPermissions[$moduleId] === 0;
 	}
 
 	/**
