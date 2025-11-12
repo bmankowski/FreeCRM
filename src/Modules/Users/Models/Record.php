@@ -149,8 +149,8 @@ class Record extends \App\Modules\Base\Models\Record
 	{
 		$adminStatus = $this->get('is_admin');
 		
-		// If is_admin is not set in the model, query the database directly
-		if ($adminStatus === null && $this->getId()) {
+		// If is_admin is not set in the model (null or empty string), query the database directly
+		if (($adminStatus === null || $adminStatus === '') && $this->getId()) {
 			$userId = $this->getId();
 			$db = \App\Db::getInstance();
 			$adminStatus = (new \App\Db\Query())
@@ -159,7 +159,7 @@ class Record extends \App\Modules\Base\Models\Record
 				->where(['id' => $userId])
 				->scalar();
 			// Cache it in the model for future calls
-			if ($adminStatus !== false) {
+			if ($adminStatus !== false && $adminStatus !== null) {
 				$this->set('is_admin', $adminStatus);
 			}
 		}
