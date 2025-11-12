@@ -243,7 +243,7 @@ class Edit extends \App\Modules\Base\Views\Index
 		$wysiwygTypes = [];
 		if (is_array($mainParams['modules']) && !empty($mainParams['modules'])) {
 			foreach ($mainParams['modules'] as $mainModule) {
-				$crmEntities[$mainModule] = \CRMEntity::getInstance($mainModule);
+				$crmEntities[$mainModule] = \App\CRMEntity::getInstance($mainModule);
 				$wysiwygTypes[$mainModule] = $inventoryField->isWysiwygType($mainModule);
 			}
 		}
