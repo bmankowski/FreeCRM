@@ -121,6 +121,7 @@ if (\App\AppConfig::main('systemMode') != 'demo') {
 9. **Faza 9** - `current_language` (odczyty, 7 wystąpień w 7 plikach) - ✅ **WYKONANE**
 10. **Faza 10** - `mod_strings` (odczyty, 2 wystąpienia w 2 plikach) - ✅ **WYKONANE**
 11. **Faza 11** - `popupAjax`, `isPermittedLog`, `translated_language` (proste wartości runtime, 5 odczytów w 4 plikach) - ✅ **WYKONANE**
+12. **Faza 12** - `currentModule` (wartość runtime, 23 wystąpienia w 13 plikach, podzielone na podfazy 12A-12E) - **PROPOZYCJA**
 
 ---
 
@@ -746,11 +747,113 @@ if ($uploadOk && $_FILES['watermark']['size'][0] > \App\AppConfig::main('upload_
 - **Charakterystyka:** Ustawianie runtime podczas inicjalizacji
 - **Priorytet:** Niski (ustawiania runtime, wymagają większej refaktoryzacji)
 
-### FAZA 13: Wartości runtime - `currentModule`
-- **Wystąpienia:** ~23 wystąpienia w 13 plikach
-- **Charakterystyka:** Wartość runtime, ustawiana w `EntryPoint/WebUI.php`
-- **Alternatywa:** Użycie `$request->getModule()` lub przekazywanie przez kontekst
-- **Priorytet:** Wysoki (często używane), ale wymaga większej refaktoryzacji (kontekst Request)
+## FAZA 12: Usunięcie `vglobal('currentModule')` - PROPOZYCJA
+
+### Analiza użycia
+
+**Wystąpienia:** 23 wystąpienia w 13 plikach
+- **Odczyty:** 19 wystąpień w 13 plikach
+- **Ustawiania:** 4 wystąpienia w 3 plikach
+
+**Szczegółowa analiza:** Zobacz `documentation/vglobal-currentModule-analysis.md`
+
+### Kategorie użycia:
+
+#### KATEGORIA 1: Metody z dostępem do `$this->moduleName` (CRMEntity)
+**Pliki:**
+- `CRMEntity::unlinkRelationship()` (linia 415)
+- `CRMEntity::getSortOrder()` (linia 1587)
+- `CRMEntity::getOrderBy()` (linia 1604)
+- `ModComments::getSortOrder()` (linia 92)
+- `ModComments::getOrderBy()` (linia 105)
+- `SMSNotifierBase::getSortOrder()` (linia 94)
+- `Project::deleteRelatedFromDB()` (linia 425)
+- `ServiceContracts::deleteRelatedFromDB()` (linia 588)
+
+**Rozwiązanie:** Użyć `$this->moduleName` (ustawiane w `CRMEntity::getInstance()`)
+
+#### KATEGORIA 2: Metody bez dostępu do Request (wymagają parametru)
+**Pliki:**
+- `Utils::dateDiffAsString()` (linia 661) - metoda statyczna
+- `CustomView::getRealValues()` (linia 665)
+- `VTScheduledReport::sendEmail()` (linia 124)
+- `ScheduleReports::getEmailContent()` (linia 340)
+- `LinkData::__construct()` (linia 30)
+
+**Rozwiązanie:** Dodać parametr `$moduleName` do metod
+
+#### KATEGORIA 3: Wartości domyślne (fallback)
+**Pliki:**
+- `ScheduleReports::runScheduledReports()` (linia 318) - używa z fallback 'Reports'
+- `VTScheduledReport::runScheduledReports()` (linia 368) - używa z fallback 'Reports'
+
+**Rozwiązanie:** Użyć wartości domyślnej 'Reports' zamiast sprawdzania globalnej zmiennej
+
+#### KATEGORIA 4: Tymczasowe przełączanie (wymaga refaktoryzacji)
+**Pliki:**
+- `RelationAjax::deleteRelation()` (linia 109) - tymczasowe przełączanie
+- `RelationAjax::updateRelation()` (linia 141) - tymczasowe przełączanie
+- `TreeCategoryModal::getSelectedRecords()` (linie 147, 148, 156) - tymczasowe przełączanie z przywracaniem
+
+**Rozwiązanie:** Przekazywanie modułu jako parametr zamiast globalnej zmiennej
+
+#### KATEGORIA 5: Ustawianie w EntryPoint (dla kompatybilności)
+**Pliki:**
+- `EntryPoint/WebUI.php` (linia 626) - ustawianie przed wykonaniem handlera
+
+**Rozwiązanie:** Można pozostawić jako ustawianie dla kompatybilności lub przekazać przez kontekst
+
+### Plan refaktoryzacji (podzielony na podfazy):
+
+#### FAZA 12A: Proste przypadki - użycie `$this->moduleName` (8 plików)
+- `CRMEntity::unlinkRelationship()` - zamienić na `$this->moduleName`
+- `CRMEntity::getSortOrder()` - zamienić na `$this->moduleName`
+- `CRMEntity::getOrderBy()` - zamienić na `$this->moduleName`
+- `ModComments::getSortOrder()` - zamienić na `$this->moduleName`
+- `ModComments::getOrderBy()` - zamienić na `$this->moduleName`
+- `SMSNotifierBase::getSortOrder()` - zamienić na `$this->moduleName`
+- `Project::deleteRelatedFromDB()` - zamienić na `$this->moduleName`
+- `ServiceContracts::deleteRelatedFromDB()` - zamienić na `$this->moduleName`
+
+**Uwaga:** Dla `SMSNotifierBase::__construct()` (linia 88) trzeba sprawdzić czy `$this->moduleName` jest dostępne w konstruktorze.
+
+#### FAZA 12B: Dodanie parametrów - metody bez Request (5 plików)
+- `Utils::dateDiffAsString()` - dodać opcjonalny parametr `$moduleName = 'Vtiger'`
+- `CustomView::getRealValues()` - dodać parametr `$moduleName` lub użyć innego mechanizmu
+- `VTScheduledReport::sendEmail()` - dodać parametr `$moduleName`
+- `ScheduleReports::getEmailContent()` - dodać parametr `$moduleName`
+- `LinkData::__construct()` - dodać parametr `$moduleName`
+
+#### FAZA 12C: Wartości domyślne - fallback (2 pliki)
+- `ScheduleReports::runScheduledReports()` - użyć wartości domyślnej 'Reports'
+- `VTScheduledReport::runScheduledReports()` - użyć wartości domyślnej 'Reports'
+
+#### FAZA 12D: Tymczasowe przełączanie - przekazywanie jako parametr (2 pliki)
+- `RelationAjax::deleteRelation()` - przekazywanie modułu jako parametr
+- `RelationAjax::updateRelation()` - przekazywanie modułu jako parametr
+- `TreeCategoryModal::getSelectedRecords()` - przekazywanie modułu jako parametr
+
+#### FAZA 12E: EntryPoint - pozostawienie lub refaktoryzacja (1 plik)
+- `EntryPoint/WebUI.php` - można pozostawić jako ustawianie dla kompatybilności lub przekazać przez kontekst
+
+### Korzyści:
+
+- **Ujednolicenie:** Użycie `$this->moduleName` zamiast globalnej zmiennej
+- **Lepsze API:** Dodanie parametrów zamiast zależności od globalnych zmiennych
+- **Testowalność:** Łatwiejsze testowanie metod z parametrami
+- **Czytelność:** Jawnie przekazywane parametry są bardziej czytelne
+
+### Weryfikacja:
+
+Po każdej podfazie sprawdź:
+1. Czy metody działają poprawnie z nowymi parametrami
+2. Czy sesje działają poprawnie z nowymi kluczami
+3. Czy tłumaczenia działają poprawnie z nowymi modułami
+4. Czy operacje relacji działają poprawnie z przekazywanymi parametrami
+
+---
+
+### FAZA 13: Pozostałe wartości runtime (currentModule ustawiania) - DO PRZYSZŁOŚCI
 
 ## FAZA 9: Usunięcie odczytów `vglobal('current_language')` - ✅ WYKONANE
 

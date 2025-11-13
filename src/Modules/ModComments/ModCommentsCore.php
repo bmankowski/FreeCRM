@@ -89,7 +89,7 @@ class ModCommentsCore extends \App\CRMEntity
 
 	public function getSortOrder($request = null)
 	{
-		$currentModule = vglobal('currentModule');
+		$currentModule = $this->moduleName;
 
 		$sortorder = $this->default_sort_order;
 		if (!$request !== null && $request->isEmpty('sorder'))
@@ -102,7 +102,7 @@ class ModCommentsCore extends \App\CRMEntity
 
 	public function getOrderBy($request = null)
 	{
-		$currentModule = vglobal('currentModule');
+		$currentModule = $this->moduleName;
 
 		$use_default_order_by = '';
 		if (\App\AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {

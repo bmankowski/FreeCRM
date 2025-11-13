@@ -85,13 +85,13 @@ class SMSNotifierBase extends \App\CRMEntity
 
 	public function __construct()
 	{
-		$this->column_fields = \App\Utils\Utils::getColumnFields(vglobal('currentModule'));
+		$this->column_fields = \App\Utils\Utils::getColumnFields('SMSNotifier');
 		$this->db = \App\Database\PearDatabase::getInstance();
 	}
 
 	public function getSortOrder($request = null)
 	{
-		$currentModule = vglobal('currentModule');
+		$currentModule = $this->moduleName;
 
 		$sortorder = $this->default_sort_order;
 		if (!$request !== null && $request->isEmpty('sorder'))

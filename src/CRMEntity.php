@@ -412,7 +412,7 @@ class CRMEntity
 	/** Function to unlink an entity with given Id from another entity */
 	public function unlinkRelationship($id, $returnModule, $returnId, $relatedName = false)
 	{
-		$currentModule = vglobal('currentModule');
+		$currentModule = $this->moduleName;
 
 		switch ($relatedName) {
 			case 'getManyToMany':
@@ -1584,7 +1584,7 @@ class CRMEntity
 	public function getSortOrder($request = null)
 	{
 
-	$currentModule = vglobal('currentModule');
+	$currentModule = $this->moduleName;
 	Log::trace("Entering getSortOrder() method ...");
 	if ($request !== null && $request->has('sorder'))
 		$sorder = $this->db->sql_escape_string($request->getForSql('sorder'));
@@ -1601,7 +1601,7 @@ class CRMEntity
 	 */
 	public function getOrderBy($request = null)
 	{
-		$currentModule = vglobal('currentModule');
+		$currentModule = $this->moduleName;
 
 		Log::trace("Entering getOrderBy() method ...");
 
