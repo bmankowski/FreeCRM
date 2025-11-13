@@ -88,3 +88,4 @@ class ModuleBasic
 	const EVENT_MODULE_POSTUPDATE = 'module.postupdate';
 }
 
+

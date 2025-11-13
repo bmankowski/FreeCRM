@@ -14,12 +14,13 @@ FreeCRM - Customer Relationship Management System
 	{block name="content"}
 		<div class="mainContainer">
 			<div class="contentsDiv">
-				{include file='../Users/EditView.tpl'|@vtemplate_path:'Users'}
+				{include file='EditView.tpl'|@vtemplate_path:'Users'}
 			</div> <!-- close contentsDiv -->
 		</div> <!-- close mainContainer -->
 	{/block}
 	<!--/layouts/basic/modules/Settings/Users/EditView.tpl -->
 {/strip}
+
 
 
 

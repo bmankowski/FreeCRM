@@ -106,3 +106,4 @@ class Block
 	public function getModule() { return $this->module; }
 }
 
+
