@@ -52,9 +52,12 @@ $viewer->assign('LIST_MAX_ENTRIES_MASS_EDIT', \App\AppConfig::main('listMaxEntri
 ```
 
 #### 4. `src/Modules/Users/Views/ListView.php`
-**Metoda:** `process()` (linia 39)
-**Uwaga:** Ten kontroler nie ma prawdziwego `preProcess()` (tylko zwraca `true`), więc dodajemy w `process()`
-**Dodaj przed `$viewer->view()` (około linii 180):**
+**Metoda:** `initializeListViewContents()` (po refaktoryzacji)
+**Uwaga:** Ten kontroler obecnie dziedziczy z `ListAjax` i ma pusty `preProcess()`. 
+**Rekomendacja:** Najpierw wykonać refaktoryzację zgodnie z `users-listview-refactoring-plan.md`, a następnie dodać przypisanie w `initializeListViewContents()` (jak w punkcie 1).
+
+**Alternatywnie (jeśli refaktoryzacja nie jest wykonywana teraz):**
+**Dodaj w `process()` przed `$viewer->view()` (około linii 180):**
 ```php
 $viewer->assign('LIST_MAX_ENTRIES_MASS_EDIT', \App\AppConfig::main('listMaxEntriesMassEdit'));
 ```
@@ -191,6 +194,16 @@ Po każdej fazie należy:
 - `AppConfig::main()` automatycznie sprawdza `$GLOBALS`, więc jest kompatybilne z istniejącym kodem
 - Wszystkie kontrolery używające layout templates dziedziczą z `BaseViewController`
 - `OSSPasswords` używa `Base\Views\ListView::initializeListViewContents()`, więc nie wymaga osobnego przypisania
-- `Users/ListView` nie ma prawdziwego `preProcess()`, więc przypisanie musi być w `process()`
+- `Users/ListView` obecnie dziedziczy z `ListAjax` i ma pusty `preProcess()` - **rekomendacja:** najpierw wykonać refaktoryzację zgodnie z `users-listview-refactoring-plan.md`, a następnie dodać przypisanie w `initializeListViewContents()`
 - `startTime` jest już obsługiwane jako `SCRIPT_TIME` w `BaseViewController`
+
+## Zależności między refaktoryzacjami
+
+**Kolejność wykonania:**
+1. Opcjonalnie: Refaktoryzacja `Users/ListView` (zgodnie z `users-listview-refactoring-plan.md`)
+2. Faza 1: Refaktoryzacja `listMaxEntriesMassEdit` (w tym planie)
+3. Faza 2: Refaktoryzacja `backgroundClosingModal` (w tym planie)
+4. Faza 3: Refaktoryzacja `systemMode` i `startTime` (w tym planie)
+
+**Uwaga:** Jeśli refaktoryzacja `Users/ListView` jest wykonywana, `LIST_MAX_ENTRIES_MASS_EDIT` można dodać w `initializeListViewContents()` zamiast w `process()`.
 
