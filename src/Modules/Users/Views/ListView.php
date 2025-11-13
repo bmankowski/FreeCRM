@@ -32,6 +32,36 @@ class ListView extends \App\Modules\Base\Views\ListView
 		}
 	}
 
+	/**
+	 * Initialize listViewModel with Users-specific model and status filtering
+	 * This hook method is called before initializeListViewContents()
+	 */
+	protected function initializeListViewModel(\App\Http\Vtiger_Request $request)
+	{
+		$moduleName = $request->getModule();
+		
+		// Initialize viewName if not set
+		if (!isset($this->viewName)) {
+			$cvId = $request->get('viewname');
+			if (empty($cvId)) {
+				$cvId = \App\CustomView::getInstance($moduleName)->getViewId();
+			}
+			$this->viewName = $cvId;
+		}
+		
+		// Initialize listViewModel with Users/Models/ListView if not set
+		if (!$this->listViewModel) {
+			$this->listViewModel = \App\Modules\Users\Models\ListView::getInstance($moduleName, $this->viewName);
+			
+			// Status filtering - specjalne dla Users
+			$status = $request->get('status');
+			if (empty($status)) {
+				$status = 'Active';
+			}
+			$this->listViewModel->set('status', $status);
+		}
+	}
+
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
@@ -46,37 +76,24 @@ class ListView extends \App\Modules\Base\Views\ListView
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
+		// Initialize Users-specific listViewModel before parent::preProcess()
+		// This ensures parent::preProcess() will use our listViewModel when calling initializeListViewContents()
+		$this->initializeListViewModel($request);
+		
+		// Call parent::preProcess() which will call our overridden initializeListViewContents()
 		parent::preProcess($request, false);
 		
 		if ($request->isAjax()) {
-			// AJAX requests - przygotuj dane dla ListViewContents
-			$this->prepareAjaxListViewData($request);
+			// AJAX requests - prepareAjaxListViewData() already called in parent::preProcess()
 			return;
 		}
 		
-		// Non-AJAX requests - pełne przygotowanie danych
+		// Non-AJAX requests - override assignments with Users-specific values
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
+		$cvId = $this->viewName;
 		
-		// Inicjalizuj listViewModel z Users/Models/ListView
-		$cvId = $request->get('viewname');
-		if (empty($cvId)) {
-			$cvId = \App\CustomView::getInstance($moduleName)->getViewId();
-		}
-		$this->viewName = $cvId;
-		$this->listViewModel = \App\Modules\Users\Models\ListView::getInstance($moduleName, $cvId);
-		
-		// Status filtering - specjalne dla Users
-		$status = $request->get('status');
-		if (empty($status)) {
-			$status = 'Active';
-		}
-		$this->listViewModel->set('status', $status);
-		
-		// Inicjalizuj zawartość listy
-		$this->initializeListViewContents($request, $viewer);
-		
-		// Dodatkowe przypisania specyficzne dla Users
+		// Override assignments with Users-specific model
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'), 'CVID' => $cvId);
 		$viewer->assign('HEADER_LINKS', $this->listViewModel->getHederLinks($linkParams));
 		$viewer->assign('VIEWID', $this->viewName);
@@ -94,164 +111,34 @@ class ListView extends \App\Modules\Base\Views\ListView
 
 	protected function prepareAjaxListViewData(\App\Http\Vtiger_Request $request)
 	{
+		// Initialize Users-specific listViewModel before parent's initializeListViewContents()
+		$this->initializeListViewModel($request);
+		
+		// Call parent to get common AJAX data and initializeListViewContents()
+		parent::prepareAjaxListViewData($request);
+		
+		// Override MODULE_MODEL with Users-specific model
 		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-		
-		// Inicjalizuj listViewModel jeśli jeszcze nie został
-		if (!isset($this->viewName)) {
-			$cvId = $request->get('viewname');
-			if (empty($cvId)) {
-				$cvId = \App\CustomView::getInstance($moduleName)->getViewId();
-			}
-			$this->viewName = $cvId;
-		}
-		
-		if (!$this->listViewModel) {
-			$this->listViewModel = \App\Modules\Users\Models\ListView::getInstance($moduleName, $this->viewName);
-			
-			// Status filtering - specjalne dla Users
-			$status = $request->get('status');
-			if (empty($status)) {
-				$status = 'Active';
-			}
-			$this->listViewModel->set('status', $status);
-		}
-		
-		// Użyj initializeListViewContents() z nadpisaniem dla Users
-		$this->initializeListViewContents($request, $viewer);
-		
-		// Dodatkowe przypisania dla AJAX
-		$viewer->assign('USER_MODEL', $request->getUser());
-		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('MODULE_MODEL', $this->listViewModel->getModule());
-		$viewer->assign('VIEWID', $this->viewName);
 	}
 
 	public function initializeListViewContents(\App\Http\Vtiger_Request $request, \App\Runtime\CRM_Viewer $viewer)
 	{
+		// Ensure Users-specific listViewModel is initialized
+		$this->initializeListViewModel($request);
+		
+		// Call parent to handle all common ListView initialization
+		parent::initializeListViewContents($request, $viewer);
+		
+		// Users-specific customizations
 		$moduleName = $request->getModule();
-		$pageNumber = $request->get('page');
-		$orderBy = $request->get('orderby');
-		$sortOrder = $request->get('sortorder');
-		$searchResult = $request->get('searchResult');
-		
-		// Użyj Users/Models/ListView jeśli nie został jeszcze zainicjalizowany
-		if (!$this->listViewModel) {
-			$cvId = $request->get('viewname');
-			if (empty($cvId)) {
-				$cvId = \App\CustomView::getInstance($moduleName)->getViewId();
-			}
-			$this->viewName = $cvId;
-			$this->listViewModel = \App\Modules\Users\Models\ListView::getInstance($moduleName, $cvId);
-		}
-		
-		// Status filtering - specjalne dla Users
-		$status = $request->get('status');
-		if (empty($status)) {
-			$status = 'Active';
-		}
-		$this->listViewModel->set('status', $status);
-		
-		if (empty($orderBy) && empty($sortOrder)) {
-			$orderBy = \App\CustomView::getSortby($moduleName);
-			$sortOrder = \App\CustomView::getSorder($moduleName);
-			if (empty($orderBy)) {
-				$moduleInstance = \App\CRMEntity::getInstance($moduleName);
-				$orderBy = $moduleInstance->default_order_by;
-				$sortOrder = $moduleInstance->default_sort_order;
-			}
-		}
-		
-		if ($sortOrder === 'ASC') {
-			$nextSortOrder = 'DESC';
-			$sortImage = 'glyphicon glyphicon-chevron-down';
-		} else {
-			$nextSortOrder = 'ASC';
-			$sortImage = 'glyphicon glyphicon-chevron-up';
-		}
-		
-		if (empty($pageNumber)) {
-			$pageNumber = \App\CustomView::getCurrentPage($moduleName, $this->viewName);
-			if (empty($pageNumber)) {
-				$pageNumber = '1';
-			}
-		}
-		
-		if (!empty($searchResult) && is_array($searchResult)) {
-			$this->listViewModel->set('searchResult', $searchResult);
-		}
-		
-		$currentUser = $request->getUser();
-		$cvId = $this->viewName ?? \App\CustomView::getInstance($moduleName)->getViewId();
-		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'), 'CVID' => $cvId);
-		$linkModels = $this->listViewModel->getListViewMassActions($linkParams);
-		
-		// Ensure LISTVIEWMASSACTION is always an array
-		if (!isset($linkModels['LISTVIEWMASSACTION'])) {
-			$linkModels['LISTVIEWMASSACTION'] = [];
-		}
-		
-		$pagingModel = new \App\Modules\Base\Models\Paging();
-		$pagingModel->set('page', $pageNumber);
-		$pagingModel->set('viewid', $cvId);
-		
-		if (!empty($orderBy)) {
-			$this->listViewModel->set('orderby', $orderBy);
-			$this->listViewModel->set('sortorder', $sortOrder);
-		}
-		
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
-		$operator = $request->get('operator');
-		if (!empty($operator)) {
-			$this->listViewModel->set('operator', $operator);
-		}
-		$viewer->assign('OPERATOR', $operator);
 		
 		// Specjalna logika dla Users - ALPHABET_VALUE tylko jeśli searchKey != 'status'
-		if ('status' != $searchKey) {
-			$viewer->assign('ALPHABET_VALUE', $searchValue);
-		}
-		
-		if (!empty($searchKey) && !empty($searchValue)) {
-			$this->listViewModel->set('search_key', $searchKey);
-			$this->listViewModel->set('search_value', $searchValue);
-		}
-		
-		$searchParams = $request->get('search_params');
-		if (!empty($searchParams) && is_array($searchParams)) {
-			$transformedSearchParams = $this->listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParams);
-			$this->listViewModel->set('search_params', $transformedSearchParams);
-			//To make smarty to get the details easily accesible
-			foreach ($searchParams as $fieldListGroup) {
-				foreach ($fieldListGroup as $fieldSearchInfo) {
-					$fieldSearchInfo['searchValue'] = isset($fieldSearchInfo[2]) ? $fieldSearchInfo[2] : '';
-					$fieldSearchInfo['fieldName'] = $fieldName = isset($fieldSearchInfo[0]) ? $fieldSearchInfo[0] : '';
-					$fieldSearchInfo['specialOption'] = isset($fieldSearchInfo[3]) ? $fieldSearchInfo[3] : '';
-					$searchParams[$fieldName] = $fieldSearchInfo;
-				}
-			}
-		} else {
-			$searchParams = [];
-		}
-		
-		if (!empty($searchResult) && is_array($searchResult)) {
-			$this->listViewModel->get('query_generator')->addNativeCondition(['vtiger_crmentity.crmid' => $searchResult]);
-		}
-		
-		if (!$this->listViewHeaders) {
-			$this->listViewHeaders = $this->listViewModel->getListViewHeaders();
-		}
-		if (!$this->listViewEntries) {
-			$this->listViewEntries = $this->listViewModel->getListViewEntries($pagingModel);
-		}
-		$noOfEntries = count($this->listViewEntries);
-		
-		$viewer->assign('MODULE_MODEL', $this->listViewModel->getModule());
-		$viewer->assign('MODULE', $moduleName);
-		
-		if (!isset($this->listViewLinks)) {
-			$this->listViewLinks = $this->listViewModel->getListViewLinks($linkParams);
+		// Parent przypisuje ALPHABET_VALUE bezwarunkowo, więc nadpisujemy jeśli searchKey == 'status'
+		if ('status' == $searchKey) {
+			$viewer->assign('ALPHABET_VALUE', '');
 		}
 		
 		// Ensure LISTVIEW_LINKS is always an array with required keys (specjalne dla Users)
@@ -264,35 +151,15 @@ class ListView extends \App\Modules\Base\Views\ListView
 		if (!isset($this->listViewLinks['LISTVIEWBASIC'])) {
 			$this->listViewLinks['LISTVIEWBASIC'] = [];
 		}
-		
 		$viewer->assign('LISTVIEW_LINKS', $this->listViewLinks);
-		$viewer->assign('LISTVIEW_MASSACTIONS', $linkModels['LISTVIEWMASSACTION']);
-		$viewer->assign('PAGING_MODEL', $pagingModel);
-		$viewer->assign('PAGE_NUMBER', $pageNumber);
-		$viewer->assign('ORDER_BY', $orderBy);
-		$viewer->assign('SORT_ORDER', $sortOrder);
-		$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);
-		$viewer->assign('SORT_IMAGE', $sortImage);
-		$viewer->assign('COLUMN_NAME', $orderBy);
-		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
-		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
-		$viewer->assign('LISTVIEW_ENTRIES_COUNT', $noOfEntries);
 		
-		$totalCount = false;
-		if (\App\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
-			if (!$this->listViewCount) {
-				$this->listViewCount = $this->listViewModel->getListViewCount();
-			}
-			$pagingModel->set('totalCount', (int) $this->listViewCount);
-			$totalCount = (int) $this->listViewCount;
+		// Ensure LISTVIEWMASSACTION is always an array
+		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'), 'CVID' => $this->viewName);
+		$linkModels = $this->listViewModel->getListViewMassActions($linkParams);
+		if (!isset($linkModels['LISTVIEWMASSACTION'])) {
+			$linkModels['LISTVIEWMASSACTION'] = [];
 		}
-		$viewer->assign('LISTVIEW_COUNT', $totalCount);
-		$viewer->assign('PAGE_COUNT', $pagingModel->getPageCount());
-		$viewer->assign('START_PAGIN_FROM', $pagingModel->getStartPagingFrom());
-		$viewer->assign('LIST_VIEW_MODEL', $this->listViewModel);
-		$viewer->assign('IS_MODULE_EDITABLE', $this->listViewModel->getModule()->isPermitted('EditView'));
-		$viewer->assign('IS_MODULE_DELETABLE', $this->listViewModel->getModule()->isPermitted('Delete'));
-		$viewer->assign('SEARCH_DETAILS', $searchParams);
+		$viewer->assign('LISTVIEW_MASSACTIONS', $linkModels['LISTVIEWMASSACTION']);
 		
 		// Users-specific assignments
 		$viewer->assign('QUALIFIED_MODULE', $moduleName);
@@ -308,20 +175,35 @@ class ListView extends \App\Modules\Base\Views\ListView
 		$moduleName = $request->getModule();
 		
 		if ($request->isAjax()) {
-			// AJAX requests - sprawdź czy to endpoint (mode) czy renderowanie ListViewContents
+			// Handle AJAX endpoints (getListViewCount, getRecordsCount, getPageCount)
 			$mode = $request->get('mode');
 			if (!empty($mode)) {
-				// To jest endpoint AJAX (getListViewCount, getRecordsCount, getPageCount)
+				// To jest endpoint AJAX - wywołaj metodę i zakończ
 				$this->invokeExposedMethod($mode, $request);
 				return;
 			}
 			
-			// To jest renderowanie ListViewContents przez AJAX
-			// Dane już przygotowane w preProcess()->prepareAjaxListViewData()
+			// Handle CustomView state management (from parent::process())
+			if (\App\CustomView::hasViewChanged($moduleName, $this->viewName, $request)) {
+				$customViewModel = \App\Modules\CustomView\Models\Record::getInstanceById($this->viewName);
+				if ($customViewModel) {
+					\App\CustomView::setDefaultSortOrderBy($moduleName, ['orderBy' => $customViewModel->getSortOrderBy('orderBy'), 'sortOrder' => $customViewModel->getSortOrderBy('sortOrder')]);
+				}
+				\App\CustomView::setCurrentView($moduleName, $this->viewName);
+			} else {
+				\App\CustomView::setDefaultSortOrderBy($moduleName);
+				if ($request->has('page')) {
+					\App\CustomView::setCurrentPage($moduleName, $this->viewName, $request->get('page'));
+				}
+			}
+			
+			// prepareAjaxListViewData() already called in preProcess(), but parent::process() calls it again
+			// Our overridden prepareAjaxListViewData() will be called, which is fine
+			$this->prepareAjaxListViewData($request);
 			$viewer->view('ListViewContents.tpl', $moduleName);
 		} else {
-			// Non-AJAX requests - pełna strona
-			// Dane już przygotowane w preProcess()
+			// For non-AJAX requests, data already assigned in preProcess()
+			// Use getModule(false) for Users-specific template path
 			$viewer->view('ListView.tpl', $request->getModule(false));
 		}
 	}
