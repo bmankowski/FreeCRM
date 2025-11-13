@@ -63,6 +63,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 			$activeModules[$module['name']] = \App\Utils\ModuleUtils::isModuleActive($module['name']);
 		}
 		$viewer->assign('ACTIVE_MODULES', $activeModules);
+		$viewer->assign('BACKGROUND_CLOSING_MODAL', \App\AppConfig::main('backgroundClosingModal'));
 	}
 
 	public function getViewer(\App\Http\Vtiger_Request $vtigerRequest)
