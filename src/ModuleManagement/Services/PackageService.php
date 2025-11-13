@@ -132,7 +132,7 @@ class PackageService
 			}
 
 			// Check for language files
-			$defaultLanguage = vglobal('default_language');
+			$defaultLanguage = \App\AppConfig::main('default_language');
 			$pattern = '/languages\/' . preg_quote($defaultLanguage, '/') . '\/([^\/]+)\.php$/';
 			if (preg_match($pattern, $filename, $matches)) {
 				$language_modulename = $matches[1];
@@ -149,7 +149,7 @@ class PackageService
 			$languagefile_found = true;
 		} elseif (!$updatefile_found && !$layoutfile_found && !$languagefile_found && !empty($modulename)) {
 			$_errorText = \App\Runtime\Vtiger_Language_Handler::translate('LBL_ERROR_NO_DEFAULT_LANGUAGE', 'Settings:ModuleManager');
-			$_errorText = str_replace('__DEFAULTLANGUAGE__', vglobal('default_language'), $_errorText);
+			$_errorText = str_replace('__DEFAULTLANGUAGE__', \App\AppConfig::main('default_language'), $_errorText);
 			$this->errorText = $_errorText;
 		}
 

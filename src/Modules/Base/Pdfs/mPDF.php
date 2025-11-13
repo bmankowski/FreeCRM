@@ -337,7 +337,7 @@ class mPDF extends AbstractPDF
 		$pdf->setLanguage($template->get('language'));
 		$pdf->setFileName($template->get('filename'));
 
-		$origLanguage = vglobal('default_language');
+		$origLanguage = \App\AppConfig::main('default_language');
 		vglobal('default_language', $template->get('language'));
 
 		$pdf->parseParams($template->getParameters());

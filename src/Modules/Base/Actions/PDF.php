@@ -108,7 +108,7 @@ class PDF extends \App\Base\Controllers\BaseActionController
 				$footers = '';
 				$classes = '';
 				$body = '';
-				$origLanguage = vglobal('default_language');
+				$origLanguage = \App\AppConfig::main('default_language');
 				foreach ($recordId as $index => $record) {
 					$templateIdsTemp = $templateIds;
 					$pdf->setRecordId($recordId[0]);
@@ -173,7 +173,7 @@ class PDF extends \App\Base\Controllers\BaseActionController
 				$postfix = time() . '_' . mt_rand(0, 1000);
 
 				$pdfFiles = [];
-				$origLanguage = vglobal('default_language');
+				$origLanguage = \App\AppConfig::main('default_language');
 				foreach ($templateIds as $id) {
 					foreach ($recordId as $record) {
 						$handlerClass = \App\Loader::getComponentClassName('Pdf', 'mPDF', $moduleName);

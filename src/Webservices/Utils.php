@@ -886,13 +886,13 @@ function vtws_getWebserviceCurrentLanguage()
 {
 	$lang = vglobal('current_language');
 	if (empty($lang)) {
-		$lang = vglobal('default_language');
+		$lang = \App\AppConfig::main('default_language');
 	}
 	return $lang;
 }
 
 function vtws_getWebserviceDefaultLanguage()
 {
-	$lang = vglobal('default_language');
+	$lang = \App\AppConfig::main('default_language');
 	return $lang;
 }

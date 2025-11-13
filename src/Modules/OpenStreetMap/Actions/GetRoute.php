@@ -45,7 +45,7 @@ class GetRoute extends \App\Base\Controllers\BaseActionController
 			'endLat' => $tlat,
 			'endLon' => $tlon
 		];
-		$language = vglobal('default_language');
+		$language = \App\AppConfig::main('default_language');
 		$coordinates = [];
 		$travel = 0;
 		$description = '';

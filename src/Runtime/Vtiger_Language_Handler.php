@@ -46,7 +46,7 @@ class Vtiger_Language_Handler
 
 		// label not found in users language pack, then check in the default language pack(config.inc.php)
 		if ($translatedString === null) {
-			$defaultLanguage = vglobal('default_language');
+			$defaultLanguage = \App\AppConfig::main('default_language');
 			if (!empty($defaultLanguage) && strcasecmp($defaultLanguage, $currentLanguage) !== 0) {
 				$translatedString = self::getLanguageTranslatedString($defaultLanguage, $key, $module);
 			}
@@ -212,7 +212,7 @@ class Vtiger_Language_Handler
 		$language = \App\Modules\Users\Models\Record::getCurrentUserModel()->get('language');
 	}
 
-		$language = empty($language) ? vglobal('default_language') : strtolower($language);
+		$language = empty($language) ? \App\AppConfig::main('default_language') : strtolower($language);
 		static::$language = $language;
 		return $language;
 	}
@@ -236,7 +236,7 @@ class Vtiger_Language_Handler
 	public static function export($module, $type = 'languageStrings')
 	{
 		$userSelectedLanguage = self::getLanguage();
-		$value = vglobal('default_language');
+		$value = \App\AppConfig::main('default_language');
 		$languages = [$userSelectedLanguage];
 		//To merge base language and user selected language translations
 		if ($userSelectedLanguage != $value) {

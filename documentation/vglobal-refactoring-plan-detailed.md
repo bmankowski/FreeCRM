@@ -117,6 +117,7 @@ if (\App\AppConfig::main('systemMode') != 'demo') {
 5. **Faza 5** - `default_timezone`, `site_URL`, `cache_dir`, `tmp_dir` (wartości konfiguracyjne) - ✅ **WYKONANE**
 6. **Faza 6** - `default_charset`, `php_max_execution_time`, `davStorageDir` (pozostałe wartości konfiguracyjne) - ✅ **WYKONANE**
 7. **Faza 7** - Dokończenie `systemMode` (pozostałe 3 wystąpienia w kodzie PHP) - ✅ **WYKONANE**
+8. **Faza 8** - `default_language` (wartość konfiguracyjna, 11 odczytów zmienionych w 6 plikach) - ✅ **WYKONANE**
 
 ---
 
@@ -539,33 +540,117 @@ if ($uploadOk && $_FILES['watermark']['size'][0] > \App\AppConfig::main('upload_
 
 ---
 
+## FAZA 8: Usunięcie `vglobal('default_language')` - ✅ WYKONANE
+
+### Analiza użycia
+
+**Wystąpienia:** 19 wystąpień w 7 plikach
+
+#### Wystąpienia:
+- `src/Runtime/Vtiger_Language_Handler.php` (linie 49, 215, 239) - 3 wystąpienia w handlerze języków
+- `src/ModuleManagement/Services/PackageService.php` (linie 135, 152) - 2 wystąpienia w instalacji pakietów
+- `src/Webservices/Utils.php` (linie 889, 896) - 2 wystąpienia w webservices
+- `src/Modules/Install/Views/Index.php` (linia 80) - ustawianie podczas instalacji
+- `src/Modules/OpenStreetMap/Actions/GetRoute.php` (linia 48) - domyślny język dla routingu
+- `src/Modules/Base/Actions/PDF.php` (linie 111, 121, 144, 166, 176, 189, 209) - 7 wystąpień w generowaniu PDF
+- `src/Modules/Base/Pdfs/mPDF.php` (linie 340, 341, 350) - 3 wystąpienia w mPDF
+
+**Charakterystyka:**
+- Wartość konfiguracyjna (łatwa do zastąpienia przez `AppConfig::main()`)
+- Używana głównie jako fallback, gdy nie ma języka użytkownika
+- Kluczowe użycie w `Vtiger_Language_Handler` - refaktoryzacja tego będzie miała duży wpływ
+- Używana w generowaniu PDF do przełączania języków
+
+### Wykonane zmiany:
+
+#### Grupa 1: Vtiger_Language_Handler (3 wystąpienia) - ✅ WYKONANE
+
+1. ✅ **`src/Runtime/Vtiger_Language_Handler.php`**
+   - Metody: `getTranslatedString()` (linia 49), `getLanguage()` (linia 215), `export()` (linia 239)
+   - Zamieniono wszystkie odczyty `vglobal('default_language')` na `AppConfig::main('default_language')`
+
+#### Grupa 2: Inne pliki (6 plików, 11 odczytów) - ✅ WYKONANE
+
+2. ✅ **`src/ModuleManagement/Services/PackageService.php`**
+   - Linie: 135, 152
+   - Zamieniono `vglobal('default_language')` na `AppConfig::main('default_language')` (2 wystąpienia)
+
+3. ✅ **`src/Webservices/Utils.php`**
+   - Linie: 889, 896
+   - Zamieniono `vglobal('default_language')` na `AppConfig::main('default_language')` (2 wystąpienia)
+
+4. ✅ **`src/Modules/OpenStreetMap/Actions/GetRoute.php`**
+   - Linia: 48
+   - Zamieniono `vglobal('default_language')` na `AppConfig::main('default_language')`
+
+5. ✅ **`src/Modules/Base/Actions/PDF.php`**
+   - Linie: 111, 176
+   - Zamieniono odczyty `vglobal('default_language')` na `AppConfig::main('default_language')` (2 wystąpienia)
+   - Ustawiania wartości pozostawione jako `vglobal()` (tymczasowe przełączanie języka podczas generowania PDF)
+
+6. ✅ **`src/Modules/Base/Pdfs/mPDF.php`**
+   - Linia: 340
+   - Zamieniono odczyt `vglobal('default_language')` na `AppConfig::main('default_language')`
+   - Ustawiania wartości pozostawione jako `vglobal()` (tymczasowe przełączanie języka podczas generowania PDF)
+
+#### Uwaga specjalna:
+
+- **`src/Modules/Install/Views/Index.php`** (linia 80) - ustawianie podczas instalacji pozostawione jako `vglobal()` (to jest ustawianie konfiguracji podczas instalacji)
+- **`src/Modules/Base/Actions/PDF.php`** i **`src/Modules/Base/Pdfs/mPDF.php`** - ustawiania wartości pozostawione jako `vglobal()` (tymczasowe przełączanie języka podczas generowania PDF, wymaga lokalnej zmiennej)
+
+### Kolejność wykonania:
+
+1. **Grupa 1** - `Vtiger_Language_Handler.php` (3 wystąpienia) - najważniejsze, używane wszędzie
+2. **Grupa 2** - Pozostałe pliki (6 plików, 16 wystąpień)
+
+### Korzyści:
+
+- **Prostota:** Wartość konfiguracyjna, łatwa do zastąpienia
+- **Wpływ:** Refaktoryzacja `Vtiger_Language_Handler` będzie miała duży wpływ na cały system
+- **Spójność:** Ujednolici sposób dostępu do domyślnego języka
+- **Niskie ryzyko:** Nie wpływa na logikę biznesową, tylko sposób dostępu do konfiguracji
+
+### Weryfikacja:
+
+✅ **Wszystkie odczyty zostały zmienione** - grep nie znajduje już `vglobal('default_language')` jako odczyt w kodzie źródłowym
+✅ **Brak błędów lintera** - wszystkie pliki przeszły weryfikację
+✅ **Ustawiania wartości pozostawione** - tymczasowe przełączanie języka w PDF i ustawianie podczas instalacji pozostawione jako `vglobal()` (wymaga osobnej refaktoryzacji)
+
+**Do przetestowania:**
+1. Czy tłumaczenia działają poprawnie (fallback do domyślnego języka)
+2. Czy generowanie PDF działa poprawnie z przełączaniem języków
+3. Czy webservices zwracają poprawny język
+4. Czy instalacja pakietów działa poprawnie
+
+---
+
 ## Inne proponowane fazy (do rozważenia w przyszłości):
 
-### FAZA 8: Wartości runtime - `currentModule`
+### FAZA 9: Wartości runtime - `current_language`
 - **Wystąpienia:** ~23 wystąpienia w 13 plikach
 - **Charakterystyka:** Wartość runtime, ustawiana w `EntryPoint/WebUI.php`
 - **Alternatywa:** Użycie `$request->getModule()` lub przekazywanie przez kontekst
 - **Priorytet:** Wysoki (często używane), ale wymaga większej refaktoryzacji (kontekst Request)
 
-### FAZA 8: Wartości runtime - `current_language` / `default_language`
-- **Wystąpienia:** ~29 wystąpień w wielu plikach
-- **Charakterystyka:** Wartości runtime/konfiguracyjne
-- **Alternatywa:** Użycie `Vtiger_Language_Handler::getLanguage()` i `AppConfig::main('default_language')`
+### FAZA 9: Wartości runtime - `current_language`
+- **Wystąpienia:** ~6 wystąpień w 5 plikach
+- **Charakterystyka:** Wartość runtime, ustawiana w `EntryPoint/WebUI.php`
+- **Alternatywa:** Użycie `Vtiger_Language_Handler::getLanguage()`
 - **Priorytet:** Wysoki (często używane), ale wymaga większej refaktoryzacji
 
-### FAZA 9: Wartości runtime - `mod_strings` / `app_strings`
+### FAZA 10: Wartości runtime - `mod_strings` / `app_strings`
 - **Wystąpienia:** ~4 wystąpienia (głównie ustawianie w EntryPoint, ale też użycie w Reports.php, CustomView.php)
 - **Charakterystyka:** Wartości runtime, ustawiane w `EntryPoint/WebUI.php`
 - **Alternatywa:** Użycie `Vtiger_Language_Handler::getModuleStringsFromFile()`
 - **Priorytet:** Średni (używane głównie w starszym kodzie)
 
-### FAZA 10: Wartości runtime - `currentModule`
+### FAZA 11: Wartości runtime - `currentModule`
 - **Wystąpienia:** ~23 wystąpienia w 13 plikach
 - **Charakterystyka:** Wartość runtime, ustawiana w `EntryPoint/WebUI.php`
 - **Alternatywa:** Użycie `$request->getModule()` lub przekazywanie przez kontekst
 - **Priorytet:** Wysoki (często używane), ale wymaga większej refaktoryzacji (kontekst Request)
 
-### FAZA 11: Pozostałe wartości runtime
+### FAZA 12: Pozostałe wartości runtime
 - **Wystąpienia:** ~11 wystąpień różnych wartości
 - **Charakterystyka:** Różne wartości runtime (workflowIdsAlreadyDone, showsAdditionalLabels, isPermittedLog, popupAjax, translated_language)
 - **Priorytet:** Niski (specjalne przypadki, wymagają indywidualnej analizy)
