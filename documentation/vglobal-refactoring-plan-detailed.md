@@ -39,28 +39,28 @@ $viewer->assign('LIST_MAX_ENTRIES_MASS_EDIT', \App\AppConfig::main('listMaxEntri
 
 #### 2. `src/Modules/RecycleBin/Views/ListView.php`
 **Metoda:** `preProcess()` (linia 22)
-**Dodaj przed końcem metody (około linii 130):**
+**Uwaga:** `RecycleBin/ListView` dziedziczy z `Base\Views\Index`, nie z `Base\Views\ListView`, więc nie używa `initializeListViewContents()`.
+**Dodaj na końcu metody (po ostatnim `$viewer->assign()`, przed zamknięciem metody, około linii 130):**
 ```php
 $viewer->assign('LIST_MAX_ENTRIES_MASS_EDIT', \App\AppConfig::main('listMaxEntriesMassEdit'));
 ```
 
 #### 3. `src/Modules/Reports/Views/ListView.php`
 **Metoda:** `prepareReportsListView()` (linia 39)
-**Dodaj przed końcem metody (około linii 125):**
+**Uwaga:** `Reports/ListView` dziedziczy z `Base\Views\Index`, nie z `Base\Views\ListView`, więc nie używa `initializeListViewContents()`.
+**Dodaj na końcu metody (po ostatnim `$viewer->assign()`, przed zamknięciem metody, około linii 126):**
 ```php
 $viewer->assign('LIST_MAX_ENTRIES_MASS_EDIT', \App\AppConfig::main('listMaxEntriesMassEdit'));
 ```
 
-#### 4. `src/Modules/Users/Views/ListView.php`
-**Metoda:** `initializeListViewContents()` (po refaktoryzacji)
-**Uwaga:** Ten kontroler obecnie dziedziczy z `ListAjax` i ma pusty `preProcess()`. 
-**Rekomendacja:** Najpierw wykonać refaktoryzację zgodnie z `users-listview-refactoring-plan.md`, a następnie dodać przypisanie w `initializeListViewContents()` (jak w punkcie 1).
-
-**Alternatywnie (jeśli refaktoryzacja nie jest wykonywana teraz):**
-**Dodaj w `process()` przed `$viewer->view()` (około linii 180):**
+#### 4. `src/Modules/Settings/Base/Views/ListView.php`
+**Metoda:** `prepareListViewData()` (linia 65)
+**Powód:** `Users/ListView` dziedziczy z `Settings\Base\Views\ListView`, który używa metody `prepareListViewData()` zamiast `initializeListViewContents()`.
+**Dodaj na końcu metody (przed zamknięciem, około linii 160):**
 ```php
 $viewer->assign('LIST_MAX_ENTRIES_MASS_EDIT', \App\AppConfig::main('listMaxEntriesMassEdit'));
 ```
+**Uwaga:** To pokryje wszystkie moduły Settings, w tym `Users/ListView`.
 
 #### 5. `src/Modules/OSSPasswords/Views/ListView.php`
 **Uwaga:** Ten kontroler nie nadpisuje `preProcess()` ani `process()`, więc używa `Base\Views\ListView::initializeListViewContents()` - już pokryte w punkcie 1.
@@ -161,13 +161,11 @@ zamień na:
 `startTime` jest już przypisywane jako `SCRIPT_TIME` w `BaseViewController::preProcess()` (linia 56), więc nie trzeba dodawać przypisania w kontrolerze.
 
 #### Zmiana w szablonie:
+**Usuń całkowicie linię 47:**
 ```smarty
 {assign var=SCRIPT_TIME value=round(microtime(true) - vglobal('startTime'), 3)}
 ```
-zamień na:
-```smarty
-{* SCRIPT_TIME jest już przypisane w BaseViewController::preProcess() *}
-```
+**Uzasadnienie:** `SCRIPT_TIME` jest już przypisane w `BaseViewController::preProcess()` (linia 56), więc ta linia jest zbędna.
 
 ---
 
@@ -182,28 +180,30 @@ zamień na:
 ## Weryfikacja po każdej fazie
 
 Po każdej fazie należy:
-1. Sprawdzić czy wszystkie wystąpienia `vglobal('nazwa')` zostały usunięte z szablonów
-2. Przetestować funkcjonalność w przeglądarce (nie tylko CLI)
+1. Sprawdzić czy wszystkie wystąpienia `vglobal('nazwa')` zostały usunięte z szablonów (użyć grep)
+2. Sprawdzić w przeglądarce, że wartości są dostępne w JavaScript (np. `document.getElementById('listMaxEntriesMassEdit').value`)
 3. Sprawdzić logi: `cache/logs/system.log` pod kątem błędów
-4. Upewnić się, że wartości są poprawnie przypisywane i używane
+4. Przetestować podstawową funkcjonalność w przeglądarce (nie tylko CLI)
 
 ---
 
 ## Notatki techniczne
 
 - `AppConfig::main()` automatycznie sprawdza `$GLOBALS`, więc jest kompatybilne z istniejącym kodem
+- Jeśli `AppConfig::main('key')` zwróci `null` (brak klucza), wartość `null` zostanie przypisana do zmiennej Smarty. W Smarty `null` jest wyświetlane jako pusty string, co jest bezpieczne dla hidden inputów.
 - Wszystkie kontrolery używające layout templates dziedziczą z `BaseViewController`
-- `OSSPasswords` używa `Base\Views\ListView::initializeListViewContents()`, więc nie wymaga osobnego przypisania
-- `Users/ListView` obecnie dziedziczy z `ListAjax` i ma pusty `preProcess()` - **rekomendacja:** najpierw wykonać refaktoryzację zgodnie z `users-listview-refactoring-plan.md`, a następnie dodać przypisanie w `initializeListViewContents()`
-- `startTime` jest już obsługiwane jako `SCRIPT_TIME` w `BaseViewController`
+- `OSSPasswords/ListView` dziedziczy z `Base\Views\Index`, ale używa `Base\Views\ListView::initializeListViewContents()` poprzez `ListAjax` - już pokryte w punkcie 1
+- `Users/ListView` dziedziczy z `Settings\Base\Views\ListView`, który używa `prepareListViewData()` zamiast `initializeListViewContents()` - pokryte w punkcie 4
+- `RecycleBin/ListView` i `Reports/ListView` dziedziczą z `Base\Views\Index`, nie z `Base\Views\ListView`, więc wymagają osobnych przypisań
+- `startTime` jest już obsługiwane jako `SCRIPT_TIME` w `BaseViewController::preProcess()` (linia 56)
+- Funkcja `vglobal()` pozostanie w kodzie PHP dla kompatybilności wstecznej, ale planowane jest całkowite usunięcie w przyszłości
 
 ## Zależności między refaktoryzacjami
 
 **Kolejność wykonania:**
-1. Opcjonalnie: Refaktoryzacja `Users/ListView` (zgodnie z `users-listview-refactoring-plan.md`)
-2. Faza 1: Refaktoryzacja `listMaxEntriesMassEdit` (w tym planie)
-3. Faza 2: Refaktoryzacja `backgroundClosingModal` (w tym planie)
-4. Faza 3: Refaktoryzacja `systemMode` i `startTime` (w tym planie)
+1. Faza 1: Refaktoryzacja `listMaxEntriesMassEdit` (w tym planie)
+2. Faza 2: Refaktoryzacja `backgroundClosingModal` (w tym planie)
+3. Faza 3: Refaktoryzacja `systemMode` i `startTime` (w tym planie)
 
-**Uwaga:** Jeśli refaktoryzacja `Users/ListView` jest wykonywana, `LIST_MAX_ENTRIES_MASS_EDIT` można dodać w `initializeListViewContents()` zamiast w `process()`.
+**Uwaga:** `Users/ListView` jest już częściowo zrefaktoryzowane i dziedziczy z `Settings\Base\Views\ListView`, więc `LIST_MAX_ENTRIES_MASS_EDIT` jest dodawane w `Settings\Base\Views\ListView::prepareListViewData()` (punkt 4).
 
