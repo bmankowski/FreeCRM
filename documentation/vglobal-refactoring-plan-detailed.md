@@ -1,4 +1,4 @@
-# Szczegółowy plan refaktoryzacji - usuwanie vglobal() z szablonów
+# Szczegółowy plan refaktoryzacji - usuwanie vglobal() z kontrolerów
 
 ## Analiza wstępna
 
@@ -7,24 +7,9 @@
 - `BaseViewController::preProcess()` jest wywoływane przez wszystkie te kontrolery
 - `OSSPasswords/Views/ListView` extends `Base\Views\Index`, więc używa hierarchii Base
 
-### Użycia vglobal() w szablonach
-1. **listMaxEntriesMassEdit** - 7 wystąpień w ListView templates
-2. **backgroundClosingModal** - 3 wystąpienia w layout templates
-3. **systemMode** - 3 wystąpienia (Login.Default.tpl × 2, ModuleManager/ListContent.tpl × 1)
-4. **startTime** - 1 wystąpienie (Footer.tpl) - **UWAGA**: już przypisane jako `SCRIPT_TIME` w `BaseViewController::preProcess()`
-
 ---
 
 ## FAZA 1: Usunięcie `vglobal('listMaxEntriesMassEdit')`
-
-### Szablony do modyfikacji (7 plików):
-1. `layouts/basic/modules/Base/ListViewContents.tpl`
-2. `layouts/basic/modules/RecycleBin/ListView.tpl`
-3. `layouts/basic/modules/Reports/ListView.tpl`
-4. `layouts/basic/modules/Users/ListViewContents.tpl`
-5. `layouts/basic/modules/Reports/ListViewContents.tpl`
-6. `layouts/basic/modules/RecycleBin/ListViewContents.tpl`
-7. `layouts/basic/modules/OSSPasswords/ListViewContents.tpl`
 
 ### Kontrolery do modyfikacji:
 
@@ -65,24 +50,9 @@ $viewer->assign('LIST_MAX_ENTRIES_MASS_EDIT', \App\AppConfig::main('listMaxEntri
 #### 5. `src/Modules/OSSPasswords/Views/ListView.php`
 **Uwaga:** Ten kontroler nie nadpisuje `preProcess()` ani `process()`, więc używa `Base\Views\ListView::initializeListViewContents()` - już pokryte w punkcie 1.
 
-### Zmiany w szablonach:
-W każdym z 7 szablonów zamień:
-```smarty
-<input type="hidden" id="listMaxEntriesMassEdit" value="{vglobal('listMaxEntriesMassEdit')}" />
-```
-na:
-```smarty
-<input type="hidden" id="listMaxEntriesMassEdit" value="{$LIST_MAX_ENTRIES_MASS_EDIT}" />
-```
-
 ---
 
 ## FAZA 2: Usunięcie `vglobal('backgroundClosingModal')`
-
-### Szablony do modyfikacji (3 pliki):
-1. `layouts/basic/modules/Base/PopupLayout.tpl`
-2. `layouts/basic/modules/Base/MainLayout.tpl`
-3. `layouts/basic/modules/Base/Header.tpl`
 
 ### Kontroler do modyfikacji:
 
@@ -93,27 +63,13 @@ na:
 $viewer->assign('BACKGROUND_CLOSING_MODAL', \App\AppConfig::main('backgroundClosingModal'));
 ```
 
-**Uzasadnienie:** Wszystkie kontrolery używające tych szablonów dziedziczą z `BaseViewController` i wywołują `preProcess()`, więc jedno przypisanie pokrywa wszystkie przypadki.
-
-### Zmiany w szablonach:
-W każdym z 3 szablonów zamień:
-```smarty
-<input type="hidden" id="backgroundClosingModal" value="{vglobal('backgroundClosingModal')}" />
-```
-na:
-```smarty
-<input type="hidden" id="backgroundClosingModal" value="{$BACKGROUND_CLOSING_MODAL}" />
-```
+**Uzasadnienie:** Wszystkie kontrolery dziedziczące z `BaseViewController` wywołują `preProcess()`, więc jedno przypisanie pokrywa wszystkie przypadki.
 
 ---
 
 ## FAZA 3: Usunięcie `vglobal('systemMode')` i `vglobal('startTime')`
 
 ### 3.1. Usunięcie `vglobal('systemMode')`
-
-#### Szablony do modyfikacji (2 pliki):
-1. `layouts/basic/modules/Users/Login.Default.tpl` (2 wystąpienia)
-2. `layouts/basic/modules/Settings/ModuleManager/ListContent.tpl` (1 wystąpienie)
 
 #### Kontrolery do modyfikacji:
 
@@ -132,40 +88,10 @@ $viewer->assign('SYSTEM_MODE', \App\AppConfig::main('systemMode'));
 $viewer->assign('SYSTEM_MODE', \App\AppConfig::main('systemMode'));
 ```
 
-#### Zmiany w szablonach:
-
-**Login.Default.tpl** (2 wystąpienia):
-```smarty
-{if vglobal('systemMode') == 'demo'}
-```
-zamień na:
-```smarty
-{if $SYSTEM_MODE == 'demo'}
-```
-
-**ModuleManager/ListContent.tpl**:
-```smarty
-{if vglobal('systemMode') != 'demo'}
-```
-zamień na:
-```smarty
-{if $SYSTEM_MODE != 'demo'}
-```
-
 ### 3.2. Usunięcie `vglobal('startTime')`
-
-#### Szablon do modyfikacji:
-- `layouts/basic/modules/Base/Footer.tpl` (1 wystąpienie)
 
 #### Uwaga:
 `startTime` jest już przypisywane jako `SCRIPT_TIME` w `BaseViewController::preProcess()` (linia 56), więc nie trzeba dodawać przypisania w kontrolerze.
-
-#### Zmiana w szablonie:
-**Usuń całkowicie linię 47:**
-```smarty
-{assign var=SCRIPT_TIME value=round(microtime(true) - vglobal('startTime'), 3)}
-```
-**Uzasadnienie:** `SCRIPT_TIME` jest już przypisane w `BaseViewController::preProcess()` (linia 56), więc ta linia jest zbędna.
 
 ---
 
@@ -180,10 +106,9 @@ zamień na:
 ## Weryfikacja po każdej fazie
 
 Po każdej fazie należy:
-1. Sprawdzić czy wszystkie wystąpienia `vglobal('nazwa')` zostały usunięte z szablonów (użyć grep)
-2. Sprawdzić w przeglądarce, że wartości są dostępne w JavaScript (np. `document.getElementById('listMaxEntriesMassEdit').value`)
-3. Sprawdzić logi: `cache/logs/system.log` pod kątem błędów
-4. Przetestować podstawową funkcjonalność w przeglądarce (nie tylko CLI)
+1. Sprawdzić w przeglądarce, że wartości są dostępne w JavaScript (np. `document.getElementById('listMaxEntriesMassEdit').value`)
+2. Sprawdzić logi: `cache/logs/system.log` pod kątem błędów
+3. Przetestować podstawową funkcjonalność w przeglądarce (nie tylko CLI)
 
 ---
 
