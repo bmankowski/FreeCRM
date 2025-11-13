@@ -288,5 +288,6 @@ class ListView extends \App\Modules\Base\Views\Index
 		
 		// Prepare data for ListViewContents template - move function calls from templates to controller
 		$viewer->assign('AUTO_REFRESH_LIST_ON_CHANGE', \App\AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE'));
+		$viewer->assign('LIST_MAX_ENTRIES_MASS_EDIT', \App\AppConfig::main('listMaxEntriesMassEdit'));
 	}
 }

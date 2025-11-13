@@ -67,7 +67,7 @@
 		<input type='hidden' id='pageLimit' value="{$PAGING_MODEL->getPageLimit()}">
 		<input type="hidden" id="noOfEntries" value="{$LISTVIEW_ENTRIES_COUNT}">
 		<input type="hidden" id="deletedRecordsTotalCount" value="{$DELETED_RECORDS_TOTAL_COUNT}">  
-		<input type="hidden" id="listMaxEntriesMassEdit" value="{vglobal('listMaxEntriesMassEdit')}" />
+		<input type="hidden" id="listMaxEntriesMassEdit" value="{$LIST_MAX_ENTRIES_MASS_EDIT}" />
 
 	<div id="selectAllMsgDiv" class="alert-block msgDiv">
 		<strong><a id="selectAllMsg">{"LBL_SELECT_ALL"|t:$MODULE}&nbsp;{$SOURCE_MODULE|t:$SOURCE_MODULE}&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>

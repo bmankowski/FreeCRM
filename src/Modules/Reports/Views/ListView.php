@@ -123,6 +123,7 @@ class ListView extends \App\Modules\Base\Views\Index
 			$viewer->assign('LISTVIEW_COUNT', $totalCount);
 			$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 		}
+		$viewer->assign('LIST_MAX_ENTRIES_MASS_EDIT', \App\AppConfig::main('listMaxEntriesMassEdit'));
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)

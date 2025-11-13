@@ -158,6 +158,7 @@ class ListView extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
 
 		$this->prepareListViewHeaderData($viewer, $qualifiedModuleName);
+		$viewer->assign('LIST_MAX_ENTRIES_MASS_EDIT', \App\AppConfig::main('listMaxEntriesMassEdit'));
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)

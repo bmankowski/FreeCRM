@@ -17,7 +17,7 @@
 		<input type="hidden" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}" />
 		<input type="hidden" id="nextPageExist" value="{$PAGING_MODEL->isNextPageExists()}" />
 		<input type="hidden" id="totalCount" value="{$LISTVIEW_COUNT}" />
-		<input type="hidden" id="listMaxEntriesMassEdit" value="{vglobal('listMaxEntriesMassEdit')}" />
+		<input type="hidden" id="listMaxEntriesMassEdit" value="{$LIST_MAX_ENTRIES_MASS_EDIT}" />
 		<input type="hidden" id="autoRefreshListOnChange"
 			value="{$AUTO_REFRESH_LIST_ON_CHANGE}" />
 		<input type='hidden' value="{$PAGE_NUMBER}" id='pageNumber'>
