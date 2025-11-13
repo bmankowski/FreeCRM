@@ -160,7 +160,6 @@ class CRM_Viewer extends \Smarty
 			
 		// Register static classes for template use
 		$this->registerClass('AppConfig', '\App\AppConfig');
-		$this->registerClass('\App\Modules\Base\Util', '\App\Modules\\Base\\Helpers\\Util');
 		$this->registerClass('\App\Modules\Base\Models\Menu', '\App\Modules\\Base\Models\\Menu');
 		$this->registerClass('Vtiger_Language_Handler', '\App\\Runtime\\Vtiger_Language_Handler');
 		$this->registerClass('\App\Runtime\Yeti_Layout', '\App\\Runtime\\Yeti_Layout');
@@ -171,12 +170,8 @@ class CRM_Viewer extends \Smarty
 		$this->registerClass('App\\Company', '\App\\Company');
 		$this->registerClass('\App\\Record', '\App\\Record');
 		// Register UIType and utility classes used in templates
-		$this->registerClass('Vtiger_Datetime_UIType', '\App\\Modules\\Base\\UiTypes\\Datetime');
 		$this->registerClass('\App\\Fields\\Owner', '\App\\Fields\\Owner');
 		$this->registerClass('\App\\Fields\\DateTimeField', '\App\\Fields\\DateTimeField');
-		$this->registerClass('\App\\Fields\\DateTime', '\App\\Fields\\DateTime');
-		$this->registerClass('\App\\Fields\\Picklist', '\App\\Fields\\Picklist');
-		$this->registerClass('\App\\Fields\\RecordNumber', '\App\\Fields\\RecordNumber');
 		$this->registerClass('CurrencyField', '\App\\Fields\\CurrencyField');
 		$this->registerClass('vtlib\\Functions', 'vtlib\\Functions');
 		// Register additional model classes used in templates
@@ -186,10 +181,8 @@ class CRM_Viewer extends \Smarty
 		$this->registerClass('\App\\Modules\\Base\\Models\\Module', '\App\\Modules\\Base\\Models\\Module');
 		$this->registerClass('\App\\Modules\\Base\\Models\\Field', '\App\\Modules\\Base\\Models\\Field');
 		$this->registerClass('\App\\Modules\\Base\\Models\\InventoryField', '\App\\Modules\\Base\\Models\\InventoryField');
-		$this->registerClass('Vtiger_InventoryField_Model', '\App\\Modules\\Base\\Models\\InventoryField');
 		$this->registerClass('\App\\Modules\\Base\\Helpers\\Util', '\App\\Modules\\Base\\Helpers\\Util');
 		$this->registerClass('\App\\Privilege', '\App\\Privilege');
-		$this->registerClass('App\\Privilege', '\App\\Privilege');
 		$this->registerClass('\App\\Modules\\Users\\Models\\Colors', '\App\\Modules\\Users\\Models\\Colors');
 		$this->registerClass('\App\\Modules\\Settings\\ModuleManager\\Models\\Library', '\App\\Modules\\Settings\\ModuleManager\\Models\\Library');
 		$this->registerClass('App\Modules\Settings\Mail\Models\Config', '\App\\Modules\\Settings\\Mail\\Models\\Config');
