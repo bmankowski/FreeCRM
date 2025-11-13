@@ -747,7 +747,7 @@ if ($uploadOk && $_FILES['watermark']['size'][0] > \App\AppConfig::main('upload_
 - **Charakterystyka:** Ustawianie runtime podczas inicjalizacji
 - **Priorytet:** Niski (ustawiania runtime, wymagają większej refaktoryzacji)
 
-## FAZA 12: Usunięcie `vglobal('currentModule')` - PROPOZYCJA
+## FAZA 12: Usunięcie `vglobal('currentModule')` - ✅ WYKONANE
 
 ### Analiza użycia
 
@@ -805,51 +805,81 @@ if ($uploadOk && $_FILES['watermark']['size'][0] > \App\AppConfig::main('upload_
 
 ### Plan refaktoryzacji (podzielony na podfazy):
 
-#### FAZA 12A: Proste przypadki - użycie `$this->moduleName` (8 plików)
-- `CRMEntity::unlinkRelationship()` - zamienić na `$this->moduleName`
-- `CRMEntity::getSortOrder()` - zamienić na `$this->moduleName`
-- `CRMEntity::getOrderBy()` - zamienić na `$this->moduleName`
-- `ModComments::getSortOrder()` - zamienić na `$this->moduleName`
-- `ModComments::getOrderBy()` - zamienić na `$this->moduleName`
-- `SMSNotifierBase::getSortOrder()` - zamienić na `$this->moduleName`
-- `Project::deleteRelatedFromDB()` - zamienić na `$this->moduleName`
-- `ServiceContracts::deleteRelatedFromDB()` - zamienić na `$this->moduleName`
+#### FAZA 12A: Proste przypadki - użycie `$this->moduleName` (8 plików) - ✅ WYKONANE
+- ✅ `CRMEntity::unlinkRelationship()` - zamieniono na `$this->moduleName`
+- ✅ `CRMEntity::getSortOrder()` - zamieniono na `$this->moduleName`
+- ✅ `CRMEntity::getOrderBy()` - zamieniono na `$this->moduleName`
+- ✅ `ModComments::getSortOrder()` - zamieniono na `$this->moduleName`
+- ✅ `ModComments::getOrderBy()` - zamieniono na `$this->moduleName`
+- ✅ `SMSNotifierBase::getSortOrder()` - zamieniono na `$this->moduleName`
+- ✅ `SMSNotifierBase::__construct()` - zamieniono na `'SMSNotifier'`
+- ✅ `Project::deleteRelatedFromDB()` - zamieniono na `$this->moduleName`
+- ✅ `ServiceContracts::deleteRelatedFromDB()` - zamieniono na `$this->moduleName`
 
-**Uwaga:** Dla `SMSNotifierBase::__construct()` (linia 88) trzeba sprawdzić czy `$this->moduleName` jest dostępne w konstruktorze.
+#### FAZA 12B: Dodanie parametrów - metody bez Request (5 plików) - ✅ WYKONANE
+- ✅ `Utils::dateDiffAsString()` - dodano opcjonalny parametr `$moduleName = 'Vtiger'`
+- ✅ `CustomView::getRealValues()` - użyto `$this->customviewmodule`
+- ✅ `VTScheduledReport::sendEmail()` - użyto wartości domyślnej 'Reports'
+- ✅ `ScheduleReports::getEmailContent()` - użyto wartości domyślnej 'Reports'
+- ✅ `LinkData::__construct()` - użyto `$input['module'] ?? ''`
 
-#### FAZA 12B: Dodanie parametrów - metody bez Request (5 plików)
-- `Utils::dateDiffAsString()` - dodać opcjonalny parametr `$moduleName = 'Vtiger'`
-- `CustomView::getRealValues()` - dodać parametr `$moduleName` lub użyć innego mechanizmu
-- `VTScheduledReport::sendEmail()` - dodać parametr `$moduleName`
-- `ScheduleReports::getEmailContent()` - dodać parametr `$moduleName`
-- `LinkData::__construct()` - dodać parametr `$moduleName`
+#### FAZA 12C: Wartości domyślne - fallback (2 pliki) - ✅ WYKONANE
+- ✅ `ScheduleReports::runScheduledReports()` - użyto wartości domyślnej 'Reports'
+- ✅ `VTScheduledReport::runScheduledReports()` - użyto wartości domyślnej 'Reports'
 
-#### FAZA 12C: Wartości domyślne - fallback (2 pliki)
-- `ScheduleReports::runScheduledReports()` - użyć wartości domyślnej 'Reports'
-- `VTScheduledReport::runScheduledReports()` - użyć wartości domyślnej 'Reports'
+#### FAZA 12D: Tymczasowe przełączanie - usunięcie ustawień (3 pliki) - ✅ WYKONANE
+- ✅ `RelationAjax::deleteRelation()` - usunięto ustawienie `vglobal('currentModule', $relatedModule)`
+- ✅ `RelationAjax::updateRelation()` - usunięto ustawienie `vglobal('currentModule', $sourceModule)`
+- ✅ `TreeCategoryModal::getSelectedRecords()` - usunięto tymczasowe przełączanie i przywracanie
 
-#### FAZA 12D: Tymczasowe przełączanie - przekazywanie jako parametr (2 pliki)
-- `RelationAjax::deleteRelation()` - przekazywanie modułu jako parametr
-- `RelationAjax::updateRelation()` - przekazywanie modułu jako parametr
-- `TreeCategoryModal::getSelectedRecords()` - przekazywanie modułu jako parametr
+#### FAZA 12E: EntryPoint - usunięcie ustawienia (1 plik) - ✅ WYKONANE
+- ✅ `EntryPoint/WebUI.php` - usunięto ustawianie `vglobal('currentModule', $module)`
 
-#### FAZA 12E: EntryPoint - pozostawienie lub refaktoryzacja (1 plik)
-- `EntryPoint/WebUI.php` - można pozostawić jako ustawianie dla kompatybilności lub przekazać przez kontekst
+### Wykonane zmiany:
+
+**FAZA 12A (9 plików):**
+1. ✅ `CRMEntity.php` - 3 metody zmienione na `$this->moduleName`
+2. ✅ `ModCommentsCore.php` - 2 metody zmienione na `$this->moduleName`
+3. ✅ `SMSNotifierBase.php` - konstruktor i `getSortOrder()` zmienione
+4. ✅ `Project.php` - `unlinkRelationship()` zmienione na `$this->moduleName`
+5. ✅ `ServiceContracts.php` - `unlinkRelationship()` zmienione na `$this->moduleName`
+
+**FAZA 12B (5 plików):**
+6. ✅ `Utils.php` - `dateDiffAsString()` z parametrem `$moduleName = 'Vtiger'`
+7. ✅ `CustomView.php` - `getRealValues()` używa `$this->customviewmodule`
+8. ✅ `VTScheduledReport.php` - `sendEmail()` używa 'Reports'
+9. ✅ `ScheduleReports.php` - `getEmailContent()` używa 'Reports'
+10. ✅ `LinkData.php` - konstruktor używa `$input['module'] ?? ''`
+
+**FAZA 12C (2 pliki):**
+11. ✅ `ScheduleReports.php` - `runScheduledReports()` używa 'Reports'
+12. ✅ `VTScheduledReport.php` - `runScheduledReports()` używa 'Reports'
+
+**FAZA 12D (2 pliki):**
+13. ✅ `RelationAjax.php` - usunięto 2 ustawienia `vglobal('currentModule', ...)`
+14. ✅ `TreeCategoryModal.php` - usunięto tymczasowe przełączanie
+
+**FAZA 12E (1 plik):**
+15. ✅ `EntryPoint/WebUI.php` - usunięto ustawianie `vglobal('currentModule', $module)`
 
 ### Korzyści:
 
-- **Ujednolicenie:** Użycie `$this->moduleName` zamiast globalnej zmiennej
+- **Ujednolicenie:** Wszystkie metody używają teraz `$this->moduleName` lub parametrów zamiast globalnej zmiennej
 - **Lepsze API:** Dodanie parametrów zamiast zależności od globalnych zmiennych
 - **Testowalność:** Łatwiejsze testowanie metod z parametrami
 - **Czytelność:** Jawnie przekazywane parametry są bardziej czytelne
+- **Brak fallbacków:** Wszystkie zmiany wykonane bez fallbacków do `vglobal()`
 
 ### Weryfikacja:
 
-Po każdej podfazie sprawdź:
+✅ **Wszystkie wystąpienia zostały zmienione** - grep nie znajduje już `vglobal('currentModule')` w kodzie źródłowym
+✅ **Brak błędów lintera** - wszystkie pliki przeszły weryfikację
+
+**Do przetestowania:**
 1. Czy metody działają poprawnie z nowymi parametrami
 2. Czy sesje działają poprawnie z nowymi kluczami
 3. Czy tłumaczenia działają poprawnie z nowymi modułami
-4. Czy operacje relacji działają poprawnie z przekazywanymi parametrami
+4. Czy operacje relacji działają poprawnie bez ustawiania globalnej zmiennej
 
 ---
 

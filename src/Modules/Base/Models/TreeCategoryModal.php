@@ -144,16 +144,11 @@ class TreeCategoryModal extends \App\Runtime\BaseModel
 
 	private function getSelectedRecords($onlyKeys = true)
 	{
-		$currentModule = vglobal('currentModule');
-		vglobal('currentModule', $this->get('srcModule'));
-
 		$parentRecordModel = \App\Modules\Base\Models\Record::getInstanceById($this->get('srcRecord'), $this->get('srcModule'));
 		$relationListView = \App\Modules\Base\Models\RelationListView::getInstance($parentRecordModel, $this->getModuleName());
 		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('limit', 'no_limit');
 		$entries = $relationListView->getEntries($pagingModel);
-
-		vglobal('currentModule', $currentModule);
 		if ($onlyKeys) {
 			return array_keys($entries);
 		} else {

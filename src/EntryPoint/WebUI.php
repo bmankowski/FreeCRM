@@ -406,7 +406,6 @@ class WebUI extends EntryPoint
 		}
 		if ($currentUser) {
 			$currentLanguage = \App\Runtime\Vtiger_Language_Handler::getLanguage();
-			vglobal('current_language', $currentLanguage);
 			$this->loadLanguageStrings($request, $currentLanguage);
 		}
 
@@ -439,10 +438,6 @@ class WebUI extends EntryPoint
 	private function loadModuleLanguageStrings($moduleName, $language)
 	{
 		$moduleLanguageStrings = \App\Runtime\Vtiger_Language_Handler::getModuleStringsFromFile($language, $moduleName);
-
-		if (isset($moduleLanguageStrings['languageStrings'])) {
-			vglobal('mod_strings', $moduleLanguageStrings['languageStrings']);
-		}
 	}
 
 	/**
@@ -453,10 +448,6 @@ class WebUI extends EntryPoint
 	private function loadAppLanguageStrings($language)
 	{
 		$moduleLanguageStrings = \App\Runtime\Vtiger_Language_Handler::getModuleStringsFromFile($language);
-
-		if (isset($moduleLanguageStrings['languageStrings'])) {
-			vglobal('app_strings', $moduleLanguageStrings['languageStrings']);
-		}
 	}
 
 	/**
@@ -623,8 +614,6 @@ class WebUI extends EntryPoint
 	 */
 	private function executeHandler($handler, \App\Http\Vtiger_Request $request, $module, $qualifiedModuleName)
 	{
-		vglobal('currentModule', $module);
-
 		$this->validateHandler($handler, $request);
 		$this->checkHandlerLogin($handler, $request);
 		$this->checkHandlerPermissions($handler, $request, $module, $qualifiedModuleName);

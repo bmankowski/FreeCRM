@@ -315,13 +315,8 @@ class ScheduleReports extends \App\Runtime\BaseModel
 		$util = new VTWorkflowUtils();
 		$util->adminUser();
 
-		$currentModule = vglobal('currentModule');
+		$currentModule = 'Reports';
 		$current_language = \App\Runtime\Vtiger_Language_Handler::getLanguage();
-		if (empty($currentModule)) {
-			vglobal('currentModule', 'Reports');
-		}
-		if (empty($current_language))
-			vglobal('current_language', 'en_us');
 
 		$scheduledReports = self::getScheduledReports();
 		foreach ($scheduledReports as $scheduledReport) {
@@ -337,7 +332,7 @@ class ScheduleReports extends \App\Runtime\BaseModel
 	public function getEmailContent($reportRecordModel)
 	{
 		$site_URL = \App\AppConfig::main('site_URL');
-		$currentModule = vglobal('currentModule');
+		$currentModule = 'Reports';
 		$logo = \App\Company::getInstanceById()->getLogo()->getImagePath();
 
 		$body = '<table width="700" cellspacing="0" cellpadding="0" border="0" align="center" style="font-family: Arial,Helvetica,sans-serif; font-size: 12px; font-weight: normal; text-decoration: none; ">

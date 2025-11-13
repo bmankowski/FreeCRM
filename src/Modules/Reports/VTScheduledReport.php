@@ -121,7 +121,7 @@ class VTScheduledReport extends Reports
 
 	public function sendEmail()
 	{
-		$currentModule = vglobal('currentModule');
+		$currentModule = 'Reports';
 
 		$recipientEmails = $this->getRecipientEmails();
 		$to = [];
@@ -365,12 +365,8 @@ class VTScheduledReport extends Reports
 		$util = new VTWorkflowUtils();
 		$adminUser = $util->adminUser();
 
-		$currentModule = vglobal('currentModule');
+		$currentModule = 'Reports';
 		$current_language = \App\Runtime\Vtiger_Language_Handler::getLanguage();
-		if (empty($currentModule))
-			$currentModule = 'Reports';
-		if (empty($current_language))
-			vglobal('current_language', 'en_us');
 
 		$scheduledReports = self::getScheduledReports($adb, $adminUser);
 		foreach ($scheduledReports as $scheduledReport) {

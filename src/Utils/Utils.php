@@ -656,9 +656,9 @@ class Utils
 	/**
 	 * Function to get the approximate difference between two date time values as string
 	 */
-	public static function dateDiffAsString($d1, $d2)
+	public static function dateDiffAsString($d1, $d2, $moduleName = 'Vtiger')
 	{
-		$currentModule = vglobal('currentModule');
+		$currentModule = $moduleName;
 
 		$dateDiff = self::dateDiff($d1, $d2);
 

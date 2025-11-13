@@ -105,9 +105,6 @@ class RelationAjax extends \App\Base\Controllers\BaseActionController
 		$relatedModule = $request->get('related_module');
 		$relatedRecordIdList = $request->get('related_record_list');
 
-		//Setting related module as current module to delete the relation
-		vglobal('currentModule', $relatedModule);
-
 		$sourceModuleModel = \App\Modules\Base\Models\Module::getInstance($sourceModule);
 		$relatedModuleModel = \App\Modules\Base\Models\Module::getInstance($relatedModule);
 		$relationModel = \App\Modules\Base\Models\Relation::getInstance($sourceModuleModel, $relatedModuleModel);
@@ -138,7 +135,6 @@ class RelationAjax extends \App\Base\Controllers\BaseActionController
 		$recordsToAdd = $request->get('recordsToAdd');
 		$categoryToAdd = $request->get('categoryToAdd');
 		$categoryToRemove = $request->get('categoryToRemove');
-		vglobal('currentModule', $sourceModule);
 
 		$sourceModuleModel = \App\Modules\Base\Models\Module::getInstance($sourceModule);
 		$relatedModuleModel = \App\Modules\Base\Models\Module::getInstance($relatedModule);

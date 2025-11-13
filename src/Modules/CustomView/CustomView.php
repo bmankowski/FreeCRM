@@ -662,7 +662,7 @@ class CustomView extends \App\CRMEntity
 		//we have to add the fieldname/tablename.fieldname and the corresponding value (which we want) we can add here. So that when these LHS field comes then RHS value will be replaced for LHS in the where condition of the query
 		$adb = \App\Database\PearDatabase::getInstance();
 		$currentUser = \App\User\CurrentUser::get();
-		$currentModule = vglobal('currentModule');
+		$currentModule = !empty($this->customviewmodule) ? $this->customviewmodule : 'Vtiger';
 		$currentLanguage = \App\Runtime\Vtiger_Language_Handler::getLanguage();
 		$moduleStrings = \App\Runtime\Vtiger_Language_Handler::getModuleStringsFromFile($currentLanguage, $currentModule);
 		$mod_strings = $moduleStrings['languageStrings'] ?? [];

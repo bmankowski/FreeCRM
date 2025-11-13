@@ -27,7 +27,7 @@ class LinkData
 		$this->link = $link;
 		$this->user = $user;
 		$this->input = $input ?? [];
-		$this->module = vglobal('currentModule');
+		$this->module = $input['module'] ?? '';
 	}
 
 	/**
