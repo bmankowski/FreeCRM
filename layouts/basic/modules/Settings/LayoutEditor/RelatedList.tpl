@@ -86,7 +86,7 @@
 									<label class="control-label">{"LBL_STANDARD_FIELDS"|t:$QUALIFIED_MODULE}</label>
 										<select data-placeholder="{"LBL_ADD_MORE_COLUMNS"|t:$MODULE}" multiple class="select2_container columnsSelect relatedColumnsList">
 				                        	<optgroup label=''>
-												{foreach item=SELECTED_FIELD from=$SELECTED_FIELDS}
+												{foreach item=SELECTED_FIELD from=$RELATION_SELECTED_FIELDS}
 													{assign var=FIELD_INSTANCE value=$RELATED_MODULE_MODEL->getField($SELECTED_FIELD)}
 													{if $FIELD_INSTANCE}
 														<option value="{$FIELD_INSTANCE->getId()}" data-name="{$FIELD_INSTANCE->getFieldName()}" selected>
@@ -98,7 +98,7 @@
 					                        {foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 												<optgroup label='{$BLOCK_LABEL|t:$RELATED_MODULE_NAME}'>
 													{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
-														{if !in_array($FIELD_MODEL->getId(), $SELECTED_FIELDS)}
+														{if !is_array($RELATION_SELECTED_FIELDS) || !in_array($FIELD_MODEL->getId(), $RELATION_SELECTED_FIELDS)}
 															<option value="{$FIELD_MODEL->getId()}" data-field-name="{$FIELD_NAME}">
 																{$FIELD_MODEL->get('label')|t:$RELATED_MODULE_NAME}
 													  		</option>
@@ -109,7 +109,6 @@
                      					</select>
                     				</div>
 									{if $INVENTORY_FIELD_MODEL}
-										{assign var=INVENTORY_FIELDS value=$INVENTORY_FIELD_MODEL->getFields()}
 										<div class="form-group">
 										<label class="control-label">{"LBL_ADVANCED_BLOCK_FIELDS"|t:$QUALIFIED_MODULE}</label>
 											<select data-placeholder="{"LBL_ADD_ADVANCED_BLOCK_FIELDS"|t:$QUALIFIED_MODULE}" multiple class="select2_container relatedColumnsList" data-type="inventory">
@@ -122,7 +121,7 @@
 													{/if}
 												{/foreach}
 												{foreach item=FIELD_MODEL from=$INVENTORY_FIELDS}
-													{if !in_array($FIELD_MODEL->getColumnName(), $SELECTED_FIELDS)}
+													{if !is_array($SELECTED_INVENTORY_FIELDS) || !in_array($FIELD_MODEL->getColumnName(), $SELECTED_INVENTORY_FIELDS)}
 														<option value="{$FIELD_MODEL->getColumnName()}" data-field-name="{$FIELD_MODEL->getColumnName()}">
 															{$FIELD_MODEL->get('label')|t:$RELATED_MODULE_NAME}
 														</option>

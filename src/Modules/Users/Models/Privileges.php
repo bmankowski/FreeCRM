@@ -723,6 +723,9 @@ class Privileges extends \App\Runtime\BaseModel
 	{
 		\App\Log::trace("Entering getPermittedModuleNames() method ...");
 		$currentUser = \App\User\CurrentUser::get();
+		if (!$currentUser) {
+			return [];
+		}
 		$permittedModules = [];
 		require('user_privileges/user_privileges_' . $currentUser->getId() . '.php');
 		include('user_privileges/tabdata.php');
@@ -751,6 +754,9 @@ class Privileges extends \App\Runtime\BaseModel
 	public static function getPermittedModuleIdList()
 	{
 		$currentUser = \App\User\CurrentUser::get();
+		if (!$currentUser) {
+			return [];
+		}
 		$permittedModules = [];
 		require('user_privileges/user_privileges_' . $currentUser->getId() . '.php');
 		include('user_privileges/tabdata.php');
