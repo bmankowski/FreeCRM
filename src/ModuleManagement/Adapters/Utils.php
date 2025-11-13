@@ -69,13 +69,7 @@ class Utils
 	 */
 	static function Log($message, $delimit = true)
 	{
-		$utilsLog = vglobal('tiger_Utils_Log');
-
 		\App\Log::trace($message);
-		if (!isset($utilsLog) || $utilsLog === false)
-			return;
-
-		echo $message;
 		if ($delimit) {
 			if (isset($_REQUEST))
 				echo "<BR>";

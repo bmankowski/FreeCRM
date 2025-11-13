@@ -15,6 +15,7 @@ namespace App\Modules\Base\Views;
 
 class Import  extends \App\Modules\Base\Views\Index
 {
+	private static $bulkSaveMode = false;
 
 	public function __construct()
 	{
@@ -181,7 +182,7 @@ class Import  extends \App\Modules\Base\Views\Index
 
 	public function undoImport(\App\Http\Vtiger_Request $request)
 	{
-		$previousBulkSaveMode = vglobal('VTIGER_BULK_SAVE_MODE');
+		$previousBulkSaveMode = self::$bulkSaveMode;
 		$viewer = new CRM_Viewer();
 		$moduleName = $request->getModule();
 		$ownerId = $request->get('foruser');
@@ -194,12 +195,12 @@ class Import  extends \App\Modules\Base\Views\Index
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 		if (empty($type)) {
-			vglobal('VTIGER_BULK_SAVE_MODE', true);
+			self::$bulkSaveMode = true;
 		} else {
-			vglobal('VTIGER_BULK_SAVE_MODE', false);
+			self::$bulkSaveMode = false;
 		}
 		list($noOfRecords, $noOfRecordsDeleted) = $this->undoRecords($type, $moduleName);
-		vglobal('VTIGER_BULK_SAVE_MODE', $previousBulkSaveMode);
+		self::$bulkSaveMode = $previousBulkSaveMode;
 		$viewer->assign('FOR_MODULE', $moduleName);
 		$viewer->assign('MODULE', 'Import');
 		$viewer->assign('TOTAL_RECORDS', $noOfRecords);

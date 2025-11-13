@@ -70,14 +70,13 @@ class Index extends \App\Modules\Base\Views\Index
 			// Redirect to app only if installation is actually completed (db configured)
 			$dbconfig = AppConfig::main('dbconfig');
 			if (!empty($dbconfig) && !empty($dbconfig['db_name']) && $dbconfig['db_name'] !== '_DBC_TYPE_') {
-				$defaultModule = vglobal('default_module');
+				$defaultModule = \App\AppConfig::main('default_module');
 				$defaultModuleInstance = \App\Modules\Base\Models\Module::getInstance($defaultModule);
 				$defaultView = $defaultModuleInstance->getDefaultViewName();
 				header('Location:../index.php?module=' . $defaultModule . '&view=' . $defaultView);
 			}
 		}
 		$_SESSION['default_language'] = $defaultLanguage = ($request->get('lang')) ? $request->get('lang') : 'en_us';
-		vglobal('default_language', $defaultLanguage);
 
 		$this->viewer = new CRM_Viewer();
 		$this->viewer->setTemplateDir('install/tpl/');
@@ -283,7 +282,6 @@ class Index extends \App\Modules\Base\Views\Index
 		if ($createConfig['result']) {
 			include('config/config.inc.php');
 			$adb = new PearDatabase($dbconfig['db_type'], $dbconfig['db_hostname'], $dbconfig['db_name'], $dbconfig['db_username'], $dbconfig['db_password']);
-			vglobal('adb', $adb);
 			$query = "SELECT crypt_type, user_name FROM vtiger_users WHERE user_name=?";
 			$result = $adb->requirePsSingleResult($query, array($username), true);
 			if ($adb->num_rows($result) > 0) {

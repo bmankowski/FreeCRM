@@ -336,7 +336,6 @@ class Oss_Tool
 	 */
 	private static function addLink($type, $moduleName, $widgetName, $link)
 	{
-		vglobal(' ', true);
 		$tabId = \vtlib\Functions:: getModuleId($moduleName);
 		if ($tabId) {
 			vtlib\Link::addLink($tabId, $type, $widgetName, $link);
@@ -355,7 +354,6 @@ class Oss_Tool
 	 */
 	private static function checkArg($parameterList, $numMandatoryArg)
 	{
-		vglobal(' ', true);
 		for ($i = 0; $i < $numMandatoryArg; $i++) {
 			if (empty($parameterList[$i])) {
 				$i++;

@@ -8,6 +8,7 @@ use App\Modules\Workflow\VTTask;
 
 class VTUpdateWorkTime extends VTTask
 {
+	private static $workflowIdsAlreadyDone = [];
 
 	public $executeImmediately = false;
 
@@ -22,10 +23,7 @@ class VTUpdateWorkTime extends VTTask
 	 */
 	public function doTask($recordModel)
 	{
-		if (!vglobal('workflowIdsAlreadyDone')) {
-			vglobal('workflowIdsAlreadyDone', []);
-		}
-		$globalIds = vglobal('workflowIdsAlreadyDone');
+		$globalIds = self::$workflowIdsAlreadyDone;
 		$db = \App\Database\PearDatabase::getInstance();
 		$referenceIds = [];
 		$referenceName = \App\Modules\OSSTimeControl\Models\Record::$referenceFieldsToTime;
@@ -58,7 +56,7 @@ class VTUpdateWorkTime extends VTTask
 				$globalIds[] = $referenceId;
 			}
 		}
-		vglobal('workflowIdsAlreadyDone', $globalIds);
+		self::$workflowIdsAlreadyDone = $globalIds;
 	}
 
 	/**

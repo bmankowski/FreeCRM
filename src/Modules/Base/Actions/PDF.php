@@ -108,7 +108,6 @@ class PDF extends \App\Base\Controllers\BaseActionController
 				$footers = '';
 				$classes = '';
 				$body = '';
-				$origLanguage = \App\AppConfig::main('default_language');
 				foreach ($recordId as $index => $record) {
 					$templateIdsTemp = $templateIds;
 					$pdf->setRecordId($recordId[0]);
@@ -118,7 +117,6 @@ class PDF extends \App\Base\Controllers\BaseActionController
 					$template = \App\Modules\Base\Models\PDF::getInstanceById($firstTemplate);
 					$template->setMainRecordId($record);
 					$pdf->setLanguage($template->get('language'));
-					vglobal('default_language', $template->get('language'));
 					$template->getParameters();
 
 					$styles .= " @page template_{$record}_{$firstTemplate} {
@@ -141,7 +139,6 @@ class PDF extends \App\Base\Controllers\BaseActionController
 						$template = \App\Modules\Base\Models\PDF::getInstanceById($id);
 						$template->setMainRecordId($record);
 						$pdf->setLanguage($template->get('language'));
-						vglobal('default_language', $template->get('language'));
 
 						// building parameters
 						$parameters = $template->getParameters();
@@ -163,7 +160,6 @@ class PDF extends \App\Base\Controllers\BaseActionController
 						$body .= '<div class="page_' . $record . '_' . $id . '">' . $template->getBody() . '</div>';
 					}
 				}
-				vglobal('default_language', $origLanguage);
 				$html = "<html><head><style>{$styles} {$classes}</style></head><body>{$headers} {$footers} {$body}</body></html>";
 				$pdf->loadHTML($html);
 				$pdf->setFileName(\App\Runtime\Vtiger_Language_Handler::translate('LBL_PDF_MANY_IN_ONE'));
@@ -173,7 +169,6 @@ class PDF extends \App\Base\Controllers\BaseActionController
 				$postfix = time() . '_' . mt_rand(0, 1000);
 
 				$pdfFiles = [];
-				$origLanguage = \App\AppConfig::main('default_language');
 				foreach ($templateIds as $id) {
 					foreach ($recordId as $record) {
 						$handlerClass = \App\Loader::getComponentClassName('Pdf', 'mPDF', $moduleName);
@@ -186,7 +181,6 @@ class PDF extends \App\Base\Controllers\BaseActionController
 						$template->setMainRecordId($record);
 						$pdf->setLanguage($template->get('language'));
 						$pdf->setFileName($template->get('filename'));
-						vglobal('default_language', $template->get('language'));
 
 						$pdf->parseParams($template->getParameters());
 
@@ -206,7 +200,6 @@ class PDF extends \App\Base\Controllers\BaseActionController
 						unset($pdf, $template);
 					}
 				}
-				vglobal('default_language', $origLanguage);
 
 				if (!empty($pdfFiles)) {
 					if (!empty($emailPdf)) {
