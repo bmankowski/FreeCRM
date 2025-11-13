@@ -63,7 +63,7 @@ class Reference extends BaseUiType
 			if ($rawText || $referenceModuleName === 'Users' || ($value && !\App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value))) {
 				return $name;
 			}
-			$name = \vtlib\Functions:: textLength($name, vglobal('href_max_length'));
+			$name = \vtlib\Functions:: textLength($name, \App\AppConfig::main('href_max_length'));
 			$linkValue = "<a class='moduleColor_$referenceModuleName' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . \App\Runtime\Vtiger_Language_Handler::translate($referenceModuleName, $referenceModuleName) . "'>$name</a>";
 			return $linkValue;
 		}

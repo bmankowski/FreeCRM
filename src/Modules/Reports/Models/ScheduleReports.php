@@ -249,7 +249,7 @@ class ScheduleReports extends \App\Runtime\BaseModel
 	 */
 	public function getNextTriggerTime()
 	{
-		$default_timezone = vglobal('default_timezine');
+		$default_timezone = \App\AppConfig::main('default_timezone');
 		$admin = \App\Modules\Users\Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
 		@date_default_timezone_set($adminTimeZone);

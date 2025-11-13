@@ -187,8 +187,9 @@ class CRMEntity
 	 * Retrieve record information of the module
 	 * @param integer $record - crmid of record
 	 * @param string $module - module name
+	 * @param bool $showsAdditionalLabels - whether to show additional labels for reference fields
 	 */
-	public function retrieve_entity_info($record, $module)
+	public function retrieve_entity_info($record, $module, $showsAdditionalLabels = false)
 	{
 		if (!isset($record)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_RECORD_NOT_FOUND');
@@ -276,7 +277,6 @@ class CRMEntity
 			if (!empty($resultRow['deleted'])) {
 					throw new \App\Exceptions\NoPermittedToRecord('LBL_RECORD_DELETE');
 				}
-				$showsAdditionalLabels = vglobal('showsAdditionalLabels');
 				foreach ($cachedModuleFields as $fieldInfo) {
 					$fieldvalue = '';
 					$fieldkey = $this->createColumnAliasForField($fieldInfo);

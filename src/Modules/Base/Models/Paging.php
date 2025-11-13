@@ -56,7 +56,7 @@ class Paging extends \App\Runtime\BaseModel
 	{
 		$pageLimit = $this->get('limit');
 		if (empty($pageLimit)) {
-			$pageLimit = vglobal('list_max_entries_per_page');
+			$pageLimit = \App\AppConfig::main('list_max_entries_per_page');
 			if (empty($pageLimit)) {
 				$pageLimit = self::PAGE_LIMIT;
 			}

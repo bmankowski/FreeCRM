@@ -36,9 +36,10 @@ class GetData  extends \App\Modules\Base\Views\Index
 
 		$permitted = \App\Modules\Users\Models\Privileges::isPermitted($sourceModule, 'DetailView', $record);
 		if ($permitted) {
-			vglobal('showsAdditionalLabels', true);
-			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($record, $sourceModule);
-			$data = $recordModel->getData();
+			$focus = \App\CRMEntity::getInstance($sourceModule);
+			$focus->id = $record;
+			$focus->retrieve_entity_info($record, $sourceModule, true);
+			$data = $focus->column_fields;
 			$response->setResult(array('success' => true, 'data' => array_map('decode_html', $data)));
 		} else {
 			$response->setResult(array('success' => false, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED')));
