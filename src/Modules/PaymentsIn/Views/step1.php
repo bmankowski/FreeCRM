@@ -59,7 +59,7 @@ class PaymentsIn_step1_View extends \App\Modules\Base\Views\Index
 
 	public function saveFile()
 	{
-		$address = vglobal('cache_dir');
+		$address = \App\AppConfig::main('cache_dir');
 		$localisation = $address . $_FILES['file']['name'];
 		if (is_uploaded_file($_FILES['file']['tmp_name'])) {
 			if (!move_uploaded_file($_FILES['file']['tmp_name'], $localisation)) {

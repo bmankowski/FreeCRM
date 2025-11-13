@@ -78,13 +78,13 @@ class ForgotPassword {
 						'trackURL' => \App\Modules\Base\Helpers\ShortURL::generateURL($options)
 				]);
 			}
-			$site_URL = vglobal('site_URL') . 'index.php?modules=Users&view=Login';
+			$site_URL = \App\AppConfig::main('site_URL') . 'index.php?modules=Users&view=Login';
 			if ($status)
 				header('Location:  ' . $site_URL . '&status=1');
 			else
 				header('Location:  ' . $site_URL . '&statusError=1');
 		} else {
-			$site_URL = vglobal('site_URL') . 'index.php?modules=Users&view=Login';
+			$site_URL = \App\AppConfig::main('site_URL') . 'index.php?modules=Users&view=Login';
 			header('Location:  ' . $site_URL . '&fpError=1');
 		}
 	}

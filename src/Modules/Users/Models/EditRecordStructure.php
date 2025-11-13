@@ -62,7 +62,7 @@ class EditRecordStructure extends \App\Modules\Base\Models\RecordStructure
 						} else {
 							$defaultValue = $fieldModel->getDefaultFieldValue();
 							if ($fieldName == 'time_zone' && empty($defaultValue))
-								$defaultValue = vglobal('default_timezone');
+								$defaultValue = \App\AppConfig::main('default_timezone');
 							if (!empty($defaultValue) && !$recordId)
 								$fieldModel->set('fieldvalue', $defaultValue);
 						}

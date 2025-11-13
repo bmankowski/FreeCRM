@@ -105,7 +105,7 @@ class QuickExport extends \App\Base\Controllers\BaseActionController
 			$col++;
 		}
 
-		$tmpDir = vglobal('tmp_dir');
+		$tmpDir = \App\AppConfig::main('tmp_dir');
 		$tempFileName = tempnam(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $tmpDir, 'xls');
 		$workbookWriter = PHPExcel_IOFactory::createWriter($workbook, 'Excel5');
 		$workbookWriter->save($tempFileName);

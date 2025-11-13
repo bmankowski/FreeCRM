@@ -101,6 +101,7 @@ $viewer->assign('SYSTEM_MODE', \App\AppConfig::main('systemMode'));
 2. **Faza 2** - `backgroundClosingModal` (proste, jedno przypisanie)
 3. **Faza 3** - `systemMode` i `startTime` (dodatkowe, mniej krytyczne)
 4. **Faza 4** - `upload_maxsize` (wartości konfiguracyjne w widokach Edit) - ✅ **WYKONANE**
+5. **Faza 5** - `default_timezone`, `site_URL`, `cache_dir`, `tmp_dir` (wartości konfiguracyjne) - ✅ **WYKONANE**
 
 ---
 
@@ -247,12 +248,143 @@ if ($uploadOk && $_FILES['watermark']['size'][0] > \App\AppConfig::main('upload_
 
 ---
 
-## Inne proponowane fazy (do rozważenia w przyszłości):
+## FAZA 5: Usunięcie wartości konfiguracyjnych - `default_timezone`, `site_URL`, `cache_dir`, `tmp_dir` - ✅ WYKONANE
 
-### FAZA 5: Wartości konfiguracyjne - `default_timezone`, `site_URL`, `cache_dir`, `tmp_dir`
-- **Wystąpienia:** ~15-20 plików
-- **Charakterystyka:** Wartości konfiguracyjne, łatwe do zastąpienia przez `AppConfig::main()`
-- **Priorytet:** Średni (używane w różnych kontekstach)
+### Analiza użycia
+
+**Wystąpienia:** 17 wystąpień w 12 plikach
+
+#### `default_timezone` (6 wystąpień):
+- `src/Modules/Base/Helpers/Util.php` (linia 360) - metoda `getActiveAdminCurrentDateTime()`
+- `src/Modules/Reports/Models/ScheduleReports.php` (linia 294) - metoda `getScheduledReports()`
+- `src/Modules/WSAPP/Utils.php` (linia 89) - `date_default_timezone_set()`
+- `src/Modules/Workflow/WorkFlowScheduler.php` (linia 196) - metoda `getNextTriggerTime()`
+- `src/Modules/Workflow/Workflow.php` (linia 166) - metoda `getNextTriggerTime()`
+- `src/Modules/Users/Models/EditRecordStructure.php` (linia 65) - domyślna wartość pola
+
+#### `site_URL` (4 wystąpienia):
+- `src/Modules/Reports/Models/ScheduleReports.php` (linia 339) - generowanie URL w emailach
+- `src/Modules/Users/Actions/ForgotPassword.php` (linie 81, 87) - redirect po wysłaniu emaila
+- `src/Modules/Users/Handlers/Users_ForgotPassword_Handler.php` (linia 19) - generowanie URL
+
+#### `cache_dir` (4 wystąpienia):
+- `src/Modules/PaymentsIn/Views/step1.php` (linia 62) - zapisywanie plików
+- `src/Modules/PaymentsIn/Models/Record.php` (linia 20) - zapisywanie plików
+- `src/Modules/PaymentsOut/Views/step1.php` (linia 60) - zapisywanie plików
+- `src/Modules/PaymentsOut/Models/Record.php` (linia 20) - zapisywanie plików
+
+#### `tmp_dir` (3 wystąpienia):
+- `src/Modules/Reports/Models/Record.php` (linie 764, 791) - eksport raportów
+- `src/Modules/Base/Actions/QuickExport.php` (linia 108) - eksport danych
+
+**Charakterystyka:**
+- Wszystkie są wartościami konfiguracyjnymi (łatwe do zastąpienia przez `AppConfig::main()`)
+- Używane w różnych kontekstach: workflow, raporty, eksport, zapisywanie plików, generowanie URL-i
+- Nie wymagają specjalnej logiki, tylko zamiany źródła wartości
+
+### Pliki do modyfikacji:
+
+#### Grupa 1: `default_timezone` (6 plików)
+
+##### 1.1. `src/Modules/Base/Helpers/Util.php`
+**Metoda:** `getActiveAdminCurrentDateTime()` (linia 358)
+**Zmiana:** Zamień `vglobal('default_timezone')` na `AppConfig::main('default_timezone')`
+
+##### 1.2. `src/Modules/Reports/Models/ScheduleReports.php`
+**Metoda:** `getScheduledReports()` (linia 292)
+**Zmiana:** Zamień `vglobal('default_timezone')` na `AppConfig::main('default_timezone')`
+
+##### 1.3. `src/Modules/WSAPP/Utils.php`
+**Linia:** 89
+**Zmiana:** Zamień `vglobal('default_timezone')` na `AppConfig::main('default_timezone')`
+
+##### 1.4. `src/Modules/Workflow/WorkFlowScheduler.php`
+**Metoda:** `getNextTriggerTime()` (około linia 196)
+**Zmiana:** Zamień `vglobal('default_timezone')` na `AppConfig::main('default_timezone')`
+
+##### 1.5. `src/Modules/Workflow/Workflow.php`
+**Metoda:** `getNextTriggerTime()` (około linia 164)
+**Zmiana:** Zamień `vglobal('default_timezone')` na `AppConfig::main('default_timezone')`
+
+##### 1.6. `src/Modules/Users/Models/EditRecordStructure.php`
+**Linia:** 65
+**Zmiana:** Zamień `vglobal('default_timezone')` na `AppConfig::main('default_timezone')`
+
+#### Grupa 2: `site_URL` (3 pliki)
+
+##### 2.1. `src/Modules/Reports/Models/ScheduleReports.php`
+**Linia:** 339
+**Zmiana:** Zamień `vglobal('site_URL')` na `AppConfig::main('site_URL')`
+
+##### 2.2. `src/Modules/Users/Actions/ForgotPassword.php`
+**Linie:** 81, 87
+**Zmiana:** Zamień `vglobal('site_URL')` na `AppConfig::main('site_URL')` (2 wystąpienia)
+
+##### 2.3. `src/Modules/Users/Handlers/Users_ForgotPassword_Handler.php`
+**Linia:** 19
+**Zmiana:** Zamień `vglobal('site_URL')` na `AppConfig::main('site_URL')`
+
+#### Grupa 3: `cache_dir` (4 pliki)
+
+##### 3.1. `src/Modules/PaymentsIn/Views/step1.php`
+**Metoda:** `saveFile()` (linia 60)
+**Zmiana:** Zamień `vglobal('cache_dir')` na `AppConfig::main('cache_dir')`
+
+##### 3.2. `src/Modules/PaymentsIn/Models/Record.php`
+**Linia:** 20
+**Zmiana:** Zamień `vglobal('cache_dir')` na `AppConfig::main('cache_dir')`
+
+##### 3.3. `src/Modules/PaymentsOut/Views/step1.php`
+**Metoda:** `saveFile()` (linia 60)
+**Zmiana:** Zamień `vglobal('cache_dir')` na `AppConfig::main('cache_dir')`
+
+##### 3.4. `src/Modules/PaymentsOut/Models/Record.php`
+**Linia:** 20
+**Zmiana:** Zamień `vglobal('cache_dir')` na `AppConfig::main('cache_dir')`
+
+#### Grupa 4: `tmp_dir` (2 pliki)
+
+##### 4.1. `src/Modules/Reports/Models/Record.php`
+**Linie:** 764, 791
+**Zmiana:** Zamień `vglobal('tmp_dir')` na `AppConfig::main('tmp_dir')` (2 wystąpienia)
+
+##### 4.2. `src/Modules/Base/Actions/QuickExport.php`
+**Linia:** 108
+**Zmiana:** Zamień `vglobal('tmp_dir')` na `AppConfig::main('tmp_dir')`
+
+### Wykonane zmiany:
+
+1. ✅ **Grupa 1** - `default_timezone` (6 plików) - wszystkie zmienione
+   - `Util.php`, `ScheduleReports.php`, `WSAPP/Utils.php`, `WorkFlowScheduler.php`, `Workflow.php`, `EditRecordStructure.php`
+2. ✅ **Grupa 2** - `site_URL` (3 pliki) - wszystkie zmienione
+   - `ScheduleReports.php`, `ForgotPassword.php` (2 wystąpienia), `Users_ForgotPassword_Handler.php`
+3. ✅ **Grupa 3** - `cache_dir` (4 pliki) - wszystkie zmienione
+   - `PaymentsIn/Views/step1.php`, `PaymentsIn/Models/Record.php`, `PaymentsOut/Views/step1.php`, `PaymentsOut/Models/Record.php`
+4. ✅ **Grupa 4** - `tmp_dir` (2 pliki, 3 wystąpienia) - wszystkie zmienione
+   - `Reports/Models/Record.php` (2 wystąpienia), `QuickExport.php`
+
+### Korzyści:
+
+- **Prostota:** Wszystkie wartości konfiguracyjne, łatwe do zastąpienia
+- **Spójność:** Ujednolici sposób dostępu do konfiguracji
+- **Niskie ryzyko:** Nie wpływa na logikę biznesową, tylko sposób dostępu do konfiguracji
+- **Wpływ:** Pokrywa różne obszary aplikacji (workflow, raporty, eksport, płatności)
+
+### Weryfikacja:
+
+✅ **Wszystkie wystąpienia zostały zmienione** - grep nie znajduje już `vglobal('default_timezone')`, `vglobal('site_URL')`, `vglobal('cache_dir')`, `vglobal('tmp_dir')` w kodzie źródłowym
+✅ **Brak błędów lintera** - wszystkie pliki przeszły weryfikację
+
+**Do przetestowania:**
+1. Czy workflow działa poprawnie z nową strefą czasową
+2. Czy raporty zaplanowane są generowane poprawnie
+3. Czy eksport danych działa poprawnie
+4. Czy zapisywanie plików w modułach Payments działa poprawnie
+5. Czy generowanie URL-i w emailach działa poprawnie
+
+---
+
+## Inne proponowane fazy (do rozważenia w przyszłości):
 
 ### FAZA 6: Wartości runtime - `currentModule`
 - **Wystąpienia:** ~30+ plików

@@ -17,7 +17,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	public function getSummary($type, $bank, $file)
 	{
-		$adres = vglobal('cache_dir');
+		$adres = \App\AppConfig::main('cache_dir');
 		if ($bank == 'Default') {
 			require_once 'src/Modules/PaymentsOut/helpers/' . $type . '.php';
 			$records = new $type($adres . $file);
