@@ -44,7 +44,6 @@
 				<img class="logoFooter" src="storage/Logo/white_logo_yetiforce.png" alt="YetiForceCRM"/>
 			</button>
 		</div>
-		{assign var=SCRIPT_TIME value=round(microtime(true) - vglobal('startTime'), 3)}
 		{if $USER_MODEL->isAdminUser()}
 			{assign var=FOOTVR value= '[ver. '|cat:$YETIFORCE_VERSION|cat:'] ['|cat:'WEBLOADTIME'|t|cat:': '|cat:$SCRIPT_TIME|cat:'s.]'}
 			{assign var=FOOTVRM value= '['|cat:$SCRIPT_TIME|cat:'s.]'}

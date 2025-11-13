@@ -27,7 +27,7 @@
 							<strong>{"LBL_CREATE_MODULE"|t:$QUALIFIED_MODULE}</strong>
 						</button>
 					</span>
-					{if vglobal('systemMode') != 'demo'}
+					{if $SYSTEM_MODE != 'demo'}
 						<span class="btn-group">
 							<button class="btn btn-primary" type="button" onclick='window.location.href = "{$IMPORT_USER_MODULE_URL}"'>
 								<span class="glyphicon glyphicon-import" aria-hidden="true"></span>&nbsp;&nbsp;
