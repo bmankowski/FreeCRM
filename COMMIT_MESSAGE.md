@@ -19,13 +19,22 @@ AppConfig::main() to modernize configuration access and improve code consistency
   PaymentsOut/Views/step1.php, PaymentsOut/Models/Record.php
 - tmp_dir (2 files, 3 occurrences): Reports/Models/Record.php, QuickExport.php
 
+## Phase 6: Remaining configuration values (9 files, 9 occurrences)
+- default_charset (3 files): CustomView/Models/Record.php, OSSMail/Models/Module.php,
+  Documents/Models/Record.php
+- php_max_execution_time (4 files): Settings/Profiles/Models/Record.php,
+  Settings/GlobalPermission/Models/Record.php, Settings/SharingAccess/Models/Module.php,
+  Settings/Groups/Models/Record.php
+- davStorageDir (1 file, 2 occurrences): Settings/Dav/Models/Module.php
+
 ## Benefits
 - Consistent configuration access pattern across the codebase
 - Better maintainability and testability
 - No functional changes, only refactoring of configuration access
+- All configuration values now use AppConfig::main() instead of vglobal()
 - All changes verified with grep and linter checks
 
-## Files modified
+## Files modified (26 total)
 - src/Modules/Base/Helpers/Util.php
 - src/Modules/Base/Views/Edit.php
 - src/Modules/Base/Views/QuickCreateAjax.php
@@ -44,6 +53,14 @@ AppConfig::main() to modernize configuration access and improve code consistency
 - src/Modules/PaymentsOut/Models/Record.php
 - src/Modules/Reports/Models/Record.php
 - src/Modules/Base/Actions/QuickExport.php
+- src/Modules/CustomView/Models/Record.php
+- src/Modules/OSSMail/Models/Module.php
+- src/Modules/Documents/Models/Record.php
+- src/Modules/Settings/Profiles/Models/Record.php
+- src/Modules/Settings/GlobalPermission/Models/Record.php
+- src/Modules/Settings/SharingAccess/Models/Module.php
+- src/Modules/Settings/Groups/Models/Record.php
+- src/Modules/Settings/Dav/Models/Module.php
 
-Refs: documentation/vglobal-refactoring-plan-detailed.md (Phase 4 & 5)
+Refs: documentation/vglobal-refactoring-plan-detailed.md (Phase 4, 5 & 6)
 

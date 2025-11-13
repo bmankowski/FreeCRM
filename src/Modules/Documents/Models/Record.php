@@ -63,7 +63,7 @@ class Record extends \App\Modules\Base\Models\Record
 			$fileName = $fileDetails['name'];
 
 			if ($this->get('filelocationtype') == 'I') {
-				$fileName = html_entity_decode($fileName, ENT_QUOTES, vglobal('default_charset'));
+				$fileName = html_entity_decode($fileName, ENT_QUOTES, \App\AppConfig::main('default_charset'));
 				$savedFile = $fileDetails['attachmentsid'] . "_" . $fileName;
 
 				$fileSize = filesize($filePath . $savedFile);

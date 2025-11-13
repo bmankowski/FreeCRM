@@ -65,7 +65,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	public static function recalculate()
 	{
-		$php_max_execution_time = vglobal('php_max_execution_time');
+		$php_max_execution_time = \App\AppConfig::main('php_max_execution_time');
 		set_time_limit($php_max_execution_time);
 		 
 		$userIdsList = \App\Modules\Settings\Profiles\Models\Record::getUsersList();

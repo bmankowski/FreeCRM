@@ -163,7 +163,7 @@ class Module extends \App\Modules\Base\Models\Module
 	 */
 	public static function recalculateSharingRules()
 	{
-		$phpMaxExecutionTime = vglobal('php_max_execution_time');
+		$phpMaxExecutionTime = \App\AppConfig::main('php_max_execution_time');
 		set_time_limit($phpMaxExecutionTime);
 		$db = \App\Database\PearDatabase::getInstance();
 

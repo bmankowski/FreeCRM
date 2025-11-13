@@ -101,7 +101,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 		$user = \App\Modules\Users\Models\Record::getInstanceById($params['user'], 'Users');
 		$user_name = $user->get('user_name');
-		$davStorageDir = vglobal('davStorageDir');
+		$davStorageDir = \App\AppConfig::main('davStorageDir');
 		\vtlib\Functions::recurseDelete($davStorageDir . '/' . $user_name);
 	}
 
@@ -115,7 +115,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		$user = \App\Modules\Users\Models\Record::getInstanceById($params['user'], 'Users');
 		$user_name = $user->get('user_name');
 		$path = '/' . $user_name . '/';
-		$davStorageDir = vglobal('davStorageDir');
+		$davStorageDir = \App\AppConfig::main('davStorageDir');
 		@mkdir($davStorageDir . $path);
 	}
 }

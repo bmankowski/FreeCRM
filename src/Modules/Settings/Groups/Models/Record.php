@@ -211,7 +211,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public function recalculate($oldUsersList)
 	{
-		$php_max_execution_time = vglobal('php_max_execution_time');
+		$php_max_execution_time = \App\AppConfig::main('php_max_execution_time');
 		set_time_limit($php_max_execution_time);
 		 
 

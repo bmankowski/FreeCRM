@@ -102,6 +102,7 @@ $viewer->assign('SYSTEM_MODE', \App\AppConfig::main('systemMode'));
 3. **Faza 3** - `systemMode` i `startTime` (dodatkowe, mniej krytyczne)
 4. **Faza 4** - `upload_maxsize` (wartości konfiguracyjne w widokach Edit) - ✅ **WYKONANE**
 5. **Faza 5** - `default_timezone`, `site_URL`, `cache_dir`, `tmp_dir` (wartości konfiguracyjne) - ✅ **WYKONANE**
+6. **Faza 6** - `default_charset`, `php_max_execution_time`, `davStorageDir` (pozostałe wartości konfiguracyjne) - ✅ **WYKONANE**
 
 ---
 
@@ -384,23 +385,123 @@ if ($uploadOk && $_FILES['watermark']['size'][0] > \App\AppConfig::main('upload_
 
 ---
 
+## FAZA 6: Usunięcie pozostałych wartości konfiguracyjnych - `default_charset`, `php_max_execution_time`, `davStorageDir` - ✅ WYKONANE
+
+### Analiza użycia
+
+**Wystąpienia:** 9 wystąpień w 9 plikach
+
+#### `default_charset` (3 wystąpienia):
+- `src/Modules/CustomView/Models/Record.php` (linia 644) - kodowanie dla bazy danych
+- `src/Modules/OSSMail/Models/Module.php` (linia 232) - konfiguracja HTMLPurifier
+- `src/Modules/Documents/Models/Record.php` (linia 66) - dekodowanie nazw plików
+
+#### `php_max_execution_time` (4 wystąpienia):
+- `src/Modules/Settings/Profiles/Models/Record.php` (linia 839) - metoda `recalculate()`
+- `src/Modules/Settings/GlobalPermission/Models/Record.php` (linia 68) - metoda `recalculate()`
+- `src/Modules/Settings/SharingAccess/Models/Module.php` (linia 166) - metoda `recalculateSharingRules()`
+- `src/Modules/Settings/Groups/Models/Record.php` (linia 214) - metoda `recalculate()`
+
+#### `davStorageDir` (2 wystąpienia):
+- `src/Modules/Settings/Dav/Models/Module.php` (linie 104, 118) - ścieżka do katalogu DAV storage
+
+**Charakterystyka:**
+- Wszystkie są wartościami konfiguracyjnymi (łatwe do zastąpienia przez `AppConfig::main()`)
+- Używane w różnych kontekstach: kodowanie, limity wykonania, ścieżki katalogów
+- Nie wymagają specjalnej logiki, tylko zamiany źródła wartości
+
+### Pliki do modyfikacji:
+
+#### Grupa 1: `default_charset` (3 pliki)
+
+##### 1.1. `src/Modules/CustomView/Models/Record.php`
+**Linia:** 644
+**Zmiana:** Zamień `vglobal('default_charset')` na `AppConfig::main('default_charset')`
+
+##### 1.2. `src/Modules/OSSMail/Models/Module.php`
+**Linia:** 232
+**Zmiana:** Zamień `vglobal('default_charset')` na `AppConfig::main('default_charset')`
+
+##### 1.3. `src/Modules/Documents/Models/Record.php`
+**Linia:** 66
+**Zmiana:** Zamień `vglobal('default_charset')` na `AppConfig::main('default_charset')`
+
+#### Grupa 2: `php_max_execution_time` (4 pliki)
+
+##### 2.1. `src/Modules/Settings/Profiles/Models/Record.php`
+**Metoda:** `recalculate()` (linia 837)
+**Zmiana:** Zamień `vglobal('php_max_execution_time')` na `AppConfig::main('php_max_execution_time')`
+
+##### 2.2. `src/Modules/Settings/GlobalPermission/Models/Record.php`
+**Metoda:** `recalculate()` (linia 66)
+**Zmiana:** Zamień `vglobal('php_max_execution_time')` na `AppConfig::main('php_max_execution_time')`
+
+##### 2.3. `src/Modules/Settings/SharingAccess/Models/Module.php`
+**Metoda:** `recalculateSharingRules()` (linia 164)
+**Zmiana:** Zamień `vglobal('php_max_execution_time')` na `AppConfig::main('php_max_execution_time')`
+
+##### 2.4. `src/Modules/Settings/Groups/Models/Record.php`
+**Metoda:** `recalculate()` (linia 212)
+**Zmiana:** Zamień `vglobal('php_max_execution_time')` na `AppConfig::main('php_max_execution_time')`
+
+#### Grupa 3: `davStorageDir` (1 plik, 2 wystąpienia)
+
+##### 3.1. `src/Modules/Settings/Dav/Models/Module.php`
+**Linie:** 104, 118
+**Zmiana:** Zamień `vglobal('davStorageDir')` na `AppConfig::main('davStorageDir')` (2 wystąpienia)
+
+### Wykonane zmiany:
+
+1. ✅ **Grupa 1** - `default_charset` (3 pliki) - wszystkie zmienione
+   - `CustomView/Models/Record.php`, `OSSMail/Models/Module.php`, `Documents/Models/Record.php`
+2. ✅ **Grupa 2** - `php_max_execution_time` (4 pliki) - wszystkie zmienione
+   - `Settings/Profiles/Models/Record.php`, `Settings/GlobalPermission/Models/Record.php`, `Settings/SharingAccess/Models/Module.php`, `Settings/Groups/Models/Record.php`
+3. ✅ **Grupa 3** - `davStorageDir` (1 plik, 2 wystąpienia) - wszystkie zmienione
+   - `Settings/Dav/Models/Module.php` (2 wystąpienia)
+
+### Korzyści:
+
+- **Prostota:** Wszystkie wartości konfiguracyjne, łatwe do zastąpienia
+- **Spójność:** Dokończy refaktoryzację wszystkich wartości konfiguracyjnych
+- **Niskie ryzyko:** Nie wpływa na logikę biznesową, tylko sposób dostępu do konfiguracji
+- **Kompletność:** Po tej fazie wszystkie wartości konfiguracyjne będą używać `AppConfig::main()`
+
+### Weryfikacja:
+
+✅ **Wszystkie wystąpienia zostały zmienione** - grep nie znajduje już `vglobal('default_charset')`, `vglobal('php_max_execution_time')`, `vglobal('davStorageDir')` w kodzie źródłowym
+✅ **Brak błędów lintera** - wszystkie pliki przeszły weryfikację
+✅ **Kompletność wartości konfiguracyjnych** - wszystkie wartości konfiguracyjne używają teraz `AppConfig::main()`
+
+**Do przetestowania:**
+1. Czy kodowanie znaków działa poprawnie (CustomView, Documents)
+2. Czy HTMLPurifier działa poprawnie z nowym kodowaniem (OSSMail)
+3. Czy metody recalculate w Settings działają poprawnie z limitem czasu
+4. Czy operacje DAV storage działają poprawnie z nową ścieżką
+
+---
+
 ## Inne proponowane fazy (do rozważenia w przyszłości):
 
-### FAZA 6: Wartości runtime - `currentModule`
-- **Wystąpienia:** ~30+ plików
+### FAZA 7: Wartości runtime - `currentModule`
+- **Wystąpienia:** ~23 wystąpienia w 13 plikach
 - **Charakterystyka:** Wartość runtime, ustawiana w `EntryPoint/WebUI.php`
 - **Alternatywa:** Użycie `$request->getModule()` lub przekazywanie przez kontekst
-- **Priorytet:** Wysoki (najczęściej używane), ale wymaga większej refaktoryzacji
+- **Priorytet:** Wysoki (często używane), ale wymaga większej refaktoryzacji (kontekst Request)
 
-### FAZA 7: Wartości runtime - `current_language` / `default_language`
-- **Wystąpienia:** ~20+ plików
+### FAZA 8: Wartości runtime - `current_language` / `default_language`
+- **Wystąpienia:** ~58 wystąpień w 31 plikach
 - **Charakterystyka:** Wartości runtime/konfiguracyjne
 - **Alternatywa:** Użycie `Vtiger_Language_Handler::getLanguage()` i `AppConfig::main('default_language')`
 - **Priorytet:** Wysoki (często używane)
 
-### FAZA 8: Wartości runtime - `mod_strings` / `app_strings`
-- **Wystąpienia:** ~10+ plików
+### FAZA 9: Wartości runtime - `mod_strings` / `app_strings`
+- **Wystąpienia:** ~3 wystąpienia (głównie ustawianie w EntryPoint)
 - **Charakterystyka:** Wartości runtime, ustawiane w `EntryPoint/WebUI.php`
 - **Alternatywa:** Użycie `Vtiger_Language_Handler::getModuleStringsFromFile()`
 - **Priorytet:** Średni (używane głównie w starszym kodzie)
+
+### FAZA 10: Pozostałe wartości runtime
+- **Wystąpienia:** ~10+ wystąpień różnych wartości
+- **Charakterystyka:** Różne wartości runtime (workflowIdsAlreadyDone, showsAdditionalLabels, isPermittedLog, popupAjax, translated_language)
+- **Priorytet:** Niski (specjalne przypadki, wymagają indywidualnej analizy)
 

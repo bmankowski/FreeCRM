@@ -641,7 +641,7 @@ class Record extends \App\Modules\Base\Models\Record
 	public function getAdvancedCriteria()
 	{
 		$db = \App\Database\PearDatabase::getInstance();
-		$default_charset = vglobal('default_charset');
+		$default_charset = \App\AppConfig::main('default_charset');
 
 		$cvId = $this->getId();
 		$advft_criteria = [];
