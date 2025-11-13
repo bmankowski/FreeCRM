@@ -260,7 +260,7 @@ class Reports extends \App\CRMEntity
 
 							$rel_mod = array();
 							foreach ($old_related_modules[$module] as $key => $name) {
-								if (\App\Utils\ModuleUtils::isModuleActive($name) && \App\Utils\UserInfoUtil::isPermitted($name, 'index', '')) {
+								if (\App\Utils\ModuleUtils::isModuleActive($name) && \App\Privilege::isPermitted($name, 'index', '')) {
 									$rel_mod[] = $name;
 								}
 							}
@@ -368,7 +368,7 @@ class Reports extends \App\CRMEntity
 				else
 					$report_details['editable'] = 'false';
 
-				if (\App\Utils\UserInfoUtil::isPermitted($report["primarymodule"], 'index') == "yes")
+				if (\App\Privilege::isPermitted($report["primarymodule"], 'index'))
 					$returndata[] = $report_details;
 			}while ($report = $adb->fetch_array($result));
 		}
@@ -455,7 +455,7 @@ class Reports extends \App\CRMEntity
 				else
 					$report_details['editable'] = 'false';
 
-				if (\App\Utils\UserInfoUtil::isPermitted($report["primarymodule"], 'index') == "yes")
+				if (\App\Privilege::isPermitted($report["primarymodule"], 'index'))
 					$returndata [$report["folderid"]][] = $report_details;
 			}while ($report = $adb->fetch_array($result));
 		}
@@ -1142,7 +1142,7 @@ function getReportsModuleList($focus)
 	$adb = \App\Database\PearDatabase::getInstance();
 	$modules = [];
 	foreach ($focus->module_list as $key => $value) {
-		if (\App\Utils\UserInfoUtil::isPermitted($key, 'index') == "yes") {
+		if (\App\Privilege::isPermitted($key, 'index')) {
 			$count_flag = 1;
 			$modules [$key] = \App\Runtime\Vtiger_Language_Handler::translate($key, $key);
 		}
@@ -1161,7 +1161,7 @@ function getReportRelatedModules($module, $focus)
 	if (\App\Utils\ModuleUtils::isModuleActive($module)) {
 		if (!empty($focus->related_modules[$module])) {
 			foreach ($focus->related_modules[$module] as $rel_modules) {
-				if (\App\Utils\UserInfoUtil::isPermitted($rel_modules, 'index') == "yes") {
+				if (\App\Privilege::isPermitted($rel_modules, 'index')) {
 					$optionhtml [] = $rel_modules;
 				}
 			}

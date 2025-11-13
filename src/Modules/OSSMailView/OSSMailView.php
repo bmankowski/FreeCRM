@@ -234,7 +234,7 @@ class OSSMailView extends \App\CRMEntity
 		// Security Check for Field Access
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[\App\Utils\ModuleUtils::getModuleId('OSSMailView')] == 3) {
 			//Added security check to get the permitted records only
-			$query = $query . " " . \App\Utils\UserInfoUtil::getListViewSecurityParameter($thismodule);
+			$query = $query . " " . \App\PrivilegeQuery::getListViewSecurityParameter($thismodule);
 		}
 		return $query;
 	}

@@ -58,9 +58,7 @@ class Calendar extends \App\Base\Controllers\BaseActionController
 		$date_start = date('Y-m-d', strtotime($request->get('start')));
 		$time_start = date('H:i:s', strtotime($request->get('start')));
 		$succes = false;
-		if (\App\Utils\UserInfoUtil::isPermitted($moduleName, 'EditView', $recordId) === 'no') {
-			$succes = false;
-		} else {
+		if (\App\Privilege::isPermitted($moduleName, 'EditView', $recordId)) {
 			if (!empty($recordId)) {
 				try {
 					$delta = $request->get('delta');

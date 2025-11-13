@@ -421,6 +421,112 @@ class Rule extends \App\Modules\Base\Models\Record
 	}
 
 	/**
+	 * Function get the Data Share Table Names
+	 * @return array Data Share Table Name Array
+	 */
+	public static function getDataShareTableName()
+	{
+		\App\Log::trace('Entering getDataShareTableName() method ...');
+		$dataShareTableColArr = [
+			'US::GRP' => 'vtiger_datashare_us2grp',
+			'US::ROLE' => 'vtiger_datashare_us2role',
+			'US::RS' => 'vtiger_datashare_us2rs',
+			'US::US' => 'vtiger_datashare_us2us',
+			'GRP::GRP' => 'vtiger_datashare_grp2grp',
+			'GRP::ROLE' => 'vtiger_datashare_grp2role',
+			'GRP::RS' => 'vtiger_datashare_grp2rs',
+			'GRP::US' => 'vtiger_datashare_grp2us',
+			'ROLE::GRP' => 'vtiger_datashare_role2group',
+			'ROLE::ROLE' => 'vtiger_datashare_role2role',
+			'ROLE::RS' => 'vtiger_datashare_role2rs',
+			'ROLE::US' => 'vtiger_datashare_role2us',
+			'RS::GRP' => 'vtiger_datashare_rs2grp',
+			'RS::ROLE' => 'vtiger_datashare_rs2role',
+			'RS::RS' => 'vtiger_datashare_rs2rs',
+			'RS::US' => 'vtiger_datashare_rs2us'
+		];
+		\App\Log::trace('Exiting getDataShareTableName method ...');
+		return $dataShareTableColArr;
+	}
+
+	/**
+	 * Function to get the Data Share Table Name from the specified type string
+	 * @param string $typeString Datashare Type String
+	 * @return string Table Name
+	 */
+	public static function getDSTableNameForType($typeString)
+	{
+		\App\Log::trace("Entering getDSTableNameForType(" . $typeString . ") method ...");
+		$dataShareTableColArr = self::getDataShareTableName();
+		$tableName = $dataShareTableColArr[$typeString] ?? null;
+		\App\Log::trace("Exiting getDSTableNameForType method ...");
+		return $tableName;
+	}
+
+	/**
+	 * This function is to delete the organisation level sharing rule
+	 * @param int $shareid Id of the Sharing Rule to be deleted
+	 */
+	public static function deleteSharingRule($shareid)
+	{
+		\App\Log::trace("Entering deleteSharingRule(" . $shareid . ") method ...");
+		$adb = \App\Database\PearDatabase::getInstance();
+		$query2 = "select * from vtiger_datashare_module_rel where shareid=?";
+		$res = $adb->pquery($query2, array($shareid));
+		$typestr = $adb->query_result($res, 0, 'relationtype');
+		$tabname = self::getDSTableNameForType($typestr);
+		if ($tabname) {
+			$query3 = "delete from $tabname where shareid=?";
+			$adb->pquery($query3, array($shareid));
+		}
+		$query4 = "delete from vtiger_datashare_module_rel where shareid=?";
+		$adb->pquery($query4, array($shareid));
+
+		//deleting the related module sharing permission
+		$query5 = "delete from vtiger_datashare_relatedmodule_permission where shareid=?";
+		$adb->pquery($query5, array($shareid));
+		\App\Log::trace("Exiting deleteSharingRule method ...");
+	}
+
+	/**
+	 * Function to delete the user related sharing rules
+	 * @param int $usId User Id
+	 */
+	public static function deleteUserRelatedSharingRules($usId)
+	{
+		\App\Log::trace("Entering deleteUserRelatedSharingRules(" . $usId . ") method ...");
+
+		$adb = \App\Database\PearDatabase::getInstance();
+		$dataShareTableColArr = [
+			'vtiger_datashare_us2us' => 'share_userid::to_userid',
+			'vtiger_datashare_us2grp' => 'share_userid',
+			'vtiger_datashare_us2role' => 'share_userid',
+			'vtiger_datashare_us2rs' => 'share_userid',
+			'vtiger_datashare_grp2us' => 'to_userid',
+			'vtiger_datashare_rs2us' => 'to_userid',
+			'vtiger_datashare_role2us' => 'to_userid'
+		];
+
+		foreach ($dataShareTableColArr as $tablename => $colname) {
+			$colNameArr = explode('::', $colname);
+			$query = sprintf("SELECT shareid FROM %s WHERE %s = ?", $tablename, $colNameArr[0]);
+			$params = array($usId);
+			if (sizeof($colNameArr) > 1) {
+				$query .= " or " . $colNameArr[1] . "=?";
+				array_push($params, $usId);
+			}
+
+			$result = $adb->pquery($query, $params);
+			$num_rows = $adb->num_rows($result);
+			for ($i = 0; $i < $num_rows; $i++) {
+				$shareid = $adb->query_result($result, $i, 'shareid');
+				self::deleteSharingRule($shareid);
+			}
+		}
+		\App\Log::trace('Exiting deleteUserRelatedSharingRules method ...');
+	}
+
+	/**
 	 * Function to get all the rules
 	 * @return array - Array of \App\Modules\Settings\Groups\Models\Record instances
 	 */

@@ -364,7 +364,7 @@ class ProjectTask extends \App\CRMEntity
 	static function isLinkPermitted($linkData)
 	{
 		$moduleName = "ProjectTask";
-		if (\App\Utils\ModuleUtils::isModuleActive($moduleName) && \App\Utils\UserInfoUtil::isPermitted($moduleName, 'EditView') == 'yes') {
+		if (\App\Utils\ModuleUtils::isModuleActive($moduleName) && \App\Privilege::isPermitted($moduleName, 'EditView')) {
 			return true;
 		}
 		return false;

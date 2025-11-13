@@ -145,7 +145,7 @@ class HelpDesk extends \App\CRMEntity
 				LEFT JOIN vtiger_products
 					ON vtiger_products.productid=vtiger_troubletickets.product_id";
 		//end
-		$query .= \App\Utils\UserInfoUtil::getNonAdminAccessControlQuery('HelpDesk', $current_user);
+		$query .= \App\PrivilegeQuery::getNonAdminAccessControlQuery('HelpDesk', $current_user);
 		$where_auto = " vtiger_crmentity.deleted = 0 ";
 
 		if ($where != '')

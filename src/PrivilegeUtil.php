@@ -324,8 +324,8 @@ class PrivilegeUtil
 	 */
 	public static function getUsersByGroup($groupId, $i = 0)
 	{
-		if (isset(static::$usersByGroupCache[$roleId])) {
-			return static::$usersByGroupCache[$roleId];
+		if (isset(static::$usersByGroupCache[$groupId])) {
+			return static::$usersByGroupCache[$groupId];
 		}
 		$users = [];
 		$adb = \App\Database\PearDatabase::getInstance();
@@ -449,6 +449,226 @@ class PrivilegeUtil
 
 		\App\Cache\Cache::save('getRoleSubordinates', $roleId, $roleSubordinates, \App\Cache\Cache::LONG);
 		return $roleSubordinates;
+	}
+
+	/**
+	 * Function to get the vtiger_role related users (with names)
+	 * @param string $roleId RoleId
+	 * @return array Role Related User Array in the following format:
+	 *       $roleUsers=Array($userId1=>$userName,$userId2=>$userName,........,$userIdn=>$userName)
+	 */
+	public static function getRoleUsers($roleId)
+	{
+		\App\Log::trace('Entering getRoleUsers(' . $roleId . ') method ...');
+
+		$roleRelatedUsers = \App\Cache\Cache::get('getRoleUsers', $roleId);
+		if ($roleRelatedUsers !== false) {
+			return $roleRelatedUsers;
+		}
+
+		$adb = \App\Database\PearDatabase::getInstance();
+		$query = 'select vtiger_user2role.*,vtiger_users.* from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid where roleid=?';
+		$result = $adb->pquery($query, array($roleId));
+		$num_rows = $adb->num_rows($result);
+		$roleRelatedUsers = [];
+		for ($i = 0; $i < $num_rows; $i++) {
+			$roleRelatedUsers[$adb->query_result($result, $i, 'userid')] = \vtlib\Deprecated::getFullNameFromQResult($result, $i, 'Users');
+		}
+
+		\App\Cache\Cache::save('getRoleUsers', $roleId, $roleRelatedUsers);
+		\App\Log::trace('Exiting getRoleUsers method ...');
+		return $roleRelatedUsers;
+	}
+
+	/**
+	 * To retrieve the subordinate vtiger_roles and vtiger_users of the specified parent vtiger_role
+	 * @param string $roleId The Role Id
+	 * @return array subordinate vtiger_role array in the following format:
+	 *     $subordinateRoleUserArray=(roleid1=>Array(userid1=>userName,userid2=>userName,userid3=>userName),
+	 *                                roleid2=>Array(userid1=>userName,userid2=>userName,userid3=>userName),
+	 *                                |
+	 *                                roleidn=>Array(userid1=>userName,userid2=>userName,userid3=>userName))
+	 */
+	public static function getSubordinateRoleAndUsers($roleId)
+	{
+		\App\Log::trace("Entering getSubordinateRoleAndUsers(" . $roleId . ") method ...");
+		$adb = \App\Database\PearDatabase::getInstance();
+		$subRoleAndUsers = [];
+		$subordinateRoles = static::getRoleSubordinates($roleId);
+		foreach ($subordinateRoles as $subRoleId) {
+			$userArray = static::getRoleUsers($subRoleId);
+			$subRoleAndUsers[$subRoleId] = $userArray;
+		}
+		\App\Log::trace("Exiting getSubordinateRoleAndUsers method ...");
+		return $subRoleAndUsers;
+	}
+
+	/**
+	 * Function to get user group ids as comma-separated string
+	 * @param int $userid User Id
+	 * @return string Comma-separated group ids
+	 */
+	public static function fetchUserGroupids($userid)
+	{
+		\App\Log::trace("Entering fetchUserGroupids(" . $userid . ") method ...");
+		$focus = new \App\Utils\GetUserGroups();
+		$focus->getAllUserGroups($userid);
+		$groupidlists = implode(",", $focus->user_groups);
+		\App\Log::trace("Exiting fetchUserGroupids method ...");
+		return $groupidlists;
+	}
+
+	/**
+	 * Function to get the current user group list
+	 * @return array Group ids array
+	 */
+	public static function getCurrentUserGroupList()
+	{
+		\App\Log::trace("Entering getCurrentUserGroupList() method ...");
+		$currentUser = \App\User\CurrentUser::get();
+		require('user_privileges/user_privileges_' . $currentUser->getId() . '.php');
+		$grpList = [];
+		if (isset($current_user_groups) && sizeof($current_user_groups) > 0) {
+			foreach ($current_user_groups as $grpid) {
+				array_push($grpList, $grpid);
+			}
+		}
+		\App\Log::trace("Exiting getCurrentUserGroupList method ...");
+		return $grpList;
+	}
+
+	/**
+	 * Function to get all the vtiger_role information
+	 * @return array Array will contain the details of all the vtiger_roles. RoleId will be the key
+	 */
+	public static function getAllRoleDetails()
+	{
+		\App\Log::trace('Entering getAllRoleDetails() method ...');
+		$adb = \App\Database\PearDatabase::getInstance();
+		$role_det = [];
+		$query = "select * from vtiger_role";
+		$result = $adb->pquery($query, []);
+		$num_rows = $adb->num_rows($result);
+		for ($i = 0; $i < $num_rows; $i++) {
+			$each_role_det = [];
+			$roleid = $adb->query_result($result, $i, 'roleid');
+			$rolename = $adb->query_result($result, $i, 'rolename');
+			$roledepth = $adb->query_result($result, $i, 'depth');
+			$sub_roledepth = $roledepth + 1;
+			$parentrole = $adb->query_result($result, $i, 'parentrole');
+			$sub_role = '';
+
+			//getting the immediate subordinates
+			$query1 = "select * from vtiger_role where parentrole like ? and depth=?";
+			$res1 = $adb->pquery($query1, array($parentrole . "::%", $sub_roledepth));
+			$num_roles = $adb->num_rows($res1);
+			if ($num_roles > 0) {
+				for ($j = 0; $j < $num_roles; $j++) {
+					if ($j == 0) {
+						$sub_role .= $adb->query_result($res1, $j, 'roleid');
+					} else {
+						$sub_role .= ',' . $adb->query_result($res1, $j, 'roleid');
+					}
+				}
+			}
+
+			$each_role_det[] = $rolename;
+			$each_role_det[] = $roledepth;
+			$each_role_det[] = $sub_role;
+			$role_det[$roleid] = $each_role_det;
+		}
+		\App\Log::trace('Exiting getAllRoleDetails method ...');
+		return $role_det;
+	}
+
+	/**
+	 * Function to get the vtiger_role and subordinate vtiger_users
+	 * @param string $roleId RoleId
+	 * @return array Role and Subordinates Related Users Array in the following format:
+	 *       $roleSubUsers=Array($userId1=>$userName,$userId2=>$userName,........,$userIdn=>$userName)
+	 */
+	public static function getRoleAndSubordinateUsers($roleId)
+	{
+		\App\Log::trace("Entering getRoleAndSubordinateUsers(" . $roleId . ") method ...");
+		$adb = \App\Database\PearDatabase::getInstance();
+		$roleInfoArr = static::getRoleDetail($roleId);
+		$parentRole = $roleInfoArr['parentrole'];
+		$query = "select vtiger_user2role.*,vtiger_users.user_name from vtiger_user2role inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid where vtiger_role.parentrole like ?";
+		$result = $adb->pquery($query, array($parentRole . "%"));
+		$num_rows = $adb->num_rows($result);
+		$roleRelatedUsers = [];
+		for ($i = 0; $i < $num_rows; $i++) {
+			$roleRelatedUsers[$adb->query_result($result, $i, 'userid')] = $adb->query_result($result, $i, 'user_name');
+		}
+		\App\Log::trace("Exiting getRoleAndSubordinateUsers method ...");
+		return $roleRelatedUsers;
+	}
+
+	/**
+	 * Function to get role and subordinate role IDs
+	 * @param string $roleId Role ID
+	 * @return array Array of role IDs including the role itself and its subordinates
+	 */
+	public static function getRoleAndSubordinatesRoleIds($roleId)
+	{
+		$subordinates = static::getRoleSubordinates($roleId);
+		$roleIds = array_merge([$roleId], $subordinates);
+		return $roleIds;
+	}
+
+	/**
+	 * Function to get write sharing groups list for a module
+	 * @param string $module Module name
+	 * @return array Array of group ids
+	 */
+	public static function getWriteSharingGroupsList($module)
+	{
+		\App\Log::trace("Entering getWriteSharingGroupsList(" . $module . ") method ...");
+		$adb = \App\Database\PearDatabase::getInstance();
+		$currentUser = \App\User\CurrentUser::get();
+		$grp_array = [];
+		$tabid = \App\Utils\ModuleUtils::getModuleId($module);
+		$query = "select sharedgroupid from vtiger_tmp_write_group_sharing_per where userid=? and tabid=?";
+		$result = $adb->pquery($query, array($currentUser->getId(), $tabid));
+		$num_rows = $adb->num_rows($result);
+		for ($i = 0; $i < $num_rows; $i++) {
+			$grp_id = $adb->query_result($result, $i, 'sharedgroupid');
+			$grp_array[] = $grp_id;
+		}
+		\App\Log::trace("Exiting getWriteSharingGroupsList method ...");
+		return $grp_array;
+	}
+
+	/**
+	 * Function to get current user access groups for a module
+	 * @param string $module Module name
+	 * @return object Database result object
+	 */
+	public static function get_current_user_access_groups($module)
+	{
+		\App\Log::trace("Entering get_current_user_access_groups(" . $module . ") method ...");
+		$adb = \App\Database\PearDatabase::getInstance();
+		$current_user_group_list = static::getCurrentUserGroupList();
+		$sharing_write_group_list = static::getWriteSharingGroupsList($module);
+		$query = "select groupname,groupid from vtiger_groups";
+		$params = [];
+		if (count($current_user_group_list) > 0 && count($sharing_write_group_list) > 0) {
+			$query .= sprintf(" WHERE (groupid in (%s) || groupid IN (%s))", \App\Utils\Utils::generateQuestionMarks($current_user_group_list), \App\Utils\Utils::generateQuestionMarks($sharing_write_group_list));
+			array_push($params, $current_user_group_list, $sharing_write_group_list);
+			$result = $adb->pquery($query, $params);
+		} elseif (count($current_user_group_list) > 0) {
+			$query .= sprintf(" WHERE groupid IN (%s)", \App\Utils\Utils::generateQuestionMarks($current_user_group_list));
+			array_push($params, $current_user_group_list);
+			$result = $adb->pquery($query, $params);
+		} elseif (count($sharing_write_group_list) > 0) {
+			$query .= sprintf(" WHERE groupid IN (%s)", \App\Utils\Utils::generateQuestionMarks($sharing_write_group_list));
+			array_push($params, $sharing_write_group_list);
+			$result = $adb->pquery($query, $params);
+		} else {
+			$result = null;
+		}
+		\App\Log::trace("Exiting get_current_user_access_groups method ...");
+		return $result;
 	}
 
 	protected static $dataShareStructure = [
@@ -631,7 +851,7 @@ class PrivilegeUtil
 			$rows = static::getDatashare('rs2role', $modTabId, $currentUserRoles);
 			foreach ($rows as &$row) {
 				$shareRoleId = $row['share_roleid'];
-				$shareRoleIds = getRoleAndSubordinatesRoleIds($row['share_roleandsubid']);
+				$shareRoleIds = static::getRoleAndSubordinatesRoleIds($row['share_roleandsubid']);
 				$shareIdRoleMembers = [];
 				$shareIdRoles = [];
 				foreach ($shareRoleIds as &$shareRoleId) {
@@ -658,7 +878,7 @@ class PrivilegeUtil
 			$rows = static::getDatashare('rs2rs', $modTabId, $parRoleList);
 			foreach ($rows as &$row) {
 				$share_rsid = $row['share_roleandsubid'];
-				$shareRoleIds = getRoleAndSubordinatesRoleIds($share_rsid);
+				$shareRoleIds = static::getRoleAndSubordinatesRoleIds($share_rsid);
 				$shareIdRoleMembers = [];
 				$shareIdRoles = [];
 				foreach ($shareRoleIds as &$shareRoleId) {
@@ -684,7 +904,8 @@ class PrivilegeUtil
 			//Get roles from Rs2Grp 
 			$rows = static::getDatashare('rs2group', $modTabId, $groupList);
 			foreach ($rows as &$row) {
-				$shareRoleIds = getRoleAndSubordinatesRoleIds($share_rsid);
+				$share_rsid = $row['share_roleandsubid'];
+				$shareRoleIds = static::getRoleAndSubordinatesRoleIds($share_rsid);
 				$shareIdRoleMembers = [];
 				$shareIdRoles = [];
 				foreach ($shareRoleIds as &$shareRoleId) {
@@ -711,7 +932,7 @@ class PrivilegeUtil
 			$rows = static::getDatashare('rs2user', $modTabId, $userid);
 			foreach ($rows as &$row) {
 				$share_rsid = $row['share_roleandsubid'];
-				$shareRoleIds = getRoleAndSubordinatesRoleIds($share_rsid);
+				$shareRoleIds = static::getRoleAndSubordinatesRoleIds($share_rsid);
 				$shareIdRoleMembers = [];
 				$shareIdRoles = [];
 				foreach ($shareRoleIds as &$shareRoleId) {

@@ -176,10 +176,10 @@ class Privileges extends \App\Runtime\BaseModel
 			$current_user_groups = $privileges['groups'] ?? [];
 			$parent_roles = $privileges['parent_roles'] ?? [];
 			$subordinate_roles = \App\PrivilegeUtil::getRoleSubordinates($current_user_roles);
-			$subordinate_roles_users = \App\Utils\UserInfoUtil::getSubordinateRoleAndUsers($current_user_roles);
-			$profileGlobalPermission = \App\Utils\UserInfoUtil::getCombinedUserGlobalPermissions($userId);
-			$profileTabsPermission = \App\Utils\UserInfoUtil::getCombinedUserTabsPermissions($userId);
-			$profileActionPermission = \App\Utils\UserInfoUtil::getCombinedUserActionPermissions($userId);
+			$subordinate_roles_users = \App\PrivilegeUtil::getSubordinateRoleAndUsers($current_user_roles);
+			$profileGlobalPermission = self::getCombinedUserGlobalPermissions($userId);
+			$profileTabsPermission = self::getCombinedUserTabsPermissions($userId);
+			$profileActionPermission = self::getCombinedUserActionPermissions($userId);
 		}
 
 		$valueMap = [];
@@ -266,7 +266,7 @@ class Privileges extends \App\Runtime\BaseModel
 	public static function getNonAdminAccessControlQuery($module)
 	{
 		$currentUser = \App\User\CurrentUser::get();
-		return \App\Utils\UserInfoUtil::getNonAdminAccessControlQuery($module, $currentUser);
+		return \App\PrivilegeQuery::getNonAdminAccessControlQuery($module, $currentUser);
 	}
 
 	protected static $lockEditCache = [];
@@ -458,8 +458,7 @@ class Privileges extends \App\Runtime\BaseModel
 								$relatedPermission = in_array($currentUserId, \App\Modules\Base\UiTypes\SharedOwner::getSharedOwners($id, $recordMetaData['setype']));
 								break;
 							case 2:
-								$permission = \App\Utils\UserInfoUtil::isPermittedBySharing($recordMetaData['setype'], \App\Utils\ModuleUtils::getModuleId($recordMetaData['setype']), $actionid, $id);
-								$relatedPermission = $permission == 'yes' ? true : false;
+								$relatedPermission = \App\Privilege::isPermittedBySharing($recordMetaData['setype'], \App\Utils\ModuleUtils::getModuleId($recordMetaData['setype']), $actionid, $id, $currentUserId);
 								break;
 						}
 					}
@@ -495,8 +494,7 @@ class Privileges extends \App\Runtime\BaseModel
 								$relatedPermission = in_array($currentUserId, \App\Modules\Base\UiTypes\SharedOwner::getSharedOwners($id, $recordMetaData['setype']));
 								break;
 							case 2:
-								$permission = \App\Utils\UserInfoUtil::isPermittedBySharing($recordMetaData['setype'], \App\Utils\ModuleUtils::getModuleId($recordMetaData['setype']), $actionid, $id);
-								$relatedPermission = $permission == 'yes' ? true : false;
+								$relatedPermission = \App\Privilege::isPermittedBySharing($recordMetaData['setype'], \App\Utils\ModuleUtils::getModuleId($recordMetaData['setype']), $actionid, $id, $currentUserId);
 								break;
 						}
 					}
@@ -603,5 +601,180 @@ class Privileges extends \App\Runtime\BaseModel
 
 		// Fallback to get() method
 		return $this->get($property);
+	}
+
+	/**
+	 * To retrieve the global permission of the specified user from the various vtiger_profiles associated with the user
+	 * @param int $userId The User Id
+	 * @return array user global permission array in the following format:
+	 *     $globalPermissionArray=(view all action id=>permission, edit all action id=>permission)
+	 */
+	public static function getCombinedUserGlobalPermissions($userId)
+	{
+		\App\Log::trace("Entering getCombinedUserGlobalPermissions(" . $userId . ") method ...");
+		$adb = \App\Database\PearDatabase::getInstance();
+		$profArr = \App\PrivilegeUtil::getProfilesByUser($userId);
+		$no_of_profiles = sizeof($profArr);
+		$userGlobalPerrArr = [];
+
+		if (isset($profArr[0])) {
+			$userGlobalPerrArr = \App\Modules\Settings\Profiles\Models\Record::getProfileGlobalPermission($profArr[0]);
+		}
+		if ($no_of_profiles != 1) {
+			for ($i = 1; $i < $no_of_profiles; $i++) {
+				$tempUserGlobalPerrArr = \App\Modules\Settings\Profiles\Models\Record::getProfileGlobalPermission($profArr[$i]);
+
+				foreach ($userGlobalPerrArr as $globalActionId => $globalActionPermission) {
+					if ($globalActionPermission == 1) {
+						$now_permission = $tempUserGlobalPerrArr[$globalActionId];
+						if ($now_permission == 0) {
+							$userGlobalPerrArr[$globalActionId] = $now_permission;
+						}
+					}
+				}
+			}
+		}
+
+		\App\Log::trace("Exiting getCombinedUserGlobalPermissions method ...");
+		return $userGlobalPerrArr;
+	}
+
+	/**
+	 * To retrieve the vtiger_tab permissions of the specified user from the various vtiger_profiles associated with the user
+	 * @param int $userId The User Id
+	 * @return array user tab permission array in the following format:
+	 *     $tabPermissionArray=(tabid1=>permission, tabid2=>permission)
+	 */
+	public static function getCombinedUserTabsPermissions($userId)
+	{
+		\App\Log::trace("Entering getCombinedUserTabsPermissions(" . $userId . ") method ...");
+		$adb = \App\Database\PearDatabase::getInstance();
+		$profArr = \App\PrivilegeUtil::getProfilesByUser($userId);
+		$no_of_profiles = sizeof($profArr);
+		$userTabPerrArr = [];
+
+		if (isset($profArr[0])) {
+			$userTabPerrArr = \App\Modules\Settings\Profiles\Models\Record::getProfileTabsPermission($profArr[0]);
+		}
+		if ($no_of_profiles != 1) {
+			for ($i = 1; $i < $no_of_profiles; $i++) {
+				$tempUserTabPerrArr = \App\Modules\Settings\Profiles\Models\Record::getProfileTabsPermission($profArr[$i]);
+
+				foreach ($userTabPerrArr as $tabId => $tabPermission) {
+					if ($tabPermission == 1) {
+						$now_permission = $tempUserTabPerrArr[$tabId];
+						if ($now_permission == 0) {
+							$userTabPerrArr[$tabId] = $now_permission;
+						}
+					}
+				}
+			}
+		}
+
+		$homeTabid = \App\Utils\ModuleUtils::getModuleId('Home');
+		if (!array_key_exists($homeTabid, $userTabPerrArr)) {
+			$userTabPerrArr[$homeTabid] = 0;
+		}
+		\App\Log::trace("Exiting getCombinedUserTabsPermissions method ...");
+		return $userTabPerrArr;
+	}
+
+	/**
+	 * To retrieve the vtiger_tab action permissions of the specified user from the various vtiger_profiles associated with the user
+	 * @param int $userId The User Id
+	 * @return array user action permission array in the following format:
+	 *     $actionPermissionArray=(tabid1=>Array(actionid1=>permission, actionid2=>permission), tabid2=>Array(...))
+	 */
+	public static function getCombinedUserActionPermissions($userId)
+	{
+		\App\Log::trace("Entering getCombinedUserActionPermissions(" . $userId . ") method ...");
+		$adb = \App\Database\PearDatabase::getInstance();
+		$profArr = \App\PrivilegeUtil::getProfilesByUser($userId);
+		$no_of_profiles = sizeof($profArr);
+		$actionPerrArr = [];
+		if (isset($profArr[0])) {
+			$actionPerrArr = \App\Modules\Settings\Profiles\Models\Record::getProfileAllActionPermission($profArr[0]);
+		}
+		if ($no_of_profiles != 1) {
+			for ($i = 1; $i < $no_of_profiles; $i++) {
+				$tempActionPerrArr = \App\Modules\Settings\Profiles\Models\Record::getProfileAllActionPermission($profArr[$i]);
+
+				foreach ($actionPerrArr as $tabId => $perArr) {
+					foreach ($perArr as $actionid => $per) {
+						if ($per == 1) {
+							$now_permission = $tempActionPerrArr[$tabId][$actionid] ?? null;
+							if ($now_permission == 0 && $now_permission != "") {
+								$actionPerrArr[$tabId][$actionid] = $now_permission;
+							}
+						}
+					}
+				}
+			}
+		}
+		\App\Log::trace("Exiting getCombinedUserActionPermissions method ...");
+		return $actionPerrArr;
+	}
+
+	/**
+	 * Function to get the permitted module name Array with presence as 0
+	 * @return array permitted module name Array
+	 */
+	public static function getPermittedModuleNames()
+	{
+		\App\Log::trace("Entering getPermittedModuleNames() method ...");
+		$currentUser = \App\User\CurrentUser::get();
+		$permittedModules = [];
+		require('user_privileges/user_privileges_' . $currentUser->getId() . '.php');
+		include('user_privileges/tabdata.php');
+
+		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1) {
+			foreach ($tab_seq_array as $tabid => $seq_value) {
+				if ($seq_value === 0 && isset($profileTabsPermission[$tabid]) && $profileTabsPermission[$tabid] === 0) {
+					$permittedModules[] = \App\Utils\ModuleUtils::getModuleName($tabid);
+				}
+			}
+		} else {
+			foreach ($tab_seq_array as $tabid => $seq_value) {
+				if ($seq_value === 0) {
+					$permittedModules[] = \App\Utils\ModuleUtils::getModuleName($tabid);
+				}
+			}
+		}
+		\App\Log::trace("Exiting getPermittedModuleNames method ...");
+		return $permittedModules;
+	}
+
+	/**
+	 * Function to get the permitted module id Array with presence as 0
+	 * @return array Array of accessible tabids.
+	 */
+	public static function getPermittedModuleIdList()
+	{
+		$currentUser = \App\User\CurrentUser::get();
+		$permittedModules = [];
+		require('user_privileges/user_privileges_' . $currentUser->getId() . '.php');
+		include('user_privileges/tabdata.php');
+
+		if (
+			$is_admin === false && $profileGlobalPermission[1] == 1 &&
+			$profileGlobalPermission[2] == 1
+		) {
+			foreach ($tab_seq_array as $tabid => $seq_value) {
+				if ($seq_value === 0 && isset($profileTabsPermission[$tabid]) && $profileTabsPermission[$tabid] === 0) {
+					$permittedModules[] = ($tabid);
+				}
+			}
+		} else {
+			foreach ($tab_seq_array as $tabid => $seq_value) {
+				if ($seq_value === 0) {
+					$permittedModules[] = ($tabid);
+				}
+			}
+		}
+		$homeTabid = \App\Utils\ModuleUtils::getModuleId('Home');
+		if (!in_array($homeTabid, $permittedModules)) {
+			$permittedModules[] = $homeTabid;
+		}
+		return $permittedModules;
 	}
 }

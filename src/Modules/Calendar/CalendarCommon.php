@@ -165,7 +165,7 @@ function calendarview_getSelectedUserFilterQuerySuffix()
 		if ($onlyForUser != 'ALL') {
 			// For logged in user include the group records also.
 			if ($onlyForUser == $currentUser->id) {
-				$userGroupIds = \App\Utils\UserInfoUtil::fetchUserGroupids($currentUser->id);
+				$userGroupIds = \App\PrivilegeUtil::fetchUserGroupids($currentUser->id);
 				// User does not belong to any group? Let us reset to non-existent group
 				if (!empty($userGroupIds))
 					$userGroupIds .= ',';

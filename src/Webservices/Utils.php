@@ -68,7 +68,7 @@ function vtws_getUserAccessibleGroups($moduleId, $user)
 	$tabName = \App\Utils\ModuleUtils::getModuleName($moduleId);
 	if ($is_admin === false && $profileGlobalPermission[2] == 1 &&
 		($defaultOrgSharingPermission[$moduleId] == 3 || $defaultOrgSharingPermission[$moduleId] == 0)) {
-		$result = \App\Utils\UserInfoUtil::get_current_user_access_groups($tabName);
+		$result = \App\PrivilegeUtil::get_current_user_access_groups($tabName);
 	} else {
 		$result = \vtlib\Functions:: get_group_options();
 	}

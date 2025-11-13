@@ -71,7 +71,7 @@ class Calendar extends \App\Base\Controllers\BaseActionController
 		$moduleName = $request->getModule();
 		$recordId = $request->get('id');
 		$actionname = 'EditView';
-		if (\App\Utils\UserInfoUtil::isPermitted($moduleName, $actionname, $recordId) === 'no') {
+		if (!\App\Privilege::isPermitted($moduleName, $actionname, $recordId)) {
 			$succes = false;
 		} else {
 			$delta = $request->get('delta');

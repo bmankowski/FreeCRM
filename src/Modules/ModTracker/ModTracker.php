@@ -313,10 +313,7 @@ class ModTracker {
 	{
 		$moduleName = $linkData->getModule();
 		$recordId = $linkData->getInputParameter('record');
-		if (\App\Utils\UserInfoUtil::isPermitted($moduleName, 'DetailView', $recordId) == 'yes') {
-			return true;
-		}
-		return false;
+		return \App\Privilege::isPermitted($moduleName, 'DetailView', $recordId);
 	}
 
 	public static function trackRelation($sourceModule, $sourceId, $targetModule, $targetId, $type)

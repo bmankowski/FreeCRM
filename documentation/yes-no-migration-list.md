@@ -1,8 +1,9 @@
 # Lista miejsc używających logiki "yes/no" zamiast bool
 
 **Data utworzenia:** 2025-01-27  
-**Status:** Do migracji  
-**Priorytet:** Wysoki
+**Status:** ✅ Migracja zakończona (wszystkie fazy 1-6)  
+**Priorytet:** Wysoki  
+**Ostatnia aktualizacja:** 2025-01-27
 
 ---
 
@@ -244,42 +245,42 @@ $createable = \App\Privilege::isPermitted($elementType, EntityMeta::$CREATE);
 
 ## ✅ Plan migracji
 
-### Faza 1: Web Services i Reports (Priorytet 1-2)
-- [ ] `src/Webservices/VtigerModuleOperation.php` (2 miejsca)
-- [ ] `src/Webservices/VtigerCRMObjectMeta.php` (1 miejsce)
-- [ ] `src/Modules/Reports/Models/Folder.php` (1 miejsce)
-- [ ] `src/Modules/Reports/Models/Report.php` (1 miejsce)
-- [ ] `src/Modules/Reports/Reports.php` (4 miejsca)
+### Faza 1: Web Services i Reports (Priorytet 1-2) ✅ ZAKOŃCZONA
+- [x] `src/Webservices/VtigerModuleOperation.php` (2 miejsca) - zmigrowano
+- [x] `src/Webservices/VtigerCRMObjectMeta.php` (1 miejsce) - zmigrowano
+- [x] `src/Modules/Reports/Models/Folder.php` (1 miejsce) - zmigrowano
+- [x] `src/Modules/Reports/Models/Report.php` (1 miejsce) - zmigrowano
+- [x] `src/Modules/Reports/Reports.php` (4 miejsca) - zmigrowano
 
-### Faza 2: Calendar i inne moduły (Priorytet 3-4)
-- [ ] `src/Modules/Calendar/Actions/DragDropAjax.php` (2 miejsca)
-- [ ] `src/Modules/Calendar/Actions/Calendar.php` (1 miejsce)
-- [ ] `src/Modules/Calendar/Models/DetailView.php` (1 miejsce - 3 wywołania)
-- [ ] `src/Modules/Reservations/Actions/Calendar.php` (1 miejsce)
-- [ ] `src/Modules/OSSTimeControl/Actions/Calendar.php` (1 miejsce)
+### Faza 2: Calendar i inne moduły (Priorytet 3-4) ✅ ZAKOŃCZONA
+- [x] `src/Modules/Calendar/Actions/DragDropAjax.php` (2 miejsca) - zmigrowano
+- [x] `src/Modules/Calendar/Actions/Calendar.php` (1 miejsce) - zmigrowano
+- [x] `src/Modules/Calendar/Models/DetailView.php` (1 miejsce - 3 wywołania) - zmigrowano
+- [x] `src/Modules/Reservations/Actions/Calendar.php` (1 miejsce) - zmigrowano
+- [x] `src/Modules/OSSTimeControl/Actions/Calendar.php` (1 miejsce) - zmigrowano
 
-### Faza 3: Moduły CRM (Priorytet 4)
-- [ ] `src/CRMEntity.php` (1 miejsce)
-- [ ] `src/Modules/Accounts/Accounts.php` (1 miejsce)
-- [ ] `src/Modules/OSSEmployees/OSSEmployees.php` (1 miejsce)
-- [ ] `src/Modules/IStorages/IStorages.php` (1 miejsce)
-- [ ] `src/Modules/ModComments/ModComments.php` (1 miejsce)
-- [ ] `src/Modules/ModTracker/ModTracker.php` (1 miejsce)
-- [ ] `src/Modules/ProjectTask/ProjectTask.php` (1 miejsce)
-- [ ] `src/Modules/Documents/Documents.php` (1 miejsce)
+### Faza 3: Moduły CRM (Priorytet 4) ✅ ZAKOŃCZONA
+- [x] `src/CRMEntity.php` (1 miejsce) - zmigrowano
+- [x] `src/Modules/Accounts/Accounts.php` (1 miejsce) - zmigrowano
+- [x] `src/Modules/OSSEmployees/OSSEmployees.php` (1 miejsce) - zmigrowano
+- [x] `src/Modules/IStorages/IStorages.php` (1 miejsce) - zmigrowano
+- [x] `src/Modules/ModComments/ModComments.php` (1 miejsce) - zmigrowano
+- [x] `src/Modules/ModTracker/ModTracker.php` (1 miejsce) - zmigrowano
+- [x] `src/Modules/ProjectTask/ProjectTask.php` (1 miejsce) - zmigrowano
+- [x] `src/Modules/Documents/Documents.php` (1 miejsce) - zmigrowano
 
-### Faza 4: Utilities (Priorytet 5)
-- [ ] `src/Utils/EmailTemplate.php` (1 miejsce)
-- [ ] `src/Utils/Utils.php` (1 miejsce)
+### Faza 4: Utilities (Priorytet 5) ✅ ZAKOŃCZONA
+- [x] `src/Utils/EmailTemplate.php` (1 miejsce) - zmigrowano
+- [x] `src/Utils/Utils.php` (1 miejsce) - zmigrowano
 
-### Faza 5: Konwersje wewnętrzne (Priorytet 7)
-- [ ] `src/Utils/UserInfoUtil.php` (1 miejsce - linia 263)
-- [ ] `src/Modules/Users/Models/Privileges.php` (2 miejsca - linie 462, 499)
+### Faza 5: Konwersje wewnętrzne (Priorytet 7) ✅ ZAKOŃCZONA
+- [x] `src/Utils/UserInfoUtil.php` (1 miejsce - linia 263) - zmigrowano
+- [x] `src/Modules/Users/Models/Privileges.php` (2 miejsca - linie 462, 499) - zmigrowano
 
-### Faza 6: Szablony Smarty (Priorytet 6)
-- [ ] `layouts/basic/modules/Base/RecentActivities.tpl` (1 miejsce)
-- [ ] `layouts/basic/modules/Base/dashboards/HistoryContents.tpl` (1 miejsce)
-- [ ] Utworzyć funkcję wrapper dla Smarty
+### Faza 6: Szablony Smarty (Priorytet 6) ✅ ZAKOŃCZONA
+- [x] `layouts/basic/modules/Base/RecentActivities.tpl` (1 miejsce) - zmigrowano
+- [x] `layouts/basic/modules/Base/dashboards/HistoryContents.tpl` (1 miejsce) - zmigrowano
+- [x] `layouts/basic/modules/Calendar/ActivityStateModal.tpl` (3 miejsca) - zmigrowano
 
 ---
 
@@ -331,6 +332,53 @@ Podczas migracji należy zachować backward compatibility:
 - `documentation/privilege-refactoring.md` - Plan refaktoringu systemu uprawnień
 - `documentation/privileges.md` - Dokumentacja systemu uprawnień
 - `documentation/PRIVILEGE_SYSTEM_ANALYSIS.md` - Analiza architektury systemu uprawnień
+
+---
+
+## ✅ Status migracji
+
+### Wszystkie fazy zakończone (1-6) ✅
+
+**Faza 1: Web Services i Reports** ✅
+- Zmigrowano 8 miejsc w Web Services i Reports
+- Wszystkie użycia `UserInfoUtil::isPermitted()` zamienione na `\App\Privilege::isPermitted()`
+
+**Faza 2: Calendar i inne moduły** ✅
+- Zmigrowano 6 miejsc w modułach Calendar, Reservations, OSSTimeControl
+- Wszystkie porównania z `'yes'/'no'` zamienione na bool
+
+**Faza 3: Moduły CRM** ✅
+- Zmigrowano 8 miejsc w modułach CRM
+- Wszystkie użycia zamienione na `\App\Privilege::isPermitted()`
+
+**Faza 4: Utilities** ✅
+- Zmigrowano 2 miejsca w Utilities
+- Naprawiono użycie funkcji bez namespace
+
+**Faza 5: Konwersje wewnętrzne** ✅
+- Zmigrowano 3 miejsca z konwersją `'yes'/'no'` → bool
+- Zamieniono na bezpośrednie użycie `\App\Privilege::isPermittedBySharing()`
+
+**Faza 6: Szablony Smarty** ✅
+- Zmigrowano 5 miejsc w szablonach Smarty
+- Wszystkie użycia zamienione na `\App\Privilege::isPermitted()` z pełną ścieżką klasy
+
+---
+
+## 📊 Statystyki migracji
+
+- **Zmigrowane miejsca:** 32 miejsca
+- **Zmigrowane pliki:** 28 plików
+- **Status:** ✅ Migracja w pełni zakończona
+
+### Szczegóły:
+- **Web Services:** 3 miejsca
+- **Reports:** 6 miejsc
+- **Calendar i inne moduły:** 6 miejsc
+- **Moduły CRM:** 8 miejsc
+- **Utilities:** 2 miejsca
+- **Konwersje wewnętrzne:** 3 miejsca
+- **Szablony Smarty:** 5 miejsc (w tym 3 w ActivityStateModal.tpl)
 
 ---
 

@@ -880,7 +880,7 @@ class Record extends \App\Modules\Base\Models\Record
 		//update comments details in vtiger_modcomments
 		$db->createCommand()->update('vtiger_modcomments', ['userid' => $newOwnerId], ['userid' => $userId])->execute();
 		$db->createCommand()->delete('vtiger_users', ['id' => $userId])->execute();
-		\App\Utils\UserInfoUtil::deleteUserRelatedSharingRules($userId);
+		\App\Modules\Settings\SharingAccess\Models\Rule::deleteUserRelatedSharingRules($userId);
 		$fileName = "user_privileges/sharing_privileges_{$userId}.php";
 		if (file_exists($fileName)) {
 			unlink($fileName);
@@ -1359,5 +1359,27 @@ class Record extends \App\Modules\Base\Models\Record
 		}else {
 			return -1;
 		}
+	}
+
+	/**
+	 * Function to get userid and username of all vtiger_users
+	 * @return array User Array in the following format:
+	 * $userArray=Array($userid1=>$username, $userid2=>$username,............,$useridn=>$username)
+	 */
+	public static function getAllUserName()
+	{
+		\App\Log::trace("Entering getAllUserName() method ...");
+		$adb = \App\Database\PearDatabase::getInstance();
+		$query = "select * from vtiger_users where deleted=0";
+		$result = $adb->pquery($query, []);
+		$num_rows = $adb->num_rows($result);
+		$user_details = [];
+		for ($i = 0; $i < $num_rows; $i++) {
+			$userid = $adb->query_result($result, $i, 'id');
+			$username = \vtlib\Deprecated::getFullNameFromQResult($result, $i, 'Users');
+			$user_details[$userid] = $username;
+		}
+		\App\Log::trace("Exiting getAllUserName method ...");
+		return $user_details;
 	}
 }

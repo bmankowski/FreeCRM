@@ -203,11 +203,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 		$idComponents = vtws_getIdComponents($webserviceId);
 		$id = $idComponents[1];
 
-		$permitted = \App\Utils\UserInfoUtil::isPermitted($this->getTabName(), $operation, $id);
-		if (strcmp($permitted, "yes") === 0) {
-			return true;
-		}
-		return false;
+		return \App\Privilege::isPermitted($this->getTabName(), $operation, $id);
 	}
 
 	public function hasAssignPrivilege($webserviceId)

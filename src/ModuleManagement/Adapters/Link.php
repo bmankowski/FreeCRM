@@ -199,7 +199,7 @@ class Link
 			if (is_array($type)) {
 				$multitype = true;
 				if ($tabid === self::IGNORE_MODULE) {
-					$permittedTabIdList = \App\Utils\UserInfoUtil::getPermittedModuleIdList();
+					$permittedTabIdList = \App\Modules\Users\Models\Privileges::getPermittedModuleIdList();
 					if (!empty($permittedTabIdList)) {
 						$permittedTabIdList[] = 0;
 						foreach ($permittedTabIdList as $moduleId) {

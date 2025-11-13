@@ -44,7 +44,6 @@ class Privilege
 	 */
 	public static function isPermitted($moduleName, $actionName = null, $record = false, $userId = false)
 	{
-	\App\Log::trace("Entering \App\Utils\UserInfoUtil::isPermitted($moduleName,$actionName,$record,$userId) method ...");
 	
 	// Step 1: Initialize user ID and load privileges
 	if (!$userId) {
@@ -518,7 +517,6 @@ public static function isPermittedBySharing($moduleName, $tabId, $actionId, $rec
 	 */
 	public static function isReadPermittedBySharing($moduleName, $tabId, $actionId, $recordId, $userId)
 	{
-		\App\Log::trace("Entering \App\Utils\UserInfoUtil::isReadPermittedBySharing($moduleName,$tabId,$actionId,$recordId,$userId) method ...");
 		$sharingPrivileges = self::getSharingFile($userId);
 
 		if (!isset($sharingPrivileges['permission'][$moduleName])) {
@@ -610,7 +608,6 @@ public static function isPermittedBySharing($moduleName, $tabId, $actionId, $rec
 	 */
 	public static function isReadWritePermittedBySharing($moduleName, $tabId, $actionId, $recordId, $userId)
 	{
-		\App\Log::trace("Entering \App\Utils\UserInfoUtil::isReadWritePermittedBySharing($moduleName,$tabId,$actionId,$recordId,$userId) method ...");
 		$sharingPrivileges = self::getSharingFile($userId);
 		if (!isset($sharingPrivileges['permission'][$moduleName])) {
 			return false;

@@ -201,7 +201,7 @@ class AccessService
 	 */
 	private function syncSharingAccess(): void
 	{
-		\App\Utils\UserInfoUtil::RecalculateSharingRules();
+		\App\Modules\Users\Services\PrivilegeFileManager::RecalculateSharingRules();
 	}
 }
 

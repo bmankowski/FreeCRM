@@ -130,7 +130,7 @@ class OSSEmployees extends \App\CRMEntity
 		foreach ($rows_list as $employees_id => $account_info) {
 			$account_info_data = array();
 
-			$hasRecordViewAccess = (\vtlib\Functions::userIsAdministrator($current_user)) || (\App\Utils\UserInfoUtil::isPermitted('OSSEmployees', 'DetailView', $employees_id) == 'yes');
+			$hasRecordViewAccess = (\vtlib\Functions::userIsAdministrator($current_user)) || \App\Privilege::isPermitted('OSSEmployees', 'DetailView', $employees_id);
 			foreach ($this->list_fields_name as $fieldname => $colname) {
 				if (!$hasRecordViewAccess && $colname != 'name') {
 					$account_info_data[] = '';

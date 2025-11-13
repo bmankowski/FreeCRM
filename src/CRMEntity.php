@@ -1247,7 +1247,7 @@ class CRMEntity
 		$result = $adb->pquery($query, array($value));
 
 		if (!isset($this->checkFlagArr[$module])) {
-			$this->checkFlagArr[$module] = (\App\Utils\UserInfoUtil::isPermitted($module, 'EditView', '') == 'yes');
+			$this->checkFlagArr[$module] = \App\Privilege::isPermitted($module, 'EditView', '');
 		}
 
 		if ($adb->num_rows($result) > 0) {

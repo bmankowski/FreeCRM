@@ -103,7 +103,7 @@
 													{"LBL_REMOVED"|t:$MODULE_NAME}
 												{/if} </span><span>
 												{if $RELATION->getLinkedRecord()->getModuleName() eq 'Calendar'}
-													{if isPermitted('Calendar', 'DetailView', $RELATION->getLinkedRecord()->getId()) eq 'yes'} <strong>{$RELATION->getLinkedRecord()->getName()}</strong> {else} {/if}
+													{if \App\Privilege::isPermitted('Calendar', 'DetailView', $RELATION->getLinkedRecord()->getId())} <strong>{$RELATION->getLinkedRecord()->getName()}</strong> {else} {/if}
 												{else} <strong>{$RELATION->getLinkedRecord()->getName()}</strong> {/if}</span>
 										(<span>{$RELATION->getLinkedRecord()->getModuleName()|t:$RELATION->getLinkedRecord()->getModuleName()}</span>)
 										<span class="pull-right"><p class="muted no-margin"><small title="{\App\Modules\Base\Helpers\Util::formatDateTimeIntoDayString($RELATION->get('changedon'))}">{\App\Modules\Base\Helpers\Util::formatDateDiffInStrings($RELATION->get('changedon'))}</small></p></span>

@@ -71,11 +71,11 @@ class PrivilegeFile
 		$user['groups'] = PrivilegeUtil::getUserGroups($userId);
 		$user['parent_roles'] = $userRoleInfo['parentRoles'];
 		$user['parent_role_seq'] = $userRoleInfo['parentrole'];
-		$profileGlobalPermission = \App\Utils\UserInfoUtil::getCombinedUserGlobalPermissions($userId);
-		$profileTabsPermission = \App\Utils\UserInfoUtil::getCombinedUserTabsPermissions($userId);
-		$profileActionPermission = \App\Utils\UserInfoUtil::getCombinedUserActionPermissions($userId);
+		$profileGlobalPermission = \App\Modules\Users\Models\Privileges::getCombinedUserGlobalPermissions($userId);
+		$profileTabsPermission = \App\Modules\Users\Models\Privileges::getCombinedUserTabsPermissions($userId);
+		$profileActionPermission = \App\Modules\Users\Models\Privileges::getCombinedUserActionPermissions($userId);
 		$subordinateRoles = \App\PrivilegeUtil::getRoleSubordinates($userInstance->column_fields['roleid']);
-		$subordinateRolesUsers = \App\Utils\UserInfoUtil::getSubordinateRoleAndUsers($userInstance->column_fields['roleid']);
+		$subordinateRolesUsers = \App\PrivilegeUtil::getSubordinateRoleAndUsers($userInstance->column_fields['roleid']);
 
 		$content = "<?php\n";
 		$content .= '$is_admin = ' . ($userInstance->column_fields['is_admin'] ? 'true' : 'false') . ";\n";

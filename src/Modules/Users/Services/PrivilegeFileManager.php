@@ -8,7 +8,6 @@ use App\Utils\ModuleUtils;
 use App\PrivilegeFile;
 use App\PrivilegeUtil;
 use App\Utils\GetGroupUsers;
-use App\Utils\UserInfoUtil;
 use App\Modules\Users\Models\Privileges;
 use App\Modules\Users\Models\Record;
 use vtlib\Functions;
@@ -52,14 +51,14 @@ class PrivilegeFileManager
             } else {
                 $newbuf .= "\$is_admin=false;\n";
 
-                $globalPermissionArr = UserInfoUtil::getCombinedUserGlobalPermissions($userId);
-                $tabsPermissionArr = UserInfoUtil::getCombinedUserTabsPermissions($userId);
-                $actionPermissionArr = UserInfoUtil::getCombinedUserActionPermissions($userId);
+                $globalPermissionArr = Privileges::getCombinedUserGlobalPermissions($userId);
+                $tabsPermissionArr = Privileges::getCombinedUserTabsPermissions($userId);
+                $actionPermissionArr = Privileges::getCombinedUserActionPermissions($userId);
                 $user_role = PrivilegeUtil::getRoleByUsers($userId);
                 $user_role_info = PrivilegeUtil::getRoleDetail($user_role);
                 $user_role_parent = $user_role_info['parentrole'];
                 $subRoles = PrivilegeUtil::getRoleSubordinates($user_role);
-                $subRoleAndUsers = UserInfoUtil::getSubordinateRoleAndUsers($user_role);
+                $subRoleAndUsers = PrivilegeUtil::getSubordinateRoleAndUsers($user_role);
                 $parentRoles = PrivilegeUtil::getParentRole($user_role);
                 $newbuf .= "\$current_user_roles='" . $user_role . "';\n";
                 $newbuf .= "\$current_user_parent_role_seq='" . $user_role_parent . "';\n";
@@ -221,7 +220,7 @@ class PrivilegeFileManager
                                         } elseif (array_key_exists($shareEntId, $modShareWritePer['ROLE'])) {
                                             $share_role_users = $modShareWritePer['ROLE'][$shareEntId];
                                         } else {
-                                            $share_role_users = UserInfoUtil::getRoleUserIds($shareEntId);
+                                            $share_role_users = PrivilegeUtil::getUsersByRole($shareEntId);
                                         }
                                         $role_read_per[$shareEntId] = $share_role_users;
                                     }
@@ -232,7 +231,7 @@ class PrivilegeFileManager
                                     } elseif (array_key_exists($shareEntId, $modShareWritePer['ROLE'])) {
                                         $share_role_users = $modShareWritePer['ROLE'][$shareEntId];
                                     } else {
-                                        $share_role_users = UserInfoUtil::getRoleUserIds($shareEntId);
+                                        $share_role_users = PrivilegeUtil::getUsersByRole($shareEntId);
                                     }
                                     $role_write_per[$shareEntId] = $share_role_users;
                                 }
@@ -243,7 +242,7 @@ class PrivilegeFileManager
                                     } elseif (array_key_exists($shareEntId, $modShareWritePer['ROLE'])) {
                                         $share_role_users = $modShareWritePer['ROLE'][$shareEntId];
                                     } else {
-                                        $share_role_users = UserInfoUtil::getRoleUserIds($shareEntId);
+                                        $share_role_users = PrivilegeUtil::getUsersByRole($shareEntId);
                                     }
                                     $role_read_per[$shareEntId] = $share_role_users;
                                 }
@@ -726,5 +725,25 @@ class PrivilegeFileManager
             return $code;
         }
         return '';
+    }
+
+    /**
+     * Function to recalculate the Sharing Rules for all the vtiger_users
+     * This function will recalculate all the sharing rules for all the vtiger_users in the Organization and will write them in flat files
+     */
+    public static function RecalculateSharingRules()
+    {
+        \App\Log::trace("Entering RecalculateSharingRules() method ...");
+        $adb = \App\Database\PearDatabase::getInstance();
+
+        $query = "select id from vtiger_users where deleted=0";
+        $result = $adb->pquery($query, []);
+        $num_rows = $adb->num_rows($result);
+        for ($i = 0; $i < $num_rows; $i++) {
+            $id = $adb->query_result($result, $i, 'id');
+            self::createUserPrivilegesFile($id);
+            self::createUserSharingPrivilegesFile($id);
+        }
+        \App\Log::trace("Exiting RecalculateSharingRules method ...");
     }
 }

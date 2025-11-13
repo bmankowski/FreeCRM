@@ -35,8 +35,7 @@ class InitSchema_Model
 		$this->db->pquery('UPDATE vtiger_version SET `current_version` = ?, `old_version` = ? ;', [\App\Version::get(), \App\Version::get()]);
 
 		// recalculate all sharing rules for users
-		require_once ROOT_DIRECTORY . '/include/utils/UserInfoUtil.php';
-		RecalculateSharingRules();
+		\App\Modules\Users\Services\PrivilegeFileManager::RecalculateSharingRules();
 	}
 
 	public function initializeDatabase($location, $filesName = array())

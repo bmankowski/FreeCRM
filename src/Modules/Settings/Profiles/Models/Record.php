@@ -921,4 +921,151 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			}
 		}
 	}
+
+	/**
+	 * Function to get the Profile Global Information for the specified vtiger_profileid
+	 * @param int $profileid Profile Id
+	 * @return array Profile Global Permission Array in the following format:
+	 * $profileGlobalPermission=Array($viewall_actionid=>permission, $editall_actionid=>permission)
+	 */
+	public static function getProfileGlobalPermission($profileid)
+	{
+		\App\Log::trace("Entering getProfileGlobalPermission(" . $profileid . ") method ...");
+		$adb = \App\Database\PearDatabase::getInstance();
+		$sql = "select * from vtiger_profile2globalpermissions where profileid=?";
+		$result = $adb->pquery($sql, array($profileid));
+		$num_rows = $adb->num_rows($result);
+
+		$copy = [];
+		for ($i = 0; $i < $num_rows; $i++) {
+			$act_id = $adb->query_result($result, $i, "globalactionid");
+			$per_id = $adb->query_result($result, $i, "globalactionpermission");
+			$copy[$act_id] = $per_id;
+		}
+
+		\App\Log::trace("Exiting getProfileGlobalPermission method ...");
+		return $copy;
+	}
+
+	/**
+	 * Function to get the Profile Tab Permissions for the specified vtiger_profileid
+	 * @param int $profileid Profile Id
+	 * @return array Profile Tabs Permission Array in the following format:
+	 * $profileTabPermission=Array($tabid1=>permission, $tabid2=>permission,........., $tabidn=>permission)
+	 */
+	public static function getProfileTabsPermission($profileid)
+	{
+		\App\Log::trace("Entering getProfileTabsPermission(" . $profileid . ") method ...");
+		$adb = \App\Database\PearDatabase::getInstance();
+		$sql = "select * from vtiger_profile2tab where profileid=?";
+		$result = $adb->pquery($sql, array($profileid));
+		$num_rows = $adb->num_rows($result);
+
+		$copy = [];
+		for ($i = 0; $i < $num_rows; $i++) {
+			$tab_id = $adb->query_result($result, $i, "tabid");
+			$per_id = $adb->query_result($result, $i, "permissions");
+			$copy[$tab_id] = $per_id;
+		}
+
+		\App\Log::trace("Exiting getProfileTabsPermission method ...");
+		return $copy;
+	}
+
+	/**
+	 * Function to get the Profile Action Permissions for the specified vtiger_profileid
+	 * @param int $profileid Profile Id
+	 * @return array Profile Tabs Action Permission Array in the following format:
+	 *    $tabActionPermission = Array($tabid1=>Array(actionid1=>permission, actionid2=>permission,...,actionidn=>permission),
+	 *                        $tabid2=>Array(actionid1=>permission, actionid2=>permission,...,actionidn=>permission),
+	 *                                |
+	 *                        $tabidn=>Array(actionid1=>permission, actionid2=>permission,...,actionidn=>permission))
+	 */
+	public static function getProfileActionPermission($profileid)
+	{
+		\App\Log::trace("Entering getProfileActionPermission(" . $profileid . ") method ...");
+		$adb = \App\Database\PearDatabase::getInstance();
+		$check = [];
+		$temp_tabid = [];
+		$sql1 = "select * from vtiger_profile2standardpermissions where profileid=?";
+		$result1 = $adb->pquery($sql1, array($profileid));
+		$num_rows1 = $adb->num_rows($result1);
+		for ($i = 0; $i < $num_rows1; $i++) {
+			$tab_id = $adb->query_result($result1, $i, 'tabid');
+			if (!in_array($tab_id, $temp_tabid)) {
+				$temp_tabid[] = $tab_id;
+				$access = [];
+			}
+
+			$action_id = $adb->query_result($result1, $i, 'operation');
+			$per_id = $adb->query_result($result1, $i, 'permissions');
+			$access[$action_id] = $per_id;
+			$check[$tab_id] = $access;
+		}
+
+		\App\Log::trace("Exiting getProfileActionPermission method ...");
+		return $check;
+	}
+
+	/**
+	 * Function to get all the vtiger_tab utility action permission for the specified vtiger_profile
+	 * @param int $profileid Profile Id
+	 * @return array Tab Utility Action Permission Array in the following format:
+	 * $tabPermission = Array($tabid1=>Array(actionid1=>permission, actionid2=>permission,...,actionidn=>permission),
+	 *                        $tabid2=>Array(actionid1=>permission, actionid2=>permission,...,actionidn=>permission),
+	 *                                |
+	 *                        $tabidn=>Array(actionid1=>permission, actionid2=>permission,...,actionidn=>permission))
+	 */
+	public static function getTabsUtilityActionPermission($profileid)
+	{
+		\App\Log::trace("Entering getTabsUtilityActionPermission(" . $profileid . ") method ...");
+
+		$adb = \App\Database\PearDatabase::getInstance();
+		$check = [];
+		$temp_tabid = [];
+		$sql1 = "select * from vtiger_profile2utility where profileid=? order by(tabid)";
+		$result1 = $adb->pquery($sql1, array($profileid));
+		$num_rows1 = $adb->num_rows($result1);
+		for ($i = 0; $i < $num_rows1; $i++) {
+			$tab_id = $adb->query_result($result1, $i, 'tabid');
+			if (!in_array($tab_id, $temp_tabid)) {
+				$temp_tabid[] = $tab_id;
+				$access = [];
+			}
+
+			$action_id = $adb->query_result($result1, $i, 'activityid');
+			$per_id = $adb->query_result($result1, $i, 'permission');
+			$access[$action_id] = $per_id;
+			$check[$tab_id] = $access;
+		}
+
+		\App\Log::trace("Exiting getTabsUtilityActionPermission method ...");
+		return $check;
+	}
+
+	/**
+	 * Function to get the Standard and Utility Profile Action Permissions for the specified vtiger_profileid
+	 * @param int $profileid Profile Id
+	 * @return array Profile Tabs Action Permission Array in the following format:
+	 *    $tabActionPermission = Array($tabid1=>Array(actionid1=>permission, actionid2=>permission,...,actionidn=>permission),
+	 *                        $tabid2=>Array(actionid1=>permission, actionid2=>permission,...,actionidn=>permission),
+	 *                                |
+	 *                        $tabidn=>Array(actionid1=>permission, actionid2=>permission,...,actionidn=>permission))
+	 */
+	public static function getProfileAllActionPermission($profileid)
+	{
+		\App\Log::trace("Entering getProfileAllActionPermission(" . $profileid . ") method ...");
+		$adb = \App\Database\PearDatabase::getInstance();
+		$actionArr = self::getProfileActionPermission($profileid);
+		$utilArr = self::getTabsUtilityActionPermission($profileid);
+		foreach ($utilArr as $tabid => $act_arr) {
+			$act_tab_arr = $actionArr[$tabid] ?? [];
+			foreach ($act_arr as $utilid => $util_perr) {
+				$act_tab_arr[$utilid] = $util_perr;
+			}
+			$actionArr[$tabid] = $act_tab_arr;
+		}
+		\App\Log::trace("Exiting getProfileAllActionPermission method ...");
+		return $actionArr;
+	}
 }

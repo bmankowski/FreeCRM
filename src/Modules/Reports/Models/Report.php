@@ -121,7 +121,7 @@ class Report extends Reports
 	public function getModulesList()
 	{
 		foreach ($this->module_list as $key => $value) {
-			if (\App\Utils\UserInfoUtil::isPermitted($key, 'index') == "yes") {
+			if (\App\Privilege::isPermitted($key, 'index')) {
 				$modules [$key] = \App\Runtime\Vtiger_Language_Handler::translate($key, $key);
 			}
 		}

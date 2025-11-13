@@ -156,7 +156,7 @@ class ScheduleReports extends \App\Runtime\BaseModel
 
 			if (!empty($recipients['Roles'])) {
 				foreach ($recipients['Roles'] as $roleId) {
-					$roleUsers = \App\Utils\UserInfoUtil::getRoleUsers($roleId);
+					$roleUsers = \App\PrivilegeUtil::getRoleUsers($roleId);
 					foreach ($roleUsers as $userId => $userName) {
 						array_push($recipientsList, $userId);
 					}
