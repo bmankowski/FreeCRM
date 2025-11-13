@@ -80,7 +80,7 @@ function getActivityDetails($description, $user_id, $from = '')
 	
 	$currentUser = \App\User\CurrentUser::get();
 	$adb = \App\Database\PearDatabase::getInstance();
-	$current_language = vglobal('current_language');
+	$current_language = \App\Runtime\Vtiger_Language_Handler::getLanguage();
 	$mod_strings = \vtlib\Deprecated::getModuleTranslationStrings($current_language, 'Calendar');
 	\App\Log::trace("Entering getActivityDetails(" . $description . ") method ...");
 	$updated = $mod_strings['LBL_UPDATED'];

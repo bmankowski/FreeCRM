@@ -106,7 +106,7 @@ function vtws_listtypes($fieldTypeList, $user)
 	}
 
 	$default_language = VTWS_PreserveGlobal::getGlobal('default_language');
-	$current_language = vglobal('current_language');
+	$current_language = \App\Runtime\Vtiger_Language_Handler::getLanguage();
 	if (empty($current_language))
 		$current_language = $default_language;
 	$current_language = vtws_preserveGlobal('current_language', $current_language);

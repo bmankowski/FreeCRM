@@ -366,7 +366,7 @@ class VTScheduledReport extends Reports
 		$adminUser = $util->adminUser();
 
 		$currentModule = vglobal('currentModule');
-		$current_language = vglobal('current_language');
+		$current_language = \App\Runtime\Vtiger_Language_Handler::getLanguage();
 		if (empty($currentModule))
 			$currentModule = 'Reports';
 		if (empty($current_language))

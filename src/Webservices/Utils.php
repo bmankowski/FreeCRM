@@ -884,7 +884,7 @@ function vtws_getWebserviceTranslatedString($label)
 
 function vtws_getWebserviceCurrentLanguage()
 {
-	$lang = vglobal('current_language');
+	$lang = \App\Runtime\Vtiger_Language_Handler::getLanguage();
 	if (empty($lang)) {
 		$lang = \App\AppConfig::main('default_language');
 	}

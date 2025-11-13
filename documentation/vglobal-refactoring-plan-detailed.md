@@ -118,6 +118,7 @@ if (\App\AppConfig::main('systemMode') != 'demo') {
 6. **Faza 6** - `default_charset`, `php_max_execution_time`, `davStorageDir` (pozostałe wartości konfiguracyjne) - ✅ **WYKONANE**
 7. **Faza 7** - Dokończenie `systemMode` (pozostałe 3 wystąpienia w kodzie PHP) - ✅ **WYKONANE**
 8. **Faza 8** - `default_language` (wartość konfiguracyjna, 11 odczytów zmienionych w 6 plikach) - ✅ **WYKONANE**
+9. **Faza 9** - `current_language` (odczyty, 7 wystąpień w 7 plikach) - ✅ **WYKONANE**
 
 ---
 
@@ -626,17 +627,90 @@ if ($uploadOk && $_FILES['watermark']['size'][0] > \App\AppConfig::main('upload_
 
 ## Inne proponowane fazy (do rozważenia w przyszłości):
 
-### FAZA 9: Wartości runtime - `current_language`
+### FAZA 11: Wartości runtime - `currentModule`
 - **Wystąpienia:** ~23 wystąpienia w 13 plikach
 - **Charakterystyka:** Wartość runtime, ustawiana w `EntryPoint/WebUI.php`
 - **Alternatywa:** Użycie `$request->getModule()` lub przekazywanie przez kontekst
 - **Priorytet:** Wysoki (często używane), ale wymaga większej refaktoryzacji (kontekst Request)
 
-### FAZA 9: Wartości runtime - `current_language`
-- **Wystąpienia:** ~6 wystąpień w 5 plikach
-- **Charakterystyka:** Wartość runtime, ustawiana w `EntryPoint/WebUI.php`
-- **Alternatywa:** Użycie `Vtiger_Language_Handler::getLanguage()`
-- **Priorytet:** Wysoki (często używane), ale wymaga większej refaktoryzacji
+## FAZA 9: Usunięcie odczytów `vglobal('current_language')` - ✅ WYKONANE
+
+### Analiza użycia
+
+**Wystąpienia:** 7 odczytów w 7 plikach + 3 ustawiania (ustawiania pozostawione)
+
+#### Odczyty do zmiany:
+- `src/Webservices/Utils.php` (linia 887) - funkcja `vtws_getWebserviceCurrentLanguage()`
+- `src/Modules/Reports/Models/ScheduleReports.php` (linia 319) - metoda `getEmailContent()`
+- `src/Webservices/VtigerCRMObjectMeta.php` (linia 354) - metoda `getMeta()`
+- `src/Webservices/ModuleTypes.php` (linia 109) - funkcja `vtws_getModuleTypes()`
+- `src/Modules/Calendar/CalendarCommon.php` (linia 83) - funkcja `getCalendarView()`
+- `src/Modules/Reports/VTScheduledReport.php` (linia 369) - metoda `getEmailContent()`
+- `src/Modules/CustomView/CustomView.php` (linia 958) - metoda `isPermittedChangeStatus()`
+
+#### Ustawiania (pozostawione jako vglobal):
+- `src/EntryPoint/WebUI.php` (linia 409) - ustawianie podczas inicjalizacji
+- `src/Modules/Reports/Models/ScheduleReports.php` (linia 324) - ustawianie fallback
+- `src/Modules/Reports/VTScheduledReport.php` (linia 373) - ustawianie fallback
+
+**Charakterystyka:**
+- Wartość runtime, ustawiana w `EntryPoint/WebUI.php`
+- Alternatywa: `Vtiger_Language_Handler::getLanguage()` - już istnieje i jest używana
+- Prosta refaktoryzacja - zamiana odczytów na wywołanie metody
+- Ustawiania pozostawione jako `vglobal()` (to jest ustawianie runtime podczas inicjalizacji)
+
+### Wykonane zmiany:
+
+1. ✅ **`src/Webservices/Utils.php`**
+   - Funkcja: `vtws_getWebserviceCurrentLanguage()` (linia 887)
+   - Zamieniono `vglobal('current_language')` na `Vtiger_Language_Handler::getLanguage()`
+
+2. ✅ **`src/Modules/Reports/Models/ScheduleReports.php`**
+   - Metoda: `runScheduledReports()` (linia 319)
+   - Zamieniono `vglobal('current_language')` na `Vtiger_Language_Handler::getLanguage()`
+
+3. ✅ **`src/Webservices/VtigerCRMObjectMeta.php`**
+   - Metoda: `retrieveMeta()` (linia 354)
+   - Zamieniono `vglobal('current_language')` na `Vtiger_Language_Handler::getLanguage()`
+
+4. ✅ **`src/Webservices/ModuleTypes.php`**
+   - Funkcja: `vtws_getModuleTypes()` (linia 109)
+   - Zamieniono `vglobal('current_language')` na `Vtiger_Language_Handler::getLanguage()`
+
+5. ✅ **`src/Modules/Calendar/CalendarCommon.php`**
+   - Funkcja: `getActivityDetails()` (linia 83)
+   - Zamieniono `vglobal('current_language')` na `Vtiger_Language_Handler::getLanguage()`
+
+6. ✅ **`src/Modules/Reports/VTScheduledReport.php`**
+   - Metoda: `runScheduledReports()` (linia 369)
+   - Zamieniono `vglobal('current_language')` na `Vtiger_Language_Handler::getLanguage()`
+
+7. ✅ **`src/Modules/CustomView/CustomView.php`**
+   - Metoda: `isPermittedChangeStatus()` (linia 958)
+   - Zamieniono `vglobal('current_language')` na `Vtiger_Language_Handler::getLanguage()`
+
+### Korzyści:
+
+- **Prostota:** Prosta zamiana odczytów na wywołanie istniejącej metody
+- **Spójność:** Ujednolici sposób dostępu do aktualnego języka
+- **Gotowa alternatywa:** `Vtiger_Language_Handler::getLanguage()` już istnieje i jest używana
+- **Niskie ryzyko:** Nie wpływa na logikę biznesową, tylko sposób dostępu do języka
+
+### Weryfikacja:
+
+✅ **Wszystkie odczyty zostały zmienione** - grep nie znajduje już `vglobal('current_language')` jako odczyt w kodzie źródłowym
+✅ **Ustawiania wartości pozostawione** - ustawiania runtime podczas inicjalizacji i fallback pozostawione jako `vglobal()` (wymaga osobnej refaktoryzacji)
+⚠️ **Błędy lintera** - w `CalendarCommon.php` są błędy niezwiązane z naszymi zmianami (dotyczą innych metod)
+
+**Do przetestowania:**
+1. Czy webservices zwracają poprawny język
+2. Czy raporty zaplanowane są generowane poprawnie z językiem
+3. Czy kalendarz działa poprawnie z językiem
+4. Czy CustomView działa poprawnie z językiem
+
+---
+
+## Inne proponowane fazy (do rozważenia w przyszłości):
 
 ### FAZA 10: Wartości runtime - `mod_strings` / `app_strings`
 - **Wystąpienia:** ~4 wystąpienia (głównie ustawianie w EntryPoint, ale też użycie w Reports.php, CustomView.php)
@@ -650,7 +724,13 @@ if ($uploadOk && $_FILES['watermark']['size'][0] > \App\AppConfig::main('upload_
 - **Alternatywa:** Użycie `$request->getModule()` lub przekazywanie przez kontekst
 - **Priorytet:** Wysoki (często używane), ale wymaga większej refaktoryzacji (kontekst Request)
 
-### FAZA 12: Pozostałe wartości runtime
+### FAZA 12: Pozostałe wartości runtime (current_language ustawiania)
+- **Wystąpienia:** 3 wystąpienia ustawiania
+- **Charakterystyka:** Ustawianie runtime podczas inicjalizacji i fallback
+- **Pliki:** EntryPoint/WebUI.php, ScheduleReports.php, VTScheduledReport.php
+- **Priorytet:** Niski (ustawiania runtime, wymagają większej refaktoryzacji)
+
+### FAZA 13: Pozostałe wartości runtime
 - **Wystąpienia:** ~11 wystąpień różnych wartości
 - **Charakterystyka:** Różne wartości runtime (workflowIdsAlreadyDone, showsAdditionalLabels, isPermittedLog, popupAjax, translated_language)
 - **Priorytet:** Niski (specjalne przypadki, wymagają indywidualnej analizy)

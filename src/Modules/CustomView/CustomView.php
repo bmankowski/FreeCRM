@@ -955,7 +955,7 @@ class CustomView extends \App\CRMEntity
 
 	public function isPermittedChangeStatus($status)
 	{
-		$currentLanguage = vglobal('current_language');
+		$currentLanguage = \App\Runtime\Vtiger_Language_Handler::getLanguage();
 		$currentUser = \App\User\CurrentUser::get();
 		$custom_strings = \vtlib\Deprecated::getModuleTranslationStrings($currentLanguage, "CustomView");
 

@@ -316,7 +316,7 @@ class ScheduleReports extends \App\Runtime\BaseModel
 		$util->adminUser();
 
 		$currentModule = vglobal('currentModule');
-		$current_language = vglobal('current_language');
+		$current_language = \App\Runtime\Vtiger_Language_Handler::getLanguage();
 		if (empty($currentModule)) {
 			vglobal('currentModule', 'Reports');
 		}
