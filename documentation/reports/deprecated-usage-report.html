@@ -1,0 +1,2089 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset='UTF-8'>
+<title>Raport Użycia Deprecated Funkcji</title>
+<style>
+            body { font-family: Arial, sans-serif; margin: 20px; }
+            h1 { color: #333; }
+            h2 { color: #666; margin-top: 30px; }
+            table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+            th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+            th { background-color: #f2f2f2; }
+            .file { font-family: monospace; color: #0066cc; }
+            .line { color: #666; }
+            .context { font-family: monospace; background-color: #f9f9f9; padding: 5px; }
+            .count { font-weight: bold; }
+            .high { color: #d32f2f; }
+            .medium { color: #f57c00; }
+            .low { color: #388e3c; }Przejrzyj plan migracji w documentation/deprecated-functions-migration-plan.md
+Uruchom skrypt analizy: php scripts/analyze-deprecated-usage.php
+Rozpocznij Fazę 1: migracja funkcji bezpieczeństwa plików
+        </style>
+</head>
+<body>
+<h1>📊 Raport Użycia Deprecated Funkcji</h1>
+<p>Wygenerowano: 2025-11-13 12:56:43</p>
+<h2>vtlib\Deprecated</h2>
+<table>
+<tr><th>Funkcja</th><th>Liczba użyć</th><th>Plik</th><th>Linia</th><th>Kontekst</th></tr>
+<tr><td rowspan='43'>getSqlForNameInDisplayFormat</td><td class='count high' rowspan='43'>43</td><td class='file'>src/Utils/ListViewUtils.php</td><td class='line'>24</td><td class='context'>$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array(&#039;first_name&#039; =&gt; &#039;vtiger_users.first_name&#039;, &#039;last_name&#039; =&gt;
+				&#039;vtiger_users.last_name&#039;), &#039;Users&#039;);
+		switch ($module) {
+			Case</td></tr>
+<tr><td class='file'>src/Fields/Owner.php</td><td class='line'>237</td><td class='context'>$where []= [&#039;like&#039;, \App\Utils\ModuleUtils::getSqlForNameInDisplayFormat(&#039;Users&#039;), $this-&gt;searchValue];
+		}
+		if ($status) {
+			$where []= [&#039;status&#039; =&gt; $status];
+		}
+		if ($where) {
+			$query-&gt;whe</td></tr>
+<tr><td class='file'>src/Modules/Documents/Documents.php</td><td class='line'>196</td><td class='context'>$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array(&#039;first_name&#039; =&gt;
+				&#039;vtiger_users.first_name&#039;, &#039;last_name&#039; =&gt; &#039;vtiger_users.last_name&#039;), &#039;Users&#039;);
+		$query = &quot;SELECT $fields_li</td></tr>
+<tr><td class='file'>src/Modules/Settings/TreesManager/Models/ListView.php</td><td class='line'>43</td><td class='context'>$orderBy = &#039;COALESCE(&#039; . \vtlib\Deprecated::getSqlForNameInDisplayFormat([&#039;first_name&#039; =&gt; &#039;vtiger_users.first_name&#039;, &#039;last_name&#039; =&gt; &#039;vtiger_users.last_name&#039;], &#039;Users&#039;) . &#039;,vtiger_groups.groupname</td></tr>
+<tr><td class='file'>src/Modules/Settings/Base/Models/ListView.php</td><td class='line'>89</td><td class='context'>$orderBy = &#039;COALESCE(&#039; . \App\Utils\ModuleUtils::getSqlForNameInDisplayFormat(&#039;Users&#039;) . &#039;,vtiger_groups.groupname)&#039;;
+			}
+		}
+		if (!empty($orderBy)) {
+			if ($this-&gt;getForSql(&#039;sortorder&#039;) === &#039;</td></tr>
+<tr><td class='file'>src/Modules/Settings/Workflows/Models/ListView.php</td><td class='line'>57</td><td class='context'>$orderBy = &#039;COALESCE(&#039; . \App\Utils\ModuleUtils::getSqlForNameInDisplayFormat(&#039;Users&#039;) . &#039;,vtiger_groups.groupname)&#039;;
+			}
+		}
+		if (!empty($orderBy)) {
+			$listQuery-&gt;orderBy(sprintf(&#039;%s %s&#039;, $o</td></tr>
+<tr><td class='file'>src/Modules/Base/Helpers/ListUpdatedRecord.php</td><td class='line'>38</td><td class='context'>$select[&#039;smownerid&#039;] = \App\Utils\ModuleUtils::getSqlForNameInDisplayFormat(&#039;Users&#039;);
+		$dataReader = (new \App\Db\Query())-&gt;select($select)-&gt;from(&#039;vtiger_crmentity&#039;)
+			-&gt;leftJoin(&#039;u_#__crmentity_</td></tr>
+<tr><td class='file'>src/Modules/SSalesProcesses/SSalesProcesses.php</td><td class='line'>224</td><td class='context'>$userNameSql = \App\Utils\ModuleUtils::getSqlForNameInDisplayFormat(&#039;Users&#039;);
+		$row = (new \App\Db\Query())-&gt;select([
+				&#039;u_#__ssalesprocesses.*&#039;,
+				new \yii\db\Expression(&quot;CASE when (vtiger_us</td></tr>
+<tr><td class='file'>src/Modules/SSalesProcesses/SSalesProcesses.php</td><td class='line'>284</td><td class='context'>$userNameSql = \App\Utils\ModuleUtils::getSqlForNameInDisplayFormat(&#039;Users&#039;);
+		$dataReader = (new \App\Db\Query())-&gt;select([
+					&#039;u_#__ssalesprocesses.*&#039;,
+					new \yii\db\Expression(&quot;CASE when (</td></tr>
+<tr><td class='file'>src/Modules/Accounts/Accounts.php</td><td class='line'>314</td><td class='context'>$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array(&#039;first_name&#039; =&gt;
+				&#039;vtiger_users.first_name&#039;, &#039;last_name&#039; =&gt; &#039;vtiger_users.last_name&#039;), &#039;Users&#039;);
+		$query = &#039;SELECT vtiger_acc</td></tr>
+<tr><td class='file'>src/Modules/Accounts/Accounts.php</td><td class='line'>378</td><td class='context'>$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array(&#039;first_name&#039; =&gt;
+				&#039;vtiger_users.first_name&#039;, &#039;last_name&#039; =&gt; &#039;vtiger_users.last_name&#039;), &#039;Users&#039;);
+		$query = &quot;SELECT vtiger_acc</td></tr>
+<tr><td class='file'>src/Modules/Accounts/Accounts.php</td><td class='line'>512</td><td class='context'>$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array(&#039;first_name&#039; =&gt; &#039;vtiger_users.first_name&#039;,
+				&#039;last_name&#039; =&gt; &#039;vtiger_users.last_name&#039;), &#039;Users&#039;);
+		$query .= $tables;
+		$query</td></tr>
+<tr><td class='file'>src/Modules/Leads/Leads.php</td><td class='line'>91</td><td class='context'>$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array(&#039;first_name&#039; =&gt;
+				&#039;vtiger_users.first_name&#039;, &#039;last_name&#039; =&gt; &#039;vtiger_users.last_name&#039;), &#039;Users&#039;);
+		$query = &quot;SELECT $fields_li</td></tr>
+<tr><td class='file'>src/Modules/Reports/ReportRun.php</td><td class='line'>135</td><td class='context'>$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array(&#039;first_name&#039; =&gt; $selectedfields[0] . &#039;.first_name&#039;, &#039;last_name&#039; =&gt; $selectedfields[0] . &#039;.last_name&#039;), &#039;Users&#039;);
+				$columnslis</td></tr>
+<tr><td class='file'>src/Modules/Reports/ReportRun.php</td><td class='line'>176</td><td class='context'>$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array(&#039;first_name&#039; =&gt; $selectedfields[0] . &#039;.first_name&#039;, &#039;last_name&#039; =&gt; $selectedfields[0] . &#039;.last_name&#039;), &#039;Users&#039;);
+		$moduleInstance</td></tr>
+<tr><td class='file'>src/Modules/Reports/ReportRun.php</td><td class='line'>251</td><td class='context'>$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array(&#039;first_name&#039; =&gt; $selectedfields[0] . &quot;.first_name&quot;, &#039;last_name&#039; =&gt; $selectedfields[0] . &quot;.last_name&quot;), &#039;Users&#039;);
+				$columnSQL</td></tr>
+<tr><td class='file'>src/Modules/Reports/ReportRun.php</td><td class='line'>260</td><td class='context'>$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array(&#039;last_name&#039; =&gt; $targetTableName . &#039;.last_name&#039;, &#039;first_name&#039; =&gt; $targetTableName . &#039;.first_name&#039;), &#039;Users&#039;);
+			$columnSQL = &quot;tri</td></tr>
+<tr><td class='file'>src/Modules/Reports/ReportRun.php</td><td class='line'>270</td><td class='context'>$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array(&#039;last_name&#039; =&gt; $targetTableName . &#039;.last_name&#039;, &#039;first_name&#039; =&gt; $targetTableName . &#039;.first_name&#039;), &#039;Users&#039;);
+			$columnSQL = &quot;tri</td></tr>
+<tr><td class='file'>src/Modules/Reports/ReportRun.php</td><td class='line'>280</td><td class='context'>$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array(&#039;last_name&#039; =&gt; $targetTableName . &#039;.last_name&#039;, &#039;first_name&#039; =&gt; $targetTableName . &#039;.first_name&#039;), &#039;Users&#039;);
+			$columnSQL = &quot;tri</td></tr>
+<tr><td class='file'>src/Modules/Reports/ReportRun.php</td><td class='line'>397</td><td class='context'>$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array(&#039;first_name&#039; =&gt; &#039;vtiger_usersModComments.first_name&#039;,
+					&#039;last_name&#039; =&gt; &#039;vtiger_usersModComments.last_name&#039;), &#039;Users&#039;);
+			$que</td></tr>
+<tr><td class='file'>src/Modules/Reports/ReportRun.php</td><td class='line'>824</td><td class='context'>$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array(&#039;first_name&#039; =&gt; $selectedfields[0] . &quot;.first_name&quot;, &#039;last_name&#039; =&gt; $selectedfields[0] . &quot;.last_name&quot;), &#039;Users&#039;);
+						// Adde</td></tr>
+<tr><td class='file'>src/Modules/Reports/ReportRun.php</td><td class='line'>898</td><td class='context'>$advcolsql[] = &#039;trim(&#039; . \vtlib\Deprecated::getSqlForNameInDisplayFormat(array(&#039;last_name&#039; =&gt; &quot;$tableName.last_name&quot;, &#039;first_name&#039; =&gt; &quot;$tableName.first_name&quot;), &#039;Users&#039;) . &#039;)&#039; .
+											$</td></tr>
+<tr><td class='file'>src/Modules/Reports/ReportRun.php</td><td class='line'>960</td><td class='context'>$fieldvalue = &#039;trim(&#039; . \vtlib\Deprecated::getSqlForNameInDisplayFormat(array(&#039;last_name&#039; =&gt; &quot;$tableName.last_name&quot;, &#039;first_name&#039; =&gt; &quot;$tableName.first_name&quot;), &#039;Users&#039;) . &#039;)&#039; .
+									$this-</td></tr>
+<tr><td class='file'>src/Modules/Reports/ReportRun.php</td><td class='line'>977</td><td class='context'>$fieldvalue = &#039;trim(&#039; . \vtlib\Deprecated::getSqlForNameInDisplayFormat(array(&#039;last_name&#039; =&gt; &quot;$tableName.last_name&quot;, &#039;first_name&#039; =&gt; &quot;$tableName.first_name&quot;), &#039;Users&#039;) . &#039;)&#039; .
+									$this-</td></tr>
+<tr><td class='file'>src/Modules/Reports/ReportRun.php</td><td class='line'>2432</td><td class='context'>$usersSqlFullName = \App\Utils\ModuleUtils::getSqlForNameInDisplayFormat(&#039;Users&#039;);
+							$query = sprintf(&#039;SELECT %s FROM  u_yf_crmentity_showners LEFT JOIN vtiger_users ON u_yf_crmentity_sho</td></tr>
+<tr><td class='file'>src/Modules/Reports/ReportRun.php</td><td class='line'>3378</td><td class='context'>$columnSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat($columnList, $this-&gt;primarymodule);
+			} else {
+				$columnSql = implode(&#039;&#039;, $columnList);
+			}
+			$columnsSqlList[] = $columnSql;
+		}</td></tr>
+<tr><td class='file'>src/Modules/Reports/ReportRun.php</td><td class='line'>3477</td><td class='context'>$columnSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat($columnList, $referenceModule);
+				} else {
+					$columnSql = implode(&#039;&#039;, $columnList);
+				}
+
+				if ($referenceModule == &#039;Currency</td></tr>
+<tr><td class='file'>src/Modules/Reports/Models/ListView.php</td><td class='line'>133</td><td class='context'>$orderBy = &#039;COALESCE(&#039; . \vtlib\Deprecated::getSqlForNameInDisplayFormat([&#039;first_name&#039; =&gt; &#039;vtiger_users.first_name&#039;, &#039;last_name&#039; =&gt; &#039;vtiger_users.last_name&#039;], &#039;Users&#039;) . &#039;,vtiger_groups.groupname</td></tr>
+<tr><td class='file'>src/Modules/CustomView/CustomView.php</td><td class='line'>454</td><td class='context'>$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array(&#039;first_name&#039; =&gt;
+								&#039;vtiger_users.first_name&#039;, &#039;last_name&#039; =&gt; &#039;vtiger_users.last_name&#039;), &#039;Users&#039;);
+						$sqllist_column</td></tr>
+<tr><td class='file'>src/Modules/CustomView/CustomView.php</td><td class='line'>675</td><td class='context'>$contactid = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array(&#039;lastname&#039; =&gt; &#039;vtiger_contactdetails.lastname&#039;, &#039;firstname&#039; =&gt; &#039;vtiger_contactdetails.firstname&#039;), &#039;Contacts&#039;);
+		}
+		$change_tab</td></tr>
+<tr><td class='file'>src/Modules/CustomView/CustomView.php</td><td class='line'>687</td><td class='context'>&quot;vtiger_contactdetails.reportsto&quot; =&gt; \vtlib\Deprecated::getSqlForNameInDisplayFormat(array(&#039;lastname&#039; =&gt; &#039;vtiger_contactdetails2.lastname&#039;, &#039;firstname&#039; =&gt; &#039;vtiger_contactdetails2.firstname&#039;), &#039;Con</td></tr>
+<tr><td class='file'>src/Modules/CustomView/CustomView.php</td><td class='line'>697</td><td class='context'>$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array(&#039;first_name&#039; =&gt;
+					&#039;vtiger_users&#039; . $tableNameSuffix . &#039;.first_name&#039;, &#039;last_name&#039; =&gt; &#039;vtiger_users&#039; . $tableNameSuffix . &#039;.la</td></tr>
+<tr><td class='file'>src/Modules/CustomView/CustomView.php</td><td class='line'>782</td><td class='context'>$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array(&#039;lastname&#039; =&gt; &#039;vtiger_leaddetails.lastname&#039;, &#039;firstname&#039; =&gt; &#039;vtiger_leaddetails.firstname&#039;), &#039;Leads&#039;);
+				if (($comparator == &#039;</td></tr>
+<tr><td class='file'>src/Modules/CustomView/CustomView.php</td><td class='line'>795</td><td class='context'>$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array(&#039;lastname&#039; =&gt; &#039;vtiger_contactdetails.lastname&#039;, &#039;firstname&#039; =&gt; &#039;vtiger_contactdetails.firstname&#039;), &#039;Contacts&#039;);
+				if (($compar</td></tr>
+<tr><td class='file'>src/Modules/HelpDesk/HelpDesk.php</td><td class='line'>129</td><td class='context'>$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array(&#039;first_name&#039; =&gt;
+				&#039;vtiger_users.first_name&#039;, &#039;last_name&#039; =&gt; &#039;vtiger_users.last_name&#039;), &#039;Users&#039;);
+		$query = &quot;SELECT $fields_li</td></tr>
+<tr><td class='file'>src/Modules/HelpDesk/Dashboards/OpenTickets.php</td><td class='line'>33</td><td class='context'>$userNameSql = \App\Utils\ModuleUtils::getSqlForNameInDisplayFormat(&#039;Users&#039;);
+		$query-&gt;select([&#039;count&#039; =&gt; new \yii\db\Expression(&#039;COUNT(*)&#039;),
+				&#039;name&#039; =&gt; new \yii\db\Expression(&quot;CASE WHEN ($user</td></tr>
+<tr><td class='file'>src/Modules/IStorages/IStorages.php</td><td class='line'>224</td><td class='context'>$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array(&#039;first_name&#039; =&gt;
+				&#039;vtiger_users.first_name&#039;, &#039;last_name&#039; =&gt; &#039;vtiger_users.last_name&#039;), &#039;Users&#039;);
+		$query = &#039;SELECT u_yf_istor</td></tr>
+<tr><td class='file'>src/Modules/IStorages/IStorages.php</td><td class='line'>291</td><td class='context'>$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat([&#039;first_name&#039; =&gt;
+				&#039;vtiger_users.first_name&#039;, &#039;last_name&#039; =&gt; &#039;vtiger_users.last_name&#039;], &#039;Users&#039;);
+		$query = &quot;SELECT u_yf_istorages.</td></tr>
+<tr><td class='file'>src/Modules/OSSEmployees/OSSEmployees.php</td><td class='line'>182</td><td class='context'>$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array(&#039;first_name&#039; =&gt;
+				&#039;vtiger_users.first_name&#039;, &#039;last_name&#039; =&gt; &#039;vtiger_users.last_name&#039;), &#039;Users&#039;);
+		$query = &quot;SELECT vtiger_oss</td></tr>
+<tr><td class='file'>src/Modules/OSSEmployees/OSSEmployees.php</td><td class='line'>220</td><td class='context'>$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array(&#039;first_name&#039; =&gt;
+				&#039;vtiger_users.first_name&#039;, &#039;last_name&#039; =&gt; &#039;vtiger_users.last_name&#039;), &#039;Users&#039;);
+		$query = &quot;SELECT vtiger_oss</td></tr>
+<tr><td class='file'>src/Modules/OSSMailView/Models/Record.php</td><td class='line'>243</td><td class='context'>$usersSqlFullName = \vtlib\Deprecated::getSqlForNameInDisplayFormat([&#039;first_name&#039; =&gt; &#039;vtiger_users.first_name&#039;, &#039;last_name&#039; =&gt; &#039;vtiger_users.last_name&#039;], &#039;Users&#039;);
+		$sql = &quot;SELECT vtiger_crmentity</td></tr>
+<tr><td class='file'>src/Modules/OSSMailView/Views/preview.php</td><td class='line'>46</td><td class='context'>$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array(&#039;first_name&#039; =&gt; &#039;vtiger_users.first_name&#039;, &#039;last_name&#039; =&gt; &#039;vtiger_users.last_name&#039;), &#039;Users&#039;);
+		$query = &quot;SELECT case when (vti</td></tr>
+<tr><td class='file'>src/Modules/OSSMailView/Views/sview.php</td><td class='line'>50</td><td class='context'>$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array(&#039;first_name&#039; =&gt; &#039;vtiger_users.first_name&#039;, &#039;last_name&#039; =&gt; &#039;vtiger_users.last_name&#039;), &#039;Users&#039;);
+		$query = &quot;SELECT case when (vti</td></tr>
+<tr><td rowspan='16'>checkFileAccessForInclusion</td><td class='count medium' rowspan='16'>16</td><td class='file'>src/Loader.php</td><td class='line'>237</td><td class='context'>\vtlib\Deprecated::checkFileAccessForInclusion($file);
+
+		$status = -1;
+		if ($suppressWarning) {
+			$status = @include_once $file;
+		} else {
+			$status = include_once $file;
+		}
+
+		$success = ($s</td></tr>
+<tr><td class='file'>src/Modules/Base/Models/Widget.php</td><td class='line'>238</td><td class='context'>\vtlib\Deprecated::checkFileAccessForInclusion($widgetControllerClassFile);
+				include_once $widgetControllerClassFile;
+			}
+			if (class_exists($widgetControllerClass)) {
+				$widgetControllerI</td></tr>
+<tr><td class='file'>src/Modules/Base/Helpers/ShortURL.php</td><td class='line'>87</td><td class='context'>\vtlib\Deprecated::checkFileAccessForInclusion($handlerPath);
+			require_once $handlerPath;
+
+			$handler = new $handlerClass();
+
+			// Delete onetime URL
+			if ($record[&#039;onetime&#039;])
+				$db-&gt;pquery</td></tr>
+<tr><td class='file'>src/Modules/Users/Services/PrivilegeFileManager.php</td><td class='line'>93</td><td class='context'>\vtlib\Deprecated::checkFileAccessForInclusion(&#039;user_privileges/user_privileges_&#039; . $userId . &#039;.php&#039;);
+		$userPrivilegesData = require &#039;user_privileges/user_privileges_&#039; . $userId . &#039;.php&#039;;
+		if (i</td></tr>
+<tr><td class='file'>src/Modules/Users/Services/PrivilegeFileManager.php</td><td class='line'>332</td><td class='context'>\vtlib\Deprecated::checkFileAccessForInclusion(&#039;user_privileges/sharing_privileges_&#039; . $userId . &#039;.php&#039;);
+        require(&#039;user_privileges/sharing_privileges_&#039; . $userId . &#039;.php&#039;);
+        //</td></tr>
+<tr><td class='file'>src/Modules/Users/Services/PrivilegeFileManager.php</td><td class='line'>386</td><td class='context'>\vtlib\Deprecated::checkFileAccessForInclusion(&#039;user_privileges/sharing_privileges_&#039; . $userId . &#039;.php&#039;);
+            require(&#039;user_privileges/sharing_privileges_&#039; . $userId . &#039;.php&#039;);</td></tr>
+<tr><td class='file'>src/Modules/Users/Services/PrivilegeFileManager.php</td><td class='line'>465</td><td class='context'>\vtlib\Deprecated::checkFileAccessForInclusion(&#039;user_privileges/sharing_privileges_&#039; . $userId . &#039;.php&#039;);
+            require(&#039;user_privileges/sharing_privileges_&#039; . $userId . &#039;.php&#039;);</td></tr>
+<tr><td class='file'>src/Modules/SMSNotifier/SMSNotifierBase.php</td><td class='line'>148</td><td class='context'>\vtlib\Deprecated::checkFileAccessForInclusion(&quot;src/Modules/$related_module/$related_module.php&quot;);
+			require_once(&quot;src/Modules/$related_module/$related_module.php&quot;);
+			$other = new $related_modu</td></tr>
+<tr><td class='file'>src/Modules/SMSNotifier/SMSNotifierBase.php</td><td class='line'>245</td><td class='context'>\vtlib\Deprecated::checkFileAccessForInclusion(&quot;src/Modules/$related_module/$related_module.php&quot;);
+			require_once(&quot;src/Modules/$related_module/$related_module.php&quot;);
+			$other = new $related_modu</td></tr>
+<tr><td class='file'>src/ModuleManagement/Events/Dispatcher.php</td><td class='line'>68</td><td class='context'>if ($fileService-&gt;checkFileAccessForInclusion($filepath, false)) {
+			include_once($filepath);
+			if (class_exists($moduleName)) {
+				$instance = new $moduleName();
+			}
+		}
+		
+		return $instance;</td></tr>
+<tr><td class='file'>src/ModuleManagement/Adapters/Module.php</td><td class='line'>441</td><td class='context'>if ($fileService-&gt;checkFileAccessForInclusion($filepath, false)) {
+			Deprecated::checkFileAccessForInclusion($filepath);
+			include_once($filepath);
+			if (class_exists($modulename)) {
+				$instan</td></tr>
+<tr><td class='file'>src/ModuleManagement/Adapters/Module.php</td><td class='line'>442</td><td class='context'>Deprecated::checkFileAccessForInclusion($filepath);
+			include_once($filepath);
+			if (class_exists($modulename)) {
+				$instance = new $modulename();
+			}
+		}
+		return $instance;
+	}
+
+	/**
+	 * Fir</td></tr>
+<tr><td class='file'>src/ModuleManagement/Adapters/Link.php</td><td class='line'>276</td><td class='context'>\vtlib\Deprecated::checkFileAccessForInclusion($row[&#039;handler_path&#039;]);
+				require_once $row[&#039;handler_path&#039;];
+				$linkData = new LinkData($instance, \App\User\CurrentUser::get(), $_REQUEST);</td></tr>
+<tr><td class='file'>src/CRMEntity.php</td><td class='line'>87</td><td class='context'>\vtlib\Deprecated::checkFileAccessForInclusion(&quot;custom/modules/$module/$modName.php&quot;);
+				require_once(&quot;custom/modules/$module/$modName.php&quot;);
+			} else {
+				\vtlib\Deprecated::checkFileAccessF</td></tr>
+<tr><td class='file'>src/CRMEntity.php</td><td class='line'>90</td><td class='context'>\vtlib\Deprecated::checkFileAccessForInclusion(&quot;src/Modules/$module/$modName.php&quot;);
+				require_once(&quot;src/Modules/$module/$modName.php&quot;);
+			}
+		}
+		
+		// Try to instantiate with namespaced class</td></tr>
+<tr><td class='file'>webservice.php</td><td class='line'>121</td><td class='context'>\vtlib\Deprecated::checkFileAccessForInclusion($path);
+		require_once($path);
+	}
+	$rawOutput = $operationManager-&gt;runOperation($operationInput, $current_user);
+	writeOutput($operationManager, $rawO</td></tr>
+<tr><td rowspan='4'>getFullNameFromArray</td><td class='count low' rowspan='4'>4</td><td class='file'>src/Modules/Settings/Groups/Models/Member.php</td><td class='line'>101</td><td class='context'>$name = \vtlib\Deprecated::getFullNameFromArray(&#039;Users&#039;, $row);
+				$member = new self();
+				$members[$qualifiedId] = $member-&gt;set(&#039;id&#039;, $qualifiedId)-&gt;set(&#039;name&#039;, $name)-&gt;set(&#039;userId&#039;, $userId)</td></tr>
+<tr><td class='file'>src/Modules/Users/Models/Record.php</td><td class='line'>900</td><td class='context'>return \vtlib\Deprecated::getFullNameFromArray($this-&gt;getModuleName(), $this-&gt;getData());
+	}
+
+	public function getSwitchUsersUrl()
+	{
+		return &#039;index.php?module=&#039; . $this-&gt;getModuleName() . &#039;&amp;view=</td></tr>
+<tr><td class='file'>src/Modules/Import/Actions/Data.php</td><td class='line'>773</td><td class='context'>$userName = \vtlib\Deprecated::getFullNameFromArray(&#039;Users&#039;, $importDataController-&gt;user-&gt;column_fields);
+			$userEmail = $importDataController-&gt;user-&gt;email1;
+			\App\Mailer::addMail([
+				//&#039;smtp</td></tr>
+<tr><td class='file'>src/Modules/CustomView/CustomView.php</td><td class='line'>170</td><td class='context'>$userName = \vtlib\Deprecated::getFullNameFromArray(&#039;Users&#039;, $cvrow);
+				$disp_viewname = $viewname . &quot; [&quot; . $userName . &quot;] &quot;;
+			}
+
+
+			if ($cvrow[&#039;setdefault&#039;] == 1 &amp;&amp; $viewid == &#039;&#039;) {
+				$op</td></tr>
+<tr><td rowspan='2'>getFullNameFromQResult</td><td class='count low' rowspan='2'>2</td><td class='file'>src/PrivilegeUtil.php</td><td class='line'>475</td><td class='context'>$roleRelatedUsers[$adb-&gt;query_result($result, $i, &#039;userid&#039;)] = \vtlib\Deprecated::getFullNameFromQResult($result, $i, &#039;Users&#039;);
+		}
+
+		\App\Cache\Cache::save(&#039;getRoleUsers&#039;, $roleId, $roleRelatedU</td></tr>
+<tr><td class='file'>src/Modules/Users/Models/Record.php</td><td class='line'>1379</td><td class='context'>$username = \vtlib\Deprecated::getFullNameFromQResult($result, $i, &#039;Users&#039;);
+			$user_details[$userid] = $username;
+		}
+		\App\Log::trace(&quot;Exiting getAllUserName method ...&quot;);
+		return $user_detai</td></tr>
+<tr><td rowspan='2'>getModuleTranslationStrings</td><td class='count low' rowspan='2'>2</td><td class='file'>src/Modules/Calendar/CalendarCommon.php</td><td class='line'>84</td><td class='context'>$mod_strings = \vtlib\Deprecated::getModuleTranslationStrings($current_language, &#039;Calendar&#039;);
+	\App\Log::trace(&quot;Entering getActivityDetails(&quot; . $description . &quot;) method ...&quot;);
+	$updated = $mod_strin</td></tr>
+<tr><td class='file'>src/Modules/CustomView/CustomView.php</td><td class='line'>962</td><td class='context'>$custom_strings = \vtlib\Deprecated::getModuleTranslationStrings($currentLanguage, &quot;CustomView&quot;);
+
+		\App\Log::trace(&quot;Entering isPermittedChangeStatus($status) method..............&quot;);
+		require(&#039;us</td></tr>
+<tr><td rowspan='6'>checkFileAccess</td><td class='count medium' rowspan='6'>6</td><td class='file'>src/Modules/Settings/ModuleManager/Actions/Basic.php</td><td class='line'>63</td><td class='context'>vtlib\Deprecated::checkFileAccess($uploadFileName);
+
+		$importType = $request-&gt;get(&#039;module_import_type&#039;);
+		if (strtolower($importType) == &#039;language&#039;) {
+			$package = new vtlib\Language();
+		} else</td></tr>
+<tr><td class='file'>src/Modules/Settings/ModuleManager/Actions/Basic.php</td><td class='line'>91</td><td class='context'>vtlib\Deprecated::checkFileAccess($uploadFileName);
+
+		$importType = strtolower($request-&gt;get(&#039;module_import_type&#039;));
+		if ($importType == &#039;language&#039;) {
+			$package = new vtlib\Language();
+		} else</td></tr>
+<tr><td class='file'>src/Modules/Settings/ModuleManager/Views/ModuleImport.php</td><td class='line'>105</td><td class='context'>\vtlib\Deprecated::checkFileAccess($uploadDir);
+		if (!move_uploaded_file($_FILES[&#039;moduleZip&#039;][&#039;tmp_name&#039;], $uploadFileName)) {
+			$error = &#039;LBL_ERROR_MOVE_UPLOADED_FILE&#039;;
+		} else {
+			$package =</td></tr>
+<tr><td class='file'>src/Modules/Settings/ModuleManager/Views/ModuleImport.php</td><td class='line'>152</td><td class='context'>\vtlib\Deprecated::checkFileAccess($uploadFileName);
+
+		$importType = $request-&gt;get(&#039;module_import_type&#039;);
+		if (strtolower($importType) == &#039;language&#039;) {
+			$package = new vtlib\Language();
+			$vie</td></tr>
+<tr><td class='file'>src/Modules/Settings/ModuleManager/Views/ModuleImport.php</td><td class='line'>188</td><td class='context'>\vtlib\Deprecated::checkFileAccess($uploadFileName);
+
+		$importType = $request-&gt;get(&#039;module_import_type&#039;);
+		if (strtolower($importType) == &#039;language&#039;) {
+			$package = new vtlib\Language();
+		} els</td></tr>
+<tr><td class='file'>src/Modules/Cron/Runner/CronRunner.php</td><td class='line'>88</td><td class='context'>\vtlib\Deprecated::checkFileAccess($cronTask-&gt;getHandlerFile());
+			ob_start();
+			require_once $cronTask-&gt;getHandlerFile();
+			$taskResponse = ob_get_contents();
+			ob_end_clean();
+
+			$taskTime</td></tr>
+<tr><td rowspan='5'>checkFileAccessForDeletion</td><td class='count medium' rowspan='5'>5</td><td class='file'>src/Modules/Settings/ModuleManager/Actions/Basic.php</td><td class='line'>76</td><td class='context'>\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
+		unlink($uploadFileName);
+
+		$result = array(&#039;success&#039; =&gt; true, &#039;importModuleName&#039; =&gt; $importModuleName);
+		$response = new \App\Htt</td></tr>
+<tr><td class='file'>src/Modules/Settings/ModuleManager/Actions/Basic.php</td><td class='line'>108</td><td class='context'>\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
+		unlink($uploadFileName);
+
+		$result = array(&#039;success&#039; =&gt; true, &#039;importModuleName&#039; =&gt; $importModuleName);
+		$response = new \App\Htt</td></tr>
+<tr><td class='file'>src/Modules/Settings/ModuleManager/Views/ModuleImport.php</td><td class='line'>115</td><td class='context'>\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
+				unlink($uploadFileName);
+			} else {
+				// We need these information to push for Update if module is detected to be present.</td></tr>
+<tr><td class='file'>src/Modules/Settings/ModuleManager/Views/ModuleImport.php</td><td class='line'>172</td><td class='context'>\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
+		unlink($uploadFileName);
+
+		$viewer-&gt;assign(&quot;IMPORT_MODULE_NAME&quot;, $importModuleName);
+		$viewer-&gt;assign(&#039;QUALIFIED_MODULE&#039;, $qualif</td></tr>
+<tr><td class='file'>src/Modules/Settings/ModuleManager/Views/ModuleImport.php</td><td class='line'>204</td><td class='context'>\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
+		unlink($uploadFileName);
+
+		$viewer-&gt;assign(&quot;UPDATE_MODULE_NAME&quot;, $importModuleName);
+		$viewer-&gt;assign(&#039;QUALIFIED_MODULE&#039;, $qualif</td></tr>
+<tr><td rowspan='7'>getBlockId</td><td class='count medium' rowspan='7'>7</td><td class='file'>src/Modules/Settings/LayoutEditor/Views/Index.php</td><td class='line'>52</td><td class='context'>$blockIdFieldMap[$fieldModel-&gt;getBlockId()][$fieldModel-&gt;getName()] = $fieldModel;
+			if (!$fieldModel-&gt;isActiveField()) {
+				$inactiveFields[$fieldModel-&gt;getBlockId()][$fieldModel-&gt;getId()] = \A</td></tr>
+<tr><td class='file'>src/Modules/Settings/LayoutEditor/Views/Index.php</td><td class='line'>54</td><td class='context'>$inactiveFields[$fieldModel-&gt;getBlockId()][$fieldModel-&gt;getId()] = \App\Runtime\Vtiger_Language_Handler::translate($fieldModel-&gt;get(&#039;label&#039;), $sourceModule);
+			}
+		}
+
+		foreach ($blockModels as</td></tr>
+<tr><td class='file'>src/Modules/Settings/DataAccess/Helpers/Oss_Tool.php</td><td class='line'>51</td><td class='context'>$blockId = \vtlib\Deprecated::getBlockId($tabid, $blockLabel);
+
+			$moduleInstance = \App\Modules\Base\Models\Module::getInstance($moduleName);
+			$blockInstance = \App\Modules\Base\Models\Block::</td></tr>
+<tr><td class='file'>src/Modules/Settings/DataAccess/Helpers/Oss_Tool.php</td><td class='line'>83</td><td class='context'>$blockId = \vtlib\Deprecated::getBlockId($tabid, $blockLabel);
+
+			$moduleInstance = \App\Modules\Base\Models\Module::getInstance($moduleName);
+			$blockInstance = \App\Modules\Base\Models\Block::</td></tr>
+<tr><td class='file'>src/Modules/Settings/DataAccess/Helpers/Oss_Tool.php</td><td class='line'>135</td><td class='context'>$blockId = \vtlib\Deprecated::getBlockId($tabid, $blockLabel);
+
+			$moduleInstance = \App\Modules\Base\Models\Module::getInstance($moduleName);
+			$blockInstance = \App\Modules\Base\Models\Block::</td></tr>
+<tr><td class='file'>src/Modules/Settings/DataAccess/Helpers/Oss_Tool.php</td><td class='line'>203</td><td class='context'>$blockId = \vtlib\Deprecated::getBlockId($tabid, $blockLabel);
+
+			$moduleInstance = \App\Modules\Base\Models\Module::getInstance($moduleName);
+			$blockInstance = \App\Modules\Base\Models\Block::</td></tr>
+<tr><td class='file'>src/Modules/Base/Models/Field.php</td><td class='line'>1186</td><td class='context'>$db-&gt;createCommand()-&gt;update(&#039;vtiger_blocks_hide&#039;, [&#039;enabled&#039; =&gt; 0], [&#039;blockid&#039; =&gt; $this-&gt;getBlockId()])-&gt;execute();
+	}
+
+	public function updateTypeofDataFromMandatory($mandatoryValue = &#039;O&#039;)
+	{</td></tr>
+<tr><td rowspan='3'>createModuleMetaFile</td><td class='count low' rowspan='3'>3</td><td class='file'>src/Modules/Install/Models/InitSchema.php</td><td class='line'>175</td><td class='context'>vtlib\Deprecated::createModuleMetaFile();
+		return $return;
+	}
+
+	public function addMigrationLog($text, $type = &#039;success&#039;)
+	{
+		$logUrl = &#039;install/models/logs.txt&#039;;
+		$logText = &quot;$type - $text&quot;;</td></tr>
+<tr><td class='file'>src/ModuleManagement/Services/ModuleService.php</td><td class='line'>771</td><td class='context'>\vtlib\Deprecated::createModuleMetaFile();
+	}
+
+	/**
+	 * Create vtlib Module instance for compatibility.
+	 * 
+	 * @param Models\Module $module
+	 * @return \vtlib\Module
+	 */
+	private function create</td></tr>
+<tr><td class='file'>tests/phpunit/10_Permissions.php</td><td class='line'>28</td><td class='context'>\vtlib\Deprecated::createModuleMetaFile();
+	}	
+	
+}</td></tr>
+<tr><td rowspan='2'>return_app_list_strings_language</td><td class='count low' rowspan='2'>2</td><td class='file'>src/Webservices/ModuleTypes.php</td><td class='line'>114</td><td class='context'>$appStrings = \vtlib\Deprecated::return_app_list_strings_language($current_language);
+	$appListString = \vtlib\Deprecated::return_app_list_strings_language($current_language);
+	vtws_preserveGlobal(&#039;</td></tr>
+<tr><td class='file'>src/Webservices/ModuleTypes.php</td><td class='line'>115</td><td class='context'>$appListString = \vtlib\Deprecated::return_app_list_strings_language($current_language);
+	vtws_preserveGlobal(&#039;app_strings&#039;, $appStrings);
+	vtws_preserveGlobal(&#039;app_list_strings&#039;, $appListString);</td></tr>
+<tr><td rowspan='2'>isFileAccessible</td><td class='count low' rowspan='2'>2</td><td class='file'>src/ModuleManagement/Adapters/Deprecated.php</td><td class='line'>311</td><td class='context'>if (!self::isFileAccessible($filepath)) {
+			$realfilepath = realpath($filepath);
+			\App\Log::error(__METHOD__ . &#039;(&#039; . $filepath . &#039;) - Sorry! Attempt to access restricted file. realfilepath: &#039; .</td></tr>
+<tr><td class='file'>src/ModuleManagement/Adapters/Link.php</td><td class='line'>275</td><td class='context'>if (!empty($row[&#039;handler_path&#039;]) &amp;&amp; \vtlib\Deprecated::isFileAccessible($row[&#039;handler_path&#039;])) {
+				\vtlib\Deprecated::checkFileAccessForInclusion($row[&#039;handler_path&#039;]);
+				require_once $row[&#039;ha</td></tr>
+<tr><td rowspan='2'>getSettingsBlockId</td><td class='count low' rowspan='2'>2</td><td class='file'>src/Modules/Settings/Base/Models/Module.php</td><td class='line'>222</td><td class='context'>$blockId = \vtlib\Deprecated::getSettingsBlockId($block);
+		$sequence = (new \App\Db\Query())-&gt;from(&#039;vtiger_settings_field&#039;)-&gt;where([&#039;blockid&#039; =&gt; $blockId])
+			-&gt;max(&#039;sequence&#039;);
+		$params[&#039;blockid</td></tr>
+<tr><td class='file'>src/Modules/Settings/Base/Models/Module.php</td><td class='line'>233</td><td class='context'>$blockId = \vtlib\Deprecated::getSettingsBlockId($block);
+		$db-&gt;delete(&#039;vtiger_settings_field&#039;, &#039;name = ? &amp;&amp; blockid=?&#039;, [$name, $blockId]);
+	}
+
+	/**
+	 * Delete settings field by module name
+	 * @</td></tr>
+<tr><td rowspan='1'>getSmartyCompiledTemplateFile</td><td class='count low' rowspan='1'>1</td><td class='file'>src/ModuleManagement/Adapters/Deprecated.php</td><td class='line'>290</td><td class='context'>$compiled_file = self::getSmartyCompiledTemplateFile($template_file, $path . $file . &#039;/&#039;);
+				} else {
+					// Check if the file name matches the required template file name
+					if (strripos($</td></tr>
+<tr><td>getIdOfCustomViewByNameAll</td><td class='count low'>0</td><td colspan='3'>✅ Brak użyć</td></tr>
+</table>
+<h2>Record::getCurrentUserModel</h2>
+<table>
+<tr><th>Funkcja</th><th>Liczba użyć</th><th>Plik</th><th>Linia</th><th>Kontekst</th></tr>
+<tr><td rowspan='149'>getCurrentUserModel</td><td class='count high' rowspan='149'>149</td><td class='file'>src/Field.php</td><td class='line'>39</td><td class='context'>$profileList = \App\Modules\Users\Models\Record::getCurrentUserModel()-&gt;getProfiles();
+			if ($profileList) {
+				// Extract profile IDs from array (keys are IDs, values are Profile objects)
+				$</td></tr>
+<tr><td class='file'>src/Fields/Owner.php</td><td class='line'>30</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		} elseif (is_numeric($currentUser)) {
+			$currentUser = \App\Modules\Users\Models\Record::getInstanceById($currentUser, &#039;U</td></tr>
+<tr><td class='file'>src/Fields/DateTimeRange.php</td><td class='line'>19</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$weekStartDay = $currentUser-&gt;get(&#039;dayoftheweek&#039;);
+
+		if (!$dateObject) {
+			$timeZone = $timezone = new DateTimeZone($curr</td></tr>
+<tr><td class='file'>src/Fields/DateTimeField.php</td><td class='line'>389</td><td class='context'>if (\App\Modules\Users\Models\Record::getCurrentUserModel()-&gt;get(&#039;hour_format&#039;) === &#039;12&#039;) {
+			$time = \App\Modules\Base\UiTypes\Time::getTimeValueInAMorPM($time);
+		}
+		Log::trace(&#039;End &#039; . __METHO</td></tr>
+<tr><td class='file'>src/Fields/DateTime.php</td><td class='line'>21</td><td class='context'>return static::$jsDateFormat[\App\Modules\Users\Models\Record::getCurrentUserModel()-&gt;get(&#039;date_format&#039;)];
+	}
+
+	/**
+	 * This function returns the date in user specified format.
+	 * limitation is th</td></tr>
+<tr><td class='file'>src/TextParser/OverdueDeadlines.php</td><td class='line'>34</td><td class='context'>$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+	$adminUser = !$currentUserModel-&gt;isAdmin() ? \App\Modules\Users\Models\Record::getActiveAdminId() : $currentUserModel-&gt;g</td></tr>
+<tr><td class='file'>src/Modules/API/Models/CalDAV.php</td><td class='line'>448</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$timeStart = $currentUser-&gt;get(&#039;start_hour&#039;);
+			$timeEnd = $currentUser-&gt;get(&#039;end_hour&#039;);
+		}
+		return [&#039;allday&#039; =&gt; $all</td></tr>
+<tr><td class='file'>src/Modules/Settings/Users/Models/Record.php</td><td class='line'>76</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$canChangePassword = $currentUser &amp;&amp; ($currentUser-&gt;isAdminUser() || $currentUser-&gt;getId() == $this-&gt;getId());
+		if ($canCh</td></tr>
+<tr><td class='file'>src/Modules/Settings/CronTasks/Models/Record.php</td><td class='line'>111</td><td class='context'>$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$hourFormat = $userModel-&gt;get(&#039;hour_format&#039;);
+			if ($hourFormat == &#039;24&#039;) {
+				return $lastScannedTime;
+			} else {
+				$d</td></tr>
+<tr><td class='file'>src/Modules/Settings/Profiles/Models/Record.php</td><td class='line'>883</td><td class='context'>$userRecordModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$module = $userRecordModel-&gt;getModuleName();
+			$tabId = \App\Utils\ModuleUtils::getModuleId($module);
+			$userModule</td></tr>
+<tr><td class='file'>src/Modules/Settings/BruteForce/Models/Module.php</td><td class='line'>210</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		return \App\Db::getInstance(&#039;admin&#039;)-&gt;createCommand()
+				-&gt;update(&#039;a_#__bruteforce_blocked&#039;, [
+					&#039;blocked&#039; =&gt; self::UNB</td></tr>
+<tr><td class='file'>src/Modules/Settings/WidgetsManagement/Models/Module.php</td><td class='line'>119</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$user = &#039;&#039;;
+
+		if ($moduleName) {
+			$accessibleUsers = \App\Fields\Owner::getInstance($moduleName, $currentUser)-&gt;getAcces</td></tr>
+<tr><td class='file'>src/Modules/Settings/WidgetsManagement/Models/Module.php</td><td class='line'>350</td><td class='context'>&#039;linkid&#039; =&gt; $data[&#039;linkid&#039;], &#039;userid&#039; =&gt; \App\Modules\Users\Models\Record::getCurrentUserModel()-&gt;getId(), &#039;templateid&#039; =&gt; $templateId,
+				&#039;filterid&#039; =&gt; $data[&#039;filterid&#039;],
+				&#039;title&#039; =&gt; $data[&#039;</td></tr>
+<tr><td class='file'>src/Modules/Base/Widgets/Updates.php</td><td class='line'>25</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$moduelName = &#039;ModTracker&#039;;
+		$this-&gt;Config[&#039;tpl&#039;] = &#039;Updates.tpl&#039;;
+		$this-&gt;Config[&#039;moduleBaseName&#039;] = $moduelName;
+		$thi</td></tr>
+<tr><td class='file'>src/Modules/Base/UiTypes/Owner.php</td><td class='line'>49</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			if (!$currentUser-&gt;isAdminUser() || $rawText) {
+				return $ownerName;
+			}
+		} else {
+			$currentUser = \App\Modules\Use</td></tr>
+<tr><td class='file'>src/Modules/Base/UiTypes/Owner.php</td><td class='line'>54</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			if (!$currentUser-&gt;isAdminUser() || $rawText) {
+				return $ownerName;
+			}
+			$recordModel = new \App\Modules\Settings\G</td></tr>
+<tr><td class='file'>src/Modules/Base/UiTypes/Owner.php</td><td class='line'>86</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			if (!$currentUser-&gt;isAdminUser() || $rawText) {
+				return $ownerName;
+			}
+		} else {
+			$currentUser = \App\Modules\Use</td></tr>
+<tr><td class='file'>src/Modules/Base/UiTypes/Owner.php</td><td class='line'>91</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			if (!$currentUser-&gt;isAdminUser() || $rawText) {
+				return \vtlib\Functions:: textLength($ownerName, $maxLengthText);</td></tr>
+<tr><td class='file'>src/Modules/Base/UiTypes/Multiowner.php</td><td class='line'>40</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+				if (!$currentUser-&gt;isAdminUser()) {
+					return \App\Fields\Owner::getLabel($value);
+				}
+			} else {
+				$currentUser</td></tr>
+<tr><td class='file'>src/Modules/Base/UiTypes/Multiowner.php</td><td class='line'>45</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+				if (!$currentUser-&gt;isAdminUser()) {
+					return \App\Fields\Owner::getLabel($value);
+				}
+				$recordModel = new \App\</td></tr>
+<tr><td class='file'>src/Modules/Base/UiTypes/SharedOwner.php</td><td class='line'>49</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		if (empty($values)) {
+			return &#039;&#039;;
+		} elseif (!is_array($values)) {
+			$values = explode(&#039;,&#039;, $values);
+		}
+		$displayVal</td></tr>
+<tr><td class='file'>src/Modules/Base/UiTypes/SharedOwner.php</td><td class='line'>109</td><td class='context'>$isAdmin = \App\Modules\Users\Models\Record::getCurrentUserModel()-&gt;isAdmin();
+		foreach ($values as $key =&gt; $shownerid) {
+			if (\App\Fields\Owner::getType($shownerid) === &#039;Users&#039;) {
+				$userMode</td></tr>
+<tr><td class='file'>src/Modules/Base/UiTypes/UserReference.php</td><td class='line'>48</td><td class='context'>$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		if ($currentUserModel-&gt;isAdminUser() &amp;&amp; $rawText === false) {
+			$recordModel = \App\Modules\Users\Models\Record::getC</td></tr>
+<tr><td class='file'>src/Modules/Base/UiTypes/UserRole.php</td><td class='line'>29</td><td class='context'>$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		if ($currentUserModel-&gt;isAdmin() &amp;&amp; $rawText === false) {
+			$roleRecordModel = new \App\Modules\Settings\Roles\Models</td></tr>
+<tr><td class='file'>src/Modules/Base/UiTypes/Time.php</td><td class='line'>104</td><td class='context'>$userModel = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
+		$value = \App\Fields\DateTimeField::convertToUserTimeZone(date(&#039;Y-m-d&#039;) . &#039; &#039; . $value);
+		$value = $value-&gt;format(&#039;H:i:s</td></tr>
+<tr><td class='file'>src/Modules/Base/UiTypes/Email.php</td><td class='line'>28</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$internalMailer = $currentUser-&gt;get(&#039;internal_mailer&#039;);
+		if ($value &amp;&amp; !$rawText) {
+			$moduleName = $this-&gt;get(&#039;field&#039;)-&gt;</td></tr>
+<tr><td class='file'>src/Modules/Base/Models/Field.php</td><td class='line'>481</td><td class='context'>$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+				$picklistValues = \App\Fields\Picklist::getRoleBasedPicklistValues($this-&gt;getName(), $userModel-&gt;get(&#039;roleid&#039;));
+			} els</td></tr>
+<tr><td class='file'>src/Modules/Base/Models/Field.php</td><td class='line'>808</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$fieldDataType = $this-&gt;getFieldDataType();
+
+		$this-&gt;fieldInfo[&#039;mandatory&#039;] = $this-&gt;isMandatory();
+		$this-&gt;fieldInfo[&#039;pr</td></tr>
+<tr><td class='file'>src/Modules/Base/Models/Menu.php</td><td class='line'>27</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$userPrivModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+
+		$roleMenu = &#039;user_privileges/men</td></tr>
+<tr><td class='file'>src/Modules/Base/Models/MappedFields.php</td><td class='line'>266</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$permissions = explode(&#039;,&#039;, $permissions);
+		$getTypes = [];
+		$return = false;
+		foreach ($permissions as $name) {
+			$val</td></tr>
+<tr><td class='file'>src/Modules/Base/Models/PDF.php</td><td class='line'>256</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$permissions = explode(&#039;,&#039;, $permissions);
+		$getTypes = [];
+		foreach ($permissions as $name) {
+			$valueType = explode(&#039;:</td></tr>
+<tr><td class='file'>src/Modules/Base/Models/DashBoard.php</td><td class='line'>54</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserPrivilegeModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$moduleModel = $this-</td></tr>
+<tr><td class='file'>src/Modules/Base/Models/DashBoard.php</td><td class='line'>140</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$blockId = \App\Modules\Settings\WidgetsManagement\Models\Module::getBlocksFromModule($moduleName, $currentUser-&gt;getRole(),</td></tr>
+<tr><td class='file'>src/Modules/Base/Models/DashBoard.php</td><td class='line'>201</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+
+		$query = (new \App\Db\Query())-&gt;select(&#039;vtiger_module_dashboard_widgets.module, vtiger_module_dashboard_blocks.tabid&#039;)</td></tr>
+<tr><td class='file'>src/Modules/Base/Models/ListView.php</td><td class='line'>167</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$moduleModel = $this-&gt;getModule();
+		$links = \App\Modules\Base\Models\Link::getAllByType($moduleModel-&gt;getId(), [&#039;LISTVIEW</td></tr>
+<tr><td class='file'>src/Modules/Base/Models/Record.php</td><td class='line'>1311</td><td class='context'>$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$roleData = \App\PrivilegeUtil::getRoleDetail($userModel-&gt;getRole());
+			if (!empty($roleData[&#039;auto_assign&#039;])) {
+				$autoA</td></tr>
+<tr><td class='file'>src/Modules/Base/Models/QuickCreateRecordStructure.php</td><td class='line'>40</td><td class='context'>$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+				$defaulteventstatus = $currentUserModel-&gt;get(&#039;defaulteventstatus&#039;);
+				$fieldValue = $defaulteventstatus;
+				$fi</td></tr>
+<tr><td class='file'>src/Modules/Base/Models/QuickCreateRecordStructure.php</td><td class='line'>45</td><td class='context'>$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+				$defaultactivitytype = $currentUserModel-&gt;get(&#039;defaultactivitytype&#039;);
+				$fieldValue = $defaultactivitytype;</td></tr>
+<tr><td class='file'>src/Modules/Base/Models/Module.php</td><td class='line'>372</td><td class='context'>$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			}
+			$this-&gt;moduleMeta = \App\Modules\Base\Models\ModuleMeta::getInstance($this-&gt;get(&#039;name&#039;), $userModel);
+		}
+		return $t</td></tr>
+<tr><td class='file'>src/Modules/Base/Models/Module.php</td><td class='line'>1218</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		if (!$user) {
+			$user = $currentUser-&gt;getId();
+		}
+	$moduleName = &#039;Calendar&#039;;
+	$currentActivityLabels = \App\Modules\Calen</td></tr>
+<tr><td class='file'>src/Modules/Base/Models/Module.php</td><td class='line'>1455</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		return sprintf(&#039;SELECT `crmid`,`setype`,`searchlabel` FROM `u_yf_crmentity_search_label` WHERE `userid` LIKE \&#039;%s\&#039; &amp;&amp; `sea</td></tr>
+<tr><td class='file'>src/Modules/Base/Models/Export.php</td><td class='line'>239</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$roleid = $currentUser-&gt;get(&#039;roleid&#039;);
+		if (empty($this-&gt;fieldArray)) {
+			$this-&gt;fieldArray = $this-&gt;moduleFieldInstances</td></tr>
+<tr><td class='file'>src/Modules/Base/Models/DetailView.php</td><td class='line'>342</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+
+		$linkTypes = array(&#039;SIDEBARLINK&#039;, &#039;SIDEBARWIDGET&#039;);
+		$moduleLinks = $this-&gt;getModule()-&gt;getSideBarLinks($linkTypes);
+
+		$</td></tr>
+<tr><td class='file'>src/Modules/Base/Helpers/Util.php</td><td class='line'>143</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$dateTimeInUserFormat = \App\Modules\Base\UiTypes\Datetime::getDisplayDateTimeValue($date . &#039; &#039; . $time);
+
+		list($dateInUs</td></tr>
+<tr><td class='file'>src/Modules/Base/Helpers/Util.php</td><td class='line'>201</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$dateTimeInUserFormat = explode(&#039; &#039;, \App\Modules\Base\UiTypes\Datetime::getDisplayDateTimeValue($dateTime));
+
+		if (count(</td></tr>
+<tr><td class='file'>src/Modules/Base/Helpers/Util.php</td><td class='line'>380</td><td class='context'>$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		}
+
+		$date = new \DateTime($dateTime);
+		$dateTimeField = new \App\Fields\DateTimeField($date-&gt;format(&#039;Y-m-d H:i:s&#039;));
+
+		$d</td></tr>
+<tr><td class='file'>src/Modules/Base/Helpers/Util.php</td><td class='line'>402</td><td class='context'>$userModel = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
+		}
+
+		if ($userModel-&gt;get(&#039;hour_format&#039;) == &#039;12&#039;) {
+			$time = \App\Modules\Base\UiTypes\Time::getTimeValueInAMorPM($time</td></tr>
+<tr><td class='file'>src/Modules/Base/data_access/check_assigneduser.php</td><td class='line'>25</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$allowedUsers[] = $currentUser-&gt;get(&#039;id&#039;);
+			foreach ($allowedUsers as $key =&gt; $value) {
+				if ($value == &quot;currentUser&quot;</td></tr>
+<tr><td class='file'>src/Modules/Calendar/UiTypes/Time.php</td><td class='line'>45</td><td class='context'>$userModel = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
+		$date = new \DateTime($value);
+
+		if ($fieldName == &#039;time_end&#039; &amp;&amp; empty($value)) {
+			$defaultCallDuration = $userModel-&gt;</td></tr>
+<tr><td class='file'>src/Modules/Calendar/CalendarCommon.php</td><td class='line'>147</td><td class='context'>$currentUser = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
+	// Check parameter first
+	if ($onlyForUserParam === null &amp;&amp; $request !== null) {
+		$onlyForUserParam = $request-&gt;getForSq</td></tr>
+<tr><td class='file'>src/Modules/Calendar/CalendarCommon.php</td><td class='line'>160</td><td class='context'>$currentUser = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
+	$adb = \App\Database\PearDatabase::getInstance();
+	$onlyForUser = calendarview_getSelectedUserId();
+	$qcondition = &#039;&#039;;
+	i</td></tr>
+<tr><td class='file'>src/Modules/Calendar/Models/Field.php</td><td class='line'>98</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+				$minutes = $currentUser-&gt;get(&#039;callduration&#039;);
+				return \App\Fields\DateTimeField::convertToUserFormat(date(&#039;Y-m-d&#039;, s</td></tr>
+<tr><td class='file'>src/Modules/Calendar/Models/Calendar.php</td><td class='line'>101</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+	$roleInstance = \App\Modules\Settings\Roles\Models\Record::getInstanceById($currentUser-&gt;get(&#039;roleid&#039;));
+	if ($roleInstance)</td></tr>
+<tr><td class='file'>src/Modules/Calendar/Models/Calendar.php</td><td class='line'>123</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$dataReader = $this-&gt;getQuery()-&gt;createCommand()-&gt;query();
+		$return = $records = $ids = [];
+		while ($record = $dataReader</td></tr>
+<tr><td class='file'>src/Modules/Calendar/Models/Calendar.php</td><td class='line'>240</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$db = \App\Database\PearDatabase::getInstance();
+		$startDate = \App\Fields\DateTimeField::convertToDBTimeZone($this-&gt;get(&#039;</td></tr>
+<tr><td class='file'>src/Modules/Calendar/Models/Module.php</td><td class='line'>418</td><td class='context'>$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$activityReminder = $currentUserModel-&gt;getCurrentUserActivityReminderInSeconds();
+		$recordModels = [];
+		$userPrivile</td></tr>
+<tr><td class='file'>src/Modules/Calendar/Models/Module.php</td><td class='line'>492</td><td class='context'>$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$settingLinks = [];
+
+		if ($currentUserModel-&gt;isAdminUser()) {
+			$settingLinks[] = array(
+				&#039;linktype&#039; =&gt; &#039;LISTVIEW</td></tr>
+<tr><td class='file'>src/Modules/Calendar/Models/EditRecordStructure.php</td><td class='line'>52</td><td class='context'>$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+								$sharedType = $currentUserModel-&gt;get(&#039;calendarsharedtype&#039;);
+								if ($sharedType == &#039;public&#039; || $shared</td></tr>
+<tr><td class='file'>src/Modules/Calendar/Models/EditRecordStructure.php</td><td class='line'>57</td><td class='context'>$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+								$defaulteventstatus = $currentUserModel-&gt;get(&#039;defaulteventstatus&#039;);
+								$fieldValue = $defaulteventsta</td></tr>
+<tr><td class='file'>src/Modules/Calendar/Models/EditRecordStructure.php</td><td class='line'>61</td><td class='context'>$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+								$defaultactivitytype = $currentUserModel-&gt;get(&#039;defaultactivitytype&#039;);
+								$fieldValue = $defaultactivi</td></tr>
+<tr><td class='file'>src/Modules/Calendar/data_access/CheckDayTasks.php</td><td class='line'>21</td><td class='context'>$userRecordModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$db = \App\Database\PearDatabase::getInstance();
+		$typeInfo = &#039;info&#039;;
+		$statusType = $config[&#039;statusType&#039;];
+		switch</td></tr>
+<tr><td class='file'>src/Modules/Contacts/Models/Module.php</td><td class='line'>31</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$queryFrom .= &#039;INNER JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = u_yf_crmentity_search_label.crmid&#039;;</td></tr>
+<tr><td class='file'>src/Modules/Contacts/Models/Module.php</td><td class='line'>36</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$queryFrom .= &#039;INNER JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = u_yf_crmentity_search_label.crmid IN</td></tr>
+<tr><td class='file'>src/Modules/Contacts/Models/Module.php</td><td class='line'>41</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$queryFrom .= &#039;INNER JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = u_yf_crmentity_search_label.crmid IN</td></tr>
+<tr><td class='file'>src/Modules/Contacts/Models/Module.php</td><td class='line'>46</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$queryFrom .= &#039;INNER JOIN vtiger_contactdetails ON vtiger_contactdetails.contactid = u_yf_crmentity_search_label.crmid IN</td></tr>
+<tr><td class='file'>src/Modules/Users/files/Image.php</td><td class='line'>42</td><td class='context'>$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		// Check for operation access.
+		$allowed = \App\Modules\Users\Models\Privileges::isPermitted($moduleName, &#039;Save&#039;, $re</td></tr>
+<tr><td class='file'>src/Modules/Users/Models/Field.php</td><td class='line'>26</td><td class='context'>$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		if (($currentUserModel-&gt;isAdminUser() === false &amp;&amp; $this-&gt;get(&#039;uitype&#039;) == 98) || in_array($this-&gt;get(&#039;uitype&#039;), array</td></tr>
+<tr><td class='file'>src/Modules/Users/Models/Privileges.php</td><td class='line'>407</td><td class='context'>$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserId = $userModel-&gt;getId();
+		$currentUserGroups = $userModel-&gt;get(&#039;groups&#039;);
+		settype($currentUserGroups, &#039;array&#039;</td></tr>
+<tr><td class='file'>src/Modules/Users/Models/ListView.php</td><td class='line'>58</td><td class='context'>$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		if ($linkParams[&#039;MODULE&#039;] === &#039;Users&#039; &amp;&amp; $currentUserModel &amp;&amp; $currentUserModel-&gt;isAdminUser()) {
+			$massActionLinks[</td></tr>
+<tr><td class='file'>src/Modules/Users/Models/DetailRecordStructure.php</td><td class='line'>28</td><td class='context'>$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$recordModel = $this-&gt;getRecord();
+		$recordId = $recordModel-&gt;getId();
+		$moduleModel = $this-&gt;getModule();
+		$blockM</td></tr>
+<tr><td class='file'>src/Modules/Users/Models/Record.php</td><td class='line'>1121</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		\App\Log::trace(&#039;Starting password change for &#039; . $userName);
+
+		if (empty($newPassword)) {
+			$this-&gt;error_string = \App\R</td></tr>
+<tr><td class='file'>src/Modules/Users/Models/Module.php</td><td class='line'>182</td><td class='context'>$userRecordModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$userIPAddress = \App\RequestUtil::getRemoteIP();
+		$outtime = date(&#039;Y-m-d H:i:s&#039;);
+
+		$loginId = (new \App\Db\Query())</td></tr>
+<tr><td class='file'>src/Modules/Users/Models/EditRecordStructure.php</td><td class='line'>29</td><td class='context'>$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$recordModel = $this-&gt;getRecord();
+		$recordId = $recordModel-&gt;getId();
+		$moduleModel = $this-&gt;getModule();
+		$blockM</td></tr>
+<tr><td class='file'>src/Modules/Users/Models/DetailView.php</td><td class='line'>25</td><td class='context'>$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$recordModel = $this-&gt;getRecord();
+		$recordId = $recordModel-&gt;getId();
+
+		if (($currentUserModel-&gt;isAdminUser() === t</td></tr>
+<tr><td class='file'>src/Modules/OSSPasswords/Models/Module.php</td><td class='line'>24</td><td class='context'>$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$settingLinks = parent::getSettingLinks();
+
+		if ($currentUserModel-&gt;isAdminUser()) {
+			$settingLinks[] = array(</td></tr>
+<tr><td class='file'>src/Modules/OSSMail/Models/Autologin.php</td><td class='line'>20</td><td class='context'>$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$user_id = $currentUserModel-&gt;getId();
+		$users = [];
+		$sql = &#039;SELECT rcuser_id, crmuser_id, username, password FROM</td></tr>
+<tr><td class='file'>src/Modules/OSSMail/Models/Record.php</td><td class='line'>18</td><td class='context'>$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$param = $users = [];
+		$sql = &#039;SELECT * FROM roundcube_users&#039;;
+		$where = false;
+		if ($password) {
+			$where .= &quot; &amp;&amp;</td></tr>
+<tr><td class='file'>src/Modules/OSSMail/Models/Module.php</td><td class='line'>109</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$moduleConfig = \App\AppConfig::module($moduleName);
+			if ($moduleConfig &amp;&amp; isset($moduleConfig[&#039;SEND_IDENTITY&#039;][$curren</td></tr>
+<tr><td class='file'>src/Modules/OSSMail/OSSMail.php</td><td class='line'>43</td><td class='context'>$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()-&gt;get(&#039;user_name&#039;);
+			$adb-&gt;pquery(&quot;INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?,?);&quot;, array(&#039;Action_</td></tr>
+<tr><td class='file'>src/Modules/OSSMail/OSSMail.php</td><td class='line'>46</td><td class='context'>$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()-&gt;get(&#039;user_name&#039;);
+			$adb-&gt;pquery(&quot;INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?,?);&quot;, array(&#039;Action_</td></tr>
+<tr><td class='file'>src/Modules/OSSMail/OSSMail.php</td><td class='line'>52</td><td class='context'>$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()-&gt;get(&#039;user_name&#039;);
+			\App\Db::getInstance()-&gt;createCommand()-&gt;insert(&#039;vtiger_ossmails_logs&#039;, [&#039;action&#039; =&gt; &#039;Action_EnabledModule&#039;</td></tr>
+<tr><td class='file'>src/Modules/OSSMail/OSSMail.php</td><td class='line'>62</td><td class='context'>$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()-&gt;get(&#039;user_name&#039;);
+				$adb-&gt;pquery(&quot;INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);&quot;, array(&#039;Acti</td></tr>
+<tr><td class='file'>src/Modules/Leads/Models/ListView.php</td><td class='line'>61</td><td class='context'>$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$links = parent::getListViewLinks($linkParams);
+
+		$index = 0;
+		foreach ($links[&#039;LISTVIEWBASIC&#039;] as $link) {
+			if ($</td></tr>
+<tr><td class='file'>src/Modules/OpenStreetMap/Models/Coordinate.php</td><td class='line'>478</td><td class='context'>-&gt;from(&#039;u_#__openstreetmap_cache&#039;)-&gt;where([&#039;user_id&#039; =&gt; \App\Modules\Users\Models\Privileges::getCurrentUserModel()-&gt;getId()])
+				-&gt;groupBy(&#039;module_name&#039;)
+				-&gt;createCommand($db)-&gt;query();
+		$r</td></tr>
+<tr><td class='file'>src/Modules/OpenStreetMap/Models/Coordinate.php</td><td class='line'>495</td><td class='context'>$currentUser = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
+		$userId = $currentUser-&gt;getId();
+		$db = \App\Db::getInstance();
+		$coordinates = [];
+		foreach ($modules as $moduleNam</td></tr>
+<tr><td class='file'>src/Modules/OpenStreetMap/Models/Coordinate.php</td><td class='line'>520</td><td class='context'>$userId = \App\Modules\Users\Models\Privileges::getCurrentUserModel()-&gt;getId();
+		$insertedData = [];
+		foreach ($records as $recordId) {
+			$insertedData [] = [$userId, $moduleName, $recordId];</td></tr>
+<tr><td class='file'>src/Modules/OpenStreetMap/Models/Coordinate.php</td><td class='line'>537</td><td class='context'>-&gt;delete(&#039;u_#__openstreetmap_cache&#039;, [&#039;module_name&#039; =&gt; $moduleName, &#039;user_id&#039; =&gt; \App\Modules\Users\Models\Privileges::getCurrentUserModel()-&gt;getId()])
+			-&gt;execute();
+	}
+
+	/**
+	 * Function to set</td></tr>
+<tr><td class='file'>src/Modules/OpenStreetMap/Models/Coordinate.php</td><td class='line'>570</td><td class='context'>&#039;user_id&#039; =&gt; \App\Modules\Users\Models\Privileges::getCurrentUserModel()-&gt;getId(),
+				&#039;crmids&#039; =&gt; $record
+			])-&gt;execute();
+		}
+	}
+}</td></tr>
+<tr><td class='file'>src/Modules/RecycleBin/Models/Module.php</td><td class='line'>32</td><td class='context'>$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$privileges = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$basicLinks = array();
+		if ($c</td></tr>
+<tr><td class='file'>src/Modules/Reports/ReportUtils.php</td><td class='line'>158</td><td class='context'>$userModel = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
+			if ($userModel-&gt;get(&#039;hour_format&#039;) == &#039;12&#039;) {
+				$value = \App\Modules\Base\UiTypes\Time::getTimeValueInAMorPM($value)</td></tr>
+<tr><td class='file'>src/Modules/Reports/Reports.php</td><td class='line'>388</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+
+	$currentLanguage = \App\Runtime\Vtiger_Language_Handler::getLanguage();
+	$moduleStrings = \App\Runtime\Vtiger_Language_Handl</td></tr>
+<tr><td class='file'>src/Modules/Reports/ReportRun.php</td><td class='line'>222</td><td class='context'>$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+				$userformat = $userModel-&gt;get(&#039;date_format&#039;);
+				$userformat = str_replace(&#039;dd&#039;, &#039;%d&#039;, $userformat);
+				$userformat = s</td></tr>
+<tr><td class='file'>src/Modules/Reports/ReportRun.php</td><td class='line'>548</td><td class='context'>$currentUser = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
+			$rtvalue = &#039; = &#039; . $adb-&gt;quote($currentUser-&gt;getId());
+		}
+		if ($is_field === true) {
+			$rtvalue = str_replace(&quot;&#039;&quot;,</td></tr>
+<tr><td class='file'>src/Modules/Reports/Models/VerticalbarChart.php</td><td class='line'>26</td><td class='context'>$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currencyRateAndSymbol = \vtlib\Functions:: getCurrencySymbolandRate($currentUserModel-&gt;currency_id);
+		$links = array</td></tr>
+<tr><td class='file'>src/Modules/Reports/Models/ListView.php</td><td class='line'>26</td><td class='context'>$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$privileges = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$basicLinks = array();
+		if ($c</td></tr>
+<tr><td class='file'>src/Modules/Reports/Models/Record.php</td><td class='line'>416</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+
+		$reportId = $this-&gt;getId();
+		if (empty($reportId)) {
+			$reportId = $db-&gt;getUniqueID(&quot;vtiger_selectquery&quot;);
+			$this-&gt;set</td></tr>
+<tr><td class='file'>src/Modules/Reports/Models/Report.php</td><td class='line'>26</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$userId = $currentUser-&gt;getId();
+
+		$this-&gt;initListOfModules();
+
+		if ($reportId != &quot;&quot;) {
+			// Lookup information in cache</td></tr>
+<tr><td class='file'>src/Modules/Reports/Models/Module.php</td><td class='line'>23</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$subOrdinateUsers = $currentUser-&gt;getSubordinateUsers();
+
+		$subOrdinates = array();
+		foreach ($subOrdinateUsers as $id =&gt;</td></tr>
+<tr><td class='file'>src/Modules/Reports/Models/PieChart.php</td><td class='line'>37</td><td class='context'>$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currencyRateAndSymbol = \vtlib\Functions:: getCurrencySymbolandRate($currentUserModel-&gt;currency_id);
+
+		for ($i = 0;</td></tr>
+<tr><td class='file'>src/Modules/ModComments/Models/ListView.php</td><td class='line'>28</td><td class='context'>$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$moduleModel = $this-&gt;getModule();
+
+		unset($links[&#039;LISTVIEW&#039;]);
+		unset($links[&#039;LISTVIEWSETTING&#039;]);
+
+		if ($currentUs</td></tr>
+<tr><td class='file'>src/Modules/OSSMailScanner/cron/action.php</td><td class='line'>16</td><td class='context'>$user_name = \App\Modules\Users\Models\Record::getCurrentUserModel()-&gt;user_name;
+}
+$recordModel-&gt;executeCron(PHP_SAPI . &#039; - &#039; . $user_name);</td></tr>
+<tr><td class='file'>src/Modules/OSSMailScanner/Models/Record.php</td><td class='line'>583</td><td class='context'>$userName = \App\Modules\Users\Models\Record::getCurrentUserModel()-&gt;get(&#039;user_name&#039;);
+		$db-&gt;createCommand()-&gt;update(&#039;vtiger_cron_task&#039;, [&#039;status&#039; =&gt; 1], [&#039;name&#039; =&gt; &#039;LBL_MAIL_SCANNER_ACTION&#039;])-&gt;ex</td></tr>
+<tr><td class='file'>src/Modules/OSSMailScanner/OSSMailScanner.php</td><td class='line'>41</td><td class='context'>$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()-&gt;get(&#039;user_name&#039;);
+			$adb-&gt;pquery(&quot;INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);&quot;, array(&#039;Action</td></tr>
+<tr><td class='file'>src/Modules/OSSMailScanner/OSSMailScanner.php</td><td class='line'>46</td><td class='context'>$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()-&gt;get(&#039;user_name&#039;);
+			$adb-&gt;pquery(&quot;INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);&quot;, array(&#039;Action</td></tr>
+<tr><td class='file'>src/Modules/OSSMailScanner/OSSMailScanner.php</td><td class='line'>51</td><td class='context'>$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()-&gt;get(&#039;user_name&#039;);
+			$adb-&gt;pquery(&quot;INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);&quot;, array(&#039;Action</td></tr>
+<tr><td class='file'>src/Modules/OSSMailScanner/OSSMailScanner.php</td><td class='line'>61</td><td class='context'>$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()-&gt;get(&#039;user_name&#039;);
+				$adb-&gt;pquery(&quot;INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);&quot;, array(&#039;Acti</td></tr>
+<tr><td class='file'>src/Modules/PBXManager/connectors/PBXManager.php</td><td class='line'>331</td><td class='context'>$user = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$extension = $user-&gt;phone_crm_extension;
+
+		$webappurl = $this-&gt;getServer();
+		$context = $this-&gt;getOutboundContext();
+		$vtigerSe</td></tr>
+<tr><td class='file'>src/Modules/PBXManager/Connectors/PBXManager.php</td><td class='line'>331</td><td class='context'>$user = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$extension = $user-&gt;phone_crm_extension;
+
+		$webappurl = $this-&gt;getServer();
+		$context = $this-&gt;getOutboundContext();
+		$vtigerSe</td></tr>
+<tr><td class='file'>src/Modules/Import/Helpers/Utils.php</td><td class='line'>103</td><td class='context'>$current_user = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$cacheKey = $module . &#039;-&#039; . $current_user-&gt;id;
+		if (\App\Cache\Cache::has(&#039;ImportUserList&#039;, $cacheKey)) {
+			return \App\</td></tr>
+<tr><td class='file'>src/Modules/Import/Helpers/Utils.php</td><td class='line'>116</td><td class='context'>$current_user = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$cacheKey = $module . &#039;-&#039; . $current_user-&gt;id;
+		if (\App\Cache\Cache::has(&#039;ImportGroupList&#039;, $cacheKey)) {
+			return \App</td></tr>
+<tr><td class='file'>src/Modules/Import/Helpers/Utils.php</td><td class='line'>142</td><td class='context'>$current_user = \App\Modules\Users\Models\Record::getCurrentUserModel();
+
+		$uploadMaxSize = self::getMaxUploadSize();
+		$importDirectory = self::getImportDirectory();
+		$temporaryFileName = self::</td></tr>
+<tr><td class='file'>src/Modules/ModTracker/Handlers/ModTracker_ModTrackerHandler_Handler.php</td><td class='line'>204</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+				$watchdogTitle = &#039;$(translate : ModTracker|&#039; . $watchdogTitle . &#039;)$ $(record : RecordLabel)$&#039;;
+				$watchdogTitle = $cu</td></tr>
+<tr><td class='file'>src/Modules/ModTracker/Models/Relation.php</td><td class='line'>66</td><td class='context'>$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$id = (new \App\Db\Query())-&gt;from(&#039;u_#__reviewed_queue&#039;)-&gt;max(&#039;id&#039;) + 1;
+		$db-&gt;createCommand()-&gt;insert(&#039;u_#__reviewed</td></tr>
+<tr><td class='file'>src/Modules/ModTracker/Models/Record.php</td><td class='line'>67</td><td class='context'>$lastReviewedUsers[] = \App\Modules\Users\Models\Record::getCurrentUserModel()-&gt;getRealId();
+			\App\Db::getInstance()-&gt;createCommand()
+				-&gt;update(&#039;vtiger_modtracker_basic&#039;, [&#039;last_reviewed_user</td></tr>
+<tr><td class='file'>src/Modules/ModTracker/Models/Record.php</td><td class='line'>79</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$userId = $currentUser-&gt;getRealId();
+		}
+		$query = new \App\Db\Query();
+		$query-&gt;select(&#039;last_reviewed_users, id&#039;)-&gt;fro</td></tr>
+<tr><td class='file'>src/Modules/ModTracker/Models/Record.php</td><td class='line'>102</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$userId = $currentUser-&gt;getId();
+		}
+
+		$lastReviewedUsers = (new \App\Db\Query())-&gt;select(&#039;last_reviewed_users&#039;)-&gt;from(&#039;</td></tr>
+<tr><td class='file'>src/Modules/ModTracker/Models/Record.php</td><td class='line'>118</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$userId = $currentUser-&gt;getId();
+		}
+
+		if (!is_array($recordsId)) {
+			$recordsId = [$recordsId];
+		}
+		$query = (new \A</td></tr>
+<tr><td class='file'>src/Modules/ModTracker/Models/Record.php</td><td class='line'>263</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$userId = $currentUser-&gt;getId();
+		}
+		$reviewed = $this-&gt;get(&#039;last_reviewed_users&#039;);
+		if (empty($reviewed)) {
+			return</td></tr>
+<tr><td class='file'>src/Modules/ModTracker/ModTracker.php</td><td class='line'>322</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentTime = date(&#039;Y-m-d H:i:s&#039;);
+		$db-&gt;createCommand()-&gt;insert(&#039;vtiger_modtracker_basic&#039;, [
+			&#039;crmid&#039; =&gt; $sourceId,</td></tr>
+<tr><td class='file'>src/Modules/OSSTimeControl/UiTypes/Time.php</td><td class='line'>46</td><td class='context'>$userModel = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
+		$date = new \DateTime($value);
+
+		if ($fieldName == &#039;time_end&#039; &amp;&amp; empty($value)) {
+			$date-&gt;modify(&quot;+15 minutes&quot;);
+		}</td></tr>
+<tr><td class='file'>src/Modules/OSSTimeControl/Models/Calendar.php</td><td class='line'>22</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$query = \App\Utils\ListViewUtils::getListQuery($module);
+		$params = array();
+		if ($this-&gt;get(&#039;start&#039;) &amp;&amp; $this-&gt;get(&#039;end</td></tr>
+<tr><td class='file'>src/Modules/CustomView/Models/Record.php</td><td class='line'>95</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$cvId = $this-&gt;getId();
+			if (!$cvId) {
+				$this-&gt;isDefault = false;
+				return false;
+			}
+			$this-&gt;isDefault = (new</td></tr>
+<tr><td class='file'>src/Modules/CustomView/Models/Record.php</td><td class='line'>120</td><td class='context'>$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		return ($this-&gt;get(&#039;status&#039;) == \App\CustomView::CV_STATUS_DEFAULT || $this-&gt;get(&#039;userid&#039;) == $userModel-&gt;getId());
+	}
+
+	/**</td></tr>
+<tr><td class='file'>src/Modules/CustomView/Models/Record.php</td><td class='line'>195</td><td class='context'>-&gt;where([&#039;cvid&#039; =&gt; $cvId, &#039;user&#039; =&gt; &#039;Users:&#039; . \App\Modules\Users\Models\Record::getCurrentUserModel()-&gt;getId()])
+				-&gt;exists($db);
+	}
+
+	public function checkPermissionToFeatured($editView = fal</td></tr>
+<tr><td class='file'>src/Modules/CustomView/Models/Record.php</td><td class='line'>201</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$query = (new \App\Db\Query())-&gt;from(&#039;u_#__featured_filter&#039;);
+	if ($currentUser-&gt;isAdminUser()) {
+		$userGroups = $currentU</td></tr>
+<tr><td class='file'>src/Modules/CustomView/Models/Record.php</td><td class='line'>230</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		if ($currentUser-&gt;isAdminUser()) {
+			return true;
+		}
+
+		$moduleModel = $this-&gt;getModule();
+		$moduleName = $moduleModel-&gt;</td></tr>
+<tr><td class='file'>src/Modules/CustomView/Models/Record.php</td><td class='line'>308</td><td class='context'>$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+
+		$cvIdOrg = $cvId = $this-&gt;getId();
+		$setDefault = intval($this-&gt;get(&#039;setdefault&#039;));
+		$status = $this-&gt;get(&#039;status&#039;)</td></tr>
+<tr><td class='file'>src/Modules/CustomView/Models/Record.php</td><td class='line'>375</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$userId = &#039;Users:&#039; . $currentUser-&gt;getId();
+		$tabId = $this-&gt;getModule()-&gt;getId();
+		$db-&gt;createCommand()-&gt;delete(&#039;vtiger_</td></tr>
+<tr><td class='file'>src/Modules/CustomView/Models/Record.php</td><td class='line'>525</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$moduleName = $this-&gt;getModule()-&gt;get(&#039;name&#039;);
+		$seq = $this-&gt;getNextSeq($moduleName);
+		$db = \App\Db::getInstance();
+		$</td></tr>
+<tr><td class='file'>src/Modules/CustomView/Models/Record.php</td><td class='line'>843</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$cacheName = $moduleName . $currentUser-&gt;getId();
+		if (\App\Cache\Cache::has(&#039;getAllFilters&#039;, $cacheName)) {
+			return \Ap</td></tr>
+<tr><td class='file'>src/Modules/HelpDesk/HelpDesk.php</td><td class='line'>166</td><td class='context'>$currentUser = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
+
+		if ($mode != &#039;edit&#039;) {//this will be updated when we create new ticket
+			$updatelog = &quot;Ticket created. Assigned to &quot;;</td></tr>
+<tr><td class='file'>src/Modules/Products/Models/Record.php</td><td class='line'>104</td><td class='context'>$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$baseCurrency = \App\Utils\InventoryUtils::getUserCurrencyId($currentUserModel);
+		}
+		$baseCurrencyDetails = array(</td></tr>
+<tr><td class='file'>src/Modules/Products/Models/Record.php</td><td class='line'>173</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$adb = \App\Database\PearDatabase::getInstance();
+			$params = [&#039;%&#039; . $currentUser-&gt;getId() . &#039;%&#039;, &quot;%$searchKey%&quot;];
+			$q</td></tr>
+<tr><td class='file'>src/Modules/Announcements/Models/Module.php</td><td class='line'>108</td><td class='context'>$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		if ($showAll) {
+			$users = \App\Fields\Owner::getInstance()-&gt;getAccessibleUsers(&#039;Public&#039;);
+		} else {
+			$users = $userModel</td></tr>
+<tr><td class='file'>src/Modules/Home/Models/Module.php</td><td class='line'>81</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$query = new \App\Db\Query();
+		if (!$user) {
+			$user = $currentUser-&gt;getId();
+		}
+
+		$orderBy = $pagingModel-&gt;getForSql(&#039;</td></tr>
+<tr><td class='file'>src/Modules/Home/Models/Module.php</td><td class='line'>189</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		if (!$user) {
+			$user = $currentUser-&gt;getId();
+		}
+		$nowInUserFormat = \App\Modules\Base\UiTypes\Datetime::getDisplayDate</td></tr>
+<tr><td class='file'>src/Modules/OSSMailView/OSSMailView.php</td><td class='line'>319</td><td class='context'>$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()-&gt;get(&#039;user_name&#039;);
+			$adb-&gt;pquery(&quot;INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);&quot;, array(&#039;Action</td></tr>
+<tr><td class='file'>src/Modules/OSSMailView/OSSMailView.php</td><td class='line'>331</td><td class='context'>$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()-&gt;get(&#039;user_name&#039;);
+			$adb-&gt;pquery(&quot;INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);&quot;, array(&#039;Action</td></tr>
+<tr><td class='file'>src/Modules/OSSMailView/Models/Record.php</td><td class='line'>237</td><td class='context'>$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()-&gt;get(&#039;user_name&#039;);
+		$adb-&gt;pquery(&quot;INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?); &quot;, array($action,</td></tr>
+<tr><td class='file'>src/Modules/OSSMailView/Models/Record.php</td><td class='line'>296</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+
+		$crmid = $params[&#039;crmid&#039;];
+		$newModule = $params[&#039;newModule&#039;];
+		$newCrmId = $params[&#039;newCrmId&#039;];
+		$mailId = $params[&#039;ma</td></tr>
+<tr><td class='file'>src/Modules/OSSMailView/Models/Module.php</td><td class='line'>47</td><td class='context'>$currenUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$owner = $currenUserModel-&gt;getId();
+		} else if ($owner === &#039;all&#039;) {
+			$owner = &#039;&#039;;
+		}
+
+		$params = array();
+		if (</td></tr>
+<tr><td class='file'>src/Modules/Notification/Models/Module.php</td><td class='line'>23</td><td class='context'>-&gt;where([&#039;vtiger_crmentity.smownerid&#039; =&gt; \App\Modules\Users\Models\Record::getCurrentUserModel()-&gt;getId(), &#039;vtiger_crmentity.deleted&#039; =&gt; 0, &#039;notification_status&#039; =&gt; &#039;PLL_UNREAD&#039;])
+			-&gt;count();</td></tr>
+<tr><td class='file'>src/Modules/Reservations/UiTypes/Time.php</td><td class='line'>46</td><td class='context'>$userModel = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
+		$date = new \DateTime($value);
+
+		if ($fieldName == &#039;time_end&#039; &amp;&amp; empty($value)) {
+			$date-&gt;modify(&quot;+15 minutes&quot;);
+		}</td></tr>
+<tr><td class='file'>src/Modules/Reservations/Models/Calendar.php</td><td class='line'>22</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$query = (new \App\Db\Query())-&gt;from(&#039;vtiger_reservations&#039;)
+			-&gt;innerJoin(&#039;vtiger_crmentity&#039;, &#039;vtiger_crmentity.crmid = vt</td></tr>
+<tr><td class='file'>src/TextParser.php</td><td class='line'>542</td><td class='context'>$userModel = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
+				$value = \App\Fields\DateTimeField::convertToUserTimeZone(date(&#039;Y-m-d&#039;) . &#039; &#039; . $value)-&gt;format(&#039;H:i:s&#039;);
+				if ($us</td></tr>
+<tr><td class='file'>src/Runtime/Vtiger_Language_Handler.php</td><td class='line'>213</td><td class='context'>$language = \App\Modules\Users\Models\Record::getCurrentUserModel()-&gt;get(&#039;language&#039;);
+	}
+
+		$language = empty($language) ? \App\AppConfig::main(&#039;default_language&#039;) : strtolower($language);
+		static</td></tr>
+<tr><td class='file'>src/Runtime/Vtiger_Theme.php</td><td class='line'>150</td><td class='context'>$theme = \App\Modules\Users\Models\Record::getCurrentUserModel()-&gt;get(&#039;theme&#039;);
+		return empty($theme) ? self::DEFAULTTHEME : $theme;
+	}
+
+	/**
+	 * Function to returns all skins(themes)
+	 * @return</td></tr>
+<tr><td class='file'>src/Mailer.php</td><td class='line'>331</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$this-&gt;to($currentUser-&gt;get(&#039;email1&#039;));
+		$template = Mail::getTempleteDetail(&#039;TestMailAboutTheMailServerConfiguration&#039;);</td></tr>
+<tr><td class='file'>src/ModuleManagement/Adapters/Link.php</td><td class='line'>184</td><td class='context'>$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		if (\App\Cache\Cache::has(&#039;AllLinks&#039;, &#039;ByType&#039;)) {
+			$rows = \App\Cache\Cache::get(&#039;AllLinks&#039;, &#039;ByType&#039;);
+		} else {
+			$l</td></tr>
+</table>
+<h2>Record::getCurrentUserId</h2>
+<table>
+<tr><th>Funkcja</th><th>Liczba użyć</th><th>Plik</th><th>Linia</th><th>Kontekst</th></tr>
+<tr><td rowspan='73'>getCurrentUserId</td><td class='count high' rowspan='73'>73</td><td class='file'>documentation/privilege_refactoring_example.php</td><td class='line'>17</td><td class='context'>$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
+$privileges = \App\Modules\Users\Models\Record ::getPrivilegesFile($userId);  // Loads from file
+$allowed = \App\Privilege::isPermitted</td></tr>
+<tr><td class='file'>documentation/privilege_refactoring_example.php</td><td class='line'>553</td><td class='context'>$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
+        }
+        
+        if (self::$useNewSystem &amp;&amp; self::$service !== null) {
+            // Use new system</td></tr>
+<tr><td class='file'>src/Field.php</td><td class='line'>25</td><td class='context'>if (Cache::has(__METHOD__ . \App\Modules\Users\Models\Record::getCurrentUserId(), $tabId)) {
+			$fields = Cache::get(__METHOD__ . \App\Modules\Users\Models\Record::getCurrentUserId(), $tabId);
+		}</td></tr>
+<tr><td class='file'>src/Field.php</td><td class='line'>26</td><td class='context'>$fields = Cache::get(__METHOD__ . \App\Modules\Users\Models\Record::getCurrentUserId(), $tabId);
+		} else {
+			$query = (new \App\Db\Query())
+				-&gt;select(&#039;vtiger_field.*, vtiger_profile2field.rea</td></tr>
+<tr><td class='file'>src/Field.php</td><td class='line'>48</td><td class='context'>Cache::save(__METHOD__ . \App\Modules\Users\Models\Record::getCurrentUserId(), $tabId, $fields);
+		}
+		if ($readOnly) {
+			return $fields;
+		}
+		foreach ($fields as $key =&gt; &amp;$field) {
+			if ($fiel</td></tr>
+<tr><td class='file'>src/RecordSearch.php</td><td class='line'>38</td><td class='context'>$this-&gt;userId = \App\Modules\Users\Models\Record::getCurrentUserId();
+	}
+
+	/**
+	 * Search record
+	 * @return array
+	 */
+	public function search()
+	{
+		$cacheKey = &quot;$this-&gt;searchValue,$this-&gt;limit,&quot;</td></tr>
+<tr><td class='file'>src/Utils/InventoryUtils.php</td><td class='line'>24</td><td class='context'>$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
+		}
+		if ($userId) {
+			$currencyId = \vtlib\Functions:: userCurrencyId($userId);
+			if ($currencyId) {
+				return (int) $currencyId</td></tr>
+<tr><td class='file'>src/EventHandler.php</td><td class='line'>351</td><td class='context'>&#039;userid&#039; =&gt; \App\Modules\Users\Models\Record::getCurrentUserId(),
+					&#039;handler_name&#039; =&gt; $name,
+					&#039;class&#039; =&gt; $class,
+					&#039;params&#039; =&gt; Json::encode($params)
+				])-&gt;execute();
+		}
+	}
+}</td></tr>
+<tr><td class='file'>src/Privilege.php</td><td class='line'>50</td><td class='context'>$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
+	}
+	
+	$userPrivileges = \App\Modules\Users\Models\Privileges::getPrivilegesFile($userId);
+	if ($userPrivileges === null) {
+		return s</td></tr>
+<tr><td class='file'>src/PrivilegeQuery.php</td><td class='line'>16</td><td class='context'>$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
+		}
+		$userModel = \App\Modules\Users\Models\Privileges::getInstanceById($userId);
+		if ($relatedRecord !== false &amp;&amp; \App\AppConfig:</td></tr>
+<tr><td class='file'>src/PrivilegeQuery.php</td><td class='line'>79</td><td class='context'>$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
+	}
+	$userModel = \App\Modules\Users\Models\Privileges::getInstanceById($userId);
+		if ($relatedRecord !== false &amp;&amp; \App\AppConfig::se</td></tr>
+<tr><td class='file'>src/Webservices/Utils.php</td><td class='line'>581</td><td class='context'>&#039;rel_created_user&#039; =&gt; \App\Modules\Users\Models\Record::getCurrentUserId(),
+				&#039;rel_created_time&#039; =&gt; date(&#039;Y-m-d H:i:s&#039;)
+			])-&gt;execute();
+		if ($resultNew === 0) {
+			return false;
+		}
+	}
+	retu</td></tr>
+<tr><td class='file'>src/PrivilegeUpdater.php</td><td class='line'>27</td><td class='context'>$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
+		}
+		if (!isset(static::$globalSearchPermissionsCache[$userId][$moduleName])) {
+			$users = static::getGlobalSearchUsers();
+			$ret</td></tr>
+<tr><td class='file'>src/QueryGenerator.php</td><td class='line'>109</td><td class='context'>$this-&gt;user = \App\Modules\Users\Models\Record::getInstanceById($userId ? $userId : \App\Modules\Users\Models\Record::getCurrentUserId(), &#039;Users&#039;);
+}
+
+	/**
+	 * Get module name
+	 * @return string
+	 *</td></tr>
+<tr><td class='file'>src/CustomView.php</td><td class='line'>246</td><td class='context'>$user = \App\Modules\Users\Models\Record::getCurrentUserId();
+	}
+	if (is_numeric($user)) {
+		$user = \App\Modules\Users\Models\Record::getInstanceById($user, &#039;Users&#039;);
+	}
+	$cacheName = $moduleName</td></tr>
+<tr><td class='file'>src/Modules/Documents/Actions/MassAdd.php</td><td class='line'>50</td><td class='context'>$recordeModel-&gt;set(&#039;assigned_user_id&#039;, \App\Modules\Users\Models\Record::getCurrentUserId());
+				$recordeModel-&gt;file = $originalFile;
+				$recordeModel-&gt;set(&#039;filelocationtype&#039;, &#039;I&#039;);
+				$record</td></tr>
+<tr><td class='file'>src/Modules/API/Models/CalDAV.php</td><td class='line'>61</td><td class='context'>$orgUserId = \App\Modules\Users\Models\Record::getCurrentUserId();
+					\App\Modules\Users\Models\Record::setCurrentUserId($user-&gt;get(&#039;id&#039;));
+
+					$vcalendar = $this-&gt;getDavDetail();
+					if ($</td></tr>
+<tr><td class='file'>src/Modules/API/Models/CardDAV.php</td><td class='line'>55</td><td class='context'>$orgUserId = \App\Modules\Users\Models\Record::getCurrentUserId();
+				\App\Modules\Users\Models\Record::setCurrentUserId($user-&gt;get(&#039;id&#039;));
+
+				if (\App\Modules\Users\Models\Privileges::isPermi</td></tr>
+<tr><td class='file'>src/Modules/Settings/Base/Models/Menu.php</td><td class='line'>96</td><td class='context'>$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
+			}
+		}
+		
+		$cacheKey = &quot;menu_all_user_{$userId}&quot;;
+		
+		// Try request cache first
+		if ($request &amp;&amp; $request-&gt;hasCached($cacheKe</td></tr>
+<tr><td class='file'>src/Modules/Settings/Base/Models/Tracker.php</td><td class='line'>34</td><td class='context'>&#039;user_id&#039; =&gt; \App\Modules\Users\Models\Record::getCurrentUserId(),
+				&#039;type&#039; =&gt; self::$types[$type],
+				&#039;module_name&#039; =&gt; ($request !== null ? $request-&gt;get(&#039;module&#039;) : &#039;&#039;),
+				&#039;record_id&#039; =&gt; s</td></tr>
+<tr><td class='file'>src/Modules/Settings/Base/Models/MenuItem.php</td><td class='line'>266</td><td class='context'>$dataReader = $query-&gt;andWhere([&#039;and&#039;, [&#039;NOT IN&#039;, &#039;name&#039;, $skipMenuItemList], [&#039;or&#039;, [&#039;like&#039;, &#039;admin_access&#039;, &#039;,&#039; . \App\Modules\Users\Models\Record::getCurrentUserId() . &#039;,&#039;], [&#039;admin_access&#039; =&gt; n</td></tr>
+<tr><td class='file'>src/Modules/Base/Dashboards/History.php</td><td class='line'>27</td><td class='context'>$widget = \App\Modules\Base\Models\Widget::getInstance($linkId, \App\Modules\Users\Models\Record::getCurrentUserId());
+		$limit = (int) $widget-&gt;get(&#039;limit&#039;);
+
+		if (empty($limit)) {
+			$limit = 10</td></tr>
+<tr><td class='file'>src/Modules/Base/UiTypes/Owner.php</td><td class='line'>135</td><td class='context'>return empty($value) ? \App\Modules\Users\Models\Record::getCurrentUserId() : (int) $value;
+	}
+}</td></tr>
+<tr><td class='file'>src/Modules/Base/UiTypes/UserCreator.php</td><td class='line'>31</td><td class='context'>return \App\Modules\Users\Models\Record::getCurrentUserId();
+	}
+}</td></tr>
+<tr><td class='file'>src/Modules/Base/Models/RelationListView.php</td><td class='line'>561</td><td class='context'>&#039;userid&#039; =&gt; \App\Modules\Users\Models\Record::getCurrentUserId()])
+				-&gt;column();
+	}
+}</td></tr>
+<tr><td class='file'>src/Modules/Base/Models/Watchdog.php</td><td class='line'>51</td><td class='context'>$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
+		}
+		$cacheName = $moduleName . $userId;
+		if (\App\Cache\Cache::has(&#039;WatchdogModel&#039;, $cacheName)) {
+			return \App\Cache\Cache::ge</td></tr>
+<tr><td class='file'>src/Modules/Base/Models/Watchdog.php</td><td class='line'>155</td><td class='context'>$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
+		}
+		if (\App\Cache\Cache::has(&#039;getWatchingModules&#039;, $userId)) {
+			return \App\Cache\Cache::get(&#039;getWatchingModules&#039;, $userId);</td></tr>
+<tr><td class='file'>src/Modules/Base/Models/Watchdog.php</td><td class='line'>181</td><td class='context'>$ownerId = \App\Modules\Users\Models\Record::getCurrentUserId();
+		}
+		$cacheName = $ownerId . &#039;_&#039; . intval($isName);
+		if (\App\Cache\Cache::has(&#039;getWatchingModulesSchedule&#039;, $cacheName)) {
+			re</td></tr>
+<tr><td class='file'>src/Modules/Base/Models/Watchdog.php</td><td class='line'>296</td><td class='context'>$ownerId = \App\Modules\Users\Models\Record::getCurrentUserId();
+		}
+		$db = \App\Db::getInstance();
+		if (empty($sendNotifications)) {
+			$db-&gt;createCommand()-&gt;delete(&#039;u_#__watchdog_schedule&#039;, [&#039;</td></tr>
+<tr><td class='file'>src/Modules/Base/Models/Relation.php</td><td class='line'>595</td><td class='context'>&#039;rel_created_user&#039; =&gt; \App\Modules\Users\Models\Record::getCurrentUserId(),
+			&#039;rel_created_time&#039; =&gt; date(&#039;Y-m-d H:i:s&#039;)
+		])-&gt;execute();
+	}
+
+	public function deleteRelTree($crmid, $tree)
+	{
+		\Ap</td></tr>
+<tr><td class='file'>src/Modules/Base/Models/Relation.php</td><td class='line'>856</td><td class='context'>&#039;userid&#039; =&gt; \App\Modules\Users\Models\Record::getCurrentUserId()
+			])-&gt;execute();
+		} elseif (&#039;delete&#039; === $action) {
+			$result = $db-&gt;createCommand()-&gt;delete(&#039;u_#__favorites&#039;, [
+				&#039;crmid&#039; =&gt;</td></tr>
+<tr><td class='file'>src/Modules/Base/Models/Relation.php</td><td class='line'>864</td><td class='context'>&#039;userid&#039; =&gt; \App\Modules\Users\Models\Record::getCurrentUserId()
+			])-&gt;execute();
+		}
+		return $result;
+	}
+
+	public static function updateStateFavorites($relationId, $status)
+	{
+		\App\Db::getIn</td></tr>
+<tr><td class='file'>src/Modules/Base/Models/MiniList.php</td><td class='line'>115</td><td class='context'>$user = \App\Modules\Users\Models\Record::getCurrentUserId();
+		} else if ($user === &#039;all&#039;) {
+			$user = &#039;&#039;;
+		}
+		if (!$this-&gt;listviewRecords) {
+			if (!empty($user)) {
+				$this-&gt;queryGenerator-</td></tr>
+<tr><td class='file'>src/Modules/Base/Models/MiniList.php</td><td class='line'>148</td><td class='context'>$user = \App\Modules\Users\Models\Record::getCurrentUserId();
+		}
+		return $user === &#039;all&#039; ? $url : $url .= &#039;&amp;search_params=[[[&quot;assigned_user_id&quot;,&quot;e&quot;,&quot;&#039; . $user . &#039;&quot;]]]&#039;;
+	}
+
+	public function getL</td></tr>
+<tr><td class='file'>src/Modules/Base/Models/MiniList.php</td><td class='line'>157</td><td class='context'>$user = \App\Modules\Users\Models\Record::getCurrentUserId();
+		}
+		return $user === &#039;all&#039; ? $url : $url .= &#039;&amp;search_params=[[[&quot;assigned_user_id&quot;,&quot;e&quot;,&quot;&#039; . $user . &#039;&quot;]]]&#039;;
+	}
+}</td></tr>
+<tr><td class='file'>src/Modules/Base/Models/Record.php</td><td class='line'>480</td><td class='context'>$row[&#039;users&#039;] = &#039;,&#039; . \App\Modules\Users\Models\Record::getCurrentUserId() . &#039;,&#039;;
+			$this-&gt;set(&#039;createdtime&#039;, $time);
+		}
+		if ($this-&gt;getPreviousValue(&#039;modifiedtime&#039;)) {
+			$time = $this-&gt;get(&#039;m</td></tr>
+<tr><td class='file'>src/Modules/Base/Models/Record.php</td><td class='line'>1087</td><td class='context'>$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
+		$date = date(&#039;Y-m-d H:i:s&#039;);
+
+		//to get the owner id
+		$ownerid = $this-&gt;get(&#039;assigned_user_id&#039;);
+		if (!isset($ownerid) || $owner</td></tr>
+<tr><td class='file'>src/Modules/Base/Models/Record.php</td><td class='line'>1301</td><td class='context'>array_key_exists(\App\Modules\Users\Models\Record::getCurrentUserId(), \App\Fields\Owner::getInstance($this-&gt;getModuleName())-&gt;getAccessibleUsers(&#039;&#039;, &#039;owner&#039;));
+	}
+
+	/**
+	 * Function checks if use</td></tr>
+<tr><td class='file'>src/Modules/Base/Models/Notebook.php</td><td class='line'>53</td><td class='context'>WHERE linktype = ? AND vtiger_module_dashboard_widgets.id = ? AND vtiger_module_dashboard_widgets.userid = ?&#039;, [&#039;DASHBOARDWIDGET&#039;, $widgetId, \App\Modules\Users\Models\Record::getCurrentUserId()])</td></tr>
+<tr><td class='file'>src/Modules/Calendar/Models/Module.php</td><td class='line'>196</td><td class='context'>-&gt;where([&#039;vtiger_crmentity.deleted&#039; =&gt; 0, &#039;vtiger_crmentity.smownerid&#039; =&gt; \App\Modules\Users\Models\Record::getCurrentUserId()]);
+	}
+
+	/**
+	 * Function to set event fields for export
+	 */
+	public</td></tr>
+<tr><td class='file'>src/Modules/SSalesProcesses/Dashboards/TeamsEstimatedSales.php</td><td class='line'>92</td><td class='context'>$widget = \App\Modules\Base\Models\Widget::getInstance($linkId, \App\Modules\Users\Models\Record::getCurrentUserId());
+		if (empty($time)) {
+			$time = [&#039;start&#039; =&gt; &#039;&#039;];
+			$date = new \DateTime();</td></tr>
+<tr><td class='file'>src/Modules/Users/Users.php</td><td class='line'>390</td><td class='context'>$currentUserId = \App\Modules\Users\Models\Record::getCurrentUserId();
+		$dateVar = date(&#039;Y-m-d H:i:s&#039;);
+		$db = \App\Db::getInstance();
+		//to get the owner id
+		$ownerid = $this-&gt;column_fields[&#039;a</td></tr>
+<tr><td class='file'>src/Modules/Users/Models/Privileges.php</td><td class='line'>241</td><td class='context'>return self::getInstanceById(\App\Modules\Users\Models\Record::getCurrentUserId());
+	}
+
+	/**
+	 * Function to check permission for a Module/Action/Record
+	 * @param string $moduleName
+	 * @param str</td></tr>
+<tr><td class='file'>src/Modules/Users/Models/Record.php</td><td class='line'>428</td><td class='context'>$id = static::getCurrentUserId();
+		}
+		static::$currentUserRealId = $id;
+		return $id;
+	}
+
+	/**
+	 * Clear user cache
+	 * @param int|boolean $userId
+	 */
+	public static function clearCache($userId</td></tr>
+<tr><td class='file'>src/Modules/OSSPasswords/Handlers/OSSPasswords_Secure_Handler.php</td><td class='line'>22</td><td class='context'>-&gt;where([&#039;basic.module&#039; =&gt; $eventHandler-&gt;getModuleName(), &#039;basic.whodid&#039; =&gt; \App\Modules\Users\Models\Record::getCurrentUserId(), &#039;detail.fieldname&#039; =&gt; &#039;password&#039;])
+					-&gt;andWhere([&#039;&gt;&#039;, &#039;chang</td></tr>
+<tr><td class='file'>src/Modules/Accounts/Handlers/Accounts_SaveChanges_Handler.php</td><td class='line'>27</td><td class='context'>&#039;user_id&#039; =&gt; \App\Modules\Users\Models\Record::getCurrentUserId(),
+					], [&#039;crmid&#039; =&gt; $recordModel-&gt;getId(), &#039;fieldname&#039; =&gt; &#039;active&#039;])-&gt;execute();
+			} else {
+				\App\Db::getInstance()-&gt;create</td></tr>
+<tr><td class='file'>src/Modules/Accounts/Handlers/Accounts_SaveChanges_Handler.php</td><td class='line'>31</td><td class='context'>&#039;user_id&#039; =&gt; \App\Modules\Users\Models\Record::getCurrentUserId(),
+					&#039;crmid&#039; =&gt; $recordModel-&gt;getId(),
+					&#039;fieldname&#039; =&gt; &#039;active&#039;,
+					&#039;date_updated&#039; =&gt; date(&#039;Y-m-d H:i:s&#039;),
+				])-&gt;execut</td></tr>
+<tr><td class='file'>src/Modules/Accounts/Accounts.php</td><td class='line'>460</td><td class='context'>&#039;rel_created_user&#039; =&gt; \App\Modules\Users\Models\Record::getCurrentUserId(),
+						&#039;rel_created_time&#039; =&gt; date(&#039;Y-m-d H:i:s&#039;)
+					])-&gt;execute();
+				} elseif ($with_module == &#039;Campaigns&#039;) {</td></tr>
+<tr><td class='file'>src/Modules/Leads/Leads.php</td><td class='line'>250</td><td class='context'>&#039;rel_created_user&#039; =&gt; \App\Modules\Users\Models\Record::getCurrentUserId(),
+					&#039;rel_created_time&#039; =&gt; date(&#039;Y-m-d H:i:s&#039;)
+				])-&gt;execute();
+			} elseif ($withModule === &#039;Campaigns&#039;) {
+				\App</td></tr>
+<tr><td class='file'>src/Modules/Leads/Views/ConvertLead.php</td><td class='line'>59</td><td class='context'>$assignedToFieldModel-&gt;set(&#039;fieldvalue&#039;, \App\Modules\Users\Models\Record::getCurrentUserId());
+		} else {
+			$assignedToFieldModel-&gt;set(&#039;fieldvalue&#039;, $recordModel-&gt;get(&#039;assigned_user_id&#039;));
+		}</td></tr>
+<tr><td class='file'>src/Modules/FInvoice/Dashboards/SummationByUser.php</td><td class='line'>70</td><td class='context'>$currentUserId = \App\Modules\Users\Models\Record::getCurrentUserId();
+		$param = $time[&#039;start&#039;] . &#039;,&#039; . $time[&#039;end&#039;];
+
+		$s = new \yii\db\Expression(&#039;sum(sum_gross)&#039;);
+		$queryGenerator = new \App</td></tr>
+<tr><td class='file'>src/Modules/ModComments/Models/Record.php</td><td class='line'>81</td><td class='context'>$forSave[&#039;vtiger_modcomments&#039;][&#039;userid&#039;] = \App\Modules\Users\Models\Record::getCurrentUserId();
+		}
+		return $forSave;
+	}
+
+	/**
+	 * Function returns the parent Comment Model
+	 * @return &lt;\App\Mod</td></tr>
+<tr><td class='file'>src/Modules/ModComments/Actions/SaveAjax.php</td><td class='line'>32</td><td class='context'>$request-&gt;set(&#039;assigned_user_id&#039;, \App\Modules\Users\Models\Record::getCurrentUserId());
+		$recordModel = $this-&gt;saveRecord($request);
+		$fieldModelList = $recordModel-&gt;getModule()-&gt;getFields();</td></tr>
+<tr><td class='file'>src/Modules/ModComments/Actions/Save.php</td><td class='line'>20</td><td class='context'>$request-&gt;set(&#039;assigned_user_id&#039;, \App\Modules\Users\Models\Record::getCurrentUserId());
+		$recordModel = $this-&gt;saveRecord($request);
+		$responseFieldsToSent = array(&#039;reasontoedit&#039;, &#039;commentconten</td></tr>
+<tr><td class='file'>src/Modules/Import/Models/ListView.php</td><td class='line'>111</td><td class='context'>$user = \App\Modules\Users\Models\Record::getCurrentUserId();
+		$userDBTableName = \App\Modules\Import\Models\Module::getDbTableName($user);
+		$query-&gt;innerJoin($userDBTableName, $moduleModel-&gt;base</td></tr>
+<tr><td class='file'>src/Modules/SMSNotifier/workflow/VTSMSTask.php</td><td class='line'>44</td><td class='context'>SMSNotifier::sendsms($content, $tonumbers, \App\Modules\Users\Models\Record::getCurrentUserId(), $recordModel-&gt;getId(), $recordModel-&gt;getModuleName());
+		}
+	}
+}</td></tr>
+<tr><td class='file'>src/Modules/Assets/Dashboards/ExpiringSoldProducts.php</td><td class='line'>52</td><td class='context'>$subQuery = (new \App\Db\Query())-&gt;select(&#039;crmid&#039;)-&gt;from(&#039;u_#__crmentity_showners&#039;)-&gt;where([&#039;userid&#039; =&gt; \App\Modules\Users\Models\Record::getCurrentUserId()])-&gt;distinct(&#039;crmid&#039;);
+			$query-&gt;andWhe</td></tr>
+<tr><td class='file'>src/Modules/Assets/Dashboards/ExpiringSoldProducts.php</td><td class='line'>55</td><td class='context'>$query-&gt;andWhere([&#039;vtiger_crmentity.smownerid&#039; =&gt; \App\Modules\Users\Models\Record::getCurrentUserId()]);
+		}
+		$query-&gt;orderBy(&#039;vtiger_assets.dateinservice&#039;);
+		$query-&gt;limit($limit);
+		$data = $</td></tr>
+<tr><td class='file'>src/Modules/ModTracker/Models/Record.php</td><td class='line'>379</td><td class='context'>$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
+		$query = \App\Modules\Base\Widgets\HistoryRelation::getQuery($sourceId, $sourceModule, \App\Modules\Base\Widgets\HistoryRelation::g</td></tr>
+<tr><td class='file'>src/Modules/ModTracker/Models/Record.php</td><td class='line'>411</td><td class='context'>$data = (new \App\Db\Query())-&gt;from(&#039;u_#__timeline&#039;)-&gt;where([&#039;crmid&#039; =&gt; $sourceIds, &#039;userid&#039; =&gt; \App\Modules\Users\Models\Record::getCurrentUserId()])-&gt;createCommand()-&gt;queryAllByGroup(1);
+		if (co</td></tr>
+<tr><td class='file'>src/Modules/Workflow/Tasks/VTCreateTodoTask.php</td><td class='line'>79</td><td class='context'>$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
+		} else if ($this-&gt;assigned_user_id === &#039;triggerUser&#039;) {
+			$userId = $recordModel-&gt;executeUser;
+		} else if ($this-&gt;assigned_user_</td></tr>
+<tr><td class='file'>src/Modules/Workflow/Tasks/VTCreateEventTask.php</td><td class='line'>77</td><td class='context'>$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
+		} else if ($this-&gt;assigned_user_id === &#039;triggerUser&#039;) {
+			$userId = $recordModel-&gt;get(&#039;executeUser&#039;);
+		} else if ($this-&gt;assigne</td></tr>
+<tr><td class='file'>src/Modules/Workflow/Tasks/VTWatchdog.php</td><td class='line'>51</td><td class='context'>if (!empty($this-&gt;skipCurrentUser) &amp;&amp; ($key = array_search(\App\Modules\Users\Models\Record::getCurrentUserId(), $users)) !== false) {
+			unset($users[$key]);
+		}
+		$relatedField = \App\ModuleHiera</td></tr>
+<tr><td class='file'>src/Modules/Products/Products.php</td><td class='line'>325</td><td class='context'>&#039;rel_created_user&#039; =&gt; \App\Modules\Users\Models\Record::getCurrentUserId(),
+						&#039;rel_created_time&#039; =&gt; date(&#039;Y-m-d H:i:s&#039;)
+					])-&gt;execute();
+				}
+			} else {
+				parent::save_related_module</td></tr>
+<tr><td class='file'>src/Modules/Announcements/Models/Module.php</td><td class='line'>40</td><td class='context'>-&gt;where([&#039;announcementid&#039; =&gt; $row[&#039;id&#039;], &#039;userid&#039; =&gt; \App\Modules\Users\Models\Record::getCurrentUserId()]);
+			if (!empty($row[&#039;interval&#039;])) {
+				$date = date(&#039;Y-m-d H:i:s&#039;, strtotime(&#039;+&#039; . $ro</td></tr>
+<tr><td class='file'>src/Modules/Announcements/Models/Module.php</td><td class='line'>68</td><td class='context'>-&gt;where([&#039;announcementid&#039; =&gt; $record, &#039;userid&#039; =&gt; \App\Modules\Users\Models\Record::getCurrentUserId()])-&gt;limit(1);
+		if ($query-&gt;scalar() === false) {
+			$db-&gt;createCommand()
+				-&gt;insert(&#039;u_#__</td></tr>
+<tr><td class='file'>src/Modules/Announcements/Models/Module.php</td><td class='line'>73</td><td class='context'>&#039;userid&#039; =&gt; \App\Modules\Users\Models\Record::getCurrentUserId(),
+					&#039;date&#039; =&gt; date(&#039;Y-m-d H:i:s&#039;),
+					&#039;status&#039; =&gt; $state
+				])-&gt;execute();
+		} else {
+			$db-&gt;createCommand()
+				-&gt;update(&#039;</td></tr>
+<tr><td class='file'>src/Modules/Announcements/Models/Module.php</td><td class='line'>82</td><td class='context'>], [&#039;announcementid&#039; =&gt; $record, &#039;userid&#039; =&gt; \App\Modules\Users\Models\Record::getCurrentUserId()])
+				-&gt;execute();
+		}
+		$this-&gt;checkStatus($record);
+	}
+
+	public function checkStatus($record)</td></tr>
+<tr><td class='file'>src/Modules/Notification/Models/Module.php</td><td class='line'>39</td><td class='context'>$queryGenerator-&gt;addNativeCondition([&#039;smownerid&#039; =&gt; \App\Modules\Users\Models\Record::getCurrentUserId()]);
+		if (!empty($conditions)) {
+			$queryGenerator-&gt;addNativeCondition($conditions);
+		}
+		$</td></tr>
+<tr><td class='file'>src/QueryField/OwnerField.php</td><td class='line'>54</td><td class='context'>return [$this-&gt;getColumnName() =&gt; \App\Modules\Users\Models\Record::getCurrentUserId()];
+	}
+
+	/**
+	 * Watched record
+	 * @return array
+	 */
+	public function operatorWr()
+	{
+		$watchdog = \App\Modul</td></tr>
+<tr><td class='file'>src/QueryField/SharedOwnerField.php</td><td class='line'>66</td><td class='context'>return [&#039;u_#__crmentity_showners.userid&#039; =&gt; \App\Modules\Users\Models\Record::getCurrentUserId()];
+	}
+
+	/**
+	 * Contains operator
+	 * @return array
+	 */
+	public function operatorC()
+	{
+		if (empty(</td></tr>
+<tr><td class='file'>src/TextParser.php</td><td class='line'>330</td><td class='context'>$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
+		if (Cache::has(&#039;TextParserEmployeeDetail&#039;, $userId . $fieldName)) {
+			return Cache::get(&#039;TextParserEmployeeDetail&#039;, $userId . $fie</td></tr>
+<tr><td class='file'>src/CRMEntity.php</td><td class='line'>684</td><td class='context'>&#039;rel_created_user&#039; =&gt; \App\Modules\Users\Models\Record::getCurrentUserId(),
+					&#039;rel_created_time&#039; =&gt; date(&#039;Y-m-d H:i:s&#039;)
+				])-&gt;execute();
+			}
+		}
+	}
+
+	/**
+	 * Delete the related module reco</td></tr>
+</table>
+<h2>CurrentUser::get</h2>
+<table>
+<tr><th>Funkcja</th><th>Liczba użyć</th><th>Plik</th><th>Linia</th><th>Kontekst</th></tr>
+<tr><td rowspan='122'>CurrentUser::get</td><td class='count high' rowspan='122'>122</td><td class='file'>src/Utils/VTCacheUtils.php</td><td class='line'>247</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		if (isset($current_user) &amp;&amp; $currentUser-&gt;id == $userid) {
+			return array(
+				&#039;currencyid&#039; =&gt; $currentUser-&gt;column_fields[&#039;currency_id&#039;]
+			);
+		}</td></tr>
+<tr><td class='file'>src/Utils/Utils.php</td><td class='line'>691</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		if ($currentUser &amp;&amp; isset($currentUser-&gt;no_of_currency_decimals)) {
+			return $currentUser-&gt;no_of_currency_decimals;
+		}
+		return 2;
+	}
+
+	public stati</td></tr>
+<tr><td class='file'>src/Utils/ListViewUtils.php</td><td class='line'>20</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		require(&#039;user_privileges/user_privileges_&#039; . $currentUser-&gt;id . &#039;.php&#039;);
+		require(&#039;user_privileges/sharing_privileges_&#039; . $currentUser-&gt;id . &#039;.php&#039;);</td></tr>
+<tr><td class='file'>src/Utils/InventoryUtils.php</td><td class='line'>152</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+				$userCurrencyId = self::getUserCurrencyId($currentUser);
+
+				$query = &quot;select vtiger_currency_info.* from vtiger_currency_info
+					where vtiger_</td></tr>
+<tr><td class='file'>src/Utils/InventoryUtils.php</td><td class='line'>235</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		if ($mode == &#039;edit&#039;) {
+			if ($module == &#039;Services&#039;) {
+				$sql = &quot;select conversion_rate from vtiger_service inner join vtiger_currency_info
+					on</td></tr>
+<tr><td class='file'>src/Fields/DateTimeField.php</td><td class='line'>206</td><td class='context'>$user = \App\User\CurrentUser::get();
+		}
+		$format = $user ? $user-&gt;get(&#039;date_format&#039;) : &#039;yyyy-mm-dd&#039;;
+		if (empty($format)) {
+			$format = &#039;yyyy-mm-dd&#039;;
+		}
+		return self::__convertToUserFormat(</td></tr>
+<tr><td class='file'>src/Fields/DateTimeField.php</td><td class='line'>331</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$format = $currentUser ? $currentUser-&gt;get(&#039;date_format&#039;) : &#039;yyyy-mm-dd&#039;;
+		if (empty($format)) {
+			$format = &#039;yyyy-mm-dd&#039;;
+		}
+		$time = str_replace</td></tr>
+<tr><td class='file'>src/Fields/DateTimeField.php</td><td class='line'>421</td><td class='context'>$user = \App\User\CurrentUser::get();
+		}
+		$dateFormat = empty($user-&gt;date_format) ? &#039;Y-m-d&#039; : $user-&gt;date_format;
+		return str_replace(array(&#039;yyyy&#039;, &#039;mm&#039;, &#039;dd&#039;), array(&#039;Y&#039;, &#039;m&#039;, &#039;d&#039;), $dateForma</td></tr>
+<tr><td class='file'>src/Fields/DateTimeField.php</td><td class='line'>430</td><td class='context'>$user = \App\User\CurrentUser::get();
+		}
+		if (strlen($value) &lt; 8) {
+			return $value;
+		}
+
+		$value = str_replace(&#039;T&#039;, &#039; &#039;, $value);
+		list($date, $time) = array_pad(explode(&#039; &#039;, $value), 2, &#039;&#039;)</td></tr>
+<tr><td class='file'>src/Fields/CurrencyField.php</td><td class='line'>183</td><td class='context'>$user = \App\User\CurrentUser::get();
+		}
+		$this-&gt;initialize($user);
+
+		$value = $this-&gt;value;
+		if (empty($value)) {
+			$value = 0;
+		}
+		if ($skipConversion === false) {
+			$value = self::conve</td></tr>
+<tr><td class='file'>src/Fields/CurrencyField.php</td><td class='line'>222</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		if (empty($currencySymbolPlacement)) {
+			$currencySymbolPlacement = $currentUser ? $currentUser-&gt;get(&#039;currency_symbol_placement&#039;) : &#039;$1.0&#039;;
+		}
+
+		sw</td></tr>
+<tr><td class='file'>src/Fields/CurrencyField.php</td><td class='line'>399</td><td class='context'>$user = \App\User\CurrentUser::get();
+		}
+
+		$this-&gt;initialize($user);
+
+		$value = $this-&gt;value;
+
+		$currencySeparator = $this-&gt;currencySeparator;
+		$decimalSeparator = $this-&gt;decimalSeparator;</td></tr>
+<tr><td class='file'>src/Fields/CurrencyField.php</td><td class='line'>475</td><td class='context'>$user = \App\User\CurrentUser::get();
+		}
+		// Handle both Record model and legacy entity
+		if (method_exists($user, &#039;get&#039;)) {
+			$truncateZeros = $user-&gt;get(&#039;truncate_trailing_zeros&#039;);
+			$decima</td></tr>
+<tr><td class='file'>src/Events/VTWSEntityType.php</td><td class='line'>46</td><td class='context'>$currentUser = \App\User\CurrentUser::get(&#039;current_user&#039;);
+		return new VTWSEntityType($entityTypeName, $currentUser);
+	}
+
+	function forUser($entityTypeName, $user)
+	{
+		return new VTWSEntityType($</td></tr>
+<tr><td class='file'>src/PrivilegeQuery.php</td><td class='line'>170</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$sec_query = &#039;&#039;;
+		require(&#039;user_privileges/user_privileges_&#039; . $currentUser-&gt;getId() . &#039;.php&#039;);
+		require(&#039;user_privileges/sharing_privileges_&#039; . $cu</td></tr>
+<tr><td class='file'>src/Webservices/WebserviceField.php</td><td class='line'>277</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+			$types = vtws_listtypes(null, $current_user);
+
+			$accessibleTypes = $types[&#039;types&#039;];
+			//If it is non admin user or the edit and view is there for</td></tr>
+<tr><td class='file'>src/Webservices/ConvertLead.php</td><td class='line'>219</td><td class='context'>$describe = vtws_describe($module, \App\User\CurrentUser::get());
+	foreach ($describe[&#039;fields&#039;] as $index =&gt; $fieldInfo) {
+		if ($fieldInfo[&#039;name&#039;] == $fieldname) {
+			return $fieldInfo;
+		}
+	}
+	ret</td></tr>
+<tr><td class='file'>src/Webservices/DataTransform.php</td><td class='line'>243</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$moduleFields = $meta-&gt;getModuleFields();
+		foreach ($moduleFields as $fieldName =&gt; $fieldObj) {
+			if ($fieldObj-&gt;getFieldDataType() == &quot;date&quot;) {</td></tr>
+<tr><td class='file'>src/Webservices/DataTransform.php</td><td class='line'>258</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$moduleFields = $meta-&gt;getModuleFields();
+		foreach ($moduleFields as $fieldName =&gt; $fieldObj) {
+			if ($fieldObj-&gt;getFieldDataType() == &quot;currency&quot; &amp;&amp;</td></tr>
+<tr><td class='file'>src/PrivilegeUtil.php</td><td class='line'>528</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		require(&#039;user_privileges/user_privileges_&#039; . $currentUser-&gt;getId() . &#039;.php&#039;);
+		$grpList = [];
+		if (isset($current_user_groups) &amp;&amp; sizeof($current_us</td></tr>
+<tr><td class='file'>src/PrivilegeUtil.php</td><td class='line'>628</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$grp_array = [];
+		$tabid = \App\Utils\ModuleUtils::getModuleId($module);
+		$query = &quot;select sharedgroupid from vtiger_tmp_write_group_sharing_per whe</td></tr>
+<tr><td class='file'>src/Modules/Documents/Documents.php</td><td class='line'>188</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		\App\Log::trace(&#039;Entering create_export_query(&#039; . $where . &#039;) method ...&#039;);
+
+		include(&#039;include/utils/ExportUtils.php&#039;);
+		//To get the Permitted fiel</td></tr>
+<tr><td class='file'>src/Modules/API/Models/CalDAV.php</td><td class='line'>257</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+			$current_user = $user;
+			$this-&gt;recordSync();
+		}
+		\App\Log::trace(__METHOD__ . &#039; | End&#039;);
+	}
+
+	public function recordSync()
+	{
+		\App\Log::trace(</td></tr>
+<tr><td class='file'>src/Modules/API/Models/CardDAV.php</td><td class='line'>83</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+			$current_user = $user;
+			$this-&gt;syncAddressBooks();
+		}
+		\App\Log::trace(__METHOD__ . &#039; | End&#039;);
+	}
+
+	public function syncAddressBooks()
+	{
+		\App</td></tr>
+<tr><td class='file'>src/Modules/Settings/OSSPasswords/Views/ConfigurePass.php</td><td class='line'>49</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+
+		// config
+		// check if password encode config exists
+		$config_path = &#039;modules/OSSPasswords/config.ini.php&#039;;
+		$config = &#039;&#039;;
+		$config_exists = file</td></tr>
+<tr><td class='file'>src/Modules/Base/Models/TransferOwnership.php</td><td class='line'>76</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$db-&gt;createCommand()-&gt;update(&#039;vtiger_crmentity&#039;, [
+			&#039;smownerid&#039; =&gt; $transferOwnerId,
+			&#039;modifiedby&#039; =&gt; $currentUser-&gt;id,
+			&#039;modifiedtime&#039; =&gt; date(</td></tr>
+<tr><td class='file'>src/Modules/Calendar/Calendar.php</td><td class='line'>56</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		switch ($this-&gt;view) {
+			case &#039;day&#039;:
+				for ($i = -1; $i &lt;= 23; $i++) {
+					if ($i == -1) {
+						$layout = new Layout(&#039;hour&#039;, $this-&gt;date_time-&gt;ge</td></tr>
+<tr><td class='file'>src/Modules/Calendar/iCal/ICalendarComponent.php</td><td class='line'>237</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$activity = array();
+		$activitytype = $ical_activity[&#039;TYPE&#039;];
+		if ($activitytype == &#039;VEVENT&#039;) {
+			$modtype = &#039;Events&#039;;
+		} else {
+			$modtype = &#039;Ca</td></tr>
+<tr><td class='file'>src/Modules/Calendar/CalendarCommon.php</td><td class='line'>81</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+	$adb = \App\Database\PearDatabase::getInstance();
+	$current_language = \App\Runtime\Vtiger_Language_Handler::getLanguage();
+	$mod_strings = \vtlib\Depre</td></tr>
+<tr><td class='file'>src/Modules/Contacts/Contacts.php</td><td class='line'>131</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		\App\Log::trace(&quot;Entering create_export_query(&quot; . $where . &quot;) method ...&quot;);
+
+		include(&quot;include/utils/ExportUtils.php&quot;);
+
+		//To get the Permitted fie</td></tr>
+<tr><td class='file'>src/Modules/Users/Users.php</td><td class='line'>667</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$date_var = date(&#039;Y-m-d H:i:s&#039;);
+		$query = &quot;UPDATE vtiger_users set status=?,date_modified=?,modified_user_id=? where id=?&quot;;
+		$adb-&gt;pquery($query, a</td></tr>
+<tr><td class='file'>src/Modules/Users/Models/Privileges.php</td><td class='line'>268</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		return \App\PrivilegeQuery::getNonAdminAccessControlQuery($module, $currentUser);
+	}
+
+	protected static $lockEditCache = [];
+
+	public static function</td></tr>
+<tr><td class='file'>src/Modules/Users/Models/Privileges.php</td><td class='line'>725</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		if (!$currentUser) {
+			return [];
+		}
+		$permittedModules = [];
+		require(&#039;user_privileges/user_privileges_&#039; . $currentUser-&gt;getId() . &#039;.php&#039;);
+		inc</td></tr>
+<tr><td class='file'>src/Modules/Users/Models/Privileges.php</td><td class='line'>756</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		if (!$currentUser) {
+			return [];
+		}
+		$permittedModules = [];
+		require(&#039;user_privileges/user_privileges_&#039; . $currentUser-&gt;getId() . &#039;.php&#039;);
+		inc</td></tr>
+<tr><td class='file'>src/Modules/OSSPasswords/OSSPasswords.php</td><td class='line'>152</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		require(&#039;user_privileges/user_privileges_&#039; . $currentUser-&gt;id . &#039;.php&#039;);
+		require(&#039;user_privileges/sharing_privileges_&#039; . $currentUser-&gt;id . &#039;.php&#039;);</td></tr>
+<tr><td class='file'>src/Modules/OSSPasswords/OSSPasswords.php</td><td class='line'>197</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+
+		include(&quot;include/utils/ExportUtils.php&quot;);
+
+		//To get the Permitted fields query and the permitted fields list
+		$sql = \App\Utils\ExportUtils::getPe</td></tr>
+<tr><td class='file'>src/Modules/Accounts/Accounts.php</td><td class='line'>88</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		\App\Log::trace(&quot;Entering create_export_query(&quot; . $where . &quot;) method ...&quot;);
+
+		include(&quot;include/utils/ExportUtils.php&quot;);
+
+		//To get the Permitted fie</td></tr>
+<tr><td class='file'>src/Modules/Accounts/Accounts.php</td><td class='line'>202</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		\App\Log::trace(&#039;Entering getAccountHierarchy(&#039; . $id . &#039;) method ...&#039;);
+
+		$listview_header = [];
+		$listview_entries = [];
+
+		$listColumns = $listCo</td></tr>
+<tr><td class='file'>src/Modules/Accounts/Accounts.php</td><td class='line'>254</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		require(&#039;user_privileges/user_privileges_&#039; . $currentUser-&gt;id . &#039;.php&#039;);
+
+		$hasRecordViewAccess = (\vtlib\Functions:: userIsAdministrator($currentUse</td></tr>
+<tr><td class='file'>src/Modules/ServiceContracts/ServiceContracts.php</td><td class='line'>155</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$query .= $this-&gt;getNonAdminAccessControlQuery($module, $current_user);
+		$query .= sprintf(&#039;WHERE vtiger_crmentity.deleted = 0 %s&#039;, $where);
+		return</td></tr>
+<tr><td class='file'>src/Modules/ServiceContracts/ServiceContracts.php</td><td class='line'>166</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		require(&#039;user_privileges/user_privileges_&#039; . $currentUser-&gt;id . &#039;.php&#039;);
+		require(&#039;user_privileges/sharing_privileges_&#039; . $currentUser-&gt;id . &#039;.php&#039;);</td></tr>
+<tr><td class='file'>src/Modules/ProjectMilestone/ProjectMilestone.php</td><td class='line'>149</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$query .= $this-&gt;getNonAdminAccessControlQuery($module, $current_user);
+		$query .= sprintf(&#039;	WHERE vtiger_crmentity.deleted = 0 %s&#039;, $where);
+		retur</td></tr>
+<tr><td class='file'>src/Modules/ProjectMilestone/ProjectMilestone.php</td><td class='line'>160</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		require(&#039;user_privileges/user_privileges_&#039; . $currentUser-&gt;id . &#039;.php&#039;);
+		require(&#039;user_privileges/sharing_privileges_&#039; . $currentUser-&gt;id . &#039;.php&#039;);</td></tr>
+<tr><td class='file'>src/Modules/ProjectMilestone/ProjectMilestone.php</td><td class='line'>205</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+
+		include(&quot;include/utils/ExportUtils.php&quot;);
+
+		//To get the Permitted fields query and the permitted fields list
+		$sql = \App\Utils\ExportUtils::getPe</td></tr>
+<tr><td class='file'>src/Modules/Leads/Leads.php</td><td class='line'>82</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		\App\Log::trace(&quot;Entering create_export_query(&quot; . $where . &quot;) method ...&quot;);
+
+		include(&quot;include/utils/ExportUtils.php&quot;);
+
+		//To get the Permitted fie</td></tr>
+<tr><td class='file'>src/Modules/Reports/Reports.php</td><td class='line'>802</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+
+		$ssql = &quot;select vtiger_selectcolumn.* from vtiger_report inner join vtiger_selectquery on vtiger_selectquery.queryid = vtiger_report.queryid&quot;;
+		$ssq</td></tr>
+<tr><td class='file'>src/Modules/Reports/Reports.php</td><td class='line'>861</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+
+		$advft_criteria = array();
+
+		$sql = &#039;SELECT * FROM vtiger_relcriteria_grouping WHERE queryid = ? ORDER BY groupid&#039;;
+		$groupsresult = $adb-&gt;pquery($</td></tr>
+<tr><td class='file'>src/Modules/Reports/ReportRun.php</td><td class='line'>83</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$ssql = &#039;select vtiger_selectcolumn.* from vtiger_report inner join vtiger_selectquery on vtiger_selectquery.queryid = vtiger_report.queryid&#039;;
+		$ssql</td></tr>
+<tr><td class='file'>src/Modules/Reports/ReportRun.php</td><td class='line'>1517</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$query = &#039;&#039;;
+		if ($secmodule != &#039;&#039;) {
+			$secondarymodule = explode(&#039;:&#039;, $secmodule);
+			foreach ($secondarymodule as $key =&gt; $value) {
+				$foc = \A</td></tr>
+<tr><td class='file'>src/Modules/Reports/ReportRun.php</td><td class='line'>1604</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$secondary_module = &quot;&#039;&quot;;
+		$secondary_module .= str_replace(&quot;:&quot;, &quot;&#039;,&#039;&quot;, $this-&gt;secondarymodule);
+		$secondary_module .= &quot;&#039;&quot;;
+
+		if ($module == &#039;Leads&#039;</td></tr>
+<tr><td class='file'>src/Modules/Reports/ReportRun.php</td><td class='line'>3106</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$id = array(\App\Utils\ModuleUtils::getModuleId($this-&gt;primarymodule));
+		if ($this-&gt;secondarymodule != &#039;&#039;)
+			array_push($id, \App\Utils\ModuleUtils:</td></tr>
+<tr><td class='file'>src/Modules/Reports/ReportRunQueryPlanner.php</td><td class='line'>77</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+
+			$keyColumns = is_array($keyColumns) ? array_unique($keyColumns) : array($keyColumns);
+
+			// Minor optimization to avoid re-creating similar tempor</td></tr>
+<tr><td class='file'>src/Modules/ModComments/ModCommentsCore.php</td><td class='line'>185</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		require(&#039;user_privileges/user_privileges_&#039; . $currentUser-&gt;id . &#039;.php&#039;);
+		require(&#039;user_privileges/sharing_privileges_&#039; . $currentUser-&gt;id . &#039;.php&#039;);</td></tr>
+<tr><td class='file'>src/Modules/ModComments/ModCommentsCore.php</td><td class='line'>230</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+
+		include(&quot;include/utils/ExportUtils.php&quot;);
+
+		//To get the Permitted fields query and the permitted fields list
+		$sql = \App\Utils\ExportUtils::getPe</td></tr>
+<tr><td class='file'>src/Modules/ProjectTask/ProjectTask.php</td><td class='line'>157</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$query .= $this-&gt;getNonAdminAccessControlQuery($module, $current_user);
+		$query .= sprintf(&#039;	WHERE vtiger_crmentity.deleted = 0 %s&#039;, $where);
+		retur</td></tr>
+<tr><td class='file'>src/Modules/ProjectTask/ProjectTask.php</td><td class='line'>168</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		require(&#039;user_privileges/user_privileges_&#039; . $currentUser-&gt;id . &#039;.php&#039;);
+		require(&#039;user_privileges/sharing_privileges_&#039; . $currentUser-&gt;id . &#039;.php&#039;);</td></tr>
+<tr><td class='file'>src/Modules/ProjectTask/ProjectTask.php</td><td class='line'>213</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+
+		include(&quot;include/utils/ExportUtils.php&quot;);
+
+		//To get the Permitted fields query and the permitted fields list
+		$sql = \App\Utils\ExportUtils::getPe</td></tr>
+<tr><td class='file'>src/Modules/LettersIn/LettersIn.php</td><td class='line'>149</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$query .= $this-&gt;getNonAdminAccessControlQuery($module, $current_user);
+		$query .= sprintf(&#039;	WHERE vtiger_crmentity.deleted = 0 %s&#039;, $usewhere);
+		re</td></tr>
+<tr><td class='file'>src/Modules/LettersIn/LettersIn.php</td><td class='line'>160</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		require(&#039;user_privileges/user_privileges_&#039; . $currentUser-&gt;id . &#039;.php&#039;);
+		require(&#039;user_privileges/sharing_privileges_&#039; . $currentUser-&gt;id . &#039;.php&#039;);</td></tr>
+<tr><td class='file'>src/Modules/LettersIn/LettersIn.php</td><td class='line'>205</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+
+		include(&quot;include/utils/ExportUtils.php&quot;);
+
+		//To get the Permitted fields query and the permitted fields list
+		$sql = \App\Utils\ExportUtils::getPe</td></tr>
+<tr><td class='file'>src/Modules/PBXManager/connectors/PBXManager.php</td><td class='line'>219</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$params = $this-&gt;prepareParameters($details, self::RINGING_TYPE);
+		$direction = $details-&gt;get(&#039;Direction&#039;);
+
+		// To add customer and user informatio</td></tr>
+<tr><td class='file'>src/Modules/PBXManager/connectors/PBXManager.php</td><td class='line'>254</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		self::$NUMBERS = \App\Modules\PBXManager\Models\Record::getUserNumbers();
+
+		header(&quot;Content-type: text/xml; charset=utf-8&quot;);
+		$response = &#039;&lt;?xml ver</td></tr>
+<tr><td class='file'>src/Modules/PBXManager/Connectors/PBXManager.php</td><td class='line'>219</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$params = $this-&gt;prepareParameters($details, self::RINGING_TYPE);
+		$direction = $details-&gt;get(&#039;Direction&#039;);
+
+		// To add customer and user informatio</td></tr>
+<tr><td class='file'>src/Modules/PBXManager/Connectors/PBXManager.php</td><td class='line'>254</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		self::$NUMBERS = \App\Modules\PBXManager\Models\Record::getUserNumbers();
+
+		header(&quot;Content-type: text/xml; charset=utf-8&quot;);
+		$response = &#039;&lt;?xml ver</td></tr>
+<tr><td class='file'>src/Modules/Import/Models/Map.php</td><td class='line'>108</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$dataReader = (new \App\Db\Query())-&gt;from(self::$tableName)
+				-&gt;where([&#039;deleted&#039; =&gt; 0, &#039;module&#039; =&gt; $moduleName])
+				-&gt;createCommand()-&gt;query();
+		$</td></tr>
+<tr><td class='file'>src/Modules/LettersOut/LettersOut.php</td><td class='line'>149</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$query .= $this-&gt;getNonAdminAccessControlQuery($module, $current_user);
+		$query .= sprintf(&#039;	WHERE vtiger_crmentity.deleted = 0 %s&#039;, $usewhere);
+		re</td></tr>
+<tr><td class='file'>src/Modules/LettersOut/LettersOut.php</td><td class='line'>160</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		require(&#039;user_privileges/user_privileges_&#039; . $currentUser-&gt;id . &#039;.php&#039;);
+		require(&#039;user_privileges/sharing_privileges_&#039; . $currentUser-&gt;id . &#039;.php&#039;);</td></tr>
+<tr><td class='file'>src/Modules/LettersOut/LettersOut.php</td><td class='line'>205</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+
+		include(&quot;include/utils/ExportUtils.php&quot;);
+
+		//To get the Permitted fields query and the permitted fields list
+		$sql = \App\Utils\ExportUtils::getPe</td></tr>
+<tr><td class='file'>src/Modules/SMSNotifier/SMSNotifierBase.php</td><td class='line'>169</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		require(&#039;user_privileges/user_privileges_&#039; . $currentUser-&gt;id . &#039;.php&#039;);
+		require(&#039;user_privileges/sharing_privileges_&#039; . $currentUser-&gt;id . &#039;.php&#039;);</td></tr>
+<tr><td class='file'>src/Modules/SMSNotifier/SMSNotifierBase.php</td><td class='line'>214</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$thismodule = $request-&gt;get(&#039;module&#039;);
+
+		include(&#039;include/utils/ExportUtils.php&#039;);
+
+		//To get the Permitted fields query and the permitted fields li</td></tr>
+<tr><td class='file'>src/Modules/SMSNotifier/SMSNotifier.php</td><td class='line'>74</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+
+		// Pick the distinct modulenames based on related records.
+		$result = $adb-&gt;pquery(&quot;SELECT distinct setype FROM vtiger_crmentity WHERE crmid in (</td></tr>
+<tr><td class='file'>src/Modules/Services/Services.php</td><td class='line'>121</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$query .= $this-&gt;getNonAdminAccessControlQuery($module, $current_user);
+		$query .= sprintf(&#039;WHERE vtiger_crmentity.deleted = 0 %s&#039;, $where);
+		return</td></tr>
+<tr><td class='file'>src/Modules/Services/Services.php</td><td class='line'>132</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		require(&#039;user_privileges/user_privileges_&#039; . $currentUser-&gt;id . &#039;.php&#039;);
+		require(&#039;user_privileges/sharing_privileges_&#039; . $currentUser-&gt;id . &#039;.php&#039;);</td></tr>
+<tr><td class='file'>src/Modules/Services/Services.php</td><td class='line'>177</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+
+		include(&#039;include/utils/ExportUtils.php&#039;);
+
+		//To get the Permitted fields query and the permitted fields list
+		$sql = \App\Utils\ExportUtils::getPe</td></tr>
+<tr><td class='file'>src/Modules/Services/Services.php</td><td class='line'>309</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+
+		$matrix = $queryPlanner-&gt;newDependencyMatrix();
+		$matrix-&gt;setDependency(&#039;vtiger_seproductsrel&#039;, array(&#039;vtiger_crmentityRelServices&#039;, &#039;vtiger_account</td></tr>
+<tr><td class='file'>src/Modules/Services/Services.php</td><td class='line'>368</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$matrix = $queryPlanner-&gt;newDependencyMatrix();
+		$matrix-&gt;setDependency(&#039;vtiger_service&#039;, array(&#039;actual_unit_price&#039;, &#039;vtiger_currency_info&#039;, &#039;vtiger_</td></tr>
+<tr><td class='file'>src/Modules/Assets/Assets.php</td><td class='line'>150</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		require(&#039;user_privileges/user_privileges_&#039; . $currentUser-&gt;id . &#039;.php&#039;);
+		require(&#039;user_privileges/sharing_privileges_&#039; . $currentUser-&gt;id . &#039;.php&#039;);</td></tr>
+<tr><td class='file'>src/Modules/Assets/Assets.php</td><td class='line'>195</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+
+		include(&quot;include/utils/ExportUtils.php&quot;);
+
+		//To get the Permitted fields query and the permitted fields list
+		$sql = \App\Utils\ExportUtils::getPe</td></tr>
+<tr><td class='file'>src/Modules/Workflow/ExpressionEngine/VTExpressionsManager.php</td><td class='line'>44</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$result = vtws_describe($moduleName, $current_user);
+		$fields = $result[&#039;fields&#039;];
+		$arr = array();
+		foreach ($fields as $field) {
+			$arr[$field[&#039;</td></tr>
+<tr><td class='file'>src/Modules/Workflow/VTWorkflowUtils.php</td><td class='line'>26</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		if (empty(self::$userStack)) {
+			self::$userStack = array();
+		}
+	}
+
+	/**
+	 * Check whether the given identifier is valid.
+	 */
+	public function vali</td></tr>
+<tr><td class='file'>src/Modules/Workflow/VTWorkflowUtils.php</td><td class='line'>52</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		if (empty(self::$userStack) || count(self::$userStack) == 0) {
+			self::$loggedInUser = $current_user;
+		}
+		array_push(self::$userStack, $current_use</td></tr>
+<tr><td class='file'>src/Modules/Workflow/VTWorkflowUtils.php</td><td class='line'>68</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		array_push(self::$userStack, $current_user);
+		$current_user = $user;
+		return $user;
+	}
+
+	/**
+	 * Revert to the previous use on the user stack
+	 */</td></tr>
+<tr><td class='file'>src/Modules/Workflow/VTWorkflowUtils.php</td><td class='line'>79</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		if (count(self::$userStack) != 0) {
+			$current_user = array_pop(self::$userStack);
+		} else {
+			$current_user = null;
+		}
+		return $current_user;
+	}</td></tr>
+<tr><td class='file'>src/Modules/Workflow/VTWorkflowUtils.php</td><td class='line'>93</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		return $current_user;
+	}
+
+	/**
+	 * The the webservice entity type of an EntityData object
+	 */
+	public function toWSModuleName($entityData)
+	{
+		$modu</td></tr>
+<tr><td class='file'>src/Modules/Workflow/VTWorkflowUtils.php</td><td class='line'>133</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		return strtolower($currentUser-&gt;is_admin) === &#039;on&#039;;
+	}
+	/* function to check if the module has workflow
+	 * @params :: $modulename - name of the modul</td></tr>
+<tr><td class='file'>src/Modules/Workflow/Tasks/VTCreateEntityTask.php</td><td class='line'>33</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$moduleName = $recordModel-&gt;getModuleName();
+		$recordId = $recordModel-&gt;getId();
+		$entityType = $this-&gt;entity_type;
+		if (!\App\Utils\ModuleUtils::i</td></tr>
+<tr><td class='file'>src/Modules/Workflow/Tasks/VTCreateTodoTask.php</td><td class='line'>31</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$this-&gt;originalUser = $currentUser;
+		$currentUser = $user;
+		return $user;
+	}
+
+	/**
+	 * Execute task
+	 * @param \App\Modules\Base\Models\Record $reco</td></tr>
+<tr><td class='file'>src/Modules/Workflow/Tasks/VTCreateTodoTask.php</td><td class='line'>46</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+
+		\App\Log::trace(&#039;Start &#039; . __CLASS__ . &#039;:&#039; . __FUNCTION__);
+		$adminUser = $this-&gt;getAdmin();
+		$userId = $recordModel-&gt;get(&#039;assigned_user_id&#039;);
+		if</td></tr>
+<tr><td class='file'>src/Modules/Workflow/Tasks/VTCreateTodoTask.php</td><td class='line'>184</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$currentUser = $this-&gt;originalUser;
+		\App\Log::trace(&#039;End &#039; . __CLASS__ . &#039;:&#039; . __FUNCTION__);
+	}
+
+	static function conv12to24hour($timeStr)
+	{
+		$ar</td></tr>
+<tr><td class='file'>src/Modules/Workflow/Tasks/VTCreateEventTask.php</td><td class='line'>49</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$this-&gt;originalUser = $currentUser;
+		$currentUser = $user;
+		return $user;
+	}
+
+	/**
+	 * Execute task
+	 * @param \App\Modules\Base\Models\Record $reco</td></tr>
+<tr><td class='file'>src/Modules/Workflow/Tasks/VTCreateEventTask.php</td><td class='line'>64</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$userId = $recordModel-&gt;get(&#039;assigned_user_id&#039;);
+		$adminUser = $this-&gt;getAdmin();
+		if ($userId === null) {
+			$userId = $adminUser;
+		}
+		$moduleNam</td></tr>
+<tr><td class='file'>src/Modules/Workflow/Tasks/VTCreateEventTask.php</td><td class='line'>121</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$currentUser = $this-&gt;originalUser;
+	}
+
+	private function calculateDate($recordModel, $days, $direction, $datefield)
+	{
+		$baseDate = $recordModel-&gt;ge</td></tr>
+<tr><td class='file'>src/Modules/CustomView/CustomView.php</td><td class='line'>95</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$tabid = \App\Utils\ModuleUtils::getModuleId($this-&gt;customviewmodule);
+
+		require(&#039;user_privileges/user_privileges_&#039; . $currentUser-&gt;id . &#039;.php&#039;);</td></tr>
+<tr><td class='file'>src/Modules/CustomView/CustomView.php</td><td class='line'>135</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$tabid = \App\Utils\ModuleUtils::getModuleId($this-&gt;customviewmodule);
+
+		require(&#039;user_privileges/user_privileges_&#039; . $currentUser-&gt;id . &#039;.php&#039;);</td></tr>
+<tr><td class='file'>src/Modules/CustomView/CustomView.php</td><td class='line'>574</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+
+		$advfilter = $this-&gt;getAdvFilterByCvid($cvid);
+
+		$advcvsql = &quot;&quot;;
+
+		foreach ($advfilter as $groupid =&gt; $groupinfo) {
+
+			$groupcolumns = $groupinfo[</td></tr>
+<tr><td class='file'>src/Modules/CustomView/CustomView.php</td><td class='line'>664</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$currentModule = !empty($this-&gt;customviewmodule) ? $this-&gt;customviewmodule : &#039;Vtiger&#039;;
+		$currentLanguage = \App\Runtime\Vtiger_Language_Handler::getL</td></tr>
+<tr><td class='file'>src/Modules/CustomView/CustomView.php</td><td class='line'>961</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$custom_strings = \vtlib\Deprecated::getModuleTranslationStrings($currentLanguage, &quot;CustomView&quot;);
+
+		\App\Log::trace(&quot;Entering isPermittedChangeStatus</td></tr>
+<tr><td class='file'>src/Modules/HelpDesk/HelpDesk.php</td><td class='line'>120</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		\App\Log::trace(&quot;Entering create_export_query(&quot; . $where . &quot;) method ...&quot;);
+
+		include(&quot;include/utils/ExportUtils.php&quot;);
+
+		//To get the Permitted fie</td></tr>
+<tr><td class='file'>src/Modules/Products/Products.php</td><td class='line'>96</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		\App\Log::trace(&quot;Entering create_export_query(&quot; . $where . &quot;) method ...&quot;);
+
+		include(&quot;include/utils/ExportUtils.php&quot;);
+
+		//To get the Permitted fie</td></tr>
+<tr><td class='file'>src/Modules/Products/Products.php</td><td class='line'>199</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$matrix = $queryplanner-&gt;newDependencyMatrix();
+
+		$matrix-&gt;setDependency(&quot;vtiger_crmentityProducts&quot;, array(&quot;vtiger_groupsProducts&quot;, &quot;vtiger_usersProd</td></tr>
+<tr><td class='file'>src/Modules/Products/Models/Record.php</td><td class='line'>358</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+				$userCurrencyId = \App\Utils\InventoryUtils::getUserCurrencyId($currentUser);
+
+				$query = &quot;select vtiger_currency_info.* from vtiger_currency_in</td></tr>
+<tr><td class='file'>src/Modules/IStorages/IStorages.php</td><td class='line'>112</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		\App\Log::trace(&quot;Entering getHierarchy(&quot; . $id . &quot;) method ...&quot;);
+
+		$listviewHeader = [];
+		$listviewEntries = [];
+
+		$listColumns = \App\AppConfig::</td></tr>
+<tr><td class='file'>src/Modules/IStorages/IStorages.php</td><td class='line'>159</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		require(&#039;user_privileges/user_privileges_&#039; . $currentUser-&gt;id . &#039;.php&#039;);
+
+		$hasRecordViewAccess = (\vtlib\Functions:: userIsAdministrator($currentUse</td></tr>
+<tr><td class='file'>src/Modules/OSSEmployees/OSSEmployees.php</td><td class='line'>111</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+
+
+		\App\Log::trace(&quot;Entering getEmployeeHierarchy(&quot; . $id . &quot;) method ...&quot;);
+		require(&#039;user_privileges/user_privileges_&#039; . $currentUser-&gt;id . &#039;.php&#039;);</td></tr>
+<tr><td class='file'>src/Modules/OSSEmployees/Models/Record.php</td><td class='line'>150</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$employeeID = self::checkUser($currentUser-&gt;id, true);
+		if (!$employeeID) {
+			return &#039;&#039;;
+		}
+		$moduleModel = \App\Modules\Base\Models\Record::getIn</td></tr>
+<tr><td class='file'>src/Modules/Vendors/Vendors.php</td><td class='line'>80</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		\App\Log::trace(&#039;Entering create_export_query(&#039; . $where . &#039;) method ...&#039;);
+
+		include(&#039;include/utils/ExportUtils.php&#039;);
+
+		//To get the Permitted fie</td></tr>
+<tr><td class='file'>src/Modules/WSAPP/Handlers/vtigerCRMHandler.php</td><td class='line'>216</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$current_user = $user;
+		$handler = vtws_getModuleHandlerFromName($module, $user);
+		$meta = $handler-&gt;getMeta();
+		$referenceFieldDetails = $meta-&gt;ge</td></tr>
+<tr><td class='file'>src/Modules/WSAPP/WorkFlowHandlers/WSAPPAssignToTracker.php</td><td class='line'>25</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$db = \App\Database\PearDatabase::getInstance();
+		$moduleName = $entityData-&gt;getModuleName();
+
+		//Specific to VAS
+		if ($moduleName == &#039;Users&#039;) {</td></tr>
+<tr><td class='file'>src/Modules/OSSMailView/OSSMailView.php</td><td class='line'>159</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		require(&#039;user_privileges/user_privileges_&#039; . $currentUser-&gt;id . &#039;.php&#039;);
+		require(&#039;user_privileges/sharing_privileges_&#039; . $currentUser-&gt;id . &#039;.php&#039;);</td></tr>
+<tr><td class='file'>src/Modules/OSSMailView/OSSMailView.php</td><td class='line'>204</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+
+		include(&quot;include/utils/ExportUtils.php&quot;);
+
+		//To get the Permitted fields query and the permitted fields list
+		$sql = \App\Utils\ExportUtils::getPe</td></tr>
+<tr><td class='file'>src/Modules/Project/Project.php</td><td class='line'>156</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$query .= $this-&gt;getNonAdminAccessControlQuery($module, $current_user);
+		$query .= sprintf(&#039;	WHERE vtiger_crmentity.deleted = 0 %s&#039;, $usewhere);
+		re</td></tr>
+<tr><td class='file'>src/Modules/Project/Project.php</td><td class='line'>167</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		require(&#039;user_privileges/user_privileges_&#039; . $currentUser-&gt;id . &#039;.php&#039;);
+		require(&#039;user_privileges/sharing_privileges_&#039; . $currentUser-&gt;id . &#039;.php&#039;);</td></tr>
+<tr><td class='file'>src/Modules/Project/Project.php</td><td class='line'>212</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+
+		include(&quot;include/utils/ExportUtils.php&quot;);
+
+		//To get the Permitted fields query and the permitted fields list
+		$sql = \App\Utils\ExportUtils::getPe</td></tr>
+<tr><td class='file'>src/ModuleManagement/Adapters/Functions.php</td><td class='line'>29</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$date = new \App\Fields\DateTimeField(null);
+		return $date-&gt;getDisplayDate($currentUser);
+	}
+
+	// i18n
+	public static function getTranslatedString($s</td></tr>
+<tr><td class='file'>src/ModuleManagement/Adapters/Link.php</td><td class='line'>278</td><td class='context'>$linkData = new LinkData($instance, \App\User\CurrentUser::get(), $_REQUEST);
+				$ignore = call_user_func([$row[&#039;handler_class&#039;], $row[&#039;handler&#039;]], $linkData);
+				if (!$ignore) {
+					self::log</td></tr>
+<tr><td class='file'>src/User/CurrentUser.php</td><td class='line'>54</td><td class='context'>&#039;DEPRECATED: CurrentUser::get() called from &#039; . 
+				$caller[&#039;file&#039;] . &#039;:&#039; . $caller[&#039;line&#039;] . 
+				&#039;. Use $request-&gt;getUser() instead. This will be removed in v2.0&#039;
+			);
+			
+			self::$deprecati</td></tr>
+<tr><td class='file'>src/CRMEntity.php</td><td class='line'>316</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$userId = $currentUser ? $currentUser-&gt;getId() : 1;
+		$date_var = date(&quot;Y-m-d H:i:s&quot;);
+		$query = &quot;UPDATE vtiger_crmentity set deleted=1,modifiedtime=</td></tr>
+<tr><td class='file'>src/CRMEntity.php</td><td class='line'>1023</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+	if ($currentUser) {
+		$privileges = \App\Modules\Users\Models\Privileges::getPrivilegesFile($currentUser-&gt;getId());
+		$sharingPrivileges = \App\Privileg</td></tr>
+<tr><td class='file'>src/CRMEntity.php</td><td class='line'>1092</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$query .= sprintf(&#039;%s WHERE vtiger_crmentity.deleted = 0 %s&#039;, $this-&gt;getNonAdminAccessControlQuery($module, $currentUser), $where);
+		return $query;</td></tr>
+<tr><td class='file'>src/CRMEntity.php</td><td class='line'>1220</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$related_to = $this-&gt;column_fields[$fieldname];
+
+		if (empty($related_to)) {
+			return false;
+		}
+
+		//check if the field has module information; if n</td></tr>
+<tr><td class='file'>src/CRMEntity.php</td><td class='line'>1573</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$userId = $currentUser ? $currentUser-&gt;getId() : 1;
+		$currentTime = date(&#039;Y-m-d H:i:s&#039;);
+		Db::getInstance()-&gt;createCommand()-&gt;update(&#039;vtiger_crmenti</td></tr>
+<tr><td class='file'>src/CRMEntity.php</td><td class='line'>1627</td><td class='context'>$currentUser = \App\User\CurrentUser::get();
+		$userId = $currentUser ? $currentUser-&gt;getId() : 1;
+		$currentTime = date(&#039;Y-m-d H:i:s&#039;);
+		Db::getInstance()-&gt;createCommand()-&gt;update(&#039;vtiger_crmenti</td></tr>
+<tr><td>CurrentUser::getId</td><td class='count low'>0</td><td colspan='3'>✅ Brak użyć</td></tr>
+</table>
+</body>
+</html>
