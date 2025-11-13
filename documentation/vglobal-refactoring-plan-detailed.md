@@ -100,6 +100,7 @@ $viewer->assign('SYSTEM_MODE', \App\AppConfig::main('systemMode'));
 1. **Faza 1** - `listMaxEntriesMassEdit` (najbardziej używane)
 2. **Faza 2** - `backgroundClosingModal` (proste, jedno przypisanie)
 3. **Faza 3** - `systemMode` i `startTime` (dodatkowe, mniej krytyczne)
+4. **Faza 4** - `upload_maxsize` (wartości konfiguracyjne w widokach Edit) - ✅ **WYKONANE**
 
 ---
 
@@ -131,4 +132,143 @@ Po każdej fazie należy:
 3. Faza 3: Refaktoryzacja `systemMode` i `startTime` (w tym planie)
 
 **Uwaga:** `Users/ListView` jest już częściowo zrefaktoryzowane i dziedziczy z `Settings\Base\Views\ListView`, więc `LIST_MAX_ENTRIES_MASS_EDIT` jest dodawane w `Settings\Base\Views\ListView::prepareListViewData()` (punkt 4).
+
+---
+
+## FAZA 4: Usunięcie `vglobal('upload_maxsize')` - ✅ WYKONANE
+
+### Analiza użycia
+
+**Wystąpienia:** 5 plików
+- `src/Modules/Base/Views/QuickCreateAjax.php` (linia 97)
+- `src/Modules/Base/Views/Edit.php` (linia 169)
+- `src/Modules/Faq/Views/Edit.php` (linia 97)
+- `src/Modules/Base/Helpers/Util.php` (linia 243) - metoda `getMaxUploadSize()`
+- `src/Modules/Settings/PDF/Actions/Watermark.php` (linia 51)
+
+**Charakterystyka:**
+- Wartość konfiguracyjna (łatwa do zastąpienia przez `AppConfig::main()`)
+- Używana w widokach Edit do wyświetlania limitu uploadu
+- Używana w helperze `Util::getMaxUploadSize()` do konwersji na MB
+- Używana w akcji Watermark do walidacji rozmiaru pliku
+
+### Pliki do modyfikacji:
+
+#### 1. `src/Modules/Base/Helpers/Util.php`
+**Metoda:** `getMaxUploadSize()` (linia 241)
+**Zmiana:** Zastąp `vglobal('upload_maxsize')` przez `AppConfig::main('upload_maxsize')`
+
+```php
+// PRZED:
+$upload_maxsize = (int) vglobal('upload_maxsize');
+
+// PO:
+$upload_maxsize = (int) \App\AppConfig::main('upload_maxsize');
+```
+
+**Uzasadnienie:** Ta metoda jest używana przez kontrolery widoków, więc refaktoryzacja tutaj automatycznie poprawi wszystkie miejsca, które używają `getMaxUploadSize()`.
+
+#### 2. Kontrolery widoków Edit (3 pliki)
+
+##### 2.1. `src/Modules/Base/Views/Edit.php`
+**Metoda:** `process()` (około linia 169)
+**Zmiana:** Zastąp `vglobal('upload_maxsize')` przez `AppConfig::main('upload_maxsize')`
+
+```php
+// PRZED:
+$viewer->assign('MAX_UPLOAD_LIMIT', vglobal('upload_maxsize'));
+
+// PO:
+$viewer->assign('MAX_UPLOAD_LIMIT', \App\AppConfig::main('upload_maxsize'));
+```
+
+**Uwaga:** W tym samym pliku jest już `MAX_UPLOAD_LIMIT_MB` używające `Util::getMaxUploadSize()`, które po refaktoryzacji punktu 1 będzie działać poprawnie.
+
+##### 2.2. `src/Modules/Base/Views/QuickCreateAjax.php`
+**Metoda:** `process()` (około linia 97)
+**Zmiana:** Zastąp `vglobal('upload_maxsize')` przez `AppConfig::main('upload_maxsize')`
+
+```php
+// PRZED:
+$viewer->assign('MAX_UPLOAD_LIMIT', vglobal('upload_maxsize'));
+
+// PO:
+$viewer->assign('MAX_UPLOAD_LIMIT', \App\AppConfig::main('upload_maxsize'));
+```
+
+##### 2.3. `src/Modules/Faq/Views/Edit.php`
+**Metoda:** `process()` (około linia 97)
+**Zmiana:** Zastąp `vglobal('upload_maxsize')` przez `AppConfig::main('upload_maxsize')`
+
+```php
+// PRZED:
+$viewer->assign('MAX_UPLOAD_LIMIT', vglobal('upload_maxsize'));
+
+// PO:
+$viewer->assign('MAX_UPLOAD_LIMIT', \App\AppConfig::main('upload_maxsize'));
+```
+
+#### 3. `src/Modules/Settings/PDF/Actions/Watermark.php`
+**Metoda:** `process()` (około linia 51)
+**Zmiana:** Zastąp `vglobal('upload_maxsize')` przez `AppConfig::main('upload_maxsize')`
+
+```php
+// PRZED:
+if ($uploadOk && $_FILES['watermark']['size'][0] > vglobal('upload_maxsize')) {
+
+// PO:
+if ($uploadOk && $_FILES['watermark']['size'][0] > \App\AppConfig::main('upload_maxsize')) {
+```
+
+### Wykonane zmiany:
+
+1. ✅ **`Util::getMaxUploadSize()`** - zamieniono `vglobal('upload_maxsize')` na `AppConfig::main('upload_maxsize')`
+2. ✅ **`Base/Views/Edit.php`** - zamieniono w metodzie `assignEditViewData()` (linia 169)
+3. ✅ **`Base/Views/QuickCreateAjax.php`** - zamieniono w metodzie `process()` (linia 97)
+4. ✅ **`Faq/Views/Edit.php`** - zamieniono w metodzie `process()` (linia 97)
+5. ✅ **`Settings/PDF/Actions/Watermark.php`** - zamieniono w metodzie `process()` (linia 51)
+
+### Korzyści:
+
+- **Prostota:** Wartość konfiguracyjna, łatwa do zastąpienia
+- **Wpływ:** Używana w kluczowych widokach (Edit, QuickCreate)
+- **Spójność:** Ujednolici sposób dostępu do konfiguracji w całym projekcie
+- **Niskie ryzyko:** Nie wpływa na logikę biznesową, tylko sposób dostępu do konfiguracji
+
+### Weryfikacja:
+
+✅ **Wszystkie wystąpienia zostały zmienione** - grep nie znajduje już `vglobal('upload_maxsize')` w kodzie źródłowym
+✅ **Brak błędów lintera** - wszystkie pliki przeszły weryfikację
+
+**Do przetestowania:**
+1. Czy formularze Edit wyświetlają poprawny limit uploadu
+2. Czy walidacja rozmiaru plików działa poprawnie (Watermark)
+3. Czy `MAX_UPLOAD_LIMIT_MB` jest poprawnie obliczane w widokach
+
+---
+
+## Inne proponowane fazy (do rozważenia w przyszłości):
+
+### FAZA 5: Wartości konfiguracyjne - `default_timezone`, `site_URL`, `cache_dir`, `tmp_dir`
+- **Wystąpienia:** ~15-20 plików
+- **Charakterystyka:** Wartości konfiguracyjne, łatwe do zastąpienia przez `AppConfig::main()`
+- **Priorytet:** Średni (używane w różnych kontekstach)
+
+### FAZA 6: Wartości runtime - `currentModule`
+- **Wystąpienia:** ~30+ plików
+- **Charakterystyka:** Wartość runtime, ustawiana w `EntryPoint/WebUI.php`
+- **Alternatywa:** Użycie `$request->getModule()` lub przekazywanie przez kontekst
+- **Priorytet:** Wysoki (najczęściej używane), ale wymaga większej refaktoryzacji
+
+### FAZA 7: Wartości runtime - `current_language` / `default_language`
+- **Wystąpienia:** ~20+ plików
+- **Charakterystyka:** Wartości runtime/konfiguracyjne
+- **Alternatywa:** Użycie `Vtiger_Language_Handler::getLanguage()` i `AppConfig::main('default_language')`
+- **Priorytet:** Wysoki (często używane)
+
+### FAZA 8: Wartości runtime - `mod_strings` / `app_strings`
+- **Wystąpienia:** ~10+ plików
+- **Charakterystyka:** Wartości runtime, ustawiane w `EntryPoint/WebUI.php`
+- **Alternatywa:** Użycie `Vtiger_Language_Handler::getModuleStringsFromFile()`
+- **Priorytet:** Średni (używane głównie w starszym kodzie)
 

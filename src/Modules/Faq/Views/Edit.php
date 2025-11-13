@@ -94,7 +94,7 @@ class Edit extends \App\Modules\Base\Views\Index
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->assign('MAX_UPLOAD_LIMIT_MB', \App\Modules\Base\Helpers\Util::getMaxUploadSize());
-		$viewer->assign('MAX_UPLOAD_LIMIT', vglobal('upload_maxsize'));
+		$viewer->assign('MAX_UPLOAD_LIMIT', \App\AppConfig::main('upload_maxsize'));
 		$viewer->view('EditView.tpl', $moduleName);
 	}
 }

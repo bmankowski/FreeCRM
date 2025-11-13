@@ -48,7 +48,7 @@ class Watermark extends \App\Modules\Settings\Base\Actions\Index
 		}
 
 		// Check allowed upload file size
-		if ($uploadOk && $_FILES['watermark']['size'][0] > vglobal('upload_maxsize')) {
+		if ($uploadOk && $_FILES['watermark']['size'][0] > \App\AppConfig::main('upload_maxsize')) {
 			$uploadOk = 0;
 		}
 		// Check if $uploadOk is set to 0 by an error

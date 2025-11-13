@@ -240,7 +240,7 @@ class Util {
 	 */
 	public static function getMaxUploadSize()
 	{
-		$upload_maxsize = (int) vglobal('upload_maxsize');
+		$upload_maxsize = (int) \App\AppConfig::main('upload_maxsize');
 		return ceil($upload_maxsize / (1024 * 1024));
 	}
 

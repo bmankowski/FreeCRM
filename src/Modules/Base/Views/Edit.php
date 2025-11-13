@@ -166,7 +166,7 @@ class Edit extends \App\Modules\Base\Views\Index
 		$viewer->assign('APIADDRESS', \App\Modules\Settings\ApiAddress\Models\Module::getInstance('Settings:ApiAddress')->getConfig());
 		$viewer->assign('APIADDRESS_ACTIVE', \App\Modules\Settings\ApiAddress\Models\Module::isActive());
 		$viewer->assign('MAX_UPLOAD_LIMIT_MB', \App\Modules\Base\Helpers\Util::getMaxUploadSize());
-		$viewer->assign('MAX_UPLOAD_LIMIT', vglobal('upload_maxsize'));
+		$viewer->assign('MAX_UPLOAD_LIMIT', \App\AppConfig::main('upload_maxsize'));
 		
 		// Prepare inventory data if module supports inventory
 		if ($moduleModel->isInventory()) {

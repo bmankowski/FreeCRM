@@ -94,7 +94,7 @@ class QuickCreateAjax extends \App\Modules\Base\Views\Index
 		$viewer->assign('SCRIPTS', $this->getFooterScripts($request));
 
 		$viewer->assign('MAX_UPLOAD_LIMIT_MB', \App\Modules\Base\Helpers\Util::getMaxUploadSize());
-		$viewer->assign('MAX_UPLOAD_LIMIT', vglobal('upload_maxsize'));
+		$viewer->assign('MAX_UPLOAD_LIMIT', \App\AppConfig::main('upload_maxsize'));
 		echo $viewer->view('QuickCreate.tpl', $moduleName, true);
 	}
 
