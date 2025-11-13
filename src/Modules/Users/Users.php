@@ -320,8 +320,9 @@ class Users extends \App\CRMEntity
 	/** Function to retreive the user info of the specifed user id The user info will be available in $this->column_fields array
 	 * @param $record -- record id:: Type integer
 	 * @param $module -- module:: Type varchar
+	 * @param bool $showsAdditionalLabels
 	 */
-	public function retrieve_entity_info($record, $module)
+	public function retrieve_entity_info($record, $module, $showsAdditionalLabels = false)
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 
