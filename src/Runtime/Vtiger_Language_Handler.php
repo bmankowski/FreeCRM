@@ -204,8 +204,9 @@ class Vtiger_Language_Handler
 			return static::$language;
 		}
 
-		if (vglobal('translated_language')) {
-			$language = vglobal('translated_language');
+		$translatedLanguage = \App\Http\Vtiger_Session::get('translated_language');
+		if ($translatedLanguage) {
+			$language = $translatedLanguage;
 	} elseif (\App\Http\Vtiger_Session::get('language') != '') {
 		$language = \App\Http\Vtiger_Session::get('language');
 	} else {

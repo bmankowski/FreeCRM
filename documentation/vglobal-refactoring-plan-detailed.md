@@ -119,6 +119,8 @@ if (\App\AppConfig::main('systemMode') != 'demo') {
 7. **Faza 7** - Dokończenie `systemMode` (pozostałe 3 wystąpienia w kodzie PHP) - ✅ **WYKONANE**
 8. **Faza 8** - `default_language` (wartość konfiguracyjna, 11 odczytów zmienionych w 6 plikach) - ✅ **WYKONANE**
 9. **Faza 9** - `current_language` (odczyty, 7 wystąpień w 7 plikach) - ✅ **WYKONANE**
+10. **Faza 10** - `mod_strings` (odczyty, 2 wystąpienia w 2 plikach) - ✅ **WYKONANE**
+11. **Faza 11** - `popupAjax`, `isPermittedLog`, `translated_language` (proste wartości runtime, 5 odczytów w 4 plikach) - ✅ **WYKONANE**
 
 ---
 
@@ -625,9 +627,126 @@ if ($uploadOk && $_FILES['watermark']['size'][0] > \App\AppConfig::main('upload_
 
 ---
 
+## FAZA 10: Usunięcie odczytów `vglobal('mod_strings')` - ✅ WYKONANE
+
+### Analiza użycia
+
+**Wystąpienia:** 2 odczyty w 2 plikach + 2 ustawiania (ustawiania pozostawione)
+
+#### Odczyty do zmiany:
+- `src/Modules/Reports/Reports.php` (linia 390) - konstruktor klasy Reports
+- `src/Modules/CustomView/CustomView.php` (linia 666) - metoda `getCustomViewCombo()`
+
+#### Ustawiania (pozostawione jako vglobal):
+- `src/EntryPoint/WebUI.php` (linie 444, 458) - ustawianie podczas inicjalizacji (mod_strings i app_strings)
+
+**Charakterystyka:**
+- Wartości runtime, ustawiane w `EntryPoint/WebUI.php`
+- Alternatywa: `Vtiger_Language_Handler::getModuleStringsFromFile()` - już istnieje
+- Prosta refaktoryzacja - zamiana odczytów na wywołanie metody
+- Ustawiania pozostawione jako `vglobal()` (to jest ustawianie runtime podczas inicjalizacji)
+
+### Wykonane zmiany:
+
+1. ✅ **`src/Modules/Reports/Reports.php`**
+   - Metoda: `sgetRptsforFldr()` (linia 390)
+   - Zamieniono `vglobal('mod_strings')` na `Vtiger_Language_Handler::getModuleStringsFromFile()`
+   - Użyto modułu 'Reports' jako nazwy modułu
+
+2. ✅ **`src/Modules/CustomView/CustomView.php`**
+   - Metoda: `getRealValues()` (linia 666)
+   - Zamieniono `vglobal('mod_strings')` na `Vtiger_Language_Handler::getModuleStringsFromFile()`
+   - Użyto `$currentModule` z `vglobal('currentModule')` jako nazwy modułu
+
+### Korzyści:
+
+- **Prostota:** Prosta zamiana odczytów na wywołanie istniejącej metody
+- **Spójność:** Ujednolici sposób dostępu do stringów modułu
+- **Gotowa alternatywa:** `Vtiger_Language_Handler::getModuleStringsFromFile()` już istnieje
+- **Niskie ryzyko:** Nie wpływa na logikę biznesową, tylko sposób dostępu do stringów
+
+### Weryfikacja:
+
+✅ **Wszystkie odczyty zostały zmienione** - grep nie znajduje już `vglobal('mod_strings')` jako odczyt w kodzie źródłowym
+✅ **Brak błędów lintera** - wszystkie pliki przeszły weryfikację
+✅ **Ustawiania wartości pozostawione** - ustawiania runtime podczas inicjalizacji pozostawione jako `vglobal()` (wymaga osobnej refaktoryzacji)
+
+**Do przetestowania:**
+1. Czy metoda `sgetRptsforFldr()` w Reports działa poprawnie z nowymi stringami
+2. Czy metoda `getRealValues()` w CustomView działa poprawnie z nowymi stringami
+3. Czy wszystkie tłumaczenia są dostępne
+
+---
+
+## FAZA 11: Usunięcie prostych wartości runtime - `popupAjax`, `isPermittedLog`, `translated_language` - ✅ WYKONANE
+
+### Analiza użycia
+
+**Wystąpienia:** 5 odczytów w 4 plikach
+
+#### `popupAjax` (2 odczyty):
+- `src/Modules/Base/Views/Popup.php` (linia 120) - sprawdzanie czy to AJAX popup
+- `src/Modules/Products/Views/Popup.php` (linia 55) - sprawdzanie czy to AJAX popup
+
+#### `isPermittedLog` (1 odczyt):
+- `src/Modules/Users/Models/Privileges.php` (linia 258) - metoda `getLastPermittedAccessLog()`
+
+#### `translated_language` (2 odczyty):
+- `src/Runtime/Vtiger_Language_Handler.php` (linie 207, 208) - metoda `getLanguage()`
+
+**Charakterystyka:**
+- Proste wartości runtime, łatwe do zastąpienia
+- `popupAjax` - można sprawdzić przez sprawdzenie typu klasy (`instanceof PopupAjax`)
+- `isPermittedLog` - można użyć sesji lub konfiguracji
+- `translated_language` - można użyć sesji
+
+### Wykonane zmiany:
+
+1. ✅ **`src/Modules/Base/Views/Popup.php`**
+   - Metoda: `initializeListViewContents()` (linia 120)
+   - Zamieniono `vglobal('popupAjax')` na `$this instanceof \App\Modules\Base\Views\PopupAjax`
+   - Lepsze rozwiązanie - sprawdzanie typu klasy zamiast globalnej zmiennej
+
+2. ✅ **`src/Modules/Products/Views/Popup.php`**
+   - Metoda: `initializeListViewContents()` (linia 55)
+   - Zamieniono `vglobal('popupAjax')` na `$this instanceof \App\Modules\Base\Views\PopupAjax`
+
+3. ✅ **`src/Modules/Users/Models/Privileges.php`**
+   - Metoda: `getLastPermittedAccessLog()` (linia 258)
+   - Zamieniono `vglobal('isPermittedLog')` na `Vtiger_Session::get('isPermittedLog') ?? false`
+
+4. ✅ **`src/Runtime/Vtiger_Language_Handler.php`**
+   - Metoda: `getLanguage()` (linie 207, 208)
+   - Zamieniono `vglobal('translated_language')` na `Vtiger_Session::get('translated_language')`
+
+### Korzyści:
+
+- **Prostota:** Proste wartości runtime, łatwe do zastąpienia
+- **Spójność:** Ujednolici sposób dostępu do tych wartości
+- **Niskie ryzyko:** Nie wpływa na logikę biznesową, tylko sposób dostępu
+- **Lepsze rozwiązanie:** `popupAjax` można sprawdzić przez typ klasy zamiast globalnej zmiennej
+
+### Weryfikacja:
+
+✅ **Wszystkie odczyty zostały zmienione** - grep nie znajduje już `vglobal('popupAjax')`, `vglobal('isPermittedLog')`, `vglobal('translated_language')` w kodzie źródłowym
+✅ **Brak błędów lintera** - wszystkie pliki przeszły weryfikację
+✅ **Lepsze rozwiązania** - użycie sprawdzania typu klasy i sesji zamiast globalnych zmiennych
+
+**Do przetestowania:**
+1. Czy Popup views działają poprawnie z nowym sprawdzaniem typu klasy
+2. Czy logowanie uprawnień działa poprawnie
+3. Czy tłumaczenia działają poprawnie z nowym źródłem translated_language
+
+---
+
 ## Inne proponowane fazy (do rozważenia w przyszłości):
 
-### FAZA 11: Wartości runtime - `currentModule`
+### FAZA 12: Wartości runtime - `mod_strings` / `app_strings` (ustawiania) - DO PRZYSZŁOŚCI
+- **Wystąpienia:** 2 wystąpienia ustawiania w EntryPoint/WebUI.php
+- **Charakterystyka:** Ustawianie runtime podczas inicjalizacji
+- **Priorytet:** Niski (ustawiania runtime, wymagają większej refaktoryzacji)
+
+### FAZA 13: Wartości runtime - `currentModule`
 - **Wystąpienia:** ~23 wystąpienia w 13 plikach
 - **Charakterystyka:** Wartość runtime, ustawiana w `EntryPoint/WebUI.php`
 - **Alternatywa:** Użycie `$request->getModule()` lub przekazywanie przez kontekst
@@ -724,7 +843,7 @@ if ($uploadOk && $_FILES['watermark']['size'][0] > \App\AppConfig::main('upload_
 - **Alternatywa:** Użycie `$request->getModule()` lub przekazywanie przez kontekst
 - **Priorytet:** Wysoki (często używane), ale wymaga większej refaktoryzacji (kontekst Request)
 
-### FAZA 12: Pozostałe wartości runtime (current_language ustawiania)
+### FAZA 13: Pozostałe wartości runtime (current_language ustawiania)
 - **Wystąpienia:** 3 wystąpienia ustawiania
 - **Charakterystyka:** Ustawianie runtime podczas inicjalizacji i fallback
 - **Pliki:** EntryPoint/WebUI.php, ScheduleReports.php, VTScheduledReport.php

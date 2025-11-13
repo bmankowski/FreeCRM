@@ -663,7 +663,9 @@ class CustomView extends \App\CRMEntity
 		$adb = \App\Database\PearDatabase::getInstance();
 		$currentUser = \App\User\CurrentUser::get();
 		$currentModule = vglobal('currentModule');
-		$mod_strings = vglobal('mod_strings');
+		$currentLanguage = \App\Runtime\Vtiger_Language_Handler::getLanguage();
+		$moduleStrings = \App\Runtime\Vtiger_Language_Handler::getModuleStringsFromFile($currentLanguage, $currentModule);
+		$mod_strings = $moduleStrings['languageStrings'] ?? [];
 		//Added for proper check of contact name in advance filter
 		if ($tablename == "vtiger_contactdetails" && $fieldname == "lastname")
 			$fieldname = "contactid";

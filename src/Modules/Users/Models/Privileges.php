@@ -255,7 +255,7 @@ class Privileges extends \App\Runtime\BaseModel
 
 	public static function getLastPermittedAccessLog()
 	{
-		return vglobal('isPermittedLog');
+		return \App\Http\Vtiger_Session::get('isPermittedLog') ?? false;
 	}
 
 	/**

@@ -387,7 +387,9 @@ class Reports extends \App\CRMEntity
 	$adb = \App\Database\PearDatabase::getInstance();
 	$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 
-	$mod_strings = vglobal('mod_strings');
+	$currentLanguage = \App\Runtime\Vtiger_Language_Handler::getLanguage();
+	$moduleStrings = \App\Runtime\Vtiger_Language_Handler::getModuleStringsFromFile($currentLanguage, 'Reports');
+	$mod_strings = $moduleStrings['languageStrings'] ?? [];
 	$returndata = [];
 
 	$sql = "select vtiger_report.*, vtiger_reportmodules.*, vtiger_reportfolder.folderid from vtiger_report inner join vtiger_reportfolder on vtiger_reportfolder.folderid = vtiger_report.folderid";

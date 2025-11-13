@@ -117,7 +117,7 @@ class Popup  extends \App\Modules\Base\Views\Index
 
 		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
-		if (vglobal('popupAjax'))
+		if ($this instanceof \App\Modules\Base\Views\PopupAjax)
 			$pagingModel->set('noLimit', true);
 
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
