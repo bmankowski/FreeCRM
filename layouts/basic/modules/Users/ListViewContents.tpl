@@ -86,9 +86,7 @@
 				<tr class="listViewEntries" data-id='{$LISTVIEW_ENTRY->getId()}' data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}" {if $LISTVIEW_ENTRY->colorList}style="background-color: {$LISTVIEW_ENTRY->colorList['background']};color: {$LISTVIEW_ENTRY->colorList['text']};"{/if}>
 				<td  width="2%" class="{$WIDTHTYPE}">
 					<input type="hidden" name="deleteActionUrl" value="{$LISTVIEW_ENTRY->getDeleteUrl()}">
-					{if $LISTVIEW_ENTRY->isEditable()}
-						<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" title="{"LBL_SELECT_SINGLE_ROW"|t}" class="listViewEntriesCheckBox"/>
-					{/if}
+					<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" title="{"LBL_SELECT_SINGLE_ROW"|t}" class="listViewEntriesCheckBox"/>
 				</td>
 				<td width="5%" class="{$WIDTHTYPE}">
 					<div class="row">
