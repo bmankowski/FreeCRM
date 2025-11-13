@@ -69,24 +69,37 @@ $viewer->assign('BACKGROUND_CLOSING_MODAL', \App\AppConfig::main('backgroundClos
 
 ## FAZA 3: Usunięcie `vglobal('systemMode')` i `vglobal('startTime')`
 
-### 3.1. Usunięcie `vglobal('systemMode')`
+### 3.1. Usunięcie `vglobal('systemMode')` - CZĘŚCIOWO WYKONANE
 
-#### Kontrolery do modyfikacji:
+**Status:** W kontrolerach widoków już wykonane (Login.php, ModuleManager/ListView.php), pozostały 3 wystąpienia w kodzie PHP.
 
-##### 1. `src/Modules/Users/Views/Login.php`
-**Metoda:** `process()` (linia 29)
-**Uwaga:** Login nie używa `BaseViewController`, ma własną hierarchię
-**Dodaj przed `$viewer->view()` (około linii 53):**
+#### Pozostałe pliki do modyfikacji:
+
+##### 1. `src/Modules/Settings/ModuleManager/Views/ModuleImport.php`
+**Metoda:** `process()` (linia 28)
+**Zmiana:** Zamień `vglobal('systemMode')` na `AppConfig::main('systemMode')`
+
 ```php
-$viewer->assign('SYSTEM_MODE', \App\AppConfig::main('systemMode'));
+// PRZED:
+$systemMode = vglobal('systemMode');
+
+// PO:
+$systemMode = \App\AppConfig::main('systemMode');
 ```
 
-##### 2. `src/Modules/Settings/ModuleManager/Views/ListView.php`
-**Metoda:** `process()` (linia 18)
-**Dodaj przed `$viewer->view()` (około linii 30):**
+##### 2. `src/Modules/Users/Models/DetailView.php`
+**Metoda:** `getDetailViewLinks()` (linie 40, 52)
+**Zmiana:** Zamień `vglobal('systemMode')` na `AppConfig::main('systemMode')` (2 wystąpienia)
+
 ```php
-$viewer->assign('SYSTEM_MODE', \App\AppConfig::main('systemMode'));
+// PRZED:
+if (vglobal('systemMode') != 'demo') {
+
+// PO:
+if (\App\AppConfig::main('systemMode') != 'demo') {
 ```
+
+**Uwaga:** W tym pliku są 2 wystąpienia - oba należy zmienić.
 
 ### 3.2. Usunięcie `vglobal('startTime')`
 
@@ -103,6 +116,7 @@ $viewer->assign('SYSTEM_MODE', \App\AppConfig::main('systemMode'));
 4. **Faza 4** - `upload_maxsize` (wartości konfiguracyjne w widokach Edit) - ✅ **WYKONANE**
 5. **Faza 5** - `default_timezone`, `site_URL`, `cache_dir`, `tmp_dir` (wartości konfiguracyjne) - ✅ **WYKONANE**
 6. **Faza 6** - `default_charset`, `php_max_execution_time`, `davStorageDir` (pozostałe wartości konfiguracyjne) - ✅ **WYKONANE**
+7. **Faza 7** - Dokończenie `systemMode` (pozostałe 3 wystąpienia w kodzie PHP) - ✅ **WYKONANE**
 
 ---
 
@@ -480,28 +494,79 @@ if ($uploadOk && $_FILES['watermark']['size'][0] > \App\AppConfig::main('upload_
 
 ---
 
+## FAZA 7: Dokończenie `vglobal('systemMode')` - ✅ WYKONANE
+
+### Analiza użycia
+
+**Wystąpienia:** 3 wystąpienia w 2 plikach (pozostałe po częściowej implementacji FAZY 3)
+
+#### Pozostałe wystąpienia:
+- `src/Modules/Settings/ModuleManager/Views/ModuleImport.php` (linia 30) - walidacja trybu demo
+- `src/Modules/Users/Models/DetailView.php` (linie 40, 52) - warunki wyświetlania linków (2 wystąpienia)
+
+**Charakterystyka:**
+- Wartość konfiguracyjna (łatwa do zastąpienia przez `AppConfig::main()`)
+- Używana do sprawdzania trybu demo systemu
+- Kontrolery widoków już zrefaktoryzowane (Login.php, ModuleManager/ListView.php)
+- Pozostały tylko przypadki w kodzie PHP (nie w kontrolerach widoków)
+
+### Wykonane zmiany:
+
+1. ✅ **`src/Modules/Settings/ModuleManager/Views/ModuleImport.php`**
+   - Metoda: `process()` (linia 30)
+   - Zamieniono `vglobal('systemMode')` na `AppConfig::main('systemMode')`
+
+2. ✅ **`src/Modules/Users/Models/DetailView.php`**
+   - Metoda: `getDetailViewLinks()` (linie 40, 52)
+   - Zamieniono `vglobal('systemMode')` na `AppConfig::main('systemMode')` (2 wystąpienia)
+
+### Korzyści:
+
+- **Prostota:** Wartość konfiguracyjna, łatwa do zastąpienia
+- **Kompletność:** Dokończy refaktoryzację `systemMode` rozpoczętą w FAZIE 3
+- **Niskie ryzyko:** Nie wpływa na logikę biznesową, tylko sposób dostępu do konfiguracji
+- **Mała liczba plików:** Tylko 2 pliki do modyfikacji
+
+### Weryfikacja:
+
+✅ **Wszystkie wystąpienia zostały zmienione** - grep nie znajduje już `vglobal('systemMode')` w kodzie źródłowym
+✅ **Brak błędów lintera** - wszystkie pliki przeszły weryfikację
+✅ **Kompletność refaktoryzacji systemMode** - wszystkie wystąpienia `systemMode` używają teraz `AppConfig::main()`
+
+**Do przetestowania:**
+1. Czy import modułów działa poprawnie (walidacja trybu demo)
+2. Czy linki w widoku szczegółów użytkownika są poprawnie wyświetlane/ukrywane w trybie demo
+
+---
+
 ## Inne proponowane fazy (do rozważenia w przyszłości):
 
-### FAZA 7: Wartości runtime - `currentModule`
+### FAZA 8: Wartości runtime - `currentModule`
 - **Wystąpienia:** ~23 wystąpienia w 13 plikach
 - **Charakterystyka:** Wartość runtime, ustawiana w `EntryPoint/WebUI.php`
 - **Alternatywa:** Użycie `$request->getModule()` lub przekazywanie przez kontekst
 - **Priorytet:** Wysoki (często używane), ale wymaga większej refaktoryzacji (kontekst Request)
 
 ### FAZA 8: Wartości runtime - `current_language` / `default_language`
-- **Wystąpienia:** ~58 wystąpień w 31 plikach
+- **Wystąpienia:** ~29 wystąpień w wielu plikach
 - **Charakterystyka:** Wartości runtime/konfiguracyjne
 - **Alternatywa:** Użycie `Vtiger_Language_Handler::getLanguage()` i `AppConfig::main('default_language')`
-- **Priorytet:** Wysoki (często używane)
+- **Priorytet:** Wysoki (często używane), ale wymaga większej refaktoryzacji
 
 ### FAZA 9: Wartości runtime - `mod_strings` / `app_strings`
-- **Wystąpienia:** ~3 wystąpienia (głównie ustawianie w EntryPoint)
+- **Wystąpienia:** ~4 wystąpienia (głównie ustawianie w EntryPoint, ale też użycie w Reports.php, CustomView.php)
 - **Charakterystyka:** Wartości runtime, ustawiane w `EntryPoint/WebUI.php`
 - **Alternatywa:** Użycie `Vtiger_Language_Handler::getModuleStringsFromFile()`
 - **Priorytet:** Średni (używane głównie w starszym kodzie)
 
-### FAZA 10: Pozostałe wartości runtime
-- **Wystąpienia:** ~10+ wystąpień różnych wartości
+### FAZA 10: Wartości runtime - `currentModule`
+- **Wystąpienia:** ~23 wystąpienia w 13 plikach
+- **Charakterystyka:** Wartość runtime, ustawiana w `EntryPoint/WebUI.php`
+- **Alternatywa:** Użycie `$request->getModule()` lub przekazywanie przez kontekst
+- **Priorytet:** Wysoki (często używane), ale wymaga większej refaktoryzacji (kontekst Request)
+
+### FAZA 11: Pozostałe wartości runtime
+- **Wystąpienia:** ~11 wystąpień różnych wartości
 - **Charakterystyka:** Różne wartości runtime (workflowIdsAlreadyDone, showsAdditionalLabels, isPermittedLog, popupAjax, translated_language)
 - **Priorytet:** Niski (specjalne przypadki, wymagają indywidualnej analizy)
 

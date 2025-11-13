@@ -27,7 +27,7 @@ class ModuleImport extends \App\Modules\Settings\Base\Views\Index
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$systemMode = vglobal('systemMode');
+		$systemMode = \App\AppConfig::main('systemMode');
 		if ($systemMode == 'demo') {
 			throw new \App\Exceptions\AppException('LBL_ERROR_IMPORT_IN_DEMO');
 		}
