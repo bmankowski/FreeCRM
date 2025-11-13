@@ -185,6 +185,18 @@ class ListView extends \App\Modules\Settings\Base\Views\ListView
 		$this->prepareUsersListViewData($viewer);
 	}
 	
+	public function preProcessAjax(\App\Http\Vtiger_Request $request)
+	{
+		$this->preProcess($request, false);
+	}
+	
+	protected function createListViewModel(\App\Http\Vtiger_Request $request)
+	{
+		$moduleName = $request->getModule();
+		$cvId = $request->get('viewname');
+		return \App\Modules\Users\Models\ListView::getInstance($moduleName, $cvId);
+	}
+	
 	/**
 	 * Prepare data for Users ListViewContent template
 	 * Moves function calls from templates to controller for better MVC separation

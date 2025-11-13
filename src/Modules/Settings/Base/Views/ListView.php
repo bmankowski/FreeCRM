@@ -18,6 +18,7 @@ class ListView extends \App\Modules\Settings\Base\Views\Index
 
 	protected $listViewEntries = null;
 	protected $listViewHeaders = null;
+	/** @var \App\Modules\Settings\Base\Models\ListView|null */
 	protected $listViewModel = null;
 	protected $listViewLinks;
 	protected $listViewCount;
@@ -30,9 +31,40 @@ class ListView extends \App\Modules\Settings\Base\Views\Index
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
+		$this->prepareListViewData($request);
+	}
 
+	public function preProcessAjax(\App\Http\Vtiger_Request $request)
+	{
+		$this->prepareListViewData($request);
+	}
+
+	/**
+	 * Prepare data for ListViewHeader templates
+	 * Modules can override this to prepare module-specific data
+	 * Moves function calls from templates to controller for better MVC separation
+	 */
+	protected function prepareListViewHeaderData($viewer, $qualifiedModuleName)
+	{
+		// Prepare AdvancedPermission-specific data
+		if ($qualifiedModuleName === 'Settings:AdvancedPermission') {
+			$viewer->assign('PERMITTED_BY_ADVANCED_PERMISSION', \App\AppConfig::security('PERMITTED_BY_ADVANCED_PERMISSION'));
+			$viewer->assign('CACHING_PERMISSION_TO_RECORD', \App\AppConfig::security('CACHING_PERMISSION_TO_RECORD'));
+		}
+	}
+
+	/**
+	 * Resolve ListView model instance for the current request.
+	 * Allows subclasses to provide module-specific implementations.
+	 */
+	protected function createListViewModel(\App\Http\Vtiger_Request $request)
+	{
+		return \App\Modules\Settings\Base\Models\ListView::getInstance($request->getModule(false));
+	}
+
+	protected function prepareListViewData(\App\Http\Vtiger_Request $request)
+	{
 		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 		$pageNumber = $request->get('page');
 		$orderBy = $request->get('orderby');
@@ -43,21 +75,27 @@ class ListView extends \App\Modules\Settings\Base\Views\Index
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
 
-		if ($sortOrder == "ASC") {
-			$nextSortOrder = "DESC";
-			$sortImage = "glyphicon glyphicon-chevron-down";
-		} else {
-			$nextSortOrder = "ASC";
-			$sortImage = "glyphicon glyphicon-chevron-up";
-		}
 		if (empty($pageNumber)) {
 			$pageNumber = 1;
 		}
 
 		if (!$this->listViewModel) {
-			$this->listViewModel = \App\Modules\Settings\Base\Models\ListView::getInstance($qualifiedModuleName);
+			$this->listViewModel = $this->createListViewModel($request);
 		}
 		$listViewModel = $this->listViewModel;
+
+		$availableColumns = array_keys($listViewModel->getModule()->getListFields());
+
+		if (!empty($orderBy) && !in_array($orderBy, $availableColumns, true)) {
+			$orderBy = $availableColumns ? reset($availableColumns) : null;
+			$sortOrder = 'ASC';
+		}
+
+		$sortOrder = strtoupper($sortOrder) === 'DESC' ? 'DESC' : 'ASC';
+		$nextSortOrder = $sortOrder === 'ASC' ? 'DESC' : 'ASC';
+		$sortImage = $sortOrder === 'ASC'
+			? 'glyphicon glyphicon-chevron-down'
+			: 'glyphicon glyphicon-chevron-up';
 
 		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
@@ -118,24 +156,8 @@ class ListView extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('LISTVIEW_COUNT', $totalCount);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
-		// MainLayout handles rendering, no separate preProcess template needed
-		
-		// Prepare module-specific ListViewHeader data
+
 		$this->prepareListViewHeaderData($viewer, $qualifiedModuleName);
-	}
-	
-	/**
-	 * Prepare data for ListViewHeader templates
-	 * Modules can override this to prepare module-specific data
-	 * Moves function calls from templates to controller for better MVC separation
-	 */
-	protected function prepareListViewHeaderData($viewer, $qualifiedModuleName)
-	{
-		// Prepare AdvancedPermission-specific data
-		if ($qualifiedModuleName === 'Settings:AdvancedPermission') {
-			$viewer->assign('PERMITTED_BY_ADVANCED_PERMISSION', \App\AppConfig::security('PERMITTED_BY_ADVANCED_PERMISSION'));
-			$viewer->assign('CACHING_PERMISSION_TO_RECORD', \App\AppConfig::security('CACHING_PERMISSION_TO_RECORD'));
-		}
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)
