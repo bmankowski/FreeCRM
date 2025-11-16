@@ -341,7 +341,7 @@ class Link extends \vtlib\Link
 		$linkModel = new self();
 
 		if (!empty($objectProperties['params'])) {
-			$params = \App\Json::decode($objectProperties['params']);
+			$params = \App\Utils\Json::decode($objectProperties['params']);
 			if (!empty($params)) {
 				foreach ($params as $properName => $propertyValue) {
 					$linkModel->$properName = $propertyValue;

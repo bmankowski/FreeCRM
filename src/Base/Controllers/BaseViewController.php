@@ -45,7 +45,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 		$viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
 		$viewer->assign('USER_MODEL', $vtigerRequest->getUser());
 		$viewer->assign('APPTITLE', \App\Runtime\Vtiger_Language_Handler::translate('APPTITLE'));
-		$viewer->assign('YETIFORCE_VERSION', \App\Version::get());
+		$viewer->assign('YETIFORCE_VERSION', \App\Core\Version::get());
 		$viewer->assign('MODULE_NAME', $vtigerRequest->getModule());
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $vtigerRequest->getModule(false));

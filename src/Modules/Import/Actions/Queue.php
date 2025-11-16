@@ -41,10 +41,10 @@ class Queue extends \App\Base\Controllers\BaseActionController
 		\App\Db::getInstance()->createCommand()->insert('vtiger_import_queue', [
 			'userid' => $user->id,
 			'tabid' => \App\Utils\ModuleUtils::getModuleId($request->get('module')),
-			'field_mapping' => \App\Json::encode($request->get('field_mapping')),
-			'default_values' => \App\Json::encode($request->get('default_values')),
+			'field_mapping' => \App\Utils\Json::encode($request->get('field_mapping')),
+			'default_values' => \App\Utils\Json::encode($request->get('default_values')),
 			'merge_type' => $request->get('merge_type'),
-			'merge_fields' => \App\Json::encode($request->get('merge_fields')),
+			'merge_fields' => \App\Utils\Json::encode($request->get('merge_fields')),
 			'temp_status' => $temp_status
 		])->execute();
 	}
@@ -141,10 +141,10 @@ class Queue extends \App\Base\Controllers\BaseActionController
 		return [
 			'id' => $rowData['importid'],
 			'module' => \App\Utils\ModuleUtils::getModuleName($rowData['tabid']),
-			'field_mapping' => \App\Json::decode($rowData['field_mapping']),
-			'default_values' => \App\Json::decode($rowData['default_values']),
+			'field_mapping' => \App\Utils\Json::decode($rowData['field_mapping']),
+			'default_values' => \App\Utils\Json::decode($rowData['default_values']),
 			'merge_type' => $rowData['merge_type'],
-			'merge_fields' => \App\Json::decode($rowData['merge_fields']),
+			'merge_fields' => \App\Utils\Json::decode($rowData['merge_fields']),
 			'user_id' => $rowData['userid'],
 			'temp_status' => $rowData['temp_status']
 		];

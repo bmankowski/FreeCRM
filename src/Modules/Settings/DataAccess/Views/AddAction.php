@@ -60,6 +60,6 @@ class AddAction extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('ACTION_NAMES', $actionNames);
 		
 		// Prepare JSON-encoded actions
-		$viewer->assign('ACTIONS_JASON', \App\Json::encode($actionsList));
+		$viewer->assign('ACTIONS_JASON', \App\Utils\Json::encode($actionsList));
 	}
 }

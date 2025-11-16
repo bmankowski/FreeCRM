@@ -32,7 +32,7 @@ class InitSchema_Model
 		$currencyCode = $_SESSION['config_file_info']['currency_code'];
 		$currencySymbol = $_SESSION['config_file_info']['currency_symbol'];
 		$this->db->pquery('UPDATE vtiger_currency_info SET currency_name = ?, currency_code = ?, currency_symbol = ?', [$currencyName, $currencyCode, $currencySymbol]);
-		$this->db->pquery('UPDATE vtiger_version SET `current_version` = ?, `old_version` = ? ;', [\App\Version::get(), \App\Version::get()]);
+		$this->db->pquery('UPDATE vtiger_version SET `current_version` = ?, `old_version` = ? ;', [\App\Core\Version::get(), \App\Core\Version::get()]);
 
 		// recalculate all sharing rules for users
 		\App\Modules\Users\Services\PrivilegeFileManager::RecalculateSharingRules();

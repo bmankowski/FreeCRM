@@ -91,7 +91,7 @@ class Block extends \vtlib\Block
 		if ($hideBlocks) {
 			$conditionStrategy = new \App\Modules\Workflow\VTJsonCondition();
 			foreach ($hideBlocks as $hideBlock) {
-				$expr = \App\Json::decode($hideBlock['conditions']);
+				$expr = \App\Utils\Json::decode($hideBlock['conditions']);
 				if (!$record->getId() && $expr) {
 					continue;
 				}

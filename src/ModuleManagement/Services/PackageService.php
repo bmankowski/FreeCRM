@@ -156,12 +156,12 @@ class PackageService
 		// Check version compatibility
 		if (!empty($this->modulexml->dependencies->vtiger_version)) {
 			$moduleVersion = (string) $this->modulexml->dependencies->vtiger_version;
-			if (\App\Version::check($moduleVersion) === true) {
+			if (\App\Core\Version::check($moduleVersion) === true) {
 				$moduleVersionFound = true;
 			} else {
 				$_errorText = \App\Runtime\Vtiger_Language_Handler::translate('LBL_ERROR_VERSION', 'Settings:ModuleManager');
 				$_errorText = str_replace('__MODULEVERSION__', $moduleVersion, $_errorText);
-				$_errorText = str_replace('__CRMVERSION__', \App\Version::get(), $_errorText);
+				$_errorText = str_replace('__CRMVERSION__', \App\Core\Version::get(), $_errorText);
 				$this->errorText = $_errorText;
 			}
 		}
@@ -1429,7 +1429,7 @@ class PackageService
 	 */
 	private function export_Dependencies(Models\Module $module): void
 	{
-		$minVersion = \App\Version::get();
+		$minVersion = \App\Core\Version::get();
 		$maxVersion = false;
 
 		$tabInfo = (new \App\Db\Query())

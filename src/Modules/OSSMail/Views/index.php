@@ -49,7 +49,7 @@ class index  extends \App\Modules\Base\Views\Index
 					'key' => $key,
 					'ruid' => $rcUser['rcuser_id'],
 					'cuid' => $userId,
-					'params' => \App\Json::encode($params)
+					'params' => \App\Utils\Json::encode($params)
 				]);
 			}
 		}

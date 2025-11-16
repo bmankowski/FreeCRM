@@ -46,7 +46,7 @@ class Library
 			$lib = static::$libraries[$name];
 			if (file_exists($lib['dir'] . 'version.php')) {
 				$libVersion = require $lib['dir'] . 'version.php';
-				if (\App\Version::check($libVersion['version'], $lib['name'])) {
+				if (\App\Core\Version::check($libVersion['version'], $lib['name'])) {
 					$status = false;
 				}
 			}
@@ -68,7 +68,7 @@ class Library
 				$status = 2;
 				if (file_exists($lib['dir'] . 'version.php')) {
 					$libVersion = require $lib['dir'] . 'version.php';
-					if (\App\Version::check($libVersion['version'], $lib['name'])) {
+					if (\App\Core\Version::check($libVersion['version'], $lib['name'])) {
 						$status = 1;
 					}
 				}
@@ -109,7 +109,7 @@ class Library
 			return false;
 		}
 		$path = static::TEMP_DIR . DIRECTORY_SEPARATOR . $name . '.zip';
-		$mode = \App\AppConfig::developer('MISSING_LIBRARY_DEV_MODE') ? 'developer' : \App\Version::get($lib['name']);
+		$mode = \App\AppConfig::developer('MISSING_LIBRARY_DEV_MODE') ? 'developer' : \App\Core\Version::get($lib['name']);
 		$compressedName = $lib['name'] . '-' . $mode;
 		if (!file_exists($path)) {
 			stream_context_set_default([

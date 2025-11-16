@@ -21,8 +21,8 @@ class NoPermittedToApi extends \Exception
 		$dbLog->insert('o_yf_access_for_api', [
 			'username' => empty($userName) ? '-' : $userName,
 			'date' => date('Y-m-d H:i:s'),
-			'ip' => \App\RequestUtil::getRemoteIP(),
-			'url' => \App\RequestUtil::getBrowserInfo()->url,
+			'ip' => \App\Utils\RequestUtil::getRemoteIP(),
+			'url' => \App\Utils\RequestUtil::getBrowserInfo()->url,
 			'agent' => $_SERVER['HTTP_USER_AGENT'],
 			'request' => json_encode($_REQUEST),
 		]);

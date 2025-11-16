@@ -64,7 +64,7 @@ class GetRoute extends \App\Base\Controllers\BaseActionController
 				CURLOPT_CUSTOMREQUEST => "GET",
 			]);
 			$json = curl_exec($curl);
-			$json = \App\Json::decode($json);
+			$json = \App\Utils\Json::decode($json);
 			$coordinates = array_merge($coordinates, $json['coordinates']);
 			$description .= $json['properties']['description'];
 			$travel = $travel + $json['properties']['traveltime'];

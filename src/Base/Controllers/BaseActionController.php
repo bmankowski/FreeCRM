@@ -113,7 +113,7 @@ abstract class BaseActionController
 			return;
 		}
 
-		$browser = \App\RequestUtil::getBrowserInfo();
+		$browser = \App\Utils\RequestUtil::getBrowserInfo();
 		header('Expires: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 		if ($browser && is_object($browser) && $browser->ie && $browser->https) {

@@ -91,7 +91,7 @@ class DependencyPicklist {
 			$mapping = $valueMapping[$i];
 			$sourceValue = $mapping['sourcevalue'];
 			$targetValues = $mapping['targetvalues'];
-			$serializedTargetValues = \App\Json::encode($targetValues);
+			$serializedTargetValues = \App\Utils\Json::encode($targetValues);
 
 			$optionalsourcefield = $mapping['optionalsourcefield'];
 			$optionalsourcevalues = $mapping['optionalsourcevalues'];
@@ -100,7 +100,7 @@ class DependencyPicklist {
 				$criteria = array();
 				$criteria["fieldname"] = $optionalsourcefield;
 				$criteria["fieldvalues"] = $optionalsourcevalues;
-				$serializedCriteria = \App\Json::encode($criteria);
+				$serializedCriteria = \App\Utils\Json::encode($criteria);
 			} else {
 				$serializedCriteria = null;
 			}
@@ -147,7 +147,7 @@ class DependencyPicklist {
 		while ($row = $dataReader->read()) {
 			$valueMapping[] = [
 				'sourcevalue' => $row['sourcevalue'],
-				'targetvalues' => \App\Json::decode(html_entity_decode($row['targetvalues']))
+				'targetvalues' => \App\Utils\Json::decode(html_entity_decode($row['targetvalues']))
 			];
 		}
 		$dependencyMap['valuemapping'] = $valueMapping;
@@ -170,9 +170,9 @@ class DependencyPicklist {
 			$targetField = $adb->query_result($result, $i, 'targetfield');
 			$sourceValue = \App\Utils\ListViewUtils::decodeHtml($adb->query_result($result, $i, 'sourcevalue'));
 			$targetValues = \App\Utils\ListViewUtils::decodeHtml($adb->query_result($result, $i, 'targetvalues'));
-			$unserializedTargetValues = \App\Json::decode(html_entity_decode($targetValues));
+			$unserializedTargetValues = \App\Utils\Json::decode(html_entity_decode($targetValues));
 			$criteria = \App\Utils\ListViewUtils::decodeHtml($adb->query_result($result, $i, 'criteria'));
-			$unserializedCriteria = \App\Json::decode(html_entity_decode($criteria));
+			$unserializedCriteria = \App\Utils\Json::decode(html_entity_decode($criteria));
 
 			if (!empty($unserializedCriteria) && $unserializedCriteria['fieldname'] != null) {
 				$conditionValue = array(
@@ -196,7 +196,7 @@ class DependencyPicklist {
 	static function getJSPicklistDependencyDatasource($module)
 	{
 		$picklistDependencyDatasource = \App\Modules\PickList\DependencyPicklist::getPicklistDependencyDatasource($module);
-		return \App\Json::encode($picklistDependencyDatasource);
+		return \App\Utils\Json::encode($picklistDependencyDatasource);
 	}
 
 	static function checkCyclicDependency($module, $sourceField, $targetField)

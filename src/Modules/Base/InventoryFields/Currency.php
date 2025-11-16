@@ -33,7 +33,7 @@ class Currency extends Basic
 	public function getCurrencyParam($currencies, $param = false)
 	{
 		if ($param !== false) {
-			return \App\Json::decode($param);
+			return \App\Utils\Json::decode($param);
 		} else {
 			foreach ($currencies as $currency) {
 				$return[$currency['id']] = \vtlib\Functions:: getConversionRateInfo($currency['id']);

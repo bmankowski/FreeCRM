@@ -69,7 +69,7 @@ class RecordsList extends \App\Api\Webservice\Core\BaseAction
 		$queryGenerator->setLimit($limit);
 		$queryGenerator->setOffset($offset);
 		if ($requestFields = $this->controller->request->getHeader('X-FIELDS')) {
-			$queryGenerator->setFields(\App\Json::decode($requestFields));
+			$queryGenerator->setFields(\App\Utils\Json::decode($requestFields));
 			$queryGenerator->setField('id');
 		}
 		return $queryGenerator;

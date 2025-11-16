@@ -22,7 +22,7 @@ class VTJsonCondition {
 	 */
 	public function evaluate($condition, $recordModel)
 	{
-		$expr = \App\Json::decode($condition);
+		$expr = \App\Utils\Json::decode($condition);
 		$finalResult = TRUE;
 		if (is_array($expr)) {
 			$groupResults = array();

@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <!-- layouts/basic/modules/Calendar/uitypes/StatusPickListFieldSearchView.tpl -->
-{assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
+{assign var="FIELD_INFO" value=\App\Utils\Json::encode($FIELD_MODEL->getFieldInfo())}
 {assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
 {assign var=EVENTS_MODULE_MODEL value=\App\Modules\Base\Models\Module::getInstance('Events')}
 {assign var=EVENT_STATUS_FIELD_MODEL value=$EVENTS_MODULE_MODEL->getField('activitystatus')}

@@ -11,11 +11,11 @@
 -->*}
 {strip}
 <!-- layouts/basic/modules/Base/uitypes/Percentage.tpl -->
-{assign var="FIELD_INFO" value=\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
+{assign var="FIELD_INFO" value=\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($FIELD_MODEL->getFieldInfo()))}
 {assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 <div class="input-group {if $WIDTHTYPE eq 'narrow'}input-group-sm{/if}">
 	<input id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->get('name')}" type="number" title="{$FIELD_MODEL->get('label')|t:$MODULE}" class="input-medium form-control" min="0" max="100" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" name="{$FIELD_MODEL->getFieldName()}"
-	value="{$FIELD_MODEL->get('fieldvalue')}" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}'{/if} step="any" {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}/><span class="input-group-addon">%</span>
+	value="{$FIELD_MODEL->get('fieldvalue')}" data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Utils\Json::encode($SPECIAL_VALIDATOR)}'{/if} step="any" {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if}/><span class="input-group-addon">%</span>
 </div>
 <!--/layouts/basic/modules/Base/uitypes/Percentage.tpl -->
 {/strip}

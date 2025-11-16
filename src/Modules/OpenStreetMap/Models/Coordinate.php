@@ -45,7 +45,7 @@ class Coordinate extends \App\Runtime\BaseModel
 		if ($err) {
 			return false;
 		} else {
-			return \App\Json::decode($response);
+			return \App\Utils\Json::decode($response);
 		}
 	}
 

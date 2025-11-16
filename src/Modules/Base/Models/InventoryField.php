@@ -222,7 +222,7 @@ class InventoryField extends \App\Runtime\BaseModel
 		if (isset($fields)) {
 			foreach ($fields as $field) {
 				if ($field->getName() == 'Name') {
-					$params = \App\Json::decode($field->get('params'));
+					$params = \App\Utils\Json::decode($field->get('params'));
 					break;
 				}
 			}

@@ -24,7 +24,7 @@ class PrivilegeAdvanced
 		$dataReader = $query->createCommand($db)->query();
 		$cache = [];
 		while ($row = $dataReader->read()) {
-			$members = \App\Json::decode($row['members']);
+			$members = \App\Utils\Json::decode($row['members']);
 			$users = [];
 			if (!empty($members)) {
 				foreach ($members as &$member) {

@@ -90,9 +90,9 @@ class Configuration extends \App\Modules\Settings\Base\Views\Index
 	protected function prepareWidgetsManagementData($viewer, $widgetsWithFilterDate, $widgetsWithFilterUsers, $restrictFilter)
 	{
 		// Prepare JSON-encoded filter data
-		$viewer->assign('FILTER_DATE_JSON', \App\Json::encode($widgetsWithFilterDate));
-		$viewer->assign('FILTER_USERS_JSON', \App\Json::encode($widgetsWithFilterUsers));
-		$viewer->assign('FILTER_RESTRICT_JSON', \App\Json::encode($restrictFilter));
+		$viewer->assign('FILTER_DATE_JSON', \App\Utils\Json::encode($widgetsWithFilterDate));
+		$viewer->assign('FILTER_USERS_JSON', \App\Utils\Json::encode($widgetsWithFilterUsers));
+		$viewer->assign('FILTER_RESTRICT_JSON', \App\Utils\Json::encode($restrictFilter));
 		
 		// Prepare decoded widget data for WidgetConfig template
 		$dashboardStored = $viewer->getTemplateVars('WIDGETS_AUTHORIZATION_INFO');
@@ -107,17 +107,17 @@ class Configuration extends \App\Modules\Settings\Base\Views\Index
 					// Decode widget data
 					$data = $widgetModel->get('data');
 					if ($data) {
-						$widgetInfoDecoded[$widgetId] = \App\Json::decode(html_entity_decode($data));
+						$widgetInfoDecoded[$widgetId] = \App\Utils\Json::decode(html_entity_decode($data));
 					}
 					// Decode widget size
 					$size = $widgetModel->get('size');
 					if ($size) {
-						$widgetSizeDecoded[$widgetId] = \App\Json::decode(html_entity_decode($size));
+						$widgetSizeDecoded[$widgetId] = \App\Utils\Json::decode(html_entity_decode($size));
 					}
 					// Decode widget owners
 					$owners = $widgetModel->get('owners');
 					if ($owners) {
-						$widgetOwnersDecoded[$widgetId] = \App\Json::decode(html_entity_decode($owners));
+						$widgetOwnersDecoded[$widgetId] = \App\Utils\Json::decode(html_entity_decode($owners));
 					}
 				}
 			}

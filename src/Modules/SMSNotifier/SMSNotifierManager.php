@@ -20,7 +20,7 @@ class SMSNotifierManager
 			$provider = SMSNotifier_Provider_Model::getInstance($resultrow['providertype']);
 			$parameters = array();
 			if (!empty($resultrow['parameters']))
-				$parameters = \App\Json::decode(\App\Utils\ListViewUtils::decodeHtml($resultrow['parameters']));
+				$parameters = \App\Utils\Json::decode(\App\Utils\ListViewUtils::decodeHtml($resultrow['parameters']));
 			foreach ($parameters as $k => $v) {
 				$provider->setParameter($k, $v);
 			}
@@ -74,7 +74,7 @@ class SMSNotifierManager
 					$inputServerParams[$v] = \App\Purifier::purify($frmvalues[$lookupkey]);
 				}
 			}
-			$parameters = \App\Json::encode($inputServerParams);
+			$parameters = \App\Utils\Json::encode($inputServerParams);
 		}
 
 		if (empty($id)) {

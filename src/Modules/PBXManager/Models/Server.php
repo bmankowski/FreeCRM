@@ -33,7 +33,7 @@ class Server extends \App\Runtime\BaseModel
 		if ($row !== false) {
 			$serverModel->set('gateway', $row['gateway']);
 			$serverModel->set('id', $row['id']);
-			$parameters = \App\Json::decode(\App\Utils\ListViewUtils::decodeHtml($row['parameters']));
+			$parameters = \App\Utils\Json::decode(\App\Utils\ListViewUtils::decodeHtml($row['parameters']));
 			foreach ($parameters as $fieldName => $fieldValue) {
 				$serverModel->set($fieldName, $fieldValue);
 			}

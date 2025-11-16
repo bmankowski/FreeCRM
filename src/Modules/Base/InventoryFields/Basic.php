@@ -62,7 +62,7 @@ class Basic extends \App\Runtime\BaseModel
 
 	public function getParamsConfig()
 	{
-		return \App\Json::decode($this->get('params'));
+		return \App\Utils\Json::decode($this->get('params'));
 	}
 
 	/**

@@ -202,14 +202,15 @@ TEMP_NEW_STATEMENTS=$(mktemp)
 TEMP_QUALIFIED_USAGE=$(mktemp)
 
 # Search patterns (avoiding false positives)
-# Pattern 1: use App\ClassName;
-grep -rn "use ${OLD_FQN};" "$PROJECT_ROOT/src" "$PROJECT_ROOT/modules" 2>/dev/null | grep -v ".swp" > "$TEMP_USE_STATEMENTS" || true
+# Search in src/, modules/, and layouts/ directories
+# Pattern 1: use App\ClassName; (only in PHP files)
+grep -rn "use ${OLD_FQN};" "$PROJECT_ROOT/src" "$PROJECT_ROOT/modules" 2>/dev/null | grep "\.php:" | grep -v ".swp" > "$TEMP_USE_STATEMENTS" || true
 
-# Pattern 2: new ClassName( or ClassName::
-grep -rn "\(new ${CLASS_NAME}\|${CLASS_NAME}::\|extends ${CLASS_NAME}\|implements ${CLASS_NAME}\)" "$PROJECT_ROOT/src" "$PROJECT_ROOT/modules" 2>/dev/null | grep "\.php:" | grep -v ".swp" > "$TEMP_USAGE_FILE" || true
+# Pattern 2: new ClassName( or ClassName:: (in PHP and TPL files)
+grep -rn "\(new ${CLASS_NAME}\|${CLASS_NAME}::\|extends ${CLASS_NAME}\|implements ${CLASS_NAME}\)" "$PROJECT_ROOT/src" "$PROJECT_ROOT/modules" "$PROJECT_ROOT/layouts" 2>/dev/null | grep "\.\(php\|tpl\):" | grep -v ".swp" > "$TEMP_USAGE_FILE" || true
 
-# Pattern 3: \App\ClassName
-grep -rn "\\\\${OLD_FQN}" "$PROJECT_ROOT/src" "$PROJECT_ROOT/modules" 2>/dev/null | grep "\.php:" | grep -v ".swp" > "$TEMP_QUALIFIED_USAGE" || true
+# Pattern 3: \App\ClassName (in PHP and TPL files)
+grep -rn "\\\\${OLD_FQN}" "$PROJECT_ROOT/src" "$PROJECT_ROOT/modules" "$PROJECT_ROOT/layouts" 2>/dev/null | grep "\.\(php\|tpl\):" | grep -v ".swp" > "$TEMP_QUALIFIED_USAGE" || true
 
 USE_COUNT=$(wc -l < "$TEMP_USE_STATEMENTS")
 USAGE_COUNT=$(wc -l < "$TEMP_USAGE_FILE")
@@ -271,17 +272,18 @@ echo ""
 
 print_info "References update throughout codebase:"
 echo "  All references will be updated to fully qualified class names (FQCN)"
+echo "  Updates will include: PHP files (.php) and Smarty templates (.tpl)"
 echo "  No 'use' statements will be added - we use explicit FQCN everywhere"
 echo ""
-echo "  Pattern 1 - Existing use statements:"
+echo "  Pattern 1 - Existing use statements (PHP only):"
 echo "    FROM: use ${OLD_FQN};"
 echo "    TO:   (removed - using FQCN instead)"
 echo ""
-echo "  Pattern 2 - Fully qualified names:"
+echo "  Pattern 2 - Fully qualified names (PHP + TPL):"
 echo "    FROM: \\${OLD_FQN}"
 echo "    TO:   \\${NEW_FQN}"
 echo ""
-echo "  Pattern 3 - Unqualified class names:"
+echo "  Pattern 3 - Unqualified class names (PHP + TPL):"
 echo "    FROM: new ${CLASS_NAME}( or ${CLASS_NAME}::"
 echo "    TO:   new \\${NEW_FQN}( or \\${NEW_FQN}::"
 echo ""
@@ -348,8 +350,11 @@ print_step "Step 10: Updating namespace in source file"
 TEMP_SOURCE=$(mktemp)
 cp "$SOURCE_FILE" "$TEMP_SOURCE"
 
-# Update namespace - using single quotes to avoid shell interpretation
-sed -i "s|^namespace ${OLD_NAMESPACE};|namespace ${NEW_NAMESPACE};|g" "$TEMP_SOURCE"
+# Escape backslashes for sed
+SED_NEW_NAMESPACE=$(echo "$NEW_NAMESPACE" | sed 's/\\/\\\\/g')
+
+# Update namespace - properly escaped for sed
+sed -i "s|^namespace ${OLD_NAMESPACE};|namespace ${SED_NEW_NAMESPACE};|g" "$TEMP_SOURCE"
 
 print_success "Updated namespace in file"
 
@@ -412,28 +417,33 @@ UPDATED_OTHER=0
 # Get unique files from usage
 UNIQUE_FILES=$(cat "$TEMP_USAGE_FILE" | cut -d: -f1 | sort -u)
 
+# Escape backslashes for perl regex
+PERL_NEW_FQN=$(echo "$NEW_FQN" | sed 's/\\/\\\\/g')
+
 for file in $UNIQUE_FILES; do
     if [[ -f "$file" ]]; then
         # Always use fully qualified class names (FQCN) - no use statements
-        # Replace all unqualified usages with \App\SubDir\ClassName
+        # Use perl for reliable regex replacement with backslashes
+        # Works for both .php and .tpl files
         
         # Pattern 1: new ClassName( -> new \App\SubDir\ClassName(
-        sed -i "s/\(new[[:space:]]\+\)${CLASS_NAME}\([[:space:]]*(\)/\1\\\\${NEW_FQN}\2/g" "$file"
+        perl -pi -e "s/(new\\s+)${CLASS_NAME}(\\s*\\()/\$1\\\\${PERL_NEW_FQN}\$2/g" "$file"
         
         # Pattern 2: ClassName:: -> \App\SubDir\ClassName::
-        sed -i "s/\([^\\\\]\)${CLASS_NAME}::/\1\\\\${NEW_FQN}::/g" "$file"
+        perl -pi -e "s/([^\\\\])${CLASS_NAME}::/\$1\\\\${PERL_NEW_FQN}::/g" "$file"
         # Handle start of line
-        sed -i "s/^${CLASS_NAME}::/\\\\${NEW_FQN}::/g" "$file"
+        perl -pi -e "s/^${CLASS_NAME}::/\\\\${PERL_NEW_FQN}::/g" "$file"
         
         # Pattern 3: extends ClassName -> extends \App\SubDir\ClassName
-        sed -i "s/\(extends[[:space:]]\+\)${CLASS_NAME}\([[:space:]]\|{\)/\1\\\\${NEW_FQN}\2/g" "$file"
+        perl -pi -e "s/(extends\\s+)${CLASS_NAME}(\\s|\\{)/\$1\\\\${PERL_NEW_FQN}\$2/g" "$file"
         
         # Pattern 4: implements ClassName -> implements \App\SubDir\ClassName
-        sed -i "s/\(implements[[:space:]]\+\)${CLASS_NAME}\([[:space:]]\|,\|{\)/\1\\\\${NEW_FQN}\2/g" "$file"
+        perl -pi -e "s/(implements\\s+)${CLASS_NAME}(\\s|,|\\{)/\$1\\\\${PERL_NEW_FQN}\$2/g" "$file"
         
         UPDATED_OTHER=$((UPDATED_OTHER + 1))
         if [[ "$VERBOSE" == true ]]; then
-            print_info "Updated to FQCN: $file"
+            FILE_EXT="${file##*.}"
+            print_info "Updated to FQCN: $file (.${FILE_EXT})"
         fi
     fi
 done
@@ -465,8 +475,10 @@ print_warning "Next steps:"
 echo "  1. Test the application: curl http://localhost:8080/index.php"
 echo "  2. Check logs: tail -f cache/logs/system.log"
 echo "  3. Run verification: ./scripts/verify-migration.sh"
-echo "  4. If everything works: git add -A && git commit -m 'refactor: migrate ${CLASS_NAME} to ${TARGET_DIR}/'"
+echo "  4. Review changes: git diff --stat"
 echo "  5. If something broke: git checkout . (or git restore .)"
+echo ""
+print_info "Commit when ready (after completing phase or batch)"
 echo ""
 
 # Cleanup

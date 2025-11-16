@@ -306,7 +306,7 @@ class WebUI extends EntryPoint
 			return;
 		}
 
-		$browserInfo = RequestUtil::getBrowserInfo();
+		$browserInfo = \App\Utils\RequestUtil::getBrowserInfo();
 
 		if ($browserInfo && is_object($browserInfo) && !$browserInfo->https) {
 			$host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
@@ -340,7 +340,7 @@ class WebUI extends EntryPoint
 			return;
 		}
 
-		$browserInfo = RequestUtil::getBrowserInfo();
+		$browserInfo = \App\Utils\RequestUtil::getBrowserInfo();
 
 		if (!$browserInfo || !is_object($browserInfo)) {
 			return;

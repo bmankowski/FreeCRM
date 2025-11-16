@@ -66,7 +66,7 @@
         </div>
         <div class="detailViewInfo userPreferences row">
             <div class="details col-md-12">
-                <form id="detailView" data-name-fields='{\App\Json::encode($MODULE_MODEL->getNameFields())}'>
+                <form id="detailView" data-name-fields='{\App\Utils\Json::encode($MODULE_MODEL->getNameFields())}'>
                     <div class="contents">
 <!--/layouts/basic/modules/Users/UserViewHeader.tpl -->
                     {/strip}

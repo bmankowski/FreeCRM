@@ -45,11 +45,11 @@ class OpenStreetMap_OpenStreetMapHandler_Handler {
 					\App\Db::getInstance()->createCommand()->insert('u_#__openstreetmap_record_updater', [
 						'crmid' => $recordModel->getId(),
 						'type' => $typeAddress,
-						'address' => \App\Json::encode($address)
+						'address' => \App\Utils\Json::encode($address)
 					])->execute();
 				} else {
 					\App\Db::getInstance()->createCommand()
-						->update('u_#__openstreetmap_record_updater', ['address' => \App\Json::encode($address)], ['crmid' => $recordModel->getId(), 'type' => $typeAddress])
+						->update('u_#__openstreetmap_record_updater', ['address' => \App\Utils\Json::encode($address)], ['crmid' => $recordModel->getId(), 'type' => $typeAddress])
 						->execute();
 				}
 			}

@@ -71,7 +71,7 @@
         </div>
         <div class="detailViewInfo userPreferences row">
             <div class="details col-md-12">
-                <form id="detailView" data-name-fields='{\App\Json::encode($MODULE_MODEL->getNameFields())}' method="POST">
+                <form id="detailView" data-name-fields='{\App\Utils\Json::encode($MODULE_MODEL->getNameFields())}' method="POST">
                     <div class="contents">
 <!--/layouts/basic/modules/Users/PreferenceDetailViewHeader.tpl -->
 					{/strip}

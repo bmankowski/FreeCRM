@@ -223,7 +223,7 @@ class Index extends \App\Modules\Base\Views\Index
 
 			$this->viewer->assign('PASSWORD', $_SESSION['config_file_info']['password']);
 			$this->viewer->assign('APPUNIQUEKEY', $this->retrieveConfiguredAppUniqueKey());
-			$this->viewer->assign('CURRENT_VERSION', \App\Version::get());
+			$this->viewer->assign('CURRENT_VERSION', \App\Core\Version::get());
 			$this->viewer->view('Step7.tpl');
 		}
 	}

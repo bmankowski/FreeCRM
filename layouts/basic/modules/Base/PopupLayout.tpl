@@ -51,7 +51,7 @@
 			{if $USER_MODEL}{$USER_MODEL->getBodyLocks()}{/if}{/block}>
 
 			{block name="body_start"}
-				<div id="js_strings" class="hide noprint">{\App\Json::encode($LANGUAGE_STRINGS)}</div>
+				<div id="js_strings" class="hide noprint">{\App\Utils\Json::encode($LANGUAGE_STRINGS)}</div>
 				<div id="configuration">
 					{if $USER_MODEL}
 						<input type="hidden" id="start_day" value="{$USER_MODEL->get('dayoftheweek')}" />
@@ -73,7 +73,7 @@
 					<input type="hidden" id="parent" value="{$PARENT_MODULE}" />
 					<input type="hidden" id="view" value="{$VIEW}" />
 					<input type="hidden" id="sounds"
-						value="{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode(AppConfig::sounds()))}" />
+						value="{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode(AppConfig::sounds()))}" />
 					<input type="hidden" id="intervalForNotificationNumberCheck"
 						value="{AppConfig::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK')}" />
 					<input type="hidden" id="fieldsReferencesDependent"

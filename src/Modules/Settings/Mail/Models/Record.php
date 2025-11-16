@@ -99,7 +99,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 					$attachments = $value;
 					$value = '';
 					$fileCounter = 0;
-					foreach (\App\Json::decode($attachments) as $path => $name) {
+					foreach (\App\Utils\Json::decode($attachments) as $path => $name) {
 						if (is_numeric($path)) {
 							$path = $name;
 							$name = 'LBL_FILE';
@@ -125,7 +125,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	{
 		$value = '';
 		if ($emails) {
-			foreach (\App\Json::decode($emails) as $email => $name) {
+			foreach (\App\Utils\Json::decode($emails) as $email => $name) {
 				if (is_numeric($email)) {
 					$email = $name;
 					$name = '';

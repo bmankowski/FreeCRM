@@ -50,7 +50,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 	protected function prepareMenuIndexContentData($viewer, $data)
 	{
 		// Prepare JSON-encoded data with toSafeHTML
-		$dataJson = \App\Json::encode($data);
+		$dataJson = \App\Utils\Json::encode($data);
 		$viewer->assign('DATA_JSON', \App\Modules\Base\Helpers\Util::toSafeHTML($dataJson));
 		
 		// Prepare roles list

@@ -56,7 +56,7 @@ class Newsletter extends \App\SystemWarnings\Template
 		try {
 			$request = \Requests::POST(self::$url, [], array_merge($params, [
 					'key' => sha1(\App\AppConfig::main('site_URL') . ROOT_DIRECTORY),
-					'version' => \App\Version::get(),
+					'version' => \App\Core\Version::get(),
 					'language' => \App\Runtime\Vtiger_Language_Handler::getLanguage(),
 					'timezone' => date_default_timezone_get(),
 					]), ['useragent' => 'YetiForceCRM']);

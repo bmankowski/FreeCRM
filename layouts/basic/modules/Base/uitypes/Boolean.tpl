@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <!-- layouts/basic/modules/Base/uitypes/Boolean.tpl -->
-{assign var="FIELD_INFO" value=\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
+{assign var="FIELD_INFO" value=\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($FIELD_MODEL->getFieldInfo()))}
 {assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 {assign var="FIELD_NAME" value=$FIELD_MODEL->get('name')}
 <div class="checkbox">
@@ -19,7 +19,7 @@
 		<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" value=0 />
 		<input {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} title="{$FIELD_MODEL->get('label')|t:$MODULE}" id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="checkbox" name="{$FIELD_MODEL->getFieldName()}" data-validation-engine="validate[funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 		{if $FIELD_MODEL->get('fieldvalue') eq true} checked
-		{/if} data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if} />
+		{/if} data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Utils\Json::encode($SPECIAL_VALIDATOR)}{/if} />
 	</label>
 </div>
 <!--/layouts/basic/modules/Base/uitypes/Boolean.tpl -->

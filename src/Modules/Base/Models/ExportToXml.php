@@ -100,7 +100,7 @@ class ExportToXml extends \App\Runtime\BaseModel
 						$data['value'] = $currencyName;
 						$valueNewData[$currencyName] = $data;
 					}
-					$value = \App\Json::encode($valueNewData);
+					$value = \App\Utils\Json::encode($valueNewData);
 					break;
 				default:
 					break;

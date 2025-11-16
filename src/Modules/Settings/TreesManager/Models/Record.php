@@ -128,7 +128,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			'parenttrre' => $parenttrre,
 			'depth' => $depth,
 			'label' => $label,
-			'state' => $tree['state'] ? \App\Json::encode($tree['state']) : '',
+			'state' => $tree['state'] ? \App\Utils\Json::encode($tree['state']) : '',
 			'icon' => $icon
 		];
 		\App\Db::getInstance()->createCommand()->insert('vtiger_trees_templates_data', $params)->execute();
@@ -172,7 +172,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 				'id' => $treeID,
 				'parent' => $parent == 0 ? '#' : $parent,
 				'text' => \App\Runtime\Vtiger_Language_Handler::translate($row['name'], $module),
-				'state' => ($row['state']) ? \App\Json::decode($row['state']) : '',
+				'state' => ($row['state']) ? \App\Utils\Json::decode($row['state']) : '',
 				'icon' => $row['icon']
 			];
 			if ($category) {

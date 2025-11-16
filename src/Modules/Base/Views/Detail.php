@@ -202,7 +202,7 @@ class Detail extends \App\Modules\Base\Views\Index
 		$viewer->assign('DEFAULT_RECORD_VIEW', $currentUserModel->get('default_record_view'));
 
 		$picklistDependencyDatasource = \App\Modules\PickList\DependencyPicklist::getPicklistDependencyDatasource($moduleName);
-		$viewer->assign('PICKLIST_DEPENDENCY_DATASOURCE', \App\Json::encode($picklistDependencyDatasource));
+		$viewer->assign('PICKLIST_DEPENDENCY_DATASOURCE', \App\Utils\Json::encode($picklistDependencyDatasource));
 		
 		// Prepare inventory data if module supports inventory
 		if ($moduleModel->isInventory()) {

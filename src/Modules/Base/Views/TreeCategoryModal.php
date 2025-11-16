@@ -55,7 +55,7 @@ class TreeCategoryModal  extends \App\Modules\Base\Views\Index
 		$treeCategoryModel->set('srcModule', $srcModule);
 		$this->relationType = $treeCategoryModel->getRelationType();
 
-		$viewer->assign('TREE', \App\Json::encode($treeCategoryModel->getTreeData()));
+		$viewer->assign('TREE', \App\Utils\Json::encode($treeCategoryModel->getTreeData()));
 		$viewer->assign('SRC_RECORD', $srcRecord);
 		$viewer->assign('SRC_MODULE', $srcModule);
 		$viewer->assign('TEMPLATE', $treeCategoryModel->getTemplate());

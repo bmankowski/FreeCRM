@@ -109,7 +109,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		$time = $this->get('timelock');
 		$blockDate = new \DateTime();
 		$blockDate->modify("-$time minutes");
-		$ip = \App\RequestUtil::getRemoteIP();
+		$ip = \App\Utils\RequestUtil::getRemoteIP();
 		$this->blockedId = (new \App\Db\Query())
 			->select(['id'])
 			->from('a_#__bruteforce_blocked')
@@ -144,7 +144,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		$time = $this->get('timelock');
 		$date = new \DateTime();
 		$checkData = $date->modify("-$time minutes")->format('Y-m-d H:i:s');
-		$ip = \App\RequestUtil::getRemoteIP();
+		$ip = \App\Utils\RequestUtil::getRemoteIP();
 
 		$bfData = (new \App\Db\Query())
 				->select(['id', 'attempts'])

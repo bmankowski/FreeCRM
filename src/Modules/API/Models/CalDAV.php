@@ -85,7 +85,7 @@ class CalDAV {
 		$calUri = $uid . '.ics';
 
 		$vcalendar = new Sabre\VObject\Component\VCalendar();
-		$vcalendar->PRODID = '-//' . self::PRODID . ' V' . \App\Version::get() . '//';
+		$vcalendar->PRODID = '-//' . self::PRODID . ' V' . \App\Core\Version::get() . '//';
 		$start = $record['date_start'] . ' ' . $record['time_start'];
 		$end = $record['due_date'] . ' ' . $record['time_end'];
 
@@ -169,7 +169,7 @@ class CalDAV {
 		$endField = $this->getEndFieldName($calType);
 
 		$vcalendar = Sabre\VObject\Reader::read($calendar['calendardata']);
-		$vcalendar->PRODID = '-//' . self::PRODID . ' V' . \App\Version::get() . '//';
+		$vcalendar->PRODID = '-//' . self::PRODID . ' V' . \App\Core\Version::get() . '//';
 		$start = $record['date_start'] . ' ' . $record['time_start'];
 		$end = $record['due_date'] . ' ' . $record['time_end'];
 

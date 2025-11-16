@@ -36,7 +36,7 @@
 							{if $SOURCE_MODULE eq 'Home'}
 								<div class="textAlignCenter">{"LBL_PLEASE_SELECT_MODULE"|t:$MODULE}</div>
 							{else}
-								<input type="hidden" name="labelFields" data-value='{\App\Json::encode($SOURCE_MODULE_MODEL->getNameFields())}' />
+								<input type="hidden" name="labelFields" data-value='{\App\Utils\Json::encode($SOURCE_MODULE_MODEL->getNameFields())}' />
 								{include file='AdvanceFilter.tpl'|@vtemplate_path}
 							{/if}	
 						</form>

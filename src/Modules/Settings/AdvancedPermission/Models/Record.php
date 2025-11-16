@@ -75,8 +75,8 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		$row = $query->createCommand($db)->queryOne();
 		$instance = false;
 		if ($row !== false) {
-			$row['conditions'] = \App\Json::decode($row['conditions']);
-			$row['members'] = \App\Json::decode($row['members']);
+			$row['conditions'] = \App\Utils\Json::decode($row['conditions']);
+			$row['members'] = \App\Utils\Json::decode($row['members']);
 			$instance = new self();
 			$instance->setData($row);
 		}
@@ -98,10 +98,10 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			}
 		}
 		if (isset($params['conditions'])) {
-			$params['conditions'] = \App\Json::encode($params['conditions']);
+			$params['conditions'] = \App\Utils\Json::encode($params['conditions']);
 		}
 		if (isset($params['members'])) {
-			$params['members'] = \App\Json::encode($params['members']);
+			$params['members'] = \App\Utils\Json::encode($params['members']);
 		}
 		if ($recordId === false) {
 			$db->createCommand()->insert('a_#__adv_permission', $params)->execute();

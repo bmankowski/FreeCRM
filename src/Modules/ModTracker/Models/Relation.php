@@ -69,7 +69,7 @@ class Relation extends \App\Modules\Base\Models\Relation
 			'id' => $id,
 			'userid' => $currentUserModel->getRealId(),
 			'tabid' => \vtlib\Functions:: getModuleId($module),
-			'data' => \App\Json::encode($data),
+			'data' => \App\Utils\Json::encode($data),
 			'time' => date('Y-m-d H:i:s')
 		])->execute();
 	}

@@ -54,7 +54,7 @@ class SwitchUsers extends \App\Base\Controllers\BaseActionController
 				'busername' => $currentUserModel->getName(),
 				'dusername' => '',
 				'date' => date('Y-m-d H:i:s'),
-				'ip' => \App\RequestUtil::getRemoteIP(),
+				'ip' => \App\Utils\RequestUtil::getRemoteIP(),
 				'agent' => $_SERVER['HTTP_USER_AGENT'],
 				'status' => 'No permission',
 			])->execute();
@@ -99,7 +99,7 @@ class SwitchUsers extends \App\Base\Controllers\BaseActionController
 			'busername' => $baseUserModel->getName(),
 			'dusername' => trim($targetUserFullName),
 			'date' => date('Y-m-d H:i:s'),
-			'ip' => \App\RequestUtil::getRemoteIP(),
+			'ip' => \App\Utils\RequestUtil::getRemoteIP(),
 			'agent' => $_SERVER['HTTP_USER_AGENT'],
 			'status' => $status,
 		])->execute();

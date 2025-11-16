@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
 {strip}
 <!-- layouts/basic/modules/Base/uitypes/CompanySelect.tpl -->
-	{assign var="FIELD_INFO" value=\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
+	{assign var="FIELD_INFO" value=\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
 	{assign var=FIELD_VALUE value=$FIELD_MODEL->get('fieldvalue')}
 	<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" value="" />

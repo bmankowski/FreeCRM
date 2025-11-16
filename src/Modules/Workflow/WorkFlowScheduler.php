@@ -27,7 +27,7 @@ class WorkFlowScheduler {
 
 	public function getWorkflowQuery($workflow)
 	{
-		$conditions = \App\Json::decode(\App\Utils\ListViewUtils::decodeHtml($workflow->test));
+		$conditions = \App\Utils\Json::decode(\App\Utils\ListViewUtils::decodeHtml($workflow->test));
 
 		$moduleName = $workflow->moduleName;
 		$queryGenerator = new \App\QueryGenerator($moduleName, $this->user->id);

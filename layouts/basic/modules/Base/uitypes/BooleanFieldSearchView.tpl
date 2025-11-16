@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <!-- layouts/basic/modules/Base/uitypes/BooleanFieldSearchView.tpl -->
-    {assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
+    {assign var="FIELD_INFO" value=\App\Utils\Json::encode($FIELD_MODEL->getFieldInfo())}
 	{if isset($SEARCH_INFO['searchValue'])}
 		{assign var=SEARCH_VALUES value=$SEARCH_INFO['searchValue']}
 	{else}

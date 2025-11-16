@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <!-- layouts/basic/modules/Base/uitypes/TimeFieldSearchView.tpl -->
-{assign var="FIELD_INFO" value=\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
+{assign var="FIELD_INFO" value=\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($FIELD_MODEL->getFieldInfo()))}
 {if isset($SEARCH_INFO['searchValue'])}
 {assign var="SEARCH_VALUE" value=$SEARCH_INFO['searchValue']}
 {else}

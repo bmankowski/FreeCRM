@@ -22,7 +22,7 @@ class OperationManager
 	private $format;
 	private $formatsData = array(
 		'json' => array(
-			'class' => '\App\Json',
+			'class' => '\App\Utils\Json',
 			'encodeMethod' => 'encode',
 			'decodeMethod' => 'decode',
 			'postCreate' => 'setBuiltIn'

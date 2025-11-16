@@ -30,7 +30,7 @@ class AccountsByIndustry  extends \App\Modules\Base\Views\Index
 			array_push($conditions, array('createdtime', 'bw', $dates['start'] . ',' . $dates['end']));
 		}
 		$listSearchParams[] = $conditions;
-		return '&search_params=' . \App\Json::encode($listSearchParams);
+		return '&search_params=' . \App\Utils\Json::encode($listSearchParams);
 	}
 
 	/**

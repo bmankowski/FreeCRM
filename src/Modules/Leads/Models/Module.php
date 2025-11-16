@@ -198,7 +198,7 @@ class Module extends \App\Modules\Base\Models\Module
 			$params = [];
 			$db = \App\Database\PearDatabase::getInstance();
 			$mappingFields = \App\Modules\Base\Models\Processes::getConfig('marketing', 'conversion', 'mapping');
-			$mappingFields = \App\Json::decode($mappingFields);
+			$mappingFields = \App\Utils\Json::decode($mappingFields);
 			$sql = "SELECT vtiger_account.accountid FROM vtiger_account "
 				. "INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_account.accountid "
 				. "INNER JOIN `vtiger_accountaddress` ON vtiger_accountaddress.accountaddressid=vtiger_account.accountid "

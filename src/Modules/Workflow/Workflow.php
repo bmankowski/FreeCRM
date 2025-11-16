@@ -231,7 +231,7 @@ class Workflow
 		$currentTime = time();
 		$currentWeekDay = date('N', $currentTime);
 		if ($scheduledDaysOfWeek) {
-			$scheduledDaysOfWeek = \App\Json::decode($scheduledDaysOfWeek);
+			$scheduledDaysOfWeek = \App\Utils\Json::decode($scheduledDaysOfWeek);
 			if (is_array($scheduledDaysOfWeek)) {
 				// algorithm :
 				//1. First sort all the weekdays(stored as 0,1,2,3 etc in db) and find the closest weekday which is greater than currentWeekDay
@@ -285,7 +285,7 @@ class Workflow
 	{
 		$currentDayOfMonth = date('j', time());
 		if ($scheduledDayOfMonth) {
-			$scheduledDaysOfMonth = \App\Json::decode($scheduledDayOfMonth);
+			$scheduledDaysOfMonth = \App\Utils\Json::decode($scheduledDayOfMonth);
 			if (is_array($scheduledDaysOfMonth)) {
 				// algorithm :
 				//1. First sort all the days in ascending order and find the closest day which is greater than currentDayOfMonth
@@ -355,7 +355,7 @@ class Workflow
 	{
 		if ($annualDates) {
 			$today = date('Y-m-d');
-			$annualDates = \App\Json::decode($annualDates);
+			$annualDates = \App\Utils\Json::decode($annualDates);
 			$nextTriggerDay = null;
 			// sort the dates
 			sort($annualDates);

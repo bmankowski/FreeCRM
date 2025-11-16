@@ -55,7 +55,7 @@ class EditTask extends \App\Modules\Settings\Base\Views\Index
 				$relationModuleModel = \App\Modules\Base\Models\Module::getInstance($taskObject->entity_type);
 				$ownerFieldModels = $relationModuleModel->getFieldsByType('owner');
 
-				$fieldMapping = \App\Json::decode($taskObject->field_value_mapping);
+				$fieldMapping = \App\Utils\Json::decode($taskObject->field_value_mapping);
 				foreach ($fieldMapping as $key => $mappingInfo) {
 					if (array_key_exists($mappingInfo['fieldname'], $ownerFieldModels)) {
 						if ($mappingInfo['value'] == 'assigned_user_id') {
@@ -72,7 +72,7 @@ class EditTask extends \App\Modules\Settings\Base\Views\Index
 						}
 					}
 				}
-				$taskObject->field_value_mapping = \App\Json::encode($fieldMapping);
+				$taskObject->field_value_mapping = \App\Utils\Json::encode($fieldMapping);
 			}
 		}
 	if ($taskType === 'VTUpdateFieldsTask') {
@@ -183,12 +183,12 @@ class EditTask extends \App\Modules\Settings\Base\Views\Index
 		// Prepare taskFields JSON for VTCreateEntityTask
 		if ($taskType === 'VTCreateEntityTask' && method_exists($taskObject, 'getFieldNames')) {
 			$taskFields = $taskObject->getFieldNames();
-			$viewer->assign('TASK_FIELDS_JSON', \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($taskFields)));
+			$viewer->assign('TASK_FIELDS_JSON', \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($taskFields)));
 		}
 		
 		// Prepare field value mappings with JSON encoding/decoding
 		if (isset($taskObject->field_value_mapping) && !empty($taskObject->field_value_mapping)) {
-			$fieldValueMapping = \App\Json::decode($taskObject->field_value_mapping);
+			$fieldValueMapping = \App\Utils\Json::decode($taskObject->field_value_mapping);
 			$viewer->assign('FIELD_VALUE_MAPPING_DECODED', $fieldValueMapping);
 			$viewer->assign('FIELD_VALUE_MAPPING_JSON', \App\Modules\Base\Helpers\Util::toSafeHTML($taskObject->field_value_mapping));
 		} else {
@@ -203,7 +203,7 @@ class EditTask extends \App\Modules\Settings\Base\Views\Index
 			foreach ($moduleModel->getFields() as $fieldModel) {
 				$fieldName = $fieldModel->get('name');
 				$fieldInfo = $fieldModel->getFieldInfo();
-				$fieldInfoJson[$fieldName] = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($fieldInfo));
+				$fieldInfoJson[$fieldName] = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($fieldInfo));
 			}
 			$viewer->assign('FIELD_INFO_JSON', $fieldInfoJson);
 			
@@ -215,7 +215,7 @@ class EditTask extends \App\Modules\Settings\Base\Views\Index
 				foreach ($relationModuleModel->getFields() as $fieldModel) {
 					$fieldName = $relationModuleName . '::' . $fieldModel->get('name');
 					$fieldInfo = $fieldModel->getFieldInfo();
-					$relatedFieldInfoJson[$fieldName] = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($fieldInfo));
+					$relatedFieldInfoJson[$fieldName] = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($fieldInfo));
 				}
 			}
 			$viewer->assign('RELATED_FIELD_INFO_JSON', $relatedFieldInfoJson);

@@ -189,7 +189,7 @@ class WebserviceField
 
 	public function getFieldParams()
 	{
-		return \App\Json::decode($this->fieldparams);
+		return \App\Utils\Json::decode($this->fieldparams);
 	}
 
 	public function isReadOnly()

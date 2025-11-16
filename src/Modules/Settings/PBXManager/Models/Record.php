@@ -44,7 +44,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		if ($row !== false) {
 			$serverModel->set('gateway', $row['gateway']);
 			$serverModel->set('id', $row['id']);
-			$parameters = \App\Json::decode(\App\Utils\ListViewUtils::decodeHtml($row['parameters']));
+			$parameters = \App\Utils\Json::decode(\App\Utils\ListViewUtils::decodeHtml($row['parameters']));
 			foreach ($parameters as $fieldName => $fieldValue) {
 				$serverModel->set($fieldName, $fieldValue);
 			}
@@ -59,7 +59,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		if ($row !== false) {
 			$recordModel = new self();
 			$recordModel->setData($row);
-			$parameters = \App\Json::decode(\App\Utils\ListViewUtils::decodeHtml($recordModel->get('parameters')));
+			$parameters = \App\Utils\Json::decode(\App\Utils\ListViewUtils::decodeHtml($recordModel->get('parameters')));
 			foreach ($parameters as $fieldName => $fieldValue) {
 				$recordModel->set($fieldName, $fieldValue);
 			}
@@ -76,7 +76,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		foreach (\App\Modules\PBXManager\Connectors\PBXManager::getSettingsParameters() as $field => $type) {
 			$parameters[$field] = $this->get($field);
 		}
-		$this->set('parameters', \App\Json::encode($parameters));
+		$this->set('parameters', \App\Utils\Json::encode($parameters));
 		$params = [
 			'gateway' => $selectedGateway,
 			'parameters' => $this->get('parameters')

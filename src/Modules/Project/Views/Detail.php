@@ -47,7 +47,7 @@ class Detail  extends \App\Modules\Base\Views\Detail
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$data = $moduleModel->getGanttProject($recordId);
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('DATA', \App\Json::encode($data));
+		$viewer->assign('DATA', \App\Utils\Json::encode($data));
 		$viewer->view('gantt/GanttContents.tpl', $moduleName);
 	}
 

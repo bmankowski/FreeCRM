@@ -42,7 +42,7 @@ class SaveAjax extends \App\Modules\Settings\Base\Actions\Index
 					$recordModel->set($fieldInfo['name'], $request->get($fieldInfo['name']));
 					$parameters[$fieldInfo['name']] = $request->get($fieldInfo['name']);
 				}
-				$recordModel->set('parameters', \App\Json::encode($parameters));
+				$recordModel->set('parameters', \App\Utils\Json::encode($parameters));
 				break;
 			}
 		}

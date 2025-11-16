@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <!-- layouts/basic/modules/Base/uitypes/DateFieldSearchView.tpl -->
-    {assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
+    {assign var="FIELD_INFO" value=\App\Utils\Json::encode($FIELD_MODEL->getFieldInfo())}
     {assign var="dateFormat" value=$USER_MODEL->get('date_format')}
 	{if isset($SEARCH_INFO['searchValue'])}
 		{assign var=SEARCH_VALUES value=$SEARCH_INFO['searchValue']}

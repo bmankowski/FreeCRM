@@ -47,7 +47,7 @@ class Condition extends \App\Modules\Settings\Base\Views\Index
 		$conditionListsByType = [];
 		foreach ($fieldList as $moduleName => $fields) {
 			foreach ($fields as $field) {
-				$fieldInfoJson[$moduleName][$field['name']] = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($field['info']));
+				$fieldInfoJson[$moduleName][$field['name']] = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($field['info']));
 				// Prepare condition list for this field type
 				$fieldType = $field['info']['type'];
 				if (!isset($conditionListsByType[$fieldType])) {

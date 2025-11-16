@@ -39,7 +39,7 @@ class VTCreateEntityTask extends VTTask
 		}
 		$fieldValueMapping = [];
 		if (!empty($this->field_value_mapping)) {
-			$fieldValueMapping = \App\Json::decode($this->field_value_mapping);
+			$fieldValueMapping = \App\Utils\Json::decode($this->field_value_mapping);
 		}
 		if (!empty($entityType) && !empty($fieldValueMapping) && count($fieldValueMapping) > 0 && !$this->mappingPanel) {
 			$newRecordModel = \App\Modules\Base\Models\Record::getCleanInstance($entityType);
@@ -186,7 +186,7 @@ class VTCreateEntityTask extends VTTask
 			}
 			foreach ($data as $name => $value) {
 				if (in_array($name, $jsonFields)) {
-					$value = \App\Json::decode($value);
+					$value = \App\Utils\Json::decode($value);
 				}
 				$invDat[$name . $i] = $value;
 			}

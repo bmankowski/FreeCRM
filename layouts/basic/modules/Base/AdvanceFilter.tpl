@@ -20,12 +20,12 @@
 		{assign var=ANY_CONDITION_CRITERIA value=array()}
 	{/if}
 <div class="filterContainer">
-	<input type="hidden" name="date_filters" data-value='{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($DATE_FILTERS))}' />
-	<input type="hidden" name="advanceFilterOpsByFieldType" data-value='{\App\Json::encode($ADVANCED_FILTER_OPTIONS_BY_TYPE)}' />
+	<input type="hidden" name="date_filters" data-value='{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($DATE_FILTERS))}' />
+	<input type="hidden" name="advanceFilterOpsByFieldType" data-value='{\App\Utils\Json::encode($ADVANCED_FILTER_OPTIONS_BY_TYPE)}' />
 	{foreach key=ADVANCE_FILTER_OPTION_KEY item=ADVANCE_FILTER_OPTION from=$ADVANCED_FILTER_OPTIONS}
 		{$ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION_KEY] = {$ADVANCE_FILTER_OPTION|t:$MODULE}|escape}
 	{/foreach}
-	<input type="hidden" name="advanceFilterOptions" data-value='{\App\Json::encode($ADVANCED_FILTER_OPTIONS)}' />
+	<input type="hidden" name="advanceFilterOptions" data-value='{\App\Utils\Json::encode($ADVANCED_FILTER_OPTIONS)}' />
 	<div class="allConditionContainer conditionGroup contentsBackground well">
 		<div class="header">
 			<span><strong>{"LBL_ALL_CONDITIONS"|t:$MODULE}</strong></span>

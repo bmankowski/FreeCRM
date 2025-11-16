@@ -32,7 +32,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 				->createCommand()->query();
 		$widgets = [1 => [], 2 => [], 3 => []];
 		while ($row = $dataReader->read()) {
-			$row['data'] = \App\Json::decode($row['data']);
+			$row['data'] = \App\Utils\Json::decode($row['data']);
 			$widgets[$row['wcol']][$row['id']] = $row;
 		}
 		\App\Cache\Cache::save('ModuleWidgets', $module, $widgets);
@@ -181,7 +181,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		unset($data['wid']);
 		$nomargin = isset($data['nomargin']) ? $data['nomargin'] : 0;
 		unset($data['nomargin']);
-		$serializeData = \App\Json::encode($data);
+		$serializeData = \App\Utils\Json::encode($data);
 		$sequence = self::getLastSequence($tabid) + 1;
 		if ($wid) {
 			$db->createCommand()->update('vtiger_widgets', [
@@ -213,7 +213,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		$sql = 'SELECT * FROM vtiger_widgets WHERE id = ?';
 		$result = $adb->pquery($sql, array($wid));
 		$resultrow = $adb->raw_query_result_rowdata($result);
-		$resultrow['data'] = \App\Json::decode($resultrow['data']);
+		$resultrow['data'] = \App\Utils\Json::decode($resultrow['data']);
 		return $resultrow;
 	}
 

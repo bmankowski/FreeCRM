@@ -11,9 +11,9 @@
 -->*}
 {strip}
 <!-- layouts/basic/modules/Base/uitypes/Email.tpl -->
-{assign var="FIELD_INFO" value=\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
+{assign var="FIELD_INFO" value=\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($FIELD_MODEL->getFieldInfo()))}
 {assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 <input id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->get('name')}" title="{$FIELD_MODEL->get('label')|t:$MODULE}" class="form-control" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" name="{$FIELD_MODEL->getFieldName()}"
- value="{$FIELD_MODEL->get('fieldvalue')}" {if isset($MODE) && $MODE eq 'edit' && $FIELD_MODEL->get('uitype') eq '106'} readonly {/if} data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} />
+ value="{$FIELD_MODEL->get('fieldvalue')}" {if isset($MODE) && $MODE eq 'edit' && $FIELD_MODEL->get('uitype') eq '106'} readonly {/if} data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Utils\Json::encode($SPECIAL_VALIDATOR)}{/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} />
 <!--/layouts/basic/modules/Base/uitypes/Email.tpl -->
 {/strip}

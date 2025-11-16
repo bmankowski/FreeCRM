@@ -64,7 +64,7 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 
 		$conditions = $recordModel->get('conditions');
 		if ($conditions) {
-			$conditions = \App\Json::decode($conditions);
+			$conditions = \App\Utils\Json::decode($conditions);
 		}
 		$criteria = \App\Modules\Base\Helpers\AdvancedFilter::transformToAdvancedFilterCondition($conditions);
 		$viewer->assign('ADVANCE_CRITERIA', \App\Modules\Base\Helpers\AdvancedFilter::transformToAdvancedFilterCondition($conditions));

@@ -136,7 +136,7 @@ class Mailer
 				if (!is_array($params[$key])) {
 					$params[$key] = [$params[$key]];
 				}
-				$params[$key] = Json::encode($params[$key]);
+				$params[$key] = \App\Utils\Json::encode($params[$key]);
 			}
 		}
 		\App\Db::getInstance('admin')->createCommand()->insert('s_#__mail_queue', $params)->execute();
@@ -182,7 +182,7 @@ class Mailer
 		$this->mailer->Username = trim($this->smtp['username']);
 		$this->mailer->Password = trim($this->smtp['password']);
 		if ($this->smtp['options']) {
-			$this->mailer->SMTPOptions = Json::decode($this->smtp['options'], true);
+			$this->mailer->SMTPOptions = \App\Utils\Json::decode($this->smtp['options'], true);
 		}
 		if ($this->smtp['from_email']) {
 			$this->mailer->From = $this->smtp['from_email'];
@@ -352,12 +352,12 @@ class Mailer
 		}
 		$mailer = (new self())->loadSmtpByID($rowQueue['smtp_id'])->subject($rowQueue['subject'])->content($rowQueue['content']);
 		if ($rowQueue['from']) {
-			$from = Json::decode($rowQueue['from']);
+			$from = \App\Utils\Json::decode($rowQueue['from']);
 			$mailer->from($from['email'], $from['name']);
 		}
 		foreach (['cc', 'bcc'] as $key) {
 			if ($rowQueue[$key]) {
-				foreach (Json::decode($rowQueue[$key]) as $email => $name) {
+				foreach (\App\Utils\Json::decode($rowQueue[$key]) as $email => $name) {
 					if (is_numeric($email)) {
 						$email = $name;
 						$name = '';
@@ -368,7 +368,7 @@ class Mailer
 		}
 		$attachmentsToRemove = [];
 		if ($rowQueue['attachments']) {
-			$attachments = Json::decode($rowQueue['attachments']);
+			$attachments = \App\Utils\Json::decode($rowQueue['attachments']);
 			if (isset($attachments['ids'])) {
 				$attachments = array_merge($attachments, Mail::getAttachmentsFromDocument($attachments['ids']));
 				unset($attachments['ids']);
@@ -385,12 +385,12 @@ class Mailer
 			}
 		}
 		if ($rowQueue['params']) {
-			foreach (Json::decode($rowQueue['params']) as $name => $param) {
+			foreach (\App\Utils\Json::decode($rowQueue['params']) as $name => $param) {
 				$this->sendCustomParams($name, $param, $mailer);
 			}
 		}
 		if ($mailer->getSmtp('individual_delivery')) {
-			foreach (Json::decode($rowQueue['to']) as $email => $name) {
+			foreach (\App\Utils\Json::decode($rowQueue['to']) as $email => $name) {
 				$separateMailer = clone $mailer;
 				if (is_numeric($email)) {
 					$email = $name;
@@ -403,7 +403,7 @@ class Mailer
 				}
 			}
 		} else {
-			foreach (Json::decode($rowQueue['to']) as $email => $name) {
+			foreach (\App\Utils\Json::decode($rowQueue['to']) as $email => $name) {
 				if (is_numeric($email)) {
 					$email = $name;
 					$name = '';

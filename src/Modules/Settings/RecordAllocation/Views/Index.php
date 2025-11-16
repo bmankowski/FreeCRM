@@ -77,7 +77,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 			$data = \App\Modules\Settings\RecordAllocation\Models\Module::getRecordAllocationByModule($type, $moduleName);
 			if ($data) {
 				$moduleAllocationData[$moduleName] = $data;
-				$moduleDataJson[$moduleName] = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($data));
+				$moduleDataJson[$moduleName] = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($data));
 			}
 			// Prepare group lists per module for AddPanel
 			$moduleGroupLists[$moduleName] = \App\Fields\Owner::getInstance($moduleName)->getAccessibleGroups('Public');
@@ -123,7 +123,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		
 		// Prepare JSON-encoded data
 		$data = $viewer->getTemplateVars('DATA');
-		$viewer->assign('DATA_JSON', \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($data ? $data : [])));
+		$viewer->assign('DATA_JSON', \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($data ? $data : [])));
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)

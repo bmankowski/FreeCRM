@@ -108,7 +108,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 			'session.gc_probability' => ['prefer' => '1'],
 			'mbstring.func_overload' => ['prefer' => 'Off'],
 		];
-		$browserInfo = \App\RequestUtil::getBrowserInfo();
+		$browserInfo = \App\Utils\RequestUtil::getBrowserInfo();
 		if ($browserInfo && $browserInfo->https) {
 			$directiveValues['session.cookie_secure'] = ['prefer' => 'On'];
 			if (ini_get('session.cookie_secure') == '1' || stripos(ini_get('session.cookie_secure'), 'On') !== false) {

@@ -99,12 +99,12 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 	protected function prepareLayoutEditorFieldLayoutData($viewer, $inactiveFields)
 	{
 		// Prepare JSON-encoded inactive fields
-		$viewer->assign('IN_ACTIVE_FIELDS_JSON', \App\Json::encode($inactiveFields));
+		$viewer->assign('IN_ACTIVE_FIELDS_JSON', \App\Utils\Json::encode($inactiveFields));
 		
 		// Prepare validator JSON for CreateFieldModal
-		$viewer->assign('FIELD_LABEL_VALIDATOR_JSON', \App\Json::encode([['name'=>'FieldLabel']]));
-		$viewer->assign('FIELD_NAME_VALIDATOR_JSON', \App\Json::encode([['name'=>'fieldName']]));
-		$viewer->assign('PICKLIST_FIELD_VALUES_VALIDATOR_JSON', \App\Json::encode([['name'=>'PicklistFieldValues']]));
+		$viewer->assign('FIELD_LABEL_VALIDATOR_JSON', \App\Utils\Json::encode([['name'=>'FieldLabel']]));
+		$viewer->assign('FIELD_NAME_VALIDATOR_JSON', \App\Utils\Json::encode([['name'=>'fieldName']]));
+		$viewer->assign('PICKLIST_FIELD_VALUES_VALIDATOR_JSON', \App\Utils\Json::encode([['name'=>'PicklistFieldValues']]));
 	}
 
 	public function showRelatedListLayout(\App\Http\Vtiger_Request $request)

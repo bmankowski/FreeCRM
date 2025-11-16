@@ -55,7 +55,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		$path = '';
 		$attachments = (new \App\Db\Query())->select(['attachments'])->from('s_#__mail_queue')->where(['id' => $id])->scalar(\App\Db::getInstance('admin'));
 		$counter = 0;
-		foreach (\App\Json::decode($attachments) as $path => $name) {
+		foreach (\App\Utils\Json::decode($attachments) as $path => $name) {
 			if ($counter === $selectedFile) {
 				return $path;
 			}

@@ -188,7 +188,7 @@ class ChartEdit extends \App\Modules\Base\Views\Edit
 
 		$calculationFields = $reportModel->get('calculation_fields');
 		if ($calculationFields) {
-			$calculationFields = \App\Json::decode($calculationFields);
+			$calculationFields = \App\Utils\Json::decode($calculationFields);
 			$viewer->assign('LINEITEM_FIELD_IN_CALCULATION', $reportModel->showLineItemFieldsInFilter($calculationFields));
 		}
 		if ($request->get('isDuplicate')) {

@@ -12,7 +12,7 @@
 {strip}
 <!-- layouts/basic/modules/Reports/ChartReportHeader.tpl -->
     <div class="">
-		<input type="hidden" name="date_filters" data-value='{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($DATE_FILTERS))}' />
+		<input type="hidden" name="date_filters" data-value='{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($DATE_FILTERS))}' />
 		<div class="widget_header row marginBottom10px">
 			<div class="col-sm-8">
 				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
@@ -48,10 +48,10 @@
 					<input type="hidden" name="folderid" value="{$REPORT_MODEL->get('folderid')}" />
 					<input type="hidden" name="reports_description" value="{$REPORT_MODEL->get('reports_description')}" />
 					<input type="hidden" name="primary_module" value="{$PRIMARY_MODULE}" />
-					<input type="hidden" name="secondary_modules" value="{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($SECONDARY_MODULES))}" />
-					<input type="hidden" name="advanced_filter" id="advanced_filter" value="{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($ADVANCED_FILTERS))}" />
+					<input type="hidden" name="secondary_modules" value="{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($SECONDARY_MODULES))}" />
+					<input type="hidden" name="advanced_filter" id="advanced_filter" value="{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($ADVANCED_FILTERS))}" />
 					<input type="hidden" name='groupbyfield' value={$CHART_MODEL->getGroupByField()} />
-					<input type="hidden" name='datafields' value={\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($CHART_MODEL->getDataFields()))} />
+					<input type="hidden" name='datafields' value={\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($CHART_MODEL->getDataFields()))} />
 					<input type="hidden" name='charttype' value="{$CHART_MODEL->getChartType()}" />
 
 					{assign var=RECORD_STRUCTURE value=array()}

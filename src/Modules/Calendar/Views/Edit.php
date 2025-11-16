@@ -131,8 +131,8 @@ class Edit extends \App\Modules\Base\Views\Edit
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('USER_MODEL', $request->getUser());
-		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode(\App\Modules\PickList\DependencyPicklist::getPicklistDependencyDatasource($moduleName)));
-		$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));
+		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Utils\Json::encode(\App\Modules\PickList\DependencyPicklist::getPicklistDependencyDatasource($moduleName)));
+		$viewer->assign('MAPPING_RELATED_FIELD', \App\Utils\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));
 		// Enrich invitees with record metadata (replacing vtlib\Functions::getCRMRecordMetadata)
 		$invitees = $recordModel->getInvities();
 		$inviteeIds = array_filter(array_column($invitees, 'crmid'));

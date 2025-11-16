@@ -42,7 +42,7 @@ class VTTaskType
 	public static function registerTaskType($taskType)
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
-		$modules = \App\Json::encode($taskType['modules']);
+		$modules = \App\Utils\Json::encode($taskType['modules']);
 		$taskTypeId = $adb->getUniqueID('com_vtiger_workflow_tasktypes');
 		$taskType['id'] = $taskTypeId;
 		$adb->pquery("INSERT INTO com_vtiger_workflow_tasktypes
@@ -61,7 +61,7 @@ class VTTaskType
 			$taskName = $rawData['tasktypename'];
 			$moduleslist = $rawData['modules'];
 			$sourceModule = $rawData['sourcemodule'];
-			$modules = \App\Json::decode($moduleslist);
+			$modules = \App\Utils\Json::decode($moduleslist);
 			$includeModules = $modules['include'];
 			$excludeModules = $modules['exclude'];
 

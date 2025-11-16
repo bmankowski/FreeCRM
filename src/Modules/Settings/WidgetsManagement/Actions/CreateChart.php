@@ -22,8 +22,8 @@ class CreateChart extends \App\Modules\Settings\Base\Views\IndexAjax
 		$isDefault = $request->get('isDefault');
 		$width = $request->get('width');
 		$height = $request->get('height');
-		$size = \App\Json::encode(['width' => $width, 'height' => $height]);
-		$data = \App\Json::encode(['reportId' => $request->get('reportId')]);
+		$size = \App\Utils\Json::encode(['width' => $width, 'height' => $height]);
+		$data = \App\Utils\Json::encode(['reportId' => $request->get('reportId')]);
 		$paramsToInsert = [
 			'linkid' => $linkId,
 			'blockid' => $blockid,

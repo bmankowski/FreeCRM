@@ -50,7 +50,7 @@ class CronReviewed {
 		}
 		foreach ($row as $key => $value) {
 			if ($key === 'data') {
-				$value = \App\Json::decode($row['data']);
+				$value = \App\Utils\Json::decode($row['data']);
 				$this->init($value);
 			}
 			$this->valueMap[$key] = $value;
@@ -166,7 +166,7 @@ class CronReviewed {
 	{
 		$db = \App\Db::getInstance();
 		$list = array_splice($records, 0, self::MAX_RECORDS);
-		$data = \App\Json::encode(['selected_ids' => $list]);
+		$data = \App\Utils\Json::encode(['selected_ids' => $list]);
 		$id = (new \App\Db\Query())
 				->from('u_#__reviewed_queue')
 				->max('id') + 1;

@@ -169,7 +169,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			$recordModel->setData($rowData);
 			$recordModel->setModule($moduleModel);
 
-			$parameters = \App\Json::decode(\App\Utils\ListViewUtils::decodeHtml($recordModel->get('parameters')));
+			$parameters = \App\Utils\Json::decode(\App\Utils\ListViewUtils::decodeHtml($recordModel->get('parameters')));
 			foreach ($parameters as $fieldName => $fieldValue) {
 				$recordModel->set($fieldName, $fieldValue);
 			}

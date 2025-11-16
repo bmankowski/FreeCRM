@@ -95,7 +95,7 @@ class DashBoard extends \App\Runtime\BaseModel
 			$module = $this->getModuleNameFromLink($url, $label);
 
 			if ($module == 'Home' && !empty($filterid) && !empty($data)) {
-				$filterData = \App\Json::decode(htmlspecialchars_decode($data));
+				$filterData = \App\Utils\Json::decode(htmlspecialchars_decode($data));
 				$module = $filterData['module'];
 			}
 			if (!$currentUserPrivilegeModel->hasModulePermission($module)) {

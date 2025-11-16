@@ -70,7 +70,7 @@ class IndexAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 	protected function preparePicklistEditViewData($viewer, $selectedFieldEditablePickListValues, $valueToEdit)
 	{
 		// Prepare JSON-encoded picklist values with toSafeHTML
-		$pickListValuesJson = \App\Json::encode($selectedFieldEditablePickListValues);
+		$pickListValuesJson = \App\Utils\Json::encode($selectedFieldEditablePickListValues);
 		$viewer->assign('PICKLIST_VALUES_JSON', \App\Modules\Base\Helpers\Util::toSafeHTML($pickListValuesJson));
 		
 		// Prepare safe HTML for picklist values in options
@@ -81,7 +81,7 @@ class IndexAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 		$viewer->assign('SAFE_PICKLIST_VALUES', $safePicklistValues);
 		
 		// Prepare validator JSON
-		$viewer->assign('FIELD_LABEL_VALIDATOR_JSON', \App\Json::encode([['name'=>'FieldLabel']]));
+		$viewer->assign('FIELD_LABEL_VALIDATOR_JSON', \App\Utils\Json::encode([['name'=>'FieldLabel']]));
 	}
 
 	public function showDeleteView(\App\Http\Vtiger_Request $request)
@@ -168,11 +168,11 @@ class IndexAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 		$viewer->assign('SAFE_PICKLIST_VALUES', $safePicklistValues);
 		
 		// Prepare JSON-encoded picklist values with toSafeHTML for CreateView
-		$pickListValuesJson = \App\Json::encode($selectedFieldAllPickListValues);
+		$pickListValuesJson = \App\Utils\Json::encode($selectedFieldAllPickListValues);
 		$viewer->assign('PICKLIST_VALUES_JSON', \App\Modules\Base\Helpers\Util::toSafeHTML($pickListValuesJson));
 		
 		// Prepare validator JSON for CreateView
-		$viewer->assign('FIELD_LABEL_VALIDATOR_JSON', \App\Json::encode([['name'=>'FieldLabel']]));
+		$viewer->assign('FIELD_LABEL_VALIDATOR_JSON', \App\Utils\Json::encode([['name'=>'FieldLabel']]));
 	}
 
 	public function getPickListValueByRole(\App\Http\Vtiger_Request $request)
@@ -236,6 +236,6 @@ class IndexAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 	protected function preparePicklistAssignValueToRoleData($viewer, $selectedFieldAllPickListValues)
 	{
 		// Prepare JSON-encoded picklist values
-		$viewer->assign('PICKLIST_VALUES_JSON', \App\Json::encode($selectedFieldAllPickListValues));
+		$viewer->assign('PICKLIST_VALUES_JSON', \App\Utils\Json::encode($selectedFieldAllPickListValues));
 	}
 }

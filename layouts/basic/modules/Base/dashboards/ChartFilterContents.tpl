@@ -3,7 +3,7 @@
 <!-- layouts/basic/modules/Base/dashboards/ChartFilterContents.tpl -->
 	<input type="hidden" name="typeChart" value="{$CHART_TYPE}">
 	<input type="hidden" class="color" value="{$COLOR}">
-	<input class="widgetData" name="data" type="hidden" value="{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($DATA_CHART))}" />
+	<input class="widgetData" name="data" type="hidden" value="{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($DATA_CHART))}" />
 	{if count($CHART_TYPE) gt 0 }
 		<div class="widgetChartContainer chartcontent"></div>
 	{else}

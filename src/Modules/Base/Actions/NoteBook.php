@@ -35,8 +35,8 @@ class NoteBook extends \App\Base\Controllers\BaseActionController
 		$dataValue['contents'] = $request->get('notePadContent');
 		$dataValue['lastSavedOn'] = date('Y-m-d H:i:s');
 
-		$data = \App\Json::encode((object) $dataValue);
-		$size = \App\Json::encode(['width' => $request->get('width'), 'height' => $request->get('height')]);
+		$data = \App\Utils\Json::encode((object) $dataValue);
+		$size = \App\Utils\Json::encode(['width' => $request->get('width'), 'height' => $request->get('height')]);
 		$db = \App\Db::getInstance();
 		$db->createCommand()
 			->insert('vtiger_module_dashboard', [

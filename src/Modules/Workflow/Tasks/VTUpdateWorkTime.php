@@ -33,7 +33,7 @@ class VTUpdateWorkTime extends VTTask
 				$referenceIds[$recordModel->get($name)] = $name;
 			}
 		}
-		$delta = \App\Json::decode($this->getContents($recordModel));
+		$delta = \App\Utils\Json::decode($this->getContents($recordModel));
 		if (is_array($delta)) {
 			foreach ($delta as $fieldName => $values) {
 				if (!empty($values) && !is_array($values)) {
@@ -69,7 +69,7 @@ class VTUpdateWorkTime extends VTTask
 		if (!$this->contents && is_object($recordModel)) {
 			$delta = array_intersect_key($recordModel->getPreviousValue(), array_flip(\App\Modules\OSSTimeControl\Models\Record::$referenceFieldsToTime));
 
-			$this->contents = \App\Json::encode($delta);
+			$this->contents = \App\Utils\Json::encode($delta);
 		}
 		return $this->contents;
 	}

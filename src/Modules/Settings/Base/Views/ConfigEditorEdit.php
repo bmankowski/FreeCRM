@@ -47,7 +47,7 @@ class ConfigEditorEdit extends \App\Modules\Settings\Base\Views\Index
 		];
 		$fieldValidationJson = [];
 		foreach ($fieldValidation as $fieldName => $validation) {
-			$fieldValidationJson[$fieldName] = \App\Json::encode([$validation]);
+			$fieldValidationJson[$fieldName] = \App\Utils\Json::encode([$validation]);
 		}
 		$viewer->assign('FIELD_VALIDATION_JSON', $fieldValidationJson);
 		

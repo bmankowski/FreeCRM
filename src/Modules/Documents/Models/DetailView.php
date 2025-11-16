@@ -79,7 +79,7 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 			'linkKey' => 'LBL_RECORD_SUMMARY',
 			'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDocumentRelations',
 			'linkicon' => '',
-			'related' => \App\Json::encode(\App\Modules\Documents\Models\Record::getReferenceModuleByDocId($recordModel->getId())),
+			'related' => \App\Utils\Json::encode(\App\Modules\Documents\Models\Record::getReferenceModuleByDocId($recordModel->getId())),
 			'countRelated' => \App\AppConfig::relation('SHOW_RECORDS_COUNT')
 		];
 		return $relatedLinks;

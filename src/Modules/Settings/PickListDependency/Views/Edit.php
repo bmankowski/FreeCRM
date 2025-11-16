@@ -79,7 +79,7 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 	protected function preparePickListDependencyGraphData($viewer, $sourcePicklistValues, $targetPicklistValues)
 	{
 		// Prepare JSON-encoded source picklist values with toSafeHTML
-		$sourceValuesJson = \App\Json::encode($sourcePicklistValues);
+		$sourceValuesJson = \App\Utils\Json::encode($sourcePicklistValues);
 		$viewer->assign('SOURCE_PICKLIST_VALUES_JSON', \App\Modules\Base\Helpers\Util::toSafeHTML($sourceValuesJson));
 		
 		// Prepare safe HTML for source picklist values

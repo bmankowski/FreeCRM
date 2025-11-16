@@ -22,7 +22,7 @@ class Widget extends \App\Runtime\BaseModel
 	{
 		$largerSizedWidgets = array('GroupedBySalesPerson', 'GroupedBySalesStage', 'Funnel Amount', 'LeadsByIndustry');
 		$title = $this->getName();
-		$size = \App\Json::decode(html_entity_decode($this->get('size')));
+		$size = \App\Utils\Json::decode(html_entity_decode($this->get('size')));
 		$width = $size['width'];
 		$this->set('width', $width);
 
@@ -35,7 +35,7 @@ class Widget extends \App\Runtime\BaseModel
 	public function getHeight()
 	{
 		//Special case for History widget
-		$size = \App\Json::decode(html_entity_decode($this->get('size')));
+		$size = \App\Utils\Json::decode(html_entity_decode($this->get('size')));
 		$height = $size['height'];
 		$this->set('height', $height);
 
@@ -49,7 +49,7 @@ class Widget extends \App\Runtime\BaseModel
 	{
 		$position = $this->get('position');
 		if ($position) {
-			$position = \App\Json::decode(\App\Utils\ListViewUtils::decodeHtml($position));
+			$position = \App\Utils\Json::decode(\App\Utils\ListViewUtils::decodeHtml($position));
 			return intval($position['col']);
 		}
 		return $default;
@@ -59,7 +59,7 @@ class Widget extends \App\Runtime\BaseModel
 	{
 		$position = $this->get('position');
 		if ($position) {
-			$position = \App\Json::decode(\App\Utils\ListViewUtils::decodeHtml($position));
+			$position = \App\Utils\Json::decode(\App\Utils\ListViewUtils::decodeHtml($position));
 			return intval($position['row']);
 		}
 		return $default;

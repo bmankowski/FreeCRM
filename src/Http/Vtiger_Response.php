@@ -205,7 +205,7 @@ class Vtiger_Response
 	 */
 	protected function emitJSON()
 	{
-		echo Json::encode($this->prepareResponse());
+		echo \App\Utils\Json::encode($this->prepareResponse());
 	}
 
 	/**
@@ -217,12 +217,12 @@ class Vtiger_Response
 			if (is_string($this->error))
 				echo $this->error;
 			else
-				echo Json::encode($this->prepareResponse());
+				echo \App\Utils\Json::encode($this->prepareResponse());
 		} else {
 			if (is_string($this->result))
 				echo $this->result;
 			else
-				echo Json::encode($this->prepareResponse());
+				echo \App\Utils\Json::encode($this->prepareResponse());
 		}
 	}
 

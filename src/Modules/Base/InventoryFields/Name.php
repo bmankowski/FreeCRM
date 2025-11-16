@@ -44,6 +44,6 @@ class Name extends Basic
 
 	public function getConfig()
 	{
-		return \App\Json::decode($this->get('params'));
+		return \App\Utils\Json::decode($this->get('params'));
 	}
 }

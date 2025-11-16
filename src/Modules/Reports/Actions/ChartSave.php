@@ -43,7 +43,7 @@ class ChartSave extends \App\Base\Controllers\BaseActionController
 		if (is_string($dataFields))
 			$dataFields = array($dataFields);
 
-		$reportModel->set('reporttypedata', \App\Json::encode(array(
+		$reportModel->set('reporttypedata', \App\Utils\Json::encode(array(
 				'type' => $request->get('charttype', 'pieChart'),
 				'groupbyfield' => $request->get('groupbyfield'),
 				'datafields' => $dataFields)

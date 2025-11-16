@@ -356,7 +356,7 @@ class Export extends \App\Runtime\BaseModel
 							$data['value'] = $currencyName;
 							$valueNewData[$currencyName] = $data;
 						}
-						$valueParam = \App\Json::encode($valueNewData);
+						$valueParam = \App\Utils\Json::encode($valueNewData);
 						break;
 					default:
 						break;

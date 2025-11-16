@@ -103,7 +103,7 @@ class CRM_Viewer extends \Smarty
 		$this->registerSmartyPlugins();
 		
 		// Ensure YETIFORCE_VERSION is always available in templates
-		$this->assign('YETIFORCE_VERSION', \App\Version::get());
+		$this->assign('YETIFORCE_VERSION', \App\Core\Version::get());
 		
 		// Assign default template variables to prevent undefined key warnings
 		$this->assignDefaultTemplateVariables();
@@ -164,7 +164,7 @@ class CRM_Viewer extends \Smarty
 		$this->registerClass('\App\Runtime\Yeti_Layout', '\App\\Runtime\\Yeti_Layout');
 		$this->registerClass('\App\Modules\Settings\WidgetsManagement\Models\Module', '\App\Modules\\Settings\\WidgetsManagement\Models\\Module');
 		$this->registerClass('\App\Modules\Settings\Calendar\Models\Module', '\App\Modules\\Settings\\Calendar\Models\\Module');
-		$this->registerClass('\App\\Json', '\App\\Json');
+		$this->registerClass('\App\\Utils\\Json', '\App\\Utils\\Json');
 		$this->registerClass('\App\\Debugger', '\App\\Debugger');
 		$this->registerClass('App\\Company', '\App\\Company');
 		$this->registerClass('\App\\Record', '\App\\Record');
@@ -209,7 +209,7 @@ class CRM_Viewer extends \Smarty
 		$this->registerPlugin('modifier', 'array_map', 'array_map');
 		$this->registerPlugin('modifier', 'method_exists', 'method_exists');
 		$this->registerPlugin('modifier', 'get_class', 'get_class');
-		// Register json_decode modifier - wrapper for \App\Json::decode with support for assoc parameter
+		// Register json_decode modifier - wrapper for \App\Utils\Json::decode with support for assoc parameter
 		$this->registerPlugin('modifier', 'json_decode', [self::class, 'jsonDecodeModifier']);
 		$this->registerPlugin('function', 'strpos', 'strpos');
 		$this->registerPlugin('function', 'explode', 'explode');
@@ -245,7 +245,7 @@ class CRM_Viewer extends \Smarty
 	 */
 	public static function jsonDecodeModifier($json, $assoc = true)
 	{
-		return \App\Json::decode($json, $assoc ? \App\Json::TYPE_ARRAY : \App\Json::TYPE_OBJECT);
+		return \App\Utils\Json::decode($json, $assoc ? \App\Utils\Json::TYPE_ARRAY : \App\Utils\Json::TYPE_OBJECT);
 	}
 
 	/**

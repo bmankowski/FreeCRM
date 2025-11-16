@@ -30,7 +30,7 @@ class MappedFields extends \App\Runtime\BaseModel
 	public function get($key)
 	{
 		if (in_array($key, ['conditions', 'params']) && !is_array(parent::get($key))) {
-			return \App\Json::decode(html_entity_decode(parent::get($key)));
+			return \App\Utils\Json::decode(html_entity_decode(parent::get($key)));
 		} else {
 			return parent::get($key);
 		}

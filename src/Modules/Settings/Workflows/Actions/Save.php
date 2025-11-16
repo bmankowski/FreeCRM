@@ -54,9 +54,9 @@ class Save extends \App\Modules\Settings\Base\Actions\Basic
 			$annualDates = null;
 
 			if ($workflowScheduleType == Workflow::$SCHEDULED_WEEKLY) {
-				$dayOfWeek = \App\Json::encode($request->get('schdayofweek'));
+				$dayOfWeek = \App\Utils\Json::encode($request->get('schdayofweek'));
 			} else if ($workflowScheduleType == Workflow::$SCHEDULED_MONTHLY_BY_DATE) {
-				$dayOfMonth = \App\Json::encode($request->get('schdayofmonth'));
+				$dayOfMonth = \App\Utils\Json::encode($request->get('schdayofmonth'));
 			} else if ($workflowScheduleType == Workflow::$SCHEDULED_ON_SPECIFIC_DATE) {
 				$date = $request->get('schdate');
 				$dateDBFormat = \App\Fields\DateTimeField::convertToDBFormat($date);
@@ -67,9 +67,9 @@ class Save extends \App\Modules\Settings\Base\Actions\Basic
 				} else {
 					$workflowModel->set('nexttrigger_time', date('Y-m-d H:i:s', strtotime('+10 year')));
 				}
-				$annualDates = \App\Json::encode(array($dateDBFormat));
+				$annualDates = \App\Utils\Json::encode(array($dateDBFormat));
 			} else if ($workflowScheduleType == Workflow::$SCHEDULED_ANNUALLY) {
-				$annualDates = \App\Json::encode($request->get('schannualdates'));
+				$annualDates = \App\Utils\Json::encode($request->get('schannualdates'));
 			}
 			$workflowModel->set('schdayofmonth', $dayOfMonth);
 			$workflowModel->set('schdayofweek', $dayOfWeek);

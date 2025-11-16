@@ -126,7 +126,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 			$accessibleUsers = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleUsers();
 			$accessibleGroups = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleGroups();
 		}
-		$owners = \App\Json::decode(html_entity_decode($widgetModel->get('owners')));
+		$owners = \App\Utils\Json::decode(html_entity_decode($widgetModel->get('owners')));
 		if ($owner) {
 			if (($owner !== 'all' && !isset($accessibleUsers[$owner]) && !isset($accessibleGroups[$owner])) || ($owner === 'all' && !in_array($owner, $owners['available']))) {
 				return false;
@@ -261,7 +261,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 			->where(['id' => $data['id']])
 			->exists();
 		if ($isWidgetExists) {
-			$size = \App\Json::encode(['width' => $data['width'], 'height' => $data['height']]);
+			$size = \App\Utils\Json::encode(['width' => $data['width'], 'height' => $data['height']]);
 			$insert = [
 				'isdefault' => (int) $data['isdefault'],
 				'size' => $size,
@@ -270,13 +270,13 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 				'date' => $data['default_date']
 			];
 			if (!empty($data['default_owner']) && !empty($data['owners_all'])) {
-				$insert['owners'] = \App\Json::encode(['default' => $data['default_owner'], 'available' => $data['owners_all']]);
+				$insert['owners'] = \App\Utils\Json::encode(['default' => $data['default_owner'], 'available' => $data['owners_all']]);
 			}
 			if ($data['type'] == 'DW_SUMMATION_BY_MONTHS') {
-				$insert['data'] = \App\Json::encode(['plotLimit' => $data['plotLimit'], 'plotTickSize' => $data['plotTickSize']]);
+				$insert['data'] = \App\Utils\Json::encode(['plotLimit' => $data['plotLimit'], 'plotTickSize' => $data['plotTickSize']]);
 			}
 			if ($data['type'] == 'DW_SUMMATION_BY_USER') {
-				$insert['data'] = \App\Json::encode(['showUsers' => isset($data['showUsers']) ? 1 : 0]);
+				$insert['data'] = \App\Utils\Json::encode(['showUsers' => isset($data['showUsers']) ? 1 : 0]);
 			}
 			$db->createCommand()->update('vtiger_module_dashboard', $insert, ['id' => $data['id']])
 				->execute();
@@ -320,11 +320,11 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 			$data['limit'] = 10;
 		if ($data['isdefault'] != 1 || $data['isdefault'] != '1')
 			$data['isdefault'] = 0;
-		$size = \App\Json::encode([
+		$size = \App\Utils\Json::encode([
 				'width' => $data['width'],
 				'height' => $data['height']
 		]);
-		$owners = \App\Json::encode([
+		$owners = \App\Utils\Json::encode([
 				'default' => $data['default_owner'],
 				'available' => $data['owners_all']
 		]);

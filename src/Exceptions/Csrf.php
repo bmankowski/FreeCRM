@@ -17,11 +17,11 @@ class Csrf extends \Exception
 
 		$dbLog = \App\Database\PearDatabase::getInstance('log');
 		$userName = \App\Http\Vtiger_Session::get('full_user_name');
-		$browserInfo = \App\RequestUtil::getBrowserInfo();
+		$browserInfo = \App\Utils\RequestUtil::getBrowserInfo();
 		$dbLog->insert('o_yf_csrf', [
 			'username' => empty($userName) ? '-' : $userName,
 			'date' => date('Y-m-d H:i:s'),
-			'ip' => \App\RequestUtil::getRemoteIP(),
+			'ip' => \App\Utils\RequestUtil::getRemoteIP(),
 			'referer' => $_SERVER['HTTP_REFERER'] ?? '',
 			'url' => $browserInfo ? $browserInfo->url : '',
 			'agent' => $_SERVER['HTTP_USER_AGENT'] ?? '',

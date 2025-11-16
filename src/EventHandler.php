@@ -351,7 +351,7 @@ class EventHandler
 					'userid' => \App\Modules\Users\Models\Record::getCurrentUserId(),
 					'handler_name' => $name,
 					'class' => $class,
-					'params' => Json::encode($params)
+					'params' => \App\Utils\Json::encode($params)
 				])->execute();
 		}
 	}

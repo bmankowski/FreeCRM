@@ -13,11 +13,11 @@ class File
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		if (\App\AppConfig::main('forceSSL') && !\App\RequestUtil::getBrowserInfo()->https) {
+		if (\App\AppConfig::main('forceSSL') && !\App\Utils\RequestUtil::getBrowserInfo()->https) {
 			header("Location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", true, 301);
 		}
 		if (\App\AppConfig::main('forceRedirect')) {
-			$requestUrl = (\App\RequestUtil::getBrowserInfo()->https ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+			$requestUrl = (\App\Utils\RequestUtil::getBrowserInfo()->https ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 			if (stripos($requestUrl, \App\AppConfig::main('site_URL')) !== 0) {
 				header('Location: ' . \App\AppConfig::main('site_URL'), true, 301);
 			}

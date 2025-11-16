@@ -20,9 +20,9 @@ class NoPermitted extends \Exception
 		\App\DB::getInstance('log')->createCommand()->insert('o_#__access_for_user', [
 			'username' => empty($userName) ? '-' : $userName,
 			'date' => date('Y-m-d H:i:s'),
-			'ip' => \App\RequestUtil::getRemoteIP(),
+			'ip' => \App\Utils\RequestUtil::getRemoteIP(),
 			'module' => $request->getModule(),
-			'url' => \App\RequestUtil::getBrowserInfo()->url,
+			'url' => \App\Utils\RequestUtil::getBrowserInfo()->url,
 			'agent' => $_SERVER['HTTP_USER_AGENT'],
 			'request' => json_encode($_REQUEST),
 			'referer' => isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : ''

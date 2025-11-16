@@ -126,7 +126,7 @@ class Import  extends \App\Modules\Base\Views\Index
 				$request->set('merge_type', 0);
 				$request->set('merge_fields', '');
 			} else {
-				$viewer->assign('MERGE_FIELDS', \App\Json::encode($request->get('merge_fields')));
+				$viewer->assign('MERGE_FIELDS', \App\Utils\Json::encode($request->get('merge_fields')));
 			}
 
 			$moduleName = $request->getModule();
@@ -154,7 +154,7 @@ class Import  extends \App\Modules\Base\Views\Index
 			}
 			$importModule = \App\Modules\Base\Models\Module::getInstance('Import')->setImportModule($moduleName);
 			$viewer->assign('AVAILABLE_BLOCKS', $importModule->getFieldsByBlocks());
-			$viewer->assign('ENCODED_MANDATORY_FIELDS', \App\Json::encode($moduleMeta->getMandatoryFields()));
+			$viewer->assign('ENCODED_MANDATORY_FIELDS', \App\Utils\Json::encode($moduleMeta->getMandatoryFields()));
 			$viewer->assign('SAVED_MAPS', \App\Modules\Import\Models\Map::getAllByModule($moduleName));
 			$viewer->assign('USERS_LIST', \App\Modules\Import\Helpers\Utils::getAssignedToUserList($moduleName));
 			$viewer->assign('GROUPS_LIST', \App\Modules\Import\Helpers\Utils::getAssignedToGroupList($moduleName));

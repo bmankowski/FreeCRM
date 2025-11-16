@@ -105,11 +105,11 @@ class Index extends \App\Modules\Settings\Base\Views\Index
     protected function prepareDashboardData($viewer, $warningsCount)
     {
         // Prepare JSON-encoded warnings count for tab data-params
-        $warningsCountJson = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode(['count' => $warningsCount]));
+        $warningsCountJson = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode(['count' => $warningsCount]));
         $viewer->assign('WARNINGS_COUNT_JSON', $warningsCountJson);
         
         // Prepare JSON-encoded warnings count for tab params
-        $warningsParamsJson = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode(['count' => $warningsCount]));
+        $warningsParamsJson = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode(['count' => $warningsCount]));
         $viewer->assign('WARNINGS_PARAMS_JSON', $warningsParamsJson);
         
         // Prepare module names for settings shortcuts
@@ -192,7 +192,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
         $qualifiedModuleName = $request->getModule(false);
 
         $folders = array_values(\App\SystemWarnings::getFolders());
-        $foldersJson = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($folders));
+        $foldersJson = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($folders));
         $viewer->assign('MODULE', $qualifiedModuleName);
         $viewer->assign('FOLDERS_JSON', $foldersJson);
         $viewer->view('SystemWarnings.tpl', $qualifiedModuleName);

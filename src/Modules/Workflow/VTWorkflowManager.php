@@ -228,7 +228,7 @@ class VTWorkflowManager {
 			unset($task->workflowId);
 			$exp['tasks'][] = serialize($task);
 		}
-		return \App\Json::encode($exp);
+		return \App\Utils\Json::encode($exp);
 	}
 
 	/**
@@ -238,7 +238,7 @@ class VTWorkflowManager {
 	 */
 	public function deserializeWorkflow($str)
 	{
-		$data = \App\Json::decode($str);
+		$data = \App\Utils\Json::decode($str);
 		$workflow = $this->newWorkflow($data['moduleName']);
 		$workflow->description = $data['description'];
 		$workflow->test = $data['test'];
@@ -287,12 +287,12 @@ class VTWorkflowManager {
 
 		$commentSupportedWorkflowModels = array();
 		foreach ($workflowModels as $workflowId => &$workflowModel) {
-			$conditions = \App\Json::decode($workflowModel->test);
+			$conditions = \App\Utils\Json::decode($workflowModel->test);
 			if (is_array($conditions)) {
 				foreach ($conditions as $key => $conditionInfo) {
 					if ($conditionInfo['fieldname'] === '_VT_add_comment') {
 						unset($conditions[$key]);
-						$workflowModel->test = \App\Json::encode($conditions);
+						$workflowModel->test = \App\Utils\Json::encode($conditions);
 						$commentSupportedWorkflowModels[$workflowId] = $workflowModel;
 					}
 				}

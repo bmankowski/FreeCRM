@@ -22,7 +22,7 @@ class Detail extends \App\Modules\Base\Views\Detail
 		// Assign Leads-specific data
 		// Prepare conversion status data in controller instead of calling functions in template
 		$viewer = $this->getViewer($request);
-		$conversionStatusJson = \App\Json::encode(\App\Modules\Leads\Models\Module::getConversionAvaibleStatuses());
+		$conversionStatusJson = \App\Utils\Json::encode(\App\Modules\Leads\Models\Module::getConversionAvaibleStatuses());
 		$viewer->assign('CONVERSION_AVAILABLE_STATUS', \App\Modules\Base\Helpers\Util::toSafeHTML($conversionStatusJson));
 	}
 

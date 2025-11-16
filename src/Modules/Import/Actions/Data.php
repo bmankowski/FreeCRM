@@ -75,7 +75,7 @@ class Data extends \App\Base\Controllers\BaseActionController
 		$defaultValues = [];
 		if (!empty($this->defaultValues)) {
 			if (!is_array($this->defaultValues)) {
-				$this->defaultValues = \App\Json::decode($this->defaultValues);
+				$this->defaultValues = \App\Utils\Json::decode($this->defaultValues);
 			}
 			if ($this->defaultValues) {
 				$defaultValues = $this->defaultValues;
@@ -319,7 +319,7 @@ class Data extends \App\Base\Controllers\BaseActionController
 								$newCurrencyParam[$valueData] = $currencyData;
 							}
 						}
-						$data['currencyparam'] = \App\Json::encode($newCurrencyParam);
+						$data['currencyparam'] = \App\Utils\Json::encode($newCurrencyParam);
 					} elseif (array_key_exists($fieldName, $maps)) {
 						$value = $this->transformInventoryFieldFromMap($value, $maps[$fieldName]);
 					}
@@ -925,7 +925,7 @@ class Data extends \App\Base\Controllers\BaseActionController
 			$inventoryModel->set('inventoryItemsNo', $i);
 			foreach ($data as $name => $value) {
 				if (in_array($name, $jsonFields)) {
-					$value = \App\Json::decode($value);
+					$value = \App\Utils\Json::decode($value);
 				}
 				$inventoryModel->set($name . $i, $value);
 			}

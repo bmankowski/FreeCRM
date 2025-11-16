@@ -13,7 +13,7 @@
 {strip}
 <!-- layouts/basic/modules/Base/dashboards/KpiContents.tpl -->
 {if count($DATA) gt 0 }
-	<input class="widgetData" type="hidden" value='{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($DATA))}' />
+	<input class="widgetData" type="hidden" value='{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($DATA))}' />
 	<div class="widgetDescContainer" style="margin-left: 10px;">
 		<h4>Usługa: {$KPILIST[$DSERVICE]}</h4>
 		<h4>Typ: {$KPITYPES[$DTYPE]}</h4>

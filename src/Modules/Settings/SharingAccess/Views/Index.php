@@ -47,7 +47,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 	 */
 	protected function prepareSharingAccessIndexData($viewer, $dependentModules)
 	{
-		$viewer->assign('DEPENDENT_MODULES_JSON', \App\Json::encode($dependentModules));
+		$viewer->assign('DEPENDENT_MODULES_JSON', \App\Utils\Json::encode($dependentModules));
 	}
 
 	/**

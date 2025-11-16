@@ -48,7 +48,7 @@ class Reference extends Basic
 
 	public function getReferenceModules()
 	{
-		$params = \App\Json::decode($this->get('params'));
+		$params = \App\Utils\Json::decode($this->get('params'));
 		return $params['modules'];
 	}
 

@@ -302,7 +302,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 				break;
 			case 'conditions':
 				if ($value !== $this->rawData[$key]) {
-					$value = \App\Json::encode($this->transformAdvanceFilter($value));
+					$value = \App\Utils\Json::encode($this->transformAdvanceFilter($value));
 				}
 				break;
 			default:
@@ -319,7 +319,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	public function transformAdvanceFilter($conditions)
 	{
 		if (is_string($conditions)) {
-			$conditions = \App\Json::decode($conditions);
+			$conditions = \App\Utils\Json::decode($conditions);
 		}
 		$conditionResult = [];
 		if (!empty($conditions)) {
@@ -589,7 +589,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		$queryGenerator->addNativeCondition(['vtiger_users.available' => 1, 'vtiger_users.auto_assign' => 1]);
 		$conditions = $this->get('conditions');
 		if ($conditions) {
-			foreach (\App\Json::decode($conditions) as $condition) {
+			foreach (\App\Utils\Json::decode($conditions) as $condition) {
 				$fieldName = explode(':', $condition['fieldname']);
 				$queryGenerator->addCondition($fieldName[1], $condition['value'], $condition['operation'], (bool) $condition['groupjoin']);
 			}

@@ -16,13 +16,13 @@ class Notebook extends \App\Runtime\BaseModel
 
 	public function getContent()
 	{
-		$data = \App\Json::decode(\App\Utils\ListViewUtils::decodeHtml($this->get('data')));
+		$data = \App\Utils\Json::decode(\App\Utils\ListViewUtils::decodeHtml($this->get('data')));
 		return $data['contents'];
 	}
 
 	public function getLastSavedDate()
 	{
-		$data = \App\Json::decode(\App\Utils\ListViewUtils::decodeHtml($this->get('data')));
+		$data = \App\Utils\Json::decode(\App\Utils\ListViewUtils::decodeHtml($this->get('data')));
 		return $data['lastSavedOn'];
 	}
 
@@ -38,7 +38,7 @@ class Notebook extends \App\Runtime\BaseModel
 		$dataValue['contents'] = strip_tags($content);
 		$dataValue['lastSavedOn'] = $date;
 
-		$data = \App\Json::encode((object) $dataValue);
+		$data = \App\Utils\Json::encode((object) $dataValue);
 		$this->set('data', $data);
 
 

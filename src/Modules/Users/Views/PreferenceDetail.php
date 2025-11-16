@@ -79,7 +79,7 @@ class PreferenceDetail extends \App\Modules\Base\Views\Detail
 		$viewer->assign('QUICK_LINKS', $linkModels);
 		$viewer->assign('ACTIVE_SIDEBAR_LINK', $activeLinkLabel);
 
-		$viewer->assign('DAY_STARTS', \App\Json::encode($dayStartPicklistValues));
+		$viewer->assign('DAY_STARTS', \App\Utils\Json::encode($dayStartPicklistValues));
 		$viewer->assign('IMAGE_DETAILS', $recordModel->getImageDetails());
 	}
 

@@ -12,7 +12,7 @@ while ($row = $dataReader->read()) {
 	$typeAddress = $row['type'];
 	$recordId = $row['crmid'];
 	$coordinatesModel = \App\Modules\OpenStreetMap\Models\Coordinate::getInstance();
-	$coordinates = $coordinatesModel->getCoordinates(\App\Json::decode($row['address']));
+	$coordinates = $coordinatesModel->getCoordinates(\App\Utils\Json::decode($row['address']));
 	if ($coordinates === false)
 		break;
 	if (empty($coordinates)) {

@@ -42,7 +42,7 @@ class Login extends \App\Base\Controllers\BaseViewController
 		// On login page, use backward compatibility method since no user is authenticated
 		$viewer->assign('USER_MODEL', $request->getUser());
 
-		$viewer->assign('CURRENT_VERSION', \App\Version::get());
+		$viewer->assign('CURRENT_VERSION', \App\Core\Version::get());
 		$viewer->assign('LANGUAGE_SELECTION', \App\AppConfig::main('langInLoginView'));
 		$viewer->assign('LAYOUT_SELECTION', \App\AppConfig::main('layoutInLoginView'));
 		// Provide languages list to template instead of calling Vtiger_Language_Handler directly

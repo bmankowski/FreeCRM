@@ -49,7 +49,7 @@ class QuickCreateAjax extends \App\Modules\Base\Views\Index
 
 		$viewer = $this->getViewer($request);
 
-		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode($picklistDependencyDatasource));
+		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Utils\Json::encode($picklistDependencyDatasource));
 		$recordStructure = $recordStructureInstance->getStructure();
 		$mappingRelatedField = \App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName);
 
@@ -70,7 +70,7 @@ class QuickCreateAjax extends \App\Modules\Base\Views\Index
 			}
 		}
 		$viewer->assign('QUICKCREATE_LINKS', \App\Modules\Base\Models\Link::getAllByType($moduleModel->getId(), ['QUICKCREATE_VIEW_HEADER']));
-		$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode($mappingRelatedField));
+		$viewer->assign('MAPPING_RELATED_FIELD', \App\Utils\Json::encode($mappingRelatedField));
 		$viewer->assign('SOURCE_RELATED_FIELD', $fieldValues);
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('MODULE', $moduleName);

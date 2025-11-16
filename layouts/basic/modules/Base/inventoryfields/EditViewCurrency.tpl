@@ -6,7 +6,7 @@
 	{assign var="FIELD_PARAMS_RAW" value=$FIELD->get('params')}
 	{assign var="FIELD_PARAMS" value=[]}
 	{if isset($FIELD_PARAMS_RAW) && $FIELD_PARAMS_RAW != ''}
-		{assign var="FIELD_PARAMS" value=\App\Json::decode($FIELD_PARAMS_RAW)}
+		{assign var="FIELD_PARAMS" value=\App\Utils\Json::decode($FIELD_PARAMS_RAW)}
 	{/if}
 
 	{if $SELECTED_CURRENCY eq ''}
@@ -21,7 +21,7 @@
 		{assign var=CURRENCY_PARAMS value=$FIELD->getCurrencyParam($CURRENCIES, $INVENTORY_ROWS[0]['currencyparam'])}
 	{/if}
 
-	<input name="currencyparam" type="hidden" value="{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($CURRENCY_PARAMS))}" class="currencyparam" />
+	<input name="currencyparam" type="hidden" value="{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($CURRENCY_PARAMS))}" class="currencyparam" />
 	<select class="select2" data-minimum-results-for-search="-1" data-old-value="{$SELECTED_CURRENCY}" name="{$FIELD->getColumnName()}" 
 			title="{"LBL_CURRENCY"|t:$MODULE}" {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if}>
 		{foreach item=CURRENCY key=count from=$CURRENCIES}

@@ -162,7 +162,7 @@ class ChartFilter extends \App\Runtime\BaseModel
 
 		// Decode data if not done already.
 		if (is_string($this->extraData)) {
-			$this->extraData = \App\Json::decode(\App\Utils\ListViewUtils::decodeHtml($this->extraData));
+			$this->extraData = \App\Utils\Json::decode(\App\Utils\ListViewUtils::decodeHtml($this->extraData));
 		}
 		if ($this->extraData === null) {
 			throw new Exception("Invalid data");

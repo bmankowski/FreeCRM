@@ -279,7 +279,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		foreach ($fields as $field) {
 			$value = $this->record->get($field);
 			if (in_array($field, ['conditions', 'params'])) {
-				$params[$field] = \App\Json::encode($value);
+				$params[$field] = \App\Utils\Json::encode($value);
 			} elseif (is_array($value)) {
 				$params[$field] = implode(',', $value);
 			} else {

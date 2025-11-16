@@ -58,7 +58,7 @@ class MassActionAjax extends \App\Modules\Base\Views\Index
 		}
 		$picklistDependencyDatasource = \App\Modules\PickList\DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 
-		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode($picklistDependencyDatasource));
+		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Utils\Json::encode($picklistDependencyDatasource));
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('MODE', 'massedit');
 		$viewer->assign('MODULE', $moduleName);
@@ -71,7 +71,7 @@ class MassActionAjax extends \App\Modules\Base\Views\Index
 		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
 		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->assign('MODULE_MODEL', $moduleModel);
-		$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));
+		$viewer->assign('MAPPING_RELATED_FIELD', \App\Utils\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
 		$operator = $request->get('operator');

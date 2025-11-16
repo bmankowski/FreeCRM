@@ -37,7 +37,7 @@
 										{assign var=RESTRICTIONS_FIELD value=$RELATIONMODEL->getRestrictionsPopupField($VRM)}
 										<button class="btn btn-sm btn-default selectRelation" type="button"
 											data-modulename="{$RELATIONMODEL->getRelationModuleName()}"
-											{if $RESTRICTIONS_FIELD}data-rf='{\App\Json::encode($RESTRICTIONS_FIELD)}' {/if}
+											{if $RESTRICTIONS_FIELD}data-rf='{\App\Utils\Json::encode($RESTRICTIONS_FIELD)}' {/if}
 											title="{"LBL_SELECT_OPTION"|t:$MODULE_NAME}" alt="{"LBL_SELECT_OPTION"|t:$MODULE_NAME}">
 											<span class="glyphicon glyphicon-search"></span>
 										</button>
@@ -48,7 +48,7 @@
 										<button class="btn btn-sm btn-default createRecordFromFilter" type="button"
 											data-url="{$WIDGET['actionURL']}" {if $RELATION_FIELD}
 												data-prf="{$RELATION_FIELD->getName()}" {/if} {if $AUTOCOMPLETE_FIELD}
-											data-acf='{\App\Json::encode($AUTOCOMPLETE_FIELD)}' {/if}
+											data-acf='{\App\Utils\Json::encode($AUTOCOMPLETE_FIELD)}' {/if}
 											title="{"LBL_ADD"|t:$MODULE_NAME}" alt="{"LBL_ADD"|t:$MODULE_NAME}">
 											<span class="glyphicon glyphicon-plus"></span>
 										</button>
@@ -74,13 +74,13 @@
 							{*<input type="hidden" name="filter_data" value="{$filter}" />*}
 							{assign var=RELATED_MODULE_MODEL value=\App\Modules\Base\Models\Module::getInstance($WIDGET['data']['relatedmodule'])}
 							{assign var=FIELD_MODEL value=$RELATED_MODULE_MODEL->getField($filter)}
-							{assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
+							{assign var="FIELD_INFO" value=\App\Utils\Json::encode($FIELD_MODEL->getFieldInfo())}
 							{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
 							{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 							<select class="select2 filterField form-control input-sm" name="{$FIELD_MODEL->get('name')}"
 								data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 								data-fieldinfo='{$FIELD_INFO|escape}'
-								{if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Json::encode($SPECIAL_VALIDATOR)}' {/if}
+								{if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Utils\Json::encode($SPECIAL_VALIDATOR)}' {/if}
 								data-fieldlable='{$FIELD_MODEL->get('label')|t:$WIDGET['data']['relatedmodule']}'
 								data-filter="{$FIELD_MODEL->get('table')|cat:'.'|cat:$filter}" data-urlparams="whereCondition">
 								<option>{$FIELD_MODEL->get('label')|t:$WIDGET['data']['relatedmodule']}</option>

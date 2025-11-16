@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <!-- layouts/basic/modules/Base/uitypes/Password.tpl -->
-	{assign var="FIELD_INFO" value=\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
+	{assign var="FIELD_INFO" value=\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	{assign var="FIELD_NAME" value=$FIELD_MODEL->getFieldName()}
 	<div class="input-group">
@@ -20,7 +20,7 @@
 				data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true}required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
 				name="{$FIELD_NAME}"
 				value="{$FIELD_MODEL->get('fieldvalue')}"
-				data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if}>
+				data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Utils\Json::encode($SPECIAL_VALIDATOR)}{/if}>
 		<span class="input-group-btn">
 			<button class="btn btn-default" type="button" onmousedown="{$FIELD_NAME}.type='text';" onmouseup="{$FIELD_NAME}.type='password';" onmouseout="{$FIELD_NAME}.type='password';">
 				<span class="glyphicon glyphicon-eye-open"></span>

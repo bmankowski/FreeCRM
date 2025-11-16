@@ -32,7 +32,7 @@ class ClosedTicketsByPriority  extends \App\Modules\Base\Views\Index
 			$conditions [] = ['assigned_user_id', 'e', $owner];
 		}
 		$listSearchParams[] = $conditions;
-		return '&viewname=All&search_params=' . \App\Json::encode($listSearchParams);
+		return '&viewname=All&search_params=' . \App\Utils\Json::encode($listSearchParams);
 	}
 
 	/**

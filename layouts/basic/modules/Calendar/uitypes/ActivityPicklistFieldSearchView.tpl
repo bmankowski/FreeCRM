@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <!-- layouts/basic/modules/Calendar/uitypes/ActivityPicklistFieldSearchView.tpl -->
-    {assign var="FIELD_INFO" value=\App\Json::encode($FIELD_MODEL->getFieldInfo())}
+    {assign var="FIELD_INFO" value=\App\Utils\Json::encode($FIELD_MODEL->getFieldInfo())}
     {assign var=PICKLIST_VALUES value=$FIELD_MODEL->getPicklistValues()}
     {if isset($SEARCH_INFO['searchValue']) && $SEARCH_INFO['searchValue'] neq ''}
         {assign var=SEARCH_VALUES value=explode(',',$SEARCH_INFO['searchValue'])}

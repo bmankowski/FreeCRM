@@ -143,8 +143,8 @@ class Edit extends \App\Modules\Base\Views\Index
 				}
 			}
 		}
-		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Json::encode($picklistDependencyDatasource));
-		$viewer->assign('MAPPING_RELATED_FIELD', \App\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));
+		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Utils\Json::encode($picklistDependencyDatasource));
+		$viewer->assign('MAPPING_RELATED_FIELD', \App\Utils\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$viewer->assign('MODULE', $moduleName);

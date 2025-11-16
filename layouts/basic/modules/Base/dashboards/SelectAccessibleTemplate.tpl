@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
 {strip}
 <!-- layouts/basic/modules/Base/dashboards/SelectAccessibleTemplate.tpl -->
-{assign var=ACCESS_OPTIONS value=\App\Json::decode(html_entity_decode($WIDGET->get('owners')))}
+{assign var=ACCESS_OPTIONS value=\App\Utils\Json::decode(html_entity_decode($WIDGET->get('owners')))}
 {if !is_array($ACCESS_OPTIONS.available)}
 	{$ACCESS_OPTIONS.available = array($ACCESS_OPTIONS.available)}
 {/if}

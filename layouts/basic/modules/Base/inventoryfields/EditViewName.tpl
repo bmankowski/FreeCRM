@@ -4,7 +4,7 @@
 {if $REFERENCE_MODULE}
 	<div class="rowName">
 		{assign var="FIELD_NAME" value={$FIELD->getColumnName()}|cat:$ROW_NO}
-		{assign var="FIELD_INFO" value=\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode(['mandatory'=>true]))}
+		{assign var="FIELD_INFO" value=\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode(['mandatory'=>true]))}
 		{assign var="CRMEntity" value=\App\CRMEntity::getInstance($REFERENCE_MODULE)}
 		<div class="input-group">
 			<input name="popupReferenceModule" type="hidden" data-multi-reference="1" data-field="{$CRMEntity->table_index}" value="{$REFERENCE_MODULE}" />

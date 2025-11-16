@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <!-- layouts/basic/modules/Base/dashboards/DashBoardWidgetContents.tpl -->
-<input class="widgetData" type="hidden" value='{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($DATA))}' />
+<input class="widgetData" type="hidden" value='{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($DATA))}' />
 {if count($DATA) gt 0 }
 	<div class="widgetChartContainer" style="height:98%;width:100%"></div>
 {else}

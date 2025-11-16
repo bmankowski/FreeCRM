@@ -40,7 +40,7 @@ class SummationByUser  extends \App\Modules\Base\Views\Index
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 
-		$param = \App\Json::decode($widget->get('data'));
+		$param = \App\Utils\Json::decode($widget->get('data'));
 		$data = $this->getWidgetData($moduleName, $param, $time);
 
 		$viewer->assign('DTIME', $time);

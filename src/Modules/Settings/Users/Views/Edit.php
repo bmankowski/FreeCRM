@@ -81,7 +81,7 @@ class Edit extends \App\Modules\Users\Views\PreferenceEdit
 		$dayStartPicklistValues = \App\Modules\Users\Models\Record::getDayStartsPicklistValues($recordStructureInstance->getStructure());
 
 		$viewer = $this->getViewer($request);
-		$viewer->assign("DAY_STARTS", \App\Json::encode($dayStartPicklistValues));
+		$viewer->assign("DAY_STARTS", \App\Utils\Json::encode($dayStartPicklistValues));
 		$viewer->assign('IMAGE_DETAILS', $recordModel->getImageDetails());
 		$viewer->assign('USER_MODEL', $request->getUser());
 
@@ -113,8 +113,8 @@ class Edit extends \App\Modules\Users\Views\PreferenceEdit
 			$viewer->assign('SOURCE_RECORD', $sourceRecord);
 		}
 
-		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($picklistDependencyDatasource)));
-		$viewer->assign('MAPPING_RELATED_FIELD', \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($moduleModel->getValuesFromSource($request))));
+		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($picklistDependencyDatasource)));
+		$viewer->assign('MAPPING_RELATED_FIELD', \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($moduleModel->getValuesFromSource($request))));
 		$viewer->assign('CURRENTDATE', \App\Modules\Base\UiTypes\Date::getDisplayDateValue(date('Y-n-j')));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('SINGLE_MODULE', 'SINGLE_' . $moduleName);

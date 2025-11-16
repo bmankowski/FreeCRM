@@ -143,9 +143,9 @@ class Debugger
 		if ($ips === false) {
 			return true;
 		}
-		if (is_array($ips) && in_array(RequestUtil::getRemoteIP(true), $ips)) {
+		if (is_array($ips) && in_array(\App\Utils\RequestUtil::getRemoteIP(true), $ips)) {
 			return true;
-		} elseif (is_string($ips) && RequestUtil::getRemoteIP(true) === $ips) {
+		} elseif (is_string($ips) && \App\Utils\RequestUtil::getRemoteIP(true) === $ips) {
 			return true;
 		}
 		return false;

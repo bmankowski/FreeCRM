@@ -35,7 +35,7 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 			$recordModel->set('lastId', 0);
 		}
 		$tree = $recordModel->getTree();
-		$viewer->assign('TREE', \App\Json::encode($tree));
+		$viewer->assign('TREE', \App\Utils\Json::encode($tree));
 		$viewer->assign('LAST_ID', $recordModel->get('lastId'));
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('RECORD_ID', $record);
@@ -57,7 +57,7 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 	 */
 	protected function prepareTreesManagerEditViewData($viewer, $tree)
 	{
-		$treeJson = \App\Json::encode($tree);
+		$treeJson = \App\Utils\Json::encode($tree);
 		$viewer->assign('TREE_SAFE_HTML', \App\Modules\Base\Helpers\Util::toSafeHTML($treeJson));
 		
 		// Prepare supported module models

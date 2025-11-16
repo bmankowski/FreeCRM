@@ -38,7 +38,7 @@ class TreeRecords  extends \App\Modules\Base\Views\Index
 
 		// Assign tree data needed for initial page load
 		$treeList = $treeViewModel->getTreeList();
-		$viewer->assign('TREE_LIST', \App\Json::encode($treeList));
+		$viewer->assign('TREE_LIST', \App\Utils\Json::encode($treeList));
 		$viewer->assign('SELECTABLE_CATEGORY', 0);
 		$viewer->assign('CUSTOM_VIEWS', \App\Modules\CustomView\Models\Record::getAllByGroup($moduleName));
 		

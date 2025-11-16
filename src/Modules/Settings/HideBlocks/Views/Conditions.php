@@ -93,7 +93,7 @@ class Conditions extends \App\Modules\Settings\Base\Views\Index
 
 	public function transformToAdvancedFilterCondition($conditions)
 	{
-		$conditions = \App\Json::decode($conditions);
+		$conditions = \App\Utils\Json::decode($conditions);
 		$transformedConditions = array();
 		if (!empty($conditions)) {
 			foreach ($conditions as $index => $info) {

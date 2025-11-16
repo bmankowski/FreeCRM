@@ -61,7 +61,7 @@ class CreateEntity extends \App\Modules\Settings\Base\Views\Index
 		
 		// Prepare field value mapping with JSON decoding
 		if ($taskObject && isset($taskObject->field_value_mapping) && !empty($taskObject->field_value_mapping)) {
-			$fieldValueMapping = \App\Json::decode($taskObject->field_value_mapping);
+			$fieldValueMapping = \App\Utils\Json::decode($taskObject->field_value_mapping);
 			$viewer->assign('FIELD_VALUE_MAPPING_DECODED', $fieldValueMapping);
 		} else {
 			$viewer->assign('FIELD_VALUE_MAPPING_DECODED', []);
@@ -78,7 +78,7 @@ class CreateEntity extends \App\Modules\Settings\Base\Views\Index
 					$specialOption = [\App\Runtime\Vtiger_Language_Handler::translate('LBL_SPECIAL_OPTIONS', $viewer->getTemplateVars('QUALIFIED_MODULE')) => ['assigned_user_id' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_PARENT_OWNER', $viewer->getTemplateVars('QUALIFIED_MODULE'))]];
 					$fieldInfo['picklistvalues'] = array_merge($fieldInfo['picklistvalues'], $specialOption);
 				}
-				$fieldInfoJson[$fieldName] = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($fieldInfo));
+				$fieldInfoJson[$fieldName] = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($fieldInfo));
 			}
 			$viewer->assign('RELATED_FIELD_INFO_JSON', $fieldInfoJson);
 		}

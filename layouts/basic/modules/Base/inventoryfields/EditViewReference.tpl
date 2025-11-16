@@ -3,7 +3,7 @@
 <!-- layouts/basic/modules/Base/inventoryfields/EditViewReference.tpl -->
 	{assign var="REFERENCE_LIST" value=$FIELD->getReferenceModules()}
 	{assign var="FIELD_NAME" value={$FIELD->getColumnName()}|cat:$ROW_NO}
-	{assign var="FIELD_INFO" value=\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode(['mandatory'=>true]))}
+	{assign var="FIELD_INFO" value=\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode(['mandatory'=>true]))}
 	{assign var="REFERENCE_LIST_COUNT" value=count($REFERENCE_LIST)}
 	<div class="input-group referenceGroup" style="max-width: 250px;">
 		{if $REFERENCE_LIST_COUNT eq 1}

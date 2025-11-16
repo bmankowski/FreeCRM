@@ -57,7 +57,7 @@ class EditField extends \App\Modules\Settings\Base\Views\BasicModal
 	{
 		// Prepare field info JSON with toSafeHTML
 		$fieldInfo = $fieldModel->getFieldInfo();
-		$fieldInfoJson = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($fieldInfo));
+		$fieldInfoJson = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($fieldInfo));
 		$viewer->assign('FIELD_INFO_JSON', $fieldInfoJson);
 		
 		// Prepare safe HTML for picklist values

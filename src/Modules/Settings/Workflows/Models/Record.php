@@ -101,7 +101,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 		$wf = $this->getWorkflowObject();
 		$wf->description = $this->get('summary');
-		$wf->test = \App\Json::encode($this->get('conditions'));
+		$wf->test = \App\Utils\Json::encode($this->get('conditions'));
 		$wf->moduleName = $this->get('module_name');
 		$wf->executionCondition = $this->get('execution_condition');
 		$wf->filtersavedinnew = $this->get('filtersavedinnew');
@@ -208,7 +208,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		$workflowModel = new self();
 
 		$workflowModel->set('summary', $wf->description);
-		$workflowModel->set('conditions', \App\Json::decode($wf->test));
+		$workflowModel->set('conditions', \App\Utils\Json::decode($wf->test));
 		$workflowModel->set('execution_condition', $wf->executionCondition);
 		$workflowModel->set('module_name', $wf->moduleName);
 		$workflowModel->set('workflow_id', $wf->id);

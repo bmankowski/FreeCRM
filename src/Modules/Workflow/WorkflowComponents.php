@@ -14,14 +14,14 @@ function vtJsonFields($adb, \App\Http\Vtiger_Request $request)
 {
 	$mem = new VTExpressionsManager($adb);
 	$fields = $mem->fields($request->getModule());
-	echo \App\Json::encode(array('moduleFields' => $fields));
+	echo \App\Utils\Json::encode(array('moduleFields' => $fields));
 }
 
 function vtJsonFunctions($adb)
 {
 	$mem = new VTExpressionsManager($adb);
 	$functions = $mem->expressionFunctions();
-	echo \App\Json::encode($functions);
+	echo \App\Utils\Json::encode($functions);
 }
 
 function vtJsonDependentModules($adb, \App\Http\Vtiger_Request $request)
@@ -68,7 +68,7 @@ function vtJsonDependentModules($adb, \App\Http\Vtiger_Request $request)
 
 	$returnValue = array('count' => count($dependentFields), 'entities' => $dependentFields);
 
-	echo \App\Json::encode($returnValue);
+	echo \App\Utils\Json::encode($returnValue);
 }
 
 function vtJsonOwnersList($adb)
@@ -84,7 +84,7 @@ function vtJsonOwnersList($adb)
 		$ownersList[] = array('label' => $groupName, 'value' => $groupName);
 	}
 
-	echo \App\Json::encode($ownersList);
+	echo \App\Utils\Json::encode($ownersList);
 }
 $adb = \App\Database\PearDatabase::getInstance();
 $request = null /* Request should be passed as parameter */;

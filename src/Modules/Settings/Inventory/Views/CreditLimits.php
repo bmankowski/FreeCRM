@@ -56,7 +56,7 @@ class CreditLimits extends \App\Modules\Settings\Base\Views\Index
 	 */
 	protected function prepareInventoryIndexContentData($viewer, $currency)
 	{
-		$viewer->assign('CURRENCY_JSON', \App\Json::encode($currency));
+		$viewer->assign('CURRENCY_JSON', \App\Utils\Json::encode($currency));
 	}
 
 	public function getPageLabels(\App\Http\Vtiger_Request $request)

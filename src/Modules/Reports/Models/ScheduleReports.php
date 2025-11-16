@@ -83,20 +83,20 @@ class ScheduleReports extends \App\Runtime\BaseModel
 			} else {
 				$this->set('next_trigger_time', date('Y-m-d H:i:s', strtotime('+10 year')));
 			}
-			$schdate = \App\Json::encode(array($dateDBFormat));
+			$schdate = \App\Utils\Json::encode(array($dateDBFormat));
 		} else if ($scheduleid == self::$SCHEDULED_WEEKLY) {
-			$schdayoftheweek = \App\Json::encode($this->get('schdayoftheweek'));
+			$schdayoftheweek = \App\Utils\Json::encode($this->get('schdayoftheweek'));
 			$this->set('schdayoftheweek', $schdayoftheweek);
 		} else if ($scheduleid == self::$SCHEDULED_MONTHLY_BY_DATE) {
-			$schdayofthemonth = \App\Json::encode($this->get('schdayofthemonth'));
+			$schdayofthemonth = \App\Utils\Json::encode($this->get('schdayofthemonth'));
 			$this->set('schdayofthemonth', $schdayofthemonth);
 		} else if ($scheduleid == self::$SCHEDULED_ANNUALLY) {
-			$schannualdates = \App\Json::encode($this->get('schannualdates'));
+			$schannualdates = \App\Utils\Json::encode($this->get('schannualdates'));
 			$this->set('schannualdates', $schannualdates);
 		}
 
-		$recipients = \App\Json::encode($this->get('recipients'));
-		$specificemails = \App\Json::encode($this->get('specificemails'));
+		$recipients = \App\Utils\Json::encode($this->get('recipients'));
+		$specificemails = \App\Utils\Json::encode($this->get('specificemails'));
 		$isReportScheduled = $this->get('isReportScheduled');
 
 		if ($scheduleid != self::$SCHEDULED_ON_SPECIFIC_DATE) {
@@ -134,7 +134,7 @@ class ScheduleReports extends \App\Runtime\BaseModel
 
 		if (!empty($recipientsInfo)) {
 			$recipients = [];
-			$recipientsInfo = \App\Json::decode($recipientsInfo);
+			$recipientsInfo = \App\Utils\Json::decode($recipientsInfo);
 			foreach ($recipientsInfo as $key => $recipient) {
 				if (strpos($recipient, 'USER') !== false) {
 					$id = explode('::', $recipient);
@@ -185,7 +185,7 @@ class ScheduleReports extends \App\Runtime\BaseModel
 			}
 		}
 		//Added for specific email address.
-		$specificemails = explode(',', \App\Json::decode($this->get('specificemails')));
+		$specificemails = explode(',', \App\Utils\Json::decode($this->get('specificemails')));
 		if (!empty($specificemails)) {
 			$recipientsEmails = array_merge($recipientsEmails, $specificemails);
 		}

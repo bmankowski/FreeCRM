@@ -19,7 +19,7 @@
 			<input type="hidden" class="step" value="1" />
 			<input type="hidden" name="isDuplicate" value="{$IS_DUPLICATE}" />
 			<input type="hidden" name="record" value="{$RECORD_ID}" />
-			<input type="hidden" id="relatedModules" data-value="{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($RELATED_MODULES))}" />
+			<input type="hidden" id="relatedModules" data-value="{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($RELATED_MODULES))}" />
 			<input type="hidden" id="weekStartDay" data-value='{$WEEK_START_ID}' />
 			<div class="well contentsBackground">
 				<div class="row marginBottom5px">
@@ -118,7 +118,7 @@
 					<div class='row {if $scheduleid neq 2} hide {/if}' id='scheduledWeekDay' style='padding:5px 0px;'>
 						<div class='col-md-3 marginBottom5px' style='position:relative;top:5px;'>{"LBL_ON_THESE_DAYS"|t:$MODULE}</div>
 						<div class='col-md-4'>
-							{assign var=dayOfWeek value=\App\Json::decode($SCHEDULEDREPORTS->get('schdayoftheweek'))}
+							{assign var=dayOfWeek value=\App\Utils\Json::decode($SCHEDULEDREPORTS->get('schdayoftheweek'))}
 							<select style='width:230px;' multiple class='chosen form-control' title="{"LBL_ON_THESE_DAYS"|t:$MODULE}" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" name='schdayoftheweek' id='schdayoftheweek'>
 								<option value="7" {if is_array($dayOfWeek) && in_array('7', $dayOfWeek)} selected {/if}>{"LBL_DAY0"|t:"Calendar"}</option>
 								<option value="1" {if is_array($dayOfWeek) && in_array('1', $dayOfWeek)} selected {/if}>{"LBL_DAY1"|t:"Calendar"}</option>
@@ -135,7 +135,7 @@
 					<div class='row {if $scheduleid neq 3} hide {/if}' id='scheduleMonthByDates' style="padding:5px 0px;">
 						<div class='col-md-3 marginBottom5px' style='position:relative;top:5px;'>{"LBL_ON_THESE_DAYS"|t:$MODULE}</div>
 						<div class='col-md-4'>
-							{assign var=dayOfMonth value=\App\Json::decode($SCHEDULEDREPORTS->get('schdayofthemonth'))}
+							{assign var=dayOfMonth value=\App\Utils\Json::decode($SCHEDULEDREPORTS->get('schdayofthemonth'))}
 							<select style="width: 281px !important;" multiple class="chosen-select col-md-6 form-control" title="{"LBL_ON_THESE_DAYS"|t:$MODULE}" data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" name='schdayofthemonth' id='schdayofthemonth' >
 								{section name=foo loop=31}
 									<option value={$smarty.section.foo.iteration} {if is_array($dayOfMonth) && in_array($smarty.section.foo.iteration, $dayOfMonth)}selected{/if}>{$smarty.section.foo.iteration}</option>
@@ -148,7 +148,7 @@
 						<div class='col-md-3 marginBottom5px' style='position:relative;top:5px;'><span class="redColor">*</span>{"LBL_CHOOSE_DATE"|t:$MODULE}</div>
 						<div class='col-md-6'>
 							<div class='input-group date' style='width: 185px;'>
-								{assign var=specificDate value=\App\Json::decode($SCHEDULEDREPORTS->get('schdate'))}
+								{assign var=specificDate value=\App\Utils\Json::decode($SCHEDULEDREPORTS->get('schdate'))}
 								{if $specificDate[0] neq ''} {assign var=specificDate1 value=DateTimeField::convertToUserFormat($specificDate[0])} {/if}
 								<input  type="text" class="dateField form-control input-sm col-md-6" id="schdate" name="schdate" value="{$specificDate1}" data-date-format="{$CURRENT_USER->date_format}" data-validation-engine="validate[ required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"/>
 								<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
@@ -167,7 +167,7 @@
 							<div style='padding-bottom:5px;'>{"LBL_SELECTED_DATES"|t:$MODULE}</div>
 							<div>
 								<input type="hidden" id=hiddenAnnualDates value='{$SCHEDULEDREPORTS->get('schannualdates')}' />
-								{assign var=ANNUAL_DATES value=\App\Json::decode($SCHEDULEDREPORTS->get('schannualdates'))}
+								{assign var=ANNUAL_DATES value=\App\Utils\Json::decode($SCHEDULEDREPORTS->get('schannualdates'))}
 								<select multiple class="chosen-select" id='annualDates' name='schannualdates' data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]">
 									{foreach item=DATES from=$ANNUAL_DATES}
 										<option value="{$DATES}" selected>{$DATES}</option>
@@ -197,7 +197,7 @@
 						<div class='col-md-4'>
 							{assign var=ALL_ACTIVEUSER_LIST value=\App\Fields\Owner::getInstance()->getAccessibleUsers()}
 							{assign var=ALL_ACTIVEGROUP_LIST value=\App\Fields\Owner::getInstance()->getAccessibleGroups()}
-							{assign var=recipients value=\App\Json::decode($SCHEDULEDREPORTS->get('recipients'))}
+							{assign var=recipients value=\App\Utils\Json::decode($SCHEDULEDREPORTS->get('recipients'))}
 							<select multiple data-placeholder="{"LBL_SELECT_OPTION"|t}" title="{"LBL_SELECT_RECIEPIENTS"|t:$MODULE}" class="chosen-select col-md-6 form-control" id='recipients' name='recipients' data-validation-engine="validate[required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" style="width: 281px !important;">
 								<optgroup label="{"LBL_USERS"|t}">
 									{foreach key=USER_ID item=USER_NAME from=$ALL_ACTIVEUSER_LIST}
@@ -225,7 +225,7 @@
 							{"LBL_SPECIFIC_EMAIL_ADDRESS"|t:$MODULE}
 						</div>
 						<div class='col-md-4'>
-							{assign var=specificemailids value=\App\Json::decode($SCHEDULEDREPORTS->get('specificemails'))}
+							{assign var=specificemailids value=\App\Utils\Json::decode($SCHEDULEDREPORTS->get('specificemails'))}
 							<input id="specificemails" style="width: 281px !important;" class="col-md-6 form-control" title="{"LBL_SPECIFIC_EMAIL_ADDRESS"|t:$MODULE}" type="text" value="{$specificemailids}" name="specificemails" data-validation-engine="validate[funcCall[Vtiger_MultiEmails_Validator_Js.invokeValidation]]"></input>
 						</div>
 					</div>

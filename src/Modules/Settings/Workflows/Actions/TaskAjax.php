@@ -124,14 +124,14 @@ class TaskAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 
 			foreach ($fieldNames as $fieldName) {
 				if ($fieldName == 'field_value_mapping' || $fieldName == 'content') {
-					$values = \App\Json::decode($request->getRaw($fieldName));
+					$values = \App\Utils\Json::decode($request->getRaw($fieldName));
 
 					if ($values) {
 						foreach ($values as $index => $value) {
 							$values[$index]['value'] = htmlspecialchars($value['value']);
 						}
 
-						$taskObject->$fieldName = \App\Json::encode($values);
+						$taskObject->$fieldName = \App\Utils\Json::encode($values);
 					} else {
 						$taskObject->$fieldName = $request->getRaw($fieldName);
 					}
@@ -145,7 +145,7 @@ class TaskAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 				$relationModuleModel = \App\Modules\Base\Models\Module::getInstance($taskObject->entity_type);
 				$ownerFieldModels = $relationModuleModel->getFieldsByType('owner');
 
-				$fieldMapping = \App\Json::decode($taskObject->field_value_mapping);
+				$fieldMapping = \App\Utils\Json::decode($taskObject->field_value_mapping);
 				foreach ($fieldMapping as $key => $mappingInfo) {
 					if (array_key_exists($mappingInfo['fieldname'], $ownerFieldModels)) {
 						if ($mappingInfo['value'] == 'assigned_user_id') {
@@ -162,7 +162,7 @@ class TaskAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 						}
 					}
 				}
-				$taskObject->field_value_mapping = \App\Json::encode($fieldMapping);
+				$taskObject->field_value_mapping = \App\Utils\Json::encode($fieldMapping);
 			}
 
 			$taskRecordModel->save();

@@ -26,7 +26,7 @@ class Rss  extends \App\Modules\Base\Views\Index
 		}
 		$widget = \App\Modules\Base\Models\Widget::getInstanceWithWidgetId($widgetId, $currentUser->getId());
 		$data = $widget->get('data');
-		$data = \App\Json::decode(\App\Utils\ListViewUtils::decodeHtml($data));
+		$data = \App\Utils\Json::decode(\App\Utils\ListViewUtils::decodeHtml($data));
 		$listSubjects = [];
 		foreach ($data['channels'] as $rss) {
 			try {

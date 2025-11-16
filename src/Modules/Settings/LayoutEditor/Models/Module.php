@@ -207,7 +207,7 @@ class Module extends \App\Modules\Base\Models\Module
 			->set('label', $label)
 			->set('typeofdata', $typeofdata)
 			->set('quickcreate', $quickCreate)
-			->set('fieldparams', $fieldParams ? \App\Json::encode($fieldParams) : '')
+			->set('fieldparams', $fieldParams ? \App\Utils\Json::encode($fieldParams) : '')
 			->set('columntype', $dbType);
 
 		if (isset($details['displayType'])) {

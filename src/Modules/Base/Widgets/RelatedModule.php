@@ -52,8 +52,8 @@ class RelatedModule extends \App\Modules\Base\Widgets\Basic
 								$whereConditionOff[] = [$name, 'e', implode(',', $value)];
 							}
 							$this->getCheckboxLables($model, 'switchHeader', 'LBL_SWITCHHEADER_');
-							$this->Config['switchHeader']['on'] = \App\Json::encode($whereCondition);
-							$this->Config['switchHeader']['off'] = \App\Json::encode($whereConditionOff);
+							$this->Config['switchHeader']['on'] = \App\Utils\Json::encode($whereCondition);
+							$this->Config['switchHeader']['off'] = \App\Utils\Json::encode($whereConditionOff);
 							$whereCondition = [$whereCondition];
 							break;
 						default:
@@ -74,12 +74,12 @@ class RelatedModule extends \App\Modules\Base\Widgets\Basic
 				$whereOffCondition[] = [$columnName, 'e', 0];
 				$whereCondition = [$whereOnCondition];
 
-				$this->Config['checkbox']['on'] = \App\Json::encode($whereOnCondition);
-				$this->Config['checkbox']['off'] = \App\Json::encode($whereOffCondition);
+				$this->Config['checkbox']['on'] = \App\Utils\Json::encode($whereOnCondition);
+				$this->Config['checkbox']['off'] = \App\Utils\Json::encode($whereOffCondition);
 				$this->getCheckboxLables($model, 'checkbox', 'LBL_SWITCH_');
 			}
 			if (!empty($whereCondition)) {
-				$this->Config['url'] .= '&search_params=' . \App\Json::encode($whereCondition);
+				$this->Config['url'] .= '&search_params=' . \App\Utils\Json::encode($whereCondition);
 			}
 			$widget = $this->Config;
 		}

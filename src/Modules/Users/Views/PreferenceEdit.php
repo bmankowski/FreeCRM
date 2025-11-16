@@ -59,7 +59,7 @@ class PreferenceEdit extends \App\Modules\Base\Views\Edit
 		$viewer->assign('QUALIFIED_MODULE', $moduleName);
 		$viewer->assign('MENUS', \App\Modules\Base\Models\Menu::getAll(true));
 		$viewer->assign('IS_PREFERENCE', true);
-		$viewer->assign("DAY_STARTS", \App\Json::encode($dayStartPicklistValues));
+		$viewer->assign("DAY_STARTS", \App\Utils\Json::encode($dayStartPicklistValues));
 		if (method_exists($recordModel, 'getImageDetails')) {
 			$viewer->assign('IMAGE_DETAILS', $recordModel->getImageDetails());
 		}

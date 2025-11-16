@@ -97,9 +97,9 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 		$schdayofmonth = $workflowModelObj->schdayofmonth;
 		$schannualdates = $workflowModelObj->schannualdates;
 		
-		$viewer->assign('DAY_OF_WEEK_DECODED', $schdayofweek ? \App\Json::decode($schdayofweek) : []);
-		$viewer->assign('DAYS_OF_MONTH_DECODED', $schdayofmonth ? \App\Json::decode($schdayofmonth) : []);
-		$viewer->assign('SPECIFIC_DATE_DECODED', $schannualdates ? \App\Json::decode($schannualdates) : []);
+		$viewer->assign('DAY_OF_WEEK_DECODED', $schdayofweek ? \App\Utils\Json::decode($schdayofweek) : []);
+		$viewer->assign('DAYS_OF_MONTH_DECODED', $schdayofmonth ? \App\Utils\Json::decode($schdayofmonth) : []);
+		$viewer->assign('SPECIFIC_DATE_DECODED', $schannualdates ? \App\Utils\Json::decode($schannualdates) : []);
 	}
 
 	public function step2(\App\Http\Vtiger_Request $request)
@@ -174,10 +174,10 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 		$schdayofmonth = $workFlowModel->get('schdayofmonth');
 		$schannualdates = $workFlowModel->get('schannualdates');
 		
-		$viewer->assign('OLDER_CONDITIONS_JSON', \App\Json::encode($conditions ? $conditions : []));
-		$viewer->assign('SCHDAYOFWEEK_JSON', \App\Json::encode($schdayofweek ? $schdayofweek : []));
-		$viewer->assign('SCHDAYOFMONTH_JSON', \App\Json::encode($schdayofmonth ? $schdayofmonth : []));
-		$viewer->assign('SCHANNUALDATES_JSON', \App\Json::encode($schannualdates ? $schannualdates : []));
+		$viewer->assign('OLDER_CONDITIONS_JSON', \App\Utils\Json::encode($conditions ? $conditions : []));
+		$viewer->assign('SCHDAYOFWEEK_JSON', \App\Utils\Json::encode($schdayofweek ? $schdayofweek : []));
+		$viewer->assign('SCHDAYOFMONTH_JSON', \App\Utils\Json::encode($schdayofmonth ? $schdayofmonth : []));
+		$viewer->assign('SCHANNUALDATES_JSON', \App\Utils\Json::encode($schannualdates ? $schannualdates : []));
 		
 		// Prepare field info JSON for AdvanceFilterCondition template
 		$recordStructure = $viewer->getTemplateVars('RECORD_STRUCTURE');
@@ -187,10 +187,10 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 			foreach ($recordStructure as $blockLabel => $blockFields) {
 				foreach ($blockFields as $fieldName => $fieldModel) {
 					$fieldInfo = $fieldModel->getFieldInfo();
-					$fieldInfoJson[$fieldName] = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($fieldInfo));
+					$fieldInfoJson[$fieldName] = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($fieldInfo));
 					$validator = $fieldModel->getValidator();
 					if ($validator) {
-						$fieldValidatorJson[$fieldName] = \App\Json::encode($validator);
+						$fieldValidatorJson[$fieldName] = \App\Utils\Json::encode($validator);
 					}
 				}
 			}

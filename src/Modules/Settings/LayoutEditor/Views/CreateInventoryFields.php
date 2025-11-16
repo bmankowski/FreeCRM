@@ -76,8 +76,8 @@ class CreateInventoryFields extends \App\Modules\Settings\Base\Views\IndexAjax
 		// Prepare params JSON encoding/decoding
 		$params = $fieldInstance->getParams();
 		if ($params) {
-			$viewer->assign('PARAMS_JSON', \App\Json::encode($params));
-			$viewer->assign('PARAMS_DECODED', \App\Json::decode($fieldInstance->get('params')));
+			$viewer->assign('PARAMS_JSON', \App\Utils\Json::encode($params));
+			$viewer->assign('PARAMS_DECODED', \App\Utils\Json::decode($fieldInstance->get('params')));
 		} else {
 			$viewer->assign('PARAMS_JSON', '');
 			$viewer->assign('PARAMS_DECODED', []);

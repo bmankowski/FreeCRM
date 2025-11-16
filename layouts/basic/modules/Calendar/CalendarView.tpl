@@ -27,7 +27,7 @@
 				<input type="hidden" id="eventLimit" value="{$EVENT_LIMIT}" />
 				<input type="hidden" id="weekView" value="{$WEEK_VIEW}" />
 				<input type="hidden" id="dayView" value="{$DAY_VIEW}" />
-				<input type="hidden" id="hiddenDays" value="{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode(AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}" />
+				<input type="hidden" id="hiddenDays" value="{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode(AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW')))}" />
 				<input type="hidden" id="activityStateLabels" value="{\App\Modules\Base\Helpers\Util::toSafeHTML($ACTIVITY_STATE_LABELS)}" />
 				<style>
 				{foreach from=\App\Modules\Settings\Calendar\Models\Module::getCalendarConfig('colors') item=ITEM}

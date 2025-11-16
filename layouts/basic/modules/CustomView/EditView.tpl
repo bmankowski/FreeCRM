@@ -20,7 +20,7 @@
 		<input type="hidden" id="advfilterlist" name="advfilterlist" value=""/>
 		<input type="hidden" id="status" name="status" value="{$CV_PRIVATE_VALUE}"/>
 		<input type="hidden" id="sourceModule" value="{$SOURCE_MODULE}">
-		<input type="hidden" name="date_filters" data-value='{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($DATE_FILTERS))}' />
+		<input type="hidden" name="date_filters" data-value='{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($DATE_FILTERS))}' />
 		<div class='widget_header row customViewHeader'>
 			<div class="col-sm-5 col-xs-12">
 				{if !$RECORD_ID}
@@ -113,8 +113,8 @@
 									{/foreach}
 								</select>
 							</div>
-							<input type="hidden" name="columnslist" value='{\App\Json::encode($SELECTED_FIELDS)}' />
-							<input id="mandatoryFieldsList" type="hidden" value='{\App\Json::encode($MANDATORY_FIELDS)}' />
+							<input type="hidden" name="columnslist" value='{\App\Utils\Json::encode($SELECTED_FIELDS)}' />
+							<input id="mandatoryFieldsList" type="hidden" value='{\App\Utils\Json::encode($MANDATORY_FIELDS)}' />
 						</div>
 					</div>
 					<div class="form-group marginbottomZero">

@@ -40,7 +40,7 @@ class VTUpdateFieldsTask extends VTTask
 		$moduleFields = $moduleModel->getFields();
 		$fieldValueMapping = [];
 		if (!empty($this->field_value_mapping)) {
-			$fieldValueMapping = \App\Json::decode($this->field_value_mapping);
+			$fieldValueMapping = \App\Utils\Json::decode($this->field_value_mapping);
 		}
 		if (!empty($fieldValueMapping) && count($fieldValueMapping) > 0) {
 			$util->loggedInUser();

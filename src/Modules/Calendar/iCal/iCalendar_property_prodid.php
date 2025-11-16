@@ -11,7 +11,7 @@ class iCalendar_property_prodid extends iCalendar_property
 
 	public function construct()
 	{
-		$this->val_default = '-//YetiForce CRM//YetiForce CRM ' . \App\Version::get() . '//EN';
+		$this->val_default = '-//YetiForce CRM//YetiForce CRM ' . \App\Core\Version::get() . '//EN';
 
 		$this->valid_parameters = array(
 			RFC2445_XNAME => RFC2445_OPTIONAL

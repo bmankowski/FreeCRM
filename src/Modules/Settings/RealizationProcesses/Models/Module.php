@@ -41,7 +41,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 			$moduleId = $row['module_id'];
 			$moduleName = \App\Utils\ModuleUtils::getModuleName($moduleId);
 			$return[$moduleName]['id'] = $moduleId;
-			$status = \App\Json::decode(html_entity_decode($row['status_indicate_closing']));
+			$status = \App\Utils\Json::decode(html_entity_decode($row['status_indicate_closing']));
 			if (!is_array($status)) {
 				$status = [$status];
 			}
@@ -60,7 +60,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	{
 		\App\Log::trace('Entering \App\Modules\Settings\RealizationProcesses\Models\Module::updateStatusNotModify() method ...');
 		\App\Db::getInstance()->createCommand()->update('vtiger_realization_process', [
-			'status_indicate_closing' => \App\Json::encode($status)
+			'status_indicate_closing' => \App\Utils\Json::encode($status)
 			], ['module_id' => $moduleId])->execute();
 		\App\Log::trace('Exiting \App\Modules\Settings\RealizationProcesses\Models\Module::updateStatusNotModify() method ...');
 		return true;

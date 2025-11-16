@@ -75,7 +75,7 @@ class Step2 extends \App\Modules\Settings\Base\Views\Index
 		$fieldInfoJson = [];
 		foreach ($fieldList as $moduleName => $fields) {
 			foreach ($fields as $field) {
-				$fieldInfoJson[$moduleName][$field['name']] = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($field['info']));
+				$fieldInfoJson[$moduleName][$field['name']] = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($field['info']));
 			}
 		}
 		$viewer->assign('FIELD_INFO_JSON', $fieldInfoJson);
@@ -104,7 +104,7 @@ class Step2 extends \App\Modules\Settings\Base\Views\Index
 		
 		// Prepare JSON-encoded condition by type
 		$conditionByType = $viewer->getTemplateVars('CONDITION_BY_TYPE');
-		$viewer->assign('CONDITION_BY_TYPE_JSON', \App\Json::encode($conditionByType));
+		$viewer->assign('CONDITION_BY_TYPE_JSON', \App\Utils\Json::encode($conditionByType));
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)

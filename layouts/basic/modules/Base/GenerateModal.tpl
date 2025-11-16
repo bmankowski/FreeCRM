@@ -9,7 +9,7 @@
 	</div>
 	<div class="modal-body text-center">
 		{if $VIEW eq 'List'}
-			<input type="hidden" name="all_records" id="all_records" value="{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($ALL_RECORDS))}" />
+			<input type="hidden" name="all_records" id="all_records" value="{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($ALL_RECORDS))}" />
 			<div class="form-group">
 				<div class="radio-inline">
 					<label>

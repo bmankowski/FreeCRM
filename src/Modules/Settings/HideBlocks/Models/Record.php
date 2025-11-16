@@ -134,7 +134,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			}
 		}
 
-		$conditions = \App\Json::encode($wfCondition);
+		$conditions = \App\Utils\Json::encode($wfCondition);
 		$views = $this->get('views');
 		$params = [
 			'blockid' => $this->get('blockid'),

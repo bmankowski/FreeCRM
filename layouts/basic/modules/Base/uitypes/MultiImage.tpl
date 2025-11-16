@@ -1,11 +1,11 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
 {strip}
 <!-- layouts/basic/modules/Base/uitypes/MultiImage.tpl -->
-	{assign var="FIELD_INFO" value=\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Json::encode($FIELD_MODEL->getFieldInfo()))}
+	{assign var="FIELD_INFO" value=\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($FIELD_MODEL->getFieldInfo()))}
 	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
 	<input type="hidden" name="{$FIELD_MODEL->getFieldName()}" id="input{$FIELD_MODEL->getFieldName()}" value="{$FIELD_MODEL->get('fieldvalue')}"
 		   data-validation-engine="validate[{if ($FIELD_MODEL->isMandatory() eq true)} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"
-		   data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Json::encode($SPECIAL_VALIDATOR)}{/if}>
+		   data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Utils\Json::encode($SPECIAL_VALIDATOR)}{/if}>
 	<button type="button" class="marginBottom5 btn-primary btn btn-sm showModal" data-url="index.php?module={$FIELD_MODEL->getModuleName()}&view=FileUpload&inputName={$FIELD_MODEL->getFieldName()}&fileType=image" id="fileUpload_{$FIELD_MODEL->getFieldName()}" title="{'BTN_ADD_FILE'|t:$MODULE_NAME}">
 		<span class="glyphicon glyphicon-plus"> {'BTN_ADD_FILE'|t:$MODULE_NAME}</span>
 	</button>

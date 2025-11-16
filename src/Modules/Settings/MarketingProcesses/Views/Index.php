@@ -56,7 +56,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		// Decode mapping JSON
 		$mapping = [];
 		if (!empty($conversion['mapping'])) {
-			$mapping = \App\Json::decode($conversion['mapping']);
+			$mapping = \App\Utils\Json::decode($conversion['mapping']);
 		}
 		$viewer->assign('CONVERSION_MAPPING', $mapping);
 		

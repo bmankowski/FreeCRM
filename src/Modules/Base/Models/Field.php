@@ -1280,7 +1280,7 @@ class Field extends \vtlib\Field
 
 	public function getFieldParams()
 	{
-		return \App\Json::decode($this->get('fieldparams'));
+		return \App\Utils\Json::decode($this->get('fieldparams'));
 	}
 
 	public function isActiveSearchView()

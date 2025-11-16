@@ -17,7 +17,7 @@ class Chart extends \App\Runtime\BaseModel
 		$result = $db->pquery('SELECT * FROM vtiger_reporttype WHERE reportid = ?', array($reportModel->getId()));
 		$data = $db->query_result($result, 0, 'data');
 		if (!empty($data)) {
-			$decodeData = \App\Json::decode(\App\Utils\ListViewUtils::decodeHtml($data));
+			$decodeData = \App\Utils\Json::decode(\App\Utils\ListViewUtils::decodeHtml($data));
 			$self->setData($decodeData);
 			$self->setParent($reportModel);
 			$self->setId($reportModel->getId());
