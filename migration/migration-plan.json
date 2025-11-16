@@ -1,0 +1,255 @@
+{
+  "migration_plan": {
+    "description": "Plan migracji klas z głównego katalogu src/ do podkatalogów tematycznych",
+    "version": "1.0",
+    "phases": [
+      {
+        "phase": 1,
+        "name": "Utility Classes (Low Risk)",
+        "classes": [
+          {
+            "file": "RequestUtil.php",
+            "target": "Utils",
+            "risk": "low",
+            "notes": "Request handling utility"
+          },
+          {
+            "file": "Json.php",
+            "target": "Utils",
+            "risk": "low",
+            "notes": "JSON handling utility"
+          },
+          {
+            "file": "Version.php",
+            "target": "Core",
+            "risk": "low",
+            "notes": "Version information"
+          }
+        ]
+      },
+      {
+        "phase": 2,
+        "name": "Email Classes",
+        "classes": [
+          {
+            "file": "EmailParser.php",
+            "target": "Email",
+            "risk": "low",
+            "notes": "Email parsing functionality"
+          },
+          {
+            "file": "Mail.php",
+            "target": "Email",
+            "risk": "medium",
+            "notes": "Mail wrapper class"
+          },
+          {
+            "file": "Mailer.php",
+            "target": "Email",
+            "risk": "medium",
+            "notes": "Mailer implementation"
+          }
+        ]
+      },
+      {
+        "phase": 3,
+        "name": "Security Classes",
+        "classes": [
+          {
+            "file": "Encryption.php",
+            "target": "Security",
+            "risk": "medium",
+            "notes": "Encryption utilities"
+          },
+          {
+            "file": "Purifier.php",
+            "target": "Security",
+            "risk": "medium",
+            "notes": "Input sanitization"
+          },
+          {
+            "file": "Privilege.php",
+            "target": "Security",
+            "risk": "high",
+            "notes": "Core privilege system - test thoroughly"
+          },
+          {
+            "file": "PrivilegeAdvanced.php",
+            "target": "Security",
+            "risk": "high",
+            "notes": "Advanced privileges"
+          },
+          {
+            "file": "PrivilegeFile.php",
+            "target": "Security",
+            "risk": "high",
+            "notes": "File privileges"
+          },
+          {
+            "file": "PrivilegeQuery.php",
+            "target": "Security",
+            "risk": "high",
+            "notes": "Query privileges"
+          },
+          {
+            "file": "PrivilegeUpdater.php",
+            "target": "Security",
+            "risk": "high",
+            "notes": "Privilege updates"
+          },
+          {
+            "file": "PrivilegeUtil.php",
+            "target": "Security",
+            "risk": "high",
+            "notes": "Privilege utilities"
+          }
+        ]
+      },
+      {
+        "phase": 4,
+        "name": "Record Classes",
+        "classes": [
+          {
+            "file": "Record.php",
+            "target": "Records",
+            "risk": "high",
+            "notes": "Core record management - test extensively"
+          },
+          {
+            "file": "RecordSearch.php",
+            "target": "Records",
+            "risk": "medium",
+            "notes": "Record search functionality"
+          }
+        ]
+      },
+      {
+        "phase": 5,
+        "name": "Field Classes",
+        "classes": [
+          {
+            "file": "Field.php",
+            "target": "Fields",
+            "risk": "high",
+            "notes": "Core field class"
+          },
+          {
+            "file": "CustomFieldUtil.php",
+            "target": "Fields",
+            "risk": "medium",
+            "notes": "Custom field utilities"
+          }
+        ]
+      },
+      {
+        "phase": 6,
+        "name": "View Classes",
+        "classes": [
+          {
+            "file": "CustomView.php",
+            "target": "View",
+            "risk": "medium",
+            "notes": "Custom view management"
+          }
+        ]
+      },
+      {
+        "phase": 7,
+        "name": "Core Classes",
+        "classes": [
+          {
+            "file": "Company.php",
+            "target": "Core",
+            "risk": "medium",
+            "notes": "Company information"
+          },
+          {
+            "file": "Currency.php",
+            "target": "Core",
+            "risk": "medium",
+            "notes": "Currency management"
+          },
+          {
+            "file": "ModuleHierarchy.php",
+            "target": "Core",
+            "risk": "medium",
+            "notes": "Module hierarchy"
+          },
+          {
+            "file": "Loader.php",
+            "target": "Core",
+            "risk": "medium",
+            "notes": "Class loader"
+          },
+          {
+            "file": "EventHandler.php",
+            "target": "Events",
+            "risk": "medium",
+            "notes": "Event handling system"
+          }
+        ]
+      },
+      {
+        "phase": 8,
+        "name": "System Classes",
+        "classes": [
+          {
+            "file": "SystemWarnings.php",
+            "target": "SystemWarnings",
+            "risk": "low",
+            "notes": "Already has subdirectory, just move file"
+          },
+          {
+            "file": "TextParser.php",
+            "target": "TextParser",
+            "risk": "low",
+            "notes": "Already has subdirectory, just move file"
+          },
+          {
+            "file": "Debugger.php",
+            "target": "Debug",
+            "risk": "low",
+            "notes": "Already has subdirectory, just move file"
+          },
+          {
+            "file": "Log.php",
+            "target": "Log",
+            "risk": "medium",
+            "notes": "Already has subdirectory, just move file"
+          }
+        ]
+      },
+      {
+        "phase": 9,
+        "name": "Critical Core Classes (HIGHEST RISK)",
+        "classes": [
+          {
+            "file": "AppConfig.php",
+            "target": "Config",
+            "risk": "critical",
+            "notes": "Used everywhere - migrate last, test extensively"
+          },
+          {
+            "file": "Db.php",
+            "target": "Database",
+            "risk": "critical",
+            "notes": "Database connection - core functionality"
+          },
+          {
+            "file": "QueryGenerator.php",
+            "target": "Database",
+            "risk": "critical",
+            "notes": "Query building - used everywhere"
+          },
+          {
+            "file": "CRMEntity.php",
+            "target": "Database",
+            "risk": "critical",
+            "notes": "Base entity class - legacy but widely used"
+          }
+        ]
+      }
+    ]
+  }
+}
+
