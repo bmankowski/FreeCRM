@@ -45,7 +45,7 @@ function HelpDeskChangeNotifyContacts(\App\Modules\Base\Models\Record $recordMod
 	$recordId = $recordModel->getId();
 	$mails = getContactsMailsFromTicket($recordId);
 	if (count($mails) > 0) {
-		\App\Mailer::sendFromTemplate([
+		\App\Email\Mailer::sendFromTemplate([
 			'template' => 'NotifyContactOnTicketChange',
 			'moduleName' => 'HelpDesk',
 			'recordId' => $recordId,
@@ -65,7 +65,7 @@ function HelpDeskClosedNotifyContacts(\App\Modules\Base\Models\Record $recordMod
 	$recordId = $recordModel->getId();
 	$mails = getContactsMailsFromTicket($recordId);
 	if (count($mails) > 0) {
-		\App\Mailer::sendFromTemplate([
+		\App\Email\Mailer::sendFromTemplate([
 			'template' => 'NotifyContactOnTicketClosed',
 			'moduleName' => 'HelpDesk',
 			'recordId' => $recordId,
@@ -99,7 +99,7 @@ WHERE vtiger_crmentity.deleted = 0 && vtiger_troubletickets.ticketid = ? && vtig
 		}
 	}
 	if ($mail) {
-		\App\Mailer::sendFromTemplate([
+		\App\Email\Mailer::sendFromTemplate([
 			'template' => 'NewCommentAddedToTicketAccount',
 			'moduleName' => 'ModComments',
 			'recordId' => $recordModel->getId(),
@@ -118,7 +118,7 @@ function HelpDeskNewCommentContacts(\App\Modules\Base\Models\Record $recordModel
 	\App\Log::trace('Entering HelpDeskNewCommentAccount');
 	$mails = getContactsMailsFromTicket($recordModel->get('related_to'));
 	if (count($mails) > 0) {
-		\App\Mailer::sendFromTemplate([
+		\App\Email\Mailer::sendFromTemplate([
 			'template' => 'NewCommentAddedToTicketContact',
 			'moduleName' => 'ModComments',
 			'recordId' => $recordModel->getId(),
@@ -163,7 +163,7 @@ function HelpDeskNewCommentOwner(\App\Modules\Base\Models\Record $recordModel)
 		}
 	}
 	if (count($mails) > 0) {
-		\App\Mailer::sendFromTemplate([
+		\App\Email\Mailer::sendFromTemplate([
 			'template' => 'NewCommentAddedToTicketOwner',
 			'moduleName' => 'ModComments',
 			'recordId' => $recordModel->getId(),

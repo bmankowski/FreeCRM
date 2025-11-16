@@ -63,7 +63,7 @@ if ($adb->getRowCount($result) >= 1) {
 				}
 			}
 			if (!empty($toEmail)) {
-				\App\Mailer::sendFromTemplate([
+				\App\Email\Mailer::sendFromTemplate([
 					'template' => $template,
 					'moduleName' => 'Calendar',
 					'recordId' => $activityId,
@@ -75,7 +75,7 @@ if ($adb->getRowCount($result) >= 1) {
 			}
 			foreach ($invitees as &$invitation) {
 				if (!empty($invitation['email'])) {
-					\App\Mailer::sendFromTemplate([
+					\App\Email\Mailer::sendFromTemplate([
 						'template' => 'ActivityReminderNotificationInvitation',
 						'moduleName' => 'Calendar',
 						'recordId' => $activityId,

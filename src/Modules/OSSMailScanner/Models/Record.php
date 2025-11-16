@@ -563,7 +563,7 @@ class Record extends \App\Modules\Base\Models\Record
 			if ($adb->getRowCount($result) == 0) {
 				$adb->pquery("INSERT INTO vtiger_ossmailscanner_log_cron (laststart,status) VALUES (?,0)", array($checkCronStatus));
 				$config = self::getConfig('cron');
-				$mail_status = \App\Mailer::addMail([
+				$mail_status = \App\Email\Mailer::addMail([
 						//'smtp_id' => 1,
 						'to' => $config['email'],
 						'subject' => \App\Runtime\Vtiger_Language_Handler::translate('Email_FromName', 'OSSMailScanner'),

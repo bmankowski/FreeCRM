@@ -1,5 +1,5 @@
 <?php
-namespace App;
+namespace App\Email;
 use App\AppConfig;
 
 /**
@@ -57,7 +57,7 @@ class Mailer
 	 */
 	public function loadSmtpByID($smtpId)
 	{
-		$this->smtp = Mail::getSmtpById($smtpId);
+		$this->smtp = \App\Email\Mail::getSmtpById($smtpId);
 		$this->setSmtp();
 		return $this;
 	}
@@ -93,7 +93,7 @@ class Mailer
 		} else {
 			$recordModel = $params['recordModel'];
 		}
-		$template = Mail::getTemplete($params['template']);
+		$template = \App\Email\Mail::getTemplete($params['template']);
 		if (!$template) {
 			return false;
 		}
@@ -124,7 +124,7 @@ class Mailer
 	{
 		$params['status'] = \App\AppConfig::module('Mail', 'MAILER_REQUIRED_ACCEPTATION_BEFORE_SENDING') ? 0 : 1;
 		if (empty($params['smtp_id'])) {
-			$params['smtp_id'] = Mail::getDefaultSmtp();
+			$params['smtp_id'] = \App\Email\Mail::getDefaultSmtp();
 		}
 		if (empty($params['owner'])) {
 			$owner = \App\Modules\Users\Models\Record::getCurrentUserRealId();
@@ -330,7 +330,7 @@ class Mailer
 		};
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$this->to($currentUser->get('email1'));
-		$template = Mail::getTempleteDetail('TestMailAboutTheMailServerConfiguration');
+		$template = \App\Email\Mail::getTempleteDetail('TestMailAboutTheMailServerConfiguration');
 		if (!$template) {
 			return ['result' => false, 'error' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_NO_EMAIL_TEMPLATE')];
 		}
@@ -370,7 +370,7 @@ class Mailer
 		if ($rowQueue['attachments']) {
 			$attachments = \App\Utils\Json::decode($rowQueue['attachments']);
 			if (isset($attachments['ids'])) {
-				$attachments = array_merge($attachments, Mail::getAttachmentsFromDocument($attachments['ids']));
+				$attachments = array_merge($attachments, \App\Email\Mail::getAttachmentsFromDocument($attachments['ids']));
 				unset($attachments['ids']);
 			}
 			foreach ($attachments as $path => $name) {

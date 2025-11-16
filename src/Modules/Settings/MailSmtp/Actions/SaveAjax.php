@@ -30,7 +30,7 @@ class SaveAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 	public function updateSmtp(\App\Http\Vtiger_Request $request)
 	{
 		$data = $request->get('param');
-		$mailer = new \App\Mailer();
+		$mailer = new \App\Email\Mailer();
 		$mailer->loadSmtp($data);
 		$testMailer = $mailer->test();
 		if (isset($testMailer['result']) && $testMailer['result'] !== false) {

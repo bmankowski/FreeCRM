@@ -45,7 +45,7 @@ class VTSendNotificationTask extends VTTask
 			while ($recordinfo = $db->fetch_array($result_invitees)) {
 				$userModel = \App\Modules\Users\Models\Record::getInstanceById($recordinfo['inviteeid'], 'Users');
 				if ($userModel->get('status') === 'Active') {
-					\App\Mailer::sendFromTemplate([
+					\App\Email\Mailer::sendFromTemplate([
 						'template' => $this->template,
 						'moduleName' => $recordModel->getModuleName(),
 						'recordId' => $entityId,

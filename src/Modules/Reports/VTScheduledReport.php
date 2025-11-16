@@ -153,7 +153,7 @@ class VTScheduledReport extends Reports
 			$attachments[$filePath] = $fileName;
 			$oReportRun->writeReportToExcelFile($filePath);
 		}
-		\App\Mailer::addMail([
+		\App\Email\Mailer::addMail([
 			'to' => $to,
 			'subject' => $subject,
 			'content' => $contents,

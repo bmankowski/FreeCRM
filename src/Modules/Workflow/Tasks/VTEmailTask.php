@@ -31,7 +31,7 @@ class VTEmailTask extends VTTask
 	public function doTask($recordModel)
 	{
 		$mailerContent = [
-			'smtp_id' => ($this->smtp) ? $this->smtp : \App\Mail::getDefaultSmtp(),
+			'smtp_id' => ($this->smtp) ? $this->smtp : \App\Email\Mail::getDefaultSmtp(),
 		];
 		$emailParser = \App\EmailParser::getInstanceByModel($recordModel);
 		$emailParser->emailoptout = $this->emailoptout ? true : false;
@@ -63,7 +63,7 @@ class VTEmailTask extends VTTask
 		$mailerContent['subject'] = $textParser->setContent($this->subject)->parse()->getContent();
 		$mailerContent['content'] = $textParser->setContent($this->content)->parse()->getContent();
 		if (!empty($mailerContent['content'])) {
-			\App\Mailer::addMail($mailerContent);
+			\App\Email\Mailer::addMail($mailerContent);
 		}
 		unset($textParser);
 	}

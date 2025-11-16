@@ -54,7 +54,7 @@ class VTEmailTemplateTask extends VTTask
 			if (!empty($this->copy_email)) {
 				$mailerContent['bcc'] = $this->copy_email;
 			}
-			\App\Mailer::sendFromTemplate($mailerContent);
+			\App\Email\Mailer::sendFromTemplate($mailerContent);
 		}
 	}
 }

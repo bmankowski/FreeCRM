@@ -1,5 +1,5 @@
 <?php
-namespace App;
+namespace App\Email;
 
 /**
  * Email parser class
@@ -7,7 +7,7 @@ namespace App;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class EmailParser extends TextParser
+class EmailParser extends \App\TextParser
 {
 
 	private static $permissionToSend = [

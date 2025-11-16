@@ -39,7 +39,7 @@ class MassSend extends \App\Modules\Base\Actions\Mass
 				->where(['id' => $recordIds])
 				->createCommand($db)->query();
 		while ($rowQueue = $dataReader->read()) {
-			$status = \App\Mailer::sendByRowQueue($rowQueue);
+			$status = \App\Email\Mailer::sendByRowQueue($rowQueue);
 			if ($status) {
 				$db->createCommand()->delete('s_#__mail_queue', ['id' => $rowQueue['id']])->execute();
 			} else {

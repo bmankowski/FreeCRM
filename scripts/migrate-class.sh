@@ -210,7 +210,10 @@ grep -rn "use ${OLD_FQN};" "$PROJECT_ROOT/src" "$PROJECT_ROOT/modules" 2>/dev/nu
 grep -rn "\(new ${CLASS_NAME}\|${CLASS_NAME}::\|extends ${CLASS_NAME}\|implements ${CLASS_NAME}\)" "$PROJECT_ROOT/src" "$PROJECT_ROOT/modules" "$PROJECT_ROOT/layouts" 2>/dev/null | grep "\.\(php\|tpl\):" | grep -v ".swp" > "$TEMP_USAGE_FILE" || true
 
 # Pattern 3: \App\ClassName (in PHP and TPL files)
-grep -rn "\\\\${OLD_FQN}" "$PROJECT_ROOT/src" "$PROJECT_ROOT/modules" "$PROJECT_ROOT/layouts" 2>/dev/null | grep "\.\(php\|tpl\):" | grep -v ".swp" > "$TEMP_QUALIFIED_USAGE" || true
+# Use perl for reliable backslash matching instead of grep
+# Perl escapes: OLD_FQN has single backslashes, we need to match literal backslash in files
+PERL_SEARCH_FQN=$(echo "$OLD_FQN" | sed 's/\\/\\\\/g')
+find "$PROJECT_ROOT/src" "$PROJECT_ROOT/modules" "$PROJECT_ROOT/layouts" -type f \( -name "*.php" -o -name "*.tpl" \) ! -name "*.swp" -exec perl -ne "print \"$ARGV:$.:$_\" if /\\\\${PERL_SEARCH_FQN}([^a-zA-Z0-9_]|$)/" {} \; > "$TEMP_QUALIFIED_USAGE" 2>/dev/null || true
 
 USE_COUNT=$(wc -l < "$TEMP_USE_STATEMENTS")
 USAGE_COUNT=$(wc -l < "$TEMP_USAGE_FILE")
@@ -388,24 +391,25 @@ print_step "Step 13: Updating fully qualified class names"
 UPDATED_QUALIFIED=0
 
 if [[ $QUALIFIED_COUNT -gt 0 ]]; then
-    while IFS=: read -r file line content; do
+    # Get unique files from qualified usage
+    UNIQUE_QUALIFIED_FILES=$(cat "$TEMP_QUALIFIED_USAGE" | cut -d: -f1 | sort -u)
+    
+    # Escape backslashes for perl regex
+    PERL_OLD_FQN=$(echo "$OLD_FQN" | sed 's/\\/\\\\/g')
+    PERL_NEW_FQN=$(echo "$NEW_FQN" | sed 's/\\/\\\\/g')
+    
+    for file in $UNIQUE_QUALIFIED_FILES; do
         if [[ -f "$file" ]]; then
-            # Update \\App\\ClassName to \\App\\SubDir\\ClassName
-            # This is tricky with sed - use single quotes and escape backslashes properly
-            # In sed pattern: \\ becomes \\\\ (4 backslashes to match 2 literal backslashes)
-            # In sed replacement: \\ becomes \\\\ as well
-            
-            # Create the sed pattern carefully
-            # We're looking for: \App\ClassName
-            # And replacing with: \App\SubDir\ClassName
-            
-            sed -i "s|\\\\${OLD_FQN//\\/\\\\}|\\\\${NEW_FQN//\\/\\\\}|g" "$file"
+            # Use perl for reliable backslash replacement
+            # Pattern: \App\ClassName → \App\SubDir\ClassName
+            # Match with word boundary or non-word character after to avoid partial matches
+            perl -pi -e "s/\\\\${PERL_OLD_FQN}([^a-zA-Z0-9_]|$)/\\\\${PERL_NEW_FQN}\$1/g" "$file"
             UPDATED_QUALIFIED=$((UPDATED_QUALIFIED + 1))
             if [[ "$VERBOSE" == true ]]; then
-                print_info "Updated: $file"
+                print_info "Updated FQCN: $file"
             fi
         fi
-    done < "$TEMP_QUALIFIED_USAGE"
+    done
 fi
 
 print_success "Updated $UPDATED_QUALIFIED fully qualified references"

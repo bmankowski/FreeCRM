@@ -65,7 +65,7 @@ class VTSendPdf extends VTTask
 				$fileName = $templateRecord->get('filename');
 			}
 			$mailerContent['attachments'] = [$pdfFile => $fileName];
-			\App\Mailer::sendFromTemplate($mailerContent);
+			\App\Email\Mailer::sendFromTemplate($mailerContent);
 		}
 	}
 }

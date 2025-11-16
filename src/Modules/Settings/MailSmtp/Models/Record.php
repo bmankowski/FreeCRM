@@ -119,8 +119,8 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 				}
 				break;
 			case 'status':
-				if (isset(\App\Mailer::$statuses[$value])) {
-					$value = \App\Mailer::$statuses[$value];
+				if (isset(\App\Email\Mailer::$statuses[$value])) {
+					$value = \App\Email\Mailer::$statuses[$value];
 				}
 				break;
 		}

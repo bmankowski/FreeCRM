@@ -104,7 +104,7 @@ class Notification extends \App\Base\Controllers\BaseActionController
 			foreach ($users as $user) {
 				if (isset($accessibleUsers[$user])) {
 					$email = \App\Modules\Users\Models\Record::getInstanceById($user, 'Users')->get('email1');
-					\App\Mailer::addMail([
+					\App\Email\Mailer::addMail([
 						//'smtp_id' => 1,
 						'to' => [$email => \App\Fields\Owner::getLabel($user)],
 						'owner' => $user,

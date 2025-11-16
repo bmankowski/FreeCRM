@@ -58,7 +58,7 @@ class Mail extends \App\Base\Controllers\BaseActionController
 	{
 		$result = false;
 		if (\App\AppConfig::main('isActiveSendingMails')) {
-			$result = !empty(\App\Mail::getAll());
+			$result = !empty(\App\Email\Mail::getAll());
 		}
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
@@ -80,7 +80,7 @@ class Mail extends \App\Base\Controllers\BaseActionController
 		if (!empty($template) && !empty($field)) {
 			$dataReader = $this->getQuery($request)->createCommand()->query();
 			while ($row = $dataReader->read()) {
-				$result = \App\Mailer::sendFromTemplate([
+				$result = \App\Email\Mailer::sendFromTemplate([
 						'template' => $template,
 						'moduleName' => $moduleName,
 						'recordId' => $row['id'],

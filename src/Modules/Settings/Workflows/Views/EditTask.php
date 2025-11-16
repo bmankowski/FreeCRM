@@ -87,11 +87,11 @@ class EditTask extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('PDF_TEMPLATES', $pdfTemplates);
 		
 		// Prepare SMTP accounts
-		$smtpAccounts = \App\Mail::getAll();
+		$smtpAccounts = \App\Email\Mail::getAll();
 		$viewer->assign('SMTP_ACCOUNTS', $smtpAccounts);
 		
 		// Prepare email templates
-		$emailTemplates = \App\Mail::getTempleteList($sourceModule, 'PLL_RECORD');
+		$emailTemplates = \App\Email\Mail::getTempleteList($sourceModule, 'PLL_RECORD');
 		$viewer->assign('EMAIL_TEMPLATES', $emailTemplates);
 	}
 	$viewer->assign('SOURCE_MODULE', $sourceModule);
@@ -172,10 +172,10 @@ class EditTask extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('PRIVILEGE_MEMBERS', \App\PrivilegeUtil::getMembers());
 		
 		// Prepare mail accounts for email tasks
-		$viewer->assign('MAIL_ACCOUNTS', \App\Mail::getAll());
+		$viewer->assign('MAIL_ACCOUNTS', \App\Email\Mail::getAll());
 		
 		// Prepare email templates for email/notification tasks
-		$viewer->assign('EMAIL_TEMPLATES', \App\Mail::getTempleteList($sourceModule, 'PLL_RECORD'));
+		$viewer->assign('EMAIL_TEMPLATES', \App\Email\Mail::getTempleteList($sourceModule, 'PLL_RECORD'));
 		
 		// Prepare activity status picklist values for VTCreateTodoTask
 		$viewer->assign('ACTIVITY_STATUS_PICKLIST_VALUES', \App\Fields\Picklist::getPickListValues('activitystatus'));

@@ -71,12 +71,12 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		$value = $this->get($key);
 		switch ($key) {
 			case 'smtp_id':
-				$smtpName = \App\Mail::getSmtpById($value)['name'];
+				$smtpName = \App\Email\Mail::getSmtpById($value)['name'];
 				$value = '<a href=index.php?module=MailSmtp&parent=Settings&view=Detail&record=' . $value . '>' . $smtpName . '</a>';
 				break;
 			case 'status':
-				if (isset(\App\Mailer::$statuses[$value])) {
-					$value = \App\Runtime\Vtiger_Language_Handler::translate(\App\Mailer::$statuses[$value], 'Settings::Mail');
+				if (isset(\App\Email\Mailer::$statuses[$value])) {
+					$value = \App\Runtime\Vtiger_Language_Handler::translate(\App\Email\Mailer::$statuses[$value], 'Settings::Mail');
 				}
 				break;
 			case 'owner':

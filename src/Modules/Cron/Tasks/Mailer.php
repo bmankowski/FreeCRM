@@ -14,7 +14,7 @@ $dataReader = (new \App\Db\Query())->from('s_#__mail_queue')
 	->createCommand($db)->query();
 
 while ($rowQueue = $dataReader->read()) {
-	$status = \App\Mailer::sendByRowQueue($rowQueue);
+	$status = \App\Email\Mailer::sendByRowQueue($rowQueue);
 	if ($status) {
 		$db->createCommand()->delete('s_#__mail_queue', ['id' => $rowQueue['id']])->execute();
 	} else {

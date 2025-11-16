@@ -274,7 +274,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 				$recordModel = \App\Modules\Base\Models\Record::getInstanceById($id, 'Users');
 				$emails[] = $recordModel->get('email1');
 			}
-			\App\Mailer::sendFromTemplate([
+			\App\Email\Mailer::sendFromTemplate([
 				'template' => 'BruteForceSecurityRiskHasBeenDetected',
 				'moduleName' => 'Contacts',
 				'to' => $emails,

@@ -68,8 +68,8 @@ class ForgotPassword {
 					'hash' => md5($username . $time)
 				)
 			];
-			if (\App\Mail::getDefaultSmtp()) {
-				$status = \App\Mailer::sendFromTemplate([
+			if (\App\Email\Mail::getDefaultSmtp()) {
+				$status = \App\Email\Mailer::sendFromTemplate([
 						'template' => 'UsersForgotPassword',
 						'moduleName' => 'Users',
 						'recordId' => $userId,

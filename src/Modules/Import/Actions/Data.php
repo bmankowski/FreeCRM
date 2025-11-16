@@ -560,7 +560,7 @@ class Data extends \App\Base\Controllers\BaseActionController
 		if (!in_array($picklistValueInLowerCase, $allPicklistValuesInLowerCase)) {
 			if (\App\AppConfig::module('Import', 'ADD_PICKLIST_VALUE')) {
 				$moduleObject = \App\Modules\Base\Models\Module::getInstance($this->module);
-				$fieldObject = \\App\Modules\Base\Models\Field::getInstance($fieldName, $moduleObject);
+				$fieldObject = \App\Modules\Base\Models\Field::getInstance($fieldName, $moduleObject);
 				$fieldObject->setPicklistValues([$fieldValue]);
 				unset($this->allPicklistValues[$fieldName]);
 				\App\Cache\Cache::delete('getPickListValues', $fieldName);
@@ -772,7 +772,7 @@ class Data extends \App\Base\Controllers\BaseActionController
 
 			$userName = \vtlib\Deprecated::getFullNameFromArray('Users', $importDataController->user->column_fields);
 			$userEmail = $importDataController->user->email1;
-			\App\Mailer::addMail([
+			\App\Email\Mailer::addMail([
 				//'smtp_id' => 1,
 				'to' => [$userEmail => $userName],
 				'subject' => $emailSubject,

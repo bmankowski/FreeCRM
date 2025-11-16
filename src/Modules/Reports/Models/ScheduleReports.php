@@ -230,7 +230,7 @@ class ScheduleReports extends \App\Runtime\BaseModel
 		}
 		//Added cc to account owner
 		$accountOwnerId = \App\Modules\Users\Users::getActiveAdminId();
-		\App\Mailer::sendFromTemplate([
+		\App\Email\Mailer::sendFromTemplate([
 			'to' => $to,
 			'cc' => [\App\Modules\Users\Models\Record::getInstanceById($accountOwnerId, 'Users')->get('email1') => \App\Fields\Owner::getUserLabel($accountOwnerId)],
 			'template' => 'ScheduleReprots',
