@@ -22,7 +22,12 @@ class CronRunner
 		
 		if ($serviceName !== null) {
 			// Run specific service
-			$cronTasks = [\vtlib\Cron::getInstance($serviceName)];
+			$cronTask = \vtlib\Cron::getInstance($serviceName);
+			if ($cronTask === null) {
+				echo sprintf('ERROR: Cron task "%s" not found' . PHP_EOL, $serviceName);
+				return;
+			}
+			$cronTasks = [$cronTask];
 		} else {
 			// Run all services
 			$cronTasks = \vtlib\Cron::listAllActiveInstances();
