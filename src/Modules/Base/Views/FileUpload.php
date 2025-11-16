@@ -33,7 +33,7 @@ class FileUpload  extends \App\Modules\Base\Views\Index
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		} else {
-			if (!\App\Field::getFieldPermission($moduleName, $fieldName, false) || !\App\Privilege::isPermitted($moduleName, 'CreateView')) {
+			if (!\App\Field::getFieldPermission($moduleName, $fieldName, false) || !\App\Security\Privilege::isPermitted($moduleName, 'CreateView')) {
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		}

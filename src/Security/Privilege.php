@@ -1,5 +1,5 @@
 <?php
-namespace App;
+namespace App\Security;
 
 /**
  * Privilege basic class
@@ -330,7 +330,7 @@ class Privilege
 			return null;
 		}
 		
-		$prvAdv = PrivilegeAdvanced::checkPermissions($record, $moduleName, $userId);
+		$prvAdv = \App\Security\PrivilegeAdvanced::checkPermissions($record, $moduleName, $userId);
 		if ($prvAdv === false) {
 			return null;
 		}
@@ -558,7 +558,7 @@ public static function isPermittedBySharing($moduleName, $tabId, $actionId, $rec
 		}
 		if (is_array($relatedModuleArray)) {
 			foreach ($relatedModuleArray as $parModId) {
-				$parRecordOwner = PrivilegeUtil::getParentRecordOwner($tabId, $parModId, $recordId);
+				$parRecordOwner = \App\Security\PrivilegeUtil::getParentRecordOwner($tabId, $parModId, $recordId);
 				if (sizeof($parRecordOwner) > 0) {
 					$parModName = \App\Utils\ModuleUtils::getModuleName($parModId);
 					if (isset($sharingPrivileges['permission'][$parModName . '_' . $moduleName])) {
@@ -644,7 +644,7 @@ public static function isPermittedBySharing($moduleName, $tabId, $actionId, $rec
 		$relatedModuleArray = $sharingPrivileges['relatedModuleShare'][$tabId];
 		if (is_array($relatedModuleArray)) {
 			foreach ($relatedModuleArray as $parModId) {
-				$parRecordOwner = PrivilegeUtil::getParentRecordOwner($tabId, $parModId, $recordId);
+				$parRecordOwner = \App\Security\PrivilegeUtil::getParentRecordOwner($tabId, $parModId, $recordId);
 				if (!empty($parRecordOwner)) {
 					$parModName = \App\Utils\ModuleUtils::getModuleName($parModId);
 					if (isset($sharingPrivileges['permission'][$parModName . '_' . $moduleName])) {
@@ -693,11 +693,11 @@ public static function isPermittedBySharing($moduleName, $tabId, $actionId, $rec
 	 */
 	public static function setUpdater($moduleName, $record = false, $priority = false, $type = 1)
 	{
-		PrivilegeUpdater::setUpdater($moduleName, $record, $priority, $type);
+		\App\Security\PrivilegeUpdater::setUpdater($moduleName, $record, $priority, $type);
 	}
 
 	public static function setAllUpdater()
 	{
-		PrivilegeUpdater::setAllUpdater();
+		\App\Security\PrivilegeUpdater::setAllUpdater();
 	}
 }

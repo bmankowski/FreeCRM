@@ -241,7 +241,7 @@ class EmailTemplate
 
 	public function isModuleActive($module)
 	{
-		if (\App\Utils\ModuleUtils::isModuleActive($module) && \App\Privilege::isPermitted($module, 'EditView')) {
+		if (\App\Utils\ModuleUtils::isModuleActive($module) && \App\Security\Privilege::isPermitted($module, 'EditView')) {
 			return true;
 		}
 		return false;

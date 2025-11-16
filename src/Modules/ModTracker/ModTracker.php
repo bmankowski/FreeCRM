@@ -313,7 +313,7 @@ class ModTracker {
 	{
 		$moduleName = $linkData->getModule();
 		$recordId = $linkData->getInputParameter('record');
-		return \App\Privilege::isPermitted($moduleName, 'DetailView', $recordId);
+		return \App\Security\Privilege::isPermitted($moduleName, 'DetailView', $recordId);
 	}
 
 	public static function trackRelation($sourceModule, $sourceId, $targetModule, $targetId, $type)
@@ -358,7 +358,7 @@ class ModTracker {
 	public static function linkRelation($sourceModule, $sourceId, $targetModule, $targetId)
 	{
 		self::trackRelation($sourceModule, $sourceId, $targetModule, $targetId, self::$LINK);
-		if (in_array($sourceModule, \App\AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) && \App\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
+		if (in_array($sourceModule, \App\AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) && \App\Security\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
 			\App\Modules\ModTracker\Models\Record::setLastRelation($sourceId, $sourceModule);
 		}
 	}
@@ -373,7 +373,7 @@ class ModTracker {
 	public static function unLinkRelation($sourceModule, $sourceId, $targetModule, $targetId)
 	{
 		self::trackRelation($sourceModule, $sourceId, $targetModule, $targetId, self::$UNLINK);
-		if (in_array($sourceModule, \App\AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) && \App\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
+		if (in_array($sourceModule, \App\AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) && \App\Security\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
 			\App\Modules\ModTracker\Models\Record::setLastRelation($sourceId, $sourceModule);
 		}
 	}

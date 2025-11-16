@@ -32,7 +32,7 @@ abstract class File
 		$record = $request->get('record');
 		$field = $request->get('field');
 		if ($record) {
-			if (!\App\Privilege::isPermitted($moduleName, 'DetailView', $record) || !\App\Field::getFieldPermission($moduleName, $field)) {
+			if (!\App\Security\Privilege::isPermitted($moduleName, 'DetailView', $record) || !\App\Field::getFieldPermission($moduleName, $field)) {
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		} else {
@@ -57,7 +57,7 @@ abstract class File
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		} else {
-			if (!\App\Field::getFieldPermission($moduleName, $field, false) || !\App\Privilege::isPermitted($moduleName, 'CreateView')) {
+			if (!\App\Field::getFieldPermission($moduleName, $field, false) || !\App\Security\Privilege::isPermitted($moduleName, 'CreateView')) {
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		}

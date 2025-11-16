@@ -307,7 +307,7 @@ class ListViewUtils
 	 */
 	public static function decodeHtml($string)
 	{
-		return \App\Purifier::decodeHtml($string);
+		return \App\Security\Purifier::decodeHtml($string);
 	}
 
 	/**

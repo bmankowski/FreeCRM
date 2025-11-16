@@ -190,14 +190,14 @@ class Module extends \App\Modules\Base\Models\Module
 				->createCommand()->query();
 		$pickListValueDetails = [];
 		while ($row = $dataReader->read()) {
-			$pickListValueDetails[\App\Purifier::decodeHtml($row[$primaryKey])] = $row['picklist_valueid'];
+			$pickListValueDetails[\App\Security\Purifier::decodeHtml($row[$primaryKey])] = $row['picklist_valueid'];
 		}
 		$insertValueList = [];
 		$deleteValueList = ['or'];
 		foreach ($roleIdList as $roleId) {
 			foreach ($valuesToEnables as $picklistValue) {
 				if (empty($pickListValueDetails[$picklistValue])) {
-					$pickListValueId = $pickListValueDetails[\App\Purifier::encodeHtml($picklistValue)];
+					$pickListValueId = $pickListValueDetails[\App\Security\Purifier::encodeHtml($picklistValue)];
 				} else {
 					$pickListValueId = $pickListValueDetails[$picklistValue];
 				}
@@ -206,7 +206,7 @@ class Module extends \App\Modules\Base\Models\Module
 			}
 			foreach ($valuesToDisable as $picklistValue) {
 				if (empty($pickListValueDetails[$picklistValue])) {
-					$pickListValueId = $pickListValueDetails[\App\Purifier::encodeHtml($picklistValue)];
+					$pickListValueId = $pickListValueDetails[\App\Security\Purifier::encodeHtml($picklistValue)];
 				} else {
 					$pickListValueId = $pickListValueDetails[$picklistValue];
 				}

@@ -39,7 +39,7 @@ class Vtiger_Language_Handler
 
 		//decoding for Start Date & Time and End Date & Time 
 		if (!is_array($key)) {
-			$key = Purifier::decodeHtml($key);
+			$key = \App\Security\Purifier::decodeHtml($key);
 		}
 
 		$translatedString = self::getLanguageTranslatedString($currentLanguage, $key, $module);

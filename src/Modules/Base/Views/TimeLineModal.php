@@ -22,7 +22,7 @@ class TimeLineModal  extends \App\Modules\Base\Views\Index
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
-		if (!\App\Privilege::isPermitted($moduleName, 'TimeLineList') || !\App\Privilege::isPermitted($moduleName, 'DetailView', $recordId)) {
+		if (!\App\Security\Privilege::isPermitted($moduleName, 'TimeLineList') || !\App\Security\Privilege::isPermitted($moduleName, 'DetailView', $recordId)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 	}

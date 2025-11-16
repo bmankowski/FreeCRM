@@ -51,7 +51,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	public static function save($profileID, $globalactionid, $checked)
 	{
 		if ($globalactionid == 1) {
-			\App\Privilege::setAllUpdater();
+			\App\Security\Privilege::setAllUpdater();
 		}
 		$db = \App\Db::getInstance();
 		$db->createCommand()->delete('vtiger_profile2globalpermissions', ['profileid' => $profileID, 'globalactionid' => $globalactionid])->execute();

@@ -20,7 +20,7 @@ class ModuleHierarchy
 		}
 		static::$hierarchy = require('user_privileges/moduleHierarchy.php');
 		foreach (static::$hierarchy['modulesHierarchy'] as $module => $details) {
-			if (\App\Utils\ModuleUtils::isModuleActive($module) && Privilege::isPermitted($module)) {
+			if (\App\Utils\ModuleUtils::isModuleActive($module) && \App\Security\Privilege::isPermitted($module)) {
 				static::$modulesByLevels[$details['level']][$module] = $details;
 			}
 		}
@@ -98,7 +98,7 @@ class ModuleHierarchy
 		$modules = [];
 		if (isset(static::$modulesByLevels[$level])) {
 			foreach (static::$modulesByLevels[$level] as $module => &$details) {
-				if (Privilege::isPermitted($module, $actionName)) {
+				if (\App\Security\Privilege::isPermitted($module, $actionName)) {
 					$modules[$module] = $details;
 				}
 			}
@@ -111,7 +111,7 @@ class ModuleHierarchy
 		static::init();
 		$modules = [];
 		foreach (static::$hierarchy['modulesHierarchy'] as $module => &$details) {
-			if (Privilege::isPermitted($module, $actionName)) {
+			if (\App\Security\Privilege::isPermitted($module, $actionName)) {
 				$modules[$details['parentModule']][$module] = $details;
 			}
 		}

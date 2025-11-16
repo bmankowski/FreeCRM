@@ -22,7 +22,7 @@ class SaveAjax extends \App\Modules\Base\Actions\SaveAjax
 		if ($record) {
 			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
-		if(!\App\Privilege::isPermitted($request->getModule(), 'CreateView')){
+		if(!\App\Security\Privilege::isPermitted($request->getModule(), 'CreateView')){
 			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
 	}

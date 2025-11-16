@@ -24,10 +24,10 @@ class VariablePanel extends \App\Base\Controllers\BaseViewController
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
 		$currentUserPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
-		if (!$currentUserPrivilegesModel->hasModulePermission($moduleName) || !\App\Privilege::isPermitted($moduleName, 'CreateView')) {
+		if (!$currentUserPrivilegesModel->hasModulePermission($moduleName) || !\App\Security\Privilege::isPermitted($moduleName, 'CreateView')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
-		if ($recordId && !\App\Privilege::isPermitted($moduleName, 'EditView', $recordId)) {
+		if ($recordId && !\App\Security\Privilege::isPermitted($moduleName, 'EditView', $recordId)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		return true;

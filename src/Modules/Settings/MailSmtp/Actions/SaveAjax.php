@@ -63,7 +63,7 @@ class SaveAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 
 			$result = ['success' => true, 'url' => $recordModel->getDetailViewUrl()];
 		} else {
-			$result = ['success' => false, 'message' => \App\Purifier::purify($testMailer['error'])];
+			$result = ['success' => false, 'message' => \App\Security\Purifier::purify($testMailer['error'])];
 		}
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);

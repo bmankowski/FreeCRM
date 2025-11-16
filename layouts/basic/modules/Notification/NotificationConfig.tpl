@@ -2,7 +2,7 @@
 {strip}
 <!-- layouts/basic/modules/Notification/NotificationConfig.tpl -->
 	{assign var="CRON_ACTIVE" value=$CRON_INFO->getStatus()}
-	{assign var="IS_PERMITTED" value=\App\Privilege::isPermitted($MODULE, 'ReceivingMailNotifications')}
+	{assign var="IS_PERMITTED" value=\App\Security\Privilege::isPermitted($MODULE, 'ReceivingMailNotifications')}
 	<div class="modal-header row no-margin">
 		<div class="col-xs-12 paddingLRZero">
 			<div class="col-xs-8 paddingLRZero">
@@ -56,7 +56,7 @@
 		</form>
 	</div>
 	<div class="modal-footer">
-		{if $CRON_ACTIVE && \App\Privilege::isPermitted($MODULE, 'ReceivingMailNotifications')}
+		{if $CRON_ACTIVE && \App\Security\Privilege::isPermitted($MODULE, 'ReceivingMailNotifications')}
 			<div class="col-md-3 col-sm-4 schedule pull-left paddingRightZero">
 				{assign var="POPOVER_CONTENT" value='LBL_CRON_LAUNCHING_FREQUENCY'|t:$MODULE|cat:': '|cat:$CRON_INFO->getFrequency()/60|cat:'LBL_MINUTES'|t}
 				<select class="select2 form-control" name="frequency" title="{"LBL_SCHEDULE"|t:$MODULE}">

@@ -200,8 +200,8 @@ class VtigerModuleOperation extends WebserviceEntityOperation
 		;
 
 		$label = (isset($app_strings[$elementType])) ? $app_strings[$elementType] : $elementType;
-		$createable = \App\Privilege::isPermitted($elementType, EntityMeta::$CREATE);
-		$updateable = \App\Privilege::isPermitted($elementType, EntityMeta::$UPDATE);
+		$createable = \App\Security\Privilege::isPermitted($elementType, EntityMeta::$CREATE);
+		$updateable = \App\Security\Privilege::isPermitted($elementType, EntityMeta::$UPDATE);
 		$deleteable = $this->meta->hasDeleteAccess();
 		$retrieveable = $this->meta->hasReadAccess();
 		$fields = $this->getModuleFields();

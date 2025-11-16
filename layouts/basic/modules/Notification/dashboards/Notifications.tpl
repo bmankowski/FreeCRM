@@ -23,7 +23,7 @@
 			</div>
 			<div class="col-xs-6">
 				<div class="btn-toolbar pull-right">
-					{if \App\Privilege::isPermitted('Notification', 'CreateView')}
+					{if \App\Security\Privilege::isPermitted('Notification', 'CreateView')}
 						<button type="button" class="btn btn-default" onclick="Vtiger_Index_Js.sendNotification()">
 							<span class="glyphicon glyphicon-plus" title="{"LBL_ADD_RECORD"|t}" alt="{"LBL_ADD_RECORD"|t}"></span>
 						</button>

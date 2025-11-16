@@ -1,5 +1,5 @@
 <?php
-namespace App;
+namespace App\Security;
 
 /**
  * Advanced privilege class
@@ -28,7 +28,7 @@ class PrivilegeAdvanced
 			$users = [];
 			if (!empty($members)) {
 				foreach ($members as &$member) {
-					$users = array_merge($users, PrivilegeUtil::getUserByMember($member));
+					$users = array_merge($users, \App\Security\PrivilegeUtil::getUserByMember($member));
 				}
 				$users = array_unique($users);
 			}

@@ -723,7 +723,7 @@ class QueryGenerator
 				$userId = $this->user->getId();
 				$this->query->andWhere(['like', 'vtiger_crmentity.users', ",$userId,"]);
 			} else {
-				PrivilegeQuery::getConditions($this->query, $this->moduleName, $this->user, $this->sourceRecord);
+				\App\Security\PrivilegeQuery::getConditions($this->query, $this->moduleName, $this->user, $this->sourceRecord);
 			}
 		}
 	}

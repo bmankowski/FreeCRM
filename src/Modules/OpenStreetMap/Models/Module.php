@@ -31,7 +31,7 @@ class Module extends \App\Modules\Base\Models\Module
 	{
 		$allAllowedModules = \App\AppConfig::module($this->getName(), 'ALLOW_MODULES');
 		foreach ($allAllowedModules as $key => $moduleName) {
-			if (!\App\Privilege::isPermitted($moduleName)) {
+			if (!\App\Security\Privilege::isPermitted($moduleName)) {
 				unset($allAllowedModules[$key]);
 			}
 		}

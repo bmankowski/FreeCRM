@@ -23,7 +23,7 @@ class Text extends BaseUiType
 	{
 		$uiType = $this->get('field')->get('uitype');
 		if ($uiType == 300) {
-			return \App\Purifier::purifyHtml($value);
+			return \App\Security\Purifier::purifyHtml($value);
 		} else {
 			return nl2br($value);
 		}

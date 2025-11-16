@@ -370,7 +370,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 				$oldRole['editrelatedrecord'] != $this->get('editrelatedrecord') ||
 				$oldRole['permissionsrelatedfield'] != $permissionsRelatedField ||
 				$oldRole['searchunpriv'] != $searchunpriv) {
-				\App\Privilege::setAllUpdater();
+				\App\Security\Privilege::setAllUpdater();
 			}
 		}
 		if (empty($profileIds)) {
@@ -439,7 +439,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 				\App\Modules\Users\Services\PrivilegeFileManager::createUserSharingPrivilegesFile($userid);
 			}
 		}
-		\App\Privilege::setAllUpdater();
+		\App\Security\Privilege::setAllUpdater();
 	}
 
 	/**

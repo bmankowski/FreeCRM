@@ -187,11 +187,11 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 			foreach ($removed as $moduleName => &$tabId) {
 				$db->createCommand()->delete('vtiger_group2modules', ['groupid' => $groupId, 'tabid' => $tabId])->execute();
-				\App\Privilege::setUpdater($moduleName);
+				\App\Security\Privilege::setUpdater($moduleName);
 			}
 			foreach ($add as &$tabId) {
 				$db->createCommand()->insert('vtiger_group2modules', ['groupid' => $groupId, 'tabid' => $tabId])->execute();
-				\App\Privilege::setUpdater(\App\Utils\ModuleUtils::getModuleName($tabId));
+				\App\Security\Privilege::setUpdater(\App\Utils\ModuleUtils::getModuleName($tabId));
 			}
 		}
 		$this->recalculate($oldUsersList);

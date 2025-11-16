@@ -1,6 +1,5 @@
 <?php
-namespace App;
-use App\AppConfig;
+namespace App\Security;
 
 /**
  * Encryption basic class

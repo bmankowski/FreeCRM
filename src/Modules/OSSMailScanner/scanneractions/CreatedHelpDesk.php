@@ -69,7 +69,7 @@ class CreatedHelpDesk {
 		$accountOwner = $mail->getAccountOwner();
 		$record->set('assigned_user_id', $mail->getAccountOwner());
 		$record->set('ticket_title', $mail->get('subject'));
-		$record->set('description', \App\Purifier::purifyHtml($mail->get('body')));
+		$record->set('description', \App\Security\Purifier::purifyHtml($mail->get('body')));
 		$record->set('ticketstatus', 'Open');
 		$record->set('id', '');
 		$record->save();

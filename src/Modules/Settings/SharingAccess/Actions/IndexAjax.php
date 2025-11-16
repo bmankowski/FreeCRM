@@ -45,7 +45,7 @@ class IndexAjax extends \App\Modules\Settings\Base\Actions\Save
 		$forModule = $request->get('for_module');
 		$ruleId = $request->get('record');
 
-		\App\Privilege::setUpdater($forModule);
+		\App\Security\Privilege::setUpdater($forModule);
 		$moduleModel = \App\Modules\Settings\SharingAccess\Models\Module::getInstance($forModule);
 		if (empty($ruleId)) {
 			$ruleModel = new \App\Modules\Settings\SharingAccess\Models\Rule();
@@ -80,7 +80,7 @@ class IndexAjax extends \App\Modules\Settings\Base\Actions\Save
 		$forModule = $request->get('for_module');
 		$ruleId = $request->get('record');
 
-		\App\Privilege::setUpdater(\App\Utils\ModuleUtils::getModuleName($forModule));
+		\App\Security\Privilege::setUpdater(\App\Utils\ModuleUtils::getModuleName($forModule));
 		$moduleModel = \App\Modules\Settings\SharingAccess\Models\Module::getInstance($forModule);
 		$ruleModel = \App\Modules\Settings\SharingAccess\Models\Rule::getInstance($moduleModel, $ruleId);
 

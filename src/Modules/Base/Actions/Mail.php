@@ -19,10 +19,10 @@ class Mail extends \App\Base\Controllers\BaseActionController
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		if (!\App\Privilege::isPermitted($moduleName)) {
+		if (!\App\Security\Privilege::isPermitted($moduleName)) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
-		if (!$request->isEmpty('sourceRecord') && !\App\Privilege::isPermitted($request->get('sourceModule'), 'DetailView', $request->get('sourceRecord'))) {
+		if (!$request->isEmpty('sourceRecord') && !\App\Security\Privilege::isPermitted($request->get('sourceModule'), 'DetailView', $request->get('sourceRecord'))) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 		return true;

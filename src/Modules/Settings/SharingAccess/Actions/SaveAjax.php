@@ -32,7 +32,7 @@ class SaveAjax extends \App\Modules\Settings\Base\Actions\Save
 				$prevValues[$tabId] = $permissionOld;
 				$postValues[$tabId] = $moduleModel->get('permission');
 				if ($permissionOld == 3 || $moduleModel->get('permission') == 3) {
-					\App\Privilege::setUpdater(\App\Utils\ModuleUtils::getModuleName($tabId));
+					\App\Security\Privilege::setUpdater(\App\Utils\ModuleUtils::getModuleName($tabId));
 				}
 			}
 			try {

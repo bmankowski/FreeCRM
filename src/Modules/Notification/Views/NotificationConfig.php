@@ -34,7 +34,7 @@ class NotificationConfig  extends \App\Modules\Base\Views\Index
 		$moduleName = $request->getModule();
 		$moduleList = \App\Modules\Base\Models\Watchdog::getSupportedModules();
 		foreach ($moduleList as $tabId => &$module) {
-			if (!\App\Privilege::isPermitted($module->getName(), 'WatchingModule')) {
+			if (!\App\Security\Privilege::isPermitted($module->getName(), 'WatchingModule')) {
 				unset($moduleList[$tabId]);
 			}
 		}

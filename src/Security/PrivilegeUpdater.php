@@ -1,5 +1,5 @@
 <?php
-namespace App;
+namespace App\Security;
 
 use App\Cache\Cache;
 use App\AppConfig;
@@ -68,7 +68,7 @@ class PrivilegeUpdater
 		$searchUsers = $recordAccessUsers = '';
 		$users = \App\Fields\Owner::getUsersIds();
 		foreach ($users as &$userId) {
-			if (Privilege::isPermitted($moduleName, 'DetailView', $record, $userId)) {
+			if (\App\Security\Privilege::isPermitted($moduleName, 'DetailView', $record, $userId)) {
 				$recordAccessUsers .= ',' . $userId;
 				$searchUsers .= ',' . $userId;
 			} elseif (static::checkGlobalSearchPermissions($moduleName, $userId)) {
@@ -104,7 +104,7 @@ class PrivilegeUpdater
 		$searchUsers = '';
 		$users = \App\Fields\Owner::getUsersIds();
 		foreach ($users as &$userId) {
-			if (static::checkGlobalSearchPermissions($moduleName, $userId) || Privilege::isPermitted($moduleName, 'DetailView', $record, $userId)) {
+			if (static::checkGlobalSearchPermissions($moduleName, $userId) || \App\Security\Privilege::isPermitted($moduleName, 'DetailView', $record, $userId)) {
 				$searchUsers .= ',' . $userId;
 			}
 		}
@@ -128,7 +128,7 @@ class PrivilegeUpdater
 		$recordAccessUsers = '';
 		$users = \App\Fields\Owner::getUsersIds();
 		foreach ($users as &$userId) {
-			if (Privilege::isPermitted($moduleName, 'DetailView', $record, $userId)) {
+			if (\App\Security\Privilege::isPermitted($moduleName, 'DetailView', $record, $userId)) {
 				$recordAccessUsers .= ',' . $userId;
 			}
 		}
@@ -200,7 +200,7 @@ class PrivilegeUpdater
 		foreach ($modules as &$module) {
 			static::setUpdater($module['name']);
 		}
-		PrivilegeAdvanced::reloadCache();
+		\App\Security\PrivilegeAdvanced::reloadCache();
 		if (\App\AppConfig::module('ModTracker', 'WATCHDOG')) {
 			\App\Modules\Base\Models\Watchdog::reloadCache();
 		}

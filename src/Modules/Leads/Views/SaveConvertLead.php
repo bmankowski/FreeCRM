@@ -25,7 +25,7 @@ class SaveConvertLead extends \App\Base\Controllers\BaseViewController
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 
-		$recordPermission = \App\Privilege::isPermitted($moduleName, 'EditView', $recordId);
+		$recordPermission = \App\Security\Privilege::isPermitted($moduleName, 'EditView', $recordId);
 		if (!$recordPermission) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}

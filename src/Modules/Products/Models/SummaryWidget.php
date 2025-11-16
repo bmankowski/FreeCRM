@@ -63,7 +63,7 @@ class SummaryWidget {
 		$modules = [];
 		foreach (self::MODULES as &$moduleName) {
 			$count = 0;
-			if (!\App\Privilege::isPermitted($moduleName)) {
+			if (!\App\Security\Privilege::isPermitted($moduleName)) {
 				continue;
 			}
 			$relationListView = \App\Modules\Base\Models\RelationListView::getInstance($parentRecordModel, $moduleName);

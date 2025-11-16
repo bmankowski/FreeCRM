@@ -408,7 +408,7 @@ class Field extends \vtlib\Field
 			}
 			$list = [];
 			foreach ($query->column() as $moduleName) {
-				if (\App\Privilege::isPermitted($moduleName)) {
+				if (\App\Security\Privilege::isPermitted($moduleName)) {
 					$list[] = $moduleName;
 				}
 			}

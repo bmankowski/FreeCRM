@@ -26,7 +26,7 @@ class Module
 		//$permissionType = $action->getPermissionType();
 		$modules = [];
 		foreach (\vtlib\Functions:: getAllModules(true, false, 0) as $value) {
-			if (\App\Privilege::isPermitted($value['name'])) {
+			if (\App\Security\Privilege::isPermitted($value['name'])) {
 				$modules[$value['name']] = \App\Runtime\Vtiger_Language_Handler::translate($value['name'], $value['name']);
 			}
 		}

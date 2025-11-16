@@ -254,7 +254,7 @@ class Accounts extends \App\CRMEntity
 		$currentUser = \App\User\CurrentUser::get();
 		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 
-		$hasRecordViewAccess = (\vtlib\Functions:: userIsAdministrator($currentUser)) || \App\Privilege::isPermitted('Accounts', 'DetailView', $accountId);
+		$hasRecordViewAccess = (\vtlib\Functions:: userIsAdministrator($currentUser)) || \App\Security\Privilege::isPermitted('Accounts', 'DetailView', $accountId);
 		foreach ($this->hierarchyFields as &$field) {
 			$fieldName = $field['fieldname'];
 			$rawData = '';

@@ -60,7 +60,7 @@ class Reference extends BaseUiType
 			} else {
 				$name = \App\Record::getLabel($value);
 			}
-			if ($rawText || $referenceModuleName === 'Users' || ($value && !\App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value))) {
+			if ($rawText || $referenceModuleName === 'Users' || ($value && !\App\Security\Privilege::isPermitted($referenceModuleName, 'DetailView', $value))) {
 				return $name;
 			}
 			$name = \vtlib\Functions:: textLength($name, \App\AppConfig::main('href_max_length'));
@@ -85,7 +85,7 @@ class Reference extends BaseUiType
 			} else {
 				$name = \App\Record::getLabel($value);
 			}
-			if ($rawText || $referenceModuleName === 'Users' || ($value && !\App\Privilege::isPermitted($referenceModuleName, 'DetailView', $value))) {
+			if ($rawText || $referenceModuleName === 'Users' || ($value && !\App\Security\Privilege::isPermitted($referenceModuleName, 'DetailView', $value))) {
 				return $name;
 			}
 			$name = \vtlib\Functions:: textLength($name, $this->get('field')->get('maxlengthtext'));

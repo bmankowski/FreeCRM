@@ -1,5 +1,5 @@
 <?php
-namespace App;
+namespace App\Security;
 
 /**
  * Privilege File basic class
@@ -26,7 +26,7 @@ class PrivilegeQuery
 			}
 			if ($role->get('listrelatedrecord') != 0) {
 				$recordMetaData = \vtlib\Functions:: getCRMRecordMetadata($relatedRecord);
-				$recordPermission = Privilege::isPermitted($recordMetaData['setype'], 'DetailView', $relatedRecord, $userId);
+				$recordPermission = \App\Security\Privilege::isPermitted($recordMetaData['setype'], 'DetailView', $relatedRecord, $userId);
 				if ($recordPermission) {
 					return '';
 				}
@@ -46,7 +46,7 @@ class PrivilegeQuery
 				$query[] = "vtiger_crmentity.smownerid IN (SELECT vtiger_user2role.userid AS userid FROM vtiger_user2role INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid WHERE vtiger_role.parentrole like '$parentRoleSeq::%')";
 			}
 			if (\App\AppConfig::security('PERMITTED_BY_SHARING')) {
-				$sharingPrivileges = \App\Privilege::getSharingFile($userId);
+				$sharingPrivileges = \App\Security\Privilege::getSharingFile($userId);
 				if (isset($sharingPrivileges['permission'][$moduleName])) {
 					$sharingPrivilegesModule = $sharingPrivileges['permission'][$moduleName];
 					$sharingRuleInfo = $sharingPrivilegesModule['read'];
@@ -89,7 +89,7 @@ public static function getConditions(\App\Db\Query $query, $moduleName, $user = 
 			}
 			if ($role->get('listrelatedrecord') != 0) {
 				$recordMetaData = \vtlib\Functions:: getCRMRecordMetadata($relatedRecord);
-				$recordPermission = Privilege::isPermitted($recordMetaData['setype'], 'DetailView', $relatedRecord, $userId);
+				$recordPermission = \App\Security\Privilege::isPermitted($recordMetaData['setype'], 'DetailView', $relatedRecord, $userId);
 				if ($recordPermission) {
 					return '';
 				}
@@ -113,7 +113,7 @@ public static function getConditions(\App\Db\Query $query, $moduleName, $user = 
 				$conditions[] = ['vtiger_crmentity.smownerid' => $subQuery];
 			}
 			if (\App\AppConfig::security('PERMITTED_BY_SHARING')) {
-				$sharingPrivileges = \App\Privilege::getSharingFile($userId);
+				$sharingPrivileges = \App\Security\Privilege::getSharingFile($userId);
 				if (isset($sharingPrivileges['permission'][$moduleName])) {
 					$sharingPrivilegesModule = $sharingPrivileges['permission'][$moduleName];
 					$sharingRuleInfo = $sharingPrivilegesModule['read'];

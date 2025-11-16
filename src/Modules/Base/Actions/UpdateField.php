@@ -16,7 +16,7 @@ class UpdateField extends \App\Base\Controllers\BaseActionController
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();
 		$fieldName = $request->get('fieldName');
-		if (!\App\Privilege::isPermitted($moduleName, 'EditView', $recordId)) {
+		if (!\App\Security\Privilege::isPermitted($moduleName, 'EditView', $recordId)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId);

@@ -521,7 +521,7 @@ class Data extends \App\Base\Controllers\BaseActionController
 				}
 			}
 			if (\App\AppConfig::module('Import', 'CREATE_REFERENCE_RECORD') && empty($entityId) && !empty($referenceModuleName)) {
-				if (\App\Privilege::isPermitted($referenceModuleName, 'CreateView')) {
+				if (\App\Security\Privilege::isPermitted($referenceModuleName, 'CreateView')) {
 					try {
 						$entityId = $this->createEntityRecord($referenceModuleName, $entityLabel);
 					} catch (Exception $e) {

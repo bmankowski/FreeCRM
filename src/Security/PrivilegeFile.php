@@ -1,5 +1,5 @@
 <?php
-namespace App;
+namespace App\Security;
 
 /**
  * Privilege File basic class
@@ -64,11 +64,11 @@ class PrivilegeFile
 		foreach ($entityData['fieldnameArr'] as &$field) {
 			$displayName .= ' ' . $userInstance->column_fields[$field];
 		}
-		$userRoleInfo = PrivilegeUtil::getRoleDetail($userInstance->column_fields['roleid']);
+		$userRoleInfo = \App\Security\PrivilegeUtil::getRoleDetail($userInstance->column_fields['roleid']);
 		$user['details'] = $userInstance->column_fields;
 		$user['displayName'] = trim($displayName);
-		$user['profiles'] = PrivilegeUtil::getProfilesByRole($userInstance->column_fields['roleid']);
-		$user['groups'] = PrivilegeUtil::getUserGroups($userId);
+		$user['profiles'] = \App\Security\PrivilegeUtil::getProfilesByRole($userInstance->column_fields['roleid']);
+		$user['groups'] = \App\Security\PrivilegeUtil::getUserGroups($userId);
 		$user['parent_roles'] = $userRoleInfo['parentRoles'];
 		$user['parent_role_seq'] = $userRoleInfo['parentrole'];
 		$profileGlobalPermission = \App\Modules\Users\Models\Privileges::getCombinedUserGlobalPermissions($userId);

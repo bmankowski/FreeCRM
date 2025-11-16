@@ -427,7 +427,7 @@ class Utils
 	public static function get_use_asterisk($id)
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
-		if (!\App\Utils\ModuleUtils::isModuleActive('PBXManager') || !\App\Privilege::isPermitted('PBXManager', 'index')) {
+		if (!\App\Utils\ModuleUtils::isModuleActive('PBXManager') || !\App\Security\Privilege::isPermitted('PBXManager', 'index')) {
 			return false;
 		}
 		$sql = "select * from vtiger_asteriskextensions where userid = ?";

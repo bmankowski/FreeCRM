@@ -161,7 +161,7 @@ class SSalesProcesses extends \App\CRMEntity
 
 		\App\Log::trace('Entering getHierarchyData(' . $id . ',' . $salesProcessesId . ') method ...');
 
-		$hasRecordViewAccess = $currentUser->isAdminUser() || \App\Privilege::isPermitted('SSalesProcesses', 'DetailView', $salesProcessesId);
+		$hasRecordViewAccess = $currentUser->isAdminUser() || \App\Security\Privilege::isPermitted('SSalesProcesses', 'DetailView', $salesProcessesId);
 		$listColumns = \App\AppConfig::module('SSalesProcesses', 'COLUMNS_IN_HIERARCHY');
 
 		if (empty($listColumns)) {

@@ -377,7 +377,7 @@ class TextParser
 	 */
 	protected function record($key, $isPermitted = true)
 	{
-		if (!isset($this->recordModel) || ($isPermitted && !Privilege::isPermitted($this->moduleName, 'DetailView', $this->record))) {
+		if (!isset($this->recordModel) || ($isPermitted && !\App\Security\Privilege::isPermitted($this->moduleName, 'DetailView', $this->record))) {
 			return '';
 		}
 		if ($this->recordModel->has($key)) {

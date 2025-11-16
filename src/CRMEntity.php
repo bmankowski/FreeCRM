@@ -484,7 +484,7 @@ class CRMEntity
 			)->execute();
 		if ($result) {
 			if (!\App\AppConfig::security('CACHING_PERMISSION_TO_RECORD')) {
-				Privilege::setUpdater($moduleName, $id, 6, 0);
+				\App\Security\Privilege::setUpdater($moduleName, $id, 6, 0);
 			}
 			//Event triggering code
 			$eventHandler = new \App\EventHandler();
@@ -1023,7 +1023,7 @@ class CRMEntity
 	$currentUser = \App\User\CurrentUser::get();
 	if ($currentUser) {
 		$privileges = \App\Modules\Users\Models\Privileges::getPrivilegesFile($currentUser->getId());
-		$sharingPrivileges = \App\Privilege::getSharingFile($currentUser->getId());
+		$sharingPrivileges = \App\Security\Privilege::getSharingFile($currentUser->getId());
 		if ($privileges === null || $sharingPrivileges === null) {
 			\App\Log::error("User privileges or sharing file not found for user: " . $currentUser->getId());
 				return '';
@@ -1247,7 +1247,7 @@ class CRMEntity
 		$result = $adb->pquery($query, array($value));
 
 		if (!isset($this->checkFlagArr[$module])) {
-			$this->checkFlagArr[$module] = \App\Privilege::isPermitted($module, 'EditView', '');
+			$this->checkFlagArr[$module] = \App\Security\Privilege::isPermitted($module, 'EditView', '');
 		}
 
 		if ($adb->num_rows($result) > 0) {

@@ -66,7 +66,7 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 		$status = $recordModel->get('activitystatus');
 		$statusActivity = \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current');
 
-		if ($recordModel->isEditable() && $this->getModule()->isPermitted('DetailView') && \App\Privilege::isPermitted($moduleName, 'ActivityComplete', $recordId) && \App\Privilege::isPermitted($moduleName, 'ActivityCancel', $recordId) && \App\Privilege::isPermitted($moduleName, 'ActivityPostponed', $recordId) && in_array($status, $statusActivity)) {
+		if ($recordModel->isEditable() && $this->getModule()->isPermitted('DetailView') && \App\Security\Privilege::isPermitted($moduleName, 'ActivityComplete', $recordId) && \App\Security\Privilege::isPermitted($moduleName, 'ActivityCancel', $recordId) && \App\Security\Privilege::isPermitted($moduleName, 'ActivityPostponed', $recordId) && in_array($status, $statusActivity)) {
 			$basicActionLink = [
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'LBL_SET_RECORD_STATUS',
@@ -77,7 +77,7 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 			];
 			$linkModelList['DETAILVIEW'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($basicActionLink);
 		}
-		if (\App\Privilege::isPermitted('OpenStreetMap') && !$recordModel->isEmpty('location')) {
+		if (\App\Security\Privilege::isPermitted('OpenStreetMap') && !$recordModel->isEmpty('location')) {
 			$basicActionLink = [
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'LBL_SHOW_LOCATION',

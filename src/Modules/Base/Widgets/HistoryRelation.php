@@ -33,7 +33,7 @@ class HistoryRelation extends \App\Modules\Base\Widgets\Basic
 	{
 		$modules = ['ModComments', 'OSSMailView', 'Calendar'];
 		foreach ($modules as $key => $module) {
-			if (!\App\Privilege::isPermitted($module)) {
+			if (!\App\Security\Privilege::isPermitted($module)) {
 				unset($modules[$key]);
 			}
 		}
@@ -104,11 +104,11 @@ class HistoryRelation extends \App\Modules\Base\Widgets\Basic
 			} else {
 				$row['url'] = \App\Modules\Base\Models\Module::getInstance($row['type'])->getDetailViewUrl($row['id']);
 			}
-			$body = trim(\App\Purifier::purify($row['body']));
+			$body = trim(\App\Security\Purifier::purify($row['body']));
 			if (!$request->getBoolean('isFullscreen')) {
 				$body = \vtlib\Functions:: textLength($body, 100);
 			} else {
-				$body = str_replace(['<p></p>', '<p class="MsoNormal">'], ["\r\n", "\r\n"], \App\Utils\ListViewUtils::decodeHtml(\App\Purifier::purify($body)));
+				$body = str_replace(['<p></p>', '<p class="MsoNormal">'], ["\r\n", "\r\n"], \App\Utils\ListViewUtils::decodeHtml(\App\Security\Purifier::purify($body)));
 				$body = nl2br(\vtlib\Functions:: textLength($body, 500), false);
 			}
 			$row['body'] = $body;

@@ -203,7 +203,7 @@ class RelationAjax extends \App\Base\Controllers\BaseActionController
 			$pagingModel = new \App\Modules\Base\Models\Paging();
 			$parentRecordModel = \App\Modules\Base\Models\Record::getInstanceById($parentId, $moduleName);
 			foreach ($relModules as $relModule) {
-				if (!\App\Privilege::isPermitted($relModule)) {
+				if (!\App\Security\Privilege::isPermitted($relModule)) {
 					continue;
 				}
 				$relationListView = \App\Modules\Base\Models\RelationListView::getInstance($parentRecordModel, $relModule, $label);

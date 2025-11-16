@@ -643,7 +643,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			$isModulePermitted = \App\Modules\Settings\Profiles\Models\Module::NOT_PERMITTED_VALUE;
 		}
 		if ($isModulePermitted != $profileTabPermissions) {
-			\App\Privilege::setUpdater($moduleModel->getName());
+			\App\Security\Privilege::setUpdater($moduleModel->getName());
 		}
 		$adb->createCommand()->insert('vtiger_profile2tab', [
 			'profileid' => $profileId,

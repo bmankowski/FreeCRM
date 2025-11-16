@@ -39,7 +39,7 @@ class DragDropAjax extends \App\Base\Controllers\BaseActionController
 		$actionname = 'EditView';
 
 		$response = new \App\Http\Vtiger_Response();
-		if (!\App\Privilege::isPermitted($moduleName, $actionname, $recordId)) {
+		if (!\App\Security\Privilege::isPermitted($moduleName, $actionname, $recordId)) {
 			$result = array('ispermitted' => false, 'error' => false);
 			$response->setResult($result);
 			$response->emit();
@@ -86,7 +86,7 @@ class DragDropAjax extends \App\Base\Controllers\BaseActionController
 		$actionname = 'EditView';
 
 		$response = new \App\Http\Vtiger_Response();
-		if (!\App\Privilege::isPermitted($moduleName, $actionname, $recordId)) {
+		if (!\App\Security\Privilege::isPermitted($moduleName, $actionname, $recordId)) {
 			$result = ['ispermitted' => false];
 			$response->setResult($result);
 			$response->emit();

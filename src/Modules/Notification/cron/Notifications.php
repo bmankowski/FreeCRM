@@ -31,7 +31,7 @@ class Notification {
 		$timestampEndDate = empty($row['last_execution']) ? $currentTime : strtotime($row['last_execution'] . ' +' . $row['frequency'] . 'min');
 		if ($currentTime >= $timestampEndDate) {
 			$endDate = $this->getEndDate($currentTime, $timestampEndDate, $row['frequency']);
-			if (\App\Privilege::isPermitted(self::MODULE_NAME, 'ReceivingMailNotifications', false, $row['userid']) && $this->existNotifications($row['userid'], $row['last_execution'], $endDate)) {
+			if (\App\Security\Privilege::isPermitted(self::MODULE_NAME, 'ReceivingMailNotifications', false, $row['userid']) && $this->existNotifications($row['userid'], $row['last_execution'], $endDate)) {
 				\App\Email\Mailer::sendFromTemplate([
 					'template' => 'SendNotificationsViaMail',
 					'to' => \App\Modules\Users\Models\Record::getInstanceById($row['userid'], 'Users')->get('email1'),

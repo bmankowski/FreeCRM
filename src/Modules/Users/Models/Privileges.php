@@ -198,7 +198,7 @@ class Privileges extends \App\Runtime\BaseModel
 			$valueMap['subordinate_roles'] = $subordinate_roles;
 			$valueMap['parent_roles'] = $parent_roles;
 			$valueMap['subordinate_roles_users'] = $subordinate_roles_users;
-			$sharingPrivileges = \App\Privilege::getSharingFile($userId);
+			$sharingPrivileges = \App\Security\Privilege::getSharingFile($userId);
 			$valueMap['defaultOrgSharingPermission'] = $sharingPrivileges['defOrgShare'];
 			$valueMap['related_module_share'] = $sharingPrivileges['relatedModuleShare'];
 		}
@@ -250,7 +250,7 @@ class Privileges extends \App\Runtime\BaseModel
 	 */
 	public static function isPermitted($moduleName, $actionName = null, $record = false)
 	{
-		return \App\Privilege::isPermitted($moduleName, $actionName, $record);
+		return \App\Security\Privilege::isPermitted($moduleName, $actionName, $record);
 	}
 
 	public static function getLastPermittedAccessLog()
@@ -346,7 +346,7 @@ class Privileges extends \App\Runtime\BaseModel
 
 	public static function isPermittedByUserId($userId, $moduleName, $actionName = '', $record = false)
 	{
-		return \App\Privilege::isPermitted($moduleName, $actionName, $record, $userId);
+		return \App\Security\Privilege::isPermitted($moduleName, $actionName, $record, $userId);
 	}
 
 	/**
@@ -458,7 +458,7 @@ class Privileges extends \App\Runtime\BaseModel
 								$relatedPermission = in_array($currentUserId, \App\Modules\Base\UiTypes\SharedOwner::getSharedOwners($id, $recordMetaData['setype']));
 								break;
 							case 2:
-								$relatedPermission = \App\Privilege::isPermittedBySharing($recordMetaData['setype'], \App\Utils\ModuleUtils::getModuleId($recordMetaData['setype']), $actionid, $id, $currentUserId);
+								$relatedPermission = \App\Security\Privilege::isPermittedBySharing($recordMetaData['setype'], \App\Utils\ModuleUtils::getModuleId($recordMetaData['setype']), $actionid, $id, $currentUserId);
 								break;
 						}
 					}
@@ -494,7 +494,7 @@ class Privileges extends \App\Runtime\BaseModel
 								$relatedPermission = in_array($currentUserId, \App\Modules\Base\UiTypes\SharedOwner::getSharedOwners($id, $recordMetaData['setype']));
 								break;
 							case 2:
-								$relatedPermission = \App\Privilege::isPermittedBySharing($recordMetaData['setype'], \App\Utils\ModuleUtils::getModuleId($recordMetaData['setype']), $actionid, $id, $currentUserId);
+								$relatedPermission = \App\Security\Privilege::isPermittedBySharing($recordMetaData['setype'], \App\Utils\ModuleUtils::getModuleId($recordMetaData['setype']), $actionid, $id, $currentUserId);
 								break;
 						}
 					}

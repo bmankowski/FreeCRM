@@ -88,9 +88,9 @@ class Vtiger_Request
 			}
 		}
 
-		//Handled for null because Purifier::purify returns empty string
+		//Handled for null because \App\Security\Purifier::purify returns empty string
 		if (!empty($value)) {
-			$value = Purifier::purify($value);
+			$value = \App\Security\Purifier::purify($value);
 		}
 
 		$this->valueMap[$key] = $value;
@@ -113,7 +113,7 @@ class Vtiger_Request
 	 */
 	public function getForSql($key, $skipEmtpy = true)
 	{
-		return Purifier::purifySql($this->get($key), $skipEmtpy);
+		return \App\Security\Purifier::purifySql($this->get($key), $skipEmtpy);
 	}
 
 	public function getForHtml($key, $defvalue = '')
@@ -141,9 +141,9 @@ class Vtiger_Request
 			}
 		}
 
-		//Handled for null because Purifier::purifyHtml returns empty string
+		//Handled for null because \App\Security\Purifier::purifyHtml returns empty string
 		if (!empty($value)) {
-			return Purifier::purifyHtml($value);
+			return \App\Security\Purifier::purifyHtml($value);
 		}
 
 		return $value;

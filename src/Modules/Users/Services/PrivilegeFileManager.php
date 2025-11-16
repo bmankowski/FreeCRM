@@ -54,15 +54,15 @@ class PrivilegeFileManager
                 $globalPermissionArr = Privileges::getCombinedUserGlobalPermissions($userId);
                 $tabsPermissionArr = Privileges::getCombinedUserTabsPermissions($userId);
                 $actionPermissionArr = Privileges::getCombinedUserActionPermissions($userId);
-                $user_role = PrivilegeUtil::getRoleByUsers($userId);
-                $user_role_info = PrivilegeUtil::getRoleDetail($user_role);
+                $user_role = \App\Security\PrivilegeUtil::getRoleByUsers($userId);
+                $user_role_info = \App\Security\PrivilegeUtil::getRoleDetail($user_role);
                 $user_role_parent = $user_role_info['parentrole'];
-                $subRoles = PrivilegeUtil::getRoleSubordinates($user_role);
-                $subRoleAndUsers = PrivilegeUtil::getSubordinateRoleAndUsers($user_role);
-                $parentRoles = PrivilegeUtil::getParentRole($user_role);
+                $subRoles = \App\Security\PrivilegeUtil::getRoleSubordinates($user_role);
+                $subRoleAndUsers = \App\Security\PrivilegeUtil::getSubordinateRoleAndUsers($user_role);
+                $parentRoles = \App\Security\PrivilegeUtil::getParentRole($user_role);
                 $newbuf .= "\$current_user_roles='" . $user_role . "';\n";
                 $newbuf .= "\$current_user_parent_role_seq='" . $user_role_parent . "';\n";
-                $newbuf .= "\$current_user_profiles=" . self::constructSingleArray(PrivilegeUtil::getProfilesByRole($user_role)) . ";\n";
+                $newbuf .= "\$current_user_profiles=" . self::constructSingleArray(\App\Security\PrivilegeUtil::getProfilesByRole($user_role)) . ";\n";
                 $newbuf .= "\$profileGlobalPermission=" . self::constructArray($globalPermissionArr) . ";\n";
                 $newbuf .= "\$profileTabsPermission=" . self::constructArray($tabsPermissionArr) . ";\n";
                 $newbuf .= "\$profileActionPermission=" . self::constructTwoDimensionalArray($actionPermissionArr) . ";\n";
@@ -74,7 +74,7 @@ class PrivilegeFileManager
             }
             fputs($handle, $newbuf);
             fclose($handle);
-            PrivilegeFile::createUserPrivilegesFile($userId);
+            \App\Security\PrivilegeFile::createUserPrivilegesFile($userId);
             Privileges::clearCache($userId);
             Record::clearCache($userId);
             return true;
@@ -116,15 +116,15 @@ class PrivilegeFileManager
             } else {
                 $sharingPrivileges = [];
                 //Constructing the Default Org Share Array
-                $def_org_share = PrivilegeUtil::getAllDefaultSharingAction();
+                $def_org_share = \App\Security\PrivilegeUtil::getAllDefaultSharingAction();
                 $newbuf .= "\$defaultOrgSharingPermission=" . self::constructArray($def_org_share) . ";\n";
                 $sharingPrivileges['defOrgShare'] = $def_org_share;
 
-                $relatedModuleShare = PrivilegeUtil::getDatashareRelatedModules();
+                $relatedModuleShare = \App\Security\PrivilegeUtil::getDatashareRelatedModules();
                 $newbuf .= "\$related_module_share=" . self::constructTwoDimensionalValueArray($relatedModuleShare) . ";\n";
                 $sharingPrivileges['relatedModuleShare'] = $relatedModuleShare;
                 //Constructing Account Sharing Rules
-                $account_share_per_array = PrivilegeUtil::getUserModuleSharingObjects('Accounts', $userId, $def_org_share, $current_user_roles, $parent_roles, $current_user_groups);
+                $account_share_per_array = \App\Security\PrivilegeUtil::getUserModuleSharingObjects('Accounts', $userId, $def_org_share, $current_user_roles, $parent_roles, $current_user_groups);
                 $account_share_read_per = $account_share_per_array['read'];
                 $account_share_write_per = $account_share_per_array['write'];
                 $account_sharingrule_members = $account_share_per_array['sharingrules'];
@@ -146,7 +146,7 @@ class PrivilegeFileManager
 
                 $custom_modules = \App\Utils\ModuleUtils::getSharingModuleList(['Accounts', 'Contacts']);
                 foreach ($custom_modules as &$module_name) {
-                    $mod_share_perm_array = PrivilegeUtil::getUserModuleSharingObjects($module_name, $userId, $def_org_share, $current_user_roles, $parent_roles, $current_user_groups);
+                    $mod_share_perm_array = \App\Security\PrivilegeUtil::getUserModuleSharingObjects($module_name, $userId, $def_org_share, $current_user_roles, $parent_roles, $current_user_groups);
 
                     $mod_share_read_perm = $mod_share_perm_array['read'];
                     $mod_share_write_perm = $mod_share_perm_array['write'];
@@ -220,7 +220,7 @@ class PrivilegeFileManager
                                         } elseif (array_key_exists($shareEntId, $modShareWritePer['ROLE'])) {
                                             $share_role_users = $modShareWritePer['ROLE'][$shareEntId];
                                         } else {
-                                            $share_role_users = PrivilegeUtil::getUsersByRole($shareEntId);
+                                            $share_role_users = \App\Security\PrivilegeUtil::getUsersByRole($shareEntId);
                                         }
                                         $role_read_per[$shareEntId] = $share_role_users;
                                     }
@@ -231,7 +231,7 @@ class PrivilegeFileManager
                                     } elseif (array_key_exists($shareEntId, $modShareWritePer['ROLE'])) {
                                         $share_role_users = $modShareWritePer['ROLE'][$shareEntId];
                                     } else {
-                                        $share_role_users = PrivilegeUtil::getUsersByRole($shareEntId);
+                                        $share_role_users = \App\Security\PrivilegeUtil::getUsersByRole($shareEntId);
                                     }
                                     $role_write_per[$shareEntId] = $share_role_users;
                                 }
@@ -242,7 +242,7 @@ class PrivilegeFileManager
                                     } elseif (array_key_exists($shareEntId, $modShareWritePer['ROLE'])) {
                                         $share_role_users = $modShareWritePer['ROLE'][$shareEntId];
                                     } else {
-                                        $share_role_users = PrivilegeUtil::getUsersByRole($shareEntId);
+                                        $share_role_users = \App\Security\PrivilegeUtil::getUsersByRole($shareEntId);
                                     }
                                     $role_read_per[$shareEntId] = $share_role_users;
                                 }

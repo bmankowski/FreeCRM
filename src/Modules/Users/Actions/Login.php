@@ -95,7 +95,7 @@ class Login extends \App\Base\Controllers\BaseActionController
 			}
 			//Track the login History
 			if ($moduleModel) {
-				$moduleModel->saveLoginHistory(\App\Purifier::encodeHtml($request->getRaw('username')), 'Failed login');
+				$moduleModel->saveLoginHistory(\App\Security\Purifier::encodeHtml($request->getRaw('username')), 'Failed login');
 			}
 			header("Location: index.php?module=Users&view=Login&error=$error");
 		}

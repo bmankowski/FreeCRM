@@ -46,7 +46,7 @@ class BaseModel
 	 */
 	public function getForSql($key, $skipEmtpy = true)
 	{
-		return \App\Purifier::purifySql($this->get($key), $skipEmtpy);
+		return \App\Security\Purifier::purifySql($this->get($key), $skipEmtpy);
 	}
 
 	/**
@@ -126,7 +126,7 @@ class BaseModel
 	 */
 	public function getHtmlEncode($key)
 	{
-		return \App\Purifier::encodeHtml($this->get($key));
+		return \App\Security\Purifier::encodeHtml($this->get($key));
 	}
 
 	/**

@@ -242,7 +242,7 @@ class Record extends \App\Modules\Base\Models\Record
 			$row['label'] = $labels[$row['crmid']];
 			$row['smownerid'] = $recordMeta['smownerid'];
 			$row['createdtime'] = $recordMeta['createdtime'];
-			$row['permitted'] = \App\Privilege::isPermitted($row['setype'], 'DetailView', $row['crmid']);
+			$row['permitted'] = \App\Security\Privilege::isPermitted($row['setype'], 'DetailView', $row['crmid']);
 			$moduleName = $row['setype'];
 			$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 			$modelClassName = \App\Loader::getComponentClassName('Model', 'Record', $moduleName);

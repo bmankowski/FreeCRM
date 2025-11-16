@@ -18,7 +18,7 @@ class Relation extends \App\Base\Controllers\BaseActionController
 		if (!$currentUserPriviligesModel->hasModulePermission($moduleName)) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
-		if (!\App\Privilege::isPermitted($moduleName, 'ReloadRelationRecord')) {
+		if (!\App\Security\Privilege::isPermitted($moduleName, 'ReloadRelationRecord')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}

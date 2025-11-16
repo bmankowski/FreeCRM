@@ -406,7 +406,7 @@ class ReportRun extends \App\CRMEntity
 				foreach ($fieldSqlColumns as $columnSql) {
 					$queryColumn .= " WHEN $columnSql NOT LIKE '' THEN $columnSql";
 				}
-				$moduleFieldLabel = \App\Purifier::purify(\App\Utils\ListViewUtils::decodeHtml($moduleFieldLabel));
+				$moduleFieldLabel = \App\Security\Purifier::purify(\App\Utils\ListViewUtils::decodeHtml($moduleFieldLabel));
 				$queryColumn .= " ELSE '' END) ELSE '' END) AS '$moduleFieldLabel'";
 				$this->queryPlanner->addTable($tableName);
 			}

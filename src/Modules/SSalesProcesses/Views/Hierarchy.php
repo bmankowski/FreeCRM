@@ -15,7 +15,7 @@ class Hierarchy extends \App\Base\Controllers\BaseViewController
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->get('record'))) {
+		if (!\App\Security\Privilege::isPermitted($request->getModule(), 'DetailView', $request->get('record'))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}

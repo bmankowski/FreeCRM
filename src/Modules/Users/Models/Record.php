@@ -320,7 +320,7 @@ class Record extends \App\Modules\Base\Models\Record
 			$checkUserExist = true;
 		} else {
 			if ($this->getPreviousValue('is_admin') !== false) {
-				\App\Privilege::setAllUpdater();
+				\App\Security\Privilege::setAllUpdater();
 			}
 			if ($this->getPreviousValue('roleid') !== false) {
 				$checkUserExist = true;
@@ -336,7 +336,7 @@ class Record extends \App\Modules\Base\Models\Record
 			if ($this->getId()) {
 				\App\Db::getInstance()->createCommand()->delete('vtiger_module_dashboard_widgets', ['userid' => $this->getId()])->execute();
 			}
-			\App\Privilege::setAllUpdater();
+			\App\Security\Privilege::setAllUpdater();
 		}
 	}
 

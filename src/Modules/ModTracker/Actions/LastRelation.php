@@ -21,11 +21,11 @@ class LastRelation extends \App\Base\Controllers\BaseActionController
 		$sourceModule = $request->get('sourceModule');
 		$records = $request->get('recordsId');
 		if (!empty($sourceModule)) {
-			if (!in_array($sourceModule, \App\AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) || !\App\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
+			if (!in_array($sourceModule, \App\AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) || !\App\Security\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
 				throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 			}
 			foreach ($records as $key => $recordId) {
-				if (!\App\Privilege::isPermitted($sourceModule, 'DetailView', $recordId)) {
+				if (!\App\Security\Privilege::isPermitted($sourceModule, 'DetailView', $recordId)) {
 					throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 				}
 			}
