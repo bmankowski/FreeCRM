@@ -101,7 +101,7 @@ class PDF extends \App\Base\Controllers\BaseActionController
 			\App\Modules\Base\Models\PDF::exportToPdf($recordId, $moduleName, $templateIds[0]);
 		} else {
 			if ($singlePdf) {
-				$handlerClass = \App\Loader::getComponentClassName('Pdf', 'mPDF', $moduleName);
+				$handlerClass = \App\Core\Loader::getComponentClassName('Pdf', 'mPDF', $moduleName);
 				$pdf = new $handlerClass();
 				$styles = '';
 				$headers = '';
@@ -171,7 +171,7 @@ class PDF extends \App\Base\Controllers\BaseActionController
 				$pdfFiles = [];
 				foreach ($templateIds as $id) {
 					foreach ($recordId as $record) {
-						$handlerClass = \App\Loader::getComponentClassName('Pdf', 'mPDF', $moduleName);
+						$handlerClass = \App\Core\Loader::getComponentClassName('Pdf', 'mPDF', $moduleName);
 						$pdf = new $handlerClass();
 						$pdf->setTemplateId($id);
 						$pdf->setRecordId($record);

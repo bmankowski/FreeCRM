@@ -13,7 +13,7 @@ namespace App\Modules\CallHistory;
  * *********************************************************************************************************************************** */
 
 
-class CallHistory extends \App\CRMEntity
+class CallHistory extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'vtiger_callhistory';

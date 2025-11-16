@@ -13,7 +13,7 @@ namespace App\Modules\OSSOutsourcedServices;
  * *********************************************************************************************************************************** */
 
 
-class OSSOutsourcedServices extends \App\CRMEntity
+class OSSOutsourcedServices extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'vtiger_ossoutsourcedservices';

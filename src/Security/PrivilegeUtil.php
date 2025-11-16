@@ -20,7 +20,7 @@ class PrivilegeUtil
 	 */
 	public static function getParentRecordOwner($tabid, $parModId, $recordId)
 	{
-		\App\Log::trace("Entering getParentRecordOwner($tabid,$parModId,$recordId) method ...");
+		\App\Log\Log::trace("Entering getParentRecordOwner($tabid,$parModId,$recordId) method ...");
 		$parentRecOwner = [];
 		$parentTabName = \App\Utils\ModuleUtils::getModuleName($parModId);
 		$relTabName = \App\Utils\ModuleUtils::getModuleName($tabid);
@@ -34,7 +34,7 @@ class PrivilegeUtil
 				$parentRecOwner[$type] = $ownerId;
 			}
 		}
-		\App\Log::trace('Exiting getParentRecordOwner method ...');
+		\App\Log\Log::trace('Exiting getParentRecordOwner method ...');
 		return $parentRecOwner;
 	}
 
@@ -44,12 +44,12 @@ class PrivilegeUtil
 	 */
 	private static function getEmailsRelatedAccounts($recordId)
 	{
-		\App\Log::trace("Entering getEmailsRelatedAccounts($recordId) method ...");
+		\App\Log\Log::trace("Entering getEmailsRelatedAccounts($recordId) method ...");
 		$adb = \App\Database\PearDatabase::getInstance();
 		$query = "select vtiger_seactivityrel.crmid from vtiger_seactivityrel inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_seactivityrel.crmid where vtiger_crmentity.setype='Accounts' and activityid=?";
 		$result = $adb->pquery($query, array($recordId));
 		$accountid = $adb->getSingleValue($result);
-		\App\Log::trace('Exiting getEmailsRelatedAccounts method ...');
+		\App\Log\Log::trace('Exiting getEmailsRelatedAccounts method ...');
 		return $accountid;
 	}
 
@@ -59,12 +59,12 @@ class PrivilegeUtil
 	 */
 	private static function getEmailsRelatedLeads($recordId)
 	{
-		\App\Log::trace("Entering getEmailsRelatedLeads($recordId) method ...");
+		\App\Log\Log::trace("Entering getEmailsRelatedLeads($recordId) method ...");
 		$adb = \App\Database\PearDatabase::getInstance();
 		$query = "select vtiger_seactivityrel.crmid from vtiger_seactivityrel inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_seactivityrel.crmid where vtiger_crmentity.setype='Leads' and activityid=?";
 		$result = $adb->pquery($query, array($recordId));
 		$leadid = $adb->getSingleValue($result);
-		\App\Log::trace('Exiting getEmailsRelatedLeads method ...');
+		\App\Log\Log::trace('Exiting getEmailsRelatedLeads method ...');
 		return $leadid;
 	}
 
@@ -74,12 +74,12 @@ class PrivilegeUtil
 	 */
 	private static function getHelpDeskRelatedAccounts($recordId)
 	{
-		\App\Log::trace("Entering getHelpDeskRelatedAccounts($recordId) method ...");
+		\App\Log\Log::trace("Entering getHelpDeskRelatedAccounts($recordId) method ...");
 		$adb = \App\Database\PearDatabase::getInstance();
 		$query = "select parent_id from vtiger_troubletickets inner join vtiger_crmentity on vtiger_crmentity.crmid=vtiger_troubletickets.parent_id where ticketid=? and vtiger_crmentity.setype='Accounts'";
 		$result = $adb->pquery($query, array($recordId));
 		$accountid = $adb->getSingleValue($result);
-		\App\Log::trace('Exiting getHelpDeskRelatedAccounts method ...');
+		\App\Log\Log::trace('Exiting getHelpDeskRelatedAccounts method ...');
 		return $accountid;
 	}
 
@@ -120,7 +120,7 @@ class PrivilegeUtil
 	public static function getAllDefaultSharingAction()
 	{
 		if (static::$defaultSharingActionCache === false) {
-			\App\Log::trace('getAllDefaultSharingAction');
+			\App\Log\Log::trace('getAllDefaultSharingAction');
 			$adb = \App\Database\PearDatabase::getInstance();
 			$copy = [];
 			//retreiving the standard permissions
@@ -248,7 +248,7 @@ class PrivilegeUtil
 	 */
 	public static function getProfilesByUser($userId)
 	{
-		$roleId = \App\PrivilegeUtil::getRoleByUsers($userId);
+		$roleId = \App\Security\PrivilegeUtil::getRoleByUsers($userId);
 		return static::getProfilesByRole($roleId);
 	}
 
@@ -354,7 +354,7 @@ class PrivilegeUtil
 				$users = array_merge($users, $roleUsers);
 			}
 		} else {
-			\App\Log::warning('Exceeded the recursive limit, a loop might have been created. Group ID:' . $groupId);
+			\App\Log\Log::warning('Exceeded the recursive limit, a loop might have been created. Group ID:' . $groupId);
 		}
 		return static::$usersByGroupCache[$groupId] = array_unique($users);
 	}
@@ -396,7 +396,7 @@ class PrivilegeUtil
 		if (Cache::has('RoleDetail', $roleId)) {
 			return Cache::get('RoleDetail', $roleId);
 		}
-		$row = (new Db\Query())->from('vtiger_role')->where(['roleid' => $roleId])->one();
+		$row = (new \App\Db\Query())->from('vtiger_role')->where(['roleid' => $roleId])->one();
 		if ($row) {
 			$parentRoleArr = explode('::', $row['parentrole']);
 			array_pop($parentRoleArr);
@@ -459,7 +459,7 @@ class PrivilegeUtil
 	 */
 	public static function getRoleUsers($roleId)
 	{
-		\App\Log::trace('Entering getRoleUsers(' . $roleId . ') method ...');
+		\App\Log\Log::trace('Entering getRoleUsers(' . $roleId . ') method ...');
 
 		$roleRelatedUsers = \App\Cache\Cache::get('getRoleUsers', $roleId);
 		if ($roleRelatedUsers !== false) {
@@ -476,7 +476,7 @@ class PrivilegeUtil
 		}
 
 		\App\Cache\Cache::save('getRoleUsers', $roleId, $roleRelatedUsers);
-		\App\Log::trace('Exiting getRoleUsers method ...');
+		\App\Log\Log::trace('Exiting getRoleUsers method ...');
 		return $roleRelatedUsers;
 	}
 
@@ -491,7 +491,7 @@ class PrivilegeUtil
 	 */
 	public static function getSubordinateRoleAndUsers($roleId)
 	{
-		\App\Log::trace("Entering getSubordinateRoleAndUsers(" . $roleId . ") method ...");
+		\App\Log\Log::trace("Entering getSubordinateRoleAndUsers(" . $roleId . ") method ...");
 		$adb = \App\Database\PearDatabase::getInstance();
 		$subRoleAndUsers = [];
 		$subordinateRoles = static::getRoleSubordinates($roleId);
@@ -499,7 +499,7 @@ class PrivilegeUtil
 			$userArray = static::getRoleUsers($subRoleId);
 			$subRoleAndUsers[$subRoleId] = $userArray;
 		}
-		\App\Log::trace("Exiting getSubordinateRoleAndUsers method ...");
+		\App\Log\Log::trace("Exiting getSubordinateRoleAndUsers method ...");
 		return $subRoleAndUsers;
 	}
 
@@ -510,11 +510,11 @@ class PrivilegeUtil
 	 */
 	public static function fetchUserGroupids($userid)
 	{
-		\App\Log::trace("Entering fetchUserGroupids(" . $userid . ") method ...");
+		\App\Log\Log::trace("Entering fetchUserGroupids(" . $userid . ") method ...");
 		$focus = new \App\Utils\GetUserGroups();
 		$focus->getAllUserGroups($userid);
 		$groupidlists = implode(",", $focus->user_groups);
-		\App\Log::trace("Exiting fetchUserGroupids method ...");
+		\App\Log\Log::trace("Exiting fetchUserGroupids method ...");
 		return $groupidlists;
 	}
 
@@ -524,7 +524,7 @@ class PrivilegeUtil
 	 */
 	public static function getCurrentUserGroupList()
 	{
-		\App\Log::trace("Entering getCurrentUserGroupList() method ...");
+		\App\Log\Log::trace("Entering getCurrentUserGroupList() method ...");
 		$currentUser = \App\User\CurrentUser::get();
 		require('user_privileges/user_privileges_' . $currentUser->getId() . '.php');
 		$grpList = [];
@@ -533,7 +533,7 @@ class PrivilegeUtil
 				array_push($grpList, $grpid);
 			}
 		}
-		\App\Log::trace("Exiting getCurrentUserGroupList method ...");
+		\App\Log\Log::trace("Exiting getCurrentUserGroupList method ...");
 		return $grpList;
 	}
 
@@ -543,7 +543,7 @@ class PrivilegeUtil
 	 */
 	public static function getAllRoleDetails()
 	{
-		\App\Log::trace('Entering getAllRoleDetails() method ...');
+		\App\Log\Log::trace('Entering getAllRoleDetails() method ...');
 		$adb = \App\Database\PearDatabase::getInstance();
 		$role_det = [];
 		$query = "select * from vtiger_role";
@@ -577,7 +577,7 @@ class PrivilegeUtil
 			$each_role_det[] = $sub_role;
 			$role_det[$roleid] = $each_role_det;
 		}
-		\App\Log::trace('Exiting getAllRoleDetails method ...');
+		\App\Log\Log::trace('Exiting getAllRoleDetails method ...');
 		return $role_det;
 	}
 
@@ -589,7 +589,7 @@ class PrivilegeUtil
 	 */
 	public static function getRoleAndSubordinateUsers($roleId)
 	{
-		\App\Log::trace("Entering getRoleAndSubordinateUsers(" . $roleId . ") method ...");
+		\App\Log\Log::trace("Entering getRoleAndSubordinateUsers(" . $roleId . ") method ...");
 		$adb = \App\Database\PearDatabase::getInstance();
 		$roleInfoArr = static::getRoleDetail($roleId);
 		$parentRole = $roleInfoArr['parentrole'];
@@ -600,7 +600,7 @@ class PrivilegeUtil
 		for ($i = 0; $i < $num_rows; $i++) {
 			$roleRelatedUsers[$adb->query_result($result, $i, 'userid')] = $adb->query_result($result, $i, 'user_name');
 		}
-		\App\Log::trace("Exiting getRoleAndSubordinateUsers method ...");
+		\App\Log\Log::trace("Exiting getRoleAndSubordinateUsers method ...");
 		return $roleRelatedUsers;
 	}
 
@@ -623,7 +623,7 @@ class PrivilegeUtil
 	 */
 	public static function getWriteSharingGroupsList($module)
 	{
-		\App\Log::trace("Entering getWriteSharingGroupsList(" . $module . ") method ...");
+		\App\Log\Log::trace("Entering getWriteSharingGroupsList(" . $module . ") method ...");
 		$adb = \App\Database\PearDatabase::getInstance();
 		$currentUser = \App\User\CurrentUser::get();
 		$grp_array = [];
@@ -635,7 +635,7 @@ class PrivilegeUtil
 			$grp_id = $adb->query_result($result, $i, 'sharedgroupid');
 			$grp_array[] = $grp_id;
 		}
-		\App\Log::trace("Exiting getWriteSharingGroupsList method ...");
+		\App\Log\Log::trace("Exiting getWriteSharingGroupsList method ...");
 		return $grp_array;
 	}
 
@@ -646,7 +646,7 @@ class PrivilegeUtil
 	 */
 	public static function get_current_user_access_groups($module)
 	{
-		\App\Log::trace("Entering get_current_user_access_groups(" . $module . ") method ...");
+		\App\Log\Log::trace("Entering get_current_user_access_groups(" . $module . ") method ...");
 		$adb = \App\Database\PearDatabase::getInstance();
 		$current_user_group_list = static::getCurrentUserGroupList();
 		$sharing_write_group_list = static::getWriteSharingGroupsList($module);
@@ -667,7 +667,7 @@ class PrivilegeUtil
 		} else {
 			$result = null;
 		}
-		\App\Log::trace("Exiting get_current_user_access_groups method ...");
+		\App\Log\Log::trace("Exiting get_current_user_access_groups method ...");
 		return $result;
 	}
 
@@ -748,15 +748,15 @@ class PrivilegeUtil
 				if ($row['permission'] === 1) {
 					if ($modDefOrgShare === 3) {
 						if (!isset($roleReadPer[$shareRoleId])) {
-							$roleReadPer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+							$roleReadPer[$shareRoleId] = \App\Security\PrivilegeUtil::getUsersByRole($shareRoleId);
 						}
 					}
 					if (!isset($role_write_per[$shareRoleId])) {
-						$roleWritePer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+						$roleWritePer[$shareRoleId] = \App\Security\PrivilegeUtil::getUsersByRole($shareRoleId);
 					}
 				} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
 					if (!isset($roleReadPer[$shareRoleId])) {
-						$roleReadPer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+						$roleReadPer[$shareRoleId] = \App\Security\PrivilegeUtil::getUsersByRole($shareRoleId);
 					}
 				}
 			}
@@ -779,15 +779,15 @@ class PrivilegeUtil
 				if ($row['permission'] === 1) {
 					if ($modDefOrgShare === 3) {
 						if (!isset($roleReadPer[$shareRoleId])) {
-							$roleReadPer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+							$roleReadPer[$shareRoleId] = \App\Security\PrivilegeUtil::getUsersByRole($shareRoleId);
 						}
 					}
 					if (!isset($role_write_per[$shareRoleId])) {
-						$roleWritePer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+						$roleWritePer[$shareRoleId] = \App\Security\PrivilegeUtil::getUsersByRole($shareRoleId);
 					}
 				} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
 					if (!isset($roleReadPer[$shareRoleId])) {
-						$roleReadPer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+						$roleReadPer[$shareRoleId] = \App\Security\PrivilegeUtil::getUsersByRole($shareRoleId);
 					}
 				}
 			}
@@ -808,15 +808,15 @@ class PrivilegeUtil
 					if ($row['permission'] === 1) {
 						if ($modDefOrgShare === 3) {
 							if (!isset($roleReadPer[$shareRoleId])) {
-								$roleReadPer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+								$roleReadPer[$shareRoleId] = \App\Security\PrivilegeUtil::getUsersByRole($shareRoleId);
 							}
 						}
 						if (!isset($role_write_per[$shareRoleId])) {
-							$roleWritePer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+							$roleWritePer[$shareRoleId] = \App\Security\PrivilegeUtil::getUsersByRole($shareRoleId);
 						}
 					} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
 						if (!isset($roleReadPer[$shareRoleId])) {
-							$roleReadPer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+							$roleReadPer[$shareRoleId] = \App\Security\PrivilegeUtil::getUsersByRole($shareRoleId);
 						}
 					}
 				}
@@ -834,15 +834,15 @@ class PrivilegeUtil
 					if ($row['permission'] === 1) {
 						if ($modDefOrgShare === 3) {
 							if (!isset($roleReadPer[$shareRoleId])) {
-								$roleReadPer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+								$roleReadPer[$shareRoleId] = \App\Security\PrivilegeUtil::getUsersByRole($shareRoleId);
 							}
 						}
 						if (!isset($role_write_per[$shareRoleId])) {
-							$roleWritePer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+							$roleWritePer[$shareRoleId] = \App\Security\PrivilegeUtil::getUsersByRole($shareRoleId);
 						}
 					} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
 						if (!isset($roleReadPer[$shareRoleId])) {
-							$roleReadPer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+							$roleReadPer[$shareRoleId] = \App\Security\PrivilegeUtil::getUsersByRole($shareRoleId);
 						}
 					}
 				}
@@ -859,15 +859,15 @@ class PrivilegeUtil
 					if ($row['permission'] === 1) {
 						if ($modDefOrgShare === 3) {
 							if (!isset($roleReadPer[$shareRoleId])) {
-								$roleReadPer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+								$roleReadPer[$shareRoleId] = \App\Security\PrivilegeUtil::getUsersByRole($shareRoleId);
 							}
 						}
 						if (!isset($role_write_per[$shareRoleId])) {
-							$roleWritePer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+							$roleWritePer[$shareRoleId] = \App\Security\PrivilegeUtil::getUsersByRole($shareRoleId);
 						}
 					} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
 						if (!isset($roleReadPer[$shareRoleId])) {
-							$roleReadPer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+							$roleReadPer[$shareRoleId] = \App\Security\PrivilegeUtil::getUsersByRole($shareRoleId);
 						}
 					}
 				}
@@ -886,15 +886,15 @@ class PrivilegeUtil
 					if ($row['permission'] === 1) {
 						if ($modDefOrgShare === 3) {
 							if (!isset($roleReadPer[$shareRoleId])) {
-								$roleReadPer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+								$roleReadPer[$shareRoleId] = \App\Security\PrivilegeUtil::getUsersByRole($shareRoleId);
 							}
 						}
 						if (!isset($role_write_per[$shareRoleId])) {
-							$roleWritePer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+							$roleWritePer[$shareRoleId] = \App\Security\PrivilegeUtil::getUsersByRole($shareRoleId);
 						}
 					} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
 						if (!isset($roleReadPer[$shareRoleId])) {
-							$roleReadPer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+							$roleReadPer[$shareRoleId] = \App\Security\PrivilegeUtil::getUsersByRole($shareRoleId);
 						}
 					}
 				}
@@ -913,15 +913,15 @@ class PrivilegeUtil
 					if ($row['permission'] === 1) {
 						if ($modDefOrgShare === 3) {
 							if (!isset($roleReadPer[$shareRoleId])) {
-								$roleReadPer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+								$roleReadPer[$shareRoleId] = \App\Security\PrivilegeUtil::getUsersByRole($shareRoleId);
 							}
 						}
 						if (!isset($role_write_per[$shareRoleId])) {
-							$roleWritePer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+							$roleWritePer[$shareRoleId] = \App\Security\PrivilegeUtil::getUsersByRole($shareRoleId);
 						}
 					} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
 						if (!isset($roleReadPer[$shareRoleId])) {
-							$roleReadPer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+							$roleReadPer[$shareRoleId] = \App\Security\PrivilegeUtil::getUsersByRole($shareRoleId);
 						}
 					}
 				}
@@ -940,15 +940,15 @@ class PrivilegeUtil
 					if ($row['permission'] === 1) {
 						if ($modDefOrgShare === 3) {
 							if (!isset($roleReadPer[$shareRoleId])) {
-								$roleReadPer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+								$roleReadPer[$shareRoleId] = \App\Security\PrivilegeUtil::getUsersByRole($shareRoleId);
 							}
 						}
 						if (!isset($role_write_per[$shareRoleId])) {
-							$roleWritePer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+							$roleWritePer[$shareRoleId] = \App\Security\PrivilegeUtil::getUsersByRole($shareRoleId);
 						}
 					} elseif ($row['permission'] === 0 && $modDefOrgShare === 3) {
 						if (!isset($roleReadPer[$shareRoleId])) {
-							$roleReadPer[$shareRoleId] = \App\PrivilegeUtil::getUsersByRole($shareRoleId);
+							$roleReadPer[$shareRoleId] = \App\Security\PrivilegeUtil::getUsersByRole($shareRoleId);
 						}
 					}
 				}

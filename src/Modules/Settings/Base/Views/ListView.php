@@ -48,8 +48,8 @@ class ListView extends \App\Modules\Settings\Base\Views\Index
 	{
 		// Prepare AdvancedPermission-specific data
 		if ($qualifiedModuleName === 'Settings:AdvancedPermission') {
-			$viewer->assign('PERMITTED_BY_ADVANCED_PERMISSION', \App\AppConfig::security('PERMITTED_BY_ADVANCED_PERMISSION'));
-			$viewer->assign('CACHING_PERMISSION_TO_RECORD', \App\AppConfig::security('CACHING_PERMISSION_TO_RECORD'));
+			$viewer->assign('PERMITTED_BY_ADVANCED_PERMISSION', \App\Core\AppConfig::security('PERMITTED_BY_ADVANCED_PERMISSION'));
+			$viewer->assign('CACHING_PERMISSION_TO_RECORD', \App\Core\AppConfig::security('CACHING_PERMISSION_TO_RECORD'));
 		}
 	}
 
@@ -158,7 +158,7 @@ class ListView extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
 
 		$this->prepareListViewHeaderData($viewer, $qualifiedModuleName);
-		$viewer->assign('LIST_MAX_ENTRIES_MASS_EDIT', \App\AppConfig::main('listMaxEntriesMassEdit'));
+		$viewer->assign('LIST_MAX_ENTRIES_MASS_EDIT', \App\Core\AppConfig::main('listMaxEntriesMassEdit'));
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)

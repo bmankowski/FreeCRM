@@ -42,7 +42,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 */
 	public static function getColumnNames()
 	{
-		$tableSchema = \App\Db::getInstance('admin')->getTableSchema('s_#__companies', true);
+		$tableSchema = \App\Db\Db::getInstance('admin')->getTableSchema('s_#__companies', true);
 		if ($tableSchema) {
 			return $tableSchema->getColumnNames();
 		}
@@ -63,7 +63,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 */
 	public static function getAllCompanies()
 	{
-		$db = \App\Db::getInstance('admin');
+		$db = \App\Db\Db::getInstance('admin');
 		$query = new \App\Db\Query();
 		$query->select(['id', 'name', 'default'])->from('s_#__companies');
 		return $query->createCommand()->queryAllByGroup(1);

@@ -116,8 +116,8 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	public static function getCleanInstance($moduleName = 'Vtiger')
 	{
 
-		\App\Log::trace('Entering ' . __METHOD__ . '(' . $moduleName . ') method ...');
-		$handlerClass = \App\Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
+		\App\Log\Log::trace('Entering ' . __METHOD__ . '(' . $moduleName . ') method ...');
+		$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 		$mf = new $handlerClass();
 		$data = [];
 		$fields = self::getFieldsByStep();
@@ -127,7 +127,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		$mf->setData($data);
 		$instance = new self();
 		$instance->record = $mf;
-		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
+		\App\Log\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $instance;
 	}
 
@@ -149,7 +149,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	public static function getInstance($moduleName = 'Settings:Vtiger')
 	{
 
-		\App\Log::trace('Entering ' . __METHOD__ . '(' . $moduleName . ') method ...');
+		\App\Log\Log::trace('Entering ' . __METHOD__ . '(' . $moduleName . ') method ...');
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		if ($moduleModel) {
 			$objectProperties = get_object_vars($moduleModel);
@@ -158,17 +158,17 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 				$moduleModel->$properName = $propertyValue;
 			}
 		}
-		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
+		\App\Log\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $moduleModel;
 	}
 
 	public static function getInstanceById($recordId, $moduleName = 'Vtiger')
 	{
 
-		\App\Log::trace('Entering ' . __METHOD__ . '(' . $recordId . ',' . $moduleName . ') method ...');
+		\App\Log\Log::trace('Entering ' . __METHOD__ . '(' . $recordId . ',' . $moduleName . ') method ...');
 		$instance = new self();
 		$instance->record = \App\Modules\Base\Models\MappedFields::getInstanceById($recordId, $moduleName);
-		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
+		\App\Log\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $instance;
 	}
 
@@ -213,7 +213,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	public function getFields($source = false)
 	{
 
-		\App\Log::trace('Entering ' . __METHOD__ . '() method ...');
+		\App\Log\Log::trace('Entering ' . __METHOD__ . '() method ...');
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($this->getName());
 		$moduleMeta = $moduleModel->getModuleMeta();
 		$moduleFields = $moduleMeta->getAccessibleFields();
@@ -242,24 +242,24 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 				$fields[$blockName][$field->get('columnname')] = \App\Modules\Settings\MappedFields\Models\Field::getInstanceFromInventoryFieldObject($field);
 			}
 		}
-		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
+		\App\Log\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $fields;
 	}
 
 	public function deleteMapping($mappedIds)
 	{
-		\App\Log::trace('Entering ' . __METHOD__ . '() method ...');
+		\App\Log\Log::trace('Entering ' . __METHOD__ . '() method ...');
 		if (!is_array($mappedIds)) {
 			$mappedIds = [$mappedIds];
 		}
-		\App\Db::getInstance()->createCommand()->delete($this->mappingTable, [$this->mappingIndex => $mappedIds])
+		\App\Db\Db::getInstance()->createCommand()->delete($this->mappingTable, [$this->mappingIndex => $mappedIds])
 			->execute();
-		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
+		\App\Log\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 	}
 
 	public function delete()
 	{
-		return \App\Db::getInstance()->createCommand()->delete($this->baseTable, [$this->baseIndex => $this->getRecordId()])
+		return \App\Db\Db::getInstance()->createCommand()->delete($this->baseTable, [$this->baseIndex => $this->getRecordId()])
 				->execute();
 	}
 
@@ -272,8 +272,8 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	public function save($saveMapping = false)
 	{
-		\App\Log::trace('Entering ' . __METHOD__ . '(' . $saveMapping . ') method ...');
-		$db = \App\Db::getInstance();
+		\App\Log\Log::trace('Entering ' . __METHOD__ . '(' . $saveMapping . ') method ...');
+		$db = \App\Db\Db::getInstance();
 		$fields = self::$allFields;
 		$params = [];
 		foreach ($fields as $field) {
@@ -306,7 +306,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 				}
 			}
 		}
-		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
+		\App\Log\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $this->getRecordId();
 	}
 
@@ -316,7 +316,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	public function transformAdvanceFilterToWorkFlowFilter()
 	{
 
-		\App\Log::trace('Entering ' . __METHOD__ . '() method ...');
+		\App\Log\Log::trace('Entering ' . __METHOD__ . '() method ...');
 		$conditions = $this->get('conditions');
 		$wfCondition = [];
 		if (!empty($conditions)) {
@@ -336,7 +336,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 			}
 		}
 		$this->getRecord()->set('conditions', $wfCondition);
-		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
+		\App\Log\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 	}
 
 	public function import($qualifiedModuleName = false)

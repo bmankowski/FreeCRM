@@ -30,7 +30,7 @@ class CalendarFilters extends \App\Runtime\BaseModel
 			if (!$fileinfo->isDot()) {
 				$name = $fileinfo->getFilename();
 				$name = rtrim($name, '.php');
-				$filterClassName = \App\Loader::getComponentClassName('CalendarFilter', $name, 'Calendar');
+				$filterClassName = \App\Core\Loader::getComponentClassName('CalendarFilter', $name, 'Calendar');
 				$filterInstance = new $filterClassName();
 				if (method_exists($filterInstance, 'checkPermissions') && $filterInstance->checkPermissions()) {
 					$this->filters[] = $filterInstance;

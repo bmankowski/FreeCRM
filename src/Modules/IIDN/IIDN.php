@@ -3,14 +3,14 @@
 namespace App\Modules\IIDN;
 
 /**
- * IIDN \App\CRMEntity Class
+ * IIDN \App\Core\CRMEntity Class
  * @package YetiForce.CRMEntity
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 
-class IIDN extends \App\CRMEntity
+class IIDN extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'u_yf_iidn';

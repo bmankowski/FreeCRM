@@ -136,11 +136,11 @@ class DashBoard extends \App\Runtime\BaseModel
 
 	public function verifyDashboard($moduleName)
 	{
-		\App\Log::trace('Entering ' . __METHOD__ . '(' . $moduleName . ')');
+		\App\Log\Log::trace('Entering ' . __METHOD__ . '(' . $moduleName . ')');
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$blockId = \App\Modules\Settings\WidgetsManagement\Models\Module::getBlocksFromModule($moduleName, $currentUser->getRole(), $this->get('dashboardId'));
 		if (count($blockId) == 0) {
-			\App\Log::trace('Exiting ' . __METHOD__);
+			\App\Log\Log::trace('Exiting ' . __METHOD__);
 			return;
 		}
 		$dataReader = (new \App\Db\Query())->select('vtiger_module_dashboard.*, vtiger_links.tabid')
@@ -156,7 +156,7 @@ class DashBoard extends \App\Runtime\BaseModel
 					->where(['userid' => $currentUser->getId(), 'templateid' => $row['id']])
 					->exists()) {
 				$active = $row['isdefault'] ? 1 : 0;
-				\App\Db::getInstance()->createCommand()->insert('vtiger_module_dashboard_widgets', [
+				\App\Db\Db::getInstance()->createCommand()->insert('vtiger_module_dashboard_widgets', [
 					'linkid' => $row['linkid'],
 					'userid' => $currentUser->getId(),
 					'templateid' => $row['id'],
@@ -175,7 +175,7 @@ class DashBoard extends \App\Runtime\BaseModel
 				])->execute();
 			}
 		}
-		\App\Log::trace('Exiting ' . __METHOD__);
+		\App\Log\Log::trace('Exiting ' . __METHOD__);
 	}
 
 	/**
@@ -185,7 +185,7 @@ class DashBoard extends \App\Runtime\BaseModel
 	 */
 	public static function getInstance($moduleName)
 	{
-		$modelClassName = \App\Loader::getComponentClassName('Model', 'DashBoard', $moduleName);
+		$modelClassName = \App\Core\Loader::getComponentClassName('Model', 'DashBoard', $moduleName);
 		$instance = new $modelClassName();
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		return $instance->setModule($moduleModel);

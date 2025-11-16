@@ -16,7 +16,7 @@ namespace App\Modules\Campaigns;
  * Contributor(s): ______________________________________.
  * ****************************************************************************** */
 
-class Campaigns extends \App\CRMEntity
+class Campaigns extends \App\Core\CRMEntity
 {
 
 	public $table_name = "vtiger_campaign";
@@ -141,9 +141,9 @@ class Campaigns extends \App\CRMEntity
 			return;
 
 		if (in_array($returnModule, ['Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
-			\App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['campaignid' => $id, 'crmid' => $returnId])->execute();
+			\App\Db\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['campaignid' => $id, 'crmid' => $returnId])->execute();
 		} elseif ($returnModule == 'Accounts') {
-			$db = \App\Db::getInstance();
+			$db = \App\Db\Db::getInstance();
 			$db->createCommand()->delete('vtiger_campaign_records', ['campaignid' => $id, 'crmid' => $returnId])->execute();
 			$db->createCommand()->delete('vtiger_campaign_records', ['campaignid' => $id, 'crmid' => (new \App\Db\Query())->select(['contactid'])->from('vtiger_contactdetails')->where(['parentid' => $returnId])])->execute();
 		} else {
@@ -165,7 +165,7 @@ class Campaigns extends \App\CRMEntity
 				if ($checkResult) {
 					continue;
 				}
-				\App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
+				\App\Db\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
 					'campaignid' => $crmid,
 					'crmid' => $withCrmid,
 					'campaignrelstatusid' => 0

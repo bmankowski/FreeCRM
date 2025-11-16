@@ -21,41 +21,41 @@ class TplRefactor {
         // Simple replacements that can be done automatically
         // Format: [pattern => replacement, requiresControllerCode => bool]
         $this->replacements = [
-            // AppConfig::search calls
+            // \App\Core\AppConfig::search calls
             [
                 'pattern' => '/AppConfig::search\([\'"]GLOBAL_SEARCH_AUTOCOMPLETE[\'"]\)/',
                 'replacement' => '$CONFIG.gsAutocomplete',
-                'controller' => "\$config['gsAutocomplete'] = AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE');",
+                'controller' => "\$config['gsAutocomplete'] = \App\Core\AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE');",
             ],
             [
                 'pattern' => '/AppConfig::search\([\'"]GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH[\'"]\)/',
                 'replacement' => '$CONFIG.gsMinLength',
-                'controller' => "\$config['gsMinLength'] = AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH');",
+                'controller' => "\$config['gsMinLength'] = \App\Core\AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH');",
             ],
             [
                 'pattern' => '/AppConfig::search\([\'"]GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT[\'"]\)/',
                 'replacement' => '$CONFIG.gsAmountResponse',
-                'controller' => "\$config['gsAmountResponse'] = AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT');",
+                'controller' => "\$config['gsAmountResponse'] = \App\Core\AppConfig::search('GLOBAL_SEARCH_AUTOCOMPLETE_LIMIT');",
             ],
             [
                 'pattern' => '/AppConfig::performance\([\'"]AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE[\'"]\)/',
                 'replacement' => '$CONFIG.autoRefreshListOnChange',
-                'controller' => "\$config['autoRefreshListOnChange'] = AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE');",
+                'controller' => "\$config['autoRefreshListOnChange'] = \App\Core\AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE');",
             ],
             [
                 'pattern' => '/AppConfig::performance\([\'"]INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK[\'"]\)/',
                 'replacement' => '$CONFIG.intervalForNotificationNumberCheck',
-                'controller' => "\$config['intervalForNotificationNumberCheck'] = AppConfig::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK');",
+                'controller' => "\$config['intervalForNotificationNumberCheck'] = \App\Core\AppConfig::performance('INTERVAL_FOR_NOTIFICATION_NUMBER_CHECK');",
             ],
             [
                 'pattern' => '/AppConfig::security\([\'"]FIELDS_REFERENCES_DEPENDENT[\'"]\)/',
                 'replacement' => '$CONFIG.fieldsReferencesDependent',
-                'controller' => "\$config['fieldsReferencesDependent'] = AppConfig::security('FIELDS_REFERENCES_DEPENDENT');",
+                'controller' => "\$config['fieldsReferencesDependent'] = \App\Core\AppConfig::security('FIELDS_REFERENCES_DEPENDENT');",
             ],
             [
                 'pattern' => '/AppConfig::sounds\(\)/',
                 'replacement' => '$CONFIG.sounds',
-                'controller' => "\$config['sounds'] = AppConfig::sounds();",
+                'controller' => "\$config['sounds'] = \App\Core\AppConfig::sounds();",
             ],
             
             // Debugger calls

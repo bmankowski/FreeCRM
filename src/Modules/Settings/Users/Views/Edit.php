@@ -28,7 +28,7 @@ class Edit extends \App\Modules\Users\Views\PreferenceEdit
 		}
 		
 		// Non-admins can only edit their own record if preferences are allowed
-		if ($currentUserModel->get('id') == $record && \App\AppConfig::security('SHOW_MY_PREFERENCES')) {
+		if ($currentUserModel->get('id') == $record && \App\Core\AppConfig::security('SHOW_MY_PREFERENCES')) {
 			// Check that the user being edited is active
 			if (!empty($record)) {
 				$recordModel = \App\Modules\Users\Models\Record::getInstanceById($record, $moduleName);

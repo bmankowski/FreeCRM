@@ -12,7 +12,7 @@ namespace App\Modules\SMSNotifier;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class SMSNotifierBase extends \App\CRMEntity
+class SMSNotifierBase extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'vtiger_smsnotifier';
@@ -263,7 +263,7 @@ class SMSNotifierBase extends \App\CRMEntity
 		// Security Check for Field Access
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[7] == 3) {
 			//Added security check to get the permitted records only
-			$query = $query . " " . \App\PrivilegeQuery::getListViewSecurityParameter($thismodule);
+			$query = $query . " " . \App\Security\PrivilegeQuery::getListViewSecurityParameter($thismodule);
 		}
 		return $query;
 	}

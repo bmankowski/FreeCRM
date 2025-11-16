@@ -15,7 +15,7 @@ class Mail extends TestCase
 
 	public function testLoadConfig()
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$db->createCommand()
 			->insert('roundcube_users', [
 				'username' => 'yetiforcetestmail@gmail.com',

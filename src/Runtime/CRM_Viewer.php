@@ -58,20 +58,20 @@ class CRM_Viewer extends \Smarty
 	public function __construct($media = '')
 	{
 		parent::__construct();
-		$this->debugging = \App\AppConfig::debug('DISPLAY_DEBUG_VIEWER');
+		$this->debugging = \App\Core\AppConfig::debug('DISPLAY_DEBUG_VIEWER');
 
 		$THISDIR = __DIR__;
 		$compileDir = '';
 		$templateDir = [];
         self::$currentLayout = empty($media) ? \App\Runtime\Yeti_Layout::getActiveLayout() : $media;
 
-		if (\App\AppConfig::performance('LOAD_CUSTOM_FILES')) {
+		if (\App\Core\AppConfig::performance('LOAD_CUSTOM_FILES')) {
 			$templateDir[] = $THISDIR . '/../../custom/layouts/' . self::$currentLayout;
 		}
 
 		$templateDir[] = $THISDIR . '/../../layouts/' . self::$currentLayout;
 		$compileDir = $THISDIR . '/../../cache/templates_c/' . self::$currentLayout;
-		if (\App\AppConfig::performance('LOAD_CUSTOM_FILES')) {
+		if (\App\Core\AppConfig::performance('LOAD_CUSTOM_FILES')) {
 			$templateDir[] = $THISDIR . '/../../custom/layouts/' . self::getDefaultLayoutName();
 		}
 
@@ -83,7 +83,7 @@ class CRM_Viewer extends \Smarty
 		$this->setTemplateDir(array_unique($templateDir));
 		$this->setCompileDir($compileDir);
 
-		self::$debugViewer = \App\AppConfig::debug('DEBUG_VIEWER');
+		self::$debugViewer = \App\Core\AppConfig::debug('DEBUG_VIEWER');
 
 		// FOR SECURITY
 		// Escape all {$variable} to overcome XSS
@@ -159,15 +159,15 @@ class CRM_Viewer extends \Smarty
 			$this->registerPlugin('modifier', 't', '\App\Runtime\Vtiger_Language_Handler::translate');
 			
 		// Register static classes for template use
-		$this->registerClass('AppConfig', '\App\AppConfig');
+		$this->registerClass('AppConfig', '\App\Core\AppConfig');
 		$this->registerClass('\App\Modules\Base\Models\Menu', '\App\Modules\\Base\Models\\Menu');
 		$this->registerClass('\App\Runtime\Yeti_Layout', '\App\\Runtime\\Yeti_Layout');
 		$this->registerClass('\App\Modules\Settings\WidgetsManagement\Models\Module', '\App\Modules\\Settings\\WidgetsManagement\Models\\Module');
 		$this->registerClass('\App\Modules\Settings\Calendar\Models\Module', '\App\Modules\\Settings\\Calendar\Models\\Module');
 		$this->registerClass('\App\\Utils\\Json', '\App\\Utils\\Json');
-		$this->registerClass('\App\\Debugger', '\App\\Debugger');
-		$this->registerClass('App\\Company', '\App\\Company');
-		$this->registerClass('\App\\Record', '\App\\Record');
+		$this->registerClass('\App\\Debug\\Debugger', '\App\\Debug\\Debugger');
+		$this->registerClass('App\\Core\\Company', '\App\\Core\\Company');
+		$this->registerClass('\App\\Records\\Record', '\App\\Records\\Record');
 		// Register UIType and utility classes used in templates
 		$this->registerClass('\App\\Fields\\Owner', '\App\\Fields\\Owner');
 		$this->registerClass('\App\\Fields\\DateTimeField', '\App\\Fields\\DateTimeField');
@@ -181,7 +181,7 @@ class CRM_Viewer extends \Smarty
 		$this->registerClass('\App\\Modules\\Base\\Models\\Field', '\App\\Modules\\Base\\Models\\Field');
 		$this->registerClass('\App\\Modules\\Base\\Models\\InventoryField', '\App\\Modules\\Base\\Models\\InventoryField');
 		$this->registerClass('\App\\Modules\\Base\\Helpers\\Util', '\App\\Modules\\Base\\Helpers\\Util');
-		$this->registerClass('\App\\Privilege', '\App\\Privilege');
+		$this->registerClass('\App\\Security\\Privilege', '\App\\Security\\Privilege');
 		$this->registerClass('\App\\Modules\\Users\\Models\\Colors', '\App\\Modules\\Users\\Models\\Colors');
 		$this->registerClass('\App\\Modules\\Settings\\ModuleManager\\Models\\Library', '\App\\Modules\\Settings\\ModuleManager\\Models\\Library');
 		$this->registerClass('App\Modules\Settings\Mail\Models\Config', '\App\\Modules\\Settings\\Mail\\Models\\Config');
@@ -231,7 +231,7 @@ class CRM_Viewer extends \Smarty
 
 		} catch (Exception $exception) {
 			// Log error but don't break the application
-			Log::error('Smarty plugin registration error: ' . $exception->getMessage());
+			\App\Log\Log::error('Smarty plugin registration error: ' . $exception->getMessage());
 			throw $exception;
 		}
 	}
@@ -364,8 +364,8 @@ class CRM_Viewer extends \Smarty
 
 		// END
 		if ($templateFound) {
-			if (!empty(\App\AppConfig::debug('SMARTY_ERROR_REPORTING'))) {
-				$this->error_reporting = \App\AppConfig::debug('SMARTY_ERROR_REPORTING');
+			if (!empty(\App\Core\AppConfig::debug('SMARTY_ERROR_REPORTING'))) {
+				$this->error_reporting = \App\Core\AppConfig::debug('SMARTY_ERROR_REPORTING');
 			}
 
 			if ($fetch) {

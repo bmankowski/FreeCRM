@@ -20,9 +20,9 @@ class Module extends \App\Modules\Base\Models\Module
 	 * @param string $sourceModule Parent module
 	 * @param string $field parent fieldname
 	 * @param string $record parent id
-	 * @param \App\QueryGenerator $queryGenerator
+	 * @param \App\QueryField\QueryGenerator $queryGenerator
 	 */
-	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
+	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryField\QueryGenerator $queryGenerator)
 	{
 		if ($sourceModule == 'Users' && $field == 'reports_to_id') {
 			if (!empty($record)) {
@@ -53,7 +53,7 @@ class Module extends \App\Modules\Base\Models\Module
 			$matchingRecords = array();
 			for ($i = 0; $i < $noOfRows; ++$i) {
 				$row = $db->query_result_rowdata($result, $i);
-				$modelClassName = \App\Loader::getComponentClassName('Model', 'Record', 'Users');
+				$modelClassName = \App\Core\Loader::getComponentClassName('Model', 'Record', 'Users');
 				$recordInstance = new $modelClassName();
 				$matchingRecords['Users'][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($this);
 			}
@@ -163,7 +163,7 @@ class Module extends \App\Modules\Base\Models\Module
 	{
 		$userIPAddress = \App\Utils\RequestUtil::getRemoteIP();
 		$browser = \App\Utils\RequestUtil::getBrowserInfo();
-		\App\Db::getInstance()->createCommand()
+		\App\Db\Db::getInstance()->createCommand()
 			->insert('vtiger_loginhistory', [
 				'user_name' => $userName,
 				'user_ip' => empty($userIPAddress) ? '-' : $userIPAddress,
@@ -189,7 +189,7 @@ class Module extends \App\Modules\Base\Models\Module
 				->where(['user_name' => $userRecordModel->get('user_name'), 'user_ip' => $userIPAddress])
 				->limit(1)->orderBy('login_id DESC')->scalar();
 		if ($loginId !== false) {
-			\App\Db::getInstance()->createCommand()
+			\App\Db\Db::getInstance()->createCommand()
 				->update('vtiger_loginhistory', [
 					'logout_time' => $outtime,
 					'status' => 'Signed off',
@@ -307,11 +307,11 @@ class Module extends \App\Modules\Base\Models\Module
 	{
 		$moduleName = $this->get('name');
 		if (!$recordModel->isNew() && empty($recordModel->getPreviousValue())) {
-			\App\Log::info('ERR_NO_DATA');
+			\App\Log\Log::info('ERR_NO_DATA');
 			return $recordModel;
 		}
 		$recordModel->validate();
-		$eventHandler = new \App\EventHandler();
+		$eventHandler = new \App\Events\EventHandler();
 		$eventHandler->setRecordModel($recordModel);
 		$eventHandler->setModuleName($moduleName);
 		if ($recordModel->getHandlerExceptions()) {
@@ -327,7 +327,7 @@ class Module extends \App\Modules\Base\Models\Module
 		\App\Modules\Users\Services\PrivilegeFileManager::createUserPrivilegesFile($recordModel->getId());
 		\App\Modules\Users\Services\PrivilegeFileManager::createUserSharingPrivilegesFile($recordModel->getId());
 
-		if (\App\AppConfig::performance('ENABLE_CACHING_USERS')) {
+		if (\App\Core\AppConfig::performance('ENABLE_CACHING_USERS')) {
 			\App\PrivilegeFile::createUsersFile();
 		}
 		return $recordModel;

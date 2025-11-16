@@ -21,9 +21,9 @@ class Logout extends \App\Base\Controllers\BaseActionController
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$eventHandler = new \App\EventHandler();
+		$eventHandler = new \App\Events\EventHandler();
 		$eventHandler->trigger('UserLogoutBefore');
-		if (\App\AppConfig::main('session_regenerate_id')) {
+		if (\App\Core\AppConfig::main('session_regenerate_id')) {
 			\App\Http\Vtiger_Session::regenerateId(true); // to overcome session id reuse.
 		}
 		\App\Http\Vtiger_Session::destroy();

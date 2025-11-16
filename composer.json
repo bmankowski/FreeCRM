@@ -85,6 +85,7 @@
 	},
 	"require-dev": {
 		"rector/rector": "^2.1",
-		"phpstan/phpstan": "^2.1"
+		"phpstan/phpstan": "^2.1",
+		"maximebf/php-debugbar": "^1.19"
 	}
 }

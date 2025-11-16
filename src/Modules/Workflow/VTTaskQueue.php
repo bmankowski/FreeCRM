@@ -32,7 +32,7 @@ class VTTaskQueue {
 	 */
 	public function queueTask($taskId, $entityId, $when = 0, $taskContents = false)
 	{
-		\App\Db::getInstance()->createCommand()->insert('com_vtiger_workflowtask_queue', [
+		\App\Db\Db::getInstance()->createCommand()->insert('com_vtiger_workflowtask_queue', [
 			'task_id' => $taskId,
 			'entity_id' => $entityId,
 			'do_after' => $when,

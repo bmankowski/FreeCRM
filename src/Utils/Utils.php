@@ -36,7 +36,7 @@ class Utils
 	public static function return_name(&$row, $first_column, $last_column)
 	{
 
-		\App\Log::trace("Entering return_name(" . $row . "," . $first_column . "," . $last_column . ") method ...");
+		\App\Log\Log::trace("Entering return_name(" . $row . "," . $first_column . "," . $last_column . ") method ...");
 		$first_name = "";
 		$last_name = "";
 		$full_name = "";
@@ -62,7 +62,7 @@ class Utils
 			$full_name .= $last_name;
 		}
 
-		\App\Log::trace("Exiting return_name method ...");
+		\App\Log\Log::trace("Exiting return_name method ...");
 		return $full_name;
 	}
 
@@ -74,7 +74,7 @@ class Utils
 	public static function getColumnFields($module)
 	{
 
-		\App\Log::trace('Entering getColumnFields(' . $module . ') method ...');
+		\App\Log\Log::trace('Entering getColumnFields(' . $module . ') method ...');
 
 		// Lookup in cache for information
 		$cachedModuleFields = \App\Utils\VTCacheUtils::lookupFieldInfo_Module($module);
@@ -122,7 +122,7 @@ class Utils
 			}
 		}
 
-		\App\Log::trace("Exiting getColumnFields method ...");
+		\App\Log\Log::trace("Exiting getColumnFields method ...");
 		return $column_fld;
 	}
 
@@ -134,8 +134,8 @@ class Utils
 	public static function getUserId_Ol($username)
 	{
 
-		\App\Log::trace("Entering getUserId_Ol(" . $username . ") method ...");
-		\App\Log::trace("in getUserId_Ol " . $username);
+		\App\Log\Log::trace("Entering getUserId_Ol(" . $username . ") method ...");
+		\App\Log\Log::trace("in getUserId_Ol " . $username);
 		if (\App\Cache\Cache::has('UserId', $username)) {
 			return \App\Cache\Cache::get('UserId', $username);
 		} else {
@@ -148,7 +148,7 @@ class Utils
 			} else {
 				$user_id = 0;
 			}
-			\App\Log::trace("Exiting getUserId_Ol method ...");
+			\App\Log\Log::trace("Exiting getUserId_Ol method ...");
 			\App\Cache\Cache::save('UserId', $username, $user_id);
 			return $user_id;
 		}
@@ -163,14 +163,14 @@ class Utils
 	public static function getActionid($action)
 	{
 
-		\App\Log::trace('Entering \App\Utils\Utils::getActionid(' . $action . ') method ...');
+		\App\Log\Log::trace('Entering \App\Utils\Utils::getActionid(' . $action . ') method ...');
 
 		if (empty($action)) {
 			return null;
 		}
 		$actionid = \App\Cache\Cache::get('getActionid', $action);
 		if ($actionid) {
-			\App\Log::trace('Exiting getActionid method ... - ' . $actionid);
+			\App\Log\Log::trace('Exiting getActionid method ... - ' . $actionid);
 			return $actionid;
 		}
 		$actionIds = \App\Utils\ModuleUtils::getTabData('actionId');
@@ -184,7 +184,7 @@ class Utils
 			$actionid = $db->getSingleValue($result);
 		}
 		\App\Cache\Cache::save('getActionid', $action, $actionid);
-		\App\Log::trace('Exiting getActionid method ... - ' . $actionid);
+		\App\Log\Log::trace('Exiting getActionid method ... - ' . $actionid);
 		return $actionid;
 	}
 
@@ -195,12 +195,12 @@ class Utils
 	public static function getActionname($actionid)
 	{
 
-		\App\Log::trace('Entering getActionname(' . $actionid . ') method ...');
+		\App\Log\Log::trace('Entering getActionname(' . $actionid . ') method ...');
 		$adb = \App\Database\PearDatabase::getInstance();
 
 		$actionName = \App\Cache\Cache::get('getActionName', $actionid);
 		if ($actionName) {
-			\App\Log::trace('Exiting getActionname method ...');
+			\App\Log\Log::trace('Exiting getActionname method ...');
 			return $actionName;
 		}
 		if (file_exists('user_privileges/tabdata.php') && (filesize('user_privileges/tabdata.php') != 0)) {
@@ -212,7 +212,7 @@ class Utils
 			$actionName = $adb->getSingleValue($result);
 		}
 		\App\Cache\Cache::save('getActionName', $actionid, $actionName);
-		\App\Log::trace('Exiting getActionname method ...');
+		\App\Log\Log::trace('Exiting getActionname method ...');
 		return $actionName;
 	}
 
@@ -223,7 +223,7 @@ class Utils
 	public static function getRecordOwnerId($record)
 	{
 
-		\App\Log::trace("Entering \App\Utils\Utils::getRecordOwnerId($record) method ...");
+		\App\Log\Log::trace("Entering \App\Utils\Utils::getRecordOwnerId($record) method ...");
 		$ownerArr = [];
 
 		$recordMetaData = \vtlib\Functions:: getCRMRecordMetadata($record);
@@ -232,7 +232,7 @@ class Utils
 			$type = \App\Fields\Owner::getType($ownerId);
 			$ownerArr[$type] = $ownerId;
 		}
-		\App\Log::trace('Exiting getRecordOwnerId method ...');
+		\App\Log\Log::trace('Exiting getRecordOwnerId method ...');
 		return $ownerArr;
 	}
 
@@ -243,11 +243,11 @@ class Utils
 	public static function updateProductQty($product_id, $upd_qty)
 	{
 
-		\App\Log::trace("Entering updateProductQty(" . $product_id . "," . $upd_qty . ") method ...");
+		\App\Log\Log::trace("Entering updateProductQty(" . $product_id . "," . $upd_qty . ") method ...");
 		$adb = \App\Database\PearDatabase::getInstance();
 		$query = "update vtiger_products set qtyinstock=? where productid=?";
 		$adb->pquery($query, array($upd_qty, $product_id));
-		\App\Log::trace("Exiting updateProductQty method ...");
+		\App\Log\Log::trace("Exiting updateProductQty method ...");
 	}
 
 	/**
@@ -404,7 +404,7 @@ class Utils
 		$params = [];
 		$name = array('Contacts', 'Accounts', 'Leads');
 		foreach ($name as $module) {
-			$focus = \App\CRMEntity::getInstance($module);
+			$focus = \App\Core\CRMEntity::getInstance($module);
 			$query = $focus->buildSearchQueryForFieldTypes(11, $number);
 			if (empty($query))
 				return;
@@ -455,8 +455,8 @@ class Utils
 	public static function getRelationTables($module, $secmodule)
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
-		$primary_obj = \App\CRMEntity::getInstance($module);
-		$secondary_obj = \App\CRMEntity::getInstance($secmodule);
+		$primary_obj = \App\Core\CRMEntity::getInstance($module);
+		$secondary_obj = \App\Core\CRMEntity::getInstance($secmodule);
 
 		$ui10_query = $adb->pquery("SELECT vtiger_field.tabid AS tabid,vtiger_field.tablename AS tablename, vtiger_field.columnname AS columnname FROM vtiger_field INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid WHERE (vtiger_fieldmodulerel.module=? && vtiger_fieldmodulerel.relmodule=?) || (vtiger_fieldmodulerel.module=? && vtiger_fieldmodulerel.relmodule=?)", array($module, $secmodule, $secmodule, $module));
 		if ($adb->num_rows($ui10_query) > 0) {
@@ -498,10 +498,10 @@ class Utils
 	 */
 	public static function DeleteEntity($destinationModule, $sourceModule, $focus, $destinationRecordId, $sourceRecordId, $relatedName = false)
 	{
-		\App\Log::trace("Entering DeleteEntity method ($destinationModule, $sourceModule, $destinationRecordId, $sourceRecordId)");
+		\App\Log\Log::trace("Entering DeleteEntity method ($destinationModule, $sourceModule, $destinationRecordId, $sourceRecordId)");
 		require_once(ROOT_DIRECTORY . '/src/events/include.php');
 		if ($destinationModule != $sourceModule && !empty($sourceModule) && !empty($sourceRecordId)) {
-			$eventHandler = new \App\EventHandler();
+			$eventHandler = new \App\Events\EventHandler();
 			$eventHandler->setModuleName($sourceModule);
 			$eventHandler->setParams([
 				'CRMEntity' => $focus,
@@ -523,7 +523,7 @@ class Utils
 			}
 			$focus->trash($destinationModule, $destinationRecordId);
 		}
-		\App\Log::trace('Exiting DeleteEntity method ...');
+		\App\Log\Log::trace('Exiting DeleteEntity method ...');
 	}
 
 	/**
@@ -531,7 +531,7 @@ class Utils
 	 */
 	public static function relateEntities($focus, $sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds, $relatedName = false)
 	{
-		\App\Log::trace("Entering relateEntities method ($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds)");
+		\App\Log\Log::trace("Entering relateEntities method ($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordIds)");
 		if (!is_array($destinationRecordIds))
 			$destinationRecordIds = [$destinationRecordIds];
 
@@ -541,17 +541,17 @@ class Utils
 			'sourceRecordId' => $sourceRecordId,
 			'destinationModule' => $destinationModule,
 		];
-		$eventHandler = new \App\EventHandler();
+		$eventHandler = new \App\Events\EventHandler();
 		$eventHandler->setModuleName($sourceModule);
 		foreach ($destinationRecordIds as &$destinationRecordId) {
 			$data['destinationRecordId'] = $destinationRecordId;
 			$eventHandler->setParams($data);
 			$eventHandler->trigger('EntityBeforeLink');
 			$focus->save_related_module($sourceModule, $sourceRecordId, $destinationModule, $destinationRecordId, $relatedName);
-			\App\CRMEntity::trackLinkedInfo($sourceRecordId);
+			\App\Core\CRMEntity::trackLinkedInfo($sourceRecordId);
 			$eventHandler->trigger('EntityAfterLink');
 		}
-		\App\Log::trace("Exiting relateEntities method ...");
+		\App\Log\Log::trace("Exiting relateEntities method ...");
 	}
 
 	/**
@@ -571,7 +571,7 @@ class Utils
 	public static function getValidDBInsertDateValue($value)
 	{
 
-		\App\Log::trace("Entering getValidDBInsertDateValue(" . $value . ") method ...");
+		\App\Log\Log::trace("Entering getValidDBInsertDateValue(" . $value . ") method ...");
 		$value = trim($value);
 		$delim = array('/', '.');
 		foreach ($delim as $delimiter) {
@@ -602,7 +602,7 @@ class Utils
 			return '';
 		}
 
-		\App\Log::trace("Exiting getValidDBInsertDateValue method ...");
+		\App\Log\Log::trace("Exiting getValidDBInsertDateValue method ...");
 		return $insert_date;
 	}
 

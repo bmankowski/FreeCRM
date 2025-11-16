@@ -62,7 +62,7 @@ class TreeCategoryModal extends \App\Runtime\BaseModel
 		if (isset(self::$_cached_instance[$moduleName])) {
 			return self::$_cached_instance[$moduleName];
 		}
-		$modelClassName = \App\Loader::getComponentClassName('Model', 'TreeCategoryModal', $moduleName);
+		$modelClassName = \App\Core\Loader::getComponentClassName('Model', 'TreeCategoryModal', $moduleName);
 		$instance = new $modelClassName();
 		$instance->set('module', $moduleModel)->set('moduleName', $moduleName)->set('moduleName', $moduleName);
 		self::$_cached_instance[$moduleName] = $instance;

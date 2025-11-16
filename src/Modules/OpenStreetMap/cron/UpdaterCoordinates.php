@@ -5,7 +5,7 @@
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-$db = \App\Db::getInstance();
+$db = \App\Db\Db::getInstance();
 $lastUpdatedCrmId = (new \App\Db\Query())->select(['crmid'])
 	->from('u_#__openstreetmap_address_updater')
 	->scalar();
@@ -13,7 +13,7 @@ if ($lastUpdatedCrmId !== false) {
 	$dataReader = (new \App\Db\Query())->select(['crmid', 'setype', 'deleted'])
 			->from('vtiger_crmentity')
 			->where(['>', 'crmid', $lastUpdatedCrmId])
-			->limit(\App\AppConfig::module('OpenStreetMap', 'CRON_MAX_UPDATED_ADDRESSES'))
+			->limit(\App\Core\AppConfig::module('OpenStreetMap', 'CRON_MAX_UPDATED_ADDRESSES'))
 			->createCommand()->query();
 	$moduleModel = \App\Modules\Base\Models\Module::getInstance('OpenStreetMap');
 	$coordinatesModel = \App\Modules\OpenStreetMap\Models\Coordinate::getInstance();

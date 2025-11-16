@@ -17,7 +17,7 @@ class ExportUtils
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 
-		\App\Log::trace("Entering into the function getPermittedBlocks($module, $disp_view)");
+		\App\Log\Log::trace("Entering into the function getPermittedBlocks($module, $disp_view)");
 
 		$tabid = \App\Utils\ModuleUtils::getModuleId($module);
 		$block_detail = [];
@@ -34,7 +34,7 @@ class ExportUtils
 		}
 		$blockid_list .= ')';
 
-		\App\Log::trace("Exit from the function getPermittedBlocks($module, $disp_view). Return value = $blockid_list");
+		\App\Log\Log::trace("Exit from the function getPermittedBlocks($module, $disp_view). Return value = $blockid_list");
 		return $blockid_list;
 	}
 
@@ -46,7 +46,7 @@ class ExportUtils
 	 */
 	public static function getPermittedFieldsQuery($module, $disp_view)
 	{
-		\App\Log::trace("Entering into the function getPermittedFieldsQuery($module, $disp_view)");
+		\App\Log\Log::trace("Entering into the function getPermittedFieldsQuery($module, $disp_view)");
 
 		// To get the permitted blocks
 		$blockid_list = self::getPermittedBlocks($module, $disp_view);
@@ -59,7 +59,7 @@ class ExportUtils
 			$profileList = $currentUser->getProfiles();
 			$sql = sprintf("SELECT vtiger_field.columnname, vtiger_field.fieldlabel, vtiger_field.tablename FROM vtiger_field INNER JOIN vtiger_profile2field ON vtiger_profile2field.fieldid=vtiger_field.fieldid INNER JOIN vtiger_def_org_field ON vtiger_def_org_field.fieldid=vtiger_field.fieldid WHERE vtiger_field.tabid=%d && vtiger_field.block IN %s && vtiger_field.displaytype IN (1,2,4,5) && vtiger_profile2field.visible=0 && vtiger_def_org_field.visible=0 && vtiger_profile2field.profileid IN (%s) and vtiger_field.presence in (0,2) GROUP BY vtiger_field.fieldid ORDER BY block,sequence", $tabid, $blockid_list, implode(",", $profileList));
 		}
-		\App\Log::trace("Exit from the function getPermittedFieldsQuery($module, $disp_view). Return value = $sql");
+		\App\Log\Log::trace("Exit from the function getPermittedFieldsQuery($module, $disp_view). Return value = $sql");
 		return $sql;
 	}
 
@@ -72,7 +72,7 @@ class ExportUtils
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 
-		\App\Log::trace("Entering into the function getFieldsListFromQuery($query)");
+		\App\Log\Log::trace("Entering into the function getFieldsListFromQuery($query)");
 
 		$result = $adb->query($query);
 		$num_rows = $adb->num_rows($result);
@@ -113,7 +113,7 @@ class ExportUtils
 		}
 		$fields = trim($fields, ",");
 
-		\App\Log::trace("Exit from the function getFieldsListFromQuery($query). Return value = $fields");
+		\App\Log\Log::trace("Exit from the function getFieldsListFromQuery($query). Return value = $fields");
 		return $fields;
 	}
 }

@@ -20,7 +20,7 @@
  * module's base entity class.
  * ****************************************************************************** */
 
-namespace App;
+namespace App\Core;
 
 use App\Utils\VTCacheUtils;
 use App\Cache\Cache;
@@ -83,7 +83,7 @@ class CRMEntity
 		
 		// File access security check
 		if (!class_exists($namespacedClassName) && !class_exists($modName)) {
-			if (\App\AppConfig::performance('LOAD_CUSTOM_FILES') && file_exists("custom/modules/$module/$modName.php")) {
+			if (\App\Core\AppConfig::performance('LOAD_CUSTOM_FILES') && file_exists("custom/modules/$module/$modName.php")) {
 				\vtlib\Deprecated::checkFileAccessForInclusion("custom/modules/$module/$modName.php");
 				require_once("custom/modules/$module/$modName.php");
 			} else {
@@ -108,9 +108,9 @@ class CRMEntity
 	 */
 	public function saveInventoryData($moduleName)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 
-		Log::trace('Entering ' . __METHOD__);
+		\App\Log\Log::trace('Entering ' . __METHOD__);
 
 		$inventory = \App\Modules\Base\Models\InventoryField::getInstance($moduleName);
 		$table = $inventory->getTableName('data');
@@ -122,7 +122,7 @@ class CRMEntity
 				$db->createCommand()->insert($table, $insertData)->execute();
 			}
 		}
-		Log::trace('Exiting ' . __METHOD__);
+		\App\Log\Log::trace('Exiting ' . __METHOD__);
 	}
 
 	// Function which returns the value based on result type (array / ADODB ResultSet)
@@ -159,7 +159,7 @@ class CRMEntity
 	public function getOldFileName($notesid)
 	{
 
-		Log::trace("in getOldFileName  " . $notesid);
+		\App\Log\Log::trace("in getOldFileName  " . $notesid);
 		$adb = \App\Database\PearDatabase::getInstance();
 		$query1 = "select * from vtiger_seattachmentsrel where crmid=?";
 		$result = $adb->pquery($query1, array($notesid));
@@ -220,12 +220,12 @@ class CRMEntity
 			$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
 		}
 		if (empty($cachedModuleFields)) {
-			// Pull fields and cache for further use
-			$tabid = \App\Utils\ModuleUtils::getModuleId($module);
-			$query = (new Db\Query())
-				->select(['fieldname', 'fieldid', 'fieldlabel', 'columnname', 'tablename', 'uitype', 'typeofdata', 'presence'])
-				->from('vtiger_field')
-				->where(['tabid' => $tabid]);
+		// Pull fields and cache for further use
+		$tabid = \App\Utils\ModuleUtils::getModuleId($module);
+		$query = (new \App\Db\Query())
+			->select(['fieldname', 'fieldid', 'fieldlabel', 'columnname', 'tablename', 'uitype', 'typeofdata', 'presence'])
+			->from('vtiger_field')
+			->where(['tabid' => $tabid]);
 			$dataReader = $query->createCommand()->query();
 			if ($dataReader->count()) {
 				while ($row = $dataReader->read()) {
@@ -240,7 +240,7 @@ class CRMEntity
 		}
 
 		if ($cachedModuleFields) {
-			$query = new Db\Query();
+			$query = new \App\Db\Query();
 			$columnClause = [];
 			$requiredTables = $this->tab_name_index; // copies-on-write
 
@@ -290,9 +290,9 @@ class CRMEntity
 					if ($showsAdditionalLabels && in_array($fieldInfo['uitype'], [52, 53])) {
 						$this->column_fields[$fieldInfo['fieldname'] . '_label'] = \App\Fields\Owner::getLabel($fieldvalue);
 					}
-					if ($fieldInfo['uitype'] === 120) {
-						$query = (new Db\Query())->select('userid')->from('u_#__crmentity_showners')->where(['crmid' => $record])->distinct();
-						$fieldvalue = $query->column();
+				if ($fieldInfo['uitype'] === 120) {
+					$query = (new \App\Db\Query())->select('userid')->from('u_#__crmentity_showners')->where(['crmid' => $record])->distinct();
+					$fieldvalue = $query->column();
 						if (is_array($fieldvalue)) {
 							$fieldvalue = implode(',', $fieldvalue);
 						}
@@ -433,13 +433,13 @@ class CRMEntity
 
 	public function deleteRelatedDependent($module, $crmid, $withModule, $withCrmid)
 	{
-		$dataReader = (new Db\Query())->select(['vtiger_field.tabid', 'vtiger_field.tablename', 'vtiger_field.columnname', 'vtiger_tab.name'])
+		$dataReader = (new \App\Db\Query())->select(['vtiger_field.tabid', 'vtiger_field.tablename', 'vtiger_field.columnname', 'vtiger_tab.name'])
 				->from('vtiger_field')
 				->leftJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_field.tabid')
-				->where(['fieldid' => (new Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $module, 'relmodule' => $withModule])])
+				->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $module, 'relmodule' => $withModule])])
 				->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			\App\Db::getInstance()->createCommand()
+			\App\Db\Db::getInstance()->createCommand()
 				->update($row['tablename'], [$row['columnname'] => 0], [$row['columnname'] => $withCrmid, CRMEntity::getInstance($row['name'])->table_index => $crmid])->execute();
 		}
 	}
@@ -453,7 +453,7 @@ class CRMEntity
 
 	public function deleteRelatedFromDB($module, $crmid, $withModule, $withCrmid)
 	{
-		\App\Db::getInstance()->createCommand()->delete('vtiger_crmentityrel', ['or',
+		\App\Db\Db::getInstance()->createCommand()->delete('vtiger_crmentityrel', ['or',
 			[
 				'crmid' => $crmid,
 				'relmodule' => $withModule,
@@ -474,7 +474,7 @@ class CRMEntity
 	 */
 	public function restore($moduleName, $id)
 	{
-		$result = Db::getInstance()->createCommand()->update(
+		$result = \App\Db\Db::getInstance()->createCommand()->update(
 				'vtiger_crmentity', [
 				'deleted' => 0,
 				'modifiedtime' => date('Y-m-d H:i:s'),
@@ -483,11 +483,11 @@ class CRMEntity
 				], ['crmid' => $id]
 			)->execute();
 		if ($result) {
-			if (!\App\AppConfig::security('CACHING_PERMISSION_TO_RECORD')) {
+			if (!\App\Core\AppConfig::security('CACHING_PERMISSION_TO_RECORD')) {
 				\App\Security\Privilege::setUpdater($moduleName, $id, 6, 0);
 			}
 			//Event triggering code
-			$eventHandler = new \App\EventHandler();
+			$eventHandler = new \App\Events\EventHandler();
 			$eventHandler->setRecordModel(\App\Modules\Base\Models\Record::getInstanceById($id));
 			$eventHandler->setModuleName($moduleName);
 			$eventHandler->trigger('EntityAfterRestore');
@@ -510,7 +510,7 @@ class CRMEntity
 
 	public function updateMissingSeqNumber($module)
 	{
-		Log::trace("Entered updateMissingSeqNumber function");
+		\App\Log\Log::trace("Entered updateMissingSeqNumber function");
 		\App\Utils\VtlibUtils::setupModuleVars($module, $this);
 		$tabid = \App\Utils\ModuleUtils::getModuleId($module);
 		if (!\App\Fields\RecordNumber::isModuleSequenceConfigured($tabid))
@@ -539,7 +539,7 @@ class CRMEntity
 					$oldNumber = $sequenceNumber;
 					while ($recordinfo = $dataReader->read()) {
 						$recordNumber = \App\Fields\RecordNumber::parse($prefix . $sequenceNumber . $postfix);
-						\App\Db::getInstance()->createCommand()
+						\App\Db\Db::getInstance()->createCommand()
 							->update($fieldTable, [$fieldColumn => $recordNumber], [$this->table_index => $recordinfo['recordid']])
 							->execute();
 						$sequenceNumber += 1;
@@ -550,7 +550,7 @@ class CRMEntity
 					}
 				}
 			} else {
-				Log::error("Updating Missing Sequence Number FAILED! REASON: Field table and module table mismatching.");
+				\App\Log\Log::error("Updating Missing Sequence Number FAILED! REASON: Field table and module table mismatching.");
 			}
 		}
 		return $returninfo;
@@ -666,7 +666,7 @@ class CRMEntity
 				// Relation already exists? No need to add again
 				if ($checkpresence && $db->getRowCount($checkpresence))
 					continue;
-				Db::getInstance()->createCommand()->insert('vtiger_senotesrel', [
+				\App\Db\Db::getInstance()->createCommand()->insert('vtiger_senotesrel', [
 					'crmid' => $crmid,
 					'notesid' => $relcrmid
 				])->execute();
@@ -676,7 +676,7 @@ class CRMEntity
 				// Relation already exists? No need to add again
 				if ($checkpresence && $db->getRowCount($checkpresence))
 					continue;
-				Db::getInstance()->createCommand()->insert('vtiger_crmentityrel', [
+				\App\Db\Db::getInstance()->createCommand()->insert('vtiger_crmentityrel', [
 					'crmid' => $crmid,
 					'module' => $module,
 					'relcrmid' => $relcrmid,
@@ -721,7 +721,7 @@ class CRMEntity
 	{
 		$db = \App\Database\PearDatabase::getInstance();
 
-		Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
+		\App\Log\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$relTables = $this->setRelationTables();
 		if (key_exists('Documents', $relTables)) {
@@ -772,7 +772,7 @@ class CRMEntity
 				);
 			}
 		}
-		Log::trace('Exiting transferRelatedRecords...');
+		\App\Log\Log::trace('Exiting transferRelatedRecords...');
 	}
 	/*
 	 * Function to get the primary query part of a report for which generateReportsQuery Doesnt exist in module
@@ -1025,7 +1025,7 @@ class CRMEntity
 		$privileges = \App\Modules\Users\Models\Privileges::getPrivilegesFile($currentUser->getId());
 		$sharingPrivileges = \App\Security\Privilege::getSharingFile($currentUser->getId());
 		if ($privileges === null || $sharingPrivileges === null) {
-			\App\Log::error("User privileges or sharing file not found for user: " . $currentUser->getId());
+			\App\Log\Log::error("User privileges or sharing file not found for user: " . $currentUser->getId());
 				return '';
 			}
 		} else {
@@ -1082,7 +1082,7 @@ class CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other = \App\CRMEntity::getInstance($related_module);
+			$other = \App\Core\CRMEntity::getInstance($related_module);
 			\App\Utils\VtlibUtils::setupModuleVars($related_module, $other);
 
 			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index =" .
@@ -1130,7 +1130,7 @@ class CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other = \App\CRMEntity::getInstance($related_module);
+			$other = \App\Core\CRMEntity::getInstance($related_module);
 			\App\Utils\VtlibUtils::setupModuleVars($related_module, $other);
 
 			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = " .
@@ -1573,7 +1573,7 @@ class CRMEntity
 		$currentUser = \App\User\CurrentUser::get();
 		$userId = $currentUser ? $currentUser->getId() : 1;
 		$currentTime = date('Y-m-d H:i:s');
-		Db::getInstance()->createCommand()->update('vtiger_crmentity', ['modifiedtime' => $currentTime, 'modifiedby' => $userId], ['crmid' => $crmId])->execute();
+		\App\Db\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['modifiedtime' => $currentTime, 'modifiedby' => $userId], ['crmid' => $crmId])->execute();
 	}
 
 	/**
@@ -1585,12 +1585,12 @@ class CRMEntity
 	{
 
 	$currentModule = $this->moduleName;
-	Log::trace("Entering getSortOrder() method ...");
+	\App\Log\Log::trace("Entering getSortOrder() method ...");
 	if ($request !== null && $request->has('sorder'))
 		$sorder = $this->db->sql_escape_string($request->getForSql('sorder'));
 	else
 		$sorder = (($_SESSION[$currentModule . '_Sort_Order'] != '') ? ($_SESSION[$currentModule . '_Sort_Order']) : ($this->default_sort_order));
-	Log::trace("Exiting getSortOrder() method ...");
+	\App\Log\Log::trace("Exiting getSortOrder() method ...");
 	return $sorder;
 	}
 
@@ -1603,10 +1603,10 @@ class CRMEntity
 	{
 		$currentModule = $this->moduleName;
 
-		Log::trace("Entering getOrderBy() method ...");
+		\App\Log\Log::trace("Entering getOrderBy() method ...");
 
 		$use_default_order_by = '';
-		if (\App\AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
+		if (\App\Core\AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
 			$use_default_order_by = $this->default_order_by;
 		}
 
@@ -1614,7 +1614,7 @@ class CRMEntity
 		$order_by = $this->db->sql_escape_string($request->getForSql('order_by'));
 	else
 		$order_by = (($_SESSION[$currentModule . '_Order_By'] != '') ? ($_SESSION[$currentModule . '_Order_By']) : ($use_default_order_by));
-		Log::trace("Exiting getOrderBy method ...");
+		\App\Log\Log::trace("Exiting getOrderBy method ...");
 		return $order_by;
 	}
 	// Mike Crowe Mod --------------------------------------------------------
@@ -1627,7 +1627,7 @@ class CRMEntity
 		$currentUser = \App\User\CurrentUser::get();
 		$userId = $currentUser ? $currentUser->getId() : 1;
 		$currentTime = date('Y-m-d H:i:s');
-		Db::getInstance()->createCommand()->update('vtiger_crmentity', ['modifiedtime' => $currentTime, 'modifiedby' => $userId], ['crmid' => $crmId])->execute();
+		\App\Db\Db::getInstance()->createCommand()->update('vtiger_crmentity', ['modifiedtime' => $currentTime, 'modifiedby' => $userId], ['crmid' => $crmId])->execute();
 	}
 
 	/**

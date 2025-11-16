@@ -28,11 +28,11 @@ $old_related_modules = Array('Accounts' => Array('Contacts', 'Products'),
 
 $related_modules = [];
 
-class Reports extends \App\CRMEntity
+class Reports extends \App\Core\CRMEntity
 {
 
 	/**
-	 * This class has the informations for Reports and inherits  \App\CRMEntity and
+	 * This class has the informations for Reports and inherits  \App\Core\CRMEntity and
 	 * has the variables required to generate,save,restore vtiger_reports
 	 * and also the required functions for the same
 	 * Contributor(s): ______________________________________..
@@ -323,7 +323,7 @@ class Reports extends \App\CRMEntity
 			} while ($reportfldrow = $adb->fetch_array($result));
 		}
 
-		\App\Log::trace("Reports :: ListView->Successfully returned vtiger_report folder HTML");
+		\App\Log\Log::trace("Reports :: ListView->Successfully returned vtiger_report folder HTML");
 		return $returndata;
 	}
 
@@ -372,7 +372,7 @@ class Reports extends \App\CRMEntity
 					$returndata[] = $report_details;
 			}while ($report = $adb->fetch_array($result));
 		}
-		\App\Log::trace("Reports :: ListView->Successfully returned vtiger_report details HTML");
+		\App\Log\Log::trace("Reports :: ListView->Successfully returned vtiger_report details HTML");
 		return $returndata;
 	}
 
@@ -466,7 +466,7 @@ class Reports extends \App\CRMEntity
 			$returndata = $returndata[$rpt_fldr_id];
 		}
 
-		\App\Log::trace("Reports :: ListView->Successfully returned vtiger_report details HTML");
+		\App\Log\Log::trace("Reports :: ListView->Successfully returned vtiger_report details HTML");
 		return $returndata;
 	}
 
@@ -786,7 +786,7 @@ class Reports extends \App\CRMEntity
 			$array_list[] = $fieldcolname;
 		}
 
-		\App\Log::trace("Reports :: Successfully returned getSelctedSortingColumns");
+		\App\Log\Log::trace("Reports :: Successfully returned getSelctedSortingColumns");
 		return $array_list;
 	}
 
@@ -849,7 +849,7 @@ class Reports extends \App\CRMEntity
 			}
 			//end
 		}
-		\App\Log::trace("ReportRun :: Successfully returned getQueryColumnsList" . $reportid);
+		\App\Log\Log::trace("ReportRun :: Successfully returned getQueryColumnsList" . $reportid);
 		return $shtml;
 	}
 
@@ -941,7 +941,7 @@ class Reports extends \App\CRMEntity
 		if (!empty($advft_criteria[$i - 1]['condition']))
 			$advft_criteria[$i - 1]['condition'] = '';
 		$this->advft_criteria = $advft_criteria;
-		\App\Log::trace("Reports :: Successfully returned getAdvancedFilterList");
+		\App\Log\Log::trace("Reports :: Successfully returned getAdvancedFilterList");
 		return true;
 	}
 	//<<<<<<<<advanced filter>>>>>>>>>>>>>>
@@ -964,7 +964,7 @@ class Reports extends \App\CRMEntity
 			$shtml .= "<option value='" . $reportfldrow['folderid'] . "'>" . $reportfldrow['foldername'] . "</option>";
 		} while ($reportfldrow = $adb->fetch_array($result));
 
-		\App\Log::trace("Reports :: Successfully returned sgetRptFldrSaveReport");
+		\App\Log\Log::trace("Reports :: Successfully returned sgetRptFldrSaveReport");
 		return $shtml;
 	}
 
@@ -1016,7 +1016,7 @@ class Reports extends \App\CRMEntity
 			}
 		}
 
-		\App\Log::trace("Reports :: Successfully returned sgetColumntoTotalSelected");
+		\App\Log\Log::trace("Reports :: Successfully returned sgetColumntoTotalSelected");
 		return $options;
 	}
 
@@ -1130,7 +1130,7 @@ class Reports extends \App\CRMEntity
 			}
 		} while ($columntototalrow = $adb->fetch_array($result));
 
-		\App\Log::trace("Reports :: Successfully returned sgetColumnstoTotalHTML");
+		\App\Log\Log::trace("Reports :: Successfully returned sgetColumnstoTotalHTML");
 		return $options_list;
 	}
 }

@@ -733,7 +733,7 @@ class PrivilegeFileManager
      */
     public static function RecalculateSharingRules()
     {
-        \App\Log::trace("Entering RecalculateSharingRules() method ...");
+        \App\Log\Log::trace("Entering RecalculateSharingRules() method ...");
         $adb = \App\Database\PearDatabase::getInstance();
 
         $query = "select id from vtiger_users where deleted=0";
@@ -744,6 +744,6 @@ class PrivilegeFileManager
             self::createUserPrivilegesFile($id);
             self::createUserSharingPrivilegesFile($id);
         }
-        \App\Log::trace("Exiting RecalculateSharingRules method ...");
+        \App\Log\Log::trace("Exiting RecalculateSharingRules method ...");
     }
 }

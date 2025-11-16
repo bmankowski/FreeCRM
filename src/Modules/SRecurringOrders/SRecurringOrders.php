@@ -9,7 +9,7 @@ namespace App\Modules\SRecurringOrders;
  */
 
 
-class SRecurringOrders extends \App\CRMEntity
+class SRecurringOrders extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'u_yf_srecurringorders';
@@ -91,7 +91,7 @@ class SRecurringOrders extends \App\CRMEntity
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
-			$moduleInstance = \App\CRMEntity::getInstance('SRecurringOrders');
+			$moduleInstance = \App\Core\CRMEntity::getInstance('SRecurringOrders');
 			\App\Fields\RecordNumber::setNumber($moduleName, 'S-RO', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['SRecurringOrders']);
 
@@ -101,7 +101,7 @@ class SRecurringOrders extends \App\CRMEntity
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(array('SRecurringOrders'));
 			}
-			\App\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions:: getModuleId($moduleName));
+			\App\Core\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions:: getModuleId($moduleName));
 		} else if ($eventType == 'module.disabled') {
 			
 		} else if ($eventType == 'module.preuninstall') {

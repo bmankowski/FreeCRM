@@ -22,7 +22,7 @@ abstract class EntryPoint
 	/**
 	 * Login data
 	 */
-	protected ?\App\CRMEntity $login = null;
+	protected ?\App\Core\CRMEntity $login = null;
 
 	/**
 	 * Get login data.

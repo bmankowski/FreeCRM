@@ -24,7 +24,7 @@ class Newsletter extends \App\SystemWarnings\Template
 	{
 		$this->status = 1;
 		return;
-		if (file_exists('cache/' . $this->getKey()) || \App\AppConfig::main('systemMode') === 'demo') {
+		if (file_exists('cache/' . $this->getKey()) || \App\Core\AppConfig::main('systemMode') === 'demo') {
 			$this->status = 1;
 		} else {
 			$this->status = 0;
@@ -37,7 +37,7 @@ class Newsletter extends \App\SystemWarnings\Template
 	 */
 	public function getKey()
 	{
-		return sha1('Newsletter' . \App\AppConfig::main('site_URL') . ROOT_DIRECTORY);
+		return sha1('Newsletter' . \App\Core\AppConfig::main('site_URL') . ROOT_DIRECTORY);
 	}
 
 	/**
@@ -48,14 +48,14 @@ class Newsletter extends \App\SystemWarnings\Template
 	public function update($params)
 	{
 		if (gethostbyname('yetiforce.com') === 'yetiforce.com') {
-			\App\Log::warning('ERR_NO_INTERNET_CONNECTION');
+			\App\Log\Log::warning('ERR_NO_INTERNET_CONNECTION');
 			return 'ERR_NO_INTERNET_CONNECTION';
 		}
 		$result = false;
 		$message = \App\Runtime\Vtiger_Language_Handler::translate('LBL_DATA_SAVE_FAIL', 'Settings::SystemWarnings');
 		try {
 			$request = \Requests::POST(self::$url, [], array_merge($params, [
-					'key' => sha1(\App\AppConfig::main('site_URL') . ROOT_DIRECTORY),
+					'key' => sha1(\App\Core\AppConfig::main('site_URL') . ROOT_DIRECTORY),
 					'version' => \App\Core\Version::get(),
 					'language' => \App\Runtime\Vtiger_Language_Handler::getLanguage(),
 					'timezone' => date_default_timezone_get(),
@@ -66,7 +66,7 @@ class Newsletter extends \App\SystemWarnings\Template
 				$message = \App\Runtime\Vtiger_Language_Handler::translate('LBL_DATA_SAVE_OK', 'Settings::SystemWarnings');
 			}
 		} catch (\Exception $exc) {
-			\App\Log::warning($exc->getMessage());
+			\App\Log\Log::warning($exc->getMessage());
 		}
 		return ['result' => $result, 'message' => $message];
 	}

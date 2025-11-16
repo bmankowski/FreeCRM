@@ -15,7 +15,7 @@ class ListViewUtils
 	 */
 	public static function getListQuery($module, $where = '')
 	{
-		\App\Log::trace("Entering getListQuery(" . $module . "," . $where . ") method ...");
+		\App\Log\Log::trace("Entering getListQuery(" . $module . "," . $where . ") method ...");
 
 		$currentUser = \App\User\CurrentUser::get();
 		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
@@ -168,7 +168,7 @@ class ListViewUtils
 			LEFT JOIN vtiger_groups vtiger_groups2
 				ON vtiger_crmentity.modifiedby = vtiger_groups2.groupid";
 
-				$query .= \App\PrivilegeQuery::getAccessConditions($module, $currentUser->id);
+				$query .= \App\Security\PrivilegeQuery::getAccessConditions($module, $currentUser->id);
 				$query .= ' ' . $where;
 				break;
 			Case "Faq":
@@ -249,14 +249,14 @@ class ListViewUtils
 				$query = sprintf($query, $where);
 				break;
 			default:
-				$focus = \App\CRMEntity::getInstance($module);
+				$focus = \App\Core\CRMEntity::getInstance($module);
 				$query = $focus->getListQuery($module, $where);
 		}
 
 		if ($module != 'Users') {
 			$query = self::listQueryNonAdminChange($query, $module);
 		}
-		\App\Log::trace("Exiting getListQuery method ...");
+		\App\Log\Log::trace("Exiting getListQuery method ...");
 		return $query;
 	}
 
@@ -270,7 +270,7 @@ class ListViewUtils
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 
-		\App\Log::trace("in getEntityId " . $entityName);
+		\App\Log\Log::trace("in getEntityId " . $entityName);
 
 		$query = "select fieldname,tablename,entityidfield from vtiger_entityname where modulename = ?";
 		$result = $adb->pquery($query, array($module));
@@ -317,7 +317,7 @@ class ListViewUtils
 	 */
 	public static function popupDecodeHtml($str)
 	{
-		$defaultCharset = \App\AppConfig::main('default_charset');
+		$defaultCharset = \App\Core\AppConfig::main('default_charset');
 		$slashes_str = \vtlib\Functions:: fromHTML_Popup($str);
 		$slashes_str = htmlspecialchars($slashes_str, ENT_QUOTES, $defaultCharset);
 		return self::decodeHtml(\vtlib\Functions:: br2nl($slashes_str));
@@ -362,7 +362,7 @@ class ListViewUtils
 	 */
 	public static function listQueryNonAdminChange($query, $module, $scope = '')
 	{
-		$instance = \App\CRMEntity::getInstance($module);
+		$instance = \App\Core\CRMEntity::getInstance($module);
 		return $instance->listQueryNonAdminChange($query, $scope);
 	}
 }

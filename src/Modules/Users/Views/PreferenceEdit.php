@@ -19,7 +19,7 @@ class PreferenceEdit extends \App\Modules\Base\Views\Edit
 		$moduleName = $request->getModule();
 		$currentUserModel = $request->getUser();
 		$record = $request->get('record');
-		if (!\App\AppConfig::security('SHOW_MY_PREFERENCES')) {
+		if (!\App\Core\AppConfig::security('SHOW_MY_PREFERENCES')) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 		if (!empty($record) && $currentUserModel->get('id') != $record) {

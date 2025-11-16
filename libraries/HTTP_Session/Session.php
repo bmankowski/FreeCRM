@@ -160,7 +160,9 @@ class HTTP_Session
 		} elseif (is_null(self::detectID())) {
 			self::id($id ? $id : uniqid(dechex(rand())));
 		}
-		session_start();
+		if (session_status() === PHP_SESSION_NONE) {
+			session_start();
+		}
 		if (!isset($_SESSION['__HTTP_Session_Info'])) {
 			$_SESSION['__HTTP_Session_Info'] = HTTP_SESSION_STARTED;
 		} else {
@@ -713,7 +715,7 @@ class HTTP_Session
 	public static function _init()
 	{
 		// Disable auto-start of a sesion
-		AppConfig::iniSet('session.auto_start', 0);
+		\App\Core\AppConfig::iniSet('session.auto_start', 0);
 
 		// Set local name equal to the current script name
 		self::localName($_SERVER['PHP_SELF']);

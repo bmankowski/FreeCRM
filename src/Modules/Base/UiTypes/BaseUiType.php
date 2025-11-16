@@ -85,8 +85,8 @@ class BaseUiType extends \App\Runtime\BaseModel
 		// Old path fallback
 		$moduleSpecificFileName = 'modules.' . $moduleName . '.uitypes.' . $uiTypeClassSuffix;
 		$uiTypeClassFileName = 'modules.Base.uitypes.' . $uiTypeClassSuffix;
-		$moduleSpecificOldFilePath = \App\Loader::resolveNameToPath($moduleSpecificFileName);
-		$completeOldFilePath = \App\Loader::resolveNameToPath($uiTypeClassFileName);
+		$moduleSpecificOldFilePath = \App\Core\Loader::resolveNameToPath($moduleSpecificFileName);
+		$completeOldFilePath = \App\Core\Loader::resolveNameToPath($uiTypeClassFileName);
 
 		if (file_exists($moduleSpecificFilePath) && class_exists($moduleSpecificUiTypeClassName)) {
 			$instance = new $moduleSpecificUiTypeClassName();

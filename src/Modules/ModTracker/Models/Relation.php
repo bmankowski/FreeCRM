@@ -46,7 +46,7 @@ class Relation extends \App\Modules\Base\Models\Relation
 		if ($noOfRows) {
 			$moduleModel = \App\Modules\Base\Models\Module::getInstance($targetModule);
 			$row = $db->getRow($result);
-			$modelClassName = \App\Loader::getComponentClassName('Model', 'Record', $targetModule);
+			$modelClassName = \App\Core\Loader::getComponentClassName('Model', 'Record', $targetModule);
 			$recordInstance = new $modelClassName();
 			$recordInstance->setData($row)->setModuleFromInstance($moduleModel);
 			$recordInstance->set('id', $row['crmid']);
@@ -62,7 +62,7 @@ class Relation extends \App\Modules\Base\Models\Relation
 	 */
 	public static function reviewChangesQueue($data, $module)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$id = (new \App\Db\Query())->from('u_#__reviewed_queue')->max('id') + 1;
 		$db->createCommand()->insert('u_#__reviewed_queue', [

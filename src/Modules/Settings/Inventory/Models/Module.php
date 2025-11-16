@@ -34,7 +34,7 @@ class Module extends \App\Modules\Base\Models\Record
 
 	public static function getConfig($type, $name = false)
 	{
-		\App\Log::trace('Start ' . __METHOD__ . " | Type: " . print_r($type, true) . " | Name: " . print_r($name, true));
+		\App\Log\Log::trace('Start ' . __METHOD__ . " | Type: " . print_r($type, true) . " | Name: " . print_r($name, true));
 		$tableName = self::getTableNameFromType($type);
 		$query = (new \App\Db\Query())->from($tableName);
 		if ($name && !is_array($name)) {
@@ -48,7 +48,7 @@ class Module extends \App\Modules\Base\Models\Record
 		while ($row = $dataReader->read()) {
 			$output[$row['param']] = $row['value'];
 		}
-		\App\Log::trace('End ' . __METHOD__);
+		\App\Log\Log::trace('End ' . __METHOD__);
 		return $output;
 	}
 
@@ -60,13 +60,13 @@ class Module extends \App\Modules\Base\Models\Record
 	 */
 	public function setConfig($type, $param)
 	{
-		\App\Log::trace('Start ' . __METHOD__);
+		\App\Log\Log::trace('Start ' . __METHOD__);
 		$tableName = self::getTableNameFromType($type);
-		\App\Db::getInstance()->createCommand()
+		\App\Db\Db::getInstance()->createCommand()
 			->update($tableName, ['value' => $param['value']], ['param' => $param['param']])
 			->execute();
 		\App\Cache\Cache::delete('Inventory', $type);
-		\App\Log::trace('End ' . __METHOD__);
+		\App\Log\Log::trace('End ' . __METHOD__);
 		return true;
 	}
 }

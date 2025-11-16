@@ -24,7 +24,7 @@ class Profiling extends Target
 	public function init()
 	{
 		parent::init();
-		$this->db = DB::getInstance('admin');
+		$this->db = \App\Db\Db::getInstance('admin');
 	}
 
 	/**

@@ -50,7 +50,7 @@ class Record extends \App\Modules\Base\Models\Record
 			if (in_array($recordModel->get('ticketstatus'), ['Closed', 'Rejected'])) {
 				$currentDate = null;
 			}
-			\App\Db::getInstance()->createCommand()
+			\App\Db\Db::getInstance()->createCommand()
 				->update('vtiger_troubletickets', [
 					'response_time' => $currentDate,
 					], ['ticketid' => $recordModel->getId()])
@@ -60,7 +60,7 @@ class Record extends \App\Modules\Base\Models\Record
 		if (!empty($closedTime) && $recordModel->has('report_time')) {
 			$timeMinutesRange = round(\vtlib\Functions:: getDateTimeMinutesDiff($recordModel->get('createdtime'), $closedTime));
 			if (!empty($timeMinutesRange)) {
-				\App\Db::getInstance()->createCommand()
+				\App\Db\Db::getInstance()->createCommand()
 					->update('vtiger_troubletickets', ['report_time' => $timeMinutesRange], ['ticketid' => $recordModel->getId()])
 					->execute();
 			}
@@ -72,7 +72,7 @@ class Record extends \App\Modules\Base\Models\Record
 		$query = (new \App\Db\Query())->from('vtiger_servicecontracts')
 			->innerJoin('vtiger_crmentity', 'vtiger_servicecontracts.servicecontractsid = vtiger_crmentity.crmid')
 			->where(['deleted' => 0, 'contract_status' => 'In Progress', 'sc_related_to' => $this->get('parent_id')]);
-		\App\PrivilegeQuery::getConditions($query, 'ServiceContracts');
+		\App\Security\PrivilegeQuery::getConditions($query, 'ServiceContracts');
 		return $query->all();
 	}
 
@@ -90,7 +90,7 @@ class Record extends \App\Modules\Base\Models\Record
 			$currentModule = $relationParams['current_module'] ?? null;
 			
 			if ($forModule && $forCrmid && $forModule === 'ServiceContracts') {
-				\App\CRMEntity::getInstance($forModule)->save_related_module(
+				\App\Core\CRMEntity::getInstance($forModule)->save_related_module(
 					$forModule, 
 					$forCrmid, 
 					$currentModule, 

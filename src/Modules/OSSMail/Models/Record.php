@@ -57,7 +57,7 @@ class Record extends \App\Modules\Base\Models\Record
 	public static function imapConnect($user, $password, $host = false, $folder = 'INBOX', $dieOnError = true)
 	{
 
-		\App\Log::trace("Entering \App\Modules\OSSMail\Models\Record::imapConnect($user , $password , $folder) method ...");
+		\App\Log\Log::trace("Entering \App\Modules\OSSMail\Models\Record::imapConnect($user , $password , $folder) method ...");
 		$rcConfig = self::load_roundcube_config();
 		$cacheName = $user . $host . $folder;
 		if (isset(self::$imapConnectCache[$cacheName])) {
@@ -100,27 +100,27 @@ class Record extends \App\Modules\Base\Models\Record
 		$options = 0;
 		$max_retries = $rcConfig['imap_max_retries'];
 		$params = $rcConfig['imap_params'];
-		\App\Log::trace("imap_open({" . $host . ":" . $port . "/imap" . $sslMode . $validatecert . "}$folder, $user , $password. $options, $max_retries, " . var_export($params, true) . ") method ...");
+		\App\Log\Log::trace("imap_open({" . $host . ":" . $port . "/imap" . $sslMode . $validatecert . "}$folder, $user , $password. $options, $max_retries, " . var_export($params, true) . ") method ...");
 		$mbox = @imap_open("{" . $host . ":" . $port . "/imap" . $sslMode . $validatecert . "}$folder", $user, $password, $options, $max_retries, $params);
 		if ($mbox === false && $dieOnError) {
 			self::imapThrowError(imap_last_error());
 		}
 		self::$imapConnectCache[$cacheName] = $mbox;
-		\App\Log::trace('Exit \App\Modules\OSSMail\Models\Record::imapConnect() method ...');
+		\App\Log\Log::trace('Exit \App\Modules\OSSMail\Models\Record::imapConnect() method ...');
 		return $mbox;
 	}
 
 	public static function imapThrowError($error)
 	{
 
-		\App\Log::error("Error \App\Modules\OSSMail\Models\Record::imapConnect(): " . $error);
+		\App\Log\Log::error("Error \App\Modules\OSSMail\Models\Record::imapConnect(): " . $error);
 		\vtlib\Functions:: throwNewException(\App\Runtime\Vtiger_Language_Handler::translate('IMAP_ERROR', 'OSSMailScanner') . ': ' . $error);
 	}
 
 	public static function updateMailBoxmsgInfo($users)
 	{
 
-		\App\Log::trace(__METHOD__ . ' - Start');
+		\App\Log\Log::trace(__METHOD__ . ' - Start');
 		$adb = \App\Database\PearDatabase::getInstance();
 		if (count($users) == 0) {
 			return false;
@@ -146,14 +146,14 @@ class Record extends \App\Modules\Base\Models\Record
 				}
 			}
 		}
-		\App\Log::trace(__METHOD__ . ' - End');
+		\App\Log\Log::trace(__METHOD__ . ' - End');
 		return true;
 	}
 
 	public static function getMailBoxmsgInfo($users)
 	{
 
-		\App\Log::trace(__METHOD__ . ' - Start');
+		\App\Log\Log::trace(__METHOD__ . ' - Start');
 		$adb = \App\Database\PearDatabase::getInstance();
 		$query = sprintf('SELECT * FROM yetiforce_mail_quantities WHERE userid IN (%s);', implode(',', $users));
 		$result = $adb->query($query);
@@ -162,7 +162,7 @@ class Record extends \App\Modules\Base\Models\Record
 		for ($i = 0; $i < $countResult; $i++) {
 			$account[$adb->query_result_raw($result, $i, 'userid')] = $adb->query_result_raw($result, $i, 'num');
 		}
-		\App\Log::trace(__METHOD__ . ' - End');
+		\App\Log\Log::trace(__METHOD__ . ' - End');
 		return $account;
 	}
 
@@ -437,7 +437,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public static function _SaveAttachments($relID, OSSMail_Mail_Model $mail)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$attachments = $mail->get('attachments');
 		$userid = $mail->getAccountOwner();
 		$useTime = $mail->get('udate_formated');
@@ -532,7 +532,7 @@ class Record extends \App\Modules\Base\Models\Record
 			$fh = fopen($saveAsFile, 'wb');
 			fwrite($fh, $fileContent);
 			fclose($fh);
-			return \App\Db::getInstance()->createCommand()->insert('vtiger_attachments', [
+			return \App\Db\Db::getInstance()->createCommand()->insert('vtiger_attachments', [
 					'attachmentsid' => $attachId,
 					'name' => $fileName,
 					'description' => '',
@@ -648,7 +648,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	public static function getSiteUrl()
 	{
-		$site_URL = \App\AppConfig::main('site_URL');
+		$site_URL = \App\Core\AppConfig::main('site_URL');
 		if (substr($site_URL, -1) != '/') {
 			$site_URL = $site_URL . '/';
 		}

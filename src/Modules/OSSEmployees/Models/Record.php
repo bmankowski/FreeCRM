@@ -21,7 +21,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public function getEmployeeHierarchy()
 	{
-		$focus = \App\CRMEntity::getInstance($this->getModuleName());
+		$focus = \App\Core\CRMEntity::getInstance($this->getModuleName());
 		$hierarchy = $focus->getEmployeeHierarchy($this->getId());
 		$i = 0;
 		foreach ($hierarchy['entries'] as $employeeId => $employeeInfo) {

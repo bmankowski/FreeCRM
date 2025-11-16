@@ -13,7 +13,7 @@ namespace App\Modules\OSSPasswords;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************************************************************** */
 
-class OSSPasswords extends \App\CRMEntity
+class OSSPasswords extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'vtiger_osspasswords';
@@ -133,7 +133,7 @@ class OSSPasswords extends \App\CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other = \App\CRMEntity::getInstance($related_module);
+			$other = \App\Core\CRMEntity::getInstance($related_module);
 			\App\Utils\VtlibUtils::setupModuleVars($related_module, $other);
 
 			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = $this->table_name.$columnname";
@@ -227,7 +227,7 @@ class OSSPasswords extends \App\CRMEntity
 		// Security Check for Field Access
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[\App\Utils\ModuleUtils::getModuleId('OSSPasswords')] == 3) {
 			//Added security check to get the permitted records only
-			$query = $query . " " . \App\PrivilegeQuery::getListViewSecurityParameter($thismodule);
+			$query = $query . " " . \App\Security\PrivilegeQuery::getListViewSecurityParameter($thismodule);
 		}
 		return $query;
 	}
@@ -299,7 +299,7 @@ class OSSPasswords extends \App\CRMEntity
 	{
 		require_once(ROOT_DIRECTORY . '/src/events/include.php');
 
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$registerLink = false;
 		$addModTracker = false;
 
@@ -307,14 +307,14 @@ class OSSPasswords extends \App\CRMEntity
 			
 		} else if ($eventType == 'module.disabled') {
 			$registerLink = false;
-			\App\EventHandler::setInActive('OSSPasswords_Secure_Handler');
+			\App\Events\EventHandler::setInActive('OSSPasswords_Secure_Handler');
 		} else if ($eventType == 'module.enabled') {
 			$registerLink = true;
-			\App\EventHandler::setActive('OSSPasswords_Secure_Handler');
+			\App\Events\EventHandler::setActive('OSSPasswords_Secure_Handler');
 		} else if ($eventType == 'module.preuninstall') {
-			\App\Log::trace('Before starting uninstall script...');
+			\App\Log\Log::trace('Before starting uninstall script...');
 			require_once( 'src/Modules/Settings/' . $moduleName . '/Views/uninstall.php' );
-			\App\Log::trace('After uninstall script.');
+			\App\Log\Log::trace('After uninstall script.');
 
 			header('Location: index.php?module=Dashboard&parent=Settings&view=Index');
 		} else if ($eventType == 'module.preupdate') {
@@ -338,7 +338,7 @@ class OSSPasswords extends \App\CRMEntity
 
 		// register modtracker history updates
 		if ($addModTracker) {
-			\App\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions:: getModuleId($moduleName));
+			\App\Core\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions:: getModuleId($moduleName));
 		}
 	}
 }

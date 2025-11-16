@@ -233,7 +233,7 @@ class PBXManager {
 
 		$params['starttime'] = $details->get('StartTime');
 		$params['callstatus'] = "ringing";
-		$user = \App\CRMEntity::getInstance('Users');
+		$user = \App\Core\CRMEntity::getInstance('Users');
 		$current_user = $user->getActiveAdminUser();
 
 		$recordModel = \App\Modules\PBXManager\Models\Record::getCleanInstance();

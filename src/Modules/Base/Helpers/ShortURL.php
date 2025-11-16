@@ -43,7 +43,7 @@ class ShortURL {
 
 	static function generateURL(array $options)
 	{
-		$site_URL = \App\AppConfig::main('site_URL');
+		$site_URL = \App\Core\AppConfig::main('site_URL');
 		if (!isset($options['onetime']))
 			$options['onetime'] = 0;
 		$uid = self::generate($options);

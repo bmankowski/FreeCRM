@@ -48,12 +48,12 @@ class Watermark extends \App\Modules\Settings\Base\Actions\Index
 		}
 
 		// Check allowed upload file size
-		if ($uploadOk && $_FILES['watermark']['size'][0] > \App\AppConfig::main('upload_maxsize')) {
+		if ($uploadOk && $_FILES['watermark']['size'][0] > \App\Core\AppConfig::main('upload_maxsize')) {
 			$uploadOk = 0;
 		}
 		// Check if $uploadOk is set to 0 by an error
 		if ($uploadOk === 1) {
-			$db = \App\Db::getInstance('admin');
+			$db = \App\Db\Db::getInstance('admin');
 			$watermarkImage = (new \App\Db\Query())->select('watermark_image')
 				->from('a_#__pdf')
 				->where(['pdfid' => $templateId])

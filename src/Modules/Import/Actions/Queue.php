@@ -38,7 +38,7 @@ class Queue extends \App\Base\Controllers\BaseActionController
 		} else {
 			$temp_status = self::$IMPORT_STATUS_NONE;
 		}
-		\App\Db::getInstance()->createCommand()->insert('vtiger_import_queue', [
+		\App\Db\Db::getInstance()->createCommand()->insert('vtiger_import_queue', [
 			'userid' => $user->id,
 			'tabid' => \App\Utils\ModuleUtils::getModuleId($request->get('module')),
 			'field_mapping' => \App\Utils\Json::encode($request->get('field_mapping')),

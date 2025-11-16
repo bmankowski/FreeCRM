@@ -62,7 +62,7 @@ class CreateApp extends \App\Modules\Settings\Base\Views\BasicModal
 	 */
 	protected function prepareWebserviceAppsCreateAppData($viewer)
 	{
-		$mappingRelatedField = \App\ModuleHierarchy::getRelationFieldByHierarchy('SSingleOrders');
+		$mappingRelatedField = \App\Core\ModuleHierarchy::getRelationFieldByHierarchy('SSingleOrders');
 		$viewer->assign('MAPPING_RELATED_FIELD', \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($mappingRelatedField)));
 	}
 

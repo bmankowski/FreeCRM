@@ -52,7 +52,7 @@ class Pagination  extends \App\Modules\Base\Views\Index
 		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		if (empty($orderBy) && empty($sortOrder)) {
-			$moduleInstance = \App\CRMEntity::getInstance($moduleName);
+			$moduleInstance = \App\Core\CRMEntity::getInstance($moduleName);
 			$orderBy = $moduleInstance->default_order_by;
 			$sortOrder = $moduleInstance->default_sort_order;
 		}

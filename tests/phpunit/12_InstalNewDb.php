@@ -15,7 +15,7 @@ class InstalNewDb extends TestCase
 
 	public function testInstalDb()
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$schema = $db->getSchema();
 		$db->createCommand()->checkIntegrity(false)->execute();
 

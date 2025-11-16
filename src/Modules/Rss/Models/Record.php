@@ -107,7 +107,7 @@ class Record extends \App\Modules\Base\Models\Record
 		if ($title === '') {
 			$title = $url;
 		}
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$insert = $db->createCommand()->insert('vtiger_rss', ['rssurl' => $url, 'rsstitle' => $title])->execute();
 
 		if ($insert) {

@@ -20,7 +20,7 @@ class NoPermittedToRecord extends NoPermitted
 		if(empty($record))
 			$record = 0;
 		$userName = \App\Http\Vtiger_Session::get('full_user_name');
-		\App\DB::getInstance('log')->createCommand()->insert('o_#__access_to_record', [
+		\App\Db\Db::getInstance('log')->createCommand()->insert('o_#__access_to_record', [
 			'username' => empty($userName) ? '-' : $userName,
 			'date' => date('Y-m-d H:i:s'),
 			'ip' => \App\Utils\RequestUtil::getRemoteIP(),

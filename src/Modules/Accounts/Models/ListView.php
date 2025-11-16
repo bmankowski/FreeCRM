@@ -26,7 +26,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 		$currentUserModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();
 		$massActionLinks = [];
-		if ($moduleModel->isPermitted('MassComposeEmail') && \App\AppConfig::main('isActiveSendingMails') && \App\Email\Mail::getDefaultSmtp()) {
+		if ($moduleModel->isPermitted('MassComposeEmail') && \App\Core\AppConfig::main('isActiveSendingMails') && \App\Email\Mail::getDefaultSmtp()) {
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_SEND_EMAIL',

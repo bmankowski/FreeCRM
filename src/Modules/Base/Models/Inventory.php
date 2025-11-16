@@ -22,7 +22,7 @@ class Inventory {
 	{
 		$instance = \App\Cache\Cache::get('Inventory', $moduleName);
 		if (!$instance) {
-			$modelClassName = \App\Loader::getComponentClassName('Model', 'Inventory', $moduleName);
+			$modelClassName = \App\Core\Loader::getComponentClassName('Model', 'Inventory', $moduleName);
 			$instance = new $modelClassName();
 			$instance->initialize($moduleName);
 			\App\Cache\Cache::save('Inventory', $moduleName, $instance);
@@ -48,7 +48,7 @@ class Inventory {
 			return \App\Cache\Cache::get('Inventory', 'DiscountConfiguration');
 		}
 		$config = [];
-		$dataReader = (new \App\Db\Query())->from('a_#__discounts_config')->createCommand(\App\Db::getInstance('admin'))->query();
+		$dataReader = (new \App\Db\Query())->from('a_#__discounts_config')->createCommand(\App\Db\Db::getInstance('admin'))->query();
 		while ($row = $dataReader->read()) {
 			$value = $row['value'];
 			if (in_array($row['param'], ['discounts'])) {
@@ -70,7 +70,7 @@ class Inventory {
 			return \App\Cache\Cache::get('Inventory', 'Discounts');
 		}
 		$discounts = (new \App\Db\Query())->from('a_#__discounts_global')->where(['status' => 0])
-				->createCommand(\App\Db::getInstance('admin'))->queryAllByGroup(1);
+				->createCommand(\App\Db\Db::getInstance('admin'))->queryAllByGroup(1);
 		\App\Cache\Cache::save('Inventory', 'Discounts', $discounts, \App\Cache\Cache::LONG);
 		return $discounts;
 	}
@@ -85,7 +85,7 @@ class Inventory {
 			return \App\Cache\Cache::get('Inventory', 'TaxConfiguration');
 		}
 		$config = [];
-		$dataReader = (new \App\Db\Query())->from('a_#__taxes_config')->createCommand(\App\Db::getInstance('admin'))->query();
+		$dataReader = (new \App\Db\Query())->from('a_#__taxes_config')->createCommand(\App\Db\Db::getInstance('admin'))->query();
 		while ($row = $dataReader->read()) {
 			$value = $row['value'];
 			if (in_array($row['param'], ['taxs'])) {
@@ -107,7 +107,7 @@ class Inventory {
 			return \App\Cache\Cache::get('Inventory', 'Taxes');
 		}
 		$taxes = (new \App\Db\Query())->from('a_#__taxes_global')->where(['status' => 0])
-				->createCommand(\App\Db::getInstance('admin'))->queryAllByGroup(1);
+				->createCommand(\App\Db\Db::getInstance('admin'))->queryAllByGroup(1);
 		\App\Cache\Cache::save('Inventory', 'Taxes', $taxes, \App\Cache\Cache::LONG);
 		return $taxes;
 	}
@@ -164,7 +164,7 @@ class Inventory {
 	 */
 	public function setMode($type)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$moduleName = $this->name;
 
 		$result = $db->createCommand()->update('vtiger_tab', ['type' => (int) $type], ['name' => $moduleName])->execute();
@@ -182,8 +182,8 @@ class Inventory {
 	 */
 	public function createInventoryTables()
 	{
-		$db = \App\Db::getInstance();
-		$focus = \App\CRMEntity::getInstance($this->name);
+		$db = \App\Db\Db::getInstance();
+		$focus = \App\Core\CRMEntity::getInstance($this->name);
 		$moduleLowerCase = strtolower($this->name);
 		$basetable = $focus->table_name;
 		$importer = new \App\Db\Importers\Base();
@@ -229,7 +229,7 @@ class Inventory {
 				'charset' => 'utf8'
 		]];
 		$base = new \App\Db\Importer();
-		$base->dieOnError = \App\AppConfig::debug('SQL_DIE_ON_ERROR');
+		$base->dieOnError = \App\Core\AppConfig::debug('SQL_DIE_ON_ERROR');
 		foreach ($tables as $postFix => $data) {
 			$tableName = $basetable . $postFix;
 			if (!$db->isTableExists($tableName)) {

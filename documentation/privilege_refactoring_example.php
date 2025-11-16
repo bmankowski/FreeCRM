@@ -297,7 +297,7 @@ class PermissionChain
     
     private function log(PermissionContext $context, PermissionChecker $checker, PermissionResult $result): void
     {
-        \App\Log::trace(sprintf(
+        \App\Log\Log::trace(sprintf(
             'Permission check [%s]: User=%d, Module=%s, Action=%s, Record=%s, Result=%s, Reason=%s',
             $checker->getName(),
             $context->getUserId(),
@@ -498,7 +498,7 @@ if ($result->isAllowed()) {
     echo "Access denied: " . $result->getReason();
     
     // Log for audit
-    \App\Log::warning('Permission denied', [
+    \App\Log\Log::warning('Permission denied', [
         'user' => 5,
         'module' => 'Leads',
         'action' => 'DetailView',

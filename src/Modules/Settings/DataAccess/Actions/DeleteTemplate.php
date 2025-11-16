@@ -24,7 +24,7 @@ class DeleteTemplate extends \App\Modules\Settings\Base\Actions\Index
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$tplId = $request->get('tpl_id');
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$db->createCommand()->delete('vtiger_dataaccess_cnd', ['dataaccessid' => $tplId])->execute();
 		$db->createCommand()->delete('vtiger_dataaccess', ['dataaccessid' => $tplId])->execute();
 		header("Location: index.php?module=DataAccess&parent=Settings&view=Index");

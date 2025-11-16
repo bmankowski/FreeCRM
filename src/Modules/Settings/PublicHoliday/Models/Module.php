@@ -24,7 +24,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	public static function getHolidays($date)
 	{
 
-		\App\Log::trace("Entering \App\Modules\Settings\PublicHoliday\Models\Module::getHolidays(" . print_r($date, true) . ") method ...");
+		\App\Log\Log::trace("Entering \App\Modules\Settings\PublicHoliday\Models\Module::getHolidays(" . print_r($date, true) . ") method ...");
 
 		$query = (new \App\Db\Query())->select('publicholidayid, holidaydate, holidayname, holidaytype')
 			->from('vtiger_publicholiday');
@@ -47,7 +47,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 			$holidays[$id]['type'] = $type;
 			$holidays[$id]['day'] = \App\Runtime\Vtiger_Language_Handler::translate(date('l', strtotime($date)), 'PublicHoliday');
 		}
-		\App\Log::trace("Exiting \App\Modules\Settings\PublicHoliday\Models\Module::getHolidays() method ...");
+		\App\Log\Log::trace("Exiting \App\Modules\Settings\PublicHoliday\Models\Module::getHolidays() method ...");
 		return $holidays;
 	}
 
@@ -58,11 +58,11 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 */
 	public static function deleteHoliday($id)
 	{
-		\App\Log::trace("Entering \App\Modules\Settings\PublicHoliday\Models\Module::deleteHoliday(" . $id . ") method ...");
-		$deleted = \App\Db::getInstance()->createCommand()
+		\App\Log\Log::trace("Entering \App\Modules\Settings\PublicHoliday\Models\Module::deleteHoliday(" . $id . ") method ...");
+		$deleted = \App\Db\Db::getInstance()->createCommand()
 			->delete('vtiger_publicholiday', ['publicholidayid' => $id])
 			->execute();
-		\App\Log::trace("Exiting \App\Modules\Settings\PublicHoliday\Models\Module::deleteHoliday() method ...");
+		\App\Log\Log::trace("Exiting \App\Modules\Settings\PublicHoliday\Models\Module::deleteHoliday() method ...");
 		if ($deleted === 1)
 			return true;
 		else
@@ -78,14 +78,14 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 */
 	public static function saveHoliday($date, $name, $type)
 	{
-		\App\Log::trace("Entering \App\Modules\Settings\PublicHoliday\Models\Module::saveHoliday(" . $date . ', ' . $name . ', ' . $type . ") method ...");
-		$saved = \App\Db::getInstance()->createCommand()
+		\App\Log\Log::trace("Entering \App\Modules\Settings\PublicHoliday\Models\Module::saveHoliday(" . $date . ', ' . $name . ', ' . $type . ") method ...");
+		$saved = \App\Db\Db::getInstance()->createCommand()
 				->insert('vtiger_publicholiday', [
 					'holidaydate' => $date,
 					'holidayname' => $name,
 					'holidaytype' => $type
 				])->execute();
-		\App\Log::trace("Exiting \App\Modules\Settings\PublicHoliday\Models\Module::saveHoliday() method ...");
+		\App\Log\Log::trace("Exiting \App\Modules\Settings\PublicHoliday\Models\Module::saveHoliday() method ...");
 		if ($saved === 1)
 			return true;
 		else
@@ -102,15 +102,15 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 */
 	public static function edit($id, $date, $name, $type)
 	{
-		\App\Log::trace("Entering \App\Modules\Settings\PublicHoliday\Models\Module::edit(" . $id . ', ' . $date . ', ' . $name . ', ' . $type . ") method ...");
-		$saved = \App\Db::getInstance()->createCommand()
+		\App\Log\Log::trace("Entering \App\Modules\Settings\PublicHoliday\Models\Module::edit(" . $id . ', ' . $date . ', ' . $name . ', ' . $type . ") method ...");
+		$saved = \App\Db\Db::getInstance()->createCommand()
 			->update('vtiger_publicholiday', [
 				'holidaydate' => $date,
 				'holidayname' => $name,
 				'holidaytype' => $type
 				], ['publicholidayid' => $id])
 			->execute();
-		\App\Log::trace("Exiting \App\Modules\Settings\PublicHoliday\Models\Module::edit() method ...");
+		\App\Log\Log::trace("Exiting \App\Modules\Settings\PublicHoliday\Models\Module::edit() method ...");
 		if ($saved === 1)
 			return true;
 		else
@@ -125,7 +125,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	public static function checkIfHoliday($date)
 	{
 
-		\App\Log::trace("Entering \App\Modules\Settings\PublicHoliday\Models\Module::checkIfHoliday(" . $date . ") method ...");
+		\App\Log\Log::trace("Entering \App\Modules\Settings\PublicHoliday\Models\Module::checkIfHoliday(" . $date . ") method ...");
 
 		$db = \App\Database\PearDatabase::getInstance();
 		$sql = 'SELECT COUNT(1) as num FROM `vtiger_publicholiday` WHERE `holidaydate` = ?;';
@@ -134,7 +134,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		$result = $db->pquery($sql, $params);
 		$num = $db->query_result($result, 0, 'num');
 
-		\App\Log::trace("Exiting \App\Modules\Settings\PublicHoliday\Models\Module::checkIfHoliday() method ...");
+		\App\Log\Log::trace("Exiting \App\Modules\Settings\PublicHoliday\Models\Module::checkIfHoliday() method ...");
 
 		if ($num > 0)
 			return true;
@@ -149,7 +149,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	public static function getHolidayGroupType($date = false)
 	{
 
-		\App\Log::trace("Entering \App\Modules\Settings\PublicHoliday\Models\Module::getHolidayGroupType method ...");
+		\App\Log\Log::trace("Entering \App\Modules\Settings\PublicHoliday\Models\Module::getHolidayGroupType method ...");
 		$query = (new \App\Db\Query())
 			->select(['count' => new \yii\db\Expression('COUNT(publicholidayid)'), 'holidaytype'])
 			->from('vtiger_publicholiday');
@@ -169,7 +169,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 				$return[$row['holidaytype']] = $row['count'];
 			}
 		}
-		\App\Log::trace("Exiting \App\Modules\Settings\PublicHoliday\Models\Module::getHolidayGroupType() method ...");
+		\App\Log\Log::trace("Exiting \App\Modules\Settings\PublicHoliday\Models\Module::getHolidayGroupType() method ...");
 		return $return;
 	}
 }

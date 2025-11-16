@@ -18,7 +18,7 @@ class Config
 
 	public static function updateConfig($name, $val, $type)
 	{
-		\App\Db::getInstance()->createCommand()->update('yetiforce_mail_config', ['value' => $val], [
+		\App\Db\Db::getInstance()->createCommand()->update('yetiforce_mail_config', ['value' => $val], [
 			'type' => $type,
 			'name' => $name
 		])->execute();
@@ -39,7 +39,7 @@ class Config
 	
 	public static function acceptanceRecord($id)
 	{
-		\App\Db::getInstance('admin')->createCommand()->update('s_#__mail_queue', ['status' => 1], [
+		\App\Db\Db::getInstance('admin')->createCommand()->update('s_#__mail_queue', ['status' => 1], [
 			'id' => $id
 		])->execute();
 	}

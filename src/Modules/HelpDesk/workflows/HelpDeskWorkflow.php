@@ -27,7 +27,7 @@ function getContactsMailsFromTicket($id)
 		if (\App\Records\Record::isExists($contactId)) {
 			$contactRecord = \App\Modules\Base\Models\Record::getInstanceById($contactId, 'Contacts');
 			$primaryEmail = $contactRecord->get('email');
-			if (($contactRecord->get('emailoptout') == 1 || !\App\AppConfig::module('HelpDesk', 'CONTACTS_CHECK_EMAIL_OPTOUT')) && !empty($primaryEmail)) {
+			if (($contactRecord->get('emailoptout') == 1 || !\App\Core\AppConfig::module('HelpDesk', 'CONTACTS_CHECK_EMAIL_OPTOUT')) && !empty($primaryEmail)) {
 				$mails[] = $primaryEmail;
 			}
 		}
@@ -41,7 +41,7 @@ function getContactsMailsFromTicket($id)
  */
 function HelpDeskChangeNotifyContacts(\App\Modules\Base\Models\Record $recordModel)
 {
-	\App\Log::trace('Entering HelpDeskChangeNotifyContacts');
+	\App\Log\Log::trace('Entering HelpDeskChangeNotifyContacts');
 	$recordId = $recordModel->getId();
 	$mails = getContactsMailsFromTicket($recordId);
 	if (count($mails) > 0) {
@@ -52,7 +52,7 @@ function HelpDeskChangeNotifyContacts(\App\Modules\Base\Models\Record $recordMod
 			'to' => $mails,
 		]);
 	}
-	\App\Log::trace('HelpDeskChangeNotifyContacts');
+	\App\Log\Log::trace('HelpDeskChangeNotifyContacts');
 }
 
 /**
@@ -61,7 +61,7 @@ function HelpDeskChangeNotifyContacts(\App\Modules\Base\Models\Record $recordMod
  */
 function HelpDeskClosedNotifyContacts(\App\Modules\Base\Models\Record $recordModel)
 {
-	\App\Log::trace('Entering HelpDeskClosedNotifyContacts');
+	\App\Log\Log::trace('Entering HelpDeskClosedNotifyContacts');
 	$recordId = $recordModel->getId();
 	$mails = getContactsMailsFromTicket($recordId);
 	if (count($mails) > 0) {
@@ -72,7 +72,7 @@ function HelpDeskClosedNotifyContacts(\App\Modules\Base\Models\Record $recordMod
 			'to' => $mails,
 		]);
 	}
-	\App\Log::trace('HelpDeskClosedNotifyContacts');
+	\App\Log\Log::trace('HelpDeskClosedNotifyContacts');
 }
 
 /**
@@ -82,7 +82,7 @@ function HelpDeskClosedNotifyContacts(\App\Modules\Base\Models\Record $recordMod
 function HelpDeskNewCommentAccount(\App\Modules\Base\Models\Record $recordModel)
 {
 	$db = \App\Database\PearDatabase::getInstance();
-	\App\Log::trace('Entering HelpDeskNewCommentAccount');
+	\App\Log\Log::trace('Entering HelpDeskNewCommentAccount');
 	$relatedToId = $recordModel->get('related_to');
 	$moduleName = \App\Records\Record::getType($relatedToId);
 	$mail = false;
@@ -106,7 +106,7 @@ WHERE vtiger_crmentity.deleted = 0 && vtiger_troubletickets.ticketid = ? && vtig
 			'to' => $mail,
 		]);
 	}
-	\App\Log::trace('HelpDeskNewCommentAccount');
+	\App\Log\Log::trace('HelpDeskNewCommentAccount');
 }
 
 /**
@@ -115,7 +115,7 @@ WHERE vtiger_crmentity.deleted = 0 && vtiger_troubletickets.ticketid = ? && vtig
  */
 function HelpDeskNewCommentContacts(\App\Modules\Base\Models\Record $recordModel)
 {
-	\App\Log::trace('Entering HelpDeskNewCommentAccount');
+	\App\Log\Log::trace('Entering HelpDeskNewCommentAccount');
 	$mails = getContactsMailsFromTicket($recordModel->get('related_to'));
 	if (count($mails) > 0) {
 		\App\Email\Mailer::sendFromTemplate([
@@ -125,7 +125,7 @@ function HelpDeskNewCommentContacts(\App\Modules\Base\Models\Record $recordModel
 			'to' => $mails,
 		]);
 	}
-	\App\Log::trace('HelpDeskNewCommentAccount');
+	\App\Log\Log::trace('HelpDeskNewCommentAccount');
 }
 
 /**
@@ -134,7 +134,7 @@ function HelpDeskNewCommentContacts(\App\Modules\Base\Models\Record $recordModel
  */
 function HelpDeskNewCommentOwner(\App\Modules\Base\Models\Record $recordModel)
 {
-	\App\Log::trace('Entering HelpDeskNewCommentAccount');
+	\App\Log\Log::trace('Entering HelpDeskNewCommentAccount');
 	$db = \App\Database\PearDatabase::getInstance();
 	$relatedToId = $recordModel->get('related_to');
 	$mails = [];
@@ -170,5 +170,5 @@ function HelpDeskNewCommentOwner(\App\Modules\Base\Models\Record $recordModel)
 			'to' => $mails,
 		]);
 	}
-	\App\Log::trace('HelpDeskNewCommentAccount');
+	\App\Log\Log::trace('HelpDeskNewCommentAccount');
 }

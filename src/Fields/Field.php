@@ -21,7 +21,7 @@ class Field
 	 */
 	public static function getFieldsPermissions($tabId, $readOnly = true)
 	{
-		Log::trace('Entering ' . __METHOD__ . ": $tabId");
+		\App\Log\Log::trace('Entering ' . __METHOD__ . ": $tabId");
 		if (Cache::has(__METHOD__ . \App\Modules\Users\Models\Record::getCurrentUserId(), $tabId)) {
 			$fields = Cache::get(__METHOD__ . \App\Modules\Users\Models\Record::getCurrentUserId(), $tabId);
 		} else {
@@ -74,7 +74,7 @@ class Field
 		if (!is_numeric($tabMix)) {
 			$tabId = \App\Utils\ModuleUtils::getModuleId($tabMix);
 		}
-		Log::trace('Entering ' . __METHOD__ . ": $tabId,$fieldMix");
+		\App\Log\Log::trace('Entering ' . __METHOD__ . ": $tabId,$fieldMix");
 		if ($readOnly && isset(static::$fieldPermissionCacheRead[$tabId][$fieldMix])) {
 			return static::$fieldPermissionCacheRead[$tabId][$fieldMix];
 		} elseif (!$readOnly && isset(static::$fieldPermissionCacheWrite[$tabId][$fieldMix])) {
@@ -124,7 +124,7 @@ class Field
 		if (!is_numeric($tabMix)) {
 			$tabId = \App\Utils\ModuleUtils::getModuleId($tabMix);
 		}
-		Log::trace('Entering ' . __METHOD__ . ": $tabId,$columnName");
+		\App\Log\Log::trace('Entering ' . __METHOD__ . ": $tabId,$columnName");
 		if ($readOnly && isset(static::$columnPermissionCacheRead[$tabId][$columnName])) {
 			return static::$columnPermissionCacheRead[$tabId][$columnName];
 		} elseif (!$readOnly && isset(static::$columnPermissionCacheWrite[$tabId][$columnName])) {
@@ -164,14 +164,14 @@ class Field
 		if (Cache::has('getRelatedFieldForModule', $key)) {
 			$fields = Cache::get('getRelatedFieldForModule', $key);
 		} else {
-			$db = Db::getInstance();
-			$wsQuery = (new Db\Query())->select(['vtiger_field.fieldid', 'vtiger_field.uitype', 'vtiger_field.tabid', 'vtiger_field.columnname', 'vtiger_field.fieldname', 'vtiger_field.tablename', 'vtiger_tab.name', 'relmod' => 'vtiger_ws_referencetype.type', 'type' => new \yii\db\Expression($db->quoteValue(2))])
+			$db = \App\Db\Db::getInstance();
+			$wsQuery = (new \App\Db\Query())->select(['vtiger_field.fieldid', 'vtiger_field.uitype', 'vtiger_field.tabid', 'vtiger_field.columnname', 'vtiger_field.fieldname', 'vtiger_field.tablename', 'vtiger_tab.name', 'relmod' => 'vtiger_ws_referencetype.type', 'type' => new \yii\db\Expression($db->quoteValue(2))])
 				->from('vtiger_field')
 				->innerJoin('vtiger_tab', 'vtiger_field.tabid = vtiger_tab.tabid')
 				->innerJoin('vtiger_ws_fieldtype', 'vtiger_field.uitype = vtiger_ws_fieldtype.uitype')
 				->innerJoin('vtiger_ws_referencetype', 'vtiger_ws_fieldtype.fieldtypeid = vtiger_ws_referencetype.fieldtypeid')
 				->where(['vtiger_tab.presence' => 0]);
-			$fmrQuery = (new Db\Query())->select(['vtiger_field.fieldid', 'vtiger_field.uitype', 'vtiger_field.tabid', 'vtiger_field.columnname', 'vtiger_field.fieldname', 'vtiger_field.tablename', 'vtiger_tab.name', 'relmod' => 'vtiger_fieldmodulerel.relmodule', 'type' => new \yii\db\Expression($db->quoteValue(1))])
+			$fmrQuery = (new \App\Db\Query())->select(['vtiger_field.fieldid', 'vtiger_field.uitype', 'vtiger_field.tabid', 'vtiger_field.columnname', 'vtiger_field.fieldname', 'vtiger_field.tablename', 'vtiger_tab.name', 'relmod' => 'vtiger_fieldmodulerel.relmodule', 'type' => new \yii\db\Expression($db->quoteValue(1))])
 				->from('vtiger_field')
 				->innerJoin('vtiger_tab', 'vtiger_field.tabid = vtiger_tab.tabid')
 				->innerJoin('vtiger_fieldmodulerel', 'vtiger_field.fieldid = vtiger_fieldmodulerel.fieldid')
@@ -181,13 +181,13 @@ class Field
 			while ($row = $dataReader->read()) {
 				$fields[$row['name']][$row['relmod']] = $row;
 			}
-			$query = (new Db\Query())->select(['vtiger_field.fieldid', 'vtiger_field.uitype', 'vtiger_field.tabid', 'vtiger_field.columnname', 'vtiger_field.fieldname', 'vtiger_field.tablename', 'vtiger_tab.name'])
+			$query = (new \App\Db\Query())->select(['vtiger_field.fieldid', 'vtiger_field.uitype', 'vtiger_field.tabid', 'vtiger_field.columnname', 'vtiger_field.fieldname', 'vtiger_field.tablename', 'vtiger_tab.name'])
 				->from('vtiger_field')
 				->innerJoin('vtiger_tab', 'vtiger_field.tabid = vtiger_tab.tabid')
 				->where(['vtiger_tab.presence' => 0, 'vtiger_field.uitype' => [66, 67, 68]]);
 			$dataReader = $query->createCommand()->query();
 			while ($row = $dataReader->read()) {
-				foreach (ModuleHierarchy::getModulesByUitype($row['uitype']) as $module => $value) {
+				foreach (\App\Core\ModuleHierarchy::getModulesByUitype($row['uitype']) as $module => $value) {
 					$row['relmod'] = $module;
 					$row['type'] = 3;
 					$fields[$row['name']][$row['relmod']] = $row;

@@ -48,7 +48,7 @@ class KeyMetrics  extends \App\Modules\Base\Views\Index
 		// Current user is already available via getCurrentUserModel()
 		$metriclists = getMetricList();
 		foreach ($metriclists as $key => &$metriclist) {
-			$queryGenerator = new \App\QueryGenerator($metriclist['module']);
+			$queryGenerator = new \App\QueryField\QueryGenerator($metriclist['module']);
 			$queryGenerator->initForCustomViewById($metriclist['id']);
 			$metriclists[$key]['count'] = $queryGenerator->createQuery()->count();
 		}

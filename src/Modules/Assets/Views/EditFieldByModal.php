@@ -30,12 +30,12 @@ class EditFieldByModal  extends \App\Modules\Base\Views\Index
 			$fields = array_merge($fields, $fildsInBlock);
 		}
 		$showFields = array_keys($recordModel->getModule()->getQuickCreateFields());
-		$configureFields = \App\AppConfig::module($moduleName, 'SHOW_FIELD_IN_MODAL');
+		$configureFields = \App\Core\AppConfig::module($moduleName, 'SHOW_FIELD_IN_MODAL');
 		if($configureFields){
 			$showFields = array_merge($showFields, $configureFields);
 		}
 
-		$relationData = \App\AppConfig::module($moduleName, 'SHOW_RELATION_IN_MODAL');
+		$relationData = \App\Core\AppConfig::module($moduleName, 'SHOW_RELATION_IN_MODAL');
 		$relationsModules = [];
 		$relationModels = [];
 		if ($relationData) {
@@ -54,7 +54,7 @@ class EditFieldByModal  extends \App\Modules\Base\Views\Index
 				}
 			}
 		}
-		$hierarchy = \App\AppConfig::module($moduleName, 'SHOW_HIERARCHY_IN_MODAL');
+		$hierarchy = \App\Core\AppConfig::module($moduleName, 'SHOW_HIERARCHY_IN_MODAL');
 		$hierarchyId = '';
 		if ($hierarchy !== false) {
 			$hierarchyModuleName = 'Accounts';

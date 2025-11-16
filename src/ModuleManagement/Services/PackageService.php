@@ -56,11 +56,11 @@ class PackageService
 	/**
 	 * Constructor.
 	 * 
-	 * @param \App\Db $db
+	 * @param \App\Db\Db $db
 	 * @param Events\Dispatcher $eventDispatcher
 	 * @param string $tempDir
 	 */
-	public function __construct(\App\Db $db, Events\Dispatcher $eventDispatcher, string $tempDir = 'cache/vtlib')
+	public function __construct(\App\Db\Db $db, Events\Dispatcher $eventDispatcher, string $tempDir = 'cache/vtlib')
 	{
 		$this->db = $db;
 		$this->eventDispatcher = $eventDispatcher;
@@ -132,7 +132,7 @@ class PackageService
 			}
 
 			// Check for language files
-			$defaultLanguage = \App\AppConfig::main('default_language');
+			$defaultLanguage = \App\Core\AppConfig::main('default_language');
 			$pattern = '/languages\/' . preg_quote($defaultLanguage, '/') . '\/([^\/]+)\.php$/';
 			if (preg_match($pattern, $filename, $matches)) {
 				$language_modulename = $matches[1];
@@ -149,7 +149,7 @@ class PackageService
 			$languagefile_found = true;
 		} elseif (!$updatefile_found && !$layoutfile_found && !$languagefile_found && !empty($modulename)) {
 			$_errorText = \App\Runtime\Vtiger_Language_Handler::translate('LBL_ERROR_NO_DEFAULT_LANGUAGE', 'Settings:ModuleManager');
-			$_errorText = str_replace('__DEFAULTLANGUAGE__', \App\AppConfig::main('default_language'), $_errorText);
+			$_errorText = str_replace('__DEFAULTLANGUAGE__', \App\Core\AppConfig::main('default_language'), $_errorText);
 			$this->errorText = $_errorText;
 		}
 
@@ -1028,7 +1028,7 @@ class PackageService
 		}
 		$moduleId = \App\Utils\ModuleUtils::getModuleId($module->getName());
 		foreach ($modulenode->eventHandlers->event as $eventNode) {
-			\App\EventHandler::registerHandler(
+			\App\Events\EventHandler::registerHandler(
 				(string) $eventNode->eventName,
 				(string) $eventNode->className,
 				(string) $eventNode->includeModules,
@@ -1465,7 +1465,7 @@ class PackageService
 		$this->openNode('tables');
 
 		if ($module->getIsentitytype()) {
-			$focus = \App\CRMEntity::getInstance($module->getName());
+			$focus = \App\Core\CRMEntity::getInstance($module->getName());
 			\App\Utils\VtlibUtils::setupModuleVars($module->getName(), $focus);
 			$tables = $focus->tab_name;
 			if (($key = array_search('vtiger_crmentity', $tables)) !== false) {

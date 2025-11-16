@@ -94,7 +94,7 @@ class Record extends \App\Modules\Base\Models\Record
 			}
 			$query = 'SELECT vtiger_ossmailview.* FROM vtiger_ossmailview INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_ossmailview.ossmailviewid';
 			$query .= sprintf(' WHERE ossmailviewid IN (%s) %s', \App\Utils\Utils::generateQuestionMarks($ids), $ifwhere);
-			$query .= \App\PrivilegeQuery::getAccessConditions('OSSMailView', false, $srecord);
+			$query .= \App\Security\PrivilegeQuery::getAccessConditions('OSSMailView', false, $srecord);
 			$query .= ' ORDER BY date DESC';
 			if ($config['widget_limit'] != '') {
 				$query .= sprintf(' LIMIT %s', $config['widget_limit']);
@@ -249,7 +249,7 @@ class Record extends \App\Modules\Base\Models\Record
 			LEFT JOIN vtiger_users ON vtiger_users.id = vtiger_crmentity.smownerid 
 			LEFT JOIN vtiger_groups ON vtiger_groups.groupid = vtiger_crmentity.smownerid 
 			WHERE vtiger_crmentity.deleted = 0 && vtiger_ossmailview_relation.crmid = '$recordId'";
-		$sql .= \App\PrivilegeQuery::getAccessConditions($moduleName, false, $recordId);
+		$sql .= \App\Security\PrivilegeQuery::getAccessConditions($moduleName, false, $recordId);
 		return $sql;
 	}
 
@@ -338,7 +338,7 @@ class Record extends \App\Modules\Base\Models\Record
 		$db = \App\Database\PearDatabase::getInstance();
 		$result = $db->pquery('SELECT * FROM s_yf_mail_relation_updater WHERE crmid = ?', [$record]);
 		if ($db->getRowCount($result) == 0) {
-			\App\Db::getInstance()->createCommand()->insert('s_#__mail_relation_updater', [
+			\App\Db\Db::getInstance()->createCommand()->insert('s_#__mail_relation_updater', [
 				'tabid' => \App\Utils\ModuleUtils::getModuleId($moduleName),
 				'crmid' => $record
 			]);

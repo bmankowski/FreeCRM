@@ -65,7 +65,7 @@ class Record extends \App\Modules\Base\Models\Record
 		if ($row) {
 			$lastReviewedUsers = explode('#', $row['last_reviewed_users']);
 			$lastReviewedUsers[] = \App\Modules\Users\Models\Record::getCurrentUserModel()->getRealId();
-			\App\Db::getInstance()->createCommand()
+			\App\Db\Db::getInstance()->createCommand()
 				->update('vtiger_modtracker_basic', ['last_reviewed_users' => '#' . implode('#', array_filter($lastReviewedUsers)) . '#'], ['id' => $row['id']])
 				->execute();
 			return $row['id'];
@@ -91,7 +91,7 @@ class Record extends \App\Modules\Base\Models\Record
 			$key = array_search($userId, $lastReviewedUsers);
 			unset($lastReviewedUsers[$key]);
 			$value = empty($lastReviewedUsers) ? '' : '#' . implode('#', array_filter($lastReviewedUsers)) . '#';
-			return \App\Db::getInstance()->createCommand()->update('vtiger_modtracker_basic', ['last_reviewed_users' => $value], ['id' => $row['id']])->execute();
+			return \App\Db\Db::getInstance()->createCommand()->update('vtiger_modtracker_basic', ['last_reviewed_users' => $value], ['id' => $row['id']])->execute();
 		}
 		return false;
 	}
@@ -353,7 +353,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	public static function addConvertToAccountRelation($sourceModule, $sourceId, $current_user)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$db->createCommand()->insert('vtiger_modtracker_basic', [
 			'crmid' => $sourceId,
 			'module' => $sourceModule,
@@ -375,7 +375,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public static function setLastRelation($sourceId, $sourceModule, $byUser = false)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
 		$query = \App\Modules\Base\Widgets\HistoryRelation::getQuery($sourceId, $sourceModule, \App\Modules\Base\Widgets\HistoryRelation::getActions());
 		if (!$query) {

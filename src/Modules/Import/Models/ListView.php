@@ -92,10 +92,10 @@ class ListView extends \App\Modules\Base\Models\ListView
 	 */
 	public static function getInstance($moduleName, $viewId = '0')
 	{
-		$modelClassName = \App\Loader::getComponentClassName('Model', 'ListView', 'Import');
+		$modelClassName = \App\Core\Loader::getComponentClassName('Model', 'ListView', 'Import');
 		$instance = new $modelClassName();
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
-		$queryGenerator = new \App\QueryGenerator($moduleModel->get('name'));
+		$queryGenerator = new \App\QueryField\QueryGenerator($moduleModel->get('name'));
 		$queryGenerator->initForDefaultCustomView(true);
 		return $instance->set('module', $moduleModel)->set('query_generator', $queryGenerator);
 	}

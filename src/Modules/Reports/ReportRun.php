@@ -2,7 +2,7 @@
 
 namespace App\Modules\Reports;
 
-class ReportRun extends \App\CRMEntity
+class ReportRun extends \App\Core\CRMEntity
 {
 
 	// Maximum rows that should be emitted in HTML view.
@@ -163,7 +163,7 @@ class ReportRun extends \App\CRMEntity
 		// Save the information
 		$this->_columnslist = $columnslist;
 
-		\App\Log::trace('ReportRun :: Successfully returned getQueryColumnsList' . $reportid);
+		\App\Log\Log::trace('ReportRun :: Successfully returned getQueryColumnsList' . $reportid);
 		return $columnslist;
 	}
 
@@ -174,7 +174,7 @@ class ReportRun extends \App\CRMEntity
 
 		list($module, $field) = explode('__', $selectedfields[2]);
 		$concatSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' => $selectedfields[0] . '.first_name', 'last_name' => $selectedfields[0] . '.last_name'), 'Users');
-		$moduleInstance = \App\CRMEntity::getInstance($module);
+		$moduleInstance = \App\Core\CRMEntity::getInstance($module);
 		$this->queryPlanner->addTable($moduleInstance->table_name);
 		if ($selectedfields[4] == 'C') {
 			$field_label_data = explode('__', $selectedfields[2]);
@@ -263,7 +263,7 @@ class ReportRun extends \App\CRMEntity
 			$this->queryPlanner->addTable($targetTableName);
 
 			// Added when no fields from the secondary module is selected but lastmodifiedby field is selected
-			$moduleInstance = \App\CRMEntity::getInstance($module);
+			$moduleInstance = \App\Core\CRMEntity::getInstance($module);
 			$this->queryPlanner->addTable($moduleInstance->table_name);
 		} else if (stristr($selectedfields[0], "vtiger_crmentity") && ($selectedfields[1] == 'smcreatorid')) {
 			$targetTableName = 'vtiger_createdby' . $module;
@@ -273,7 +273,7 @@ class ReportRun extends \App\CRMEntity
 			$this->queryPlanner->addTable($targetTableName);
 
 			// Added when no fields from the secondary module is selected but creator field is selected
-			$moduleInstance = \App\CRMEntity::getInstance($module);
+			$moduleInstance = \App\Core\CRMEntity::getInstance($module);
 			$this->queryPlanner->addTable($moduleInstance->table_name);
 		} else if (stristr($selectedfields[0], "vtiger_crmentity") && ($selectedfields[1] == 'shownerid')) {
 			$targetTableName = 'vtiger_shOwners' . $module;
@@ -284,7 +284,7 @@ class ReportRun extends \App\CRMEntity
 			$this->queryPlanner->addTable($targetTableName);
 
 			// Added when no fields from the secondary module is selected but lastmodifiedby field is selected
-			$moduleInstance = \App\CRMEntity::getInstance($module);
+			$moduleInstance = \App\Core\CRMEntity::getInstance($module);
 
 			$this->queryPlanner->addTable($moduleInstance->table_name);
 		} elseif ($selectedfields[0] == "vtiger_crmentity" . $this->primarymodule) {
@@ -320,7 +320,7 @@ class ReportRun extends \App\CRMEntity
 				$columnSQL = "vtiger_service{$module}.servicename AS '" . \App\Utils\ListViewUtils::decodeHtml($header_label) . "'";
 				$this->queryPlanner->addTable("vtiger_service{$module}");
 			} else if ($selectedfields[1] == 'listprice') {
-				$moduleInstance = \App\CRMEntity::getInstance($module);
+				$moduleInstance = \App\Core\CRMEntity::getInstance($module);
 				$columnSQL = $selectedfields[0] . $module . "." . $selectedfields[1] . "/" . $moduleInstance->table_name . ".conversion_rate AS '" . \App\Utils\ListViewUtils::decodeHtml($header_label) . "'";
 				$this->queryPlanner->addTable($selectedfields[0] . $module);
 			} else {
@@ -459,7 +459,7 @@ class ReportRun extends \App\CRMEntity
 		}
 		$sSQL .= implode(",", $sSQLList);
 
-		\App\Log::trace("ReportRun :: Successfully returned getSelectedColumnsList" . $reportid);
+		\App\Log\Log::trace("ReportRun :: Successfully returned getSelectedColumnsList" . $reportid);
 		return $sSQL;
 	}
 
@@ -474,7 +474,7 @@ class ReportRun extends \App\CRMEntity
 		global $ogReport;
 		$adb = \App\Database\PearDatabase::getInstance();
 
-		$default_charset = \App\AppConfig::main('default_charset');
+		$default_charset = \App\Core\AppConfig::main('default_charset');
 		$value = html_entity_decode(trim($value), ENT_QUOTES, $default_charset);
 		$value_len = strlen($value);
 		$is_field = false;
@@ -552,7 +552,7 @@ class ReportRun extends \App\CRMEntity
 			$rtvalue = str_replace("'", "", $rtvalue);
 			$rtvalue = str_replace("\\", "", $rtvalue);
 		}
-		\App\Log::trace("ReportRun :: Successfully returned getAdvComparator");
+		\App\Log\Log::trace("ReportRun :: Successfully returned getAdvComparator");
 		return $rtvalue;
 	}
 
@@ -567,7 +567,7 @@ class ReportRun extends \App\CRMEntity
 		if (!empty($this->secondarymodule)) {
 			$secModules = explode(':', $this->secondarymodule);
 			foreach ($secModules as $secModule) {
-				$secondary = \App\CRMEntity::getInstance($secModule);
+				$secondary = \App\Core\CRMEntity::getInstance($secModule);
 				$this->queryPlanner->addTable($secondary->table_name);
 			}
 		}
@@ -690,7 +690,7 @@ class ReportRun extends \App\CRMEntity
 					$advcolsql = array();
 
 					if ($fieldcolname != "" && $comparator != "") {
-						if (in_array($comparator, \App\CustomView::STD_FILTER_CONDITIONS)) {
+						if (in_array($comparator, \App\View\CustomView::STD_FILTER_CONDITIONS)) {
 							if ($fieldcolname != 'none') {
 								$selectedFields = explode(':', $fieldcolname);
 								if ($selectedFields[0] == 'vtiger_crmentity' . $this->primarymodule) {
@@ -833,7 +833,7 @@ class ReportRun extends \App\CRMEntity
 							if (strcasecmp(trim($value), "no") == 0)
 								$value = "0";
 						}
-						if (in_array($comparator, \App\CustomView::STD_FILTER_CONDITIONS)) {
+						if (in_array($comparator, \App\View\CustomView::STD_FILTER_CONDITIONS)) {
 							$columninfo['stdfilter'] = $columninfo['comparator'];
 							$valueComponents = explode(',', $columninfo['value']);
 							if ($comparator == 'custom') {
@@ -847,7 +847,7 @@ class ReportRun extends \App\CRMEntity
 									$columninfo['enddate'] = \App\Fields\DateTimeField::convertToDBFormat($valueComponents[1]);
 								}
 							}
-							$dateFilterResolvedList = \App\CustomView::resolveDateFilterValue($columninfo);
+							$dateFilterResolvedList = \App\View\CustomView::resolveDateFilterValue($columninfo);
 							$startDate = \App\Fields\DateTimeField::convertToDBFormat($dateFilterResolvedList['startdate']);
 							$endDate = \App\Fields\DateTimeField::convertToDBFormat($dateFilterResolvedList['enddate']);
 							$columninfo['value'] = $value = implode(',', array($startDate, $endDate));
@@ -927,7 +927,7 @@ class ReportRun extends \App\CRMEntity
 								$secondSecondaryModule = "vtiger_users" . $secondaryModules[1];
 								if (($firstSecondaryModule && $firstSecondaryModule == $selectedfields[0]) || ($secondSecondaryModule && $secondSecondaryModule == $selectedfields[0])) {
 									$module_from_tablename = str_replace("vtiger_users", "", $selectedfields[0]);
-									$moduleInstance = \App\CRMEntity::getInstance($module_from_tablename);
+									$moduleInstance = \App\Core\CRMEntity::getInstance($module_from_tablename);
 									if (is_numeric($value)) {
 										$fieldvalue = '(' . $selectedfields[0] . '.id' . $this->getAdvComparator($comparator, trim($value), $datatype) . " OR vtiger_groups$module_from_tablename.groupid" . $this->getAdvComparator($comparator, trim($value), $datatype) . ')';
 									} else {
@@ -1067,7 +1067,7 @@ class ReportRun extends \App\CRMEntity
 		// Save the information
 		$this->_advfiltersql = $advfiltersql;
 
-		\App\Log::trace("ReportRun :: Successfully returned getAdvFilterSql" . $reportid);
+		\App\Log\Log::trace("ReportRun :: Successfully returned getAdvFilterSql" . $reportid);
 		return $advfiltersql;
 	}
 
@@ -1157,7 +1157,7 @@ class ReportRun extends \App\CRMEntity
 		// Save the information
 		$this->_stdfilterlist = $stdfilterlist;
 
-		\App\Log::trace("ReportRun :: Successfully returned getStdFilterList" . $reportid);
+		\App\Log\Log::trace("ReportRun :: Successfully returned getStdFilterList" . $reportid);
 		return $stdfilterlist;
 	}
 
@@ -1339,7 +1339,7 @@ class ReportRun extends \App\CRMEntity
 				}
 			}
 		}
-		\App\Log::trace("ReportRun :: Successfully returned getStandardCriterialSql" . $reportid);
+		\App\Log\Log::trace("ReportRun :: Successfully returned getStandardCriterialSql" . $reportid);
 		return $sSQL;
 	}
 
@@ -1440,7 +1440,7 @@ class ReportRun extends \App\CRMEntity
 		// Save the information
 		$this->_groupinglist = $grouplist;
 
-		\App\Log::trace("ReportRun :: Successfully returned getGroupingList" . $reportid);
+		\App\Log\Log::trace("ReportRun :: Successfully returned getGroupingList" . $reportid);
 		return $grouplist;
 	}
 
@@ -1502,7 +1502,7 @@ class ReportRun extends \App\CRMEntity
 				$this->orderbylistsql .= $selectedfields[0] . '.' . $selectedfields[1] . ' ' . $selectedfields[2];
 			}
 		}
-		\App\Log::trace('ReportRun :: Successfully returned getSelectedOrderbyList' . $reportid);
+		\App\Log\Log::trace('ReportRun :: Successfully returned getSelectedOrderbyList' . $reportid);
 		return $sSQL;
 	}
 
@@ -1519,7 +1519,7 @@ class ReportRun extends \App\CRMEntity
 		if ($secmodule != '') {
 			$secondarymodule = explode(':', $secmodule);
 			foreach ($secondarymodule as $key => $value) {
-				$foc = \App\CRMEntity::getInstance($value);
+				$foc = \App\Core\CRMEntity::getInstance($value);
 
 				// Case handling: Force table requirement ahead of time.
 				$this->queryPlanner->addTable('vtiger_crmentity' . $value);
@@ -1530,13 +1530,13 @@ class ReportRun extends \App\CRMEntity
 					if (count($secondarymodule) > 1) {
 						$query .= $focQuery . $this->getReportsNonAdminAccessControlQuery($value, $current_user, $value);
 					} else {
-						$query .= $focQuery . \App\PrivilegeQuery::getNonAdminAccessControlQuery($value, $current_user, $value);
+						$query .= $focQuery . \App\Security\PrivilegeQuery::getNonAdminAccessControlQuery($value, $current_user, $value);
 						;
 					}
 				}
 			}
 		}
-		\App\Log::trace('ReportRun :: Successfully returned getRelatedModulesQuery' . $secmodule);
+		\App\Log\Log::trace('ReportRun :: Successfully returned getRelatedModulesQuery' . $secmodule);
 
 		return $query;
 	}
@@ -1574,7 +1574,7 @@ class ReportRun extends \App\CRMEntity
 				$module = \App\Utils\ModuleUtils::getModuleName($sharedTabId);
 				if ($module == 'Calendar') {
 					// For calendar we have some special case to check like, calendar shared type
-					$moduleInstance = \App\CRMEntity::getInstance($module);
+					$moduleInstance = \App\Core\CRMEntity::getInstance($module);
 					$query = $moduleInstance->getReportsNonAdminAccessControlQuery($tableName, $tabId, $user, $current_user_parent_role_seq, $current_user_groups);
 				} else {
 					$query = $this->getNonAdminAccessQuery($module, $user, $current_user_parent_role_seq, $current_user_groups);
@@ -1648,7 +1648,7 @@ class ReportRun extends \App\CRMEntity
 				$query .= ' left join ' . $customTable['refTable'] . ' as ' . $customTable['reference'] . ' on ' . $customTable['reference'] . '.' . $customTable['refIndex'] . ' = ' . $customTable['table'] . '.' . $customTable['field'];
 			}
 			$query .= ' ' . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				\App\PrivilegeQuery::getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+				\App\Security\PrivilegeQuery::getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				' where vtiger_crmentity.deleted=0 and vtiger_leaddetails.converted=0';
 		} else if ($module == 'Accounts') {
 			$query = 'from vtiger_account
@@ -1692,7 +1692,7 @@ class ReportRun extends \App\CRMEntity
 				$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
 			}
 			$query .= ' ' . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				\App\PrivilegeQuery::getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+				\App\Security\PrivilegeQuery::getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				' where vtiger_crmentity.deleted=0 ';
 		} else if ($module == 'Contacts') {
 			$query = 'from vtiger_contactdetails
@@ -1744,7 +1744,7 @@ class ReportRun extends \App\CRMEntity
 				$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
 			}
 			$query .= ' ' . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				\App\PrivilegeQuery::getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+				\App\Security\PrivilegeQuery::getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				' where vtiger_crmentity.deleted=0';
 		}
 
@@ -1792,7 +1792,7 @@ class ReportRun extends \App\CRMEntity
 				$query .= ' left join ' . $customTable['refTable'] . ' as ' . $customTable['reference'] . ' on ' . $customTable['reference'] . '.' . $customTable['refIndex'] . ' = ' . $customTable['table'] . '.' . $customTable['field'];
 			}
 			$query .= ' ' . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				\App\PrivilegeQuery::getNonAdminAccessControlQuery($this->primarymodule, $current_user) . '
+				\App\Security\PrivilegeQuery::getNonAdminAccessControlQuery($this->primarymodule, $current_user) . '
 				where vtiger_crmentity.deleted=0';
 		} else if ($module == 'HelpDesk') {
 			$matrix = $this->queryPlanner->newDependencyMatrix();
@@ -1848,7 +1848,7 @@ class ReportRun extends \App\CRMEntity
 				$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
 			}
 			$query .= ' ' . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				\App\PrivilegeQuery::getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+				\App\Security\PrivilegeQuery::getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				' where vtiger_crmentity.deleted=0 ';
 		} else if ($module == 'Calendar') {
 
@@ -1903,7 +1903,7 @@ class ReportRun extends \App\CRMEntity
 				$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
 			}
 			$query .= ' ' . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				\App\PrivilegeQuery::getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+				\App\Security\PrivilegeQuery::getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				' WHERE vtiger_crmentity.deleted=0 ';
 		} else if ($module == 'Campaigns') {
 			$query = 'from vtiger_campaign
@@ -1943,7 +1943,7 @@ class ReportRun extends \App\CRMEntity
 				$query .= ' LEFT JOIN vtiger_users AS vtiger_shOwners' . $module . ' ON vtiger_shOwners' . $module . '.id = u_yf_crmentity_showners.userid';
 			}
 			$query .= ' ' . $this->getRelatedModulesQuery($module, $this->secondarymodule) .
-				\App\PrivilegeQuery::getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+				\App\Security\PrivilegeQuery::getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 				' where vtiger_crmentity.deleted=0';
 		} else if ($module == 'OSSTimeControl') {
 			$query = 'FROM vtiger_osstimecontrol
@@ -1983,15 +1983,15 @@ class ReportRun extends \App\CRMEntity
 			}
 		} else {
 			if ($module != '') {
-				$focus = \App\CRMEntity::getInstance($module);
+				$focus = \App\Core\CRMEntity::getInstance($module);
 
 				$query = $focus->generateReportsQuery($module, $this->queryPlanner) .
 					$this->getRelatedModulesQuery($module, $this->secondarymodule) .
-					\App\PrivilegeQuery::getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
+					\App\Security\PrivilegeQuery::getNonAdminAccessControlQuery($this->primarymodule, $current_user) .
 					' WHERE vtiger_crmentity.deleted=0';
 			}
 		}
-		\App\Log::trace('ReportRun :: Successfully returned getReportsQuery' . $module);
+		\App\Log\Log::trace('ReportRun :: Successfully returned getReportsQuery' . $module);
 
 		return $query;
 	}
@@ -2092,7 +2092,7 @@ class ReportRun extends \App\CRMEntity
 			$report = str_replace('&amp;', '&', $reportquery);
 			$reportquery = $this->replaceSpecialChar($report);
 		}
-		\App\Log::trace("ReportRun :: Successfully returned sGetSQLforReport" . $reportid);
+		\App\Log\Log::trace("ReportRun :: Successfully returned sGetSQLforReport" . $reportid);
 
 		$this->queryPlanner->initializeTempTables();
 
@@ -2973,7 +2973,7 @@ class ReportRun extends \App\CRMEntity
 		// Save the information
 		$this->_columnstotallist = $stdfilterlist;
 
-		\App\Log::trace("ReportRun :: Successfully returned getColumnsTotal" . $reportid);
+		\App\Log\Log::trace("ReportRun :: Successfully returned getColumnsTotal" . $reportid);
 		return $stdfilterlist;
 	}
 
@@ -3009,7 +3009,7 @@ class ReportRun extends \App\CRMEntity
 			$field = $field_tablename . $premod . '.' . $field_columnname;
 			$itemTableName = 'vtiger_inventoryproductrel' . $premod;
 			$this->queryPlanner->addTable($itemTableName);
-			$primaryModuleInstance = \App\CRMEntity::getInstance($premod);
+			$primaryModuleInstance = \App\Core\CRMEntity::getInstance($premod);
 			if ($field_columnname == 'listprice') {
 				$field = $field . '/' . $primaryModuleInstance->table_name . '.conversion_rate';
 			} else if ($field_columnname == 'discount_amount') {
@@ -3059,7 +3059,7 @@ class ReportRun extends \App\CRMEntity
 		if (isset($sSQLList)) {
 			$sSQL = implode(",", $sSQLList);
 		}
-		\App\Log::trace("ReportRun :: Successfully returned getColumnsToTotalColumns" . $reportid);
+		\App\Log\Log::trace("ReportRun :: Successfully returned getColumnsToTotalColumns" . $reportid);
 		return $sSQL;
 	}
 
@@ -3111,7 +3111,7 @@ class ReportRun extends \App\CRMEntity
 		$query = sprintf('select fieldname,columnname,fieldid,fieldlabel,tabid,uitype from vtiger_field where tabid in(%s) and uitype in (15,33,55)', \App\Utils\Utils::generateQuestionMarks($id)); //and columnname in (?)';
 		$result = $adb->pquery($query, $id); //,$select_column));
 		$roleid = $currentUser->roleid;
-		$subrole = \App\PrivilegeUtil::getRoleSubordinates($roleid);
+		$subrole = \App\Security\PrivilegeUtil::getRoleSubordinates($roleid);
 		if (count($subrole) > 0) {
 			$roleids = $subrole;
 			array_push($roleids, $roleid);

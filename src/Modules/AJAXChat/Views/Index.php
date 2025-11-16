@@ -24,7 +24,7 @@ class Index  extends \App\Modules\Base\Views\Index
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$shortURL = str_replace('index.php', '', \App\AppConfig::main('site_URL'));
+		$shortURL = str_replace('index.php', '', \App\Core\AppConfig::main('site_URL'));
 		$viewer = $this->getViewer($request);
 		$viewer->assign('URLCSS', $shortURL . \App\Runtime\Yeti_Layout::getLayoutFile('src/Modules/AJAXChat/Chat.css'));
 		$viewer->assign('URL', $shortURL . "libraries/AJAXChat/index.php");

@@ -29,7 +29,7 @@ class Privileges extends \App\Api\Webservice\Core\BaseAction
 		$moduleId = \App\Utils\ModuleUtils::getModuleId($moduleName);
 		$actionPermissions = \App\Modules\Users\Models\Record::getPrivilegesFile($userId);
 			if ($actionPermissions === null) {
-				\App\Log::error("User privileges file not found for user: $userId");
+				\App\Log\Log::error("User privileges file not found for user: $userId");
 				return ['standardActions' => $privileges, 'error' => 'Privileges file not found'];
 			}
 			$isAdmin = $actionPermissions['is_admin'];

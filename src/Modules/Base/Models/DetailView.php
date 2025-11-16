@@ -93,7 +93,7 @@ class DetailView extends \App\Runtime\BaseModel
 			}
 		}
 		if ($moduleModel->isPermitted('RecordMapping')) {
-			$handlerClass = \App\Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
+			$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 			$mfModel = new $handlerClass();
 			if ($mfModel && $mfModel->checkActiveTemplates($recordId, $moduleName, 'Detail')) {
 				$detailViewLinks[] = [
@@ -106,7 +106,7 @@ class DetailView extends \App\Runtime\BaseModel
 				];
 			}
 		}
-		if (\App\AppConfig::module('ModTracker', 'WATCHDOG') && $moduleModel->isPermitted('WatchingRecords')) {
+		if (\App\Core\AppConfig::module('ModTracker', 'WATCHDOG') && $moduleModel->isPermitted('WatchingRecords')) {
 			$watchdog = \App\Modules\Base\Models\Watchdog::getInstanceById($recordId, $moduleName);
 			$class = 'btn-default';
 			if ($watchdog->isWatchingRecord()) {
@@ -135,7 +135,7 @@ class DetailView extends \App\Runtime\BaseModel
 		foreach ($detailViewLinks as $detailViewLink) {
 			$linkModelList['DETAILVIEWBASIC'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($detailViewLink);
 		}
-		$fieldToupdate = \App\AppConfig::module($moduleName, 'FIELD_TO_UPDATE_BY_BUTTON');
+		$fieldToupdate = \App\Core\AppConfig::module($moduleName, 'FIELD_TO_UPDATE_BY_BUTTON');
 		if ($recordModel->isEditable() && !empty($fieldToupdate)) {
 			foreach ($fieldToupdate as $fieldLabel => $fieldName) {
 				if (\App\Fields\Field::getFieldPermission($moduleName, $fieldName)) {
@@ -197,7 +197,7 @@ class DetailView extends \App\Runtime\BaseModel
 			$linkModelList['DETAILVIEW'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($duplicateLinkModel);
 		}
 		if (!\App\Modules\Settings\ModuleManager\Models\Library::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
-			$handlerClass = \App\Loader::getComponentClassName('Model', 'PDF', $moduleName);
+			$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'PDF', $moduleName);
 			$pdfModel = new $handlerClass();
 			if ($pdfModel->checkActiveTemplates($recordId, $moduleName, 'Detail')) {
 				$pdfLink = [
@@ -269,7 +269,7 @@ class DetailView extends \App\Runtime\BaseModel
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showAllComments',
 				'linkicon' => '',
 				'related' => 'Comments',
-				'countRelated' => \App\AppConfig::relation('SHOW_RECORDS_COUNT')
+				'countRelated' => \App\Core\AppConfig::relation('SHOW_RECORDS_COUNT')
 			);
 		}
 
@@ -280,7 +280,7 @@ class DetailView extends \App\Runtime\BaseModel
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showRecentActivities&page=1',
 				'linkicon' => '',
 				'related' => 'Updates',
-				'countRelated' => \App\AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $parentModuleModel->isPermitted('ReviewingUpdates'),
+				'countRelated' => \App\Core\AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $parentModuleModel->isPermitted('ReviewingUpdates'),
 				'badgeClass' => 'bgDanger'
 			];
 		}
@@ -319,7 +319,7 @@ class DetailView extends \App\Runtime\BaseModel
 		$modelWidgets = $moduleModel->getWidgets($module);
 		foreach ($modelWidgets as $widgetCol) {
 			foreach ($widgetCol as $widget) {
-				$widgetClassName = \App\Loader::getComponentClassName('Widget', $widget['type'], 'Base');
+				$widgetClassName = \App\Core\Loader::getComponentClassName('Widget', $widget['type'], 'Base');
 				if (class_exists($widgetClassName)) {
 					$this->widgetsList[] = $widget['type'];
 					$widgetInstance = new $widgetClassName($module, $moduleModel, $record, $widget);
@@ -390,7 +390,7 @@ class DetailView extends \App\Runtime\BaseModel
 	 */
 	public static function getInstance($moduleName, $recordId)
 	{
-		$modelClassName = \App\Loader::getComponentClassName('Model', 'DetailView', $moduleName);
+		$modelClassName = \App\Core\Loader::getComponentClassName('Model', 'DetailView', $moduleName);
 		$instance = new $modelClassName();
 
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
@@ -411,7 +411,7 @@ class DetailView extends \App\Runtime\BaseModel
 				$filename = explode('.', $fileinfo->getFilename());
 				$name = reset($filename);
 
-				$modelClassName = \App\Loader::getComponentClassName('HeaderField', $name, $moduleName);
+				$modelClassName = \App\Core\Loader::getComponentClassName('HeaderField', $name, $moduleName);
 				$instance = new $modelClassName;
 				if (method_exists($instance, 'checkPermission') && !$instance->checkPermission()) {
 					continue;

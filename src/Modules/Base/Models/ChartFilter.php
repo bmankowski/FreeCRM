@@ -97,7 +97,7 @@ class ChartFilter extends \App\Runtime\BaseModel
 		$groupField = $this->extraData['groupField'];
 		$groupFieldModel = \App\Modules\Base\Models\Field::getInstance($groupField, $this->getTargetModuleModel());
 		$fieldName = $groupFieldModel->get('name');
-		$queryGenerator = new \App\QueryGenerator($this->getTargetModule());
+		$queryGenerator = new \App\QueryField\QueryGenerator($this->getTargetModule());
 		$queryGenerator->initForCustomViewById($filterId);
 		$queryGenerator->setField($groupField);
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();

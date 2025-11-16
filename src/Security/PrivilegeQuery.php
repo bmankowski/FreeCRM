@@ -16,7 +16,7 @@ class PrivilegeQuery
 			$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
 		}
 		$userModel = \App\Modules\Users\Models\Privileges::getInstanceById($userId);
-		if ($relatedRecord !== false && \App\AppConfig::security('PERMITTED_BY_RECORD_HIERARCHY')) {
+		if ($relatedRecord !== false && \App\Core\AppConfig::security('PERMITTED_BY_RECORD_HIERARCHY')) {
 			$role = $userModel->getRoleDetail();
 			if ($role->get('listrelatedrecord') == 2) {
 				$rparentRecord = \App\Modules\Users\Models\Privileges::getParentRecord($relatedRecord, false, $role->get('listrelatedrecord'));
@@ -41,11 +41,11 @@ class PrivilegeQuery
 			if (!empty($userModel->groups)) {
 				$query[] = 'vtiger_crmentity.smownerid IN (' . implode(',', $userModel->groups) . ')';
 			}
-			if (\App\AppConfig::security('PERMITTED_BY_ROLES')) {
+			if (\App\Core\AppConfig::security('PERMITTED_BY_ROLES')) {
 				$parentRoleSeq = $userModel->parent_role_seq;
 				$query[] = "vtiger_crmentity.smownerid IN (SELECT vtiger_user2role.userid AS userid FROM vtiger_user2role INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid WHERE vtiger_role.parentrole like '$parentRoleSeq::%')";
 			}
-			if (\App\AppConfig::security('PERMITTED_BY_SHARING')) {
+			if (\App\Core\AppConfig::security('PERMITTED_BY_SHARING')) {
 				$sharingPrivileges = \App\Security\Privilege::getSharingFile($userId);
 				if (isset($sharingPrivileges['permission'][$moduleName])) {
 					$sharingPrivilegesModule = $sharingPrivileges['permission'][$moduleName];
@@ -58,7 +58,7 @@ class PrivilegeQuery
 					}
 				}
 			}
-			if (\App\AppConfig::security('PERMITTED_BY_SHARED_OWNERS')) {
+			if (\App\Core\AppConfig::security('PERMITTED_BY_SHARED_OWNERS')) {
 				$shownerid = array_merge([$userId], $userModel->groups);
 				$query[] = 'vtiger_crmentity.crmid IN (SELECT DISTINCT crmid FROM u_yf_crmentity_showners WHERE userid IN (' . implode(',', $shownerid) . '))';
 			}
@@ -79,7 +79,7 @@ public static function getConditions(\App\Db\Query $query, $moduleName, $user = 
 		$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
 	}
 	$userModel = \App\Modules\Users\Models\Privileges::getInstanceById($userId);
-		if ($relatedRecord !== false && \App\AppConfig::security('PERMITTED_BY_RECORD_HIERARCHY')) {
+		if ($relatedRecord !== false && \App\Core\AppConfig::security('PERMITTED_BY_RECORD_HIERARCHY')) {
 			$role = $userModel->getRoleDetail();
 			if ($role->get('listrelatedrecord') == 2) {
 				$rparentRecord = \App\Modules\Users\Models\Privileges::getParentRecord($relatedRecord, false, $role->get('listrelatedrecord'));
@@ -103,7 +103,7 @@ public static function getConditions(\App\Db\Query $query, $moduleName, $user = 
 			if (!empty($userModel->groups)) {
 				$conditions[] = ['vtiger_crmentity.smownerid' => $userModel->groups];
 			}
-			if (\App\AppConfig::security('PERMITTED_BY_ROLES')) {
+			if (\App\Core\AppConfig::security('PERMITTED_BY_ROLES')) {
 				$parentRoleSeq = $userModel->parent_role_seq;
 				$subQuery = (new \App\Db\Query())->select('userid')
 					->from('vtiger_user2role')
@@ -112,7 +112,7 @@ public static function getConditions(\App\Db\Query $query, $moduleName, $user = 
 					->where(['like', 'vtiger_role.parentrole', "$parentRoleSeq::%", false]);
 				$conditions[] = ['vtiger_crmentity.smownerid' => $subQuery];
 			}
-			if (\App\AppConfig::security('PERMITTED_BY_SHARING')) {
+			if (\App\Core\AppConfig::security('PERMITTED_BY_SHARING')) {
 				$sharingPrivileges = \App\Security\Privilege::getSharingFile($userId);
 				if (isset($sharingPrivileges['permission'][$moduleName])) {
 					$sharingPrivilegesModule = $sharingPrivileges['permission'][$moduleName];
@@ -131,7 +131,7 @@ public static function getConditions(\App\Db\Query $query, $moduleName, $user = 
 					}
 				}
 			}
-			if (\App\AppConfig::security('PERMITTED_BY_SHARED_OWNERS')) {
+			if (\App\Core\AppConfig::security('PERMITTED_BY_SHARED_OWNERS')) {
 				$subQuery = (new \App\Db\Query())->select('crmid')->distinct()
 					->from('u_yf_crmentity_showners')
 					->where(['userid' => array_merge([$userId], $userModel->groups)]);
@@ -152,7 +152,7 @@ public static function getConditions(\App\Db\Query $query, $moduleName, $user = 
 	 */
 	public static function getNonAdminAccessControlQuery($module, $user, $scope = '')
 	{
-		$instance = \App\CRMEntity::getInstance($module);
+		$instance = \App\Core\CRMEntity::getInstance($module);
 		return $instance->getNonAdminAccessControlQuery($module, $user, $scope);
 	}
 
@@ -163,7 +163,7 @@ public static function getConditions(\App\Db\Query $query, $moduleName, $user = 
 	 */
 	public static function getListViewSecurityParameter($module)
 	{
-		\App\Log::trace("Entering getListViewSecurityParameter(" . $module . ") method ...");
+		\App\Log\Log::trace("Entering getListViewSecurityParameter(" . $module . ") method ...");
 		$adb = \App\Database\PearDatabase::getInstance();
 
 		$tabid = \App\Utils\ModuleUtils::getModuleId($module);
@@ -241,10 +241,10 @@ public static function getConditions(\App\Db\Query $query, $moduleName, $user = 
 			}
 			$sec_query .= " vtiger_groups.groupid in(select vtiger_tmp_read_group_sharing_per.sharedgroupid from vtiger_tmp_read_group_sharing_per where userid=" . $currentUser->getId() . " and tabid=" . $tabid . "))) ";
 		} else {
-			$modObj = \App\CRMEntity::getInstance($module);
+			$modObj = \App\Core\CRMEntity::getInstance($module);
 			$sec_query = $modObj->getListViewSecurityParameter($module);
 		}
-		\App\Log::trace("Exiting getListViewSecurityParameter method ...");
+		\App\Log\Log::trace("Exiting getListViewSecurityParameter method ...");
 		return $sec_query;
 	}
 }

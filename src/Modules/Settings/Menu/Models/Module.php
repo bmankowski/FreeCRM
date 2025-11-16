@@ -136,7 +136,7 @@ class Module
 				$fileFilters = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($filterDir, FilesystemIterator::SKIP_DOTS));
 				foreach ($fileFilters as $filter) {
 					$name = str_replace('.php', '', $filter->getFilename());
-					$handlerClass = \App\Loader::getComponentClassName('Filter', $name, $module->get('name'));
+					$handlerClass = \App\Core\Loader::getComponentClassName('Filter', $name, $module->get('name'));
 					if (class_exists($handlerClass)) {
 						$filters[] = [
 							'viewname' => (new $handlerClass())->getViewName(),

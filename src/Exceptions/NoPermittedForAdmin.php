@@ -35,6 +35,6 @@ class NoPermittedForAdmin extends \Exception
 			'request' => json_encode($_REQUEST),
 			'referer' => isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : ''
 		];
-		\App\Db::getInstance()->createCommand()->insert('o_#__access_for_admin', $data)->execute();
+		\App\Db\Db::getInstance()->createCommand()->insert('o_#__access_for_admin', $data)->execute();
 	}
 }

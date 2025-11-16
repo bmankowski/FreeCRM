@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com, App Modernization
  * ********************************************************************************** */
 
-namespace App;
+namespace App\Core;
 
 /**
  * Modern PSR-4 Module Loader
@@ -138,7 +138,7 @@ class Loader
 
 		// Component not found
 		if ($throwException) {
-			\App\Log::error("Loader::getComponentClassName($componentType, $componentName, $originalModuleName): Handler not found");
+			\App\Log\Log::error("Loader::getComponentClassName($componentType, $componentName, $originalModuleName): Handler not found");
 			throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
 		}
 		return false;

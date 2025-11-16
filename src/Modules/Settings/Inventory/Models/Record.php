@@ -81,7 +81,7 @@ class Record extends \App\Modules\Base\Models\Record
 		$tablename = self::getTableNameFromType($this->getType());
 		$id = $this->getId();
 		if (!empty($id) && $tablename) {
-			\App\Db::getInstance()->createCommand()
+			\App\Db\Db::getInstance()->createCommand()
 				->update($tablename, [
 					'name' => $this->getName(),
 					'value' => $this->get('value'),
@@ -105,7 +105,7 @@ class Record extends \App\Modules\Base\Models\Record
 	{
 		$tableName = self::getTableNameFromType($this->getType());
 		if ($tableName) {
-			$db = \App\Db::getInstance();
+			$db = \App\Db\Db::getInstance();
 			$db->createCommand()
 				->insert($tableName, [
 					'status' => $this->get('status'),
@@ -121,7 +121,7 @@ class Record extends \App\Modules\Base\Models\Record
 	{
 		$tableName = self::getTableNameFromType($this->getType());
 		if ($tableName) {
-			\App\Db::getInstance()->createCommand()
+			\App\Db\Db::getInstance()->createCommand()
 				->delete($tableName, ['id' => $this->getId()])
 				->execute();
 			$this->clearCache();

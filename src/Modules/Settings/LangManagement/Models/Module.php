@@ -41,12 +41,12 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		foreach ($params['lang'] as $lang) {
 			$edit = false;
 			$mod = str_replace(self::url_separator, '.', $params['mod']);
-			if (\App\AppConfig::performance('LOAD_CUSTOM_FILES')) {
+			if (\App\Core\AppConfig::performance('LOAD_CUSTOM_FILES')) {
 				$qualifiedName = "custom.languages.$lang.$mod";
 			} else {
 				$qualifiedName = "languages.$lang.$mod";
 			}
-			$fileName = \App\Loader::resolveNameToPath($qualifiedName);
+			$fileName = \App\Core\Loader::resolveNameToPath($qualifiedName);
 			if (file_exists($fileName)) {
 				$fileContent = file($fileName);
 				foreach ($fileContent as $key => $file_row) {
@@ -94,12 +94,12 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		$val = addslashes($params['val']);
 		$mod = str_replace(self::url_separator, '.', $mod);
 
-		if (\App\AppConfig::performance('LOAD_CUSTOM_FILES')) {
+		if (\App\Core\AppConfig::performance('LOAD_CUSTOM_FILES')) {
 			$qualifiedName = "custom.languages.$lang.$mod";
 		} else {
 			$qualifiedName = "languages.$lang.$mod";
 		}
-		$fileName = \App\Loader::resolveNameToPath($qualifiedName);
+		$fileName = \App\Core\Loader::resolveNameToPath($qualifiedName);
 		$fileExists = file_exists($fileName);
 		if ($fileExists) {
 			require $fileName;
@@ -127,7 +127,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 				$fileContent = $fileContent . PHP_EOL . $to_replase . PHP_EOL . '	' . $new_translation . PHP_EOL . '];';
 			}
 		} else {
-			if (\App\AppConfig::performance('LOAD_CUSTOM_FILES')) {
+			if (\App\Core\AppConfig::performance('LOAD_CUSTOM_FILES')) {
 				self::createCustomLangDirectory($params);
 			}
 			$fileContent = '<?php' . PHP_EOL;
@@ -154,13 +154,13 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		$val = addslashes($params['val']);
 		$mod = str_replace(self::url_separator, '.', $mod);
 		$languageStrings = $jsLanguageStrings = [];
-		$customType = \App\AppConfig::performance('LOAD_CUSTOM_FILES');
+		$customType = \App\Core\AppConfig::performance('LOAD_CUSTOM_FILES');
 		if ($customType) {
 			$qualifiedName = "custom.languages.$lang.$mod";
 		} else {
 			$qualifiedName = "languages.$lang.$mod";
 		}
-		$fileName = \App\Loader::resolveNameToPath($qualifiedName);
+		$fileName = \App\Core\Loader::resolveNameToPath($qualifiedName);
 		$fileExists = file_exists($fileName);
 		if ($fileExists) {
 			require($fileName);
@@ -221,7 +221,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 			$loc .= DIRECTORY_SEPARATOR . $name;
 			if (!file_exists(ROOT_DIRECTORY . $loc)) {
 				if (!mkdir(ROOT_DIRECTORY . $loc)) {
-					\App\Log::warning("No permissions to create directories: $loc");
+					\App\Log\Log::warning("No permissions to create directories: $loc");
 					throw new \App\Exceptions\AppException('No permissions to create directories');
 				}
 			}
@@ -343,7 +343,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 			return ['success' => false, 'data' => 'LBL_LangExist'];
 		}
 		self::CopyDir('languages/en_us/', 'languages/' . $params['prefix'] . '/');
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$db->createCommand()->insert('vtiger_language', [
 			'id' => $db->getUniqueId('vtiger_language'),
 			'name' => $params['name'],
@@ -357,7 +357,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	{
 		if ($params && $params['type'] == 'Checkbox') {
 			$val = $params['val'] == 'true' ? 1 : 0;
-			\App\Db::getInstance()->createCommand()
+			\App\Db\Db::getInstance()->createCommand()
 				->update('vtiger_language', [$params['name'] => $val], ['prefix' => $params['prefix']])
 				->execute();
 			return true;
@@ -371,7 +371,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 			$params['value'] = [$params['value']];
 		}
 		$value = implode(',', $params['value']);
-		\App\Db::getInstance()->createCommand()
+		\App\Db\Db::getInstance()->createCommand()
 			->update('vtiger_field', ['helpinfo' => $value], ['fieldid' => $params['fieldid']])
 			->execute();
 		return array('success' => true, 'data' => 'LBL_SUCCESSFULLY_UPDATED');
@@ -383,7 +383,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		if (file_exists($dir)) {
 			self::DeleteDir($dir);
 		}
-		\App\Db::getInstance()->createCommand()
+		\App\Db\Db::getInstance()->createCommand()
 			->delete('vtiger_language', ['prefix' => $params['prefix']])
 			->execute();
 		return true;
@@ -441,8 +441,8 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	public function setAsDefault($lang)
 	{
 
-		\App\Log::trace("Entering \App\Modules\Settings\LangManagement\Models\Module::setAsDefault(" . $lang . ") method ...");
-		$db = \App\Db::getInstance();
+		\App\Log\Log::trace("Entering \App\Modules\Settings\LangManagement\Models\Module::setAsDefault(" . $lang . ") method ...");
+		$db = \App\Db\Db::getInstance();
 		$prefix = $lang['prefix'];
 		$fileName = 'config/config.inc.php';
 		$completeData = file_get_contents($fileName);
@@ -467,7 +467,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 			$status = true;
 		else
 			$status = false;
-		\App\Log::trace("Exiting \App\Modules\Settings\LangManagement\Models\Module::setAsDefault() method ...");
+		\App\Log\Log::trace("Exiting \App\Modules\Settings\LangManagement\Models\Module::setAsDefault() method ...");
 		return array('success' => $status, 'prefixOld' => $prefixOld);
 	}
 

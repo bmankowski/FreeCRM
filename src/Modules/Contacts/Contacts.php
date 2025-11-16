@@ -25,7 +25,7 @@ namespace App\Modules\Contacts;
  */
 
 // Contact is used to store customer information.
-class Contacts extends \App\CRMEntity
+class Contacts extends \App\Core\CRMEntity
 {
 
 	public $table_name = "vtiger_contactdetails";
@@ -129,7 +129,7 @@ class Contacts extends \App\CRMEntity
 	{
 
 		$currentUser = \App\User\CurrentUser::get();
-		\App\Log::trace("Entering create_export_query(" . $where . ") method ...");
+		\App\Log\Log::trace("Entering create_export_query(" . $where . ") method ...");
 
 		include("include/utils/ExportUtils.php");
 
@@ -150,7 +150,7 @@ class Contacts extends \App\CRMEntity
                         	        ON vtiger_groups.groupid = vtiger_crmentity.smownerid
 				LEFT JOIN vtiger_contactdetails vtiger_contactdetails2
 					ON vtiger_contactdetails2.contactid = vtiger_contactdetails.reportsto";
-		$query .= \App\PrivilegeQuery::getNonAdminAccessControlQuery('Contacts', $current_user);
+		$query .= \App\Security\PrivilegeQuery::getNonAdminAccessControlQuery('Contacts', $current_user);
 		$where_auto = " vtiger_crmentity.deleted = 0 ";
 
 		if ($where != '')
@@ -158,8 +158,8 @@ class Contacts extends \App\CRMEntity
 		else
 			$query .= sprintf(' where %s', $where_auto);
 
-		\App\Log::trace("Export Query Constructed Successfully");
-		\App\Log::trace("Exiting create_export_query method ...");
+		\App\Log\Log::trace("Export Query Constructed Successfully");
+		\App\Log\Log::trace("Exiting create_export_query method ...");
 		return $query;
 	}
 
@@ -173,7 +173,7 @@ class Contacts extends \App\CRMEntity
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 
-		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
+		\App\Log\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("Products" => "vtiger_seproductsrel", "Documents" => "vtiger_senotesrel",
 			"Attachments" => "vtiger_seattachmentsrel", "Campaigns" => "vtiger_campaign_records",
@@ -206,7 +206,7 @@ class Contacts extends \App\CRMEntity
 			}
 		}
 		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
-		\App\Log::trace("Exiting transferRelatedRecords...");
+		\App\Log\Log::trace("Exiting transferRelatedRecords...");
 	}
 	/*
 	 * Function to get the secondary query part of a report
@@ -290,7 +290,7 @@ class Contacts extends \App\CRMEntity
 	public function mark_deleted($recordId)
 	{
 
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$db->createCommand()->update('vtiger_customerdetails', [
 			'portal' => 0,
 			'support_start_date' => null,
@@ -305,11 +305,11 @@ class Contacts extends \App\CRMEntity
 		if (empty($return_module) || empty($return_id))
 			return;
 		if ($return_module === 'Accounts') {
-			\App\Db::getInstance()->createCommand()->update('vtiger_contactdetails', ['parentid' => 0], ['contactid' => $id])->execute();
+			\App\Db\Db::getInstance()->createCommand()->update('vtiger_contactdetails', ['parentid' => 0], ['contactid' => $id])->execute();
 		} elseif ($return_module === 'Campaigns') {
-			\App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $return_id])->execute();
+			\App\Db\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $return_id])->execute();
 		} elseif ($return_module === 'Vendors') {
-			$db = \App\Db::getInstance();
+			$db = \App\Db\Db::getInstance();
 			$db->createCommand()->update('vtiger_contactdetails', ['parentid' => 0], ['contactid' => $id])->execute();
 			$db->createCommand()->delete('vtiger_vendorcontactrel', ['vendorid' => $return_id, 'contactid' => $id])->execute();
 		} else {
@@ -326,13 +326,13 @@ class Contacts extends \App\CRMEntity
 		} else {
 			foreach ($withCrmid as $id) {
 				if ($withModule === 'Campaigns') {
-					\App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
+					\App\Db\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
 						'campaignid' => $id,
 						'crmid' => $crmid,
 						'campaignrelstatusid' => 0
 					])->execute();
 				} else if ($withModule === 'Vendors') {
-					\App\Db::getInstance()->createCommand()->insert('vtiger_vendorcontactrel', [
+					\App\Db\Db::getInstance()->createCommand()->insert('vtiger_vendorcontactrel', [
 						'vendorid' => $id,
 						'contactid' => $crmid
 					])->execute();

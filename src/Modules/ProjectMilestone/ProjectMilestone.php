@@ -11,7 +11,7 @@ namespace App\Modules\ProjectMilestone;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class ProjectMilestone extends \App\CRMEntity
+class ProjectMilestone extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'vtiger_projectmilestone';
@@ -137,7 +137,7 @@ class ProjectMilestone extends \App\CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other = \App\CRMEntity::getInstance($related_module);
+			$other = \App\Core\CRMEntity::getInstance($related_module);
 			\App\Utils\VtlibUtils::setupModuleVars($related_module, $other);
 
 			if (!in_array($other->table_name, $joinedTables)) {
@@ -232,7 +232,7 @@ class ProjectMilestone extends \App\CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other = \App\CRMEntity::getInstance($related_module);
+			$other = \App\Core\CRMEntity::getInstance($related_module);
 			\App\Utils\VtlibUtils::setupModuleVars($related_module, $other);
 
 			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = $this->table_name.$columnname";

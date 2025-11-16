@@ -21,13 +21,8 @@
 namespace App\EntryPoint;
 
 
-use App\Debugger;
 use App\Base\Controllers\BaseActionController;
 use App\Cache\Cache;
-use App\Db;
-use App\Log;
-use App\RequestUtil;
-
 
 
 class WebUI extends EntryPoint
@@ -110,13 +105,13 @@ class WebUI extends EntryPoint
 	 */
 	private static function initializeServices()
 	{
-		Debugger::init();
+		\App\Debug\Debugger::init();
 		Cache::init();
 
-		Db::$connectCache = \App\AppConfig::performance('ENABLE_CACHING_DB_CONNECTION');
-		Log::$logToProfile = \App\AppConfig::debug('LOG_TO_PROFILE');
-		Log::$logToConsole = \App\AppConfig::debug('LOG_TO_CONSOLE');
-		Log::$logToFile = \App\AppConfig::debug('LOG_TO_FILE');
+		\App\Db\Db::$connectCache = \App\Core\AppConfig::performance('ENABLE_CACHING_DB_CONNECTION');
+		\App\Log\Log::$logToProfile = \App\Core\AppConfig::debug('LOG_TO_PROFILE');
+		\App\Log\Log::$logToConsole = \App\Core\AppConfig::debug('LOG_TO_CONSOLE');
+		\App\Log\Log::$logToFile = \App\Core\AppConfig::debug('LOG_TO_FILE');
 	}
 
 	/**
@@ -126,7 +121,7 @@ class WebUI extends EntryPoint
 	 */
 	private static function registerErrorHandler()
 	{
-		if (\App\AppConfig::debug('EXCEPTION_ERROR_HANDLER')) {
+		if (\App\Core\AppConfig::debug('EXCEPTION_ERROR_HANDLER')) {
 			require_once __DIR__ . '/WebUI_ErrorHandler.php';
 			WebUI_ErrorHandler::register();
 		}
@@ -176,8 +171,8 @@ class WebUI extends EntryPoint
 			$userid = \App\Http\Vtiger_Session::get('authenticated_user_id');
 			$appKey = \App\Http\Vtiger_Session::get('app_unique_key');
 
-			if ($userid && \App\AppConfig::main('application_unique_key') === $appKey) {
-				$user = \App\CRMEntity::getInstance('Users');
+			if ($userid && \App\Core\AppConfig::main('application_unique_key') === $appKey) {
+				$user = \App\Core\CRMEntity::getInstance('Users');
 				$user->retrieveCurrentUserInfoFromFile($userid);
 				$this->setLogin($user);
 			}
@@ -254,7 +249,7 @@ class WebUI extends EntryPoint
 	 */
 	public function isInstalled()
 	{
-		$dbconfig = \App\AppConfig::main('dbconfig');
+		$dbconfig = \App\Core\AppConfig::main('dbconfig');
 		return !(empty($dbconfig) || empty($dbconfig['db_name']) || $dbconfig['db_name'] === '_DBC_TYPE_');
 	}
 
@@ -302,7 +297,7 @@ class WebUI extends EntryPoint
 	 */
 	private function enforceSSL()
 	{
-		if (!\App\AppConfig::main('forceSSL')) {
+		if (!\App\Core\AppConfig::main('forceSSL')) {
 			return;
 		}
 
@@ -336,7 +331,7 @@ class WebUI extends EntryPoint
 	 */
 	private function enforceUrlRedirect()
 	{
-		if (!\App\AppConfig::main('forceRedirect')) {
+		if (!\App\Core\AppConfig::main('forceRedirect')) {
 			return;
 		}
 
@@ -350,7 +345,7 @@ class WebUI extends EntryPoint
 		$host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : '';
 		$uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
 		$requestUrl = "{$protocol}://{$host}{$uri}";
-		$siteUrl = \App\AppConfig::main('site_URL');
+		$siteUrl = \App\Core\AppConfig::main('site_URL');
 
 		if (stripos($requestUrl, $siteUrl) !== 0) {
 			header('Location: ' . $siteUrl, true, 301);
@@ -382,10 +377,10 @@ class WebUI extends EntryPoint
 	 */
 	private function shouldEnableCsrfProtection(\App\Http\Vtiger_Request $request)
 	{
-		return \App\AppConfig::main('csrfProtection')
+		return \App\Core\AppConfig::main('csrfProtection')
 			&& $request->get('mode') !== 'reset'
 			&& $request->get('action') !== 'Login'
-			&& \App\AppConfig::main('systemMode') !== 'demo';
+			&& \App\Core\AppConfig::main('systemMode') !== 'demo';
 	}
 
 	/**
@@ -511,7 +506,7 @@ class WebUI extends EntryPoint
 	 */
 	private function setDefaultModuleForLoggedInUser(\App\Http\Vtiger_Request $request)
 	{
-		$defaultModule = \App\AppConfig::main('default_module');
+		$defaultModule = \App\Core\AppConfig::main('default_module');
 
 		if (!empty($defaultModule) && $defaultModule !== self::DEFAULT_MODULE) {
 			$module = $defaultModule;
@@ -551,7 +546,7 @@ class WebUI extends EntryPoint
 			&& stripos($qualifiedModuleName, 'Settings') === 0
 			&& empty($currentUser)
 		) {
-			header('Location: ' . \App\AppConfig::main('site_URL'), true);
+			header('Location: ' . \App\Core\AppConfig::main('site_URL'), true);
 			exit;
 		}
 	}
@@ -588,7 +583,7 @@ class WebUI extends EntryPoint
 	private function createHandler($componentType, $componentName, $qualifiedModuleName)
 	{
 		// Use new PSR-4 loader for modern modules
-		$handlerClass = \App\Loader::getComponentClassName(
+		$handlerClass = \App\Core\Loader::getComponentClassName(
 			$componentType,
 			$componentName,
 			$qualifiedModuleName
@@ -633,7 +628,7 @@ class WebUI extends EntryPoint
 	 */
 	private function validateHandler($handler, \App\Http\Vtiger_Request $request)
 	{
-		if (\App\AppConfig::main('csrfProtection') && \App\AppConfig::main('systemMode') !== 'demo') {
+		if (\App\Core\AppConfig::main('csrfProtection') && \App\Core\AppConfig::main('systemMode') !== 'demo') {
 
 			$handler->validateRequest($request);
 		}
@@ -702,7 +697,7 @@ class WebUI extends EntryPoint
 	 */
 	private function handleException(\Exception $exception, \App\Http\Vtiger_Request $request)
 	{
-		Log::error(
+		\App\Log\Log::error(
 			$exception->getMessage() . ' => ' .
 			$exception->getFile() . ':' .
 			$exception->getLine()
@@ -711,11 +706,11 @@ class WebUI extends EntryPoint
 		$template = $this->getExceptionTemplate($exception);
 		\vtlib\Functions:: throwNewException($exception, false, $template);
 
-		if (\App\AppConfig::debug('DISPLAY_DEBUG_BACKTRACE') && !$request->isAjax()) {
+		if (\App\Core\AppConfig::debug('DISPLAY_DEBUG_BACKTRACE') && !$request->isAjax()) {
 			$this->displayDebugBacktrace($exception);
 		}
 
-		if (\App\AppConfig::main('systemMode') === 'test') {
+		if (\App\Core\AppConfig::main('systemMode') === 'test') {
 			$this->logRequestForTesting($request);
 			throw $exception;
 		}

@@ -99,17 +99,17 @@ class Library
 	public static function download($name)
 	{
 		if (!static::$libraries[$name]) {
-			\App\Log::warning('Library does not exist: ' . $name);
+			\App\Log\Log::warning('Library does not exist: ' . $name);
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 
 		$lib = static::$libraries[$name];
 		if (file_exists($lib['dir'] . 'version.php')) {
-			\App\Log::info('Library has already been downloaded: ' . $name);
+			\App\Log\Log::info('Library has already been downloaded: ' . $name);
 			return false;
 		}
 		$path = static::TEMP_DIR . DIRECTORY_SEPARATOR . $name . '.zip';
-		$mode = \App\AppConfig::developer('MISSING_LIBRARY_DEV_MODE') ? 'developer' : \App\Core\Version::get($lib['name']);
+		$mode = \App\Core\AppConfig::developer('MISSING_LIBRARY_DEV_MODE') ? 'developer' : \App\Core\Version::get($lib['name']);
 		$compressedName = $lib['name'] . '-' . $mode;
 		if (!file_exists($path)) {
 			stream_context_set_default([
@@ -121,13 +121,13 @@ class Library
 			$url = $lib['url'] . "/archive/$mode.zip";
 			$headers = get_headers($url, 1);
 			if (isset($headers['Status']) && strpos($headers['Status'], '302') !== false) {
-				\App\Log::trace('Started downloading library: ' . $name);
+				\App\Log\Log::trace('Started downloading library: ' . $name);
 				if ($file = file_get_contents($url, false, stream_context_create(['ssl' => ['verify_peer' => false, 'verify_peer_name' => false]]))) {
 					file_put_contents($path, $file);
-					\App\Log::trace('Completed downloads library: ' . $name);
+					\App\Log\Log::trace('Completed downloads library: ' . $name);
 				}
 			} else {
-				\App\Log::warning('Can not connect to the server' . $url);
+				\App\Log\Log::warning('Can not connect to the server' . $url);
 			}
 		}
 		if (file_exists($path) && filesize($path) > 0) {
@@ -136,7 +136,7 @@ class Library
 			$unzip->close();
 			unlink($path);
 		} else {
-			\App\Log::warning('No import file: ' . $name);
+			\App\Log\Log::warning('No import file: ' . $name);
 		}
 	}
 

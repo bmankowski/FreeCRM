@@ -358,7 +358,7 @@ class Vtiger_Request
 		
 		// Referer check if present - to over come 
 		//Check for user post authentication.
-		if (isset($_SERVER['HTTP_REFERER']) && (stripos($_SERVER['HTTP_REFERER'], \App\AppConfig::main('site_URL')) !== 0 && $this->get('module') != 'Install')) {
+		if (isset($_SERVER['HTTP_REFERER']) && (stripos($_SERVER['HTTP_REFERER'], \App\Core\AppConfig::main('site_URL')) !== 0 && $this->get('module') != 'Install')) {
 			throw new \App\Exceptions\Csrf('Illegal request');
 		}
 

@@ -158,7 +158,7 @@ class Record extends \App\Modules\Base\Models\Record
 		if ($value === null || $value == 'null') {
 			$value = null;
 		}
-		\App\Db::getInstance()->createCommand()->update('vtiger_ossmailscanner_config', ['value' => $value], ['conf_type' => $confType, 'parameter' => $type])->execute();
+		\App\Db\Db::getInstance()->createCommand()->update('vtiger_ossmailscanner_config', ['value' => $value], ['conf_type' => $confType, 'parameter' => $type])->execute();
 		return \App\Runtime\Vtiger_Language_Handler::translate('LBL_SAVE', 'OSSMailScanner');
 	}
 
@@ -187,7 +187,7 @@ class Record extends \App\Modules\Base\Models\Record
 	public static function executeActions($account, $mail, $folder, $params = false)
 	{
 
-		\App\Log::trace('Start execute actions: ' . $account['username']);
+		\App\Log\Log::trace('Start execute actions: ' . $account['username']);
 
 		$actions = [];
 		if ($params && array_key_exists('actions', $params)) {
@@ -200,17 +200,17 @@ class Record extends \App\Modules\Base\Models\Record
 		$mail->setAccount($account);
 		$mail->setFolder($folder);
 		foreach ($actions as &$action) {
-			$handlerClass = \App\Loader::getComponentClassName('ScannerAction', $action, 'OSSMailScanner');
+			$handlerClass = \App\Core\Loader::getComponentClassName('ScannerAction', $action, 'OSSMailScanner');
 			$handler = new $handlerClass();
 			if ($handler) {
-				\App\Log::trace('Start action: ' . $action);
+				\App\Log\Log::trace('Start action: ' . $action);
 
 				$mail->addActionResult($action, $handler->process($mail));
 
-				\App\Log::trace('End action');
+				\App\Log\Log::trace('End action');
 			}
 		}
-		\App\Log::trace('End execute actions');
+		\App\Log\Log::trace('End execute actions');
 		return $mail->getActionResult();
 	}
 
@@ -279,7 +279,7 @@ class Record extends \App\Modules\Base\Models\Record
 				$adb->pquery('UPDATE vtiger_ossmailscanner_folders_uid SET uid=? WHERE user_id=? && BINARY folder = ?', [$uid, $account['user_id'], $folder]);
 				$countEmails++;
 				self::updateScanHistory($scan_id, ['status' => '1', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
-				if ($countEmails >= \App\AppConfig::performance('NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING')) {
+				if ($countEmails >= \App\Core\AppConfig::performance('NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING')) {
 					return $countEmails;
 				}
 			}
@@ -334,7 +334,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	public static function setEmailSearchList($value)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		if ($value === null || $value == 'null') {
 			$db->createCommand()
 				->update('vtiger_ossmailscanner_config', ['value' => ''], ['conf_type' => 'emailsearch', 'parameter' => 'fields'])
@@ -386,10 +386,10 @@ class Record extends \App\Modules\Base\Models\Record
 	public function executeCron($who_trigger)
 	{
 
-		\App\Log::trace('Start executeCron');
+		\App\Log\Log::trace('Start executeCron');
 		$row = self::getActiveScan();
 		if ($row > 0) {
-			\App\Log::info(\App\Runtime\Vtiger_Language_Handler::translate('ERROR_ACTIVE_CRON', 'OSSMailScanner'));
+			\App\Log\Log::info(\App\Runtime\Vtiger_Language_Handler::translate('ERROR_ACTIVE_CRON', 'OSSMailScanner'));
 			return \App\Runtime\Vtiger_Language_Handler::translate('ERROR_ACTIVE_CRON', 'OSSMailScanner');
 		}
 		$mailModel = \App\Modules\Base\Models\Record::getCleanInstance('OSSMail');
@@ -398,35 +398,35 @@ class Record extends \App\Modules\Base\Models\Record
 		$scanId = 0;
 		$accounts = \App\Modules\OSSMail\Models\Record::getAccountsList();
 		if (!$accounts) {
-			\App\Log::info('There are no accounts to be scanned');
+			\App\Log\Log::info('There are no accounts to be scanned');
 			return false;
 		}
 		self::setCronStatus('2');
 		$scanId = $scannerModel->add_scan_history(['user' => $who_trigger]);
 		foreach ($accounts as $account) {
-			\App\Log::trace('Start checking account: ' . $account['username']);
+			\App\Log\Log::trace('Start checking account: ' . $account['username']);
 			foreach ($scannerModel->getFolders($account['user_id']) as &$folderRow) {
 				$folder = $folderRow['folder'];
-				\App\Log::trace('Start checking folder: ' . $folder);
+				\App\Log\Log::trace('Start checking folder: ' . $folder);
 
 				$mbox = $mailModel->imapConnect($account['username'], $account['password'], $account['mail_host'], $folder, false);
 				if (is_resource($mbox)) {
 					$countEmails = $scannerModel->mail_Scan($mbox, $account, $folder, $scanId, $countEmails);
 					imap_close($mbox);
-					if ($countEmails >= \App\AppConfig::performance('NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING')) {
-						\App\Log::info('Reached the maximum number of scanned mails');
+					if ($countEmails >= \App\Core\AppConfig::performance('NUMBERS_EMAILS_DOWNLOADED_DURING_ONE_SCANNING')) {
+						\App\Log\Log::info('Reached the maximum number of scanned mails');
 						self::updateScanHistory($scanId, ['status' => '0', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
 						self::setCronStatus('1');
 						return 'ok';
 					}
 				} else {
-					\App\Log::error("Incorrect mail access data, username: {$account['username']} , folder: $folder , Error: " . imap_last_error());
+					\App\Log\Log::error("Incorrect mail access data, username: {$account['username']} , folder: $folder , Error: " . imap_last_error());
 				}
 			}
 		}
 		self::updateScanHistory($scanId, ['status' => '0', 'count' => $countEmails, 'action' => 'Action_CronMailScanner']);
 		self::setCronStatus('1');
-		\App\Log::trace('End executeCron');
+		\App\Log\Log::trace('End executeCron');
 		return 'ok';
 	}
 
@@ -536,7 +536,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public function setCronStatus($status)
 	{
-		\App\Db::getInstance()->createCommand()->update('vtiger_cron_task', ['status' => (int) $status], ['name' => 'LBL_MAIL_SCANNER_ACTION'])->execute();
+		\App\Db\Db::getInstance()->createCommand()->update('vtiger_cron_task', ['status' => (int) $status], ['name' => 'LBL_MAIL_SCANNER_ACTION'])->execute();
 	}
 
 	public function checkCronStatus()
@@ -579,7 +579,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public function runRestartCron()
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$userName = \App\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
 		$db->createCommand()->update('vtiger_cron_task', ['status' => 1], ['name' => 'LBL_MAIL_SCANNER_ACTION'])->execute();
 		$db->createCommand()->update('vtiger_ossmails_logs', ['status' => 2, 'stop_user' => $userName, 'end_time' => date('Y-m-d H:i:s')], ['status' => 1])->execute();
@@ -638,7 +638,7 @@ class Record extends \App\Modules\Base\Models\Record
 		$mail->set('body', $row['content']);
 
 		foreach ($actions as $action) {
-			$handlerClass = \App\Loader::getComponentClassName('ScannerAction', $action, 'OSSMailScanner');
+			$handlerClass = \App\Core\Loader::getComponentClassName('ScannerAction', $action, 'OSSMailScanner');
 			$handler = new $handlerClass();
 			if ($handler) {
 				$handler->process($mail);

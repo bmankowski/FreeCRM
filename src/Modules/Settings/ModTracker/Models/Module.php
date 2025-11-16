@@ -42,9 +42,9 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	public function changeActiveStatus($tabid, $status)
 	{
 		if ($status) {
-			\App\CRMEntity::getInstance('ModTracker')->enableTrackingForModule($tabid);
+			\App\Core\CRMEntity::getInstance('ModTracker')->enableTrackingForModule($tabid);
 		} else {
-			\App\CRMEntity::getInstance('ModTracker')->disableTrackingForModule($tabid);
+			\App\Core\CRMEntity::getInstance('ModTracker')->disableTrackingForModule($tabid);
 		}
 	}
 }

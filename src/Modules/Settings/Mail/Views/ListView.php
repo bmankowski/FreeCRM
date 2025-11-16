@@ -38,7 +38,7 @@ class ListView extends \App\Modules\Settings\Base\Views\ListView
 	 */
 	protected function prepareMailListViewData($viewer)
 	{
-		$viewer->assign('AUTO_REFRESH_LIST_ON_CHANGE', \App\AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE'));
+		$viewer->assign('AUTO_REFRESH_LIST_ON_CHANGE', \App\Core\AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE'));
 		$viewer->assign('SMTP_NAMES', \App\Modules\Settings\MailSmtp\Models\Module::getSmtpNames());
 		$viewer->assign('MAILER_STATUSES', \App\Email\Mailer::$statuses);
 	}

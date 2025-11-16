@@ -13,9 +13,9 @@ class Vtiger_AutomaticAssignment_Handler {
 
 	/**
 	 * EntitySystemAfterCreate handler function
-	 * @param \App\EventHandler $eventHandler
+	 * @param \App\Events\EventHandler $eventHandler
 	 */
-	public function entitySystemAfterCreate(\App\EventHandler $eventHandler)
+	public function entitySystemAfterCreate(\App\Events\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		\App\Modules\Settings\AutomaticAssignment\Models\Module::autoAssignExecute($recordModel);

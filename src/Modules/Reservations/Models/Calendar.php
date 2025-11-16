@@ -17,7 +17,7 @@ class Calendar extends \App\Runtime\BaseModel
 
 	public function getEntity()
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$module = 'Reservations';
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$query = (new \App\Db\Query())->from('vtiger_reservations')
@@ -66,7 +66,7 @@ class Calendar extends \App\Runtime\BaseModel
 			}
 			$query->andWhere(['vtiger_crmentity.smownerid' => $owners]);
 		}
-		\App\PrivilegeQuery::getConditions($query, $module);
+		\App\Security\PrivilegeQuery::getConditions($query, $module);
 		$query->orderBy(['date_start' => SORT_ASC, 'time_start' => SORT_ASC]);
 
 		$dataReader = $query->createCommand()->query();

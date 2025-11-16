@@ -22,7 +22,7 @@ class CustomRecordNumberingModule extends \App\Modules\Base\Models\Module
 	public function getFocus()
 	{
 		if (!isset($this->focus)) {
-			$this->focus = \App\CRMEntity::getInstance($this->getName());
+			$this->focus = \App\Core\CRMEntity::getInstance($this->getName());
 		}
 		return $this->focus;
 	}

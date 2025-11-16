@@ -1,5 +1,5 @@
 <?php
-namespace App;
+namespace App\QueryField;
 use App\AppConfig;
 use App\CRMEntity;
 
@@ -83,7 +83,7 @@ class QueryGenerator
 	private $fieldsModel;
 
 	/**
-	 * @var \App\CRMEntity 
+	 * @var \App\Core\CRMEntity 
 	 */
 	private $entityModel;
 
@@ -105,7 +105,7 @@ class QueryGenerator
 	{
 		$this->moduleName = $moduleName;
 	$this->moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
-	$this->entityModel = \App\CRMEntity::getInstance($moduleName);
+	$this->entityModel = \App\Core\CRMEntity::getInstance($moduleName);
 	$this->user = \App\Modules\Users\Models\Record::getInstanceById($userId ? $userId : \App\Modules\Users\Models\Record::getCurrentUserId(), 'Users');
 }
 
@@ -240,8 +240,8 @@ class QueryGenerator
 	}
 
 	/**
-	 * Get \App\CRMEntity Model
-	 * @return \App\CRMEntity
+	 * Get \App\Core\CRMEntity Model
+	 * @return \App\Core\CRMEntity
 	 */
 	public function getEntityModel()
 	{
@@ -416,7 +416,7 @@ class QueryGenerator
 	 */
 	public function getDefaultCustomViewQuery()
 	{
-		$customView = CustomView::getInstance($this->moduleName, $this->user);
+		$customView = \App\View\CustomView::getInstance($this->moduleName, $this->user);
 		$viewId = $customView->getViewId();
 		if (empty($viewId) || $viewId === 0) {
 			return false;
@@ -432,7 +432,7 @@ class QueryGenerator
 	 */
 	public function initForDefaultCustomView($noCache = false, $onlyFields = false)
 	{
-		$customView = CustomView::getInstance($this->moduleName, $this->user);
+		$customView = \App\View\CustomView::getInstance($this->moduleName, $this->user);
 		$viewId = $customView->getViewId($noCache);
 		if (empty($viewId) || $viewId === 0) {
 			return false;
@@ -483,7 +483,7 @@ class QueryGenerator
 	public function initForCustomViewById($viewId, $onlyFields = false)
 	{
 		$this->fields[] = 'id';
-		$customView = CustomView::getInstance($this->moduleName, $this->user);
+		$customView = \App\View\CustomView::getInstance($this->moduleName, $this->user);
 		$this->cvColumns = $customView->getColumnsListByCvid($viewId);
 		if ($this->cvColumns) {
 			foreach ($this->cvColumns as &$cvColumn) {
@@ -561,7 +561,7 @@ class QueryGenerator
 	public function createQuery($reBuild = false)
 	{
 		if (!$this->buildedQuery || $reBuild) {
-			$this->query = new Db\Query();
+			$this->query = new \App\Db\Query();
 			$this->loadSelect();
 			$this->loadFrom();
 			$this->loadWhere();
@@ -719,7 +719,7 @@ class QueryGenerator
 		}
 		$this->query->andWhere(['or', array_merge(['and'], $this->conditionsAnd), array_merge(['or'], $this->conditionsOr)]);
 		if ($this->permissions) {
-			if (\App\AppConfig::security('CACHING_PERMISSION_TO_RECORD') && $this->moduleName !== 'Users') {
+			if (\App\Core\AppConfig::security('CACHING_PERMISSION_TO_RECORD') && $this->moduleName !== 'Users') {
 				$userId = $this->user->getId();
 				$this->query->andWhere(['like', 'vtiger_crmentity.users', ",$userId,"]);
 			} else {
@@ -752,7 +752,7 @@ class QueryGenerator
 	 * Set condition
 	 * @param string $fieldName
 	 * @param mixed $value
-	 * @param string $operator {@see CustomView::ADVANCED_FILTER_OPTIONS} and {@see CustomView::STD_FILTER_CONDITIONS}
+	 * @param string $operator {@see \App\View\CustomView::ADVANCED_FILTER_OPTIONS} and {@see \App\View\CustomView::STD_FILTER_CONDITIONS}
 	 */
 	public function addCondition($fieldName, $value, $operator, $groupAnd = true)
 	{
@@ -771,7 +771,7 @@ class QueryGenerator
 				$this->tablesList[$field->getTableName()] = $field->getTableName();
 			}
 		} else {
-			Log::error('Wrong condition');
+			\App\Log\Log::error('Wrong condition');
 		}
 	}
 
@@ -783,21 +783,21 @@ class QueryGenerator
 	 */
 	private function getQueryField($fieldName)
 	{
-		if (isset($this->queryFields[$fieldName])) {
-			return $this->queryFields[$fieldName];
-		}
-		if ($fieldName === 'id') {
-			$queryField = new QueryField\IdField($this, '');
-			return $this->queryFields[$fieldName] = $queryField;
-		}
+	if (isset($this->queryFields[$fieldName])) {
+		return $this->queryFields[$fieldName];
+	}
+	if ($fieldName === 'id') {
+		$queryField = new IdField($this, '');
+		return $this->queryFields[$fieldName] = $queryField;
+	}
 		$field = $this->getModuleField($fieldName);
 		if (empty($field)) {
-			Log::error('Not found field model');
+			\App\Log\Log::error('Not found field model');
 			throw new \App\Exceptions\AppException('LBL_NOT_FOUND_FIELD_MODEL');
 		}
 		$className = '\App\QueryField\\' . ucfirst($field->getFieldDataType()) . 'Field';
 		if (!class_exists($className)) {
-			Log::error('Not found query field condition');
+			\App\Log\Log::error('Not found query field condition');
 			throw new \App\Exceptions\AppException('LBL_NOT_FOUND_QUERY_FIELD_CONDITION');
 		}
 		$queryField = new $className($this, $field);
@@ -825,7 +825,7 @@ class QueryGenerator
 				$this->conditionsOr[] = $queryCondition;
 			}
 		} else {
-			Log::error('Wrong condition');
+			\App\Log\Log::error('Wrong condition');
 		}
 	}
 
@@ -839,7 +839,7 @@ class QueryGenerator
 		$relatedModuleModel = \App\Modules\Base\Models\Module::getInstance($fieldDetail['relatedModule']);
 		$relatedFieldModel = $relatedModuleModel->getField($fieldDetail['relatedField']);
 		if (!$relatedFieldModel || !$relatedFieldModel->isActiveField()) {
-			Log::warning("Field in related module is inactive or does not exist. Related module: {$fieldDetail['referenceModule']} | Related field: {$fieldDetail['relatedField']}");
+			\App\Log\Log::warning("Field in related module is inactive or does not exist. Related module: {$fieldDetail['referenceModule']} | Related field: {$fieldDetail['relatedField']}");
 			return false;
 		}
 		$tableName = $relatedFieldModel->getTableName();
@@ -860,17 +860,17 @@ class QueryGenerator
 	private function getQueryRelatedField($field, $relatedInfo)
 	{
 		$relatedModule = $relatedInfo['relatedModule'];
-		if (isset($this->relatedQueryFields[$relatedModule][$field->getName()])) {
-			return $this->relatedQueryFields[$relatedModule][$field->getName()];
-		}
-		if ($field->getName() === 'id') {
-			$queryField = new QueryField\IdField($this, '');
-			$queryField->setRelated($relatedInfo);
-			return $this->relatedQueryFields[$relatedModule][$field->getName()] = $queryField;
-		}
+	if (isset($this->relatedQueryFields[$relatedModule][$field->getName()])) {
+		return $this->relatedQueryFields[$relatedModule][$field->getName()];
+	}
+	if ($field->getName() === 'id') {
+		$queryField = new IdField($this, '');
+		$queryField->setRelated($relatedInfo);
+		return $this->relatedQueryFields[$relatedModule][$field->getName()] = $queryField;
+	}
 		$className = '\App\QueryField\\' . ucfirst($field->getFieldDataType()) . 'Field';
 		if (!class_exists($className)) {
-			Log::error('Not found query field condition');
+			\App\Log\Log::error('Not found query field condition');
 			throw new \App\Exceptions\AppException('LBL_NOT_FOUND_QUERY_FIELD_CONDITION');
 		}
 		$queryField = new $className($this, $field);
@@ -916,7 +916,7 @@ class QueryGenerator
 		}
 		foreach ($values as &$value) {
 			if ($value !== '') {
-				$value = function_exists('iconv') ? iconv('UTF-8', \App\AppConfig::main('default_charset'), $value) : $value; // search other characters like "|, ?, ?" by jagi
+				$value = function_exists('iconv') ? iconv('UTF-8', \App\Core\AppConfig::main('default_charset'), $value) : $value; // search other characters like "|, ?, ?" by jagi
 				if ($type === 'currency') {
 					// Some of the currency fields like Unit Price, Total, Sub-total etc of Inventory modules, do not need currency conversion
 					if ($field->getUIType() === 72) {

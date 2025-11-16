@@ -78,7 +78,7 @@ class ProductPriceBookPopup  extends \App\Modules\Base\Views\Index
 
 		$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceForModule($moduleModel);
 		if (empty($orderBy) && empty($sortOrder)) {
-			$moduleInstance = \App\CRMEntity::getInstance($moduleName);
+			$moduleInstance = \App\Core\CRMEntity::getInstance($moduleName);
 			$orderBy = $moduleInstance->default_order_by;
 			$sortOrder = $moduleInstance->default_sort_order;
 		}

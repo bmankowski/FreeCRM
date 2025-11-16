@@ -19,7 +19,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		
-		\App\Log::trace("Entering \App\Modules\Settings\RealizationProcesses\Views\Index::process() method ...");
+		\App\Log\Log::trace("Entering \App\Modules\Settings\RealizationProcesses\Views\Index::process() method ...");
 		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 
@@ -35,6 +35,6 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		} else {
 			$viewer->view('Index.tpl', $qualifiedModule);
 		}
-		\App\Log::trace("Exiting \App\Modules\Settings\RealizationProcesses\Views\Index::process() method ...");
+		\App\Log\Log::trace("Exiting \App\Modules\Settings\RealizationProcesses\Views\Index::process() method ...");
 	}
 }

@@ -90,7 +90,7 @@ class Record extends \App\Modules\Base\Models\Record
 	public function isDefault()
 	{
 
-		\App\Log::trace('Entering ' . __METHOD__ . ' method ...');
+		\App\Log\Log::trace('Entering ' . __METHOD__ . ' method ...');
 		if ($this->isDefault === false) {
 			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 			$cvId = $this->getId();
@@ -102,13 +102,13 @@ class Record extends \App\Modules\Base\Models\Record
 				->where(['userid' => 'Users:' . $currentUser->getId(), 'tabid' => $this->getModule()->getId(), 'default_cvid' => $cvId])
 				->exists();
 		}
-		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
+		\App\Log\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $this->isDefault;
 	}
 
 	public function isSystem()
 	{
-		return $this->get('status') == \App\CustomView::CV_STATUS_SYSTEM;
+		return $this->get('status') == \App\View\CustomView::CV_STATUS_SYSTEM;
 	}
 
 	/**
@@ -118,7 +118,7 @@ class Record extends \App\Modules\Base\Models\Record
 	public function isMine()
 	{
 		$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
-		return ($this->get('status') == \App\CustomView::CV_STATUS_DEFAULT || $this->get('userid') == $userModel->getId());
+		return ($this->get('status') == \App\View\CustomView::CV_STATUS_DEFAULT || $this->get('userid') == $userModel->getId());
 	}
 
 	/**
@@ -127,7 +127,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public function isPublic()
 	{
-		return (!$this->isMine() && $this->get('status') == \App\CustomView::CV_STATUS_PUBLIC);
+		return (!$this->isMine() && $this->get('status') == \App\View\CustomView::CV_STATUS_PUBLIC);
 	}
 
 	/**
@@ -136,7 +136,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public function isPrivate()
 	{
-		return ($this->get('status') == \App\CustomView::CV_STATUS_PRIVATE);
+		return ($this->get('status') == \App\View\CustomView::CV_STATUS_PRIVATE);
 	}
 
 	/**
@@ -145,7 +145,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public function isPending()
 	{
-		return (!$this->isMine() && $this->get('status') == \App\CustomView::CV_STATUS_PENDING);
+		return (!$this->isMine() && $this->get('status') == \App\View\CustomView::CV_STATUS_PENDING);
 	}
 
 	/**
@@ -154,7 +154,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public function isOthers()
 	{
-		return (!$this->isMine() && $this->get('status') != \App\CustomView::CV_STATUS_PUBLIC);
+		return (!$this->isMine() && $this->get('status') != \App\View\CustomView::CV_STATUS_PUBLIC);
 	}
 
 	/**
@@ -163,13 +163,13 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public function isSetPublic()
 	{
-		return ($this->get('status') == \App\CustomView::CV_STATUS_PUBLIC || $this->get('status') == \App\CustomView::CV_STATUS_PENDING);
+		return ($this->get('status') == \App\View\CustomView::CV_STATUS_PUBLIC || $this->get('status') == \App\View\CustomView::CV_STATUS_PENDING);
 	}
 
 	public function isFeatured($editView = false)
 	{
 
-		\App\Log::trace('Entering ' . __METHOD__ . ' method ...');
+		\App\Log\Log::trace('Entering ' . __METHOD__ . ' method ...');
 		if ($this->isFeatured === false) {
 			if (empty($editView)) {
 				if (!empty($this->get('featured'))) {
@@ -181,13 +181,13 @@ class Record extends \App\Modules\Base\Models\Record
 				$this->isFeatured = $this->checkFeaturedInEditView();
 			}
 		}
-		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
+		\App\Log\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $this->isFeatured;
 	}
 
 	public function checkFeaturedInEditView()
 	{
-		$db = \App\Db::getInstance('admin');
+		$db = \App\Db\Db::getInstance('admin');
 		$cvId = $this->getId();
 		if (!$cvId)
 			return false;
@@ -202,7 +202,7 @@ class Record extends \App\Modules\Base\Models\Record
 		$query = (new \App\Db\Query())->from('u_#__featured_filter');
 	if ($currentUser->isAdminUser()) {
 		$userGroups = $currentUser->getUserGroups($currentUser->getId()) ?? [];
-		$parentRoles = \App\PrivilegeUtil::getRoleDetail($currentUser->getRole());
+		$parentRoles = \App\Security\PrivilegeUtil::getRoleDetail($currentUser->getRole());
 		$parentRoles = $parentRoles['parentrole'] ? $parentRoles['parentrole'] : '';
 	} else {
 		$parentRoles = $currentUser->getParentRoleSequence();
@@ -261,7 +261,7 @@ class Record extends \App\Modules\Base\Models\Record
 		$moduleName = $moduleModel->get('name');
 		$baseTableName = $moduleModel->get('basetable');
 		$baseTableId = $moduleModel->get('basetableid');
-		$queryGenerator = new \App\QueryGenerator($moduleName);
+		$queryGenerator = new \App\QueryField\QueryGenerator($moduleName);
 		if (!empty($cvId) && $cvId != 0) {
 			$queryGenerator->initForCustomViewById($cvId);
 		} else {
@@ -289,7 +289,7 @@ class Record extends \App\Modules\Base\Models\Record
 			$queryGenerator->addNativeCondition(['not in', "$baseTableName.$baseTableId", $skipRecords]);
 		}
 		if ($lockRecords) {
-			$lockFields = Vtiger_\App\CRMEntity::getInstance($moduleName)->getLockFields();
+			$lockFields = Vtiger_\App\Core\CRMEntity::getInstance($moduleName)->getLockFields();
 			if (is_array($lockFields)) {
 				foreach ($lockFields as $fieldName => $fieldValues) {
 					$queryGenerator->addNativeCondition(['not in', "$baseTableName.$fieldName", $fieldValues]);
@@ -312,9 +312,9 @@ class Record extends \App\Modules\Base\Models\Record
 		$status = $this->get('status');
 		$featured = $this->get('featured');
 
-		if ($status == \App\CustomView::CV_STATUS_PENDING) {
+		if ($status == \App\View\CustomView::CV_STATUS_PENDING) {
 			if ($currentUserModel->isAdminUser()) {
-				$status = \App\CustomView::CV_STATUS_PUBLIC;
+				$status = \App\View\CustomView::CV_STATUS_PUBLIC;
 				$this->set('status', $status);
 			}
 		}
@@ -338,7 +338,7 @@ class Record extends \App\Modules\Base\Models\Record
 			}
 		}
 		if (empty($setDefault) && !empty($cvIdOrg)) {
-			\App\Db::getInstance()->createCommand()
+			\App\Db\Db::getInstance()->createCommand()
 				->delete('vtiger_user_module_preferences', ['userid' => $userId, 'tabid' => $this->getModule()->getId(), 'default_cvid' => $cvId])
 				->execute();
 		} elseif (!empty($setDefault)) {
@@ -353,7 +353,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public function delete()
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$cvId = $this->getId();
 		$db->createCommand()->delete('vtiger_customview', ['cvid' => $cvId])->execute();
 		$db->createCommand()->delete('vtiger_cvcolumnlist', ['cvid' => $cvId])->execute();
@@ -371,7 +371,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public function setDefaultFilter()
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$userId = 'Users:' . $currentUser->getId();
 		$tabId = $this->getModule()->getId();
@@ -386,7 +386,7 @@ class Record extends \App\Modules\Base\Models\Record
 	public function setConditionsForFilter()
 	{
 		$db = \App\Database\PearDatabase::getInstance();
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$moduleModel = $this->getModule();
 		$cvId = $this->getId();
 
@@ -506,7 +506,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	public function setColumnlist()
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$cvId = $this->getId();
 		foreach ($this->get('columnslist') as $index => $columnName) {
 			$db->createCommand()->insert('vtiger_cvcolumnlist', [
@@ -525,7 +525,7 @@ class Record extends \App\Modules\Base\Models\Record
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$moduleName = $this->getModule()->get('name');
 		$seq = $this->getNextSeq($moduleName);
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$db->createCommand()->insert('vtiger_customview', [
 			'viewname' => $this->get('viewname'),
 			'setmetrics' => $this->get('setmetrics'),
@@ -555,7 +555,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public function updateCustomView()
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$cvId = $this->getId();
 		$db->createCommand()->update('vtiger_customview', [
 			'viewname' => $this->get('viewname'),
@@ -641,7 +641,7 @@ class Record extends \App\Modules\Base\Models\Record
 	public function getAdvancedCriteria()
 	{
 		$db = \App\Database\PearDatabase::getInstance();
-		$default_charset = \App\AppConfig::main('default_charset');
+		$default_charset = \App\Core\AppConfig::main('default_charset');
 
 		$cvId = $this->getId();
 		$advft_criteria = [];
@@ -732,7 +732,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public function getCVStdFilterSQL()
 	{
-		$customView = new CustomView();
+		$customView = new \App\View\CustomView();
 		return $customView->getCVStdFilterSQL($this->getId());
 	}
 
@@ -742,7 +742,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public function getCVAdvFilterSQL()
 	{
-		$customView = new CustomView();
+		$customView = new \App\View\CustomView();
 		return $customView->getCVAdvFilterSQL($this->getId());
 	}
 
@@ -803,13 +803,13 @@ class Record extends \App\Modules\Base\Models\Record
 	public function approve()
 	{
 		$db = \App\Database\PearDatabase::getInstance();
-		$db->pquery('UPDATE vtiger_customview SET status = ? WHERE cvid = ?', array(\App\CustomView::CV_STATUS_PUBLIC, $this->getId()));
+		$db->pquery('UPDATE vtiger_customview SET status = ? WHERE cvid = ?', array(\App\View\CustomView::CV_STATUS_PUBLIC, $this->getId()));
 	}
 
 	public function deny()
 	{
 		$db = \App\Database\PearDatabase::getInstance();
-		$db->pquery('UPDATE vtiger_customview SET status = ? WHERE cvid = ?', array(\App\CustomView::CV_STATUS_PRIVATE, $this->getId()));
+		$db->pquery('UPDATE vtiger_customview SET status = ? WHERE cvid = ?', array(\App\View\CustomView::CV_STATUS_PRIVATE, $this->getId()));
 	}
 
 	/**
@@ -839,7 +839,7 @@ class Record extends \App\Modules\Base\Models\Record
 	public static function getAll($moduleName = '')
 	{
 
-		\App\Log::trace('Entering ' . __METHOD__ . " ($moduleName) method ...");
+		\App\Log\Log::trace('Entering ' . __METHOD__ . " ($moduleName) method ...");
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$cacheName = $moduleName . $currentUser->getId();
 		if (\App\Cache\Cache::has('getAllFilters', $cacheName)) {
@@ -880,19 +880,19 @@ class Record extends \App\Modules\Base\Models\Record
 			$filters = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($filterDir, FilesystemIterator::SKIP_DOTS));
 			foreach ($filters as $filter) {
 				$name = str_replace('.php', '', $filter->getFilename());
-				$handlerClass = \App\Loader::getComponentClassName('Filter', $name, $moduleName);
+				$handlerClass = \App\Core\Loader::getComponentClassName('Filter', $name, $moduleName);
 				if (class_exists($handlerClass)) {
 					$handler = new $handlerClass();
 					$view['viewname'] = $handler->getViewName();
 					$view['cvid'] = $name;
-					$view['status'] = \App\CustomView::CV_STATUS_SYSTEM;
+					$view['status'] = \App\View\CustomView::CV_STATUS_SYSTEM;
 					$customView = new self();
 					$customViews[$name] = $customView->setData($view)->setModule($moduleName);
 				}
 			}
 		}
 		\App\Cache\Cache::save('getAllFilters', $cacheName, $customViews, \App\Cache\Cache::LONG);
-		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
+		\App\Log\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $customViews;
 	}
 
@@ -1071,7 +1071,7 @@ class Record extends \App\Modules\Base\Models\Record
 		$result = $db->pquery($query, array($module));
 		$viewId = $db->query_result($result, 0, 'cvid');
 		if (!$viewId) {
-			$viewId = \App\CustomView::getInstance($module)->getViewId();
+			$viewId = \App\View\CustomView::getInstance($module)->getViewId();
 		}
 		return self::getInstanceById($viewId);
 	}

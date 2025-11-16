@@ -85,7 +85,7 @@ class Link
 	 */
 	public static function addLink($tabid, $type, $label, $url, $iconpath = '', $sequence = 0, $handlerInfo = null, $linkParams = null): void
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$checkres = false;
 		if ($tabid != 0) {
 			$checkres = (new \App\Db\Query())->from('vtiger_links')
@@ -126,7 +126,7 @@ class Link
 	 */
 	public static function deleteLink($tabid, $type, $label, $url = false): void
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		if ($url) {
 			$db->createCommand()->delete('vtiger_links', [
 				'tabid' => $tabid,
@@ -154,7 +154,7 @@ class Link
 	 */
 	public static function deleteAll($tabid): void
 	{
-		\App\Db::getInstance()->createCommand()->delete('vtiger_links', ['tabid' => $tabid])->execute();
+		\App\Db\Db::getInstance()->createCommand()->delete('vtiger_links', ['tabid' => $tabid])->execute();
 		self::log('Deleting Links ... DONE');
 	}
 

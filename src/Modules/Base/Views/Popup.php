@@ -134,7 +134,7 @@ class Popup  extends \App\Modules\Base\Views\Index
 			$listViewModel = \App\Modules\Base\Models\ListView::getInstanceForPopup($moduleName, $sourceModule);
 		}
 		if (empty($orderBy) && empty($sortOrder)) {
-			$moduleInstance = \App\CRMEntity::getInstance($moduleName);
+			$moduleInstance = \App\Core\CRMEntity::getInstance($moduleName);
 			$orderBy = $moduleInstance->default_order_by;
 			$sortOrder = $moduleInstance->default_sort_order;
 		}
@@ -243,7 +243,7 @@ class Popup  extends \App\Modules\Base\Views\Index
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
 
-		if (\App\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+		if (\App\Core\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			if (!$this->listViewCount) {
 				$this->listViewCount = $listViewModel->getListViewCount();
 			}

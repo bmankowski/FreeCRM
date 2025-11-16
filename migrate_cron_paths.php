@@ -8,12 +8,12 @@ require ROOT_DIRECTORY . '/vendor/autoload.php';
 require ROOT_DIRECTORY . '/vendor/yiisoft/yii2/Yii.php';
 require ROOT_DIRECTORY . '/config/api.php';
 require ROOT_DIRECTORY . '/config/config.php';
-\App\AppConfig::init($API_CONFIG);
+\App\Core\AppConfig::init($API_CONFIG);
 \App\Loader::register();
 
 echo "=== Cron Handler Path Migration ===\n\n";
 
-$db = \App\Db::getInstance();
+$db = \App\Db\Db::getInstance();
 
 // Path mappings from old to new locations
 $pathMappings = [

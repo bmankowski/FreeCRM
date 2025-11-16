@@ -21,7 +21,7 @@ class TotalEvent {
 	public function process($instance)
 	{
 		
-		\App\Log::trace("Entering TotalEvent::process() method ...");
+		\App\Log\Log::trace("Entering TotalEvent::process() method ...");
 		$adb = \App\Database\PearDatabase::getInstance();
 		$activity = 'SELECT COUNT(vtiger_activity.activityid) AS count
 			FROM vtiger_activity 
@@ -31,7 +31,7 @@ class TotalEvent {
 			AND vtiger_activity.activitytype <> ?';
 		$result_Event = $adb->pquery($activity, array($instance->getId(), 'Task'));
 		$count = $adb->query_result($result_Event, 0, 'count');
-		\App\Log::trace("Exiting TotalEvent::process() method ...");
+		\App\Log\Log::trace("Exiting TotalEvent::process() method ...");
 		return $count;
 	}
 }

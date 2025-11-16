@@ -184,7 +184,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public function save($request = null)
 	{
-		\App\Db::getInstance()->createCommand()->update('vtiger_cron_task', ['frequency' => $this->get('frequency'), 'status' => $this->get('status')], ['id' => $this->getId()])
+		\App\Db\Db::getInstance()->createCommand()->update('vtiger_cron_task', ['frequency' => $this->get('frequency'), 'status' => $this->get('status')], ['id' => $this->getId()])
 			->execute();
 	}
 
@@ -203,7 +203,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			->where(['id' => $recordId])
 			->one();
 		if ($row) {
-			$recordModelClass = \App\Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
+			$recordModelClass = \App\Core\Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 			$moduleModel = \App\Modules\Settings\Base\Models\Module::getInstance($qualifiedModuleName);
 			$recordModel = new $recordModelClass();
 			$recordModel->setData($row)->setModule($moduleModel);
@@ -254,7 +254,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	public function getMinimumFrequency()
 	{
-		$frequency = \App\AppConfig::main('MINIMUM_CRON_FREQUENCY');
+		$frequency = \App\Core\AppConfig::main('MINIMUM_CRON_FREQUENCY');
 		if (!empty($frequency)) {
 			return $frequency * 60;
 		}

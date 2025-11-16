@@ -13,7 +13,7 @@ namespace App\Modules\HolidaysEntitlement;
  * *********************************************************************************************************************************** */
 
 
-class HolidaysEntitlement extends \App\CRMEntity
+class HolidaysEntitlement extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'vtiger_holidaysentitlement';
@@ -96,7 +96,7 @@ class HolidaysEntitlement extends \App\CRMEntity
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
-			$moduleInstance = \App\CRMEntity::getInstance('HolidaysEntitlement');
+			$moduleInstance = \App\Core\CRMEntity::getInstance('HolidaysEntitlement');
 			\App\Fields\RecordNumber::setNumber($moduleName, 'HE', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array('HolidaysEntitlement'));
 			$moduleInstance = \App\Modules\Base\Models\Module::getInstance('HolidaysEntitlement');

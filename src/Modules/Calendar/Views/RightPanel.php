@@ -34,7 +34,7 @@ class RightPanel  extends \App\Modules\Base\Views\Index
 		$clendarallorecords = $roleInstance->get('clendarallorecords');
 		switch ($clendarallorecords) {
 			case 3:
-				if (\App\AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')) {
+				if (\App\Core\AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')) {
 					$usersAndGroup = \App\Fields\Owner::getInstance($moduleName, $currentUser)->getUsersAndGroupForModuleList();
 					$users = $usersAndGroup['users'];
 				} else {
@@ -70,7 +70,7 @@ class RightPanel  extends \App\Modules\Base\Views\Index
 				$groups = \App\Fields\Owner::getInstance(false, $currentUser)->getAccessibleGroups();
 				break;
 			case 3:
-				if (\App\AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')) {
+				if (\App\Core\AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')) {
 					$usersAndGroup = \App\Fields\Owner::getInstance($moduleName, $currentUser)->getUsersAndGroupForModuleList();
 					$groups = $usersAndGroup['group'];
 				} else {

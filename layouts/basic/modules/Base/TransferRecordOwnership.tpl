@@ -24,10 +24,10 @@
 							<div class="col-sm-4 control-label">{"LBL_ASSIGNED_TO"|t:$MODULE}</div>
 							<div class="col-sm-7 controls">
 								<select class="select2 form-control" data-validation-engine="validate[ required]" title="{"LBL_TRANSFER_OWNERSHIP"|t:$MODULE}" name="transferOwnerId" id="transferOwnerId"
-									{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')} 
+									{if \App\Core\AppConfig::performance('SEARCH_OWNERS_BY_AJAX')} 
 										data-ajax-search="1" data-ajax-url="index.php?module={$MODULE}&action=Fields&mode=getOwners&type=Edit" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
 									{/if}>
-									{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
+									{if \App\Core\AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 										<option value="{$USER_MODEL->get('id')}" data-picklistvalue="{$USER_MODEL->getName()}">
 											{$USER_MODEL->getName()}
 										</option>

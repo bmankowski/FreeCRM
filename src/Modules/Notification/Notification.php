@@ -3,14 +3,14 @@
 namespace App\Modules\Notification;
 
 /**
- * Notification \App\CRMEntity Class
+ * Notification \App\Core\CRMEntity Class
  * @package YetiForce.CRMEntity
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
 
-class Notification extends \App\CRMEntity
+class Notification extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'u_yf_notification';

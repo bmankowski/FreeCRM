@@ -150,7 +150,7 @@ class DataAccess_unique_account
 	public function getHierarchy($id, $moduleName, $recordId)
 	{
 		$hierarchyAll = [];
-		$focus = \App\CRMEntity::getInstance($moduleName);
+		$focus = \App\Core\CRMEntity::getInstance($moduleName);
 		$hierarchy = $focus->getAccountHierarchy($id);
 		unset($hierarchy['entries'][$recordId]);
 		foreach ($hierarchy['entries'] as $hId => $value) {

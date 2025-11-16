@@ -76,7 +76,7 @@ class FileService
 
 		if ($realfilepath === false) {
 			if ($dieOnFail) {
-				\App\Log::error(__METHOD__ . '(' . $filepath . ') - File does not exist');
+				\App\Log\Log::error(__METHOD__ . '(' . $filepath . ') - File does not exist');
 				throw new \App\Exceptions\AppException('File does not exist: ' . $filepath);
 			}
 			return false;
@@ -95,7 +95,7 @@ class FileService
 
 		if (stripos($realfilepath, $rootdirpath) !== 0 || in_array($filePathParts[0], $unsafeDirectories)) {
 			if ($dieOnFail) {
-				\App\Log::error(__METHOD__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
+				\App\Log\Log::error(__METHOD__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 				throw new \App\Exceptions\AppException('Sorry! Attempt to access restricted file.');
 			}
 			return false;

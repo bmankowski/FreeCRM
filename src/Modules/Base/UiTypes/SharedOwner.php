@@ -167,7 +167,7 @@ class SharedOwner extends BaseUiType
 
 	public static function getSearchViewList($moduleName, $cvId)
 	{
-		$queryGenerator = new \App\QueryGenerator($moduleName);
+		$queryGenerator = new \App\QueryField\QueryGenerator($moduleName);
 		$queryGenerator->initForCustomViewById($cvId);
 		$queryGenerator->setFields([]);
 		$queryGenerator->setCustomColumn('u_#__crmentity_showners.userid');
@@ -199,7 +199,7 @@ class SharedOwner extends BaseUiType
 	 */
 	public function getSearchViewData($moduleName, $viewId = null)
 	{
-		if ($viewId && \App\AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')) {
+		if ($viewId && \App\Core\AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')) {
 			$usersGroupList = self::getSearchViewList($moduleName, $viewId);
 			$users = $usersGroupList['users'];
 			$groups = $usersGroupList['group'];

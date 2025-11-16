@@ -143,7 +143,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 */
 	public function importWorkflow(array $data)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$db->createCommand()->insert($this->getBaseTable(), $data['fields'])->execute();
 		$workflowId = $db->getLastInsertID('com_vtiger_workflows_workflow_id_seq');
 		$messages = ['id' => $workflowId];

@@ -15,10 +15,10 @@
 
 // more than 8MB memory needed for graphics
 // memory limit default value = 64M
-\App\AppConfig::iniSet('memory_limit', '512M');
+\App\Core\AppConfig::iniSet('memory_limit', '512M');
 
 // lifetime of session
-\App\AppConfig::iniSet('session.gc_maxlifetime', '21600');
+\App\Core\AppConfig::iniSet('session.gc_maxlifetime', '21600');
 
 // show or hide calendar, world clock, calculator, chat and CKEditor 
 // Do NOT remove the quotes if you set these to false! 

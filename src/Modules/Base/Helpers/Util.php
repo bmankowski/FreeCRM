@@ -240,7 +240,7 @@ class Util {
 	 */
 	public static function getMaxUploadSize()
 	{
-		$upload_maxsize = (int) \App\AppConfig::main('upload_maxsize');
+		$upload_maxsize = (int) \App\Core\AppConfig::main('upload_maxsize');
 		return ceil($upload_maxsize / (1024 * 1024));
 	}
 
@@ -357,7 +357,7 @@ class Util {
 
 	public static function getActiveAdminCurrentDateTime()
 	{
-		$default_timezone = \App\AppConfig::main('default_timezone');
+		$default_timezone = \App\Core\AppConfig::main('default_timezone');
 		$admin = \App\Modules\Users\Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
 		@date_default_timezone_set($adminTimeZone);
@@ -486,7 +486,7 @@ class Util {
 				$row = $db->query_result_rowdata($queryResult, $i);
 				$activityIds[$row['id']] = $row['defaultcolor'];
 			}
-			$db = \App\Db::getInstance();
+			$db = \App\Db\Db::getInstance();
 			foreach ($activityIds as $activityId => $color) {
 				$columns = [
 					'defaultid' => $activityId,

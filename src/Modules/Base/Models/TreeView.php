@@ -108,7 +108,7 @@ class TreeView extends \App\Runtime\BaseModel
 		if (isset(self::$_cached_instance[$moduleName])) {
 			return self::$_cached_instance[$moduleName];
 		}
-		$modelClassName = \App\Loader::getComponentClassName('Model', 'TreeView', $moduleName);
+		$modelClassName = \App\Core\Loader::getComponentClassName('Model', 'TreeView', $moduleName);
 		$instance = new $modelClassName();
 		self::$_cached_instance[$moduleName] = $instance->set('module', $moduleModel)->set('moduleName', $moduleName);
 		return self::$_cached_instance[$moduleName];

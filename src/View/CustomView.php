@@ -1,5 +1,5 @@
 <?php
-namespace App;
+namespace App\View;
 
 use App\Cache\Cache;
 
@@ -277,12 +277,12 @@ class CustomView
 		}
 		$filterDir = 'modules' . DIRECTORY_SEPARATOR . $this->moduleName . DIRECTORY_SEPARATOR . 'filters' . DIRECTORY_SEPARATOR . $cvId . '.php';
 		if (file_exists($filterDir)) {
-			$handlerClass = \App\Loader::getComponentClassName('Filter', $cvId, $this->moduleName);
+			$handlerClass = \App\Core\Loader::getComponentClassName('Filter', $cvId, $this->moduleName);
 			$filter = new $handlerClass();
 			Cache::save('getCustomViewFile', $cvId, $filter);
 			return $filter;
 		}
-		\App\Log::error(\App\Runtime\Vtiger_Language_Handler::translate('LBL_NO_FOUND_VIEW') . "cvId: $cvId");
+		\App\Log\Log::error(\App\Runtime\Vtiger_Language_Handler::translate('LBL_NO_FOUND_VIEW') . "cvId: $cvId");
 		throw new \App\Exceptions\AppException('LBL_NO_FOUND_VIEW');
 	}
 
@@ -294,12 +294,12 @@ class CustomView
 	 */
 	public function getColumnsListByCvid($cvId)
 	{
-		\App\Log::trace(__METHOD__ . ' - ' . $cvId);
+		\App\Log\Log::trace(__METHOD__ . ' - ' . $cvId);
 		if (Cache::has('getColumnsListByCvid', $cvId)) {
 			return Cache::get('getColumnsListByCvid', $cvId);
 		}
 		if (is_numeric($cvId)) {
-			$query = (new Db\Query())->select(['columnindex', 'columnname'])->from('vtiger_cvcolumnlist')->where(['cvid' => $cvId])->orderBy('columnindex');
+			$query = (new \App\Db\Query())->select(['columnindex', 'columnname'])->from('vtiger_cvcolumnlist')->where(['cvid' => $cvId])->orderBy('columnindex');
 			$columnList = $query->createCommand()->queryAllByGroup();
 
 			if ($columnList) {
@@ -311,7 +311,7 @@ class CustomView
 			Cache::save('getColumnsListByCvid', $cvId, $columnList);
 			return $columnList;
 		}
-		\App\Log::error(\App\Runtime\Vtiger_Language_Handler::translate('LBL_NO_FOUND_VIEW') . "cvId: $cvId");
+		\App\Log\Log::error(\App\Runtime\Vtiger_Language_Handler::translate('LBL_NO_FOUND_VIEW') . "cvId: $cvId");
 		throw new \App\Exceptions\AppException('LBL_NO_FOUND_VIEW');
 	}
 
@@ -326,7 +326,7 @@ class CustomView
 			return Cache::get('getStdFilterByCvid', $cvId);
 		}
 		if (is_numeric($cvId)) {
-			$stdFilter = (new Db\Query())->select('vtiger_cvstdfilter.*')
+			$stdFilter = (new \App\Db\Query())->select('vtiger_cvstdfilter.*')
 				->from('vtiger_cvstdfilter')
 				->innerJoin('vtiger_customview', 'vtiger_cvstdfilter.cvid = vtiger_customview.cvid')
 				->where(['vtiger_cvstdfilter.cvid' => $cvId])
@@ -380,18 +380,18 @@ class CustomView
 		}
 		$advftCriteria = [];
 		if (is_numeric($cvId)) {
-			$dataReaderGroup = (new Db\Query())->from('vtiger_cvadvfilter_grouping')
-					->where(['cvid' => $cvId])
-					->orderBy('groupid')
-					->createCommand()->query();
+			$dataReaderGroup = (new \App\Db\Query())->from('vtiger_cvadvfilter_grouping')
+				->where(['cvid' => $cvId])
+				->orderBy('groupid')
+				->createCommand()->query();
 			while ($relCriteriaGroup = $dataReaderGroup->read()) {
-				$dataReader = (new Db\Query())->select('vtiger_cvadvfilter.*')
-						->from('vtiger_customview')
-						->innerJoin('vtiger_cvadvfilter', 'vtiger_cvadvfilter.cvid = vtiger_customview.cvid')
-						->leftJoin('vtiger_cvadvfilter_grouping', 'vtiger_cvadvfilter.cvid = vtiger_cvadvfilter_grouping.cvid AND vtiger_cvadvfilter.groupid = vtiger_cvadvfilter_grouping.groupid')
-						->where(['vtiger_customview.cvid' => $cvId, 'vtiger_cvadvfilter.groupid' => $relCriteriaGroup['groupid']])
-						->orderBy('vtiger_cvadvfilter.columnindex')
-						->createCommand()->query();
+				$dataReader = (new \App\Db\Query())->select('vtiger_cvadvfilter.*')
+					->from('vtiger_customview')
+					->innerJoin('vtiger_cvadvfilter', 'vtiger_cvadvfilter.cvid = vtiger_customview.cvid')
+					->leftJoin('vtiger_cvadvfilter_grouping', 'vtiger_cvadvfilter.cvid = vtiger_cvadvfilter_grouping.cvid AND vtiger_cvadvfilter.groupid = vtiger_cvadvfilter_grouping.groupid')
+					->where(['vtiger_customview.cvid' => $cvId, 'vtiger_cvadvfilter.groupid' => $relCriteriaGroup['groupid']])
+					->orderBy('vtiger_cvadvfilter.columnindex')
+					->createCommand()->query();
 				if (!$dataReader->count()) {
 					continue;
 				}
@@ -416,7 +416,7 @@ class CustomView
 	public function getAdvftCriteria($relCriteriaRow)
 	{
 		$comparator = $relCriteriaRow['comparator'];
-		$advFilterVal = html_entity_decode($relCriteriaRow['value'], ENT_QUOTES, \App\AppConfig::main('default_charset'));
+		$advFilterVal = html_entity_decode($relCriteriaRow['value'], ENT_QUOTES, \App\Core\AppConfig::main('default_charset'));
 		list ($tableName, $columnName, $fieldName, $moduleFieldLabel, $fieldType) = explode(':', $relCriteriaRow['columnname']);
 		$tempVal = explode(',', $relCriteriaRow['value']);
 		if ($fieldType === 'D' || ($fieldType === 'T' && $columnName !== 'time_start' && $columnName !== 'time_end') || ($fieldType === 'DT')) {
@@ -445,7 +445,7 @@ class CustomView
 			$advFilterVal = implode(',', $val);
 		}
 		return [
-			'columnname' => html_entity_decode($relCriteriaRow['columnname'], ENT_QUOTES, \App\AppConfig::main('default_charset')),
+			'columnname' => html_entity_decode($relCriteriaRow['columnname'], ENT_QUOTES, \App\Core\AppConfig::main('default_charset')),
 			'comparator' => $comparator,
 			'value' => $advFilterVal
 		];
@@ -462,7 +462,7 @@ class CustomView
 		if ($request === null) {
 			$request = new \App\Http\Vtiger_Request($_REQUEST, $_REQUEST);
 		}
-		\App\Log::trace(__METHOD__);
+		\App\Log\Log::trace(__METHOD__);
 		if (isset($this->defaultViewId)) {
 			return $this->defaultViewId;
 		}
@@ -499,12 +499,12 @@ class CustomView
 	 */
 	public function getDefaultCvId()
 	{
-		Log::trace(__METHOD__);
+		\App\Log\Log::trace(__METHOD__);
 		$cacheName = $this->moduleName . $this->user->getId();
 		if (Cache::has('GetDefaultCvId', $cacheName)) {
 			return Cache::get('GetDefaultCvId', $cacheName);
 		}
-		$query = (new Db\Query())->select('userid, default_cvid')->from('vtiger_user_module_preferences')->where(['tabid' => \App\Utils\ModuleUtils::getModuleId($this->moduleName)]);
+		$query = (new \App\Db\Query())->select('userid, default_cvid')->from('vtiger_user_module_preferences')->where(['tabid' => \App\Utils\ModuleUtils::getModuleId($this->moduleName)]);
 		$data = $query->createCommand()->queryAllByGroup();
 		$user = 'Users:' . $this->user->getId();
 		if (isset($data[$user])) {
@@ -550,7 +550,7 @@ class CustomView
 		if ($request === null) {
 			$request = null /* Request should be passed as parameter */;
 		}
-		Log::trace(__METHOD__);
+		\App\Log\Log::trace(__METHOD__);
 		$permission = true;
 		if (!empty($viewId)) {
 			$statusUseridInfo = $this->getStatusAndUserid($viewId);
@@ -561,17 +561,17 @@ class CustomView
 				$permission = true;
 			} elseif ($request->get('view') !== 'ChangeStatus') {
 					if ($status === self::CV_STATUS_PUBLIC || $userId === $this->user->getId()) {
-						$permission = true;
-					} elseif ($status === self::CV_STATUS_PRIVATE || $status === self::CV_STATUS_PENDING) {
-						$subQuery = (new Db\Query())->select(['vtiger_user2role.userid'])->from('vtiger_user2role')
-							->innerJoin('vtiger_users', 'vtiger_user2role.userid = vtiger_users.id')
-							->innerJoin('vtiger_role', 'vtiger_user2role.userid = vtiger_role.roleid')
-							->where(['like', 'vtiger_role.parentrole', $this->user->getParentRolesSeq() . '::']);
-						$query = (new Db\Query())
-							->select(['vtiger_users.id'])
-							->from('vtiger_customview')
-							->innerJoin('vtiger_users')
-							->where(['vtiger_customview.cvid' => $viewId, 'vtiger_customview.userid' => $subQuery]);
+					$permission = true;
+				} elseif ($status === self::CV_STATUS_PRIVATE || $status === self::CV_STATUS_PENDING) {
+					$subQuery = (new \App\Db\Query())->select(['vtiger_user2role.userid'])->from('vtiger_user2role')
+						->innerJoin('vtiger_users', 'vtiger_user2role.userid = vtiger_users.id')
+						->innerJoin('vtiger_role', 'vtiger_user2role.userid = vtiger_role.roleid')
+						->where(['like', 'vtiger_role.parentrole', $this->user->getParentRolesSeq() . '::']);
+					$query = (new \App\Db\Query())
+						->select(['vtiger_users.id'])
+						->from('vtiger_customview')
+						->innerJoin('vtiger_users')
+						->where(['vtiger_customview.cvid' => $viewId, 'vtiger_customview.userid' => $subQuery]);
 						$userArray = $query->column();
 						if ($userArray) {
 							if (!in_array($this->user->getId(), $userArray)) {
@@ -602,7 +602,7 @@ class CustomView
 	 */
 	public function getStatusAndUserid($viewId)
 	{
-		Log::trace(__METHOD__);
+		\App\Log\Log::trace(__METHOD__);
 		if (empty($this->cvStatus) || empty($this->cvUserId)) {
 			$row = $this->getInfoFilter($viewId);
 			if ($row) {
@@ -622,7 +622,7 @@ class CustomView
 	 */
 	public function getMandatoryFilter($returnData = false)
 	{
-		Log::trace(__METHOD__);
+		\App\Log\Log::trace(__METHOD__);
 		$info = $this->getInfoFilter($this->moduleName);
 		foreach ($info as &$values) {
 			if ($values['presence'] === 0) {
@@ -638,7 +638,7 @@ class CustomView
 	 */
 	public function getViewIdByName($viewName)
 	{
-		Log::trace(__METHOD__);
+		\App\Log\Log::trace(__METHOD__);
 		$info = $this->getInfoFilter($this->moduleName);
 		foreach ($info as &$values) {
 			if ($values['viewname'] === $viewName) {
@@ -658,7 +658,7 @@ class CustomView
 		if (Cache::has('CustomViewInfo', $mixed)) {
 			return Cache::get('CustomViewInfo', $mixed);
 		}
-		$query = (new Db\Query())->from('vtiger_customview');
+		$query = (new \App\Db\Query())->from('vtiger_customview');
 		if (is_numeric($mixed)) {
 			$info = $query->where(['cvid' => $mixed])->one();
 		} else {

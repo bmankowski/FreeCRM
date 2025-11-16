@@ -34,7 +34,7 @@ class MassSend extends \App\Modules\Base\Actions\Mass
 	{
 		$selectedIds = $request->get('selected_ids');
 		$recordIds = $this->getRecordsListFromRequest($request);
-		$db = \App\Db::getInstance('admin');
+		$db = \App\Db\Db::getInstance('admin');
 		$dataReader = (new \App\Db\Query())->from('s_#__mail_queue')
 				->where(['id' => $recordIds])
 				->createCommand($db)->query();

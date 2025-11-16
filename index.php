@@ -41,8 +41,8 @@ require_once ROOT_DIRECTORY . '/vendor/autoload.php';  // Composer PSR-4 autoloa
 require_once ROOT_DIRECTORY . '/vendor/yiisoft/yii2/Yii.php';
 require_once ROOT_DIRECTORY . '/config/api.php';
 require_once ROOT_DIRECTORY . '/config/config.php';
-\App\AppConfig::init($API_CONFIG);
-\App\Loader::register();  // For Settings modules in old_modules
+\App\Core\AppConfig::init($API_CONFIG);
+\App\Core\Loader::register();  // For Settings modules in old_modules
 
 // Initialize WebUI services (cache, debugger, error handlers)
 \App\EntryPoint\WebUI::initialize();

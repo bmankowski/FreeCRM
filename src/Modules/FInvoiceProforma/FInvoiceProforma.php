@@ -13,7 +13,7 @@ namespace App\Modules\FInvoiceProforma;
  * ********************************************************************************** */
 
 
-class FInvoiceProforma extends \App\CRMEntity
+class FInvoiceProforma extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'u_yf_finvoiceproforma';

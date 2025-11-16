@@ -30,7 +30,7 @@ class CalDAV {
 
 	public function calDavCrm2Dav()
 	{
-		\App\Log::trace(__METHOD__ . ' | Start');
+		\App\Log\Log::trace(__METHOD__ . ' | Start');
 
 		$db = \App\Database\PearDatabase::getInstance();
 		$query = 'SELECT vtiger_activity.*, vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_crmentity.deleted, vtiger_crmentity.createdtime, vtiger_crmentity.modifiedtime, vtiger_crmentity.description FROM vtiger_activity INNER JOIN vtiger_crmentity ON vtiger_activity.activityid = vtiger_crmentity.crmid WHERE vtiger_crmentity.deleted=0 AND vtiger_activity.dav_status = 1;';
@@ -39,7 +39,7 @@ class CalDAV {
 			$this->record = $row;
 			$this->davSync();
 		}
-		\App\Log::trace(__METHOD__ . ' | End');
+		\App\Log\Log::trace(__METHOD__ . ' | End');
 	}
 
 	public function davSync()
@@ -49,7 +49,7 @@ class CalDAV {
 			$accessibleGroups = \App\Fields\Owner::getInstance(false, $user)->getAccessibleGroups();
 			if ($this->record['smownerid'] == $user->get('id') || $this->record['visibility'] == 'Public' || isset($accessibleGroups[$this->record['smownerid']])) {
 				$sync = true;
-				$exclusion = \App\AppConfig::module('API', 'CALDAV_EXCLUSION_TO_DAV');
+				$exclusion = \App\Core\AppConfig::module('API', 'CALDAV_EXCLUSION_TO_DAV');
 				if ($exclusion !== false) {
 					foreach ($exclusion as $key => $value) {
 						if ($this->record[$key] == $value) {
@@ -78,7 +78,7 @@ class CalDAV {
 	public function davCreate()
 	{
 		$record = $this->record;
-		\App\Log::trace(__METHOD__ . ' | Start CRM ID:' . $record['crmid']);
+		\App\Log\Log::trace(__METHOD__ . ' | Start CRM ID:' . $record['crmid']);
 		$calType = $record['activitytype'] == 'Task' ? 'VTODO' : 'VEVENT';
 		$endField = $this->getEndFieldName($calType);
 		$uid = date('Y-m-d\THis') . '-' . $record['crmid'];
@@ -120,8 +120,8 @@ class CalDAV {
 		if (!empty($record['description'])) {
 			$component->add($vcalendar->createProperty('DESCRIPTION', $record['description']));
 		}
-		if (\App\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV') != false) {
-			$record['visibility'] = \App\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV');
+		if (\App\Core\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV') != false) {
+			$record['visibility'] = \App\Core\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV');
 		}
 		$component->add($vcalendar->createProperty('CLASS', $record['visibility'] == 'Private' ? 'PRIVATE' : 'PUBLIC'));
 		$component->add($vcalendar->createProperty('PRIORITY', $this->getPriority($record['priority'], false)));
@@ -157,13 +157,13 @@ class CalDAV {
 			'crmid' => $record['crmid']
 		]);
 		$this->addChange($calUri, 1);
-		\App\Log::trace(__METHOD__ . ' | End');
+		\App\Log\Log::trace(__METHOD__ . ' | End');
 	}
 
 	public function davUpdate($calendar)
 	{
 		$record = $this->record;
-		\App\Log::trace(__METHOD__ . ' | Start CRM ID:' . $record['crmid']);
+		\App\Log\Log::trace(__METHOD__ . ' | Start CRM ID:' . $record['crmid']);
 
 		$calType = $record['activitytype'] == 'Task' ? 'VTODO' : 'VEVENT';
 		$endField = $this->getEndFieldName($calType);
@@ -189,8 +189,8 @@ class CalDAV {
 			$vTimeZone = self::getVTimeZone($vcalendar, $dtz, $startDT->getTimestamp(), $endDT->getTimestamp());
 			$vcalendar->add($vTimeZone);
 		}
-		if (\App\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV') != false) {
-			$record['visibility'] = \App\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV');
+		if (\App\Core\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV') != false) {
+			$record['visibility'] = \App\Core\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV');
 		}
 		foreach ($vcalendar->getBaseComponents() as $component) {
 			if ($component->name = $calType) {
@@ -236,21 +236,21 @@ class CalDAV {
 			], 'id = ?', [$calendar['id']]
 		);
 		$this->addChange($calendar['uri'], 2);
-		\App\Log::trace(__METHOD__ . ' | End');
+		\App\Log\Log::trace(__METHOD__ . ' | End');
 	}
 
 	public function davDelete($calendar)
 	{
-		\App\Log::trace(__METHOD__ . ' | Start Calendar ID:' . $card['id']);
+		\App\Log\Log::trace(__METHOD__ . ' | Start Calendar ID:' . $card['id']);
 		$this->addChange($calendar['uri'], 3);
 		$db = \App\Database\PearDatabase::getInstance();
 		$db->delete('dav_calendarobjects', 'id = ?', [$calendar['id']]);
-		\App\Log::trace(__METHOD__ . ' | End');
+		\App\Log\Log::trace(__METHOD__ . ' | End');
 	}
 
 	public function calDav2Crm()
 	{
-		\App\Log::trace(__METHOD__ . ' | Start');
+		\App\Log\Log::trace(__METHOD__ . ' | Start');
 		foreach ($this->davUsers as $key => $user) {
 			$this->calendarId = $user->get('calendarsid');
 			$this->user = $user;
@@ -258,12 +258,12 @@ class CalDAV {
 			$current_user = $user;
 			$this->recordSync();
 		}
-		\App\Log::trace(__METHOD__ . ' | End');
+		\App\Log\Log::trace(__METHOD__ . ' | End');
 	}
 
 	public function recordSync()
 	{
-		\App\Log::trace(__METHOD__ . ' | Start');
+		\App\Log\Log::trace(__METHOD__ . ' | Start');
 		$db = \App\Database\PearDatabase::getInstance();
 		$query = 'SELECT dav_calendarobjects.*, vtiger_crmentity.modifiedtime, vtiger_crmentity.setype, vtiger_crmentity.smownerid FROM dav_calendarobjects LEFT JOIN vtiger_crmentity ON vtiger_crmentity.crmid = dav_calendarobjects.crmid WHERE calendarid = ?';
 		$result = $db->pquery($query, [$this->calendarId]);
@@ -286,13 +286,13 @@ class CalDAV {
 				}
 			}
 		}
-		\App\Log::trace("calDav2Crm | create: $create | deletes: $deletes | updates: $updates | skipped: $skipped");
-		\App\Log::trace(__METHOD__ . ' | End');
+		\App\Log\Log::trace("calDav2Crm | create: $create | deletes: $deletes | updates: $updates | skipped: $skipped");
+		\App\Log\Log::trace(__METHOD__ . ' | End');
 	}
 
 	public function recordCreate($cal)
 	{
-		\App\Log::trace(__METHOD__ . ' | Start Cal ID' . $cal['id']);
+		\App\Log\Log::trace(__METHOD__ . ' | Start Cal ID' . $cal['id']);
 
 		$vcalendar = Sabre\VObject\Reader::read($cal['calendardata']);
 		foreach ($vcalendar->getBaseComponents() as $component) {
@@ -319,17 +319,17 @@ class CalDAV {
 				$record->set('visibility', $this->getVisibility($component));
 				$record->set('state', $this->getState($component));
 
-				$exclusion = \App\AppConfig::module('API', 'CALDAV_EXCLUSION_FROM_DAV');
+				$exclusion = \App\Core\AppConfig::module('API', 'CALDAV_EXCLUSION_FROM_DAV');
 				if ($exclusion !== false) {
 					foreach ($exclusion as $key => $value) {
 						if ($record->get($key) == $value) {
-							\App\Log::info(__METHOD__ . ' | End exclusion');
+							\App\Log\Log::info(__METHOD__ . ' | End exclusion');
 							return false;
 						}
 					}
 				}
-				if (\App\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV') !== false) {
-					$record->set('visibility', \App\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV'));
+				if (\App\Core\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV') !== false) {
+					$record->set('visibility', \App\Core\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV'));
 				}
 				$record->save();
 
@@ -348,13 +348,13 @@ class CalDAV {
 			}
 		}
 
-		\App\Log::trace(__METHOD__ . ' | End');
+		\App\Log\Log::trace(__METHOD__ . ' | End');
 		return true;
 	}
 
 	public function recordUpdate($record, $cal)
 	{
-		\App\Log::trace(__METHOD__ . ' | Start Cal ID:' . $cal['id']);
+		\App\Log\Log::trace(__METHOD__ . ' | Start Cal ID:' . $cal['id']);
 		$vcalendar = Sabre\VObject\Reader::read($cal['calendardata']);
 
 		foreach ($vcalendar->getBaseComponents() as $component) {
@@ -381,17 +381,17 @@ class CalDAV {
 				$record->set('visibility', $this->getVisibility($component));
 				$record->set('state', $this->getState($component));
 
-				$exclusion = \App\AppConfig::module('API', 'CALDAV_EXCLUSION_FROM_DAV');
+				$exclusion = \App\Core\AppConfig::module('API', 'CALDAV_EXCLUSION_FROM_DAV');
 				if ($exclusion !== false) {
 					foreach ($exclusion as $key => $value) {
 						if ($record->get($key) == $value) {
-							\App\Log::info(__METHOD__ . ' | End exclusion');
+							\App\Log\Log::info(__METHOD__ . ' | End exclusion');
 							return false;
 						}
 					}
 				}
-				if (\App\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV') !== false) {
-					$record->set('visibility', \App\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV'));
+				if (\App\Core\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV') !== false) {
+					$record->set('visibility', \App\Core\AppConfig::module('API', 'CALDAV_DEFAULT_VISIBILITY_FROM_DAV'));
 				}
 				$record->save();
 				$db = \App\Database\PearDatabase::getInstance();
@@ -408,7 +408,7 @@ class CalDAV {
 				}
 			}
 		}
-		\App\Log::trace(__METHOD__ . ' | End');
+		\App\Log\Log::trace(__METHOD__ . ' | End');
 		return true;
 	}
 
@@ -583,7 +583,7 @@ class CalDAV {
 
 	protected function recordMarkComplete()
 	{
-		\App\Db::getInstance()->createCommand()->update('vtiger_activity', [
+		\App\Db\Db::getInstance()->createCommand()->update('vtiger_activity', [
 			'dav_status' => 0
 			], ['activityid' => $this->record['crmid']]
 		)->execute();
@@ -781,7 +781,7 @@ class CalDAV {
 				}
 			}
 			$crmid = 0;
-			$records = \App\Fields\Email::findCrmidByEmail($value, array_keys(\App\ModuleHierarchy::getModulesByLevel()));
+			$records = \App\Fields\Email::findCrmidByEmail($value, array_keys(\App\Core\ModuleHierarchy::getModulesByLevel()));
 			if (!empty($records)) {
 				$record = reset($records);
 				$crmid = $record['crmid'];

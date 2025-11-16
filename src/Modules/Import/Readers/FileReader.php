@@ -106,7 +106,7 @@ class FileReader {
 	 */
 	public function createTable()
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$schema = $db->getSchema();
 		$tableName = \App\Modules\Import\Models\Module::getDbTableName($this->user);
 		$fieldMapping = $this->request->get('field_mapping');
@@ -162,7 +162,7 @@ class FileReader {
 	 */
 	public function addRecordToDB($data)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$tableName = \App\Modules\Import\Models\Module::getDbTableName($this->user);
 		$result = $db->createCommand()->insert($tableName, $data)->execute();
 		$this->numberOfRecordsRead++;
@@ -176,7 +176,7 @@ class FileReader {
 	 */
 	public function addInventoryToDB($inventoryData, $importId)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$tableName = \App\Modules\Import\Models\Module::getInventoryDbTableName($this->user);
 		foreach ($inventoryData as $data) {
 			$data['id'] = $importId;

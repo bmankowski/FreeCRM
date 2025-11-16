@@ -36,7 +36,7 @@ class Calendar extends \App\Runtime\BaseModel
 	 */
 	public function getQuery()
 	{
-		$queryGenerator = new \App\QueryGenerator($this->getModuleName());
+		$queryGenerator = new \App\QueryField\QueryGenerator($this->getModuleName());
 		if ($this->has('customFilter')) {
 			$queryGenerator->initForCustomViewById($this->get('customFilter'));
 		}
@@ -90,7 +90,7 @@ class Calendar extends \App\Runtime\BaseModel
 		}
 		if ($this->has('filters')) {
 			foreach ($this->get('filters') as $filter) {
-				$filterClassName = \App\Loader::getComponentClassName('CalendarFilter', $filter['name'], 'Calendar');
+				$filterClassName = \App\Core\Loader::getComponentClassName('CalendarFilter', $filter['name'], 'Calendar');
 				$filterInstance = new $filterClassName();
 				if ($filterInstance->checkPermissions() && $conditions = $filterInstance->getCondition($filter['value'])) {
 					$query->andWhere($conditions);

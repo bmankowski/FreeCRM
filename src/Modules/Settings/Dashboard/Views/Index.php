@@ -47,7 +47,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$qualifiedModuleName = $request->getModule(false);
 		
 		// Prepare initial data for tabs (needed for warnings count)
-		$warnings = \App\SystemWarnings::getWarnings('all');
+		$warnings = \App\SystemWarnings\SystemWarnings::getWarnings('all');
 		$warningsCount = count($warnings);
 		$viewer->assign('WARNINGS_COUNT', $warningsCount);
 		
@@ -82,7 +82,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
         $allWorkflows = \App\Modules\Settings\Workflows\Models\Record::getAllAmountWorkflowsAmount();
         $activeModules = \App\Modules\Settings\ModuleManager\Models\Module::getModulesCount(true);
         $pinnedSettingsShortcuts = \App\Modules\Settings\Base\Models\MenuItem::getPinnedItems();
-        $warnings = \App\SystemWarnings::getWarnings('all');
+        $warnings = \App\SystemWarnings\SystemWarnings::getWarnings('all');
         $warningsCount = count($warnings);
 
         $viewer->assign('WARNINGS_COUNT', $warningsCount);
@@ -141,7 +141,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
      */
     protected function prepareStatsWarningData($viewer)
     {
-        $viewer->assign('STATS_COMPANY', \App\Company::getInstanceById());
+        $viewer->assign('STATS_COMPANY', \App\Core\Company::getInstanceById());
         $viewer->assign('STATS_INDUSTRY_LIST', \App\Modules\Settings\Companies\Models\Module::getIndustryList());
     }
 
@@ -191,7 +191,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
         $viewer = $this->getViewer($request);
         $qualifiedModuleName = $request->getModule(false);
 
-        $folders = array_values(\App\SystemWarnings::getFolders());
+        $folders = array_values(\App\SystemWarnings\SystemWarnings::getFolders());
         $foldersJson = \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($folders));
         $viewer->assign('MODULE', $qualifiedModuleName);
         $viewer->assign('FOLDERS_JSON', $foldersJson);
@@ -210,7 +210,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
         $viewer = $this->getViewer($request);
         $qualifiedModuleName = $request->getModule(false);
 
-        $list = \App\SystemWarnings::getWarnings($folder, $active);
+        $list = \App\SystemWarnings\SystemWarnings::getWarnings($folder, $active);
         $viewer->assign('MODULE', $qualifiedModuleName);
         $viewer->assign('WARNINGS_LIST', $list);
         $viewer->view('SystemWarningsList.tpl', $qualifiedModuleName);

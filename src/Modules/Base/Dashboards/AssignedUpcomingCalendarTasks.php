@@ -63,8 +63,8 @@ class AssignedUpcomingCalendarTasks  extends \App\Modules\Base\Views\Index
 		$viewer->assign('ACTIVITIES', $calendarActivities);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('CURRENTUSER', $currentUser);
-		$viewer->assign('NAMELENGTH', \App\AppConfig::main('title_max_length'));
-		$viewer->assign('HREFNAMELENGTH', \App\AppConfig::main('href_max_length'));
+		$viewer->assign('NAMELENGTH', \App\Core\AppConfig::main('title_max_length'));
+		$viewer->assign('HREFNAMELENGTH', \App\Core\AppConfig::main('href_max_length'));
 		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_SCHEDULED_ACTIVITIES');
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('DATA', $data);

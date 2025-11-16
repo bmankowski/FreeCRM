@@ -21,7 +21,7 @@ class TasksOpen {
 	public function process($instance)
 	{
 		
-		\App\Log::trace("Entering TasksOpen::process() method ...");
+		\App\Log\Log::trace("Entering TasksOpen::process() method ...");
 		$adb = \App\Database\PearDatabase::getInstance();
 		$query = 'SELECT COUNT(projecttaskid) as count 
 				FROM vtiger_projecttask
@@ -29,7 +29,7 @@ class TasksOpen {
 						WHERE vtiger_crmentity.deleted=0 && vtiger_projecttask.projectid = ? && vtiger_projecttask.projecttaskstatus = ? ';
 		$result = $adb->pquery($query, array($instance->getId(), 'Open'));
 		$count = $adb->query_result($result, 0, 'count');
-		\App\Log::trace("Exiting TasksOpen::process() method ...");
+		\App\Log\Log::trace("Exiting TasksOpen::process() method ...");
 		return $count;
 	}
 }

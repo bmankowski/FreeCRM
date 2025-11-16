@@ -156,7 +156,7 @@ class Module extends \App\Modules\Base\Models\Module
 	{
 		$type = $request->get('type');
 		if ($componentName = static::$componentReader[$type]) {
-			$modelClassName = \App\Loader::getComponentClassName('Reader', $componentName, 'Import');
+			$modelClassName = \App\Core\Loader::getComponentClassName('Reader', $componentName, 'Import');
 			return new $modelClassName($request, $user);
 		}
 		return null;
@@ -265,7 +265,7 @@ class Module extends \App\Modules\Base\Models\Module
 	 */
 	public static function clearUserImportInfo($user)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$tables = [self::getInventoryDbTableName($user), self::getDbTableName($user)];
 		foreach ($tables as $table) {
 			if (!empty($db->getTableSchema($table))) {

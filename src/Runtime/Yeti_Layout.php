@@ -26,13 +26,13 @@ class Yeti_Layout
 			return $layout;
 		}
 
-		return \App\AppConfig::main('defaultLayout');
+		return \App\Core\AppConfig::main('defaultLayout');
 	}
 
 	public static function getLayoutFile(string $name)
 	{
-		$basePath = 'layouts/' . \App\AppConfig::main('defaultLayout') . '/';
-		$filePath = \App\Loader::resolveNameToPath('~' . $basePath . $name);
+		$basePath = 'layouts/' . \App\Core\AppConfig::main('defaultLayout') . '/';
+		$filePath = \App\Core\Loader::resolveNameToPath('~' . $basePath . $name);
 		if (is_file($filePath)) {
 			return $basePath . $name;
 		}

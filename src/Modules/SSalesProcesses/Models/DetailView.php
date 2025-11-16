@@ -19,7 +19,7 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 		$moduleName = $recordModel->getModuleName();
 
 		$relatedLinks = \App\Modules\Base\Models\DetailView::getDetailViewRelatedLinks();
-		$showPSTab = (!\App\AppConfig::module($moduleName, 'HIDE_SUMMARY_PRODUCTS_SERVICES')) && (\App\Utils\ModuleUtils::isModuleActive('OutsourcedProducts') || \App\Utils\ModuleUtils::isModuleActive('Products') || \App\Utils\ModuleUtils::isModuleActive('Services') || \App\Utils\ModuleUtils::isModuleActive('OSSOutsourcedServices') || \App\Utils\ModuleUtils::isModuleActive('Assets') || \App\Utils\ModuleUtils::isModuleActive('OSSSoldServices'));
+		$showPSTab = (!\App\Core\AppConfig::module($moduleName, 'HIDE_SUMMARY_PRODUCTS_SERVICES')) && (\App\Utils\ModuleUtils::isModuleActive('OutsourcedProducts') || \App\Utils\ModuleUtils::isModuleActive('Products') || \App\Utils\ModuleUtils::isModuleActive('Services') || \App\Utils\ModuleUtils::isModuleActive('OSSOutsourcedServices') || \App\Utils\ModuleUtils::isModuleActive('Assets') || \App\Utils\ModuleUtils::isModuleActive('OSSSoldServices'));
 
 		if ($showPSTab) {
 			$relatedLinks[] = [
@@ -29,7 +29,7 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 				'linkicon' => '',
 				'linkKey' => 'LBL_RECORD_SUMMARY',
 				'related' => 'ProductsAndServices',
-				'countRelated' => \App\AppConfig::relation('SHOW_RECORDS_COUNT')
+				'countRelated' => \App\Core\AppConfig::relation('SHOW_RECORDS_COUNT')
 			];
 		}
 		return $relatedLinks;

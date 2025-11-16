@@ -20,7 +20,7 @@ class Module extends \App\Modules\Base\Models\Module
 	 */
 	public function isAllowModules($moduleName)
 	{
-		return in_array($moduleName, \App\AppConfig::module($this->getName(), 'ALLOW_MODULES'));
+		return in_array($moduleName, \App\Core\AppConfig::module($this->getName(), 'ALLOW_MODULES'));
 	}
 
 	/**
@@ -29,7 +29,7 @@ class Module extends \App\Modules\Base\Models\Module
 	 */
 	public function getAllowedModules()
 	{
-		$allAllowedModules = \App\AppConfig::module($this->getName(), 'ALLOW_MODULES');
+		$allAllowedModules = \App\Core\AppConfig::module($this->getName(), 'ALLOW_MODULES');
 		foreach ($allAllowedModules as $key => $moduleName) {
 			if (!\App\Security\Privilege::isPermitted($moduleName)) {
 				unset($allAllowedModules[$key]);

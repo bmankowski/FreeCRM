@@ -18,7 +18,7 @@ class Configuration extends \App\Modules\Settings\Base\Views\Index
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		
-		\App\Log::trace("Entering \App\Modules\Settings\PublicHoliday\Views\Configuration::process() method ...");
+		\App\Log\Log::trace("Entering \App\Modules\Settings\PublicHoliday\Views\Configuration::process() method ...");
 		$currentUser = $request->getUser();
 		$viewer = $this->getViewer($request);
 		$date = $request->get('date');
@@ -48,7 +48,7 @@ class Configuration extends \App\Modules\Settings\Base\Views\Index
 			// Initial page load - return full page with MainLayout
 			$viewer->view('Configuration.tpl', $request->getModule(false));
 		}
-		\App\Log::trace("Exiting \App\Modules\Settings\PublicHoliday\Views\Configuration::process() method ...");
+		\App\Log\Log::trace("Exiting \App\Modules\Settings\PublicHoliday\Views\Configuration::process() method ...");
 	}
 	
 	/**

@@ -110,7 +110,7 @@ class Colors extends \App\Runtime\BaseModel
 	public static function updateColor($params)
 	{
 		$primaryKey = \App\Fields\Picklist::getPickListId($params['field']);
-		\App\Db::getInstance()->createCommand()
+		\App\Db\Db::getInstance()->createCommand()
 			->update($params['table'], ['color' => $params['color']], [$primaryKey => $params['id']])
 			->execute();
 	}
@@ -155,7 +155,7 @@ class Colors extends \App\Runtime\BaseModel
 		} else {
 			$set = ['coloractive' => $colorActive];
 		}
-		\App\Db::getInstance()->createCommand()->update('vtiger_tab', $set, ['tabid' => $params['id']])->execute();
+		\App\Db\Db::getInstance()->createCommand()->update('vtiger_tab', $set, ['tabid' => $params['id']])->execute();
 		return $color;
 	}
 
@@ -165,7 +165,7 @@ class Colors extends \App\Runtime\BaseModel
 	 */
 	public static function updateModuleColor($params)
 	{
-		\App\Db::getInstance()->createCommand()
+		\App\Db\Db::getInstance()->createCommand()
 			->update('vtiger_tab', ['color' => str_replace('#', '', $params['color'])], ['tabid' => $params['id']])
 			->execute();
 	}

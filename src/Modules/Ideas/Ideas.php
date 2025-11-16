@@ -13,7 +13,7 @@ namespace App\Modules\Ideas;
  * *********************************************************************************************************************************** */
 
 
-class Ideas extends \App\CRMEntity
+class Ideas extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'vtiger_ideas';
@@ -97,7 +97,7 @@ class Ideas extends \App\CRMEntity
 		$adb = \App\Database\PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
 
-			$ModuleInstance = \App\CRMEntity::getInstance('Ideas');
+			$ModuleInstance = \App\Core\CRMEntity::getInstance('Ideas');
 			\App\Fields\RecordNumber::setNumber($moduleName, 'ID', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array('Ideas'));
 
@@ -107,7 +107,7 @@ class Ideas extends \App\CRMEntity
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(array('Ideas'));
 			}
-			\App\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions:: getModuleId($moduleName));
+			\App\Core\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions:: getModuleId($moduleName));
 		} else if ($eventType == 'module.disabled') {
 			
 		} else if ($eventType == 'module.preuninstall') {

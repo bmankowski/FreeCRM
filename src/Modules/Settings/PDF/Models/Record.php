@@ -88,7 +88,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	public static function getCleanInstance($moduleName = 'Vtiger')
 	{
-		$handlerClass = \App\Loader::getComponentClassName('Model', 'PDF', $moduleName);
+		$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'PDF', $moduleName);
 		$pdf = new $handlerClass();
 		$data = [];
 		$fields = \App\Modules\Settings\PDF\Models\Module::getFieldsByStep();
@@ -101,7 +101,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	public static function save(\App\Modules\Base\Models\PDF $pdfModel, $step = 1)
 	{
-		$db = \App\Db::getInstance('admin');
+		$db = \App\Db\Db::getInstance('admin');
 
 		switch ($step) {
 			case 2:
@@ -165,7 +165,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	public static function deleteWatermark(\App\Modules\Base\Models\PDF $pdfModel)
 	{
-		$db = \App\Db::getInstance('admin');
+		$db = \App\Db\Db::getInstance('admin');
 		$watermarkImage = $pdfModel->get('watermark_image');
 		$db->createCommand()
 			->update('a_#__pdf', ['watermark_image' => null], ['pdfid' => $pdfModel->getId()])
@@ -178,7 +178,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	public static function delete(\App\Modules\Base\Models\PDF $pdfModel)
 	{
-		return \App\Db::getInstance('admin')->createCommand()
+		return \App\Db\Db::getInstance('admin')->createCommand()
 				->delete('a_#__pdf', ['pdfid' => $pdfModel->getId()])
 				->execute();
 	}

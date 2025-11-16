@@ -22,7 +22,7 @@ try {
 	$request = new \App\Http\Vtiger_Request($_REQUEST, $_REQUEST);
 	$webUI->process($request);
 } catch (Exception $e) {
-	\App\Log::error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
+	\App\Log\Log::error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
 	//var_dump($e->getMessage());
 	header('HTTP/1.1 400 Bad Request');
 }

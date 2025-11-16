@@ -1,5 +1,5 @@
 <?php
-namespace App;
+namespace App\Log;
 
 use \yii\log\Logger;
 
@@ -31,10 +31,10 @@ class Log extends Logger
 	{
 		$traces = '';
 		if ($this->traceLevel > 0) {
-			$traces = Debugger::getBacktrace(2, $this->traceLevel, ' - ');
+			$traces = \App\Debug\Debugger::getBacktrace(2, $this->traceLevel, ' - ');
 		}
 		if (static::$logToConsole) {
-			Debugger::addLogs($message, self::getLevelName($level), $traces);
+			\App\Debug\Debugger::addLogs($message, self::getLevelName($level), $traces);
 		}
 		$this->messages[] = [$message, $level, $category, microtime(true), $traces];
 		if ($this->flushInterval > 0 && count($this->messages) >= $this->flushInterval) {

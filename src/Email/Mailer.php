@@ -35,19 +35,19 @@ class Mailer
 	public function __construct()
 	{
 		$this->mailer = new \PHPMailer();
-		if (\App\AppConfig::debug('MAILER_DEBUG')) {
+		if (\App\Core\AppConfig::debug('MAILER_DEBUG')) {
 			$this->mailer->SMTPDebug = 2;
 			$this->mailer->Debugoutput = function($str, $level) {
 				if (strpos(strtolower($str), 'error') !== false || strpos(strtolower($str), 'failed') !== false) {
-					Log::error(trim($str), 'Mailer');
+					\App\Log\Log::error(trim($str), 'Mailer');
 				} else {
-					Log::trace(trim($str), 'Mailer');
+					\App\Log\Log::trace(trim($str), 'Mailer');
 				}
 			};
 		}
 		$this->mailer->XMailer = 'YetiForceCRM mailer';
 		$this->mailer->Hostname = 'YetiForceCRM';
-		$this->mailer->CharSet = \App\AppConfig::main('default_charset');
+		$this->mailer->CharSet = \App\Core\AppConfig::main('default_charset');
 	}
 
 	/**
@@ -122,7 +122,7 @@ class Mailer
 	 */
 	public static function addMail($params)
 	{
-		$params['status'] = \App\AppConfig::module('Mail', 'MAILER_REQUIRED_ACCEPTATION_BEFORE_SENDING') ? 0 : 1;
+		$params['status'] = \App\Core\AppConfig::module('Mail', 'MAILER_REQUIRED_ACCEPTATION_BEFORE_SENDING') ? 0 : 1;
 		if (empty($params['smtp_id'])) {
 			$params['smtp_id'] = \App\Email\Mail::getDefaultSmtp();
 		}
@@ -139,7 +139,7 @@ class Mailer
 				$params[$key] = \App\Utils\Json::encode($params[$key]);
 			}
 		}
-		\App\Db::getInstance('admin')->createCommand()->insert('s_#__mail_queue', $params)->execute();
+		\App\Db\Db::getInstance('admin')->createCommand()->insert('s_#__mail_queue', $params)->execute();
 	}
 
 	/**
@@ -301,13 +301,13 @@ class Mailer
 	public function send()
 	{
 		if ($this->mailer->FromName === 'Root User') {
-			$this->mailer->FromName = Company::getInstanceById()->get('name');
+			$this->mailer->FromName = \App\Core\Company::getInstanceById()->get('name');
 		}
 		if ($this->mailer->send()) {
-			Log::trace('Mailer sent mail', 'Mailer');
+			\App\Log\Log::trace('Mailer sent mail', 'Mailer');
 			return true;
 		} else {
-			Log::error('Mailer Error: ' . $this->mailer->ErrorInfo, 'Mailer');
+			\App\Log\Log::error('Mailer Error: ' . $this->mailer->ErrorInfo, 'Mailer');
 		}
 		return false;
 	}
@@ -323,9 +323,9 @@ class Mailer
 		$this->mailer->Debugoutput = function($str, $level) {
 			if (strpos(strtolower($str), 'error') !== false || strpos(strtolower($str), 'failed') !== false) {
 				$this->error[] = trim($str);
-				Log::error(trim($str), 'Mailer');
+				\App\Log\Log::error(trim($str), 'Mailer');
 			} else {
-				Log::trace(trim($str), 'Mailer');
+				\App\Log\Log::trace(trim($str), 'Mailer');
 			}
 		};
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
@@ -334,7 +334,7 @@ class Mailer
 		if (!$template) {
 			return ['result' => false, 'error' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_NO_EMAIL_TEMPLATE')];
 		}
-		$textParser = TextParser::getInstanceById($currentUser->getId(), 'Users');
+		$textParser = \App\TextParser\TextParser::getInstanceById($currentUser->getId(), 'Users');
 		$this->subject($textParser->setContent($template['subject'])->parse()->getContent());
 		$this->content($textParser->setContent($template['content'])->parse()->getContent());
 		return ['result' => $this->send(), 'error' => implode(PHP_EOL, $this->error)];
@@ -347,7 +347,7 @@ class Mailer
 	 */
 	public static function sendByRowQueue($rowQueue)
 	{
-		if (\App\AppConfig::main('systemMode') === 'demo') {
+		if (\App\Core\AppConfig::main('systemMode') === 'demo') {
 			return true;
 		}
 		$mailer = (new self())->loadSmtpByID($rowQueue['smtp_id'])->subject($rowQueue['subject'])->content($rowQueue['content']);

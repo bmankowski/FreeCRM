@@ -190,7 +190,7 @@ class Mapping extends \App\Modules\Settings\Base\Models\Module
 				$mappingDetails = $createMappingsList[$i];
 				$insertedData []= [$mappingDetails['lead'], $mappingDetails['account']];
 			}
-			\App\Db::getInstance()->createCommand()->batchInsert('vtiger_convertleadmapping', ['leadfid', 'accountfid'], $insertedData)
+			\App\Db\Db::getInstance()->createCommand()->batchInsert('vtiger_convertleadmapping', ['leadfid', 'accountfid'], $insertedData)
 				->execute();
 		}
 
@@ -269,6 +269,6 @@ class Mapping extends \App\Modules\Settings\Base\Models\Module
 			$params = ['cfmid' => $mappingIdsList, 'editable' => 1];
 		else
 			$params = ['cfmid' => $mappingIdsList];
-		\App\Db::getInstance()->createCommand()->delete('vtiger_convertleadmapping', $params)->execute();
+		\App\Db\Db::getInstance()->createCommand()->delete('vtiger_convertleadmapping', $params)->execute();
 	}
 }

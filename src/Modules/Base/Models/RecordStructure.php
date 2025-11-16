@@ -114,7 +114,7 @@ class RecordStructure extends \App\Runtime\BaseModel
 	public static function getInstanceFromRecordModel($recordModel, $mode = self::RECORD_STRUCTURE_MODE_DEFAULT)
 	{
 		$moduleModel = $recordModel->getModule();
-		$className = \App\Loader::getComponentClassName('Model', $mode . 'RecordStructure', $moduleModel->getName(true));
+		$className = \App\Core\Loader::getComponentClassName('Model', $mode . 'RecordStructure', $moduleModel->getName(true));
 		$instance = new $className();
 		$instance->setModule($moduleModel)->setRecord($recordModel);
 		return $instance;
@@ -127,7 +127,7 @@ class RecordStructure extends \App\Runtime\BaseModel
 	 */
 	public static function getInstanceForModule($moduleModel, $mode = self::RECORD_STRUCTURE_MODE_DEFAULT)
 	{
-		$className = \App\Loader::getComponentClassName('Model', $mode . 'RecordStructure', $moduleModel->get('name'));
+		$className = \App\Core\Loader::getComponentClassName('Model', $mode . 'RecordStructure', $moduleModel->get('name'));
 		$instance = new $className();
 		$instance->setModule($moduleModel);
 		return $instance;

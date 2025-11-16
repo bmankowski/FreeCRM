@@ -4,9 +4,9 @@
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-$db = \App\Db::getInstance();
+$db = \App\Db\Db::getInstance();
 $dataReader = (new \App\Db\Query())->from('u_#__openstreetmap_record_updater')
-		->limit(\App\AppConfig::module('OpenStreetMap', 'CRON_MAX_UPDATED_ADDRESSES'))
+		->limit(\App\Core\AppConfig::module('OpenStreetMap', 'CRON_MAX_UPDATED_ADDRESSES'))
 		->createCommand()->query();
 while ($row = $dataReader->read()) {
 	$typeAddress = $row['type'];

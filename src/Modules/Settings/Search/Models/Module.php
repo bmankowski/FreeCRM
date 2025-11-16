@@ -65,7 +65,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	public static function saveSearch($params)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$name = $params['name'];
 
 		if ($name == 'searchcolumn' || $name == 'fieldname') {
@@ -83,7 +83,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	public static function updateLabels($params)
 	{
 		$moduleName = \App\Utils\ModuleUtils::getModuleName((int) $params['tabid']);
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$db->createCommand()->update('u_#__crmentity_search_label', ['searchlabel' => ''], ['setype' => $moduleName])->execute();
 		$subQuery = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['setype' => $moduleName]);
 		$db->createCommand()->delete('u_#__crmentity_label', ['crmid' => $subQuery])->execute();
@@ -91,7 +91,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	public static function getFromClauseByColumn($moduleName, $moduleInfoExtend, $columns)
 	{
-		$focus = \App\CRMEntity::getInstance($moduleName);
+		$focus = \App\Core\CRMEntity::getInstance($moduleName);
 		$tableBase = $focus->table_name;
 		$leftJoinTables = [$tableBase];
 		$leftJoin = '  LEFT JOIN ' . $tableBase . ' ON vtiger_crmentity.crmid = ' . $tableBase . '.' . $focus->table_index;
@@ -110,7 +110,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	public function updateSequenceNumber($modulesSequence)
 	{
 		
-		\App\Log::trace("Entering \App\Modules\Settings\Search\Models\Module::updateSequenceNumber(" . $modulesSequence . ") method ...");
+		\App\Log\Log::trace("Entering \App\Modules\Settings\Search\Models\Module::updateSequenceNumber(" . $modulesSequence . ") method ...");
 		$tabIdList = array();
 		$db = \App\Database\PearDatabase::getInstance();
 
@@ -127,6 +127,6 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 		$query .= sprintf(' WHERE tabid IN (%s)', \App\Utils\Utils::generateQuestionMarks($tabIdList));
 		$db->pquery($query, [$tabIdList]);
-		\App\Log::trace("Exiting \App\Modules\Settings\Search\Models\Module::updateSequenceNumber() method ...");
+		\App\Log\Log::trace("Exiting \App\Modules\Settings\Search\Models\Module::updateSequenceNumber() method ...");
 	}
 }

@@ -67,7 +67,7 @@ class Tree extends \App\Runtime\BaseModel
 
 	public function getAllRecords()
 	{
-		$queryGenerator = new \App\QueryGenerator($this->getModuleName());
+		$queryGenerator = new \App\QueryField\QueryGenerator($this->getModuleName());
 		$queryGenerator->setFields(['id', 'category', 'knowledgebase_view', 'subject']);
 		return $queryGenerator->createQuery()->all();
 	}

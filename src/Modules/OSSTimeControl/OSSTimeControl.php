@@ -13,7 +13,7 @@ namespace App\Modules\OSSTimeControl;
  * *********************************************************************************************************************************** */
 
 
-class OSSTimeControl extends \App\CRMEntity
+class OSSTimeControl extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'vtiger_osstimecontrol';
@@ -126,9 +126,9 @@ class OSSTimeControl extends \App\CRMEntity
 		}
 	}
 
-	public function retrieve_entity_info($record, $module)
+	public function retrieve_entity_info($record, $module, $showsAdditionalLabels = false)
 	{
-		parent::retrieve_entity_info($record, $module);
+		parent::retrieve_entity_info($record, $module, $showsAdditionalLabels);
 		$start = \App\Fields\DateTimeField::convertToUserTimeZone($this->column_fields['date_start'] . ' ' . $this->column_fields['time_start']);
 		$this->column_fields['date_start'] = $start->format('Y-m-d');
 		$end = \App\Fields\DateTimeField::convertToUserTimeZone($this->column_fields['due_date'] . ' ' . $this->column_fields['time_end']);
@@ -167,7 +167,7 @@ class OSSTimeControl extends \App\CRMEntity
 					->where(['uitype' => [66, 67, 68], 'tabid' => \App\Utils\ModuleUtils::getModuleId($currentModule)])
 					->createCommand()->query();
 			while ($row = $dataReader->read()) {
-				$className = \App\Loader::getComponentClassName('Model', 'Field', $currentModule);
+				$className = \App\Core\Loader::getComponentClassName('Model', 'Field', $currentModule);
 				$fieldModel = new $className();
 				foreach ($row as $properName => $propertyValue) {
 					$fieldModel->$properName = $propertyValue;
@@ -180,8 +180,8 @@ class OSSTimeControl extends \App\CRMEntity
 			}
 		}
 		foreach ($results as $row) {
-			\App\Db::getInstance()->createCommand()
-				->update($row['tablename'], [$row['columnname'] => 0], [$row['columnname'] => $returnId, \App\CRMEntity::getInstance(\App\Utils\ModuleUtils::getModuleName($row['tabid']))->table_index => $id])->execute();
+			\App\Db\Db::getInstance()->createCommand()
+				->update($row['tablename'], [$row['columnname'] => 0], [$row['columnname'] => $returnId, \App\Core\CRMEntity::getInstance(\App\Utils\ModuleUtils::getModuleName($row['tabid']))->table_index => $id])->execute();
 		}
 	}
 
@@ -193,7 +193,7 @@ class OSSTimeControl extends \App\CRMEntity
 		} else {
 			$fieldRes = $this->db->pquery('SELECT fieldname AS `name`, fieldid AS id, fieldlabel AS label, columnname AS `column`, tablename AS `table`, vtiger_field.*  FROM vtiger_field WHERE `uitype` IN (66,67,68) && `tabid` = ?;', [\vtlib\Functions:: getModuleId($module)]);
 			while ($row = $this->db->getRow($fieldRes)) {
-				$className = \App\Loader::getComponentClassName('Model', 'Field', $module);
+				$className = \App\Core\Loader::getComponentClassName('Model', 'Field', $module);
 				$fieldModel = new $className();
 				foreach ($row as $properName => $propertyValue) {
 					$fieldModel->$properName = $propertyValue;
@@ -207,7 +207,7 @@ class OSSTimeControl extends \App\CRMEntity
 			}
 		}
 		foreach ($results as $result) {
-			$focusObj = \App\CRMEntity::getInstance($row['name']);
+			$focusObj = \App\Core\CRMEntity::getInstance($row['name']);
 			$columnName = $row['columnname'];
 			$columns = [$columnName => null];
 			$where = "$columnName = ? && $focusObj->table_index = ?";

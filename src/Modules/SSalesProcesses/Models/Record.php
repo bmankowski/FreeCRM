@@ -18,7 +18,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public function getHierarchy($currentUser)
 	{
-		$focus = \App\CRMEntity::getInstance($this->getModuleName());
+		$focus = \App\Core\CRMEntity::getInstance($this->getModuleName());
 		$hierarchy = $focus->getHierarchy($this->getId(), false, true, $currentUser);
 		foreach ($hierarchy['entries'] as $storageId => $storageInfo) {
 			preg_match('/<a href="+/', $storageInfo[0], $matches);

@@ -9,7 +9,7 @@ namespace App\Modules\Partners;
  */
 
 
-class Partners extends \App\CRMEntity
+class Partners extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'u_yf_partners';
@@ -89,7 +89,7 @@ class Partners extends \App\CRMEntity
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
-			$moduleInstance = \App\CRMEntity::getInstance('Partners');
+			$moduleInstance = \App\Core\CRMEntity::getInstance('Partners');
 			\App\Fields\RecordNumber::setNumber($moduleName, 'PR', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['Partners']);
 
@@ -99,7 +99,7 @@ class Partners extends \App\CRMEntity
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(array('Partners'));
 			}
-			\App\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions:: getModuleId($moduleName));
+			\App\Core\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions:: getModuleId($moduleName));
 		} else if ($eventType == 'module.disabled') {
 			
 		} else if ($eventType == 'module.preuninstall') {
@@ -121,7 +121,7 @@ class Partners extends \App\CRMEntity
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 
-		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
+		\App\Log\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = ['Campaigns' => 'vtiger_campaign_records'];
 
@@ -145,7 +145,7 @@ class Partners extends \App\CRMEntity
 				}
 			}
 		}
-		\App\Log::trace("Exiting transferRelatedRecords...");
+		\App\Log\Log::trace("Exiting transferRelatedRecords...");
 	}
 	/*
 	 * Function to get the relation tables for related modules
@@ -171,7 +171,7 @@ class Partners extends \App\CRMEntity
 		if (empty($returnModule) || empty($returnId))
 			return;
 		if ($returnModule === 'Campaigns') {
-			\App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $returnId])->execute();
+			\App\Db\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $returnId])->execute();
 		} else {
 			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
 		}
@@ -185,7 +185,7 @@ class Partners extends \App\CRMEntity
 			parent::save_related_module($module, $crmid, $withModule, $withCrmids, $relatedName);
 		} else {
 			foreach ($withCrmids as $withCrmid) {
-				\App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
+				\App\Db\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
 					'campaignid' => $withCrmid,
 					'crmid' => $crmid,
 					'campaignrelstatusid' => 0

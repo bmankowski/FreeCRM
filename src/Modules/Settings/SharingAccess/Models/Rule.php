@@ -354,7 +354,7 @@ class Rule extends \App\Modules\Base\Models\Record
 	public function save($request = null)
 	{
 		$ruleId = $this->getId();
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 
 		if (!$ruleId) {
 			$db->createCommand()->insert('vtiger_datashare_module_rel', [
@@ -426,7 +426,7 @@ class Rule extends \App\Modules\Base\Models\Record
 	 */
 	public static function getDataShareTableName()
 	{
-		\App\Log::trace('Entering getDataShareTableName() method ...');
+		\App\Log\Log::trace('Entering getDataShareTableName() method ...');
 		$dataShareTableColArr = [
 			'US::GRP' => 'vtiger_datashare_us2grp',
 			'US::ROLE' => 'vtiger_datashare_us2role',
@@ -445,7 +445,7 @@ class Rule extends \App\Modules\Base\Models\Record
 			'RS::RS' => 'vtiger_datashare_rs2rs',
 			'RS::US' => 'vtiger_datashare_rs2us'
 		];
-		\App\Log::trace('Exiting getDataShareTableName method ...');
+		\App\Log\Log::trace('Exiting getDataShareTableName method ...');
 		return $dataShareTableColArr;
 	}
 
@@ -456,10 +456,10 @@ class Rule extends \App\Modules\Base\Models\Record
 	 */
 	public static function getDSTableNameForType($typeString)
 	{
-		\App\Log::trace("Entering getDSTableNameForType(" . $typeString . ") method ...");
+		\App\Log\Log::trace("Entering getDSTableNameForType(" . $typeString . ") method ...");
 		$dataShareTableColArr = self::getDataShareTableName();
 		$tableName = $dataShareTableColArr[$typeString] ?? null;
-		\App\Log::trace("Exiting getDSTableNameForType method ...");
+		\App\Log\Log::trace("Exiting getDSTableNameForType method ...");
 		return $tableName;
 	}
 
@@ -469,7 +469,7 @@ class Rule extends \App\Modules\Base\Models\Record
 	 */
 	public static function deleteSharingRule($shareid)
 	{
-		\App\Log::trace("Entering deleteSharingRule(" . $shareid . ") method ...");
+		\App\Log\Log::trace("Entering deleteSharingRule(" . $shareid . ") method ...");
 		$adb = \App\Database\PearDatabase::getInstance();
 		$query2 = "select * from vtiger_datashare_module_rel where shareid=?";
 		$res = $adb->pquery($query2, array($shareid));
@@ -485,7 +485,7 @@ class Rule extends \App\Modules\Base\Models\Record
 		//deleting the related module sharing permission
 		$query5 = "delete from vtiger_datashare_relatedmodule_permission where shareid=?";
 		$adb->pquery($query5, array($shareid));
-		\App\Log::trace("Exiting deleteSharingRule method ...");
+		\App\Log\Log::trace("Exiting deleteSharingRule method ...");
 	}
 
 	/**
@@ -494,7 +494,7 @@ class Rule extends \App\Modules\Base\Models\Record
 	 */
 	public static function deleteUserRelatedSharingRules($usId)
 	{
-		\App\Log::trace("Entering deleteUserRelatedSharingRules(" . $usId . ") method ...");
+		\App\Log\Log::trace("Entering deleteUserRelatedSharingRules(" . $usId . ") method ...");
 
 		$adb = \App\Database\PearDatabase::getInstance();
 		$dataShareTableColArr = [
@@ -523,7 +523,7 @@ class Rule extends \App\Modules\Base\Models\Record
 				self::deleteSharingRule($shareid);
 			}
 		}
-		\App\Log::trace('Exiting deleteUserRelatedSharingRules method ...');
+		\App\Log\Log::trace('Exiting deleteUserRelatedSharingRules method ...');
 	}
 
 	/**

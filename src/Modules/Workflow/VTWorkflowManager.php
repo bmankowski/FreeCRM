@@ -38,7 +38,7 @@ class VTWorkflowManager {
 			$wf = $workflow;
 			if ($wf->filtersavedinnew == null)
 				$wf->filtersavedinnew = 5;
-			\App\Db::getInstance()->createCommand()->update('com_vtiger_workflows', [
+			\App\Db\Db::getInstance()->createCommand()->update('com_vtiger_workflows', [
 				'module_name' => $wf->moduleName,
 				'summary' => $wf->description,
 				'test' => $wf->test,
@@ -53,7 +53,7 @@ class VTWorkflowManager {
 				'nexttrigger_time' => empty($wf->nexttrigger_time) ? null : $wf->nexttrigger_time
 				], ['workflow_id' => $wf->id])->execute();
 		} else {
-			$db = \App\Db::getInstance();
+			$db = \App\Db\Db::getInstance();
 			$wf = $workflow;
 			if ($wf->filtersavedinnew == null)
 				$wf->filtersavedinnew = 5;

@@ -116,7 +116,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 			}
 			$directiveValues['session.cookie_secure']['current'] = self::getFlag(ini_get('display_errors'));
 		}
-		if (\App\Db::getInstance()->getDriverName() === 'mysql') {
+		if (\App\Db\Db::getInstance()->getDriverName() === 'mysql') {
 			$directiveValues['mysql.connect_timeout'] = ['prefer' => '600'];
 			$directiveValues['innodb_lock_wait_timeout'] = ['prefer' => '600']; // MySQL
 			$directiveValues['wait_timeout'] = ['prefer' => '600']; // MySQL
@@ -247,7 +247,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 			}
 			$directiveValues['suhosin.post.max_value_length']['current'] = ini_get('suhosin.post.max_value_length');
 		}
-		if (!$instalMode && \App\Db::getInstance()->getDriverName() === 'mysql') {
+		if (!$instalMode && \App\Db\Db::getInstance()->getDriverName() === 'mysql') {
 			if (ini_get('mysql.connect_timeout') != 0 && ini_get('mysql.connect_timeout') < 600)
 				$directiveValues['mysql.connect_timeout']['status'] = true;
 			$directiveValues['mysql.connect_timeout']['current'] = ini_get('mysql.connect_timeout');

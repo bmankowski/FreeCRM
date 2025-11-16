@@ -28,7 +28,7 @@ class LogIn extends TestCase
 		$user->column_fields['user_name'] = $userName;
 		if ($user->doLogin($userName)) {
 			Vtiger_Session::set('authenticated_user_id', TESTS_USER_ID);
-			Vtiger_Session::set('app_unique_key', AppConfig::main('application_unique_key'));
+			Vtiger_Session::set('app_unique_key', \App\Core\AppConfig::main('application_unique_key'));
 			Vtiger_Session::set('user_name', $userName);
 			Vtiger_Session::set('full_user_name', \App\Fields\Owner::getUserLabel(TESTS_USER_ID));
 		}

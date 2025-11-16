@@ -31,7 +31,7 @@ class GetGroupUsers
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 		
-		\App\Log::trace("Entering getAllUsersInGroup(" . $groupid . ") method...");
+		\App\Log\Log::trace("Entering getAllUsersInGroup(" . $groupid . ") method...");
 		//Retreiving from the user2grouptable
 		$query = "select * from vtiger_users2group where groupid=?";
 		$result = $adb->pquery($query, array($groupid));
@@ -51,7 +51,7 @@ class GetGroupUsers
 		for ($i = 0; $i < $num_rows; $i++) {
 			$now_role_id = $adb->query_result($result, $i, 'roleid');
 			$now_role_users = [];
-			$now_role_users = \App\PrivilegeUtil::getRoleUsers($now_role_id);
+			$now_role_users = \App\Security\PrivilegeUtil::getRoleUsers($now_role_id);
 
 			foreach ($now_role_users as $now_role_userid => $now_role_username) {
 				if (!in_array($now_role_userid, $this->group_users)) {
@@ -104,6 +104,6 @@ class GetGroupUsers
 				}
 			}
 		}
-		\App\Log::trace("Exiting getAllUsersInGroup method...");
+		\App\Log\Log::trace("Exiting getAllUsersInGroup method...");
 	}
 }

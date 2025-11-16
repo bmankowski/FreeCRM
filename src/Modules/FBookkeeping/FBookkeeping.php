@@ -13,7 +13,7 @@ namespace App\Modules\FBookkeeping;
  * ********************************************************************************** */
 
 
-class FBookkeeping extends \App\CRMEntity
+class FBookkeeping extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'u_yf_fbookkeeping';

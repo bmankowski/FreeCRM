@@ -149,7 +149,7 @@ class MenuItem extends \App\Modules\Base\Models\Record
 		if ($pinned) {
 			$pinnedStaus = 1;
 		}
-		\App\Db::getInstance()->createCommand()->update(self::$itemsTable, ['pinned' => $pinnedStaus], [self::$itemId => $this->getId()])->execute();
+		\App\Db\Db::getInstance()->createCommand()->update(self::$itemsTable, ['pinned' => $pinnedStaus], [self::$itemId => $this->getId()])->execute();
 	}
 
 	/**

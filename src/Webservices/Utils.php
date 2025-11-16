@@ -68,7 +68,7 @@ function vtws_getUserAccessibleGroups($moduleId, $user)
 	$tabName = \App\Utils\ModuleUtils::getModuleName($moduleId);
 	if ($is_admin === false && $profileGlobalPermission[2] == 1 &&
 		($defaultOrgSharingPermission[$moduleId] == 3 || $defaultOrgSharingPermission[$moduleId] == 0)) {
-		$result = \App\PrivilegeUtil::get_current_user_access_groups($tabName);
+		$result = \App\Security\PrivilegeUtil::get_current_user_access_groups($tabName);
 	} else {
 		$result = \vtlib\Functions:: get_group_options();
 	}
@@ -203,12 +203,12 @@ function vtws_getWebserviceEntities()
 /**
  *
  * @param VtigerWebserviceObject $webserviceObject
- * @return \App\CRMEntity
+ * @return \App\Core\CRMEntity
  */
 function vtws_getModuleInstance($webserviceObject)
 {
 	$moduleName = $webserviceObject->getEntityName();
-	return \App\CRMEntity::getInstance($moduleName);
+	return \App\Core\CRMEntity::getInstance($moduleName);
 }
 
 function vtws_getOwnerType($ownerId)
@@ -270,7 +270,7 @@ function vtws_addModuleTypeWebserviceEntity($moduleName, $filePath, $className, 
 {
 	$isExists = (new \App\Db\Query())->from('vtiger_ws_entity')->where(['name' => $moduleName, 'handler_class' => $className, 'handler_path' => $filePath])->exists();
 	if (!$isExists) {
-		\App\Db::getInstance()->createCommand()
+		\App\Db\Db::getInstance()->createCommand()
 			->insert('vtiger_ws_entity', [
 				'name' => $moduleName,
 				'handler_path' => $filePath,
@@ -282,7 +282,7 @@ function vtws_addModuleTypeWebserviceEntity($moduleName, $filePath, $className, 
 
 function vtws_deleteWebserviceEntity($moduleName)
 {
-	\App\Db::getInstance()->createCommand()
+	\App\Db\Db::getInstance()->createCommand()
 		->delete('vtiger_ws_entity', ['name' => $moduleName])->execute();
 }
 
@@ -299,7 +299,7 @@ function vtws_addDefaultActorTypeEntity($actorName, $actorNameDetails, $withName
 
 function vtws_addActorTypeWebserviceEntityWithName($moduleName, $filePath, $className, $actorNameDetails)
 {
-	$db = \App\Db::getInstance();
+	$db = \App\Db\Db::getInstance();
 	$db->createCommand()
 		->insert('vtiger_ws_entity', [
 			'name' => $moduleName,
@@ -312,7 +312,7 @@ function vtws_addActorTypeWebserviceEntityWithName($moduleName, $filePath, $clas
 
 function vtws_addActorTypeWebserviceEntityWithoutName($moduleName, $filePath, $className, $actorNameDetails)
 {
-	\App\Db::getInstance()->createCommand()
+	\App\Db\Db::getInstance()->createCommand()
 		->insert('vtiger_ws_entity', [
 			'name' => $moduleName,
 			'handler_path' => $filePath,
@@ -323,7 +323,7 @@ function vtws_addActorTypeWebserviceEntityWithoutName($moduleName, $filePath, $c
 
 function vtws_addActorTypeName($entityId, $fieldNames, $indexColumn, $tableName)
 {
-	\App\Db::getInstance()->createCommand()
+	\App\Db\Db::getInstance()->createCommand()
 		->insert('vtiger_ws_entity_name', [
 			'entity_id' => $entityId,
 			'name_fields' => $fieldNames,
@@ -536,7 +536,7 @@ function vtws_getConvertLeadFieldMapping()
 function vtws_getRelatedNotesAttachments($id, $relatedId)
 {
 	$adb = \App\Database\PearDatabase::getInstance();
-	$db = \App\Db::getInstance();
+	$db = \App\Db\Db::getInstance();
 
 	$sql = 'SELECT notesid FROM vtiger_senotesrel WHERE crmid=?';
 	$result = $adb->pquery($sql, [$id]);
@@ -565,7 +565,7 @@ function vtws_getRelatedNotesAttachments($id, $relatedId)
  */
 function vtws_saveLeadRelatedProducts($leadId, $relatedId, $setype)
 {
-	$db = \App\Db::getInstance();
+	$db = \App\Db\Db::getInstance();
 	$dataReader = (new \App\Db\Query())->select(['productid'])
 			->from('vtiger_seproductsrel')
 			->where(['crmid' => $leadId])
@@ -595,7 +595,7 @@ function vtws_saveLeadRelatedProducts($leadId, $relatedId, $setype)
  */
 function vtws_saveLeadRelations($leadId, $relatedId, $setype)
 {
-	$db = \App\Db::getInstance();
+	$db = \App\Db\Db::getInstance();
 	$dataReader = (new \App\Db\Query())->from('vtiger_crmentityrel')->where(['crmid' => $leadId])
 			->createCommand()->query();
 	if ($dataReader->count() === 0) {
@@ -653,7 +653,7 @@ function vtws_getRelatedActivities($leadId, $accountId, $contactId, $relatedId)
 	if (empty($leadId) || empty($relatedId) || (empty($accountId) && empty($contactId))) {
 		throw new \App\Webservices\WebServiceException(\App\Webservices\WebServiceErrorCode::$LEAD_RELATED_UPDATE_FAILED, "Failed to move related Activities/Emails");
 	}
-	$db = \App\Db::getInstance();
+	$db = \App\Db\Db::getInstance();
 	if (!empty($accountId)) {
 		$db->createCommand()->update('vtiger_activity', ['link' => $accountId], ['link' => $leadId])->execute();
 	}
@@ -672,7 +672,7 @@ function vtws_getRelatedActivities($leadId, $accountId, $contactId, $relatedId)
  */
 function vtws_saveLeadRelatedCampaigns($leadId, $relatedId, $seType)
 {
-	$db = \App\Db::getInstance();
+	$db = \App\Db\Db::getInstance();
 	$rowCount = $db->createCommand()->update('vtiger_campaign_records', [
 			'crmid' => $relatedId
 			], ['crmid' => $leadId]
@@ -706,14 +706,14 @@ function vtws_transferLeadRelatedRecords($leadId, $relatedId, $seType)
 function vtws_transferComments($sourceRecordId, $destinationRecordId)
 {
 	if (\App\Utils\ModuleUtils::isModuleActive('ModComments')) {
-		\App\CRMEntity::getInstance('ModComments');
+		\App\Core\CRMEntity::getInstance('ModComments');
 		\ModComments::transferRecords($sourceRecordId, $destinationRecordId);
 	}
 }
 
 function vtws_transferRelatedRecords($sourceRecordId, $destinationRecordId)
 {
-	$db = \App\Db::getInstance();
+	$db = \App\Db\Db::getInstance();
 	//PBXManager
 	$db->createCommand()->update('vtiger_pbxmanager', ['customer' => $destinationRecordId], ['customer' => $sourceRecordId])->execute();
 	//OSSPasswords
@@ -738,7 +738,7 @@ function vtws_transferRelatedRecords($sourceRecordId, $destinationRecordId)
 
 function vtws_transferOwnership($ownerId, $newOwnerId, $delete = true)
 {
-	$db = \App\Db::getInstance();
+	$db = \App\Db\Db::getInstance();
 	//Updating the smcreatorid,smownerid, modifiedby, smcreatorid in vtiger_crmentity
 	$db->createCommand()->update('vtiger_crmentity', ['smcreatorid' => $newOwnerId], ['smcreatorid' => $ownerId, 'setype' => 'ModComments'])
 		->execute();
@@ -783,7 +783,7 @@ function vtws_transferOwnership($ownerId, $newOwnerId, $delete = true)
 
 function vtws_transferOwnershipForWorkflowTasks($ownerModel, $newOwnerModel)
 {
-	$db = \App\Db::getInstance();
+	$db = \App\Db\Db::getInstance();
 	//update workflow tasks Assigned User from Deleted User to Transfer User
 	$newOwnerName = $newOwnerModel->get('user_name');
 	if (!$newOwnerName) {
@@ -886,13 +886,13 @@ function vtws_getWebserviceCurrentLanguage()
 {
 	$lang = \App\Runtime\Vtiger_Language_Handler::getLanguage();
 	if (empty($lang)) {
-		$lang = \App\AppConfig::main('default_language');
+		$lang = \App\Core\AppConfig::main('default_language');
 	}
 	return $lang;
 }
 
 function vtws_getWebserviceDefaultLanguage()
 {
-	$lang = \App\AppConfig::main('default_language');
+	$lang = \App\Core\AppConfig::main('default_language');
 	return $lang;
 }

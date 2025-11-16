@@ -10,8 +10,8 @@ $updaterLimit = 10;
 $cronMaxTime = 60;
 $interval = 2;
 $endTime = time() + $cronMaxTime;
-$eventHandler = new \App\EventHandler();
-$db = \App\Db::getInstance('admin');
+$eventHandler = new \App\Events\EventHandler();
+$db = \App\Db\Db::getInstance('admin');
 
 do {
 	try {
@@ -31,7 +31,7 @@ do {
 			$db->createCommand()->delete('s_#__handler_updater', ['id' => $row['id']])->execute();
 		}
 	} catch (Exception $e) {
-		\App\Log::error($e->getMessage(), 'CRON');
+		\App\Log\Log::error($e->getMessage(), 'CRON');
 	}
 	sleep($interval);
 } while (time() < $endTime);

@@ -199,7 +199,7 @@ class Main extends \App\Base\Controllers\BaseViewController
 
 	public function queueDataImport()
 	{
-		$immediateImportRecordLimit = \App\AppConfig::module('Import', 'IMMEDIATE_IMPORT_LIMIT');
+		$immediateImportRecordLimit = \App\Core\AppConfig::module('Import', 'IMMEDIATE_IMPORT_LIMIT');
 
 		$numberOfRecordsToImport = $this->numberOfRecords;
 		if ($numberOfRecordsToImport > $immediateImportRecordLimit) {

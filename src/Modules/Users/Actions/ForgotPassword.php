@@ -78,13 +78,13 @@ class ForgotPassword {
 						'trackURL' => \App\Modules\Base\Helpers\ShortURL::generateURL($options)
 				]);
 			}
-			$site_URL = \App\AppConfig::main('site_URL') . 'index.php?modules=Users&view=Login';
+			$site_URL = \App\Core\AppConfig::main('site_URL') . 'index.php?modules=Users&view=Login';
 			if ($status)
 				header('Location:  ' . $site_URL . '&status=1');
 			else
 				header('Location:  ' . $site_URL . '&statusError=1');
 		} else {
-			$site_URL = \App\AppConfig::main('site_URL') . 'index.php?modules=Users&view=Login';
+			$site_URL = \App\Core\AppConfig::main('site_URL') . 'index.php?modules=Users&view=Login';
 			header('Location:  ' . $site_URL . '&fpError=1');
 		}
 	}
@@ -93,7 +93,7 @@ class ForgotPassword {
 	{
 		$instance = new self();
 		if ($request->has('user_name') && $request->has('emailId')) {
-			if (\App\AppConfig::security('RESET_LOGIN_PASSWORD')) {
+			if (\App\Core\AppConfig::security('RESET_LOGIN_PASSWORD')) {
 				$instance->requestForgotPassword($request);
 			} else {
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');

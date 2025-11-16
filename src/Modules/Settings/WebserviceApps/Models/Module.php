@@ -25,7 +25,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	static public function getServers()
 	{
 
-		$db = \App\Db::getInstance('webservice');
+		$db = \App\Db\Db::getInstance('webservice');
 		$query = new \App\Db\Query();
 		$query->from('w_#__servers');
 		return $query->createCommand($db)->queryAllByGroup(true);
@@ -33,7 +33,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	static public function getActiveServers($type = '')
 	{
-		$db = \App\Db::getInstance('webservice');
+		$db = \App\Db\Db::getInstance('webservice');
 		$query = new \App\Db\Query();
 		$query->from('w_#__servers')->andWhere(['status' => 1]);
 		if (!empty($type)) {

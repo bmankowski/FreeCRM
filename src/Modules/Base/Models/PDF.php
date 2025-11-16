@@ -158,7 +158,7 @@ class PDF extends \App\Runtime\BaseModel
 				->createCommand()->query();
 		$templates = [];
 		while ($row = $dataReader->read()) {
-			$handlerClass = \App\Loader::getComponentClassName('Model', 'PDF', $moduleName);
+			$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'PDF', $moduleName);
 			$pdf = new $handlerClass();
 			$pdf->setData($row);
 			$templates[] = $pdf;
@@ -186,7 +186,7 @@ class PDF extends \App\Runtime\BaseModel
 			$moduleName = $row['module_name'];
 		}
 
-		$handlerClass = \App\Loader::getComponentClassName('Model', 'PDF', $moduleName);
+		$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'PDF', $moduleName);
 		$pdf = new $handlerClass();
 		$pdf->setData($row);
 		\App\Cache\Cache::save('PDFModel', $recordId, $pdf);
@@ -311,7 +311,7 @@ class PDF extends \App\Runtime\BaseModel
 			$parameters['subject'] = $this->get('meta_subject');
 			$parameters['keywords'] = $this->get('meta_keywords');
 		} else {
-			$companyDetails = \App\Company::getInstanceById()->getData();
+			$companyDetails = \App\Core\Company::getInstanceById()->getData();
 			$parameters['title'] = $this->get('primary_name');
 			$parameters['author'] = $companyDetails['organizationname'];
 			$parameters['creator'] = $companyDetails['organizationname'];
@@ -353,7 +353,7 @@ class PDF extends \App\Runtime\BaseModel
 		if ($raw) {
 			return $this->get('header_content');
 		}
-		$textParser = \App\TextParser::getInstanceById($this->getMainRecordId(), $this->get('module_name'));
+		$textParser = \App\TextParser\TextParser::getInstanceById($this->getMainRecordId(), $this->get('module_name'));
 		$textParser->setType('pdf');
 		$textParser->setParams(['pdf' => $this]);
 		if ($this->get('language')) {
@@ -372,7 +372,7 @@ class PDF extends \App\Runtime\BaseModel
 		if ($raw) {
 			return $this->get('footer_content');
 		}
-		$textParser = \App\TextParser::getInstanceById($this->getMainRecordId(), $this->get('module_name'));
+		$textParser = \App\TextParser\TextParser::getInstanceById($this->getMainRecordId(), $this->get('module_name'));
 		$textParser->setType('pdf');
 		$textParser->setParams(['pdf' => $this]);
 		if ($this->get('language')) {
@@ -391,7 +391,7 @@ class PDF extends \App\Runtime\BaseModel
 		if ($raw) {
 			return $this->get('body_content');
 		}
-		$textParser = \App\TextParser::getInstanceById($this->getMainRecordId(), $this->get('module_name'));
+		$textParser = \App\TextParser\TextParser::getInstanceById($this->getMainRecordId(), $this->get('module_name'));
 		$textParser->setType('pdf');
 		$textParser->setParams(['pdf' => $this]);
 		if ($this->get('language')) {
@@ -410,7 +410,7 @@ class PDF extends \App\Runtime\BaseModel
 	 */
 	public static function exportToPdf($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '')
 	{
-		$handlerClass = \App\Loader::getComponentClassName('Pdf', 'mPDF', $moduleName);
+		$handlerClass = \App\Core\Loader::getComponentClassName('Pdf', 'mPDF', $moduleName);
 		$pdf = new $handlerClass();
 		$pdf->export($recordId, $moduleName, $templateId, $filePath, $saveFlag);
 	}
@@ -434,7 +434,7 @@ class PDF extends \App\Runtime\BaseModel
 
 		//create the file and throw the error if unsuccessful
 		if ($zip->open($zipPath . $zipName, ZIPARCHIVE::CREATE) !== true) {
-			\App\Log::error("cannot open <$zipPath.$zipName>\n");
+			\App\Log\Log::error("cannot open <$zipPath.$zipName>\n");
 			throw new \App\Exceptions\NoPermitted("cannot open <$zipPath.$zipName>");
 		}
 

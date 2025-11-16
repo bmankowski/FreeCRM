@@ -23,7 +23,7 @@ class Tracker
 
 	static function addBasic($type, $request = null)
 	{
-		$db = \App\Db::getInstance('log');
+		$db = \App\Db\Db::getInstance('log');
 		if ($type == 'view' && $request !== null && $request->isAjax()) {
 			self::lockTracking();
 		}
@@ -45,7 +45,7 @@ class Tracker
 
 	static function changeType($type)
 	{
-		\App\Db::getInstance('log')->createCommand()
+		\App\Db\Db::getInstance('log')->createCommand()
 				->update('l_#__settings_tracker_basic', ['type' => self::$types[$type]], ['id' => [self::$id]])
 				->execute();
 	}
@@ -58,7 +58,7 @@ class Tracker
 		if (self::$id != false) {
 			self::addBasic('save');
 		}
-		$db = \App\Db::getInstance('log');
+		$db = \App\Db\Db::getInstance('log');
 		foreach ($post as $key => $value) {
 			if (isset($prev[$key]) && $value == $prev[$key]) {
 				continue;

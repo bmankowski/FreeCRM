@@ -1,5 +1,5 @@
 <?php
-namespace App;
+namespace App\Events;
 
 use App\Cache\Cache;
 
@@ -114,7 +114,7 @@ class EventHandler
 	{
 		$isExists = (new \App\Db\Query())->from(self::$baseTable)->where(['event_name' => $eventName, 'handler_class' => $className])->exists();
 		if (!$isExists) {
-			\App\Db::getInstance()->createCommand()
+			\App\Db\Db::getInstance()->createCommand()
 				->insert(self::$baseTable, [
 					'event_name' => $eventName,
 					'handler_class' => $className,
@@ -148,7 +148,7 @@ class EventHandler
 		if ($eventName) {
 			$params['event_name'] = $eventName;
 		}
-		\App\Db::getInstance()->createCommand()->delete(self::$baseTable, $params)->execute();
+		\App\Db\Db::getInstance()->createCommand()->delete(self::$baseTable, $params)->execute();
 		static::clearCache();
 	}
 
@@ -163,7 +163,7 @@ class EventHandler
 		if ($eventName) {
 			$params['event_name'] = $eventName;
 		}
-		\App\Db::getInstance()->createCommand()
+		\App\Db\Db::getInstance()->createCommand()
 			->update(self::$baseTable, ['is_active' => false], $params)->execute();
 		static::clearCache();
 	}
@@ -179,7 +179,7 @@ class EventHandler
 		if ($eventName) {
 			$params['event_name'] = $eventName;
 		}
-		\App\Db::getInstance()->createCommand()
+		\App\Db\Db::getInstance()->createCommand()
 			->update(self::$baseTable, ['is_active' => true], $params)->execute();
 		static::clearCache();
 	}
@@ -341,7 +341,7 @@ class EventHandler
 		if (empty($handlers)) {
 			return false;
 		}
-		$db = \App\Db::getInstance('admin');
+		$db = \App\Db\Db::getInstance('admin');
 		$isExists = (new \App\Db\Query())->from('s_#__handler_updater')->where(['crmid' => $this->getRecordModel()->getId()])->exists($db);
 		if (!$isExists) {
 			$db->createCommand()

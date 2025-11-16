@@ -21,7 +21,7 @@ class Base
 
 	public function __construct()
 	{
-		$this->db = \App\Db::getInstance($this->dbType);
+		$this->db = \App\Db\Db::getInstance($this->dbType);
 		$this->schema = $this->db->getSchema();
 	}
 

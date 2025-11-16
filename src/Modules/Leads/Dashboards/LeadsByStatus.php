@@ -56,7 +56,7 @@ class LeadsByStatus  extends \App\Modules\Base\Views\Index
 		if (!empty($dateFilter)) {
 			$query->andWhere(['between', 'createdtime', $dateFilter['start'] . ' 00:00:00', $dateFilter['end'] . ' 23:59:59']);
 		}
-		\App\PrivilegeQuery::getConditions($query, $module);
+		\App\Security\PrivilegeQuery::getConditions($query, $module);
 		if (!empty($leadsClosed['status'])) {
 			$query->andWhere(['not in', 'vtiger_leaddetails.leadstatus', $leadsClosed['status']]);
 			$this->conditions = [

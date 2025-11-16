@@ -22,7 +22,7 @@ class TransferOwnership extends \App\Base\Controllers\BaseActionController
 		$transferOwnerId = $request->get('transferOwnerId');
 		$record = $request->get('record');
 		$relatedModules = $request->get('related_modules');
-		$modelClassName = \App\Loader::getComponentClassName('Model', 'TransferOwnership', $module);
+		$modelClassName = \App\Core\Loader::getComponentClassName('Model', 'TransferOwnership', $module);
 		$transferModel = new $modelClassName();
 
 		if (empty($record))

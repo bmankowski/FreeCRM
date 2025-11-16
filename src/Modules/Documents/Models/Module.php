@@ -37,9 +37,9 @@ class Module extends \App\Modules\Base\Models\Module
 	 * @param string $sourceModule Parent module
 	 * @param string $field parent fieldname
 	 * @param string $record parent id
-	 * @param \App\QueryGenerator $queryGenerator
+	 * @param \App\QueryField\QueryGenerator $queryGenerator
 	 */
-	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
+	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryField\QueryGenerator $queryGenerator)
 	{
 		$queryGenerator->addNativeCondition(['and',
 			['not in', 'vtiger_notes.notesid', (new \App\Db\Query())->select(['notesid'])->from('vtiger_senotesrel')->where(['crmid' => $record])],

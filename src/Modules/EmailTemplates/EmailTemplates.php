@@ -3,14 +3,14 @@
 namespace App\Modules\EmailTemplates;
 
 /**
- * EmailTemplates \App\CRMEntity Class
+ * EmailTemplates \App\Core\CRMEntity Class
  * @package YetiForce.CRMEntity
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
 
-class EmailTemplates extends \App\CRMEntity
+class EmailTemplates extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'u_yf_emailtemplates';

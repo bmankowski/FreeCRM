@@ -70,7 +70,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	public function save($request = null)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$parameters = '';
 		$selectedGateway = $this->get('gateway');
 		foreach (\App\Modules\PBXManager\Connectors\PBXManager::getSettingsParameters() as $field => $type) {

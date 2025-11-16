@@ -64,7 +64,7 @@ class Module extends \App\Modules\Base\Models\Record
 		$numToConvert = $dataReader->count();
 		if ($numToConvert >= 1) {
 			$selectBankId = $this->getActiveBankId();
-			$activeBankName = 'Settings_CurrencyUpdate_models_' . $this->getActiveBankName() . '_BankModel';
+			$activeBankName = '\\App\\Modules\\Settings\\CurrencyUpdate\\Models\\BankModels\\' . $this->getActiveBankName();
 			$currIds = [];
 			$otherCurrencyCode = [];
 			while ($row = $dataReader->read()) {
@@ -92,21 +92,22 @@ class Module extends \App\Modules\Base\Models\Record
 
 	public function refreshBanks()
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$dataReader = (new \App\Db\Query())->select(['id', 'bank_name'])
 				->from('yetiforce_currencyupdate_banks')
 				->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$id = $row['id'];
 			$bankName = $row['bank_name'];
-			$bankPath = __DIR__ . '/bankmodels/' . $bankName . '.php';
+			$bankPath = __DIR__ . '/BankModels/' . $bankName . '.php';
 			if (!file_exists($bankPath)) { // delete bank from database
 				$db->createCommand()->delete('yetiforce_currencyupdate_banks', ['id' => $id])->execute();
 			}
 		}
-		foreach (new \DirectoryIterator(__DIR__ . '/bankmodels/') as $fileInfo) {
+		foreach (new \DirectoryIterator(__DIR__ . '/BankModels/') as $fileInfo) {
 			$fileName = $fileInfo->getFilename();
-			$extension = end(explode('.', $fileName));
+			$parts = explode('.', $fileName);
+			$extension = end($parts);
 			$bankClassName = basename($fileName, '.' . $extension);
 			if ($fileInfo->isDot() || $extension !== 'php') {
 				continue;
@@ -130,7 +131,7 @@ class Module extends \App\Modules\Base\Models\Record
 
 	public function updateCurrencyRate($id, $exchange)
 	{
-		\App\Db::getInstance()->createCommand()
+		\App\Db\Db::getInstance()->createCommand()
 			->update('yetiforce_currencyupdate', ['exchange' => $exchange], ['id' => $id])
 			->execute();
 	}
@@ -145,7 +146,7 @@ class Module extends \App\Modules\Base\Models\Record
 	public function addCurrencyRate($currId, $exchangeDate, $exchange, $bankId)
 	{
 
-		\App\Db::getInstance()->createCommand()->insert('yetiforce_currencyupdate', [
+		\App\Db\Db::getInstance()->createCommand()->insert('yetiforce_currencyupdate', [
 			'currency_id' => $currId,
 			'fetch_date' => date('Y-m-d'),
 			'exchange_date' => $exchangeDate,
@@ -204,7 +205,7 @@ class Module extends \App\Modules\Base\Models\Record
 	public function getSupportedCurrencies($bankName = null)
 	{
 		if (!$bankName) {
-			$bankName = 'Settings_CurrencyUpdate_models_' . $this->getActiveBankName() . '_BankModel';
+			$bankName = '\\App\\Modules\\Settings\\CurrencyUpdate\\Models\\BankModels\\' . $this->getActiveBankName();
 		}
 		$bank = new $bankName();
 
@@ -219,7 +220,7 @@ class Module extends \App\Modules\Base\Models\Record
 	public function getUnSupportedCurrencies($bankName = null)
 	{
 		if (!$bankName) {
-			$bankName = 'Settings_CurrencyUpdate_models_' . $this->getActiveBankName() . '_BankModel';
+			$bankName = '\\App\\Modules\\Settings\\CurrencyUpdate\\Models\\BankModels\\' . $this->getActiveBankName();
 		}
 		$bank = new $bankName();
 		$supported = $bank->getSupportedCurrencies($bankName);
@@ -243,7 +244,7 @@ class Module extends \App\Modules\Base\Models\Record
 	public function setCRMConversionRate($currency, $exchange)
 	{
 		$rate = (float) $exchange;
-		\App\Db::getInstance()->createCommand()
+		\App\Db\Db::getInstance()->createCommand()
 			->update('vtiger_currency_info', ['conversion_rate' => $rate], ['currency_code' => $currency])
 			->execute();
 	}
@@ -259,7 +260,7 @@ class Module extends \App\Modules\Base\Models\Record
 	{
 		$defaultCurrencyInfo = \vtlib\Functions::getDefaultCurrencyInfo();
 		if ($defaultCurrencyInfo === false || !isset($defaultCurrencyInfo['currency_code'])) {
-			\App\Log::error('getDefaultCurrencyInfo() returned false or missing currency_code in ' . __METHOD__);
+			\App\Log\Log::error('getDefaultCurrencyInfo() returned false or missing currency_code in ' . __METHOD__);
 			throw new \App\Exceptions\AppException('ERR_NO_DEFAULT_CURRENCY');
 		}
 		$mainCurrencyCode = $defaultCurrencyInfo['currency_code'];
@@ -268,7 +269,7 @@ class Module extends \App\Modules\Base\Models\Record
 		if (is_numeric($from)) {
 			$allCurrencies = \vtlib\Functions::getAllCurrency(true);
 			if (!isset($allCurrencies[$from]) || !isset($allCurrencies[$from]['currency_code'])) {
-				\App\Log::error("Currency ID $from not found in getAllCurrency() in " . __METHOD__);
+				\App\Log\Log::error("Currency ID $from not found in getAllCurrency() in " . __METHOD__);
 				throw new \App\Exceptions\AppException('ERR_CURRENCY_NOT_FOUND');
 			}
 			$from = $allCurrencies[$from]['currency_code'];
@@ -276,7 +277,7 @@ class Module extends \App\Modules\Base\Models\Record
 		if (is_numeric($to)) {
 			$allCurrencies = \vtlib\Functions::getAllCurrency(true);
 			if (!isset($allCurrencies[$to]) || !isset($allCurrencies[$to]['currency_code'])) {
-				\App\Log::error("Currency ID $to not found in getAllCurrency() in " . __METHOD__);
+				\App\Log\Log::error("Currency ID $to not found in getAllCurrency() in " . __METHOD__);
 				throw new \App\Exceptions\AppException('ERR_CURRENCY_NOT_FOUND');
 			}
 			$to = $allCurrencies[$to]['currency_code'];
@@ -290,13 +291,13 @@ class Module extends \App\Modules\Base\Models\Record
 				->limit(1);
 			$exchangeRate = $query->scalar();
 			if ($exchangeRate === null || $exchangeRate === false) {
-				\App\Log::error("Conversion rate not found for currency code: $to in " . __METHOD__);
+				\App\Log\Log::error("Conversion rate not found for currency code: $to in " . __METHOD__);
 				throw new \App\Exceptions\AppException('ERR_CURRENCY_RATE_NOT_FOUND');
 			}
 			$exchange = floatval($exchangeRate);
 			if ($from != $mainCurrencyCode) {
 				if ($exchange == 0) {
-					\App\Log::error("Zero conversion rate for currency code: $to in " . __METHOD__);
+					\App\Log\Log::error("Zero conversion rate for currency code: $to in " . __METHOD__);
 					throw new \App\Exceptions\AppException('ERR_ZERO_CURRENCY_RATE');
 				}
 				$convertToMainCurrency = 1 / $exchange;
@@ -307,12 +308,12 @@ class Module extends \App\Modules\Base\Models\Record
 					->limit(1);
 				$fromExchangeRate = $query->scalar();
 				if ($fromExchangeRate === null || $fromExchangeRate === false) {
-					\App\Log::error("Conversion rate not found for currency code: $from in " . __METHOD__);
+					\App\Log\Log::error("Conversion rate not found for currency code: $from in " . __METHOD__);
 					throw new \App\Exceptions\AppException('ERR_CURRENCY_RATE_NOT_FOUND');
 				}
 				$fromExchange = floatval($fromExchangeRate);
 				if ($fromExchange == 0) {
-					\App\Log::error("Zero conversion rate for currency code: $from in " . __METHOD__);
+					\App\Log\Log::error("Zero conversion rate for currency code: $from in " . __METHOD__);
 					throw new \App\Exceptions\AppException('ERR_ZERO_CURRENCY_RATE');
 				}
 				$exchange = 1 / ($fromExchange * $convertToMainCurrency);
@@ -396,7 +397,7 @@ class Module extends \App\Modules\Base\Models\Record
 
 	public function setActiveBankById($bankId)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$db->createCommand()->update('yetiforce_currencyupdate_banks', ['active' => 0])->execute();
 		$result = $db->createCommand()->update('yetiforce_currencyupdate_banks', ['active' => 1], ['id' => $bankId])->execute();
 		if ($result) {

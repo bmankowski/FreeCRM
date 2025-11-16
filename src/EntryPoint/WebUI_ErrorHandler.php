@@ -21,9 +21,6 @@
 
 namespace App\EntryPoint;
 
-use App\AppConfig;
-use App\Debugger;
-
 class WebUI_ErrorHandler
 {
     /**
@@ -57,11 +54,11 @@ class WebUI_ErrorHandler
      */
     private static function logError($message)
     {
-        if (!\App\AppConfig::debug('EXCEPTION_ERROR_TO_FILE')) {
+        if (!\App\Core\AppConfig::debug('EXCEPTION_ERROR_TO_FILE')) {
             return;
         }
         
-        $content = $message . PHP_EOL . Debugger::getBacktrace() . PHP_EOL;
+        $content = $message . PHP_EOL . \App\Debug\Debugger::getBacktrace() . PHP_EOL;
         @file_put_contents(
             'cache/logs/system.log',
             $content,
@@ -69,17 +66,22 @@ class WebUI_ErrorHandler
         );
     }
 
-    /**
-     * Display error to user
-     * 
-     * @param string $message Error message
-     */
-    private static function displayError($message)
-    {
-        if (\App\AppConfig::debug('EXCEPTION_ERROR_TO_SHOW')) {
-            \vtlib\Functions:: throwNewException($message, false);
-        }
-    }
+	/**
+	 * Display error to user
+	 * 
+	 * @param string $message Error message
+	 */
+	private static function displayError($message)
+	{
+		if (\App\Core\AppConfig::debug('EXCEPTION_ERROR_TO_SHOW')) {
+			// Display backtrace if debug is enabled
+			if (\App\Core\AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
+				$trace = \App\Debug\Debugger::getBacktrace();
+				echo '<pre>Stack trace:' . PHP_EOL . $trace . '</pre>';
+			}
+			\vtlib\Functions:: throwNewException($message, false);
+		}
+	}
 
     /**
      * Register the error handler
@@ -90,7 +92,7 @@ class WebUI_ErrorHandler
     {
         set_error_handler(
             [self::class, 'handle'],
-            \App\AppConfig::debug('EXCEPTION_ERROR_LEVEL')
+            \App\Core\AppConfig::debug('EXCEPTION_ERROR_LEVEL')
         );
     }
 }

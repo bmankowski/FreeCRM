@@ -2,7 +2,7 @@
 <!-- layouts/basic/modules/Base/Body.tpl -->
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 	<div class="container-fluid container-fluid-main">
-		<div class="baseContainer {if AppConfig::module('Users','IS_VISIBLE_USER_INFO_FOOTER')}userInfoFooter{/if}">
+		<div class="baseContainer {if \App\Core\AppConfig::module('Users','IS_VISIBLE_USER_INFO_FOOTER')}userInfoFooter{/if}">
 			{assign var=LEFTPANELHIDE value=$USER_MODEL->get('leftpanelhide')}	
 			{include file='BodyHeaderMobile.tpl'|@vtemplate_path:$MODULE}
 			<div class="mobileLeftPanel noSpaces">

@@ -147,7 +147,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public function delete()
 	{
-		\App\Db::getInstance('admin')->createCommand()
+		\App\Db\Db::getInstance('admin')->createCommand()
 			->delete('s_#__mail_smtp', ['id' => $this->getId()])
 			->execute();
 	}
@@ -159,7 +159,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public static function getInstanceById($id)
 	{
-		$row = (new \App\Db\Query())->from('s_#__mail_smtp')->where(['id' => $id])->one(\App\Db::getInstance('admin'));
+		$row = (new \App\Db\Query())->from('s_#__mail_smtp')->where(['id' => $id])->one(\App\Db\Db::getInstance('admin'));
 		$instance = false;
 		if ($row) {
 			$instance = new self();
@@ -185,7 +185,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public function save($request = null)
 	{
-		$db = \App\Db::getInstance('admin');
+		$db = \App\Db\Db::getInstance('admin');
 		$params = [];
 		foreach ($this->getData() as $key => $value) {
 			$params[$key] = $value;

@@ -16,7 +16,7 @@ namespace App\Modules\HelpDesk;
  * Contributor(s): ______________________________________.
  * ****************************************************************************** */
 
-class HelpDesk extends \App\CRMEntity
+class HelpDesk extends \App\Core\CRMEntity
 {
 
 	public $table_name = "vtiger_troubletickets";
@@ -101,7 +101,7 @@ class HelpDesk extends \App\CRMEntity
 	{
 		if ($with_module == 'ServiceContracts') {
 			parent::save_related_module($module, $crmid, $with_module, $with_crmid);
-			$serviceContract = \App\CRMEntity::getInstance("ServiceContracts");
+			$serviceContract = \App\Core\CRMEntity::getInstance("ServiceContracts");
 			$serviceContract->updateHelpDeskRelatedTo($with_crmid, $crmid);
 			$serviceContract->updateServiceContractState($with_crmid);
 		} else {
@@ -118,7 +118,7 @@ class HelpDesk extends \App\CRMEntity
 	{
 
 		$currentUser = \App\User\CurrentUser::get();
-		\App\Log::trace("Entering create_export_query(" . $where . ") method ...");
+		\App\Log\Log::trace("Entering create_export_query(" . $where . ") method ...");
 
 		include("include/utils/ExportUtils.php");
 
@@ -145,7 +145,7 @@ class HelpDesk extends \App\CRMEntity
 				LEFT JOIN vtiger_products
 					ON vtiger_products.productid=vtiger_troubletickets.product_id";
 		//end
-		$query .= \App\PrivilegeQuery::getNonAdminAccessControlQuery('HelpDesk', $current_user);
+		$query .= \App\Security\PrivilegeQuery::getNonAdminAccessControlQuery('HelpDesk', $current_user);
 		$where_auto = " vtiger_crmentity.deleted = 0 ";
 
 		if ($where != '')
@@ -153,7 +153,7 @@ class HelpDesk extends \App\CRMEntity
 		else
 			$query .= sprintf(' where %s', $where_auto);
 
-		\App\Log::trace("Exiting create_export_query method ...");
+		\App\Log\Log::trace("Exiting create_export_query method ...");
 		return $query;
 	}
 
@@ -233,7 +233,7 @@ class HelpDesk extends \App\CRMEntity
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 
-		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
+		\App\Log\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("Attachments" => "vtiger_seattachmentsrel", "Documents" => "vtiger_senotesrel");
 
@@ -258,7 +258,7 @@ class HelpDesk extends \App\CRMEntity
 			}
 		}
 		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
-		\App\Log::trace("Exiting transferRelatedRecords...");
+		\App\Log\Log::trace("Exiting transferRelatedRecords...");
 	}
 	/*
 	 * Function to get the secondary query part of a report

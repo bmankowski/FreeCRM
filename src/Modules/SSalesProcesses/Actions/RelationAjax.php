@@ -31,7 +31,7 @@ class RelationAjax extends \App\Base\Controllers\BaseActionController
 		$sourceModule = $request->getModule();
 		$recordId = $request->get('record');
 		$currentUser = $request->getUser();
-		$focus = \App\CRMEntity::getInstance($sourceModule);
+		$focus = \App\Core\CRMEntity::getInstance($sourceModule);
 		$hierarchy = $focus->getHierarchy($recordId, false, true, $currentUser);
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(count($hierarchy['entries']) - 1);

@@ -15,16 +15,16 @@ class Relation extends \App\Modules\Base\Models\Relation
 	{
 		$return = false;
 		$db = \App\Database\PearDatabase::getInstance();
-		\App\CRMEntity::trackLinkedInfo($crmid);
+		\App\Core\CRMEntity::trackLinkedInfo($crmid);
 		$destinationModuleName = \App\Records\Record::getType($crmid);
 		$data = [
-			'CRMEntity' => \App\CRMEntity::getInstance($destinationModuleName),
+			'CRMEntity' => \App\Core\CRMEntity::getInstance($destinationModuleName),
 			'sourceModule' => $destinationModuleName,
 			'sourceRecordId' => $crmid,
 			'destinationModule' => 'OSSMailView',
 			'destinationRecordId' => $mailId
 		];
-		$eventHandler = new \App\EventHandler();
+		$eventHandler = new \App\Events\EventHandler();
 		$eventHandler->setModuleName($destinationModuleName);
 		$eventHandler->setParams($data);
 		$eventHandler->trigger('EntityBeforeLink');

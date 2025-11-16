@@ -71,7 +71,7 @@ class QuickCreateAjax  extends \App\Modules\Base\Views\Index
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUICKCREATE_LINKS', \App\Modules\Base\Models\Link::getAllByType($moduleModel->getId(), ['QUICKCREATE_VIEW_HEADER']));
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Utils\Json::encode($picklistDependencyDatasource));
-		$mappingRelatedField = \App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName);
+		$mappingRelatedField = \App\Core\ModuleHierarchy::getRelationFieldByHierarchy($moduleName);
 		$viewer->assign('MAPPING_RELATED_FIELD', \App\Utils\Json::encode($mappingRelatedField));
 		$viewer->assign('SOURCE_RELATED_FIELD', $fieldValues);
 		$viewer->assign('THREEDAYSAGO', date('Y-n-j', strtotime('-3 day')));

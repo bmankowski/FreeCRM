@@ -48,8 +48,8 @@ class AssignedOverdueProjectsTasks  extends \App\Modules\Base\Views\Index
 		$viewer->assign('PROJECTSTASKS', $projectsTasks);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('CURRENTUSER', $currentUser);
-		$title_max_length = \App\AppConfig::main('title_max_length');
-		$href_max_length = \App\AppConfig::main('href_max_length');
+		$title_max_length = \App\Core\AppConfig::main('title_max_length');
+		$href_max_length = \App\Core\AppConfig::main('href_max_length');
 		$viewer->assign('NAMELENGTH', $title_max_length);
 		$viewer->assign('HREFNAMELENGTH', $href_max_length);
 		$viewer->assign('OWNER', $owner);

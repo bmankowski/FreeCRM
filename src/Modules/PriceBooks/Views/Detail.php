@@ -42,7 +42,7 @@ class Detail  extends \App\Modules\Base\Views\Detail
 		$orderBy = $request->get('orderby');
 		$sortOrder = $request->get('sortorder');
 		if (empty($orderBy) && empty($sortOrder)) {
-			$moduleInstance = \App\CRMEntity::getInstance($relatedModuleName);
+			$moduleInstance = \App\Core\CRMEntity::getInstance($relatedModuleName);
 			$orderBy = $moduleInstance->default_order_by;
 			$sortOrder = $moduleInstance->default_sort_order;
 		}
@@ -88,7 +88,7 @@ class Detail  extends \App\Modules\Base\Views\Detail
 		$viewer->assign('RELATED_ENTIRES_COUNT', $noOfEntries);
 		$viewer->assign('RELATION_FIELD', $relationField);
 
-		if (\App\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+		if (\App\Core\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			$totalCount = $relationListView->getRelatedEntriesCount();
 			$pagingModel->set('totalCount', (int) $totalCount);
 			$viewer->assign('TOTAL_ENTRIES', $totalCount);

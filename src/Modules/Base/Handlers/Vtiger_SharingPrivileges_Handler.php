@@ -13,11 +13,11 @@ class Vtiger_SharingPrivileges_Handler {
 
 	/**
 	 * EntityAfterSave function
-	 * @param \App\EventHandler $eventHandler
+	 * @param \App\Events\EventHandler $eventHandler
 	 */
-	public function entityAfterSave(\App\EventHandler $eventHandler)
+	public function entityAfterSave(\App\Events\EventHandler $eventHandler)
 	{
-		if (!\App\AppConfig::security('PERMITTED_BY_SHARED_OWNERS')) {
+		if (!\App\Core\AppConfig::security('PERMITTED_BY_SHARED_OWNERS')) {
 			return false;
 		}
 		$recordModel = $eventHandler->getRecordModel();
@@ -28,7 +28,7 @@ class Vtiger_SharingPrivileges_Handler {
 			if (!$recordsByModule) {
 				return false;
 			}
-			$db = \App\Db::getInstance();
+			$db = \App\Db\Db::getInstance();
 			foreach ($recordsByModule as &$records) {
 				$db->createCommand()->delete('u_#__crmentity_showners', ['userid' => $removeUser, 'crmid' => $records])->execute();
 				if ($addUser) {

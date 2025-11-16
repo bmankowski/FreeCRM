@@ -22,7 +22,7 @@ class Detail extends \App\Modules\Base\Views\Detail
 		// Prepare Accounts-specific data in controller instead of calling functions in template
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
-		$viewer->assign('COUNT_IN_HIERARCHY', \App\AppConfig::module($moduleName, 'COUNT_IN_HIERARCHY'));
+		$viewer->assign('COUNT_IN_HIERARCHY', \App\Core\AppConfig::module($moduleName, 'COUNT_IN_HIERARCHY'));
 	}
 
 }

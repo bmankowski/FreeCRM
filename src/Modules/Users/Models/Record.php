@@ -152,7 +152,7 @@ class Record extends \App\Modules\Base\Models\Record
 		// If is_admin is not set in the model (null or empty string), query the database directly
 		if (($adminStatus === null || $adminStatus === '') && $this->getId()) {
 			$userId = $this->getId();
-			$db = \App\Db::getInstance();
+			$db = \App\Db\Db::getInstance();
 			$adminStatus = (new \App\Db\Query())
 				->select('is_admin')
 				->from('vtiger_users')
@@ -203,7 +203,7 @@ class Record extends \App\Modules\Base\Models\Record
 	{
 		$entityInstance = $this->getModule()->getEntityInstance();
 		$entityInstance->column_fields['user_name'] = $this->get('user_name');
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$transaction = $db->beginTransaction();
 		try {
 			$this->getModule()->saveRecord($this);
@@ -221,7 +221,7 @@ class Record extends \App\Modules\Base\Models\Record
 	public function saveToDb($relationParams = null)
 	{
 		$entityInstance = $this->getModule()->getEntityInstance();
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		foreach ($this->getValuesForSave() as $tableName => $tableData) {
 			$keyTable = [$entityInstance->tab_name_index[$tableName] => $this->getId()];
 			if ($this->isNew()) {
@@ -250,7 +250,7 @@ class Record extends \App\Modules\Base\Models\Record
 		if (!$this->isNew()) {
 			$saveFields = array_intersect($saveFields, array_keys($this->changes));
 		} else {
-			$this->setId(\App\Db::getInstance()->getUniqueID('vtiger_users'));
+			$this->setId(\App\Db\Db::getInstance()->getUniqueID('vtiger_users'));
 			$forSave['vtiger_users']['date_entered'] = date('Y-m-d H:i:s');
 		}
 		$forSave = $this->transformValues($forSave);
@@ -334,7 +334,7 @@ class Record extends \App\Modules\Base\Models\Record
 				throw new \Exception('LBL_USER_EXISTS');
 			}
 			if ($this->getId()) {
-				\App\Db::getInstance()->createCommand()->delete('vtiger_module_dashboard_widgets', ['userid' => $this->getId()])->execute();
+				\App\Db\Db::getInstance()->createCommand()->delete('vtiger_module_dashboard_widgets', ['userid' => $this->getId()])->execute();
 			}
 			\App\Security\Privilege::setAllUpdater();
 		}
@@ -347,7 +347,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	protected function transformValues($values)
 	{
-		$cryptType = \App\AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
+		$cryptType = \App\Core\AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
 		if ($this->isNew() || $this->getPreviousValue('confirm_password') !== false) {
 			$this->set('confirm_password', $this->encryptPassword((string)$this->get('confirm_password'), $cryptType));
 		}
@@ -608,7 +608,7 @@ class Record extends \App\Modules\Base\Models\Record
 	{
 		if (empty($this->get('parentRoles'))) {
 			if ($this->isAdminUser()) {
-				$userParentRoles = \App\PrivilegeUtil::getParentRole($this->getRole());
+				$userParentRoles = \App\Security\PrivilegeUtil::getParentRole($this->getRole());
 			} else {
 				$privilegesModel = $this->getPrivileges();
 				$userParentRoles = $privilegesModel->get('parent_roles');
@@ -744,7 +744,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public static function getUserGroups($userId)
 	{
-		return \App\PrivilegeUtil::getUserGroups($userId);
+		return \App\Security\PrivilegeUtil::getUserGroups($userId);
 	}
 	/**
 	 * Function returns the users activity reminder in seconds
@@ -873,7 +873,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	public static function deleteUserPermanently($userId, $newOwnerId)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$db->createCommand()->update('vtiger_crmentity', ['smcreatorid' => $newOwnerId, 'smownerid' => $newOwnerId], ['smcreatorid' => $userId, 'setype' => 'ModComments'])->execute();
 		//update history details in vtiger_modtracker_basic
 		$db->createCommand()->update('vtiger_modtracker_basic', ['whodid' => $newOwnerId], ['whodid' => $userId])->execute();
@@ -998,7 +998,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public function getCryptType()
 	{
-		$cryptType = \App\AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
+		$cryptType = \App\Core\AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
 		if ($this->getId()) {
 			// Get the type of crypt used on password before actual comparision
 			$row = (new \App\Db\Query())
@@ -1032,12 +1032,12 @@ class Record extends \App\Modules\Base\Models\Record
 		$userName = (string)$this->get('user_name');
 		$userInfo = (new \App\Db\Query())->select(['id', 'deleted', 'user_password', 'crypt_type', 'status'])->from('vtiger_users')->where(['user_name' => $userName])->one();
 		if (!$userInfo || (int) $userInfo['deleted'] !== 0) {
-			\App\Log::error('User not found: ' . $userName);
+			\App\Log\Log::error('User not found: ' . $userName);
 			return false;
 		}
-		\App\Log::trace('Start of authentication for user: ' . $userName);
+		\App\Log\Log::trace('Start of authentication for user: ' . $userName);
 		if ($userInfo['status'] !== 'Active') {
-			\App\Log::trace("Authentication failed. User: $userName");
+			\App\Log\Log::trace("Authentication failed. User: $userName");
 			return false;
 		}
 		$this->setId((int) $userInfo['id']);
@@ -1052,14 +1052,14 @@ class Record extends \App\Modules\Base\Models\Record
 			\App\Cache\Cache::save('Authorization', 'config', $auth);
 		}
 		if ($auth['ldap']['active'] == 'true') {
-			\App\Log::trace('Start LDAP authentication');
+			\App\Log\Log::trace('Start LDAP authentication');
 			$users = explode(',', $auth['ldap']['users']);
 			if (in_array($userInfo['id'], $users)) {
 				$bind = false;
 				$port = $auth['ldap']['port'] == '' ? 389 : $auth['ldap']['port'];
 				$ds = @ldap_connect($auth['ldap']['server'], $port);
 				if (!$ds) {
-					\App\Log::error('Error LDAP authentication: Could not connect to LDAP server.');
+					\App\Log\Log::error('Error LDAP authentication: Could not connect to LDAP server.');
 				}
 				ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3); // Try version 3.  Will fail and default to v2.
 				ldap_set_option($ds, LDAP_OPT_REFERRALS, 0);
@@ -1071,25 +1071,25 @@ class Record extends \App\Modules\Base\Models\Record
 				}
 				$bind = @ldap_bind($ds, $userName . $auth['ldap']['domain'], $userPassword);
 				if (!$bind) {
-					\App\Log::error('LDAP authentication: LDAP bind failed.');
+					\App\Log\Log::error('LDAP authentication: LDAP bind failed.');
 				}
 				$this->authenticated = $bind;
 				return $bind;
 			} else {
-				\App\Log::trace($userName . ' user does not belong to the LDAP');
+				\App\Log\Log::trace($userName . ' user does not belong to the LDAP');
 			}
-			\App\Log::trace('End LDAP authentication');
+			\App\Log\Log::trace('End LDAP authentication');
 		}
 
 		//Default authentication
-		\App\Log::trace('Using integrated/SQL authentication');
+		\App\Log\Log::trace('Using integrated/SQL authentication');
 		$encryptedPassword = $this->encryptPassword($userPassword, $userInfo['crypt_type']);
 		if ($encryptedPassword === $userInfo['user_password']) {
-			\App\Log::trace("Authentication OK. User: $userName");
+			\App\Log\Log::trace("Authentication OK. User: $userName");
 			$this->authenticated = true;
 			return true;
 		}
-		\App\Log::trace("Authentication failed. User: $userName");
+		\App\Log\Log::trace("Authentication failed. User: $userName");
 		$this->authenticated = false;
 		return false;
 	}
@@ -1119,7 +1119,7 @@ class Record extends \App\Modules\Base\Models\Record
 	{
 		$userName = (string)$this->get('user_name');
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
-		\App\Log::trace('Starting password change for ' . $userName);
+		\App\Log\Log::trace('Starting password change for ' . $userName);
 
 		if (empty($newPassword)) {
 			$this->error_string = \App\Runtime\Vtiger_Language_Handler::translate('ERR_PASSWORD_CHANGE_FAILED_1') . $userName . \App\Runtime\Vtiger_Language_Handler::translate('ERR_PASSWORD_CHANGE_FAILED_2');
@@ -1127,16 +1127,16 @@ class Record extends \App\Modules\Base\Models\Record
 		}
 		if (!$currentUser->isAdmin()) {
 			if (!$this->verifyPassword($userPassword)) {
-				\App\Log::warning('Incorrect old password for ' . $userName);
+				\App\Log\Log::warning('Incorrect old password for ' . $userName);
 				$this->error_string = \App\Runtime\Vtiger_Language_Handler::translate('ERR_PASSWORD_INCORRECT_OLD');
 				return false;
 			}
 		}
 		//set new password
-		$crypt_type = \App\AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
+		$crypt_type = \App\Core\AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
 		$encryptedNewPassword = $this->encryptPassword($newPassword, $crypt_type);
 
-		\App\Db::getInstance()->createCommand()->update('vtiger_users', [
+		\App\Db\Db::getInstance()->createCommand()->update('vtiger_users', [
 			'user_password' => $encryptedNewPassword,
 			'confirm_password' => $encryptedNewPassword,
 			'crypt_type' => $crypt_type,
@@ -1145,7 +1145,7 @@ class Record extends \App\Modules\Base\Models\Record
 		$this->set('user_password', $encryptedNewPassword);
 		$this->set('confirm_password', $encryptedNewPassword);
 
-		\App\Log::trace('Ending password change for ' . $userName);
+		\App\Log\Log::trace('Ending password change for ' . $userName);
 		return true;
 	}
 
@@ -1184,7 +1184,7 @@ class Record extends \App\Modules\Base\Models\Record
 				$this->user_preferences = [];
 		}
 		if (!array_key_exists($name, $this->user_preferences) || $this->user_preferences[$name] != $value) {
-			\App\Log::trace("Saving To Preferences:" . $name . "=" . $value);
+			\App\Log\Log::trace("Saving To Preferences:" . $name . "=" . $value);
 			$this->user_preferences[$name] = $value;
 			$this->savePreferences();
 		}
@@ -1197,10 +1197,10 @@ class Record extends \App\Modules\Base\Models\Record
 	public function savePreferences()
 	{
 		$data = base64_encode(serialize($this->user_preferences));
-		\App\Db::getInstance()->createCommand()
+		\App\Db\Db::getInstance()->createCommand()
 			->update('vtiger_users', ['user_preferences' => $data], ['id' => $this->getId()])
 			->execute();
-		\App\Log::trace("SAVING: PREFERENCES SIZE " . strlen($data));
+		\App\Log\Log::trace("SAVING: PREFERENCES SIZE " . strlen($data));
 		$_SESSION["USER_PREFERENCES"] = $this->user_preferences;
 	}
 
@@ -1211,10 +1211,10 @@ class Record extends \App\Modules\Base\Models\Record
 	public function loadPreferences($value)
 	{
 		if (isset($value) && !empty($value)) {
-			\App\Log::trace("LOADING :PREFERENCES SIZE " . strlen($value));
+			\App\Log\Log::trace("LOADING :PREFERENCES SIZE " . strlen($value));
 			$this->user_preferences = unserialize(base64_decode($value));
 			$_SESSION = array_merge($this->user_preferences, $_SESSION);
-			\App\Log::trace("Finished Loading");
+			\App\Log\Log::trace("Finished Loading");
 			$_SESSION["USER_PREFERENCES"] = $this->user_preferences;
 		}
 	}
@@ -1232,7 +1232,7 @@ class Record extends \App\Modules\Base\Models\Record
 			return \App\Cache\Cache::get('UserIsExists', $id);
 		}
 		$isExists = false;
-		if (\App\AppConfig::performance('ENABLE_CACHING_USERS')) {
+		if (\App\Core\AppConfig::performance('ENABLE_CACHING_USERS')) {
 			$users = \App\PrivilegeFile::getUser('id');
 			if (isset($users[$id]) && !$users[$id]['deleted']) {
 				$isExists = true;
@@ -1258,7 +1258,7 @@ class Record extends \App\Modules\Base\Models\Record
 			return \App\Cache\Cache::get(__METHOD__, $key);
 		} else {
 			$adminId = 1;
-			if (\App\AppConfig::performance('ENABLE_CACHING_USERS')) {
+			if (\App\Core\AppConfig::performance('ENABLE_CACHING_USERS')) {
 				$users = \App\PrivilegeFile::getUser('id');
 				foreach ($users as $id => $user) {
 					if ($user['status'] === 'Active' && $user['is_admin'] === 'on') {
@@ -1306,7 +1306,7 @@ class Record extends \App\Modules\Base\Models\Record
 	{
 		$userPrivileges = \App\Modules\Users\Models\Privileges::getPrivilegesFile($userid);
 		if ($userPrivileges === null) {
-			\App\Log::error("User privileges file not found for user: $userid");
+			\App\Log\Log::error("User privileges file not found for user: $userid");
 			return $this;
 		}
 		$userInfo = $userPrivileges['user_info'];
@@ -1368,7 +1368,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public static function getAllUserName()
 	{
-		\App\Log::trace("Entering getAllUserName() method ...");
+		\App\Log\Log::trace("Entering getAllUserName() method ...");
 		$adb = \App\Database\PearDatabase::getInstance();
 		$query = "select * from vtiger_users where deleted=0";
 		$result = $adb->pquery($query, []);
@@ -1379,7 +1379,7 @@ class Record extends \App\Modules\Base\Models\Record
 			$username = \vtlib\Deprecated::getFullNameFromQResult($result, $i, 'Users');
 			$user_details[$userid] = $username;
 		}
-		\App\Log::trace("Exiting getAllUserName method ...");
+		\App\Log\Log::trace("Exiting getAllUserName method ...");
 		return $user_details;
 	}
 }

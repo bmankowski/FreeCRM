@@ -41,7 +41,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		if ($recordId === null) {
 			$recordId = $this->getId();
 		}
-		\App\Db::getInstance()->createCommand()->update(self::tableName, ['deleted' => 1], ['id' => $recordId])->execute();
+		\App\Db\Db::getInstance()->createCommand()->update(self::tableName, ['deleted' => 1], ['id' => $recordId])->execute();
 		\App\Modules\Settings\Currency\Models\Record::clearCache();
 	}
 }

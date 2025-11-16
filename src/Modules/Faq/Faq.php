@@ -25,7 +25,7 @@ namespace App\Modules\Faq;
  * ****************************************************************************** */
 
 // Faq is used to store vtiger_faq information.
-class Faq extends \App\CRMEntity
+class Faq extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'vtiger_faq';

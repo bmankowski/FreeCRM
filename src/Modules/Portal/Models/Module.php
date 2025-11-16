@@ -28,7 +28,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	public static function savePortalRecord($recordId, $bookmarkName, $bookmarkUrl)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		if (empty($recordId)) {
 			$db->createCommand()->insert('vtiger_portal', [
 				'portalname' => $bookmarkName,
@@ -60,7 +60,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	public function deleteRecord($recordId)
 	{
-		\App\Db::getInstance()->createCommand()->delete('vtiger_portal', ['portalid' => $recordId])->execute();
+		\App\Db\Db::getInstance()->createCommand()->delete('vtiger_portal', ['portalid' => $recordId])->execute();
 	}
 
 	public function getWebsiteUrl($recordId)

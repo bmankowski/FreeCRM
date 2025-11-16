@@ -45,14 +45,14 @@ class DateField extends BaseField
 	public function getCondition()
 	{
 		$fn = 'operator' . ucfirst($this->operator);
-		if (in_array($this->operator, \App\CustomView::STD_FILTER_CONDITIONS)) {
-			\App\Log::trace('Entering to getStdOperator in ' . __CLASS__);
+		if (in_array($this->operator, \App\View\CustomView::STD_FILTER_CONDITIONS)) {
+			\App\Log\Log::trace('Entering to getStdOperator in ' . __CLASS__);
 			return $this->getStdOperator();
 		} elseif (method_exists($this, $fn)) {
-			\App\Log::trace("Entering to $fn in " . __CLASS__);
+			\App\Log\Log::trace("Entering to $fn in " . __CLASS__);
 			return $this->$fn();
 		}
-		\App\Log::error("Not found operator: $fn in  " . __CLASS__);
+		\App\Log\Log::error("Not found operator: $fn in  " . __CLASS__);
 		return false;
 	}
 

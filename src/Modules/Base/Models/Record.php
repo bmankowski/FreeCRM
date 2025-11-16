@@ -29,7 +29,7 @@ class Record extends \App\Runtime\BaseModel
 	public $isNew = true;
 
 	// Commonly used dynamic properties - declared to avoid PHP 8.2+ deprecation warnings
-	protected $entity;            // \App\CRMEntity instance
+	protected $entity;            // \App\Core\CRMEntity instance
 	protected $isWatchingRecord;  // Boolean - whether user is watching this record
 	protected $rawData;           // Raw data array
 
@@ -182,19 +182,19 @@ class Record extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get the entity instance of the recrod
-	 * @return \App\CRMEntity object
+	 * @return \App\Core\CRMEntity object
 	 */
 	public function getEntity()
 	{
 		if (empty($this->entity)) {
-			$this->entity = \App\CRMEntity::getInstance($this->getModuleName());
+			$this->entity = \App\Core\CRMEntity::getInstance($this->getModuleName());
 		}
 		return $this->entity;
 	}
 
 	/**
 	 * Function to set the entity instance of the record
-	 * @param \App\CRMEntity $entity
+	 * @param \App\Core\CRMEntity $entity
 	 * @return \App\Modules\Base\Models\Record instance
 	 */
 	public function setEntity($entity)
@@ -417,7 +417,7 @@ class Record extends \App\Runtime\BaseModel
 	public function saveToDb($relationParams = null)
 	{
 		$entityInstance = $this->getModule()->getEntityInstance();
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		foreach ($this->getValuesForSave() as $tableName => &$tableData) {
 			$keyTable = [$entityInstance->tab_name_index[$tableName] => $this->getId()];
 			if ($this->isNew()) {
@@ -513,9 +513,9 @@ class Record extends \App\Runtime\BaseModel
 		if (\App\Cache\Cache::has('RecordModelCleanInstance', $moduleName)) {
 			return clone \App\Cache\Cache::get('RecordModelCleanInstance', $moduleName);
 		}
-		$focus = \App\CRMEntity::getInstance($moduleName);
+		$focus = \App\Core\CRMEntity::getInstance($moduleName);
 		$module = \App\Modules\Base\Models\Module::getInstance($moduleName);
-		$modelClassName = \App\Loader::getComponentClassName('Model', 'Record', $moduleName);
+		$modelClassName = \App\Core\Loader::getComponentClassName('Model', 'Record', $moduleName);
 		$instance = new $modelClassName();
 		$instance->setModuleFromInstance($module);
 		$instance->isNew = true;
@@ -546,10 +546,10 @@ class Record extends \App\Runtime\BaseModel
 			return \App\Cache\Cache::get('RecordModel', $cacheName);
 		}
 
-		$focus = \App\CRMEntity::getInstance($moduleName);
+		$focus = \App\Core\CRMEntity::getInstance($moduleName);
 		$focus->id = $recordId;
 		$focus->retrieve_entity_info($recordId, $moduleName);
-		$modelClassName = \App\Loader::getComponentClassName('Model', 'Record', $moduleName);
+		$modelClassName = \App\Core\Loader::getComponentClassName('Model', 'Record', $moduleName);
 		$instance = new $modelClassName();
 		$instance->setEntity($focus)->setData($focus->column_fields)->setModuleFromInstance($module);
 		$instance->setId($recordId);
@@ -563,7 +563,7 @@ class Record extends \App\Runtime\BaseModel
 		$moduleName = $focus->moduleName;
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 
-		$modelClassName = \App\Loader::getComponentClassName('Model', 'Record', $moduleName);
+		$modelClassName = \App\Core\Loader::getComponentClassName('Model', 'Record', $moduleName);
 		$recordModel = new $modelClassName();
 		$recordModel->setData($focus->column_fields)->set('id', $recordId)->setModuleFromInstance($moduleModel)->setEntity($focus);
 		return $recordModel;
@@ -577,7 +577,7 @@ class Record extends \App\Runtime\BaseModel
 	public static function getSearchResult($searchKey, $module = false, $limit = false, $operator = false)
 	{
 		if (!$limit) {
-			$limit = \App\AppConfig::search('GLOBAL_SEARCH_MODAL_MAX_NUMBER_RESULT');
+			$limit = \App\Core\AppConfig::search('GLOBAL_SEARCH_MODAL_MAX_NUMBER_RESULT');
 		}
 		$recordSearch = new \App\RecordSearch($searchKey, $module, $limit);
 		if ($operator) {
@@ -606,7 +606,7 @@ class Record extends \App\Runtime\BaseModel
 			$row['permitted'] = \App\Security\Privilege::isPermitted($row['setype'], 'DetailView', $row['crmid']);
 			$moduleName = $row['setype'];
 			$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
-			$modelClassName = \App\Loader::getComponentClassName('Model', 'Record', $moduleName);
+			$modelClassName = \App\Core\Loader::getComponentClassName('Model', 'Record', $moduleName);
 			$recordInstance = new $modelClassName();
 			$matchingRecords[$moduleName][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($moduleModel);
 		}
@@ -661,7 +661,7 @@ class Record extends \App\Runtime\BaseModel
 		$recordId = $this->getId();
 		$focus = $this->getEntity();
 		if (!$focus) {
-			$focus = \App\CRMEntity::getInstance($moduleName);
+			$focus = \App\Core\CRMEntity::getInstance($moduleName);
 			$this->setEntity($focus);
 		}
 		$lockFields = $focus->getLockFields();
@@ -761,7 +761,7 @@ class Record extends \App\Runtime\BaseModel
 	{
 		if ($recordIds) {
 			$moduleName = $this->getModuleName();
-			$focus = \App\CRMEntity::getInstance($moduleName);
+			$focus = \App\Core\CRMEntity::getInstance($moduleName);
 			if (method_exists($focus, 'transferRelatedRecords')) {
 				$focus->transferRelatedRecords($moduleName, $recordIds, $this->getId());
 			}
@@ -805,7 +805,7 @@ class Record extends \App\Runtime\BaseModel
 	{
 		$db = \App\Database\PearDatabase::getInstance();
 		$id = $this->getId();
-		\App\Log::trace("Track the viewing of a detail record: vtiger_tracker (user_id, module_name, item_id)($id)");
+		\App\Log\Log::trace("Track the viewing of a detail record: vtiger_tracker (user_id, module_name, item_id)($id)");
 		if ($id != '') {
 			$updateQuery = "UPDATE vtiger_crmentity SET viewedtime=? WHERE crmid=?;";
 			$updateParams = array(date('Y-m-d H:i:s'), $this->getId());
@@ -884,7 +884,7 @@ class Record extends \App\Runtime\BaseModel
 
 	public function getListFieldsToGenerate($parentModuleName, $moduleName)
 	{
-		$module = \App\CRMEntity::getInstance($parentModuleName);
+		$module = \App\Core\CRMEntity::getInstance($parentModuleName);
 		return $module->fieldsToGenerate[$moduleName] ? $module->fieldsToGenerate[$moduleName] : [];
 	}
 
@@ -912,7 +912,7 @@ class Record extends \App\Runtime\BaseModel
 	 */
 	public function getInventoryData()
 	{
-		\App\Log::trace('Entering ' . __METHOD__);
+		\App\Log\Log::trace('Entering ' . __METHOD__);
 		if (!$this->inventoryData) {
 			$module = $this->getModuleName();
 			$record = $this->getId();
@@ -924,7 +924,7 @@ class Record extends \App\Runtime\BaseModel
 			}
 			$this->inventoryData = self::getInventoryDataById($record, $module);
 		}
-		\App\Log::trace('Exiting ' . __METHOD__);
+		\App\Log\Log::trace('Exiting ' . __METHOD__);
 		return $this->inventoryData;
 	}
 
@@ -948,7 +948,7 @@ class Record extends \App\Runtime\BaseModel
 	public function initInventoryData($request = null)
 	{
 
-		\App\Log::trace('Entering ' . __METHOD__);
+		\App\Log\Log::trace('Entering ' . __METHOD__);
 
 		$moduleName = $this->getModuleName();
 		$inventory = \App\Modules\Base\Models\InventoryField::getInstance($moduleName);
@@ -962,7 +962,7 @@ class Record extends \App\Runtime\BaseModel
 		}
 		if ($request === null || !is_object($request) || !method_exists($request, 'has')) {
 			$this->inventoryData = [];
-			\App\Log::warning('Request is null or not an object or does not have the has method');
+			\App\Log\Log::warning('Request is null or not an object or does not have the has method');
 			return;
 		}
 
@@ -988,7 +988,7 @@ class Record extends \App\Runtime\BaseModel
 			}
 		}
 		$this->inventoryData = $inventoryData;
-		\App\Log::trace('Exiting ' . __METHOD__);
+		\App\Log\Log::trace('Exiting ' . __METHOD__);
 	}
 
 	/**
@@ -1042,8 +1042,8 @@ class Record extends \App\Runtime\BaseModel
 	 */
 	public function saveInventoryData($moduleName)
 	{
-		\App\Log::trace('Start ' . __METHOD__);
-		$db = \App\Db::getInstance();
+		\App\Log\Log::trace('Start ' . __METHOD__);
+		$db = \App\Db\Db::getInstance();
 		$inventory = \App\Modules\Base\Models\InventoryField::getInstance($moduleName);
 		$table = $inventory->getTableName('data');
 
@@ -1055,7 +1055,7 @@ class Record extends \App\Runtime\BaseModel
 				$db->createCommand()->insert($table, $insertData)->execute();
 			}
 		}
-		\App\Log::trace('End ' . __METHOD__);
+		\App\Log\Log::trace('End ' . __METHOD__);
 	}
 
 	public function clearPrivilegesCache($name = false)
@@ -1082,8 +1082,8 @@ class Record extends \App\Runtime\BaseModel
 	{
 		$id = $this->getId();
 		$module = $moduleName !== null ? $moduleName : $this->getModuleName();
-		\App\Log::trace("Entering into uploadAndSaveFile($id,$module,$fileDetails) method.");
-		$db = \App\Db::getInstance();
+		\App\Log\Log::trace("Entering into uploadAndSaveFile($id,$module,$fileDetails) method.");
+		$db = \App\Db\Db::getInstance();
 		$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
 		$date = date('Y-m-d H:i:s');
 
@@ -1163,7 +1163,7 @@ class Record extends \App\Runtime\BaseModel
 			}
 			return true;
 		} else {
-			\App\Log::trace('Skip the save attachment process.');
+			\App\Log\Log::trace('Skip the save attachment process.');
 			return false;
 		}
 	}
@@ -1297,7 +1297,7 @@ class Record extends \App\Runtime\BaseModel
 	 */
 	public function isCanAssignToHimself()
 	{
-		return \App\Fields\Owner::getType($this->getValueByField('assigned_user_id')) === \App\PrivilegeUtil::MEMBER_TYPE_GROUPS &&
+		return \App\Fields\Owner::getType($this->getValueByField('assigned_user_id')) === \App\Security\PrivilegeUtil::MEMBER_TYPE_GROUPS &&
 			array_key_exists(\App\Modules\Users\Models\Record::getCurrentUserId(), \App\Fields\Owner::getInstance($this->getModuleName())->getAccessibleUsers('', 'owner'));
 	}
 
@@ -1307,9 +1307,9 @@ class Record extends \App\Runtime\BaseModel
 	 */
 	public function autoAssignRecord()
 	{
-		if (\App\Fields\Owner::getType($this->getValueByField('assigned_user_id')) === \App\PrivilegeUtil::MEMBER_TYPE_GROUPS) {
+		if (\App\Fields\Owner::getType($this->getValueByField('assigned_user_id')) === \App\Security\PrivilegeUtil::MEMBER_TYPE_GROUPS) {
 			$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
-			$roleData = \App\PrivilegeUtil::getRoleDetail($userModel->getRole());
+			$roleData = \App\Security\PrivilegeUtil::getRoleDetail($userModel->getRole());
 			if (!empty($roleData['auto_assign'])) {
 				$autoAssignModel = \App\Modules\Settings\Base\Models\Module::getInstance('Settings:AutomaticAssignment');
 				$autoAssignRecord = $autoAssignModel->searchRecord($this, $userModel->getRole());

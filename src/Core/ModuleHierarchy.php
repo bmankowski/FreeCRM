@@ -1,5 +1,5 @@
 <?php
-namespace App;
+namespace App\Core;
 
 /**
  * Modules hierarchy basic class
@@ -208,7 +208,7 @@ class ModuleHierarchy
 
 	protected static function getRelatedRecordsByField($record, $field)
 	{
-		$queryGenerator = new QueryGenerator($field['name']);
+		$queryGenerator = new \App\QueryField\QueryGenerator($field['name']);
 		$queryGenerator->setFields(['id']);
 		$queryGenerator->addNativeCondition([$field['tablename'] . '.' . $field['columnname'] => $record]);
 		return $queryGenerator->createQuery()->column();

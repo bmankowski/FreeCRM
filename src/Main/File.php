@@ -13,13 +13,13 @@ class File
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		if (\App\AppConfig::main('forceSSL') && !\App\Utils\RequestUtil::getBrowserInfo()->https) {
+		if (\App\Core\AppConfig::main('forceSSL') && !\App\Utils\RequestUtil::getBrowserInfo()->https) {
 			header("Location: https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]", true, 301);
 		}
-		if (\App\AppConfig::main('forceRedirect')) {
+		if (\App\Core\AppConfig::main('forceRedirect')) {
 			$requestUrl = (\App\Utils\RequestUtil::getBrowserInfo()->https ? 'https' : 'http') . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-			if (stripos($requestUrl, \App\AppConfig::main('site_URL')) !== 0) {
-				header('Location: ' . \App\AppConfig::main('site_URL'), true, 301);
+			if (stripos($requestUrl, \App\Core\AppConfig::main('site_URL')) !== 0) {
+				header('Location: ' . \App\Core\AppConfig::main('site_URL'), true, 301);
 			}
 		}
 		\App\Http\Vtiger_Session::init();
@@ -29,7 +29,7 @@ class File
 		if (!$moduleName || !$action) {
 			throw new \App\Exceptions\NoPermitted('Method Not Allowed', 405);
 		}
-		$handlerClass = \App\Loader::getComponentClassName('File', $action, $moduleName);
+		$handlerClass = \App\Core\Loader::getComponentClassName('File', $action, $moduleName);
 		$handler = new $handlerClass();
 		if ($handler) {
 			$method = $request->getRequestMethod();
@@ -49,7 +49,7 @@ class File
 	{
 		if (\App\Http\Vtiger_Session::has('authenticated_user_id')) {
 			$userid = \App\Http\Vtiger_Session::get('authenticated_user_id');
-			if ($userid && \App\AppConfig::main('application_unique_key') === \App\Http\Vtiger_Session::get('app_unique_key')) {
+			if ($userid && \App\Core\AppConfig::main('application_unique_key') === \App\Http\Vtiger_Session::get('app_unique_key')) {
 				$userModel = \App\Modules\Users\Models\Record::getInstanceById($userid, 'Users');
 				
 				// NEW: Attach to request if available
@@ -59,7 +59,7 @@ class File
 				}
 				
 				// Legacy entity for backward compatibility
-				$user = \App\CRMEntity::getInstance('Users');
+				$user = \App\Core\CRMEntity::getInstance('Users');
 				$user->retrieveCurrentUserInfoFromFile($userid);
 				return $user;
 			}

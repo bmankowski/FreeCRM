@@ -32,7 +32,7 @@ namespace App\Modules\Users;
 /** Main class for the user module
  *
  */
-class Users extends \App\CRMEntity
+class Users extends \App\Core\CRMEntity
 {
 
 	// Stored fields
@@ -178,12 +178,12 @@ class Users extends \App\CRMEntity
 	public function getSortOrder($request = null)
 	{
 
-		\App\Log::trace("Entering getSortOrder() method ...");
+		\App\Log\Log::trace("Entering getSortOrder() method ...");
 		if ($request !== null && $request->has('sorder'))
 			$sorder = $this->db->sql_escape_string($request->get('sorder'));
 		else
 			$sorder = (($_SESSION['USERS_SORT_ORDER'] != '') ? ($_SESSION['USERS_SORT_ORDER']) : ($this->default_sort_order));
-		\App\Log::trace("Exiting getSortOrder method ...");
+		\App\Log\Log::trace("Exiting getSortOrder method ...");
 		return $sorder;
 	}
 
@@ -195,10 +195,10 @@ class Users extends \App\CRMEntity
 	public function getOrderBy($request = null)
 	{
 
-		\App\Log::trace("Entering getOrderBy() method ...");
+		\App\Log\Log::trace("Entering getOrderBy() method ...");
 
 		$use_default_order_by = '';
-		if (\App\AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
+		if (\App\Core\AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
 			$use_default_order_by = $this->default_order_by;
 		}
 
@@ -206,7 +206,7 @@ class Users extends \App\CRMEntity
 			$order_by = $this->db->sql_escape_string($request->get('order_by'));
 		else
 			$order_by = (($_SESSION['USERS_ORDER_BY'] != '') ? ($_SESSION['USERS_ORDER_BY']) : ($use_default_order_by));
-		\App\Log::trace("Exiting getOrderBy method ...");
+		\App\Log\Log::trace("Exiting getOrderBy method ...");
 		return $order_by;
 	}
 	// Mike Crowe Mod --------------------------------------------------------
@@ -305,7 +305,7 @@ class Users extends \App\CRMEntity
 	public function insertIntoAttachment($id, $module)
 	{
 
-		\App\Log::trace("Entering into insertIntoAttachment($id,$module) method.");
+		\App\Log\Log::trace("Entering into insertIntoAttachment($id,$module) method.");
 
 		foreach ($_FILES as $fileindex => $files) {
 			if ($files['name'] != '' && $files['size'] > 0) {
@@ -314,7 +314,7 @@ class Users extends \App\CRMEntity
 			}
 		}
 
-		\App\Log::trace("Exiting from insertIntoAttachment($id,$module) method.");
+		\App\Log\Log::trace("Exiting from insertIntoAttachment($id,$module) method.");
 	}
 
 	/** Function to retreive the user info of the specifed user id The user info will be available in $this->column_fields array
@@ -326,10 +326,10 @@ class Users extends \App\CRMEntity
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 
-		\App\Log::trace("Entering into retrieve_entity_info($record, $module) method.");
+		\App\Log\Log::trace("Entering into retrieve_entity_info($record, $module) method.");
 
 		if ($record == '') {
-			\App\Log::error('record is empty. returning null');
+			\App\Log\Log::error('record is empty. returning null');
 			return null;
 		}
 		$result = [];
@@ -375,7 +375,7 @@ class Users extends \App\CRMEntity
 			$this->column_fields['currency_symbol_placement'] = $this->currency_symbol_placement = '1.0$';
 		}
 		$this->id = $record;
-		\App\Log::trace('Exit from retrieve_entity_info() method.');
+		\App\Log\Log::trace('Exit from retrieve_entity_info() method.');
 		return $this;
 	}
 
@@ -387,17 +387,17 @@ class Users extends \App\CRMEntity
 	 */
 	public function uploadAndSaveFile($id, $module, $fileDetails)
 	{
-		\App\Log::trace("Entering into uploadAndSaveFile($id,$module,$fileDetails) method.");
+		\App\Log\Log::trace("Entering into uploadAndSaveFile($id,$module,$fileDetails) method.");
 		$currentUserId = \App\Modules\Users\Models\Record::getCurrentUserId();
 		$dateVar = date('Y-m-d H:i:s');
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		//to get the owner id
 		$ownerid = $this->column_fields['assigned_user_id'];
 		if (!isset($ownerid) || $ownerid == '')
 			$ownerid = $currentUserId;
 		$fileInstance = \App\Fields\File::loadFromRequest($fileDetails);
 		if (!$fileInstance->validate('image')) {
-			\App\Log::trace('Skip the save attachment process.');
+			\App\Log\Log::trace('Skip the save attachment process.');
 			return false;
 		}
 		$binFile = $fileInstance->getSanitizeName();
@@ -430,10 +430,10 @@ class Users extends \App\CRMEntity
 			$db->createCommand()->insert('vtiger_salesmanattachmentsrel', ['smid' => $id, 'attachmentsid' => $currentId])->execute();
 			//we should update the imagename in the users table
 			$db->createCommand()->update('vtiger_users', ['imagename' => $id], ['id' => $currentId])->execute();
-			\App\Log::trace("Exiting from uploadAndSaveFile($id,$module,$fileDetails) method.");
+			\App\Log\Log::trace("Exiting from uploadAndSaveFile($id,$module,$fileDetails) method.");
 			return true;
 		}
-		\App\Log::trace("Exiting from uploadAndSaveFile($id,$module,$fileDetails) method.");
+		\App\Log\Log::trace("Exiting from uploadAndSaveFile($id,$module,$fileDetails) method.");
 		return false;
 	}
 
@@ -577,7 +577,7 @@ class Users extends \App\CRMEntity
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 
-		\App\Log::trace("Entering in function saveHomeOrder($id)");
+		\App\Log\Log::trace("Entering in function saveHomeOrder($id)");
 
 		if ($this->mode == 'edit') {
 			$countHomeorderArray = count($this->homeorder_array);
@@ -598,7 +598,7 @@ class Users extends \App\CRMEntity
 		else {
 			$this->insertUserdetails('postinstall');
 		}
-		\App\Log::trace("Exiting from function saveHomeOrder($id)");
+		\App\Log\Log::trace("Exiting from function saveHomeOrder($id)");
 	}
 
 	public function filterInactiveFields($module)
@@ -640,14 +640,14 @@ class Users extends \App\CRMEntity
 	 */
 	public function transformOwnerShipAndDelete($userId, $transformToUserId)
 	{
-		$eventHandler = new \App\EventHandler();
+		$eventHandler = new \App\Events\EventHandler();
 		$eventHandler->setParams(['userId' => $userId, 'transformToUserId' => $transformToUserId]);
 		$eventHandler->setModuleName('Users');
 		$eventHandler->trigger('UsersBeforeDelete');
 
 		vtws_transferOwnership($userId, $transformToUserId);
 		//updating the vtiger_users table;
-		\App\Db::getInstance()->createCommand()
+		\App\Db\Db::getInstance()->createCommand()
 			->update('vtiger_users', [
 				'status' => 'Inactive',
 				'deleted' => 1,
@@ -680,7 +680,7 @@ class Users extends \App\CRMEntity
 public static function getActiveAdminUser()
 {
 	$adminId = \App\Modules\Users\Models\Record::getActiveAdminId();
-	$user = \App\CRMEntity::getInstance('Users');
+	$user = \App\Core\CRMEntity::getInstance('Users');
 	$user->retrieveCurrentUserInfoFromFile($adminId);
 		return $user;
 	}

@@ -51,8 +51,8 @@
 						</script>
 					{/if}
 				{/if}
-				{if \App\Debugger::isDebugBar()}
-					{\App\Debugger::getDebugBar()->getJavascriptRenderer()->renderHead()}
+				{if \App\Debug\Debugger::isDebugBar()}
+					{\App\Debug\Debugger::getDebugBar()->getJavascriptRenderer()->renderHead()}
 				{/if}
 			{/block}
 		{/block}
@@ -95,7 +95,7 @@
 				<div id="pjaxContainer" class="hide noprint"></div>
 				{block name="main_container"}
 					<div class="container-fluid container-fluid-main">
-						<div class="baseContainer {if AppConfig::module('Users','IS_VISIBLE_USER_INFO_FOOTER')}userInfoFooter{/if}">
+						<div class="baseContainer {if \App\Core\AppConfig::module('Users','IS_VISIBLE_USER_INFO_FOOTER')}userInfoFooter{/if}">
 							{block name="announcements"}
 								{assign var="ANNOUNCEMENTS" value=\App\Modules\Base\Models\Module::getInstance('Announcements')}
 								{if $ANNOUNCEMENTS && $ANNOUNCEMENTS->checkActive($VIEW)}
@@ -118,7 +118,7 @@
 							{block name="main_content"}
 								<div class="basePanel noSpaces {if $LEFTPANELHIDE} menuOpen{/if}">
 									<div
-										class="mainBody {if AppConfig::module('Users','IS_VISIBLE_USER_INFO_FOOTER')}userInfoFooter{/if}">
+										class="mainBody {if \App\Core\AppConfig::module('Users','IS_VISIBLE_USER_INFO_FOOTER')}userInfoFooter{/if}">
 										<div class="container-fluid bodyContent noSpaces">
 											<div class="bodyContents">
 												{block name="content"}

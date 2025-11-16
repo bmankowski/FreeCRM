@@ -440,7 +440,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	public function save($request = null)
 	{
-		$adb = \App\Db::getInstance();
+		$adb = \App\Db\Db::getInstance();
 		$db = \App\Database\PearDatabase::getInstance();
 		$modulePermissions = $this->getModulePermissions();
 
@@ -526,7 +526,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	protected function saveModulePermissions($moduleModel, $permissions)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
-		$adb = \App\Db::getInstance();
+		$adb = \App\Db\Db::getInstance();
 		$profileId = $this->getId();
 		$tabId = $moduleModel->getId();
 		$profileUtilityPermissions = $this->getProfileUtilityPermissions();
@@ -836,7 +836,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public function recalculate()
 	{
-		$php_max_execution_time = \App\AppConfig::main('php_max_execution_time');
+		$php_max_execution_time = \App\Core\AppConfig::main('php_max_execution_time');
 		set_time_limit($php_max_execution_time);
 
 
@@ -930,7 +930,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public static function getProfileGlobalPermission($profileid)
 	{
-		\App\Log::trace("Entering getProfileGlobalPermission(" . $profileid . ") method ...");
+		\App\Log\Log::trace("Entering getProfileGlobalPermission(" . $profileid . ") method ...");
 		$adb = \App\Database\PearDatabase::getInstance();
 		$sql = "select * from vtiger_profile2globalpermissions where profileid=?";
 		$result = $adb->pquery($sql, array($profileid));
@@ -943,7 +943,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			$copy[$act_id] = $per_id;
 		}
 
-		\App\Log::trace("Exiting getProfileGlobalPermission method ...");
+		\App\Log\Log::trace("Exiting getProfileGlobalPermission method ...");
 		return $copy;
 	}
 
@@ -955,7 +955,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public static function getProfileTabsPermission($profileid)
 	{
-		\App\Log::trace("Entering getProfileTabsPermission(" . $profileid . ") method ...");
+		\App\Log\Log::trace("Entering getProfileTabsPermission(" . $profileid . ") method ...");
 		$adb = \App\Database\PearDatabase::getInstance();
 		$sql = "select * from vtiger_profile2tab where profileid=?";
 		$result = $adb->pquery($sql, array($profileid));
@@ -968,7 +968,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			$copy[$tab_id] = $per_id;
 		}
 
-		\App\Log::trace("Exiting getProfileTabsPermission method ...");
+		\App\Log\Log::trace("Exiting getProfileTabsPermission method ...");
 		return $copy;
 	}
 
@@ -983,7 +983,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public static function getProfileActionPermission($profileid)
 	{
-		\App\Log::trace("Entering getProfileActionPermission(" . $profileid . ") method ...");
+		\App\Log\Log::trace("Entering getProfileActionPermission(" . $profileid . ") method ...");
 		$adb = \App\Database\PearDatabase::getInstance();
 		$check = [];
 		$temp_tabid = [];
@@ -1003,7 +1003,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			$check[$tab_id] = $access;
 		}
 
-		\App\Log::trace("Exiting getProfileActionPermission method ...");
+		\App\Log\Log::trace("Exiting getProfileActionPermission method ...");
 		return $check;
 	}
 
@@ -1018,7 +1018,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public static function getTabsUtilityActionPermission($profileid)
 	{
-		\App\Log::trace("Entering getTabsUtilityActionPermission(" . $profileid . ") method ...");
+		\App\Log\Log::trace("Entering getTabsUtilityActionPermission(" . $profileid . ") method ...");
 
 		$adb = \App\Database\PearDatabase::getInstance();
 		$check = [];
@@ -1039,7 +1039,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			$check[$tab_id] = $access;
 		}
 
-		\App\Log::trace("Exiting getTabsUtilityActionPermission method ...");
+		\App\Log\Log::trace("Exiting getTabsUtilityActionPermission method ...");
 		return $check;
 	}
 
@@ -1054,7 +1054,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public static function getProfileAllActionPermission($profileid)
 	{
-		\App\Log::trace("Entering getProfileAllActionPermission(" . $profileid . ") method ...");
+		\App\Log\Log::trace("Entering getProfileAllActionPermission(" . $profileid . ") method ...");
 		$adb = \App\Database\PearDatabase::getInstance();
 		$actionArr = self::getProfileActionPermission($profileid);
 		$utilArr = self::getTabsUtilityActionPermission($profileid);
@@ -1065,7 +1065,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			}
 			$actionArr[$tabid] = $act_tab_arr;
 		}
-		\App\Log::trace("Exiting getProfileAllActionPermission method ...");
+		\App\Log\Log::trace("Exiting getProfileAllActionPermission method ...");
 		return $actionArr;
 	}
 }

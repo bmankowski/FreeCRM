@@ -58,7 +58,7 @@ class AccountsByIndustry  extends \App\Modules\Base\Views\Index
 		if (!empty($dateFilter)) {
 			$query->andWhere(['between', 'createdtime', $dateFilter['start'] . ' 00:00:00', $dateFilter['end'] . ' 23:59:59']);
 		}
-		\App\PrivilegeQuery::getConditions($query, $module);
+		\App\Security\PrivilegeQuery::getConditions($query, $module);
 		$query->groupBy(['vtiger_industry.sortorderid', 'industryvalue'])->orderBy('vtiger_industry.sortorderid');
 		$dataReader = $query->createCommand()->query();
 		$response = [];

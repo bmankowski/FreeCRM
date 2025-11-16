@@ -59,7 +59,7 @@ class Module extends \App\Modules\Base\Models\Module
 	{
 		$db = \App\Database\PearDatabase::getInstance();
 		$module = $this->getName();
-		$securityParameter = \App\PrivilegeQuery::getAccessConditions($module);
+		$securityParameter = \App\Security\PrivilegeQuery::getAccessConditions($module);
 		if (!empty($owner)) {
 			$ownerSql = ' && smownerid = ' . $owner;
 		}
@@ -108,7 +108,7 @@ class Module extends \App\Modules\Base\Models\Module
 		if (!empty($dateFilter)) {
 			$query->andWhere(['between', 'createdtime', $dateFilter['start'] . ' 00:00:00', $dateFilter['end'] . ' 23:59:59']);
 		}
-		\App\PrivilegeQuery::getConditions($query, $module);
+		\App\Security\PrivilegeQuery::getConditions($query, $module);
 		$query->groupBy(['leadstatusvalue', 'vtiger_leadstatus.sortorderid'])->orderBy('vtiger_leadstatus.sortorderid');
 		$dataReader = $query->createCommand()->query();
 		$i = 0;
@@ -150,9 +150,9 @@ class Module extends \App\Modules\Base\Models\Module
 	 * @param string $sourceModule Parent module
 	 * @param string $field parent fieldname
 	 * @param string $record parent id
-	 * @param \App\QueryGenerator $queryGenerator
+	 * @param \App\QueryField\QueryGenerator $queryGenerator
 	 */
-	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
+	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryField\QueryGenerator $queryGenerator)
 	{
 		if (!empty($record) && in_array($sourceModule, ['Campaigns', 'Products', 'Services'])) {
 			switch ($sourceModule) {
@@ -193,7 +193,7 @@ class Module extends \App\Modules\Base\Models\Module
 	public function searchAccountsToConvert($recordModel)
 	{
 
-		\App\Log::trace('Start ' . __METHOD__);
+		\App\Log\Log::trace('Start ' . __METHOD__);
 		if ($recordModel) {
 			$params = [];
 			$db = \App\Database\PearDatabase::getInstance();
@@ -211,14 +211,14 @@ class Module extends \App\Modules\Base\Models\Module
 			$result = $db->pquery($sql, $params);
 			$num = $db->num_rows($result);
 			if ($num > 1) {
-				\App\Log::trace('End ' . __METHOD__);
+				\App\Log\Log::trace('End ' . __METHOD__);
 				return false;
 			} elseif ($num == 1) {
-				\App\Log::trace('End ' . __METHOD__);
+				\App\Log\Log::trace('End ' . __METHOD__);
 				return (int) $db->query_result($result, 0, 'accountid');
 			}
 		}
-		\App\Log::trace('End ' . __METHOD__);
+		\App\Log\Log::trace('End ' . __METHOD__);
 		return true;
 	}
 

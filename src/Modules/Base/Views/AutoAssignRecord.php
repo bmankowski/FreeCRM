@@ -62,7 +62,7 @@ class AutoAssignRecord  extends \App\Modules\Base\Views\Index
 			foreach ($availableUsers as $userId => $value) {
 				$userModel = \App\Modules\Users\Models\Record::getUserModel($userId);
 				$roleId = $userModel->getRole();
-				$userRoleNames[$userId] = \App\PrivilegeUtil::getRoleName($roleId);
+				$userRoleNames[$userId] = \App\Security\PrivilegeUtil::getRoleName($roleId);
 			}
 		}
 

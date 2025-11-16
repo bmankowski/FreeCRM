@@ -3,14 +3,14 @@
 namespace App\Modules\SVendorEnquiries;
 
 /**
- * SVendorEnquiries \App\CRMEntity Class
+ * SVendorEnquiries \App\Core\CRMEntity Class
  * @package YetiForce.CRMEntity
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
 
-class SVendorEnquiries extends \App\CRMEntity
+class SVendorEnquiries extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'u_yf_svendorenquiries';

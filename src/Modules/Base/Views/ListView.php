@@ -75,7 +75,7 @@ class ListView extends \App\Modules\Base\Views\Index
 
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
 
-		$this->viewName = \App\CustomView::getInstance($moduleName)->getViewId();
+		$this->viewName = \App\View\CustomView::getInstance($moduleName)->getViewId();
 		$this->listViewModel = \App\Modules\Base\Models\ListView::getInstance($moduleName, $this->viewName);
 		$this->initializeListViewContents($request, $viewer);
 
@@ -93,7 +93,7 @@ class ListView extends \App\Modules\Base\Views\Index
 		
 		// Assign common data needed by AJAX list view
 		if (!isset($this->viewName)) {
-			$this->viewName = \App\CustomView::getInstance($moduleName)->getViewId();
+			$this->viewName = \App\View\CustomView::getInstance($moduleName)->getViewId();
 		}
 		$this->initializeListViewContents($request, $viewer);	
 		$viewer->assign('USER_MODEL', $request->getUser());
@@ -109,16 +109,16 @@ class ListView extends \App\Modules\Base\Views\Index
 		$moduleName = $request->getModule();
 		
 		if ($request->isAjax()) {
-			if (\App\CustomView::hasViewChanged($moduleName, $this->viewName, $request)) {
+			if (\App\View\CustomView::hasViewChanged($moduleName, $this->viewName, $request)) {
 				$customViewModel = \App\Modules\CustomView\Models\Record::getInstanceById($this->viewName);
 				if ($customViewModel) {
-					\App\CustomView::setDefaultSortOrderBy($moduleName, ['orderBy' => $customViewModel->getSortOrderBy('orderBy'), 'sortOrder' => $customViewModel->getSortOrderBy('sortOrder')]);
+					\App\View\CustomView::setDefaultSortOrderBy($moduleName, ['orderBy' => $customViewModel->getSortOrderBy('orderBy'), 'sortOrder' => $customViewModel->getSortOrderBy('sortOrder')]);
 				}
-				\App\CustomView::setCurrentView($moduleName, $this->viewName);
+				\App\View\CustomView::setCurrentView($moduleName, $this->viewName);
 			} else {
-				\App\CustomView::setDefaultSortOrderBy($moduleName);
+				\App\View\CustomView::setDefaultSortOrderBy($moduleName);
 				if ($request->has('page')) {
-					\App\CustomView::setCurrentPage($moduleName, $this->viewName, $request->get('page'));
+					\App\View\CustomView::setCurrentPage($moduleName, $this->viewName, $request->get('page'));
 				}
 			}
 
@@ -184,10 +184,10 @@ class ListView extends \App\Modules\Base\Views\Index
 		$sortOrder = $request->get('sortorder');
 		$searchResult = $request->get('searchResult');
 		if (empty($orderBy) && empty($sortOrder)) {
-			$orderBy = \App\CustomView::getSortby($moduleName);
-			$sortOrder = \App\CustomView::getSorder($moduleName);
+			$orderBy = \App\View\CustomView::getSortby($moduleName);
+			$sortOrder = \App\View\CustomView::getSorder($moduleName);
 			if (empty($orderBy)) {
-				$moduleInstance = \App\CRMEntity::getInstance($moduleName);
+				$moduleInstance = \App\Core\CRMEntity::getInstance($moduleName);
 				$orderBy = $moduleInstance->default_order_by;
 				$sortOrder = $moduleInstance->default_sort_order;
 			}
@@ -200,7 +200,7 @@ class ListView extends \App\Modules\Base\Views\Index
 			$sortImage = 'glyphicon glyphicon-chevron-up';
 		}
 		if (empty($pageNumber)) {
-			$pageNumber = \App\CustomView::getCurrentPage($moduleName, $this->viewName);
+			$pageNumber = \App\View\CustomView::getCurrentPage($moduleName, $this->viewName);
 		}
 		if (!$this->listViewModel) {
 			$this->listViewModel = \App\Modules\Base\Models\ListView::getInstance($moduleName, $this->viewName);
@@ -271,7 +271,7 @@ class ListView extends \App\Modules\Base\Views\Index
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
 		$viewer->assign('LISTVIEW_ENTRIES_COUNT', $noOfEntries);
 		$totalCount = false;
-		if (\App\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+		if (\App\Core\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			if (!$this->listViewCount) {
 				$this->listViewCount = $this->listViewModel->getListViewCount();
 			}
@@ -287,7 +287,7 @@ class ListView extends \App\Modules\Base\Views\Index
 		$viewer->assign('SEARCH_DETAILS', $searchParams);
 		
 		// Prepare data for ListViewContents template - move function calls from templates to controller
-		$viewer->assign('AUTO_REFRESH_LIST_ON_CHANGE', \App\AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE'));
-		$viewer->assign('LIST_MAX_ENTRIES_MASS_EDIT', \App\AppConfig::main('listMaxEntriesMassEdit'));
+		$viewer->assign('AUTO_REFRESH_LIST_ON_CHANGE', \App\Core\AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE'));
+		$viewer->assign('LIST_MAX_ENTRIES_MASS_EDIT', \App\Core\AppConfig::main('listMaxEntriesMassEdit'));
 	}
 }

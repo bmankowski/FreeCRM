@@ -21,14 +21,14 @@ class TotalContacts {
 	public function process($instance)
 	{
 		
-		\App\Log::trace("Entering TotalContacts::process() method ...");
+		\App\Log\Log::trace("Entering TotalContacts::process() method ...");
 		$adb = \App\Database\PearDatabase::getInstance();
 		$contact = 'SELECT COUNT(contactid) as count FROM vtiger_contactdetails
 			INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid=vtiger_contactdetails.contactid
 			WHERE vtiger_crmentity.deleted=0 &&  vtiger_contactdetails.parentid = ?';
 		$result_contact = $adb->pquery($contact, array($instance->getId()));
 		$count = $adb->query_result($result_contact, 0, 'count');
-		\App\Log::trace("Exiting TotalContacts::process() method ...");
+		\App\Log\Log::trace("Exiting TotalContacts::process() method ...");
 		return $count;
 	}
 }

@@ -170,12 +170,12 @@ class Module extends \App\Modules\Base\Models\Module
 			throw new \Exception(\App\Runtime\Vtiger_Language_Handler::translate('LBL_WRONG_FIELD_TYPE', 'Settings::LayoutEditor'), 513);
 		}
 		$moduleName = $this->getName();
-		$focus = \App\CRMEntity::getInstance($moduleName);
+		$focus = \App\Core\CRMEntity::getInstance($moduleName);
 		if ($type == 0) {
 			$columnName = $name;
 			$tableName = $focus->table_name;
 		} elseif ($type == 1) {
-			$columnName = 'cf_' . \App\Db::getInstance()->getUniqueID('vtiger_field');
+			$columnName = 'cf_' . \App\Db\Db::getInstance()->getUniqueID('vtiger_field');
 			if (isset($focus->customFieldTable)) {
 				$tableName = $focus->customFieldTable[0];
 			} else {
@@ -190,7 +190,7 @@ class Module extends \App\Modules\Base\Models\Module
 			$fieldParams['field'] = $params['MRVField'];
 			$fieldParams['filterField'] = $params['MRVFilterField'];
 			$fieldParams['filterValue'] = $params['MRVFilterValue'];
-			\App\Db::getInstance()->createCommand()->insert('s_#__multireference', ['source_module' => $moduleName, 'dest_module' => $params['MRVModule']])->execute();
+			\App\Db\Db::getInstance()->createCommand()->insert('s_#__multireference', ['source_module' => $moduleName, 'dest_module' => $params['MRVModule']])->execute();
 		}
 		$details = $this->getTypeDetailsForAddField($fieldType, $params);
 		$uitype = $details['uitype'];

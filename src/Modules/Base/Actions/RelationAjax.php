@@ -213,7 +213,7 @@ class RelationAjax extends \App\Base\Controllers\BaseActionController
 				if ($relatedModuleName === 'ProductsAndServices' && in_array($relModule, $categoryCount)) {
 					$totalCount += (int) $relationListView->getRelatedTreeEntriesCount();
 				}
-				if ($relatedModuleName === 'Calendar' && \App\AppConfig::module($relatedModuleName, 'SHOW_ONLY_CURRENT_RECORDS_COUNT')) {
+				if ($relatedModuleName === 'Calendar' && \App\Core\AppConfig::module($relatedModuleName, 'SHOW_ONLY_CURRENT_RECORDS_COUNT')) {
 					$totalCount += (int) $relationListView->getRelationQuery()->andWhere(['vtiger_activity.status' => \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current')])->count();
 				} else {
 					$totalCount += (int) $relationListView->getRelatedEntriesCount();

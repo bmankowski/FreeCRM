@@ -57,7 +57,7 @@ class Mail extends \App\Base\Controllers\BaseActionController
 	public function checkSmtp(\App\Http\Vtiger_Request $request)
 	{
 		$result = false;
-		if (\App\AppConfig::main('isActiveSendingMails')) {
+		if (\App\Core\AppConfig::main('isActiveSendingMails')) {
 			$result = !empty(\App\Email\Mail::getAll());
 		}
 		$response = new \App\Http\Vtiger_Response();

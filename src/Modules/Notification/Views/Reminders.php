@@ -26,7 +26,7 @@ class Reminders  extends \App\Modules\Base\Views\Index
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
-		$entries = $moduleModel->getEntries(\App\AppConfig::module($moduleName, 'MAX_NUMBER_NOTIFICATIONS'));
+		$entries = $moduleModel->getEntries(\App\Core\AppConfig::module($moduleName, 'MAX_NUMBER_NOTIFICATIONS'));
 		$colors = ['PLL_SYSTEM' => '#FF9800', 'PLL_USERS' => '#1baee2'];
 		$viewer->assign('RECORDS', $entries);
 		$viewer->assign('COLORS', $colors);

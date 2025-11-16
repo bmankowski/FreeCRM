@@ -104,7 +104,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	public function delete()
 	{
 		$recordId = $this->getId();
-		\App\Db::getInstance()->createCommand()->delete('vtiger_blocks_hide', ['id' => $recordId])->execute();
+		\App\Db\Db::getInstance()->createCommand()->delete('vtiger_blocks_hide', ['id' => $recordId])->execute();
 		return true;
 	}
 
@@ -113,7 +113,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public function save($request = null)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$conditions = $this->get('conditions');
 		$wfCondition = array();
 
@@ -159,7 +159,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	{
 		$rowData = [];
 		if (!empty($recordId)) {
-			$recordModelClass = \App\Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
+			$recordModelClass = \App\Core\Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 			$recordModel = new $recordModelClass();
 			$rowData = (new \App\Db\Query())
 				->from('vtiger_blocks_hide')
@@ -175,7 +175,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	static public function getCleanInstance($qualifiedModuleName)
 	{
-		$recordModelClass = \App\Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
+		$recordModelClass = \App\Core\Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 		$recordModel = new $recordModelClass();
 		return $recordModel;
 	}

@@ -25,7 +25,7 @@ class Record extends \App\Modules\Base\Models\Record
 			$currentModule = $relationParams['current_module'] ?? null;
 			
 			if ($forModule && $forCrmid && $forModule === 'HelpDesk') {
-				\App\CRMEntity::getInstance($forModule)->save_related_module(
+				\App\Core\CRMEntity::getInstance($forModule)->save_related_module(
 					$forModule, 
 					$forCrmid, 
 					$currentModule, 

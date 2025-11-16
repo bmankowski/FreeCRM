@@ -36,7 +36,7 @@ class GetData  extends \App\Modules\Base\Views\Index
 
 		$permitted = \App\Modules\Users\Models\Privileges::isPermitted($sourceModule, 'DetailView', $record);
 		if ($permitted) {
-			$focus = \App\CRMEntity::getInstance($sourceModule);
+			$focus = \App\Core\CRMEntity::getInstance($sourceModule);
 			$focus->id = $record;
 			$focus->retrieve_entity_info($record, $sourceModule, true);
 			$data = $focus->column_fields;

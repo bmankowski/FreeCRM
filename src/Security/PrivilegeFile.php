@@ -56,7 +56,7 @@ class PrivilegeFile
 	{
 		$file = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'user_privileges' . DIRECTORY_SEPARATOR . "user_privileges_$userId.php";
 		$user = [];
-		$userInstance = \App\CRMEntity::getInstance('Users');
+		$userInstance = \App\Core\CRMEntity::getInstance('Users');
 		$userInstance->retrieve_entity_info($userId, 'Users');
 		$userInstance->column_fields['is_admin'] = $userInstance->is_admin === 'on';
 		$entityData = \App\Utils\ModuleUtils::getEntityInfo('Users');
@@ -74,8 +74,8 @@ class PrivilegeFile
 		$profileGlobalPermission = \App\Modules\Users\Models\Privileges::getCombinedUserGlobalPermissions($userId);
 		$profileTabsPermission = \App\Modules\Users\Models\Privileges::getCombinedUserTabsPermissions($userId);
 		$profileActionPermission = \App\Modules\Users\Models\Privileges::getCombinedUserActionPermissions($userId);
-		$subordinateRoles = \App\PrivilegeUtil::getRoleSubordinates($userInstance->column_fields['roleid']);
-		$subordinateRolesUsers = \App\PrivilegeUtil::getSubordinateRoleAndUsers($userInstance->column_fields['roleid']);
+		$subordinateRoles = \App\Security\PrivilegeUtil::getRoleSubordinates($userInstance->column_fields['roleid']);
+		$subordinateRolesUsers = \App\Security\PrivilegeUtil::getSubordinateRoleAndUsers($userInstance->column_fields['roleid']);
 
 		$content = "<?php\n";
 		$content .= '$is_admin = ' . ($userInstance->column_fields['is_admin'] ? 'true' : 'false') . ";\n";
@@ -93,7 +93,7 @@ class PrivilegeFile
 		$content .= "return " . \vtlib\Functions:: varExportMin($user) . ";\n";
 		$result = file_put_contents($file, $content, LOCK_EX);
 		if ($result === false) {
-			\App\Log::error("Failed to write privilege file for user $userId: $file");
+			\App\Log\Log::error("Failed to write privilege file for user $userId: $file");
 			throw new \Exception("Failed to write privilege file for user $userId");
 		}
 	}

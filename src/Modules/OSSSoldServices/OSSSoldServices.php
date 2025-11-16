@@ -13,7 +13,7 @@ namespace App\Modules\OSSSoldServices;
  * *********************************************************************************************************************************** */
 
 
-class OSSSoldServices extends \App\CRMEntity
+class OSSSoldServices extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'vtiger_osssoldservices';

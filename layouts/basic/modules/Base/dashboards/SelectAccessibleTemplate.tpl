@@ -11,7 +11,7 @@
 {if !isset($SOURCE_MODULE) && $MODULE_NAME != 'Home'}
 	{assign var=SOURCE_MODULE value=$MODULE_NAME}
 {/if}
-{if isset($SOURCE_MODULE) && $SOURCE_MODULE && AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
+{if isset($SOURCE_MODULE) && $SOURCE_MODULE && \App\Core\AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
 	{assign var=USERS_GROUP_LIST value=\App\Fields\Owner::getInstance($SOURCE_MODULE)->getUsersAndGroupForModuleList(false,$USER_CONDITIONS)}
 	{assign var=ACCESSIBLE_USERS value=$USERS_GROUP_LIST['users']}
 	{assign var=ACCESSIBLE_GROUPS value=$USERS_GROUP_LIST['group']}
@@ -19,7 +19,7 @@
 <div class="input-group input-group-sm">
 	<span class="input-group-addon"><span class="glyphicon glyphicon-user iconMiddle margintop3" title="{"Assigned To"|t:$MODULE_NAME}"></span></span>
 	<select class="widgetFilter select2 width90 owner form-control input-sm" name="owner" title="{"LBL_OWNER"|t}"
-		{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX') && (in_array('groups', $ACCESS_OPTIONS['available']) || in_array('users', $ACCESS_OPTIONS['available']))}
+		{if \App\Core\AppConfig::performance('SEARCH_OWNERS_BY_AJAX') && (in_array('groups', $ACCESS_OPTIONS['available']) || in_array('users', $ACCESS_OPTIONS['available']))}
 			{assign var=AJAX_URL value="index.php?module={$MODULE_NAME}&action=Fields&mode=getOwners&type=Edit"}
 			{if in_array('groups', $ACCESS_OPTIONS['available'])}
 				{assign var=AJAX_URL value=$AJAX_URL|cat:"&result[]=groups"}

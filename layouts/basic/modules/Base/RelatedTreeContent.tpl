@@ -37,9 +37,9 @@
 						{/if}
 						{if $SHOW_COMMENT}
 							<td class="{$WIDTHTYPE}" data-field-type="rel_comment" nowrap>
-								{if strlen($RECORD['rel_comment']) > AppConfig::relation('COMMENT_MAX_LENGTH')}
+								{if strlen($RECORD['rel_comment']) > \App\Core\AppConfig::relation('COMMENT_MAX_LENGTH')}
 									<a class="popoverTooltip" data-placement="top" data-content="{$RECORD['rel_comment']}">
-									{\vtlib\Functions:: textLength($RECORD['rel_comment'], AppConfig::relation('COMMENT_MAX_LENGTH'))}
+									{\vtlib\Functions:: textLength($RECORD['rel_comment'], \App\Core\AppConfig::relation('COMMENT_MAX_LENGTH'))}
 									</a>
 								{else}	
 									{$RECORD['rel_comment']}

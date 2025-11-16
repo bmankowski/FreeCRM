@@ -12,9 +12,9 @@ class OpenStreetMap_OpenStreetMapHandler_Handler {
 
 	/**
 	 * EntityAfterSave handler function
-	 * @param \App\EventHandler $eventHandler
+	 * @param \App\Events\EventHandler $eventHandler
 	 */
-	public function entityAfterSave(\App\EventHandler $eventHandler)
+	public function entityAfterSave(\App\Events\EventHandler $eventHandler)
 	{
 		$fieldAddress = [
 			'addresslevel', 'buildingnumber', 'localnumber', 'pobox'
@@ -42,13 +42,13 @@ class OpenStreetMap_OpenStreetMapHandler_Handler {
 				$coordinatesModel = \App\Modules\OpenStreetMap\Models\Coordinate::getInstance();
 				$address = $coordinatesModel->getUrlParamsToSearching($recordModel, $typeAddress);
 				if (!$isCoordinateExists) {
-					\App\Db::getInstance()->createCommand()->insert('u_#__openstreetmap_record_updater', [
+					\App\Db\Db::getInstance()->createCommand()->insert('u_#__openstreetmap_record_updater', [
 						'crmid' => $recordModel->getId(),
 						'type' => $typeAddress,
 						'address' => \App\Utils\Json::encode($address)
 					])->execute();
 				} else {
-					\App\Db::getInstance()->createCommand()
+					\App\Db\Db::getInstance()->createCommand()
 						->update('u_#__openstreetmap_record_updater', ['address' => \App\Utils\Json::encode($address)], ['crmid' => $recordModel->getId(), 'type' => $typeAddress])
 						->execute();
 				}

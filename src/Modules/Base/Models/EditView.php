@@ -25,7 +25,7 @@ class EditView extends \App\Runtime\BaseModel
 	 */
 	public static function getInstance($moduleName, $recordId)
 	{
-		$modelClassName = \App\Loader::getComponentClassName('Model', 'EditView', $moduleName);
+		$modelClassName = \App\Core\Loader::getComponentClassName('Model', 'EditView', $moduleName);
 		$instance = new $modelClassName();
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		return $instance->set('module', $moduleModel);

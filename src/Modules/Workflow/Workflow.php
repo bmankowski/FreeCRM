@@ -68,7 +68,7 @@ class Workflow
 
 	public function markAsCompletedForRecord($recordId)
 	{
-		\App\Db::getInstance()->createCommand()
+		\App\Db\Db::getInstance()->createCommand()
 			->insert('com_vtiger_workflow_activatedonce', [
 				'entity_id' => $recordId,
 				'workflow_id' => $this->id
@@ -163,7 +163,7 @@ class Workflow
 	 */
 	public function getNextTriggerTime()
 	{
-		$default_timezone = \App\AppConfig::main('default_timezone');
+		$default_timezone = \App\Core\AppConfig::main('default_timezone');
 		$admin = \App\Modules\Users\Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
 		@date_default_timezone_set($adminTimeZone);

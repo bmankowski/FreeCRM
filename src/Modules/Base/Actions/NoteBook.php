@@ -37,7 +37,7 @@ class NoteBook extends \App\Base\Controllers\BaseActionController
 
 		$data = \App\Utils\Json::encode((object) $dataValue);
 		$size = \App\Utils\Json::encode(['width' => $request->get('width'), 'height' => $request->get('height')]);
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$db->createCommand()
 			->insert('vtiger_module_dashboard', [
 				'linkid' => $request->get('linkId'),

@@ -5,7 +5,7 @@
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-$limit = \App\AppConfig::performance('CRON_MAX_NUMBERS_RECORD_PRIVILEGES_UPDATER');
+$limit = \App\Core\AppConfig::performance('CRON_MAX_NUMBERS_RECORD_PRIVILEGES_UPDATER');
 $dataReader = (new \App\Db\Query())->select('crmid, setype')
 	->from('vtiger_crmentity')
 	->where(['users' => null])
@@ -41,7 +41,7 @@ $dataReader = (new \App\Db\Query())
 	->createCommand()->query();
 
 while ($row = $dataReader->read()) {
-	$db = \App\Db::getInstance();
+	$db = \App\Db\Db::getInstance();
 	$crmid = $row['crmid'];
 	if (0 === (int) $row['type']) {
 		\App\PrivilegeUpdater::update($crmid, $row['module']);

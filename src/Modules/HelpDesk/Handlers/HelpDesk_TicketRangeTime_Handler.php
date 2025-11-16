@@ -12,9 +12,9 @@ class HelpDesk_TicketRangeTime_Handler {
 
 	/**
 	 * EntityAfterLink handler function
-	 * @param \App\EventHandler $eventHandler
+	 * @param \App\Events\EventHandler $eventHandler
 	 */
-	public function entityAfterLink(\App\EventHandler $eventHandler)
+	public function entityAfterLink(\App\Events\EventHandler $eventHandler)
 	{
 		$params = $eventHandler->getParams();
 		if (in_array($params['destinationModule'], ['Calendar', 'Events', 'Activity', 'ModComments'])) {
@@ -25,12 +25,12 @@ class HelpDesk_TicketRangeTime_Handler {
 
 	/**
 	 * EntityAfterSave handler function
-	 * @param \App\EventHandler $eventHandler
+	 * @param \App\Events\EventHandler $eventHandler
 	 */
-	public function entityAfterSave(\App\EventHandler $eventHandler)
+	public function entityAfterSave(\App\Events\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
-		\App\Db::getInstance()->createCommand()->update('vtiger_troubletickets', ['from_portal' => 0], ['ticketid' => $recordModel->getId()])->execute();
+		\App\Db\Db::getInstance()->createCommand()->update('vtiger_troubletickets', ['from_portal' => 0], ['ticketid' => $recordModel->getId()])->execute();
 		\App\Modules\HelpDesk\Models\Record::updateTicketRangeTimeField($recordModel);
 	}
 }

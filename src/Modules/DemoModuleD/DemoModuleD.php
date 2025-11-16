@@ -13,7 +13,7 @@ namespace App\Modules\DemoModuleD;
  * ********************************************************************************** */
 
 
-class DemoModuleD extends \App\CRMEntity
+class DemoModuleD extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'vtiger_demomoduled';

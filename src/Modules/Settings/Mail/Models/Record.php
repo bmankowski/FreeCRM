@@ -143,7 +143,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public function delete()
 	{
-		\App\Db::getInstance('admin')->createCommand()
+		\App\Db\Db::getInstance('admin')->createCommand()
 			->delete('s_#__mail_queue', ['id' => $this->getId()])
 			->execute();
 	}
@@ -187,7 +187,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	public static function getInstance($id)
 	{
 		$query = (new \App\Db\Query())->from('s_#__mail_queue')->where(['id' => $id]);
-		$row = $query->createCommand(\App\Db::getInstance('admin'))->queryOne();
+		$row = $query->createCommand(\App\Db\Db::getInstance('admin'))->queryOne();
 		$instance = false;
 		if ($row !== false) {
 			$instance = new self();

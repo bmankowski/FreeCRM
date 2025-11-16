@@ -22,9 +22,9 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 */
 	public static function getProjectStatus()
 	{
-		\App\Log::trace('Entering \App\Modules\Settings\RealizationProcesses\Models\Module::getProjectStatus() method ...');
+		\App\Log\Log::trace('Entering \App\Modules\Settings\RealizationProcesses\Models\Module::getProjectStatus() method ...');
 		$return = \App\Fields\Picklist::getPickListValues('projectstatus');
-		\App\Log::trace('Exiting \App\Modules\Settings\RealizationProcesses\Models\Module::getProjectStatus() method ...');
+		\App\Log\Log::trace('Exiting \App\Modules\Settings\RealizationProcesses\Models\Module::getProjectStatus() method ...');
 		return $return;
 	}
 
@@ -34,7 +34,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 */
 	public static function getStatusNotModify()
 	{
-		\App\Log::trace('Entering \App\Modules\Settings\RealizationProcesses\Models\Module::getStatusNotModify() method ...');
+		\App\Log\Log::trace('Entering \App\Modules\Settings\RealizationProcesses\Models\Module::getStatusNotModify() method ...');
 		$dataReader = (new \App\Db\Query())->from('vtiger_realization_process')
 				->createCommand()->query();
 		while ($row = $dataReader->read()) {
@@ -48,7 +48,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 			$return[$moduleName]['status'] = $status;
 		}
 
-		\App\Log::trace('Exiting \App\Modules\Settings\RealizationProcesses\Models\Module::getStatusNotModify() method ...');
+		\App\Log\Log::trace('Exiting \App\Modules\Settings\RealizationProcesses\Models\Module::getStatusNotModify() method ...');
 		return $return;
 	}
 
@@ -58,11 +58,11 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 */
 	public static function updateStatusNotModify($moduleId, $status)
 	{
-		\App\Log::trace('Entering \App\Modules\Settings\RealizationProcesses\Models\Module::updateStatusNotModify() method ...');
-		\App\Db::getInstance()->createCommand()->update('vtiger_realization_process', [
+		\App\Log\Log::trace('Entering \App\Modules\Settings\RealizationProcesses\Models\Module::updateStatusNotModify() method ...');
+		\App\Db\Db::getInstance()->createCommand()->update('vtiger_realization_process', [
 			'status_indicate_closing' => \App\Utils\Json::encode($status)
 			], ['module_id' => $moduleId])->execute();
-		\App\Log::trace('Exiting \App\Modules\Settings\RealizationProcesses\Models\Module::updateStatusNotModify() method ...');
+		\App\Log\Log::trace('Exiting \App\Modules\Settings\RealizationProcesses\Models\Module::updateStatusNotModify() method ...');
 		return true;
 	}
 }

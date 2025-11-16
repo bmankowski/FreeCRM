@@ -11,7 +11,7 @@ namespace App\Modules\Assets;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Assets extends \App\CRMEntity
+class Assets extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'vtiger_assets';
@@ -130,7 +130,7 @@ class Assets extends \App\CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other = \App\CRMEntity::getInstance($related_module);
+			$other = \App\Core\CRMEntity::getInstance($related_module);
 			\App\Utils\VtlibUtils::setupModuleVars($related_module, $other);
 
 			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = $this->table_name.$columnname";
@@ -225,7 +225,7 @@ class Assets extends \App\CRMEntity
 		// Security Check for Field Access
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[\App\Utils\ModuleUtils::getModuleId('Assets')] == 3) {
 			//Added security check to get the permitted records only
-			$query = $query . " " . \App\PrivilegeQuery::getListViewSecurityParameter($thismodule);
+			$query = $query . " " . \App\Security\PrivilegeQuery::getListViewSecurityParameter($thismodule);
 		}
 		return $query;
 	}
@@ -342,7 +342,7 @@ class Assets extends \App\CRMEntity
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 
-		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
+		\App\Log\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("Documents" => "vtiger_senotesrel", "Attachments" => "vtiger_seattachmentsrel");
 
@@ -367,6 +367,6 @@ class Assets extends \App\CRMEntity
 			}
 		}
 		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
-		\App\Log::trace("Exiting transferRelatedRecords...");
+		\App\Log\Log::trace("Exiting transferRelatedRecords...");
 	}
 }

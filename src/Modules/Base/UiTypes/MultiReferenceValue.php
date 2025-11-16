@@ -40,7 +40,7 @@ class MultiReferenceValue extends BaseUiType
 		}
 		$params = $this->get('field')->getFieldParams();
 		$fieldInfo = \App\Fields\Field::getFieldInfo($params['field']);
-		$queryGenerator = new \App\QueryGenerator($params['module']);
+		$queryGenerator = new \App\QueryField\QueryGenerator($params['module']);
 		if ($params['filterField'] !== '-') {
 			$queryGenerator->addCondition($params['filterField'], $params['filterValue'], 'e');
 		}
@@ -97,12 +97,12 @@ class MultiReferenceValue extends BaseUiType
 	 */
 	public static function setRecordToCron($moduleName, $destModule, $recordId, $type = 1)
 	{
-		\App\Db::getInstance()->createCommand()->insert('s_#__multireference', ['source_module' => $moduleName, 'dest_module' => $destModule, 'lastid' => $recordId, 'type' => $type])->execute();
+		\App\Db\Db::getInstance()->createCommand()->insert('s_#__multireference', ['source_module' => $moduleName, 'dest_module' => $destModule, 'lastid' => $recordId, 'type' => $type])->execute();
 	}
 
 	/**
 	 * Getting the value for multireference
-	 * @param \App\CRMEntity $entity \App\CRMEntity instance
+	 * @param \App\Core\CRMEntity $entity \App\Core\CRMEntity instance
 	 * @param int $sourceRecord
 	 * @param int $destRecord
 	 * @return array
@@ -126,7 +126,7 @@ class MultiReferenceValue extends BaseUiType
 
 	/**
 	 * Add value to multireference
-	 * @param \App\CRMEntity $entity \App\CRMEntity instance
+	 * @param \App\Core\CRMEntity $entity \App\Core\CRMEntity instance
 	 * @param int $sourceRecord 
 	 * @param int $destRecord
 	 */
@@ -141,7 +141,7 @@ class MultiReferenceValue extends BaseUiType
 			$currentValue = self::COMMA;
 		}
 		$currentValue .= $values['relatedValue'] . self::COMMA;
-		\App\Db::getInstance()->createCommand()->update($this->get('field')->get('table'), [
+		\App\Db\Db::getInstance()->createCommand()->update($this->get('field')->get('table'), [
 			$this->get('field')->get('column') => $currentValue
 			], [$entity->tab_name_index[$this->get('field')->get('table')] => $sourceRecord]
 		)->execute();
@@ -172,7 +172,7 @@ class MultiReferenceValue extends BaseUiType
 		if ($values) {
 			$values = self::COMMA . implode(self::COMMA, $values) . self::COMMA;
 		}
-		\App\Db::getInstance()->createCommand()->update($field->get('table'), [
+		\App\Db\Db::getInstance()->createCommand()->update($field->get('table'), [
 			$field->get('column') => $values
 			], [$sourceRecordModel->getEntity()->tab_name_index[$field->get('table')] => $sourceRecord]
 		)->execute();
@@ -184,7 +184,7 @@ class MultiReferenceValue extends BaseUiType
 	 */
 	public function getPicklistValuesForModuleList($module, $view)
 	{
-		$queryGenerator = new \App\QueryGenerator($module);
+		$queryGenerator = new \App\QueryField\QueryGenerator($module);
 		$queryGenerator->initForCustomViewById($view);
 		$queryGenerator->setFields([$this->get('field')->get('name')]);
 		$query = $queryGenerator->createQuery();

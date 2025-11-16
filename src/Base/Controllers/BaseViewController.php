@@ -63,7 +63,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 			$activeModules[$module['name']] = \App\Utils\ModuleUtils::isModuleActive($module['name']);
 		}
 		$viewer->assign('ACTIVE_MODULES', $activeModules);
-		$viewer->assign('BACKGROUND_CLOSING_MODAL', \App\AppConfig::main('backgroundClosingModal'));
+		$viewer->assign('BACKGROUND_CLOSING_MODAL', \App\Core\AppConfig::main('backgroundClosingModal'));
 	}
 
 	public function getViewer(\App\Http\Vtiger_Request $vtigerRequest)
@@ -104,7 +104,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 	}
 	protected function getBreadcrumbsSeparator()
 	{
-		$sep = \App\AppConfig::main('breadcrumbs_separator');
+		$sep = \App\Core\AppConfig::main('breadcrumbs_separator');
 		if (empty($sep)) {
 			$sep = '>';
 		}
@@ -397,7 +397,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 				continue;
 			}
 
-			$completeFilePath = \App\Loader::resolveNameToPath($jFileName, $fileExtension);
+			$completeFilePath = \App\Core\Loader::resolveNameToPath($jFileName, $fileExtension);
 			if (is_file($completeFilePath)) {
 				if (strpos($jFileName, '~') === 0) {
 					$filePath = ltrim(ltrim($jFileName, '~'), '/');
@@ -406,7 +406,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 				}
 
 				$minFilePath = str_replace('.js', '.min.js', $filePath);
-				if (\vtlib\Functions:: getMinimizationOptions($fileExtension) && is_file(\App\Loader::resolveNameToPath('~' . $minFilePath, $fileExtension))) {
+				if (\vtlib\Functions:: getMinimizationOptions($fileExtension) && is_file(\App\Core\Loader::resolveNameToPath('~' . $minFilePath, $fileExtension))) {
 					$filePath = $minFilePath;
 				}
 
@@ -422,7 +422,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 			}
 			// Checking if file exists in selected layout
 			$layoutPath = 'layouts/' . \App\Runtime\Yeti_Layout::getActiveLayout();
-			$fallBackFilePath = \App\Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $jsFile, $fileExtension);
+			$fallBackFilePath = \App\Core\Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $jsFile, $fileExtension);
 			if (is_file($fallBackFilePath)) {
 				$filePath = $jsFile;
 				if ($preLayoutPath === '' || $preLayoutPath === '0') {
@@ -430,7 +430,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 				}
 
 				$minFilePath = str_replace('.js', '.min.js', $filePath);
-				if (\vtlib\Functions:: getMinimizationOptions($fileExtension) && is_file(\App\Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
+				if (\vtlib\Functions:: getMinimizationOptions($fileExtension) && is_file(\App\Core\Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
 					$filePath = $minFilePath;
 				}
 
@@ -439,7 +439,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 			}
 			// Checking if file exists in default layout
 			$layoutPath = 'layouts/' . \App\Runtime\CRM_Viewer::getDefaultLayoutName();
-			$fallBackFilePath = \App\Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $jsFile, $fileExtension);
+			$fallBackFilePath = \App\Core\Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $jsFile, $fileExtension);
 			if (is_file($fallBackFilePath)) {
 				$filePath = $jsFile;
 				if ($preLayoutPath === '' || $preLayoutPath === '0') {
@@ -447,7 +447,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 				}
 
 				$minFilePath = str_replace('.js', '.min.js', $filePath);
-				if (\vtlib\Functions:: getMinimizationOptions($fileExtension) && is_file(\App\Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
+				if (\vtlib\Functions:: getMinimizationOptions($fileExtension) && is_file(\App\Core\Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
 					$filePath = $minFilePath;
 				}
 
@@ -477,7 +477,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 				continue;
 			}
 
-			$completeFilePath = \App\Loader::resolveNameToPath($cssFileName, $fileExtension);
+			$completeFilePath = \App\Core\Loader::resolveNameToPath($cssFileName, $fileExtension);
 			if (file_exists($completeFilePath)) {
 				if (strpos($cssFileName, '~') === 0) {
 					$filePath = ltrim(ltrim($cssFileName, '~'), '/');
@@ -486,7 +486,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 				}
 
 				$minFilePath = str_replace('.css', '.min.css', $filePath);
-				if (\vtlib\Functions:: getMinimizationOptions($fileExtension) && is_file(\App\Loader::resolveNameToPath('~' . $minFilePath, $fileExtension))) {
+				if (\vtlib\Functions:: getMinimizationOptions($fileExtension) && is_file(\App\Core\Loader::resolveNameToPath('~' . $minFilePath, $fileExtension))) {
 					$filePath = $minFilePath;
 				}
 
@@ -502,7 +502,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 			}
 			// Checking if file exists in selected layout
 			$layoutPath = 'layouts/' . \App\Runtime\Yeti_Layout::getActiveLayout();
-			$fallBackFilePath = \App\Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
+			$fallBackFilePath = \App\Core\Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
 			if (is_file($fallBackFilePath)) {
 				$filePath = $cssFile;
 				if ($preLayoutPath === '' || $preLayoutPath === '0') {
@@ -510,7 +510,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 				}
 
 				$minFilePath = str_replace('.css', '.min.css', $filePath);
-				if (\vtlib\Functions:: getMinimizationOptions($fileExtension) && is_file(\App\Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
+				if (\vtlib\Functions:: getMinimizationOptions($fileExtension) && is_file(\App\Core\Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
 					$filePath = $minFilePath;
 				}
 
@@ -519,7 +519,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 			}
 			// Checking if file exists in default layout
 			$layoutPath = 'layouts/' . \App\Runtime\CRM_Viewer::getDefaultLayoutName();
-			$fallBackFilePath = \App\Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
+			$fallBackFilePath = \App\Core\Loader::resolveNameToPath($preLayoutPath . $layoutPath . '/' . $cssFile, $fileExtension);
 			if (is_file($fallBackFilePath)) {
 				$filePath = $cssFile;
 				if ($preLayoutPath === '' || $preLayoutPath === '0') {
@@ -527,7 +527,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 				}
 
 				$minFilePath = str_replace('.css', '.min.css', $filePath);
-				if (\vtlib\Functions:: getMinimizationOptions($fileExtension) && is_file(\App\Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
+				if (\vtlib\Functions:: getMinimizationOptions($fileExtension) && is_file(\App\Core\Loader::resolveNameToPath('~' . $layoutPath . '/' . $minFilePath, $fileExtension))) {
 					$filePath = $minFilePath;
 				}
 

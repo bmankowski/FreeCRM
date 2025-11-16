@@ -20,7 +20,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 		$basicLinks = array();
 		$moduleModel = $this->getModule();
 		$createPermission = \App\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'CreateView');
-		if ($createPermission && \App\AppConfig::main('isActiveSendingMails') && \App\Modules\Users\Models\Privileges::isPermitted('OSSMail')) {
+		if ($createPermission && \App\Core\AppConfig::main('isActiveSendingMails') && \App\Modules\Users\Models\Privileges::isPermitted('OSSMail')) {
 			$basicLinks[] = array(
 				'linktype' => 'LISTVIEWBASIC',
 				'linklabel' => 'LBL_CREATEMAIL',

@@ -82,7 +82,7 @@ function getActivityDetails($description, $user_id, $from = '')
 	$adb = \App\Database\PearDatabase::getInstance();
 	$current_language = \App\Runtime\Vtiger_Language_Handler::getLanguage();
 	$mod_strings = \vtlib\Deprecated::getModuleTranslationStrings($current_language, 'Calendar');
-	\App\Log::trace("Entering getActivityDetails(" . $description . ") method ...");
+	\App\Log\Log::trace("Entering getActivityDetails(" . $description . ") method ...");
 	$updated = $mod_strings['LBL_UPDATED'];
 	$created = $mod_strings['LBL_CREATED'];
 	$reply = (($description['mode'] == 'edit') ? "$updated" : "$created");
@@ -95,7 +95,7 @@ function getActivityDetails($description, $user_id, $from = '')
 	$name = \App\Fields\Owner::getUserLabel($user_id);
 
 	// Show the start date and end date in the users date format and in his time zone
-	$inviteeUser = \App\CRMEntity::getInstance('Users');
+	$inviteeUser = \App\Core\CRMEntity::getInstance('Users');
 	$inviteeUser->retrieveCurrentUserInfoFromFile($user_id);
 	$startDate = new \App\Fields\DateTimeField($description['st_date_time']);
 	$endDate = new \App\Fields\DateTimeField($description['end_date_time']);
@@ -124,7 +124,7 @@ function getActivityDetails($description, $user_id, $from = '')
 	$list .= '<br><br>' . $mod_strings["LBL_REGARDS_STRING"] . ' ,';
 	$list .= '<br>' . $currentUsername . '.';
 
-	\App\Log::trace("Exiting getActivityDetails method ...");
+	\App\Log\Log::trace("Exiting getActivityDetails method ...");
 	return $list;
 }
 
@@ -149,7 +149,7 @@ function calendarview_getSelectedUserId($onlyForUserParam = null, $request = nul
 	if ($onlyForUserParam === null && $request !== null) {
 		$onlyForUserParam = $request->getForSql('onlyforuser');
 	}
-	$onlyForUser = htmlspecialchars(strip_tags($onlyForUserParam), ENT_QUOTES, \App\AppConfig::main('default_charset'));
+	$onlyForUser = htmlspecialchars(strip_tags($onlyForUserParam), ENT_QUOTES, \App\Core\AppConfig::main('default_charset'));
 	if ($onlyForUser == '')
 		$onlyForUser = $currentUser->id;
 	return $onlyForUser;
@@ -165,7 +165,7 @@ function calendarview_getSelectedUserFilterQuerySuffix()
 		if ($onlyForUser != 'ALL') {
 			// For logged in user include the group records also.
 			if ($onlyForUser == $currentUser->id) {
-				$userGroupIds = \App\PrivilegeUtil::fetchUserGroupids($currentUser->id);
+				$userGroupIds = \App\Security\PrivilegeUtil::fetchUserGroupids($currentUser->id);
 				// User does not belong to any group? Let us reset to non-existent group
 				if (!empty($userGroupIds))
 					$userGroupIds .= ',';

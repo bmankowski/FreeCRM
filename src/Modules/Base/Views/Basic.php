@@ -110,7 +110,7 @@ abstract class Basic extends \App\Base\Controllers\BaseViewController
 				// Ignore errors when checking switch users
 			}
 		}
-		if (\App\AppConfig::security('SHOW_MY_PREFERENCES')) {
+		if (\App\Core\AppConfig::security('SHOW_MY_PREFERENCES')) {
 			$headerLinks[] = [
 				'linktype' => 'HEADERLINK',
 				'linklabel' => 'LBL_MY_PREFERENCES',
@@ -171,7 +171,7 @@ abstract class Basic extends \App\Base\Controllers\BaseViewController
 			$activeReminder = $userPrivilegesModel->hasModulePermission('Calendar');
 		}
 		$selectedModule = $request->getModule();
-		$companyDetails = \App\Company::getInstanceById();
+		$companyDetails = \App\Core\Company::getInstanceById();
 		$companyLogo = $companyDetails->getLogo();
 		$currentDate = \App\Modules\Base\UiTypes\Date::getDisplayDateValue(date('Y-n-j'));
 		$viewer->assign('CURRENTDATE', $currentDate);
@@ -186,10 +186,10 @@ abstract class Basic extends \App\Base\Controllers\BaseViewController
 		$homeModuleModel = \App\Modules\Base\Models\Module::getInstance('Home');
 		$viewer->assign('HOME_MODULE_MODEL', $homeModuleModel);
 		$viewer->assign('MENU_HEADER_LINKS', $this->getMenuHeaderLinks($request));
-		if (\App\AppConfig::performance('GLOBAL_SEARCH')) {
+		if (\App\Core\AppConfig::performance('GLOBAL_SEARCH')) {
 			$viewer->assign('SEARCHABLE_MODULES', \App\Modules\Base\Models\Module::getSearchableModules());
 		}
-		if (\App\AppConfig::search('GLOBAL_SEARCH_SELECT_MODULE')) {
+		if (\App\Core\AppConfig::search('GLOBAL_SEARCH_SELECT_MODULE')) {
 			$viewer->assign('SEARCHED_MODULE', $selectedModule);
 		}
 		$viewer->assign('CHAT_ACTIVE', \App\Utils\ModuleUtils::isModuleActive('AJAXChat'));

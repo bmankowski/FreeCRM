@@ -76,7 +76,7 @@ class Coordinate extends \App\Runtime\BaseModel
 	 */
 	public function getCoordinates($address)
 	{
-		$url = \App\AppConfig::module('OpenStreetMap', 'ADDRESS_TO_SEARCH') . '/?';
+		$url = \App\Core\AppConfig::module('OpenStreetMap', 'ADDRESS_TO_SEARCH') . '/?';
 		$data = [
 			'format' => 'json',
 			'addressdetails' => 1,
@@ -178,8 +178,8 @@ class Coordinate extends \App\Runtime\BaseModel
 	{
 		$recodMetaData = \vtlib\Functions:: getCRMRecordMetadata($crmid);
 		$moduleName = $recodMetaData['setype'];
-		$queryGenerator = new \App\QueryGenerator($moduleName);
-		$fields = \App\AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
+		$queryGenerator = new \App\QueryField\QueryGenerator($moduleName);
+		$fields = \App\Core\AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
 		$queryGenerator->setFields($fields[$moduleName]);
 		$queryGenerator->addNativeCondition(['vtiger_crmentity.crmid' => $crmid]);
 		$row = $queryGenerator->createQuery()->one();
@@ -226,7 +226,7 @@ class Coordinate extends \App\Runtime\BaseModel
 	public function getLabelToPopupByArray($data, $moduleName)
 	{
 		$html = '<b><a href="index.php?module=' . $moduleName . '&view=Detail&record=' . $data['crmid'] . '"><span class="description">';
-		$fields = \App\AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
+		$fields = \App\Core\AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
 		foreach ($fields[$moduleName] as $fieldName) {
 			if (!empty($data[$fieldName])) {
 				$html .= $data[$fieldName] . '<br>';
@@ -336,7 +336,7 @@ class Coordinate extends \App\Runtime\BaseModel
 		$coordinatesCenter = $this->get('coordinatesCenter');
 		$radius = $this->get('radius');
 		$moduleName = $moduleModel->getName();
-		$fields = \App\AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
+		$fields = \App\Core\AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
 		$fields = $fields[$moduleName];
 		$groupByFieldColumn = '';
 		if (!empty($groupByField)) {
@@ -345,7 +345,7 @@ class Coordinate extends \App\Runtime\BaseModel
 			if ($fieldModel !== false)
 				$groupByFieldColumn = $fieldModel->get('column');
 		}
-		$queryGenerator = new \App\QueryGenerator($moduleName);
+		$queryGenerator = new \App\QueryField\QueryGenerator($moduleName);
 		$queryGenerator->setFields($fields);
 		$queryGenerator->setCustomColumn('u_#__openstreetmap.lat');
 		$queryGenerator->setCustomColumn('u_#__openstreetmap.lon');
@@ -409,14 +409,14 @@ class Coordinate extends \App\Runtime\BaseModel
 		$coordinatesCenter = $this->get('coordinatesCenter');
 		$radius = $this->get('radius');
 		$params = [];
-		$fields = \App\AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
+		$fields = \App\Core\AppConfig::module('OpenStreetMap', 'FIELDS_IN_POPUP');
 		$fields = $fields[$moduleName];
 		if (!empty($groupByField)) {
 			$fields [] = $groupByField;
 			$fieldModel = \App\Modules\Base\Models\Field::getInstance($groupByField, $moduleModel);
 			$groupByFieldColumn = $fieldModel->get('column');
 		}
-		$queryGenerator = new \App\QueryGenerator($moduleName);
+		$queryGenerator = new \App\QueryField\QueryGenerator($moduleName);
 		$queryGenerator->initForCustomViewById($filterId);
 		$queryGenerator->setFields($fields);
 		$queryGenerator->setCustomColumn('u_#__openstreetmap.lat');
@@ -473,7 +473,7 @@ class Coordinate extends \App\Runtime\BaseModel
 	 */
 	public function getCachedRecords()
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$dataReader = (new \App\Db\Query())->select(['count' => 'COUNT(*)', 'module_name'])
 				->from('u_#__openstreetmap_cache')->where(['user_id' => \App\Modules\Users\Models\Privileges::getCurrentUserModel()->getId()])
 				->groupBy('module_name')
@@ -494,7 +494,7 @@ class Coordinate extends \App\Runtime\BaseModel
 		$modules = $this->get('cache');
 		$currentUser = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
 		$userId = $currentUser->getId();
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$coordinates = [];
 		foreach ($modules as $moduleName) {
 			$records = (new \App\Db\Query())
@@ -522,7 +522,7 @@ class Coordinate extends \App\Runtime\BaseModel
 		foreach ($records as $recordId) {
 			$insertedData [] = [$userId, $moduleName, $recordId];
 		}
-		\App\Db::getInstance()->createCommand()
+		\App\Db\Db::getInstance()->createCommand()
 			->batchInsert('u_#__openstreetmap_cache', ['user_id', 'module_name', 'crmids'], $insertedData)
 			->execute();
 	}
@@ -533,7 +533,7 @@ class Coordinate extends \App\Runtime\BaseModel
 	public function deleteCache()
 	{
 		$moduleName = $this->get('moduleName');
-		\App\Db::getInstance()->createCommand()
+		\App\Db\Db::getInstance()->createCommand()
 			->delete('u_#__openstreetmap_cache', ['module_name' => $moduleName, 'user_id' => \App\Modules\Users\Models\Privileges::getCurrentUserModel()->getId()])
 			->execute();
 	}
@@ -544,7 +544,7 @@ class Coordinate extends \App\Runtime\BaseModel
 	public function saveAllRecordsToCache()
 	{
 		$moduleName = $this->get('moduleName');
-		$queryGenerator = new \App\QueryGenerator($moduleName);
+		$queryGenerator = new \App\QueryField\QueryGenerator($moduleName);
 		$queryGenerator->setFields(['id']);
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		$records = [];
@@ -565,7 +565,7 @@ class Coordinate extends \App\Runtime\BaseModel
 		$moduleName = $this->get('moduleName');
 		if (!(new \App\Db\Query())->from('u_#__openstreetmap_cache')
 				->where(['crmids' => $record])->exists()) {
-			\App\Db::getInstance()->createCommand()->insert('u_#__openstreetmap_cache', [
+			\App\Db\Db::getInstance()->createCommand()->insert('u_#__openstreetmap_cache', [
 				'module_name' => $moduleName,
 				'user_id' => \App\Modules\Users\Models\Privileges::getCurrentUserModel()->getId(),
 				'crmids' => $record

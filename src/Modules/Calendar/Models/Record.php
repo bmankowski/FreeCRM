@@ -38,7 +38,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public static function setCrmActivity($referenceIds, $refModuleName = false)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		foreach ($referenceIds as $id => $fieldName) {
 			if (empty($fieldName)) {
 				$fieldName = self::getNameByReference($refModuleName);
@@ -79,7 +79,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public function setActivityReminder($reminderSent = 0, $recurId = '', $reminderMode = '')
 	{
-		$moduleInstance = \App\CRMEntity::getInstance($this->getModuleName());
+		$moduleInstance = \App\Core\CRMEntity::getInstance($this->getModuleName());
 		$moduleInstance->activity_reminder($this->getId(), $this->get('reminder_time'), $reminderSent, $recurId, $reminderMode);
 	}
 
@@ -145,7 +145,7 @@ class Record extends \App\Modules\Base\Models\Record
 		if ($this->get('set_reminder') === null) {
 			return false;
 		}
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		if ($this->get('set_reminder') !== false) {
 			$reminderTime = $this->get('set_reminder');
 			$activityReminderExists = (new \App\Db\Query())->select(['activity_id'])
@@ -178,11 +178,11 @@ class Record extends \App\Modules\Base\Models\Record
 			// Request should be passed as parameter
 		}
 		if (!$request->has('inviteesid')) {
-			\App\Log::info('No invitations in request, Exiting insertIntoInviteeTable method ...');
+			\App\Log\Log::info('No invitations in request, Exiting insertIntoInviteeTable method ...');
 			return;
 		}
-		\App\Log::trace('Entering ' . __METHOD__);
-		$db = \App\Db::getInstance();
+		\App\Log\Log::trace('Entering ' . __METHOD__);
+		$db = \App\Db\Db::getInstance();
 		$inviteesRequest = $request->get('inviteesid');
 		$dataReader = (new \App\Db\Query())->from('u_#__activity_invitation')->where(['activityid' => $this->getId()])->createCommand()->query();
 		$invities = [];
@@ -205,7 +205,7 @@ class Record extends \App\Modules\Base\Models\Record
 		foreach ($invities as &$invitation) {
 			$db->createCommand()->delete('u_#__activity_invitation', ['inviteesid' => $invitation['inviteesid']])->execute();
 		}
-		\App\Log::trace('Exiting ' . __METHOD__);
+		\App\Log\Log::trace('Exiting ' . __METHOD__);
 	}
 
 	/**
@@ -228,13 +228,13 @@ class Record extends \App\Modules\Base\Models\Record
 				$status = 1;
 			}
 			if (!empty($reminderid)) {
-				\App\Db::getInstance()->createCommand()->update('vtiger_activity_reminder_popup', [
+				\App\Db\Db::getInstance()->createCommand()->update('vtiger_activity_reminder_popup', [
 					'datetime' => "$cbdate $cbtime",
 					'status' => $status,
 					], ['reminderid' => $reminderid]
 				)->execute();
 			} else {
-				\App\Db::getInstance()->createCommand()->insert('vtiger_activity_reminder_popup', [
+				\App\Db\Db::getInstance()->createCommand()->insert('vtiger_activity_reminder_popup', [
 					'recordid' => $cbrecord,
 					'datetime' => "$cbdate $cbtime",
 					'status' => $status,
@@ -248,7 +248,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public function updateReminderStatus($status = 1)
 	{
-		\App\Db::getInstance()->createCommand()
+		\App\Db\Db::getInstance()->createCommand()
 			->update('vtiger_activity_reminder_popup', [
 				'status' => $status,
 				], ['recordid' => $this->getId()])
@@ -284,7 +284,7 @@ class Record extends \App\Modules\Base\Models\Record
 		$datatimeSTR = strtotime($datatime);
 		$timeStart = date('H:i:s', $datatimeSTR);
 		$dateStart = date('Y-m-d', $datatimeSTR);
-		\App\Db::getInstance()->createCommand()
+		\App\Db\Db::getInstance()->createCommand()
 			->update('vtiger_activity_reminder_popup', [
 				'status' => 0,
 				'datetime' => date('Y-m-d H:i:s', $datatimeSTR),
@@ -332,7 +332,7 @@ class Record extends \App\Modules\Base\Models\Record
 	public function delete()
 	{
 		parent::delete();
-		\App\Db::getInstance()->createCommand()
+		\App\Db\Db::getInstance()->createCommand()
 			->update('vtiger_activity', ['deleted' => 1], ['activityid' => $this->getId()])
 			->execute();
 	}

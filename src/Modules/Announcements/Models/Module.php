@@ -29,7 +29,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	public function loadAnnouncements()
 	{
-		$queryGenerator = new \App\QueryGenerator($this->getName());
+		$queryGenerator = new \App\QueryField\QueryGenerator($this->getName());
 		$queryGenerator->setFields(['id', 'subject', 'description', 'assigned_user_id', 'createdtime', 'is_mandatory']);
 		$query = $queryGenerator->createQuery();
 		$query->andWhere(['announcementstatus' => 'PLL_PUBLISHED']);
@@ -62,7 +62,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	public function setMark($record, $state)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$query = (new \App\Db\Query())
 				->from('u_#__announcement_mark')
 				->where(['announcementid' => $record, 'userid' => \App\Modules\Users\Models\Record::getCurrentUserId()])->limit(1);

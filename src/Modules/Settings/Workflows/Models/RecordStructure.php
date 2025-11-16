@@ -30,7 +30,7 @@ class RecordStructure extends \App\Modules\Base\Models\RecordStructure
 
 	public static function getInstanceForWorkFlowModule($workFlowModel, $mode)
 	{
-		$className = \App\Loader::getComponentClassName('Model', $mode . 'RecordStructure', 'Settings:Workflows');
+		$className = \App\Core\Loader::getComponentClassName('Model', $mode . 'RecordStructure', 'Settings:Workflows');
 		$instance = new $className();
 		$instance->setWorkFlowModel($workFlowModel);
 		$instance->setModule($workFlowModel->getModule());

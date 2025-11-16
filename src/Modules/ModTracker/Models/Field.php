@@ -106,7 +106,7 @@ class Field extends \App\Modules\Base\Models\Field
 		if ($this->getFieldInstance()->getFieldDataType() != 'text') {
 			return $value;
 		}
-		$teaser = \vtlib\Functions::textLength($value, \App\AppConfig::module('ModTracker', 'TEASER_TEXT_LENGTH'));
+		$teaser = \vtlib\Functions::textLength($value, \App\Core\AppConfig::module('ModTracker', 'TEASER_TEXT_LENGTH'));
 		if (substr($teaser, -3) == '...') {
 			$value = \App\Security\Purifier::purify(\vtlib\Functions::removeHtmlTags(array('br', 'link', 'style', 'a', 'img', 'script', 'base'), $value));
 			$this->set('fullPreValue', $value);
@@ -124,7 +124,7 @@ class Field extends \App\Modules\Base\Models\Field
 		if ($this->getFieldInstance()->getFieldDataType() != 'text') {
 			return $value;
 		}
-		$teaser = \vtlib\Functions::textLength($value, \App\AppConfig::module('ModTracker', 'TEASER_TEXT_LENGTH'));
+		$teaser = \vtlib\Functions::textLength($value, \App\Core\AppConfig::module('ModTracker', 'TEASER_TEXT_LENGTH'));
 		if (substr($teaser, -3) == '...') {
 			$value = \App\Security\Purifier::purify(\vtlib\Functions::removeHtmlTags(array('br', 'link', 'style', 'a', 'img', 'script', 'base'), $value));
 			$this->set('fullPostValue', $value);

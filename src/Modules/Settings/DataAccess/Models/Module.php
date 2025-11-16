@@ -194,7 +194,7 @@ class Module extends \App\Modules\Base\Models\Module
 				if (is_array($obj->val)) {
 					$val = implode('::', $val);
 				}
-				\App\Db::getInstance()->createCommand()->insert('vtiger_dataaccess_cnd', [
+				\App\Db\Db::getInstance()->createCommand()->insert('vtiger_dataaccess_cnd', [
 					'dataaccessid' => $relId,
 					'fieldname' => $obj->field,
 					'comparator' => $obj->name,
@@ -208,7 +208,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	public static function updateConditions($conditions, $relId, $mendatory = true)
 	{
-		\App\Db::getInstance()->createCommand()
+		\App\Db\Db::getInstance()->createCommand()
 			->delete('vtiger_dataaccess_cnd', ['dataaccessid' => $relId, 'required' => $mendatory ? 1 : 0])
 			->execute();
 		$conditionObj = json_decode($conditions);
@@ -218,7 +218,7 @@ class Module extends \App\Modules\Base\Models\Module
 				if (is_array($obj->val)) {
 					$val = implode('::', $val);
 				}
-				\App\Db::getInstance()->createCommand()->insert('vtiger_dataaccess_cnd', [
+				\App\Db\Db::getInstance()->createCommand()->insert('vtiger_dataaccess_cnd', [
 					'dataaccessid' => $relId,
 					'fieldname' => $obj->field,
 					'comparator' => $obj->name,
@@ -247,7 +247,7 @@ class Module extends \App\Modules\Base\Models\Module
 		} else {
 			$data[$aid] = $form_data;
 		}
-		\App\Db::getInstance()->createCommand()
+		\App\Db\Db::getInstance()->createCommand()
 			->update('vtiger_dataaccess', ['data' => serialize($data)], ['dataaccessid' => $ID])
 			->execute();
 	}
@@ -257,7 +257,7 @@ class Module extends \App\Modules\Base\Models\Module
 		$dataAccess = self::getDataAccessInfo($ID, false);
 		$data = $dataAccess['basic_info']['data'];
 		unset($data[$aid]);
-		\App\Db::getInstance()->createCommand()->update('vtiger_dataaccess', ['data' => serialize($data)], ['dataaccessid' => $ID])
+		\App\Db\Db::getInstance()->createCommand()->update('vtiger_dataaccess', ['data' => serialize($data)], ['dataaccessid' => $ID])
 			->execute();
 	}
 

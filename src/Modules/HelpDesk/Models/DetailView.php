@@ -56,7 +56,7 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 				'related' => 'Charts'
 			];
 		}
-		$showPSTab = (!\App\AppConfig::module($moduleName, 'HIDE_SUMMARY_PRODUCTS_SERVICES')) && (\App\Utils\ModuleUtils::isModuleActive('Products') || \App\Utils\ModuleUtils::isModuleActive('Services') || \App\Utils\ModuleUtils::isModuleActive('Assets') || \App\Utils\ModuleUtils::isModuleActive('OSSSoldServices'));
+		$showPSTab = (!\App\Core\AppConfig::module($moduleName, 'HIDE_SUMMARY_PRODUCTS_SERVICES')) && (\App\Utils\ModuleUtils::isModuleActive('Products') || \App\Utils\ModuleUtils::isModuleActive('Services') || \App\Utils\ModuleUtils::isModuleActive('Assets') || \App\Utils\ModuleUtils::isModuleActive('OSSSoldServices'));
 		if ($showPSTab) {
 			$relatedLinks[] = [
 				'linktype' => 'DETAILVIEWTAB',
@@ -65,7 +65,7 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 				'linkicon' => '',
 				'linkKey' => 'LBL_RECORD_SUMMARY',
 				'related' => 'ProductsAndServices',
-				'countRelated' => \App\AppConfig::relation('SHOW_RECORDS_COUNT')
+				'countRelated' => \App\Core\AppConfig::relation('SHOW_RECORDS_COUNT')
 			];
 		}
 		return $relatedLinks;

@@ -55,7 +55,7 @@ class Hierarchy extends \App\Api\Webservice\Core\BaseAction
 			}
 			$field = $fields[$this->moduleName];
 			$entityFieldInfo = \App\Utils\ModuleUtils::getEntityInfo($this->moduleName);
-			$queryGenerator = new \App\QueryGenerator($this->moduleName);
+			$queryGenerator = new \App\QueryField\QueryGenerator($this->moduleName);
 			$this->mainFieldName = $entityFieldInfo['fieldname'];
 			$this->childField = $field['fieldname'];
 			$this->childColumn = "{$field['tablename']}.{$field['columnname']}";
@@ -73,12 +73,12 @@ class Hierarchy extends \App\Api\Webservice\Core\BaseAction
 
 	/**
 	 * Get records in hierarchy
-	 * @param \App\QueryGenerator $mainQueryGenerator
+	 * @param \App\QueryField\QueryGenerator $mainQueryGenerator
 	 * @param int $parentId
 	 * @param string $type
 	 * @return boolean
 	 */
-	public function getRecords(\App\QueryGenerator $mainQueryGenerator, $parentId, $type = 'child')
+	public function getRecords(\App\QueryField\QueryGenerator $mainQueryGenerator, $parentId, $type = 'child')
 	{
 		if ($this->limit === 0 || isset($this->recursion[$parentId][$type])) {
 			return false;

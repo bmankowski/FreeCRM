@@ -2,14 +2,14 @@
 
 namespace App\Modules\KnowledgeBase;
 
-/** KnowledgeBase \App\CRMEntity Class
+/** KnowledgeBase \App\Core\CRMEntity Class
  * @package YetiForce.CRMEntity
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
 
-class KnowledgeBase extends \App\CRMEntity
+class KnowledgeBase extends \App\Core\CRMEntity
 {
 
 	protected $lockFields = ['knowledgebase_status' => ['PLL_ACCEPTED', 'PLL_ARCHIVES', 'PLL_CANCELLED']];

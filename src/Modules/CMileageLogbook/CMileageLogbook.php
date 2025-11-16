@@ -3,14 +3,14 @@
 namespace App\Modules\CMileageLogbook;
 
 /**
- * CInternalTickets \App\CRMEntity Class
+ * CInternalTickets \App\Core\CRMEntity Class
  * @package YetiForce.CRMEntity
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
 
-class CMileageLogbook extends \App\CRMEntity
+class CMileageLogbook extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'u_yf_cmileagelogbook';

@@ -134,7 +134,7 @@ class Record extends \App\Modules\Base\Models\Record
 		$module = $request->get('module');
 		$mode = $request->get('mode');
 		$id = $this->getId();
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$fileSaved = false;
 		//This is to added to store the existing attachment id of the contact where we should delete this when we give new image
 		$oldAttachmentid = (new \App\Db\Query())->select(['vtiger_crmentity.crmid'])->from('vtiger_seattachmentsrel')
@@ -175,6 +175,6 @@ class Record extends \App\Modules\Base\Models\Record
 			}
 		}
 
-		\App\Log::trace("Exiting from insertIntoAttachment($id,$module) method.");
+		\App\Log\Log::trace("Exiting from insertIntoAttachment($id,$module) method.");
 	}
 }

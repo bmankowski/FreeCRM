@@ -2,7 +2,7 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
 
-namespace App;
+namespace App\Core;
 
 use App\Log;
 
@@ -39,7 +39,7 @@ class AppConfig
 				self::$main[$key] = $$key;
 				return $$key;
 			}
-			Log::warning("Parameter does not exist: $key");
+			\App\Log\Log::warning("Parameter does not exist: $key");
 			return null;
 		}
 	}
@@ -60,7 +60,7 @@ class AppConfig
 					if (isset(self::$modules[$module][$key])) {
 						return self::$modules[$module][$key];
 					}
-					Log::warning("Parameter does not exist: $module, $key");
+					\App\Log\Log::warning("Parameter does not exist: $module, $key");
 					return null;
 			}
 		}

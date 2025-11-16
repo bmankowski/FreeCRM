@@ -55,7 +55,7 @@ class TreeRecords  extends \App\Modules\Base\Views\Index
 		}
 		$listHeaders = $listViewModel->getListViewHeaders();
 
-		$viewer->assign('SELECTABLE_CATEGORY', \App\AppConfig::relation('SELECTABLE_CATEGORY') ? 1 : 0);
+		$viewer->assign('SELECTABLE_CATEGORY', \App\Core\AppConfig::relation('SELECTABLE_CATEGORY') ? 1 : 0);
 		$viewer->assign('CUSTOM_VIEWS', \App\Modules\CustomView\Models\Record::getAllByGroup($baseModuleName));
 		$viewer->assign('ENTRIES', $listEntries);
 		$viewer->assign('HEADERS', $listHeaders);

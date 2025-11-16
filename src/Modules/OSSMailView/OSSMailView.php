@@ -13,7 +13,7 @@ namespace App\Modules\OSSMailView;
  * Contributor(s): YetiForce.com.
  * *********************************************************************************************************************************** */
 
-class OSSMailView extends \App\CRMEntity
+class OSSMailView extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'vtiger_ossmailview';
@@ -140,7 +140,7 @@ class OSSMailView extends \App\CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other = \App\CRMEntity::getInstance($related_module);
+			$other = \App\Core\CRMEntity::getInstance($related_module);
 			\App\Utils\VtlibUtils::setupModuleVars($related_module, $other);
 
 			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = $this->table_name.$columnname";
@@ -234,7 +234,7 @@ class OSSMailView extends \App\CRMEntity
 		// Security Check for Field Access
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[\App\Utils\ModuleUtils::getModuleId('OSSMailView')] == 3) {
 			//Added security check to get the permitted records only
-			$query = $query . " " . \App\PrivilegeQuery::getListViewSecurityParameter($thismodule);
+			$query = $query . " " . \App\Security\PrivilegeQuery::getListViewSecurityParameter($thismodule);
 		}
 		return $query;
 	}
@@ -313,7 +313,7 @@ class OSSMailView extends \App\CRMEntity
 			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('email_list', 'widget_limit', '10'));
 			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('email_list', 'target', '_blank'));
 			$adb->pquery("INSERT INTO vtiger_ossmailscanner_config (conf_type,parameter,value) VALUES (?,?,?)", array('email_list', 'permissions', 'vtiger'));
-			\App\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions:: getModuleId($moduleName));
+			\App\Core\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions:: getModuleId($moduleName));
 			$registerLink = true;
 			$Module = \App\Modules\Base\Models\Module::getInstance($moduleName);
 			$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');

@@ -41,7 +41,7 @@ class Module extends \App\Modules\Base\Models\Module
 	public static function setQtyInStock($moduleName, $data, $storageId, $action)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
-		$adb = \App\Db::getInstance();
+		$adb = \App\Db\Db::getInstance();
 		$productRecords = [];
 		foreach ($data as $product) {
 			if ($product['qtyparam'] == '1') {
@@ -105,7 +105,7 @@ class Module extends \App\Modules\Base\Models\Module
 					continue;
 				}
 				$inventoryTableName = \App\Modules\Base\Models\InventoryField::getInstance($moduleName)->getTableName();
-				$focus = \App\CRMEntity::getInstance($moduleName);
+				$focus = \App\Core\CRMEntity::getInstance($moduleName);
 				$sql[] = sprintf('SELECT %s.name AS productid, %s.storageid AS storageid,  SUM( DISTINCT %s.qty) AS p_sum FROM  %s LEFT JOIN (%s LEFT JOIN vtiger_crmentity AS cr ON cr.crmid = %s.name) ON %s.%s = %s.id LEFT JOIN vtiger_crmentity ON %s.%s = vtiger_crmentity.`crmid` WHERE vtiger_crmentity.`deleted` = 0 && cr.`deleted` = 0 && %s.%s_status = "PLL_ACCEPTED" GROUP BY productid, storageid', $inventoryTableName, $focus->table_name, $inventoryTableName, $focus->table_name, $inventoryTableName, $inventoryTableName, $focus->table_name, $focus->table_index, $inventoryTableName, $focus->table_name, $focus->table_index, $focus->table_name, strtolower($moduleName));
 			}
 			if (!empty($sql)) {

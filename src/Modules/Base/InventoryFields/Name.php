@@ -21,7 +21,7 @@ class Name extends Basic
 	/**
 	 * Getting value to display
 	 * @param type $value
-	 * @return type
+	 * @return string
 	 */
 	public function getDisplayValue($value)
 	{

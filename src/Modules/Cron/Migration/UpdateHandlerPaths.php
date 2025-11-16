@@ -14,7 +14,7 @@ class UpdateHandlerPaths
 	 */
 	public static function execute(): void
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		
 		// Path mappings from old to new locations
 		$pathMappings = [

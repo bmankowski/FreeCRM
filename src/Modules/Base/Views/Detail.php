@@ -84,7 +84,7 @@ class Detail extends \App\Modules\Base\Views\Index
 			break;
 		}
 
-		$eventHandler = new \App\EventHandler();
+		$eventHandler = new \App\Events\EventHandler();
 		$eventHandler->setRecordModel($recordModel);
 		$eventHandler->setModuleName($moduleName);
 		$eventHandler->trigger('DetailViewBefore');
@@ -148,7 +148,7 @@ class Detail extends \App\Modules\Base\Views\Index
 				$selectedTabLabel = 'LBL_RECORD_SUMMARY';
 			}
 		} elseif (empty($requestMode) && empty($mode)) {
-			$selectedTabLabel = \App\AppConfig::module($moduleName, 'DEFAULT_VIEW_RECORD');
+			$selectedTabLabel = \App\Core\AppConfig::module($moduleName, 'DEFAULT_VIEW_RECORD');
 			if (empty($selectedTabLabel)) {
 				if ($currentUserModel->get('default_record_view') === 'Detail') {
 					$selectedTabLabel = 'LBL_RECORD_DETAILS';
@@ -493,7 +493,7 @@ class Detail extends \App\Modules\Base\Views\Index
 		if (!empty($limit)) {
 			$pagingModel->set('limit', $limit);
 		} else {
-			$limit = \App\AppConfig::module('ModTracker', 'NUMBER_RECORDS_ON_PAGE');
+			$limit = \App\Core\AppConfig::module('ModTracker', 'NUMBER_RECORDS_ON_PAGE');
 			$pagingModel->set('limit', $limit);
 		}
 		if (!empty($whereCondition)) {
@@ -521,7 +521,7 @@ class Detail extends \App\Modules\Base\Views\Index
 		$viewer->assign('MODULE_BASE_NAME', 'ModTracker');
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
-		$defaultView = \App\AppConfig::module('ModTracker', 'DEFAULT_VIEW');
+		$defaultView = \App\Core\AppConfig::module('ModTracker', 'DEFAULT_VIEW');
 		if ($defaultView == 'List') {
 			$tplName = 'RecentActivities.tpl';
 		} else {
@@ -582,11 +582,11 @@ class Detail extends \App\Modules\Base\Views\Index
 		$targetControllerClass = null;
 
 		// Added to support related list view from the related module, rather than the base module.
-		if (!$targetControllerClass = \App\Loader::getComponentClassName('View', 'In' . $moduleName . 'Relation', $relatedModuleName, false)) {
+		if (!$targetControllerClass = \App\Core\Loader::getComponentClassName('View', 'In' . $moduleName . 'Relation', $relatedModuleName, false)) {
 			// If any module wants to have same view for all the relation, then invoke this.
-			if (!$targetControllerClass = \App\Loader::getComponentClassName('View', 'InRelation', $relatedModuleName, false)) {
+			if (!$targetControllerClass = \App\Core\Loader::getComponentClassName('View', 'InRelation', $relatedModuleName, false)) {
 				// Default related list
-				$targetControllerClass = \App\Loader::getComponentClassName('View', 'RelatedList', $moduleName);
+				$targetControllerClass = \App\Core\Loader::getComponentClassName('View', 'RelatedList', $moduleName);
 			}
 		}
 		if ($targetControllerClass) {
@@ -665,7 +665,7 @@ class Detail extends \App\Modules\Base\Views\Index
 		}
 
 		$hierarchyList = ['LBL_COMMENTS_0', 'LBL_COMMENTS_1', 'LBL_COMMENTS_2'];
-		$level = \App\ModuleHierarchy::getModuleLevel($request->getModule());
+		$level = \App\Core\ModuleHierarchy::getModuleLevel($request->getModule());
 		if ($level > 0) {
 			unset($hierarchyList[1]);
 			if ($level > 1) {
@@ -791,7 +791,7 @@ class Detail extends \App\Modules\Base\Views\Index
 		if (empty($orderBy) && empty($sortOrder)) {
 			if (is_numeric($relatedModuleName))
 				$relatedModuleName = \App\Utils\ModuleUtils::getModuleName($relatedModuleName);
-			$relatedInstance = \App\CRMEntity::getInstance($relatedModuleName);
+			$relatedInstance = \App\Core\CRMEntity::getInstance($relatedModuleName);
 			$orderBy = $relatedInstance->default_order_by;
 			$sortOrder = $relatedInstance->default_sort_order;
 		}
@@ -849,7 +849,7 @@ class Detail extends \App\Modules\Base\Views\Index
 		$viewer->assign('RELATED_LIST_LINKS', $links);
 		$viewer->assign('RELATED_ENTIRES_COUNT', $noOfEntries);
 		$viewer->assign('RELATION_FIELD', $relationField);
-		if (\App\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+		if (\App\Core\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			$totalCount = $relationListView->getRelatedEntriesCount();
 		}
 		if (!empty($totalCount)) {

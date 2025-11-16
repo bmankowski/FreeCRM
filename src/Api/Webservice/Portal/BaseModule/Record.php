@@ -138,7 +138,7 @@ class Record extends \App\Api\Webservice\Core\BaseAction
 	public function put()
 	{
 		$moduleName = $this->controller->request->getModule();
-		$modelClassName = \App\Loader::getComponentClassName('Action', 'Save', $moduleName);
+		$modelClassName = \App\Core\Loader::getComponentClassName('Action', 'Save', $moduleName);
 		$saveClass = new $modelClassName();
 		$recordModel = $saveClass->saveRecord($this->controller->request);
 		return ['id' => $recordModel->getId()];
@@ -151,7 +151,7 @@ class Record extends \App\Api\Webservice\Core\BaseAction
 	public function post()
 	{
 		$moduleName = $this->controller->request->getModule();
-		$modelClassName = \App\Loader::getComponentClassName('Action', 'Save', $moduleName);
+		$modelClassName = \App\Core\Loader::getComponentClassName('Action', 'Save', $moduleName);
 		$saveClass = new $modelClassName();
 		$recordModel = $saveClass->saveRecord($this->controller->request);
 		return ['id' => $recordModel->getId()];

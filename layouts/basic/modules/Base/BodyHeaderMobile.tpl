@@ -16,7 +16,7 @@
 		</div>
 		{if $REMINDER_ACTIVE}
 			<div class="row">
-				<div class="remindersNotice quickAction{if AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
+				<div class="remindersNotice quickAction{if \App\Core\AppConfig::module('Calendar', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
 					<div class="pull-left">
 						{'LBL_REMINDER'|t}
 					</div>	
@@ -45,7 +45,7 @@
 		{/if}
 			{if \App\Modules\Users\Models\Privileges::isPermitted('Notification', 'DetailView')}
 			<div class="row">
-				<div class="notificationsNotice quickAction{if AppConfig::module('Home', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
+				<div class="notificationsNotice quickAction{if \App\Core\AppConfig::module('Home', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
 					<div class="pull-left">
 						{'LBL_NOTIFICATIONS'|t}
 					</div>
@@ -107,7 +107,7 @@
 			</div>
 		</div>
 	</div>
-	{if AppConfig::performance('GLOBAL_SEARCH')}
+	{if \App\Core\AppConfig::performance('GLOBAL_SEARCH')}
 		<div class="searchMenu globalSearchInput">
 			<div class="input-group">
 				<select class="chzn-select basicSearchModulesList form-control col-md-5" title="{'LBL_SEARCH_MODULE'|t}">

@@ -168,7 +168,7 @@ class Mail extends \App\Runtime\BaseModel
 				}
 
 				if ($enableFind) {
-					$instance = \App\CRMEntity::getInstance($moduleName);
+					$instance = \App\Core\CRMEntity::getInstance($moduleName);
 					$table_index = $instance->table_index;
 					foreach ($emails as $email) {
 						if (empty($email)) {

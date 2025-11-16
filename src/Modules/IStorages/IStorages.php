@@ -3,14 +3,14 @@
 namespace App\Modules\IStorages;
 
 /**
- * IStorages \App\CRMEntity Class
+ * IStorages \App\Core\CRMEntity Class
  * @package YetiForce.Model
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 
-class IStorages extends \App\CRMEntity
+class IStorages extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'u_yf_istorages';
@@ -110,12 +110,12 @@ class IStorages extends \App\CRMEntity
 		$adb = \App\Database\PearDatabase::getInstance();
 
 		$currentUser = \App\User\CurrentUser::get();
-		\App\Log::trace("Entering getHierarchy(" . $id . ") method ...");
+		\App\Log\Log::trace("Entering getHierarchy(" . $id . ") method ...");
 
 		$listviewHeader = [];
 		$listviewEntries = [];
 
-		$listColumns = \App\AppConfig::module('IStorages', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = \App\Core\AppConfig::module('IStorages', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}
@@ -140,7 +140,7 @@ class IStorages extends \App\CRMEntity
 		$iStorageHierarchy = $this->getHierarchyData($id, $iStoragesList[$baseId], $baseId, $listviewEntries, $getRawData, $getLinks);
 
 		$iStorageHierarchy = ['header' => $listviewHeader, 'entries' => $listviewEntries];
-		\App\Log::trace('Exiting getHierarchy method ...');
+		\App\Log\Log::trace('Exiting getHierarchy method ...');
 		return $iStorageHierarchy;
 	}
 
@@ -155,12 +155,12 @@ class IStorages extends \App\CRMEntity
 	public function getHierarchyData($id, $iStorageInfoBase, $iStorageId, $listviewEntries, $getRawData = false, $getLinks = true)
 	{
 
-		\App\Log::trace('Entering getHierarchyData(' . $id . ',' . $iStorageId . ') method ...');
+		\App\Log\Log::trace('Entering getHierarchyData(' . $id . ',' . $iStorageId . ') method ...');
 		$currentUser = \App\User\CurrentUser::get();
 		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 
 		$hasRecordViewAccess = (\vtlib\Functions:: userIsAdministrator($currentUser)) || \App\Security\Privilege::isPermitted('IStorages', 'DetailView', $iStorageId);
-		$listColumns = \App\AppConfig::module('IStorages', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = \App\Core\AppConfig::module('IStorages', 'COLUMNS_IN_HIERARCHY');
 
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
@@ -200,7 +200,7 @@ class IStorages extends \App\CRMEntity
 			}
 		}
 
-		\App\Log::trace('Exiting getHierarchyData method ...');
+		\App\Log\Log::trace('Exiting getHierarchyData method ...');
 		return $listviewEntries;
 	}
 
@@ -214,10 +214,10 @@ class IStorages extends \App\CRMEntity
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 
-		\App\Log::trace('Entering getParentIStorages(' . $id . ') method ...');
+		\App\Log\Log::trace('Entering getParentIStorages(' . $id . ') method ...');
 
-		if ($depthBase == \App\AppConfig::module('IStorages', 'MAX_HIERARCHY_DEPTH')) {
-			\App\Log::error('Exiting getParentIStorages method ... - exceeded maximum depth of hierarchy');
+		if ($depthBase == \App\Core\AppConfig::module('IStorages', 'MAX_HIERARCHY_DEPTH')) {
+			\App\Log\Log::error('Exiting getParentIStorages method ... - exceeded maximum depth of hierarchy');
 			return $parentIStorages;
 		}
 
@@ -250,7 +250,7 @@ class IStorages extends \App\CRMEntity
 			}
 
 			$parentIStorageInfo['depth'] = $depth;
-			$listColumns = \App\AppConfig::module('IStorages', 'COLUMNS_IN_HIERARCHY');
+			$listColumns = \App\Core\AppConfig::module('IStorages', 'COLUMNS_IN_HIERARCHY');
 
 			if (empty($listColumns)) {
 				$listColumns = $this->list_fields_name;
@@ -266,7 +266,7 @@ class IStorages extends \App\CRMEntity
 
 			$parentIStorages[$id] = $parentIStorageInfo;
 		}
-		\App\Log::trace('Exiting __getIStorafAccounts method ...');
+		\App\Log\Log::trace('Exiting __getIStorafAccounts method ...');
 		return $parentIStorages;
 	}
 
@@ -281,10 +281,10 @@ class IStorages extends \App\CRMEntity
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 
-		\App\Log::trace('Entering getChildIStorages(' . $id . ',' . $depthBase . ') method ...');
+		\App\Log\Log::trace('Entering getChildIStorages(' . $id . ',' . $depthBase . ') method ...');
 
-		if ($depthBase == \App\AppConfig::module('IStorages', 'MAX_HIERARCHY_DEPTH')) {
-			\App\Log::error('Exiting getChildIStorages method ... - exceeded maximum depth of hierarchy');
+		if ($depthBase == \App\Core\AppConfig::module('IStorages', 'MAX_HIERARCHY_DEPTH')) {
+			\App\Log\Log::error('Exiting getChildIStorages method ... - exceeded maximum depth of hierarchy');
 			return $childIStorages;
 		}
 
@@ -300,7 +300,7 @@ class IStorages extends \App\CRMEntity
 			' WHERE vtiger_crmentity.deleted = 0 and parentid = ?';
 
 		$res = $adb->pquery($query, [$id]);
-		$listColumns = \App\AppConfig::module('IStorages', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = \App\Core\AppConfig::module('IStorages', 'COLUMNS_IN_HIERARCHY');
 
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
@@ -326,7 +326,7 @@ class IStorages extends \App\CRMEntity
 			}
 		}
 
-		\App\Log::trace('Exiting getChildIStorages method ...');
+		\App\Log\Log::trace('Exiting getChildIStorages method ...');
 		return $childIStorages;
 	}
 }

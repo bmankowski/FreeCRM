@@ -63,7 +63,7 @@ class Reference extends BaseUiType
 			if ($rawText || $referenceModuleName === 'Users' || ($value && !\App\Security\Privilege::isPermitted($referenceModuleName, 'DetailView', $value))) {
 				return $name;
 			}
-			$name = \vtlib\Functions:: textLength($name, \App\AppConfig::main('href_max_length'));
+			$name = \vtlib\Functions:: textLength($name, \App\Core\AppConfig::main('href_max_length'));
 			$linkValue = "<a class='moduleColor_$referenceModuleName' href='index.php?module=$referenceModuleName&view=" . $referenceModule->getDetailViewName() . "&record=$value' title='" . \App\Runtime\Vtiger_Language_Handler::translate($referenceModuleName, $referenceModuleName) . "'>$name</a>";
 			return $linkValue;
 		}
@@ -118,7 +118,7 @@ class Reference extends BaseUiType
 		if ($fieldName === 'modifiedby') {
 			return 'uitypes/OwnerFieldSearchView.tpl';
 		}
-		if (\App\AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
+		if (\App\Core\AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
 			return 'uitypes/ReferenceSearchView.tpl';
 		}
 		return parent::getListSearchTemplateName();

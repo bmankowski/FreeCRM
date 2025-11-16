@@ -18,7 +18,7 @@ class Import extends \App\Modules\Settings\Base\Views\Index
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		
-		\App\Log::trace('Start ' . __METHOD__);
+		\App\Log\Log::trace('Start ' . __METHOD__);
 		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 
@@ -76,7 +76,7 @@ class Import extends \App\Modules\Settings\Base\Views\Index
 
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->view('Import.tpl', $qualifiedModule);
-		\App\Log::trace('End ' . __METHOD__);
+		\App\Log\Log::trace('End ' . __METHOD__);
 	}
 
 	public function getHeaderCss(\App\Http\Vtiger_Request $request)

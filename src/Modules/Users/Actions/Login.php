@@ -46,10 +46,10 @@ class Login extends \App\Base\Controllers\BaseActionController
 			header('Location: index.php?module=Users&view=Login&error=2');
 			return false;
 		}
-		$user = \App\CRMEntity::getInstance('Users');
+		$user = \App\Core\CRMEntity::getInstance('Users');
 		$user->column_fields['user_name'] = $username;
 		if (!empty($password) && $user->doLogin($password)) {
-			if (\App\AppConfig::main('session_regenerate_id')) {
+			if (\App\Core\AppConfig::main('session_regenerate_id')) {
 				\App\Http\Vtiger_Session::regenerateId(true); // to overcome session id reuse.
 			}
 			$userId = $user->column_fields['id'];
@@ -63,7 +63,7 @@ class Login extends \App\Base\Controllers\BaseActionController
 			$userModel = \App\Modules\Users\Models\Record::getInstanceById($userId, 'Users');
 			$request->setUser($userModel);
 
-			if ($request->has('loginLanguage') && \App\AppConfig::main('langInLoginView')) {
+			if ($request->has('loginLanguage') && \App\Core\AppConfig::main('langInLoginView')) {
 				\App\Http\Vtiger_Session::set('language', $request->get('loginLanguage'));
 			}
 			if ($request->has('layout')) {
@@ -78,7 +78,7 @@ class Login extends \App\Base\Controllers\BaseActionController
 				$return_params = urldecode($_SESSION['return_params']);
 				header("Location: index.php?$return_params");
 			} else {
-			if (\App\AppConfig::performance('SHOW_ADMIN_PANEL') && \App\Modules\Users\Models\Record::getInstanceById($userId, 'Users')->isAdmin()) {
+			if (\App\Core\AppConfig::performance('SHOW_ADMIN_PANEL') && \App\Modules\Users\Models\Record::getInstanceById($userId, 'Users')->isAdmin()) {
 				header('Location: index.php?module=Dashboard&parent=Settings&view=Index');
 			} else {
 				header('Location: index.php');

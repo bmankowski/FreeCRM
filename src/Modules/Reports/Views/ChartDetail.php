@@ -77,7 +77,7 @@ class ChartDetail  extends \App\Modules\Base\Views\Index
 		} else {
 			$advanceFilterOpsByFieldType = \App\Modules\Base\Models\Field::getAdvancedFilterOpsByFieldType();
 		}
-		$viewer->assign('ADVANCED_FILTER_OPTIONS', \App\CustomView::ADVANCED_FILTER_OPTIONS);
+		$viewer->assign('ADVANCED_FILTER_OPTIONS', \App\View\CustomView::ADVANCED_FILTER_OPTIONS);
 		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', $advanceFilterOpsByFieldType);
 		$reportChartModel = \App\Modules\Reports\Models\Chart::getInstanceById($reportModel);
 		$viewer->assign('PRIMARY_MODULE_FIELDS', $reportModel->getPrimaryModuleFieldsForAdvancedReporting());

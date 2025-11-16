@@ -122,7 +122,7 @@ class RuleMember extends \App\Modules\Base\Models\Record
 		}
 
 		if ($type == self::RULE_MEMBER_TYPE_ROLES) {
-			$row = \App\PrivilegeUtil::getRoleDetail($memberId);
+			$row = \App\Security\PrivilegeUtil::getRoleDetail($memberId);
 			if ($row) {
 				$qualifiedId = self::getQualifiedId(self::RULE_MEMBER_TYPE_ROLES, $row['roleid']);
 				$name = $row['rolename'];
@@ -132,7 +132,7 @@ class RuleMember extends \App\Modules\Base\Models\Record
 		}
 
 		if ($type == self::RULE_MEMBER_TYPE_ROLE_AND_SUBORDINATES) {
-			$row = \App\PrivilegeUtil::getRoleDetail($memberId);
+			$row = \App\Security\PrivilegeUtil::getRoleDetail($memberId);
 			if ($row) {
 				$qualifiedId = self::getQualifiedId(self::RULE_MEMBER_TYPE_ROLE_AND_SUBORDINATES, $row['roleid']);
 				$name = $row['rolename'];

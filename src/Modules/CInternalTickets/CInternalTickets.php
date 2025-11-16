@@ -3,14 +3,14 @@
 namespace App\Modules\CInternalTickets;
 
 /**
- * CInternalTickets \App\CRMEntity Class
+ * CInternalTickets \App\Core\CRMEntity Class
  * @package YetiForce.CRMEntity
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
 
-class CInternalTickets extends \App\CRMEntity
+class CInternalTickets extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'u_yf_cinternaltickets';

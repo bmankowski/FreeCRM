@@ -45,7 +45,7 @@ class QuickExport extends \App\Base\Controllers\BaseActionController
 		$row = 1;
 		$col = 0;
 
-		$queryGenerator = new \App\QueryGenerator($module);
+		$queryGenerator = new \App\QueryField\QueryGenerator($module);
 		$queryGenerator->initForCustomViewById($filter);
 		$headers = $queryGenerator->getListViewFields();
 		$customView = \App\Modules\CustomView\Models\Record::getInstanceById($filter);
@@ -56,7 +56,7 @@ class QuickExport extends \App\Base\Controllers\BaseActionController
 		}
 		$row++;
 
-		$targetModuleFocus = \App\CRMEntity::getInstance($module);
+		$targetModuleFocus = \App\Core\CRMEntity::getInstance($module);
 		//ListViewController has lots of paging stuff and things we don't want
 		//so lets just itterate across the list of IDs we have and get the field values
 		foreach ($recordIds as $id) {
@@ -105,7 +105,7 @@ class QuickExport extends \App\Base\Controllers\BaseActionController
 			$col++;
 		}
 
-		$tmpDir = \App\AppConfig::main('tmp_dir');
+		$tmpDir = \App\Core\AppConfig::main('tmp_dir');
 		$tempFileName = tempnam(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $tmpDir, 'xls');
 		$workbookWriter = PHPExcel_IOFactory::createWriter($workbook, 'Excel5');
 		$workbookWriter->save($tempFileName);

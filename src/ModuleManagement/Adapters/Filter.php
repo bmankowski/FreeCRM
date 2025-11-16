@@ -70,7 +70,7 @@ class Filter
 			$this->status = $this->presence == 0 ? '0' : '3';
 		}
 
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$db->createCommand()->insert('vtiger_customview', [
 			'viewname' => $this->name,
 			'setdefault' => $this->isdefault,
@@ -117,7 +117,7 @@ class Filter
 		if (!$this->id) {
 			return;
 		}
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$db->createCommand()->delete('vtiger_cvadvfilter', ['cvid' => $this->id])->execute();
 		$db->createCommand()->delete('vtiger_cvcolumnlist', ['cvid' => $this->id])->execute();
 		$db->createCommand()->delete('vtiger_customview', ['cvid' => $this->id])->execute();
@@ -156,7 +156,7 @@ class Filter
 			throw new \RuntimeException('Filter must be saved before adding fields');
 		}
 		$cvcolvalue = $this->getColumnValue($fieldInstance);
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$db->createCommand()->update(
 			'vtiger_cvcolumnlist',
 			['columnindex' => new \yii\db\Expression('columnindex + 1')],
@@ -189,7 +189,7 @@ class Filter
 		}
 		$cvcolvalue = $this->getColumnValue($fieldInstance);
 		$comp = self::translateComparator($comparator);
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$db->createCommand()->update(
 			'vtiger_cvadvfilter',
 			['columnindex' => new \yii\db\Expression('columnindex + 1')],

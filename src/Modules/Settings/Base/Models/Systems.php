@@ -57,7 +57,7 @@ class Systems extends \App\Modules\Base\Models\Record
 		$params = [$type];
 		$result = $db->pquery($query, $params);
 		try {
-			$modelClassName = \App\Loader::getComponentClassName('Model', $componentName, 'Settings:Vtiger');
+			$modelClassName = \App\Core\Loader::getComponentClassName('Model', $componentName, 'Settings:Vtiger');
 		} catch (Exception $e) {
 			$modelClassName = self;
 		}

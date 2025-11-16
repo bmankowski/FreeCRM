@@ -15,7 +15,7 @@ class checkHierarchy {
 	public function process($moduleName, $id, $recordData, $config)
 	{
 		$parentId = $recordData['parentid'];
-		$focus = \App\CRMEntity::getInstance($moduleName);
+		$focus = \App\Core\CRMEntity::getInstance($moduleName);
 		$storages = [];
 
 		if ($id > 0) {

@@ -76,7 +76,7 @@ class File
 	public function validate($type = false)
 	{
 		$return = true;
-		\App\Log::trace('File validate - Start');
+		\App\Log\Log::trace('File validate - Start');
 		try {
 			$this->checkFile();
 			$this->validateFormat();
@@ -89,9 +89,9 @@ class File
 			}
 		} catch (\Exception $e) {
 			$return = false;
-			\App\Log::error('Error: ' . $e->getMessage());
+			\App\Log\Log::error('Error: ' . $e->getMessage());
 		}
-		\App\Log::trace('File validate - End');
+		\App\Log\Log::trace('File validate - End');
 		return $return;
 	}
 
@@ -184,7 +184,7 @@ class File
 	static public function sanitizeUploadFileName($fileName, $badFileExtensions = false)
 	{
 		if (!$badFileExtensions) {
-			$badFileExtensions = \App\AppConfig::main('upload_badext');
+			$badFileExtensions = \App\Core\AppConfig::main('upload_badext');
 		}
 		$fileName = preg_replace('/\s+/', '_', \vtlib\Functions:: slug($fileName)); //replace space with _ in filename
 		$fileName = rtrim($fileName, '\\/<>?*:"<>|');

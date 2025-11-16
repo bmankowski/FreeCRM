@@ -52,9 +52,9 @@ class MailActionBar  extends \App\Modules\Base\Views\Index
 			$relatedRecords = $mailViewModel->getRelatedRecords($record);
 			$viewer->assign('RELATED_RECORDS', $relatedRecords);
 		}
-		\App\ModuleHierarchy::getModulesByLevel();
+		\App\Core\ModuleHierarchy::getModulesByLevel();
 		$viewer->assign('MODULE_NAME', $moduleName);
-		$viewer->assign('URL', \App\AppConfig::main('site_URL'));
+		$viewer->assign('URL', \App\Core\AppConfig::main('site_URL'));
 		$viewer->view('MailActionBar.tpl', $moduleName);
 	}
 }

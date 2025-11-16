@@ -131,7 +131,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			'state' => $tree['state'] ? \App\Utils\Json::encode($tree['state']) : '',
 			'icon' => $icon
 		];
-		\App\Db::getInstance()->createCommand()->insert('vtiger_trees_templates_data', $params)->execute();
+		\App\Db\Db::getInstance()->createCommand()->insert('vtiger_trees_templates_data', $params)->execute();
 		if (!empty($tree['children'])) {
 			foreach ($tree['children'] as $tree) {
 				$this->insertData($tree, $depth + 1, $parenttrre);
@@ -212,7 +212,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public function save($request = null)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$templateId = $this->getId();
 		$share = $this->get('share') ? ',' . implode(',', $this->get('share')) . ',' : '';
 		if (empty($templateId)) {
@@ -246,7 +246,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public function replaceValue($tree, $templateId)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$modules = $this->get('share');
 		$modules[] = $this->get('module');
 		$dataReader = (new \App\Db\Query())->select(['tablename', 'columnname', 'uitype'])
@@ -277,7 +277,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public function delete()
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$templateId = $this->getId();
 		$db->createCommand()
 			->delete('vtiger_trees_templates', ['templateid' => $templateId])

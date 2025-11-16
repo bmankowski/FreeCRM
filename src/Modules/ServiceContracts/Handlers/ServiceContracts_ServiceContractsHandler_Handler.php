@@ -12,9 +12,9 @@ class ServiceContracts_ServiceContractsHandler_Handler {
 
 	/**
 	 * EntityAfterSave handler function
-	 * @param \App\EventHandler $eventHandler
+	 * @param \App\Events\EventHandler $eventHandler
 	 */
-	public function entityAfterSave(\App\EventHandler $eventHandler)
+	public function entityAfterSave(\App\Events\EventHandler $eventHandler)
 	{
 		$moduleName = $eventHandler->getModuleName();
 		$request = $eventHandler->getParams()['request'] ?? null;
@@ -43,7 +43,7 @@ class ServiceContracts_ServiceContractsHandler_Handler {
 							)
 							->createCommand()->query();
 					while ($contractId = $dataReader->readColumn(0)) {
-						$scFocus = \App\CRMEntity::getInstance('ServiceContracts');
+						$scFocus = \App\Core\CRMEntity::getInstance('ServiceContracts');
 						$scFocus->id = $contractId;
 						$scFocus->retrieve_entity_info($contractId, 'ServiceContracts');
 
@@ -67,7 +67,7 @@ class ServiceContracts_ServiceContractsHandler_Handler {
 		if ($moduleName === 'ServiceContracts') {
 			$recordModel = $eventHandler->getRecordModel();
 			$contractId = $recordModel->getId();
-			$scFocus = \App\CRMEntity::getInstance('ServiceContracts');
+			$scFocus = \App\Core\CRMEntity::getInstance('ServiceContracts');
 			if ($recordModel->get('tracking_unit') !== $recordModel->getPreviousValue('tracking_unit')) { // Need to recompute used_units based when tracking_unit changes.
 				$scFocus->updateServiceContractState($contractId);
 			} else {

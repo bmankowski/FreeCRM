@@ -9,7 +9,7 @@ $dataReader = (new \App\Db\Query())->select(['vtiger_activity.activityid', 'vtig
 		->from('vtiger_activity')
 		->innerJoin(['crm' => 'vtiger_crmentity'], 'crm.crmid = vtiger_activity.activityid')
 		->where(['vtiger_activity.status' => [$statusActivity['not_started'], $statusActivity['in_realization']], 'crm.deleted' => 0, 'crm.setype' => 'Calendar'])
-		->limit(\App\AppConfig::module('Calendar', 'CRON_MAX_NUMBERS_ACTIVITY_STATE'))
+		->limit(\App\Core\AppConfig::module('Calendar', 'CRON_MAX_NUMBERS_ACTIVITY_STATE'))
 		->createCommand()->query();
 while ($row = $dataReader->read()) {
 	$state = \App\Modules\Calendar\Models\Module::getCalendarState($row);

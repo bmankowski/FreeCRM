@@ -21,9 +21,9 @@ class API_CardDAV_Handler {
 
 	/**
 	 * EntityAfterSave handler function
-	 * @param \App\EventHandler $eventHandler
+	 * @param \App\Events\EventHandler $eventHandler
 	 */
-	public function entityAfterSave(\App\EventHandler $eventHandler)
+	public function entityAfterSave(\App\Events\EventHandler $eventHandler)
 	{
 		$moduleName = $eventHandler->getModuleName();
 		$recordModel = $eventHandler->getRecordModel();
@@ -35,7 +35,7 @@ class API_CardDAV_Handler {
 		foreach (static::DELTA_FIELDS[$moduleName] as &$fieldName) {
 			if (isset($delta[$fieldName])) {
 				$info = static::UPDATE_DETAIL[$moduleName];
-				\App\Db::getInstance()->createCommand()
+				\App\Db\Db::getInstance()->createCommand()
 					->update($info[0], ['dav_status' => 1], [$info[1] => $recordModel->getId()])
 					->execute();
 				return true;

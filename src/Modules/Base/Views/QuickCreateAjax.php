@@ -51,7 +51,7 @@ class QuickCreateAjax extends \App\Modules\Base\Views\Index
 
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Utils\Json::encode($picklistDependencyDatasource));
 		$recordStructure = $recordStructureInstance->getStructure();
-		$mappingRelatedField = \App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName);
+		$mappingRelatedField = \App\Core\ModuleHierarchy::getRelationFieldByHierarchy($moduleName);
 
 		$fieldValues = [];
 		$sourceRelatedField = $moduleModel->getValuesFromSource($request);
@@ -94,7 +94,7 @@ class QuickCreateAjax extends \App\Modules\Base\Views\Index
 		$viewer->assign('SCRIPTS', $this->getFooterScripts($request));
 
 		$viewer->assign('MAX_UPLOAD_LIMIT_MB', \App\Modules\Base\Helpers\Util::getMaxUploadSize());
-		$viewer->assign('MAX_UPLOAD_LIMIT', \App\AppConfig::main('upload_maxsize'));
+		$viewer->assign('MAX_UPLOAD_LIMIT', \App\Core\AppConfig::main('upload_maxsize'));
 		echo $viewer->view('QuickCreate.tpl', $moduleName, true);
 	}
 
@@ -113,6 +113,6 @@ class QuickCreateAjax extends \App\Modules\Base\Views\Index
 
 	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
-		$request->validateWriteAccess();
+		$request->validateReadAccess();
 	}
 }

@@ -49,7 +49,7 @@ class Configuration extends \App\Modules\Settings\Base\Views\Index
 	 */
 	protected function prepareNotificationsConfigurationData($viewer)
 	{
-		$viewer->assign('WATCHDOG_ENABLED', \App\AppConfig::module('ModTracker', 'WATCHDOG'));
+		$viewer->assign('WATCHDOG_ENABLED', \App\Core\AppConfig::module('ModTracker', 'WATCHDOG'));
 	}
 
 	/**

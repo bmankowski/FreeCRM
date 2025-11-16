@@ -38,7 +38,7 @@ class Module extends \App\Modules\Base\Models\Module
 			->innerJoin('vtiger_crmentity', 'vtiger_modcomments.modcommentsid = vtiger_crmentity.crmid')
 			->innerJoin('vtiger_crmentity crmentity2', 'vtiger_modcomments.related_to = crmentity2.crmid')
 			->where(['vtiger_crmentity.deleted' => 0, 'crmentity2.deleted' => 0]);
-		\App\PrivilegeQuery::getConditions($query, 'ModComments');
+		\App\Security\PrivilegeQuery::getConditions($query, 'ModComments');
 		$query->orderBy(['vtiger_modcomments.modcommentsid' => SORT_DESC])
 			->limit($pagingModel->getPageLimit())
 			->offset($pagingModel->getStartIndex());
@@ -99,7 +99,7 @@ class Module extends \App\Modules\Base\Models\Module
 			->from('vtiger_activity')
 			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_activity.activityid')
 			->where(['vtiger_crmentity.deleted' => 0]);
-		\App\PrivilegeQuery::getConditions($query, 'Calendar');
+		\App\Security\PrivilegeQuery::getConditions($query, 'Calendar');
 		if ($mode === 'upcoming') {
 			$query->andWhere(['or', ['vtiger_activity.status' => null], ['vtiger_activity.status' => $paramsMore['status']]]);
 		} elseif ($mode === 'overdue') {
@@ -198,7 +198,7 @@ class Module extends \App\Modules\Base\Models\Module
 			->from('vtiger_projecttask')
 			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_projecttask.projecttaskid')
 			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_crmentity.smcreatorid' => $currentUser->getId()]);
-		\App\PrivilegeQuery::getConditions($query, 'ProjectTask');
+		\App\Security\PrivilegeQuery::getConditions($query, 'ProjectTask');
 		if ($mode === 'upcoming') {
 			$query->andWhere(['>=', 'targetenddate', $currentDate]);
 		} elseif ($mode === 'overdue') {

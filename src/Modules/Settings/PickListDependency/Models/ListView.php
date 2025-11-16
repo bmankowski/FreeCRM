@@ -52,7 +52,7 @@ class ListView extends \App\Modules\Settings\Base\Models\ListView
 		$dependentPicklists = \App\Modules\PickList\DependencyPicklist::getDependentPicklistFields($forModule);
 
 		$noOfRecords = count($dependentPicklists);
-		$recordModelClass = \App\Loader::getComponentClassName('Model', 'Record', 'Settings:PickListDependency');
+		$recordModelClass = \App\Core\Loader::getComponentClassName('Model', 'Record', 'Settings:PickListDependency');
 
 		$listViewRecordModels = array();
 		for ($i = 0; $i < $noOfRecords; $i++) {

@@ -161,7 +161,7 @@ class Record extends \App\Modules\Base\Models\Record
 	public static function getRecentComments($parentRecordId, $pagingModel)
 	{
 		$recordInstances = [];
-		$queryGenerator = new \App\QueryGenerator('ModComments');
+		$queryGenerator = new \App\QueryField\QueryGenerator('ModComments');
 		$queryGenerator->setFields(['id', 'parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'assigned_user_id', 'commentcontent', 'creator', 'customer', 'reasontoedit', 'userid', 'from_mailconverter']);
 		$queryGenerator->setSourceRecord($parentRecordId);
 		$queryGenerator->addNativeCondition(['related_to' => $parentRecordId]);
@@ -185,14 +185,14 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public static function getAllParentComments($parentId, $hierarchy = false)
 	{
-		$queryGenerator = new \App\QueryGenerator('ModComments');
+		$queryGenerator = new \App\QueryField\QueryGenerator('ModComments');
 		$queryGenerator->setFields(['parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
 			'assigned_user_id', 'commentcontent', 'creator', 'customer', 'reasontoedit', 'userid']);
 		$queryGenerator->setSourceRecord($parentId);
 		if (empty($hierarchy) || (count($hierarchy) == 1 && reset($hierarchy) == 0)) {
 			$queryGenerator->addNativeCondition(['related_to' => $parentId]);
 		} else {
-			$recordIds = \App\ModuleHierarchy::getRelatedRecords($parentId, $hierarchy);
+			$recordIds = \App\Core\ModuleHierarchy::getRelatedRecords($parentId, $hierarchy);
 			if (empty($recordIds)) {
 				return [];
 			}
@@ -218,7 +218,7 @@ class Record extends \App\Modules\Base\Models\Record
 	public function getChildCommentsCount()
 	{
 		$recordId = $this->getId();
-		$queryGenerator = new \App\QueryGenerator('ModComments');
+		$queryGenerator = new \App\QueryField\QueryGenerator('ModComments');
 		$queryGenerator->setFields([]);
 		$queryGenerator->setSourceRecord($recordId);
 		$queryGenerator->addNativeCondition(['parent_comments' => $recordId, 'related_to' => $this->get('related_to')]);
@@ -234,7 +234,7 @@ class Record extends \App\Modules\Base\Models\Record
 		if (empty($recordId)) {
 			return 0;
 		}
-		$queryGenerator = new \App\QueryGenerator('ModComments');
+		$queryGenerator = new \App\QueryField\QueryGenerator('ModComments');
 		$queryGenerator->setFields([]);
 		$queryGenerator->setSourceRecord($recordId);
 		$queryGenerator->addNativeCondition(['related_to' => $recordId]);
@@ -250,7 +250,7 @@ class Record extends \App\Modules\Base\Models\Record
 		$parentCommentId = $this->getId();
 		if (empty($parentCommentId))
 			return;
-		$queryGenerator = new \App\QueryGenerator('ModComments');
+		$queryGenerator = new \App\QueryField\QueryGenerator('ModComments');
 		$queryGenerator->setFields(array('parent_comments', 'createdtime', 'modifiedtime', 'related_to', 'id',
 			'assigned_user_id', 'commentcontent', 'creator', 'reasontoedit', 'userid'));
 		//Condition are directly added as query_generator transforms the

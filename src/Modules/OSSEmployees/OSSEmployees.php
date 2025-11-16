@@ -13,7 +13,7 @@ namespace App\Modules\OSSEmployees;
  * *********************************************************************************************************************************** */
 
 
-class OSSEmployees extends \App\CRMEntity
+class OSSEmployees extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'vtiger_ossemployees';
@@ -111,7 +111,7 @@ class OSSEmployees extends \App\CRMEntity
 		$currentUser = \App\User\CurrentUser::get();
 
 
-		\App\Log::trace("Entering getEmployeeHierarchy(" . $id . ") method ...");
+		\App\Log\Log::trace("Entering getEmployeeHierarchy(" . $id . ") method ...");
 		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 
 		$listview_header = Array();
@@ -157,7 +157,7 @@ class OSSEmployees extends \App\CRMEntity
 			$listview_entries[$employees_id] = $account_info_data;
 		}
 		$hierarchy = array('header' => $listview_header, 'entries' => $listview_entries);
-		\App\Log::trace("Exiting getEmployeeHierarchy method ...");
+		\App\Log\Log::trace("Exiting getEmployeeHierarchy method ...");
 		return $hierarchy;
 	}
 
@@ -165,7 +165,7 @@ class OSSEmployees extends \App\CRMEntity
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 
-		\App\Log::trace("Entering __getParentEmployees(" . $id . "," . $parent_accounts . ") method ...");
+		\App\Log\Log::trace("Entering __getParentEmployees(" . $id . "," . $parent_accounts . ") method ...");
 		$query = "SELECT parentid FROM vtiger_ossemployees " .
 			" INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_ossemployees.ossemployeesid" .
 			" WHERE vtiger_crmentity.deleted = 0 and vtiger_ossemployees.ossemployeesid = ?";
@@ -208,7 +208,7 @@ class OSSEmployees extends \App\CRMEntity
 			}
 		}
 		$parent_accounts[$id] = $parent_account_info;
-		\App\Log::trace("Exiting __getParentEmployees method ...");
+		\App\Log\Log::trace("Exiting __getParentEmployees method ...");
 		return $parent_accounts;
 	}
 
@@ -216,7 +216,7 @@ class OSSEmployees extends \App\CRMEntity
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 
-		\App\Log::trace("Entering __getChildEmployees(" . $id . "," . $child_accounts . "," . $depth . ") method ...");
+		\App\Log\Log::trace("Entering __getChildEmployees(" . $id . "," . $child_accounts . "," . $depth . ") method ...");
 		$userNameSql = \vtlib\Deprecated::getSqlForNameInDisplayFormat(array('first_name' =>
 				'vtiger_users.first_name', 'last_name' => 'vtiger_users.last_name'), 'Users');
 		$query = "SELECT vtiger_ossemployees.*," .
@@ -252,7 +252,7 @@ class OSSEmployees extends \App\CRMEntity
 				$this->__getChildEmployees($child_acc_id, $child_accounts, $depth);
 			}
 		}
-		\App\Log::trace("Exiting __getChildEmployees method ...");
+		\App\Log\Log::trace("Exiting __getChildEmployees method ...");
 		return $child_accounts;
 	}
 

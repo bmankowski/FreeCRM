@@ -40,10 +40,10 @@ class GetHierarchy  extends \App\Modules\Base\Views\Index
 		$hierarchyModuleName = 'Accounts';
 
 
-		$focus = \App\CRMEntity::getInstance($hierarchyModuleName);
+		$focus = \App\Core\CRMEntity::getInstance($hierarchyModuleName);
 		$hierarchy = $focus->getAccountHierarchy($recordId, $fields);
 
-		$classFunction = \App\AppConfig::module($moduleName, 'RENEWAL_CUSTOMER_FUNCTION');
+		$classFunction = \App\Core\AppConfig::module($moduleName, 'RENEWAL_CUSTOMER_FUNCTION');
 		$accountIds = [];
 		$check = false;
 		if ($classFunction && class_exists($classFunction['class']) && method_exists($classFunction['class'], $classFunction['hierarchy'])) {

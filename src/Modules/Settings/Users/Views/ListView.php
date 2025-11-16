@@ -40,7 +40,7 @@ class ListView extends \App\Modules\Settings\Base\Views\ListView
 		$sortOrder = $request->get('sortorder');
 		$searchResult = $request->get('searchResult');
 		if (empty($orderBy) && empty($sortOrder)) {
-			$moduleInstance = \App\CRMEntity::getInstance($moduleName);
+			$moduleInstance = \App\Core\CRMEntity::getInstance($moduleName);
 			$orderBy = $moduleInstance->default_order_by;
 			$sortOrder = $moduleInstance->default_sort_order;
 		}
@@ -158,7 +158,7 @@ class ListView extends \App\Modules\Settings\Base\Views\ListView
 		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
 		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
 
-		if (\App\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+		if (\App\Core\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			if (!$this->listViewCount) {
 				$this->listViewCount = $this->listViewModel->getListViewCount();
 			}

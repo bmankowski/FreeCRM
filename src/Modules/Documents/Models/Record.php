@@ -63,7 +63,7 @@ class Record extends \App\Modules\Base\Models\Record
 			$fileName = $fileDetails['name'];
 
 			if ($this->get('filelocationtype') == 'I') {
-				$fileName = html_entity_decode($fileName, ENT_QUOTES, \App\AppConfig::main('default_charset'));
+				$fileName = html_entity_decode($fileName, ENT_QUOTES, \App\Core\AppConfig::main('default_charset'));
 				$savedFile = $fileDetails['attachmentsid'] . "_" . $fileName;
 
 				$fileSize = filesize($filePath . $savedFile);
@@ -85,7 +85,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	public function updateFileStatus($status)
 	{
-		\App\Db::getInstance()->createCommand()->update('vtiger_notes', ['filestatus' => $status], ['notesid' => $this->get('id')])->execute();
+		\App\Db\Db::getInstance()->createCommand()->update('vtiger_notes', ['filestatus' => $status], ['notesid' => $this->get('id')])->execute();
 	}
 
 	public function updateDownloadCount()
@@ -140,7 +140,7 @@ class Record extends \App\Modules\Base\Models\Record
 			// Request should be passed as parameter
 		}
 		parent::saveToDb();
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$fileNameByField = 'filename';
 		$fileName = '';
 		if ($this->get('filelocationtype') === 'I') {

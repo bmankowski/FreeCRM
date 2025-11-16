@@ -21,7 +21,7 @@ class Mail
 		if (Cache::has('SmtpServers', 'all')) {
 			return Cache::get('SmtpServers', 'all');
 		}
-		$all = (new \App\Db\Query())->from('s_#__mail_smtp')->indexBy('id')->all(\App\Db::getInstance('admin'));
+		$all = (new \App\Db\Query())->from('s_#__mail_smtp')->indexBy('id')->all(\App\Db\Db::getInstance('admin'));
 		Cache::save('SmtpServers', 'all', $all, Cache::LONG);
 		return $all;
 	}
@@ -54,9 +54,9 @@ class Mail
 		if (Cache::has('DefaultSmtp', '')) {
 			return Cache::get('DefaultSmtp', '');
 		}
-		$id = (new \App\Db\Query())->select(['id'])->from('s_#__mail_smtp')->where(['default' => 1])->scalar(\App\Db::getInstance('admin'));
+		$id = (new \App\Db\Query())->select(['id'])->from('s_#__mail_smtp')->where(['default' => 1])->scalar(\App\Db\Db::getInstance('admin'));
 		if (!$id) {
-			$id = (new \App\Db\Query())->select(['id'])->from('s_#__mail_smtp')->limit(1)->scalar(\App\Db::getInstance('admin'));
+			$id = (new \App\Db\Query())->select(['id'])->from('s_#__mail_smtp')->limit(1)->scalar(\App\Db\Db::getInstance('admin'));
 		}
 		Cache::save('DefaultSmtp', '', $id, Cache::LONG);
 		return $id;

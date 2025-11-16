@@ -79,10 +79,10 @@ class Pagination  extends \App\Modules\Base\Views\Index
 		$searchResult = $request->get('searchResult');
 		$moduleName = $request->getModule();
 		if (empty($cvId)) {
-			$cvId = \App\CustomView::getInstance($moduleName)->getViewId();
+			$cvId = \App\View\CustomView::getInstance($moduleName)->getViewId();
 		}
 		if (empty($pageNumber)) {
-			$pageNumber = \App\CustomView::getCurrentPage($moduleName, $cvId);
+			$pageNumber = \App\View\CustomView::getCurrentPage($moduleName, $cvId);
 		}
 		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
@@ -91,7 +91,7 @@ class Pagination  extends \App\Modules\Base\Views\Index
 
 		$totalCount = (int) $request->get('totalCount');
 		$operator = '';
-		if (\App\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') || $totalCount == -1) {
+		if (\App\Core\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') || $totalCount == -1) {
 			$listViewModel = \App\Modules\Base\Models\ListView::getInstance($moduleName, $cvId);
 			$searchKey = $request->get('search_key');
 			$searchValue = $request->get('search_value');

@@ -259,5 +259,5 @@ class Purifier
 	}
 }
 
-Purifier::$defaultCharset = \App\AppConfig::main('default_charset', 'UTF-8');
+Purifier::$defaultCharset = \App\Core\AppConfig::main('default_charset', 'UTF-8');
 Purifier::$UTF8 = (strtoupper(Purifier::$defaultCharset) === 'UTF-8');

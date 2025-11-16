@@ -23,10 +23,10 @@ class Record extends \App\Modules\Base\Models\Record
 		$relatedId = $relatedRecords['id'];
 		$value = $this->get($fieldName);
 		if (\App\Records\Record::isExists($relatedId)) {
-			$textParser = \App\TextParser::getInstanceById($relatedId, $relatedModule);
+			$textParser = \App\TextParser\TextParser::getInstanceById($relatedId, $relatedModule);
 			$textParser->setContent($value)->parse();
 		} else {
-			$textParser = \App\TextParser::getInstance();
+			$textParser = \App\TextParser\TextParser::getInstance();
 			$textParser->setContent($value)->parseTranslations();
 		}
 		return $textParser->getContent();
@@ -139,18 +139,18 @@ class Record extends \App\Modules\Base\Models\Record
 		}
 		$notificationType = $this->get('notification_type');
 		if (!\App\Modules\Users\Models\Privileges::isPermitted('Notification', 'DetailView')) {
-			\App\Log::warning('User ' . \vtlib\Functions:: getOwnerRecordLabel($this->get('assigned_user_id')) . ' has no active notifications');
-			\App\Log::trace('Exiting ' . __METHOD__ . ' - return true');
+			\App\Log\Log::warning('User ' . \vtlib\Functions:: getOwnerRecordLabel($this->get('assigned_user_id')) . ' has no active notifications');
+			\App\Log\Log::trace('Exiting ' . __METHOD__ . ' - return true');
 			return false;
 		}
 		if ($notificationType !== 'PLL_USERS' && !\App\Modules\Users\Models\Privileges::isPermitted($relatedModule, 'DetailView', $relatedId)) {
-			\App\Log::error('User ' . \vtlib\Functions:: getOwnerRecordLabel($this->get('assigned_user_id')) .
+			\App\Log\Log::error('User ' . \vtlib\Functions:: getOwnerRecordLabel($this->get('assigned_user_id')) .
 				' does not have permission for this record ' . $relatedId);
-			\App\Log::trace('Exiting ' . __METHOD__ . ' - return true');
+			\App\Log\Log::trace('Exiting ' . __METHOD__ . ' - return true');
 			return false;
 		}
 		if ($notificationType !== 'PLL_USERS' && \App\Records\Record::isExists($relatedId)) {
-			$textParser = \App\TextParser::getInstanceById($relatedId, $relatedModule);
+			$textParser = \App\TextParser\TextParser::getInstanceById($relatedId, $relatedModule);
 			$this->set('description', $textParser->withoutTranslations()->setContent($this->get('description'))->parse()->getContent());
 			$this->set('title', $textParser->setContent($this->get('title'))->parse()->getContent());
 		}
@@ -161,7 +161,7 @@ class Record extends \App\Modules\Base\Models\Record
 			foreach ($users as $userId) {
 				$userType = \App\Fields\Owner::getType($userId);
 				if ($userType === 'Groups') {
-					$usersCollection = array_merge($usersCollection, \App\PrivilegeUtil::getUsersByGroup($userId));
+					$usersCollection = array_merge($usersCollection, \App\Security\PrivilegeUtil::getUsersByGroup($userId));
 				} else {
 					$usersCollection [] = $userId;
 				}

@@ -64,8 +64,8 @@ class PearDatabase
 	public function __construct($dbtype = '', $host = '', $dbname = '', $username = '', $passwd = '', $port = 3306)
 	{
 		$this->loadDBConfig($dbtype, $host, $dbname, $username, $passwd, $port);
-		$this->isdb_default_utf8_charset = \App\AppConfig::performance('DB_DEFAULT_CHARSET_UTF8');
-		$this->setDieOnError(\App\AppConfig::debug('SQL_DIE_ON_ERROR'));
+		$this->isdb_default_utf8_charset = \App\Core\AppConfig::performance('DB_DEFAULT_CHARSET_UTF8');
+		$this->setDieOnError(\App\Core\AppConfig::debug('SQL_DIE_ON_ERROR'));
 		$this->connect();
 	}
 
@@ -77,7 +77,7 @@ class PearDatabase
 		if (self::$dbCache !== false) {
 			return self::$dbCache;
 		}
-		$config = \App\AppConfig::main('dbconfig');
+		$config = \App\Core\AppConfig::main('dbconfig');
 		if ($config === false) {
 			include('config/config.inc.php');
 			if (file_exists('config/config_override.php')) {
@@ -88,7 +88,7 @@ class PearDatabase
 		$db = new self($config['db_type'], $config['db_server'], $config['db_name'], $config['db_username'], $config['db_password'], $config['db_port']);
 
 		if ($db->database === null) {
-			\App\Log::error('Database getInstance: Error connecting to the database', 'error');
+			\App\Log\Log::error('Database getInstance: Error connecting to the database', 'error');
 			$db->checkError('Error connecting to the database');
 			return false;
 		} else {
@@ -113,11 +113,11 @@ class PearDatabase
 			$this->database = new \PDO($dsn, $this->userName, $this->userPassword, $options);
 			$this->database->exec('SET NAMES ' . $this->database->quote('utf8'));
 		} catch (\PDOException $e) {
-			\App\Log::error('Database connect (PDOException): ' . $e->getMessage());
+			\App\Log\Log::error('Database connect (PDOException): ' . $e->getMessage());
 			$this->checkError($e->getMessage());
 		} catch (\Exception $e) {
 			// Catch any errors
-			\App\Log::error('Database connect : ' . $e->getMessage());
+			\App\Log\Log::error('Database connect : ' . $e->getMessage());
 			$this->checkError($e->getMessage());
 		}
 	}
@@ -125,7 +125,7 @@ class PearDatabase
 	protected function loadDBConfig($dbtype, $host, $dbname, $username, $passwd, $port)
 	{
 		if ($host == '_SERVER_') {
-			\App\Log::error('No configuration for the database connection');
+			\App\Log\Log::error('No configuration for the database connection');
 		}
 		$this->dbType = $dbtype;
 		$this->dbHostName = $host;
@@ -157,8 +157,8 @@ class PearDatabase
 		}
 		if ($this->dieOnError || $dieOnError) {
 			$backtrace = false;
-			if (\App\AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
-				$backtrace = \App\Debugger::getBacktrace();
+			if (\App\Core\AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
+				$backtrace = \App\Debug\Debugger::getBacktrace();
 			}
 			$message = [
 				'message' => $message,
@@ -250,7 +250,7 @@ class PearDatabase
 		if (method_exists($result, 'rowCount')) {
 			return $result->rowCount();
 		}
-		\App\Log::warning('No rowCount function');
+		\App\Log\Log::warning('No rowCount function');
 		return 0;
 	}
 
@@ -309,9 +309,9 @@ class PearDatabase
 		try {
 			// Use specific category for SELECT queries to route to SQL log
 			$category = $this->isSelectQuery($query) ? 'SQL_SELECT' : __METHOD__;
-			\App\Log::beginProfile($query, $category);
+			\App\Log\Log::beginProfile($query, $category);
 			$this->stmt = $this->database->query($query);
-			\App\Log::endProfile($query, $category);
+			\App\Log\Log::endProfile($query, $category);
 
 			// Clear the result cache for this statement to prevent stale data
 			$cacheKey = spl_object_hash($this->stmt);
@@ -322,7 +322,7 @@ class PearDatabase
 			$this->logSqlTime($sqlStartTime, microtime(true), $query);
 		} catch (\PDOException $e) {
 			$error = $this->database->errorInfo();
-			\App\Log::error($msg . 'Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage());
+			\App\Log\Log::error($msg . 'Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage());
 			$this->checkError($e->getMessage(), $dieOnError, $query);
 		}
 		return $this->stmt;
@@ -347,9 +347,9 @@ class PearDatabase
 
 			// Use specific category for SELECT queries to route to SQL log
 			$category = $this->isSelectQuery($query) ? 'SQL_SELECT' : __METHOD__;
-			\App\Log::beginProfile($query, $category);
+			\App\Log\Log::beginProfile($query, $category);
 			$this->stmt->execute($params);
-			\App\Log::endProfile($query, $category);
+			\App\Log\Log::endProfile($query, $category);
 
 			// Clear the result cache for this statement to prevent stale data
 			$cacheKey = spl_object_hash($this->stmt);
@@ -360,7 +360,7 @@ class PearDatabase
 			$this->logSqlTime($sqlStartTime, microtime(true), $query, $params);
 		} catch (\PDOException $e) {
 			$error = $this->database->errorInfo();
-			\App\Log::error($msg . 'Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage());
+			\App\Log\Log::error($msg . 'Query Failed: ' . $query . ' | ' . $error[2] . ' | ' . $e->getMessage());
 			$this->checkError($e->getMessage(), $dieOnError, $query, $params);
 		}
 		return $this->stmt;
@@ -399,7 +399,7 @@ class PearDatabase
 			return $this->stmt;
 		} catch (\PDOException $e) {
 			$error = $this->database->errorInfo();
-			\App\Log::error('Query Failed: ' . $error[2] . ' | ' . $e->getMessage());
+			\App\Log\Log::error('Query Failed: ' . $error[2] . ' | ' . $e->getMessage());
 			$this->checkError($e->getMessage());
 			return false;
 		}
@@ -414,11 +414,11 @@ class PearDatabase
 	public function insert($table, array $data)
 	{
 		if (!$table) {
-			\App\Log::error('Missing table name');
+			\App\Log\Log::error('Missing table name');
 			$this->checkError('Missing table name');
 			return 	null;
 		} else if (!is_array($data)) {
-			\App\Log::error('Missing data, data must be an array');
+			\App\Log\Log::error('Missing data, data must be an array');
 			$this->checkError('Missing table name');
 			return null;
 		}
@@ -441,7 +441,7 @@ class PearDatabase
 	public function delete($table, $where = '', array $params = [])
 	{
 		if (!$table) {
-			\App\Log::error('Missing table name');
+			\App\Log\Log::error('Missing table name');
 			$this->checkError('Missing table name');
 			return false;
 		}
@@ -486,7 +486,7 @@ class PearDatabase
 	public function query_result_raw(&$result, $row, $col = 0)
 	{
 		if (!is_object($result)) {
-			\App\Log::error('Result is not an object');
+			\App\Log\Log::error('Result is not an object');
 			$this->checkError('Result is not an object');
 		}
 
@@ -522,7 +522,7 @@ class PearDatabase
 	public function raw_query_result_rowdata(&$result, $row = 0)
 	{
 		if (!is_object($result)) {
-			\App\Log::error('Result is not an object');
+			\App\Log\Log::error('Result is not an object');
 			$this->checkError('Result is not an object');
 		}
 		
@@ -758,11 +758,11 @@ class PearDatabase
 	public function sqlExprDatalist($array)
 	{
 		if (!is_array($array)) {
-			\App\Log::error('sqlExprDatalist: not an array');
+			\App\Log\Log::error('sqlExprDatalist: not an array');
 			$this->checkError('sqlExprDatalist: not an array');
 		}
 		if (!count($array)) {
-			\App\Log::error('sqlExprDatalist: empty arrays not allowed');
+			\App\Log\Log::error('sqlExprDatalist: empty arrays not allowed');
 			$this->checkError('sqlExprDatalist: empty arrays not allowed');
 		}
 		$l = '';
@@ -783,7 +783,7 @@ class PearDatabase
 
 		if ($this->getRowCount($result) == 1)
 			return $result;
-		\App\Log::error('Rows Returned:' . $this->getRowCount($result) . ' More than 1 row returned for ' . $sql);
+		\App\Log\Log::error('Rows Returned:' . $this->getRowCount($result) . ' More than 1 row returned for ' . $sql);
 		$this->checkError('Rows Returned:' . $this->getRowCount($result) . ' More than 1 row returned for ' . $sql, $dieOnError);
 		return '';
 	}
@@ -796,7 +796,7 @@ class PearDatabase
 
 		if ($this->getRowCount($result) == 1)
 			return $result;
-		\App\Log::error('Rows Returned:' . $this->getRowCount($result) . ' More than 1 row returned for ' . $sql);
+		\App\Log\Log::error('Rows Returned:' . $this->getRowCount($result) . ' More than 1 row returned for ' . $sql);
 		$this->checkError('Rows Returned:' . $this->getRowCount($result) . ' More than 1 row returned for ' . $sql, $dieOnError);
 		return '';
 	}
@@ -841,7 +841,7 @@ class PearDatabase
 
 	public function logSqlTime($startat, $endat, $sql, $params = false)
 	{
-		if (!\App\AppConfig::performance('SQL_LOG_INCLUDE_CALLER')) {
+		if (!\App\Core\AppConfig::performance('SQL_LOG_INCLUDE_CALLER')) {
 			return;
 		}
 		$db = \App\Database\PearDatabase::getInstance('log');

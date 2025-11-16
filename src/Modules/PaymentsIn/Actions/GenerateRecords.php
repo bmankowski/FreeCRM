@@ -21,7 +21,7 @@ class GenerateRecords extends \App\Base\Controllers\BaseActionController
 		$bag = false;
 		$paymentsIn = $request->get('paymentsIn');
 		foreach ($paymentsIn as $fields) {
-			$ossPaymentsIn = \App\CRMEntity::getInstance($moduleName);
+			$ossPaymentsIn = \App\Core\CRMEntity::getInstance($moduleName);
 			$ossPaymentsIn->column_fields['paymentsname'] = 'Name';
 			$ossPaymentsIn->column_fields['paymentsvalue'] = $fields['amount'];
 			$ossPaymentsIn->column_fields['paymentscurrency'] = $fields['third_letter_currency_code'];

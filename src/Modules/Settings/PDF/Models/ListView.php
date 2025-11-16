@@ -27,7 +27,7 @@ class ListView extends \App\Modules\Settings\Base\Models\ListView
 		if (!empty($parentModuleName)) {
 			$qualifiedModuleName = $parentModuleName . ':' . $qualifiedModuleName;
 		}
-		$recordModelClass = \App\Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
+		$recordModelClass = \App\Core\Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 		$listFields = array_keys($module->listFields);
 		$listFields [] = $module->baseIndex;
 		$query = (new \App\Db\Query())->select($listFields)

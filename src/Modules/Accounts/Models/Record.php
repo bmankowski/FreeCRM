@@ -21,7 +21,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public function getAccountHierarchy()
 	{
-		$focus = \App\CRMEntity::getInstance($this->getModuleName());
+		$focus = \App\Core\CRMEntity::getInstance($this->getModuleName());
 		$hierarchy = $focus->getAccountHierarchy($this->getId());
 		$i = 0;
 		foreach ($hierarchy['entries'] as $accountId => $accountInfo) {

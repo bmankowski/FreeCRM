@@ -31,10 +31,10 @@ class ModuleService
 	/**
 	 * Constructor.
 	 * 
-	 * @param \App\Db $db
+	 * @param \App\Db\Db $db
 	 * @param Events\Dispatcher $eventDispatcher
 	 */
-	public function __construct(\App\Db $db, Events\Dispatcher $eventDispatcher)
+	public function __construct(\App\Db\Db $db, Events\Dispatcher $eventDispatcher)
 	{
 		$this->db = $db;
 		$this->eventDispatcher = $eventDispatcher;
@@ -569,7 +569,7 @@ class ModuleService
 	private function deleteCascade(int $moduleId, Models\Module $module): void
 	{
 		$moduleInstance = \Vtiger_Module_Model::getInstance($module->getName());
-		$focus = \App\CRMEntity::getInstance($module->getName());
+		$focus = \App\Core\CRMEntity::getInstance($module->getName());
 		$tableName = $focus->table_name ?? null;
 
 		if ($module->getIsentitytype()) {

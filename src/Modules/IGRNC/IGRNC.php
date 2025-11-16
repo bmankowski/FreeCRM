@@ -3,14 +3,14 @@
 namespace App\Modules\IGRNC;
 
 /**
- * IGRNC \App\CRMEntity Class
+ * IGRNC \App\Core\CRMEntity Class
  * @package YetiForce.CRMEntity
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 
-class IGRNC extends \App\CRMEntity
+class IGRNC extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'u_yf_igrnc';

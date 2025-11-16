@@ -85,10 +85,10 @@ class Deprecated
 				fputs($handle, $newbuf);
 				fclose($handle);
 			} else {
-				\App\Log::error("The file $filename is not writable");
+				\App\Log\Log::error("The file $filename is not writable");
 			}
 		} else {
-			\App\Log::error("The file $filename does not exist");
+			\App\Log\Log::error("The file $filename does not exist");
 		}
 	}
 
@@ -105,7 +105,7 @@ class Deprecated
 
 		/** Replace all \\ with \ first */
 		if ($realfilepath === false) {
-			\App\Log::error(__METHOD__ . '(' . $filepath . ') - File does not exist');
+			\App\Log\Log::error(__METHOD__ . '(' . $filepath . ') - File does not exist');
 			throw new \App\Exceptions\AppException('File does not exist: ' . $filepath);
 		}
 		$realfilepath = str_replace('\\\\', '\\', $realfilepath);
@@ -119,7 +119,7 @@ class Deprecated
 		$filePathParts = explode('/', $relativeFilePath);
 
 		if (stripos($realfilepath, $rootdirpath) !== 0 || in_array($filePathParts[0], $unsafeDirectories)) {
-			\App\Log::error(__METHOD__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
+			\App\Log\Log::error(__METHOD__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 			throw new \App\Exceptions\AppException('Sorry! Attempt to access restricted file.');
 		}
 	}
@@ -147,7 +147,7 @@ class Deprecated
 		$filePathParts = explode('/', $relativeFilePath);
 
 		if (stripos($realfilepath, $rootdirpath) !== 0 || !in_array($filePathParts[0], $safeDirectories)) {
-			\App\Log::error(__METHOD__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
+			\App\Log\Log::error(__METHOD__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 			throw new \App\Exceptions\AppException('Sorry! Attempt to access restricted file.');
 		}
 	}
@@ -310,7 +310,7 @@ class Deprecated
 	{
 		if (!self::isFileAccessible($filepath)) {
 			$realfilepath = realpath($filepath);
-			\App\Log::error(__METHOD__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
+			\App\Log\Log::error(__METHOD__ . '(' . $filepath . ') - Sorry! Attempt to access restricted file. realfilepath: ' . print_r($realfilepath, true));
 			throw new \App\Exceptions\AppException('Sorry! Attempt to access restricted file.');
 		}
 	}

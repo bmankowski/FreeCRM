@@ -4,7 +4,7 @@
  * @package YetiForce.Cron
  */
 $adb = \App\Database\PearDatabase::getInstance();
-\App\Log::trace(' Start SendReminder ');
+\App\Log\Log::trace(' Start SendReminder ');
 
 $query = "SELECT vtiger_crmentity.crmid, vtiger_crmentity.smownerid, vtiger_activity.*, vtiger_activity_reminder.reminder_time, vtiger_activity_reminder.reminder_sent, vtiger_crmentity.setype AS crmsetype
 FROM vtiger_activity 
@@ -49,7 +49,7 @@ if ($adb->getRowCount($result) >= 1) {
 		$differenceOfActivityTimeAndCurrentTime = ($activity_time - $curr_time);
 
 		if (($differenceOfActivityTimeAndCurrentTime > 0) && (($differenceOfActivityTimeAndCurrentTime <= $reminder_time) || ($differenceOfActivityTimeAndCurrentTime <= $reminderFrequency))) {
-			\App\Log::trace('Start Send SendReminder');
+			\App\Log\Log::trace('Start Send SendReminder');
 			$toEmail = \App\Fields\Email::getUserMail($row['smownerid']);
 			$invitees = [];
 
@@ -58,7 +58,7 @@ if ($adb->getRowCount($result) >= 1) {
 			} else {
 				$template = 'ActivityReminderNotificationEvents';
 				$eventsRecordModel->set('id', $activityId);
-				if (\App\AppConfig::module('Calendar', 'SEND_REMINDER_INVITATION')) {
+				if (\App\Core\AppConfig::module('Calendar', 'SEND_REMINDER_INVITATION')) {
 					$invitees = $eventsRecordModel->getInvities();
 				}
 			}
@@ -83,7 +83,7 @@ if ($adb->getRowCount($result) >= 1) {
 					]);
 				}
 			}
-			\App\Log::trace('End Send SendReminder');
+			\App\Log\Log::trace('End Send SendReminder');
 		}
 	}
 }

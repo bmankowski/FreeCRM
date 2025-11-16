@@ -13,7 +13,7 @@ namespace App\Modules\PBXManager;
  * *********************************************************************************** */
 
 
-class PBXManager extends \App\CRMEntity
+class PBXManager extends \App\Core\CRMEntity
 {
 
 	protected $incominglinkLabel = 'Incoming Calls';
@@ -92,19 +92,19 @@ class PBXManager extends \App\CRMEntity
 			$this->addUserExtensionField();
 		} else if ($event_type === 'module.disabled') {
 			$this->removeLinksForPBXManager();
-			\App\EventHandler::setInActive('PBXManager_PBXManagerHandler_Handler');
+			\App\Events\EventHandler::setInActive('PBXManager_PBXManagerHandler_Handler');
 			$this->removeSettingsLinks();
 			$this->removeActionMapping();
 			$this->unsetModuleRelatedDependencies();
 		} else if ($event_type === 'module.enabled') {
 			$this->addLinksForPBXManager();
-			\App\EventHandler::setActive('PBXManager_PBXManagerHandler_Handler');
+			\App\Events\EventHandler::setActive('PBXManager_PBXManagerHandler_Handler');
 			$this->addSettingsLinks();
 			$this->addActionMapping();
 			$this->setModuleRelatedDependencies();
 		} else if ($event_type === 'module.preuninstall') {
 			$this->removeLinksForPBXManager();
-			\App\EventHandler::deleteHandler('PBXManager_PBXManagerHandler_Handler');
+			\App\Events\EventHandler::deleteHandler('PBXManager_PBXManagerHandler_Handler');
 			$this->removeSettingsLinks();
 			$this->removeActionMapping();
 			$this->unsetModuleRelatedDependencies();
@@ -130,7 +130,7 @@ class PBXManager extends \App\CRMEntity
 				$blockInstance->addField($fieldInstance);
 			}
 		}
-		\App\Log::info('User Extension Field added');
+		\App\Log\Log::info('User Extension Field added');
 	}
 
 	/**
@@ -140,10 +140,10 @@ class PBXManager extends \App\CRMEntity
 	{
 		$className = 'PBXManager_PBXManagerHandler_Handler';
 
-		\App\EventHandler::registerHandler('EntityAfterSave', $className, 'Contacts,Accounts,Leads');
-		\App\EventHandler::registerHandler('EntityAfterDelete', $className, 'Contacts,Accounts,Leads');
-		\App\EventHandler::registerHandler('EntityAfterRestore', $className, 'Contacts,Accounts,Leads');
-		\App\Log::info('Lookup Events Registered');
+		\App\Events\EventHandler::registerHandler('EntityAfterSave', $className, 'Contacts,Accounts,Leads');
+		\App\Events\EventHandler::registerHandler('EntityAfterDelete', $className, 'Contacts,Accounts,Leads');
+		\App\Events\EventHandler::registerHandler('EntityAfterRestore', $className, 'Contacts,Accounts,Leads');
+		\App\Log\Log::info('Lookup Events Registered');
 	}
 
 	/**
@@ -157,7 +157,7 @@ class PBXManager extends \App\CRMEntity
 			$moduleInstance = \App\Modules\Base\Models\Module::getInstance($module);
 			$moduleInstance->setRelatedList($pbxmanager, "PBXManager", array(), 'getDependentsList');
 		}
-		\App\Log::info('Successfully added Module Related lists');
+		\App\Log\Log::info('Successfully added Module Related lists');
 	}
 
 	/**
@@ -171,7 +171,7 @@ class PBXManager extends \App\CRMEntity
 			$moduleInstance = \App\Modules\Base\Models\Module::getInstance($module);
 			$moduleInstance->unsetRelatedList($pbxmanager, "PBXManager", 'getDependentsList');
 		}
-		\App\Log::info('Successfully removed Module Related lists');
+		\App\Log\Log::info('Successfully removed Module Related lists');
 	}
 
 	/**
@@ -185,7 +185,7 @@ class PBXManager extends \App\CRMEntity
 			'method' => 'checkLinkPermission');
 
 		\vtlib\Link::addLink($this->tabId, $this->headerScriptLinkType, $this->incominglinkLabel, 'src/Modules/PBXManager/resources/PBXManagerJS.js', '', '', $handlerInfo);
-		\App\Log::info('Links added');
+		\App\Log\Log::info('Links added');
 	}
 
 	/**
@@ -196,7 +196,7 @@ class PBXManager extends \App\CRMEntity
 
 		//Deleting Headerscripts links
 		\vtlib\Link::deleteLink($this->tabId, $this->headerScriptLinkType, $this->incominglinkLabel, 'src/Modules/PBXManager/resources/PBXManagerJS.js');
-		\App\Log::info('Links Removed');
+		\App\Log\Log::info('Links Removed');
 	}
 
 	/**
@@ -226,7 +226,7 @@ class PBXManager extends \App\CRMEntity
 			'description' => 'LBL_PBXMANAGER_DESCRIPTION',
 			'linkto' => 'index.php?module=PBXManager&parent=Settings&view=Index'
 		]);
-		\App\Log::info('Settings Block and Field added');
+		\App\Log\Log::info('Settings Block and Field added');
 	}
 
 	/**
@@ -237,7 +237,7 @@ class PBXManager extends \App\CRMEntity
 
 		$adb = \App\Database\PearDatabase::getInstance();
 		$adb->pquery('DELETE FROM vtiger_settings_field WHERE name=?', array('LBL_PBXMANAGER'));
-		\App\Log::info('Settings Field Removed');
+		\App\Log\Log::info('Settings Field Removed');
 	}
 
 	/**
@@ -258,7 +258,7 @@ class PBXManager extends \App\CRMEntity
 		$adb->pquery('INSERT INTO vtiger_actionmapping
                      (actionid, actionname, securitycheck) VALUES(?,?,?)', array($actionId, 'ReceiveIncomingCalls', 0));
 		$moduleInstance->enableTools('ReceiveIncomingcalls');
-		\App\Log::info('ReceiveIncomingcalls ActionName Added');
+		\App\Log\Log::info('ReceiveIncomingcalls ActionName Added');
 
 		//To add actionname as MakeOutgoingCalls
 		$maxActionIdresult = $adb->pquery('SELECT max(actionid+1) AS actionid FROM vtiger_actionmapping', array());
@@ -268,7 +268,7 @@ class PBXManager extends \App\CRMEntity
 		$adb->pquery('INSERT INTO vtiger_actionmapping
                      (actionid, actionname, securitycheck) VALUES(?,?,?)', array($actionId, 'MakeOutgoingCalls', 0));
 		$moduleInstance->enableTools('MakeOutgoingCalls');
-		\App\Log::info('MakeOutgoingCalls ActionName Added');
+		\App\Log\Log::info('MakeOutgoingCalls ActionName Added');
 	}
 
 	/**
@@ -284,12 +284,12 @@ class PBXManager extends \App\CRMEntity
 		$moduleInstance->disableTools('ReceiveIncomingcalls');
 		$adb->pquery('DELETE FROM vtiger_actionmapping 
                      WHERE actionname=?', array('ReceiveIncomingCalls'));
-		\App\Log::info('ReceiveIncomingcalls ActionName Removed');
+		\App\Log\Log::info('ReceiveIncomingcalls ActionName Removed');
 
 		$moduleInstance->disableTools('MakeOutgoingCalls');
 		$adb->pquery('DELETE FROM vtiger_actionmapping 
                       WHERE actionname=?', array('MakeOutgoingCalls'));
-		\App\Log::info('MakeOutgoingCalls ActionName Removed');
+		\App\Log\Log::info('MakeOutgoingCalls ActionName Removed');
 	}
 
 	public static function checkLinkPermission($linkData)

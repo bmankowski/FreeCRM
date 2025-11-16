@@ -67,7 +67,7 @@ class RelationListView extends \App\Runtime\BaseModel
 
 	/**
 	 * Get query generator instance
-	 * @return \App\QueryGenerator
+	 * @return \App\QueryField\QueryGenerator
 	 */
 	public function getQueryGenerator()
 	{
@@ -84,7 +84,7 @@ class RelationListView extends \App\Runtime\BaseModel
 	public static function getInstance($parentRecordModel, $relationModuleName, $label = false)
 	{
 		$parentModuleName = $parentRecordModel->getModule()->get('name');
-		$className = \App\Loader::getComponentClassName('Model', 'RelationListView', $parentModuleName);
+		$className = \App\Core\Loader::getComponentClassName('Model', 'RelationListView', $parentModuleName);
 		$instance = new $className();
 
 		$parentModuleModel = $parentRecordModel->getModule();
@@ -93,7 +93,7 @@ class RelationListView extends \App\Runtime\BaseModel
 
 		$relationModel = \App\Modules\Base\Models\Relation::getInstance($parentModuleModel, $relatedModuleModel, $label);
 		$instance->setParentRecordModel($parentRecordModel);
-		$queryGenerator = new \App\QueryGenerator($relatedModuleModel->getName());
+		$queryGenerator = new \App\QueryField\QueryGenerator($relatedModuleModel->getName());
 
 		if (!$relationModel) {
 			throw new \App\Exceptions\AppException(">>> No relationModel instance, requires verification  1 <<<");
@@ -103,7 +103,7 @@ class RelationListView extends \App\Runtime\BaseModel
 			foreach ($referenceFieldOfParentModule as $fieldName => $fieldModel) {
 				$refredModulesOfReferenceField = $fieldModel->getReferenceList();
 				if (in_array($relatedModuleName, $refredModulesOfReferenceField)) {
-					$relationModelClassName = \App\Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->getName());
+					$relationModelClassName = \App\Core\Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->getName());
 					$relationModel = new $relationModelClassName();
 					$relationModel->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
 					$parentModuleModel->set('directRelatedFieldName', $fieldModel->get('column'));
@@ -260,7 +260,7 @@ class RelationListView extends \App\Runtime\BaseModel
 			if ($field || $orderBy === 'id') {
 				return $this->getRelationModel()->getQueryGenerator()->setOrder($orderBy, $this->getForSql('sortorder'));
 			}
-			\App\Log::warning("[RelationListView] Incorrect value of sorting: '$orderBy'");
+			\App\Log\Log::warning("[RelationListView] Incorrect value of sorting: '$orderBy'");
 		}
 	}
 

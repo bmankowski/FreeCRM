@@ -72,7 +72,7 @@ class ChangesReviewedOn extends \App\Base\Controllers\BaseActionController
 		$request->set('module', $sourceModule);
 		$result = false;
 		$recordsList = \App\Modules\Base\Actions\Mass::getRecordsListFromRequest($request);
-		if (is_array($recordsList) && count($recordsList) > \App\AppConfig::module($moduleName, 'REVIEW_CHANGES_LIMIT')) {
+		if (is_array($recordsList) && count($recordsList) > \App\Core\AppConfig::module($moduleName, 'REVIEW_CHANGES_LIMIT')) {
 			$params = $request->get('selected_ids') === 'all' ? ['viewname', 'selected_ids', 'excluded_ids', 'search_key', 'search_value', 'operator', 'search_params'] : ['selected_ids'];
 			foreach ($params as $variable) {
 				if ($request->has($variable)) {

@@ -47,9 +47,9 @@ class Record extends \App\Modules\Base\Models\Record
 			return 'PLL_RENEWED_VERIFICATION';
 		}
 		$dateInService = strtotime($this->get('dateinservice'));
-		$renewalTime = \App\AppConfig::module('OSSSoldServices', 'RENEWAL_TIME');
+		$renewalTime = \App\Core\AppConfig::module('OSSSoldServices', 'RENEWAL_TIME');
 		$dateRenewable = strtotime('-' . $renewalTime, $dateInService);
-		$classFunction = \App\AppConfig::module('Assets', 'RENEWAL_CUSTOMER_FUNCTION');
+		$classFunction = \App\Core\AppConfig::module('Assets', 'RENEWAL_CUSTOMER_FUNCTION');
 		$methodExist = false;
 		if ($classFunction && class_exists($classFunction['class']) && method_exists($classFunction['class'], $classFunction['method'])) {
 			$methodExist = true;

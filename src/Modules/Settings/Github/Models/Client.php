@@ -97,7 +97,7 @@ class Client
 		$params = ['client_id' => $this->clientId,
 			'token' => $clientToken,
 			'username' => $this->username];
-		return \App\Db::getInstance()->createCommand()->update('u_#__github', $params)->execute();
+		return \App\Db\Db::getInstance()->createCommand()->update('u_#__github', $params)->execute();
 	}
 
 	public function checkToken()

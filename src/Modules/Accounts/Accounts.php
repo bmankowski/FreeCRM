@@ -24,7 +24,7 @@ namespace App\Modules\Accounts;
  * Contributor(s): ______________________________________..
  * ****************************************************************************** */
 
-class Accounts extends \App\CRMEntity
+class Accounts extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'vtiger_account';
@@ -86,7 +86,7 @@ class Accounts extends \App\CRMEntity
 	{
 
 		$currentUser = \App\User\CurrentUser::get();
-		\App\Log::trace("Entering create_export_query(" . $where . ") method ...");
+		\App\Log\Log::trace("Entering create_export_query(" . $where . ") method ...");
 
 		include("include/utils/ExportUtils.php");
 
@@ -118,7 +118,7 @@ class Accounts extends \App\CRMEntity
 		else
 			$query .= sprintf(' where %s', $where_auto);
 
-		\App\Log::trace("Exiting create_export_query method ...");
+		\App\Log\Log::trace("Exiting create_export_query method ...");
 		return $query;
 	}
 	/*
@@ -200,12 +200,12 @@ class Accounts extends \App\CRMEntity
 	{
 
 		$currentUser = \App\User\CurrentUser::get();
-		\App\Log::trace('Entering getAccountHierarchy(' . $id . ') method ...');
+		\App\Log\Log::trace('Entering getAccountHierarchy(' . $id . ') method ...');
 
 		$listview_header = [];
 		$listview_entries = [];
 
-		$listColumns = $listColumns ? $listColumns : \App\AppConfig::module('Accounts', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = $listColumns ? $listColumns : \App\Core\AppConfig::module('Accounts', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}
@@ -235,7 +235,7 @@ class Accounts extends \App\CRMEntity
 		$accountHierarchy = $this->getHierarchyData($id, $accountsList[$baseId], $baseId, $listview_entries);
 
 		$accountHierarchy = array('header' => $listview_header, 'entries' => $listview_entries);
-		\App\Log::trace('Exiting getAccountHierarchy method ...');
+		\App\Log\Log::trace('Exiting getAccountHierarchy method ...');
 		return $accountHierarchy;
 	}
 
@@ -250,7 +250,7 @@ class Accounts extends \App\CRMEntity
 	public function getHierarchyData($id, $accountInfoBase, $accountId, &$listviewEntries)
 	{
 
-		\App\Log::trace('Entering getHierarchyData(' . $id . ',' . $accountId . ') method ...');
+		\App\Log\Log::trace('Entering getHierarchyData(' . $id . ',' . $accountId . ') method ...');
 		$currentUser = \App\User\CurrentUser::get();
 		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 
@@ -290,7 +290,7 @@ class Accounts extends \App\CRMEntity
 				$listviewEntries = $this->getHierarchyData($id, $accountInfo, $accId, $listviewEntries);
 			}
 		}
-		\App\Log::trace('Exiting getHierarchyData method ...');
+		\App\Log\Log::trace('Exiting getHierarchyData method ...');
 		return $listviewEntries;
 	}
 
@@ -304,10 +304,10 @@ class Accounts extends \App\CRMEntity
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 
-		\App\Log::trace('Entering __getParentAccounts(' . $id . ') method ...');
+		\App\Log\Log::trace('Entering __getParentAccounts(' . $id . ') method ...');
 
-		if ($depthBase == \App\AppConfig::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
-			\App\Log::error('Exiting __getParentAccounts method ... - exceeded maximum depth of hierarchy');
+		if ($depthBase == \App\Core\AppConfig::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
+			\App\Log\Log::error('Exiting __getParentAccounts method ... - exceeded maximum depth of hierarchy');
 			return $parent_accounts;
 		}
 
@@ -353,7 +353,7 @@ class Accounts extends \App\CRMEntity
 			}
 			$parent_accounts[$id] = $parent_account_info;
 		}
-		\App\Log::trace('Exiting __getParentAccounts method ...');
+		\App\Log\Log::trace('Exiting __getParentAccounts method ...');
 		return $parent_accounts;
 	}
 
@@ -368,10 +368,10 @@ class Accounts extends \App\CRMEntity
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 
-		\App\Log::trace('Entering __getChildAccounts(' . $id . ',' . $depthBase . ') method ...');
+		\App\Log\Log::trace('Entering __getChildAccounts(' . $id . ',' . $depthBase . ') method ...');
 
-		if ($depthBase == \App\AppConfig::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
-			\App\Log::error('Exiting __getChildAccounts method ... - exceeded maximum depth of hierarchy');
+		if ($depthBase == \App\Core\AppConfig::module('Accounts', 'MAX_HIERARCHY_DEPTH')) {
+			\App\Log\Log::error('Exiting __getChildAccounts method ... - exceeded maximum depth of hierarchy');
 			return $child_accounts;
 		}
 
@@ -411,7 +411,7 @@ class Accounts extends \App\CRMEntity
 				$this->__getChildAccounts($child_acc_id, $child_accounts[$child_acc_id], $depth);
 			}
 		}
-		\App\Log::trace('Exiting __getChildAccounts method ...');
+		\App\Log\Log::trace('Exiting __getChildAccounts method ...');
 		return $child_accounts;
 	}
 
@@ -422,7 +422,7 @@ class Accounts extends \App\CRMEntity
 	 */
 	public function deletePerminently($moduleName, $recordId)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$db->createCommand()->update('vtiger_contactdetails', ['parentid' => 0], ['parentid' => $recordId])->execute();
 		$db->createCommand()->update('vtiger_troubletickets', ['parent_id' => 0], ['parent_id' => $recordId])->execute();
 		parent::deletePerminently($moduleName, $recordId);
@@ -436,9 +436,9 @@ class Accounts extends \App\CRMEntity
 			return;
 
 		if ($return_module === 'Campaigns') {
-			\App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $return_id])->execute();
+			\App\Db\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $return_id])->execute();
 		} else if ($return_module === 'Products') {
-			\App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['crmid' => $id, 'productid' => $return_id])->execute();
+			\App\Db\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['crmid' => $id, 'productid' => $return_id])->execute();
 		} else {
 			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
 		}
@@ -453,7 +453,7 @@ class Accounts extends \App\CRMEntity
 		} else {
 			foreach ($with_crmids as $with_crmid) {
 				if ($with_module == 'Products') {
-					\App\Db::getInstance()->createCommand()->insert('vtiger_seproductsrel', [
+					\App\Db\Db::getInstance()->createCommand()->insert('vtiger_seproductsrel', [
 						'crmid' => $crmid,
 						'productid' => $with_crmid,
 						'setype' => $module,
@@ -465,7 +465,7 @@ class Accounts extends \App\CRMEntity
 					if ($checkResult) {
 						continue;
 					}
-					\App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
+					\App\Db\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
 						'campaignid' => $with_crmid,
 						'crmid' => $crmid,
 						'campaignrelstatusid' => 1

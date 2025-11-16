@@ -70,7 +70,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public static function getInstance($id)
 	{
-		$db = \App\Db::getInstance('admin');
+		$db = \App\Db\Db::getInstance('admin');
 		$row = (new \App\Db\Query())->from('s_#__companies')->where(['id' => $id])->one($db);
 		$instance = false;
 		if ($row) {
@@ -85,7 +85,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public function save($request = null)
 	{
-		$db = \App\Db::getInstance('admin');
+		$db = \App\Db\Db::getInstance('admin');
 		$recordId = $this->getId();
 		$params = $this->getData();
 		if ($recordId) {
@@ -144,7 +144,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public function delete()
 	{
-		$db = \App\Db::getInstance('admin');
+		$db = \App\Db\Db::getInstance('admin');
 		$db->createCommand()
 			->delete('s_#__companies', ['id' => $this->getId()])
 			->execute();
@@ -220,7 +220,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public function isCompanyDuplicated(\App\Http\Vtiger_Request $request)
 	{
-		$db = \App\Db::getInstance('admin');
+		$db = \App\Db\Db::getInstance('admin');
 		$query = new \App\Db\Query();
 		$query->from('s_#__companies')
 			->where(['name' => $request->get('name')])
@@ -238,7 +238,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	public function setCompaniesNotDefault($default)
 	{
 		if ($default) {
-			\App\Db::getInstance('admin')->createCommand()->update('s_#__companies', ['default' => 0])->execute();
+			\App\Db\Db::getInstance('admin')->createCommand()->update('s_#__companies', ['default' => 0])->execute();
 		}
 	}
 

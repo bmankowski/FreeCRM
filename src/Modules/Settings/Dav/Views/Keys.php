@@ -46,6 +46,6 @@ class Keys extends \App\Modules\Settings\Base\Views\Index
 	 */
 	protected function prepareDavKeysContentData($viewer)
 	{
-		$viewer->assign('SITE_URL', \App\AppConfig::main('site_URL'));
+		$viewer->assign('SITE_URL', \App\Core\AppConfig::main('site_URL'));
 	}
 }

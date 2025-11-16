@@ -15,7 +15,7 @@
 			</a>
 		</div>
 	</div>
-	{if AppConfig::performance('GLOBAL_SEARCH')}
+	{if \App\Core\AppConfig::performance('GLOBAL_SEARCH')}
 		<div class="pull-left searchMenuBtn">
 			<div class="quickAction">
 				<a class="btn btn-default btn-sm" href="#">

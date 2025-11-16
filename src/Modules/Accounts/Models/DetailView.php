@@ -68,10 +68,10 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 		];
 
 		if ($moduleName === 'Leads') {
-			$showPSTab = (!\App\AppConfig::module($moduleName, 'HIDE_SUMMARY_PRODUCTS_SERVICES')) && (\App\Utils\ModuleUtils::isModuleActive('OutsourcedProducts') || \App\Utils\ModuleUtils::isModuleActive('Products') || \App\Utils\ModuleUtils::isModuleActive('Services') || \App\Utils\ModuleUtils::isModuleActive('OSSOutsourcedServices'));
+			$showPSTab = (!\App\Core\AppConfig::module($moduleName, 'HIDE_SUMMARY_PRODUCTS_SERVICES')) && (\App\Utils\ModuleUtils::isModuleActive('OutsourcedProducts') || \App\Utils\ModuleUtils::isModuleActive('Products') || \App\Utils\ModuleUtils::isModuleActive('Services') || \App\Utils\ModuleUtils::isModuleActive('OSSOutsourcedServices'));
 		}
 		if ($moduleName === 'Accounts') {
-			$showPSTab = (!\App\AppConfig::module($moduleName, 'HIDE_SUMMARY_PRODUCTS_SERVICES')) && (\App\Utils\ModuleUtils::isModuleActive('OutsourcedProducts') || \App\Utils\ModuleUtils::isModuleActive('Products') || \App\Utils\ModuleUtils::isModuleActive('Services') || \App\Utils\ModuleUtils::isModuleActive('OSSOutsourcedServices') || \App\Utils\ModuleUtils::isModuleActive('Assets') || \App\Utils\ModuleUtils::isModuleActive('OSSSoldServices'));
+			$showPSTab = (!\App\Core\AppConfig::module($moduleName, 'HIDE_SUMMARY_PRODUCTS_SERVICES')) && (\App\Utils\ModuleUtils::isModuleActive('OutsourcedProducts') || \App\Utils\ModuleUtils::isModuleActive('Products') || \App\Utils\ModuleUtils::isModuleActive('Services') || \App\Utils\ModuleUtils::isModuleActive('OSSOutsourcedServices') || \App\Utils\ModuleUtils::isModuleActive('Assets') || \App\Utils\ModuleUtils::isModuleActive('OSSSoldServices'));
 		}
 		if ('Contacts' != $moduleName && $showPSTab) {
 			$relatedLinks[] = array(
@@ -81,7 +81,7 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 				'linkicon' => '',
 				'linkKey' => 'LBL_RECORD_SUMMARY',
 				'related' => 'ProductsAndServices',
-				'countRelated' => \App\AppConfig::relation('SHOW_RECORDS_COUNT')
+				'countRelated' => \App\Core\AppConfig::relation('SHOW_RECORDS_COUNT')
 			);
 		}
 		$modCommentsModel = \App\Modules\Base\Models\Module::getInstance('ModComments');
@@ -92,7 +92,7 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showAllComments',
 				'linkicon' => '',
 				'related' => 'Comments',
-				'countRelated' => \App\AppConfig::relation('SHOW_RECORDS_COUNT')
+				'countRelated' => \App\Core\AppConfig::relation('SHOW_RECORDS_COUNT')
 			);
 		}
 
@@ -103,7 +103,7 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 				'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showRecentActivities&page=1',
 				'linkicon' => '',
 				'related' => 'Updates',
-				'countRelated' => \App\AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $parentModuleModel->isPermitted('ReviewingUpdates'),
+				'countRelated' => \App\Core\AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $parentModuleModel->isPermitted('ReviewingUpdates'),
 				'badgeClass' => 'bgDanger'
 			];
 		}

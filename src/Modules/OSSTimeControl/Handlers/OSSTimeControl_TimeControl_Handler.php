@@ -17,9 +17,9 @@ class OSSTimeControl_TimeControl_Handler {
 
 	/**
 	 * EntityAfterUnLink handler function
-	 * @param \App\EventHandler $eventHandler
+	 * @param \App\Events\EventHandler $eventHandler
 	 */
-	public function entityAfterUnLink(\App\EventHandler $eventHandler)
+	public function entityAfterUnLink(\App\Events\EventHandler $eventHandler)
 	{
 		$params = $eventHandler->getParams();
 		$wfs = new \App\Modules\Workflow\VTWorkflowManager();
@@ -34,9 +34,9 @@ class OSSTimeControl_TimeControl_Handler {
 
 	/**
 	 * EntityAfterDelete handler function
-	 * @param \App\EventHandler $eventHandler
+	 * @param \App\Events\EventHandler $eventHandler
 	 */
-	public function entityAfterDelete(\App\EventHandler $eventHandler)
+	public function entityAfterDelete(\App\Events\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		$wfs = new \App\Modules\Workflow\VTWorkflowManager();
@@ -50,9 +50,9 @@ class OSSTimeControl_TimeControl_Handler {
 
 	/**
 	 * EntityAfterSave handler function
-	 * @param \App\EventHandler $eventHandler
+	 * @param \App\Events\EventHandler $eventHandler
 	 */
-	public function entityAfterSave(\App\EventHandler $eventHandler)
+	public function entityAfterSave(\App\Events\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		\App\Modules\OSSTimeControl\Models\Record::setSumTime($recordModel);
@@ -67,9 +67,9 @@ class OSSTimeControl_TimeControl_Handler {
 
 	/**
 	 * EntityAfterRestore handler function
-	 * @param \App\EventHandler $eventHandler
+	 * @param \App\Events\EventHandler $eventHandler
 	 */
-	public function entityAfterRestore(\App\EventHandler $eventHandler)
+	public function entityAfterRestore(\App\Events\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		$wfs = new \App\Modules\Workflow\VTWorkflowManager();

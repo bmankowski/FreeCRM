@@ -11,9 +11,8 @@ namespace App\Modules\ModComments;
  * All Rights Reserved.
  * Contributor(s): YetiForce.com.
  * ********************************************************************************** */
-require_once(ROOT_DIRECTORY . '/src/CRMEntity.php');
 
-class ModCommentsCore extends \App\CRMEntity
+class ModCommentsCore extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'vtiger_modcomments';
@@ -105,7 +104,7 @@ class ModCommentsCore extends \App\CRMEntity
 		$currentModule = $this->moduleName;
 
 		$use_default_order_by = '';
-		if (\App\AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
+		if (\App\Core\AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
 			$use_default_order_by = $this->default_order_by;
 		}
 
@@ -160,7 +159,7 @@ class ModCommentsCore extends \App\CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other = \App\CRMEntity::getInstance($related_module);
+			$other = \App\Core\CRMEntity::getInstance($related_module);
 			\App\Utils\VtlibUtils::setupModuleVars($related_module, $other);
 
 			if (!in_array($other->table_name, $joinedTables)) {
@@ -172,7 +171,7 @@ class ModCommentsCore extends \App\CRMEntity
 		if ($usewhere) {
 			$query .= $usewhere;
 		}
-		$query .= \App\PrivilegeQuery::getAccessConditions($module);
+		$query .= \App\Security\PrivilegeQuery::getAccessConditions($module);
 		$query .= $this->getListViewSecurityParameter($module);
 		return $query;
 	}
@@ -257,7 +256,7 @@ class ModCommentsCore extends \App\CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other = \App\CRMEntity::getInstance($related_module);
+			$other = \App\Core\CRMEntity::getInstance($related_module);
 			\App\Utils\VtlibUtils::setupModuleVars($related_module, $other);
 
 			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = $this->table_name.$columnname";
@@ -276,7 +275,7 @@ class ModCommentsCore extends \App\CRMEntity
 		// Security Check for Field Access
 		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[7] == 3) {
 			//Added security check to get the permitted records only
-			$query = $query . " " . \App\PrivilegeQuery::getListViewSecurityParameter($thismodule);
+			$query = $query . " " . \App\Security\PrivilegeQuery::getListViewSecurityParameter($thismodule);
 		}
 		return $query;
 	}

@@ -26,7 +26,7 @@ namespace App\Modules\Calendar;
 require_once('src/Modules/Calendar/CalendarCommon.php');
 
 // Task is used to store customer information.
-class Activity extends \App\CRMEntity
+class Activity extends \App\Core\CRMEntity
 {
 
 	public $table_name = "vtiger_activity";
@@ -125,12 +125,12 @@ class Activity extends \App\CRMEntity
 	public function getSortOrder($request = null)
 	{
 
-		\App\Log::trace('Entering getSortOrder() method ...');
+		\App\Log\Log::trace('Entering getSortOrder() method ...');
 		if ($request !== null && $request->has('sorder'))
 			$sorder = $this->db->sql_escape_string($request->get('sorder'));
 		else
 			$sorder = (($_SESSION['ACTIVITIES_SORT_ORDER'] != '') ? ($_SESSION['ACTIVITIES_SORT_ORDER']) : ($this->default_sort_order));
-		\App\Log::trace('Exiting getSortOrder method ...');
+		\App\Log\Log::trace('Exiting getSortOrder method ...');
 		return $sorder;
 	}
 
@@ -141,10 +141,10 @@ class Activity extends \App\CRMEntity
 	public function getOrderBy($request = null)
 	{
 
-		\App\Log::trace("Entering getOrderBy() method ...");
+		\App\Log\Log::trace("Entering getOrderBy() method ...");
 
 		$use_default_order_by = '';
-		if (\App\AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
+		if (\App\Core\AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
 			$use_default_order_by = $this->default_order_by;
 		}
 
@@ -152,7 +152,7 @@ class Activity extends \App\CRMEntity
 			$order_by = $this->db->sql_escape_string($request->get('order_by'));
 		else
 			$order_by = (($_SESSION['ACTIVITIES_ORDER_BY'] != '') ? ($_SESSION['ACTIVITIES_ORDER_BY']) : ($use_default_order_by));
-		\App\Log::trace("Exiting getOrderBy method ...");
+		\App\Log\Log::trace("Exiting getOrderBy method ...");
 		return $order_by;
 	}
 
@@ -167,7 +167,7 @@ class Activity extends \App\CRMEntity
 	public function activity_reminder($activityId, $reminderTime, $reminderSent = 0, $recurid, $reminderMode = '')
 	{
 
-		\App\Log::trace("Entering vtiger_activity_reminder($activityId,$reminderTime,$reminderSent,$recurid,$reminderMode) method ...");
+		\App\Log\Log::trace("Entering vtiger_activity_reminder($activityId,$reminderTime,$reminderSent,$recurid,$reminderMode) method ...");
 		//Check for vtiger_activityid already present in the reminder_table
 		$query = sprintf('SELECT activity_id FROM %s WHERE activity_id = ?', $this->reminder_table);
 		$resultExist = $this->db->pquery($query, array($activityId));
@@ -197,7 +197,7 @@ class Activity extends \App\CRMEntity
 				]);
 			}
 		}
-		\App\Log::trace('Exiting vtiger_activity_reminder method ...');
+		\App\Log\Log::trace('Exiting vtiger_activity_reminder method ...');
 	}
 
 	/**
@@ -207,7 +207,7 @@ class Activity extends \App\CRMEntity
 	 */
 	public function deletePerminently($moduleName, $recordId)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$db->createCommand()->delete('vtiger_activity_reminder', ['activity_id' => $recordId])->execute();
 		parent::deletePerminently($moduleName, $recordId);
 	}
@@ -226,7 +226,7 @@ class Activity extends \App\CRMEntity
 		} else {
 			return false;
 		}
-		\App\Db::getInstance()->createCommand()
+		\App\Db\Db::getInstance()->createCommand()
 			->update('vtiger_activity_reminder_popup', [
 				'status' => 1
 				], ['recordid' => $this->id])
@@ -249,11 +249,11 @@ class Activity extends \App\CRMEntity
 		if (!$queryPlanner->requireTable('vtiger_activity', $matrix)) {
 			return '';
 		}
-		$moduleLevel = \App\ModuleHierarchy::getModuleLevel($module);
+		$moduleLevel = \App\Core\ModuleHierarchy::getModuleLevel($module);
 		if ($moduleLevel === false) {
 			$query = $this->getRelationQuery($module, $secmodule, "vtiger_activity", "activityid", $queryPlanner);
 		} else {
-			$field = \App\ModuleHierarchy::getMappingRelatedField($module);
+			$field = \App\Core\ModuleHierarchy::getMappingRelatedField($module);
 			$query = " LEFT JOIN vtiger_activity ON vtiger_activity.$field = vtiger_crmentity.crmid";
 		}
 
@@ -400,7 +400,7 @@ class Activity extends \App\CRMEntity
 					->where(['uitype' => [66, 67, 68], 'tabid' => \App\Utils\ModuleUtils::getModuleId($module)])
 					->createCommand()->query();
 			while ($row = $dataReader->read()) {
-				$className = \App\Loader::getComponentClassName('Model', 'Field', $module);
+				$className = \App\Core\Loader::getComponentClassName('Model', 'Field', $module);
 				$fieldModel = new $className();
 				foreach ($row as $properName => $propertyValue) {
 					$fieldModel->$properName = $propertyValue;
@@ -414,8 +414,8 @@ class Activity extends \App\CRMEntity
 			}
 		}
 		foreach ($results as $row) {
-			\App\Db::getInstance()->createCommand()
-				->update($row['tablename'], [$row['columnname'] => 0], [$row['columnname'] => $withCrmid, \App\CRMEntity::getInstance($row['name'])->table_index => $crmid])->execute();
+			\App\Db\Db::getInstance()->createCommand()
+				->update($row['tablename'], [$row['columnname'] => 0], [$row['columnname'] => $withCrmid, \App\Core\CRMEntity::getInstance($row['name'])->table_index => $crmid])->execute();
 		}
 	}
 }

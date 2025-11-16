@@ -73,7 +73,7 @@ class ListView extends \App\Modules\Base\Views\Index
 		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		if (empty($orderBy) && empty($sortOrder)) {
-			$moduleInstance = \App\CRMEntity::getInstance($moduleName);
+			$moduleInstance = \App\Core\CRMEntity::getInstance($moduleName);
 			$orderBy = isset($moduleInstance->default_order_by) ? $moduleInstance->default_order_by : 'modifiedtime';
 			$sortOrder = isset($moduleInstance->default_sort_order) ? $moduleInstance->default_sort_order : 'DESC';
 		}
@@ -127,7 +127,7 @@ class ListView extends \App\Modules\Base\Views\Index
 		$viewer->assign('PAGE_COUNT', $pageCount);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 		$viewer->assign('IS_MODULE_DELETABLE', $listViewModel->getModule()->isPermitted('Delete'));
-		$viewer->assign('LIST_MAX_ENTRIES_MASS_EDIT', \App\AppConfig::main('listMaxEntriesMassEdit'));
+		$viewer->assign('LIST_MAX_ENTRIES_MASS_EDIT', \App\Core\AppConfig::main('listMaxEntriesMassEdit'));
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)

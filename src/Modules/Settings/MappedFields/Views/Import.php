@@ -21,7 +21,7 @@ class Import extends \App\Modules\Settings\Base\Views\BasicModal
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		
-		\App\Log::trace('Entering ' . __METHOD__ . '() method ...');
+		\App\Log\Log::trace('Entering ' . __METHOD__ . '() method ...');
 
 		$qualifiedModule = $request->getModule(false);
 		$viewer = $this->getViewer($request);
@@ -30,6 +30,6 @@ class Import extends \App\Modules\Settings\Base\Views\BasicModal
 		$viewer->view('Import.tpl', $qualifiedModule);
 		$this->postProcess($request);
 
-		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
+		\App\Log\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 	}
 }

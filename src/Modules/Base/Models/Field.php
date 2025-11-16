@@ -703,7 +703,7 @@ class Field extends \vtlib\Field
 	public static function getInstanceFromFieldObject(\vtlib\Field $fieldObj)
 	{
 		$objectProperties = get_object_vars($fieldObj);
-		$className = \App\Loader::getComponentClassName('Model', 'Field', $fieldObj->getModuleName());
+		$className = \App\Core\Loader::getComponentClassName('Model', 'Field', $fieldObj->getModuleName());
 		$fieldModel = new $className();
 		foreach ($objectProperties as $properName => $propertyValue) {
 			$fieldModel->$properName = $propertyValue;
@@ -855,14 +855,14 @@ class Field extends \vtlib\Field
 			$module = $context['module'] ?? null;
 			$mode = $context['mode'] ?? null;
 			
-			if (!\App\AppConfig::performance('SEARCH_OWNERS_BY_AJAX') || in_array($module, ['CustomView', 'Workflows', 'PDF', 'MappedFields', 'DataAccess', 'Reports']) || $mode === 'showAdvancedSearch') {
+			if (!\App\Core\AppConfig::performance('SEARCH_OWNERS_BY_AJAX') || in_array($module, ['CustomView', 'Workflows', 'PDF', 'MappedFields', 'DataAccess', 'Reports']) || $mode === 'showAdvancedSearch') {
 				$userList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $fieldDataType);
 				$groupList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleGroups('', $fieldDataType);
 				$pickListValues = [];
 				$pickListValues[\App\Runtime\Vtiger_Language_Handler::translate('LBL_USERS', $this->getModuleName())] = $userList;
 				$pickListValues[\App\Runtime\Vtiger_Language_Handler::translate('LBL_GROUPS', $this->getModuleName())] = $groupList;
 				$this->fieldInfo['picklistvalues'] = $pickListValues;
-				if (\App\AppConfig::performance('SEARCH_OWNERS_BY_AJAX')) {
+				if (\App\Core\AppConfig::performance('SEARCH_OWNERS_BY_AJAX')) {
 					$this->fieldInfo['searchOperator'] = 'e';
 				}
 			} else {
@@ -887,22 +887,22 @@ class Field extends \vtlib\Field
 				$this->fieldInfo['picklistvalues'] = $pickListValues;
 				break;
 			case 'email':
-				if (\App\AppConfig::security('RESTRICTED_DOMAINS_ACTIVE') && !empty(\App\AppConfig::security('RESTRICTED_DOMAINS_VALUES'))) {
+				if (\App\Core\AppConfig::security('RESTRICTED_DOMAINS_ACTIVE') && !empty(\App\Core\AppConfig::security('RESTRICTED_DOMAINS_VALUES'))) {
 					$validate = false;
-					if (empty(\App\AppConfig::security('RESTRICTED_DOMAINS_ALLOWED')) || in_array($this->getModuleName(), \App\AppConfig::security('RESTRICTED_DOMAINS_ALLOWED'))) {
+					if (empty(\App\Core\AppConfig::security('RESTRICTED_DOMAINS_ALLOWED')) || in_array($this->getModuleName(), \App\Core\AppConfig::security('RESTRICTED_DOMAINS_ALLOWED'))) {
 						$validate = true;
 					}
-					if (in_array($this->getModuleName(), \App\AppConfig::security('RESTRICTED_DOMAINS_EXCLUDED'))) {
+					if (in_array($this->getModuleName(), \App\Core\AppConfig::security('RESTRICTED_DOMAINS_EXCLUDED'))) {
 						$validate = false;
 					}
 					if ($validate) {
-						$this->fieldInfo['restrictedDomains'] = \App\AppConfig::security('RESTRICTED_DOMAINS_VALUES');
+						$this->fieldInfo['restrictedDomains'] = \App\Core\AppConfig::security('RESTRICTED_DOMAINS_VALUES');
 					}
 				}
 				break;
 		}
 
-		if (in_array($fieldDataType, \App\Modules\Base\Models\Field::$referenceTypes) && \App\AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
+		if (in_array($fieldDataType, \App\Modules\Base\Models\Field::$referenceTypes) && \App\Core\AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
 			$this->fieldInfo['searchOperator'] = 'e';
 		}
 		return $this->fieldInfo;
@@ -1174,7 +1174,7 @@ class Field extends \vtlib\Field
 
 	public function __update()
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$this->get('generatedtype') === 1 ? $generatedType = 1 : $generatedType = 2;
 		$db->createCommand()->update('vtiger_field', ['typeofdata' => $this->get('typeofdata'), 'presence' => $this->get('presence'), 'quickcreate' => $this->get('quickcreate'),
 			'masseditable' => $this->get('masseditable'), 'header_field' => $this->get('header_field'), 'maxlengthtext' => $this->get('maxlengthtext'),
@@ -1261,7 +1261,7 @@ class Field extends \vtlib\Field
 			return $fieldModel;
 		}
 		$field = \App\Fields\Field::getFieldInfo($fieldId);
-		$className = \App\Loader::getComponentClassName('Model', 'Field', \App\Utils\ModuleUtils::getModuleName($field['tabid']));
+		$className = \App\Core\Loader::getComponentClassName('Model', 'Field', \App\Utils\ModuleUtils::getModuleName($field['tabid']));
 		$fieldModel = new $className();
 		$fieldModel->initialize($field);
 		\App\Cache\Cache::save('FieldModel', $fieldId, $fieldModel);
@@ -1298,7 +1298,7 @@ class Field extends \vtlib\Field
 	 */
 	public function getDBColumnType($returnString = true)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$tableSchema = $db->getSchema()->getTableSchema($this->getTableName());
 		$columnSchema = $tableSchema->getColumn($this->getColumnName());
 		$data = get_object_vars($columnSchema);

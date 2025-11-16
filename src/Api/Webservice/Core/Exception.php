@@ -33,7 +33,7 @@ class Exception extends \Exception
 			]
 		];
 		if (\AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
-			$body['error']['backtrace'] = \App\Debugger::getBacktrace();
+			$body['error']['backtrace'] = \App\Debug\Debugger::getBacktrace();
 		}
 		$response = Response::getInstance();
 		$response->setBody($body);

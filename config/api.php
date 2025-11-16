@@ -13,7 +13,7 @@
 $enabledServices = [
 	//'dav',
 	//'webservices',
-	//'webservice',
+	'webservice',
 ];
 /* +***************   DAV   **************** */
 $enableBrowser = false;

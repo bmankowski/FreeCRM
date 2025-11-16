@@ -71,7 +71,7 @@ class ClosedTicketsByPriority  extends \App\Modules\Base\Views\Index
 		if (!empty($owner) && $owner != 'all') {
 			$query->andWhere(['vtiger_crmentity.smownerid' => $owner]);
 		}
-		\App\PrivilegeQuery::getConditions($query, $moduleName);
+		\App\Security\PrivilegeQuery::getConditions($query, $moduleName);
 		$query->groupBy(['priority', 'vtiger_ticketpriorities.color']);
 		$dataReader = $query->createCommand()->query();
 		$response = [];

@@ -68,9 +68,9 @@ class Index extends \App\Modules\Base\Views\Index
 		$configFileName = 'config/config.inc.php';
 		if ($request->getMode() !== 'Step7' && is_file($configFileName) && filesize($configFileName) > 10) {
 			// Redirect to app only if installation is actually completed (db configured)
-			$dbconfig = AppConfig::main('dbconfig');
+			$dbconfig = \App\Core\AppConfig::main('dbconfig');
 			if (!empty($dbconfig) && !empty($dbconfig['db_name']) && $dbconfig['db_name'] !== '_DBC_TYPE_') {
-				$defaultModule = \App\AppConfig::main('default_module');
+				$defaultModule = \App\Core\AppConfig::main('default_module');
 				$defaultModuleInstance = \App\Modules\Base\Models\Module::getInstance($defaultModule);
 				$defaultView = $defaultModuleInstance->getDefaultViewName();
 				header('Location:../index.php?module=' . $defaultModule . '&view=' . $defaultView);
@@ -96,7 +96,7 @@ class Index extends \App\Modules\Base\Views\Index
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$default_charset = AppConfig::main('default_charset');
+		$default_charset = \App\Core\AppConfig::main('default_charset');
 		if (empty($default_charset)) {
 			$default_charset = 'UTF-8';
 		}

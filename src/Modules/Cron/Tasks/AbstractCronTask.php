@@ -22,7 +22,7 @@ abstract class AbstractCronTask
 	 */
 	protected function log(string $message, string $level = 'trace'): void
 	{
-		\App\Log::$level($message);
+		\App\Log\Log::$level($message);
 	}
 
 	/**
@@ -31,7 +31,7 @@ abstract class AbstractCronTask
 	 */
 	protected function getDb(): \App\Db
 	{
-		return \App\Db::getInstance();
+		return \App\Db\Db::getInstance();
 	}
 
 	/**
@@ -40,7 +40,7 @@ abstract class AbstractCronTask
 	 */
 	protected function getAdminDb(): \App\Db
 	{
-		return \App\Db::getInstance('admin');
+		return \App\Db\Db::getInstance('admin');
 	}
 }
 

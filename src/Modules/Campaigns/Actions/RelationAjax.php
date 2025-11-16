@@ -44,7 +44,7 @@ class RelationAjax extends \App\Base\Controllers\BaseActionController
 			$relatedModuleModel = \App\Modules\Base\Models\Module::getInstance($relatedModuleName);
 			$relationModel = \App\Modules\Base\Models\Relation::getInstance($sourceModuleModel, $relatedModuleModel);
 			if (in_array($relatedModuleName, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
-				$queryGenerator = new \App\QueryGenerator($relatedModuleName);
+				$queryGenerator = new \App\QueryField\QueryGenerator($relatedModuleName);
 				$queryGenerator->initForCustomViewById($viewId);
 				$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 				while ($row = $dataReader->read()) {

@@ -30,7 +30,7 @@ class VTSMSTask extends VTTask
 	public function doTask($recordModel)
 	{
 		if (SMSNotifier::checkServer()) {
-			$textParser = \App\TextParser::getInstanceByModel($recordModel);
+			$textParser = \App\TextParser\TextParser::getInstanceByModel($recordModel);
 			$content = $textParser->setContent($this->content)->parse()->getContent();
 			$recepient = $textParser->setContent($this->sms_recepient)->parse()->getContent();
 			$recepients = explode(',', $recepient);

@@ -29,13 +29,13 @@ class GetUserGroups
 	public function getAllUserGroups($userid)
 	{
 		//Retreiving from the user2grouptable
-		$userGroups = \App\PrivilegeUtil::getUserGroups($userid);
+		$userGroups = \App\Security\PrivilegeUtil::getUserGroups($userid);
 		//Setting the User Role
-		$userRole = \App\PrivilegeUtil::getRoleByUsers($userid);
+		$userRole = \App\Security\PrivilegeUtil::getRoleByUsers($userid);
 		//Retreiving from the vtiger_user2role
-		$roleGroups = \App\PrivilegeUtil::getRoleGroups($userRole);
+		$roleGroups = \App\Security\PrivilegeUtil::getRoleGroups($userRole);
 		//Retreiving from the user2rs
-		$rsGroups = \App\PrivilegeUtil::getRoleSubordinatesGroups($userRole);
+		$rsGroups = \App\Security\PrivilegeUtil::getRoleSubordinatesGroups($userRole);
 		$this->user_groups = array_unique(array_merge($this->user_groups, $userGroups, $roleGroups, $rsGroups));
 		foreach ($this->user_groups as $groupId) {
 			$focus = new GetParentGroups();

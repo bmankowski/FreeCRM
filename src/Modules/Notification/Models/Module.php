@@ -22,7 +22,7 @@ class Module extends \App\Modules\Base\Models\Module
 			->innerJoin('vtiger_crmentity', 'u_#__notification.notificationid = vtiger_crmentity.crmid')
 			->where(['vtiger_crmentity.smownerid' => \App\Modules\Users\Models\Record::getCurrentUserModel()->getId(), 'vtiger_crmentity.deleted' => 0, 'notification_status' => 'PLL_UNREAD'])
 			->count();
-		$max = \App\AppConfig::module('Home', 'MAX_NUMBER_NOTIFICATIONS');
+		$max = \App\Core\AppConfig::module('Home', 'MAX_NUMBER_NOTIFICATIONS');
 		return $count > $max ? $max : $count;
 	}
 
@@ -34,7 +34,7 @@ class Module extends \App\Modules\Base\Models\Module
 	 */
 	public function getEntries($limit = false, $conditions = false)
 	{
-		$queryGenerator = new \App\QueryGenerator($this->getName());
+		$queryGenerator = new \App\QueryField\QueryGenerator($this->getName());
 		$queryGenerator->setFields(['description', 'assigned_user_id', 'id', 'title', 'link', 'process', 'subprocess', 'createdtime', 'notification_type', 'smcreatorid']);
 		$queryGenerator->addNativeCondition(['smownerid' => \App\Modules\Users\Models\Record::getCurrentUserId()]);
 		if (!empty($conditions)) {

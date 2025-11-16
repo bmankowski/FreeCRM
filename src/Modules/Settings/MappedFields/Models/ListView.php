@@ -26,7 +26,7 @@ class ListView extends \App\Modules\Settings\Base\Models\ListView
 		if (!empty($parentModuleName)) {
 			$qualifiedModuleName = $parentModuleName . ':' . $module->getName();
 		}
-		$recordModelClass = \App\Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
+		$recordModelClass = \App\Core\Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 		$listFields = array_keys($module->listFields);
 		$listFields [] = $module->baseIndex;
 		$query = (new \App\Db\Query())->select($listFields)
@@ -70,7 +70,7 @@ class ListView extends \App\Modules\Settings\Base\Models\ListView
 	public function getListViewCount()
 	{
 		$module = $this->getModule();
-		$db = \App\Db::getInstance('admin');
+		$db = \App\Db\Db::getInstance('admin');
 		$query = (new \App\Db\Query())->from($module->baseTable);
 		$sourceModule = $this->get('sourceModule');
 		if ($sourceModule) {

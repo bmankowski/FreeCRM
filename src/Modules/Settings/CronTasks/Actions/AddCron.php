@@ -36,7 +36,7 @@ class AddCron extends \App\Modules\Settings\Base\Actions\Index
 
 	public function getSquence()
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$maxSequence = $db->getUniqueID('vtiger_cron_task', 'sequence', false);
 		return $maxSequence;
 	}

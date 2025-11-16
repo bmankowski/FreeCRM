@@ -1,5 +1,5 @@
 <?php
-namespace App;
+namespace App\Core;
 
 use App\Cache\Cache;
 
@@ -11,7 +11,7 @@ use App\AppConfig;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class Company extends Runtime\BaseModel
+class Company extends \App\Runtime\BaseModel
 {
 
 	/** @var Logo directory */
@@ -56,7 +56,7 @@ class Company extends Runtime\BaseModel
 		}
 		$logoModel = new \App\Modules\Base\Models\Image();
 		$imagePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, static::$logoStoragePath) . $logoName;
-		$imageURL = \App\AppConfig::main('site_URL') . static::$logoURL . $logoName;
+		$imageURL = \App\Core\AppConfig::main('site_URL') . static::$logoURL . $logoName;
 		$logoModel->setData([
 			'imageUrl' => $imageURL,
 			'imagePath' => $imagePath,

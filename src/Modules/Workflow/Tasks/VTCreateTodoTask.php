@@ -45,7 +45,7 @@ class VTCreateTodoTask extends VTTask
 		}
 		$currentUser = \App\User\CurrentUser::get();
 
-		\App\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log\Log::trace('Start ' . __CLASS__ . ':' . __FUNCTION__);
 		$adminUser = $this->getAdmin();
 		$userId = $recordModel->get('assigned_user_id');
 		if ($userId === null) {
@@ -70,7 +70,7 @@ class VTCreateTodoTask extends VTTask
 				$query->andWhere(['not in', 'vtiger_activity.status', $status]);
 			}
 			if ($query->count() > 0) {
-				\App\Log::warning(__CLASS__ . '::' . __METHOD__ . ': To Do was ignored because a duplicate was found.' . $this->todo);
+				\App\Log\Log::warning(__CLASS__ . '::' . __METHOD__ . ': To Do was ignored because a duplicate was found.' . $this->todo);
 				return;
 			}
 		}
@@ -147,7 +147,7 @@ class VTCreateTodoTask extends VTTask
 		$baseDateEnd = strtotime($match[0]);
 		$date_start = strftime('%Y-%m-%d', $baseDateStart + (int) $this->days_start * 24 * 60 * 60 * (strtolower($this->direction_start) == 'before' ? -1 : 1));
 		$due_date = strftime('%Y-%m-%d', $baseDateEnd + (int) $this->days_end * 24 * 60 * 60 * (strtolower($this->direction_end) == 'before' ? -1 : 1));
-		$textParser = \App\TextParser::getInstanceByModel($recordModel);
+		$textParser = \App\TextParser\TextParser::getInstanceByModel($recordModel);
 		$fields = [
 			'activitytype' => 'Task',
 			'description' => $textParser->setContent($this->description)->parse()->getContent(),
@@ -163,7 +163,7 @@ class VTCreateTodoTask extends VTTask
 			'due_date' => $due_date,
 			'visibility' => 'Private',
 		];
-		$field = \App\ModuleHierarchy::getMappingRelatedField($moduleName);
+		$field = \App\Core\ModuleHierarchy::getMappingRelatedField($moduleName);
 		if ($field) {
 			$fields[$field] = $recordModel->getId();
 		}
@@ -175,7 +175,7 @@ class VTCreateTodoTask extends VTTask
 		\App\Utils\Utils::relateEntities($recordModel->getEntity(), $moduleName, $recordModel->getId(), 'Calendar', $newRecordModel->getId());
 
 		if ($this->updateDates == 'true') {
-			\App\Db::getInstance()->createCommand()->insert('vtiger_activity_update_dates', [
+			\App\Db\Db::getInstance()->createCommand()->insert('vtiger_activity_update_dates', [
 				'activityid' => $newRecordModel->getId(),
 				'parent' => $recordModel->getId(),
 				'task_id' => $this->id,
@@ -183,7 +183,7 @@ class VTCreateTodoTask extends VTTask
 		}
 		$currentUser = \App\User\CurrentUser::get();
 		$currentUser = $this->originalUser;
-		\App\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
+		\App\Log\Log::trace('End ' . __CLASS__ . ':' . __FUNCTION__);
 	}
 
 	static function conv12to24hour($timeStr)

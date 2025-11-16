@@ -40,9 +40,9 @@ class Calendar  extends \App\Modules\Base\Views\Index
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('CURRENT_VIEW', $request->get('view'));
 		$viewer->assign('CURRENT_USER', $currentUserModel);
-		$viewer->assign('EVENT_LIMIT', \App\AppConfig::module('Calendar', 'EVENT_LIMIT'));
-		$viewer->assign('WEEK_VIEW', \App\AppConfig::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'agendaWeek' : 'basicWeek');
-		$viewer->assign('DAY_VIEW', \App\AppConfig::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'agendaDay' : 'basicDay');
+		$viewer->assign('EVENT_LIMIT', \App\Core\AppConfig::module('Calendar', 'EVENT_LIMIT'));
+		$viewer->assign('WEEK_VIEW', \App\Core\AppConfig::module('Calendar', 'SHOW_TIMELINE_WEEK') ? 'agendaWeek' : 'basicWeek');
+		$viewer->assign('DAY_VIEW', \App\Core\AppConfig::module('Calendar', 'SHOW_TIMELINE_DAY') ? 'agendaDay' : 'basicDay');
 		$viewer->assign('ACTIVITY_STATE_LABELS', \App\Utils\Json::encode([
 				'current' => \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current'),
 				'history' => \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('history')

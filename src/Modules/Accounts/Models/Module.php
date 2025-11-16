@@ -20,9 +20,9 @@ class Module extends \App\Modules\Base\Models\Module
 	 * @param string $sourceModule Parent module
 	 * @param string $field parent fieldname
 	 * @param string $record parent id
-	 * @param \App\QueryGenerator $queryGenerator
+	 * @param \App\QueryField\QueryGenerator $queryGenerator
 	 */
-	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryGenerator $queryGenerator)
+	public function getQueryByModuleField($sourceModule, $field, $record, \App\QueryField\QueryGenerator $queryGenerator)
 	{
 		if (($sourceModule === 'Accounts' && $field === 'account_id' && $record) || in_array($sourceModule, ['Campaigns', 'Products', 'Services'])) {
 			if ($sourceModule === 'Campaigns' && $record) {

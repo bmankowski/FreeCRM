@@ -12,7 +12,7 @@ namespace App\Modules\Services;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class Services extends \App\CRMEntity
+class Services extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'vtiger_service';
@@ -270,7 +270,7 @@ class Services extends \App\CRMEntity
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 
-		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
+		\App\Log\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("PriceBooks" => "vtiger_pricebookproductrel", "Documents" => "vtiger_senotesrel");
 
@@ -296,7 +296,7 @@ class Services extends \App\CRMEntity
 		}
 
 		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
-		\App\Log::trace("Exiting transferRelatedRecords...");
+		\App\Log\Log::trace("Exiting transferRelatedRecords...");
 	}
 	/*
 	 * Function to get the primary query part of a report
@@ -430,7 +430,7 @@ class Services extends \App\CRMEntity
 	 */
 	public function deletePerminently($moduleName, $recordId)
 	{
-		\App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['or', ['productid' => $recordId], ['crmid' => $recordId]])->execute();
+		\App\Db\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['or', ['productid' => $recordId], ['crmid' => $recordId]])->execute();
 		parent::deletePerminently($moduleName, $recordId);
 	}
 
@@ -486,11 +486,11 @@ class Services extends \App\CRMEntity
 	{
 		global $currentModule;
 
-		\App\Log::error('id:--' . $id);
-		\App\Log::error('return_module:--' . $return_module);
-		\App\Log::error('return_id:---' . $return_id);
+		\App\Log\Log::error('id:--' . $id);
+		\App\Log\Log::error('return_module:--' . $return_module);
+		\App\Log\Log::error('return_id:---' . $return_id);
 		if ($return_module == 'Accounts') {
-			$focus = \App\CRMEntity::getInstance($return_module);
+			$focus = \App\Core\CRMEntity::getInstance($return_module);
 			$entityIds = $focus->getRelatedContactsIds($return_id);
 			array_push($entityIds, $return_id);
 			$return_modules = ['Accounts', 'Contacts'];

@@ -156,7 +156,7 @@ class ScheduleReports extends \App\Runtime\BaseModel
 
 			if (!empty($recipients['Roles'])) {
 				foreach ($recipients['Roles'] as $roleId) {
-					$roleUsers = \App\PrivilegeUtil::getRoleUsers($roleId);
+					$roleUsers = \App\Security\PrivilegeUtil::getRoleUsers($roleId);
 					foreach ($roleUsers as $userId => $userName) {
 						array_push($recipientsList, $userId);
 					}
@@ -249,7 +249,7 @@ class ScheduleReports extends \App\Runtime\BaseModel
 	 */
 	public function getNextTriggerTime()
 	{
-		$default_timezone = \App\AppConfig::main('default_timezone');
+		$default_timezone = \App\Core\AppConfig::main('default_timezone');
 		$admin = \App\Modules\Users\Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
 		@date_default_timezone_set($adminTimeZone);
@@ -291,7 +291,7 @@ class ScheduleReports extends \App\Runtime\BaseModel
 
 	public static function getScheduledReports()
 	{
-		$default_timezone = \App\AppConfig::main('default_timezone');
+		$default_timezone = \App\Core\AppConfig::main('default_timezone');
 		// set the time zone to the admin's time zone, this is needed so that the scheduled reprots will be triggered
 		// at admin's time zone rather than the systems time zone. This is specially needed for Hourly and Daily scheduled reports
 		$admin = \App\Modules\Users\Users::getActiveAdminUser();
@@ -331,9 +331,9 @@ class ScheduleReports extends \App\Runtime\BaseModel
 
 	public function getEmailContent($reportRecordModel)
 	{
-		$site_URL = \App\AppConfig::main('site_URL');
+		$site_URL = \App\Core\AppConfig::main('site_URL');
 		$currentModule = 'Reports';
-		$logo = \App\Company::getInstanceById()->getLogo()->getImagePath();
+		$logo = \App\Core\Company::getInstanceById()->getLogo()->getImagePath();
 
 		$body = '<table width="700" cellspacing="0" cellpadding="0" border="0" align="center" style="font-family: Arial,Helvetica,sans-serif; font-size: 12px; font-weight: normal; text-decoration: none; ">
 			<tr>

@@ -43,7 +43,7 @@ class SendMailModal  extends \App\Modules\Base\Views\Index
 		$viewer = $this->getViewer($request);
 		$templateModule = $moduleName = $request->getModule();
 		$sourceModule = $request->get('sourceModule');
-		if ($sourceModule && isset(\App\TextParser::$sourceModules[$sourceModule]) && in_array($moduleName, \App\TextParser::$sourceModules[$sourceModule])) {
+		if ($sourceModule && isset(\App\TextParser\TextParser::$sourceModules[$sourceModule]) && in_array($moduleName, \App\TextParser\TextParser::$sourceModules[$sourceModule])) {
 			$templateModule = $sourceModule;
 		}
 		$viewer->assign('TEMPLATE_MODULE', $templateModule);

@@ -59,9 +59,9 @@ class ModTracker {
 				'linkto' => 'index.php?module=ModTracker&action=BasicSettings&parenttab=Settings&formodule=ModTracker'
 			]);
 		} else if ($eventType == 'module.disabled') {
-			\App\EventHandler::setInActive('\App\Modules\ModTracker\Handlers\Handler');
+			\App\Events\EventHandler::setInActive('\App\Modules\ModTracker\Handlers\Handler');
 		} else if ($eventType == 'module.enabled') {
-			\App\EventHandler::setActive('\App\Modules\ModTracker\Handlers\Handler');
+			\App\Events\EventHandler::setActive('\App\Modules\ModTracker\Handlers\Handler');
 		} else if ($eventType == 'module.preuninstall') {
 			
 		} else if ($eventType == 'module.preupdate') {
@@ -94,7 +94,7 @@ class ModTracker {
 	 */
 	public function disableTrackingForModule($tabid)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		if (!static::isModulePresent($tabid)) {
 			$db->createCommand()->insert('vtiger_modtracker_tabs', ['tabid' => $tabid, 'visible' => 0])->execute();
 		} else {
@@ -117,11 +117,11 @@ class ModTracker {
 	public function enableTrackingForModule($tabid)
 	{
 		if (!static::isModulePresent($tabid)) {
-			\App\Db::getInstance()->createCommand()->insert('vtiger_modtracker_tabs', ['tabid' => $tabid, 'visible' => 1])->execute();
+			\App\Db\Db::getInstance()->createCommand()->insert('vtiger_modtracker_tabs', ['tabid' => $tabid, 'visible' => 1])->execute();
 		} else {
-			\App\Db::getInstance()->createCommand()->update('vtiger_modtracker_tabs', ['visible' => 1], ['tabid' => $tabid])->execute();
+			\App\Db\Db::getInstance()->createCommand()->update('vtiger_modtracker_tabs', ['visible' => 1], ['tabid' => $tabid])->execute();
 		}
-		\App\Db::getInstance()->createCommand()->update('vtiger_field', ['presence' => 2], ['tabid' => $tabid, 'fieldname' => 'was_read'])->execute();
+		\App\Db\Db::getInstance()->createCommand()->update('vtiger_field', ['presence' => 2], ['tabid' => $tabid, 'fieldname' => 'was_read'])->execute();
 		if (static::isModtrackerLinkPresent($tabid)) {
 			$moduleInstance = \App\Modules\Base\Models\Module::getInstance($tabid);
 			$moduleInstance->addLink('DETAILVIEWBASIC', 'View History', "javascript:ModTrackerCommon.showhistory('\$RECORD\$')", '', '', array('path' => 'src/Modules/ModTracker/ModTracker.php', 'class' => 'ModTracker', 'method' => 'isViewPermitted'));
@@ -318,7 +318,7 @@ class ModTracker {
 
 	public static function trackRelation($sourceModule, $sourceId, $targetModule, $targetId, $type)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$currentTime = date('Y-m-d H:i:s');
 		$db->createCommand()->insert('vtiger_modtracker_basic', [
@@ -358,7 +358,7 @@ class ModTracker {
 	public static function linkRelation($sourceModule, $sourceId, $targetModule, $targetId)
 	{
 		self::trackRelation($sourceModule, $sourceId, $targetModule, $targetId, self::$LINK);
-		if (in_array($sourceModule, \App\AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) && \App\Security\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
+		if (in_array($sourceModule, \App\Core\AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) && \App\Security\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
 			\App\Modules\ModTracker\Models\Record::setLastRelation($sourceId, $sourceModule);
 		}
 	}
@@ -373,7 +373,7 @@ class ModTracker {
 	public static function unLinkRelation($sourceModule, $sourceId, $targetModule, $targetId)
 	{
 		self::trackRelation($sourceModule, $sourceId, $targetModule, $targetId, self::$UNLINK);
-		if (in_array($sourceModule, \App\AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) && \App\Security\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
+		if (in_array($sourceModule, \App\Core\AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW')) && \App\Security\Privilege::isPermitted($sourceModule, 'TimeLineList')) {
 			\App\Modules\ModTracker\Models\Record::setLastRelation($sourceId, $sourceModule);
 		}
 	}

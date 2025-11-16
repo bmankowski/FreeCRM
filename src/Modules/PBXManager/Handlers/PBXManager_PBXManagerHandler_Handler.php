@@ -15,18 +15,18 @@ class PBXManager_PBXManagerHandler_Handler {
 
 	/**
 	 * EntityAfterDelete handler function
-	 * @param \App\EventHandler $eventHandler
+	 * @param \App\Events\EventHandler $eventHandler
 	 */
-	public function entityAfterDelete(\App\EventHandler $eventHandler)
+	public function entityAfterDelete(\App\Events\EventHandler $eventHandler)
 	{
 		(new \App\Modules\PBXManager\Models\Record())->deletePhoneLookUpRecord($eventHandler->getRecordModel()->getId());
 	}
 
 	/**
 	 * EntityAfterSave function
-	 * @param \App\EventHandler $eventHandler
+	 * @param \App\Events\EventHandler $eventHandler
 	 */
-	public function entityAfterSave(\App\EventHandler $eventHandler)
+	public function entityAfterSave(\App\Events\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		$values = [
@@ -45,9 +45,9 @@ class PBXManager_PBXManagerHandler_Handler {
 
 	/**
 	 * EntityAfterRestore handler function
-	 * @param \App\EventHandler $eventHandler
+	 * @param \App\Events\EventHandler $eventHandler
 	 */
-	public function entityAfterRestore(\App\EventHandler $eventHandler)
+	public function entityAfterRestore(\App\Events\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		$values = [

@@ -30,7 +30,7 @@ $adv_filter_options = array(
 	'bw' => 'between',
 );
 
-class CustomView extends \App\CRMEntity
+class CustomView extends \App\Core\CRMEntity
 {
 
 	public $module_list = [];
@@ -164,7 +164,7 @@ class CustomView extends \App\CRMEntity
 
 			$option = '';
 			$viewname = $cvrow['viewname'];
-			if ($cvrow['status'] == \App\CustomView::CV_STATUS_DEFAULT || $cvrow['userid'] == $currentUser->id) {
+			if ($cvrow['status'] == \App\View\CustomView::CV_STATUS_DEFAULT || $cvrow['userid'] == $currentUser->id) {
 				$disp_viewname = $viewname;
 			} else {
 				$userName = \vtlib\Deprecated::getFullNameFromArray('Users', $cvrow);
@@ -184,13 +184,13 @@ class CustomView extends \App\CRMEntity
 
 			// Add the option to combo box at appropriate section
 			if ($option != '') {
-				if ($cvrow['status'] == \App\CustomView::CV_STATUS_DEFAULT || $cvrow['userid'] == $currentUser->id) {
+				if ($cvrow['status'] == \App\View\CustomView::CV_STATUS_DEFAULT || $cvrow['userid'] == $currentUser->id) {
 					$shtml_user .= $option;
-				} elseif ($cvrow['status'] == \App\CustomView::CV_STATUS_PUBLIC) {
+				} elseif ($cvrow['status'] == \App\View\CustomView::CV_STATUS_PUBLIC) {
 					if ($shtml_public == '')
 						$shtml_public = "<option disabled>--- " . \App\Runtime\Vtiger_Language_Handler::translate('LBL_PUBLIC') . " ---</option>";
 					$shtml_public .= $option;
-				} elseif ($cvrow['status'] == \App\CustomView::CV_STATUS_PENDING) {
+				} elseif ($cvrow['status'] == \App\View\CustomView::CV_STATUS_PENDING) {
 					if ($shtml_pending == '')
 						$shtml_pending = "<option disabled>--- " . \App\Runtime\Vtiger_Language_Handler::translate('LBL_PENDING') . " ---</option>";
 					$shtml_pending .= $option;
@@ -220,7 +220,7 @@ class CustomView extends \App\CRMEntity
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 
-		\App\Log::trace('Entering ' . __METHOD__ . ' method ...');
+		\App\Log\Log::trace('Entering ' . __METHOD__ . ' method ...');
 
 		$sSQL = 'select vtiger_cvcolumnlist.* from vtiger_cvcolumnlist';
 		$sSQL .= ' inner join vtiger_customview on vtiger_customview.cvid = vtiger_cvcolumnlist.cvid';
@@ -228,18 +228,18 @@ class CustomView extends \App\CRMEntity
 		$result = $adb->pquery($sSQL, [$cvid]);
 
 		if ($adb->num_rows($result) == 0 && is_numeric($cvid) && $this->customviewmodule != 'Users') {
-			\App\Log::trace("Error !!!: " . \App\Runtime\Vtiger_Language_Handler::translate('LBL_NO_FOUND_VIEW') . " ID: $cvid");
+			\App\Log\Log::trace("Error !!!: " . \App\Runtime\Vtiger_Language_Handler::translate('LBL_NO_FOUND_VIEW') . " ID: $cvid");
 			throw new \App\Exceptions\AppException('LBL_NO_FOUND_VIEW');
 		} else if (!is_numeric($cvid) && $this->customviewmodule != 'Users') {
 			$filterDir = 'modules' . DIRECTORY_SEPARATOR . $this->customviewmodule . DIRECTORY_SEPARATOR . 'filters' . DIRECTORY_SEPARATOR . $cvid . '.php';
 			if (file_exists($filterDir)) {
-				$handlerClass = \App\Loader::getComponentClassName('Filter', $cvid, $this->customviewmodule);
+				$handlerClass = \App\Core\Loader::getComponentClassName('Filter', $cvid, $this->customviewmodule);
 				if (class_exists($handlerClass)) {
 					$handler = new $handlerClass();
 					$columnlist = $handler->getColumnList();
 				}
 			} else {
-				\App\Log::trace("Error !!!: " . \App\Runtime\Vtiger_Language_Handler::translate('LBL_NO_FOUND_VIEW') . " Filter: $cvid");
+				\App\Log\Log::trace("Error !!!: " . \App\Runtime\Vtiger_Language_Handler::translate('LBL_NO_FOUND_VIEW') . " Filter: $cvid");
 				throw new \App\Exceptions\AppException('LBL_NO_FOUND_VIEW');
 			}
 		} else {
@@ -247,7 +247,7 @@ class CustomView extends \App\CRMEntity
 				$columnlist[$columnrow['columnindex']] = $columnrow['columnname'];
 			}
 		}
-		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
+		\App\Log\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $columnlist;
 	}
 
@@ -272,14 +272,14 @@ class CustomView extends \App\CRMEntity
 		} else {
 			$filterDir = 'modules' . DIRECTORY_SEPARATOR . $this->customviewmodule . DIRECTORY_SEPARATOR . 'filters' . DIRECTORY_SEPARATOR . $cvid . '.php';
 			if (file_exists($filterDir)) {
-				$handlerClass = \App\Loader::getComponentClassName('Filter', $cvid, $this->customviewmodule);
+				$handlerClass = \App\Core\Loader::getComponentClassName('Filter', $cvid, $this->customviewmodule);
 				if (class_exists($handlerClass)) {
 					$handler = new $handlerClass();
 					$stdfilterrow = $handler->getStdCriteria();
 				}
 			}
 		}
-		$stdFilter = \App\CustomView::resolveDateFilterValue($stdfilterrow);
+		$stdFilter = \App\View\CustomView::resolveDateFilterValue($stdfilterrow);
 		\App\Cache\Cache::save('getStdFilterByCvid', $cvid, $stdFilter);
 		return $stdFilter;
 	}
@@ -325,7 +325,7 @@ class CustomView extends \App\CRMEntity
 		if (!is_numeric($cvid)) {
 			$filterDir = 'modules' . DIRECTORY_SEPARATOR . $this->customviewmodule . DIRECTORY_SEPARATOR . 'filters' . DIRECTORY_SEPARATOR . $cvid . '.php';
 			if (file_exists($filterDir)) {
-				$handlerClass = \App\Loader::getComponentClassName('Filter', $cvid, $this->customviewmodule);
+				$handlerClass = \App\Core\Loader::getComponentClassName('Filter', $cvid, $this->customviewmodule);
 				if (class_exists($handlerClass)) {
 					$handler = new $handlerClass();
 					$advftCriteria = $handler->getAdvftCriteria($this);
@@ -756,7 +756,7 @@ class CustomView extends \App\CRMEntity
 	public function getSalesRelatedName($comparator, $value, $datatype, $tablename, $fieldname)
 	{
 
-		\App\Log::trace("in getSalesRelatedName " . $comparator . "==" . $value . "==" . $datatype . "==" . $tablename . "==" . $fieldname);
+		\App\Log\Log::trace("in getSalesRelatedName " . $comparator . "==" . $value . "==" . $datatype . "==" . $tablename . "==" . $fieldname);
 		$adb = \App\Database\PearDatabase::getInstance();
 
 		$adv_chk_value = $value;
@@ -814,7 +814,7 @@ class CustomView extends \App\CRMEntity
 			$value .= $this->getAdvComparator($comparator, $adv_chk_value, $datatype);
 		}
 		$value .= ")";
-		\App\Log::trace("in getSalesRelatedName " . $comparator . "==" . $value . "==" . $datatype . "==" . $tablename . "==" . $fieldname);
+		\App\Log\Log::trace("in getSalesRelatedName " . $comparator . "==" . $value . "==" . $datatype . "==" . $tablename . "==" . $fieldname);
 		return $value;
 	}
 
@@ -961,20 +961,20 @@ class CustomView extends \App\CRMEntity
 		$currentUser = \App\User\CurrentUser::get();
 		$custom_strings = \vtlib\Deprecated::getModuleTranslationStrings($currentLanguage, "CustomView");
 
-		\App\Log::trace("Entering isPermittedChangeStatus($status) method..............");
+		\App\Log\Log::trace("Entering isPermittedChangeStatus($status) method..............");
 		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
 		$status_details = [];
 		if ($is_admin) {
-			if ($status == \App\CustomView::CV_STATUS_PENDING) {
-				$changed_status = \App\CustomView::CV_STATUS_PUBLIC;
+			if ($status == \App\View\CustomView::CV_STATUS_PENDING) {
+				$changed_status = \App\View\CustomView::CV_STATUS_PUBLIC;
 				$status_label = $custom_strings['LBL_STATUS_PUBLIC_APPROVE'];
-			} elseif ($status == \App\CustomView::CV_STATUS_PUBLIC) {
-				$changed_status = \App\CustomView::CV_STATUS_PENDING;
+			} elseif ($status == \App\View\CustomView::CV_STATUS_PUBLIC) {
+				$changed_status = \App\View\CustomView::CV_STATUS_PENDING;
 				$status_label = $custom_strings['LBL_STATUS_PUBLIC_DENY'];
 			}
 			$status_details = Array('Status' => $status, 'ChangedStatus' => $changed_status, 'Label' => $status_label);
 		}
-		\App\Log::trace("Exiting isPermittedChangeStatus($status) method..............");
+		\App\Log\Log::trace("Exiting isPermittedChangeStatus($status) method..............");
 		return $status_details;
 	}
 }

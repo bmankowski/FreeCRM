@@ -81,7 +81,7 @@ class VTScheduledReport extends Reports
 
 			if (!empty($recipientsInfo['roles'])) {
 				foreach ($recipientsInfo['roles'] as $roleId) {
-					$roleUsers = \App\PrivilegeUtil::getRoleUsers($roleId);
+					$roleUsers = \App\Security\PrivilegeUtil::getRoleUsers($roleId);
 					foreach ($roleUsers as $userId => $userName) {
 						array_push($recipientsList, $userId);
 					}
@@ -90,7 +90,7 @@ class VTScheduledReport extends Reports
 
 			if (!empty($recipientsInfo['rs'])) {
 				foreach ($recipientsInfo['rs'] as $roleId) {
-					$users = \App\PrivilegeUtil::getRoleAndSubordinateUsers($roleId);
+					$users = \App\Security\PrivilegeUtil::getRoleAndSubordinateUsers($roleId);
 					foreach ($users as $userId => $userName) {
 						array_push($recipientsList, $userId);
 					}
@@ -263,12 +263,12 @@ class VTScheduledReport extends Reports
 				$optionValue = 'groups::' . $value;
 				break;
 			case 'roles' : if (empty($name))
-					$name = \App\PrivilegeUtil::getRoleName($value);
+					$name = \App\Security\PrivilegeUtil::getRoleName($value);
 				$optionName = 'Roles::' . addslashes(\App\Utils\ListViewUtils::decodeHtml($name));
 				$optionValue = 'roles::' . $value;
 				break;
 			case 'rs' : if (empty($name))
-					$name = \App\PrivilegeUtil::getRoleName($value);
+					$name = \App\Security\PrivilegeUtil::getRoleName($value);
 				$optionName = 'RoleAndSubordinates::' . addslashes(\App\Utils\ListViewUtils::decodeHtml($name));
 				$optionValue = 'rs::' . $value;
 				break;
@@ -313,7 +313,7 @@ class VTScheduledReport extends Reports
 
 	public static function getAvailableRolesHTML()
 	{
-		$roleDetails = \App\PrivilegeUtil::getAllRoleDetails();
+		$roleDetails = \App\Security\PrivilegeUtil::getAllRoleDetails();
 		$rolesHTML = '<select id="availableRecipients" name="availableRecipients" multiple size="10" class="small crmFormList">';
 		foreach ($roleDetails as $roleId => $roleInfo) {
 			$rolesHTML .= VTScheduledReport::generateRecipientOption('roles', $roleId, $roleInfo[0]);
@@ -324,7 +324,7 @@ class VTScheduledReport extends Reports
 
 	public static function getAvailableRolesAndSubordinatesHTML()
 	{
-		$roleDetails = \App\PrivilegeUtil::getAllRoleDetails();
+		$roleDetails = \App\Security\PrivilegeUtil::getAllRoleDetails();
 		$rolesAndSubHTML = '<select id="availableRecipients" name="availableRecipients" multiple size="10" class="small crmFormList">';
 		foreach ($roleDetails as $roleId => $roleInfo) {
 			$rolesAndSubHTML .= VTScheduledReport::generateRecipientOption('rs', $roleId, $roleInfo[0]);

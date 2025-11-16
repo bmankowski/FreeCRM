@@ -13,9 +13,9 @@ class Vtiger_MultiReferenceUpdater_Handler {
 
 	/**
 	 * EntityAfterLink handler function
-	 * @param \App\EventHandler $eventHandler
+	 * @param \App\Events\EventHandler $eventHandler
 	 */
-	public function entityAfterLink(\App\EventHandler $eventHandler)
+	public function entityAfterLink(\App\Events\EventHandler $eventHandler)
 	{
 		$params = $eventHandler->getParams();
 		$fields = \App\Modules\Base\UiTypes\MultiReferenceValue::getFieldsByModules($params['sourceModule'], $params['destinationModule']);
@@ -29,9 +29,9 @@ class Vtiger_MultiReferenceUpdater_Handler {
 
 	/**
 	 * EntityAfterUnLink handler function
-	 * @param \App\EventHandler $eventHandler
+	 * @param \App\Events\EventHandler $eventHandler
 	 */
-	public function entityAfterUnLink(\App\EventHandler $eventHandler)
+	public function entityAfterUnLink(\App\Events\EventHandler $eventHandler)
 	{
 		$params = $eventHandler->getParams();
 		$fields = \App\Modules\Base\UiTypes\MultiReferenceValue::getFieldsByModules($params['sourceModule'], $params['destinationModule']);
@@ -45,9 +45,9 @@ class Vtiger_MultiReferenceUpdater_Handler {
 
 	/**
 	 * EntityAfterSave function
-	 * @param \App\EventHandler $eventHandler
+	 * @param \App\Events\EventHandler $eventHandler
 	 */
-	public function entityAfterSave(\App\EventHandler $eventHandler)
+	public function entityAfterSave(\App\Events\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		$moduleName = $eventHandler->getModuleName();

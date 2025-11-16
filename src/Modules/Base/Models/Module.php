@@ -239,7 +239,7 @@ class Module extends \vtlib\Module
 	public static function getInstanceFromModuleObject(\vtlib\Module $moduleObj)
 	{
 		$objectProperties = get_object_vars($moduleObj);
-		$modelClassName = \App\Loader::getComponentClassName('Model', 'Module', $objectProperties['name']);
+		$modelClassName = \App\Core\Loader::getComponentClassName('Model', 'Module', $objectProperties['name']);
 		$moduleModel = new $modelClassName();
 		foreach ($objectProperties as $properName => $propertyValue) {
 			$moduleModel->$properName = $propertyValue;
@@ -254,7 +254,7 @@ class Module extends \vtlib\Module
 	 */
 	public static function getInstanceFromArray($valueArray)
 	{
-		$modelClassName = \App\Loader::getComponentClassName('Model', 'Module', $valueArray['name']);
+		$modelClassName = \App\Core\Loader::getComponentClassName('Model', 'Module', $valueArray['name']);
 		$instance = new $modelClassName();
 		if (method_exists($instance, 'initialize')) {
 			$instance->initialize($valueArray);
@@ -274,7 +274,7 @@ class Module extends \vtlib\Module
 	public function saveRecord(\App\Modules\Base\Models\Record $recordModel, $relationParams = null)
 	{
 		$moduleName = $this->get('name');
-		$eventHandler = new \App\EventHandler();
+		$eventHandler = new \App\Events\EventHandler();
 		$eventHandler->setRecordModel($recordModel);
 		$eventHandler->setModuleName($moduleName);
 		if ($recordModel->getHandlerExceptions()) {
@@ -290,7 +290,7 @@ class Module extends \vtlib\Module
 			unset($relationParams['__request']);
 		}
 		if (!$recordModel->isNew() && !$recordModel->isMandatorySave() && empty($recordModel->getPreviousValue())) {
-			\App\Log::info('ERR_NO_DATA');
+			\App\Log\Log::info('ERR_NO_DATA');
 		} else {
 			$recordModel->saveToDb($relationParams, $request);
 		}
@@ -315,7 +315,7 @@ class Module extends \vtlib\Module
 			$forModule = $relationParams['return_module'] ?? null;
 			$forCrmid = $relationParams['return_id'] ?? null;
 			if ($forModule && $forCrmid) {
-				$focus = \App\CRMEntity::getInstance($forModule);
+				$focus = \App\Core\CRMEntity::getInstance($forModule);
 				\App\Utils\Utils::relateEntities($focus, $forModule, $forCrmid, $moduleName, $recordId);
 			}
 		}
@@ -335,7 +335,7 @@ class Module extends \vtlib\Module
 	public function deleteRecord($recordModel)
 	{
 		$moduleName = $this->get('name');
-		$eventHandler = new \App\EventHandler();
+		$eventHandler = new \App\Events\EventHandler();
 		$eventHandler->setRecordModel($recordModel);
 		$eventHandler->setModuleName($moduleName);
 		$eventHandler->trigger('EntityBeforeDelete');
@@ -356,7 +356,7 @@ class Module extends \vtlib\Module
 				}
 			}
 		}
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$db->createCommand()->delete('u_yf_crmentity_label', ['crmid' => $recordModel->getId()])->execute();
 		$db->createCommand()->delete('u_yf_crmentity_search_label', ['crmid' => $recordModel->getId()])->execute();
 	}
@@ -556,7 +556,7 @@ class Module extends \vtlib\Module
 	 */
 	public function getRecordFromArray($valueArray, $rawData = false)
 	{
-		$modelClassName = \App\Loader::getComponentClassName('Model', 'Record', $this->get('name'));
+		$modelClassName = \App\Core\Loader::getComponentClassName('Model', 'Record', $this->get('name'));
 		$recordInstance = new $modelClassName();
 		if ($rawData !== false) {
 			foreach ($this->getFields() as $field) {
@@ -662,7 +662,7 @@ class Module extends \vtlib\Module
 		if (isset($this->fields[$fieldName])) {
 			return $this->fields[$fieldName];
 		}
-		\App\Log::warning("Field does not exist: $fieldName in " . __METHOD__);
+		\App\Log\Log::warning("Field does not exist: $fieldName in " . __METHOD__);
 		return false;
 	}
 
@@ -934,14 +934,14 @@ class Module extends \vtlib\Module
 
 	/**
 	 * Get entity instance
-	 * @return \App\CRMEntity
+	 * @return \App\Core\CRMEntity
 	 */
 	public function getEntityInstance()
 	{
 		if (isset($this->entityInstance)) {
 			return $this->entityInstance;
 		}
-		return $this->entityInstance = \App\CRMEntity::getInstance($this->getName());
+		return $this->entityInstance = \App\Core\CRMEntity::getInstance($this->getName());
 	}
 
 	public static function getEntityModules()
@@ -1031,7 +1031,7 @@ class Module extends \vtlib\Module
 
 	public static function getCleanInstance($moduleName)
 	{
-		$modelClassName = \App\Loader::getComponentClassName('Model', 'Module', $moduleName);
+		$modelClassName = \App\Core\Loader::getComponentClassName('Model', 'Module', $moduleName);
 		$instance = new $modelClassName();
 		return $instance;
 	}
@@ -1131,7 +1131,7 @@ class Module extends \vtlib\Module
 			return $comments;
 		}
 		$db = \App\Database\PearDatabase::getInstance();
-		$accessConditions = \App\PrivilegeQuery::getAccessConditions('ModComments');
+		$accessConditions = \App\Security\PrivilegeQuery::getAccessConditions('ModComments');
 		$query = sprintf('SELECT vtiger_crmentity.*, vtiger_modcomments.* FROM vtiger_modcomments
 			INNER JOIN vtiger_crmentity ON vtiger_modcomments.modcommentsid = vtiger_crmentity.crmid
 			INNER JOIN vtiger_crmentity crmentity2 ON vtiger_modcomments.related_to = crmentity2.crmid
@@ -1225,17 +1225,17 @@ class Module extends \vtlib\Module
 	$nowInDBFormat = \App\Modules\Base\UiTypes\Datetime::getDBDateTimeValue($nowInUserFormat);
 		list($currentDate, $currentTime) = explode(' ', $nowInDBFormat);
 
-		$referenceLinkClass = \App\Loader::getComponentClassName('UIType', 'ReferenceLink', $moduleName);
+		$referenceLinkClass = \App\Core\Loader::getComponentClassName('UIType', 'ReferenceLink', $moduleName);
 		$referenceLinkInstance = new $referenceLinkClass();
 		if (in_array($this->getName(), $referenceLinkInstance->getReferenceList())) {
 			$relationField = 'link';
 		} else {
-			$referenceProcessClass = \App\Loader::getComponentClassName('UIType', 'ReferenceProcess', $moduleName);
+			$referenceProcessClass = \App\Core\Loader::getComponentClassName('UIType', 'ReferenceProcess', $moduleName);
 			$referenceProcessInstance = new $referenceProcessClass();
 			if (in_array($this->getName(), $referenceProcessInstance->getReferenceList())) {
 				$relationField = 'process';
 			} else {
-				$referenceSubProcessClass = \App\Loader::getComponentClassName('UIType', 'ReferenceSubProcess', $moduleName);
+				$referenceSubProcessClass = \App\Core\Loader::getComponentClassName('UIType', 'ReferenceSubProcess', $moduleName);
 				$referenceSubProcessInstance = new $referenceSubProcessClass();
 				if (in_array($this->getName(), $referenceSubProcessInstance->getReferenceList())) {
 					$relationField = 'subprocess';
@@ -1270,7 +1270,7 @@ class Module extends \vtlib\Module
 			}
 		}
 		$query->andWhere($andWhere);
-		\App\PrivilegeQuery::getConditions($query, $moduleName, false, $recordId);
+		\App\Security\PrivilegeQuery::getConditions($query, $moduleName, false, $recordId);
 		if ($pagingModel->isEmpty('totalCount') && ($mode === 'current' || $mode === 'history')) {
 			$pagingModel->set('totalCount', $query->count());
 		}
@@ -1481,7 +1481,7 @@ class Module extends \vtlib\Module
 				$row['smownerid'] = $recordMeta['smownerid'];
 				$row['createdtime'] = $recordMeta['createdtime'];
 				$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
-				$modelClassName = \App\Loader::getComponentClassName('Model', 'Record', $moduleName);
+				$modelClassName = \App\Core\Loader::getComponentClassName('Model', 'Record', $moduleName);
 				$recordInstance = new $modelClassName();
 				$matchingRecords[$moduleName][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($moduleModel);
 			}
@@ -1658,7 +1658,7 @@ class Module extends \vtlib\Module
 					}
 				}
 			}
-			$mappingRelatedField = \App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName);
+			$mappingRelatedField = \App\Core\ModuleHierarchy::getRelationFieldByHierarchy($moduleName);
 			if (!empty($mappingRelatedField)) {
 				foreach ($mappingRelatedField as $relatedModules) {
 					foreach ($relatedModules as $relatedModule => $relatedFields) {

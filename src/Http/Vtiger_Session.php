@@ -102,7 +102,7 @@ class Vtiger_Session
 	public static function setAuthenticatedUserId(int $userId): void
 	{
 		self::set('authenticated_user_id', $userId);
-		self::set('app_unique_key', \App\AppConfig::main('application_unique_key'));
+		self::set('app_unique_key', \App\Core\AppConfig::main('application_unique_key'));
 	}
 
 	/**
@@ -118,7 +118,7 @@ class Vtiger_Session
 		$userId = self::get('authenticated_user_id');
 		$appKey = self::get('app_unique_key');
 		
-		if (\App\AppConfig::main('application_unique_key') !== $appKey) {
+		if (\App\Core\AppConfig::main('application_unique_key') !== $appKey) {
 			return null;
 		}
 		

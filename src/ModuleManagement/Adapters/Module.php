@@ -313,7 +313,7 @@ class Module extends ModuleBasic
 		}
 		$fieldName = isset($fieldInstance->name) ? $fieldInstance->name : '';
 
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$isExists = (new \App\Db\Query())
 			->from('vtiger_entityname')
 			->where(['tabid' => $this->id])

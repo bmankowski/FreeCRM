@@ -49,7 +49,7 @@ class Export extends \App\Runtime\BaseModel
 			$listInstance->getQueryGenerator()->addCondition('id', $excludedIds, 'n');
 		}
 		$query = $listInstance->getQueryGenerator()->createQuery();
-		$query->limit(\App\AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
+		$query->limit(\App\Core\AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
 		$fields = array_values($query->select);
 		$query->select($fields);
 		return $query;

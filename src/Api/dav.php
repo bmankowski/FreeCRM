@@ -53,7 +53,7 @@ if ($enableWebDAV) {
 // The object tree needs in turn to be passed to the server class
 $server = new Yeti\DAV_Server($nodes);
 $server->setBaseUri($_SERVER['SCRIPT_NAME']);
-$server->debugExceptions = AppConfig::debug('DAV_DEBUG_EXCEPTIONS');
+$server->debugExceptions = \App\Core\AppConfig::debug('DAV_DEBUG_EXCEPTIONS');
 
 // Plugins
 $server->addPlugin(new Sabre\DAV\Auth\Plugin($authBackend));

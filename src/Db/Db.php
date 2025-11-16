@@ -1,5 +1,5 @@
 <?php
-namespace App;
+namespace App\Db;
 use App\AppConfig;
 
 /**
@@ -93,7 +93,7 @@ class Db extends \yii\db\Connection
 	{
 		if (!static::$config || $reload) {
 			// Try to get config from AppConfig first
-			$dbconfig = \App\AppConfig::main('dbconfig');
+			$dbconfig = \App\Core\AppConfig::main('dbconfig');
 			if ($dbconfig === false) {
 				// Fallback: load config directly from config.inc.php
 				include('config/config.inc.php');
@@ -167,9 +167,9 @@ class Db extends \yii\db\Connection
 	 */
 	protected function createPdoInstance()
 	{
-		if (\App\Debugger::isDebugBar()) {
+		if (\App\Debug\Debugger::isDebugBar()) {
 			$pdo = new \DebugBar\DataCollector\PDO\TraceablePDO(parent::createPdoInstance());
-			\App\Debugger::getDebugBar()->addCollector(new \DebugBar\DataCollector\PDO\PDOCollector($pdo, null, $this->dbType));
+			\App\Debug\Debugger::getDebugBar()->addCollector(new \DebugBar\DataCollector\PDO\PDOCollector($pdo, null, $this->dbType));
 			return $pdo;
 		}
 		return parent::createPdoInstance();

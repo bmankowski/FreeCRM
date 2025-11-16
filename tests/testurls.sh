@@ -16,12 +16,13 @@ echo -e "${YELLOW}Starting URL tests...${NC}\n"
 
 # Login first to establish session
 echo -e "${YELLOW}Logging in...${NC}"
-curl -s -c "$COOKIE_FILE" -b "$COOKIE_FILE" -L \
+# Don't follow redirects for login - just check for successful redirect response
+login_response=$(curl -s -w "%{http_code}" -c "$COOKIE_FILE" -b "$COOKIE_FILE" --max-time 10 \
   -d "username=admin&password=admin" \
-  -X POST "http://localhost/index.php?module=Users&action=Login" > /dev/null
+  -X POST "http://localhost/index.php?module=Users&action=Login" -o /dev/null)
 
-if [ $? -ne 0 ]; then
-    echo -e "${RED}Failed to login${NC}"
+if [ $? -ne 0 ] || [ "$login_response" != "302" ]; then
+    echo -e "${RED}Failed to login (HTTP $login_response)${NC}"
     exit 1
 fi
 
@@ -39,8 +40,8 @@ while IFS= read -r url || [ -n "$url" ]; do
     
     echo -e "${YELLOW}Testing:${NC} $url"
     
-    # Fetch URL and check for errors
-    response=$(curl -s -c "$COOKIE_FILE" -b "$COOKIE_FILE" -L "$url")
+    # Fetch URL and check for errors (with timeout to prevent hanging)
+    response=$(curl -s -c "$COOKIE_FILE" -b "$COOKIE_FILE" -L --max-time 30 "$url")
     
     if [ $? -ne 0 ]; then
         echo -e "${RED}✗ Failed to fetch URL (curl error)${NC}\n"
@@ -52,7 +53,8 @@ while IFS= read -r url || [ -n "$url" ]; do
     # Check for HTML-formatted errors (most common in web responses)
     if echo "$response" | grep -qE "^(Fatal error|Parse error|Warning|Notice):|Cannot redeclare|Call to undefined"; then
         echo -e "${RED}✗ ERRORS FOUND:${NC}"
-        echo "$response" | grep -E "<b>(Fatal error|Parse error|Warning|Notice)</b>|Cannot redeclare|Call to undefined" | head -5
+        # Show full error output without truncation
+        echo "$response" | grep -E "<b>(Fatal error|Parse error|Warning|Notice)</b>|Cannot redeclare|Call to undefined"
         echo -e "\n${RED}Testing stopped due to errors${NC}"
         exit 1
     fi
@@ -60,7 +62,9 @@ while IFS= read -r url || [ -n "$url" ]; do
     # Check for plain text errors (appear when PHP fails before rendering)
     if echo "$response" | grep -qE "^(Fatal error|Parse error|Warning|Notice):|Uncaught Exception|Stack trace:"; then
         echo -e "${RED}✗ ERRORS FOUND:${NC}"
-        echo "$response" | grep -E "^(Fatal error|Parse error|Warning|Notice):|Uncaught Exception|Stack trace:" | head -5
+        echo -e "\n${YELLOW}=== FULL ERROR OUTPUT ===${NC}\n"
+        # Show the complete error output including full stack trace
+        echo "$response"
         echo -e "\n${RED}Testing stopped due to errors${NC}"
         exit 1
     fi

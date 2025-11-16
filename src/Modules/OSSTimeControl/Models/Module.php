@@ -105,7 +105,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	public function getTimeUsers($id, $moduleName)
 	{
-		$fieldName = \App\ModuleHierarchy::getMappingRelatedField($moduleName);
+		$fieldName = \App\Core\ModuleHierarchy::getMappingRelatedField($moduleName);
 		if (empty($id) || empty($fieldName))
 			$response = false;
 		else {
@@ -115,7 +115,7 @@ class Module extends \App\Modules\Base\Models\Module
 			])->from('vtiger_osstimecontrol')->innerJoin('vtiger_crmentity', 'vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid')
 					->where(['vtiger_crmentity.deleted' => 0, "vtiger_osstimecontrol.$fieldName" => $id, 'vtiger_osstimecontrol.osstimecontrol_status' => \App\Modules\OSSTimeControl\Models\Record::recalculateStatus])
 					->groupBy('smownerid');
-			\App\PrivilegeQuery::getConditions($query, $this->getName());
+			\App\Security\PrivilegeQuery::getConditions($query, $this->getName());
 			$dataReader = $query->createCommand()->query();
 			$data = [];
 			$ticks = [];

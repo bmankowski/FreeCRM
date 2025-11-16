@@ -134,7 +134,7 @@ class ModuleMeta extends \App\Runtime\BaseModel
 	public function getMandatoryImportableFields()
 	{
 
-		$focus = \App\CRMEntity::getInstance($this->moduleName);
+		$focus = \App\Core\CRMEntity::getInstance($this->moduleName);
 		if (method_exists($focus, 'getMandatoryImportableFields')) {
 			$mandatoryFields = $focus->getMandatoryImportableFields();
 		} else {
@@ -155,7 +155,7 @@ class ModuleMeta extends \App\Runtime\BaseModel
 	 */
 	public function getImportableFields($blocks = false)
 	{
-		$focus = \App\CRMEntity::getInstance($this->moduleName);
+		$focus = \App\Core\CRMEntity::getInstance($this->moduleName);
 		if (method_exists($focus, 'getImportableFields')) {
 			$importableFields = $focus->getImportableFields();
 		} else {
@@ -226,7 +226,7 @@ class ModuleMeta extends \App\Runtime\BaseModel
 	 */
 	public function getMandatoryFields()
 	{
-		$focus = \App\CRMEntity::getInstance($this->moduleName);
+		$focus = \App\Core\CRMEntity::getInstance($this->moduleName);
 		if (method_exists($focus, 'getMandatoryImportableFields')) {
 			$mandatoryFields = $focus->getMandatoryImportableFields();
 		} else {

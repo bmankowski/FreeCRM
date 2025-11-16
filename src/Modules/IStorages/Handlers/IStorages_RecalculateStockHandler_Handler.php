@@ -12,9 +12,9 @@ class IStorages_RecalculateStockHandler_Handler {
 
 	/**
 	 * EntityAfterSave handler function
-	 * @param \App\EventHandler $eventHandler
+	 * @param \App\Events\EventHandler $eventHandler
 	 */
-	public function entityAfterSave(\App\EventHandler $eventHandler)
+	public function entityAfterSave(\App\Events\EventHandler $eventHandler)
 	{
 		$moduleName = $eventHandler->getModuleName();
 		$correctionModules = ['IGRNC' => 'igrnid', 'IGDNC' => 'igdnid'];

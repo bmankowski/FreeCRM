@@ -46,11 +46,11 @@ class CurrentUser
 	
 	private static function logDeprecation(): void
 	{
-		if (!self::$deprecationWarned && \App\AppConfig::debug('LOG_TO_FILE')) {
+		if (!self::$deprecationWarned && \App\Core\AppConfig::debug('LOG_TO_FILE')) {
 			$trace = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS, 2);
 			$caller = $trace[1] ?? ['file' => 'unknown', 'line' => 0];
 			
-			\App\Log::warning(
+			\App\Log\Log::warning(
 				'DEPRECATED: CurrentUser::get() called from ' . 
 				$caller['file'] . ':' . $caller['line'] . 
 				'. Use $request->getUser() instead. This will be removed in v2.0'

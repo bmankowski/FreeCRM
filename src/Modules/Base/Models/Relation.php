@@ -168,12 +168,12 @@ class Relation extends \App\Runtime\BaseModel
 
 	/**
 	 * Get query generator instance
-	 * @return \App\QueryGenerator
+	 * @return \App\QueryField\QueryGenerator
 	 */
 	public function getQueryGenerator()
 	{
 		if (!$this->has('query_generator')) {
-			$this->set('query_generator', new \App\QueryGenerator($this->getRelationModuleName()));
+			$this->set('query_generator', new \App\QueryField\QueryGenerator($this->getRelationModuleName()));
 		}
 		return $this->get('query_generator');
 	}
@@ -208,7 +208,7 @@ class Relation extends \App\Runtime\BaseModel
 			return self::$cachedInstances[$relKey];
 		}
 		if (($relatedModuleModel->getName() == 'ModComments' && $parentModuleModel->isCommentEnabled()) || $parentModuleModel->getName() == 'Documents') {
-			$relationModelClassName = \App\Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
+			$relationModelClassName = \App\Core\Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
 			$relationModel = new $relationModelClassName();
 			$relationModel->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
 			if (method_exists($relationModel, 'setExceptionData')) {
@@ -227,7 +227,7 @@ class Relation extends \App\Runtime\BaseModel
 		}
 		$row = $query->one();
 		if ($row) {
-			$relationModelClassName = \App\Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
+			$relationModelClassName = \App\Core\Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
 			$relationModel = new $relationModelClassName();
 			$relationModel->setData($row)->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
 			self::$cachedInstances[$relKey] = $relationModel;
@@ -238,7 +238,7 @@ class Relation extends \App\Runtime\BaseModel
 
 	/**
 	 * Get query form relation
-	 * @return \App\QueryGenerator
+	 * @return \App\QueryField\QueryGenerator
 	 * @throws \App\Exceptions\NotAllowedMethod
 	 */
 	public function getQuery()
@@ -249,7 +249,7 @@ class Relation extends \App\Runtime\BaseModel
 		if (method_exists($this, $functionName)) {
 			$this->$functionName();
 		} else {
-			\App\Log::error("Not exist relation: $functionName in " . __METHOD__);
+			\App\Log\Log::error("Not exist relation: $functionName in " . __METHOD__);
 			throw new \App\Exceptions\NotAllowedMethod('LBL_NOT_EXIST_RELATION: ' . $functionName);
 		}
 		if ($this->showCreatorDetail()) {
@@ -403,17 +403,17 @@ class Relation extends \App\Runtime\BaseModel
 		$queryGenerator = $this->getQueryGenerator();
 		$relatedModuleName = $this->getRelationModuleName();
 		$moduleName = $this->getParentModuleModel()->getName();
-		$referenceLinkClass = \App\Loader::getComponentClassName('UIType', 'ReferenceLink', $relatedModuleName);
+		$referenceLinkClass = \App\Core\Loader::getComponentClassName('UIType', 'ReferenceLink', $relatedModuleName);
 		$referenceLinkInstance = new $referenceLinkClass();
 		if (in_array($moduleName, $referenceLinkInstance->getReferenceList())) {
 			$queryGenerator->addNativeCondition(['vtiger_activity.link' => $this->get('parentRecord')->getId()]);
 		} else {
-			$referenceProcessClass = \App\Loader::getComponentClassName('UIType', 'ReferenceProcess', $relatedModuleName);
+			$referenceProcessClass = \App\Core\Loader::getComponentClassName('UIType', 'ReferenceProcess', $relatedModuleName);
 			$referenceProcessInstance = new $referenceProcessClass();
 			if (in_array($moduleName, $referenceProcessInstance->getReferenceList())) {
 				$queryGenerator->addNativeCondition(['vtiger_activity.process' => $this->get('parentRecord')->getId()]);
 			} else {
-				$referenceSubProcessClass = \App\Loader::getComponentClassName('UIType', 'ReferenceSubProcess', $relatedModuleName);
+				$referenceSubProcessClass = \App\Core\Loader::getComponentClassName('UIType', 'ReferenceSubProcess', $relatedModuleName);
 				$referenceSubProcessInstance = new $referenceSubProcessClass();
 				if (in_array($moduleName, $referenceSubProcessInstance->getReferenceList())) {
 					$queryGenerator->addNativeCondition(['vtiger_activity.subprocess' => $this->get('parentRecord')->getId()]);
@@ -526,7 +526,7 @@ class Relation extends \App\Runtime\BaseModel
 		$sourceModule = $this->getParentModuleModel();
 		$sourceModuleName = $sourceModule->get('name');
 		$destinationModuleName = $this->getRelationModuleModel()->get('name');
-		$sourceModuleFocus = \App\CRMEntity::getInstance($sourceModuleName);
+		$sourceModuleFocus = \App\Core\CRMEntity::getInstance($sourceModuleName);
 		\App\Utils\Utils::relateEntities($sourceModuleFocus, $sourceModuleName, $sourceRecordId, $destinationModuleName, $destinationRecordId, $this->get('name'));
 	}
 
@@ -553,17 +553,17 @@ class Relation extends \App\Runtime\BaseModel
 				$crmid = $relatedRecordId;
 			}
 			$data = [
-				'CRMEntity' => \App\CRMEntity::getInstance($destinationModuleName),
+				'CRMEntity' => \App\Core\CRMEntity::getInstance($destinationModuleName),
 				'sourceModule' => $destinationModuleName,
 				'sourceRecordId' => $crmid,
 				'destinationModule' => $moduleName,
 				'destinationRecordId' => $mailId
 			];
-			$eventHandler = new \App\EventHandler();
+			$eventHandler = new \App\Events\EventHandler();
 			$eventHandler->setModuleName($destinationModuleName);
 			$eventHandler->setParams($data);
 			$eventHandler->trigger('EntityBeforeUnLink');
-			$query = \App\Db::getInstance()->createCommand()->delete('vtiger_ossmailview_relation', ['crmid' => $crmid, 'ossmailviewid' => $mailId]);
+			$query = \App\Db\Db::getInstance()->createCommand()->delete('vtiger_ossmailview_relation', ['crmid' => $crmid, 'ossmailviewid' => $mailId]);
 			if ($query->execute()) {
 				$eventHandler->trigger('EntityAfterUnLink');
 				return true;
@@ -579,7 +579,7 @@ class Relation extends \App\Runtime\BaseModel
 			if ($relationFieldModel && $relationFieldModel->isMandatory()) {
 				return false;
 			}
-			$destinationModuleFocus = \App\CRMEntity::getInstance($destinationModuleName);
+			$destinationModuleFocus = \App\Core\CRMEntity::getInstance($destinationModuleName);
 			\App\Utils\Utils::DeleteEntity($destinationModuleName, $sourceModuleName, $destinationModuleFocus, $relatedRecordId, $sourceRecordId, $this->get('name'));
 			return true;
 		}
@@ -587,7 +587,7 @@ class Relation extends \App\Runtime\BaseModel
 
 	public function addRelTree($crmid, $tree)
 	{
-		\App\Db::getInstance()->createCommand()->insert('u_#__crmentity_rel_tree', [
+		\App\Db\Db::getInstance()->createCommand()->insert('u_#__crmentity_rel_tree', [
 			'crmid' => $crmid,
 			'tree' => $tree,
 			'module' => $this->getParentModuleModel()->getId(),
@@ -599,7 +599,7 @@ class Relation extends \App\Runtime\BaseModel
 
 	public function deleteRelTree($crmid, $tree)
 	{
-		\App\Db::getInstance()->createCommand()
+		\App\Db\Db::getInstance()->createCommand()
 			->delete('u_#__crmentity_rel_tree', ['crmid' => $crmid, 'tree' => $tree, 'module' => $this->getParentModuleModel()->getId(), 'relmodule' => $this->getRelationModuleModel()->getId()])
 			->execute();
 	}
@@ -630,7 +630,7 @@ class Relation extends \App\Runtime\BaseModel
 			\App\Cache\Cache::save('getAllRelations', $cacheName, $relationList);
 		}
 		$relationModels = [];
-		$relationModelClassName = \App\Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
+		$relationModelClassName = \App\Core\Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
 		$privilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		foreach ($relationList as &$row) {
 			// Skip relation where target module does not exits or is no permitted for view.
@@ -736,7 +736,7 @@ class Relation extends \App\Runtime\BaseModel
 	 */
 	public static function updateRelationPresence($relationId, $status)
 	{
-		\App\Db::getInstance()->createCommand()->update('vtiger_relatedlists', ['presence' => $status === '0' ? 1 : 0], ['relation_id' => $relationId])->execute();
+		\App\Db\Db::getInstance()->createCommand()->update('vtiger_relatedlists', ['presence' => $status === '0' ? 1 : 0], ['relation_id' => $relationId])->execute();
 	}
 
 	public static function removeRelationById($relationId)
@@ -766,7 +766,7 @@ class Relation extends \App\Runtime\BaseModel
 
 	public static function updateModuleRelatedFields($relationId, $fields)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$db->createCommand()->delete('vtiger_relatedlists_fields', ['relation_id' => $relationId])->execute();
 		if ($fields) {
 			foreach ($fields as $key => $field) {
@@ -783,7 +783,7 @@ class Relation extends \App\Runtime\BaseModel
 
 	public static function updateModuleRelatedInventoryFields($relationId, $fields)
 	{
-		$db = \App\Db::getInstance('admin');
+		$db = \App\Db\Db::getInstance('admin');
 		$db->createCommand()->delete('a_#__relatedlists_inv_fields', ['relation_id' => $relationId])->execute();
 		if ($fields) {
 			foreach ($fields as $key => $field) {
@@ -844,7 +844,7 @@ class Relation extends \App\Runtime\BaseModel
 
 	public function updateFavoriteForRecord($action, $data)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$moduleName = $this->getParentModuleModel()->get('name');
 		$result = false;
 		if ('add' === $action) {
@@ -869,7 +869,7 @@ class Relation extends \App\Runtime\BaseModel
 
 	public static function updateStateFavorites($relationId, $status)
 	{
-		\App\Db::getInstance()->createCommand()->update('vtiger_relatedlists', ['favorites' => $status], ['relation_id' => $relationId])->execute();
+		\App\Db\Db::getInstance()->createCommand()->update('vtiger_relatedlists', ['favorites' => $status], ['relation_id' => $relationId])->execute();
 	}
 
 	public function isFavorites()

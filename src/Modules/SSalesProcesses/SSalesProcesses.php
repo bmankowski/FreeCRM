@@ -9,7 +9,7 @@ namespace App\Modules\SSalesProcesses;
  */
 
 
-class SSalesProcesses extends \App\CRMEntity
+class SSalesProcesses extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'u_yf_ssalesprocesses';
@@ -98,7 +98,7 @@ class SSalesProcesses extends \App\CRMEntity
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(array('SSalesProcesses'));
 			}
-			\App\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions:: getModuleId($moduleName));
+			\App\Core\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions:: getModuleId($moduleName));
 		} else if ($eventType == 'module.disabled') {
 			
 		} else if ($eventType == 'module.preuninstall') {
@@ -120,11 +120,11 @@ class SSalesProcesses extends \App\CRMEntity
 	 */
 	public function getHierarchy($id, $getRawData = false, $getLinks = true, $currentUser)
 	{
-		\App\Log::trace("Entering getHierarchy(" . $id . ") method ...");
+		\App\Log\Log::trace("Entering getHierarchy(" . $id . ") method ...");
 		
 		$listviewHeader = [];
 		$listviewEntries = [];
-		$listColumns = \App\AppConfig::module('SSalesProcesses', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = \App\Core\AppConfig::module('SSalesProcesses', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}
@@ -141,7 +141,7 @@ class SSalesProcesses extends \App\CRMEntity
 		$salesProcessesList[$baseId] = $this->getChildSales($baseId, $salesProcessesList[$baseId], $salesProcessesList[$baseId]['depth']);
 		$salesProcessesHierarchy = $this->getHierarchyData($id, $salesProcessesList[$baseId], $baseId, $listviewEntries, $getRawData, $getLinks, $currentUser);
 		$salesProcessesHierarchy = ['header' => $listviewHeader, 'entries' => $listviewEntries];
-		\App\Log::trace('Exiting getHierarchy method ...');
+		\App\Log\Log::trace('Exiting getHierarchy method ...');
 		return $salesProcessesHierarchy;
 	}
 
@@ -159,10 +159,10 @@ class SSalesProcesses extends \App\CRMEntity
 	public function getHierarchyData($id, $salesProcessesInfoBase, $salesProcessesId, &$listviewEntries, $getRawData = false, $getLinks = true, $currentUser)
 	{
 
-		\App\Log::trace('Entering getHierarchyData(' . $id . ',' . $salesProcessesId . ') method ...');
+		\App\Log\Log::trace('Entering getHierarchyData(' . $id . ',' . $salesProcessesId . ') method ...');
 
 		$hasRecordViewAccess = $currentUser->isAdminUser() || \App\Security\Privilege::isPermitted('SSalesProcesses', 'DetailView', $salesProcessesId);
-		$listColumns = \App\AppConfig::module('SSalesProcesses', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = \App\Core\AppConfig::module('SSalesProcesses', 'COLUMNS_IN_HIERARCHY');
 
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
@@ -202,7 +202,7 @@ class SSalesProcesses extends \App\CRMEntity
 			}
 		}
 
-		\App\Log::trace('Exiting getHierarchyData method ...');
+		\App\Log\Log::trace('Exiting getHierarchyData method ...');
 		return $listviewEntries;
 	}
 
@@ -214,10 +214,10 @@ class SSalesProcesses extends \App\CRMEntity
 	 */
 	public function getParentSales($id, &$parentSSalesProcesses, &$encounteredSalesProcesses, $depthBase = 0)
 	{
-		\App\Log::trace('Entering getParentSales(' . $id . ') method ...');
+		\App\Log\Log::trace('Entering getParentSales(' . $id . ') method ...');
 
-		if ($depthBase == \App\AppConfig::module('SSalesProcesses', 'MAX_HIERARCHY_DEPTH')) {
-			\App\Log::error('Exiting getParentSales method ... - exceeded maximum depth of hierarchy');
+		if ($depthBase == \App\Core\AppConfig::module('SSalesProcesses', 'MAX_HIERARCHY_DEPTH')) {
+			\App\Log\Log::error('Exiting getParentSales method ... - exceeded maximum depth of hierarchy');
 			return $parentSSalesProcesses;
 		}
 
@@ -247,7 +247,7 @@ class SSalesProcesses extends \App\CRMEntity
 			}
 
 			$parentSSalesProcessesInfo['depth'] = $depth;
-			$listColumns = \App\AppConfig::module('SSalesProcesses', 'COLUMNS_IN_HIERARCHY');
+			$listColumns = \App\Core\AppConfig::module('SSalesProcesses', 'COLUMNS_IN_HIERARCHY');
 
 			if (empty($listColumns)) {
 				$listColumns = $this->list_fields_name;
@@ -263,7 +263,7 @@ class SSalesProcesses extends \App\CRMEntity
 
 			$parentSSalesProcesses[$id] = $parentSSalesProcessesInfo;
 		}
-		\App\Log::trace('Exiting getParentSales method ...');
+		\App\Log\Log::trace('Exiting getParentSales method ...');
 		return $parentSSalesProcesses;
 	}
 
@@ -276,9 +276,9 @@ class SSalesProcesses extends \App\CRMEntity
 	 */
 	public function getChildSales($id, &$childSalesProcesses, $depthBase)
 	{
-		\App\Log::trace('Entering getChildSales(' . $id . ',' . $depthBase . ') method ...');
-		if ($depthBase == \App\AppConfig::module('SSalesProcesses', 'MAX_HIERARCHY_DEPTH')) {
-			\App\Log::error('Exiting getChildSales method ... - exceeded maximum depth of hierarchy');
+		\App\Log\Log::trace('Entering getChildSales(' . $id . ',' . $depthBase . ') method ...');
+		if ($depthBase == \App\Core\AppConfig::module('SSalesProcesses', 'MAX_HIERARCHY_DEPTH')) {
+			\App\Log\Log::error('Exiting getChildSales method ... - exceeded maximum depth of hierarchy');
 			return $childSalesProcesses;
 		}
 		$userNameSql = \App\Utils\ModuleUtils::getSqlForNameInDisplayFormat('Users');
@@ -291,7 +291,7 @@ class SSalesProcesses extends \App\CRMEntity
 				->leftJoin('vtiger_users', 'vtiger_users.id = vtiger_crmentity.smownerid')
 				->where(['vtiger_crmentity.deleted' => 0, 'u_#__ssalesprocesses.parentid' => $id])
 				->createCommand()->query();
-		$listColumns = \App\AppConfig::module('SSalesProcesses', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = \App\Core\AppConfig::module('SSalesProcesses', 'COLUMNS_IN_HIERARCHY');
 		if (empty($listColumns)) {
 			$listColumns = $this->list_fields_name;
 		}
@@ -315,7 +315,7 @@ class SSalesProcesses extends \App\CRMEntity
 			}
 		}
 
-		\App\Log::trace('Exiting getChildSales method ...');
+		\App\Log\Log::trace('Exiting getChildSales method ...');
 		return $childSalesProcesses;
 	}
 }

@@ -761,7 +761,7 @@ class Record extends \App\Modules\Base\Models\Record
 	{
 		$reportRun = ReportRun::getInstance($this->getId());
 		$advanceFilterSql = $this->getAdvancedFilterSQL();
-		$tmpDir = \App\AppConfig::main('tmp_dir');
+		$tmpDir = \App\Core\AppConfig::main('tmp_dir');
 
 		$tempFileName = tempnam(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $tmpDir, 'xls');
 		$fileName = \App\Utils\ListViewUtils::decodeHtml($this->getName()) . '.xls';
@@ -788,7 +788,7 @@ class Record extends \App\Modules\Base\Models\Record
 	{
 		$reportRun = ReportRun::getInstance($this->getId());
 		$advanceFilterSql = $this->getAdvancedFilterSQL();
-		$tmpDir = \App\AppConfig::main('tmp_dir');
+		$tmpDir = \App\Core\AppConfig::main('tmp_dir');
 
 		$tempFileName = tempnam(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $tmpDir, 'csv');
 		$reportRun->writeReportToCSVFile($tempFileName, $advanceFilterSql);

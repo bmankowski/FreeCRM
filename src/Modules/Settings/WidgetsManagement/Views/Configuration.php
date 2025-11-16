@@ -19,7 +19,7 @@ class Configuration extends \App\Modules\Settings\Base\Views\Index
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		
-		\App\Log::trace(__METHOD__ . ' | Start');
+		\App\Log\Log::trace(__METHOD__ . ' | Start');
 		$currentUser = $request->getUser();
 		$sourceModule = $request->get('sourceModule');
 		$widgetsManagementModel = new \App\Modules\Settings\WidgetsManagement\Models\Module();
@@ -80,7 +80,7 @@ class Configuration extends \App\Modules\Settings\Base\Views\Index
 			// Initial page load - return full page with MainLayout
 			echo $viewer->view('ConfigurationIndex.tpl', $request->getModule(false), true);
 		}
-		\App\Log::trace(__METHOD__ . ' | End');
+		\App\Log\Log::trace(__METHOD__ . ' | End');
 	}
 	
 	/**

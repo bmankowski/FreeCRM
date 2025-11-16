@@ -16,11 +16,11 @@ class Users_ForgotPassword_Handler {
 
 	public function changePassword($data)
 	{
-		$site_URL = rtrim(\App\AppConfig::main('site_URL'), '/');
+		$site_URL = rtrim(\App\Core\AppConfig::main('site_URL'), '/');
 		$request = new \App\Http\Vtiger_Request($data);
 		$userName = $request->get('username');
 		$viewer = CRM_Viewer::getInstance();
-		$companyModel = \App\Company::getInstanceById();
+		$companyModel = \App\Core\Company::getInstanceById();
 		$logo = $companyModel->getLogo();
 		$moduleName = 'Users';
 		$viewer->assign('LOGOURL', $logo->get('imageUrl'));

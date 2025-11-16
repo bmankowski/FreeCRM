@@ -52,7 +52,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		if (is_array($value)) {
 			$value = implode(',', $value);
 		}
-		\App\Db::getInstance()->createCommand()
+		\App\Db\Db::getInstance()->createCommand()
 			->update('yetiforce_auth', ['value' => $value], ['type' =>  $param['type'], 'param' => $param['param']])
 			->execute();
 		return true;

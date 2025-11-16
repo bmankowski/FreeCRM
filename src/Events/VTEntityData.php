@@ -10,7 +10,7 @@
  * *********************************************************************************** */
 
 /**
- * A wrapper around \App\CRMEntity instances
+ * A wrapper around \App\Core\CRMEntity instances
  */
 
 namespace App\Events;
@@ -23,7 +23,7 @@ class VTEntityData
 
     /** @var int|string|null */
     protected $entityId;
-    /** @var \App\CRMEntity|null */
+    /** @var \App\Core\CRMEntity|null */
     protected $focus;
     /** @var string */
     protected $moduleName;
@@ -54,7 +54,7 @@ class VTEntityData
 		$obj->entityId = $entityId;
 		$obj->moduleName = $moduleName;
 
-		$focus = \App\CRMEntity::getInstance($moduleName);
+		$focus = \App\Core\CRMEntity::getInstance($moduleName);
 		$focus->retrieve_entity_info($entityId, $moduleName);
 		$focus->id = $entityId;
 		$obj->isNew = false;
@@ -79,7 +79,7 @@ class VTEntityData
 		$obj->moduleName = 'Users';
 
 		require_once(ROOT_DIRECTORY . '/src/CRMEntity.php');
-		$focus = \App\CRMEntity::getInstance($obj->moduleName);
+		$focus = \App\Core\CRMEntity::getInstance($obj->moduleName);
 
 		$focus->retrieve_entity_info($userId, $obj->moduleName);
 		$focus->id = $userId;
@@ -91,7 +91,7 @@ class VTEntityData
 	/**
 	 * Get an entity data object from a crmentity object
 	 *
-	 * @param $crmEntity The \App\CRMEntity instance.
+	 * @param $crmEntity The \App\Core\CRMEntity instance.
 	 * @return The new entity data object.
 	 */
 	static function fromCRMEntity($crmEntity)

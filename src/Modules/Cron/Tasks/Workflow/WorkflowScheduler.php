@@ -13,7 +13,7 @@ use App\Modules\Workflow\VTTaskQueue;
 use App\Modules\Workflow\VTTaskManager;
 use App\Db;
 
-$adb = Db::getInstance();
+$adb = \App\Db\Db::getInstance();
 $workflowScheduler = new WorkFlowScheduler($adb);
 $workflowScheduler->queueScheduledWorkflowTasks();
 $readyTasks = (new VTTaskQueue($adb))->getReadyTasks();

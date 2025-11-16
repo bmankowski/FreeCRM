@@ -53,7 +53,7 @@ class Relation extends \App\Modules\Base\Models\Relation
 			if ($relationFieldModel && $relationFieldModel->isMandatory()) {
 				return false;
 			}
-			$destinationModuleFocus = \App\CRMEntity::getInstance($destinationModuleName);
+			$destinationModuleFocus = \App\Core\CRMEntity::getInstance($destinationModuleName);
 			\App\Utils\Utils::DeleteEntity($destinationModuleName, $sourceModuleName, $destinationModuleFocus, $relatedRecordId, $sourceRecordId, $this->get('name'));
 			 \App\Modules\ModTracker\ModTracker::unLinkRelation($destinationModuleName, $relatedRecordId, $sourceModuleName, $sourceRecordId);
 			return true;

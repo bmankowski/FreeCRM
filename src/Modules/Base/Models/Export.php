@@ -35,7 +35,7 @@ class Export extends \App\Runtime\BaseModel
 		if ('xml' === $request->get('export_type')) {
 			$componentName = 'ExportToXml';
 		}
-		$modelClassName = \App\Loader::getComponentClassName('Model', $componentName, $moduleName);
+		$modelClassName = \App\Core\Loader::getComponentClassName('Model', $componentName, $moduleName);
 		$exportModel = new $modelClassName();
 		$exportModel->initialize($request);
 		return $exportModel;
@@ -48,7 +48,7 @@ class Export extends \App\Runtime\BaseModel
 			$this->moduleName = $moduleName;
 			$this->moduleInstance = \App\Modules\Base\Models\Module::getInstance($moduleName);
 			$this->moduleFieldInstances = $this->moduleInstance->getFields();
-			$this->focus = \App\CRMEntity::getInstance($moduleName);
+			$this->focus = \App\Core\CRMEntity::getInstance($moduleName);
 		}
 	}
 
@@ -63,7 +63,7 @@ class Export extends \App\Runtime\BaseModel
 		$query = $this->getExportQuery($request);
 
 		$headers = [];
-		$exportBlockName = \App\AppConfig::module('Export', 'BLOCK_NAME');
+		$exportBlockName = \App\Core\AppConfig::module('Export', 'BLOCK_NAME');
 		//Query generator set this when generating the query
 		if (!empty($this->accessibleFields)) {
 			foreach ($this->accessibleFields as &$fieldName) {
@@ -136,7 +136,7 @@ class Export extends \App\Runtime\BaseModel
 	{
 		$mode = $request->getMode();
 		$cvId = $request->get('viewname');
-		$queryGenerator = new \App\QueryGenerator($request->get('source_module'));
+		$queryGenerator = new \App\QueryField\QueryGenerator($request->get('source_module'));
 		if (!empty($cvId)) {
 			$queryGenerator->initForCustomViewById($cvId);
 		}
@@ -155,7 +155,7 @@ class Export extends \App\Runtime\BaseModel
 		$this->accessibleFields = $queryGenerator->getFields();
 		switch ($mode) {
 			case 'ExportAllData' :
-				$query->limit(\App\AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
+				$query->limit(\App\Core\AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
 				break;
 
 			case 'ExportCurrentPage' :
@@ -183,7 +183,7 @@ class Export extends \App\Runtime\BaseModel
 				} else {
 					$query->andWhere(['not in', "$baseTable.$baseTableColumnId", $request->get('excluded_ids')]);
 				}
-				$query->limit(\App\AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
+				$query->limit(\App\Core\AppConfig::performance('MAX_NUMBER_EXPORT_RECORDS'));
 				break;
 		}
 		return $query;

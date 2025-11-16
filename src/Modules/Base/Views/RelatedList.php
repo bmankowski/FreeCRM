@@ -46,7 +46,7 @@ class RelatedList  extends \App\Modules\Base\Views\Index
 			$sortImage = 'glyphicon glyphicon-chevron-up';
 		}
 		if (empty($orderBy) && empty($sortOrder)) {
-			$relatedInstance = \App\CRMEntity::getInstance($relatedModuleName);
+			$relatedInstance = \App\Core\CRMEntity::getInstance($relatedModuleName);
 			$orderBy = $relatedInstance->default_order_by;
 			$sortOrder = $relatedInstance->default_sort_order;
 		}
@@ -104,7 +104,7 @@ class RelatedList  extends \App\Modules\Base\Views\Index
 	$viewer->assign('RELATED_ENTIRES_COUNT', $noOfEntries);
 	$viewer->assign('RELATION_FIELD', $relationField);
 
-	if (\App\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+	if (\App\Core\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 		$totalCount = $relationListView->getRelatedEntriesCount();
 	}
 	if (!empty($totalCount)) {
@@ -149,7 +149,7 @@ class RelatedList  extends \App\Modules\Base\Views\Index
 	$this->prepareRelatedListLeftSideData($viewer, $models, $relatedModuleModel, $request->getUser());
 	
 	// Prepare data for RelatedList template - move function calls from templates to controller
-	$viewer->assign('AUTO_REFRESH_LIST_ON_CHANGE', \App\AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE'));
+	$viewer->assign('AUTO_REFRESH_LIST_ON_CHANGE', \App\Core\AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE'));
 	
 	return $viewer->view('RelatedList.tpl', $moduleName, 'true');
 	}
@@ -161,9 +161,9 @@ class RelatedList  extends \App\Modules\Base\Views\Index
 	protected function prepareRelatedListLeftSideData($viewer, $models, $relatedModuleModel, $userModel)
 	{
 		// Prepare global config and permissions (checked once, not per record)
-		$isActiveSendingMails = \App\AppConfig::main('isActiveSendingMails');
+		$isActiveSendingMails = \App\Core\AppConfig::main('isActiveSendingMails');
 		$canUseOSSMail = \App\Modules\Users\Models\Privileges::isPermitted('OSSMail');
-		$modTrackerUnreviewedCount = \App\AppConfig::module('ModTracker', 'UNREVIEWED_COUNT');
+		$modTrackerUnreviewedCount = \App\Core\AppConfig::module('ModTracker', 'UNREVIEWED_COUNT');
 		$canReviewUpdates = $relatedModuleModel->isPermitted('ReviewingUpdates');
 		$isTrackingEnabled = $relatedModuleModel->isTrackingEnabled();
 		

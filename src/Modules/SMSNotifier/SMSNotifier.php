@@ -38,7 +38,7 @@ class SMSNotifier extends SMSNotifierBase
 		}
 
 		$moduleName = 'SMSNotifier';
-		$focus = \App\CRMEntity::getInstance($moduleName);
+		$focus = \App\Core\CRMEntity::getInstance($moduleName);
 
 		$focus->column_fields['message'] = $message;
 		$focus->column_fields['assigned_user_id'] = $ownerid;

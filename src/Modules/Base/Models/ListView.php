@@ -39,10 +39,10 @@ class ListView extends \App\Runtime\BaseModel
 		if (\App\Cache\Cache::has('ListView_Model', $cacheName)) {
 			return \App\Cache\Cache::get('ListView_Model', $cacheName);
 		}
-		$modelClassName = \App\Loader::getComponentClassName('Model', 'ListView', $moduleName);
+		$modelClassName = \App\Core\Loader::getComponentClassName('Model', 'ListView', $moduleName);
 		$instance = new $modelClassName();
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
-		$queryGenerator = new \App\QueryGenerator($moduleModel->get('name'));
+		$queryGenerator = new \App\QueryField\QueryGenerator($moduleModel->get('name'));
 		if ($viewId) {
 			$queryGenerator->initForCustomViewById($viewId);
 		} else {
@@ -62,10 +62,10 @@ class ListView extends \App\Runtime\BaseModel
 	 */
 	public static function getInstanceForPopup($value, $sourceModule = false)
 	{
-		$modelClassName = \App\Loader::getComponentClassName('Model', 'ListView', $value);
+		$modelClassName = \App\Core\Loader::getComponentClassName('Model', 'ListView', $value);
 		$instance = new $modelClassName();
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($value);
-		$queryGenerator = new \App\QueryGenerator($moduleModel->get('name'));
+		$queryGenerator = new \App\QueryField\QueryGenerator($moduleModel->get('name'));
 		if (!$sourceModule && !empty($sourceModule)) {
 			$moduleModel->set('sourceModule', $sourceModule);
 		}
@@ -86,7 +86,7 @@ class ListView extends \App\Runtime\BaseModel
 
 		$headerLinks = [];
 		$moduleModel = $this->getModule();
-		if (\App\AppConfig::module('ModTracker', 'WATCHDOG') && $moduleModel->isPermitted('WatchingModule')) {
+		if (\App\Core\AppConfig::module('ModTracker', 'WATCHDOG') && $moduleModel->isPermitted('WatchingModule')) {
 			$watchdog = Watchdog::getInstance($moduleModel->getName());
 			$class = 'btn-default';
 			if ($watchdog->isWatchingModule()) {
@@ -202,7 +202,7 @@ class ListView extends \App\Runtime\BaseModel
 				'linkicon' => ''
 			);
 		}
-		if ($moduleModel->isTrackingEnabled() && \App\AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $moduleModel->isPermitted('ReviewingUpdates') && $currentUser->getId() === $currentUser->getRealId()) {
+		if ($moduleModel->isTrackingEnabled() && \App\Core\AppConfig::module('ModTracker', 'UNREVIEWED_COUNT') && $moduleModel->isPermitted('ReviewingUpdates') && $currentUser->getId() === $currentUser->getRealId()) {
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_REVIEW_CHANGES',
@@ -218,7 +218,7 @@ class ListView extends \App\Runtime\BaseModel
 
 	/**
 	 * Get query generator instance
-	 * @return \App\QueryGenerator
+	 * @return \App\QueryField\QueryGenerator
 	 */
 	public function getQueryGenerator()
 	{
@@ -256,7 +256,7 @@ class ListView extends \App\Runtime\BaseModel
 			if ($field || $orderBy === 'id') {
 				return $this->getQueryGenerator()->setOrder($orderBy, $this->getForSql('sortorder'));
 			}
-			\App\Log::warning("[ListView] Incorrect value of sorting: '$orderBy'");
+			\App\Log\Log::warning("[ListView] Incorrect value of sorting: '$orderBy'");
 		}
 	}
 
@@ -371,7 +371,7 @@ class ListView extends \App\Runtime\BaseModel
 			];
 		}
 		if (!\App\Modules\Settings\ModuleManager\Models\Library::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
-			$handlerClass = \App\Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
+			$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
 			if (count($templates) > 0) {
@@ -402,7 +402,7 @@ class ListView extends \App\Runtime\BaseModel
 			];
 		}
 		if ($moduleModel->isPermitted('RecordMappingList')) {
-			$handlerClass = \App\Loader::getComponentClassName('Model', 'MappedFields', $moduleModel->getName());
+			$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'MappedFields', $moduleModel->getName());
 			$mfModel = new $handlerClass();
 			$templates = $mfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
 			if (count($templates) > 0) {
@@ -438,7 +438,7 @@ class ListView extends \App\Runtime\BaseModel
 		}
 
 		if (!\App\Modules\Settings\ModuleManager\Models\Library::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
-			$handlerClass = \App\Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
+			$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
 			if (count($templates) > 0) {

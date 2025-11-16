@@ -178,7 +178,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('SELECTED_FIELDS', $selectedFields);
 		
 		// Prepare developer config flags
-		$viewer->assign('CHANGE_RELATIONS_ENABLED', \App\AppConfig::developer('CHANGE_RELATIONS'));
+		$viewer->assign('CHANGE_RELATIONS_ENABLED', \App\Core\AppConfig::developer('CHANGE_RELATIONS'));
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)

@@ -153,7 +153,7 @@ class Functions
 	public static function getModuleData($mixed)
 	{
 		if (empty($mixed)) {
-			\App\Log::error(__METHOD__ . ' - Required parameter missing');
+			\App\Log\Log::error(__METHOD__ . ' - Required parameter missing');
 			return false;
 		}
 		$id = $name = NULL;
@@ -726,37 +726,42 @@ class Functions
 			throw new \App\Exceptions\ApiException($message, 401);
 		}
 		$request = new \App\Http\Vtiger_Request($_REQUEST, $_REQUEST);
-		if ($request->isAjax()) {
-			$response = new \App\Http\Vtiger_Response();
-			$response->setEmitType(Vtiger_Response::$EMIT_JSON);
-			$trace = '';
-			if (AppConfig::debug('DISPLAY_DEBUG_BACKTRACE') && is_object($e)) {
-				$trace = str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->getTraceAsString());
-			}
-			if (is_object($e)) {
-				$response->setError($e->getCode(), $e->getMessage(), $trace);
-			} else {
-				$response->setError('error', $message, $trace);
-			}
-			$response->emit();
+	if ($request->isAjax()) {
+		$response = new \App\Http\Vtiger_Response();
+		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
+		$trace = '';
+		if (\App\Core\AppConfig::debug('DISPLAY_DEBUG_BACKTRACE') && is_object($e)) {
+			$trace = str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->getTraceAsString());
+		}
+		if (is_object($e)) {
+			$response->setError($e->getCode(), $e->getMessage(), $trace);
 		} else {
-			$viewer = new CRM_Viewer();
-			$viewer->assign('MESSAGE', $message);
-			$viewer->view($tpl, 'Vtiger');
+			$response->setError('error', $message, $trace);
 		}
-		if ($die) {
-			trigger_error(print_r($message, true), E_USER_ERROR);
-			if (is_object($e)) {
-				throw new $e;
-			} else {
-				throw new \Exception($message);
-			}
+		$response->emit();
+	} else {
+		// Display stack trace for non-AJAX requests if debug is enabled
+		if (\App\Core\AppConfig::debug('DISPLAY_DEBUG_BACKTRACE') && is_object($e)) {
+			$trace = str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->getTraceAsString());
+			echo '<pre>Stack trace:' . PHP_EOL . $trace . '</pre>';
 		}
+		$viewer = new CRM_Viewer();
+		$viewer->assign('MESSAGE', $message);
+		$viewer->view($tpl, 'Vtiger');
+	}
+	if ($die) {
+		trigger_error(print_r($message, true), E_USER_ERROR);
+		if (is_object($e)) {
+			throw new $e;
+		} else {
+			throw new \Exception($message);
+		}
+	}
 	}
 
 	public static function removeHtmlTags(array $tags, $html)
 	{
-		$crmUrl = AppConfig::main('site_URL');
+		$crmUrl = \App\Core\AppConfig::main('site_URL');
 
 		$doc = new \DOMDocument('1.0', 'UTF-8');
 		$previousValue = libxml_use_internal_errors(true);
@@ -873,10 +878,10 @@ class Functions
 	{
 		switch ($type) {
 			case 'js':
-				$return = AppConfig::developer('MINIMIZE_JS');
+				$return = \App\Core\AppConfig::developer('MINIMIZE_JS');
 				break;
 			case 'css':
-				$return = AppConfig::developer('MINIMIZE_CSS');
+				$return = \App\Core\AppConfig::developer('MINIMIZE_CSS');
 				break;
 		}
 		return $return;
@@ -904,7 +909,7 @@ class Functions
 	public static function textLength($text, $length = false, $addDots = true)
 	{
 		if (!$length) {
-			$length = AppConfig::main('listview_max_textlength');
+			$length = \App\Core\AppConfig::main('listview_max_textlength');
 		}
 		// Handle null or empty text
 		if ($text === null || $text === '' || $text === false) {
@@ -913,7 +918,7 @@ class Functions
 		$newText = preg_replace("/(<\/?)(\w+)([^>]*>)/i", '', $text);
 		if (function_exists('mb_strlen')) {
 			if (mb_strlen(html_entity_decode($newText)) > $length) {
-				$newText = mb_substr(preg_replace('/(<\/?)(\w+)([^>]*>)/i', '', html_entity_decode($newText)), 0, $length, AppConfig::main('default_charset'));
+				$newText = mb_substr(preg_replace('/(<\/?)(\w+)([^>]*>)/i', '', html_entity_decode($newText)), 0, $length, \App\Core\AppConfig::main('default_charset'));
 				if ($addDots) {
 					$newText .= '...';
 				}
@@ -1351,7 +1356,7 @@ class Functions
 		$currencyUpdateModel = \App\Modules\Settings\CurrencyUpdate\Models\Module::getCleanInstance();
 		$defaultCurrencyInfo = self::getDefaultCurrencyInfo();
 		if ($defaultCurrencyInfo === false || !isset($defaultCurrencyInfo['id'])) {
-			\App\Log::error('getDefaultCurrencyInfo() returned false or missing id in ' . __METHOD__);
+			\App\Log\Log::error('getDefaultCurrencyInfo() returned false or missing id in ' . __METHOD__);
 			throw new \App\Exceptions\AppException('ERR_NO_DEFAULT_CURRENCY');
 		}
 		$defaultCurrencyId = $defaultCurrencyInfo['id'];
@@ -1369,7 +1374,7 @@ class Functions
 		} else {
 			$value = $currencyUpdateModel->getCRMConversionRate($currencyId, $defaultCurrencyId, $date);
 			if ($value === false || $value === null || $value == 0) {
-				\App\Log::error("getCRMConversionRate returned invalid value: " . var_export($value, true) . " for currencyId: $currencyId in " . __METHOD__);
+				\App\Log\Log::error("getCRMConversionRate returned invalid value: " . var_export($value, true) . " for currencyId: $currencyId in " . __METHOD__);
 				throw new \App\Exceptions\AppException('ERR_INVALID_CURRENCY_CONVERSION_RATE');
 			}
 			$info['value'] = round($value, 5);

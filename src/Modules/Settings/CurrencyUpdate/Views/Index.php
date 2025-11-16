@@ -15,7 +15,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 
-		\App\Log::trace('Start ' . __METHOD__);
+		\App\Log\Log::trace('Start ' . __METHOD__);
 		$qualifiedModule = $request->getModule(false);
 		$moduleModel = \App\Modules\Settings\CurrencyUpdate\Models\Module::getCleanInstance();
 		$currentUser = $request->getUser();
@@ -90,6 +90,6 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		} else {
 			$viewer->view('IndexView.tpl', $qualifiedModule);
 		}
-		\App\Log::trace('End ' . __METHOD__);
+		\App\Log\Log::trace('End ' . __METHOD__);
 	}
 }

@@ -55,7 +55,7 @@ class Save extends \App\Modules\Users\Actions\Save
 			// Redirect to ListView in Settings instead of DetailView
 			$loadUrl = 'index.php?module=Users&parent=Settings&view=ListView';
 		} else {
-			\App\Log::error('USER_MAIL_EXIST');
+			\App\Log\Log::error('USER_MAIL_EXIST');
 			header('Location: index.php?module=Users&parent=Settings&view=Edit');
 			return false;
 		}

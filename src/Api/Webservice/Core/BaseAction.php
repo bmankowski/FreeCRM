@@ -59,7 +59,7 @@ class BaseAction
 		$apiType = strtolower($this->controller->app['type']);
 		$sessionTable = "w_#__{$apiType}_session";
 		$userTable = "w_#__{$apiType}_user";
-		$db = \App\Db::getInstance('webservice');
+		$db = \App\Db\Db::getInstance('webservice');
 		$row = (new \App\Db\Query())->from($userTable)
 			->innerJoin($sessionTable, "$sessionTable.user_id = $userTable.id")
 			->where(["$sessionTable.id" => $this->controller->headers['X-TOKEN'], "$userTable.status" => 1])

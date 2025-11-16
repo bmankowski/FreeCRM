@@ -30,7 +30,7 @@ class ListView extends \App\Modules\Settings\Base\Models\ListView
 		if (!empty($parentModuleName)) {
 			$qualifiedModuleName = $parentModuleName . ':' . $qualifiedModuleName;
 		}
-		$recordModelClass = \App\Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
+		$recordModelClass = \App\Core\Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 		$listQuery = $this->getBasicListQuery();
 
 		$startIndex = $pagingModel->getStartIndex();

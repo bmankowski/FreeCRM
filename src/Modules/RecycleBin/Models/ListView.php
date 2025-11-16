@@ -22,11 +22,11 @@ class ListView extends \App\Modules\Base\Models\ListView
 	 */
 	public static function getInstance($moduleName, $sourceModule = 0)
 	{
-		$modelClassName = \App\Loader::getComponentClassName('Model', 'ListView', $moduleName);
+		$modelClassName = \App\Core\Loader::getComponentClassName('Model', 'ListView', $moduleName);
 		$instance = new $modelClassName();
 
 		$sourceModuleModel = \App\Modules\Base\Models\Module::getInstance($sourceModule);
-		$queryGenerator = new \App\QueryGenerator($sourceModuleModel->get('name'));
+		$queryGenerator = new \App\QueryField\QueryGenerator($sourceModuleModel->get('name'));
 		$cvidObj = \App\Modules\CustomView\Models\Record::getAllFilterByModule($sourceModuleModel->get('name'));
 		$viewId = $cvidObj->getId('cvid');
 		$queryGenerator->initForCustomViewById($viewId);

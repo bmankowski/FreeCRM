@@ -59,11 +59,11 @@ class TimeLineModal  extends \App\Modules\Base\Views\Index
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$request->set('limit', \App\AppConfig::module('ModTracker', 'TIMELINE_IN_LISTVIEW_LIMIT'));
+		$request->set('limit', \App\Core\AppConfig::module('ModTracker', 'TIMELINE_IN_LISTVIEW_LIMIT'));
 		$request->set('type', \App\Modules\Base\Widgets\HistoryRelation::getActions());
 		$request->set('noMore', true);
 
-		$viewClassName = \App\Loader::getComponentClassName('View', 'Detail', $moduleName);
+		$viewClassName = \App\Core\Loader::getComponentClassName('View', 'Detail', $moduleName);
 		$instance = new $viewClassName();
 
 		$this->preProcess($request);

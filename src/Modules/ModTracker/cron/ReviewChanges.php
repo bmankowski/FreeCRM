@@ -8,7 +8,7 @@ namespace App\Modules\ModTracker;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-$db = \App\Db::getInstance();
+$db = \App\Db\Db::getInstance();
 $query = (new \App\Db\Query())->from('u_#__reviewed_queue');
 $dataReader = $query->createCommand($db)->query();
 $reviewed = new CronReviewed();
@@ -35,7 +35,7 @@ class CronReviewed {
 
 	public function __construct()
 	{
-		$this->limit = \App\AppConfig::module('ModTracker', 'REVIEWED_SCHEDULE_LIMIT');
+		$this->limit = \App\Core\AppConfig::module('ModTracker', 'REVIEWED_SCHEDULE_LIMIT');
 		$this->displayed = \App\Modules\ModTracker\Models\Record::DISPLAYED;
 	}
 
@@ -99,7 +99,7 @@ class CronReviewed {
 	 */
 	public function reviewChanges()
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$recordsList = $this->getRecords();
 		if (!empty($recordsList)) {
 			foreach ($recordsList as $crmId) {
@@ -138,7 +138,7 @@ class CronReviewed {
 	 */
 	private function setReviewed($id, $users)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$lastReviewedUsers = explode('#', $users);
 		$lastReviewedUsers[] = $this->get('userid');
 		return $db->createCommand()->update(
@@ -151,7 +151,7 @@ class CronReviewed {
 	 */
 	private function finish()
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$db->createCommand()->delete('u_#__reviewed_queue', ['=', 'id', $this->get('id')])->execute();
 		if (count($this->done) < count($this->recordList)) {
 			$records = array_diff($this->recordList, $this->done);
@@ -164,7 +164,7 @@ class CronReviewed {
 	 */
 	private function addPartToDBRecursive($records)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$list = array_splice($records, 0, self::MAX_RECORDS);
 		$data = \App\Utils\Json::encode(['selected_ids' => $list]);
 		$id = (new \App\Db\Query())

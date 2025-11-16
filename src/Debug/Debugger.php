@@ -1,5 +1,5 @@
 <?php
-namespace App;
+namespace App\Debug;
 
 /**
  * Debugger basic class
@@ -32,7 +32,7 @@ class Debugger
 		$debugbar->addCollector(new DataCollector\RequestDataCollector());
 		$debugbar->addCollector(new DataCollector\TimeDataCollector());
 		$debugbar->addCollector(new DataCollector\MemoryCollector());
-		if (\App\AppConfig::debug('LOG_TO_CONSOLE')) {
+		if (\App\Core\AppConfig::debug('LOG_TO_CONSOLE')) {
 			$debugbar->addCollector(new Debug\DebugBarLogs());
 		}
 		$debugbar->addCollector(new DataCollector\ExceptionsCollector());
@@ -69,7 +69,7 @@ class Debugger
 	 */
 	public static function init()
 	{
-		if (\App\AppConfig::debug('DISPLAY_DEBUG_CONSOLE') && static::checkIP()) {
+		if (\App\Core\AppConfig::debug('DISPLAY_DEBUG_CONSOLE') && static::checkIP()) {
 			static::initConsole();
 		}
 		$targets = [];
@@ -96,8 +96,8 @@ class Debugger
 			}
 			return $mapped ?: null;
 		};
-		if (\App\AppConfig::debug('LOG_TO_FILE')) {
-			$levels = $normalizeLevels(\App\AppConfig::debug('LOG_LEVELS'));
+		if (\App\Core\AppConfig::debug('LOG_TO_FILE')) {
+			$levels = $normalizeLevels(\App\Core\AppConfig::debug('LOG_LEVELS'));
 			$target = [
 				'class' => 'App\Log\FileTarget'
 			];
@@ -108,7 +108,7 @@ class Debugger
 		}
 		
 		// Add SQL log target for SELECT queries
-		if (\App\AppConfig::debug('LOG_TO_FILE')) {
+		if (\App\Core\AppConfig::debug('LOG_TO_FILE')) {
 			$sqlTarget = [
 				'class' => 'App\Log\SqlLogTarget',
 				'levels' => ['profile'], // Only profile level for SQL queries
@@ -116,8 +116,8 @@ class Debugger
 			];
 			$targets['sql'] = $sqlTarget;
 		}
-		if (\App\AppConfig::debug('LOG_TO_PROFILE')) {
-			$levels = $normalizeLevels(\App\AppConfig::debug('LOG_LEVELS'));
+		if (\App\Core\AppConfig::debug('LOG_TO_PROFILE')) {
+			$levels = $normalizeLevels(\App\Core\AppConfig::debug('LOG_LEVELS'));
 			$target = [
 				'class' => 'App\Log\Profiling'
 			];
@@ -128,7 +128,7 @@ class Debugger
 		}
 		Yii::createObject([
 			'class' => 'yii\log\Dispatcher',
-			'traceLevel' => \App\AppConfig::debug('LOG_TRACE_LEVEL'),
+			'traceLevel' => \App\Core\AppConfig::debug('LOG_TRACE_LEVEL'),
 			'targets' => $targets
 		]);
 	}
@@ -139,7 +139,7 @@ class Debugger
 	 */
 	public static function checkIP()
 	{
-		$ips = \App\AppConfig::debug('DEBUG_CONSOLE_ALLOWED_IPS');
+		$ips = \App\Core\AppConfig::debug('DEBUG_CONSOLE_ALLOWED_IPS');
 		if ($ips === false) {
 			return true;
 		}

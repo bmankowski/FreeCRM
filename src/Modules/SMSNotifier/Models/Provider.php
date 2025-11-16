@@ -23,7 +23,7 @@ class Provider extends \App\Runtime\BaseModel
 	{
 		if (!empty($providerName)) {
 			$providerName = trim($providerName);
-			$className = \App\Loader::getComponentClassName('Provider', $providerName, 'SMSNotifier');
+			$className = \App\Core\Loader::getComponentClassName('Provider', $providerName, 'SMSNotifier');
 			return new $className();
 		}
 		return false;

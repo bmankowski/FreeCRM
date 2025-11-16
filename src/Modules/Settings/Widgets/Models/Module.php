@@ -67,7 +67,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 			$action = str_replace('.php', "", $ff);
 			if ($ff != '.' && $ff != '..' && !is_dir($dir . '/' . $ff) && $action != 'Basic') {
 				$folderFiles[$action] = $action;
-				$modelClassName = \App\Loader::getComponentClassName('Widget', $action, 'Vtiger');
+				$modelClassName = \App\Core\Loader::getComponentClassName('Widget', $action, 'Vtiger');
 				$instance = new $modelClassName();
 				if ($instance->allowedModules && !in_array($moduleName, $instance->allowedModules) || ($action == 'Comments' && !$moduleModel->isCommentEnabled())) {
 					unset($folderFiles[$action]);
@@ -156,7 +156,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	public static function saveWidget($params)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$tabid = $params['tabid'];
 		$data = $params['data'];
 		$wid = $data['wid'];
@@ -227,7 +227,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	public static function updateSequence($params)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$tabid = $params['tabid'];
 		$data = $params['data'];
 		foreach ($data as $key => $value) {

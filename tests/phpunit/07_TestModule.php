@@ -28,7 +28,7 @@ class TestModule extends TestCase
 
 	public function testSetConfig()
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$db->createCommand()
 			->update('vtiger_cron_task', [
 				'sequence' => 0,

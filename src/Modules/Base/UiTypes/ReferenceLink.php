@@ -19,13 +19,13 @@ class ReferenceLink extends BaseUiType
 
 	public function getReferenceList()
 	{
-		$modules = \App\ModuleHierarchy::getModulesByLevel();
+		$modules = \App\Core\ModuleHierarchy::getModulesByLevel();
 		return array_keys($modules);
 	}
 
 	public function getListSearchTemplateName()
 	{
-		if (\App\AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
+		if (\App\Core\AppConfig::performance('SEARCH_REFERENCE_BY_AJAX')) {
 			return 'uitypes/ReferenceSearchView.tpl';
 		}
 		return \App\Modules\Base\UiTypes\BaseUiType::getListSearchTemplateName();

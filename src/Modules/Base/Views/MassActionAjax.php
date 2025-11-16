@@ -71,7 +71,7 @@ class MassActionAjax extends \App\Modules\Base\Views\Index
 		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
 		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->assign('MODULE_MODEL', $moduleModel);
-		$viewer->assign('MAPPING_RELATED_FIELD', \App\Utils\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));
+		$viewer->assign('MAPPING_RELATED_FIELD', \App\Utils\Json::encode(\App\Core\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
 		$operator = $request->get('operator');

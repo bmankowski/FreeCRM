@@ -32,7 +32,7 @@ class VTEventConditionParserLexer extends \Antlr\Antlr4\Runtime\Lexer
 	public function reportError($e)
 	{
 		
-		\App\Log::error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
+		\App\Log\Log::error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
 		throw new Exception('The condition you provided is invalid');
 	}
 

@@ -32,12 +32,12 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	public function setConfig(array $elements)
 	{
-		\App\Log::trace('Entering set api address config');
+		\App\Log\Log::trace('Entering set api address config');
 		$apiName = $elements['api_name'];
 		unset($elements['api_name']);
 		$result = 0;
 		if (count($elements)) {
-			$db = \App\Db::getInstance();
+			$db = \App\Db\Db::getInstance();
 			foreach ($elements as $key => $value) {
 				$result = $db->createCommand()
 					->update('vtiger_apiaddress', [
@@ -46,7 +46,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 					->execute();
 			}
 		}
-		\App\Log::trace('Exiting set api address config');
+		\App\Log\Log::trace('Exiting set api address config');
 		return $result;
 	}
 	/*

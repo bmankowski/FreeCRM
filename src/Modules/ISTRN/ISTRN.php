@@ -3,14 +3,14 @@
 namespace App\Modules\ISTRN;
 
 /**
- * ISTRN \App\CRMEntity Class
+ * ISTRN \App\Core\CRMEntity Class
  * @package YetiForce.Model
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 
-class ISTRN extends \App\CRMEntity
+class ISTRN extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'u_yf_istrn';

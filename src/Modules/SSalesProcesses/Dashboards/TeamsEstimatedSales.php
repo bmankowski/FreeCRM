@@ -55,7 +55,7 @@ class TeamsEstimatedSales  extends \App\Modules\Base\Views\Index
 	 */
 	public function getEstimatedValue($time, $compare = false)
 	{
-		$queryGenerator = new \App\QueryGenerator('SSalesProcesses');
+		$queryGenerator = new \App\QueryField\QueryGenerator('SSalesProcesses');
 		$queryGenerator->setFields(['assigned_user_id']);
 		$queryGenerator->setGroup('assigned_user_id');
 		$queryGenerator->addCondition('estimated_date', $time, 'bw');

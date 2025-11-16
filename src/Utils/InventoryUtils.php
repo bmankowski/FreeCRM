@@ -50,7 +50,7 @@ class InventoryUtils
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 
-		\App\Log::trace("Entering into function getInventoryCurrencyInfo($module, $id).");
+		\App\Log\Log::trace("Entering into function getInventoryCurrencyInfo($module, $id).");
 
 		$focus = new $module();
 
@@ -64,7 +64,7 @@ class InventoryUtils
 		$currency_info['currency_code'] = $adb->query_result($res, 0, 'currency_code');
 		$currency_info['currency_symbol'] = $adb->query_result($res, 0, 'currency_symbol');
 
-		\App\Log::trace("Exit from function getInventoryCurrencyInfo($module, $id).");
+		\App\Log\Log::trace("Exit from function getInventoryCurrencyInfo($module, $id).");
 
 		return $currency_info;
 	}
@@ -92,7 +92,7 @@ class InventoryUtils
 		$adb = \App\Database\PearDatabase::getInstance();
 		$price_details = [];
 
-		\App\Log::trace("Entering into function getPriceDetailsForProduct($productid)");
+		\App\Log\Log::trace("Entering into function getPriceDetailsForProduct($productid)");
 		if ($productid != '') {
 			$product_currency_id = self::getProductBaseCurrency($productid, $itemtype);
 			$product_base_conv_rate = self::getBaseConversionRateForProduct($productid, 'edit', $itemtype);
@@ -188,11 +188,11 @@ class InventoryUtils
 					$price_details[$i]['is_basecurrency'] = $is_basecurrency;
 				}
 			} else {
-				\App\Log::trace("Product id is empty. we cannot retrieve the associated prices.");
+				\App\Log\Log::trace("Product id is empty. we cannot retrieve the associated prices.");
 			}
 		}
 
-		\App\Log::trace("Exit from function getPriceDetailsForProduct($productid)");
+		\App\Log\Log::trace("Exit from function getPriceDetailsForProduct($productid)");
 		return $price_details;
 	}
 

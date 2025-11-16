@@ -156,10 +156,10 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	public function changeRoleType($member)
 	{
 		$memberArr = explode(':', $member);
-		if ($memberArr[0] === \App\PrivilegeUtil::MEMBER_TYPE_ROLES) {
-			$memberArr[0] = \App\PrivilegeUtil::MEMBER_TYPE_ROLE_AND_SUBORDINATES;
+		if ($memberArr[0] === \App\Security\PrivilegeUtil::MEMBER_TYPE_ROLES) {
+			$memberArr[0] = \App\Security\PrivilegeUtil::MEMBER_TYPE_ROLE_AND_SUBORDINATES;
 		} else {
-			$memberArr[0] = \App\PrivilegeUtil::MEMBER_TYPE_ROLES;
+			$memberArr[0] = \App\Security\PrivilegeUtil::MEMBER_TYPE_ROLES;
 		}
 		$roles = explode(',', $this->get('roles'));
 		foreach ($roles as &$role) {
@@ -194,7 +194,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public function delete()
 	{
-		$db = \App\Db::getInstance('admin');
+		$db = \App\Db\Db::getInstance('admin');
 		$recordId = $this->getId();
 		if ($recordId) {
 			$result = $db->createCommand()->delete($this->getTable(), ['id' => $recordId])->execute();
@@ -216,7 +216,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 					$value = explode(',', $this->get($key));
 					foreach ($value as $index => $val) {
 						$data = explode(':', $val);
-						$name = \App\Runtime\Vtiger_Language_Handler::translate(\App\PrivilegeUtil::getRoleName($data[1]));
+						$name = \App\Runtime\Vtiger_Language_Handler::translate(\App\Security\PrivilegeUtil::getRoleName($data[1]));
 						$rows[$index]['type'] = $data[0];
 						$rows[$index]['name'] = $name;
 						$rows[$index]['id'] = $val;
@@ -342,7 +342,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public function save($request = null)
 	{
-		$db = \App\Db::getInstance('admin');
+		$db = \App\Db\Db::getInstance('admin');
 		$params = [];
 		foreach ($this->getData() as $key => $value) {
 			$params[$key] = $this->getValueToSave($key, $value);
@@ -408,7 +408,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		$data = (new \App\Db\Query())
 			->from($instance->getTable())
 			->where([$instance->getTableIndex() => $id])
-			->one(\App\Db::getInstance('admin'));
+			->one(\App\Db\Db::getInstance('admin'));
 		$instance->setData($data);
 		$instance->rawData = $data;
 		\App\Cache\Cache::save($cacheName, $id, $instance);
@@ -449,7 +449,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			case 'active':
 				return empty($this->get($name)) ? 'LBL_NO' : 'LBL_YES';
 			case 'roleid':
-				return empty($this->get($name)) ? 'LBL_SYSTEM' : \App\Runtime\Vtiger_Language_Handler::translate(\App\PrivilegeUtil::getRoleName($this->get($name)));
+				return empty($this->get($name)) ? 'LBL_SYSTEM' : \App\Runtime\Vtiger_Language_Handler::translate(\App\Security\PrivilegeUtil::getRoleName($this->get($name)));
 			default:
 				break;
 		}
@@ -476,7 +476,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		if (!empty($roles)) {
 			$roles = explode(',', $this->get('roles'));
 			foreach ($roles as $member) {
-				$users = array_merge($users, \App\PrivilegeUtil::getUserByMember($member));
+				$users = array_merge($users, \App\Security\PrivilegeUtil::getUserByMember($member));
 			}
 			$users = $this->filterUsers(array_unique($users));
 		}
@@ -484,7 +484,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			$smowners = $this->get('smowners') ? explode(',', $this->get('smowners')) : [];
 			foreach ($smowners as $key => $user) {
 				if (\App\Fields\Owner::getType($user) !== 'Users') {
-					$users = array_merge($users, \App\PrivilegeUtil::getUsersByGroup($user));
+					$users = array_merge($users, \App\Security\PrivilegeUtil::getUsersByGroup($user));
 				} else {
 					$users[] = $user;
 				}
@@ -518,7 +518,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	private function getCustomConditions($userModel)
 	{
 		if (!isset($this->customConditions)) {
-			$userContitions = \App\AppConfig::module('Users', 'AUTO_ASSIGN_CONDITIONS');
+			$userContitions = \App\Core\AppConfig::module('Users', 'AUTO_ASSIGN_CONDITIONS');
 			$this->customConditions = ($userContitions && isset($userContitions['modules'][$this->getSourceModuleName()])) ? $userContitions['modules'][$this->getSourceModuleName()] : [];
 		}
 		$result = true;
@@ -583,7 +583,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			return $this->availableUsers;
 	}
 
-	$queryGenerator = new \App\QueryGenerator($this->getSourceModuleName(), \App\Modules\Users\Models\Record::getActiveAdminId());
+	$queryGenerator = new \App\QueryField\QueryGenerator($this->getSourceModuleName(), \App\Modules\Users\Models\Record::getActiveAdminId());
 	$queryGenerator->setFields(['assigned_user_id']);
 	$queryGenerator->addJoin(['INNER JOIN', 'vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id']);
 		$queryGenerator->addNativeCondition(['vtiger_users.available' => 1, 'vtiger_users.auto_assign' => 1]);

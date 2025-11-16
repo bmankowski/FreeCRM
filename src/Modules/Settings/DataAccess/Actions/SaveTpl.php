@@ -27,7 +27,7 @@ class SaveTpl extends \App\Modules\Settings\Base\Actions\Index
 		$summary = $request->get('summary');
 		$conditionAll = $request->getRaw('condition_all_json');
 		$conditionOption = $request->getRaw('condition_option_json');
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$db->createCommand()->insert('vtiger_dataaccess', [
 			'module_name' => $baseModule,
 			'summary' => $summary

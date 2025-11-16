@@ -137,7 +137,7 @@ class Widget extends \App\Runtime\BaseModel
 		} else if ($widgetId) {
 			$where = ['userid' => $userId, 'id' => $widgetId];
 		}
-		\App\Db::getInstance()->createCommand()->update(('vtiger_module_dashboard_widgets'), ['position' => $position], $where)->execute();
+		\App\Db\Db::getInstance()->createCommand()->update(('vtiger_module_dashboard_widgets'), ['position' => $position], $where)->execute();
 	}
 
 	public static function getInstanceWithWidgetId($widgetId, $userId)
@@ -176,7 +176,7 @@ class Widget extends \App\Runtime\BaseModel
 	public function show()
 	{
 		if (0 == $this->get('active')) {
-			\App\Db::getInstance()->createCommand()
+			\App\Db\Db::getInstance()->createCommand()
 				->update('vtiger_module_dashboard_widgets', ['active' => 1], ['id' => $this->get('widgetid')])
 				->execute();
 		}
@@ -189,7 +189,7 @@ class Widget extends \App\Runtime\BaseModel
 	 */
 	public function remove($action = 'hide')
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		if ($action == 'delete') {
 			$db->createCommand()->delete('vtiger_module_dashboard_widgets', ['id' => $this->get('id'), 'blockid' => $this->get('blockid')])
 				->execute();

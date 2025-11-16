@@ -26,7 +26,7 @@ class ShowWidget  extends \App\Modules\Base\Views\Index
 		$linkId = $request->get('linkid');
 		$id = $request->get('widgetid');
 		if (!empty($componentName)) {
-			$className = \App\Loader::getComponentClassName('Dashboard', $componentName, $moduleName);
+			$className = \App\Core\Loader::getComponentClassName('Dashboard', $componentName, $moduleName);
 			if (!empty($className)) {
 				$widget = NULL;
 				if (!empty($linkId)) {

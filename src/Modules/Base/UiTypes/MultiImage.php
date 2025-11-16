@@ -64,7 +64,7 @@ class MultiImage extends BaseUiType
 	{
 		$imageIcons = '<div class="multiImageContenDiv">';
 		if ($recordId) {
-			if (!\App\AppConfig::performance('ICON_MULTIIMAGE_VIEW')) {
+			if (!\App\Core\AppConfig::performance('ICON_MULTIIMAGE_VIEW')) {
 				$images = $this->getMultiImageQuery($value, ['name'], false)->column('name');
 				return implode(', ', $images);
 			}
@@ -102,7 +102,7 @@ class MultiImage extends BaseUiType
 	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$images = $this->getDisplayValue($value, $record, $recordInstance, true);
-		return !\App\AppConfig::performance('ICON_MULTIIMAGE_VIEW') ? \vtlib\Functions:: textLength($images, $this->get('field')->get('maxlengthtext')) : $images;
+		return !\App\Core\AppConfig::performance('ICON_MULTIIMAGE_VIEW') ? \vtlib\Functions:: textLength($images, $this->get('field')->get('maxlengthtext')) : $images;
 	}
 
 	/**
@@ -133,7 +133,7 @@ class MultiImage extends BaseUiType
 		$query->from('u_#__attachments')
 			->where(['attachmentid' => explode(',', $value)]);
 		if ($limit) {
-			$query->limit(\App\AppConfig::performance('MAX_MULTIIMAGE_VIEW'));
+			$query->limit(\App\Core\AppConfig::performance('MAX_MULTIIMAGE_VIEW'));
 		}
 		return $query;
 	}

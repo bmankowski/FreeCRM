@@ -19,7 +19,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		
-		\App\Log::trace('Start ' . __METHOD__);
+		\App\Log\Log::trace('Start ' . __METHOD__);
 		$qualifiedModule = $request->getModule(false);
 		$moduleModel = \App\Modules\Settings\TimeControlProcesses\Models\Module::getCleanInstance($qualifiedModule);
 		$currentUser = $request->getUser();
@@ -37,7 +37,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 			// Initial page load - return full page with MainLayout
 			$viewer->view('Index.tpl', $qualifiedModule);
 		}
-		\App\Log::trace('End ' . __METHOD__);
+		\App\Log\Log::trace('End ' . __METHOD__);
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)

@@ -185,7 +185,7 @@ class Record extends \App\Modules\Base\Models\Record
 					$queryWhere .= ' && `setype` = ?';
 					$params[] = $moduleName;
 				}
-			} elseif (\App\AppConfig::search('GLOBAL_SEARCH_SORTING_RESULTS') == 2) {
+			} elseif (\App\Core\AppConfig::search('GLOBAL_SEARCH_SORTING_RESULTS') == 2) {
 				$queryFrom .= ' LEFT JOIN vtiger_entityname ON vtiger_entityname.modulename = u_yf_crmentity_search_label.setype';
 				$queryWhere .= ' && vtiger_entityname.`turn_off` = 1 ';
 				$orderWhere = ' vtiger_entityname.sequence';
@@ -202,7 +202,7 @@ class Record extends \App\Modules\Base\Models\Record
 				$query .= sprintf(' ORDER BY %s', $orderWhere);
 			}
 			if (!$limit) {
-				$limit = \App\AppConfig::search('GLOBAL_SEARCH_MODAL_MAX_NUMBER_RESULT');
+				$limit = \App\Core\AppConfig::search('GLOBAL_SEARCH_MODAL_MAX_NUMBER_RESULT');
 			}
 			if ($limit) {
 				$query .= ' LIMIT ';
@@ -245,7 +245,7 @@ class Record extends \App\Modules\Base\Models\Record
 			$row['permitted'] = \App\Security\Privilege::isPermitted($row['setype'], 'DetailView', $row['crmid']);
 			$moduleName = $row['setype'];
 			$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
-			$modelClassName = \App\Loader::getComponentClassName('Model', 'Record', $moduleName);
+			$modelClassName = \App\Core\Loader::getComponentClassName('Model', 'Record', $moduleName);
 			$recordInstance = new $modelClassName();
 			$matchingRecords[$moduleName][$row['id']] = $recordInstance->setData($row)->setModuleFromInstance($moduleModel);
 		}
@@ -278,11 +278,11 @@ class Record extends \App\Modules\Base\Models\Record
 	{
 		$isExists = (new \App\Db\Query())->from('vtiger_pricebookproductrel')->where(['pricebookid' => $relatedRecordId, 'productid' => $this->getId()])->exists();
 		if ($isExists) {
-			\App\Db::getInstance()->createCommand()
+			\App\Db\Db::getInstance()->createCommand()
 				->update('vtiger_pricebookproductrel', ['listprice' => $price], ['pricebookid' => $relatedRecordId, 'productid' => $this->getId()])
 				->execute();
 		} else {
-			\App\Db::getInstance()->createCommand()
+			\App\Db\Db::getInstance()->createCommand()
 				->insert('vtiger_pricebookproductrel', [
 					'pricebookid' => $relatedRecordId,
 					'productid' => $this->getId(),
@@ -296,7 +296,7 @@ class Record extends \App\Modules\Base\Models\Record
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 
-		\App\Log::trace("Entering into function getPriceDetailsForProduct($productid)");
+		\App\Log\Log::trace("Entering into function getPriceDetailsForProduct($productid)");
 		if ($productid != '') {
 			$product_currency_id = $this->getProductBaseCurrency($productid, $itemtype);
 			$product_base_conv_rate = $this->getBaseConversionRateForProduct($productid, 'edit', $itemtype);
@@ -394,11 +394,11 @@ class Record extends \App\Modules\Base\Models\Record
 					$price_details[$i]['is_basecurrency'] = $is_basecurrency;
 				}
 			} else {
-				\App\Log::trace("Product id is empty. we cannot retrieve the associated prices.");
+				\App\Log\Log::trace("Product id is empty. we cannot retrieve the associated prices.");
 			}
 		}
 
-		\App\Log::trace("Exit from function getPriceDetailsForProduct($productid)");
+		\App\Log\Log::trace("Exit from function getPriceDetailsForProduct($productid)");
 		return $price_details;
 	}
 
@@ -462,7 +462,7 @@ class Record extends \App\Modules\Base\Models\Record
 			->from($this->getEntity()->table_name)
 			->where([$this->getEntity()->table_index => $this->getId()])
 			->one();
-		\App\Db::getInstance()->createCommand()->update('vtiger_productcurrencyrel', ['actual_price' => $productInfo['unit_price']], ['productid' => $this->getId(), 'currencyid' => $productInfo['currency_id']])->execute();
+		\App\Db\Db::getInstance()->createCommand()->update('vtiger_productcurrencyrel', ['actual_price' => $productInfo['unit_price']], ['productid' => $this->getId(), 'currencyid' => $productInfo['currency_id']])->execute();
 	}
 
 	/**
@@ -473,8 +473,8 @@ class Record extends \App\Modules\Base\Models\Record
 		if ($request === null) {
 			// Request should be passed as parameter
 		}
-		\App\Log::trace('Entering ' . __METHOD__);
-		$db = \App\Db::getInstance();
+		\App\Log\Log::trace('Entering ' . __METHOD__);
+		$db = \App\Db\Db::getInstance();
 		$mode = $this->mode ?: ($request ? (string) $request->get('mode') : '');
 		if ($mode === '' && !$this->isNew()) {
 			$mode = 'edit';
@@ -494,8 +494,8 @@ class Record extends \App\Modules\Base\Models\Record
 				$actualPrice = \App\Fields\CurrencyField::convertToDBFormat($request->get($curValue), null, true);
 				$actualConversionRate = $productBaseConvRate * $currency['conversion_rate'];
 				$convertedPrice = $actualConversionRate * $requestPrice;
-				\App\Log::trace("Going to save the Product - $curName currency relationship");
-				\App\Db::getInstance()->createCommand()->insert('vtiger_productcurrencyrel', [
+				\App\Log\Log::trace("Going to save the Product - $curName currency relationship");
+				\App\Db\Db::getInstance()->createCommand()->insert('vtiger_productcurrencyrel', [
 					'productid' => $this->getId(),
 					'currencyid' => $curid,
 					'converted_price' => $convertedPrice,
@@ -516,7 +516,7 @@ class Record extends \App\Modules\Base\Models\Record
 				->update($this->getEntity()->table_name, ['currency_id' => $curid], [$this->getEntity()->table_index => $this->getId()])
 				->execute();
 		}
-		\App\Log::trace('Exiting ' . __METHOD__);
+		\App\Log\Log::trace('Exiting ' . __METHOD__);
 	}
 
 	/**
@@ -527,11 +527,11 @@ class Record extends \App\Modules\Base\Models\Record
 		if ($request === null) {
 			// Request should be passed as parameter
 		}
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$id = $this->getId();
 		$module = $request->get('module');
 		$mode = $request->get('mode');
-		\App\Log::trace("Entering into insertIntoAttachment($id,$module) method.");
+		\App\Log\Log::trace("Entering into insertIntoAttachment($id,$module) method.");
 		foreach ($_FILES as $fileindex => $files) {
 			if (empty($files['tmp_name'])) {
 				continue;
@@ -572,6 +572,6 @@ class Record extends \App\Modules\Base\Models\Record
 				$db->createCommand()->delete('vtiger_seattachmentsrel', ['attachmentsid' => $attachmentId])->execute();
 			}
 		}
-		\App\Log::trace("Exiting from insertIntoAttachment($id,$module) method.");
+		\App\Log\Log::trace("Exiting from insertIntoAttachment($id,$module) method.");
 	}
 }

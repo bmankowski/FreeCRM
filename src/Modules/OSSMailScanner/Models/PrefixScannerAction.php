@@ -48,7 +48,7 @@ abstract class PrefixScannerAction
 		if (\App\Cache\Cache::has('getRecordByPrefix', $this->prefix)) {
 			$crmId = \App\Cache\Cache::get('getRecordByPrefix', $this->prefix);
 		} else {
-			$moduleObject = \App\CRMEntity::getInstance($this->moduleName);
+			$moduleObject = \App\Core\CRMEntity::getInstance($this->moduleName);
 			$tableIndex = $moduleObject->tab_name_index[$this->tableName];
 			$crmId = (new \App\Db\Query())
 				->select([$tableIndex])

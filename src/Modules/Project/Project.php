@@ -11,7 +11,7 @@ namespace App\Modules\Project;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Project extends \App\CRMEntity
+class Project extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'vtiger_project';
@@ -144,7 +144,7 @@ class Project extends \App\CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other = \App\CRMEntity::getInstance($related_module);
+			$other = \App\Core\CRMEntity::getInstance($related_module);
 			\App\Utils\VtlibUtils::setupModuleVars($related_module, $other);
 
 			if (!in_array($other->table_name, $joinedTables)) {
@@ -239,7 +239,7 @@ class Project extends \App\CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other = \App\CRMEntity::getInstance($related_module);
+			$other = \App\Core\CRMEntity::getInstance($related_module);
 			\App\Utils\VtlibUtils::setupModuleVars($related_module, $other);
 
 			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = $this->table_name.$columnname";
@@ -407,7 +407,7 @@ class Project extends \App\CRMEntity
 		if (!is_array($with_crmid))
 			$with_crmid = Array($with_crmid);
 		foreach ($with_crmid as $relcrmid) {
-			$child = \App\CRMEntity::getInstance($destinationModule);
+			$child = \App\Core\CRMEntity::getInstance($destinationModule);
 			$child->retrieve_entity_info($relcrmid, $destinationModule);
 			$child->mode = 'edit';
 			$child->column_fields['projectid'] = '';
@@ -427,8 +427,8 @@ class Project extends \App\CRMEntity
 					->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $this->moduleName, 'relmodule' => $return_module])])
 					->createCommand()->query();
 			while ($row = $dataReader->read()) {
-				\App\Db::getInstance()->createCommand()
-					->update($row['tablename'], [$row['columnname'] => null], [$row['columnname'] => $return_id, \App\CRMEntity::getInstance(\App\Utils\ModuleUtils::getModuleName($row['tabid']))->table_index => $id])
+				\App\Db\Db::getInstance()->createCommand()
+					->update($row['tablename'], [$row['columnname'] => null], [$row['columnname'] => $return_id, \App\Core\CRMEntity::getInstance(\App\Utils\ModuleUtils::getModuleName($row['tabid']))->table_index => $id])
 					->execute();
 			}
 		}
@@ -444,7 +444,7 @@ class Project extends \App\CRMEntity
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 
-		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
+		\App\Log\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("ProjectTask" => "vtiger_projecttask", 'ProjectMilestone' => 'vtiger_projectmilestone',
 			"Documents" => "vtiger_senotesrel", "Attachments" => "vtiger_seattachmentsrel");
@@ -472,6 +472,6 @@ class Project extends \App\CRMEntity
 			}
 		}
 		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
-		\App\Log::trace("Exiting transferRelatedRecords...");
+		\App\Log\Log::trace("Exiting transferRelatedRecords...");
 	}
 }

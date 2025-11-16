@@ -12,7 +12,7 @@ namespace App\Modules\Products;
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-class Products extends \App\CRMEntity
+class Products extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'vtiger_products';
@@ -74,7 +74,7 @@ class Products extends \App\CRMEntity
 	public function product_novendor()
 	{
 
-		\App\Log::trace("Entering product_novendor() method ...");
+		\App\Log\Log::trace("Entering product_novendor() method ...");
 		$query = "SELECT vtiger_products.productname, vtiger_crmentity.deleted
 			FROM vtiger_products
 			INNER JOIN vtiger_crmentity
@@ -82,7 +82,7 @@ class Products extends \App\CRMEntity
 			WHERE vtiger_crmentity.deleted = 0
 			AND vtiger_products.vendor_id is NULL";
 		$result = $this->db->pquery($query, array());
-		\App\Log::trace("Exiting product_novendor method ...");
+		\App\Log\Log::trace("Exiting product_novendor method ...");
 		return $this->db->num_rows($result);
 	}
 
@@ -94,7 +94,7 @@ class Products extends \App\CRMEntity
 	{
 
 		$currentUser = \App\User\CurrentUser::get();
-		\App\Log::trace("Entering create_export_query(" . $where . ") method ...");
+		\App\Log\Log::trace("Entering create_export_query(" . $where . ") method ...");
 
 		include("include/utils/ExportUtils.php");
 
@@ -120,7 +120,7 @@ class Products extends \App\CRMEntity
 		else
 			$query .= " WHERE $where_auto";
 
-		\App\Log::trace("Exiting create_export_query method ...");
+		\App\Log\Log::trace("Exiting create_export_query method ...");
 		return $query;
 	}
 
@@ -154,7 +154,7 @@ class Products extends \App\CRMEntity
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 
-		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
+		\App\Log\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("HelpDesk" => "vtiger_troubletickets", "Products" => "vtiger_seproductsrel", "Attachments" => "vtiger_seattachmentsrel",
 			"PriceBooks" => "vtiger_pricebookproductrel", "Leads" => "vtiger_seproductsrel",
@@ -185,7 +185,7 @@ class Products extends \App\CRMEntity
 				}
 			}
 		}
-		\App\Log::trace("Exiting transferRelatedRecords...");
+		\App\Log\Log::trace("Exiting transferRelatedRecords...");
 	}
 	/*
 	 * Function to get the secondary query part of a report
@@ -283,7 +283,7 @@ class Products extends \App\CRMEntity
 	 */
 	public function deletePerminently($moduleName, $recordId)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$db->createCommand()->update('vtiger_campaign', ['product_id' => 0], ['product_id' => $id])->execute();
 		$db->createCommand()->delete('vtiger_seproductsrel', ['or', ['productid' => $recordId], ['crmid' => $recordId]])->execute();
 		parent::deletePerminently($moduleName, $recordId);
@@ -296,7 +296,7 @@ class Products extends \App\CRMEntity
 		if (empty($return_module) || empty($return_id))
 			return;
 		if ($return_module === 'Leads' || $return_module === 'Accounts') {
-			\App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['productid' => $id, 'crmid' => $return_id])->execute();
+			\App\Db\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['productid' => $id, 'crmid' => $return_id])->execute();
 		} elseif ($return_module == 'Vendors') {
 			$sql = 'UPDATE vtiger_products SET vendor_id = ? WHERE productid = ?';
 			$this->db->pquery($sql, array(null, $id));
@@ -318,7 +318,7 @@ class Products extends \App\CRMEntity
 				}
 				$isExists = (new \App\Db\Query())->from('vtiger_seproductsrel')->where(['crmid' => $withCrmId, 'productid' => $crmid])->exists();
 				if (!$isExists) {
-					\App\Db::getInstance()->createCommand()->insert('vtiger_seproductsrel', [
+					\App\Db\Db::getInstance()->createCommand()->insert('vtiger_seproductsrel', [
 						'crmid' => $withCrmId,
 						'productid' => $crmid,
 						'setype' => $withModule,

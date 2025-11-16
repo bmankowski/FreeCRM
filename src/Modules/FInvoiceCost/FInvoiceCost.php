@@ -3,14 +3,14 @@
 namespace App\Modules\FInvoiceCost;
 
 /**
- * FInvoiceCost \App\CRMEntity Class
+ * FInvoiceCost \App\Core\CRMEntity Class
  * @package YetiForce.CRMEntity
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
 
-class FInvoiceCost extends \App\CRMEntity
+class FInvoiceCost extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'u_yf_finvoicecost';

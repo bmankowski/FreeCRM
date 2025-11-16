@@ -58,7 +58,7 @@ class NotificationsBySender  extends \App\Modules\Base\Views\Index
 				['>=', 'createdtime', $time['start'] . ' 00:00:00'],
 				['<=', 'createdtime', $time['end'] . ' 23:59:59']
 		]);
-		\App\PrivilegeQuery::getConditions($query, $moduleName);
+		\App\Security\PrivilegeQuery::getConditions($query, $moduleName);
 		$query->groupBy(['smcreatorid']);
 		$dataReader = $query->createCommand()->query();
 		$data = [];

@@ -6,11 +6,11 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-$db = \App\Db::getInstance('admin');
+$db = \App\Db\Db::getInstance('admin');
 $dataReader = (new \App\Db\Query())->from('s_#__mail_queue')
 	->where(['status' => 1])
 	->orderBy(['priority' => SORT_DESC, 'date' => SORT_ASC])
-	->limit(\App\AppConfig::performance('CRON_MAX_NUMBERS_SENDING_MAILS'))
+	->limit(\App\Core\AppConfig::performance('CRON_MAX_NUMBERS_SENDING_MAILS'))
 	->createCommand($db)->query();
 
 while ($rowQueue = $dataReader->read()) {

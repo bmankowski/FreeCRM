@@ -65,7 +65,7 @@ class Save extends \App\Base\Controllers\BaseActionController
 			$moduleModel = \App\Modules\Base\Models\Module::getInstance($request->get('source_module'));
 			$cvIdDefault = $moduleModel->getAllFilterCvidForModule();
 			if ($cvIdDefault === false) {
-				$cvId = \App\CustomView::getInstance($request->get('source_module'))->getDefaultCvId();
+				$cvId = \App\View\CustomView::getInstance($request->get('source_module'))->getDefaultCvId();
 			}
 			$defaultCustomViewModel = \App\Modules\CustomView\Models\Record::getInstanceById($cvIdDefault);
 			$selectedColumnsList = $defaultCustomViewModel->getSelectedFields();

@@ -7,7 +7,7 @@ namespace App\Email;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class EmailParser extends \App\TextParser
+class EmailParser extends \App\TextParser\TextParser
 {
 
 	private static $permissionToSend = [

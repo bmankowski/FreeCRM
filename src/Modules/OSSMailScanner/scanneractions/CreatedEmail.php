@@ -75,7 +75,7 @@ class CreatedEmail {
 
 			$mail->setMailCrmId($id);
 			\App\Modules\OSSMail\Models\Record::_SaveAttachments($id, $mail);
-			$db = \App\Db::getInstance();
+			$db = \App\Db\Db::getInstance();
 			$db->createCommand()->update('vtiger_crmentity', [
 				'createdtime' => $mail->get('udate_formated'),
 				'smcreatorid' => $mail->getAccountOwner(),

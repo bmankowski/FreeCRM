@@ -47,7 +47,7 @@ class PrivilegeUpdater
 	{
 		if (!static::$globalSearchUsersCache) {
 			static::$globalSearchUsersCache = [];
-			$dataReader = (new Db\Query())->select(['userid', 'searchunpriv'])->from('vtiger_user2role')
+			$dataReader = (new \App\Db\Query())->select(['userid', 'searchunpriv'])->from('vtiger_user2role')
 					->leftJoin('vtiger_role', 'vtiger_user2role.roleid = vtiger_role.roleid')
 					->where(['<>', 'vtiger_role.searchunpriv', ''])
 					->createCommand()->query();
@@ -81,7 +81,7 @@ class PrivilegeUpdater
 		if (!empty($recordAccessUsers)) {
 			$recordAccessUsers .= ',';
 		}
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$db->createCommand()
 			->update('u_#__crmentity_search_label', [
 				'userid' => $searchUsers,
@@ -111,7 +111,7 @@ class PrivilegeUpdater
 		if (!empty($searchUsers)) {
 			$searchUsers .= ',';
 		}
-		\App\Db::getInstance()->createCommand()
+		\App\Db\Db::getInstance()->createCommand()
 			->update('u_#__crmentity_search_label', [
 				'userid' => $searchUsers,
 				], 'crmid = ' . $record)
@@ -135,7 +135,7 @@ class PrivilegeUpdater
 		if (!empty($recordAccessUsers)) {
 			$recordAccessUsers .= ',';
 		}
-		\App\Db::getInstance()->createCommand()
+		\App\Db\Db::getInstance()->createCommand()
 			->update('vtiger_crmentity', [
 				'users' => $recordAccessUsers,
 				], 'crmid = ' . $record)
@@ -182,7 +182,7 @@ class PrivilegeUpdater
 				$params['type'] = 0;
 			}
 		}
-		$db = \App\Db::getInstance('admin');
+		$db = \App\Db\Db::getInstance('admin');
 		if ($insert) {
 			$db->createCommand()->insert('s_#__privileges_updater', $params)->execute();
 		}
@@ -201,7 +201,7 @@ class PrivilegeUpdater
 			static::setUpdater($module['name']);
 		}
 		\App\Security\PrivilegeAdvanced::reloadCache();
-		if (\App\AppConfig::module('ModTracker', 'WATCHDOG')) {
+		if (\App\Core\AppConfig::module('ModTracker', 'WATCHDOG')) {
 			\App\Modules\Base\Models\Watchdog::reloadCache();
 		}
 		\App\Cache\Cache::clear();
@@ -213,7 +213,7 @@ class PrivilegeUpdater
 	 */
 	public static function updateOnRecordSave(\App\Modules\Base\Models\Record $record)
 	{
-		if (\App\AppConfig::security('CACHING_PERMISSION_TO_RECORD')) {
+		if (\App\Core\AppConfig::security('CACHING_PERMISSION_TO_RECORD')) {
 			return false;
 		}
 		static::setUpdater($record->getModuleName(), $record->getId(), 6, 0);

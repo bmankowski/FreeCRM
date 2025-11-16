@@ -60,7 +60,7 @@ class MiniList extends \App\Runtime\BaseModel
 	protected function initListViewController()
 	{
 		if (!$this->queryGenerator) {
-			$this->queryGenerator = new \App\QueryGenerator($this->getTargetModule());
+			$this->queryGenerator = new \App\QueryField\QueryGenerator($this->getTargetModule());
 			$this->queryGenerator->initForCustomViewById($this->widgetModel->get('filterid'));
 			$this->queryGenerator->setFields($this->getTargetFields());
 			$this->listviewHeaders = $this->listviewRecords = NULL;
@@ -121,7 +121,7 @@ class MiniList extends \App\Runtime\BaseModel
 				$this->queryGenerator->addNativeCondition(['vtiger_crmentity.smownerid' => $user]);
 			}
 			$targetModuleName = $this->getTargetModule();
-			$targetModuleFocus = \App\CRMEntity::getInstance($targetModuleName);
+			$targetModuleFocus = \App\Core\CRMEntity::getInstance($targetModuleName);
 			$filterId = $this->widgetModel->get('filterid');
 			$filterModel = \App\Modules\CustomView\Models\Record::getInstanceById($filterId);
 			if (!empty($filterModel->get('sort'))) {

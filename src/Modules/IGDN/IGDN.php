@@ -3,14 +3,14 @@
 namespace App\Modules\IGDN;
 
 /**
- * IGDN \App\CRMEntity Class
+ * IGDN \App\Core\CRMEntity Class
  * @package YetiForce.CRMEntity
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 
-class IGDN extends \App\CRMEntity
+class IGDN extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'u_yf_igdn';

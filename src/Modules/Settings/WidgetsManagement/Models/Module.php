@@ -77,11 +77,11 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	public static function saveDashboard($dashboardId, $dashboardName)
 	{
 		if (empty($dashboardId)) {
-			\App\Db::getInstance()->createCommand()
+			\App\Db\Db::getInstance()->createCommand()
 				->insert('u_#__dashboard_type', ['name' => $dashboardName])
 				->execute();
 		} else {
-			\App\Db::getInstance()->createCommand()
+			\App\Db\Db::getInstance()->createCommand()
 				->update('u_#__dashboard_type', ['name' => $dashboardName], ['dashboard_id' => $dashboardId])
 				->execute();
 		}
@@ -89,7 +89,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	public static function deleteDashboard($dashboardId)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$db->createCommand()->delete('u_#__dashboard_type', ['dashboard_id' => $dashboardId])->execute();
 		$blocks = (new \App\Db\Query())->select('id')->from('vtiger_module_dashboard_blocks')
 				->where(['dashboard_id' => $dashboardId])->createCommand()->queryColumn();
@@ -115,7 +115,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	public static function getDefaultUserId($widgetModel, $moduleName = false, $owner = false)
 	{
 
-		\App\Log::trace('Entering ' . __METHOD__);
+		\App\Log\Log::trace('Entering ' . __METHOD__);
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$user = '';
 
@@ -157,29 +157,29 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		if (empty($user)) {
 			$user = false;
 		}
-		\App\Log::trace('Exiting ' . __METHOD__);
+		\App\Log\Log::trace('Exiting ' . __METHOD__);
 		return $user;
 	}
 
 	public function getFilterSelect()
 	{
 
-		\App\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::getFilterSelect() method ...");
+		\App\Log\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::getFilterSelect() method ...");
 
 		$filterSelect = ['LBL_MINE' => 'mine', 'LBL_ALL' => 'all', 'LBL_USERS' => 'users', 'LBL_GROUPS' => 'groups'];
 
-		\App\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::getFilterSelect() method ...");
+		\App\Log\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::getFilterSelect() method ...");
 		return $filterSelect;
 	}
 
 	public function getFilterSelectDefault()
 	{
 
-		\App\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::getFilterSelectDefault() method ...");
+		\App\Log\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::getFilterSelectDefault() method ...");
 
 		$filterSelectDefault = ['LBL_MINE' => 'mine', 'LBL_ALL' => 'all'];
 
-		\App\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::getFilterSelectDefault() method ...");
+		\App\Log\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::getFilterSelectDefault() method ...");
 		return $filterSelectDefault;
 	}
 
@@ -208,30 +208,30 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	public function getSize()
 	{
 
-		\App\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::getSize() method ...");
+		\App\Log\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::getSize() method ...");
 
 		$width = array(3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
 		$height = array(3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
 
-		\App\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::getSize() method ...");
+		\App\Log\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::getSize() method ...");
 		return array('width' => $width, 'height' => $height);
 	}
 
 	public function getDefaultValues()
 	{
 
-		\App\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultValues() method ...");
+		\App\Log\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultValues() method ...");
 
 		$defaultValues = array('width' => 4, 'height' => 4);
 
-		\App\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultValues() method ...");
+		\App\Log\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultValues() method ...");
 		return $defaultValues;
 	}
 
 	public function getSelectableDashboard()
 	{
 
-		\App\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::getSelectableDashboard() method ...");
+		\App\Log\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::getSelectableDashboard() method ...");
 		$dataReader = (new \App\Db\Query())->from('vtiger_links')
 				->innerJoin('vtiger_tab', 'vtiger_links.tabid = vtiger_tab.tabid')
 				->where(['linktype' => 'DASHBOARDWIDGET', 'vtiger_tab.presence' => 0])
@@ -241,7 +241,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 			$moduleName = \App\Utils\ModuleUtils::getModuleName($row['tabid']);
 			$widgets[$moduleName][] = \App\Modules\Base\Models\Widget::getInstanceFromValues($row);
 		}
-		\App\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::getSelectableDashboard() method ...");
+		\App\Log\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::getSelectableDashboard() method ...");
 		return $widgets;
 	}
 
@@ -253,9 +253,9 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 * */
 	public function saveDetails($data, $moduleName)
 	{
-		\App\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::saveDetails($moduleName) method ...");
+		\App\Log\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::saveDetails($moduleName) method ...");
 
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$isWidgetExists = (new \App\Db\Query())
 			->from('vtiger_module_dashboard')
 			->where(['id' => $data['id']])
@@ -285,14 +285,14 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 			$db->createCommand()->update('vtiger_module_dashboard_widgets', $insert, ['templateid' => $data['id']])
 				->execute();
 		}
-		\App\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::saveData() method ...");
+		\App\Log\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::saveData() method ...");
 		return ['success' => true];
 	}
 
 	public function addBlock($data, $moduleName, $addToUser)
 	{
-		\App\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::addBlock(" . $data . ", " . $moduleName . ") method ...");
-		$db = \App\Db::getInstance();
+		\App\Log\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::addBlock(" . $data . ", " . $moduleName . ") method ...");
+		$db = \App\Db\Db::getInstance();
 		$tabId = \App\Utils\ModuleUtils::getModuleId($moduleName);
 		$db->createCommand()
 			->insert('vtiger_module_dashboard_blocks', [
@@ -300,7 +300,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 				'tabid' => $tabId,
 				'dashboard_id' => $data['dashboardId']
 			])->execute();
-		\App\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::addBlock() method ...");
+		\App\Log\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::addBlock() method ...");
 		return [
 			'success' => true,
 			'id' => $db->getLastInsertID('vtiger_module_dashboard_blocks_id_seq')
@@ -309,8 +309,8 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	public function addWidget($data, $moduleName, $addToUser = false)
 	{
-		\App\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::addWidget(" . $data . ", " . $moduleName . ") method ...");
-		$db = \App\Db::getInstance();
+		\App\Log\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::addWidget(" . $data . ", " . $moduleName . ") method ...");
+		$db = \App\Db\Db::getInstance();
 		$status = false;
 		$widgetWithLimit = self::getWidgetsWithLimit();
 		if (in_array($data['name'], $widgetWithLimit))
@@ -362,13 +362,13 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 			])->execute();
 			$widgetId = $db->getLastInsertID('vtiger_module_dashboard_widgets_id_seq');
 		}
-		\App\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::addWidget() method ...");
+		\App\Log\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::addWidget() method ...");
 		return array('success' => true, 'id' => $templateId, 'wid' => $widgetId, 'status' => $status, 'text' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_WIDGET_ADDED', 'Settings::WidgetsManagement'));
 	}
 
 	public function getBlocksId($dashboard)
 	{
-		\App\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::getBlocksId() method ...");
+		\App\Log\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::getBlocksId() method ...");
 		$dataReader = (new \App\Db\Query())->select('vtiger_module_dashboard_blocks.*, vtiger_role.rolename')
 				->from('vtiger_module_dashboard_blocks')
 				->innerJoin('vtiger_role', 'vtiger_module_dashboard_blocks.authorized = vtiger_role.roleid')
@@ -382,13 +382,13 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 			$data[$moduleName][$blockId]['name'] = $row['rolename'];
 			$data[$moduleName][$blockId]['code'] = $row['authorized'];
 		}
-		\App\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::getBlocksId() method ...");
+		\App\Log\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::getBlocksId() method ...");
 		return $data;
 	}
 
 	public static function getBlocksFromModule($moduleName, $authorized = '', $dashboard)
 	{
-		\App\Log::trace('getBlocksFromModule(' . $moduleName . ', ' . $authorized . ') method ...');
+		\App\Log\Log::trace('getBlocksFromModule(' . $moduleName . ', ' . $authorized . ') method ...');
 		$tabId = \App\Utils\ModuleUtils::getModuleId($moduleName);
 		$data = [];
 		if ($dashboard === false)
@@ -408,7 +408,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	public static function getSpecialWidgets($moduleName)
 	{
-		\App\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::getSpecialWidgets($moduleName) method ...");
+		\App\Log\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::getSpecialWidgets($moduleName) method ...");
 		$tabId = \App\Utils\ModuleUtils::getModuleId($moduleName);
 		$query = (new \App\Db\Query())->from('vtiger_links')
 			->where(['tabid' => $tabId, 'linklabel' => self::getWidgetSpecial()]);
@@ -416,7 +416,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		while ($row = $dataReader->read()) {
 			$widgets[$row['linklabel']] = \App\Modules\Base\Models\Widget::getInstanceFromValues($row);
 		}
-		\App\Log::trace('Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::getSpecialWidgets() method ...');
+		\App\Log\Log::trace('Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::getSpecialWidgets() method ...');
 		return $widgets;
 	}
 
@@ -427,7 +427,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 * */
 	public function getDashboardForModule($moduleName)
 	{
-		\App\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::getDashboardForModule(" . $moduleName . ") method ...");
+		\App\Log\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::getDashboardForModule(" . $moduleName . ") method ...");
 		$tabId = \App\Utils\ModuleUtils::getModuleId($moduleName);
 		$data = [];
 		$dataReader = (new \App\Db\Query())->select([
@@ -458,29 +458,29 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 			} else
 				$data[$row['blockid']][] = \App\Modules\Base\Models\Widget::getInstanceFromValues($row);
 		}
-		\App\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::getDashboardForModule() method ...");
+		\App\Log\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::getDashboardForModule() method ...");
 		return $data;
 	}
 
 	public function removeWidget($data)
 	{
 
-		\App\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::removeWidget(" . $data . ") method ...");
+		\App\Log\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::removeWidget(" . $data . ") method ...");
 		$adb = \App\Database\PearDatabase::getInstance();
 		$query = 'DELETE FROM vtiger_module_dashboard WHERE vtiger_module_dashboard.id = ?';
 		$params = array($data['id']);
 		$adb->pquery($query, $params);
-		\App\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::removeWidget() method ...");
+		\App\Log\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::removeWidget() method ...");
 		return array('success' => true);
 	}
 
 	public function removeBlock($data)
 	{
-		$db = \App\Db::getInstance();
-		\App\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::removeBlock(" . $data . ") method ...");
+		$db = \App\Db\Db::getInstance();
+		\App\Log\Log::trace("Entering \App\Modules\Settings\WidgetsManagement\Models\Module::removeBlock(" . $data . ") method ...");
 		$db->createCommand()->delete('vtiger_module_dashboard_blocks', ['id' => $data['blockid']])->execute();
 		$db->createCommand()->delete('vtiger_module_dashboard', ['blockid' => $data['blockid']])->execute();
-		\App\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::removeBlock() method ...");
+		\App\Log\Log::trace("Exiting \App\Modules\Settings\WidgetsManagement\Models\Module::removeBlock() method ...");
 		return ['success' => true];
 	}
 }

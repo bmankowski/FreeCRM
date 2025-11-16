@@ -25,9 +25,9 @@ class ProfileService
 	/**
 	 * Constructor.
 	 * 
-	 * @param \App\Db $db
+	 * @param \App\Db\Db $db
 	 */
-	public function __construct(\App\Db $db)
+	public function __construct(\App\Db\Db $db)
 	{
 		$this->db = $db;
 	}

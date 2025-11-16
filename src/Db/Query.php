@@ -19,7 +19,7 @@ class Query extends \yii\db\Query
 	public function createCommand($db = null)
 	{
 		if ($db === null) {
-			$db = \App\Db::getInstance();
+			$db = \App\Db\Db::getInstance();
 		}
 		list ($sql, $params) = $db->getQueryBuilder()->build($this);
 		return $db->createCommand($sql, $params);
@@ -40,7 +40,7 @@ class Query extends \yii\db\Query
 	public function batch($batchSize = 100, $db = null)
 	{
 		if ($db === null) {
-			$db = \App\Db::getInstance();
+			$db = \App\Db\Db::getInstance();
 		}
 		return \Yii::createObject([
 				'class' => \yii\db\BatchQueryResult::className(),
@@ -64,7 +64,7 @@ class Query extends \yii\db\Query
 	public function each($batchSize = 100, $db = null)
 	{
 		if ($db === null) {
-			$db = \App\Db::getInstance();
+			$db = \App\Db\Db::getInstance();
 		}
 		return Yii::createObject([
 				'class' => BatchQueryResult::className(),

@@ -112,7 +112,7 @@ class Module extends \App\Modules\Base\Models\Module
 				'linkicon' => '',
 			],
 		];
-		if (isset($linkParams['ACTION']) && $linkParams['ACTION'] == 'Calendar' && \App\AppConfig::module('Calendar', 'SHOW_LIST_BUTTON')) {
+		if (isset($linkParams['ACTION']) && $linkParams['ACTION'] == 'Calendar' && \App\Core\AppConfig::module('Calendar', 'SHOW_LIST_BUTTON')) {
 			$quickLinks[] = [
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_CALENDAR_LIST',
@@ -420,7 +420,7 @@ class Module extends \App\Modules\Base\Models\Module
 		$recordModels = [];
 		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission('Calendar');
-		$permissionToSendEmail = $permission && \App\AppConfig::main('isActiveSendingMails') && \App\Modules\Users\Models\Privileges::isPermitted('OSSMail');
+		$permissionToSendEmail = $permission && \App\Core\AppConfig::main('isActiveSendingMails') && \App\Modules\Users\Models\Privileges::isPermitted('OSSMail');
 		if (!empty($activityReminder)) {
 			$currentTime = time();
 			$time = date('Y-m-d H:i:s', strtotime("+$activityReminder seconds", $currentTime));

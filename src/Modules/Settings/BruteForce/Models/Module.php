@@ -126,7 +126,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	public function incAttempts()
 	{
 		if (!empty($this->blockedId)) {
-			\App\Db::getInstance('admin')->createCommand()
+			\App\Db\Db::getInstance('admin')->createCommand()
 				->update('a_#__bruteforce_blocked', [
 					'attempts' => new \yii\db\Expression('attempts + 1')
 					], ['id' => $this->blockedId])
@@ -139,8 +139,8 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 */
 	public function updateBlockedIp()
 	{
-		\App\Log::trace('Start ' . __METHOD__);
-		$db = \App\Db::getInstance('admin');
+		\App\Log\Log::trace('Start ' . __METHOD__);
+		$db = \App\Db\Db::getInstance('admin');
 		$time = $this->get('timelock');
 		$date = new \DateTime();
 		$checkData = $date->modify("-$time minutes")->format('Y-m-d H:i:s');
@@ -167,7 +167,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 			$this->blockedId = $bfData['id'];
 		}
 		$this->clearBlockedByIp($ip, $checkData);
-		\App\Log::trace('End ' . __METHOD__);
+		\App\Log\Log::trace('End ' . __METHOD__);
 	}
 
 	/**
@@ -177,7 +177,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 */
 	private function setBlockedIp($ip)
 	{
-		$db = \App\Db::getInstance('admin');
+		$db = \App\Db\Db::getInstance('admin');
 		$db->createCommand()->insert('a_#__bruteforce_blocked', [
 			'ip' => $ip,
 			'attempts' => 1,
@@ -194,7 +194,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 */
 	private function clearBlockedByIp($ip, $data)
 	{
-		$db = \App\Db::getInstance('admin');
+		$db = \App\Db\Db::getInstance('admin');
 		$db->createCommand()->delete('a_#__bruteforce_blocked', [
 			'and', ['<', 'time', $data],
 			['blocked' => self::UNBLOCKED],
@@ -208,7 +208,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	public static function unBlock($id)
 	{
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
-		return \App\Db::getInstance('admin')->createCommand()
+		return \App\Db\Db::getInstance('admin')->createCommand()
 				->update('a_#__bruteforce_blocked', [
 					'blocked' => self::UNBLOCKED_BY_USER,
 					'userid' => $currentUser->getRealId()
@@ -231,7 +231,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 */
 	public static function updateConfig($data)
 	{
-		$db = \App\Db::getInstance('admin');
+		$db = \App\Db\Db::getInstance('admin');
 		$db->createCommand()
 			->update('a_#__bruteforce', [
 				'attempsnumber' => $data['attempsnumber'],
@@ -262,11 +262,11 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 */
 	public function sendNotificationEmail()
 	{
-		\App\Log::trace('Start ' . __METHOD__);
+		\App\Log\Log::trace('Start ' . __METHOD__);
 		if (!empty($this->get('sent'))) {
 			$usersId = self::getUsersForNotifications();
 			if (count($usersId) === 0) {
-				\App\Log::trace('End ' . __METHOD__ . ' - No brute force users found to send email');
+				\App\Log\Log::trace('End ' . __METHOD__ . ' - No brute force users found to send email');
 				return false;
 			}
 			$emails = [];
@@ -280,6 +280,6 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 				'to' => $emails,
 			]);
 		}
-		\App\Log::trace('End ' . __METHOD__);
+		\App\Log\Log::trace('End ' . __METHOD__);
 	}
 }

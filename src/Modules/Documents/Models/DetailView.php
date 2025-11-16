@@ -46,7 +46,7 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 		$linkModelList['DETAILVIEW'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($basicActionLink);
 
 		if ($recordModel->get('filestatus') && $recordModel->get('filename') && $recordModel->get('filelocationtype') === 'I') {
-			if ($currentUserModel->hasModulePermission('OSSMail') && \App\AppConfig::main('isActiveSendingMails')) {
+			if ($currentUserModel->hasModulePermission('OSSMail') && \App\Core\AppConfig::main('isActiveSendingMails')) {
 				$basicActionLink = array(
 					'linktype' => 'DETAILVIEW',
 					'linklabel' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_EMAIL_FILE_AS_ATTACHMENT', 'Documents'),
@@ -80,7 +80,7 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 			'linkurl' => $recordModel->getDetailViewUrl() . '&mode=showDocumentRelations',
 			'linkicon' => '',
 			'related' => \App\Utils\Json::encode(\App\Modules\Documents\Models\Record::getReferenceModuleByDocId($recordModel->getId())),
-			'countRelated' => \App\AppConfig::relation('SHOW_RECORDS_COUNT')
+			'countRelated' => \App\Core\AppConfig::relation('SHOW_RECORDS_COUNT')
 		];
 		return $relatedLinks;
 	}

@@ -53,7 +53,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		if ($globalactionid == 1) {
 			\App\Security\Privilege::setAllUpdater();
 		}
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$db->createCommand()->delete('vtiger_profile2globalpermissions', ['profileid' => $profileID, 'globalactionid' => $globalactionid])->execute();
 		$db->createCommand()->insert('vtiger_profile2globalpermissions', [
 			'profileid' => $profileID,
@@ -65,7 +65,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	public static function recalculate()
 	{
-		$php_max_execution_time = \App\AppConfig::main('php_max_execution_time');
+		$php_max_execution_time = \App\Core\AppConfig::main('php_max_execution_time');
 		set_time_limit($php_max_execution_time);
 		 
 		$userIdsList = \App\Modules\Settings\Profiles\Models\Record::getUsersList();

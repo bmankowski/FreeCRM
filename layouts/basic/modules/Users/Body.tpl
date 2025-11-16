@@ -2,7 +2,7 @@
 {strip}
 <!-- layouts/basic/modules/Users/Body.tpl -->
 	<div class="container-fluid container-fluid-main">
-		<div class="baseContainer {if AppConfig::module('Users','IS_VISIBLE_USER_INFO_FOOTER')}userInfoFooter{/if}">
+		<div class="baseContainer {if \App\Core\AppConfig::module('Users','IS_VISIBLE_USER_INFO_FOOTER')}userInfoFooter{/if}">
 			{if $VIEW != 'Login'}
 				{if !empty($CHILD_LINKS)}
 					<span class="caret"></span>

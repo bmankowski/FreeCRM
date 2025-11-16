@@ -8,9 +8,9 @@
 		</div>
 	{else}
 		<input type="hidden" id="mailActionBarID" value="{$RECORD}" />
-		{assign var="MODULES_LEVEL_0" value=\App\ModuleHierarchy::getModulesByLevel()}
-		{assign var="MODULES_LEVEL_1" value=\App\ModuleHierarchy::getModulesByLevel(1)}
-		{assign var="MODULES_LEVEL_2" value=\App\ModuleHierarchy::getModulesByLevel(2)}
+		{assign var="MODULES_LEVEL_0" value=\App\Core\ModuleHierarchy::getModulesByLevel()}
+		{assign var="MODULES_LEVEL_1" value=\App\Core\ModuleHierarchy::getModulesByLevel(1)}
+		{assign var="MODULES_LEVEL_2" value=\App\Core\ModuleHierarchy::getModulesByLevel(2)}
 		{if !empty($MODULES_LEVEL_0)}
 			<input type="hidden" id="modulesLevel0" value="{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode(array_keys($MODULES_LEVEL_0)))}" />
 		{/if}
@@ -28,7 +28,7 @@
 							<div class="col">
 								{"LBL_RELATIONS"|t:$MODULE_NAME}
 								<div class="pull-right">
-									{assign var="ACCESS_LEVEL_0" value=\App\ModuleHierarchy::accessModulesByLevel()}
+									{assign var="ACCESS_LEVEL_0" value=\App\Core\ModuleHierarchy::accessModulesByLevel()}
 									{if $ACCESS_LEVEL_0}
 										<select class="module">
 											{foreach item="ITEM" key="MODULE" from=$ACCESS_LEVEL_0}
@@ -41,7 +41,7 @@
 											<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 										</button>
 									{/if}
-									{if \App\ModuleHierarchy::accessModulesByLevel(0,'DetailView')}
+									{if \App\Core\ModuleHierarchy::accessModulesByLevel(0,'DetailView')}
 										<button class="selectRecord" data-type="0" title="{"LBL_SELECT_RECORD"|t:$MODULE_NAME}">
 											<span class="glyphicon glyphicon-resize-small" aria-hidden="true"></span>
 										</button>
@@ -72,7 +72,7 @@
 							<div class="col">
 								{"LBL_PROCESS"|t:$MODULE_NAME}
 								<div class="pull-right">
-									{assign var="ACCESS_LEVEL_1" value=\App\ModuleHierarchy::accessModulesByLevel(1)}
+									{assign var="ACCESS_LEVEL_1" value=\App\Core\ModuleHierarchy::accessModulesByLevel(1)}
 									{if $ACCESS_LEVEL_1}
 										<select class="module">
 											{foreach item="ITEM" key="MODULE" from=$ACCESS_LEVEL_1}
@@ -85,7 +85,7 @@
 											<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 										</button>
 									{/if}
-									{if \App\ModuleHierarchy::accessModulesByLevel(1,'DetailView')}
+									{if \App\Core\ModuleHierarchy::accessModulesByLevel(1,'DetailView')}
 										<button class="selectRecord" data-type="0" title="{"LBL_SELECT_RECORD"|t:$MODULE_NAME}">
 											<span class="glyphicon glyphicon-resize-small" aria-hidden="true"></span>
 										</button>
@@ -116,11 +116,11 @@
 							<div class="col">
 								{"LBL_SUB_PROCESS"|t:$MODULE_NAME}
 								<div class="pull-right">
-									{assign var="ACCESS_LEVEL_2" value=\App\ModuleHierarchy::accessModulesByLevel(2)}
+									{assign var="ACCESS_LEVEL_2" value=\App\Core\ModuleHierarchy::accessModulesByLevel(2)}
 									{if $ACCESS_LEVEL_2}
 										<select class="module">
-											{foreach item="ITEM" key="MODULE" from=\App\ModuleHierarchy::accessModulesByLevel(1)}
-												{assign var="ACCESS_PARENT" value=\App\ModuleHierarchy::accessModulesByParent($MODULE)}
+											{foreach item="ITEM" key="MODULE" from=\App\Core\ModuleHierarchy::accessModulesByLevel(1)}
+												{assign var="ACCESS_PARENT" value=\App\Core\ModuleHierarchy::accessModulesByParent($MODULE)}
 												{if $ACCESS_PARENT}
 													<optgroup label="{$MODULE|t:$MODULE}">
 														{foreach item="PARENT_ITEM" key="PARENT_MODULE" from=$ACCESS_PARENT}
@@ -136,7 +136,7 @@
 											<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 										</button>
 									{/if}
-									{if \App\ModuleHierarchy::accessModulesByLevel(2, 'DetailView')}
+									{if \App\Core\ModuleHierarchy::accessModulesByLevel(2, 'DetailView')}
 										<button class="selectRecord" data-type="0" title="{"LBL_SELECT_RECORD"|t:$MODULE_NAME}">
 											<span class="glyphicon glyphicon-resize-small" aria-hidden="true"></span>
 										</button>

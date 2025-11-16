@@ -14,9 +14,9 @@ class Module extends \App\Modules\Base\Models\Module
 	/**
 	 * Function to get list view query for popup window
 	 * @param \App\Modules\Base\Models\ListView $listviewModel
-	 * @param \App\QueryGenerator $queryGenerator
+	 * @param \App\QueryField\QueryGenerator $queryGenerator
 	 */
-	public function getQueryByRelatedField(\App\Modules\Base\Models\ListView $listviewModel, \App\QueryGenerator $queryGenerator)
+	public function getQueryByRelatedField(\App\Modules\Base\Models\ListView $listviewModel, \App\QueryField\QueryGenerator $queryGenerator)
 	{
 		if ($listviewModel->get('src_module') == 'HelpDesk' && !$listviewModel->isEmpty('filterFields')) {
 			$filterFields = $listviewModel->get('filterFields');

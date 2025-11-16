@@ -56,7 +56,7 @@ class DataAccess_unique_value
 			foreach ($wheres1 as $where) {
 				$where = explode('=', $where);
 				$DestModuleName = \App\Utils\ModuleUtils::getModuleName($where[2]);
-				$ModuleInstance = \App\CRMEntity::getInstance($DestModuleName);
+				$ModuleInstance = \App\Core\CRMEntity::getInstance($DestModuleName);
 				$tab_name_index = $ModuleInstance->tab_name_index;
 				$index = $tab_name_index[$where[0]];
 				$sql_param = array($value1);
@@ -97,7 +97,7 @@ class DataAccess_unique_value
 			foreach ($wheres2 as $where) {
 				$where = explode('=', $where);
 				$DestModuleName = \App\Utils\ModuleUtils::getModuleName($where[2]);
-				$ModuleInstance = \App\CRMEntity::getInstance($DestModuleName);
+				$ModuleInstance = \App\Core\CRMEntity::getInstance($DestModuleName);
 				$tab_name_index = $ModuleInstance->tab_name_index;
 				$index = $tab_name_index[$where[0]];
 				$sql_param = array($value2);

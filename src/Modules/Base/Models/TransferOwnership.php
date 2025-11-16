@@ -38,7 +38,7 @@ class TransferOwnership extends \App\Runtime\BaseModel
 			case 1:
 
 				$relatedModuleModel = \App\Modules\Base\Models\Module::getInstance($relatedModule);
-				$instance = \App\CRMEntity::getInstance($relatedModule);
+				$instance = \App\Core\CRMEntity::getInstance($relatedModule);
 				$relationModel = \App\Modules\Base\Models\Relation::getInstance($parentModuleModel, $relatedModuleModel);
 				$fieldModel = $relationModel->getRelationField();
 				$tablename = $fieldModel->get('table');
@@ -71,7 +71,7 @@ class TransferOwnership extends \App\Runtime\BaseModel
 
 	public function transferRecordsOwnership($module, $transferOwnerId, $relatedModuleRecordIds)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$oldOwners = \vtlib\Functions:: getCRMRecordMetadata($relatedModuleRecordIds);
 		$currentUser = \App\User\CurrentUser::get();
 		$db->createCommand()->update('vtiger_crmentity', [
@@ -104,7 +104,7 @@ class TransferOwnership extends \App\Runtime\BaseModel
 	{
 		$instance = \App\Cache\Cache::get('transferOwnership', $module);
 		if (!$instance) {
-			$modelClassName = \App\Loader::getComponentClassName('Model', 'TransferOwnership', $module);
+			$modelClassName = \App\Core\Loader::getComponentClassName('Model', 'TransferOwnership', $module);
 			$instance = new $modelClassName();
 			$instance->set('module', $module);
 			\App\Cache\Cache::save('transferOwnership', $module, $instance);

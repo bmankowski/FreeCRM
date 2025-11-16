@@ -175,8 +175,8 @@ class Privileges extends \App\Runtime\BaseModel
 			$current_user_profiles = $privileges['profiles'] ?? [];
 			$current_user_groups = $privileges['groups'] ?? [];
 			$parent_roles = $privileges['parent_roles'] ?? [];
-			$subordinate_roles = \App\PrivilegeUtil::getRoleSubordinates($current_user_roles);
-			$subordinate_roles_users = \App\PrivilegeUtil::getSubordinateRoleAndUsers($current_user_roles);
+			$subordinate_roles = \App\Security\PrivilegeUtil::getRoleSubordinates($current_user_roles);
+			$subordinate_roles_users = \App\Security\PrivilegeUtil::getSubordinateRoleAndUsers($current_user_roles);
 			$profileGlobalPermission = self::getCombinedUserGlobalPermissions($userId);
 			$profileTabsPermission = self::getCombinedUserTabsPermissions($userId);
 			$profileActionPermission = self::getCombinedUserActionPermissions($userId);
@@ -221,7 +221,7 @@ class Privileges extends \App\Runtime\BaseModel
 		}
 		$valueMap = self::getPrivilegesFile($userId);
 		if ($valueMap === null) {
-			\App\Log::error("User privileges file not found for user: $userId");
+			\App\Log\Log::error("User privileges file not found for user: $userId");
 			return null;
 		}
 		if (is_array($valueMap['user_info'])) {
@@ -266,7 +266,7 @@ class Privileges extends \App\Runtime\BaseModel
 	public static function getNonAdminAccessControlQuery($module)
 	{
 		$currentUser = \App\User\CurrentUser::get();
-		return \App\PrivilegeQuery::getNonAdminAccessControlQuery($module, $currentUser);
+		return \App\Security\PrivilegeQuery::getNonAdminAccessControlQuery($module, $currentUser);
 	}
 
 	protected static $lockEditCache = [];
@@ -326,7 +326,7 @@ class Privileges extends \App\Runtime\BaseModel
 	 */
 	public static function setSharedOwner($userIds, $record, $saveFull = true)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		if ($saveFull) {
 			$db->createCommand()->delete('u_#__crmentity_showners', ['crmid' => $record])->execute();
 			if (empty($userIds)) {
@@ -354,7 +354,7 @@ class Privileges extends \App\Runtime\BaseModel
 	 */
 	public static function getSharedRecordsRecursively($recordId, $moduleName)
 	{
-		\App\Log::trace('Entering Into getSharedRecordsRecursively( ' . $recordId . ', ' . $moduleName . ')');
+		\App\Log\Log::trace('Entering Into getSharedRecordsRecursively( ' . $recordId . ', ' . $moduleName . ')');
 
 		$db = \App\Database\PearDatabase::getInstance();
 		$modulesSchema = [];
@@ -386,7 +386,7 @@ class Privileges extends \App\Runtime\BaseModel
 				$array[$row['module']][] = $row['id'];
 			}
 		}
-		\App\Log::trace('Exiting getSharedRecordsRecursively()');
+		\App\Log\Log::trace('Exiting getSharedRecordsRecursively()');
 		return $array;
 	}
 
@@ -417,7 +417,7 @@ class Privileges extends \App\Runtime\BaseModel
 		}
 
 		$parentRecord = false;
-		if ($parentModule = \App\ModuleHierarchy::getModulesMap1M($moduleName)) {
+		if ($parentModule = \App\Core\ModuleHierarchy::getModulesMap1M($moduleName)) {
 			$parentModuleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 			$parentModelFields = $parentModuleModel->getFields();
 
@@ -438,7 +438,7 @@ class Privileges extends \App\Runtime\BaseModel
 				}
 			}
 			$parentRecord = $record != $parentRecord ? $parentRecord : false;
-		} else if (in_array($moduleName, \App\ModuleHierarchy::getModulesMapMMBase())) {
+		} else if (in_array($moduleName, \App\Core\ModuleHierarchy::getModulesMapMMBase())) {
 			$db = \App\Database\PearDatabase::getInstance();
 			$role = $userModel->getRoleInstance();
 			$result = $db->pquery('SELECT * FROM vtiger_crmentityrel WHERE crmid=? || relcrmid =?', [$record, $record]);
@@ -473,7 +473,7 @@ class Privileges extends \App\Runtime\BaseModel
 					}
 				}
 			}
-		} else if ($relationInfo = \App\ModuleHierarchy::getModulesMapMMCustom($moduleName)) {
+		} else if ($relationInfo = \App\Core\ModuleHierarchy::getModulesMapMMCustom($moduleName)) {
 			$db = \App\Database\PearDatabase::getInstance();
 			$role = $userModel->getRoleInstance();
 			$query = 'SELECT %s AS crmid FROM `%s` WHERE %s = ?';
@@ -520,7 +520,7 @@ class Privileges extends \App\Runtime\BaseModel
 	 */
 	public function getProfiles()
 	{
-		\App\Log::trace('Get profile list');
+		\App\Log\Log::trace('Get profile list');
 		return $this->get('profiles');
 	}
 	
@@ -535,7 +535,7 @@ class Privileges extends \App\Runtime\BaseModel
 		}
 		$roleId = $this->get('roleid');
 		if ($roleId) {
-			$db = \App\Db::getInstance();
+			$db = \App\Db\Db::getInstance();
 			$roleData = (new \App\Db\Query())
 				->from('vtiger_role')
 				->where(['roleid' => $roleId])
@@ -585,7 +585,7 @@ class Privileges extends \App\Runtime\BaseModel
 			if ($value === null || $value === '') {
 				switch ($property) {
 					case 'time_zone':
-						return \App\AppConfig::main('default_timezone') ?: 'UTC';
+						return \App\Core\AppConfig::main('default_timezone') ?: 'UTC';
 					case 'currency_symbol_placement':
 						return '$1.0';
 					case 'date_format':
@@ -611,9 +611,9 @@ class Privileges extends \App\Runtime\BaseModel
 	 */
 	public static function getCombinedUserGlobalPermissions($userId)
 	{
-		\App\Log::trace("Entering getCombinedUserGlobalPermissions(" . $userId . ") method ...");
+		\App\Log\Log::trace("Entering getCombinedUserGlobalPermissions(" . $userId . ") method ...");
 		$adb = \App\Database\PearDatabase::getInstance();
-		$profArr = \App\PrivilegeUtil::getProfilesByUser($userId);
+		$profArr = \App\Security\PrivilegeUtil::getProfilesByUser($userId);
 		$no_of_profiles = sizeof($profArr);
 		$userGlobalPerrArr = [];
 
@@ -635,7 +635,7 @@ class Privileges extends \App\Runtime\BaseModel
 			}
 		}
 
-		\App\Log::trace("Exiting getCombinedUserGlobalPermissions method ...");
+		\App\Log\Log::trace("Exiting getCombinedUserGlobalPermissions method ...");
 		return $userGlobalPerrArr;
 	}
 
@@ -647,9 +647,9 @@ class Privileges extends \App\Runtime\BaseModel
 	 */
 	public static function getCombinedUserTabsPermissions($userId)
 	{
-		\App\Log::trace("Entering getCombinedUserTabsPermissions(" . $userId . ") method ...");
+		\App\Log\Log::trace("Entering getCombinedUserTabsPermissions(" . $userId . ") method ...");
 		$adb = \App\Database\PearDatabase::getInstance();
-		$profArr = \App\PrivilegeUtil::getProfilesByUser($userId);
+		$profArr = \App\Security\PrivilegeUtil::getProfilesByUser($userId);
 		$no_of_profiles = sizeof($profArr);
 		$userTabPerrArr = [];
 
@@ -675,7 +675,7 @@ class Privileges extends \App\Runtime\BaseModel
 		if (!array_key_exists($homeTabid, $userTabPerrArr)) {
 			$userTabPerrArr[$homeTabid] = 0;
 		}
-		\App\Log::trace("Exiting getCombinedUserTabsPermissions method ...");
+		\App\Log\Log::trace("Exiting getCombinedUserTabsPermissions method ...");
 		return $userTabPerrArr;
 	}
 
@@ -687,9 +687,9 @@ class Privileges extends \App\Runtime\BaseModel
 	 */
 	public static function getCombinedUserActionPermissions($userId)
 	{
-		\App\Log::trace("Entering getCombinedUserActionPermissions(" . $userId . ") method ...");
+		\App\Log\Log::trace("Entering getCombinedUserActionPermissions(" . $userId . ") method ...");
 		$adb = \App\Database\PearDatabase::getInstance();
-		$profArr = \App\PrivilegeUtil::getProfilesByUser($userId);
+		$profArr = \App\Security\PrivilegeUtil::getProfilesByUser($userId);
 		$no_of_profiles = sizeof($profArr);
 		$actionPerrArr = [];
 		if (isset($profArr[0])) {
@@ -711,7 +711,7 @@ class Privileges extends \App\Runtime\BaseModel
 				}
 			}
 		}
-		\App\Log::trace("Exiting getCombinedUserActionPermissions method ...");
+		\App\Log\Log::trace("Exiting getCombinedUserActionPermissions method ...");
 		return $actionPerrArr;
 	}
 
@@ -721,7 +721,7 @@ class Privileges extends \App\Runtime\BaseModel
 	 */
 	public static function getPermittedModuleNames()
 	{
-		\App\Log::trace("Entering getPermittedModuleNames() method ...");
+		\App\Log\Log::trace("Entering getPermittedModuleNames() method ...");
 		$currentUser = \App\User\CurrentUser::get();
 		if (!$currentUser) {
 			return [];
@@ -743,7 +743,7 @@ class Privileges extends \App\Runtime\BaseModel
 				}
 			}
 		}
-		\App\Log::trace("Exiting getPermittedModuleNames method ...");
+		\App\Log\Log::trace("Exiting getPermittedModuleNames method ...");
 		return $permittedModules;
 	}
 

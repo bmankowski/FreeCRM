@@ -43,16 +43,16 @@ $config['imap_params'] = [
 	// 	'DISABLE_AUTHENTICATOR' => 'GSSAPI'
 ];
 // Debug
-$config['debug_level'] = AppConfig::debug('ROUNDCUBE_DEBUG_LEVEL');
-$config['per_user_logging'] = AppConfig::debug('ROUNDCUBE_PER_USER_LOGGING');
-$config['smtp_log'] = AppConfig::debug('ROUNDCUBE_SMTP_LOG');
-$config['log_logins'] = AppConfig::debug('ROUNDCUBE_LOG_LOGINS');
-$config['log_session'] = AppConfig::debug('ROUNDCUBE_LOG_SESSION');
-$config['sql_debug'] = AppConfig::debug('ROUNDCUBE_SQL_DEBUG');
-$config['imap_debug'] = AppConfig::debug('ROUNDCUBE_IMAP_DEBUG');
-$config['ldap_debug'] = AppConfig::debug('ROUNDCUBE_LDAP_DEBUG');
-$config['smtp_debug'] = AppConfig::debug('ROUNDCUBE_SMTP_DEBUG');
-$config['devel_mode'] = AppConfig::debug('ROUNDCUBE_DEVEL_MODE');
+$config['debug_level'] = \App\Core\AppConfig::debug('ROUNDCUBE_DEBUG_LEVEL');
+$config['per_user_logging'] = \App\Core\AppConfig::debug('ROUNDCUBE_PER_USER_LOGGING');
+$config['smtp_log'] = \App\Core\AppConfig::debug('ROUNDCUBE_SMTP_LOG');
+$config['log_logins'] = \App\Core\AppConfig::debug('ROUNDCUBE_LOG_LOGINS');
+$config['log_session'] = \App\Core\AppConfig::debug('ROUNDCUBE_LOG_SESSION');
+$config['sql_debug'] = \App\Core\AppConfig::debug('ROUNDCUBE_SQL_DEBUG');
+$config['imap_debug'] = \App\Core\AppConfig::debug('ROUNDCUBE_IMAP_DEBUG');
+$config['ldap_debug'] = \App\Core\AppConfig::debug('ROUNDCUBE_LDAP_DEBUG');
+$config['smtp_debug'] = \App\Core\AppConfig::debug('ROUNDCUBE_SMTP_DEBUG');
+$config['devel_mode'] = \App\Core\AppConfig::debug('ROUNDCUBE_DEVEL_MODE');
 $config['log_dir'] = RCUBE_INSTALL_PATH . '/../../../cache/logs/';
 $config['temp_dir'] = RCUBE_INSTALL_PATH . '/../../../cache/mail/';
 //Socket context options

@@ -56,7 +56,7 @@ class ListView extends Popup
 		$orderBy = $request->get('orderby');
 		$sortOrder = $request->get('sortorder');
 		if (empty($orderBy) && empty($sortOrder)) {
-			$moduleInstance = \App\CRMEntity::getInstance($moduleName);
+			$moduleInstance = \App\Core\CRMEntity::getInstance($moduleName);
 			$orderBy = $moduleInstance->default_order_by;
 			$sortOrder = $moduleInstance->default_sort_order;
 		}

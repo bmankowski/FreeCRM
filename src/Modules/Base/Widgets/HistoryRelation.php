@@ -70,7 +70,7 @@ class HistoryRelation extends \App\Modules\Base\Widgets\Basic
 	 */
 	public static function getHistory(\App\Http\Vtiger_Request $request, \App\Modules\Base\Models\Paging $pagingModel)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$recordId = $request->get('record');
 		$type = $request->get('type');
 		if (empty($type)) {
@@ -127,8 +127,8 @@ class HistoryRelation extends \App\Modules\Base\Widgets\Basic
 	public static function getQuery($recordId, $moduleName, $type)
 	{
 		$queries = [];
-		$field = \App\ModuleHierarchy::getMappingRelatedField($moduleName);
-		$db = \App\Db::getInstance();
+		$field = \App\Core\ModuleHierarchy::getMappingRelatedField($moduleName);
+		$db = \App\Db\Db::getInstance();
 		if (in_array('Calendar', $type)) {
 			$query = (new \App\Db\Query())
 				->select([
@@ -144,7 +144,7 @@ class HistoryRelation extends \App\Modules\Base\Widgets\Basic
 				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = a.activityid')
 				->where(['vtiger_crmentity.deleted' => 0])
 				->andWhere(['=', 'a.' . $field, $recordId]);
-			\App\PrivilegeQuery::getConditions($query, 'Calendar', false, $recordId);
+			\App\Security\PrivilegeQuery::getConditions($query, 'Calendar', false, $recordId);
 			$queries[] = $query;
 		}
 		if (in_array('ModComments', $type)) {
@@ -162,7 +162,7 @@ class HistoryRelation extends \App\Modules\Base\Widgets\Basic
 				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = m.modcommentsid')
 				->where(['vtiger_crmentity.deleted' => 0])
 				->andWhere(['=', 'related_to', $recordId]);
-			\App\PrivilegeQuery::getConditions($query, 'ModComments', false, $recordId);
+			\App\Security\PrivilegeQuery::getConditions($query, 'ModComments', false, $recordId);
 			$queries[] = $query;
 		}
 		if (in_array('OSSMailView', $type)) {
@@ -181,7 +181,7 @@ class HistoryRelation extends \App\Modules\Base\Widgets\Basic
 				->innerJoin('vtiger_ossmailview_relation r', 'r.ossmailviewid = o.ossmailviewid ')
 				->where(['vtiger_crmentity.deleted' => 0])
 				->andWhere(['=', 'r.crmid', $recordId]);
-			\App\PrivilegeQuery::getConditions($query, 'OSSMailView', false, $recordId);
+			\App\Security\PrivilegeQuery::getConditions($query, 'OSSMailView', false, $recordId);
 			$queries[] = $query;
 		}
 		if (count($queries) == 1) {

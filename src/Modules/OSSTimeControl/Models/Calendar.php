@@ -47,7 +47,7 @@ class Calendar extends \App\Runtime\BaseModel
 				$query.= ' AND vtiger_crmentity.smownerid IN (' . $this->get('user') . ')';
 			}
 		}
-		$query .= \App\PrivilegeQuery::getAccessConditions($module, $currentUser->getId());
+		$query .= \App\Security\PrivilegeQuery::getAccessConditions($module, $currentUser->getId());
 		$query .= ' ORDER BY date_start,time_start ASC';
 
 		$queryResult = $db->pquery($query, $params);

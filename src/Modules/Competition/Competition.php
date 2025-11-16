@@ -9,7 +9,7 @@ namespace App\Modules\Competition;
  */
 
 
-class Competition extends \App\CRMEntity
+class Competition extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'u_yf_competition';
@@ -90,7 +90,7 @@ class Competition extends \App\CRMEntity
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 		if ($eventType == 'module.postinstall') {
-			$moduleInstance = \App\CRMEntity::getInstance('Competition');
+			$moduleInstance = \App\Core\CRMEntity::getInstance('Competition');
 			\App\Fields\RecordNumber::setNumber($moduleName, 'CMP', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', ['Competition']);
 
@@ -100,7 +100,7 @@ class Competition extends \App\CRMEntity
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(array('Competition'));
 			}
-			\App\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions:: getModuleId('Competition'));
+			\App\Core\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions:: getModuleId('Competition'));
 		} else if ($eventType == 'module.disabled') {
 			
 		} else if ($eventType == 'module.preuninstall') {
@@ -122,7 +122,7 @@ class Competition extends \App\CRMEntity
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 
-		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
+		\App\Log\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = ['Campaigns' => 'vtiger_campaign_records'];
 
@@ -146,7 +146,7 @@ class Competition extends \App\CRMEntity
 				}
 			}
 		}
-		\App\Log::trace("Exiting transferRelatedRecords...");
+		\App\Log\Log::trace("Exiting transferRelatedRecords...");
 	}
 	/*
 	 * Function to get the relation tables for related modules
@@ -172,7 +172,7 @@ class Competition extends \App\CRMEntity
 		if (empty($returnModule) || empty($returnId))
 			return;
 		if ($returnModule === 'Campaigns') {
-			\App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $returnId])->execute();
+			\App\Db\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $returnId])->execute();
 		} else {
 			parent::unlinkRelationship($id, $returnModule, $returnId, $relatedName);
 		}
@@ -184,7 +184,7 @@ class Competition extends \App\CRMEntity
 			$withCrmids = [$withCrmids];
 		foreach ($withCrmids as $withCrmid) {
 			if ($withModule === 'Campaigns') {
-				\App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
+				\App\Db\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
 					'campaignid' => $withCrmid,
 					'crmid' => $crmid,
 					'campaignrelstatusid' => 0

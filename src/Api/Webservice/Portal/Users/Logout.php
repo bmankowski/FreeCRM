@@ -28,7 +28,7 @@ class Logout extends \App\Api\Webservice\Core\BaseAction
 	 */
 	public function put()
 	{
-		$db = \App\Db::getInstance('webservice');
+		$db = \App\Db\Db::getInstance('webservice');
 		$db->createCommand()->delete("w_#__portal_session", [
 			'id' => $this->controller->headers['X-TOKEN'],
 		])->execute();

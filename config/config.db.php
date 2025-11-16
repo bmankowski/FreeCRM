@@ -37,7 +37,7 @@
   'charset' => 'utf8'
   ],
  */
-$dbconfig = AppConfig::main('dbconfig');
+$dbconfig = \App\Core\AppConfig::main('dbconfig');
 return [
 	'base' => [
 		'dsn' => $dbconfig['db_type'] . ':host=' . $dbconfig['db_server'] . ';dbname=' . $dbconfig['db_name'] . ';port=' . $dbconfig['db_port'],

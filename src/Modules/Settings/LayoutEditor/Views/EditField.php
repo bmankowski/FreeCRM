@@ -72,7 +72,7 @@ class EditField extends \App\Modules\Settings\Base\Views\BasicModal
 		$viewer->assign('DISPLAY_TYPE', \App\Modules\Base\Models\Field::showDisplayTypeList());
 		
 		// Prepare developer config flags
-		$viewer->assign('CHANGE_GENERATEDTYPE_ENABLED', \App\AppConfig::developer('CHANGE_GENERATEDTYPE'));
-		$viewer->assign('CHANGE_VISIBILITY_ENABLED', \App\AppConfig::developer('CHANGE_VISIBILITY'));
+		$viewer->assign('CHANGE_GENERATEDTYPE_ENABLED', \App\Core\AppConfig::developer('CHANGE_GENERATEDTYPE'));
+		$viewer->assign('CHANGE_VISIBILITY_ENABLED', \App\Core\AppConfig::developer('CHANGE_VISIBILITY'));
 	}
 }

@@ -163,7 +163,7 @@ class AdvancedFilter {
 
 	public static function getDateFilter($moduleName)
 	{
-		foreach (\App\CustomView::getDateFilterTypes() as $comparatorKey => $comparatorInfo) {
+		foreach (\App\View\CustomView::getDateFilterTypes() as $comparatorKey => $comparatorInfo) {
 			$comparatorInfo['startdate'] = \App\Fields\DateTimeField::convertToUserFormat($comparatorInfo['startdate']);
 			$comparatorInfo['enddate'] = \App\Fields\DateTimeField::convertToUserFormat($comparatorInfo['enddate']);
 			$comparatorInfo['label'] = \App\Runtime\Vtiger_Language_Handler::translate($comparatorInfo['label'], $moduleName);

@@ -13,7 +13,7 @@ namespace App\Modules\OutsourcedProducts;
  * *********************************************************************************************************************************** */
 
 
-class OutsourcedProducts extends \App\CRMEntity
+class OutsourcedProducts extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'vtiger_outsourcedproducts';
@@ -146,7 +146,7 @@ class OutsourcedProducts extends \App\CRMEntity
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 
-		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
+		\App\Log\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("Documents" => "vtiger_senotesrel", "Attachments" => "vtiger_seattachmentsrel");
 
@@ -171,6 +171,6 @@ class OutsourcedProducts extends \App\CRMEntity
 			}
 		}
 		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
-		\App\Log::trace("Exiting transferRelatedRecords...");
+		\App\Log\Log::trace("Exiting transferRelatedRecords...");
 	}
 }

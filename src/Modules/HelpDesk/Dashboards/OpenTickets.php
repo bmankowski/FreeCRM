@@ -41,7 +41,7 @@ class OpenTickets  extends \App\Modules\Base\Views\Index
 			->leftJoin('vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id')
 			->leftJoin('vtiger_groups', 'vtiger_crmentity.smownerid = vtiger_groups.groupid')
 			->where(['vtiger_crmentity.deleted' => 0]);
-		\App\PrivilegeQuery::getConditions($query, $moduleName);
+		\App\Security\PrivilegeQuery::getConditions($query, $moduleName);
 		if (!empty($ticketStatus)) {
 			$query->andWhere(['not in', 'vtiger_troubletickets.status', $ticketStatus]);
 		}

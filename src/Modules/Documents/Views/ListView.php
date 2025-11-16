@@ -34,9 +34,9 @@ class ListView extends \App\Modules\Base\Views\ListView
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		
 		// Prepare global config and permissions
-		$showTimelineInListView = \App\AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW');
+		$showTimelineInListView = \App\Core\AppConfig::module('ModTracker', 'SHOW_TIMELINE_IN_LISTVIEW');
 		$canShowTimeline = in_array($moduleName, $showTimelineInListView ? $showTimelineInListView : []) && $moduleModel->isPermitted('TimeLineList');
-		$modTrackerUnreviewedCount = \App\AppConfig::module('ModTracker', 'UNREVIEWED_COUNT');
+		$modTrackerUnreviewedCount = \App\Core\AppConfig::module('ModTracker', 'UNREVIEWED_COUNT');
 		$canReviewUpdates = $moduleModel->isPermitted('ReviewingUpdates');
 		$isTrackingEnabled = $moduleModel->isTrackingEnabled();
 		

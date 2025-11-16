@@ -134,7 +134,7 @@ class Module extends \App\Modules\Base\Models\Module
 			$this->deletePerminently($recordIds);
 			$this->deleteFiles($recordIds);
 		}
-		\App\Db::getInstance()->createCommand()
+		\App\Db\Db::getInstance()->createCommand()
 			->delete('vtiger_crmentity', ['deleted' => 1, 'crmid' => $recordIds])
 			->execute();
 		return true;
@@ -148,7 +148,7 @@ class Module extends \App\Modules\Base\Models\Module
 	{
 		$this->deletePerminently($recordIds);
 		//Delete the records in vtiger crmentity and relatedlists.
-		\App\Db::getInstance()->createCommand()
+		\App\Db\Db::getInstance()->createCommand()
 			->delete('vtiger_crmentity', ['deleted' => 1, 'crmid' => $recordIds])
 			->execute();
 		// Delete entries of attachments from vtiger_attachments and vtiger_seattachmentsrel
@@ -163,7 +163,7 @@ class Module extends \App\Modules\Base\Models\Module
 	{
 		foreach ($recordIds as &$recordId) {
 			$moduleName = \App\Records\Record::getType($recordId);
-			$entity = \App\CRMEntity::getInstance($moduleName);
+			$entity = \App\Core\CRMEntity::getInstance($moduleName);
 			$entity->deletePerminently($moduleName, $recordId);
 		}
 	}
@@ -209,7 +209,7 @@ class Module extends \App\Modules\Base\Models\Module
 	 */
 	public function restore($sourceModule, $recordIds)
 	{
-		$focus = \App\CRMEntity::getInstance($sourceModule);
+		$focus = \App\Core\CRMEntity::getInstance($sourceModule);
 		foreach (array_filter($recordIds) as $id) {
 			$focus->restore($sourceModule, $id);
 		}

@@ -22,7 +22,7 @@ class ListView extends \App\Modules\Settings\Base\Models\ListView
 	 */
 	public function setModule($name, $request = null)
 	{
-		$modelClassName = \App\Loader::getComponentClassName('Model', 'Module', $name);
+		$modelClassName = \App\Core\Loader::getComponentClassName('Model', 'Module', $name);
 		$this->module = new $modelClassName();
 		$this->module->typeApi = $request !== null ? $request->get('typeApi') : null;
 		return $this;

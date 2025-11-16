@@ -65,7 +65,7 @@ class ClosedTicketsByUser  extends \App\Modules\Base\Views\Index
 				['<=', 'vtiger_crmentity.closedtime', $time['end']]
 			]);
 		}
-		\App\PrivilegeQuery::getConditions($query, $moduleName);
+		\App\Security\PrivilegeQuery::getConditions($query, $moduleName);
 		$query->groupBy('vtiger_crmentity.smownerid');
 		$dataReader = $query->createCommand()->query();
 		$response = [];

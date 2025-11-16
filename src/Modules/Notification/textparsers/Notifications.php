@@ -23,7 +23,7 @@ class TextParser extends \App\TextParser\Base
 	 */
 	public function process()
 	{
-		$siteURL = \App\AppConfig::main('site_URL');
+		$siteURL = \App\Core\AppConfig::main('site_URL');
 		$html = '';
 		$scheduleData = \App\Modules\Base\Models\Watchdog::getWatchingModulesSchedule($this->textParser->getParam('userId'), true);
 		$modules = $scheduleData['modules'];
@@ -37,11 +37,11 @@ class TextParser extends \App\TextParser\Base
 				foreach ($entries[$typeId] as $notification) {
 					$title = preg_replace_callback(
 						$pattern, function ($matches) {
-						return \App\AppConfig::main('site_URL') . $matches[0];
+						return \App\Core\AppConfig::main('site_URL') . $matches[0];
 					}, $notification->getTitle());
 					$massage = preg_replace_callback(
 						$pattern, function ($matches) {
-						return \App\AppConfig::main('site_URL') . $matches[0];
+						return \App\Core\AppConfig::main('site_URL') . $matches[0];
 					}, $notification->getMessage());
 					$html .= "<li>$title<br>$massage</li>";
 				}

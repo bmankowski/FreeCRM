@@ -11,7 +11,7 @@ namespace App\Modules\ProjectTask;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class ProjectTask extends \App\CRMEntity
+class ProjectTask extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'vtiger_projecttask';
@@ -145,7 +145,7 @@ class ProjectTask extends \App\CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other = \App\CRMEntity::getInstance($related_module);
+			$other = \App\Core\CRMEntity::getInstance($related_module);
 			\App\Utils\VtlibUtils::setupModuleVars($related_module, $other);
 
 			if (!in_array($other->table_name, $joinedTables)) {
@@ -240,7 +240,7 @@ class ProjectTask extends \App\CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other = \App\CRMEntity::getInstance($related_module);
+			$other = \App\Core\CRMEntity::getInstance($related_module);
 			\App\Utils\VtlibUtils::setupModuleVars($related_module, $other);
 
 			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = $this->table_name.$columnname";

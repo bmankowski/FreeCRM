@@ -12,7 +12,7 @@ namespace App\Modules\Vendors;
  *
  * ****************************************************************************** */
 
-class Vendors extends \App\CRMEntity
+class Vendors extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'vtiger_vendor';
@@ -78,7 +78,7 @@ class Vendors extends \App\CRMEntity
 	{
 
 		$currentUser = \App\User\CurrentUser::get();
-		\App\Log::trace('Entering create_export_query(' . $where . ') method ...');
+		\App\Log\Log::trace('Entering create_export_query(' . $where . ') method ...');
 
 		include('include/utils/ExportUtils.php');
 
@@ -105,7 +105,7 @@ class Vendors extends \App\CRMEntity
 		else
 			$query .= sprintf('  WHERE %s', $where_auto);
 
-		\App\Log::trace('Exiting create_export_query method ...');
+		\App\Log\Log::trace('Exiting create_export_query method ...');
 		return $query;
 	}
 
@@ -119,7 +119,7 @@ class Vendors extends \App\CRMEntity
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 
-		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
+		\App\Log\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = ['Products' => 'vtiger_products', 'Contacts' => 'vtiger_vendorcontactrel', 'Campaigns' => 'vtiger_campaign_records'];
 
@@ -143,7 +143,7 @@ class Vendors extends \App\CRMEntity
 				}
 			}
 		}
-		\App\Log::trace('Exiting transferRelatedRecords...');
+		\App\Log\Log::trace('Exiting transferRelatedRecords...');
 	}
 	/*
 	 * Function to get the primary query part of a report
@@ -238,7 +238,7 @@ class Vendors extends \App\CRMEntity
 	 */
 	public function deletePerminently($moduleName, $recordId)
 	{
-		\App\Db::getInstance()->createCommand()->update('vtiger_products', ['vendor_id' => 0], ['vendor_id' => $recordId])->execute();
+		\App\Db\Db::getInstance()->createCommand()->update('vtiger_products', ['vendor_id' => 0], ['vendor_id' => $recordId])->execute();
 		parent::deletePerminently($moduleName, $recordId);
 	}
 
@@ -252,14 +252,14 @@ class Vendors extends \App\CRMEntity
 		} else {
 			foreach ($with_crmids as $with_crmid) {
 				if ($with_module === 'Contacts') {
-					\App\Db::getInstance()->createCommand()->insert('vtiger_vendorcontactrel', [
+					\App\Db\Db::getInstance()->createCommand()->insert('vtiger_vendorcontactrel', [
 						'vendorid' => $crmid,
 						'contactid' => $with_crmid
 					])->execute();
 				} elseif ($with_module === 'Products') {
-					\App\Db::getInstance()->createCommand()->update('vtiger_products', ['vendor_id' => $crmid], ['productid' => $with_crmid])->execute();
+					\App\Db\Db::getInstance()->createCommand()->update('vtiger_products', ['vendor_id' => $crmid], ['productid' => $with_crmid])->execute();
 				} elseif ($with_module === 'Campaigns') {
-					\App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
+					\App\Db\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
 						'campaignid' => $with_crmid,
 						'crmid' => $crmid,
 						'campaignrelstatusid' => 0
@@ -276,9 +276,9 @@ class Vendors extends \App\CRMEntity
 		if (empty($return_module) || empty($return_id))
 			return;
 		if ($return_module == 'Campaigns') {
-			\App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $return_id])->execute();
+			\App\Db\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $return_id])->execute();
 		} elseif ($return_module == 'Contacts') {
-			\App\Db::getInstance()->createCommand()->delete('vtiger_vendorcontactrel', ['vendorid' => $id, 'contactid' => $return_id])->execute();
+			\App\Db\Db::getInstance()->createCommand()->delete('vtiger_vendorcontactrel', ['vendorid' => $id, 'contactid' => $return_id])->execute();
 		} else {
 			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
 		}

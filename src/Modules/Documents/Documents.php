@@ -12,7 +12,7 @@ namespace App\Modules\Documents;
  * ****************************************************************************** */
 
 // Note is used to store customer information.
-class Documents extends \App\CRMEntity
+class Documents extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'vtiger_notes';
@@ -75,7 +75,7 @@ class Documents extends \App\CRMEntity
 	public function getSortOrder($sortOrder = null, $request = null)
 	{
 
-		\App\Log::trace('Entering getSortOrder() method ...');
+		\App\Log\Log::trace('Entering getSortOrder() method ...');
 		// Check parameter first, fallback to request for backward compatibility
 		if ($sortOrder === null && $request !== null && $request->has('sorder')) {
 			$sortOrder = $request->get('sorder');
@@ -86,7 +86,7 @@ class Documents extends \App\CRMEntity
 		} else {
 			$sorder = (($_SESSION['NOTES_SORT_ORDER'] != '') ? ($_SESSION['NOTES_SORT_ORDER']) : ($this->default_sort_order));
 		}
-		\App\Log::trace('Exiting getSortOrder() method ...');
+		\App\Log\Log::trace('Exiting getSortOrder() method ...');
 		return $sorder;
 	}
 
@@ -98,10 +98,10 @@ class Documents extends \App\CRMEntity
 	public function getOrderBy($orderBy = null, $request = null)
 	{
 
-		\App\Log::trace('Entering getOrderBy() method ...');
+		\App\Log\Log::trace('Entering getOrderBy() method ...');
 
 		$use_default_order_by = '';
-		if (\App\AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
+		if (\App\Core\AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
 			$use_default_order_by = $this->default_order_by;
 		}
 
@@ -115,7 +115,7 @@ class Documents extends \App\CRMEntity
 		} else {
 			$order_by = (($_SESSION['NOTES_ORDER_BY'] != '') ? ($_SESSION['NOTES_ORDER_BY']) : ($use_default_order_by));
 		}
-		\App\Log::trace('Exiting getOrderBy method ...');
+		\App\Log\Log::trace('Exiting getOrderBy method ...');
 		return $order_by;
 	}
 
@@ -157,7 +157,7 @@ class Documents extends \App\CRMEntity
 	public function getOrderByForFolder($folderId, $orderBy = null, $requestFolderId = null, $request = null)
 	{
 		$use_default_order_by = '';
-		if (\App\AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
+		if (\App\Core\AppConfig::performance('LISTVIEW_DEFAULT_SORTING', true)) {
 			$use_default_order_by = $this->default_order_by;
 		}
 		
@@ -186,7 +186,7 @@ class Documents extends \App\CRMEntity
 	{
 
 		$currentUser = \App\User\CurrentUser::get();
-		\App\Log::trace('Entering create_export_query(' . $where . ') method ...');
+		\App\Log\Log::trace('Entering create_export_query(' . $where . ') method ...');
 
 		include('include/utils/ExportUtils.php');
 		//To get the Permitted fields query and the permitted fields list
@@ -203,7 +203,7 @@ class Documents extends \App\CRMEntity
 				LEFT JOIN vtiger_users ON vtiger_crmentity.smownerid=vtiger_users.id " .
 			" LEFT JOIN vtiger_groups ON vtiger_crmentity.smownerid=vtiger_groups.groupid "
 		;
-		$query .= \App\PrivilegeQuery::getNonAdminAccessControlQuery('Documents', $current_user);
+		$query .= \App\Security\PrivilegeQuery::getNonAdminAccessControlQuery('Documents', $current_user);
 		$where_auto = ' vtiger_crmentity.deleted=0';
 		if ($where != '')
 			$query .= "  WHERE ($where) && " . $where_auto;
@@ -211,7 +211,7 @@ class Documents extends \App\CRMEntity
 			$query .= '  WHERE %s';
 
 		$query = sprintf($query, $where_auto);
-		\App\Log::trace('Exiting create_export_query method ...');
+		\App\Log\Log::trace('Exiting create_export_query method ...');
 		return $query;
 	}
 	/*
@@ -311,9 +311,9 @@ class Documents extends \App\CRMEntity
 			return;
 		if ($returnModule == 'Accounts') {
 			$subQuery = (new \App\Db\Query())->select(['contactid'])->from('vtiger_contactdetails')->where(['parentid' => $returnId]);
-			\App\Db::getInstance()->createCommand()->delete('vtiger_senotesrel', ['and', ['notesid' => $id], ['or', ['crmid' => $returnId], ['crmid' => $subQuery]]])->execute();
+			\App\Db\Db::getInstance()->createCommand()->delete('vtiger_senotesrel', ['and', ['notesid' => $id], ['or', ['crmid' => $returnId], ['crmid' => $subQuery]]])->execute();
 		} else {
-			\App\Db::getInstance()->createCommand()->delete('vtiger_senotesrel', ['notesid' => $id, 'crmid' => $returnId])->execute();
+			\App\Db\Db::getInstance()->createCommand()->delete('vtiger_senotesrel', ['notesid' => $id, 'crmid' => $returnId])->execute();
 			parent::deleteRelatedFromDB($relatedName, $id, $returnModule, $returnId);
 		}
 	}

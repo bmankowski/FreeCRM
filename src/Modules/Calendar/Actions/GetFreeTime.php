@@ -35,7 +35,7 @@ class GetFreeTime extends \App\Base\Controllers\BaseActionController
 		$dbStartDate = $dbStartDateOject->format('Y-m-d');
 		$dbEndDate = $dbEndDateObject->format('Y-m-d');
 
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$params[] = 0;
 		$params[] = $currentUser->getId();
 		$params[] = $dbStartDateTime;
@@ -85,7 +85,7 @@ class GetFreeTime extends \App\Base\Controllers\BaseActionController
 
 		if (\vtlib\Functions:: getDateTimeMinutesDiff(date_format($date, 'H:i:s'), $dbEndWorkHour) <= 0) {
 			$date->add(new \DateInterval('P1D'));
-			while (in_array(date_format($date, 'w'), \App\AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW'))) {
+			while (in_array(date_format($date, 'w'), \App\Core\AppConfig::module('Calendar', 'HIDDEN_DAYS_IN_CALENDAR_VIEW'))) {
 				$date->add(new \DateInterval('P1D'));
 			}
 			return $this->getFreeTimeInDay(date_format($date, 'Y-m-d'));

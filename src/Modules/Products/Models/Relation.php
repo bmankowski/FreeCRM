@@ -43,7 +43,7 @@ class Relation extends \App\Modules\Base\Models\Relation
 	public function deleteProductToProductRelation($sourceRecordId, $relatedRecordId)
 	{
 		if (!empty($sourceRecordId) && !empty($relatedRecordId)) {
-			\App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['crmid' => $relatedRecordId, 'productid' => $sourceRecordId])->execute();
+			\App\Db\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['crmid' => $relatedRecordId, 'productid' => $sourceRecordId])->execute();
 			return true;
 		}
 		return false;

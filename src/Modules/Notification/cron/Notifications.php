@@ -40,7 +40,7 @@ class Notification {
 					'userId' => $row['userid']
 				]);
 			}
-			\App\Db::getInstance()->createCommand()
+			\App\Db\Db::getInstance()->createCommand()
 				->update('u_#__watchdog_schedule', ['last_execution' => $endDate], ['userid' => $row['userid']])
 				->execute();
 		}
@@ -91,7 +91,7 @@ class Notification {
 				->orderBy(['smownerid' => SORT_ASC, 'createdtime' => SORT_ASC])
 				->createCommand()->queryAllByGroup(2);
 		foreach ($notifications as $userId => $noticesByUser) {
-			$noticesByUser = array_slice($noticesByUser, 0, \App\AppConfig::module('Home', 'MAX_NUMBER_NOTIFICATIONS'));
+			$noticesByUser = array_slice($noticesByUser, 0, \App\Core\AppConfig::module('Home', 'MAX_NUMBER_NOTIFICATIONS'));
 			foreach ($noticesByUser as $noticeId) {
 				$notice = \App\Modules\Base\Models\Record::getInstanceById($noticeId);
 				$notice->setMarked();

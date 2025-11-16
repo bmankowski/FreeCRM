@@ -37,7 +37,7 @@ class Login extends \App\Api\Webservice\Core\BaseAction
 	 */
 	public function post()
 	{
-		$db = \App\Db::getInstance('webservice');
+		$db = \App\Db\Db::getInstance('webservice');
 		$row = (new \App\Db\Query())
 				->from('w_#__portal_user')
 				->where(['user_name' => $this->controller->request->get('userName'), 'status' => 1])
@@ -93,7 +93,7 @@ class Login extends \App\Api\Webservice\Core\BaseAction
 	 */
 	public function updateSession($row)
 	{
-		$db = \App\Db::getInstance('webservice');
+		$db = \App\Db\Db::getInstance('webservice');
 		$token = md5(time() . rand());
 		$params = $this->controller->request->get('params');
 		$language = !empty($params['language']) ? $params['language'] : (empty($row['language']) ? $this->getLanguage() : $row['language']);

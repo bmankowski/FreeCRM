@@ -93,7 +93,7 @@ class Save extends \App\Base\Controllers\BaseActionController
 			$userModel = \App\Modules\Users\Models\Record::getInstanceById($userId, 'Users');
 			$request->setUser($userModel);
 		}
-		$handlerClass = \App\Loader::getComponentClassName('View', 'Detail', $request->getModule());
+		$handlerClass = \App\Core\Loader::getComponentClassName('View', 'Detail', $request->getModule());
 		$handler = new $handlerClass();
 		if ($handler) {
 			$handler->preProcess($request);

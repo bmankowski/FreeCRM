@@ -54,7 +54,7 @@ class Watchdog extends \App\Runtime\BaseModel
 		if (\App\Cache\Cache::has('WatchdogModel', $cacheName)) {
 			return \App\Cache\Cache::get('WatchdogModel', $cacheName);
 		}
-		$modelClassName = \App\Loader::getComponentClassName('Model', 'Watchdog', $moduleName);
+		$modelClassName = \App\Core\Loader::getComponentClassName('Model', 'Watchdog', $moduleName);
 		$instance = new $modelClassName();
 		$instance->set('module', $moduleName);
 		$instance->set('moduleId', $moduleId ? $moduleId : \App\Utils\ModuleUtils::getModuleId($moduleName));
@@ -62,7 +62,7 @@ class Watchdog extends \App\Runtime\BaseModel
 		if (static::$cache === false) {
 			static::$cache = require static::$cacheFile;
 		}
-		if (\App\AppConfig::module('ModTracker', 'WATCHDOG') === false) {
+		if (\App\Core\AppConfig::module('ModTracker', 'WATCHDOG') === false) {
 			$instance->isActive = false;
 		}
 		\App\Cache\Cache::save('WatchdogModel', $cacheName, $instance);
@@ -209,7 +209,7 @@ class Watchdog extends \App\Runtime\BaseModel
 		if ($isWatchingRecord && $state === self::RECORD_ACTIVE) {
 			return true;
 		}
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$row = ['state' => $state];
 		if (!$this->get('isRecordExists')) {
 			$row['userid'] = $this->get('userId');
@@ -240,7 +240,7 @@ class Watchdog extends \App\Runtime\BaseModel
 			return true;
 		}
 
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$moduleId = $this->get('moduleId');
 		if ($state === 1) {
 			return $db->createCommand()->insert('u_#__watchdog_module', [
@@ -260,7 +260,7 @@ class Watchdog extends \App\Runtime\BaseModel
 	 */
 	public function lock($state, $member)
 	{
-		return \App\Db::getInstance()
+		return \App\Db\Db::getInstance()
 				->createCommand()
 				->update('u_#__watchdog_module', ['lock' => $state], ['member' => $member, 'module' => $this->get('moduleId')])
 				->execute();
@@ -277,7 +277,7 @@ class Watchdog extends \App\Runtime\BaseModel
 		if (is_array($exceptions)) {
 			$exceptions = implode(',', $exceptions);
 		}
-		return \App\Db::getInstance()
+		return \App\Db\Db::getInstance()
 				->createCommand()
 				->update('u_#__watchdog_module', ['exceptions' => $exceptions], ['member' => $member, 'module' => $this->get('moduleId')])
 				->execute();
@@ -295,7 +295,7 @@ class Watchdog extends \App\Runtime\BaseModel
 		if ($ownerId === false) {
 			$ownerId = \App\Modules\Users\Models\Record::getCurrentUserId();
 		}
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		if (empty($sendNotifications)) {
 			$db->createCommand()->delete('u_#__watchdog_schedule', ['userid' => $ownerId])->execute();
 		} else {
@@ -370,7 +370,7 @@ class Watchdog extends \App\Runtime\BaseModel
 						$name = \App\Runtime\Vtiger_Language_Handler::translate(\App\Fields\Owner::getGroupName($data[1]), $this->get('module'));
 						break;
 					default:
-						$name = \App\Runtime\Vtiger_Language_Handler::translate(\App\PrivilegeUtil::getRoleName($data[1]), $this->get('module'));
+						$name = \App\Runtime\Vtiger_Language_Handler::translate(\App\Security\PrivilegeUtil::getRoleName($data[1]), $this->get('module'));
 						break;
 				}
 				$row['type'] = $data[0];
@@ -408,7 +408,7 @@ class Watchdog extends \App\Runtime\BaseModel
 		while ($row = $dataReader->read()) {
 			$type = explode(':', $row['member']);
 			$exceptions = explode(',', $row['exceptions']);
-			$users = \App\PrivilegeUtil::getUserByMember($row['member']);
+			$users = \App\Security\PrivilegeUtil::getUserByMember($row['member']);
 			if (!empty($exceptions)) {
 				$users = array_diff($users, $exceptions);
 			}

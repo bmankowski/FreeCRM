@@ -71,7 +71,7 @@ class SummationByUser  extends \App\Modules\Base\Views\Index
 		$param = $time['start'] . ',' . $time['end'];
 
 		$s = new \yii\db\Expression('sum(sum_gross)');
-		$queryGenerator = new \App\QueryGenerator($moduleName);
+		$queryGenerator = new \App\QueryField\QueryGenerator($moduleName);
 		$queryGenerator->setField('assigned_user_id');
 		$queryGenerator->setCustomColumn(['s' => $s]);
 		$queryGenerator->addCondition('saledate', $param, 'bw');

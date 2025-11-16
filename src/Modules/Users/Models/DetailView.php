@@ -37,7 +37,7 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 					'linkicon' => ''
 				),
 			);
-			if (\App\AppConfig::main('systemMode') != 'demo') {
+			if (\App\Core\AppConfig::main('systemMode') != 'demo') {
 				$detailViewLinks[] = array(
 					'linktype' => 'DETAILVIEWBASIC',
 					'linklabel' => 'LBL_CHANGE_PASSWORD',
@@ -49,7 +49,7 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 				$linkModelList['DETAILVIEWBASIC'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($detailViewLink);
 			}
 			$detailViewPreferenceLinks = array();
-			if (\App\AppConfig::main('systemMode') != 'demo') {
+			if (\App\Core\AppConfig::main('systemMode') != 'demo') {
 				$detailViewPreferenceLinks[] = array(
 					'linktype' => 'DETAILVIEWPREFERENCE',
 					'linklabel' => 'LBL_CHANGE_PASSWORD',

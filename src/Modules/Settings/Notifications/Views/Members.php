@@ -65,7 +65,7 @@ class Members extends \App\Modules\Settings\Base\Views\BasicModal
 	 */
 	protected function prepareNotificationsMembersData($viewer)
 	{
-		$viewer->assign('PRIVILEGE_MEMBERS', \App\PrivilegeUtil::getMembers());
+		$viewer->assign('PRIVILEGE_MEMBERS', \App\Security\PrivilegeUtil::getMembers());
 	}
 
 	/**
@@ -97,7 +97,7 @@ class Members extends \App\Modules\Settings\Base\Views\BasicModal
 	 */
 	protected function prepareNotificationsMembersExceptionsData($viewer, $member)
 	{
-		$userIds = \App\PrivilegeUtil::getUserByMember($member);
+		$userIds = \App\Security\PrivilegeUtil::getUserByMember($member);
 		$userLabels = [];
 		foreach ($userIds as $userId) {
 			$userLabels[$userId] = \App\Fields\Owner::getUserLabel($userId);

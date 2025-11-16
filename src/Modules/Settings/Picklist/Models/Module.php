@@ -39,7 +39,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	public function addPickListValues($fieldModel, $newValue, $rolesSelected = [])
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$pickListFieldName = $fieldModel->getName();
 		$tableName = 'vtiger_' . $pickListFieldName;
 		if ($db->isTableExists($tableName . '_seq')) {
@@ -87,7 +87,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	public function renamePickListValues($pickListFieldName, $oldValue, $newValue, $moduleName, $id)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$dataReader = (new \App\Db\Query())->select(['tablename', 'columnname'])
 				->from('vtiger_field')
 				->where(['fieldname' => $pickListFieldName, 'presence' => [0, 2]])
@@ -103,7 +103,7 @@ class Module extends \App\Modules\Base\Models\Module
 		}
 		$db->createCommand()->update('vtiger_field', ['defaultvalue' => $newValue], ['defaultvalue' => $oldValue, 'columnname' => $columnName])->execute();
 		$db->createCommand()->update('vtiger_picklist_dependency', ['sourcevalue' => $newValue], ['sourcevalue' => $oldValue, 'sourcefield' => $pickListFieldName])->execute();
-		$eventHandler = new \App\EventHandler();
+		$eventHandler = new \App\Events\EventHandler();
 		$eventHandler->setParams([
 			'fieldname' => $pickListFieldName,
 			'oldvalue' => $oldValue,
@@ -118,7 +118,7 @@ class Module extends \App\Modules\Base\Models\Module
 	public function remove($pickListFieldName, $valueToDeleteId, $replaceValueId, $moduleName)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
-		$adb = \App\Db::getInstance();
+		$adb = \App\Db\Db::getInstance();
 		if (!is_array($valueToDeleteId)) {
 			$valueToDeleteId = array($valueToDeleteId);
 		}
@@ -166,7 +166,7 @@ class Module extends \App\Modules\Base\Models\Module
 		}
 		$adb->createCommand()->update('vtiger_field', ['defaultvalue' => $replaceValue], ['defaultvalue' => $pickListValues, 'columnname' => $columnName])
 			->execute();
-		$eventHandler = new \App\EventHandler();
+		$eventHandler = new \App\Events\EventHandler();
 		$eventHandler->setParams([
 			'fieldname' => $pickListFieldName,
 			'valuetodelete' => $pickListValues,
@@ -179,7 +179,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	public function enableOrDisableValuesForRole($picklistFieldName, $valuesToEnables, $valuesToDisable, $roleIdList)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$picklistId = (new \App\Db\Query())->select(['picklistid'])->from('vtiger_picklist')
 				->where(['name' => $picklistFieldName])->scalar();
 		$primaryKey = \App\Fields\Picklist::getPickListId($picklistFieldName);
@@ -230,7 +230,7 @@ class Module extends \App\Modules\Base\Models\Module
 		}
 		$set .= ' END';
 		$expression = new \yii\db\Expression($set);
-		\App\Db::getInstance()->createCommand()->update($this->getPickListTableName($pickListFieldName), ['sortorderid' => $expression])->execute();
+		\App\Db\Db::getInstance()->createCommand()->update($this->getPickListTableName($pickListFieldName), ['sortorderid' => $expression])->execute();
 	}
 
 	public static function getPicklistSupportedModules()

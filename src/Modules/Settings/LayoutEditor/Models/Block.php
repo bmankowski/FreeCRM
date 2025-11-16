@@ -51,7 +51,7 @@ class Block extends \App\Modules\Base\Models\Block
 	public static function updateFieldSequenceNumber($blockFieldSequence)
 	{
 		$fieldIdList = [];
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$caseSequence = 'CASE';
 		foreach ($blockFieldSequence as $newFieldSequence) {
 			$fieldId = $newFieldSequence['fieldid'];

@@ -77,7 +77,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	public function save($request = null)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$settingsModel = \App\Modules\Settings\Menu\Models\Module::getInstance();
 		$edit = $this->get('edit');
 		$params = [];
@@ -126,7 +126,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	public function saveSequence($data, $generate = false)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$role = 0;
 		foreach ($data as $item) {
 			$db->createCommand()->update('yetiforce_menu', ['sequence' => $item['s'], 'parentid' => $item['p']], ['id' => $item['i']])->execute();
@@ -145,7 +145,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public function removeMenu($ids)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		if (!is_array($ids)) {
 			$ids = [$ids];
 		}
@@ -315,7 +315,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public function copyMenu($fromRole, $toRole)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$nextId = $db->getUniqueID('yetiforce_menu', 'id', false);
 
 		$query = (new \App\Db\Query())->from('yetiforce_menu')->where(['role' => $fromRole]);

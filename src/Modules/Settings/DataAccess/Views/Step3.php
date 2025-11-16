@@ -23,7 +23,7 @@ class Step3 extends \App\Modules\Settings\Base\Views\Index
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$qualifiedModuleName = $request->getModule(false);
 		$moduleName = $request->getModule();
 		$baseModule = $request->get('base_module');

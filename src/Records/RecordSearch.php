@@ -78,7 +78,7 @@ class RecordSearch
 	 */
 	public function getSearchLabelQuery()
 	{
-		$query = (new Db\Query())->select(['csl.crmid', 'csl.setype', 'csl.searchlabel'])
+		$query = (new \App\Db\Query())->select(['csl.crmid', 'csl.setype', 'csl.searchlabel'])
 				->from('u_#__crmentity_search_label csl')->innerJoin('vtiger_tab', 'csl.setype = vtiger_tab.name');
 		$where = ['and', ['vtiger_tab.presence' => 0]];
 		if ($this->checkPermissions) {
@@ -106,7 +106,7 @@ class RecordSearch
 		} elseif ($this->entityName) {
 			$where[] = ['vtiger_entityname.turn_off' => 1];
 			$query->innerJoin('vtiger_entityname', 'csl.setype = vtiger_entityname.modulename');
-			if (\App\AppConfig::search('GLOBAL_SEARCH_SORTING_RESULTS') === 2) {
+			if (\App\Core\AppConfig::search('GLOBAL_SEARCH_SORTING_RESULTS') === 2) {
 				$query->orderBy('vtiger_entityname.sequence');
 			}
 		}

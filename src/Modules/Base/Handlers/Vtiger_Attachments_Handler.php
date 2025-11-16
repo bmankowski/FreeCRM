@@ -16,9 +16,9 @@ class Vtiger_Attachments_Handler {
 
 	/**
 	 * EntityAfterSave function
-	 * @param \App\EventHandler $eventHandler
+	 * @param \App\Events\EventHandler $eventHandler
 	 */
-	public function entityAfterSave(\App\EventHandler $eventHandler)
+	public function entityAfterSave(\App\Events\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		$fields = $recordModel->getModule()->getFieldsByUiType(311);

@@ -18,7 +18,7 @@ class AssetPathResolver
 		}
 
 		$filePath = self::getBaseLayoutPath() . '/' . $fileName;
-		$completeFilePath = \App\Loader::resolveNameToPath('~' . $filePath);
+		$completeFilePath = \App\Core\Loader::resolveNameToPath('~' . $filePath);
 
 		if (file_exists($completeFilePath)) {
 			return $filePath;

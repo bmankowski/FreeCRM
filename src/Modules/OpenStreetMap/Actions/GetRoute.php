@@ -45,11 +45,11 @@ class GetRoute extends \App\Base\Controllers\BaseActionController
 			'endLat' => $tlat,
 			'endLon' => $tlon
 		];
-		$language = \App\AppConfig::main('default_language');
+		$language = \App\Core\AppConfig::main('default_language');
 		$coordinates = [];
 		$travel = 0;
 		$description = '';
-		$urlToRoute = \App\AppConfig::module('OpenStreetMap', 'ADDRESS_TO_ROUTE');
+		$urlToRoute = \App\Core\AppConfig::module('OpenStreetMap', 'ADDRESS_TO_ROUTE');
 		foreach ($tracks as $track) {
 			$url = $urlToRoute.'?format=geojson&flat='.$track['startLat'].'&flon='.$track['startLon'].'&tlat='.$track['endLat'].'&tlon='.$track['endLon'].'&lang='.$language.'&instructions=1';
 			$curl = curl_init();

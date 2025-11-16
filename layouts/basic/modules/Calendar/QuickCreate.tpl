@@ -23,16 +23,16 @@
 					<div class="modal-header">
 						<div class="pull-left"><h3 class="modal-title">{"LBL_QUICK_CREATE"|t:$MODULE} {"LBL_EVENT_OR_TASK"|t:$MODULE}</h3></div>
 
-						{assign var="\App\Modules\Calendar\Models\Module" value=$QUICK_CREATE_CONTENTS['Calendar']['moduleModel']}
+						{assign var="CALENDAR_MODULE_MODEL" value=$QUICK_CREATE_CONTENTS['Calendar']['moduleModel']}
 						<div class="quickCreateActions pull-right">
 							{foreach item=LINK from=$QUICKCREATE_LINKS['QUICKCREATE_VIEW_HEADER']}
 								{include file='ButtonLink.tpl'|@vtemplate_path:$MODULE BUTTON_VIEW='quickcreateViewHeader'}
 								&nbsp;&nbsp;
 							{/foreach}
 							{if $MODULE_NAME eq 'Calendar'}
-								{assign var="EDIT_VIEW_URL" value=$\App\Modules\Calendar\Models\Module->getCreateTaskRecordUrl()}
+								{assign var="EDIT_VIEW_URL" value=$CALENDAR_MODULE_MODEL->getCreateTaskRecordUrl()}
 							{else}
-								{assign var="EDIT_VIEW_URL" value=$\App\Modules\Calendar\Models\Module->getCreateEventRecordUrl()}
+								{assign var="EDIT_VIEW_URL" value=$CALENDAR_MODULE_MODEL->getCreateEventRecordUrl()}
 							{/if}
 							<button class="btn btn-default" id="goToFullForm" type="button" data-edit-view-url="{$EDIT_VIEW_URL}"><strong>{"LBL_GO_TO_FULL_FORM"|t:$MODULE}</strong></button>&nbsp;
 							<button class="cancelLink btn btn-warning" type="reset" aria-hidden="true" data-dismiss="modal"
@@ -109,7 +109,7 @@
 									<button class="btn btn-primary saveAndComplete" type="button">{"LBL_SAVE_AND_CLOSE"|t:$MODULE}</button> 
 									<button class="btn btn-success" type="submit"><strong>{"LBL_SAVE"|t:$MODULE}</strong></button>
 								</div>
-								{if AppConfig::module($MODULE, 'SHOW_DAYS_QUICKCREATE')}
+								{if \App\Core\AppConfig::module($MODULE, 'SHOW_DAYS_QUICKCREATE')}
 									<div class="row noSpaces col-xs-12 eventsTable" style="margin-top: 5px;">
 										<div class="width1per7 paddingLRZero" id="threeDaysAgo">
 											<table class="table">

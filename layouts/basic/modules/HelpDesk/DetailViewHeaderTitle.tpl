@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <!-- layouts/basic/modules/HelpDesk/DetailViewHeaderTitle.tpl -->
-	{if AppConfig::module('HelpDesk','CHECK_ACCOUNT_EXISTS') && $RECORD->get('parent_id') == 0}
+	{if \App\Core\AppConfig::module('HelpDesk','CHECK_ACCOUNT_EXISTS') && $RECORD->get('parent_id') == 0}
 		<div class="alert alert-danger marginBottom10px" role="alert">
 			<strong>{'LBL_NO_ACCOUNTS_IN_HELPDESK'|t:{$MODULE}}</strong>
 			<span class="text-right">
@@ -20,7 +20,7 @@
 				</a>		
 			</span>
 		</div>
-	{elseif AppConfig::module('HelpDesk','CHECK_SERVICE_CONTRACTS_EXISTS') && \App\Modules\Base\Models\Module::getInstance('ServiceContracts')->isActive() && $RECORD->get('servicecontractsid') == 0}
+	{elseif \App\Core\AppConfig::module('HelpDesk','CHECK_SERVICE_CONTRACTS_EXISTS') && \App\Modules\Base\Models\Module::getInstance('ServiceContracts')->isActive() && $RECORD->get('servicecontractsid') == 0}
 		{assign var=SERVICE_CONTRACTS value=$RECORD->getActiveServiceContracts()}
 		<div class="alert {if $SERVICE_CONTRACTS}alert-warning{else}alert-danger{/if} selectServiceContracts marginBottom10px" role="alert">
 			{if $SERVICE_CONTRACTS}

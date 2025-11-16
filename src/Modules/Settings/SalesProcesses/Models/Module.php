@@ -25,10 +25,10 @@ class Module extends \App\Modules\Base\Models\Record
 	public static function getConfig($type = false)
 	{
 
-		\App\Log::trace('Start ' . __METHOD__ . " | Type: $type");
+		\App\Log\Log::trace('Start ' . __METHOD__ . " | Type: $type");
 		$cache = \App\Cache\Cache::get('SalesProcesses', $type === false ? 'all' : $type);
 		if ($cache) {
-			\App\Log::trace('End ' . __METHOD__);
+			\App\Log\Log::trace('End ' . __METHOD__);
 			return $cache;
 		}
 		$db = \App\Database\PearDatabase::getInstance();
@@ -59,21 +59,21 @@ class Module extends \App\Modules\Base\Models\Record
 			}
 		}
 		\App\Cache\Cache::save('SalesProcesses', $type === false ? 'all' : $type, $config);
-		\App\Log::trace('End ' . __METHOD__);
+		\App\Log\Log::trace('End ' . __METHOD__);
 		return $config;
 	}
 
 	public static function setConfig($param)
 	{
-		\App\Log::trace('Start ' . __METHOD__);
+		\App\Log\Log::trace('Start ' . __METHOD__);
 		$value = $param['val'];
 		if (is_array($value)) {
 			$value = implode(',', $value);
 		}
-		\App\Db::getInstance()->createCommand()
+		\App\Db\Db::getInstance()->createCommand()
 			->update('yetiforce_proc_sales', ['value' => $value], ['type' => $param['type'], 'param' => $param['param']])
 			->execute();
-		\App\Log::trace('End ' . __METHOD__);
+		\App\Log\Log::trace('End ' . __METHOD__);
 		return true;
 	}
 

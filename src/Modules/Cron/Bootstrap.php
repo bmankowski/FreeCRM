@@ -45,8 +45,8 @@ class Bootstrap
 		
 		// Access the global variable
 		global $API_CONFIG;
-		\App\AppConfig::init($API_CONFIG);
-		\App\Loader::register();
+		\App\Core\AppConfig::init($API_CONFIG);
+		\App\Core\Loader::register();
 	}
 
 	/**
@@ -55,12 +55,12 @@ class Bootstrap
 	 */
 	private static function initializeServices(): void
 	{
-		\App\Debugger::init();
+		\App\Debug\Debugger::init();
 		\App\Cache\Cache::init();
-		\App\Db::$connectCache = \App\AppConfig::performance('ENABLE_CACHING_DB_CONNECTION');
-		\App\Log::$logToProfile = \App\AppConfig::debug('LOG_TO_PROFILE');
-		\App\Log::$logToConsole = \App\AppConfig::debug('LOG_TO_CONSOLE');
-		\App\Log::$logToFile = \App\AppConfig::debug('LOG_TO_FILE');
+		\App\Db\Db::$connectCache = \App\Core\AppConfig::performance('ENABLE_CACHING_DB_CONNECTION');
+		\App\Log\Log::$logToProfile = \App\Core\AppConfig::debug('LOG_TO_PROFILE');
+		\App\Log\Log::$logToConsole = \App\Core\AppConfig::debug('LOG_TO_CONSOLE');
+		\App\Log\Log::$logToFile = \App\Core\AppConfig::debug('LOG_TO_FILE');
 	}
 
 	/**
@@ -92,7 +92,7 @@ class Bootstrap
 		
 		$authenticatedUserId = \App\Http\Vtiger_Session::get('authenticated_user_id');
 		$appUniqueKey = \App\Http\Vtiger_Session::get('app_unique_key');
-		$expectedKey = \App\AppConfig::main('application_unique_key');
+		$expectedKey = \App\Core\AppConfig::main('application_unique_key');
 		
 		// Check session authentication
 		if (!empty($authenticatedUserId) && !empty($appUniqueKey) && $appUniqueKey === $expectedKey) {

@@ -102,7 +102,7 @@ class ProductsSoldToRenew  extends \App\Modules\Base\Views\Index
 	protected function initListViewController()
 	{
 		if (!$this->queryGenerator) {
-			$this->queryGenerator = new \App\QueryGenerator($this->getTargetModule());
+			$this->queryGenerator = new \App\QueryField\QueryGenerator($this->getTargetModule());
 			$this->queryGenerator->setFields($this->getTargetFields());
 			$this->listviewHeaders = $this->listviewRecords = NULL;
 		}

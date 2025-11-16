@@ -28,7 +28,7 @@ class VCardReader extends FileReader
 
 	public function getFirstRowData($hasHeader = true)
 	{
-		$default_charset = \App\AppConfig::main('default_charset');
+		$default_charset = \App\Core\AppConfig::main('default_charset');
 
 		$filePath = $this->getFilePath();
 		if (empty(self::$fileContents)) {
@@ -58,7 +58,7 @@ class VCardReader extends FileReader
 	 */
 	public function read()
 	{
-		$defaultCharset = \App\AppConfig::main('default_charset');
+		$defaultCharset = \App\Core\AppConfig::main('default_charset');
 
 		$filePath = $this->getFilePath();
 		$this->createTable();

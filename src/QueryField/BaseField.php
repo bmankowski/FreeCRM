@@ -49,12 +49,12 @@ class BaseField
 
 	/**
 	 * Constructor
-	 * @param \App\QueryGenerator $queryGenerator
+	 * @param \App\QueryField\QueryGenerator $queryGenerator
 	 * @param \App\Modules\Base\Models\Field $fieldModel
 	 * @param string|array $value
 	 * @param string $operator
 	 */
-	public function __construct(\App\QueryGenerator $queryGenerator, $fieldModel = false)
+	public function __construct(\App\QueryField\QueryGenerator $queryGenerator, $fieldModel = false)
 	{
 		$this->queryGenerator = $queryGenerator;
 		$this->fieldModel = $fieldModel;
@@ -163,10 +163,10 @@ class BaseField
 	{
 		$fn = 'operator' . ucfirst($this->operator);
 		if (method_exists($this, $fn)) {
-			Log::trace("Entering to $fn in " . __CLASS__);
+			\App\Log\Log::trace("Entering to $fn in " . __CLASS__);
 			return $this->$fn();
 		}
-		Log::error("Not found operator: $fn in  " . __CLASS__);
+		\App\Log\Log::error("Not found operator: $fn in  " . __CLASS__);
 		return false;
 	}
 

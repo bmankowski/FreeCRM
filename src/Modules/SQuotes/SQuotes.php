@@ -9,7 +9,7 @@ namespace App\Modules\SQuotes;
  */
 
 
-class SQuotes extends \App\CRMEntity
+class SQuotes extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'u_yf_squotes';
@@ -98,7 +98,7 @@ class SQuotes extends \App\CRMEntity
 				if (class_exists('ModComments'))
 					ModComments::addWidgetTo(array('SQuotes'));
 			}
-			\App\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions:: getModuleId($moduleName));
+			\App\Core\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions:: getModuleId($moduleName));
 		} else if ($eventType == 'module.disabled') {
 			
 		} else if ($eventType == 'module.preuninstall') {

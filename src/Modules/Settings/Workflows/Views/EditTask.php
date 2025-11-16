@@ -48,7 +48,7 @@ class EditTask extends \App\Modules\Settings\Base\Views\Index
 		$taskObject = $taskModel->getTaskObject();
 		$taskType = get_class($taskObject);
 		if ($taskType === 'VTCreateEntityTask') {
-			$handlerClass = \App\Loader::getComponentClassName('Model', 'MappedFields', $sourceModule);
+			$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'MappedFields', $sourceModule);
 			$mfModel = new $handlerClass();
 			$viewer->assign('TEMPLATES_MAPPING', $mfModel->getTemplatesByModule($sourceModule));
 			if ($taskObject->entity_type && $taskObject->field_value_mapping) {
@@ -124,7 +124,7 @@ class EditTask extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$emailFieldoptions = [];
-		$textParser = \App\TextParser::getInstance($sourceModule);
+		$textParser = \App\TextParser\TextParser::getInstance($sourceModule);
 		foreach ($textParser->getRecordVariable('email') as $blockName => $fields) {
 			$blockName = \App\Runtime\Vtiger_Language_Handler::translate($blockName, $sourceModule);
 			foreach ($fields as $field) {
@@ -169,7 +169,7 @@ class EditTask extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('NOTIFICATION_TYPE_VALUES', \App\Fields\Picklist::getPickListValues('notification_type'));
 		
 		// Prepare privilege members
-		$viewer->assign('PRIVILEGE_MEMBERS', \App\PrivilegeUtil::getMembers());
+		$viewer->assign('PRIVILEGE_MEMBERS', \App\Security\PrivilegeUtil::getMembers());
 		
 		// Prepare mail accounts for email tasks
 		$viewer->assign('MAIL_ACCOUNTS', \App\Email\Mail::getAll());

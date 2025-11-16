@@ -40,7 +40,7 @@ class RecordNumber
 	public static function setNumber($tabId, $prefix = '', $no = '', $postfix = '')
 	{
 		if ($no != '') {
-			$db = \App\Db::getInstance();
+			$db = \App\Db\Db::getInstance();
 			if (!is_numeric($tabId)) {
 				$tabId = \App\Utils\ModuleUtils::getModuleId($tabId);
 			}
@@ -91,7 +91,7 @@ class RecordNumber
 		}
 		$temp = str_repeat('0', $strip);
 		$reqNo = $temp . ($curId + 1);
-		\App\Db::getInstance()->createCommand()->update('vtiger_modentity_num', ['cur_id' => $reqNo], ['cur_id' => $curId, 'tabid' => $moduleId])->execute();
+		\App\Db\Db::getInstance()->createCommand()->update('vtiger_modentity_num', ['cur_id' => $reqNo], ['cur_id' => $curId, 'tabid' => $moduleId])->execute();
 		return \App\Utils\ListViewUtils::decodeHtml($fullPrefix);
 	}
 
@@ -108,7 +108,7 @@ class RecordNumber
 
 	public static function updateNumber($curId, $tabId)
 	{
-		\App\Db::getInstance()->createCommand()
+		\App\Db\Db::getInstance()->createCommand()
 			->update('vtiger_modentity_num', ['cur_id' => $curId], ['tabid' => $tabId])
 			->execute();
 	}

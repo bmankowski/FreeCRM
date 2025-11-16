@@ -34,7 +34,7 @@ class Invitees extends \App\Base\Controllers\BaseActionController
 	public function find(\App\Http\Vtiger_Request $request)
 	{
 		$value = $request->get('value');
-		$modules = array_keys(\App\ModuleHierarchy::getModulesByLevel(0));
+		$modules = array_keys(\App\Core\ModuleHierarchy::getModulesByLevel(0));
 		if (empty($modules)) {
 			return [];
 		}

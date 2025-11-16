@@ -115,7 +115,7 @@ class BasicAjax  extends \App\Modules\Base\Views\Index
 		$matchingRecords = [];
 		if (is_array($advFilterList) && $advFilterList) {
 			$isAdvanceSearch = true;
-			$queryGenerator = new \App\QueryGenerator($moduleName);
+			$queryGenerator = new \App\QueryField\QueryGenerator($moduleName);
 			$queryGenerator->setFields(['id']);
 			$queryGenerator->parseAdvFilter($advFilterList);
 			$query = $queryGenerator->createQuery();
@@ -138,7 +138,7 @@ class BasicAjax  extends \App\Modules\Base\Views\Index
 			$viewer->assign('SEARCH_KEY', $searchKey);
 			$viewer->assign('SEARCH_MODULE', $searchModule);
 			$matchingRecords = \App\Modules\Base\Models\Record::getSearchResult($searchKey, $searchModule, $limit, $operator);
-			if (\App\AppConfig::search('GLOBAL_SEARCH_SORTING_RESULTS') === 1) {
+			if (\App\Core\AppConfig::search('GLOBAL_SEARCH_SORTING_RESULTS') === 1) {
 				$matchingRecordsList = [];
 				foreach (\App\Utils\App\Utils\ModuleUtils::getAllEntityModuleInfo(true) as &$module) {
 					if (isset($matchingRecords[$module['modulename']]) && $module['turn_off'] == 1) {
@@ -149,7 +149,7 @@ class BasicAjax  extends \App\Modules\Base\Views\Index
 			}
 		}
 		$curentModule = $request->get('curentModule');
-		if (\App\AppConfig::search('GLOBAL_SEARCH_CURRENT_MODULE_TO_TOP') && isset($matchingRecords[$curentModule])) {
+		if (\App\Core\AppConfig::search('GLOBAL_SEARCH_CURRENT_MODULE_TO_TOP') && isset($matchingRecords[$curentModule])) {
 			$pushTop = $matchingRecords[$curentModule];
 			unset($matchingRecords[$curentModule]);
 			$matchingRecords = [$curentModule => $pushTop] + $matchingRecords;

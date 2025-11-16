@@ -1,7 +1,7 @@
 {strip}
 <!-- layouts/basic/modules/Base/BodyLeft.tpl -->
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
-	{assign var="COMPANY_DETAILS" value=App\Company::getInstanceById()}
+	{assign var="COMPANY_DETAILS" value=App\Core\Company::getInstanceById()}
 	{assign var="COMPANY_LOGO" value=$COMPANY_DETAILS->getLogo()}
 	<div class="container-fluid userDetailsContainer">
 		<div class="row padding0">

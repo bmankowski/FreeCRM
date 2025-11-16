@@ -46,7 +46,7 @@ class Vtiger_Language_Handler
 
 		// label not found in users language pack, then check in the default language pack(config.inc.php)
 		if ($translatedString === null) {
-			$defaultLanguage = \App\AppConfig::main('default_language');
+			$defaultLanguage = \App\Core\AppConfig::main('default_language');
 			if (!empty($defaultLanguage) && strcasecmp($defaultLanguage, $currentLanguage) !== 0) {
 				$translatedString = self::getLanguageTranslatedString($defaultLanguage, $key, $module);
 			}
@@ -74,7 +74,7 @@ class Vtiger_Language_Handler
 		}
 
 		if (is_array($module)) {
-			Log::warning('Invalid module name - module: ' . var_export($module, true));
+			\App\Log\Log::warning('Invalid module name - module: ' . var_export($module, true));
 			return null;
 		}
 
@@ -143,7 +143,7 @@ class Vtiger_Language_Handler
 			return $commonStrings['jsLanguageStrings'][$key];
 		}
 
-		Log::warning(sprintf("cannot translate this: '%s' for module '%s' (or base or Vtiger), lang: %s", $key, $module, $language));
+		\App\Log\Log::warning(sprintf("cannot translate this: '%s' for module '%s' (or base or Vtiger), lang: %s", $key, $module, $language));
 		return $key;
 	}
 
@@ -158,20 +158,20 @@ class Vtiger_Language_Handler
 		$module = str_replace(':', '.', $module);
 		if (!isset(self::$languageContainer[$language][$module])) {
 			$qualifiedName = 'languages.' . $language . '.' . $module;
-			$file = \App\Loader::resolveNameToPath($qualifiedName);
+			$file = \App\Core\Loader::resolveNameToPath($qualifiedName);
 			$languageStrings = [];
 			$jsLanguageStrings = [];
 			if (file_exists($file)) {
 				require $file;
 			} else {
-				Log::warning(sprintf('Language file does not exist, module: %s ,language: %s', $module, $language));
+				\App\Log\Log::warning(sprintf('Language file does not exist, module: %s ,language: %s', $module, $language));
 			}
 
 			self::$languageContainer[$language][$module]['languageStrings'] = $languageStrings;
 			self::$languageContainer[$language][$module]['jsLanguageStrings'] = $jsLanguageStrings;
-			if (\App\AppConfig::performance('LOAD_CUSTOM_FILES')) {
+			if (\App\Core\AppConfig::performance('LOAD_CUSTOM_FILES')) {
 				$qualifiedName = 'custom.languages.' . $language . '.' . $module;
-				$file = \App\Loader::resolveNameToPath($qualifiedName);
+				$file = \App\Core\Loader::resolveNameToPath($qualifiedName);
 				if (file_exists($file)) {
 					require $file;
 					foreach ($languageStrings as $key => $val) {
@@ -213,7 +213,7 @@ class Vtiger_Language_Handler
 		$language = \App\Modules\Users\Models\Record::getCurrentUserModel()->get('language');
 	}
 
-		$language = empty($language) ? \App\AppConfig::main('default_language') : strtolower($language);
+		$language = empty($language) ? \App\Core\AppConfig::main('default_language') : strtolower($language);
 		static::$language = $language;
 		return $language;
 	}
@@ -237,7 +237,7 @@ class Vtiger_Language_Handler
 	public static function export($module, $type = 'languageStrings')
 	{
 		$userSelectedLanguage = self::getLanguage();
-		$value = \App\AppConfig::main('default_language');
+		$value = \App\Core\AppConfig::main('default_language');
 		$languages = [$userSelectedLanguage];
 		//To merge base language and user selected language translations
 		if ($userSelectedLanguage != $value) {

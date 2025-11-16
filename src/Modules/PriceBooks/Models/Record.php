@@ -53,11 +53,11 @@ class Record extends \App\Modules\Base\Models\Record
 	{
 		$isExists = (new \App\Db\Query())->from('vtiger_pricebookproductrel')->where(['pricebookid' => $this->getId(), 'productid' => $relatedRecordId])->exists();
 		if ($isExists) {
-			\App\Db::getInstance()->createCommand()
+			\App\Db\Db::getInstance()->createCommand()
 				->update('vtiger_pricebookproductrel', ['listprice' => $price], ['pricebookid' => $this->getId(), 'productid' => $relatedRecordId])
 				->execute();
 		} else {
-			\App\Db::getInstance()->createCommand()
+			\App\Db\Db::getInstance()->createCommand()
 				->insert('vtiger_pricebookproductrel', [
 					'pricebookid' => $this->getId(),
 					'productid' => $relatedRecordId,
@@ -73,7 +73,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public function deleteListPrice($relatedRecordId)
 	{
-		return \App\Db::getInstance()->createCommand()
+		return \App\Db\Db::getInstance()->createCommand()
 				->delete('vtiger_pricebookproductrel', ['pricebookid' => $this->getId(), 'productid' => $relatedRecordId])
 				->execute();
 	}
@@ -86,7 +86,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	public function updateListPrices()
 	{
-		\App\Log::trace('Entering function updateListPrices...');
+		\App\Log\Log::trace('Entering function updateListPrices...');
 		$pricebookCurrency = $this->get('currency_id');
 		$dataReader = (new \App\Db\Query())->from('vtiger_pricebookproductrel')
 				->where(['and', ['pricebookid' => $this->getId()], ['<>', 'usedcurrency', $pricebookCurrency]])
@@ -95,10 +95,10 @@ class Record extends \App\Modules\Base\Models\Record
 			$productCurrencyInfo = \vtlib\Functions:: getCurrencySymbolandRate($row['usedcurrency']);
 			$pricebookCurrencyInfo = \vtlib\Functions:: getCurrencySymbolandRate($pricebookCurrency);
 			$computedListPrice = $row['listprice'] * $pricebookCurrencyInfo['rate'] / $productCurrencyInfo['rate'];
-			\App\Db::getInstance()->createCommand()
+			\App\Db\Db::getInstance()->createCommand()
 				->update('vtiger_pricebookproductrel', ['listprice' => $computedListPrice, 'usedcurrency' => $pricebookCurrency], ['pricebookid' => $this->getId(), 'productid' => $row['productid']])
 				->execute();
 		}
-		\App\Log::trace('Exiting function updateListPrices...');
+		\App\Log\Log::trace('Exiting function updateListPrices...');
 	}
 }

@@ -95,7 +95,7 @@ class VtigerCRMObject
 
 	private function getModuleClassInstance($moduleName)
 	{
-		return \App\CRMEntity::getInstance($moduleName);
+		return \App\Core\CRMEntity::getInstance($moduleName);
 	}
 
 

@@ -40,7 +40,7 @@ class MiniListWizard  extends \App\Modules\Base\Views\Index
 				$selectedModule = $request->get('selectedModule');
 				$filterid = $request->get('filterid');
 
-				$queryGenerator = new \App\QueryGenerator($selectedModule);
+				$queryGenerator = new \App\QueryField\QueryGenerator($selectedModule);
 				$queryGenerator->initForCustomViewById($filterid);
 				$viewer->assign('QUERY_GENERATOR', $queryGenerator);
 				$viewer->assign('SELECTED_MODULE', $selectedModule);

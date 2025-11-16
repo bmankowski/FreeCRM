@@ -17,7 +17,7 @@ class Processes {
 	public static function getConfig($process, $type, $procesParam = false)
 	{
 		
-		\App\Log::trace('Start ' . __METHOD__ . " | Process: $process, Type: $type");
+		\App\Log\Log::trace('Start ' . __METHOD__ . " | Process: $process, Type: $type");
 		$db = \App\Database\PearDatabase::getInstance();
 		$processList = [
 			'marketing' => 'yetiforce_proc_marketing',
@@ -25,7 +25,7 @@ class Processes {
 		];
 		$cache = \App\Cache\Cache::get('ProcessesModel', $process . $type);
 		if ($cache) {
-			\App\Log::trace('End ' . __METHOD__);
+			\App\Log\Log::trace('End ' . __METHOD__);
 			return $cache;
 		}
 
@@ -45,12 +45,12 @@ class Processes {
 			}
 			if ($procesParam != false && $param == $procesParam) {
 				\App\Cache\Cache::save('ProcessesModel', $process . $type . $procesParam, $value);
-				\App\Log::trace('End ' . __METHOD__);
+				\App\Log\Log::trace('End ' . __METHOD__);
 				return $value;
 			}
 		}
 		\App\Cache\Cache::save('ProcessesModel', $process . $type, $config);
-		\App\Log::trace('End ' . __METHOD__);
+		\App\Log\Log::trace('End ' . __METHOD__);
 		return $config;
 	}
 }

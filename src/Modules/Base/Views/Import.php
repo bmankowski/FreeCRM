@@ -83,7 +83,7 @@ class Import  extends \App\Modules\Base\Views\Index
 	 */
 	public function importBasicStep(\App\Http\Vtiger_Request $request)
 	{
-		$uploadMaxSize = \App\AppConfig::main('upload_maxsize');
+		$uploadMaxSize = \App\Core\AppConfig::main('upload_maxsize');
 		$moduleName = $request->getModule();
 
 		$importModule = \App\Modules\Base\Models\Module::getInstance('Import')->setImportModule($moduleName);

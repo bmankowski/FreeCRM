@@ -28,9 +28,9 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 */
 	public static function getTicketStatus()
 	{
-		\App\Log::trace("Entering \App\Modules\Settings\SupportProcesses\Models\Module::getTicketStatus() method ...");
+		\App\Log\Log::trace("Entering \App\Modules\Settings\SupportProcesses\Models\Module::getTicketStatus() method ...");
 		$return = \App\Fields\Picklist::getPickListValues('ticketstatus');
-		\App\Log::trace("Exiting \App\Modules\Settings\SupportProcesses\Models\Module::getTicketStatus() method ...");
+		\App\Log\Log::trace("Exiting \App\Modules\Settings\SupportProcesses\Models\Module::getTicketStatus() method ...");
 		return $return;
 	}
 
@@ -62,23 +62,23 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 */
 	public function updateTicketStatusNotModify($data)
 	{
-		\App\Log::trace("Entering \App\Modules\Settings\SupportProcesses\Models\Module::updateTicketStatusNotModify() method ...");
-		\App\Db::getInstance()->createCommand()->update('vtiger_support_processes', [
+		\App\Log\Log::trace("Entering \App\Modules\Settings\SupportProcesses\Models\Module::updateTicketStatusNotModify() method ...");
+		\App\Db\Db::getInstance()->createCommand()->update('vtiger_support_processes', [
 			'ticket_status_indicate_closing' => ''
 			], ['id' => 1])->execute();
 		if (!empty($data['val'])) {
 			$data = implode(',', $data['val']);
-			\App\Db::getInstance()->createCommand()->update('vtiger_support_processes', [
+			\App\Db\Db::getInstance()->createCommand()->update('vtiger_support_processes', [
 				'ticket_status_indicate_closing' => $data
 				], ['id' => 1])->execute();
 		}
-		\App\Log::trace("Exiting \App\Modules\Settings\SupportProcesses\Models\Module::updateTicketStatusNotModify() method ...");
+		\App\Log\Log::trace("Exiting \App\Modules\Settings\SupportProcesses\Models\Module::updateTicketStatusNotModify() method ...");
 		return true;
 	}
 
 	public static function getAllTicketStatus()
 	{
-		\App\Log::trace(__METHOD__);
+		\App\Log\Log::trace(__METHOD__);
 		return \App\Fields\Picklist::getPickListValues('ticketstatus');
 	}
 
@@ -86,7 +86,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	{
 
 		$getTicketStatusClosed = self::getTicketStatusNotModify();
-		\App\Log::trace(__METHOD__);
+		\App\Log\Log::trace(__METHOD__);
 		if (empty($getTicketStatusClosed)) {
 			$result = false;
 		} else {

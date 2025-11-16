@@ -1,5 +1,5 @@
 <?php
-namespace App;
+namespace App\TextParser;
 
 use App\Cache\Cache;
 use App\AppConfig;
@@ -302,7 +302,7 @@ class TextParser
 			$fieldName = array_shift($params);
 			$id = array_shift($params);
 		}
-		$company = Company::getInstanceById($id);
+		$company = \App\Core\Company::getInstanceById($id);
 		if ($fieldName === 'mailLogo' || $fieldName === 'loginLogo') {
 			$fieldName = ($fieldName === 'mailLogo') ? 'logo_mail' : 'logo_main';
 			$logo = $company->getLogo($fieldName);
@@ -315,7 +315,7 @@ class TextParser
 			$logoHeight = $company->get($fieldName . '_height');
 			return "<img class=\"organizationLogo\" src=\"$logoName\" title=\"$logoTitle\" alt=\"$logoAlt\" height=\"{$logoHeight}px\">";
 		} elseif (in_array($fieldName, ['logo_login', 'logo_main', 'logo_mail'])) {
-			return Company::$logoPath . $company->get($fieldName);
+			return \App\Core\Company::$logoPath . $company->get($fieldName);
 		}
 		return $company->get($fieldName);
 	}
@@ -334,7 +334,7 @@ class TextParser
 		if (Cache::has('TextParserEmployeeDetailRows', $userId)) {
 			$employee = Cache::get('TextParserEmployeeDetailRows', $userId);
 		} else {
-			$employee = (new Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees', 'smownerid' => $userId])
+			$employee = (new \App\Db\Query())->select(['crmid'])->from('vtiger_crmentity')->where(['deleted' => 0, 'setype' => 'OSSEmployees', 'smownerid' => $userId])
 					->limit(1)->scalar();
 			Cache::save('TextParserEmployeeDetailRows', $userId, $employee, Cache::LONG);
 		}
@@ -363,8 +363,8 @@ class TextParser
 		switch ($key) {
 			case 'CurrentDate': return (new \DateTimeField(null))->getDisplayDate();
 			case 'CurrentTime' : return \App\Modules\Base\Util::convertTimeIntoUsersDisplayFormat(date('h:i:s'));
-			case 'SiteUrl' : return \App\AppConfig::main('site_URL');
-			case 'PortalUrl' : return \App\AppConfig::main('PORTAL_URL');
+			case 'SiteUrl' : return \App\Core\AppConfig::main('site_URL');
+			case 'PortalUrl' : return \App\Core\AppConfig::main('PORTAL_URL');
 			case 'BaseTimeZone' : return \App\Fields\DateTimeField::getDBTimeZone();
 		}
 		return $key;
@@ -389,7 +389,7 @@ class TextParser
 		}
 		switch ($key) {
 			case 'CrmDetailViewURL' :
-				return \App\AppConfig::main('site_URL') . 'index.php?module=' . $this->moduleName . '&view=Detail&record=' . $this->record;
+				return \App\Core\AppConfig::main('site_URL') . 'index.php?module=' . $this->moduleName . '&view=Detail&record=' . $this->record;
 			case 'PortalDetailViewURL' :
 				$recorIdName = 'id';
 				if ($this->moduleName === 'HelpDesk') {
@@ -399,7 +399,7 @@ class TextParser
 				} elseif ($this->moduleName === 'Products') {
 					$recorIdName = 'productid';
 				}
-				return \App\AppConfig::main('PORTAL_URL') . '/index.php?module=' . $this->moduleName . '&action=index&' . $recorIdName . '=' . $this->record;
+				return \App\Core\AppConfig::main('PORTAL_URL') . '/index.php?module=' . $this->moduleName . '&action=index&' . $recorIdName . '=' . $this->record;
 			case 'ModuleName' : return $this->moduleName;
 			case 'RecordId' : return $this->record;
 			case 'RecordLabel' : return $this->recordModel->getName();
@@ -643,15 +643,15 @@ class TextParser
 
 
 		if (\App\Utils\ModuleUtils::getModuleId($moduleName)) {
-			$handlerClass = \App\Loader::getComponentClassName('TextParser', $parserName, $this->moduleName, false);
+			$handlerClass = \App\Core\Loader::getComponentClassName('TextParser', $parserName, $this->moduleName, false);
 			if (!$handlerClass) {
-				Log::error("Not found custom class: $parserName|{$this->moduleName}");
+				\App\Log\Log::error("Not found custom class: $parserName|{$this->moduleName}");
 			}
 			$instance = new $handlerClass($this, $params);
 		} else {
 			$className = "\App\TextParser\\$parserName";
 			if (!class_exists($className)) {
-				Log::error("Not found custom class $parserName");
+				\App\Log\Log::error("Not found custom class $parserName");
 				return '';
 			}
 			$instance = new $className($this, $aparams);
@@ -708,7 +708,7 @@ class TextParser
 	 */
 	public function getSourceVariable()
 	{
-		if (empty(\App\TextParser::$sourceModules[$this->moduleName])) {
+		if (empty(\App\TextParser\TextParser::$sourceModules[$this->moduleName])) {
 			return false;
 		}
 		$variables = [];
@@ -719,7 +719,7 @@ class TextParser
 				'label' => \App\Runtime\Vtiger_Language_Handler::translate($name)
 			];
 		}
-		foreach (\App\TextParser::$sourceModules[$this->moduleName] as $moduleName) {
+		foreach (\App\TextParser\TextParser::$sourceModules[$this->moduleName] as $moduleName) {
 			$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 			foreach ($moduleModel->getBlocks() as $blockModel) {
 				foreach ($blockModel->getFields() as $fieldModel) {
@@ -798,7 +798,7 @@ class TextParser
 					return \App\Runtime\Vtiger_Language_Handler::translate($value);
 				}, array_flip(static::$variableGeneral))
 		];
-		$companyDetails = Company::getInstanceById()->getData();
+		$companyDetails = \App\Core\Company::getInstanceById()->getData();
 		unset($companyDetails['id'], $companyDetails['logo_login'], $companyDetails['logo_login_height'], $companyDetails['logo_main'], $companyDetails['logo_main_height'], $companyDetails['logo_mail'], $companyDetails['logo_mail_height'], $companyDetails['default']);
 		$companyVariables = [];
 		foreach (array_keys($companyDetails) as $name) {
@@ -826,7 +826,7 @@ class TextParser
 			if ($fileInfo->getType() !== 'dir' && $fileName !== 'Base' && $fileInfo->getExtension() === 'php') {
 				$className = '\App\TextParser\\' . $fileName;
 				if (!class_exists($className)) {
-					Log::warning('Not found custom class');
+					\App\Log\Log::warning('Not found custom class');
 					continue;
 				}
 				$instance = new $className($this);
@@ -850,7 +850,7 @@ class TextParser
 			foreach ((new \DirectoryIterator("modules/{$this->moduleName}/textParsers/")) as $fileInfo) {
 				$fileName = $fileInfo->getBasename('.php');
 				if ($fileInfo->getType() !== 'dir' && $fileInfo->getExtension() === 'php') {
-					$handlerClass = \App\Loader::getComponentClassName('TextParser', $fileName, $this->moduleName);
+					$handlerClass = \App\Core\Loader::getComponentClassName('TextParser', $fileName, $this->moduleName);
 					$instanceClass = new $handlerClass($this);
 					if (isset($this->type) && $this->type !== $instanceClass->type) {
 						continue;

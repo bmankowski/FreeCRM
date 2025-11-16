@@ -13,7 +13,7 @@
 <!-- layouts/basic/modules/Base/Footer.tpl -->
 <div class="clearfix"></div>
 <input id="activityReminder" class="hide noprint" type="hidden" value="{$ACTIVITY_REMINDER}"/>
-{if AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}
+{if \App\Core\AppConfig::module('Users', 'IS_VISIBLE_USER_INFO_FOOTER')}
 	<div class="infoUser">
 		{$USER_MODEL->getName()}&nbsp;(
 		{$USER_MODEL->get('email1')}&nbsp;
@@ -102,8 +102,8 @@
 </div>
 {* javascript files *}
 {include file='JSResources.tpl'|@vtemplate_path}
-{if \App\Debugger::isDebugBar()}
-	{\App\Debugger::getDebugBar()->getJavascriptRenderer()->render()}
+{if \App\Debug\Debugger::isDebugBar()}
+	{\App\Debug\Debugger::getDebugBar()->getJavascriptRenderer()->render()}
 {/if}
 </body>
 </html>

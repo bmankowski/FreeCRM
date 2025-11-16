@@ -42,7 +42,7 @@ class TimeControl  extends \App\Modules\Base\Views\Index
 			->from('vtiger_osstimecontrol')
 			->innerJoin('vtiger_crmentity', 'vtiger_osstimecontrol.osstimecontrolid = vtiger_crmentity.crmid')
 			->where(['vtiger_crmentity.setype' => 'OSSTimeControl', 'vtiger_crmentity.smownerid' => $user]);
-		\App\PrivilegeQuery::getConditions($query, $module);
+		\App\Security\PrivilegeQuery::getConditions($query, $module);
 		$query->andWhere([
 			'and',
 			['>=', 'vtiger_osstimecontrol.due_date', $date['start']],

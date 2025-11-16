@@ -72,9 +72,9 @@ class MappedFields extends \App\Runtime\BaseModel
 	public function getActiveTemplatesForRecord($recordId, $view, $moduleName = false)
 	{
 
-		\App\Log::trace('Entering ' . __METHOD__ . '(' . $recordId . ',' . $view . ',' . $moduleName . ') method ...');
+		\App\Log\Log::trace('Entering ' . __METHOD__ . '(' . $recordId . ',' . $view . ',' . $moduleName . ') method ...');
 		if (!\App\Utils\Utils::isRecordExists($recordId)) {
-			\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
+			\App\Log\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 			return [];
 		}
 		if (!$moduleName) {
@@ -87,7 +87,7 @@ class MappedFields extends \App\Runtime\BaseModel
 				unset($templates[$id]);
 			}
 		}
-		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
+		\App\Log\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $templates;
 	}
 
@@ -98,7 +98,7 @@ class MappedFields extends \App\Runtime\BaseModel
 	 */
 	public static function getTemplatesByModule($moduleName)
 	{
-		\App\Log::trace('Entering ' . __METHOD__ . '(' . $moduleName . ') method ...');
+		\App\Log\Log::trace('Entering ' . __METHOD__ . '(' . $moduleName . ') method ...');
 		if (\App\Cache\Cache::has('MappedFieldsTemplatesByModule', $moduleName)) {
 			$rows = \App\Cache\Cache::get('MappedFieldsTemplatesByModule', $moduleName);
 		} else {
@@ -109,19 +109,19 @@ class MappedFields extends \App\Runtime\BaseModel
 		}
 		$templates = [];
 		foreach ($rows as $row) {
-			$handlerClass = \App\Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
+			$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 			$mf = new $handlerClass();
 			$mf->setData($row);
 			$templates[$mf->getId()] = $mf;
 		}
-		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
+		\App\Log\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $templates;
 	}
 
 	public function getActiveTemplatesForModule($moduleName, $view)
 	{
 
-		\App\Log::trace('Entering ' . __METHOD__ . '(' . $moduleName . ',' . $view . ') method ...');
+		\App\Log\Log::trace('Entering ' . __METHOD__ . '(' . $moduleName . ',' . $view . ') method ...');
 		$templates = $this->getTemplatesByModule($moduleName);
 		foreach ($templates as $id => &$template) {
 			$active = true;
@@ -129,47 +129,47 @@ class MappedFields extends \App\Runtime\BaseModel
 				unset($templates[$id]);
 			}
 		}
-		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
+		\App\Log\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $templates;
 	}
 
 	public static function getInstanceByModules($tabId, $relTabId)
 	{
 
-		\App\Log::trace('Entering ' . __METHOD__ . '(' . $tabId . ',' . $relTabId . ') method ...');
+		\App\Log\Log::trace('Entering ' . __METHOD__ . '(' . $tabId . ',' . $relTabId . ') method ...');
 		$row = (new \App\Db\Query())->from(self::$baseTable)->where(['tabid' => $tabId, 'reltabid' => $relTabId])->limit(1)->one();
 		if ($row === false) {
-			\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
+			\App\Log\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 			return false;
 		}
 
-		$handlerClass = \App\Loader::getComponentClassName('Model', 'MappedFields', \App\Utils\ModuleUtils::getModuleName($tabId));
+		$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'MappedFields', \App\Utils\ModuleUtils::getModuleName($tabId));
 		$mf = new $handlerClass();
 		$mf->setData($row);
-		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
+		\App\Log\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $mf;
 	}
 
 	public static function getInstanceById($recordId, $moduleName = 'Vtiger')
 	{
-		\App\Log::trace('Entering ' . __METHOD__ . '(' . $recordId . ',' . $moduleName . ') method ...');
+		\App\Log\Log::trace('Entering ' . __METHOD__ . '(' . $recordId . ',' . $moduleName . ') method ...');
 		$mf = \App\Cache\Cache::get('MappedFieldsModel', $recordId);
 		if ($mf) {
-			\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
+			\App\Log\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 			return $mf;
 		}
 		$row = (new \App\Db\Query())->from(self::$baseTable)
 			->where([self::$baseIndex => $recordId])
 			->one();
 		if ($row === false) {
-			\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
+			\App\Log\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 			return false;
 		}
-		$handlerClass = \App\Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
+		$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 		$mf = new $handlerClass();
 		$mf->setData($row);
 		\App\Cache\Cache::save('MappedFieldsModel', $recordId, $mf);
-		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
+		\App\Log\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $mf;
 	}
 
@@ -186,7 +186,7 @@ class MappedFields extends \App\Runtime\BaseModel
 	public function getMapping()
 	{
 
-		\App\Log::trace('Entering ' . __METHOD__ . '() method ...');
+		\App\Log\Log::trace('Entering ' . __METHOD__ . '() method ...');
 		if (!$this->mapping) {
 			$db = \App\Database\PearDatabase::getInstance();
 			$query = sprintf('SELECT * FROM %s WHERE %s = ?;', self::$mappingTable, self::$mappingIndex);
@@ -205,7 +205,7 @@ class MappedFields extends \App\Runtime\BaseModel
 			}
 			$this->mapping = $finalMapping;
 		}
-		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
+		\App\Log\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $this->mapping;
 	}
 
@@ -257,10 +257,10 @@ class MappedFields extends \App\Runtime\BaseModel
 	public function checkUserPermissions()
 	{
 
-		\App\Log::trace('Entering ' . __METHOD__ . '() method ...');
+		\App\Log\Log::trace('Entering ' . __METHOD__ . '() method ...');
 		$permissions = $this->get('permissions');
 		if (empty($permissions)) {
-			\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
+			\App\Log\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 			return true;
 		}
 		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
@@ -289,7 +289,7 @@ class MappedFields extends \App\Runtime\BaseModel
 				$return = true;
 			}
 		}
-		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
+		\App\Log\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $return;
 	}
 }

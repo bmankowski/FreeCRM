@@ -14,7 +14,7 @@ namespace App\Modules\PaymentsOut;
 
 
 
-class PaymentsOut extends \App\CRMEntity
+class PaymentsOut extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'vtiger_paymentsout';
@@ -102,7 +102,7 @@ class PaymentsOut extends \App\CRMEntity
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 		if ($event_type == 'module.postinstall') {
-			$ModuleInstance = \App\CRMEntity::getInstance($modulename);
+			$ModuleInstance = \App\Core\CRMEntity::getInstance($modulename);
 			\App\Fields\RecordNumber::setNumber($modulename, '', '1');
 			$modcommentsModuleInstance = \App\Modules\Base\Models\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('src/Modules/ModComments/ModComments.php')) {
@@ -111,7 +111,7 @@ class PaymentsOut extends \App\CRMEntity
 					ModComments::addWidgetTo(array('Payments'));
 			}
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($modulename));
-			\App\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions:: getModuleId($modulename));
+			\App\Core\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions:: getModuleId($modulename));
 			$this->addWorkflow($modulename);
 		} else if ($event_type == 'module.disabled') {
 			

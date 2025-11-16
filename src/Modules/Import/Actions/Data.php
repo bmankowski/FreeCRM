@@ -148,7 +148,7 @@ class Data extends \App\Base\Controllers\BaseActionController
 	public function updateModuleSequenceNumber()
 	{
 		$moduleName = $this->module;
-		$focus = \App\CRMEntity::getInstance($moduleName);
+		$focus = \App\Core\CRMEntity::getInstance($moduleName);
 		$focus->updateMissingSeqNumber($moduleName);
 	}
 
@@ -161,7 +161,7 @@ class Data extends \App\Base\Controllers\BaseActionController
 	{
 		$tableName = \App\Modules\Import\Models\Module::getDbTableName($this->user);
 		$entityId = isset($entityInfo['id']) ? $entityInfo['id'] : null;
-		\App\Db::getInstance()->createCommand()->update($tableName, ['temp_status' => $entityInfo['status'], 'recordid' => $entityId], ['id' => $entryId])->execute();
+		\App\Db\Db::getInstance()->createCommand()->update($tableName, ['temp_status' => $entityInfo['status'], 'recordid' => $entityId], ['id' => $entryId])->execute();
 	}
 
 	/**
@@ -176,7 +176,7 @@ class Data extends \App\Base\Controllers\BaseActionController
 		$query = new \App\Db\Query();
 		$query->from($tableName)->where(['temp_status' => self::IMPORT_RECORD_NONE]);
 		if ($this->batchImport) {
-			$importBatchLimit = \App\AppConfig::module('Import', 'BATCH_LIMIT');
+			$importBatchLimit = \App\Core\AppConfig::module('Import', 'BATCH_LIMIT');
 			$query->limit($importBatchLimit);
 		}
 
@@ -207,7 +207,7 @@ class Data extends \App\Base\Controllers\BaseActionController
 			$createRecord = false;
 
 			if (!empty($mergeType) && $mergeType !== \App\Modules\Import\Models\Module::AUTO_MERGE_NONE) {
-				$queryGenerator = new \App\QueryGenerator($moduleName, $this->user->id);
+				$queryGenerator = new \App\QueryField\QueryGenerator($moduleName, $this->user->id);
 				$queryGenerator->setFields(['id']);
 				$moduleFields = $queryGenerator->getModuleFields();
 				$mergeFields = $this->mergeFields;
@@ -520,7 +520,7 @@ class Data extends \App\Base\Controllers\BaseActionController
 					}
 				}
 			}
-			if (\App\AppConfig::module('Import', 'CREATE_REFERENCE_RECORD') && empty($entityId) && !empty($referenceModuleName)) {
+			if (\App\Core\AppConfig::module('Import', 'CREATE_REFERENCE_RECORD') && empty($entityId) && !empty($referenceModuleName)) {
 				if (\App\Security\Privilege::isPermitted($referenceModuleName, 'CreateView')) {
 					try {
 						$entityId = $this->createEntityRecord($referenceModuleName, $entityLabel);
@@ -542,7 +542,7 @@ class Data extends \App\Base\Controllers\BaseActionController
 	public function transformPicklist($fieldInstance, $fieldValue)
 	{
 		$defaultFieldValues = $this->getDefaultFieldValues();
-		$defaultCharset = \App\AppConfig::main('default_charset', 'UTF-8');
+		$defaultCharset = \App\Core\AppConfig::main('default_charset', 'UTF-8');
 		$fieldName = $fieldInstance->getFieldName();
 		$fieldValue = trim($fieldValue);
 
@@ -558,7 +558,7 @@ class Data extends \App\Base\Controllers\BaseActionController
 		$picklistDetails = array_combine($allPicklistValuesInLowerCase, $allPicklistValues);
 
 		if (!in_array($picklistValueInLowerCase, $allPicklistValuesInLowerCase)) {
-			if (\App\AppConfig::module('Import', 'ADD_PICKLIST_VALUE')) {
+			if (\App\Core\AppConfig::module('Import', 'ADD_PICKLIST_VALUE')) {
 				$moduleObject = \App\Modules\Base\Models\Module::getInstance($this->module);
 				$fieldObject = \App\Modules\Base\Models\Field::getInstance($fieldName, $moduleObject);
 				$fieldObject->setPicklistValues([$fieldValue]);
@@ -690,7 +690,7 @@ class Data extends \App\Base\Controllers\BaseActionController
 		}
 		$recordModel->set('assigned_user_id', $this->user->id);
 		if ($save) {
-			if (!\App\AppConfig::module('Import', 'SAVE_BY_HANDLERS')) {
+			if (!\App\Core\AppConfig::module('Import', 'SAVE_BY_HANDLERS')) {
 				$recordModel->setHandlerExceptions(['disableHandlers' => true]);
 			}
 			$recordModel->save();
@@ -807,7 +807,7 @@ class Data extends \App\Base\Controllers\BaseActionController
 	 */
 	public static function getImportDetails($user, $forModule)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$importRecords = [];
 		$tableName = \App\Modules\Import\Models\Module::getDbTableName($user);
 		$query = new \App\Db\Query();

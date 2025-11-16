@@ -17,7 +17,7 @@ class NoPermitted extends \Exception
 
 		$request = new \App\Http\Vtiger_Request($_REQUEST, $_REQUEST);
 		$userName = \App\Http\Vtiger_Session::get('full_user_name');
-		\App\DB::getInstance('log')->createCommand()->insert('o_#__access_for_user', [
+		\App\Db\Db::getInstance('log')->createCommand()->insert('o_#__access_for_user', [
 			'username' => empty($userName) ? '-' : $userName,
 			'date' => date('Y-m-d H:i:s'),
 			'ip' => \App\Utils\RequestUtil::getRemoteIP(),

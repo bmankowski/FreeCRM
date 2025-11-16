@@ -53,7 +53,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	public static function getAttachmentPath($id, $selectedFile)
 	{
 		$path = '';
-		$attachments = (new \App\Db\Query())->select(['attachments'])->from('s_#__mail_queue')->where(['id' => $id])->scalar(\App\Db::getInstance('admin'));
+		$attachments = (new \App\Db\Query())->select(['attachments'])->from('s_#__mail_queue')->where(['id' => $id])->scalar(\App\Db\Db::getInstance('admin'));
 		$counter = 0;
 		foreach (\App\Utils\Json::decode($attachments) as $path => $name) {
 			if ($counter === $selectedFile) {

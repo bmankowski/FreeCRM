@@ -113,7 +113,7 @@ class Save extends \App\Modules\Base\Actions\Save
 				$loadUrl = $recordModel->getDetailViewUrl();
 			}
 		} else {
-			\App\Log::error('USER_MAIL_EXIST');
+			\App\Log\Log::error('USER_MAIL_EXIST');
 			header('Location: index.php?module=Users&parent=Settings&view=Edit');
 			return false;
 		}

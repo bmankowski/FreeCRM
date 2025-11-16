@@ -32,7 +32,7 @@ class Login extends \App\Base\Controllers\BaseViewController
 		$selectedModule = $request->getModule();
 
 		// Assignments moved from preProcess
-		$companyDetails = \App\Company::getInstanceById();
+		$companyDetails = \App\Core\Company::getInstanceById();
 		$companyLogo = $companyDetails->getLogo();
 		$viewer->assign('MODULE', $selectedModule);
 		$viewer->assign('MODULE_NAME', $selectedModule);
@@ -43,19 +43,19 @@ class Login extends \App\Base\Controllers\BaseViewController
 		$viewer->assign('USER_MODEL', $request->getUser());
 
 		$viewer->assign('CURRENT_VERSION', \App\Core\Version::get());
-		$viewer->assign('LANGUAGE_SELECTION', \App\AppConfig::main('langInLoginView'));
-		$viewer->assign('LAYOUT_SELECTION', \App\AppConfig::main('layoutInLoginView'));
+		$viewer->assign('LANGUAGE_SELECTION', \App\Core\AppConfig::main('langInLoginView'));
+		$viewer->assign('LAYOUT_SELECTION', \App\Core\AppConfig::main('layoutInLoginView'));
 		// Provide languages list to template instead of calling Vtiger_Language_Handler directly
-		if (\App\AppConfig::main('langInLoginView')) {
+		if (\App\Core\AppConfig::main('langInLoginView')) {
 			$viewer->assign('AVAILABLE_LANGUAGES', \App\Runtime\Vtiger_Language_Handler::getAllLanguages());
-			$viewer->assign('DEFAULT_LANGUAGE', \App\AppConfig::main('default_language'));
+			$viewer->assign('DEFAULT_LANGUAGE', \App\Core\AppConfig::main('default_language'));
 		}
 		$viewer->assign('ERROR', $request->get('error'));
 		$viewer->assign('FPERROR', $request->get('fpError'));
 		$viewer->assign('STATUS', $request->get('status'));
 		$viewer->assign('STATUS_ERROR', $request->get('statusError'));
 		$viewer->assign('STYLES', $this->getHeaderCss($request));
-		$viewer->assign('SYSTEM_MODE', \App\AppConfig::main('systemMode'));
+		$viewer->assign('SYSTEM_MODE', \App\Core\AppConfig::main('systemMode'));
 		$viewer->view('Login.tpl', 'Users');
 	}
 

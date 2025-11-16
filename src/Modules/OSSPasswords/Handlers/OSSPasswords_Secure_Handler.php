@@ -12,9 +12,9 @@ class OSSPasswords_Secure_Handler {
 
 	/**
 	 * EntityAfterSave handler function
-	 * @param \App\EventHandler $eventHandler
+	 * @param \App\Events\EventHandler $eventHandler
 	 */
-	public function entityAfterSave(\App\EventHandler $eventHandler)
+	public function entityAfterSave(\App\Events\EventHandler $eventHandler)
 	{
 		if ($eventHandler->getRecordModel()->getPreviousValue('password')) {
 			$result = (new \App\Db\Query())->select(['basic.id'])->from('vtiger_modtracker_basic basic')
@@ -27,9 +27,9 @@ class OSSPasswords_Secure_Handler {
 				$conf = \App\Modules\Base\Models\Record::getCleanInstance($eventHandler->getModuleName())->getConfiguration();
 				$where = ['id' => $result['id'], 'fieldname' => 'password'];
 				if ($conf['register_changes'] === 1)
-					\App\Db::getInstance()->createCommand()->update('vtiger_modtracker_detail', ['postvalue' => '**********'], $where)->execute();
+					\App\Db\Db::getInstance()->createCommand()->update('vtiger_modtracker_detail', ['postvalue' => '**********'], $where)->execute();
 				else
-					\App\Db::getInstance()->createCommand()->update('vtiger_modtracker_detail', ['postvalue' => '**********', 'prevalue' => '**********'], $where)->execute();
+					\App\Db\Db::getInstance()->createCommand()->update('vtiger_modtracker_detail', ['postvalue' => '**********', 'prevalue' => '**********'], $where)->execute();
 			}
 		}
 	}

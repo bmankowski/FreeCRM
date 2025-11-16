@@ -133,7 +133,7 @@ class Module extends \App\Modules\Base\Models\Record
 		if ($name === 'Settings:Vtiger') {
 			return new self();
 		}
-		$modelClassName = \App\Loader::getComponentClassName('Model', 'Module', $name);
+		$modelClassName = \App\Core\Loader::getComponentClassName('Model', 'Module', $name);
 		// Ensure class name is resolved from global namespace
 		if ($modelClassName[0] !== '\\') {
 			$modelClassName = '\\' . $modelClassName;
@@ -218,7 +218,7 @@ class Module extends \App\Modules\Base\Models\Record
 
 	public static function addSettingsField($block, $params)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$blockId = \vtlib\Deprecated::getSettingsBlockId($block);
 		$sequence = (new \App\Db\Query())->from('vtiger_settings_field')->where(['blockid' => $blockId])
 			->max('sequence');
@@ -240,7 +240,7 @@ class Module extends \App\Modules\Base\Models\Record
 	 */
 	public static function deleteSettingsFieldBymodule($moduleName)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$db->createCommand()->delete('vtiger_settings_field', ['like', 'linkto', "module={$moduleName}&"])->execute();
 	}
 }

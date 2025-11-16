@@ -16,7 +16,7 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 
 		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission('OSSMail');
-		if ($permission && \App\AppConfig::main('isActiveSendingMails') && \App\Modules\Users\Models\Privileges::isPermitted('OSSMail')) {
+		if ($permission && \App\Core\AppConfig::main('isActiveSendingMails') && \App\Modules\Users\Models\Privileges::isPermitted('OSSMail')) {
 			$recordId = $recordModel->getId();
 			if ($currentUserModel->get('internal_mailer') == 1) {
 				$config = \App\Modules\OSSMail\Models\Module::getComposeParameters();

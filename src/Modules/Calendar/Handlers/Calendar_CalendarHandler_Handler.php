@@ -14,9 +14,9 @@ class Calendar_CalendarHandler_Handler {
 
 	/**
 	 * EntityAfterSave function
-	 * @param \App\EventHandler $eventHandler
+	 * @param \App\Events\EventHandler $eventHandler
 	 */
-	public function entityAfterSave(\App\EventHandler $eventHandler)
+	public function entityAfterSave(\App\Events\EventHandler $eventHandler)
 	{
 		if (vtlib\Cron::isCronAction()) {
 			return false;
@@ -36,9 +36,9 @@ class Calendar_CalendarHandler_Handler {
 
 	/**
 	 * EntityAfterRestore handler function
-	 * @param \App\EventHandler $eventHandler
+	 * @param \App\Events\EventHandler $eventHandler
 	 */
-	public function entityAfterRestore(\App\EventHandler $eventHandler)
+	public function entityAfterRestore(\App\Events\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		foreach (static::UPDATE_FIELDS as &$fieldName) {
@@ -51,20 +51,20 @@ class Calendar_CalendarHandler_Handler {
 
 	/**
 	 * EntityAfterUnLink handler function
-	 * @param \App\EventHandler $eventHandler
+	 * @param \App\Events\EventHandler $eventHandler
 	 */
-	public function entityAfterUnLink(\App\EventHandler $eventHandler)
+	public function entityAfterUnLink(\App\Events\EventHandler $eventHandler)
 	{
 		$params = $eventHandler->getParams();
-		$fieldName = \App\ModuleHierarchy::getMappingRelatedField($params['sourceModule']);
+		$fieldName = \App\Core\ModuleHierarchy::getMappingRelatedField($params['sourceModule']);
 		\App\Modules\Calendar\Models\Record::setCrmActivity([$params['sourceRecordId'] => $fieldName]);
 	}
 
 	/**
 	 * EntityBeforeSave handler function
-	 * @param \App\EventHandler $eventHandler
+	 * @param \App\Events\EventHandler $eventHandler
 	 */
-	public function entityBeforeSave(\App\EventHandler $eventHandler)
+	public function entityBeforeSave(\App\Events\EventHandler $eventHandler)
 	{
 		if (vtlib\Cron::isCronAction()) {
 			return false;

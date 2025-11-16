@@ -60,7 +60,7 @@ class TreeCategoryModal  extends \App\Modules\Base\Views\Index
 		$viewer->assign('SRC_MODULE', $srcModule);
 		$viewer->assign('TEMPLATE', $treeCategoryModel->getTemplate());
 		$viewer->assign('MODULE', $moduleName);
-		$viewer->assign('SELECTABLE_CATEGORY', \App\AppConfig::relation('SELECTABLE_CATEGORY') ? 1 : 0);
+		$viewer->assign('SELECTABLE_CATEGORY', \App\Core\AppConfig::relation('SELECTABLE_CATEGORY') ? 1 : 0);
 		$viewer->assign('RELATION_TYPE', $this->relationType);
 		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->view('TreeCategoryModal.tpl', $moduleName);
@@ -74,7 +74,7 @@ class TreeCategoryModal  extends \App\Modules\Base\Views\Index
 		$scripts = [
 			'~libraries/jquery/jstree/jstree.js'
 		];
-		if (\App\AppConfig::relation('SELECTABLE_CATEGORY')) {
+		if (\App\Core\AppConfig::relation('SELECTABLE_CATEGORY')) {
 			$scripts[] = '~libraries/jquery/jstree/jstree.category.js';
 			$scripts[] = '~libraries/jquery/jstree/jstree.checkbox.js';
 		}

@@ -16,7 +16,7 @@ namespace App\Modules\Leads;
  * Contributor(s): YetiForce.com
  * ****************************************************************************** */
 
-class Leads extends \App\CRMEntity
+class Leads extends \App\Core\CRMEntity
 {
 
 	public $table_name = "vtiger_leaddetails";
@@ -80,7 +80,7 @@ class Leads extends \App\CRMEntity
 	{
 
 		$currentUser = \App\User\CurrentUser::get();
-		\App\Log::trace("Entering create_export_query(" . $where . ") method ...");
+		\App\Log\Log::trace("Entering create_export_query(" . $where . ") method ...");
 
 		include("include/utils/ExportUtils.php");
 
@@ -114,7 +114,7 @@ class Leads extends \App\CRMEntity
 		else
 			$query .= sprintf(' where %s', $where_auto);
 
-		\App\Log::trace("Exiting create_export_query method ...");
+		\App\Log\Log::trace("Exiting create_export_query method ...");
 		return $query;
 	}
 
@@ -128,7 +128,7 @@ class Leads extends \App\CRMEntity
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 
-		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
+		\App\Log\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array('Documents' => 'vtiger_senotesrel', 'Attachments' => 'vtiger_seattachmentsrel',
 			'Products' => 'vtiger_seproductsrel', 'Campaigns' => 'vtiger_campaign_records');
@@ -156,7 +156,7 @@ class Leads extends \App\CRMEntity
 			}
 		}
 		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
-		\App\Log::trace("Exiting transferRelatedRecords...");
+		\App\Log\Log::trace("Exiting transferRelatedRecords...");
 	}
 	/*
 	 * Function to get the secondary query part of a report
@@ -229,9 +229,9 @@ class Leads extends \App\CRMEntity
 			return;
 
 		if ($return_module === 'Campaigns') {
-			\App\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $return_id])->execute();
+			\App\Db\Db::getInstance()->createCommand()->delete('vtiger_campaign_records', ['crmid' => $id, 'campaignid' => $return_id])->execute();
 		} elseif ($return_module === 'Products') {
-			\App\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['crmid' => $id, 'productid' => $return_id])->execute();
+			\App\Db\Db::getInstance()->createCommand()->delete('vtiger_seproductsrel', ['crmid' => $id, 'productid' => $return_id])->execute();
 		} else {
 			parent::unlinkRelationship($id, $return_module, $return_id, $relatedName);
 		}
@@ -243,7 +243,7 @@ class Leads extends \App\CRMEntity
 			$withCrmids = [$withCrmids];
 		foreach ($withCrmids as $withCrmid) {
 			if ($withModule === 'Products') {
-				\App\Db::getInstance()->createCommand()->insert('vtiger_seproductsrel', [
+				\App\Db\Db::getInstance()->createCommand()->insert('vtiger_seproductsrel', [
 					'crmid' => $crmid,
 					'productid' => $withCrmid,
 					'setype' => $module,
@@ -251,7 +251,7 @@ class Leads extends \App\CRMEntity
 					'rel_created_time' => date('Y-m-d H:i:s')
 				])->execute();
 			} elseif ($withModule === 'Campaigns') {
-				\App\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
+				\App\Db\Db::getInstance()->createCommand()->insert('vtiger_campaign_records', [
 					'campaignid' => $withCrmid,
 					'crmid' => $crmid,
 					'campaignrelstatusid' => 0

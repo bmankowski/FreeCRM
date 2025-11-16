@@ -43,7 +43,7 @@ class ExportData extends \App\Base\Controllers\BaseActionController
 	public function getExportQuery(\App\Http\Vtiger_Request $request)
 	{
 		$cvId = $request->get('viewname');
-		$queryGenerator = new \App\QueryGenerator($request->get('source_module'));
+		$queryGenerator = new \App\QueryField\QueryGenerator($request->get('source_module'));
 		if (!empty($cvId)) {
 			$queryGenerator->initForCustomViewById($cvId);
 		}

@@ -44,7 +44,7 @@ class QuickDetailModal  extends \App\Modules\Base\Views\Index
 		$detailModel = \App\Modules\Base\Models\DetailView::getInstance($moduleName, $request->get('record'));
 		$recordModel = $detailModel->getRecord();
 		$detailModel->getWidgets();
-		$handlerClass = \App\Loader::getComponentClassName('View', 'Detail', $moduleName);
+		$handlerClass = \App\Core\Loader::getComponentClassName('View', 'Detail', $moduleName);
 		$detailView = new $handlerClass();
 
 		$widgets = [];

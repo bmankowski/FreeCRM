@@ -59,7 +59,7 @@ class VTEmailTask extends VTTask
 		if (empty($toEmail) && empty($ccEmail) && empty($bccEmail)) {
 			return false;
 		}
-		$textParser = \App\TextParser::getInstanceByModel($recordModel);
+		$textParser = \App\TextParser\TextParser::getInstanceByModel($recordModel);
 		$mailerContent['subject'] = $textParser->setContent($this->subject)->parse()->getContent();
 		$mailerContent['content'] = $textParser->setContent($this->content)->parse()->getContent();
 		if (!empty($mailerContent['content'])) {

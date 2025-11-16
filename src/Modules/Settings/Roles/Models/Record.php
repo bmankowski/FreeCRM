@@ -120,7 +120,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	public function getSameLevelRoles()
 	{
 		if (!isset($this->children)) {
-			$parentRoles = \App\PrivilegeUtil::getParentRole($this->getId());
+			$parentRoles = \App\Security\PrivilegeUtil::getParentRole($this->getId());
 			$currentRoleDepth = $this->getDepth();
 			$parentRoleString = '';
 			foreach ($parentRoles as $key => $role) {
@@ -312,7 +312,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public function save($request = null)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$roleId = $this->getId();
 		$mode = 'edit';
 
@@ -512,8 +512,8 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		if ($instance !== false) {
 			return $instance;
 		}
-		$row = \App\PrivilegeUtil::getRoleDetail($roleId);
-		if ($row) {
+		$row = \App\Security\PrivilegeUtil::getRoleDetail($roleId);
+		if ($row) { 
 			$instance = new self();
 			$instance->setData($row);
 			\App\Cache\Cache::save('\App\Modules\Settings\Roles\Models\Record', $roleId, $instance);

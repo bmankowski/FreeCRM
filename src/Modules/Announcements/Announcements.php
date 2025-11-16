@@ -3,14 +3,14 @@
 namespace App\Modules\Announcements;
 
 /**
- * Announcements \App\CRMEntity Class
+ * Announcements \App\Core\CRMEntity Class
  * @package YetiForce.Model
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
 
-class Announcements extends \App\CRMEntity
+class Announcements extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'u_yf_announcement';

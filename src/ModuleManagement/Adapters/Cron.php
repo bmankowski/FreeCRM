@@ -48,7 +48,7 @@ class Cron
 	public function __construct(array $data = [])
 	{
 		$this->data = $data;
-		$this->db = \App\Db::getInstance();
+		$this->db = \App\Db\Db::getInstance();
 	}
 
 	/**
@@ -85,7 +85,7 @@ class Cron
 	 */
 	public static function getInstance(string $name): ?self
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		
 		// Try exact name match first
 		$row = (new \App\Db\Query())
@@ -142,7 +142,7 @@ class Cron
 	 */
 	public static function listAllActiveInstances(): array
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$dataReader = (new \App\Db\Query())
 			->from('vtiger_cron_task')
 			->where(['status' => self::STATUS_ENABLED])
@@ -179,7 +179,7 @@ class Cron
 		int $sequence = 0,
 		string $description = ''
 	): void {
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 
 		// Auto-generate sequence if not provided
 		if ($sequence == 0) {
@@ -205,7 +205,7 @@ class Cron
 	 */
 	public static function deregister(string $name): void
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$db->createCommand()
 			->delete('vtiger_cron_task', ['name' => $name])
 			->execute();
@@ -219,7 +219,7 @@ class Cron
 	 */
 	public static function deleteForModule(string $moduleName): void
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$db->createCommand()
 			->delete('vtiger_cron_task', ['module' => $moduleName])
 			->execute();

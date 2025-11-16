@@ -22,7 +22,7 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 	 */
 	public static function getInstance($moduleName, $recordId)
 	{
-		$modelClassName = \App\Loader::getComponentClassName('Model', 'DetailView', $moduleName);
+		$modelClassName = \App\Core\Loader::getComponentClassName('Model', 'DetailView', $moduleName);
 		$instance = new $modelClassName();
 
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);

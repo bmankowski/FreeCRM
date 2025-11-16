@@ -25,7 +25,7 @@ class Module extends \App\Modules\Base\Models\Record
 	public function getConfigInstance($type = false)
 	{
 
-		\App\Log::trace('Start ' . __METHOD__ . " | Type: " . print_r($type, true));
+		\App\Log\Log::trace('Start ' . __METHOD__ . " | Type: " . print_r($type, true));
 		$query = (new \App\Db\Query())->from('yetiforce_proc_tc');
 		if ($type) {
 			$query->where(['type' => $type]);
@@ -36,16 +36,16 @@ class Module extends \App\Modules\Base\Models\Record
 			$output[$row['type']][$row['param']] = $row['value'];
 		}
 		$this->setData($output);
-		\App\Log::trace('End ' . __METHOD__);
+		\App\Log\Log::trace('End ' . __METHOD__);
 		return $this;
 	}
 
 	public function setConfig($param)
 	{
-		\App\Log::trace('Start ' . __METHOD__);
-		\App\Db::getInstance()->createCommand()
+		\App\Log\Log::trace('Start ' . __METHOD__);
+		\App\Db\Db::getInstance()->createCommand()
 			->update('yetiforce_proc_tc', ['value' => $param['value']], ['type' => $param['type'], 'param' => $param['param']])->execute();
-		\App\Log::trace('End ' . __METHOD__);
+		\App\Log\Log::trace('End ' . __METHOD__);
 		return true;
 	}
 }

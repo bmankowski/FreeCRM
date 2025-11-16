@@ -35,7 +35,7 @@ class InventoryField extends \App\Runtime\BaseModel
 				$prefix = '_invmap';
 				break;
 		}
-		$focus = \App\CRMEntity::getInstance($this->get('module'));
+		$focus = \App\Core\CRMEntity::getInstance($this->get('module'));
 		$basetable = $focus->table_name;
 		$supfield = $basetable . $prefix;
 		return $supfield;
@@ -50,11 +50,11 @@ class InventoryField extends \App\Runtime\BaseModel
 	public function getFields($returnInBlock = false, $ids = [], $viewType = false)
 	{
 
-		\App\Log::trace('Entering ' . __METHOD__ . '| ');
+		\App\Log\Log::trace('Entering ' . __METHOD__ . '| ');
 		$key = $returnInBlock ? 'block' : 'noBlock';
 		if (!isset($this->fields[$key])) {
 			$table = $this->getTableName('fields');
-			if (!\App\Db::getInstance()->isTableExists($table)) {
+			if (!\App\Db\Db::getInstance()->isTableExists($table)) {
 				return null;
 			}
 			$query = (new \App\Db\Query())->from($table)->where(['presence' => 0])->orderBy('sequence', SORT_ASC);
@@ -79,7 +79,7 @@ class InventoryField extends \App\Runtime\BaseModel
 					}
 				} catch (\Exception $e) {
 					// Skip fields that can't be instantiated (missing class)
-					\App\Log::warning('Failed to load inventory field: ' . $row['invtype'] . ' - ' . $e->getMessage());
+					\App\Log\Log::warning('Failed to load inventory field: ' . $row['invtype'] . ' - ' . $e->getMessage());
 					continue;
 				}
 			}
@@ -98,7 +98,7 @@ class InventoryField extends \App\Runtime\BaseModel
 				$fields[2] = [];
 			}
 		}
-		\App\Log::trace('Exiting ' . __METHOD__);
+		\App\Log\Log::trace('Exiting ' . __METHOD__);
 		return $fields;
 	}
 
@@ -127,7 +127,7 @@ class InventoryField extends \App\Runtime\BaseModel
 	public function getColumns()
 	{
 
-		\App\Log::trace('Entering ' . __METHOD__ . '| ');
+		\App\Log\Log::trace('Entering ' . __METHOD__ . '| ');
 		if ($this->columns) {
 			return $this->columns;
 		}
@@ -142,7 +142,7 @@ class InventoryField extends \App\Runtime\BaseModel
 			}
 		}
 		$this->columns = $columns;
-		\App\Log::trace('Exiting ' . __METHOD__);
+		\App\Log\Log::trace('Exiting ' . __METHOD__);
 		return $columns;
 	}
 
@@ -154,13 +154,13 @@ class InventoryField extends \App\Runtime\BaseModel
 	public function getInventoryFieldInstance($valueArray)
 	{
 
-		\App\Log::trace('Entering ' . __METHOD__ . '| ');
+		\App\Log\Log::trace('Entering ' . __METHOD__ . '| ');
 
-		$className = \App\Loader::getComponentClassName('InventoryField', $valueArray['invtype'], $this->get('module'));
+		$className = \App\Core\Loader::getComponentClassName('InventoryField', $valueArray['invtype'], $this->get('module'));
 		$instance = new $className();
 		$instance->initialize($valueArray);
 		$instance->set('module', $this->get('module'));
-		\App\Log::trace('Exiting ' . __METHOD__);
+		\App\Log\Log::trace('Exiting ' . __METHOD__);
 		return $instance;
 	}
 
@@ -173,11 +173,11 @@ class InventoryField extends \App\Runtime\BaseModel
 	{
 		$moduleName = $this->get('module');
 
-		\App\Log::trace('Entering ' . __METHOD__ . '| ' . $moduleName);
+		\App\Log\Log::trace('Entering ' . __METHOD__ . '| ' . $moduleName);
 
 		$instance = \App\Cache\Cache::get('InventoryFields', $moduleName);
 		if ($instance) {
-			\App\Log::trace('Exiting ' . __METHOD__);
+			\App\Log\Log::trace('Exiting ' . __METHOD__);
 			return $instance;
 		}
 
@@ -194,7 +194,7 @@ class InventoryField extends \App\Runtime\BaseModel
 			foreach (new \DirectoryIterator($fieldPath) as $fileinfo) {
 				if ($fileinfo->isFile() && $fileinfo->getFilename() != 'Basic.php') {
 					$fieldName = str_replace('.php', '', $fileinfo->getFilename());
-					$className = \App\Loader::getComponentClassName('InventoryField', $fieldName, $moduleName, false);
+					$className = \App\Core\Loader::getComponentClassName('InventoryField', $fieldName, $moduleName, false);
 					if ($className === false) {
 						continue;
 					}
@@ -204,7 +204,7 @@ class InventoryField extends \App\Runtime\BaseModel
 			}
 		}
 		\App\Cache\Cache::save('InventoryFields', $moduleName, $fields);
-		\App\Log::trace('Exiting ' . __METHOD__);
+		\App\Log\Log::trace('Exiting ' . __METHOD__);
 		return $fields;
 	}
 
@@ -216,7 +216,7 @@ class InventoryField extends \App\Runtime\BaseModel
 	public static function getMainParams($fields)
 	{
 
-		\App\Log::trace('Entering ' . __METHOD__);
+		\App\Log\Log::trace('Entering ' . __METHOD__);
 
 		$params = false;
 		if (isset($fields)) {
@@ -230,7 +230,7 @@ class InventoryField extends \App\Runtime\BaseModel
 		if (is_array($params) && isset($params['modules']) && is_string($params['modules'])) {
 			$params['modules'] = [$params['modules']];
 		}
-		\App\Log::trace('Exiting ' . __METHOD__);
+		\App\Log\Log::trace('Exiting ' . __METHOD__);
 		return $params;
 	}
 
@@ -243,7 +243,7 @@ class InventoryField extends \App\Runtime\BaseModel
 	{
 		$instance = \App\Cache\Cache::get('inventoryField', $moduleName);
 		if (!$instance) {
-			$modelClassName = \App\Loader::getComponentClassName('Model', 'InventoryField', $moduleName);
+			$modelClassName = \App\Core\Loader::getComponentClassName('Model', 'InventoryField', $moduleName);
 			$instance = new $modelClassName();
 			$instance->set('module', $moduleName);
 			\App\Cache\Cache::save('inventoryField', $moduleName, $instance);
@@ -260,7 +260,7 @@ class InventoryField extends \App\Runtime\BaseModel
 	{
 		$instance = \App\Cache\Cache::get('inventoryFieldType', $moduleName . $type);
 		if (!$instance) {
-			$inventoryClassName = \App\Loader::getComponentClassName('InventoryField', $type, $moduleName);
+			$inventoryClassName = \App\Core\Loader::getComponentClassName('InventoryField', $type, $moduleName);
 			$instance = new $inventoryClassName();
 			$instance->set('module', $moduleName);
 			\App\Cache\Cache::save('inventoryFieldType', $moduleName . $type, $instance);
@@ -419,7 +419,7 @@ class InventoryField extends \App\Runtime\BaseModel
 	 */
 	public function addField($type, $params)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$instance = self::getFieldInstance($this->get('module'), $type);
 
 		$table = $this->getTableName();
@@ -503,7 +503,7 @@ class InventoryField extends \App\Runtime\BaseModel
 			$case .= ' WHEN ' . $id . ' THEN ' . $sequence;
 		}
 		$case .= ' END ';
-		return \App\Db::getInstance()->createCommand()->update($this->getTableName('fields'), ['sequence' => new \yii\db\Expression($case)], ['id' => $sequenceList])->execute();
+		return \App\Db\Db::getInstance()->createCommand()->update($this->getTableName('fields'), ['sequence' => new \yii\db\Expression($case)], ['id' => $sequenceList])->execute();
 	}
 
 	/**
@@ -514,7 +514,7 @@ class InventoryField extends \App\Runtime\BaseModel
 	 */
 	public function delete($param = [])
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$status = $db->createCommand()->delete($this->getTableName('fields'), ['id' => $param['id']])->execute();
 		if ($status) {
 			$fieldInstance = self::getFieldInstance($param['module'], $param['name']);
@@ -615,7 +615,7 @@ class InventoryField extends \App\Runtime\BaseModel
 	 */
 	public function getCustomAutoComplete($sourceModuleName, $sourceFieldName, \App\Modules\Base\Models\Record $recordModel)
 	{
-		$inventoryMap = \App\AppConfig::module($sourceModuleName, 'INVENTORY_ON_SELECT_AUTO_COMPLETE');
+		$inventoryMap = \App\Core\AppConfig::module($sourceModuleName, 'INVENTORY_ON_SELECT_AUTO_COMPLETE');
 		$values = [];
 		if ($inventoryMap) {
 			foreach ($inventoryMap as $fieldToComplete => $mapping) {

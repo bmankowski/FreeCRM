@@ -63,7 +63,7 @@ class QuickCreateAjax  extends \App\Modules\Base\Views\Index
 		$viewer->assign('Strong', 'Strong');
 		$viewer->assign('Very Strong', 'Very Strong');
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Utils\Json::encode($picklistDependencyDatasource));
-		$mappingRelatedField = \App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName);
+		$mappingRelatedField = \App\Core\ModuleHierarchy::getRelationFieldByHierarchy($moduleName);
 		$viewer->assign('MAPPING_RELATED_FIELD', \App\Utils\Json::encode($mappingRelatedField));
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('MODULE', $moduleName);

@@ -13,16 +13,16 @@ class Vtiger_Workflow_Handler {
 
 	private $workflows;
 
-	public function entityAfterRestore(\App\EventHandler $eventHandler)
+	public function entityAfterRestore(\App\Events\EventHandler $eventHandler)
 	{
 		$this->entityAfterSave($eventHandler);
 	}
 
 	/**
 	 * EntityAfterSave function
-	 * @param \App\EventHandler $eventHandler
+	 * @param \App\Events\EventHandler $eventHandler
 	 */
-	public function entityAfterSave(\App\EventHandler $eventHandler)
+	public function entityAfterSave(\App\Events\EventHandler $eventHandler)
 	{
 		$recordModel = $eventHandler->getRecordModel();
 		$recordId = $recordModel->getId();

@@ -36,7 +36,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 */
 	public static function updateModuleColor($params)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$db->createCommand()->update('vtiger_calendar_default_activitytypes', [
 			'defaultcolor' => $params['color']], ['id' => $params['viewtypesid']]
 		)->execute();
@@ -48,7 +48,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	public static function updateModuleActiveType($params)
 	{
 		$active = $params['active'] == 'true' ? '1' : '0';
-		\App\Db::getInstance()->createCommand()->update('vtiger_calendar_default_activitytypes', [
+		\App\Db\Db::getInstance()->createCommand()->update('vtiger_calendar_default_activitytypes', [
 			'active' => $active], ['id' => $params['viewtypesid']]
 		)->execute();
 	}
@@ -102,7 +102,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		if ($params['table']) {
 			\App\Modules\Users\Models\Colors::updateColor($params);
 		} else {
-			\App\Db::getInstance()->createCommand()->update('vtiger_calendar_config', ['value' => $params['color']], ['name' => $params['id']]
+			\App\Db\Db::getInstance()->createCommand()->update('vtiger_calendar_config', ['value' => $params['color']], ['name' => $params['id']]
 			)->execute();
 		}
 	}
@@ -114,7 +114,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		} else {
 			$value = NULL;
 		}
-		\App\Db::getInstance()->createCommand()->update('vtiger_calendar_config', ['value' => $value], ['name' => 'notworkingdays']
+		\App\Db\Db::getInstance()->createCommand()->update('vtiger_calendar_config', ['value' => $value], ['name' => 'notworkingdays']
 		)->execute();
 	}
 

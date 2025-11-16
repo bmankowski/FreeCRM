@@ -13,7 +13,7 @@ namespace App\Modules\Reservations;
  * *********************************************************************************************************************************** */
 
 
-class Reservations extends \App\CRMEntity
+class Reservations extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'vtiger_reservations';
@@ -102,7 +102,7 @@ class Reservations extends \App\CRMEntity
 		$adb = \App\Database\PearDatabase::getInstance();
 
 		if ($event_type == 'module.postinstall') {
-			$moduleInstance = \App\CRMEntity::getInstance('Reservations');
+			$moduleInstance = \App\Core\CRMEntity::getInstance('Reservations');
 			\App\Fields\RecordNumber::setNumber($moduleName, 'RES', '1');
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array('Reservations'));
 			$moduleInstance = \App\Modules\Base\Models\Module::getInstance($modulename);
@@ -129,9 +129,9 @@ class Reservations extends \App\CRMEntity
 		}
 	}
 
-	public function retrieve_entity_info($record, $module)
+	public function retrieve_entity_info($record, $module, $showsAdditionalLabels = false)
 	{
-		parent::retrieve_entity_info($record, $module);
+		parent::retrieve_entity_info($record, $module, $showsAdditionalLabels);
 		$start = \App\Fields\DateTimeField::convertToUserTimeZone($this->column_fields['date_start'] . ' ' . $this->column_fields['time_start']);
 		$this->column_fields['date_start'] = $start->format('Y-m-d');
 		$end = \App\Fields\DateTimeField::convertToUserTimeZone($this->column_fields['due_date'] . ' ' . $this->column_fields['time_end']);

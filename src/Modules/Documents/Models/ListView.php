@@ -30,7 +30,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 		}
 
 		if (!\App\Modules\Settings\ModuleManager\Models\Library::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
-			$handlerClass = \App\Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
+			$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
 			if (count($templates) > 0) {
@@ -53,7 +53,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 			);
 		}
 		if ($moduleModel->isPermitted('RecordMappingList')) {
-			$handlerClass = \App\Loader::getComponentClassName('Model', 'MappedFields', $moduleModel->getName());
+			$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'MappedFields', $moduleModel->getName());
 			$mfModel = new $handlerClass();
 			$templates = $mfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
 			if (count($templates) > 0) {

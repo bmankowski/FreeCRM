@@ -22,7 +22,7 @@
 </head>
 <body>
 <!-- layouts/basic/modules/Users/Login.Default.tpl -->
-	{assign var="COMPANY_DETAILS" value=App\Company::getInstanceById()}
+	{assign var="COMPANY_DETAILS" value=App\Core\Company::getInstanceById()}
 	{assign var="MODULE" value='Users'}
 	<div class="login-wrapper">
 		<div id="login-area" class="login-area">
@@ -69,7 +69,7 @@
 							{"LBL_SIGN_IN"|t:$MODULE_NAME}
 						</button>
 					</form>
-					{if AppConfig::security('RESET_LOGIN_PASSWORD')}
+					{if \App\Core\AppConfig::security('RESET_LOGIN_PASSWORD')}
 						<div class="login-footer">
 							<a href="#" id="forgotpass" class="login-link">{"ForgotPassword"|t:$MODULE}?</a>
 						</div>
@@ -102,7 +102,7 @@
 						{/if}
 					</div>
 				</div>
-				{if AppConfig::security('RESET_LOGIN_PASSWORD')}
+				{if \App\Core\AppConfig::security('RESET_LOGIN_PASSWORD')}
 					<div class="login-section hide" id="forgotPasswordDiv">
 						<form class="login-form" action="modules/Users/actions/ForgotPassword.php" method="POST">
 							<div class="login-fields">

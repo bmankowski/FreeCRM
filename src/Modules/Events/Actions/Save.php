@@ -30,7 +30,7 @@ class Save extends \App\Base\Controllers\BaseActionController
 	if ($request->get('reapeat') === 'on') {
 		$recurringEvents = \App\Modules\Events\Models\RecuringEvents::getInstanceFromRequest($request);
 			if ($request->isEmpty('record')) {
-				\App\Db::getInstance()->createCommand()->update('vtiger_activity', ['followup' => $recordModel->getId()], ['activityid' => $recordModel->getId()])->execute();
+				\App\Db\Db::getInstance()->createCommand()->update('vtiger_activity', ['followup' => $recordModel->getId()], ['activityid' => $recordModel->getId()])->execute();
 				$data['followup'] = $recordModel->getId();
 			} else if (empty($data['followup'])) {
 				$data['followup'] = $recordModel->getId();

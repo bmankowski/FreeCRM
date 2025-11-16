@@ -13,7 +13,7 @@ class RelatedCommentModal extends \App\Runtime\BaseModel
 
 	public static function getInstance($record, $moduleName, $relatedRecord, $relatedModuleName)
 	{
-		$modelClassName = \App\Loader::getComponentClassName('Model', 'RelatedCommentModal', $moduleName);
+		$modelClassName = \App\Core\Loader::getComponentClassName('Model', 'RelatedCommentModal', $moduleName);
 		$instance = new $modelClassName();
 
 		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($record, $moduleName);
@@ -50,7 +50,7 @@ class RelatedCommentModal extends \App\Runtime\BaseModel
 
 	public function getRelationTable()
 	{
-		$instance = \App\CRMEntity::getInstance($this->get('moduleName'));
+		$instance = \App\Core\CRMEntity::getInstance($this->get('moduleName'));
 		if (method_exists($instance, 'setRelationTables')) {
 			$relationTable = $instance->setRelationTables($this->get('relatedModuleName'));
 		}
@@ -74,7 +74,7 @@ class RelatedCommentModal extends \App\Runtime\BaseModel
 
 	public function save($comment)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		if (substr($this->get('relatedRecord'), 0, 1) === 'T') {
 			$db->createCommand()->update('u_#__crmentity_rel_tree', [
 				'rel_comment' => $comment

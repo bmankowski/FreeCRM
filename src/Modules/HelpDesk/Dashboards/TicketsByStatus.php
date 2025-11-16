@@ -58,7 +58,7 @@ class TicketsByStatus  extends \App\Modules\Base\Views\Index
 			$query->andWhere(['not in', 'vtiger_troubletickets.status', $ticketStatus]);
 			$this->conditions = ['condition' => ['not in', 'vtiger_troubletickets.status', $ticketStatus]];
 		}
-		\App\PrivilegeQuery::getConditions($query, $moduleName);
+		\App\Security\PrivilegeQuery::getConditions($query, $moduleName);
 		$query->groupBy(['statusvalue', 'priority', 'vtiger_ticketpriorities.color', 'vtiger_ticketstatus.sortorderid'])->orderBy('vtiger_ticketstatus.sortorderid');
 		$dataReader = $query->createCommand()->query();
 		$colors = $status = $priorities = $tickets = $response = [];

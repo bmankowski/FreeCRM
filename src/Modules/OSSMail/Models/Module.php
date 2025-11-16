@@ -74,7 +74,7 @@ class Module extends \App\Modules\Base\Models\Module
 				$return['to'] = $email;
 			}
 			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($record, $moduleName);
-			$modulesLevel1 = \App\ModuleHierarchy::getModulesByLevel();
+			$modulesLevel1 = \App\Core\ModuleHierarchy::getModulesByLevel();
 			if (!in_array($moduleName, array_keys($modulesLevel1)) || $moduleName === 'Campaigns') {
 				$subject = '';
 				if ($type === 'new' || $moduleName === 'Campaigns') {
@@ -107,7 +107,7 @@ class Module extends \App\Modules\Base\Models\Module
 		}
 		if (!empty($moduleName)) {
 			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
-			$moduleConfig = \App\AppConfig::module($moduleName);
+			$moduleConfig = \App\Core\AppConfig::module($moduleName);
 			if ($moduleConfig && isset($moduleConfig['SEND_IDENTITY'][$currentUser->get('roleid')])) {
 				$return['from'] = $moduleConfig['SEND_IDENTITY'][$currentUser->get('roleid')];
 			}
@@ -161,7 +161,7 @@ class Module extends \App\Modules\Base\Models\Module
 			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($record, $moduleName);
 			$moduleModel = $recordModel->getModule();
 
-			$modulesLevel1 = \App\ModuleHierarchy::getModulesByLevel();
+			$modulesLevel1 = \App\Core\ModuleHierarchy::getModulesByLevel();
 			if (!in_array($moduleName, array_keys($modulesLevel1))) {
 				$fieldName = (new \App\Db\Query)->select(['fieldname'])->from('vtiger_field')->where(['tabid' => $moduleModel->getId(), 'uitype' => 4])->scalar();
 				if ($fieldName) {
@@ -208,7 +208,7 @@ class Module extends \App\Modules\Base\Models\Module
 		if (!empty($srecord) && !empty($smoduleName)) {
 			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($srecord);
 			$moduleModel = $recordModel->getModule();
-			$modulesLevel1 = \App\ModuleHierarchy::getModulesByLevel();
+			$modulesLevel1 = \App\Core\ModuleHierarchy::getModulesByLevel();
 			if (!in_array($smoduleName, array_keys($modulesLevel1))) {
 				$fieldName = (new \App\Db\Query)->select(['fieldname'])->from('vtiger_field')->where(['tabid' => $moduleModel->getId(), 'uitype' => 4])->scalar();
 				if ($fieldName) {
@@ -229,7 +229,7 @@ class Module extends \App\Modules\Base\Models\Module
 		}
 		include_once ('vendor/ezyang/htmlpurifier/library/HTMLPurifier.auto.php');
 		$config = HTMLPurifier_Config::createDefault();
-		$config->set('Core.Encoding', \App\AppConfig::main('default_charset'));
+		$config->set('Core.Encoding', \App\Core\AppConfig::main('default_charset'));
 		$config->set('Cache.SerializerPath', ROOT_DIRECTORY . '/cache/vtlib');
 		$config->set('CSS.AllowTricky', false);
 		$config->set('HTML.AllowedElements', 'div,p,br');
@@ -239,7 +239,7 @@ class Module extends \App\Modules\Base\Models\Module
 		$body = str_replace(['<p> </p>', '<p></p>', '</p>', '<br />', '<p>', '<div>', '</div>', PHP_EOL . PHP_EOL, PHP_EOL . PHP_EOL], ['', '', PHP_EOL, PHP_EOL, '', '', PHP_EOL, PHP_EOL, PHP_EOL], nl2br($body));
 
 		$content = '';
-		$mailtoLimit = \App\AppConfig::module('Mail', 'MAILTO_LIMIT');
+		$mailtoLimit = \App\Core\AppConfig::module('Mail', 'MAILTO_LIMIT');
 
 		if ($type == 'forward') {
 			$content .= \App\Runtime\Vtiger_Language_Handler::translate('LBL_MAIL_FORWARD_INTRO', 'OSSMailView') . PHP_EOL;

@@ -48,7 +48,7 @@ class AccountHierarchy extends \App\Base\Controllers\BaseViewController
 
 		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, $moduleName);
 		$hierarchy = $recordModel->getAccountHierarchy();
-		$listColumns = \App\AppConfig::module('Accounts', 'COLUMNS_IN_HIERARCHY');
+		$listColumns = \App\Core\AppConfig::module('Accounts', 'COLUMNS_IN_HIERARCHY');
 		$lastModifiedField = [];
 		if (!empty($listColumns) && in_array('active', $listColumns)) {
 			foreach ($hierarchy['entries'] as $crmId => $entry) {

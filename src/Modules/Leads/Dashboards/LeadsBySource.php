@@ -53,7 +53,7 @@ class LeadsBySource  extends \App\Modules\Base\Views\Index
 		if (!empty($dateFilter)) {
 			$query->andWhere(['between', 'createdtime', $dateFilter['start'] . ' 00:00:00', $dateFilter['end'] . ' 23:59:59']);
 		}
-		\App\PrivilegeQuery::getConditions($query, $module);
+		\App\Security\PrivilegeQuery::getConditions($query, $module);
 		$query->groupBy(['vtiger_leaddetails.leadsource']);
 		
 		$dataReader = $query->createCommand()->query();

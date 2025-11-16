@@ -21,7 +21,7 @@ class Field extends \App\Modules\Base\Models\Field
 	 */
 	public function delete()
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$fieldId = $this->getId();
 		$moduleId = $this->getModuleId();
 		$fieldName = $this->getName();
@@ -46,7 +46,7 @@ class Field extends \App\Modules\Base\Models\Field
 		$fieldtype = explode("~", $typeofdata);
 		$tabId = $moduleId;
 
-		$focus = \App\CRMEntity::getInstance($fldModule);
+		$focus = \App\Core\CRMEntity::getInstance($fldModule);
 
 		$deleteColumnName = $tablename . ":" . $columnName . ":" . $fieldName . ":" . $fldModule . "_" . str_replace(" ", "_", $oldfieldlabel) . ":" . $fieldtype[0];
 		$columnCvstdfilter = $tablename . ":" . $columnName . ":" . $fieldName . ":" . $fldModule . "_" . str_replace(" ", "_", $oldfieldlabel);
@@ -97,7 +97,7 @@ class Field extends \App\Modules\Base\Models\Field
 	 */
 	public function move($fieldNewDetails, $fieldOlderDetails)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$newBlockId = $fieldNewDetails['blockId'];
 		$olderBlockId = $fieldOlderDetails['blockId'];
 
@@ -128,7 +128,7 @@ class Field extends \App\Modules\Base\Models\Field
 			$caseExpression .= " WHEN fieldid = $fieldId THEN " . ($maxSequence + 1);
 		}
 		$caseExpression .= ' ELSE sequence END';
-		\App\Db::getInstance()->createCommand()
+		\App\Db\Db::getInstance()->createCommand()
 			->update('vtiger_field', [
 				'presence' => 2,
 				'sequence' => new \yii\db\Expression($caseExpression),

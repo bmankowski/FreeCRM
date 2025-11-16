@@ -36,7 +36,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 */
 	public function updateSequence($sequencesList)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$caseSequence = 'CASE';
 		foreach ($sequencesList as $sequence => $recordId) {
 			$caseSequence .= ' WHEN ' . $db->quoteColumnName('id') . ' = ' . $db->quoteValue($recordId) . ' THEN ' . $db->quoteValue($sequence);

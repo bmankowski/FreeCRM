@@ -42,7 +42,7 @@ class VTWatchdog extends VTTask
 				$users = [$recordModel->get('assigned_user_id')];
 				break;
 			default:
-				$users = \App\PrivilegeUtil::getUserByMember($this->recipients);
+				$users = \App\Security\PrivilegeUtil::getUserByMember($this->recipients);
 				break;
 		}
 		if (empty($users)) {
@@ -51,7 +51,7 @@ class VTWatchdog extends VTTask
 		if (!empty($this->skipCurrentUser) && ($key = array_search(\App\Modules\Users\Models\Record::getCurrentUserId(), $users)) !== false) {
 			unset($users[$key]);
 		}
-		$relatedField = \App\ModuleHierarchy::getMappingRelatedField($moduleName);
+		$relatedField = \App\Core\ModuleHierarchy::getMappingRelatedField($moduleName);
 		$notification = \App\Modules\Base\Models\Record::getCleanInstance('Notification');
 		$notification->set('shownerid', implode(',', $users));
 		$notification->set($relatedField, $recordId);

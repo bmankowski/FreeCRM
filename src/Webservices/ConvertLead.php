@@ -18,7 +18,7 @@ function vtws_convertlead($entityvalues, $user)
 {
 	$adb = \App\Database\PearDatabase::getInstance();
 
-	\App\Log::trace('Start ' . __METHOD__);
+	\App\Log\Log::trace('Start ' . __METHOD__);
 	if (empty($entityvalues['assignedTo'])) {
 		$entityvalues['assignedTo'] = $user->id;
 	}
@@ -41,17 +41,17 @@ function vtws_convertlead($entityvalues, $user)
 	$leadIdComponents = $entityvalues['leadId'];
 	$result = $adb->pquery($sql, [$leadIdComponents]);
 	if ($result === false) {
-		\App\Log::error('Error converting a lead: ' . vtws_getWebserviceTranslatedString('LBL_' . WebServiceErrorCode::$DATABASEQUERYERROR));
+		\App\Log\Log::error('Error converting a lead: ' . vtws_getWebserviceTranslatedString('LBL_' . WebServiceErrorCode::$DATABASEQUERYERROR));
 		throw new WebServiceException(WebServiceErrorCode::$DATABASEQUERYERROR, vtws_getWebserviceTranslatedString('LBL_' .
 			WebServiceErrorCode::$DATABASEQUERYERROR));
 	}
 	$rowCount = $adb->num_rows($result);
 	if ($rowCount > 0) {
-		\App\Log::error('Error converting a lead: ' . vtws_getWebserviceTranslatedString('LBL_' . WebServiceErrorCode::$LEAD_ALREADY_CONVERTED));
+		\App\Log\Log::error('Error converting a lead: ' . vtws_getWebserviceTranslatedString('LBL_' . WebServiceErrorCode::$LEAD_ALREADY_CONVERTED));
 		throw new WebServiceException(WebServiceErrorCode::$LEAD_ALREADY_CONVERTED, vtws_getWebserviceTranslatedString('LBL_' . WebServiceErrorCode::$LEAD_ALREADY_CONVERTED));
 	}
 
-	$eventHandler = new \App\EventHandler();
+	$eventHandler = new \App\Events\EventHandler();
 	$eventHandler->setParams(['entityValues' => $entityvalues, 'user' => $user, 'leadInfo' => $leadInfo]);
 	$eventHandler->trigger('EntityBeforeConvertLead');
 
@@ -107,7 +107,7 @@ function vtws_convertlead($entityvalues, $user)
 					$entityIds[$entityName] = $recordModel->getId();
 				}
 			} catch (Exception $e) {
-				\App\Log::error('Error converting a lead: ' . $e->getMessage());
+				\App\Log\Log::error('Error converting a lead: ' . $e->getMessage());
 				throw new WebServiceException(WebServiceErrorCode::$UNKNOWNOPERATION, $e->getMessage() . ' : ' . $entityvalue['name']);
 			}
 		}
@@ -126,13 +126,13 @@ function vtws_convertlead($entityvalues, $user)
 		$eventHandler->addParams('entityIds', $entityIds);
 		$eventHandler->trigger('EntityAfterConvertLead');
 	} catch (Exception $e) {
-		\App\Log::error('Error converting a lead: ' . $e->getMessage());
+		\App\Log\Log::error('Error converting a lead: ' . $e->getMessage());
 		foreach ($entityIds as $entity => $id) {
 			vtws_delete($id, $user);
 		}
 		return null;
 	}
-	\App\Log::trace('End ' . __METHOD__);
+	\App\Log\Log::trace('End ' . __METHOD__);
 	return $entityIds;
 }
 /*

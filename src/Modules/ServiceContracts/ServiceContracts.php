@@ -8,7 +8,7 @@ namespace App\Modules\ServiceContracts;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class ServiceContracts extends \App\CRMEntity
+class ServiceContracts extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'vtiger_servicecontracts';
@@ -145,7 +145,7 @@ class ServiceContracts extends \App\CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other = \App\CRMEntity::getInstance($related_module);
+			$other = \App\Core\CRMEntity::getInstance($related_module);
 			\App\Utils\VtlibUtils::setupModuleVars($related_module, $other);
 
 			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index =" .
@@ -284,7 +284,7 @@ class ServiceContracts extends \App\CRMEntity
 			$fieldname = $this->db->query_result($linkedModulesQuery, $i, 'fieldname');
 			$columnname = $this->db->query_result($linkedModulesQuery, $i, 'columnname');
 
-			$other = \App\CRMEntity::getInstance($related_module);
+			$other = \App\Core\CRMEntity::getInstance($related_module);
 			\App\Utils\VtlibUtils::setupModuleVars($related_module, $other);
 
 			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = " .
@@ -379,9 +379,9 @@ class ServiceContracts extends \App\CRMEntity
 			// Mark the module as Standard module
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($moduleName));
 		} else if ($eventType == 'module.disabled') {
-			\App\EventHandler::setInActive('ServiceContracts_ServiceContractsHandler_Handler');
+			\App\Events\EventHandler::setInActive('ServiceContracts_ServiceContractsHandler_Handler');
 		} else if ($eventType == 'module.enabled') {
-			\App\EventHandler::setActive('ServiceContracts_ServiceContractsHandler_Handler');
+			\App\Events\EventHandler::setActive('ServiceContracts_ServiceContractsHandler_Handler');
 		} else if ($eventType == 'module.preuninstall') {
 			
 		} else if ($eventType == 'module.preupdate') {
@@ -393,7 +393,7 @@ class ServiceContracts extends \App\CRMEntity
 
 	/**
 	 * Handle saving related module information.
-	 * NOTE: This function has been added to \App\CRMEntity (base class).
+	 * NOTE: This function has been added to \App\Core\CRMEntity (base class).
 	 * You can override the behavior by re-defining it here.
 	 */
 	public function save_related_module($module, $crmid, $with_module, $with_crmids, $relatedName = false)
@@ -456,7 +456,7 @@ class ServiceContracts extends \App\CRMEntity
 														AND module = 'HelpDesk' AND relcrmid = ?", array($focusId, $focusId));
 
 		$noOfTickets = $this->db->num_rows($contractTicketsResult);
-		$ticketFocus = \App\CRMEntity::getInstance('HelpDesk');
+		$ticketFocus = \App\Core\CRMEntity::getInstance('HelpDesk');
 		$totalUsedUnits = 0;
 		for ($i = 0; $i < $noOfTickets; ++$i) {
 			$ticketId = $this->db->query_result($contractTicketsResult, $i, 'relcrmid');
@@ -505,7 +505,7 @@ class ServiceContracts extends \App\CRMEntity
 	public function updateUsedUnits($usedUnits)
 	{
 		$this->column_fields['used_units'] = $usedUnits;
-		\App\Db::getInstance()->createCommand()->update($this->table_name, ['used_units' => $usedUnits], ['servicecontractsid' => $this->id])->execute();
+		\App\Db\Db::getInstance()->createCommand()->update($this->table_name, ['used_units' => $usedUnits], ['servicecontractsid' => $this->id])->execute();
 	}
 
 	/**
@@ -513,7 +513,7 @@ class ServiceContracts extends \App\CRMEntity
 	 */
 	public function calculateProgress()
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$params = [];
 
 		$startDate = $this->column_fields['start_date'];
@@ -567,7 +567,7 @@ class ServiceContracts extends \App\CRMEntity
 
 	/**
 	 * Handle deleting related module information.
-	 * NOTE: This function has been added to \App\CRMEntity (base class).
+	 * NOTE: This function has been added to \App\Core\CRMEntity (base class).
 	 * You can override the behavior by re-defining it here.
 	 */
 	public function delete_related_module($module, $crmid, $with_module, $with_crmid)
@@ -590,8 +590,8 @@ class ServiceContracts extends \App\CRMEntity
 					->where(['fieldid' => (new \App\Db\Query())->select(['fieldid'])->from('vtiger_fieldmodulerel')->where(['module' => $this->moduleName, 'relmodule' => $returnModule])])
 					->createCommand()->query();
 			while ($row = $dataReader->read()) {
-				\App\Db::getInstance()->createCommand()
-					->update($row['tablename'], [$row['columnname'] => null], [$row['columnname'] => $returnId, \App\CRMEntity::getInstance(\App\Utils\ModuleUtils::getModuleName($row['tabid']))->table_index => $id])
+				\App\Db\Db::getInstance()->createCommand()
+					->update($row['tablename'], [$row['columnname'] => null], [$row['columnname'] => $returnId, \App\Core\CRMEntity::getInstance(\App\Utils\ModuleUtils::getModuleName($row['tabid']))->table_index => $id])
 					->execute();
 			}
 		}
@@ -607,7 +607,7 @@ class ServiceContracts extends \App\CRMEntity
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 
-		\App\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
+		\App\Log\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("Documents" => "vtiger_senotesrel", "Attachments" => "vtiger_seattachmentsrel");
 
@@ -632,6 +632,6 @@ class ServiceContracts extends \App\CRMEntity
 			}
 		}
 		parent::transferRelatedRecords($module, $transferEntityIds, $entityId);
-		\App\Log::trace("Exiting transferRelatedRecords...");
+		\App\Log\Log::trace("Exiting transferRelatedRecords...");
 	}
 }

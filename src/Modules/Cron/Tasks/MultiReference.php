@@ -6,15 +6,15 @@
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-$db = \App\Db::getInstance();
+$db = \App\Db\Db::getInstance();
 $executed = [];
 $limit = 1000;
 $rows = (new \App\Db\Query())->from('s_#__multireference')->all();
 
 foreach ($rows as &$multireference) {
 	if ((int) $multireference['type'] === 0) {
-		$entity = \App\CRMEntity::getInstance($multireference['source_module']);
-		$queryGenerator = new \App\QueryGenerator($multireference['source_module']);
+		$entity = \App\Core\CRMEntity::getInstance($multireference['source_module']);
+		$queryGenerator = new \App\QueryField\QueryGenerator($multireference['source_module']);
 		$queryGenerator->setFields(['id']);
 		$queryGenerator->addCondition('id', $multireference['lastid'], 'a');
 		$queryGenerator->setOrder('id', 'ASC');
@@ -22,7 +22,7 @@ foreach ($rows as &$multireference) {
 		$fields = \App\Modules\Base\UiTypes\MultiReferenceValue::getFieldsByModules($multireference['source_module'], $multireference['dest_module']);
 		$dataReader = $queryGenerator->createQuery()->limit($limit)->createCommand()->query();
 		unset($queryGenerator);
-		$queryGenerator = new \App\QueryGenerator($multireference['source_module']);
+		$queryGenerator = new \App\QueryField\QueryGenerator($multireference['source_module']);
 		$queryGenerator->setFields(['id']);
 		$queryGenerator->addCondition('id', $multireference['lastid'], 'a');
 		$queryGenerator->setOrder('id', 'DESC');

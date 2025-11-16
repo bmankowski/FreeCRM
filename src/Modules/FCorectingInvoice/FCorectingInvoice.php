@@ -3,14 +3,14 @@
 namespace App\Modules\FCorectingInvoice;
 
 /**
- * FCorectingInvoice \App\CRMEntity Class
+ * FCorectingInvoice \App\Core\CRMEntity Class
  * @package YetiForce.Model
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
 
 
-class FCorectingInvoice extends \App\CRMEntity
+class FCorectingInvoice extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'u_yf_fcorectinginvoice';

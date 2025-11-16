@@ -27,14 +27,14 @@ class BindHelpDesk extends \App\Runtime\BaseModel
 			}
 			$conf = \App\Modules\OSSMailScanner\Models\Record::getConfig('emailsearch');
 			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($id, $this->moduleName);
-			if ($recordModel->get('ticketstatus') === 'Wait For Response' && !empty(\App\AppConfig::module('Mail', 'HELPDESK_NEXT_WAIT_FOR_RESPONSE_STATUS'))) {
-				$recordModel->set('ticketstatus', \App\AppConfig::module('Mail', 'HELPDESK_NEXT_WAIT_FOR_RESPONSE_STATUS'));
+			if ($recordModel->get('ticketstatus') === 'Wait For Response' && !empty(\App\Core\AppConfig::module('Mail', 'HELPDESK_NEXT_WAIT_FOR_RESPONSE_STATUS'))) {
+				$recordModel->set('ticketstatus', \App\Core\AppConfig::module('Mail', 'HELPDESK_NEXT_WAIT_FOR_RESPONSE_STATUS'));
 				$recordModel->save();
 			}
 			$ticketStatus = array_flip(\App\Modules\Settings\SupportProcesses\Models\Module::getTicketStatusNotModify());
 			if ($mail->getTypeEmail() == 1 && isset($ticketStatus[$recordModel->get('ticketstatus')])) {
 				if ($conf['changeTicketStatus'] === 'openTicket') {
-					$recordModel->set('ticketstatus', \App\AppConfig::module('Mail', 'HELPDESK_OPENTICKET_STATUS'));
+					$recordModel->set('ticketstatus', \App\Core\AppConfig::module('Mail', 'HELPDESK_OPENTICKET_STATUS'));
 					$recordModel->save();
 				} elseif ($conf['changeTicketStatus'] === 'createTicket') {
 					$mailAccount = $mail->getAccount();

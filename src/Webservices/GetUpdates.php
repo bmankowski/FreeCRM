@@ -144,7 +144,7 @@ function vtws_sync($mtime, $elementType, $syncType, $user)
 		$params = array($moduleMeta->getTabName(), $datetime, $maxModifiedTime);
 
 
-		$queryGenerator = new QueryGenerator($elementType, $user);
+		$queryGenerator = new \App\QueryField\QueryGenerator($elementType, $user);
 		$fields = [];
 		$moduleFields = $moduleMeta->getModuleFields();
 		$moduleFieldNames = getSelectClauseFields($elementType, $moduleMeta, $user);

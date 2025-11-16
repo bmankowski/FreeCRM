@@ -25,7 +25,7 @@ class RelationListView extends \App\Runtime\BaseModel
 		$relatedModuleModel = $relationModel->getRelationModuleModel();
 		$relatedModuleName = $relatedModuleModel->getName();
 		if (in_array($relatedModuleName, ['Accounts', 'Leads', 'Vendors', 'Contacts', 'Partners', 'Competition'])) {
-			if ($relatedModuleModel->isPermitted('MassComposeEmail') && \App\AppConfig::main('isActiveSendingMails') && \App\Email\Mail::getDefaultSmtp()) {
+			if ($relatedModuleModel->isPermitted('MassComposeEmail') && \App\Core\AppConfig::main('isActiveSendingMails') && \App\Email\Mail::getDefaultSmtp()) {
 				$emailLink = \App\Modules\Base\Models\Link::getInstanceFromValues(array(
 						'linktype' => 'LISTVIEWBASIC',
 						'linklabel' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SEND_EMAIL', $relatedModuleName),

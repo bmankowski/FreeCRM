@@ -47,7 +47,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 	 */
 	protected function prepareLangManagementIndexContentData($viewer)
 	{
-		$viewer->assign('LOAD_CUSTOM_FILES', \App\AppConfig::performance('LOAD_CUSTOM_FILES'));
+		$viewer->assign('LOAD_CUSTOM_FILES', \App\Core\AppConfig::performance('LOAD_CUSTOM_FILES'));
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)

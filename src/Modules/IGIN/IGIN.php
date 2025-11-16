@@ -3,14 +3,14 @@
 namespace App\Modules\IGIN;
 
 /**
- * IGIN \App\CRMEntity Class
+ * IGIN \App\Core\CRMEntity Class
  * @package YetiForce.CRMEntity
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
 
-class IGIN extends \App\CRMEntity
+class IGIN extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'u_yf_igin';

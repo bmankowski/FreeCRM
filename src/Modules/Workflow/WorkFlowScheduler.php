@@ -30,7 +30,7 @@ class WorkFlowScheduler {
 		$conditions = \App\Utils\Json::decode(\App\Utils\ListViewUtils::decodeHtml($workflow->test));
 
 		$moduleName = $workflow->moduleName;
-		$queryGenerator = new \App\QueryGenerator($moduleName, $this->user->id);
+		$queryGenerator = new \App\QueryField\QueryGenerator($moduleName, $this->user->id);
 		$queryGenerator->setFields(['id']);
 		$this->addWorkflowConditionsToQueryGenerator($queryGenerator, $conditions);
 
@@ -53,7 +53,7 @@ class WorkFlowScheduler {
 
 	public function queueScheduledWorkflowTasks()
 	{
-		$default_timezone = \App\AppConfig::main('default_timezone');
+		$default_timezone = \App\Core\AppConfig::main('default_timezone');
 		$adb = $this->db;
 
 		$vtWorflowManager = new \App\Modules\Workflow\VTWorkflowManager($adb);
@@ -193,7 +193,7 @@ class WorkFlowScheduler {
 		$operation = $condition['operation'];
 
 		// based on the admin users time zone, since query generator expects datetime at user timezone
-		$default_timezone = \App\AppConfig::main('default_timezone');
+		$default_timezone = \App\Core\AppConfig::main('default_timezone');
 		$admin = \App\Modules\Users\Users::getActiveAdminUser();
 		$adminTimeZone = $admin->time_zone;
 		@date_default_timezone_set($adminTimeZone);

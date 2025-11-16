@@ -38,7 +38,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	
 	public static function getSmtpNames()
 	{	
-		return (new \App\Db\Query())->select(['id', 'name'])->from('s_#__mail_smtp')->all(\App\Db::getInstance('admin'));
+		return (new \App\Db\Query())->select(['id', 'name'])->from('s_#__mail_smtp')->all(\App\Db\Db::getInstance('admin'));
 	}
 
 }

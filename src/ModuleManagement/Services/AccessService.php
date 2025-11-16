@@ -28,10 +28,10 @@ class AccessService
 	/**
 	 * Constructor.
 	 * 
-	 * @param \App\Db $db
+	 * @param \App\Db\Db $db
 	 * @param ProfileService $profileService
 	 */
-	public function __construct(\App\Db $db, ProfileService $profileService)
+	public function __construct(\App\Db\Db $db, ProfileService $profileService)
 	{
 		$this->db = $db;
 		$this->profileService = $profileService;

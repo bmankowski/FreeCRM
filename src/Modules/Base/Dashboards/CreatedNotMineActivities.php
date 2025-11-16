@@ -50,8 +50,8 @@ class Vtiger_CreatedNotMineActivities_Dashboard extends \App\Modules\Base\Views\
 		$viewer->assign('ACTIVITIES', $overDueActivities);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('CURRENTUSER', $currentUser);
-		$viewer->assign('NAMELENGTH', \App\AppConfig::main('title_max_length'));
-		$viewer->assign('HREFNAMELENGTH', \App\AppConfig::main('href_max_length'));
+		$viewer->assign('NAMELENGTH', \App\Core\AppConfig::main('title_max_length'));
+		$viewer->assign('HREFNAMELENGTH', \App\Core\AppConfig::main('href_max_length'));
 		$viewer->assign('NODATAMSGLABLE', 'LBL_NO_RECORDS_MATCHED_THIS_CRITERIA');
 		$viewer->assign('OWNER', $owner);
 		$viewer->assign('DATA', $data);

@@ -63,7 +63,7 @@ class FindDuplicate extends \App\Runtime\BaseModel
 		foreach ($mandatoryFieldsModels as $fieldModel) {
 			$mandatoryFields [] = $fieldModel->getFieldName();
 		}
-		$queryGenerator = new \App\QueryGenerator($moduleName);
+		$queryGenerator = new \App\QueryField\QueryGenerator($moduleName);
 		$queryGenerator->setFields(array_merge($mandatoryFields, $fields));
 
 		$ignoreEmpty = $this->get('ignoreEmpty');
@@ -111,7 +111,7 @@ class FindDuplicate extends \App\Runtime\BaseModel
 
 
 		//$query = $this->getQuery();
-		$focus = \App\CRMEntity::getInstance($module);
+		$focus = \App\Core\CRMEntity::getInstance($module);
 		$query = $focus->getQueryForDuplicates($module, $tableColumns, '', $ignoreEmpty, $additionalColumns);
 
 		$query .= " LIMIT " . ($pageLimit + 1) . ' OFFSET ' . $startIndex;
@@ -199,7 +199,7 @@ class FindDuplicate extends \App\Runtime\BaseModel
 					}
 				}
 			}
-			$focus = \App\CRMEntity::getInstance($module);
+			$focus = \App\Core\CRMEntity::getInstance($module);
 			$ignoreEmpty = $this->get('ignoreEmpty');
 			$additionalColumns = array_diff($additionalColumns, $tableColumns);
 			$query = $focus->getQueryForDuplicates($module, $tableColumns, '', $ignoreEmpty, $additionalColumns);
@@ -239,7 +239,7 @@ class FindDuplicate extends \App\Runtime\BaseModel
 			}
 		}
 
-		$focus = \App\CRMEntity::getInstance($module);
+		$focus = \App\Core\CRMEntity::getInstance($module);
 		$query = $focus->getQueryForDuplicates($module, $tableColumns, '', $ignoreEmpty);
 		$result = $db->query($query);
 

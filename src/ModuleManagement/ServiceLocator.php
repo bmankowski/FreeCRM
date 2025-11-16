@@ -34,7 +34,7 @@ class ServiceLocator
 	{
 		if (!isset(self::$services['module'])) {
 			self::$services['module'] = new Services\ModuleService(
-				\App\Db::getInstance(),
+				\App\Db\Db::getInstance(),
 				self::getEventDispatcher()
 			);
 		}
@@ -50,7 +50,7 @@ class ServiceLocator
 	{
 		if (!isset(self::$services['field'])) {
 			self::$services['field'] = new Services\FieldService(
-				\App\Db::getInstance()
+				\App\Db\Db::getInstance()
 			);
 		}
 		return self::$services['field'];
@@ -65,7 +65,7 @@ class ServiceLocator
 	{
 		if (!isset(self::$services['block'])) {
 			self::$services['block'] = new Services\BlockService(
-				\App\Db::getInstance()
+				\App\Db\Db::getInstance()
 			);
 		}
 		return self::$services['block'];
@@ -80,7 +80,7 @@ class ServiceLocator
 	{
 		if (!isset(self::$services['relation'])) {
 			self::$services['relation'] = new Services\RelationService(
-				\App\Db::getInstance()
+				\App\Db\Db::getInstance()
 			);
 		}
 		return self::$services['relation'];
@@ -108,7 +108,7 @@ class ServiceLocator
 	{
 		if (!isset(self::$services['package'])) {
 			self::$services['package'] = new Services\PackageService(
-				\App\Db::getInstance(),
+				\App\Db\Db::getInstance(),
 				self::getEventDispatcher()
 			);
 		}
@@ -137,7 +137,7 @@ class ServiceLocator
 	{
 		if (!isset(self::$services['profile'])) {
 			self::$services['profile'] = new Services\ProfileService(
-				\App\Db::getInstance()
+				\App\Db\Db::getInstance()
 			);
 		}
 		return self::$services['profile'];
@@ -152,7 +152,7 @@ class ServiceLocator
 	{
 		if (!isset(self::$services['access'])) {
 			self::$services['access'] = new Services\AccessService(
-				\App\Db::getInstance(),
+				\App\Db\Db::getInstance(),
 				self::getProfileService()
 			);
 		}
@@ -168,7 +168,7 @@ class ServiceLocator
 	{
 		if (!isset(self::$services['filter'])) {
 			self::$services['filter'] = new Services\FilterService(
-				\App\Db::getInstance()
+				\App\Db\Db::getInstance()
 			);
 		}
 		return self::$services['filter'];
@@ -183,7 +183,7 @@ class ServiceLocator
 	{
 		if (!isset(self::$services['link'])) {
 			self::$services['link'] = new Services\LinkService(
-				\App\Db::getInstance()
+				\App\Db\Db::getInstance()
 			);
 		}
 		return self::$services['link'];
@@ -198,7 +198,7 @@ class ServiceLocator
 	{
 		if (!isset(self::$services['cron'])) {
 			self::$services['cron'] = new Services\CronService(
-				\App\Db::getInstance()
+				\App\Db\Db::getInstance()
 			);
 		}
 		return self::$services['cron'];
@@ -239,7 +239,7 @@ class ServiceLocator
 	{
 		if (!isset(self::$services['menu'])) {
 			self::$services['menu'] = new Services\MenuService(
-				\App\Db::getInstance()
+				\App\Db\Db::getInstance()
 			);
 		}
 		return self::$services['menu'];

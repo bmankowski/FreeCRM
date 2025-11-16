@@ -24,9 +24,9 @@ class ImageUploadAjax extends \App\Base\Controllers\BaseActionController
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$fileTypeSettings = \App\AppConfig::module($moduleName, 'fileTypeSettings');
-		$allowedFileTypes = \App\AppConfig::module($moduleName, 'allowedFileTypes');
-		$rename = \App\AppConfig::module($moduleName, 'rename');
+		$fileTypeSettings = \App\Core\AppConfig::module($moduleName, 'fileTypeSettings');
+		$allowedFileTypes = \App\Core\AppConfig::module($moduleName, 'allowedFileTypes');
+		$rename = \App\Core\AppConfig::module($moduleName, 'rename');
 		$iConf = &$fileTypeSettings['img'];
 		$aConf = &$fileTypeSettings['audio'];
 		$vConf = &$fileTypeSettings['video'];

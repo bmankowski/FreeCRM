@@ -140,7 +140,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		$data = (new \App\Db\Query())
 			->from($instance->getModule()->getBaseTable())
 			->where([$instance->getModule()->getTableIndex() => $id])
-			->one(\App\Db::getInstance('webservice'));
+			->one(\App\Db\Db::getInstance('webservice'));
 		$instance->setData($data);
 		\App\Cache\Cache::save($cacheName, $id, $instance);
 		return $instance;
@@ -167,7 +167,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public function save($data)
 	{
-		$db = \App\Db::getInstance('webservice');
+		$db = \App\Db\Db::getInstance('webservice');
 		$table = $this->getModule()->getBaseTable();
 		$index = $this->getModule()->getTableIndex();
 		$fields = $this->getEditFields();
@@ -295,7 +295,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public function delete()
 	{
-		$db = \App\Db::getInstance('webservice');
+		$db = \App\Db\Db::getInstance('webservice');
 		$recordId = $this->getId();
 		if ($recordId) {
 			$table = $this->getModule()->getBaseTable();

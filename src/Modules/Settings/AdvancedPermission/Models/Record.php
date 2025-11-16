@@ -70,7 +70,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public static function getInstance($id)
 	{
-		$db = \App\Db::getInstance('admin');
+		$db = \App\Db\Db::getInstance('admin');
 		$query = (new \App\Db\Query())->from('a_#__adv_permission')->where(['id' => $id]);
 		$row = $query->createCommand($db)->queryOne();
 		$instance = false;
@@ -88,7 +88,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public function save($request = null)
 	{
-		$db = \App\Db::getInstance('admin');
+		$db = \App\Db\Db::getInstance('admin');
 		$recordId = $this->getId();
 
 		$params = [];
@@ -155,11 +155,11 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 								$name = \App\Runtime\Vtiger_Language_Handler::translate(\App\Fields\Owner::getGroupName($id));
 								break;
 							case 'Roles' :
-								$roleInfo = \App\PrivilegeUtil::getRoleDetail($id);
+								$roleInfo = \App\Security\PrivilegeUtil::getRoleDetail($id);
 								$name = \App\Runtime\Vtiger_Language_Handler::translate($roleInfo['rolename']);
 								break;
 							case 'RoleAndSubordinates' :
-								$roleInfo = \App\PrivilegeUtil::getRoleDetail($id);
+								$roleInfo = \App\Security\PrivilegeUtil::getRoleDetail($id);
 								$name = \App\Runtime\Vtiger_Language_Handler::translate($roleInfo['rolename']);
 								break;
 						}
@@ -177,7 +177,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public function delete()
 	{
-		$db = \App\Db::getInstance('admin');
+		$db = \App\Db\Db::getInstance('admin');
 		$db->createCommand()
 			->delete('a_#__adv_permission', ['id' => $this->getId()])
 			->execute();
@@ -225,7 +225,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		$users = [];
 		if (!empty($members)) {
 			foreach ($members as &$member) {
-				$users = array_merge($users, \App\PrivilegeUtil::getUserByMember($member));
+				$users = array_merge($users, \App\Security\PrivilegeUtil::getUserByMember($member));
 			}
 			$users = array_unique($users);
 		}

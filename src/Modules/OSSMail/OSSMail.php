@@ -50,7 +50,7 @@ class OSSMail {
 				throw new \App\Exceptions\NotAllowedMethod(\App\Runtime\Vtiger_Language_Handler::translate('ERR_NO_REQUIRED_LIBRARY', 'Settings:Vtiger', 'roundcube'));
 			}
 			$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
-			\App\Db::getInstance()->createCommand()->insert('vtiger_ossmails_logs', ['action' => 'Action_EnabledModule', 'info' => $moduleName, 'user' => $user_id])->execute();
+			\App\Db\Db::getInstance()->createCommand()->insert('vtiger_ossmails_logs', ['action' => 'Action_EnabledModule', 'info' => $moduleName, 'user' => $user_id])->execute();
 		} else if ($eventType == 'module.preuninstall') {
 			
 		} else if ($eventType == 'module.preupdate') {

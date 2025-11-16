@@ -44,7 +44,7 @@ class ExpiringSoldProducts  extends \App\Modules\Base\Views\Index
 		if (!empty($widget->get('limit'))) {
 			$limit = $widget->get('limit');
 		}
-		$queryGenerator = new \App\QueryGenerator('Assets');
+		$queryGenerator = new \App\QueryField\QueryGenerator('Assets');
 		$queryGenerator->setFields($fields);
 		$query = $queryGenerator->createQuery();
 		$showtype = $request->get('showtype');

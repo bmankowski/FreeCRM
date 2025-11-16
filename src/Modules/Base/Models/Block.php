@@ -201,7 +201,7 @@ class Block extends \vtlib\Block
 		}
 
 		try {
-			$blockClassName = $moduleName ? \App\Loader::getComponentClassName('Model', 'Block', $moduleName) : self::class;
+			$blockClassName = $moduleName ? \App\Core\Loader::getComponentClassName('Model', 'Block', $moduleName) : self::class;
 		} catch (\Exception $e) {
 			$blockClassName = self::class;
 		}

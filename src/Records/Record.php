@@ -117,7 +117,7 @@ class Record
 			$leftJoinTables = [];
 			$paramsCol = [];
 			$query = new \App\Db\Query();
-			$focus = \App\CRMEntity::getInstance($moduleName);
+			$focus = \App\Core\CRMEntity::getInstance($moduleName);
 			foreach (array_filter($columns) as $column) {
 				if (array_key_exists($column, $moduleInfoExtend)) {
 					$otherTable = $moduleInfoExtend[$column]['tablename'];
@@ -179,7 +179,7 @@ class Record
 	{
 		$labelInfo = static::computeLabels($moduleName, $id, true);
 		if (!empty($labelInfo)) {
-			$db = \App\Db::getInstance();
+			$db = \App\Db\Db::getInstance();
 			$label = \vtlib\Functions:: textLength(\App\Utils\ListViewUtils::decodeHtml($labelInfo[$id]['name']), 254, false);
 			$search = \vtlib\Functions:: textLength(\App\Utils\ListViewUtils::decodeHtml($labelInfo[$id]['search']), 254, false);
 			if (!is_numeric($label) && empty($label)) {
@@ -189,18 +189,18 @@ class Record
 				$search = '';
 			}
 			if (!$insertMode) {
-				$labelRowCount = $db->createCommand()
-					->update('u_#__crmentity_label', ['label' => $label], ['crmid' => $id])
-					->execute();
-				if (!$labelRowCount) {
-					$labelRowCount = (new Db\Query())->from('u_#__crmentity_label')->where(['crmid' => $id])->count();
-				}
-				$searchRowCount = $db->createCommand()
-					->update('u_#__crmentity_search_label', ['searchlabel' => $search], ['crmid' => $id])
-					->execute();
-				if (!$searchRowCount) {
-					$searchRowCount = (new Db\Query())->from('u_#__crmentity_search_label')->where(['crmid' => $id])->count();
-				}
+			$labelRowCount = $db->createCommand()
+				->update('u_#__crmentity_label', ['label' => $label], ['crmid' => $id])
+				->execute();
+			if (!$labelRowCount) {
+				$labelRowCount = (new \App\Db\Query())->from('u_#__crmentity_label')->where(['crmid' => $id])->count();
+			}
+			$searchRowCount = $db->createCommand()
+				->update('u_#__crmentity_search_label', ['searchlabel' => $search], ['crmid' => $id])
+				->execute();
+			if (!$searchRowCount) {
+				$searchRowCount = (new \App\Db\Query())->from('u_#__crmentity_search_label')->where(['crmid' => $id])->count();
+			}
 			}
 			if (($insertMode || !$labelRowCount) && $updater !== 'searchlabel') {
 				$db->createCommand()->insert('u_#__crmentity_label', ['crmid' => $id, 'label' => $label])->execute();
@@ -237,7 +237,7 @@ class Record
 		if (empty($search)) {
 			$search = '';
 		}
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		if ($recordModel->isNew()) {
 			$db->createCommand()->insert('u_#__crmentity_label', ['crmid' => $recordModel->getId(), 'label' => $label])->execute();
 			$db->createCommand()->insert('u_#__crmentity_search_label', ['crmid' => $recordModel->getId(), 'searchlabel' => $search, 'setype' => $recordModel->getModuleName()])->execute();
@@ -290,10 +290,10 @@ class Record
 			$moduleName = static::getType($recordId);
 		}
 		$parentId = false;
-		if ($parentModules = ModuleHierarchy::getModulesMap1M($moduleName)) {
+		if ($parentModules = \App\Core\ModuleHierarchy::getModulesMap1M($moduleName)) {
 			foreach ($parentModules as $parentModule) {
 				if ($fields = \App\Fields\Field::getRelatedFieldForModule($moduleName, $parentModule)) {
-					$entity = \App\CRMEntity::getInstance($moduleName);
+					$entity = \App\Core\CRMEntity::getInstance($moduleName);
 					$index = $entity->tab_name_index[$fields['tablename']];
 					$parentId = (new \App\Db\Query())->select(["{$fields['tablename']}.{$fields['columnname']}"])
 						->from($fields['tablename'])

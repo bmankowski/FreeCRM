@@ -21,7 +21,7 @@ class HighTasks {
 	public function process($instance)
 	{
 		
-		\App\Log::trace("Entering HighTasks::process() method ...");
+		\App\Log\Log::trace("Entering HighTasks::process() method ...");
 		$adb = \App\Database\PearDatabase::getInstance();
 		$query = 'SELECT COUNT(projecttaskid) as count 
 				FROM vtiger_projecttask
@@ -29,7 +29,7 @@ class HighTasks {
 						WHERE vtiger_projecttask.projectid = ? && vtiger_projecttask.projecttaskpriority = ? && vtiger_crmentity.deleted=0';
 		$result = $adb->pquery($query, array($instance->getId(), 'high'));
 		$count = $adb->query_result($result, 0, 'count');
-		\App\Log::trace("Exiting HighTasks::process() method ...");
+		\App\Log\Log::trace("Exiting HighTasks::process() method ...");
 		return $count;
 	}
 }

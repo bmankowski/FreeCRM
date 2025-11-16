@@ -99,7 +99,7 @@ class ConfigurePass extends \App\Modules\Settings\Base\Views\Index
 
 			// update the configuration data
 			if (strlen($error) == 0 && $post_min > 0 && $post_max > 0 && strlen($aChars) > 0) {
-				\App\Db::getInstance()->createCommand()->update('vtiger_passwords_config', [
+				\App\Db\Db::getInstance()->createCommand()->update('vtiger_passwords_config', [
 					'pass_length_min' => $post_min,
 					'pass_length_max' => $post_max,
 					'pass_allow_chars' => $adb->sql_escape_string($aChars),
@@ -142,7 +142,7 @@ class ConfigurePass extends \App\Modules\Settings\Base\Views\Index
 					// commit transaction
 					$adb->completeTransaction();
 				} else {
-					\App\Log::error('New encryption password incorrect!');
+					\App\Log\Log::error('New encryption password incorrect!');
 					$error = 'New encryption password is incorrect!';
 				}
 			}
@@ -182,7 +182,7 @@ class ConfigurePass extends \App\Modules\Settings\Base\Views\Index
 						$save_ini = $recordModel->write_php_ini($config, "modules/OSSPasswords/config.ini.php");
 						$success = 'Your key has been changed correctly.';
 					} else {
-						\App\Log::error('Changing password encryption keys was unsuccessfull!');
+						\App\Log\Log::error('Changing password encryption keys was unsuccessfull!');
 						$error = 'Changing encryption key!';
 					}
 
@@ -224,7 +224,7 @@ class ConfigurePass extends \App\Modules\Settings\Base\Views\Index
 				}
 			}
 		} else if (!empty($uninstall_passwords) && !empty($status)) {
-			\App\Log::trace('Uninstallation started...');
+			\App\Log\Log::trace('Uninstallation started...');
 			$moduleName = $request->getModule();
 			$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 			if ($moduleModel) {

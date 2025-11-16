@@ -19,7 +19,7 @@ class OSSTimeControl_Record_Model extends \App\Modules\Base\Models\Record
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($metaData['setype']);
 		$focus = $moduleModel->getEntityInstance();
 		if ($moduleModel->getFieldByColumn('sum_time')) {
-			\App\Db::getInstance()->createCommand()->update($focus->table_name, ['sum_time' => $sumTime], [$focus->table_index => $id])->execute();
+			\App\Db\Db::getInstance()->createCommand()->update($focus->table_name, ['sum_time' => $sumTime], [$focus->table_index => $id])->execute();
 		}
 	}
 
@@ -28,7 +28,7 @@ class OSSTimeControl_Record_Model extends \App\Modules\Base\Models\Record
 		$start = strtotime(\App\Fields\DateTimeField::convertToDBFormat($data->get('date_start')) . ' ' . $data->get('time_start'));
 		$end = strtotime(\App\Fields\DateTimeField::convertToDBFormat($data->get('due_date')) . ' ' . $data->get('time_end'));
 		$time = round(abs($end - $start) / 3600, 2);
-		\App\Db::getInstance()->createCommand()->update('vtiger_osstimecontrol', ['sum_time' => $time], ['osstimecontrolid' => $data->getId()])->execute();
+		\App\Db\Db::getInstance()->createCommand()->update('vtiger_osstimecontrol', ['sum_time' => $time], ['osstimecontrolid' => $data->getId()])->execute();
 	}
 
 	public function getDuplicateRecordUrl()

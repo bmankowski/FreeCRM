@@ -27,7 +27,7 @@ class Files extends \App\Runtime\BaseModel
 	 */
 	public static function updateStatus($previousValue, $currentValue, $id = '', $fieldId = '')
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		if (!empty($currentValue)) {
 			$currentValue = array_filter(explode(',', $currentValue));
 			$data = ['status' => self::ATTACHMENT_ACTIVE];
@@ -55,7 +55,7 @@ class Files extends \App\Runtime\BaseModel
 	 */
 	public static function getRidOfTrash($condition = [], $limit = false)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 
 		$query = (new \App\Db\Query())->select(['attachmentid', 'name', 'path'])->from('u_#__attachments');
 		if ($condition) {
@@ -88,7 +88,7 @@ class Files extends \App\Runtime\BaseModel
 	 */
 	static public function uploadAndSave(array $fileDetails, $type = false, $storageName = false)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 
 		$fileInstance = \App\Fields\File::loadFromRequest($fileDetails);
 		if (!$fileInstance->validate($type)) {
@@ -113,7 +113,7 @@ class Files extends \App\Runtime\BaseModel
 			return $currentId;
 		} else {
 			$db->createCommand()->delete('u_#__attachments', ['attachmentid' => $currentId])->execute();
-			\App\Log::error("Moves an uploaded file to a new location failed: {$uploadFilePath}{$binFile}");
+			\App\Log\Log::error("Moves an uploaded file to a new location failed: {$uploadFilePath}{$binFile}");
 			return false;
 		}
 	}

@@ -1,7 +1,7 @@
 {strip}
 	{*<!-- {[The file is published on the basis of FreeCRM Public License that can be found in the following directory: licenses/FreeCRMLicense.html]} --!>*}
 <!-- layouts/basic/modules/Base/HeaderGlobalSearch.tpl -->
-	{if AppConfig::performance('GLOBAL_SEARCH')}
+	{if \App\Core\AppConfig::performance('GLOBAL_SEARCH')}
 		<div class="pull-left selectSearch">
 			<div class="input-group globalSearchInput">
 				<span class="input-group-btn">
@@ -21,7 +21,7 @@
 					<button class="btn btn-default searchIcon" type="button">
 						<span class="glyphicon glyphicon-search"></span>
 					</button>
-					{if AppConfig::search('GLOBAL_SEARCH_OPERATOR')}
+					{if \App\Core\AppConfig::search('GLOBAL_SEARCH_OPERATOR')}
 						<div class="btn-group">
 							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 								<span class="glyphicon glyphicon-screenshot"></span>

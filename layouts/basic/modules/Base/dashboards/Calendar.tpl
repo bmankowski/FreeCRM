@@ -34,7 +34,7 @@
 	<hr class="widgetHr"/>
 	<div class="row" >
 		<div class="col-sm-6">
-			{if AppConfig::module('Calendar','DASHBOARD_CALENDAR_WIDGET_FILTER_TYPE') == 'list'}
+			{if \App\Core\AppConfig::module('Calendar','DASHBOARD_CALENDAR_WIDGET_FILTER_TYPE') == 'list'}
 				<div class="input-group input-group-sm">
 					<span class="input-group-addon"><span class="glyphicon glyphicon-filter iconMiddle margintop3"></span></span>
 					<select class="widgetFilter form-control customFilter input-sm" name="customFilter" title="{"LBL_CUSTOM_FILTER"|t}">
@@ -49,7 +49,7 @@
 					</select>
 				</div>
 			{/if}
-			{if AppConfig::module('Calendar','DASHBOARD_CALENDAR_WIDGET_FILTER_TYPE') == 'switch'}
+			{if \App\Core\AppConfig::module('Calendar','DASHBOARD_CALENDAR_WIDGET_FILTER_TYPE') == 'switch'}
 				{assign var=CURRENT_STATUS value=\App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current')}
 				{assign var=HISTORY_STATUS value=\App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('history')}
 				<input class="switchBtn" type="checkbox" checked data-size="small" data-handle-width="90" data-label-width="5" data-on-text="{"LBL_TO_REALIZE"|t}" data-off-text="{"History"|t}"></span>

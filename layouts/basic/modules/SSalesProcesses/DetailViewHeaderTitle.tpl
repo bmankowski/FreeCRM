@@ -4,7 +4,7 @@
 	<div class="col-md-12 paddingLRZero row">
 		<div class="col-xs-12 col-sm-12 col-md-8">
 			<div class="moduleIcon">
-				{if AppConfig::module($MODULE_NAME, 'COUNT_IN_HIERARCHY')}
+				{if \App\Core\AppConfig::module($MODULE_NAME, 'COUNT_IN_HIERARCHY')}
 					<span class="hierarchy">
 
 					</span>

@@ -164,7 +164,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public function receivePhoneLookUpRecord($fieldName, $details, $new)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$fnumber = preg_replace('/[-()\s+]/', '', $details[$fieldName]);
 		$isExists = (new \App\Db\Query())
 			->from(self::lookuptableName)

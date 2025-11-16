@@ -46,7 +46,7 @@ class InventoryLimit extends BaseUiType
 			return \App\Cache\Cache::get('Inventory', 'CreditLimits');
 		}
 		$limits = (new \App\Db\Query())->from('a_#__inventory_limits')->where(['status' => 0])
-				->createCommand(\App\Db::getInstance('admin'))->queryAllByGroup(1);
+				->createCommand(\App\Db\Db::getInstance('admin'))->queryAllByGroup(1);
 		\App\Cache\Cache::save('Inventory', 'CreditLimits', $limits, \App\Cache\Cache::LONG);
 		return $limits;
 	}

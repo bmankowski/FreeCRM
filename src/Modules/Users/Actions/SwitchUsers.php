@@ -47,7 +47,7 @@ class SwitchUsers extends \App\Base\Controllers\BaseActionController
 		// For non-admin users, check switchUsers.php configuration
 		require('user_privileges/switchUsers.php');
 		if (!key_exists($baseUserId, $switchUsers) || !key_exists($userId, $switchUsers[$baseUserId])) {
-			$db = \App\Db::getInstance('log');
+			$db = \App\Db\Db::getInstance('log');
 			$db->createCommand()->insert('l_#__switch_users', [
 				'baseid' => $baseUserId,
 				'destid' => $userId,
@@ -91,7 +91,7 @@ class SwitchUsers extends \App\Base\Controllers\BaseActionController
 			$baseUserId = \App\Http\Vtiger_Session::get('baseUserId');
 		}
 
-		$db = \App\Db::getInstance('log');
+		$db = \App\Db\Db::getInstance('log');
 		$baseUserModel = \App\Modules\Users\Models\Record::getInstanceById($baseUserId, 'Users');
 		$db->createCommand()->insert('l_#__switch_users', [
 			'baseid' => $baseUserId,

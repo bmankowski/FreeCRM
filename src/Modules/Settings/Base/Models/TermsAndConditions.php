@@ -37,9 +37,9 @@ class TermsAndConditions extends \App\Modules\Base\Models\Record
 	{
 		$isExists = (new \App\Db\Query())->from(self::tableName)->exists();
 		if ($isExists) {
-			\App\Db::getInstance()->createCommand()->update(self::tableName, ['tandc' => $this->getText()])->execute();
+			\App\Db\Db::getInstance()->createCommand()->update(self::tableName, ['tandc' => $this->getText()])->execute();
 		} else {
-			\App\Db::getInstance()->createCommand()->insert(self::tableName, ['type' => $this->getType(),
+			\App\Db\Db::getInstance()->createCommand()->insert(self::tableName, ['type' => $this->getType(),
 				'tandc' => $this->getText()])->execute();
 		}
 	}

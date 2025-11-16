@@ -27,7 +27,7 @@ class ListView extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('IMPORT_MODULE_URL', \App\Modules\Settings\ModuleManager\Models\Module::getNewModuleImportUrl());
 		$viewer->assign('IMPORT_USER_MODULE_URL', \App\Modules\Settings\ModuleManager\Models\Module::getUserModuleImportUrl());
 		$viewer->assign('ALL_LIBRARIES', \App\Modules\Settings\ModuleManager\Models\Library::getAll());
-		$viewer->assign('SYSTEM_MODE', \App\AppConfig::main('systemMode'));
+		$viewer->assign('SYSTEM_MODE', \App\Core\AppConfig::main('systemMode'));
 	}
 	
 	public function process(\App\Http\Vtiger_Request $request)

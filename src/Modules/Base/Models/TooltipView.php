@@ -64,7 +64,7 @@ class TooltipView extends \App\Runtime\BaseModel
 	 */
 	public static function getInstance($moduleName, $recordId)
 	{
-		$modelClassName = \App\Loader::getComponentClassName('Model', 'TooltipView', $moduleName);
+		$modelClassName = \App\Core\Loader::getComponentClassName('Model', 'TooltipView', $moduleName);
 		$instance = new $modelClassName();
 		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, $moduleName);
 		return $instance->setModule($recordModel->getModule())->setRecord($recordModel);

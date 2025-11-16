@@ -94,7 +94,7 @@ class VTCreateEventTask extends \App\Modules\Workflow\VTTask
 				}
 			}
 		}
-		$textParser = \App\TextParser::getInstanceByModel($recordModel);
+		$textParser = \App\TextParser\TextParser::getInstanceByModel($recordModel);
 		$fields = array(
 			'activitytype' => $this->eventType,
 			'description' => $textParser->setContent($this->description)->parse()->getContent(),
@@ -109,7 +109,7 @@ class VTCreateEventTask extends \App\Modules\Workflow\VTTask
 			'duration_hours' => 0
 		);
 		$id = $recordModel->getId();
-		$field = \App\ModuleHierarchy::getMappingRelatedField($moduleName);
+		$field = \App\Core\ModuleHierarchy::getMappingRelatedField($moduleName);
 		if ($field) {
 			$fields[$field] = $id;
 		}

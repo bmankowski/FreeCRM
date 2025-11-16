@@ -25,7 +25,7 @@ class Notification extends \App\Base\Controllers\BaseActionController
 		$mode = $request->getMode();
 		if ($mode == 'createMessage' && !\App\Modules\Users\Models\Privileges::isPermitted('Notification', 'CreateView')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
-		} elseif ($mode == 'createMail' && (!\App\Modules\Users\Models\Privileges::isPermitted('Notification', 'NotificationCreateMail') || !\App\AppConfig::main('isActiveSendingMails') || !\App\Modules\Users\Models\Privileges::isPermitted('OSSMail'))) {
+		} elseif ($mode == 'createMail' && (!\App\Modules\Users\Models\Privileges::isPermitted('Notification', 'NotificationCreateMail') || !\App\Core\AppConfig::main('isActiveSendingMails') || !\App\Modules\Users\Models\Privileges::isPermitted('OSSMail'))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		} elseif (in_array($mode, ['setMark', 'saveWatchingModules']) && !\App\Modules\Users\Models\Privileges::isPermitted('Notification', 'DetailView')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');

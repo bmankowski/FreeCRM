@@ -31,7 +31,7 @@ class NewAccounts  extends \App\Modules\Base\Views\Index
 			$sql .= ' AND vtiger_crmentity.smownerid = ? ';
 			$params[] = $user;
 		}
-		$sql.= \App\PrivilegeQuery::getAccessConditions($moduleName);
+		$sql.= \App\Security\PrivilegeQuery::getAccessConditions($moduleName);
 		$sql .= ' ORDER BY  vtiger_crmentity.createdtime DESC LIMIT ? OFFSET ?';
 	
 		$params[] = $pagingModel->getPageLimit();

@@ -87,7 +87,7 @@
 			</div>	
 		</div>
 		<div class="col-md-6">
-			{if $SOURCE_MODULE && AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
+			{if $SOURCE_MODULE && \App\Core\AppConfig::performance('SEARCH_SHOW_OWNER_ONLY_IN_LIST')}
 				{assign var=USERS_GROUP_LIST value=\App\Fields\Owner::getInstance($SOURCE_MODULE)->getUsersAndGroupForModuleList(false,$USER_CONDITIONS)}
 				{assign var=ACCESSIBLE_USERS value=$USERS_GROUP_LIST['users']}
 			{else}
@@ -96,7 +96,7 @@
 			<div class="input-group input-group-sm">
 				<span class="input-group-addon"><span class="glyphicon glyphicon-user iconMiddle"></span></span>
 				<select class="widgetFilter width90 form-control select2" title="{"LBL_SELECT_USER"|t}" name="user" style="margin-bottom:0;" 
-					{if AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
+					{if \App\Core\AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}
 						data-ajax-search="1" data-ajax-url="index.php?module={$MODULE_NAME}&action=Fields&mode=getOwners&type=Edit&result[]=users" data-minimum-input="{AppConfig::performance('OWNER_MINIMUM_INPUT_LENGTH')}"
 					{/if}>
 					{if !AppConfig::performance('SEARCH_OWNERS_BY_AJAX')}

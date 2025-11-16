@@ -14,7 +14,7 @@ namespace App\Modules\PaymentsIn;
 
 
 
-class PaymentsIn extends \App\CRMEntity
+class PaymentsIn extends \App\Core\CRMEntity
 {
 
 	public $table_name = 'vtiger_paymentsin';
@@ -106,7 +106,7 @@ class PaymentsIn extends \App\CRMEntity
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 		if ($event_type == 'module.postinstall') {
-			$ModuleInstance = \App\CRMEntity::getInstance($modulename);
+			$ModuleInstance = \App\Core\CRMEntity::getInstance($modulename);
 			\App\Fields\RecordNumber::setNumber($modulename, '', '1');
 			$modcommentsModuleInstance = \App\Modules\Base\Models\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('src/Modules/ModComments/ModComments.php')) {
@@ -115,7 +115,7 @@ class PaymentsIn extends \App\CRMEntity
 					ModComments::addWidgetTo(array('Payments'));
 			}
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($modulename));
-			\App\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions:: getModuleId($modulename));
+			\App\Core\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions:: getModuleId($modulename));
 
 			$moduleInstance = \App\Modules\Base\Models\Module::getInstance('Accounts');
 			$blockInstance = \App\Modules\Base\Models\Block::getInstance('LBL_ACCOUNT_INFORMATION', $moduleInstance);

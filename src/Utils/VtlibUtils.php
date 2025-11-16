@@ -248,7 +248,7 @@ class VtlibUtils
 	 */
 	public static function getPicklistValuesAccessibleToAll($fieldColumnname)
 	{
-		\App\Log::trace('Entering ' . __METHOD__ . '(' . print_r($fieldColumnname, true) . ') method ...');
+		\App\Log\Log::trace('Entering ' . __METHOD__ . '(' . print_r($fieldColumnname, true) . ') method ...');
 		$adb = \App\Database\PearDatabase::getInstance();
 
 		$columnname = $adb->quote($fieldColumnname, false);
@@ -286,7 +286,7 @@ class VtlibUtils
 				$allrolevalues[] = $picklistval;
 		}
 
-		\App\Log::trace('Exiting ' . __METHOD__ . ' method ...');
+		\App\Log\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 		return $allrolevalues;
 	}
 

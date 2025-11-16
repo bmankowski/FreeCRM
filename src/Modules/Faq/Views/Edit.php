@@ -85,7 +85,7 @@ class Edit extends \App\Modules\Base\Views\Index
 			}
 		}
 		$viewer->assign('PICKIST_DEPENDENCY_DATASOURCE', \App\Utils\Json::encode($picklistDependencyDatasource));
-		$viewer->assign('MAPPING_RELATED_FIELD', \App\Utils\Json::encode(\App\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));
+		$viewer->assign('MAPPING_RELATED_FIELD', \App\Utils\Json::encode(\App\Core\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$viewer->assign('MODULE', $moduleName);
@@ -94,7 +94,7 @@ class Edit extends \App\Modules\Base\Views\Index
 		$viewer->assign('CURRENTDATE', date('Y-n-j'));
 		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->assign('MAX_UPLOAD_LIMIT_MB', \App\Modules\Base\Helpers\Util::getMaxUploadSize());
-		$viewer->assign('MAX_UPLOAD_LIMIT', \App\AppConfig::main('upload_maxsize'));
+		$viewer->assign('MAX_UPLOAD_LIMIT', \App\Core\AppConfig::main('upload_maxsize'));
 		$viewer->view('EditView.tpl', $moduleName);
 	}
 }

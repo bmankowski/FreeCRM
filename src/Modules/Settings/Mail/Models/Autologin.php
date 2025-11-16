@@ -36,7 +36,7 @@ class Autologin
 		if (!$users) {
 			$users = [];
 		}
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$db->createCommand()->delete('roundcube_users_autologin', ['rcuser_id' => $id])
 			->execute();
 		if (!empty($users)) {

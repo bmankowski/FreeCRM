@@ -97,7 +97,7 @@ class Privilege
 		// Step 9: Check record-level permissions
 		$recordCheck = static::checkRecordLevelPermissions($moduleName, $tabid, $actionid, $record, $userId, $userPrivileges);
 		
-		\App\Log::trace('Exiting isPermitted method ... - ' . static::$isPermittedLevel);
+		\App\Log\Log::trace('Exiting isPermitted method ... - ' . static::$isPermittedLevel);
 		return $recordCheck;
 	}
 	
@@ -108,9 +108,9 @@ class Privilege
 	{
 		static::$isPermittedLevel = $level;
 		if ($errorMsg) {
-			\App\Log::error($errorMsg);
+			\App\Log\Log::error($errorMsg);
 		}
-		\App\Log::trace("Exiting isPermitted method ... - $level");
+		\App\Log\Log::trace("Exiting isPermitted method ... - $level");
 		return $permitted;
 	}
 	
@@ -287,7 +287,7 @@ class Privilege
 	 */
 	private static function checkPrivateRecordPermission($record, $moduleName, $recordMetaData, $userId, $userPrivileges)
 	{
-		if (!\App\AppConfig::security('PERMITTED_BY_PRIVATE_FIELD') || !$recordMetaData['private']) {
+		if (!\App\Core\AppConfig::security('PERMITTED_BY_PRIVATE_FIELD') || !$recordMetaData['private']) {
 			return null;
 		}
 		
@@ -326,7 +326,7 @@ class Privilege
 	 */
 	private static function checkAdvancedPermission($record, $moduleName, $userId)
 	{
-		if (!\App\AppConfig::security('PERMITTED_BY_ADVANCED_PERMISSION')) {
+		if (!\App\Core\AppConfig::security('PERMITTED_BY_ADVANCED_PERMISSION')) {
 			return null;
 		}
 		
@@ -345,7 +345,7 @@ class Privilege
 	 */
 	private static function checkSharedOwnerPermission($record, $moduleName, $userId, $userPrivileges)
 	{
-		if (!\App\AppConfig::security('PERMITTED_BY_SHARED_OWNERS')) {
+		if (!\App\Core\AppConfig::security('PERMITTED_BY_SHARED_OWNERS')) {
 			return null;
 		}
 		
@@ -373,7 +373,7 @@ class Privilege
 			}
 			
 			// Check if owner is a subordinate user
-			if (\App\AppConfig::security('PERMITTED_BY_ROLES')) {
+			if (\App\Core\AppConfig::security('PERMITTED_BY_ROLES')) {
 				foreach ($userPrivileges['subordinate_roles_users'] as &$userids) {
 					if (in_array($recOwnId, $userids)) {
 						return static::returnPermissionResult(true, 'SEC_RECORD_OWNER_SUBORDINATE_USER');
@@ -395,7 +395,7 @@ class Privilege
 	 */
 	private static function checkRecordHierarchy($record, $moduleName, $tabid, $actionid, $userId, $userPrivileges, $recordMetaData)
 	{
-		if (!\App\AppConfig::security('PERMITTED_BY_RECORD_HIERARCHY')) {
+		if (!\App\Core\AppConfig::security('PERMITTED_BY_RECORD_HIERARCHY')) {
 			return null;
 		}
 		
@@ -435,7 +435,7 @@ class Privilege
 						\App\Modules\Base\UiTypes\SharedOwner::getSharedOwners($parentRecord, $parentMetaData['setype']));
 					break;
 				case 2: // Sharing rules check
-					if (\App\AppConfig::security('PERMITTED_BY_SHARING')) {
+					if (\App\Core\AppConfig::security('PERMITTED_BY_SHARING')) {
 						$relatedPermission = static::isPermittedBySharing(
 							$parentMetaData['setype'], 
 							\App\Utils\ModuleUtils::getModuleId($parentMetaData['setype']), 
@@ -462,7 +462,7 @@ class Privilege
 	{
 		$permission = false;
 		
-		if (\App\AppConfig::security('PERMITTED_BY_SHARING')) {
+		if (\App\Core\AppConfig::security('PERMITTED_BY_SHARING')) {
 			$permission = static::isPermittedBySharing($moduleName, $tabid, $actionid, $record, $userId);
 		}
 		
@@ -533,20 +533,20 @@ public static function isPermittedBySharing($moduleName, $tabId, $actionId, $rec
 			//Checking the Read Sharing Permission Array in Role Users
 			foreach ($read['ROLE'] as $userids) {
 				if (in_array($ownerId, $userids)) {
-					\App\Log::trace('Exiting isReadPermittedBySharing method ...');
+					\App\Log\Log::trace('Exiting isReadPermittedBySharing method ...');
 					return true;
 				}
 			}
 			//Checking the Read Sharing Permission Array in Groups Users
 			foreach ($read['GROUP'] as $userids) {
 				if (in_array($ownerId, $userids)) {
-					\App\Log::trace('Exiting isReadPermittedBySharing method ...');
+					\App\Log\Log::trace('Exiting isReadPermittedBySharing method ...');
 					return true;
 				}
 			}
 		} else {
 			if (isset($read['GROUP'][$ownerId])) {
-				\App\Log::trace('Exiting isReadPermittedBySharing method ...');
+				\App\Log\Log::trace('Exiting isReadPermittedBySharing method ...');
 				return true;
 			}
 		}
@@ -574,20 +574,20 @@ public static function isPermittedBySharing($moduleName, $tabId, $actionId, $rec
 							//Checking in Role Users
 							foreach ($readRelated['ROLE'] as $userids) {
 								if (in_array($relOwnerId, $userids)) {
-									\App\Log::trace('Exiting isReadPermittedBySharing method ...');
+									\App\Log\Log::trace('Exiting isReadPermittedBySharing method ...');
 									return true;
 								}
 							}
 							//Checking in Group Users
 							foreach ($readRelated['GROUP'] as $userids) {
 								if (in_array($relOwnerId, $userids)) {
-									\App\Log::trace('Exiting isReadPermittedBySharing method ...');
+									\App\Log\Log::trace('Exiting isReadPermittedBySharing method ...');
 									return true;
 								}
 							}
 						} else {
 							if (isset($readRelated['GROUP'][$relOwnerId])) {
-								\App\Log::trace('Exiting isReadPermittedBySharing method ...');
+								\App\Log\Log::trace('Exiting isReadPermittedBySharing method ...');
 								return true;
 							}
 						}
@@ -595,7 +595,7 @@ public static function isPermittedBySharing($moduleName, $tabId, $actionId, $rec
 				}
 			}
 		}
-		\App\Log::trace('Exiting isReadPermittedBySharing method ...');
+		\App\Log\Log::trace('Exiting isReadPermittedBySharing method ...');
 		return false;
 	}
 
@@ -623,20 +623,20 @@ public static function isPermittedBySharing($moduleName, $tabId, $actionId, $rec
 			//Checking the Write Sharing Permission Array in Role Users
 			foreach ($write['ROLE'] as $userids) {
 				if (in_array($ownerId, $userids)) {
-					\App\Log::trace('Exiting isReadWritePermittedBySharing method ...');
+					\App\Log\Log::trace('Exiting isReadWritePermittedBySharing method ...');
 					return true;
 				}
 			}
 			//Checking the Write Sharing Permission Array in Groups Users
 			foreach ($write['GROUP'] as $userids) {
 				if (in_array($ownerId, $userids)) {
-					\App\Log::trace('Exiting isReadWritePermittedBySharing method ...');
+					\App\Log\Log::trace('Exiting isReadWritePermittedBySharing method ...');
 					return true;
 				}
 			}
 		} elseif ($ownerType == 'Groups') {
 			if (isset($write['GROUP'][$ownerId])) {
-				\App\Log::trace('Exiting isReadWritePermittedBySharing method ...');
+				\App\Log\Log::trace('Exiting isReadWritePermittedBySharing method ...');
 				return true;
 			}
 		}
@@ -659,20 +659,20 @@ public static function isPermittedBySharing($moduleName, $tabId, $actionId, $rec
 							//Checking in Role Users
 							foreach ($writeRelated['ROLE'] as $userids) {
 								if (in_array($relOwnerId, $userids)) {
-									\App\Log::trace('Exiting isReadWritePermittedBySharing method ...');
+									\App\Log\Log::trace('Exiting isReadWritePermittedBySharing method ...');
 									return true;
 								}
 							}
 							//Checking in Group Users
 							foreach ($writeRelated['GROUP'] as $userids) {
 								if (in_array($relOwnerId, $userids)) {
-									\App\Log::trace('Exiting isReadWritePermittedBySharing method ...');
+									\App\Log\Log::trace('Exiting isReadWritePermittedBySharing method ...');
 									return true;
 								}
 							}
 						} else {
 							if (isset($writeRelated['GROUP'][$relOwnerId])) {
-								\App\Log::trace('Exiting isReadWritePermittedBySharing method ...');
+								\App\Log\Log::trace('Exiting isReadWritePermittedBySharing method ...');
 								return true;
 							}
 						}
@@ -680,7 +680,7 @@ public static function isPermittedBySharing($moduleName, $tabId, $actionId, $rec
 				}
 			}
 		}
-		\App\Log::trace('Exiting isReadWritePermittedBySharing method ...');
+		\App\Log\Log::trace('Exiting isReadWritePermittedBySharing method ...');
 		return false;
 	}
 

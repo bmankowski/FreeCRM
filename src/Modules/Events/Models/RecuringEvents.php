@@ -248,7 +248,7 @@ class RecuringEvents extends \App\Runtime\BaseModel
 					$skip = true;
 					foreach ($recordsIds as $recordId => $data) {
 						if ($data['date_start'] >= $this->recordModel->get('date_start')) {
-							\App\Db::getInstance()->createCommand()->update('vtiger_activity', ['followup' => $recordId, 'reapeat' => 1], ['followup' => $this->templateRecordId])->execute();
+							\App\Db\Db::getInstance()->createCommand()->update('vtiger_activity', ['followup' => $recordId, 'reapeat' => 1], ['followup' => $this->templateRecordId])->execute();
 							break;
 						}
 					}

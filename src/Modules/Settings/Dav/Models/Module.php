@@ -50,7 +50,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		$key = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $keyLength);
 		$userModel = \App\Modules\Users\Models\Record::getInstanceById($userID, 'Users');
 		$digesta1 = md5($userModel->get('user_name') . ':YetiDAV:' . $key);
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$result = $db->createCommand()->insert('dav_users', [
 				'username' => $userModel->get('user_name'),
 				'digesta1' => $digesta1,
@@ -95,13 +95,13 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 		$adb->pquery('DELETE dav_calendars FROM dav_calendars LEFT JOIN dav_principals ON dav_calendars.principaluri = dav_principals.uri WHERE dav_principals.userid = ?;', array($params['user']));
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$db->createCommand()->delete('dav_users', ['userid' => $params['user']])->execute();
 		$db->createCommand()->delete('dav_principals', ['userid' => $params['user']])->execute();
 
 		$user = \App\Modules\Users\Models\Record::getInstanceById($params['user'], 'Users');
 		$user_name = $user->get('user_name');
-		$davStorageDir = \App\AppConfig::main('davStorageDir');
+		$davStorageDir = \App\Core\AppConfig::main('davStorageDir');
 		\vtlib\Functions::recurseDelete($davStorageDir . '/' . $user_name);
 	}
 
@@ -115,7 +115,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		$user = \App\Modules\Users\Models\Record::getInstanceById($params['user'], 'Users');
 		$user_name = $user->get('user_name');
 		$path = '/' . $user_name . '/';
-		$davStorageDir = \App\AppConfig::main('davStorageDir');
+		$davStorageDir = \App\Core\AppConfig::main('davStorageDir');
 		@mkdir($davStorageDir . $path);
 	}
 }

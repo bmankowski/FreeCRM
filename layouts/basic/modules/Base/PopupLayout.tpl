@@ -40,8 +40,8 @@
 						</script>
 					{/if}
 				{/if}
-				{if \App\Debugger::isDebugBar()}
-					{\App\Debugger::getDebugBar()->getJavascriptRenderer()->renderHead()}
+				{if \App\Debug\Debugger::isDebugBar()}
+					{\App\Debug\Debugger::getDebugBar()->getJavascriptRenderer()->renderHead()}
 				{/if}
 			{/block}
 		{/block}

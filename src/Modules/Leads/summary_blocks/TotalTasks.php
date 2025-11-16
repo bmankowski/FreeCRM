@@ -21,7 +21,7 @@ class TotalTasks {
 	public function process($instance)
 	{
 		
-		\App\Log::trace("Entering TotalTasks::process() method ...");
+		\App\Log\Log::trace("Entering TotalTasks::process() method ...");
 		$adb = \App\Database\PearDatabase::getInstance();
 		$activity = 'SELECT COUNT(vtiger_activity.activityid) AS count
 			FROM vtiger_activity 
@@ -31,7 +31,7 @@ class TotalTasks {
 			AND vtiger_activity.activitytype = ?';
 		$result_Task = $adb->pquery($activity, array($instance->getId(), 'Task'));
 		$count = $adb->query_result($result_Task, 0, 'count');
-		\App\Log::trace("Exiting TotalTasks::process() method ...");
+		\App\Log\Log::trace("Exiting TotalTasks::process() method ...");
 		return $count;
 	}
 }

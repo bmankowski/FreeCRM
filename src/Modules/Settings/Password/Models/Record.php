@@ -31,7 +31,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	public static function setPassDetail($type, $vale)
 	{
-		\App\Db::getInstance()->createCommand()
+		\App\Db\Db::getInstance()->createCommand()
 			->update('vtiger_password', ['val' => $vale], ['type' => $type])
 			->execute();
 	}

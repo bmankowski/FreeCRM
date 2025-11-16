@@ -80,7 +80,7 @@ class DependencyPicklist {
 
 	static function savePickListDependencies($module, $dependencyMap)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$tabId = \App\Utils\ModuleUtils::getModuleId($module);
 		$sourceField = $dependencyMap['sourcefield'];
 		$targetField = $dependencyMap['targetfield'];
@@ -110,7 +110,7 @@ class DependencyPicklist {
 					->where(['tabid' => $tabId, 'sourcefield' => $sourceField, 'targetfield' => $targetField, 'sourcevalue' => $sourceValue])
 					->scalar();
 			if ($dependencyId) {
-				\App\Db::getInstance()->createCommand()->update('vtiger_picklist_dependency', [
+				\App\Db\Db::getInstance()->createCommand()->update('vtiger_picklist_dependency', [
 					'targetvalues' => $serializedTargetValues,
 					'criteria' => $serializedCriteria,
 				], ['id' => $dependencyId])->execute();
@@ -130,7 +130,7 @@ class DependencyPicklist {
 
 	static function deletePickListDependencies($module, $sourceField, $targetField)
 	{
-		\App\Db::getInstance()->createCommand()->delete('vtiger_picklist_dependency', [
+		\App\Db\Db::getInstance()->createCommand()->delete('vtiger_picklist_dependency', [
 			'tabid' => \App\Utils\ModuleUtils::getModuleId($module),
 			'sourcefield' => $sourceField,
 			'targetfield' => $targetField

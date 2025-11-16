@@ -67,7 +67,7 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('ADVANCED_PERMISSION_STATUSES', \App\Modules\Settings\AdvancedPermission\Models\Module::$status);
 		$viewer->assign('ADVANCED_PERMISSION_PRIORITIES', \App\Modules\Settings\AdvancedPermission\Models\Module::$priority);
 		$viewer->assign('ALL_MODULES', \App\Modules\Base\Models\Module::getAll([0], [], true));
-		$viewer->assign('PRIVILEGE_MEMBERS', \App\PrivilegeUtil::getMembers());
+		$viewer->assign('PRIVILEGE_MEMBERS', \App\Security\PrivilegeUtil::getMembers());
 	}
 
 	/**

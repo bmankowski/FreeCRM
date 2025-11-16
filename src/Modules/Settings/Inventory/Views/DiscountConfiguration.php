@@ -21,7 +21,7 @@ class DiscountConfiguration extends \App\Modules\Settings\Base\Views\Index
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		
-		\App\Log::trace('Start ' . __METHOD__);
+		\App\Log\Log::trace('Start ' . __METHOD__);
 		$qualifiedModule = $request->getModule(false);
 		$view = $this->getView();
 		$config = \App\Modules\Settings\Inventory\Models\Module::getConfig($view);
@@ -43,7 +43,7 @@ class DiscountConfiguration extends \App\Modules\Settings\Base\Views\Index
 		} else {
 			$viewer->view('ConfigIndex.tpl', $qualifiedModule);
 		}
-		\App\Log::trace('End ' . __METHOD__);
+		\App\Log\Log::trace('End ' . __METHOD__);
 	}
 	
 	/**

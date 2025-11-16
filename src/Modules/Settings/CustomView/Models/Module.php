@@ -63,20 +63,20 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 			if ($dataReader->count()) {
 				return $dataReader->readColumn(0);
 			}
-			\App\Db::getInstance()->createCommand()->insert('vtiger_user_module_preferences', [
+			\App\Db\Db::getInstance()->createCommand()->insert('vtiger_user_module_preferences', [
 				'userid' => $user,
 				'tabid' => $tabid,
 				'default_cvid' => $cvId
 			])->execute();
 		} elseif ($action == 'remove') {
-			\App\Db::getInstance()->createCommand()->delete('vtiger_user_module_preferences', ['userid' => $user, 'tabid' => $tabid, 'default_cvid' => $cvId])->execute();
+			\App\Db\Db::getInstance()->createCommand()->delete('vtiger_user_module_preferences', ['userid' => $user, 'tabid' => $tabid, 'default_cvid' => $cvId])->execute();
 		}
 		return false;
 	}
 
 	public static function setFeaturedFilterView($cvId, $user, $action)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		if ($action == 'add') {
 			$db->createCommand()->insert('u_#__featured_filter', [
 				'user' => $user,
@@ -96,7 +96,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 */
 	public static function deleteFilter($params)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$cvId = $params['cvid'];
 		if (is_numeric($cvId)) {
 			$db->createCommand()->delete('vtiger_customview', ['cvid' => $cvId])->execute();
@@ -109,7 +109,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	public static function updateField($params)
 	{
 		$authorizedFields = ['setdefault', 'privileges', 'featured', 'sort'];
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$cvid = $params['cvid'];
 		$name = $params['name'];
 		$mod = $params['mod'];
@@ -126,7 +126,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	public static function upadteSequences($params)
 	{
-		$db = \App\Db::getInstance();
+		$db = \App\Db\Db::getInstance();
 		$caseSequence = 'CASE ';
 		foreach ($params as $sequence => $cvId) {
 			$caseSequence .= ' WHEN ' . $db->quoteColumnName('cvid') . ' = ' . $db->quoteValue($cvId) . ' THEN ' . $db->quoteValue($sequence);
@@ -178,11 +178,11 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	{
 		$customViewModel = \App\Modules\CustomView\Models\Record::getInstanceById($params['cvid']);
 		$moduleName = $customViewModel->get('entitytype');
-		$curretView = \App\CustomView::getCurrentView($moduleName);
+		$curretView = \App\View\CustomView::getCurrentView($moduleName);
 		if ($curretView == $params['cvid']) {
 			$sortOrder = explode(',', $params['value']);
-			\App\CustomView::setSorder($moduleName, $sortOrder[1]);
-			\App\CustomView::setSortby($moduleName, $sortOrder[0]);
+			\App\View\CustomView::setSorder($moduleName, $sortOrder[1]);
+			\App\View\CustomView::setSortby($moduleName, $sortOrder[0]);
 		}
 	}
 }

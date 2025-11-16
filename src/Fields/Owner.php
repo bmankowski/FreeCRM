@@ -98,11 +98,11 @@ class Owner
 			} else if ($currentUserRoleModel->get('allowassignedrecordsto') == '2') {
 				$currentUserRoleModel = \App\Modules\Settings\Roles\Models\Record::getInstanceById($this->currentUser->getRole());
 				$sameLevelRoles = array_keys($currentUserRoleModel->getSameLevelRoles());
-				$childernRoles = \App\PrivilegeUtil::getRoleSubordinates($this->currentUser->getRole());
+				$childernRoles = \App\Security\PrivilegeUtil::getRoleSubordinates($this->currentUser->getRole());
 				$roles = array_merge($sameLevelRoles, $sameLevelRoles);
 				$accessibleUser = $this->getUsers(false, 'Active', '', '', false, array_unique($roles));
 			} else if ($currentUserRoleModel->get('allowassignedrecordsto') == '3') {
-				$childernRoles = \App\PrivilegeUtil::getRoleSubordinates($this->currentUser->getRole());
+				$childernRoles = \App\Security\PrivilegeUtil::getRoleSubordinates($this->currentUser->getRole());
 				$accessibleUser = $this->getUsers(false, 'Active', '', '', false, array_unique($childernRoles));
 				$accessibleUser[$this->currentUser->getId()] = $this->currentUser->getName();
 			} else if (!empty($fieldType) && $currentUserRoleModel->get('allowassignedrecordsto') == '5') {
@@ -203,10 +203,10 @@ class Owner
 	if ($private === 'private') {
 		$userPrivileges = \App\Modules\Users\Models\Privileges::getPrivilegesFile($this->currentUser->getId());
 		if ($userPrivileges === null) {
-			\App\Log::error("User privileges file not found for user: " . $this->currentUser->getId());
+			\App\Log\Log::error("User privileges file not found for user: " . $this->currentUser->getId());
 			return [];
 			}
-			\App\Log::trace('Sharing is Private. Only the current user should be listed');
+			\App\Log\Log::trace('Sharing is Private. Only the current user should be listed');
 			$query = new \App\Db\Query ();
 			$query->select($selectFields)->from('vtiger_users')->where(['id' => $this->currentUser->getId()]);
 			$queryByUserRole = new \App\Db\Query ();
@@ -228,7 +228,7 @@ class Owner
 		} elseif ($roles !== false) {
 			$query = (new \App\Db\Query())->select($selectFields)->from('vtiger_users')->innerJoin('vtiger_user2role', 'vtiger_users.id = vtiger_user2role.userid')->where(['vtiger_user2role.roleid' => $roles]);
 		} else {
-			\App\Log::trace('Sharing is Public. All vtiger_users should be listed');
+			\App\Log\Log::trace('Sharing is Public. All vtiger_users should be listed');
 			$query = new \App\Db\Query();
 			$query->select($selectFields)->from('vtiger_users');
 		}
@@ -256,7 +256,7 @@ class Owner
 	 */
 	public function getUsers($addBlank = false, $status = 'Active', $assignedUser = '', $private = '', $onlyAdmin = false, $roles = false)
 	{
-		\App\Log::trace("Entering getUsers($addBlank,$status,$assignedUser,$private) method ...");
+		\App\Log\Log::trace("Entering getUsers($addBlank,$status,$assignedUser,$private) method ...");
 
 		$tempResult = $this->initUsers($status, $assignedUser, $private);
 
@@ -268,7 +268,7 @@ class Owner
 			// Add in a blank row
 			$users[''] = '';
 		}
-		$adminInList = \App\AppConfig::performance('SHOW_ADMINISTRATORS_IN_USERS_LIST');
+		$adminInList = \App\Core\AppConfig::performance('SHOW_ADMINISTRATORS_IN_USERS_LIST');
 		$isAdmin = $this->currentUser->isAdmin();
 		foreach ($tempResult as $key => $row) {
 			if (!$onlyAdmin || $isAdmin || !(!$adminInList && $row['is_admin'] == 'on')) {
@@ -276,13 +276,13 @@ class Owner
 			}
 		}
 		asort($users);
-		\App\Log::trace('Exiting getUsers method ...');
+		\App\Log\Log::trace('Exiting getUsers method ...');
 		return $users;
 	}
 
 	public function getGroups($addBlank = true, $private = '', $request = null)
 	{
-		\App\Log::trace("Entering getGroups($addBlank,$private) method ...");
+		\App\Log\Log::trace("Entering getGroups($addBlank,$private) method ...");
 		$moduleName = '';
 		if (($request === null || $request->get('parent') != 'Settings') && $this->moduleName) {
 			$moduleName = $this->moduleName;
@@ -294,7 +294,7 @@ class Owner
 		}
 		$db = \App\Database\PearDatabase::getInstance();
 		// Including deleted vtiger_users for now.
-		\App\Log::trace('Sharing is Public. All vtiger_users should be listed');
+		\App\Log\Log::trace('Sharing is Public. All vtiger_users should be listed');
 		$query = 'SELECT groupid, groupname FROM vtiger_groups';
 		$tempResult = $params = [];
 
@@ -305,7 +305,7 @@ class Owner
 	if ($private == 'private') {
 		$userPrivileges = \App\Modules\Users\Models\Privileges::getPrivilegesFile($this->currentUser->getId());
 		if ($userPrivileges === null) {
-			\App\Log::error("User privileges file not found for user: " . $this->currentUser->getId());
+			\App\Log\Log::error("User privileges file not found for user: " . $this->currentUser->getId());
 			return [];
 			}
 			if (strpos($query, 'WHERE') === false)
@@ -319,7 +319,7 @@ class Owner
 				$query .= ' || vtiger_groups.groupid in (' . \App\Utils\Utils::generateQuestionMarks($userPrivileges['groups']) . ')';
 				array_push($params, $userPrivileges['groups']);
 			}
-			\App\Log::trace('Sharing is Private. Only the current user should be listed');
+			\App\Log\Log::trace('Sharing is Private. Only the current user should be listed');
 			$query .= ' union select vtiger_group2role.groupid as groupid,vtiger_groups.groupname as groupname from vtiger_group2role inner join vtiger_groups on vtiger_groups.groupid=vtiger_group2role.groupid inner join vtiger_role on vtiger_role.roleid=vtiger_group2role.roleid where vtiger_role.parentrole like ?';
 			array_push($params, $userPrivileges['parent_role_seq'] . '::%');
 
@@ -347,7 +347,7 @@ class Owner
 			$tempResult[$row['groupid']] = \App\Utils\ListViewUtils::decodeHtml($row['groupname']);
 		}
 		\App\Cache\Cache::save('OwnerGroups', $cacheKey, $tempResult);
-		\App\Log::trace('Exiting getGroups method ...');
+		\App\Log\Log::trace('Exiting getGroups method ...');
 		return $tempResult;
 	}
 
@@ -394,7 +394,7 @@ class Owner
 
 	public function getUsersAndGroupForModuleList($view = false, $conditions = false)
 	{
-		$queryGenerator = new \App\QueryGenerator($this->moduleName, $this->currentUser->getId());
+		$queryGenerator = new \App\QueryField\QueryGenerator($this->moduleName, $this->currentUser->getId());
 		if ($view) {
 			$queryGenerator->initForCustomViewById($view);
 		}
@@ -409,7 +409,7 @@ class Owner
 		$queryGenerator->setFields(['assigned_user_id']);
 		$ids = $queryGenerator->createQuery()->distinct()->createCommand()->queryColumn();
 		$users = $groups = [];
-		$adminInList = \App\AppConfig::performance('SHOW_ADMINISTRATORS_IN_USERS_LIST');
+		$adminInList = \App\Core\AppConfig::performance('SHOW_ADMINISTRATORS_IN_USERS_LIST');
 		foreach ($ids as $id) {
 			$userModel = \App\Modules\Users\Models\Record::getInstanceById($id, 'Users');
 			$name = $userModel->getName();
@@ -441,7 +441,7 @@ class Owner
 	{
 		if (!isset(self::$usersIdsCache[$status])) {
 			$rows = [];
-			if (\App\AppConfig::performance('ENABLE_CACHING_USERS')) {
+			if (\App\Core\AppConfig::performance('ENABLE_CACHING_USERS')) {
 				$rows = \App\PrivilegeFile::getUser('id');
 			} else {
 				$instance = new self();
@@ -530,7 +530,7 @@ class Owner
 			return self::$userLabelCache[$id];
 		}
 
-		if (\App\AppConfig::performance('ENABLE_CACHING_USERS')) {
+		if (\App\Core\AppConfig::performance('ENABLE_CACHING_USERS')) {
 			$users = \App\PrivilegeFile::getUser('id');
 		} else {
 			$instance = new self();
@@ -559,7 +559,7 @@ class Owner
 		if (isset(self::$typeCache[$id])) {
 			return self::$typeCache[$id];
 		}
-		if (\App\AppConfig::performance('ENABLE_CACHING_USERS')) {
+		if (\App\Core\AppConfig::performance('ENABLE_CACHING_USERS')) {
 			$users = \App\PrivilegeFile::getUser('id');
 			$isExists = isset($users[$id]);
 		} else {
