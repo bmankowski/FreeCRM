@@ -270,17 +270,20 @@ echo "  TO:   namespace $NEW_NAMESPACE;"
 echo ""
 
 print_info "References update throughout codebase:"
-echo "  Pattern 1 - use statements:"
-echo "    FROM: use ${OLD_FQN};"
-echo "    TO:   use ${NEW_FQN};"
+echo "  All references will be updated to fully qualified class names (FQCN)"
+echo "  No 'use' statements will be added - we use explicit FQCN everywhere"
 echo ""
-echo "  Pattern 2 - Fully qualified names (with leading backslash):"
+echo "  Pattern 1 - Existing use statements:"
+echo "    FROM: use ${OLD_FQN};"
+echo "    TO:   (removed - using FQCN instead)"
+echo ""
+echo "  Pattern 2 - Fully qualified names:"
 echo "    FROM: \\${OLD_FQN}"
 echo "    TO:   \\${NEW_FQN}"
 echo ""
-echo "  Pattern 3 - Fully qualified names (without leading backslash in namespace context):"
-echo "    FROM: ${OLD_FQN} (when not preceded by \\)"
-echo "    TO:   ${NEW_FQN}"
+echo "  Pattern 3 - Unqualified class names:"
+echo "    FROM: new ${CLASS_NAME}( or ${CLASS_NAME}::"
+echo "    TO:   new \\${NEW_FQN}( or \\${NEW_FQN}::"
 echo ""
 
 # Step 7: Preview file changes
@@ -356,25 +359,24 @@ mv "$TEMP_SOURCE" "$TARGET_FILE"
 rm -f "$SOURCE_FILE"
 print_success "Moved file to: $TARGET_FILE"
 
-# Step 12: Update use statements throughout codebase
-print_step "Step 12: Updating use statements throughout codebase"
+# Step 12: Remove existing use statements (we use FQCN everywhere)
+print_step "Step 12: Removing old use statements"
 UPDATED_USE=0
 
 if [[ $USE_COUNT -gt 0 ]]; then
     while IFS=: read -r file line content; do
         if [[ -f "$file" ]]; then
-            # Update use statement - careful with backslashes
-            # Use single quotes and proper escaping
-            sed -i "s|use ${OLD_FQN};|use ${NEW_FQN};|g" "$file"
+            # Remove old use statement completely
+            sed -i "/^use ${OLD_FQN};/d" "$file"
             UPDATED_USE=$((UPDATED_USE + 1))
             if [[ "$VERBOSE" == true ]]; then
-                print_info "Updated: $file"
+                print_info "Removed use statement from: $file"
             fi
         fi
     done < "$TEMP_USE_STATEMENTS"
 fi
 
-print_success "Updated $UPDATED_USE use statements"
+print_success "Removed $UPDATED_USE old use statements"
 
 # Step 13: Update fully qualified class names (with leading backslash)
 print_step "Step 13: Updating fully qualified class names"
@@ -403,8 +405,8 @@ fi
 
 print_success "Updated $UPDATED_QUALIFIED fully qualified references"
 
-# Step 14: Update other class usages (new statements, static calls, etc.)
-print_step "Step 14: Updating other class usages"
+# Step 14: Update other class usages to FQCN (no use statements)
+print_step "Step 14: Updating class usages to fully qualified names"
 UPDATED_OTHER=0
 
 # Get unique files from usage
@@ -412,49 +414,31 @@ UNIQUE_FILES=$(cat "$TEMP_USAGE_FILE" | cut -d: -f1 | sort -u)
 
 for file in $UNIQUE_FILES; do
     if [[ -f "$file" ]]; then
-        # Check if file has "use App\ClassName;" - if yes, skip (already handled in step 12)
-        if grep -q "use ${NEW_FQN};" "$file" 2>/dev/null; then
-            # File has proper use statement, class name doesn't need qualification
-            if [[ "$VERBOSE" == true ]]; then
-                print_info "Skipped (has use statement): $file"
-            fi
-            continue
-        fi
+        # Always use fully qualified class names (FQCN) - no use statements
+        # Replace all unqualified usages with \App\SubDir\ClassName
         
-        # Check if file is in global namespace (no namespace declaration)
-        if ! grep -q "^namespace " "$file" 2>/dev/null; then
-            # Global namespace - needs leading backslash
-            # Replace: new ClassName( with new \App\SubDir\ClassName(
-            # Replace: ClassName:: with \App\SubDir\ClassName::
-            
-            # Use perl for more reliable regex replacement
-            perl -pi -e "s/(new )${CLASS_NAME}(\s*\()/\${1}\\${NEW_FQN//\\/\\\\}\${2}/g" "$file"
-            perl -pi -e "s/${CLASS_NAME}(::|\\s)/\\${NEW_FQN//\\/\\\\}\${1}/g" "$file"
-            
-            UPDATED_OTHER=$((UPDATED_OTHER + 1))
-            if [[ "$VERBOSE" == true ]]; then
-                print_info "Updated (global namespace): $file"
-            fi
-        else
-            # File has namespace but no use statement
-            # Add use statement at the top after namespace
-            FILE_NAMESPACE=$(grep -m 1 "^namespace " "$file" | sed 's/namespace \(.*\);/\1/')
-            
-            # Find the line number of the namespace declaration
-            NAMESPACE_LINE=$(grep -n "^namespace " "$file" | head -1 | cut -d: -f1)
-            
-            # Insert use statement after namespace
-            sed -i "${NAMESPACE_LINE}a\\use ${NEW_FQN};" "$file"
-            
-            UPDATED_OTHER=$((UPDATED_OTHER + 1))
-            if [[ "$VERBOSE" == true ]]; then
-                print_info "Added use statement to: $file"
-            fi
+        # Pattern 1: new ClassName( -> new \App\SubDir\ClassName(
+        sed -i "s/\(new[[:space:]]\+\)${CLASS_NAME}\([[:space:]]*(\)/\1\\\\${NEW_FQN}\2/g" "$file"
+        
+        # Pattern 2: ClassName:: -> \App\SubDir\ClassName::
+        sed -i "s/\([^\\\\]\)${CLASS_NAME}::/\1\\\\${NEW_FQN}::/g" "$file"
+        # Handle start of line
+        sed -i "s/^${CLASS_NAME}::/\\\\${NEW_FQN}::/g" "$file"
+        
+        # Pattern 3: extends ClassName -> extends \App\SubDir\ClassName
+        sed -i "s/\(extends[[:space:]]\+\)${CLASS_NAME}\([[:space:]]\|{\)/\1\\\\${NEW_FQN}\2/g" "$file"
+        
+        # Pattern 4: implements ClassName -> implements \App\SubDir\ClassName
+        sed -i "s/\(implements[[:space:]]\+\)${CLASS_NAME}\([[:space:]]\|,\|{\)/\1\\\\${NEW_FQN}\2/g" "$file"
+        
+        UPDATED_OTHER=$((UPDATED_OTHER + 1))
+        if [[ "$VERBOSE" == true ]]; then
+            print_info "Updated to FQCN: $file"
         fi
     fi
 done
 
-print_success "Updated $UPDATED_OTHER other usages"
+print_success "Updated $UPDATED_OTHER files to use fully qualified class names"
 
 # Step 15: Run composer dump-autoload
 print_step "Step 15: Regenerating autoloader"
@@ -470,10 +454,11 @@ echo ""
 print_info "Summary of changes:"
 echo "  - Moved file: $CLASS_FILE → $TARGET_DIR/$CLASS_FILE"
 echo "  - Updated namespace: $OLD_NAMESPACE → $NEW_NAMESPACE"
-echo "  - Updated use statements: $UPDATED_USE files"
-echo "  - Updated qualified names: $UPDATED_QUALIFIED files"
-echo "  - Updated other usages: $UPDATED_OTHER files"
+echo "  - Removed old use statements: $UPDATED_USE files"
+echo "  - Updated fully qualified names: $UPDATED_QUALIFIED files"
+echo "  - Updated to FQCN (no use): $UPDATED_OTHER files"
 echo "  ${BOLD}Total files modified: $((UPDATED_USE + UPDATED_QUALIFIED + UPDATED_OTHER + 1))${NC}"
+echo "  ${BOLD}Strategy: All references use FQCN (\\${NEW_FQN})${NC}"
 echo ""
 
 print_warning "Next steps:"
