@@ -579,7 +579,7 @@ class Record extends \App\Runtime\BaseModel
 		if (!$limit) {
 			$limit = \App\Core\AppConfig::search('GLOBAL_SEARCH_MODAL_MAX_NUMBER_RESULT');
 		}
-		$recordSearch = new \App\RecordSearch($searchKey, $module, $limit);
+		$recordSearch = new \App\Records\RecordSearch($searchKey, $module, $limit);
 		if ($operator) {
 			$recordSearch->operator = $operator;
 		}

@@ -113,7 +113,7 @@ class Fields extends \App\Base\Controllers\BaseActionController
 
 		$fieldModel = \App\Modules\Base\Models\Field::getInstanceFromFieldId($fieldId);
 		$reference = $fieldModel->getReferenceList();
-		$rows = (new \App\RecordSearch($searchValue, $reference))->search();
+		$rows = (new \App\Records\RecordSearch($searchValue, $reference))->search();
 		$data = $modules = $ids = [];
 		foreach ($rows as &$row) {
 			$ids[] = $row['crmid'];

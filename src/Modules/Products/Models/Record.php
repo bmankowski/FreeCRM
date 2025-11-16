@@ -212,7 +212,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 		$rows = [];
 		if (!$query) {
-			$recordSearch = new \App\RecordSearch($searchKey, $moduleName, $limit);
+			$recordSearch = new \App\Records\RecordSearch($searchKey, $moduleName, $limit);
 			if ($operator) {
 				$recordSearch->operator = $operator;
 			}

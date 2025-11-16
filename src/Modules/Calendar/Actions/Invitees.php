@@ -38,7 +38,7 @@ class Invitees extends \App\Base\Controllers\BaseActionController
 		if (empty($modules)) {
 			return [];
 		}
-		$rows = (new \App\RecordSearch($value, $modules, 10))->search();
+		$rows = (new \App\Records\RecordSearch($value, $modules, 10))->search();
 
 		$matchingRecords = $leadIdsList = [];
 		foreach ($rows as &$row) {
