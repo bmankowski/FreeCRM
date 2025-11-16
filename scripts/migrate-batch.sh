@@ -20,7 +20,7 @@ BOLD='\033[1m'
 
 PROJECT_ROOT="/home/bmankowski/projects/FreeCRM"
 MIGRATE_SCRIPT="${PROJECT_ROOT}/scripts/migrate-class.sh"
-MIGRATION_PLAN="${PROJECT_ROOT}/migration/migration-plan.json"
+MIGRATION_PLAN="${PROJECT_ROOT}/documentation/migration-plan.json"
 DRY_RUN=false
 PHASE=""
 

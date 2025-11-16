@@ -283,12 +283,14 @@ To oznacza, że musimy przeprowadzić pełną migrację bez aliasów!
 
 1. Migruj po jednej klasie na raz
 2. Dla każdej klasy:
+   - Upewnij się że masz czyste repozytorium git (git status)
    - Przenieś plik do nowego katalogu
    - Zaktualizuj namespace w pliku
    - Użyj sed/grep aby zaktualizować wszystkie użycia w projekcie
    - Przetestuj aplikację (CLI + web)
    - Sprawdź logi `cache/logs/system.log`
 3. Commit po każdej klasie lub małej grupie klas
+4. W razie problemów: `git checkout .` lub `git restore .`
 
 **Kolejność migracji (od najmniej do najbardziej krytycznych):**
 
@@ -339,9 +341,10 @@ To oznacza, że musimy przeprowadzić pełną migrację bez aliasów!
 ### 6.2 Rollback plan
 
 Jeśli coś pójdzie nie tak:
-1. Git revert do poprzedniego działającego commitu
-2. `composer dump-autoload`
-3. Wyczyść cache: `rm -rf cache/templates_c/* cache/logs/*`
+1. `git checkout .` lub `git restore .` - cofnij wszystkie zmiany
+2. Lub `git revert <commit>` - cofnij konkretny commit
+3. `composer dump-autoload` - odśwież autoloader
+4. Wyczyść cache: `rm -rf cache/templates_c/* cache/logs/*`
 
 ---
 

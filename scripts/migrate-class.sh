@@ -23,7 +23,6 @@ BOLD='\033[1m'
 PROJECT_ROOT="/home/bmankowski/projects/FreeCRM"
 DRY_RUN=false
 VERBOSE=false
-BACKUP_DIR="${PROJECT_ROOT}/migration/backups/$(date +%Y%m%d_%H%M%S)"
 
 # Print functions
 print_header() {
@@ -309,11 +308,27 @@ if [[ "$DRY_RUN" == true ]]; then
     exit 0
 fi
 
-# Step 8: Confirm before proceeding
-print_step "Step 8: Confirmation"
+# Step 8: Check git status
+print_step "Step 8: Checking git status"
+cd "$PROJECT_ROOT"
+
+# Check if there are uncommitted changes
+if ! git diff-index --quiet HEAD -- 2>/dev/null; then
+    print_warning "You have uncommitted changes in git"
+    print_info "Recommendation: commit or stash changes before migration"
+    echo ""
+fi
+
+# Show current branch
+CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "unknown")
+print_info "Current branch: $CURRENT_BRANCH"
+echo ""
+
+# Step 9: Confirm before proceeding
+print_step "Step 9: Confirmation"
 echo ""
 print_warning "This will modify $TOTAL_REFS file(s) in the codebase"
-print_warning "A backup will be created in: $BACKUP_DIR"
+print_info "Use git to rollback if needed: git checkout ."
 echo ""
 read -p "Do you want to proceed with the migration? (y/N): " -n 1 -r
 echo ""
@@ -322,44 +337,6 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
     rm -f "$TEMP_USAGE_FILE" "$TEMP_USE_STATEMENTS" "$TEMP_NEW_STATEMENTS" "$TEMP_QUALIFIED_USAGE"
     exit 1
 fi
-
-# Step 9: Create backup
-print_step "Step 9: Creating backup"
-mkdir -p "$BACKUP_DIR"
-
-# Backup the source file
-cp "$SOURCE_FILE" "$BACKUP_DIR/"
-print_success "Backed up: $CLASS_FILE"
-
-# Backup all files that will be modified
-if [[ $USE_COUNT -gt 0 ]]; then
-    while IFS=: read -r file line content; do
-        if [[ -f "$file" ]]; then
-            backup_path="$BACKUP_DIR/$(basename "$file").backup"
-            cp "$file" "$backup_path" 2>/dev/null || true
-        fi
-    done < "$TEMP_USE_STATEMENTS"
-fi
-
-if [[ $USAGE_COUNT -gt 0 ]]; then
-    while IFS=: read -r file line content; do
-        if [[ -f "$file" ]]; then
-            backup_path="$BACKUP_DIR/$(basename "$file").backup"
-            cp "$file" "$backup_path" 2>/dev/null || true
-        fi
-    done < "$TEMP_USAGE_FILE"
-fi
-
-if [[ $QUALIFIED_COUNT -gt 0 ]]; then
-    while IFS=: read -r file line content; do
-        if [[ -f "$file" ]]; then
-            backup_path="$BACKUP_DIR/$(basename "$file").backup"
-            cp "$file" "$backup_path" 2>/dev/null || true
-        fi
-    done < "$TEMP_QUALIFIED_USAGE"
-fi
-
-print_success "Backup created in: $BACKUP_DIR"
 
 # Step 10: Update namespace in the source file
 print_step "Step 10: Updating namespace in source file"
@@ -498,15 +475,13 @@ echo "  - Updated qualified names: $UPDATED_QUALIFIED files"
 echo "  - Updated other usages: $UPDATED_OTHER files"
 echo "  ${BOLD}Total files modified: $((UPDATED_USE + UPDATED_QUALIFIED + UPDATED_OTHER + 1))${NC}"
 echo ""
-print_info "Backup location: $BACKUP_DIR"
-echo ""
 
 print_warning "Next steps:"
 echo "  1. Test the application: curl http://localhost:8080/index.php"
 echo "  2. Check logs: tail -f cache/logs/system.log"
-echo "  3. Run tests: composer test"
+echo "  3. Run verification: ./scripts/verify-migration.sh"
 echo "  4. If everything works: git add -A && git commit -m 'refactor: migrate ${CLASS_NAME} to ${TARGET_DIR}/'"
-echo "  5. If something broke: restore from backup in $BACKUP_DIR"
+echo "  5. If something broke: git checkout . (or git restore .)"
 echo ""
 
 # Cleanup

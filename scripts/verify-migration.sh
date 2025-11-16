@@ -157,17 +157,18 @@ if [[ $POTENTIAL_ISSUES -eq 0 ]]; then
     print_success "No obvious missing use statements detected"
 fi
 
-# Step 7: Check if migrated files were properly moved
-print_step "Step 7: Checking for orphaned files"
+# Step 7: Check git status
+print_step "Step 7: Checking git status"
 
-# Check if there are any .backup files left over
-BACKUP_FILES=$(find "$PROJECT_ROOT/src" -name "*.backup" 2>/dev/null | wc -l)
-
-if [[ $BACKUP_FILES -gt 0 ]]; then
-    print_warning "Found $BACKUP_FILES .backup files in src/"
-    find "$PROJECT_ROOT/src" -name "*.backup" 2>/dev/null
+cd "$PROJECT_ROOT"
+if git diff --quiet 2>/dev/null; then
+    print_info "No uncommitted changes (migration may not have run yet)"
 else
-    print_success "No backup files found in src/"
+    CHANGED_FILES=$(git diff --name-only | wc -l)
+    print_info "Found $CHANGED_FILES modified files in git"
+    if [[ "$VERBOSE" == true ]]; then
+        git diff --name-only | head -10
+    fi
 fi
 
 # Step 8: Summary and recommendations
@@ -195,7 +196,7 @@ else
     echo ""
     print_info "Recommended actions:"
     echo "  1. Review errors above"
-    echo "  2. Restore from backup if needed (migration/backups/)"
+    echo "  2. Rollback with: git checkout . (or git restore .)"
     echo "  3. Fix syntax errors"
     echo "  4. Re-run this verification script"
     exit 1
