@@ -308,3 +308,4 @@ if (php_sapi_name() === 'cli') {
     echo "Ten skrypt może być uruchomiony tylko z linii poleceń.\n";
 }
 
+

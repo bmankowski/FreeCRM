@@ -489,3 +489,4 @@ Klasa `vtlib\Deprecated` zawiera 15 funkcji deprecated używanych w całym kodzi
 - Backward compatibility musi być zachowana przez cały okres migracji
 - Komunikacja z społecznością jest ważna dla modułów zewnętrznych
 
+
