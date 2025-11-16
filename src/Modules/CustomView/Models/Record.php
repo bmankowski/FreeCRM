@@ -437,9 +437,9 @@ class Record extends \App\Modules\Base\Models\Record
 					if ($fieldType == 'currency') {
 						if ($fieldModel->get('uitype') == '72') {
 							// Some of the currency fields like Unit Price, Totoal , Sub-total - doesn't need currency conversion during save
-							$advFitlerValue = CurrencyField::convertToDBFormat($advFitlerValue, null, true);
+							$advFitlerValue = \App\Fields\CurrencyField::convertToDBFormat($advFitlerValue, null, true);
 						} else {
-							$advFitlerValue = CurrencyField::convertToDBFormat($advFitlerValue);
+							$advFitlerValue = \App\Fields\CurrencyField::convertToDBFormat($advFitlerValue);
 						}
 					}
 

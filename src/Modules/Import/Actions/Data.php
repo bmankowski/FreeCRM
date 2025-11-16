@@ -389,7 +389,7 @@ class Data extends \App\Base\Controllers\BaseActionController
 			if (is_array($fieldValueDetails) && count($fieldValueDetails) > 1) {
 				$referenceModuleName = trim($fieldValueDetails[0]);
 				$entityLabel = trim($fieldValueDetails[1]);
-				$value = \App\Record::getCrmIdByLabel($referenceModuleName, $entityLabel);
+				$value = \App\Records\Record::getCrmIdByLabel($referenceModuleName, $entityLabel);
 			}
 		}
 		return $getArray ? [$referenceModuleName, $value] : $value;
@@ -491,12 +491,12 @@ class Data extends \App\Base\Controllers\BaseActionController
 				$referenceModuleName = trim($fieldValueDetails[0]);
 				$entityLabel = trim($fieldValueDetails[1]);
 				if (\App\Utils\ModuleUtils::isModuleActive($referenceModuleName)) {
-					$entityId = \App\Record::getCrmIdByLabel($referenceModuleName, \App\Utils\ListViewUtils::decodeHtml($entityLabel));
+					$entityId = \App\Records\Record::getCrmIdByLabel($referenceModuleName, \App\Utils\ListViewUtils::decodeHtml($entityLabel));
 				} else {
 					$referenceModuleName = $defaultFieldValues[$fieldName];
 					$referencedModules = $fieldInstance->getReferenceList();
 					if ($referenceModuleName && in_array($defaultFieldValues[$fieldName], $referencedModules)) {
-						$entityId = \App\Record::getCrmIdByLabel($referenceModuleName, $entityLabel);
+						$entityId = \App\Records\Record::getCrmIdByLabel($referenceModuleName, $entityLabel);
 					}
 				}
 			} else {
@@ -512,7 +512,7 @@ class Data extends \App\Base\Controllers\BaseActionController
 					} elseif ($referenceModule === 'Currency') {
 						$referenceEntityId = \App\Currency::getCurrencyIdByName($entityLabel);
 					} else {
-						$referenceEntityId = \App\Record::getCrmIdByLabel($referenceModule, \App\Utils\ListViewUtils::decodeHtml($entityLabel));
+						$referenceEntityId = \App\Records\Record::getCrmIdByLabel($referenceModule, \App\Utils\ListViewUtils::decodeHtml($entityLabel));
 					}
 					if ($referenceEntityId) {
 						$entityId = $referenceEntityId;
@@ -696,7 +696,7 @@ class Data extends \App\Base\Controllers\BaseActionController
 			$recordModel->save();
 			$recordId = $recordModel->getId();
 			if ($recordId) {
-				\App\Record::updateLabel($moduleName, $recordModel->getId());
+				\App\Records\Record::updateLabel($moduleName, $recordModel->getId());
 			}
 		}
 		return $recordId;

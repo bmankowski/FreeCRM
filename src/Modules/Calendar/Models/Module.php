@@ -446,7 +446,7 @@ class Module extends \App\Modules\Base\Models\Module
 				$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, 'Calendar');
 				$link = $recordModel->get('link');
 				if ($link && $permissionToSendEmail) {
-					$url = "index.php?module=OSSMail&view=compose&mod=" . \App\Record::getType($link) . "&record=$link";
+					$url = "index.php?module=OSSMail&view=compose&mod=" . \App\Records\Record::getType($link) . "&record=$link";
 					$recordModel->set('mailUrl', "<a href='$url' class='btn btn-info' target='_blank'><span class='glyphicon glyphicon-envelope icon-white'></span>&nbsp;&nbsp;" . \App\Runtime\Vtiger_Language_Handler::translate('LBL_SEND_MAIL') . "</a>");
 				}
 				$recordModels[] = $recordModel;

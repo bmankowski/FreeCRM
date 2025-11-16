@@ -202,7 +202,7 @@ class Deprecated
 		} else {
 			$accessibleFieldNames = [];
 			foreach (explode(',', $fieldsName) as $field) {
-				if ($module === 'Users' || \App\Field::getColumnPermission($module, $field)) {
+				if ($module === 'Users' || \App\Fields\Field::getColumnPermission($module, $field)) {
 					$accessibleFieldNames[] = $fieldValues[$field];
 				}
 			}

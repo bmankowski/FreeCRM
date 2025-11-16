@@ -303,7 +303,7 @@ class Record extends \App\Runtime\BaseModel
 	 */
 	public function getDisplayName()
 	{
-		return \App\Record::getLabel($this->getId());
+		return \App\Records\Record::getLabel($this->getId());
 	}
 
 	/**
@@ -538,7 +538,7 @@ class Record extends \App\Runtime\BaseModel
 			$module = \App\Modules\Base\Models\Module::getInstance($module);
 			$moduleName = $module ? $module->get('name') : $module;
 		} elseif (empty($module)) {
-			$moduleName = \App\Record::getType($recordId);
+			$moduleName = \App\Records\Record::getType($recordId);
 			$module = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		}
 		$cacheName = "$recordId:$moduleName";
@@ -592,7 +592,7 @@ class Record extends \App\Runtime\BaseModel
 			}
 		}
 		$convertedInfo = \App\Modules\Leads\Models\Module::getConvertedInfo($leadIdsList);
-		$labels = \App\Record::getLabel($ids);
+		$labels = \App\Records\Record::getLabel($ids);
 
 		foreach ($rows as &$row) {
 			if ($row['setype'] === 'Leads' && $convertedInfo[$row['crmid']]) {
@@ -831,7 +831,7 @@ class Record extends \App\Runtime\BaseModel
 			if ($params['autofill']) {
 				$commonFields = array_intersect($fieldsList, $parentFieldsList);
 				foreach ($commonFields as $fieldName) {
-					if (\App\Field::getFieldPermission($parentRecordModel->getModuleName(), $fieldName)) {
+					if (\App\Fields\Field::getFieldPermission($parentRecordModel->getModuleName(), $fieldName)) {
 						if ($fieldName == 'shownerid') {
 							$fieldInstance = \App\Modules\Base\Models\Field::getInstance($fieldName, $parentRecordModel->getModule());
 							$parentRecordModel->set($fieldName, $fieldInstance->getUITypeModel()->getEditViewDisplayValue('', $parentRecordModel->getId()));
@@ -863,7 +863,7 @@ class Record extends \App\Runtime\BaseModel
 							}
 						}
 					}
-				} elseif ((is_object($mapp['target']) && is_object($mapp['source'])) && \App\Field::getFieldPermission($parentRecordModel->getModuleName(), $mapp['source']->getName()) && in_array($mapp['source']->getName(), $parentFieldsList)) {
+				} elseif ((is_object($mapp['target']) && is_object($mapp['source'])) && \App\Fields\Field::getFieldPermission($parentRecordModel->getModuleName(), $mapp['source']->getName()) && in_array($mapp['source']->getName(), $parentFieldsList)) {
 					$parentMapName = $parentRecordModel->get($mapp['source']->getName());
 					if ($mapp['source']->getName() == 'shownerid' && empty($parentMapName)) {
 						$fieldInstance = \App\Modules\Base\Models\Field::getInstance($mapp['source']->getName(), $parentRecordModel->getModule());

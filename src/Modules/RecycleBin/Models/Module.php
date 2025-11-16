@@ -162,7 +162,7 @@ class Module extends \App\Modules\Base\Models\Module
 	public function deletePerminently($recordIds)
 	{
 		foreach ($recordIds as &$recordId) {
-			$moduleName = \App\Record::getType($recordId);
+			$moduleName = \App\Records\Record::getType($recordId);
 			$entity = \App\CRMEntity::getInstance($moduleName);
 			$entity->deletePerminently($moduleName, $recordId);
 		}

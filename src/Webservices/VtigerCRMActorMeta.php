@@ -68,7 +68,7 @@ class VtigerCRMActorMeta extends EntityMeta
 	{
 		$tableFieldList = [];
 
-		$factory = WebserviceField::fromArray($this->pearDB, array('tablename' => $tableName));
+		$factory = \App\Webservices\WebserviceField::fromArray($this->pearDB, array('tablename' => $tableName));
 		$dbTableFields = $factory->getTableFields();
 		foreach ($dbTableFields as $dbField) {
 			if ($dbField->primaryKey) {
@@ -79,7 +79,7 @@ class VtigerCRMActorMeta extends EntityMeta
 				}
 			}
 			$field = $this->getFieldArrayFromDBField($dbField, $tableName);
-			$webserviceField = WebserviceField::fromArray($this->pearDB, $field);
+			$webserviceField = \App\Webservices\WebserviceField::fromArray($this->pearDB, $field);
 			$fieldDataType = $this->getFieldType($dbField, $tableName);
 			if ($fieldDataType === null) {
 				$fieldDataType = $this->getFieldDataTypeFromDBType($dbField->type);

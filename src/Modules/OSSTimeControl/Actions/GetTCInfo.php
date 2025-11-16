@@ -39,18 +39,18 @@ class GetTCInfo extends \App\Base\Controllers\BaseActionController
 			$entity = $record->getEntity();
 			$sourceData = $entity->column_fields;
 			if ($sourceModule == 'HelpDesk') {
-				$sourceData['contact_label'] = \App\Record::getLabel($sourceData['contact_id']);
-				if (\App\Record::getType($sourceData['parent_id']) != 'Accounts')
+				$sourceData['contact_label'] = \App\Records\Record::getLabel($sourceData['contact_id']);
+				if (\App\Records\Record::getType($sourceData['parent_id']) != 'Accounts')
 					unset($sourceData['parent_id']);
 				else
-					$sourceData['account_label'] = \App\Record::getLabel($sourceData['parent_id']);
+					$sourceData['account_label'] = \App\Records\Record::getLabel($sourceData['parent_id']);
 			} else if ($sourceModule == 'Project') {
 				$query = sprintf("select * from vtiger_account where accountid = %s", $sourceData['linktoaccountscontacts']);
 				$ifExist = $adb->query($query, true, "Błąd podczas pobierania danych z vtiger_crmentityrel");
 				if ($adb->num_rows($ifExist) > 0)
-					$sourceData['account_label'] = \App\Record::getLabel($sourceData['linktoaccountscontacts']);
+					$sourceData['account_label'] = \App\Records\Record::getLabel($sourceData['linktoaccountscontacts']);
 				else
-					$sourceData['contact_label'] = \App\Record::getLabel($sourceData['linktoaccountscontacts']);
+					$sourceData['contact_label'] = \App\Records\Record::getLabel($sourceData['linktoaccountscontacts']);
 			}
 		}
 

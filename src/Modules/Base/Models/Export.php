@@ -293,8 +293,8 @@ class Export extends \App\Runtime\BaseModel
 			} elseif ($type === 'reference') {
 				$value = trim($value);
 				if (!empty($value)) {
-					$recordModule = \App\Record::getType($value);
-					$displayValueArray = \App\Record::computeLabels($recordModule, $value);
+					$recordModule = \App\Records\Record::getType($value);
+					$displayValueArray = \App\Records\Record::computeLabels($recordModule, $value);
 					if (!empty($displayValueArray)) {
 						foreach ($displayValueArray as $k => $v) {
 							$displayValue = $v;
@@ -328,8 +328,8 @@ class Export extends \App\Runtime\BaseModel
 			if (in_array($field->getName(), ['Name', 'Reference'])) {
 				$value = trim($value);
 				if (!empty($value)) {
-					$recordModule = \App\Record::getType($value);
-					$displayValue = \App\Record::getLabel($value);
+					$recordModule = \App\Records\Record::getType($value);
+					$displayValue = \App\Records\Record::getLabel($value);
 					if (!empty($recordModule) && !empty($displayValue)) {
 						$value = $recordModule . '::::' . $displayValue;
 					} else {

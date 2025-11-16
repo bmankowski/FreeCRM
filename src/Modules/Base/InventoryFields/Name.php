@@ -26,7 +26,7 @@ class Name extends Basic
 	public function getDisplayValue($value)
 	{
 		if ($value != 0)
-			return \App\Record::getLabel($value);
+			return \App\Records\Record::getLabel($value);
 		return '';
 	}
 

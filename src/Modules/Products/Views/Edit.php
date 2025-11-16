@@ -46,7 +46,7 @@ class Edit extends \App\Modules\Base\Views\Edit
 		foreach ($mandatoryFieldModels as $fieldModel) {
 			if ($fieldModel->isReferenceField()) {
 				$fieldName = $fieldModel->get('name');
-				if (!\App\Record::isExists($recordModel->get($fieldName))) {
+				if (!\App\Records\Record::isExists($recordModel->get($fieldName))) {
 					$recordModel->set($fieldName, '');
 				}
 			}

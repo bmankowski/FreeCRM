@@ -248,12 +248,12 @@ class ICalendarComponent {
 			if (!is_array($component)) {
 				if ($type != 'user') {
 					if (isset($this->field_mapping_arr[$component])) {
-						if (\App\Field::getFieldPermission($modtype, $this->field_mapping_arr[$component]))
+						if (\App\Fields\Field::getFieldPermission($modtype, $this->field_mapping_arr[$component]))
 							$activity[$this->field_mapping_arr[$component]] = $ical_activity[$key];
 						else
 							$activity[$this->field_mapping_arr[$component]] = '';
 					} else {
-						if (\App\Field::getFieldPermission($modtype, $component))
+						if (\App\Fields\Field::getFieldPermission($modtype, $component))
 							$activity[$component] = $ical_activity[$key];
 						else
 							$activity[$component] = '';
@@ -270,12 +270,12 @@ class ICalendarComponent {
 				foreach ($component as $index) {
 					if (!isset($activity[$index])) {
 						if (isset($this->field_mapping_arr[$index])) {
-							if (\App\Field::getFieldPermission($modtype, $this->field_mapping_arr[$index]))
+							if (\App\Fields\Field::getFieldPermission($modtype, $this->field_mapping_arr[$index]))
 								$activity[$this->field_mapping_arr[$index]] = $values[$count];
 							else
 								$activity[$this->field_mapping_arr[$index]] = '';
 						} else {
-							if (\App\Field::getFieldPermission($modtype, $index))
+							if (\App\Fields\Field::getFieldPermission($modtype, $index))
 								$activity[$index] = $values[$count];
 							else
 								$activity[$index] = '';

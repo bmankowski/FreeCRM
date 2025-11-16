@@ -130,7 +130,7 @@ class Detail extends \App\Modules\Base\Views\Detail
 				foreach ($invitees as &$invitee) {
 					if (!empty($invitee['crmid']) && isset($metadata[$invitee['crmid']])) {
 						$invitee['metadata'] = $metadata[$invitee['crmid']];
-						$invitee['metadata']['label'] = \App\Record::getLabel($invitee['crmid']);
+						$invitee['metadata']['label'] = \App\Records\Record::getLabel($invitee['crmid']);
 						// Prepare translated module name for template (replaces Vtiger_Language_Handler::getTranslateSingularModuleName)
 						if (!empty($invitee['metadata']['setype'])) {
 							$invitee['metadata']['module_label'] = \App\Runtime\Vtiger_Language_Handler::getTranslateSingularModuleName($invitee['metadata']['setype']);

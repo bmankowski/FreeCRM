@@ -60,7 +60,7 @@ class ExpiringSoldProducts  extends \App\Modules\Base\Views\Index
 		// Add module type for each row with parent_id
 		foreach ($data as &$row) {
 			if (!empty($row['parent_id'])) {
-				$row['parent_module'] = \App\Record::getType($row['parent_id']);
+				$row['parent_module'] = \App\Records\Record::getType($row['parent_id']);
 			}
 		}
 		return $data;

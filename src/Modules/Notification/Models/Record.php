@@ -22,7 +22,7 @@ class Record extends \App\Modules\Base\Models\Record
 		$relatedModule = $relatedRecords['module'];
 		$relatedId = $relatedRecords['id'];
 		$value = $this->get($fieldName);
-		if (\App\Record::isExists($relatedId)) {
+		if (\App\Records\Record::isExists($relatedId)) {
 			$textParser = \App\TextParser::getInstanceById($relatedId, $relatedModule);
 			$textParser->setContent($value)->parse();
 		} else {
@@ -149,7 +149,7 @@ class Record extends \App\Modules\Base\Models\Record
 			\App\Log::trace('Exiting ' . __METHOD__ . ' - return true');
 			return false;
 		}
-		if ($notificationType !== 'PLL_USERS' && \App\Record::isExists($relatedId)) {
+		if ($notificationType !== 'PLL_USERS' && \App\Records\Record::isExists($relatedId)) {
 			$textParser = \App\TextParser::getInstanceById($relatedId, $relatedModule);
 			$this->set('description', $textParser->withoutTranslations()->setContent($this->get('description'))->parse()->getContent());
 			$this->set('title', $textParser->setContent($this->get('title'))->parse()->getContent());

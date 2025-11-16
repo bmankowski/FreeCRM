@@ -18,7 +18,7 @@
 		<div class="col-xs-8">
 			<h3 class="modal-title">
 				{if $RECORD->get('product')}
-					{\App\Record::getLabel($RECORD->get('product'))}
+					{\App\Records\Record::getLabel($RECORD->get('product'))}
 					{if $RECORD->get('assets_renew')}<span class="marginLeft10 font-small label label-info">{$RECORD->get('assets_renew')|t:$MODULE_NAME}</span>{/if}
 				{else}
 					{"LBL_CHANGE_VALUE_FOR_FIELD"|t:$MODULE_NAME}

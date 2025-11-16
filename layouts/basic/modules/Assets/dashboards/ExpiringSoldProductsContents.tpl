@@ -21,10 +21,10 @@
 		{foreach item=ROW from=$DATA}
 			<div class="row">
 				<div class="col-md-4"><a class="moduleColor_{$RELATED_MODULE}" href="index.php?module={$RELATED_MODULE}&view=Detail&record={$ROW.assetsid}">{$ROW.assetname}</a></div>
-				<div class="col-md-4">{DateTimeField::convertToUserFormat($ROW.dateinservice)}</div>
+				<div class="col-md-4">{DateTime\App\Fields\Field::convertToUserFormat($ROW.dateinservice)}</div>
 				<div class="col-md-3">
 					{if $ROW.parent_id gt 0 && !empty($ROW.parent_module)}
-						<a class="moduleColor_{$ROW.parent_module}" href="index.php?module={$ROW.parent_module}&view=Detail&record={$ROW.parent_id}" title="{$ROW.parent_module|t:$ROW.parent_module}">{\App\Record::getLabel($ROW.parent_id)}</a>
+						<a class="moduleColor_{$ROW.parent_module}" href="index.php?module={$ROW.parent_module}&view=Detail&record={$ROW.parent_id}" title="{$ROW.parent_module|t:$ROW.parent_module}">{\App\Records\Record::getLabel($ROW.parent_id)}</a>
 					{/if}
 				</div>
 			</div>

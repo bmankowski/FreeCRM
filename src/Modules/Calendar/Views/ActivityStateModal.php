@@ -24,7 +24,7 @@ class ActivityStateModal  extends \App\Modules\Base\Views\Index
 		// Pre-process record to add link_module_name if link exists
 		$linkId = $recordInstance->get('link');
 		if ($linkId) {
-			$recordInstance->set('link_module_name', \App\Record::getType($linkId));
+			$recordInstance->set('link_module_name', \App\Records\Record::getType($linkId));
 		}
 
 		$viewer = $this->getViewer($request);

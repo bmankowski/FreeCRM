@@ -143,8 +143,8 @@ class Record extends \App\Modules\Base\Models\Record
 				$idsArray[0] = $ids;
 			}
 			foreach ($idsArray as $id) {
-				$module = \App\Record::getType($id);
-				$label = \App\Record::getLabel($id);
+				$module = \App\Records\Record::getType($id);
+				$label = \App\Records\Record::getLabel($id);
 				$return .= '<a href="index.php?module=' . $module . '&view=Detail&record=' . $id . '" target="' . $config['target'] . '"> ' . $label . '</a>,';
 			}
 		}
@@ -171,7 +171,7 @@ class Record extends \App\Modules\Base\Models\Record
 					break;
 			}
 			if (\App\Utils\Utils::isRecordExists($accountId)) {
-				$setype = \App\Record::getType($accountId);
+				$setype = \App\Records\Record::getType($accountId);
 				$returnEmail = $this->findEmail($accountId, $setype);
 			}
 		} else {
@@ -284,7 +284,7 @@ class Record extends \App\Modules\Base\Models\Record
 			$relations[$module][] = [
 				'id' => $row['crmid'],
 				'module' => $module,
-				'label' => \App\Record::getLabel($row['crmid'])
+				'label' => \App\Records\Record::getLabel($row['crmid'])
 			];
 		}
 		return $relations;

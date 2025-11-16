@@ -292,7 +292,7 @@ class Field extends \vtlib\Field
 			$row['readonly'] = !$this->getProfileReadWritePermission();
 			$row['defaultvalue'] = $this->get('defaultvalue');
 			$row['fieldparams'] = $this->get('fieldparams');
-			$this->webserviceField = WebserviceField::fromArray($db, $row);
+			$this->webserviceField = \App\Webservices\WebserviceField::fromArray($db, $row);
 		}
 		return $this->webserviceField;
 	}
@@ -1169,7 +1169,7 @@ class Field extends \vtlib\Field
 	 */
 	public function getPermissions($readOnly = true)
 	{
-		return \App\Field::getFieldPermission($this->getModuleId(), $this->getName(), $readOnly);
+		return \App\Fields\Field::getFieldPermission($this->getModuleId(), $this->getName(), $readOnly);
 	}
 
 	public function __update()
@@ -1260,7 +1260,7 @@ class Field extends \vtlib\Field
 		if ($fieldModel) {
 			return $fieldModel;
 		}
-		$field = \App\Field::getFieldInfo($fieldId);
+		$field = \App\Fields\Field::getFieldInfo($fieldId);
 		$className = \App\Loader::getComponentClassName('Model', 'Field', \App\Utils\ModuleUtils::getModuleName($field['tabid']));
 		$fieldModel = new $className();
 		$fieldModel->initialize($field);

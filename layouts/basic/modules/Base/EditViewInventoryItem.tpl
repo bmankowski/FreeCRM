@@ -2,7 +2,7 @@
 {strip}
 <!-- layouts/basic/modules/Base/EditViewInventoryItem.tpl -->
 	{if isset($ITEM_DATA) && is_array($ITEM_DATA) && !empty($ITEM_DATA['name'])}
-		{assign var="REFERENCE_MODULE" value=\App\Record::getType($ITEM_DATA['name'])}
+		{assign var="REFERENCE_MODULE" value=\App\Records\Record::getType($ITEM_DATA['name'])}
 	{elseif isset($MAIN_PARAMS) && is_array($MAIN_PARAMS) && isset($MAIN_PARAMS['modules'])}
 		{assign var="REFERENCE_MODULE" value=reset($MAIN_PARAMS['modules'])}
 	{/if}

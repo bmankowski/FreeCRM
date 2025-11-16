@@ -10,9 +10,6 @@
  * **************************************************************************** */
 namespace App\Webservices;
 
-use App\Database\PearDatabase;
-
-
 class WebserviceField
 {
 
@@ -224,15 +221,15 @@ class WebserviceField
 	public function getTableFields()
 	{
 		$tableFields = null;
-		if (isset(WebserviceField::$tableMeta[$this->getTableName()])) {
-			$tableFields = WebserviceField::$tableMeta[$this->getTableName()];
+		if (isset(\App\Webservices\WebserviceField::$tableMeta[$this->getTableName()])) {
+			$tableFields = \App\Webservices\WebserviceField::$tableMeta[$this->getTableName()];
 		} else {
 			$dbMetaColumns = \App\Database\PearDatabase::getInstance()->getColumnsMeta($this->getTableName());
 			$tableFields = [];
 			foreach ($dbMetaColumns as $key => $dbField) {
 				$tableFields[$dbField->name] = $dbField;
 			}
-			WebserviceField::$tableMeta[$this->getTableName()] = $tableFields;
+			\App\Webservices\WebserviceField::$tableMeta[$this->getTableName()] = $tableFields;
 		}
 		return $tableFields;
 	}
@@ -270,10 +267,10 @@ class WebserviceField
 			if (\App\Cache\Cache::has('getReferenceList', $this->getFieldId())) {
 				return \App\Cache\Cache::get('getReferenceList', $this->getFieldId());
 			}
-			if (!isset(WebserviceField::$fieldTypeMapping[$this->getUIType()])) {
+			if (!isset(\App\Webservices\WebserviceField::$fieldTypeMapping[$this->getUIType()])) {
 				$this->getFieldTypeFromUIType();
 			}
-			$fieldTypeData = WebserviceField::$fieldTypeMapping[$this->getUIType()];
+			$fieldTypeData = \App\Webservices\WebserviceField::$fieldTypeMapping[$this->getUIType()];
 			$currentUser = \App\User\CurrentUser::get();
 			$types = vtws_listtypes(null, $current_user);
 
@@ -363,14 +360,14 @@ class WebserviceField
 			}
 		}
 
-		if (isset(WebserviceField::$fieldTypeMapping[$this->getUIType()])) {
-			if (WebserviceField::$fieldTypeMapping[$this->getUIType()] === false) {
+		if (isset(\App\Webservices\WebserviceField::$fieldTypeMapping[$this->getUIType()])) {
+			if (\App\Webservices\WebserviceField::$fieldTypeMapping[$this->getUIType()] === false) {
 				return null;
 			}
-			$row = WebserviceField::$fieldTypeMapping[$this->getUIType()];
+			$row = \App\Webservices\WebserviceField::$fieldTypeMapping[$this->getUIType()];
 			return $row['fieldtype'];
 		} else {
-			WebserviceField::$fieldTypeMapping[$this->getUIType()] = false;
+			\App\Webservices\WebserviceField::$fieldTypeMapping[$this->getUIType()] = false;
 			return null;
 		}
 	}

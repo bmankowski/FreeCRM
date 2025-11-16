@@ -123,7 +123,7 @@ class Popup  extends \App\Modules\Base\Views\Index
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceForModule($moduleModel);
 
-		if (!\App\Record::isExists($relatedParentId)) {
+		if (!\App\Records\Record::isExists($relatedParentId)) {
 			$relatedParentModule = '';
 			$relatedParentId = '';
 		}

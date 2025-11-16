@@ -1,5 +1,5 @@
 <?php
-namespace App;
+namespace App\Records;
 
 use App\Cache\Cache;
 
@@ -292,7 +292,7 @@ class Record
 		$parentId = false;
 		if ($parentModules = ModuleHierarchy::getModulesMap1M($moduleName)) {
 			foreach ($parentModules as $parentModule) {
-				if ($fields = Field::getRelatedFieldForModule($moduleName, $parentModule)) {
+				if ($fields = \App\Fields\Field::getRelatedFieldForModule($moduleName, $parentModule)) {
 					$entity = \App\CRMEntity::getInstance($moduleName);
 					$index = $entity->tab_name_index[$fields['tablename']];
 					$parentId = (new \App\Db\Query())->select(["{$fields['tablename']}.{$fields['columnname']}"])

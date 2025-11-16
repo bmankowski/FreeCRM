@@ -167,7 +167,7 @@ class Block
 	public function delete($recursive = true)
 	{
 		if ($recursive) {
-			$fields = Field::getAllForBlock($this);
+			$fields = \App\Fields\Field::getAllForBlock($this);
 			foreach ($fields as $fieldInstance)
 				$fieldInstance->delete();
 		}

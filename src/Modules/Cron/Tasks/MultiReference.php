@@ -51,7 +51,7 @@ foreach ($rows as &$multireference) {
 			}
 		}
 	} else {
-		if (\App\Record::isExists($multireference['lastid'], $multireference['source_module'])) {
+		if (\App\Records\Record::isExists($multireference['lastid'], $multireference['source_module'])) {
 			if (in_array($multireference['lastid'], $executed)) {
 				continue;
 			}

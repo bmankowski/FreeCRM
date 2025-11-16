@@ -137,7 +137,7 @@ class ReportRun extends \App\CRMEntity
 				$this->queryPlanner->addTable($selectedfields[0]);
 				continue;
 			}
-			if ((!\App\Field::getFieldPermission($mod, $fieldname) && $colname !== 'crmid' && (!in_array($fieldname, $inventory_fields) && in_array($module, $inventory_modules))) || empty($fieldname)) {
+			if ((!\App\Fields\Field::getFieldPermission($mod, $fieldname) && $colname !== 'crmid' && (!in_array($fieldname, $inventory_fields) && in_array($module, $inventory_modules))) || empty($fieldname)) {
 				continue;
 			} else {
 				$this->labelMapping[$selectedfields[2]] = str_replace(' ', '__', $fieldlabel);
@@ -1224,7 +1224,7 @@ class ReportRun extends \App\CRMEntity
 				$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
 				$fieldType = null;
 				if (!empty($fieldInfo)) {
-					$field = \App\Webservices\WebserviceField::fromArray($adb, $fieldInfo);
+					$field = \App\Webservices\App\Webservices\WebserviceField::fromArray($adb, $fieldInfo);
 					$fieldType = $field->getFieldDataType();
 				}
 
@@ -1427,7 +1427,7 @@ class ReportRun extends \App\CRMEntity
 				$module = $temp[0];
 				if (in_array($module, $inventoryModules) && $fieldname == 'serviceid') {
 					$grouplist[$fieldcolname] = $sqlvalue;
-				} else if (\App\Field::getFieldPermission($module, $fieldname)) {
+				} else if (\App\Fields\Field::getFieldPermission($module, $fieldname)) {
 					$grouplist[$fieldcolname] = $sqlvalue;
 				} else {
 					$grouplist[$fieldcolname] = $selectedfields[0] . "." . $selectedfields[1];
@@ -2105,7 +2105,7 @@ class ReportRun extends \App\CRMEntity
 		$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
 		$fieldType = null;
 		if (!empty($fieldInfo)) {
-			$field = WebserviceField::fromArray($adb, $fieldInfo);
+			$field = \App\Webservices\WebserviceField::fromArray($adb, $fieldInfo);
 			$fieldType = $field->getFieldDataType();
 		}
 		if (!empty($fieldInfo)) {
@@ -2932,12 +2932,12 @@ class ReportRun extends \App\CRMEntity
 				}
 
 				$field_permitted = false;
-				if (\App\Field::getColumnPermission($premod, $field_columnname)) {
+				if (\App\Fields\Field::getColumnPermission($premod, $field_columnname)) {
 					$field_permitted = true;
 				} else {
 					$mod = explode(':', $secmod);
 					foreach ($mod as $key) {
-						if (\App\Field::getColumnPermission($key, $field_columnname)) {
+						if (\App\Fields\Field::getColumnPermission($key, $field_columnname)) {
 							$field_permitted = true;
 						}
 					}
@@ -2945,7 +2945,7 @@ class ReportRun extends \App\CRMEntity
 
 				//Calculation fields of "Events" module should show in Calendar related report
 				$secondaryModules = explode(':', $secmod);
-				if ($field_permitted === false && ($premod === 'Calendar' || in_array('Calendar', $secondaryModules)) && \App\Field::getColumnPermission('Events', $field_columnname)) {
+				if ($field_permitted === false && ($premod === 'Calendar' || in_array('Calendar', $secondaryModules)) && \App\Fields\Field::getColumnPermission('Events', $field_columnname)) {
 					$field_permitted = true;
 				}
 
@@ -3342,7 +3342,7 @@ class ReportRun extends \App\CRMEntity
 					$groupByCondition[] = $this->GetTimeCriteriaCondition($groupCriteria, $groupByField);
 					$groupByField = implode(", ", $groupByCondition);
 				}
-			} elseif (!\App\Field::getFieldPermission($modulename, $fieldname)) {
+			} elseif (!\App\Fields\Field::getFieldPermission($modulename, $fieldname)) {
 				if (!(in_array($modulename, $inventoryModules) && $fieldname === 'serviceid')) {
 					$groupByField = $tablename . "." . $colname;
 				}
@@ -3357,7 +3357,7 @@ class ReportRun extends \App\CRMEntity
 
 		$columnsSqlList = array();
 
-		$fieldInstance = WebserviceField::fromArray($adb, $fieldInfo);
+		$fieldInstance = \App\Webservices\WebserviceField::fromArray($adb, $fieldInfo);
 		$referenceModuleList = $fieldInstance->getReferenceList();
 		$reportSecondaryModules = explode(':', $this->secondarymodule);
 

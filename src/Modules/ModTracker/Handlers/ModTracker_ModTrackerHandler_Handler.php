@@ -92,7 +92,7 @@ class ModTracker_ModTrackerHandler_Handler {
 		\App\Modules\ModTracker\ModTracker::linkRelation($params['sourceModule'], $params['sourceRecordId'], $params['destinationModule'], $params['destinationRecordId']);
 		if (\App\AppConfig::module('ModTracker', 'WATCHDOG')) {
 			$watchdogTitle = 'LBL_ADDED';
-			$watchdogMessage = '<a href="index.php?module=' . $params['sourceModule'] . '&view=Detail&record=' . $params['sourceRecordId'] . '">' . \App\Record::getLabel($params['sourceRecordId']) . '</a>';
+			$watchdogMessage = '<a href="index.php?module=' . $params['sourceModule'] . '&view=Detail&record=' . $params['sourceRecordId'] . '">' . \App\Records\Record::getLabel($params['sourceRecordId']) . '</a>';
 			$watchdogMessage .= ' (translate: [LBL_WITH]) ';
 			$watchdogMessage .= '<a href="index.php?module=' . $params['destinationModule'] . '&view=Detail&record=' . $params['destinationRecordId'] . '">(general: RecordLabel)</a>';
 			$this->addNotification($params['destinationModule'], $params['destinationRecordId'], $watchdogTitle, $watchdogMessage);
@@ -112,7 +112,7 @@ class ModTracker_ModTrackerHandler_Handler {
 		\App\Modules\ModTracker\ModTracker::unLinkRelation($params['sourceModule'], $params['sourceRecordId'], $params['destinationModule'], $params['destinationRecordId']);
 		if (\App\AppConfig::module('ModTracker', 'WATCHDOG')) {
 			$watchdogTitle = 'LBL_REMOVED';
-			$watchdogMessage = '<a href="index.php?module=' . $params['sourceModule'] . '&view=Detail&record=' . $params['sourceRecordId'] . '">' . \App\Record::getLabel($params['sourceRecordId']) . '</a>';
+			$watchdogMessage = '<a href="index.php?module=' . $params['sourceModule'] . '&view=Detail&record=' . $params['sourceRecordId'] . '">' . \App\Records\Record::getLabel($params['sourceRecordId']) . '</a>';
 			$watchdogMessage .= ' (translate: [LBL_WITH]) ';
 			$watchdogMessage .= '<a href="index.php?module=' . $params['destinationModule'] . '&view=Detail&record=' . $params['destinationRecordId'] . '">(general: RecordLabel)</a>';
 			$this->addNotification($params['destinationModule'], $params['destinationRecordId'], $watchdogTitle, $watchdogMessage);

@@ -31,7 +31,7 @@ class Reminders  extends \App\Modules\Base\Views\Index
 			$record->updateReminderStatus(2);
 			$linkId = $record->get('link');
 			if ($linkId) {
-				$record->set('link_module_name', \App\Record::getType($linkId));
+				$record->set('link_module_name', \App\Records\Record::getType($linkId));
 			}
 			$colorList[$record->getId()] = \App\Modules\Settings\DataAccess\Models\Module::executeColorListHandlers($moduleName, $record->getId(), $record);
 		}

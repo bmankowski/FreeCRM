@@ -24,7 +24,7 @@ function getContactsMailsFromTicket($id)
 	$sql = 'SELECT `relcrmid` as contactid FROM `vtiger_crmentityrel` WHERE `module` = ? && `relmodule` = ? && `crmid` = ?;';
 	$result = $db->pquery($sql, ['HelpDesk', 'Contacts', $id]);
 	while ($contactId = $db->getSingleValue($result)) {
-		if (\App\Record::isExists($contactId)) {
+		if (\App\Records\Record::isExists($contactId)) {
 			$contactRecord = \App\Modules\Base\Models\Record::getInstanceById($contactId, 'Contacts');
 			$primaryEmail = $contactRecord->get('email');
 			if (($contactRecord->get('emailoptout') == 1 || !\App\AppConfig::module('HelpDesk', 'CONTACTS_CHECK_EMAIL_OPTOUT')) && !empty($primaryEmail)) {
@@ -84,7 +84,7 @@ function HelpDeskNewCommentAccount(\App\Modules\Base\Models\Record $recordModel)
 	$db = \App\Database\PearDatabase::getInstance();
 	\App\Log::trace('Entering HelpDeskNewCommentAccount');
 	$relatedToId = $recordModel->get('related_to');
-	$moduleName = \App\Record::getType($relatedToId);
+	$moduleName = \App\Records\Record::getType($relatedToId);
 	$mail = false;
 	if (!empty($relatedToId) && $moduleName == 'HelpDesk') {
 		if ($moduleName == 'HelpDesk') {

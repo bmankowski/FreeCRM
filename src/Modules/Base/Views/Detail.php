@@ -258,7 +258,7 @@ class Detail extends \App\Modules\Base\Views\Index
 		$rowModules = [];
 		foreach ($inventoryRows as $key => $inventoryRow) {
 			if (!empty($inventoryRow['name'])) {
-				$rowModules[$key] = \App\Record::getType($inventoryRow['name']);
+				$rowModules[$key] = \App\Records\Record::getType($inventoryRow['name']);
 			}
 		}
 		$viewer->assign('INVENTORY_ROW_MODULES', $rowModules);

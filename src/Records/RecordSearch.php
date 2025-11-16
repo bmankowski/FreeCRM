@@ -1,5 +1,5 @@
 <?php
-namespace App;
+namespace App\Records;
 
 use App\Cache\Cache;
 use App\AppConfig;

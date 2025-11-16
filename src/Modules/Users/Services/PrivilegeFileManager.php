@@ -76,7 +76,7 @@ class PrivilegeFileManager
             fclose($handle);
             \App\Security\PrivilegeFile::createUserPrivilegesFile($userId);
             Privileges::clearCache($userId);
-            Record::clearCache($userId);
+            \App\Records\Record::clearCache($userId);
             return true;
         }
         return false;

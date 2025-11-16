@@ -84,7 +84,7 @@ class Record extends \App\Modules\Base\Models\Record
 		$cont_name = '';
 		foreach ($cont_id as $key => $id) {
 			if ($id != '') {
-				$contact_name = \App\Record::getLabel($id);
+				$contact_name = \App\Records\Record::getLabel($id);
 				$cont_name .= $contact_name . ', ';
 			}
 		}
@@ -92,7 +92,7 @@ class Record extends \App\Modules\Base\Models\Record
 		$parentId = $this->get('parent_id');
 		$parentName = '';
 		if ($parentId != '') {
-			$parentName = \App\Record::getLabel($parentId);
+			$parentName = \App\Records\Record::getLabel($parentId);
 		}
 
 		$cont_name = trim($cont_name, ', ');

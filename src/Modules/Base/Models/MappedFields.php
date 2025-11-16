@@ -78,7 +78,7 @@ class MappedFields extends \App\Runtime\BaseModel
 			return [];
 		}
 		if (!$moduleName) {
-			$moduleName = \App\Record::getType($recordId);
+			$moduleName = \App\Records\Record::getType($recordId);
 		}
 
 		$templates = $this->getTemplatesByModule($moduleName);

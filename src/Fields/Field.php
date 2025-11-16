@@ -1,5 +1,5 @@
 <?php
-namespace App;
+namespace App\Fields;
 
 use App\Cache\Cache;
 

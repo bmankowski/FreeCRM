@@ -135,7 +135,7 @@ class Calendar extends \App\Runtime\BaseModel
 				$ids[] = $record['subprocess'];
 			}
 		}
-		$labels = \App\Record::getLabel($ids);
+		$labels = \App\Records\Record::getLabel($ids);
 
 		foreach ($records as &$record) {
 			$item = [];

@@ -22,7 +22,7 @@ class BindHelpDesk extends \App\Runtime\BaseModel
 		$ids = $this->findAndBind();
 		if ($ids) {
 			$id = array_shift($ids);
-			if (!\App\Record::isExists($id, $this->moduleName)) {
+			if (!\App\Records\Record::isExists($id, $this->moduleName)) {
 				return false;
 			}
 			$conf = \App\Modules\OSSMailScanner\Models\Record::getConfig('emailsearch');

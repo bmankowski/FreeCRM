@@ -55,7 +55,7 @@ class EstimatedValueByStatus  extends \App\Modules\Base\Views\Index
 		$currencyInfo = \vtlib\Functions:: getDefaultCurrencyInfo();
 		while ($row = $dataReader->read()) {
 			$data [] = [
-				\App\Runtime\Vtiger_Language_Handler::translate($row['ssalesprocesses_status'], $moduleName) . ' - ' . CurrencyField::convertToUserFormat($row['estimated']) . ' ' . $currencyInfo['currency_symbol'],
+				\App\Runtime\Vtiger_Language_Handler::translate($row['ssalesprocesses_status'], $moduleName) . ' - ' . \App\Fields\CurrencyField::convertToUserFormat($row['estimated']) . ' ' . $currencyInfo['currency_symbol'],
 				$i++,
 				$moduleModel->getListViewUrl() . $this->getSearchParams($owner, $row['ssalesprocesses_status'])
 			];

@@ -277,7 +277,7 @@ class Relation extends \App\Runtime\BaseModel
 		$relatedListFields = [];
 		$relatedModuleModel = $this->getRelationModuleModel();
 		// Get fields from panel
-		foreach (\App\Field::getFieldsFromRelation($this->getId()) as &$fieldName) {
+		foreach (\App\Fields\Field::getFieldsFromRelation($this->getId()) as &$fieldName) {
 			$relatedListFields[$fieldName] = $relatedModuleModel->getFieldByName($fieldName);
 		}
 		if ($relatedListFields) {
@@ -321,7 +321,7 @@ class Relation extends \App\Runtime\BaseModel
 		$relatedModuleModel = $this->getRelationModuleModel();
 		$parentModuleName = $this->getParentModuleModel()->getName();
 		$relatedModuleName = $relatedModuleModel->getName();
-		$fieldRel = \App\Field::getRelatedFieldForModule($relatedModuleName, $parentModuleName);
+		$fieldRel = \App\Fields\Field::getRelatedFieldForModule($relatedModuleName, $parentModuleName);
 		$relatedModelFields = $relatedModuleModel->getFields();
 		if (isset($fieldRel['fieldid'])) {
 			foreach ($relatedModelFields as &$fieldModel) {

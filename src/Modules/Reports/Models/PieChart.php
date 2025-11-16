@@ -44,7 +44,7 @@ class PieChart extends Base_Chart
 				if ($sectorField) {
 					if ($sectorField->get('uitype') != '7') {
 						if ($sectorField->get('uitype') == '71' || $sectorField->get('uitype') == '72') { //convert currency fields
-							$value = CurrencyField::convertFromDollar($value, $currencyRateAndSymbol['rate']);
+							$value = \App\Fields\CurrencyField::convertFromDollar($value, $currencyRateAndSymbol['rate']);
 						} else {
 							$value = (int) $sectorField->getDisplayValue($row[$sector]);
 						}

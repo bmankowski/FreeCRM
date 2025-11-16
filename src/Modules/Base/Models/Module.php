@@ -757,7 +757,7 @@ class Module extends \vtlib\Module
 			$tabId = \App\Utils\ModuleUtils::getModuleId('Events');
 		}
 		$editFields = [];
-		foreach (\App\Field::getFieldsPermissions($tabId, false) as &$field) {
+		foreach (\App\Fields\Field::getFieldsPermissions($tabId, false) as &$field) {
 			$editFields[] = $field['fieldname'];
 		}
 		return array_diff($editFields, ['closedtime', 'shownerid', 'smcreatorid', 'modifiedtime', 'modifiedby']);
@@ -1572,7 +1572,7 @@ class Module extends \vtlib\Module
 		}
 		$popupFields = [];
 		if ($relationModel) {
-			foreach (\App\Field::getFieldsFromRelation($relationModel->getId()) as &$fieldName) {
+			foreach (\App\Fields\Field::getFieldsFromRelation($relationModel->getId()) as &$fieldName) {
 				$popupFields[$fieldName] = $fieldName;
 			}
 		}
@@ -1651,7 +1651,7 @@ class Module extends \vtlib\Module
 						foreach ($referenceList as $referenceModule) {
 							if (isset($fieldMap[$referenceModule]) && $sourceModule != $referenceModule) {
 								$fieldValue = $recordModel->get($fieldName);
-								if ($fieldValue != 0 && \App\Record::getType($fieldValue) == $referenceModule)
+								if ($fieldValue != 0 && \App\Records\Record::getType($fieldValue) == $referenceModule)
 									$data[$fieldMap[$referenceModule]] = $fieldValue;
 							}
 						}

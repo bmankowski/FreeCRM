@@ -138,7 +138,7 @@ class BaseAction
 				$hierarchy = new \App\Api\Portal\BaseModule\Hierarchy();
 				$hierarchy->session = $this->session;
 				$hierarchy->findId = $parentId;
-				$hierarchy->moduleName = \App\Record::getType(\App\Record::getParentRecord($this->getUserCrmId()));
+				$hierarchy->moduleName = \App\Records\Record::getType(\App\Records\Record::getParentRecord($this->getUserCrmId()));
 				$records = $hierarchy->get();
 				if (isset($records[$parentId])) {
 					return $parentId;
@@ -147,6 +147,6 @@ class BaseAction
 				}
 			}
 		}
-		return \App\Record::getParentRecord($this->getUserCrmId());
+		return \App\Records\Record::getParentRecord($this->getUserCrmId());
 	}
 }

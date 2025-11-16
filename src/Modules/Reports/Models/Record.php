@@ -311,7 +311,7 @@ class Record extends \App\Modules\Base\Models\Record
 			$fieldLabel = explode('__', $moduleFieldLabel);
 			$module = $fieldLabel[0];
 			$dbFieldLabel = trim(str_replace(array($module, '__'), " ", $moduleFieldLabel));
-			if (\App\Field::getFieldPermission($module, $fieldName) && $columnName !== 'crmid') {
+			if (\App\Fields\Field::getFieldPermission($module, $fieldName) && $columnName !== 'crmid') {
 				$selectedColumns[] = $column;
 			}
 		}
@@ -607,7 +607,7 @@ class Record extends \App\Modules\Base\Models\Record
 					$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
 					$fieldType = null;
 					if (!empty($fieldInfo)) {
-						$field = WebserviceField::fromArray($db, $fieldInfo);
+						$field = \App\Webservices\WebserviceField::fromArray($db, $fieldInfo);
 						$fieldType = $field->getFieldDataType();
 					}
 

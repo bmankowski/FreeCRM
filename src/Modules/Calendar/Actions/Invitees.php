@@ -52,7 +52,7 @@ class Invitees extends \App\Base\Controllers\BaseActionController
 				continue;
 			}
 			if (\App\Modules\Users\Models\Privileges::isPermitted($row['moduleName'], 'DetailView', $row['crmid'])) {
-				$label = \App\Record::getLabel($row['crmid']);
+				$label = \App\Records\Record::getLabel($row['crmid']);
 				$matchingRecords[] = [
 					'id' => $row['crmid'],
 					'module' => $row['setype'],

@@ -28,7 +28,7 @@ class Reference extends Basic
 			return '';
 		}
 		$metaData = \vtlib\Functions::getCRMRecordMetadata($value);
-		$linkValue = '<a class="moduleColor_' . $metaData['setype'] . '" href="index.php?module=' . $metaData['setype'] . '&view=Detail&record=' . $value . '" title="' . \App\Runtime\Vtiger_Language_Handler::translate($metaData['setype'], $metaData['setype']) . '">' . \App\Record::getLabel($value) . '</a>';
+		$linkValue = '<a class="moduleColor_' . $metaData['setype'] . '" href="index.php?module=' . $metaData['setype'] . '&view=Detail&record=' . $value . '" title="' . \App\Runtime\Vtiger_Language_Handler::translate($metaData['setype'], $metaData['setype']) . '">' . \App\Records\Record::getLabel($value) . '</a>';
 		return $linkValue;
 	}
 
@@ -42,7 +42,7 @@ class Reference extends Basic
 		if (empty($value)) {
 			return '';
 		}
-		$value = \App\Record::getLabel($value);
+		$value = \App\Records\Record::getLabel($value);
 		return $value;
 	}
 

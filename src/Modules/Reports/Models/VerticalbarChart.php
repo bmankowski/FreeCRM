@@ -38,7 +38,7 @@ class VerticalbarChart extends Base_Chart
 				foreach ($queryColumnsByFieldModel as $fieldModel) {
 					if ($fieldModel->get('uitype') == '71' || $fieldModel->get('uitype') == '72') {
 						$value = (float) ($row[$fieldModel->get('reportlabel')]);
-						$values[$i][] = CurrencyField::convertFromDollar($value, $currencyRateAndSymbol['rate']);
+						$values[$i][] = \App\Fields\CurrencyField::convertFromDollar($value, $currencyRateAndSymbol['rate']);
 					} else {
 						$values[$i][] = (float) $row[$fieldModel->get('reportlabel')];
 					}

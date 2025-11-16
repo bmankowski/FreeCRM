@@ -129,7 +129,7 @@ class SSalesProcesses extends \App\CRMEntity
 			$listColumns = $this->list_fields_name;
 		}
 		foreach ($listColumns as $fieldname => $colname) {
-			if (\App\Field::getFieldPermission('SSalesProcesses', $colname)) {
+			if (\App\Fields\Field::getFieldPermission('SSalesProcesses', $colname)) {
 				$listviewHeader[] = \App\Runtime\Vtiger_Language_Handler::translate($fieldname);
 			}
 		}
@@ -170,7 +170,7 @@ class SSalesProcesses extends \App\CRMEntity
 
 		foreach ($listColumns as $colname) {
 			// Permission to view sales is restricted, avoid showing field values (except sales name)
-			if (\App\Field::getFieldPermission('SSalesProcesses', $colname)) {
+			if (\App\Fields\Field::getFieldPermission('SSalesProcesses', $colname)) {
 				$data = $salesProcessesInfoBase[$colname];
 				if ($getRawData === false) {
 					if ($colname == 'subject') {

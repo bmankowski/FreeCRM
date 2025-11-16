@@ -16,7 +16,7 @@ class Record extends \App\Api\Webservice\Core\BaseAction
 
 	/**
 	 * Record model
-	 * @var \App\Modules\Vtiger\Models\Record 
+	 * @var \App\Modules\Base\Models\Record 
 	 */
 	protected $recordModel = false;
 
@@ -31,16 +31,16 @@ class Record extends \App\Api\Webservice\Core\BaseAction
 		$moduleName = $this->controller->request->getModule();
 		$method = $this->controller->method;
 		if ('POST' === $method) {
-			$this->recordModel = \App\Modules\Vtiger\Models\Record::getCleanInstance($moduleName);
+			$this->recordModel = \App\Modules\Base\Models\Record::getCleanInstance($moduleName);
 			if (!$this->recordModel->isCreateable()) {
 				throw new \App\Api\Webservice\Core\Exception('No permissions to create record', 401);
 			}
 		} else {
 			$record = $this->controller->request->get('record');
-			if (!$record || !\App\Record::isExists($record, $moduleName)) {
+			if (!$record || !\App\Records\Record::isExists($record, $moduleName)) {
 				throw new \App\Api\Webservice\Core\Exception('Record doesn\'t exist', 401);
 			}
-			$this->recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($record, $moduleName);
+			$this->recordModel = \App\Modules\Base\Models\Record::getInstanceById($record, $moduleName);
 			switch ($method) {
 				case 'DELETE':
 					if (!$this->recordModel->isDeletable()) {

@@ -57,8 +57,8 @@ class Login extends \App\Api\Webservice\Core\BaseAction
 		$userModel = \App\Modules\Users\Models\Record::getUserModel($row['user_id']);
 		return [
 			'token' => $row['token'],
-			'name' => \App\Record::getLabel($row['crmid']),
-			'parentName' => \App\Record::getLabel(\App\Record::getParentRecord($row['crmid'])),
+			'name' => \App\Records\Record::getLabel($row['crmid']),
+			'parentName' => \App\Records\Record::getLabel(\App\Records\Record::getParentRecord($row['crmid'])),
 			'lastLoginTime' => $row['login_time'],
 			'lastLogoutTime' => $row['logout_time'],
 			'language' => $row['language'],

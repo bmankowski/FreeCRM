@@ -283,7 +283,7 @@ class DateTimeField
 			$user = $current_user;
 		}
 		$timeZone = $user->time_zone ? $user->time_zone : \App\AppConfig::main('default_timezone');
-		$return = DateTimeField::convertTimeZone($value, self::getDBTimeZone(), $timeZone);
+		$return = \App\Fields\DateTimeField::convertTimeZone($value, self::getDBTimeZone(), $timeZone);
 		Log::trace('End ' . __METHOD__);
 		return $return;
 	}
@@ -308,7 +308,7 @@ class DateTimeField
 			$value = self::sanitizeDate($value, $user);
 		}
 
-		$return = DateTimeField::convertTimeZone($value, $timeZone, self::getDBTimeZone());
+		$return = \App\Fields\DateTimeField::convertTimeZone($value, $timeZone, self::getDBTimeZone());
 		Log::trace('End ' . __METHOD__);
 		return $return;
 	}

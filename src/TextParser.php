@@ -201,7 +201,7 @@ class TextParser
 	 */
 	public function setSourceRecord($record, $moduleName = false, $recordModel = false)
 	{
-		$this->sourceRecordModel = $recordModel ? $recordModel : \App\Modules\Base\Models\Record::getInstanceById($record, $moduleName ? $moduleName : Record::getType($record));
+		$this->sourceRecordModel = $recordModel ? $recordModel : \App\Modules\Base\Models\Record::getInstanceById($record, $moduleName ? $moduleName : \App\Records\Record::getType($record));
 		return $this;
 	}
 
@@ -470,7 +470,7 @@ class TextParser
 			}
 			return $instance->record($relatedField, false);
 		}
-		$moduleName = Record::getType($relatedId);
+		$moduleName = \App\Records\Record::getType($relatedId);
 		if (!empty($moduleName)) {
 			if (($relatedModule && $relatedModule !== $moduleName)) {
 				return '';

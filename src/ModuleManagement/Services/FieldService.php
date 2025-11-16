@@ -223,7 +223,7 @@ class FieldService
 	public function getInstance($fieldIdOrName, ?Models\Module $module = null): ?Models\Field
 	{
 		$moduleid = $module ? $module->getId() : null;
-		$data = \App\Field::getFieldInfo($fieldIdOrName, $moduleid);
+		$data = \App\Fields\Field::getFieldInfo($fieldIdOrName, $moduleid);
 		if (!$data) {
 			return null;
 		}

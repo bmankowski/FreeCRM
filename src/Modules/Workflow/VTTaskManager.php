@@ -162,7 +162,7 @@ class VTTaskManager
 		}
 		
 		// Map old class names to new namespaced ones
-		return "\\App\\Modules\\Workflow\\Tasks\\{$taskClass}";
+		return "\App\\Modules\\Workflow\\Tasks\\{$taskClass}";
 	}
 
 	/**

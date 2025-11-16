@@ -29,11 +29,11 @@ class FileUpload  extends \App\Modules\Base\Views\Index
 		$fieldName = $request->get('inputName');
 		if (!empty($record)) {
 			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($record, $moduleName);
-			if (!$recordModel->isEditable() || !\App\Field::getFieldPermission($moduleName, $fieldName, false)) {
+			if (!$recordModel->isEditable() || !\App\Fields\Field::getFieldPermission($moduleName, $fieldName, false)) {
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		} else {
-			if (!\App\Field::getFieldPermission($moduleName, $fieldName, false) || !\App\Security\Privilege::isPermitted($moduleName, 'CreateView')) {
+			if (!\App\Fields\Field::getFieldPermission($moduleName, $fieldName, false) || !\App\Security\Privilege::isPermitted($moduleName, 'CreateView')) {
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		}

@@ -137,13 +137,13 @@ class InventoryUtils
 				if ($cur_value === null || $cur_value == '') {
 					$price_details[$i]['check_value'] = false;
 					if ($unit_price != null) {
-						$cur_value = \CurrencyField::convertFromMasterCurrency($unit_price, $actual_conversion_rate);
+						$cur_value = \App\Fields\CurrencyField::convertFromMasterCurrency($unit_price, $actual_conversion_rate);
 					} else {
 						$cur_value = '0';
 					}
 				}
 				$price_details[$i]['check_value'] = true;
-				$price_details[$i]['curvalue'] = \CurrencyField::convertToUserFormat($cur_value, null, true);
+				$price_details[$i]['curvalue'] = \App\Fields\CurrencyField::convertToUserFormat($cur_value, null, true);
 				$price_details[$i]['conversionrate'] = $actual_conversion_rate;
 				$price_details[$i]['is_basecurrency'] = $is_basecurrency;
 			}
@@ -288,7 +288,7 @@ class InventoryUtils
 
 			while ($row = $dataReader->read()) {
 				$productId = $row['productid'];
-				if (\App\Field::getFieldPermission($module, 'unit_price')) {
+				if (\App\Fields\Field::getFieldPermission($module, 'unit_price')) {
 					$actualPrice = (float) $row['actual_price'];
 					if ($actualPrice === null || $actualPrice == '') {
 						$actualPrice = $row['unit_price'] * $row['conversion_rate'] * self::getBaseConversionRateForProduct($productId, 'edit', $module);

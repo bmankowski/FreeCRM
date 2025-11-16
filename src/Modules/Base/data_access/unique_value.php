@@ -88,7 +88,7 @@ class DataAccess_unique_value
 					if ($metadata['setype'] == $DestModuleName) {
 						$save_record1 = false;
 						$deletedLabel = $metadata['deleted'] ? ' - ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_RECORD_DELETED', 'DataAccess') : '';
-						$fieldlabel .= '<li><a target="_blank" href="index.php?module=' . $DestModuleName . '&view=Detail&record=' . $id . '"><strong>' . \App\Record::getLabel($id) . '</strong></a> (' . \App\Fields\Owner::getLabel($metadata['smownerid']) . ')' . $deletedLabel . ',</li>';
+						$fieldlabel .= '<li><a target="_blank" href="index.php?module=' . $DestModuleName . '&view=Detail&record=' . $id . '"><strong>' . \App\Records\Record::getLabel($id) . '</strong></a> (' . \App\Fields\Owner::getLabel($metadata['smownerid']) . ')' . $deletedLabel . ',</li>';
 					}
 				}
 			}
@@ -129,7 +129,7 @@ class DataAccess_unique_value
 					if ($metadata['setype'] == $DestModuleName) {
 						$save_record2 = false;
 						$deletedLabel = $metadata['deleted'] ? ' - ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_RECORD_DELETED', 'DataAccess') : '';
-						$fieldlabel .= '<li><a target="_blank" href="index.php?module=' . $DestModuleName . '&view=Detail&record=' . $id . '"><strong>' . \App\Record::getLabel($id) . '</strong></a> (' . \App\Fields\Owner::getLabel($metadata['smownerid']) . ')' . $deletedLabel . ',</li>';
+						$fieldlabel .= '<li><a target="_blank" href="index.php?module=' . $DestModuleName . '&view=Detail&record=' . $id . '"><strong>' . \App\Records\Record::getLabel($id) . '</strong></a> (' . \App\Fields\Owner::getLabel($metadata['smownerid']) . ')' . $deletedLabel . ',</li>';
 					}
 				}
 			}

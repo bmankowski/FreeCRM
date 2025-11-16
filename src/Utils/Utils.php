@@ -19,9 +19,9 @@ class Utils
 		if ($module == 'Users' || $module == 'Groups') {
 			return \App\Fields\Owner::getLabel($ids);
 		} elseif ($compute) {
-			return \App\Record::computeLabels($module, $ids);
+			return \App\Records\Record::computeLabels($module, $ids);
 		} else {
-			return \App\Record::getLabel($ids);
+			return \App\Records\Record::getLabel($ids);
 		}
 	}
 

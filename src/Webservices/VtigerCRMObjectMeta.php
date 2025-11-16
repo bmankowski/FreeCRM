@@ -358,7 +358,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 
 		$this->computeAccess();
 
-		$fields = Field::getFieldsPermissions($this->getTabId());
+		$fields = \App\Fields\Field::getFieldsPermissions($this->getTabId());
 		foreach ($fields as &$field) {
 			$webserviceField = new WebserviceField($field);
 			$this->moduleFields[$webserviceField->getFieldName()] = $webserviceField;
@@ -417,7 +417,7 @@ class VtigerCRMObjectMeta extends EntityMeta
 	if ($this->objectName == 'Users') {
 		$exists = \App\Modules\Users\Models\Record::isExists($recordId);
 	} else {
-		$exists = Record::isExists($recordId, $this->objectName);
+		$exists = \App\Records\Record::isExists($recordId, $this->objectName);
 		}
 		return $exists;
 	}

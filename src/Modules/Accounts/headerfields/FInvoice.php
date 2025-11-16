@@ -18,7 +18,7 @@ class HeaderField {
 		if (!empty($row['date']) && !empty($row['total'])) {
 			return [
 				'class' => 'btn-success',
-				'title' => \App\Runtime\Vtiger_Language_Handler::translate('Sum invoices') . ': ' . CurrencyField::convertToUserFormat($row['total'], null, true),
+				'title' => \App\Runtime\Vtiger_Language_Handler::translate('Sum invoices') . ': ' . \App\Fields\CurrencyField::convertToUserFormat($row['total'], null, true),
 				'badge' => \App\Fields\DateTimeField::convertToUserFormat($row['date'])
 			];
 		}

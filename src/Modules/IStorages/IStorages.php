@@ -120,7 +120,7 @@ class IStorages extends \App\CRMEntity
 			$listColumns = $this->list_fields_name;
 		}
 		foreach ($listColumns as $fieldname => $colname) {
-			if (\App\Field::getFieldPermission('IStorages', $colname)) {
+			if (\App\Fields\Field::getFieldPermission('IStorages', $colname)) {
 				$listviewHeader[] = \App\Runtime\Vtiger_Language_Handler::translate($fieldname);
 			}
 		}
@@ -168,7 +168,7 @@ class IStorages extends \App\CRMEntity
 
 		foreach ($listColumns as $fieldname => $colname) {
 			// Permission to view storage is restricted, avoid showing field values (except storage name)
-			if (\App\Field::getFieldPermission('IStorages', $colname)) {
+			if (\App\Fields\Field::getFieldPermission('IStorages', $colname)) {
 				$data = $iStorageInfoBase[$colname];
 				if ($getRawData === false) {
 					if ($colname == 'subject') {

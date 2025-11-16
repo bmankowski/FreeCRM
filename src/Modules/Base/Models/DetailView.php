@@ -138,7 +138,7 @@ class DetailView extends \App\Runtime\BaseModel
 		$fieldToupdate = \App\AppConfig::module($moduleName, 'FIELD_TO_UPDATE_BY_BUTTON');
 		if ($recordModel->isEditable() && !empty($fieldToupdate)) {
 			foreach ($fieldToupdate as $fieldLabel => $fieldName) {
-				if (\App\Field::getFieldPermission($moduleName, $fieldName)) {
+				if (\App\Fields\Field::getFieldPermission($moduleName, $fieldName)) {
 					$editViewLinks = [
 						'linktype' => 'DETAILVIEW',
 						'linklabel' => '',

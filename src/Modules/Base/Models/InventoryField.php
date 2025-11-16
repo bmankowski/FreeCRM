@@ -406,7 +406,7 @@ class InventoryField extends \App\Runtime\BaseModel
 			$value = json_encode($value);
 		}
 		if (in_array($field, ['qty', 'price', 'gross', 'net', 'discount', 'purchase', 'margin', 'marginp', 'tax', 'total'])) {
-			$value = CurrencyField::convertToDBFormat($value, null, true);
+			$value = \App\Fields\CurrencyField::convertToDBFormat($value, null, true);
 		}
 		return $value;
 	}

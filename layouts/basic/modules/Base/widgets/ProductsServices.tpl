@@ -57,9 +57,9 @@
 										{$RELATED_RECORD->getAccessCountValue($PARENT_RECORD->getId())}
 									{elseif $RELATED_HEADERNAME eq 'time_start'}
 									{elseif $RELATED_HEADERNAME eq 'listprice' || $RELATED_HEADERNAME eq 'unit_price'}
-										{CurrencyField::convertToUserFormat($RELATED_RECORD->get($RELATED_HEADERNAME), null, true)}
+										{Currency\App\Fields\Field::convertToUserFormat($RELATED_RECORD->get($RELATED_HEADERNAME), null, true)}
 										{if $RELATED_HEADERNAME eq 'listprice'}
-											{assign var="LISTPRICE" value=CurrencyField::convertToUserFormat($RELATED_RECORD->get($RELATED_HEADERNAME), null, true)}
+											{assign var="LISTPRICE" value=Currency\App\Fields\Field::convertToUserFormat($RELATED_RECORD->get($RELATED_HEADERNAME), null, true)}
 										{/if}
 									{else}
 										{$RELATED_RECORD->getDisplayValue($RELATED_HEADERNAME)}

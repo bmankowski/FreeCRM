@@ -218,7 +218,7 @@ class Import  extends \App\Modules\Base\Views\Index
 				->createCommand()->query();
 		$noOfRecords = $noOfRecordsDeleted = 0;
 		while ($recordId = $dataReader->readColumn(0)) {
-			if (\App\Record::isExists($recordId)) {
+			if (\App\Records\Record::isExists($recordId)) {
 				$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, $moduleName);
 				if ($recordModel->isDeletable()) {
 					$recordModel->delete();

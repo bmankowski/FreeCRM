@@ -39,7 +39,7 @@ class MultiReferenceValue extends BaseUiType
 			return $picklistValues;
 		}
 		$params = $this->get('field')->getFieldParams();
-		$fieldInfo = \App\Field::getFieldInfo($params['field']);
+		$fieldInfo = \App\Fields\Field::getFieldInfo($params['field']);
 		$queryGenerator = new \App\QueryGenerator($params['module']);
 		if ($params['filterField'] !== '-') {
 			$queryGenerator->addCondition($params['filterField'], $params['filterValue'], 'e');
@@ -116,7 +116,7 @@ class MultiReferenceValue extends BaseUiType
 		$currentValue = \vtlib\Functions:: getSingleFieldValue($fieldModel->getTableName(), $fieldModel->getColumnName(), $entity->tab_name_index[$fieldModel->getTableName()], $sourceRecord);
 		// Get value to added
 		$relatedValue = '';
-		$fieldInfo = \App\Field::getFieldInfo($params['field']);
+		$fieldInfo = \App\Fields\Field::getFieldInfo($params['field']);
 		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($destRecord, $params['module']);
 		if ($params['filterField'] === '-' || ($params['filterField'] !== '-' && $recordModel->get($params['filterField']) === $params['filterValue'])) {
 			$relatedValue = $recordModel->get($fieldInfo['fieldname']);
@@ -159,7 +159,7 @@ class MultiReferenceValue extends BaseUiType
 		$sourceRecordModel = \App\Modules\Base\Models\Record::getInstanceById($sourceRecord, $sourceModule);
 
 		$targetModel = \App\Modules\Base\Models\RelationListView::getInstance($sourceRecordModel, $params['module']);
-		$fieldInfo = \App\Field::getFieldInfo($params['field']);
+		$fieldInfo = \App\Fields\Field::getFieldInfo($params['field']);
 		$targetModel->getRelationQuery();
 		$queryGenerator = $targetModel->getRelationModel()->getQueryGenerator();
 		$queryGenerator->permissions = false;
@@ -227,7 +227,7 @@ class MultiReferenceValue extends BaseUiType
 	{
 		$field = $this->get('field');
 		$params = $field->getFieldParams();
-		$fieldInfo = \App\Field::getFieldInfo($params['field']);
+		$fieldInfo = \App\Fields\Field::getFieldInfo($params['field']);
 		if (in_array($fieldInfo['uitype'], [15, 16, 33])) {
 			$relModuleName = \App\Utils\ModuleUtils::getModuleName($fieldInfo['tabid']);
 			$values = array_filter(explode(self::COMMA, $value));

@@ -16,7 +16,7 @@
 					</p>
 					<select class="select2 regionalTax" name="regionalTax">
 						{foreach item=TAX from=$GROUP_TAXS}
-							{assign var=VALUE value=CurrencyField::convertToUserFormat($TAX['value'], null, true)}
+							{assign var=VALUE value=Currency\App\Fields\Field::convertToUserFormat($TAX['value'], null, true)}
 							<option value="{$VALUE}">
 								{$VALUE}% - {{$TAX['name']}|t:$MODULE}
 							</option>

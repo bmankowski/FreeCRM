@@ -126,7 +126,7 @@ class CardDAV {
 		if ($moduleName == 'Contacts') {
 			$name = $record['firstname'] . ' ' . $record['lastname'];
 			$vcard->N = [$record['lastname'], $record['firstname']];
-			$org = \App\Record::getLabel($record['parentid']);
+			$org = \App\Records\Record::getLabel($record['parentid']);
 			if ($org != '') {
 				$vcard->ORG = $org;
 			}
@@ -184,7 +184,7 @@ class CardDAV {
 		if ($moduleName == 'Contacts') {
 			$name = $record['firstname'] . ' ' . $record['lastname'];
 			$vcard->N = [$record['lastname'], $record['firstname']];
-			$org = \App\Record::getLabel($record['parentid']);
+			$org = \App\Records\Record::getLabel($record['parentid']);
 			if (!empty($org))
 				$vcard->ORG = $org;
 			if (!empty($record['jobtitle'])) {

@@ -24,7 +24,7 @@ while ($row = $dataReader->read()) {
 	} elseif ($row['searchlabel'] === null && $row['label'] !== null) {
 		$updater = 'searchlabel';
 	}
-	\App\Record::updateLabel($row['setype'], $row['crmid'], true, $updater);
+	\App\Records\Record::updateLabel($row['setype'], $row['crmid'], true, $updater);
 	$limit--;
 	if (0 === $limit) {
 		return;
@@ -41,7 +41,7 @@ $dataReader = (new \App\Db\Query())->select(['vtiger_crmentity.crmid', 'vtiger_c
 	->createCommand()->query();
 
 while ($row = $dataReader->read()) {
-	\App\Record::updateLabel($row['setype'], $row['crmid']);
+	\App\Records\Record::updateLabel($row['setype'], $row['crmid']);
 	$limit--;
 	if (0 === $limit) {
 		return;

@@ -29,7 +29,7 @@ class TransferOwnership extends \App\Runtime\BaseModel
 				$field = $relModData[2];
 				foreach ($recordIds as $recordId) {
 					$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, $basicModule);
-					if ($recordModel->get($field) != 0 && \App\Record::getType($recordModel->get($field)) == $relatedModule) {
+					if ($recordModel->get($field) != 0 && \App\Records\Record::getType($recordModel->get($field)) == $relatedModule) {
 						$relatedIds[] = $recordModel->get($field);
 					}
 				}

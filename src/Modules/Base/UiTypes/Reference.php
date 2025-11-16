@@ -33,7 +33,7 @@ class Reference extends BaseUiType
 	{
 		$fieldModel = $this->get('field');
 		$referenceModuleList = $fieldModel->getReferenceList();
-		$referenceEntityType = \App\Record::getType($value);
+		$referenceEntityType = \App\Records\Record::getType($value);
 		if (!empty($referenceModuleList) && in_array($referenceEntityType, $referenceModuleList)) {
 			return \App\Modules\Base\Models\Module::getInstance($referenceEntityType);
 		} elseif (!empty($referenceModuleList) && in_array('Users', $referenceModuleList)) {
@@ -58,7 +58,7 @@ class Reference extends BaseUiType
 			if ($referenceModuleName === 'Users' || $referenceModuleName === 'Groups') {
 				$name = \App\Fields\Owner::getLabel($value);
 			} else {
-				$name = \App\Record::getLabel($value);
+				$name = \App\Records\Record::getLabel($value);
 			}
 			if ($rawText || $referenceModuleName === 'Users' || ($value && !\App\Security\Privilege::isPermitted($referenceModuleName, 'DetailView', $value))) {
 				return $name;
@@ -83,7 +83,7 @@ class Reference extends BaseUiType
 			if ($referenceModuleName === 'Users' || $referenceModuleName === 'Groups') {
 				$name = \App\Fields\Owner::getLabel($value);
 			} else {
-				$name = \App\Record::getLabel($value);
+				$name = \App\Records\Record::getLabel($value);
 			}
 			if ($rawText || $referenceModuleName === 'Users' || ($value && !\App\Security\Privilege::isPermitted($referenceModuleName, 'DetailView', $value))) {
 				return $name;
@@ -106,7 +106,7 @@ class Reference extends BaseUiType
 		if ($referenceModuleName === 'Users' || $referenceModuleName === 'Groups') {
 			$name = \App\Fields\Owner::getLabel($value);
 		} else {
-			$name = \App\Record::getLabel($value);
+			$name = \App\Records\Record::getLabel($value);
 		}
 		return $name;
 	}

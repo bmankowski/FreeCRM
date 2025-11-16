@@ -659,7 +659,7 @@ class ModuleService
 			->where(['setype' => $moduleName]);
 		$dataReader = $query->createCommand()->query();
 		while ($id = $dataReader->readColumn(0)) {
-			$recordModel = \App\Modules\Vtiger\Models\Record::getInstanceById($id, $moduleName);
+			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($id, $moduleName);
 			$recordModel->delete();
 		}
 		$this->db->createCommand()->delete('vtiger_crmentity', ['setype' => $moduleName])->execute();

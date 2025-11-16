@@ -26,7 +26,7 @@ class RecordsList extends \App\Api\Webservice\Core\BaseAction
 		$limit = $queryGenerator->getLimit();
 		$dataReader = $queryGenerator->createQuery()->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$record = ['recordLabel' => \App\Record::getLabel($row['id'])];
+			$record = ['recordLabel' => \App\Records\Record::getLabel($row['id'])];
 			foreach ($fieldsModel as $fieldName => &$fieldModel) {
 				if (isset($row[$fieldName])) {
 					$record[$fieldName] = $fieldModel->getDisplayValue($row[$fieldName], $row['id'], false, true);
@@ -83,8 +83,8 @@ class RecordsList extends \App\Api\Webservice\Core\BaseAction
 	public function getQueryByParentRecord(\App\QueryGenerator $queryGenerator)
 	{
 		$parentId = $this->getParentCrmId();
-		$parentModule = \App\Record::getType($parentId);
-		$fields = \App\Field::getRelatedFieldForModule($queryGenerator->getModule());
+		$parentModule = \App\Records\Record::getType($parentId);
+		$fields = \App\Fields\Field::getRelatedFieldForModule($queryGenerator->getModule());
 		$foundField = true;
 		if (\App\ModuleHierarchy::getModuleLevel($queryGenerator->getModule()) === 0) {
 			$queryGenerator->addCondition('id', $parentId, 'e');
@@ -97,7 +97,7 @@ class RecordsList extends \App\Api\Webservice\Core\BaseAction
 				if ($moduleName === $parentModule) {
 					continue;
 				}
-				if ($relatedField = \App\Field::getRelatedFieldForModule($moduleName, $parentModule)) {
+				if ($relatedField = \App\Fields\Field::getRelatedFieldForModule($moduleName, $parentModule)) {
 					$queryGenerator->addRelatedCondition([
 						'sourceField' => $field['fieldname'],
 						'relatedModule' => $moduleName,

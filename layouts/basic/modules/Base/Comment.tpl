@@ -36,7 +36,7 @@
 										{$RELATED_MODULE|t:$RELATED_MODULE}:
 									</strong>
 									<strong class="commentRelatedTitle">
-										{\App\Record::getLabel($RELATED_TO)}
+										{\App\Records\Record::getLabel($RELATED_TO)}
 									</strong>
 								</a>
 							{/if}

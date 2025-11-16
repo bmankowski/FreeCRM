@@ -118,7 +118,7 @@ class OSSEmployees extends \App\CRMEntity
 		$listview_entries = array();
 
 		foreach ($this->list_fields_name as $fieldname => $colname) {
-			if (\App\Field::getFieldPermission('OSSEmployees', $colname)) {
+			if (\App\Fields\Field::getFieldPermission('OSSEmployees', $colname)) {
 				$listview_header[] = \App\Runtime\Vtiger_Language_Handler::translate($fieldname);
 			}
 		}
@@ -134,7 +134,7 @@ class OSSEmployees extends \App\CRMEntity
 			foreach ($this->list_fields_name as $fieldname => $colname) {
 				if (!$hasRecordViewAccess && $colname != 'name') {
 					$account_info_data[] = '';
-				} else if (\App\Field::getFieldPermission('OSSEmployees', $colname)) {
+				} else if (\App\Fields\Field::getFieldPermission('OSSEmployees', $colname)) {
 					$data = $account_info[$colname];
 					if ($colname == 'ossemployees_no') {
 						if ($employees_id != $id) {
@@ -149,7 +149,7 @@ class OSSEmployees extends \App\CRMEntity
 						$account_depth = str_repeat(" .. ", $account_info['depth'] * 2);
 						$data = $account_depth . $data;
 					} else if ($colname == 'parentid' || $colname == 'projectid' || $colname == 'ticketid' || $colname == 'relategid') {
-						$data = '<a href="index.php?module=' . \App\Record::getType($data) . '&action=DetailView&record=' . $data . '">' . \App\Record::getLabel($data) . '</a>';
+						$data = '<a href="index.php?module=' . \App\Records\Record::getType($data) . '&action=DetailView&record=' . $data . '">' . \App\Records\Record::getLabel($data) . '</a>';
 					}
 					$account_info_data[] = $data;
 				}

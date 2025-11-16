@@ -39,7 +39,7 @@ class PicklistField extends Basic
 	{
 		$modules = $this->getParamsConfig();
 		if (!empty($rowId)) {
-			$moduleName = \App\Record::getType($rowId);
+			$moduleName = \App\Records\Record::getType($rowId);
 			foreach ($modules as $module => $field) {
 				if ($module != $moduleName) {
 					unset($modules[$module]);

@@ -102,7 +102,7 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 	$fieldType = null;
 	$fieldvalue = $value;
 	if (!empty($fieldInfo)) {
-		$field = WebserviceField::fromArray($db, $fieldInfo);
+		$field = \App\Webservices\WebserviceField::fromArray($db, $fieldInfo);
 		$fieldType = $field->getFieldDataType();
 	}
 
@@ -120,8 +120,8 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 					}
 				}
 
-				$formattedCurrencyValue = CurrencyField::convertToUserFormat($currency_value, null, true);
-				$fieldvalue = CurrencyField::appendCurrencySymbol($formattedCurrencyValue, $cur_sym_rate['symbol']);
+				$formattedCurrencyValue = \App\Fields\CurrencyField::convertToUserFormat($currency_value, null, true);
+				$fieldvalue = \App\Fields\CurrencyField::appendCurrencySymbol($formattedCurrencyValue, $cur_sym_rate['symbol']);
 			}
 		} else {
 			$currencyField = new \App\Fields\CurrencyField($value);
@@ -192,7 +192,7 @@ function getReportFieldValue($report, $picklistArray, $dbField, $valueArray, $fi
 			implode(', ', $translatedValueList);
 		}
 	} elseif ($fieldType == 'double') {
-		$fieldvalue = CurrencyField::convertToUserFormat($fieldvalue, null, true);
+		$fieldvalue = \App\Fields\CurrencyField::convertToUserFormat($fieldvalue, null, true);
 	} elseif ($fieldType == 'boolean') {
 		if (strtolower($value) === 'yes' || strtolower($value) === 'on' || $value == 1) {
 			$fieldvalue = \App\Runtime\Vtiger_Language_Handler::translate('LBL_YES');

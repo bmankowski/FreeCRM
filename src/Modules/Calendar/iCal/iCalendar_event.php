@@ -135,7 +135,7 @@ class iCalendar_event extends iCalendar_component
 		$result = $adb->pquery('SELECT * FROM u_yf_activity_invitation WHERE activityid=?', array($activity['id']));
 		while ($row = $adb->getRow($result)) {
 			if (!empty($row['email'])) {
-				$this->add_property('ATTENDEE', 'mailto:' . $row['email'], ['CN' => \App\Record::getLabel($row['crmid'])]);
+				$this->add_property('ATTENDEE', 'mailto:' . $row['email'], ['CN' => \App\Records\Record::getLabel($row['crmid'])]);
 			}
 		}
 		return true;

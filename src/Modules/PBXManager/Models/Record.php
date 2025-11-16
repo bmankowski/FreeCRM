@@ -213,7 +213,7 @@ class Record extends \App\Modules\Base\Models\Record
 			if ($db->num_rows($contact)) {
 				$rowCrm = $db->getRow($contact);
 				$data['id'] = $crmid;
-				$data['name'] = \App\Record::getLabel($crmid);
+				$data['name'] = \App\Records\Record::getLabel($crmid);
 				$data['setype'] = $rowCrm['setype'];
 				$data['fieldname'] = $fieldname;
 				return $data;

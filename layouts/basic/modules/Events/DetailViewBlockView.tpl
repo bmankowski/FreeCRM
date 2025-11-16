@@ -51,9 +51,9 @@
 								<div>
 									{assign var=STATUS_LABEL value=\App\Modules\Events\Models\Record::getInvitionStatus($INVITIE['status'])}
 									{if $INVITIE['status'] == '1'}
-										<span class="glyphicon glyphicon-ok-sign popoverTooltip" data-placement="top" data-content="{$STATUS_LABEL|t:$MODULE_NAME} {if $INVITIE['time']}({DateTimeField::convertToUserFormat($INVITIE['time'])}){/if}" aria-hidden="true"></span>
+										<span class="glyphicon glyphicon-ok-sign popoverTooltip" data-placement="top" data-content="{$STATUS_LABEL|t:$MODULE_NAME} {if $INVITIE['time']}({DateTime\App\Fields\Field::convertToUserFormat($INVITIE['time'])}){/if}" aria-hidden="true"></span>
 									{elseif $INVITIE['status'] == '2'}
-										<span class="glyphicon glyphicon-minus-sign popoverTooltip" data-placement="top" data-content="{$STATUS_LABEL|t:$MODULE_NAME} {if $INVITIE['time']}({DateTimeField::convertToUserFormat($INVITIE['time'])}){/if}" aria-hidden="true"></span>
+										<span class="glyphicon glyphicon-minus-sign popoverTooltip" data-placement="top" data-content="{$STATUS_LABEL|t:$MODULE_NAME} {if $INVITIE['time']}({DateTime\App\Fields\Field::convertToUserFormat($INVITIE['time'])}){/if}" aria-hidden="true"></span>
 									{else}
 										<span class="glyphicon glyphicon-question-sign popoverTooltip" data-placement="top" data-content="{$STATUS_LABEL|t:$MODULE_NAME}" aria-hidden="true"></span>
 									{/if}&nbsp;

@@ -23,7 +23,7 @@ class UpdateField extends \App\Base\Controllers\BaseActionController
 		if (!$recordModel->isEditable()) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
-		if (!\App\Field::getFieldPermission($moduleName, $fieldName)) {
+		if (!\App\Fields\Field::getFieldPermission($moduleName, $fieldName)) {
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -33,7 +33,7 @@ class UpdateField extends \App\Base\Controllers\BaseActionController
 		$moduleName = $request->getModule();
 		$fieldName = $request->get('fieldName');
 		$fieldModel = \App\Modules\Base\Models\Field::getInstance($fieldName, \App\Modules\Base\Models\Module::getInstance($moduleName));
-		$updateField = \App\Modules\Base\Helpers\UpdaterField::getInstance();
+		$updateField = \App\Modules\Base\Helpers\Updater\App\Fields\Field::getInstance();
 		$updateField->setFieldModel($fieldModel);
 		$value = $updateField->getValue();
 		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($request->get('record'), $moduleName);

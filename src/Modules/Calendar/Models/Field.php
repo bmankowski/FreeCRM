@@ -134,8 +134,8 @@ class Field extends \App\Modules\Base\Models\Field
 	 */
 	public function getPermissions($readOnly = true)
 	{
-		$calendar = \App\Field::getFieldPermission('Calendar', $this->getName(), $readOnly);
-		$events = \App\Field::getFieldPermission('Events', $this->getName(), $readOnly);
+		$calendar = \App\Fields\Field::getFieldPermission('Calendar', $this->getName(), $readOnly);
+		$events = \App\Fields\Field::getFieldPermission('Events', $this->getName(), $readOnly);
 		return ($calendar || $events);
 	}
 

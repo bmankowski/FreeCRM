@@ -185,7 +185,7 @@ class FileService
 			$content = str_replace("include_once 'modules/Vtiger/CRMEntity.php';\n", '', $content);
 			$content = str_replace("use App\\CRMEntity as Vtiger_CRMEntity;\n", '', $content);
 			$content = preg_replace('/^<\?php\s*/', "<?php\n\nnamespace App\\Modules\\{$moduleName};\n\n", $content);
-			$content = str_replace('PearDatabase::getInstance()', '\\App\\Database\\PearDatabase::getInstance()', $content);
+			$content = str_replace('PearDatabase::getInstance()', '\App\\Database\\PearDatabase::getInstance()', $content);
 			file_put_contents($moduleFile, $content);
 		}
 	}

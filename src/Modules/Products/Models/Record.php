@@ -231,7 +231,7 @@ class Record extends \App\Modules\Base\Models\Record
 			}
 		}
 		$convertedInfo = \App\Modules\Leads\Models\Module::getConvertedInfo($leadIdsList);
-		$labels = \App\Record::getLabel($ids);
+		$labels = \App\Records\Record::getLabel($ids);
 
 		foreach ($rows as &$row) {
 			if ($row['setype'] === 'Leads' && $convertedInfo[$row['crmid']]) {

@@ -223,7 +223,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 				$servers = \App\Modules\Settings\WebserviceApps\Models\Record::getInstanceById($this->get($name));
 				return $servers ? $servers->getName() : '<span class="redColor">ERROR</span>';
 			case 'crmid':
-				return $this->get($name) ? \App\Record::getLabel($this->get($name)) : '';
+				return $this->get($name) ? \App\Records\Record::getLabel($this->get($name)) : '';
 			case 'status':
 				return empty($this->get($name)) ? 'PLL_INACTIVE' : 'PLL_ACTIVE';
 			case 'user_id':

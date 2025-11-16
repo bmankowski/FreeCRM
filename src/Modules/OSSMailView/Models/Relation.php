@@ -16,7 +16,7 @@ class Relation extends \App\Modules\Base\Models\Relation
 		$return = false;
 		$db = \App\Database\PearDatabase::getInstance();
 		\App\CRMEntity::trackLinkedInfo($crmid);
-		$destinationModuleName = \App\Record::getType($crmid);
+		$destinationModuleName = \App\Records\Record::getType($crmid);
 		$data = [
 			'CRMEntity' => \App\CRMEntity::getInstance($destinationModuleName),
 			'sourceModule' => $destinationModuleName,

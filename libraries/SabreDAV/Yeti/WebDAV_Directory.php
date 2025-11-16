@@ -59,10 +59,10 @@ class WebDAV_Directory extends WebDAV_Node implements DAV\ICollection, DAV\IQuot
 		file_put_contents($this->exData->localStorageDir . $localPath, $data);
 
 		if ($rows) {
-			$record = \App\Modules\Vtiger\Models\Record::getInstanceById($rows['crmid'], 'Files');
+			$record = \App\Modules\Base\Models\Record::getInstanceById($rows['crmid'], 'Files');
 			$record->set('mode', 'edit');
 		} else {
-			$record = \App\Modules\Vtiger\Models\Record::getCleanInstance('Files');
+			$record = \App\Modules\Base\Models\Record::getCleanInstance('Files');
 			$record->set('assigned_user_id', $this->exData->crmUserId);
 		}
 		$record->set('title', $pathParts['filename']);

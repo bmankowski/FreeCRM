@@ -18,7 +18,7 @@
 		<div class="col-xs-8">
 			<h3 class="modal-title">
 				{if $RECORD->get('serviceid')}
-					{\App\Record::getLabel($RECORD->get('serviceid'))}
+					{\App\Records\Record::getLabel($RECORD->get('serviceid'))}
 					{if $RECORD->get('osssoldservices_renew')}<span class="marginLeft10 font-small label label-info">{$RECORD->get('osssoldservices_renew')|t:$MODULE_NAME}</span>{/if}
 				{else}
 					{"LBL_CHANGE_VALUE_FOR_FIELD"|t:$MODULE_NAME}

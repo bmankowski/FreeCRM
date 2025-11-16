@@ -285,7 +285,7 @@ class CRMEntity
 						$fieldvalue = $resultRow[$fieldkey];
 					}
 					if ($showsAdditionalLabels && in_array($fieldInfo['uitype'], [10, 51, 73])) {
-						$this->column_fields[$fieldInfo['fieldname'] . '_label'] = \App\Record::getLabel($fieldvalue);
+						$this->column_fields[$fieldInfo['fieldname'] . '_label'] = \App\Records\Record::getLabel($fieldvalue);
 					}
 					if ($showsAdditionalLabels && in_array($fieldInfo['uitype'], [52, 53])) {
 						$this->column_fields[$fieldInfo['fieldname'] . '_label'] = \App\Fields\Owner::getLabel($fieldvalue);
@@ -393,7 +393,7 @@ class CRMEntity
 	/** Function to delete an entity with given Id */
 	public function trash($moduleName, $id)
 	{
-		if (\App\Record::getType($id) !== $moduleName) {
+		if (\App\Records\Record::getType($id) !== $moduleName) {
 			throw new \App\Exceptions\AppException('LBL_PERMISSION_DENIED');
 		}
 		$this->mark_deleted($id);
@@ -763,7 +763,7 @@ class CRMEntity
 					}
 				}
 			}
-			$fields = \App\Field::getRelatedFieldForModule(false, $module);
+			$fields = \App\Fields\Field::getRelatedFieldForModule(false, $module);
 			foreach ($fields as &$field) {
 				$columnName = $field['columnname'];
 				$db->update($field['tablename'], [

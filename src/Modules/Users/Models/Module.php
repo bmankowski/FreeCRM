@@ -340,7 +340,7 @@ class Module extends \App\Modules\Base\Models\Module
 	public function getFieldsForSave(\App\Modules\Base\Models\Record $recordModel)
 	{
 		$editFields = [];
-		foreach (\App\Field::getFieldsPermissions($this->getId(), false) as &$field) {
+		foreach (\App\Fields\Field::getFieldsPermissions($this->getId(), false) as &$field) {
 			$editFields[] = $field['fieldname'];
 		}
 		return $editFields;

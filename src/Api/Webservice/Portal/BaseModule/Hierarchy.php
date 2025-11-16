@@ -49,7 +49,7 @@ class Hierarchy extends \App\Api\Webservice\Core\BaseAction
 	{
 		$parentCrmId = $this->getParentCrmId();
 		if ($this->getPermissionType() > 2) {
-			$fields = \App\Field::getRelatedFieldForModule($this->moduleName);
+			$fields = \App\Fields\Field::getRelatedFieldForModule($this->moduleName);
 			if (!isset($fields[$this->moduleName])) {
 				throw new \App\Api\Webservice\Core\Exception('No hierarchy', 405);
 			}
@@ -65,7 +65,7 @@ class Hierarchy extends \App\Api\Webservice\Core\BaseAction
 		if (!isset($this->records[$parentCrmId])) {
 			$this->records[$parentCrmId] = [
 				'id' => $parentCrmId,
-				'name' => \App\Record::getLabel($parentCrmId)
+				'name' => \App\Records\Record::getLabel($parentCrmId)
 			];
 		}
 		return $this->records;

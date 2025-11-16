@@ -31,7 +31,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	public function updateProgressMilestone($id)
 	{
-		if (!\App\Record::isExists($id)) {
+		if (!\App\Records\Record::isExists($id)) {
 			return;
 		}
 		$relatedListView = \App\Modules\Base\Models\RelationListView::getInstance(\App\Modules\Base\Models\Record::getInstanceById($id), 'ProjectTask');

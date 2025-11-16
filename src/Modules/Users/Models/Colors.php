@@ -35,7 +35,7 @@ class Colors extends \App\Runtime\BaseModel
 		$modulesFields = self::getAllField();
 		foreach ($modulesFields AS $key => $fields) {
 			foreach ($fields AS $field) {
-				$instance[$key][] = \App\Field::getFieldInfo($field['nameField'], $field['module']);
+				$instance[$key][] = \App\Fields\Field::getFieldInfo($field['nameField'], $field['module']);
 			}
 		}
 		return $instance;

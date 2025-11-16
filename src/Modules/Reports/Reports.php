@@ -841,7 +841,7 @@ class Reports extends \App\CRMEntity
 				$fieldlabel = $mod_lbl . ' ' . $fld_lbl;
 				if (in_array($mod, $inventoryModules) && $fieldname == 'serviceid') {
 					$shtml .= "<option permission='yes' value=\"" . $fieldcolname . "\">" . $fieldlabel . "</option>";
-				} else if (!\App\Field::getFieldPermission($mod,$fieldname)&& $colname !== "crmid") {
+				} else if (!\App\Fields\Field::getFieldPermission($mod,$fieldname)&& $colname !== "crmid") {
 					$shtml .= "<option permission='no' value=\"" . $fieldcolname . "\" disabled = 'true'>" . $fieldlabel . "</option>";
 				} else {
 					$shtml .= "<option permission='yes' value=\"" . $fieldcolname . "\">" . $fieldlabel . "</option>";
@@ -897,7 +897,7 @@ class Reports extends \App\CRMEntity
 				$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
 				$fieldType = null;
 				if (!empty($fieldInfo)) {
-					$field = WebserviceField::fromArray($adb, $fieldInfo);
+					$field = \App\Webservices\WebserviceField::fromArray($adb, $fieldInfo);
 					$fieldType = $field->getFieldDataType();
 				}
 				if ($fieldType == 'currency') {
@@ -1208,7 +1208,7 @@ function updateAdvancedCriteria($reportid, $advft_criteria, $advft_criteria_grou
 		$fieldInfo = getFieldByReportLabel($module, $fieldLabel);
 		$fieldType = null;
 		if (!empty($fieldInfo)) {
-			$field = WebserviceField::fromArray($adb, $fieldInfo);
+			$field = \App\Webservices\WebserviceField::fromArray($adb, $fieldInfo);
 			$fieldType = $field->getFieldDataType();
 		}
 		if ($fieldType == 'currency') {

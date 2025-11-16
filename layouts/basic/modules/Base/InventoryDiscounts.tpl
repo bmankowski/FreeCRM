@@ -23,7 +23,7 @@
 					<hr/>
 					<div class="row">
 						<div class="col-md-6">{"LBL_PRICE_BEFORE_DISCOUNT"|t:$MODULE}:</div>
-						<div class="col-md-6 text-right"><strong><span class="valueTotalPrice">{CurrencyField::convertToUserFormat($TOTAL_PRICE, null, true)}</span> {$CURRENCY_SYMBOL}</strong></div>
+						<div class="col-md-6 text-right"><strong><span class="valueTotalPrice">{Currency\App\Fields\Field::convertToUserFormat($TOTAL_PRICE, null, true)}</span> {$CURRENCY_SYMBOL}</strong></div>
 					</div>
 					<div class="row">
 						<div class="col-md-6">{"LBL_DISCOUNT_IN_TOTAL"|t:$MODULE}:</div>
@@ -31,7 +31,7 @@
 					</div>
 					<div class="row">
 						<div class="col-md-6">{"LBL_PRICE_AFTER_DISCOUNT"|t:$MODULE}:</div>
-						<div class="col-md-6 text-right"><strong><span class="valuePrices">{CurrencyField::convertToUserFormat($TOTAL_PRICE, null, true)}</span> {$CURRENCY_SYMBOL}</span></strong></div>
+						<div class="col-md-6 text-right"><strong><span class="valuePrices">{Currency\App\Fields\Field::convertToUserFormat($TOTAL_PRICE, null, true)}</span> {$CURRENCY_SYMBOL}</span></strong></div>
 					</div>
 				</div>
 				<div class="modal-footer">

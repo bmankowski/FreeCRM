@@ -212,10 +212,10 @@ class Accounts extends \App\CRMEntity
 
 		$hierarchyFields = [];
 		foreach ($listColumns as $fieldLabel => $fieldName) {
-			if (\App\Field::getFieldPermission('Accounts', $fieldName)) {
+			if (\App\Fields\Field::getFieldPermission('Accounts', $fieldName)) {
 				$listview_header[] = $fieldLabel;
 			}
-			$field = \App\Field::getFieldInfo($fieldName, 'Accounts');
+			$field = \App\Fields\Field::getFieldInfo($fieldName, 'Accounts');
 			$hierarchyFields[] = $field;
 		}
 		$this->hierarchyFields = $hierarchyFields;
@@ -259,7 +259,7 @@ class Accounts extends \App\CRMEntity
 			$fieldName = $field['fieldname'];
 			$rawData = '';
 			// Permission to view account is restricted, avoid showing field values (except account name)
-			if (\App\Field::getFieldPermission('Accounts', $fieldName)) {
+			if (\App\Fields\Field::getFieldPermission('Accounts', $fieldName)) {
 				$data = $accountInfoBase[$fieldName];
 				if ($fieldName == 'accountname') {
 					if ($accountId != $id) {

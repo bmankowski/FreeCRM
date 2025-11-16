@@ -92,7 +92,7 @@ class Fields extends \App\Base\Controllers\BaseActionController
 		if (empty($searchValue)) {
 			$response->setError('NO');
 		} else {
-			if (\App\Field::getFieldPermission($moduleName, $fieldId) || $moduleName === 'Users') {
+			if (\App\Fields\Field::getFieldPermission($moduleName, $fieldId) || $moduleName === 'Users') {
 				$fieldModel = \App\Modules\Base\Models\Field::getInstanceFromFieldId($fieldId);
 				$rows = $fieldModel->getUITypeModel()->getSearchValues($searchValue);
 				foreach ($rows as $key => $value) {
@@ -119,7 +119,7 @@ class Fields extends \App\Base\Controllers\BaseActionController
 			$ids[] = $row['crmid'];
 			$modules[$row['setype']][] = $row['crmid'];
 		}
-		$labels = \App\Record::getLabel($ids);
+		$labels = \App\Records\Record::getLabel($ids);
 		foreach ($modules as $moduleName => &$rows) {
 			$data[] = ['name' => \App\Runtime\Vtiger_Language_Handler::getTranslatedString($moduleName, $moduleName), 'type' => 'optgroup'];
 			foreach ($rows as &$id) {

@@ -269,12 +269,12 @@ class Functions
 
 	public static function getCRMRecordType($id)
 	{
-		return \App\Record::getType($id);
+		return \App\Records\Record::getType($id);
 	}
 
 	public static function getCRMRecordLabel($id, $default = '')
 	{
-		$label = \App\Record::getLabel($id);
+		$label = \App\Records\Record::getLabel($id);
 		return empty($label) ? $default : $label;
 	}
 
@@ -337,7 +337,7 @@ class Functions
 	 */
 	public static function getModuleFieldId($moduleId, $mixed, $onlyactive = true)
 	{
-		$field = \App\Field::getFieldInfo($mixed, $moduleId);
+		$field = \App\Fields\Field::getFieldInfo($mixed, $moduleId);
 
 		if ($field) {
 			if ($onlyactive && ($field['presence'] != '0' && $field['presence'] != '2')) {

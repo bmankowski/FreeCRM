@@ -30,7 +30,7 @@ class DetailAjax extends \App\Modules\Base\Views\Index
 
 		$viewer = $this->getViewer($request);
 		$relatedTo = $recordModel->get('related_to');
-		$relatedModule = $relatedTo ? \App\Record::getType($relatedTo) : null;
+		$relatedModule = $relatedTo ? \App\Records\Record::getType($relatedTo) : null;
 		$viewer->assign('CURRENTUSER', $currentUserModel);
 		$viewer->assign('COMMENT', $recordModel);
 		$viewer->assign('COMMENTS_MODULE_MODEL', $modCommentsModel);

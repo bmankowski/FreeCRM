@@ -12,7 +12,7 @@
 			<div class="panel-body" style="display: none;">
 				<select class="select2 globalDiscount" name="globalDiscount">
 					{foreach item=ITEM key=NAME from=$GLOBAL_DISCOUNTS}
-						<option value="{CurrencyField::convertToUserFormat($ITEM.value, null, true)}">
+						<option value="{Currency\App\Fields\Field::convertToUserFormat($ITEM.value, null, true)}">
 							{$ITEM.value}% - {$ITEM.name|t:$MODULE}
 						</option>
 					{/foreach}

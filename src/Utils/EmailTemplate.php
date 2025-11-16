@@ -166,7 +166,7 @@ class EmailTemplate
 								$referencedObjectHandler = vtws_getModuleHandlerFromName(
 									$details[0], $this->user);
 							} else {
-								$type = \App\Record::getType(
+								$type = \App\Records\Record::getType(
 										$values[$fieldName]);
 								$referencedObjectHandler = vtws_getModuleHandlerFromName($type, $this->user);
 							}
