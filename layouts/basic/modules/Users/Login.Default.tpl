@@ -47,10 +47,9 @@
 								<span class="userIcon-OSSPasswords form-control-feedback" aria-hidden="true"></span>
 							</div>
 							{if $LANGUAGE_SELECTION}
-								{assign var=DEFAULT_LANGUAGE value=AppConfig::main('default_language')}
 								<div class="form-group">
 									<select class="input-lg form-control" title="{"LBL_CHOOSE_LANGUAGE"|t:$MODULE}" name="loginLanguage">
-										{foreach item=VALUE key=KEY from=Vtiger_Language_Handler::getAllLanguages()}
+										{foreach item=VALUE key=KEY from=$AVAILABLE_LANGUAGES}
 											<option {if $KEY eq $DEFAULT_LANGUAGE} selected {/if}  value="{\App\Modules\Base\Helpers\Util::toSafeHTML($KEY)}">{$VALUE}</option>
 										{/foreach}
 									</select>

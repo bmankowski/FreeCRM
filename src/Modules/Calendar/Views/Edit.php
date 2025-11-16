@@ -148,6 +148,12 @@ class Edit extends \App\Modules\Base\Views\Edit
 				if (!empty($invitee['crmid']) && isset($metadata[$invitee['crmid']])) {
 					$invitee['metadata'] = $metadata[$invitee['crmid']];
 					$invitee['metadata']['label'] = \App\Record::getLabel($invitee['crmid']);
+					// Prepare translated module name for template (replaces Vtiger_Language_Handler::getTranslateSingularModuleName)
+					if (!empty($invitee['metadata']['setype'])) {
+						$invitee['metadata']['module_label'] = \App\Runtime\Vtiger_Language_Handler::getTranslateSingularModuleName($invitee['metadata']['setype']);
+						// Also prepare full title for convenience
+						$invitee['title'] = $invitee['metadata']['module_label'] . ': ' . $invitee['metadata']['label'] . ' - ' . $invitee['email'];
+					}
 				}
 			}
 		}

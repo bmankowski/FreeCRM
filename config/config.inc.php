@@ -195,7 +195,7 @@ $unblockedTimeoutCronTasks = true;
 $maxExecutionCronTime = 3600;
 
 // System's language selection in the login window (true/false).
-$langInLoginView = false;
+$langInLoginView = true;
 
 // System's lyout selection in the login window (true/false).
 $layoutInLoginView = false;

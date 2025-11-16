@@ -45,6 +45,11 @@ class Login extends \App\Base\Controllers\BaseViewController
 		$viewer->assign('CURRENT_VERSION', \App\Version::get());
 		$viewer->assign('LANGUAGE_SELECTION', \App\AppConfig::main('langInLoginView'));
 		$viewer->assign('LAYOUT_SELECTION', \App\AppConfig::main('layoutInLoginView'));
+		// Provide languages list to template instead of calling Vtiger_Language_Handler directly
+		if (\App\AppConfig::main('langInLoginView')) {
+			$viewer->assign('AVAILABLE_LANGUAGES', \App\Runtime\Vtiger_Language_Handler::getAllLanguages());
+			$viewer->assign('DEFAULT_LANGUAGE', \App\AppConfig::main('default_language'));
+		}
 		$viewer->assign('ERROR', $request->get('error'));
 		$viewer->assign('FPERROR', $request->get('fpError'));
 		$viewer->assign('STATUS', $request->get('status'));

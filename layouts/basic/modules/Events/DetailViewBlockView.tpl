@@ -37,7 +37,12 @@
 								{if $INVITIE['crmid'] && isset($INVITIE['metadata'])}
 									{assign var=INVITIE_RECORD value=$INVITIE['metadata']}
 									{assign var=LABEL value=$INVITIE_RECORD['label']}
-									{assign var=TITLE value=Vtiger_Language_Handler::getTranslateSingularModuleName($INVITIE_RECORD['setype'])|cat:': '|cat:$LABEL|cat:' - '|cat:$INVITIE['email']}
+									{* Use prepared title from controller, or build from module_label if title not available *}
+									{if isset($INVITIE['title'])}
+										{assign var=TITLE value=$INVITIE['title']}
+									{elseif isset($INVITIE_RECORD['module_label'])}
+										{assign var=TITLE value=$INVITIE_RECORD['module_label']|cat:': '|cat:$LABEL|cat:' - '|cat:$INVITIE['email']}
+									{/if}
 									{assign var=ICON value='<span class="userIcon-'|cat:$INVITIE_RECORD['setype']|cat:'" aria-hidden="true"></span>'}
 								{else}
 									{assign var=LABEL value=$INVITIE['email']}
