@@ -749,11 +749,16 @@ class Privileges extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get the permitted module id Array with presence as 0
+	 * @param \App\Modules\Users\Models\Record|null $user Optional user object. If not provided, will use CurrentUser::get() (deprecated)
 	 * @return array Array of accessible tabids.
 	 */
-	public static function getPermittedModuleIdList()
+	public static function getPermittedModuleIdList($user = null)
 	{
-		$currentUser = \App\User\CurrentUser::get();
+		if ($user === null) {
+			$currentUser = \App\User\CurrentUser::get();
+		} else {
+			$currentUser = $user;
+		}
 		if (!$currentUser) {
 			return [];
 		}

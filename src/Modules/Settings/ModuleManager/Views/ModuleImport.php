@@ -2,6 +2,8 @@
 
 namespace App\Modules\Settings\ModuleManager\Views;
 
+use App\ModuleManagement\ServiceLocator;
+
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -98,42 +100,57 @@ class ModuleImport extends \App\Modules\Settings\Base\Views\Index
 		$viewer = $this->getViewer($request);
 		$uploadDir = \App\Modules\Settings\ModuleManager\Models\Module::getUploadDirectory();
 		$qualifiedModuleName = $request->getModule(false);
+		$viewer->assign('MODULEIMPORT_EXISTS', "false");
+		$viewer->assign('MODULEIMPORT_DIR_EXISTS', "false");
+		$viewer->assign('MODULEIMPORT_DIR', '');
 
 		$uploadFile = 'usermodule_' . time() . '.zip';
 		$uploadFileName = "$uploadDir/$uploadFile";
+		$absoluteUploadFile = $this->toAbsolutePath($uploadFileName);
 		$error = '';
-		\vtlib\Deprecated::checkFileAccess($uploadDir);
-		if (!move_uploaded_file($_FILES['moduleZip']['tmp_name'], $uploadFileName)) {
+		$this->ensureUploadDirectory($absoluteUploadFile);
+		if (!move_uploaded_file($_FILES['moduleZip']['tmp_name'], $absoluteUploadFile)) {
 			$error = 'LBL_ERROR_MOVE_UPLOADED_FILE';
 		} else {
-			$package = new vtlib\Package();
-			$importModuleName = $package->getModuleNameFromZip($uploadFileName);
-			$importModuleDepVtVersion = $package->getDependentVtigerVersion();
-
-			if ($importModuleName === null) {
-				$error = $package->_errorText;
-				\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
-				unlink($uploadFileName);
+			/** @var \App\ModuleManagement\Services\PackageService $package */
+			$package = $this->getPackageService();
+			if (!$package->checkZip($absoluteUploadFile)) {
+				$error = $package->getErrorText();
+				$this->safeUnlink($absoluteUploadFile);
 			} else {
-				// We need these information to push for Update if module is detected to be present.
-				$moduleLicence = \App\Security\Purifier::purify($package->getLicense());
+				$importModuleName = $package->getModuleNameFromZip($absoluteUploadFile);
+				$importModuleDepVtVersion = $package->getDependentVtigerVersion();
 
-				$viewer->assign('MODULEIMPORT_FILE', $uploadFile);
-				$viewer->assign('MODULEIMPORT_TYPE', $package->type());
-				$viewer->assign('MODULEIMPORT_NAME', $importModuleName);
-				$viewer->assign('MODULEIMPORT_PACKAGE', $package);
-				$viewer->assign('MODULEIMPORT_DEP_VTVERSION', $importModuleDepVtVersion);
-				$viewer->assign('MODULEIMPORT_LICENSE', $moduleLicence);
-				$viewer->assign('MODULEIMPORT_PARAMETERS', $package->getParameters());
+				if ($importModuleName === null) {
+					$error = $package->getErrorText();
+					$this->safeUnlink($absoluteUploadFile);
+				} else {
+					$moduleLicence = \App\Security\Purifier::purify($package->getLicense());
 
-				if (!$package->isLanguageType() && !$package->isUpdateType() && !$package->isModuleBundle()) {
-					$moduleInstance = \App\Modules\Base\Models\Module::getInstance($importModuleName);
-					$moduleimport_exists = ($moduleInstance) ? "true" : "false";
-					$moduleimport_dir_name = "modules/$importModuleName";
-					$moduleimport_dir_exists = (is_dir($moduleimport_dir_name) ? "true" : "false");
-					$viewer->assign('MODULEIMPORT_EXISTS', $moduleimport_exists);
-					$viewer->assign('MODULEIMPORT_DIR', $moduleimport_dir_name);
-					$viewer->assign('MODULEIMPORT_DIR_EXISTS', $moduleimport_dir_exists);
+					$viewer->assign('MODULEIMPORT_FILE', $uploadFile);
+					$viewer->assign('MODULEIMPORT_TYPE', $package->type());
+					$viewer->assign('MODULEIMPORT_TYPE_NAME', $this->getPackageTypeName($package->type()));
+					$viewer->assign('MODULEIMPORT_VERSION', $package->getVersion() ?: '—');
+					$viewer->assign('MODULEIMPORT_IS_UPDATE', $package->isUpdateType());
+					$updateInfo = [];
+					if (method_exists($package, 'getUpdateInfo')) {
+						$updateInfo = $package->getUpdateInfo();
+					}
+					$viewer->assign('MODULEIMPORT_UPDATE_INFO', $updateInfo);
+					$viewer->assign('MODULEIMPORT_NAME', $importModuleName);
+					$viewer->assign('MODULEIMPORT_DEP_VTVERSION', $importModuleDepVtVersion);
+					$viewer->assign('MODULEIMPORT_LICENSE', $moduleLicence);
+					$viewer->assign('MODULEIMPORT_PARAMETERS', $package->getParameters());
+
+					if (!$package->isLanguageType() && !$package->isUpdateType() && !$package->isModuleBundle()) {
+						$moduleInstance = \App\Modules\Base\Models\Module::getInstance($importModuleName);
+						$moduleimport_exists = ($moduleInstance) ? "true" : "false";
+						$moduleimport_dir_name = "modules/$importModuleName";
+						$moduleimport_dir_exists = (is_dir($moduleimport_dir_name) ? "true" : "false");
+						$viewer->assign('MODULEIMPORT_EXISTS', $moduleimport_exists);
+						$viewer->assign('MODULEIMPORT_DIR', $moduleimport_dir_name);
+						$viewer->assign('MODULEIMPORT_DIR_EXISTS', $moduleimport_dir_exists);
+					}
 				}
 			}
 		}
@@ -149,28 +166,25 @@ class ModuleImport extends \App\Modules\Settings\Base\Views\Index
 		$uploadFile = $request->get('module_import_file');
 		$uploadDir = \App\Modules\Settings\ModuleManager\Models\Module::getUploadDirectory();
 		$uploadFileName = "$uploadDir/$uploadFile";
-		\vtlib\Deprecated::checkFileAccess($uploadFileName);
+		$absoluteUploadFile = $this->toAbsolutePath($uploadFileName);
+		$importError = '';
 
-		$importType = $request->get('module_import_type');
-		if (strtolower($importType) == 'language') {
-			$package = new vtlib\Language();
-			$viewer->assign("IMPORT_MODULE_TYPE", 'Language');
-		} else if (strtolower($importType) == 'layout') {
-			$package = new vtlib\Layout();
-			$viewer->assign("IMPORT_MODULE_TYPE", 'Layout');
-		} else {
-			$package = new vtlib\Package();
+		try {
+			/** @var \App\ModuleManagement\Services\PackageService $package */
+			$package = $this->getPackageService();
+			$package->import($absoluteUploadFile);
+			if ($package->getErrorText()) {
+				$importError = $package->getErrorText();
+			}
+			$viewer->assign('IMPORT_MODULE_TYPE', $this->getPackageTypeName($package->type()));
+		} catch (\Throwable $exception) {
+			$importError = $exception->getMessage();
 		}
-		$package->initParameters($request);
-		$package->import($uploadFileName);
-		if ($package->packageType) {
-			$viewer->assign("IMPORT_MODULE_TYPE", $package->packageType);
+
+		$this->safeUnlink($absoluteUploadFile);
+		if ($importError !== '') {
+			$viewer->assign('MODULEIMPORT_ERROR', $importError);
 		}
-		if ($package->_errorText != '') {
-			$viewer->assign("MODULEIMPORT_ERROR", $package->_errorText);
-		}
-		\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
-		unlink($uploadFileName);
 
 		$viewer->assign("IMPORT_MODULE_NAME", $importModuleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
@@ -185,24 +199,25 @@ class ModuleImport extends \App\Modules\Settings\Base\Views\Index
 		$uploadFile = $request->get('module_import_file');
 		$uploadDir = \App\Modules\Settings\ModuleManager\Models\Module::getUploadDirectory();
 		$uploadFileName = "$uploadDir/$uploadFile";
-		\vtlib\Deprecated::checkFileAccess($uploadFileName);
+		$absoluteUploadFile = $this->toAbsolutePath($uploadFileName);
 
-		$importType = $request->get('module_import_type');
-		if (strtolower($importType) == 'language') {
-			$package = new vtlib\Language();
-		} else {
-			$package = new vtlib\Package();
+		try {
+			/** @var \App\ModuleManagement\Services\PackageService $package */
+			$package = $this->getPackageService();
+			$moduleService = ServiceLocator::getModuleService();
+			$moduleInstance = $moduleService->getInstance($importModuleName);
+			if (!$moduleInstance) {
+				throw new \App\Exceptions\AppException("Module $importModuleName does not exist.");
+			}
+			$package->update($moduleInstance, $absoluteUploadFile);
+			if ($package->getErrorText()) {
+				$viewer->assign('MODULEIMPORT_ERROR', $package->getErrorText());
+			}
+		} catch (\Throwable $exception) {
+			$viewer->assign('MODULEIMPORT_ERROR', $exception->getMessage());
 		}
-		$package->initParameters($request);
 
-		if (strtolower($importType) == 'language') {
-			$package->import($uploadFileName);
-		} else {
-			$package->update(\App\Modules\Base\Models\Module::getInstance($importModuleName), $uploadFileName);
-		}
-
-		\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
-		unlink($uploadFileName);
+		$this->safeUnlink($absoluteUploadFile);
 
 		$viewer->assign("UPDATE_MODULE_NAME", $importModuleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
@@ -212,5 +227,47 @@ class ModuleImport extends \App\Modules\Settings\Base\Views\Index
 	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateReadAccess();
+	}
+
+	private function getPackageService(): \App\ModuleManagement\Services\PackageService
+	{
+		return ServiceLocator::getPackageService();
+	}
+
+	private function toAbsolutePath(string $relativePath): string
+	{
+		$relativePath = ltrim($relativePath, DIRECTORY_SEPARATOR);
+		return ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $relativePath;
+	}
+
+	private function ensureUploadDirectory(string $absolutePath): void
+	{
+		$directory = dirname($absolutePath);
+		if (!is_dir($directory)) {
+			mkdir($directory, 0755, true);
+		}
+	}
+
+	private function safeUnlink(string $path): void
+	{
+		if (is_file($path)) {
+			@unlink($path);
+		}
+	}
+
+	private function getPackageTypeName(?string $type): string
+	{
+		if (!$type) {
+			return 'Module';
+		}
+		$map = [
+			'language' => 'Language',
+			'layout' => 'Layout',
+			'extension' => 'Extension',
+			'update' => 'Update',
+			'inventory' => 'Inventory',
+		];
+		$key = strtolower($type);
+		return $map[$key] ?? ucfirst($key);
 	}
 }

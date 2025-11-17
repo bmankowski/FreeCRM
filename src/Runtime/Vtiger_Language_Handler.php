@@ -81,6 +81,19 @@ class Vtiger_Language_Handler
 		if (is_numeric($module)) {
 			// ok, we have a tab id, lets turn it into name
 			$module = \App\Utils\ModuleUtils::getModuleName($module);
+			// If module name doesn't contain dot and file doesn't exist, try Settings submodule
+			if ($module && strpos($module, '.') === false) {
+				$qualifiedName = 'languages.' . $language . '.' . $module;
+				$file = \App\Core\Loader::resolveNameToPath($qualifiedName);
+				if (!file_exists($file)) {
+					// Try Settings submodule path
+					$settingsQualifiedName = 'languages.' . $language . '.Settings.' . $module;
+					$settingsFile = \App\Core\Loader::resolveNameToPath($settingsQualifiedName);
+					if (file_exists($settingsFile)) {
+						$module = 'Settings.' . $module;
+					}
+				}
+			}
 		} else {
 			$module = str_replace(':', '.', $module);
 		}

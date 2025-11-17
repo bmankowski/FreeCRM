@@ -80,6 +80,7 @@ class PackageService
 	 */
 	public function checkZip(string $zipfile): bool
 	{
+		$this->errorText = '';
 		if (!file_exists($zipfile)) {
 			$this->errorText = "ZIP file not found: $zipfile";
 			return false;
@@ -472,7 +473,14 @@ class PackageService
 		$parameters = [];
 		if (!empty($this->modulexml->parameters)) {
 			foreach ($this->modulexml->parameters->parameter as $parameter) {
-				$parameters[] = (string) $parameter;
+				$item = new \stdClass();
+				foreach ($parameter->children() as $name => $value) {
+					$item->{$name} = (string) $value;
+					if ($name === 'label' && !isset($item->lable)) {
+						$item->lable = (string) $value;
+					}
+				}
+				$parameters[] = $item;
 			}
 		}
 		return $parameters;
@@ -502,6 +510,35 @@ class PackageService
 			return (string) $this->modulexml->dependencies->vtiger_version;
 		}
 		return null;
+	}
+
+	/**
+	 * Get update information.
+	 *
+	 * @return array
+	 */
+	public function getUpdateInfo(): array
+	{
+		if (empty($this->modulexml->updates) || empty($this->modulexml->updates->update)) {
+			return [];
+		}
+		$updateNode = $this->modulexml->updates->update;
+		$fromVersion = '';
+		$toVersion = '';
+		if (isset($updateNode->from_version)) {
+			$fromVersion = (string) $updateNode->from_version;
+		} elseif (isset($updateNode['from_version'])) {
+			$fromVersion = (string) $updateNode['from_version'];
+		}
+		if (isset($updateNode->to_version)) {
+			$toVersion = (string) $updateNode->to_version;
+		} elseif (isset($updateNode['to_version'])) {
+			$toVersion = (string) $updateNode['to_version'];
+		}
+		return [
+			'from' => $fromVersion,
+			'to' => $toVersion,
+		];
 	}
 
 	/**
@@ -936,7 +973,7 @@ class PackageService
 			(int) $fieldnode->readonly,
 			(int) $fieldnode->presence,
 			isset($fieldnode->defaultvalue) ? (string) $fieldnode->defaultvalue : '',
-			isset($fieldnode->maximumlength) ? (int) $fieldnode->maximumlength : 100,
+			isset($fieldnode->maximumlength) ? max(0, min((int) $fieldnode->maximumlength, 65535)) : 100,
 			isset($fieldnode->sequence) ? (int) $fieldnode->sequence : false,
 			isset($fieldnode->quickcreate) ? (int) $fieldnode->quickcreate : 1,
 			isset($fieldnode->quickcreatesequence) ? (int) $fieldnode->quickcreatesequence : false,
@@ -2345,7 +2382,7 @@ class PackageService
 					(int) $fieldnode->readonly,
 					(int) $fieldnode->presence,
 					isset($fieldnode->defaultvalue) ? (string) $fieldnode->defaultvalue : $existingField->getDefaultvalue(),
-					isset($fieldnode->maximumlength) ? (int) $fieldnode->maximumlength : $existingField->getMaximumlength(),
+					isset($fieldnode->maximumlength) ? max(0, min((int) $fieldnode->maximumlength, 65535)) : $existingField->getMaximumlength(),
 					isset($fieldnode->sequence) ? (int) $fieldnode->sequence : $existingField->getSequence(),
 					isset($fieldnode->quickcreate) ? (int) $fieldnode->quickcreate : $existingField->getQuickcreate(),
 					isset($fieldnode->quickcreatesequence) ? (int) $fieldnode->quickcreatesequence : $existingField->getQuicksequence(),

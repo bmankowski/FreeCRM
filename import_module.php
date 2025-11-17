@@ -70,19 +70,16 @@ try {
 	
 	if ($existingModule) {
 		echo "Warning: Module '$moduleName' already exists.\n";
-		echo "Importing will overwrite existing module. Continue? (y/n): ";
-		$handle = fopen("php://stdin", "r");
-		$line = fgets($handle);
-		fclose($handle);
-		if (trim(strtolower($line)) !== 'y') {
-			echo "Import cancelled.\n";
-			exit(0);
-		}
+		echo "Updating existing module instead of importing new one.\n";
+		
+		// Update existing module
+		echo "Starting update...\n";
+		$packageService->update($existingModule, $zipFile, true); // overwrite = true
+	} else {
+		// Import new module
+		echo "Starting import...\n";
+		$packageService->import($zipFile, true); // overwrite = true
 	}
-	
-	// Import the module
-	echo "Starting import...\n";
-	$packageService->import($zipFile, true); // overwrite = true
 	
 	echo "Import completed successfully!\n";
 	echo "Module '$moduleName' has been imported.\n";

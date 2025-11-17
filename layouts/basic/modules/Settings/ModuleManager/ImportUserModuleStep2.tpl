@@ -56,7 +56,7 @@
 									</tr>
 									<tr>
 										<td><b>{"LBL_MODULE_TYPE"|t:$QUALIFIED_MODULE}</b></td>
-										<td>{$MODULEIMPORT_PACKAGE->getTypeName()|t:$QUALIFIED_MODULE}</td>
+										<td>{$MODULEIMPORT_TYPE_NAME|t:$QUALIFIED_MODULE}</td>
 									</tr>
 									<tr>
 										<td><b>{"LBL_REQ_YETIFORCE_VERSION"|t:$QUALIFIED_MODULE}</b></td>
@@ -64,17 +64,17 @@
 									</tr>
 									<tr>
 										<td><b>{"LBL_MODULE_VERSION"|t:$QUALIFIED_MODULE}</b></td>
-										<td>{$MODULEIMPORT_PACKAGE->getVersion()}</td>
+										<td>{$MODULEIMPORT_VERSION}</td>
 									</tr>
-									{if $MODULEIMPORT_PACKAGE->isUpdateType()}
-										{assign var="INFO" value=$MODULEIMPORT_PACKAGE->getUpdateInfo()}
+									{if $MODULEIMPORT_IS_UPDATE}
+										{assign var="INFO" value=$MODULEIMPORT_UPDATE_INFO}
 										<tr>
 											<td><b>{"LBL_UPDATE_FROM_VERSION"|t:$QUALIFIED_MODULE}</b></td>
-											<td>{$INFO['from']}</td>
+											<td>{$INFO.from}</td>
 										</tr>
 										<tr>
 											<td><b>{"LBL_UPDATE_TO_VERSION"|t:$QUALIFIED_MODULE}</b></td>
-											<td>{$INFO['to']}</td>
+											<td>{$INFO.to}</td>
 										</tr>
 									{/if}
 									{assign var="need_license_agreement" value="false"}
@@ -82,7 +82,7 @@
 										{assign var="need_license_agreement" value="true"}
 										<tr>
 											<td width=20%>
-												{if $MODULEIMPORT_PACKAGE->isUpdateType()}
+												{if $MODULEIMPORT_IS_UPDATE}
 													<b>{"Attention"|t}</b>
 												{else}
 													<b>{"LBL_LICENSE"|t:$QUALIFIED_MODULE}</b>

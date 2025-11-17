@@ -84,6 +84,13 @@ class FieldService
 			$label = $field->getLabel() ?: $field->getName();
 
 			// Insert field
+			// Limit maximumlength to smallint unsigned range (0-65535) to prevent database errors
+			$maximumlength = $field->getMaximumlength();
+			if ($maximumlength < 0 || $maximumlength > 65535) {
+				// For invalid values, use default of 100
+				$maximumlength = 100;
+			}
+			
 			$this->db->createCommand()->insert('vtiger_field', [
 				'tabid' => $moduleId,
 				'fieldid' => $fieldId,
@@ -96,7 +103,7 @@ class FieldService
 				'readonly' => $field->getReadonly(),
 				'presence' => $field->getPresence(),
 				'defaultvalue' => $field->getDefaultvalue(),
-				'maximumlength' => $field->getMaximumlength(),
+				'maximumlength' => $maximumlength,
 				'sequence' => $sequence,
 				'block' => $blockId,
 				'displaytype' => $field->getDisplaytype(),
@@ -123,9 +130,28 @@ class FieldService
 					$this->db->createCommand()->addColumn($table, $column, $columntype)->execute();
 				}
 				if ($field->getUitype() === 10) {
-					$this->db->createCommand()
-						->createIndex("{$table}_{$column}_idx", $table, $column)
-						->execute();
+					$indexName = "{$table}_{$column}_idx";
+					// Check if index already exists before creating
+					$indexExists = (new \App\Db\Query())
+						->from('INFORMATION_SCHEMA.STATISTICS')
+						->where([
+							'TABLE_SCHEMA' => $this->db->createCommand('SELECT DATABASE()')->queryScalar(),
+							'TABLE_NAME' => $table,
+							'INDEX_NAME' => $indexName
+						])
+						->exists();
+					if (!$indexExists) {
+						try {
+							$this->db->createCommand()
+								->createIndex($indexName, $table, $column)
+								->execute();
+						} catch (\Exception $e) {
+							// Index might have been created concurrently, ignore error
+							if (strpos($e->getMessage(), 'Duplicate key') === false) {
+								throw $e;
+							}
+						}
+					}
 				}
 			}
 

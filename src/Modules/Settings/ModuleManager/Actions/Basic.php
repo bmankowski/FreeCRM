@@ -2,6 +2,7 @@
 
 namespace App\Modules\Settings\ModuleManager\Actions;
 
+use App\ModuleManagement\ServiceLocator;
 
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
@@ -60,23 +61,23 @@ class Basic extends \App\Modules\Settings\Base\Views\IndexAjax
 		$uploadFile = $request->get('module_import_file');
 		$uploadDir = \App\Modules\Settings\ModuleManager\Models\Module::getUploadDirectory();
 		$uploadFileName = "$uploadDir/$uploadFile";
-		vtlib\Deprecated::checkFileAccess($uploadFileName);
+		$absoluteUploadFile = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . ltrim($uploadFileName, DIRECTORY_SEPARATOR);
 
-		$importType = $request->get('module_import_type');
-		if (strtolower($importType) == 'language') {
-			$package = new vtlib\Language();
-		} else if (strtolower($importType) == 'layout') {
-			$package = new vtlib\Layout();
-		} else {
-			$package = new vtlib\Package();
+		$package = ServiceLocator::getPackageService();
+		$result = ['success' => true, 'importModuleName' => $importModuleName];
+		try {
+			$package->import($absoluteUploadFile);
+			if ($package->getErrorText()) {
+				$result = ['success' => false, 'message' => $package->getErrorText()];
+			}
+		} catch (\Throwable $exception) {
+			$result = ['success' => false, 'message' => $exception->getMessage()];
 		}
 
-		$package->import($uploadFileName);
+		if (is_file($absoluteUploadFile)) {
+			@unlink($absoluteUploadFile);
+		}
 
-		\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
-		unlink($uploadFileName);
-
-		$result = array('success' => true, 'importModuleName' => $importModuleName);
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
@@ -88,27 +89,29 @@ class Basic extends \App\Modules\Settings\Base\Views\IndexAjax
 		$uploadFile = $request->get('module_import_file');
 		$uploadDir = \App\Modules\Settings\ModuleManager\Models\Module::getUploadDirectory();
 		$uploadFileName = "$uploadDir/$uploadFile";
-		vtlib\Deprecated::checkFileAccess($uploadFileName);
+		$absoluteUploadFile = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . ltrim($uploadFileName, DIRECTORY_SEPARATOR);
 
-		$importType = strtolower($request->get('module_import_type'));
-		if ($importType == 'language') {
-			$package = new vtlib\Language();
-		} else if ($importType == 'layout') {
-			$package = new vtlib\Layout();
-		} else {
-			$package = new vtlib\Package();
+		$package = ServiceLocator::getPackageService();
+		$moduleService = ServiceLocator::getModuleService();
+		$moduleInstance = $moduleService->getInstance($importModuleName);
+		$result = ['success' => true, 'importModuleName' => $importModuleName];
+
+		try {
+			if (!$moduleInstance) {
+				throw new \App\Exceptions\AppException("Module $importModuleName does not exist.");
+			}
+			$package->update($moduleInstance, $absoluteUploadFile);
+			if ($package->getErrorText()) {
+				$result = ['success' => false, 'message' => $package->getErrorText()];
+			}
+		} catch (\Throwable $exception) {
+			$result = ['success' => false, 'message' => $exception->getMessage()];
 		}
 
-		if ($importType == 'language' || $importType == 'layout') {
-			$package->import($uploadFileName);
-		} else {
-			$package->update(\App\Modules\Base\Models\Module::getInstance($importModuleName), $uploadFileName);
+		if (is_file($absoluteUploadFile)) {
+			@unlink($absoluteUploadFile);
 		}
 
-		\vtlib\Deprecated::checkFileAccessForDeletion($uploadFileName);
-		unlink($uploadFileName);
-
-		$result = array('success' => true, 'importModuleName' => $importModuleName);
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();

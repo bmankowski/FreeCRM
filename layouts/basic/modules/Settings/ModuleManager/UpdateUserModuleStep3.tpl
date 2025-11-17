@@ -24,6 +24,16 @@
 			<div class="row">
 				<div id="vtlib_modulemanager_import_div">
 					<form method="POST" action="index.php">
+						{if $MODULEIMPORT_ERROR}
+							<div class="alert alert-warning">
+								<div class="modal-header">
+									<h3>{"LBL_FAILED"|t:$QUALIFIED_MODULE}</h3>
+								</div>
+								<div class="modal-body">
+									<p><b>{$MODULEIMPORT_ERROR|t:$QUALIFIED_MODULE}</b></p>
+								</div>
+							</div>
+						{/if}
 						<table class="table table-bordered">
 							<thead>
 								<tr class="blockHeader">

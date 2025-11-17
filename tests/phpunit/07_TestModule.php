@@ -22,7 +22,8 @@ class TestModule extends TestCase
 			
 		}
 		if (file_exists($testModule)) {
-			(new vtlib\Package())->import($testModule);
+			$path = realpath($testModule) ?: $testModule;
+			\App\ModuleManagement\ServiceLocator::getPackageService()->import($path);
 		}
 	}
 
