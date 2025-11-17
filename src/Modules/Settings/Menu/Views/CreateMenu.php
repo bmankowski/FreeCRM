@@ -26,6 +26,9 @@ class CreateMenu extends \App\Modules\Settings\Base\Views\IndexAjax
 	public function step1(\App\Http\Vtiger_Request $request)
 	{
 		$qualifiedModuleName = $request->getModule(false);
+		$roleId = $request->get('roleid');
+		if (empty($roleId))
+			$roleId = 0;
 		$settingsModel = \App\Modules\Settings\Menu\Models\Module::getInstance();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_MODEL', $settingsModel);

@@ -12,8 +12,18 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 	loadMenuTree: function () {
 		var thisInstance = this;
 		if (thisInstance.treeInstance == false) {
-			var data = JSON.parse($('#treeValues').val());
-			if (data.length == 0) {
+			var treeValues = $('#treeValues').val();
+			var data = [];
+			if (treeValues && treeValues.trim() !== '') {
+				try {
+					data = JSON.parse(treeValues);
+				} catch (e) {
+					console.error('Error parsing menu tree data:', e);
+					Settings_Vtiger_Index_Js.showMessage({type: 'error', text: 'Error parsing menu data'});
+					return;
+				}
+			}
+			if (!data || data.length == 0) {
 				Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_NO_DATA')});
 			}
 			thisInstance.treeInstance = $("#treeContent");
@@ -363,5 +373,26 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 		thisInstance.registerChangeRoleMenu();
 		thisInstance.registerAddMenu();
 		thisInstance.registerModalButton();
+		thisInstance.registerKeyboardShortcuts();
+	},
+	registerKeyboardShortcuts: function () {
+		var thisInstance = this;
+		// Register Insert key (keyCode 45) to add menu item
+		// Use namespace to allow proper cleanup
+		jQuery(document).off('keydown.menuInsert').on('keydown.menuInsert', function (e) {
+			// Only trigger if not in input/textarea/select and Insert key is pressed
+			if (e.keyCode === 45 && !jQuery(e.target).is('input, textarea, select')) {
+				e.preventDefault();
+				// Only trigger if modal is not already open
+				if (!jQuery('.modal:visible').length) {
+					jQuery('.addMenu').trigger('click');
+				}
+			}
+		});
 	}
+});
+
+jQuery(document).ready(function () {
+	var instance = new Settings_Menu_Index_Js();
+	instance.registerEvents();
 });
