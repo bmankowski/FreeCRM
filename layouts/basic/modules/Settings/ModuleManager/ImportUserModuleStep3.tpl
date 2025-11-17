@@ -33,7 +33,7 @@
 							<tbody>
 								<tr valign=top>
 									<td class='cellText small'>
-										{if $MODULEIMPORT_ERROR}
+										{if isset($MODULEIMPORT_ERROR) && $MODULEIMPORT_ERROR != ''}
 											<div class="alert alert-warning">
 												<div class="modal-header">
 													<h3>{"LBL_FAILED"|t:$QUALIFIED_MODULE}</h3>
@@ -43,15 +43,17 @@
 												</div>
 											</div>
 										{else}
-											{if $IMPORT_MODULE_TYPE eq 'Language'}
-												{"LBL_IMPORTED_LANGUAGE"|t:$QUALIFIED_MODULE}
-											{else if $IMPORT_MODULE_TYPE eq 'extension'}
-												{"LBL_IMPORTED_EXTENSION"|t:$QUALIFIED_MODULE}
-											{else if $IMPORT_MODULE_TYPE eq 'update'}
-												{"LBL_IMPORTED_UPDATE"|t:$QUALIFIED_MODULE}
-											{else}
-												{'LBL_IMPORTED_MODULE'|t:$QUALIFIED_MODULE:$IMPORT_MODULE_NAME}
-											{/if}
+											<div class="alert alert-success">
+												{if $IMPORT_MODULE_TYPE eq 'Language'}
+													{"LBL_IMPORTED_LANGUAGE"|t:$QUALIFIED_MODULE}
+												{else if $IMPORT_MODULE_TYPE eq 'extension'}
+													{"LBL_IMPORTED_EXTENSION"|t:$QUALIFIED_MODULE}
+												{else if $IMPORT_MODULE_TYPE eq 'update'}
+													{"LBL_IMPORTED_UPDATE"|t:$QUALIFIED_MODULE}
+												{else}
+													{'LBL_IMPORTED_MODULE'|t:$QUALIFIED_MODULE:$IMPORT_MODULE_NAME}
+												{/if}
+											</div>
 										{/if}
 									</td>
 								</tr>
