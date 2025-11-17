@@ -881,7 +881,8 @@ class PackageService
 	 */
 	private function import_Block(\SimpleXMLElement $modulenode, Models\Module $module, \SimpleXMLElement $blocknode): Models\Block
 	{
-		$blocklabel = (string) $blocknode->label;
+		// Handle both 'label' and 'blocklabel' for compatibility
+		$blocklabel = !empty($blocknode->blocklabel) ? (string) $blocknode->blocklabel : (string) $blocknode->label;
 		
 		$sequence = isset($blocknode->sequence) ? (int) $blocknode->sequence : false;
 		$showtitle = isset($blocknode->show_title) ? (int) $blocknode->show_title : 1;
@@ -2315,7 +2316,8 @@ class PackageService
 		$manifestBlockLabels = [];
 
 		foreach ($modulenode->blocks->block as $blocknode) {
-			$blocklabel = (string) $blocknode->label;
+			// Handle both 'label' and 'blocklabel' for compatibility
+			$blocklabel = !empty($blocknode->blocklabel) ? (string) $blocknode->blocklabel : (string) $blocknode->label;
 			$manifestBlockLabels[] = $blocklabel;
 
 			$existingBlock = null;
