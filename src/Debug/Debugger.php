@@ -42,11 +42,17 @@ class Debugger
 		// Exclude vendor assets (jQuery, fontawesome already in project)
 		$renderer->setIncludeVendors(false);
 		// Set base URL for DebugBar assets
-		// Use libraries/debugbar path (publicly accessible like other libraries)
+		// Check public/libraries/debugbar first (preferred for web-accessible assets)
+		$publicLibrariesBasePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . 'libraries' . DIRECTORY_SEPARATOR . 'debugbar';
 		$librariesBasePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'libraries' . DIRECTORY_SEPARATOR . 'debugbar';
 		$vendorBasePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'php-debugbar' . DIRECTORY_SEPARATOR . 'php-debugbar' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'DebugBar' . DIRECTORY_SEPARATOR . 'Resources';
 		
-		if (file_exists($librariesBasePath . DIRECTORY_SEPARATOR . 'debugbar.css')) {
+		if (file_exists($publicLibrariesBasePath . DIRECTORY_SEPARATOR . 'debugbar.css')) {
+			// Use public/libraries/debugbar path (preferred for web-accessible assets)
+			// If DocumentRoot points to /public, URL should be /libraries/debugbar (without /public/)
+			$renderer->setBasePath($publicLibrariesBasePath);
+			$renderer->setBaseUrl('/libraries/debugbar');
+		} elseif (file_exists($librariesBasePath . DIRECTORY_SEPARATOR . 'debugbar.css')) {
 			// Use libraries/debugbar path if resources were copied
 			$renderer->setBasePath($librariesBasePath);
 			$renderer->setBaseUrl('/libraries/debugbar');

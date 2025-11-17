@@ -124,7 +124,7 @@ class DebugBarLogs implements DataCollectorInterface, MessagesAggregateInterface
 		return array(
 			"$name" => array(
 				'icon' => 'list-alt',
-				"widget" => "PhpDebugBar.Widgets.DebugLogsWidget",
+				"widget" => "PhpDebugBar.Widgets.MessagesWidget",
 				"map" => "$name.messages",
 				"default" => "[]"
 			),
