@@ -568,6 +568,9 @@ class ModuleService
 	 */
 	private function deleteCascade(int $moduleId, Models\Module $module): void
 	{
+		// Clean up old include_once statements before loading module class
+		$this->cleanupModuleFiles($module->getName());
+		
 		$moduleInstance = \App\Modules\Base\Models\Module::getInstance($module->getName());
 		$focus = \App\Core\CRMEntity::getInstance($module->getName());
 		$tableName = $focus->table_name ?? null;
@@ -718,6 +721,98 @@ class ModuleService
 	}
 
 	/**
+	 * Clean up old include_once statements from module files.
+	 * 
+	 * @param string $moduleName
+	 * @return void
+	 */
+	private function cleanupModuleFiles(string $moduleName): void
+	{
+		// Check both legacy modules/ and new src/Modules/ directories
+		$moduleDir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Modules' . DIRECTORY_SEPARATOR . $moduleName;
+		$legacyModuleDir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $moduleName;
+		
+		$dirsToClean = [];
+		if (is_dir($moduleDir)) {
+			$dirsToClean[] = $moduleDir;
+		}
+		if (is_dir($legacyModuleDir)) {
+			$dirsToClean[] = $legacyModuleDir;
+		}
+		
+		if (empty($dirsToClean)) {
+			return;
+		}
+		
+		// Clear opcache and class cache before modifying files
+		if (function_exists('opcache_reset')) {
+			opcache_reset();
+		}
+		\App\Cache\Cache::delete('CRMEntity', $moduleName);
+		
+		$patternsToRemove = [
+			"/include_once\s+['\"]modules\/Vtiger\/CRMEntity\.php['\"];\s*\n?/",
+			"/include_once\s+['\"]modules\/Vtiger\/CRMEntity\.php['\"];\s*\r?\n?/",
+			"/require_once\s+['\"]modules\/Vtiger\/CRMEntity\.php['\"];\s*\n?/",
+			"/require_once\s+['\"]modules\/Vtiger\/CRMEntity\.php['\"];\s*\r?\n?/",
+			"/include\s+['\"]modules\/Vtiger\/CRMEntity\.php['\"];\s*\n?/",
+			"/include\s+['\"]modules\/Vtiger\/CRMEntity\.php['\"];\s*\r?\n?/",
+			"/require\s+['\"]modules\/Vtiger\/CRMEntity\.php['\"];\s*\n?/",
+			"/require\s+['\"]modules\/Vtiger\/CRMEntity\.php['\"];\s*\r?\n?/",
+		];
+		
+		// Build namespaced class name for PSR-4
+		$namespacedClassName = "\App\Modules\\{$moduleName}\\{$moduleName}";
+		$mainClassFile = $moduleDir . DIRECTORY_SEPARATOR . $moduleName . '.php';
+		
+		// Clean up files in each directory
+		foreach ($dirsToClean as $dirToClean) {
+			$iterator = new \RecursiveIteratorIterator(
+				new \RecursiveDirectoryIterator($dirToClean, \RecursiveDirectoryIterator::SKIP_DOTS),
+				\RecursiveIteratorIterator::SELF_FIRST
+			);
+			
+			foreach ($iterator as $item) {
+				if ($item->isFile() && $item->getExtension() === 'php') {
+					$filePath = $item->getRealPath();
+					$content = file_get_contents($filePath);
+					$originalContent = $content;
+					
+					// Remove old include_once statements
+					foreach ($patternsToRemove as $pattern) {
+						$content = preg_replace($pattern, '', $content);
+					}
+					
+					// Replace old Vtiger_CRMEntity with \App\Core\CRMEntity
+					$content = preg_replace('/class\s+(\w+)\s+extends\s+Vtiger_CRMEntity/', 'class $1 extends \\App\\Core\\CRMEntity', $content);
+					
+					// Add namespace if missing and this is the main class file
+					if ($filePath === $mainClassFile && strpos($content, 'namespace') === false && preg_match('/^<\?php\s*\n/', $content)) {
+						// Check if class name matches module name
+						if (preg_match('/class\s+' . preg_quote($moduleName, '/') . '\s+extends/', $content)) {
+							$content = preg_replace(
+								'/^<\?php\s*\n/',
+								"<?php\nnamespace App\\Modules\\{$moduleName};\n",
+								$content,
+								1
+							);
+						}
+					}
+					
+					// Only write if content changed
+					if ($content !== $originalContent) {
+						file_put_contents($filePath, $content);
+						// Clear opcache for this specific file
+						if (function_exists('opcache_invalidate')) {
+							opcache_invalidate($filePath, true);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/**
 	 * Delete directory.
 	 * 
 	 * @param object $moduleInstance
@@ -728,6 +823,10 @@ class ModuleService
 		$moduleName = $moduleInstance instanceof \App\Modules\Base\Models\Module ? $moduleInstance->getName() : $moduleInstance->name;
 		$fileService = \App\ModuleManagement\ServiceLocator::getFileService();
 		$fileService->recurseDelete("config/modules/{$moduleName}.php");
+		// Delete from new PSR-4 structure
+		$fileService->recurseDelete('src/Modules/' . $moduleName);
+		$fileService->recurseDelete('src/Modules/Settings/' . $moduleName);
+		// Also delete from legacy structure for backward compatibility
 		$fileService->recurseDelete('modules/' . $moduleName);
 		$fileService->recurseDelete('modules/Settings/' . $moduleName);
 		foreach (\App\Runtime\Yeti_Layout::getAllLayouts() as $name => $label) {

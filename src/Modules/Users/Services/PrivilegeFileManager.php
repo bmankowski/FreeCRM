@@ -2,7 +2,7 @@
 
 namespace App\Modules\Users\Services;
 
-use App\CRMEntity;
+use App\Core\CRMEntity;
 use App\Database\PearDatabase;
 use App\Utils\ModuleUtils;
 use App\PrivilegeFile;
@@ -76,7 +76,7 @@ class PrivilegeFileManager
             fclose($handle);
             \App\Security\PrivilegeFile::createUserPrivilegesFile($userId);
             Privileges::clearCache($userId);
-            \App\Records\Record::clearCache($userId);
+            \App\Modules\Users\Models\Record::clearCache($userId);
             return true;
         }
         return false;

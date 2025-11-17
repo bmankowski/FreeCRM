@@ -661,7 +661,8 @@ class PackageService
 			if (strpos($filename, 'templates/') === 0) {
 				$targetPath = "layouts/$defaultLayout/modules/$module/" . substr($filename, 10);
 			} elseif (strpos($filename, "modules/$module/") === 0) {
-				$targetPath = $filename;
+				// Map to src/Modules for PSR-4 autoloading
+				$targetPath = "src/Modules/$module/" . substr($filename, strlen("modules/$module/"));
 			} elseif (strpos($filename, 'cron/') === 0) {
 				$targetPath = "cron/modules/$module/" . substr($filename, 5);
 			} elseif (strpos($filename, 'config/') === 0) {
@@ -669,17 +670,17 @@ class PackageService
 			} elseif (strpos($filename, 'languages/') === 0) {
 				$targetPath = $filename;
 			} elseif (strpos($filename, 'settings/actions/') === 0) {
-				$targetPath = "modules/Settings/$module/actions/" . substr($filename, 17);
+				$targetPath = "src/Modules/Settings/$module/Actions/" . substr($filename, 17);
 			} elseif (strpos($filename, 'settings/views/') === 0) {
-				$targetPath = "modules/Settings/$module/views/" . substr($filename, 15);
+				$targetPath = "src/Modules/Settings/$module/Views/" . substr($filename, 15);
 			} elseif (strpos($filename, 'settings/models/') === 0) {
-				$targetPath = "modules/Settings/$module/models/" . substr($filename, 16);
+				$targetPath = "src/Modules/Settings/$module/Models/" . substr($filename, 16);
 			} elseif (strpos($filename, 'settings/templates/') === 0) {
 				$targetPath = "layouts/$defaultLayout/modules/Settings/$module/" . substr($filename, 19);
 			} elseif (strpos($filename, 'settings/connectors/') === 0) {
-				$targetPath = "modules/Settings/$module/connectors/" . substr($filename, 20);
+				$targetPath = "src/Modules/Settings/$module/Connectors/" . substr($filename, 20);
 			} elseif (strpos($filename, 'settings/libraries/') === 0) {
-				$targetPath = "modules/Settings/$module/libraries/" . substr($filename, 19);
+				$targetPath = "src/Modules/Settings/$module/Libraries/" . substr($filename, 19);
 			} elseif ($filename === "$module.png") {
 				$targetPath = "layouts/$defaultLayout/skins/images/$module.png";
 			} elseif (strpos($filename, 'updates/') === 0) {
@@ -767,6 +768,9 @@ class PackageService
 			$this->import_RelatedLists($this->modulexml, $module);
 			$this->import_CustomLinks($this->modulexml, $module);
 			$this->import_CronTasks($this->modulexml);
+			
+			// Clean up old include_once statements from imported module files
+			$this->cleanupImportedModuleFiles($module->getName());
 			
 			$this->eventDispatcher->fire($module->getName(), 'module.postinstall');
 		} else {
@@ -1389,6 +1393,98 @@ class PackageService
 		if (!empty($this->manifestFileHandle)) {
 			fclose($this->manifestFileHandle);
 			$this->manifestFileHandle = null;
+		}
+	}
+
+	/**
+	 * Clean up old include_once statements from imported module files.
+	 * 
+	 * @param string $moduleName
+	 * @return void
+	 */
+	private function cleanupImportedModuleFiles(string $moduleName): void
+	{
+		// Check both legacy modules/ and new src/Modules/ directories
+		$moduleDir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Modules' . DIRECTORY_SEPARATOR . $moduleName;
+		$legacyModuleDir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $moduleName;
+		
+		$dirsToClean = [];
+		if (is_dir($moduleDir)) {
+			$dirsToClean[] = $moduleDir;
+		}
+		if (is_dir($legacyModuleDir)) {
+			$dirsToClean[] = $legacyModuleDir;
+		}
+		
+		if (empty($dirsToClean)) {
+			return;
+		}
+		
+		// Clear opcache and class cache before modifying files
+		if (function_exists('opcache_reset')) {
+			opcache_reset();
+		}
+		\App\Cache\Cache::delete('CRMEntity', $moduleName);
+		
+		$patternsToRemove = [
+			"/include_once\s+['\"]modules\/Vtiger\/CRMEntity\.php['\"];\s*\n?/",
+			"/include_once\s+['\"]modules\/Vtiger\/CRMEntity\.php['\"];\s*\r?\n?/",
+			"/require_once\s+['\"]modules\/Vtiger\/CRMEntity\.php['\"];\s*\n?/",
+			"/require_once\s+['\"]modules\/Vtiger\/CRMEntity\.php['\"];\s*\r?\n?/",
+			"/include\s+['\"]modules\/Vtiger\/CRMEntity\.php['\"];\s*\n?/",
+			"/include\s+['\"]modules\/Vtiger\/CRMEntity\.php['\"];\s*\r?\n?/",
+			"/require\s+['\"]modules\/Vtiger\/CRMEntity\.php['\"];\s*\n?/",
+			"/require\s+['\"]modules\/Vtiger\/CRMEntity\.php['\"];\s*\r?\n?/",
+		];
+		
+		// Build namespaced class name for PSR-4
+		$namespacedClassName = "\App\Modules\\{$moduleName}\\{$moduleName}";
+		$mainClassFile = $moduleDir . DIRECTORY_SEPARATOR . $moduleName . '.php';
+		
+		// Clean up files in each directory
+		foreach ($dirsToClean as $dirToClean) {
+			$iterator = new \RecursiveIteratorIterator(
+				new \RecursiveDirectoryIterator($dirToClean, \RecursiveDirectoryIterator::SKIP_DOTS),
+				\RecursiveIteratorIterator::SELF_FIRST
+			);
+			
+			foreach ($iterator as $item) {
+				if ($item->isFile() && $item->getExtension() === 'php') {
+					$filePath = $item->getRealPath();
+					$content = file_get_contents($filePath);
+					$originalContent = $content;
+					
+					// Remove old include_once statements
+					foreach ($patternsToRemove as $pattern) {
+						$content = preg_replace($pattern, '', $content);
+					}
+					
+					// Replace old Vtiger_CRMEntity with \App\Core\CRMEntity
+					$content = preg_replace('/class\s+(\w+)\s+extends\s+Vtiger_CRMEntity/', 'class $1 extends \\App\\Core\\CRMEntity', $content);
+					
+					// Add namespace if missing and this is the main class file
+					if ($filePath === $mainClassFile && strpos($content, 'namespace') === false && preg_match('/^<\?php\s*\n/', $content)) {
+						// Check if class name matches module name
+						if (preg_match('/class\s+' . preg_quote($moduleName, '/') . '\s+extends/', $content)) {
+							$content = preg_replace(
+								'/^<\?php\s*\n/',
+								"<?php\nnamespace App\\Modules\\{$moduleName};\n",
+								$content,
+								1
+							);
+						}
+					}
+					
+					// Only write if content changed
+					if ($content !== $originalContent) {
+						file_put_contents($filePath, $content);
+						// Clear opcache for this specific file
+						if (function_exists('opcache_invalidate')) {
+							opcache_invalidate($filePath, true);
+						}
+					}
+				}
+			}
 		}
 	}
 
@@ -2121,23 +2217,24 @@ class PackageService
 			if (strpos($filename, 'templates/') === 0) {
 				$targetPath = "layouts/$defaultLayout/modules/$moduleName/" . substr($filename, 10);
 			} elseif (strpos($filename, "modules/$moduleName/") === 0) {
-				$targetPath = $filename;
+				// Map to src/Modules for PSR-4 autoloading
+				$targetPath = "src/Modules/$moduleName/" . substr($filename, strlen("modules/$moduleName/"));
 			} elseif (strpos($filename, 'cron/') === 0) {
 				$targetPath = "cron/modules/$moduleName/" . substr($filename, 5);
 			} elseif (strpos($filename, 'languages/') === 0) {
 				$targetPath = $filename;
 			} elseif (strpos($filename, 'settings/actions/') === 0) {
-				$targetPath = "modules/Settings/$moduleName/actions/" . substr($filename, 17);
+				$targetPath = "src/Modules/Settings/$moduleName/Actions/" . substr($filename, 17);
 			} elseif (strpos($filename, 'settings/views/') === 0) {
-				$targetPath = "modules/Settings/$moduleName/views/" . substr($filename, 15);
+				$targetPath = "src/Modules/Settings/$moduleName/Views/" . substr($filename, 15);
 			} elseif (strpos($filename, 'settings/models/') === 0) {
-				$targetPath = "modules/Settings/$moduleName/models/" . substr($filename, 16);
+				$targetPath = "src/Modules/Settings/$moduleName/Models/" . substr($filename, 16);
 			} elseif (strpos($filename, 'settings/templates/') === 0) {
 				$targetPath = "layouts/$defaultLayout/modules/Settings/$moduleName/" . substr($filename, 19);
 			} elseif (strpos($filename, 'settings/connectors/') === 0) {
-				$targetPath = "modules/Settings/$moduleName/connectors/" . substr($filename, 20);
+				$targetPath = "src/Modules/Settings/$moduleName/Connectors/" . substr($filename, 20);
 			} elseif (strpos($filename, 'settings/libraries/') === 0) {
-				$targetPath = "modules/Settings/$moduleName/libraries/" . substr($filename, 19);
+				$targetPath = "src/Modules/Settings/$moduleName/Libraries/" . substr($filename, 19);
 			} elseif (strpos($filename, 'layouts/') === 0) {
 				$targetPath = $filename;
 			}
@@ -2238,6 +2335,9 @@ class PackageService
 		$this->update_RelatedLists($this->modulexml, $module);
 		$this->update_CustomLinks($this->modulexml, $module);
 		$this->update_CronTasks($this->modulexml);
+		
+		// Clean up old include_once statements from updated module files
+		$this->cleanupImportedModuleFiles($module->getName());
 
 		$this->eventDispatcher->fire($module->getName(), 'module.postupdate');
 	}

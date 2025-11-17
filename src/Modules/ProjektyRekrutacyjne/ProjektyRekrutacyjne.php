@@ -9,9 +9,9 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-include_once 'modules/Vtiger/CRMEntity.php';
+namespace App\Modules\ProjektyRekrutacyjne;
 
-class ProjektyRekrutacyjne extends Vtiger_CRMEntity
+class ProjektyRekrutacyjne extends \App\Core\CRMEntity
 {
 	public $table_name = 'u_yf_projektyrekrutacyjne';
 	public $table_index = 'projektyrekrutacyjneid';

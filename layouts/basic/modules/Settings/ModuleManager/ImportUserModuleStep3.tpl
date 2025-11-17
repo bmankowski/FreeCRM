@@ -50,7 +50,7 @@
 											{else if $IMPORT_MODULE_TYPE eq 'update'}
 												{"LBL_IMPORTED_UPDATE"|t:$QUALIFIED_MODULE}
 											{else}
-												{'LBL_IMPORTED_MODULE'|t:$QUALIFIED_MODULE, $IMPORT_MODULE_NAME}
+												{'LBL_IMPORTED_MODULE'|t:$QUALIFIED_MODULE:$IMPORT_MODULE_NAME}
 											{/if}
 										{/if}
 									</td>

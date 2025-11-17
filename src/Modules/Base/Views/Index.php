@@ -25,7 +25,21 @@ class Index extends \App\Modules\Base\Views\Basic
 	{
 		$moduleName = $request->getModule();
 		if (!empty($moduleName)) {
+			// Home module doesn't require permission checks
+			if ($moduleName === 'Home') {
+				return;
+			}
+			
 			$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+			if (!$userPrivilegesModel) {
+				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+			}
+			
+			// Admin users have access to all modules
+			if ($userPrivilegesModel->get('is_admin') == 'on') {
+				return;
+			}
+			
 			$permission = $userPrivilegesModel->hasModulePermission($moduleName);
 
 			if (!$permission) {
@@ -45,9 +59,15 @@ class Index extends \App\Modules\Base\Views\Basic
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		if (!empty($moduleName)) {
+			// Home module doesn't require permission checks
+			if ($moduleName === 'Home') {
+				$viewer->assign('CURRENT_VIEW', $request->get('view'));
+				return;
+			}
+			
 			$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 			if (!$moduleModel) {
-				// Non-entity or unsupported module (e.g. Home); skip permission block
+				// Non-entity or unsupported module; skip permission block
 				$viewer->assign('CURRENT_VIEW', $request->get('view'));
 				return;
 			}

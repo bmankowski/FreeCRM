@@ -79,15 +79,19 @@ public static function getConditions(\App\Db\Query $query, $moduleName, $user = 
 		$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
 	}
 	$userModel = \App\Modules\Users\Models\Privileges::getInstanceById($userId);
-		if ($relatedRecord !== false && \App\Core\AppConfig::security('PERMITTED_BY_RECORD_HIERARCHY')) {
-			$role = $userModel->getRoleDetail();
-			if ($role->get('listrelatedrecord') == 2) {
-				$rparentRecord = \App\Modules\Users\Models\Privileges::getParentRecord($relatedRecord, false, $role->get('listrelatedrecord'));
-				if ($rparentRecord) {
-					$relatedRecord = $rparentRecord;
-				}
+	if (!$userModel) {
+		// User privileges not found - return query without conditions (should not happen in normal operation)
+		return $query;
+	}
+	if ($relatedRecord !== false && \App\Core\AppConfig::security('PERMITTED_BY_RECORD_HIERARCHY')) {
+		$role = $userModel->getRoleDetail();
+		if ($role && $role->get('listrelatedrecord') == 2) {
+			$rparentRecord = \App\Modules\Users\Models\Privileges::getParentRecord($relatedRecord, false, $role->get('listrelatedrecord'));
+			if ($rparentRecord) {
+				$relatedRecord = $rparentRecord;
 			}
-			if ($role->get('listrelatedrecord') != 0) {
+		}
+		if ($role && $role->get('listrelatedrecord') != 0) {
 				$recordMetaData = \vtlib\Functions:: getCRMRecordMetadata($relatedRecord);
 				$recordPermission = \App\Security\Privilege::isPermitted($recordMetaData['setype'], 'DetailView', $relatedRecord, $userId);
 				if ($recordPermission) {

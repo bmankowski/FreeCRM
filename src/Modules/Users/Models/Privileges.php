@@ -165,9 +165,44 @@ class Privileges extends \App\Runtime\BaseModel
 		if (!file_exists("user_privileges/user_privileges_{$userId}.php")) {
 			return null;
 		}
-		$privileges = require("user_privileges/user_privileges_{$userId}.php");
+		
+		// Check if file is empty (0 bytes) - treat as invalid
+		if (filesize("user_privileges/user_privileges_{$userId}.php") == 0) {
+			$privileges = null;
+		} else {
+			$privileges = require("user_privileges/user_privileges_{$userId}.php");
+		}
 
-		if (!isset($is_admin) && is_array($privileges) && isset($privileges['details'])) {
+		// Initialize variables with default values
+		$is_admin = false;
+		$user_info = [];
+		$current_user_roles = '';
+		$current_user_parent_role_seq = '';
+		$current_user_profiles = [];
+		$current_user_groups = [];
+		$parent_roles = [];
+		$subordinate_roles = [];
+		$subordinate_roles_users = [];
+		$profileGlobalPermission = [];
+		$profileTabsPermission = [];
+		$profileActionPermission = [];
+
+		// If file is empty or invalid, check database for admin status
+		if (!is_array($privileges) || !isset($privileges['details'])) {
+			// Try to get user info from database as fallback
+			$userRecord = \App\Modules\Users\Models\Record::getInstanceById($userId, 'Users');
+			if ($userRecord) {
+				$is_admin = $userRecord->isAdminUser();
+				$user_info = $userRecord->getData();
+				$current_user_roles = $userRecord->get('roleid') ?? '';
+				// For admin users, set minimal required permissions
+				if ($is_admin) {
+					$profileGlobalPermission = [1 => 1, 2 => 1]; // View All, Edit All
+					$profileTabsPermission = []; // Admin has access to all modules
+					$profileActionPermission = [];
+				}
+			}
+		} else {
 			$is_admin = !empty($privileges['details']['is_admin']);
 			$user_info = $privileges['details'];
 			$current_user_roles = $privileges['details']['roleid'] ?? '';
@@ -730,7 +765,18 @@ class Privileges extends \App\Runtime\BaseModel
 		require('user_privileges/user_privileges_' . $currentUser->getId() . '.php');
 		include('user_privileges/tabdata.php');
 
-		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1) {
+		// Initialize variables if not set by require/include
+		if (!isset($is_admin)) {
+			$is_admin = false;
+		}
+		if (!isset($profileGlobalPermission)) {
+			$profileGlobalPermission = [];
+		}
+		if (!isset($profileTabsPermission)) {
+			$profileTabsPermission = [];
+		}
+
+		if ($is_admin === false && isset($profileGlobalPermission[1]) && $profileGlobalPermission[1] == 1 && isset($profileGlobalPermission[2]) && $profileGlobalPermission[2] == 1) {
 			foreach ($tab_seq_array as $tabid => $seq_value) {
 				if ($seq_value === 0 && isset($profileTabsPermission[$tabid]) && $profileTabsPermission[$tabid] === 0) {
 					$permittedModules[] = \App\Utils\ModuleUtils::getModuleName($tabid);
@@ -766,9 +812,20 @@ class Privileges extends \App\Runtime\BaseModel
 		require('user_privileges/user_privileges_' . $currentUser->getId() . '.php');
 		include('user_privileges/tabdata.php');
 
+		// Initialize variables if not set by require/include
+		if (!isset($is_admin)) {
+			$is_admin = false;
+		}
+		if (!isset($profileGlobalPermission)) {
+			$profileGlobalPermission = [];
+		}
+		if (!isset($profileTabsPermission)) {
+			$profileTabsPermission = [];
+		}
+
 		if (
-			$is_admin === false && $profileGlobalPermission[1] == 1 &&
-			$profileGlobalPermission[2] == 1
+			$is_admin === false && isset($profileGlobalPermission[1]) && $profileGlobalPermission[1] == 1 &&
+			isset($profileGlobalPermission[2]) && $profileGlobalPermission[2] == 1
 		) {
 			foreach ($tab_seq_array as $tabid => $seq_value) {
 				if ($seq_value === 0 && isset($profileTabsPermission[$tabid]) && $profileTabsPermission[$tabid] === 0) {
