@@ -703,7 +703,21 @@ class Field extends \vtlib\Field
 	public static function getInstanceFromFieldObject(\vtlib\Field $fieldObj)
 	{
 		$objectProperties = get_object_vars($fieldObj);
-		$className = \App\Core\Loader::getComponentClassName('Model', 'Field', $fieldObj->getModuleName());
+		$moduleName = $fieldObj->getModuleName();
+		
+		// If module name is null, try to get it directly from database
+		// This handles cases where cache is stale after module import
+		if ($moduleName === null && $fieldObj->tabid) {
+			$moduleName = (new \App\Db\Query())
+				->select('name')
+				->from('vtiger_tab')
+				->where(['tabid' => $fieldObj->tabid])
+				->scalar();
+		}
+		
+		// Use 'Base' as fallback if module name is still null (e.g., when module was deleted)
+		$moduleName = $moduleName ?? 'Base';
+		$className = \App\Core\Loader::getComponentClassName('Model', 'Field', $moduleName);
 		$fieldModel = new $className();
 		foreach ($objectProperties as $properName => $propertyValue) {
 			$fieldModel->$properName = $propertyValue;

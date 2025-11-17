@@ -40,7 +40,11 @@ class Field extends FieldBasic
 	 */
 	public function getModuleName(): ?string
 	{
-		return $this->tabid ? \App\Utils\ModuleUtils::getModuleName($this->tabid) : null;
+		if (!$this->tabid) {
+			return null;
+		}
+		$moduleName = \App\Utils\ModuleUtils::getModuleName($this->tabid);
+		return $moduleName !== false ? $moduleName : null;
 	}
 
 	/**
