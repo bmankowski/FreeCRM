@@ -2,7 +2,6 @@
 
 namespace App\Modules\Reports;
 
- */
 
 class ReportRunQueryDependencyMatrix {
 

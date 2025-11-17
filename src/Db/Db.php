@@ -223,6 +223,6 @@ class Db extends \yii\db\Connection
 		if ($this->getDriverName() === 'mysql') {
 			$tableOptions = 'CHARACTER SET utf8 ENGINE=InnoDB';
 		}
-		$this->createCommand()->createTable($tableName, $columns, $tableOptions)->execute();
+		return $this->createCommand()->createTable($tableName, $columns, $tableOptions)->execute();
 	}
 }

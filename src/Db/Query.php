@@ -12,7 +12,7 @@ class Query extends \yii\db\Query
 
 	/**
 	 * Creates a DB command that can be used to execute this query.
-	 * @param Connection $db the database connection used to generate the SQL statement.
+	 * @param \yii\db\Connection $db the database connection used to generate the SQL statement.
 	 * If this parameter is not given, the `db` application component will be used.
 	 * @return Command the created DB command instance.
 	 */
@@ -33,8 +33,8 @@ class Query extends \yii\db\Query
 	 * and can be traversed to retrieve the data in batches.
 	 *
 	 * @param integer $batchSize the number of records to be fetched in each batch.
-	 * @param Connection $db the database connection. If not set, the "db" application component will be used.
-	 * @return BatchQueryResult the batch query result. It implements the [[\Iterator]] interface
+	 * @param \yii\db\Connection $db the database connection. If not set, the "db" application component will be used.
+	 * @return \yii\db\BatchQueryResult the batch query result. It implements the [[\Iterator]] interface
 	 * and can be traversed to retrieve the data in batches.
 	 */
 	public function batch($batchSize = 100, $db = null)
@@ -57,7 +57,7 @@ class Query extends \yii\db\Query
 	 * only one row of data is returned. For example,
 	 *
 	 * @param integer $batchSize the number of records to be fetched in each batch.
-	 * @param Connection $db the database connection. If not set, the "db" application component will be used.
+	 * @param \yii\db\Connection $db the database connection. If not set, the "db" application component will be used.
 	 * @return BatchQueryResult the batch query result. It implements the [[\Iterator]] interface
 	 * and can be traversed to retrieve the data in batches.
 	 */

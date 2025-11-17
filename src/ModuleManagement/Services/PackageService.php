@@ -366,6 +366,25 @@ class PackageService
 	}
 
 	/**
+	 * Check if package is in FreeCRM format.
+	 * 
+	 * @param string|null $zipfile
+	 * @return bool
+	 */
+	public function isFreeCRMFormat(?string $zipfile = null): bool
+	{
+		if (!empty($zipfile)) {
+			if (!$this->checkZip($zipfile)) {
+				return false;
+			}
+		}
+		if (!empty($this->modulexml->packageFormat)) {
+			return (string) $this->modulexml->packageFormat === 'FreeCRM';
+		}
+		return false;
+	}
+
+	/**
 	 * Get error text.
 	 * 
 	 * @return string
@@ -1409,6 +1428,9 @@ class PackageService
 		if ($tabVersion) {
 			$this->outputNode($tabVersion, 'version');
 		}
+
+		// Mark as FreeCRM format
+		$this->outputNode('FreeCRM', 'packageFormat');
 
 		// Export dependencies
 		$this->export_Dependencies($module);
