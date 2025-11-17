@@ -7,12 +7,12 @@ namespace Composer\Autoload;
 class ComposerStaticInitYT
 {
     public static $files = array (
-        '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
-        '9b38cf48e83f5d8f60375221cd213eee' => __DIR__ . '/..' . '/phpstan/phpstan/bootstrap.php',
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
-        '38143a9afc50997d55e4815db8489d1c' => __DIR__ . '/..' . '/rector/rector/bootstrap.php',
+        '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
+        '9b38cf48e83f5d8f60375221cd213eee' => __DIR__ . '/..' . '/phpstan/phpstan/bootstrap.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
+        '38143a9afc50997d55e4815db8489d1c' => __DIR__ . '/..' . '/rector/rector/bootstrap.php',
         '1d6f6c0628aba5d91efef443adeecbc0' => __DIR__ . '/../..' . '/src/Runtime/Globals.php',
         'be7f8f4a06ddef5737f29c25b6a403f8' => __DIR__ . '/../..' . '/src/Runtime/TemplateHelpers.php',
         'eb872a555a499906a0af2a2b3606234e' => __DIR__ . '/../..' . '/src/ModuleManagement/Adapters/Deprecated.php',
@@ -127,7 +127,8 @@ class ComposerStaticInitYT
         ),
         'DebugBar\\' => 
         array (
-            0 => __DIR__ . '/..' . '/php-debugbar/src/DebugBar',
+            0 => __DIR__ . '/..' . '/php-debugbar/php-debugbar/src/DebugBar',
+            1 => __DIR__ . '/..' . '/php-debugbar/php-debugbar/src/DebugBar',
         ),
         'App\\' => 
         array (

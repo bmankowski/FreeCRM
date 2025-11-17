@@ -19,7 +19,7 @@ return array(
     'Exception\\' => array($baseDir . '/src/Exceptions'),
     'Doctrine\\Deprecations\\' => array($vendorDir . '/doctrine/deprecations/src'),
     'Doctrine\\Common\\Collections\\' => array($vendorDir . '/doctrine/collections/lib/Doctrine/Common/Collections'),
-    'DebugBar\\' => array($vendorDir . '/php-debugbar/src/DebugBar'),
+    'DebugBar\\' => array($vendorDir . '/php-debugbar/php-debugbar/src/DebugBar', $vendorDir . '/php-debugbar/php-debugbar/src/DebugBar'),
     'App\\' => array($baseDir . '/src'),
     'Antlr\\Antlr4\\Runtime\\' => array($vendorDir . '/antlr/antlr4-php-runtime/src'),
 );

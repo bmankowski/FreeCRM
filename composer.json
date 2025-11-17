@@ -67,7 +67,7 @@
 			"vtlib\\": "src/ModuleManagement/Adapters/",
 			"App\\": "src/",
 			"Exception\\": "src/Exceptions/",
-			"DebugBar\\": "vendor/php-debugbar/src/DebugBar/"
+			"DebugBar\\": "vendor/php-debugbar/php-debugbar/src/DebugBar/"
 		},
 		"files": [
 			"src/Runtime/Globals.php",
@@ -84,8 +84,8 @@
 		}
 	},
 	"require-dev": {
-		"rector/rector": "^2.1",
-		"phpstan/phpstan": "^2.1",
-		"maximebf/php-debugbar": "^1.19"
+		"rector/rector": ">2.1",
+		"phpstan/phpstan": ">2.1",
+		"php-debugbar/php-debugbar": ">=2.0"
 	}
 }
