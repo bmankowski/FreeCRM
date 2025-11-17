@@ -130,10 +130,11 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 */
 	static function deleteForModule($moduleInstance)
 	{
+		$moduleName = $moduleInstance instanceof \App\Modules\Base\Models\Module ? $moduleInstance->getName() : $moduleInstance->name;
 		$db = \App\Database\PearDatabase::getInstance();
 		$db->pquery('DELETE com_vtiger_workflows,com_vtiger_workflowtasks FROM `com_vtiger_workflows` 
 			LEFT JOIN `com_vtiger_workflowtasks` ON com_vtiger_workflowtasks.workflow_id = com_vtiger_workflows.workflow_id
-			WHERE `module_name` =?', [$moduleInstance->name]);
+			WHERE `module_name` =?', [$moduleName]);
 	}
 
 	/**

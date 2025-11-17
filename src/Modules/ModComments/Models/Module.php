@@ -62,11 +62,12 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Delete coments associated with module
-	 * @param vtlib\Module Instnace of module to use
+	 * @param \App\Modules\Base\Models\Module|\vtlib\Module Instance of module to use
 	 */
 	static function deleteForModule($moduleInstance)
 	{
+		$moduleName = $moduleInstance instanceof \App\Modules\Base\Models\Module ? $moduleInstance->getName() : $moduleInstance->name;
 		$db = \App\Database\PearDatabase::getInstance();
-		$db->delete('vtiger_modcomments', 'related_to IN(SELECT crmid FROM vtiger_crmentity WHERE setype=?)', [$moduleInstance->name]);
+		$db->delete('vtiger_modcomments', 'related_to IN(SELECT crmid FROM vtiger_crmentity WHERE setype=?)', [$moduleName]);
 	}
 }

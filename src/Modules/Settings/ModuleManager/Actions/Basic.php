@@ -158,12 +158,20 @@ class Basic extends \App\Modules\Settings\Base\Views\IndexAjax
 	public function deleteModule(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->get('forModule');
-		$moduleInstance = \App\Modules\Base\Models\Module::getInstance($moduleName);
+		$moduleService = ServiceLocator::getModuleService();
+		$moduleInstance = $moduleService->getInstance($moduleName);
+		
 		if ($moduleInstance) {
-			$moduleInstance->delete();
-			$result = array('success' => true);
-		} else
-			$result = array('success' => false);
+			try {
+				$moduleService->delete($moduleInstance->getId());
+				$result = array('success' => true);
+			} catch (\Exception $e) {
+				$result = array('success' => false, 'text' => $e->getMessage());
+			}
+		} else {
+			$result = array('success' => false, 'text' => 'Module not found');
+		}
+		
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();

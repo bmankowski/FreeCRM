@@ -568,7 +568,7 @@ class ModuleService
 	 */
 	private function deleteCascade(int $moduleId, Models\Module $module): void
 	{
-		$moduleInstance = \Vtiger_Module_Model::getInstance($module->getName());
+		$moduleInstance = \App\Modules\Base\Models\Module::getInstance($module->getName());
 		$focus = \App\Core\CRMEntity::getInstance($module->getName());
 		$tableName = $focus->table_name ?? null;
 
@@ -639,7 +639,7 @@ class ModuleService
 		\App\ModuleManagement\ServiceLocator::getLinkService()->deleteAll($moduleId);
 
 		// Delete settings fields
-		\App\Modules\Settings\Vtiger\Models\Module::deleteSettingsFieldBymodule($module->getName());
+		\App\Modules\Settings\Base\Models\Module::deleteSettingsFieldBymodule($module->getName());
 
 		// Delete directory
 		$this->deleteDir($moduleInstance);
@@ -675,7 +675,7 @@ class ModuleService
 	private function deleteModuleTables(Models\Module $module, string $tableName): void
 	{
 		$this->db->createCommand()->checkIntegrity(false)->execute();
-		$moduleInstance = \Vtiger_Module_Model::getInstance($module->getName());
+		$moduleInstance = \App\Modules\Base\Models\Module::getInstance($module->getName());
 		
 		if ($moduleInstance->isInventory()) {
 			$tablesName = [$tableName . '_inventory', $tableName . '_invfield', $tableName . '_invmap'];
@@ -725,13 +725,14 @@ class ModuleService
 	 */
 	private function deleteDir($moduleInstance): void
 	{
+		$moduleName = $moduleInstance instanceof \App\Modules\Base\Models\Module ? $moduleInstance->getName() : $moduleInstance->name;
 		$fileService = \App\ModuleManagement\ServiceLocator::getFileService();
-		$fileService->recurseDelete("config/modules/{$moduleInstance->name}.php");
-		$fileService->recurseDelete('modules/' . $moduleInstance->name);
-		$fileService->recurseDelete('modules/Settings/' . $moduleInstance->name);
+		$fileService->recurseDelete("config/modules/{$moduleName}.php");
+		$fileService->recurseDelete('modules/' . $moduleName);
+		$fileService->recurseDelete('modules/Settings/' . $moduleName);
 		foreach (\App\Runtime\Yeti_Layout::getAllLayouts() as $name => $label) {
-			$fileService->recurseDelete("layouts/$name/modules/{$moduleInstance->name}");
-			$fileService->recurseDelete("layouts/$name/modules/Settings/{$moduleInstance->name}");
+			$fileService->recurseDelete("layouts/$name/modules/{$moduleName}");
+			$fileService->recurseDelete("layouts/$name/modules/Settings/{$moduleName}");
 		}
 	}
 
