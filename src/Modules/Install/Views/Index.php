@@ -337,7 +337,8 @@ class Index extends \App\Modules\Base\Views\Index
 	{
 		$languagesList = \App\Modules\Users\Models\Module::getLanguagesList();
 		foreach ($languagesList as $key => $value) {
-			$langPath = "languages/$key/Install.php";
+			// Clean up JSON language files (YetiForce compatible format)
+			$langPath = "languages/$key/Install.json";
 			if (file_exists($langPath)) {
 				unlink($langPath);
 			}

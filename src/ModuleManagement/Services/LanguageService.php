@@ -21,6 +21,7 @@ class LanguageService
 {
 	/**
 	 * Delete language files for a module.
+	 * Deletes JSON language files (YetiForce compatible format).
 	 * 
 	 * @param string $moduleName Module name
 	 * @return void
@@ -32,12 +33,13 @@ class LanguageService
 			->from('vtiger_language');
 
 		foreach ($query->column() as $lang) {
-			$langFilePath = ROOT_DIRECTORY . "/languages/$lang/{$moduleName}.php";
+			// Delete JSON language files
+			$langFilePath = ROOT_DIRECTORY . "/languages/$lang/{$moduleName}.json";
 			if (file_exists($langFilePath)) {
 				unlink($langFilePath);
 			}
 
-			$langFilePath = ROOT_DIRECTORY . "/languages/$lang/Settings/{$moduleName}.php";
+			$langFilePath = ROOT_DIRECTORY . "/languages/$lang/Settings/{$moduleName}.json";
 			if (file_exists($langFilePath)) {
 				unlink($langFilePath);
 			}

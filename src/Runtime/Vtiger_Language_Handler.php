@@ -149,9 +149,11 @@ class Vtiger_Language_Handler
 
 	/**
 	 * Function that returns translation strings from file
-	 * @global <array> $languageStrings - language specific string which is used in translations
-	 * @param string $module - module Name
-	 * @return <array> - array if module has language strings else returns empty array
+	 * Loads language files in JSON format (YetiForce compatible)
+	 * 
+	 * @param string $language Language code (e.g., 'pl_pl', 'en_us')
+	 * @param string $module Module name (e.g., 'Vtiger', 'Accounts')
+	 * @return array Array with 'languageStrings' and 'jsLanguageStrings' keys
 	 */
 	public static function getModuleStringsFromFile(string $language, $module = 'Vtiger')
 	{
@@ -161,25 +163,43 @@ class Vtiger_Language_Handler
 			$file = \App\Core\Loader::resolveNameToPath($qualifiedName);
 			$languageStrings = [];
 			$jsLanguageStrings = [];
+			
 			if (file_exists($file)) {
-				require $file;
+				$jsonContent = file_get_contents($file);
+				$data = json_decode($jsonContent, true);
+				if (json_last_error() === JSON_ERROR_NONE && is_array($data)) {
+					$languageStrings = isset($data['languageStrings']) && is_array($data['languageStrings']) ? $data['languageStrings'] : [];
+					$jsLanguageStrings = isset($data['jsLanguageStrings']) && is_array($data['jsLanguageStrings']) ? $data['jsLanguageStrings'] : [];
+				} else {
+					\App\Log\Log::error(sprintf('Invalid JSON in language file: %s (error: %s)', $file, json_last_error_msg()));
+				}
 			} else {
 				\App\Log\Log::warning(sprintf('Language file does not exist, module: %s ,language: %s', $module, $language));
 			}
 
 			self::$languageContainer[$language][$module]['languageStrings'] = $languageStrings;
 			self::$languageContainer[$language][$module]['jsLanguageStrings'] = $jsLanguageStrings;
+			
+			// Load custom language files if enabled
 			if (\App\Core\AppConfig::performance('LOAD_CUSTOM_FILES')) {
 				$qualifiedName = 'custom.languages.' . $language . '.' . $module;
 				$file = \App\Core\Loader::resolveNameToPath($qualifiedName);
 				if (file_exists($file)) {
-					require $file;
-					foreach ($languageStrings as $key => $val) {
-						self::$languageContainer[$language][$module]['languageStrings'][$key] = $val;
-					}
-
-					foreach ($jsLanguageStrings as $key => $val) {
-						self::$languageContainer[$language][$module]['jsLanguageStrings'][$key] = $val;
+					$jsonContent = file_get_contents($file);
+					$data = json_decode($jsonContent, true);
+					if (json_last_error() === JSON_ERROR_NONE && is_array($data)) {
+						$customLanguageStrings = isset($data['languageStrings']) && is_array($data['languageStrings']) ? $data['languageStrings'] : [];
+						$customJsLanguageStrings = isset($data['jsLanguageStrings']) && is_array($data['jsLanguageStrings']) ? $data['jsLanguageStrings'] : [];
+						
+						// Merge custom strings (custom overrides standard)
+						foreach ($customLanguageStrings as $key => $val) {
+							self::$languageContainer[$language][$module]['languageStrings'][$key] = $val;
+						}
+						foreach ($customJsLanguageStrings as $key => $val) {
+							self::$languageContainer[$language][$module]['jsLanguageStrings'][$key] = $val;
+						}
+					} else {
+						\App\Log\Log::error(sprintf('Invalid JSON in custom language file: %s (error: %s)', $file, json_last_error_msg()));
 					}
 				}
 			}

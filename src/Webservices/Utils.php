@@ -846,7 +846,19 @@ function vtws_getWebserviceTranslatedStringForLanguage($label, $currentLanguage)
 	static $translations = [];
 	$currentLanguage = vtws_getWebserviceCurrentLanguage();
 	if (empty($translations[$currentLanguage])) {
-		include 'languages/' . $currentLanguage . '/Webservices.php';
+		// Load JSON language file (YetiForce compatible format)
+		$qualifiedName = 'languages.' . $currentLanguage . '.Webservices';
+		$file = \App\Core\Loader::resolveNameToPath($qualifiedName);
+		$languageStrings = [];
+		
+		if (file_exists($file)) {
+			$jsonContent = file_get_contents($file);
+			$data = json_decode($jsonContent, true);
+			if (json_last_error() === JSON_ERROR_NONE && is_array($data)) {
+				$languageStrings = isset($data['languageStrings']) && is_array($data['languageStrings']) ? $data['languageStrings'] : [];
+			}
+		}
+		
 		$translations[$currentLanguage] = $languageStrings;
 	}
 	if (isset($translations[$currentLanguage][$label])) {

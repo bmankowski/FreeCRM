@@ -15,6 +15,12 @@ class Field extends \App\Modules\Base\Models\Field
 {
 	protected $data = [];
 
+	/** @var \App\Modules\ModTracker\Models\Record|null Parent record instance */
+	protected $parent;
+
+	/** @var \App\Modules\Base\Models\Field|null Field instance */
+	protected $fieldInstance;
+
 	/**
 	 * Function to set data
 	 * @param array $values

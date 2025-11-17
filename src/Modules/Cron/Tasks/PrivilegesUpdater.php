@@ -13,7 +13,7 @@ $dataReader = (new \App\Db\Query())->select('crmid, setype')
 	->createCommand()->query();
 
 while ($row = $dataReader->read()) {
-	\App\PrivilegeUpdater::update($row['crmid'], $row['setype']);
+	\App\Security\PrivilegeUpdater::update($row['crmid'], $row['setype']);
 	$limit--;
 	if (0 === $limit) {
 		return;
@@ -27,7 +27,7 @@ $dataReader = (new \App\Db\Query())
 	->createCommand()->query();
 
 while ($row = $dataReader->read()) {
-	\App\PrivilegeUpdater::updateSearch($row['crmid'], $row['setype']);
+	\App\Security\PrivilegeUpdater::updateSearch($row['crmid'], $row['setype']);
 	$limit--;
 	if (0 === $limit) {
 		return;
@@ -44,7 +44,7 @@ while ($row = $dataReader->read()) {
 	$db = \App\Db\Db::getInstance();
 	$crmid = $row['crmid'];
 	if (0 === (int) $row['type']) {
-		\App\PrivilegeUpdater::update($crmid, $row['module']);
+		\App\Security\PrivilegeUpdater::update($crmid, $row['module']);
 		$limit--;
 		if (0 === $limit) {
 			return;
@@ -57,7 +57,7 @@ while ($row = $dataReader->read()) {
 			->createCommand()->query();
 		
 		while ($rowCrm = $dataReaderCrm->read()) {
-			\App\PrivilegeUpdater::update($rowCrm['crmid'], $row['module']);
+			\App\Security\PrivilegeUpdater::update($rowCrm['crmid'], $row['module']);
 			$affected = $db->createCommand()->update('s_#__privileges_updater', ['crmid' => $rowCrm['crmid']], [
 				'module' => $row['module'],
 				'type' => 1,

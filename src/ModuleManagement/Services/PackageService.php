@@ -131,15 +131,42 @@ class PackageService
 				}
 			}
 
-			// Check for language files
+			// Check for language files (JSON format - YetiForce compatible)
 			$defaultLanguage = \App\Core\AppConfig::main('default_language');
-			$pattern = '/languages\/' . preg_quote($defaultLanguage, '/') . '\/([^\/]+)\.php$/';
+			// Normalize language code: pl_pl -> pl-PL, en_us -> en-US (for YetiForce compatibility)
+			$defaultLanguageNormalized = str_replace('_', '-', $defaultLanguage);
+			$defaultLanguageParts = explode('-', $defaultLanguageNormalized);
+			if (count($defaultLanguageParts) == 2) {
+				$defaultLanguageNormalized = strtolower($defaultLanguageParts[0]) . '-' . strtoupper($defaultLanguageParts[1]);
+			}
+			
+			// Check JSON format: languages/pl_pl/ModuleName.json (FreeCRM format)
+			$pattern = '/languages\/' . preg_quote($defaultLanguage, '/') . '\/([^\/]+)\.json$/';
 			if (preg_match($pattern, $filename, $matches)) {
 				$language_modulename = $matches[1];
 			}
+			
+			// Check JSON format: languages/pl-PL/ModuleName.json (YetiForce format)
+			$patternJson = '/languages\/' . preg_quote($defaultLanguageNormalized, '/') . '\/([^\/]+)\.json$/';
+			if (preg_match($patternJson, $filename, $matches)) {
+				$language_modulename = $matches[1];
+			}
+			
+			// Also check alternative formats (with dash instead of underscore)
+			$altPattern = '/languages\/' . preg_quote(str_replace('_', '-', $defaultLanguage), '/') . '\/([^\/]+)\.json$/i';
+			if (preg_match($altPattern, $filename, $matches)) {
+				$language_modulename = $matches[1];
+			}
 
-			$settingsPattern = '/languages\/' . preg_quote($defaultLanguage, '/') . '\/Settings\/([^\/]+)\.php$/';
+			// Check Settings modules JSON format: languages/pl_pl/Settings/ModuleName.json
+			$settingsPattern = '/languages\/' . preg_quote($defaultLanguage, '/') . '\/Settings\/([^\/]+)\.json$/';
 			if (preg_match($settingsPattern, $filename, $matches)) {
+				$language_modulename = $matches[1];
+			}
+			
+			// Check Settings modules JSON format: languages/pl-PL/Settings/ModuleName.json (YetiForce format)
+			$settingsPatternJson = '/languages\/' . preg_quote($defaultLanguageNormalized, '/') . '\/Settings\/([^\/]+)\.json$/';
+			if (preg_match($settingsPatternJson, $filename, $matches)) {
 				$language_modulename = $matches[1];
 			}
 		}
@@ -1900,6 +1927,7 @@ class PackageService
 
 	/**
 	 * Copy language files to ZIP.
+	 * Copies JSON language files (YetiForce compatible format).
 	 * 
 	 * @param ZipArchive $zip
 	 * @param string $module
@@ -1914,13 +1942,15 @@ class PackageService
 					$langDir = @opendir($languageFolder . '/' . $langName);
 					while (($moduleLangFile = readdir($langDir)) !== false) {
 						$langFilePath = $languageFolder . '/' . $langName . '/' . $moduleLangFile;
-						if (is_file($langFilePath) && $moduleLangFile === $module . '.php') {
+						// Copy JSON language files
+						if (is_file($langFilePath) && $moduleLangFile === $module . '.json') {
 							$zip->addFile($langFilePath, $langFilePath);
 						} elseif (is_dir($langFilePath) && $moduleLangFile == 'Settings') {
 							$settingsLangDir = @opendir($langFilePath);
 							while ($settingLangFileName = readdir($settingsLangDir)) {
 								$settingsLangFilePath = $languageFolder . '/' . $langName . '/' . $moduleLangFile . '/' . $settingLangFileName;
-								if (is_file($settingsLangFilePath) && $settingLangFileName === $module . '.php') {
+								// Copy JSON language files for Settings modules
+								if (is_file($settingsLangFilePath) && $settingLangFileName === $module . '.json') {
 									$zip->addFile($settingsLangFilePath, $settingsLangFilePath);
 								}
 							}

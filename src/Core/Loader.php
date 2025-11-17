@@ -178,14 +178,20 @@ class Loader
 	 * - Prefix ~ means literal path from root
 	 * - No prefix means convert dots to directory separators
 	 * - Checks public/ directory first for assets
+	 * - Language files (languages.*) default to JSON format
 	 * 
 	 * @param string $qualifiedName Qualified resource name (e.g., 'libraries.jquery.jquery' or '~layouts/basic/style.css')
-	 * @param string $fileExtension File extension (php, js, css, less)
+	 * @param string $fileExtension File extension (php, js, css, less, json)
 	 * @return string Absolute file path
 	 */
 	public static function resolveNameToPath($qualifiedName, $fileExtension = 'php')
 	{
-		$allowedExtensions = ['php', 'js', 'css', 'less', 'png', 'jpg', 'jpeg', 'gif', 'svg', 'ico', 'woff', 'woff2', 'ttf', 'eot'];
+		$allowedExtensions = ['php', 'js', 'css', 'less', 'json', 'png', 'jpg', 'jpeg', 'gif', 'svg', 'ico', 'woff', 'woff2', 'ttf', 'eot'];
+		
+		// Language files default to JSON format
+		if ($fileExtension === 'php' && strpos($qualifiedName, 'languages.') === 0) {
+			$fileExtension = 'json';
+		}
 		
 		// Handle ~ prefix (literal path from root)
 		if (strpos($qualifiedName, '~') === 0) {

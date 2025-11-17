@@ -83,6 +83,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	/**
 	 * Add translation
+	 * Saves translations to JSON format
 	 * @param array $params
 	 * @return (string|bool)[]
 	 */
@@ -90,8 +91,8 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	{
 		$lang = $params['lang'];
 		$mod = $params['mod'];
-		$langkey = addslashes($params['langkey']);
-		$val = addslashes($params['val']);
+		$langkey = $params['langkey'];
+		$val = $params['val'];
 		$mod = str_replace(self::url_separator, '.', $mod);
 
 		if (\App\Core\AppConfig::performance('LOAD_CUSTOM_FILES')) {
@@ -101,48 +102,55 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		}
 		$fileName = \App\Core\Loader::resolveNameToPath($qualifiedName);
 		$fileExists = file_exists($fileName);
+		
+		// Load existing JSON data or initialize empty structure
+		$data = [
+			'languageStrings' => [],
+			'jsLanguageStrings' => []
+		];
+		
 		if ($fileExists) {
-			require $fileName;
-			if ($params['type'] === 'php') {
-				$langTab = $languageStrings;
-			} else {
-				$langTab = $jsLanguageStrings;
-			}
-			if (is_array($langTab) && array_key_exists($langkey, $langTab)) {
-				return ['success' => false, 'data' => 'LBL_KeyExists'];
-			}
-			$fileContent = file_get_contents($fileName);
-			if ($params['type'] == 'php') {
-				$to_replase = '$languageStrings = [';
-			} else {
-				$to_replase = '$jsLanguageStrings = [';
-			}
-			$new_translation = "'$langkey' => '$val',";
-			if (self::parse_data($to_replase, $fileContent)) {
-				$fileContent = str_ireplace($to_replase, $to_replase . PHP_EOL . '	' . $new_translation, $fileContent);
-			} else {
-				if (self::parse_data('?>', $fileContent)) {
-					$fileContent = str_replace('?>', '', $fileContent);
-				}
-				$fileContent = $fileContent . PHP_EOL . $to_replase . PHP_EOL . '	' . $new_translation . PHP_EOL . '];';
+			$jsonContent = file_get_contents($fileName);
+			$decoded = json_decode($jsonContent, true);
+			if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+				$data['languageStrings'] = isset($decoded['languageStrings']) && is_array($decoded['languageStrings']) ? $decoded['languageStrings'] : [];
+				$data['jsLanguageStrings'] = isset($decoded['jsLanguageStrings']) && is_array($decoded['jsLanguageStrings']) ? $decoded['jsLanguageStrings'] : [];
 			}
 		} else {
 			if (\App\Core\AppConfig::performance('LOAD_CUSTOM_FILES')) {
 				self::createCustomLangDirectory($params);
 			}
-			$fileContent = '<?php' . PHP_EOL;
 		}
-		$filePointer = fopen($fileName, 'w');
-		fwrite($filePointer, $fileContent);
-		fclose($filePointer);
-		if (!$fileExists) {
-			return self::addTranslation($params);
+		
+		// Determine which array to modify
+		$targetArray = ($params['type'] === 'php') ? 'languageStrings' : 'jsLanguageStrings';
+		
+		// Check if key already exists
+		if (isset($data[$targetArray][$langkey])) {
+			return ['success' => false, 'data' => 'LBL_KeyExists'];
 		}
+		
+		// Add new translation
+		$data[$targetArray][$langkey] = $val;
+		
+		// Encode to JSON
+		$jsonContent = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+		
+		if ($jsonContent === false) {
+			return ['success' => false, 'data' => 'LBL_ERROR_ENCODING_JSON'];
+		}
+		
+		// Write JSON file
+		if (file_put_contents($fileName, $jsonContent) === false) {
+			return ['success' => false, 'data' => 'LBL_ERROR_WRITING_FILE'];
+		}
+		
 		return ['success' => true, 'data' => 'LBL_AddTranslationOK'];
 	}
 
 	/**
 	 * Function to update translation
+	 * Updates translations in JSON format
 	 * @param array $params
 	 * @return (string|bool)[]
 	 */
@@ -151,10 +159,10 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		$lang = $params['lang'];
 		$mod = $params['mod'];
 		$langkey = $params['langkey'];
-		$val = addslashes($params['val']);
+		$val = $params['val'];
 		$mod = str_replace(self::url_separator, '.', $mod);
-		$languageStrings = $jsLanguageStrings = [];
 		$customType = \App\Core\AppConfig::performance('LOAD_CUSTOM_FILES');
+		
 		if ($customType) {
 			$qualifiedName = "custom.languages.$lang.$mod";
 		} else {
@@ -162,47 +170,56 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		}
 		$fileName = \App\Core\Loader::resolveNameToPath($qualifiedName);
 		$fileExists = file_exists($fileName);
+		
+		// Load existing JSON data
+		$data = [
+			'languageStrings' => [],
+			'jsLanguageStrings' => []
+		];
+		
 		if ($fileExists) {
-			require($fileName);
-			if ($params['type'] === 'php') {
-				$langTab = $languageStrings;
-			} else {
-				$langTab = $jsLanguageStrings;
+			$jsonContent = file_get_contents($fileName);
+			$decoded = json_decode($jsonContent, true);
+			if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+				$data['languageStrings'] = isset($decoded['languageStrings']) && is_array($decoded['languageStrings']) ? $decoded['languageStrings'] : [];
+				$data['jsLanguageStrings'] = isset($decoded['jsLanguageStrings']) && is_array($decoded['jsLanguageStrings']) ? $decoded['jsLanguageStrings'] : [];
 			}
-			if (!is_array($langTab) || !array_key_exists($langkey, $langTab)) {
-				if ($customType) {
-					return self::addTranslation($params);
-				}
-				return array('success' => false, 'data' => 'LBL_DO_NOT_POSSIBLE_TO_MAKE_CHANGES');
-			}
-			$countLangEl = count(explode("\n", $langTab[$langkey]));
-			$i = 1;
-			$start = false;
-			$fileContentEdit = file($fileName);
-			foreach ($fileContentEdit as $k => $row) {
-				if ($start && $i < $countLangEl) {
-					unset($fileContentEdit[$k]);
-					$i++;
-				}
-				if (strstr($row, "'$langkey'") !== false || strstr($row, '"' . $langkey . '"') !== false) {
-					$fileContentEdit[$k] = "	'$langkey' => '$val'," . PHP_EOL;
-					$start = true;
-				}
-			}
-			$fileContent = implode("", $fileContentEdit);
 		} else {
 			if ($customType) {
 				self::createCustomLangDirectory($params);
+				// If custom file doesn't exist, add translation instead
+				return self::addTranslation($params);
 			}
-			$fileContent = '<?php' . PHP_EOL;
+			return ['success' => false, 'data' => 'LBL_DO_NOT_POSSIBLE_TO_MAKE_CHANGES'];
 		}
-		$filePointer = fopen($fileName, 'w+');
-		fwrite($filePointer, $fileContent);
-		fclose($filePointer);
-		if (!$fileExists) {
-			self::updateTranslation($params);
+		
+		// Determine which array to modify
+		$targetArray = ($params['type'] === 'php') ? 'languageStrings' : 'jsLanguageStrings';
+		
+		// Check if key exists
+		if (!isset($data[$targetArray][$langkey])) {
+			if ($customType) {
+				return self::addTranslation($params);
+			}
+			return ['success' => false, 'data' => 'LBL_DO_NOT_POSSIBLE_TO_MAKE_CHANGES'];
 		}
-		return array('success' => true, 'data' => 'LBL_UpdateTranslationOK');
+		
+		// Update translation
+		$data[$targetArray][$langkey] = $val;
+		
+		// Encode to JSON
+		$jsonContent = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+		
+		if ($jsonContent === false) {
+			return ['success' => false, 'data' => 'LBL_ERROR_ENCODING_JSON'];
+		}
+		
+		// Write JSON file
+		if (file_put_contents($fileName, $jsonContent) === false) {
+			return ['success' => false, 'data' => 'LBL_ERROR_WRITING_FILE'];
+		}
+		
+		return ['success' => true, 'data' => 'LBL_UpdateTranslationOK'];
 	}
 
 	/**

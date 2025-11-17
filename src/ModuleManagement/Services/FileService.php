@@ -152,7 +152,8 @@ class FileService
 		}
 
 		$languages = \App\Modules\Users\Models\Module::getLanguagesList();
-		$sourceLangFile = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'languages' . DIRECTORY_SEPARATOR . 'en_us' . DIRECTORY_SEPARATOR . $moduleName . '.php';
+		// Copy JSON language files (YetiForce compatible format)
+		$sourceLangFile = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'languages' . DIRECTORY_SEPARATOR . 'en_us' . DIRECTORY_SEPARATOR . $moduleName . '.json';
 		if (file_exists($sourceLangFile)) {
 			foreach ($languages as $langKey => $language) {
 				if ($langKey === 'en_us') {
@@ -162,7 +163,7 @@ class FileService
 				if (!is_dir($destDir)) {
 					mkdir($destDir, 0777, true);
 				}
-				$destLangFile = $destDir . DIRECTORY_SEPARATOR . $moduleName . '.php';
+				$destLangFile = $destDir . DIRECTORY_SEPARATOR . $moduleName . '.json';
 				if (!file_exists($destLangFile)) {
 					copy($sourceLangFile, $destLangFile);
 				}

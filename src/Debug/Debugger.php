@@ -33,9 +33,29 @@ class Debugger
 		$debugbar->addCollector(new DataCollector\TimeDataCollector());
 		$debugbar->addCollector(new DataCollector\MemoryCollector());
 		if (\App\Core\AppConfig::debug('LOG_TO_CONSOLE')) {
-			$debugbar->addCollector(new Debug\DebugBarLogs());
+			$debugbar->addCollector(new DebugBarLogs());
 		}
 		$debugbar->addCollector(new DataCollector\ExceptionsCollector());
+		
+		// Configure JavascriptRenderer
+		$renderer = $debugbar->getJavascriptRenderer();
+		// Exclude vendor assets (jQuery, fontawesome already in project)
+		$renderer->setIncludeVendors(false);
+		// Set base URL for DebugBar assets
+		// Use libraries/debugbar path (publicly accessible like other libraries)
+		$librariesBasePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'libraries' . DIRECTORY_SEPARATOR . 'debugbar';
+		$vendorBasePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'php-debugbar' . DIRECTORY_SEPARATOR . 'php-debugbar' . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'DebugBar' . DIRECTORY_SEPARATOR . 'Resources';
+		
+		if (file_exists($librariesBasePath . DIRECTORY_SEPARATOR . 'debugbar.css')) {
+			// Use libraries/debugbar path if resources were copied
+			$renderer->setBasePath($librariesBasePath);
+			$renderer->setBaseUrl('/libraries/debugbar');
+		} elseif (file_exists($vendorBasePath)) {
+			// Fallback to vendor path (may not be accessible via HTTP)
+			$renderer->setBasePath($vendorBasePath);
+			$renderer->setBaseUrl('/vendor/php-debugbar/php-debugbar/src/DebugBar/Resources');
+		}
+		
 		return static::$debugBar = $debugbar;
 	}
 

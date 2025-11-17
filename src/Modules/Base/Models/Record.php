@@ -407,7 +407,7 @@ class Record extends \App\Runtime\BaseModel
 			\App\Cache\Cache::save('RecordModel', $this->getId() . ':' . $this->getModuleName(), $this);
 		}
 		\App\Cache\Cache::delete('recordLabel', $this->getId());
-		\App\PrivilegeUpdater::updateOnRecordSave($this);
+		\App\Security\PrivilegeUpdater::updateOnRecordSave($this);
 	}
 
 	/**

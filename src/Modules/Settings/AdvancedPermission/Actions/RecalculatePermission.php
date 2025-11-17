@@ -15,7 +15,7 @@ class RecalculatePermission extends \App\Modules\Settings\Base\Actions\Save
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		\App\PrivilegeUpdater::setUpdater($request->get('moduleName'));
+		\App\Security\PrivilegeUpdater::setUpdater($request->get('moduleName'));
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(true);
 		$response->emit();

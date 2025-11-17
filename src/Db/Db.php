@@ -168,10 +168,23 @@ class Db extends \yii\db\Connection
 	protected function createPdoInstance()
 	{
 		if (\App\Debug\Debugger::isDebugBar()) {
+			$debugBar = \App\Debug\Debugger::getDebugBar();
 			$pdo = new \DebugBar\DataCollector\PDO\TraceablePDO(parent::createPdoInstance());
-			$collector = new \DebugBar\DataCollector\PDO\PDOCollector();
-			$collector->addConnection($pdo, $this->dbType ?: 'default');
-			\App\Debug\Debugger::getDebugBar()->addCollector($collector);
+			
+			// Check if PDO collector already exists
+			$pdoCollector = null;
+			try {
+				$pdoCollector = $debugBar->getCollector('pdo');
+			} catch (\Exception $e) {
+				// Collector doesn't exist yet, create it
+			}
+			
+			if ($pdoCollector === null) {
+				$pdoCollector = new \DebugBar\DataCollector\PDO\PDOCollector();
+				$debugBar->addCollector($pdoCollector);
+			}
+			
+			$pdoCollector->addConnection($pdo, $this->dbType ?: 'default');
 			return $pdo;
 		}
 		return parent::createPdoInstance();

@@ -14,6 +14,8 @@ namespace App\Modules\ModTracker\Models;
 
 class Record extends \App\Modules\Base\Models\Record
 {
+	/** @var \App\Modules\Base\Models\Record|null Parent record instance */
+	protected $parent;
 
 	const UPDATE = 0;
 	const DELETE = 1;
