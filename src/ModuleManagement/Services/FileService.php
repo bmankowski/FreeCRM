@@ -45,15 +45,18 @@ class FileService
 			);
 
 			foreach ($iterator as $item) {
+				$itemPath = $item->getRealPath();
 				if ($item->isDir()) {
-					$dirs[] = $rootDir . $path . DIRECTORY_SEPARATOR . $iterator->getSubPathName();
+					$dirs[] = $itemPath;
 				} else {
-					unlink($rootDir . $path . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+					@chmod($itemPath, 0777);
+					unlink($itemPath);
 				}
 			}
 
 			arsort($dirs);
 			foreach ($dirs as $dir) {
+				@chmod($dir, 0777);
 				rmdir($dir);
 			}
 		} else {

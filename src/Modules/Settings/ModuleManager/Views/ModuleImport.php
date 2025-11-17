@@ -155,7 +155,14 @@ class ModuleImport extends \App\Modules\Settings\Base\Views\Index
 			}
 		}
 		$viewer->assign('MODULEIMPORT_ERROR', $error);
-		$viewer->view('ImportUserModuleStep2.tpl', $qualifiedModuleName);
+		
+		if ($request->isAjax()) {
+			$viewer->view('ImportUserModuleStep2.tpl', $qualifiedModuleName);
+			return;
+		}
+
+		$viewer->assign('CURRENT_VIEW_TEMPLATE', 'ImportUserModuleStep2.tpl');
+		$viewer->view('ModuleImportIndex.tpl', $qualifiedModuleName);
 	}
 
 	public function importUserModuleStep3(\App\Http\Vtiger_Request $request)
@@ -188,7 +195,14 @@ class ModuleImport extends \App\Modules\Settings\Base\Views\Index
 
 		$viewer->assign("IMPORT_MODULE_NAME", $importModuleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->view('ImportUserModuleStep3.tpl', $qualifiedModuleName);
+		
+		if ($request->isAjax()) {
+			$viewer->view('ImportUserModuleStep3.tpl', $qualifiedModuleName);
+			return;
+		}
+
+		$viewer->assign('CURRENT_VIEW_TEMPLATE', 'ImportUserModuleStep3.tpl');
+		$viewer->view('ModuleImportIndex.tpl', $qualifiedModuleName);
 	}
 
 	public function updateUserModuleStep3(\App\Http\Vtiger_Request $request)
@@ -221,7 +235,14 @@ class ModuleImport extends \App\Modules\Settings\Base\Views\Index
 
 		$viewer->assign("UPDATE_MODULE_NAME", $importModuleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
-		$viewer->view('UpdateUserModuleStep3.tpl', $qualifiedModuleName);
+		
+		if ($request->isAjax()) {
+			$viewer->view('UpdateUserModuleStep3.tpl', $qualifiedModuleName);
+			return;
+		}
+
+		$viewer->assign('CURRENT_VIEW_TEMPLATE', 'UpdateUserModuleStep3.tpl');
+		$viewer->view('ModuleImportIndex.tpl', $qualifiedModuleName);
 	}
 
 	public function validateRequest(\App\Http\Vtiger_Request $request)
