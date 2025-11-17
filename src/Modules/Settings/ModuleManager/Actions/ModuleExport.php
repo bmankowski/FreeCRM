@@ -41,7 +41,18 @@ class ModuleExport extends \App\Modules\Settings\Base\Views\IndexAjax
 			return;
 		}
 
-		$package = new vtlib\PackageExport();
-		$package->export($moduleModel, '', sprintf("%s-%s.zip", $moduleModel->get('name'), $moduleModel->get('version')), true);
+		// Get ModuleManagement module instance
+		$moduleService = \App\ModuleManagement\ServiceLocator::getModuleService();
+		$moduleManagementModel = $moduleService->getInstance($moduleName);
+		
+		if (!$moduleManagementModel) {
+			echo 'Module not found!';
+			return;
+		}
+
+		// Use PackageService to export the module
+		$packageService = \App\ModuleManagement\ServiceLocator::getPackageService();
+		$zipFilename = sprintf("%s-%s.zip", $moduleModel->get('name'), $moduleModel->get('version'));
+		$packageService->export($moduleManagementModel, '', $zipFilename, true);
 	}
 }

@@ -1208,12 +1208,22 @@ class PackageService
 		$manifestPath = $this->__getManifestFilePath();
 		$zip->addFile($manifestPath, 'manifest.xml');
 
-		// Copy module directory
-		$this->copyDirectoryToZip($zip, "modules/{$module->getName()}", "modules/{$module->getName()}");
+		// Copy module directory - check both old and new locations
+		$modulePath = "modules/{$module->getName()}";
+		$modulePathNew = "src/Modules/{$module->getName()}";
+		if (is_dir($modulePathNew)) {
+			$this->copyDirectoryToZip($zip, $modulePathNew, "modules/{$module->getName()}");
+		} elseif (is_dir($modulePath)) {
+			$this->copyDirectoryToZip($zip, $modulePath, "modules/{$module->getName()}");
+		}
 
-		// Copy Settings/module directory
-		if (is_dir("modules/Settings/{$module->getName()}")) {
-			$this->copyDirectoryToZip($zip, "modules/Settings/{$module->getName()}", "settings/");
+		// Copy Settings/module directory - check both old and new locations
+		$settingsModulePath = "modules/Settings/{$module->getName()}";
+		$settingsModulePathNew = "src/Modules/Settings/{$module->getName()}";
+		if (is_dir($settingsModulePathNew)) {
+			$this->copyDirectoryToZip($zip, $settingsModulePathNew, "settings/");
+		} elseif (is_dir($settingsModulePath)) {
+			$this->copyDirectoryToZip($zip, $settingsModulePath, "settings/");
 		}
 
 		// Copy cron files
@@ -1221,23 +1231,40 @@ class PackageService
 			$this->copyDirectoryToZip($zip, "cron/modules/{$module->getName()}", "cron/");
 		}
 
-		// Copy module templates files
+		// Copy module templates files - check both old and new locations
 		$defaultLayout = \App\Runtime\CRM_Viewer::getDefaultLayoutName();
-		if (is_dir("layouts/$defaultLayout/modules/{$module->getName()}")) {
-			$this->copyDirectoryToZip($zip, "layouts/$defaultLayout/modules/{$module->getName()}", "templates/");
+		$templatesPath = "layouts/$defaultLayout/modules/{$module->getName()}";
+		$templatesPathNew = "public/layouts/$defaultLayout/modules/{$module->getName()}";
+		// Copy from new location if exists
+		if (is_dir($templatesPathNew)) {
+			$this->copyDirectoryToZip($zip, $templatesPathNew, "templates/");
+		}
+		// Also copy from old location if exists (may have additional templates)
+		if (is_dir($templatesPath)) {
+			$this->copyDirectoryToZip($zip, $templatesPath, "templates/");
 		}
 
-		// Copy Settings module templates files
-		if (is_dir("layouts/$defaultLayout/modules/Settings/{$module->getName()}")) {
-			$this->copyDirectoryToZip($zip, "layouts/$defaultLayout/modules/Settings/{$module->getName()}", "settings/templates/");
+		// Copy Settings module templates files - check both old and new locations
+		$settingsTemplatesPath = "layouts/$defaultLayout/modules/Settings/{$module->getName()}";
+		$settingsTemplatesPathNew = "public/layouts/$defaultLayout/modules/Settings/{$module->getName()}";
+		// Copy from new location if exists
+		if (is_dir($settingsTemplatesPathNew)) {
+			$this->copyDirectoryToZip($zip, $settingsTemplatesPathNew, "settings/templates/");
+		}
+		// Also copy from old location if exists (may have additional templates)
+		if (is_dir($settingsTemplatesPath)) {
+			$this->copyDirectoryToZip($zip, $settingsTemplatesPath, "settings/templates/");
 		}
 
 		// Copy language files
 		$this->__copyLanguageFiles($zip, $module->getName());
 
-		// Copy module icon
+		// Copy module icon - check both old and new locations
 		$iconPath = "layouts/$defaultLayout/skins/images/{$module->getName()}.png";
-		if (file_exists($iconPath)) {
+		$iconPathNew = "public/layouts/$defaultLayout/skins/images/{$module->getName()}.png";
+		if (file_exists($iconPathNew)) {
+			$zip->addFile($iconPathNew, "{$module->getName()}.png");
+		} elseif (file_exists($iconPath)) {
 			$zip->addFile($iconPath, "{$module->getName()}.png");
 		}
 
@@ -1553,7 +1580,7 @@ class PackageService
 			// Get column type from information schema
 			$info_schema = $adb->pquery("SELECT column_name, column_type FROM INFORMATION_SCHEMA.COLUMNS WHERE table_schema = SCHEMA() && table_name = ? && column_name = ?", [$fieldresultrow['tablename'], $fieldresultrow['columnname']]);
 			$info_schemarow = $adb->fetchByAssoc($info_schema);
-			$columntype = $info_schemarow ? $info_schemarow['column_type'] : '';
+			$columntype = ($info_schemarow && isset($info_schemarow['column_type'])) ? $info_schemarow['column_type'] : '';
 
 			$this->outputNode($fieldname, 'fieldname');
 			$this->outputNode($uitype, 'uitype');
@@ -1595,7 +1622,7 @@ class PackageService
 				if ($uitype == '16') {
 					$picklistvalues = \App\Fields\Picklist::getPickListValues($fieldname);
 				} else {
-					$picklistvalues = \App\Utils\VtlibUtils::getPicklistValues_AccessibleToAll($fieldname);
+					$picklistvalues = \App\Utils\VtlibUtils::getPicklistValuesAccessibleToAll($fieldname);
 				}
 				$this->openNode('picklistvalues');
 				foreach ($picklistvalues as $picklistvalue) {
@@ -1781,11 +1808,43 @@ class PackageService
 	 */
 	private function exportInventory(Models\Module $module): void
 	{
-		// Inventory export - delegate to existing implementation
-		$vtlibModule = $this->createVtlibModuleInstance($module);
-		if (method_exists($vtlibModule, 'exportInventory')) {
-			$vtlibModule->exportInventory();
+		$basetable = $module->getBasetable();
+		if (!$basetable) {
+			return;
 		}
+
+		$invfieldTable = $basetable . '_invfield';
+		$adb = \App\Database\PearDatabase::getInstance();
+		
+		// Check if table exists
+		if (!$this->db->isTableExists($invfieldTable)) {
+			return;
+		}
+
+		$result = $adb->pquery("SELECT * FROM {$invfieldTable} ORDER BY sequence", []);
+		$fieldcount = $adb->num_rows($result);
+
+		if (empty($fieldcount)) {
+			return;
+		}
+
+		$this->openNode('inventoryfields');
+		for ($index = 0; $index < $fieldcount; ++$index) {
+			$row = $adb->fetchByAssoc($result);
+			$this->openNode('inventoryfield');
+			$this->outputNode($row['columnname'], 'columnname');
+			$this->outputNode($row['label'], 'label');
+			$this->outputNode($row['invtype'], 'invtype');
+			$this->outputNode($row['presence'], 'presence');
+			$this->outputNode($row['defaultvalue'] ?? '', 'defaultvalue');
+			$this->outputNode($row['sequence'], 'sequence');
+			$this->outputNode($row['block'], 'block');
+			$this->outputNode($row['displaytype'], 'displaytype');
+			$this->outputNode($row['params'] ?? '', 'params');
+			$this->outputNode($row['colspan'], 'colspan');
+			$this->closeNode('inventoryfield');
+		}
+		$this->closeNode('inventoryfields');
 	}
 
 	/**
@@ -1811,7 +1870,7 @@ class PackageService
 			if ($item->isFile()) {
 				$filePath = $item->getRealPath();
 				$relativePath = str_replace('\\', '/', substr($filePath, strlen(realpath($sourceDir)) + 1));
-				$zipPath = $zipDir . $relativePath;
+				$zipPath = rtrim($zipDir, '/') . '/' . ltrim($relativePath, '/');
 				$zip->addFile($filePath, $zipPath);
 			}
 		}
@@ -1866,7 +1925,7 @@ class PackageService
 		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 		header("Cache-Control: private", false);
 		header("Content-Type: application/zip");
-		header("Content-Disposition: attachment; filename='" . basename($zipfileName) . "';");
+		header("Content-Disposition: attachment; filename=\"" . basename($zipfileName) . "\"");
 		$disk_file_size = filesize($zipfileName);
 		$zipfilesize = $disk_file_size + ($disk_file_size % 1024);
 		header("Content-Length: " . $zipfilesize);
@@ -2078,6 +2137,9 @@ class PackageService
 		}
 
 		$cur_version = $module->getVersion();
+		// Normalize version to string format for version_compare
+		// version_compare() handles different formats correctly (e.g., "1" < "1.1" < "1.19")
+		$cur_version_str = (string) $cur_version;
 		$migrations = [];
 
 		foreach ($modulenode->migrations->migration as $migrationnode) {
@@ -2089,7 +2151,7 @@ class PackageService
 		uksort($migrations, 'version_compare');
 
 		foreach ($migrations as $migversion => $migrationnode) {
-			if (version_compare($cur_version, $migversion, '<')) {
+			if (version_compare($cur_version_str, $migversion, '<')) {
 				if (!empty($migrationnode->tables) && !empty($migrationnode->tables->table)) {
 					foreach ($migrationnode->tables->table as $tablenode) {
 						$tablename = (string) $tablenode->name;

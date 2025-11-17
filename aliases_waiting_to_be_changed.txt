@@ -1,2 +1,0 @@
-./src/Modules/Vtiger/Views/MassActionAjax.php	Settings_MailMerge_Record_Model
-./src/Modules/Settings/Vtiger/Actions/TaxAjax.php	Settings_Vtiger_TaxRecord_Model
