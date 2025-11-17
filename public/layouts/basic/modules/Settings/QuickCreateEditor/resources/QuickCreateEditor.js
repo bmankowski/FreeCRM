@@ -212,6 +212,10 @@ jQuery.Class('Settings_QuickCreateEditor_Js', {
 				function(data) {
 					contentsDiv.html(data);
 					thisInstance.registerEvents();
+					// Update URL without page reload
+					var url = new URL(window.location.href);
+					url.searchParams.set('sourceModule', selectedModule);
+					window.history.pushState(null, '', url.toString());
 				}
 			);
 		});

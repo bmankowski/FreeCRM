@@ -19,6 +19,10 @@ jQuery.Class('Settings_Notifications_Configuration_Js', {}, {
 						container.html(data);
 						app.changeSelectElementView(container);
 						thisInstance.registerEvents();
+						// Update URL without page reload (requestPjax should handle this, but ensure it's set)
+						var url = new URL(window.location.href);
+						url.searchParams.set('srcModule', jQuery(e.currentTarget).val());
+						window.history.pushState(null, '', url.toString());
 					},
 					function (textStatus, errorThrown) {
 						progress.progressIndicator({'mode': 'hide'});
