@@ -2200,7 +2200,36 @@ class PackageService
 
 		// Update components
 		$this->update_Tables($this->modulexml);
-		$this->update_Blocks($this->modulexml, $module);
+		
+		// Check if module has any blocks from manifest - if not, use import instead of update
+		$hasManifestBlocks = !empty($this->modulexml->blocks) && !empty($this->modulexml->blocks->block);
+		if ($hasManifestBlocks) {
+			$blockService = \App\ModuleManagement\ServiceLocator::getBlockService();
+			$existingBlocks = $blockService->getAllForModule($module->getId());
+			$manifestBlockLabels = [];
+			foreach ($this->modulexml->blocks->block as $blocknode) {
+				$manifestBlockLabels[] = (string) $blocknode->label;
+			}
+			
+			// Check if any manifest blocks exist
+			$hasManifestBlocksInModule = false;
+			foreach ($existingBlocks as $existingBlock) {
+				if (in_array($existingBlock->getLabel(), $manifestBlockLabels)) {
+					$hasManifestBlocksInModule = true;
+					break;
+				}
+			}
+			
+			// If module doesn't have manifest blocks yet, use import instead of update
+			if (!$hasManifestBlocksInModule) {
+				$this->import_Blocks($this->modulexml, $module);
+			} else {
+				$this->update_Blocks($this->modulexml, $module);
+			}
+		} else {
+			$this->update_Blocks($this->modulexml, $module);
+		}
+		
 		$this->update_CustomViews($this->modulexml, $module);
 		$this->update_SharingAccess($this->modulexml, $module);
 		$this->update_Events($this->modulexml, $module);
@@ -2347,7 +2376,9 @@ class PackageService
 		$existingFields = [];
 		$allFields = $fieldService->getAllForModule($module->getId());
 		foreach ($allFields as $f) {
-			if ($f->getBlock()->getId() == $block->getId()) {
+			// Handle case where block might be null (e.g., system fields)
+			$fieldBlock = $f->getBlock();
+			if ($fieldBlock && $fieldBlock->getId() == $block->getId()) {
 				$existingFields[$f->getName()] = $f;
 			}
 		}
@@ -2410,15 +2441,19 @@ class PackageService
 					$fieldService->setRelatedModules($existingField->getId(), $relatedmodules);
 				}
 			} else {
-				// Create new field
+				// Create new field - this ensures fields are always imported even during update
 				$this->import_Field($blocknode, $block, $module, $fieldnode);
 			}
 		}
 
-		// Delete removed fields
+		// Delete removed fields (only custom fields, not system fields)
 		foreach ($existingFields as $field) {
 			if (!in_array($field->getName(), $manifestFieldNames)) {
-				$fieldService->delete($field->getId());
+				// Only delete if field is not a system field (generatedtype != 0)
+				// System fields have generatedtype = 0, custom fields have generatedtype = 1
+				if ($field->getGeneratedtype() != 0) {
+					$fieldService->delete($field->getId());
+				}
 			}
 		}
 	}

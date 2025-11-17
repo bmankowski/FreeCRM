@@ -1007,8 +1007,9 @@ class Module extends \vtlib\Module
 		foreach ($entityModules as $tabid => $moduleModel) {
 			$moduleName = $moduleModel->getName();
 			$entityInfo = \App\Utils\ModuleUtils::getEntityInfo($tabid);
-			if ($moduleName == 'Users' || $moduleName == 'Events' || !$entityInfo['turn_off'])
+			if (!$entityInfo || !isset($entityInfo['turn_off']) || $moduleName == 'Users' || $moduleName == 'Events' || !$entityInfo['turn_off']) {
 				continue;
+			}
 			if ($userPrivModel->hasModuleActionPermission($moduleModel->getId(), 'DetailView')) {
 				$searchableModules[$moduleName] = $moduleModel;
 			}

@@ -230,7 +230,12 @@ class Module extends \App\Modules\Base\Models\Module
 		include_once ('vendor/ezyang/htmlpurifier/library/HTMLPurifier.auto.php');
 		$config = HTMLPurifier_Config::createDefault();
 		$config->set('Core.Encoding', \App\Core\AppConfig::main('default_charset'));
-		$config->set('Cache.SerializerPath', ROOT_DIRECTORY . '/cache/vtlib');
+		$cachePath = ROOT_DIRECTORY . '/cache/vtlib';
+		// Ensure cache directory exists
+		if (!is_dir($cachePath)) {
+			@mkdir($cachePath, 0755, true);
+		}
+		$config->set('Cache.SerializerPath', $cachePath);
 		$config->set('CSS.AllowTricky', false);
 		$config->set('HTML.AllowedElements', 'div,p,br');
 		$config->set('HTML.AllowedAttributes', '');

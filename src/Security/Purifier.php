@@ -59,9 +59,14 @@ class Purifier
 		if (!$ignore) {
 			// Initialize the instance if it has not yet done
 			if (!static::$purifyInstanceCache) {
+				$cachePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'vtlib';
+				// Ensure cache directory exists
+				if (!is_dir($cachePath)) {
+					@mkdir($cachePath, 0755, true);
+				}
 				$config = \HTMLPurifier_Config::createDefault();
 				$config->set('Core.Encoding', static::$defaultCharset);
-				$config->set('Cache.SerializerPath', ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'vtlib');
+				$config->set('Cache.SerializerPath', $cachePath);
 				$config->set('HTML.Allowed', '');
 				static::$purifyInstanceCache = new \HTMLPurifier($config);
 			}
@@ -113,6 +118,11 @@ class Purifier
 		if (!$ignore) {
 			// Initialize the instance if it has not yet done
 			if (!static::$purifyHtmlInstanceCache) {
+				$cachePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'vtlib';
+				// Ensure cache directory exists
+				if (!is_dir($cachePath)) {
+					@mkdir($cachePath, 0755, true);
+				}
 				$allowed = [
 					'img[src|alt|title|width|height|style|data-mce-src|data-mce-json|class]',
 					'figure', 'figcaption',
@@ -131,7 +141,7 @@ class Purifier
 				];
 				$config = \HTMLPurifier_Config::createDefault();
 				$config->set('Core.Encoding', static::$defaultCharset);
-				$config->set('Cache.SerializerPath', ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'vtlib');
+				$config->set('Cache.SerializerPath', $cachePath);
 				$config->set('HTML.Doctype', 'HTML 4.01 Transitional');
 				$config->set('CSS.AllowTricky', true);
 				$config->set('CSS.Proprietary', true);
