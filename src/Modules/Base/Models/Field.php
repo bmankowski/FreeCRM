@@ -427,7 +427,11 @@ class Field extends \vtlib\Field
 		if (!$moduleModel) {
 			return false;
 		}
-		if (in_array($this->get('column'), $moduleModel->getNameFields())) {
+		$nameFields = $moduleModel->getNameFields();
+		if (!is_array($nameFields)) {
+			return false;
+		}
+		if (in_array($this->get('column'), $nameFields)) {
 			return true;
 		}
 		return false;

@@ -69,6 +69,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 
 		$jsFileNames = array(
 			'~libraries/jquery/jstree/jstree.min.js',
+			'modules.Settings.Vtiger.resources.Index',
 			"modules.Settings.$moduleName.resources.Menu",
 		);
 

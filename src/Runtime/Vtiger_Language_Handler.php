@@ -81,8 +81,11 @@ class Vtiger_Language_Handler
 		if (is_numeric($module)) {
 			// ok, we have a tab id, lets turn it into name
 			$module = \App\Utils\ModuleUtils::getModuleName($module);
-			// If module name doesn't contain dot and file doesn't exist, try Settings submodule
-			if ($module && strpos($module, '.') === false) {
+			// If getModuleName returned false (module doesn't exist), use default 'Vtiger'
+			if ($module === false || empty($module)) {
+				$module = 'Vtiger';
+			} elseif (strpos($module, '.') === false) {
+				// If module name doesn't contain dot and file doesn't exist, try Settings submodule
 				$qualifiedName = 'languages.' . $language . '.' . $module;
 				$file = \App\Core\Loader::resolveNameToPath($qualifiedName);
 				if (!file_exists($file)) {
@@ -95,7 +98,12 @@ class Vtiger_Language_Handler
 				}
 			}
 		} else {
-			$module = str_replace(':', '.', $module);
+			// Ensure module is not empty or false
+			if (empty($module) || $module === false) {
+				$module = 'Vtiger';
+			} else {
+				$module = str_replace(':', '.', $module);
+			}
 		}
 
 		$moduleStrings = self::getModuleStringsFromFile($language, $module);
@@ -177,6 +185,21 @@ class Vtiger_Language_Handler
 			$languageStrings = [];
 			$jsLanguageStrings = [];
 			
+			// If file doesn't exist with current language format, try alternative format
+			// e.g., if pl_pl doesn't exist, try pl-PL (YetiForce format)
+			if (!file_exists($file) && strpos($language, '_') !== false) {
+				$languageNormalized = str_replace('_', '-', $language);
+				$languageParts = explode('-', $languageNormalized);
+				if (count($languageParts) == 2) {
+					$languageNormalized = strtolower($languageParts[0]) . '-' . strtoupper($languageParts[1]);
+					$qualifiedNameAlt = 'languages.' . $languageNormalized . '.' . $module;
+					$fileAlt = \App\Core\Loader::resolveNameToPath($qualifiedNameAlt);
+					if (file_exists($fileAlt)) {
+						$file = $fileAlt;
+					}
+				}
+			}
+			
 			if (file_exists($file)) {
 				$jsonContent = file_get_contents($file);
 				$data = json_decode($jsonContent, true);
@@ -187,7 +210,10 @@ class Vtiger_Language_Handler
 					\App\Log\Log::error(sprintf('Invalid JSON in language file: %s (error: %s)', $file, json_last_error_msg()));
 				}
 			} else {
-				\App\Log\Log::warning(sprintf('Language file does not exist, module: %s ,language: %s', $module, $language));
+				// Only log warning if module is not empty (empty module warnings are expected for common strings)
+				if (!empty($module)) {
+					\App\Log\Log::warning(sprintf('Language file does not exist, module: %s ,language: %s', $module, $language));
+				}
 			}
 
 			self::$languageContainer[$language][$module]['languageStrings'] = $languageStrings;

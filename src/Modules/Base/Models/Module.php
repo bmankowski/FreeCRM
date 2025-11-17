@@ -827,7 +827,10 @@ class Module extends \vtlib\Module
 	public function getNameFields()
 	{
 		$entityInfo = \App\Utils\ModuleUtils::getEntityInfo($this->getId());
-		return $entityInfo['fieldnameArr'];
+		if (is_array($entityInfo) && isset($entityInfo['fieldnameArr']) && is_array($entityInfo['fieldnameArr'])) {
+			return $entityInfo['fieldnameArr'];
+		}
+		return [];
 	}
 
 	/**
@@ -1554,7 +1557,10 @@ class Module extends \vtlib\Module
 	{
 		$nameFields = $this->getNameFields();
 		//To make the first field as the name field
-		return $nameFields[0];
+		if (is_array($nameFields) && !empty($nameFields)) {
+			return $nameFields[0];
+		}
+		return '';
 	}
 
 	/**

@@ -154,13 +154,25 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 				continue;
 			}
 			$recordModel = \App\Modules\Settings\Menu\Models\Record::getInstanceById($id);
+			// Get role before deleting - either from model or directly from database
+			$role = 0;
+			if ($recordModel !== false) {
+				$role = $recordModel->get('role');
+			} else {
+				// If model doesn't exist, try to get role directly from database
+				$query = (new \App\Db\Query())->select('role')->from('yetiforce_menu')->where(['id' => $id]);
+				$roleResult = $query->one();
+				if ($roleResult !== false && isset($roleResult['role'])) {
+					$role = $roleResult['role'];
+				}
+			}
 			$query = (new \App\Db\Query())->select('id')->from('yetiforce_menu')->where(['parentid' => $id]);
 			$dataReader = $query->createCommand()->query();
 			while ($childId = $dataReader->readColumn(0)) {
 				$this->removeMenu($childId);
 			}
 			$db->createCommand()->delete('yetiforce_menu', ['id' => $id])->execute();
-			$this->generateFileMenu($recordModel->get('role'));
+			$this->generateFileMenu($role);
 		}
 	}
 

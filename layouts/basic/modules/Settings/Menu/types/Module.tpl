@@ -18,7 +18,8 @@
 </div>
 {include file='fields/Newwindow.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 {include file='fields/Hotkey.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
-{assign var=FILTERS value=explode(',',$RECORD->get('filters'))}
+{assign var=FILTERS_RAW value=$RECORD->get('filters')}
+{assign var=FILTERS value=explode(',',($FILTERS_RAW|default:''))}
 <div class="form-group">
 	<label class="col-md-4 control-label">{"LBL_AVAILABLE_FILTERS"|t:$QUALIFIED_MODULE}:</label>
 	<div class="col-md-7">
