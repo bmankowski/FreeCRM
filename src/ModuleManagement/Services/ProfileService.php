@@ -19,7 +19,7 @@ namespace App\ModuleManagement\Services;
  */
 class ProfileService
 {
-	/** @var \App\Db Database instance */
+	/** @var \App\Db\Db Database instance */
 	private $db;
 
 	/**

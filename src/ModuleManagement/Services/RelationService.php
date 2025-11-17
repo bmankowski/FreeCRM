@@ -19,7 +19,7 @@ namespace App\ModuleManagement\Services;
  */
 class RelationService
 {
-	/** @var \App\Db Database instance */
+	/** @var \App\Db\Db Database instance */
 	private $db;
 
 	/**

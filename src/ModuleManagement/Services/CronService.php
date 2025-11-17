@@ -21,7 +21,7 @@ use App\ModuleManagement\Models;
  */
 class CronService
 {
-	/** @var \App\Db Database instance */
+	/** @var \App\Db\Db Database instance */
 	private $db;
 
 	/** Status constants */

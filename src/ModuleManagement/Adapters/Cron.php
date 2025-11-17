@@ -34,7 +34,7 @@ class Cron
 	/** @var array Task data */
 	private $data = [];
 
-	/** @var \App\Db Database instance */
+	/** @var \App\Db\Db Database instance */
 	private $db;
 
 	/** @var string Table name */
