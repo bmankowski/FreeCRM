@@ -1079,6 +1079,22 @@ class Module extends \vtlib\Module
 			];
 		}
 
+		// Add link to Recycle Bin for all modules that support deletion
+		if ($userPrivilegesModel->hasModulePermission('RecycleBin')) {
+			$recycleBinUrl = 'index.php?module=RecycleBin&view=ListView';
+			// Add sourceModule parameter to filter by current module
+			$currentModuleName = $this->get('name');
+			if ($currentModuleName && $currentModuleName !== 'RecycleBin') {
+				$recycleBinUrl .= '&sourceModule=' . $currentModuleName;
+			}
+			$quickLinks[] = [
+				'linktype' => 'SIDEBARLINK',
+				'linklabel' => 'RecycleBin',
+				'linkurl' => $recycleBinUrl,
+				'linkicon' => '',
+			];
+		}
+
 		foreach ($quickLinks as $quickLink) {
 			$links['SIDEBARLINK'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($quickLink);
 		}
