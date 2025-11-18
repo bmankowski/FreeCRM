@@ -110,14 +110,7 @@ abstract class Basic extends \App\Base\Controllers\BaseViewController
 				// Ignore errors when checking switch users
 			}
 		}
-		if (\App\Core\AppConfig::security('SHOW_MY_PREFERENCES')) {
-			$headerLinks[] = [
-				'linktype' => 'HEADERLINK',
-				'linklabel' => 'LBL_MY_PREFERENCES',
-				'linkurl' => $userModel->getPreferenceDetailViewUrl(),
-				'glyphicon' => 'glyphicon glyphicon-tasks',
-			];
-		}
+		// System settings link for admin users (keep separate as it's not user-specific)
 		if ($userModel->isAdminUser()) {
 			if ($request->get('parent') != 'Settings') {
 				$headerLinks[] = [
@@ -135,19 +128,59 @@ abstract class Basic extends \App\Base\Controllers\BaseViewController
 				];
 			}
 		}
-		$headerLinks[] = [
+		
+		// Create user menu dropdown with preferences and logout options
+		$userMenuChildLinks = [];
+		
+		// Add "My Preferences" if enabled
+		if (\App\Core\AppConfig::security('SHOW_MY_PREFERENCES')) {
+			$userMenuChildLinks[] = [
+				'linktype' => 'HEADERLINK',
+				'linklabel' => 'LBL_MY_PREFERENCES',
+				'linkurl' => $userModel->getPreferenceDetailViewUrl(),
+				'glyphicon' => 'glyphicon glyphicon-tasks',
+			];
+		}
+		
+		// Add separator before logout if there are other items
+		if (!empty($userMenuChildLinks)) {
+			$userMenuChildLinks[] = [
+				'linktype' => 'HEADERLINK',
+				'linklabel' => null, // separator - null label creates divider
+				'linkurl' => '#',
+			];
+		}
+		
+		// Add "Sign Out" option
+		$userMenuChildLinks[] = [
 			'linktype' => 'HEADERLINK',
 			'linklabel' => 'LBL_SIGN_OUT',
 			'linkurl' => 'index.php?module=Users&parent=Settings&action=Logout',
 			'glyphicon' => 'glyphicon glyphicon-off',
 			'linkclass' => 'btn-danger'
 		];
+		
+		// Add main user menu link with dropdown
+		// Empty label - only icon will be shown (no tooltip for dropdown menu)
+		$headerLinks[] = [
+			'linktype' => 'HEADERLINK',
+			'linklabel' => '', // Empty label - only icon will be shown
+			'linkurl' => '#',
+			'glyphicon' => 'glyphicon glyphicon-user',
+			'childlinks' => $userMenuChildLinks
+		];
 		$headerLinkInstances = [];
 		foreach ($headerLinks as $headerLink) {
 			$headerLinkInstance = \App\Modules\Base\Models\Link::getInstanceFromValues($headerLink);
 			if (isset($headerLink['childlinks'])) {
 				foreach ($headerLink['childlinks'] as $childLink) {
-					$headerLinkInstance->addChildLink(\App\Modules\Base\Models\Link::getInstanceFromValues($childLink));
+					// Ensure childLink is converted to Link object if it's an array
+					if (is_array($childLink)) {
+						$childLinkInstance = \App\Modules\Base\Models\Link::getInstanceFromValues($childLink);
+					} else {
+						$childLinkInstance = $childLink;
+					}
+					$headerLinkInstance->addChildLink($childLinkInstance);
 				}
 			}
 			$headerLinkInstances[] = $headerLinkInstance;

@@ -20,7 +20,7 @@
 					{assign var="HREF" value="javascript:;"}
 				{/if}
 			{/if}
-			<a class="btn btn-sm popoverTooltip {if $OBJ_CLASS && $OBJ_CLASS|strrpos:"btn-" === false}btn-default {$OBJ_CLASS}{elseif $OBJ_CLASS}{$OBJ_CLASS}{else}btn-default{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if}" data-content="{$TITLE|t}" href="{$HREF}"
+			<a class="btn btn-sm {if empty($CHILD_LINKS)}popoverTooltip{/if} {if $OBJ_CLASS && $OBJ_CLASS|strrpos:"btn-" === false}btn-default {$OBJ_CLASS}{elseif $OBJ_CLASS}{$OBJ_CLASS}{else}btn-default{/if} {if !empty($CHILD_LINKS)}dropdownMenu{/if}" {if empty($CHILD_LINKS)}data-content="{$TITLE|t}"{/if} href="{$HREF}"
 			   {if !empty($LINK_DATA) && is_array($LINK_DATA)}
 				   {foreach item=DATA_VALUE key=DATA_NAME from=$LINK_DATA}
 					   data-{$DATA_NAME}="{$DATA_VALUE}" 
@@ -36,9 +36,9 @@
 			{if !empty($CHILD_LINKS)}
 				<ul class="dropdown-menu">
 					{foreach key=index item=obj from=$CHILD_LINKS}
-						{if $obj->getLabel() eq NULL}
+						{if is_object($obj) && $obj->getLabel() eq NULL}
 							<li class="divider"></li>
-						{else}
+						{elseif is_object($obj)}
 							{assign var="id" value=$obj->getId()}
 							{assign var="href" value=$obj->getUrl()}
 							{assign var="label" value=$obj->getLabel()}
@@ -48,9 +48,10 @@
 								{assign var="href" value="javascript:;"}
 							{/if}
 						<li>
+							{assign var="LINK_DATA" value=$obj->getLinkData()}
 							<a target="{$obj->target}" id="menubar_item_right_{\App\Modules\Base\Helpers\Util::replaceSpaceWithUnderScores($label)}" {if $label=='Switch to old look'}switchLook{/if} href="{$href}" {$onclick}
-							   {if $obj->linkdata && is_array($obj->linkdata)}
-								   {foreach item=DATA_VALUE key=DATA_NAME from=$obj->linkdata}
+							   {if !empty($LINK_DATA) && is_array($LINK_DATA)}
+								   {foreach item=DATA_VALUE key=DATA_NAME from=$LINK_DATA}
 									   data-{$DATA_NAME}="{$DATA_VALUE}" 
 								   {/foreach}
 							   {/if}>{$label|t:$MODULE}</a>

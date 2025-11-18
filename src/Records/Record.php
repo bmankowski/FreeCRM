@@ -39,9 +39,13 @@ class Record
 			foreach ($ids as $id) {
 				if ($id && !Cache::has('recordLabel', $id)) {
 					$metainfo = Functions::getCRMRecordMetadata($id);
-					$computeLabel = static::computeLabels($metainfo['setype'], $id);
-					$recordLabel = \vtlib\Functions:: textLength(\App\Utils\ListViewUtils::decodeHtml($computeLabel[$id]), 254, false);
-					Cache::save('recordLabel', $id, $recordLabel);
+					if (!empty($metainfo) && isset($metainfo['setype']) && !empty($metainfo['setype'])) {
+						$computeLabel = static::computeLabels($metainfo['setype'], $id);
+						if (!empty($computeLabel) && isset($computeLabel[$id])) {
+							$recordLabel = \vtlib\Functions:: textLength(\App\Utils\ListViewUtils::decodeHtml($computeLabel[$id]), 254, false);
+							Cache::save('recordLabel', $id, $recordLabel);
+						}
+					}
 				}
 			}
 		}
