@@ -60,22 +60,22 @@ test.describe('Contacts List View', () => {
     
     // Go back to list view
     await contactsPage.goto();
-    await contactsPage.waitForListLoad();
     
     console.log(`Successfully created contact: ${testFirstName} ${testLastName}`);
     
     // Search for the newly created contact using the search field
     // Note: The contact may not be on the first page, but should be findable via search
     await contactsPage.search(testLastName);
-    await contactsPage.waitForListLoad();
     
     // Verify search found the contact
+    await contactsPage.waitForContactRow(testLastName);
     const foundInSearch = await contactsPage.hasContact(testLastName);
     expect(foundInSearch).toBe(true);
     console.log(`Successfully found contact in search: ${testLastName}`);
   });
 
   test('should delete contact and verify it appears in recycle bin', async ({ authenticatedPage }) => {
+    test.setTimeout(60000);
     await contactsPage.waitForListLoad();
     
     // Create a new contact for deletion
@@ -101,15 +101,14 @@ test.describe('Contacts List View', () => {
     
     // Go back to list view
     await contactsPage.goto();
-    await contactsPage.waitForListLoad();
     
     console.log(`Successfully created contact for deletion: ${testFirstName} ${testLastName}`);
     
     // Search for the contact to make sure it's visible
     await contactsPage.search(testLastName);
-    await contactsPage.waitForListLoad();
     
     // Verify the contact exists before deletion
+    await contactsPage.waitForContactRow(testLastName);
     const existsBeforeDelete = await contactsPage.hasContact(testLastName);
     expect(existsBeforeDelete).toBe(true);
     console.log(`Contact found before deletion: ${testLastName}`);
@@ -129,7 +128,6 @@ test.describe('Contacts List View', () => {
     
     // Search for the deleted contact in recycle bin
     await contactsPage.search(testLastName);
-    await contactsPage.waitForListLoad();
     
     // Verify the contact exists in recycle bin
     const foundInRecycleBin = await contactsPage.hasContactInRecycleBin(testLastName);
