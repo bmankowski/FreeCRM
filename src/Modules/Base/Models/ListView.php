@@ -316,13 +316,15 @@ class ListView extends \App\Runtime\BaseModel
 		}
 		$rows = $query->all();
 		$count = count($rows);
-		$pagingModel->calculatePageRange($count);
 		if ($count > $pageLimit) {
 			array_pop($rows);
 			$pagingModel->set('nextPageExists', true);
+			$actualCount = $pageLimit;
 		} else {
 			$pagingModel->set('nextPageExists', false);
+			$actualCount = $count;
 		}
+		$pagingModel->calculatePageRange($actualCount);
 		$listViewRecordModels = [];
 		foreach ($rows as &$row) {
 			$recordModel = $moduleModel->getRecordFromArray($row);

@@ -275,8 +275,23 @@ class ListView extends \App\Modules\Base\Views\Index
 			if (!$this->listViewCount) {
 				$this->listViewCount = $this->listViewModel->getListViewCount();
 			}
-			$pagingModel->set('totalCount', (int) $this->listViewCount);
 			$totalCount = (int) $this->listViewCount;
+		} else {
+			// Gdy LISTVIEW_COMPUTE_PAGE_COUNT jest wyłączone, oszacuj totalCount na podstawie dostępnych informacji
+			// Jeśli nie ma następnej strony, możemy obliczyć dokładną liczbę bez dodatkowego zapytania
+			if (!$pagingModel->isNextPageExists()) {
+				$totalCount = ($pageNumber - 1) * $pagingModel->getPageLimit() + $noOfEntries;
+			} else {
+				// Jeśli jest następna strona, musimy obliczyć totalCount dla poprawnej paginacji
+				if (!$this->listViewCount) {
+					$this->listViewCount = $this->listViewModel->getListViewCount();
+				}
+				$totalCount = (int) $this->listViewCount;
+			}
+		}
+		// Zawsze ustaw totalCount na pagingModel dla poprawnej paginacji
+		if ($totalCount !== false) {
+			$pagingModel->set('totalCount', $totalCount);
 		}
 		$viewer->assign('LISTVIEW_COUNT', $totalCount);
 		$viewer->assign('PAGE_COUNT', $pagingModel->getPageCount());
