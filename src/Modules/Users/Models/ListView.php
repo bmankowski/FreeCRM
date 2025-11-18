@@ -163,7 +163,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 			$advancedLinks[] = array(
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_EXPORT',
-				'linkurl' => 'javascript:Vtiger_List_Js.triggerExportAction("' . $moduleModel->getExportUrl() . '")',
+				'linkurl' => 'javascript:Vtiger_ListView_Js.triggerExportAction("' . $moduleModel->getExportUrl() . '")',
 				'linkicon' => ''
 			);
 		}

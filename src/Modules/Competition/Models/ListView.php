@@ -26,7 +26,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_SEND_EMAIL',
-				'linkurl' => 'javascript:Vtiger_List_Js.triggerSendEmail()',
+				'linkurl' => 'javascript:Vtiger_ListView_Js.triggerSendEmail()',
 				'linkicon' => ''
 			);
 		}

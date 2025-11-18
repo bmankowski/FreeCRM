@@ -43,7 +43,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_DELETE',
-				'linkurl' => 'javascript:Vtiger_List_Js.massDeleteRecords("index.php?module=' . $moduleModel->get('name') . '&action=MassDelete");',
+				'linkurl' => 'javascript:Vtiger_ListView_Js.massDeleteRecords("index.php?module=' . $moduleModel->get('name') . '&action=MassDelete");',
 				'linkicon' => ''
 			);
 		}

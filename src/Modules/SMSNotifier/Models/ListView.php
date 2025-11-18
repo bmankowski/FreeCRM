@@ -26,7 +26,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 			$advancedLinks[] = array(
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_EXPORT',
-				'linkurl' => 'javascript:Vtiger_List_Js.triggerExportAction("' . $this->getModule()->getExportUrl() . '")',
+				'linkurl' => 'javascript:Vtiger_ListView_Js.triggerExportAction("' . $this->getModule()->getExportUrl() . '")',
 				'linkicon' => ''
 			);
 		}
@@ -51,7 +51,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 			$advancedLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
-				'linkurl' => 'javascript:Vtiger_List_Js.triggerQuickExportToExcel("' . $moduleModel->getName() . '")',
+				'linkurl' => 'javascript:Vtiger_ListView_Js.triggerQuickExportToExcel("' . $moduleModel->getName() . '")',
 				'linkicon' => ''
 			);
 		}
@@ -101,7 +101,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 			$massActionLink = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_DELETE', $moduleName),
-				'linkurl' => 'javascript:Vtiger_List_Js.massDeleteRecords("index.php?module=' . $moduleName . '&action=MassDelete");',
+				'linkurl' => 'javascript:Vtiger_ListView_Js.massDeleteRecords("index.php?module=' . $moduleName . '&action=MassDelete");',
 				'linkicon' => ''
 			);
 		}

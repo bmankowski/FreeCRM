@@ -31,7 +31,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_SEND_EMAIL',
-				'linkurl' => 'javascript:Vtiger_List_Js.triggerSendEmail();',
+				'linkurl' => 'javascript:Vtiger_ListView_Js.triggerSendEmail();',
 				'linkicon' => ''
 			);
 		}
@@ -40,7 +40,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_SEND_SMS',
-				'linkurl' => 'javascript:Vtiger_List_Js.triggerSendSms("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=showSendSMSForm","SMSNotifier");',
+				'linkurl' => 'javascript:Vtiger_ListView_Js.triggerSendSms("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=showSendSMSForm","SMSNotifier");',
 				'linkicon' => ''
 			);
 		}

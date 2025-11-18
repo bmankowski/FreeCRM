@@ -24,7 +24,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 			$advancedLinks[] = array(
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_EXPORT',
-				'linkurl' => 'javascript:Vtiger_List_Js.triggerExportAction("' . $this->getModule()->getExportUrl() . '")',
+				'linkurl' => 'javascript:Vtiger_ListView_Js.triggerExportAction("' . $this->getModule()->getExportUrl() . '")',
 				'linkicon' => ''
 			);
 		}
@@ -48,7 +48,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 			$advancedLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
-				'linkurl' => 'javascript:Vtiger_List_Js.triggerQuickExportToExcel("' . $moduleModel->getName() . '")',
+				'linkurl' => 'javascript:Vtiger_ListView_Js.triggerQuickExportToExcel("' . $moduleModel->getName() . '")',
 				'linkicon' => ''
 			);
 		}
@@ -60,7 +60,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 				$advancedLinks[] = [
 					'linktype' => 'LISTVIEW',
 					'linklabel' => 'LBL_GENERATE_RECORDS',
-					'linkurl' => 'javascript:Vtiger_List_Js.triggerGenerateRecords("index.php?module=' . $moduleModel->getName() . '&view=GenerateModal&fromview=ListView");',
+					'linkurl' => 'javascript:Vtiger_ListView_Js.triggerGenerateRecords("index.php?module=' . $moduleModel->getName() . '&view=GenerateModal&fromview=ListView");',
 				];
 			}
 		}
@@ -85,7 +85,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_EDIT',
-				'linkurl' => 'javascript:Vtiger_List_Js.triggerMassEdit("index.php?module=' . $moduleModel->get('name') . '&view=MassActionAjax&mode=showMassEditForm");',
+				'linkurl' => 'javascript:Vtiger_ListView_Js.triggerMassEdit("index.php?module=' . $moduleModel->get('name') . '&view=MassActionAjax&mode=showMassEditForm");',
 				'linkicon' => ''
 			];
 		}
@@ -94,7 +94,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_DELETE',
-				'linkurl' => 'javascript:Vtiger_List_Js.massDeleteRecords("index.php?module=' . $moduleModel->getName() . '&action=MassDelete");',
+				'linkurl' => 'javascript:Vtiger_ListView_Js.massDeleteRecords("index.php?module=' . $moduleModel->getName() . '&action=MassDelete");',
 				'linkicon' => ''
 			];
 		}
@@ -110,7 +110,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
-				'linkurl' => 'javascript:Vtiger_List_Js.triggerTransferOwnership("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=transferOwnership")',
+				'linkurl' => 'javascript:Vtiger_ListView_Js.triggerTransferOwnership("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=transferOwnership")',
 				'linkicon' => ''
 			];
 		}

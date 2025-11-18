@@ -175,7 +175,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			array(
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
-				'linkurl' => 'javascript:\Vtiger_List_Js.deleteRecord(' . $this->getId() . ');',
+				'linkurl' => 'javascript:\Vtiger_ListView_Js.deleteRecord(' . $this->getId() . ');',
 				'linkicon' => 'glyphicon glyphicon-trash'
 			)
 		);

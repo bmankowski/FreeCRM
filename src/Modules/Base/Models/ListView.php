@@ -116,7 +116,7 @@ class ListView extends \App\Runtime\BaseModel
 			$headerLinks[] = [
 				'linktype' => 'LIST_VIEW_HEADER',
 				'linkhint' => 'LBL_SHOW_MAP',
-				'linkurl' => 'javascript:Vtiger_List_Js.showMap()',
+				'linkurl' => 'javascript:Vtiger_ListView_Js.showMap()',
 				'linkicon' => 'fa fa-globe'
 			];
 		}
@@ -172,7 +172,7 @@ class ListView extends \App\Runtime\BaseModel
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_EDIT',
-				'linkurl' => 'javascript:Vtiger_List_Js.triggerMassEdit("index.php?module=' . $moduleModel->get('name') . '&view=MassActionAjax&mode=showMassEditForm");',
+				'linkurl' => 'javascript:Vtiger_ListView_Js.triggerMassEdit("index.php?module=' . $moduleModel->get('name') . '&view=MassActionAjax&mode=showMassEditForm");',
 				'linkicon' => ''
 			);
 		}
@@ -180,7 +180,7 @@ class ListView extends \App\Runtime\BaseModel
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MASS_DELETE',
-				'linkurl' => 'javascript:Vtiger_List_Js.massDeleteRecords("index.php?module=' . $moduleModel->get('name') . '&action=MassDelete");',
+				'linkurl' => 'javascript:Vtiger_ListView_Js.massDeleteRecords("index.php?module=' . $moduleModel->get('name') . '&action=MassDelete");',
 				'linkicon' => ''
 			);
 		}
@@ -198,7 +198,7 @@ class ListView extends \App\Runtime\BaseModel
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_TRANSFER_OWNERSHIP',
-				'linkurl' => 'javascript:Vtiger_List_Js.triggerTransferOwnership("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=transferOwnership")',
+				'linkurl' => 'javascript:Vtiger_ListView_Js.triggerTransferOwnership("index.php?module=' . $moduleModel->getName() . '&view=MassActionAjax&mode=transferOwnership")',
 				'linkicon' => ''
 			);
 		}
@@ -206,7 +206,7 @@ class ListView extends \App\Runtime\BaseModel
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_REVIEW_CHANGES',
-				'linkurl' => 'javascript:Vtiger_List_Js.triggerReviewChanges("index.php?module=ModTracker&sourceModule=' . $moduleModel->getName() . '&action=ChangesReviewedOn&mode=reviewChanges")',
+				'linkurl' => 'javascript:Vtiger_ListView_Js.triggerReviewChanges("index.php?module=ModTracker&sourceModule=' . $moduleModel->getName() . '&action=ChangesReviewedOn&mode=reviewChanges")',
 				'linkicon' => ''
 			];
 		}
@@ -366,7 +366,7 @@ class ListView extends \App\Runtime\BaseModel
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_EXPORT',
-				'linkurl' => 'javascript:Vtiger_List_Js.triggerExportAction("' . $this->getModule()->getExportUrl() . '")',
+				'linkurl' => 'javascript:Vtiger_ListView_Js.triggerExportAction("' . $this->getModule()->getExportUrl() . '")',
 				'linkicon' => ''
 			];
 		}
@@ -388,7 +388,7 @@ class ListView extends \App\Runtime\BaseModel
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_FIND_DUPLICATES',
-				'linkurl' => 'Javascript:Vtiger_List_Js.showDuplicateSearchForm("index.php?module=' . $moduleModel->getName() .
+				'linkurl' => 'Javascript:Vtiger_ListView_Js.showDuplicateSearchForm("index.php?module=' . $moduleModel->getName() .
 				'&view=MassActionAjax&mode=showDuplicatesSearchForm")',
 				'linkicon' => ''
 			];
@@ -397,7 +397,7 @@ class ListView extends \App\Runtime\BaseModel
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
-				'linkurl' => 'javascript:Vtiger_List_Js.triggerQuickExportToExcel("' . $moduleModel->getName() . '")',
+				'linkurl' => 'javascript:Vtiger_ListView_Js.triggerQuickExportToExcel("' . $moduleModel->getName() . '")',
 				'linkicon' => ''
 			];
 		}
@@ -409,7 +409,7 @@ class ListView extends \App\Runtime\BaseModel
 				$advancedLinks[] = [
 					'linktype' => 'LISTVIEW',
 					'linklabel' => 'LBL_GENERATE_RECORDS',
-					'linkurl' => 'javascript:Vtiger_List_Js.triggerGenerateRecords("index.php?module=' . $moduleModel->getName() . '&view=GenerateModal&fromview=ListView");',
+					'linkurl' => 'javascript:Vtiger_ListView_Js.triggerGenerateRecords("index.php?module=' . $moduleModel->getName() . '&view=GenerateModal&fromview=ListView");',
 				];
 			}
 		}
