@@ -4,7 +4,9 @@
   "description": "FreeCRM - Open Source CRM System",
   "scripts": {
     "minify-css": "sh -c 'cleancss -o \"${1%.css}.min.css\" \"$1\"' _",
-    "minify-css-all": "find public/layouts -name 'style.css' ! -name '*.min.css' -exec sh -c 'cleancss -o \"${1%.css}.min.css\" \"$1\"' _ {} \\;"
+    "minify-css-all": "find public/layouts -name 'style.css' ! -name '*.min.css' -exec sh -c 'cleancss -o \"${1%.css}.min.css\" \"$1\"' _ {} \\;",
+    "test:e2e": "npm --prefix tests/e2e test -- --reporter=list",
+    "test:e2e:html": "npm --prefix tests/e2e test -- --reporter=html && npm --prefix tests/e2e run report"
   },
   "devDependencies": {
     "clean-css-cli": "^5.6.3"
