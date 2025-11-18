@@ -915,6 +915,10 @@ class Functions
 		if ($text === null || $text === '' || $text === false) {
 			return '';
 		}
+		// Convert to string if not already a string (handles int, float, etc.)
+		if (!is_string($text)) {
+			$text = (string) $text;
+		}
 		$newText = preg_replace("/(<\/?)(\w+)([^>]*>)/i", '', $text);
 		if (function_exists('mb_strlen')) {
 			if (mb_strlen(html_entity_decode($newText)) > $length) {
