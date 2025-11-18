@@ -37,7 +37,7 @@ class Module extends \App\Modules\Base\Models\Module
 				array(
 					'linktype' => 'LISTVIEWBASIC',
 					'linklabel' => 'LBL_EMPTY_RECYCLEBIN',
-					'linkurl' => 'javascript:RecycleBin_List_Js.emptyRecycleBin("index.php?module=' . $this->get('name') . '&action=RecycleBinAjax")',
+					'linkurl' => 'javascript:RecycleBin_ListView_Js.emptyRecycleBin("index.php?module=' . $this->get('name') . '&action=RecycleBinAjax")',
 					'linkicon' => ''
 				)
 			);
@@ -64,7 +64,7 @@ class Module extends \App\Modules\Base\Models\Module
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_DELETE',
-				'linkurl' => 'javascript:RecycleBin_List_Js.deleteRecords("index.php?module=' . $this->get('name') . '&action=RecycleBinAjax")',
+				'linkurl' => 'javascript:RecycleBin_ListView_Js.deleteRecords("index.php?module=' . $this->get('name') . '&action=RecycleBinAjax")',
 				'linkicon' => ''
 			);
 		}
@@ -72,7 +72,7 @@ class Module extends \App\Modules\Base\Models\Module
 		$massActionLinks[] = array(
 			'linktype' => 'LISTVIEWMASSACTION',
 			'linklabel' => 'LBL_RESTORE',
-			'linkurl' => 'javascript:RecycleBin_List_Js.restoreRecords("index.php?module=' . $this->get('name') . '&action=RecycleBinAjax")',
+			'linkurl' => 'javascript:RecycleBin_ListView_Js.restoreRecords("index.php?module=' . $this->get('name') . '&action=RecycleBinAjax")',
 			'linkicon' => ''
 		);
 

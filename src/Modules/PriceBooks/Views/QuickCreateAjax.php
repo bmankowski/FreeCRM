@@ -13,7 +13,7 @@ namespace App\Modules\PriceBooks\Views;
 
 
 use App\Http\Vtiger_Request;
-class QuickCreateAjax  extends \App\Modules\Base\Views\Index
+class QuickCreateAjax  extends \App\Modules\Base\Views\QuickCreateAjax
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

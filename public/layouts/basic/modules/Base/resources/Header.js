@@ -1014,9 +1014,13 @@ jQuery.Class("Vtiger_Header_Js", {
 
 		thisInstance.basicSearch();
 		$('.bodyHeader .dropdownMenu').on("click", function (e) {
-			$(this).next('ul').toggle();
+			if (!$(e.target).closest('.quickCreateModule').length) {
+				$(this).next('ul').toggle();
+			}
 		});
 		jQuery('.quickCreateModules').on("click", ".quickCreateModule", function (e, params) {
+			e.preventDefault();
+			e.stopPropagation();
 			var moduleName = jQuery(e.currentTarget).data('name');
 			thisInstance.quickCreateModule(moduleName);
 		});

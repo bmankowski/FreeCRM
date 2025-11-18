@@ -57,6 +57,68 @@ class RecycleBinAjax extends \App\Base\Controllers\BaseActionController
 	}
 
 	/**
+	 * Get records list from request, handling JSON strings and arrays
+	 * @param \App\Http\Vtiger_Request $request
+	 * @return array|null
+	 */
+	private function getRecordsListFromRequest(\App\Http\Vtiger_Request $request)
+	{
+		// First check if selected_ids is directly provided (for single record actions)
+		$selectedIds = $request->get('selected_ids');
+		
+		// If selected_ids is already an array and not empty, use it directly
+		if (is_array($selectedIds) && !empty($selectedIds)) {
+			return $selectedIds;
+		}
+		
+		// If selected_ids is a string, try to parse it as JSON
+		if (is_string($selectedIds) && !empty($selectedIds)) {
+			$trimmed = trim($selectedIds);
+			// Check if it looks like JSON array or object
+			if ((strpos($trimmed, '[') === 0 || strpos($trimmed, '{') === 0)) {
+				$decoded = json_decode($trimmed, true);
+				if (json_last_error() === JSON_ERROR_NONE && is_array($decoded) && !empty($decoded)) {
+					return $decoded;
+				}
+			}
+		}
+		
+		// Also check raw value in case Vtiger_Request didn't parse it correctly
+		$rawSelectedIds = $request->getRaw('selected_ids');
+		if (is_string($rawSelectedIds) && !empty($rawSelectedIds) && $rawSelectedIds !== $selectedIds) {
+			$trimmed = trim($rawSelectedIds);
+			if ((strpos($trimmed, '[') === 0 || strpos($trimmed, '{') === 0)) {
+				$decoded = json_decode($trimmed, true);
+				if (json_last_error() === JSON_ERROR_NONE && is_array($decoded) && !empty($decoded)) {
+					return $decoded;
+				}
+			}
+		}
+		
+		// For mass actions, try to use Mass::getRecordsListFromRequest (uses viewname to get selected records)
+		$result = \App\Modules\Base\Actions\Mass::getRecordsListFromRequest($request);
+		
+		// If result is an array, return it
+		if (is_array($result) && !empty($result)) {
+			return $result;
+		}
+		
+		// If result is a string, try to parse it as JSON
+		if (is_string($result) && !empty($result)) {
+			$trimmed = trim($result);
+			if ((strpos($trimmed, '[') === 0 || strpos($trimmed, '{') === 0)) {
+				$decoded = json_decode($trimmed, true);
+				if (json_last_error() === JSON_ERROR_NONE && is_array($decoded) && !empty($decoded)) {
+					return $decoded;
+				}
+			}
+		}
+		
+		// If nothing worked, return null
+		return null;
+	}
+
+	/**
 	 * Function to restore the deleted records.
 	 * @param type $sourceModule
 	 * @param type $recordIds
@@ -65,12 +127,17 @@ class RecycleBinAjax extends \App\Base\Controllers\BaseActionController
 	{
 		$sourceModule = $request->get('sourceModule');
 		$recordIds = $this->getRecordsListFromRequest($request);
+		
 		$recycleBinModule = new \App\Modules\RecycleBin\Models\Module();
 
 		$response = new \App\Http\Vtiger_Response();
-		if ($recordIds) {
+		if ($recordIds && is_array($recordIds) && count($recordIds) > 0) {
 			$recycleBinModule->restore($sourceModule, $recordIds);
 			$response->setResult(array(true));
+		} else {
+			// Return error message
+			$errorMsg = \App\Runtime\Vtiger_Language_Handler::translate('LBL_NO_RECORD_SELECTED', 'Vtiger');
+			$response->setError($errorMsg);
 		}
 
 		$response->emit();
@@ -99,13 +166,17 @@ class RecycleBinAjax extends \App\Base\Controllers\BaseActionController
 	public function deleteRecords(\App\Http\Vtiger_Request $request)
 	{
 		$recordIds = $this->getRecordsListFromRequest($request);
+		
 		$recycleBinModule = new \App\Modules\RecycleBin\Models\Module();
 
 		$response = new \App\Http\Vtiger_Response();
-		if ($recordIds) {
+		if ($recordIds && is_array($recordIds) && count($recordIds) > 0) {
 			$recycleBinModule->deleteRecords($recordIds);
 			$response->setResult(array(true));
-			$response->emit();
+		} else {
+			$errorMsg = \App\Runtime\Vtiger_Language_Handler::translate('LBL_NO_RECORD_SELECTED', 'Vtiger');
+			$response->setError($errorMsg);
 		}
+		$response->emit();
 	}
 }
