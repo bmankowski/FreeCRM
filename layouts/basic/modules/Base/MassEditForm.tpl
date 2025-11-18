@@ -11,9 +11,11 @@
 -->*}
 {strip}
 <!-- layouts/basic/modules/Base/MassEditForm.tpl -->
-	{foreach key=index item=jsModel from=$SCRIPTS}
-		<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
-	{/foreach}
+	{if isset($SCRIPTS) && !empty($SCRIPTS)}
+		{foreach key=index item=jsModel from=$SCRIPTS}
+			<script type="{$jsModel->getType()}" src="{$jsModel->getSrc()}"></script>
+		{/foreach}
+	{/if}
 	<div id="massEditContainer" class='modelContainer modal fade' tabindex="-1">
 
 		<div class="modal-dialog modal-lg">

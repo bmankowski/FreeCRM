@@ -84,6 +84,9 @@ class MassActionAjax extends \App\Modules\Base\Views\Index
 		if (!empty($searchParams)) {
 			$viewer->assign('SEARCH_PARAMS', $searchParams);
 		}
+		
+		// Assign empty SCRIPTS array to avoid undefined array key warning
+		$viewer->assign('SCRIPTS', []);
 
 		echo $viewer->view('MassEditForm.tpl', $moduleName, true);
 	}

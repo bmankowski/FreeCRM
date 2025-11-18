@@ -41,6 +41,9 @@ class MassEditRecordStructure extends \App\Modules\Base\Models\RecordStructure
 						if ($fieldModel->isViewable() && $this->isFieldRestricted($fieldModel)) {
 							if ($recordExists) {
 								$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
+							} else {
+								// Set empty fieldvalue for mass edit when no record exists
+								$fieldModel->set('fieldvalue', '');
 							}
 							$values[$blockLabel][$fieldName] = $fieldModel;
 						}
