@@ -490,3 +490,5 @@ Klasa `vtlib\Deprecated` zawiera 15 funkcji deprecated używanych w całym kodzi
 - Komunikacja z społecznością jest ważna dla modułów zewnętrznych
 
 
+
+

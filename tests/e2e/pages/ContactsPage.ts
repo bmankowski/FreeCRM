@@ -55,11 +55,8 @@ export class ContactsPage {
     await this.lastnameSearchInput.first().waitFor({ state: 'visible', timeout: 4000 });
     await this.lastnameSearchInput.fill(searchTerm);
 
-    await Promise.all([
-      this.lastnameSearchInput.press('Enter'),
-      this.page.waitForLoadState('networkidle')
-    ]);
-
+    // Press Enter and wait for list to reload
+    await this.lastnameSearchInput.press('Enter');
     await this.waitForListLoad();
   }
 
@@ -119,12 +116,13 @@ export class ContactsPage {
    * Wait for the contacts list to finish loading
    */
   async waitForListLoad() {
+    // Wait for loading indicator to disappear and table to be visible in parallel
     await Promise.allSettled([
       this.page.waitForSelector('.loading, .listViewLoadingImageBlock', {
         state: 'hidden',
-        timeout: 7000
+        timeout: 5000
       }),
-      this.page.waitForLoadState('networkidle')
+      this.contactsTable.first().waitFor({ state: 'visible', timeout: 5000 })
     ]);
   }
 
@@ -213,7 +211,6 @@ export class ContactsPage {
     
     // Wait for Recycle Bin page to load
     await this.page.waitForURL(/module=RecycleBin/, { timeout: 10000 });
-    await this.page.waitForLoadState('networkidle');
     await this.waitForListLoad();
   }
 
@@ -225,6 +222,225 @@ export class ContactsPage {
   async hasContactInRecycleBin(contactText: string): Promise<boolean> {
     const contactLocator = this.page.locator(`tr:has-text("${contactText}")`);
     return await contactLocator.count() > 0;
+  }
+
+  /**
+   * Navigate to contact detail view
+   * @param contactId - Contact record ID
+   */
+  async gotoDetail(contactId: string) {
+    await this.page.goto(`/index.php?module=Contacts&view=Detail&record=${contactId}`, {
+      waitUntil: 'domcontentloaded'
+    });
+    await this.page.waitForURL(/view=Detail/, { timeout: 10000 });
+    // Wait for detail view container to be visible
+    await this.page.waitForSelector('.detailViewContainer, .detailViewContents, .detailView, h4.recordLabel', {
+      state: 'visible',
+      timeout: 5000
+    }).catch(() => {});
+  }
+
+  /**
+   * Navigate to contact edit view
+   * @param contactId - Contact record ID (optional, if not provided navigates from current page)
+   */
+  async gotoEdit(contactId?: string) {
+    if (contactId) {
+      await this.page.goto(`/index.php?module=Contacts&view=Edit&record=${contactId}`, {
+        waitUntil: 'domcontentloaded'
+      });
+    } else {
+      // Click edit button from current page (detail view)
+      // Use JavaScript to click if element is attached but considered hidden
+      const editButton = this.page.locator('#Contacts_detailView_action_LBL_EDIT, a[href*="view=Edit"], button:has-text("Edytuj"), button:has-text("Edit")').first();
+      await editButton.waitFor({ state: 'attached', timeout: 5000 });
+      
+      // Try regular click first, fall back to JavaScript click if needed
+      try {
+        await editButton.click({ timeout: 2000 });
+      } catch {
+        // If regular click fails, use JavaScript
+        await this.page.evaluate(() => {
+          const element = document.querySelector('#Contacts_detailView_action_LBL_EDIT') as HTMLElement;
+          if (!element) {
+            const link = document.querySelector('a[href*="view=Edit"]') as HTMLElement;
+            if (link) {
+              link.click();
+            } else {
+              throw new Error('Edit button not found');
+            }
+          } else {
+            element.click();
+          }
+        });
+      }
+    }
+    await this.page.waitForURL(/view=Edit/, { timeout: 10000 });
+    // Wait for edit form to be visible instead of networkidle
+    await this.page.waitForSelector('input[name="firstname"], input[name="lastname"]', {
+      state: 'visible',
+      timeout: 5000
+    }).catch(() => {});
+  }
+
+  /**
+   * Update contact fields
+   * @param fields - Object with field names and values to update
+   */
+  async updateContact(fields: Record<string, string>) {
+    for (const [fieldName, value] of Object.entries(fields)) {
+      const fieldInput = this.page.locator(`input[name="${fieldName}"], textarea[name="${fieldName}"], select[name="${fieldName}"]`).first();
+      await fieldInput.waitFor({ state: 'visible', timeout: 5000 });
+      await fieldInput.fill(value);
+    }
+    
+    // Save the contact
+    const saveButton = this.page.locator('button:has-text("Zapisz"), button:has-text("Save"), button.btn-success[type="submit"]').first();
+    await saveButton.waitFor({ state: 'visible', timeout: 5000 });
+    await saveButton.click();
+    
+    // Wait for redirect - use networkidle (default timeout is usually fine)
+    await this.page.waitForLoadState('networkidle');
+  }
+
+  /**
+   * Get contact record ID from list view by searching for contact text
+   * @param contactText - Text to identify the contact
+   * @param skipSearch - If true, skip searching (assumes contact is already visible)
+   * @returns Contact record ID or null
+   */
+  async getContactId(contactText: string, skipSearch: boolean = false): Promise<string | null> {
+    if (!skipSearch) {
+      await this.search(contactText);
+    }
+    // Always wait for contact row to be visible, even if we skip search
+    await this.waitForContactRow(contactText);
+    
+    const contactRow = this.contactsTable.locator('tr', { hasText: contactText }).first();
+    const contactLink = contactRow.locator('a.moduleColor_Contacts, a[href*="view=Detail"]').first();
+    
+    const href = await contactLink.getAttribute('href');
+    if (href) {
+      const match = href.match(/record=(\d+)/);
+      if (match) {
+        return match[1];
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Sort list by column
+   * @param columnName - Name of column to sort by
+   * @param direction - Sort direction ('asc' or 'desc')
+   */
+  async sortBy(columnName: string, direction: 'asc' | 'desc' = 'asc') {
+    // Find the column header
+    const columnHeader = this.page.locator(`th:has-text("${columnName}"), th[data-columnname="${columnName}"]`).first();
+    await columnHeader.waitFor({ state: 'visible', timeout: 5000 });
+    
+    // Click to sort - may need multiple clicks to get desired direction
+    const currentSort = await columnHeader.getAttribute('data-sort');
+    if (currentSort !== direction) {
+      await columnHeader.click();
+      // If we need opposite direction, click again
+      if (direction === 'desc' && currentSort === 'asc') {
+        await this.page.waitForTimeout(500);
+        await columnHeader.click();
+      }
+    }
+    
+    await this.waitForListLoad();
+  }
+
+  /**
+   * Filter list by field value
+   * @param field - Field name to filter by
+   * @param value - Value to filter with
+   */
+  async filterBy(field: string, value: string) {
+    const filterInput = this.page.locator(`input.listSearchContributor[name="${field}"], input[name="${field}"].listSearchContributor`).first();
+    await filterInput.waitFor({ state: 'visible', timeout: 5000 });
+    await filterInput.fill(value);
+    await filterInput.press('Enter');
+    await this.waitForListLoad();
+  }
+
+  /**
+   * Navigate to specific page in pagination
+   * @param pageNumber - Page number to navigate to
+   */
+  async goToPage(pageNumber: number) {
+    const pageLink = this.page.locator(`.pagination a:has-text("${pageNumber}"), .pagination .page-link:has-text("${pageNumber}")`).first();
+    if (await pageLink.isVisible({ timeout: 2000 })) {
+      await pageLink.click();
+      await this.waitForListLoad();
+    }
+  }
+
+  /**
+   * Get current page number from pagination
+   * @returns Current page number or 1 if not found
+   */
+  async getCurrentPage(): Promise<number> {
+    const activePage = this.page.locator('.pagination .active, .pagination .page-item.active').first();
+    if (await activePage.isVisible({ timeout: 2000 })) {
+      const pageText = await activePage.textContent();
+      const pageNum = parseInt(pageText || '1', 10);
+      return isNaN(pageNum) ? 1 : pageNum;
+    }
+    return 1;
+  }
+
+  /**
+   * Search by specific field
+   * @param field - Field name to search in
+   * @param value - Value to search for
+   */
+  async searchByField(field: string, value: string) {
+    const searchInput = this.page.locator(`input.listSearchContributor[name="${field}"]`).first();
+    if (await searchInput.isVisible({ timeout: 4000 })) {
+      await searchInput.fill(value);
+      await searchInput.press('Enter');
+      await this.waitForListLoad();
+    }
+  }
+
+  /**
+   * Link contact to an account
+   * @param accountName - Name of the account to link
+   */
+  async linkToAccount(accountName: string) {
+    // Find the Member Of / parentid field
+    const memberOfField = this.page.locator('input[name="parent_id"], input[name="parentid"], input[data-field-name="parent_id"]').first();
+    await memberOfField.waitFor({ state: 'visible', timeout: 5000 });
+    
+    // Click to open lookup/popup
+    const lookupButton = memberOfField.locator('..').locator('.input-group-addon, .lookup-icon, button[data-toggle="modal"]').first();
+    if (await lookupButton.isVisible({ timeout: 2000 })) {
+      await lookupButton.click();
+    } else {
+      // Try clicking the field itself to trigger lookup
+      await memberOfField.click();
+    }
+    
+    // Wait for popup/modal to appear
+    const popup = this.page.locator('.modal.show, .modal.in, .popupContainer').first();
+    await popup.waitFor({ state: 'visible', timeout: 5000 });
+    
+    // Search for account in popup
+    const popupSearch = popup.locator('input[name="search_text"], input.searchBox').first();
+    await popupSearch.fill(accountName);
+    await popupSearch.press('Enter');
+    await this.page.waitForTimeout(1000);
+    
+    // Click on the account in results
+    const accountLink = popup.locator(`tr:has-text("${accountName}") a, a:has-text("${accountName}")`).first();
+    await accountLink.waitFor({ state: 'visible', timeout: 5000 });
+    await accountLink.click();
+    
+    // Wait for popup to close
+    await popup.waitFor({ state: 'hidden', timeout: 5000 }).catch(() => {});
   }
 }
 

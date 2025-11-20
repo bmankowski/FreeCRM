@@ -483,14 +483,23 @@ class CRMEntity
 				], ['crmid' => $id]
 			)->execute();
 		if ($result) {
+			// Clear cache for the record model to ensure fresh data
+			$cacheName = "$id:$moduleName";
+			\App\Cache\Cache::delete('RecordModel', $cacheName);
+			
 			if (!\App\Core\AppConfig::security('CACHING_PERMISSION_TO_RECORD')) {
 				\App\Security\Privilege::setUpdater($moduleName, $id, 6, 0);
 			}
 			//Event triggering code
-			$eventHandler = new \App\Events\EventHandler();
-			$eventHandler->setRecordModel(\App\Modules\Base\Models\Record::getInstanceById($id));
-			$eventHandler->setModuleName($moduleName);
-			$eventHandler->trigger('EntityAfterRestore');
+			try {
+				$eventHandler = new \App\Events\EventHandler();
+				$eventHandler->setRecordModel(\App\Modules\Base\Models\Record::getInstanceById($id, $moduleName));
+				$eventHandler->setModuleName($moduleName);
+				$eventHandler->trigger('EntityAfterRestore');
+			} catch (\Exception $e) {
+				// Log the error but don't fail the restore operation
+				\App\Log\Log::error('Error triggering EntityAfterRestore event for record ' . $id . ': ' . $e->getMessage());
+			}
 		}
 	}
 	/* Function to check if the mod number already exits */

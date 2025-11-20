@@ -12,7 +12,7 @@
 {strip}
 <!-- layouts/basic/modules/Base/ListViewActions.tpl -->
 	<div class="listViewActions pull-right paginationDiv paddingLeft5px">
-        {if (method_exists($MODULE_MODEL,'isPagingSupported') && ($MODULE_MODEL->isPagingSupported()  eq true)) || !method_exists($MODULE_MODEL,'isPagingSupported')}
+        {if ($MODULE_MODEL && (method_exists($MODULE_MODEL,'isPagingSupported') && ($MODULE_MODEL->isPagingSupported()  eq true))) || ($MODULE_MODEL && !method_exists($MODULE_MODEL,'isPagingSupported')) || !$MODULE_MODEL}
 			<div class="">
 				{include file='Pagination.tpl'|@vtemplate_path:$MODULE}
 			</div>
