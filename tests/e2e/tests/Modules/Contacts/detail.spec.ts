@@ -23,9 +23,7 @@ test.describe('Contacts Detail View', () => {
 
   test('should navigate to contact detail view from list', async ({ authenticatedPage }) => {
     // Verify page does not contain warning or error messages anywhere
-    const warningsAndErrors = await findWarningsAndErrors(authenticatedPage);
-    expect(warningsAndErrors).toBeNull();
-
+    expect(await findWarningsAndErrors(authenticatedPage)).toBeNull();
     await contactsPage.waitForListLoad();
 
     // Create a test contact first
@@ -38,9 +36,7 @@ test.describe('Contacts Detail View', () => {
 
     // Wait for edit form to load
     await authenticatedPage.waitForURL(/view=Edit/);
-    // Verify page does not contain warning or error messages anywhere
-    const warningsAndErrorsAfterEdit = await findWarningsAndErrors(authenticatedPage);
-    expect(warningsAndErrorsAfterEdit).toBeNull();
+    expect(await findWarningsAndErrors(authenticatedPage)).toBeNull();
 
     // Fill in contact details
     await authenticatedPage.locator('input[name="firstname"]').fill(testFirstName);
@@ -49,14 +45,12 @@ test.describe('Contacts Detail View', () => {
     // Save the contact
     await authenticatedPage.locator('button:has-text("Zapisz"), button:has-text("Save"), button.btn-success').first().click();
     await authenticatedPage.waitForLoadState('networkidle');
-    const warningsAndErrorsAfterSave = await findWarningsAndErrors(authenticatedPage);
-    expect(warningsAndErrorsAfterSave).toBeNull();
+    expect(await findWarningsAndErrors(authenticatedPage)).toBeNull();
 
     // Navigate back to list view
     await contactsPage.gotoList();
     // Verify page does not contain warning or error messages anywhere
-    const warningsAndErrorsInList = await findWarningsAndErrors(authenticatedPage);
-    expect(warningsAndErrorsInList).toBeNull();
+    expect(await findWarningsAndErrors(authenticatedPage)).toBeNull();
 
     // Search for the contact
     await contactsPage.search(testLastName);
@@ -75,8 +69,7 @@ test.describe('Contacts Detail View', () => {
     await expect(authenticatedPage).toHaveURL(/view=Detail/);
     await expect(authenticatedPage).toHaveURL(new RegExp(`record=${contactId}`));
     // Verify page does not contain warning or error messages anywhere
-    const warningsAndErrorsInDetail = await findWarningsAndErrors(authenticatedPage);
-    expect(warningsAndErrorsInDetail).toBeNull();
+    expect(await findWarningsAndErrors(authenticatedPage)).toBeNull();
     console.log(`Successfully navigated to detail view for contact: ${testFirstName} ${testLastName}`);
   });
 

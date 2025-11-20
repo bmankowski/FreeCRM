@@ -19,6 +19,7 @@ interface TextLocation {
   tag: string;
   className: string;
   id: string;
+  url?: string;
 }
 
 /**
@@ -45,6 +46,11 @@ export async function findWordsInPage(
     if (pageContent.includes(lowerWord)) {
       // Find where the word appears for debugging
       const location = await page.evaluate((searchWord: string) => {
+        // Capture URL at the moment we find the error
+        // Try multiple methods to get the full URL with query parameters
+        const currentUrl = document.URL || window.location.href || 
+          (window.location.protocol + '//' + window.location.host + window.location.pathname + window.location.search + window.location.hash);
+        
         const walker = document.createTreeWalker(
           document.body,
           NodeFilter.SHOW_TEXT,
@@ -54,22 +60,63 @@ export async function findWordsInPage(
         while (node = walker.nextNode()) {
           if (node.textContent && node.textContent.toLowerCase().includes(searchWord)) {
             const parent = node.parentElement;
-            // Get full text of the parent element (not just the text node)
-            // This captures complete error messages that might span multiple text nodes
-            let fullText = node.textContent;
-            if (parent) {
-              // Try to get full text of parent element for complete error message
-              const parentText = parent.textContent || parent.innerText || '';
-              // Use parent text if it's not too long (to avoid huge blocks), but longer than node text
-              if (parentText.length > fullText.length && parentText.length < 2000) {
-                fullText = parentText;
+            if (!parent) {
+              continue;
+            }
+            
+            // Try to get full error message - it might span multiple elements
+            // Start with parent, but also check if parent is too small
+            let container: HTMLElement = parent as HTMLElement;
+            let fullText = (container.innerText || container.textContent || '').trim();
+            
+            // If parent is small (like <B> or <strong>), try to get more context
+            // Check parent's parent or siblings that might contain continuation
+            if (fullText.length < 100 && container.parentElement) {
+              // Check if siblings contain more of the error message
+              const siblings = Array.from(container.parentElement.children);
+              const currentIndex = siblings.indexOf(container);
+              
+              // Collect text from previous and next siblings if they're small
+              let extendedText = fullText;
+              for (let i = Math.max(0, currentIndex - 2); i < Math.min(siblings.length, currentIndex + 3); i++) {
+                const sibling = siblings[i] as HTMLElement;
+                if (sibling && sibling !== container) {
+                  const siblingText = (sibling.innerText || sibling.textContent || '').trim();
+                  // Only include if sibling is small (likely part of error message)
+                  if (siblingText.length < 200) {
+                    extendedText += ' ' + siblingText;
+                  }
+                }
+              }
+              
+              // Use extended text if it's longer
+              if (extendedText.length > fullText.length && extendedText.length < 2000) {
+                fullText = extendedText.trim();
+              }
+              
+              // Also try parent's parent if current container is small
+              if (fullText.length < 100 && container.parentElement) {
+                const grandParent = container.parentElement as HTMLElement;
+                const grandParentText = (grandParent.innerText || grandParent.textContent || '').trim();
+                if (grandParentText.length > fullText.length && grandParentText.length < 2000) {
+                  container = grandParent;
+                  fullText = grandParentText;
+                }
               }
             }
+            
+            // Use innerText for better formatting (preserves line breaks)
+            const containerText = (container.innerText || container.textContent || '').trim();
+            if (containerText.length > fullText.length && containerText.length < 2000) {
+              fullText = containerText;
+            }
+            
             return {
               text: fullText.trim(),
-              tag: parent ? parent.tagName : 'unknown',
-              className: parent ? parent.className : 'unknown',
-              id: parent ? parent.id : 'unknown'
+              tag: parent.tagName || 'unknown',
+              className: parent.className || 'unknown',
+              id: parent.id || 'unknown',
+              url: currentUrl
             };
           }
         }
@@ -92,38 +139,90 @@ export async function findWordsInPage(
 export async function findWarningsAndErrors(
   page: Page
 ): Promise<{ word: string; location: TextLocation | null }[] | null> {
+  
+  console.log('findWarningsAndErrors started at page: ' + page.url());
+  
   const found = await findWordsInPage(page, ['warning', 'error']);
   
   if (found) {
-    const message = formatWarningsAndErrors(found);
+    // Use URL from first error's location (captured in browser context when error was found)
+    // This is the most accurate URL as it's captured at the exact moment the error is detected
+    const errorPageUrl = found[0]?.location?.url;
+    // Fallback to current page URL if not available
+    const fallbackUrl = errorPageUrl || await page.evaluate(() => window.location.href);
+    const playwrightUrl = page.url();
+    const message = formatWarningsAndErrors(found, fallbackUrl, playwrightUrl);
     console.error(message);
+    return found;
   }
   
-  return found;
+  return null;
 }
 
 /**
  * Format found warnings/errors into a readable message
  * 
- * @param found - Result from findWarningsAndErrors
+ * @param found - Result from findWarningsAndErrors (with pageUrl attached)
+ * @param browserUrl - URL from browser (window.location.href)
+ * @param playwrightUrl - URL from Playwright (page.url())
  * @returns Formatted error message string
  */
 export function formatWarningsAndErrors(
-  found: { word: string; location: TextLocation | null }[] | null
+  found: { word: string; location: TextLocation | null; pageUrl?: string }[] | null,
+  browserUrl?: string,
+  playwrightUrl?: string
 ): string {
-  if (!found) {
+  if (!found || found.length === 0) {
     return '';
   }
 
-  const messages = found.map(({ word, location }) => {
+  // Use URL from first error if available, otherwise use browser URL
+  const errorPageUrl = found[0]?.pageUrl || browserUrl || 'unknown';
+  const timestamp = new Date().toISOString();
+
+  const messages = found.map(({ word, location }, index) => {
+    let message = `\n[${index + 1}] Found "${word.toUpperCase()}"`;
+    
     if (location) {
-      const selector = `<${location.tag}>${location.className ? `.${location.className.split(' ').join('.')}` : ''}${location.id ? `#${location.id}` : ''}`;
-      return `"${word}" found in ${selector}:\n${location.text}`;
+      // Build detailed selector
+      const selectorParts: string[] = [];
+      if (location.tag && location.tag !== 'unknown') {
+        selectorParts.push(location.tag.toLowerCase());
+      }
+      if (location.id && location.id !== 'unknown') {
+        selectorParts.push(`#${location.id}`);
+      }
+      if (location.className && location.className !== 'unknown') {
+        const classes = location.className.split(' ').filter(c => c.trim());
+        if (classes.length > 0) {
+          selectorParts.push(`.${classes.join('.')}`);
+        }
+      }
+      const selector = selectorParts.length > 0 ? selectorParts.join('') : 'unknown element';
+      
+      message += `\n  Location: <${location.tag}>${location.className && location.className !== 'unknown' ? `.${location.className.split(' ').join('.')}` : ''}${location.id && location.id !== 'unknown' ? `#${location.id}` : ''}`;
+      message += `\n  CSS Selector: ${selector}`;
+      message += `\n  Error Text:\n    ${location.text.split('\n').join('\n    ')}`;
+    } else {
+      message += `\n  Location: Could not determine element location`;
     }
-    return `"${word}" found but location could not be determined`;
+    
+    return message;
   });
 
-  return `Page contains warning or error text:\n\n${messages.join('\n\n')}`;
+  let result = `═══════════════════════════════════════════════════════════`;
+  result += `\n⚠️  PAGE CONTAINS WARNING OR ERROR TEXT`;
+  result += `\n═══════════════════════════════════════════════════════════`;
+  result += `\n\nPage URL (from browser): ${errorPageUrl}`;
+  if (playwrightUrl && playwrightUrl !== errorPageUrl) {
+    result += `\nPage URL (from Playwright): ${playwrightUrl}`;
+  }
+  result += `\nTimestamp: ${timestamp}`;
+  result += `\nTotal issues found: ${found.length}`;
+  result += `\n\n${messages.join('\n')}`;
+  result += `\n\n═══════════════════════════════════════════════════════════\n`;
+
+  return result;
 }
 
 /**
