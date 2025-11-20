@@ -17,7 +17,7 @@ test.describe('Contacts Create', () => {
 
   test.beforeEach(async ({ authenticatedPage }) => {
     contactsPage = new ContactsPage(authenticatedPage);
-    await contactsPage.goto();
+    await contactsPage.gotoList();
   });
 
   test('should create and search for new contact', async ({ authenticatedPage }) => {
@@ -49,7 +49,7 @@ test.describe('Contacts Create', () => {
     await authenticatedPage.waitForLoadState('networkidle');
     
     // Go back to list view
-    await contactsPage.goto();
+    await contactsPage.gotoList();
     
     console.log(`Successfully created contact: ${testFirstName} ${testLastName}`);
     

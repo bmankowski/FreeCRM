@@ -54,8 +54,19 @@ export async function findWordsInPage(
         while (node = walker.nextNode()) {
           if (node.textContent && node.textContent.toLowerCase().includes(searchWord)) {
             const parent = node.parentElement;
+            // Get full text of the parent element (not just the text node)
+            // This captures complete error messages that might span multiple text nodes
+            let fullText = node.textContent;
+            if (parent) {
+              // Try to get full text of parent element for complete error message
+              const parentText = parent.textContent || parent.innerText || '';
+              // Use parent text if it's not too long (to avoid huge blocks), but longer than node text
+              if (parentText.length > fullText.length && parentText.length < 2000) {
+                fullText = parentText;
+              }
+            }
             return {
-              text: node.textContent.substring(0, 150).trim(),
+              text: fullText.trim(),
               tag: parent ? parent.tagName : 'unknown',
               className: parent ? parent.className : 'unknown',
               id: parent ? parent.id : 'unknown'
@@ -73,26 +84,46 @@ export async function findWordsInPage(
 }
 
 /**
- * Assert that page does not contain warning or error messages anywhere
+ * Find warning or error messages on the page
  * 
  * @param page - Playwright Page object
- * @throws Error if warning or error text is found, with location information
+ * @returns Array of found warnings/errors with location information, or null if none found
  */
-export async function assertNoWarningsOrErrors(page: Page): Promise<void> {
+export async function findWarningsAndErrors(
+  page: Page
+): Promise<{ word: string; location: TextLocation | null }[] | null> {
   const found = await findWordsInPage(page, ['warning', 'error']);
-
+  
   if (found) {
-    const messages = found.map(({ word, location }) => {
-      if (location) {
-        return `"${word}" found in <${location.tag}>${location.className ? `.${location.className.split(' ').join('.')}` : ''}${location.id ? `#${location.id}` : ''}: "${location.text}"`;
-      }
-      return `"${word}" found but location could not be determined`;
-    });
-
-    throw new Error(
-      `Page contains warning or error text:\n${messages.join('\n')}`
-    );
+    const message = formatWarningsAndErrors(found);
+    console.error(message);
   }
+  
+  return found;
+}
+
+/**
+ * Format found warnings/errors into a readable message
+ * 
+ * @param found - Result from findWarningsAndErrors
+ * @returns Formatted error message string
+ */
+export function formatWarningsAndErrors(
+  found: { word: string; location: TextLocation | null }[] | null
+): string {
+  if (!found) {
+    return '';
+  }
+
+  const messages = found.map(({ word, location }) => {
+    if (location) {
+      const selector = `<${location.tag}>${location.className ? `.${location.className.split(' ').join('.')}` : ''}${location.id ? `#${location.id}` : ''}`;
+      return `"${word}" found in ${selector}:\n${location.text}`;
+    }
+    return `"${word}" found but location could not be determined`;
+  });
+
+  return `Page contains warning or error text:\n\n${messages.join('\n\n')}`;
 }
 
 /**
@@ -108,13 +139,14 @@ export async function assertPageDoesNotContain(page: Page, words: string[]): Pro
   if (found) {
     const messages = found.map(({ word, location }) => {
       if (location) {
-        return `"${word}" found in <${location.tag}>${location.className ? `.${location.className.split(' ').join('.')}` : ''}${location.id ? `#${location.id}` : ''}: "${location.text}"`;
+        const selector = `<${location.tag}>${location.className ? `.${location.className.split(' ').join('.')}` : ''}${location.id ? `#${location.id}` : ''}`;
+        return `"${word}" found in ${selector}:\n${location.text}`;
       }
       return `"${word}" found but location could not be determined`;
     });
 
     throw new Error(
-      `Page contains forbidden words:\n${messages.join('\n')}`
+      `Page contains forbidden words:\n\n${messages.join('\n\n')}`
     );
   }
 }

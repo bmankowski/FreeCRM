@@ -17,7 +17,7 @@ test.describe('Contacts Edit', () => {
 
   test.beforeEach(async ({ authenticatedPage }) => {
     contactsPage = new ContactsPage(authenticatedPage);
-    await contactsPage.goto();
+    await contactsPage.gotoList();
   });
 
   test('should navigate to edit view from detail view', async ({ authenticatedPage }) => {
@@ -37,7 +37,7 @@ test.describe('Contacts Edit', () => {
     await authenticatedPage.waitForLoadState('networkidle');
     
     // Navigate to list view and get contact ID
-    await contactsPage.goto();
+    await contactsPage.gotoList();
     await contactsPage.search(testLastName);
     await contactsPage.waitForContactRow(testLastName);
     
@@ -78,7 +78,7 @@ test.describe('Contacts Edit', () => {
     await authenticatedPage.waitForLoadState('networkidle');
     
     // Navigate to list view and get contact ID
-    await contactsPage.goto();
+    await contactsPage.gotoList();
     await contactsPage.search(originalLastName);
     await contactsPage.waitForContactRow(originalLastName);
     
@@ -137,7 +137,7 @@ test.describe('Contacts Edit', () => {
     await authenticatedPage.waitForLoadState('networkidle');
     
     // Navigate to list view and get contact ID
-    await contactsPage.goto();
+    await contactsPage.gotoList();
     await contactsPage.search(originalLastName);
     await contactsPage.waitForContactRow(originalLastName);
     
@@ -157,7 +157,7 @@ test.describe('Contacts Edit', () => {
       await cancelButton.click();
     } else {
       // If no cancel button, navigate away
-      await contactsPage.goto();
+      await contactsPage.gotoList();
     }
     
     // Navigate back to detail view
@@ -195,7 +195,7 @@ test.describe('Contacts Edit', () => {
     await authenticatedPage.waitForLoadState('networkidle');
     
     // Navigate to list view and get contact ID
-    await contactsPage.goto();
+    await contactsPage.gotoList();
     await contactsPage.search(testLastName);
     await contactsPage.waitForContactRow(testLastName);
     
@@ -211,7 +211,7 @@ test.describe('Contacts Edit', () => {
     }
     
     // Navigate to list view
-    await contactsPage.goto();
+    await contactsPage.gotoList();
     
     // Search for updated last name
     await contactsPage.search(updatedLastName);

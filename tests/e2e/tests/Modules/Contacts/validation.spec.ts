@@ -17,7 +17,7 @@ test.describe('Contacts Validation', () => {
 
   test.beforeEach(async ({ authenticatedPage }) => {
     contactsPage = new ContactsPage(authenticatedPage);
-    await contactsPage.goto();
+    await contactsPage.gotoList();
   });
 
   test('should require lastname field', async ({ authenticatedPage }) => {

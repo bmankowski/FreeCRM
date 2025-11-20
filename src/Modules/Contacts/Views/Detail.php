@@ -12,11 +12,11 @@ namespace App\Modules\Contacts\Views;
  * *********************************************************************************** */
 
 
-use App\Http\Vtiger_Request;
+
 class Detail  extends \App\Modules\Base\Views\Detail
 {
 
-	public function showModuleDetailView(\App\Http\Vtiger_Request $request)
+	public function showModuleDetailView(\App\Http\Vtiger_Request $request)sdsdsds
 	{
 		$recordId = $request->get('record');
 		$moduleName = $request->getModule();

@@ -17,7 +17,7 @@ test.describe('Contacts Quick Create', () => {
 
   test.beforeEach(async ({ authenticatedPage }) => {
     contactsPage = new ContactsPage(authenticatedPage);
-    await contactsPage.goto();
+    await contactsPage.gotoList();
   });
 
   test('should create contact using quick create', async ({ authenticatedPage }) => {
@@ -91,7 +91,7 @@ test.describe('Contacts Quick Create', () => {
     await authenticatedPage.waitForLoadState('networkidle');
     
     // Navigate to Contacts list view and verify we're on the list
-    await contactsPage.goto();
+    await contactsPage.gotoList();
     await expect(authenticatedPage).toHaveURL(/module=Contacts.*view=ListView/);
     await contactsPage.waitForListLoad();
     

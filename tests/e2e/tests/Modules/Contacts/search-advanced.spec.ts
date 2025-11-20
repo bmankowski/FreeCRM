@@ -17,7 +17,7 @@ test.describe('Contacts Advanced Search', () => {
 
   test.beforeEach(async ({ authenticatedPage }) => {
     contactsPage = new ContactsPage(authenticatedPage);
-    await contactsPage.goto();
+    await contactsPage.gotoList();
   });
 
   test('should search by first name', async ({ authenticatedPage }) => {
@@ -38,7 +38,7 @@ test.describe('Contacts Advanced Search', () => {
     await authenticatedPage.waitForLoadState('networkidle');
     
     // Go to list view
-    await contactsPage.goto();
+    await contactsPage.gotoList();
     
     // Search by first name
     try {
@@ -74,7 +74,7 @@ test.describe('Contacts Advanced Search', () => {
     await authenticatedPage.waitForLoadState('networkidle');
     
     // Go to list view
-    await contactsPage.goto();
+    await contactsPage.gotoList();
     
     // Search by email
     try {
@@ -109,7 +109,7 @@ test.describe('Contacts Advanced Search', () => {
     await authenticatedPage.waitForLoadState('networkidle');
     
     // Go to list view
-    await contactsPage.goto();
+    await contactsPage.gotoList();
     
     // Search with partial match (just the unique number)
     const partialSearch = uniquePart.toString();
@@ -156,7 +156,7 @@ test.describe('Contacts Advanced Search', () => {
       console.log(`Search cleared - showing ${clearedCount} contacts (initial: ${initialCount})`);
     } else {
       // Try alternative: navigate back to list view to clear search
-      await contactsPage.goto();
+      await contactsPage.gotoList();
       await contactsPage.waitForListLoad();
       const clearedCount = await contactsPage.getRecordCount();
       expect(clearedCount).toBeGreaterThanOrEqual(filteredCount);
@@ -202,7 +202,7 @@ test.describe('Contacts Advanced Search', () => {
     await authenticatedPage.waitForLoadState('networkidle');
     
     // Go to list view
-    await contactsPage.goto();
+    await contactsPage.gotoList();
     
     // Search by last name (this is the existing search method)
     await contactsPage.search(testLastName);

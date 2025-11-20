@@ -17,7 +17,7 @@ test.describe('Contacts List View', () => {
 
   test.beforeEach(async ({ authenticatedPage }) => {
     contactsPage = new ContactsPage(authenticatedPage);
-    await contactsPage.goto();
+    await contactsPage.gotoList();
   });
 
   test('should display Contacts list view', async ({ authenticatedPage }) => {

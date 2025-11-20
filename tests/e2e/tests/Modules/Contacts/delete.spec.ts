@@ -17,7 +17,7 @@ test.describe('Contacts Delete', () => {
 
   test.beforeEach(async ({ authenticatedPage }) => {
     contactsPage = new ContactsPage(authenticatedPage);
-    await contactsPage.goto();
+    await contactsPage.gotoList();
   });
 
   test('should delete contact and verify it appears in recycle bin', async ({ authenticatedPage }) => {
@@ -46,7 +46,7 @@ test.describe('Contacts Delete', () => {
     await authenticatedPage.waitForLoadState('networkidle');
     
     // Go back to list view
-    await contactsPage.goto();
+    await contactsPage.gotoList();
     
     console.log(`Successfully created contact for deletion: ${testFirstName} ${testLastName}`);
     

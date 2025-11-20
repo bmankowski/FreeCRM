@@ -17,7 +17,7 @@ test.describe('Contacts Advanced List View', () => {
 
   test.beforeEach(async ({ authenticatedPage }) => {
     contactsPage = new ContactsPage(authenticatedPage);
-    await contactsPage.goto();
+    await contactsPage.gotoList();
   });
 
   test('should sort by Last Name', async ({ authenticatedPage }) => {
@@ -92,7 +92,7 @@ test.describe('Contacts Advanced List View', () => {
     await authenticatedPage.waitForLoadState('networkidle');
     
     // Go to list view
-    await contactsPage.goto();
+    await contactsPage.gotoList();
     
     // Get initial count
     const initialCount = await contactsPage.getRecordCount();

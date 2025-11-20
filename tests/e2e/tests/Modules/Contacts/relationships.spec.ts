@@ -17,7 +17,7 @@ test.describe('Contacts Relationships', () => {
 
   test.beforeEach(async ({ authenticatedPage }) => {
     contactsPage = new ContactsPage(authenticatedPage);
-    await contactsPage.goto();
+    await contactsPage.gotoList();
   });
 
   test('should link contact to an account', async ({ authenticatedPage }) => {
@@ -56,7 +56,7 @@ test.describe('Contacts Relationships', () => {
     await authenticatedPage.waitForLoadState('networkidle');
     
     // Navigate to list view and get contact ID
-    await contactsPage.goto();
+    await contactsPage.gotoList();
     await contactsPage.search(testLastName);
     await contactsPage.waitForContactRow(testLastName);
     
@@ -94,7 +94,7 @@ test.describe('Contacts Relationships', () => {
     await authenticatedPage.waitForLoadState('networkidle');
     
     // Navigate to list view and get contact ID
-    await contactsPage.goto();
+    await contactsPage.gotoList();
     await contactsPage.search(testLastName);
     await contactsPage.waitForContactRow(testLastName);
     
@@ -139,7 +139,7 @@ test.describe('Contacts Relationships', () => {
     await authenticatedPage.waitForLoadState('networkidle');
     
     // Navigate to list view and get contact ID
-    await contactsPage.goto();
+    await contactsPage.gotoList();
     await contactsPage.search(testLastName);
     await contactsPage.waitForContactRow(testLastName);
     

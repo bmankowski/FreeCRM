@@ -31,7 +31,7 @@ export class ContactsPage {
   /**
    * Navigate to Contacts list view
    */
-  async goto() {
+  async gotoList() {
     const currentUrl = this.page.url();
     if (currentUrl.includes('module=Contacts') && currentUrl.includes('view=ListView')) {
       await this.waitForListLoad();
