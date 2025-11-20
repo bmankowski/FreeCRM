@@ -9,7 +9,7 @@
  * @author    bmankowski@gmail.com
  */
 
-import { Page } from '@playwright/test';
+import { Page, expect } from '@playwright/test';
 
 /**
  * Location information for found text
@@ -139,9 +139,6 @@ export async function findWordsInPage(
 export async function findWarningsAndErrors(
   page: Page
 ): Promise<{ word: string; location: TextLocation | null }[] | null> {
-  
-  console.log('findWarningsAndErrors started at page: ' + page.url());
-  
   const found = await findWordsInPage(page, ['warning', 'error']);
   
   if (found) {
@@ -248,5 +245,25 @@ export async function assertPageDoesNotContain(page: Page, words: string[]): Pro
       `Page contains forbidden words:\n\n${messages.join('\n\n')}`
     );
   }
+}
+
+/**
+ * Assert that page does not contain warning or error messages
+ * 
+ * This is a convenience wrapper around findWarningsAndErrors with expect.
+ * It provides better error messages and is more readable in tests.
+ * 
+ * @param page - Playwright Page object
+ * @example
+ * ```typescript
+ * await expectNoWarningsAndErrors(authenticatedPage);
+ * ```
+ */
+export async function expectNoWarningsAndErrors(page: Page): Promise<void> {
+  const found = await findWarningsAndErrors(page);
+  const errorMessage = found 
+    ? formatWarningsAndErrors(found, await page.evaluate(() => window.location.href), page.url())
+    : 'No warnings or errors expected';
+  expect(found, errorMessage).toBeNull();
 }
 

@@ -11,7 +11,7 @@
 
 import { test, expect } from '../../../fixtures/auth.fixture';
 import { ContactsPage } from '../../../pages/ContactsPage';
-import { findWarningsAndErrors, formatWarningsAndErrors } from '../../../helpers/page-assertions';
+import { expectNoWarningsAndErrors } from '../../../helpers/page-assertions';
 
 test.describe('Contacts Detail View', () => {
   let contactsPage: ContactsPage;
@@ -23,7 +23,7 @@ test.describe('Contacts Detail View', () => {
 
   test('should navigate to contact detail view from list', async ({ authenticatedPage }) => {
     // Verify page does not contain warning or error messages anywhere
-    expect(await findWarningsAndErrors(authenticatedPage)).toBeNull();
+    await expectNoWarningsAndErrors(authenticatedPage);
     await contactsPage.waitForListLoad();
 
     // Create a test contact first
@@ -36,7 +36,7 @@ test.describe('Contacts Detail View', () => {
 
     // Wait for edit form to load
     await authenticatedPage.waitForURL(/view=Edit/);
-    expect(await findWarningsAndErrors(authenticatedPage)).toBeNull();
+    await expectNoWarningsAndErrors(authenticatedPage);
 
     // Fill in contact details
     await authenticatedPage.locator('input[name="firstname"]').fill(testFirstName);
@@ -45,12 +45,12 @@ test.describe('Contacts Detail View', () => {
     // Save the contact
     await authenticatedPage.locator('button:has-text("Zapisz"), button:has-text("Save"), button.btn-success').first().click();
     await authenticatedPage.waitForLoadState('networkidle');
-    expect(await findWarningsAndErrors(authenticatedPage)).toBeNull();
+    await expectNoWarningsAndErrors(authenticatedPage);
 
     // Navigate back to list view
     await contactsPage.gotoList();
     // Verify page does not contain warning or error messages anywhere
-    expect(await findWarningsAndErrors(authenticatedPage)).toBeNull();
+    await expectNoWarningsAndErrors(authenticatedPage);
 
     // Search for the contact
     await contactsPage.search(testLastName);
@@ -69,12 +69,13 @@ test.describe('Contacts Detail View', () => {
     await expect(authenticatedPage).toHaveURL(/view=Detail/);
     await expect(authenticatedPage).toHaveURL(new RegExp(`record=${contactId}`));
     // Verify page does not contain warning or error messages anywhere
-    expect(await findWarningsAndErrors(authenticatedPage)).toBeNull();
-    console.log(`Successfully navigated to detail view for contact: ${testFirstName} ${testLastName}`);
+    await expectNoWarningsAndErrors(authenticatedPage);
   });
 
   test('should display contact information in detail view', async ({ authenticatedPage }) => {
     await contactsPage.waitForListLoad();
+    await expectNoWarningsAndErrors(authenticatedPage);
+
     // Create a test contact
     const testFirstName = `InfoTestFirst${Date.now()}`;
     const testLastName = `InfoTestLast${Date.now()}`;
@@ -84,6 +85,7 @@ test.describe('Contacts Detail View', () => {
     const addButton = authenticatedPage.locator('a:has-text("Dodaj rekord"), a:has-text("Add"), [href*="module=Contacts&view=Edit"]').first();
     await addButton.click();
     await authenticatedPage.waitForURL(/view=Edit/);
+    await expectNoWarningsAndErrors(authenticatedPage);
 
     await authenticatedPage.locator('input[name="firstname"]').fill(testFirstName);
     await authenticatedPage.locator('input[name="lastname"]').fill(testLastName);
@@ -92,6 +94,7 @@ test.describe('Contacts Detail View', () => {
     // Save the contact
     await authenticatedPage.locator('button:has-text("Zapisz"), button:has-text("Save"), button.btn-success').first().click();
     await authenticatedPage.waitForLoadState('networkidle');
+    await expectNoWarningsAndErrors(authenticatedPage);
 
     // Navigate to list view and get contact ID
     await contactsPage.gotoList();
@@ -104,6 +107,7 @@ test.describe('Contacts Detail View', () => {
 
     // Navigate to detail view
     await contactsPage.gotoDetail(contactId!);
+    await expectNoWarningsAndErrors(authenticatedPage);
 
     // Verify contact name is displayed in detail view header
     // Use h4.recordLabel to avoid matching sidebar menu items with .moduleColor_Contacts class
@@ -136,19 +140,18 @@ test.describe('Contacts Detail View', () => {
     if (await emailDisplay.count() > 0) {
       await expect(emailDisplay).toBeVisible({ timeout: 5000 });
     }
-
-    console.log(`Contact information displayed correctly in detail view`);
   });
 
   test('should have navigation buttons in detail view', async ({ authenticatedPage }) => {
     await contactsPage.waitForListLoad();
+    await expectNoWarningsAndErrors(authenticatedPage);
 
     // Create a test contact
     const testLastName = `NavTestLast${Date.now()}`;
-
     const addButton = authenticatedPage.locator('a:has-text("Dodaj rekord"), a:has-text("Add"), [href*="module=Contacts&view=Edit"]').first();
     await addButton.click();
     await authenticatedPage.waitForURL(/view=Edit/);
+    await expectNoWarningsAndErrors(authenticatedPage);
 
     await authenticatedPage.locator('input[name="firstname"]').fill(`NavTestFirst${Date.now()}`);
     await authenticatedPage.locator('input[name="lastname"]').fill(testLastName);
@@ -156,6 +159,7 @@ test.describe('Contacts Detail View', () => {
     // Save the contact
     await authenticatedPage.locator('button:has-text("Zapisz"), button:has-text("Save"), button.btn-success').first().click();
     await authenticatedPage.waitForLoadState('networkidle');
+    await expectNoWarningsAndErrors(authenticatedPage);
 
     // Navigate to list view and get contact ID
     await contactsPage.gotoList();
@@ -167,12 +171,11 @@ test.describe('Contacts Detail View', () => {
     expect(contactId).not.toBeNull();
 
     // Navigate to detail view
-    if (contactId) {
-      await contactsPage.gotoDetail(contactId);
-    }
+    await contactsPage.gotoDetail(contactId!);
+    await expectNoWarningsAndErrors(authenticatedPage);
 
     // Verify Edit button exists
-    const editButton = authenticatedPage.locator('#Contacts_detailView_action_LBL_EDIT, a[href*="view=Edit"], button:has-text("Edytuj"), button:has-text("Edit"), button:has-text("✏")').first();
+    const editButton = authenticatedPage.locator('#Contacts_detailView_action_BTN_RECORD_EDIT').first();
     await expect(editButton).toBeVisible({ timeout: 5000 });
 
     // Verify Delete button exists (may not be visible if no permission)
@@ -180,12 +183,11 @@ test.describe('Contacts Detail View', () => {
     if (await deleteButton.isVisible({ timeout: 2000 })) {
       await expect(deleteButton).toBeVisible();
     }
-
-    console.log(`Navigation buttons verified in detail view`);
   });
 
   test('should navigate back to list view from detail', async ({ authenticatedPage }) => {
     await contactsPage.waitForListLoad();
+    await expectNoWarningsAndErrors(authenticatedPage);
 
     // Create a test contact
     const testLastName = `BackTestLast${Date.now()}`;
@@ -193,6 +195,7 @@ test.describe('Contacts Detail View', () => {
     const addButton = authenticatedPage.locator('a:has-text("Dodaj rekord"), a:has-text("Add"), [href*="module=Contacts&view=Edit"]').first();
     await addButton.click();
     await authenticatedPage.waitForURL(/view=Edit/);
+    await expectNoWarningsAndErrors(authenticatedPage);
 
     await authenticatedPage.locator('input[name="firstname"]').fill(`BackTestFirst${Date.now()}`);
     await authenticatedPage.locator('input[name="lastname"]').fill(testLastName);
@@ -200,6 +203,7 @@ test.describe('Contacts Detail View', () => {
     // Save the contact
     await authenticatedPage.locator('button:has-text("Zapisz"), button:has-text("Save"), button.btn-success').first().click();
     await authenticatedPage.waitForLoadState('networkidle');
+    await expectNoWarningsAndErrors(authenticatedPage);
 
     // Navigate to list view and get contact ID
     await contactsPage.gotoList();
@@ -211,9 +215,8 @@ test.describe('Contacts Detail View', () => {
     expect(contactId).not.toBeNull();
 
     // Navigate to detail view
-    if (contactId) {
-      await contactsPage.gotoDetail(contactId);
-    }
+    await contactsPage.gotoDetail(contactId!);
+    await expectNoWarningsAndErrors(authenticatedPage);
 
     // Navigate back to list view
     await contactsPage.gotoList();
@@ -221,8 +224,7 @@ test.describe('Contacts Detail View', () => {
     // Verify we're on list view
     await expect(authenticatedPage).toHaveURL(/module=Contacts.*view=ListView/);
     await contactsPage.waitForListLoad();
-
-    console.log(`Successfully navigated back to list view from detail view`);
+    await expectNoWarningsAndErrors(authenticatedPage);
   });
 });
 
