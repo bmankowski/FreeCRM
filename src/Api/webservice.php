@@ -5,6 +5,7 @@ chdir(__DIR__ . '/../..');
 require_once ROOT_DIRECTORY . '/src/EntryPoint/WebUI.php';
 
 AppConfig::iniSet('error_log', ROOT_DIRECTORY . '/cache/logs/webservice.log');
+AppConfig::iniSet('html_errors', '0');  // Disable HTML formatting in error logs
 define('REQUEST_MODE', 'API');
 
 try {

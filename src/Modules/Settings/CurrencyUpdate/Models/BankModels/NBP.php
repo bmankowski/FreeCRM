@@ -2,109 +2,134 @@
 
 namespace App\Modules\Settings\CurrencyUpdate\Models\BankModels;
 
-
-/**
- * @package YetiForce.models
- * @license licenses/License.html
- * @author Maciej Stencel <m.stencel@yetiforce.com>
- */
-
 /**
  * Class for connection to Narodowy Bank Polski currency exchange rates
+ * 
+ * @package FreeCRM
+ * @license FreeCRM Public License 1.1
+ * @author bmankowski@gmail.com
  */
 class NBP extends \App\Modules\Settings\CurrencyUpdate\Models\AbstractBank
 {
-	/*
+	private const XML_URL = 'https://static.nbp.pl/dane/kursy/xml/';
+	private const TIMEOUT = 10;
+	private const MAX_DAYS_BACK = 30;
+
+	/**
 	 * Returns bank name
 	 */
-
 	public function getName()
 	{
 		return 'NBP';
 	}
-	/*
+
+	/**
 	 * Returns url sources from where exchange rates are taken from
 	 */
-
 	public function getSource()
 	{
-		return ['http://nbp.pl/kursy/xml/LastA.xml'];
+		return ['https://static.nbp.pl/dane/kursy/xml/LastA.xml'];
 	}
-	/*
-	 * Returns list of currencies supported by this bank
+
+	/**
+	 * Returns banks main currency 
 	 */
-
-	public function getSupportedCurrencies()
+	public function getMainCurrencyCode()
 	{
-		$supportedCurrencies = [];
-		$supportedCurrencies[\App\Modules\Settings\CurrencyUpdate\Models\Module::getCRMCurrencyName($this->getMainCurrencyCode())] = $this->getMainCurrencyCode();
-		$dateCur = date('Y-m-d', strtotime('last monday'));
-		$date = str_replace('-', '', $dateCur);
-		$date = substr($date, 2);
+		return 'PLN';
+	}
 
-		$txtSrc = 'http://www.nbp.pl/kursy/xml/dir.txt';
-		$xmlSrc = 'http://nbp.pl/kursy/xml/';
-		$newXmlSrc = '';
+	/**
+	 * Find NBP XML file for given date
+	 * @param string $date Date in Y-m-d format
+	 * @return string|null XML file URL or null if not found
+	 */
+	private function findXmlFile($date)
+	{
+		$year = date('Y', strtotime($date));
+		$currentYear = date('Y');
+		
+		$txtSrc = ($year == $currentYear) 
+			? 'https://static.nbp.pl/dane/kursy/xml/dir.txt'
+			: "https://static.nbp.pl/dane/kursy/xml/dir{$year}.txt";
 
-		// Set timeout context for file operations
 		$context = stream_context_create([
-			'http' => [
-				'timeout' => 10  // 10 seconds timeout
-			]
+			'http' => ['timeout' => self::TIMEOUT],
+			'https' => ['timeout' => self::TIMEOUT]
 		]);
 
 		$file = @file($txtSrc, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES, $context);
 		if ($file === false) {
 			\App\Log\Log::error('Failed to fetch NBP currency directory from: ' . $txtSrc);
-			return $supportedCurrencies;
+			return null;
 		}
 
-		$fileNum = count($file);
-		$numberOfDays = 1;
-		$stateA = false;
-		$maxDays = 30; // Maximum 30 days back
+		$dateShort = substr(str_replace('-', '', $date), 2);
+		$numberOfDays = 0;
 
-		while (!$stateA && $numberOfDays <= $maxDays) {
-			for ($i = 0; $i < $fileNum; $i++) {
-				$lineStart = strstr($file[$i], $date, true);
+		while ($numberOfDays < self::MAX_DAYS_BACK) {
+			foreach ($file as $line) {
+				$lineStart = strstr($line, $dateShort, true);
 				if ($lineStart && $lineStart[0] == 'a') {
-					$stateA = true;
-					$newXmlSrc = $xmlSrc . $lineStart . $date . '.xml';
-					break;
+					return self::XML_URL . $lineStart . $dateShort . '.xml';
 				}
 			}
 
-			if (!$stateA) {
-				$newDate = strtotime("-$numberOfDays day", strtotime($dateCur));
-				$newDate = date('Y-m-d', $newDate);
-
-				$date = str_replace('-', '', $newDate);
-				$date = substr($date, 2);
-				$numberOfDays++;
-			}
+			// Try previous day
+			$numberOfDays++;
+			$date = date('Y-m-d', strtotime("-$numberOfDays day", strtotime($date)));
+			$dateShort = substr(str_replace('-', '', $date), 2);
 		}
 
-		if (!$stateA || empty($newXmlSrc)) {
-			\App\Log\Log::error('Could not find NBP currency file after checking ' . $maxDays . ' days');
-			return $supportedCurrencies;
-		}
+		\App\Log\Log::error('Could not find NBP currency file after checking ' . self::MAX_DAYS_BACK . ' days');
+		return null;
+	}
 
-		$xml = @simplexml_load_file($newXmlSrc, null, LIBXML_NOERROR | LIBXML_NOWARNING, '', false);
+	/**
+	 * Load XML from NBP
+	 * @param string $url XML file URL
+	 * @return \SimpleXMLElement|null
+	 */
+	private function loadXml($url)
+	{
+		$context = stream_context_create([
+			'http' => ['timeout' => self::TIMEOUT],
+			'https' => ['timeout' => self::TIMEOUT]
+		]);
+
+		$xml = @simplexml_load_file($url, 'SimpleXMLElement', LIBXML_NOERROR | LIBXML_NOWARNING, '', false);
 		if ($xml === false) {
-			\App\Log\Log::error('Failed to load NBP currency XML from: ' . $newXmlSrc);
+			\App\Log\Log::error('Failed to load NBP currency XML from: ' . $url);
+			return null;
+		}
+
+		return $xml;
+	}
+
+	/**
+	 * Returns list of currencies supported by this bank
+	 */
+	public function getSupportedCurrencies()
+	{
+		$supportedCurrencies = [];
+		$supportedCurrencies[\App\Modules\Settings\CurrencyUpdate\Models\Module::getCRMCurrencyName($this->getMainCurrencyCode())] = $this->getMainCurrencyCode();
+
+		$xmlUrl = $this->findXmlFile(date('Y-m-d', strtotime('last monday')));
+		if (!$xmlUrl) {
 			return $supportedCurrencies;
 		}
 
-		$xmlObj = $xml->children();
+		$xml = $this->loadXml($xmlUrl);
+		if (!$xml) {
+			return $supportedCurrencies;
+		}
 
-		$num = count($xmlObj->pozycja);
-
-		for ($i = 0; $i <= $num; $i++) {
-			if (!$xmlObj->pozycja[$i]->nazwa_waluty) {
+		foreach ($xml->pozycja as $pozycja) {
+			if (!$pozycja->nazwa_waluty) {
 				continue;
 			}
-			$currencyCode = (string) $xmlObj->pozycja[$i]->kod_waluty;
 
+			$currencyCode = (string) $pozycja->kod_waluty;
 			if ($currencyCode == 'XDR') {
 				continue;
 			}
@@ -115,154 +140,86 @@ class NBP extends \App\Modules\Settings\CurrencyUpdate\Models\AbstractBank
 
 		return $supportedCurrencies;
 	}
-	/*
-	 * Returns banks main currency 
-	 */
-
-	public function getMainCurrencyCode()
-	{
-		return 'PLN';
-	}
-	/*
+	/**
 	 * Fetch exchange rates
-	 * @param <Array> $currencies - list of systems active currencies
-	 * @param <Date> $date - date for which exchange is fetched
-	 * @param boolean $cron - if true then it is fired by server and crms currency conversion rates are updated 
+	 * @param array $otherCurrencyCode List of systems active currencies
+	 * @param string $dateParam Date for which exchange is fetched
+	 * @param bool $cron If true then it is fired by server and crms currency conversion rates are updated 
 	 */
-
 	public function getRates($otherCurrencyCode, $dateParam, $cron = false)
 	{
 		$moduleModel = \App\Modules\Settings\CurrencyUpdate\Models\Module::getCleanInstance();
 		$selectedBank = $moduleModel->getActiveBankId();
 		$yesterday = date('Y-m-d', strtotime('-1 day'));
-
-		// check if data is correct, currency rates can be retrieved only for working days
-		$lastWorkingDay = \vtlib\Functions:: getLastWorkingDay($yesterday);
-
+		$lastWorkingDay = \vtlib\Functions::getLastWorkingDay($yesterday);
 		$today = date('Y-m-d');
-		$mainCurrency = \vtlib\Functions:: getDefaultCurrencyInfo()['currency_code'];
+		$mainCurrency = \vtlib\Functions::getDefaultCurrencyInfo()['currency_code'];
 
-		$dateCur = $dateParam;
-		$chosenYear = date('Y', strtotime($dateCur));
-		$date = str_replace('-', '', $dateCur);
-		$date = substr($date, 2);
-
-		if (date('Y') == $chosenYear) {
-			$txtSrc = 'http://www.nbp.pl/kursy/xml/dir.txt';
-		} else {
-			$txtSrc = 'http://www.nbp.pl/kursy/xml/dir' . $chosenYear . '.txt';
-		}
-		$xmlSrc = 'http://nbp.pl/kursy/xml/';
-		$newXmlSrc = '';
-
-		// Set timeout context for file operations
-		$context = stream_context_create([
-			'http' => [
-				'timeout' => 10  // 10 seconds timeout
-			]
-		]);
-
-		$file = @file($txtSrc, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES, $context);
-		if ($file === false) {
-			\App\Log\Log::error('Failed to fetch NBP currency directory from: ' . $txtSrc);
+		$xmlUrl = $this->findXmlFile($dateParam);
+		if (!$xmlUrl) {
 			return;
 		}
 
-		$fileNum = count($file);
-		$numberOfDays = 1;
-		$stateA = false;
-		$maxDays = 30; // Maximum 30 days back
+		$xml = $this->loadXml($xmlUrl);
+		if (!$xml) {
+			return;
+		}
 
-		while (!$stateA && $file && $numberOfDays <= $maxDays) {
-			for ($i = 0; $i < $fileNum; $i++) {
-				$lineStart = strstr($file[$i], $date, true);
-				if ($lineStart && $lineStart[0] == 'a') {
-					$stateA = true;
-					$newXmlSrc = $xmlSrc . $lineStart . $date . '.xml';
+		$datePublicationOfFile = (string) $xml->data_publikacji;
+
+		// Find exchange rate for main currency if it's not PLN
+		$exchangeRate = 1.0;
+		if ($mainCurrency != $this->getMainCurrencyCode()) {
+			foreach ($xml->pozycja as $pozycja) {
+				if ((string) $pozycja->kod_waluty == $mainCurrency) {
+					$exchangeRate = str_replace(',', '.', (string) $pozycja->kurs_sredni);
 					break;
 				}
 			}
-
-			if ($stateA === false) {
-				$newDate = strtotime("-$numberOfDays day", strtotime($dateCur));
-				$newDate = date('Y-m-d', $newDate);
-
-				$date = str_replace('-', '', $newDate);
-				$date = substr($date, 2);
-				$numberOfDays++;
-			}
 		}
 
-		if (!$stateA || empty($newXmlSrc)) {
-			\App\Log\Log::error('Could not find NBP currency file after checking ' . $maxDays . ' days for date: ' . $dateCur);
-			return;
-		}
+		$shouldUpdateCRM = $cron || (strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay));
 
-		$xml = @simplexml_load_file($newXmlSrc, null, LIBXML_NOERROR | LIBXML_NOWARNING);
-		if ($xml === false) {
-			\App\Log\Log::error('Failed to load NBP currency XML from: ' . $newXmlSrc);
-			return;
-		}
-
-		$xmlObj = $xml->children();
-
-		$num = count($xmlObj->pozycja);
-		$datePublicationOfFile = (string) $xmlObj->data_publikacji;
-
-		$exchangeRate = 1.0;
-		// if currency is diffrent than PLN we need to calculate rate for converting other currencies to this one from PLN
-		if ($mainCurrency != $this->getMainCurrencyCode()) {
-			for ($i = 0; $i <= $num; $i++) {
-				if ($xmlObj->pozycja[$i]->kod_waluty == $mainCurrency) {
-					$exchangeRate = str_replace(',', '.', $xmlObj->pozycja[$i]->kurs_sredni);
-				}
-			}
-		}
-
-		for ($i = 0; $i <= $num; $i++) {
-			if (!$xmlObj->pozycja[$i]->nazwa_waluty) {
+		// Process each currency
+		foreach ($xml->pozycja as $pozycja) {
+			if (!$pozycja->nazwa_waluty) {
 				continue;
 			}
-			$currency = (string) $xmlObj->pozycja[$i]->kod_waluty;
-			foreach ($otherCurrencyCode as $key => $currId) {
-				if ($key == $currency && $currency != $mainCurrency) {
-					$exchange = str_replace(',', '.', $xmlObj->pozycja[$i]->kurs_sredni);
-					$exchange = $exchange / $xmlObj->pozycja[$i]->przelicznik;
-					$exchangeVtiger = $exchangeRate / $exchange;
-					$exchange = $exchange / $exchangeRate;
 
-					if ($cron === true || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
-						$moduleModel->setCRMConversionRate($currency, $exchangeVtiger);
-					}
+			$currency = (string) $pozycja->kod_waluty;
+			if (!isset($otherCurrencyCode[$currency]) || $currency == $mainCurrency) {
+				continue;
+			}
 
-					$existingId = $moduleModel->getCurrencyRateId($currId, $datePublicationOfFile, $selectedBank);
+			$currId = $otherCurrencyCode[$currency];
+			$exchange = str_replace(',', '.', (string) $pozycja->kurs_sredni);
+			$exchange = $exchange / (int) $pozycja->przelicznik;
+			$exchangeVtiger = $exchangeRate / $exchange;
+			$exchange = $exchange / $exchangeRate;
 
-					if ($existingId > 0) {
-						$moduleModel->updateCurrencyRate($existingId, $exchange);
-					} else {
-						$moduleModel->addCurrencyRate($currId, $datePublicationOfFile, $exchange, $selectedBank);
-					}
-				}
+			if ($shouldUpdateCRM) {
+				$moduleModel->setCRMConversionRate($currency, $exchangeVtiger);
+			}
+
+			$existingId = $moduleModel->getCurrencyRateId($currId, $datePublicationOfFile, $selectedBank);
+			if ($existingId > 0) {
+				$moduleModel->updateCurrencyRate($existingId, $exchange);
+			} else {
+				$moduleModel->addCurrencyRate($currId, $datePublicationOfFile, $exchange, $selectedBank);
 			}
 		}
 
-		// currency diffrent than PLN, we need to add manually PLN rates
+		// If main currency is not PLN, add PLN rates manually
 		if ($mainCurrency != $this->getMainCurrencyCode()) {
-			$exchange = 1.00000 / $exchangeRate;
-			$mainCurrencyId = false;
-			foreach ($otherCurrencyCode as $code => $id) {
-				if ($code == $this->getMainCurrencyCode()) {
-					$mainCurrencyId = $id;
-				}
-			}
-
+			$mainCurrencyId = $otherCurrencyCode[$this->getMainCurrencyCode()] ?? null;
 			if ($mainCurrencyId) {
-				if ($cron === true || ((strtotime($dateParam) == strtotime($today)) || (strtotime($dateParam) == strtotime($lastWorkingDay)))) {
+				$exchange = 1.0 / $exchangeRate;
+
+				if ($shouldUpdateCRM) {
 					$moduleModel->setCRMConversionRate($this->getMainCurrencyCode(), $exchangeRate);
 				}
 
 				$existingId = $moduleModel->getCurrencyRateId($mainCurrencyId, $datePublicationOfFile, $selectedBank);
-
 				if ($existingId > 0) {
 					$moduleModel->updateCurrencyRate($existingId, $exchange);
 				} else {

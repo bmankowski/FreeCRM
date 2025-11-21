@@ -21,8 +21,8 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 	{
 		$moduleName = $request->getModule();
 		$mailModuleActive = \vtlib\Functions:: getModuleId('OSSMail');
-		/** @var \App\Modules\OSSMailScanner\Models\Record $mailScannerRecordModel */
-		$mailScannerRecordModel = \App\Records\Record::getCleanInstance('OSSMailScanner');
+	/** @var \App\Modules\OSSMailScanner\Models\Record $mailScannerRecordModel */
+	$mailScannerRecordModel = Record::getCleanInstance('OSSMailScanner');
 		$identityList = [];
 		if ($mailModuleActive) {
 			$accountsList = \App\Modules\OSSMail\Models\Record::getAccountsList();

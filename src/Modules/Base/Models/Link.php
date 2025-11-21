@@ -19,17 +19,20 @@ class Link extends \vtlib\Link
 {
 
 	// Class variable to store the child links
-	protected $childlinks = [];
+	// Public to maintain compatibility with base class vtlib\Link
+	public $childlinks = [];
 	
 	// Commonly used dynamic properties - declared to avoid PHP 8.2+ deprecation warnings
-	protected $linkclass;          // CSS class for the link
-	protected $linkgrupclass;      // CSS class for link group
-	protected $modalView;          // Boolean - whether link opens in modal
-	protected $linkdata;           // Array of data attributes for the link
-	protected $active;             // Boolean - whether link is active
-	protected $relatedModuleName;  // Related module name (module or parent:module)
-	protected $showLabel;          // Boolean - whether to show label
-	protected $class;              // CSS class property (commonly used in link data)
+	// Public to maintain compatibility with Smarty templates and base class vtlib\Link
+	public $linkclass;          // CSS class for the link
+	public $linkgrupclass;      // CSS class for link group
+	public $modalView;          // Boolean - whether link opens in modal
+	public $linkdata;           // Array of data attributes for the link
+	public $active;             // Boolean - whether link is active
+	public $relatedModuleName;  // Related module name (module or parent:module)
+	public $showLabel;          // Boolean - whether to show label
+	public $class;              // CSS class property (commonly used in link data)
+	public $target;             // HTML target attribute for links (_blank, _self, etc.)
 
 	/**
 	 * Function to get the value of a given property

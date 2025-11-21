@@ -30,7 +30,7 @@ FreeCRM - Customer Relationship Management System
 			</thead>
 			<tbody>
 				{foreach from=$MODULE_MODEL->getCalendarViewTypes() item=item key=key}
-					<tr data-viewtypesid="{$item.id}" data-color="{$item.color}">
+					<tr data-viewtypesid="{$item.id}" data-color="{$item.defaultcolor}">
 						<td>{$item.fieldname|t:$item.module}</td>
 						<td>{$item.module|t:$item.module}</td>
 						<td>

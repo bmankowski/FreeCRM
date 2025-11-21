@@ -88,7 +88,9 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 			$calendarConfig[] = [
 				'name' => $row['name'],
 				'label' => $row['label'],
-				'value' => $row['value']
+				'value' => $row['value'],
+				'table' => null,
+				'field' => null
 			];
 		}
 		if ($type == 'colors') {

@@ -8,6 +8,7 @@ if (!in_array('dav', $enabledServices)) {
 	$apiLog->stop('Dav - Service is not active');
 }
 AppConfig::iniSet('error_log', ROOT_DIRECTORY . '/cache/logs/davPhpError.log');
+AppConfig::iniSet('html_errors', '0');  // Disable HTML formatting in error logs
 
 /* Database */
 $pdo = new PDO('mysql:host=' . $dbconfig['db_server'] . ';dbname=' . $dbconfig['db_name'] . ';charset=utf8', $dbconfig['db_username'], $dbconfig['db_password']);
