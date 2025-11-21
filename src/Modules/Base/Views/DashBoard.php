@@ -117,6 +117,11 @@ class DashBoard  extends \App\Modules\Base\Views\Index
 			$widgets = [];
 		}
 
+		// DashBoard needs QUICK_LINKS for sidebar navigation (ListView, RecycleBin, etc.)
+		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
+		$linkModels = $moduleModel->getSideBarLinks($linkParams);
+		$activeLinkLabel = $this->processSidebarLinks($linkModels, $request);
+
 		$viewer->assign('CURRENT_DASHBOARD', $currentDashboard);
 		$viewer->assign('DASHBOARD_TYPES', \App\Modules\Settings\WidgetsManagement\Models\Module::getDashboardTypes());
 		$viewer->assign('USER_PRIVILEGES_MODEL', $userPrivilegesModel);
@@ -124,6 +129,8 @@ class DashBoard  extends \App\Modules\Base\Views\Index
 		$viewer->assign('WIDGETS', $widgets);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
+		$viewer->assign('QUICK_LINKS', $linkModels);
+		$viewer->assign('ACTIVE_SIDEBAR_LINK', $activeLinkLabel);
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)

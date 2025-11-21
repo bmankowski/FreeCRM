@@ -13,9 +13,11 @@
 	<!-- layouts/basic/modules/Base/dashboards/DashBoardHeader.tpl -->
 	<div class="widget_header row">
 		<div class="col-xs-9 col-sm-4 col-md-6">
-			<div class="btn-group listViewMassActions modOn_{$MODULE} pull-left paddingRight10">
-				{include file='ButtonViewLinks.tpl'|@vtemplate_path LINKS=$QUICK_LINKS['SIDEBARLINK'] BTN_GROUP=false}
-			</div>
+			{if isset($QUICK_LINKS) && isset($QUICK_LINKS['SIDEBARLINK'])}
+				<div class="btn-group listViewMassActions modOn_{$MODULE} pull-left paddingRight10">
+					{include file='ButtonViewLinks.tpl'|@vtemplate_path LINKS=$QUICK_LINKS['SIDEBARLINK'] BTN_GROUP=false}
+				</div>
+			{/if}
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 		</div>
 	</div>

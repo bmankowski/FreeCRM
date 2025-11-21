@@ -79,11 +79,18 @@ class ListView extends \App\Modules\Base\Views\Index
 		$this->listViewModel = \App\Modules\Base\Models\ListView::getInstance($moduleName, $this->viewName);
 		$this->initializeListViewContents($request, $viewer);
 
+		// ListView needs QUICK_LINKS for sidebar navigation
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
+		$linkModels = $moduleModel->getSideBarLinks($linkParams);
+		$activeLinkLabel = $this->processSidebarLinks($linkModels, $request);
+		$viewer->assign('QUICK_LINKS', $linkModels);
+		$viewer->assign('ACTIVE_SIDEBAR_LINK', $activeLinkLabel);
+
 		// Assign all viewer data at the end
 		$viewer->assign('CUSTOM_VIEWS', \App\Modules\CustomView\Models\Record::getAllByGroup($moduleName, $mid));
 		$viewer->assign('HEADER_LINKS', $this->listViewModel->getHederLinks($linkParams));
 		$viewer->assign('VIEWID', $this->viewName);
-		$viewer->assign('MODULE_MODEL', \App\Modules\Base\Models\Module::getInstance($moduleName));
+		$viewer->assign('MODULE_MODEL', $moduleModel);
 	}
 	
 	protected function prepareAjaxListViewData(\App\Http\Vtiger_Request $request)

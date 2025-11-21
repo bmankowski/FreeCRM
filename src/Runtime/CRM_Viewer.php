@@ -155,11 +155,19 @@ class CRM_Viewer extends \Smarty
 			$this->registerPlugin('modifier', 'vresource_url', 'vresource_url'); // Also as modifier
 
 
-			// Register  modifier 't'
-			$this->registerPlugin('modifier', 't', '\App\Runtime\Vtiger_Language_Handler::translate');
-			
-		// Register static classes for template use
-		$this->registerClass('AppConfig', '\App\Core\AppConfig');
+		// Register  modifier 't'
+		$this->registerPlugin('modifier', 't', '\App\Runtime\Vtiger_Language_Handler::translate');
+		
+		// Register PHP functions that templates need to use
+		$this->registerPlugin('modifier', 'is_object', 'is_object');
+		$this->registerPlugin('modifier', 'is_array', 'is_array');
+		$this->registerPlugin('modifier', 'is_string', 'is_string');
+		$this->registerPlugin('modifier', 'count', 'count');
+		
+	// Register static classes for template use
+	$this->registerClass('AppConfig', '\App\Core\AppConfig');
+	$this->registerClass('\App\Core\AppConfig', '\App\Core\AppConfig'); // Also register with fully qualified name
+	$this->registerClass('App\Privilege', '\App\Security\Privilege'); // Register Privilege class with short name
 		$this->registerClass('\App\Modules\Base\Models\Menu', '\App\Modules\\Base\Models\\Menu');
 		$this->registerClass('\App\Runtime\Yeti_Layout', '\App\\Runtime\\Yeti_Layout');
 		$this->registerClass('\App\Modules\Settings\WidgetsManagement\Models\Module', '\App\Modules\\Settings\\WidgetsManagement\Models\\Module');

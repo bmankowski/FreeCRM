@@ -51,64 +51,9 @@ class Index extends \App\Modules\Base\Views\Basic
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
-		$this->assignSidebarData($request);
-	}
-	
-	protected function assignSidebarData(\App\Http\Vtiger_Request $request)
-	{
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-		if (!empty($moduleName)) {
-			// Home module uses Index view (not entity module view)
-			// Index views don't have QUICK_LINKS sidebar navigation
-			// QUICK_LINKS are only for entity modules (ListView, DashBoard, etc.)
-			if ($moduleName === 'Home') {
-				$viewer->assign('CURRENT_VIEW', $request->get('view'));
-				return;
-			}
-			
-			$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
-			if (!$moduleModel) {
-				// Non-entity or unsupported module; skip permission block
-				$viewer->assign('CURRENT_VIEW', $request->get('view'));
-				return;
-			}
-			$currentUser = $request->getUser();
-			$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getInstanceById($currentUser->getId());
-			
-			// Check if this is a Settings module access
-			$parent = $request->get('parent');
-			$parenttab = $request->get('parenttab');
-			$isSettingsModule = ($parent === 'Settings' || $parenttab === 'Settings' || 
-				in_array($moduleName, ['Settings', 'Administration', 'System']));
-			
-			if ($isSettingsModule) {
-				// Settings modules require admin privileges
-				// Use Record's isAdminUser() which checks database if needed
-				if (!$currentUser || !$currentUser->isAdminUser()) {
-					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
-				}
-			} else {
-				// Regular module permission check
-				if (!$userPrivilegesModel) {
-					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
-				}
-				$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
-				if (!$permission) {
-					throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
-				}
-			}
-
-			$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
-			$linkModels = $moduleModel->getSideBarLinks($linkParams);
-			
-			// Process sidebar links to determine active link
-			$activeLinkLabel = $this->processSidebarLinks($linkModels, $request);
-
-			$viewer->assign('QUICK_LINKS', $linkModels);
-			$viewer->assign('ACTIVE_SIDEBAR_LINK', $activeLinkLabel);
-		}
-		$viewer->assign('CURRENT_VIEW', $request->get('view'));
+		// Index view is for special modules (Home, Settings) without entity records
+		// These don't need QUICK_LINKS sidebar navigation
+		// QUICK_LINKS are only for entity module views (ListView, DashBoard, etc.)
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)
