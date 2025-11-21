@@ -35,15 +35,17 @@ export async function findWordsInPage(
 ): Promise<{ word: string; location: TextLocation | null }[] | null> {
   const pageContent = await page.evaluate(() => {
     // Code runs in browser context, so DOM APIs are available
-    const allText = document.body.innerText || document.body.textContent || '';
-    return allText.toLowerCase();
+    const visibleText = document.body.innerText || '';
+    const textContent = document.body.textContent || '';
+    const htmlSource = document.body.innerHTML || '';
+    const allText = (textContent + visibleText + htmlSource);
+    return allText;
   });
 
   const foundWords: { word: string; location: TextLocation | null }[] = [];
 
   for (const word of words) {
-    const lowerWord = word.toLowerCase();
-    if (pageContent.includes(lowerWord)) {
+    if (pageContent.includes(word)) {
       // Find where the word appears for debugging
       const location = await page.evaluate((searchWord: string) => {
         // Capture URL at the moment we find the error
@@ -58,58 +60,23 @@ export async function findWordsInPage(
         );
         let node;
         while (node = walker.nextNode()) {
-          if (node.textContent && node.textContent.toLowerCase().includes(searchWord)) {
+          if (node.textContent && node.textContent.includes(searchWord)) {
             const parent = node.parentElement;
             if (!parent) {
               continue;
             }
             
-            // Try to get full error message - it might span multiple elements
-            // Start with parent, but also check if parent is too small
+            // Get the parent of the element containing the word
+            // If the word is in <b>, get the parent of <b> (e.g., <div>)
             let container: HTMLElement = parent as HTMLElement;
-            let fullText = (container.innerText || container.textContent || '').trim();
             
-            // If parent is small (like <B> or <strong>), try to get more context
-            // Check parent's parent or siblings that might contain continuation
-            if (fullText.length < 100 && container.parentElement) {
-              // Check if siblings contain more of the error message
-              const siblings = Array.from(container.parentElement.children);
-              const currentIndex = siblings.indexOf(container);
-              
-              // Collect text from previous and next siblings if they're small
-              let extendedText = fullText;
-              for (let i = Math.max(0, currentIndex - 2); i < Math.min(siblings.length, currentIndex + 3); i++) {
-                const sibling = siblings[i] as HTMLElement;
-                if (sibling && sibling !== container) {
-                  const siblingText = (sibling.innerText || sibling.textContent || '').trim();
-                  // Only include if sibling is small (likely part of error message)
-                  if (siblingText.length < 200) {
-                    extendedText += ' ' + siblingText;
-                  }
-                }
-              }
-              
-              // Use extended text if it's longer
-              if (extendedText.length > fullText.length && extendedText.length < 2000) {
-                fullText = extendedText.trim();
-              }
-              
-              // Also try parent's parent if current container is small
-              if (fullText.length < 100 && container.parentElement) {
-                const grandParent = container.parentElement as HTMLElement;
-                const grandParentText = (grandParent.innerText || grandParent.textContent || '').trim();
-                if (grandParentText.length > fullText.length && grandParentText.length < 2000) {
-                  container = grandParent;
-                  fullText = grandParentText;
-                }
-              }
+            // If parent is <b> or similar inline element, go up one more level to get the div
+            if (parent.parentElement && ['B', 'STRONG', 'SPAN', 'I', 'EM'].includes(parent.tagName)) {
+              container = parent.parentElement as HTMLElement;
             }
             
-            // Use innerText for better formatting (preserves line breaks)
-            const containerText = (container.innerText || container.textContent || '').trim();
-            if (containerText.length > fullText.length && containerText.length < 2000) {
-              fullText = containerText;
-            }
+            // Get the full HTML content of the container
+            const fullText = (container.innerHTML || container.innerText || container.textContent || '').trim();
             
             return {
               text: fullText.trim(),
@@ -121,7 +88,7 @@ export async function findWordsInPage(
           }
         }
         return null;
-      }, lowerWord);
+      }, word);
 
       foundWords.push({ word, location });
     }
@@ -130,36 +97,11 @@ export async function findWordsInPage(
   return foundWords.length > 0 ? foundWords : null;
 }
 
-/**
- * Find warning or error messages on the page
- * 
- * @param page - Playwright Page object
- * @returns Array of found warnings/errors with location information, or null if none found
- */
-export async function findWarningsAndErrors(
-  page: Page
-): Promise<{ word: string; location: TextLocation | null }[] | null> {
-  const found = await findWordsInPage(page, ['warning', 'error']);
-  
-  if (found) {
-    // Use URL from first error's location (captured in browser context when error was found)
-    // This is the most accurate URL as it's captured at the exact moment the error is detected
-    const errorPageUrl = found[0]?.location?.url;
-    // Fallback to current page URL if not available
-    const fallbackUrl = errorPageUrl || await page.evaluate(() => window.location.href);
-    const playwrightUrl = page.url();
-    const message = formatWarningsAndErrors(found, fallbackUrl, playwrightUrl);
-    console.error(message);
-    return found;
-  }
-  
-  return null;
-}
 
 /**
  * Format found warnings/errors into a readable message
  * 
- * @param found - Result from findWarningsAndErrors (with pageUrl attached)
+ * @param found - Result from findWordsInPage (with pageUrl attached)
  * @param browserUrl - URL from browser (window.location.href)
  * @param playwrightUrl - URL from Playwright (page.url())
  * @returns Formatted error message string
@@ -175,7 +117,6 @@ export function formatWarningsAndErrors(
 
   // Use URL from first error if available, otherwise use browser URL
   const errorPageUrl = found[0]?.pageUrl || browserUrl || 'unknown';
-  const timestamp = new Date().toISOString();
 
   const messages = found.map(({ word, location }, index) => {
     let message = `\n[${index + 1}] Found "${word.toUpperCase()}"`;
@@ -207,50 +148,19 @@ export function formatWarningsAndErrors(
     return message;
   });
 
-  let result = `═══════════════════════════════════════════════════════════`;
-  result += `\n⚠️  PAGE CONTAINS WARNING OR ERROR TEXT`;
-  result += `\n═══════════════════════════════════════════════════════════`;
-  result += `\n\nPage URL (from browser): ${errorPageUrl}`;
+  let result = `\nPage URL (from browser): ${errorPageUrl}`;
   if (playwrightUrl && playwrightUrl !== errorPageUrl) {
     result += `\nPage URL (from Playwright): ${playwrightUrl}`;
+    
   }
-  result += `\nTimestamp: ${timestamp}`;
-  result += `\nTotal issues found: ${found.length}`;
-  result += `\n\n${messages.join('\n')}`;
-  result += `\n\n═══════════════════════════════════════════════════════════\n`;
 
   return result;
 }
 
 /**
- * Assert that page does not contain specific words anywhere
- * 
- * @param page - Playwright Page object
- * @param words - Array of words to check for (case-insensitive)
- * @throws Error if any of the words is found, with location information
- */
-export async function assertPageDoesNotContain(page: Page, words: string[]): Promise<void> {
-  const found = await findWordsInPage(page, words);
-
-  if (found) {
-    const messages = found.map(({ word, location }) => {
-      if (location) {
-        const selector = `<${location.tag}>${location.className ? `.${location.className.split(' ').join('.')}` : ''}${location.id ? `#${location.id}` : ''}`;
-        return `"${word}" found in ${selector}:\n${location.text}`;
-      }
-      return `"${word}" found but location could not be determined`;
-    });
-
-    throw new Error(
-      `Page contains forbidden words:\n\n${messages.join('\n\n')}`
-    );
-  }
-}
-
-/**
  * Assert that page does not contain warning or error messages
  * 
- * This is a convenience wrapper around findWarningsAndErrors with expect.
+ * Searches for 'Warning' and 'Error' text on the page and fails the test if found.
  * It provides better error messages and is more readable in tests.
  * 
  * @param page - Playwright Page object
@@ -260,10 +170,16 @@ export async function assertPageDoesNotContain(page: Page, words: string[]): Pro
  * ```
  */
 export async function expectNoWarningsAndErrors(page: Page): Promise<void> {
-  const found = await findWarningsAndErrors(page);
-  const errorMessage = found 
-    ? formatWarningsAndErrors(found, await page.evaluate(() => window.location.href), page.url())
-    : 'No warnings or errors expected';
-  expect(found, errorMessage).toBeNull();
+  const found = await findWordsInPage(page, ['Warning', 'Error']);
+  
+  if (found) {
+    // Use URL from first error's location (captured in browser context when error was found)
+    const errorPageUrl = found[0]?.location?.url;
+    const fallbackUrl = errorPageUrl || await page.evaluate(() => window.location.href);
+    const playwrightUrl = page.url();
+    const errorMessage = formatWarningsAndErrors(found, fallbackUrl, playwrightUrl);
+    console.error(errorMessage);
+    expect(found, errorMessage).toBeNull();
+  }
 }
 

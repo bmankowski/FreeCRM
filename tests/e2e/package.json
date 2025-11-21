@@ -4,6 +4,7 @@
   "description": "End-to-end tests for FreeCRM",
   "scripts": {
     "test": "playwright test",
+    "test:e2e": "playwright test --reporter=./reporters/ai-feed-reporter.ts",
     "test:ui": "playwright test --ui",
     "test:debug": "playwright test --debug",
     "test:headed": "playwright test --headed",
