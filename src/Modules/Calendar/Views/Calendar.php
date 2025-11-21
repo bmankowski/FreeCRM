@@ -47,6 +47,15 @@ class Calendar  extends \App\Modules\Base\Views\Index
 				'current' => \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current'),
 				'history' => \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('history')
 		]));
+
+		// Calendar needs QUICK_LINKS for sidebar navigation
+		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
+		$linkModels = $moduleModel->getSideBarLinks($linkParams);
+		$activeLinkLabel = $this->processSidebarLinks($linkModels, $request);
+		
+		$viewer->assign('QUICK_LINKS', $linkModels);
+		$viewer->assign('ACTIVE_SIDEBAR_LINK', $activeLinkLabel);
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
