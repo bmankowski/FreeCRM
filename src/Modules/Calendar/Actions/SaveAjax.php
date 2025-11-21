@@ -155,7 +155,11 @@ class SaveAjax extends \App\Modules\Base\Actions\Save
 		if ($request->has('saveAndClose')) {
 			$recordModel->set('activitystatus', $request->get('saveAndClose'));
 		}
-		if ($endTime && $startTime) {
+		$startTime = $recordModel->get('time_start');
+		$endTime = $recordModel->get('time_end');
+		$startDate = $recordModel->get('date_start');
+		$endDate = $recordModel->get('due_date');
+		if ($endTime && $startTime && $startDate && $endDate) {
 			$time = (strtotime($endTime)) - (strtotime($startTime));
 			$diffinSec = (strtotime($endDate)) - (strtotime($startDate));
 			$diff_days = floor($diffinSec / (60 * 60 * 24));

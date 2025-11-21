@@ -18,7 +18,7 @@ class Calendar_CalendarHandler_Handler {
 	 */
 	public function entityAfterSave(\App\Events\EventHandler $eventHandler)
 	{
-		if (vtlib\Cron::isCronAction()) {
+		if (\vtlib\Cron::isCronAction()) {
 			return false;
 		}
 		$recordModel = $eventHandler->getRecordModel();
@@ -66,7 +66,7 @@ class Calendar_CalendarHandler_Handler {
 	 */
 	public function entityBeforeSave(\App\Events\EventHandler $eventHandler)
 	{
-		if (vtlib\Cron::isCronAction()) {
+		if (\vtlib\Cron::isCronAction()) {
 			return false;
 		}
 		$recordModel = $eventHandler->getRecordModel();

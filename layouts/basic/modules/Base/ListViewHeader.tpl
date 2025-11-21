@@ -52,12 +52,14 @@
 									{/foreach}
 								{/if}
 							</ul>
-						{/if}
-					</div>
+					{/if}
+				</div>
+				{if isset($LISTVIEW_LINKS['LISTVIEWBASIC'])}
 					{foreach item=LINK from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
 						{include file='ButtonLink.tpl'|@vtemplate_path:$MODULE BUTTON_VIEW='listView'}
 					{/foreach}
-				</div>
+				{/if}
+			</div>
 				<div class="btn-toolbar col-md-3 col-sm-5 col-xs-12 pull-right-sm pull-left-xs">
 					<div class="customFilterMainSpan btn-group">
 						{if $CUSTOM_VIEWS|@count gt 0}

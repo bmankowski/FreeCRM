@@ -17,8 +17,9 @@
 				{include file='BreadCrumbs.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 			</div>
 		</div>
-		<div class="listViewActionsDiv row">
-			<div class="{if $SUPPORTED_MODULE_MODELS}col-md-5{else}col-md-8{/if} btn-toolbar">
+	<div class="listViewActionsDiv row">
+		<div class="{if $SUPPORTED_MODULE_MODELS}col-md-5{else}col-md-8{/if} btn-toolbar">
+			{if isset($LISTVIEW_LINKS['LISTVIEWBASIC'])}
 				{foreach item=LINK from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
 					{if $LINK->getLabel()}
 						{assign var="LABEL" value={$LINK->getLabel()|t:$QUALIFIED_MODULE}}
@@ -41,7 +42,8 @@
 						{/if}
 					</button>
 				{/foreach}
-			</div>
+			{/if}
+		</div>
 			{if $SUPPORTED_MODULE_MODELS}
 				<div class="col-md-3 btn-toolbar marginLeftZero">
 					<select class="chzn-select form-control" id="moduleFilter" >

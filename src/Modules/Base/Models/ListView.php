@@ -134,7 +134,11 @@ class ListView extends \App\Runtime\BaseModel
 	public function getListViewLinks($linkParams)
 	{
 		$moduleModel = $this->getModule();
-		$links = [];
+		// Initialize link arrays to prevent undefined array key warnings in templates
+		$links = [
+			'LISTVIEWBASIC' => [],
+			'LISTVIEW' => []
+		];
 
 		$basicLinks = $this->getBasicLinks();
 		foreach ($basicLinks as $basicLink) {

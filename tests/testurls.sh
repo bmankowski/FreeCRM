@@ -12,6 +12,18 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
+# Check if curl is installed
+if ! command -v curl &> /dev/null; then
+    echo -e "${RED}Error: curl is not installed${NC}"
+    exit 1
+fi
+
+# Check if URLs file exists
+if [ ! -f "$URLS_FILE" ]; then
+    echo -e "${RED}Error: URLs file not found: $URLS_FILE${NC}"
+    exit 1
+fi
+
 echo -e "${YELLOW}Starting URL tests...${NC}\n"
 
 # Login first to establish session
@@ -49,22 +61,14 @@ while IFS= read -r url || [ -n "$url" ]; do
     fi
     
     # Check for common PHP error patterns (both HTML and plain text formats)
+    # Remove the ^ anchor to match errors anywhere in the response
     
     # Check for HTML-formatted errors (most common in web responses)
-    if echo "$response" | grep -qE "^(Fatal error|Parse error|Warning|Notice):|Cannot redeclare|Call to undefined"; then
+    if echo "$response" | grep -qiE "(<b>)?(Fatal error|Parse error|Warning|Notice)(</b>)?:|Cannot redeclare|Call to undefined|Uncaught Exception|Stack trace:"; then
         echo -e "${RED}✗ ERRORS FOUND:${NC}"
-        # Show full error output without truncation
-        echo "$response" | grep -E "<b>(Fatal error|Parse error|Warning|Notice)</b>|Cannot redeclare|Call to undefined"
-        echo -e "\n${RED}Testing stopped due to errors${NC}"
-        exit 1
-    fi
-    
-    # Check for plain text errors (appear when PHP fails before rendering)
-    if echo "$response" | grep -qE "^(Fatal error|Parse error|Warning|Notice):|Uncaught Exception|Stack trace:"; then
-        echo -e "${RED}✗ ERRORS FOUND:${NC}"
-        echo -e "\n${YELLOW}=== FULL ERROR OUTPUT ===${NC}\n"
-        # Show the complete error output including full stack trace
-        echo "$response"
+        echo -e "\n${YELLOW}=== ERROR OUTPUT ===${NC}\n"
+        # Show error lines with context
+        echo "$response" | grep -iE "(Fatal error|Parse error|Warning|Notice|Cannot redeclare|Call to undefined|Uncaught Exception|Stack trace:)" | head -20
         echo -e "\n${RED}Testing stopped due to errors${NC}"
         exit 1
     fi

@@ -389,6 +389,10 @@ Vtiger_Base_Validator_Js("Vtiger_lessThanToday_Validator_Js", {}, {
 			this.setError(err);
 			return false;
 		}
+		// Handle empty dates - empty is valid unless field is required
+		if (fieldDateInstance === null) {
+			return true;
+		}
 		fieldDateInstance.setHours(0, 0, 0, 0);
 		var todayDateInstance = new Date();
 		todayDateInstance.setHours(0, 0, 0, 0);
@@ -420,6 +424,10 @@ Vtiger_Base_Validator_Js("Vtiger_lessThanOrEqualToToday_Validator_Js", {}, {
 			this.setError(err);
 			return false;
 		}
+		// Handle empty dates - empty is valid unless field is required
+		if (fieldDateInstance === null) {
+			return true;
+		}
 		fieldDateInstance.setHours(0, 0, 0, 0);
 		var todayDateInstance = new Date();
 		todayDateInstance.setHours(0, 0, 0, 0);
@@ -450,6 +458,10 @@ Vtiger_Base_Validator_Js('Vtiger_greaterThanOrEqualToToday_Validator_Js', {}, {
 		} catch (err) {
 			this.setError(err);
 			return false;
+		}
+		// Handle empty dates - empty is valid unless field is required
+		if (fieldDateInstance === null) {
+			return true;
 		}
 		fieldDateInstance.setHours(0, 0, 0, 0);
 		var todayDateInstance = new Date();
@@ -524,6 +536,10 @@ Vtiger_Base_Validator_Js("Vtiger_greaterThanDependentField_Validator_Js", {
 			this.setError(err);
 			return false;
 		}
+		// Handle empty dates
+		if (dateTimeInstance === null) {
+			return null;
+		}
 		return dateTimeInstance;
 	}
 });
@@ -554,8 +570,12 @@ Vtiger_Base_Validator_Js("Vtiger_dateAndTimeGreaterThanDependentField_Validator_
 			if (dependentFieldInContext.length > 0) {
 				if (typeof dependentFieldInContext.data('dateFormat') == 'undefined' && fieldDateTime) {
 					fieldDateTime += ' ' + dependentFieldInContext.val();
-					fieldDateTimeInstance[j] = Vtiger_Helper_Js.getDateInstance(fieldDateTime, dateFormat);
-					j++;
+					var dateInstance = Vtiger_Helper_Js.getDateInstance(fieldDateTime, dateFormat);
+					// Skip if date is empty
+					if (dateInstance !== null) {
+						fieldDateTimeInstance[j] = dateInstance;
+						j++;
+					}
 				} else if (typeof dependentFieldInContext.data('dateFormat') != 'undefined') {
 					var dateFormat = dependentFieldInContext.data('dateFormat');
 					fieldDateTime = dependentFieldInContext.val();
@@ -598,6 +618,10 @@ Vtiger_Base_Validator_Js("Vtiger_futureEventCannotBeHeld_Validator_Js", {}, {
 				var time = jQuery('input[name=time_start]', contextFormElem);
 				var fieldValue = dependentFieldInContext.val() + " " + time.val();
 				var dependentFieldDateInstance = Vtiger_Helper_Js.getDateInstance(fieldValue, dateFormat);
+				// Skip validation if date is empty
+				if (dependentFieldDateInstance === null) {
+					continue;
+				}
 				var comparedDateVal = todayDateInstance - dependentFieldDateInstance;
 				if (comparedDateVal < 0 && status == "Held") {
 					var errorInfo = fieldLabel + ' ' + app.vtranslate('JS_FUTURE_EVENT_CANNOT_BE_HELD') + ' ' + dependentFieldLabel + '';
@@ -631,10 +655,14 @@ Vtiger_Base_Validator_Js("Vtiger_lessThanDependentField_Validator_Js", {}, {
 				var dependentFieldLabel = dependentFieldInContext.data('fieldinfo').label;
 				var fieldDateInstance = this.getDateTimeInstance(field);
 				//No need to validate if value is empty
-				if (dependentFieldInContext.val().length == 0) {
+				if (dependentFieldInContext.val().length == 0 || fieldDateInstance === null) {
 					continue;
 				}
 				var dependentFieldDateInstance = this.getDateTimeInstance(dependentFieldInContext);
+				// Skip if dependent field is empty
+				if (dependentFieldDateInstance === null) {
+					continue;
+				}
 				var comparedDateVal = fieldDateInstance - dependentFieldDateInstance;
 				if (comparedDateVal > 0) {
 					var errorInfo = fieldLabel + ' ' + app.vtranslate('JS_SHOULD_BE_LESS_THAN_OR_EQUAL_TO') + ' ' + dependentFieldLabel + '';
@@ -653,6 +681,10 @@ Vtiger_Base_Validator_Js("Vtiger_lessThanDependentField_Validator_Js", {}, {
 		} catch (err) {
 			this.setError(err);
 			return false;
+		}
+		// Handle empty dates
+		if (dateTimeInstance === null) {
+			return null;
 		}
 		return dateTimeInstance;
 	}
@@ -847,11 +879,15 @@ Vtiger_Base_Validator_Js("Vtiger_Date_Validator_Js", {
 		var fieldDateFormat = fieldData.dateFormat;
 		var fieldValue = this.getFieldValue();
 		try {
-			Vtiger_Helper_Js.getDateInstance(fieldValue, fieldDateFormat);
+			var dateInstance = Vtiger_Helper_Js.getDateInstance(fieldValue, fieldDateFormat);
 		} catch (err) {
 			var errorInfo = app.vtranslate("JS_PLEASE_ENTER_VALID_DATE");
 			this.setError(errorInfo);
 			return false;
+		}
+		// Handle empty dates - empty is valid unless field is required
+		if (dateInstance === null) {
+			return true;
 		}
 		return true;
 	}
@@ -914,7 +950,9 @@ Vtiger_greaterThanDependentField_Validator_Js("Calendar_greaterThanDependentFiel
 
 		var dateFieldValue = field.val() + " " + timeFieldValue;
 		var dateFormat = field.data('dateFormat');
-		return Vtiger_Helper_Js.getDateInstance(dateFieldValue, dateFormat);
+		var dateInstance = Vtiger_Helper_Js.getDateInstance(dateFieldValue, dateFormat);
+		// Return null if date is empty (will be handled by calling code)
+		return dateInstance;
 	}
 
 });
@@ -936,6 +974,10 @@ Vtiger_Base_Validator_Js('Calendar_greaterThanToday_Validator_Js', {}, {
 		} catch (err) {
 			this.setError(err);
 			return false;
+		}
+		// Handle empty dates - empty is valid unless field is required
+		if (fieldDateInstance === null) {
+			return true;
 		}
 		fieldDateInstance.setHours(0, 0, 0, 0);
 		var todayDateInstance = new Date();

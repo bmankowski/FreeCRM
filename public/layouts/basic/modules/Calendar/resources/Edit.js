@@ -119,6 +119,10 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		var dateFormat = container.find('[name="due_date"]').data('dateFormat');
 		var timeFormat = endTimeElement.data('format');
 		startDate = Vtiger_Helper_Js.getDateInstance(startDateTime, dateFormat);
+		// Handle empty dates
+		if (startDate === null) {
+			return;
+		}
 		var startDateInstance = Date.parse(startDate);
 		var endDateInstance = false;
 
@@ -164,6 +168,10 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 
 			var start = thisInstance.getDateInstance(container, 'start');
 			var end = thisInstance.getDateInstance(container, 'end');
+			// Handle empty dates
+			if (start === null || end === null) {
+				return;
+			}
 			var dateFormat = $('#userDateFormat').val();
 			var timeFormat = $('#userTimeFormat').val();
 			container.find('.autofill:visible').trigger('change');
@@ -217,6 +225,10 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		var secondTimeValue = secondTime.val();
 		var secondDateTimeValue = secondDateValue + ' ' + secondTimeValue;
 		var secondDateInstance = Vtiger_Helper_Js.getDateInstance(secondDateTimeValue, secondDateFormat);
+		// Handle empty dates
+		if (secondDateInstance === null) {
+			return;
+		}
 		var timeBetweenDates = secondDateInstance - new Date();
 		if (timeBetweenDates >= 0) {
 			container.find('.saveAndComplete').addClass('hide');
@@ -280,6 +292,10 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		if (freq === 'MONTHLY') {
 			var dayOfWeek = Vtiger_Helper_Js.getDay(form.find('[name="date_start"]').val());
 			var dateInstance = Vtiger_Helper_Js.getDateInstance(form.find('[name="date_start"]').val(), app.getMainParams('userDateFormat'));
+			// Handle empty dates
+			if (dateInstance === null) {
+				return;
+			}
 			var dayOfMonth = dateInstance.getDate();
 			var option = form.find('.calendarMontlyType:checked').val();
 			if (option == 'DAY') {
@@ -455,10 +471,14 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		var endDate = endDateElement.val();
 		var dateFormat = $('#userDateFormat').val();
 		if (type == 'start') {
-			return Vtiger_Helper_Js.getDateInstance(startDate + ' ' + startTime, dateFormat);
+			var dateInstance = Vtiger_Helper_Js.getDateInstance(startDate + ' ' + startTime, dateFormat);
+			// Return null if date is empty (will be handled by calling code)
+			return dateInstance;
 		}
 		if (type == 'end') {
-			return Vtiger_Helper_Js.getDateInstance(endDate + ' ' + endTime, dateFormat);
+			var dateInstance = Vtiger_Helper_Js.getDateInstance(endDate + ' ' + endTime, dateFormat);
+			// Return null if date is empty (will be handled by calling code)
+			return dateInstance;
 		}
 	},
 	registerInviteEvent: function (editViewForm) {

@@ -83,10 +83,39 @@ jQuery.Class("Vtiger_Helper_Js", {
 	 */
 
 	getDateInstance: function (dateTime, dateFormat) {
+		// Use global user date format if not provided
+		if (!dateFormat || typeof dateFormat === 'undefined') {
+			dateFormat = jQuery('#userDateFormat').val();
+			if (!dateFormat) {
+				dateFormat = app.getMainParams('userDateFormat');
+			}
+			// Last resort default to yyyy-mm-dd
+			if (!dateFormat) {
+				dateFormat = 'yyyy-mm-dd';
+			}
+		}
+
+		// Handle empty dateTime input - return null instead of throwing error
+		// This allows empty dates during form initialization
+		if (!dateTime || typeof dateTime === 'undefined' || dateTime === '') {
+			return null;
+		}
+
+		// Trim whitespace
+		dateTime = jQuery.trim(dateTime);
+		if (dateTime === '') {
+			return null;
+		}
+
 		var dateTimeComponents = dateTime.split(" ");
 		var dateComponent = dateTimeComponents[0];
 		var timeComponent = dateTimeComponents[1];
 		var seconds = '00';
+
+		// Validate dateComponent - if empty after split, return null
+		if (!dateComponent || dateComponent === '') {
+			return null;
+		}
 
 		var dotMode = '-';
 		if (dateFormat.indexOf("-") != -1) {
@@ -101,9 +130,31 @@ jQuery.Class("Vtiger_Helper_Js", {
 
 		var splittedDate = dateComponent.split(dotMode);
 		var splittedDateFormat = dateFormat.split(dotMode);
-		var year = splittedDate[splittedDateFormat.indexOf("yyyy")];
-		var month = splittedDate[splittedDateFormat.indexOf("mm")];
-		var date = splittedDate[splittedDateFormat.indexOf("dd")];
+		
+		// Get indices for year, month, and date components
+		var yearIndex = splittedDateFormat.indexOf("yyyy");
+		var monthIndex = splittedDateFormat.indexOf("mm");
+		var dateIndex = splittedDateFormat.indexOf("dd");
+		
+		// Validate that all required format components exist
+		if (yearIndex === -1 || monthIndex === -1 || dateIndex === -1) {
+			var errorMsg = app.vtranslate("JS_INVALID_DATE");
+			throw errorMsg;
+		}
+		
+		// Extract date components with validation
+		var year = splittedDate[yearIndex];
+		var month = splittedDate[monthIndex];
+		var date = splittedDate[dateIndex];
+		
+		// Validate that all components were extracted successfully
+		if (typeof year === 'undefined' || typeof month === 'undefined' || typeof date === 'undefined' ||
+			year === null || month === null || date === null ||
+			year === '' || month === '' || date === '') {
+			var errorMsg = app.vtranslate("JS_INVALID_DATE");
+			throw errorMsg;
+		}
+		
 		var dateInstance = Date.parse(year + dotMode + month + dotMode + date);
 		if ((year.length > 4) || (month.length > 2) || (date.length > 2) || (dateInstance == null)) {
 			var errorMsg = app.vtranslate("JS_INVALID_DATE");
@@ -238,6 +289,16 @@ jQuery.Class("Vtiger_Helper_Js", {
 		});
 	},
 	convertToDateString: function (stringDate, dateFormat, modDay, type) {
+		// Validate inputs
+		if (!stringDate || typeof stringDate === 'undefined' || stringDate === '') {
+			var errorMsg = app.vtranslate("JS_INVALID_DATE");
+			throw errorMsg;
+		}
+		if (!dateFormat || typeof dateFormat === 'undefined' || dateFormat === '') {
+			var errorMsg = app.vtranslate("JS_INVALID_DATE");
+			throw errorMsg;
+		}
+
 		var dotMode = '-';
 		if (dateFormat.indexOf("-") != -1) {
 			dotMode = '-';
@@ -251,9 +312,31 @@ jQuery.Class("Vtiger_Helper_Js", {
 
 		var splittedDate = stringDate.split(dotMode);
 		var splittedDateFormat = dateFormat.split(dotMode);
-		var year = splittedDate[splittedDateFormat.indexOf("yyyy")];
-		var month = splittedDate[splittedDateFormat.indexOf("mm")];
-		var date = splittedDate[splittedDateFormat.indexOf("dd")];
+		
+		// Get indices for year, month, and date components
+		var yearIndex = splittedDateFormat.indexOf("yyyy");
+		var monthIndex = splittedDateFormat.indexOf("mm");
+		var dateIndex = splittedDateFormat.indexOf("dd");
+		
+		// Validate that all required format components exist
+		if (yearIndex === -1 || monthIndex === -1 || dateIndex === -1) {
+			var errorMsg = app.vtranslate("JS_INVALID_DATE");
+			throw errorMsg;
+		}
+		
+		// Extract date components with validation
+		var year = splittedDate[yearIndex];
+		var month = splittedDate[monthIndex];
+		var date = splittedDate[dateIndex];
+		
+		// Validate that all components were extracted successfully
+		if (typeof year === 'undefined' || typeof month === 'undefined' || typeof date === 'undefined' ||
+			year === null || month === null || date === null ||
+			year === '' || month === '' || date === '') {
+			var errorMsg = app.vtranslate("JS_INVALID_DATE");
+			throw errorMsg;
+		}
+		
 		var dateInstance = new Date(year, month - 1, date);
 		if ((year.length > 4) || (month.length > 2) || (date.length > 2) || (dateInstance == null)) {
 			var errorMsg = app.vtranslate("JS_INVALID_DATE");

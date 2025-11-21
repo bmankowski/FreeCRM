@@ -34,8 +34,11 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('MODULE', $moduleName);
 		
 		// Prepare CustomView-specific data for IndexContents template
+		// Always assign OWNER_LABELS to prevent undefined array key warnings
 		if ($supportedModuleId) {
 			$this->prepareCustomViewIndexData($viewer, $supportedModuleId);
+		} else {
+			$viewer->assign('OWNER_LABELS', []);
 		}
 		
 		if ($request->isAjax()) {
@@ -57,8 +60,11 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$customViews = $viewer->getTemplateVars('MODULE_MODEL')->getCustomViews($sourceModuleId);
 		$ownerLabels = [];
 		foreach ($customViews as $key => $item) {
-			if (isset($item['userid'])) {
+			if (isset($item['userid']) && $item['userid']) {
 				$ownerLabels[$key] = \App\Fields\Owner::getLabel($item['userid']);
+			} else {
+				// Ensure all keys exist to prevent undefined array key warnings
+				$ownerLabels[$key] = '';
 			}
 		}
 		$viewer->assign('OWNER_LABELS', $ownerLabels);
