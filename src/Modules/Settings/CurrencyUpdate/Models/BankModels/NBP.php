@@ -46,17 +46,31 @@ class NBP extends \App\Modules\Settings\CurrencyUpdate\Models\AbstractBank
 		$xmlSrc = 'http://nbp.pl/kursy/xml/';
 		$newXmlSrc = '';
 
-		$file = file($txtSrc);
+		// Set timeout context for file operations
+		$context = stream_context_create([
+			'http' => [
+				'timeout' => 10  // 10 seconds timeout
+			]
+		]);
+
+		$file = @file($txtSrc, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES, $context);
+		if ($file === false) {
+			\App\Log\Log::error('Failed to fetch NBP currency directory from: ' . $txtSrc);
+			return $supportedCurrencies;
+		}
+
 		$fileNum = count($file);
 		$numberOfDays = 1;
 		$stateA = false;
+		$maxDays = 30; // Maximum 30 days back
 
-		while (!$stateA) {
+		while (!$stateA && $numberOfDays <= $maxDays) {
 			for ($i = 0; $i < $fileNum; $i++) {
 				$lineStart = strstr($file[$i], $date, true);
 				if ($lineStart && $lineStart[0] == 'a') {
 					$stateA = true;
 					$newXmlSrc = $xmlSrc . $lineStart . $date . '.xml';
+					break;
 				}
 			}
 
@@ -70,7 +84,16 @@ class NBP extends \App\Modules\Settings\CurrencyUpdate\Models\AbstractBank
 			}
 		}
 
-		$xml = simplexml_load_file($newXmlSrc);
+		if (!$stateA || empty($newXmlSrc)) {
+			\App\Log\Log::error('Could not find NBP currency file after checking ' . $maxDays . ' days');
+			return $supportedCurrencies;
+		}
+
+		$xml = @simplexml_load_file($newXmlSrc, null, LIBXML_NOERROR | LIBXML_NOWARNING, '', false);
+		if ($xml === false) {
+			\App\Log\Log::error('Failed to load NBP currency XML from: ' . $newXmlSrc);
+			return $supportedCurrencies;
+		}
 
 		$xmlObj = $xml->children();
 
@@ -132,17 +155,31 @@ class NBP extends \App\Modules\Settings\CurrencyUpdate\Models\AbstractBank
 		$xmlSrc = 'http://nbp.pl/kursy/xml/';
 		$newXmlSrc = '';
 
-		$file = file($txtSrc);
+		// Set timeout context for file operations
+		$context = stream_context_create([
+			'http' => [
+				'timeout' => 10  // 10 seconds timeout
+			]
+		]);
+
+		$file = @file($txtSrc, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES, $context);
+		if ($file === false) {
+			\App\Log\Log::error('Failed to fetch NBP currency directory from: ' . $txtSrc);
+			return;
+		}
+
 		$fileNum = count($file);
 		$numberOfDays = 1;
 		$stateA = false;
+		$maxDays = 30; // Maximum 30 days back
 
-		while (!$stateA && $file) {
+		while (!$stateA && $file && $numberOfDays <= $maxDays) {
 			for ($i = 0; $i < $fileNum; $i++) {
 				$lineStart = strstr($file[$i], $date, true);
 				if ($lineStart && $lineStart[0] == 'a') {
 					$stateA = true;
 					$newXmlSrc = $xmlSrc . $lineStart . $date . '.xml';
+					break;
 				}
 			}
 
@@ -156,7 +193,16 @@ class NBP extends \App\Modules\Settings\CurrencyUpdate\Models\AbstractBank
 			}
 		}
 
-		$xml = simplexml_load_file($newXmlSrc);
+		if (!$stateA || empty($newXmlSrc)) {
+			\App\Log\Log::error('Could not find NBP currency file after checking ' . $maxDays . ' days for date: ' . $dateCur);
+			return;
+		}
+
+		$xml = @simplexml_load_file($newXmlSrc, null, LIBXML_NOERROR | LIBXML_NOWARNING);
+		if ($xml === false) {
+			\App\Log\Log::error('Failed to load NBP currency XML from: ' . $newXmlSrc);
+			return;
+		}
 
 		$xmlObj = $xml->children();
 
