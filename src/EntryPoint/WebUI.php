@@ -683,7 +683,7 @@ class WebUI extends EntryPoint
 		$view = $request->get('view');
 
 		if (in_array($module, self::NOT_PERMITTED_LIST_MODULES, true) && $view === self::LIST_VIEW) {
-			header('Location: index.php?module=Home&view=DashBoard');
+			header('Location: index.php?module=Home&view=Index');
 			exit;
 		}
 	}

@@ -59,7 +59,9 @@ class Index extends \App\Modules\Base\Views\Basic
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		if (!empty($moduleName)) {
-			// Home module doesn't require permission checks
+			// Home module uses Index view (not entity module view)
+			// Index views don't have QUICK_LINKS sidebar navigation
+			// QUICK_LINKS are only for entity modules (ListView, DashBoard, etc.)
 			if ($moduleName === 'Home') {
 				$viewer->assign('CURRENT_VIEW', $request->get('view'));
 				return;

@@ -14,15 +14,33 @@ namespace App\Modules\Home\Views;
 
 
 use App\Http\Vtiger_Request;
+
+/**
+ * Backward compatibility redirect for Home DashBoard view
+ * Home now uses Index view instead of DashBoard view
+ * This class redirects old DashBoard URLs to Index view
+ */
 class DashBoard extends \App\Modules\Base\Views\DashBoard
 {
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
+		// Redirect Home DashBoard to Index for backward compatibility
+		$moduleName = $request->getModule();
+		if ($moduleName === 'Home') {
+			$dashboardId = $request->get('dashboardId');
+			$redirectUrl = 'index.php?module=Home&view=Index';
+			if (!empty($dashboardId)) {
+				$redirectUrl .= '&dashboardId=' . $dashboardId;
+			}
+			header('Location: ' . $redirectUrl);
+			exit;
+		}
+		
+		// For other modules, use normal DashBoard behavior
 		parent::preProcess($request, false);
 		
 		// Assign Home-specific dashboard data
-		$moduleName = $request->getModule();
 		$currentDashboard = $request->get('dashboardId');
 		if (empty($currentDashboard)) {
 			$currentDashboard = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDashboard();

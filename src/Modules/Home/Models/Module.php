@@ -21,7 +21,7 @@ class Module extends \App\Modules\Base\Models\Module
 	 */
 	public function getDefaultViewName()
 	{
-		return 'DashBoard';
+		return 'Index';
 	}
 
 	/**
