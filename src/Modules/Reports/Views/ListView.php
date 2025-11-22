@@ -76,6 +76,16 @@ class ListView extends \App\Modules\Base\Views\Index
 		$pagingModel->set('page', $pageNumber);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 
+		// Ensure LISTVIEW_LINKS is always an array with required keys to prevent template errors
+		if (!is_array($linkModels)) {
+			$linkModels = [];
+		}
+		if (!isset($linkModels['LISTVIEW'])) {
+			$linkModels['LISTVIEW'] = [];
+		}
+		if (!isset($linkModels['LISTVIEWBASIC'])) {
+			$linkModels['LISTVIEWBASIC'] = [];
+		}
 		$viewer->assign('LISTVIEW_LINKS', $linkModels);
 		$viewer->assign('FOLDERS', $folders);
 		$viewer->assign('LISTVIEW_MASSACTIONS', $listViewMassActionModels);
@@ -122,7 +132,14 @@ class ListView extends \App\Modules\Base\Views\Index
 			$viewer->assign('PAGE_COUNT', $pageCount);
 			$viewer->assign('LISTVIEW_COUNT', $totalCount);
 			$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
+		} else {
+			// Assign default values when page count computation is disabled
+			$viewer->assign('PAGE_COUNT', 1);
+			$viewer->assign('LISTVIEW_COUNT', $noOfEntries);
+			$viewer->assign('START_PAGIN_FROM', 1);
 		}
+		// Always assign PAGE_INDEX for pagination template
+		$viewer->assign('PAGE_INDEX', $pageNumber);
 		$viewer->assign('LIST_MAX_ENTRIES_MASS_EDIT', \App\Core\AppConfig::main('listMaxEntriesMassEdit'));
 	}
 

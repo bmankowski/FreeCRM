@@ -86,6 +86,7 @@ class Loader
 	}
 
 		// Build fully qualified PSR-4 class name and file path
+		// Try exact case first, then try capitalized first letter (common convention)
 		$className = "App\\Modules\\{$moduleName}\\{$typeDir}\\{$componentName}";
 		$filePath = "src/Modules/" . str_replace('\\', '/', $moduleName) . "/{$typeDir}/{$componentName}.php";
 		
@@ -93,6 +94,18 @@ class Loader
 		if (file_exists(ROOT_DIRECTORY . '/' . $filePath) && class_exists($className)) {
 			self::$componentClassCache[$cacheKey] = $className;
 			return $className;
+		}
+		
+		// Prepare capitalized version for case-insensitive matching (common PHP class naming convention)
+		$capitalizedComponentName = ucfirst($componentName);
+		if ($capitalizedComponentName !== $componentName) {
+			$capitalizedClassName = "App\\Modules\\{$moduleName}\\{$typeDir}\\{$capitalizedComponentName}";
+			$capitalizedFilePath = "src/Modules/" . str_replace('\\', '/', $moduleName) . "/{$typeDir}/{$capitalizedComponentName}.php";
+			
+			if (file_exists(ROOT_DIRECTORY . '/' . $capitalizedFilePath) && class_exists($capitalizedClassName)) {
+				self::$componentClassCache[$cacheKey] = $capitalizedClassName;
+				return $capitalizedClassName;
+			}
 		}
 
 		// For Settings modules, try Settings\Base fallback
@@ -103,6 +116,17 @@ class Loader
 			if (file_exists(ROOT_DIRECTORY . '/' . $settingsFilePath) && class_exists($settingsVtigerFallback)) {
 				self::$componentClassCache[$cacheKey] = $settingsVtigerFallback;
 				return $settingsVtigerFallback;
+			}
+			
+			// Try capitalized version for Settings\Base fallback
+			if ($capitalizedComponentName !== $componentName) {
+				$settingsCapitalizedFallback = "App\\Modules\\Settings\\Base\\{$typeDir}\\{$capitalizedComponentName}";
+				$settingsCapitalizedFilePath = "src/Modules/Settings/Base/{$typeDir}/{$capitalizedComponentName}.php";
+				
+				if (file_exists(ROOT_DIRECTORY . '/' . $settingsCapitalizedFilePath) && class_exists($settingsCapitalizedFallback)) {
+					self::$componentClassCache[$cacheKey] = $settingsCapitalizedFallback;
+					return $settingsCapitalizedFallback;
+				}
 			}
 			
 			// Try base submodule without Settings prefix
@@ -116,6 +140,17 @@ class Loader
 					self::$componentClassCache[$cacheKey] = $subModuleFallback;
 					return $subModuleFallback;
 				}
+				
+				// Try capitalized version for submodule fallback
+				if ($capitalizedComponentName !== $componentName) {
+					$subModuleCapitalizedFallback = "App\\Modules\\{$subModule}\\{$typeDir}\\{$capitalizedComponentName}";
+					$subModuleCapitalizedFilePath = "src/Modules/{$subModule}/{$typeDir}/{$capitalizedComponentName}.php";
+					
+					if (file_exists(ROOT_DIRECTORY . '/' . $subModuleCapitalizedFilePath) && class_exists($subModuleCapitalizedFallback)) {
+						self::$componentClassCache[$cacheKey] = $subModuleCapitalizedFallback;
+						return $subModuleCapitalizedFallback;
+					}
+				}
 			}
 		}
 
@@ -127,6 +162,17 @@ class Loader
 			self::$componentClassCache[$cacheKey] = $fallbackClass;
 			return $fallbackClass;
 		}
+		
+		// Try capitalized version for base fallback
+		if ($capitalizedComponentName !== $componentName) {
+			$fallbackCapitalizedClass = "App\\Modules\\Base\\{$typeDir}\\{$capitalizedComponentName}";
+			$vtigerCapitalizedFilePath = "src/Modules/Base/{$typeDir}/{$capitalizedComponentName}.php";
+			
+			if (file_exists(ROOT_DIRECTORY . '/' . $vtigerCapitalizedFilePath) && class_exists($fallbackCapitalizedClass)) {
+				self::$componentClassCache[$cacheKey] = $fallbackCapitalizedClass;
+				return $fallbackCapitalizedClass;
+			}
+		}
 
 		// Legacy fallback: check if old-style class name exists
 		// Convert Settings:PDF → Settings_PDF_ComponentName_Type
@@ -136,9 +182,29 @@ class Loader
 			return $legacyClassName;
 		}
 
-		// Component not found
+		// Component not found - log all attempted paths for debugging
 		if ($throwException) {
-			\App\Log\Log::error("Loader::getComponentClassName($componentType, $componentName, $originalModuleName): Handler not found");
+			$attemptedPaths = [
+				"App\\Modules\\{$moduleName}\\{$typeDir}\\{$componentName}",
+				"App\\Modules\\{$moduleName}\\{$typeDir}\\{$capitalizedComponentName}",
+			];
+			if (strpos($originalModuleName, 'Settings:') === 0) {
+				$attemptedPaths[] = "App\\Modules\\Settings\\Base\\{$typeDir}\\{$componentName}";
+				$attemptedPaths[] = "App\\Modules\\Settings\\Base\\{$typeDir}\\{$capitalizedComponentName}";
+				$parts = explode(':', $originalModuleName);
+				if (count($parts) > 1) {
+					$subModule = $parts[1];
+					$attemptedPaths[] = "App\\Modules\\{$subModule}\\{$typeDir}\\{$componentName}";
+					$attemptedPaths[] = "App\\Modules\\{$subModule}\\{$typeDir}\\{$capitalizedComponentName}";
+				}
+			}
+			$attemptedPaths[] = "App\\Modules\\Base\\{$typeDir}\\{$componentName}";
+			$attemptedPaths[] = "App\\Modules\\Base\\{$typeDir}\\{$capitalizedComponentName}";
+			
+			\App\Log\Log::error(
+				"Loader::getComponentClassName($componentType, $componentName, $originalModuleName): Handler not found. " .
+				"Attempted paths: " . implode(', ', array_unique($attemptedPaths))
+			);
 			throw new \App\Exceptions\AppException('LBL_HANDLER_NOT_FOUND');
 		}
 		return false;

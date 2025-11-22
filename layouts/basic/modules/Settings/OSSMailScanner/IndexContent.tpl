@@ -183,6 +183,7 @@
         <div class="alert alert-info"><h4>{"Alert_info_tab_email_search"|t:"OSSMailScanner"}</h4></div>
         <form class="form-horizontal">
 			<select multiple id="email_search" name="email_search" class="select2 form-control">
+				{assign var=last_value value=""}
 				{foreach item=item key=key from=$EMAILSEARCH}
 					{if $last_value neq $item['name']}
 						<optgroup label="{$item['name']|t:$item['name']}">

@@ -590,7 +590,18 @@ class WebUI extends EntryPoint
 			$qualifiedModuleName
 		);
 
-		$handler = new $handlerClass();
+		// Validate that the class exists and can be instantiated
+		if (empty($handlerClass) || !class_exists($handlerClass)) {
+			\App\Log\Log::error("Handler class not found: $handlerClass for $componentType/$componentName in $qualifiedModuleName");
+			throw new \App\Exceptions\AppException(\App\Runtime\Vtiger_Language_Handler::translate('LBL_HANDLER_NOT_FOUND'));
+		}
+
+		try {
+			$handler = new $handlerClass();
+		} catch (\Throwable $e) {
+			\App\Log\Log::error("Failed to instantiate handler class $handlerClass: " . $e->getMessage());
+			throw new \App\Exceptions\AppException(\App\Runtime\Vtiger_Language_Handler::translate('LBL_HANDLER_NOT_FOUND'));
+		}
 
 		if (!$handler) {
 			throw new \App\Exceptions\AppException(\App\Runtime\Vtiger_Language_Handler::translate('LBL_HANDLER_NOT_FOUND'));

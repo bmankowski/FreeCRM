@@ -104,9 +104,12 @@ class ListView extends \App\Modules\Settings\Base\Views\Index
 			$listViewModel->set('search_key', $searchKey);
 			$listViewModel->set('search_value', $searchValue);
 		}
+		// Always initialize SEARCH_PARAMS to prevent undefined array key warnings in templates
 		if (!empty($searchParams)) {
 			$listViewModel->set('searchParams', $searchParams);
 			$viewer->assign('SEARCH_PARAMS', $searchParams);
+		} else {
+			$viewer->assign('SEARCH_PARAMS', []);
 		}
 
 		if (!empty($orderBy)) {
@@ -159,6 +162,8 @@ class ListView extends \App\Modules\Settings\Base\Views\Index
 
 		$this->prepareListViewHeaderData($viewer, $qualifiedModuleName);
 		$viewer->assign('LIST_MAX_ENTRIES_MASS_EDIT', \App\Core\AppConfig::main('listMaxEntriesMassEdit'));
+		// Always initialize AUTO_REFRESH_LIST_ON_CHANGE to prevent undefined array key warnings in templates
+		$viewer->assign('AUTO_REFRESH_LIST_ON_CHANGE', \App\Core\AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE'));
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)

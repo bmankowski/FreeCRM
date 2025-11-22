@@ -103,7 +103,7 @@ FreeCRM - Customer Relationship Management System
 										<span class="redColor">*</span>
 									</div>
 									<div class="col-sm-6 controls">
-										<input type="text" name="holidayDate" class="dateField form-control" data-date-format="{$CURRENTUSER->column_fields['date_format']}" value="{$CURRENT_DATE_FORMATTED}" required >
+										<input type="text" name="holidayDate" class="dateField form-control" data-date-format="{$CURRENTUSER->get('date_format')}" value="{$CURRENT_DATE_FORMATTED}" required >
 
 									</div>
 								</div>

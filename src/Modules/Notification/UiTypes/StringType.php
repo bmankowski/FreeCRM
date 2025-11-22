@@ -10,7 +10,7 @@ use App\Modules\Base\UiTypes\BaseUiType;
  * @license licenses/License.html
  * @author Tomasz Kur <t.kur@yetiforce.com>
  */
-class String extends BaseUiType
+class StringType extends BaseUiType
 {
 
 	/**

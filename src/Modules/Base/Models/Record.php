@@ -519,6 +519,11 @@ class Record extends \App\Runtime\BaseModel
 		$instance = new $modelClassName();
 		$instance->setModuleFromInstance($module);
 		$instance->isNew = true;
+		// Handle modules that don't extend CRMEntity (like OSSMailScanner)
+		// Initialize column_fields if it doesn't exist
+		if (!isset($focus->column_fields) || !is_array($focus->column_fields)) {
+			$focus->column_fields = [];
+		}
 		$instance->setData($focus->column_fields)->setModule($moduleName)->setEntity($focus);
 		\App\Cache\Cache::save('RecordModelCleanInstance', $moduleName, clone $instance);
 		return $instance;

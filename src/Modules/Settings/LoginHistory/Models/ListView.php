@@ -39,7 +39,11 @@ class ListView extends \App\Modules\Settings\Base\Models\ListView
 
 	public function getListViewLinks()
 	{
-		return [];
+		// Return array with required keys initialized to prevent template errors
+		return [
+			'LISTVIEWBASIC' => [],
+			'LISTVIEW' => []
+		];
 	}
 
 	/**

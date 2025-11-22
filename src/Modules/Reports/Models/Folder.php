@@ -104,6 +104,10 @@ class Folder extends \App\Runtime\BaseModel
 		}
 
 		$reportsList = $reportClassInstance->sgetRptsforFldr($fldrId, $paramsList);
+		$reportsCount = 0;
+		if ($reportsList === null) {
+			$reportsList = [];
+		}
 		if (!$fldrId) {
 			foreach ($reportsList as $reportId => $reports) {
 				$reportsCount += count($reports);

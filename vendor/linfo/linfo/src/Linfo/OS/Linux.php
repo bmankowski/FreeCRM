@@ -1306,7 +1306,7 @@ class Linux extends Unixcommon
                                 $state = 'Up (Stopped)';
                             break;
                             default:
-                                continue;
+                                continue 3;
                             break;
                         }
                     break;

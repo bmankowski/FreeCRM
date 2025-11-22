@@ -29,6 +29,7 @@
 				<div class="form-group marginLeftZero marginRightZero">
 					<label for="where" class="">{"Select the fields to be verified"|t:"DataAccess"}:</label>
 					<select multiple id="where" name="where1" class="form-control select2">
+						{assign var=last_value value=""}
 						{foreach item=item key=key from=$CONFIG['fields']}
 							{if $last_value neq $item[3]}
 								<optgroup label="{$item[3]|t:$item[3]}">
@@ -98,6 +99,7 @@
 				<div class="form-group marginLeftZero marginRightZero">
 					<label for="where2" class="">{"Select the fields to be verified"|t:"DataAccess"}:</label>
 					<select {if $VAL2FIELD neq 1}disabled{/if} multiple id="where2" name="where2" class="form-control select2">
+						{assign var=last_value value=""}
 						{foreach item=item key=key from=$CONFIG['fields']}
 							{if $last_value neq $item[3]}
 								<optgroup label="{$item[3]|t:$item[3]}">

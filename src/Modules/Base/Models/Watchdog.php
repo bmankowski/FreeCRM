@@ -358,6 +358,7 @@ class Watchdog extends \App\Runtime\BaseModel
 			->select(['member', 'lock', 'exceptions'])
 			->from('u_#__watchdog_module')
 			->where(['module' => (int) $this->get('moduleId')]);
+		$members = [];
 		if ($getData) {
 			$dataReader = $query->createCommand()->query();
 			while ($row = $dataReader->read()) {

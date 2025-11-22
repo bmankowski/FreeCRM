@@ -73,6 +73,15 @@ class BaseUiType extends \App\Runtime\BaseModel
 	{
 		$fieldDataType = $fieldModel->getFieldDataType();
 		$uiTypeClassSuffix = ucfirst($fieldDataType);
+		
+		// Map reserved PHP keywords to alternative class names
+		$reservedKeywordMap = [
+			'String' => 'StringType',
+		];
+		if (isset($reservedKeywordMap[$uiTypeClassSuffix])) {
+			$uiTypeClassSuffix = $reservedKeywordMap[$uiTypeClassSuffix];
+		}
+		
 		$moduleName = $fieldModel->getModuleName();
 		$moduleSpecificUiTypeClassName = '\App\Modules\\' . $moduleName . '\\UiTypes\\' . $uiTypeClassSuffix;
 		$uiTypeClassName = '\App\Modules\\Base\\UiTypes\\' . $uiTypeClassSuffix;

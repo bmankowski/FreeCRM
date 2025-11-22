@@ -247,10 +247,12 @@ class ConfigurePass extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('MODULENAME', $moduleName);
 		$viewer->assign('SAVE', 'Save');
 		$viewer->assign('CANCEL', 'Cancel');
-		if (\vtlib\Functions:: userIsAdministrator($current_user))
+		// Use modern isAdminUser() method instead of legacy userIsAdministrator()
+		if ($currentUser && $currentUser->isAdminUser()) {
 			$viewer->assign('ISADMIN', 1);
-		else
+		} else {
 			$viewer->assign('ISADMIN', 0);
+		}
 
 		// encryption variables
 		$viewer->assign('CONFIG', (!$config ? false : array('key' => $config['key'])));

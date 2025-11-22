@@ -282,7 +282,7 @@ class DateTimeField
 		if (empty($user)) {
 			$user = $current_user;
 		}
-		$timeZone = $user->time_zone ? $user->time_zone : \App\Core\AppConfig::main('default_timezone');
+		$timeZone = ($user->get('time_zone') ?: \App\Core\AppConfig::main('default_timezone'));
 		$return = \App\Fields\DateTimeField::convertTimeZone($value, self::getDBTimeZone(), $timeZone);
 		\App\Log\Log::trace('End ' . __METHOD__);
 		return $return;
@@ -302,7 +302,7 @@ class DateTimeField
 		if (empty($user)) {
 			$user = $current_user;
 		}
-		$timeZone = $user->time_zone ? $user->time_zone : \App\Core\AppConfig::main('default_timezone');
+		$timeZone = ($user->get('time_zone') ?: \App\Core\AppConfig::main('default_timezone'));
 
 		if ($formatDate) {
 			$value = self::sanitizeDate($value, $user);

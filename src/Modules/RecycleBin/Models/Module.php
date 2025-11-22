@@ -31,6 +31,11 @@ class Module extends \App\Modules\Base\Models\Module
 	{
 		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$privileges = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		// Initialize links array with required keys to prevent template errors
+		$links = [
+			'LISTVIEWBASIC' => [],
+			'LISTVIEW' => []
+		];
 		$basicLinks = array();
 		if ($currentUserModel->isAdminUser()) {
 			$basicLinks = array(

@@ -40,17 +40,26 @@ fi
 
 echo -e "${GREEN}Logged in successfully${NC}\n"
 
+# Count total URLs first (excluding empty lines and comments)
+total_urls=$(grep -vE '^[[:space:]]*$|^[[:space:]]*#' "$URLS_FILE" | wc -l | tr -d ' ')
+
+if [ "$total_urls" -eq 0 ]; then
+    echo -e "${RED}No URLs found in $URLS_FILE${NC}"
+    exit 1
+fi
+
+echo -e "${YELLOW}Total URLs to test: $total_urls${NC}\n"
+
 # Read URLs and test each one
-line_num=0
+url_count=0
 while IFS= read -r url || [ -n "$url" ]; do
-    line_num=$((line_num + 1))
-    
     # Skip empty lines and comments
     if [[ -z "$url" ]] || [[ "$url" =~ ^[[:space:]]*# ]]; then
         continue
     fi
     
-    echo -e "${YELLOW}Testing:${NC} $url"
+    url_count=$((url_count + 1))
+    echo -e "${YELLOW}Testing [${url_count}/${total_urls}]:${NC} $url"
     
     # Fetch URL and check for errors (with timeout to prevent hanging)
     response=$(curl -s -c "$COOKIE_FILE" -b "$COOKIE_FILE" -L --max-time 30 "$url")

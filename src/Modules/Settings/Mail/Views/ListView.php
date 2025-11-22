@@ -23,9 +23,14 @@ class ListView extends \App\Modules\Settings\Base\Views\ListView
 		return 'LBL_MAIL_QUEUE_PAGE_TITLE';
 	}
 	
-	public function process(\App\Http\Vtiger_Request $request)
+	/**
+	 * Prepare data for ListViewHeader templates
+	 * Override to add Mail-specific data before template rendering
+	 */
+	protected function prepareListViewData(\App\Http\Vtiger_Request $request)
 	{
-		parent::process($request);
+		// Call parent to set up base data
+		parent::prepareListViewData($request);
 		
 		// Prepare Mail-specific data for ListViewContent template
 		$viewer = $this->getViewer($request);
@@ -38,8 +43,8 @@ class ListView extends \App\Modules\Settings\Base\Views\ListView
 	 */
 	protected function prepareMailListViewData($viewer)
 	{
-		$viewer->assign('AUTO_REFRESH_LIST_ON_CHANGE', \App\Core\AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE'));
+		// SMTP_NAMES and MAILER_STATUSES are Mail-specific and should always be initialized
 		$viewer->assign('SMTP_NAMES', \App\Modules\Settings\MailSmtp\Models\Module::getSmtpNames());
-		$viewer->assign('MAILER_STATUSES', \App\Email\Mailer::$statuses);
+		$viewer->assign('MAILER_STATUSES', \App\Email\Mailer::$statuses ?? []);
 	}
 }
