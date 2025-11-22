@@ -1079,12 +1079,21 @@ class Record extends \App\Modules\Base\Models\Record
 	public function getSortOrderBy($name = '')
 	{
 		if ($this->sortOrderBy === false) {
-			$this->sortOrderBy = explode(',', $this->get('sort'));
+			$sort = $this->get('sort');
+			if ($sort === null || $sort === '') {
+				$this->sortOrderBy = ['', ''];
+			} else {
+				$this->sortOrderBy = explode(',', $sort);
+				// Ensure at least one element exists for orderBy access
+				if (empty($this->sortOrderBy)) {
+					$this->sortOrderBy = ['', ''];
+				}
+			}
 		}
 		$return = $this->sortOrderBy;
 		switch ($name) {
 			case 'orderBy':
-				$return = $return[0];
+				$return = isset($return[0]) ? $return[0] : '';
 				break;
 			case 'sortOrder':
 				$return = isset($return[1]) ? $return[1] : '';

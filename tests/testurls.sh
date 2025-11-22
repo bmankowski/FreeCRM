@@ -69,15 +69,35 @@ while IFS= read -r url || [ -n "$url" ]; do
         exit 1
     fi
     
-    # Check for common PHP error patterns (both HTML and plain text formats)
-    # Remove the ^ anchor to match errors anywhere in the response
+    # Check for PHP errors - extract only clean error messages
+    # PHP errors typically appear as: "Warning: message in /path/to/file.php on line X"
+    # Match errors that appear as plain text (not in HTML tags or JS strings)
+    php_errors=$(echo "$response" | grep -iE "(Warning|Notice|Fatal error|Parse error|Deprecated):[^<]*in [^<]*on line [0-9]+" | \
+        grep -vE "^[[:space:]]*<" | head -10)
     
-    # Check for HTML-formatted errors (most common in web responses)
-    if echo "$response" | grep -qiE "(<b>)?(Fatal error|Parse error|Warning|Notice)(</b>)?:|Cannot redeclare|Call to undefined|Uncaught Exception|Stack trace:"; then
+    if [ -n "$php_errors" ]; then
+        echo -e "${RED}✗ ERRORS FOUND:${NC}"
+        echo -e "\n${YELLOW}=== PHP ERRORS ===${NC}\n"
+        # Show only clean PHP error messages, removing HTML tags and entities
+        echo "$php_errors" | while IFS= read -r error_line; do
+            # Remove HTML tags and clean up entities
+            cleaned=$(echo "$error_line" | sed 's/<[^>]*>//g' | sed 's/&nbsp;/ /g' | sed 's/&lt;/</g' | sed 's/&gt;/>/g' | sed 's/&amp;/\&/g' | sed 's/^[[:space:]]*//' | sed 's/[[:space:]]*$//')
+            if [ -n "$cleaned" ]; then
+                echo "$cleaned"
+            fi
+        done
+        echo -e "\n${RED}Testing stopped due to errors${NC}"
+        exit 1
+    fi
+    
+    # Also check for other critical errors (without file paths)
+    other_errors=$(echo "$response" | grep -iE "(Cannot redeclare|Call to undefined|Uncaught Exception)" | \
+        sed 's/<[^>]*>//g' | sed 's/&nbsp;/ /g' | sed 's/&lt;/</g' | sed 's/&gt;/>/g' | head -5)
+    
+    if [ -n "$other_errors" ]; then
         echo -e "${RED}✗ ERRORS FOUND:${NC}"
         echo -e "\n${YELLOW}=== ERROR OUTPUT ===${NC}\n"
-        # Show error lines with context
-        echo "$response" | grep -iE "(Fatal error|Parse error|Warning|Notice|Cannot redeclare|Call to undefined|Uncaught Exception|Stack trace:)" | head -20
+        echo "$other_errors"
         echo -e "\n${RED}Testing stopped due to errors${NC}"
         exit 1
     fi

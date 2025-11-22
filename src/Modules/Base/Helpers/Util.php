@@ -374,6 +374,10 @@ class Util {
 	 */
 	public static function convertDateTimeIntoUsersDisplayFormat($dateTime, $userObject = null)
 	{
+		if ($dateTime === null || $dateTime === '') {
+			return '';
+		}
+		
 		if ($userObject) {
 			$userModel = \App\Modules\Users\Models\Privileges::getInstanceFromUserObject($userObject);
 		} else {

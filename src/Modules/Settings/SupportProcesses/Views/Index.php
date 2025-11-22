@@ -29,6 +29,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('TICKETSTATUSNOTMODIFY', $ticketStatusNotModify);
 		$viewer->assign('TICKETSTATUS', $ticketStatus);
 		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
+		$viewer->assign('ITEM', ['user_id' => '']);
 
 		// Check if this is an AJAX request - if so, return only content without MainLayout
 		if ($request->isAjax()) {

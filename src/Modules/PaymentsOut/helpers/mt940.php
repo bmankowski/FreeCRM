@@ -188,7 +188,7 @@ class mt940 {
 		$tags = array();
 		$tmp = '';
 		foreach ($tab as $line) {
-			if ($line{0} == ':' && $tmp != '') {
+			if ($line[0] == ':' && $tmp != '') {
 				$tags[] = $tmp;
 				$tmp = '';
 			}

@@ -21,7 +21,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		if ($data && $data['prefix'] != '') {
 			$query->where(['prefix' => $data['prefix']]);
 		}
-		$output = false;
+		$output = [];
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$output[$row['prefix']] = $row;

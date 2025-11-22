@@ -31,7 +31,16 @@ class ListView extends \App\Modules\Base\Views\ListView
 		
 		// Handle RSS-specific setup
 		if (!$request->isAjax()) {
-			$this->assignSidebarData($request);
+			// Assign sidebar data (QUICK_LINKS) for navigation
+			$viewer = $this->getViewer($request);
+			$moduleName = $request->getModule();
+			$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
+			$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
+			$linkModels = $moduleModel->getSideBarLinks($linkParams);
+			$activeLinkLabel = $this->processSidebarLinks($linkModels, $request);
+			$viewer->assign('QUICK_LINKS', $linkModels);
+			$viewer->assign('ACTIVE_SIDEBAR_LINK', $activeLinkLabel);
+			
 			$this->prepareRssListViewData($request);
 		}
 	}
@@ -67,6 +76,9 @@ class ListView extends \App\Modules\Base\Views\ListView
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('LISTVIEW_HEADERS', $this->getListViewRssHeaders($moduleName));
 		$viewer->assign('VIEW', $request->get('view'));
+		// Assign SOURCE_MODULE if provided, otherwise use empty string
+		$sourceModule = $request->get('sourceModule') ?: '';
+		$viewer->assign('SOURCE_MODULE', $sourceModule);
 	}
 
 	/**

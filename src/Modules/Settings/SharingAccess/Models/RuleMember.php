@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\SharingAccess\Models;
-use App\Modules\Settings\SharingAccessModels\RuleMember;
 
 
 /* +***********************************************************************************************************************************

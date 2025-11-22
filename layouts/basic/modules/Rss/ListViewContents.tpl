@@ -11,7 +11,7 @@
 -->*}
 {strip}
 <!-- layouts/basic/modules/Rss/ListViewContents.tpl -->
-	<input type="hidden" id="sourceModule" value="{$SOURCE_MODULE}" />
+	<input type="hidden" id="sourceModule" value="{if isset($SOURCE_MODULE)}{$SOURCE_MODULE}{/if}" />
 	<div class="listViewEntriesDiv">
 		<span class="listViewLoadingImageBlock hide modal" id="loadingListViewModal">
 			<img class="listViewLoadingImage" src="{vimage_path('loading.gif')}" alt="no-image" title="{'LBL_LOADING'|t}"/>
