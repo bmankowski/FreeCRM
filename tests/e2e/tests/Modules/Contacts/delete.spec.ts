@@ -14,10 +14,24 @@ import { ContactsPage } from '../../../pages/ContactsPage';
 
 test.describe('Contacts Delete', () => {
   let contactsPage: ContactsPage;
+  let createdContactIds: string[] = [];
 
   test.beforeEach(async ({ authenticatedPage }) => {
     contactsPage = new ContactsPage(authenticatedPage);
+    createdContactIds = [];
     await contactsPage.gotoList();
+  });
+
+  test.afterEach(async () => {
+    // Clean up all contacts created during this test
+    // These contacts are already in recycle bin, so just permanently delete them
+    if (createdContactIds.length > 0) {
+      console.log(`Cleaning up ${createdContactIds.length} test contact(s) from recycle bin...`);
+      for (const contactId of createdContactIds) {
+        await contactsPage.permanentlyDeleteFromRecycleBin(contactId);
+      }
+      createdContactIds = [];
+    }
   });
 
   test('should delete contact and verify it appears in recycle bin', async ({ authenticatedPage }) => {
@@ -45,8 +59,25 @@ test.describe('Contacts Delete', () => {
     // Wait for save and redirect
     await authenticatedPage.waitForLoadState('networkidle');
     
+    // Get contact ID from URL for cleanup
+    const currentUrl = authenticatedPage.url();
+    const match = currentUrl.match(/record=(\d+)/);
+    let contactId: string | null = null;
+    if (match) {
+      contactId = match[1];
+      createdContactIds.push(contactId);
+    }
+    
     // Go back to list view
     await contactsPage.gotoList();
+    
+    // If we didn't get ID from URL, get it by searching
+    if (!contactId) {
+      contactId = await contactsPage.getContactId(testLastName);
+      if (contactId) {
+        createdContactIds.push(contactId);
+      }
+    }
     
     console.log(`Successfully created contact for deletion: ${testFirstName} ${testLastName}`);
     

@@ -14,10 +14,21 @@ import { ContactsPage } from '../../../pages/ContactsPage';
 
 test.describe('Contacts Validation', () => {
   let contactsPage: ContactsPage;
+  let createdContactIds: string[] = [];
 
   test.beforeEach(async ({ authenticatedPage }) => {
     contactsPage = new ContactsPage(authenticatedPage);
+    createdContactIds = [];
     await contactsPage.gotoList();
+  });
+
+  test.afterEach(async () => {
+    // Clean up all contacts created during this test
+    if (createdContactIds.length > 0) {
+      console.log(`Cleaning up ${createdContactIds.length} test contact(s)...`);
+      await contactsPage.cleanupContacts(createdContactIds);
+      createdContactIds = [];
+    }
   });
 
   test('should require lastname field', async ({ authenticatedPage }) => {
@@ -139,6 +150,19 @@ test.describe('Contacts Validation', () => {
     const hasRecordId = currentUrl.includes('record=');
     const isOnDetailOrList = currentUrl.includes('view=Detail') || currentUrl.includes('view=ListView');
     expect(hasRecordId || isOnDetailOrList).toBe(true);
+    
+    // Get contact ID from URL for cleanup
+    const match = currentUrl.match(/record=(\d+)/);
+    if (match) {
+      createdContactIds.push(match[1]);
+    } else {
+      // If not in URL, get it by searching
+      await contactsPage.gotoList();
+      const contactId = await contactsPage.getContactId(testLastName);
+      if (contactId) {
+        createdContactIds.push(contactId);
+      }
+    }
     
     console.log(`Successfully saved contact with valid data: ${testFirstName} ${testLastName}`);
   });

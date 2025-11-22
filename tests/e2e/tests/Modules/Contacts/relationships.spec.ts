@@ -11,30 +11,75 @@
 
 import { test, expect } from '../../../fixtures/auth.fixture';
 import { ContactsPage } from '../../../pages/ContactsPage';
+import { Page } from '@playwright/test';
 
 test.describe('Contacts Relationships', () => {
   let contactsPage: ContactsPage;
+  let createdContactIds: string[] = [];
 
   test.beforeEach(async ({ authenticatedPage }) => {
     contactsPage = new ContactsPage(authenticatedPage);
+    createdContactIds = [];
     await contactsPage.gotoList();
   });
+
+  test.afterEach(async () => {
+    // Clean up all contacts created during this test
+    if (createdContactIds.length > 0) {
+      console.log(`Cleaning up ${createdContactIds.length} test contact(s)...`);
+      await contactsPage.cleanupContacts(createdContactIds);
+      createdContactIds = [];
+    }
+  });
+
+  /**
+   * Helper to create a contact and track its ID for cleanup
+   */
+  async function createAndTrackContact(
+    page: Page,
+    firstName: string,
+    lastName: string
+  ): Promise<string | null> {
+    const addButton = page.locator('a:has-text("Dodaj rekord"), a:has-text("Add"), [href*="module=Contacts&view=Edit"]').first();
+    await addButton.click();
+    await page.waitForURL(/view=Edit/);
+    
+    await page.locator('input[name="firstname"]').fill(firstName);
+    await page.locator('input[name="lastname"]').fill(lastName);
+    
+    await page.locator('button:has-text("Zapisz"), button:has-text("Save"), button.btn-success').first().click();
+    await page.waitForLoadState('networkidle');
+    
+    // Get contact ID from URL
+    const currentUrl = page.url();
+    const match = currentUrl.match(/record=(\d+)/);
+    if (match) {
+      createdContactIds.push(match[1]);
+      return match[1];
+    }
+    
+    // If not in URL, get it by searching
+    await contactsPage.gotoList();
+    const contactId = await contactsPage.getContactId(lastName);
+    if (contactId) {
+      createdContactIds.push(contactId);
+    }
+    return contactId;
+  }
 
   test('should link contact to an account', async ({ authenticatedPage }) => {
     test.setTimeout(60000);
     await contactsPage.waitForListLoad();
     
-    // First, check if there are any accounts to link to
-    // We'll try to create a contact and link it, but if accounts don't exist, we'll skip
-    
     // Create a test contact
+    const testFirstName = `RelTestFirst${Date.now()}`;
     const testLastName = `RelTestLast${Date.now()}`;
     
     const addButton = authenticatedPage.locator('a:has-text("Dodaj rekord"), a:has-text("Add"), [href*="module=Contacts&view=Edit"]').first();
     await addButton.click();
     await authenticatedPage.waitForURL(/view=Edit/);
     
-    await authenticatedPage.locator('input[name="firstname"]').fill(`RelTestFirst${Date.now()}`);
+    await authenticatedPage.locator('input[name="firstname"]').fill(testFirstName);
     await authenticatedPage.locator('input[name="lastname"]').fill(testLastName);
     
     // Try to link to account if Member Of field exists
@@ -55,12 +100,26 @@ test.describe('Contacts Relationships', () => {
     await authenticatedPage.locator('button:has-text("Zapisz"), button:has-text("Save"), button.btn-success').first().click();
     await authenticatedPage.waitForLoadState('networkidle');
     
-    // Navigate to list view and get contact ID
+    // Get contact ID from URL for cleanup
+    const currentUrl = authenticatedPage.url();
+    const match = currentUrl.match(/record=(\d+)/);
+    let contactId: string | null = null;
+    if (match) {
+      contactId = match[1];
+      createdContactIds.push(contactId);
+    }
+    
+    // Navigate to list view and get contact ID if not found
     await contactsPage.gotoList();
     await contactsPage.search(testLastName);
     await contactsPage.waitForContactRow(testLastName);
     
-    const contactId = await contactsPage.getContactId(testLastName);
+    if (!contactId) {
+      contactId = await contactsPage.getContactId(testLastName);
+      if (contactId) {
+        createdContactIds.push(contactId);
+      }
+    }
     expect(contactId).not.toBeNull();
     
     // Navigate to detail view to verify Member Of field
@@ -81,24 +140,10 @@ test.describe('Contacts Relationships', () => {
     await contactsPage.waitForListLoad();
     
     // Create a test contact
+    const testFirstName = `RelatedTestFirst${Date.now()}`;
     const testLastName = `RelatedTestLast${Date.now()}`;
     
-    const addButton = authenticatedPage.locator('a:has-text("Dodaj rekord"), a:has-text("Add"), [href*="module=Contacts&view=Edit"]').first();
-    await addButton.click();
-    await authenticatedPage.waitForURL(/view=Edit/);
-    
-    await authenticatedPage.locator('input[name="firstname"]').fill(`RelatedTestFirst${Date.now()}`);
-    await authenticatedPage.locator('input[name="lastname"]').fill(testLastName);
-    
-    await authenticatedPage.locator('button:has-text("Zapisz"), button:has-text("Save"), button.btn-success').first().click();
-    await authenticatedPage.waitForLoadState('networkidle');
-    
-    // Navigate to list view and get contact ID
-    await contactsPage.gotoList();
-    await contactsPage.search(testLastName);
-    await contactsPage.waitForContactRow(testLastName);
-    
-    const contactId = await contactsPage.getContactId(testLastName);
+    const contactId = await createAndTrackContact(authenticatedPage, testFirstName, testLastName);
     expect(contactId).not.toBeNull();
     
     // Navigate to detail view
@@ -126,24 +171,10 @@ test.describe('Contacts Relationships', () => {
     await contactsPage.waitForListLoad();
     
     // Create a test contact
+    const testFirstName = `RelInfoTestFirst${Date.now()}`;
     const testLastName = `RelInfoTestLast${Date.now()}`;
     
-    const addButton = authenticatedPage.locator('a:has-text("Dodaj rekord"), a:has-text("Add"), [href*="module=Contacts&view=Edit"]').first();
-    await addButton.click();
-    await authenticatedPage.waitForURL(/view=Edit/);
-    
-    await authenticatedPage.locator('input[name="firstname"]').fill(`RelInfoTestFirst${Date.now()}`);
-    await authenticatedPage.locator('input[name="lastname"]').fill(testLastName);
-    
-    await authenticatedPage.locator('button:has-text("Zapisz"), button:has-text("Save"), button.btn-success').first().click();
-    await authenticatedPage.waitForLoadState('networkidle');
-    
-    // Navigate to list view and get contact ID
-    await contactsPage.gotoList();
-    await contactsPage.search(testLastName);
-    await contactsPage.waitForContactRow(testLastName);
-    
-    const contactId = await contactsPage.getContactId(testLastName);
+    const contactId = await createAndTrackContact(authenticatedPage, testFirstName, testLastName);
     expect(contactId).not.toBeNull();
     
     // Navigate to detail view

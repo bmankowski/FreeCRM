@@ -442,5 +442,143 @@ export class ContactsPage {
     // Wait for popup to close
     await popup.waitFor({ state: 'hidden', timeout: 5000 }).catch(() => {});
   }
+
+  /**
+   * Permanently delete a contact from the recycle bin
+   * @param contactId - Contact record ID to permanently delete
+   */
+  async permanentlyDeleteFromRecycleBin(contactId: string) {
+    try {
+      // Navigate to recycle bin
+      await this.gotoRecycleBin();
+      
+      // Find the row with this contact ID
+      const contactRow = this.page.locator(`tr[data-id="${contactId}"], tr:has(input[value="${contactId}"])`).first();
+      
+      // If not found by data attribute, try to navigate directly
+      if (await contactRow.count() === 0) {
+        // Use the API or direct link to delete
+        await this.page.goto(`/index.php?module=RecycleBin&action=EmptyRecordBin&record=${contactId}&sourceModule=Contacts`, {
+          waitUntil: 'networkidle'
+        });
+        return;
+      }
+      
+      // Check the checkbox for this record
+      const checkbox = contactRow.locator('input[type="checkbox"]').first();
+      await checkbox.check();
+      
+      // Click permanent delete button
+      const permanentDeleteButton = this.page.locator('button:has-text("Usuń na stałe"), button:has-text("Permanently delete"), .btn:has-text("Empty"), #emptyRecordbinButton').first();
+      if (await permanentDeleteButton.isVisible({ timeout: 3000 })) {
+        await permanentDeleteButton.click();
+        
+        // Confirm deletion in modal
+        const modal = this.page.locator('.bootbox .modal-dialog, .modal.show .modal-dialog').first();
+        if (await modal.isVisible({ timeout: 3000 })) {
+          const confirmButton = modal.locator('.btn-primary, button:has-text("OK"), button:has-text("Tak")').first();
+          await confirmButton.click();
+          await modal.waitFor({ state: 'hidden', timeout: 5000 }).catch(() => {});
+        }
+      }
+    } catch (error) {
+      console.log(`Failed to permanently delete contact ${contactId} from recycle bin: ${error}`);
+    }
+  }
+
+  /**
+   * Delete a contact by ID and permanently remove it from the system
+   * @param contactId - Contact record ID
+   */
+  async deleteContactById(contactId: string) {
+    try {
+      // Navigate to detail view
+      await this.gotoDetail(contactId);
+      
+      // Delete the contact
+      const deleteButton = this.page.locator('#Contacts_detailView_action_LBL_DELETE_RECORD, button[onclick*="deleteRecord"]').first();
+      if (await deleteButton.isVisible({ timeout: 3000 })) {
+        await deleteButton.click();
+        
+        // Confirm deletion
+        const modal = this.page.locator('.bootbox .modal-dialog, .modal.show .modal-dialog').first();
+        if (await modal.isVisible({ timeout: 3000 })) {
+          const confirmButton = modal.locator('.btn-primary, button:has-text("OK"), button:has-text("Tak")').first();
+          await confirmButton.click();
+          await modal.waitFor({ state: 'hidden', timeout: 5000 }).catch(() => {});
+          await this.page.waitForURL(/view=ListView/, { timeout: 10000 }).catch(() => {});
+        }
+      }
+      
+      // Now permanently delete from recycle bin
+      await this.permanentlyDeleteFromRecycleBin(contactId);
+    } catch (error) {
+      console.log(`Failed to delete contact ${contactId}: ${error}`);
+    }
+  }
+
+  /**
+   * Cleanup multiple contacts by their IDs
+   * @param contactIds - Array of contact record IDs to delete
+   */
+  async cleanupContacts(contactIds: string[]) {
+    for (const contactId of contactIds) {
+      if (contactId) {
+        await this.deleteContactById(contactId);
+      }
+    }
+  }
+
+  /**
+   * Create a test contact and return its ID for cleanup
+   * @param firstName - First name
+   * @param lastName - Last name
+   * @param additionalFields - Additional fields to fill
+   * @returns Contact ID or null
+   */
+  async createTestContact(
+    firstName: string,
+    lastName: string,
+    additionalFields?: Record<string, string>
+  ): Promise<string | null> {
+    try {
+      // Click add contact button
+      const addButton = this.page.locator('a:has-text("Dodaj rekord"), a:has-text("Add"), [href*="module=Contacts&view=Edit"]').first();
+      await addButton.click();
+      await this.page.waitForURL(/view=Edit/);
+      
+      // Fill in contact details
+      await this.page.locator('input[name="firstname"]').fill(firstName);
+      await this.page.locator('input[name="lastname"]').fill(lastName);
+      
+      // Fill additional fields if provided
+      if (additionalFields) {
+        for (const [fieldName, value] of Object.entries(additionalFields)) {
+          const fieldInput = this.page.locator(`input[name="${fieldName}"], textarea[name="${fieldName}"]`).first();
+          if (await fieldInput.isVisible({ timeout: 2000 })) {
+            await fieldInput.fill(value);
+          }
+        }
+      }
+      
+      // Save the contact
+      await this.page.locator('button:has-text("Zapisz"), button:has-text("Save"), button.btn-success').first().click();
+      await this.page.waitForLoadState('networkidle');
+      
+      // Get the contact ID from URL or by searching
+      const currentUrl = this.page.url();
+      const match = currentUrl.match(/record=(\d+)/);
+      if (match) {
+        return match[1];
+      }
+      
+      // If not in URL, search for it
+      await this.gotoList();
+      return await this.getContactId(lastName);
+    } catch (error) {
+      console.log(`Failed to create test contact: ${error}`);
+      return null;
+    }
+  }
 }
 

@@ -14,56 +14,69 @@ import { Page } from '@playwright/test';
 import { ContactsPage } from '../../../pages/ContactsPage';
 import { expectNoWarningsAndErrors } from '../../../helpers/page-assertions';
 
-/**
- * Helper function to create a test contact
- * Reduces code duplication across tests
- */
-async function createTestContact(
-  page: Page, 
-  contactsPage: ContactsPage, 
-  data: {
-    firstName?: string;
-    lastName: string;
-    email?: string;
-    phone?: string;
-  }
-): Promise<string | null> {
-  const addButton = page.locator('a:has-text("Dodaj rekord"), a:has-text("Add"), [href*="module=Contacts&view=Edit"]').first();
-  await addButton.click();
-  await page.waitForURL(/view=Edit/);
-  await expectNoWarningsAndErrors(page);
-
-  if (data.firstName) {
-    await page.locator('input[name="firstname"]').fill(data.firstName);
-  }
-  await page.locator('input[name="lastname"]').fill(data.lastName);
-  if (data.email) {
-    await page.locator('input[name="email"]').fill(data.email);
-  }
-  if (data.phone) {
-    await page.locator('input[name="phone"]').fill(data.phone);
-  }
-
-  await page.locator('button:has-text("Zapisz"), button:has-text("Save"), button.btn-success').first().click();
-  await page.waitForLoadState('networkidle');
-  await expectNoWarningsAndErrors(page);
-
-  await contactsPage.gotoList();
-  await contactsPage.search(data.lastName);
-  await contactsPage.waitForContactRow(data.lastName);
-  
-  return await contactsPage.getContactId(data.lastName, true);
-}
-
 test.describe('Contacts Detail View', () => {
-
-  
   let contactsPage: ContactsPage;
+  let createdContactIds: string[] = [];
 
   test.beforeEach(async ({ authenticatedPage }) => {
     contactsPage = new ContactsPage(authenticatedPage);
+    createdContactIds = [];
     await contactsPage.gotoList();
   });
+
+  test.afterEach(async () => {
+    // Clean up all contacts created during this test
+    if (createdContactIds.length > 0) {
+      console.log(`Cleaning up ${createdContactIds.length} test contact(s)...`);
+      await contactsPage.cleanupContacts(createdContactIds);
+      createdContactIds = [];
+    }
+  });
+
+  /**
+   * Helper function to create a test contact
+   * Reduces code duplication across tests
+   */
+  async function createTestContact(
+    page: Page, 
+    contactsPage: ContactsPage, 
+    data: {
+      firstName?: string;
+      lastName: string;
+      email?: string;
+      phone?: string;
+    }
+  ): Promise<string | null> {
+    const addButton = page.locator('a:has-text("Dodaj rekord"), a:has-text("Add"), [href*="module=Contacts&view=Edit"]').first();
+    await addButton.click();
+    await page.waitForURL(/view=Edit/);
+    await expectNoWarningsAndErrors(page);
+
+    if (data.firstName) {
+      await page.locator('input[name="firstname"]').fill(data.firstName);
+    }
+    await page.locator('input[name="lastname"]').fill(data.lastName);
+    if (data.email) {
+      await page.locator('input[name="email"]').fill(data.email);
+    }
+    if (data.phone) {
+      await page.locator('input[name="phone"]').fill(data.phone);
+    }
+
+    await page.locator('button:has-text("Zapisz"), button:has-text("Save"), button.btn-success').first().click();
+    await page.waitForLoadState('networkidle');
+    await expectNoWarningsAndErrors(page);
+
+    await contactsPage.gotoList();
+    await contactsPage.search(data.lastName);
+    await contactsPage.waitForContactRow(data.lastName);
+    
+    const contactId = await contactsPage.getContactId(data.lastName, true);
+    if (contactId) {
+      createdContactIds.push(contactId);
+    }
+    return contactId;
+  }
 
   test('should navigate to contact detail view from list', async ({ authenticatedPage }) => {
     await expectNoWarningsAndErrors(authenticatedPage);

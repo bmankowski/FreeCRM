@@ -14,10 +14,21 @@ import { ContactsPage } from '../../../pages/ContactsPage';
 
 test.describe('Contacts Create', () => {
   let contactsPage: ContactsPage;
+  let createdContactIds: string[] = [];
 
   test.beforeEach(async ({ authenticatedPage }) => {
     contactsPage = new ContactsPage(authenticatedPage);
+    createdContactIds = [];
     await contactsPage.gotoList();
+  });
+
+  test.afterEach(async () => {
+    // Clean up all contacts created during this test
+    if (createdContactIds.length > 0) {
+      console.log(`Cleaning up ${createdContactIds.length} test contact(s)...`);
+      await contactsPage.cleanupContacts(createdContactIds);
+      createdContactIds = [];
+    }
   });
 
   test('should create and search for new contact', async ({ authenticatedPage }) => {
@@ -48,8 +59,23 @@ test.describe('Contacts Create', () => {
     // Wait for save and redirect
     await authenticatedPage.waitForLoadState('networkidle');
     
+    // Get contact ID from URL for cleanup
+    const currentUrl = authenticatedPage.url();
+    const match = currentUrl.match(/record=(\d+)/);
+    if (match) {
+      createdContactIds.push(match[1]);
+    }
+    
     // Go back to list view
     await contactsPage.gotoList();
+    
+    // If we didn't get ID from URL, get it by searching
+    if (createdContactIds.length === 0) {
+      const contactId = await contactsPage.getContactId(testLastName);
+      if (contactId) {
+        createdContactIds.push(contactId);
+      }
+    }
     
     console.log(`Successfully created contact: ${testFirstName} ${testLastName}`);
     

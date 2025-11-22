@@ -14,10 +14,21 @@ import { ContactsPage } from '../../../pages/ContactsPage';
 
 test.describe('Contacts Quick Create', () => {
   let contactsPage: ContactsPage;
+  let createdContactIds: string[] = [];
 
   test.beforeEach(async ({ authenticatedPage }) => {
     contactsPage = new ContactsPage(authenticatedPage);
+    createdContactIds = [];
     await contactsPage.gotoList();
+  });
+
+  test.afterEach(async () => {
+    // Clean up all contacts created during this test
+    if (createdContactIds.length > 0) {
+      console.log(`Cleaning up ${createdContactIds.length} test contact(s)...`);
+      await contactsPage.cleanupContacts(createdContactIds);
+      createdContactIds = [];
+    }
   });
 
   test('should create contact using quick create', async ({ authenticatedPage }) => {
@@ -106,6 +117,12 @@ test.describe('Contacts Quick Create', () => {
     const foundInSearch = await contactsPage.hasContact(testLastName);
     expect(foundInSearch).toBe(true);
     console.log(`Successfully found contact created via quick create in search: ${testLastName}`);
+    
+    // Get contact ID for cleanup
+    const contactId = await contactsPage.getContactId(testLastName, true);
+    if (contactId) {
+      createdContactIds.push(contactId);
+    }
   });
 });
 
