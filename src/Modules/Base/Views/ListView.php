@@ -306,6 +306,15 @@ class ListView extends \App\Modules\Base\Views\Index
 		$viewer->assign('LIST_VIEW_MODEL', $this->listViewModel);
 		$viewer->assign('IS_MODULE_EDITABLE', $this->listViewModel->getModule()->isPermitted('EditView'));
 		$viewer->assign('IS_MODULE_DELETABLE', $this->listViewModel->getModule()->isPermitted('Delete'));
+		// Ensure search details exist for all headers to avoid undefined index notices in templates
+		if (is_array($this->listViewHeaders)) {
+			foreach ($this->listViewHeaders as $header) {
+				$headerName = $header->getName();
+				if (!isset($searchParams[$headerName])) {
+					$searchParams[$headerName] = ['searchValue' => '', 'fieldName' => $headerName];
+				}
+			}
+		}
 		$viewer->assign('SEARCH_DETAILS', $searchParams);
 		
 		// Prepare data for ListViewContents template - move function calls from templates to controller

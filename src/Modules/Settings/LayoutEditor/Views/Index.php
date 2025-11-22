@@ -162,16 +162,50 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 			$relatedModuleName = $moduleModel->getRelationModuleName();
 			$relatedModuleModel = $moduleModel->getRelationModuleModel();
 			
-			// Prepare record structure
-			$recordStructures[$moduleModel->getId()] = \App\Modules\Base\Models\RecordStructure::getInstanceForModule($relatedModuleModel);
+			// Ensure relatedModuleModel is valid - if not, create a fallback record structure
+			if (!$relatedModuleModel) {
+				\App\Log\Log::error("LayoutEditor: getRelationModuleModel() returned null for relation ID: " . $moduleModel->getId());
+				// Create a minimal record structure instance to avoid null errors
+				$recordStructures[$moduleModel->getId()] = new \App\Modules\Base\Models\RecordStructure();
+				$selectedFields[$moduleModel->getId()] = [];
+				continue;
+			}
+			
+			// Prepare record structure - ensure it's always set
+			try {
+				$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceForModule($relatedModuleModel);
+				if ($recordStructureInstance) {
+					$recordStructures[$moduleModel->getId()] = $recordStructureInstance;
+				} else {
+					\App\Log\Log::error("LayoutEditor: getInstanceForModule() returned null for module: " . $relatedModuleModel->getName());
+					// Create a minimal record structure instance to avoid null errors
+					$recordStructures[$moduleModel->getId()] = new \App\Modules\Base\Models\RecordStructure();
+					$recordStructures[$moduleModel->getId()]->setModule($relatedModuleModel);
+				}
+			} catch (\Exception $e) {
+				\App\Log\Log::error("LayoutEditor: Exception creating RecordStructure for module: " . $relatedModuleModel->getName() . " - " . $e->getMessage());
+				// Create a minimal record structure instance to avoid null errors
+				$recordStructures[$moduleModel->getId()] = new \App\Modules\Base\Models\RecordStructure();
+				$recordStructures[$moduleModel->getId()]->setModule($relatedModuleModel);
+			}
 			
 			// Prepare inventory fields if module has inventory
 			if ($relatedModuleModel->isInventory()) {
-				$inventoryFields[$moduleModel->getId()] = \App\Modules\Base\Models\InventoryField::getInstance($relatedModuleName);
+				try {
+					$inventoryFieldInstance = \App\Modules\Base\Models\InventoryField::getInstance($relatedModuleName);
+					if ($inventoryFieldInstance) {
+						$inventoryFields[$moduleModel->getId()] = $inventoryFieldInstance;
+					}
+				} catch (\Exception $e) {
+					\App\Log\Log::error("LayoutEditor: Exception creating InventoryField for module: " . $relatedModuleName . " - " . $e->getMessage());
+				}
 			}
 			
-			// Prepare selected fields
+			// Prepare selected fields - always set, even if empty
 			$selectedFields[$moduleModel->getId()] = \App\Modules\Settings\LayoutEditor\Models\Module::getRelationFields($moduleModel->getId());
+			if (!is_array($selectedFields[$moduleModel->getId()])) {
+				$selectedFields[$moduleModel->getId()] = [];
+			}
 		}
 		$viewer->assign('RECORD_STRUCTURES', $recordStructures);
 		$viewer->assign('INVENTORY_FIELDS', $inventoryFields);

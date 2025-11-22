@@ -57,6 +57,9 @@ class CreditLimits extends \App\Modules\Settings\Base\Views\Index
 	protected function prepareInventoryIndexContentData($viewer, $currency)
 	{
 		$viewer->assign('CURRENCY_JSON', \App\Utils\Json::encode($currency));
+		// Set CURRENCY_BOOL based on view type - true for CreditLimits (currency), false for Taxes (percentage)
+		$view = $this->getView();
+		$viewer->assign('CURRENCY_BOOL', $view === 'CreditLimits');
 	}
 
 	public function getPageLabels(\App\Http\Vtiger_Request $request)

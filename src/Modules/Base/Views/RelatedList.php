@@ -141,6 +141,15 @@ class RelatedList  extends \App\Modules\Base\Views\Index
 	$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
 	$viewer->assign('IS_DELETABLE', $relationModel->isDeletable());
 	$viewer->assign('USER_MODEL', $request->getUser());
+	// Ensure search details exist for all headers to avoid undefined index notices in templates
+	if (is_array($header)) {
+		foreach ($header as $headerField) {
+			$headerName = $headerField->getName();
+			if (!isset($searchParmams[$headerName])) {
+				$searchParmams[$headerName] = ['searchValue' => '', 'fieldName' => $headerName];
+			}
+		}
+	}
 	$viewer->assign('SEARCH_DETAILS', $searchParmams);
 	$viewer->assign('VIEW', $request->get('view'));
 	$viewer->assign('IS_CREATE_PERMITTED', \App\Modules\Users\Models\Privileges::isPermitted($relatedModuleName, 'CreateView'));

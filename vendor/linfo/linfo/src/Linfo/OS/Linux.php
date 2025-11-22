@@ -989,7 +989,7 @@ class Linux extends Unixcommon
                     $charge_now = Common::getIntFromFile($b.'/charge_now');
                     break;
                 default:
-                    continue;
+                    continue 2;
                     break;
             }
 

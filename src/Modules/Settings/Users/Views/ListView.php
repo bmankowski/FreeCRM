@@ -177,6 +177,15 @@ class ListView extends \App\Modules\Settings\Base\Views\ListView
 		$viewer->assign('IS_MODULE_EDITABLE', $this->listViewModel->getModule()->isPermitted('EditView'));
 		$viewer->assign('IS_MODULE_DELETABLE', $this->listViewModel->getModule()->isPermitted('Delete'));
 		$viewer->assign('USER_MODEL', $request->getUser());
+		// Ensure search details exist for all headers to avoid undefined index notices in templates
+		if (is_array($this->listViewHeaders)) {
+			foreach ($this->listViewHeaders as $header) {
+				$headerName = $header->getName();
+				if (!isset($searchParmams[$headerName])) {
+					$searchParmams[$headerName] = ['searchValue' => '', 'fieldName' => $headerName];
+				}
+			}
+		}
 		$viewer->assign('SEARCH_DETAILS', $searchParmams);
 		$sourceModule = $request->get('sourceModule');
 		$viewer->assign('SOURCE_MODULE', $sourceModule);

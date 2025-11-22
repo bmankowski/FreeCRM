@@ -49,9 +49,15 @@
 							{assign var=RELATED_MODULE_NAME value=$MODULE_MODEL->getRelationModuleName()}
 							{assign var=RELATED_MODULE_MODEL value=$MODULE_MODEL->getRelationModuleModel()}
 							{assign var=RECORD_STRUCTURE_INSTANCE value=$RECORD_STRUCTURES[$MODULE_MODEL->getId()]}
-							{assign var=RECORD_STRUCTURE value=$RECORD_STRUCTURE_INSTANCE->getStructure()}
-							{if $RELATED_MODULE_MODEL->isInventory()}
-								{assign var=INVENTORY_FIELD_MODEL value=$INVENTORY_FIELDS[$MODULE_MODEL->getId()]}
+							{if $RECORD_STRUCTURE_INSTANCE}
+								{assign var=RECORD_STRUCTURE value=$RECORD_STRUCTURE_INSTANCE->getStructure()}
+							{else}
+								{assign var=RECORD_STRUCTURE value=[]}
+							{/if}
+							{if $RELATED_MODULE_MODEL && $RELATED_MODULE_MODEL->isInventory()}
+								{if isset($INVENTORY_FIELDS[$MODULE_MODEL->getId()])}
+									{assign var=INVENTORY_FIELD_MODEL value=$INVENTORY_FIELDS[$MODULE_MODEL->getId()]}
+								{/if}
 								{assign var=SELECTED_INVENTORY_FIELDS value=$MODULE_MODEL->getRelationInventoryFields()}
 							{/if}
 							{if $MODULE_MODEL->isActive()}
@@ -59,7 +65,12 @@
 							{else}
 								{assign var=STATUS value='0'}
 							{/if}
-							{assign var=SELECTED_FIELDS value=$SELECTED_FIELDS[$MODULE_MODEL->getId()]}
+							{if isset($SELECTED_FIELDS[$MODULE_MODEL->getId()])}
+								{assign var=SELECTED_FIELDS value=$SELECTED_FIELDS[$MODULE_MODEL->getId()]}
+							{else}
+								{assign var=SELECTED_FIELDS value=[]}
+							{/if}
+							{assign var=RELATION_SELECTED_FIELDS value=$SELECTED_FIELDS}
 							<div class="relatedModule mainBlockTable panel panel-default" data-relation-id="{$MODULE_MODEL->getId()}" data-status="{$STATUS}">
                                 <div class="mainBlockTableHeader panel-heading">
 									<div class="btn-toolbar btn-group-xs pull-right">
@@ -86,14 +97,16 @@
 									<label class="control-label">{"LBL_STANDARD_FIELDS"|t:$QUALIFIED_MODULE}</label>
 										<select data-placeholder="{"LBL_ADD_MORE_COLUMNS"|t:$MODULE}" multiple class="select2_container columnsSelect relatedColumnsList">
 				                        	<optgroup label=''>
-												{foreach item=SELECTED_FIELD from=$RELATION_SELECTED_FIELDS}
-													{assign var=FIELD_INSTANCE value=$RELATED_MODULE_MODEL->getField($SELECTED_FIELD)}
-													{if $FIELD_INSTANCE}
-														<option value="{$FIELD_INSTANCE->getId()}" data-name="{$FIELD_INSTANCE->getFieldName()}" selected>
-															{$FIELD_INSTANCE->get('label')|t:$RELATED_MODULE_NAME}
-												  		</option>
-											  		{/if}
-												{/foreach}
+												{if is_array($RELATION_SELECTED_FIELDS)}
+													{foreach item=SELECTED_FIELD from=$RELATION_SELECTED_FIELDS}
+														{assign var=FIELD_INSTANCE value=$RELATED_MODULE_MODEL->getField($SELECTED_FIELD)}
+														{if $FIELD_INSTANCE}
+															<option value="{$FIELD_INSTANCE->getId()}" data-name="{$FIELD_INSTANCE->getFieldName()}" selected>
+																{$FIELD_INSTANCE->get('label')|t:$RELATED_MODULE_NAME}
+													  		</option>
+												  		{/if}
+													{/foreach}
+												{/if}
 											</optgroup>
 					                        {foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
 												<optgroup label='{$BLOCK_LABEL|t:$RELATED_MODULE_NAME}'>
