@@ -23,7 +23,7 @@ class QuickCreateAjax extends \App\Modules\Base\Views\QuickCreateAjax
 		$moduleName = $request->getModule();
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$salutationFieldModel = \App\Modules\Base\Models\Field::getInstance('salutationtype', $moduleModel);
-		$viewer->assign('SALUTATION_FIELD_MODEL', $salutationFieldModel);
+		$viewer->assign('SALUTATION_FIELD_MODEL', $salutationFieldModel ? $salutationFieldModel : false);
 		parent::process($request);
 	}
 }

@@ -12,7 +12,7 @@
 {strip}
 <!-- layouts/basic/modules/Base/uitypes/Salutation.tpl -->
 <div class="row">	
-{if $SALUTATION_FIELD_MODEL}
+{if isset($SALUTATION_FIELD_MODEL) && $SALUTATION_FIELD_MODEL}
 {assign var=PICKLIST_VALUES value=$SALUTATION_FIELD_MODEL->getPicklistValues()}
 {assign var="SALUTATION_VALIDATOR" value=$SALUTATION_FIELD_MODEL->getValidator()}
 	<div class="col-md-5">
@@ -24,11 +24,11 @@
 		</select>
 	</div>
 {/if}	
-	<div class="{if $SALUTATION_FIELD_MODEL}col-md-7{else}col-md-12{/if}">
-	{assign var="FIELD_INFO" value=\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($FIELD_MODEL->getFieldInfo()))}
-	{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
-	{assign var="FIELD_NAME" value=$FIELD_MODEL->get('name')}
-		<input {if $SALUTATION_FIELD_MODEL} {/if} id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" title="{$FIELD_MODEL->get('fieldvalue')|t}" type="text" class="form-control {if $FIELD_MODEL->isNameField()}nameField{/if}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true}required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" name="{$FIELD_MODEL->getFieldName()}" value="{$FIELD_MODEL->get('fieldvalue')}"
+	<div class="{if isset($SALUTATION_FIELD_MODEL) && $SALUTATION_FIELD_MODEL}col-md-7{else}col-md-12{/if}">
+{assign var="FIELD_INFO" value=\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($FIELD_MODEL->getFieldInfo()))}
+{assign var="SPECIAL_VALIDATOR" value=$FIELD_MODEL->getValidator()}
+{assign var="FIELD_NAME" value=$FIELD_MODEL->get('name')}
+		<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" title="{$FIELD_MODEL->get('fieldvalue')|t}" type="text" class="form-control {if $FIELD_MODEL->isNameField()}nameField{/if}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true}required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]" name="{$FIELD_MODEL->getFieldName()}" value="{$FIELD_MODEL->get('fieldvalue')}"
 		{if $FIELD_MODEL->get('uitype') eq '3' || $FIELD_MODEL->get('uitype') eq '4'} readonly {/if} data-fieldinfo='{$FIELD_INFO}' {if !empty($SPECIAL_VALIDATOR)}data-validator={\App\Utils\Json::encode($SPECIAL_VALIDATOR)}{/if} />
 	</div>
 </div>

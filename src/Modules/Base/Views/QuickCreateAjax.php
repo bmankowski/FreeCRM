@@ -95,6 +95,13 @@ class QuickCreateAjax extends \App\Modules\Base\Views\Index
 
 		$viewer->assign('MAX_UPLOAD_LIMIT_MB', \App\Modules\Base\Helpers\Util::getMaxUploadSize());
 		$viewer->assign('MAX_UPLOAD_LIMIT', \App\Core\AppConfig::main('upload_maxsize'));
+		
+		// Assign salutation field model if module has salutation field
+		// This is needed for the Salutation.tpl template which is used for fields with uitype 'salutation'
+		// Always assign the variable (even if false) to avoid Smarty warnings when template checks for it
+		$salutationFieldModel = \App\Modules\Base\Models\Field::getInstance('salutationtype', $moduleModel);
+		$viewer->assign('SALUTATION_FIELD_MODEL', $salutationFieldModel ? $salutationFieldModel : false);
+		
 		echo $viewer->view('QuickCreate.tpl', $moduleName, true);
 	}
 

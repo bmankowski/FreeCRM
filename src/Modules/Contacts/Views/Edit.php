@@ -37,14 +37,16 @@ class Edit  extends \App\Modules\Base\Views\Edit
 		$viewer->assign('IMAGE_DETAILS', $recordModel->getImageDetails());
 
 		$salutationFieldModel = \App\Modules\Base\Models\Field::getInstance('salutationtype', $recordModel->getModule());
-		// Fix for http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/7851
-		$salutationType = $request->get('salutationtype');
-		if (!empty($salutationType)) {
-			$salutationFieldModel->set('fieldvalue', $request->get('salutationtype'));
-		} else {
-			$salutationFieldModel->set('fieldvalue', $recordModel->get('salutationtype'));
+		if ($salutationFieldModel) {
+			// Fix for http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/7851
+			$salutationType = $request->get('salutationtype');
+			if (!empty($salutationType)) {
+				$salutationFieldModel->set('fieldvalue', $request->get('salutationtype'));
+			} else {
+				$salutationFieldModel->set('fieldvalue', $recordModel->get('salutationtype'));
+			}
 		}
-		$viewer->assign('SALUTATION_FIELD_MODEL', $salutationFieldModel);
+		$viewer->assign('SALUTATION_FIELD_MODEL', $salutationFieldModel ? $salutationFieldModel : false);
 	}
 
 }
