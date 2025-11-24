@@ -13,7 +13,6 @@ namespace App\Modules\Base\Views;
  * *********************************************************************************** */
 
 
-use App\Http\Vtiger_Request;
 class Export  extends \App\Modules\Base\Views\Index
 {
 
@@ -24,6 +23,13 @@ class Export  extends \App\Modules\Base\Views\Index
 			throw new \App\Exceptions\NoPermitted(\App\Runtime\Vtiger_Language_Handler::translate('LBL_PERMISSION_DENIED'));
 		}
 	}
+
+	public function getBreadcrumbTitle(\App\Http\Vtiger_Request $request)
+	{
+		$moduleName = $request->getModule();
+		return \App\Runtime\Vtiger_Language_Handler::translate('LBL_EXPORT', $moduleName);
+	}
+
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
