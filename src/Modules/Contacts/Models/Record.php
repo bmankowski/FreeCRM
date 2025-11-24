@@ -129,7 +129,8 @@ class Record extends \App\Modules\Base\Models\Record
 	public function insertAttachment(\App\Http\Vtiger_Request $request = null)
 	{
 		if ($request === null) {
-			// Request should be passed as parameter
+			// Request should be passed as parameter - skip attachment processing
+			return;
 		}
 		$module = $request->get('module');
 		$mode = $request->get('mode');

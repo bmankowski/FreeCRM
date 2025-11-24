@@ -49,7 +49,7 @@ class EditAjax extends \App\Modules\Base\Views\IndexAjax
 		} else {
 			$advanceFilterOpsByFieldType = \App\Modules\Base\Models\Field::getAdvancedFilterOpsByFieldType();
 		}
-		$viewer->assign('ADVANCED_FILTER_OPTIONS', \App\CustomView::ADVANCED_FILTER_OPTIONS);
+		$viewer->assign('ADVANCED_FILTER_OPTIONS', \App\View\CustomViewmView::ADVANCED_FILTER_OPTIONS);
 		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', $advanceFilterOpsByFieldType);
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$recordStructure = $recordStructureInstance->getStructure();
@@ -78,12 +78,12 @@ class EditAjax extends \App\Modules\Base\Views\IndexAjax
 		$viewer->assign('SOURCE_MODULE', $moduleName);
 		$viewer->assign('USER_MODEL', $request->getUser());
 		if ($customViewModel->get('viewname') == 'All') {
-			$viewer->assign('CV_PRIVATE_VALUE', \App\CustomView::CV_STATUS_DEFAULT);
+			$viewer->assign('CV_PRIVATE_VALUE', \App\View\CustomViewmView::CV_STATUS_DEFAULT);
 		} else {
-			$viewer->assign('CV_PRIVATE_VALUE', \App\CustomView::CV_STATUS_PRIVATE);
+			$viewer->assign('CV_PRIVATE_VALUE', \App\View\CustomViewmView::CV_STATUS_PRIVATE);
 		}
-		$viewer->assign('CV_PENDING_VALUE', \App\CustomView::CV_STATUS_PENDING);
-		$viewer->assign('CV_PUBLIC_VALUE', \App\CustomView::CV_STATUS_PUBLIC);
+		$viewer->assign('CV_PENDING_VALUE', \App\View\CustomViewmView::CV_STATUS_PENDING);
+		$viewer->assign('CV_PUBLIC_VALUE', \App\View\CustomViewmView::CV_STATUS_PUBLIC);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 
 		echo $viewer->view('EditView.tpl', $module, true);

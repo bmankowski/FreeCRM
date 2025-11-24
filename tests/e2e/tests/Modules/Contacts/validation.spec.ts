@@ -14,9 +14,11 @@ import { ContactsPage } from '../../../pages/ContactsPage';
 
 test.describe('Contacts Validation', () => {
   let contactsPage: ContactsPage;
+  let authenticatedPage: any;
   let createdContactIds: string[] = [];
 
-  test.beforeEach(async ({ authenticatedPage }) => {
+  test.beforeEach(async ({ authenticatedPage: authPage }) => {
+    authenticatedPage = authPage;
     contactsPage = new ContactsPage(authenticatedPage);
     createdContactIds = [];
     await contactsPage.gotoList();

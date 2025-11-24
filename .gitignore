@@ -27,3 +27,4 @@ README.md
 /vendor/doctrine/
 /vendor/simshaun/
 /vendor/linfo/node_modules/
+tests/e2e/test-data/

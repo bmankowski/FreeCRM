@@ -15,9 +15,11 @@ import { Page } from '@playwright/test';
 
 test.describe('Contacts Advanced Search', () => {
   let contactsPage: ContactsPage;
+  let authenticatedPage: any;
   let createdContactIds: string[] = [];
 
-  test.beforeEach(async ({ authenticatedPage }) => {
+  test.beforeEach(async ({ authenticatedPage: authPage }) => {
+    authenticatedPage = authPage;
     contactsPage = new ContactsPage(authenticatedPage);
     createdContactIds = [];
     await contactsPage.gotoList();

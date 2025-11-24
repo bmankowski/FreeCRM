@@ -14,8 +14,10 @@ import { ContactsPage } from '../../../pages/ContactsPage';
 
 test.describe('Contacts Advanced List View', () => {
   let contactsPage: ContactsPage;
+  let authenticatedPage: any;
 
-  test.beforeEach(async ({ authenticatedPage }) => {
+  test.beforeEach(async ({ authenticatedPage: authPage }) => {
+    authenticatedPage = authPage;
     contactsPage = new ContactsPage(authenticatedPage);
     await contactsPage.gotoList();
   });

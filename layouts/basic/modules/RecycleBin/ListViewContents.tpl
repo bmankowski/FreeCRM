@@ -24,10 +24,10 @@
 <input type="hidden" id="deletedRecordsTotalCount" value="{$DELETED_RECORDS_TOTAL_COUNT}">  
 <input type="hidden" id="listMaxEntriesMassEdit" value="{$LIST_MAX_ENTRIES_MASS_EDIT}" />
 
-<div id="selectAllMsgDiv" class="alert-block msgDiv">
+<div id="selectAllMsgDiv" class="alert-block msgDiv hide">
 	<strong><a id="selectAllMsg">{"LBL_SELECT_ALL"|t:$MODULE}&nbsp;{$SOURCE_MODULE|t:$SOURCE_MODULE)}&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
 </div>
-<div id="deSelectAllMsgDiv" class="alert-block msgDiv">
+<div id="deSelectAllMsgDiv" class="alert-block msgDiv hide">
 	<strong><a id="deSelectAllMsg">{"LBL_DESELECT_ALL_RECORDS"|t:$MODULE}</a></strong>
 </div>
 <div class="contents-topscroll noprint stick" data-position="top">

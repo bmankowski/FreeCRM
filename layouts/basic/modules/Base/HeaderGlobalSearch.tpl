@@ -18,12 +18,12 @@
 				</span>
 				<input type="text" class="form-control globalSearchValue" title="{'LBL_GLOBAL_SEARCH'|t}" placeholder="{'LBL_GLOBAL_SEARCH'|t}" results="10" data-operator="contains" />
 				<span class="input-group-btn">
-					<button class="btn btn-default searchIcon" type="button">
+					<button class="btn btn-default searchIcon" type="button" aria-label="{'LBL_GLOBAL_SEARCH'|t}" title="{'LBL_GLOBAL_SEARCH'|t}">
 						<span class="glyphicon glyphicon-search"></span>
 					</button>
 					{if \App\Core\AppConfig::search('GLOBAL_SEARCH_OPERATOR')}
 						<div class="btn-group">
-							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="{'LBL_SEARCH_OPERATOR'|t}" title="{'LBL_SEARCH_OPERATOR'|t}">
 								<span class="glyphicon glyphicon-screenshot"></span>
 							</button>
 							<ul class="dropdown-menu globalSearchOperator">
@@ -33,7 +33,7 @@
 							</ul>
 						</div>
 					{/if}
-					<button class="btn btn-default globalSearch" title="{'LBL_ADVANCE_SEARCH'|t}" type="button">
+					<button class="btn btn-default globalSearch" title="{'LBL_ADVANCE_SEARCH'|t}" type="button" aria-label="{'LBL_ADVANCE_SEARCH'|t}">
 						<span class="glyphicon glyphicon-th-large"></span>
 					</button>
 				</span>

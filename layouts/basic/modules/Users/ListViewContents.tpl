@@ -30,10 +30,10 @@
 	<input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 
 	{include file=vtemplate_path('ListViewAlphabet.tpl',$MODULE)}
-	<div id="selectAllMsgDiv" class="alert-block msgDiv noprint">
+	<div id="selectAllMsgDiv" class="alert-block msgDiv noprint hide">
 		<strong><a id="selectAllMsg">{"LBL_SELECT_ALL"|t:$MODULE}&nbsp;{$MODULE|t:$MODULE}&nbsp;</a></strong>
 	</div>
-	<div id="deSelectAllMsgDiv" class="alert-block msgDiv noprint">
+	<div id="deSelectAllMsgDiv" class="alert-block msgDiv noprint hide">
 		<strong><a id="deSelectAllMsg">{"LBL_DESELECT_ALL_RECORDS"|t:$MODULE}</a></strong>
 	</div>
 	<div class="listViewEntriesDiv" >

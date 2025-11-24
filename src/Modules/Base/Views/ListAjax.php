@@ -12,9 +12,10 @@ namespace App\Modules\Base\Views;
  * ********************************************************************************** */
 
 
-use App\Http\Vtiger_Request;
 class ListAjax  extends \App\Modules\Base\Views\Index
 {
+	/** @var \App\Modules\Base\Models\ListView|null */
+	protected $listViewModel = null;
 
 	public function __construct()
 	{
@@ -72,7 +73,7 @@ class ListAjax  extends \App\Modules\Base\Views\Index
 	public function getRecordsCount(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
-		$cvId = \App\CustomView::getInstance($moduleName)->getViewId();
+		$cvId = \App\View\CustomView::getInstance($moduleName)->getViewId();
 		$count = $this->getListViewCount($request);
 
 		$result = [];
@@ -81,7 +82,7 @@ class ListAjax  extends \App\Modules\Base\Views\Index
 		$result['count'] = $count;
 
 		$response = new \App\Http\Vtiger_Response();
-		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
+		$response->setEmitType(\App\Http\Vtiger_Response::$EMIT_JSON);
 		$response->setResult($result);
 		$response->emit();
 	}
@@ -94,7 +95,7 @@ class ListAjax  extends \App\Modules\Base\Views\Index
 	{
 		$moduleName = $request->getModule();
 		if (!$this->listViewModel) {
-			$cvId = \App\CustomView::getInstance($moduleName)->getViewId();
+			$cvId = \App\View\CustomView::getInstance($moduleName)->getViewId();
 			if (!$cvId) {
 				$cvId = 0;
 			}

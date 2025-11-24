@@ -129,7 +129,7 @@
 									<div class="col-md-3 fieldLabel paddingLeft5px {$WIDTHTYPE}">
 										{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
 										{assign var=HELPINFO_LABEL value=$MODULE|cat:'|'|cat:$FIELD_MODEL->get('label')}
-										<label class="muted">
+										<label class="muted" for="{$MODULE}_editView_fieldName_{$FIELD_MODEL->get('name')}">
 											{if $FIELD_MODEL->isMandatory() eq true}<span class="redColor">*</span>{/if}
 											{if in_array($VIEW,$HELPINFO) && $HELPINFO_LABEL|t:'HelpInfo' neq $HELPINFO_LABEL}
 												<a href="#" class="HelpInfoPopover pull-right" title="" data-placement="auto top" data-content="{htmlspecialchars($MODULE|cat:'|'|cat:$FIELD_MODEL->get('label')|t:'HelpInfo')}" data-original-title='{$FIELD_MODEL->get("label")|t:$MODULE}'><span class="glyphicon glyphicon-info-sign"></span></a>

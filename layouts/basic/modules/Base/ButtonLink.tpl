@@ -13,7 +13,11 @@
 	{if $LINK->get('linkhref')}<a{else}<button type="button"{/if}{/strip} {strip}
 				{if !$LINK->isActive()} disabled {/if}
 				id="{$MODULE}_{$BUTTON_VIEW}_action_{\App\Modules\Base\Helpers\Util::replaceSpaceWithUnderScores($ACTION_NAME)}"{/strip} {strip}
-				class="btn {if $LINK->getClassName() neq ''}{if $LINK->getClassName()|strrpos:"btn-" === false}btn-default {/if}{$LINK->getClassName()}{else}btn-default{/if} {if $LABEL neq '' && $LINK->get('showLabel') != '1'} popoverTooltip{/if} {if $LINK->get('modalView')}showModal{/if}"
+				class="btn {if $LINK->getClassName() neq ''}{if $LINK->getClassName()|strrpos:"btn-" === false}btn-default {/if}{$LINK->getClassName()}{else}btn-default{/if} {if $LABEL neq '' && $LINK->get('showLabel') != '1'} popoverTooltip{/if} {if $LINK->get('modalView')}showModal{/if}"{/strip} {strip}
+				{if $LABEL neq '' && $LINK->get('showLabel') != 1}
+					aria-label="{$LABEL|t:$BTN_MODULE}"
+				{/if}
+			{/strip} {strip}
 				{if $LINK->get('linkdata') neq '' && is_array($LINK->get('linkdata'))}
 					{foreach from=$LINK->get('linkdata') key=NAME item=DATA}
 						{/strip} {strip}
@@ -22,6 +26,7 @@
 				{/if}
 			{/strip} {strip}
 				{if $LABEL neq '' && $LINK->get('showLabel') != 1}
+					title="{$LABEL|t:$BTN_MODULE}"
 					data-placement="bottom"{/strip} {strip}
 					data-content="{$LABEL|t:$BTN_MODULE}"
 				{/if}

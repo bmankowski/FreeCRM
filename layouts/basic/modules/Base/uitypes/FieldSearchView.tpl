@@ -21,14 +21,14 @@
 	<div class="searchField">
 	{if isset($MODULE_MODEL) && $MODULE_MODEL && $MODULE_MODEL->getAlphabetSearchField() eq $FIELD_MODEL->get('name')}
 		<div class="input-group col-xs-12">
-			<input type="text" name="{$FIELD_MODEL->get('name')}" class="listSearchContributor form-control" value="{$SEARCH_VALUE}" title='{$LABEL['label']}' data-fieldinfo='{$FIELD_INFO|escape}'/>
+			<input type="text" name="{$FIELD_MODEL->get('name')}" class="listSearchContributor form-control" value="{$SEARCH_VALUE}" title='{$LABEL['label']}' aria-label='{$LABEL['label']}' data-fieldinfo='{$FIELD_INFO|escape}'/>
 			<div  class="input-group-btn alphabetBtnContainer">
 				{if $ALPHABET_VALUE}
-					<button class=" btn btn-primary alphabetBtn" type="button">
+					<button class=" btn btn-primary alphabetBtn" type="button" aria-label="{'LBL_ALPHABETIC_FILTER'|t} {$ALPHABET_VALUE}">
 						{$ALPHABET_VALUE}
 					</button>
 				{else}
-					<button class=" btn btn-default alphabetBtn" type="button">
+					<button class=" btn btn-default alphabetBtn" type="button" aria-label="{'LBL_ALPHABETIC_FILTER'|t}">
 						<span class="glyphicon glyphicon-font"></span>
 					</button>
 				{/if}
@@ -36,7 +36,7 @@
 			</div>
 		</div>
 	{else}
-			<input type="text" name="{$FIELD_MODEL->get('name')}" class="listSearchContributor form-control" value="{$SEARCH_VALUE}" title='{$LABEL['label']}' data-fieldinfo='{$FIELD_INFO|escape}' {if !$FIELD_MODEL->isActiveSearchView()}disabled{/if}/>
+			<input type="text" name="{$FIELD_MODEL->get('name')}" class="listSearchContributor form-control" value="{$SEARCH_VALUE}" title='{$LABEL['label']}' aria-label='{$LABEL['label']}' data-fieldinfo='{$FIELD_INFO|escape}' {if !$FIELD_MODEL->isActiveSearchView()}disabled{/if}/>
 	{/if}
     </div>
 <!--/layouts/basic/modules/Base/uitypes/FieldSearchView.tpl -->

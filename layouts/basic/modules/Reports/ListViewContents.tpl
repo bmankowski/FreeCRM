@@ -22,10 +22,10 @@
 <input type="hidden" id="noOfEntries" value="{$LISTVIEW_ENTRIES_COUNT}">
 <input type="hidden" id="listMaxEntriesMassEdit" value="{$LIST_MAX_ENTRIES_MASS_EDIT}" />
 
-<div id="selectAllMsgDiv" class="alert-block msgDiv">
+<div id="selectAllMsgDiv" class="alert-block msgDiv hide">
 	<strong><a id="selectAllMsg">{"LBL_SELECT_ALL"|t:$MODULE}&nbsp;{$MODULE|t:$MODULE)}&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
 </div>
-<div id="deSelectAllMsgDiv" class="alert-block msgDiv">
+<div id="deSelectAllMsgDiv" class="alert-block msgDiv hide">
 	<strong><a id="deSelectAllMsg">{"LBL_DESELECT_ALL_RECORDS"|t:$MODULE}</a></strong>
 </div>
 

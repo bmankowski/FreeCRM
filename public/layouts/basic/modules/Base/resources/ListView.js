@@ -1433,14 +1433,14 @@ jQuery.Class("Vtiger_ListView_Js", {
 		listViewPageDiv.on('click', '#listViewEntriesMainCheckBox', function () {
 			var selectedIds = thisInstance.readSelectedIds();
 			var excludedIds = thisInstance.readExcludedIds();
-			if (jQuery('#listViewEntriesMainCheckBox').is(":checked")) {
-				var recordCountObj = thisInstance.getRecordsCount();
-				recordCountObj.then(function (data) {
-					jQuery('#totalRecordsCount').text(data);
-					if (jQuery("#deSelectAllMsgDiv").css('display') == 'none') {
-						jQuery("#selectAllMsgDiv").show();
-					}
-				});
+		if (jQuery('#listViewEntriesMainCheckBox').is(":checked")) {
+			var recordCountObj = thisInstance.getRecordsCount();
+			recordCountObj.then(function (data) {
+				jQuery('#totalRecordsCount').text(data);
+				if (jQuery("#deSelectAllMsgDiv").css('display') == 'none') {
+					jQuery("#selectAllMsgDiv").removeClass('hide').show();
+				}
+			});
 
 				jQuery('.listViewEntriesCheckBox').each(function (index, element) {
 					jQuery(this).attr('checked', true).closest('tr').addClass('highlightBackgroundColor');
@@ -1452,18 +1452,19 @@ jQuery.Class("Vtiger_ListView_Js", {
 						selectedIds.push(jQuery(element).val());
 					}
 				});
-			} else {
-				jQuery("#selectAllMsgDiv").hide();
-				jQuery('.listViewEntriesCheckBox').each(function (index, element) {
-					jQuery(this).attr('checked', false).closest('tr').removeClass('highlightBackgroundColor');
-					if (selectedIds == 'all') {
-						excludedIds.push(jQuery(element).val());
-						selectedIds = 'all';
-					} else {
-						selectedIds.splice(jQuery.inArray(jQuery(element).val(), selectedIds), 1);
-					}
-				});
-			}
+		} else {
+			jQuery("#selectAllMsgDiv").addClass('hide').hide();
+			jQuery("#deSelectAllMsgDiv").addClass('hide').hide();
+			jQuery('.listViewEntriesCheckBox').each(function (index, element) {
+				jQuery(this).attr('checked', false).closest('tr').removeClass('highlightBackgroundColor');
+				if (selectedIds == 'all') {
+					excludedIds.push(jQuery(element).val());
+					selectedIds = 'all';
+				} else {
+					selectedIds.splice(jQuery.inArray(jQuery(element).val(), selectedIds), 1);
+				}
+			});
+		}
 			thisInstance.writeSelectedIds(selectedIds);
 			thisInstance.writeExcludedIds(excludedIds);
 
@@ -1507,8 +1508,8 @@ jQuery.Class("Vtiger_ListView_Js", {
 		var listViewPageDiv = this.getListViewContainer();
 		var thisInstance = this;
 		listViewPageDiv.delegate('#selectAllMsg', 'click', function () {
-			jQuery('#selectAllMsgDiv').hide();
-			jQuery("#deSelectAllMsgDiv").show();
+			jQuery('#selectAllMsgDiv').addClass('hide').hide();
+			jQuery("#deSelectAllMsgDiv").removeClass('hide').show();
 			jQuery('#listViewEntriesMainCheckBox').attr('checked', true);
 			jQuery('.listViewEntriesCheckBox').each(function (index, element) {
 				jQuery(this).attr('checked', true).closest('tr').addClass('highlightBackgroundColor');
@@ -1523,7 +1524,7 @@ jQuery.Class("Vtiger_ListView_Js", {
 		var listViewPageDiv = this.getListViewContainer();
 		var thisInstance = this;
 		listViewPageDiv.delegate('#deSelectAllMsg', 'click', function () {
-			jQuery('#deSelectAllMsgDiv').hide();
+			jQuery('#deSelectAllMsgDiv').addClass('hide').hide();
 			jQuery('#listViewEntriesMainCheckBox').attr('checked', false);
 			jQuery('.listViewEntriesCheckBox').each(function (index, element) {
 				jQuery(this).attr('checked', false).closest('tr').removeClass('highlightBackgroundColor');

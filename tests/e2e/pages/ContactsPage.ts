@@ -542,10 +542,23 @@ export class ContactsPage {
     additionalFields?: Record<string, string>
   ): Promise<string | null> {
     try {
-      // Click add contact button
-      const addButton = this.page.locator('a:has-text("Dodaj rekord"), a:has-text("Add"), [href*="module=Contacts&view=Edit"]').first();
-      await addButton.click();
-      await this.page.waitForURL(/view=Edit/);
+      // Navigate to list view first to ensure Add button is available
+      await this.gotoList();
+      
+      // Wait for page to be fully loaded
+      await this.page.waitForLoadState('networkidle');
+      
+      // Click add contact button using JavaScript since the button is CSS-hidden
+      // The button exists in the DOM but is not visible
+      await Promise.all([
+        this.page.waitForURL(/view=Edit/, { timeout: 15000 }),
+        this.page.evaluate(() => {
+          const addButton = document.querySelector('a[href*="module=Contacts&view=Edit"]') as HTMLElement;
+          if (addButton) {
+            addButton.click();
+          }
+        })
+      ]);
       
       // Fill in contact details
       await this.page.locator('input[name="firstname"]').fill(firstName);

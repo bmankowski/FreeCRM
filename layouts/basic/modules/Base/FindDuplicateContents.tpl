@@ -24,10 +24,10 @@
 <input type="hidden" id="totalCount" value="{$TOTAL_COUNT}" />
 <input type='hidden' id='ignoreEmpty' value="{$IGNORE_EMPTY}" />
 
-<div id="selectAllMsgDiv" class="alert-block msgDiv">
+<div id="selectAllMsgDiv" class="alert-block msgDiv hide">
 	<strong><a id="selectAllMsg">{"LBL_SELECT_ALL"|t:$MODULE}&nbsp;{$MODULE|t:$MODULE}&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
 </div>
-<div id="deSelectAllMsgDiv" class="alert-block msgDiv">
+<div id="deSelectAllMsgDiv" class="alert-block msgDiv hide">
 	<strong><a id="deSelectAllMsg">{"LBL_DESELECT_ALL_RECORDS"|t:$MODULE}</a></strong>
 </div>
 <div class="contents-topscroll">

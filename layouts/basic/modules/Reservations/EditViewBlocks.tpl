@@ -80,14 +80,14 @@
 								{/if}
 								<div class="{if $FIELD_MODEL->get('uitype') eq '300'}col-md-12 {else} col-md-6 col-xs-12{/if} fieldRow marginBottom5px">
 									<div class="col-xs-12 col-sm-3 fieldLabel paddingLeft5px {$WIDTHTYPE}">
-										<label class="muted pull-right-md pull-right-lg pull-left-sm pull-left-xs marginRight10px">
+										<label class="muted pull-right-md pull-right-lg pull-left-sm pull-left-xs marginRight10px" for="{$MODULE}_editView_fieldName_{$FIELD_MODEL->get('name')}">
 											{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span>{/if}
 											{$FIELD_MODEL->get('label')|t:$MODULE}
 										</label>
 									</div>
 									<div class="col-xs-12 col-sm-9 fieldValue {$WIDTHTYPE}" {if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20'} colspan="3" {elseif $FIELD_MODEL->get('uitype') eq '300'} colspan="4" {assign var=COUNTER value=$COUNTER+1} {/if}>
 										{if $FIELD_MODEL->get('uitype') eq "300"}
-											<label class="muted">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{$FIELD_MODEL->get('label')|t:$MODULE}</label>
+											<label class="muted" for="{$MODULE}_editView_fieldName_{$FIELD_MODEL->get('name')}">{if $FIELD_MODEL->isMandatory() eq true} <span class="redColor">*</span> {/if}{$FIELD_MODEL->get('label')|t:$MODULE}</label>
 										{/if}
 										{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS}
 									</div>

@@ -108,15 +108,16 @@ class Record extends \App\Modules\Base\Models\Record
 
 	public function saveToDb($relationParams = null, \App\Http\Vtiger_Request $request = null)
 	{
-		if ($request === null) {
-			// Request should be passed as parameter
+		if ($request !== null) {
+			//Time should changed to 24hrs format
+			$request->set('time_start', \App\Modules\Base\UiTypes\Time::getTimeValueWithSeconds($request->get('time_start')));
+			$request->set('time_end', \App\Modules\Base\UiTypes\Time::getTimeValueWithSeconds($request->get('time_end')));
 		}
-		//Time should changed to 24hrs format
-		$request->set('time_start', \App\Modules\Base\UiTypes\Time::getTimeValueWithSeconds($request->get('time_start')));
-		$request->set('time_end', \App\Modules\Base\UiTypes\Time::getTimeValueWithSeconds($request->get('time_end')));
 		parent::saveToDb();
 		$this->updateActivityReminder();
-		$this->insertIntoInviteTable($request);
+		if ($request !== null) {
+			$this->insertIntoInviteTable($request);
+		}
 		$this->insertIntoActivityReminderPopup();
 	}
 
@@ -175,7 +176,8 @@ class Record extends \App\Modules\Base\Models\Record
 	public function insertIntoInviteTable(\App\Http\Vtiger_Request $request = null)
 	{
 		if ($request === null) {
-			// Request should be passed as parameter
+			// Request should be passed as parameter - skip invite table processing
+			return;
 		}
 		if (!$request->has('inviteesid')) {
 			\App\Log\Log::info('No invitations in request, Exiting insertIntoInviteeTable method ...');
