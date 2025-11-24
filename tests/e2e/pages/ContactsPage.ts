@@ -492,26 +492,41 @@ export class ContactsPage {
    */
   async deleteContactById(contactId: string) {
     try {
-      // Navigate to detail view
-      await this.gotoDetail(contactId);
-      
-      // Delete the contact
-      const deleteButton = this.page.locator('#Contacts_detailView_action_LBL_DELETE_RECORD, button[onclick*="deleteRecord"]').first();
-      if (await deleteButton.isVisible({ timeout: 3000 })) {
-        await deleteButton.click();
+      // First, try to delete normally if the contact exists
+      try {
+        await this.page.goto(`/index.php?module=Contacts&view=Detail&record=${contactId}`, {
+          waitUntil: 'domcontentloaded',
+          timeout: 5000
+        });
         
-        // Confirm deletion
-        const modal = this.page.locator('.bootbox .modal-dialog, .modal.show .modal-dialog').first();
-        if (await modal.isVisible({ timeout: 3000 })) {
-          const confirmButton = modal.locator('.btn-primary, button:has-text("OK"), button:has-text("Tak")').first();
-          await confirmButton.click();
-          await modal.waitFor({ state: 'hidden', timeout: 5000 }).catch(() => {});
-          await this.page.waitForURL(/view=ListView/, { timeout: 10000 }).catch(() => {});
+        // Delete the contact
+        const deleteButton = this.page.locator('#Contacts_detailView_action_LBL_DELETE_RECORD, button[onclick*="deleteRecord"]').first();
+        if (await deleteButton.isVisible({ timeout: 2000 })) {
+          await deleteButton.click();
+          
+          // Confirm deletion
+          const modal = this.page.locator('.bootbox .modal-dialog, .modal.show .modal-dialog').first();
+          if (await modal.isVisible({ timeout: 2000 })) {
+            const confirmButton = modal.locator('.btn-primary, button:has-text("OK"), button:has-text("Tak")').first();
+            await confirmButton.click();
+            await this.page.waitForTimeout(1000); // Give it time to process
+          }
         }
+      } catch (deleteError) {
+        // If normal delete fails, that's okay - we'll try to remove from recycle bin anyway
+        console.log(`Regular delete failed for ${contactId}, will try recycle bin cleanup`);
       }
       
-      // Now permanently delete from recycle bin
-      await this.permanentlyDeleteFromRecycleBin(contactId);
+      // Now permanently delete from recycle bin using direct API call
+      try {
+        await this.page.goto(`/index.php?module=RecycleBin&action=EmptyRecordBin&record=${contactId}&sourceModule=Contacts`, {
+          waitUntil: 'domcontentloaded',
+          timeout: 5000
+        });
+        await this.page.waitForTimeout(500); // Give it time to process
+      } catch (emptyError) {
+        // If already deleted, that's fine
+      }
     } catch (error) {
       console.log(`Failed to delete contact ${contactId}: ${error}`);
     }
@@ -548,17 +563,16 @@ export class ContactsPage {
       // Wait for page to be fully loaded
       await this.page.waitForLoadState('networkidle');
       
-      // Click add contact button using JavaScript since the button is CSS-hidden
-      // The button exists in the DOM but is not visible
-      await Promise.all([
-        this.page.waitForURL(/view=Edit/, { timeout: 15000 }),
-        this.page.evaluate(() => {
-          const addButton = document.querySelector('a[href*="module=Contacts&view=Edit"]') as HTMLElement;
-          if (addButton) {
-            addButton.click();
-          }
-        })
-      ]);
+      // Navigate directly to Edit view URL to avoid button clicking issues
+      await this.page.goto('/index.php?module=Contacts&view=Edit', { 
+        waitUntil: 'networkidle',
+        timeout: 15000 
+      });
+      
+      // Wait for form to be fully ready
+      await this.page.waitForSelector('input[name="firstname"]', { state: 'visible', timeout: 10000 });
+      await this.page.waitForSelector('input[name="lastname"]', { state: 'visible', timeout: 10000 });
+      await this.page.waitForTimeout(1000); // Additional wait for JavaScript initialization
       
       // Fill in contact details
       await this.page.locator('input[name="firstname"]').fill(firstName);

@@ -38,6 +38,8 @@ test.describe('Contacts - Bulk Operations', () => {
   });
 
   test('Test 1.1: Select Multiple Contacts with Checkboxes', async () => {
+    test.setTimeout(120000); // Increase timeout for creating multiple contacts
+    
     // Create 5 test contacts
     const timestamp = Date.now();
     for (let i = 0; i < 5; i++) {
@@ -47,6 +49,11 @@ test.describe('Contacts - Bulk Operations', () => {
         { email: `bulktest${i}_${timestamp}@example.com` }
       );
       if (id) testContactIds.push(id);
+      
+      // Add delay between creations to allow server to process
+      if (i < 4) {
+        await authenticatedPage.waitForTimeout(1500);
+      }
     }
 
     // Navigate to list view
@@ -143,6 +150,8 @@ test.describe('Contacts - Bulk Operations', () => {
   });
 
   test('Test 1.4: Bulk Delete Multiple Contacts', async () => {
+    test.setTimeout(120000);
+    
     // Create 3 test contacts for deletion
     const timestamp = Date.now();
     const deleteIds: string[] = [];
@@ -156,6 +165,10 @@ test.describe('Contacts - Bulk Operations', () => {
       if (id) {
         deleteIds.push(id);
         testContactIds.push(id);
+      }
+      
+      if (i < 2) {
+        await authenticatedPage.waitForTimeout(1500);
       }
     }
 
@@ -193,6 +206,8 @@ test.describe('Contacts - Bulk Operations', () => {
   });
 
   test('Test 1.5: Bulk Edit Multiple Contacts', async () => {
+    test.setTimeout(120000);
+    
     // Create 4 test contacts
     const timestamp = Date.now();
     for (let i = 0; i < 4; i++) {
@@ -202,6 +217,10 @@ test.describe('Contacts - Bulk Operations', () => {
         { email: `bulkedit${i}_${timestamp}@example.com` }
       );
       if (id) testContactIds.push(id);
+      
+      if (i < 3) {
+        await authenticatedPage.waitForTimeout(1500);
+      }
     }
 
     await contactsPage.gotoList();
@@ -239,6 +258,8 @@ test.describe('Contacts - Bulk Operations', () => {
   });
 
   test('Test 1.6: Bulk Export Selected Contacts to CSV', async () => {
+    test.setTimeout(120000);
+    
     // Create 5 test contacts
     const timestamp = Date.now();
     for (let i = 0; i < 5; i++) {
@@ -248,6 +269,10 @@ test.describe('Contacts - Bulk Operations', () => {
         { email: `export${i}_${timestamp}@example.com` }
       );
       if (id) testContactIds.push(id);
+      
+      if (i < 4) {
+        await authenticatedPage.waitForTimeout(1500);
+      }
     }
 
     await contactsPage.gotoList();
@@ -289,6 +314,8 @@ test.describe('Contacts - Bulk Operations', () => {
   });
 
   test('Test 1.7: Bulk Send Email to Selected Contacts', async () => {
+    test.setTimeout(120000);
+    
     // Create 3 test contacts with valid emails
     const timestamp = Date.now();
     const emails = [
@@ -304,6 +331,10 @@ test.describe('Contacts - Bulk Operations', () => {
         { email: emails[i] }
       );
       if (id) testContactIds.push(id);
+      
+      if (i < 2) {
+        await authenticatedPage.waitForTimeout(1500);
+      }
     }
 
     await contactsPage.gotoList();
