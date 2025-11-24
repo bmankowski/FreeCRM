@@ -26,7 +26,6 @@
 				{/if}
 			{/strip} {strip}
 				{if $LABEL neq '' && $LINK->get('showLabel') != 1}
-					title="{$LABEL|t:$BTN_MODULE}"
 					data-placement="bottom"{/strip} {strip}
 					data-content="{$LABEL|t:$BTN_MODULE}"
 				{/if}
