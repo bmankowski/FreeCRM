@@ -251,7 +251,8 @@ class Export extends \App\Runtime\BaseModel
 				}
 			}
 		}
-		$recordId = $arr[$this->focus->table_index];
+		// Use 'id' field as it's always included in the query (see line 146)
+		$recordId = $arr['id'] ?? ($arr[$this->focus->table_index] ?? 0);
 		$moduleName = $this->moduleInstance->getName();
 		foreach ($arr as $fieldName => &$value) {
 			if (isset($this->fieldArray[$fieldName])) {

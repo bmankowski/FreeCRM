@@ -36,10 +36,10 @@
 							<input type="hidden" name="selected_ids" value="{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($SELECTED_IDS))}">
 							<input type="hidden" name="excluded_ids" value="{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($EXCLUDED_IDS))}">
 							<input type="hidden" id="page" name="page" value="{$PAGE}" />
-							<input type="hidden" name="search_key" value= "{$SEARCH_KEY}" />
-							<input type="hidden" name="operator" value="{$OPERATOR}" />
-							<input type="hidden" name="search_value" value="{$ALPHABET_VALUE}" />
-							<input type="hidden" name="search_params" value='{\App\Utils\Json::encode($SEARCH_PARAMS)}' />
+							{if isset($SEARCH_KEY)}<input type="hidden" name="search_key" value="{$SEARCH_KEY}" />{/if}
+							{if isset($OPERATOR)}<input type="hidden" name="operator" value="{$OPERATOR}" />{/if}
+							{if isset($ALPHABET_VALUE)}<input type="hidden" name="search_value" value="{$ALPHABET_VALUE}" />{/if}
+							{if isset($SEARCH_PARAMS)}<input type="hidden" name="search_params" value='{\App\Utils\Json::encode($SEARCH_PARAMS)}' />{/if}
 
 							<div class="well exportContents">
 								<div class="radio">

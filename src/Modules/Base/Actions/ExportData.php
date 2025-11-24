@@ -35,7 +35,7 @@ class ExportData extends \App\Base\Controllers\BaseActionController
 	{
 		$exportModel = \App\Modules\Base\Models\Export::getInstanceFromRequest($request);
 		if ($request->getMode() === 'ExportSelectedRecords') {
-			$exportModel->setRecordList($this->getRecordsListFromRequest($request));
+			$exportModel->setRecordList(\App\Modules\Base\Actions\Mass::getRecordsListFromRequest($request));
 		}
 		$exportModel->exportData($request);
 	}

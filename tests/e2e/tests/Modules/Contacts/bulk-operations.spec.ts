@@ -287,29 +287,58 @@ test.describe('Contacts - Bulk Operations', () => {
       await rows.nth(i).locator('input[type="checkbox"]').click();
     }
 
-    // Click export button
-    const exportButton = authenticatedPage.locator('button:has-text("Export"), [data-action="export"]').first();
+    // Open Actions dropdown menu
+    const actionsButton = authenticatedPage.locator('.listViewMassActions button.dropdown-toggle:has-text("Actions"), .listViewMassActions button.dropdown-toggle:has-text("Akcje")').first();
+    await expect(actionsButton).toBeVisible({ timeout: 5000 });
+    await actionsButton.click();
     
-    if (await exportButton.isVisible({ timeout: 2000 })) {
-      const [download] = await Promise.all([
-        authenticatedPage.waitForEvent('download', { timeout: 10000 }),
-        exportButton.click(),
-        // Try to select CSV format if dialog appears
-        authenticatedPage.locator('button:has-text("CSV"), a:has-text("CSV")').first().click().catch(() => {})
-      ]);
-
-      // Verify download
-      expect(download.suggestedFilename()).toMatch(/\.csv$/i);
+    // Wait for dropdown menu to open
+    const dropdownMenu = authenticatedPage.locator('.listViewMassActions .dropdown-menu').first();
+    await expect(dropdownMenu).toBeVisible({ timeout: 3000 });
+    await authenticatedPage.waitForTimeout(500);
+    
+    // Click Export link in the dropdown - this navigates to export page
+    const exportLink = dropdownMenu.locator('a:has-text("Export"), a:has-text("Eksport")').first();
+    await expect(exportLink).toBeVisible({ timeout: 5000 });
+    await exportLink.click();
+    
+    // Wait for navigation to Export page
+    await authenticatedPage.waitForURL(/view=Export/, { timeout: 10000 });
+    await authenticatedPage.waitForLoadState('networkidle');
+    
+    // Verify we're on the export page
+    const exportForm = authenticatedPage.locator('#exportForm').first();
+    await expect(exportForm).toBeVisible({ timeout: 5000 });
+    
+    // Select CSV format (should be default, but let's make sure)
+    const exportTypeSelect = authenticatedPage.locator('#exportType').first();
+    await exportTypeSelect.selectOption('csv');
+    
+    // Verify "Export Selected Records" option is checked (since we selected contacts)
+    const selectedRecordsRadio = authenticatedPage.locator('input[value="ExportSelectedRecords"]').first();
+    await expect(selectedRecordsRadio).toBeChecked();
+    
+    // Click Export button and wait for download
+    const exportButton = authenticatedPage.locator('button.saveButton[type="submit"], button:has-text("LBL_EXPORT"), button.btn-success[type="submit"]').first();
+    await expect(exportButton).toBeVisible({ timeout: 5000 });
+    
+    // Start download by clicking Export button
+    const [download] = await Promise.all([
+      authenticatedPage.waitForEvent('download', { timeout: 20000 }),
+      exportButton.click()
+    ]);
+    
+    // Verify download
+    expect(download.suggestedFilename()).toMatch(/\.csv$/i);
+    
+    // Optionally verify file contents
+    const path = await download.path();
+    if (path && fs.existsSync(path)) {
+      const csvContent = fs.readFileSync(path, 'utf-8');
+      const lines = csvContent.split('\n').filter(line => line.trim());
       
-      // Optionally verify file contents
-      const path = await download.path();
-      if (path && fs.existsSync(path)) {
-        const csvContent = fs.readFileSync(path, 'utf-8');
-        const lines = csvContent.split('\n').filter(line => line.trim());
-        
-        // Should have header + at least some data rows
-        expect(lines.length).toBeGreaterThan(1);
-      }
+      // Should have header + at least some data rows
+      expect(lines.length).toBeGreaterThan(1);
     }
   });
 

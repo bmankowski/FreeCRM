@@ -205,6 +205,26 @@ class Field extends \vtlib\Field
 		return $block;
 	}
 
+	/**
+	 * Get block name (label)
+	 * @return string
+	 */
+	public function getBlockName()
+	{
+		$block = $this->get('block');
+		if (is_object($block)) {
+			if (method_exists($block, 'get')) {
+				return $block->get('label');
+			}
+			return $block->label ?? '';
+		}
+		// If block is just an ID, fetch the block name from database
+		if (is_numeric($block)) {
+			return \App\Utils\Utils::getBlockName($block);
+		}
+		return '';
+	}
+
 	public function initialize($valuemap)
 	{
 		$map = [
