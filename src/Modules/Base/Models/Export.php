@@ -215,7 +215,7 @@ class Export extends \App\Runtime\BaseModel
 
 		# Get CSV separator from request
 		$separatorType = $request->get('csv_separator');
-		$separator = ','; // default separator
+		$separator = ';'; // default separator
 		
 		if (!empty($separatorType)) {
 			switch ($separatorType) {
