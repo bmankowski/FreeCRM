@@ -14,15 +14,49 @@ jQuery.Class("Vtiger_Export_Js", {}, {
 	initEvent: function () {
 		var form = this.getForm();
 		var xmlTpl = form.find('.xml-tpl');
-		form.find('#exportType').on('change', function (e) {
+		var csvSeparatorOptions = form.find('.csv-separator-options');
+		var exportTypeSelect = form.find('#exportType');
+		
+		// Handle export type change
+		exportTypeSelect.on('change', function (e) {
+			var exportType = jQuery(this).val();
 			if (xmlTpl.length) {
-				if (jQuery(this).val() == 'xml') {
+				if (exportType == 'xml') {
 					xmlTpl.removeClass('hide');
+					csvSeparatorOptions.hide();
 				} else {
 					xmlTpl.addClass('hide');
+					csvSeparatorOptions.show();
+				}
+			} else {
+				// Show separator options for CSV, hide for XML
+				if (exportType == 'xml') {
+					csvSeparatorOptions.hide();
+				} else {
+					csvSeparatorOptions.show();
 				}
 			}
 		});
+		
+		// Handle separator radio button changes
+		form.find('input[name="csv_separator"]').on('change', function () {
+			var customInput = form.find('#csvSeparatorCustomInput');
+			if (jQuery(this).val() == 'custom') {
+				customInput.show();
+				form.find('#csvSeparatorCustomValue').focus();
+			} else {
+				customInput.hide();
+				form.find('#csvSeparatorCustomValue').val('');
+			}
+		});
+		
+		// Initialize visibility on page load
+		var currentExportType = exportTypeSelect.val();
+		if (currentExportType == 'xml') {
+			csvSeparatorOptions.hide();
+		} else {
+			csvSeparatorOptions.show();
+		}
 	},
 	registerEvents: function () {
 		this.initEvent();

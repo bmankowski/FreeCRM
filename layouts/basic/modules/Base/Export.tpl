@@ -87,6 +87,41 @@
 										</div>
 									{/if}				
 								</div>
+								<div class="row csv-separator-options" style="margin-top: 15px;">
+									<div class="col-md-12">
+										<label class="">{"LBL_CSV_SEPARATOR"|t:$MODULE}</label>
+										<div class="">
+											<div class="radio">
+												<label>
+													<input type="radio" name="csv_separator" value="comma" checked="checked">
+													{"LBL_CSV_SEPARATOR_COMMA"|t:$MODULE}
+												</label>
+											</div>
+											<div class="radio">
+												<label>
+													<input type="radio" name="csv_separator" value="semicolon">
+													{"LBL_CSV_SEPARATOR_SEMICOLON"|t:$MODULE}
+												</label>
+											</div>
+											<div class="radio">
+												<label>
+													<input type="radio" name="csv_separator" value="tab">
+													{"LBL_CSV_SEPARATOR_TAB"|t:$MODULE}
+												</label>
+											</div>
+											<div class="radio">
+												<label>
+													<input type="radio" name="csv_separator" value="custom" id="csvSeparatorCustom">
+													{"LBL_CSV_SEPARATOR_CUSTOM"|t:$MODULE}
+												</label>
+											</div>
+											<div class="form-group" id="csvSeparatorCustomInput" style="margin-left: 20px; margin-top: 10px; display: none;">
+												<label for="csvSeparatorCustomValue" class="control-label">{"LBL_CSV_SEPARATOR_CUSTOM_VALUE"|t:$MODULE}</label>
+												<input type="text" name="csv_separator_custom" id="csvSeparatorCustomValue" maxlength="1" class="form-control" style="width: 100px; display: inline-block;" placeholder="">
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
 							<div class="form-group">
 								<button class="btn btn-success saveButton" type="submit"><strong>{"LBL_EXPORT"|t:$MODULE}</strong></button>

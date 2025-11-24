@@ -63,7 +63,6 @@ class Export extends \App\Runtime\BaseModel
 		$query = $this->getExportQuery($request);
 
 		$headers = [];
-		$exportBlockName = \App\Core\AppConfig::module('Export', 'BLOCK_NAME');
 		//Query generator set this when generating the query
 		if (!empty($this->accessibleFields)) {
 			foreach ($this->accessibleFields as &$fieldName) {
@@ -72,9 +71,6 @@ class Export extends \App\Runtime\BaseModel
 					// Check added as querygenerator is not checking this for admin users
 					if ($fieldModel && ($fieldModel->isViewEnabled() || $fieldModel->isMandatory())) { // export headers for mandatory fields
 						$header = \App\Runtime\Vtiger_Language_Handler::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $moduleName);
-						if ($exportBlockName) {
-							$header = \App\Runtime\Vtiger_Language_Handler::translate(html_entity_decode($fieldModel->getBlockName(), ENT_QUOTES), $moduleName) . '::' . $header;
-						}
 						$headers[] = $header;
 					}
 				}
@@ -82,9 +78,6 @@ class Export extends \App\Runtime\BaseModel
 		} else {
 			foreach ($this->moduleFieldInstances as &$fieldModel) {
 				$header = \App\Runtime\Vtiger_Language_Handler::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $moduleName);
-				if ($exportBlockName) {
-					$header = \App\Runtime\Vtiger_Language_Handler::translate(html_entity_decode($fieldModel->getBlockName(), ENT_QUOTES), $moduleName) . '::' . $header;
-				}
 				$headers[] = $header;
 			}
 		}
@@ -94,11 +87,11 @@ class Export extends \App\Runtime\BaseModel
 			//Get inventory headers
 			$inventoryFieldModel = \App\Modules\Base\Models\InventoryField::getInstance($moduleName);
 			$inventoryFields = $inventoryFieldModel->getFields();
-			$headers[] = 'Inventory::recordIteration';
+			$headers[] = 'recordIteration';
 			foreach ($inventoryFields as &$field) {
-				$headers[] = 'Inventory::' . \App\Runtime\Vtiger_Language_Handler::translate(html_entity_decode($field->get('label'), ENT_QUOTES), $moduleName);
+				$headers[] = \App\Runtime\Vtiger_Language_Handler::translate(html_entity_decode($field->get('label'), ENT_QUOTES), $moduleName);
 				foreach ($field->getCustomColumn() as $columnName => $dbType) {
-					$headers[] = 'Inventory::' . $columnName;
+					$headers[] = $columnName;
 				}
 			}
 			$table = $inventoryFieldModel->getTableName('data');
@@ -220,11 +213,37 @@ class Export extends \App\Runtime\BaseModel
 		header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 		header('Cache-Control: post-check=0, pre-check=0', false);
 
+		# Get CSV separator from request
+		$separatorType = $request->get('csv_separator');
+		$separator = ','; // default separator
+		
+		if (!empty($separatorType)) {
+			switch ($separatorType) {
+				case 'semicolon':
+					$separator = ';';
+					break;
+				case 'comma':
+					$separator = ',';
+					break;
+				case 'tab':
+					$separator = "\t";
+					break;
+				case 'custom':
+					$customSeparator = $request->get('csv_separator_custom');
+					if (!empty($customSeparator) && strlen($customSeparator) == 1) {
+						$separator = $customSeparator;
+					}
+					break;
+			}
+		}
+
 		# Start the ouput
 		$output = fopen('php://output', 'w');
-		fputcsv($output, $headers);
+		# Add UTF-8 BOM for proper encoding recognition (especially in Excel)
+		fputs($output, chr(239) . chr(187) . chr(191));
+		fputcsv($output, $headers, $separator);
 		foreach ($entries as $row) {
-			fputcsv($output, $row);
+			fputcsv($output, $row, $separator);
 		}
 		fclose($output);
 	}
@@ -301,8 +320,8 @@ class Export extends \App\Runtime\BaseModel
 							$displayValue = $v;
 						}
 					}
-					if (!empty($recordModule) && !empty($displayValue)) {
-						$value = $recordModule . '::::' . $displayValue;
+					if (!empty($displayValue)) {
+						$value = $displayValue;
 					} else {
 						$value = '';
 					}
@@ -331,8 +350,8 @@ class Export extends \App\Runtime\BaseModel
 				if (!empty($value)) {
 					$recordModule = \App\Records\Record::getType($value);
 					$displayValue = \App\Records\Record::getLabel($value);
-					if (!empty($recordModule) && !empty($displayValue)) {
-						$value = $recordModule . '::::' . $displayValue;
+					if (!empty($displayValue)) {
+						$value = $displayValue;
 					} else {
 						$value = '';
 					}
