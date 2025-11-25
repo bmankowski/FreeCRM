@@ -51,7 +51,7 @@
 												{assign var=COMMENTOR value=$COMMENT->getCommentedByModel()}
 												<span class="commentorName"><strong>{$COMMENTOR->getName()}</strong></span>
 												<div class="commentInfoContent">
-													{nl2br($COMMENT->get('commentcontent'))}
+													{$COMMENT->get('commentcontent')|default:''|nl2br}
 												</div>
 											</div>
 											<div class="inner">
@@ -70,7 +70,7 @@
 											<p class="muted">
 												<small>
 													[ {"LBL_EDIT_REASON"|t:$MODULE_NAME} ] :
-													<span  name="editReason" class="textOverflowEllipsis">{nl2br($REASON_TO_EDIT)}</span>
+													<span  name="editReason" class="textOverflowEllipsis">{$REASON_TO_EDIT|default:''|nl2br}</span>
 												</small>
 											</p>
 										</span>

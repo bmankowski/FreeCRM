@@ -19,7 +19,7 @@
 		{assign var=FIELD_NAME value=$FIELD_MODEL->get('name')}
 		<input id="{$MODULE}_editView_fieldName_{$FIELD_NAME}" type="text" title="{$FIELD_MODEL->get('label')|t:$MODULE}" class="dateField form-control" name="{$FIELD_MODEL->getFieldName()}" data-date-format="{$dateFormat}"
 			type="text" value="{$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'))}" data-validation-engine="validate[{if $FIELD_MODEL->isMandatory() eq true} required,{/if}funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"   {if !empty($SPECIAL_VALIDATOR)}data-validator='{\App\Utils\Json::encode($SPECIAL_VALIDATOR)}'{/if} data-fieldinfo='{$FIELD_INFO}' 
-             {if $MODE eq 'edit' && $FIELD_NAME eq 'due_date'} data-user-changed-time="true" {/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} />
+             {if isset($MODE) && $MODE eq 'edit' && $FIELD_NAME eq 'due_date'} data-user-changed-time="true" {/if} {if $FIELD_MODEL->isEditableReadOnly()}readonly="readonly"{/if} />
 		<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 		{if $FIELD_NAME neq 'due_date'}
 			<span class="input-group-addon notEvent HelpInfoPopover" data-placement="top" data-content="{"LBL_AUTO_FILL_DESCRIPTION"|t:$MODULE}">

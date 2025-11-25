@@ -29,7 +29,7 @@
 							<div class="clearfix"></div>
 						</div>
 						<div class="commentInfoContent">
-							{nl2br($COMMENT->get('commentcontent'))}
+							{$COMMENT->get('commentcontent')|default:''|nl2br}
 						</div>
 					</div>
 					<span class="pull-right paddingRight15">
@@ -45,7 +45,7 @@
 				<p class="col-xs-6 marginLeftZero">
 					<small>
 						<span class="{if empty($REASON_TO_EDIT)}hide{/if} marginLeftZero editReason">
-							[ {"LBL_EDIT_REASON"|t:$MODULE_NAME} ] : <span  name="editReason" class="textOverflowEllipsis">{nl2br($REASON_TO_EDIT)}</span>
+							[ {"LBL_EDIT_REASON"|t:$MODULE_NAME} ] : <span  name="editReason" class="textOverflowEllipsis">{$REASON_TO_EDIT|default:''|nl2br}</span>
 						</span>
 					</small>
 				</p>

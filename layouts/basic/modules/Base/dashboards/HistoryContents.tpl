@@ -136,7 +136,7 @@
 					<div>
 						<strong>{$HISTORY->getCommentedByModel()->getName()}</strong> {"LBL_COMMENTED"|t} {"LBL_ON"|t} <a class="textOverflowEllipsis" href="{$HISTORY->getParentRecordModel()->getDetailViewUrl()}">{$HISTORY->getParentRecordModel()->getName()}</a>
 					</div>
-					<div class='font-x-small'><span>"{nl2br($HISTORY->get('commentcontent'))}"</span></div>
+					<div class='font-x-small'><span>"{$HISTORY->get('commentcontent')|default:''|nl2br}"</span></div>
 				</div>
 			</div>
 		{/if}

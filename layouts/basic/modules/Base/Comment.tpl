@@ -42,7 +42,7 @@
 							{/if}
 						{/if}
 						<div class="commentInfoContent ">
-							{nl2br($COMMENT->get('commentcontent'))}
+							{$COMMENT->get('commentcontent')|default:''|nl2br}
 						</div>
 					</div>
 					<div class="inner">
@@ -61,7 +61,7 @@
 					<div class="col-xs-6">
 						<span class="{if empty($REASON_TO_EDIT)}hide{/if} col-xs-6 editReason">
 							<p><small>[ {"LBL_EDIT_REASON"|t:$MODULE_NAME} ] : <span name="editReason"
-										class="textOverflowEllipsis">{nl2br($REASON_TO_EDIT)}</span></small></p>
+										class="textOverflowEllipsis">{$REASON_TO_EDIT|default:''|nl2br}</span></small></p>
 						</span>
 						{if $COMMENT->getCommentedTime() neq $COMMENT->getModifiedTime()}
 							<span class="{if !empty($REASON_TO_EDIT)} col-xs-6{/if}">
@@ -78,6 +78,8 @@
 				<div class="commentActionsDiv">
 					{assign var=COMMENTS_MODULE_MODEL value = \App\Modules\Base\Models\Module::getInstance('ModComments')}
 					<div class="pull-right commentActions">
+						{assign var=CHILDS_ROOT_PARENT_ID value=''}
+						{assign var=PARENT_COMMENT_ID value=$COMMENT->getId()}
 						{if isset($CHILDS_ROOT_PARENT_MODEL) && $CHILDS_ROOT_PARENT_MODEL}
 							{assign var=CHILDS_ROOT_PARENT_ID value=$CHILDS_ROOT_PARENT_MODEL->getId()}
 						{/if}
@@ -115,7 +117,7 @@
 									<img class="alignMiddle" src="{vimage_path('downArrowSmall.png')}" />
 								</a>
 							</span>
-						{elseif $CHILD_COMMENTS neq null and ($CHILDS_ROOT_PARENT_ID eq $PARENT_COMMENT_ID)}
+						{elseif isset($CHILD_COMMENTS) && $CHILD_COMMENTS neq null && ($CHILDS_ROOT_PARENT_ID eq $PARENT_COMMENT_ID)}
 							<span class="viewThreadBlock" data-child-comments-count="{$CHILD_COMMENTS_COUNT}">
 								<button type="button" class="btn btn-xs btn-info viewThread marginLeft5">
 									<span
