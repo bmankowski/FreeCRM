@@ -15,6 +15,9 @@ namespace App\Modules\Base\Views;
 use App\Http\Vtiger_Request;
 class FindDuplicates  extends \App\Modules\Base\Views\Index
 {
+	protected $listViewEntries = null;
+	protected $listViewHeaders = null;
+	protected $rows = null;
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
@@ -57,7 +60,7 @@ class FindDuplicates  extends \App\Modules\Base\Views\Index
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
 
-	public function initializeListViewContents(\App\Http\Vtiger_Request $request, CRM_Viewer $viewer)
+	public function initializeListViewContents(\App\Http\Vtiger_Request $request, \App\Runtime\CRM_Viewer $viewer)
 	{
 		$currentUser = $request->getUser();
 		$viewer = $this->getViewer($request);
@@ -160,7 +163,7 @@ class FindDuplicates  extends \App\Modules\Base\Views\Index
 		$result['count'] = $count;
 
 		$response = new \App\Http\Vtiger_Response();
-		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
+		$response->setEmitType(\App\Http\Vtiger_Response::$EMIT_JSON);
 		$response->setResult($result);
 		$response->emit();
 	}

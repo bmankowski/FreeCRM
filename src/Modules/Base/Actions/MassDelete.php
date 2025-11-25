@@ -39,10 +39,12 @@ class MassDelete extends \App\Base\Controllers\BaseActionController
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 
 		if ($request->get('selected_ids') == 'all' && $request->get('mode') == 'FindDuplicates') {
-			$recordIds = \App\Modules\Base\Models\FindDuplicate::getMassDeleteRecords($request);
+			$findDuplicateModel = \App\Modules\Base\Models\FindDuplicate::getInstance($moduleName);
+			$recordIds = $findDuplicateModel->getMassDeleteRecords($request);
 		} else {
-			$recordIds = $this->getRecordsListFromRequest($request);
+			$recordIds = \App\Modules\Base\Actions\Mass::getRecordsListFromRequest($request);
 		}
+		$permission = null;
 		foreach ($recordIds as $recordId) {
 			if (\App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'Delete', $recordId)) {
 				$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, $moduleModel);

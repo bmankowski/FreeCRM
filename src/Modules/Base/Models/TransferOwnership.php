@@ -74,9 +74,13 @@ class TransferOwnership extends \App\Runtime\BaseModel
 		$db = \App\Db\Db::getInstance();
 		$oldOwners = \vtlib\Functions:: getCRMRecordMetadata($relatedModuleRecordIds);
 		$currentUser = \App\User\CurrentUser::get();
+		$currentUserId = $currentUser ? $currentUser->getId() : null;
+		if ($currentUserId === null) {
+			throw new \App\Exceptions\AppException('Current user not found');
+		}
 		$db->createCommand()->update('vtiger_crmentity', [
 			'smownerid' => $transferOwnerId,
-			'modifiedby' => $currentUser->id,
+			'modifiedby' => $currentUserId,
 			'modifiedtime' => date('Y-m-d H:i:s'),
 			], ['crmid' => $relatedModuleRecordIds]
 		)->execute();
@@ -86,7 +90,7 @@ class TransferOwnership extends \App\Runtime\BaseModel
 				$db->createCommand()->insert('vtiger_modtracker_basic', [
 					'crmid' => $record,
 					'module' => $module,
-					'whodid' => $currentUser->id,
+					'whodid' => $currentUserId,
 					'changedon' => date('Y-m-d H:i:s', time())
 				])->execute();
 				$id = $db->getLastInsertID('vtiger_modtracker_basic_id_seq');
