@@ -11,6 +11,7 @@
 -->*}
 {strip}
 <!-- layouts/basic/modules/RecycleBin/ListViewContents.tpl -->
+<div id="listViewContents" class="listViewContentDiv">
 <input type="hidden" id="pageStartRange" value="{$PAGING_MODEL->getRecordStartRange()}" />
 <input type="hidden" id="pageEndRange" value="{$PAGING_MODEL->getRecordEndRange()}" />
 <input type="hidden" id="previousPageExist" value="{$PAGING_MODEL->isPrevPageExists()}" />
@@ -25,7 +26,7 @@
 <input type="hidden" id="listMaxEntriesMassEdit" value="{$LIST_MAX_ENTRIES_MASS_EDIT}" />
 
 <div id="selectAllMsgDiv" class="alert-block msgDiv hide">
-	<strong><a id="selectAllMsg">{"LBL_SELECT_ALL"|t:$MODULE}&nbsp;{$SOURCE_MODULE|t:$SOURCE_MODULE)}&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
+	<strong><a id="selectAllMsg">{"LBL_SELECT_ALL"|t:$MODULE}&nbsp;{$SOURCE_MODULE|t:$SOURCE_MODULE}&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
 </div>
 <div id="deSelectAllMsgDiv" class="alert-block msgDiv hide">
 	<strong><a id="deSelectAllMsg">{"LBL_DESELECT_ALL_RECORDS"|t:$MODULE}</a></strong>
@@ -57,10 +58,51 @@
 							<span class="{$SORT_IMAGE}"></span>
 						{/if}
 					</a>
+					{if $LISTVIEW_HEADER->getFieldDataType() eq 'tree' || $LISTVIEW_HEADER->getFieldDataType() eq 'categoryMultipicklist'}
+						{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getName()}
+						<div class='pull-left'>
+							<span class="pull-right popoverTooltip delay0" data-placement="top"
+								data-original-title="{$LISTVIEW_HEADER->get('label')|t:$SOURCE_MODULE}"
+								data-content="{"LBL_SEARCH_IN_SUBCATEGORIES"|t:$SOURCE_MODULE}">
+								<span class="glyphicon glyphicon-info-sign"></span>
+							</span>
+							<input type="checkbox" id="searchInSubcategories{$LISTVIEW_HEADER_NAME}"
+								title="{"LBL_SEARCH_IN_SUBCATEGORIES"|t:$SOURCE_MODULE}" name="searchInSubcategories"
+								class="pull-right searchInSubcategories" value="1"
+								data-columnname="{$LISTVIEW_HEADER->get('column')}"
+								{if !empty($SEARCH_DETAILS[$LISTVIEW_HEADER_NAME]['specialOption'])} checked {/if}>
+						</div>
+					{/if}
 				</th>
 				{/foreach}
 			</tr>
 		</thead>
+		{if $MODULE_MODEL->isQuickSearchEnabled()}
+			<tr>
+				<td class="listViewSearchTd">
+					<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span
+							class="glyphicon glyphicon-search"></span></a>
+				</td>
+				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
+					<td>
+						{assign var=FIELD_UI_TYPE_MODEL value=$LISTVIEW_HEADER->getUITypeModel()}
+						{assign var=LISTVIEW_HEADER_NAME value=$LISTVIEW_HEADER->getName()}
+						{if isset($SEARCH_DETAILS[$LISTVIEW_HEADER_NAME])}
+							{assign var=SEARCH_INFO value=$SEARCH_DETAILS[$LISTVIEW_HEADER_NAME]}
+						{else}
+							{assign var=SEARCH_INFO value=[]}
+						{/if}
+						{include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$MODULE_NAME)
+												                    FIELD_MODEL= $LISTVIEW_HEADER SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL}
+					</td>
+				{/foreach}
+				<td>
+					<a class="btn btn-default" href="index.php?view=ListView&module={$MODULE}&sourceModule={$SOURCE_MODULE}">
+						<span class="glyphicon glyphicon-remove"></span>
+					</a>
+				</td>
+			</tr>
+		{/if}
 		{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES name=listview}
 		<tr class="listViewEntries" data-id='{$LISTVIEW_ENTRY->getId()}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}">
             <td  width="5%" class="{$WIDTHTYPE}">
@@ -102,6 +144,7 @@
 		</tbody>
 	</table>
 {/if}
+</div>
 </div>
 </div>
 <!--/layouts/basic/modules/RecycleBin/ListViewContents.tpl -->

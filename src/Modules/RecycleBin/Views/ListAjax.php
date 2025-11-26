@@ -40,5 +40,10 @@ class ListAjax  extends \App\Modules\Base\Views\Index
 			$this->invokeExposedMethod($mode, $request);
 			return;
 		}
+		
+		// If no mode specified, delegate to ListView for regular list view requests
+		$listView = new ListView();
+		$listView->preProcess($request, false);
+		$listView->process($request);
 	}
 }

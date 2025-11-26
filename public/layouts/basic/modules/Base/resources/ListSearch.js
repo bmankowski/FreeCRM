@@ -272,7 +272,7 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 			instance.reloadFunctionName = 'loadRelatedList';
 		} else if (viewName == 'ListView') {
 			console.log('ListView condition matched! Creating instance.');
-			instance = new Vtiger_ListView_Js();
+			instance = Vtiger_ListView_Js.getInstance();
 			instance.reloadFunctionName = 'getListViewRecords';
 			instance.execute = ['updatePagination'];
 		}

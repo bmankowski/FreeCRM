@@ -225,11 +225,21 @@ Vtiger_ListView_Js("RecycleBin_ListView_Js", {
 			'module': module,
 			'parent' : parent,
 			'page' : pageNumber,
-			'view' : "List",
+			'view' : "ListView",
 			'orderby' : orderBy,
 			'sortorder' : sortOrder,
-			'sourceModule' : jQuery('#customFilter').val()
+			'sourceModule' : jQuery('#customFilter').val() || jQuery('#sourceModule').val()
 		};
+		var listSearchInstance = this.getListSearchInstance();
+		if (listSearchInstance !== false) {
+			var searchValue = this.getListSearchInstance().getAlphabetSearchValue();
+			params.search_params = JSON.stringify(this.getListSearchInstance().getListSearchParams(true));
+			if ((typeof searchValue != "undefined") && (searchValue.length > 0)) {
+				params['search_key'] = this.getListSearchInstance().getAlphabetSearchField();
+				params['search_value'] = searchValue;
+				params['operator'] = 's';
+			}
+		}
 		return params;
 	},
 	/*
@@ -341,5 +351,114 @@ Vtiger_ListView_Js("RecycleBin_ListView_Js", {
     registerEvents : function() {
         this._super();
         this.registerRestoreRecordClickEvent();
+    },
+    
+    /**
+     * Override getListViewContainer to use listViewContentDiv if listViewPageDiv is not found
+     * This is needed for RecycleBin which doesn't have listViewPageDiv in AJAX responses
+     */
+    getListViewContainer: function () {
+        if (this.listViewContainer == false) {
+            // Try to find listViewPageDiv first (for non-AJAX requests)
+            this.listViewContainer = jQuery('div.listViewPageDiv');
+            // If not found, use listViewContentDiv (for AJAX requests)
+            if (this.listViewContainer.length == 0) {
+                this.listViewContainer = jQuery('.listViewContentDiv');
+            }
+        }
+        return this.listViewContainer;
+    },
+    
+    /**
+     * Override getListViewRecords to ensure sourceModule is included in AJAX requests
+     */
+    getListViewRecords: function (urlParams) {
+        if (typeof urlParams == 'undefined') {
+            urlParams = {};
+        }
+        
+        // Ensure sourceModule is included in params
+        if (!urlParams.sourceModule) {
+            urlParams.sourceModule = jQuery('#customFilter').val() || jQuery('#sourceModule').val();
+        }
+        
+        // Call parent implementation with updated params
+        var thisInstance = this;
+        var loadingMessage = jQuery('.listViewLoadingMsg').text();
+        var progressIndicatorElement = jQuery.progressIndicator({
+            'message': loadingMessage,
+            'position': 'html',
+            'blockInfo': {
+                'enabled': true
+            }
+        });
+
+        var defaultParams = this.getDefaultParams();
+        var urlParams = jQuery.extend(defaultParams, urlParams);
+        var aDeferred = jQuery.Deferred();
+        
+        AppConnector.request(urlParams).then(
+            function (data) {
+                progressIndicatorElement.progressIndicator({
+                    'mode': 'hide'
+                })
+                var listViewContentsContainer = jQuery('#listViewContents')
+                var searchInstance = thisInstance.getListSearchInstance();
+                listViewContentsContainer.html(data);
+                app.showSelect2ElementView(listViewContentsContainer.find('select.select2'));
+                thisInstance.registerListViewSpecialOptiopn();
+                app.changeSelectElementView(listViewContentsContainer);
+                app.showPopoverElementView(listViewContentsContainer.find('.popoverTooltip'));
+                jQuery('body').trigger(jQuery.Event('LoadRecordList.PostLoad'), data);
+                if (searchInstance !== false) {
+                    searchInstance.registerBasicEvents();
+                }
+                Vtiger_Index_Js.registerMailButtons(listViewContentsContainer);
+                Vtiger_Helper_Js.showHorizontalTopScrollBar();
+
+                var selectedIds = thisInstance.readSelectedIds();
+                if (selectedIds != '') {
+                    if (selectedIds == 'all') {
+                        jQuery('.listViewEntriesCheckBox').each(function (index, element) {
+                            jQuery(this).attr('checked', true).closest('tr').addClass('highlightBackgroundColor');
+                        });
+                        jQuery('#deSelectAllMsgDiv').show();
+                        var excludedIds = thisInstance.readExcludedIds();
+                        if (excludedIds != '') {
+                            jQuery('#listViewEntriesMainCheckBox').attr('checked', false);
+                            jQuery('.listViewEntriesCheckBox').each(function (index, element) {
+                                if (jQuery.inArray(jQuery(element).val(), excludedIds) != -1) {
+                                    jQuery(element).attr('checked', false).closest('tr').removeClass('highlightBackgroundColor');
+                                }
+                            });
+                        } else {
+                            jQuery('#listViewEntriesMainCheckBox').attr('checked', true);
+                        }
+                    } else {
+                        var selectedIdsArray = selectedIds.split(',');
+                        jQuery('.listViewEntriesCheckBox').each(function (index, element) {
+                            if (jQuery.inArray(jQuery(element).val(), selectedIdsArray) != -1) {
+                                jQuery(this).attr('checked', true).closest('tr').addClass('highlightBackgroundColor');
+                            }
+                        });
+                        jQuery('#deSelectAllMsgDiv').show();
+                    }
+                } else {
+                    jQuery('#listViewEntriesMainCheckBox').attr('checked', false);
+                    jQuery('.listViewEntriesCheckBox').attr('checked', false).closest('tr').removeClass('highlightBackgroundColor');
+                    jQuery('#selectAllMsgDiv, #deSelectAllMsgDiv').hide();
+                }
+                thisInstance.ListViewPostOperation();
+                thisInstance.updatePagination();
+                aDeferred.resolve(data);
+            },
+            function (error, err) {
+                progressIndicatorElement.progressIndicator({
+                    'mode': 'hide'
+                });
+                aDeferred.reject(error, err);
+            }
+        );
+        return aDeferred.promise();
     }
 });

@@ -23,6 +23,12 @@ class ListView extends \App\Modules\Base\Views\Index
 	{
 		parent::preProcess($request, false);
 		
+		if ($request->isAjax()) {
+			// AJAX requests need list data but not sidebar/layout data
+			$this->prepareAjaxListViewData($request);
+			return;
+		}
+		
 		// Prepare RecycleBin list view data
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
@@ -34,11 +40,29 @@ class ListView extends \App\Modules\Base\Views\Index
 		// Process sidebar links to determine active link
 		$activeLinkLabel = $this->processSidebarLinks($quickLinkModels, $request);
 
-		$viewer->assign('MODULE_MODEL', $moduleModel);
+		// Don't assign MODULE_MODEL here - it will be assigned in initializeListViewContents as sourceModuleModel
 		$viewer->assign('QUICK_LINKS', $quickLinkModels);
 		$viewer->assign('ACTIVE_SIDEBAR_LINK', $activeLinkLabel);
 
 		// Initialize list view contents
+		$this->initializeListViewContents($request, $viewer);
+	}
+	
+	protected function prepareAjaxListViewData(\App\Http\Vtiger_Request $request)
+	{
+		$viewer = $this->getViewer($request);
+		$moduleName = $request->getModule();
+		
+		// Assign common data needed by AJAX list view
+		$this->initializeListViewContents($request, $viewer);
+		$viewer->assign('USER_MODEL', $request->getUser());
+		// MODULE_NAME is already assigned in initializeListViewContents as sourceModule
+		$viewer->assign('MODULE', $moduleName);
+	}
+	
+	protected function initializeListViewContents(\App\Http\Vtiger_Request $request, \App\Runtime\CRM_Viewer $viewer)
+	{
+		$moduleName = $request->getModule();
 		$sourceModule = $request->get('sourceModule');
 
 		$pageNumber = $request->get('page');
@@ -66,6 +90,18 @@ class ListView extends \App\Modules\Base\Views\Index
 			}
 		}
 		$listViewModel = \App\Modules\RecycleBin\Models\ListView::getInstance($moduleName, $sourceModule);
+		
+		// Get source module model for search functionality
+		if (empty($sourceModule)) {
+			// If sourceModule is still empty, set a default
+			$sourceModule = 'Contacts';
+		}
+		$sourceModuleModel = \App\Modules\Base\Models\Module::getInstance($sourceModule);
+		if (!$sourceModuleModel) {
+			// Fallback if module doesn't exist
+			$sourceModuleModel = \App\Modules\Base\Models\Module::getInstance('Contacts');
+			$sourceModule = 'Contacts';
+		}
 
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
 		$linkModels = $moduleModel->getListViewMassActions($linkParams);
@@ -80,6 +116,36 @@ class ListView extends \App\Modules\Base\Views\Index
 		if (!empty($orderBy)) {
 			$listViewModel->set('orderby', $orderBy);
 			$listViewModel->set('sortorder', $sortOrder);
+		}
+		
+		// Handle search parameters
+		$searchKey = $request->get('search_key');
+		$searchValue = $request->get('search_value');
+		$operator = $request->get('operator');
+		if (!empty($operator)) {
+			$listViewModel->set('operator', $operator);
+		}
+		$viewer->assign('OPERATOR', $operator);
+		$viewer->assign('ALPHABET_VALUE', $searchValue);
+		if (!empty($searchKey) && !empty($searchValue)) {
+			$listViewModel->set('search_key', $searchKey);
+			$listViewModel->set('search_value', $searchValue);
+		}
+		$searchParams = $request->get('search_params');
+		if (!empty($searchParams) && is_array($searchParams)) {
+			$transformedSearchParams = $listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParams);
+			$listViewModel->set('search_params', $transformedSearchParams);
+			//To make smarty to get the details easily accesible
+			foreach ($searchParams as $fieldListGroup) {
+				foreach ($fieldListGroup as $fieldSearchInfo) {
+					$fieldSearchInfo['searchValue'] = isset($fieldSearchInfo[2]) ? $fieldSearchInfo[2] : '';
+					$fieldSearchInfo['fieldName'] = $fieldName = isset($fieldSearchInfo[0]) ? $fieldSearchInfo[0] : '';
+					$fieldSearchInfo['specialOption'] = isset($fieldSearchInfo[3]) ? $fieldSearchInfo[3] : '';
+					$searchParams[$fieldName] = $fieldSearchInfo;
+				}
+			}
+		} else {
+			$searchParams = [];
 		}
 
 		if (empty($this->listViewHeaders)) {
@@ -114,6 +180,12 @@ class ListView extends \App\Modules\Base\Views\Index
 		$viewer->assign('MODULE_LIST', $moduleModel->getAllModuleList());
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
 		$viewer->assign('DELETED_RECORDS_TOTAL_COUNT', $moduleModel->getDeletedRecordsTotalCount());
+		
+		// Assign source module model for search functionality
+		// Also assign as MODULE_MODEL for template compatibility
+		$viewer->assign('SOURCE_MODULE_MODEL', $sourceModuleModel);
+		$viewer->assign('MODULE_MODEL', $sourceModuleModel);
+		$viewer->assign('MODULE_NAME', $sourceModule);
 
 		if (!$this->listViewCount) {
 			$this->listViewCount = $listViewModel->getListViewCount();
@@ -128,13 +200,34 @@ class ListView extends \App\Modules\Base\Views\Index
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
 		$viewer->assign('IS_MODULE_DELETABLE', $listViewModel->getModule()->isPermitted('Delete'));
 		$viewer->assign('LIST_MAX_ENTRIES_MASS_EDIT', \App\Core\AppConfig::main('listMaxEntriesMassEdit'));
+		
+		// Ensure search details exist for all headers to avoid undefined index notices in templates
+		if (is_array($this->listViewHeaders)) {
+			foreach ($this->listViewHeaders as $header) {
+				$headerName = $header->getName();
+				if (!isset($searchParams[$headerName])) {
+					$searchParams[$headerName] = ['searchValue' => '', 'fieldName' => $headerName];
+				}
+			}
+		}
+		$viewer->assign('SEARCH_DETAILS', $searchParams);
+		
+		// Assign USER_MODEL (always assign, overwrites if already set)
+		$viewer->assign('USER_MODEL', $request->getUser());
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$viewer = $this->getViewer($request);
-		// Data already assigned in preProcess, just render
-		$viewer->view('ListView.tpl', $request->getModule());
+		$moduleName = $request->getModule();
+		
+		if ($request->isAjax()) {
+			$this->prepareAjaxListViewData($request);
+			$viewer->view('ListViewContents.tpl', $moduleName);
+		} else {
+			// For non-AJAX requests, just render (data already assigned in preProcess)
+			$viewer->view('ListView.tpl', $moduleName);
+		}
 	}
 
 	/**
@@ -151,7 +244,8 @@ class ListView extends \App\Modules\Base\Views\Index
 			"modules.$moduleName.resources.ListView",
 			'modules.CustomView.resources.CustomView',
 			"modules.$moduleName.resources.CustomView",
-			'modules.Base.resources.CkEditor'
+			'modules.Base.resources.CkEditor',
+			'modules.Base.resources.ListSearch'
 		);
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
@@ -167,6 +261,23 @@ class ListView extends \App\Modules\Base\Views\Index
 		$moduleName = $request->getModule();
 		$sourceModule = $request->get('sourceModule');
 		$listViewModel = \App\Modules\RecycleBin\Models\ListView::getInstance($moduleName, $sourceModule);
+		
+		// Handle search parameters for page count
+		$searchKey = $request->get('search_key');
+		$searchValue = $request->get('search_value');
+		$operator = $request->get('operator');
+		if (!empty($operator)) {
+			$listViewModel->set('operator', $operator);
+		}
+		if (!empty($searchKey) && !empty($searchValue)) {
+			$listViewModel->set('search_key', $searchKey);
+			$listViewModel->set('search_value', $searchValue);
+		}
+		$searchParams = $request->get('search_params');
+		if (!empty($searchParams) && is_array($searchParams)) {
+			$transformedSearchParams = $listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParams);
+			$listViewModel->set('search_params', $transformedSearchParams);
+		}
 
 		$listViewCount = $listViewModel->getListViewCount();
 		$pagingModel = new \App\Modules\Base\Models\Paging();
@@ -193,6 +304,23 @@ class ListView extends \App\Modules\Base\Views\Index
 		$moduleName = $request->getModule();
 		$sourceModule = $request->get('sourceModule');
 		$listViewModel = \App\Modules\RecycleBin\Models\ListView::getInstance($moduleName, $sourceModule);
+		
+		// Handle search parameters for records count
+		$searchKey = $request->get('search_key');
+		$searchValue = $request->get('search_value');
+		$operator = $request->get('operator');
+		if (!empty($operator)) {
+			$listViewModel->set('operator', $operator);
+		}
+		if (!empty($searchKey) && !empty($searchValue)) {
+			$listViewModel->set('search_key', $searchKey);
+			$listViewModel->set('search_value', $searchValue);
+		}
+		$searchParams = $request->get('search_params');
+		if (!empty($searchParams) && is_array($searchParams)) {
+			$transformedSearchParams = $listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParams);
+			$listViewModel->set('search_params', $transformedSearchParams);
+		}
 
 		$count = $listViewModel->getListViewCount();
 
@@ -201,7 +329,7 @@ class ListView extends \App\Modules\Base\Views\Index
 		$result['count'] = $count;
 
 		$response = new \App\Http\Vtiger_Response();
-		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
+		$response->setEmitType(\App\Http\Vtiger_Response::$EMIT_JSON);
 		$response->setResult($result);
 		$response->emit();
 	}
