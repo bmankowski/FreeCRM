@@ -449,18 +449,72 @@ export class ContactsPage {
    */
   async permanentlyDeleteFromRecycleBin(contactId: string) {
     try {
-      // Navigate to recycle bin
+      // First try direct API call - this works even if contact is not visible in recycle bin list
+      try {
+        // Use request instead of goto since EmptyRecordBin returns JSON, not HTML
+        const response = await this.page.request.get(`/index.php?module=RecycleBin&action=EmptyRecordBin&record=${contactId}&sourceModule=Contacts`, {
+          timeout: 10000
+        });
+        
+        if (response.ok()) {
+          const responseText = await response.text();
+          // Check if response indicates success (JSON with success: true or result)
+          if (responseText.includes('"success"') || responseText.includes('"result"') || response.status() === 200) {
+            console.log(`Successfully deleted contact ${contactId} via direct API`);
+            return; // Successfully deleted via direct API
+          }
+        }
+      } catch (directError) {
+        // If direct API fails, try UI method
+        console.log(`Direct API delete failed for ${contactId}, trying UI method: ${directError}`);
+      }
+      
+      // Fallback: Navigate to recycle bin and use UI
       await this.gotoRecycleBin();
+      
+      // Search for the contact if needed
+      await this.page.waitForTimeout(1000);
       
       // Find the row with this contact ID
       const contactRow = this.page.locator(`tr[data-id="${contactId}"], tr:has(input[value="${contactId}"])`).first();
       
-      // If not found by data attribute, try to navigate directly
+      // If not found, try searching by ID in hidden inputs
       if (await contactRow.count() === 0) {
-        // Use the API or direct link to delete
-        await this.page.goto(`/index.php?module=RecycleBin&action=EmptyRecordBin&record=${contactId}&sourceModule=Contacts`, {
-          waitUntil: 'networkidle'
-        });
+        // Try to find by checking all rows for the ID
+        const allRows = this.page.locator('tbody tr');
+        const rowCount = await allRows.count();
+        let found = false;
+        
+        for (let i = 0; i < rowCount; i++) {
+          const row = allRows.nth(i);
+          const rowId = await row.getAttribute('data-id');
+          if (rowId === contactId) {
+            found = true;
+            const checkbox = row.locator('input[type="checkbox"]').first();
+            if (await checkbox.isVisible({ timeout: 1000 })) {
+              await checkbox.check();
+              
+              // Click permanent delete button
+              const permanentDeleteButton = this.page.locator('button:has-text("Usuń na stałe"), button:has-text("Permanently delete"), .btn:has-text("Empty"), #emptyRecordbinButton').first();
+              if (await permanentDeleteButton.isVisible({ timeout: 3000 })) {
+                await permanentDeleteButton.click();
+                
+                // Confirm deletion in modal
+                const modal = this.page.locator('.bootbox .modal-dialog, .modal.show .modal-dialog').first();
+                if (await modal.isVisible({ timeout: 3000 })) {
+                  const confirmButton = modal.locator('.btn-primary, button:has-text("OK"), button:has-text("Tak")').first();
+                  await confirmButton.click();
+                  await modal.waitFor({ state: 'hidden', timeout: 5000 }).catch(() => {});
+                }
+              }
+            }
+            break;
+          }
+        }
+        
+        if (!found) {
+          console.log(`Contact ${contactId} not found in recycle bin - may already be deleted`);
+        }
         return;
       }
       
@@ -503,13 +557,31 @@ export class ContactsPage {
         const deleteButton = this.page.locator('#Contacts_detailView_action_LBL_DELETE_RECORD, button[onclick*="deleteRecord"]').first();
         if (await deleteButton.isVisible({ timeout: 2000 })) {
           await deleteButton.click();
-          
-          // Confirm deletion
+
+          // Confirm deletion (Bootbox modal sometimes animates, so always wait for it)
           const modal = this.page.locator('.bootbox .modal-dialog, .modal.show .modal-dialog').first();
-          if (await modal.isVisible({ timeout: 2000 })) {
-            const confirmButton = modal.locator('.btn-primary, button:has-text("OK"), button:has-text("Tak")').first();
+          try {
+            await modal.waitFor({ state: 'visible', timeout: 5000 });
+            const confirmButton = modal
+              .locator(
+                [
+                  'button[data-bb-handler="confirm"]',
+                  '.modal-footer .btn-danger:not(.close)',
+                  '.modal-footer .btn-primary:not(.close)',
+                  'button:has-text("Usuń")',
+                  'button:has-text("Delete")',
+                  'button:has-text("Tak")',
+                  'button:has-text("Yes")',
+                  'button:has-text("OK")'
+                ].join(', ')
+              )
+              .first();
+            await confirmButton.waitFor({ state: 'visible', timeout: 5000 });
             await confirmButton.click();
-            await this.page.waitForTimeout(1000); // Give it time to process
+            await modal.waitFor({ state: 'hidden', timeout: 7000 }).catch(() => {});
+            await this.page.waitForTimeout(500); // Allow backend to flag record as deleted
+          } catch (confirmError) {
+            console.log(`Delete confirmation modal did not complete for ${contactId}: ${confirmError}`);
           }
         }
       } catch (deleteError) {
@@ -519,13 +591,21 @@ export class ContactsPage {
       
       // Now permanently delete from recycle bin using direct API call
       try {
-        await this.page.goto(`/index.php?module=RecycleBin&action=EmptyRecordBin&record=${contactId}&sourceModule=Contacts`, {
-          waitUntil: 'domcontentloaded',
-          timeout: 5000
+        // Use request instead of goto since EmptyRecordBin returns JSON, not HTML
+        const response = await this.page.request.get(`/index.php?module=RecycleBin&action=EmptyRecordBin&record=${contactId}&sourceModule=Contacts`, {
+          timeout: 10000
         });
-        await this.page.waitForTimeout(500); // Give it time to process
+        
+        if (response.ok()) {
+          const responseText = await response.text();
+          // Check if response indicates success
+          if (responseText.includes('"success"') || responseText.includes('"result"') || response.status() === 200) {
+            console.log(`Successfully deleted contact ${contactId} from recycle bin via direct API`);
+          }
+        }
       } catch (emptyError) {
-        // If already deleted, that's fine
+        // If already deleted or not found, that's fine - will be handled by permanentlyDeleteFromRecycleBin
+        console.log(`Direct recycle bin delete failed for ${contactId}, will try alternative method: ${emptyError}`);
       }
     } catch (error) {
       console.log(`Failed to delete contact ${contactId}: ${error}`);
@@ -539,7 +619,20 @@ export class ContactsPage {
   async cleanupContacts(contactIds: string[]) {
     for (const contactId of contactIds) {
       if (contactId) {
-        await this.deleteContactById(contactId);
+        try {
+          console.log(`Cleaning up contact ID: ${contactId}`);
+          
+          // First try to delete normally if contact is still active
+          await this.deleteContactById(contactId);
+          console.log(`Completed deleteContactById for ${contactId}`);
+          
+          // Then ensure it's permanently removed from recycle bin
+          // This handles cases where contact was already deleted or deleteContactById didn't fully work
+          await this.permanentlyDeleteFromRecycleBin(contactId);
+          console.log(`Completed permanentlyDeleteFromRecycleBin for ${contactId}`);
+        } catch (error) {
+          console.log(`Failed to cleanup contact ${contactId}: ${error}`);
+        }
       }
     }
   }
