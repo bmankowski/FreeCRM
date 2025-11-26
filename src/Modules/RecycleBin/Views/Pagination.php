@@ -5,11 +5,8 @@
 
 namespace App\Modules\RecycleBin\Views;
 
-use App\Http\Vtiger_Request;
-class Pagination  extends \App\Modules\Base\Views\Index
+class Pagination extends \App\Modules\Base\Views\Basic
 {
-	protected $listViewHeaders = [];
-	protected $listViewEntries = [];
 	protected $listViewCount = 0;
 
 	public function __construct()
@@ -18,20 +15,6 @@ class Pagination  extends \App\Modules\Base\Views\Index
 		$this->exposeMethod('getPagination');
 	}
 
-	public function preProcessAjax(\App\Http\Vtiger_Request $request)
-	{
-		// Skip MainLayout rendering for AJAX requests
-	}
-
-	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
-	{
-		// Skip all preProcess - Pagination only renders fragment
-	}
-
-	public function postProcess(\App\Http\Vtiger_Request $request)
-	{
-		// Skip postProcess
-	}
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
@@ -73,9 +56,6 @@ class Pagination  extends \App\Modules\Base\Views\Index
 		}
 		$listViewModel = \App\Modules\RecycleBin\Models\ListView::getInstance($moduleName, $sourceModule);
 
-		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
-		$linkModels = $moduleModel->getListViewMassActions($linkParams);
-
 		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		if (empty($orderBy) && empty($sortOrder)) {
@@ -111,34 +91,8 @@ class Pagination  extends \App\Modules\Base\Views\Index
 			}
 		}
 
-		if (empty($this->listViewHeaders)) {
-			$this->listViewHeaders = $listViewModel->getListViewHeaders();
-		}
-		if (empty($this->listViewEntries)) {
-			$this->listViewEntries = $listViewModel->getListViewEntries($pagingModel);
-		}
-		$noOfEntries = is_array($this->listViewEntries) ? count($this->listViewEntries) : 0;
-
-		$viewer->assign('MODULE', $moduleName);
-
-		$viewer->assign('LISTVIEW_LINKS', $moduleModel->getListViewLinks(false));
-		$viewer->assign('LISTVIEW_MASSACTIONS', $linkModels);
-
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
-
-		$viewer->assign('ORDER_BY', $orderBy);
-		$viewer->assign('SORT_ORDER', $sortOrder);
-		$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);
-		$viewer->assign('SORT_IMAGE', $sortImage);
-		$viewer->assign('COLUMN_NAME', $orderBy);
-
-		$viewer->assign('LISTVIEW_ENTRIES_COUNT', $noOfEntries);
-		$viewer->assign('LISTVIEW_HEADERS', $this->listViewHeaders);
-		$viewer->assign('LISTVIEW_ENTRIES', $this->listViewEntries);
-		$viewer->assign('MODULE_LIST', $moduleModel->getAllModuleList());
-		$viewer->assign('SOURCE_MODULE', $sourceModule);
-		$viewer->assign('DELETED_RECORDS_TOTAL_COUNT', $moduleModel->getDeletedRecordsTotalCount());
 
 
 		if (!$this->listViewCount) {
@@ -152,7 +106,6 @@ class Pagination  extends \App\Modules\Base\Views\Index
 		$viewer->assign('PAGE_COUNT', $pageCount);
 		$viewer->assign('LISTVIEW_COUNT', $totalCount);
 		$viewer->assign('START_PAGIN_FROM', $startPaginFrom);
-		$viewer->assign('IS_MODULE_DELETABLE', $listViewModel->getModule()->isPermitted('Delete'));
 		echo $viewer->view('Pagination.tpl', $moduleName, true);
 	}
 

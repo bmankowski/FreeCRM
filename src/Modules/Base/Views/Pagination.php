@@ -5,7 +5,7 @@
 
 namespace App\Modules\Base\Views;
 
-class Pagination  extends \App\Modules\Base\Views\Index
+class Pagination  extends \App\Modules\Base\Views\Basic
 {
 
 	public function __construct()
