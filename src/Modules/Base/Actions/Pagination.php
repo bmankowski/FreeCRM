@@ -27,6 +27,12 @@ class Pagination extends \App\Base\Controllers\BaseActionController
 		$viewName = $request->get('viewname');
 		$listViewModel = \App\Modules\Base\Models\ListView::getInstance($moduleName, $viewName);
 		$searchParmams = $request->get('search_params');
+		if (!empty($searchParmams)) {
+			// search_params can come as JSON string from AJAX
+			if (is_string($searchParmams)) {
+				$searchParmams = json_decode($searchParmams, true);
+			}
+		}
 		if (empty($searchParmams) || !is_array($searchParmams)) {
 			$searchParmams = [];
 		}

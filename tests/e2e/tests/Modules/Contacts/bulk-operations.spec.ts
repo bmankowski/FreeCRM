@@ -200,8 +200,8 @@ test.describe('Contacts - Bulk Operations', () => {
         await expect(authenticatedPage.locator('.notification, .toastify, .alert')).toContainText(/deleted|removed/i, { timeout: 10000 });
       }
       
-      // Clear the test IDs since they're deleted
-      testContactIds = testContactIds.filter(id => !deleteIds.includes(id));
+      // Note: Contacts are moved to recycle bin, not permanently deleted
+      // Keep them in testContactIds so afterEach can clean them up properly
     }
   });
 

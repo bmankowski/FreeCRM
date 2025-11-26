@@ -89,28 +89,43 @@ class Pagination  extends \App\Modules\Base\Views\Basic
 		$pagingModel->set('viewid', $cvId);
 		$pagingModel->set('noOfEntries', $request->get('noOfEntries'));
 
-		$totalCount = (int) $request->get('totalCount');
-		$operator = '';
-		if (\App\Core\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT') || $totalCount == -1) {
-			$listViewModel = \App\Modules\Base\Models\ListView::getInstance($moduleName, $cvId);
-			$searchKey = $request->get('search_key');
-			$searchValue = $request->get('search_value');
-			$operator = $request->get('operator');
-			if (!empty($operator)) {
-				$listViewModel->set('operator', $operator);
+		$incomingTotalCount = $request->get('totalCount');
+		$totalCount = ($incomingTotalCount === '' || $incomingTotalCount === null) ? null : (int) $incomingTotalCount;
+		$listViewModel = \App\Modules\Base\Models\ListView::getInstance($moduleName, $cvId);
+		$searchKey = $request->get('search_key');
+		$searchValue = $request->get('search_value');
+		$operator = $request->get('operator');
+		if (!empty($operator)) {
+			$listViewModel->set('operator', $operator);
+		}
+		$hasAlphabetSearch = false;
+		if (!empty($searchKey) && $searchValue !== '' && $searchValue !== null) {
+			$listViewModel->set('search_key', $searchKey);
+			$listViewModel->set('search_value', $searchValue);
+			$hasAlphabetSearch = true;
+		}
+		$searchParmams = $request->get('search_params');
+		$hasAdvancedFilters = false;
+		if (!empty($searchParmams)) {
+			// search_params can come as JSON string from AJAX
+			if (is_string($searchParmams)) {
+				$searchParmams = json_decode($searchParmams, true);
 			}
-			if (!empty($searchKey) && !empty($searchValue)) {
-				$listViewModel->set('search_key', $searchKey);
-				$listViewModel->set('search_value', $searchValue);
-			}
-			$searchParmams = $request->get('search_params');
-			if (!empty($searchParmams) && is_array($searchParmams)) {
+			if (is_array($searchParmams)) {
+				$hasAdvancedFilters = !empty(array_filter($searchParmams));
 				$transformedSearchParams = $listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParmams);
 				$listViewModel->set('search_params', $transformedSearchParams);
 			}
-			$totalCount = $listViewModel->getListViewCount();
 		}
-		if (!empty($totalCount)) {
+		$shouldComputeTotal = \App\Core\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')
+			|| $totalCount === null
+			|| $totalCount === -1
+			|| $hasAdvancedFilters
+			|| $hasAlphabetSearch;
+		if ($shouldComputeTotal) {
+			$totalCount = (int) $listViewModel->getListViewCount();
+		}
+		if ($totalCount !== null) {
 			$pagingModel->set('totalCount', $totalCount);
 			if ($totalCount === $pageNumber * $pagingModel->getPageLimit()) {
 				$pagingModel->set('nextPageExists', false);
