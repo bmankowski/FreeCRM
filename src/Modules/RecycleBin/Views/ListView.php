@@ -231,6 +231,26 @@ class ListView extends \App\Modules\Base\Views\Index
 	}
 
 	/**
+	 * Function to get breadcrumb title for the current page
+	 * @param \App\Http\Vtiger_Request $request
+	 * @return string
+	 */
+	public function getBreadcrumbTitle(\App\Http\Vtiger_Request $request)
+	{
+		$moduleName = $request->getModule();
+		$sourceModule = $request->get('sourceModule');
+		$title = \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_LIST', $moduleName);
+		
+		// Add source module name to breadcrumb if available
+		if (!empty($sourceModule)) {
+			$sourceModuleLabel = \App\Runtime\Vtiger_Language_Handler::translate($sourceModule, $sourceModule);
+			$title .= ' - ' . $sourceModuleLabel;
+		}
+		
+		return $title;
+	}
+
+	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Http\Vtiger_Request $request
 	 * @return <Array> - List of \App\Modules\Base\Models\JsScript instances

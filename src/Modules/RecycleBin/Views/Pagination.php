@@ -8,11 +8,38 @@ namespace App\Modules\RecycleBin\Views;
 use App\Http\Vtiger_Request;
 class Pagination  extends \App\Modules\Base\Views\Index
 {
+	protected $listViewHeaders = [];
+	protected $listViewEntries = [];
+	protected $listViewCount = 0;
 
 	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('getPagination');
+	}
+
+	public function preProcessAjax(\App\Http\Vtiger_Request $request)
+	{
+		// Skip MainLayout rendering for AJAX requests
+	}
+
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
+	{
+		// Skip all preProcess - Pagination only renders fragment
+	}
+
+	public function postProcess(\App\Http\Vtiger_Request $request)
+	{
+		// Skip postProcess
+	}
+
+	public function process(\App\Http\Vtiger_Request $request)
+	{
+		$mode = $request->get('mode');
+		if (!empty($mode)) {
+			$this->invokeExposedMethod($mode, $request);
+			return;
+		}
 	}
 
 	public function getPagination(\App\Http\Vtiger_Request $request)
@@ -53,21 +80,44 @@ class Pagination  extends \App\Modules\Base\Views\Index
 		$pagingModel->set('page', $pageNumber);
 		if (empty($orderBy) && empty($sortOrder)) {
 			$moduleInstance = \App\Core\CRMEntity::getInstance($moduleName);
-			$orderBy = $moduleInstance->default_order_by;
-			$sortOrder = $moduleInstance->default_sort_order;
+			$orderBy = isset($moduleInstance->default_order_by) ? $moduleInstance->default_order_by : 'modifiedtime';
+			$sortOrder = isset($moduleInstance->default_sort_order) ? $moduleInstance->default_sort_order : 'DESC';
 		}
 		if (!empty($orderBy)) {
 			$listViewModel->set('orderby', $orderBy);
 			$listViewModel->set('sortorder', $sortOrder);
 		}
 
-		if (!$this->listViewHeaders) {
+		// Handle search parameters
+		$searchKey = $request->get('search_key');
+		$searchValue = $request->get('search_value');
+		$operator = $request->get('operator');
+		if (!empty($operator)) {
+			$listViewModel->set('operator', $operator);
+		}
+		if (!empty($searchKey) && !empty($searchValue)) {
+			$listViewModel->set('search_key', $searchKey);
+			$listViewModel->set('search_value', $searchValue);
+		}
+		$searchParams = $request->get('search_params');
+		if (!empty($searchParams)) {
+			// search_params can come as JSON string from AJAX
+			if (is_string($searchParams)) {
+				$searchParams = json_decode($searchParams, true);
+			}
+			if (is_array($searchParams)) {
+				$transformedSearchParams = $listViewModel->get('query_generator')->parseBaseSearchParamsToCondition($searchParams);
+				$listViewModel->set('search_params', $transformedSearchParams);
+			}
+		}
+
+		if (empty($this->listViewHeaders)) {
 			$this->listViewHeaders = $listViewModel->getListViewHeaders();
 		}
-		if (!$this->listViewEntries) {
+		if (empty($this->listViewEntries)) {
 			$this->listViewEntries = $listViewModel->getListViewEntries($pagingModel);
 		}
-		$noOfEntries = count($this->listViewEntries);
+		$noOfEntries = is_array($this->listViewEntries) ? count($this->listViewEntries) : 0;
 
 		$viewer->assign('MODULE', $moduleName);
 

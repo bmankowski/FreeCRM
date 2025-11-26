@@ -52,6 +52,6 @@
 				{include file='ListViewActions.tpl'|@vtemplate_path}
 			</span>
 		</div>
-	<div class="listViewContentDiv" id="listViewContents">
+	</div>
 <!--/layouts/basic/modules/RecycleBin/ListViewHeader.tpl -->
 {/strip}

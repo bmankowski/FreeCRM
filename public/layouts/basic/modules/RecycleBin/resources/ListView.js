@@ -353,20 +353,22 @@ Vtiger_ListView_Js("RecycleBin_ListView_Js", {
         this.registerRestoreRecordClickEvent();
     },
     
+    
     /**
-     * Override getListViewContainer to use listViewContentDiv if listViewPageDiv is not found
-     * This is needed for RecycleBin which doesn't have listViewPageDiv in AJAX responses
+     * Override getListSearchInstance to ensure it uses the correct container
      */
-    getListViewContainer: function () {
-        if (this.listViewContainer == false) {
-            // Try to find listViewPageDiv first (for non-AJAX requests)
-            this.listViewContainer = jQuery('div.listViewPageDiv');
-            // If not found, use listViewContentDiv (for AJAX requests)
-            if (this.listViewContainer.length == 0) {
-                this.listViewContainer = jQuery('.listViewContentDiv');
+    getListSearchInstance: function (events) {
+        if (events != undefined) {
+            this.noEventsListSearch = events;
+        }
+        if (this.listSearchInstance == false) {
+            // Use getListViewContentContainer instead of getListViewContainer for RecycleBin
+            var container = this.getListViewContentContainer();
+            if (container.length > 0 && (container.find('.searchField').length || container.find('.picklistSearchField').length || container.find('[data-trigger="listSearch"]').length)) {
+                this.listSearchInstance = YetiForce_ListSearch_Js.getInstance(container, this.noEventsListSearch);
             }
         }
-        return this.listViewContainer;
+        return this.listSearchInstance;
     },
     
     /**
