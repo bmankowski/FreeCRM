@@ -25,9 +25,10 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function to get the list of listview links for the module
+	 * @param <Array> $linkParams - Optional parameters including sourceModule
 	 * @return <Array> - Associate array of Link Type to List of \App\Modules\Base\Models\Link instances
 	 */
-	public function getListViewLinks()
+	public function getListViewLinks($linkParams = false)
 	{
 		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		$privileges = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
@@ -52,6 +53,28 @@ class Module extends \App\Modules\Base\Models\Module
 			$links['LISTVIEWBASIC'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($basicLink);
 		}
 
+		// Add "Back to Source Module" button if sourceModule is available
+		if (is_array($linkParams) && !empty($linkParams['sourceModule'])) {
+			$sourceModule = $linkParams['sourceModule'];
+			$sourceModuleModel = \App\Modules\Base\Models\Module::getInstance($sourceModule);
+			if ($sourceModuleModel) {
+				$backUrl = $sourceModuleModel->getListViewUrl();
+				$sourceModuleLabel = \App\Runtime\Vtiger_Language_Handler::translate($sourceModule, $sourceModule);
+				// Create a descriptive hint showing which module we're going back to
+				$backHint = \App\Runtime\Vtiger_Language_Handler::translate('LBL_BACK', 'Vtiger') . ' - ' . $sourceModuleLabel;
+				$links['LISTVIEWBASIC'][] = \App\Modules\Base\Models\Link::getInstanceFromValues([
+					'linktype' => 'LISTVIEWBASIC',
+					'linkhint' => $backHint,
+					'linklabel' => 'LBL_BACK',
+					'linkurl' => $backUrl,
+					'linkicon' => 'glyphicon glyphicon-arrow-left',
+					'linkclass' => 'btn-warning',
+					'showLabel' => 1,
+					'linkdata' => ['module' => $sourceModule]
+				]);
+			}
+		}
+
 		return $links;
 	}
 
@@ -60,7 +83,7 @@ class Module extends \App\Modules\Base\Models\Module
 	 * @param <Array> $linkParams
 	 * @return <Array> - Associative array of Link type to List of  \App\Modules\Base\Models\Link instances for Mass Actions
 	 */
-	public function getListViewMassActions()
+	public function getListViewMassActions($linkParams)
 	{
 		$currentUserModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 

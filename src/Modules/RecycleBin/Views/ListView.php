@@ -104,6 +104,10 @@ class ListView extends \App\Modules\Base\Views\Index
 		}
 
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
+		// Add sourceModule to linkParams if available
+		if (!empty($sourceModule)) {
+			$linkParams['sourceModule'] = $sourceModule;
+		}
 		$linkModels = $moduleModel->getListViewMassActions($linkParams);
 
 		$pagingModel = new \App\Modules\Base\Models\Paging();
@@ -162,26 +166,8 @@ class ListView extends \App\Modules\Base\Views\Index
 		$headerLinks = ['LIST_VIEW_HEADER' => []];
 		$viewer->assign('HEADER_LINKS', $headerLinks);
 
-		// Get list view links and add "Back to Source Module" button if sourceModule is available
-		$listViewLinks = $moduleModel->getListViewLinks(false);
-		
-		// Add "Back to Source Module" button to LISTVIEWBASIC links (after "Empty Recycle Bin" button)
-		if (!empty($sourceModule) && $sourceModuleModel) {
-			$backUrl = $sourceModuleModel->getListViewUrl();
-			$sourceModuleLabel = \App\Runtime\Vtiger_Language_Handler::translate($sourceModule, $sourceModule);
-			// Create a descriptive hint showing which module we're going back to
-			$backHint = \App\Runtime\Vtiger_Language_Handler::translate('LBL_BACK', 'Vtiger') . ' - ' . $sourceModuleLabel;
-			$listViewLinks['LISTVIEWBASIC'][] = \App\Modules\Base\Models\Link::getInstanceFromValues([
-				'linktype' => 'LISTVIEWBASIC',
-				'linkhint' => $backHint,
-				'linklabel' => 'LBL_BACK',
-				'linkurl' => $backUrl,
-				'linkicon' => 'glyphicon glyphicon-arrow-left',
-				'showLabel' => 1,
-				'linkdata' => ['module' => $sourceModule]
-			]);
-		}
-		
+		// Get list view links (including "Back to Source Module" button if sourceModule is available)
+		$listViewLinks = $moduleModel->getListViewLinks($linkParams);
 		$viewer->assign('LISTVIEW_LINKS', $listViewLinks);
 		$viewer->assign('LISTVIEW_MASSACTIONS', $linkModels);
 
