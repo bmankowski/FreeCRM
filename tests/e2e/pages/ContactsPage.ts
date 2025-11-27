@@ -665,7 +665,7 @@ export class ContactsPage {
       // Wait for form to be fully ready
       await this.page.waitForSelector('input[name="firstname"]', { state: 'visible', timeout: 10000 });
       await this.page.waitForSelector('input[name="lastname"]', { state: 'visible', timeout: 10000 });
-      await this.page.waitForTimeout(1000); // Additional wait for JavaScript initialization
+      // await this.page.waitForTimeout(1000); // Additional wait for JavaScript initialization
       
       // Fill in contact details
       await this.page.locator('input[name="firstname"]').fill(firstName);

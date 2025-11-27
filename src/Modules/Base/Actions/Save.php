@@ -19,6 +19,11 @@ class Save extends \App\Base\Controllers\BaseActionController
 	 */
 	protected $record = false;
 
+	/**
+	 * @var string|null
+	 */
+	protected $redirectUrl;
+
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -72,36 +77,27 @@ class Save extends \App\Base\Controllers\BaseActionController
 		} else {
 			$loadUrl = $recordModel->getDetailViewUrl();
 		}
+		$this->redirectUrl = $loadUrl;
 		if ($request->get('mode') !== 'edit') {
 			$request->set('record', $recordModel->getId());
 		}
+
+		if ($request->isAjax()) {
+			$response = new \App\Http\Vtiger_Response();
+			$response->setResult([
+				'url' => $loadUrl,
+				'record' => $recordModel->getId(),
+			]);
+			$response->emit();
+			return;
+		}
+
+		header("Location: $loadUrl");
+		exit;
 	}
 
 	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
-		if (!defined('_PROCESS_TYPE')) {
-			define('_PROCESS_TYPE', 'View');
-		}
-		if (!defined('_PROCESS_NAME')) {
-			define('_PROCESS_NAME', 'Detail');
-		}
-		$request->set('view', 'Detail');
-		$request->delete('action');
-		if (\App\Http\Vtiger_Session::has('baseUserId') && !empty(\App\Http\Vtiger_Session::get('baseUserId'))) {
-			$userId = \App\Http\Vtiger_Session::get('authenticated_user_id');
-			\App\Modules\Users\Models\Record::setCurrentUserId($userId);
-			$userModel = \App\Modules\Users\Models\Record::getInstanceById($userId, 'Users');
-			$request->setUser($userModel);
-		}
-		$handlerClass = \App\Core\Loader::getComponentClassName('View', 'Detail', $request->getModule());
-		$handler = new $handlerClass();
-		if ($handler) {
-			$handler->preProcess($request);
-			$handler->process($request);
-			$handler->postProcess($request);
-		} else {
-			throw new \App\Exceptions\AppException(\App\Runtime\Vtiger_Language_Handler::translate('LBL_HANDLER_NOT_FOUND'));
-		}
 		return true;
 	}
 

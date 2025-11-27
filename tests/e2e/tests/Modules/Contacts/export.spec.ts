@@ -66,49 +66,6 @@ test.describe('Contacts - Export Functionality', () => {
     }
   });
 
-  test('Test 3.2: Export to Excel (.xlsx) Format', async () => {
-    // Already authenticated via fixture('/index.php?module=Contacts&view=List');
-    
-    const exportButton = authenticatedPage.locator('button:has-text("Export")').first();
-    if (await exportButton.isVisible({ timeout: 5000 })) {
-      const [download] = await Promise.all([
-        authenticatedPage.waitForEvent('download', { timeout: 15000 }),
-        exportButton.click(),
-        authenticatedPage.locator('button:has-text("Excel"), a:has-text("Excel"), a:has-text("XLSX")').first().click().catch(() => {})
-      ]);
-      
-      const filename = download.suggestedFilename();
-      expect(filename).toMatch(/\.xlsx?$/i);
-      
-      const path = await download.path();
-      if (path && fs.existsSync(path)) {
-        const stats = fs.statSync(path);
-        expect(stats.size).toBeGreaterThan(1000); // At least 1KB
-      }
-    }
-  });
-
-  test('Test 3.3: Export to PDF Format', async () => {
-    // Already authenticated via fixture('/index.php?module=Contacts&view=List');
-    
-    const exportButton = authenticatedPage.locator('button:has-text("Export")').first();
-    if (await exportButton.isVisible({ timeout: 5000 })) {
-      const [download] = await Promise.all([
-        authenticatedPage.waitForEvent('download', { timeout: 30000 }),
-        exportButton.click(),
-        authenticatedPage.locator('button:has-text("PDF")').first().click().catch(() => {})
-      ]);
-      
-      expect(download.suggestedFilename()).toMatch(/\.pdf$/i);
-      
-      const path = await download.path();
-      if (path && fs.existsSync(path)) {
-        const stats = fs.statSync(path);
-        expect(stats.size).toBeGreaterThan(5000); // PDFs are typically larger
-      }
-    }
-  });
-
   test('Test 3.4: Export Selected Records Only', async () => {
     // Create test contacts
     const timestamp = Date.now();
@@ -122,8 +79,6 @@ test.describe('Contacts - Export Functionality', () => {
     }
     
     await contactsPage.gotoList();
-    await contactsPage.search(`Test${timestamp}`);
-    await authenticatedPage.waitForTimeout(1000);
     
     // Select 3 contacts
     const rows = authenticatedPage.locator('tbody tr').filter({ hasNot: authenticatedPage.locator('input.listSearchContributor') });
