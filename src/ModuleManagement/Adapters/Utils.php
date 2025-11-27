@@ -77,5 +77,38 @@ class Utils
 				echo "\n";
 		}
 	}
+
+	/**
+	 * Check if table exists in database
+	 * @param string $tableName Table name to check
+	 * @return bool True if table exists
+	 */
+	static function CheckTable($tableName)
+	{
+		$adb = \App\Database\PearDatabase::getInstance();
+		return (bool) $adb->checkExistTable($tableName);
+	}
+
+	/**
+	 * Create a table in the database
+	 * @param string $tableName Table name to create
+	 * @param string $sqlDefinition SQL CREATE TABLE definition (columns, constraints, etc.)
+	 * @param bool $ignoreIfExists If true, don't create if table already exists
+	 * @return bool True on success
+	 */
+	static function CreateTable($tableName, $sqlDefinition, $ignoreIfExists = false)
+	{
+		$adb = \App\Database\PearDatabase::getInstance();
+		
+		// Check if table already exists
+		if ($ignoreIfExists && $adb->checkExistTable($tableName)) {
+			return true;
+		}
+		
+		// Create the table
+		$sql = "CREATE TABLE IF NOT EXISTS `{$tableName}` {$sqlDefinition}";
+		$result = $adb->query($sql);
+		return $result !== false;
+	}
 }
 
