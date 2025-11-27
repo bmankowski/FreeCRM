@@ -20,8 +20,6 @@
 			step2: $('#ImportManagerStep2'),
 			step3: $('#ImportManagerStep3'),
 			mappingTable: $('#ImportManagerMappingTable'),
-			defaultValues: $('#ImportManagerDefaultValues'),
-			addDefaultButton: $('#ImportManagerAddDefaultValue'),
 			requiredSets: $('#ImportManagerRequiredSets'),
 			optionalSets: $('#ImportManagerOptionalSets'),
 			duplicateStrategy: $('#ImportManagerDuplicateStrategy'),
@@ -45,17 +43,13 @@
 			preview: null,
 			fileMeta: {},
 		};
+		
 
 		setTimeout(toggleFormatFieldsVisibility, 100);
 		dom.formatField.on('change', toggleFormatFieldsVisibility);
 		$('#ImportManagerTargetModule').on('change', resetWizardState);
 		dom.form.on('submit', handleUploadSubmit);
-		dom.addDefaultButton.on('click', function () {
-			addDefaultRow();
-		});
-		dom.defaultValues.on('click', '.js-remove-default', function () {
-			$(this).closest('.default-row').remove();
-		});
+		
 		dom.saveMapping.on('click', saveMappingDefinition);
 
 		function handleUploadSubmit(event) {
@@ -229,48 +223,22 @@
 		}
 
 		function renderMappingTable(headers) {
-			const $tbody = dom.mappingTable.find('tbody').empty();
-			headers.forEach(function (header, index) {
-				const autoField = guessFieldForHeader(header);
-				const $row = $('<tr/>').attr('data-column-index', index);
-				const $columnCell = $('<td/>').addClass('js-column-name').text(header || ('Column ' + (index + 1)));
-				const $fieldCell = $('<td/>');
-				const $detailsCell = $('<td class="d-none d-md-table-cell text-muted small"/>');
+			const $table = dom.mappingTable.removeClass('d-none');
+			const $tbody = $table.find('tbody').empty();
+			const headerList = Array.isArray(headers) ? headers : [];
+			if (!state.fields.length) {
+				dom.mappingTable.addClass('d-none');
+				showToast(t('JS_NO_FIELDS_AVAILABLE', 'Brak pól do zmapowania.'), 'error');
+				return;
+			}
+			if (!headerList.length) {
+				showToast(t('JS_NO_HEADERS_AVAILABLE', 'Plik nie zawiera wiersza nagłówków – zmapuj pola ręcznie.'), 'info');
+			}
 
-				const $select = $('<select class="form-control form-control-sm js-field-select"/>');
-				$select.append('<option value="">' + t('LBL_SELECT_OPTION', 'Wybierz') + '</option>');
-				state.fields.forEach(function (field) {
-					const label = field.label ? field.label + ' (' + field.name + ')' : field.name;
-					const option = $('<option/>').val(field.name).text(label);
-					if (autoField && autoField.name === field.name) {
-						option.prop('selected', true);
-					}
-					if (field.mandatory) {
-						option.attr('data-mandatory', '1');
-					}
-					option.attr('data-type', field.type || '');
-					$select.append(option);
-				});
-
-				$fieldCell.append($select);
-				$detailsCell.text(autoField ? describeField(autoField) : '');
-
-				$select.on('change', function () {
-					const field = state.fields.find(f => f.name === $(this).val());
-					$detailsCell.text(field ? describeField(field) : '');
-				});
-
-				$row.append($columnCell, $fieldCell, $detailsCell);
-				$tbody.append($row);
-			});
-
-			dom.defaultValues.empty();
-		}
-
-		function guessFieldForHeader(header) {
-			const normalized = (header || '').toLowerCase().replace(/\W/g, '');
-			return state.fields.find(function (field) {
-				return field.nameNormalized === normalized || field.labelNormalized === normalized;
+			const usedHeaders = {};
+			state.fields.forEach(function (field) {
+				const autoIndex = guessSourceIndexForField(field, headerList, usedHeaders);
+				addMappingRow(field, headerList, { sourceIndex: autoIndex });
 			});
 		}
 
@@ -285,39 +253,91 @@
 			return parts.join(' • ');
 		}
 
-		function addDefaultRow(selectedField, value) {
-			if (!state.fields.length) {
-				return;
-			}
-			const $row = $('<div class="default-row form-row align-items-center mb-2"/>');
-			const $fieldCol = $('<div class="col-5"/>');
-			const $valueCol = $('<div class="col-6"/>');
-			const $actionsCol = $('<div class="col-1 text-right"/>');
+		function normalizeHeaderValue(value) {
+			return (value || '').toString().toLowerCase().replace(/\W/g, '');
+		}
 
-			const $select = $('<select class="form-control form-control-sm js-default-field"/>')
-				.append('<option value="">' + t('LBL_SELECT_OPTION', 'Wybierz') + '</option>');
-			state.fields.forEach(function (field) {
-				const option = $('<option/>').val(field.name).text(field.label || field.name);
-				if (selectedField && selectedField === field.name) {
+		function guessSourceIndexForField(field, headers, usedIndexes) {
+			const normalizedFieldNames = [];
+			if (field.nameNormalized) {
+				normalizedFieldNames.push(field.nameNormalized);
+			} else {
+				normalizedFieldNames.push(normalizeHeaderValue(field.name));
+			}
+			if (field.labelNormalized) {
+				normalizedFieldNames.push(field.labelNormalized);
+			} else if (field.label) {
+				normalizedFieldNames.push(normalizeHeaderValue(field.label));
+			}
+
+			for (let i = 0; i < headers.length; i++) {
+				if (usedIndexes[i]) {
+					continue;
+				}
+				const normalizedHeader = normalizeHeaderValue(headers[i]);
+				if (!normalizedHeader) {
+					continue;
+				}
+				if (normalizedFieldNames.includes(normalizedHeader)) {
+					usedIndexes[i] = true;
+					return i;
+				}
+			}
+			return null;
+		}
+
+		function addMappingRow(field, headers, preset = {}) {
+			const $row = $('<tr/>');
+
+			const $fieldCell = $('<td class="align-middle"/>');
+			const $sourceCell = $('<td/>');
+			const $defaultCell = $('<td/>');
+
+			const label = field.label || field.name;
+			const detail = describeField(field);
+			const $label = $('<div class="field-label"/>').text(label);
+			const $detail = $('<div class="text-muted small js-field-detail"/>').text(detail);
+			$fieldCell.append($label);
+			if (detail) {
+				$fieldCell.append($detail);
+			}
+
+			const $sourceSelect = buildSourceSelect(headers, preset.sourceIndex);
+			$sourceCell.append($sourceSelect);
+
+			const $defaultWrapper = $('<div class="default-value-wrapper d-flex align-items-center"/>');
+			const $defaultInput = $('<input type="text" class="form-control form-control-sm js-default-value"/>')
+				.attr('placeholder', t('LBL_DEFAULT_VALUE_PLACEHOLDER', 'Podaj wartość'));
+			if (preset.defaultValue) {
+				$defaultInput.val(preset.defaultValue);
+			}
+			$defaultWrapper.append($defaultInput);
+			$defaultCell.append($defaultWrapper);
+
+			$row
+				.attr('data-field', field.name)
+				.attr('data-mandatory', field.mandatory ? 1 : 0)
+				.attr('data-label', label);
+
+			$row.append($fieldCell, $sourceCell, $defaultCell);
+			dom.mappingTable.find('tbody').append($row);
+		}
+
+		function buildSourceSelect(headers, selectedIndex) {
+			const $select = $('<select class="form-control form-control-sm js-source-select"/>');
+			$select.append('<option value="">' + t('LBL_SELECT_OPTION', 'Wybierz') + '</option>');
+			headers.forEach(function (header, index) {
+				const label = header && header.length ? header : (t('LBL_COLUMN_PLACEHOLDER', 'Kolumna') + ' ' + (index + 1));
+				const option = $('<option/>')
+					.val(String(index))
+					.text(label)
+					.attr('data-column-name', header || '');
+				if (typeof selectedIndex === 'number' && selectedIndex === index) {
 					option.prop('selected', true);
 				}
 				$select.append(option);
 			});
-
-			const $input = $('<input type="text" class="form-control form-control-sm js-default-value"/>')
-				.attr('placeholder', t('LBL_DEFAULT_VALUE_PLACEHOLDER', 'Podaj wartość'));
-			if (value) {
-				$input.val(value);
-			}
-
-			const $remove = $('<button type="button" class="btn btn-link text-danger p-0 js-remove-default" title="' + t('LBL_REMOVE', 'Usuń') + '">&times;</button>');
-
-			$fieldCol.append($select);
-			$valueCol.append($input);
-			$actionsCol.append($remove);
-
-			$row.append($fieldCol, $valueCol, $actionsCol);
-			dom.defaultValues.append($row);
+			return $select;
 		}
 
 		function renderDuplicateSections() {
@@ -355,45 +375,62 @@
 			}
 		}
 
-		function collectMappingRows() {
+		function collectMappingPayload() {
 			const rows = [];
+			const defaults = {};
 			const usedFields = {};
-			let hasSelection = false;
-			dom.mappingTable.find('tbody tr').each(function (index) {
+			let mappedCount = 0;
+
+			dom.mappingTable.find('tbody tr').each(function () {
 				const $row = $(this);
-				const columnName = $row.find('.js-column-name').text();
-				const fieldName = $row.find('.js-field-select').val();
-				if (!fieldName) {
+				const fieldName = $row.data('field');
+				if (!fieldName || usedFields[fieldName]) {
 					return;
 				}
-				hasSelection = true;
-				if (usedFields[fieldName]) {
-					throw new Error(t('JS_DUPLICATE_FIELD_MAPPING', 'Pole zostało przypisane wielokrotnie: %s').replace('%s', fieldName));
-				}
 				usedFields[fieldName] = true;
+
+				const $sourceSelect = $row.find('.js-source-select');
+				const sourceValue = $sourceSelect.val();
+				let columnIndex = null;
+				let columnName = '';
+				if (sourceValue !== '') {
+					const parsed = parseInt(sourceValue, 10);
+					if (!Number.isNaN(parsed)) {
+						columnIndex = parsed;
+						const selectedOption = $sourceSelect.find('option:selected');
+						columnName = selectedOption.data('columnName') || selectedOption.text() || '';
+					}
+				}
+
+				const defaultValue = $row.find('.js-default-value').val();
+				if (defaultValue !== '') {
+					defaults[fieldName] = defaultValue;
+				}
+
+				if (columnIndex === null && defaultValue === '') {
+					if (Number($row.data('mandatory')) === 1) {
+						const label = $row.data('label') || fieldName;
+						throw new Error(t('JS_COLUMN_OR_DEFAULT_REQUIRED', 'Wybierz kolumnę z pliku lub ustaw wartość domyślną dla pola %s.').replace('%s', label));
+					}
+					return;
+				}
+
+				mappedCount++;
 				rows.push({
-					index: index,
+					index: Number.isInteger(columnIndex) ? columnIndex : null,
 					column: columnName,
 					field: fieldName
 				});
 			});
 
-			if (!hasSelection) {
+			if (mappedCount === 0) {
 				throw new Error(t('JS_MAPPING_REQUIRED', 'Wybierz co najmniej jedno pole docelowe.'));
 			}
-			return rows;
-		}
 
-		function collectDefaultValues() {
-			const values = {};
-			dom.defaultValues.find('.default-row').each(function () {
-				const field = $(this).find('.js-default-field').val();
-				const value = $(this).find('.js-default-value').val();
-				if (field && value !== '') {
-					values[field] = value;
-				}
-			});
-			return values;
+			return {
+				rows,
+				defaults
+			};
 		}
 
 		function collectDuplicateSets() {
@@ -413,12 +450,10 @@
 				return;
 			}
 
-			let mapping;
-			let defaults;
+			let mappingPayload;
 			let duplicates;
 			try {
-				mapping = collectMappingRows();
-				defaults = collectDefaultValues();
+				mappingPayload = collectMappingPayload();
 				duplicates = collectDuplicateSets();
 			} catch (validationError) {
 				handleError({ error: { message: validationError.message } });
@@ -430,8 +465,8 @@
 				action: 'SaveMapping',
 				batch_id: state.batchId,
 				target_module: state.moduleName,
-				mapping: JSON.stringify(mapping),
-				default_values: JSON.stringify(defaults),
+				mapping: JSON.stringify(mappingPayload.rows),
+				default_values: JSON.stringify(mappingPayload.defaults),
 				duplicate_sets: JSON.stringify(duplicates),
 				source_headers: JSON.stringify(state.preview ? (state.preview.headers || []) : []),
 				duplicate_strategy: dom.duplicateStrategy.val() || 'skip'
@@ -457,7 +492,7 @@
 						handleError(response);
 						return;
 					}
-					showConfirmationStep(mapping, response.result || {});
+					showConfirmationStep(mappingPayload.rows, response.result || {});
 					showToast(t('JS_MAPPING_SAVE_SUCCESS', 'Mapowanie zostało zapisane.'), 'success');
 				})
 				.fail(handleError)
@@ -488,7 +523,6 @@
 			dom.step2.addClass('d-none');
 			dom.step3.addClass('d-none');
 			dom.mappingTable.find('tbody').empty();
-			dom.defaultValues.empty();
 			dom.requiredSets.empty();
 			dom.optionalSets.empty();
 			dom.confirmationStatus.addClass('d-none').text('');

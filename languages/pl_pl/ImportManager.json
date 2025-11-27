@@ -17,11 +17,11 @@
 		"LBL_RECENT_IMPORTS": "Ostatnie importy",
 		"LBL_STEP2_TITLE": "Krok 2 – Mapowanie pól",
 		"LBL_MAPPING_INSTRUCTIONS": "Przypisz kolumny z pliku do pól modułu oraz ustaw wartości domyślne.",
-		"LBL_SOURCE_COLUMN": "Kolumna źródłowa",
 		"LBL_TARGET_FIELD": "Pole docelowe",
 		"LBL_FIELD_DETAILS": "Szczegóły pola",
-		"LBL_DEFAULT_VALUES": "Wartości domyślne",
-		"LBL_ADD_DEFAULT_VALUE": "Dodaj wartość domyślną",
+		"LBL_SOURCE_COLUMN": "Kolumna źródłowa",
+		"LBL_DEFAULT_VALUE": "Wartość domyślna",
+		"LBL_DEFAULT_VALUE_INFO": "Możesz ustawić wartość domyślną dla pola, gdy dane wejściowe są puste.",
 		"LBL_DUPLICATE_SETS": "Reguły wykrywania duplikatów",
 		"LBL_REQUIRED_SETS": "Zestawy wymagane",
 		"LBL_OPTIONAL_SETS": "Zestawy opcjonalne",
@@ -29,6 +29,7 @@
 		"LBL_STRATEGY_SKIP": "Pomijaj duplikaty",
 		"LBL_STRATEGY_OVERWRITE": "Nadpisuj istniejące",
 		"LBL_STRATEGY_MERGE": "Łącz rekordy",
+		"LBL_ADD_MAPPING_ROW": "Dodaj wiersz mapowania",
 		"LBL_SAVE_AND_CONTINUE": "Zapisz i kontynuuj",
 		"LBL_STEP3_TITLE": "Krok 3 – Potwierdzenie",
 		"LBL_CONFIRMATION_DESCRIPTION": "Zweryfikuj konfigurację przed uruchomieniem importu.",
@@ -40,6 +41,7 @@
 		"LBL_START_IMPORT_SOON": "Uruchamianie importu z tego widoku zostanie dodane w kolejnej iteracji.",
 		"LBL_START_IMPORT_BUTTON": "Uruchom import",
 		"LBL_DEFAULT_VALUE_PLACEHOLDER": "Podaj wartość",
+		"LBL_COLUMN_PLACEHOLDER": "Kolumna",
 		"LBL_NO_OPTIONAL_SETS": "Brak dodatkowych zestawów",
 		"LBL_REMOVE": "Usuń",
 		"LBL_SAVING": "Zapisywanie...",
@@ -53,7 +55,10 @@
 		"JS_DUPLICATE_FIELD_MAPPING": "Pole zostało przypisane wielokrotnie: %s",
 		"JS_MAPPING_SAVE_SUCCESS": "Mapowanie zostało zapisane.",
 		"JS_MAPPING_READY": "Mapowanie zapisane – możesz przejść do potwierdzenia.",
-		"JS_BATCH_NOT_READY": "Wsad nie jest przygotowany. Najpierw wygeneruj podgląd."
+		"JS_BATCH_NOT_READY": "Wsad nie jest przygotowany. Najpierw wygeneruj podgląd.",
+		"JS_NO_HEADERS_AVAILABLE": "Plik nie zawiera wiersza nagłówków – zmapuj pola ręcznie.",
+		"JS_NO_FIELDS_AVAILABLE": "Brak pól modułu dostępnych do mapowania.",
+		"JS_COLUMN_OR_DEFAULT_REQUIRED": "Wybierz kolumnę z pliku lub ustaw wartość domyślną dla pola %s."
 	}
 }
 

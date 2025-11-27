@@ -17,11 +17,11 @@
 		"LBL_RECENT_IMPORTS": "Recent imports",
 		"LBL_STEP2_TITLE": "Step 2 – Map fields",
 		"LBL_MAPPING_INSTRUCTIONS": "Map incoming columns to module fields and configure defaults.",
-		"LBL_SOURCE_COLUMN": "Source column",
 		"LBL_TARGET_FIELD": "Target field",
 		"LBL_FIELD_DETAILS": "Field details",
-		"LBL_DEFAULT_VALUES": "Default values",
-		"LBL_ADD_DEFAULT_VALUE": "Add default value",
+		"LBL_SOURCE_COLUMN": "Source column",
+		"LBL_DEFAULT_VALUE": "Default value",
+		"LBL_DEFAULT_VALUE_INFO": "You can set a default value per field when source data is empty.",
 		"LBL_DUPLICATE_SETS": "Duplicate detection rules",
 		"LBL_REQUIRED_SETS": "Required sets",
 		"LBL_OPTIONAL_SETS": "Optional sets",
@@ -29,6 +29,7 @@
 		"LBL_STRATEGY_SKIP": "Skip duplicates",
 		"LBL_STRATEGY_OVERWRITE": "Overwrite existing",
 		"LBL_STRATEGY_MERGE": "Merge records",
+		"LBL_ADD_MAPPING_ROW": "Add mapping row",
 		"LBL_SAVE_AND_CONTINUE": "Save & continue",
 		"LBL_STEP3_TITLE": "Step 3 – Confirmation",
 		"LBL_CONFIRMATION_DESCRIPTION": "Review configuration before starting import.",
@@ -40,6 +41,7 @@
 		"LBL_START_IMPORT_SOON": "Starting imports from this view will be added in the next iteration.",
 		"LBL_START_IMPORT_BUTTON": "Start import",
 		"LBL_DEFAULT_VALUE_PLACEHOLDER": "Enter value",
+		"LBL_COLUMN_PLACEHOLDER": "Column",
 		"LBL_NO_OPTIONAL_SETS": "No optional sets available",
 		"LBL_REMOVE": "Remove",
 		"LBL_SAVING": "Saving...",
@@ -53,7 +55,10 @@
 		"JS_DUPLICATE_FIELD_MAPPING": "Field has been assigned more than once: %s",
 		"JS_MAPPING_SAVE_SUCCESS": "Mapping saved.",
 		"JS_MAPPING_READY": "Mapping stored – proceed to confirmation.",
-		"JS_BATCH_NOT_READY": "Batch is not prepared. Generate preview first."
+		"JS_BATCH_NOT_READY": "Batch is not prepared. Generate preview first.",
+		"JS_NO_HEADERS_AVAILABLE": "File does not contain header row – map fields manually.",
+		"JS_NO_FIELDS_AVAILABLE": "No module fields available for mapping.",
+		"JS_COLUMN_OR_DEFAULT_REQUIRED": "Select a source column or set a default value for field %s."
 	}
 }
 
