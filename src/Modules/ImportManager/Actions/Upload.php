@@ -11,7 +11,7 @@ namespace App\Modules\ImportManager\Actions;
 
 use App\Modules\ImportManager\Controllers\WizardController;
 
-class UploadAction extends \App\Base\Controllers\BaseActionController
+class Upload extends \App\Base\Controllers\BaseActionController
 {
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{

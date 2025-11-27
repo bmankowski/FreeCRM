@@ -140,6 +140,108 @@
 						</div>
 					</div>
 
+					<div id="ImportManagerStep2" class="card mt-4 d-none import-manager-step">
+						<div class="card-header">
+							<strong>{\App\Language::translate('LBL_STEP2_TITLE', $MODULE_NAME)}</strong>
+						</div>
+						<div class="card-body">
+							<p class="text-muted mb-3">{\App\Language::translate('LBL_MAPPING_INSTRUCTIONS', $MODULE_NAME)}</p>
+							<div class="table-responsive">
+								<table class="table table-bordered table-sm mb-3" id="ImportManagerMappingTable">
+									<thead>
+										<tr>
+											<th>{\App\Language::translate('LBL_SOURCE_COLUMN', $MODULE_NAME)}</th>
+											<th>{\App\Language::translate('LBL_TARGET_FIELD', $MODULE_NAME)}</th>
+											<th class="d-none d-md-table-cell">{\App\Language::translate('LBL_FIELD_DETAILS', $MODULE_NAME)}</th>
+										</tr>
+									</thead>
+									<tbody></tbody>
+								</table>
+							</div>
+
+							<div class="row">
+								<div class="col-md-6">
+									<div class="card h-100">
+										<div class="card-header py-2">
+											<strong>{\App\Language::translate('LBL_DEFAULT_VALUES', $MODULE_NAME)}</strong>
+										</div>
+										<div class="card-body">
+											<div id="ImportManagerDefaultValues" class="default-values"></div>
+											<button type="button" class="btn btn-outline-secondary btn-sm mt-2" id="ImportManagerAddDefaultValue">
+												<span class="fa fa-plus"></span>
+												{\App\Language::translate('LBL_ADD_DEFAULT_VALUE', $MODULE_NAME)}
+											</button>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6 mt-3 mt-md-0">
+									<div class="card h-100">
+										<div class="card-header py-2">
+											<strong>{\App\Language::translate('LBL_DUPLICATE_SETS', $MODULE_NAME)}</strong>
+										</div>
+										<div class="card-body">
+											<div class="mb-2">
+												<p class="mb-1 font-weight-bold">{\App\Language::translate('LBL_REQUIRED_SETS', $MODULE_NAME)}</p>
+												<div id="ImportManagerRequiredSets" class="badge-container"></div>
+											</div>
+											<div>
+												<p class="mb-1 font-weight-bold">{\App\Language::translate('LBL_OPTIONAL_SETS', $MODULE_NAME)}</p>
+												<div id="ImportManagerOptionalSets" class="optional-set-list"></div>
+											</div>
+											<div class="form-group mt-3 mb-0">
+												<label for="ImportManagerDuplicateStrategy">{\App\Language::translate('LBL_DUPLICATE_STRATEGY', $MODULE_NAME)}</label>
+												<select id="ImportManagerDuplicateStrategy" class="form-control">
+													<option value="skip">{\App\Language::translate('LBL_STRATEGY_SKIP', $MODULE_NAME)}</option>
+													<option value="overwrite">{\App\Language::translate('LBL_STRATEGY_OVERWRITE', $MODULE_NAME)}</option>
+													<option value="merge">{\App\Language::translate('LBL_STRATEGY_MERGE', $MODULE_NAME)}</option>
+												</select>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="text-right mt-3">
+								<button type="button" class="btn btn-success" id="ImportManagerSaveMapping">
+									<span class="fa fa-save"></span>
+									{\App\Language::translate('LBL_SAVE_AND_CONTINUE', $MODULE_NAME)}
+								</button>
+							</div>
+						</div>
+					</div>
+
+					<div id="ImportManagerStep3" class="card mt-4 d-none import-manager-step">
+						<div class="card-header">
+							<strong>{\App\Language::translate('LBL_STEP3_TITLE', $MODULE_NAME)}</strong>
+						</div>
+						<div class="card-body">
+							<p class="text-muted">{\App\Language::translate('LBL_CONFIRMATION_DESCRIPTION', $MODULE_NAME)}</p>
+							<div id="ImportManagerConfirmationStatus" class="alert alert-success d-none"></div>
+							<dl class="row mb-0">
+								<dt class="col-sm-4">{\App\Language::translate('LBL_SELECTED_MODULE', $MODULE_NAME)}</dt>
+								<dd class="col-sm-8" id="ImportManagerSummaryModule">—</dd>
+
+								<dt class="col-sm-4">{\App\Language::translate('LBL_SELECTED_FILE', $MODULE_NAME)}</dt>
+								<dd class="col-sm-8" id="ImportManagerSummaryFile">—</dd>
+
+								<dt class="col-sm-4">{\App\Language::translate('LBL_DUPLICATE_MODE', $MODULE_NAME)}</dt>
+								<dd class="col-sm-8" id="ImportManagerSummaryStrategy">—</dd>
+
+								<dt class="col-sm-4">{\App\Language::translate('LBL_MAPPED_FIELDS_COUNT', $MODULE_NAME)}</dt>
+								<dd class="col-sm-8" id="ImportManagerSummaryFields">—</dd>
+							</dl>
+
+							<div class="alert alert-info mt-3 mb-0">
+								<strong>{\App\Language::translate('LBL_PENDING_IMPLEMENTATION', $MODULE_NAME)}</strong>
+								<div>{\App\Language::translate('LBL_START_IMPORT_SOON', $MODULE_NAME)}</div>
+								<button type="button" class="btn btn-primary mt-2" id="ImportManagerStartImport" disabled>
+									<span class="fa fa-play"></span>
+									{\App\Language::translate('LBL_START_IMPORT_BUTTON', $MODULE_NAME)}
+								</button>
+							</div>
+						</div>
+					</div>
+
 					{if !empty($IMPORT_RECENT_BATCHES)}
 						<div class="card recent-imports mt-4">
 							<div class="card-header">

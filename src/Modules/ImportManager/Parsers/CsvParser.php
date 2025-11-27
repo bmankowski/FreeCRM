@@ -23,7 +23,21 @@ class CsvParser implements ParserInterface
 		$this->filePath = $filePath;
 		$this->delimiterDetector = $detector ?? new DelimiterDetector();
 		$this->enclosure = $options['enclosure'] ?? '"';
-		$this->delimiter = $options['delimiter'] ?? $this->delimiterDetector->detect($filePath);
+		
+		// Handle empty delimiter (Auto detection) - must be a single character for setCsvControl
+		$delimiter = $options['delimiter'] ?? '';
+		if (empty($delimiter)) {
+			$this->delimiter = $this->delimiterDetector->detect($filePath);
+		} else {
+			// Handle special cases like "\t" (tab) - convert string representation to actual character
+			if ($delimiter === '\t' || $delimiter === '\\t') {
+				$this->delimiter = "\t";
+			} else {
+				// Ensure delimiter is a single character
+				$this->delimiter = substr($delimiter, 0, 1);
+			}
+		}
+		
 		$this->encoding = $options['encoding'] ?? $this->detectEncoding();
 	}
 
@@ -31,7 +45,12 @@ class CsvParser implements ParserInterface
 	{
 		$rows = [];
 		$file = new \SplFileObject($this->filePath, 'r');
-		$file->setCsvControl($this->delimiter, $this->enclosure);
+		
+		// Ensure delimiter is a single character (required by setCsvControl)
+		$delimiter = mb_strlen($this->delimiter) > 0 ? mb_substr($this->delimiter, 0, 1) : ',';
+		$enclosure = mb_strlen($this->enclosure) > 0 ? mb_substr($this->enclosure, 0, 1) : '"';
+		
+		$file->setCsvControl($delimiter, $enclosure);
 		$file->setFlags(\SplFileObject::READ_AHEAD);
 
 		$rowIndex = 0;

@@ -13,3 +13,24 @@
 	font-size: 0.9rem;
 }
 
+.import-manager-step .card-header {
+	background-color: #f8f9fa;
+}
+
+.import-manager-step .default-row .form-control-sm {
+	min-height: 32px;
+}
+
+.import-manager-step .badge-container .badge {
+	margin-right: 4px;
+	margin-bottom: 4px;
+}
+
+.import-manager-step .optional-set-list .form-check {
+	margin-bottom: 0.35rem;
+}
+
+.import-manager-step .optional-set-list .form-check-label {
+	font-weight: 500;
+}
+

@@ -12,6 +12,7 @@ namespace App\Modules\ImportManager\Services;
 class ConfigProvider
 {
 	private array $config;
+	private ?array $duplicateConfig = null;
 
 	public function __construct(?array $config = null)
 	{
@@ -56,6 +57,20 @@ class ConfigProvider
 		return (int) $this->get('staging.chunkSize', 200);
 	}
 
+	public function getDuplicateConfig(string $moduleName): array
+	{
+		if ($this->duplicateConfig === null) {
+			$this->duplicateConfig = $this->loadDuplicateConfig();
+		}
+
+		$config = $this->duplicateConfig[$moduleName] ?? [];
+		return [
+			'requiredSets' => array_values($config['requiredSets'] ?? []),
+			'optionalSets' => array_values($config['optionalSets'] ?? []),
+			'mergeKeys' => array_values($config['mergeKeys'] ?? []),
+		];
+	}
+
 	private function loadFromFile(): array
 	{
 		static $cached;
@@ -73,6 +88,17 @@ class ConfigProvider
 		require $path;
 
 		return $cached = $CONFIG ?? [];
+	}
+
+	private function loadDuplicateConfig(): array
+	{
+		$path = ROOT_DIRECTORY . '/config/import_duplicates.php';
+		if (!is_file($path)) {
+			return [];
+		}
+
+		$config = require $path;
+		return is_array($config) ? $config : [];
 	}
 }
 
