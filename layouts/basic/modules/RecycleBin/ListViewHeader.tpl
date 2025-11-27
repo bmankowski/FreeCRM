@@ -29,7 +29,7 @@
 					{* Fix for empty Recycle bin Button *} 
                                         {foreach item=LISTVIEW_BASICACTION from=$LISTVIEW_LINKS['LISTVIEWBASIC']} 
                                                 <span class="btn-group">  
-                                                    <button id="{$MODULE}_listView_basicAction_{\App\Modules\Base\Helpers\Util::replaceSpaceWithUnderScores($LISTVIEW_BASICACTION->getLabel())}" class="btn btn-default clearRecycleBin" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0} onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick='window.location.href="{$LISTVIEW_BASICACTION->getUrl()}"'{/if} {if $DELETED_RECORDS_TOTAL_COUNT eq 0} disabled="disabled" {/if}>&nbsp;<strong>{$LISTVIEW_BASICACTION->getLabel()|t:$MODULE}</strong></button> 
+                                                    <button id="{$MODULE}_listView_basicAction_{\App\Modules\Base\Helpers\Util::replaceSpaceWithUnderScores($LISTVIEW_BASICACTION->getLabel())}" class="btn btn-default {if $LISTVIEW_BASICACTION->getLabel() eq 'LBL_EMPTY_RECYCLEBIN'}clearRecycleBin{/if}" {if stripos($LISTVIEW_BASICACTION->getUrl(), 'javascript:')===0} onclick='{$LISTVIEW_BASICACTION->getUrl()|substr:strlen("javascript:")};'{else} onclick='window.location.href="{$LISTVIEW_BASICACTION->getUrl()}"'{/if} {if $LISTVIEW_BASICACTION->getLabel() eq 'LBL_EMPTY_RECYCLEBIN' && $DELETED_RECORDS_TOTAL_COUNT eq 0} disabled="disabled" {/if}>&nbsp;<strong>{$LISTVIEW_BASICACTION->getLabel()|t:$MODULE}</strong></button> 
                                                 </span> 
                                         {/foreach} 
 				</span>
