@@ -20,7 +20,6 @@ import { ContactsPage } from '../../../pages/ContactsPage';
 import * as fs from 'fs';
 
 test.describe('Contacts - Export Functionality', () => {
-  let page: Page;
   let authenticatedPage: any;
   let contactsPage: ContactsPage;
   let testContactIds: string[] = [];

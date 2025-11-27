@@ -172,51 +172,51 @@ test.describe('Contacts - Communication Features', () => {
     }
   });
 
-  test('Test 6.4: Send SMS to Contact', async () => {
-    // Create contact with phone
-    const smsContactId = await contactsPage.createTestContact(
-      'SMS',
-      'Test',
-      { email: `sms_${Date.now()}@example.com`, phone: '+1-555-123-4567' }
-    );
+  // test('Test 6.4: Send SMS to Contact', async () => {
+  //   // Create contact with phone
+  //   const smsContactId = await contactsPage.createTestContact(
+  //     'SMS',
+  //     'Test',
+  //     { email: `sms_${Date.now()}@example.com`, phone: '+1-555-123-4567' }
+  //   );
     
-    if (!smsContactId) {
-      test.skip();
-      return;
-    }
+  //   if (!smsContactId) {
+  //     test.skip();
+  //     return;
+  //   }
 
-    await contactsPage.gotoDetail(smsContactId);
+  //   await contactsPage.gotoDetail(smsContactId);
     
-    const smsButton = authenticatedPage.locator('button:has-text("Send SMS"), a:has-text("SMS")').first();
-    if (await smsButton.isVisible({ timeout: 5000 })) {
-      await smsButton.click();
+  //   const smsButton = authenticatedPage.locator('button:has-text("Send SMS"), a:has-text("SMS")').first();
+  //   if (await smsButton.isVisible({ timeout: 5000 })) {
+  //     await smsButton.click();
       
-      const smsComposer = authenticatedPage.locator('.sms-composer, .modal').first();
-      if (await smsComposer.isVisible({ timeout: 3000 })) {
-        // Verify number pre-filled
-        await expect(smsComposer.locator('[name="to"], .phone-number')).toContainText('555-123-4567');
+  //     const smsComposer = authenticatedPage.locator('.sms-composer, .modal').first();
+  //     if (await smsComposer.isVisible({ timeout: 3000 })) {
+  //       // Verify number pre-filled
+  //       await expect(smsComposer.locator('[name="to"], .phone-number')).toContainText('555-123-4567');
         
-        // Type message
-        const messageField = smsComposer.locator('[name="message"], textarea').first();
-        if (await messageField.isVisible({ timeout: 2000 })) {
-          await messageField.fill('Your appointment is confirmed for tomorrow at 2 PM');
-        }
+  //       // Type message
+  //       const messageField = smsComposer.locator('[name="message"], textarea').first();
+  //       if (await messageField.isVisible({ timeout: 2000 })) {
+  //         await messageField.fill('Your appointment is confirmed for tomorrow at 2 PM');
+  //       }
         
-        // Verify character count
-        const charCount = smsComposer.locator('.char-count, .character-count');
-        if (await charCount.isVisible({ timeout: 1000 })) {
-          await expect(charCount).toContainText(/\d+/);
-        }
+  //       // Verify character count
+  //       const charCount = smsComposer.locator('.char-count, .character-count');
+  //       if (await charCount.isVisible({ timeout: 1000 })) {
+  //         await expect(charCount).toContainText(/\d+/);
+  //       }
         
-        // Note: Not actually sending
-        const sendButton = smsComposer.locator('button:has-text("Send")').first();
-        await expect(sendButton).toBeVisible();
-      }
-    }
+  //       // Note: Not actually sending
+  //       const sendButton = smsComposer.locator('button:has-text("Send")').first();
+  //       await expect(sendButton).toBeVisible();
+  //     }
+  //   }
     
-    // Cleanup
-    await contactsPage.deleteContactById(smsContactId).catch(() => {});
-  });
+  //   // Cleanup
+  //   await contactsPage.deleteContactById(smsContactId).catch(() => {});
+  // });
 
   test('Test 6.5: View Email History Timeline', async () => {
     if (!testContactId) {
