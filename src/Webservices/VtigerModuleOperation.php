@@ -28,10 +28,11 @@ class VtigerModuleOperation extends WebserviceEntityOperation
 
 	protected function getMetaInstance()
 	{
-		if (empty(WebserviceEntityOperation::$metaCache[$this->webserviceObject->getEntityName()][$this->user->id])) {
-			WebserviceEntityOperation::$metaCache[$this->webserviceObject->getEntityName()][$this->user->id] = new VtigerCRMObjectMeta($this->webserviceObject, $this->user);
+		$userId = method_exists($this->user, 'getId') ? $this->user->getId() : (method_exists($this->user, 'get') ? $this->user->get('id') : $this->user->id);
+		if (empty(WebserviceEntityOperation::$metaCache[$this->webserviceObject->getEntityName()][$userId])) {
+			WebserviceEntityOperation::$metaCache[$this->webserviceObject->getEntityName()][$userId] = new VtigerCRMObjectMeta($this->webserviceObject, $this->user);
 		}
-		return WebserviceEntityOperation::$metaCache[$this->webserviceObject->getEntityName()][$this->user->id];
+		return WebserviceEntityOperation::$metaCache[$this->webserviceObject->getEntityName()][$userId];
 	}
 
 	public function create($elementType, $element)

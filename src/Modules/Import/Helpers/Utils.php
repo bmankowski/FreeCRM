@@ -57,13 +57,22 @@ class Utils {
 	{
 		global $import_dir;
 		$importDir = dirname(__FILE__) . '/../../../' . $import_dir;
+		
+		// Ensure directory exists and is writable
+		if (!is_dir($importDir)) {
+			if (!mkdir($importDir, 0755, true)) {
+				\App\Log\Log::error("Failed to create import directory: $importDir");
+			}
+		}
+		
 		return $importDir;
 	}
 
 	public static function getImportFilePath($user)
 	{
 		$importDirectory = self::getImportDirectory();
-		return $importDirectory . "IMPORT_" . $user->id;
+		$userId = method_exists($user, 'getId') ? $user->getId() : (method_exists($user, 'get') ? $user->get('id') : $user->id);
+		return $importDirectory . "IMPORT_" . $userId;
 	}
 
 	public static function showErrorPage($errorMessage, $errorDetails = false, $customActions = false)

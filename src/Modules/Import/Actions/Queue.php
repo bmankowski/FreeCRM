@@ -38,8 +38,9 @@ class Queue extends \App\Base\Controllers\BaseActionController
 		} else {
 			$temp_status = self::$IMPORT_STATUS_NONE;
 		}
+		$userId = method_exists($user, 'getId') ? $user->getId() : (method_exists($user, 'get') ? $user->get('id') : $user->id);
 		\App\Db\Db::getInstance()->createCommand()->insert('vtiger_import_queue', [
-			'userid' => $user->id,
+			'userid' => $userId,
 			'tabid' => \App\Utils\ModuleUtils::getModuleId($request->get('module')),
 			'field_mapping' => \App\Utils\Json::encode($request->get('field_mapping')),
 			'default_values' => \App\Utils\Json::encode($request->get('default_values')),
@@ -61,7 +62,8 @@ class Queue extends \App\Base\Controllers\BaseActionController
 	{
 		$db = \App\Database\PearDatabase::getInstance();
 		if (\vtlib\Utils::CheckTable('vtiger_import_queue')) {
-			$db->pquery('DELETE FROM vtiger_import_queue WHERE userid=?', array($user->id));
+			$userId = method_exists($user, 'getId') ? $user->getId() : (method_exists($user, 'get') ? $user->get('id') : $user->id);
+			$db->pquery('DELETE FROM vtiger_import_queue WHERE userid=?', array($userId));
 		}
 	}
 
@@ -70,7 +72,8 @@ class Queue extends \App\Base\Controllers\BaseActionController
 		$db = \App\Database\PearDatabase::getInstance();
 
 		if (\vtlib\Utils::CheckTable('vtiger_import_queue')) {
-			$queueResult = $db->pquery('SELECT * FROM vtiger_import_queue WHERE userid=? LIMIT 1', array($user->id));
+			$userId = method_exists($user, 'getId') ? $user->getId() : (method_exists($user, 'get') ? $user->get('id') : $user->id);
+			$queueResult = $db->pquery('SELECT * FROM vtiger_import_queue WHERE userid=? LIMIT 1', array($userId));
 
 			if ($queueResult && $db->num_rows($queueResult) > 0) {
 				$rowData = $db->raw_query_result_rowdata($queueResult, 0);
@@ -88,7 +91,8 @@ class Queue extends \App\Base\Controllers\BaseActionController
 	 */
 	public static function getImportInfo($module, $user)
 	{
-		$rowData = (new \App\Db\Query())->from('vtiger_import_queue')->where(['tabid' => \App\Utils\ModuleUtils::getModuleId($module), 'userid' => $user->id])->one();
+		$userId = method_exists($user, 'getId') ? $user->getId() : (method_exists($user, 'get') ? $user->get('id') : $user->id);
+		$rowData = (new \App\Db\Query())->from('vtiger_import_queue')->where(['tabid' => \App\Utils\ModuleUtils::getModuleId($module), 'userid' => $userId])->one();
 		if ($rowData) {
 			return self::getImportInfoFromResult($rowData);
 		}

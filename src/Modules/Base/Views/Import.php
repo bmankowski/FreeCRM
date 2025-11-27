@@ -101,6 +101,7 @@ class Import  extends \App\Modules\Base\Views\Index
 		$viewer->assign('ERROR_MESSAGE', $request->get('error_message'));
 		$viewer->assign('IMPORT_UPLOAD_SIZE', $uploadMaxSize);
 		$viewer->assign('IMPORT_UPLOAD_SIZE_MB', round($uploadMaxSize / 1024 / 1024, 2));
+		$viewer->assign('DUPLICATE_HANDLING_NOT_SUPPORTED', false);
 		return $viewer->view('ImportBasicStep.tpl', 'Import');
 	}
 
@@ -133,7 +134,8 @@ class Import  extends \App\Modules\Base\Views\Index
 			$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 			$moduleMeta = $moduleModel->getModuleMeta();
 
-			$viewer->assign('DATE_FORMAT', $user->date_format);
+			$dateFormat = method_exists($user, 'get') ? $user->get('date_format') : (property_exists($user, 'date_format') ? $user->date_format : 'yyyy-mm-dd');
+			$viewer->assign('DATE_FORMAT', $dateFormat);
 			$viewer->assign('FOR_MODULE', $moduleName);
 			$viewer->assign('MODULE', 'Import');
 

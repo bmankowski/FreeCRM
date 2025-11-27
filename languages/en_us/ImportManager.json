@@ -1,0 +1,21 @@
+{
+	"languageStrings": {
+		"LBL_TARGET_MODULE": "Target module",
+		"LBL_SELECT_OPTION": "Select",
+		"LBL_FILE_FORMAT": "File format",
+		"LBL_ENCODING": "Encoding",
+		"LBL_SELECT_FILE": "Select file",
+		"LBL_MAX_UPLOAD_LIMIT": "Maximum upload size",
+		"LBL_DELIMITER": "Delimiter",
+		"LBL_AUTO": "Auto",
+		"LBL_TEXT_QUALIFIER": "Text qualifier",
+		"LBL_XML_RECORD_PATH": "XML record XPath",
+		"LBL_XML_RECORD_PATH_DESC": "Example: /Records/Record",
+		"LBL_GENERATE_PREVIEW": "Generate preview",
+		"LBL_PREVIEW_LIMIT": "Preview limit",
+		"LBL_IMPORT_PREVIEW": "Import preview",
+		"LBL_RECENT_IMPORTS": "Recent imports"
+	},
+	"jsLanguageStrings": {}
+}
+

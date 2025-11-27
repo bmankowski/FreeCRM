@@ -11,7 +11,6 @@ namespace App\Modules\CustomView;
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  * ****************************************************************************** */
-require_once(ROOT_DIRECTORY . '/src/CRMEntity.php');
 global $adv_filter_options;
 
 $adv_filter_options = array(

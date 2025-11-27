@@ -341,8 +341,13 @@ function vtws_getName($id, $user)
 	$handlerPath = $webserviceObject->getHandlerPath();
 	$handlerClass = $webserviceObject->getHandlerClass();
 
+	$handlerPath = vtws_normalizeHandlerPath($handlerPath);
 	require_once $handlerPath;
+	
+	// Normalize class name to include namespace if needed
+	$handlerClass = vtws_normalizeHandlerClass($handlerClass, $handlerPath);
 
+	$log = null; // not used
 	$handler = new $handlerClass($webserviceObject, $user, $adb, $log);
 	$meta = $handler->getMeta();
 	return $meta->getName($id);
@@ -417,6 +422,60 @@ function vtws_addWebserviceOperationParam($operationId, $paramName, $paramType, 
 }
 
 /**
+ * Convert old webservice handler paths to new paths
+ * @param string $handlerPath Original path from database
+ * @return string Corrected path
+ */
+function vtws_normalizeHandlerPath($handlerPath)
+{
+	// Convert old paths to new paths
+	$normalizedPath = str_replace('include/Webservices/', 'src/Webservices/', $handlerPath);
+	
+	// If path doesn't exist, try with ROOT_DIRECTORY
+	if (!file_exists($normalizedPath) && defined('ROOT_DIRECTORY')) {
+		$absolutePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $normalizedPath;
+		if (file_exists($absolutePath)) {
+			return $absolutePath;
+		}
+	}
+	
+	return $normalizedPath;
+}
+
+/**
+ * Normalize handler class name to include namespace if needed
+ * @param string $handlerClass Original class name from database
+ * @param string $handlerPath Path to the handler file
+ * @return string Full class name with namespace
+ */
+function vtws_normalizeHandlerClass($handlerClass, $handlerPath)
+{
+	// If class already has namespace, return as is
+	if (strpos($handlerClass, '\\') !== false) {
+		return $handlerClass;
+	}
+	
+	// Check if class exists in global namespace
+	if (class_exists($handlerClass)) {
+		return $handlerClass;
+	}
+	
+	// Try to determine namespace from file path
+	$normalizedPath = vtws_normalizeHandlerPath($handlerPath);
+	
+	// If file is in src/Webservices/, add namespace
+	if (strpos($normalizedPath, 'src/Webservices/') !== false || strpos($normalizedPath, 'src\\Webservices\\') !== false) {
+		$fullClassName = '\\App\\Webservices\\' . $handlerClass;
+		if (class_exists($fullClassName)) {
+			return $fullClassName;
+		}
+	}
+	
+	// Return original if nothing matches
+	return $handlerClass;
+}
+
+/**
  *
  * @global PearDatabase $adb
  * @global <type> $log
@@ -434,7 +493,11 @@ function vtws_getModuleHandlerFromName($name, $user)
 
 	$log = null; // not used
 
+	$handlerPath = vtws_normalizeHandlerPath($handlerPath);
 	require_once $handlerPath;
+	
+	// Normalize class name to include namespace if needed
+	$handlerClass = vtws_normalizeHandlerClass($handlerClass, $handlerPath);
 
 	$handler = new $handlerClass($webserviceObject, $user, $adb, $log);
 	return $handler;
@@ -448,8 +511,13 @@ function vtws_getModuleHandlerFromId($id, $user)
 	$handlerPath = $webserviceObject->getHandlerPath();
 	$handlerClass = $webserviceObject->getHandlerClass();
 
+	$handlerPath = vtws_normalizeHandlerPath($handlerPath);
 	require_once $handlerPath;
+	
+	// Normalize class name to include namespace if needed
+	$handlerClass = vtws_normalizeHandlerClass($handlerClass, $handlerPath);
 
+	$log = null; // not used
 	$handler = new $handlerClass($webserviceObject, $user, $adb, $log);
 	return $handler;
 }

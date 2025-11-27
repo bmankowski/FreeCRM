@@ -32,14 +32,15 @@ class ModuleMeta extends \App\Runtime\BaseModel
 		$self->moduleName = $name;
 		$self->user = $user;
 
-		if (!empty(self::$_cached_module_meta[$name][$user->id])) {
-			$self->webserviceMeta = self::$_cached_module_meta[$name][$user->id];
+		$userId = method_exists($user, 'getId') ? $user->getId() : (method_exists($user, 'get') ? $user->get('id') : $user->id);
+		if (!empty(self::$_cached_module_meta[$name][$userId])) {
+			$self->webserviceMeta = self::$_cached_module_meta[$name][$userId];
 			return $self;
 		}
 
 		$handler = vtws_getModuleHandlerFromName($self->moduleName, $user);
 		$self->webserviceMeta = $handler->getMeta();
-		self::$_cached_module_meta[$name][$user->id] = $self->webserviceMeta;
+		self::$_cached_module_meta[$name][$userId] = $self->webserviceMeta;
 		return $self;
 	}
 
@@ -69,7 +70,19 @@ class ModuleMeta extends \App\Runtime\BaseModel
 	 */
 	public function getAccessibleFields($blocks = false)
 	{
-		$meta = self::$_cached_module_meta[$this->moduleName][$this->user->id];
+		$userId = method_exists($this->user, 'getId') ? $this->user->getId() : (method_exists($this->user, 'get') ? $this->user->get('id') : $this->user->id);
+		
+		// Ensure meta is initialized
+		if (empty(self::$_cached_module_meta[$this->moduleName][$userId])) {
+			// Initialize meta if not cached
+			$handler = vtws_getModuleHandlerFromName($this->moduleName, $this->user);
+			self::$_cached_module_meta[$this->moduleName][$userId] = $handler->getMeta();
+		}
+		
+		$meta = self::$_cached_module_meta[$this->moduleName][$userId];
+		if ($meta === null) {
+			throw new \App\Exceptions\AppException("Module meta not found for module: {$this->moduleName}");
+		}
 		$moduleFields = $meta->getModuleFields();
 		$accessibleFields = [];
 		foreach ($moduleFields as $fieldName => $fieldInstance) {

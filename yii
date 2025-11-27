@@ -1,0 +1,26 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+
+if (!defined('ROOT_DIRECTORY')) {
+	define('ROOT_DIRECTORY', __DIR__);
+}
+
+require ROOT_DIRECTORY . '/vendor/autoload.php';
+require ROOT_DIRECTORY . '/vendor/yiisoft/yii2/Yii.php';
+
+require ROOT_DIRECTORY . '/config/api.php';
+require ROOT_DIRECTORY . '/config/config.php';
+
+\App\Core\AppConfig::init($API_CONFIG);
+\App\Core\Loader::register();
+\App\Debug\Debugger::init();
+\App\Cache\Cache::init();
+\App\Db\Db::$connectCache = \App\Core\AppConfig::performance('ENABLE_CACHING_DB_CONNECTION');
+
+$config = require ROOT_DIRECTORY . '/config/console.php';
+
+$application = new yii\console\Application($config);
+$exitCode = $application->run();
+exit($exitCode);
+

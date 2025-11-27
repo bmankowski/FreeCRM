@@ -1,15 +1,7 @@
 ﻿@import "../../../libraries/bootstrap/less/mixins.less";
 
-@font-face {
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 400;
-    src: url('../../../../libraries/resources/fonts/OpenSans-Regular-webfont.eot');
-    src: url('../../../../libraries/resources/fonts/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../../../../libraries/resources/fonts/OpenSans-Regular-webfont.woff') format('woff'),
-         url('../../../../libraries/resources/fonts/OpenSans-Regular-webfont.ttf') format('truetype'),
-         url('../../../../libraries/resources/fonts/OpenSans-Regular-webfont.svg#open_sansregular') format('svg');
-}
+/* Open Sans font is now loaded from Google Fonts - see Header.tpl or MainLayout.tpl */
+/* Local @font-face definition removed to fix glyph bbox warnings */
 
 body {
 	.gradientBar(@gradient1StrtColor,@gradient1EndColor);

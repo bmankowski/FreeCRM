@@ -40,7 +40,7 @@
 					<div class="importContents col-xs-12">
 						{include file='Import_Step2.tpl'|@vtemplate_path:'Import'}
 					</div>
-					{if $DUPLICATE_HANDLING_NOT_SUPPORTED neq 'true'}
+					{if !isset($DUPLICATE_HANDLING_NOT_SUPPORTED) || $DUPLICATE_HANDLING_NOT_SUPPORTED neq 'true'}
 						<div class="importContents col-xs-12">
 							{include file='Import_Step3.tpl'|@vtemplate_path:'Import'}
 						</div>

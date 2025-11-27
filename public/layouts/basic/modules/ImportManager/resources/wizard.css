@@ -1,0 +1,15 @@
+.import-manager-wizard .import-manager-form {
+	background: #fff;
+	border: 1px solid #e5e5e5;
+	border-radius: 4px;
+	padding: 20px;
+}
+
+.import-manager-wizard .import-preview .card-header {
+	background-color: #f6f6f6;
+}
+
+.import-manager-wizard .recent-imports .list-group-item {
+	font-size: 0.9rem;
+}
+

@@ -168,6 +168,8 @@ class CRM_Viewer extends \Smarty
 	$this->registerClass('AppConfig', '\App\Core\AppConfig');
 	$this->registerClass('\App\Core\AppConfig', '\App\Core\AppConfig'); // Also register with fully qualified name
 	$this->registerClass('App\Privilege', '\App\Security\Privilege'); // Register Privilege class with short name
+		$this->registerClass('\App\Language', '\App\Language');
+		$this->registerClass('App\Language', '\App\Language');
 		$this->registerClass('\App\Modules\Base\Models\Menu', '\App\Modules\\Base\Models\\Menu');
 		$this->registerClass('\App\Runtime\Yeti_Layout', '\App\\Runtime\\Yeti_Layout');
 		$this->registerClass('\App\Modules\Settings\WidgetsManagement\Models\Module', '\App\Modules\\Settings\\WidgetsManagement\Models\\Module');

@@ -1,0 +1,21 @@
+{
+	"languageStrings": {
+		"LBL_TARGET_MODULE": "Moduł docelowy",
+		"LBL_SELECT_OPTION": "Wybierz",
+		"LBL_FILE_FORMAT": "Format pliku",
+		"LBL_ENCODING": "Kodowanie",
+		"LBL_SELECT_FILE": "Wybierz plik",
+		"LBL_MAX_UPLOAD_LIMIT": "Maksymalny rozmiar uploadu",
+		"LBL_DELIMITER": "Separator",
+		"LBL_AUTO": "Auto",
+		"LBL_TEXT_QUALIFIER": "Znak cytowania",
+		"LBL_XML_RECORD_PATH": "Ścieżka rekordu XML",
+		"LBL_XML_RECORD_PATH_DESC": "Przykład: /Records/Record",
+		"LBL_GENERATE_PREVIEW": "Generuj podgląd",
+		"LBL_PREVIEW_LIMIT": "Limit podglądu",
+		"LBL_IMPORT_PREVIEW": "Podgląd importu",
+		"LBL_RECENT_IMPORTS": "Ostatnie importy"
+	},
+	"jsLanguageStrings": {}
+}
+

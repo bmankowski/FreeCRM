@@ -101,7 +101,15 @@ class VtigerCRMObjectMeta extends EntityMeta
 			$this->hasDeleteAccess = false;
 			return;
 		}
-		$currentUser = \App\Modules\Users\Models\Privileges::getInstanceById($this->user->id);
+		$userId = method_exists($this->user, 'getId') ? $this->user->getId() : (method_exists($this->user, 'get') ? $this->user->get('id') : $this->user->id);
+		$currentUser = \App\Modules\Users\Models\Privileges::getInstanceById($userId);
+		if ($currentUser === null) {
+			$this->hasAccess = false;
+			$this->hasReadAccess = false;
+			$this->hasWriteAccess = false;
+			$this->hasDeleteAccess = false;
+			return;
+		}
 		$profileGlobalPermission = $currentUser->get('profile_global_permission');
 		if ($currentUser->isAdminUser() || $profileGlobalPermission[1] === 0 || $profileGlobalPermission[2] === 0) {
 			$this->hasAccess = true;
@@ -349,7 +357,8 @@ class VtigerCRMObjectMeta extends EntityMeta
 
 		require_once('src/Modules/CustomView/CustomView.php');
 		$current_user = vtws_preserveGlobal('current_user', $this->user);
-		$theme = vtws_preserveGlobal('theme', $this->user->theme);
+		$themeValue = method_exists($this->user, 'get') ? $this->user->get('theme') : (property_exists($this->user, 'theme') ? $this->user->theme : 'softed');
+		$theme = vtws_preserveGlobal('theme', $themeValue);
 		$default_language = \App\Core\AppConfig::main('default_language');
 		$current_language = \App\Runtime\Vtiger_Language_Handler::getLanguage();
 		if (empty($current_language))

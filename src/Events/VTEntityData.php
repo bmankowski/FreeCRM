@@ -78,7 +78,6 @@ class VTEntityData
 
 		$obj->moduleName = 'Users';
 
-		require_once(ROOT_DIRECTORY . '/src/CRMEntity.php');
 		$focus = \App\Core\CRMEntity::getInstance($obj->moduleName);
 
 		$focus->retrieve_entity_info($userId, $obj->moduleName);
