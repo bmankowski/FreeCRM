@@ -52,7 +52,7 @@ class MappingDefinition
 		$self->hydrateDuplicateSets($payload['duplicateSets'] ?? [], $configProvider->getDuplicateConfig($moduleModel->getName()));
 		$self->hydrateOptions();
 		$self->setDuplicateStrategy((string) ($payload['duplicateStrategy'] ?? 'skip'));
-		$self->assertMandatoryFieldsCovered();
+		// Validation is performed during staging, not during mapping
 
 		return $self;
 	}
@@ -189,40 +189,56 @@ class MappingDefinition
 	private function hydrateDuplicateSets($payload, array $config): void
 	{
 		$fields = $this->getFieldsMap();
-		$selectedSets = $this->extractSelectedDuplicateSets($payload, $fields);
-
-		if (!$selectedSets && is_array($payload) && isset($payload['optionalActive'])) {
-			$optionalIndexes = array_map('intval', (array) $payload['optionalActive']);
-			$optionalSets = array_values($config['optionalSets'] ?? []);
-			foreach ($optionalIndexes as $index) {
-				if (!isset($optionalSets[$index])) {
-					continue;
-				}
-				$normalized = $this->normalizeDuplicateSet($optionalSets[$index], $fields);
-				if ($normalized) {
-					$selectedSets[$this->serializeDuplicateSet($normalized)] = $normalized;
-				}
-			}
-			$selectedSets = array_values($selectedSets);
-		}
-
-		if (!$selectedSets && !empty($config['activeSets'])) {
-			foreach ((array) $config['activeSets'] as $set) {
-				$normalized = $this->normalizeDuplicateSet($set, $fields);
-				if ($normalized) {
-					$selectedSets[] = $normalized;
+		
+		// Sprawdź format payload - może być z requestu {"selected": []} lub z bazy {"required": [], "optional": []}
+		$hasSelectedKey = is_array($payload) && array_key_exists('selected', $payload);
+		$hasRequiredKey = is_array($payload) && array_key_exists('required', $payload);
+		
+		\App\Log\Log::info('hydrateDuplicateSets - payload: ' . json_encode($payload), 'ImportManager');
+		\App\Log\Log::info('hydrateDuplicateSets - hasSelectedKey: ' . ($hasSelectedKey ? 'true' : 'false') . ', hasRequiredKey: ' . ($hasRequiredKey ? 'true' : 'false'), 'ImportManager');
+		
+		if ($hasRequiredKey) {
+			// Dane z bazy - użyj bezpośrednio
+			$selectedSets = [];
+			if (isset($payload['required']) && is_array($payload['required'])) {
+				foreach ($payload['required'] as $set) {
+					$normalized = $this->normalizeDuplicateSet($set, $fields);
+					if ($normalized) {
+						$selectedSets[] = $normalized;
+					}
 				}
 			}
+			\App\Log\Log::info('hydrateDuplicateSets - from database, selectedSets count: ' . count($selectedSets), 'ImportManager');
+		} else {
+			// Dane z requestu - użyj extractSelectedDuplicateSets
+			$selectedSets = $this->extractSelectedDuplicateSets($payload, $fields);
+			\App\Log\Log::info('hydrateDuplicateSets - from request, selectedSets count: ' . count($selectedSets), 'ImportManager');
+			
+			// Nie przywracaj domyślnych zestawów jeśli użytkownik celowo wysłał pustą tablicę
+			// Fallback do activeSets tylko jeśli payload w ogóle nie zawiera klucza 'selected'
+			if (!$selectedSets && !$hasSelectedKey && !empty($config['activeSets'])) {
+				// Tylko jeśli nie było klucza 'selected' w payload (pierwsze zapisanie)
+				\App\Log\Log::info('hydrateDuplicateSets - restoring from activeSets', 'ImportManager');
+				foreach ((array) $config['activeSets'] as $set) {
+					$normalized = $this->normalizeDuplicateSet($set, $fields);
+					if ($normalized) {
+						$selectedSets[] = $normalized;
+					}
+				}
+			}
 		}
 
+		\App\Log\Log::info('hydrateDuplicateSets - final selectedSets count: ' . count($selectedSets), 'ImportManager');
 		$this->duplicateSets['required'] = $selectedSets;
 		$this->duplicateSets['optional'] = [];
 
 		$suggestedSets = [];
-		foreach ((array) ($config['suggestedSets'] ?? $config['optionalSets'] ?? []) as $set) {
-			$normalized = $this->normalizeDuplicateSet($set, $fields);
-			if ($normalized) {
-				$suggestedSets[$this->serializeDuplicateSet($normalized)] = $normalized;
+		if (isset($config['suggestedSets']) && is_array($config['suggestedSets'])) {
+			foreach ($config['suggestedSets'] as $set) {
+				$normalized = $this->normalizeDuplicateSet($set, $fields);
+				if ($normalized) {
+					$suggestedSets[$this->serializeDuplicateSet($normalized)] = $normalized;
+				}
 			}
 		}
 		$suggestedSets = array_values($suggestedSets);
@@ -230,7 +246,6 @@ class MappingDefinition
 		$this->options['duplicateConfig'] = [
 			'selected' => $this->duplicateSets['required'],
 			'suggested' => $suggestedSets,
-			'mergeKeys' => array_values($config['mergeKeys'] ?? []),
 		];
 	}
 

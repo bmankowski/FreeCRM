@@ -21,12 +21,17 @@ class MappingRepository
 	public function save(MappingDefinition $definition): array
 	{
 		$now = date('Y-m-d H:i:s');
+		$duplicateSets = $definition->getDuplicateSets();
+		$duplicateSetsJson = \App\Utils\Json::encode($duplicateSets);
+		\App\Log\Log::info('MappingRepository::save - duplicate sets: ' . $duplicateSetsJson, 'ImportManager');
+		\App\Log\Log::info('MappingRepository::save - required count: ' . count($duplicateSets['required'] ?? []), 'ImportManager');
+		
 		$data = [
 			'batch_id' => $definition->getBatchId(),
 			'module' => $definition->getModuleName(),
 			'mapping' => \App\Utils\Json::encode($definition->getMapping()),
 			'default_values' => \App\Utils\Json::encode($definition->getDefaultValues()),
-			'duplicate_sets' => \App\Utils\Json::encode($definition->getDuplicateSets()),
+			'duplicate_sets' => $duplicateSetsJson,
 			'options' => \App\Utils\Json::encode($definition->getOptions()),
 			'updated_at' => $now,
 		];

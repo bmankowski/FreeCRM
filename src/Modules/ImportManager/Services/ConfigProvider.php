@@ -14,7 +14,6 @@ use App\Modules\Base\Models\Module as ModuleModel;
 class ConfigProvider
 {
 	private array $config;
-	private ?array $optionalConfig = null;
 	private DuplicateRuleRepository $duplicateRules;
 
 	public function __construct(?array $config = null, ?DuplicateRuleRepository $duplicateRules = null)
@@ -63,25 +62,13 @@ class ConfigProvider
 
 	public function getDuplicateConfig(string $moduleName): array
 	{
-		if ($this->optionalConfig === null) {
-			$this->optionalConfig = $this->loadOptionalDuplicateConfig();
-		}
-
 		$moduleModel = ModuleModel::getInstance($moduleName);
 		$savedSets = $moduleModel ? $this->duplicateRules->find($moduleName) : [];
 		$suggestedSets = $moduleModel ? $this->duplicateRules->suggest($moduleModel) : [];
 
-		$legacyConfig = $this->optionalConfig[$moduleName] ?? [];
-		if (!$suggestedSets && !empty($legacyConfig['optionalSets'])) {
-			$suggestedSets = array_values($legacyConfig['optionalSets']);
-		}
-
 		return [
 			'activeSets' => $savedSets,
 			'suggestedSets' => $suggestedSets,
-			'requiredSets' => $savedSets,
-			'optionalSets' => $suggestedSets,
-			'mergeKeys' => array_values($legacyConfig['mergeKeys'] ?? []),
 		];
 	}
 
@@ -102,17 +89,6 @@ class ConfigProvider
 		require $path;
 
 		return $cached = $CONFIG ?? [];
-	}
-
-	private function loadOptionalDuplicateConfig(): array
-	{
-		$path = ROOT_DIRECTORY . '/config/import_duplicates.php';
-		if (!is_file($path)) {
-			return [];
-		}
-
-		$config = require $path;
-		return is_array($config) ? $config : [];
 	}
 }
 

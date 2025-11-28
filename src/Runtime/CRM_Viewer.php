@@ -207,6 +207,7 @@ class CRM_Viewer extends \Smarty
 		$this->registerPlugin('modifier', 'array_flip', 'array_flip');
 		$this->registerPlugin('modifier', 'array_diff_key', 'array_diff_key');
 		$this->registerPlugin('modifier', 'explode', 'explode');
+		$this->registerPlugin('modifier', 'implode', [self::class, 'implodeModifier']);
 		$this->registerPlugin('modifier', 'htmlspecialchars', 'htmlspecialchars');
 		$this->registerPlugin('modifier', 'file_exists', 'file_exists');
 		$this->registerPlugin('modifier', 'intval', 'intval');
@@ -223,6 +224,7 @@ class CRM_Viewer extends \Smarty
 		$this->registerPlugin('modifier', 'json_decode', [self::class, 'jsonDecodeModifier']);
 		$this->registerPlugin('function', 'strpos', 'strpos');
 		$this->registerPlugin('function', 'explode', 'explode');
+		$this->registerPlugin('function', 'implode', 'implode');
 		$this->registerPlugin('function', 'htmlspecialchars', 'htmlspecialchars');
 		$this->registerPlugin('function', 'file_exists', 'file_exists');
 		$this->registerPlugin('function', 'intval', 'intval');
@@ -256,6 +258,33 @@ class CRM_Viewer extends \Smarty
 	public static function jsonDecodeModifier($json, $assoc = true)
 	{
 		return \App\Utils\Json::decode($json, $assoc ? \App\Utils\Json::TYPE_ARRAY : \App\Utils\Json::TYPE_OBJECT);
+	}
+
+	/**
+	 * Smarty modifier wrapper for implode
+	 * Handles argument order correctly: {$array|implode:$glue} or {$glue|implode:$array}
+	 * @param mixed $first First argument (can be glue or array)
+	 * @param mixed $second Second argument (can be array or glue)
+	 * @return string Imploded string
+	 */
+	public static function implodeModifier($first, $second = null)
+	{
+		// If second argument is provided, determine which is glue and which is array
+		if ($second !== null) {
+			// Check if first is string (glue) and second is array, or vice versa
+			if (is_string($first) && (is_array($second) || is_object($second))) {
+				// First is glue, second is array: {$glue|implode:$array}
+				return implode($first, (array)$second);
+			} elseif (is_array($first) || is_object($first)) {
+				// First is array, second is glue: {$array|implode:$glue}
+				return implode((string)$second, (array)$first);
+			}
+		}
+		// Fallback: try to use as standard implode
+		if (is_array($first) || is_object($first)) {
+			return implode('', (array)$first);
+		}
+		return (string)$first;
 	}
 
 	/**

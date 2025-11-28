@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace App\Modules\ImportManager\Views;
 
 use App\Modules\Base\Views\Index;
+use App\Modules\ImportManager\Controllers\WizardController;
 use App\Modules\ImportManager\Services\BatchRepository;
 use App\Modules\ImportManager\Services\ConfigProvider;
 use App\Modules\ImportManager\Services\MappingDefinition;
@@ -118,6 +119,8 @@ class Retry extends Index
 			];
 		}, $definition->getMapping());
 
+		$steps = (new WizardController())->buildStepProgress($batch, WizardController::STEP_FIX);
+
 		$viewer = $this->getViewer($request);
 		$viewer->assign('BATCH', $batch);
 		$viewer->assign('BATCH_ID', $batchId);
@@ -126,6 +129,42 @@ class Retry extends Index
 		$viewer->assign('FAILED_ROWS', $failedRows);
 		$viewer->assign('FAILED_TOTAL', $failedData['total']);
 		$viewer->assign('ERROR_FIELDS', $errorFields);
+		// Bezpieczne pobranie flash messages - sprawdź czy Yii jest dostępny
+		$flashSuccess = null;
+		$flashError = null;
+		
+		if (class_exists('\Yii') && isset(\Yii::$app) && \Yii::$app !== null && isset(\Yii::$app->session)) {
+			$flashSuccess = \Yii::$app->session->getFlash('ImportManagerRetrySuccess', null);
+			$flashError = \Yii::$app->session->getFlash('ImportManagerRetryError', null);
+		} else {
+			// Fallback: użyj bezpośrednio $_SESSION z logiką flash messages
+			if (session_status() === PHP_SESSION_ACTIVE && isset($_SESSION)) {
+				$flashParam = '__flash';
+				$counters = isset($_SESSION[$flashParam]) ? $_SESSION[$flashParam] : [];
+				
+				if (isset($counters['ImportManagerRetrySuccess']) && isset($_SESSION['ImportManagerRetrySuccess'])) {
+					$flashSuccess = $_SESSION['ImportManagerRetrySuccess'];
+					// Oznacz do usunięcia w następnym żądaniu
+					if ($counters['ImportManagerRetrySuccess'] < 0) {
+						$counters['ImportManagerRetrySuccess'] = 1;
+						$_SESSION[$flashParam] = $counters;
+					}
+				}
+				
+				if (isset($counters['ImportManagerRetryError']) && isset($_SESSION['ImportManagerRetryError'])) {
+					$flashError = $_SESSION['ImportManagerRetryError'];
+					// Oznacz do usunięcia w następnym żądaniu
+					if ($counters['ImportManagerRetryError'] < 0) {
+						$counters['ImportManagerRetryError'] = 1;
+						$_SESSION[$flashParam] = $counters;
+					}
+				}
+			}
+		}
+		
+		$viewer->assign('RETRY_FLASH_SUCCESS', $flashSuccess);
+		$viewer->assign('RETRY_FLASH_ERROR', $flashError);
+		$viewer->assign('IMPORT_STEPS', $steps);
 		$viewer->view('RetryGrid.tpl', $request->getModule());
 	}
 

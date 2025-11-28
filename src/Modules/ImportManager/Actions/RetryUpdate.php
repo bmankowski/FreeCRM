@@ -34,8 +34,8 @@ class RetryUpdate extends BaseActionController
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$response = new \App\Http\Vtiger_Response();
-
+		$isAjax = $request->isAjax();
+		$response = $isAjax ? new \App\Http\Vtiger_Response() : null;
 		try {
 			$batchId = (int) $request->get('batch_id');
 			$batch = $this->batches->find($batchId);
@@ -48,24 +48,112 @@ class RetryUpdate extends BaseActionController
 				throw new \RuntimeException('Nie można edytować wsadu w trakcie przetwarzania.');
 			}
 
-			$rows = $request->get('rows');
-			if (is_string($rows)) {
-				$rows = \App\Utils\Json::decode($rows);
-			}
-			if (!is_array($rows)) {
+			$rowsPayload = $this->decodeRowsPayload($request->getRaw('rows', $request->get('rows')));
+			$originalPayload = $this->decodeRowsPayload($request->getRaw('original', $request->get('original')));
+			if (!$rowsPayload) {
 				throw new \RuntimeException('Nie przesłano zmian do zapisania.');
 			}
 
-			$updated = $this->retryManager->updateRows($batchId, $rows);
-			$response->setResult([
-				'updated' => $updated,
-			]);
+			$changes = $this->buildRowChanges($rowsPayload, $originalPayload);
+			if (!$changes) {
+				if ($isAjax) {
+					$response->setResult(['updated' => 0]);
+					$response->emit();
+					return;
+				}
+				$this->setFlashMessage('ImportManagerRetrySuccess', 0);
+				$this->redirectBack($batchId);
+				return;
+			}
+
+			$updated = $this->retryManager->updateRows($batchId, $changes);
+			if ($isAjax) {
+				$response->setResult(['updated' => $updated]);
+				$response->emit();
+				return;
+			}
+			$this->setFlashMessage('ImportManagerRetrySuccess', $updated);
+			$this->redirectBack($batchId);
 		} catch (\Throwable $exception) {
 			\App\Log\Log::error('ImportManager retry update failed: ' . $exception->getMessage(), 'ImportManager');
-			$response->setError(500, $exception->getMessage());
+			if ($isAjax) {
+				$response->setError(500, $exception->getMessage());
+				$response->emit();
+				return;
+			}
+			$this->setFlashMessage('ImportManagerRetryError', $exception->getMessage());
+			$this->redirectBack((int) $request->get('batch_id'));
+			return;
 		}
+	}
 
-		$response->emit();
+	/**
+	 * @param mixed $payload
+	 */
+	private function decodeRowsPayload($payload): array
+	{
+		if (is_string($payload) && $payload !== '') {
+			$decoded = \App\Utils\Json::decode($payload);
+			return is_array($decoded) ? $decoded : [];
+		}
+		return is_array($payload) ? $payload : [];
+	}
+
+	private function buildRowChanges(array $rows, array $original): array
+	{
+		$changes = [];
+		foreach ($rows as $rowNumber => $fields) {
+			if (is_array($fields) && $fields) {
+				$rowId = (int) $rowNumber;
+				if ($rowId <= 0) {
+					continue;
+				}
+				$originalFields = $original[$rowNumber] ?? [];
+				$diff = [];
+				foreach ($fields as $fieldName => $value) {
+					$current = $value;
+					$previous = $originalFields[$fieldName] ?? null;
+					if ((string) $current !== (string) $previous) {
+						$diff[$fieldName] = $current;
+					}
+				}
+				if ($diff) {
+					$changes[] = [
+						'rowNumber' => $rowId,
+						'values' => $diff,
+					];
+				}
+			} elseif (is_array($rows[$rowNumber]) && isset($rows[$rowNumber]['rowNumber'], $rows[$rowNumber]['values'])) {
+				// Already in API format (JSON from legacy UI)
+				$changes[] = $rows[$rowNumber];
+			}
+		}
+		return $changes;
+	}
+
+	private function redirectBack(int $batchId): void
+	{
+		header('Location: index.php?module=ImportManager&view=Retry&batch_id=' . $batchId);
+		exit;
+	}
+
+	/**
+	 * Bezpieczne ustawienie flash message - działa z Yii lub bezpośrednio z $_SESSION
+	 */
+	private function setFlashMessage(string $key, $value): void
+	{
+		if (class_exists('\Yii') && isset(\Yii::$app) && \Yii::$app !== null && isset(\Yii::$app->session)) {
+			\Yii::$app->session->setFlash($key, $value);
+		} else {
+			// Fallback: użyj bezpośrednio $_SESSION z logiką flash messages
+			if (session_status() === PHP_SESSION_ACTIVE) {
+				$flashParam = '__flash';
+				$counters = isset($_SESSION[$flashParam]) ? $_SESSION[$flashParam] : [];
+				$counters[$key] = -1; // Oznacz jako flash message do usunięcia po odczytaniu
+				$_SESSION[$key] = $value;
+				$_SESSION[$flashParam] = $counters;
+			}
+		}
 	}
 }
 

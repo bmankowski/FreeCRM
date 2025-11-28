@@ -10,6 +10,8 @@
 					</div>
 				</div>
 
+				{include file='WizardSteps.tpl'|@vtemplate_path:$MODULE}
+
 				<div class="c-container import-retry-view">
 					<div class="card">
 						<div class="card-header d-flex justify-content-between align-items-center">
@@ -22,15 +24,28 @@
 								</div>
 							</div>
 							<div>
-								<button type="button" class="btn btn-outline-secondary btn-sm js-retry-export">
+								<a href="index.php?module=ImportManager&action=ExportErrors&batch_id={$BATCH_ID}" class="btn btn-outline-secondary btn-sm">
 									<span class="fa fa-download"></span>
 									{\App\Language::translate('LBL_EXPORT_ERRORS', $MODULE)}
-								</button>
+								</a>
 							</div>
 						</div>
 						<div class="card-body">
+							{if $RETRY_FLASH_SUCCESS}
+								<div class="alert alert-success">
+									{\App\Language::translate('JS_CHANGES_SAVED', $MODULE)}
+								</div>
+							{/if}
+							{if $RETRY_FLASH_ERROR}
+								<div class="alert alert-danger">
+									{$RETRY_FLASH_ERROR|escape}
+								</div>
+							{/if}
 							{if !empty($FAILED_ROWS)}
-								<form id="ImportManagerRetryForm" data-batch-id="{$BATCH_ID}">
+								<form id="ImportManagerRetryForm" method="post" action="index.php" data-batch-id="{$BATCH_ID}">
+									<input type="hidden" name="module" value="ImportManager" />
+									<input type="hidden" name="action" value="RetryUpdate" />
+									<input type="hidden" name="batch_id" value="{$BATCH_ID}" />
 									<div class="alert alert-warning">
 										{\App\Language::translate('LBL_RETRY_INFO', $MODULE)}
 									</div>
@@ -63,11 +78,13 @@
 															{assign var=FIELD_NAME value=$FIELD.field}
 															{assign var=HAS_ROW_ERROR value=isset($ROW.errorFields.$FIELD_NAME)}
 															<td class="{if $HAS_ROW_ERROR}bg-danger text-white font-weight-bold{/if}">
+																<input type="hidden"
+																	name="original[{$ROW.rowNumber}][{$FIELD_NAME}]"
+																	value="{$ROW.values.$FIELD_NAME|escape}" />
 																<input type="text"
-																	class="form-control form-control-sm js-retry-input{if $HAS_ROW_ERROR} is-invalid{/if}"
-																	data-field="{$FIELD_NAME}"
-																	value="{$ROW.values.$FIELD_NAME|escape}"
-																	data-original="{$ROW.values.$FIELD_NAME|escape}" />
+																	class="form-control form-control-sm{if $HAS_ROW_ERROR} is-invalid{/if}"
+																	name="rows[{$ROW.rowNumber}][{$FIELD_NAME}]"
+																	value="{$ROW.values.$FIELD_NAME|escape}" />
 															</td>
 														{/foreach}
 														<td class="bg-danger text-white small">
@@ -84,16 +101,26 @@
 											</tbody>
 										</table>
 									</div>
-									<div class="text-right mt-3">
-										<button type="button" class="btn btn-primary js-retry-save">
+									<div class="d-flex justify-content-between mt-3">
+										<a href="index.php?module=ImportManager&view=Wizard&batch_id={$BATCH_ID}" class="btn btn-outline-secondary">
+											<span class="fa fa-arrow-left"></span>
+											{\App\Language::translate('LBL_BACK_TO_IMPORT', $MODULE)}
+										</a>
+										<button type="submit" class="btn btn-primary">
 											<span class="fa fa-save"></span>
 											{\App\Language::translate('LBL_SAVE_CHANGES', $MODULE)}
 										</button>
 									</div>
 								</form>
 							{else}
-								<div class="alert alert-success mb-0">
+								<div class="alert alert-success mb-3">
 									{\App\Language::translate('LBL_NO_FAILED_ROWS', $MODULE)}
+								</div>
+								<div class="text-right">
+									<a href="index.php?module=ImportManager&view=Wizard&batch_id={$BATCH_ID}" class="btn btn-success">
+										<span class="fa fa-arrow-right"></span>
+										{\App\Language::translate('LBL_CONTINUE_IMPORT', $MODULE)}
+									</a>
 								</div>
 							{/if}
 						</div>

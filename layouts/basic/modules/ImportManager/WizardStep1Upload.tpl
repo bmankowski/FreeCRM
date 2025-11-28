@@ -1,6 +1,6 @@
-<form id="ImportManagerStep1" class="import-manager-form" enctype="multipart/form-data" method="post">
+<form id="ImportManagerStep1" class="card card-body bg-white border rounded p-4" enctype="multipart/form-data" method="post">
 	<input type="hidden" name="module" value="ImportManager" />
-	<input type="hidden" name="view" value="Wizard" />
+	<input type="hidden" name="view" value="Upload" />
 	<input type="hidden" name="batch_id" id="ImportManagerBatchId" />
 
 	<div class="row">
@@ -90,25 +90,4 @@
 		</div>
 	</div>
 </form>
-
-<div id="ImportManagerPreview" class="import-preview card mt-3 d-none">
-	<div class="card-header">
-		<div class="d-flex justify-content-between align-items-center flex-wrap">
-			<strong>{\App\Language::translate('LBL_IMPORT_PREVIEW', $MODULE_NAME)}</strong>
-			<div class="mt-2 mt-md-0" id="ImportManagerPreviewMeta">
-				<span class="badge badge-light mr-1" id="ImportManagerPreviewFileName"></span>
-				<span class="badge badge-info mr-1" id="ImportManagerPreviewEncoding"></span>
-				<span class="badge badge-info" id="ImportManagerPreviewDelimiter"></span>
-			</div>
-		</div>
-	</div>
-	<div class="card-body">
-		<div class="table-responsive">
-			<table class="table table-bordered table-sm mb-0">
-				<thead></thead>
-				<tbody></tbody>
-			</table>
-		</div>
-	</div>
-</div>
 

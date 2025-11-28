@@ -57,20 +57,28 @@ class DuplicateRuleRepository
 			$this->delete($module);
 			return;
 		}
+		$now = date('Y-m-d H:i:s');
 		$data = [
 			'module' => $module,
 			'rules' => \App\Utils\Json::encode($normalized),
-			'updated_at' => date('Y-m-d H:i:s'),
+			'updated_at' => $now,
 		];
 
-		$this->db->createCommand()->upsert(
-			'#__import_duplicate_rules',
-			array_merge($data, ['created_at' => $data['updated_at']]),
-			[
-				'rules' => $data['rules'],
-				'updated_at' => $data['updated_at'],
-			]
-		)->execute();
+		$exists = (new \App\Db\Query())
+			->from('#__import_duplicate_rules')
+			->where(['module' => $module])
+			->exists($this->db);
+
+		if ($exists) {
+			$this->db->createCommand()
+				->update('#__import_duplicate_rules', $data, ['module' => $module])
+				->execute();
+		} else {
+			$data['created_at'] = $now;
+			$this->db->createCommand()
+				->insert('#__import_duplicate_rules', $data)
+				->execute();
+		}
 	}
 
 	public function delete(string $module): void

@@ -1,61 +1,136 @@
-.import-manager-wizard .import-manager-form {
-	background: #fff;
-	border: 1px solid #e5e5e5;
-	border-radius: 4px;
-	padding: 20px;
+/* +***********************************************************************************
+ * ImportManager wizard styles.
+ * *********************************************************************************** */
+
+#ImportManagerDuplicateRuleModal {
+	z-index: 1055 !important;
 }
 
-.import-manager-wizard .import-preview .card-header {
-	background-color: #f6f6f6;
+#ImportManagerDuplicateRuleModal .modal-dialog {
+	z-index: 1056 !important;
+	position: relative;
 }
 
-.import-manager-wizard .recent-imports .list-group-item {
-	font-size: 0.9rem;
+.modal-backdrop {
+	z-index: 1040 !important;
 }
 
-.import-manager-step .card-header {
-	background-color: #f8f9fa;
+.import-manager-batch-card,
+.import-duplicates-card,
+.import-stage-card {
+	border: 1px solid #edf0f5;
+	box-shadow: 0 1px 2px rgba(15, 34, 58, 0.05);
 }
 
-.import-manager-step .badge-container .badge {
-	margin-right: 4px;
-	margin-bottom: 4px;
-}
-
-.import-manager-step .optional-set-list .form-check {
-	margin-bottom: 0.35rem;
-}
-
-.import-manager-step .optional-set-list .form-check-label {
-	font-weight: 500;
-}
-
-.import-manager-step .mapping-table .js-field-detail {
-	display: block;
-	font-size: 0.8rem;
-	margin-top: 4px;
-}
-
-.import-manager-step .mapping-table .field-label {
+.import-manager-batch-card .text-uppercase.small {
+	letter-spacing: 0.05em;
 	font-weight: 600;
-	font-size: 1rem;
-	line-height: 1.25;
+	color: #8f959e !important;
 }
 
-.import-manager-step .default-value-wrapper .form-control-sm {
-	min-width: 140px;
-	margin-right: 8px;
+.import-duplicates-card {
+	border: 1px solid #edf0f5;
 }
 
-.import-manager-step .default-value-wrapper {
-	max-width: 260px;
+.import-duplicates-chipset {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	min-height: 2.25rem;
 }
 
-.import-manager-step .table td {
-	vertical-align: middle;
+.import-duplicates-chip {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.35rem 0.85rem;
+	border-radius: 999px;
+	background-color: #f4f6fb;
+	border: 1px solid #dee3ef;
+	font-weight: 600;
+	font-size: 0.9rem;
+	color: #495057;
 }
 
-.import-manager-step .default-value-wrapper .js-remove-row {
-	padding: 0 .35rem;
+.import-duplicates-chip__remove {
+	border: 0;
+	background: transparent;
+	color: #6c757d;
+	margin-left: 0.4rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0;
+	line-height: 1;
 }
 
+.import-duplicates-chip__remove:hover {
+	color: #d9534f;
+}
+
+.import-duplicates-list__item {
+	border: 1px solid #e7e9ef;
+	border-radius: 0.5rem;
+	padding: 0.5rem 0.75rem;
+	margin-bottom: 0.5rem;
+	display: flex;
+	align-items: center;
+}
+
+.import-duplicates-list__item .form-check-input {
+	margin-top: 0;
+	margin-right: 0.5rem;
+}
+
+.import-stage-actions .btn {
+	min-width: 180px;
+}
+
+.import-stage-summary {
+	border: 1px solid #e1e5eb;
+	font-weight: 600;
+}
+
+.import-steps__list {
+	display: flex;
+	flex-wrap: wrap;
+	padding-left: 0;
+	margin-bottom: 1rem;
+}
+
+.import-steps__item {
+	position: relative;
+	padding: 0.75rem 1rem;
+	margin-right: 0.5rem;
+	margin-bottom: 0.5rem;
+	border-radius: 999px;
+	background-color: #f1f3f5;
+	color: #6c757d;
+	font-size: 0.875rem;
+}
+
+.import-steps__item.is-active {
+	background-color: #007bff;
+	color: #fff;
+	font-weight: 600;
+}
+
+.import-steps__item.is-complete {
+	background-color: #28a745;
+	color: #fff;
+}
+
+.import-steps__item.is-disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+.import-steps__link {
+	color: inherit;
+	text-decoration: none;
+	display: inline-flex;
+	align-items: center;
+}
+
+.import-steps__item:not(.is-disabled) .import-steps__link:hover {
+	text-decoration: underline;
+}
