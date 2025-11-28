@@ -37,5 +37,16 @@ class BatchRepository
 			'preview_rows' => $rows,
 		]);
 	}
+
+	public function find(int $batchId): ?array
+	{
+		$row = (new \App\Db\Query())
+			->from('#__import_batches')
+			->where(['id' => $batchId])
+			->limit(1)
+			->one($this->db);
+
+		return $row !== false ? $row : null;
+	}
 }
 

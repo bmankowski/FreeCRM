@@ -67,6 +67,31 @@ class XmlParser implements ParserInterface
 		];
 	}
 
+	public function iterate(callable $callback): void
+	{
+		$reader = new \XMLReader();
+		if (!$reader->open($this->filePath, null, LIBXML_NONET | LIBXML_COMPACT)) {
+			throw new \RuntimeException('Nie można otworzyć pliku XML.');
+		}
+
+		$pathStack = [];
+		$targetSegments = $this->normalizePath($this->recordPath);
+
+		while ($reader->read()) {
+			if ($reader->nodeType === \XMLReader::ELEMENT) {
+				$pathStack[$reader->depth] = $reader->localName;
+				if ($this->isPathMatch($pathStack, $targetSegments)) {
+					$row = $this->extractCurrentNode($reader);
+					$callback($row);
+				}
+			} elseif ($reader->nodeType === \XMLReader::END_ELEMENT) {
+				unset($pathStack[$reader->depth]);
+			}
+		}
+
+		$reader->close();
+	}
+
 	private function normalizePath(string $path): array
 	{
 		return array_values(array_filter(explode('/', $path)));

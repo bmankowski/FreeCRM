@@ -280,7 +280,6 @@ class ListView extends \App\Modules\Base\Views\Index
 
 	/**
 	 * Function to get the page count for list
-	 * @return total number of pages
 	 */
 	public function getPageCount(\App\Http\Vtiger_Request $request)
 	{

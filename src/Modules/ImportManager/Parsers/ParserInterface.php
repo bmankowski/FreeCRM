@@ -22,5 +22,12 @@ interface ParserInterface
 	public function getHeaders(): array;
 
 	public function getMetadata(): array;
+
+	/**
+	 * Iterate over all rows available in the source file.
+	 *
+	 * @param callable $callback receives array<int, string|null> $row
+	 */
+	public function iterate(callable $callback): void;
 }
 

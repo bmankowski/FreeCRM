@@ -217,7 +217,7 @@
 							<div class="alert alert-info mt-3 mb-0">
 								<strong>{\App\Language::translate('LBL_PENDING_IMPLEMENTATION', $MODULE_NAME)}</strong>
 								<div>{\App\Language::translate('LBL_START_IMPORT_SOON', $MODULE_NAME)}</div>
-								<button type="button" class="btn btn-primary mt-2" id="ImportManagerStartImport" disabled>
+								<button type="button" class="btn btn-primary mt-2" id="ImportManagerStartImport">
 									<span class="fa fa-play"></span>
 									{\App\Language::translate('LBL_START_IMPORT_BUTTON', $MODULE_NAME)}
 								</button>

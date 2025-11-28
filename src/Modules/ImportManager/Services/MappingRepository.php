@@ -58,5 +58,16 @@ class MappingRepository
 			'action' => 'created',
 		];
 	}
+
+	public function findByBatch(int $batchId): ?array
+	{
+		$row = (new \App\Db\Query())
+			->from('#__import_mappings')
+			->where(['batch_id' => $batchId])
+			->limit(1)
+			->one($this->db);
+
+		return $row !== false ? $row : null;
+	}
 }
 

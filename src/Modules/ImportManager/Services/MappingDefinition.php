@@ -57,6 +57,24 @@ class MappingDefinition
 		return $self;
 	}
 
+	public static function fromDatabaseRow(
+		array $row,
+		ModuleModel $moduleModel,
+		ConfigProvider $configProvider,
+		?string $duplicateStrategy = null
+	): self {
+		$payload = [
+			'batchId' => (int) $row['batch_id'],
+			'mapping' => \App\Utils\Json::decode($row['mapping'] ?? '') ?? [],
+			'defaultValues' => \App\Utils\Json::decode($row['default_values'] ?? '') ?? [],
+			'duplicateSets' => \App\Utils\Json::decode($row['duplicate_sets'] ?? '') ?? [],
+			'sourceHeaders' => $row['options'] ? (\App\Utils\Json::decode($row['options'])['sourceHeaders'] ?? []) : [],
+			'duplicateStrategy' => $duplicateStrategy ?? $row['duplicate_strategy'] ?? null,
+		];
+
+		return self::fromPayload($payload, $moduleModel, $configProvider);
+	}
+
 	public function getBatchId(): int
 	{
 		return $this->batchId;

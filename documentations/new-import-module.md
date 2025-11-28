@@ -110,7 +110,7 @@
 - API oraz UI odmawiają edycji mapowania, stagingu i retry, jeżeli `import_batches.status = running`, dzięki czemu nie ma ryzyka kolizji z aktualnie przetwarzanym wsadem.
 
 ## Polityka duplikatów
-- Detekcja: `DuplicateResolver` korzysta z konfiguracji per moduł (`config/import_duplicates.php`) zawierającej listy zestawów pól unikatowych, np. `Contacts => [['email'], ['vat_id','lastname']]`. Podczas mapowania UI wymusza przypięcie kolumn do każdego z wymaganych zestawów, inaczej import nie ruszy. Dla każdego wsadu użytkownik wskazuje, które zestawy pól mają służyć jako identyfikatory.
+- Detekcja: `DuplicateResolver` korzysta z konfiguracji per moduł (`config/import_duplicates.php`) jedynie dla zestawów opcjonalnych. Wymagane zestawy wynikają bezpośrednio z pól oznaczonych jako obowiązkowe w `vtiger_field`, więc nie trzeba utrzymywać ich ręcznie. Podczas mapowania UI wymusza przypięcie kolumn do każdego wymaganego zestawu, a użytkownik może dodatkowo włączać/wyłączać zestawy opcjonalne zapisane w konfiguracji.
 - Panel „Identyfikacja duplikatów” w kroku mapowania pozwala przełączać zestawy z konfiguracji (o ile moduł ma kilka wariantów) oraz zapisuje wybór w `import_mappings`, aby raport jasno wskazywał, które reguły obowiązywały dla konkretnego wsadu.
 - Strategie zachowania (wybierane oddzielnie przy każdym imporcie, domyślnie „pomijaj”):
   1. **Pomijaj** – rekord zostaje oznaczony jako `skipped_duplicate`, log zawiera ID rekordu powielonego.

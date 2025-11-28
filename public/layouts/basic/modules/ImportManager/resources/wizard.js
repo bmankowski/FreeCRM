@@ -49,6 +49,9 @@
 		dom.formatField.on('change', toggleFormatFieldsVisibility);
 		$('#ImportManagerTargetModule').on('change', resetWizardState);
 		dom.form.on('submit', handleUploadSubmit);
+		dom.startImport.on('click', function () {
+			triggerStaging();
+		});
 		
 		dom.saveMapping.on('click', saveMappingDefinition);
 
@@ -244,13 +247,16 @@
 
 		function describeField(field) {
 			const parts = [];
+			if (field.name) {
+				parts.push(field.name);
+			}
 			if (field.type) {
 				parts.push(field.type);
 			}
-			if (field.mandatory) {
-				parts.push(t('LBL_MANDATORY', 'Wymagane'));
+			if (typeof field.mandatory === 'boolean') {
+				parts.push(field.mandatory ? t('LBL_MANDATORY', 'Wymagane') : t('LBL_FIELD_OPTIONAL', 'Opcjonalne'));
 			}
-			return parts.join(' • ');
+			return parts.join(', ');
 		}
 
 		function normalizeHeaderValue(value) {
@@ -407,15 +413,14 @@
 					defaults[fieldName] = defaultValue;
 				}
 
-				if (columnIndex === null && defaultValue === '') {
-					if (Number($row.data('mandatory')) === 1) {
-						const label = $row.data('label') || fieldName;
-						throw new Error(t('JS_COLUMN_OR_DEFAULT_REQUIRED', 'Wybierz kolumnę z pliku lub ustaw wartość domyślną dla pola %s.').replace('%s', label));
-					}
-					return;
+				if (columnIndex === null && defaultValue === '' && Number($row.data('mandatory')) === 1) {
+					const label = $row.data('label') || fieldName;
+					throw new Error(t('JS_COLUMN_OR_DEFAULT_REQUIRED', 'Wybierz kolumnę z pliku lub ustaw wartość domyślną dla pola %s.').replace('%s', label));
 				}
 
-				mappedCount++;
+				if (columnIndex !== null || defaultValue !== '') {
+					mappedCount++;
+				}
 				rows.push({
 					index: Number.isInteger(columnIndex) ? columnIndex : null,
 					column: columnName,
@@ -509,8 +514,64 @@
 			dom.summaryStrategy.text(strategyLabel);
 			dom.summaryFields.text(mapping.length);
 			dom.confirmationStatus.text(t('JS_MAPPING_READY', 'Mapowanie zapisane – możesz przejść do potwierdzenia.')).removeClass('d-none');
+		dom.startImport.prop('disabled', false);
 			dom.step3.removeClass('d-none');
 		}
+
+	function triggerStaging() {
+		if (!state.batchId) {
+			handleError({ error: { message: t('JS_BATCH_NOT_READY', 'Brak przygotowanego wsadu. Wygeneruj najpierw podgląd.') } });
+			return;
+		}
+
+		const indicator = $.progressIndicator({
+			message: t('LBL_STAGING_IN_PROGRESS', 'Trwa przygotowywanie danych...'),
+			position: 'html',
+			blockInfo: { enabled: true }
+		});
+
+		const payload = {
+			module: 'ImportManager',
+			action: 'Stage',
+			batch_id: state.batchId
+		};
+		if (typeof window.csrfMagicToken !== 'undefined') {
+			payload.csrfMagicToken = window.csrfMagicToken;
+		}
+
+		$.ajax({
+			url: 'index.php',
+			type: 'POST',
+			dataType: 'json',
+			data: payload
+		})
+			.done(function (response) {
+				indicator.progressIndicator({ mode: 'hide' });
+				if (!response || response.success !== true) {
+					handleError(response);
+					return;
+				}
+				handleStagingResult(response.result || {});
+			})
+			.fail(function (jqXHR) {
+				indicator.progressIndicator({ mode: 'hide' });
+				handleError(jqXHR);
+			});
+	}
+
+	function handleStagingResult(result) {
+		const total = result.total || 0;
+		const failed = result.failed || 0;
+		const successMsg = t('LBL_STAGE_SUCCESS', 'Staging zakończony. Rekordy: %s, błędne: %s.')
+			.replace('%s', total)
+			.replace('%s', failed);
+		dom.confirmationStatus
+			.removeClass('alert-success alert-danger')
+			.addClass(failed > 0 ? 'alert-danger' : 'alert-success')
+			.text(successMsg)
+			.removeClass('d-none');
+		showToast(successMsg, failed > 0 ? 'warning' : 'success');
+	}
 
 		function resetWizardState() {
 			state.batchId = null;

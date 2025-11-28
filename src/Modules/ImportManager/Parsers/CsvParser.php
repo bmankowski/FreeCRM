@@ -17,6 +17,7 @@ class CsvParser implements ParserInterface
 	private string $encoding;
 	private array $headers = [];
 	private DelimiterDetector $delimiterDetector;
+	private bool $headersLoaded = false;
 
 	public function __construct(string $filePath, array $options = [], ?DelimiterDetector $detector = null)
 	{
@@ -43,35 +44,20 @@ class CsvParser implements ParserInterface
 
 	public function readPreview(int $limit): array
 	{
+		$this->ensureHeadersLoaded();
 		$rows = [];
-		$file = new \SplFileObject($this->filePath, 'r');
-		
-		// Ensure delimiter is a single character (required by setCsvControl)
-		$delimiter = mb_strlen($this->delimiter) > 0 ? mb_substr($this->delimiter, 0, 1) : ',';
-		$enclosure = mb_strlen($this->enclosure) > 0 ? mb_substr($this->enclosure, 0, 1) : '"';
-		
-		$file->setCsvControl($delimiter, $enclosure);
-		$file->setFlags(\SplFileObject::READ_AHEAD);
+		$file = $this->createFileObject();
+		$this->skipHeader($file);
 
-		$rowIndex = 0;
 		while (!$file->eof()) {
 			$row = $file->fgetcsv();
 			if ($row === false || $row === null) {
 				continue;
 			}
-
-			$normalized = $this->normalizeRow($row);
-			if ($rowIndex === 0) {
-				$this->headers = $this->buildHeaders($normalized);
-				$rowIndex++;
-				continue;
-			}
-
-			$rows[] = $this->alignRow($normalized);
+			$rows[] = $this->alignRow($this->normalizeRow($row));
 			if (count($rows) >= $limit) {
 				break;
 			}
-			$rowIndex++;
 		}
 
 		return $rows;
@@ -89,6 +75,21 @@ class CsvParser implements ParserInterface
 			'enclosure' => $this->enclosure,
 			'encoding' => $this->encoding,
 		];
+	}
+
+	public function iterate(callable $callback): void
+	{
+		$this->ensureHeadersLoaded();
+		$file = $this->createFileObject();
+		$this->skipHeader($file);
+
+		while (!$file->eof()) {
+			$row = $file->fgetcsv();
+			if ($row === false || $row === null) {
+				continue;
+			}
+			$callback($this->alignRow($this->normalizeRow($row)));
+		}
 	}
 
 	private function detectEncoding(): string
@@ -141,6 +142,37 @@ class CsvParser implements ParserInterface
 		}
 
 		return $row;
+	}
+
+	private function createFileObject(): \SplFileObject
+	{
+		$file = new \SplFileObject($this->filePath, 'r');
+		$delimiter = mb_strlen($this->delimiter) > 0 ? mb_substr($this->delimiter, 0, 1) : ',';
+		$enclosure = mb_strlen($this->enclosure) > 0 ? mb_substr($this->enclosure, 0, 1) : '"';
+		$file->setCsvControl($delimiter, $enclosure);
+		$file->setFlags(\SplFileObject::READ_AHEAD);
+		return $file;
+	}
+
+	private function ensureHeadersLoaded(): void
+	{
+		if ($this->headersLoaded) {
+			return;
+		}
+		$file = $this->createFileObject();
+		if (!$file->eof()) {
+			$row = $file->fgetcsv();
+			if ($row !== false && $row !== null) {
+				$this->headers = $this->buildHeaders($this->normalizeRow($row));
+			}
+		}
+		$this->headersLoaded = true;
+	}
+
+	private function skipHeader(\SplFileObject $file): void
+	{
+		$file->rewind();
+		$file->fgetcsv();
 	}
 }
 
