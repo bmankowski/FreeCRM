@@ -18,6 +18,9 @@
 			csvOptions: $('.csv-separator-options'),
 			previewCard: $('#ImportManagerPreview'),
 			previewMeta: $('#ImportManagerPreviewMeta'),
+			previewFileName: $('#ImportManagerPreviewFileName'),
+			previewEncoding: $('#ImportManagerPreviewEncoding'),
+			previewDelimiter: $('#ImportManagerPreviewDelimiter'),
 			stepsContainer: $('#ImportManagerStepsContainer'),
 			step2: $(),
 			step3: $(),
@@ -255,17 +258,26 @@
 				});
 			}
 
-			const metaParts = [];
+			// Clear previous values
+			dom.previewFileName.text('').hide();
+			dom.previewEncoding.text('').hide();
+			dom.previewDelimiter.text('').hide();
+
+			// Display file name
 			if (state.fileMeta.name) {
-				metaParts.push(state.fileMeta.name);
+				dom.previewFileName.text(state.fileMeta.name).show();
 			}
+
+			// Display encoding
 			if (state.preview.meta && state.preview.meta.encoding) {
-				metaParts.push('ENC: ' + state.preview.meta.encoding);
+				dom.previewEncoding.text(t('LBL_ENCODING', 'Kodowanie') + ': ' + state.preview.meta.encoding).show();
 			}
+
+			// Display delimiter
 			if (state.preview.meta && state.preview.meta.delimiter) {
-				metaParts.push('DEL: ' + state.preview.meta.delimiter);
+				const delimiterLabel = state.preview.meta.delimiter === '\t' ? t('LBL_TAB', 'TAB') : state.preview.meta.delimiter;
+				dom.previewDelimiter.text(t('LBL_DELIMITER', 'Separator') + ': ' + delimiterLabel).show();
 			}
-			dom.previewMeta.text(metaParts.join(' • '));
 
 			dom.previewCard.removeClass('d-none');
 			if (state.moduleName) {

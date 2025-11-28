@@ -93,8 +93,14 @@
 
 <div id="ImportManagerPreview" class="import-preview card mt-3 d-none">
 	<div class="card-header">
-		<strong>{\App\Language::translate('LBL_IMPORT_PREVIEW', $MODULE_NAME)}</strong>
-		<span class="badge badge-secondary ml-2" id="ImportManagerPreviewMeta"></span>
+		<div class="d-flex justify-content-between align-items-center flex-wrap">
+			<strong>{\App\Language::translate('LBL_IMPORT_PREVIEW', $MODULE_NAME)}</strong>
+			<div class="mt-2 mt-md-0" id="ImportManagerPreviewMeta">
+				<span class="badge badge-light mr-1" id="ImportManagerPreviewFileName"></span>
+				<span class="badge badge-info mr-1" id="ImportManagerPreviewEncoding"></span>
+				<span class="badge badge-info" id="ImportManagerPreviewDelimiter"></span>
+			</div>
+		</div>
 	</div>
 	<div class="card-body">
 		<div class="table-responsive">
