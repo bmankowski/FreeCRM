@@ -60,6 +60,8 @@
 6. **Import właściwy** – `BatchProcessor` pobiera paczki ze stagingu (np. 200 ID), mapuje/łączy i zapisuje przy pomocy `RecordPersister`, używając `App\Db\Db` do transakcji.
 7. **Raport** – na końcu generowany jest raport (liczba sukcesów, błędów, ostrzeżeń) przechowywany w bazie i możliwy do pobrania jako CSV/JSON.
 
+> Aktualny stan: `RecordPersister` obsługuje strategie `skip`, `overwrite`, `merge`, wykrywa duplikaty przez `DuplicateResolver` i zapisuje logi do `import_logs` oraz `storage/imports/{batchId}/log.json`. Kreator pozwala uruchomić import od razu lub przekazać go do `vtiger_import_queue` (typ zadania `import`).
+
 ## UI/UX kreatora i widoków
 - **Krok 1 – Plik i moduł**: drag&drop + fallback upload, odczyt limitów z `fileLimits`, wybór modułu z listy dostępnych standardowych i customowych modułów. Sekcja parametrów pozwala wymusić separator/znak cytowania i informuje czy plik ZIP zostanie rozpakowany. Po poprawnym uploadzie aktywuje się przycisk „Podgląd” ładowania pierwszych N rekordów (`preview.rows`).
 - **Krok 2 – Mapowanie**: tabela (kolumny wejściowe → pola modułu) z filtrami po typie. Panel boczny „Domyślne wartości” renderuje widgety zgodnie z typem pola. Sekcja „Identyfikacja duplikatów” prezentuje zestawy z `config/import_duplicates.php` i pozwala użytkownikowi przełączać, które zestawy będą aktywne w tym wsadzie oraz wskazać strategię (pomijaj/nadpisuj/łącz).

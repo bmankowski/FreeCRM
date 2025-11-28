@@ -2,7 +2,7 @@
 /**
  * FreeCRM - Customer Relationship Management System
  *
- * AJAX action that triggers staging step for ImportManager batches.
+ * AJAX action triggering final import for ImportManager batches.
  */
 
 declare(strict_types=1);
@@ -14,7 +14,7 @@ use App\Modules\ImportManager\Services\BatchProcessor;
 use App\Modules\ImportManager\Services\BatchRepository;
 use App\Modules\ImportManager\Services\QueueDispatcher;
 
-class Stage extends BaseActionController
+class Import extends BaseActionController
 {
 	private BatchProcessor $processor;
 	private BatchRepository $batches;
@@ -48,16 +48,9 @@ class Stage extends BaseActionController
 				throw new \RuntimeException('Nie masz dostępu do tego wsadu.');
 			}
 
-			$runMode = '';
-			$runModeRaw = $request->get('run_mode');
-			if (is_string($runModeRaw)) {
-				$runModeCandidate = strtolower(trim($runModeRaw));
-				if (in_array($runModeCandidate, ['inline', 'queue'], true)) {
-					$runMode = $runModeCandidate;
-				}
-			}
+			$runMode = $this->sanitizeRunMode($request->get('run_mode'));
 			if ($runMode === 'queue') {
-				$job = $this->queue->enqueueStage($batch);
+				$job = $this->queue->enqueueImport($batch);
 				$response->setResult([
 					'queued' => true,
 					'jobId' => $job->getId(),
@@ -67,7 +60,7 @@ class Stage extends BaseActionController
 			}
 
 			if ($runMode !== 'inline' && $this->queue->shouldEnqueue($batch)) {
-				$job = $this->queue->enqueueStage($batch);
+				$job = $this->queue->enqueueImport($batch);
 				$response->setResult([
 					'queued' => true,
 					'jobId' => $job->getId(),
@@ -76,17 +69,26 @@ class Stage extends BaseActionController
 				return;
 			}
 
-			$result = $this->processor->stage($batchId);
+			$result = $this->processor->import($batchId);
 			$response->setResult([
 				'queued' => false,
 				'result' => $result,
 			]);
 		} catch (\Throwable $exception) {
-			\App\Log\Log::error('ImportManager staging failed: ' . $exception->getMessage(), 'ImportManager');
+			\App\Log\Log::error('ImportManager final import failed: ' . $exception->getMessage(), 'ImportManager');
 			$response->setError(500, $exception->getMessage());
 		}
 
 		$response->emit();
+	}
+
+	private function sanitizeRunMode($value): string
+	{
+		if (!is_string($value)) {
+			return '';
+		}
+		$mode = strtolower(trim($value));
+		return in_array($mode, ['inline', 'queue'], true) ? $mode : '';
 	}
 }
 

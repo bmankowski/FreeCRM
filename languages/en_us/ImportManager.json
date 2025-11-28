@@ -64,7 +64,20 @@
 		"LBL_OPEN_RETRY": "Review failed records",
 		"LBL_STEP4_RETRY_TITLE": "Optional step – fix failed records",
 		"LBL_STEP4_RETRY_DESC": "If staging detected errors, you can correct them before starting the final import.",
-		"LBL_RETRY_ALERT": "Detected failed records (%s/%s). Fix them before continuing."
+		"LBL_RETRY_ALERT": "Detected failed records (%s/%s). Fix them before continuing.",
+		"LBL_IMPORT_SECTION_TITLE": "Start final import",
+		"LBL_IMPORT_READY_INFO": "Ready records: %s (failed during staging: %s).",
+		"LBL_IMPORT_INLINE_BUTTON": "Import now",
+		"LBL_IMPORT_QUEUE_BUTTON": "Queue import",
+		"LBL_IMPORT_MODE_HINT": "Use inline for small batches, queue for larger workloads.",
+		"LBL_IMPORT_IN_PROGRESS": "Importing records...",
+		"LBL_IMPORT_NO_READY_ROWS": "No records ready for import – prepare data again.",
+		"LBL_IMPORT_RESULT_MESSAGE": "Import completed. Created: %s, updated: %s, skipped: %s, errors: %s.",
+		"LBL_IMPORT_QUEUED": "Import queued (job #%s).",
+		"LBL_STAGE_MODE_INFO": "Choose how to prepare this batch:",
+		"LBL_STAGE_MODE_HINT": "Run immediately for tiny files or send it to the queue for cron processing.",
+		"LBL_STAGE_INLINE_BUTTON": "Run immediately",
+		"LBL_STAGE_QUEUE_BUTTON": "Add to queue"
 	},
 	"jsLanguageStrings": {
 		"JS_NO_PREVIEW_DATA": "No preview data returned.",

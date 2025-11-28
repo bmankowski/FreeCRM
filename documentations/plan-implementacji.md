@@ -96,6 +96,8 @@ W implementacji iteracji 2 wszystkie powyższe komponenty już istnieją:
    - Podsumowanie batcha (sukcesy, błędy, duplikaty).  
    - Możliwość pobrania JSON/CSV z wynikami.
 
+Status: wdrożony. Powstały serwisy `FieldValueConverter`, `DuplicateResolver`, `RecordPersister` oraz `ImportLogService`. Akcja `ImportManager/Import` uruchamia import inline lub dodaje zadanie do kolejki (`type = import`). Kreator (krok 3) udostępnia osobny zestaw przycisków do uruchomienia importu bezpośrednio albo przez cron. Statystyki (utworzone/zaktualizowane/pominięte/błędne) są zapisywane w `import_batches`, `import_logs` oraz w `storage/imports/{batchId}/log.json`.
+
 ### Pliki do utworzenia (Etap 3)
 - `src/Modules/ImportManager/Services/DuplicateResolver.php` – wybór rekordów do porównania na podstawie konfiguracji `config/import_duplicates.php`.
 - `src/Modules/ImportManager/Services/MergeStrategy.php` (oraz ewentualne klasy pochodne) – reguły dla strategii pomijaj/nadpisuj/łącz.
@@ -170,6 +172,8 @@ Status: rozpoczęty. Dodano pierwsze testy phpunit (`tests/phpunit/ImportManager
 3. **Plan wdrożenia**  
    - Kolejność migracji DB → deploy kodu → uruchomienie crona / queue.  
    - Checklisty rollbacku (np. usunięcie staging tables).
+
+Status: wykonano podstawowy pakiet dokumentacyjny i checklisty. Powstały pliki `documentations/importmanager-user-guide.md`, `modules/ImportManager/README.md` oraz `deploy/checklists/importmanager-rollout.md`, opisujące przepływ kreatora, retry, integrację z kolejką i kroki wdrożeniowe.
 
 ### Pliki do utworzenia (Etap 7)
 - `documentations/importmanager-user-guide.md` – instrukcja użytkownika opisująca kreator, retry oraz strategie duplikatów.

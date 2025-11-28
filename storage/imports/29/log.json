@@ -1,0 +1,3 @@
+{"timestamp":"2025-11-28 11:18:45","stage":"import","status":"success","message":"Record created","row":1,"record":1876,"payload":{"recordId":1876,"action":"created"}}
+{"timestamp":"2025-11-28 11:18:45","stage":"import","status":"warning","message":"Duplicate skipped","row":2,"record":1876,"payload":{"recordId":1876,"action":"skipped"}}
+{"timestamp":"2025-11-28 11:18:45","stage":"import","status":"warning","message":"Duplicate skipped","row":3,"record":1876,"payload":{"recordId":1876,"action":"skipped"}}

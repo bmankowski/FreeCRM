@@ -55,6 +55,14 @@ class QueueDispatcher
 		]);
 	}
 
+	public function enqueueImport(array $batch): ImportJob
+	{
+		return $this->enqueueJob($batch, [
+			'type' => 'import',
+			'batchId' => (int) $batch['id'],
+		]);
+	}
+
 	/**
 	 * @return ImportJob[]
 	 */

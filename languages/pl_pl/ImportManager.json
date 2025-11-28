@@ -64,7 +64,20 @@
 		"LBL_OPEN_RETRY": "Popraw błędne rekordy",
 		"LBL_STEP4_RETRY_TITLE": "Opcjonalny krok – popraw błędy",
 		"LBL_STEP4_RETRY_DESC": "Jeśli staging wykrył błędy, popraw je przed uruchomieniem importu właściwego.",
-		"LBL_RETRY_ALERT": "Wykryto błędne rekordy (%s/%s). Popraw je przed kontynuacją."
+		"LBL_RETRY_ALERT": "Wykryto błędne rekordy (%s/%s). Popraw je przed kontynuacją.",
+		"LBL_IMPORT_SECTION_TITLE": "Uruchom import właściwy",
+		"LBL_IMPORT_READY_INFO": "Gotowe rekordy: %s (błędne po stagingu: %s).",
+		"LBL_IMPORT_INLINE_BUTTON": "Importuj teraz",
+		"LBL_IMPORT_QUEUE_BUTTON": "Dodaj import do kolejki",
+		"LBL_IMPORT_MODE_HINT": "Drobne wsady uruchamiaj od razu, większe przekazuj do crona.",
+		"LBL_IMPORT_IN_PROGRESS": "Trwa importowanie rekordów...",
+		"LBL_IMPORT_NO_READY_ROWS": "Brak rekordów gotowych do importu – przygotuj dane ponownie.",
+		"LBL_IMPORT_RESULT_MESSAGE": "Import zakończony. Utworzono: %s, zaktualizowano: %s, pominięto: %s, błędy: %s.",
+		"LBL_IMPORT_QUEUED": "Import dodano do kolejki (zadanie #%s).",
+		"LBL_STAGE_MODE_INFO": "Wybierz w jaki sposób przygotować ten wsad:",
+		"LBL_STAGE_MODE_HINT": "Niewielkie pliki uruchom od razu, większe dodaj do kolejki dla crona.",
+		"LBL_STAGE_INLINE_BUTTON": "Uruchom od razu",
+		"LBL_STAGE_QUEUE_BUTTON": "Dodaj do kolejki"
 	},
 	"jsLanguageStrings": {
 		"JS_NO_PREVIEW_DATA": "Brak danych podglądu.",

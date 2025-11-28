@@ -12,27 +12,32 @@
 
 		const dom = {
 			form: $form,
+			targetModule: $('#ImportManagerTargetModule'),
 			formatField: $('#ImportManagerFormat'),
 			xmlOnly: $('.js-import-xml-only'),
 			csvOptions: $('.csv-separator-options'),
 			previewCard: $('#ImportManagerPreview'),
 			previewMeta: $('#ImportManagerPreviewMeta'),
-			step2: $('#ImportManagerStep2'),
-			step3: $('#ImportManagerStep3'),
-			mappingTable: $('#ImportManagerMappingTable'),
-			requiredSets: $('#ImportManagerRequiredSets'),
-			optionalSets: $('#ImportManagerOptionalSets'),
-			duplicateStrategy: $('#ImportManagerDuplicateStrategy'),
-			saveMapping: $('#ImportManagerSaveMapping'),
-			summaryModule: $('#ImportManagerSummaryModule'),
-			summaryFile: $('#ImportManagerSummaryFile'),
-			summaryStrategy: $('#ImportManagerSummaryStrategy'),
-			summaryFields: $('#ImportManagerSummaryFields'),
-			confirmationStatus: $('#ImportManagerConfirmationStatus'),
-			startImport: $('#ImportManagerStartImport'),
-			openRetry: $('#ImportManagerOpenRetry'),
-			retryAlert: $('#ImportManagerRetryAlert'),
-			retryCard: $('#ImportManagerStep4'),
+			stepsContainer: $('#ImportManagerStepsContainer'),
+			step2: $(),
+			step3: $(),
+			step4: $(),
+			mappingTable: $(),
+			requiredSets: $(),
+			optionalSets: $(),
+			duplicateStrategy: $(),
+			summaryModule: $(),
+			summaryFile: $(),
+			summaryStrategy: $(),
+			summaryFields: $(),
+			confirmationStatus: $(),
+			retryAlert: $(),
+			openRetry: $(),
+			retryCard: $(),
+			importSection: $(),
+			importSummary: $(),
+			importHint: $(),
+			fileInput: $('#ImportManagerFile'),
 		};
 
 		const state = {
@@ -45,27 +50,102 @@
 			},
 			preview: null,
 			fileMeta: {},
+			readyRows: 0,
+			pendingPreview: false,
 		};
 		
 
+		function refreshDomReferences() {
+			dom.step2 = $('#ImportManagerStep2');
+			dom.step3 = $('#ImportManagerStep3');
+			dom.step4 = $('#ImportManagerStep4');
+			dom.mappingTable = $('#ImportManagerMappingTable');
+			dom.requiredSets = $('#ImportManagerRequiredSets');
+			dom.optionalSets = $('#ImportManagerOptionalSets');
+			dom.duplicateStrategy = $('#ImportManagerDuplicateStrategy');
+			dom.summaryModule = $('#ImportManagerSummaryModule');
+			dom.summaryFile = $('#ImportManagerSummaryFile');
+			dom.summaryStrategy = $('#ImportManagerSummaryStrategy');
+			dom.summaryFields = $('#ImportManagerSummaryFields');
+			dom.confirmationStatus = $('#ImportManagerConfirmationStatus');
+			dom.importSection = $('#ImportManagerImportSection');
+			dom.importSummary = $('#ImportManagerImportSummary');
+			dom.importHint = $('#ImportManagerImportHint');
+			dom.retryAlert = $('#ImportManagerRetryAlert');
+			dom.openRetry = $('#ImportManagerOpenRetry');
+			dom.retryCard = $('#ImportManagerStep4');
+		}
+
+		function ensureStepRendered(step) {
+			const stepId = stepIds[step];
+			if (!stepId || document.getElementById(stepId)) {
+				return;
+			}
+			const templateSelector = stepTemplates[step];
+			const template = templateSelector ? document.querySelector(templateSelector) : null;
+			if (!template || !template.content) {
+				return;
+			}
+			const clone = template.content.cloneNode(true);
+			dom.stepsContainer.append(clone);
+			refreshDomReferences();
+		}
+
+		const stepTemplates = {
+			2: '#ImportManagerStep2Template',
+			3: '#ImportManagerStep3Template',
+			4: '#ImportManagerStep4Template'
+		};
+		const stepIds = {
+			2: 'ImportManagerStep2',
+			3: 'ImportManagerStep3',
+			4: 'ImportManagerStep4'
+		};
+
+		refreshDomReferences();
+
 		setTimeout(toggleFormatFieldsVisibility, 100);
 		dom.formatField.on('change', toggleFormatFieldsVisibility);
-		$('#ImportManagerTargetModule').on('change', resetWizardState);
-		dom.form.on('submit', handleUploadSubmit);
-		dom.startImport.on('click', function () {
-			triggerStaging();
+		dom.targetModule.on('change', function () {
+			resetWizardState();
+			state.moduleName = dom.targetModule.val() || null;
+			attemptAutoPreview();
 		});
-		dom.openRetry.on('click', function () {
+		dom.fileInput.on('change', function () {
+			const files = this.files;
+			if (!files || !files.length) {
+				state.pendingPreview = false;
+				return;
+			}
+			state.pendingPreview = true;
+			attemptAutoPreview();
+		});
+		dom.form.on('submit', handleUploadSubmit);
+		$(document).on('click', '#ImportManagerSaveMapping', function () {
+			saveMappingDefinition();
+		});
+		$(document).on('click', '#ImportManagerStartInline', function () {
+			triggerStaging('inline');
+		});
+		$(document).on('click', '#ImportManagerStartQueued', function () {
+			triggerStaging('queue');
+		});
+		$(document).on('click', '#ImportManagerRunImportInline', function () {
+			triggerImport('inline');
+		});
+		$(document).on('click', '#ImportManagerRunImportQueue', function () {
+			triggerImport('queue');
+		});
+		$(document).on('click', '#ImportManagerOpenRetry', function () {
 			if (!state.batchId) {
 				return;
 			}
 			window.location = 'index.php?module=ImportManager&view=Retry&batch_id=' + state.batchId;
 		});
-		
-		dom.saveMapping.on('click', saveMappingDefinition);
 
 		function handleUploadSubmit(event) {
 			event.preventDefault();
+			state.pendingPreview = false;
 			const formEl = dom.form.get(0);
 			if (!formEl.checkValidity()) {
 				formEl.reportValidity();
@@ -86,6 +166,7 @@
 		}
 
 		function uploadAndPreview() {
+			state.pendingPreview = false;
 			resetWizardState();
 			const formData = new FormData(dom.form.get(0));
 			formData.append('module', 'ImportManager');
@@ -183,6 +264,8 @@
 			if (!state.moduleName || !state.preview) {
 				return;
 			}
+			ensureStepRendered(2);
+			refreshDomReferences();
 			const indicator = $.progressIndicator({
 				message: t('LBL_LOADING', 'Ładowanie...'),
 				position: 'html',
@@ -193,7 +276,9 @@
 				.done(function () {
 					renderMappingTable(state.preview.headers || []);
 					renderDuplicateSections();
-					dom.step2.removeClass('d-none');
+					if (dom.step2.length) {
+						dom.step2.removeClass('d-none');
+					}
 				})
 				.fail(handleError)
 				.always(function () {
@@ -235,7 +320,15 @@
 		}
 
 		function renderMappingTable(headers) {
-			const $table = dom.mappingTable.removeClass('d-none');
+			if (!dom.mappingTable.length) {
+				ensureStepRendered(2);
+				refreshDomReferences();
+			}
+			const $table = dom.mappingTable;
+			if (!$table.length) {
+				return;
+			}
+			$table.removeClass('d-none');
 			const $tbody = $table.find('tbody').empty();
 			const headerList = Array.isArray(headers) ? headers : [];
 			if (!state.fields.length) {
@@ -356,6 +449,10 @@
 		}
 
 		function renderDuplicateSections() {
+			if (!dom.requiredSets.length || !dom.optionalSets.length) {
+				ensureStepRendered(2);
+				refreshDomReferences();
+			}
 			const required = state.duplicateConfig.requiredSets || [];
 			const optional = state.duplicateConfig.optionalSets || [];
 
@@ -516,18 +613,46 @@
 		}
 
 		function showConfirmationStep(mapping, serverResult) {
-			dom.summaryModule.text(state.moduleName || '—');
-			dom.summaryFile.text(state.fileMeta.name || '—');
-			const strategy = serverResult.duplicate_strategy || dom.duplicateStrategy.val() || 'skip';
-			const strategyLabel = dom.duplicateStrategy.find('option[value="' + strategy + '"]').text() || strategy;
-			dom.summaryStrategy.text(strategyLabel);
-			dom.summaryFields.text(mapping.length);
-			dom.confirmationStatus.text(t('JS_MAPPING_READY', 'Mapowanie zapisane – możesz przejść do potwierdzenia.')).removeClass('d-none');
-		dom.startImport.prop('disabled', false);
-			dom.step3.removeClass('d-none');
+			ensureStepRendered(3);
+			refreshDomReferences();
+			if (dom.summaryModule.length) {
+				dom.summaryModule.text(state.moduleName || '—');
+			}
+			if (dom.summaryFile.length) {
+				dom.summaryFile.text(state.fileMeta.name || '—');
+			}
+			const strategyElement = dom.duplicateStrategy && dom.duplicateStrategy.length ? dom.duplicateStrategy : null;
+			const strategyValue = serverResult.duplicate_strategy || (strategyElement ? strategyElement.val() : '') || 'skip';
+			let strategyLabel = strategyValue;
+			if (strategyElement) {
+				const option = strategyElement.find('option[value="' + strategyValue + '"]');
+				if (option.length) {
+					strategyLabel = option.text();
+				}
+			}
+			if (dom.summaryStrategy.length) {
+				dom.summaryStrategy.text(strategyLabel);
+			}
+			if (dom.summaryFields.length) {
+				dom.summaryFields.text(mapping.length);
+			}
+			if (dom.confirmationStatus.length) {
+				dom.confirmationStatus
+					.text(t('JS_MAPPING_READY', 'Mapowanie zapisane – możesz przejść do potwierdzenia.'))
+					.removeClass('d-none');
+			}
+			setStageButtonsEnabled(true);
+			setImportButtonsEnabled(false);
+			if (dom.importSection.length) {
+				dom.importSection.addClass('d-none');
+			}
+			state.readyRows = 0;
+			if (dom.step3.length) {
+				dom.step3.removeClass('d-none');
+			}
 		}
 
-	function triggerStaging() {
+	function triggerStaging(mode) {
 		if (!state.batchId) {
 			handleError({ error: { message: t('JS_BATCH_NOT_READY', 'Brak przygotowanego wsadu. Wygeneruj najpierw podgląd.') } });
 			return;
@@ -544,9 +669,13 @@
 			action: 'Stage',
 			batch_id: state.batchId
 		};
+		if (mode) {
+			payload.run_mode = mode;
+		}
 		if (typeof window.csrfMagicToken !== 'undefined') {
 			payload.csrfMagicToken = window.csrfMagicToken;
 		}
+		setStageButtonsEnabled(false);
 
 		$.ajax({
 			url: 'index.php',
@@ -570,6 +699,62 @@
 			.fail(function (jqXHR) {
 				indicator.progressIndicator({ mode: 'hide' });
 				handleError(jqXHR);
+			})
+			.always(function () {
+				setStageButtonsEnabled(true);
+			});
+	}
+
+	function triggerImport(mode) {
+		if (!state.batchId) {
+			handleError({ error: { message: t('JS_BATCH_NOT_READY', 'Brak przygotowanego wsadu. Wygeneruj najpierw podgląd.') } });
+			return;
+		}
+		if (state.readyRows <= 0) {
+			handleError({ error: { message: t('LBL_IMPORT_NO_READY_ROWS', 'Brak rekordów gotowych do importu – przygotuj dane ponownie.') } });
+			return;
+		}
+
+		const indicator = $.progressIndicator({
+			message: t('LBL_IMPORT_IN_PROGRESS', 'Trwa importowanie rekordów...'),
+			position: 'html',
+			blockInfo: { enabled: true }
+		});
+
+		const payload = {
+			module: 'ImportManager',
+			action: 'Import',
+			batch_id: state.batchId
+		};
+		if (mode) {
+			payload.run_mode = mode;
+		}
+		setImportButtonsEnabled(false);
+
+		$.ajax({
+			url: 'index.php',
+			type: 'POST',
+			dataType: 'json',
+			data: payload
+		})
+			.done(function (response) {
+				indicator.progressIndicator({ mode: 'hide' });
+				if (!response || response.success !== true) {
+					handleError(response);
+					setImportButtonsEnabled(true);
+					return;
+				}
+				const payload = response.result || {};
+				if (payload.queued) {
+					handleImportQueued(payload);
+				} else {
+					handleImportResult(payload.result || payload);
+				}
+			})
+			.fail(function (jqXHR) {
+				indicator.progressIndicator({ mode: 'hide' });
+				setImportButtonsEnabled(true);
+				handleError(jqXHR);
 			});
 	}
 
@@ -584,6 +769,8 @@
 			.addClass(failed > 0 ? 'alert-danger' : 'alert-success')
 			.text(successMsg)
 			.removeClass('d-none');
+		state.readyRows = Math.max(total - failed, 0);
+		updateImportSection(total, failed, false, null);
 		showRetryCard(total, failed, false);
 		showToast(successMsg, failed > 0 ? 'warning' : 'success');
 	}
@@ -596,18 +783,66 @@
 			.addClass('alert-info')
 			.text(message)
 			.removeClass('d-none');
-		showRetryCard(0, 0, true);
+		showRetryCard(0, 0, true, jobId);
+		state.readyRows = 0;
+		updateImportSection(0, 0, true, jobId);
 		showToast(message, 'info');
 	}
 
-	function showRetryCard(total, failed, queued) {
+	function handleImportResult(result) {
+		const created = result.created || 0;
+		const updated = result.updated || 0;
+		const skipped = result.skipped || 0;
+		const failed = result.failed || 0;
+		const summary = t('LBL_IMPORT_RESULT_MESSAGE', 'Import ukończony. Utworzono: %s, zaktualizowano: %s, pominięto: %s, błędy: %s.')
+			.replace('%s', created)
+			.replace('%s', updated)
+			.replace('%s', skipped)
+			.replace('%s', failed);
+		if (dom.importSummary.length) {
+			dom.importSummary.text(summary);
+		}
+		if (dom.importSection.length) {
+			dom.importSection.removeClass('d-none');
+		}
+		setImportButtonsEnabled(false);
+		state.readyRows = 0;
+		showToast(summary, failed > 0 ? 'warning' : 'success');
+	}
+
+	function handleImportQueued(payload) {
+		const jobId = payload.jobId || '?';
+		const message = t('LBL_IMPORT_QUEUED', 'Import dodano do kolejki (zadanie #%s).').replace('%s', jobId);
+		if (dom.importSection.length) {
+			dom.importSection.addClass('d-none');
+		}
+		if (dom.importSummary.length) {
+			dom.importSummary.text('');
+		}
+		state.readyRows = 0;
+		showToast(message, 'info');
+	}
+
+	function showRetryCard(total, failed, queued, jobId) {
+		if (queued || failed > 0) {
+			ensureStepRendered(4);
+			refreshDomReferences();
+		}
 		if (queued) {
-			dom.retryCard.removeClass('d-none');
-			dom.retryAlert
-				.removeClass('alert-danger alert-success')
-				.addClass('alert-info')
-				.text(t('LBL_STAGE_QUEUED', 'Przygotowanie danych dodano do kolejki (zadanie #%s).'));
-			dom.openRetry.addClass('d-none');
+			if (dom.retryCard.length) {
+				dom.retryCard.removeClass('d-none');
+			}
+			const queueText = t('LBL_STAGE_QUEUED', 'Przygotowanie danych dodano do kolejki (zadanie #%s).')
+				.replace('%s', jobId || '?');
+			if (dom.retryAlert.length) {
+				dom.retryAlert
+					.removeClass('alert-danger alert-success')
+					.addClass('alert-info')
+					.text(queueText);
+			}
+			if (dom.openRetry.length) {
+				dom.openRetry.addClass('d-none');
+			}
 			return;
 		}
 
@@ -615,18 +850,55 @@
 			const msg = t('LBL_RETRY_ALERT', 'Wykryto błędne rekordy (%s/%s). Popraw je przed kontynuacją.')
 				.replace('%s', failed)
 				.replace('%s', total);
-			dom.retryAlert
-				.removeClass('alert-info alert-success')
-				.addClass('alert-danger')
-				.text(msg)
-				.removeClass('d-none');
-			dom.openRetry.removeClass('d-none');
-			dom.retryCard.removeClass('d-none');
+			if (dom.retryAlert.length) {
+				dom.retryAlert
+					.removeClass('alert-info alert-success')
+					.addClass('alert-danger')
+					.text(msg)
+					.removeClass('d-none');
+			}
+			if (dom.openRetry.length) {
+				dom.openRetry.removeClass('d-none');
+			}
+			if (dom.retryCard.length) {
+				dom.retryCard.removeClass('d-none');
+			}
 		} else {
-			dom.retryAlert.addClass('d-none').text('');
-			dom.openRetry.addClass('d-none');
-			dom.retryCard.addClass('d-none');
+			if (dom.retryAlert.length) {
+				dom.retryAlert.addClass('d-none').text('');
+			}
+			if (dom.openRetry.length) {
+				dom.openRetry.addClass('d-none');
+			}
+			if (dom.retryCard.length) {
+				dom.retryCard.addClass('d-none');
+			}
 		}
+	}
+
+	function updateImportSection(total, failed, queued, jobId) {
+		if (!dom.importSection.length) {
+			return;
+		}
+		if (queued) {
+			dom.importSection.addClass('d-none');
+			dom.importSummary.text('');
+			setImportButtonsEnabled(false);
+			return;
+		}
+		const ready = Math.max((total || 0) - (failed || 0), 0);
+		if (ready <= 0) {
+			dom.importSection.addClass('d-none');
+			dom.importSummary.text('');
+			setImportButtonsEnabled(false);
+			return;
+		}
+		const summary = t('LBL_IMPORT_READY_INFO', 'Gotowe rekordy: %s (błędne: %s).')
+			.replace('%s', ready)
+			.replace('%s', failed || 0);
+		dom.importSummary.text(summary);
+		dom.importSection.removeClass('d-none');
+		setImportButtonsEnabled(true);
 	}
 
 	function resetWizardState() {
@@ -636,16 +908,69 @@
 		state.moduleName = null;
 		state.fields = [];
 		state.duplicateConfig = { requiredSets: [], optionalSets: [] };
+		state.readyRows = 0;
+		state.pendingPreview = false;
+		if (dom.stepsContainer && dom.stepsContainer.length) {
+			dom.stepsContainer.empty();
+			refreshDomReferences();
+		}
 		dom.previewCard.addClass('d-none');
 		dom.step2.addClass('d-none');
-			dom.step3.addClass('d-none');
-			dom.retryCard.addClass('d-none');
+		dom.step3.addClass('d-none');
+		dom.retryCard.addClass('d-none');
+		if (dom.mappingTable.length) {
 			dom.mappingTable.find('tbody').empty();
+		}
+		if (dom.requiredSets.length) {
 			dom.requiredSets.empty();
+		}
+		if (dom.optionalSets.length) {
 			dom.optionalSets.empty();
+		}
+		if (dom.confirmationStatus.length) {
 			dom.confirmationStatus.addClass('d-none').text('');
+		}
+		if (dom.openRetry.length) {
 			dom.openRetry.addClass('d-none');
+		}
+		if (dom.retryAlert.length) {
 			dom.retryAlert.addClass('d-none').text('');
+		}
+		setStageButtonsEnabled(false);
+		setImportButtonsEnabled(false);
+		if (dom.importSection.length) {
+			dom.importSection.addClass('d-none');
+		}
+		if (dom.importSummary.length) {
+			dom.importSummary.text('');
+		}
+	}
+
+	function setStageButtonsEnabled(enabled) {
+		$('#ImportManagerStartInline, #ImportManagerStartQueued').prop('disabled', !enabled);
+	}
+
+	function setImportButtonsEnabled(enabled) {
+		$('#ImportManagerRunImportInline, #ImportManagerRunImportQueue').prop('disabled', !enabled);
+	}
+
+	function attemptAutoPreview() {
+		if (!state.pendingPreview) {
+			return;
+		}
+		const formEl = dom.form.get(0);
+		if (!formEl || !dom.targetModule.val()) {
+			return;
+		}
+		const fileEl = dom.fileInput && dom.fileInput.length ? dom.fileInput.get(0) : null;
+		if (!fileEl || !fileEl.files || !fileEl.files.length) {
+			return;
+		}
+		if (!formEl.checkValidity()) {
+			return;
+		}
+		state.pendingPreview = false;
+		uploadAndPreview();
 	}
 
 		function handleError(payload) {

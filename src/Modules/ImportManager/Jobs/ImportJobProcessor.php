@@ -29,6 +29,9 @@ class ImportJobProcessor
 			case 'stage':
 				$this->batchProcessor->stage($job->getBatchId());
 				break;
+			case 'import':
+				$this->batchProcessor->import($job->getBatchId());
+				break;
 			default:
 				throw new \RuntimeException('Nieobsługiwany typ zadania: ' . $job->getType());
 		}
