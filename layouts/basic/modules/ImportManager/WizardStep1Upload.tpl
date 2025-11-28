@@ -38,14 +38,11 @@
 	</div>
 
 	<div class="row">
-		<div class="col-md-6">
+		<div class="col-md-3">
 			<div class="form-group">
-				<label for="ImportManagerFile">{\App\Language::translate('LBL_SELECT_FILE', $MODULE_NAME)}</label>
-				<input type="file" name="import_file" id="ImportManagerFile" class="form-control" required />
-				<small class="text-muted">
-					{\App\Language::translate('LBL_MAX_UPLOAD_LIMIT', $MODULE_NAME)}:
-					{$IMPORT_CONFIG.maxUploadSizeMb|default:10} MB
-				</small>
+				<label for="ImportManagerPreviewRows">{\App\Language::translate('LBL_PREVIEW_LIMIT', $MODULE_NAME)}</label>
+				<input type="number" name="preview_rows" id="ImportManagerPreviewRows" class="form-control" min="1" max="1000" value="{$IMPORT_CONFIG.previewRows|default:30}" />
+				<small class="text-muted">{\App\Language::translate('LBL_PREVIEW_LIMIT_DESC', $MODULE_NAME)}</small>
 			</div>
 		</div>
 		<div class="col-md-3 csv-separator-options">
@@ -81,18 +78,14 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-12">
-			<div class="form-group mt-4">
-				<button type="submit" class="btn btn-primary">
-					<span class="fa fa-eye"></span>
-					{\App\Language::translate('LBL_GENERATE_PREVIEW', $MODULE_NAME)}
-				</button>
-				<div class="mt-2">
-					<small class="text-muted">
-						{\App\Language::translate('LBL_PREVIEW_LIMIT', $MODULE_NAME)}:
-						{$IMPORT_CONFIG.previewRows|default:30}
-					</small>
-				</div>
+		<div class="col-md-6">
+			<div class="form-group mt-2">
+				<label for="ImportManagerFile">{\App\Language::translate('LBL_SELECT_FILE', $MODULE_NAME)}</label>
+				<input type="file" name="import_file" id="ImportManagerFile" class="form-control" required />
+				<small class="text-muted">
+					{\App\Language::translate('LBL_MAX_UPLOAD_LIMIT', $MODULE_NAME)}:
+					{$IMPORT_CONFIG.maxUploadSizeMb|default:10} MB
+				</small>
 			</div>
 		</div>
 	</div>

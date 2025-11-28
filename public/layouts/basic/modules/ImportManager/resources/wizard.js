@@ -45,8 +45,8 @@
 			moduleName: null,
 			fields: [],
 			duplicateConfig: {
-				requiredSets: [],
-				optionalSets: [],
+				activeSets: [],
+				suggestedSets: [],
 			},
 			preview: null,
 			fileMeta: {},
@@ -135,6 +135,19 @@
 		});
 		$(document).on('click', '#ImportManagerRunImportQueue', function () {
 			triggerImport('queue');
+		});
+		$(document).on('change', '#ImportManagerOptionalSets .js-optional-set', function () {
+			const idx = parseInt($(this).attr('data-index'), 10);
+			if (!Number.isNaN(idx)) {
+				toggleSuggestedSet(idx, $(this).is(':checked'));
+			}
+		});
+		$(document).on('click', '.js-remove-duplicate-set', function (event) {
+			event.preventDefault();
+			const idx = parseInt($(this).attr('data-index'), 10);
+			if (!Number.isNaN(idx)) {
+				removeDuplicateSet(idx);
+			}
 		});
 		$(document).on('click', '#ImportManagerOpenRetry', function () {
 			if (!state.batchId) {
@@ -310,7 +323,7 @@
 						field.labelNormalized = (field.label || '').toLowerCase().replace(/\W/g, '');
 						return field;
 					});
-					state.duplicateConfig = result.duplicateSets || { requiredSets: [], optionalSets: [] };
+					state.duplicateConfig = mapDuplicateConfig(result.duplicateSets || {});
 					deferred.resolve();
 				})
 				.fail(function (jqXHR) {
@@ -448,34 +461,153 @@
 			return $select;
 		}
 
+		function mapDuplicateConfig(rawConfig) {
+			const active = Array.isArray(rawConfig.activeSets)
+				? rawConfig.activeSets
+				: (Array.isArray(rawConfig.requiredSets) ? rawConfig.requiredSets : []);
+			const suggested = Array.isArray(rawConfig.suggestedSets)
+				? rawConfig.suggestedSets
+				: (Array.isArray(rawConfig.optionalSets) ? rawConfig.optionalSets : []);
+			return {
+				activeSets: normalizeDuplicateSets(active),
+				suggestedSets: normalizeDuplicateSets(suggested),
+			};
+		}
+
+		function normalizeDuplicateSets(list) {
+			if (!Array.isArray(list)) {
+				return [];
+			}
+			const seen = {};
+			const result = [];
+			list.forEach(function (set) {
+				const normalized = normalizeDuplicateSet(set);
+				if (!normalized.length) {
+					return;
+				}
+				const key = serializeDuplicateSet(normalized);
+				if (!seen[key]) {
+					seen[key] = true;
+					result.push(normalized);
+				}
+			});
+			return result;
+		}
+
+		function normalizeDuplicateSet(set) {
+			if (!Array.isArray(set)) {
+				return [];
+			}
+			const values = [];
+			set.forEach(function (field) {
+				const name = (field || '').toString().trim();
+				if (!name) {
+					return;
+				}
+				if (!values.includes(name)) {
+					values.push(name);
+				}
+			});
+			return values;
+		}
+
+		function serializeDuplicateSet(set) {
+			if (!Array.isArray(set)) {
+				return '';
+			}
+			return set
+				.map(function (value) {
+					return value.toString().toLowerCase();
+				})
+				.sort()
+				.join('::');
+		}
+
+		function isDuplicateSetActive(candidate) {
+			const candidateKey = serializeDuplicateSet(candidate);
+			if (!candidateKey) {
+				return false;
+			}
+			return state.duplicateConfig.activeSets.some(function (current) {
+				return serializeDuplicateSet(current) === candidateKey;
+			});
+		}
+
+		function addDuplicateSet(set) {
+			const normalized = normalizeDuplicateSet(set);
+			if (!normalized.length || isDuplicateSetActive(normalized)) {
+				return;
+			}
+			const next = state.duplicateConfig.activeSets.slice();
+			next.push(normalized);
+			state.duplicateConfig.activeSets = next;
+			renderDuplicateSections();
+		}
+
+		function removeDuplicateSet(index) {
+			const current = state.duplicateConfig.activeSets.slice();
+			if (index < 0 || index >= current.length) {
+				return;
+			}
+			current.splice(index, 1);
+			state.duplicateConfig.activeSets = current;
+			renderDuplicateSections();
+		}
+
+		function toggleSuggestedSet(index, enabled) {
+			const set = state.duplicateConfig.suggestedSets[index];
+			if (!set) {
+				return;
+			}
+			if (enabled) {
+				addDuplicateSet(set);
+				return;
+			}
+			const key = serializeDuplicateSet(set);
+			const remaining = state.duplicateConfig.activeSets.filter(function (current) {
+				return serializeDuplicateSet(current) !== key;
+			});
+			state.duplicateConfig.activeSets = remaining;
+			renderDuplicateSections();
+		}
+
 		function renderDuplicateSections() {
 			if (!dom.requiredSets.length || !dom.optionalSets.length) {
 				ensureStepRendered(2);
 				refreshDomReferences();
 			}
-			const required = state.duplicateConfig.requiredSets || [];
-			const optional = state.duplicateConfig.optionalSets || [];
+			const active = state.duplicateConfig.activeSets || [];
+			const suggestions = state.duplicateConfig.suggestedSets || [];
 
-			if (!required.length) {
-				dom.requiredSets.html('<span class="text-muted">—</span>');
+			if (!active.length) {
+				dom.requiredSets.html('<span class="text-muted">' + t('LBL_DUPLICATES_NOT_CONFIGURED', 'Nie zdefiniowano żadnych zestawów duplikatów.') + '</span>');
 			} else {
-				const badges = required.map(function (set) {
+				const list = $('<div class="d-flex flex-wrap"/>');
+				active.forEach(function (set, index) {
 					const text = (set || []).join(' + ');
-					return '<span class="badge badge-light mr-1 mb-1">' + text + '</span>';
+					const $badge = $('<span class="badge badge-light mr-1 mb-1 d-flex align-items-center"/>');
+					$badge.text(text + ' ');
+					const $remove = $('<button type="button" class="btn btn-link btn-sm text-danger p-0 ml-2 js-remove-duplicate-set" aria-label="' + t('LBL_REMOVE', 'Usuń') + '"/>')
+						.attr('data-index', index)
+						.append('<span class="fa fa-times" aria-hidden="true"></span>');
+					$badge.append($remove);
+					list.append($badge);
 				});
-				dom.requiredSets.html(badges.join(''));
+				dom.requiredSets.html(list);
 			}
 
-			if (!optional.length) {
+			if (!suggestions.length) {
 				dom.optionalSets.html('<span class="text-muted">' + t('LBL_NO_OPTIONAL_SETS', 'Brak dodatkowych zestawów') + '</span>');
 			} else {
 				const list = $('<div/>');
-				optional.forEach(function (set, index) {
+				suggestions.forEach(function (set, index) {
 					const text = (set || []).join(' + ');
+					const isActive = isDuplicateSetActive(set);
 					const $row = $('<div class="form-check"/>');
 					const $checkbox = $('<input type="checkbox" class="form-check-input js-optional-set"/>')
 						.attr('id', 'ImportManagerOptionalSet' + index)
-						.attr('data-index', index);
+						.attr('data-index', index)
+						.prop('checked', isActive);
 					const $label = $('<label class="form-check-label"/>')
 						.attr('for', 'ImportManagerOptionalSet' + index)
 						.text(text);
@@ -545,14 +677,9 @@
 		}
 
 		function collectDuplicateSets() {
-			const indexes = [];
-			dom.optionalSets.find('.js-optional-set:checked').each(function () {
-				const idx = parseInt($(this).attr('data-index'), 10);
-				if (!isNaN(idx)) {
-					indexes.push(idx);
-				}
-			});
-			return { optionalActive: indexes };
+			return {
+				selected: state.duplicateConfig.activeSets || []
+			};
 		}
 
 		function saveMappingDefinition() {

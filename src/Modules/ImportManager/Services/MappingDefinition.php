@@ -188,26 +188,98 @@ class MappingDefinition
 
 	private function hydrateDuplicateSets($payload, array $config): void
 	{
-		$this->duplicateSets['required'] = array_values($config['requiredSets'] ?? []);
-		$this->duplicateSets['optional'] = [];
+		$fields = $this->getFieldsMap();
+		$selectedSets = $this->extractSelectedDuplicateSets($payload, $fields);
 
-		$optionalIndexes = [];
-		if (is_array($payload) && isset($payload['optionalActive'])) {
+		if (!$selectedSets && is_array($payload) && isset($payload['optionalActive'])) {
 			$optionalIndexes = array_map('intval', (array) $payload['optionalActive']);
+			$optionalSets = array_values($config['optionalSets'] ?? []);
+			foreach ($optionalIndexes as $index) {
+				if (!isset($optionalSets[$index])) {
+					continue;
+				}
+				$normalized = $this->normalizeDuplicateSet($optionalSets[$index], $fields);
+				if ($normalized) {
+					$selectedSets[$this->serializeDuplicateSet($normalized)] = $normalized;
+				}
+			}
+			$selectedSets = array_values($selectedSets);
 		}
 
-		$optionalSets = array_values($config['optionalSets'] ?? []);
-		foreach ($optionalIndexes as $index) {
-			if (isset($optionalSets[$index])) {
-				$this->duplicateSets['optional'][] = $optionalSets[$index];
+		if (!$selectedSets && !empty($config['activeSets'])) {
+			foreach ((array) $config['activeSets'] as $set) {
+				$normalized = $this->normalizeDuplicateSet($set, $fields);
+				if ($normalized) {
+					$selectedSets[] = $normalized;
+				}
 			}
 		}
 
+		$this->duplicateSets['required'] = $selectedSets;
+		$this->duplicateSets['optional'] = [];
+
+		$suggestedSets = [];
+		foreach ((array) ($config['suggestedSets'] ?? $config['optionalSets'] ?? []) as $set) {
+			$normalized = $this->normalizeDuplicateSet($set, $fields);
+			if ($normalized) {
+				$suggestedSets[$this->serializeDuplicateSet($normalized)] = $normalized;
+			}
+		}
+		$suggestedSets = array_values($suggestedSets);
+
 		$this->options['duplicateConfig'] = [
-			'required' => $this->duplicateSets['required'],
-			'optionalAvailable' => $optionalSets,
+			'selected' => $this->duplicateSets['required'],
+			'suggested' => $suggestedSets,
 			'mergeKeys' => array_values($config['mergeKeys'] ?? []),
 		];
+	}
+
+	/**
+	 * @param mixed $payload
+	 * @param array<string, \App\Modules\Base\Models\Field> $fields
+	 * @return array<int, array<int, string>>
+	 */
+	private function extractSelectedDuplicateSets($payload, array $fields): array
+	{
+		if (!is_array($payload) || !isset($payload['selected']) || !is_array($payload['selected'])) {
+			return [];
+		}
+		$result = [];
+		foreach ($payload['selected'] as $set) {
+			$normalized = $this->normalizeDuplicateSet($set, $fields);
+			if ($normalized) {
+				$result[$this->serializeDuplicateSet($normalized)] = $normalized;
+			}
+		}
+		return array_values($result);
+	}
+
+	/**
+	 * @param mixed $set
+	 * @param array<string, \App\Modules\Base\Models\Field> $fields
+	 * @return array<int, string>
+	 */
+	private function normalizeDuplicateSet($set, array $fields): array
+	{
+		if (!is_array($set)) {
+			return [];
+		}
+		$result = [];
+		foreach ($set as $fieldName) {
+			$key = strtolower(trim((string) $fieldName));
+			if ($key === '' || !isset($fields[$key])) {
+				return [];
+			}
+			$result[] = $fields[$key]->getName();
+		}
+		return array_values(array_unique($result));
+	}
+
+	private function serializeDuplicateSet(array $set): string
+	{
+		$normalized = array_map(static fn($value) => strtolower((string) $value), $set);
+		sort($normalized);
+		return implode('::', $normalized);
 	}
 
 	private function hydrateOptions(): void

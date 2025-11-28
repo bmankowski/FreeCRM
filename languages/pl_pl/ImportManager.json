@@ -13,6 +13,7 @@
 		"LBL_XML_RECORD_PATH_DESC": "Przykład: /Records/Record",
 		"LBL_GENERATE_PREVIEW": "Generuj podgląd",
 		"LBL_PREVIEW_LIMIT": "Limit podglądu",
+		"LBL_PREVIEW_LIMIT_DESC": "Liczba wierszy do wyświetlenia w podglądzie",
 		"LBL_IMPORT_PREVIEW": "Podgląd importu",
 		"LBL_RECENT_IMPORTS": "Ostatnie importy",
 		"LBL_STEP2_TITLE": "Krok 2 – Mapowanie pól",

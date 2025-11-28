@@ -15,11 +15,12 @@ class ConfigProvider
 {
 	private array $config;
 	private ?array $optionalConfig = null;
-	private array $mandatorySetsCache = [];
+	private DuplicateRuleRepository $duplicateRules;
 
-	public function __construct(?array $config = null)
+	public function __construct(?array $config = null, ?DuplicateRuleRepository $duplicateRules = null)
 	{
 		$this->config = $config ?? $this->loadFromFile();
+		$this->duplicateRules = $duplicateRules ?? new DuplicateRuleRepository();
 	}
 
 	public function get(string $path, $default = null)
@@ -66,11 +67,21 @@ class ConfigProvider
 			$this->optionalConfig = $this->loadOptionalDuplicateConfig();
 		}
 
-		$config = $this->optionalConfig[$moduleName] ?? [];
+		$moduleModel = ModuleModel::getInstance($moduleName);
+		$savedSets = $moduleModel ? $this->duplicateRules->find($moduleName) : [];
+		$suggestedSets = $moduleModel ? $this->duplicateRules->suggest($moduleModel) : [];
+
+		$legacyConfig = $this->optionalConfig[$moduleName] ?? [];
+		if (!$suggestedSets && !empty($legacyConfig['optionalSets'])) {
+			$suggestedSets = array_values($legacyConfig['optionalSets']);
+		}
+
 		return [
-			'requiredSets' => $this->resolveMandatorySets($moduleName),
-			'optionalSets' => array_values($config['optionalSets'] ?? []),
-			'mergeKeys' => array_values($config['mergeKeys'] ?? []),
+			'activeSets' => $savedSets,
+			'suggestedSets' => $suggestedSets,
+			'requiredSets' => $savedSets,
+			'optionalSets' => $suggestedSets,
+			'mergeKeys' => array_values($legacyConfig['mergeKeys'] ?? []),
 		];
 	}
 
@@ -102,30 +113,6 @@ class ConfigProvider
 
 		$config = require $path;
 		return is_array($config) ? $config : [];
-	}
-
-	private function resolveMandatorySets(string $moduleName): array
-	{
-		if (array_key_exists($moduleName, $this->mandatorySetsCache)) {
-			return $this->mandatorySetsCache[$moduleName];
-		}
-
-		$moduleModel = ModuleModel::getInstance($moduleName);
-		if (!$moduleModel) {
-			return $this->mandatorySetsCache[$moduleName] = [];
-		}
-
-		$sets = [];
-		foreach ($moduleModel->getFields() as $fieldModel) {
-			if (!$fieldModel->isActiveField() || !$fieldModel->isEditable()) {
-				continue;
-			}
-			if ($fieldModel->isMandatory()) {
-				$sets[] = [$fieldModel->getName()];
-			}
-		}
-
-		return $this->mandatorySetsCache[$moduleName] = $sets;
 	}
 }
 

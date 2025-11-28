@@ -13,6 +13,7 @@
 		"LBL_XML_RECORD_PATH_DESC": "Example: /Records/Record",
 		"LBL_GENERATE_PREVIEW": "Generate preview",
 		"LBL_PREVIEW_LIMIT": "Preview limit",
+		"LBL_PREVIEW_LIMIT_DESC": "Number of rows to display in preview",
 		"LBL_IMPORT_PREVIEW": "Import preview",
 		"LBL_RECENT_IMPORTS": "Recent imports",
 		"LBL_STEP2_TITLE": "Step 2 – Map fields",

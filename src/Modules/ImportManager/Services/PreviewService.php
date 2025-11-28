@@ -25,7 +25,10 @@ class PreviewService
 	public function build(string $format, string $absolutePath, array $options = []): array
 	{
 		$parser = $this->parserFactory->create($format, $absolutePath, $options);
-		$rows = $parser->readPreview($this->config->getPreviewRows());
+		$previewRows = isset($options['preview_rows']) && $options['preview_rows'] > 0
+			? (int) $options['preview_rows']
+			: $this->config->getPreviewRows();
+		$rows = $parser->readPreview($previewRows);
 
 		return [
 			'headers' => $parser->getHeaders(),

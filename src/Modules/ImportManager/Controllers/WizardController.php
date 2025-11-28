@@ -85,6 +85,14 @@ class WizardController
 			'xpath' => $payload['xpath'],
 		];
 
+		$previewRows = $request->get('preview_rows');
+		if ($previewRows !== null && $previewRows !== '') {
+			$previewRows = (int) $previewRows;
+			if ($previewRows > 0) {
+				$parserOptions['preview_rows'] = $previewRows;
+			}
+		}
+
 		$preview = $this->previewService->build(
 			$uploadResult['format'],
 			$uploadResult['absolutePath'],

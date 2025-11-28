@@ -12,6 +12,7 @@ namespace App\Modules\ImportManager\Actions;
 use App\Base\Controllers\BaseActionController;
 use App\Modules\ImportManager\Services\BatchRepository;
 use App\Modules\ImportManager\Services\ConfigProvider;
+use App\Modules\ImportManager\Services\DuplicateRuleRepository;
 use App\Modules\ImportManager\Services\MappingDefinition;
 use App\Modules\ImportManager\Services\MappingRepository;
 
@@ -20,6 +21,7 @@ class SaveMapping extends BaseActionController
 	private ConfigProvider $config;
 	private MappingRepository $repository;
 	private BatchRepository $batches;
+	private DuplicateRuleRepository $duplicateRules;
 
 	public function __construct()
 	{
@@ -27,6 +29,7 @@ class SaveMapping extends BaseActionController
 		$this->config = new ConfigProvider();
 		$this->repository = new MappingRepository();
 		$this->batches = new BatchRepository();
+		$this->duplicateRules = new DuplicateRuleRepository();
 	}
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
@@ -74,6 +77,7 @@ class SaveMapping extends BaseActionController
 			$definition = MappingDefinition::fromPayload($payload, $moduleModel, $this->config);
 
 			$saveResult = $this->repository->save($definition);
+			$this->duplicateRules->save($moduleName, $definition->getDuplicateSets()['required'] ?? []);
 
 			$this->batches->update($batchId, [
 				'status' => 'mapped',
