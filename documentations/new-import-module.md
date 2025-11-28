@@ -108,6 +108,9 @@
   2. **Grid korekcyjny** – widok w `modules/ImportManager/views/Retry.php` renderuje tabelę z rekordami `failed`, umożliwiając edycję pojedynczych pól inline (z walidacją typu). Po zapisaniu zmian `RetryManager` aktualizuje staging i oznacza rekord do ponownego przetworzenia.
 - Dodatkowo dostępna jest akcja „uruchom ponownie tylko niepoprawne wiersze” – po poprawkach (czy to z gridu, czy z pliku korekcyjnego) `RetryManager` ponownie uruchamia import dla rekordów oznaczonych `retry_token`.
 - API oraz UI odmawiają edycji mapowania, stagingu i retry, jeżeli `import_batches.status = running`, dzięki czemu nie ma ryzyka kolizji z aktualnie przetwarzanym wsadem.
+- Dla dużych wsadów staging (i później import właściwy) mogą zostać zlecone do kolejki (`vtiger_import_queue`). Kreator informuje użytkownika, że zadanie zostało dodane do tła, a worker `cron/ImportManager/Import.php` uruchomi je automatycznie.
+
+> Aktualnie (Etap 4) widok Retry wraz z eksportem i zapisem poprawek jest dostępny z poziomu kreatora („Przygotuj dane” → „Popraw błędne rekordy”). Każda edycja oznacza rekord `retry_token`, więc kolejne etapy importu będą mogły przetwarzać jedynie poprawione pozycje.
 
 ## Polityka duplikatów
 - Detekcja: `DuplicateResolver` korzysta z konfiguracji per moduł (`config/import_duplicates.php`) jedynie dla zestawów opcjonalnych. Wymagane zestawy wynikają bezpośrednio z pól oznaczonych jako obowiązkowe w `vtiger_field`, więc nie trzeba utrzymywać ich ręcznie. Podczas mapowania UI wymusza przypięcie kolumn do każdego wymaganego zestawu, a użytkownik może dodatkowo włączać/wyłączać zestawy opcjonalne zapisane w konfiguracji.

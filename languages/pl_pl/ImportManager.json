@@ -48,10 +48,23 @@
 		"LBL_LOADING": "Ładowanie...",
 		"LBL_MANDATORY": "Wymagane",
 		"LBL_FIELD_OPTIONAL": "Opcjonalne",
+		"LBL_FIELD_MANDATORY": "Wymagane",
 		"LBL_STAGING_IN_PROGRESS": "Trwa przygotowywanie danych...",
 		"LBL_STAGE_SUCCESS": "Przygotowanie zakończone. Rekordy: %s, błędne: %s.",
+		"LBL_STAGE_QUEUED": "Przygotowanie danych dodano do kolejki (zadanie #%s). Worker uruchomi je w tle.",
 		"LBL_FIELD_IS_MANDATORY": "Pole jest obowiązkowe",
-		"LBL_DUPLICATE_KEY_MISSING": "Nie uzupełniono wymaganego zestawu pól dla duplikatów"
+		"LBL_DUPLICATE_KEY_MISSING": "Nie uzupełniono wymaganego zestawu pól dla duplikatów",
+		"LBL_RETRY_HEADING": "Popraw błędne rekordy",
+		"LBL_BATCH_ID": "Wsad",
+		"LBL_EXPORT_ERRORS": "Eksportuj błędy",
+		"LBL_RETRY_INFO": "Popraw wartości w podświetlonych polach i zapisz zmiany, aby oznaczyć rekordy do ponownego przetworzenia.",
+		"LBL_ERRORS": "Błędy",
+		"LBL_SAVE_CHANGES": "Zapisz zmiany",
+		"LBL_NO_FAILED_ROWS": "Brak błędnych rekordów.",
+		"LBL_OPEN_RETRY": "Popraw błędne rekordy",
+		"LBL_STEP4_RETRY_TITLE": "Opcjonalny krok – popraw błędy",
+		"LBL_STEP4_RETRY_DESC": "Jeśli staging wykrył błędy, popraw je przed uruchomieniem importu właściwego.",
+		"LBL_RETRY_ALERT": "Wykryto błędne rekordy (%s/%s). Popraw je przed kontynuacją."
 	},
 	"jsLanguageStrings": {
 		"JS_NO_PREVIEW_DATA": "Brak danych podglądu.",
@@ -63,7 +76,9 @@
 		"JS_BATCH_NOT_READY": "Wsad nie jest przygotowany. Najpierw wygeneruj podgląd.",
 		"JS_NO_HEADERS_AVAILABLE": "Plik nie zawiera wiersza nagłówków – zmapuj pola ręcznie.",
 		"JS_NO_FIELDS_AVAILABLE": "Brak pól modułu dostępnych do mapowania.",
-		"JS_COLUMN_OR_DEFAULT_REQUIRED": "Wybierz kolumnę z pliku lub ustaw wartość domyślną dla pola %s."
+		"JS_COLUMN_OR_DEFAULT_REQUIRED": "Wybierz kolumnę z pliku lub ustaw wartość domyślną dla pola %s.",
+		"JS_NOTHING_TO_SAVE": "Brak zmian do zapisania.",
+		"JS_CHANGES_SAVED": "Zmiany zostały zapisane."
 	}
 }
 

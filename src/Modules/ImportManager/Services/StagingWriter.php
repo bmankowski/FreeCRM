@@ -104,7 +104,11 @@ class StagingWriter
 		];
 
 		foreach ($columnMap as $fieldName => $columnName) {
-			$row[$columnName] = $values[$fieldName] ?? null;
+			$value = $values[$fieldName] ?? null;
+			if (is_array($value)) {
+				$value = \App\Utils\Json::encode($value);
+			}
+			$row[$columnName] = $value;
 		}
 
 		return $row;

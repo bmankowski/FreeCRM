@@ -2,7 +2,7 @@
 /**
  * FreeCRM - Customer Relationship Management System
  *
- * AJAX action that triggers staging step for ImportManager batches.
+ * Saves inline edits of failed staging rows.
  */
 
 declare(strict_types=1);
@@ -10,29 +10,24 @@ declare(strict_types=1);
 namespace App\Modules\ImportManager\Actions;
 
 use App\Base\Controllers\BaseActionController;
-use App\Modules\ImportManager\Jobs\ImportJob;
-use App\Modules\ImportManager\Services\BatchProcessor;
 use App\Modules\ImportManager\Services\BatchRepository;
-use App\Modules\ImportManager\Services\QueueDispatcher;
+use App\Modules\ImportManager\Services\RetryManager;
 
-class Stage extends BaseActionController
+class RetryUpdate extends BaseActionController
 {
-	private BatchProcessor $processor;
+	private RetryManager $retryManager;
 	private BatchRepository $batches;
-	private QueueDispatcher $queue;
 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->processor = new BatchProcessor();
+		$this->retryManager = new RetryManager();
 		$this->batches = new BatchRepository();
-		$this->queue = new QueueDispatcher();
 	}
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$batchId = (int) $request->get('batch_id');
-		if ($batchId <= 0) {
+		if ((int) $request->get('batch_id') <= 0) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -46,26 +41,27 @@ class Stage extends BaseActionController
 			$batch = $this->batches->find($batchId);
 			$currentUserId = \App\Modules\Users\Models\Record::getCurrentUserId();
 			if (!$batch || (int) $batch['created_by'] !== (int) $currentUserId) {
-				throw new \RuntimeException('Nie masz dostępu do tego wsadu.');
+				throw new \RuntimeException('Brak dostępu do wskazanego wsadu.');
 			}
 
-			if ($this->queue->shouldEnqueue($batch)) {
-				$job = $this->queue->enqueueStage($batch);
-				$response->setResult([
-					'queued' => true,
-					'jobId' => $job->getId(),
-				]);
-				$response->emit();
-				return;
+			if ($batch['status'] === 'running') {
+				throw new \RuntimeException('Nie można edytować wsadu w trakcie przetwarzania.');
 			}
 
-			$result = $this->processor->stage($batchId);
+			$rows = $request->get('rows');
+			if (is_string($rows)) {
+				$rows = \App\Utils\Json::decode($rows);
+			}
+			if (!is_array($rows)) {
+				throw new \RuntimeException('Nie przesłano zmian do zapisania.');
+			}
+
+			$updated = $this->retryManager->updateRows($batchId, $rows);
 			$response->setResult([
-				'queued' => false,
-				'result' => $result,
+				'updated' => $updated,
 			]);
 		} catch (\Throwable $exception) {
-			\App\Log\Log::error('ImportManager staging failed: ' . $exception->getMessage(), 'ImportManager');
+			\App\Log\Log::error('ImportManager retry update failed: ' . $exception->getMessage(), 'ImportManager');
 			$response->setError(500, $exception->getMessage());
 		}
 

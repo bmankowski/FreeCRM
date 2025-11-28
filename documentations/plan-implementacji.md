@@ -116,6 +116,8 @@ W implementacji iteracji 2 wszystkie powyższe komponenty już istnieją:
    - Opcja „Uruchom ponownie tylko niepoprawne wiersze”.  
    - Aktualizacja statusów w stagingu i ponowne odpalenie `BatchProcessor` dla wybranych rekordów.
 
+Status: w bieżącej iteracji dostępne są wszystkie elementy punktów 1–2 oraz część RetryManagera odpowiedzialna za oznaczanie rekordów (`retry_token`) i ponowne walidacje. Eksport błędów (CSV) oraz widok `Retry` zostały zintegrowane z kreatorem (przycisk „Przygotuj dane” → „Popraw błędne rekordy”). Pozostałe elementy (ponowne przetwarzanie tylko błędnych wierszy podczas właściwego importu) zostaną uzupełnione w Etapie 3/5 razem z finalnym `RecordPersister`.
+
 ### Pliki do utworzenia (Etap 4)
 - `src/Modules/ImportManager/Actions/ExportErrorsAction.php` – generowanie CSV/JSON z rekordami `failed`.
 - `src/Modules/ImportManager/Services/RetryManager.php` – logika oznaczania rekordów do ponownego przetworzenia oraz komunikacja z `BatchProcessor`.
@@ -130,6 +132,8 @@ W implementacji iteracji 2 wszystkie powyższe komponenty już istnieją:
 2. **Cron / Worker**  
    - Aktualizacja istniejącego crona (legacy `Import`) obsługującego `vtiger_import_queue`.  
    - Monitorowanie postępu batcha (status w `import_batches`).
+
+Status: wdrożony. `QueueDispatcher` ocenia progi (`queue.thresholds`) i dla dużych wsadów dodaje zadanie `stage` do `vtiger_import_queue`. Przycisk „Przygotuj dane” informuje, czy staging wykonał się inline, czy został zlecony do tła. Worker `src/Modules/ImportManager/cron/Import.php` pobiera oczekujące zadania i uruchamia `BatchProcessor` poprzez `ImportJobProcessor`, aktualizując statusy w kolejce.
 
 ### Pliki do utworzenia (Etap 5)
 - `src/Modules/ImportManager/Jobs/ImportJob.php` – enkapsulacja danych wsadu zapisywanych do `vtiger_import_queue`.
@@ -147,6 +151,8 @@ W implementacji iteracji 2 wszystkie powyższe komponenty już istnieją:
 3. **Monitoring/logi**  
    - Upewnić się, że `ImportLogService` zapisuje dane zarówno w bazie, jak i w `storage/imports/{batchId}/log.json`.  
    - Sprawdzić `cache/logs/system.log` po każdej dużej zmianie.
+
+Status: rozpoczęty. Dodano pierwsze testy phpunit (`tests/phpunit/ImportManager/Parsers/CsvParserTest.php` i `XmlParserTest.php`) weryfikujące działanie parserów oraz obsługę iteracyjnego wczytywania danych. Dokument `new-import-module.md` opisuje wymagany cykl sprawdzania logów po stagingu/importach. Kolejne kroki – testy walidatora, scenariusze integracyjne i e2e – pozostają w backlogu.
 
 ### Pliki do utworzenia (Etap 6)
 - `tests/PhpUnit/ImportManager/Parsers/CsvParserTest.php`, `XmlParserTest.php` – testy jednostkowe parserów i autodetekcji.

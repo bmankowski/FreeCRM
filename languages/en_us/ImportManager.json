@@ -48,10 +48,23 @@
 		"LBL_LOADING": "Loading...",
 		"LBL_MANDATORY": "Mandatory",
 		"LBL_FIELD_OPTIONAL": "Optional",
+		"LBL_FIELD_MANDATORY": "Mandatory",
 		"LBL_STAGING_IN_PROGRESS": "Preparing data...",
 		"LBL_STAGE_SUCCESS": "Staging completed. Records: %s, failed: %s.",
+		"LBL_STAGE_QUEUED": "Staging queued as job #%s. The background worker will process it soon.",
 		"LBL_FIELD_IS_MANDATORY": "Field is required",
-		"LBL_DUPLICATE_KEY_MISSING": "Duplicate identification set is incomplete"
+		"LBL_DUPLICATE_KEY_MISSING": "Duplicate identification set is incomplete",
+		"LBL_RETRY_HEADING": "Fix failed records",
+		"LBL_BATCH_ID": "Batch",
+		"LBL_EXPORT_ERRORS": "Export errors",
+		"LBL_RETRY_INFO": "Edit the highlighted values and save changes to mark rows for another attempt.",
+		"LBL_ERRORS": "Errors",
+		"LBL_SAVE_CHANGES": "Save changes",
+		"LBL_NO_FAILED_ROWS": "No failed records remaining.",
+		"LBL_OPEN_RETRY": "Review failed records",
+		"LBL_STEP4_RETRY_TITLE": "Optional step – fix failed records",
+		"LBL_STEP4_RETRY_DESC": "If staging detected errors, you can correct them before starting the final import.",
+		"LBL_RETRY_ALERT": "Detected failed records (%s/%s). Fix them before continuing."
 	},
 	"jsLanguageStrings": {
 		"JS_NO_PREVIEW_DATA": "No preview data returned.",
@@ -63,7 +76,9 @@
 		"JS_BATCH_NOT_READY": "Batch is not prepared. Generate preview first.",
 		"JS_NO_HEADERS_AVAILABLE": "File does not contain header row – map fields manually.",
 		"JS_NO_FIELDS_AVAILABLE": "No module fields available for mapping.",
-		"JS_COLUMN_OR_DEFAULT_REQUIRED": "Select a source column or set a default value for field %s."
+		"JS_COLUMN_OR_DEFAULT_REQUIRED": "Select a source column or set a default value for field %s.",
+		"JS_NOTHING_TO_SAVE": "No changes to save.",
+		"JS_CHANGES_SAVED": "Changes saved."
 	}
 }
 

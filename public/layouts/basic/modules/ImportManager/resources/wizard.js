@@ -30,6 +30,9 @@
 			summaryFields: $('#ImportManagerSummaryFields'),
 			confirmationStatus: $('#ImportManagerConfirmationStatus'),
 			startImport: $('#ImportManagerStartImport'),
+			openRetry: $('#ImportManagerOpenRetry'),
+			retryAlert: $('#ImportManagerRetryAlert'),
+			retryCard: $('#ImportManagerStep4'),
 		};
 
 		const state = {
@@ -51,6 +54,12 @@
 		dom.form.on('submit', handleUploadSubmit);
 		dom.startImport.on('click', function () {
 			triggerStaging();
+		});
+		dom.openRetry.on('click', function () {
+			if (!state.batchId) {
+				return;
+			}
+			window.location = 'index.php?module=ImportManager&view=Retry&batch_id=' + state.batchId;
 		});
 		
 		dom.saveMapping.on('click', saveMappingDefinition);
@@ -551,7 +560,12 @@
 					handleError(response);
 					return;
 				}
-				handleStagingResult(response.result || {});
+				const payload = response.result || {};
+				if (payload.queued) {
+					handleQueuedJob(payload);
+				} else {
+					handleStagingResult(payload.result || payload);
+				}
 			})
 			.fail(function (jqXHR) {
 				indicator.progressIndicator({ mode: 'hide' });
@@ -570,24 +584,69 @@
 			.addClass(failed > 0 ? 'alert-danger' : 'alert-success')
 			.text(successMsg)
 			.removeClass('d-none');
+		showRetryCard(total, failed, false);
 		showToast(successMsg, failed > 0 ? 'warning' : 'success');
 	}
 
-		function resetWizardState() {
-			state.batchId = null;
-			state.preview = null;
-			state.fileMeta = {};
-			state.moduleName = null;
-			state.fields = [];
-			state.duplicateConfig = { requiredSets: [], optionalSets: [] };
-			dom.previewCard.addClass('d-none');
-			dom.step2.addClass('d-none');
+	function handleQueuedJob(payload) {
+		const jobId = payload.jobId || '?';
+		const message = t('LBL_STAGE_QUEUED', 'Przygotowanie danych dodano do kolejki (zadanie #%s).').replace('%s', jobId);
+		dom.confirmationStatus
+			.removeClass('alert-danger alert-success')
+			.addClass('alert-info')
+			.text(message)
+			.removeClass('d-none');
+		showRetryCard(0, 0, true);
+		showToast(message, 'info');
+	}
+
+	function showRetryCard(total, failed, queued) {
+		if (queued) {
+			dom.retryCard.removeClass('d-none');
+			dom.retryAlert
+				.removeClass('alert-danger alert-success')
+				.addClass('alert-info')
+				.text(t('LBL_STAGE_QUEUED', 'Przygotowanie danych dodano do kolejki (zadanie #%s).'));
+			dom.openRetry.addClass('d-none');
+			return;
+		}
+
+		if (failed > 0) {
+			const msg = t('LBL_RETRY_ALERT', 'Wykryto błędne rekordy (%s/%s). Popraw je przed kontynuacją.')
+				.replace('%s', failed)
+				.replace('%s', total);
+			dom.retryAlert
+				.removeClass('alert-info alert-success')
+				.addClass('alert-danger')
+				.text(msg)
+				.removeClass('d-none');
+			dom.openRetry.removeClass('d-none');
+			dom.retryCard.removeClass('d-none');
+		} else {
+			dom.retryAlert.addClass('d-none').text('');
+			dom.openRetry.addClass('d-none');
+			dom.retryCard.addClass('d-none');
+		}
+	}
+
+	function resetWizardState() {
+		state.batchId = null;
+		state.preview = null;
+		state.fileMeta = {};
+		state.moduleName = null;
+		state.fields = [];
+		state.duplicateConfig = { requiredSets: [], optionalSets: [] };
+		dom.previewCard.addClass('d-none');
+		dom.step2.addClass('d-none');
 			dom.step3.addClass('d-none');
+			dom.retryCard.addClass('d-none');
 			dom.mappingTable.find('tbody').empty();
 			dom.requiredSets.empty();
 			dom.optionalSets.empty();
 			dom.confirmationStatus.addClass('d-none').text('');
-		}
+			dom.openRetry.addClass('d-none');
+			dom.retryAlert.addClass('d-none').text('');
+	}
 
 		function handleError(payload) {
 			let message = null;

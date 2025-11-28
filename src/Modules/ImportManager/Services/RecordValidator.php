@@ -31,21 +31,22 @@ class RecordValidator
 			if ($fieldModel->isMandatory()) {
 				$fieldName = $fieldModel->getName();
 				if (!array_key_exists($fieldName, $values) || $this->isEmpty($values[$fieldName])) {
-					$errors[] = sprintf(
-						'%s: %s',
-						$fieldName,
-						\App\Language::translate('LBL_FIELD_IS_MANDATORY', $module->getName())
-					);
+					$errors[] = [
+						'label' => $fieldModel->getFieldLabel(),
+						'field' => $fieldName,
+						'message' => \App\Language::translate('LBL_FIELD_IS_MANDATORY', $module->getName()),
+					];
 				}
 			}
 		}
 
 		foreach ($definition->getDuplicateSets()['required'] as $set) {
 			if (!$this->isSetSatisfied($set, $values)) {
-				$errors[] = sprintf(
-					'%s',
-					\App\Language::translate('LBL_DUPLICATE_KEY_MISSING', $module->getName())
-				);
+				$errors[] = [
+					'label' => implode(', ', $set),
+					'field' => implode(',', $set),
+					'message' => \App\Language::translate('LBL_DUPLICATE_KEY_MISSING', $module->getName()),
+				];
 			}
 		}
 

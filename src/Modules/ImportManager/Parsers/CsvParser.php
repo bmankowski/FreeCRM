@@ -54,7 +54,11 @@ class CsvParser implements ParserInterface
 			if ($row === false || $row === null) {
 				continue;
 			}
-			$rows[] = $this->alignRow($this->normalizeRow($row));
+			$normalized = $this->alignRow($this->normalizeRow($row));
+			if ($this->isRowEmpty($normalized)) {
+				continue;
+			}
+			$rows[] = $normalized;
 			if (count($rows) >= $limit) {
 				break;
 			}
@@ -88,7 +92,11 @@ class CsvParser implements ParserInterface
 			if ($row === false || $row === null) {
 				continue;
 			}
-			$callback($this->alignRow($this->normalizeRow($row)));
+			$normalized = $this->alignRow($this->normalizeRow($row));
+			if ($this->isRowEmpty($normalized)) {
+				continue;
+			}
+			$callback($normalized);
 		}
 	}
 
@@ -144,13 +152,23 @@ class CsvParser implements ParserInterface
 		return $row;
 	}
 
+	private function isRowEmpty(array $row): bool
+	{
+		foreach ($row as $value) {
+			if ($value !== null && $value !== '') {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	private function createFileObject(): \SplFileObject
 	{
 		$file = new \SplFileObject($this->filePath, 'r');
 		$delimiter = mb_strlen($this->delimiter) > 0 ? mb_substr($this->delimiter, 0, 1) : ',';
 		$enclosure = mb_strlen($this->enclosure) > 0 ? mb_substr($this->enclosure, 0, 1) : '"';
 		$file->setCsvControl($delimiter, $enclosure);
-		$file->setFlags(\SplFileObject::READ_AHEAD);
+		// Do not enable READ_AHEAD – it causes the first data row to be skipped after rewinding.
 		return $file;
 	}
 
