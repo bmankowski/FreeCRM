@@ -165,7 +165,7 @@ class Retry extends Index
 		$viewer->assign('RETRY_FLASH_SUCCESS', $flashSuccess);
 		$viewer->assign('RETRY_FLASH_ERROR', $flashError);
 		$viewer->assign('IMPORT_STEPS', $steps);
-		$viewer->view('RetryGrid.tpl', $request->getModule());
+		$viewer->view('Retry.tpl', $request->getModule());
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
