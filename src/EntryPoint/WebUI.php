@@ -462,7 +462,7 @@ class WebUI extends EntryPoint
 
 		$this->checkSettingsAccess($qualifiedModuleName, $currentUser);
 
-		list($componentType, $componentName) = $this->resolveComponent($request);
+		list($componentType, $componentName) = $this->resolveComponent($request, $qualifiedModuleName);
 
 		define('_PROCESS_TYPE', $componentType);
 		define('_PROCESS_NAME', $componentName);
@@ -556,9 +556,10 @@ class WebUI extends EntryPoint
 	 * Resolve component type and name from request
 	 * 
 	 * @param \App\Http\Vtiger_Request $request
+	 * @param string $moduleName Module name
 	 * @return array [componentType, componentName]
 	 */
-	private function resolveComponent(\App\Http\Vtiger_Request $request)
+	private function resolveComponent(\App\Http\Vtiger_Request $request, $moduleName)
 	{
 		$action = $request->get('action');
 
@@ -567,7 +568,18 @@ class WebUI extends EntryPoint
 		}
 
 		$view = $request->get('view');
-		$componentName = empty($view) ? 'Index' : $view;
+		
+		// If no view specified, use module's default view
+		if (empty($view)) {
+			$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
+			if ($moduleModel && method_exists($moduleModel, 'getDefaultViewName')) {
+				$componentName = $moduleModel->getDefaultViewName();
+			} else {
+				$componentName = 'Index';
+			}
+		} else {
+			$componentName = $view;
+		}
 
 		return ['View', $componentName];
 	}
