@@ -965,14 +965,13 @@
 
 	ImportManager.prototype.showToast = function (text, type) {
 		if (window.app && typeof app.showNotify === 'function') {
-			app.showNotify(text, type);
+			app.showNotify({ text: text, type: type });
 		} else {
 			if (type === 'error') {
 				console.error(text);
 			} else {
 				console.log(text);
 			}
-			alert(text);
 		}
 	};
 

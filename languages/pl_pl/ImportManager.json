@@ -129,7 +129,14 @@
 		"LBL_TOTAL_ROWS": "Wszystkich",
 		"LBL_READY_ROWS": "Gotowych",
 		"LBL_ERROR_ROWS": "Błędnych",
-		"LBL_NEXT_STEP": "Dalej"
+		"LBL_NEXT_STEP": "Dalej",
+		"LBL_ERRORS_FOUND": "Wykryto błędy!",
+		"LBL_ERRORS_NEED_FIX": "Popraw błędne wiersze przed kontynuowaniem importu.",
+		"LBL_FIX_ERRORS": "Popraw błędy",
+		"LBL_BACK_TO_IMPORT": "Powrót do importu",
+		"LBL_CHANGES_SAVED": "Zmiany zostały zapisane.",
+		"LBL_ALL_ROWS_VALID": "Wszystkie rekordy są poprawne i gotowe do importu.",
+		"LBL_CONTINUE_IMPORT": "Kontynuuj import"
 	},
 	"jsLanguageStrings": {
 		"JS_NO_PREVIEW_DATA": "Brak danych podglądu.",

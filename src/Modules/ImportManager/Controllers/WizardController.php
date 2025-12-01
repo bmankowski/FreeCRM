@@ -15,6 +15,8 @@ use App\Modules\ImportManager\Services\MappingDefinition;
 use App\Modules\ImportManager\Services\MappingRepository;
 use App\Modules\ImportManager\Services\ModuleDiscovery;
 use App\Modules\ImportManager\Services\PreviewService;
+use App\Modules\ImportManager\Services\RecordValidator;
+use App\Modules\ImportManager\Services\TemporaryTableManager;
 use App\Modules\ImportManager\Services\UploadService;
 
 class WizardController
@@ -32,6 +34,7 @@ class WizardController
 	private PreviewService $previewService;
 	private BatchRepository $batchRepository;
 	private MappingRepository $mappingRepository;
+	private TemporaryTableManager $tableManager;
 
 	public function __construct(
 		?ConfigProvider $config = null,
@@ -39,7 +42,8 @@ class WizardController
 		?UploadService $uploadService = null,
 		?PreviewService $previewService = null,
 		?BatchRepository $batchRepository = null,
-		?MappingRepository $mappingRepository = null
+		?MappingRepository $mappingRepository = null,
+		?TemporaryTableManager $tableManager = null
 	) {
 		$this->config = $config ?? new ConfigProvider();
 		$this->moduleDiscovery = $moduleDiscovery ?? new ModuleDiscovery();
@@ -47,6 +51,7 @@ class WizardController
 		$this->previewService = $previewService ?? new PreviewService($this->config);
 		$this->batchRepository = $batchRepository ?? new BatchRepository();
 		$this->mappingRepository = $mappingRepository ?? new MappingRepository();
+		$this->tableManager = $tableManager ?? new TemporaryTableManager();
 	}
 
 	public function buildStepOneContext(\App\Http\Vtiger_Request $request): array
@@ -191,7 +196,7 @@ class WizardController
 		$importSummary = [
 			'status' => $batch['status'],
 			'processed' => (int) ($batch['processed_rows'] ?? 0),
-			'errors' => (int) ($batch['error_rows'] ?? 0),
+			'errors' => $stats['errors'], // Użyj aktualnej liczby błędów z tabeli stagingowej
 		];
 		
 		$resultMessageText = null;
@@ -222,7 +227,8 @@ class WizardController
 		$currentStep = $activeStep ?? ($batch ? $this->resolveCurrentStep($batch) : self::STEP_UPLOAD);
 		$currentIndex = $this->stepIndex($currentStep);
 		$hasBatch = $batch !== null;
-		$errorRows = $batch ? (int) ($batch['error_rows'] ?? 0) : 0;
+		// Użyj aktualnej liczby błędów z tabeli stagingowej
+		$errorRows = $batch ? $this->countStagingErrors($batch) : 0;
 
 		foreach ($steps as $key => &$step) {
 			$index = $this->stepIndex($key);
@@ -347,7 +353,7 @@ class WizardController
 			'created_at' => $row['created_at'],
 			'processed_rows' => $row['processed_rows'] ?? 0,
 			'total_rows' => $row['total_rows'] ?? 0,
-			'error_rows' => $row['error_rows'] ?? 0,
+			'error_rows' => $this->countStagingErrors($row),
 			'step' => $step,
 			'continue_url' => $this->buildStepUrl($step, $row),
 		];
@@ -377,7 +383,7 @@ class WizardController
 			'duplicate_strategy' => $batch['duplicate_strategy'] ?? 'skip',
 			'total_rows' => isset($batch['total_rows']) ? (int) $batch['total_rows'] : 0,
 			'processed_rows' => isset($batch['processed_rows']) ? (int) $batch['processed_rows'] : 0,
-			'error_rows' => isset($batch['error_rows']) ? (int) $batch['error_rows'] : 0,
+			'error_rows' => $this->countStagingErrors($batch),
 			'created_at' => $batch['created_at'] ?? null,
 			'updated_at' => $batch['updated_at'] ?? null,
 		];
@@ -449,8 +455,10 @@ class WizardController
 	private function buildStageStats(array $batch): array
 	{
 		$total = (int) ($batch['total_rows'] ?? 0);
-		$errors = (int) ($batch['error_rows'] ?? 0);
 		$processed = (int) ($batch['processed_rows'] ?? 0);
+		
+		// Pobierz aktualną liczbę błędów z tabeli stagingowej (nie z metadanych batcha)
+		$errors = $this->countStagingErrors($batch);
 		$ready = max($total - $errors, 0);
 
 		return [
@@ -462,11 +470,43 @@ class WizardController
 			'updated_at' => $batch['updated_at'] ?? null,
 		];
 	}
+	
+	/**
+	 * Liczy faktyczne błędy w tabeli stagingowej.
+	 * Jedyne źródło prawdy dla liczby błędów - nie używa $batch['error_rows'].
+	 * 
+	 * @return int Liczba błędów (0 jeśli tabela stagingowa nie istnieje)
+	 */
+	private function countStagingErrors(array $batch): int
+	{
+		$batchId = (int) ($batch['id'] ?? 0);
+		$moduleName = $batch['module'] ?? '';
+		
+		if ($batchId <= 0 || $moduleName === '') {
+			return 0;
+		}
+		
+		$tableName = $this->tableManager->getTableName($moduleName, $batchId);
+		$db = \App\Db\Db::getInstance();
+		
+		// Jeśli tabela stagingowa nie istnieje, zwróć 0
+		// (staging nie wykonany lub tabela wyczyszczona po imporcie)
+		if (!$db->getTableSchema($tableName, true)) {
+			return 0;
+		}
+		
+		// Policz wiersze ze statusem 'failed'
+		return (int) (new \App\Db\Query())
+			->from($tableName)
+			->where(['validation_status' => RecordValidator::STATUS_FAILED])
+			->count('*', $db);
+	}
 
 	private function resolveCurrentStep(array $batch): string
 	{
 		$status = $batch['status'] ?? '';
-		$errors = (int) ($batch['error_rows'] ?? 0);
+		// Użyj aktualnej liczby błędów z tabeli stagingowej
+		$errors = $this->countStagingErrors($batch);
 		return match ($status) {
 			'uploaded' => self::STEP_MAPPING,
 			'mapped' => self::STEP_DUPLICATES,
@@ -567,6 +607,11 @@ class WizardController
 
 			$label = \App\Language::translate($fieldModel->getFieldLabel(), $moduleName);
 			$name = $fieldModel->getName();
+			$blockLabel = '';
+			$blockName = $fieldModel->getBlockName();
+			if ($blockName) {
+				$blockLabel = \App\Language::translate($blockName, $moduleName);
+			}
 			$fields[] = [
 				'name' => $name,
 				'label' => $label,
@@ -574,6 +619,8 @@ class WizardController
 				'type' => $fieldModel->getFieldDataType(),
 				'name_normalized' => $this->normalizeFieldToken($name),
 				'label_normalized' => $this->normalizeFieldToken($label),
+				'block_label' => $blockLabel,
+				'block_label_normalized' => $this->normalizeFieldToken($blockLabel),
 			];
 		}
 
@@ -653,6 +700,17 @@ class WizardController
 			$candidates[] = $field['label_normalized'];
 		}
 
+		// Add block::field format candidates (e.g., "Basic Information::Nazwa Projektu")
+		$blockLabelNorm = $field['block_label_normalized'] ?? '';
+		if ($blockLabelNorm !== '') {
+			if (!empty($field['name_normalized'])) {
+				$candidates[] = $blockLabelNorm . $field['name_normalized'];
+			}
+			if (!empty($field['label_normalized'])) {
+				$candidates[] = $blockLabelNorm . $field['label_normalized'];
+			}
+		}
+
 		if (!$candidates) {
 			return null;
 		}
@@ -661,13 +719,32 @@ class WizardController
 			if (!empty($usedHeaders[$index])) {
 				continue;
 			}
-			$normalizedHeader = $this->normalizeFieldToken((string) $header);
-			if ($normalizedHeader === '') {
-				continue;
-			}
-			if (in_array($normalizedHeader, $candidates, true)) {
-				$usedHeaders[$index] = true;
-				return (int) $index;
+			// Extract field part from SECTION::FIELD format if present
+			$headerToMatch = (string) $header;
+			if (strpos($headerToMatch, '::') !== false) {
+				$parts = explode('::', $headerToMatch, 2);
+				$headerSectionNorm = $this->normalizeFieldToken($parts[0]);
+				$headerFieldNorm = $this->normalizeFieldToken($parts[1]);
+				// Try matching block::field format
+				$fullNormalized = $headerSectionNorm . $headerFieldNorm;
+				if (in_array($fullNormalized, $candidates, true)) {
+					$usedHeaders[$index] = true;
+					return (int) $index;
+				}
+				// Also try matching just the field part
+				if ($headerFieldNorm !== '' && in_array($headerFieldNorm, $candidates, true)) {
+					$usedHeaders[$index] = true;
+					return (int) $index;
+				}
+			} else {
+				$normalizedHeader = $this->normalizeFieldToken($headerToMatch);
+				if ($normalizedHeader === '') {
+					continue;
+				}
+				if (in_array($normalizedHeader, $candidates, true)) {
+					$usedHeaders[$index] = true;
+					return (int) $index;
+				}
 			}
 		}
 

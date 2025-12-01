@@ -78,13 +78,13 @@
 							</div>
 
 							{* Stats Summary *}
-							<div class="import-staging-stats mb-4">
-								<div class="import-staging-stat">
+							<div class="import-staging-stats my-4 gap-2">
+								<div class="import-staging-stat mr-2">
 									<div class="import-staging-stat__value">{$TOTAL_ROWS}</div>
 									<div class="import-staging-stat__label">
 										{\App\Language::translate('LBL_TOTAL_ROWS', $MODULE_NAME)|default:'Wszystkich'}</div>
 								</div>
-								<div class="import-staging-stat import-staging-stat--success">
+								<div class="import-staging-stat import-staging-stat--success mr-2">
 									<div class="import-staging-stat__value">{$READY_ROWS}</div>
 									<div class="import-staging-stat__label">
 										{\App\Language::translate('LBL_READY_ROWS', $MODULE_NAME)|default:'Gotowych'}</div>
@@ -97,8 +97,27 @@
 							</div>
 
 
+							{* Error Fix Alert *}
+							{if $ERROR_ROWS > 0}
+								<div class="alert alert-danger d-flex align-items-center justify-content-between my-4 py-3 px-2">
+									<div>
+										<i class="fa fa-exclamation-triangle mr-2"></i>
+										<strong>{\App\Language::translate('LBL_ERRORS_FOUND', $MODULE_NAME)|default:'Wykryto błędy!'}</strong>
+										{\App\Language::translate('LBL_ERRORS_NEED_FIX', $MODULE_NAME)|default:'Popraw błędne wiersze przed kontynuowaniem importu.'}
+									</div>
+								</div>
+							{/if}
+
 							{* Footer with navigation *}
 							<div class="import-card__footer">
+								{if $ERROR_ROWS > 0}
+									<a href="index.php?module=ImportManager&view=Retry&batch_id={$IMPORT_BATCH.id}"
+										class="import-btn import-btn--danger mr-2">
+										<i class="fa fa-wrench mr-2"></i>
+										<span>{\App\Language::translate('LBL_FIX_ERRORS', $MODULE_NAME)|default:'Popraw błędy'}</span>
+										<span class="badge badge-light ml-2">{$ERROR_ROWS}</span>
+									</a>
+								{/if}
 								<a href="index.php?module=ImportManager&view=Finalize&batch_id={$IMPORT_BATCH.id}"
 									class="import-btn import-btn--primary">
 									<span>{\App\Language::translate('LBL_GO_TO_FINALIZE', $MODULE_NAME)}</span>

@@ -128,7 +128,11 @@
 		"LBL_TOTAL_ROWS": "Total",
 		"LBL_READY_ROWS": "Ready",
 		"LBL_ERROR_ROWS": "Failed",
-		"LBL_NEXT_STEP": "Next"
+		"LBL_NEXT_STEP": "Next",
+		"LBL_ERRORS_FOUND": "Errors found!",
+		"LBL_ERRORS_NEED_FIX": "Fix erroneous rows before continuing with import.",
+		"LBL_FIX_ERRORS": "Fix errors",
+		"LBL_BACK_TO_IMPORT": "Back to import"
 	},
 	"jsLanguageStrings": {
 		"JS_NO_PREVIEW_DATA": "No preview data returned.",

@@ -1030,6 +1030,19 @@
 	transform: translateY(-1px);
 }
 
+.import-btn--danger {
+	background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+	color: #fff;
+	box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+.import-btn--danger:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 6px 20px rgba(239, 68, 68, 0.35);
+	color: #fff;
+	text-decoration: none;
+}
+
 .import-btn--add {
 	background: var(--import-gradient-primary);
 	color: #fff;
@@ -1488,7 +1501,6 @@
    ============================================ */
 .import-staging-stats {
 	display: flex;
-	gap: 1.5rem;
 	flex-wrap: wrap;
 }
 
@@ -1652,4 +1664,210 @@
 	.stepper-item {
 		padding: 0.25rem;
 	}
+}
+
+/* ============================================
+   Retry Grid - Error Cell Styling
+   ============================================ */
+.import-cell-error {
+	background-color: rgba(239, 68, 68, 0.08);
+}
+
+.import-cell-error-info {
+	background-color: rgba(239, 68, 68, 0.08);
+	color: var(--import-danger);
+	font-weight: 500;
+	min-width:400px;
+}
+
+.import-input-error {
+	border-color: var(--import-danger) !important;
+	background-color: rgba(239, 68, 68, 0.05);
+}
+
+.import-input-error:focus {
+	border-color: var(--import-danger) !important;
+	box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15) !important;
+}
+
+.js-retry-table tbody tr:hover .import-cell-error {
+	background-color: rgba(239, 68, 68, 0.12);
+}
+
+.js-retry-table tbody tr:hover .import-cell-error-info {
+	background-color: rgba(239, 68, 68, 0.12);
+}
+
+/* ============================================
+   Retry View - Unified Styles
+   ============================================ */
+
+/* Icon danger variant */
+.import-card__icon--danger {
+	background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(220, 38, 38, 0.15) 100%);
+	color: var(--import-danger);
+}
+
+/* Header actions */
+.import-card__actions {
+	margin-left: auto;
+}
+
+/* Small button variant */
+.import-btn--sm {
+	padding: 0.5rem 1rem;
+	font-size: 0.8125rem;
+}
+
+/* Retry Table Styles */
+.import-retry-table-container {
+	margin-top: 1rem;
+	border-radius: var(--import-radius-lg);
+	overflow-x: auto;
+	overflow-y: visible;
+	border: 1px solid var(--import-gray-200);
+	max-width: 100%;
+}
+
+.import-retry-table {
+	margin-bottom: 0;
+	font-size: 0.875rem;
+	table-layout: auto;
+	width: max-content;
+	min-width: 100%;
+}
+
+.import-retry-table thead {
+	background: linear-gradient(135deg, var(--import-gray-50) 0%, var(--import-gray-100) 100%);
+}
+
+.import-retry-table th {
+	min-width: 100px;
+	padding: 0.5rem;
+}
+
+.import-retry-table td {
+	min-width: 100px;
+}
+
+.import-retry-table__header {
+	vertical-align: middle;
+	padding: 0.75rem 0.5rem;
+	border-bottom: 2px solid var(--import-gray-200);
+	min-width: 120px;
+}
+
+.import-retry-table__header-label {
+	font-weight: 600;
+	color: var(--import-gray-700);
+}
+
+.import-retry-table__header-meta {
+	font-size: 0.7rem;
+	color: var(--import-gray-500);
+	font-weight: 400;
+	margin-top: 0.25rem;
+}
+
+.import-retry-table__mandatory {
+	color: var(--import-danger);
+	font-weight: 500;
+}
+
+.import-retry-table__header--error {
+	background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.15) 100%);
+}
+
+.import-retry-table__header--error .import-retry-table__header-label {
+	color: var(--import-danger);
+}
+
+.import-retry-table__row-num {
+	width: 50px;
+	background: var(--import-gray-50);
+	color: var(--import-gray-500);
+	font-weight: 600;
+}
+
+.import-retry-table__errors-col {
+	min-width: 200px;
+	background: rgba(239, 68, 68, 0.05);
+}
+
+.import-retry-table__cell--error {
+	background: rgba(239, 68, 68, 0.08);
+}
+
+.import-retry-table__errors-cell {
+	background: rgba(239, 68, 68, 0.05);
+	vertical-align: middle;
+}
+
+.import-retry-input {
+	border: 1px solid var(--import-gray-200);
+	border-radius: var(--import-radius-sm);
+	transition: var(--import-transition);
+	min-width: 80px;
+	width: 100%;
+}
+
+.import-retry-input:focus {
+	border-color: var(--import-primary);
+	box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+.import-retry-input--error {
+	border-color: var(--import-danger);
+	background: rgba(239, 68, 68, 0.05);
+}
+
+.import-retry-input--error:focus {
+	border-color: var(--import-danger);
+	box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
+
+.import-retry-error-item {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.5rem;
+	font-size: 0.75rem;
+	color: var(--import-danger);
+	padding: 0.25rem 0;
+}
+
+.import-retry-error-item i {
+	flex-shrink: 0;
+	margin-top: 0.1rem;
+}
+
+/* Empty State */
+.import-empty-state {
+	text-align: center;
+	padding: 3rem 2rem;
+}
+
+.import-empty-state__icon {
+	width: 80px;
+	height: 80px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: 0 auto 1.5rem;
+	font-size: 2.5rem;
+}
+
+.import-empty-state__icon--success {
+	background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.15) 100%);
+	color: var(--import-success);
+}
+
+.import-empty-state__title {
+	color: var(--import-gray-700);
+	margin-bottom: 0.5rem;
+}
+
+.import-empty-state__text {
+	color: var(--import-gray-500);
+	margin-bottom: 2rem;
 }

@@ -11,15 +11,19 @@ namespace App\Modules\ImportManager\Actions;
 
 use App\Base\Controllers\BaseActionController;
 use App\Modules\ImportManager\Services\BatchRepository;
+use App\Modules\ImportManager\Services\RecordValidator;
+use App\Modules\ImportManager\Services\TemporaryTableManager;
 
 class GetBatchState extends BaseActionController
 {
 	private BatchRepository $batches;
+	private TemporaryTableManager $tableManager;
 
 	public function __construct()
 	{
 		parent::__construct();
 		$this->batches = new BatchRepository();
+		$this->tableManager = new TemporaryTableManager();
 	}
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
@@ -48,7 +52,7 @@ class GetBatchState extends BaseActionController
 				'file_name' => $batch['file_name'] ?? null,
 				'duplicate_strategy' => $batch['duplicate_strategy'] ?? null,
 				'total_rows' => isset($batch['total_rows']) ? (int) $batch['total_rows'] : null,
-				'error_rows' => isset($batch['error_rows']) ? (int) $batch['error_rows'] : null,
+				'error_rows' => $this->countStagingErrors($batch),
 				'processed_rows' => isset($batch['processed_rows']) ? (int) $batch['processed_rows'] : null,
 			]);
 		} catch (\Throwable $exception) {
@@ -57,6 +61,32 @@ class GetBatchState extends BaseActionController
 		}
 
 		$response->emit();
+	}
+	
+	/**
+	 * Liczy faktyczne błędy w tabeli stagingowej.
+	 * Jedyne źródło prawdy dla liczby błędów.
+	 */
+	private function countStagingErrors(array $batch): int
+	{
+		$batchId = (int) ($batch['id'] ?? 0);
+		$moduleName = $batch['module'] ?? '';
+		
+		if ($batchId <= 0 || $moduleName === '') {
+			return 0;
+		}
+		
+		$tableName = $this->tableManager->getTableName($moduleName, $batchId);
+		$db = \App\Db\Db::getInstance();
+		
+		if (!$db->getTableSchema($tableName, true)) {
+			return 0;
+		}
+		
+		return (int) (new \App\Db\Query())
+			->from($tableName)
+			->where(['validation_status' => RecordValidator::STATUS_FAILED])
+			->count('*', $db);
 	}
 }
 

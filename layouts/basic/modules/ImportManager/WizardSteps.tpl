@@ -24,9 +24,9 @@
 					<div class="stepper-content">
 						<span class="stepper-label">{$STEP.label}</span>
 						{if $STEP.active}
-							<span class="stepper-status">{\App\Language::translate('LBL_CURRENT_STEP', $MODULE_NAME)|default:'Aktualny krok'}</span>
+							<span class="stepper-status">{\App\Language::translate('LBL_CURRENT_STEP', 'ImportManager')}</span>
 						{elseif $STEP.completed}
-							<span class="stepper-status completed">{\App\Language::translate('LBL_COMPLETED', $MODULE_NAME)|default:'Zakończony'}</span>
+							<span class="stepper-status completed">{\App\Language::translate('LBL_COMPLETED', 'ImportManager')}</span>
 						{/if}
 					</div>
 					

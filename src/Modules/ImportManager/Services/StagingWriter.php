@@ -58,10 +58,18 @@ class StagingWriter
 		$total = 0;
 		$failed = 0;
 
-		$parser->iterate(function (array $sourceRow) use (&$chunk, $chunkSize, &$total, &$failed, $fieldMapper, $tableInfo, $module, $definition) {
+		$currentUserId = \App\Modules\Users\Models\Record::getCurrentUserId();
+		
+		$parser->iterate(function (array $sourceRow) use (&$chunk, $chunkSize, &$total, &$failed, $fieldMapper, $tableInfo, $module, $definition, $currentUserId) {
 			$total++;
 			$rowNumber = $total;
 			$values = $fieldMapper->mapRow($sourceRow);
+			
+			// Auto-fill assigned_user_id with current user if empty
+			if ($this->isFieldEmpty($values, 'assigned_user_id')) {
+				$values['assigned_user_id'] = $currentUserId;
+			}
+			
 			$validation = $this->validator->validate($module, $values, $definition);
 			if ($validation['status'] === RecordValidator::STATUS_FAILED) {
 				$failed++;
@@ -127,6 +135,18 @@ class StagingWriter
 		$this->db->createCommand()
 			->batchInsert($tableName, $columns, $values)
 			->execute();
+	}
+
+	/**
+	 * Check if a field value is empty or not set.
+	 */
+	private function isFieldEmpty(array $values, string $fieldName): bool
+	{
+		if (!array_key_exists($fieldName, $values)) {
+			return true;
+		}
+		$value = $values[$fieldName];
+		return $value === null || $value === '' || (is_string($value) && trim($value) === '');
 	}
 }
 

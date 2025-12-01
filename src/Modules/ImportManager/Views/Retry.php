@@ -177,5 +177,15 @@ class Retry extends Index
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		return array_merge($scripts, $jsScriptInstances);
 	}
+
+	public function getHeaderCss(\App\Http\Vtiger_Request $request)
+	{
+		$headerCss = parent::getHeaderCss($request);
+		$cssFileNames = [
+			'layouts.basic.modules.ImportManager.resources.wizard',
+		];
+		$cssStyles = $this->checkAndConvertCssStyles($cssFileNames);
+		return array_merge($headerCss, $cssStyles);
+	}
 }
 
