@@ -4,6 +4,7 @@
 /.buildpath
 /_private
 README.md
+/storage/
 /user_privileges/cron.php
 /cache/session/
 /cache/templates_c

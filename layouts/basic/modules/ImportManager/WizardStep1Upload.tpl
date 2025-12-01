@@ -3,10 +3,10 @@
 	<input type="hidden" name="view" value="Upload" />
 	<input type="hidden" name="batch_id" id="ImportManagerBatchId" />
 
-	<div class="row g-4">
+	<div class="row g-4 align-items-stretch">
 		{* Left column - Main settings *}
-		<div class="col-md-8">
-			<div class="import-card import-card--primary">
+		<div class="col-md-8 d-flex">
+			<div class="import-card import-card--primary w-100">
 				<div class="import-card__header">
 					<div class="import-card__icon">
 						<i class="fa fa-cog"></i>
@@ -123,8 +123,8 @@
 		</div>
 
 		{* Right column - File upload *}
-		<div class="col-md-4">
-			<div class="import-card import-card--upload">
+		<div class="col-md-4 d-flex">
+			<div class="import-card import-card--upload w-100">
 				<div class="import-card__body">
 					<div class="import-dropzone" id="ImportManagerDropzone">
 						<input type="file" name="import_file" id="ImportManagerFile" class="import-dropzone__input" required />
@@ -166,6 +166,14 @@
 				</div>
 			</div>
 		</div>
+	</div>
+	
+	{* Submit button - hidden by default, shown when file and module are selected *}
+	<div class="import-card__footer mt-4" style="display: none;">
+		<button type="submit" id="ImportManagerSubmit" class="import-btn import-btn--primary">
+			<i class="fa fa-arrow-right me-2"></i>
+			{\App\Language::translate('LBL_NEXT_STEP', $MODULE_NAME)|default:'Dalej'}
+		</button>
 	</div>
 </form>
 

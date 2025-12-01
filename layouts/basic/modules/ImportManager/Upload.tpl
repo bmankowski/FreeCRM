@@ -22,40 +22,47 @@
 						{include file='WizardStep1Upload.tpl'|@vtemplate_path:$MODULE}
 
 						{if !empty($IMPORT_RECENT_BATCHES)}
-							<div class="card recent-imports mt-4">
-								<div class="card-header d-flex justify-content-between align-items-center flex-wrap">
-									<strong>{\App\Language::translate('LBL_RECENT_IMPORTS', $MODULE_NAME)}</strong>
-									<span class="text-muted small">
-										{\App\Language::translate('LBL_RECENT_IMPORTS_HELP', $MODULE_NAME)}
-									</span>
+							<div class="import-card import-card--info mt-4">
+								<div class="import-card__header import-card__header--compact">
+									<div class="import-card__icon import-card__icon--small">
+										<i class="fa fa-history"></i>
+									</div>
+									<div class="import-card__title">
+										<h5>{\App\Language::translate('LBL_RECENT_IMPORTS', $MODULE_NAME)}</h5>
+										<span class="import-card__subtitle">{\App\Language::translate('LBL_RECENT_IMPORTS_HELP', $MODULE_NAME)}</span>
+									</div>
 								</div>
-								<div class="card-body p-0">
-									<ul class="list-group list-group-flush">
+								<div class="import-card__body p-0">
+									<div class="import-recent-list">
 										{foreach from=$IMPORT_RECENT_BATCHES item=BATCH}
-											<li class="list-group-item d-flex flex-column flex-md-row justify-content-between align-items-md-center">
-												<div class="mb-2 mb-md-0">
-													<span class="badge badge-light mr-2">#{$BATCH.id}</span>
-													<strong>{$BATCH.module}</strong>
-													<span class="text-muted">• {$BATCH.status}</span>
-													<span class="text-muted ml-2">
-														{$BATCH.progress}
-													</span>
+											<div class="import-recent-item">
+												<div class="import-recent-item__main">
+													<span class="import-recent-item__id">#{$BATCH.id}</span>
+													<span class="import-recent-item__module">{$BATCH.module}</span>
+													<span class="import-recent-item__status import-recent-item__status--{$BATCH.status|lower}">{$BATCH.status}</span>
+													{if $BATCH.progress}
+														<span class="import-recent-item__progress">{$BATCH.progress}</span>
+													{/if}
 												</div>
-												<div class="d-flex align-items-center">
-													<small class="text-muted mr-3">{$BATCH.created_at}</small>
+												<div class="import-recent-item__actions">
+													<span class="import-recent-item__date">
+														<i class="fa fa-clock-o"></i>
+														{$BATCH.created_at}
+													</span>
 													{if $BATCH.continue_url}
-														<a class="btn btn-sm btn-outline-primary" href="{$BATCH.continue_url|escape:'html'}">
+														<a class="import-btn import-btn--small" href="{$BATCH.continue_url|escape:'html'}">
+															<i class="fa fa-arrow-right"></i>
 															{\App\Language::translate('LBL_CONTINUE_STEP', $MODULE_NAME)}
 														</a>
 													{else}
-														<span class="badge badge-secondary">
+														<span class="import-recent-item__disabled">
 															{\App\Language::translate('LBL_STEP_DISABLED', $MODULE_NAME)}
 														</span>
 													{/if}
 												</div>
-											</li>
+											</div>
 										{/foreach}
-									</ul>
+									</div>
 								</div>
 							</div>
 						{/if}

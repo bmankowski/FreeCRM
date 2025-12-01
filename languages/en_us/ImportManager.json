@@ -127,7 +127,8 @@
 		"LBL_FINALIZE_ACTION_HINT": "Choose import method:",
 		"LBL_TOTAL_ROWS": "Total",
 		"LBL_READY_ROWS": "Ready",
-		"LBL_ERROR_ROWS": "Failed"
+		"LBL_ERROR_ROWS": "Failed",
+		"LBL_NEXT_STEP": "Next"
 	},
 	"jsLanguageStrings": {
 		"JS_NO_PREVIEW_DATA": "No preview data returned.",

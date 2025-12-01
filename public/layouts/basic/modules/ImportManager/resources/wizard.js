@@ -108,11 +108,8 @@
 		this.dom.fileInput = $('#ImportManagerFile');
 		this.dom.batchField = $('#ImportManagerBatchId');
 		this.dom.dropzone = $('#ImportManagerDropzone');
+		this.dom.submitButton = $('#ImportManagerSubmit');
 		
-		console.log('initUploadView - DOM elements initialized:', {
-			form: this.dom.form.length,
-			fileInput: this.dom.fileInput.length
-		});
 
 		this.toggleFormatFieldsVisibility();
 		this.dom.formatField.on('change', this.toggleFormatFieldsVisibility.bind(this));
@@ -122,11 +119,15 @@
 		
 		// Initialize dropzone visual enhancements
 		this.initDropzone();
+		
+		// Set initial button state
+		this.updateSubmitButtonState();
 	};
 	
 	ImportManager.prototype.initDropzone = function () {
 		const dropzone = this.dom.dropzone;
 		const fileInput = this.dom.fileInput;
+		const self = this;
 		
 		if (!dropzone.length) return;
 		
@@ -137,10 +138,28 @@
 			dropzone.addClass('dragover');
 		});
 		
-		dropzone.on('dragleave drop', function (e) {
+		dropzone.on('dragleave', function (e) {
 			e.preventDefault();
 			e.stopPropagation();
 			dropzone.removeClass('dragover');
+		});
+		
+		// Handle file drop
+		dropzone.on('drop', function (e) {
+			e.preventDefault();
+			e.stopPropagation();
+			dropzone.removeClass('dragover');
+			
+			const files = e.originalEvent.dataTransfer.files;
+			if (files && files.length > 0) {
+				// Assign dropped file to the file input
+				const dataTransfer = new DataTransfer();
+				dataTransfer.items.add(files[0]);
+				fileInput.get(0).files = dataTransfer.files;
+				
+				// Trigger file change handler
+				self.handleFileChange();
+			}
 		});
 		
 		// Remove file button
@@ -187,9 +206,7 @@
 
 	ImportManager.prototype.handleTargetModuleChange = function () {
 		this.state.moduleName = this.dom.targetModule.val() || null;
-		if (this.state.pendingPreview) {
-			this.attemptAutoPreview();
-		}
+		this.updateSubmitButtonState();
 	};
 
 	ImportManager.prototype.handleFileChange = function () {
@@ -203,8 +220,20 @@
 			this.updateDropzonePreview(null);
 		}
 		
-		if (this.state.pendingPreview) {
-			this.attemptAutoPreview();
+		this.updateSubmitButtonState();
+	};
+	
+	ImportManager.prototype.updateSubmitButtonState = function () {
+		const hasFile = this.dom.fileInput.get(0).files && this.dom.fileInput.get(0).files.length > 0;
+		const hasModule = !!this.dom.targetModule.val();
+		const isReady = hasFile && hasModule;
+		
+		if (this.dom.submitButton && this.dom.submitButton.length) {
+			if (isReady) {
+				this.dom.submitButton.closest('.import-card__footer').show();
+			} else {
+				this.dom.submitButton.closest('.import-card__footer').hide();
+			}
 		}
 	};
 
@@ -228,18 +257,6 @@
 		if (this.dom.csvOptions.length) {
 			isXml ? this.dom.csvOptions.hide() : this.dom.csvOptions.show();
 		}
-	};
-
-	ImportManager.prototype.attemptAutoPreview = function () {
-		if (!this.state.pendingPreview) {
-			return;
-		}
-		const formEl = this.dom.form.get(0);
-		if (!formEl || !formEl.checkValidity() || !this.dom.targetModule.val()) {
-			return;
-		}
-		this.state.pendingPreview = false;
-		this.uploadAndPreview();
 	};
 
 	ImportManager.prototype.uploadAndPreview = function () {
@@ -753,9 +770,6 @@
 					return;
 				}
 				console.log('Duplicate sets saved successfully');
-				if (showToastOnSuccess) {
-					this.showToast(t('JS_CHANGES_SAVED', 'Zmiany zostały zapisane.'), 'success');
-				}
 			})
 			.fail((jqXHR) => {
 				console.error('Failed to save duplicate sets:', jqXHR);
@@ -792,7 +806,6 @@
 					this.handleError(response);
 					return;
 				}
-				this.showToast(t('JS_CHANGES_SAVED', 'Zmiany zostały zapisane.'), 'success');
 				window.location = this.buildViewUrl('Staging');
 			})
 			.fail((jqXHR) => {
@@ -920,7 +933,6 @@
 									.replace('%s, zaktualizowano: %s, błędy: %s.', result.result.created + ', zaktualizowano: ' + result.result.updated + ', błędy: ' + result.result.failed + '.')
 							);
 					}
-					this.showToast(t('LBL_IMPORT_RESULT_MESSAGE', 'Import zakończony.'), 'success');
 					window.location.reload();
 				}
 			})

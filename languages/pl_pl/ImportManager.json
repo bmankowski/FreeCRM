@@ -128,7 +128,8 @@
 		"LBL_FINALIZE_ACTION_HINT": "Wybierz sposób importu:",
 		"LBL_TOTAL_ROWS": "Wszystkich",
 		"LBL_READY_ROWS": "Gotowych",
-		"LBL_ERROR_ROWS": "Błędnych"
+		"LBL_ERROR_ROWS": "Błędnych",
+		"LBL_NEXT_STEP": "Dalej"
 	},
 	"jsLanguageStrings": {
 		"JS_NO_PREVIEW_DATA": "Brak danych podglądu.",
