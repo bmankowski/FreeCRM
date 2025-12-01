@@ -10,10 +10,10 @@
 					</div>
 				</div>
 
-				<div id="ImportManagerRoot" class="import-manager-screen" data-view="upload">
-					{include file='WizardSteps.tpl'|@vtemplate_path:$MODULE}
+			<div id="ImportManagerRoot" class="import-manager-screen" data-view="upload">
+				{include file='WizardSteps.tpl'|@vtemplate_path:$MODULE}
 
-					<div class="import-manager-wizard c-container">
+				<div class="import-manager-wizard">
 						<div id="ImportManagerConfig"
 							data-max-upload="{$IMPORT_CONFIG.maxUploadSizeMb|default:10}"
 							data-preview-rows="{$IMPORT_CONFIG.previewRows|default:30}"

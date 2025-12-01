@@ -10,67 +10,71 @@
 					</div>
 				</div>
 
-				<div id="ImportManagerRoot" data-view="finalize">
+				<div id="ImportManagerRoot" class="import-manager-screen" data-view="finalize">
 					{include file='WizardSteps.tpl'|@vtemplate_path:$MODULE}
 
-					<div class="card mb-3 import-manager-batch-card">
-						<div class="card-body d-flex flex-wrap align-items-center">
-							<div class="mr-4 mb-2">
-								<span class="text-muted text-uppercase small d-block">{\App\Language::translate('LBL_BATCH_ID', $MODULE_NAME)}</span>
-								<strong>#{$IMPORT_BATCH.id}</strong>
-							</div>
-							<div class="mr-4 mb-2">
-								<span class="text-muted text-uppercase small d-block">{\App\Language::translate('LBL_SELECTED_MODULE', $MODULE_NAME)}</span>
-								<strong>{$IMPORT_BATCH.module}</strong>
-							</div>
-							{if $IMPORT_BATCH.file_name}
-								<div class="mr-4 mb-2">
-									<span class="text-muted text-uppercase small d-block">{\App\Language::translate('LBL_SELECTED_FILE', $MODULE_NAME)}</span>
-									<strong>{$IMPORT_BATCH.file_name}</strong>
-								</div>
-							{/if}
-							<div class="mr-4 mb-2">
-								<span class="text-muted text-uppercase small d-block">{\App\Language::translate('LBL_STATUS', $MODULE_NAME)}</span>
-								<strong>{$IMPORT_BATCH.status}</strong>
-							</div>
-							{if isset($IMPORT_BATCH.duplicate_strategy)}
-								<div class="mb-2">
-									<span class="text-muted text-uppercase small d-block">{\App\Language::translate('LBL_DUPLICATE_STRATEGY', $MODULE_NAME)}</span>
-									<strong>{$IMPORT_BATCH.duplicate_strategy}</strong>
-								</div>
-							{/if}
-						</div>
-					</div>
+					{assign var=TOTAL_ROWS value=$IMPORT_STATS.total|default:0}
+					{assign var=ERROR_ROWS value=$IMPORT_STATS.errors|default:0}
+					{assign var=READY_ROWS value=$IMPORT_STATS.ready|default:$TOTAL_ROWS-$ERROR_ROWS}
 
-					<div class="card mb-3 import-finalize-card">
-						<div class="card-header bg-light d-flex justify-content-between align-items-center flex-wrap">
-							<strong>{\App\Language::translate('LBL_IMPORT_SECTION_TITLE', $MODULE_NAME)}</strong>
-							{if $READY_INFO_TEXT}
-								<div class="badge badge-light text-uppercase small">
-									{$READY_INFO_TEXT}
-								</div>
-							{/if}
+					{include file='BatchInfo.tpl'|@vtemplate_path:$MODULE 
+								BATCH_STAGE_SUMMARY="`$READY_ROWS` / `$TOTAL_ROWS`"}
+
+					{* Import Panel *}
+					<div class="import-card import-card--primary">
+						<div class="import-card__header import-card__header--compact">
+							<div class="import-card__icon import-card__icon--small">
+								<i class="fa fa-cloud-upload-alt"></i>
+							</div>
+							<div class="import-card__title">
+								<h5>{\App\Language::translate('LBL_IMPORT_SECTION_TITLE', $MODULE_NAME)}</h5>
+								<span class="import-card__subtitle">{\App\Language::translate('LBL_IMPORT_MODE_HINT', $MODULE_NAME)}</span>
+							</div>
 						</div>
-						<div class="card-body">
+						<div class="import-card__body">
+							{* Status Alert (hidden by default) *}
 							<div id="ImportManagerConfirmationStatus" class="alert alert-info d-none" role="status"></div>
-							<p class="text-muted mb-3">
-								{\App\Language::translate('LBL_IMPORT_MODE_HINT', $MODULE_NAME)}
-							</p>
-							<div class="import-finalize-actions d-flex flex-wrap align-items-center mb-3">
-								<div class="btn-group mr-3 mb-2" role="group" aria-label="Import mode">
-									<button type="button" class="btn btn-success" id="ImportManagerRunImportInline">
-										<span class="fa fa-cloud-upload-alt mr-1"></span>
-										{\App\Language::translate('LBL_IMPORT_INLINE_BUTTON', $MODULE_NAME)}
+
+							{* Stats Summary *}
+							<div class="import-staging-stats mb-4">
+								<div class="import-staging-stat">
+									<div class="import-staging-stat__value">{$TOTAL_ROWS}</div>
+									<div class="import-staging-stat__label">
+										{\App\Language::translate('LBL_TOTAL_ROWS', $MODULE_NAME)|default:'Wszystkich'}</div>
+								</div>
+								<div class="import-staging-stat import-staging-stat--success">
+									<div class="import-staging-stat__value">{$READY_ROWS}</div>
+									<div class="import-staging-stat__label">
+										{\App\Language::translate('LBL_READY_ROWS', $MODULE_NAME)|default:'Gotowych'}</div>
+								</div>
+								<div class="import-staging-stat import-staging-stat--danger">
+									<div class="import-staging-stat__value">{$ERROR_ROWS}</div>
+									<div class="import-staging-stat__label">
+										{\App\Language::translate('LBL_ERROR_ROWS', $MODULE_NAME)|default:'Błędnych'}</div>
+								</div>
+							</div>
+
+							{* Action Buttons *}
+							<div class="import-staging-actions">
+								<div class="import-staging-actions__label">
+									{\App\Language::translate('LBL_FINALIZE_ACTION_HINT', $MODULE_NAME)|default:'Wybierz sposób importu:'}
+								</div>
+								<div class="import-staging-actions__buttons">
+									<button type="button" class="import-btn import-btn--primary" id="ImportManagerRunImportInline">
+										<i class="fa fa-bolt"></i>
+										<span>{\App\Language::translate('LBL_IMPORT_INLINE_BUTTON', $MODULE_NAME)}</span>
 									</button>
-									<button type="button" class="btn btn-outline-success" id="ImportManagerRunImportQueue">
-										<span class="fa fa-tasks mr-1"></span>
-										{\App\Language::translate('LBL_IMPORT_QUEUE_BUTTON', $MODULE_NAME)}
+									<button type="button" class="import-btn import-btn--secondary" id="ImportManagerRunImportQueue">
+										<i class="fa fa-clock"></i>
+										<span>{\App\Language::translate('LBL_IMPORT_QUEUE_BUTTON', $MODULE_NAME)}</span>
 									</button>
 								</div>
 							</div>
 
+							{* Result Message *}
 							{if $RESULT_MESSAGE_TEXT}
-								<div class="alert alert-info mt-3" id="ImportManagerResultStatus">
+								<div class="alert alert-info mt-4" id="ImportManagerResultStatus">
+									<i class="fa fa-info-circle mr-2"></i>
 									{$RESULT_MESSAGE_TEXT}
 								</div>
 							{/if}
@@ -85,4 +89,3 @@
 		</script>
 	{/strip}
 {/block}
-

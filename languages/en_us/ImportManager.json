@@ -1,5 +1,21 @@
 {
 	"languageStrings": {
+		"LBL_IMPORT_SETTINGS": "Import settings",
+		"LBL_CONFIGURE_IMPORT": "Configure import parameters",
+		"LBL_UPLOAD_FILE_DESC": "Drag a file or click to select",
+		"LBL_DROP_FILE_HERE": "Drop file here",
+		"LBL_OR_CLICK_TO_BROWSE": "or click to browse",
+		"LBL_SUPPORTED_FORMATS": "Supported formats",
+		"LBL_CURRENT_STEP": "Current step",
+		"LBL_COMPLETED": "Completed",
+		"LBL_FIELD_MAPPING": "Field mapping",
+		"LBL_PREVIEW_DESC": "Preview of file data",
+		"LBL_DUPLICATE_SETS_DESC": "Configure duplicate detection rules",
+		"LBL_STRATEGY_SKIP_DESC": "Skip records that are duplicates of existing ones",
+		"LBL_STRATEGY_OVERWRITE_DESC": "Overwrite existing records with new data",
+		"LBL_STRATEGY_MERGE_DESC": "Merge new data with existing records",
+		"LBL_ACTIVE_RULES": "Active rules",
+		"LBL_NO_RULES_YET": "No rules yet - add your first",
 		"LBL_TARGET_MODULE": "Target module",
 		"LBL_SELECT_OPTION": "Select",
 		"LBL_FILE_FORMAT": "File format",
@@ -95,7 +111,7 @@
 		"LBL_STAGE_MODE_INFO": "Choose how to prepare this batch:",
 		"LBL_STAGE_MODE_HINT": "Run immediately for tiny files or send it to the queue for cron processing.",
 		"LBL_STAGE_PANEL_TITLE": "Prepare data",
-		"LBL_STAGE_SUMMARY": "Prepared: %s of %s",
+		"LBL_STAGE_SUMMARY": "Ready to import",
 		"LBL_STAGE_INLINE_BUTTON": "Run immediately",
 		"LBL_STAGE_QUEUE_BUTTON": "Add to queue",
 		"LBL_BATCH_DETAILS": "Batch details",
@@ -107,7 +123,11 @@
 		"LBL_STEP_DUPLICATES": "Duplicates",
 		"LBL_STEP_STAGING": "Staging",
 		"LBL_STEP_FIX_ERRORS": "Fix errors",
-		"LBL_STEP_FINALIZE": "Finalize"
+		"LBL_STEP_FINALIZE": "Finalize",
+		"LBL_FINALIZE_ACTION_HINT": "Choose import method:",
+		"LBL_TOTAL_ROWS": "Total",
+		"LBL_READY_ROWS": "Ready",
+		"LBL_ERROR_ROWS": "Failed"
 	},
 	"jsLanguageStrings": {
 		"JS_NO_PREVIEW_DATA": "No preview data returned.",

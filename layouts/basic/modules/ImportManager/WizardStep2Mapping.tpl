@@ -1,51 +1,69 @@
 {assign var=HEADERS value=$IMPORT_HEADERS|default:[]}
 {assign var=FIELDS value=$IMPORT_FIELDS|default:[]}
-<div id="ImportManagerMappingCard" class="card mt-4">
-	<div class="card-body">
-		<p class="text-muted mb-3">{\App\Language::translate('LBL_MAPPING_INSTRUCTIONS', $MODULE_NAME)}</p>
-		<div class="table-responsive">
-			<table class="table table-bordered table-sm mb-3 mapping-table" id="ImportManagerMappingTable">
+
+{* Mapping Card *}
+<div class="import-card import-card--primary" id="ImportManagerMappingCard">
+	<div class="import-card__header">
+		<div class="import-card__icon">
+			<i class="fa fa-random"></i>
+		</div>
+		<div class="import-card__title">
+			<h5>{\App\Language::translate('LBL_FIELD_MAPPING', $MODULE_NAME)|default:'Mapowanie pól'}</h5>
+			<span class="import-card__subtitle">{\App\Language::translate('LBL_MAPPING_INSTRUCTIONS', $MODULE_NAME)}</span>
+		</div>
+	</div>
+	<div class="import-card__body">
+		<div class="import-mapping-table-wrapper">
+			<table class="import-mapping-table" id="ImportManagerMappingTable">
 				<thead>
 					<tr>
-						<th>{\App\Language::translate('LBL_TARGET_FIELD', $MODULE_NAME)}</th>
-						<th>{\App\Language::translate('LBL_SOURCE_COLUMN', $MODULE_NAME)}</th>
-						<th>{\App\Language::translate('LBL_DEFAULT_VALUE', $MODULE_NAME)}</th>
+						<th class="import-mapping-table__th">
+							<i class="fa fa-bullseye import-mapping-table__th-icon"></i>
+							{\App\Language::translate('LBL_TARGET_FIELD', $MODULE_NAME)}
+						</th>
+						<th class="import-mapping-table__th">
+							<i class="fa fa-file-import import-mapping-table__th-icon"></i>
+							{\App\Language::translate('LBL_SOURCE_COLUMN', $MODULE_NAME)}
+						</th>
+						<th class="import-mapping-table__th">
+							<i class="fa fa-pencil-alt import-mapping-table__th-icon"></i>
+							{\App\Language::translate('LBL_DEFAULT_VALUE', $MODULE_NAME)}
+						</th>
 					</tr>
 				</thead>
 				<tbody>
 					{if $FIELDS|@count gt 0}
 						{foreach from=$FIELDS item=FIELD}
 							{assign var=SOURCE_INDEX value=$FIELD.preset.sourceIndex}
-							<tr data-field="{$FIELD.name|escape}" data-label="{$FIELD.label|escape}" data-mandatory="{if $FIELD.mandatory}1{else}0{/if}">
-								<td class="align-middle">
-									<div class="font-weight-bold">
-										{$FIELD.label|escape}
-									</div>
-									<div class="text-muted small mt-1 d-flex align-items-center flex-wrap">
-										{if $FIELD.name}
-											<span class="badge badge-light mr-2 mb-1">
-												{$FIELD.name|escape}
-											</span>
-										{/if}
-										{if $FIELD.type}
-											<span class="mb-1 mr-2 text-capitalize">
-												{$FIELD.type|escape}
-											</span>
-										{/if}
-										<span class="mb-1">
-											{if $FIELD.mandatory}
-												{\App\Language::translate('LBL_MANDATORY', $MODULE_NAME)}
-											{else}
-												{\App\Language::translate('LBL_FIELD_OPTIONAL', $MODULE_NAME)}
+							<tr class="import-mapping-table__row {if $FIELD.mandatory}import-mapping-table__row--mandatory{/if}" 
+								data-field="{$FIELD.name|escape}" 
+								data-label="{$FIELD.label|escape}" 
+								data-mandatory="{if $FIELD.mandatory}1{else}0{/if}">
+								<td class="import-mapping-table__cell import-mapping-table__cell--field">
+									<div class="import-field-info">
+										<span class="import-field-info__name">{$FIELD.label|escape}</span>
+										<div class="import-field-info__meta">
+											{if $FIELD.name}
+												<span class="import-field-info__code">{$FIELD.name|escape}</span>
 											{/if}
-										</span>
+											{if $FIELD.type}
+												<span class="import-field-info__type">{$FIELD.type|escape}</span>
+											{/if}
+											{if $FIELD.mandatory}
+												<span class="import-field-info__badge import-field-info__badge--required">
+													{\App\Language::translate('LBL_MANDATORY', $MODULE_NAME)}
+												</span>
+											{else}
+												<span class="import-field-info__badge import-field-info__badge--optional">
+													{\App\Language::translate('LBL_FIELD_OPTIONAL', $MODULE_NAME)}
+												</span>
+											{/if}
+										</div>
 									</div>
 								</td>
-								<td>
-									<select class="form-control form-control-sm js-source-select">
-										<option value="">
-											{\App\Language::translate('LBL_SELECT_OPTION', $MODULE_NAME)}
-										</option>
+								<td class="import-mapping-table__cell">
+									<select class="form-control import-select js-source-select">
+										<option value="">{\App\Language::translate('LBL_SELECT_OPTION', $MODULE_NAME)}</option>
 										{foreach from=$HEADERS item=HEADER key=HEADER_INDEX}
 											{assign var=HEADER_POSITION value=$HEADER_INDEX+1}
 											<option value="{$HEADER_INDEX}" data-column-name="{$HEADER|escape}" {if $SOURCE_INDEX !== null && $SOURCE_INDEX == $HEADER_INDEX}selected="selected"{/if}>
@@ -58,9 +76,9 @@
 										{/foreach}
 									</select>
 								</td>
-								<td>
+								<td class="import-mapping-table__cell">
 									<input type="text"
-										class="form-control form-control-sm js-default-value"
+										class="form-control import-input js-default-value"
 										placeholder="{\App\Language::translate('LBL_DEFAULT_VALUE_PLACEHOLDER', $MODULE_NAME)}"
 										value="{$FIELD.preset.defaultValue|escape}" />
 								</td>
@@ -68,7 +86,8 @@
 						{/foreach}
 					{else}
 						<tr>
-							<td colspan="3" class="text-center text-muted">
+							<td colspan="3" class="import-mapping-table__empty">
+								<i class="fa fa-inbox"></i>
 								{\App\Language::translate('LBL_NO_FIELDS_AVAILABLE', $MODULE_NAME)}
 							</td>
 						</tr>
@@ -76,15 +95,18 @@
 				</tbody>
 			</table>
 		</div>
-		<div class="text-muted small mb-3">
-			{\App\Language::translate('LBL_DEFAULT_VALUE_INFO', $MODULE_NAME)}
-		</div>
-
-		<div class="text-right mt-3">
-			<button type="button" class="btn btn-success" id="ImportManagerSaveMapping">
-				<span class="fa fa-save mr-1"></span>
-				{\App\Language::translate('LBL_SAVE_AND_CONTINUE', $MODULE_NAME)}
-			</button>
+		
+		<div class="import-mapping-footer">
+			<div class="import-mapping-footer__hint">
+				<i class="fa fa-info-circle"></i>
+				{\App\Language::translate('LBL_DEFAULT_VALUE_INFO', $MODULE_NAME)}
+			</div>
+			<div class="import-mapping-footer__actions">
+				<button type="button" class="btn btn-success import-btn import-btn--primary" id="ImportManagerSaveMapping">
+					<i class="fa fa-arrow-right mr-2"></i>
+					{\App\Language::translate('LBL_SAVE_AND_CONTINUE', $MODULE_NAME)}
+				</button>
+			</div>
 		</div>
 	</div>
 </div>

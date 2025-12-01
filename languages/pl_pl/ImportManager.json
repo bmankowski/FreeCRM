@@ -1,5 +1,21 @@
 {
 	"languageStrings": {
+		"LBL_IMPORT_SETTINGS": "Ustawienia importu",
+		"LBL_CONFIGURE_IMPORT": "Skonfiguruj parametry importu danych",
+		"LBL_UPLOAD_FILE_DESC": "Przeciągnij plik lub kliknij aby wybrać",
+		"LBL_DROP_FILE_HERE": "Upuść plik tutaj",
+		"LBL_OR_CLICK_TO_BROWSE": "lub kliknij aby przeglądać",
+		"LBL_SUPPORTED_FORMATS": "Obsługiwane formaty",
+		"LBL_CURRENT_STEP": "Aktualny krok",
+		"LBL_COMPLETED": "Zakończony",
+		"LBL_FIELD_MAPPING": "Mapowanie pól",
+		"LBL_PREVIEW_DESC": "Podgląd danych z pliku",
+		"LBL_DUPLICATE_SETS_DESC": "Skonfiguruj reguły wykrywania duplikatów",
+		"LBL_STRATEGY_SKIP_DESC": "Pomija rekordy, które są duplikatami istniejących",
+		"LBL_STRATEGY_OVERWRITE_DESC": "Nadpisuje istniejące rekordy nowymi danymi",
+		"LBL_STRATEGY_MERGE_DESC": "Łączy nowe dane z istniejącymi rekordami",
+		"LBL_ACTIVE_RULES": "Aktywne reguły",
+		"LBL_NO_RULES_YET": "Brak reguł - dodaj pierwszą",
 		"LBL_TARGET_MODULE": "Moduł docelowy",
 		"LBL_SELECT_OPTION": "Wybierz",
 		"LBL_FILE_FORMAT": "Format pliku",
@@ -96,7 +112,7 @@
 		"LBL_STAGE_MODE_INFO": "Wybierz w jaki sposób przygotować ten wsad:",
 		"LBL_STAGE_MODE_HINT": "Niewielkie pliki uruchom od razu, większe dodaj do kolejki dla crona.",
 		"LBL_STAGE_PANEL_TITLE": "Przygotowanie danych",
-		"LBL_STAGE_SUMMARY": "Przygotowane: %s z %s",
+		"LBL_STAGE_SUMMARY": "Gotowe do importu",
 		"LBL_STAGE_INLINE_BUTTON": "Uruchom od razu",
 		"LBL_STAGE_QUEUE_BUTTON": "Dodaj do kolejki",
 		"LBL_BATCH_DETAILS": "Szczegóły wsadu",
@@ -108,7 +124,11 @@
 		"LBL_STEP_DUPLICATES": "Duplikaty",
 		"LBL_STEP_STAGING": "Staging",
 		"LBL_STEP_FIX_ERRORS": "Popraw błędy",
-		"LBL_STEP_FINALIZE": "Import końcowy"
+		"LBL_STEP_FINALIZE": "Import końcowy",
+		"LBL_FINALIZE_ACTION_HINT": "Wybierz sposób importu:",
+		"LBL_TOTAL_ROWS": "Wszystkich",
+		"LBL_READY_ROWS": "Gotowych",
+		"LBL_ERROR_ROWS": "Błędnych"
 	},
 	"jsLanguageStrings": {
 		"JS_NO_PREVIEW_DATA": "Brak danych podglądu.",

@@ -18,6 +18,7 @@
 		const viewName = root.getAttribute('data-view') || VIEW_UPLOAD;
 		const context = parseContext(document.getElementById('ImportManagerContext'));
 		const manager = new ImportManager(viewName, context || {}, root);
+		window.ImportManagerInstance = manager; // Global reference for modal callbacks
 		manager.init();
 	});
 
@@ -106,6 +107,7 @@
 		this.dom.csvOptions = $('.csv-separator-options');
 		this.dom.fileInput = $('#ImportManagerFile');
 		this.dom.batchField = $('#ImportManagerBatchId');
+		this.dom.dropzone = $('#ImportManagerDropzone');
 		
 		console.log('initUploadView - DOM elements initialized:', {
 			form: this.dom.form.length,
@@ -117,6 +119,70 @@
 		this.dom.targetModule.on('change', this.handleTargetModuleChange.bind(this));
 		this.dom.fileInput.on('change', this.handleFileChange.bind(this));
 		this.dom.form.on('submit', this.handleUploadSubmit.bind(this));
+		
+		// Initialize dropzone visual enhancements
+		this.initDropzone();
+	};
+	
+	ImportManager.prototype.initDropzone = function () {
+		const dropzone = this.dom.dropzone;
+		const fileInput = this.dom.fileInput;
+		
+		if (!dropzone.length) return;
+		
+		// Drag and drop visual feedback
+		dropzone.on('dragenter dragover', function (e) {
+			e.preventDefault();
+			e.stopPropagation();
+			dropzone.addClass('dragover');
+		});
+		
+		dropzone.on('dragleave drop', function (e) {
+			e.preventDefault();
+			e.stopPropagation();
+			dropzone.removeClass('dragover');
+		});
+		
+		// Remove file button
+		dropzone.find('.import-dropzone__remove').on('click', (e) => {
+			e.preventDefault();
+			e.stopPropagation();
+			fileInput.val('');
+			this.updateDropzonePreview(null);
+		});
+	};
+	
+	ImportManager.prototype.updateDropzonePreview = function (file) {
+		const dropzone = this.dom.dropzone;
+		const content = dropzone.find('.import-dropzone__content');
+		const preview = dropzone.find('.import-dropzone__preview');
+		
+		if (!file) {
+			content.show();
+			preview.hide();
+			return;
+		}
+		
+		// Format file size
+		const formatSize = function(bytes) {
+			if (bytes < 1024) return bytes + ' B';
+			if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+			return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+		};
+		
+		// Determine icon based on file type
+		const ext = file.name.split('.').pop().toLowerCase();
+		let iconClass = 'fa-file';
+		if (ext === 'csv') iconClass = 'fa-file-csv';
+		else if (ext === 'xml') iconClass = 'fa-file-code';
+		else if (ext === 'zip') iconClass = 'fa-file-archive';
+		
+		preview.find('.import-dropzone__file-icon i').attr('class', 'fa ' + iconClass);
+		preview.find('.import-dropzone__file-name').text(file.name);
+		preview.find('.import-dropzone__file-size').text(formatSize(file.size));
+		
+		content.hide();
+		preview.show();
 	};
 
 	ImportManager.prototype.handleTargetModuleChange = function () {
@@ -129,6 +195,14 @@
 	ImportManager.prototype.handleFileChange = function () {
 		const files = this.dom.fileInput.get(0).files;
 		this.state.pendingPreview = files && files.length > 0;
+		
+		// Update dropzone visual preview
+		if (files && files.length > 0) {
+			this.updateDropzonePreview(files[0]);
+		} else {
+			this.updateDropzonePreview(null);
+		}
+		
 		if (this.state.pendingPreview) {
 			this.attemptAutoPreview();
 		}
@@ -363,7 +437,7 @@
 		}
 
 		$('#ImportManagerAddDuplicateRule').on('click', this.openDuplicateRuleModal.bind(this));
-		$('#ImportManagerSaveDuplicateRule').on('click', this.saveNewDuplicateRule.bind(this));
+		// Note: #ImportManagerSaveDuplicateRule click is handled inside openDuplicateRuleModal
 		this.dom.optionalSets.on('change', '.js-optional-set', this.handleOptionalSetToggle.bind(this));
 		this.dom.requiredSets.on('click', '.js-remove-duplicate-set', this.handleRemoveDuplicateSet.bind(this));
 		if (this.dom.saveDuplicates.length) {
@@ -580,12 +654,49 @@
 	};
 
 	ImportManager.prototype.openDuplicateRuleModal = function () {
-		const $modal = $('#ImportManagerDuplicateRuleModal');
-		if (!$modal.length) {
+		const $modalContent = $('#ImportManagerDuplicateRuleModal');
+		if (!$modalContent.length) {
 			return;
 		}
-		$modal.find('.js-duplicate-field-checkbox').prop('checked', false);
-		$modal.modal('show');
+		// Reset checkboxes
+		$modalContent.find('.js-duplicate-field-checkbox').prop('checked', false);
+		
+		// Use CRM's standard modal system
+		const modalHtml = $modalContent.clone().removeClass('d-none').show();
+		app.showModalWindow(modalHtml, function(modalContainer) {
+			// Re-bind the save button in the new modal instance
+			modalContainer.find('#ImportManagerSaveDuplicateRule').off('click').on('click', function() {
+				window.ImportManagerInstance.saveNewDuplicateRuleFromModal(modalContainer);
+			});
+		});
+	};
+	
+	ImportManager.prototype.saveNewDuplicateRuleFromModal = function (modalContainer) {
+		const selectedFields = [];
+		const fieldNames = [];
+		modalContainer.find('.js-duplicate-field-checkbox:checked').each(function () {
+			const name = $(this).val();
+			const label = $(this).data('label') || name;
+			selectedFields.push(label);
+			fieldNames.push(name);
+		});
+		if (fieldNames.length === 0) {
+			app.showNotify({
+				title: t('JS_SELECT_AT_LEAST_ONE_FIELD', 'Wybierz co najmniej jedno pole.'),
+				type: 'error'
+			});
+			return;
+		}
+		const label = selectedFields.join(' + ');
+		this.addDuplicateChip(fieldNames, label);
+		this.toggleDuplicateEmptyState();
+		app.hideModalWindow();
+		app.showNotify({
+			title: t('JS_DUPLICATE_RULE_ADDED', 'Reguła duplikatów została dodana.'),
+			type: 'success'
+		});
+		// Auto-save to database
+		this.saveDuplicateSetsToDatabase();
 	};
 
 	ImportManager.prototype.saveNewDuplicateRule = function () {
