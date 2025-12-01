@@ -510,7 +510,7 @@ class Module extends \vtlib\Module
 	 */
 	public function getImportUrl()
 	{
-		return 'index.php?module=' . $this->get('name') . '&view=Import';
+		return 'index.php?module=ImportManager&sourceModule=' . $this->get('name');
 	}
 
 	/**
