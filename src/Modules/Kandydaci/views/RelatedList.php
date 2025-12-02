@@ -1,4 +1,7 @@
 <?php
+
+namespace App\Modules\Kandydaci\Views;
+
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -9,7 +12,7 @@
  * Contributor(s): YetiForce S.A.
  * *********************************************************************************** */
 
-class Kandydaci_RelatedList_View extends Vtiger_RelatedList_View
+class RelatedList extends \App\Modules\Base\Views\RelatedList
 {
 
 	/**
@@ -17,7 +20,7 @@ class Kandydaci_RelatedList_View extends Vtiger_RelatedList_View
 	 *
 	 * @param \App\Request $request
 	 */
-	public function process(App\Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$relatedModuleName = $request->getByType('relatedModule', 2);
@@ -30,14 +33,14 @@ class Kandydaci_RelatedList_View extends Vtiger_RelatedList_View
 		}
 		$pageNumber = $request->isEmpty('page', true) ? 1 : $request->getInteger('page');
 		$totalCount = $request->isEmpty('totalCount', true) ? 0 : $request->getInteger('totalCount');
-		$pagingModel = new Vtiger_Paging_Model();
+		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		if ($request->has('limit')) {
 			$pagingModel->set('limit', $request->getInteger('limit'));
 		}
 		$cvId = $request->isEmpty('cvId', true) ? 0 : $request->getByType('cvId', 'Alnum');
-		$parentRecordModel = Vtiger_Record_Model::getInstanceById($parentId, $moduleName);
-		$relationListView = Vtiger_RelationListView_Model::getInstance($parentRecordModel, $relatedModuleName, $request->getInteger('relationId'), $cvId);
+		$parentRecordModel = \App\Modules\Base\Models\Record::getInstanceById($parentId, $moduleName);
+		$relationListView = \App\Modules\Base\Models\RelationListView::getInstance($parentRecordModel, $relatedModuleName, $request->getInteger('relationId'), $cvId);
 
 		$orderBy = $request->getArray('orderby', \App\Purifier::STANDARD, [], \App\Purifier::SQL);
 		if (empty($orderBy)) {
@@ -69,7 +72,7 @@ class Kandydaci_RelatedList_View extends Vtiger_RelatedList_View
 			$relationListView->set('search_value', $searchValue);
 			$viewer->assign('ALPHABET_VALUE', $searchValue);
 		}
-		$searchParams = App\Condition::validSearchParams($relationListView->getQueryGenerator()->getModule(), $request->getArray('search_params'));
+		$searchParams = \App\Condition::validSearchParams($relationListView->getQueryGenerator()->getModule(), $request->getArray('search_params'));
 		if (empty($searchParams) || !\is_array($searchParams)) {
 			$searchParamsRaw = $searchParams = [];
 		}
@@ -152,11 +155,11 @@ class Kandydaci_RelatedList_View extends Vtiger_RelatedList_View
 		}
 		$viewer->assign('IS_FAVORITES', $isFavorites);
 		$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
-		$viewer->assign('USER_MODEL', Users_Record_Model::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
 		$viewer->assign('SEARCH_DETAILS', $searchParams);
 		$viewer->assign('SEARCH_PARAMS', $searchParamsRaw);
 		$viewer->assign('VIEW', $request->getByType('view'));
-		$viewer->assign('SHOW_RELATED_WIDGETS', \in_array($relationModel->getId(), App\Config::module($moduleName, 'showRelatedWidgetsByDefault', [])));
+		$viewer->assign('SHOW_RELATED_WIDGETS', \in_array($relationModel->getId(), \App\Config::module($moduleName, 'showRelatedWidgetsByDefault', [])));
 		$viewer->assign('LOCKED_EMPTY_FIELDS', $request->isEmpty('lockedEmptyFields', true) ? [] : $request->getArray('lockedEmptyFields'));
 		if ($relationListView->isWidgetsList()) {
 			$viewer->assign('IS_WIDGETS', true);

@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Modules\Kandydaci\Actions;
+
 use App\Exceptions\IllegalValue;
 
 /**
@@ -9,7 +11,7 @@ use App\Exceptions\IllegalValue;
  * @license   YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  * @author    Adrian Koń <a.kon@yetiforce.com>
  */
-class Kandydaci_ToggleStarCandidateManuallyAjax_Action extends \App\Controller\Action
+class ToggleStarCandidateManuallyAjax extends \App\Controller\Action
 {
 	/**
 	 * Process.
@@ -27,7 +29,7 @@ class Kandydaci_ToggleStarCandidateManuallyAjax_Action extends \App\Controller\A
 		try {
 			$candidateId = $request->getInteger('candidateId');
 		} catch (IllegalValue $e) {
-			$response = new Vtiger_Response();
+			$response = new \App\Http\Vtiger_Response();
 			$response->setResult([
 				'success' => false,
 				'message' => "PLL_TOGGLE_FAILED"
@@ -35,7 +37,7 @@ class Kandydaci_ToggleStarCandidateManuallyAjax_Action extends \App\Controller\A
 			$response->emit();
 			return;
 		}
-		$candidate = Vtiger_Record_Model::getInstanceById($candidateId);
+		$candidate = \App\Modules\Base\Models\Record::getInstanceById($candidateId);
 		$candidate->set("starred", $candidate->get("starred") == 1 ? 0 : 1);
 		$candidate->save();
 		$response = new Vtiger_Response();

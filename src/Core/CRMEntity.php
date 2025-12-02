@@ -272,6 +272,21 @@ class CRMEntity
 		}
 		$resultRow = $query->one();
 		if (empty($resultRow)) {
+			// Check if record exists with different setype for better error diagnostics
+			if ($module != '') {
+				$checkQuery = (new \App\Db\Query())
+					->select(['setype', 'deleted'])
+					->from('vtiger_crmentity')
+					->where(['crmid' => $record]);
+				$checkRow = $checkQuery->one();
+				if (!empty($checkRow)) {
+					\App\Log\Log::error("Record $record exists but belongs to module '{$checkRow['setype']}' instead of '$module'");
+					if (!empty($checkRow['deleted'])) {
+						throw new \App\Exceptions\NoPermittedToRecord('LBL_RECORD_DELETE');
+					}
+					throw new \App\Exceptions\NoPermittedToRecord('LBL_RECORD_NOT_FOUND');
+				}
+			}
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_RECORD_NOT_FOUND');
 		} else {
 			if (!empty($resultRow['deleted'])) {

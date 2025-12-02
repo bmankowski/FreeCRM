@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Modules\Kandydaci\Actions;
+
 /**
  * Create outsource offers action file.
  * Tworzenie oferty Mass Outsource na podstawie danych pobranych z Konsultanta, Kontaktów i Cenników
@@ -13,10 +15,10 @@
 /**
  * Create outsource offers action class.
  */
-class Kandydaci_ImportCandidatesManually_Action extends Vtiger_Save_Action {
+class ImportCandidatesManually extends \App\Modules\Base\Actions\Save {
 
-	public Documents_Record_Model $document;
-	public Kandydaci_Record_Model $candidate;
+	public \App\Modules\Documents\Models\Record $document;
+	public \App\Modules\Kandydaci\Models\Record $candidate;
 
 	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request) {
@@ -27,12 +29,12 @@ class Kandydaci_ImportCandidatesManually_Action extends Vtiger_Save_Action {
 	 * After adding document as a CV refresh Candidate's page */
 	public function process(App\Request $request) {
 
-		Kandydaci_ScheduledImport_Cron::importNewCandidates();
+		\App\Modules\Kandydaci\Crons\ScheduledImport::importNewCandidates();
 
 		$moduleName = $request->getModule();
-		$module = Vtiger_Module_Model::getInstance($moduleName);
+		$module = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$url = $module->getListViewUrl();
-		$response = new Vtiger_Response();
+		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(['redirect' => $url]);
 		$response->emit();
 	}

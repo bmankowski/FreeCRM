@@ -1,4 +1,7 @@
 <?php
+
+namespace App\Modules\Kandydaci\Views;
+
 /**
  * Create outsource offers modal view file.
  *
@@ -11,7 +14,7 @@
 /**
  * Create outsource offers modal view class.
  */
-class Kandydaci_TransformDocumentToCVModal_View extends \App\Controller\Modal
+class TransformDocumentToCVModal extends \App\Controller\Modal
 {
 	/** {@inheritdoc} */
 	public $modalSize = '';
@@ -26,14 +29,14 @@ class Kandydaci_TransformDocumentToCVModal_View extends \App\Controller\Modal
 	public $modalIcon = '';
 
 	/**
-	 * @var \Vtiger_Record_Model 
+	 * @var \App\Modules\Base\Models\Record 
 	 */
 	private $recordModel; 
 
 	/** {@inheritdoc} */
 	public function checkPermission(App\Request $request)
 	{
-		$this->recordModel = $request->isEmpty('candidateId', true) ? null : Vtiger_Record_Model::getInstanceById($request->getInteger('candidateId'), $request->getModule());
+		$this->recordModel = $request->isEmpty('candidateId', true) ? null : \App\Modules\Base\Models\Record::getInstanceById($request->getInteger('candidateId'), $request->getModule());
 		if (!$this->recordModel || !$this->recordModel->isEditable()) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}

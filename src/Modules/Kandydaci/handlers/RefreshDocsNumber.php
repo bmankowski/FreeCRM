@@ -29,7 +29,9 @@
  
 
 
-class Kandydaci_RefreshDocsNumber_Handler {
+namespace App\Modules\Kandydaci\Handlers;
+
+class RefreshDocsNumber {
 
     public function entityAfterLink(App\EventHandler $eventHandler) {
         $this->performCalculations($eventHandler);
@@ -46,7 +48,7 @@ class Kandydaci_RefreshDocsNumber_Handler {
         if ($params['sourceModule'] == "Kandydaci" && $params['destinationModule']=="Documents")
         {
             $kandydatId = $params["sourceRecordId"];
-            $kandydatRecordModel = Vtiger_Record_Model::getInstanceById($kandydatId, 'Kandydaci');
+            $kandydatRecordModel = \App\Modules\Base\Models\Record::getInstanceById($kandydatId, 'Kandydaci');
 
             $count = (new \App\Db\Query())->from('vtiger_notes')->
                     innerJoin('vtiger_senotesrel', 'vtiger_senotesrel.notesid = vtiger_notes.notesid')->

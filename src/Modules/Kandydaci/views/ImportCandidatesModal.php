@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Modules\Kandydaci\Views;
+
 /**
  * Create outsource offers modal view file.
  *
@@ -13,7 +15,7 @@
 /**
  * Create outsource offers modal view class.
  */
-class Kandydaci_ImportCandidatesModal_View extends \App\Controller\Modal {
+class ImportCandidatesModal extends \App\Controller\Modal {
 
     /** {@inheritdoc} */
     public $modalSize = '';
@@ -31,7 +33,7 @@ class Kandydaci_ImportCandidatesModal_View extends \App\Controller\Modal {
     public $successBtn = 'LBL_YES';
 
     /**
-     * @var Kandydaci_Record_Model
+     * @var \App\Modules\Kandydaci\Models\Record
      */
     private $recordModel;
 

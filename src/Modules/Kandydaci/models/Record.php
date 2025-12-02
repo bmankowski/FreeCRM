@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Modules\Kandydaci\Models;
+
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -13,7 +15,7 @@
 /**
  * Class Documents_Record_Model.
  */
-class Kandydaci_Record_Model extends Vtiger_Record_Model {
+class Record extends \App\Modules\Base\Models\Record {
 
 
 	public function getRecruitmentProjectsWithStatus() {
@@ -123,7 +125,7 @@ and relcrmid=".$this->getId();
 
             return null;
         }
-        $documentRecordModel = Documents_Record_Model::getInstanceById($rows["notesid"], "Documents");
+        $documentRecordModel = \App\Modules\Documents\Models\Record::getInstanceById($rows["notesid"], "Documents");
         return $documentRecordModel;
     }
 
@@ -285,7 +287,7 @@ and relcrmid=".$this->getId();
         ]];
         $fieldValue = \App\Json::encode($newFile);
 
-        $candidate = Vtiger_Record_Model::getInstanceById($candidateId);
+        $candidate = \App\Modules\Base\Models\Record::getInstanceById($candidateId);
         $candidate->set($fieldName, $fieldValue);
 //        $candidate->save();
     }

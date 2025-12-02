@@ -41,6 +41,6 @@ require_once('modules/ModTracker/ModTracker.php');
 $automatId = \App\User::getUserIdByName("automat");
 $user = \App\User::getUserModel($automatId);
 
-Kandydaci_ScheduledImport_Cron::importAllCandidatesFromFolder("/var/www/import/cv/talent_days/");
+\App\Modules\Kandydaci\Crons\ScheduledImport::importAllCandidatesFromFolder("/var/www/import/cv/talent_days/");
 
 return;

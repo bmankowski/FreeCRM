@@ -29,7 +29,9 @@
 
 
 
-class Kandydaci_KandydaciHandler_Handler {
+namespace App\Modules\Kandydaci\Handlers;
+
+class KandydaciHandler {
 
     public function detailViewBefore(App\EventHandler $eventHandler) {
         $params = $eventHandler->getParams();
@@ -43,7 +45,7 @@ class Kandydaci_KandydaciHandler_Handler {
      */
     public function entityBeforeSave(App\EventHandler $eventHandler) {
 
-        /** @var Kandydaci_Record_Model $candidate */
+        /** @var \App\Modules\Kandydaci\Models\Record $candidate */
         $candidate = $eventHandler->getRecordModel();
         $cvImgFieldName = "cv_img_file";
         if (!empty($candidate->get($cvImgFieldName))) {

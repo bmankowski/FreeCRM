@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Modules\Kandydaci\Models;
+
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -11,9 +13,9 @@
  * *********************************************************************************** */
 
 /**
- * Vtiger ListView Model Class.
+ * Kandydaci ListView Model Class.
  */
-class Kandydaci_ListView_Model extends Vtiger_ListView_Model {
+class ListView extends \App\Modules\Base\Models\ListView {
 
     /**
      * Function to give advance links of a module.
@@ -21,13 +23,13 @@ class Kandydaci_ListView_Model extends Vtiger_ListView_Model {
      * @return array of advanced links
      */
     public function getAdvancedLinks() {
-		//@var $moduleModel Kandydaci_Module_Model
+		//@var $moduleModel \App\Modules\Kandydaci\Models\Module
         $moduleModel = $this->getModule();
 
         $advancedLinks = parent::getAdvancedLinks();
 
 
-		$user = Users_Record_Model::getCurrentUserModel();
+		$user = \App\Modules\Users\Models\Record::getCurrentUserModel();
 
 		//If user is not admin, do not show the link
 		if($user->isAdminUser()) {

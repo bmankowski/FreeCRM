@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Modules\Kandydaci\Files;
+
 /**
  * DownloadFile class to handle files.
  *
@@ -11,7 +13,7 @@
 /**
  * DownloadFile class to handle files.
  */
-class Kandydaci_GetCVImage_File extends Vtiger_Basic_File {
+class GetCVImage extends \App\Modules\Base\Files\File {
 
     /**
      * Checking permission in get method.
@@ -68,8 +70,8 @@ class Kandydaci_GetCVImage_File extends Vtiger_Basic_File {
     public static function getCVImage($request) {
         
         $candidateId = filter_var($request->getInteger('record'), FILTER_VALIDATE_INT);
-         $kandydatRecordModel = Kandydaci_Record_Model::getInstanceById($candidateId, $request->getModule());
-//        $kandydatRecordModel = Kandydaci_Record_Model::getInstanceById(1261772, "Kandydaci");
+         $kandydatRecordModel = \App\Modules\Kandydaci\Models\Record::getInstanceById($candidateId, $request->getModule());
+//        $kandydatRecordModel = \App\Modules\Kandydaci\Models\Record::getInstanceById(1261772, "Kandydaci");
         $pathInJSON = $kandydatRecordModel->get("cv_img_file");
         $item = reset(\App\Json::decode($pathInJSON));
         $file = \App\Fields\File::loadFromInfo([

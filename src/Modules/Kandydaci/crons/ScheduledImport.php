@@ -17,10 +17,12 @@
  */
 require_once('modules/Kandydaci/crons/DocumentParser.php');
 
+namespace App\Modules\Kandydaci\Crons;
+
 /**
  * Import_ScheduledImport_Cron class.
  */
-class Kandydaci_ScheduledImport_Cron extends \App\CronHandler
+class ScheduledImport extends \App\CronHandler
 {
 
 	/**
@@ -28,25 +30,25 @@ class Kandydaci_ScheduledImport_Cron extends \App\CronHandler
 	 */
 	public function process()
 	{
-		Kandydaci_ScheduledImport_Cron::importNewCandidates();
+		self::importNewCandidates();
 	}
 
 
 	public static function importNewCandidates()
 	{
-		Kandydaci_ScheduledImport_Cron::vecho("Rozpoczynam import nowych kandydatów");
+		self::vecho("Rozpoczynam import nowych kandydatów");
 		$directory = "/var/www/import/cv/pending/";
 
 		$jsonFiles = glob($directory . "*.json");
 		foreach ($jsonFiles as $jsonFilePath) {
 			try {
-				Kandydaci_ScheduledImport_Cron::vecho("Przystępuję do importu nowego kandydata z pliku:$jsonFilePath");
+				self::vecho("Przystępuję do importu nowego kandydata z pliku:$jsonFilePath");
 				$jsonFilename = basename($jsonFilePath, ".json");
 
 				// If jsonFilename does not contain underscore, then application number is just filename, probably from "Polec znajomego" form
 				if (!strpos($jsonFilename, "_")) {
 					$candidateApplicationNumber = $jsonFilename;
-					Kandydaci_ScheduledImport_Cron::vecho("Aplikacja nie ma numeru aplikacji, więc to pewnie polec znajomego: " . $candidateApplicationNumber);
+					self::vecho("Aplikacja nie ma numeru aplikacji, więc to pewnie polec znajomego: " . $candidateApplicationNumber);
 				} else {
 					// If jsonFilename contains underscore, then application number is after underscore
 					$candidateApplicationNumber = explode("_", $jsonFilename)[1]; //Generowany losowo numer aplikacji
@@ -56,15 +58,15 @@ class Kandydaci_ScheduledImport_Cron extends \App\CronHandler
 				
 				$application = Kandydaci_ScheduledImport_Cron::getApplicationData($directory, $jsonFilePath, $candidateApplicationNumber);
 
-				Kandydaci_ScheduledImport_Cron::vecho("Sprawdzam czy aplikacja " . $candidateApplicationNumber . " dla kandydata " . $application["candidateName"] . " jest już w bazie danych");
+				self::vecho("Sprawdzam czy aplikacja " . $candidateApplicationNumber . " dla kandydata " . $application["candidateName"] . " jest już w bazie danych");
 
 				//Jeśli ta aplikacja została już wprowadzona, to jej pliki zostają skasowane
 				if (self::isApplicationInDatabase($candidateApplicationNumber)) {
-					Kandydaci_ScheduledImport_Cron::vecho("Aplikacja " . $candidateApplicationNumber . " jest już w bazie danych jsonFilePath: $jsonFilePath");
+					self::vecho("Aplikacja " . $candidateApplicationNumber . " jest już w bazie danych jsonFilePath: $jsonFilePath");
 					self::deleteFiles($application);
 					continue;
 				}
-				Kandydaci_ScheduledImport_Cron::vecho("Aplikacji " . $candidateApplicationNumber . " nie ma w bazie danych. Procesuję.");
+				self::vecho("Aplikacji " . $candidateApplicationNumber . " nie ma w bazie danych. Procesuję.");
 
 				$candidate = self::getCandidate($application);
 				self::addCommentToCandidate($candidate, $application);
@@ -81,7 +83,7 @@ class Kandydaci_ScheduledImport_Cron extends \App\CronHandler
 				\App\Log::error($e);
 			}
 		}
-		Kandydaci_ScheduledImport_Cron::vecho("Koniec importu plików");
+		self::vecho("Koniec importu plików");
 	}
 
 	public static function importAllCandidatesFromFolder($directory)
@@ -89,16 +91,16 @@ class Kandydaci_ScheduledImport_Cron extends \App\CronHandler
 		$automatUser = \App\User::getUserModel(\App\User::getUserIdByName("automat"));
 
 		if (empty($directory) || !is_dir($directory)) {
-			Kandydaci_ScheduledImport_Cron::vecho("Katalog $directory nie istnieje");
+			self::vecho("Katalog $directory nie istnieje");
 			return;
 		}
 
 
 		$filesToProcess = glob($directory . "*.pdf");
-		Kandydaci_ScheduledImport_Cron::vecho("Rozpoczynam import nowych kandydatów. Katalog:" . $directory . " Liczba plików do przetworzenia: " . count($filesToProcess));
+		self::vecho("Rozpoczynam import nowych kandydatów. Katalog:" . $directory . " Liczba plików do przetworzenia: " . count($filesToProcess));
 		foreach ($filesToProcess as $filePath) {
 			try {
-				Kandydaci_ScheduledImport_Cron::vecho("Przystępuję do importu nowego kandydata z pliku:$filePath");
+				self::vecho("Przystępuję do importu nowego kandydata z pliku:$filePath");
 				$fileName = basename($filePath, ".pdf");
 				// Changing Jan-Kowalski-37460 to an array of strings firstname=Jan lastname=Kowalski applicationNumber=37460
 				$parts = explode("-", $fileName);
@@ -115,37 +117,37 @@ class Kandydaci_ScheduledImport_Cron extends \App\CronHandler
 				}
 
 
-				Kandydaci_ScheduledImport_Cron::vecho("Sprawdzam czy aplikacja " . $candidateData['applicationNumber'] . " jest już w bazie danych");
+				self::vecho("Sprawdzam czy aplikacja " . $candidateData['applicationNumber'] . " jest już w bazie danych");
 
 				//Jeśli ta aplikacja została już wprowadzona, to jej pliki zostają skasowane
 				if (self::isApplicationInDatabase($candidateData['applicationNumber'])) {
-					Kandydaci_ScheduledImport_Cron::vecho("Aplikacja " . $candidateData['applicationNumber'] . " jest już w bazie danych: $filePath");
+					self::vecho("Aplikacja " . $candidateData['applicationNumber'] . " jest już w bazie danych: $filePath");
 					continue;
 				}
 
 				try {
 					$pdfContent = substr(LukeMadhanga\DocumentParser::parseFromFile($filePath), 0, 10000);
 				} catch (Exception $e) {
-					Kandydaci_ScheduledImport_Cron::vecho("Błąd podczas parsowania pliku" . $e->getMessage());
+					self::vecho("Błąd podczas parsowania pliku" . $e->getMessage());
 					$fileContent = "";
 				}
 //				Extract email from pdfContent
 				preg_match('/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}\b/i', $pdfContent, $matches);
 				$email = $matches[0] ?? null;
 				/**
-				 * @var Kandydaci_Record_Model $candidate
+				 * @var \App\Modules\Kandydaci\Models\Record $candidate
 				 */
 				if(empty($email)){
-					Kandydaci_ScheduledImport_Cron::vecho("Nie znaleziono emaila w pliku $filePath");
+					self::vecho("Nie znaleziono emaila w pliku $filePath");
 					continue;
 				}
 				$candidateId = self::getCandidateIdByNameAndEmail($candidateData['lastname'] . " " . $candidateData['firstname'], $email);
 				if (!empty($candidateId)) {
-					Kandydaci_ScheduledImport_Cron::vecho("Kandydat " . $candidateData['lastname'] . " " . $candidateData['firstname'] . " jest już bazie: " . $candidateId);
-					$candidate = \Kandydaci_Record_Model::getInstanceById($candidateId, 'Kandydaci');
+					self::vecho("Kandydat " . $candidateData['lastname'] . " " . $candidateData['firstname'] . " jest już bazie: " . $candidateId);
+					$candidate = \App\Modules\Kandydaci\Models\Record::getInstanceById($candidateId, 'Kandydaci');
 					self::vecho("Kandydat " . $candidateData['lastname'] . " " . $candidateData['firstname'] . " jest już bazie: " . $candidate->getId());
 					//TODO: add automatic translations
-					$commentWithMessage = Vtiger_Record_Model::getCleanInstance("ModComments");
+					$commentWithMessage = \App\Modules\Base\Models\Record::getCleanInstance("ModComments");
 					$commentWithMessage->set('assigned_user_id', $automatUser->getId());
 					$commentWithMessage->set('related_to', $candidate->getId());
 					$message = "Kandydat zaaplikował ponownie podczas TalentDays";
@@ -153,7 +155,7 @@ class Kandydaci_ScheduledImport_Cron extends \App\CronHandler
 					$commentWithMessage->save();
 				} else {
 					self::vecho("Kandydata " . $candidateData['lastname'] . " " . $candidateData['firstname'] . " nie ma w bazie danych. Tworzę nowego kandydata");
-					$candidate = \Vtiger_Record_Model::getCleanInstance('Kandydaci');
+					$candidate = \App\Modules\Base\Models\Record::getCleanInstance('Kandydaci');
 					$candidate->set("name", $candidateData['lastname'] . " " . $candidateData['firstname']);
 					$candidate->set("status_kandydata", "Kandydat");
 					$candidate->set("email_prywatny", $email);
@@ -167,27 +169,27 @@ class Kandydaci_ScheduledImport_Cron extends \App\CronHandler
 				$clean_text = preg_replace('/[\x{10000}-\x{10FFFF}]/u', '', $pdfContent);
 				$cvContent = trim($clean_text);
 				$candidate->set('tresc_cv', $cvContent);
-				Kandydaci_ScheduledImport_Cron::vecho("Ustawiam relacje");
+				self::vecho("Ustawiam relacje");
 				$relations = self::prepareRelationsString('Kandydaci', $candidate->getId());
-				Kandydaci_ScheduledImport_Cron::vecho("Zapisuje plik z zyciorysem");
+				self::vecho("Zapisuje plik z zyciorysem");
 				try {
 					$documentRecord = self::saveAndDeleteFile($filePath, "CV", $relations);
 				} catch (Exception $e) {
-					Kandydaci_ScheduledImport_Cron::vecho("Błąd podczas zapisywania pliku" . $e->getMessage());
+					self::vecho("Błąd podczas zapisywania pliku" . $e->getMessage());
 					throw $e;
 				}
-				Kandydaci_ScheduledImport_Cron::vecho("Transformuje plik");
+				self::vecho("Transformuje plik");
 				$candidate->transformDocumentToCV($documentRecord);
-				Kandydaci_ScheduledImport_Cron::vecho("Zapisuje kandydata");
+				self::vecho("Zapisuje kandydata");
 				$candidate->save();
 			} catch (Exception $e) {
 //				self::sendErrorMail($application, $e);
 //				self::moveFilesToFailed($application);
-				Kandydaci_ScheduledImport_Cron::vecho("Error: " . $e->getMessage());
+				self::vecho("Error: " . $e->getMessage());
 				\App\Log::error($e);
 			}
 		}
-		Kandydaci_ScheduledImport_Cron::vecho("Koniec importu plików");
+		self::vecho("Koniec importu plików");
 	}
 
 	private static function sendErrorMail($application, $e)
@@ -263,32 +265,32 @@ class Kandydaci_ScheduledImport_Cron extends \App\CronHandler
 
 	static function moveFilesToProcessed($application)
 	{
-		Kandydaci_ScheduledImport_Cron::vecho("Moving file to processed");
+		self::vecho("Moving file to processed");
 		$directory = "/var/www/import/cv/processed/";
 		if (file_exists($application["jsonFilePath"])) {
 			$filenameJSON = basename($application["jsonFilePath"]);
-			Kandydaci_ScheduledImport_Cron::vecho("!!!Moving file" . $application["jsonFilePath"] . " to processed " . $application["jsonFilePath"]);
+			self::vecho("!!!Moving file" . $application["jsonFilePath"] . " to processed " . $application["jsonFilePath"]);
 			rename($application["jsonFilePath"], $directory . $filenameJSON);
 		}
 		if (file_exists($application["filename"])) {
 			$filenameAttachment = basename($application["filename"]);
-			Kandydaci_ScheduledImport_Cron::vecho("!!!Moving file" . $application["filename"] . " to processed " . $application["filename"]);
+			self::vecho("!!!Moving file" . $application["filename"] . " to processed " . $application["filename"]);
 			rename($application["filename"], $directory . $filenameAttachment);
 		}
 	}
 
 	static function moveFilesToFailed($application)
 	{
-		Kandydaci_ScheduledImport_Cron::vecho("Moving file to failed");
+		self::vecho("Moving file to failed");
 		$directory = "/var/www/import/cv/failed/";
 		if (file_exists($application["jsonFilePath"])) {
 			$filenameJSON = basename($application["jsonFilePath"]);
-			Kandydaci_ScheduledImport_Cron::vecho("!!!Moving file" . $application["jsonFilePath"] . " to failed " . $application["jsonFilePath"]);
+			self::vecho("!!!Moving file" . $application["jsonFilePath"] . " to failed " . $application["jsonFilePath"]);
 			rename($application["jsonFilePath"], $directory . $filenameJSON);
 		}
 		if (file_exists($application["filename"])) {
 			$filenameAttachment = basename($application["filename"]);
-			Kandydaci_ScheduledImport_Cron::vecho("!!!Moving file" . $application["filename"] . " to failed " . $application["filename"]);
+			self::vecho("!!!Moving file" . $application["filename"] . " to failed " . $application["filename"]);
 			rename($application["filename"], $directory . $filenameAttachment);
 		}
 	}
@@ -466,14 +468,14 @@ class Kandydaci_ScheduledImport_Cron extends \App\CronHandler
 		try {
 			$phoneUtil->isValidNumber($phoneUtil->parse($application["candidateTransformedPhone"]));
 		} catch (\libphonenumber\NumberParseException $e) {
-			Kandydaci_ScheduledImport_Cron::vecho("Nieprawidłowy numer u kandydata");
+			self::vecho("Nieprawidłowy numer u kandydata");
 			$application["candidateTransformedPhone"] = "";
 		}
 		return $application;
 	}
 
 
-	static public function bindCandidateToProject(Kandydaci_Record_Model $candidate, array $application)
+	static public function bindCandidateToProject(\App\Modules\Kandydaci\Models\Record $candidate, array $application)
 	{
 		// No project id in application
 		if (empty($application["projectId"])) {
@@ -489,12 +491,12 @@ class Kandydaci_ScheduledImport_Cron extends \App\CronHandler
 			self::deleteFiles($application);
 			return null;
 		}
-		Kandydaci_ScheduledImport_Cron::vecho("Kandydat " . $application["candidateName"] . " jeszcze nie aplikował na  projekt " . $application["projectId"]);
+		self::vecho("Kandydat " . $application["candidateName"] . " jeszcze nie aplikował na  projekt " . $application["projectId"]);
 
 		if (self::isProjectActive($application["projectId"])) {
 			$relationCandidate2Project = self::prepareRelationsString("ProjektyRekrutacyjne", $application["projectId"]);
 			if (!empty($relationCandidate2Project)) {
-				Kandydaci_ScheduledImport_Cron::vecho("Dodaje powiązanie kandydata do projektu");
+				self::vecho("Dodaje powiązanie kandydata do projektu");
 				$candidate->ext = ['relations' => $relationCandidate2Project];
 			}
 		}
@@ -509,39 +511,39 @@ class Kandydaci_ScheduledImport_Cron extends \App\CronHandler
 		$originalFilename = $application["directory"] . basename($application["originalFilename"]);
 		$filename = $application["filename"];
 		// Copying filename to orignal_filename - it will be deleted by saveAndDeleteFile(...)
-		Kandydaci_ScheduledImport_Cron::vecho("Copying:" . $application["filename"] . " to original filename:" . $originalFilename);
+		self::vecho("Copying:" . $application["filename"] . " to original filename:" . $originalFilename);
 
 		if ($filename != $originalFilename) {
 			copy($filename, $originalFilename);
 		}
-		Kandydaci_ScheduledImport_Cron::vecho("Przystępuje do otwierania pliku $originalFilename");
+		self::vecho("Przystępuje do otwierania pliku $originalFilename");
 		if (file_exists($originalFilename)) {
 			try {
-				Kandydaci_ScheduledImport_Cron::vecho("Parsuję plik $originalFilename");
+				self::vecho("Parsuję plik $originalFilename");
 				$fileContent = substr(LukeMadhanga\DocumentParser::parseFromFile($originalFilename), 0, 10000);
 			} catch (Exception $e) {
-				Kandydaci_ScheduledImport_Cron::vecho("Błąd podczas parsowania pliku" . $e->getMessage());
+				self::vecho("Błąd podczas parsowania pliku" . $e->getMessage());
 				$fileContent = "";
 			}
-			Kandydaci_ScheduledImport_Cron::vecho("Ustawiam treść");
+			self::vecho("Ustawiam treść");
 			$clean_text = preg_replace('/[\x{10000}-\x{10FFFF}]/u', '', $fileContent);
 			$cvContent = trim($clean_text);
 			$candidate->set('tresc_cv', $cvContent);
-			Kandydaci_ScheduledImport_Cron::vecho("Ustawiam relacje");
+			self::vecho("Ustawiam relacje");
 			$relations = self::prepareRelationsString('Kandydaci', $candidate->getId());
-			Kandydaci_ScheduledImport_Cron::vecho("Zapisuje plik z zyciorysem");
+			self::vecho("Zapisuje plik z zyciorysem");
 			try {
 				$documentRecord = self::saveAndDeleteFile($originalFilename, "CV", $relations);
 			} catch (Exception $e) {
-				Kandydaci_ScheduledImport_Cron::vecho("Błąd podczas zapisywania pliku" . $e->getMessage());
+				self::vecho("Błąd podczas zapisywania pliku" . $e->getMessage());
 				throw $e;
 			}
-			Kandydaci_ScheduledImport_Cron::vecho("Transformuje plik");
+			self::vecho("Transformuje plik");
 			$candidate->transformDocumentToCV($documentRecord);
-			Kandydaci_ScheduledImport_Cron::vecho("Moving file to processed");
+			self::vecho("Moving file to processed");
 			self::moveFilesToProcessed($application);
 		} else {
-			Kandydaci_ScheduledImport_Cron::vecho("ERROR: Parsowany plik nie istnieje $originalFilename");
+			self::vecho("ERROR: Parsowany plik nie istnieje $originalFilename");
 		}
 	}
 
@@ -557,7 +559,7 @@ class Kandydaci_ScheduledImport_Cron extends \App\CronHandler
 
 			//TODO: add automatic translations
 			$conditions = "Dostępność: " . $application["availability"] . "<br>Oczekiwania finansowe: " . $application["financialExpectations"] . " <br>";
-			$commentWithMessage = Vtiger_Record_Model::getCleanInstance("ModComments");
+			$commentWithMessage = \App\Modules\Base\Models\Record::getCleanInstance("ModComments");
 			$commentWithMessage->set('assigned_user_id', $automatUser->getId());
 			$commentWithMessage->set('related_to', $candidate->getId());
 			if (empty($application["candidateTransformedPhone"])) {
@@ -572,9 +574,9 @@ class Kandydaci_ScheduledImport_Cron extends \App\CronHandler
 	/**
 	 * @throws Exception
 	 */
-	static public function getCandidate($application): Kandydaci_Record_Model
+	static public function getCandidate($application): \App\Modules\Kandydaci\Models\Record
 	{
-		Kandydaci_ScheduledImport_Cron::vecho("Procesuję aplikację " . $application["candidateApplicationNumber"] . " dla kandydata " . $application["candidateName"]);
+		self::vecho("Procesuję aplikację " . $application["candidateApplicationNumber"] . " dla kandydata " . $application["candidateName"]);
 		//Searching for candidate by name and phone
 		if (!empty($application["candidateName"]) && !empty($application["candidateTransformedPhone"])) {
 			$candidateId = self::getCandidateIdByNameAndPhone($application["candidateName"], $application["candidateTransformedPhone"]);
@@ -592,8 +594,8 @@ class Kandydaci_ScheduledImport_Cron extends \App\CronHandler
 				throw $e;
 			}
 		} else {
-			Kandydaci_ScheduledImport_Cron::vecho("Kandydat " . $application["candidateName"] . " o numerze telefonu " . $application["candidateTransformedPhone"] . " jest już bazie");
-			$candidate = \Kandydaci_Record_Model::getInstanceById($candidateId, 'Kandydaci');
+			self::vecho("Kandydat " . $application["candidateName"] . " o numerze telefonu " . $application["candidateTransformedPhone"] . " jest już bazie");
+			$candidate = \App\Modules\Kandydaci\Models\Record::getInstanceById($candidateId, 'Kandydaci');
 			$candidate->set("data_maksymalny_kontakt_rodo", date('Y-m-d', strtotime('+3 years')));
 			$candidate->save();
 		}
@@ -641,13 +643,13 @@ class Kandydaci_ScheduledImport_Cron extends \App\CronHandler
 	/**
 	 * @throws Exception
 	 */
-	static public function createNewCandidateFromApplication($application): Kandydaci_Record_Model
+	static public function createNewCandidateFromApplication($application): \App\Modules\Kandydaci\Models\Record
 	{
 		if (empty($application["candidateName"])) {
 			throw new Exception("Candidate name is empty");
 		}
-		Kandydaci_ScheduledImport_Cron::vecho("Creating new candidate " . $application["candidateName"]);
-		$candidate = \Vtiger_Record_Model::getCleanInstance('Kandydaci');
+		self::vecho("Creating new candidate " . $application["candidateName"]);
+		$candidate = \App\Modules\Base\Models\Record::getCleanInstance('Kandydaci');
 		$candidate->set("name", $application["candidateName"]);
 		$candidate->set("telefon", $application["candidateTransformedPhone"]);
 		$candidate->set("status_kandydata", "Kandydat");
@@ -679,7 +681,7 @@ class Kandydaci_ScheduledImport_Cron extends \App\CronHandler
 		}
 		$candidate->save();
 		$candidateId = $candidate->getId();
-		return \Kandydaci_Record_Model::getInstanceById($candidateId, 'Kandydaci');
+		return \App\Modules\Kandydaci\Models\Record::getInstanceById($candidateId, 'Kandydaci');
 	}
 
 	static function hasCandidateAppliedForProject(string $candidateId, ?string $projectId)
@@ -836,7 +838,7 @@ class Kandydaci_ScheduledImport_Cron extends \App\CronHandler
 		$file = App\Fields\File::loadFromPath($filepath);
 		$fileName = $file->getName();
 		$fileNameLength = \App\TextUtils::getTextLength($fileName);
-		$newDocument = \Vtiger_Record_Model::getCleanInstance('Documents');
+		$newDocument = \App\Modules\Base\Models\Record::getCleanInstance('Documents');
 		if ($fileNameLength > ($maxLength = $newDocument->getField('filename')->get('maximumlength'))) {
 			$extLength = 0;
 			if (!empty($ext = $file->getExtension())) {

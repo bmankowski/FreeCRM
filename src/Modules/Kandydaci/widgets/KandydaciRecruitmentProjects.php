@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Modules\Kandydaci\Widgets;
+
 /**
  * Vtiger summary widget class.
  *
@@ -8,15 +10,15 @@
  * @copyright YetiForce S.A.
  * @license YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  */
-class Kandydaci_KandydaciRecruitmentProjects_Widget extends Vtiger_Basic_Widget
+class KandydaciRecruitmentProjects extends \App\Modules\Base\Widgets\Basic
 {
 	public function getWidget()
 	{
 		$this->Config['tpl'] = 'KandydaciRecruitmentProjects.tpl';
 		$kandydaciId = $this->Record;
 
-		/* @var \Kandydaci_Record_Model $kandydat */
-		$kandydat = Kandydaci_Record_Model::getInstanceById($kandydaciId, 'Kandydaci');
+		/* @var \App\Modules\Kandydaci\Models\Record $kandydat */
+		$kandydat = \App\Modules\Kandydaci\Models\Record::getInstanceById($kandydaciId, 'Kandydaci');
 		$recruitmentProjectsData = $kandydat->getRecruitmentProjectsWithStatus();
 		$projects = [];
 		foreach ($recruitmentProjectsData as $projectData){

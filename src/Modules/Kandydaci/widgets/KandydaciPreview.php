@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Modules\Kandydaci\Widgets;
+
 /**
  * Vtiger summary widget class.
  *
@@ -8,7 +10,7 @@
  * @copyright YetiForce S.A.
  * @license YetiForce Public License 6.5 (licenses/LicenseEN.txt or yetiforce.com)
  */
-class Kandydaci_KandydaciPreview_Widget extends Vtiger_Basic_Widget
+class KandydaciPreview extends \App\Modules\Base\Widgets\Basic
 {
 	public function getWidget()
 	{

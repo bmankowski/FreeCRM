@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Modules\Kandydaci\Workflows;
+
 /**
  * HelpDeskWorkflow.
  *
@@ -11,10 +13,10 @@ class RunImportCandidatesWorkflow {
     /**
      * Function to send mail to contacts. Function invoke by workflow.
      *
-     * @param Kandydaci_Record_Model $recordModel
+     * @param \App\Modules\Kandydaci\Models\Record $recordModel
      */
-    public static function runImportCandidates(Kandydaci_Record_Model $recordModel) {
-		Kandydaci_ScheduledImport_Cron::importNewCandidates();
+    public static function runImportCandidates(\App\Modules\Kandydaci\Models\Record $recordModel) {
+		\App\Modules\Kandydaci\Crons\ScheduledImport::importNewCandidates();
 
     }
 }

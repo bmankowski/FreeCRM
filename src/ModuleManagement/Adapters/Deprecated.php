@@ -198,12 +198,14 @@ class Deprecated
 	public static function getCurrentUserEntityFieldNameDisplay($module, $fieldsName, $fieldValues)
 	{
 		if (strpos($fieldsName, ',') === false) {
-			return $fieldValues[$fieldsName];
+			return $fieldValues[$fieldsName] ?? '';
 		} else {
 			$accessibleFieldNames = [];
 			foreach (explode(',', $fieldsName) as $field) {
 				if ($module === 'Users' || \App\Fields\Field::getColumnPermission($module, $field)) {
-					$accessibleFieldNames[] = $fieldValues[$field];
+					if (isset($fieldValues[$field])) {
+						$accessibleFieldNames[] = $fieldValues[$field];
+					}
 				}
 			}
 			if (count($accessibleFieldNames) > 0) {

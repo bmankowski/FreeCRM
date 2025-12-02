@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Modules\Kandydaci\Models;
+
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -13,10 +15,10 @@
 /**
  * Vtiger Module Model Class.
  */
-class Kandydaci_Module_Model extends Vtiger_Module_Model {
+class Module extends \App\Modules\Base\Models\Module {
 
 	public static function getCVPathname(): string {
-//		$documentRecordModel = Documents_Record_Model::getInstanceById(1325274,"Documents");
+//		$documentRecordModel = \App\Modules\Documents\Models\Record::getInstanceById(1325274,"Documents");
 		//Download the file
 //		return $documentRecordModel->getDownloadFileURL();
 		return "cv-test.pdf";

@@ -52,7 +52,7 @@ echo "\n\n\n";
 
 $allProjects = Utils::getAllProjektyRekrutacyjne();
 foreach ($allProjects as $projectId) {
-    Kandydaci_NewCandidateInProject_Handler::calculateNumberOfCandidatesInProject($projectId);
+    \App\Modules\Kandydaci\Handlers\NewCandidateInProject::calculateNumberOfCandidatesInProject($projectId);
 }
 return;  
 //$phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
@@ -92,7 +92,7 @@ $rows = Utils::getDataToTransformCandidateDocumentsToCV();
 
 foreach ($rows as $key => $value) {
     echo "Processing: ".$value["candidateid"] . " " . $value["attachmentsid"] . " " . $value["path"] . " " . $value["name"] . " " . $value["type"] . "\n";
-    Kandydaci_Record_Model::transformFileToCV($value["candidateid"], $value["attachmentsid"], $value["name"],"/var/www/yetiforce/".$value["path"],$value["type"] );
+    \App\Modules\Kandydaci\Models\Record::transformFileToCV($value["candidateid"], $value["attachmentsid"], $value["name"],"/var/www/yetiforce/".$value["path"],$value["type"] );
 }
 
 echo "Done";
@@ -117,7 +117,7 @@ class Utils {
     
 
     public static function calculateNumberOfCandidatesInProject($projectId) {
-        if (!empty($recordModelProject = Vtiger_Record_Model::getInstanceById($projectId, 'ProjektyRekrutacyjne'))) {
+        if (!empty($recordModelProject = \App\Modules\Base\Models\Record::getInstanceById($projectId, 'ProjektyRekrutacyjne'))) {
 //        $count1 = (new \App\Db\Query())->from('vtiger_crmentityrel')->
 //                where(['crmid' => $projectId])->
 //                andWhere(['module' => 'ProjektyRekrutacyjne'])->

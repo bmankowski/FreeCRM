@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Modules\Kandydaci\Actions;
+
 /**
  * Create outsource offers action file.
  * Tworzenie oferty Mass Outsource na podstawie danych pobranych z Konsultanta, Kontaktów i Cenników 
@@ -13,18 +15,18 @@
 /**
  * Create outsource offers action class.
  */
-class Kandydaci_TransformDocumentToCV_Action extends Vtiger_Save_Action {
+class TransformDocumentToCV extends \App\Modules\Base\Actions\Save {
 
-    public Documents_Record_Model $document;
-    public Kandydaci_Record_Model $candidate;
+    public \App\Modules\Documents\Models\Record $document;
+    public \App\Modules\Kandydaci\Models\Record $candidate;
 
     /** {@inheritdoc} */
     public function checkPermission(App\Request $request) {
-        $this->candidate = $request->isEmpty('candidateId', true) ? null : Vtiger_Record_Model::getInstanceById($request->getInteger('candidateId'), $request->getModule());
+        $this->candidate = $request->isEmpty('candidateId', true) ? null : \App\Modules\Base\Models\Record::getInstanceById($request->getInteger('candidateId'), $request->getModule());
         if (!$this->candidate || !$this->candidate->isViewable()) {
             throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
         }
-        $this->document = $request->isEmpty('documentId', true) ? null : Vtiger_Record_Model::getInstanceById($request->getInteger('documentId'), "Documents");
+        $this->document = $request->isEmpty('documentId', true) ? null : \App\Modules\Base\Models\Record::getInstanceById($request->getInteger('documentId'), "Documents");
         if (!$this->document || !$this->document->isViewable()) {
             throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
         }
@@ -39,7 +41,7 @@ class Kandydaci_TransformDocumentToCV_Action extends Vtiger_Save_Action {
         $this->candidate->save();
 
         $loadUrl = $this->candidate->getDetailViewUrl();
-        $response = new Vtiger_Response();
+        $response = new \App\Http\Vtiger_Response();
         $response->setResult(['redirect' => $loadUrl]);
         $response->emit();
     }

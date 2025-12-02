@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Modules\Kandydaci\Actions;
+
 /**
  * Create outsource offers action file.
  * Tworzenie oferty Mass Outsource na podstawie danych pobranych z Konsultanta, Kontaktów i Cenników 
@@ -13,13 +15,13 @@
 /**
  * Create outsource offers action class.
  */
-class Kandydaci_TransformCandidateToConsultant_Action extends Vtiger_Save_Action {
+class TransformCandidateToConsultant extends \App\Modules\Base\Actions\Save {
 
     /** {@inheritdoc} */ 
     public function checkPermission(App\Request $request) {
           \App\Log::warning("Hello1");
-        $this->record = $request->isEmpty('record', true) ? null : Vtiger_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
-        if (!$this->record || !$this->record->isViewable() || !Vtiger_Record_Model::getCleanInstance('OfertyMassOutsource')->isCreateable()) {
+        $this->record = $request->isEmpty('record', true) ? null : \App\Modules\Base\Models\Record::getInstanceById($request->getInteger('record'), $request->getModule());
+        if (!$this->record || !$this->record->isViewable() || !\App\Modules\Base\Models\Record::getCleanInstance('OfertyMassOutsource')->isCreateable()) {
             throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
         }
     }
@@ -41,13 +43,13 @@ class Kandydaci_TransformCandidateToConsultant_Action extends Vtiger_Save_Action
         } else {
             $loadUrl = $consultant->getDetailViewUrl();
         }
-        $response = new Vtiger_Response();
+        $response = new \App\Http\Vtiger_Response();
         $response->setResult(['redirect' => $loadUrl]);
         $response->emit();
     } 
 
     protected static function createConsultantFromCandidate($candidateRecordModel,$formData) {
-        $newConsultant = Vtiger_Record_Model::getCleanInstance('Konsultanci');
+        $newConsultant = \App\Modules\Base\Models\Record::getCleanInstance('Konsultanci');
         $newConsultant->set('candidate_id', $candidateRecordModel->getId());
         $newConsultant->set('name', $candidateRecordModel->get('name'));
         
