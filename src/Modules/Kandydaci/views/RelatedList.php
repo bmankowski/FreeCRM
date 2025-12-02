@@ -130,6 +130,7 @@ class RelatedList extends \App\Modules\Base\Views\RelatedList
 		$viewer->assign('SHOW_COMMENT', $relationModel->showComment());
 		$viewer->assign('RELATED_HEADERS', $header);
 		$viewer->assign('RELATED_MODULE', $relationModel->getRelationModuleModel());
+		$viewer->assign('RELATED_MODULE_NAME', $relatedModuleName);
 		$viewer->assign('RELATED_ENTIRES_COUNT', \count($models));
 		$viewer->assign('RELATION_FIELD', $relationModel->getRelationField());
 		if (\App\Config::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
@@ -155,7 +156,9 @@ class RelatedList extends \App\Modules\Base\Views\RelatedList
 		}
 		$viewer->assign('IS_FAVORITES', $isFavorites);
 		$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
+		$viewer->assign('IS_DELETABLE', $relationModel->isDeletable());
 		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('IS_CREATE_PERMITTED', \App\Modules\Users\Models\Privileges::isPermitted($relatedModuleName, 'CreateView'));
 		$viewer->assign('SEARCH_DETAILS', $searchParams);
 		$viewer->assign('SEARCH_PARAMS', $searchParamsRaw);
 		$viewer->assign('VIEW', $request->getByType('view'));
@@ -168,7 +171,14 @@ class RelatedList extends \App\Modules\Base\Views\RelatedList
 		} else {
 			$viewer->assign('IS_WIDGETS', false);
 		}
-		return $this->loadView();
+		// Prepare data for RelatedListLeftSide template - move function calls from templates to controller
+		$relatedModuleModel = $relationModel->getRelationModuleModel();
+		$this->prepareRelatedListLeftSideData($viewer, $models, $relatedModuleModel, $request->getUser());
+		
+		// Prepare data for RelatedList template - move function calls from templates to controller
+		$viewer->assign('AUTO_REFRESH_LIST_ON_CHANGE', \App\Core\AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE'));
+		
+		return $viewer->view('RelatedList.tpl', $moduleName, true);
 	}
 
 }
