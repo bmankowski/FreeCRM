@@ -118,8 +118,8 @@
 								{$MAINCURR['currency_symbol']}
 							{/if}
 						</td>
-						<td>{DateTime\App\Fields\Field::convertToUserFormat($key.fetch_date)}</td>
-						<td>{DateTime\App\Fields\Field::convertToUserFormat($key.exchange_date)}</td>
+						<td>{\App\Fields\DateTimeField::convertToUserFormat($key.fetch_date)}</td>
+						<td>{\App\Fields\DateTimeField::convertToUserFormat($key.exchange_date)}</td>
 					</tr>
 				{/foreach}
 			</table>

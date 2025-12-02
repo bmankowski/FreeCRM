@@ -14,6 +14,9 @@
 	{if !$USER_MODEL}
 		{assign var=USER_MODEL value = \App\Modules\Users\Models\Record::getCurrentUserModel()}
 	{/if}
+	{assign var=SELECTED_FIELD_MODEL value=null}
+	{assign var=FIELD_TYPE value=''}
+	{assign var=ADVANCE_FILTER_OPTIONS value=array()}
 	<div class="conditionRow">
 		<div class="col-md-4 conditionField">
 			<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control margin0px" name="columnname" title="{"LBL_CHOOSE_FIELD"|t}">
@@ -116,17 +119,25 @@
 				{if !$FIELD_TYPE}
 					{assign var=FIELD_TYPE value=$SELECTED_FIELD_MODEL->getFieldDataType()}
 				{/if}
-				{assign var=ADVANCE_FILTER_OPTIONS value=$ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE]}
+				{if isset($ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE])}
+					{assign var=ADVANCE_FILTER_OPTIONS value=$ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE]}
+				{else}
+					{assign var=ADVANCE_FILTER_OPTIONS value=array()}
+				{/if}
 				{if in_array($SELECTED_FIELD_MODEL->getFieldType(),['D','DT'])}
 					{assign var=DATE_FILTER_CONDITIONS value=array_keys($DATE_FILTERS)}
 					{assign var=ADVANCE_FILTER_OPTIONS value=array_merge($ADVANCE_FILTER_OPTIONS,$DATE_FILTER_CONDITIONS)}
 				{/if}
+			{else}
+				{assign var=ADVANCE_FILTER_OPTIONS value=array()}
 			{/if}
 			<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control margin0px" name="comparator" title="{"LBL_COMAPARATOR_TYPE"|t}">
 				<option value="none">{"LBL_NONE"|t:$MODULE}</option>
-				{foreach item=ADVANCE_FILTER_OPTION from=$ADVANCE_FILTER_OPTIONS}
-					<option value="{$ADVANCE_FILTER_OPTION}" {if $ADVANCE_FILTER_OPTION eq $CONDITION_INFO['comparator']}selected{/if}>{$ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION]|t}</option>
-				{/foreach}
+				{if !empty($ADVANCE_FILTER_OPTIONS)}
+					{foreach item=ADVANCE_FILTER_OPTION from=$ADVANCE_FILTER_OPTIONS}
+						<option value="{$ADVANCE_FILTER_OPTION}" {if $ADVANCE_FILTER_OPTION eq $CONDITION_INFO['comparator']}selected{/if}>{$ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION]|t}</option>
+					{/foreach}
+				{/if}
 			</select>
 		</div>
 		<div class="col-md-4 fieldUiHolder">

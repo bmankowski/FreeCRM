@@ -25,9 +25,9 @@
 			<span class="input-group-addon inviteStatus">
 				{assign var=STATUS_LABEL value=\App\Modules\Events\Models\Record::getInvitionStatus($INVITIE['status'])}
 				{if $INVITIE['status'] == '1'}
-					<span class="glyphicon glyphicon-ok-sign popoverTooltip" data-placement="top" data-content="{$STATUS_LABEL|t:$MODULE} {if $INVITIE['time']}({DateTime\App\Fields\Field::convertToUserFormat($INVITIE['time'])}){/if}" aria-hidden="true"></span>
+					<span class="glyphicon glyphicon-ok-sign popoverTooltip" data-placement="top" data-content="{$STATUS_LABEL|t:$MODULE} {if $INVITIE['time']}({\App\Fields\DateTimeField::convertToUserFormat($INVITIE['time'])}){/if}" aria-hidden="true"></span>
 				{elseif $INVITIE['status'] == '2'}
-					<span class="glyphicon glyphicon-minus-sign popoverTooltip" data-placement="top" data-content="{$STATUS_LABEL|t:$MODULE} {if $INVITIE['time']}({DateTime\App\Fields\Field::convertToUserFormat($INVITIE['time'])}){/if}" aria-hidden="true"></span>
+					<span class="glyphicon glyphicon-minus-sign popoverTooltip" data-placement="top" data-content="{$STATUS_LABEL|t:$MODULE} {if $INVITIE['time']}({\App\Fields\DateTimeField::convertToUserFormat($INVITIE['time'])}){/if}" aria-hidden="true"></span>
 				{else}
 					{assign var=LABEL value=$INVITIE['email']}
 					<span class="glyphicon glyphicon-question-sign popoverTooltip" data-placement="top" data-content="{$STATUS_LABEL|t:$MODULE}" aria-hidden="true"></span>

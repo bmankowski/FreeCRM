@@ -351,18 +351,18 @@ class CustomView
 		$stdfilterlist = ['columnname' => $dateFilterRow['columnname'], 'stdfilter' => $dateFilterRow['stdfilter']];
 		if ($dateFilterRow['stdfilter'] === 'custom' || $dateFilterRow['stdfilter'] === '' || $dateFilterRow['stdfilter'] === 'e' || $dateFilterRow['stdfilter'] === 'n') {
 			if ($dateFilterRow['startdate'] !== '0000-00-00' && $dateFilterRow['startdate'] !== '') {
-				$startDateTime = new \DateTimeField($dateFilterRow['startdate'] . ' ' . date('H:i:s'));
+				$startDateTime = new \App\Fields\DateTimeField($dateFilterRow['startdate'] . ' ' . date('H:i:s'));
 				$stdfilterlist['startdate'] = $startDateTime->getDisplayDate();
 			}
 			if ($dateFilterRow['enddate'] !== '0000-00-00' && $dateFilterRow['enddate'] !== '') {
-				$endDateTime = new \DateTimeField($dateFilterRow['enddate'] . ' ' . date('H:i:s'));
+				$endDateTime = new \App\Fields\DateTimeField($dateFilterRow['enddate'] . ' ' . date('H:i:s'));
 				$stdfilterlist['enddate'] = $endDateTime->getDisplayDate();
 			}
 		} else { //if it is not custom get the date according to the selected duration
 			$datefilter = \App\Fields\DateTimeRange::getDateRangeByType($dateFilterRow['stdfilter']);
-			$startDateTime = new \DateTimeField($datefilter[0] . ' ' . date('H:i:s'));
+			$startDateTime = new \App\Fields\DateTimeField($datefilter[0] . ' ' . date('H:i:s'));
 			$stdfilterlist['startdate'] = $startDateTime->getDisplayDate();
-			$endDateTime = new \DateTimeField($datefilter[1] . ' ' . date('H:i:s'));
+			$endDateTime = new \App\Fields\DateTimeField($datefilter[1] . ' ' . date('H:i:s'));
 			$stdfilterlist['enddate'] = $endDateTime->getDisplayDate();
 		}
 		return $stdfilterlist;
@@ -431,15 +431,15 @@ class CustomView
 						$values = explode(' ', $value);
 						$value = $values[0];
 					}
-					$val[$key] = (new \DateTimeField(trim($value)))->getDisplayDate();
+					$val[$key] = (new \App\Fields\DateTimeField(trim($value)))->getDisplayDate();
 				} elseif ($fieldType === 'DT') {
 					if (in_array($comparator, ['e', 'n', 'b', 'a'])) {
 						$dateTime = explode(' ', $value);
 						$value = $dateTime[0];
 					}
-					$val[$key] = (new \DateTimeField(trim($value)))->getDisplayDateTimeValue();
+					$val[$key] = (new \App\Fields\DateTimeField(trim($value)))->getDisplayDateTimeValue();
 				} else {
-					$val[$key] = (new \DateTimeField(trim($value)))->getDisplayTime();
+					$val[$key] = (new \App\Fields\DateTimeField(trim($value)))->getDisplayTime();
 				}
 			}
 			$advFilterVal = implode(',', $val);

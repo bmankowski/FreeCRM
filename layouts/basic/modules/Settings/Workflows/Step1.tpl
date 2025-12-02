@@ -125,7 +125,7 @@
                                         <div class="date">
                                             <div class="input-group">
                                                 {assign var=specificDate value=$SPECIFIC_DATE_DECODED}
-												{if $specificDate[0] neq ''} {assign var=specificDate1 value=DateTime\App\Fields\Field::convertToUserFormat($specificDate[0])} {/if}
+												{if $specificDate[0] neq ''} {assign var=specificDate1 value=\App\Fields\DateTimeField::convertToUserFormat($specificDate[0])} {/if}
 												<input type="text" class="dateField form-control" name="schdate" value="{$specificDate1}" data-date-format="{$CURRENT_USER->date_format}" data-validation-engine="validate[ required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"/>
 												<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
 											</div>
@@ -178,7 +178,7 @@
 											<span class=''>{"LBL_NEXT_TRIGGER_TIME"|t:$QUALIFIED_MODULE}</span>
 										</div>
 										<div class="col-md-6">
-											{DateTime\App\Fields\Field::convertToUserFormat($WORKFLOW_MODEL_OBJ->nexttrigger_time)}
+											{\App\Fields\DateTimeField::convertToUserFormat($WORKFLOW_MODEL_OBJ->nexttrigger_time)}
 											<span>&nbsp;({$ACTIVE_ADMIN->time_zone})</span>
 										</div>
 									</div>

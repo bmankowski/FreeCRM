@@ -149,7 +149,7 @@
 						<div class='col-md-6'>
 							<div class='input-group date' style='width: 185px;'>
 								{assign var=specificDate value=\App\Utils\Json::decode($SCHEDULEDREPORTS->get('schdate'))}
-								{if $specificDate[0] neq ''} {assign var=specificDate1 value=DateTime\App\Fields\Field::convertToUserFormat($specificDate[0])} {/if}
+								{if $specificDate[0] neq ''} {assign var=specificDate1 value=\App\Fields\DateTimeField::convertToUserFormat($specificDate[0])} {/if}
 								<input  type="text" class="dateField form-control input-sm col-md-6" id="schdate" name="schdate" value="{$specificDate1}" data-date-format="{$CURRENT_USER->date_format}" data-validation-engine="validate[ required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"/>
 								<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
 							</div>
@@ -234,7 +234,7 @@
 							<span class=''>{"LBL_NEXT_TRIGGER_TIME"|t:$MODULE}</span>
 						</div>
 						<div class='col-md-4'>
-							{DateTime\App\Fields\Field::convertToUserFormat($SCHEDULEDREPORTS->get('next_trigger_time'))}
+							{\App\Fields\DateTimeField::convertToUserFormat($SCHEDULEDREPORTS->get('next_trigger_time'))}
 							<span>&nbsp;({$ACTIVE_ADMIN->time_zone})</span>
 						</div>
 					</div>

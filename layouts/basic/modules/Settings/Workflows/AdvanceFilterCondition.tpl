@@ -11,6 +11,9 @@
 -->*}
 {strip}
 <!-- layouts/basic/modules/Settings/Workflows/AdvanceFilterCondition.tpl -->
+{assign var=SELECTED_FIELD_MODEL value=null}
+{assign var=FIELD_TYPE value=''}
+{assign var=ADVANCE_FILTER_OPTIONS value=array()}
 <div class="row conditionRow marginBottom10px">
 	<div class="col-md-4">
 		<select class="{if empty($NOCHOSEN)}chzn-select{/if} form-control" name="columnname" data-placeholder="{"LBL_SELECT_FIELD"|t:$QUALIFIED_MODULE}">
@@ -49,14 +52,20 @@
 	<div class="col-md-3">
 		<select class="{if empty($NOCHOSEN)}chzn-select{/if} form-control" name="comparator">
 			 <option value="none">{"LBL_NONE"|t:$MODULE}</option>
-			{assign var=ADVANCE_FILTER_OPTIONS value=$ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE]}
-			{foreach item=ADVANCE_FILTER_OPTION from=$ADVANCE_FILTER_OPTIONS}
-				<option value="{$ADVANCE_FILTER_OPTION}"
-				{if $ADVANCE_FILTER_OPTION eq $CONDITION_INFO['comparator']}
-						selected
-				{/if}
-				>{$ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION]|t}</option>
-			{/foreach}
+			{if $SELECTED_FIELD_MODEL && !empty($FIELD_TYPE) && isset($ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE])}
+				{assign var=ADVANCE_FILTER_OPTIONS value=$ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE]}
+			{else}
+				{assign var=ADVANCE_FILTER_OPTIONS value=array()}
+			{/if}
+			{if !empty($ADVANCE_FILTER_OPTIONS)}
+				{foreach item=ADVANCE_FILTER_OPTION from=$ADVANCE_FILTER_OPTIONS}
+					<option value="{$ADVANCE_FILTER_OPTION}"
+					{if $ADVANCE_FILTER_OPTION eq $CONDITION_INFO['comparator']}
+							selected
+					{/if}
+					>{$ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION]|t}</option>
+				{/foreach}
+			{/if}
 		</select>
 	</div>
 	<div class="col-md-4 fieldUiHolder">
