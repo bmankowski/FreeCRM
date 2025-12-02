@@ -25,19 +25,19 @@
 		{assign var=RELATION_MODEL value=$VIEW_MODEL->getRelationModel()}
 		<input type="hidden" name="currentPageNum" value="{$PAGING_MODEL->getCurrentPage()}">
 		<input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE->get('name')}">
-		<input type="hidden" id="orderBy" value="{\App\Purifier::encodeHtml(\App\Json::encode($ORDER_BY))}">
+		<input type="hidden" id="orderBy" value="{\App\Security\Purifier::encodeHtml(\App\Json::encode($ORDER_BY))}">
 		<input type="hidden" value="{$RELATED_ENTIRES_COUNT}" id="noOfEntries">
 		<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 		<input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'>
-		<input type="hidden" id="autoRefreshListOnChange" value="{App\Config::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}">
+		<input type="hidden" id="autoRefreshListOnChange" value="{\App\Core\AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE')}">
 		<input type="hidden" class="relatedView" value="{$RELATED_VIEW}">
 		<input type="hidden" id="selectedIds" name="selectedIds" data-selected-ids="">
 		<input type="hidden" id="excludedIds" name="excludedIds" data-excluded-ids="">
 		<input type="hidden" id="recordsCount" value=""/>
-		<input type="hidden" id="tab_label" value="{\App\Purifier::encodeHtml($RELATION_MODEL->get('label'))}"/>
+		<input type="hidden" id="tab_label" value="{\App\Security\Purifier::encodeHtml($RELATION_MODEL->get('label'))}"/>
 		<input type="hidden" id="relationId" value="{$RELATION_MODEL->getId()}"/>
-		<input type="hidden" id="search_params" value="{\App\Purifier::encodeHtml(\App\Json::encode($SEARCH_PARAMS))}">
-		<input type="hidden" class="js-empty-fields" data-js="value" value="{\App\Purifier::encodeHtml(\App\Json::encode($LOCKED_EMPTY_FIELDS))}"/>
+		<input type="hidden" id="search_params" value="{\App\Security\Purifier::encodeHtml(\App\Json::encode($SEARCH_PARAMS))}">
+		<input type="hidden" class="js-empty-fields" data-js="value" value="{\App\Security\Purifier::encodeHtml(\App\Json::encode($LOCKED_EMPTY_FIELDS))}"/>
 		{if $SHOW_HEADER}
 			{assign var=CUSTOM_VIEW_LIST value=$RELATION_MODEL->getCustomViewList()}
 			<div class="relatedHeader mt-1">
@@ -140,7 +140,7 @@
 						</div>
 						{if $VIEW_MODEL}
 							<div class="ml-1">
-								{assign var=COLOR value=App\Config::search('LIST_ENTITY_STATE_COLOR')}
+								{assign var=COLOR value=\App\Core\AppConfig::search('LIST_ENTITY_STATE_COLOR')}
 								<input type="hidden" class="entityState"
 									   value="{if $VIEW_MODEL->has('entityState')}{$VIEW_MODEL->get('entityState')}{else}Active{/if}">
 								<div class="dropdown dropdownEntityState u-remove-dropdown-icon">
@@ -196,7 +196,7 @@
 		{if $RELATED_VIEW === 'ListPreview'}
 			<div class="relatedContents mt-1">
 				<input type="hidden" id="defaultDetailViewName"
-					   value="{App\Config::module($MODULE_NAME, 'defaultDetailViewName')}"/>
+					   value="{\App\Core\AppConfig::module($MODULE_NAME, 'defaultDetailViewName')}"/>
 				<div class="c-side-block c-side-block--left js-side-block js-fixed-scroll"
 					 data-js="css: height;/scroll">
 					<div class="u-rotate-90">

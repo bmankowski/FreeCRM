@@ -11,49 +11,36 @@
 -->*}
 {strip}
 	<!-- tpl-Kandydaci-DetailViewHeaderTitle -->
-	<div class="d-flex flex-wrap flex-md-nowrap px-md-3 px-1 w-100">
-{*		BMN: Changed only from u-min-w-md-70 to u-min-w-md-40 *}
-		<div class="u-min-w-md-40 w-100">
-			{assign var=COUNT_IN_HIERARCHY value=App\Config::module($MODULE_NAME, 'COUNT_IN_HIERARCHY')}
+	<div class="col-md-12 paddingLRZero row">
+		<div class="col-xs-12 col-sm-12 col-md-8">
 			<div class="moduleIcon">
-				<span class="o-detail__icon js-detail__icon yfm-{$MODULE_NAME}{if $COUNT_IN_HIERARCHY} u-cursor-pointer js-detail-hierarchy position-relative{/if}"></span>
+				{assign var=COUNT_IN_HIERARCHY value=\App\Core\AppConfig::module($MODULE_NAME, 'COUNT_IN_HIERARCHY')}
 				{if $COUNT_IN_HIERARCHY}
 					<span class="hierarchy">
 						<span class="badge {if $RECORD->get('active')} bgGreen {else} bgOrange {/if}"></span>
 					</span>
 				{/if}
+				<span class="detailViewIcon {if $COUNT_IN_HIERARCHY}cursorPointer{/if} userIcon-{$MODULE}" {if $COLORLISTHANDLERS}style="background-color: {$COLORLISTHANDLERS['background']};color: {$COLORLISTHANDLERS['text']};"{/if}></span>
 			</div>
-			<div class="pl-1">
-				<div class="d-flex flex-nowrap align-items-center js-popover-tooltip--ellipsis-icon"
-					data-content="{\App\Purifier::encodeHtml($RECORD->getName())}" data-toggle="popover" data-js="popover | mouseenter">
-					<h4 class="recordLabel h6 mb-0 js-popover-text" data-js="clone">
-						<span class="modCT_{$MODULE_NAME}">
-							{\App\Utils\Completions::decode(Vtiger_Util_Helper::toVtiger6SafeHTML(\App\Purifier::decodeHtml($RECORD->getName())))}
-						</span>
-					</h4>
-					<span class="fas fa-info-circle fa-sm js-popover-icon d-none" data-js="class: d-none"></span>
-					{assign var=RECORD_STATE value=\App\Record::getState($RECORD->getId())}
-					{if $RECORD_STATE && $RECORD_STATE !== 'Active'}
-						{assign var=COLOR value=App\Config::search('LIST_ENTITY_STATE_COLOR')}
-						<span class="badge badge-secondary ml-1" {if $COLOR[$RECORD_STATE]}style="background-color: {$COLOR[$RECORD_STATE]};" {/if}>
-							{if \App\Record::getState($RECORD->getId()) === 'Trash'}
-								<span class="fas fa-trash-alt mr-2"></span>
-								{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}
-							{else}
-								<span class="fas fa-archive mr-2"></span>
-								{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}
+			<div class="paddingLeft5px">
+				<h4 class="recordLabel textOverflowEllipsis pushDown marginbottomZero" title="{$RECORD->getName()}">
+					<span class="moduleColor_{$MODULE_NAME}">{$RECORD->getName()}</span>
+				</h4>
+				{if $MODULE_NAME}
+					<div class="paddingLeft5px">
+						<span class="muted">
+							{"Assigned To"|t:$MODULE_NAME}: {$RECORD->getDisplayValue('assigned_user_id')}
+							{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
+							{if $SHOWNERS != ''}
+								<br/>{"Share with users"|t:$MODULE_NAME} {$SHOWNERS}
 							{/if}
 						</span>
-					{/if}
-				</div>
-				{include file=\App\Layout::getTemplatePath('Detail/HeaderValues.tpl', $MODULE_NAME)}
+					</div>
+				{/if}
 			</div>
 		</div>
-		<div class="ml-md-2 pr-md-2 u-min-w-md-30 w-100">
-			{include file=\App\Layout::getTemplatePath('Detail/HeaderButtons.tpl', $MODULE_NAME)}
-			{include file=\App\Layout::getTemplatePath('Detail/HeaderHighlights.tpl', $MODULE_NAME)}
-		</div>
+		{include file='DetailViewHeaderFields.tpl'|@vtemplate_path:$MODULE_NAME}
 	</div>
-	{include file=\App\Layout::getTemplatePath('Detail/HeaderProgress.tpl', $MODULE_NAME)}
 	<!-- /tpl-Kandydaci-DetailViewHeaderTitle -->
 {/strip}
+
