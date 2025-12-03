@@ -174,6 +174,7 @@ class CRM_Viewer extends \Smarty
 		$this->registerClass('\App\Runtime\Yeti_Layout', '\App\\Runtime\\Yeti_Layout');
 		$this->registerClass('\App\Modules\Settings\WidgetsManagement\Models\Module', '\App\Modules\\Settings\\WidgetsManagement\Models\\Module');
 		$this->registerClass('\App\Modules\Settings\Calendar\Models\Module', '\App\Modules\\Settings\\Calendar\Models\\Module');
+		$this->registerClass('\App\Modules\Calendar\Models\Module', '\App\Modules\\Calendar\Models\\Module');
 		$this->registerClass('\App\\Utils\\Json', '\App\\Utils\\Json');
 		$this->registerClass('\App\\Debug\\Debugger', '\App\\Debug\\Debugger');
 		$this->registerClass('App\\Core\\Company', '\App\\Core\\Company');
@@ -182,6 +183,7 @@ class CRM_Viewer extends \Smarty
 		$this->registerClass('\App\\Fields\\Owner', '\App\\Fields\\Owner');
 		$this->registerClass('\App\\Fields\\DateTimeField', '\App\\Fields\\DateTimeField');
 		$this->registerClass('CurrencyField', '\App\\Fields\\CurrencyField');
+		$this->registerClass('\App\Fields\CurrencyField', '\App\\Fields\\CurrencyField');
 		$this->registerClass('vtlib\\Functions', 'vtlib\\Functions');
 		// Register additional model classes used in templates
 		$this->registerClass('\App\\Modules\\Users\\Models\\Privileges', '\App\\Modules\\Users\\Models\\Privileges');

@@ -60,6 +60,67 @@ class Kandydaci extends \App\Core\CRMEntity
 	public $default_sort_order = 'ASC';
 
 	/**
+	 * Save related module - handles M:M relation with ProjektyRekrutacyjne
+	 * 
+	 * @param string $module This module name
+	 * @param integer $crmid This module record number
+	 * @param string $withModule Related module name
+	 * @param mixed $withCrmid Integer or Array of related module record number
+	 * @param string $relatedName Function name
+	 */
+	public function save_related_module($module, $crmid, $withModule, $withCrmid, $relatedName = false)
+	{
+		if (!is_array($withCrmid)) {
+			$withCrmid = [$withCrmid];
+		}
+
+		// Handle ProjektyRekrutacyjne relation using custom M:M table
+		if ($withModule === 'ProjektyRekrutacyjne' && $relatedName === 'getRelatedMembers') {
+			// Use relation class create method to ensure status is always set
+			$typeRelationModel = new \App\Modules\ProjektyRekrutacyjne\Relations\GetRelatedMembers();
+			
+			// Use relation's create method which always sets status
+			// crmid = ProjektyRekrutacyjne ID, relcrmid = Kandydaci ID
+			foreach ($withCrmid as $relcrmid) {
+				$typeRelationModel->create($relcrmid, $crmid);
+			}
+		} else {
+			// Default handling for other relations
+			parent::save_related_module($module, $crmid, $withModule, $withCrmid, $relatedName);
+		}
+	}
+
+	/**
+	 * Delete related module - handles M:M relation with ProjektyRekrutacyjne
+	 * 
+	 * @param string $module This module name
+	 * @param integer $crmid This module record number
+	 * @param string $withModule Related module name
+	 * @param mixed $withCrmid Integer or Array of related module record number
+	 */
+	public function delete_related_module($module, $crmid, $withModule, $withCrmid)
+	{
+		if (!is_array($withCrmid)) {
+			$withCrmid = [$withCrmid];
+		}
+
+		// Handle ProjektyRekrutacyjne relation using custom M:M table
+		if ($withModule === 'ProjektyRekrutacyjne') {
+			$tableName = 'u_yf_projekty_rekrutacyjne_relations_members_entity';
+			
+			foreach ($withCrmid as $relcrmid) {
+				\App\Db\Db::getInstance()->createCommand()->delete($tableName, [
+					'crmid' => $relcrmid,
+					'relcrmid' => $crmid
+				])->execute();
+			}
+		} else {
+			// Default handling for other relations
+			parent::delete_related_module($module, $crmid, $withModule, $withCrmid);
+		}
+	}
+
+	/**
 	 * Invoked when special actions are performed on the module.
 	 *
 	 * @param string $moduleName Module name

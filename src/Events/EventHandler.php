@@ -51,6 +51,8 @@ class EventHandler
 		'OSSTimeControl_TimeControl_Handler' => '\App\Modules\OSSTimeControl\Handlers\OSSTimeControl_TimeControl_Handler',
 		'HelpDesk_TicketRangeTime_Handler' => '\App\Modules\HelpDesk\Handlers\HelpDesk_TicketRangeTime_Handler',
 		'IStorages_RecalculateStockHandler_Handler' => '\App\Modules\IStorages\Handlers\IStorages_RecalculateStockHandler_Handler',
+		'ProjektyRekrutacyjne_Calculations_Handler' => '\App\Modules\ProjektyRekrutacyjne\Handlers\Calculations',
+		'Kandydaci_NewCandidateInProject_Handler' => '\App\Modules\Kandydaci\Handlers\NewCandidateInProject',
 	];
 
 	/**

@@ -609,6 +609,52 @@ class Relation extends \App\Runtime\BaseModel
 		return ($this->getRelationType() == self::RELATION_O2M);
 	}
 
+	/**
+	 * Get type relation model instance.
+	 * 
+	 * Loads the specific relation type class based on the relation name.
+	 * For example, if relation name is 'getRelatedMembers', it will try to load
+	 * App\Modules\{ParentModule}\Relations\GetRelatedMembers class.
+	 *
+	 * @return \App\Modules\Base\Relations\GetRelatedList
+	 */
+	public function getTypeRelationModel()
+	{
+		if ($this->has('typeRelationModel')) {
+			return $this->get('typeRelationModel');
+		}
+		
+		$relationName = $this->get('name');
+		$parentModuleName = $this->getParentModuleModel()->getName();
+		
+		// Convert relation name to class name (getRelatedMembers -> GetRelatedMembers)
+		$className = ucfirst($relationName);
+		
+		// Try to load from parent module's Relations directory
+		$moduleRelationClass = "\\App\\Modules\\{$parentModuleName}\\Relations\\{$className}";
+		if (class_exists($moduleRelationClass)) {
+			$typeRelationModel = new $moduleRelationClass();
+			$typeRelationModel->setRelationModel($this);
+			$this->set('typeRelationModel', $typeRelationModel);
+			return $typeRelationModel;
+		}
+		
+		// Try base Relations directory
+		$baseRelationClass = "\\App\\Modules\\Base\\Relations\\{$className}";
+		if (class_exists($baseRelationClass)) {
+			$typeRelationModel = new $baseRelationClass();
+			$typeRelationModel->setRelationModel($this);
+			$this->set('typeRelationModel', $typeRelationModel);
+			return $typeRelationModel;
+		}
+		
+		// Fallback to default GetRelatedList
+		$typeRelationModel = new \App\Modules\Base\Relations\GetRelatedList();
+		$typeRelationModel->setRelationModel($this);
+		$this->set('typeRelationModel', $typeRelationModel);
+		return $typeRelationModel;
+	}
+
 	public static function getAllRelations($parentModuleModel, $selected = true, $onlyActive = true, $permissions = true)
 	{
 		$cacheName = $parentModuleModel->getId() . $selected . $onlyActive;

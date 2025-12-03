@@ -78,15 +78,21 @@ class Icons
 	public static function getImageIcon()
 	{
 		$images = [];
-		$path = \Vtiger_Theme::getBaseThemePath() . '/images/';
-		$dir = new DirectoryIterator($path);
+		$webPath = \App\Runtime\Vtiger_Theme::getBaseThemePath() . '/images/';
+		// Resolve to actual filesystem path (handles public/ directory)
+		$fsPath = \App\Core\Loader::resolveNameToPath('~' . $webPath, 'png');
+		$fsPath = dirname($fsPath) . '/';
+		if (!is_dir($fsPath)) {
+			return $images;
+		}
+		$dir = new \DirectoryIterator($fsPath);
 		foreach ($dir as $fileinfo) {
 			$file = $fileinfo->getFilename();
 			if (!$fileinfo->isDot()) {
-				$mimeType = \App\Fields\File::getMimeContentType($path . $file);
+				$mimeType = \App\Fields\File::getMimeContentType($fsPath . $file);
 				$mimeTypeContents = explode('/', $mimeType);
 				if ($mimeTypeContents[0] == 'image') {
-					$images[$file] = $path . $file;
+					$images[$file] = $webPath . $file;
 				}
 			}
 		}

@@ -1,0 +1,301 @@
+<?php
+
+namespace App\Modules\ProjektyRekrutacyjne\Relations;
+
+/* +***********************************************************************************
+ * Includes RelatedMembers relation.
+ *
+ * @package   Relation
+ *
+ * @copyright YetiForce S.A.
+ * @license   YetiForce Public License 5.0 (licenses/LicenseEN.txt or yetiforce.com)
+ * @author    Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
+ * *********************************************************************************** */
+
+/**
+ * Class GetRelatedMembers.
+ */
+class GetRelatedMembers extends \App\Modules\Base\Relations\GetRelatedList
+{
+    /** {@inheritdoc} */
+    public const TABLE_NAME = 'u_#__projekty_rekrutacyjne_relations_members_entity';
+
+    /**
+     * Field custom list.
+     *
+     * @var array
+     */
+
+    public const CUSTOM_FIELDS = [
+        'recruitment_status_rel' => [
+            'type' => "Multipicklist",
+            'label' => 'LBL_STATUS_REL',
+//			'uitype' => 16, //picklist
+//			'uitype' => 15, //picklist
+            'uitype' => 115, //picklist
+//			'uitype' => 33, //multipicklist
+            'table' => 'u_#__projekty_rekrutacyjne_relations_members_entity',
+            'column' => 'recruitment_status_rel',
+            'fieldInfo' => ['searchOperator' => 'c'],
+        ],
+        'comment_rel' => [
+            'type' => "String",
+            'label' => 'LBL_COMMENT_REL',
+            'uitype' => 21,
+            'maximumlength' => 65535,
+            'table' => 'u_#__projekty_rekrutacyjne_relations_members_entity',
+            'column' => 'comment_rel',
+        ],
+        'rel_created_time' => [
+            'type' => "Datetime",
+            'label' => 'LBL_RELATION_CREATED_TIME',
+            'uitype' => 5,
+//			'uitype' => 70,
+//			'displaytype' => 10,
+            'displaytype' => 1,
+//			'typeofdata' => 'D~O',
+            'typeofdata' => 'DT~O',
+            'info_type' => 'BAS',
+            'table' => 'u_#__projekty_rekrutacyjne_relations_members_entity',
+            'column' => 'rel_created_time',
+        ],
+        'rel_created_user' => [
+            'type' => "UserCreator",
+            'label' => 'LBL_RELATION_CREATED_USER',
+            'uitype' => 52,
+            'displaytype' => 10,
+            'table' => 'u_#__projekty_rekrutacyjne_relations_members_entity',
+            'column' => 'rel_created_user',
+        ],
+    ];
+
+    public array $customFields = [
+        'recruitment_status_rel' => [
+            'type' => "Multipicklist",
+            'label' => 'LBL_STATUS_REL',
+//			'uitype' => 16, //picklist
+//			'uitype' => 15, //picklist
+            'uitype' => 115, //picklist
+//			'uitype' => 33, //multipicklist
+            'table' => 'u_#__projekty_rekrutacyjne_relations_members_entity',
+            'column' => 'recruitment_status_rel',
+            'fieldInfo' => ['searchOperator' => 'c'],
+        ],
+        'comment_rel' => [
+            'type' => "String",
+            'label' => 'LBL_COMMENT_REL',
+            'uitype' => 21,
+            'maximumlength' => 65535,
+            'table' => 'u_#__projekty_rekrutacyjne_relations_members_entity',
+            'column' => 'comment_rel',
+        ],
+        'rel_created_time' => [
+            'type' => "Datetime",
+            'label' => 'LBL_RELATION_CREATED_TIME',
+            'uitype' => 5,
+//			'uitype' => 70,
+//			'displaytype' => 10,
+            'displaytype' => 1,
+//			'typeofdata' => 'D~O',
+            'typeofdata' => 'DT~O',
+            'info_type' => 'BAS',
+            'table' => 'u_#__projekty_rekrutacyjne_relations_members_entity',
+            'column' => 'rel_created_time',
+        ],
+        'rel_created_user' => [
+            'type' => "UserCreator",
+            'label' => 'LBL_RELATION_CREATED_USER',
+            'uitype' => 52,
+            'displaytype' => 10,
+            'table' => 'u_#__projekty_rekrutacyjne_relations_members_entity',
+            'column' => 'rel_created_user',
+        ],
+    ];
+
+    /**
+     * Field list.
+     *
+     * @param bool $editable
+     *
+     * @return array
+     */
+    public function getFields(bool $editable = false)
+    {
+        $fields = [];
+        $sourceModule = $this->relationModel->getParentModuleModel();
+        if ('Occurrences' !== $sourceModule->getName()) {
+            $sourceModule = $this->relationModel->getRelationModuleModel();
+        }
+//		$fieldsIds=[3938,3939,3940,3941];
+//		foreach ($fieldsIds as $fieldId) {
+//			$field= \Vtiger_Field_Model::getInstanceFromFieldId($fieldId);
+//			if($field->getName()==='recruitment_status_rel'){
+//				$field->setFieldInfo(['searchOperator' => 'c']);
+//			}
+//			$a = $field->getLabel();
+//			$field->setModule($sourceModule);
+//
+//			$fields[] = $field;
+//		}
+        foreach ($this->customFields as $fieldName => $data) {
+            $field = new \App\Modules\Base\Models\Field();
+            $field->set('name', $fieldName)->set('column', $fieldName)->set('table', static::TABLE_NAME)->set('fromOutsideList', false)->setModule($sourceModule);
+
+            foreach ($data as $key => $value) {
+                $field->set($key, $value);
+            }
+            if (!$editable || !$field->isEditableReadOnly()) {
+                $fields[$fieldName] = $field;
+            }
+        }
+
+        return $fields;
+    }
+
+    public static function compareAttributes($obj1, $obj2)
+    {
+        $differences = [];
+        $reflect1 = new \ReflectionClass($obj1);
+        $reflect2 = new \ReflectionClass($obj2);
+
+        $props1 = $reflect1->getProperties();
+        $props2 = $reflect2->getProperties();
+
+        foreach ($props1 as $prop) {
+            $prop->setAccessible(true);  // Make private/protected properties accessible
+            $val1 = $prop->getValue($obj1);
+            $val2 = $prop->getValue($obj2);
+
+            if ($val1 !== $val2) {
+                $item["const"] = $val1;
+                $item["db"] = $val2;
+                $differences[$prop->getName()] = $item;
+            }
+        }
+        return $differences;
+    }
+
+    /** {@inheritdoc} */
+    public function getQuery()
+    {
+        $tableName = static::TABLE_NAME;
+        $queryGenerator = $this->relationModel->getQueryGenerator();
+        foreach (array_keys($this->customFields) as $fieldName) {
+            $queryGenerator->setCustomColumn([$fieldName => "{$tableName}.{$fieldName}"]);
+        }
+        parent::getQuery();
+//		//BMN test reasons
+//		$queryGenerator
+//			->addNativeCondition([self::TABLE_NAME . '.recruitment_status_rel' => "PPL_APPLIED"]);
+//		\App\Log::var_dump($queryGenerator->createQuery()->createCommand()->getRawSql());
+    }
+
+    /** {@inheritdoc} */
+    public function create(int $sourceRecordId, int $destinationRecordId): bool
+    {
+        $result = false;
+        if (!$this->getRelationData($sourceRecordId, $destinationRecordId)) {
+            $result = \App\Db\Db::getInstance()->createCommand()->insert(static::TABLE_NAME, [
+                'crmid' => $sourceRecordId,
+                'relcrmid' => $destinationRecordId,
+                'recruitment_status_rel' => "PPL_APPLIED",
+                'rel_created_user' => \App\Modules\Users\Models\Record::getCurrentUserId(),
+                'rel_created_time' => date('Y-m-d H:i:s'),
+            ])->execute();
+        }
+//                \App\Log::warning("create relations");
+        return $result;
+    }
+
+    /**
+     * updateRelationData function.
+     *
+     * @param int $sourceRecordId
+     * @param int $destinationRecordId
+     * @param array $updateData
+     *
+     * @return bool
+     */
+    public function updateRelationData(int $sourceRecordId, int $destinationRecordId, array $updateData): bool
+    {
+        $conditions = [
+            'or',
+            ['crmid' => $sourceRecordId, 'relcrmid' => $destinationRecordId],
+            ['crmid' => $destinationRecordId, 'relcrmid' => $sourceRecordId],
+        ];
+        $result = (bool)$this->getRelationData($sourceRecordId, $destinationRecordId);
+        if ($result) {
+            $result = (bool)\App\Db\Db::getInstance()->createCommand()->update(static::TABLE_NAME, $updateData, $conditions)->execute();
+        }
+
+        try {
+            $project = \App\Modules\Base\Models\Record::getInstanceById($sourceRecordId, 'ProjektyRekrutacyjne');
+            $project->calculateNumberOfCandidatesInProject();
+            $project->save();
+        } catch (\Exception $e) {
+        }
+        return $result;
+    }
+
+    public function changeStatus(int $projectId, int $candidateId, string $sourceStatus, string $destinationStatus): bool
+    {
+        if ($sourceStatus === $destinationStatus) {
+            return true;
+        }
+
+        try {
+            $sourceStatusTranslated = \App\Language::translate($sourceStatus, 'ProjektyRekrutacyjne');
+            $destinationStatusTranslated = \App\Language::translate($destinationStatus, 'ProjektyRekrutacyjne');
+            $updateData = [
+                'recruitment_status_rel' => $destinationStatus,
+            ];
+            $status = $this->updateRelationData($projectId, $candidateId, $updateData);
+            //add comment for project and candidate about status change, omitting changes from 'PPL_APPLIED' to 'PPL_REJECTED' and 'PPL_CANDIDATE_PASSED_SCREENING'
+            if ($sourceStatus === 'PPL_APPLIED' && ($destinationStatus === 'PPL_REJECTED_AFTER_CV' || $destinationStatus === 'PPL_CANDIDATE_PASSED_SCREENING')) {
+                return $status;
+            }
+            if ($sourceStatus === 'PPL_REJECTED_AFTER_CV' && $destinationStatus === 'PPL_CANDIDATE_PASSED_SCREENING') {
+                return $status;
+            }
+            $candidate = \App\Modules\Base\Models\Record::getInstanceById($candidateId, "Kandydaci");
+            $commentContentForProject = "Status kandydata " . $candidate->getName() . " w projekcie zmieniony z '" . $sourceStatusTranslated . "' na '" . $destinationStatusTranslated . "'";
+            $commentForProject = \App\Modules\Base\Models\Record::getCleanInstance("ModComments");
+            $commentForProject->set('assigned_user_id', \App\Modules\Users\Models\Record::getCurrentUserRealId());
+            $commentForProject->set('related_to', $projectId);
+            $commentForProject->set('commentcontent', $commentContentForProject);
+            $commentForProject->save();
+
+            $project = \App\Modules\Base\Models\Record::getInstanceById($projectId, "ProjektyRekrutacyjne");
+            $commentContentForCandidate = "Status w projekcie " . $project->getName() . " zmieniony z '" . $sourceStatusTranslated . "' na '" . $destinationStatusTranslated . "'";
+            $commentForCandidate = \App\Modules\Base\Models\Record::getCleanInstance("ModComments");
+            $commentForCandidate->set('assigned_user_id', \App\Modules\Users\Models\Record::getCurrentUserRealId());
+            $commentForCandidate->set('related_to', $candidateId);
+            $commentForCandidate->set('commentcontent', $commentContentForCandidate);
+            $commentForCandidate->save();
+
+            //@todo Send emails to candidate
+
+        } catch (\Exception $e) {
+            \App\Log\Log::error("Error " . $e->getMessage());
+            return false;
+        }
+        return $status;
+    }
+
+    /**
+     * Get relation data.
+     *
+     * @param int $sourceRecordId
+     * @param int $destinationRecordId
+     *
+     * @return array
+     */
+    public function getRelationData(int $sourceRecordId, int $destinationRecordId)
+    {
+        return (new \App\Db\Query())->from(static::TABLE_NAME)->where([
+            'or',
+            ['crmid' => $sourceRecordId, 'relcrmid' => $destinationRecordId],
+            ['crmid' => $destinationRecordId, 'relcrmid' => $sourceRecordId],
+        ])->one();
+    }
+}

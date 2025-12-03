@@ -230,8 +230,13 @@ class Field
 		if (Cache::has('getFieldsFromRelation', $relationId)) {
 			$fields = Cache::get('getFieldsFromRelation', $relationId);
 		} else {
-			$fields = (new \App\Db\Query())->select(['fieldname'])->from('vtiger_relatedlists_fields')
-					->where(['relation_id' => $relationId])->column();
+			$fields = (new \App\Db\Query())
+				->select(['vtiger_field.fieldname'])
+				->from('vtiger_relatedlists_fields')
+				->innerJoin('vtiger_field', 'vtiger_relatedlists_fields.fieldid = vtiger_field.fieldid')
+				->where(['vtiger_relatedlists_fields.relation_id' => $relationId])
+				->orderBy(['vtiger_relatedlists_fields.sequence' => SORT_ASC])
+				->column();
 			Cache::save('getFieldsFromRelation', $relationId, $fields, Cache::LONG);
 		}
 		return $fields;

@@ -46,7 +46,10 @@ class ProjektyRekrutacyjne extends \App\Core\CRMEntity
 		'Nazwa Projektu' => ['projektyrekrutacyjne', 'nazwa_projektu'],
 		'Assigned To' => ['vtiger_crmentity', 'assigned_user_id'],
 	];
-	public $search_fields_name = [];
+	public $search_fields_name = [
+		'Nazwa Projektu' => 'nazwa_projektu',
+		'Assigned To' => 'assigned_user_id',
+	];
 	// For Popup window record selection
 	public $popup_fields = ['nazwa_projektu'];
 	// For Alphabetical search
