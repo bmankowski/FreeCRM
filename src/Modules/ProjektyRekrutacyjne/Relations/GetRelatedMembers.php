@@ -18,7 +18,7 @@ namespace App\Modules\ProjektyRekrutacyjne\Relations;
 class GetRelatedMembers extends \App\Modules\Base\Relations\GetRelatedList
 {
     /** {@inheritdoc} */
-    public const TABLE_NAME = 'u_#__projekty_rekrutacyjne_relations_members_entity';
+    public const TABLE_NAME = 'u_yf_projekty_rekrutacyjne_relations_members_entity';
 
     /**
      * Field custom list.
@@ -34,7 +34,7 @@ class GetRelatedMembers extends \App\Modules\Base\Relations\GetRelatedList
 //			'uitype' => 15, //picklist
             'uitype' => 115, //picklist
 //			'uitype' => 33, //multipicklist
-            'table' => 'u_#__projekty_rekrutacyjne_relations_members_entity',
+            'table' => 'u_yf_projekty_rekrutacyjne_relations_members_entity',
             'column' => 'recruitment_status_rel',
             'fieldInfo' => ['searchOperator' => 'c'],
         ],
@@ -43,7 +43,7 @@ class GetRelatedMembers extends \App\Modules\Base\Relations\GetRelatedList
             'label' => 'LBL_COMMENT_REL',
             'uitype' => 21,
             'maximumlength' => 65535,
-            'table' => 'u_#__projekty_rekrutacyjne_relations_members_entity',
+            'table' => 'u_yf_projekty_rekrutacyjne_relations_members_entity',
             'column' => 'comment_rel',
         ],
         'rel_created_time' => [
@@ -56,7 +56,7 @@ class GetRelatedMembers extends \App\Modules\Base\Relations\GetRelatedList
 //			'typeofdata' => 'D~O',
             'typeofdata' => 'DT~O',
             'info_type' => 'BAS',
-            'table' => 'u_#__projekty_rekrutacyjne_relations_members_entity',
+            'table' => 'u_yf_projekty_rekrutacyjne_relations_members_entity',
             'column' => 'rel_created_time',
         ],
         'rel_created_user' => [
@@ -64,7 +64,7 @@ class GetRelatedMembers extends \App\Modules\Base\Relations\GetRelatedList
             'label' => 'LBL_RELATION_CREATED_USER',
             'uitype' => 52,
             'displaytype' => 10,
-            'table' => 'u_#__projekty_rekrutacyjne_relations_members_entity',
+            'table' => 'u_yf_projekty_rekrutacyjne_relations_members_entity',
             'column' => 'rel_created_user',
         ],
     ];
@@ -77,7 +77,7 @@ class GetRelatedMembers extends \App\Modules\Base\Relations\GetRelatedList
 //			'uitype' => 15, //picklist
             'uitype' => 115, //picklist
 //			'uitype' => 33, //multipicklist
-            'table' => 'u_#__projekty_rekrutacyjne_relations_members_entity',
+            'table' => 'u_yf_projekty_rekrutacyjne_relations_members_entity',
             'column' => 'recruitment_status_rel',
             'fieldInfo' => ['searchOperator' => 'c'],
         ],
@@ -86,7 +86,7 @@ class GetRelatedMembers extends \App\Modules\Base\Relations\GetRelatedList
             'label' => 'LBL_COMMENT_REL',
             'uitype' => 21,
             'maximumlength' => 65535,
-            'table' => 'u_#__projekty_rekrutacyjne_relations_members_entity',
+            'table' => 'u_yf_projekty_rekrutacyjne_relations_members_entity',
             'column' => 'comment_rel',
         ],
         'rel_created_time' => [
@@ -99,7 +99,7 @@ class GetRelatedMembers extends \App\Modules\Base\Relations\GetRelatedList
 //			'typeofdata' => 'D~O',
             'typeofdata' => 'DT~O',
             'info_type' => 'BAS',
-            'table' => 'u_#__projekty_rekrutacyjne_relations_members_entity',
+            'table' => 'u_yf_projekty_rekrutacyjne_relations_members_entity',
             'column' => 'rel_created_time',
         ],
         'rel_created_user' => [
@@ -107,7 +107,7 @@ class GetRelatedMembers extends \App\Modules\Base\Relations\GetRelatedList
             'label' => 'LBL_RELATION_CREATED_USER',
             'uitype' => 52,
             'displaytype' => 10,
-            'table' => 'u_#__projekty_rekrutacyjne_relations_members_entity',
+            'table' => 'u_yf_projekty_rekrutacyjne_relations_members_entity',
             'column' => 'rel_created_user',
         ],
     ];
@@ -180,10 +180,16 @@ class GetRelatedMembers extends \App\Modules\Base\Relations\GetRelatedList
     {
         $tableName = static::TABLE_NAME;
         $queryGenerator = $this->relationModel->getQueryGenerator();
+        $record = $this->relationModel->get('parentRecord')->getId();
+        
+        // Add custom columns from the relation table
         foreach (array_keys($this->customFields) as $fieldName) {
             $queryGenerator->setCustomColumn([$fieldName => "{$tableName}.{$fieldName}"]);
         }
-        parent::getQuery();
+        
+        // Join the custom relation table instead of vtiger_crmentityrel
+        $queryGenerator->addJoin(['INNER JOIN', $tableName, "({$tableName}.relcrmid = vtiger_crmentity.crmid OR {$tableName}.crmid = vtiger_crmentity.crmid)"]);
+        $queryGenerator->addNativeCondition(['or', ["{$tableName}.crmid" => $record], ["{$tableName}.relcrmid" => $record]]);
 //		//BMN test reasons
 //		$queryGenerator
 //			->addNativeCondition([self::TABLE_NAME . '.recruitment_status_rel' => "PPL_APPLIED"]);

@@ -161,6 +161,15 @@ class QueryGenerator
 	}
 
 	/**
+	 * Set query field instances (for custom/virtual fields not in module field list)
+	 * @param array $queryFields Array of QueryField instances keyed by field name
+	 */
+	public function setQueryFields($queryFields)
+	{
+		$this->queryFields = array_merge($this->queryFields, $queryFields);
+	}
+
+	/**
 	 * Set query offset
 	 * @param int $offset
 	 */

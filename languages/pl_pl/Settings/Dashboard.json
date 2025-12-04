@@ -1,0 +1,17 @@
+{
+    "languageStrings": {
+        "Dashboard": "Panel konfiguracyjny",
+        "LBL_START": "Start",
+        "LBL_GITHUB": "Github",
+        "LBL_SYSTEM_WARNINGS": "Ostrzeżenia systemowe",
+        "LBL_ACTIVE_USERS": "Aktywni użytkownicy",
+        "LBL_WORKFLOWS_ACTIVE": "Obiegów informacji",
+        "LBL_MODULES": "Modułów",
+        "LBL_SETTINGS_SHORTCUTS": "Lista podpiętych narzędzi",
+        "LBL_WARNINGS_FOLDERS": "Kategorie ostrzeżeń",
+        "LBL_WARNINGS_SWITCH": "Filtrowanie ostrzeżeń",
+        "LBL_ACTIVE": "Aktywne"
+    },
+    "jsLanguageStrings": []
+}
+

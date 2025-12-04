@@ -15,8 +15,6 @@ class RecruitmentProjectKanban extends \App\Modules\Base\Widgets\Basic
 {
     public function getWidget()
     {
-//		$this->Config['url'] =
-        \App\Log::warning('ProjektyRekrutacyjne_RecruitmentProjectKanban_Widget');
         $this->Config['tpl'] = 'RecruitmentProjectKanban.tpl';
         $projectId = $this->Record;
         $project = \App\Modules\Base\Models\Record::getInstanceById($projectId, 'ProjektyRekrutacyjne');

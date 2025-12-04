@@ -60,6 +60,17 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 	getCurrentDashboardId: function () {
 		return $('.selectDashboard li.active').data('id');
 	},
+	/**
+	 * Get currently selected module from the dropdown or URL
+	 */
+	getSelectedModule: function () {
+		var selectedModule = jQuery('#selectedModuleName').val();
+		if (!selectedModule) {
+			var url = new URL(window.location.href);
+			selectedModule = url.searchParams.get('sourceModule') || 'Home';
+		}
+		return selectedModule;
+	},
 	registerAddedDashboard: function () {
 		var thisInstance = this;
 		$('.addDashboard').on('click', function () {
@@ -67,7 +78,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 				url: 'index.php?parent=Settings&module=' + app.getModuleName() + '&view=DashboardType',
 				sendByAjaxCb: function () {
 					var contentsDiv = $('.contentsDiv');
-					thisInstance.getModuleLayoutEditor('Home').then(
+					thisInstance.getModuleLayoutEditor(thisInstance.getSelectedModule()).then(
 							function (data) {
 								contentsDiv.html(data);
 								thisInstance.registerEvents();
@@ -84,7 +95,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			var currentTarget = $(e.currentTarget);
 			var dashboardId = currentTarget.data('id');
 			var contentsDiv = $('.contentsDiv');
-			thisInstance.getModuleLayoutEditor('Home', dashboardId).then(
+			thisInstance.getModuleLayoutEditor(thisInstance.getSelectedModule(), dashboardId).then(
 					function (data) {
 						contentsDiv.html(data);
 						thisInstance.registerEvents();
@@ -101,7 +112,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 				url: 'index.php?parent=Settings&module=' + app.getModuleName() + '&view=DashboardType&dashboardId=' + currentTarget.closest('li').data('id'),
 				sendByAjaxCb: function () {
 					var contentsDiv = $('.contentsDiv');
-					thisInstance.getModuleLayoutEditor('Home', currentTarget.closest('li').data('id')).then(
+					thisInstance.getModuleLayoutEditor(thisInstance.getSelectedModule(), currentTarget.closest('li').data('id')).then(
 							function (data) {
 								contentsDiv.html(data);
 								thisInstance.registerEvents();
@@ -123,7 +134,7 @@ jQuery.Class('Settings_WidgetsManagement_Js', {
 			};
 			AppConnector.request(params).then(function () {
 				var contentsDiv = $('.contentsDiv');
-				thisInstance.getModuleLayoutEditor('Home', 1).then(
+				thisInstance.getModuleLayoutEditor(thisInstance.getSelectedModule(), 1).then(
 						function (data) {
 							contentsDiv.html(data);
 							thisInstance.registerEvents();

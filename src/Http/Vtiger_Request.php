@@ -106,6 +106,112 @@ class Vtiger_Request
 	}
 
 	/**
+	 * Get value by type with validation
+	 * @param string $key Parameter name
+	 * @param string|int $type Type for validation (e.g., 'Alnum', 'Text', 'Integer', or integer for module validation)
+	 * @param mixed $defvalue Default value
+	 * @return mixed Validated value
+	 */
+	public function getByType($key, $type = null, $defvalue = '')
+	{
+		$value = $this->getRaw($key, $defvalue);
+		
+		if (empty($value) && $value !== '0' && $value !== 0) {
+			return $defvalue;
+		}
+
+		// If type is integer, it's a special validation mode (e.g., module name validation level)
+		if (is_int($type)) {
+			// Just purify and return - integer type indicates validation level
+			return \App\Security\Purifier::purify($value);
+		}
+
+		// Validate based on type
+		switch ($type) {
+			case 'Alnum':
+			case 'alnum':
+				// Alphanumeric only
+				if (preg_match('/^[a-zA-Z0-9_]+$/', $value)) {
+					return $value;
+				}
+				return $defvalue;
+
+			case 'Text':
+			case 'text':
+				// General text - purify it
+				return \App\Security\Purifier::purify($value);
+
+			case 'Integer':
+			case 'integer':
+			case 'int':
+				// Integer only
+				if (is_numeric($value) && (int)$value == $value) {
+					return (int)$value;
+				}
+				return $defvalue;
+
+			case 'Standard':
+			case 'standard':
+				// Standard safe characters
+				if (preg_match('/^[a-zA-Z0-9_\-\.]+$/', $value)) {
+					return $value;
+				}
+				return $defvalue;
+
+			case 'DateInUserFormat':
+			case 'date':
+				// Date validation - basic check
+				return \App\Security\Purifier::purify($value);
+
+			case 'Html':
+			case 'html':
+				// HTML content
+				return \App\Security\Purifier::purifyHtml($value);
+
+			default:
+				// Default: purify the value
+				return \App\Security\Purifier::purify($value);
+		}
+	}
+
+	/**
+	 * Get integer value
+	 * @param string $key Parameter name
+	 * @param int $defvalue Default value
+	 * @return int
+	 */
+	public function getInteger($key, $defvalue = 0)
+	{
+		$value = $this->getRaw($key, $defvalue);
+		if (is_numeric($value)) {
+			return (int)$value;
+		}
+		return $defvalue;
+	}
+
+	/**
+	 * Get array value
+	 * @param string $key Parameter name
+	 * @param array $defvalue Default value
+	 * @return array
+	 */
+	public function getArray($key, $defvalue = [])
+	{
+		$value = $this->get($key, $defvalue);
+		if (is_array($value)) {
+			return $value;
+		}
+		if (is_string($value) && !empty($value)) {
+			// Try to decode JSON
+			$decoded = \App\Utils\Json::decode($value);
+			if (is_array($decoded)) {
+				return $decoded;
+			}
+		}
+		return $defvalue;
+	}
+
+	/**
 	 * Function to get the value if its safe to use for SQL Query (column).
 	 * @param string $key
 	 * @param boolean $skipEmpty - Skip the check if string is empty

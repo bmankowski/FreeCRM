@@ -1,0 +1,17 @@
+{
+    "languageStrings": {
+        "Dashboard": "Settings Dashboard",
+        "LBL_START": "Start",
+        "LBL_GITHUB": "Github",
+        "LBL_SYSTEM_WARNINGS": "System Warnings",
+        "LBL_ACTIVE_USERS": "Active Users",
+        "LBL_WORKFLOWS_ACTIVE": "Active Workflows",
+        "LBL_MODULES": "Modules",
+        "LBL_SETTINGS_SHORTCUTS": "Pinned Settings Shortcuts",
+        "LBL_WARNINGS_FOLDERS": "Warning Categories",
+        "LBL_WARNINGS_SWITCH": "Filter Warnings",
+        "LBL_ACTIVE": "Active"
+    },
+    "jsLanguageStrings": []
+}
+

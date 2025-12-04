@@ -50,7 +50,10 @@ class Widget extends \App\Modules\Settings\Base\Views\Index
 		$tabId = $request->get('tabId');
 		$moduleModel = \App\Modules\Settings\Widgets\Models\Module::getInstance($qualifiedModuleName);
 		$RelatedModule = $moduleModel->getRelatedModule($tabId);
-		$widgetName = '\Vtiger_' . $type . '_Widget';
+		
+		// Get source module name for widget lookup
+		$sourceModuleName = \App\Utils\ModuleUtils::getModuleName($tabId);
+		
 		$viewer->assign('TYPE', $type);
 		$viewer->assign('SOURCE', $tabId);
 		$viewer->assign('WID', '');
@@ -58,17 +61,35 @@ class Widget extends \App\Modules\Settings\Base\Views\Index
 				'limit' => 5, 'relatedmodule' => '', 'columns' => '', 'action' => '', 'switchHeader' => '', 'filter' => '', 'checkbox' => ''
 			], 'nomargin' => '', 'label' => ''
 		]);
-		$viewer->assign('SOURCEMODULE', \App\Utils\ModuleUtils::getModuleName($tabId));
+		$viewer->assign('SOURCEMODULE', $sourceModuleName);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('RELATEDMODULES', $RelatedModule);
 		$viewer->assign('PRIVILEGESMODEL', \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel());
-		if (class_exists($widgetName)) {
-			$widgetInstance = new $widgetName();
-			$tplName = $widgetInstance->getConfigTplName();
-			$viewer->view("widgets/$tplName.tpl", 'Vtiger');
+		
+		// Try to find widget class using Loader - first in source module, then in Base
+		$widgetClassName = \App\Core\Loader::getComponentClassName('Widget', $type, $sourceModuleName, false);
+		if (!$widgetClassName) {
+			$widgetClassName = \App\Core\Loader::getComponentClassName('Widget', $type, 'Base', false);
 		}
+		
+		$tplName = 'BasicConfig';
+		
+		if ($widgetClassName && class_exists($widgetClassName)) {
+			$widgetInstance = new $widgetClassName();
+			$tplName = $widgetInstance->getConfigTplName();
+			
+			// Check if config template exists in source module's widgets directory
+			$sourceModuleTplPath = "layouts/basic/modules/{$sourceModuleName}/widgets/{$tplName}.tpl";
+			if (file_exists(ROOT_DIRECTORY . '/' . $sourceModuleTplPath)) {
+				$viewer->view("widgets/{$tplName}.tpl", $sourceModuleName);
+				return;
+			}
+		}
+		
+		// Fallback to Base widgets config template
+		$viewer->view("widgets/{$tplName}.tpl", 'Base');
 	}
 
 	public function edit(\App\Http\Vtiger_Request $request)
@@ -80,9 +101,11 @@ class Widget extends \App\Modules\Settings\Base\Views\Index
 		$WidgetInfo = $moduleModel->getWidgetInfo($wid);
 		$RelatedModule = $moduleModel->getRelatedModule($WidgetInfo['tabid']);
 		$type = $WidgetInfo['type'];
+		$sourceModuleName = \App\Utils\ModuleUtils::getModuleName($WidgetInfo['tabid']);
+		
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SOURCE', $WidgetInfo['tabid']);
-		$viewer->assign('SOURCEMODULE', \App\Utils\ModuleUtils::getModuleName($WidgetInfo['tabid']));
+		$viewer->assign('SOURCEMODULE', $sourceModuleName);
 		$viewer->assign('WID', $wid);
 		$viewer->assign('WIDGETINFO', $WidgetInfo);
 		$viewer->assign('TYPE', $type);
@@ -90,11 +113,28 @@ class Widget extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('RELATEDMODULES', $RelatedModule);
-		$widgetName = '\Vtiger_' . $type . '_Widget';
-		if (class_exists($widgetName)) {
-			$widgetInstance = new $widgetName();
-			$tplName = $widgetInstance->getConfigTplName();
-			$viewer->view("widgets/$tplName.tpl", 'Vtiger');
+		
+		// Try to find widget class using Loader - first in source module, then in Base
+		$widgetClassName = \App\Core\Loader::getComponentClassName('Widget', $type, $sourceModuleName, false);
+		if (!$widgetClassName) {
+			$widgetClassName = \App\Core\Loader::getComponentClassName('Widget', $type, 'Base', false);
 		}
+		
+		$tplName = 'BasicConfig';
+		
+		if ($widgetClassName && class_exists($widgetClassName)) {
+			$widgetInstance = new $widgetClassName();
+			$tplName = $widgetInstance->getConfigTplName();
+			
+			// Check if config template exists in source module's widgets directory
+			$sourceModuleTplPath = "layouts/basic/modules/{$sourceModuleName}/widgets/{$tplName}.tpl";
+			if (file_exists(ROOT_DIRECTORY . '/' . $sourceModuleTplPath)) {
+				$viewer->view("widgets/{$tplName}.tpl", $sourceModuleName);
+				return;
+			}
+		}
+		
+		// Fallback to Base widgets config template
+		$viewer->view("widgets/{$tplName}.tpl", 'Base');
 	}
 }

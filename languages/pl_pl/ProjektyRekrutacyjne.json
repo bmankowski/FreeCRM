@@ -1,0 +1,53 @@
+{
+    "languageStrings": {
+        "ProjektyRekrutacyjne": "Projekty Rekrutacyjne",
+        "SINGLE_ProjektyRekrutacyjne": "Projekt Rekrutacyjny",
+        "LBL_CUSTOM_INFORMATION": "Informacje dodatkowe",
+        "LBL_BASIC_INFORMATION": "Informacje podstawowe",
+        "Nazwa Projektu": "Nazwa Projektu",
+        "PLL_REFERENCE_NO": "Numer referencyjny",
+        "PLL_WORKPLACE_FOR_MAP": "Miejsce pracy (dla mapy)",
+        "PLL_JOB_ADVERTISEMENT_LINKS": "Linki do ogłoszeń",
+        "PLL_BENEFITS": "Benefity",
+        "PLL_OUR_REQUIREMENTS": "Nasze wymagania",
+        "PLL_YOUR_DUTIES": "Twoje obowiązki",
+        "PLL_WE_OFFER": "Oferujemy",
+        "PLL_FORM_OF_EMPLOYMENT": "Forma zatrudnienia",
+        "PLL_NEEDED_SKILS": "Wymagane umiejętności",
+        "PLL_NICE_TO_HAVE_SKILLS": "Mile widziane umiejętności",
+        "PLL_REMUNERATION": "Wynagrodzenie",
+        "PLL_SPECIALIZATION": "Specjalizacja",
+        "PLL_CVS_APPLIED_NUMBER": "Liczba przesłanych CV",
+        "PLL_PUBLISHING_LANGUAGES": "Języki publikacji",
+        "PLL_STATISTICS": "Statystyki",
+        "PLL_LIST_IS_EMPTY": "Lista jest pusta",
+        "PLL_ACCEPTANCE_FAILED": "Akceptacja nie powiodła się",
+        "PLL_ACCEPTANCE_SUCCESS": "Akceptacja zakończona sukcesem",
+        "PLL_REJECT_FAILED": "Odrzucenie nie powiodło się",
+        "PLL_REJECT_SUCCESS": "Odrzucenie zakończone sukcesem",
+        "PLL_NO_SUCH_RECORD": "Nie znaleziono rekordu",
+        "PLL_POLISH": "Polski",
+        "PLL_ENGLISH": "Angielski",
+        
+        "LBL_RECRUITMENT_KANBAN": "Tablica Kanban rekrutacji",
+        "PPL_REJECTED_AFTER_CV": "Odrzuceni po CV",
+        "PPL_APPLIED": "Aplikowali",
+        "PPL_CANDIDATE_PASSED_SCREENING": "Przeszli screening",
+        "PPL_WAITING_FOR_INTERVIEW": "Oczekują na rozmowę",
+        "PPL_TO_BE_SENT_TO_CLIENT": "Do wysłania do klienta",
+        "PPL_SENT_TO_CLIENT": "Wysłani do klienta",
+        "PPL_ACCEPTED": "Zaakceptowani",
+        "PPL_REJECTED_AFTER_VERIFICATION": "Odrzuceni po weryfikacji",
+        "PPL_REJECTED_AFTER_INTERVIEW": "Odrzuceni po rozmowie",
+        "PPL_OFFER_REJECTED_BY_CANDIDATE": "Oferta odrzucona przez kandydata",
+        "PPL_REJECTED_BY_CLIENT": "Odrzuceni przez klienta"
+    },
+    "jsLanguageStrings": {
+        "PLL_ACCEPTANCE_FAILED": "Akceptacja nie powiodła się",
+        "PLL_ACCEPTANCE_SUCCESS": "Akceptacja zakończona sukcesem",
+        "PLL_REJECT_FAILED": "Odrzucenie nie powiodło się",
+        "PLL_REJECT_SUCCESS": "Odrzucenie zakończone sukcesem",
+        "PLL_NO_SUCH_RECORD": "Nie znaleziono rekordu"
+    }
+}
+

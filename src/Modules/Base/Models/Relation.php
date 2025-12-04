@@ -226,6 +226,15 @@ class Relation extends \App\Runtime\BaseModel
 			$query->andWhere(['label' => $label]);
 		}
 		$row = $query->one();
+		// If no match with label, try without label constraint (fallback for translated labels)
+		if (!$row && !empty($label)) {
+			$query = (new \App\Db\Query())->select('vtiger_relatedlists.*, vtiger_tab.name as modulename')
+				->from('vtiger_relatedlists')
+				->innerJoin('vtiger_tab', 'vtiger_relatedlists.related_tabid = vtiger_tab.tabid')
+				->where(['vtiger_relatedlists.tabid' => $parentModuleModel->getId(), 'related_tabid' => $relatedModuleModel->getId()])
+				->andWhere(['<>', 'vtiger_tab.presence', 1]);
+			$row = $query->one();
+		}
 		if ($row) {
 			$relationModelClassName = \App\Core\Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
 			$relationModel = new $relationModelClassName();

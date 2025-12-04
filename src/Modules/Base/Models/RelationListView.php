@@ -76,8 +76,8 @@ class RelationListView extends \App\Runtime\BaseModel
 
 	/**
 	 * Get relation list view model instance
-	 * @param \App\Modules\Base\Models\Module $parentRecordModel
-	 * @param \App\Modules\Base\Models\Module $relationModuleName
+	 * @param \App\Modules\Base\Models\Record $parentRecordModel
+	 * @param string $relationModuleName
 	 * @param string|boolean $label
 	 * @return self
 	 */

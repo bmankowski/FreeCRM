@@ -319,8 +319,13 @@ class DetailView extends \App\Runtime\BaseModel
 		$modelWidgets = $moduleModel->getWidgets($module);
 		foreach ($modelWidgets as $widgetCol) {
 			foreach ($widgetCol as $widget) {
-				$widgetClassName = \App\Core\Loader::getComponentClassName('Widget', $widget['type'], 'Base');
-				if (class_exists($widgetClassName)) {
+				// Try to find widget class - first in current module, then in Base
+				$widgetClassName = \App\Core\Loader::getComponentClassName('Widget', $widget['type'], $module, false);
+				if (!$widgetClassName) {
+					$widgetClassName = \App\Core\Loader::getComponentClassName('Widget', $widget['type'], 'Base', false);
+				}
+				
+				if ($widgetClassName && class_exists($widgetClassName)) {
 					$this->widgetsList[] = $widget['type'];
 					$widgetInstance = new $widgetClassName($module, $moduleModel, $record, $widget);
 					$widgetObject = $widgetInstance->getWidget();

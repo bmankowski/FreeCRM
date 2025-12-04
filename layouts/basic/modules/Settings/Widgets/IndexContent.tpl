@@ -10,6 +10,7 @@
     <input type="hidden" id="switchHeaderAll" value='{$SWITCHES_HEADER}'>
     <div class="WidgetsManage">
         <input type="hidden" name="tabid" value="{$SOURCE}">
+        <input type="hidden" name="sourceModuleName" value="{$SOURCEMODULE}">
         <div class="widget_header row">
             <div class="col-md-8">
                 {include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
@@ -18,7 +19,7 @@
             <div class="pull-right col-md-4 h3">
                 <select class="select2 col-md-3 form-control" name="ModulesList">
                     {foreach from=$MODULE_MODEL->getModulesList() item=item key=key}
-                        <option value="{$key}" {if $SOURCE eq $key}selected{/if}>{$item['tablabel']|t:$item['name']}</option>
+                        <option value="{$key}" data-name="{$item['name']}" {if $SOURCE eq $key}selected{/if}>{$item['tablabel']|t:$item['name']}</option>
                     {/foreach}
                 </select>
             </div>

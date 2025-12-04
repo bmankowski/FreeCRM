@@ -194,19 +194,21 @@ class Module extends \vtlib\Module
 			if (\App\Cache\Cache::has('isModuleCommentEnabled', $moduleName)) {
 				return \App\Cache\Cache::get('isModuleCommentEnabled', $moduleName);
 			}
-			$query = new \App\Db\Query();
-			$fieldId = $query->select(['fieldid'])
+			// Get the fieldid for 'related_to' field in ModComments
+			$tabId = $commentsModuleModel->getId();
+			$fieldId = (new \App\Db\Query())
+				->select(['fieldid'])
 				->from('vtiger_field')
-				->where(['fieldname' => 'related_to', 'tabid' => $commentsModuleModel->getId()])
+				->where(['fieldname' => 'related_to', 'tabid' => $tabId])
 				->scalar();
 			if (!empty($fieldId)) {
-				$enabled = $query->from('vtiger_fieldmodulerel')
+				// Check if this module is related to ModComments (use new Query to avoid condition accumulation)
+				$enabled = (new \App\Db\Query())
+					->from('vtiger_fieldmodulerel')
 					->where(['fieldid' => $fieldId, 'relmodule' => $moduleName])
 					->exists();
 			}
 			\App\Cache\Cache::save('isModuleCommentEnabled', $moduleName, $enabled);
-		} else {
-			$enabled = false;
 		}
 		return $enabled;
 	}

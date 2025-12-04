@@ -58,22 +58,52 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	public function getType($module = false)
 	{
-		$moduleName = \App\Utils\ModuleUtils::getModuleName($module);
-
-		$dir = 'modules/Vtiger/widgets/';
-		$moduleModel = \App\Modules\Base\Models\Module::getInstance($module);
-		$ffs = scandir($dir);
-		foreach ($ffs as $ff) {
-			$action = str_replace('.php', "", $ff);
-			if ($ff != '.' && $ff != '..' && !is_dir($dir . '/' . $ff) && $action != 'Basic') {
-				$folderFiles[$action] = $action;
-				$modelClassName = \App\Core\Loader::getComponentClassName('Widget', $action, 'Vtiger');
-				$instance = new $modelClassName();
-				if ($instance->allowedModules && !in_array($moduleName, $instance->allowedModules) || ($action == 'Comments' && !$moduleModel->isCommentEnabled())) {
-					unset($folderFiles[$action]);
+		// $module can be either tabid (numeric) or module name (string)
+		if (is_numeric($module)) {
+			$moduleName = \App\Utils\ModuleUtils::getModuleName($module);
+		} else {
+			$moduleName = $module;
+		}
+		
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
+		$folderFiles = [];
+		
+		// Scan Base widgets directory
+		$dir = 'src/Modules/Base/Widgets/';
+		if (is_dir($dir)) {
+			$ffs = scandir($dir);
+			foreach ($ffs as $ff) {
+				$action = str_replace('.php', "", $ff);
+				if ($ff != '.' && $ff != '..' && !is_dir($dir . '/' . $ff) && $action != 'Basic') {
+					$modelClassName = \App\Core\Loader::getComponentClassName('Widget', $action, 'Base', false);
+					if ($modelClassName && class_exists($modelClassName)) {
+						$instance = new $modelClassName();
+						// Check if widget is allowed for this module
+						$isAllowed = empty($instance->allowedModules) || in_array($moduleName, $instance->allowedModules);
+						$commentsEnabled = ($action !== 'Comments') || !$moduleModel || $moduleModel->isCommentEnabled();
+						
+						if ($isAllowed && $commentsEnabled) {
+							$folderFiles[$action] = $action;
+						}
+					}
 				}
 			}
 		}
+		
+		// Also scan module-specific widgets (e.g., ProjektyRekrutacyjne/Widgets)
+		if ($moduleName) {
+			$moduleDir = 'src/Modules/' . $moduleName . '/Widgets/';
+			if (is_dir($moduleDir)) {
+				$moduleFiles = scandir($moduleDir);
+				foreach ($moduleFiles as $ff) {
+					$action = str_replace('.php', "", $ff);
+					if ($ff != '.' && $ff != '..' && !is_dir($moduleDir . '/' . $ff) && $action != 'Basic') {
+						$folderFiles[$action] = $action;
+					}
+				}
+			}
+		}
+		
 		return $folderFiles;
 	}
 
@@ -160,11 +190,30 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		$tabid = $params['tabid'];
 		$data = $params['data'];
 		$wid = $data['wid'];
-		$widgetName = '\Vtiger_' . $data['type'] . '_Widget';
-		if (class_exists($widgetName)) {
-			$widgetInstance = new $widgetName();
-			$dbParams = $widgetInstance->dbParams;
+		$type = $data['type'];
+		
+		// Initialize dbParams as empty array
+		$dbParams = [];
+		
+		// Get source module name from tabid
+		$sourceModuleName = \App\Utils\ModuleUtils::getModuleName($tabid);
+		
+		// Try to find widget class using Loader - first in source module, then in Base
+		$widgetClassName = null;
+		if ($sourceModuleName) {
+			$widgetClassName = \App\Core\Loader::getComponentClassName('Widget', $type, $sourceModuleName, false);
 		}
+		if (!$widgetClassName) {
+			$widgetClassName = \App\Core\Loader::getComponentClassName('Widget', $type, 'Base', false);
+		}
+		
+		if ($widgetClassName && class_exists($widgetClassName)) {
+			$widgetInstance = new $widgetClassName();
+			if (isset($widgetInstance->dbParams) && is_array($widgetInstance->dbParams)) {
+				$dbParams = $widgetInstance->dbParams;
+			}
+		}
+		
 		$data = array_merge($dbParams, $data);
 		$label = $data['label'];
 		unset($data['label']);

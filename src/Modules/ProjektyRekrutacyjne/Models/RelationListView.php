@@ -42,9 +42,9 @@ class RelationListView extends \App\Modules\Base\Models\RelationListView
                 $field->set($key, $value);
             }
 
-            $className = '\App\Conditions\QueryFields\\' . ucfirst($data['type']) . 'Field';
+            $className = '\App\QueryField\\' . ucfirst($data['type']) . 'Field';
             if (!class_exists($className)) {
-                \App\Log::error('Not found query relation field condition: class $className not found');
+                \App\Log\Log::error("Not found query relation field condition: class {$className} not found");
                 throw new \App\Exceptions\AppException('ERR_NOT_FOUND_QUERY_FIELD_CONDITION|' . $fieldName);
             }
             $queryField = new $className($queryGenerator, $field);
@@ -53,7 +53,6 @@ class RelationListView extends \App\Modules\Base\Models\RelationListView
         }
         $queryGenerator->setQueryFields($queryFields);
 
-        $this->loadCustomView();
         $this->loadCondition();
         $this->loadOrderBy();
         $relationModelInstance = $this->getRelationModel();

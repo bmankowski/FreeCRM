@@ -25,7 +25,7 @@
 		{assign var=RELATION_MODEL value=$VIEW_MODEL->getRelationModel()}
 		<input type="hidden" name="currentPageNum" value="{$PAGING_MODEL->getCurrentPage()}">
 		<input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE->get('name')}">
-		<input type="hidden" id="orderBy" value="{\App\Security\Purifier::encodeHtml(\App\Json::encode($ORDER_BY))}">
+		<input type="hidden" id="orderBy" value="{\App\Security\Purifier::encodeHtml(\App\Utils\Json::encode($ORDER_BY))}">
 		<input type="hidden" value="{$RELATED_ENTIRES_COUNT}" id="noOfEntries">
 		<input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 		<input type='hidden' value="{$TOTAL_ENTRIES}" id='totalCount'>
@@ -36,10 +36,10 @@
 		<input type="hidden" id="recordsCount" value=""/>
 		<input type="hidden" id="tab_label" value="{\App\Security\Purifier::encodeHtml($RELATION_MODEL->get('label'))}"/>
 		<input type="hidden" id="relationId" value="{$RELATION_MODEL->getId()}"/>
-		<input type="hidden" id="search_params" value="{\App\Security\Purifier::encodeHtml(\App\Json::encode($SEARCH_PARAMS))}">
-		<input type="hidden" class="js-empty-fields" data-js="value" value="{\App\Security\Purifier::encodeHtml(\App\Json::encode($LOCKED_EMPTY_FIELDS))}"/>
+		<input type="hidden" id="search_params" value="{\App\Security\Purifier::encodeHtml(\App\Utils\Json::encode($SEARCH_PARAMS))}">
+		<input type="hidden" class="js-empty-fields" data-js="value" value="{\App\Security\Purifier::encodeHtml(\App\Utils\Json::encode($LOCKED_EMPTY_FIELDS))}"/>
 		{if $SHOW_HEADER}
-			{assign var=CUSTOM_VIEW_LIST value=$RELATION_MODEL->getCustomViewList()}
+			{if !isset($CUSTOM_VIEW_LIST)}{assign var=CUSTOM_VIEW_LIST value=[]}{/if}
 			<div class="relatedHeader mt-1">
 				<div class="d-inline-flex flex-wrap w-100 justify-content-between">
 					<div class="u-w-sm-down-100 d-flex flex-wrap flex-sm-nowrap mb-1 {if $CUSTOM_VIEW_LIST}mb-lg-0{else}mb-md-0{/if}">
@@ -77,11 +77,11 @@
 							</div>
 						{/if}
 						{if isset($RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'])}
-							{include file=\App\Layout::getTemplatePath('ButtonViewLinks.tpl') LINKS=$RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'] TEXT_HOLDER='LBL_ACTIONS' BTN_ICON='fa fa-list' CLASS='btn-group mr-sm-1 relatedViewGroup c-btn-block-sm-down mb-1 mb-sm-0'}
+							{include file='ButtonViewLinks.tpl'|@vtemplate_path LINKS=$RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'] TEXT_HOLDER='LBL_ACTIONS' BTN_ICON='fa fa-list' CLASS='btn-group mr-sm-1 relatedViewGroup c-btn-block-sm-down mb-1 mb-sm-0'}
 						{/if}
 						{if isset($RELATED_LIST_LINKS['LISTVIEWBASIC'])}
 							{foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
-								{if {\App\Privilege::isPermitted($RELATED_MODULE_NAME, 'CreateView')} }
+								{if {\App\Security\Privilege::isPermitted($RELATED_MODULE_NAME, 'CreateView')} }
 									<div class="btn-group mr-md-1 c-btn-block-sm-down">
 										{assign var=IS_SELECT_BUTTON value={$RELATED_LINK->get('_selectRelation')}}
 										<button type="button" class="btn btn-light addButton
@@ -107,7 +107,7 @@
 						{/if}
 						{if isset($RELATED_LIST_LINKS['RELATEDLIST_BASIC'])}
 							{foreach item=LINK from=$RELATED_LIST_LINKS['RELATEDLIST_BASIC']}
-								{include file=\App\Layout::getTemplatePath('ButtonLink.tpl', $MODULE) BUTTON_VIEW='relatedListView' CLASS='mr-sm-1 c-btn-block-sm-down'}
+								{include file='ButtonLink.tpl'|@vtemplate_path:$MODULE BUTTON_VIEW='relatedListView' CLASS='mr-sm-1 c-btn-block-sm-down'}
 							{/foreach}
 						{/if}
 					</div>
@@ -136,7 +136,7 @@
 					{/if}
 					<div class="d-flex flex-wrap u-w-sm-down-100 justify-content-between justify-content-md-end">
 						<div class="paginationDiv">
-							{include file=\App\Layout::getTemplatePath('Pagination.tpl', $MODULE_NAME) VIEWNAME='related'}
+							{include file='Pagination.tpl'|@vtemplate_path:$MODULE_NAME VIEWNAME='related'}
 						</div>
 						{if $VIEW_MODEL}
 							<div class="ml-1">
@@ -206,7 +206,7 @@
 				<div class="c-list-preview js-list-preview js-fixed-scroll" data-js="scroll">
 					<div class="c-list-preview__content js-list-preview--scroll" data-js="perfectScrollbar">
 						<div id="recordsList">
-							{include file=\App\Layout::getTemplatePath("RelatedListContents.tpl", $RELATED_MODULE->get('name'))}
+							{include file='RelatedListContents.tpl'|@vtemplate_path:$RELATED_MODULE->get('name')}
 						</div>
 					</div>
 				</div>
@@ -251,7 +251,7 @@
 			</div>
 		{else}
 			<div class="relatedContents mt-1">
-				{include file=\App\Layout::getTemplatePath("RelatedListContents.tpl", $RELATED_MODULE->get('name'))}
+				{include file='RelatedListContents.tpl'|@vtemplate_path:$RELATED_MODULE->get('name')}
 			</div>
 		{/if}
 	</div>

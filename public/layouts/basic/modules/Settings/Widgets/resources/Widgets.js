@@ -93,11 +93,12 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 				'enabled': true
 			}
 		});
+		var moduleName = thisInstance.getSelectedModuleName();
 		var params = {};
 		params['module'] = 'Widgets';
 		params['view'] = 'Index';
 		params['parent'] = 'Settings';
-		params['source'] = $("input[name='tabid']").val();
+		params['sourceModule'] = moduleName;
 		AppConnector.request(params).then(
 				function (data) {
 					var container = jQuery('div.contentsDiv').html(data);
@@ -170,6 +171,39 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 		var form = jQuery('.form-modalAddWidget');
 		thisInstance.loadFilters(form);
 	},
+	/**
+	 * Get currently selected module name (real name, not translation)
+	 */
+	getSelectedModuleName: function () {
+		// First try hidden input (set by template)
+		var hiddenName = $("input[name='sourceModuleName']").val();
+		if (hiddenName) {
+			return hiddenName;
+		}
+		// Fallback: get from select option data-name attribute
+		var tabId = this.getTabId();
+		var select = $(".WidgetsManage select[name='ModulesList']");
+		var option = select.find('option[value="' + tabId + '"]');
+		return option.data('name') || option.text().trim();
+	},
+	/**
+	 * Get module name from option (real name from data-name attribute)
+	 */
+	getModuleNameFromOption: function (option) {
+		return $(option).data('name') || $(option).text().trim();
+	},
+	/**
+	 * Update URL with sourceModule parameter
+	 */
+	updateUrlWithSourceModule: function (moduleName) {
+		var url = new URL(window.location.href);
+		url.searchParams.set('sourceModule', moduleName);
+		// Remove old 'source' parameter in favor of sourceModule
+		url.searchParams.delete('source');
+		window.history.pushState(null, '', url.toString());
+		// Also update hidden input
+		$("input[name='sourceModuleName']").val(moduleName);
+	},
 	registerEvents: function (container) {
 		var thisInstance = this;
 		this.loadWidgets();
@@ -179,7 +213,12 @@ jQuery.Class('Settings_Widgets_Index_Js', {
 		app.showSelect2ElementView(container.find('.select2'));
 		$(".WidgetsManage select[name='ModulesList']").change(function (e) {
 			var target = $(e.currentTarget);
-			$("input[name='tabid']").val(target.val());
+			var tabId = target.val();
+			$("input[name='tabid']").val(tabId);
+			// Get real module name from data-name attribute and update URL
+			var selectedOption = target.find('option:selected');
+			var moduleName = selectedOption.data('name') || selectedOption.text().trim();
+			thisInstance.updateUrlWithSourceModule(moduleName);
 			thisInstance.reloadWidgets();
 		});
 		$('.WidgetsManage .addWidget').click(function (e) {

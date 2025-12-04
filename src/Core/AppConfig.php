@@ -163,7 +163,7 @@ class AppConfig
 			require_once 'config/search.php';
 			AppConfig::load('search', $CONFIG);
 		}
-		return self::$search[$key];
+		return self::$search[$key] ?? $defvalue;
 	}
 
 	public static function iniSet($key, $value)

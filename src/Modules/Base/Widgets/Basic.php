@@ -17,6 +17,7 @@ class Basic {
 	public $Module = false;
 	public $Record = false;
 	public $Config = [];
+	public $Data = [];
 	public $moduleModel = false;
 	public $dbParams = [];
 	public $allowedModules = [];
