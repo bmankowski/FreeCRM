@@ -1,9 +1,11 @@
 {
-	"php": {
-		"Kandydaci": "Kandydaci",
-		"SINGLE_Kandydaci": "Kandydaci",
-		"LBL_CUSTOM_INFORMATION": "Custom Information",
-		"LBL_BASIC_INFORMATION": "Basic Information",
-		"Nazwisko i imię": "Nazwisko i imię"
-	}
+    "languageStrings": {
+        "Kandydaci": "Candidates",
+        "SINGLE_Kandydaci": "Candidate",
+        "LBL_CUSTOM_INFORMATION": "Custom Information",
+        "LBL_BASIC_INFORMATION": "Basic Information",
+        "Nazwisko i imię": "Full Name"
+    },
+    "jsLanguageStrings": {
+    }
 }

@@ -1,9 +1,11 @@
 {
-	"php": {
-		"ProjektyRekrutacyjne": "Projekty Rekrutacyjne",
-		"SINGLE_ProjektyRekrutacyjne": "Projekty Rekrutacyjne",
-		"LBL_CUSTOM_INFORMATION": "Custom Information",
-		"LBL_BASIC_INFORMATION": "Basic Information",
-		"Nazwa Projektu": "Nazwa Projektu"
-	}
+    "languageStrings": {
+        "ProjektyRekrutacyjne": "Recruitment Projects",
+        "SINGLE_ProjektyRekrutacyjne": "Recruitment Project",
+        "LBL_CUSTOM_INFORMATION": "Custom Information",
+        "LBL_BASIC_INFORMATION": "Basic Information",
+        "Nazwa Projektu": "Project Name"
+    },
+    "jsLanguageStrings": {
+    }
 }
