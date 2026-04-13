@@ -12,7 +12,7 @@ use App\Exceptions\IllegalValue;
  * @author    Adrian Koń <a.kon@yetiforce.com>
  * *********************************************************************************** */
 
-class ChangeCandidateStatusManuallyAjax extends \App\Controller\Action
+class ChangeCandidateStatusManuallyAjax extends \App\Base\Controllers\BaseActionController
 {
     /**
      * Check permission.

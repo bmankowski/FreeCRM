@@ -40,35 +40,80 @@ Vtiger_Detail_Js(
 
 			}
 		},
+		/**
+		 * Wypisuje w konsoli listę kandydatów widocznych w kanbanie (widget podsumowania).
+		 * Wywołanie jest powtarzane z opóźnieniem, bo markup może dojść po init widoku.
+		 */
+		logLoadedCandidatesToConsole: function () {
+			let lastSerialized = '';
+			const collectAndLog = function () {
+				const list = [];
+				$('.candidate').each(function () {
+					const $el = $(this);
+					list.push({
+						id: $el.attr('data-candidate-id'),
+						name: $.trim($el.text()),
+						status: $el.closest('.candidate-status').attr('data-value') || ''
+					});
+				});
+				const key = JSON.stringify(list);
+				if (key === lastSerialized) {
+					return;
+				}
+				lastSerialized = key;
+				console.log('[ProjektyRekrutacyjne] Załadowani kandydaci (' + list.length + '):', list);
+				if (list.length) {
+					console.table(list);
+				}
+			};
+			setTimeout(collectAndLog, 0);
+			setTimeout(collectAndLog, 400);
+			setTimeout(collectAndLog, 1200);
+		},
 		// Listens for drag and drop events on td elements with class candidate_status
 		candidatesDragAndDropSupport: function () {
 			let sourceStatus = null;
 			let candidateId = null;
 
-			$('.candidate').on('dragstart', function () {
-				sourceStatus = $(this).parent().attr('data-value');
+			$(document).off('dragstart.projektyKanban dragend.projektyKanban drop.projektyKanban dragover.projektyKanban dragenter.projektyKanban');
+
+			$(document).on('dragstart.projektyKanban', '.candidate', function (e) {
 				candidateId = $(this).attr('data-candidate-id');
+				sourceStatus = $(this).closest('.candidate-status').attr('data-value');
+				const ev = e.originalEvent;
+				if (ev && ev.dataTransfer) {
+					ev.dataTransfer.setData('text/plain', String(candidateId));
+					ev.dataTransfer.effectAllowed = 'move';
+				}
 			});
 
-			$('.candidate-status').on('drop', function (event) {
+			$(document).on('dragend.projektyKanban', '.candidate', function () {
+				sourceStatus = null;
+				candidateId = null;
+			});
+
+			$(document).on('drop.projektyKanban', '.candidate-status', function (event) {
 				event.preventDefault();
 				const destinationStatus = $(this).attr('data-value');
-				if(sourceStatus === destinationStatus) {
+				if (sourceStatus === destinationStatus) {
 					return;
 				}
-				const projectId = $('.project-id').val();
-				changeCandidateStatus(projectId,candidateId,sourceStatus, destinationStatus);
+				const projectId = $(this).closest('.summaryWidgetContainer').find('.project-id').val() || $('.project-id').val();
+				changeCandidateStatus(projectId, candidateId, sourceStatus, destinationStatus);
 			});
 
-			$('.candidate-status').on('dragover', function (event) {
+			$(document).on('dragover.projektyKanban dragenter.projektyKanban', '.candidate-status', function (event) {
 				event.preventDefault();
+				const ev = event.originalEvent;
+				if (ev && ev.dataTransfer) {
+					ev.dataTransfer.dropEffect = 'move';
+				}
 			});
 			function changeCandidateStatus (projectId, candidateId, sourceStatus, destinationStatus) {
 				if(!projectId || !candidateId || !sourceStatus || !destinationStatus) {
 					console.error('Missing parameters for changeCandidateStatus');
-					return
+					return;
 				}
-				// console.log(`Changing status of candidate ${candidateId} from ${sourceStatus} to ${destinationStatus} in project ${projectId}`);
 				const params = {
 					module: app.getModuleName(),
 					action: 'ChangeCandidateStatusManuallyAjax',
@@ -78,22 +123,24 @@ Vtiger_Detail_Js(
 					destinationStatus: destinationStatus
 				};
 				AppConnector.request(params).done(function (data) {
-					if (data.success) {
-						//Find with jquery the candidate element and change its parent
+					var result = data.result || {};
+					var ok = data.success === true && result.success === true;
+					if (ok) {
 						const candidateElement = $(`.candidate[data-candidate-id="${candidateId}"]`);
-						const candidateNewParent= $(`.candidate-status[data-value="${destinationStatus}"]`);
+						const candidateNewParent = $(`.candidate-status[data-value="${destinationStatus}"]`);
 						const candidateParent = candidateElement.parent();
-						// if candidateParent is array then we have multiple parents, we need to remove all candidateElements
 						candidateNewParent.append(candidateElement.first());
 						if(candidateParent.length > 1) {
 							candidateParent.each(function(index, element) {
-									$(element).find(candidateElement).remove();
+								$(element).find(candidateElement).remove();
 							});
 						}
-
 					} else {
-						Vtiger_Helper_Js.showPnotify({text: data.error.message, type: 'error'});
+						var errMsg = (result.message) || (data.error && data.error.message) || 'PLL_ACCEPTANCE_FAILED';
+						Vtiger_Helper_Js.showPnotify({text: errMsg, type: 'error'});
 					}
+				}).fail(function () {
+					Vtiger_Helper_Js.showPnotify({text: 'PLL_ACCEPTANCE_FAILED', type: 'error'});
 				});
 			}
 		},
@@ -102,6 +149,7 @@ Vtiger_Detail_Js(
 			this._super();
 			this.candidatesSupport();
 			this.candidatesDragAndDropSupport();
+			this.logLoadedCandidatesToConsole();
 		}
 	}
 );

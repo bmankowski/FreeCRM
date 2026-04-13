@@ -223,13 +223,24 @@ class Record
 	public static function updateLabelOnSave($recordModel)
 	{
 		$metaInfo = \App\Utils\ModuleUtils::getEntityInfo($recordModel->getModuleName());
+		if (empty($metaInfo) || !is_array($metaInfo)) {
+			return;
+		}
+		$fieldnameArr = $metaInfo['fieldnameArr'] ?? [];
+		$searchcolumnArr = $metaInfo['searchcolumnArr'] ?? [];
+		if (!is_array($fieldnameArr)) {
+			$fieldnameArr = [];
+		}
+		if (!is_array($searchcolumnArr)) {
+			$searchcolumnArr = [];
+		}
 		$labelName = [];
-		foreach ($metaInfo['fieldnameArr'] as &$columnName) {
+		foreach ($fieldnameArr as &$columnName) {
 			$fieldModel = $recordModel->getModule()->getFieldByColumn($columnName);
 			$labelName[] = $fieldModel->getDisplayValue($recordModel->get($fieldModel->getName()), $recordModel->getId(), $recordModel);
 		}
 		$labelSearch = [];
-		foreach ($metaInfo['searchcolumnArr'] as &$columnName) {
+		foreach ($searchcolumnArr as &$columnName) {
 			$fieldModel = $recordModel->getModule()->getFieldByColumn($columnName);
 			$labelSearch[] = $fieldModel->getDisplayValue($recordModel->get($fieldModel->getName()), $recordModel->getId(), $recordModel);
 		}
