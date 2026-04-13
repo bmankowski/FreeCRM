@@ -22,4 +22,18 @@ class Integer extends BaseUiType
 	{
 		return 'uitypes/Number.tpl';
 	}
+
+	/**
+	 * @param mixed $value
+	 * @param \App\Modules\Base\Models\Record|false $recordModel
+	 * @return mixed
+	 */
+	public function getDBValue($value, $recordModel = false)
+	{
+		// BaseUiType turns null into ''; empty string for INT is inserted as NULL in DB — breaks NOT NULL columns (e.g. Documents.filesize).
+		if ($value === null) {
+			return 0;
+		}
+		return parent::getDBValue($value, $recordModel);
+	}
 }

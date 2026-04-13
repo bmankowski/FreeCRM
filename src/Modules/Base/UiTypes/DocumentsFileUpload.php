@@ -74,13 +74,15 @@ class DocumentsFileUpload extends BaseUiType
 	public function getDBValue($value, $recordModel = false)
 	{
 		if ($value === null) {
-			$fileName = (new \App\Db\Query())->select(['filename'])->from('vtiger_notes')->where(['notesid' => $this->id])->one();
-			if ($fileName) {
-				return \App\Utils\ListViewUtils::decodeHtml($fileName);
+			$notesId = ($recordModel && is_object($recordModel) && method_exists($recordModel, 'getId')) ? $recordModel->getId() : null;
+			if ($notesId) {
+				$fileName = (new \App\Db\Query())->select(['filename'])->from('vtiger_notes')->where(['notesid' => $notesId])->scalar();
+				if ($fileName !== false && $fileName !== null && $fileName !== '') {
+					return \App\Utils\ListViewUtils::decodeHtml($fileName);
+				}
 			}
-			return $value;
-		} else {
-			return \App\Utils\ListViewUtils::decodeHtml($value);
+			return '';
 		}
+		return \App\Utils\ListViewUtils::decodeHtml($value);
 	}
 }
