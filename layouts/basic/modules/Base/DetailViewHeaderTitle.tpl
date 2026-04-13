@@ -20,20 +20,28 @@
 				<h4 class="recordLabel textOverflowEllipsis pushDown marginbottomZero" title='{$RECORD->getName()}'>
 					<span class="moduleColor_{$MODULE_NAME}">{$RECORD->getName()}</span>
 				</h4>
-				{if $MODULE_NAME}
+				{* Display header fields inline (like Leads style) *}
+				{if $FIELDS_HEADER}
 					<div class="paddingLeft5px">
-						<span class="muted">
-							{"Assigned To"|t:$MODULE_NAME}: {$RECORD->getDisplayValue('assigned_user_id')}
-							{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
-							{if $SHOWNERS != ''}
-								<br/>{"Share with users"|t:$MODULE_NAME} {$SHOWNERS}
+						{foreach from=$FIELDS_HEADER key=LABEL item=VALUE name=headerFields}
+							{if !empty($VALUE['value'])}
+								<span class="text-muted">{$LABEL|t:$MODULE_NAME}:</span> {$VALUE['value']}{if !$smarty.foreach.headerFields.last}, {/if}
 							{/if}
-						</span>
+						{/foreach}
 					</div>
 				{/if}
+				{* Display assigned user and sharing info *}
+				<div class="paddingLeft5px">
+					<span class="muted">
+						{"Assigned To"|t:$MODULE_NAME}: {$RECORD->getDisplayValue('assigned_user_id')}
+						{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
+						{if $SHOWNERS != ''}
+							<br/>{"Share with users"|t:$MODULE_NAME} {$SHOWNERS}
+						{/if}
+					</span>
+				</div>
 			</div>
 		</div>
-		{include file='DetailViewHeaderFields.tpl'|@vtemplate_path:$MODULE_NAME}
 	</div>
 <!--/layouts/basic/modules/Base/DetailViewHeaderTitle.tpl -->
 {/strip}
