@@ -25,7 +25,7 @@ from u_yf_projekty_rekrutacyjne_relations_members_entity rel
 inner join u_yf_projektyrekrutacyjne u on rel.crmid = u.projektyrekrutacyjneid
 where e.deleted = 0
 and relcrmid=".$this->getId();
-		$connection = \App\Db::getInstance();
+		$connection = \App\Db\Db::getInstance();
 		$command = $connection->createCommand($query);
 		$rows = $command->queryAll();
 		return $rows;
@@ -33,7 +33,7 @@ and relcrmid=".$this->getId();
  
     public function getCVPathname(): string {
         if (!empty($value = $this->get("cv_img_file"))) {
-            $jsonData = \App\Json::decode($value);
+            $jsonData = \App\Utils\Json::decode($value);
 //            TODO Check if file exists
 
 
@@ -118,7 +118,7 @@ and relcrmid=".$this->getId();
             where x.ord_number = 1";
 
 //        \App\Log::var_dump($query);
-        $connection = \App\Db::getInstance();
+        $connection = \App\Db\Db::getInstance();
         $command = $connection->createCommand($query);
         $rows = $command->queryOne();
         if (!$rows) {
@@ -204,7 +204,7 @@ and relcrmid=".$this->getId();
         'key' => $key,
         'type' => $file->getMimeType(),
         ]];
-        $fieldValue = \App\Json::encode($newFile);
+        $fieldValue = \App\Utils\Json::encode($newFile);
         $this->set($fieldName, $fieldValue);
     }
 
@@ -285,7 +285,7 @@ and relcrmid=".$this->getId();
         'key' => $key,
         'type' => $file->getMimeType(),
         ]];
-        $fieldValue = \App\Json::encode($newFile);
+        $fieldValue = \App\Utils\Json::encode($newFile);
 
         $candidate = \App\Modules\Base\Models\Record::getInstanceById($candidateId);
         $candidate->set($fieldName, $fieldValue);

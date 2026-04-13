@@ -73,7 +73,7 @@ class GetCVImage extends \App\Modules\Base\Files\File {
          $kandydatRecordModel = \App\Modules\Kandydaci\Models\Record::getInstanceById($candidateId, $request->getModule());
 //        $kandydatRecordModel = \App\Modules\Kandydaci\Models\Record::getInstanceById(1261772, "Kandydaci");
         $pathInJSON = $kandydatRecordModel->get("cv_img_file");
-        $item = reset(\App\Json::decode($pathInJSON));
+        $item = reset(\App\Utils\Json::decode($pathInJSON));
         $file = \App\Fields\File::loadFromInfo([
                     'path' => ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $item['path'],
                     'name' => $item['name'],

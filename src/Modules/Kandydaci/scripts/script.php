@@ -66,7 +66,7 @@ return;
 //Kandydaci_ScheduledImport_Cron::test();
 //$str = '[{"name":"cv2-v.jpg","size":681750,"path":"storage\/MultiImage\/Kandydaci\/cv_img_file\/2023\/November\/week2\/2058dfac112a8002e98f29998e5429480b860382bYxzHDhD18","key":"2058dfac112a8002e98f29998e5429480b860382bYxzHDhD18","type":"image\/jpeg"}]';
 //
-//$value = \App\Json::decode($str);
+//$value = \App\Utils\Json::decode($str);
 ////var_dump($value);
 //foreach ($value as $item) {
 ////    var_dump($item);

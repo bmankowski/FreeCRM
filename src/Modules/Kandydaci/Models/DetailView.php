@@ -15,7 +15,7 @@ namespace App\Modules\Kandydaci\Models;
 class DetailView extends \App\Modules\Base\Models\DetailView
 {
 	/** {@inheritdoc} */
-	public function getDetailViewLinks(array $linkParams): array
+	public function getDetailViewLinks($linkParams)
 	{
 		$relatedLinks = parent::getDetailViewLinks($linkParams);
 		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();

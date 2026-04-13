@@ -1,8 +1,6 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License 6.5 that can be found in the following directory: licenses/LicenseEN.txt or yetiforce.com]} -->*}
 {strip}
 	<!-- tpl-RecruitmentCV -->
-	{assign var=WIDGET_UID value="id-{App\Layout::getUniqueId($WIDGET['id']|cat:_)}"}
-
 	<div>
 		<code>
 			{*            {assign var=PDF value=$RECORD->getCVPathname()}*}
