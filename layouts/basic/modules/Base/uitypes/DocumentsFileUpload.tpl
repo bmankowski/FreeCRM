@@ -11,7 +11,11 @@
 -->*}
 {strip}
 <!-- layouts/basic/modules/Base/uitypes/DocumentsFileUpload.tpl -->
-{assign var=FILE_LOCATION_TYPE_FIELD value=$RECORD_STRUCTURE['LBL_FILE_INFORMATION']['filelocationtype']}
+{if isset($RECORD_STRUCTURE['LBL_FILE_INFORMATION']['filelocationtype'])}
+	{assign var=FILE_LOCATION_TYPE_FIELD value=$RECORD_STRUCTURE['LBL_FILE_INFORMATION']['filelocationtype']}
+{else}
+	{assign var=FILE_LOCATION_TYPE_FIELD value=NULL}
+{/if}
 {if $FILE_LOCATION_TYPE_FIELD eq NULL}
     {assign var=DOCUMENTS_MODULE_MODEL value=\App\Modules\Base\Models\Module::getInstance('Documents')}
     {assign var=FILE_LOCATION_TYPE_FIELD value=$DOCUMENTS_MODULE_MODEL->getField('filelocationtype')}

@@ -1087,7 +1087,16 @@ class Record extends \App\Runtime\BaseModel
 	{
 		$id = $this->getId();
 		$module = $moduleName !== null ? $moduleName : $this->getModuleName();
-		\App\Log\Log::trace("Entering into uploadAndSaveFile($id,$module,$fileDetails) method.");
+		$fileDetailsForLog = $fileDetails;
+		if (\is_array($fileDetailsForLog)) {
+			$fileDetailsForLog = \json_encode([
+				'name' => $fileDetailsForLog['name'] ?? null,
+				'type' => $fileDetailsForLog['type'] ?? null,
+				'size' => $fileDetailsForLog['size'] ?? null,
+				'error' => $fileDetailsForLog['error'] ?? null,
+			], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+		}
+		\App\Log\Log::trace("Entering into uploadAndSaveFile($id,$module,$fileDetailsForLog) method.");
 		$db = \App\Db\Db::getInstance();
 		$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
 		$date = date('Y-m-d H:i:s');

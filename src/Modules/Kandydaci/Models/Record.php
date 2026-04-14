@@ -35,7 +35,9 @@ and relcrmid=".$this->getId();
         if (!empty($value = $this->get("cv_img_file"))) {
             $jsonData = \App\Utils\Json::decode($value);
 //            TODO Check if file exists
-
+            if (!is_array($jsonData) || !isset($jsonData[0]['key'])) {
+                return "";
+            }
 
             return "file.php?module=Kandydaci&action=MultiAttachment&field=cv_img_file&record=" . $this->getId() . "&key=" . $jsonData[0]["key"];
         }

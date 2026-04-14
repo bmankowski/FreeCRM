@@ -142,8 +142,16 @@ class Record extends \App\Modules\Base\Models\Record
 		parent::saveToDb();
 		$db = \App\Db\Db::getInstance();
 		$fileNameByField = 'filename';
-		$fileName = '';
-		if ($this->get('filelocationtype') === 'I') {
+		$fileName = (string) ($this->get($fileNameByField) ?? '');
+		$fileSize = (int) ($this->get('filesize') ?? 0);
+		$fileType = (string) ($this->get('filetype') ?? '');
+		$fdc = $this->get('filedownloadcount');
+		$fileDownloadCount = ($fdc === null || $fdc === '') ? 0 : (int) $fdc;
+		$fileLocationType = $this->get('filelocationtype');
+		if ($fileLocationType !== 'I' && $fileLocationType !== 'E') {
+			$fileLocationType = 'I';
+		}
+		if ($fileLocationType === 'I') {
 			if (!isset($this->file)) {
 				if (isset($_FILES[$fileNameByField])) {
 					$file = $_FILES[$fileNameByField];
@@ -153,7 +161,7 @@ class Record extends \App\Modules\Base\Models\Record
 			} else {
 				$file = $this->file;
 			}
-			if (!empty($file['name'])) {
+			if (is_array($file) && !empty($file['name'])) {
 				$errCode = $file['error'];
 				if ($errCode === 0) {
 					$fileInstance = \App\Fields\File::loadFromRequest($file);
@@ -168,17 +176,17 @@ class Record extends \App\Modules\Base\Models\Record
 				}
 			} elseif ($this->get($fileNameByField)) {
 				$fileName = $this->get($fileNameByField);
-				$fileSize = $this->get('filesize');
-				$fileType = $this->get('filetype');
-				$fileLocationType = $this->get('filelocationtype');
+				$fileSize = (int) ($this->get('filesize') ?? 0);
+				$fileType = (string) ($this->get('filetype') ?? '');
+				$fileLocationType = 'I';
 				$fileDownloadCount = 0;
 			} else {
 				$fileLocationType = 'I';
 				$fileType = '';
 				$fileSize = 0;
-				$fileDownloadCount = null;
+				$fileDownloadCount = 0;
 			}
-		} else if ($this->get('filelocationtype') === 'E') {
+		} else if ($fileLocationType === 'E') {
 			$fileLocationType = 'E';
 			$fileName = $this->get($fileNameByField);
 			// If filename does not has the protocol prefix, default it to http://
@@ -188,7 +196,7 @@ class Record extends \App\Modules\Base\Models\Record
 			}
 			$fileType = '';
 			$fileSize = 0;
-			$fileDownloadCount = null;
+			$fileDownloadCount = 0;
 		}
 		$db->createCommand()->update('vtiger_notes', ['filename' => \App\Utils\ListViewUtils::decodeHtml($fileName), 'filesize' => $fileSize, 'filetype' => $fileType, 'filelocationtype' => $fileLocationType, 'filedownloadcount' => $fileDownloadCount], ['notesid' => $this->getId()])->execute();
 		//Inserting into attachments table
@@ -202,7 +210,7 @@ class Record extends \App\Modules\Base\Models\Record
 			} else {
 				$file = $this->file;
 			}
-			if ($file['name'] != '' && $file['size'] > 0) {
+			if (is_array($file) && $file['name'] != '' && $file['size'] > 0) {
 				$file['original_name'] = $request->get('0_hidden');
 				$module = $request->get('module');
 				$mode = $request->get('mode');
