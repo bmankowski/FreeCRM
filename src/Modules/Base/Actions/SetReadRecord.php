@@ -1,4 +1,4 @@
-F<?php
+<?php
 
 namespace App\Modules\Base\Actions;
 
