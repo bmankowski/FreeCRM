@@ -45,6 +45,7 @@ class ImportCandidatesModal extends \App\Modules\Base\Views\BasicModal {
     /** {@inheritdoc} */
     public function process(\App\Http\Vtiger_Request $request) {
         $moduleName = $request->getModule();
+        $this->preProcess($request);
         $viewer = $this->getViewer($request);
         $selectedIds = array_values(array_filter(array_map('intval', $request->getArray('selected_ids')), static fn ($v) => $v > 0));
         $viewer->assign('MODULE_NAME', $moduleName);
@@ -52,5 +53,6 @@ class ImportCandidatesModal extends \App\Modules\Base\Views\BasicModal {
         $viewer->assign('RECORD', $request->getInteger('record'));
         $viewer->assign('SELECTED_IDS', $selectedIds);
         $viewer->view('Modals/ImportCandidatesModal.tpl', $moduleName);
+        $this->postProcess($request);
     }
 }

@@ -12,6 +12,7 @@
                             <tr><td><input type="hidden" name="documentId" value="{$DOCUMENT_ID}" /></td></tr>
                         </tbody>
                     </table>
+			{include file=vtemplate_path('ModalFooter.tpl','Base')}
 		</form>
 	</div> 
 	<!-- /tpl-Kandydaci-Modals-TransformDocumentToCVModal -->

@@ -45,11 +45,13 @@ class TransformCandidateToConsultantModal extends \App\Modules\Base\Views\BasicM
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
+		$this->preProcess($request);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('ACTION_NAME', 'TransformCandidateToConsultant');
 		$viewer->assign('RECORD_ID', $request->getInteger('record'));
 		$viewer->assign('POSITION_NAME', "Analityk");
 		$viewer->view('Modals/TransformCandidateToConsultantModal.tpl', $moduleName);
+		$this->postProcess($request);
 	}
 }

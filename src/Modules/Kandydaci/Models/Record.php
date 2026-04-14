@@ -152,58 +152,86 @@ and relcrmid=".$this->getId();
         $docDetails = $document->getFileDetails();
         //Adding hash to the document name
         $hash = hash('crc32', hrtime(true));
-        $srcPath = $document->getFilePath();
-        $filename = $docDetails["attachmentsid"] . "_" . $hash;
-        $pathToFile = "cache/tmp/" . $filename;
-        // Locating the file and copying to temporary location
-        if (!copy($srcPath, $pathToFile)) {
-            $errors = error_get_last();
-            \App\Log::var_dump($errors);
+        $srcPath = ($docDetails['path'] ?? '') . ($docDetails['attachmentsid'] ?? '') . '_' . ($docDetails['name'] ?? '');
+        if (empty($docDetails) || empty($docDetails['path']) || empty($docDetails['attachmentsid']) || empty($docDetails['name']) || !file_exists($srcPath)) {
+            \App\Log\Log::warning('[transformDocumentToCV] Cannot locate source document file. ' . \App\Utils\Json::encode([
+                'candidateId' => $this->getId(),
+                'documentId' => $document->getId(),
+                'attachmentsid' => $docDetails['attachmentsid'] ?? null,
+                'path' => $docDetails['path'] ?? null,
+                'name' => $docDetails['name'] ?? null,
+                'computedPath' => $srcPath,
+            ]));
             return;
         }
+        $filenameBase = $docDetails["attachmentsid"] . "_" . $hash;
+        $tmpDir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR;
+        if (!is_dir($tmpDir)) {
+            @mkdir($tmpDir, 0755, true);
+        }
+        $originalExt = strtolower((string) pathinfo((string) ($docDetails['name'] ?? ''), PATHINFO_EXTENSION));
+        $tmpSourcePath = $tmpDir . $filenameBase . ($originalExt ? ('.' . $originalExt) : '');
+        // Locating the file and copying to temporary location
+        if (!copy($srcPath, $tmpSourcePath)) {
+            $errors = error_get_last();
+            \App\Log\Log::warning('[transformDocumentToCV] copy() failed. ' . \App\Utils\Json::encode([
+                'srcPath' => $srcPath,
+                'pathToFile' => $tmpSourcePath,
+                'error' => $errors,
+            ]));
+            return;
+        }
+        $finalPath = $tmpSourcePath;
         switch ($docDetails["type"]) {
             case "application/msword":
             case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-                shell_exec("doc2pdf $pathToFile");
-                shell_exec("rm $pathToFile");
-                shell_exec("mv $pathToFile.pdf $pathToFile");
+                // doc/docx -> pdf (same base name), then fall through to pdf -> jpg
+                @shell_exec('doc2pdf ' . escapeshellarg($finalPath));
+                $pdfPath = preg_replace('/\.[^.]+$/', '', $finalPath) . '.pdf';
+                if (is_string($pdfPath) && file_exists($pdfPath)) {
+                    $finalPath = $pdfPath;
+                }
+                // no break
             case "application/pdf":
-                // Converting it to .jpg files - one for every document page and overwriting it
-                // 100 seems a best quality/size ratio
-                shell_exec("pdftoppm -jpeg -r 100 " . $pathToFile . " " . $pathToFile);
-                // Trimming all jpgs (removing blank spaces), giving them border and the merging all created .jpgs to one final .jpg
-                shell_exec("convert  -trim -bordercolor white -border 20 " . $pathToFile . "*.jpg -append " . $pathToFile);
-            // TODO:
-//                 Remove all temporary jpg files
+                // pdf -> jpg (single combined image), stored as a real *.jpg file (important for mime detection and <img> rendering)
+                $base = preg_replace('/\.[^.]+$/', '', $finalPath);
+                $jpgOut = $base . '.jpg';
+                @shell_exec('pdftoppm -jpeg -r 100 ' . escapeshellarg($finalPath) . ' ' . escapeshellarg($base));
+                @shell_exec('convert -trim -bordercolor white -border 20 ' . escapeshellarg($base) . '-*.jpg -append ' . escapeshellarg($jpgOut));
+                if (file_exists($jpgOut)) {
+                    $finalPath = $jpgOut;
+                }
+                break;
             case "image/jpeg":
             case "image/gif":
             case "image/png":
+                // Keep as-is
                 break;
             default:
                 return;
         }
-//                \App\Fields\File::get
-        $file = \App\Fields\File::loadFromPath($pathToFile);
+
+        $file = \App\Fields\File::loadFromPath($finalPath);
         $file->getSize();
         $file->getMimeType();
         $file->getExtension();
-        $key = $file->generateHash(true, $pathToFile);
+        $key = hash_file('sha256', $finalPath);
 
-        $FILE_ACTION_NAME = 'MultiAttachment';
         $fieldName = "cv_img_file";
+        // Store CV image in standard storage path (relative to ROOT_DIRECTORY).
+        $uploadFilePath = \vtlib\Functions::initStorageFileDirectory('MultiImage');
 
-        $storageDir = $FILE_ACTION_NAME . DIRECTORY_SEPARATOR . $this->getModuleName() . DIRECTORY_SEPARATOR . $fieldName;
-        $uploadFilePath = \App\Fields\File::initStorageFileDirectory($storageDir);
-
-        if (!copy($pathToFile, $uploadFilePath . $key)) {
+        $destPath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $uploadFilePath . $key;
+        if (!copy($finalPath, $destPath)) {
             $errors = error_get_last();
-            \App\Log::var_dump($errors);
+            \App\Log\Log::warning('[transformDocumentToCV] copy() to storage failed. ' . \App\Utils\Json::encode($errors));
+            return;
         }
         $newFile = [[
-        'name' => $file->getName(true),
+        'name' => $file->getSanitizeName(),
         'size' => $file->getSize(),
-        'path' => $uploadFilePath . $key,
         'key' => $key,
+        'path' => $uploadFilePath,
         'type' => $file->getMimeType(),
         ]];
         $fieldValue = \App\Utils\Json::encode($newFile);
@@ -233,14 +261,14 @@ and relcrmid=".$this->getId();
         if (!file_exists($srcPath)) {
             $srcPath .= "_" . $dbFilename;
             if (!file_exists($srcPath)) {
-                \App\Log::warning( "Cannot locate $srcPath. Leaving.\n");
+                \App\Log\Log::warning("Cannot locate $srcPath. Leaving.");
                 return;
             }
         }
 
         if (!copy($srcPath, $pathToFile)) {
             $errors = error_get_last();
-            \App\Log::var_dump($errors);
+            \App\Log\Log::warning('[transformFileToCV] copy() failed. ' . \App\Utils\Json::encode($errors));
             return;
         }
 //        echo "mimeType=$mimeType\n";
@@ -272,16 +300,16 @@ and relcrmid=".$this->getId();
         $file->getSize();
         $file->getMimeType();
         $file->getExtension();
-        $key = $file->generateHash(true, $pathToFile);
+        $key = hash_file('sha256', $pathToFile);
         $storageDir = $FILE_ACTION_NAME . DIRECTORY_SEPARATOR . "Kandydaci" . DIRECTORY_SEPARATOR . $fieldName;
-        $uploadFilePath = \App\Fields\File::initStorageFileDirectory($storageDir);
+        $uploadFilePath = \vtlib\Functions::initStorageFileDirectory($storageDir);
 
         if (!copy($pathToFile, $uploadFilePath . $key)) {
             $errors = error_get_last();
-            \App\Log::var_dump($errors);
+            \App\Log\Log::warning('[transformFileToCV] copy() to storage failed. ' . \App\Utils\Json::encode($errors));
         }
         $newFile = [[
-        'name' => $file->getName(true),
+        'name' => $file->getSanitizeName(),
         'size' => $file->getSize(),
         'path' => $uploadFilePath . $key,
         'key' => $key,

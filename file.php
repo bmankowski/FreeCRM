@@ -11,11 +11,15 @@ define('ROOT_DIRECTORY', __DIR__ !== DIRECTORY_SEPARATOR ? __DIR__ : '');
 // Bootstrap: Load autoloaders
 require_once ROOT_DIRECTORY . '/vendor/autoload.php';  // Composer PSR-4 autoloader
 require_once ROOT_DIRECTORY . '/vendor/yiisoft/yii2/Yii.php';
-require_once ROOT_DIRECTORY . '/include/Loader.php';
-Loader::register();
+require_once ROOT_DIRECTORY . '/config/api.php';
+require_once ROOT_DIRECTORY . '/config/config.php';
+\App\Core\AppConfig::init($API_CONFIG);
+\App\Core\Loader::register(); // For legacy modules
 
 // Initialize WebUI services (cache, debugger, error handlers)
 \App\EntryPoint\WebUI::initialize();
+// Never echo PHP warnings/notices for binary/file responses.
+ini_set('display_errors', '0');
 
 try {
 	$webUI = new \App\Main\File();

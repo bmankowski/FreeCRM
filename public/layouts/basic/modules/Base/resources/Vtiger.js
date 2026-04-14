@@ -533,6 +533,33 @@ var Vtiger_Index_Js = {
 			});
 		}
 	},
+	/**
+	 * Related list left side (wrench) tools: toggle per-row actions.
+	 *
+	 * Template: layouts/basic/modules/Base/RelatedListLeftSide.tpl
+	 */
+	registerRelatedListLeftSideTools: function () {
+		var doc = jQuery(document);
+		// Avoid duplicate bindings (page loads + ajax).
+		doc.off('click.relatedListLeftTools', '.toolsAction');
+		doc.off('click.relatedListLeftToolsOutside');
+
+		doc.on('click.relatedListLeftTools', '.toolsAction', function (e) {
+			e.preventDefault();
+			e.stopPropagation();
+			var current = jQuery(e.currentTarget);
+			var actions = current.closest('.actions');
+			var images = actions.find('.actionImages');
+			// Close other rows' menus.
+			jQuery('.actions .actionImages').not(images).addClass('hide');
+			images.toggleClass('hide');
+		});
+
+		// Close on outside click.
+		doc.on('click.relatedListLeftToolsOutside', function () {
+			jQuery('.actions .actionImages').addClass('hide');
+		});
+	},
 	changeWatching: function (instance) {
 		var value, module, state, className, user, record;
 		if (instance != undefined) {
@@ -641,6 +668,7 @@ var Vtiger_Index_Js = {
 	},
 	registerPostAjaxEvents: function () {
 		Vtiger_Index_Js.registerTooltipEvents();
+		Vtiger_Index_Js.registerRelatedListLeftSideTools();
 	}
 }
 //On Page Load

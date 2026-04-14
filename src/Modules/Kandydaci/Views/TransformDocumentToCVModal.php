@@ -45,11 +45,13 @@ class TransformDocumentToCVModal extends \App\Modules\Base\Views\BasicModal
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
+		$this->preProcess($request);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('ACTION_NAME', 'TransformDocumentToCV');
 		$viewer->assign('CANDIDATE_ID', $request->getInteger('candidateId'));
 		$viewer->assign('DOCUMENT_ID', $request->getInteger('documentId'));
 		$viewer->view('Modals/TransformDocumentToCVModal.tpl', $moduleName);
+		$this->postProcess($request);
 	}
 }

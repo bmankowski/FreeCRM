@@ -9,6 +9,7 @@ README.md
 /storage/
 /user_privileges/cron.php
 /cache/session/
+/cache/tmp/
 /cache/templates_c
 /config/csrf_secret.php
 /config/config_override.php
