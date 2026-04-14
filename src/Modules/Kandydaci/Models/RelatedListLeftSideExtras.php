@@ -40,7 +40,7 @@ class RelatedListLeftSideExtras
 			'linkurl' => $modalUrl,
 			'linkicon' => '',
 			'showLabel' => true,
-			'linkclass' => '',
+			'linkclass' => 'btn btn-sm btn-info js-show-modal  ',
 			'modalView' => true,
 			'active' => true,
 			'relatedModuleName' => 'Kandydaci',

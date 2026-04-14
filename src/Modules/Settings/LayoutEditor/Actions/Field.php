@@ -75,11 +75,15 @@ class Field extends \App\Modules\Settings\Base\Actions\Index
 		$response = new \App\Http\Vtiger_Response();
 		try {
 			$fieldInstance->save();
+			$moduleName = (string) $request->get('sourceModule');
+			$rawLabel = (string) $fieldInstance->get('label');
+			$translatedLabel = $rawLabel !== '' ? \App\Runtime\Vtiger_Language_Handler::translate($rawLabel, $moduleName) : '';
+			$label = $translatedLabel !== '' ? $translatedLabel : ($rawLabel !== '' ? $rawLabel : (string) $fieldInstance->get('name'));
 			$response->setResult([
 				'success' => true,
-				'presence' => $request->get('presence'),
+				'presence' => (string) $fieldInstance->get('presence'),
 				'mandatory' => $fieldInstance->isMandatory(),
-				'label' => \App\Runtime\Vtiger_Language_Handler::translate($fieldInstance->get('label'), $request->get('sourceModule'))]);
+				'label' => $label]);
 		} catch (Exception $e) {
 			$response->setError($e->getCode(), $e->getMessage());
 		}

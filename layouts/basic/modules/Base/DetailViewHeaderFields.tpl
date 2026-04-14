@@ -25,14 +25,12 @@
 				{if !empty($VALUE['value'])}
 					<div class="col-xs-12 marginTB3 paddingLRZero">
 						<div class="row col-lg-9 col-md-10 col-xs-12 pull-right paddingLRZero detailViewHeaderFieldsContent">
-							<div class="btn {$VALUE['class']} btn-xs col-xs-12">
+							<div class="{$VALUE['class']} col-xs-12">
 								<div class="detailViewHeaderFieldsName">
 									{$LABEL|t:$MODULE_NAME} 
 								</div>
 								<div class="detailViewHeaderFieldsValue">
-									<span class="badge">
 										{$VALUE['value']}
-									</span>
 								</div>
 							</div>
 						</div>

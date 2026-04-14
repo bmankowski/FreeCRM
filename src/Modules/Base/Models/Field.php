@@ -199,8 +199,24 @@ class Field extends \vtlib\Field
 	public function getBlockId()
 	{
 		$block = $this->get('block');
-		if (is_object($block) && method_exists($block, 'getId')) {
-			return $block->getId();
+		if (is_object($block)) {
+			if (method_exists($block, 'getId')) {
+				return $block->getId();
+			}
+			// vtlib\Block and other block objects often expose id as a property
+			if (isset($block->id)) {
+				return $block->id;
+			}
+			if (isset($block->blockid)) {
+				return $block->blockid;
+			}
+			// Generic getter patterns
+			if (method_exists($block, 'get')) {
+				$maybeId = $block->get('id') ?? $block->get('blockid') ?? null;
+				if ($maybeId !== null) {
+					return $maybeId;
+				}
+			}
 		}
 		return $block;
 	}
@@ -1220,8 +1236,44 @@ class Field extends \vtlib\Field
 			'displaytype' => $this->get('displaytype'), 'helpinfo' => $this->get('helpinfo'), 'generatedtype' => $generatedType,
 			'fieldparams' => $this->get('fieldparams')
 			], ['fieldid' => $this->get('id')])->execute();
-		if ($this->isMandatory())
-			$db->createCommand()->update('vtiger_blocks_hide', ['enabled' => 0], ['blockid' => $this->getBlockId()])->execute();
+		if ($this->isMandatory()) {
+			$blockId = (int) $this->getBlockId();
+			if ($blockId) {
+				$db->createCommand()->update('vtiger_blocks_hide', ['enabled' => 0], ['blockid' => $blockId])->execute();
+			}
+		}
+	}
+
+	/**
+	 * Persist field metadata changes.
+	 *
+	 * Historically some settings actions call `save()` on the field model.
+	 * This wrapper delegates to `__update()` and clears field caches.
+	 */
+	public function save(): self
+	{
+		$this->__update();
+
+		$moduleId = (int) $this->getModuleId();
+		$fieldId = (int) $this->getId();
+		$fieldName = (string) $this->getName();
+
+		if ($moduleId) {
+			\App\Cache\Cache::delete('ModuleFields', $moduleId);
+			\App\Cache\Cache::delete('fieldInfo', $moduleId);
+			if ($fieldId) {
+				\App\Cache\Cache::delete('field-' . $moduleId, $fieldId);
+			}
+			if ($fieldName !== '') {
+				\App\Cache\Cache::delete('field-' . $moduleId, $fieldName);
+				if (isset(\App\Utils\VTCacheUtils::$_fieldinfo_cache[$moduleId][$fieldName])) {
+					unset(\App\Utils\VTCacheUtils::$_fieldinfo_cache[$moduleId][$fieldName]);
+				}
+			}
+		}
+		\App\Cache\Cache::delete('FieldModel', $fieldId);
+
+		return $this;
 	}
 
 	public function updateTypeofDataFromMandatory($mandatoryValue = 'O')

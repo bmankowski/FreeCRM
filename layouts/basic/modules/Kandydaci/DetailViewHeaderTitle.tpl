@@ -26,20 +26,10 @@
 				<h4 class="recordLabel textOverflowEllipsis pushDown marginbottomZero" title="{$RECORD->getName()}">
 					<span class="moduleColor_{$MODULE_NAME}">{$RECORD->getName()}</span>
 				</h4>
-				{if $MODULE_NAME}
-					<div class="paddingLeft5px">
-						<span class="muted">
-							{"Assigned To"|t:$MODULE_NAME}: {$RECORD->getDisplayValue('assigned_user_id')}
-							{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
-							{if $SHOWNERS != ''}
-								<br/>{"Share with users"|t:$MODULE_NAME} {$SHOWNERS}
-							{/if}
-						</span>
-					</div>
-				{/if}
+				{include file='DetailViewHeaderFields.tpl'|@vtemplate_path:$MODULE_NAME}
 			</div>
 		</div>
-		{include file='DetailViewHeaderFields.tpl'|@vtemplate_path:$MODULE_NAME}
+		
 	</div>
 	<!-- /tpl-Kandydaci-DetailViewHeaderTitle -->
 {/strip}
