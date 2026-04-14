@@ -4,8 +4,8 @@
 	<div>
 		<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" class="listViewEntriesCheckBox" title="{"LBL_SELECT_SINGLE_ROW"|t}" />
 	</div>&nbsp;
-	{assign var=IMAGE_CLASS value=$DOCUMENT_IMAGE_CLASSES[$LISTVIEW_ENTRY->getId()]}
-	<span class="{$IMAGE_CLASS} fa-lg middle {if $IMAGE_CLASS eq 'userIcon-Documents'}back4RightMargin{/if}"></span>
+	{assign var=RECORD_LEFT_ICON_CLASS value=$RECORD_LEFT_ICON_CLASSES[$LISTVIEW_ENTRY->getId()]}
+	<span class="{$RECORD_LEFT_ICON_CLASS} fa-lg middle {if $RECORD_LEFT_ICON_CLASS eq 'userIcon-Documents'}back4RightMargin{/if}"></span>
 	{assign var=LINKS value=$LISTVIEW_ENTRY->getRecordListViewLinksLeftSide()}
 	{if count($LINKS) > 0}
 		{assign var=ONLY_ONE value=count($LINKS) eq 1}

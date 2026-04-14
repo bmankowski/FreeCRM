@@ -220,7 +220,7 @@ class RelatedList  extends \App\Modules\Base\Views\Index
 	}
 	
 	/**
-	 * Prepare Documents-specific data for RelatedListLeftSide template
+	 * Per-record left-column icon classes for Documents related list (viewer: RECORD_LEFT_ICON_CLASSES).
 	 */
 	protected function prepareDocumentsRelatedListData($viewer, $models)
 	{
@@ -229,7 +229,7 @@ class RelatedList  extends \App\Modules\Base\Views\Index
 			$recordId = $record->getId();
 			$imageClasses[$recordId] = \App\Modules\Documents\Models\Record::getFileIconByFileType($record->get('filetype'));
 		}
-		$viewer->assign('DOCUMENT_IMAGE_CLASSES', $imageClasses);
+		$viewer->assign('RECORD_LEFT_ICON_CLASSES', $imageClasses);
 	}
 	
 	/**

@@ -43,7 +43,7 @@ class ListView extends \App\Modules\Base\Views\ListView
 		$viewer->assign('SHOW_TIMELINE_IN_LISTVIEW', $canShowTimeline);
 		$viewer->assign('SHOW_MODTRACKER_UNREVIEWED', $modTrackerUnreviewedCount && $canReviewUpdates && $isTrackingEnabled);
 		
-		// Prepare per-record image classes
+		// Per-record left-column icon classes (viewer: RECORD_LEFT_ICON_CLASSES)
 		$listViewEntries = $this->listViewEntries;
 		$imageClasses = [];
 		if ($listViewEntries) {
@@ -52,7 +52,7 @@ class ListView extends \App\Modules\Base\Views\ListView
 				$imageClasses[$recordId] = \App\Modules\Documents\Models\Record::getFileIconByFileType($record->get('filetype'));
 			}
 		}
-		$viewer->assign('DOCUMENT_IMAGE_CLASSES', $imageClasses);
+		$viewer->assign('RECORD_LEFT_ICON_CLASSES', $imageClasses);
 	}
 
 }

@@ -1,6 +1,11 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 <!-- layouts/basic/modules/Base/RelatedListLeftSide.tpl -->
+	{* Optional per-record left icon (map: record id → CSS class); e.g. RelatedList::prepareDocumentsRelatedListData *}
+	{if isset($RECORD_LEFT_ICON_CLASSES) && isset($RECORD_LEFT_ICON_CLASSES[$RELATED_RECORD->getId()])}
+		{assign var=RECORD_LEFT_ICON_CLASS value=$RECORD_LEFT_ICON_CLASSES[$RELATED_RECORD->getId()]}
+		<span class="{$RECORD_LEFT_ICON_CLASS} fa-lg">{if $RECORD_LEFT_ICON_CLASS neq 'userIcon-Documents'}&nbsp;{/if}</span>
+	{/if}
 	{if $IS_FAVORITES}
 		{assign var=RECORD_IS_FAVORITE value=(int)in_array($RELATED_RECORD->getId(),$FAVORITES)}
 		<div>
