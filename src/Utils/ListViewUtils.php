@@ -301,7 +301,7 @@ class ListViewUtils
 	}
 
 	/**
-	 * Decode HTML (deprecated - use App\Purifier::decodeHtml directly)
+	 * Decode HTML (deprecated - use \App\Security\Purifier::decodeHtml directly)
 	 * @param string $string HTML string
 	 * @return string Decoded string
 	 */

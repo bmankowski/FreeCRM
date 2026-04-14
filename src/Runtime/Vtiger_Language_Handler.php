@@ -14,10 +14,7 @@
 
 namespace App\Runtime;
 
-use App\Http\App\Http\Vtiger_Session;
-use App\Purifier;
-use App\Log;
-use App\Utils\ModuleUtils;
+
 
 class Vtiger_Language_Handler
 {

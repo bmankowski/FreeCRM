@@ -114,7 +114,7 @@ class OperationManager
 				return $input;
 			case 'post': $input = &$_POST;
 				return $input;
-			default: $input = App\Purifier::purify($_REQUEST);
+			default: $input = \App\Security\Purifier::purify($_REQUEST);
 				return $input;
 		}
 	}

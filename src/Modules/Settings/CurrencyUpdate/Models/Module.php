@@ -64,7 +64,7 @@ class Module extends \App\Modules\Base\Models\Record
 		$numToConvert = $dataReader->count();
 		if ($numToConvert >= 1) {
 			$selectBankId = $this->getActiveBankId();
-			$activeBankName = '\\App\\Modules\\Settings\\CurrencyUpdate\\Models\\BankModels\\' . $this->getActiveBankName();
+			$activeBankName = '\App\\Modules\\Settings\\CurrencyUpdate\\Models\\BankModels\\' . $this->getActiveBankName();
 			$currIds = [];
 			$otherCurrencyCode = [];
 			while ($row = $dataReader->read()) {
