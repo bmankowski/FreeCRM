@@ -208,7 +208,7 @@ class RelatedList extends \App\Modules\Base\Views\RelatedList
         $viewer->assign('IS_WIDGETS', false);
 
         // Prepare data for RelatedListLeftSide template - move function calls from templates to controller
-        $this->prepareRelatedListLeftSideData($viewer, $models, $relatedModuleModel, $request->getUser());
+        $this->prepareRelatedListLeftSideData($viewer, $models, $relatedModuleModel, $request->getUser(), $parentRecordModel, $relationModel->isEditable(), $relationModel->isDeletable());
         
         // Prepare data for RelatedList template - move function calls from templates to controller
         $viewer->assign('AUTO_REFRESH_LIST_ON_CHANGE', \App\Core\AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE'));

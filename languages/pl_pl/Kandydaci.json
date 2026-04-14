@@ -7,7 +7,8 @@
         "Nazwisko i imię": "Nazwisko i imię",
         "PLL_TOGGLE_FAILED": "Przełączenie nie powiodło się",
         "PLL_TOGGLE_SUCCESS": "Przełączenie zakończone sukcesem",
-        "PLL_MAIL_SENT_STUDY": "Wysłano maila z ankietą"
+        "PLL_MAIL_SENT_STUDY": "Wysłano maila z ankietą",
+        "LBL_RELATED_ACTION_SET_AS_CV": "Ustaw jako CV"
     },
     "jsLanguageStrings": {
         "PLL_TOGGLE_FAILED": "Przełączenie nie powiodło się",

@@ -14,6 +14,14 @@ namespace App\Modules\Contacts\Models;
 class Record extends \App\Modules\Base\Models\Record
 {
 
+	/** {@inheritdoc} */
+	public function getRelatedListLeftSideLinks(\App\Modules\Base\Models\Record $parentRecord, array $context): array
+	{
+		$prepend = \App\Modules\Contacts\Models\RelatedListLeftSideMail::asLinks($this->getId(), $context);
+
+		return array_merge($prepend, parent::getRelatedListLeftSideLinks($parentRecord, $context));
+	}
+
 	/**
 	 * Function returns the url for create event
 	 * @return string

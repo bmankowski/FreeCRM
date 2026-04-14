@@ -1306,6 +1306,19 @@ class Record extends \App\Runtime\BaseModel
 	}
 
 	/**
+	 * Related list left column (wrench) actions — same {@see Link} model as {@see getRecordListViewLinksLeftSide()}.
+	 *
+	 * @param array<string, mixed> $context Keys: parentModuleName, relationIsEditable, relationIsDeletable, currentActivityLabels (?), ossMailUrls (?), canSendMails (?)
+	 * @return \App\Modules\Base\Models\Link[]
+	 */
+	public function getRelatedListLeftSideLinks(Record $parentRecord, array $context): array
+	{
+		$links = RelatedListLeftSideLinks::create($this, $parentRecord, $context);
+
+		return \App\Modules\Kandydaci\Models\RelatedListLeftSideExtras::mergeLinks($links, $parentRecord, $this, $this->getModule(), $context);
+	}
+
+	/**
 	 * Function checks if user can assign record to himself
 	 * @return boolean
 	 */

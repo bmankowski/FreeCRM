@@ -155,7 +155,7 @@ class RelatedList  extends \App\Modules\Base\Views\Index
 	$viewer->assign('IS_CREATE_PERMITTED', \App\Modules\Users\Models\Privileges::isPermitted($relatedModuleName, 'CreateView'));
 	
 	// Prepare data for RelatedListLeftSide template - move function calls from templates to controller
-	$this->prepareRelatedListLeftSideData($viewer, $models, $relatedModuleModel, $request->getUser());
+	$this->prepareRelatedListLeftSideData($viewer, $models, $relatedModuleModel, $request->getUser(), $parentRecordModel, $relationModel->isEditable(), $relationModel->isDeletable());
 	
 	// Prepare data for RelatedList template - move function calls from templates to controller
 	$viewer->assign('AUTO_REFRESH_LIST_ON_CHANGE', \App\Core\AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE'));
@@ -167,7 +167,7 @@ class RelatedList  extends \App\Modules\Base\Views\Index
 	 * Prepare data for RelatedListLeftSide template
 	 * Moves function calls from templates to controller for better MVC separation
 	 */
-	protected function prepareRelatedListLeftSideData($viewer, $models, $relatedModuleModel, $userModel)
+	protected function prepareRelatedListLeftSideData($viewer, $models, $relatedModuleModel, $userModel, \App\Modules\Base\Models\Record $parentRecordModel, bool $relationIsEditable, bool $relationIsDeletable)
 	{
 		// Prepare global config and permissions (checked once, not per record)
 		$isActiveSendingMails = \App\Core\AppConfig::main('isActiveSendingMails');
@@ -213,10 +213,26 @@ class RelatedList  extends \App\Modules\Base\Views\Index
 			$this->prepareDocumentsRelatedListData($viewer, $models);
 		}
 		
-		// Prepare Calendar-specific data if related module is Calendar
+		$currentActivityLabels = null;
 		if ($relatedModuleName === 'Calendar') {
-			$this->prepareCalendarRelatedListData($viewer);
+			$currentActivityLabels = \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current');
 		}
+
+		$parentModuleName = $parentRecordModel->getModuleName();
+		$canSendMails = $isActiveSendingMails && $canUseOSSMail;
+		$ctx = [
+			'parentModuleName' => $parentModuleName,
+			'relationIsEditable' => $relationIsEditable,
+			'relationIsDeletable' => $relationIsDeletable,
+			'currentActivityLabels' => $currentActivityLabels,
+			'ossMailUrls' => $osSMailUrls,
+			'canSendMails' => $canSendMails,
+		];
+		$linksById = [];
+		foreach ($models as $record) {
+			$linksById[$record->getId()] = $record->getRelatedListLeftSideLinks($parentRecordModel, $ctx);
+		}
+		$viewer->assign('RELATED_LIST_LEFT_LINKS', $linksById);
 	}
 	
 	/**
@@ -232,11 +248,4 @@ class RelatedList  extends \App\Modules\Base\Views\Index
 		$viewer->assign('RECORD_LEFT_ICON_CLASSES', $imageClasses);
 	}
 	
-	/**
-	 * Prepare Calendar-specific data for RelatedListLeftSide template
-	 */
-	protected function prepareCalendarRelatedListData($viewer)
-	{
-		$viewer->assign('CURRENT_ACTIVITY_LABELS', \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current'));
-	}
 }

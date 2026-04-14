@@ -4,7 +4,8 @@
         "SINGLE_Kandydaci": "Kandydat",
         "LBL_CUSTOM_INFORMATION": "Informacje dodatkowe",
         "LBL_BASIC_INFORMATION": "Informacje podstawowe",
-        "Nazwisko i imię": "Nazwisko i imię"
+        "Nazwisko i imię": "Nazwisko i imię",
+        "LBL_RELATED_ACTION_SET_AS_CV": "Ustaw jako CV"
     },
     "jsLanguageStrings": {
     }
