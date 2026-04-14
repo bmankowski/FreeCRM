@@ -14,7 +14,7 @@ namespace App\Modules\Kandydaci\Views;
 /**
  * Create outsource offers modal view class.
  */
-class TransformDocumentToCVModal extends \App\Controller\Modal
+class TransformDocumentToCVModal extends \App\Modules\Base\Views\BasicModal
 {
 	/** {@inheritdoc} */
 	public $modalSize = '';
@@ -23,7 +23,7 @@ class TransformDocumentToCVModal extends \App\Controller\Modal
 	public $showFooter = true;
 
 	/** {@inheritdoc} */
-	protected $pageTitle = 'LBL_TRANSFORM_DOCUMENT_TO_CV_TITLE';
+	public $pageTitle = 'LBL_TRANSFORM_DOCUMENT_TO_CV_TITLE';
 
 	/** {@inheritdoc} */
 	public $modalIcon = '';
@@ -34,15 +34,15 @@ class TransformDocumentToCVModal extends \App\Controller\Modal
 	private $recordModel; 
 
 	/** {@inheritdoc} */
-	public function checkPermission(App\Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		$this->recordModel = $request->isEmpty('candidateId', true) ? null : \App\Modules\Base\Models\Record::getInstanceById($request->getInteger('candidateId'), $request->getModule());
+		$this->recordModel = $request->isEmpty('candidateId') ? null : \App\Modules\Base\Models\Record::getInstanceById($request->getInteger('candidateId'), $request->getModule());
 		if (!$this->recordModel || !$this->recordModel->isEditable()) {
 			throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
 	}
 	/** {@inheritdoc} */
-	public function process(App\Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);

@@ -25,6 +25,8 @@
 	>
 	{if $LINK->get('linkicon') neq ''}
 		<span class="{$LINK->get('linkicon')} alignMiddle" title="{$LINK->getLabel()|t:$BTN_MODULE}"></span>
+	{elseif $LINK->get('showLabel')}
+		<span class="alignMiddle" title="{$LINK->getLabel()|t:$BTN_MODULE}">{$LINK->getLabel()|t:$BTN_MODULE}</span>
 	{/if}
 </a>
 {/strip}

@@ -205,7 +205,7 @@ class Module extends \App\Modules\Base\Models\Record
 	public function getSupportedCurrencies($bankName = null)
 	{
 		if (!$bankName) {
-			$bankName = '\\App\\Modules\\Settings\\CurrencyUpdate\\Models\\BankModels\\' . $this->getActiveBankName();
+			$bankName = '\App\\Modules\\Settings\\CurrencyUpdate\\Models\\BankModels\\' . $this->getActiveBankName();
 		}
 		$bank = new $bankName();
 
@@ -220,7 +220,7 @@ class Module extends \App\Modules\Base\Models\Record
 	public function getUnSupportedCurrencies($bankName = null)
 	{
 		if (!$bankName) {
-			$bankName = '\\App\\Modules\\Settings\\CurrencyUpdate\\Models\\BankModels\\' . $this->getActiveBankName();
+			$bankName = '\App\\Modules\\Settings\\CurrencyUpdate\\Models\\BankModels\\' . $this->getActiveBankName();
 		}
 		$bank = new $bankName();
 		$supported = $bank->getSupportedCurrencies($bankName);

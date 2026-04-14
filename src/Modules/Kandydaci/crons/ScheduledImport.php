@@ -848,7 +848,7 @@ class ScheduledImport extends \App\CronHandler
 			}
 			$fileName = \App\TextUtils::textTruncate($fileName, $maxLength - $extLength, false) . $ext;
 		}
-		$fileName = \App\Purifier::decodeHtml(\App\Purifier::purify($fileName));
+		$fileName = \App\Security\Purifier::decodeHtml(\App\Security\Purifier::purify($fileName));
 		$newDocument->set('notes_title', $title);
 		$newDocument->set('filename', $fileName);
 		$newDocument->set('filestatus', 1);

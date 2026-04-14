@@ -21,13 +21,13 @@ class ImportCandidatesManually extends \App\Modules\Base\Actions\Save {
 	public \App\Modules\Kandydaci\Models\Record $candidate;
 
 	/** {@inheritdoc} */
-	public function checkPermission(App\Request $request) {
+	public function checkPermission(\App\Http\Vtiger_Request $request) {
 
 	}
 
 	/** Converting document to CV and loading it as an MultiAttachment
 	 * After adding document as a CV refresh Candidate's page */
-	public function process(App\Request $request) {
+	public function process(\App\Http\Vtiger_Request $request) {
 
 		\App\Modules\Kandydaci\Crons\ScheduledImport::importNewCandidates();
 

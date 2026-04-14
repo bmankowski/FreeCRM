@@ -22,7 +22,7 @@ class GetCVImage extends \App\Modules\Base\Files\File {
      *
      * @return bool
      */
-    public function getCheckPermission(App\Request $request) {
+    public function getCheckPermission(\App\Http\Vtiger_Request $request) {
         if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
             throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
         }
@@ -36,7 +36,7 @@ class GetCVImage extends \App\Modules\Base\Files\File {
      *
      * @return string|bool
      */
-    public function get(App\Request $request) {
+    public function get(\App\Http\Vtiger_Request $request) {
 //        $kandydaciRecordModel = Kandydaci_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
         //Download the file
 //        $kandydaciRecordModel->set('show', $request->getBoolean('show'));
@@ -53,7 +53,7 @@ class GetCVImage extends \App\Modules\Base\Files\File {
      *
      * @return \App\Fields\File
      */
-    public function api(App\Request $request): App\Fields\File {
+    public function api(\App\Http\Vtiger_Request $request): App\Fields\File {
 //		$documentRecordModel = Kandydaci_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
 //		//Download the file
 //		$documentRecordModel->set('return', true);

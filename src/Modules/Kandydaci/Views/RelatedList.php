@@ -42,44 +42,58 @@ class RelatedList extends \App\Modules\Base\Views\RelatedList
 		$parentRecordModel = \App\Modules\Base\Models\Record::getInstanceById($parentId, $moduleName);
 		$relationListView = \App\Modules\Base\Models\RelationListView::getInstance($parentRecordModel, $relatedModuleName, $request->getInteger('relationId'), $cvId);
 
-		$orderBy = $request->getArray('orderby', \App\Purifier::STANDARD, [], \App\Purifier::SQL);
-		if (empty($orderBy)) {
+		$orderBy = $request->get('orderby');
+		$sortOrder = $request->get('sortorder');
+		if ($sortOrder == 'ASC') {
+			$nextSortOrder = 'DESC';
+			$sortImage = 'glyphicon glyphicon-chevron-down';
+		} else {
+			$nextSortOrder = 'ASC';
+			$sortImage = 'glyphicon glyphicon-chevron-up';
+		}
+		if (empty($orderBy) && empty($sortOrder)) {
 			$moduleInstance = $relationListView->getRelatedModuleModel()->getEntityInstance();
-			if ($moduleInstance->default_order_by && $moduleInstance->default_sort_order) {
-				$orderBy = [];
-				foreach ((array) $moduleInstance->default_order_by as $value) {
-					$orderBy[$value] = $moduleInstance->default_sort_order;
-				}
-			}
+			$orderBy = $moduleInstance->default_order_by;
+			$sortOrder = $moduleInstance->default_sort_order;
 		}
 		if (!empty($orderBy)) {
 			$relationListView->set('orderby', $orderBy);
+			$relationListView->set('sortorder', $sortOrder);
 		}
+
+		$columnName = \is_array($orderBy) ? (string) array_key_first($orderBy) : (string) $orderBy;
+
 		if ($request->has('entityState')) {
 			$relationListView->set('entityState', $request->getByType('entityState'));
 		}
 		$viewer = $this->getViewer($request);
+		$viewer->assign('SORT_ORDER', $sortOrder);
+		$viewer->assign('NEXT_SORT_ORDER', $nextSortOrder);
+		$viewer->assign('SORT_IMAGE', $sortImage);
+		$viewer->assign('COLUMN_NAME', $columnName);
 		$operator = 's';
 		if (!$request->isEmpty('operator', true)) {
-			$operator = $request->getByType('operator');
+			$operator = $request->getByType('operator', 'Alnum');
 			$relationListView->set('operator', $operator);
 			$viewer->assign('OPERATOR', $operator);
 		}
 		if (!$request->isEmpty('search_key', true)) {
 			$searchKey = $request->getByType('search_key', 'Alnum');
-			$searchValue = App\Condition::validSearchValue($request->getByType('search_value', 'Text'), $relationListView->getQueryGenerator()->getModule(), $searchKey, $operator);
+			$searchValue = $request->getByType('search_value', 'Text');
 			$relationListView->set('search_key', $searchKey);
 			$relationListView->set('search_value', $searchValue);
 			$viewer->assign('ALPHABET_VALUE', $searchValue);
 		}
-		$searchParams = \App\Condition::validSearchParams($relationListView->getQueryGenerator()->getModule(), $request->getArray('search_params'));
+		$searchParams = $request->getArray('search_params');
 		if (empty($searchParams) || !\is_array($searchParams)) {
 			$searchParamsRaw = $searchParams = [];
 		}
 		$queryGenerator = $relationListView->getQueryGenerator();
 		$transformedSearchParams = $queryGenerator->parseBaseSearchParamsToCondition($searchParams);
 		$relationListView->set('search_params', $transformedSearchParams);
-		$relationListView->loadSearchLockedFields($request);
+		// if (\method_exists($relationListView, 'loadSearchLockedFields')) {
+		// 	$relationListView->loadSearchLockedFields($request);
+		// }
 		//To make smarty to get the details easily accesible
 		foreach ($request->getArray('search_params') as $fieldListGroup) {
 			$searchParamsRaw[] = $fieldListGroup;
@@ -106,10 +120,14 @@ class RelatedList extends \App\Modules\Base\Views\RelatedList
 			$viewer->assign('RELATED_LIST_LINKS', $links);
 		}
 		if ('ListPreview' === $relatedView) {
-			$relationListView->setFields(array_merge(['id'], $relationListView->getRelatedModuleModel()->getNameFields()));
+			if (\method_exists($relationListView, 'setFields')) {
+				$relationListView->setFields(array_merge(['id'], $relationListView->getRelatedModuleModel()->getNameFields()));
+			}
 		}
 		if ($request->has('fields')) {
-			$relationListView->setFields(array_merge(['id'], $request->getArray('fields', 'Alnum')));
+			if (\method_exists($relationListView, 'setFields')) {
+				$relationListView->setFields(array_merge(['id'], $request->getArray('fields', 'Alnum')));
+			}
 		}
 		if ($request->has('quickSearchEnabled')) {
 			$relationListView->set('quickSearchEnabled', $request->getBoolean('quickSearchEnabled'));
@@ -117,6 +135,15 @@ class RelatedList extends \App\Modules\Base\Views\RelatedList
 		$models = $relationListView->getEntries($pagingModel);
 		$header = $relationListView->getHeaders();
 		$relationModel = $relationListView->getRelationModel();
+		// Ensure search details exist for all headers to avoid undefined index notices in templates
+		if (\is_array($header)) {
+			foreach ($header as $headerField) {
+				$headerName = $headerField->getName();
+				if (!isset($searchParams[$headerName])) {
+					$searchParams[$headerName] = ['searchValue' => '', 'fieldName' => $headerName];
+				}
+			}
+		}
 		if ($request->has('sortEnabled')) {
 			$relationListView->set('advSortEnabled', $request->getBoolean('sortEnabled'));
 		}
@@ -133,7 +160,7 @@ class RelatedList extends \App\Modules\Base\Views\RelatedList
 		$viewer->assign('RELATED_MODULE_NAME', $relatedModuleName);
 		$viewer->assign('RELATED_ENTIRES_COUNT', \count($models));
 		$viewer->assign('RELATION_FIELD', $relationModel->getRelationField());
-		if (\App\Config::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
+		if (\App\Core\AppConfig::performance('LISTVIEW_COMPUTE_PAGE_COUNT')) {
 			$totalCount = (int) $relationListView->getRelatedEntriesCount();
 			$pagingModel->set('totalCount', $totalCount);
 		} elseif (!empty($totalCount)) {
@@ -149,7 +176,7 @@ class RelatedList extends \App\Modules\Base\Views\RelatedList
 		$viewer->assign('ORDER_BY', $orderBy);
 		$viewer->assign('INVENTORY_FIELDS', $relationModel->getRelationInventoryFields());
 		$isFavorites = false;
-		if ($relationModel->isFavorites() && \App\Privilege::isPermitted($moduleName, 'FavoriteRecords')) {
+		if ($relationModel->isFavorites() && \App\Security\Privilege::isPermitted($moduleName, 'FavoriteRecords')) {
 			$favorites = $relationListView->getFavoriteRecords();
 			$viewer->assign('FAVORITES', $favorites);
 			$isFavorites = $relationModel->isFavorites();
@@ -162,9 +189,10 @@ class RelatedList extends \App\Modules\Base\Views\RelatedList
 		$viewer->assign('SEARCH_DETAILS', $searchParams);
 		$viewer->assign('SEARCH_PARAMS', $searchParamsRaw);
 		$viewer->assign('VIEW', $request->getByType('view'));
-		$viewer->assign('SHOW_RELATED_WIDGETS', \in_array($relationModel->getId(), \App\Config::module($moduleName, 'showRelatedWidgetsByDefault', [])));
+		$showRelatedWidgetsByDefault = \App\Core\AppConfig::module($moduleName, 'showRelatedWidgetsByDefault', []);
+		$viewer->assign('SHOW_RELATED_WIDGETS', \in_array($relationModel->getId(), \is_array($showRelatedWidgetsByDefault) ? $showRelatedWidgetsByDefault : []));
 		$viewer->assign('LOCKED_EMPTY_FIELDS', $request->isEmpty('lockedEmptyFields', true) ? [] : $request->getArray('lockedEmptyFields'));
-		if ($relationListView->isWidgetsList()) {
+		if (\method_exists($relationListView, 'isWidgetsList') && $relationListView->isWidgetsList() && \class_exists(\App\ModuleHierarchy::class) && \class_exists(\Config\Modules\ModComments::class)) {
 			$viewer->assign('IS_WIDGETS', true);
 			$viewer->assign('HIERARCHY_VALUE', \Config\Modules\ModComments::$defaultSource);
 			$viewer->assign('HIERARCHY', \App\ModuleHierarchy::getModuleLevel($relatedModuleName));
@@ -174,10 +202,10 @@ class RelatedList extends \App\Modules\Base\Views\RelatedList
 		// Prepare data for RelatedListLeftSide template - move function calls from templates to controller
 		$relatedModuleModel = $relationModel->getRelationModuleModel();
 		$this->prepareRelatedListLeftSideData($viewer, $models, $relatedModuleModel, $request->getUser(), $parentRecordModel, $relationModel->isEditable(), $relationModel->isDeletable());
-		
+
 		// Prepare data for RelatedList template - move function calls from templates to controller
 		$viewer->assign('AUTO_REFRESH_LIST_ON_CHANGE', \App\Core\AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE'));
-		
+
 		return $viewer->view('RelatedList.tpl', $moduleName, true);
 	}
 

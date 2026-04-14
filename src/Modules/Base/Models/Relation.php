@@ -640,7 +640,7 @@ class Relation extends \App\Runtime\BaseModel
 		$className = ucfirst($relationName);
 		
 		// Try to load from parent module's Relations directory
-		$moduleRelationClass = "\\App\\Modules\\{$parentModuleName}\\Relations\\{$className}";
+		$moduleRelationClass = "\App\\Modules\\{$parentModuleName}\\Relations\\{$className}";
 		if (class_exists($moduleRelationClass)) {
 			$typeRelationModel = new $moduleRelationClass();
 			$typeRelationModel->setRelationModel($this);
@@ -649,7 +649,7 @@ class Relation extends \App\Runtime\BaseModel
 		}
 		
 		// Try base Relations directory
-		$baseRelationClass = "\\App\\Modules\\Base\\Relations\\{$className}";
+		$baseRelationClass = "\App\\Modules\\Base\\Relations\\{$className}";
 		if (class_exists($baseRelationClass)) {
 			$typeRelationModel = new $baseRelationClass();
 			$typeRelationModel->setRelationModel($this);

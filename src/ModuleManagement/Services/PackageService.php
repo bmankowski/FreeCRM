@@ -1460,7 +1460,7 @@ class PackageService
 					}
 					
 					// Replace old Vtiger_CRMEntity with \App\Core\CRMEntity
-					$content = preg_replace('/class\s+(\w+)\s+extends\s+Vtiger_CRMEntity/', 'class $1 extends \\App\\Core\\CRMEntity', $content);
+					$content = preg_replace('/class\s+(\w+)\s+extends\s+Vtiger_CRMEntity/', 'class $1 extends \App\\Core\\CRMEntity', $content);
 					
 					// Add namespace if missing and this is the main class file
 					if ($filePath === $mainClassFile && strpos($content, 'namespace') === false && preg_match('/^<\?php\s*\n/', $content)) {

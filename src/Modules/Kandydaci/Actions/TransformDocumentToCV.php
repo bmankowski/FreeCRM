@@ -21,7 +21,7 @@ class TransformDocumentToCV extends \App\Modules\Base\Actions\Save {
     public \App\Modules\Kandydaci\Models\Record $candidate;
 
     /** {@inheritdoc} */
-    public function checkPermission(App\Request $request) {
+    public function checkPermission(\App\Http\Vtiger_Request $request) {
         $this->candidate = $request->isEmpty('candidateId', true) ? null : \App\Modules\Base\Models\Record::getInstanceById($request->getInteger('candidateId'), $request->getModule());
         if (!$this->candidate || !$this->candidate->isViewable()) {
             throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
@@ -34,7 +34,7 @@ class TransformDocumentToCV extends \App\Modules\Base\Actions\Save {
 
     /** Converting document to CV and loading it as an MultiAttachment
      * After adding document as a CV refresh Candidate's page */
-    public function process(App\Request $request) {
+    public function process(\App\Http\Vtiger_Request $request) {
         //Converting document to CV and loading it as an MultiAttachment
 //        
         $this->candidate->transformDocumentToCV($this->document);

@@ -12,8 +12,6 @@
 
 namespace App\Http;
 
-use App\Json;
-use App\Purifier;
 
 class Vtiger_Request
 {

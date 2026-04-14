@@ -21,11 +21,13 @@ class RelatedListLeftSideExtras
 	 */
 	public static function mergeLinks(array $links, Record $parentRecord, Record $relatedRecord, Module $relatedModule, array $context): array
 	{
-		$relationIsEditable = $context['relationIsEditable'] ?? false;
 		if ($parentRecord->getModuleName() !== 'Kandydaci' || $relatedModule->getName() !== 'Documents') {
 			return $links;
 		}
-		if (!$relationIsEditable || !$parentRecord->isEditable() || !$relatedRecord->isViewable()) {
+		// Do not require relationIsEditable (that follows Related module EditView — too strict for “set as CV”,
+		// which updates the candidate, not the document). Also, Candidate can be non-editable due to record state
+		// (locks/workflows) even though “set as CV” is still allowed by business logic — the Action will enforce perms.
+		if (!$parentRecord->isViewable() || !$relatedRecord->isViewable()) {
 			return $links;
 		}
 
@@ -34,28 +36,25 @@ class RelatedListLeftSideExtras
 
 		$cvLink = Link::getInstanceFromValues([
 			'linktype' => \App\Modules\Base\Models\RelatedListLeftSideLinks::LINK_TYPE,
-			'linklabel' => 'LBL_RELATED_ACTION_SET_AS_CV',
+			'linklabel' => 'CV',
 			'linkurl' => $modalUrl,
-			'linkicon' => 'glyphicon glyphicon-file',
+			'linkicon' => '',
+			'showLabel' => true,
 			'linkclass' => '',
 			'modalView' => true,
+			'active' => true,
 			'relatedModuleName' => 'Kandydaci',
 		]);
 
-		$inserted = false;
-		$out = [];
+		// Avoid duplicates (e.g. if some other layer already injected this action).
 		foreach ($links as $link) {
-			if (!$inserted && self::isRelationDeleteLink($link)) {
-				$out[] = $cvLink;
-				$inserted = true;
+			if ($link->get('linklabel') === 'LBL_RELATED_ACTION_SET_AS_CV' || strpos((string) $link->get('linkurl'), 'view=TransformDocumentToCVModal') !== false) {
+				return $links;
 			}
-			$out[] = $link;
 		}
-		if (!$inserted) {
-			$out[] = $cvLink;
-		}
-
-		return $out;
+		$mergedLinks = array_merge([$cvLink], $links);
+		// Make “Set as CV” the first (most visible) action.
+		return $mergedLinks;
 	}
 
 	protected static function isRelationDeleteLink(Link $link): bool

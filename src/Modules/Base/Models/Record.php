@@ -1313,9 +1313,7 @@ class Record extends \App\Runtime\BaseModel
 	 */
 	public function getRelatedListLeftSideLinks(Record $parentRecord, array $context): array
 	{
-		$links = RelatedListLeftSideLinks::create($this, $parentRecord, $context);
-
-		return \App\Modules\Kandydaci\Models\RelatedListLeftSideExtras::mergeLinks($links, $parentRecord, $this, $this->getModule(), $context);
+		return RelatedListLeftSideLinks::create($this, $parentRecord, $context);
 	}
 
 	/**

@@ -223,4 +223,17 @@ class Record extends \App\Modules\Base\Models\Record
 		//set the column_fields so that its available in the event handlers
 		$this->set('filename', $fileName)->set('filesize', $fileSize)->set('filetype', $fileType)->set('filedownloadcount', $fileDownloadCount);
 	}
+
+	/**
+	 * Related list left column — adds “set as CV” when parent is Kandydaci.
+	 *
+	 * @param array<string, mixed> $context
+	 * @return \App\Modules\Base\Models\Link[]
+	 */
+	public function getRelatedListLeftSideLinks(\App\Modules\Base\Models\Record $parentRecord, array $context): array
+	{
+		$links = parent::getRelatedListLeftSideLinks($parentRecord, $context);
+
+		return \App\Modules\Kandydaci\Models\RelatedListLeftSideExtras::mergeLinks($links, $parentRecord, $this, $this->getModule(), $context);
+	}
 }

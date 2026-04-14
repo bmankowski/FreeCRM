@@ -18,7 +18,7 @@ namespace App\Modules\Kandydaci\Actions;
 class TransformCandidateToConsultant extends \App\Modules\Base\Actions\Save {
 
     /** {@inheritdoc} */ 
-    public function checkPermission(App\Request $request) {
+    public function checkPermission(\App\Http\Vtiger_Request $request) {
           \App\Log::warning("Hello1");
         $this->record = $request->isEmpty('record', true) ? null : \App\Modules\Base\Models\Record::getInstanceById($request->getInteger('record'), $request->getModule());
         if (!$this->record || !$this->record->isViewable() || !\App\Modules\Base\Models\Record::getCleanInstance('OfertyMassOutsource')->isCreateable()) {
@@ -27,7 +27,7 @@ class TransformCandidateToConsultant extends \App\Modules\Base\Actions\Save {
     }
  
     /** {@inheritdoc} */
-    public function process(App\Request $request) {
+    public function process(\App\Http\Vtiger_Request $request) {
          
         
         

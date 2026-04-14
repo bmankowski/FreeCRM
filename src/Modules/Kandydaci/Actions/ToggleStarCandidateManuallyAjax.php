@@ -19,12 +19,12 @@ class ToggleStarCandidateManuallyAjax extends \App\Controller\Action
 	 * @param \App\Request $request
 	 */
 
-	public function checkPermission(App\Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 
 	}
 
-	public function process(App\Request $request)
+	public function process(\App\Http\Vtiger_Request $request)
 	{
 		try {
 			$candidateId = $request->getInteger('candidateId');

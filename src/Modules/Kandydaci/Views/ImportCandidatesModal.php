@@ -15,7 +15,7 @@ namespace App\Modules\Kandydaci\Views;
 /**
  * Create outsource offers modal view class.
  */
-class ImportCandidatesModal extends \App\Controller\Modal {
+class ImportCandidatesModal extends \App\Modules\Base\Views\BasicModal {
 
     /** {@inheritdoc} */
     public $modalSize = '';
@@ -24,7 +24,7 @@ class ImportCandidatesModal extends \App\Controller\Modal {
     public $showFooter = true;
 
     /** {@inheritdoc} */
-    protected $pageTitle = 'LBL_RUN_IMPORT_CANDIDATES_TITLE';
+    public $pageTitle = 'LBL_RUN_IMPORT_CANDIDATES_TITLE';
 
     /** {@inheritdoc} */
     public $modalIcon = '';
@@ -38,18 +38,19 @@ class ImportCandidatesModal extends \App\Controller\Modal {
     private $recordModel;
 
     /** {@inheritdoc} */
-    public function checkPermission(App\Request $request) {
+    public function checkPermission(\App\Http\Vtiger_Request $request) {
 
     }
 
     /** {@inheritdoc} */
-    public function process(App\Request $request) {
+    public function process(\App\Http\Vtiger_Request $request) {
         $moduleName = $request->getModule();
         $viewer = $this->getViewer($request);
+        $selectedIds = array_values(array_filter(array_map('intval', $request->getArray('selected_ids')), static fn ($v) => $v > 0));
         $viewer->assign('MODULE_NAME', $moduleName);
         $viewer->assign('ACTION_NAME', 'ImportCandidatesManually');
         $viewer->assign('RECORD', $request->getInteger('record'));
-        $viewer->assign('SELECTED_IDS', $request->getArray('selected_ids', \App\Purifier::INTEGER));
+        $viewer->assign('SELECTED_IDS', $selectedIds);
         $viewer->view('Modals/ImportCandidatesModal.tpl', $moduleName);
     }
 }
