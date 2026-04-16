@@ -57,13 +57,30 @@ class CronService
 	 */
 	public function register(string $name, string $handler, string $frequency, string $moduleName, int $status = self::STATUS_ENABLED, int $sequence = 0, string $description = ''): void
 	{
+		$this->registerClassTask($name, $handler, (int) $frequency, $moduleName, $status, $sequence, $description);
+	}
+
+	/**
+	 * Register a class-based cron task.
+	 *
+	 * @param string $name
+	 * @param string $handlerClass FQCN
+	 * @param int $frequency Frequency in seconds
+	 * @param string $moduleName
+	 * @param int $status
+	 * @param int $sequence
+	 * @param string $description
+	 * @param array $params
+	 */
+	public function registerClassTask(string $name, string $handlerClass, int $frequency, string $moduleName, int $status = self::STATUS_ENABLED, int $sequence = 0, string $description = '', array $params = []): void
+	{
 		if (empty($sequence)) {
 			$sequence = $this->nextSequence();
 		}
-
 		$this->db->createCommand()->insert($this->baseTable, [
 			'name' => $name,
-			'handler_file' => $handler,
+			'handler_class' => $handlerClass,
+			'handler_params' => empty($params) ? null : json_encode($params, JSON_UNESCAPED_UNICODE),
 			'frequency' => $frequency,
 			'status' => $status,
 			'sequence' => $sequence,
@@ -117,7 +134,8 @@ class CronService
 			$instances[] = [
 				'id' => $row['id'],
 				'name' => $row['name'],
-				'handler_file' => $row['handler_file'],
+				'handler_file' => $row['handler_file'] ?? null,
+				'handler_class' => $row['handler_class'] ?? null,
 				'frequency' => $row['frequency'],
 				'status' => $row['status'],
 				'sequence' => $row['sequence'],
@@ -161,7 +179,8 @@ class CronService
 			$this->writeNode($manifestHandle, 'name', $cronTask['name']);
 			$this->writeNode($manifestHandle, 'frequency', $cronTask['frequency']);
 			$this->writeNode($manifestHandle, 'status', $cronTask['status'] == self::STATUS_ENABLED ? self::STATUS_ENABLED : self::STATUS_DISABLED);
-			$this->writeNode($manifestHandle, 'handler', $cronTask['handler_file']);
+			$handler = $cronTask['handler_class'] ?? $cronTask['handler_file'] ?? '';
+			$this->writeNode($manifestHandle, 'handler', $handler);
 			$this->writeNode($manifestHandle, 'sequence', $cronTask['sequence']);
 			$this->writeNode($manifestHandle, 'description', $cronTask['description']);
 			$this->writeNode($manifestHandle, 'cron', '', false);

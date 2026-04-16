@@ -97,13 +97,11 @@ class Cron
 			return new self($row);
 		}
 
-		// Try handler file name match (e.g., "PrivilegesUpdater" -> "PrivilegesUpdater.php")
-		// Search for the name in handler_file path
+		// Match by handler class short name (e.g. "PrivilegesUpdater" in FQCN)
 		$row = (new \App\Db\Query())
 			->from('vtiger_cron_task')
-			->where(['like', 'handler_file', '%' . $name . '%'])
+			->where(['like', 'handler_class', '%' . $name . '%'])
 			->one();
-
 		if ($row) {
 			return new self($row);
 		}
@@ -179,16 +177,40 @@ class Cron
 		int $sequence = 0,
 		string $description = ''
 	): void {
-		$db = \App\Db\Db::getInstance();
+		self::registerClassTask($name, $handler, $frequency, $moduleName, $status, $sequence, $description);
+	}
 
-		// Auto-generate sequence if not provided
+	/**
+	 * Register a class-based cron task.
+	 *
+	 * @param string $name Task name
+	 * @param string $handlerClass FQCN
+	 * @param int|string $frequency Frequency in seconds
+	 * @param string $moduleName Module name
+	 * @param int $status Status (STATUS_ENABLED or STATUS_DISABLED)
+	 * @param int $sequence Sequence number (0 to auto-generate)
+	 * @param string $description Description
+	 * @param array $params Handler params
+	 * @return void
+	 */
+	public static function registerClassTask(
+		string $name,
+		string $handlerClass,
+		$frequency,
+		string $moduleName,
+		int $status = self::STATUS_ENABLED,
+		int $sequence = 0,
+		string $description = '',
+		array $params = []
+	): void {
+		$db = \App\Db\Db::getInstance();
 		if ($sequence == 0) {
 			$sequence = $db->getUniqueID('vtiger_cron_task', 'sequence', false);
 		}
-
 		$db->createCommand()->insert('vtiger_cron_task', [
 			'name' => $name,
-			'handler_file' => $handler,
+			'handler_class' => $handlerClass,
+			'handler_params' => empty($params) ? null : json_encode($params, JSON_UNESCAPED_UNICODE),
 			'frequency' => (int) $frequency,
 			'status' => $status,
 			'sequence' => $sequence,
@@ -243,6 +265,28 @@ class Cron
 	public function getHandlerFile(): string
 	{
 		return $this->data['handler_file'] ?? '';
+	}
+
+	/**
+	 * Get handler class (FQCN).
+	 *
+	 * @return string
+	 */
+	public function getHandlerClass(): string
+	{
+		return $this->data['handler_class'] ?? '';
+	}
+
+	/**
+	 * Get handler params (raw DB value).
+	 *
+	 * Runner is responsible for decoding JSON to array.
+	 *
+	 * @return mixed
+	 */
+	public function getHandlerParams()
+	{
+		return $this->data['handler_params'] ?? null;
 	}
 
 	/**

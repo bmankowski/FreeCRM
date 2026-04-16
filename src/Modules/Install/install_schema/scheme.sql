@@ -4260,7 +4260,8 @@ CREATE TABLE `vtiger_crmentityrel` (
 CREATE TABLE `vtiger_cron_task` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) DEFAULT NULL,
-  `handler_file` varchar(100) DEFAULT NULL,
+  `handler_class` varchar(255) DEFAULT NULL,
+  `handler_params` json DEFAULT NULL,
   `frequency` int(11) DEFAULT NULL,
   `laststart` int(11) unsigned DEFAULT NULL,
   `lastend` int(11) unsigned DEFAULT NULL,
@@ -4269,8 +4270,7 @@ CREATE TABLE `vtiger_cron_task` (
   `sequence` int(11) DEFAULT NULL,
   `description` text,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`),
-  UNIQUE KEY `handler_file` (`handler_file`)
+  UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_currencies` */

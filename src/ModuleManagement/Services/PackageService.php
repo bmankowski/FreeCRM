@@ -2692,7 +2692,8 @@ class PackageService
 		$cronTasks = $cronService->listAllInstancesByModule((string) $modulenode->name);
 		foreach ($modulenode->crons->cron as $importCronTask) {
 			foreach ($cronTasks as $cronTask) {
-				if ($cronTask['name'] == (string) $importCronTask->name && (string) $importCronTask->handler == $cronTask['handler_file']) {
+				$existingHandler = $cronTask['handler_class'] ?? $cronTask['handler_file'] ?? '';
+				if ($cronTask['name'] == (string) $importCronTask->name && (string) $importCronTask->handler == $existingHandler) {
 					$cronService->deregister((string) $importCronTask->name);
 				}
 			}

@@ -2,7 +2,8 @@
 
 namespace App\Modules\Cron\Runner;
 
-use Exception;
+use App\Modules\Cron\Contract\CronTaskInterface;
+use Throwable;
 
 /**
  * Cron Runner - executes scheduled cron tasks
@@ -59,61 +60,109 @@ class CronRunner
 	 */
 	public function runTask(\vtlib\Cron $cronTask): void
 	{
+		$taskName = $cronTask->getName();
+		$taskMarkedRunning = false;
+		$startTime = null;
+
+		\App\Log\Log::trace($taskName . ' - Start');
+
+		// Timeout could happen if intermediate cron-tasks fails
+		// and affect the next task. Which need to be handled in this cycle.
+		if ($cronTask->hadTimeout()) {
+			echo sprintf('%s | %s - Cron task had timedout as it was not completed last time it run' . PHP_EOL, date('Y-m-d H:i:s'), $taskName);
+			if (\App\Core\AppConfig::main('unblockedTimeoutCronTasks')) {
+				$cronTask->unlockTask();
+			}
+		}
+
+		// Not ready to run yet?
+		if ($cronTask->isRunning()) {
+			\App\Log\Log::trace($taskName . ' - Task omitted, it has not been finished during the last scanning');
+			echo sprintf('%s | %s - Task omitted, it has not been finished during the last scanning' . PHP_EOL, date('Y-m-d H:i:s'), $taskName);
+			return;
+		}
+
+		// Not ready to run yet?
+		if (!$cronTask->isRunnable()) {
+			\App\Log\Log::trace($taskName . ' - Not ready to run as the time to run again is not completed');
+			echo sprintf('%s | %s - Not ready to run as the time to run again is not completed' . PHP_EOL, date('Y-m-d H:i:s'), $taskName);
+			return;
+		}
+
 		try {
-			\App\Log\Log::trace($cronTask->getName() . ' - Start');
-			
-			// Timeout could happen if intermediate cron-tasks fails
-			// and affect the next task. Which need to be handled in this cycle.
-			if ($cronTask->hadTimeout()) {
-				echo sprintf('%s | %s - Cron task had timedout as it was not completed last time it run' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
-				if (\App\Core\AppConfig::main('unblockedTimeoutCronTasks')) {
-					$cronTask->unlockTask();
-				}
-			}
-
-			// Not ready to run yet?
-			if ($cronTask->isRunning()) {
-				\App\Log\Log::trace($cronTask->getName() . ' - Task omitted, it has not been finished during the last scanning');
-				echo sprintf('%s | %s - Task omitted, it has not been finished during the last scanning' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
-				return;
-			}
-
-			// Not ready to run yet?
-			if (!$cronTask->isRunnable()) {
-				\App\Log\Log::trace($cronTask->getName() . ' - Not ready to run as the time to run again is not completed');
-				echo sprintf('%s | %s - Not ready to run as the time to run again is not completed' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
-				return;
-			}
-
-			// Mark the status - running
 			$cronTask->markRunning();
-			echo sprintf('%s | %s - Start task' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
+			$taskMarkedRunning = true;
+
+			echo sprintf('%s | %s - Start task' . PHP_EOL, date('Y-m-d H:i:s'), $taskName);
 			$startTime = microtime(true);
 
-			\vtlib\Deprecated::checkFileAccess($cronTask->getHandlerFile());
-			ob_start();
-			require_once $cronTask->getHandlerFile();
-			$taskResponse = ob_get_contents();
-			ob_end_clean();
-
-			$taskTime = round(microtime(true) - $startTime, 2);
-			if ($taskResponse != '') {
-				\App\Log\Log::warning($cronTask->getName() . ' - The task returned a message:' . PHP_EOL . $taskResponse);
-				echo 'Task response:' . PHP_EOL . $taskResponse . PHP_EOL;
+			$handlerClass = trim((string) $cronTask->getHandlerClass());
+			if ($handlerClass === '') {
+				throw new \RuntimeException('Cron task has no handler_class.');
 			}
-
-			// Mark the status - finished
-			$cronTask->markFinished();
-			echo sprintf('%s | %s - End task (%s s)', date('Y-m-d H:i:s'), $cronTask->getName(), $taskTime) . PHP_EOL;
-			\App\Log\Log::trace($cronTask->getName() . ' - End');
-		} catch (\App\Exceptions\AppException $e) {
-			echo sprintf('%s | ERROR: %s - Cron task execution throwed exception.', date('Y-m-d H:i:s'), $cronTask->getName()) . PHP_EOL;
+			$this->runClassHandler($cronTask, $handlerClass);
+		} catch (Throwable $e) {
+			\App\Log\Log::error($e, 'CRON');
+			echo sprintf('%s | ERROR: %s - Cron task execution threw exception.' . PHP_EOL, date('Y-m-d H:i:s'), $taskName);
 			echo $e->getMessage() . PHP_EOL;
-			echo $e->getTraceAsString() . PHP_EOL;
 			if (\App\Core\AppConfig::main('systemMode') === 'test') {
 				throw $e;
 			}
+		} finally {
+			if ($taskMarkedRunning) {
+				$cronTask->markFinished();
+			}
+			$taskTime = $startTime ? round(microtime(true) - $startTime, 2) : 0;
+			echo sprintf('%s | %s - End task (%s s)', date('Y-m-d H:i:s'), $taskName, $taskTime) . PHP_EOL;
+			\App\Log\Log::trace($taskName . ' - End');
 		}
+	}
+
+	/**
+	 * Execute class-based handler.
+	 *
+	 * @param \vtlib\Cron $cronTask
+	 * @param string $handlerClass
+	 *
+	 * @throws \RuntimeException
+	 */
+	private function runClassHandler(\vtlib\Cron $cronTask, string $handlerClass): void
+	{
+		$taskName = $cronTask->getName();
+		if (!class_exists($handlerClass)) {
+			throw new \RuntimeException(sprintf('Cron task handler_class "%s" does not exist.', $handlerClass));
+		}
+
+		$instance = new $handlerClass();
+		if (!$instance instanceof CronTaskInterface) {
+			throw new \RuntimeException(sprintf('Cron task handler_class "%s" must implement %s.', $handlerClass, CronTaskInterface::class));
+		}
+
+		$params = $this->decodeHandlerParams($cronTask->getHandlerParams());
+		if (!empty($params) && method_exists($instance, 'setParams')) {
+			call_user_func([$instance, 'setParams'], $params);
+		}
+
+		$instance->execute();
+	}
+
+	/**
+	 * @param mixed $raw
+	 * @return array
+	 */
+	private function decodeHandlerParams($raw): array
+	{
+		if (empty($raw)) {
+			return [];
+		}
+		if (is_array($raw)) {
+			return $raw;
+		}
+		if (is_string($raw)) {
+			$decoded = json_decode($raw, true);
+			return is_array($decoded) ? $decoded : [];
+		}
+		return [];
 	}
 }
 

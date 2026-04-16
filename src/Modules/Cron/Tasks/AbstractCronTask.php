@@ -2,11 +2,13 @@
 
 namespace App\Modules\Cron\Tasks;
 
+use App\Modules\Cron\Contract\CronTaskInterface;
+
 /**
  * Abstract base class for all cron tasks
  * @package App\Modules\Cron\Tasks
  */
-abstract class AbstractCronTask
+abstract class AbstractCronTask implements CronTaskInterface
 {
 	/**
 	 * Execute the cron task
@@ -27,18 +29,18 @@ abstract class AbstractCronTask
 
 	/**
 	 * Get database instance
-	 * @return \App\Db
+	 * @return \yii\db\Connection
 	 */
-	protected function getDb(): \App\Db
+	protected function getDb(): \yii\db\Connection
 	{
 		return \App\Db\Db::getInstance();
 	}
 
 	/**
 	 * Get admin database instance
-	 * @return \App\Db
+	 * @return \yii\db\Connection
 	 */
-	protected function getAdminDb(): \App\Db
+	protected function getAdminDb(): \yii\db\Connection
 	{
 		return \App\Db\Db::getInstance('admin');
 	}

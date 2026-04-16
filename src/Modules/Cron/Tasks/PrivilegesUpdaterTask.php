@@ -1,0 +1,91 @@
+<?php
+/**
+ * FreeCRM - Customer Relationship Management System
+ *
+ * @project FreeCRM
+ * @author bmankowski@gmail.com
+ * @copyright (c) FreeCRM
+ * @license FreeCRM Public License 1.0
+ */
+
+declare(strict_types=1);
+
+namespace App\Modules\Cron\Tasks;
+
+final class PrivilegesUpdaterTask extends AbstractCronTask
+{
+	public function execute(): void
+	{
+		$limit = \App\Core\AppConfig::performance('CRON_MAX_NUMBERS_RECORD_PRIVILEGES_UPDATER');
+		$dataReader = (new \App\Db\Query())->select('crmid, setype')
+			->from('vtiger_crmentity')
+			->where(['users' => null])
+			->limit($limit)
+			->createCommand()->query();
+
+		while ($row = $dataReader->read()) {
+			\App\Security\PrivilegeUpdater::update($row['crmid'], $row['setype']);
+			$limit--;
+			if (0 === $limit) {
+				return;
+			}
+		}
+
+		$dataReader = (new \App\Db\Query())
+			->from('u_#__crmentity_search_label')
+			->where(['userid' => ''])
+			->limit($limit)
+			->createCommand()->query();
+
+		while ($row = $dataReader->read()) {
+			\App\Security\PrivilegeUpdater::updateSearch($row['crmid'], $row['setype']);
+			$limit--;
+			if (0 === $limit) {
+				return;
+			}
+		}
+
+		$dataReader = (new \App\Db\Query())
+			->from('s_#__privileges_updater')
+			->orderBy(['priority' => SORT_DESC])
+			->limit($limit)
+			->createCommand()->query();
+
+		while ($row = $dataReader->read()) {
+			$db = \App\Db\Db::getInstance();
+			$crmid = $row['crmid'];
+			if (0 === (int) $row['type']) {
+				\App\Security\PrivilegeUpdater::update($crmid, $row['module']);
+				$limit--;
+				if (0 === $limit) {
+					return;
+				}
+			} else {
+				$dataReaderCrm = (new \App\Db\Query())->select(['crmid'])
+					->from('vtiger_crmentity')
+					->where(['and', ['deleted' => 0], ['setype' => $row['module']], ['>', 'crmid', $crmid]])
+					->limit($limit)
+					->createCommand()->query();
+
+				while ($rowCrm = $dataReaderCrm->read()) {
+					\App\Security\PrivilegeUpdater::update($rowCrm['crmid'], $row['module']);
+					$affected = $db->createCommand()->update('s_#__privileges_updater', ['crmid' => $rowCrm['crmid']], [
+						'module' => $row['module'],
+						'type' => 1,
+						'crmid' => $crmid
+					])->execute();
+					$crmid = $rowCrm['crmid'];
+					$limit--;
+					if (0 === $limit || (int) $affected === 0) {
+						return;
+					}
+				}
+			}
+			$db->createCommand()->delete('s_#__privileges_updater', [
+				'module' => $row['module'],
+				'type' => $row['type'],
+				'crmid' => $crmid
+			])->execute();
+		}
+	}
+}
