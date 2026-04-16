@@ -20,18 +20,8 @@ namespace App\Modules\Kandydaci\Crons;
 /**
  * Import_ScheduledImport_Cron class.
  */
-class ScheduledImport extends \App\CronHandler
+class ScheduledImport
 {
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function process()
-	{
-		self::importNewCandidates();
-	}
-
-
 	public static function importNewCandidates()
 	{
 		self::vecho("Rozpoczynam import nowych kandydatów");
@@ -77,7 +67,7 @@ class ScheduledImport extends \App\CronHandler
 			} catch (\Exception $e) {
 				self::sendErrorMail($application, $e);
 				self::moveFilesToFailed($application);
-				\App\Log::error($e);
+				\App\Log\Log::error($e);
 			}
 		}
 		self::vecho("Koniec importu plików");
@@ -85,7 +75,8 @@ class ScheduledImport extends \App\CronHandler
 
 	public static function importAllCandidatesFromFolder($directory)
 	{
-		$automatUser = \App\User::getUserModel(\App\User::getUserIdByName("automat"));
+		$automatUserId = \App\Modules\Users\Models\Record::getUserIdByName('automat');
+		$automatUser = \App\Modules\Users\Models\Record::getInstanceById($automatUserId, 'Users');
 
 		if (empty($directory) || !is_dir($directory)) {
 			self::vecho("Katalog $directory nie istnieje");
@@ -160,6 +151,8 @@ class ScheduledImport extends \App\CronHandler
 					$candidate->set("is_future_contact_allowed", 1);
 					$candidate->set("data_maksymalny_kontakt_rodo", date('Y-m-d', strtotime('+3 years')));
 					$candidate->save();
+					// Reload as Kandydaci record model (adds Kandydaci-specific methods like transformDocumentToCV()).
+					$candidate = \App\Modules\Kandydaci\Models\Record::getInstanceById($candidate->getId(), 'Kandydaci');
 				}
 				$candidate->set("application_id", $candidateData['applicationNumber']);
 				$clean_text = preg_replace('/[\x{10000}-\x{10FFFF}]/u', '', $pdfContent);
@@ -175,6 +168,7 @@ class ScheduledImport extends \App\CronHandler
 					throw $e;
 				}
 				self::vecho("Transformuje plik");
+				/** @var \App\Modules\Kandydaci\Models\Record $candidate */
 				$candidate->transformDocumentToCV($documentRecord);
 				self::vecho("Zapisuje kandydata");
 				$candidate->save();
@@ -182,7 +176,7 @@ class ScheduledImport extends \App\CronHandler
 //				self::sendErrorMail($application, $e);
 //				self::moveFilesToFailed($application);
 				self::vecho("Error: " . $e->getMessage());
-				\App\Log::error($e);
+				\App\Log\Log::error($e);
 			}
 		}
 		self::vecho("Koniec importu plików");
@@ -209,7 +203,7 @@ class ScheduledImport extends \App\CronHandler
 			$content .= "<br>";
 		}
 		$content .= $e->getMessage();
-		\App\Mailer::addMail([
+		\App\Email\Mailer::addMail([
 			'to' => ["bmankowski@gmail.com" => "Bartłomiej Mańkowski"],
 			'subject' => $subject,
 			'content' => $content,
@@ -303,7 +297,7 @@ class ScheduledImport extends \App\CronHandler
 			echo($string . "\n");
 		}
 		if ($logs) {
-			\App\Log::warning($string);
+			\App\Log\Log::warning($string);
 		}
 	}
 
@@ -475,7 +469,7 @@ class ScheduledImport extends \App\CronHandler
 	{
 		// No project id in application
 		if (empty($application["projectId"])) {
-			\App\Log::error("No project id in application");
+			\App\Log\Log::error("No project id in application");
 			return 1;
 		}
 
@@ -504,6 +498,7 @@ class ScheduledImport extends \App\CronHandler
 	 */
 	static public function addCVToCandidate($candidate, $application)
 	{
+		/** @var \App\Modules\Kandydaci\Models\Record $candidate */
 		$originalFilename = $application["directory"] . basename($application["originalFilename"]);
 		$filename = $application["filename"];
 		// Copying filename to orignal_filename - it will be deleted by saveAndDeleteFile(...)
@@ -535,6 +530,7 @@ class ScheduledImport extends \App\CronHandler
 				throw $e;
 			}
 			self::vecho("Transformuje plik");
+			/** @var \App\Modules\Kandydaci\Models\Record $candidate */
 			$candidate->transformDocumentToCV($documentRecord);
 			self::vecho("Moving file to processed");
 			self::moveFilesToProcessed($application);
@@ -548,7 +544,8 @@ class ScheduledImport extends \App\CronHandler
 	 */
 	static public function addCommentToCandidate($candidate, $application)
 	{
-		$automatUser = \App\User::getUserModel(\App\User::getUserIdByName("automat"));
+		$automatUserId = \App\Modules\Users\Models\Record::getUserIdByName('automat');
+		$automatUser = \App\Modules\Users\Models\Record::getInstanceById($automatUserId, 'Users');
 
 		// Tworzenie komentarza z informacją o oczekiwaniach Kandydata
 		if (!empty($application["message"]) || !empty($application["availability"]) || !empty($application["financialExpectations"])) {
@@ -834,16 +831,24 @@ class ScheduledImport extends \App\CronHandler
 	{
 		$file = \App\Fields\File::loadFromPath($filepath);
 		$fileName = $file->getName();
-		$fileNameLength = \App\TextUtils::getTextLength($fileName);
+		$fileNameLength = \mb_strlen((string) $fileName);
 		$newDocument = \App\Modules\Base\Models\Record::getCleanInstance('Documents');
 		if ($fileNameLength > ($maxLength = $newDocument->getField('filename')->get('maximumlength'))) {
+			$extSuffix = '';
 			$extLength = 0;
 			if (!empty($ext = $file->getExtension())) {
-				$ext .= ".{$ext}";
-				$extLength = \App\TextUtils::getTextLength($ext);
-				$fileName = substr($fileName, 0, $fileNameLength - $extLength);
+				$extSuffix = ".{$ext}";
+				$extLength = \mb_strlen($extSuffix);
+				if (\str_ends_with($fileName, $extSuffix)) {
+					$fileName = \mb_substr($fileName, 0, \mb_strlen($fileName) - $extLength);
+				}
 			}
-			$fileName = \App\TextUtils::textTruncate($fileName, $maxLength - $extLength, false) . $ext;
+			$baseMaxLength = $maxLength - $extLength;
+			if ($baseMaxLength > 0) {
+				$fileName = \mb_substr($fileName, 0, $baseMaxLength) . $extSuffix;
+			} else {
+				$fileName = \mb_substr($fileName . $extSuffix, 0, $maxLength);
+			}
 		}
 		$fileName = \App\Security\Purifier::decodeHtml(\App\Security\Purifier::purify($fileName));
 		$newDocument->set('notes_title', $title);
@@ -868,3 +873,4 @@ class ScheduledImport extends \App\CronHandler
 		return false;
 	}
 }
+

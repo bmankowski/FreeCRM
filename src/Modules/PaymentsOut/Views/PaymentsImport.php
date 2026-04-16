@@ -22,7 +22,7 @@ class PaymentsImport  extends \App\Modules\Base\Views\Index
 
 		$type = array();
 		$bank = array();
-		foreach (new DirectoryIterator('src/Modules/PaymentsOut/helpers') as $file) {
+		foreach (new \DirectoryIterator('src/Modules/PaymentsOut/Helpers') as $file) {
 			if (!$file->isDot()) {
 				if (strpos($file->getFilename(), '.php') !== false) {
 					$type[] = str_replace(".php", "", $file->getFilename());
@@ -30,7 +30,7 @@ class PaymentsImport  extends \App\Modules\Base\Views\Index
 			}
 		}
 		$bank[] = 'Default';
-		foreach (new DirectoryIterator('src/Modules/PaymentsOut/helpers/subclass') as $file) {
+		foreach (new \DirectoryIterator('src/Modules/PaymentsOut/Helpers/subclass') as $file) {
 			if (!$file->isDot()) {
 				if (strpos($file->getFilename(), '.php') !== false) {
 					$banks = explode('_', str_replace(".php", "", $file->getFilename()));

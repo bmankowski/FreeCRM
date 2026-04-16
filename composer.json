@@ -49,7 +49,8 @@
 		"yiisoft/yii2": "~2.0.53",
 		"antlr/antlr4-php-runtime": "^0.9.1",
 		"monolog/monolog": "^3.9",
-		"filp/whoops": "^2.18"
+		"filp/whoops": "^2.18",
+		"giggsey/libphonenumber-for-php": "^9.0"
 	},
 	"archive": {
 		"exclude": [

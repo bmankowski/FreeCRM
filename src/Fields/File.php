@@ -13,12 +13,48 @@ class File
 	private static $allowedFormats = ['image' => ['jpeg', 'png', 'jpg', 'pjpeg', 'x-png', 'gif', 'bmp', 'x-ms-bmp']];
 	private static $mimeTypes = [];
 	private static $phpInjection = ['image'];
+	/** @var string|null Original filename (for headers/UI). */
+	private $name;
 	private $path;
 	private $mimeType;
 	private $mimeShortType;
 	private $size;
 	private $content;
 	private $error = false;
+
+	/**
+	 * Build a file instance from basic metadata.
+	 *
+	 * Expected keys:
+	 * - path: string (directory or full path)
+	 * - name: string (optional if path already contains filename)
+	 */
+	public static function loadFromInfo(array $info): self
+	{
+		$instance = new self();
+		$path = $info['path'] ?? '';
+		$name = $info['name'] ?? null;
+
+		if ($name === null && is_string($path) && $path !== '') {
+			$name = basename($path);
+		}
+		$instance->name = $name;
+
+		// If "path" is a directory, treat it as a folder for the given name.
+		if (is_string($path) && $path !== '' && is_dir($path) && $name) {
+			$path = rtrim($path, "/\\") . DIRECTORY_SEPARATOR . $name;
+		} elseif (is_string($path) && $path !== '' && $name) {
+			// If "path" doesn't already end with the file name but "<path>/<name>" exists, prefer that.
+			$normalizedPath = str_replace('\\', '/', $path);
+			$normalizedName = str_replace('\\', '/', $name);
+			if (!str_ends_with($normalizedPath, '/' . $normalizedName) && file_exists($path . DIRECTORY_SEPARATOR . $name)) {
+				$path = rtrim($path, "/\\") . DIRECTORY_SEPARATOR . $name;
+			}
+		}
+
+		$instance->path = $path;
+		return $instance;
+	}
 
 	public static function loadFromRequest($file)
 	{
@@ -37,6 +73,16 @@ class File
 		$instance->name = $info['basename'];
 		$instance->path = $path;
 		return $instance;
+	}
+
+	public function getPath(): string
+	{
+		return (string) $this->path;
+	}
+
+	public function getName(): string
+	{
+		return (string) $this->name;
 	}
 
 	public function getSize()
@@ -179,14 +225,14 @@ class File
 
 	/** Function to sanitize the upload file name when the file name is detected to have bad extensions
 	 * @param string -- $fileName - File name to be sanitized
-	 * @return String - Sanitized file name
+	 * @return string - Sanitized file name
 	 */
 	static public function sanitizeUploadFileName($fileName, $badFileExtensions = false)
 	{
 		if (!$badFileExtensions) {
 			$badFileExtensions = \App\Core\AppConfig::main('upload_badext');
 		}
-		$fileName = preg_replace('/\s+/', '_', \vtlib\Functions:: slug($fileName)); //replace space with _ in filename
+		$fileName = preg_replace('/\s+/', '_', \vtlib\Functions::slug($fileName)); //replace space with _ in filename
 		$fileName = rtrim($fileName, '\\/<>?*:"<>|');
 
 		$fileNameParts = explode('.', $fileName);
@@ -195,7 +241,7 @@ class File
 		foreach ($fileNameParts as $key => &$partOfFileName) {
 			if (in_array(strtolower($partOfFileName), $badFileExtensions)) {
 				$badExtensionFound = true;
-				$fileNameParts[$i] = $partOfFileName;
+				$fileNameParts[$key] = $partOfFileName;
 			}
 		}
 		$newFileName = implode('.', $fileNameParts);

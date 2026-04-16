@@ -7,8 +7,8 @@ namespace Composer\Autoload;
 class ComposerStaticInitYT
 {
     public static $files = array (
-        '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
         '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
         '9b38cf48e83f5d8f60375221cd213eee' => __DIR__ . '/..' . '/phpstan/phpstan/bootstrap.php',
         '667aeda72477189d0494fecd327c3641' => __DIR__ . '/..' . '/symfony/var-dumper/Resources/functions/dump.php',
@@ -29,6 +29,10 @@ class ComposerStaticInitYT
         'v' => 
         array (
             'vtlib\\' => 6,
+        ),
+        'l' => 
+        array (
+            'libphonenumber\\' => 15,
         ),
         'c' => 
         array (
@@ -54,6 +58,10 @@ class ComposerStaticInitYT
         'L' => 
         array (
             'Linfo\\' => 6,
+        ),
+        'G' => 
+        array (
+            'Giggsey\\Locale\\' => 15,
         ),
         'E' => 
         array (
@@ -85,6 +93,10 @@ class ComposerStaticInitYT
         array (
             0 => __DIR__ . '/../..' . '/src/ModuleManagement/Adapters',
         ),
+        'libphonenumber\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/giggsey/libphonenumber-for-php/src',
+        ),
         'cebe\\markdown\\' => 
         array (
             0 => __DIR__ . '/..' . '/cebe/markdown',
@@ -112,6 +124,10 @@ class ComposerStaticInitYT
         'Linfo\\' => 
         array (
             0 => __DIR__ . '/..' . '/linfo/linfo/src/Linfo',
+        ),
+        'Giggsey\\Locale\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/giggsey/locale/src',
         ),
         'Exception\\' => 
         array (

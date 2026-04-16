@@ -18,12 +18,12 @@ class GetCVImage extends \App\Modules\Base\Files\File {
     /**
      * Checking permission in get method.
      *
-     * @param \App\Request $request
+     * @param \App\Http\Vtiger_Request $request
      *
      * @return bool
      */
     public function getCheckPermission(\App\Http\Vtiger_Request $request) {
-        if (!\App\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
+        if (!\App\Security\Privilege::isPermitted($request->getModule(), 'DetailView', $request->getInteger('record'))) {
             throw new \App\Exceptions\NoPermittedToRecord('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
         }
         return true;
@@ -32,7 +32,7 @@ class GetCVImage extends \App\Modules\Base\Files\File {
     /**
      * Download file.
      *
-     * @param \App\Request $request
+     * @param \App\Http\Vtiger_Request $request
      *
      * @return string|bool
      */
@@ -49,11 +49,11 @@ class GetCVImage extends \App\Modules\Base\Files\File {
     /**
      * Api function to get file.
      *
-     * @param App\Request $request
+     * @param \App\Http\Vtiger_Request $request
      *
      * @return \App\Fields\File
      */
-    public function api(\App\Http\Vtiger_Request $request): App\Fields\File {
+    public function api(\App\Http\Vtiger_Request $request): ?\App\Fields\File {
 //		$documentRecordModel = Kandydaci_Record_Model::getInstanceById($request->getInteger('record'), $request->getModule());
 //		//Download the file
 //		$documentRecordModel->set('return', true);
@@ -73,7 +73,12 @@ class GetCVImage extends \App\Modules\Base\Files\File {
          $kandydatRecordModel = \App\Modules\Kandydaci\Models\Record::getInstanceById($candidateId, $request->getModule());
 //        $kandydatRecordModel = \App\Modules\Kandydaci\Models\Record::getInstanceById(1261772, "Kandydaci");
         $pathInJSON = $kandydatRecordModel->get("cv_img_file");
-        $item = reset(\App\Utils\Json::decode($pathInJSON));
+        $items = \App\Utils\Json::decode($pathInJSON);
+        $item = is_array($items) ? reset($items) : null;
+        if (!is_array($item)) {
+            \App\Log\Log::warning('Missing or invalid cv_img_file payload');
+            return;
+        }
         $file = \App\Fields\File::loadFromInfo([
                     'path' => ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $item['path'],
                     'name' => $item['name'],
@@ -90,7 +95,7 @@ class GetCVImage extends \App\Modules\Base\Files\File {
 //            \App\Log::warning($file->getPath().$file->getName());
             readfile($file->getPath().$file->getName());
         }else{
-            \App\Log::warning("The file does not exist");
+            \App\Log\Log::warning("The file does not exist");
         }
     }
 }

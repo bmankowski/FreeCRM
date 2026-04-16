@@ -19,13 +19,14 @@ class Record extends \App\Modules\Base\Models\Record
 	{
 		$adres = \App\Core\AppConfig::main('cache_dir');
 		if ($bank == 'Default') {
-			require_once 'src/Modules/PaymentsOut/helpers/' . $type . '.php';
-			$records = new $type($adres . $file);
+			require_once 'src/Modules/PaymentsOut/Helpers/' . $type . '.php';
+			$class = "\\App\\Modules\\PaymentsOut\\{$type}";
+			$records = new $class($adres . $file);
 			return $records;
 		}
 
-		require_once 'src/Modules/PaymentsOut/helpers/subclass/' . $type . '_' . $bank . '.php';
-		$class = $type . '_' . $bank;
+		require_once 'src/Modules/PaymentsOut/Helpers/subclass/' . $type . '_' . $bank . '.php';
+		$class = "\\App\\Modules\\PaymentsOut\\{$type}_{$bank}";
 		$records = new $class($adres . $file);
 
 		return $records;
