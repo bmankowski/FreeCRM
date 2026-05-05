@@ -45,8 +45,8 @@ class ListMenu extends \App\Modules\Settings\Base\Views\Index
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'modules.Settings.Vtiger.resources.List',
-			"modules.Settings.$moduleName.resources.List",
+			'modules.Settings.Vtiger.resources.ListView',
+			"modules.Settings.$moduleName.resources.ListView",
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

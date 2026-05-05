@@ -27,7 +27,8 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 */
 	public function getEditableFieldsList()
 	{
-		return array('frequency', 'status');
+		// `module` is posted as `cron_module` (same as Add) to avoid clashing with hidden `module` = Settings module name.
+		return ['name', 'handler_class', 'description', 'frequency', 'status'];
 	}
 
 	/**

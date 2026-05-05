@@ -149,14 +149,14 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			array(
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_ACTIVATION_TASKS',
-				'linkurl' => 'javascript:Settings_Workflows_List_Js.setChangeStatusTasks(this,' . $this->getId() . ',true);',
+				'linkurl' => 'javascript:Settings_Workflows_ListView_Js.setChangeStatusTasks(this,' . $this->getId() . ',true);',
 				'linkicon' => 'glyphicon glyphicon-ok',
 				'class' => 'activeTasks'
 			),
 			array(
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DEACTIVATION_TASKS',
-				'linkurl' => 'javascript:Settings_Workflows_List_Js.setChangeStatusTasks(this,' . $this->getId() . ', false);',
+				'linkurl' => 'javascript:Settings_Workflows_ListView_Js.setChangeStatusTasks(this,' . $this->getId() . ', false);',
 				'linkicon' => 'glyphicon glyphicon-remove',
 				'class' => 'deactiveTasks'
 			),

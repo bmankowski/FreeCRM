@@ -103,4 +103,5 @@ class ListView extends \App\Modules\Settings\Base\Views\ListView
 		$sourceModule = $request->get('sourceModule');
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
 	}
+
 }

@@ -40,8 +40,10 @@ class Vtiger_Request
 	public function __construct($values, $rawvalues = [], $stripifgpc = true)
 	{
 		$this->rawValueMap = $values;
-		// if ($stripifgpc && !empty($this->rawValueMap) && function_exists('get_magic_quotes_gpc') && \get_magic_quotes_gpc()) { //FUNCTION DOES NOT EXIST IN PHP 8.2+ BMN REMOVED it
-		if ($stripifgpc && !empty($this->rawValueMap)) {
+		// Only strip slashes when magic_quotes_gpc was enabled (PHP < 5.4). Unconditional stripslashes()
+		// destroys legitimate backslashes (e.g. PHP FQCNs like App\Modules\Foo\Bar).
+		if ($stripifgpc && !empty($this->rawValueMap)
+			&& function_exists('get_magic_quotes_gpc') && \get_magic_quotes_gpc()) {
 			$this->rawValueMap = $this->stripslashes_recursive($this->rawValueMap);
 		}
 	}

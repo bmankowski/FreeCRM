@@ -47,7 +47,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 */
 	public function getCreateRecordUrl()
 	{
-		return 'javascript:Settings_SMSNotifier_List_Js.triggerEdit(event, "index.php?module=' . $this->getName() . '&parent=' . $this->getParentName() . '&view=Edit")';
+		return 'javascript:Settings_SMSNotifier_ListView_Js.triggerEdit(event, "index.php?module=' . $this->getName() . '&parent=' . $this->getParentName() . '&view=Edit")';
 	}
 
 	/**

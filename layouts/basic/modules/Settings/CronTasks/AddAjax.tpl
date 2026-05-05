@@ -44,7 +44,7 @@
 						</div>
 					</div>
 					<div class="form-group">
-						 <label class="col-sm-3 control-label"><span class="redColor">*</span> {"LBL_PATH_TO_FILE"|t:$QUALIFIED_MODULE}</label>
+						 <label class="col-sm-3 control-label"><span class="redColor">*</span> {"LBL_HANDLER_CLASS"|t:$QUALIFIED_MODULE}</label>
 						<div class="col-sm-8 controls">
 							<input value="" name="path" class="form-control" data-validation-engine="validate[required]" id="path" />
 						</div>

@@ -40,6 +40,11 @@ class SaveAjax extends \App\Modules\Settings\Base\Actions\Index
 			}
 		}
 
+		$cronModule = $request->get('cron_module');
+		if ($cronModule !== null) {
+			$recordModel->set('module', $cronModule);
+		}
+
 		$recordModel->save();
 
 		$response = new \App\Http\Vtiger_Response();

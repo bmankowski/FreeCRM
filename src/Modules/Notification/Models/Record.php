@@ -219,7 +219,7 @@ class Record extends \App\Modules\Base\Models\Record
 			$recordLinks[] = [
 				'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
 				'linklabel' => 'LBL_MARK_AS_READ',
-				'linkurl' => 'javascript:Notification_List_Js.setAsMarked(' . $this->getId() . ')',
+				'linkurl' => 'javascript:Notification_ListView_Js.setAsMarked(' . $this->getId() . ')',
 				'linkicon' => 'glyphicon glyphicon-ok',
 				'linkclass' => 'btn-sm btn-default'
 			];

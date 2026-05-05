@@ -21,7 +21,9 @@ class AddAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 
-		$recordModel = \App\Modules\Settings\CronTasks\Models\Record::getInstanceById($recordId, $qualifiedModuleName);
+		$recordModel = !empty($recordId)
+			? \App\Modules\Settings\CronTasks\Models\Record::getInstanceById($recordId, $qualifiedModuleName)
+			: false;
 		$viewer = $this->getViewer($request);
 
 		$viewer->assign('RECORD_MODEL', $recordModel);

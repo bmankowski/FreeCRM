@@ -89,7 +89,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 */
 	public static function getCreateViewUrl()
 	{
-		return "javascript:Settings_PDF_List_Js.triggerCreate('" . self::getCreateRecordUrl() . "')";
+		return "javascript:Settings_PDF_ListView_Js.triggerCreate('" . self::getCreateRecordUrl() . "')";
 	}
 
 	public static function getCreateRecordUrl()

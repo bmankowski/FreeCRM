@@ -180,11 +180,26 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	}
 
 	/**
+	 * Same query string as getEditViewUrl() with & escaped for use inside HTML attributes (e.g. onclick).
+	 */
+	public function getEditViewUrlForHtml()
+	{
+		return str_replace('&', '&amp;', $this->getEditViewUrl());
+	}
+
+	/**
 	 * Function to save the record
 	 */
 	public function save($request = null)
 	{
-		\App\Db\Db::getInstance()->createCommand()->update('vtiger_cron_task', ['frequency' => $this->get('frequency'), 'status' => $this->get('status')], ['id' => $this->getId()])
+		\App\Db\Db::getInstance()->createCommand()->update('vtiger_cron_task', [
+			'name' => $this->get('name'),
+			'handler_class' => $this->get('handler_class'),
+			'module' => $this->get('module'),
+			'description' => $this->get('description'),
+			'frequency' => (int) $this->get('frequency'),
+			'status' => (int) $this->get('status'),
+		], ['id' => $this->getId()])
 			->execute();
 	}
 
@@ -234,22 +249,8 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public function getRecordLinks()
 	{
-
-		$links = array();
-
-		$recordLinks = array(
-			array(
-				'linktype' => 'LISTVIEWRECORD',
-				'linklabel' => 'LBL_EDIT_RECORD',
-				'linkurl' => "javascript:Settings_CronTasks_List_Js.triggerEditEvent('" . $this->getEditViewUrl() . "')",
-				'linkicon' => 'glyphicon glyphicon-pencil'
-			)
-		);
-		foreach ($recordLinks as $recordLink) {
-			$links[] = \App\Modules\Base\Models\Link::getInstanceFromValues($recordLink);
-		}
-
-		return $links;
+		// Edit is opened by clicking the task name in the list (see ListViewContent.tpl).
+		return [];
 	}
 
 	public function getMinimumFrequency()

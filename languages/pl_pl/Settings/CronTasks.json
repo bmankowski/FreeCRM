@@ -21,9 +21,14 @@
         "Sequence": "Kolejność",
         "Status": "Status",
         "LBL_ADD_CRON": "Dodaj zadanie",
+        "LBL_EDIT_TASK": "Edytuj zadanie",
+        "LBL_HANDLER_PARAMS": "Parametry obsługi (JSON)",
+        "LBL_HANDLER_PARAMS_READONLY": "Tylko do odczytu. Zmiana tylko w bazie lub w przyszłym interfejsie.",
+        "Description": "Opis",
         "MODULE": "Moduł",
         "LBL_NAME": "Nazwa",
         "LBL_PATH_TO_FILE": "Ścieżka do pliku",
+        "LBL_HANDLER_CLASS": "Klasa obsługi (FQCN w PHP)",
         "LBL_WORKFLOW": "Obieg informacji",
         "RecurringInvoice": "Cykliczna faktura",
         "LBL_MAIL_SCANNER_ACTION": "Akcja skanera poczty",
@@ -50,7 +55,8 @@
         "LBL_MAILER": "Wysyłka emaili",
         "LBL_CARD_DAV": "Integracja CardDav",
         "LBL_CAL_DAV": "Integracja CalDav",
-        "LBL_CLEAR_ATTACHMENTS_TABLE": "Czyszczenie tablicy zalączników"
+        "LBL_CLEAR_ATTACHMENTS_TABLE": "Czyszczenie tablicy zalączników",
+        "LBL_TMP_TEST_FILE_COPY": "Test kopiowania pliku (tmp)"
     },
     "jsLanguageStrings": {
         "Recommended frequency for Scheduled Import is 15 mins": "Zalecana częstotliwość dla Planowanego Importu to 15 minut.",

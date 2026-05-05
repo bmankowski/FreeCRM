@@ -52,13 +52,13 @@ class ListView extends \App\Modules\Base\Models\ListView
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_BindMails',
-				'linkurl' => 'javascript:OSSMailView_List_Js.bindMails("index.php?module=' . $moduleModel->get('name') . '&action=BindMails")',
+				'linkurl' => 'javascript:OSSMailView_ListView_Js.bindMails("index.php?module=' . $moduleModel->get('name') . '&action=BindMails")',
 				'linkicon' => ''
 			);
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_ChangeType',
-				'linkurl' => 'javascript:OSSMailView_List_Js.triggerChangeType("index.php?module=' . $moduleModel->get('name') . '&view=ChangeType")',
+				'linkurl' => 'javascript:OSSMailView_ListView_Js.triggerChangeType("index.php?module=' . $moduleModel->get('name') . '&view=ChangeType")',
 				'linkicon' => ''
 			);
 		}

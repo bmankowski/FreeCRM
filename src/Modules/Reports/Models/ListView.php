@@ -43,7 +43,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 						array(
 							'linktype' => 'LISTVIEWBASIC',
 							'linklabel' => 'LBL_CHARTS',
-							'linkurl' => 'javascript:Reports_List_Js.addReport("index.php?module=' . $this->getModule()->get('name') . '&view=ChartEdit")',
+							'linkurl' => 'javascript:Reports_ListView_Js.addReport("index.php?module=' . $this->getModule()->get('name') . '&view=ChartEdit")',
 							'linkicon' => '',
 						)
 					)
@@ -51,7 +51,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 				array(
 					'linktype' => 'LISTVIEWBASIC',
 					'linklabel' => 'LBL_ADD_FOLDER',
-					'linkurl' => 'javascript:Reports_List_Js.triggerAddFolder("' . $this->getModule()->getAddFolderUrl() . '")',
+					'linkurl' => 'javascript:Reports_ListView_Js.triggerAddFolder("' . $this->getModule()->getAddFolderUrl() . '")',
 					'linkicon' => ''
 				)
 			);
@@ -85,14 +85,14 @@ class ListView extends \App\Modules\Base\Models\ListView
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_DELETE',
-				'linkurl' => 'javascript:Reports_List_Js.massDelete("index.php?module=' . $this->getModule()->get('name') . '&action=MassDelete");',
+				'linkurl' => 'javascript:Reports_ListView_Js.massDelete("index.php?module=' . $this->getModule()->get('name') . '&action=MassDelete");',
 				'linkicon' => ''
 			);
 
 			$massActionLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MOVE_REPORT',
-				'linkurl' => 'javascript:Reports_List_Js.massMove("index.php?module=' . $this->getModule()->get('name') . '&view=MoveReports");',
+				'linkurl' => 'javascript:Reports_ListView_Js.massMove("index.php?module=' . $this->getModule()->get('name') . '&view=MoveReports");',
 				'linkicon' => ''
 			);
 		}
@@ -156,6 +156,6 @@ class ListView extends \App\Modules\Base\Models\ListView
 
 	public function getCreateRecordUrl()
 	{
-		return 'javascript:Reports_List_Js.addReport("' . $this->getModule()->getCreateRecordUrl() . '")';
+		return 'javascript:Reports_ListView_Js.addReport("' . $this->getModule()->getCreateRecordUrl() . '")';
 	}
 }

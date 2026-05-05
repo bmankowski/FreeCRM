@@ -64,7 +64,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 */
 	public static function getCreateViewUrl()
 	{
-		return "javascript:Settings_Workflows_List_Js.triggerCreate('index.php?module=Workflows&parent=Settings&view=Edit')";
+		return "javascript:Settings_Workflows_ListView_Js.triggerCreate('index.php?module=Workflows&parent=Settings&view=Edit')";
 	}
 
 	public static function getCreateRecordUrl()

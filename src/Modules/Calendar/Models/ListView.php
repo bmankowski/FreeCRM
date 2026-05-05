@@ -58,7 +58,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 			$advancedLinks[] = array(
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_IMPORT',
-				'linkurl' => 'javascript:Calendar_List_Js.triggerImportAction("' . $moduleModel->getImportUrl() . '")',
+				'linkurl' => 'javascript:Calendar_ListView_Js.triggerImportAction("' . $moduleModel->getImportUrl() . '")',
 				'linkicon' => ''
 			);
 		}
@@ -68,7 +68,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 			$advancedLinks[] = array(
 				'linktype' => 'LISTVIEW',
 				'linklabel' => 'LBL_EXPORT',
-				'linkurl' => 'javascript:Calendar_List_Js.triggerExportAction("' . $this->getModule()->getExportUrl() . '")',
+				'linkurl' => 'javascript:Calendar_ListView_Js.triggerExportAction("' . $this->getModule()->getExportUrl() . '")',
 				'linkicon' => ''
 			);
 		}

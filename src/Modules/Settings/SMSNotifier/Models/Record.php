@@ -86,13 +86,13 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			array(
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT',
-				'linkurl' => "javascript:Settings_SMSNotifier_List_Js.triggerEdit(event, '" . $this->getEditViewUrl() . "');",
+				'linkurl' => "javascript:Settings_SMSNotifier_ListView_Js.triggerEdit(event, '" . $this->getEditViewUrl() . "');",
 				'linkicon' => 'glyphicon glyphicon-pencil'
 			),
 			array(
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE',
-				'linkurl' => "javascript:Settings_SMSNotifier_List_Js.triggerDelete(event, '" . $this->getDeleteUrl() . "');",
+				'linkurl' => "javascript:Settings_SMSNotifier_ListView_Js.triggerDelete(event, '" . $this->getDeleteUrl() . "');",
 				'linkicon' => 'glyphicon glyphicon-trash'
 			)
 		);

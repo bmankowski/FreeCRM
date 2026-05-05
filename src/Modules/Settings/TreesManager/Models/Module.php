@@ -34,7 +34,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 */
 	public static function getCreateRecordUrl()
 	{
-		return "javascript:Settings_TreesManager_List_Js.triggerCreate('index.php?module=TreesManager&parent=Settings&view=Edit')";
+		return "javascript:Settings_TreesManager_ListView_Js.triggerCreate('index.php?module=TreesManager&parent=Settings&view=Edit')";
 	}
 
 	/**

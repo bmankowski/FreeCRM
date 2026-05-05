@@ -45,9 +45,10 @@ class CronRunner
 		}
 		
 		echo sprintf('---------------  %s | Start CRON  ----------', date('Y-m-d H:i:s')) . PHP_EOL;
-		
+
+		$explicitService = $serviceName !== null;
 		foreach ($cronTasks as $cronTask) {
-			$this->runTask($cronTask);
+			$this->runTask($cronTask, $explicitService);
 		}
 		
 		echo sprintf('===============  %s (' . round(microtime(true) - $cronStart, 2) . ') | End CRON  ==========', date('Y-m-d H:i:s')) . PHP_EOL;
@@ -56,9 +57,10 @@ class CronRunner
 	/**
 	 * Run a single cron task
 	 * @param \vtlib\Cron $cronTask
+	 * @param bool $ignoreFrequency When true (explicit `service=` from CLI/web), skip the per-task frequency wait so the job runs immediately.
 	 * @return void
 	 */
-	public function runTask(\vtlib\Cron $cronTask): void
+	public function runTask(\vtlib\Cron $cronTask, bool $ignoreFrequency = false): void
 	{
 		$taskName = $cronTask->getName();
 		$taskMarkedRunning = false;
@@ -82,8 +84,8 @@ class CronRunner
 			return;
 		}
 
-		// Not ready to run yet?
-		if (!$cronTask->isRunnable()) {
+		// Not ready to run yet? (skipped when a single task was requested via service=…)
+		if (!$ignoreFrequency && !$cronTask->isRunnable()) {
 			\App\Log\Log::trace($taskName . ' - Not ready to run as the time to run again is not completed');
 			echo sprintf('%s | %s - Not ready to run as the time to run again is not completed' . PHP_EOL, date('Y-m-d H:i:s'), $taskName);
 			return;

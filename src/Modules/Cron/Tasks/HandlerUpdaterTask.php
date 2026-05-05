@@ -22,7 +22,6 @@ final class HandlerUpdaterTask extends AbstractCronTask
 		$endTime = time() + $cronMaxTime;
 		$eventHandler = new \App\Events\EventHandler();
 		$db = \App\Db\Db::getInstance('admin');
-
 		do {
 			try {
 				$rows = (new \App\Db\Query())->from('s_#__handler_updater')->limit($updaterLimit)->all($db);

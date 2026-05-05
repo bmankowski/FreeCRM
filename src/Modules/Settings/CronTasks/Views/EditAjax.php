@@ -22,8 +22,28 @@ class EditAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 		$qualifiedModuleName = $request->getModule(false);
 
 		$recordModel = \App\Modules\Settings\CronTasks\Models\Record::getInstanceById($recordId, $qualifiedModuleName);
+		if (!$recordModel) {
+			throw new \App\Exceptions\AppException('LBL_RECORD_NOT_FOUND');
+		}
 		$viewer = $this->getViewer($request);
 
+		$moduleList = \App\Modules\Settings\Workflows\Models\Module::getSupportedModules();
+		$currentModule = $recordModel->get('module');
+		if ($currentModule !== null && $currentModule !== '') {
+			$present = false;
+			foreach ($moduleList as $moduleModel) {
+				if ($moduleModel->getName() === $currentModule) {
+					$present = true;
+					break;
+				}
+			}
+			if (!$present) {
+				$fallback = new \stdClass();
+				$fallback->name = $currentModule;
+				$moduleList[] = $fallback;
+			}
+		}
+		$viewer->assign('MODULE_LIST', $moduleList);
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('RECORD', $recordId);

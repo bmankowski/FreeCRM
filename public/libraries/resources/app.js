@@ -542,9 +542,11 @@ var app = {
 							}
 						}, this))
 			};
+			// Append before .modal(): Bootstrap shows backdrop on body while the modal was still
+			// detached, so the dialog could appear in the wrong place or under the backdrop.
+			jQuery('body').append(container);
 			var modalContainer = container.find('.modal:first');
 			modalContainer.modal(params);
-			jQuery('body').append(container);
 			app.changeSelectElementView(modalContainer);
 			//register all select2 Elements
 			app.showSelect2ElementView(modalContainer.find('select.select2'));

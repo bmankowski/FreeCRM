@@ -3045,6 +3045,7 @@ class Base2 extends \App\Db\Importers\Base
 					[27, 'LBL_CACHE', 'App\\Modules\\Cron\\Tasks\\CacheTask', NULL, 86400, NULL, NULL, 1, 'Vtiger', 25, NULL],
 					[28, 'LBL_NEVER_ENDING_RECURRING_EVENTS', 'App\\Modules\\Events\\Cron\\RecurringEventsTask', NULL, 86400, NULL, NULL, 1, 'Events', 26, NULL],
 					[29, 'LBL_CLEAR_ATTACHMENTS_TABLE', 'App\\Modules\\Cron\\Tasks\\AttachmentsTask', NULL, 86400, NULL, NULL, 1, 'Vtiger', 27, NULL],
+					[30, 'LBL_TMP_TEST_FILE_COPY', 'App\\Modules\\Cron\\Tasks\\TmpTestFileCopyTask', NULL, 60, NULL, NULL, 1, 'Vtiger', 30, 'Test: copies cache/tmp/test/test.txt to test_YYYYMMDD-HHMM.txt'],
 				]
 			],
 			'vtiger_currencies' => [

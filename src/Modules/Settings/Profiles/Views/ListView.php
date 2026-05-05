@@ -27,7 +27,7 @@ class ListView extends \App\Modules\Settings\Base\Views\ListView
 
 		$jsFileNames = array(
 			'modules.Settings.Vtiger.resources.Edit',
-			"modules.Settings.$moduleName.resources.List"
+			"modules.Settings.$moduleName.resources.ListView"
 		);
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);

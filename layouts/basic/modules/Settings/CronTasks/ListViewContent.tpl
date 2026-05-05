@@ -45,7 +45,6 @@
 									{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}&nbsp;&nbsp;<span class="{$SORT_IMAGE}"></span>{/if}</a>
 							</th>
 						{/foreach}
-						<th  class="{$WIDTHTYPE}"></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -60,30 +59,17 @@
 							</td>
 							{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 								{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
-								{assign var=LAST_COLUMN value=$LISTVIEW_HEADER@last}
+								{assign var=CELL value=$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
 								<td class="listViewEntryValue {$WIDTHTYPE}"  >
-									&nbsp; {$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)|t:$QUALIFIED_MODULE}
-									{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
-									</td><td nowrap class="{$WIDTHTYPE}">
-										<div class="pull-right actions">
-											<span class="actionImages">
-												{foreach item=RECORD_LINK from=$LISTVIEW_ENTRY->getRecordLinks()}
-													{assign var="RECORD_LINK_URL" value=$RECORD_LINK->getUrl()}
-													<a {if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="{$RECORD_LINK_URL|substr:strlen("javascript:")};
-															if (event.stopPropagation){ldelim}
-			event.stopPropagation();{rdelim} else{ldelim}
-			event.cancelBubble = true;{rdelim}" {else} href='{$RECORD_LINK_URL}' {/if}>
-														<span class="{$RECORD_LINK->getIcon()} alignMiddle" title="{$RECORD_LINK->getLabel()|t:$QUALIFIED_MODULE}"></span>
-													</a>
-													{if !$RECORD_LINK@last}
-														&nbsp;&nbsp;
-													{/if}
-												{/foreach}
-											</span>
-										</div>
+									{if $LISTVIEW_HEADERNAME eq 'name'}
+										<a href="javascript:void(0);" class="cronTaskNameEdit text-primary" title="{"LBL_EDIT_RECORD"|t:$QUALIFIED_MODULE}"
+											onclick="Settings_CronTasks_ListView_Js.triggerEditEvent('{$LISTVIEW_ENTRY->getEditViewUrlForHtml()}');if (event.stopPropagation){ldelim}event.stopPropagation();{rdelim}else{ldelim}event.cancelBubble = true;{rdelim}return false;">
+											{if $CELL neq ''}{$CELL|t:$QUALIFIED_MODULE}{/if}
+										</a>
+									{else}
+										{if $CELL neq ''}&nbsp; {$CELL}{/if}
+									{/if}
 									</td>
-								{/if}
-								</td>
 							{/foreach}
 						</tr>
 					{/foreach}

@@ -102,7 +102,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 			$massActionLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_MOVE',
-				'linkurl' => 'javascript:Documents_List_Js.massMove("index.php?module=' . $moduleModel->getName() . '&view=MoveDocuments");',
+				'linkurl' => 'javascript:Documents_ListView_Js.massMove("index.php?module=' . $moduleModel->getName() . '&view=MoveDocuments");',
 				'linkicon' => ''
 			];
 		}

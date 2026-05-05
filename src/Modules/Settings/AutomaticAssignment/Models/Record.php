@@ -370,7 +370,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 				[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_CHANGE_RECORD_STATE',
-				'linkurl' => 'javascript:Settings_AutomaticAssignment_List_Js.changeRecordState(' . $this->getId() . ', ' . (int) !$this->isActive() . ');',
+				'linkurl' => 'javascript:Settings_AutomaticAssignment_ListView_Js.changeRecordState(' . $this->getId() . ', ' . (int) !$this->isActive() . ');',
 				'linkicon' => 'glyphicon glyphicon-transfer'
 			],
 				[

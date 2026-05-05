@@ -9,11 +9,27 @@
 
 Settings_Vtiger_ListView_Js("Settings_CronTasks_ListView_Js",{
 	triggerEditEvent : function(editUrl) {
-		AppConnector.request(editUrl).then(function(data) {
-			app.showModalWindow(data);
-			jQuery('#cronJobSaveAjax').validationEngine(app.validationEngineOptions);
-			var listViewInstance = Settings_CronTasks_ListView_Js.getInstance();
-			listViewInstance.registerSaveEvent();
+		var params = editUrl;
+		if (typeof editUrl === 'string') {
+			params = {};
+			var pairs = editUrl.split('&');
+			for (var i = 0; i < pairs.length; i++) {
+				var segment = pairs[i];
+				if (!segment) {
+					continue;
+				}
+				var eq = segment.indexOf('=');
+				var key = eq === -1 ? segment : segment.substr(0, eq);
+				var val = eq === -1 ? '' : segment.substr(eq + 1);
+				params[key] = decodeURIComponent(val.replace(/\+/g, ' '));
+			}
+		}
+		AppConnector.request(params).then(function(data) {
+			app.showModalWindow(data, function (modalContainer) {
+				modalContainer.find('#cronJobSaveAjax').validationEngine(app.validationEngineOptions);
+				var listViewInstance = Settings_CronTasks_ListView_Js.getInstance();
+				listViewInstance.registerSaveEvent();
+			}, { width: '600px' });
 		});
 	}
 },{
@@ -35,6 +51,7 @@ Settings_Vtiger_ListView_Js("Settings_CronTasks_ListView_Js",{
 		AppConnector.request(params).then(function(data){
 			jQuery('#listViewContents').html(data);
 			thisInstance.registerSortableEvent();
+			thisInstance.triggerAdd();
 			progressIndicatorElement.progressIndicator({
 				mode : 'hide'
 			});
@@ -44,7 +61,7 @@ Settings_Vtiger_ListView_Js("Settings_CronTasks_ListView_Js",{
 	
 	registerSaveEvent : function() {
 		var thisInstance = this;
-		jQuery('#cronJobSaveAjax').on('submit',function(e){
+		jQuery('#cronJobSaveAjax').off('submit').on('submit',function(e){
 			var form = jQuery(e.currentTarget);
 			var validationResult = form.validationEngine('validate');
 			if(validationResult == true) {
