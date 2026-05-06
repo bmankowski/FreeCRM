@@ -5,8 +5,12 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
     ca-certificates \
+    curl \
     git \
     unzip \
+    ghostscript \
+    imagemagick \
+    poppler-utils \
     libcurl4-openssl-dev \
     libonig-dev \
     libxml2-dev \
@@ -21,6 +25,7 @@ RUN apt-get update \
   && docker-php-ext-install -j"$(nproc)" \
     curl \
     dom \
+    exif \
     gd \
     imap \
     mbstring \

@@ -182,9 +182,12 @@ class File
 				throw new \Exception('Error php code injection');
 			}
 			if ($this->mimeType === 'image/jpeg' || $this->mimeType === 'image/tiff') {
-				$exifdata = exif_read_data($this->path);
-				if ($exifdata && !$this->validateImageMetadata($exifdata, $shortTagSupported)) {
-					throw new \Exception('Error php code injection');
+				// EXIF is optional in some PHP builds; missing it must not crash uploads.
+				if (\function_exists('exif_read_data')) {
+					$exifdata = \exif_read_data($this->path);
+					if ($exifdata && !$this->validateImageMetadata($exifdata, $shortTagSupported)) {
+						throw new \Exception('Error php code injection');
+					}
 				}
 			}
 			if (stripos('<?xpacket', $this->getContents()) !== false) {

@@ -8,7 +8,9 @@
         "PLL_TOGGLE_FAILED": "Przełączenie nie powiodło się",
         "PLL_TOGGLE_SUCCESS": "Przełączenie zakończone sukcesem",
         "PLL_MAIL_SENT_STUDY": "Wysłano maila z ankietą",
-        "LBL_RELATED_ACTION_SET_AS_CV": "Ustaw jako CV"
+        "LBL_RELATED_ACTION_SET_AS_CV": "Ustaw jako CV",
+        "LBL_TRANSFORM_DOCUMENT_TO_CV_TITLE": "Ustaw dokument jako CV",
+        "LBL_TRANSFORM_DOCUMENT_TO_CV_DESC": "To ustawi wybrany dokument jako CV kandydata."
     },
     "jsLanguageStrings": {
         "PLL_TOGGLE_FAILED": "Przełączenie nie powiodło się",

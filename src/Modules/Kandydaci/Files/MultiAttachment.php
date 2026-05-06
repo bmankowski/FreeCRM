@@ -10,6 +10,61 @@ namespace App\Modules\Kandydaci\Files;
  */
 class MultiAttachment
 {
+	/**
+	 * Resolve a stored attachment payload to an existing file path.
+	 *
+	 * Historic payloads sometimes stored directories (or key folders) rather than full file paths.
+	 */
+	private function resolveAbsolutePath(array $item, string $key): ?string
+	{
+		$relativePath = (string) ($item['path'] ?? '');
+		$relativePath = ltrim($relativePath, "/\\");
+		if ($relativePath === '') {
+			return null;
+		}
+
+		$candidatePaths = [];
+		// Some historic payloads store "path" as a full relative file path (incl. filename).
+		$candidatePaths[] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $relativePath;
+		// Some payloads store "path" as a directory.
+		$candidatePaths[] = rtrim(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $relativePath, "/\\") . DIRECTORY_SEPARATOR . $key;
+		// Some payloads store original filename separately.
+		if (!empty($item['name'])) {
+			$candidatePaths[] = rtrim(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $relativePath, "/\\") . DIRECTORY_SEPARATOR . (string) $item['name'];
+		}
+
+		foreach ($candidatePaths as $path) {
+			if (!is_string($path) || $path === '' || !file_exists($path)) {
+				continue;
+			}
+			if (is_file($path)) {
+				return $path;
+			}
+			// If a directory exists where a file is expected, try to locate the actual file within.
+			if (is_dir($path)) {
+				if (!empty($item['name'])) {
+					$byName = rtrim($path, "/\\") . DIRECTORY_SEPARATOR . (string) $item['name'];
+					if (file_exists($byName) && is_file($byName)) {
+						return $byName;
+					}
+				}
+				$entries = @scandir($path) ?: [];
+				foreach ($entries as $entry) {
+					if ($entry === '.' || $entry === '..') {
+						continue;
+					}
+					$full = rtrim($path, "/\\") . DIRECTORY_SEPARATOR . $entry;
+					if (file_exists($full) && is_file($full)) {
+						return $full;
+					}
+				}
+			}
+		}
+
+		\App\Log\Log::warning('[MultiAttachment] File not found. Candidates: ' . \App\Utils\Json::encode($candidatePaths));
+		return null;
+	}
+
 	public function getCheckPermission(\App\Http\Vtiger_Request $request): bool
 	{
 		$moduleName = $request->getModule();
@@ -52,29 +107,8 @@ class MultiAttachment
 			throw new \App\Exceptions\NoPermitted('Not Found', 404);
 		}
 
-		$relativePath = (string) $item['path'];
-		$relativePath = ltrim($relativePath, "/\\");
-
-		$candidatePaths = [];
-		// Some historic payloads store "path" as a full relative file path (incl. filename).
-		$candidatePaths[] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $relativePath;
-		// Some payloads store "path" as a directory.
-		$candidatePaths[] = rtrim(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $relativePath, "/\\") . DIRECTORY_SEPARATOR . $key;
-		// Some payloads store original filename separately.
-		if (!empty($item['name'])) {
-			$candidatePaths[] = rtrim(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $relativePath, "/\\") . DIRECTORY_SEPARATOR . (string) $item['name'];
-		}
-
-		$absolutePath = null;
-		foreach ($candidatePaths as $path) {
-			if (is_string($path) && $path !== '' && file_exists($path)) {
-				$absolutePath = $path;
-				break;
-			}
-		}
-
+		$absolutePath = $this->resolveAbsolutePath($item, $key);
 		if (!$absolutePath) {
-			\App\Log\Log::warning('[MultiAttachment] File not found. Candidates: ' . \App\Utils\Json::encode($candidatePaths));
 			throw new \App\Exceptions\NoPermitted('Not Found', 404);
 		}
 

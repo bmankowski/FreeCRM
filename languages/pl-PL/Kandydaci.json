@@ -5,7 +5,9 @@
         "LBL_CUSTOM_INFORMATION": "Informacje dodatkowe",
         "LBL_BASIC_INFORMATION": "Informacje podstawowe",
         "Nazwisko i imię": "Nazwisko i imię",
-        "LBL_RELATED_ACTION_SET_AS_CV": "Ustaw jako CV"
+        "LBL_RELATED_ACTION_SET_AS_CV": "Ustaw jako CV",
+        "LBL_TRANSFORM_DOCUMENT_TO_CV_TITLE": "Ustaw dokument jako CV",
+        "LBL_TRANSFORM_DOCUMENT_TO_CV_DESC": "To ustawi wybrany dokument jako CV kandydata."
     },
     "jsLanguageStrings": {
     }
