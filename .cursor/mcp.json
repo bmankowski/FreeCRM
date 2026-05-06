@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "freecrm-mysql": {
+      "command": "/home/bmankowski/projects/mcp/venv/bin/python3",
+      "args": [
+        "/home/bmankowski/projects/mcp/mysql-mcp-server.py"
+      ],
+      "env": {
+        "MYSQL_YETIFORCE_HOST": "127.0.0.1",
+        "MYSQL_YETIFORCE_PORT": "3306",
+        "MYSQL_YETIFORCE_USER": "freecrm",
+        "MYSQL_YETIFORCE_PASSWORD": "freecrm",
+        "MYSQL_YETIFORCE_DATABASE": "freecrm"
+      }
+    }
+  }
+}
+

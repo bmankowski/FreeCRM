@@ -13,6 +13,9 @@ services:
       - /var/run:uid=33,gid=33,mode=0755
     volumes:
       - ./:/var/www/html:ro
+      # Writable overlays for runtime data
+      - ./storage:/var/www/html/storage
+      - ./cache:/var/www/html/cache
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
     restart: unless-stopped
 
@@ -39,6 +42,8 @@ services:
 
   db:
     image: mariadb:11.6
+    ports:
+      - "3306:3306"
     environment:
       MARIADB_DATABASE: freecrm
       MARIADB_USER: freecrm

@@ -52,14 +52,29 @@ class MultiAttachment
 			throw new \App\Exceptions\NoPermitted('Not Found', 404);
 		}
 
-		$relativeDir = (string) $item['path'];
-		// Normalize: ensure trailing slash.
-		if ($relativeDir !== '' && substr($relativeDir, -1) !== '/' && substr($relativeDir, -1) !== DIRECTORY_SEPARATOR) {
-			$relativeDir .= DIRECTORY_SEPARATOR;
+		$relativePath = (string) $item['path'];
+		$relativePath = ltrim($relativePath, "/\\");
+
+		$candidatePaths = [];
+		// Some historic payloads store "path" as a full relative file path (incl. filename).
+		$candidatePaths[] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $relativePath;
+		// Some payloads store "path" as a directory.
+		$candidatePaths[] = rtrim(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $relativePath, "/\\") . DIRECTORY_SEPARATOR . $key;
+		// Some payloads store original filename separately.
+		if (!empty($item['name'])) {
+			$candidatePaths[] = rtrim(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $relativePath, "/\\") . DIRECTORY_SEPARATOR . (string) $item['name'];
 		}
-		$absolutePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $relativeDir . $key;
-		if (!file_exists($absolutePath)) {
-			\App\Log\Log::warning('[MultiAttachment] File not found: ' . $absolutePath);
+
+		$absolutePath = null;
+		foreach ($candidatePaths as $path) {
+			if (is_string($path) && $path !== '' && file_exists($path)) {
+				$absolutePath = $path;
+				break;
+			}
+		}
+
+		if (!$absolutePath) {
+			\App\Log\Log::warning('[MultiAttachment] File not found. Candidates: ' . \App\Utils\Json::encode($candidatePaths));
 			throw new \App\Exceptions\NoPermitted('Not Found', 404);
 		}
 

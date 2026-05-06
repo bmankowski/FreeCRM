@@ -25,10 +25,15 @@ try {
 	$webUI = new \App\Main\File();
 	$request = new \App\Http\Vtiger_Request($_REQUEST, $_REQUEST);
 	$webUI->process($request);
-} catch (Exception $e) {
+} catch (\Throwable $e) {
 	\App\Log\Log::error($e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
-	//var_dump($e->getMessage());
-	header('HTTP/1.1 400 Bad Request');
+	$code = (int) $e->getCode();
+	// Preserve intended HTTP status codes when exceptions provide them (e.g. 401/403/404/406/405).
+	if ($code >= 400 && $code < 600) {
+		http_response_code($code);
+	} else {
+		http_response_code(400);
+	}
 }
 
 

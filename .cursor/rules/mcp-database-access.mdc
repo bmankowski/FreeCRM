@@ -1,0 +1,38 @@
+---
+description: Use the local MySQL/MariaDB MCP server for DB reads/writes
+alwaysApply: true
+---
+
+# MCP database access (FreeCRM)
+
+## Use MCP for DB reads and writes
+
+- Prefer the **local MCP server** `freecrm-mysql` (configured in `.cursor/mcp.json`) for database queries during debugging and maintenance.
+- Use MCP to quickly inspect field payloads (e.g. JSON in `*_file` columns) and verify data vs disk.
+- MCP can also be used to **change data** (UPDATE/INSERT/DELETE) when needed.
+
+## Connectivity prerequisites (Docker)
+
+- FreeCRM runs MariaDB in Docker (`docker-compose.yml` service `db`).
+- From the host/WSL, the Docker hostname **`db` is not resolvable**; MCP must connect via a **published port**:
+  - Ensure `db` publishes `3306:3306` (or adjust MCP env to the published port).
+  - MCP should use **`127.0.0.1`** as the host.
+
+## Safety constraints
+
+- **Reads are the default**: use SELECT first to understand state.
+- **Writes are allowed**: run `INSERT/UPDATE/DELETE/DDL` via MCP when needed.
+- **Guardrails**:
+  - Only run write queries when the user explicitly asks, or when it is clearly required to complete the requested task (and describe the intent first).
+  - For high-impact operations (e.g. `DROP`, `TRUNCATE`, broad `UPDATE`/`DELETE` without a restrictive WHERE), require explicit confirmation in chat before executing.
+
+## Practical debugging pattern (files/images)
+
+When an image/file URL fails:
+
+- Query the record’s file field (example `cv_img_file`) to retrieve the JSON payload (`path`, `key`, `name`, `type`).
+- Verify that the referenced file exists on disk under `storage/`.
+- If DB points to a path that doesn’t exist, the fix is usually:
+  - regenerate the file, or
+  - fix the writer path/volume permissions (Docker `storage/` must be writable), not the reader.
+
