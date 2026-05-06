@@ -257,8 +257,9 @@ class WebUI extends EntryPoint
 		try {
 			$db = \App\Db\Db::getInstance('base');
 			$db->open();
-			// Core users live in vtiger_users; yii tablePrefix is yf_ for other tables only.
-			return $db->isTableExists('vtiger_users');
+			// Consider the app installed only when a user exists in vtiger_users.
+			// This avoids treating a partially-imported schema (table exists but empty) as installed.
+			return (bool) $db->createCommand('SELECT 1 FROM vtiger_users LIMIT 1')->queryScalar();
 		} catch (\Throwable $e) {
 			// If DB is not reachable or schema missing, treat as not installed.
 			return false;

@@ -4,7 +4,7 @@ services:
     depends_on:
       - app
     ports:
-      - "8080:8080"
+      - "80:8080"
     user: "33:33" # www-data
     environment:
       NGINX_ENTRYPOINT_QUIET_LOGS: "1"
@@ -28,7 +28,7 @@ services:
       FREECRM_DB_USER: freecrm
       FREECRM_DB_PASSWORD: freecrm
       # When behind nginx, keep base URL consistent
-      FREECRM_SITE_URL: "http://localhost:8080/"
+      FREECRM_SITE_URL: "http://localhost/"
       # DebugBar tries to query DB early; disable in docker install flow
       YII_DEBUG: "0"
     volumes:

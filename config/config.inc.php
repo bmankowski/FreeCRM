@@ -30,7 +30,7 @@ $dbconfig['db_hostname'] = 'db' . ':' . '3306';
 
 $host_name = $dbconfig['db_hostname'];
 
-$site_URL = 'http://localhost:8080/';
+$site_URL = 'http://localhost/';
 
 $cache_dir = 'cache/';
 $tmp_dir = 'cache/images/';

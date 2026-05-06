@@ -6,7 +6,7 @@ alwaysApply: false
 
 # FreeCRM Installer UI Testing (Docker)
 
-Use this checklist when testing the FreeCRM installer in the browser at `http://localhost:8080/`.
+Use this checklist when testing the FreeCRM installer in the browser at `http://localhost/`.
 
 ## Click-path (Step1 → Step7)
 
@@ -59,6 +59,6 @@ Installer pages are **tall**; the **`Dalej` / `Instalacja` / `Zgadzam się`** co
 
 ## Success criteria
 
-- `http://localhost:8080/` shows the **FreeCRM login page** (or you land in the app after auto-login).
+- `http://localhost/` shows the **FreeCRM login page** (or you land in the app after auto-login).
 - `cache/logs/system.log` contains **no new fatal errors** produced by the installation run.
 

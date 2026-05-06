@@ -85,8 +85,8 @@ class Index extends \App\Modules\Base\Views\Index
 				if (!empty($dbconfig) && !empty($dbconfig['db_name']) && $dbconfig['db_name'] !== '_DBC_TYPE_') {
 					$db = \App\Db\Db::getInstance('base');
 					$db->open();
-					// Schema uses vtiger_* user tables; tablePrefix is yf_ for Yii only.
-					$isInstalled = $db->isTableExists('vtiger_users');
+					// Consider the app installed only when a user exists in vtiger_users.
+					$isInstalled = (bool) $db->createCommand('SELECT 1 FROM vtiger_users LIMIT 1')->queryScalar();
 				}
 			} catch (\Throwable $e) {
 				$isInstalled = false;
