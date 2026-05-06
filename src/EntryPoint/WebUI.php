@@ -251,7 +251,18 @@ class WebUI extends EntryPoint
 	public function isInstalled()
 	{
 		$dbconfig = \App\Core\AppConfig::main('dbconfig');
-		return !(empty($dbconfig) || empty($dbconfig['db_name']) || $dbconfig['db_name'] === '_DBC_TYPE_');
+		if (empty($dbconfig) || empty($dbconfig['db_name']) || $dbconfig['db_name'] === '_DBC_TYPE_') {
+			return false;
+		}
+		try {
+			$db = \App\Db\Db::getInstance('base');
+			$db->open();
+			// Core users live in vtiger_users; yii tablePrefix is yf_ for other tables only.
+			return $db->isTableExists('vtiger_users');
+		} catch (\Throwable $e) {
+			// If DB is not reachable or schema missing, treat as not installed.
+			return false;
+		}
 	}
 
 	/**
@@ -319,8 +330,14 @@ class WebUI extends EntryPoint
 	 */
 	private function checkInstallation()
 	{
+		// Avoid redirect loops when the installer module is already being served.
+		if (isset($_GET['module']) && $_GET['module'] === 'Install') {
+			return;
+		}
 		if (!$this->isInstalled()) {
-			header('Location: install/Install.php');
+			// Use the main front controller for the installer module.
+			// This project layout keeps installer code under src/Modules/Install/.
+			header('Location: index.php?module=Install&view=Index');
 			exit;
 		}
 	}

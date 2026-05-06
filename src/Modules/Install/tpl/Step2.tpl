@@ -17,7 +17,7 @@
 	<div class="row main-container">
 		<div class="inner-container">
 			<h2>{"LBL_LICENSE"|t:"Install"}</h2>
-			<form class="form-horizontal" name="step2" method="post" action="Install.php">
+	<form class="form-horizontal" name="step2" method="post" action="index.php?module=Install&view=Index">
 				<input type="hidden" name="mode" value="Step3" />
 				<input type="hidden" name="lang" value="{$LANG}" />
 				<div class="row">

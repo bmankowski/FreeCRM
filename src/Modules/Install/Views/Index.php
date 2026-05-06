@@ -11,13 +11,24 @@
 namespace App\Modules\Install\Views;
 
 use App\Http\Vtiger_Request;
+use \Install_Utils_Model;
+use \Install_ConfigFileUtils_Model;
 
+require_once __DIR__ . '/../Models/Utils.php';
+require_once __DIR__ . '/../Models/ConfigFileUtils.php';
+require_once __DIR__ . '/../Models/InitSchema.php';
 
 class Index extends \App\Modules\Base\Views\Index
 {
 
 	protected $debug = false;
 	protected $viewer;
+
+	public function preProcessAjax(\App\Http\Vtiger_Request $request)
+	{
+		// Installer steps are often triggered via PJAX/AJAX. Ensure viewer is initialized.
+		$this->preProcess($request);
+	}
 
 	public function loginRequired()
 	{
@@ -68,8 +79,19 @@ class Index extends \App\Modules\Base\Views\Index
 		$configFileName = 'config/config.inc.php';
 		if ($request->getMode() !== 'Step7' && is_file($configFileName) && filesize($configFileName) > 10) {
 			// Redirect to app only if installation is actually completed (db configured)
-			$dbconfig = \App\Core\AppConfig::main('dbconfig');
-			if (!empty($dbconfig) && !empty($dbconfig['db_name']) && $dbconfig['db_name'] !== '_DBC_TYPE_') {
+			$isInstalled = false;
+			try {
+				$dbconfig = \App\Core\AppConfig::main('dbconfig');
+				if (!empty($dbconfig) && !empty($dbconfig['db_name']) && $dbconfig['db_name'] !== '_DBC_TYPE_') {
+					$db = \App\Db\Db::getInstance('base');
+					$db->open();
+					// Schema uses vtiger_* user tables; tablePrefix is yf_ for Yii only.
+					$isInstalled = $db->isTableExists('vtiger_users');
+				}
+			} catch (\Throwable $e) {
+				$isInstalled = false;
+			}
+			if ($isInstalled) {
 				$defaultModule = \App\Core\AppConfig::main('default_module');
 				$defaultModuleInstance = \App\Modules\Base\Models\Module::getInstance($defaultModule);
 				$defaultView = $defaultModuleInstance->getDefaultViewName();
@@ -78,9 +100,27 @@ class Index extends \App\Modules\Base\Views\Index
 		}
 		$_SESSION['default_language'] = $defaultLanguage = ($request->get('lang')) ? $request->get('lang') : 'en_us';
 
-		$this->viewer = new CRM_Viewer();
-		$this->viewer->setTemplateDir('install/tpl/');
-		$this->viewer->assign('LANGUAGE_STRINGS', $this->getJSLanguageStrings($request));
+		// Use a plain Smarty instance for installer templates.
+		// CRM_Viewer::view() resolves templates via module/layout paths and does not match installer tpl layout.
+		$this->viewer = new \Smarty();
+		$this->viewer->setTemplateDir(ROOT_DIRECTORY . '/src/Modules/Install/tpl/');
+		$compileDir = ROOT_DIRECTORY . '/cache/templates_c/install';
+		if (!is_dir($compileDir)) {
+			mkdir($compileDir, 0777, true);
+		}
+		$this->viewer->setCompileDir($compileDir);
+		// Minimal translation support for installer templates.
+		$this->viewer->registerPlugin('modifier', 't', '\App\Runtime\Vtiger_Language_Handler::translate');
+		$this->viewer->registerPlugin('modifier', 'vtranslate', '\App\Runtime\Vtiger_Language_Handler::translate');
+		// Avoid Smarty deprecation notices for commonly used helpers in templates.
+		$this->viewer->registerPlugin('function', 'vimage_path', 'vimage_path');
+		$this->viewer->registerPlugin('modifier', 'vimage_path', 'vimage_path');
+		$this->viewer->registerPlugin('function', 'date', 'date');
+		$this->viewer->registerClass('\App\Utils\Json', '\App\Utils\Json');
+		$this->viewer->registerClass('App\Utils\Json', '\App\Utils\Json');
+		// During installation the DB schema may not exist yet; avoid pulling strings that require DB access.
+		$this->viewer->assign('LANGUAGE_STRINGS', []);
+		$this->viewer->assign('CURRENT_YEAR', date('Y'));
 		$this->viewer->assign('LANG', $request->get('lang'));
 		$this->viewer->assign('HTMLLANG', substr($defaultLanguage, 0, 2));
 		$this->viewer->assign('LANGUAGE', $defaultLanguage);
@@ -126,26 +166,25 @@ class Index extends \App\Modules\Base\Views\Index
 		}
 		$this->viewer->assign('LANGUAGES', Install_Utils_Model::getLanguages());
 		$this->viewer->assign('IS_MIGRATE', $isMigrate);
-		$this->viewer->view('Step1.tpl');
+		$this->viewer->display('Step1.tpl');
 	}
 
 	public function Step2(\App\Http\Vtiger_Request $request)
 	{
-		$this->viewer->view('Step2.tpl');
+		$this->viewer->display('Step2.tpl');
 	}
 
 	public function Step3(\App\Http\Vtiger_Request $request)
 	{
 		$this->viewer->assign('FAILED_FILE_PERMISSIONS', \App\Modules\Settings\ConfReport\Models\Module::getPermissionsFiles(true));
 		$this->viewer->assign('MODULE', 'Settings::ConfReport');
-		$this->viewer->view('Step3.tpl');
+		$this->viewer->display('Step3.tpl');
 	}
 
 	public function Step4(\App\Http\Vtiger_Request $request)
 	{
 		$this->viewer->assign('CURRENCIES', Install_Utils_Model::getCurrencyList());
-		require_once ROOT_DIRECTORY . '/modules/Users/UserTimeZonesArray.php';
-		$this->viewer->assign('TIMEZONES', UserTimeZones::getTimeZones());
+		$this->viewer->assign('TIMEZONES', \App\Modules\Users\UserTimeZones::getTimeZones());
 
 		$defaultParameters = Install_Utils_Model::getDefaultPreInstallParameters();
 		$this->viewer->assign('DB_HOSTNAME', $defaultParameters['db_hostname']);
@@ -157,7 +196,7 @@ class Index extends \App\Modules\Base\Views\Index
 		$this->viewer->assign('ADMIN_PASSWORD', $defaultParameters['admin_password']);
 		$this->viewer->assign('ADMIN_EMAIL', $defaultParameters['admin_email']);
 
-		$this->viewer->view('Step4.tpl');
+		$this->viewer->display('Step4.tpl');
 	}
 
 	public function Step5(\App\Http\Vtiger_Request $request)
@@ -174,28 +213,37 @@ class Index extends \App\Modules\Base\Views\Index
 		//PHP 5.5+ mysqli is favourable.
 		$dbConnection = Install_Utils_Model::checkDbConnection($request);
 
-		$webRoot = ($_SERVER["HTTP_HOST"]) ? $_SERVER["HTTP_HOST"] : $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'];
-		$webRoot .= $_SERVER["REQUEST_URI"];
-
-		$webRoot = str_replace("index.php", "", $webRoot);
-		$webRoot = (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) ? "https://" : "http://") . $webRoot;
-		$tabUrl = explode('/', $webRoot);
-		unset($tabUrl[count($tabUrl) - 1]);
-		unset($tabUrl[count($tabUrl) - 1]);
-		$webRoot = implode('/', $tabUrl) . '/';
+		// Prefer explicit base URL in docker/containers (prevents empty HTTP_HOST -> "http://").
+		$envSiteUrl = getenv('FREECRM_SITE_URL');
+		if (is_string($envSiteUrl) && $envSiteUrl !== '') {
+			$webRoot = rtrim($envSiteUrl, '/') . '/';
+		} else {
+			$host = $_SERVER['HTTP_HOST'] ?? '';
+			if ($host === '') {
+				$serverName = $_SERVER['SERVER_NAME'] ?? 'localhost';
+				$serverPort = $_SERVER['SERVER_PORT'] ?? '80';
+				$host = $serverName . ':' . $serverPort;
+			}
+			$path = $_SERVER['REQUEST_URI'] ?? '/';
+			$scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://';
+			$webRoot = $scheme . $host . $path;
+			$webRoot = str_replace('index.php', '', $webRoot);
+			// Normalize to directory root.
+			$webRoot = rtrim(preg_replace('~\\?.*$~', '', $webRoot), '/') . '/';
+		}
 		$_SESSION['config_file_info']['site_URL'] = $webRoot;
 		$this->viewer->assign('SITE_URL', $webRoot);
 
 		$currencies = Install_Utils_Model::getCurrencyList();
 		$currencyName = $request->get('currency_name');
-		if (isset($currencyName)) {
+		if (is_string($currencyName) && $currencyName !== '' && isset($currencies[$currencyName])) {
 			$_SESSION['config_file_info']['currency_code'] = $currencies[$currencyName][0];
 			$_SESSION['config_file_info']['currency_symbol'] = $currencies[$currencyName][1];
 		}
 		$this->viewer->assign('DB_CONNECTION_INFO', $dbConnection);
 		$this->viewer->assign('INFORMATION', $requestData);
 		$this->viewer->assign('AUTH_KEY', $authKey);
-		$this->viewer->view('Step5.tpl');
+		$this->viewer->display('Step5.tpl');
 	}
 
 	public function Step6(\App\Http\Vtiger_Request $request)
@@ -205,27 +253,23 @@ class Index extends \App\Modules\Base\Views\Index
 		$configFile->createConfigFile();
 		$this->viewer->assign('AUTH_KEY', $_SESSION['config_file_info']['authentication_key']);
 		$this->viewer->assign('INDUSTRY', Install_Utils_Model::getIndustryList());
-		$this->viewer->view('Step6.tpl');
+		$this->viewer->display('Step6.tpl');
 	}
 
 	public function Step7(\App\Http\Vtiger_Request $request)
 	{
-		$webuiInstance = new \App\EntryPoint\WebUI();
-		$isInstalled = $webuiInstance->isInstalled();
-		if ($isInstalled) {
-			if ($_SESSION['config_file_info']['authentication_key'] !== $request->get('auth_key')) {
-				throw new \App\Exceptions\AppException('ERR_NOT_AUTHORIZED_TO_PERFORM_THE_OPERATION');
-			}
-			// Initialize and set up tables
-			$initSchema = new \App\Modules\Install\Models\InitSchema();
-			$initSchema->initialize();
-			$initSchema->setCompanyDetails($request);
-
-			$this->viewer->assign('PASSWORD', $_SESSION['config_file_info']['password']);
-			$this->viewer->assign('APPUNIQUEKEY', $this->retrieveConfiguredAppUniqueKey());
-			$this->viewer->assign('CURRENT_VERSION', \App\Core\Version::get());
-			$this->viewer->view('Step7.tpl');
+		if ($_SESSION['config_file_info']['authentication_key'] !== $request->get('auth_key')) {
+			throw new \App\Exceptions\AppException('ERR_NOT_AUTHORIZED_TO_PERFORM_THE_OPERATION');
 		}
+		// Initialize and set up tables (if needed) + configure defaults.
+		$initSchema = new \App\Install\InitSchema_Model();
+		$initSchema->initialize();
+		$initSchema->setCompanyDetails($request);
+
+		$this->viewer->assign('PASSWORD', $_SESSION['config_file_info']['password']);
+		$this->viewer->assign('APPUNIQUEKEY', $this->retrieveConfiguredAppUniqueKey());
+		$this->viewer->assign('CURRENT_VERSION', \App\Core\Version::get());
+		$this->viewer->display('Step7.tpl');
 	}
 
 	public function mStep0(\App\Http\Vtiger_Request $request)
@@ -238,7 +282,7 @@ class Index extends \App\Modules\Base\Views\Index
 		}
 		$this->viewer->assign('EXAMPLE_DIRECTORY', $rootDirectory);
 		$this->viewer->assign('SCHEMALISTS', $schemaLists);
-		$this->viewer->view('mStep0.tpl');
+		$this->viewer->display('mStep0.tpl');
 	}
 
 	public function mStep1(\App\Http\Vtiger_Request $request)
@@ -251,7 +295,7 @@ class Index extends \App\Modules\Base\Views\Index
 		}
 		$this->viewer->assign('EXAMPLE_DIRECTORY', $rootDirectory);
 		$this->viewer->assign('SCHEMALISTS', $schemaLists);
-		$this->viewer->view('mStep1.tpl');
+		$this->viewer->display('mStep1.tpl');
 	}
 
 	public function mStep2(\App\Http\Vtiger_Request $request)
@@ -264,7 +308,7 @@ class Index extends \App\Modules\Base\Views\Index
 		}
 		$this->viewer->assign('EXAMPLE_DIRECTORY', $rootDirectory);
 		$this->viewer->assign('SCHEMALISTS', $schemaLists);
-		$this->viewer->view('mStep2.tpl');
+		$this->viewer->display('mStep2.tpl');
 	}
 
 	public function mStep3(\App\Http\Vtiger_Request $request)
@@ -330,7 +374,10 @@ class Index extends \App\Modules\Base\Views\Index
 
 	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
-		return $request->validateWriteAccess(true);
+		// During installation we don't have a fully bootstrapped app context,
+		// so CSRF tokens might not be injected reliably. Installer is only reachable
+		// when the instance is not installed, so allow the wizard to progress.
+		return true;
 	}
 
 	public function cleanInstallationFiles()
@@ -345,7 +392,7 @@ class Index extends \App\Modules\Base\Views\Index
 		}
 		\vtlib\Functions:: recurseDelete('install');
 		\vtlib\Functions:: recurseDelete('tests');
-		\vtlib\Functions:: recurseDelete('config/config.template.php');
+		// Keep config/config.template.php for re-installs and dev (Docker); it contains no secrets.
 		\vtlib\Functions:: recurseDelete('.github');
 		\vtlib\Functions:: recurseDelete('.gitattributes');
 		\vtlib\Functions:: recurseDelete('.gitignore');

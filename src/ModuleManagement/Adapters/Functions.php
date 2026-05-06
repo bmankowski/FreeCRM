@@ -712,14 +712,20 @@ class Functions
 
 	public static function throwNewException($e, $die = true, $tpl = 'OperationNotPermitted.tpl')
 	{
+		$payload = $e;
 		if (is_string($e)) {
 			$message = $e;
+			$payload = $message;
 		} elseif (is_object($e) && method_exists($e, 'getMessage')) {
 			$message = $e->getMessage();
+			$payload = $message;
 		} elseif (is_array($e)) {
-			$message = isset($e['message']) ? $e['message'] : 'Unknown error';
+			// Keep full array for templates like DatabaseException.tpl (expects message/query/params/trace keys).
+			$message = $e['message'] ?? 'Unknown error';
+			$payload = $e;
 		} else {
 			$message = 'Unknown error';
+			$payload = $message;
 		}
 		// REQUEST_MODE is a global constant; ensure it exists before using
 		if (defined('REQUEST_MODE') && REQUEST_MODE === 'API') {
@@ -746,7 +752,7 @@ class Functions
 			echo '<pre>Stack trace:' . PHP_EOL . $trace . '</pre>';
 		}
 		$viewer = new CRM_Viewer();
-		$viewer->assign('MESSAGE', $message);
+		$viewer->assign('MESSAGE', $payload);
 		$viewer->view($tpl, 'Vtiger');
 	}
 	if ($die) {

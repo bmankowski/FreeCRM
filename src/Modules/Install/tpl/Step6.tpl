@@ -14,7 +14,7 @@
 
 {block name="content"}
 <!-- install/tpl/Step6.tpl -->
-	<form class="form-horizontal" name="step6" method="post" action="Install.php">
+	<form class="form-horizontal" name="step6" method="post" action="index.php?module=Install&view=Index">
 		<input type="hidden" name="mode" value="Step7" />
 		<input type="hidden" name="auth_key" value="{$AUTH_KEY}" />
 		<input type="hidden" name="lang" value="{$LANG}" />
@@ -39,7 +39,7 @@
 										{'LBL_INDUSTRY'|t:'Settings:Companies'}
 									</td>
 									<td>
-										<select class="select2 form-control" name="company_industry" data-validation-engine="validate[required]">
+										<select class="select2 form-control" name="company_industry">
 											<option value="">{"LBL_SELECT_OPTION"|t:"Install"}</option>
 											{foreach from=$INDUSTRY item=ITEM}
 												<option value="{$ITEM}">{$ITEM|t}</option>

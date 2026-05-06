@@ -17,7 +17,7 @@
 			<div class="vtFooter">
 				<p>
 					{"POWEREDBY"|t} {$YETIFORCE_VERSION} &nbsp;
-					&copy; 2004 - {date('Y')}&nbsp&nbsp;
+					&copy; 2004 - {$CURRENT_YEAR}&nbsp&nbsp;
 					<a href="http://yetiforce.com" target="_blank">yetiforce.com</a>
 					&nbsp;|&nbsp;
 					<a href="#" onclick="window.open('../licenses/License.html', 'License', 'height=615,width=875').moveTo(110, 120)">{"LBL_READ_LICENSE"|t}</a>

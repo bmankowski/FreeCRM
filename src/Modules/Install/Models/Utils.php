@@ -17,11 +17,16 @@ class Install_Utils_Model
 	 */
 	public static function getDefaultPreInstallParameters()
 	{
+		// Docker-friendly defaults (also keeps localhost from using unix socket).
+		$dbHost = getenv('FREECRM_DB_HOST') ?: 'db';
+		$dbUser = getenv('FREECRM_DB_USER') ?: '';
+		$dbPass = getenv('FREECRM_DB_PASSWORD') ?: '';
+		$dbName = getenv('FREECRM_DB_NAME') ?: '';
 		return [
-			'db_hostname' => 'localhost',
-			'db_username' => '',
-			'db_password' => '',
-			'db_name' => '',
+			'db_hostname' => $dbHost,
+			'db_username' => $dbUser,
+			'db_password' => $dbPass,
+			'db_name' => $dbName,
 			'admin_name' => 'admin',
 			'admin_lastname' => 'Administrator',
 			'admin_password' => '',
@@ -35,7 +40,7 @@ class Install_Utils_Model
 	 */
 	public static function getCurrencyList()
 	{
-		require_once 'install/models/Currencies.php';
+		require_once __DIR__ . '/Currencies.php';
 		return $currencies;
 	}
 
@@ -45,7 +50,7 @@ class Install_Utils_Model
 	 */
 	public static function getIndustryList()
 	{
-		return require 'install/models/Industry.php';
+		return require __DIR__ . '/Industry.php';
 	}
 
 	/**
@@ -74,6 +79,7 @@ class Install_Utils_Model
 	public static function checkDbConnection(\App\Http\Vtiger_Request $request)
 	{
 		$create_db = false;
+		$pdoException = '';
 		$createDB = $request->get('create_db');
 		if ($createDB == 'on') {
 			$root_user = $request->get('db_username');
@@ -82,6 +88,10 @@ class Install_Utils_Model
 		}
 		$db_type = $request->get('db_type');
 		$db_hostname = $request->get('db_hostname');
+		// Prevent MySQL PDO from falling back to unix socket on localhost in containers.
+		if ($db_hostname === 'localhost' || $db_hostname === '' || $db_hostname === null) {
+			$db_hostname = 'db';
+		}
 		$db_username = $request->get('db_username');
 		$db_password = $request->getRaw('db_password');
 		$db_name = $request->get('db_name');
@@ -95,9 +105,9 @@ class Install_Utils_Model
 		//Checking for database connection parameters
 		if ($db_type) {
 			$conn = false;
-			$pdoException = '';
 			try {
-				$dsn = $db_type . ':host=' . $db_hostname . ';charset=utf8;port=' . $request->get('db_port');
+				$port = $request->get('db_port') ?: '3306';
+				$dsn = $db_type . ':host=' . $db_hostname . ';charset=utf8;port=' . $port;
 				$conn = new PDO($dsn, $db_username, $db_password, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 			} catch (PDOException $e) {
 				$pdoException = $e->getMessage();
@@ -109,6 +119,10 @@ class Install_Utils_Model
 					$stmt = $conn->query("SHOW VARIABLES LIKE 'version'");
 					$res = $stmt->fetch(PDO::FETCH_ASSOC);
 					$mysql_server_version = $res['Value'];
+					$mysql_server_version_num = null;
+					if (is_string($mysql_server_version) && preg_match('/^(\\d+\\.\\d+(?:\\.\\d+)?)/', $mysql_server_version, $m)) {
+						$mysql_server_version_num = $m[1];
+					}
 				}
 				if ($create_db) {
 					// drop the current database if it exists
@@ -148,7 +162,13 @@ class Install_Utils_Model
 					-  ' . \App\Runtime\Vtiger_Language_Handler::translate('MSG_DB_PARAMETERS_INVALID', 'Install') . '
 					<br>-  ' . \App\Runtime\Vtiger_Language_Handler::translate('MSG_DB_USER_NOT_AUTHORIZED', 'Install');
 			$error_msg_info .= "<br><br>$pdoException";
-		} elseif (self::isMySQL($db_type) && $mysql_server_version < 4.1) {
+		} elseif (
+			self::isMySQL($db_type)
+			&& is_string($mysql_server_version)
+			&& stripos($mysql_server_version, 'MariaDB') === false
+			&& $mysql_server_version_num
+			&& version_compare($mysql_server_version_num, '5.1', '<')
+		) {
 			$error_msg = $mysql_server_version . ' -> ' . \App\Runtime\Vtiger_Language_Handler::translate('ERR_INVALID_MYSQL_VERSION', 'Install');
 		} elseif ($db_creation_failed) {
 			$error_msg = \App\Runtime\Vtiger_Language_Handler::translate('ERR_UNABLE_CREATE_DATABASE', 'Install') . ' ' . $db_name;
@@ -169,12 +189,25 @@ class Install_Utils_Model
 	{
 		$dir = 'languages/';
 		$ffs = scandir($dir);
-		$langs = array();
+		$langs = [];
 		foreach ($ffs as $ff) {
-			if ($ff != '.' && $ff != '..') {
-				if (file_exists($dir . $ff . '/Install.php')) {
-					$langs[$ff] = \App\Runtime\Vtiger_Language_Handler::translate('LANGNAME', 'Install', $ff);
+			if ($ff === '.' || $ff === '..') {
+				continue;
+			}
+			// Languages are stored as JSON packs in this project layout.
+			$installJson = $dir . $ff . '/Install.json';
+			if (is_file($installJson)) {
+				$json = file_get_contents($installJson);
+				$data = $json ? \App\Utils\Json::decode($json, \App\Utils\Json::TYPE_ARRAY) : null;
+				$label = $data['languageStrings']['LANGNAME'] ?? null;
+				if (is_string($label) && $label !== '') {
+					$langs[$ff] = $label;
+					continue;
 				}
+			}
+			// Legacy fallback (older packs).
+			if (file_exists($dir . $ff . '/Install.php')) {
+				$langs[$ff] = $ff;
 			}
 		}
 		return $langs;

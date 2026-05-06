@@ -14,7 +14,7 @@
 
 {block name="content"}
 <!-- install/tpl/Step4.tpl -->
-	<form class="form-horizontal" name="step4" method="post" action="Install.php">
+	<form class="form-horizontal" name="step4" method="post" action="index.php?module=Install&view=Index">
 		<input type="hidden" name="mode" value="Step5" />
 		<input type="hidden" name="lang" value="{$LANG}" />
 		<div class="row main-container">
@@ -144,8 +144,8 @@
 							</tbody>
 						</table>
 						<div class="button-container">
-							<a class="btn btn-sm btn-default" href="Install.php" >{"LBL_BACK"|t:"Install"}</a>
-							<input type="button" class="btn btn-sm btn-primary" value="{"LBL_NEXT"|t:"Install"}" name="step5"/>
+							<a class="btn btn-sm btn-default" href="index.php?module=Install&view=Index&mode=Step3">{"LBL_BACK"|t:"Install"}</a>
+							<button type="submit" class="btn btn-sm btn-primary">{"LBL_NEXT"|t:"Install"}</button>
 						</div>
 					</div>
 				</div>

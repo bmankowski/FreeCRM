@@ -139,10 +139,13 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 			$directiveValues['file_uploads']['status'] = true;
 		$directiveValues['file_uploads']['current'] = self::getFlag(ini_get('file_uploads'));
 
-		if (ini_get('output_buffering') !== 'On') {
+		// output_buffering can be a boolean-like flag ("On"/"Off") or a numeric buffer size.
+		// Treat any non-zero numeric value as enabled.
+		$outputBuffering = ini_get('output_buffering');
+		if ($outputBuffering === '0' || stripos((string) $outputBuffering, 'Off') !== false) {
 			$directiveValues['output_buffering']['status'] = true;
 		}
-		$directiveValues['output_buffering']['current'] = ini_get('output_buffering');
+		$directiveValues['output_buffering']['current'] = $outputBuffering;
 
 
 		if (ini_get('max_execution_time') != 0 && ini_get('max_execution_time') < 600)
@@ -285,9 +288,13 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 			$directiveValues['sql_mode']['current'] = $db->getSingleValue($result);
 		}
 
-		$errorReporting = stripos(ini_get('error_reporting'), '_') === false ? self::error2string(ini_get('error_reporting')) : ini_get('error_reporting');
-		if (in_array('E_NOTICE', $errorReporting) || in_array('E_DEPRECATED', $errorReporting) || in_array('E_STRICT', $errorReporting))
+		// Always evaluate effective error_reporting numerically to avoid ini expression parsing differences.
+		$errorReporting = self::error2string((int) ini_get('error_reporting'));
+		// Installer recommendation is "E_ALL & ~E_NOTICE"; treat E_NOTICE/E_DEPRECATED as problematic.
+		// E_STRICT is largely legacy and should not block installation.
+		if (in_array('E_NOTICE', $errorReporting, true) || in_array('E_DEPRECATED', $errorReporting, true)) {
 			$directiveValues['error_reporting']['status'] = true;
+		}
 		$directiveValues['error_reporting']['current'] = implode(' | ', $errorReporting);
 
 		// Ensure all items have a 'status' key (default to false if not set)

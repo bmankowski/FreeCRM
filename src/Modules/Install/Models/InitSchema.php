@@ -10,6 +10,8 @@
 
 namespace App\Install;
 
+use App\Database\PearDatabase;
+
 
 //class \App\Install\InitSchema_Model
 
@@ -26,7 +28,19 @@ class InitSchema_Model
 	public function initialize()
 	{
 		$this->db = PearDatabase::getInstance();
-		$this->initializeDatabase($this->sql_directory, array('scheme', 'data'));
+		// In Docker/dev we may have preloaded schema; avoid re-importing if tables exist.
+		$schemaAlreadyPresent = false;
+		try {
+			// PearDatabase::pquery doesn't support placeholders in "SHOW TABLES LIKE ?"
+			$result = $this->db->query("SHOW TABLES LIKE 'vtiger_users'");
+			$schemaAlreadyPresent = $result && $this->db->num_rows($result) > 0;
+		} catch (\Throwable $e) {
+			$schemaAlreadyPresent = false;
+		}
+		if (!$schemaAlreadyPresent) {
+			$location = (defined('ROOT_DIRECTORY') ? ROOT_DIRECTORY : getcwd()) . '/src/Modules/Install/install_schema/';
+			$this->initializeDatabase($location, ['scheme', 'data']);
+		}
 		$this->setDefaultUsersAccess();
 		$currencyName = $_SESSION['config_file_info']['currency_name'];
 		$currencyCode = $_SESSION['config_file_info']['currency_code'];
@@ -68,7 +82,7 @@ class InitSchema_Model
 				try {
 					$this->db->query($query);
 					$executed_query++;
-				} catch (RuntimeException $e) {
+				} catch (\RuntimeException $e) {
 					echo $e->getMessage();
 					$return = false;
 				}
@@ -83,21 +97,30 @@ class InitSchema_Model
 	 */
 	public function setDefaultUsersAccess()
 	{
-		$adminPassword = $_SESSION['config_file_info']['password'];
-		$this->db->update('vtiger_users', [
-			'date_format' => $_SESSION['config_file_info']['dateformat'],
-			'time_zone' => $_SESSION['config_file_info']['timezone'],
-			'first_name' => $_SESSION['config_file_info']['firstname'],
-			'last_name' => $_SESSION['config_file_info']['lastname'],
-			'email1' => $_SESSION['config_file_info']['admin_email'],
-			'accesskey' => vtws_generateRandomAccessKey(16),
-			'language' => $_SESSION['default_language']
-			]
+		$adminPassword = $_SESSION['config_file_info']['admin_password'] ?? '';
+		// Cannot use Record::changePassword() during installer: there is no authenticated admin session.
+		$userRecord = new \App\Modules\Users\Models\Record();
+		$cryptType = \App\Core\AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
+		$encrypted = $userRecord->encryptPassword($adminPassword, $cryptType);
+
+		$this->db->update(
+			'vtiger_users',
+			[
+				'date_format' => $_SESSION['config_file_info']['dateformat'],
+				'time_zone' => $_SESSION['config_file_info']['timezone'],
+				'first_name' => $_SESSION['config_file_info']['admin_name'] ?? '',
+				'last_name' => $_SESSION['config_file_info']['admin_lastname'] ?? '',
+				'email1' => $_SESSION['config_file_info']['admin_email'],
+				'accesskey' => vtws_generateRandomAccessKey(16),
+				'language' => $_SESSION['default_language'],
+				'user_password' => $encrypted,
+				'confirm_password' => $encrypted,
+				'crypt_type' => $cryptType,
+			],
+			'id = ?',
+			[1]
 		);
-		$newUser = new \App\Modules\Users\Users();
-		$newUser->retrieve_entity_info(1, 'Users');
-		$newUser->change_password('admin', $adminPassword, false);
-		
+
 		\App\Modules\Users\Services\PrivilegeFileManager::createUserPrivilegesFile(1);
 	}
 

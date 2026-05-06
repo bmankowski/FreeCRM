@@ -1,0 +1,59 @@
+services:
+  web:
+    image: nginx:1.27-alpine
+    depends_on:
+      - app
+    ports:
+      - "8080:8080"
+    user: "33:33" # www-data
+    environment:
+      NGINX_ENTRYPOINT_QUIET_LOGS: "1"
+    tmpfs:
+      - /var/cache/nginx:uid=33,gid=33,mode=0755
+      - /var/run:uid=33,gid=33,mode=0755
+    volumes:
+      - ./:/var/www/html:ro
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    restart: unless-stopped
+
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    environment:
+      # App will read these via config/config_override.php
+      FREECRM_DB_HOST: db
+      FREECRM_DB_PORT: "3306"
+      FREECRM_DB_NAME: freecrm
+      FREECRM_DB_USER: freecrm
+      FREECRM_DB_PASSWORD: freecrm
+      # When behind nginx, keep base URL consistent
+      FREECRM_SITE_URL: "http://localhost:8080/"
+      # DebugBar tries to query DB early; disable in docker install flow
+      YII_DEBUG: "0"
+    volumes:
+      - ./:/var/www/html
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  db:
+    image: mariadb:11.6
+    environment:
+      MARIADB_DATABASE: freecrm
+      MARIADB_USER: freecrm
+      MARIADB_PASSWORD: freecrm
+      MARIADB_ROOT_PASSWORD: root
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./src/Modules/Install/install_schema/scheme.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+      - ./src/Modules/Install/install_schema/data.sql:/docker-entrypoint-initdb.d/02-data.sql:ro
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--su-mysql", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+volumes:
+  db_data:

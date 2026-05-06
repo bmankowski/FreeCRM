@@ -14,7 +14,7 @@
 
 {block name="content"}
 <!-- install/tpl/Step5.tpl -->
-	<form class="form-horizontal" name="step5" method="post" action="Install.php">
+	<form class="form-horizontal" name="step5" method="post" action="index.php?module=Install&view=Index">
 		<input type="hidden" name="mode" value="Step6" />
 		<input type="hidden" name="auth_key" value="{$AUTH_KEY}" />
 		<input type="hidden" name="lang" value="{$LANG}" />

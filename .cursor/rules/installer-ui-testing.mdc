@@ -1,0 +1,64 @@
+---
+description: "How to click through FreeCRM web installer (Docker)"
+globs: "{src/Modules/Install/**,docker/**,docker-compose.yml,config/config_override.php}"
+alwaysApply: false
+---
+
+# FreeCRM Installer UI Testing (Docker)
+
+Use this checklist when testing the FreeCRM installer in the browser at `http://localhost:8080/`.
+
+## Click-path (Step1 → Step7)
+
+- **Step 1 (Welcome)**: click **`Instalacja`**
+- **Step 2 (License)**: click **`Zgadzam się`**
+- **Step 3 (Prerequisites)**: click **`Dalej`**
+  - LDAP/APCu warnings are optional; proceed.
+- **Step 4 (DB + admin)**: fill/confirm and click **`Dalej`**
+  - **DB host**: `db`
+  - **DB port**: `3306`
+  - **DB name**: `freecrm`
+  - **DB user**: `freecrm`
+  - **DB password**: `freecrm`
+  - **Admin user**: `admin`
+  - **Admin lastname**: `Administrator`
+  - **Admin password**: `admin123`
+  - **Admin email**: `admin@example.com`
+- **Step 5 (Confirm)**: click **`Dalej`**
+- **Step 6 (Company details)**: fill required fields and click **`Dalej`**
+  - Example:
+    - company name: `FreeCRM Test`
+    - street/city/postal/country/email: any valid values
+- **Step 7 (Finalize)**: wait for completion
+  - Expect redirect to login (or auto-login) afterwards.
+
+## Where to click (UI targeting hints)
+
+These hints are meant to reduce “thrashing” (many snapshots) during installer testing automation.
+
+### Scroll first (critical for speed)
+
+Installer pages are **tall**; the **`Dalej` / `Instalacja` / `Zgadzam się`** controls are often **below the fold**.
+
+- **Before looking for the next button**, scroll the main page **down** until the bottom action bar is visible.
+- **Step 2 (Licencja)**: `Zgadzam się` is **bottom-right** inside the white panel — if you only see the license text, scroll down first.
+- **Step 3 (Wymagania wstępne)**: tables are long; **`Dalej` is at the bottom**. Scroll past “Zalecane parametry PHP” if needed.
+- **Step 4 (Konfiguracja serwera)**: after filling admin/DB fields, **`Dalej` is below the form** — scroll down before clicking.
+- **Later steps (5–7)**: same pattern — **scroll to bottom**, then click the blue **`Dalej`**.
+- **If plain PageDown doesn’t move** (nested scroll): use a **larger downward scroll** once (e.g. ~400–900px), then re-snapshot.
+
+- **License (Step 2) buttons live at the bottom-right of the page**
+  - If the buttons aren’t visible, **scroll the page to the bottom**.
+  - The primary button is the blue **`Zgadzam się`** (submit).
+- **General rule**
+  - Prefer clicking the **primary blue button** in the bottom button bar: **`Instalacja` → `Zgadzam się` → `Dalej`**.
+- **If an element ref becomes stale**
+  - Take **one** fresh snapshot and retry the click.
+- **If the page is long**
+  - Use a text search (like Ctrl+F equivalent) for the button label: `Dalej`, `Zgadzam się`, `Instalacja`.
+
+## Success criteria
+
+- `http://localhost:8080/` shows the **FreeCRM login page** (or you land in the app after auto-login).
+- `cache/logs/system.log` contains **no new fatal errors** produced by the installation run.
+

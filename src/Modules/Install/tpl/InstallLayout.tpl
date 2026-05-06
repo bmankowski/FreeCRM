@@ -34,8 +34,8 @@
 				<link rel="stylesheet" href="../libraries/jquery/pnotify/pnotify.custom.min.css"/>
 				<link rel="stylesheet" href="../libraries/jquery/datepicker/css/datepicker.min.css" />
 				<link rel="stylesheet" href="../libraries/resources/styles.css" />
-				<link rel="stylesheet" href="tpl/resources/css/style.css"/>
-				<link rel="stylesheet" href="tpl/resources/css/mkCheckbox.css"/>
+<link rel="stylesheet" href="/install/tpl/resources/css/style.css"/>
+<link rel="stylesheet" href="/install/tpl/resources/css/mkCheckbox.css"/>
 				{foreach key=index item=cssModel from=$STYLES}
 					<link rel="{$cssModel->getRel()}" href="{$cssModel->getHref()}?&v={$YETIFORCE_VERSION}" type="{$cssModel->getType()}" media="{$cssModel->getMedia()}" />
 				{/foreach}
@@ -62,7 +62,7 @@
 
 	<body data-skinpath="{$SKIN_PATH}" data-language="{$LANGUAGE}">
 		{block name="body_start"}
-			<div id="js_strings" class="hide noprint">{\App\Json::encode($LANGUAGE_STRINGS)}</div>
+			<div id="js_strings" class="hide noprint">{\App\Utils\Json::encode($LANGUAGE_STRINGS)}</div>
 			<input type="hidden" id="start_day" value="" />
 			<input type="hidden" id="row_type"value="" />
 			<input type="hidden" id="current_user_id" value="" />
@@ -99,7 +99,7 @@
 						<div class="vtFooter">
 							<p>
 								{"POWEREDBY"|t} {$YETIFORCE_VERSION} &nbsp;
-								&copy; 2004 - {date('Y')}&nbsp&nbsp;
+								&copy; 2004 - {$CURRENT_YEAR}&nbsp&nbsp;
 								<a href="http://yetiforce.com" target="_blank">yetiforce.com</a>
 								&nbsp;|&nbsp;
 								<a href="#" onclick="window.open('../licenses/License.html', 'License', 'height=615,width=875').moveTo(110, 120)">{"LBL_READ_LICENSE"|t}</a>

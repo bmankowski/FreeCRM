@@ -16,7 +16,7 @@
 <!-- install/tpl/Step1.tpl -->
 <div class="row main-container">
 		<div class="inner-container">
-			<form class="form-horizontal" name="step1" method="post" action="Install.php">
+			<form class="form-horizontal" name="step1" method="post" action="index.php?module=Install&view=Index">
 				<div class="row">
 					<div class="col-md-9">
 						<h4>{"LBL_WELCOME"|t:"Install"}</h4>
@@ -47,13 +47,13 @@
 				</div>
 				<div class="row">
 					<div class="button-container">
-						<a href="#" class="btn btn-sm btn-primary bt_install">
+						<button type="submit" class="btn btn-sm btn-primary">
 							{"LBL_INSTALL_BUTTON"|t:"Install"}
-						</a>
+						</button>
 						{if $IS_MIGRATE}
-							<a style="" href="#" class="btn btn-sm btn-primary bt_migrate">
+							<button type="submit" class="btn btn-sm btn-primary" onclick="this.form.mode.value='mStep0'">
 								{"LBL_MIGRATION"|t:"Install"}
-							</a>
+							</button>
 						{/if}
 					</div>
 				</div>
