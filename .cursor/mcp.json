@@ -10,7 +10,8 @@
         "MYSQL_YETIFORCE_PORT": "3306",
         "MYSQL_YETIFORCE_USER": "freecrm",
         "MYSQL_YETIFORCE_PASSWORD": "freecrm",
-        "MYSQL_YETIFORCE_DATABASE": "freecrm"
+        "MYSQL_YETIFORCE_DATABASE": "freecrm",
+        "MYSQL_MCP_ALLOW_WRITES": "1"
       }
     }
   }

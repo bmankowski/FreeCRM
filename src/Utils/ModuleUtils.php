@@ -53,10 +53,55 @@ class ModuleUtils
 		}
 		if ($mixed) {
 			if (is_numeric($mixed)) {
-				return Cache::get('ModuleEntityById', $mixed);
+				$fromDb = Cache::get('ModuleEntityById', $mixed);
+				if ($fromDb) {
+					return $fromDb;
+				}
 			} else {
-				return Cache::get('ModuleEntityByName', $mixed);
+				$fromDb = Cache::get('ModuleEntityByName', $mixed);
+				if ($fromDb) {
+					return $fromDb;
+				}
 			}
+			// Fallback: some custom modules may be missing `vtiger_entityname` row.
+			// Synthesize minimal entity metadata from the module's CRMEntity definition.
+			$moduleName = is_numeric($mixed) ? static::getModuleName((int) $mixed) : (string) $mixed;
+			if (!$moduleName) {
+				return false;
+			}
+			try {
+				$focus = \App\Core\CRMEntity::getInstance($moduleName);
+			} catch (\Throwable $e) {
+				return false;
+			}
+			if (empty($focus) || empty($focus->table_name) || empty($focus->table_index)) {
+				return false;
+			}
+			$tabId = static::getModuleId($moduleName);
+			if (!$tabId) {
+				return false;
+			}
+			$nameField = $focus->def_detailview_recname ?? $focus->def_basicsearch_col ?? null;
+			if (empty($nameField)) {
+				$nameField = 'name';
+			}
+			$row = [
+				'tabid' => (int) $tabId,
+				'modulename' => $moduleName,
+				'tablename' => (string) $focus->table_name,
+				'fieldname' => (string) $nameField,
+				'entityidfield' => (string) $focus->table_index,
+				'entityidcolumn' => (string) $focus->table_index,
+				'searchcolumn' => (string) $nameField,
+				'turn_off' => 1,
+				'sequence' => 0,
+			];
+			$row['fieldnameArr'] = explode(',', $row['fieldname']);
+			$row['searchcolumnArr'] = explode(',', $row['searchcolumn']);
+			Cache::save('ModuleEntityByName', $row['modulename'], $row);
+			Cache::save('ModuleEntityById', $row['tabid'], $row);
+			static::$moduleEntityCacheById[$row['tabid']] = $row;
+			return $row;
 		}
 		return $entity;
 	}
