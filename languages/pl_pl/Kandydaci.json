@@ -19,7 +19,18 @@
         "PLL_APPLICATION_JSON_CONTENT": "Zawartość JSON aplikacji",
         "LBL_RELATED_ACTION_SET_AS_CV": "Ustaw jako CV",
         "LBL_TRANSFORM_DOCUMENT_TO_CV_TITLE": "Ustaw dokument jako CV",
-        "LBL_TRANSFORM_DOCUMENT_TO_CV_DESC": "To ustawi wybrany dokument jako CV kandydata."
+        "LBL_TRANSFORM_DOCUMENT_TO_CV_DESC": "To ustawi wybrany dokument jako CV kandydata.",
+        "PPL_REJECTED_AFTER_CV": "Odrzucony po CV",
+        "PPL_APPLIED": "Zaaplikował",
+        "PPL_CANDIDATE_PASSED_SCREENING": "Przeszedł screening",
+        "PPL_WAITING_FOR_INTERVIEW": "Oczekuje na rozmowę",
+        "PPL_TO_BE_SENT_TO_CLIENT": "Do wysłania do klienta",
+        "PPL_SENT_TO_CLIENT": "Wysłany do klienta",
+        "PPL_ACCEPTED": "Zaakceptowany",
+        "PPL_REJECTED_AFTER_VERIFICATION": "Odrzucony po weryfikacji",
+        "PPL_REJECTED_AFTER_INTERVIEW": "Odrzucony po rozmowie",
+        "PPL_OFFER_REJECTED_BY_CANDIDATE": "Odrzucił ofertę",
+        "PPL_REJECTED_BY_CLIENT": "Odrzucony przez klienta"
     },
     "jsLanguageStrings": {
         "PLL_TOGGLE_FAILED": "Przełączenie nie powiodło się",

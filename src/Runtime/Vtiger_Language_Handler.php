@@ -182,21 +182,6 @@ class Vtiger_Language_Handler
 			$languageStrings = [];
 			$jsLanguageStrings = [];
 			
-			// If file doesn't exist with current language format, try alternative format
-			// e.g., if pl_pl doesn't exist, try pl-PL (YetiForce format)
-			if (!file_exists($file) && strpos($language, '_') !== false) {
-				$languageNormalized = str_replace('_', '-', $language);
-				$languageParts = explode('-', $languageNormalized);
-				if (count($languageParts) == 2) {
-					$languageNormalized = strtolower($languageParts[0]) . '-' . strtoupper($languageParts[1]);
-					$qualifiedNameAlt = 'languages.' . $languageNormalized . '.' . $module;
-					$fileAlt = \App\Core\Loader::resolveNameToPath($qualifiedNameAlt);
-					if (file_exists($fileAlt)) {
-						$file = $fileAlt;
-					}
-				}
-			}
-			
 			if (file_exists($file)) {
 				$jsonContent = file_get_contents($file);
 				$data = json_decode($jsonContent, true);

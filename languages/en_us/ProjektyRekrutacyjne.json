@@ -1,0 +1,23 @@
+{
+    "languageStrings": {
+        "ProjektyRekrutacyjne": "Recruitment Projects",
+        "SINGLE_ProjektyRekrutacyjne": "Recruitment Project",
+        "LBL_CUSTOM_INFORMATION": "Custom Information",
+        "LBL_BASIC_INFORMATION": "Basic Information",
+        "Nazwa Projektu": "Project Name",
+        "LBL_RECRUITMENT_KANBAN": "Recruitment kanban",
+        "PPL_REJECTED_AFTER_CV": "Rejected after CV",
+        "PPL_APPLIED": "Applied",
+        "PPL_CANDIDATE_PASSED_SCREENING": "Passed screening",
+        "PPL_WAITING_FOR_INTERVIEW": "Waiting for interview",
+        "PPL_TO_BE_SENT_TO_CLIENT": "To be sent to client",
+        "PPL_SENT_TO_CLIENT": "Sent to client",
+        "PPL_ACCEPTED": "Accepted",
+        "PPL_REJECTED_AFTER_VERIFICATION": "Rejected after verification",
+        "PPL_REJECTED_AFTER_INTERVIEW": "Rejected after interview",
+        "PPL_OFFER_REJECTED_BY_CANDIDATE": "Offer rejected by candidate",
+        "PPL_REJECTED_BY_CLIENT": "Rejected by client"
+    },
+    "jsLanguageStrings": {
+    }
+}
