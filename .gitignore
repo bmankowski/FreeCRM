@@ -32,3 +32,7 @@ README.md
 /vendor/simshaun/
 /vendor/linfo/node_modules/
 tests/e2e/test-data/
+/tmp/
+/storage/
+/script/
+dump_to_transfer.sql.gz
