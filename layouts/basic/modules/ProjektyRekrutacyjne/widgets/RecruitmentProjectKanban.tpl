@@ -9,7 +9,7 @@
 {function name=renderCandidates status=''}
 	{if isset($CANDIDATES_BY_STATUS[$status]) && $CANDIDATES_BY_STATUS[$status]}
 		{foreach from=$CANDIDATES_BY_STATUS[$status] item=CANDIDATE}
-			<div class="rounded-pill border p-1 m-1 text-center d-inline-block candidate"
+			<div class="candidate candidate-chip"
 				 datasrc="{$CANDIDATE->getDetailViewUrl()}" 
 				 data-candidate-id="{$CANDIDATE->getId()}"
 				 draggable="true">

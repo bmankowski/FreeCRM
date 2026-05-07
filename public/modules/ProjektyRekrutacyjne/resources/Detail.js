@@ -32,7 +32,7 @@ Vtiger_Detail_Js(
 				}
 			});
 			function focusOnCandidate(candidate) {
-				let candidateActiveClass = 'candidate-focused bg-primary border-light text-white';
+				let candidateActiveClass = 'candidate-focused';
 				const candidateUrl = candidate.attr('datasrc');
 				$('.candidate-focused').removeClass(candidateActiveClass);
 				candidate.addClass(candidateActiveClass);

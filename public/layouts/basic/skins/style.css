@@ -6072,3 +6072,30 @@ select.form-control {
 .min-w-300 { min-width: 300px !important; }
 .min-w-400 { min-width: 400px !important; }
 .min-w-500 { min-width: 500px !important; }
+
+/* Recruitment Kanban candidate chips (reusable pill UI) */
+.candidate-chip {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	white-space: nowrap;
+	border-radius: 9999px;
+	padding: 0.35rem 0.8rem;
+	margin: 0.25rem;
+	border: 1px solid rgba(0, 0, 0, 0.15);
+	background: #ffffff;
+	color: inherit;
+	cursor: grab;
+	user-select: none;
+}
+.candidate-chip:hover {
+	background: #f2f2f2;
+}
+.candidate-chip:active {
+	cursor: grabbing;
+}
+.candidate.candidate-focused {
+	background: #4f4f4f;
+	border-color: #3f3f3f;
+	color: #ffffff;
+}
