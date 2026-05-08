@@ -27,7 +27,7 @@ services:
       # App will read these via config/config_override.php
       FREECRM_DB_HOST: db
       FREECRM_DB_PORT: "3306"
-      FREECRM_DB_NAME: freecrm
+      FREECRM_DB_NAME: freecrm_new
       FREECRM_DB_USER: freecrm
       FREECRM_DB_PASSWORD: freecrm
       # When behind nginx, keep base URL consistent

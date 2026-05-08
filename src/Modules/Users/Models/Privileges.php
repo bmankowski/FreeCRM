@@ -163,7 +163,16 @@ class Privileges extends \App\Runtime\BaseModel
 			return self::$userPrivilegesCache[$userId];
 		}
 		if (!file_exists("user_privileges/user_privileges_{$userId}.php")) {
-			return null;
+			// Imported users might not have privilege files yet.
+			// Try to generate it on-demand and continue as normal.
+			try {
+				\App\Modules\Users\Services\PrivilegeFileManager::createUserPrivilegesFile((int) $userId);
+			} catch (\Throwable $e) {
+				// Ignore - file might remain missing and caller will handle null.
+			}
+			if (!file_exists("user_privileges/user_privileges_{$userId}.php")) {
+				return null;
+			}
 		}
 		
 		// Check if file is empty (0 bytes) - treat as invalid

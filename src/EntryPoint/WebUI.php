@@ -176,6 +176,19 @@ class WebUI extends EntryPoint
 				$user = \App\Core\CRMEntity::getInstance('Users');
 				$user->retrieveCurrentUserInfoFromFile($userid);
 				$this->setLogin($user);
+				// One-shot rebuild of privilege files after large data imports.
+				// This prevents list views from breaking when records reference imported user IDs.
+				try {
+					if ($user->is_admin === 'on') {
+						$flag = ROOT_DIRECTORY . '/cache/.user_privileges_rebuilt';
+						if (!file_exists($flag)) {
+							\App\Utils\VtlibUtils::recreateUserPrivilegeFiles();
+							@file_put_contents($flag, (string) time());
+						}
+					}
+				} catch (\Throwable $e) {
+					// Best-effort only.
+				}
 			}
 		}
 		return $user;
