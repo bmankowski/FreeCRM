@@ -56,6 +56,32 @@
 				.RelatedList.relatedContainer.is-resizing, .RelatedList.relatedContainer.is-resizing *{cursor:col-resize !important;user-select:none !important}
 				/* While resizing, iframe must not steal mouse events */
 				.RelatedList.relatedContainer.is-resizing iframe.listPreviewframe{pointer-events:none !important}
+				/* Thumbs floating dock: viewport-fixed, ignores list/preview scrolling */
+				.RelatedList.relatedContainer .c-candidate-thumb-actions{
+					position:fixed;
+					/* Punkt zakotwiczenia ~80% × 78% viewportu (środek grupy po translate); stały względem okna */
+					left:max(7rem,min(80%,calc(100vw - 7rem)));
+					top:max(7rem,min(78%,calc(100vh - 7rem)));
+					transform:translate(-50%,-50%);
+					z-index:1025;
+					display:flex;
+					flex-direction:column;
+					align-items:center;
+					gap:0;
+					max-width:calc(100vw - 48px);
+				}
+				.RelatedList.relatedContainer .c-candidate-thumb-actions__inputs{position:absolute;width:1px;height:1px;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);border:0;padding:0}
+				.RelatedList.relatedContainer .c-candidate-thumb-actions__buttons{
+					display:flex;flex-wrap:nowrap;align-items:center;gap:.5rem;padding:.5rem .65rem;border-radius:.75rem;background:rgba(255,255,255,.96);
+					box-shadow:0 .35rem 1.5rem rgba(0,0,0,.14),.05rem .05rem 0 rgba(0,0,0,.03);border:1px solid rgba(0,0,0,.06);
+					backdrop-filter:saturate(180%) blur(8px);-webkit-backdrop-filter:saturate(180%) blur(8px);
+				}
+				@media (max-width:767px){
+					.RelatedList.relatedContainer .c-candidate-thumb-actions{
+						left:auto;top:auto;bottom:max(1rem,env(safe-area-inset-bottom,0));right:max(.75rem,env(safe-area-inset-right,0));
+						transform:none;
+					}
+				}
 				{/literal}
 			</style>
 			<script>
@@ -383,23 +409,20 @@
 				<div class="c-detail-preview js-detail-preview">
 					{if $RELATED_MODULE_NAME eq "Kandydaci"}
 						{if !empty($RELATED_RECORDS)}
-							<div class="m3 u-min-w-md-30 w-100">
-								<div class="pl-3" style="position: sticky; top: 0px;">
+							<div class="c-candidate-thumb-actions" aria-label="{\App\Language::translate('LBL_ACTIONS', 'Vtiger')}">
+								<div class="c-candidate-thumb-actions__inputs">
 									<input type="hidden" id="projectId" value="{$PARENT_RECORD->getID()}"/>
 									<input type="hidden" id="candidateId"/>
-
+								</div>
+								<div class="c-candidate-thumb-actions__buttons">
 									<a href="javascript:void(0);"
-									   class="btn btn-secondary mb-3 mr-3 acceptCandidateManually">
-										<span class="fas fa-thumbs-up fa-2x p-3"></span>
+									   class="btn btn-secondary acceptCandidateManually mb-0">
+										<span class="fas fa-thumbs-up fa-2x px-2 py-2"></span>
 									</a>
-									{*							<input type="button" class="btn btn-secondary btn-lg  mb-3 mr-3 acceptCandidateManually" value="thumbUp">*}
 									<a href="javascript:void(0);"
-									   class="btn btn-secondary mb-3 mr-3 rejectCandidateManually">
-										<span class="fas fa-thumbs-down fa-2x p-3"></span>
+									   class="btn btn-secondary rejectCandidateManually mb-0">
+										<span class="fas fa-thumbs-down fa-2x px-2 py-2"></span>
 									</a>
-
-									{*							<input type="button" class="btn btn-secondary btn-lg  mb-3 mr-3 rejectCandidateManually" value="thumbdown">*}
-
 								</div>
 							</div>
 						{else}
