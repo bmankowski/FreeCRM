@@ -99,9 +99,7 @@ class InitSchema_Model
 	{
 		$adminPassword = $_SESSION['config_file_info']['admin_password'] ?? '';
 		// Cannot use Record::changePassword() during installer: there is no authenticated admin session.
-		$userRecord = new \App\Modules\Users\Models\Record();
-		$cryptType = \App\Core\AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
-		$encrypted = $userRecord->encryptPassword($adminPassword, $cryptType);
+		$encrypted = \App\Security\PasswordCrypto::hash((string) $adminPassword);
 
 		$this->db->update(
 			'vtiger_users',
@@ -114,8 +112,6 @@ class InitSchema_Model
 				'accesskey' => vtws_generateRandomAccessKey(16),
 				'language' => $_SESSION['default_language'],
 				'user_password' => $encrypted,
-				'confirm_password' => $encrypted,
-				'crypt_type' => $cryptType,
 			],
 			'id = ?',
 			[1]

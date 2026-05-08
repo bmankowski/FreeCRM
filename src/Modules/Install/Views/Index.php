@@ -326,22 +326,12 @@ class Index extends \App\Modules\Base\Views\Index
 		if ($createConfig['result']) {
 			include('config/config.inc.php');
 			$adb = new PearDatabase($dbconfig['db_type'], $dbconfig['db_hostname'], $dbconfig['db_name'], $dbconfig['db_username'], $dbconfig['db_password']);
-			$query = "SELECT crypt_type, user_name FROM vtiger_users WHERE user_name=?";
+			$query = "SELECT user_password, status FROM vtiger_users WHERE user_name=?";
 			$result = $adb->requirePsSingleResult($query, array($username), true);
 			if ($adb->num_rows($result) > 0) {
-				$crypt_type = $adb->query_result($result, 0, 'crypt_type');
-				$salt = substr($username, 0, 2);
-				if ($crypt_type == 'MD5') {
-					$salt = '$1$' . $salt . '$';
-				} elseif ($crypt_type == 'BLOWFISH') {
-					$salt = '$2$' . $salt . '$';
-				} elseif ($crypt_type == 'PHP5.3MD5') {
-					$salt = '$1$' . str_pad($salt, 9, '0');
-				}
-				$encrypted_password = crypt($password, $salt);
-				$query = "SELECT 1 from vtiger_users where user_name=? && user_password=? && status = ?";
-				$result = $adb->requirePsSingleResult($query, array($username, $encrypted_password, 'Active'), true);
-				if ($adb->num_rows($result) > 0) {
+				$storedHash = (string) $adb->query_result($result, 0, 'user_password');
+				$status = (string) $adb->query_result($result, 0, 'status');
+				if ($status === 'Active' && \App\Security\PasswordCrypto::verify($password, $storedHash)) {
 					$loginStatus = true;
 				}
 			}

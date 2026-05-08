@@ -6099,7 +6099,6 @@ class Base2 extends \App\Db\Importers\Base
 					[29, 474, 'user_name', 'vtiger_users', 1, 106, 'user_name', 'User Name', 1, 0, '', 11, 1, 77, 4, 'V~M', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 475, 'is_admin', 'vtiger_users', 1, 156, 'is_admin', 'Admin', 1, 0, '', 3, 7, 77, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 476, 'user_password', 'vtiger_users', 1, 99, 'user_password', 'Password', 1, 0, '', 30, 5, 77, 4, 'P~M', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
-					[29, 477, 'confirm_password', 'vtiger_users', 1, 99, 'confirm_password', 'Confirm Password', 1, 0, '', 30, 6, 77, 4, 'P~M', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 478, 'first_name', 'vtiger_users', 1, 1, 'first_name', 'First Name', 1, 0, '', 30, 3, 77, 1, 'V~O', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 479, 'last_name', 'vtiger_users', 1, 2, 'last_name', 'Last Name', 1, 0, '', 30, 4, 77, 1, 'V~M', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 480, 'roleid', 'vtiger_user2role', 1, 98, 'roleid', 'Role', 1, 0, '', 200, 8, 77, 1, 'V~M', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],

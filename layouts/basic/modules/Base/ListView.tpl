@@ -31,7 +31,26 @@
 				{* Wrap list view header and contents in listViewPageDiv *}
 				<div class="listViewPageDiv">
 					{include file="ListViewHeader.tpl"|vtemplate_path:$QUALIFIED_MODULE}
-					{include file="ListViewContents.tpl"|vtemplate_path:$QUALIFIED_MODULE}
+					{if $smarty.request.mode eq 'preview'}
+						<input type="hidden" id="listViewMode" value="preview" />
+						<div class="row">
+							<div class="col-md-6 col-sm-6">
+								{include file="ListViewContents.tpl"|vtemplate_path:$QUALIFIED_MODULE}
+							</div>
+							<div class="col-md-6 col-sm-6">
+								<div id="listPreviewContainer" class="panel panel-default">
+									<div class="panel-heading">
+										<strong>{"LBL_PREVIEW"|t:$MODULE}</strong>
+									</div>
+									<div class="panel-body" style="max-height: calc(100vh - 260px); overflow: auto;">
+										<div class="text-muted">{'LBL_SELECT_RECORD'|t:$MODULE}</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					{else}
+						{include file="ListViewContents.tpl"|vtemplate_path:$QUALIFIED_MODULE}
+					{/if}
 				</div> <!-- close listViewPageDiv -->
 
 			</div> <!-- close contentsDiv -->

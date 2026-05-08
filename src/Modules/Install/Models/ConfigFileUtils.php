@@ -108,6 +108,9 @@ class Install_ConfigFileUtils_Model
 					/* replace the application unique key variable */
 					$buffer = str_replace('_VT_APP_UNIQKEY_', sha1(time() + rand(1, 9999999)), $buffer);
 
+					/* replace the password pepper with a 256-bit CSPRNG value */
+					$buffer = str_replace('_FREECRM_PWD_PEPPER_', bin2hex(random_bytes(32)), $buffer);
+
 					/* replace support email variable */
 					$buffer = str_replace('_LANG_', $this->default_language, $buffer);
 					$buffer = str_replace('_TIMEZONE_', $this->timezone, $buffer);

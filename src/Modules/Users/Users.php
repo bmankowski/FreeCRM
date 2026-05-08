@@ -51,7 +51,6 @@ class Users extends \App\Core\CRMEntity
 	// User database fields - declared to avoid PHP 8.2+ deprecation warnings
 	public $user_name;
 	public $user_password;
-	public $confirm_password;
 	public $first_name;
 	public $last_name;
 	public $roleid;
@@ -102,7 +101,6 @@ class Users extends \App\Core\CRMEntity
 	public $workdays;
 	public $weekstart;
 	public $reminder_next_time;
-	public $crypt_type;
 	public $records_limit;
 	public $tab_name = ['vtiger_users', 'vtiger_user2role'];
 	public $tab_name_index = ['vtiger_users' => 'id', 'vtiger_user2role' => 'userid'];

@@ -9013,11 +9013,9 @@ CREATE TABLE `vtiger_users` (
   `lead_view` varchar(200) DEFAULT 'Today',
   `imagename` varchar(250) DEFAULT NULL,
   `deleted` tinyint(1) unsigned NOT NULL DEFAULT '0',
-  `confirm_password` varchar(300) DEFAULT NULL,
   `internal_mailer` tinyint(1) unsigned NOT NULL DEFAULT '1',
   `reminder_interval` varchar(100) DEFAULT NULL,
   `reminder_next_time` varchar(100) DEFAULT NULL,
-  `crypt_type` varchar(20) NOT NULL DEFAULT 'MD5',
   `accesskey` varchar(36) DEFAULT NULL,
   `theme` varchar(100) DEFAULT NULL,
   `language` varchar(36) DEFAULT NULL,
@@ -9046,7 +9044,6 @@ CREATE TABLE `vtiger_users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `email1` (`email1`),
   KEY `user_user_name_idx` (`user_name`),
-  KEY `user_user_password_idx` (`user_password`),
   KEY `status` (`status`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 

@@ -347,14 +347,22 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	protected function transformValues($values)
 	{
-		$cryptType = \App\Core\AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
-		if ($this->isNew() || $this->getPreviousValue('confirm_password') !== false) {
-			$this->set('confirm_password', $this->encryptPassword((string)$this->get('confirm_password'), $cryptType));
+		$passwordChanged = $this->isNew() || $this->getPreviousValue('user_password') !== false;
+		$confirmChanged = $this->getPreviousValue('confirm_password') !== false;
+		if ($passwordChanged || $confirmChanged) {
+			$plainPassword = (string)$this->get('user_password');
+			$plainConfirm = (string)$this->get('confirm_password');
+			if ($plainConfirm !== '' && !hash_equals($plainPassword, $plainConfirm)) {
+				throw new \App\Exceptions\AppException(
+					\App\Runtime\Vtiger_Language_Handler::translate('LBL_PASSWORDS_DO_NOT_MATCH', 'Users')
+					?: 'Passwords do not match.'
+				);
+			}
 		}
-		if ($this->isNew() || $this->getPreviousValue('user_password') !== false) {
-			$this->set('user_password', $this->encryptPassword((string)$this->get('user_password'), $cryptType));
-			$values['vtiger_users']['crypt_type'] = $cryptType;
+		if ($passwordChanged) {
+			$this->set('user_password', $this->encryptPassword((string)$this->get('user_password')));
 		}
+		$this->set('confirm_password', '');
 		return $values;
 	}
 
@@ -965,72 +973,30 @@ class Record extends \App\Modules\Base\Models\Record
 	// ===== AUTHENTICATION METHODS (moved from Users.php) =====
 
 	/**
-	 * Encrypt password for storage in database
-	 * @param string $password - Password to encrypt
-	 * @param string $cryptType - Encryption type (MD5, BLOWFISH, PHP5.3MD5)
-	 * @return string Encrypted password
-	 */
-	public function encryptPassword($password, $cryptType = '')
-	{
-		$salt = substr((string)$this->get('user_name'), 0, 2);
-		if ($cryptType == '') {
-			$cryptType = $this->getCryptType();
-		}
-		
-		// For more details on salt format look at: http://in.php.net/crypt
-		if ($cryptType == 'MD5') {
-			$salt = '$1$' . $salt . '$';
-		} elseif ($cryptType == 'BLOWFISH') {
-			$salt = '$2$' . $salt . '$';
-		} elseif ($cryptType == 'PHP5.3MD5') {
-			//only change salt for php 5.3 or higher version for backward
-			//compactibility.
-			//crypt API is lot stricter in taking the value for salt.
-			$salt = '$1$' . str_pad($salt, 9, '0');
-		}
-		return crypt($password, $salt);
-	}
-
-	/**
-	 * Get crypt type to use for password for the user.
-	 * Fix for: http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/4923
+	 * Hash a plaintext password for storage in vtiger_users.user_password.
+	 * Routes through \App\Security\PasswordCrypto (Argon2id + HMAC-SHA-256
+	 * pepper). The legacy username-derived crypt() salt is gone.
+	 *
+	 * @param string $password
 	 * @return string
 	 */
-	public function getCryptType()
+	public function encryptPassword($password)
 	{
-		$cryptType = \App\Core\AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
-		if ($this->getId()) {
-			// Get the type of crypt used on password before actual comparision
-			$row = (new \App\Db\Query())
-				->select('crypt_type')
-				->from('vtiger_users')
-				->where(['id' => $this->getId()])
-				->one();
-			if ($row && $row['crypt_type']) {
-				$cryptType = $row['crypt_type'];
-			}
-		} elseif ($this->get('user_name')) {
-			$row = (new \App\Db\Query())
-				->select('crypt_type')
-				->from('vtiger_users')
-				->where(['user_name' => $this->get('user_name')])
-				->one();
-			if ($row && $row['crypt_type']) {
-				$cryptType = $row['crypt_type'];
-			}
-		}
-		return $cryptType;
+		return \App\Security\PasswordCrypto::hash((string) $password);
 	}
 
 	/**
-	 * Checks the config.php AUTHCFG value for login type and forks off to the proper module
-	 * @param string $userPassword - The password of the user to authenticate
-	 * @return bool true if the user is authenticated, false otherwise
+	 * Authenticate a user. LDAP path is unchanged; the SQL path now uses
+	 * peppered Argon2id verification and silently rehashes the stored value
+	 * when parameters are tuned upward.
+	 *
+	 * @param string $userPassword
+	 * @return bool
 	 */
 	public function doLogin($userPassword)
 	{
 		$userName = (string)$this->get('user_name');
-		$userInfo = (new \App\Db\Query())->select(['id', 'deleted', 'user_password', 'crypt_type', 'status'])->from('vtiger_users')->where(['user_name' => $userName])->one();
+		$userInfo = (new \App\Db\Query())->select(['id', 'deleted', 'user_password', 'status'])->from('vtiger_users')->where(['user_name' => $userName])->one();
 		if (!$userInfo || (int) $userInfo['deleted'] !== 0) {
 			\App\Log\Log::error('User not found: ' . $userName);
 			return false;
@@ -1081,39 +1047,52 @@ class Record extends \App\Modules\Base\Models\Record
 			\App\Log\Log::trace('End LDAP authentication');
 		}
 
-		//Default authentication
 		\App\Log\Log::trace('Using integrated/SQL authentication');
-		$encryptedPassword = $this->encryptPassword($userPassword, $userInfo['crypt_type']);
-		if ($encryptedPassword === $userInfo['user_password']) {
-			\App\Log\Log::trace("Authentication OK. User: $userName");
-			$this->authenticated = true;
-			return true;
-		}
-		\App\Log\Log::trace("Authentication failed. User: $userName");
-		$this->authenticated = false;
-		return false;
-	}
-
-	/**
-	 * Function verifies if given password is correct
-	 * @param string $password
-	 * @return boolean
-	 */
-	public function verifyPassword($password)
-	{
-		$row = (new \App\Db\Query())->select(['user_name', 'user_password', 'crypt_type'])->from('vtiger_users')->where(['id' => $this->getId()])->one();
-		$encryptedPassword = $this->encryptPassword($password, $row['crypt_type']);
-		if ($encryptedPassword !== $row['user_password']) {
+		if (!\App\Security\PasswordCrypto::verify((string) $userPassword, (string) $userInfo['user_password'])) {
+			\App\Log\Log::trace("Authentication failed. User: $userName");
+			$this->authenticated = false;
 			return false;
 		}
+		if (\App\Security\PasswordCrypto::needsRehash((string) $userInfo['user_password'])) {
+			try {
+				$rehash = \App\Security\PasswordCrypto::hash((string) $userPassword);
+				\App\Db\Db::getInstance()->createCommand()
+					->update('vtiger_users', ['user_password' => $rehash], ['id' => (int) $userInfo['id']])
+					->execute();
+				\App\Log\Log::trace('Password hash silently upgraded to current Argon2id parameters for user: ' . $userName);
+			} catch (\Throwable $e) {
+				// Do not block login if the rehash write fails; just log it.
+				\App\Log\Log::warning('Password rehash on login failed: ' . $e->getMessage());
+			}
+		}
+		\App\Log\Log::trace("Authentication OK. User: $userName");
+		$this->authenticated = true;
 		return true;
 	}
 
 	/**
-	 * @param string $userPassword - The current password of the user
-	 * @param string $newPassword - The new password of the user
-	 * @return boolean - If passwords pass verification and query succeeds, return true, else return false.
-	 * @desc Verify that the current password is correct and write the new password to the DB.
+	 * Verify a plaintext password against the currently stored hash.
+	 *
+	 * @param string $password
+	 * @return bool
+	 */
+	public function verifyPassword($password)
+	{
+		$row = (new \App\Db\Query())->select(['user_password'])->from('vtiger_users')->where(['id' => $this->getId()])->one();
+		if (!$row) {
+			return false;
+		}
+		return \App\Security\PasswordCrypto::verify((string) $password, (string) $row['user_password']);
+	}
+
+	/**
+	 * Verify the current password (if non-admin) and persist the new one.
+	 * No `confirm_password` mirror, no `crypt_type` selector - the Argon2id
+	 * hash is self-describing.
+	 *
+	 * @param string $userPassword
+	 * @param string $newPassword
+	 * @return bool
 	 */
 	public function changePassword($userPassword, $newPassword)
 	{
@@ -1132,18 +1111,15 @@ class Record extends \App\Modules\Base\Models\Record
 				return false;
 			}
 		}
-		//set new password
-		$crypt_type = \App\Core\AppConfig::module('Users', 'PASSWORD_CRYPT_TYPE');
-		$encryptedNewPassword = $this->encryptPassword($newPassword, $crypt_type);
+
+		$encryptedNewPassword = \App\Security\PasswordCrypto::hash((string) $newPassword);
 
 		\App\Db\Db::getInstance()->createCommand()->update('vtiger_users', [
 			'user_password' => $encryptedNewPassword,
-			'confirm_password' => $encryptedNewPassword,
-			'crypt_type' => $crypt_type,
 			], ['id' => $this->getId()])->execute();
 
 		$this->set('user_password', $encryptedNewPassword);
-		$this->set('confirm_password', $encryptedNewPassword);
+		$this->set('confirm_password', '');
 
 		\App\Log\Log::trace('Ending password change for ' . $userName);
 		return true;

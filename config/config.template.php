@@ -69,6 +69,12 @@ $disable_stats_tracking = false;
 
 $application_unique_key = '_VT_APP_UNIQKEY_';
 
+// FreeCRM password pepper. Used as the HMAC-SHA-256 key applied to every
+// user password before Argon2id hashing. Treat it like a database-encryption
+// key: rotating it invalidates every login hash; losing it is unrecoverable.
+// The installer auto-generates a 256-bit value (64 hex chars).
+$user_password_pepper = '_FREECRM_PWD_PEPPER_';
+
 $listview_max_textlength = 40;
 
 $php_max_execution_time = 0;

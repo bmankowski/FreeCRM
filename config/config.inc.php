@@ -117,3 +117,6 @@ $layoutInLoginView = false;
 $defaultLayout = 'basic';
 
 $forceRedirect = true;
+
+// Added automatically by FreeCRM password migration. See documentation/PASSWORD_MIGRATION.md.
+$user_password_pepper = 'b56b66c57b9bcc4ebec3214b9c039fc84db4dc5f58ea558f02db0e17feb7010e';
