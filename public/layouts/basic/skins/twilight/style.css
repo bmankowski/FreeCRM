@@ -1,3 +1,4 @@
+.RelatedList.relatedContainer .relatedContents::after{content:"";display:block;clear:both}.RelatedList.relatedContainer .c-list-preview{float:left;width:55%;min-width:420px;overflow:auto}.RelatedList.relatedContainer .c-detail-preview{float:left;width:calc(45% - 32px);min-width:420px;overflow:hidden;border-left:1px solid #ddd;background:#fff;display:flex;flex-direction:column}.RelatedList.relatedContainer iframe.listPreviewframe{flex:1 1 auto;width:100%;min-height:600px;border:0}.RelatedList.relatedContainer .c-side-block--right{float:left;width:32px;min-width:32px;border-left:1px solid #ddd;background:#f8f8f8;display:flex;align-items:center;justify-content:center}
 .infoUser{
 	border-top: 1px solid #fff;
 	background: #4979aa;

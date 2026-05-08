@@ -6,6 +6,12 @@ use App\Http\Vtiger_Request;
 
 class Preview extends \App\Modules\Base\Views\Index
 {
+	protected function showBodyHeader()
+	{
+		// Preview is rendered inside an iframe (ListPreview related list) and must not include the main app chrome.
+		return false;
+	}
+
 	/**
 	 * Checking permissions
 	 *
@@ -27,20 +33,29 @@ class Preview extends \App\Modules\Base\Views\Index
 	{
 		$moduleName = $request->getModule();
 		$recordId = (int) $request->get('record');
+
 		// Make widgets/templates behave exactly like DetailView context
 		$request->set('view', 'Detail');
+		$request->set('isReadOnly', true);
+
 		$handlerClass = \App\Core\Loader::getComponentClassName('View', 'Detail', $moduleName);
 		$detailView = new $handlerClass();
-		$request->set('isReadOnly', true);
-		// If module uses summary widgets (as in DetailView summary), render the same widget layout.
-		// Otherwise, fallback to pure summary blocks (avoid rendering full detail view in preview panel).
+
+		// Match the Detail view "Summary" tab: widget grid (+ embedded MODULE_SUMMARY in Summary widget)
+		// when the module supports it; otherwise the compact ModuleSummaryBlock only.
 		$detailModel = \App\Modules\Base\Models\DetailView::getInstance($moduleName, $recordId);
 		$detailModel->getWidgets(['MODULE' => $moduleName, 'RECORD' => $recordId]);
 		if ($detailModel->getModule()->isSummaryViewSupported() && !empty($detailModel->widgetsList)) {
-			echo $detailView->showModuleBasicView($request);
+			$summaryHtml = $detailView->showModuleBasicView($request);
 		} else {
-			echo $detailView->showModuleSummaryView($request);
+			$summaryHtml = $detailView->showModuleSummaryView($request);
 		}
+
+		$viewer = $this->getViewer($request);
+		$viewer->assign('PREVIEW_HTML', $summaryHtml);
+		$viewer->assign('PREVIEW_MODULE', $moduleName);
+		$viewer->assign('PREVIEW_RECORD', $recordId);
+		$viewer->view('IframePreview.tpl', 'Base');
 	}
 }
 

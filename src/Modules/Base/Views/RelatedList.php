@@ -159,6 +159,9 @@ class RelatedList  extends \App\Modules\Base\Views\Index
 	
 	// Prepare data for RelatedList template - move function calls from templates to controller
 	$viewer->assign('AUTO_REFRESH_LIST_ON_CHANGE', \App\Core\AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE'));
+	$viewer->assign('RELATED_LIST_SUPPRESS_QUICKSEARCH', false);
+	$viewer->assign('RELATED_LIST_SUPPRESS_ENTITY_STATE', false);
+	$viewer->assign('RELATED_LIST_SUPPRESS_PAGINATION', false);
 	
 	return $viewer->view('RelatedList.tpl', $moduleName, true);
 	}

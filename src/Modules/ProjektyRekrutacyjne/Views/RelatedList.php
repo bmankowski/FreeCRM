@@ -27,23 +27,27 @@ class RelatedList extends \App\Modules\Base\Views\RelatedList
     {
         $moduleName = $request->getModule();
         $relatedModuleName = $request->getByType('relatedModule', 2);
+        // Some callers pass relatedModule as numeric tabid; normalize to module name.
+        if (\is_numeric($relatedModuleName)) {
+            $relatedModuleName = \App\Utils\ModuleUtils::getModuleName((int) $relatedModuleName);
+        }
+        $relatedModuleName = \trim((string) $relatedModuleName);
         $parentId = $request->getInteger('record');
 
         // Determine related view.
         $relatedView = $request->get('relatedView');
-        $forceListPreviewByDefault = 'ProjektyRekrutacyjne' === $moduleName && 'Kandydaci' === $relatedModuleName;
+        $forceListPreviewByDefault = 'ProjektyRekrutacyjne' === $moduleName && 0 === \strcasecmp('Kandydaci', $relatedModuleName);
         if ($forceListPreviewByDefault) {
             $relatedView = 'ListPreview';
             $_SESSION['relatedView'][$moduleName][$relatedModuleName] = $relatedView;
         } elseif (empty($relatedView)) {
-            if (empty($_SESSION['relatedView'][$moduleName][$relatedModuleName])) {
-                $relatedView = 'List';
-            } else {
+            if (!empty($_SESSION['relatedView'][$moduleName][$relatedModuleName])) {
                 $relatedView = $_SESSION['relatedView'][$moduleName][$relatedModuleName];
             }
         } else {
             $_SESSION['relatedView'][$moduleName][$relatedModuleName] = $relatedView;
         }
+        // NOTE: Do not log per-request related view in production.
 
         $pageNumber = $request->getInteger('page');
         if (empty($pageNumber)) {
@@ -55,6 +59,13 @@ class RelatedList extends \App\Modules\Base\Views\RelatedList
         $pagingModel->set('page', $pageNumber);
         if ($request->has('limit')) {
             $pagingModel->set('limit', $request->getInteger('limit'));
+        }
+        /** @var bool $fullProjectCandidatesFetch */
+        $fullProjectCandidatesFetch = ($forceListPreviewByDefault && 'ListPreview' === $relatedView);
+        // Load every related candidate row in one shot (RelationListView skips SQL LIMIT when limit is no_limit).
+        if ($fullProjectCandidatesFetch) {
+            $pagingModel->set('page', 1);
+            $pagingModel->set('limit', 'no_limit');
         }
 
         $label = $request->get('tab_label');
@@ -128,6 +139,13 @@ class RelatedList extends \App\Modules\Base\Views\RelatedList
                 static fn($link): bool => 'ListPreview' === $link->get('view')
             ));
         }
+        // ListPreview for candidates on project: full list in one scroll; no paging/relate/search UI.
+        if ($forceListPreviewByDefault && 'ListPreview' === $relatedView) {
+            unset($links['LISTVIEWBASIC'], $links['RELATEDLIST_MASSACTIONS']);
+            if (isset($links['RELATEDLIST_BASIC'])) {
+                unset($links['RELATEDLIST_BASIC']);
+            }
+        }
         $header = $relationListView->getHeaders();
         $noOfEntries = count($models);
 
@@ -168,8 +186,8 @@ class RelatedList extends \App\Modules\Base\Views\RelatedList
         $pageCount = $pagingModel->getPageCount();
         $startPaginFrom = $pagingModel->getStartPagingFrom();
 
-        $viewer->assign('PAGE_COUNT', $pageCount);
-        $viewer->assign('PAGE_NUMBER', $pageNumber);
+        $viewer->assign('PAGE_COUNT', $fullProjectCandidatesFetch ? 1 : $pageCount);
+        $viewer->assign('PAGE_NUMBER', $fullProjectCandidatesFetch ? 1 : $pageNumber);
         $viewer->assign('START_PAGIN_FROM', $startPaginFrom);
         $viewer->assign('MODULE', $moduleName);
         $viewer->assign('PAGING_MODEL', $pagingModel);
@@ -208,6 +226,10 @@ class RelatedList extends \App\Modules\Base\Views\RelatedList
         $viewer->assign('LOCKED_EMPTY_FIELDS', []);
         $viewer->assign('SHOW_HEADER', true);
         $viewer->assign('CUSTOM_VIEW_LIST', []);
+        $suppressListPreviewMinimalToolbar = ($forceListPreviewByDefault && 'ListPreview' === $relatedView);
+        $viewer->assign('RELATED_LIST_SUPPRESS_QUICKSEARCH', $suppressListPreviewMinimalToolbar);
+        $viewer->assign('RELATED_LIST_SUPPRESS_ENTITY_STATE', $suppressListPreviewMinimalToolbar);
+        $viewer->assign('RELATED_LIST_SUPPRESS_PAGINATION', $suppressListPreviewMinimalToolbar);
         $viewer->assign('VIEW', $request->get('view'));
         $viewer->assign('IS_CREATE_PERMITTED', \App\Modules\Users\Models\Privileges::isPermitted($relatedModuleName, 'CreateView'));
         $viewer->assign('IS_WIDGETS', false);

@@ -19,10 +19,178 @@
 {*		{/foreach}*}
 {*	</ul>*}
 
-	<div class="RelatedList relatedContainer">
+	<div class="RelatedList relatedContainer{if $RELATED_VIEW === 'ListPreview'} relatedContainer--listPreview{/if}">
 		{assign var=RELATED_MODULE_NAME value=$RELATED_MODULE->get('name')}
 		{assign var=INVENTORY_MODULE value=$RELATED_MODULE->isInventory()}
 		{assign var=RELATION_MODEL value=$VIEW_MODEL->getRelationModel()}
+		{* Inline styles to ensure ListPreview split layout works even with cached theme CSS *}
+		{if $RELATED_VIEW === 'ListPreview'}
+			<style>
+				{literal}
+				/* Narrow column: keep header + paging on one horizontal band (scroll if needed) */
+				.RelatedList.relatedContainer--listPreview .relatedHeader > .d-inline-flex.flex-wrap{width:100%;display:flex!important;flex-wrap:nowrap!important;align-items:center;gap:8px;min-width:0;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;padding-bottom:2px;}
+				.RelatedList.relatedContainer--listPreview .relatedHeader > .d-inline-flex > .u-w-sm-down-100.d-flex.flex-wrap.flex-sm-nowrap{margin-bottom:0!important;flex-wrap:nowrap!important;flex-shrink:0;align-items:center;}
+				.RelatedList.relatedContainer--listPreview .relatedHeader > .d-inline-flex > .d-flex.flex-wrap.u-w-sm-down-100{margin-bottom:0!important;flex-wrap:nowrap!important;flex-shrink:0;align-items:center;justify-content:flex-end!important;margin-left:auto!important;}
+				.RelatedList.relatedContainer--listPreview .relatedHeader .paginationDiv{width:auto;flex:0 0 auto;}
+				.RelatedList.relatedContainer--listPreview .relatedHeader .paginationDiv nav{display:flex!important;flex-direction:row!important;flex-wrap:nowrap!important;align-items:center;gap:8px;width:auto;}
+				.RelatedList.relatedContainer--listPreview .relatedHeader .paginationDiv .pagination{display:inline-flex!important;flex-wrap:nowrap!important;float:none;margin:0;align-items:center;}
+				.RelatedList.relatedContainer--listPreview .relatedHeader .paginationDiv .pagination > li{float:none;}
+				.RelatedList.relatedContainer--listPreview .relatedHeader .paginationDiv .pageInfo{float:none!important;margin:0!important;padding:6px 8px!important;flex:0 0 auto;white-space:nowrap;}
+				.RelatedList.relatedContainer--listPreview .relatedHeader .relatedViewGroup.mb-1,
+				.RelatedList.relatedContainer--listPreview .relatedHeader .c-btn-block-sm-down.mb-1{margin-bottom:0!important;}
+				{/literal}
+			</style>
+		{/if}
+		{if $RELATED_VIEW === 'ListPreview' && $RELATED_MODULE_NAME eq 'Kandydaci'}
+			<style>
+				{literal}
+				.RelatedList.relatedContainer .relatedContents::after{content:"";display:block;clear:both}
+				.RelatedList.relatedContainer .c-list-preview{float:left;width:55%;min-width:320px;overflow:auto}
+				/* Preview grows with iframe content height (JS sets pixel heights); no inner iframe scrollbars */
+				.RelatedList.relatedContainer .c-detail-preview{float:left;width:calc(45% - 10px);min-width:320px;height:auto!important;max-height:none!important;overflow:visible!important;border-left:1px solid #ddd;background:#fff;display:flex;flex-direction:column}
+				/* No height/auto !important here — it overrides JS pixel height (browser iframe default stays ~150px) */
+				.RelatedList.relatedContainer iframe.listPreviewframe{flex:0 0 auto;width:100%;min-height:200px;border:0;background:#fff}
+				/* Actual drag handle between panes */
+				.RelatedList.relatedContainer .c-list-preview-resizer{float:left;width:10px;min-width:10px;background:#f0f0f0;border-left:1px solid #ddd;border-right:1px solid #ddd;cursor:col-resize;user-select:none;position:relative;z-index:3}
+				.RelatedList.relatedContainer .c-list-preview-resizer::after{content:"";position:absolute;top:50%;left:50%;width:4px;height:48px;transform:translate(-50%,-50%);border-left:2px dotted #aaa;border-right:2px dotted #aaa;opacity:.9}
+				.RelatedList.relatedContainer.is-resizing, .RelatedList.relatedContainer.is-resizing *{cursor:col-resize !important;user-select:none !important}
+				/* While resizing, iframe must not steal mouse events */
+				.RelatedList.relatedContainer.is-resizing iframe.listPreviewframe{pointer-events:none !important}
+				{/literal}
+			</style>
+			<script>
+				{literal}
+				jQuery(function () {
+					var container = jQuery('.RelatedList.relatedContainer');
+					var iframe = container.find('iframe.listPreviewframe');
+					if (!iframe.length) {
+						return;
+					}
+					var listPane = container.find('.c-list-preview');
+					var detailPane = container.find('.c-detail-preview');
+					var divider = container.find('.c-list-preview-resizer');
+					var storageKey = 'FreeCRM.ListPreview.ProjektyRekrutacyjne.Kandydaci.listWidthPx';
+
+					var clamp = function (val, min, max) {
+						return Math.max(min, Math.min(max, val));
+					};
+					var applyListWidth = function (px) {
+						var totalW = container.find('.relatedContents').width() || container.width();
+						if (!totalW) return;
+						var dividerW = divider.outerWidth() || 10;
+						var minList = 320;
+						var minDetail = 320;
+						var maxList = Math.max(minList, totalW - dividerW - minDetail);
+						var w = clamp(px, minList, maxList);
+						listPane.css({width: w + 'px'});
+						detailPane.css({width: 'calc(100% - ' + (w + dividerW) + 'px)'});
+					};
+
+					// Restore last width if present
+					try {
+						var stored = parseInt(window.localStorage.getItem(storageKey) || '', 10);
+						if (!isNaN(stored) && stored > 0) {
+							applyListWidth(stored);
+						}
+					} catch (e) {}
+
+					// Drag-resize handler
+					var resizing = false;
+					var onMove = function (ev) {
+						if (!resizing) return;
+						var pageX = ev.pageX;
+						if (typeof pageX !== 'number') return;
+						var left = container.find('.relatedContents').offset().left;
+						var newW = pageX - left;
+						applyListWidth(newW);
+					};
+					var onUp = function () {
+						if (!resizing) return;
+						resizing = false;
+						container.removeClass('is-resizing');
+						jQuery(document).off('mousemove.listPreviewResize', onMove).off('mouseup.listPreviewResize', onUp);
+						try {
+							window.localStorage.setItem(storageKey, String(listPane.outerWidth() || 0));
+						} catch (e) {}
+					};
+					divider.off('mousedown.listPreviewResize').on('mousedown.listPreviewResize', function (ev) {
+						ev.preventDefault();
+						resizing = true;
+						container.addClass('is-resizing');
+						jQuery(document).on('mousemove.listPreviewResize', onMove).on('mouseup.listPreviewResize', onUp);
+					});
+
+					// Align iframe height to inner Preview document + match list/resizer column (fallback if module JS absent)
+					var syncListPreviewLayout = function () {
+						try {
+							var frameEl = iframe[0];
+							var iframeContentH = 200;
+							if (frameEl && frameEl.contentDocument && frameEl.contentDocument.body) {
+								var b = frameEl.contentDocument.body;
+								var e = frameEl.contentDocument.documentElement;
+								iframeContentH = Math.max(
+									b.scrollHeight || 0, b.offsetHeight || 0,
+									e.scrollHeight || 0, e.offsetHeight || 0
+								);
+								var previewWrap = frameEl.contentDocument.querySelector('.c-iframe-preview');
+								if (previewWrap) {
+									iframeContentH = Math.max(iframeContentH, previewWrap.scrollHeight || 0, previewWrap.offsetHeight || 0);
+								}
+							}
+							iframeContentH = Math.min(Math.max(iframeContentH + 24, 200), 50000);
+							if (frameEl.style && frameEl.style.setProperty) {
+								frameEl.style.setProperty('height', iframeContentH + 'px', 'important');
+								frameEl.style.setProperty('min-height', '0', 'important');
+							} else {
+								iframe.css({height: iframeContentH + 'px', flex: '0 0 auto', minHeight: '0'});
+							}
+							detailPane.css({height: 'auto', maxHeight: 'none', overflow: 'visible'});
+							var headerBottom = container.find('.relatedHeader').length
+								? container.find('.relatedHeader').offset().top + container.find('.relatedHeader').outerHeight()
+								: container.offset().top;
+							var footerH = jQuery('.js-footer').length ? jQuery('.js-footer').outerHeight() : 0;
+							var viewportCap = Math.max(320, jQuery(window).height() - headerBottom - footerH - 20);
+							var detailNatural = Math.ceil(detailPane.outerHeight(true));
+							var targetColH = Math.max(viewportCap, detailNatural);
+							listPane.add(divider).css({
+								height: targetColH + 'px',
+								minHeight: Math.min(viewportCap, targetColH) + 'px',
+								maxHeight: 'none'
+							});
+							detailPane.css({minHeight: targetColH + 'px'});
+						} catch (e) {}
+					};
+					syncListPreviewLayout();
+					jQuery(window).off('resize.listPreviewHeight').on('resize.listPreviewHeight', function () {
+						syncListPreviewLayout();
+						applyListWidth(listPane.outerWidth() || listPane.width() || 0);
+					});
+					var update = function (recordUrl) {
+						if (!recordUrl) return;
+						iframe.one('load.listPreviewInlineFallback', function () {
+							syncListPreviewLayout();
+							if (typeof window.requestAnimationFrame === 'function') {
+								window.requestAnimationFrame(syncListPreviewLayout);
+							}
+							setTimeout(syncListPreviewLayout, 250);
+						});
+						iframe.attr('src', recordUrl.replace('view=Detail', 'view=Preview'));
+					};
+					// Click row or link -> update preview instead of navigation
+					container.off('click.listPreview', '.listViewEntries, .listViewEntries a')
+						.on('click.listPreview', '.listViewEntries, .listViewEntries a', function (e) {
+							e.preventDefault();
+							e.stopPropagation();
+							var row = jQuery(e.currentTarget).closest('.listViewEntries');
+							update(row.data('recordurl'));
+						});
+					// Auto-load first record
+					var firstRow = container.find('.listViewEntriesTable .listViewEntries').first();
+					update(firstRow.data('recordurl'));
+				});
+				{/literal}
+			</script>
+		{/if}
 		<input type="hidden" name="currentPageNum" value="{$PAGING_MODEL->getCurrentPage()}">
 		<input type="hidden" name="relatedModuleName" class="relatedModuleName" value="{$RELATED_MODULE->get('name')}">
 		<input type="hidden" id="orderBy" value="{\App\Security\Purifier::encodeHtml(\App\Utils\Json::encode($ORDER_BY))}">
@@ -134,6 +302,11 @@
 							{/if}
 						</div>
 					{/if}
+					{if $RELATED_LIST_SUPPRESS_PAGINATION && $VIEW_MODEL}
+						<input type="hidden" class="entityState"
+							   value="{if $VIEW_MODEL->has('entityState')}{$VIEW_MODEL->get('entityState')}{else}Active{/if}">
+					{/if}
+					{if !$RELATED_LIST_SUPPRESS_PAGINATION}
 					<div class="d-flex flex-wrap u-w-sm-down-100 justify-content-between justify-content-md-end">
 						<div class="paginationDiv">
 							{include file='Pagination.tpl'|@vtemplate_path:$MODULE_NAME VIEWNAME='related'}
@@ -143,53 +316,56 @@
 								{assign var=COLOR value=\App\Core\AppConfig::search('LIST_ENTITY_STATE_COLOR')}
 								<input type="hidden" class="entityState"
 									   value="{if $VIEW_MODEL->has('entityState')}{$VIEW_MODEL->get('entityState')}{else}Active{/if}">
-								<div class="dropdown dropdownEntityState u-remove-dropdown-icon">
-									<button class="btn btn-light dropdown-toggle" type="button" id="dropdownEntityState"
-											data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-										{if $VIEW_MODEL->get('entityState') === 'Archived'}
-											<span class="fas fa-archive"></span>
-										{elseif $VIEW_MODEL->get('entityState') === 'Trash'}
-											<span class="fas fa-trash-alt"></span>
-										{elseif $VIEW_MODEL->get('entityState') === 'All'}
-											<span class="fas fa-bars"></span>
-										{else}
-											<span class="fas fa-undo-alt"></span>
-										{/if}
-									</button>
-									<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownEntityState">
-										<li {if $COLOR['Active']}style="border-color: {$COLOR['Active']};" {/if}>
-											<a class="dropdown-item{if !$VIEW_MODEL->get('entityState') || $VIEW_MODEL->get('entityState') == 'Active'} active{/if}"
-											   href="#" data-value="Active">
-												<span class="fas fa-undo-alt mr-2"></span>
-												{\App\Language::translate('LBL_ENTITY_STATE_ACTIVE')}
-											</a>
-										</li>
-										<li {if $COLOR['Archived']}style="border-color: {$COLOR['Archived']};" {/if}>
-											<a class="dropdown-item{if $VIEW_MODEL->get('entityState') == 'Archived'} active{/if}"
-											   href="#" data-value="Archived">
-												<span class="fas fa-archive mr-2"></span>
-												{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}
-											</a>
-										</li>
-										<li {if $COLOR['Trash']}style="border-color: {$COLOR['Trash']};" {/if}>
-											<a class="dropdown-item{if $VIEW_MODEL->get('entityState') == 'Trash'} active{/if}"
-											   href="#" data-value="Trash">
-												<span class="fas fa-trash-alt mr-2"></span>
-												{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}
-											</a>
-										</li>
-										<li>
-											<a class="dropdown-item{if $VIEW_MODEL->get('entityState') == 'All'} active{/if}"
-											   href="#" data-value="All">
-												<span class="fas fa-bars mr-2"></span>
-												{\App\Language::translate('LBL_ALL')}
-											</a>
-										</li>
-									</ul>
-								</div>
+								{if !$RELATED_LIST_SUPPRESS_ENTITY_STATE}
+									<div class="dropdown dropdownEntityState u-remove-dropdown-icon">
+										<button class="btn btn-light dropdown-toggle" type="button" id="dropdownEntityState"
+												data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+											{if $VIEW_MODEL->get('entityState') === 'Archived'}
+												<span class="fas fa-archive"></span>
+											{elseif $VIEW_MODEL->get('entityState') === 'Trash'}
+												<span class="fas fa-trash-alt"></span>
+											{elseif $VIEW_MODEL->get('entityState') === 'All'}
+												<span class="fas fa-bars"></span>
+											{else}
+												<span class="fas fa-undo-alt"></span>
+											{/if}
+										</button>
+										<ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownEntityState">
+											<li {if $COLOR['Active']}style="border-color: {$COLOR['Active']};" {/if}>
+												<a class="dropdown-item{if !$VIEW_MODEL->get('entityState') || $VIEW_MODEL->get('entityState') == 'Active'} active{/if}"
+												   href="#" data-value="Active">
+													<span class="fas fa-undo-alt mr-2"></span>
+													{\App\Language::translate('LBL_ENTITY_STATE_ACTIVE')}
+												</a>
+											</li>
+											<li {if $COLOR['Archived']}style="border-color: {$COLOR['Archived']};" {/if}>
+												<a class="dropdown-item{if $VIEW_MODEL->get('entityState') == 'Archived'} active{/if}"
+												   href="#" data-value="Archived">
+													<span class="fas fa-archive mr-2"></span>
+													{\App\Language::translate('LBL_ENTITY_STATE_ARCHIVED')}
+												</a>
+											</li>
+											<li {if $COLOR['Trash']}style="border-color: {$COLOR['Trash']};" {/if}>
+												<a class="dropdown-item{if $VIEW_MODEL->get('entityState') == 'Trash'} active{/if}"
+												   href="#" data-value="Trash">
+													<span class="fas fa-trash-alt mr-2"></span>
+													{\App\Language::translate('LBL_ENTITY_STATE_TRASH')}
+												</a>
+											</li>
+											<li>
+												<a class="dropdown-item{if $VIEW_MODEL->get('entityState') == 'All'} active{/if}"
+												   href="#" data-value="All">
+													<span class="fas fa-bars mr-2"></span>
+													{\App\Language::translate('LBL_ALL')}
+												</a>
+											</li>
+										</ul>
+									</div>
+								{/if}
 							</div>
 						{/if}
 					</div>
+					{/if}
 				</div>
 			</div>
 		{/if}
@@ -203,6 +379,7 @@
 						</div>
 					</div>
 				</div>
+				<div class="c-list-preview-resizer js-list-preview-resizer" aria-hidden="true"></div>
 				<div class="c-detail-preview js-detail-preview">
 					{if $RELATED_MODULE_NAME eq "Kandydaci"}
 						{if !empty($RELATED_RECORDS)}
@@ -234,12 +411,6 @@
 						{/if}
 					{/if}
 					<iframe class="listPreviewframe" frameborder="0"></iframe>
-				</div>
-				<div class="c-side-block c-side-block--right js-side-block js-fixed-scroll"
-					 data-js="css: height;/scroll">
-					<div class="u-rotate-90">
-						<div class="font-weight-bold text-center">{\App\Language::translate('LBL_VIEW_DETAIL')}</div>
-					</div>
 				</div>
 			</div>
 		{else}

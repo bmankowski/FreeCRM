@@ -576,6 +576,41 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 			});
 		});
 	},
+	/**
+	 * Register base related-list events.
+	 * If current related view is ListPreview and module controller provides preview methods,
+	 * wire row clicks to update preview instead of navigating away.
+	 */
+	registerRelatedEvents: function () {
+		this.triggerDisplayTypeEvent();
+		var view = this.relatedContentContainer.find('input.relatedView').val();
+		if (view !== 'ListPreview') {
+			return;
+		}
+		var thisInstance = this;
+		// Row click → update preview iframe (if supported by module controller)
+		if (typeof this.updatePreview === 'function') {
+			this.relatedContentContainer.off('click.relatedPreview', '.listViewEntries')
+				.on('click.relatedPreview', '.listViewEntries', function (e) {
+					var target = jQuery(e.target);
+					// keep checkbox behavior
+					if (target.is('input[type="checkbox"]') || (target.is('td:first-child') && target.find('input[type="checkbox"]').length)) {
+						return;
+					}
+					var elem = jQuery(e.currentTarget);
+					var recordUrl = elem.data('recordurl');
+					if (recordUrl) {
+						e.preventDefault();
+						e.stopPropagation();
+						thisInstance.updatePreview(recordUrl);
+					}
+				});
+		}
+		// Let module controller adjust sizes / auto-select first row
+		if (typeof this.registerPreviewEvent === 'function') {
+			this.registerPreviewEvent();
+		}
+	},
 	init: function (parentId, parentModule, selectedRelatedTabElement, relatedModuleName) {
 		this.selectedRelatedTabElement = selectedRelatedTabElement;
 		this.parentRecordId = parentId;

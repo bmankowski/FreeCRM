@@ -12,8 +12,82 @@
 Vtiger_RelatedList_Js(
 	'ProjektyRekrutacyjne_RelatedList_Js',
 	{
+		getContentContainer: function () {
+			// Base controller uses relatedContentContainer; older custom code used this.content.
+			return this.relatedContentContainer || this.content || jQuery('.contentsDiv');
+		},
+		resizeListPreviewLayout: function () {
+			const content = this.getContentContainer();
+			let root = content.find('.RelatedList.relatedContainer').first();
+			if (!root.length) {
+				root = content.closest('.RelatedList.relatedContainer');
+			}
+			if (!root.length) {
+				root = $('.RelatedList.relatedContainer').has('.listPreviewframe').first();
+			}
+			const frame = root.find('.listPreviewframe');
+			const detail = root.find('.c-detail-preview');
+			const list = root.find('.c-list-preview');
+			const resizer = root.find('.c-list-preview-resizer');
+			if (!frame.length || !detail.length || !root.length) {
+				return;
+			}
+			let iframeContentH = 200;
+			try {
+				const el = frame[0];
+				if (el.contentDocument && el.contentDocument.body) {
+					const b = el.contentDocument.body;
+					const e = el.contentDocument.documentElement;
+					// Do not use e.clientHeight — it tracks the iframe viewport, not document length.
+					iframeContentH = Math.max(
+						b.scrollHeight || 0,
+						b.offsetHeight || 0,
+						e.scrollHeight || 0,
+						e.offsetHeight || 0
+					);
+					const wrap = el.contentDocument.querySelector('.c-iframe-preview');
+					if (wrap) {
+						iframeContentH = Math.max(
+							iframeContentH,
+							wrap.scrollHeight || 0,
+							wrap.offsetHeight || 0
+						);
+					}
+				}
+			} catch (_e) {
+				/* ignore */
+			}
+			iframeContentH = Math.min(Math.max(iframeContentH + 24, 200), 50000);
+			const frameDom = frame[0];
+			if (frameDom && frameDom.style) {
+				frameDom.style.setProperty('height', iframeContentH + 'px', 'important');
+				frameDom.style.setProperty('min-height', '0', 'important');
+			} else {
+				frame.css({height: iframeContentH + 'px', flex: '0 0 auto', minHeight: '0'});
+			}
+			detail.css({height: 'auto', maxHeight: 'none', overflow: 'visible'});
+
+			let headerBottom = root.offset().top;
+			if (root.find('.relatedHeader').length) {
+				const rh = root.find('.relatedHeader');
+				headerBottom = rh.offset().top + rh.outerHeight();
+			}
+			const footerH = $('.js-footer').length ? $('.js-footer').outerHeight() : 0;
+			const viewportCap = Math.max(320, $(window).height() - headerBottom - footerH - 20);
+			const detailNatural = Math.ceil(detail.outerHeight(true));
+			const targetColH = Math.max(viewportCap, detailNatural);
+
+			list.add(resizer).css({
+				height: targetColH + 'px',
+				minHeight: Math.min(viewportCap, targetColH) + 'px',
+				maxHeight: 'none'
+			});
+			detail.css({minHeight: targetColH + 'px'});
+		},
+
 		updatePreview: function (url) {
-			let frame = this.content.find('.listPreviewframe');
+			const content = this.getContentContainer();
+			let frame = content.find('.listPreviewframe');
 			this.frameProgress = $.progressIndicator({
 				position: 'html',
 				message: app.vtranslate('JS_FRAME_IN_PROGRESS'),
@@ -21,14 +95,10 @@ Vtiger_RelatedList_Js(
 					enabled: false
 				}
 			});
-			let defaultView = '';
-			if (app.getMainParams('defaultDetailViewName')) {
-				defaultView =
-					defaultView + '&mode=showDetailViewByMode&requestMode=' + app.getMainParams('defaultDetailViewName'); // full, summary
-			}
-			frame.attr('src', url.replace('view=Detail', 'view=DetailPreview') + defaultView);
+			// Render summary-only preview (iframe-friendly, no full app chrome).
+			frame.attr('src', url.replace('view=Detail', 'view=Preview'));
 			// BMN changes
-			let idCandidate = this.content.find('#candidateId');
+			let idCandidate = content.find('#candidateId');
 			if (idCandidate.length) {
 				const queryString = url.split('?')[1];
 				const params = new URLSearchParams(queryString);
@@ -49,16 +119,28 @@ Vtiger_RelatedList_Js(
 		},
 		registerPreviewEvent: function () {
 			let thisInstance = this;
-			let contentHeight = this.content.find('.js-detail-preview,.js-list-preview');
-			contentHeight.height(app.getScreenHeight() - (this.content.offset().top + $('.js-footer').height()));
-			this.content.find('.listPreviewframe').on('load', function () {
+			const content = this.getContentContainer();
+			content.find('.listPreviewframe').off('load.projListPreviewIframe').on('load.projListPreviewIframe', function () {
 				if (thisInstance.frameProgress) {
 					thisInstance.frameProgress.progressIndicator({mode: 'hide'});
 				}
-				contentHeight.height($(this).contents().find('.bodyContents').height() + 2);
+				// Align iframe height with inner document so summary is visible without iframe scrollbars.
+				setTimeout(function () {
+					thisInstance.resizeListPreviewLayout();
+					if (typeof window.requestAnimationFrame === 'function') {
+						window.requestAnimationFrame(function () {
+							thisInstance.resizeListPreviewLayout();
+						});
+					}
+				}, 0);
+				setTimeout(function () {
+					thisInstance.resizeListPreviewLayout();
+				}, 250);
 			});
+			$(window).off('resize.projListPreviewLayout').on('resize.projListPreviewLayout', () => thisInstance.resizeListPreviewLayout());
+			this.resizeListPreviewLayout();
 			//BMN changes
-			let listViewEntries = this.content.find('.listViewEntriesTable .listViewEntries');
+			let listViewEntries = content.find('.listViewEntriesTable .listViewEntries');
 			const urlParams = new URLSearchParams(window.location.search);
 			let relatedRecordId = Number(urlParams.get('relatedRecord'));
 			if (relatedRecordId) {
@@ -171,6 +253,30 @@ Vtiger_RelatedList_Js(
 		registerRelatedEvents: function () {
 			this._super();
 
+			// Ensure ListPreview preview pane is wired for Kandydaci related list.
+			const content = this.getContentContainer();
+			if (content.find('input.relatedView').val() === 'ListPreview') {
+				this.registerPreviewEvent();
+				// Clicking name link should not navigate away in ListPreview.
+				content.off('click.projektyPreviewLink', '.listViewEntries a')
+					.on('click.projektyPreviewLink', '.listViewEntries a', (e) => {
+						e.preventDefault();
+						e.stopPropagation();
+						const row = jQuery(e.currentTarget).closest('.listViewEntries');
+						const recordUrl = row.data('recordurl');
+						if (recordUrl) {
+							this.updatePreview(recordUrl);
+						}
+					});
+				// Ensure something is loaded on first render (if not already selected).
+				const firstRow = content.find('.listViewEntriesTable .listViewEntries').first();
+				if (firstRow.length) {
+					const recordUrl = firstRow.data('recordurl');
+					if (recordUrl) {
+						this.updatePreview(recordUrl);
+					}
+				}
+			}
 			this.acceptCandidateManually();
 			this.rejectCandidateManually();
 			this.handleKeyEvents();

@@ -33,7 +33,7 @@
 					{/if}
 				</tr>
 			</thead>
-			{if $RELATED_MODULE->isQuickSearchEnabled()}
+			{if $RELATED_MODULE->isQuickSearchEnabled() && !$RELATED_LIST_SUPPRESS_QUICKSEARCH}
 				<tr>
 					<td class="listViewSearchTd">
 						<a class="btn btn-default" data-trigger="listSearch" href="javascript:void(0);"><span class="glyphicon glyphicon-search"></span></a>
