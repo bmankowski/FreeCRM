@@ -132,6 +132,39 @@ class CustomView
 	public static function setCurrentView($moduleName, $viewId)
 	{
 		$_SESSION['lvs'][$moduleName]['viewname'] = $viewId;
+		// Persist last used filter per user + module (so it survives session).
+		// Reuse existing vtiger_user_module_preferences mechanism used for default filters.
+		if (is_numeric($viewId)) {
+			$userId = \App\Http\Vtiger_Session::getAuthenticatedUserId();
+			if (!$userId) {
+				// Fallback for legacy flows where session auth key isn't available,
+				// but current user is still present in global context.
+				global $current_user;
+				if (!empty($current_user) && !empty($current_user->id)) {
+					$userId = (int) $current_user->id;
+				}
+			}
+			if (!$userId) {
+				return;
+			}
+			$tabId = \App\Utils\ModuleUtils::getModuleId($moduleName);
+			if ($tabId) {
+				$prefUser = 'Users:' . $userId;
+				$db = \App\Db\Db::getInstance();
+				$exists = (new \App\Db\Query())
+					->from('vtiger_user_module_preferences')
+					->where(['userid' => $prefUser, 'tabid' => $tabId])
+					->exists();
+				if ($exists) {
+					$db->createCommand()->update('vtiger_user_module_preferences', ['default_cvid' => (int) $viewId], ['userid' => $prefUser, 'tabid' => $tabId])->execute();
+				} else {
+					$db->createCommand()->insert('vtiger_user_module_preferences', ['userid' => $prefUser, 'tabid' => $tabId, 'default_cvid' => (int) $viewId])->execute();
+				}
+				// Clear cached default cvId so next request picks up the new value
+				// Cache key format in getDefaultCvId(): $moduleName . $user->getId()
+				\App\Cache\Cache::delete('GetDefaultCvId', $moduleName . $userId);
+			}
+		}
 	}
 
 	/**
@@ -197,14 +230,6 @@ class CustomView
 	 */
 	public static function setDefaultSortOrderBy($moduleName, $defaultSortOrderBy = [])
 	{
-		if ($request !== null) {
-			if ($request->has('orderby')) {
-				$_SESSION['lvs'][$moduleName]['sortby'] = $request->get('orderby');
-			}
-			if ($request->has('sortorder')) {
-				$_SESSION['lvs'][$moduleName]['sorder'] = $request->get('sortorder');
-			}
-		}
 		if (isset($defaultSortOrderBy['orderBy'])) {
 			$_SESSION['lvs'][$moduleName]['sortby'] = $defaultSortOrderBy['orderBy'];
 		}
@@ -487,6 +512,13 @@ class CustomView
 				if (!$viewId) {
 					$viewId = $this->getDefaultCvId();
 				}
+			}
+			// When the filter is explicitly selected (viewname param), persist it
+			// so it becomes the "last used" filter for this user + module.
+			// This is the most reliable place, because multiple endpoints call getViewId()
+			// without going through ListView::process().
+			if ($viewId && self::hasViewChanged($this->moduleName, $viewId, $request)) {
+				self::setCurrentView($this->moduleName, $viewId);
 			}
 		}
 		$this->defaultViewId = $viewId;

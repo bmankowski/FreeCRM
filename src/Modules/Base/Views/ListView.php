@@ -60,6 +60,10 @@ class ListView extends \App\Modules\Base\Views\Index
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
+		// Persist last list display mode per user + module
+		if (!$request->isAjax()) {
+			$request->getUser()->setPreference('ListViewDefaultView_' . $request->getModule(), 'ListView');
+		}
 		if ($request->isAjax()) {
 			// AJAX requests need list data but not sidebar/layout data
 			$this->prepareAjaxListViewData($request);
@@ -100,8 +104,15 @@ class ListView extends \App\Modules\Base\Views\Index
 		
 		// Assign common data needed by AJAX list view
 		if (!isset($this->viewName)) {
-			$this->viewName = \App\View\CustomView::getInstance($moduleName)->getViewId();
+			// When user changes filter, the new filter id is sent as "viewname" in AJAX requests.
+			// If we ignore it, list view will keep using the previous default filter.
+			if (!$request->isEmpty('viewname')) {
+				$this->viewName = $request->get('viewname');
+			} else {
+				$this->viewName = \App\View\CustomView::getInstance($moduleName)->getViewId();
+			}
 		}
+		$this->listViewModel = \App\Modules\Base\Models\ListView::getInstance($moduleName, $this->viewName);
 		$this->initializeListViewContents($request, $viewer);	
 		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->assign('MODULE_NAME', $moduleName);
@@ -116,6 +127,11 @@ class ListView extends \App\Modules\Base\Views\Index
 		$moduleName = $request->getModule();
 		
 		if ($request->isAjax()) {
+			// When filter is changed via AJAX, the new filter is sent as "viewname".
+			// Ensure we operate on (and persist) the requested filter, not a stale $this->viewName.
+			if (!$request->isEmpty('viewname')) {
+				$this->viewName = \App\View\CustomView::getInstance($moduleName)->getViewId(true, $request);
+			}
 			if (\App\View\CustomView::hasViewChanged($moduleName, $this->viewName, $request)) {
 				$customViewModel = \App\Modules\CustomView\Models\Record::getInstanceById($this->viewName);
 				if ($customViewModel) {

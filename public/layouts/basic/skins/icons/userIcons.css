@@ -2,13 +2,13 @@
 	font-family: 'UserIcons';
 	src:url('userIcons.eot?dfrtuf');
 	src:url('userIcons.eot?dfrtuf#iefix') format('embedded-opentype'),
-		url('userIcons.ttf?dfrtuf') format('truetype'),
+		url('userIcons.woff2?dfrtuf') format('woff2'),
 		url('userIcons.woff?dfrtuf') format('woff'),
+		url('userIcons.ttf?dfrtuf') format('truetype'),
 		url('userIcons.svg?dfrtuf#icons') format('svg');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
-    /* Note: Glyph bbox warnings in console are harmless and don't affect functionality */
 }
 [class^="userIcon-"], [class*=" userIcon-"] {
 	font-family: 'UserIcons';

@@ -136,6 +136,75 @@ class Detail extends \App\Modules\Base\Views\Index
 			}
 		}
 
+		// Server-side fallback: compute prev/next within current ListView filter (viewname) stored in session.
+		// This makes navigation work even when JS sessionStorage context is missing.
+		if (empty($prevRecordId) && empty($nextRecordId)) {
+			try {
+				$viewId = \App\View\CustomView::getCurrentView($moduleName);
+				if ($viewId) {
+					$orderBy = \App\View\CustomView::getSortby($moduleName);
+					$sortOrder = \App\View\CustomView::getSorder($moduleName) ?: 'ASC';
+					$page = (int) \App\View\CustomView::getCurrentPage($moduleName, $viewId);
+					if ($page < 1) {
+						$page = 1;
+					}
+
+					$listViewModel = \App\Modules\Base\Models\ListView::getInstance($moduleName, (int) $viewId);
+					if (!empty($orderBy)) {
+						$listViewModel->set('orderby', $orderBy);
+						$listViewModel->set('sortorder', $sortOrder);
+					}
+
+					$findOnPage = function (int $pageNumber) use ($listViewModel, $recordId): array {
+						$pagingModel = new \App\Modules\Base\Models\Paging();
+						$pagingModel->set('page', $pageNumber);
+						$entries = $listViewModel->getListViewEntries($pagingModel);
+						$ids = array_keys($entries);
+						$idx = array_search((string) $recordId, array_map('strval', $ids), true);
+						return [$ids, $idx, $pagingModel->isNextPageExists()];
+					};
+
+					[$ids, $idx, $hasNextPage] = $findOnPage($page);
+					$resolvedPage = $page;
+					if ($idx === false) {
+						// Best-effort: try a few likely pages if the record wasn't on the last ListView page.
+						$candidates = array_values(array_unique(array_filter([(int) $page, 1, (int) $page - 1, (int) $page + 1], fn($p) => $p >= 1)));
+						foreach ($candidates as $candidatePage) {
+							[$ids, $idx, $hasNextPage] = $findOnPage((int) $candidatePage);
+							if ($idx !== false) {
+								$resolvedPage = (int) $candidatePage;
+								break;
+							}
+						}
+					}
+
+					if ($idx !== false && !empty($ids)) {
+						$idx = (int) $idx;
+						if ($idx > 0) {
+							$prevRecordId = $ids[$idx - 1] ?? null;
+						} elseif ($resolvedPage > 1) {
+							// previous record from previous page
+							[$prevIds] = $findOnPage($resolvedPage - 1);
+							if (!empty($prevIds)) {
+								$prevRecordId = end($prevIds) ?: null;
+							}
+						}
+						if ($idx < count($ids) - 1) {
+							$nextRecordId = $ids[$idx + 1] ?? null;
+						} elseif ($hasNextPage) {
+							// next record from next page
+							[$nextIds] = $findOnPage($resolvedPage + 1);
+							if (!empty($nextIds)) {
+								$nextRecordId = $nextIds[0] ?? null;
+							}
+						}
+					}
+				}
+			} catch (\Throwable $e) {
+				// Best-effort; ignore failures.
+			}
+		}
+
 		$moduleModel = $this->record->getModule();
 		if (!empty($prevRecordId)) {
 			$viewer->assign('PREVIOUS_RECORD_URL', $moduleModel->getDetailViewUrl($prevRecordId));
@@ -347,6 +416,8 @@ class Detail extends \App\Modules\Base\Views\Index
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
+			'modules.Base.resources.Detail',
+			"modules.$moduleName.resources.Detail",
 			'modules.Base.resources.RelatedList',
 			"modules.$moduleName.resources.RelatedList",
 			'modules.Base.resources.Widgets',

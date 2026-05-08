@@ -732,6 +732,40 @@ jQuery.Class("Vtiger_ListView_Js", {
 		}
 		return params;
 	},
+	/**
+	 * Keep browser URL aligned with current list state.
+	 * This makes sharing links with active filter/search values straightforward.
+	 */
+	updateBrowserUrlWithListState: function (params) {
+		if (!window.history || !window.history.replaceState) {
+			return;
+		}
+		if (typeof params === 'undefined' || params === null) {
+			params = {};
+		}
+		var urlState = {};
+		jQuery.each(params, function (key, value) {
+			if (
+				typeof value === 'undefined' ||
+				value === null ||
+				value === '' ||
+				key === 'mode' ||
+				key === 'action'
+			) {
+				return;
+			}
+			urlState[key] = value;
+		});
+		var query = jQuery.param(urlState);
+		var targetUrl = window.location.pathname;
+		if (query.length) {
+			targetUrl += '?' + query;
+		}
+		if (window.location.hash) {
+			targetUrl += window.location.hash;
+		}
+		window.history.replaceState({}, '', targetUrl);
+	},
 	getDeafultDeleteParam: function () {
 		return {
 			module: app.getModuleName(),
@@ -779,6 +813,7 @@ jQuery.Class("Vtiger_ListView_Js", {
 				Vtiger_Index_Js.registerMailButtons(listViewContentsContainer);
 				//thisInstance.triggerDisplayTypeEvent();
 				Vtiger_Helper_Js.showHorizontalTopScrollBar();
+				thisInstance.updateBrowserUrlWithListState(urlParams);
 
 				var selectedIds = thisInstance.readSelectedIds();
 				if (selectedIds != '') {
@@ -1736,12 +1771,54 @@ jQuery.Class("Vtiger_ListView_Js", {
 	registerRowClickEvent: function () {
 		var thisInstance = this;
 		var listViewContentDiv = this.getListViewContentContainer();
+		var getRawModuleName = function () {
+			// Try hidden input first, then URL param, then app.getModuleName().
+			var m = jQuery('#module').val();
+			if (m) {
+				return m;
+			}
+			try {
+				var qs = window.location.search ? window.location.search.substring(1) : '';
+				if (qs) {
+					var pairs = qs.split('&');
+					for (var i = 0; i < pairs.length; i++) {
+						var pair = pairs[i];
+						if (!pair) {
+							continue;
+						}
+						var parts = pair.split('=');
+						var k = decodeURIComponent(parts[0] || '');
+						if (k === 'module') {
+							return parts.length > 1 ? decodeURIComponent(parts.slice(1).join('=')) : '';
+						}
+					}
+				}
+			} catch (e) {
+				// ignore
+			}
+			return app.getModuleName();
+		};
+		var appendListContext = function (url) {
+			try {
+				if (!url) {
+					return url;
+				}
+				// Avoid duplicating context.
+				if (String(url).indexOf('listContext=') !== -1) {
+					return url;
+				}
+				var sep = (String(url).indexOf('?') !== -1) ? '&' : '?';
+				return String(url) + sep + 'listContext=' + encodeURIComponent(window.location.href);
+			} catch (e) {
+				return url;
+			}
+		};
 		var persistDetailNavigationContext = function () {
 			// Persist current list context for DetailView prev/next navigation.
 			// This enables "previous/next record" arrows on the record detail view.
 			try {
 				if (window.sessionStorage) {
-					var moduleName = app.getModuleName();
+					var moduleName = getRawModuleName();
 					var navigationKey = 'DetailViewNavigation:' + moduleName;
 					var records = [];
 					listViewContentDiv.find('tr.listViewEntries').each(function () {
@@ -1756,7 +1833,12 @@ jQuery.Class("Vtiger_ListView_Js", {
 						var payload = {
 							module: moduleName,
 							created: Date.now(),
-							viewId: jQuery('#viewname').val() || jQuery('#viewId').val() || null,
+							// Persist full ListView URL (includes filter/search/sort params).
+							listUrl: window.location.href,
+							// Best-effort structured context for quick access.
+							viewId: jQuery('#customFilter').val() || null,
+							orderBy: jQuery('#orderBy').val() || null,
+							sortOrder: jQuery('#sortOrder').val() || null,
 							page: jQuery('#pageNumber').val() || null,
 							records: records
 						};
@@ -1776,6 +1858,15 @@ jQuery.Class("Vtiger_ListView_Js", {
 				return;
 			}
 			persistDetailNavigationContext();
+			// For normal left-click navigation, append list context to URL so DetailView can restore filter scope.
+			// Keep default behavior for new-tab / modifier clicks.
+			if (e.which === 1 && !e.ctrlKey && !e.metaKey && !e.shiftKey && !e.altKey) {
+				var href = jQuery(e.currentTarget).attr('href');
+				if (href) {
+					e.preventDefault();
+					window.location.href = appendListContext(href);
+				}
+			}
 		});
 
 		listViewContentDiv.on('click', '.listViewEntries', function (e) {
@@ -1799,8 +1890,15 @@ jQuery.Class("Vtiger_ListView_Js", {
 				return;
 			}
 			persistDetailNavigationContext();
-			window.location.href = recordUrl;
+			window.location.href = appendListContext(recordUrl);
 		});
+
+		// Persist also after any ListView AJAX refresh.
+		jQuery('body').off('LoadRecordList.PostLoad.DetailNav').on('LoadRecordList.PostLoad.DetailNav', function () {
+			persistDetailNavigationContext();
+		});
+		// And once on initial binding (best-effort).
+		persistDetailNavigationContext();
 	},
 	/*
 	 * Function to register the list view delete record click event
@@ -2057,6 +2155,25 @@ jQuery.Class("Vtiger_ListView_Js", {
 		});
 	},
 	registerEvents: function () {
+		// Debug: show which filter backend/UI think is active.
+		// Helpful for diagnosing cases where filter appears to "stick" incorrectly.
+		try {
+			var filterSelect = this.getFilterSelectElement();
+			if (filterSelect && filterSelect.length) {
+				var selectedOption = filterSelect.find('option:selected');
+				var selectedId = selectedOption.data('id');
+				var selectedLabel = (selectedOption.text() || '').trim();
+				var viewIdFromDom = jQuery('#viewname').val() || jQuery('#viewName').val() || jQuery('#cvid').val();
+				if (typeof console !== 'undefined' && console.warn) {
+					console.warn('[FreeCRM] List filter state', {
+						module: app.getModuleName && app.getModuleName(),
+						expectedViewId: viewIdFromDom,
+						uiSelectedViewId: selectedId,
+						uiSelectedLabel: selectedLabel
+					});
+				}
+			}
+		} catch (e) {}
 		this.breadCrumbsFilter();
 		this.registerRowClickEvent();
 		this.registerPageNavigationEvents();

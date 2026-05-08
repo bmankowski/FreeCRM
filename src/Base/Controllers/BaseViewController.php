@@ -302,7 +302,9 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 	{
 		$cssFileNames = [
 			'~libraries/bootstrap3/css/bootstrap.css',
-			'~libraries/font-awesome/css/font-awesome.css',
+			'~libraries/@fortawesome/fontawesome-free/css/all.min.css',
+			'~libraries/@fortawesome/fontawesome-free/css/v4-shims.min.css',
+			'~libraries/@fortawesome/fontawesome-free/css/v4-font-face.min.css',
 			'skins.icons.userIcons',
 			'skins.icons.adminIcons',
 			'skins.icons.additionalIcons',

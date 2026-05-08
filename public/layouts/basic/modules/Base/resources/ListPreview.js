@@ -133,6 +133,29 @@
 		// Remove the default ListView row-click navigation handler and replace it with preview refresh.
 		// The core handler is bound without namespace, so we must explicitly unbind it.
 		listViewContentDiv.off('click', '.listViewEntries');
+		// Remove default name-link navigation to DetailView for preview mode.
+		listViewContentDiv.off('click', 'tr.listViewEntries a[href]');
+		listViewContentDiv.off('click.listPreview', 'tr.listViewEntries a[href]').on('click.listPreview', 'tr.listViewEntries a[href]', function (e) {
+			if (!isPreviewMode()) {
+				return;
+			}
+			var link = jQuery(e.currentTarget);
+			if (link.hasClass('noLinkBtn')) {
+				return;
+			}
+			// Keep native browser behavior for intentional new-tab / window actions.
+			if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey || e.button === 1) {
+				return;
+			}
+			e.preventDefault();
+			e.stopImmediatePropagation();
+			var row = link.closest('tr.listViewEntries');
+			var recordId = row.data('id');
+			if (!recordId) {
+				return;
+			}
+			loadPreview(recordId, row);
+		});
 		listViewContentDiv.off('click.listPreview', '.listViewEntries').on('click.listPreview', '.listViewEntries', function (e) {
 			if (!isPreviewMode()) {
 				return;

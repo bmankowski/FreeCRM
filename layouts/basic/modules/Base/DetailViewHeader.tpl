@@ -27,8 +27,8 @@
 									{if !{$NO_PAGINATION}}
 										<div class="detailViewPagingButton pull-right">
 											<span class="btn-group pull-right">
-												<button class="btn btn-default" id="detailViewPreviousRecordButton" data-record-url="{$PREVIOUS_RECORD_URL}" {if empty($PREVIOUS_RECORD_URL)} disabled="disabled" {/if}><span class="glyphicon glyphicon-chevron-left"></span></button>
-												<button class="btn btn-default" id="detailViewNextRecordButton" data-record-url="{$NEXT_RECORD_URL}" {if empty($NEXT_RECORD_URL)} disabled="disabled" {/if}><span class="glyphicon glyphicon-chevron-right"></span></button>
+												<button type="button" class="btn btn-default" id="detailViewPreviousRecordButton" data-record-url="{$PREVIOUS_RECORD_URL}" onclick="(window.Vtiger_Detail_Js && Vtiger_Detail_Js.getInstance().navigateUsingListContext('prev')) || (window.location.href='index.php?module={$MODULE}&view=ListView'); return false;"><span class="glyphicon glyphicon-chevron-left"></span></button>
+												<button type="button" class="btn btn-default" id="detailViewNextRecordButton" data-record-url="{$NEXT_RECORD_URL}" onclick="(window.Vtiger_Detail_Js && Vtiger_Detail_Js.getInstance().navigateUsingListContext('next')) || (window.location.href='index.php?module={$MODULE}&view=ListView'); return false;"><span class="glyphicon glyphicon-chevron-right"></span></button>
 											</span>
 										</div>
 									{/if}

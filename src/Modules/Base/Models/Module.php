@@ -467,6 +467,11 @@ class Module extends \vtlib\Module
 	 */
 	public function getDefaultViewName()
 	{
+		// Remember last chosen list display mode per user + module
+		$prefKey = 'ListViewDefaultView_' . $this->getName();
+		if (!empty($_SESSION[$prefKey]) && in_array($_SESSION[$prefKey], ['ListView', 'ListPreview'], true)) {
+			return $_SESSION[$prefKey];
+		}
 		return 'ListView';
 	}
 

@@ -2,8 +2,9 @@
 	font-family: 'adminIcon';
 	src:url('adminIcons.eot?5bzxui');
 	src:url('adminIcons.eot?5bzxui#iefix') format('embedded-opentype'),
-		url('adminIcons.ttf?5bzxui') format('truetype'),
+		url('adminIcons.woff2?5bzxui') format('woff2'),
 		url('adminIcons.woff?5bzxui') format('woff'),
+		url('adminIcons.ttf?5bzxui') format('truetype'),
 		url('adminIcons.svg?5bzxui#icomoon') format('svg');
 }
 

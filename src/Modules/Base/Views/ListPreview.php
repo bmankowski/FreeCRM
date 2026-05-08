@@ -16,6 +16,8 @@ class ListPreview extends \App\Modules\Base\Views\ListView
 		if ($request->isAjax()) {
 			return;
 		}
+		// Persist last list display mode per user + module
+		$request->getUser()->setPreference('ListViewDefaultView_' . $request->getModule(), 'ListPreview');
 		$this->getViewer($request)->assign('LIST_PREVIEW_MODE', true);
 	}
 

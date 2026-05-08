@@ -29,16 +29,15 @@ class RelatedList extends \App\Modules\Base\Views\RelatedList
         $relatedModuleName = $request->getByType('relatedModule', 2);
         $parentId = $request->getInteger('record');
 
-        // Determine related view - default to ListPreview for Kandydaci
+        // Determine related view.
         $relatedView = $request->get('relatedView');
-        if (empty($relatedView)) {
+        $forceListPreviewByDefault = 'ProjektyRekrutacyjne' === $moduleName && 'Kandydaci' === $relatedModuleName;
+        if ($forceListPreviewByDefault) {
+            $relatedView = 'ListPreview';
+            $_SESSION['relatedView'][$moduleName][$relatedModuleName] = $relatedView;
+        } elseif (empty($relatedView)) {
             if (empty($_SESSION['relatedView'][$moduleName][$relatedModuleName])) {
-                // If not set in session, set the default view
-                if ($moduleName == "ProjektyRekrutacyjne" && $relatedModuleName == "Kandydaci") {
-                    $relatedView = 'ListPreview';
-                } else {
-                    $relatedView = 'List';
-                }
+                $relatedView = 'List';
             } else {
                 $relatedView = $_SESSION['relatedView'][$moduleName][$relatedModuleName];
             }
@@ -123,6 +122,12 @@ class RelatedList extends \App\Modules\Base\Views\RelatedList
         // Get records
         $models = $relationListView->getEntries($pagingModel);
         $links = $relationListView->getLinks();
+        if ($forceListPreviewByDefault && isset($links['RELATEDLIST_VIEWS']) && \is_array($links['RELATEDLIST_VIEWS'])) {
+            $links['RELATEDLIST_VIEWS'] = array_values(array_filter(
+                $links['RELATEDLIST_VIEWS'],
+                static fn($link): bool => 'ListPreview' === $link->get('view')
+            ));
+        }
         $header = $relationListView->getHeaders();
         $noOfEntries = count($models);
 

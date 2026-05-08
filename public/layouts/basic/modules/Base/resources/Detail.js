@@ -2434,6 +2434,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 	registerBasicEvents: function () {
 		var thisInstance = this;
 		var detailContentsHolder = thisInstance.getContentHolder();
+		// Detail header (including prev/next buttons) lives outside `div.details div.contents`.
+		// Use the outer container for record-to-record navigation UI.
+		var detailViewContainer = jQuery('div.detailViewContainer');
+		if (!detailViewContainer.length) {
+			detailViewContainer = detailContentsHolder.closest('div.detailViewContainer');
+		}
 		var selectedTabElement = thisInstance.getSelectedTab();
 		//register all the events for summary view container
 		thisInstance.registerSummaryViewContainerEvents(detailContentsHolder);
@@ -2446,9 +2452,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 		app.showSelect2ElementView(detailContentsHolder.find('select.select2'));
 
 		// Apply prev/next record navigation based on the ListView context (stored in sessionStorage).
-		thisInstance.applyRecordNavigationFromSession(detailContentsHolder);
+		thisInstance.applyRecordNavigationFromSession(detailViewContainer.length ? detailViewContainer : jQuery(document));
 
-		detailContentsHolder.on('click', '#detailViewNextRecordButton', function (e) {
+		(detailViewContainer.length ? detailViewContainer : jQuery(document)).on('click', '#detailViewNextRecordButton', function (e) {
 			var btn = jQuery(e.currentTarget);
 			var recordUrl = btn.data('recordUrl') || btn.attr('data-record-url');
 			if (recordUrl) {
@@ -2456,14 +2462,16 @@ jQuery.Class("Vtiger_Detail_Js", {
 				window.location.href = recordUrl;
 				return;
 			}
-			var url = selectedTabElement.data('url');
-			var currentPageNum = thisInstance.getRelatedListCurrentPageNum();
-			var requestedPage = parseInt(currentPageNum) + 1;
-			var nextPageUrl = url + '&page=' + requestedPage;
-			thisInstance.loadContents(nextPageUrl);
+			// If there is no direct URL, try to navigate using the last ListView context (same filter).
+			if (thisInstance.navigateUsingListContext('next')) {
+				e.preventDefault();
+				return;
+			}
+			// No navigation context available.
+			e.preventDefault();
 		});
 
-		detailContentsHolder.on('click', '#detailViewPreviousRecordButton', function (e) {
+		(detailViewContainer.length ? detailViewContainer : jQuery(document)).on('click', '#detailViewPreviousRecordButton', function (e) {
 			var btn = jQuery(e.currentTarget);
 			var recordUrl = btn.data('recordUrl') || btn.attr('data-record-url');
 			if (recordUrl) {
@@ -2471,12 +2479,13 @@ jQuery.Class("Vtiger_Detail_Js", {
 				window.location.href = recordUrl;
 				return;
 			}
-			var url = selectedTabElement.data('url');
-			var currentPageNum = thisInstance.getRelatedListCurrentPageNum();
-			var requestedPage = parseInt(currentPageNum) - 1;
-			var params = {};
-			var nextPageUrl = url + '&page=' + requestedPage;
-			thisInstance.loadContents(nextPageUrl);
+			// If there is no direct URL, try to navigate using the last ListView context (same filter).
+			if (thisInstance.navigateUsingListContext('prev')) {
+				e.preventDefault();
+				return;
+			}
+			// No navigation context available.
+			e.preventDefault();
 		});
 
 		detailContentsHolder.on('click', 'div.detailViewTable div.fieldValue', function (e) {
@@ -2759,10 +2768,38 @@ jQuery.Class("Vtiger_Detail_Js", {
 			if (!window.sessionStorage) {
 				return;
 			}
-			var moduleName = app.getModuleName();
+			var getRawModuleName = function () {
+				var m = jQuery('#module').val();
+				if (m) {
+					return m;
+				}
+				try {
+					var qs = window.location.search ? window.location.search.substring(1) : '';
+					if (qs) {
+						var pairs = qs.split('&');
+						for (var i = 0; i < pairs.length; i++) {
+							var pair = pairs[i];
+							if (!pair) {
+								continue;
+							}
+							var parts = pair.split('=');
+							var k = decodeURIComponent(parts[0] || '');
+							if (k === 'module') {
+								return parts.length > 1 ? decodeURIComponent(parts.slice(1).join('=')) : '';
+							}
+						}
+					}
+				} catch (e) {
+					// ignore
+				}
+				return app.getModuleName();
+			};
+			var moduleName = getRawModuleName();
 			var navigationKey = 'DetailViewNavigation:' + moduleName;
 			var raw = window.sessionStorage.getItem(navigationKey);
 			if (!raw) {
+				// Fallback: try to reconstruct context from listContext/referrer (ListView) when storage is empty.
+				this.applyRecordNavigationFromReferrer(detailContentsHolder, moduleName, navigationKey);
 				return;
 			}
 			var payload = JSON.parse(raw);
@@ -2805,6 +2842,362 @@ jQuery.Class("Vtiger_Detail_Js", {
 			}
 		} catch (e) {
 			// Best-effort feature; ignore parsing/storage errors.
+		}
+	},
+	/**
+	 * Fallback when sessionStorage is empty: reconstruct navigation context using document.referrer
+	 * (typically a ListView URL containing the active filter/search/sort).
+	 */
+	applyRecordNavigationFromReferrer: function (detailContentsHolder, moduleName, navigationKey) {
+		try {
+			// Prefer explicit listContext param (added by ListView navigation).
+			var ref = '';
+			try {
+				var qs = window.location.search ? window.location.search.substring(1) : '';
+				if (qs) {
+					jQuery.each(qs.split('&'), function (_i, pair) {
+						if (!pair || ref) {
+							return;
+						}
+						var parts = pair.split('=');
+						var k = decodeURIComponent(parts[0] || '');
+						if (k === 'listContext') {
+							ref = parts.length > 1 ? decodeURIComponent(parts.slice(1).join('=')) : '';
+						}
+					});
+				}
+			} catch (e) {
+				// ignore
+			}
+			if (!ref) {
+				ref = document.referrer ? String(document.referrer) : '';
+			}
+			if (!ref) {
+				return;
+			}
+			// Only consider same-origin ListView URLs.
+			if (ref.indexOf('module=' + encodeURIComponent(moduleName)) === -1) {
+				return;
+			}
+			if (ref.indexOf('view=List') === -1 && ref.indexOf('view=ListView') === -1) {
+				return;
+			}
+
+			var recordId = jQuery('#recordId').val();
+			if (!recordId) {
+				return;
+			}
+
+			// Disable buttons while we fetch/compute.
+			var prevBtn = detailContentsHolder.find('#detailViewPreviousRecordButton');
+			var nextBtn = detailContentsHolder.find('#detailViewNextRecordButton');
+			prevBtn.prop('disabled', true);
+			nextBtn.prop('disabled', true);
+
+			// Normalize referrer URL to a ListView request and ensure module/view are set.
+			var urlParts = ref.split('#')[0];
+			var base = urlParts;
+			var hash = ref.indexOf('#') !== -1 ? ref.substring(ref.indexOf('#')) : '';
+			var qIndex = base.indexOf('?');
+			var path = qIndex === -1 ? base : base.substring(0, qIndex);
+			var qs = qIndex === -1 ? '' : base.substring(qIndex + 1);
+			var params = {};
+			if (qs) {
+				jQuery.each(qs.split('&'), function (_i, pair) {
+					if (!pair) {
+						return;
+					}
+					var parts = pair.split('=');
+					var k = decodeURIComponent(parts[0] || '');
+					if (!k) {
+						return;
+					}
+					var v = parts.length > 1 ? decodeURIComponent(parts.slice(1).join('=')) : '';
+					params[k] = v;
+				});
+			}
+			params.view = 'ListView';
+			params.module = moduleName;
+			var requestUrl = path + '?' + jQuery.param(params) + hash;
+
+			AppConnector.request(requestUrl).then(function (response) {
+				var html = response;
+				if (response && typeof response === 'object' && typeof response.result !== 'undefined') {
+					html = response.result;
+				}
+				if (!html) {
+					return;
+				}
+				var dom = jQuery(html);
+				var rows = dom.find('tr.listViewEntries');
+				if (!rows.length) {
+					return;
+				}
+				var records = [];
+				rows.each(function () {
+					var row = jQuery(this);
+					var id = row.data('id');
+					var url = row.data('recordurl');
+					if (id && url) {
+						records.push({ id: id, url: url });
+					}
+				});
+				if (!records.length) {
+					return;
+				}
+
+				var idx = -1;
+				for (var i = 0; i < records.length; i++) {
+					if (String(records[i].id) === String(recordId)) {
+						idx = i;
+						break;
+					}
+				}
+				// Persist for next/prev clicks even if current record isn't on the same page snapshot.
+				var payload = {
+					module: moduleName,
+					created: Date.now(),
+					listUrl: requestUrl,
+					page: params.page || params.pageNumber || null,
+					records: records
+				};
+				if (window.sessionStorage) {
+					window.sessionStorage.setItem(navigationKey, JSON.stringify(payload));
+				}
+
+				if (idx < 0) {
+					return;
+				}
+				var prev = (idx > 0) ? records[idx - 1] : null;
+				var next = (idx < records.length - 1) ? records[idx + 1] : null;
+
+				if (prev && prev.url) {
+					prevBtn.prop('disabled', false).attr('data-record-url', prev.url).data('recordUrl', prev.url);
+				}
+				if (next && next.url) {
+					nextBtn.prop('disabled', false).attr('data-record-url', next.url).data('recordUrl', next.url);
+				}
+			});
+		} catch (e) {
+			// Best-effort feature; ignore errors.
+		}
+	},
+	/**
+	 * Navigate to prev/next record within the last ListView context (same filter/search/sort),
+	 * including crossing page boundaries.
+	 *
+	 * @param {'next'|'prev'} direction
+	 * @return {boolean} true if navigation was initiated
+	 */
+	navigateUsingListContext: function (direction) {
+		try {
+			if (!window.sessionStorage) {
+				return false;
+			}
+			var moduleName = jQuery('#module').val();
+			if (!moduleName) {
+				try {
+					var qs = window.location.search ? window.location.search.substring(1) : '';
+					if (qs) {
+						var pairs = qs.split('&');
+						for (var i = 0; i < pairs.length; i++) {
+							var pair = pairs[i];
+							if (!pair) {
+								continue;
+							}
+							var parts = pair.split('=');
+							var k = decodeURIComponent(parts[0] || '');
+							if (k === 'module') {
+								moduleName = parts.length > 1 ? decodeURIComponent(parts.slice(1).join('=')) : '';
+								break;
+							}
+						}
+					}
+				} catch (e) {
+					// ignore
+				}
+			}
+			if (!moduleName) {
+				moduleName = app.getModuleName();
+			}
+			var navigationKey = 'DetailViewNavigation:' + moduleName;
+			var raw = window.sessionStorage.getItem(navigationKey);
+			var payload = null;
+			if (raw) {
+				payload = JSON.parse(raw);
+			}
+
+			var thisInstance = this;
+			var recordId = jQuery('#recordId').val();
+			if (!recordId) {
+				return false;
+			}
+
+			// Helper: fetch ListView HTML and extract records (and persist payload).
+			var fetchAndPersistListPage = function (listUrl, pageOverride) {
+				var d = jQuery.Deferred();
+				try {
+					if (!listUrl) {
+						d.reject();
+						return d.promise();
+					}
+					var requestUrl = listUrl;
+					// Normalize URL and optionally override page.
+					var urlParts = requestUrl.split('#')[0];
+					var base = urlParts;
+					var hash = requestUrl.indexOf('#') !== -1 ? requestUrl.substring(requestUrl.indexOf('#')) : '';
+					var qIndex = base.indexOf('?');
+					var path = qIndex === -1 ? base : base.substring(0, qIndex);
+					var qs = qIndex === -1 ? '' : base.substring(qIndex + 1);
+					var params = {};
+					if (qs) {
+						jQuery.each(qs.split('&'), function (_i, pair) {
+							if (!pair) {
+								return;
+							}
+							var parts = pair.split('=');
+							var k = decodeURIComponent(parts[0] || '');
+							if (!k) {
+								return;
+							}
+							var v = parts.length > 1 ? decodeURIComponent(parts.slice(1).join('=')) : '';
+							params[k] = v;
+						});
+					}
+					params.view = 'ListView';
+					params.module = moduleName;
+					if (pageOverride) {
+						params.page = String(pageOverride);
+					}
+					requestUrl = path + '?' + jQuery.param(params) + hash;
+
+					AppConnector.request(requestUrl).then(function (response) {
+						var html = response;
+						if (response && typeof response === 'object' && typeof response.result !== 'undefined') {
+							html = response.result;
+						}
+						if (!html) {
+							d.reject();
+							return;
+						}
+						var dom = jQuery(html);
+						var rows = dom.find('tr.listViewEntries');
+						if (!rows.length) {
+							d.reject();
+							return;
+						}
+						var records = [];
+						rows.each(function () {
+							var row = jQuery(this);
+							var id = row.data('id');
+							var url = row.data('recordurl');
+							if (id && url) {
+								records.push({ id: id, url: url });
+							}
+						});
+						if (!records.length) {
+							d.reject();
+							return;
+						}
+						var newPayload = {
+							module: moduleName,
+							created: Date.now(),
+							listUrl: requestUrl,
+							page: params.page || null,
+							records: records
+						};
+						window.sessionStorage.setItem(navigationKey, JSON.stringify(newPayload));
+						d.resolve(newPayload);
+					});
+				} catch (e) {
+					d.reject();
+				}
+				return d.promise();
+			};
+
+			// Helper: get a best-effort ListView URL for current filter context.
+			var getListContextUrl = function () {
+				var ref = '';
+				try {
+					var qs = window.location.search ? window.location.search.substring(1) : '';
+					if (qs) {
+						jQuery.each(qs.split('&'), function (_i, pair) {
+							if (!pair || ref) {
+								return;
+							}
+							var parts = pair.split('=');
+							var k = decodeURIComponent(parts[0] || '');
+							if (k === 'listContext') {
+								ref = parts.length > 1 ? decodeURIComponent(parts.slice(1).join('=')) : '';
+							}
+						});
+					}
+				} catch (e) {
+					// ignore
+				}
+				if (!ref) {
+					ref = document.referrer ? String(document.referrer) : '';
+				}
+				return ref;
+			};
+
+			// If payload is missing, try to reconstruct it from listContext/referrer.
+			if (!payload || !payload.listUrl || !payload.records || !payload.records.length) {
+				var listUrl = getListContextUrl();
+				if (!listUrl) {
+					return false;
+				}
+				fetchAndPersistListPage(listUrl).then(function (newPayload) {
+					// Re-run navigation now that payload exists.
+					thisInstance.navigateUsingListContext(direction);
+				});
+				return true;
+			}
+			var idx = -1;
+			for (var i = 0; i < payload.records.length; i++) {
+				if (String(payload.records[i].id) === String(recordId)) {
+					idx = i;
+					break;
+				}
+			}
+			if (idx < 0) {
+				return false;
+			}
+
+			// If neighbor exists on the same page snapshot, navigate immediately.
+			if (direction === 'next' && idx < payload.records.length - 1 && payload.records[idx + 1].url) {
+				window.location.href = payload.records[idx + 1].url;
+				return true;
+			}
+			if (direction === 'prev' && idx > 0 && payload.records[idx - 1].url) {
+				window.location.href = payload.records[idx - 1].url;
+				return true;
+			}
+
+			// Otherwise, try to fetch the adjacent ListView page (same filter/search/sort) via AJAX.
+			var currentPage = parseInt(payload.page, 10);
+			if (!currentPage || isNaN(currentPage)) {
+				currentPage = 1;
+			}
+			var targetPage = direction === 'next' ? currentPage + 1 : currentPage - 1;
+			if (targetPage < 1) {
+				return false;
+			}
+			fetchAndPersistListPage(payload.listUrl, targetPage).then(function (newPayload) {
+				var newRecords = newPayload.records || [];
+				if (!newRecords.length) {
+					return;
+				}
+				// Navigate to first/last record depending on direction.
+				if (direction === 'next') {
+					window.location.href = newRecords[0].url;
+				} else {
+					window.location.href = newRecords[newRecords.length - 1].url;
+				}
+			});
+			return true;
+		} catch (e) {
+			return false;
 		}
 	},
 	reloadWidgetActivitesStats: function (container) {
