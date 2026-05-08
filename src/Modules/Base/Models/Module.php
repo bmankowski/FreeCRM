@@ -1060,6 +1060,12 @@ class Module extends \vtlib\Module
 				'linkurl' => $this->getListViewUrl(),
 				'linkicon' => '',
 			],
+			[
+				'linktype' => 'SIDEBARLINK',
+				'linklabel' => 'LBL_PREVIEW',
+				'linkurl' => 'index.php?module=' . $this->getName() . '&view=ListPreview',
+				'linkicon' => '',
+			],
 		];
 
 		if ($userPrivilegesModel->hasModulePermission('Dashboard') && $userPrivilegesModel->hasModuleActionPermission($this->getId(), 'Dashboard')) {

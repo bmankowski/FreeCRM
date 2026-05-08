@@ -31,14 +31,18 @@
 				{* Wrap list view header and contents in listViewPageDiv *}
 				<div class="listViewPageDiv">
 					{include file="ListViewHeader.tpl"|vtemplate_path:$QUALIFIED_MODULE}
-					{if $smarty.request.mode eq 'preview'}
+					{if ($LIST_PREVIEW_MODE|default:false)}
 						<input type="hidden" id="listViewMode" value="preview" />
-						<div class="row">
-							<div class="col-md-6 col-sm-6">
+						<div id="listPreviewSplit" style="display:flex; gap:0; align-items:stretch;">
+							<div id="listPreviewLeft" style="flex: 0 0 50%; min-width: 320px;">
 								{include file="ListViewContents.tpl"|vtemplate_path:$QUALIFIED_MODULE}
 							</div>
-							<div class="col-md-6 col-sm-6">
-								<div id="listPreviewContainer" class="panel panel-default">
+							<div id="listPreviewResizer"
+								title="{"LBL_PREVIEW"|t:$MODULE}"
+								style="flex: 0 0 6px; cursor: col-resize; background: #e5e5e5; border-left: 1px solid #d0d0d0; border-right: 1px solid #d0d0d0;">
+							</div>
+							<div id="listPreviewRight" style="flex: 1 1 auto; min-width: 320px;">
+								<div id="listPreviewContainer" class="panel panel-default" style="height: 100%;">
 									<div class="panel-heading">
 										<strong>{"LBL_PREVIEW"|t:$MODULE}</strong>
 									</div>

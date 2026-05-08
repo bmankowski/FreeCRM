@@ -2444,7 +2444,18 @@ jQuery.Class("Vtiger_Detail_Js", {
 		//Attach time picker event to time fields
 		app.registerEventForClockPicker();
 		app.showSelect2ElementView(detailContentsHolder.find('select.select2'));
+
+		// Apply prev/next record navigation based on the ListView context (stored in sessionStorage).
+		thisInstance.applyRecordNavigationFromSession(detailContentsHolder);
+
 		detailContentsHolder.on('click', '#detailViewNextRecordButton', function (e) {
+			var btn = jQuery(e.currentTarget);
+			var recordUrl = btn.data('recordUrl') || btn.attr('data-record-url');
+			if (recordUrl) {
+				e.preventDefault();
+				window.location.href = recordUrl;
+				return;
+			}
 			var url = selectedTabElement.data('url');
 			var currentPageNum = thisInstance.getRelatedListCurrentPageNum();
 			var requestedPage = parseInt(currentPageNum) + 1;
@@ -2453,6 +2464,13 @@ jQuery.Class("Vtiger_Detail_Js", {
 		});
 
 		detailContentsHolder.on('click', '#detailViewPreviousRecordButton', function (e) {
+			var btn = jQuery(e.currentTarget);
+			var recordUrl = btn.data('recordUrl') || btn.attr('data-record-url');
+			if (recordUrl) {
+				e.preventDefault();
+				window.location.href = recordUrl;
+				return;
+			}
 			var url = selectedTabElement.data('url');
 			var currentPageNum = thisInstance.getRelatedListCurrentPageNum();
 			var requestedPage = parseInt(currentPageNum) - 1;
@@ -2731,6 +2749,63 @@ jQuery.Class("Vtiger_Detail_Js", {
 			tabElement.data('url', url);
 			tabElement.trigger('click');
 		});
+	},
+	/**
+	 * Enables previous/next record navigation on DetailView based on the last visited ListView.
+	 * The context is written by ListView.js into sessionStorage.
+	 */
+	applyRecordNavigationFromSession: function (detailContentsHolder) {
+		try {
+			if (!window.sessionStorage) {
+				return;
+			}
+			var moduleName = app.getModuleName();
+			var navigationKey = 'DetailViewNavigation:' + moduleName;
+			var raw = window.sessionStorage.getItem(navigationKey);
+			if (!raw) {
+				return;
+			}
+			var payload = JSON.parse(raw);
+			if (!payload || !payload.records || !payload.records.length) {
+				return;
+			}
+			// Basic staleness guard (4 hours).
+			if (payload.created && (Date.now() - payload.created) > (4 * 60 * 60 * 1000)) {
+				return;
+			}
+			var recordId = jQuery('#recordId').val();
+			if (!recordId) {
+				return;
+			}
+			var idx = -1;
+			for (var i = 0; i < payload.records.length; i++) {
+				if (String(payload.records[i].id) === String(recordId)) {
+					idx = i;
+					break;
+				}
+			}
+			if (idx < 0) {
+				return;
+			}
+			var prev = (idx > 0) ? payload.records[idx - 1] : null;
+			var next = (idx < payload.records.length - 1) ? payload.records[idx + 1] : null;
+
+			var prevBtn = detailContentsHolder.find('#detailViewPreviousRecordButton');
+			var nextBtn = detailContentsHolder.find('#detailViewNextRecordButton');
+
+			if (prev && prev.url) {
+				prevBtn.prop('disabled', false).attr('data-record-url', prev.url).data('recordUrl', prev.url);
+			} else {
+				prevBtn.prop('disabled', true).removeAttr('data-record-url').removeData('recordUrl');
+			}
+			if (next && next.url) {
+				nextBtn.prop('disabled', false).attr('data-record-url', next.url).data('recordUrl', next.url);
+			} else {
+				nextBtn.prop('disabled', true).removeAttr('data-record-url').removeData('recordUrl');
+			}
+		} catch (e) {
+			// Best-effort feature; ignore parsing/storage errors.
+		}
 	},
 	reloadWidgetActivitesStats: function (container) {
 		var countElement = container.find('.countActivities');

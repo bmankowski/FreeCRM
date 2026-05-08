@@ -86,22 +86,6 @@ class ListView extends \App\Runtime\BaseModel
 
 		$headerLinks = [];
 		$moduleModel = $this->getModule();
-		$mode = $linkParams['MODE'] ?? '';
-		if ($mode === 'preview') {
-			$headerLinks[] = [
-				'linktype' => 'LIST_VIEW_HEADER',
-				'linkhint' => 'LBL_VIEW_LIST',
-				'linkurl' => 'index.php?module=' . $moduleModel->getName() . '&view=ListView',
-				'linkicon' => 'glyphicon glyphicon-th-list'
-			];
-		} else {
-			$headerLinks[] = [
-				'linktype' => 'LIST_VIEW_HEADER',
-				'linkhint' => 'LBL_PREVIEW',
-				'linkurl' => 'index.php?module=' . $moduleModel->getName() . '&view=ListView&mode=preview',
-				'linkicon' => 'glyphicon glyphicon-eye-open'
-			];
-		}
 		if (\App\Core\AppConfig::module('ModTracker', 'WATCHDOG') && $moduleModel->isPermitted('WatchingModule')) {
 			$watchdog = Watchdog::getInstance($moduleModel->getName());
 			$class = 'btn-default';

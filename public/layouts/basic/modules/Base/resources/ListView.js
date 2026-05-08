@@ -1736,21 +1736,49 @@ jQuery.Class("Vtiger_ListView_Js", {
 	registerRowClickEvent: function () {
 		var thisInstance = this;
 		var listViewContentDiv = this.getListViewContentContainer();
-		listViewContentDiv.on('click', '.listViewEntries', function (e) {
-			if (thisInstance.isPreviewMode && thisInstance.isPreviewMode()) {
-				// Allow normal navigation when clicking explicit links (e.g. record name)
-				if (jQuery(e.target).closest('a').length) {
-					return;
+		var persistDetailNavigationContext = function () {
+			// Persist current list context for DetailView prev/next navigation.
+			// This enables "previous/next record" arrows on the record detail view.
+			try {
+				if (window.sessionStorage) {
+					var moduleName = app.getModuleName();
+					var navigationKey = 'DetailViewNavigation:' + moduleName;
+					var records = [];
+					listViewContentDiv.find('tr.listViewEntries').each(function () {
+						var row = jQuery(this);
+						var id = row.data('id');
+						var url = row.data('recordurl');
+						if (id && url) {
+							records.push({ id: id, url: url });
+						}
+					});
+					if (records.length) {
+						var payload = {
+							module: moduleName,
+							created: Date.now(),
+							viewId: jQuery('#viewname').val() || jQuery('#viewId').val() || null,
+							page: jQuery('#pageNumber').val() || null,
+							records: records
+						};
+						window.sessionStorage.setItem(navigationKey, JSON.stringify(payload));
+					}
 				}
-				var row = jQuery(e.currentTarget);
-				var recordId = row.data('id');
-				var recordUrl = row.data('recordurl');
-				if (!recordId) {
-					return;
-				}
-				thisInstance.loadPreview(recordId, recordUrl, row);
+			} catch (e) {
+				// Navigation is best-effort; ignore storage errors.
+			}
+		};
+
+		// Name-field navigation uses direct <a href="..."> links, bypassing row-click.
+		// Capture the list context also for those clicks.
+		listViewContentDiv.on('click', 'tr.listViewEntries a[href]', function (e) {
+			// Ignore special buttons/links.
+			if (jQuery(e.currentTarget).hasClass('noLinkBtn')) {
 				return;
 			}
+			persistDetailNavigationContext();
+		});
+
+		listViewContentDiv.on('click', '.listViewEntries', function (e) {
 			if (jQuery(e.target).closest('div').hasClass('actions'))
 				return;
 			if (jQuery(e.target).is('button') || jQuery(e.target).parent().is('button'))
@@ -1770,49 +1798,8 @@ jQuery.Class("Vtiger_ListView_Js", {
 			if (typeof recordUrl == 'undefined') {
 				return;
 			}
+			persistDetailNavigationContext();
 			window.location.href = recordUrl;
-		});
-	},
-	isPreviewMode: function () {
-		return jQuery('#listViewMode').val() === 'preview' && jQuery('#listPreviewContainer').length > 0;
-	},
-	initPreviewMode: function () {
-		var thisInstance = this;
-		if (!thisInstance.isPreviewMode()) {
-			return;
-		}
-		var listViewContentDiv = thisInstance.getListViewContentContainer();
-		var firstRow = listViewContentDiv.find('tr.listViewEntries[data-id]').first();
-		if (firstRow.length) {
-			thisInstance.loadPreview(firstRow.data('id'), firstRow.data('recordurl'), firstRow);
-		}
-	},
-	loadPreview: function (recordId, recordUrl, rowEl) {
-		var thisInstance = this;
-		var container = jQuery('#listPreviewContainer');
-		if (!container.length) {
-			return;
-		}
-		var body = container.find('.panel-body');
-		if (rowEl && rowEl.length) {
-			rowEl.closest('table').find('tr.listViewEntries').removeClass('active');
-			rowEl.addClass('active');
-		}
-		body.html('<div class="text-muted">' + app.vtranslate('LBL_LOADING') + '...</div>');
-		AppConnector.request({
-			module: app.getModuleName(),
-			view: 'Preview',
-			record: recordId
-		}).then(function (response) {
-			var html = response;
-			// AppConnector might return a raw html string or an object with result
-			if (typeof response === 'object' && response !== null && typeof response.result !== 'undefined') {
-				html = response.result;
-			}
-			body.html(html);
-			Vtiger_Helper_Js.showHorizontalTopScrollBar();
-		}, function () {
-			body.html('<div class="text-danger">' + app.vtranslate('JS_ERROR') + '</div>');
 		});
 	},
 	/*
@@ -2105,7 +2092,6 @@ jQuery.Class("Vtiger_ListView_Js", {
 		this.registerUnreviewedCountEvent();
 		this.registerLastRelationsEvent();
 		Vtiger_Index_Js.registerMailButtons(listViewContainer);
-		this.initPreviewMode();
 	},
 	registerListViewSpecialOptiopn: function () {
 		var thisInstance = this;

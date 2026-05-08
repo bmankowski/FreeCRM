@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Modules\Base\Views;
+
+/**
+ * ListPreview view (split list + record summary preview)
+ *
+ * Keeps maximum compatibility by reusing ListView logic and templates.
+ */
+class ListPreview extends \App\Modules\Base\Views\ListView
+{
+	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
+	{
+		parent::preProcess($request, $display);
+		// For AJAX list reloads we only render ListViewContents.tpl, no need for preview flag.
+		if ($request->isAjax()) {
+			return;
+		}
+		$this->getViewer($request)->assign('LIST_PREVIEW_MODE', true);
+	}
+
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
+	{
+		$scripts = parent::getFooterScripts($request);
+		$jsFileNames = [
+			'modules.Base.resources.ListPreview',
+		];
+		return array_merge($scripts, $this->checkAndConvertJsScripts($jsFileNames));
+	}
+}
+

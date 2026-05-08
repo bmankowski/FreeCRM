@@ -46,12 +46,17 @@ class Detail extends \App\Modules\Base\Views\Detail
 		
 		$detailViewLinkParams = array('MODULE' => $moduleName, 'RECORD' => $recordId);
 		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
+		// Record-to-record navigation is handled in the frontend using the ListView context.
 		$navigationInfo = null; //ListViewSession::getListViewNavigation($recordId);
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('NAVIGATION', $navigationInfo);
-		$viewer->assign('NO_PAGINATION', true);
+		// Show prev/next buttons; they will be disabled when no navigation context exists.
+		$viewer->assign('NO_PAGINATION', false);
+		// Always initialize URLs to avoid undefined template vars.
+		$viewer->assign('PREVIOUS_RECORD_URL', '');
+		$viewer->assign('NEXT_RECORD_URL', '');
 		
 		//Intially make the prev and next records as null
 		$prevRecordId = null;

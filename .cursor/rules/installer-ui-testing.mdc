@@ -22,7 +22,7 @@ Use this checklist when testing the FreeCRM installer in the browser at `http://
   - **DB password**: `freecrm`
   - **Admin user**: `admin`
   - **Admin lastname**: `Administrator`
-  - **Admin password**: `admin123`
+  - **Admin password**: `NewArgon2idAdmin#42`
   - **Admin email**: `admin@example.com`
 - **Step 5 (Confirm)**: click **`Dalej`**
 - **Step 6 (Company details)**: fill required fields and click **`Dalej`**

@@ -26,10 +26,21 @@ class Preview extends \App\Modules\Base\Views\Index
 	public function process(Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
+		$recordId = (int) $request->get('record');
+		// Make widgets/templates behave exactly like DetailView context
+		$request->set('view', 'Detail');
 		$handlerClass = \App\Core\Loader::getComponentClassName('View', 'Detail', $moduleName);
 		$detailView = new $handlerClass();
 		$request->set('isReadOnly', true);
-		echo $detailView->showModuleSummaryView($request);
+		// If module uses summary widgets (as in DetailView summary), render the same widget layout.
+		// Otherwise, fallback to pure summary blocks (avoid rendering full detail view in preview panel).
+		$detailModel = \App\Modules\Base\Models\DetailView::getInstance($moduleName, $recordId);
+		$detailModel->getWidgets(['MODULE' => $moduleName, 'RECORD' => $recordId]);
+		if ($detailModel->getModule()->isSummaryViewSupported() && !empty($detailModel->widgetsList)) {
+			echo $detailView->showModuleBasicView($request);
+		} else {
+			echo $detailView->showModuleSummaryView($request);
+		}
 	}
 }
 

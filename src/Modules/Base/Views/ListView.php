@@ -73,7 +73,7 @@ class ListView extends \App\Modules\Base\Views\Index
 			$mid = $request->get('mid');
 		}
 
-		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'), 'MODE' => $request->get('mode'));
+		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
 
 		$this->viewName = \App\View\CustomView::getInstance($moduleName)->getViewId();
 		$this->listViewModel = \App\Modules\Base\Models\ListView::getInstance($moduleName, $this->viewName);
