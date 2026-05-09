@@ -190,10 +190,9 @@ class GetRelatedMembers extends \App\Modules\Base\Relations\GetRelatedList
         // Join the custom relation table instead of vtiger_crmentityrel
         $queryGenerator->addJoin(['INNER JOIN', $tableName, "({$tableName}.relcrmid = vtiger_crmentity.crmid OR {$tableName}.crmid = vtiger_crmentity.crmid)"]);
         $queryGenerator->addNativeCondition(['or', ["{$tableName}.crmid" => $record], ["{$tableName}.relcrmid" => $record]]);
-//		//BMN test reasons
-//		$queryGenerator
-//			->addNativeCondition([self::TABLE_NAME . '.recruitment_status_rel' => "PPL_APPLIED"]);
-//		\App\Log::var_dump($queryGenerator->createQuery()->createCommand()->getRawSql());
+        if (0 === \strcasecmp((string) $this->relationModel->get('label'), 'Screening')) {
+            $queryGenerator->addNativeCondition(["{$tableName}.recruitment_status_rel" => 'PPL_APPLIED']);
+        }
     }
 
     /** {@inheritdoc} */

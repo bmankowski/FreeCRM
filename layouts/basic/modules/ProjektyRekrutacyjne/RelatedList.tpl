@@ -406,19 +406,26 @@
 			</div>
 		{/if}
 		{if $RELATED_VIEW === 'ListPreview'}
-			<div class="relatedContents mt-1"> <input type="hidden" id="defaultDetailViewName"
+			<div class="relatedContents mt-1">
+				<input type="hidden" id="defaultDetailViewName"
 					   value="{\App\Core\AppConfig::module($MODULE_NAME, 'defaultDetailViewName')}"/>
-				<div class="c-list-preview js-list-preview js-fixed-scroll" data-js="scroll">
-					<div class="c-list-preview__content js-list-preview--scroll" data-js="perfectScrollbar">
-						<div id="recordsList">
-							{include file='RelatedListContents.tpl'|@vtemplate_path:$RELATED_MODULE->get('name')}
+				{if empty($RELATED_RECORDS)}
+					<div class="h-100 d-flex justify-content-center align-items-center py-5">
+						<div>
+							{\App\Language::translate('PLL_LIST_IS_EMPTY', $MODULE_NAME)}
 						</div>
 					</div>
-				</div>
-				<div class="c-list-preview-resizer js-list-preview-resizer" aria-hidden="true"></div>
-				<div class="c-detail-preview js-detail-preview">
-					{if $RELATED_MODULE_NAME eq "Kandydaci"}
-						{if !empty($RELATED_RECORDS)}
+				{else}
+					<div class="c-list-preview js-list-preview js-fixed-scroll" data-js="scroll">
+						<div class="c-list-preview__content js-list-preview--scroll" data-js="perfectScrollbar">
+							<div id="recordsList">
+								{include file='RelatedListContents.tpl'|@vtemplate_path:$RELATED_MODULE->get('name')}
+							</div>
+						</div>
+					</div>
+					<div class="c-list-preview-resizer js-list-preview-resizer" aria-hidden="true"></div>
+					<div class="c-detail-preview js-detail-preview">
+						{if $RELATED_MODULE_NAME eq "Kandydaci"}
 							<div class="c-candidate-thumb-actions" aria-label="{\App\Language::translate('LBL_ACTIONS', 'Vtiger')}">
 								<div class="c-candidate-thumb-actions__inputs">
 									<input type="hidden" id="projectId" value="{$PARENT_RECORD->getID()}"/>
@@ -435,16 +442,10 @@
 									</a>
 								</div>
 							</div>
-						{else}
-							<div class=" h-100 d-flex justify-content-center align-items-center">
-								<div>
-									{\App\Language::translate('PLL_LIST_IS_EMPTY', $RELATED_MODULE_NAME)}
-								</div>
-							</div>
 						{/if}
-					{/if}
-					<iframe class="listPreviewframe" frameborder="0"></iframe>
-				</div>
+						<iframe class="listPreviewframe" frameborder="0"></iframe>
+					</div>
+				{/if}
 			</div>
 		{else}
 			<div class="relatedContents mt-1">

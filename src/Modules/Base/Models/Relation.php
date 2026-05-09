@@ -203,7 +203,8 @@ class Relation extends \App\Runtime\BaseModel
 	 */
 	public static function getInstance($parentModuleModel, $relatedModuleModel, $label = false)
 	{
-		$relKey = $parentModuleModel->getId() . '_' . $relatedModuleModel->getId() . '_' . ($label ? 1 : 0);
+		$labelKey = $label === false || $label === null ? '' : (string) $label;
+		$relKey = $parentModuleModel->getId() . '_' . $relatedModuleModel->getId() . '_' . md5($labelKey);
 		if (isset(self::$cachedInstances[$relKey])) {
 			return self::$cachedInstances[$relKey];
 		}

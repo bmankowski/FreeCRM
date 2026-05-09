@@ -233,6 +233,33 @@ Vtiger_RelatedList_Js(
 				$(document).find('.bigLoading').parent().remove();
 			}
 		},
+		reloadListPreviewAfterStatusChange: function () {
+			const thisInstance = this;
+			const detailInstance = Vtiger_Detail_Js.getInstance();
+			const selectedTab = detailInstance && typeof detailInstance.getSelectedTab === 'function' ? detailInstance.getSelectedTab() : $();
+			const params = {page: 1};
+			if (selectedTab.length) {
+				params.tab_label = selectedTab.data('label-key');
+			}
+			const refreshPreview = function () {
+				const fresh = $('.RelatedList.relatedContainer').has('.listPreviewframe').first();
+				const firstRow = fresh.find('.listViewEntriesTable .listViewEntries').first();
+				const recordUrl = firstRow.data('recordurl');
+				if (recordUrl && typeof thisInstance.updatePreview === 'function') {
+					thisInstance.updatePreview(recordUrl);
+				} else {
+					fresh.find('#candidateId').val('');
+					fresh.find('.listPreviewframe').attr('src', 'about:blank');
+				}
+				thisInstance.stripOrphanFloatingLoaders();
+			};
+			const loadPromise = detailInstance.loadRelatedList(params);
+			if (loadPromise && typeof loadPromise.then === 'function') {
+				loadPromise.then(refreshPreview, refreshPreview);
+			} else {
+				setTimeout(refreshPreview, 1000);
+			}
+		},
 		acceptCandidateManually: function () {
 			const thisInstance = this;
 			$(document).off('click.projAcceptCandidate', '.RelatedList.relatedContainer .acceptCandidateManually').on(
@@ -270,21 +297,12 @@ Vtiger_RelatedList_Js(
 								projectId: projectId,
 								message: data.result.message
 							});
-							Vtiger_Detail_Js.reloadRelatedList();
+							thisInstance.reloadListPreviewAfterStatusChange();
 							Vtiger_Helper_Js.showPnotify({
 								text: app.vtranslate(data.result.message),
 								type: 'success',
 								animation: 'show'
 							});
-							setTimeout(function () {
-								const fresh = $('.RelatedList.relatedContainer').has('.listPreviewframe').first();
-								const firstRow = fresh.find('.listViewEntriesTable .listViewEntries').first();
-								const recordUrl = firstRow.data('recordurl');
-								if (recordUrl && typeof thisInstance.updatePreview === 'function') {
-									thisInstance.updatePreview(recordUrl);
-								}
-								thisInstance.stripOrphanFloatingLoaders();
-							}, 1000);
 						} else {
 							console.warn('[ProjektyRekrutacyjne] Akcja: akceptacja kandydata → odpowiedź bez success', {
 								candidateId: candidateId,
@@ -351,21 +369,12 @@ Vtiger_RelatedList_Js(
 								projectId: projectId,
 								message: data.result.message
 							});
-							Vtiger_Detail_Js.reloadRelatedList();
+							thisInstance.reloadListPreviewAfterStatusChange();
 							Vtiger_Helper_Js.showPnotify({
 								text: app.vtranslate(data.result.message),
 								type: 'success',
 								animation: 'show'
 							});
-							setTimeout(function () {
-								const fresh = $('.RelatedList.relatedContainer').has('.listPreviewframe').first();
-								const firstRow = fresh.find('.listViewEntriesTable .listViewEntries').first();
-								const recordUrl = firstRow.data('recordurl');
-								if (recordUrl && typeof thisInstance.updatePreview === 'function') {
-									thisInstance.updatePreview(recordUrl);
-								}
-								thisInstance.stripOrphanFloatingLoaders();
-							}, 1000);
 						} else {
 							console.warn('[ProjektyRekrutacyjne] Akcja: odrzucenie kandydata → odpowiedź bez success', {
 								candidateId: candidateId,

@@ -215,6 +215,9 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 		if ($('.pagination').length) {
 			params['totalCount'] = $('.pagination').data('totalCount');
 		}
+		if (this.selectedRelatedTabElement && this.selectedRelatedTabElement.length) {
+			params['tab_label'] = this.selectedRelatedTabElement.data('label-key');
+		}
 		if (this.relatedModulename == 'Calendar') {
 			if (this.relatedContentContainer.find('.switchBtn').is(':checked'))
 				params['time'] = 'current';
