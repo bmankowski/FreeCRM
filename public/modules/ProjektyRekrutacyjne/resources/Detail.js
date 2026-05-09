@@ -56,15 +56,16 @@ Vtiger_Detail_Js(
 						status: $el.closest('.candidate-status').attr('data-value') || ''
 					});
 				});
+				if (!list.length) {
+					return;
+				}
 				const key = JSON.stringify(list);
 				if (key === lastSerialized) {
 					return;
 				}
 				lastSerialized = key;
 				console.log('[ProjektyRekrutacyjne] Załadowani kandydaci (' + list.length + '):', list);
-				if (list.length) {
-					console.table(list);
-				}
+				console.table(list);
 			};
 			setTimeout(collectAndLog, 0);
 			setTimeout(collectAndLog, 400);

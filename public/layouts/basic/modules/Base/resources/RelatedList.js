@@ -73,10 +73,15 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 						if (thisInstance.listSearchInstance) {
 							thisInstance.listSearchInstance.registerBasicEvents();
 						}
+						// Preview / thumbnails / module-specific handlers (e.g. ProjektyRekrutacyjne) attach here.
+						thisInstance.registerRelatedEvents();
 					}
 					aDeferred.resolve(responseData);
 				},
 				function (textStatus, errorThrown) {
+					progressIndicatorElement.progressIndicator({
+						mode: 'hide'
+					});
 					aDeferred.reject(textStatus, errorThrown);
 				}
 		);

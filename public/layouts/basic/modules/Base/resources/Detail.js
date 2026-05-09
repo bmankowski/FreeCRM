@@ -1062,6 +1062,10 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var RelatedListController = thisInstance.getRelatedListControllerClass();
 		var relatedController = new RelatedListController(thisInstance.getRecordId(), app.getModuleName(), selectedTabElement, relatedModuleName);
 		relatedController.registerUnreviewedCountEvent();
+		// ListPreview / module hooks (e.g. ProjektyRekrutacyjne thumbs) register here — not only after loadRelatedList AJAX.
+		if (typeof relatedController.registerRelatedEvents === 'function') {
+			relatedController.registerRelatedEvents();
+		}
 	},
 	registerBlockAnimationEvent: function () {
 		var detailContentsHolder = this.getContentHolder();

@@ -193,6 +193,16 @@
 					});
 					var update = function (recordUrl) {
 						if (!recordUrl) return;
+						try {
+							var q = recordUrl.split('?')[1];
+							if (q) {
+								var pv = new URLSearchParams(q);
+								var rid = pv.get('record');
+								if (rid) {
+									container.find('#candidateId').val(rid);
+								}
+							}
+						} catch (e2) {}
 						iframe.one('load.listPreviewInlineFallback', function () {
 							syncListPreviewLayout();
 							if (typeof window.requestAnimationFrame === 'function') {
