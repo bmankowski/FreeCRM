@@ -124,7 +124,7 @@ abstract class Basic extends \App\Base\Controllers\BaseViewController
 					'linktype' => 'HEADERLINK',
 					'linklabel' => 'LBL_USER_PANEL',
 					'linkurl' => 'index.php',
-					'glyphicon' => 'glyphicon glyphicon-user',
+					'glyphicon' => 'fa fa-arrow-circle-left',
 				];
 			}
 		}
