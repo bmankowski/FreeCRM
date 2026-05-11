@@ -25,9 +25,21 @@ class Privilege
 			return self::$userSharingCache[$userId];
 		}
 		if (!file_exists("user_privileges/sharing_privileges_{$userId}.php")) {
-			return null;
+			// Imported users might not have sharing privilege files yet.
+			// Try to generate it on-demand and continue as normal.
+			try {
+				\App\Modules\Users\Services\PrivilegeFileManager::createUserSharingPrivilegesFile((int) $userId);
+			} catch (\Throwable $e) {
+				// Ignore - file might remain missing and caller will handle null.
+			}
+			if (!file_exists("user_privileges/sharing_privileges_{$userId}.php")) {
+				return null;
+			}
 		}
 		$sharingPrivileges = require("user_privileges/sharing_privileges_{$userId}.php");
+		if (!is_array($sharingPrivileges)) {
+			return null;
+		}
 		self::$userSharingCache[$userId] = $sharingPrivileges;
 		return $sharingPrivileges;
 	}

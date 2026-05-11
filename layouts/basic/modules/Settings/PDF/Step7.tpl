@@ -12,7 +12,7 @@
 
 			<div class="padding1per stepBorder">
 				<label>
-					<strong>{'LBL_STEP_N'|t:$QUALIFIED_MODULE, 7}: {"LBL_PERMISSIONS_DETAILS"|t:$QUALIFIED_MODULE}</strong>
+					<strong>{'LBL_STEP_N'|t:$QUALIFIED_MODULE:7}: {"LBL_PERMISSIONS_DETAILS"|t:$QUALIFIED_MODULE}</strong>
 				</label>
 				<br>
 				<div class="form-group">

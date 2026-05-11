@@ -156,9 +156,21 @@ class HTTP_Session
 	{
 		self::name($name);
 		if ($id) {
-			self::id($id);
-		} elseif (is_null(self::detectID())) {
-			self::id($id ? $id : uniqid(dechex(rand())));
+			if (self::isValidId($id)) {
+				self::id($id);
+			} else {
+				self::clearDetectedId();
+				self::id(uniqid(dechex(rand())));
+			}
+		} else {
+			$detectedId = self::detectID();
+			if (!is_null($detectedId) && !self::isValidId($detectedId)) {
+				self::clearDetectedId();
+				$detectedId = null;
+			}
+			if (is_null($detectedId)) {
+				self::id(uniqid(dechex(rand())));
+			}
 		}
 		if (session_status() === PHP_SESSION_NONE) {
 			session_start();
@@ -297,6 +309,45 @@ class HTTP_Session
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Checks whether a session ID can be passed safely to session_start().
+	 *
+	 * @param string $id Session ID
+	 *
+	 * @static
+	 * @access public
+	 * @return bool
+	 */
+	public static function isValidId($id)
+	{
+		return is_string($id)
+			&& $id !== ''
+			&& strlen($id) <= 256
+			&& preg_match('/^[A-Za-z0-9,-]+$/D', $id) === 1;
+	}
+
+	/**
+	 * Removes an invalid session ID supplied by the current request.
+	 *
+	 * @static
+	 * @access private
+	 * @return void
+	 */
+	private static function clearDetectedId()
+	{
+		$name = self::name();
+		unset($_COOKIE[$name], $_GET[$name], $_POST[$name], $_REQUEST[$name]);
+
+		if (PHP_SAPI !== 'cli' && !headers_sent()) {
+			$params = session_get_cookie_params();
+			setcookie($name, '', time() - 42000, $params['path'], $params['domain'], $params['secure'], $params['httponly']);
+		}
+
+		if (session_id() !== '') {
+			session_id('');
+		}
 	}
 
 	/**

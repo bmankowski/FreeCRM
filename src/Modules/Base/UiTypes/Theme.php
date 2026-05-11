@@ -31,8 +31,12 @@ class Theme extends BaseUiType
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$allSkins = \App\Runtime\Vtiger_Theme::getAllSkins();
-		$skinColor = $allSkins[$value];
-		$value = ucfirst($value);
+		$skinName = (string) $value;
+		if (empty($skinName) || !isset($allSkins[$skinName])) {
+			$skinName = \App\Runtime\CRM_Viewer::DEFAULTTHEME;
+		}
+		$skinColor = $allSkins[$skinName] ?? reset($allSkins);
+		$value = ucfirst($skinName);
 		return "<div class='col-md-4' style='width:230px; background-color:$skinColor;' title='$value'>&nbsp;</div>";
 	}
 }

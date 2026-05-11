@@ -491,7 +491,7 @@ class WebUI extends EntryPoint
 		$module = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
 
-		$this->checkSettingsAccess($qualifiedModuleName, $currentUser);
+		$this->checkSettingsAccess($qualifiedModuleName, $request, $currentUser);
 
 		list($componentType, $componentName) = $this->resolveComponent($request, $qualifiedModuleName);
 
@@ -569,14 +569,15 @@ class WebUI extends EntryPoint
 	 * Check if user has access to settings pages
 	 * 
 	 * @param string|null $qualifiedModuleName
+	 * @param \App\Http\Vtiger_Request $request
 	 * @param User|false $currentUser
 	 */
-	private function checkSettingsAccess($qualifiedModuleName, $currentUser)
+	private function checkSettingsAccess($qualifiedModuleName, \App\Http\Vtiger_Request $request, $currentUser)
 	{
 		if (
 			$qualifiedModuleName
 			&& stripos($qualifiedModuleName, 'Settings') === 0
-			&& empty($currentUser)
+			&& (empty($currentUser) || !$request->isUserAdmin())
 		) {
 			header('Location: ' . \App\Core\AppConfig::main('site_URL'), true);
 			exit;

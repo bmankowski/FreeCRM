@@ -411,8 +411,50 @@ class CSRF
 	public static function start()
 	{
 		if (static::$autoSession && !session_id()) {
+			static::clearInvalidSessionId();
 			session_start();
 		}
+	}
+
+	/**
+	 * Removes an invalid session ID before PHP's session module reads it.
+	 */
+	private static function clearInvalidSessionId()
+	{
+		$name = session_name();
+		$id = null;
+
+		if (ini_get('session.use_cookies') && isset($_COOKIE[$name])) {
+			$id = $_COOKIE[$name];
+		} elseif (isset($_GET[$name])) {
+			$id = $_GET[$name];
+		} elseif (isset($_POST[$name])) {
+			$id = $_POST[$name];
+		}
+
+		if ($id === null || static::isValidSessionId($id)) {
+			return;
+		}
+
+		unset($_COOKIE[$name], $_GET[$name], $_POST[$name], $_REQUEST[$name]);
+		if (PHP_SAPI !== 'cli' && !headers_sent()) {
+			$params = session_get_cookie_params();
+			setcookie($name, '', time() - 42000, $params['path'], $params['domain'], $params['secure'], $params['httponly']);
+		}
+		if (session_id() === '') {
+			session_id(uniqid(dechex(rand())));
+		}
+	}
+
+	/**
+	 * Checks whether a session ID can be passed safely to session_start().
+	 */
+	private static function isValidSessionId($id)
+	{
+		return is_string($id)
+			&& $id !== ''
+			&& strlen($id) <= 256
+			&& preg_match('/^[A-Za-z0-9,-]+$/D', $id) === 1;
 	}
 
 	/**

@@ -243,8 +243,8 @@ class Privileges extends \App\Runtime\BaseModel
 			$valueMap['parent_roles'] = $parent_roles;
 			$valueMap['subordinate_roles_users'] = $subordinate_roles_users;
 			$sharingPrivileges = \App\Security\Privilege::getSharingFile($userId);
-			$valueMap['defaultOrgSharingPermission'] = $sharingPrivileges['defOrgShare'];
-			$valueMap['related_module_share'] = $sharingPrivileges['relatedModuleShare'];
+			$valueMap['defaultOrgSharingPermission'] = $sharingPrivileges['defOrgShare'] ?? [];
+			$valueMap['related_module_share'] = $sharingPrivileges['relatedModuleShare'] ?? [];
 		}
 		self::$userPrivilegesCache[$userId] = $valueMap;
 		return $valueMap;
