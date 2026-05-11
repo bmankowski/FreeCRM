@@ -32,5 +32,7 @@ class ListView extends \App\Modules\Settings\Base\Views\ListView
 	protected function preparePDFListViewHeaderData($viewer)
 	{
 		$viewer->assign('MPDF_LIBRARY_CHECK', \App\Modules\Settings\ModuleManager\Models\Library::checkLibrary('mPDF'));
+		$viewer->assign('CREATE_RECORD_URL', \App\Modules\Settings\PDF\Models\Module::getCreateRecordUrl());
+		$viewer->assign('IMPORT_VIEW_URL', \App\Modules\Settings\PDF\Models\Module::getImportViewUrl());
 	}
 }

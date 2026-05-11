@@ -75,6 +75,7 @@ class Import extends \App\Modules\Settings\Base\Views\Index
 		}
 
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
+		$viewer->assign('PDF_DEFAULT_URL', \App\Modules\Settings\PDF\Models\Module::getDefaultUrl());
 		$viewer->view('Import.tpl', $qualifiedModule);
 		\App\Log\Log::trace('End ' . __METHOD__);
 	}

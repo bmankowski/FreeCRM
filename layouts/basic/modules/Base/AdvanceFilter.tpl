@@ -34,9 +34,11 @@
 		</div>
 		<div class="contents">
 			<div class="conditionList">
+			 {if !empty($ALL_CONDITION_CRITERIA['columns'])}
 			 {foreach item=CONDITION_INFO from=$ALL_CONDITION_CRITERIA['columns']}
 				{include file='AdvanceFilterCondition.tpl'|@vtemplate_path:$QUALIFIED_MODULE RECORD_STRUCTURE=$RECORD_STRUCTURE CONDITION_INFO=$CONDITION_INFO MODULE=$MODULE}
 			{/foreach}
+			{/if}
 			</div>
 			<div class="hide basic">
 				{include file='AdvanceFilterCondition.tpl'|@vtemplate_path:$QUALIFIED_MODULE RECORD_STRUCTURE=$RECORD_STRUCTURE CONDITION_INFO=array() MODULE=$MODULE NOCHOSEN=true}
@@ -45,7 +47,10 @@
 				<button type="button" class="btn btn-default pushDown"><strong>{"LBL_ADD_CONDITION"|t:$MODULE}</strong></button>
 			</div>
 			<div class="groupCondition">
-				{assign var=GROUP_CONDITION value=$ALL_CONDITION_CRITERIA['condition']}
+				{assign var=GROUP_CONDITION value=''}
+				{if isset($ALL_CONDITION_CRITERIA['condition'])}
+					{assign var=GROUP_CONDITION value=$ALL_CONDITION_CRITERIA['condition']}
+				{/if}
 				{if empty($GROUP_CONDITION)}
 					{assign var=GROUP_CONDITION value="and"}
 				{/if}
@@ -61,9 +66,11 @@
 		</div>
 		<div class="contents">
 			<div class="conditionList">
+			{if !empty($ANY_CONDITION_CRITERIA['columns'])}
 			{foreach item=CONDITION_INFO from=$ANY_CONDITION_CRITERIA['columns']}
 				{include file='AdvanceFilterCondition.tpl'|@vtemplate_path:$QUALIFIED_MODULE RECORD_STRUCTURE=$RECORD_STRUCTURE CONDITION_INFO=$CONDITION_INFO MODULE=$MODULE CONDITION="or"}
 			{/foreach}
+			{/if}
 			</div>
 			<div class="hide basic">
 				{include file='AdvanceFilterCondition.tpl'|@vtemplate_path:$QUALIFIED_MODULE RECORD_STRUCTURE=$RECORD_STRUCTURE MODULE=$MODULE CONDITION_INFO=array() CONDITION="or" NOCHOSEN=true}

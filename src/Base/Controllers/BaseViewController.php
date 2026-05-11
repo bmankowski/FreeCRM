@@ -226,7 +226,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 					}
 				} else {
 					if ($pageTitle) {
-						$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate($pageTitle, $moduleName)];
+						$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate($pageTitle, $qualifiedModuleName)];
 					} elseif ($view == 'Edit' && $request->get('record') == '' && $request->get('parent_roleid') == '') {
 						$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_CREATE', $qualifiedModuleName)];
 					} elseif ($view != '' && $view != 'List') {

@@ -44,6 +44,10 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 		var container = this.currentInstance.getContainer();
 		return jQuery('.step', container).val();
 	},
+	getStepValueFromHtml: function (html) {
+		var nextStepContainer = jQuery(html);
+		return nextStepContainer.find('.step').first().val();
+	},
 	/*
 	 * Function to initiate the step 1 instance
 	 */
@@ -56,7 +60,8 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 		} else {
 			this.setContainer(jQuery('.pdfTemplateContents', container));
 		}
-		this.initiateStep('1');
+		var stepVal = jQuery('.step', this.getContainer()).val() || '1';
+		this.initiateStep(stepVal);
 		this.currentInstance.registerEvents();
 	},
 	/*
@@ -73,7 +78,10 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 	 * @params class name
 	 */
 	activateHeader: function (step) {
-		var headersContainer = jQuery('.crumbs ');
+		var headersContainer = jQuery('#wizardSteps .crumbs');
+		var wizardStepsContainer = headersContainer.closest('#wizardSteps');
+		wizardStepsContainer.removeClass('current-step1 current-step2 current-step3 current-step4 current-step5 current-step6');
+		wizardStepsContainer.addClass('current-' + step);
 		headersContainer.find('.active').removeClass('active');
 		jQuery('#' + step, headersContainer).addClass('active');
 	},
@@ -92,8 +100,10 @@ Settings_Vtiger_Edit_Js("Settings_PDF_Edit_Js", {
 				if (form.validationEngine('validate') && specialValidation) {
 					thisInstance.currentInstance.submit().then(function (data) {
 						thisInstance.getContainer().prepend(data);
-						var stepVal = thisInstance.getStepValue();
-						var nextStepVal = parseInt(stepVal) + 1;
+						var nextStepVal = thisInstance.getStepValueFromHtml(data);
+						if (!nextStepVal) {
+							nextStepVal = parseInt(thisInstance.getStepValue()) + 1;
+						}
 						thisInstance.initiateStep(nextStepVal);
 						thisInstance.currentInstance.initialize();
 						var container = thisInstance.currentInstance.getContainer();

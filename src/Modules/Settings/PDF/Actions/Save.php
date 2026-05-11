@@ -29,7 +29,7 @@ class Save extends \App\Modules\Settings\Base\Actions\Index
 
 		$stepFields = \App\Modules\Settings\PDF\Models\Module::getFieldsByStep($step);
 		foreach ($stepFields as $field) {
-			if ($field == 'body_content') {
+			if (in_array($field, ['header_content', 'body_content', 'footer_content'])) {
 				$value = $request->getForHtml($field);
 			} else {
 				$value = $request->get($field);
@@ -48,6 +48,11 @@ class Save extends \App\Modules\Settings\Base\Actions\Index
 		$pdfModel->set('conditions', $request->get('conditions'));
 		\App\Modules\Settings\PDF\Models\Record::transformAdvanceFilterToWorkFlowFilter($pdfModel);
 		\App\Modules\Settings\PDF\Models\Record::save($pdfModel, $step);
+
+		if (!$request->isAjax() && (int) $step === 6) {
+			header('Location: index.php?module=PDF&parent=Settings&page=1&view=ListView');
+			exit;
+		}
 
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult(['id' => $pdfModel->get('pdfid')]);

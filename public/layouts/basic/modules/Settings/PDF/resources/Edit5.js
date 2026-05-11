@@ -35,9 +35,6 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit5_Js", {}, {
 		}
 	},
 	submit: function () {
-		for (var instance in CKEDITOR.instances) {
-			CKEDITOR.instances[instance].updateElement();
-		}
 		var aDeferred = jQuery.Deferred();
 		var form = this.getContainer();
 		var formData = form.serializeFormData();
@@ -82,17 +79,6 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit5_Js", {}, {
 			window.history.back();
 		});
 	},
-	/**
-	 * Registers updated version of CkEditor on textarea fields
-	 * spellcheck disabled
-	 */
-	registerNewCkEditor: function () {
-		CKEDITOR.replace('footer_content', {
-			disableNativeSpellChecker: true,
-			scayt_autoStartup: false,
-			removePlugins: 'scayt'}
-		);
-	},
 	registerEvents: function () {
 		var container = this.getContainer();
 
@@ -104,8 +90,7 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit5_Js", {}, {
 		};
 		opts['promptPosition'] = "bottomRight";
 		container.validationEngine(opts);
-		app.showSelect2ElementView(container.find('select'));
 		this.registerCancelStepClickEvent(container);
-		this.registerNewCkEditor();
+		app.showSelect2ElementView(container.find('.select2'));
 	}
 });

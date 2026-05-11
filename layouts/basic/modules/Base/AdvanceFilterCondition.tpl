@@ -17,6 +17,9 @@
 	{assign var=SELECTED_FIELD_MODEL value=null}
 	{assign var=FIELD_TYPE value=''}
 	{assign var=ADVANCE_FILTER_OPTIONS value=array()}
+	{if empty($CONDITION_INFO)}
+		{assign var=CONDITION_INFO value=array()}
+	{/if}
 	<div class="conditionRow">
 		<div class="col-md-4 conditionField">
 			<select class="{if empty($NOCHOSEN)}chzn-select{/if} row form-control margin0px" name="columnname" title="{"LBL_CHOOSE_FIELD"|t}">
@@ -69,6 +72,7 @@
 					</optgroup>
 				{/foreach}
 				{* Required to display event fields also while adding conditions *}
+				{if !empty($EVENT_RECORD_STRUCTURE)}
 				{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$EVENT_RECORD_STRUCTURE}
 					<optgroup label='{$BLOCK_LABEL|t:"Events"}'>
 						{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
@@ -111,10 +115,11 @@
 						{/foreach}
 					</optgroup>
 				{/foreach}
+				{/if}
 			</select>
 		</div>
 		<div class="col-md-3">
-			<input type="hidden" name="comparatorValue" value="{$CONDITION_INFO['comparator']}">
+			<input type="hidden" name="comparatorValue" value="{if isset($CONDITION_INFO['comparator'])}{$CONDITION_INFO['comparator']}{/if}">
 			{if $SELECTED_FIELD_MODEL}
 				{if !$FIELD_TYPE}
 					{assign var=FIELD_TYPE value=$SELECTED_FIELD_MODEL->getFieldDataType()}
@@ -135,13 +140,13 @@
 				<option value="none">{"LBL_NONE"|t:$MODULE}</option>
 				{if !empty($ADVANCE_FILTER_OPTIONS)}
 					{foreach item=ADVANCE_FILTER_OPTION from=$ADVANCE_FILTER_OPTIONS}
-						<option value="{$ADVANCE_FILTER_OPTION}" {if $ADVANCE_FILTER_OPTION eq $CONDITION_INFO['comparator']}selected{/if}>{$ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION]|t}</option>
+						<option value="{$ADVANCE_FILTER_OPTION}" {if isset($CONDITION_INFO['comparator']) && $ADVANCE_FILTER_OPTION eq $CONDITION_INFO['comparator']}selected{/if}>{$ADVANCED_FILTER_OPTIONS[$ADVANCE_FILTER_OPTION]|t}</option>
 					{/foreach}
 				{/if}
 			</select>
 		</div>
 		<div class="col-md-4 fieldUiHolder">
-			<input name="{if $SELECTED_FIELD_MODEL}{$SELECTED_FIELD_MODEL->get('name')}{/if}" title="{"LBL_COMPARISON_VALUE"|t}" data-value="value" class="form-control" type="text" value="{$CONDITION_INFO['value']|escape}" />
+			<input name="{if $SELECTED_FIELD_MODEL}{$SELECTED_FIELD_MODEL->get('name')}{/if}" title="{"LBL_COMPARISON_VALUE"|t}" data-value="value" class="form-control" type="text" value="{if isset($CONDITION_INFO['value'])}{$CONDITION_INFO['value']|escape}{/if}" />
 		</div>
 		<span class="hide">
 			{if empty($CONDITION)}

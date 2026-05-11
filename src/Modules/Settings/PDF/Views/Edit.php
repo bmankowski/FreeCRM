@@ -21,11 +21,35 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 		$this->step($step, $request);
 	}
 
+	public function getBreadcrumbTitle(\App\Http\Vtiger_Request $request)
+	{
+		$qualifiedModuleName = $request->getModule(false);
+		$recordId = $request->get('record');
+		if ($recordId) {
+			try {
+				$pdfModel = \App\Modules\Base\Models\PDF::getInstanceById($recordId);
+				$name = $pdfModel->getName();
+				if ($name !== '') {
+					return $name;
+				}
+			} catch (\Throwable $e) {
+				return \App\Runtime\Vtiger_Language_Handler::translate('LBL_EDITING_PDF', $qualifiedModuleName);
+			}
+			return \App\Runtime\Vtiger_Language_Handler::translate('LBL_EDITING_PDF', $qualifiedModuleName);
+		}
+		return \App\Runtime\Vtiger_Language_Handler::translate('LBL_CREATING_PDF', $qualifiedModuleName);
+	}
+
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
+		$mode = strtolower($request->getMode());
+		if (!preg_match('/^step[1-6]$/', $mode)) {
+			$mode = 'step1';
+		}
 		$viewer->assign('RECORD_MODE', $request->getMode());
+		$viewer->assign('CURRENT_STEP', $mode);
 		// MainLayout handles rendering, no separate preProcess template needed
 	}
 
@@ -34,6 +58,9 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
+		$template = 'Step1.tpl';
+		$currentStep = preg_match('/^step[1-6]$/', $step) ? $step : 'step1';
+		$viewer->assign('CURRENT_STEP', $currentStep);
 
 		$recordId = $request->get('record');
 		if ($recordId) {
@@ -42,6 +69,7 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 			$viewer->assign('MODE', 'edit');
 			$selectedModuleName = $pdfModel->get('module_name');
 		} else {
+			$viewer->assign('RECORDID', '');
 			$selectedModuleName = $request->get('source_module');
 			$pdfModel = \App\Modules\Settings\PDF\Models\Record::getCleanInstance();
 		}
@@ -51,36 +79,28 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('SOURCE_MODULE', $selectedModuleName);
 		switch ($step) {
-			case 'step8':
-				$viewer->assign('WATERMARK_TEXT', \Vtiger_mPDF_Pdf::WATERMARK_TYPE_TEXT);
-				$viewer->view('Step8.tpl', $qualifiedModuleName);
-				break;
-
-			case 'step7':
-				// Prepare PDF Step7-specific data for Step7 template
-				$this->preparePDFStep7Data($viewer);
-				$viewer->view('Step7.tpl', $qualifiedModuleName);
-				break;
-
 			case 'step6':
-				$moduleModel = \App\Modules\Base\Models\Module::getInstance($pdfModel->get('module_name'));
-				$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceForModule($moduleModel);
-				$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
-				$viewer->assign('ADVANCE_CRITERIA', \App\Modules\Base\Helpers\AdvancedFilter::transformToAdvancedFilterCondition($pdfModel->get('conditions')));
-				$viewer->view('Step6.tpl', $qualifiedModuleName);
+				$this->preparePDFWatermarkData($viewer, $pdfModel);
+				$template = 'Step6.tpl';
 				break;
 
 			case 'step5':
-				$insertOperations = [
-					'PAGENO' => 'PAGENO',
-					'PAGENUM' => 'nb'
-				];
-				$viewer->assign('INSERT', $insertOperations);
-				$viewer->view('Step5.tpl', $qualifiedModuleName);
+				$this->preparePDFPermissionsData($viewer);
+				$template = 'Step5.tpl';
 				break;
 
 			case 'step4':
-				$viewer->view('Step4.tpl', $qualifiedModuleName);
+				$moduleModel = \App\Modules\Base\Models\Module::getInstance($pdfModel->get('module_name'));
+				$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceForModule($moduleModel);
+				$viewer->assign('MODULE_MODEL', $moduleModel);
+				$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
+				$viewer->assign('ADVANCE_CRITERIA', \App\Modules\Base\Helpers\AdvancedFilter::transformToAdvancedFilterCondition($pdfModel->get('conditions')));
+				$viewer->assign('DATE_FILTERS', \App\Modules\Base\Helpers\AdvancedFilter::getDateFilter($pdfModel->get('module_name')));
+				$viewer->assign('ADVANCED_FILTER_OPTIONS', \App\Modules\Base\Helpers\AdvancedFilter::getAdvancedFilterOptions());
+				$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', \App\Modules\Base\Helpers\AdvancedFilter::getAdvancedFilterOpsByFieldType());
+				$viewer->assign('FIELD_EXPRESSIONS', \App\Modules\Base\Helpers\AdvancedFilter::getExpressions());
+				$viewer->assign('META_VARIABLES', \App\Modules\Base\Helpers\AdvancedFilter::getMetaVariables());
+				$template = 'Step4.tpl';
 				break;
 
 			case 'step3':
@@ -89,7 +109,8 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 					'PAGENUM' => 'nb'
 				];
 				$viewer->assign('INSERT', $insertOperations);
-				$viewer->view('Step3.tpl', $qualifiedModuleName);
+				$this->preparePDFVariablePanelData($viewer, $selectedModuleName);
+				$template = 'Step3.tpl';
 				break;
 
 			case 'step2':
@@ -101,26 +122,57 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 					$languages[$row['prefix']] = $row['label'];
 				}
 				asort($languages);
+				$viewer->assign('PAGE_FORMATS', \App\Modules\Settings\PDF\Models\Module::getPageFormats());
 				$viewer->assign('LANGUAGES', $languages);
-				$viewer->view('Step2.tpl', $qualifiedModuleName);
+				$template = 'Step2.tpl';
 				break;
 
 			case 'step1':
 			default:
 				$allModules = \App\Modules\Settings\PDF\Models\Module::getSupportedModules();
 				$viewer->assign('ALL_MODULES', $allModules);
-				$viewer->view('Step1.tpl', $qualifiedModuleName);
 				break;
 		}
+		if ($request->isAjax()) {
+			$viewer->view($template, $qualifiedModuleName);
+			return;
+		}
+		$viewer->assign('STEP_TEMPLATE', $template);
+		$viewer->view('Edit.tpl', $qualifiedModuleName);
 	}
 	
 	/**
-	 * Prepare data for PDF Step7 template
-	 * Moves function calls from template to controller for better MVC separation
+	 * Prepare data for PDF permissions template.
 	 */
-	protected function preparePDFStep7Data($viewer)
+	protected function preparePDFPermissionsData($viewer)
 	{
 		$viewer->assign('ALL_GROUP_MEMBERS', \App\Modules\Settings\Groups\Models\Member::getAll(false));
+	}
+
+	/**
+	 * Prepare data for PDF watermark template.
+	 *
+	 * @param \App\Runtime\CRM_Viewer $viewer
+	 * @param \App\Modules\Base\Models\PDF $pdfModel
+	 */
+	protected function preparePDFWatermarkData($viewer, $pdfModel)
+	{
+		$viewer->assign('WATERMARK_TEXT', \App\Modules\Base\Models\PDF::WATERMARK_TYPE_TEXT);
+		$viewer->assign('WATERMARK_TYPES', $pdfModel->getWatermarkType());
+		$viewer->assign('WATERMARK_SIZE', (int) $pdfModel->get('watermark_size'));
+		$viewer->assign('WATERMARK_ANGLE', (int) $pdfModel->get('watermark_angle'));
+	}
+
+	/**
+	 * Prepare data for the shared variable panel used by PDF content steps.
+	 *
+	 * @param \App\Runtime\CRM_Viewer $viewer
+	 * @param string $selectedModuleName
+	 */
+	protected function preparePDFVariablePanelData($viewer, $selectedModuleName)
+	{
+		$viewer->assign('TEXT_PARSER', \App\TextParser\TextParser::getInstance($selectedModuleName));
+		$viewer->assign('VARIABLE_PANEL_HAS_ENTITY_INFO', (bool) \App\Utils\ModuleUtils::getEntityInfo($selectedModuleName));
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
@@ -130,6 +182,7 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 
 		$jsFileNames = [
 			'libraries.jquery.clipboardjs.clipboard',
+			'modules.Settings.Vtiger.resources.Index',
 			'modules.Settings.Vtiger.resources.Edit',
 			"modules.Settings.$moduleName.resources.Edit",
 			"modules.Settings.$moduleName.resources.Edit1",
@@ -138,8 +191,6 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 			"modules.Settings.$moduleName.resources.Edit4",
 			"modules.Settings.$moduleName.resources.Edit5",
 			"modules.Settings.$moduleName.resources.Edit6",
-			"modules.Settings.$moduleName.resources.Edit7",
-			"modules.Settings.$moduleName.resources.Edit8",
 			'modules.Base.resources.AdvanceFilter',
 			'modules.Base.resources.AdvanceFilterEx',
 		];

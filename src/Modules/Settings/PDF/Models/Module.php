@@ -65,12 +65,10 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	];
 	public static $step1Fields = ['status', 'primary_name', 'secondary_name', 'module_name', 'metatags_status', 'meta_subject', 'meta_title', 'meta_author', 'meta_creator', 'meta_keywords'];
 	public static $step2Fields = ['page_format', 'margin_chkbox', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right', 'header_height', 'footer_height', 'page_orientation', 'language', 'filename', 'visibility', 'default', 'one_pdf'];
-	public static $step3Fields = ['module_name', 'header_content'];
-	public static $step4Fields = ['module_name', 'body_content'];
-	public static $step5Fields = ['footer_content'];
-	public static $step6Fields = ['conditions',];
-	public static $step7Fields = ['template_members'];
-	public static $step8Fields = ['watermark_type', 'watermark_text', 'watermark_size', 'watermark_angle', 'watermark_image'];
+	public static $step3Fields = ['module_name', 'header_content', 'body_content', 'footer_content'];
+	public static $step4Fields = ['conditions',];
+	public static $step5Fields = ['template_members'];
+	public static $step6Fields = ['watermark_type', 'watermark_text', 'watermark_size', 'watermark_angle', 'watermark_image'];
 	public static $uploadPath = 'storage/Pdf/watermark/';
 	protected $viewToPicklistValue = ['Detail' => 'PLL_DETAILVIEW', 'List' => 'PLL_LISTVIEW'];
 
@@ -117,10 +115,6 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	public static function getFieldsByStep($step = 1)
 	{
 		switch ($step) {
-			case 8:
-				return self::$step8Fields;
-			case 7:
-				return self::$step7Fields;
 			case 6:
 				return self::$step6Fields;
 			case 5:

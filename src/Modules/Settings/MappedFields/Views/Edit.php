@@ -65,9 +65,15 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 				$moduleSourceName = \App\Utils\ModuleUtils::getModuleName($moduleInstance->get('tabid'));
 				$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleSourceName);
 				$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceForModule($moduleModel);
+				$viewer->assign('MODULE_MODEL', $moduleModel);
 				$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
 				$viewer->assign('SOURCE_MODULE', $moduleSourceName);
 				$viewer->assign('ADVANCE_CRITERIA', \App\Modules\Base\Helpers\AdvancedFilter::transformToAdvancedFilterCondition($moduleInstance->get('conditions')));
+				$viewer->assign('DATE_FILTERS', \App\Modules\Base\Helpers\AdvancedFilter::getDateFilter($moduleSourceName));
+				$viewer->assign('ADVANCED_FILTER_OPTIONS', \App\Modules\Base\Helpers\AdvancedFilter::getAdvancedFilterOptions());
+				$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', \App\Modules\Base\Helpers\AdvancedFilter::getAdvancedFilterOpsByFieldType());
+				$viewer->assign('FIELD_EXPRESSIONS', \App\Modules\Base\Helpers\AdvancedFilter::getExpressions());
+				$viewer->assign('META_VARIABLES', \App\Modules\Base\Helpers\AdvancedFilter::getMetaVariables());
 				$viewer->view('Step3.tpl', $qualifiedModuleName);
 				break;
 			case 'step2':

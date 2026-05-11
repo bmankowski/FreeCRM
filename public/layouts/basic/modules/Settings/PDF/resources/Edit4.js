@@ -34,11 +34,20 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit4_Js", {}, {
 			this.setContainer(jQuery('#pdf_step4'));
 		}
 	},
-	submit: function () {
-		for (var instance in CKEDITOR.instances) {
-			CKEDITOR.instances[instance].updateElement();
+	calculateValues: function () {
+		//handled advanced filters saved values.
+		var enableFilterElement = jQuery('#enableAdvanceFilters');
+		if (enableFilterElement.length > 0 && enableFilterElement.is(':checked') == false) {
+			jQuery('#advanced_filter').val(jQuery('#olderConditions').val());
+		} else {
+			jQuery('[name="filtersavedinnew"]').val("4");
+			var advfilterlist = this.advanceFilterInstance.getValues();
+			jQuery('#advanced_filter').val(JSON.stringify(advfilterlist));
 		}
+	},
+	submit: function () {
 		var aDeferred = jQuery.Deferred();
+		this.calculateValues();
 		var form = this.getContainer();
 		var formData = form.serializeFormData();
 		var progressIndicatorElement = jQuery.progressIndicator({
@@ -82,17 +91,6 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit4_Js", {}, {
 			window.history.back();
 		});
 	},
-	/**
-	 * Registers updated version of CkEditor on textarea fields
-	 * spellcheck disabled
-	 */
-	registerNewCkEditor: function () {
-		CKEDITOR.replace('body_content', {
-			disableNativeSpellChecker: true,
-			scayt_autoStartup: false,
-			removePlugins: 'scayt'}
-		);
-	},
 	registerEvents: function () {
 		var container = this.getContainer();
 
@@ -104,8 +102,8 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit4_Js", {}, {
 		};
 		opts['promptPosition'] = "bottomRight";
 		container.validationEngine(opts);
-		app.showSelect2ElementView(container.find('select'));
 		this.registerCancelStepClickEvent(container);
-		this.registerNewCkEditor();
+		this.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance(jQuery('#advanceFilterContainer', container));
+		app.changeSelectElementView(container);
 	}
 });

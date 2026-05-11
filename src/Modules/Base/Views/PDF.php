@@ -47,6 +47,7 @@ class PDF  extends \App\Modules\Base\Views\Index
 		$viewer->assign('ALL_RECORDS', $allRecords);
 		$viewer->assign('EXPORT_VARS', $postVars);
 		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('SCRIPTS', $this->checkAndConvertJsScripts(['modules.Base.resources.PDF']));
 		$viewer->view('ExportPDF.tpl', $moduleName);
 		$this->postProcess($request);
 	}

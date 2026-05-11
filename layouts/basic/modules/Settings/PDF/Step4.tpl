@@ -9,21 +9,9 @@
 			<input type="hidden" name="parent" value="Settings" />
 			<input type="hidden" class="step" value="4" />
 			<input type="hidden" name="record" value="{$RECORDID}" />
-			<input type="hidden" name="module_name" value="{$PDF_MODEL->get('module_name')}" />
-			<div class="padding1per stepBorder">
-				<label>
-					<strong>{'LBL_STEP_N'|t:$QUALIFIED_MODULE:4}: {"LBL_BODY_DETAILS"|t:$QUALIFIED_MODULE}</strong>
-				</label>
-				<br>
-				<div class="row">
-					{include file='layouts/basic/modules/Base/VariablePanel.tpl' SELECTED_MODULE=$SELECTED_MODULE PARSER_TYPE='pdf'}
-				</div>
-				<div class="form-group">
-					<div class="col-sm-12 controls">
-						<textarea class="form-control" name="body_content" id="body_content">{$PDF_MODEL->get('body_content')}</textarea>
-					</div>
-				</div>
-			</div>
+			<input type="hidden" name="conditions" id="advanced_filter" value='' />
+
+			{include file='AdvanceFilterExpressions.tpl'|@vtemplate_path}
 			<br>
 			<div class="pull-right">
 				<button class="btn btn-danger backStep" type="button"><strong>{"LBL_BACK"|t:$QUALIFIED_MODULE}</strong></button>&nbsp;&nbsp;

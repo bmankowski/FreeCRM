@@ -22,6 +22,32 @@ class Vtiger_Language_Handler
 	//Contains module language translations
 	protected static $languageContainer;
 
+	protected static function resolveLanguageModuleName(string $language, $module)
+	{
+		if (is_numeric($module)) {
+			$module = \App\Utils\ModuleUtils::getModuleName($module);
+		}
+
+		if (empty($module) || $module === false) {
+			return 'Vtiger';
+		}
+
+		$module = str_replace(':', '.', (string) $module);
+		if (strpos($module, '.') === false) {
+			$qualifiedName = 'languages.' . $language . '.' . $module;
+			$file = \App\Core\Loader::resolveNameToPath($qualifiedName);
+			if (!file_exists($file)) {
+				$settingsQualifiedName = 'languages.' . $language . '.Settings.' . $module;
+				$settingsFile = \App\Core\Loader::resolveNameToPath($settingsQualifiedName);
+				if (file_exists($settingsFile)) {
+					$module = 'Settings.' . $module;
+				}
+			}
+		}
+
+		return $module;
+	}
+
 	/**
 	 * Functions that gets translated string
 	 * @param string $key - string which need to be translated
@@ -75,33 +101,7 @@ class Vtiger_Language_Handler
 			return null;
 		}
 
-		if (is_numeric($module)) {
-			// ok, we have a tab id, lets turn it into name
-			$module = \App\Utils\ModuleUtils::getModuleName($module);
-			// If getModuleName returned false (module doesn't exist), use default 'Vtiger'
-			if ($module === false || empty($module)) {
-				$module = 'Vtiger';
-			} elseif (strpos($module, '.') === false) {
-				// If module name doesn't contain dot and file doesn't exist, try Settings submodule
-				$qualifiedName = 'languages.' . $language . '.' . $module;
-				$file = \App\Core\Loader::resolveNameToPath($qualifiedName);
-				if (!file_exists($file)) {
-					// Try Settings submodule path
-					$settingsQualifiedName = 'languages.' . $language . '.Settings.' . $module;
-					$settingsFile = \App\Core\Loader::resolveNameToPath($settingsQualifiedName);
-					if (file_exists($settingsFile)) {
-						$module = 'Settings.' . $module;
-					}
-				}
-			}
-		} else {
-			// Ensure module is not empty or false
-			if (empty($module) || $module === false) {
-				$module = 'Vtiger';
-			} else {
-				$module = str_replace(':', '.', $module);
-			}
-		}
+		$module = self::resolveLanguageModuleName($language, $module);
 
 		$moduleStrings = self::getModuleStringsFromFile($language, $module);
 		if (!empty($moduleStrings['languageStrings'][$key])) {
@@ -137,7 +137,7 @@ class Vtiger_Language_Handler
 	 */
 	public static function getJSTranslatedString($language, $key, $module = 'Vtiger')
 	{
-		$module = str_replace(':', '.', $module);
+		$module = self::resolveLanguageModuleName($language, $module);
 		$moduleStrings = self::getModuleStringsFromFile($language, $module);
 		if (!empty($moduleStrings['jsLanguageStrings'][$key])) {
 			return $moduleStrings['jsLanguageStrings'][$key];

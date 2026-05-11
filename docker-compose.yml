@@ -32,6 +32,9 @@ services:
       FREECRM_DB_PASSWORD: freecrm
       # When behind nginx, keep base URL consistent
       FREECRM_SITE_URL: "http://localhost/"
+      FREECRM_PDF_RENDERER: "Chrome"
+      FREECRM_PDF_CHROME_BINARY: "/usr/bin/chromium"
+      FREECRM_PDF_BASE_URL: "http://web:8080/"
       # DebugBar tries to query DB early; disable in docker install flow
       YII_DEBUG: "0"
     volumes:

@@ -361,8 +361,8 @@ class TextParser
 	protected function general($key)
 	{
 		switch ($key) {
-			case 'CurrentDate': return (new \DateTimeField(null))->getDisplayDate();
-			case 'CurrentTime' : return \App\Modules\Base\Util::convertTimeIntoUsersDisplayFormat(date('h:i:s'));
+			case 'CurrentDate': return (new \App\Fields\DateTimeField(null))->getDisplayDate();
+			case 'CurrentTime' : return \App\Modules\Base\Helpers\Util::convertTimeIntoUsersDisplayFormat(date('h:i:s'));
 			case 'SiteUrl' : return \App\Core\AppConfig::main('site_URL');
 			case 'PortalUrl' : return \App\Core\AppConfig::main('PORTAL_URL');
 			case 'BaseTimeZone' : return \App\Fields\DateTimeField::getDBTimeZone();
@@ -821,7 +821,11 @@ class TextParser
 	protected function getBaseGeneralVariable()
 	{
 		$variables = [];
-		foreach ((new \DirectoryIterator(__DIR__ . DIRECTORY_SEPARATOR . 'TextParser')) as $fileInfo) {
+		$parserDirectory = __DIR__ . DIRECTORY_SEPARATOR . 'TextParser';
+		if (!is_dir($parserDirectory)) {
+			return $variables;
+		}
+		foreach ((new \DirectoryIterator($parserDirectory)) as $fileInfo) {
 			$fileName = $fileInfo->getBasename('.php');
 			if ($fileInfo->getType() !== 'dir' && $fileName !== 'Base' && $fileInfo->getExtension() === 'php') {
 				$className = '\App\TextParser\\' . $fileName;

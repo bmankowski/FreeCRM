@@ -6,7 +6,7 @@
 			<input type="hidden" name="module" value="PDF">
 			<input type="hidden" name="action" value="Save">
 			<input type="hidden" name="parent" value="Settings">
-			<input type="hidden" class="step" value="8" />
+			<input type="hidden" name="step" class="step" value="8" />
 			<input type="hidden" name="record" value="{$RECORDID}" />
 			<input type="hidden" name="watermark_image" value="{$PDF_MODEL->get('watermark_image')}" />
 
@@ -21,7 +21,7 @@
 					</label>
 					<div class="col-sm-6 controls">
 						<select class="chzn-select form-control" id="watermark_type" name="watermark_type" required="true">
-							{foreach from=$PDF_MODEL->getWatermarkType() key=VALUE item=LABEL}
+							{foreach from=$WATERMARK_TYPES key=VALUE item=LABEL}
 								<option value="{$VALUE}" {if $PDF_MODEL->get('watermark_type') eq $VALUE} selected {/if}>
 									{$LABEL|t:$QUALIFIED_MODULE}
 								</option>
@@ -42,7 +42,7 @@
 						{"LBL_WATERMARK_SIZE"|t:$QUALIFIED_MODULE}
 					</label>
 					<div class="col-sm-6 controls">
-						<input type="number" name="watermark_size" class="form-control" value="{intval($PDF_MODEL->get('watermark_size'))}" id="watermark_size" min="0" max="99" />
+						<input type="number" name="watermark_size" class="form-control" value="{$WATERMARK_SIZE}" id="watermark_size" min="0" max="99" />
 					</div>
 				</div>
 				<div class="form-group watertext {if $PDF_MODEL->get('watermark_type') neq $WATERMARK_TEXT}hide{/if}">
@@ -50,7 +50,7 @@
 						{"LBL_WATERMARK_ANGLE"|t:$QUALIFIED_MODULE}
 					</label>
 					<div class="col-sm-6 controls">
-						<input type="number" name="watermark_angle" class="form-control" value="{intval($PDF_MODEL->get('watermark_angle'))}" id="watermark_angle" min="0" max="360" />
+						<input type="number" name="watermark_angle" class="form-control" value="{$WATERMARK_ANGLE}" id="watermark_angle" min="0" max="360" />
 					</div>
 				</div>
 				<div class="form-group waterimage {if $PDF_MODEL->get('watermark_type') eq $WATERMARK_TEXT}hide{/if}">

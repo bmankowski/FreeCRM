@@ -1,13 +1,19 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 <!-- layouts/basic/modules/Base/ExportPDF.tpl -->
-	<form id="pdfExportModal" action="index.php?module={$MODULE_NAME}&action=PDF&mode=generate" target="_blank" method="POST">
+	<div class="modal fade" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+	<form id="pdfExportModal" action="index.php" target="_blank" method="{if isset($EXPORT_VARS.fromview) && $EXPORT_VARS.fromview eq 'Detail'}GET{else}POST{/if}">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		<h3 id="massEditHeader" class="modal-title">{"LBL_GENERATE_PDF_FILE"|t:$MODULE_NAME}</h3>
 	</div>
 	<div class="modal-body">
 		<input type="hidden" name="all_records" id="all_records" value="{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($ALL_RECORDS))}" />
+		<input type="hidden" name="module" value="{$MODULE_NAME}" />
+		<input type="hidden" name="action" value="PDF" />
+		<input type="hidden" name="mode" value="generate" />
 		<input type="hidden" name="selectedRecords" value="[]" />
 		<input type="hidden" name="validRecords" value="[]" />
 		<input type="hidden" name="template" value="[]" />
@@ -56,5 +62,13 @@
 		<button class="btn btn-warning" type="reset" data-dismiss="modal"><strong>{"LBL_CANCEL"|t:$MODULE_NAME}</strong></button>
 	</div>
 	</form>
+			</div>
+		</div>
+	</div>
+	{if isset($SCRIPTS) && !empty($SCRIPTS)}
+		{foreach key=index item=jsModel from=$SCRIPTS}
+			<script type="{$jsModel->getType()}" src="{vresource_url($jsModel->getSrc())}"></script>
+		{/foreach}
+	{/if}
 <!--/layouts/basic/modules/Base/ExportPDF.tpl -->
 {/strip}

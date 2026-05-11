@@ -12,6 +12,8 @@
 .zIndex8 {z-index: 8;}
 .overflowXAuto {overflow-x: auto;}
 .crumbs li {margin-right: 2px !important;}
+#wizardSteps .stepNum {margin-top: 0;}
+#wizardSteps .stepText {position: relative; top: -4px;}
 .marginRight5px {margin-right: 5px;}
 .pdfContainer {margin-bottom:25px;}
 .bgMessage {font-weight: bold; padding: 25px; margin: 25px;}

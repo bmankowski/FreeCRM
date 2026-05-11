@@ -10,6 +10,7 @@ README.md
 /user_privileges/cron.php
 /cache/session/
 /cache/tmp/
+/cache/pdf/
 /cache/templates_c
 /config/csrf_secret.php
 /config/config_override.php

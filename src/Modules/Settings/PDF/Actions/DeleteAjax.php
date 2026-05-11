@@ -22,9 +22,9 @@ class DeleteAjax extends \App\Modules\Settings\Base\Actions\Index
 		$response = new \App\Http\Vtiger_Response();
 		$recordModel = \App\Modules\Base\Models\PDF::getInstanceById($recordId);
 		if (\App\Modules\Settings\PDF\Models\Record::delete($recordModel)) {
-			$response->setResult(array('success' => 'true'));
+			$response->setResult(['success' => true]);
 		} else {
-			$response->setResult(array('success' => 'false'));
+			$response->setResult(['success' => false]);
 		}
 		$response->emit();
 	}

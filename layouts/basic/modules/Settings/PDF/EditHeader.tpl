@@ -8,53 +8,41 @@
 		</div>
 	</div>
 	<div class="editContainer">
-		<div id="breadcrumb">
+		<div id="wizardSteps" class="current-{$CURRENT_STEP}">
 			<ul class="crumbs marginLeftZero">
-				<li class="first step zIndex8" id="step1">
+				<li class="first step zIndex8 {if $CURRENT_STEP eq 'step1'}active{/if}" id="step1">
 					<a>
 						<span class="stepNum">1</span>
 						<span class="stepText">{"LBL_DOCUMENT_DESCRIPTION"|t:$QUALIFIED_MODULE}</span>
 					</a>
 				</li>
-				<li class="step zIndex7" id="step2">
+				<li class="step zIndex7 {if $CURRENT_STEP eq 'step2'}active{/if}" id="step2">
 					<a>
 						<span class="stepNum">2</span>
 						<span class="stepText">{"LBL_DOCUMENT_SETTINGS"|t:$QUALIFIED_MODULE}</span>
 					</a>
 				</li>
-				<li class="step zIndex6" id="step3">
+				<li class="step zIndex6 {if $CURRENT_STEP eq 'step3'}active{/if}" id="step3">
 					<a>
 						<span class="stepNum">3</span>
-						<span class="stepText">{"LBL_DOCUMENT_HEADER"|t:$QUALIFIED_MODULE}</span>
+						<span class="stepText">{"LBL_DOCUMENT_CONTENT"|t:$QUALIFIED_MODULE}</span>
 					</a>
 				</li>
-				<li class="step zIndex5" id="step4">
+				<li class="step zIndex5 {if $CURRENT_STEP eq 'step4'}active{/if}" id="step4">
 					<a>
 						<span class="stepNum">4</span>
-						<span class="stepText">{"LBL_DOCUMENT_BODY"|t:$QUALIFIED_MODULE}</span>
-					</a>
-				</li>
-				<li class="step zIndex4" id="step5">
-					<a>
-						<span class="stepNum">5</span>
-						<span class="stepText">{"LBL_DOCUMENT_FOOTER"|t:$QUALIFIED_MODULE}</span>
-					</a>
-				</li>
-				<li class="step zIndex3" id="step6">
-					<a>
-						<span class="stepNum">6</span>
 						<span class="stepText">{"LBL_DOCUMENT_EXCEPTIONS"|t:$QUALIFIED_MODULE}</span>
 					</a>
 				</li>
-				<li class="step zIndex2" id="step7">
+				<li class="step zIndex4 {if $CURRENT_STEP eq 'step5'}active{/if}" id="step5">
 					<a>
-						<span class="stepNum">7</span>
+						<span class="stepNum">5</span>
 						<span class="stepText">{"LBL_DOCUMENT_PERMISSIONS"|t:$QUALIFIED_MODULE}</span>
 					</a>
 				</li>
-				<li class="step last zIndex1" id="step8">
+				<li class="step last zIndex3 {if $CURRENT_STEP eq 'step6'}active{/if}" id="step6">
 					<a>
-						<span class="stepNum">8</span>
+						<span class="stepNum">6</span>
 						<span class="stepText">{"LBL_DOCUMENT_WATERMARK"|t:$QUALIFIED_MODULE}</span>
 					</a>
 				</li>

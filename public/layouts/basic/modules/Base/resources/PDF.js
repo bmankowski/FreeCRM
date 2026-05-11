@@ -26,7 +26,7 @@ jQuery.Class("Vtiger_PDF_Js", {
 	 * Function to register the click event for generate button
 	 */
 	registerPreSubmitEvent: function (container) {
-		container.find('#generate_pdf, #single_pdf, #email_pdf').on('click', function (e) {
+		container.find('#generate_pdf, #single_pdf, #email_pdf').off('click.pdfExport').on('click.pdfExport', function (e) {
 			document.progressLoader = jQuery.progressIndicator({
 				message: app.vtranslate('JS_PDF_GENERATING'),
 				position: 'html',
@@ -52,10 +52,12 @@ jQuery.Class("Vtiger_PDF_Js", {
 				case 'generate_pdf':
 					break;
 				case 'single_pdf':
+					e.preventDefault();
 					container.find('[name="single_pdf"]').val(1);
 					container.find('#pdfExportModal').submit();
 					break;
 				case 'email_pdf':
+					e.preventDefault();
 					container.find('[name="email_pdf"]').val(1);
 					container.find('#pdfExportModal').submit();
 					break;
@@ -122,7 +124,10 @@ jQuery.Class("Vtiger_PDF_Js", {
 		return selectedRecords.length;
 	},
 	registerEvents: function () {
-		var container = jQuery('div.modal-content');
+		var container = jQuery('#globalmodal div.modal-content').last();
+		if (!container.length) {
+			container = jQuery('div.modal-content').last();
+		}
 		this.registerPreSubmitEvent(container);
 
 		if (app.getViewName() === 'Detail') {

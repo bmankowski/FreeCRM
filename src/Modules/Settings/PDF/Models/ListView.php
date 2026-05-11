@@ -44,7 +44,7 @@ class ListView extends \App\Modules\Settings\Base\Models\ListView
 		if (!empty($orderBy)) {
 			$query->orderBy($orderBy . ' ' . $this->getForSql('sortorder'));
 		}
-		$dataReader = $query->limit($pageLimit)->offset($startIndex)->createCommand()->query();
+		$dataReader = $query->limit($pageLimit + 1)->offset($startIndex)->createCommand()->query();
 		$listViewRecordModels = [];
 		while ($row = $dataReader->read()) {
 			$record = new $recordModelClass();
@@ -63,14 +63,13 @@ class ListView extends \App\Modules\Settings\Base\Models\ListView
 			$listViewRecordModels[$record->getId()] = $record;
 		}
 
-		$pagingModel->calculatePageRange($dataReader->count());
-
-		if ($dataReader->count() > $pageLimit) {
+		if (count($listViewRecordModels) > $pageLimit) {
 			array_pop($listViewRecordModels);
 			$pagingModel->set('nextPageExists', true);
 		} else {
 			$pagingModel->set('nextPageExists', false);
 		}
+		$pagingModel->calculatePageRange(count($listViewRecordModels));
 		return $listViewRecordModels;
 	}
 	/*

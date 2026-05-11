@@ -1,5 +1,20 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
-Settings_Vtiger_ListView_Js("Settings_PDF_ListView_Js", {}, {
+Settings_Vtiger_ListView_Js("Settings_PDF_ListView_Js", {
+	deletePdfTemplate: function (templateId, event) {
+		if (event) {
+			if (typeof event.stopPropagation === 'function') {
+				event.stopPropagation();
+			} else {
+				event.cancelBubble = true;
+			}
+			if (typeof event.preventDefault === 'function') {
+				event.preventDefault();
+			}
+		}
+		Settings_PDF_ListView_Js.getInstance().deleteTemplate(templateId);
+		return false;
+	}
+}, {
 	getListContainer: function () {
 		return jQuery('#listViewContainer');
 	},
@@ -31,7 +46,10 @@ Settings_Vtiger_ListView_Js("Settings_PDF_ListView_Js", {}, {
 	 */
 	registerRowClickEvent: function () {
 		var listViewContentDiv = this.getListViewContentContainer();
-		listViewContentDiv.on('click', '.listViewEntries', function (e) {
+		listViewContentDiv.off('click.pdfRow').on('click.pdfRow', '.listViewEntries', function (e) {
+			if (jQuery(e.target).closest('.rightRecordActions, .tdActions, .actions, a, button, input').length) {
+				return;
+			}
 			var editUrl = jQuery(e.currentTarget).find('.glyphicon-pencil').closest('a').attr('href');
 			window.location.href = editUrl;
 		});
@@ -44,7 +62,7 @@ Settings_Vtiger_ListView_Js("Settings_PDF_ListView_Js", {}, {
 			'module': module,
 			'parent': parent,
 			'page': pageNumber,
-			'view': "List",
+			'view': "ListView",
 			sourceModule: jQuery('#moduleFilter').val()
 		};
 		return params;
@@ -63,14 +81,57 @@ Settings_Vtiger_ListView_Js("Settings_PDF_ListView_Js", {}, {
 	registerTemplateDelete: function (container) {
 		var thisInstance = this;
 		if (container == undefined) {
-			container = thisInstance.getListContainer();
+			container = thisInstance.getListViewContentContainer();
 		}
-		container.find('.templateDelete').on('click', function (e) {
+		container.off('click.pdfDelete', '.templateDelete').on('click.pdfDelete', '.templateDelete', function (e) {
 			e.stopPropagation();
 			e.preventDefault();
-			var templateId = jQuery(this).closest('tr').data('id');
-			Vtiger_ListView_Js.deleteRecord(templateId).then(function () {
-				thisInstance.registerTemplateDelete(container);
+			var templateId = jQuery(this).data('id') || jQuery(this).closest('tr').data('id');
+			thisInstance.deleteTemplate(templateId);
+		});
+	},
+	deleteTemplate: function (templateId) {
+		var thisInstance = this;
+		var message = app.vtranslate('LBL_DELETE_CONFIRMATION');
+		Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(function () {
+			var progressIndicatorElement = jQuery.progressIndicator({
+				'message': app.vtranslate('JS_RECORD_GETTING_DELETED'),
+				'position': 'html',
+				'blockInfo': {
+					'enabled': true
+				}
+			});
+			var params = {
+				module: app.getModuleName(),
+				parent: app.getParentModuleName(),
+				action: 'DeleteAjax',
+				record: templateId
+			};
+			AppConnector.request(params).then(function (data) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				if (data.success && data.result && (data.result.success === true || data.result.success === 'true')) {
+					var pageNumber = parseInt(jQuery('#pageNumber').val());
+					if (jQuery('#noOfEntries').val() == 1 && pageNumber != 1) {
+						pageNumber--;
+					}
+					jQuery('#recordsCount').val('');
+					jQuery('#totalPageCount').text('');
+					thisInstance.getListViewRecords({
+						orderby: jQuery('#orderBy').val(),
+						sortorder: jQuery('#sortOrder').val(),
+						page: pageNumber
+					}).then(function () {
+						thisInstance.updatePagination(pageNumber);
+					});
+				} else {
+					Vtiger_Helper_Js.showPnotify({
+						text: app.vtranslate('JS_ERROR'),
+						title: app.vtranslate('JS_ERROR')
+					});
+				}
+			}, function (error, err) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				app.errorLog(error, err);
 			});
 		});
 	},
@@ -91,7 +152,22 @@ Settings_Vtiger_ListView_Js("Settings_PDF_ListView_Js", {}, {
 		var container = this.getListContainer();
 		this.registerFilterChangeEvent();
 		this.registerAddNewTemplate(container);
-		this.registerTemplateDelete(container);
+		this.registerTemplateDelete();
 		this.registerImportTemplate(container);
 	}
 });
+
+Settings_PDF_ListView_Js.deletePdfTemplate = function (templateId, event) {
+	if (event) {
+		if (typeof event.stopPropagation === 'function') {
+			event.stopPropagation();
+		} else {
+			event.cancelBubble = true;
+		}
+		if (typeof event.preventDefault === 'function') {
+			event.preventDefault();
+		}
+	}
+	Settings_PDF_ListView_Js.getInstance().deleteTemplate(templateId);
+	return false;
+};

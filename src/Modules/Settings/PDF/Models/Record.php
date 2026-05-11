@@ -20,6 +20,46 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	protected $fieldsCache = [];
 	protected $moduleRecordId;
 
+	protected static function getDefaultData($moduleName = 'Vtiger')
+	{
+		return [
+			'module_name' => $moduleName,
+			'header_content' => '',
+			'body_content' => '',
+			'footer_content' => '',
+			'status' => 1,
+			'primary_name' => '',
+			'secondary_name' => '',
+			'meta_author' => '',
+			'meta_creator' => '',
+			'meta_keywords' => '',
+			'metatags_status' => 1,
+			'meta_subject' => '',
+			'meta_title' => '',
+			'page_format' => 'A4',
+			'margin_chkbox' => 1,
+			'margin_top' => 0,
+			'margin_bottom' => 0,
+			'margin_left' => 0,
+			'margin_right' => 0,
+			'header_height' => 0,
+			'footer_height' => 0,
+			'page_orientation' => 'PLL_PORTRAIT',
+			'language' => '',
+			'filename' => '',
+			'visibility' => 'PLL_LISTVIEW,PLL_DETAILVIEW',
+			'default' => 1,
+			'conditions' => '[]',
+			'watermark_type' => 0,
+			'watermark_text' => '',
+			'watermark_size' => 0,
+			'watermark_angle' => 0,
+			'watermark_image' => '',
+			'template_members' => '',
+			'one_pdf' => 0
+		];
+	}
+
 	/**
 	 * Function to get the id of the record
 	 * @return <Number> - Record Id
@@ -90,12 +130,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	{
 		$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'PDF', $moduleName);
 		$pdf = new $handlerClass();
-		$data = [];
-		$fields = \App\Modules\Settings\PDF\Models\Module::getFieldsByStep();
-		foreach ($fields as $field) {
-			$data[$field] = '';
-		}
-		$pdf->setData($data);
+		$pdf->setData(self::getDefaultData($moduleName));
 		return $pdf;
 	}
 
@@ -130,7 +165,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			case 1:
 				$stepFields = \App\Modules\Settings\PDF\Models\Module::getFieldsByStep($step);
 				if (!$pdfModel->getId()) {
-					$params = [];
+					$params = self::getDefaultData($pdfModel->get('module_name'));
 					foreach ($stepFields as $field) {
 						$params[$field] = $pdfModel->get($field);
 					}

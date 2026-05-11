@@ -15,7 +15,7 @@
 				</p>
 			{elseif $UPLOAD eq false}
 				<p class="bgMessage bgERROR">
-					{"LBL_UPLOAD_ERROR"|t:$QUALIFIED_MODULE} <a class="tdUnderline" href="{Settings_PDF_Module_Model::getDefaultUrl()}"> {"LBL_RETURN"|t:$QUALIFIED_MODULE}</a>
+					{"LBL_UPLOAD_ERROR"|t:$QUALIFIED_MODULE} <a class="tdUnderline" href="{$PDF_DEFAULT_URL}"> {"LBL_RETURN"|t:$QUALIFIED_MODULE}</a>
 				</p>
 			{/if}
 		{else}
@@ -35,7 +35,7 @@
 				<br>
 				<div class="pull-right">
 					<button class="btn btn-success" type="submit"><strong>{"LBL_UPLOAD_TEMPLATE"|t:$QUALIFIED_MODULE}</strong></button>&nbsp;&nbsp;
-					<a href="{Settings_PDF_Module_Model::getDefaultUrl()}" class="btn btn-warning" type="button">{"LBL_CANCEL"|t:$QUALIFIED_MODULE}</a>
+					<a href="{$PDF_DEFAULT_URL}" class="btn btn-warning" type="button">{"LBL_CANCEL"|t:$QUALIFIED_MODULE}</a>
 				</div>
 			</form>
 		{/if}

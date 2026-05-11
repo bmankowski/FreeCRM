@@ -7,20 +7,39 @@
 			<input type="hidden" name="view" value="Edit">
 			<input type="hidden" name="mode" value="Step4" />
 			<input type="hidden" name="parent" value="Settings" />
-			<input type="hidden" class="step" value="3" />
+			<input type="hidden" name="step" class="step" value="3" />
 			<input type="hidden" name="record" value="{$RECORDID}" />
 			<input type="hidden" name="module_name" value="{$PDF_MODEL->get('module_name')}" />
 			<div class="padding1per stepBorder">
 				<label>
-					<strong>{'LBL_STEP_N'|t:$QUALIFIED_MODULE:3}: {"LBL_HEADER_DETAILS"|t:$QUALIFIED_MODULE}</strong>
+					<strong>{'LBL_STEP_N'|t:$QUALIFIED_MODULE:3}: {"LBL_DOCUMENT_CONTENT_DETAILS"|t:$QUALIFIED_MODULE}</strong>
 				</label>
 				<br>
 				<div class="row">
 					{include file='layouts/basic/modules/Base/VariablePanel.tpl' SELECTED_MODULE=$SELECTED_MODULE PARSER_TYPE='pdf'}
 				</div>
 				<div class="form-group">
+					<label class="col-sm-12">
+						{"LBL_DOCUMENT_HEADER"|t:$QUALIFIED_MODULE}
+					</label>
 					<div class="col-sm-12 controls">
 						<textarea class="form-control" name="header_content" id="header_content">{$PDF_MODEL->get('header_content')}</textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-12">
+						{"LBL_DOCUMENT_BODY"|t:$QUALIFIED_MODULE}
+					</label>
+					<div class="col-sm-12 controls">
+						<textarea class="form-control" name="body_content" id="body_content">{$PDF_MODEL->get('body_content')}</textarea>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-12">
+						{"LBL_DOCUMENT_FOOTER"|t:$QUALIFIED_MODULE}
+					</label>
+					<div class="col-sm-12 controls">
+						<textarea class="form-control" name="footer_content" id="footer_content">{$PDF_MODEL->get('footer_content')}</textarea>
 					</div>
 				</div>
 			</div>

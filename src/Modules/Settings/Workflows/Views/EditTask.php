@@ -145,6 +145,7 @@ class EditTask extends \App\Modules\Settings\Base\Views\Index
 			\App\Runtime\Vtiger_Language_Handler::translate('LBL_GROUPS') => \App\Fields\Owner::getInstance()->getAccessibleGroups()
 		];
 		$viewer->assign('TEXT_PARSER', $textParser);
+		$viewer->assign('VARIABLE_PANEL_HAS_ENTITY_INFO', (bool) \App\Utils\ModuleUtils::getEntityInfo($sourceModule));
 		$viewer->assign('ASSIGNED_TO', $assignedToValues);
 		$viewer->assign('EMAIL_FIELD_OPTION', $emailFieldoptions);
 		$viewer->assign('FROM_EMAIL_FIELD_OPTION', $fromEmailFieldOptions);

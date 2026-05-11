@@ -15,10 +15,12 @@
 
 	<div class="listViewEntriesDiv overflowXAuto">
 		{assign var=WIDTHTYPE value=$USER_MODEL->get('rowheight')}
-		<table class="table table-bordered table-condensed listViewEntriesTable">
+		<table class="table tableRWD table-bordered table-condensed listViewEntriesTable">
 			<thead>
 				<tr class="listViewHeaders">
-					<th width="1%" class="{$WIDTHTYPE}"></th>
+					<th width="1%" class="{$WIDTHTYPE}">
+						<input type="checkbox" id="listViewEntriesMainCheckBox" title="{'LBL_SELECT_ALL'|t}" />
+					</th>
 						{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 						<th width="{$WIDTH}%" nowrap {if $LISTVIEW_HEADER@last}colspan="2" {/if} class="{$WIDTHTYPE}">
@@ -32,38 +34,34 @@
 				{foreach item=LISTVIEW_ENTRY from=$LISTVIEW_ENTRIES}
 					<tr class="listViewEntries" data-id="{$LISTVIEW_ENTRY->getId()}" 
 						{if method_exists($LISTVIEW_ENTRY,'getDetailViewUrl')}data-recordurl="{$LISTVIEW_ENTRY->getDetailViewUrl()}"{/if}>
-						<td width="1%" nowrap class="{$WIDTHTYPE}"></td>
+						<td width="1%" nowrap class="{$WIDTHTYPE}">
+							<input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" class="listViewEntriesCheckBox" title="{'LBL_SELECT_SINGLE_ROW'|t}" />
+						</td>
 						{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 							{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 							{assign var=LAST_COLUMN value=$LISTVIEW_HEADER@last}
 							<td class="listViewEntryValue {$WIDTHTYPE}" data-name="{$LISTVIEW_HEADERNAME}" width="{$WIDTH}%" nowrap>
 								&nbsp;{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)|t:$QUALIFIED_MODULE}
 								{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
-								</td><td nowrap class="{$WIDTHTYPE}">
-									<div class="pull-right actions">
-										<span class="actionImages">
-											{foreach item=RECORD_LINK from=$LISTVIEW_ENTRY->getRecordLinks()}
-												{assign var="RECORD_LINK_URL" value=$RECORD_LINK->getUrl()}
-												{if $RECORD_LINK->getLabel() eq 'LBL_DELETE_RECORD'}
-													<span class="{$RECORD_LINK->getIcon()} alignMiddle templateDelete" title="{$RECORD_LINK->getLabel()|t:$QUALIFIED_MODULE}"></span>
-												{elseif $RECORD_LINK->getLabel() eq 'LBL_EXPORT_RECORD'}
-													<a href="{$RECORD_LINK_URL}"><span class="{$RECORD_LINK->getIcon()} alignMiddle"></span></a>
+								</td><td nowrap class="{$WIDTHTYPE} rightRecordActions tdActions">
+									{assign var=LINKS value=$LISTVIEW_ENTRY->getRecordLinks()}
+									{if count($LINKS) > 0}
+										<div class="actions">
+											<div class="pull-right">
+											{foreach from=$LINKS item=LINK}
+												{if $LINK->getLabel() eq 'LBL_DELETE_RECORD'}
+													<div class="btn-group {if $USER_MODEL->get('rowheight') eq 'narrow'}btn-group-sm{/if}">
+														<button type="button" class="btn btn-default templateDelete popoverTooltip" data-id="{$LISTVIEW_ENTRY->getId()}" aria-label="{$LINK->getLabel()|t:$QUALIFIED_MODULE}" data-placement="bottom" data-content="{$LINK->getLabel()|t:$QUALIFIED_MODULE}" onclick="if (typeof event.stopPropagation === 'function') {ldelim}event.stopPropagation();{rdelim} else {ldelim}event.cancelBubble = true;{rdelim} if (typeof event.preventDefault === 'function') {ldelim}event.preventDefault();{rdelim} var recordId = {$LISTVIEW_ENTRY->getId()}; if (typeof Settings_PDF_ListView_Js !== 'undefined' && Settings_PDF_ListView_Js.deletePdfTemplate) {ldelim}return Settings_PDF_ListView_Js.deletePdfTemplate(recordId, event);{rdelim} Vtiger_Helper_Js.showConfirmationBox({ldelim}message: app.vtranslate('LBL_DELETE_CONFIRMATION'){rdelim}).then(function () {ldelim}AppConnector.request({ldelim}module: app.getModuleName(), parent: app.getParentModuleName(), action: 'DeleteAjax', record: recordId{rdelim}).then(function () {ldelim}window.location.reload();{rdelim});{rdelim}); return false;">
+															<span class="{$LINK->getIcon()}"></span>
+														</button>
+													</div>
 												{else}
-													<a {if stripos($RECORD_LINK_URL, 'javascript:')===0} onclick="
-														{$RECORD_LINK_URL|substr:strlen("javascript:")};
-															if (event.stopPropagation){ldelim}
-																event.stopPropagation();{rdelim} else{ldelim}
-																event.cancelBubble = true;{rdelim}
-														" {else} href='{$RECORD_LINK_URL}' {/if} class="{$RECORD_LINK->get('class')}">
-														<span class="{$RECORD_LINK->getIcon()} alignMiddle" title="{$RECORD_LINK->getLabel()|t:$QUALIFIED_MODULE}"></span>
-													</a>
-												{/if}
-												{if !$RECORD_LINK@last}
-													&nbsp;&nbsp;
+													{include file='ButtonLink.tpl'|@vtemplate_path:$QUALIFIED_MODULE BUTTON_VIEW='listViewBasic' MODULE=$QUALIFIED_MODULE}
 												{/if}
 											{/foreach}
-										</span>
-									</div>
+											</div>
+										</div>
+									{/if}
 								</td>
 							{/if}
 							</td>

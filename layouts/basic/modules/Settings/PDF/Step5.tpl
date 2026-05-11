@@ -9,18 +9,31 @@
 			<input type="hidden" name="parent" value="Settings" />
 			<input type="hidden" class="step" value="5" />
 			<input type="hidden" name="record" value="{$RECORDID}" />
-			<input type="hidden" name="module_name" value="{$PDF_MODEL->get('module_name')}" />
+
 			<div class="padding1per stepBorder">
 				<label>
-					<strong>{'LBL_STEP_N'|t:$QUALIFIED_MODULE:5}: {"LBL_FOOTER_DETAILS"|t:$QUALIFIED_MODULE}</strong>
+					<strong>{'LBL_STEP_N'|t:$QUALIFIED_MODULE:5}: {"LBL_PERMISSIONS_DETAILS"|t:$QUALIFIED_MODULE}</strong>
 				</label>
 				<br>
-				<div class="row">
-					{include file='layouts/basic/modules/Base/VariablePanel.tpl' SELECTED_MODULE=$SELECTED_MODULE PARSER_TYPE='pdf'}
-				</div>
 				<div class="form-group">
-					<div class="col-sm-12 controls">
-						<textarea class="form-control" name="footer_content" id="footer_content">{$PDF_MODEL->get('footer_content')}</textarea>
+					<div class="col-md-2 control-label">
+						{"LBL_GROUP_MEMBERS"|t:"Settings:Groups"}
+					</div>
+					<div class="col-md-6 controls">
+						<div class="row">
+							<div class="col-md-6">
+								<select class="select2 form-control" multiple="true" name="template_members[]" data-placeholder="{"LBL_ADD_USERS_ROLES"|t:"Settings:Groups"}">
+									{assign 'TEMPLATE_MEMBERS' explode(',',$PDF_MODEL->get('template_members'))}
+									{foreach from=$ALL_GROUP_MEMBERS key=GROUP_LABEL item=ALL_GROUP_MEMBERS_LIST}
+										<optgroup label="{$GROUP_LABEL|t:$QUALIFIED_MODULE}">
+											{foreach from=$ALL_GROUP_MEMBERS_LIST item=MEMBER}
+												<option value="{$MEMBER->get('id')}"  data-member-type="{$GROUP_LABEL}" {if in_array($MEMBER->get('id'), $TEMPLATE_MEMBERS)}selected="true"{/if}>{$MEMBER->get('name')|t:$QUALIFIED_MODULE}</option>
+											{/foreach}
+										</optgroup>
+									{/foreach}
+								</select>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

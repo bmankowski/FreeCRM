@@ -192,6 +192,7 @@ class CRM_Viewer extends \Smarty
 		$this->registerClass('\App\\Modules\\Base\\Models\\Module', '\App\\Modules\\Base\\Models\\Module');
 		$this->registerClass('\App\\Modules\\Base\\Models\\Field', '\App\\Modules\\Base\\Models\\Field');
 		$this->registerClass('\App\\Modules\\Base\\Models\\InventoryField', '\App\\Modules\\Base\\Models\\InventoryField');
+		$this->registerClass('\App\\Modules\\Settings\\PDF\\Models\\Module', '\App\\Modules\\Settings\\PDF\\Models\\Module');
 		$this->registerClass('\App\\Modules\\Base\\Helpers\\Util', '\App\\Modules\\Base\\Helpers\\Util');
 		$this->registerClass('\App\\Security\\Privilege', '\App\\Security\\Privilege');
 		$this->registerClass('\App\\Modules\\Users\\Models\\Colors', '\App\\Modules\\Users\\Models\\Colors');
@@ -199,6 +200,10 @@ class CRM_Viewer extends \Smarty
 		$this->registerClass('App\Modules\Settings\Mail\Models\Config', '\App\\Modules\\Settings\\Mail\\Models\\Config');
 		$this->registerClass('OSSMail_Autologin_Model', '\App\\Modules\\OSSMail\\Models\\Autologin');
 		$this->registerClass('OSSMail_Module_Model', '\App\\Modules\\OSSMail\\Models\\Module');
+		$this->registerClass('OSSMail_Record_Model', '\App\\Modules\\OSSMail\\Models\\Record');
+		$this->registerClass('PBXManager_Record_Model', '\App\\Modules\\PBXManager\\Models\\Record');
+		$this->registerClass('Settings_PDF_Module_Model', '\App\\Modules\\Settings\\PDF\\Models\\Module');
+		$this->registerClass('Settings_SMSNotifier_ProviderField_Model', '\App\\Modules\\Settings\\SMSNotifier\\Models\\ProviderField');
 
 		// Register PHP functions that are used in templates
 		$this->registerPlugin('modifier', 'strpos', 'strpos');

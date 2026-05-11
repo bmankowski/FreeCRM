@@ -14,6 +14,9 @@ namespace App\Modules\Base\Models;
 class PDF extends \App\Runtime\BaseModel
 {
 
+	const WATERMARK_TYPE_TEXT = 0;
+	const WATERMARK_TYPE_IMAGE = 1;
+
 	public static $baseTable = 'a_yf_pdf';
 	public static $baseIndex = 'pdfid';
 	protected $recordCache = [];
@@ -26,7 +29,10 @@ class PDF extends \App\Runtime\BaseModel
 	 */
 	public function getWatermarkType()
 	{
-		return [Vtiger_mPDF_Pdf::WATERMARK_TYPE_TEXT => 'PLL_TEXT', Vtiger_mPDF_Pdf::WATERMARK_TYPE_IMAGE => 'PLL_IMAGE'];
+		return [
+			self::WATERMARK_TYPE_TEXT => 'PLL_TEXT',
+			self::WATERMARK_TYPE_IMAGE => 'PLL_IMAGE'
+		];
 	}
 
 	/**
@@ -313,8 +319,9 @@ class PDF extends \App\Runtime\BaseModel
 		} else {
 			$companyDetails = \App\Core\Company::getInstanceById()->getData();
 			$parameters['title'] = $this->get('primary_name');
-			$parameters['author'] = $companyDetails['organizationname'];
-			$parameters['creator'] = $companyDetails['organizationname'];
+			$organizationName = $companyDetails['organizationname'] ?? '';
+			$parameters['author'] = $organizationName;
+			$parameters['creator'] = $organizationName;
 			$parameters['subject'] = $this->get('secondary_name');
 
 			// preparing keywords
@@ -410,9 +417,23 @@ class PDF extends \App\Runtime\BaseModel
 	 */
 	public static function exportToPdf($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '')
 	{
-		$handlerClass = \App\Core\Loader::getComponentClassName('Pdf', 'mPDF', $moduleName);
+		$handlerClass = static::getPdfRendererClass($moduleName);
 		$pdf = new $handlerClass();
 		$pdf->export($recordId, $moduleName, $templateId, $filePath, $saveFlag);
+	}
+
+	public static function getPdfRendererClass($moduleName)
+	{
+		return \App\Core\Loader::getComponentClassName('Pdf', static::getPdfRendererName(), $moduleName);
+	}
+
+	public static function getPdfRendererName()
+	{
+		$renderer = \App\Core\AppConfig::main('pdfRenderer') ?: 'Chrome';
+		if (strtolower($renderer) === 'mpdf') {
+			return 'mPDF';
+		}
+		return ucfirst($renderer);
 	}
 
 	public static function attachToEmail($salt)

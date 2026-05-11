@@ -41,7 +41,7 @@
 									</optgroup>
 								</select>
 							</span>
-							{if $RELATED_MODULE_MODEL neq ''}
+							{if !empty($RELATED_MODULE_MODEL)}
 								<span name="{$RELATED_MODULE_MODEL->get('name')}" class="useFieldElement">
 									{assign var=MODULE_FIELDS value=$RELATED_MODULE_MODEL->getFields()}
 									<select class="useField form-control" data-placeholder="{"LBL_USE_FIELD"|t:$QUALIFIED_MODULE}">

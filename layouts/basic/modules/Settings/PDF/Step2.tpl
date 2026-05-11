@@ -22,7 +22,7 @@
 					<div class="col-sm-6 controls">
 						<select class="select2 form-control rtl" id="page_format" name="page_format" data-validation-engine="validate[required]">
 							<option value="" selected="">{"LBL_SELECT"|t:$QUALIFIED_MODULE}</option>
-							{foreach item=FORMAT from=Settings_PDF_Module_Model::getPageFormats()}
+							{foreach item=FORMAT from=$PAGE_FORMATS}
 								<option value="{$FORMAT}" {if $PDF_MODEL->get('page_format') eq $FORMAT} selected="selected" {/if}>
 									{$FORMAT|t:$QUALIFIED_MODULE}
 								</option>

@@ -70,10 +70,13 @@ class PDF extends \App\Base\Controllers\BaseActionController
 	{
 		$moduleName = $request->getModule();
 		$recordId = $request->get('record');
-		$templateIds = explode(',', $request->get('template'));
+		$templateIds = $this->getTemplateIdsFromRequest($request);
 		$singlePdf = $request->get('single_pdf') == 1 ? true : false;
 		$emailPdf = $request->get('email_pdf') == 1 ? true : false;
 
+		if (empty($templateIds)) {
+			throw new \App\Exceptions\AppException(\App\Runtime\Vtiger_Language_Handler::translate('LBL_EXPORT_ERROR', $moduleName));
+		}
 		if (!is_array($recordId)) {
 			$recordId = [$recordId];
 		}
@@ -101,7 +104,7 @@ class PDF extends \App\Base\Controllers\BaseActionController
 			\App\Modules\Base\Models\PDF::exportToPdf($recordId, $moduleName, $templateIds[0]);
 		} else {
 			if ($singlePdf) {
-				$handlerClass = \App\Core\Loader::getComponentClassName('Pdf', 'mPDF', $moduleName);
+				$handlerClass = \App\Modules\Base\Models\PDF::getPdfRendererClass($moduleName);
 				$pdf = new $handlerClass();
 				$styles = '';
 				$headers = '';
@@ -171,7 +174,7 @@ class PDF extends \App\Base\Controllers\BaseActionController
 				$pdfFiles = [];
 				foreach ($templateIds as $id) {
 					foreach ($recordId as $record) {
-						$handlerClass = \App\Core\Loader::getComponentClassName('Pdf', 'mPDF', $moduleName);
+						$handlerClass = \App\Modules\Base\Models\PDF::getPdfRendererClass($moduleName);
 						$pdf = new $handlerClass();
 						$pdf->setTemplateId($id);
 						$pdf->setRecordId($record);
@@ -210,6 +213,25 @@ class PDF extends \App\Base\Controllers\BaseActionController
 				}
 			}
 		}
+	}
+
+	/**
+	 * Returns selected PDF template IDs from JS-enhanced or plain form submits.
+	 *
+	 * @param \App\Http\Vtiger_Request $request
+	 * @return int[]
+	 */
+	protected function getTemplateIdsFromRequest(\App\Http\Vtiger_Request $request)
+	{
+		$templateIds = $request->get('template');
+		if (empty($templateIds) || '[]' === $templateIds) {
+			$templateIds = $request->get('pdf_template');
+		}
+		if (!is_array($templateIds)) {
+			$templateIds = explode(',', (string) $templateIds);
+		}
+		$templateIds = array_map('intval', $templateIds);
+		return array_values(array_filter($templateIds));
 	}
 
 	/**

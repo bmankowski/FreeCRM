@@ -84,8 +84,14 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 		$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceForModule($moduleModel);
 
 		$viewer = $this->getViewer($request);
+		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
 		$viewer->assign('ADVANCE_CRITERIA', \App\Modules\Base\Helpers\AdvancedFilter::transformToAdvancedFilterCondition($recordModel->get('conditions')));
+		$viewer->assign('DATE_FILTERS', \App\Modules\Base\Helpers\AdvancedFilter::getDateFilter($selectedModule));
+		$viewer->assign('ADVANCED_FILTER_OPTIONS', \App\Modules\Base\Helpers\AdvancedFilter::getAdvancedFilterOptions());
+		$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', \App\Modules\Base\Helpers\AdvancedFilter::getAdvancedFilterOpsByFieldType());
+		$viewer->assign('FIELD_EXPRESSIONS', \App\Modules\Base\Helpers\AdvancedFilter::getExpressions());
+		$viewer->assign('META_VARIABLES', \App\Modules\Base\Helpers\AdvancedFilter::getMetaVariables());
 		$viewer->assign('SOURCE_MODULE', $selectedModule);
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('RECORD_ID', $record);

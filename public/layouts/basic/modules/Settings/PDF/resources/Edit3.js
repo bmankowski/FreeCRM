@@ -87,11 +87,16 @@ Settings_PDF_Edit_Js("Settings_PDF_Edit3_Js", {}, {
 	 * spellcheck disabled
 	 */
 	registerNewCkEditor: function () {
-		CKEDITOR.replace('header_content', {
-			disableNativeSpellChecker: true,
-			scayt_autoStartup: false,
-			removePlugins: 'scayt'}
-		);
+		jQuery.each(['header_content', 'body_content', 'footer_content'], function (index, editorId) {
+			if (CKEDITOR.instances[editorId]) {
+				CKEDITOR.instances[editorId].destroy();
+			}
+			CKEDITOR.replace(editorId, {
+				disableNativeSpellChecker: true,
+				scayt_autoStartup: false,
+				removePlugins: 'scayt'}
+			);
+		});
 	},
 	registerEvents: function () {
 		var container = this.getContainer();

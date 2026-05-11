@@ -18,11 +18,11 @@
 			{/if}
 			<div class="row">
 				<div class="col-md-4 btn-toolbar">
-					<button class="btn btn-default addButton" id="addButton" data-url="{Settings_PDF_Module_Model::getCreateRecordUrl()}">
+					<button class="btn btn-default addButton" id="addButton" data-url="{$CREATE_RECORD_URL}">
 						<i class="glyphicon glyphicon-plus"></i>&nbsp;
 						<strong>{"LBL_NEW"|t:$QUALIFIED_MODULE} {"LBL_PDF_TEMPLATE"|t:$QUALIFIED_MODULE}</strong>
 					</button>
-					<button class="btn btn-default importButton" id="importButton" data-url="{Settings_PDF_Module_Model::getImportViewUrl()}" title="{"LBL_IMPORT_TEMPLATE"|t:$QUALIFIED_MODULE}">
+					<button class="btn btn-default importButton" id="importButton" data-url="{$IMPORT_VIEW_URL}" title="{"LBL_IMPORT_TEMPLATE"|t:$QUALIFIED_MODULE}">
 						<i class="glyphicon glyphicon-import"></i>
 					</button>
 				</div>
