@@ -15,15 +15,13 @@ class LibraryPHPExcel extends \App\SystemWarnings\Template
 	protected $priority = 4;
 
 	/**
-	 * Checking whether there is a library PHPExcel
+	 * Checking whether the spreadsheet library is available
 	 */
 	public function process()
 	{
-		$this->status = \App\Modules\Settings\ModuleManager\Models\Library::checkLibrary('PHPExcel') ? 0 : 1;
+		$this->status = \App\Modules\Settings\ModuleManager\Models\Library::checkLibrary('PhpSpreadsheet') ? 0 : 1;
 		if ($this->status === 0) {
-			$this->link = 'index.php?module=ModuleManager&parent=Settings&view=ListView';
-			$this->linkTitle = \App\Runtime\Vtiger_Language_Handler::translate('BTN_DOWNLOAD_LIBRARY', 'Settings:SystemWarnings');
-			$this->description = \App\Runtime\Vtiger_Language_Handler::translate('LBL_MISSING_LIBRARY', 'Settings:SystemWarnings', \App\Modules\Settings\ModuleManager\Models\Library::TEMP_DIR);
+			$this->description = \App\Runtime\Vtiger_Language_Handler::translate('LBL_MISSING_COMPOSER_LIBRARY', 'Settings:SystemWarnings', 'phpoffice/phpspreadsheet');
 		}
 	}
 }

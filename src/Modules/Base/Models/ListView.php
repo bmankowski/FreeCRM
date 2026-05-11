@@ -399,7 +399,7 @@ class ListView extends \App\Runtime\BaseModel
 				'linkicon' => ''
 			];
 		}
-		if ($moduleModel->isPermitted('QuickExportToExcel') && !\App\Modules\Settings\ModuleManager\Models\Library::checkLibrary('PHPExcel')) {
+		if ($moduleModel->isPermitted('QuickExportToExcel') && !\App\Modules\Settings\ModuleManager\Models\Library::checkLibrary('PhpSpreadsheet')) {
 			$advancedLinks[] = [
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',

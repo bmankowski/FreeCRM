@@ -21,59 +21,71 @@ class ComposerStaticInitYT
     );
 
     public static $prefixLengthsPsr4 = array (
-        'y' => 
+        'y' =>
         array (
             'yii\\composer\\' => 13,
             'yii\\' => 4,
         ),
-        'v' => 
+        'v' =>
         array (
             'vtlib\\' => 6,
         ),
-        'l' => 
+        'l' =>
         array (
             'libphonenumber\\' => 15,
         ),
-        'c' => 
+        'c' =>
         array (
             'cebe\\markdown\\' => 14,
         ),
-        'W' => 
+        'Z' =>
+        array (
+            'ZipStream\\' => 10,
+        ),
+        'W' =>
         array (
             'Whoops\\' => 7,
         ),
-        'S' => 
+        'S' =>
         array (
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Component\\VarDumper\\' => 28,
         ),
-        'P' => 
+        'P' =>
         array (
+            'Psr\\SimpleCache\\' => 16,
             'Psr\\Log\\' => 8,
+            'PhpOffice\\PhpSpreadsheet\\' => 25,
         ),
-        'M' => 
+        'M' =>
         array (
             'Monolog\\' => 8,
+            'Matrix\\' => 7,
         ),
-        'L' => 
+        'L' =>
         array (
             'Linfo\\' => 6,
         ),
-        'G' => 
+        'G' =>
         array (
             'Giggsey\\Locale\\' => 15,
         ),
-        'E' => 
+        'E' =>
         array (
             'Exception\\' => 10,
         ),
-        'D' => 
+        'D' =>
         array (
             'Doctrine\\Deprecations\\' => 22,
             'Doctrine\\Common\\Collections\\' => 28,
             'DebugBar\\' => 9,
         ),
-        'A' => 
+        'C' =>
+        array (
+            'Composer\\Pcre\\' => 14,
+            'Complex\\' => 8,
+        ),
+        'A' =>
         array (
             'App\\' => 4,
             'Antlr\\Antlr4\\Runtime\\' => 21,
@@ -81,96 +93,120 @@ class ComposerStaticInitYT
     );
 
     public static $prefixDirsPsr4 = array (
-        'yii\\composer\\' => 
+        'yii\\composer\\' =>
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2-composer',
         ),
-        'yii\\' => 
+        'yii\\' =>
         array (
             0 => __DIR__ . '/..' . '/yiisoft/yii2',
         ),
-        'vtlib\\' => 
+        'vtlib\\' =>
         array (
             0 => __DIR__ . '/../..' . '/src/ModuleManagement/Adapters',
         ),
-        'libphonenumber\\' => 
+        'libphonenumber\\' =>
         array (
             0 => __DIR__ . '/..' . '/giggsey/libphonenumber-for-php/src',
         ),
-        'cebe\\markdown\\' => 
+        'cebe\\markdown\\' =>
         array (
             0 => __DIR__ . '/..' . '/cebe/markdown',
         ),
-        'Whoops\\' => 
+        'ZipStream\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/maennchen/zipstream-php/src',
+        ),
+        'Whoops\\' =>
         array (
             0 => __DIR__ . '/..' . '/filp/whoops/src/Whoops',
         ),
-        'Symfony\\Polyfill\\Mbstring\\' => 
+        'Symfony\\Polyfill\\Mbstring\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
         ),
-        'Symfony\\Component\\VarDumper\\' => 
+        'Symfony\\Component\\VarDumper\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/var-dumper',
         ),
-        'Psr\\Log\\' => 
+        'Psr\\SimpleCache\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/psr/simple-cache/src',
+        ),
+        'Psr\\Log\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/log/src',
         ),
-        'Monolog\\' => 
+        'PhpOffice\\PhpSpreadsheet\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/phpoffice/phpspreadsheet/src/PhpSpreadsheet',
+        ),
+        'Monolog\\' =>
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
-        'Linfo\\' => 
+        'Matrix\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/markbaker/matrix/classes/src',
+        ),
+        'Linfo\\' =>
         array (
             0 => __DIR__ . '/..' . '/linfo/linfo/src/Linfo',
         ),
-        'Giggsey\\Locale\\' => 
+        'Giggsey\\Locale\\' =>
         array (
             0 => __DIR__ . '/..' . '/giggsey/locale/src',
         ),
-        'Exception\\' => 
+        'Exception\\' =>
         array (
             0 => __DIR__ . '/../..' . '/src/Exceptions',
         ),
-        'Doctrine\\Deprecations\\' => 
+        'Doctrine\\Deprecations\\' =>
         array (
             0 => __DIR__ . '/..' . '/doctrine/deprecations/src',
         ),
-        'Doctrine\\Common\\Collections\\' => 
+        'Doctrine\\Common\\Collections\\' =>
         array (
             0 => __DIR__ . '/..' . '/doctrine/collections/lib/Doctrine/Common/Collections',
         ),
-        'DebugBar\\' => 
+        'DebugBar\\' =>
         array (
             0 => __DIR__ . '/..' . '/php-debugbar/php-debugbar/src/DebugBar',
             1 => __DIR__ . '/..' . '/php-debugbar/php-debugbar/src/DebugBar',
         ),
-        'App\\' => 
+        'Composer\\Pcre\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/composer/pcre/src',
+        ),
+        'Complex\\' =>
+        array (
+            0 => __DIR__ . '/..' . '/markbaker/complex/classes/src',
+        ),
+        'App\\' =>
         array (
             0 => __DIR__ . '/../..' . '/src',
         ),
-        'Antlr\\Antlr4\\Runtime\\' => 
+        'Antlr\\Antlr4\\Runtime\\' =>
         array (
             0 => __DIR__ . '/..' . '/antlr/antlr4-php-runtime/src',
         ),
     );
 
     public static $prefixesPsr0 = array (
-        'R' => 
+        'R' =>
         array (
-            'Requests' => 
+            'Requests' =>
             array (
                 0 => __DIR__ . '/..' . '/rmccue/requests/library',
             ),
-            'Recurr' => 
+            'Recurr' =>
             array (
                 0 => __DIR__ . '/..' . '/simshaun/recurr/src',
             ),
         ),
-        'H' => 
+        'H' =>
         array (
-            'HTMLPurifier' => 
+            'HTMLPurifier' =>
             array (
                 0 => __DIR__ . '/..' . '/ezyang/htmlpurifier/library',
             ),

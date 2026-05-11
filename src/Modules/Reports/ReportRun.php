@@ -2,6 +2,12 @@
 
 namespace App\Modules\Reports;
 
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Writer\Xls;
+
 class ReportRun extends \App\Core\CRMEntity
 {
 
@@ -3167,34 +3173,33 @@ class ReportRun extends \App\Core\CRMEntity
 	}
 
 	/**
-	 * Returns PhpExcel type constant based on value
+	 * Returns spreadsheet type constant based on value
 	 *
 	 * @param mixed $value any value
 	 *
-	 * @return string PhpExcel value type PHPExcel_Cell_DataType::TYPE_*
+	 * @return string PhpSpreadsheet value type DataType::TYPE_*
 	 */
-	private function getPhpExcelTypeFromValue($value)
+	private function getSpreadsheetTypeFromValue($value)
 	{
 		if (is_integer($value) || is_float($value)) {
-			return PHPExcel_Cell_DataType::TYPE_NUMERIC;
+			return DataType::TYPE_NUMERIC;
 		} else if (is_null($value)) {
-			return PHPExcel_Cell_DataType::TYPE_NULL;
+			return DataType::TYPE_NULL;
 		} else if (is_bool($value)) {
-			return PHPExcel_Cell_DataType::TYPE_BOOL;
+			return DataType::TYPE_BOOL;
 		}
-		return PHPExcel_Cell_DataType::TYPE_STRING;
+		return DataType::TYPE_STRING;
 	}
 
 	public function writeReportToExcelFile($fileName, $filterlist = '')
 	{
-		require_once("libraries/PHPExcel/PHPExcel.php");
-		$workbook = new PHPExcel();
-		$worksheet = $workbook->setActiveSheetIndex(0);
+		$workbook = new Spreadsheet();
+		$worksheet = $workbook->getActiveSheet();
 		$reportData = $this->GenerateReport("PDF", $filterlist);
 		$arrayValues = $reportData['data'];
 		$totalxls = $this->GenerateReport("TOTALXLS", $filterlist);
 		$header_styles = array(
-			'fill' => array('type' => PHPExcel_Style_Fill::FILL_SOLID, 'color' => array('rgb' => 'E1E0F7')),
+			'fill' => array('fillType' => Fill::FILL_SOLID, 'color' => array('rgb' => 'E1E0F7')),
 		);
 		if (!empty($arrayValues)) {
 			$count = 0;
@@ -3203,8 +3208,8 @@ class ReportRun extends \App\Core\CRMEntity
 			$arrayFirstRowValues = $arrayValues[0];
 			array_pop($arrayFirstRowValues);   // removed action link in details
 			foreach ($arrayFirstRowValues as $key => $value) {
-				$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, $key, true);
-				$worksheet->getStyleByColumnAndRow($count, $rowcount)->applyFromArray($header_styles);
+				$this->setSpreadsheetCellValueExplicitByColumnAndRow($worksheet, $count, $rowcount, $key, DataType::TYPE_STRING);
+				$worksheet->getStyle($this->getSpreadsheetCellCoordinate($count, $rowcount))->applyFromArray($header_styles);
 				$count = $count + 1;
 			}
 			$rowcount++;
@@ -3218,7 +3223,7 @@ class ReportRun extends \App\Core\CRMEntity
 					if (is_string($value)) {
 						$value = \App\Utils\ListViewUtils::decodeHtml($value);
 					}
-					$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, $value, $this->getPhpExcelTypeFromValue($value));
+					$this->setSpreadsheetCellValueExplicitByColumnAndRow($worksheet, $count, $rowcount, $value, $this->getSpreadsheetTypeFromValue($value));
 					$count = $count + 1;
 				}
 				$rowcount++;
@@ -3227,13 +3232,13 @@ class ReportRun extends \App\Core\CRMEntity
 			$rowcount++;
 			$count = 0;
 			if (is_array($totalxls[0])) {
-				$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, \App\Runtime\Vtiger_Language_Handler::translate('LBL_FIELD_NAMES', 'Reports'));
-				$worksheet->getStyleByColumnAndRow($count, $rowcount)->applyFromArray($header_styles);
+				$this->setSpreadsheetCellValueByColumnAndRow($worksheet, $count, $rowcount, \App\Runtime\Vtiger_Language_Handler::translate('LBL_FIELD_NAMES', 'Reports'));
+				$worksheet->getStyle($this->getSpreadsheetCellCoordinate($count, $rowcount))->applyFromArray($header_styles);
 				$count++;
 				foreach ($totalxls[0] as $key => $value) {
 					$operator = substr($key, -3, 3);
-					$worksheet->setCellValueExplicitByColumnAndRow($count, $rowcount, \App\Runtime\Vtiger_Language_Handler::translate("LBL_$operator", 'Reports'));
-					$worksheet->getStyleByColumnAndRow($count, $rowcount)->applyFromArray($header_styles);
+					$this->setSpreadsheetCellValueByColumnAndRow($worksheet, $count, $rowcount, \App\Runtime\Vtiger_Language_Handler::translate("LBL_$operator", 'Reports'));
+					$worksheet->getStyle($this->getSpreadsheetCellCoordinate($count, $rowcount))->applyFromArray($header_styles);
 					$count++;
 				}
 			}
@@ -3246,17 +3251,32 @@ class ReportRun extends \App\Core\CRMEntity
 				$moduleName = $valueArray[0];
 				$fieldLabel = str_replace("__$operator", '', $valueArray[1]);
 				$fieldLabel = str_replace('__', '', $fieldLabel);
-				$worksheet->setCellValueExplicitByColumnAndRow($count, $key + $rowcount, \App\Runtime\Vtiger_Language_Handler::translate($moduleName, $moduleName) . '-' . \App\Runtime\Vtiger_Language_Handler::translate($fieldLabel, $moduleName));
+				$this->setSpreadsheetCellValueByColumnAndRow($worksheet, $count, $key + $rowcount, \App\Runtime\Vtiger_Language_Handler::translate($moduleName, $moduleName) . '-' . \App\Runtime\Vtiger_Language_Handler::translate($fieldLabel, $moduleName));
 				$count++;
 				foreach ($array_value as $hdr => $value) {
 					$value = \App\Utils\ListViewUtils::decodeHtml($value);
-					$worksheet->setCellValueExplicitByColumnAndRow($count, $key + $rowcount, $value);
+					$this->setSpreadsheetCellValueByColumnAndRow($worksheet, $count, $key + $rowcount, $value);
 					$count = $count + 1;
 				}
 			}
 		}
-		$workbookWriter = PHPExcel_IOFactory::createWriter($workbook, 'Excel5');
+		$workbookWriter = new Xls($workbook);
 		$workbookWriter->save($fileName);
+	}
+
+	private function setSpreadsheetCellValueExplicitByColumnAndRow($worksheet, $column, $row, $value, $dataType)
+	{
+		$worksheet->setCellValueExplicit($this->getSpreadsheetCellCoordinate($column, $row), $value, $dataType);
+	}
+
+	private function setSpreadsheetCellValueByColumnAndRow($worksheet, $column, $row, $value)
+	{
+		$worksheet->setCellValue($this->getSpreadsheetCellCoordinate($column, $row), $value);
+	}
+
+	private function getSpreadsheetCellCoordinate($column, $row)
+	{
+		return Coordinate::stringFromColumnIndex($column + 1) . $row;
 	}
 
 	public function writeReportToCSVFile($fileName, $filterlist = '')

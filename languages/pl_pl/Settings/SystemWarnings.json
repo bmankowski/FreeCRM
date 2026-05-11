@@ -3,7 +3,7 @@
         "SystemRequirements": "Wymagania systemowe",
         "LBL_LIBRARY_PDF": "Biblioteka mPDF",
         "LBL_LIBRARY_ROUNDCUBE": "Biblioteka Roundcube",
-        "LBL_LIBRARY_PHPEXCEL": "Biblioteka PHPExcel",
+        "LBL_LIBRARY_PHPEXCEL": "Biblioteka PhpSpreadsheet",
         "LBL_LIBRARY_CHAT": "Biblioteka AJAXChat",
         "LBL_CONFIG_REPORT": "Konfiguracja serwera",
         "LBL_CONFIG_REPORT_LINK": "Pokaż brakującą konfigurację",
@@ -19,6 +19,7 @@
         "BTN_SET_IGNORE": "Ignoruj",
         "BTN_REMOVE_IGNORE": "Usuń z ignorowanych",
         "LBL_MISSING_LIBRARY": "Wykryto, że nie została zainstalowana biblioteka. Część funkcjonalności została zablokowana, w celu odblokowania należy pobrać bibliotekę. Jeśli CRM nie ma połączenia z internetem możesz pobrać pliki i skopiować do folderu: %s",
+        "LBL_MISSING_COMPOSER_LIBRARY": "Wykryto, że nie została zainstalowana biblioteka Composer: %s. Uruchom composer install lub composer require dla tej biblioteki, aby odblokować zależne funkcje.",
         "BTN_DOWNLOAD_LIBRARY": "Pobierz bibliotekę"
     },
     "jsLanguageStrings": []

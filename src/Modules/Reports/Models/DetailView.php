@@ -63,7 +63,7 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 				'linkicon' => 'fa fa-file-text-o'
 			);
 
-			if (!\App\Modules\Settings\ModuleManager\Models\Library::checkLibrary('PHPExcel')) {
+			if (!\App\Modules\Settings\ModuleManager\Models\Library::checkLibrary('PhpSpreadsheet')) {
 				$detailViewLinks[] = array(
 					'linklabel' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_REPORT_EXPORT_EXCEL', $moduleName),
 					'linkurl' => $recordModel->getReportExcelURL(),

@@ -4,6 +4,13 @@
 
 namespace App\Modules\Base\Actions;
 
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
+use PhpOffice\PhpSpreadsheet\Cell\DataType;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Style\Fill;
+use PhpOffice\PhpSpreadsheet\Writer\Xls;
+
 class QuickExport extends \App\Base\Controllers\BaseActionController
 {
 
@@ -31,15 +38,14 @@ class QuickExport extends \App\Base\Controllers\BaseActionController
 
 	public function ExportToExcel(\App\Http\Vtiger_Request $request)
 	{
-		require_once 'libraries/PHPExcel/PHPExcel.php';
 		$module = $request->getModule(false); //this is the type of things in the current view
 		$filter = $request->get('viewname'); //this is the cvid of the current custom filter
-		$recordIds = $this->getRecordsListFromRequest($request); //this handles the 'all' situation.
+		$recordIds = \App\Modules\Base\Actions\Mass::getRecordsListFromRequest($request); //this handles the 'all' situation.
 		//set up our spreadsheet to write out to
-		$workbook = new PHPExcel();
-		$worksheet = $workbook->setActiveSheetIndex(0);
+		$workbook = new Spreadsheet();
+		$worksheet = $workbook->getActiveSheet();
 		$header_styles = [
-			'fill' => ['type' => PHPExcel_Style_Fill::FILL_SOLID, 'color' => ['rgb' => 'E1E0F7']],
+			'fill' => ['fillType' => Fill::FILL_SOLID, 'color' => ['rgb' => 'E1E0F7']],
 			'font' => ['bold' => true]
 		];
 		$row = 1;
@@ -51,7 +57,7 @@ class QuickExport extends \App\Base\Controllers\BaseActionController
 		$customView = \App\Modules\CustomView\Models\Record::getInstanceById($filter);
 		//get the column headers, they go in row 0 of the spreadsheet
 		foreach ($headers as &$fieldsModel) {
-			$worksheet->setCellValueExplicitByColumnAndRow($col, $row, \App\Utils\ListViewUtils::decodeHtml(\App\Runtime\Vtiger_Language_Handler::translate($fieldsModel->getFieldLabel(), $module)), PHPExcel_Cell_DataType::TYPE_STRING);
+			$this->setCellValueExplicitByColumnAndRow($worksheet, $col, $row, \App\Utils\ListViewUtils::decodeHtml(\App\Runtime\Vtiger_Language_Handler::translate($fieldsModel->getFieldLabel(), $module)), DataType::TYPE_STRING);
 			$col++;
 		}
 		$row++;
@@ -71,24 +77,24 @@ class QuickExport extends \App\Base\Controllers\BaseActionController
 					case 25:
 					case 7:
 						if ($fieldsModel->getFieldName() === 'sum_time') {
-							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, strip_tags($value), PHPExcel_Cell_DataType::TYPE_STRING);
+							$this->setCellValueExplicitByColumnAndRow($worksheet, $col, $row, strip_tags($value), DataType::TYPE_STRING);
 						} else {
-							$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, strip_tags($value), PHPExcel_Cell_DataType::TYPE_NUMERIC);
+							$this->setCellValueExplicitByColumnAndRow($worksheet, $col, $row, strip_tags($value), DataType::TYPE_NUMERIC);
 						}
 						break;
 					case 71:
 					case 72:
 						$rawValue = $record->get($fieldsModel->getFieldName());
-						$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, strip_tags($rawValue), PHPExcel_Cell_DataType::TYPE_NUMERIC);
+						$this->setCellValueExplicitByColumnAndRow($worksheet, $col, $row, strip_tags($rawValue), DataType::TYPE_NUMERIC);
 						break;
 					case 6://datetimes
 					case 23:
 					case 70:
-						$worksheet->setCellvalueExplicitByColumnAndRow($col, $row, PHPExcel_Shared_Date::PHPToExcel(strtotime($record->get($fieldsModel->getFieldName()))), PHPExcel_Cell_DataType::TYPE_NUMERIC);
-						$worksheet->getStyleByColumnAndRow($col, $row)->getNumberFormat()->setFormatCode('DD/MM/YYYY HH:MM:SS'); //format the date to the users preference
+						$this->setCellValueExplicitByColumnAndRow($worksheet, $col, $row, Date::PHPToExcel(strtotime($record->get($fieldsModel->getFieldName()))), DataType::TYPE_NUMERIC);
+						$worksheet->getStyle($this->getCellCoordinate($col, $row))->getNumberFormat()->setFormatCode('DD/MM/YYYY HH:MM:SS'); //format the date to the users preference
 						break;
 					default:
-						$worksheet->setCellValueExplicitByColumnAndRow($col, $row, \App\Utils\ListViewUtils::decodeHtml(strip_tags($value)), PHPExcel_Cell_DataType::TYPE_STRING);
+						$this->setCellValueExplicitByColumnAndRow($worksheet, $col, $row, \App\Utils\ListViewUtils::decodeHtml(strip_tags($value)), DataType::TYPE_STRING);
 				}
 				$col++;
 			}
@@ -99,15 +105,15 @@ class QuickExport extends \App\Base\Controllers\BaseActionController
 		$col = 0;
 		$row = 1;
 		foreach ($headers as &$fieldsModel) {
-			$cell = $worksheet->getCellByColumnAndRow($col, $row);
-			$worksheet->getStyleByColumnAndRow($col, $row)->applyFromArray($header_styles);
+			$cell = $worksheet->getCell($this->getCellCoordinate($col, $row));
+			$worksheet->getStyle($cell->getCoordinate())->applyFromArray($header_styles);
 			$worksheet->getColumnDimension($cell->getColumn())->setAutoSize(true);
 			$col++;
 		}
 
 		$tmpDir = \App\Core\AppConfig::main('tmp_dir');
 		$tempFileName = tempnam(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $tmpDir, 'xls');
-		$workbookWriter = PHPExcel_IOFactory::createWriter($workbook, 'Excel5');
+		$workbookWriter = new Xls($workbook);
 		$workbookWriter->save($tempFileName);
 
 		if (isset($_SERVER['HTTP_USER_AGENT']) && strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE')) {
@@ -129,5 +135,15 @@ class QuickExport extends \App\Base\Controllers\BaseActionController
 	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{
 		$request->validateWriteAccess();
+	}
+
+	private function setCellValueExplicitByColumnAndRow($worksheet, $column, $row, $value, $dataType)
+	{
+		$worksheet->setCellValueExplicit($this->getCellCoordinate($column, $row), $value, $dataType);
+	}
+
+	private function getCellCoordinate($column, $row)
+	{
+		return Coordinate::stringFromColumnIndex($column + 1) . $row;
 	}
 }

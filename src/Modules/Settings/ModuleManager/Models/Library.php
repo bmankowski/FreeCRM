@@ -20,9 +20,12 @@ class Library
 	public static $libraries = [
 		'mPDF' => ['dir' => 'libraries/mPDF/', 'url' => 'https://github.com/YetiForceCompany/lib_mPDF', 'name' => 'lib_mPDF'],
 		'roundcube' => ['dir' => 'modules/OSSMail/roundcube/', 'url' => 'https://github.com/YetiForceCompany/lib_roundcube', 'name' => 'lib_roundcube'],
-		'PHPExcel' => ['dir' => 'libraries/PHPExcel/', 'url' => 'https://github.com/YetiForceCompany/lib_PHPExcel', 'name' => 'lib_PHPExcel'],
 		'AJAXChat' => ['dir' => 'libraries/AJAXChat/', 'url' => 'https://github.com/YetiForceCompany/lib_AJAXChat', 'name' => 'lib_AJAXChat'],
 		'Gantt' => ['dir' => 'libraries/gantt/', 'url' => 'https://github.com/YetiForceCompany/lib_gantt', 'name' => 'lib_gantt'],
+	];
+
+	public static $composerLibraries = [
+		'PhpSpreadsheet' => \PhpOffice\PhpSpreadsheet\Spreadsheet::class,
 	];
 
 	/**
@@ -42,7 +45,9 @@ class Library
 			return \App\Cache\Cache::get('LIBRARY', $name);
 		}
 		$status = true;
-		if (static::$libraries[$name]) {
+		if (isset(static::$composerLibraries[$name])) {
+			$status = !class_exists(static::$composerLibraries[$name]);
+		} else if (isset(static::$libraries[$name])) {
 			$lib = static::$libraries[$name];
 			if (file_exists($lib['dir'] . 'version.php')) {
 				$libVersion = require $lib['dir'] . 'version.php';

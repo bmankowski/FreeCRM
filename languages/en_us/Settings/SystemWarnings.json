@@ -3,7 +3,7 @@
         "SystemRequirements": "System requirements",
         "LBL_LIBRARY_PDF": "mPDF library",
         "LBL_LIBRARY_ROUNDCUBE": "Roundcube library",
-        "LBL_LIBRARY_PHPEXCEL": "PHPExcel library",
+        "LBL_LIBRARY_PHPEXCEL": "PhpSpreadsheet library",
         "LBL_LIBRARY_CHAT": "AJAXChat library",
         "LBL_CONFIG_REPORT": "Server configuration",
         "LBL_CONFIG_REPORT_LINK": "Show missing library",
@@ -19,6 +19,7 @@
         "BTN_SET_IGNORE": "Ignore",
         "BTN_REMOVE_IGNORE": "Unignore",
         "LBL_MISSING_LIBRARY": "Detected missing library. Some features were disabled. In order to enable them please download the library. If the CRM has no Internet connection, you can download the files and copy them to %s folder.",
+        "LBL_MISSING_COMPOSER_LIBRARY": "Detected missing Composer library: %s. Run composer install or composer require for this library to enable dependent features.",
         "BTN_DOWNLOAD_LIBRARY": "Download library"
     },
     "jsLanguageStrings": []

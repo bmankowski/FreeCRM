@@ -47,7 +47,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 		}
 
 		$quickExportToExcelPermission = \App\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'QuickExportToExcel');
-		if ($quickExportToExcelPermission && !\App\Modules\Settings\ModuleManager\Models\Library::checkLibrary('PHPExcel')) {
+		if ($quickExportToExcelPermission && !\App\Modules\Settings\ModuleManager\Models\Library::checkLibrary('PhpSpreadsheet')) {
 			$advancedLinks[] = array(
 				'linktype' => 'LISTVIEWMASSACTION',
 				'linklabel' => 'LBL_QUICK_EXPORT_TO_EXCEL',
