@@ -14,6 +14,12 @@ use App\Exceptions\IllegalValue;
 
 class RejectCandidateManuallyAjax extends \App\Base\Controllers\BaseActionController
 {
+    private const REJECTION_REASONS = [
+        'NO_EXPERIENCE' => 'PLL_REJECTION_REASON_NO_EXPERIENCE',
+        'MISSING_SKILLS' => 'PLL_REJECTION_REASON_MISSING_SKILLS',
+        'PROFILE_FIT' => 'PLL_REJECTION_REASON_PROFILE_FIT',
+    ];
+
     /**
      * Check permission.
      *
@@ -33,6 +39,7 @@ class RejectCandidateManuallyAjax extends \App\Base\Controllers\BaseActionContro
         try {
             $candidateId = $request->getInteger('candidateId');
             $projectId = $request->getInteger('projectId');
+            $rejectionReason = $request->getByType('rejectionReason', 'Alnum');
         } catch (IllegalValue $e) {
             $response = new \App\Http\Vtiger_Response();
             $response->setResult([
@@ -47,13 +54,34 @@ class RejectCandidateManuallyAjax extends \App\Base\Controllers\BaseActionContro
         /* @var \App\Modules\ProjektyRekrutacyjne\Relations\GetRelatedMembers $typeRelationModel */
         $typeRelationModel = \App\Modules\Base\Models\Relation::getInstance($project->getModule(), $candidate->getModule())->getTypeRelationModel();
 
-        $sourceStatus = $typeRelationModel->getRelationData($projectId, $candidateId)['recruitment_status_rel'];
+        $relationData = $typeRelationModel->getRelationData($projectId, $candidateId);
+        $sourceStatus = $relationData['recruitment_status_rel'];
         $result = $typeRelationModel->changeStatus($projectId, $candidateId, $sourceStatus, 'PPL_REJECTED_AFTER_CV');
+        if ($result && isset(self::REJECTION_REASONS[$rejectionReason])) {
+            $typeRelationModel->updateRelationData($projectId, $candidateId, [
+                'comment_rel' => $this->buildRejectionReasonComment($relationData, $rejectionReason),
+            ]);
+        }
         $response = new \App\Http\Vtiger_Response();
         $response->setResult([
-            'success' => true,
-            'message' => "PLL_REJECT_SUCCESS"
+            'success' => (bool)$result,
+            'message' => $result ? "PLL_REJECT_SUCCESS" : "PLL_REJECT_FAILED"
         ]);
         $response->emit();
+    }
+
+    private function buildRejectionReasonComment(array $relationData, string $rejectionReason): string
+    {
+        $reasonLabel = \App\Language::translate(self::REJECTION_REASONS[$rejectionReason], 'ProjektyRekrutacyjne');
+        $prefix = \App\Language::translate('PLL_REJECTION_REASON_COMMENT_PREFIX', 'ProjektyRekrutacyjne');
+        $reasonComment = $prefix . ': ' . $reasonLabel;
+        $currentComment = trim((string)($relationData['comment_rel'] ?? ''));
+        if ('' === $currentComment) {
+            return $reasonComment;
+        }
+        if (false !== strpos($currentComment, $reasonComment)) {
+            return $currentComment;
+        }
+        return $currentComment . "\n" . $reasonComment;
     }
 }

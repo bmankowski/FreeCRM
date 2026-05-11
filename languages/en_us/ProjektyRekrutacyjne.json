@@ -5,6 +5,15 @@
         "LBL_CUSTOM_INFORMATION": "Custom Information",
         "LBL_BASIC_INFORMATION": "Basic Information",
         "Nazwa Projektu": "Project Name",
+        "PLL_ACCEPTANCE_FAILED": "Acceptance failed",
+        "PLL_ACCEPTANCE_SUCCESS": "Acceptance completed successfully",
+        "PLL_REJECT_FAILED": "Rejection failed",
+        "PLL_REJECT_SUCCESS": "Rejection completed successfully",
+        "LBL_SELECT_REJECTION_REASON": "Select rejection reason",
+        "PLL_REJECTION_REASON_COMMENT_PREFIX": "Screening rejection reason",
+        "PLL_REJECTION_REASON_NO_EXPERIENCE": "Missing required experience in a similar position",
+        "PLL_REJECTION_REASON_MISSING_SKILLS": "Missing key skills, technologies, tools or certificates required by the project",
+        "PLL_REJECTION_REASON_PROFILE_FIT": "Professional profile is not sufficiently aligned with the scope of responsibilities",
         "LBL_RECRUITMENT_KANBAN": "Recruitment kanban",
         "PPL_REJECTED_AFTER_CV": "Rejected after CV",
         "PPL_APPLIED": "Applied",
@@ -19,5 +28,13 @@
         "PPL_REJECTED_BY_CLIENT": "Rejected by client"
     },
     "jsLanguageStrings": {
+        "PLL_ACCEPTANCE_FAILED": "Acceptance failed",
+        "PLL_ACCEPTANCE_SUCCESS": "Acceptance completed successfully",
+        "PLL_REJECT_FAILED": "Rejection failed",
+        "PLL_REJECT_SUCCESS": "Rejection completed successfully",
+        "LBL_SELECT_REJECTION_REASON": "Select rejection reason",
+        "PLL_REJECTION_REASON_NO_EXPERIENCE": "Missing required experience in a similar position",
+        "PLL_REJECTION_REASON_MISSING_SKILLS": "Missing key skills, technologies, tools or certificates required by the project",
+        "PLL_REJECTION_REASON_PROFILE_FIT": "Professional profile is not sufficiently aligned with the scope of responsibilities"
     }
 }

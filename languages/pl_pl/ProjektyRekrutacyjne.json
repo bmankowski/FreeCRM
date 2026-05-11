@@ -24,6 +24,11 @@
         "PLL_ACCEPTANCE_SUCCESS": "Akceptacja zakończona sukcesem",
         "PLL_REJECT_FAILED": "Odrzucenie nie powiodło się",
         "PLL_REJECT_SUCCESS": "Odrzucenie zakończone sukcesem",
+        "LBL_SELECT_REJECTION_REASON": "Wybierz powód odrzucenia",
+        "PLL_REJECTION_REASON_COMMENT_PREFIX": "Powód odrzucenia po screeningu",
+        "PLL_REJECTION_REASON_NO_EXPERIENCE": "Brak wymaganego doświadczenia na podobnym stanowisku",
+        "PLL_REJECTION_REASON_MISSING_SKILLS": "Brak kluczowych kompetencji, technologii, narzędzi lub certyfikatów wymaganych w projekcie",
+        "PLL_REJECTION_REASON_PROFILE_FIT": "Profil zawodowy nie jest wystarczająco dopasowany do zakresu obowiązków",
         "PLL_NO_SUCH_RECORD": "Nie znaleziono rekordu",
         "PLL_POLISH": "Polski",
         "PLL_ENGLISH": "Angielski",
@@ -46,6 +51,10 @@
         "PLL_ACCEPTANCE_SUCCESS": "Akceptacja zakończona sukcesem",
         "PLL_REJECT_FAILED": "Odrzucenie nie powiodło się",
         "PLL_REJECT_SUCCESS": "Odrzucenie zakończone sukcesem",
+        "LBL_SELECT_REJECTION_REASON": "Wybierz powód odrzucenia",
+        "PLL_REJECTION_REASON_NO_EXPERIENCE": "Brak wymaganego doświadczenia na podobnym stanowisku",
+        "PLL_REJECTION_REASON_MISSING_SKILLS": "Brak kluczowych kompetencji, technologii, narzędzi lub certyfikatów wymaganych w projekcie",
+        "PLL_REJECTION_REASON_PROFILE_FIT": "Profil zawodowy nie jest wystarczająco dopasowany do zakresu obowiązków",
         "PLL_NO_SUCH_RECORD": "Nie znaleziono rekordu"
     }
 }

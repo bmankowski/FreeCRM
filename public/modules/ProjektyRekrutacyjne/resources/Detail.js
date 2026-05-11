@@ -13,10 +13,13 @@ Vtiger_Detail_Js(
 	{},
 	{
 		candidatesSupport: function () {
-			$('.candidate').on('click', function () {
-				focusOnCandidate($(this));
-			});
-			$(document).on('keydown', function (event) {
+			$(document)
+				.off('click.projektyCandidateOpen', '.candidate')
+				.on('click.projektyCandidateOpen', '.candidate', function (event) {
+					event.preventDefault();
+					focusOnCandidate($(this));
+				});
+			$(document).off('keydown.projektyCandidateOpen').on('keydown.projektyCandidateOpen', function (event) {
 				if (event.key === 'ArrowLeft') {
 					const currentElement = $('.candidate-focused');
 					const prevElement = currentElement.prev();
@@ -34,6 +37,9 @@ Vtiger_Detail_Js(
 			function focusOnCandidate(candidate) {
 				let candidateActiveClass = 'candidate-focused';
 				const candidateUrl = candidate.attr('datasrc');
+				if (!candidateUrl) {
+					return;
+				}
 				$('.candidate-focused').removeClass(candidateActiveClass);
 				candidate.addClass(candidateActiveClass);
 				window.open(candidateUrl, 'candidate-preview', 'width=800,height=600,scrollbars=yes');
@@ -70,6 +76,32 @@ Vtiger_Detail_Js(
 			setTimeout(collectAndLog, 0);
 			setTimeout(collectAndLog, 400);
 			setTimeout(collectAndLog, 1200);
+		},
+		registerProjectRelatedListController: function () {
+			const thisInstance = this;
+			const register = function () {
+				if (typeof window.ProjektyRekrutacyjne_RelatedList_Js !== 'function') {
+					return;
+				}
+				const relatedModuleName = thisInstance.getRelatedModuleName && thisInstance.getRelatedModuleName();
+				if (relatedModuleName !== 'Kandydaci') {
+					return;
+				}
+				const selectedTab = thisInstance.getSelectedTab();
+				if (!selectedTab || !selectedTab.length) {
+					return;
+				}
+				const relatedController = new window.ProjektyRekrutacyjne_RelatedList_Js(
+					thisInstance.getRecordId(),
+					app.getModuleName(),
+					selectedTab,
+					relatedModuleName
+				);
+				relatedController.registerRelatedEvents();
+			};
+			register();
+			setTimeout(register, 0);
+			setTimeout(register, 250);
 		},
 		// Listens for drag and drop events on td elements with class candidate_status
 		candidatesDragAndDropSupport: function () {
@@ -151,6 +183,7 @@ Vtiger_Detail_Js(
 			this.candidatesSupport();
 			this.candidatesDragAndDropSupport();
 			this.logLoadedCandidatesToConsole();
+			this.registerProjectRelatedListController();
 		}
 	}
 );

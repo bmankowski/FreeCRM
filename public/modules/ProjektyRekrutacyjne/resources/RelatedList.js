@@ -260,6 +260,13 @@ Vtiger_RelatedList_Js(
 				setTimeout(refreshPreview, 1000);
 			}
 		},
+		closeRejectionReasonMenu: function (root) {
+			const scope = root && root.length ? root : $('.RelatedList.relatedContainer');
+			scope.find('.c-candidate-thumb-actions')
+				.removeClass('is-rejection-reasons-open')
+				.find('.rejectCandidateManually')
+				.attr('aria-expanded', 'false');
+		},
 		acceptCandidateManually: function () {
 			const thisInstance = this;
 			$(document).off('click.projAcceptCandidate', '.RelatedList.relatedContainer .acceptCandidateManually').on(
@@ -268,6 +275,7 @@ Vtiger_RelatedList_Js(
 				function (e) {
 					e.preventDefault();
 					const root = $(this).closest('.RelatedList.relatedContainer');
+					thisInstance.closeRejectionReasonMenu(root);
 					const candidateId = root.find('#candidateId').val();
 					const projectId = root.find('#projectId').val();
 					if (!candidateId || !projectId) {
@@ -333,6 +341,75 @@ Vtiger_RelatedList_Js(
 				}
 			);
 		},
+		sendRejectCandidateManually: function (root, rejectionReason) {
+			const thisInstance = this;
+			const candidateId = root.find('#candidateId').val();
+			const projectId = root.find('#projectId').val();
+			if (!candidateId || !projectId) {
+				Vtiger_Helper_Js.showPnotify({
+					text: app.vtranslate('LBL_SELECT_RECORD', 'Vtiger'),
+					type: 'error'
+				});
+				return false;
+			}
+			const progressIndicator = $.progressIndicator({position: 'html', message: '', blockInfo: {enabled: false}});
+			console.info('[ProjektyRekrutacyjne] Akcja: odrzucenie kandydata → wysyłanie', {
+				candidateId: candidateId,
+				projectId: projectId,
+				rejectionReason: rejectionReason,
+				action: 'RejectCandidateManuallyAjax'
+			});
+			AppConnector.request({
+				module: app.getModuleName(),
+				action: 'RejectCandidateManuallyAjax',
+				candidateId: candidateId,
+				projectId: projectId,
+				rejectionReason: rejectionReason
+			}).done(function (data) {
+				thisInstance.disposeFloatingProgress(progressIndicator);
+				if (data && data.result && data.result.success) {
+					console.info('[ProjektyRekrutacyjne] Akcja: odrzucenie kandydata → zakończona OK', {
+						candidateId: candidateId,
+						projectId: projectId,
+						rejectionReason: rejectionReason,
+						message: data.result.message
+					});
+					thisInstance.reloadListPreviewAfterStatusChange();
+					Vtiger_Helper_Js.showPnotify({
+						text: app.vtranslate(data.result.message),
+						type: 'success',
+						animation: 'show'
+					});
+				} else {
+					console.warn('[ProjektyRekrutacyjne] Akcja: odrzucenie kandydata → odpowiedź bez success', {
+						candidateId: candidateId,
+						projectId: projectId,
+						rejectionReason: rejectionReason,
+						result: data && data.result ? data.result : data
+					});
+				}
+			}).fail(function (error) {
+				thisInstance.disposeFloatingProgress(progressIndicator);
+				const msg =
+					error && error.result && error.result.message
+						? error.result.message
+						: error && error.error && error.error.message
+							? error.error.message
+							: 'PLL_REJECT_FAILED';
+				console.error('[ProjektyRekrutacyjne] Akcja: odrzucenie kandydata → błąd', {
+					candidateId: candidateId,
+					projectId: projectId,
+					rejectionReason: rejectionReason,
+					message: msg,
+					error: error
+				});
+				Vtiger_Helper_Js.showPnotify({
+					text: app.vtranslate(typeof msg === 'string' ? msg : 'PLL_REJECT_FAILED'),
+					type: 'error'
+				});
+			});
+			return true;
+		},
 		rejectCandidateManually: function () {
 			const thisInstance = this;
 			$(document).off('click.projRejectCandidate', '.RelatedList.relatedContainer .rejectCandidateManually').on(
@@ -340,6 +417,7 @@ Vtiger_RelatedList_Js(
 				'.RelatedList.relatedContainer .rejectCandidateManually',
 				function (e) {
 					e.preventDefault();
+					e.stopImmediatePropagation();
 					const root = $(this).closest('.RelatedList.relatedContainer');
 					const candidateId = root.find('#candidateId').val();
 					const projectId = root.find('#projectId').val();
@@ -350,60 +428,40 @@ Vtiger_RelatedList_Js(
 						});
 						return false;
 					}
-					const progressIndicator = $.progressIndicator({position: 'html', message: '', blockInfo: {enabled: false}});
-					console.info('[ProjektyRekrutacyjne] Akcja: odrzucenie kandydata → wysyłanie', {
-						candidateId: candidateId,
-						projectId: projectId,
-						action: 'RejectCandidateManuallyAjax'
-					});
-					AppConnector.request({
-						module: app.getModuleName(),
-						action: 'RejectCandidateManuallyAjax',
-						candidateId: candidateId,
-						projectId: projectId
-					}).done(function (data) {
-						thisInstance.disposeFloatingProgress(progressIndicator);
-						if (data && data.result && data.result.success) {
-							console.info('[ProjektyRekrutacyjne] Akcja: odrzucenie kandydata → zakończona OK', {
-								candidateId: candidateId,
-								projectId: projectId,
-								message: data.result.message
-							});
-							thisInstance.reloadListPreviewAfterStatusChange();
-							Vtiger_Helper_Js.showPnotify({
-								text: app.vtranslate(data.result.message),
-								type: 'success',
-								animation: 'show'
-							});
-						} else {
-							console.warn('[ProjektyRekrutacyjne] Akcja: odrzucenie kandydata → odpowiedź bez success', {
-								candidateId: candidateId,
-								projectId: projectId,
-								result: data && data.result ? data.result : data
-							});
-						}
-					}).fail(function (error) {
-						thisInstance.disposeFloatingProgress(progressIndicator);
-						const msg =
-							error && error.result && error.result.message
-								? error.result.message
-								: error && error.error && error.error.message
-									? error.error.message
-									: 'PLL_ACCEPTANCE_FAILED';
-						console.error('[ProjektyRekrutacyjne] Akcja: odrzucenie kandydata → błąd', {
-							candidateId: candidateId,
-							projectId: projectId,
-							message: msg,
-							error: error
-						});
-						Vtiger_Helper_Js.showPnotify({
-							text: app.vtranslate(typeof msg === 'string' ? msg : 'PLL_ACCEPTANCE_FAILED'),
-							type: 'error'
-						});
-					});
+					const dock = root.find('.c-candidate-thumb-actions');
+					const shouldOpen = !dock.hasClass('is-rejection-reasons-open');
+					thisInstance.closeRejectionReasonMenu(root);
+					dock.toggleClass('is-rejection-reasons-open', shouldOpen);
+					$(this).attr('aria-expanded', shouldOpen ? 'true' : 'false');
+					if (shouldOpen) {
+						dock.find('.rejectCandidateReason').first().trigger('focus');
+					}
 					return false;
 				}
 			);
+			$(document).off('click.projRejectCandidateReason', '.RelatedList.relatedContainer .rejectCandidateReason').on(
+				'click.projRejectCandidateReason',
+				'.RelatedList.relatedContainer .rejectCandidateReason',
+				function (e) {
+					e.preventDefault();
+					e.stopImmediatePropagation();
+					const root = $(this).closest('.RelatedList.relatedContainer');
+					const rejectionReason = $(this).data('rejectionReason');
+					thisInstance.closeRejectionReasonMenu(root);
+					thisInstance.sendRejectCandidateManually(root, rejectionReason);
+					return false;
+				}
+			);
+			$(document).off('keyup.projRejectCandidateMenu').on('keyup.projRejectCandidateMenu', function (e) {
+				if (e.key === 'Escape') {
+					thisInstance.closeRejectionReasonMenu();
+				}
+			});
+			$(document).off('click.projRejectCandidateMenuClose').on('click.projRejectCandidateMenuClose', function (e) {
+				if (!$(e.target).closest('.RelatedList.relatedContainer .c-candidate-thumb-actions').length) {
+					thisInstance.closeRejectionReasonMenu();
+				}
+			});
 		},
 		/**
 		 * Register related events

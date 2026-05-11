@@ -76,11 +76,48 @@
 					box-shadow:0 .35rem 1.5rem rgba(0,0,0,.14),.05rem .05rem 0 rgba(0,0,0,.03);border:1px solid rgba(0,0,0,.06);
 					backdrop-filter:saturate(180%) blur(8px);-webkit-backdrop-filter:saturate(180%) blur(8px);
 				}
+				.RelatedList.relatedContainer .c-candidate-reject-menu{position:relative}
+				.RelatedList.relatedContainer .c-candidate-rejection-bubbles{
+					position:absolute;left:50%;top:50%;width:0;height:0;pointer-events:none;opacity:0;transform:translate(-50%,-50%) scale(.86);
+					transition:opacity .16s ease,transform .16s ease;
+				}
+				.RelatedList.relatedContainer .c-candidate-thumb-actions.is-rejection-reasons-open .c-candidate-rejection-bubbles{
+					pointer-events:auto;opacity:1;transform:translate(-50%,-50%) scale(1);
+				}
+				.RelatedList.relatedContainer .c-candidate-rejection-bubble{
+					position:absolute;left:0;top:0;width:7.2rem;height:7.2rem;border-radius:999px;border:1px solid rgba(0,0,0,.12);
+					background:#fff;color:#444;box-shadow:0 .35rem 1.2rem rgba(0,0,0,.18);display:flex;flex-direction:column;align-items:center;justify-content:center;
+					gap:.1rem;transform:translate(-50%,-50%);cursor:pointer;transition:background .14s ease,border-color .14s ease,color .14s ease,transform .14s ease;
+				}
+				.RelatedList.relatedContainer .c-candidate-rejection-bubble:hover,
+				.RelatedList.relatedContainer .c-candidate-rejection-bubble:focus{
+					background:#f8f9fa;border-color:#6c757d;color:#222;outline:0;transform:translate(-50%,-50%) scale(1.06);
+				}
+				.RelatedList.relatedContainer .c-candidate-rejection-bubble--experience{transform:translate(-50%,-205%)}
+				.RelatedList.relatedContainer .c-candidate-rejection-bubble--skills{transform:translate(60%,-160%)}
+				.RelatedList.relatedContainer .c-candidate-rejection-bubble--fit{transform:translate(105%,-50%)}
+				.RelatedList.relatedContainer .c-candidate-rejection-bubble--experience:hover,
+				.RelatedList.relatedContainer .c-candidate-rejection-bubble--experience:focus{transform:translate(-50%,-205%) scale(1.06)}
+				.RelatedList.relatedContainer .c-candidate-rejection-bubble--skills:hover,
+				.RelatedList.relatedContainer .c-candidate-rejection-bubble--skills:focus{transform:translate(60%,-160%) scale(1.06)}
+				.RelatedList.relatedContainer .c-candidate-rejection-bubble--fit:hover,
+				.RelatedList.relatedContainer .c-candidate-rejection-bubble--fit:focus{transform:translate(105%,-50%) scale(1.06)}
+				.RelatedList.relatedContainer .c-candidate-rejection-bubble__icon{font-size:1.875rem;line-height:1}
+				.RelatedList.relatedContainer .c-candidate-rejection-bubble__code{font-size:.78rem;font-weight:700;letter-spacing:.04em;line-height:1}
 				@media (max-width:767px){
 					.RelatedList.relatedContainer .c-candidate-thumb-actions{
 						left:auto;top:auto;bottom:max(1rem,env(safe-area-inset-bottom,0));right:max(.75rem,env(safe-area-inset-right,0));
 						transform:none;
 					}
+					.RelatedList.relatedContainer .c-candidate-rejection-bubble--experience{transform:translate(-230%,-55%)}
+					.RelatedList.relatedContainer .c-candidate-rejection-bubble--skills{transform:translate(-150%,-150%)}
+					.RelatedList.relatedContainer .c-candidate-rejection-bubble--fit{transform:translate(-55%,-230%)}
+					.RelatedList.relatedContainer .c-candidate-rejection-bubble--experience:hover,
+					.RelatedList.relatedContainer .c-candidate-rejection-bubble--experience:focus{transform:translate(-230%,-55%) scale(1.06)}
+					.RelatedList.relatedContainer .c-candidate-rejection-bubble--skills:hover,
+					.RelatedList.relatedContainer .c-candidate-rejection-bubble--skills:focus{transform:translate(-150%,-150%) scale(1.06)}
+					.RelatedList.relatedContainer .c-candidate-rejection-bubble--fit:hover,
+					.RelatedList.relatedContainer .c-candidate-rejection-bubble--fit:focus{transform:translate(-55%,-230%) scale(1.06)}
 				}
 				{/literal}
 			</style>
@@ -220,6 +257,105 @@
 							var row = jQuery(e.currentTarget).closest('.listViewEntries');
 							update(row.data('recordurl'));
 						});
+					var closeRejectionMenu = function () {
+						container.find('.c-candidate-thumb-actions')
+							.removeClass('is-rejection-reasons-open')
+							.find('.rejectCandidateManually')
+							.attr('aria-expanded', 'false');
+					};
+					var sendRejection = function (reason) {
+						var candidateId = container.find('#candidateId').val();
+						var projectId = container.find('#projectId').val();
+						if (!candidateId || !projectId) {
+							Vtiger_Helper_Js.showPnotify({
+								text: app.vtranslate('LBL_SELECT_RECORD', 'Vtiger'),
+								type: 'error'
+							});
+							return;
+						}
+						var progressIndicator = jQuery.progressIndicator({position:'html',message:'',blockInfo:{enabled:false}});
+						AppConnector.request({
+							module: app.getModuleName(),
+							action: 'RejectCandidateManuallyAjax',
+							candidateId: candidateId,
+							projectId: projectId,
+							rejectionReason: reason
+						}).done(function (data) {
+							if (progressIndicator && progressIndicator.length) {
+								try {
+									progressIndicator.progressIndicator({mode:'hide'});
+								} catch (e3) {}
+								progressIndicator.remove();
+							}
+							if (data && data.result && data.result.success) {
+								Vtiger_Helper_Js.showPnotify({
+									text: app.vtranslate(data.result.message),
+									type: 'success',
+									animation: 'show'
+								});
+								var detailInstance = window.Vtiger_Detail_Js && Vtiger_Detail_Js.getInstance ? Vtiger_Detail_Js.getInstance() : null;
+								if (detailInstance && typeof detailInstance.loadRelatedList === 'function') {
+									detailInstance.loadRelatedList({page:1});
+								} else {
+									window.location.reload();
+								}
+							} else {
+								Vtiger_Helper_Js.showPnotify({
+									text: app.vtranslate('PLL_REJECT_FAILED'),
+									type: 'error'
+								});
+							}
+						}).fail(function () {
+							if (progressIndicator && progressIndicator.length) {
+								try {
+									progressIndicator.progressIndicator({mode:'hide'});
+								} catch (e4) {}
+								progressIndicator.remove();
+							}
+							Vtiger_Helper_Js.showPnotify({
+								text: app.vtranslate('PLL_REJECT_FAILED'),
+								type: 'error'
+							});
+						});
+					};
+					jQuery(document).off('click.listPreviewRejectToggle', '.RelatedList.relatedContainer .rejectCandidateManually')
+						.on('click.listPreviewRejectToggle', '.RelatedList.relatedContainer .rejectCandidateManually', function (e) {
+							e.preventDefault();
+							e.stopImmediatePropagation();
+							var candidateId = container.find('#candidateId').val();
+							var projectId = container.find('#projectId').val();
+							if (!candidateId || !projectId) {
+								Vtiger_Helper_Js.showPnotify({
+									text: app.vtranslate('LBL_SELECT_RECORD', 'Vtiger'),
+									type: 'error'
+								});
+								return false;
+							}
+							var dock = container.find('.c-candidate-thumb-actions');
+							var shouldOpen = !dock.hasClass('is-rejection-reasons-open');
+							closeRejectionMenu();
+							dock.toggleClass('is-rejection-reasons-open', shouldOpen);
+							jQuery(this).attr('aria-expanded', shouldOpen ? 'true' : 'false');
+							return false;
+						});
+					jQuery(document).off('click.listPreviewRejectReason', '.RelatedList.relatedContainer .rejectCandidateReason')
+						.on('click.listPreviewRejectReason', '.RelatedList.relatedContainer .rejectCandidateReason', function (e) {
+							e.preventDefault();
+							e.stopImmediatePropagation();
+							closeRejectionMenu();
+							sendRejection(jQuery(this).data('rejectionReason'));
+							return false;
+						});
+					jQuery(document).off('keyup.listPreviewRejectMenu').on('keyup.listPreviewRejectMenu', function (e) {
+						if (e.key === 'Escape') {
+							closeRejectionMenu();
+						}
+					});
+					jQuery(document).off('click.listPreviewRejectClose').on('click.listPreviewRejectClose', function (e) {
+						if (!jQuery(e.target).closest('.RelatedList.relatedContainer .c-candidate-thumb-actions').length) {
+							closeRejectionMenu();
+						}
+					});
 					// Auto-load first record
 					var firstRow = container.find('.listViewEntriesTable .listViewEntries').first();
 					update(firstRow.data('recordurl'));
@@ -436,10 +572,43 @@
 									   class="btn btn-secondary acceptCandidateManually mb-0">
 										<span class="fas fa-thumbs-up fa-2x px-2 py-2"></span>
 									</a>
-									<a href="javascript:void(0);"
-									   class="btn btn-secondary rejectCandidateManually mb-0">
-										<span class="fas fa-thumbs-down fa-2x px-2 py-2"></span>
-									</a>
+									<div class="c-candidate-reject-menu">
+										<a href="javascript:void(0);"
+										   class="btn btn-secondary rejectCandidateManually mb-0"
+										   aria-haspopup="true"
+										   aria-expanded="false"
+										   title="{\App\Language::translate('LBL_SELECT_REJECTION_REASON', $MODULE_NAME)}">
+											<span class="fas fa-thumbs-down fa-2x px-2 py-2"></span>
+										</a>
+										<div class="c-candidate-rejection-bubbles"
+										     role="menu"
+										     aria-label="{\App\Language::translate('LBL_SELECT_REJECTION_REASON', $MODULE_NAME)}">
+											<button type="button"
+											        class="c-candidate-rejection-bubble c-candidate-rejection-bubble--experience rejectCandidateReason"
+											        data-rejection-reason="NO_EXPERIENCE"
+											        title="{\App\Language::translate('PLL_REJECTION_REASON_NO_EXPERIENCE', $MODULE_NAME)}"
+											        aria-label="{\App\Language::translate('PLL_REJECTION_REASON_NO_EXPERIENCE', $MODULE_NAME)}">
+												<span class="fas fa-briefcase c-candidate-rejection-bubble__icon"></span>
+												<span class="c-candidate-rejection-bubble__code">EXP</span>
+											</button>
+											<button type="button"
+											        class="c-candidate-rejection-bubble c-candidate-rejection-bubble--skills rejectCandidateReason"
+											        data-rejection-reason="MISSING_SKILLS"
+											        title="{\App\Language::translate('PLL_REJECTION_REASON_MISSING_SKILLS', $MODULE_NAME)}"
+											        aria-label="{\App\Language::translate('PLL_REJECTION_REASON_MISSING_SKILLS', $MODULE_NAME)}">
+												<span class="fas fa-certificate c-candidate-rejection-bubble__icon"></span>
+												<span class="c-candidate-rejection-bubble__code">SKILL</span>
+											</button>
+											<button type="button"
+											        class="c-candidate-rejection-bubble c-candidate-rejection-bubble--fit rejectCandidateReason"
+											        data-rejection-reason="PROFILE_FIT"
+											        title="{\App\Language::translate('PLL_REJECTION_REASON_PROFILE_FIT', $MODULE_NAME)}"
+											        aria-label="{\App\Language::translate('PLL_REJECTION_REASON_PROFILE_FIT', $MODULE_NAME)}">
+												<span class="fas fa-bullseye c-candidate-rejection-bubble__icon"></span>
+												<span class="c-candidate-rejection-bubble__code">FIT</span>
+											</button>
+										</div>
+									</div>
 								</div>
 							</div>
 						{/if}
