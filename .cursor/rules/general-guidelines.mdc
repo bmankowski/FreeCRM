@@ -9,6 +9,9 @@ alwaysApply: true
 - **Do not create new files if possible** - prefer editing existing files
 - **Never create aliases** like `class_alias()`
 
+## Version Control
+- **Never use git without consent** - ask the user before running any git command
+
 ## Bulk Editing
 - **Use sed for multiple changes** - when performing many changes in a single file, use sed instead of individual edits
 
