@@ -96,13 +96,20 @@
 				.RelatedList.relatedContainer .c-candidate-rejection-bubble--experience{transform:translate(-50%,-205%)}
 				.RelatedList.relatedContainer .c-candidate-rejection-bubble--skills{transform:translate(60%,-160%)}
 				.RelatedList.relatedContainer .c-candidate-rejection-bubble--fit{transform:translate(105%,-50%)}
+				.RelatedList.relatedContainer .c-candidate-rejection-bubble--language{transform:translate(60%,60%)}
 				.RelatedList.relatedContainer .c-candidate-rejection-bubble--experience:hover,
 				.RelatedList.relatedContainer .c-candidate-rejection-bubble--experience:focus{transform:translate(-50%,-205%) scale(1.06)}
 				.RelatedList.relatedContainer .c-candidate-rejection-bubble--skills:hover,
 				.RelatedList.relatedContainer .c-candidate-rejection-bubble--skills:focus{transform:translate(60%,-160%) scale(1.06)}
 				.RelatedList.relatedContainer .c-candidate-rejection-bubble--fit:hover,
 				.RelatedList.relatedContainer .c-candidate-rejection-bubble--fit:focus{transform:translate(105%,-50%) scale(1.06)}
-				.RelatedList.relatedContainer .c-candidate-rejection-bubble__icon{font-size:1.875rem;line-height:1}
+				.RelatedList.relatedContainer .c-candidate-rejection-bubble--language:hover,
+				.RelatedList.relatedContainer .c-candidate-rejection-bubble--language:focus{transform:translate(60%,60%) scale(1.06)}
+				.RelatedList.relatedContainer .c-candidate-rejection-bubble__icon{font-size:1.875rem;line-height:1;position:relative;display:inline-flex;align-items:center;justify-content:center}
+				.RelatedList.relatedContainer .c-candidate-rejection-bubble__icon::after{
+					content:"";position:absolute;left:50%;top:50%;width:145%;height:.18rem;border-radius:999px;background:#dc3545;
+					box-shadow:0 0 0 1px rgba(255,255,255,.75);transform:translate(-50%,-50%) rotate(-38deg);transform-origin:center;
+				}
 				.RelatedList.relatedContainer .c-candidate-rejection-bubble__code{font-size:.78rem;font-weight:700;letter-spacing:.04em;line-height:1}
 				@media (max-width:767px){
 					.RelatedList.relatedContainer .c-candidate-thumb-actions{
@@ -112,12 +119,15 @@
 					.RelatedList.relatedContainer .c-candidate-rejection-bubble--experience{transform:translate(-230%,-55%)}
 					.RelatedList.relatedContainer .c-candidate-rejection-bubble--skills{transform:translate(-150%,-150%)}
 					.RelatedList.relatedContainer .c-candidate-rejection-bubble--fit{transform:translate(-55%,-230%)}
+					.RelatedList.relatedContainer .c-candidate-rejection-bubble--language{transform:translate(-150%,-260%)}
 					.RelatedList.relatedContainer .c-candidate-rejection-bubble--experience:hover,
 					.RelatedList.relatedContainer .c-candidate-rejection-bubble--experience:focus{transform:translate(-230%,-55%) scale(1.06)}
 					.RelatedList.relatedContainer .c-candidate-rejection-bubble--skills:hover,
 					.RelatedList.relatedContainer .c-candidate-rejection-bubble--skills:focus{transform:translate(-150%,-150%) scale(1.06)}
 					.RelatedList.relatedContainer .c-candidate-rejection-bubble--fit:hover,
 					.RelatedList.relatedContainer .c-candidate-rejection-bubble--fit:focus{transform:translate(-55%,-230%) scale(1.06)}
+					.RelatedList.relatedContainer .c-candidate-rejection-bubble--language:hover,
+					.RelatedList.relatedContainer .c-candidate-rejection-bubble--language:focus{transform:translate(-150%,-260%) scale(1.06)}
 				}
 				{/literal}
 			</style>
@@ -606,6 +616,14 @@
 											        aria-label="{\App\Language::translate('PLL_REJECTION_REASON_PROFILE_FIT', $MODULE_NAME)}">
 												<span class="fas fa-bullseye c-candidate-rejection-bubble__icon"></span>
 												<span class="c-candidate-rejection-bubble__code">FIT</span>
+											</button>
+											<button type="button"
+											        class="c-candidate-rejection-bubble c-candidate-rejection-bubble--language rejectCandidateReason"
+											        data-rejection-reason="MISSING_POLISH_LANGUAGE"
+											        title="{\App\Language::translate('PLL_REJECTION_REASON_MISSING_POLISH_LANGUAGE', $MODULE_NAME)}"
+											        aria-label="{\App\Language::translate('PLL_REJECTION_REASON_MISSING_POLISH_LANGUAGE', $MODULE_NAME)}">
+												<span class="fas fa-comment-alt c-candidate-rejection-bubble__icon"></span>
+												<span class="c-candidate-rejection-bubble__code">PL</span>
 											</button>
 										</div>
 									</div>

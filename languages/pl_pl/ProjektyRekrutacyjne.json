@@ -29,6 +29,7 @@
         "PLL_REJECTION_REASON_NO_EXPERIENCE": "Brak wymaganego doświadczenia na podobnym stanowisku",
         "PLL_REJECTION_REASON_MISSING_SKILLS": "Brak kluczowych kompetencji, technologii, narzędzi lub certyfikatów wymaganych w projekcie",
         "PLL_REJECTION_REASON_PROFILE_FIT": "Profil zawodowy nie jest wystarczająco dopasowany do zakresu obowiązków",
+        "PLL_REJECTION_REASON_MISSING_POLISH_LANGUAGE": "Brak wymaganej znajomości języka polskiego",
         "PLL_NO_SUCH_RECORD": "Nie znaleziono rekordu",
         "PLL_POLISH": "Polski",
         "PLL_ENGLISH": "Angielski",
@@ -55,6 +56,7 @@
         "PLL_REJECTION_REASON_NO_EXPERIENCE": "Brak wymaganego doświadczenia na podobnym stanowisku",
         "PLL_REJECTION_REASON_MISSING_SKILLS": "Brak kluczowych kompetencji, technologii, narzędzi lub certyfikatów wymaganych w projekcie",
         "PLL_REJECTION_REASON_PROFILE_FIT": "Profil zawodowy nie jest wystarczająco dopasowany do zakresu obowiązków",
+        "PLL_REJECTION_REASON_MISSING_POLISH_LANGUAGE": "Brak wymaganej znajomości języka polskiego",
         "PLL_NO_SUCH_RECORD": "Nie znaleziono rekordu"
     }
 }

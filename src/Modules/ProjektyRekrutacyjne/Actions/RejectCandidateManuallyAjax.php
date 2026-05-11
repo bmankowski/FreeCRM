@@ -18,6 +18,7 @@ class RejectCandidateManuallyAjax extends \App\Base\Controllers\BaseActionContro
         'NO_EXPERIENCE' => 'PLL_REJECTION_REASON_NO_EXPERIENCE',
         'MISSING_SKILLS' => 'PLL_REJECTION_REASON_MISSING_SKILLS',
         'PROFILE_FIT' => 'PLL_REJECTION_REASON_PROFILE_FIT',
+        'MISSING_POLISH_LANGUAGE' => 'PLL_REJECTION_REASON_MISSING_POLISH_LANGUAGE',
     ];
 
     /**

@@ -206,7 +206,7 @@ pushsrc() {
 
   echo "Syncing sources to ${REMOTE}:${REMOTE_PATH}"
   remote_run "mkdir -p '${REMOTE_PATH}'"
-  rsync -az --delete --human-readable --info=stats2,progress2 \
+  rsync -az --delete --human-readable --info=name1,del1,stats2,progress2 \
     --exclude '.git/' \
     --exclude '.cursor/' \
     --exclude 'cache/' \
