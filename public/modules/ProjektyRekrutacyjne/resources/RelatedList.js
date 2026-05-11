@@ -225,12 +225,12 @@ Vtiger_RelatedList_Js(
 					let recordId = $(listViewEntries[i]).data('id');
 					if (recordId === relatedRecordId) {
 						$(listViewEntries[i]).trigger('click');
-						$(document).find('.bigLoading').parent().remove();
+						thisInstance.stripOrphanFloatingLoaders();
 					}
 				}
 			} else {
 				listViewEntries.first().trigger('click');
-				$(document).find('.bigLoading').parent().remove();
+				thisInstance.stripOrphanFloatingLoaders();
 			}
 		},
 		reloadListPreviewAfterStatusChange: function () {
@@ -405,35 +405,6 @@ Vtiger_RelatedList_Js(
 				}
 			);
 		},
-		handleKeyEvents: function () {
-			$(document).off('keyup.projKandydaciListPreview').on('keyup.projKandydaciListPreview', function (event) {
-				if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
-					let urlParams = new URLSearchParams(window.location.search);
-					let relatedRecordId = Number(urlParams.get('relatedRecord'));
-					let listViewEntries = $(document).find('.listViewEntriesTable .listViewEntries');
-					if (relatedRecordId) {
-
-						for (let i = 0; i < listViewEntries.length; i++) {
-							let relatedRecordId = Number(urlParams.get('relatedRecord'));
-							let recordId = $(listViewEntries[i]).data('id');
-							if (recordId === relatedRecordId) {
-								if(event.key === 'ArrowUp' && i >= 1) {
-									$(listViewEntries[i-1]).trigger('click');
-									$(document).find('.bigLoading').parent().remove();
-								}
-								if(event.key === 'ArrowDown' && i < listViewEntries.length - 1) {
-									$(listViewEntries[i+1]).trigger('click');
-									$(document).find('.bigLoading').parent().remove();
-								}
-							}
-						}
-					} else {
-						listViewEntries.first().trigger('click');
-					}
-
-				}
-			});
-		},
 		/**
 		 * Register related events
 		 */
@@ -466,7 +437,6 @@ Vtiger_RelatedList_Js(
 			}
 			this.acceptCandidateManually();
 			this.rejectCandidateManually();
-			this.handleKeyEvents();
 		}
 	}
 );

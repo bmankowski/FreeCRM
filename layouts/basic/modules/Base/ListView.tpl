@@ -46,8 +46,11 @@
 									<div class="panel-heading">
 										<strong>{"LBL_PREVIEW"|t:$MODULE}</strong>
 									</div>
-									<div class="panel-body" style="max-height: calc(100vh - 260px); overflow: auto;">
-										<div class="text-muted">{'LBL_SELECT_RECORD'|t:$MODULE}</div>
+									<div class="listPreviewFrameBody p-0" style="height: calc(100vh - 260px); min-height: 320px; overflow: hidden;">
+										<iframe id="listPreviewFrame"
+												title="{"LBL_PREVIEW"|t:$MODULE}"
+												src="about:blank"
+												style="width: 100%; height: 100%; border: 0; background: #fff;"></iframe>
 									</div>
 								</div>
 							</div>

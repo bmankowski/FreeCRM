@@ -24,10 +24,10 @@ class ListPreview extends \App\Modules\Base\Views\ListView
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$scripts = parent::getFooterScripts($request);
-		$jsFileNames = [
-			'modules.Base.resources.ListPreview',
-		];
-		return array_merge($scripts, $this->checkAndConvertJsScripts($jsFileNames));
+		$scriptPath = 'layouts/basic/modules/Base/resources/ListPreview.js';
+		$scriptVersion = \is_file(ROOT_DIRECTORY . '/' . $scriptPath) ? \filemtime(ROOT_DIRECTORY . '/' . $scriptPath) : time();
+		$scripts['modules.Base.resources.ListPreview'] = (new \App\View\Assets\ScriptAsset())->set('src', $scriptPath . '?v=' . $scriptVersion);
+		return $scripts;
 	}
 }
 

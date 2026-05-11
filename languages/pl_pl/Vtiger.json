@@ -359,6 +359,7 @@
         "LBL_NO_RECENT_UPDATES": "Brak dostępnych aktualizacji",
         "LBL_NO_RECORDS": "Brak rekordów",
         "LBL_NO_RECORDS_FOUND": "Nie odnaleziono rekordów",
+        "PLL_LIST_IS_EMPTY": "Lista jest pusta",
         "LBL_NO_RECORD_SELECTED": "Nie zaznaczono rekordów.",
         "LBL_NO_RELATED": "Brak powiązanych",
         "LBL_NO_SCHEDULED_ACTIVITIES": "Brak nadchodzących wydarzeń",

@@ -315,7 +315,7 @@
 							{/foreach}
 						{/if}
 					</div>
-					{if $CUSTOM_VIEW_LIST}
+					{if is_array($CUSTOM_VIEW_LIST) && count($CUSTOM_VIEW_LIST) > 0}
 						<div class="mr-auto col-xl-2 col-md-4 col-12 px-0 mb-md-0 mb-1">
 							{if count($CUSTOM_VIEW_LIST) === 1}
 								<input type="hidden" class="js-relation-cv-id"

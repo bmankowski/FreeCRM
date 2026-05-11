@@ -589,10 +589,91 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 	 * If current related view is ListPreview and module controller provides preview methods,
 	 * wire row clicks to update preview instead of navigating away.
 	 */
+	setListPreviewActiveRow: function (row) {
+		if (!row || !row.length) {
+			return;
+		}
+		this.relatedContentContainer.find('.listViewEntriesTable .listViewEntries').removeClass('active');
+		row.addClass('active');
+	},
+	getListPreviewActiveRow: function () {
+		var rows = this.relatedContentContainer.find('.listViewEntriesTable .listViewEntries:visible');
+		var activeRow = rows.filter('.active').first();
+		if (activeRow.length) {
+			return activeRow;
+		}
+		var selectedRecordId = this.relatedContentContainer.find('#candidateId').val();
+		if (selectedRecordId) {
+			activeRow = rows.filter(function () {
+				return String(jQuery(this).data('id')) === String(selectedRecordId);
+			}).first();
+			if (activeRow.length) {
+				return activeRow;
+			}
+		}
+		return rows.first();
+	},
+	scrollListPreviewRowIntoView: function (row) {
+		if (row && row.length && row[0] && typeof row[0].scrollIntoView === 'function') {
+			row[0].scrollIntoView({block: 'nearest'});
+		}
+	},
+	registerListPreviewKeyboardNavigation: function () {
+		var thisInstance = this;
+		var handleNavigation = function (e) {
+			if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') {
+				return;
+			}
+			var target = jQuery(e.target);
+			if (target.is('input, textarea, select') || target.closest('[contenteditable="true"]').length) {
+				return;
+			}
+			var rows = thisInstance.relatedContentContainer.find('.listViewEntriesTable .listViewEntries:visible');
+			if (!rows.length) {
+				return;
+			}
+			var currentRow = thisInstance.getListPreviewActiveRow();
+			var currentIndex = rows.index(currentRow);
+			var targetIndex = currentIndex;
+			if (e.key === 'ArrowUp') {
+				targetIndex = currentIndex > 0 ? currentIndex - 1 : currentIndex;
+			} else if (e.key === 'ArrowDown') {
+				targetIndex = currentIndex >= 0 && currentIndex < rows.length - 1 ? currentIndex + 1 : currentIndex;
+			}
+			var targetRow = rows.eq(targetIndex);
+			if (!targetRow.length) {
+				return;
+			}
+			e.preventDefault();
+			thisInstance.setListPreviewActiveRow(targetRow);
+			targetRow.trigger('click');
+			thisInstance.scrollListPreviewRowIntoView(targetRow);
+		};
+		var bindFrameNavigation = function () {
+			thisInstance.relatedContentContainer.find('iframe.listPreviewframe').each(function () {
+				try {
+					if (this.contentDocument) {
+						jQuery(this.contentDocument)
+							.off('keydown.relatedListPreviewKeyboard')
+							.on('keydown.relatedListPreviewKeyboard', handleNavigation);
+					}
+				} catch (_e) {
+					/* ignore cross-origin or not-yet-ready frames */
+				}
+			});
+		};
+		jQuery(document).off('keydown.relatedListPreviewKeyboard').on('keydown.relatedListPreviewKeyboard', handleNavigation);
+		this.relatedContentContainer
+			.off('load.relatedListPreviewKeyboard', 'iframe.listPreviewframe')
+			.on('load.relatedListPreviewKeyboard', 'iframe.listPreviewframe', bindFrameNavigation);
+		bindFrameNavigation();
+	},
 	registerRelatedEvents: function () {
 		this.triggerDisplayTypeEvent();
 		var view = this.relatedContentContainer.find('input.relatedView').val();
 		if (view !== 'ListPreview') {
+			jQuery(document).off('keydown.relatedListPreviewKeyboard');
+			this.relatedContentContainer.off('load.relatedListPreviewKeyboard', 'iframe.listPreviewframe');
 			return;
 		}
 		var thisInstance = this;
@@ -610,10 +691,12 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 					if (recordUrl) {
 						e.preventDefault();
 						e.stopPropagation();
+						thisInstance.setListPreviewActiveRow(elem);
 						thisInstance.updatePreview(recordUrl);
 					}
 				});
 		}
+		this.registerListPreviewKeyboardNavigation();
 		// Let module controller adjust sizes / auto-select first row
 		if (typeof this.registerPreviewEvent === 'function') {
 			this.registerPreviewEvent();

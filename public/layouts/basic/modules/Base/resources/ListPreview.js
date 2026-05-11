@@ -106,26 +106,20 @@
 		if (!container.length) {
 			return;
 		}
-		var body = container.find('.panel-body');
+		var frame = container.find('#listPreviewFrame');
+		if (!frame.length) {
+			return;
+		}
 		if (rowEl && rowEl.length) {
 			rowEl.closest('table').find('tr.listViewEntries').removeClass('active');
 			rowEl.addClass('active');
 		}
-		body.html('<div class="text-muted">' + app.vtranslate('LBL_LOADING') + '...</div>');
-		AppConnector.request({
-			module: app.getModuleName(),
-			view: 'Preview',
-			record: recordId
-		}).then(function (response) {
-			var html = response;
-			if (typeof response === 'object' && response !== null && typeof response.result !== 'undefined') {
-				html = response.result;
-			}
-			body.html(html);
-			Vtiger_Helper_Js.showHorizontalTopScrollBar();
-		}, function () {
-			body.html('<div class="text-danger">' + app.vtranslate('JS_ERROR') + '</div>');
-		});
+		frame.attr(
+			'src',
+			'index.php?module=' + encodeURIComponent(app.getModuleName()) +
+			'&view=Preview&record=' + encodeURIComponent(recordId) +
+			'&_iframe_pv=' + Date.now()
+		);
 	}
 
 	function registerRowClickOverride(listInstance) {
@@ -198,6 +192,68 @@
 		}
 	}
 
+	function getActiveRow(listInstance) {
+		var rows = listInstance.getListViewContentContainer().find('tr.listViewEntries[data-id]:visible');
+		var activeRow = rows.filter('.active').first();
+		return activeRow.length ? activeRow : rows.first();
+	}
+
+	function scrollRowIntoView(row) {
+		if (row && row.length && row[0] && typeof row[0].scrollIntoView === 'function') {
+			row[0].scrollIntoView({block: 'nearest'});
+		}
+	}
+
+	function registerKeyboardNavigation(listInstance) {
+		var handleNavigation = function (e) {
+			if (!isPreviewMode() || (e.key !== 'ArrowUp' && e.key !== 'ArrowDown')) {
+				return;
+			}
+			var target = jQuery(e.target);
+			if (target.is('input, textarea, select') || target.closest('[contenteditable="true"]').length) {
+				return;
+			}
+			var rows = listInstance.getListViewContentContainer().find('tr.listViewEntries[data-id]:visible');
+			if (!rows.length) {
+				return;
+			}
+			var currentIndex = rows.index(getActiveRow(listInstance));
+			var targetIndex = currentIndex;
+			if (e.key === 'ArrowUp') {
+				targetIndex = currentIndex > 0 ? currentIndex - 1 : currentIndex;
+			} else {
+				targetIndex = currentIndex >= 0 && currentIndex < rows.length - 1 ? currentIndex + 1 : currentIndex;
+			}
+			var targetRow = rows.eq(targetIndex);
+			if (!targetRow.length) {
+				return;
+			}
+			e.preventDefault();
+			loadPreview(targetRow.data('id'), targetRow);
+			scrollRowIntoView(targetRow);
+		};
+		var bindFrameNavigation = function () {
+			var frame = jQuery('#listPreviewFrame');
+			if (!frame.length) {
+				return;
+			}
+			try {
+				if (frame[0].contentDocument) {
+					jQuery(frame[0].contentDocument)
+						.off('keydown.listPreviewKeyboard')
+						.on('keydown.listPreviewKeyboard', handleNavigation);
+				}
+			} catch (e) {
+				/* ignore cross-origin or not-yet-ready frames */
+			}
+		};
+		jQuery(document).off('keydown.listPreviewKeyboard').on('keydown.listPreviewKeyboard', handleNavigation);
+		jQuery('#listPreviewFrame')
+			.off('load.listPreviewKeyboard')
+			.on('load.listPreviewKeyboard', bindFrameNavigation);
+		bindFrameNavigation();
+	}
+
 	function init() {
 		if (!isPreviewMode()) {
 			return;
@@ -207,10 +263,12 @@
 		initResizer();
 		registerRowClickOverride(listInstance);
 		loadFirstRecordPreview(listInstance);
+		registerKeyboardNavigation(listInstance);
 
 		jQuery('body').off('LoadRecordList.PostLoad.listPreview').on('LoadRecordList.PostLoad.listPreview', function () {
 			// After AJAX reload, DOM handlers inside list need reattach.
 			registerRowClickOverride(listInstance);
+			registerKeyboardNavigation(listInstance);
 		});
 	}
 

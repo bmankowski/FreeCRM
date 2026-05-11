@@ -27,7 +27,7 @@ class TooltipAjax  extends \App\Modules\Base\Views\Index
 		echo $viewer->view('TooltipContents.tpl', $moduleName, true);
 	}
 
-	public function initializeListViewContents(\App\Http\Vtiger_Request $request, CRM_Viewer $viewer)
+	public function initializeListViewContents(\App\Http\Vtiger_Request $request, \App\Runtime\CRM_Viewer $viewer)
 	{
 		$moduleName = $this->getModule($request);
 
