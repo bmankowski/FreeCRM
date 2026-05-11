@@ -364,7 +364,7 @@ class Users extends \App\Core\CRMEntity
 		$this->column_fields['currency_symbol'] = $this->currency_symbol = $currencySymbol;
 		$this->column_fields['conv_rate'] = $this->conv_rate = $currency['conversion_rate'];
 		if (empty($this->column_fields['no_of_currency_decimals'])) {
-			$this->column_fields['no_of_currency_decimals'] = $this->no_of_currency_decimals = \App\Utils\Utils::getCurrencyDecimalPlaces();
+			$this->column_fields['no_of_currency_decimals'] = $this->no_of_currency_decimals = 2;
 		}
 		if (empty($this->column_fields['currency_grouping_pattern']) && empty($this->column_fields['currency_symbol_placement'])) {
 			$this->column_fields['currency_grouping_pattern'] = $this->currency_grouping_pattern = '123,456,789';

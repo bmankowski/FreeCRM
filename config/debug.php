@@ -8,16 +8,16 @@ $DEBUG_CONFIG = [
 	// Enable saving logs to file. Values: false/true
 	'LOG_TO_FILE' => true,
 	// Enable displaying logs in debug console. Values: false/true
-	'LOG_TO_CONSOLE' => true,
+	'LOG_TO_CONSOLE' => false,
 	// Enable saving logs profiling.  Values: false/true
-	'LOG_TO_PROFILE' => true,
+	'LOG_TO_PROFILE' => false,
 	// Level of saved/displayed logs
 	// Values: false = All / 3 = error and warning / ['error', 'warning', 'info', 'trace', 'profile'], 
 	'LOG_LEVELS' => ['error', 'warning'],
 	// Level of saved/displayed tracerts. // Values: int
-	'LOG_TRACE_LEVEL' => 5,
+	'LOG_TRACE_LEVEL' => 0,
 	// Display Main Debug Console
-	'DISPLAY_DEBUG_CONSOLE' => true,
+	'DISPLAY_DEBUG_CONSOLE' => false,
 	// List of IP addresses allowed to display debug console
 	// Values: false = All IPS / '192.168.1.10' / ['192.168.1.10','192.168.1.11']
 	'DEBUG_CONSOLE_ALLOWED_IPS' => false,
