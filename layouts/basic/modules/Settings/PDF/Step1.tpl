@@ -103,6 +103,9 @@
 							<option value="PLL_USER_CREATING" {if $PDF_MODEL->get('meta_author') eq 'PLL_USER_CREATING'} selected {/if}>
 								{"PLL_USER_CREATING"|t:$QUALIFIED_MODULE}
 							</option>
+							<option value="PLL_RECORD_OWNER" {if $PDF_MODEL->get('meta_author') eq 'PLL_RECORD_OWNER'} selected {/if}>
+								{"PLL_RECORD_OWNER"|t:$QUALIFIED_MODULE}
+							</option>
 						</select>
 					</div>
 				</div>
@@ -118,6 +121,9 @@
 							</option>
 							<option value="PLL_USER_CREATING" {if $PDF_MODEL->get('meta_creator') eq 'PLL_USER_CREATING'} selected {/if}>
 								{"PLL_USER_CREATING"|t:$QUALIFIED_MODULE}
+							</option>
+							<option value="PLL_RECORD_OWNER" {if $PDF_MODEL->get('meta_creator') eq 'PLL_RECORD_OWNER'} selected {/if}>
+								{"PLL_RECORD_OWNER"|t:$QUALIFIED_MODULE}
 							</option>
 						</select>
 					</div>

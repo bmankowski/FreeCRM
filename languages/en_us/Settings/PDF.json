@@ -35,6 +35,7 @@
         "LBL_META_KEYWORDS": "Keywords",
         "PLL_COMPANY_NAME": "Company name",
         "PLL_USER_CREATING": "User who generates the document",
+        "PLL_RECORD_OWNER": "Record owner",
         "LBL_METATAGS": "Automatic meta tags",
         "LBL_PAGE_FORMAT": "Document format",
         "LBL_MAIN_MARGIN": "Automatic main margin",

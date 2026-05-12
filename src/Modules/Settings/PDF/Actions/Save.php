@@ -28,9 +28,12 @@ class Save extends \App\Modules\Settings\Base\Actions\Index
 		}
 
 		$stepFields = \App\Modules\Settings\PDF\Models\Module::getFieldsByStep($step);
+		$checkboxFields = ['metatags_status', 'margin_chkbox', 'default', 'one_pdf'];
 		foreach ($stepFields as $field) {
 			if (in_array($field, ['header_content', 'body_content', 'footer_content'])) {
 				$value = $request->getForHtml($field);
+			} elseif (in_array($field, $checkboxFields) && !$request->has($field)) {
+				$value = 0;
 			} else {
 				$value = $request->get($field);
 			}

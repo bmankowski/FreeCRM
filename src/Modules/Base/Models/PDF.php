@@ -310,18 +310,18 @@ class PDF extends \App\Runtime\BaseModel
 		}
 
 		// metadata
+		$companyDetails = \App\Core\Company::getInstanceById()->getData();
+		$organizationName = $companyDetails['organizationname'] ?? '';
 		if ($this->get('metatags_status') == 0) {
 			$parameters['title'] = $this->get('meta_title');
-			$parameters['author'] = $this->get('meta_author');
-			$parameters['creator'] = $this->get('meta_creator');
+			$parameters['author'] = $this->resolveMetaValue($this->get('meta_author'), $organizationName);
+			$parameters['creator'] = $this->resolveMetaValue($this->get('meta_creator'), $organizationName);
 			$parameters['subject'] = $this->get('meta_subject');
 			$parameters['keywords'] = $this->get('meta_keywords');
 		} else {
-			$companyDetails = \App\Core\Company::getInstanceById()->getData();
 			$parameters['title'] = $this->get('primary_name');
-			$organizationName = $companyDetails['organizationname'] ?? '';
 			$parameters['author'] = $organizationName;
-			$parameters['creator'] = $organizationName;
+			$parameters['creator'] = $this->getMainRecordOwnerLabel() ?: $organizationName;
 			$parameters['subject'] = $this->get('secondary_name');
 
 			// preparing keywords
@@ -332,6 +332,34 @@ class PDF extends \App\Runtime\BaseModel
 		}
 
 		return $parameters;
+	}
+
+	protected function resolveMetaValue($value, $organizationName)
+	{
+		switch ($value) {
+			case 'PLL_COMPANY_NAME':
+				return $organizationName;
+			case 'PLL_USER_CREATING':
+				$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+				return $currentUser ? $currentUser->getDisplayName() : '';
+			case 'PLL_RECORD_OWNER':
+				return $this->getMainRecordOwnerLabel();
+			default:
+				return $value;
+		}
+	}
+
+	protected function getMainRecordOwnerLabel()
+	{
+		$recordId = $this->getMainRecordId();
+		if (empty($recordId)) {
+			return '';
+		}
+		$ownerId = (new \App\Db\Query())->select(['smownerid'])
+			->from('vtiger_crmentity')
+			->where(['crmid' => $recordId, 'deleted' => 0])
+			->scalar();
+		return $ownerId ? (string) \App\Fields\Owner::getLabel($ownerId) : '';
 	}
 
 	/**

@@ -11,3 +11,10 @@ select * from vtiger_crmentity;
 update vtiger_crmentity set smcreatorid = 1 where smcreatorid = 6;
 update vtiger_crmentity set smownerid = 1 where smownerid = 6;
 update vtiger_crmentity set modifiedby = 1 where modifiedby = 6;
+
+
+
+
+select *
+from a_yf_pdf
+order by pdfid desc

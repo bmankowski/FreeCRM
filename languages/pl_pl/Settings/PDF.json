@@ -35,6 +35,7 @@
         "LBL_META_KEYWORDS": "Słowa kluczowe",
         "PLL_COMPANY_NAME": "Nazwa firmy",
         "PLL_USER_CREATING": "Osoba generująca dokument",
+        "PLL_RECORD_OWNER": "Właściciel rekordu",
         "LBL_METATAGS": "Automatyczne meta tagi",
         "LBL_PAGE_FORMAT": "Format dokumentu",
         "LBL_MAIN_MARGIN": "Automatyczny margines główny",
