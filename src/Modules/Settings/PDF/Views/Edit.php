@@ -182,6 +182,9 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 
 		$jsFileNames = [
 			'libraries.jquery.clipboardjs.clipboard',
+			'libraries.jquery.ckeditor.ckeditor',
+			'libraries.jquery.ckeditor.adapters.jquery',
+			'modules.Base.resources.CkEditor',
 			'modules.Settings.Vtiger.resources.Index',
 			'modules.Settings.Vtiger.resources.Edit',
 			"modules.Settings.$moduleName.resources.Edit",
