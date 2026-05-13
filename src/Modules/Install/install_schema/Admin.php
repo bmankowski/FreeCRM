@@ -187,6 +187,17 @@ class Admin extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			'a_#__pdf_config' => [
+				'columns' => [
+					'param' => $this->stringType(64)->notNull(),
+					'value' => $this->text()->notNull(),
+				],
+				'primaryKeys' => [
+					['pdf_config_pk', 'param'],
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			'a_#__relatedlists_inv_fields' => [
 				'columns' => [
 					'relation_id' => $this->integer(),

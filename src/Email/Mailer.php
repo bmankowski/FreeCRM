@@ -122,6 +122,9 @@ class Mailer
 	 */
 	public static function addMail($params)
 	{
+		if (!empty($params['content'])) {
+			$params['content'] = \App\Utils\TemplateStyles::inlineEmailCss($params['content']);
+		}
 		$params['status'] = \App\Core\AppConfig::module('Mail', 'MAILER_REQUIRED_ACCEPTATION_BEFORE_SENDING') ? 0 : 1;
 		if (empty($params['smtp_id'])) {
 			$params['smtp_id'] = \App\Email\Mail::getDefaultSmtp();
@@ -215,7 +218,7 @@ class Mailer
 	public function content($message)
 	{
 		$this->mailer->isHTML(true);
-		$this->mailer->msgHTML($message);
+		$this->mailer->msgHTML(\App\Utils\TemplateStyles::inlineEmailCss($message));
 		return $this;
 	}
 

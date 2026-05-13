@@ -31,7 +31,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 			);
 		}
 
-		if (!\App\Modules\Settings\ModuleManager\Models\Library::checkLibrary('mPDF') && \App\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'ExportPdf')) {
+		if (\App\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'ExportPdf')) {
 			$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
@@ -66,7 +66,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 	{
 		$basicLinks = [];
 		$moduleModel = $this->getModule();
-		if (!\App\Modules\Settings\ModuleManager\Models\Library::checkLibrary('mPDF') && \App\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'ExportPdf')) {
+		if (\App\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'ExportPdf')) {
 			$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');

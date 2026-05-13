@@ -320,6 +320,7 @@ class Block
 
 		\App\Cache\Cache::delete('ModuleFields', $moduleId);
 		\App\Cache\Cache::delete('fieldInfo', $moduleId);
+		\App\Fields\Field::clearFieldsPermissionsCacheForTab($moduleId);
 		\App\Utils\VTCacheUtils::updateFieldInfo(
 			$moduleId,
 			$get($fieldInstance, 'name'),

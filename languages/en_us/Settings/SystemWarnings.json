@@ -1,7 +1,6 @@
 {
     "languageStrings": {
         "SystemRequirements": "System requirements",
-        "LBL_LIBRARY_PDF": "mPDF library",
         "LBL_LIBRARY_ROUNDCUBE": "Roundcube library",
         "LBL_LIBRARY_PHPEXCEL": "PhpSpreadsheet library",
         "LBL_LIBRARY_CHAT": "AJAXChat library",

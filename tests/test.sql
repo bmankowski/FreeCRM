@@ -17,4 +17,15 @@ update vtiger_crmentity set modifiedby = 1 where modifiedby = 6;
 
 select *
 from a_yf_pdf
-order by pdfid desc
+order by pdfid desc;
+
+
+
+select * from freecrm.vtiger_zrodlo_aplikacji
+;
+
+describe  yetiforce.vtiger_zrodlo_aplikacji;
+
+select * from freecrm.vtiger_users;
+
+update freecrm.vtiger_users set is_admin = 'on', job_title = 'CTO' where id = 1;

@@ -15,8 +15,33 @@ class Edit  extends \App\Modules\Base\Views\Index
 		$parentScript = parent::getFooterScripts($request);
 		$fileNames = [
 			'libraries.jquery.clipboardjs.clipboard',
+			'libraries.codemirror.lib.codemirror',
+			'libraries.codemirror.mode.xml.xml',
+			'libraries.codemirror.mode.javascript.javascript',
+			'libraries.codemirror.mode.css.css',
+			'libraries.codemirror.mode.htmlmixed.htmlmixed',
+			'libraries.codemirror.addon.edit.matchbrackets',
+			'libraries.codemirror.addon.edit.closebrackets',
+			'libraries.codemirror.addon.edit.closetag',
+			'libraries.codemirror.addon.selection.active-line',
+			'libraries.codemirror.addon.dialog.dialog',
+			'libraries.codemirror.addon.search.searchcursor',
+			'libraries.codemirror.addon.search.search',
+			'~libraries/js-beautify/beautify-html.min.js',
 		];
 		$scriptInstances = $this->checkAndConvertJsScripts($fileNames);
 		return array_merge($parentScript, $scriptInstances);
+	}
+
+	public function getHeaderCss(\App\Http\Vtiger_Request $request)
+	{
+		$headerCssInstances = parent::getHeaderCss($request);
+		$cssFileNames = [
+			'libraries.codemirror.lib.codemirror',
+			'libraries.codemirror.addon.dialog.dialog',
+			'modules.EmailTemplates.Edit',
+		];
+		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
+		return array_merge($headerCssInstances, $cssInstances);
 	}
 }

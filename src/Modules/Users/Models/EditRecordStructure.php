@@ -44,11 +44,8 @@ class EditRecordStructure extends \App\Modules\Base\Models\RecordStructure
 					}
 					if ($fieldModel->get('uitype') == 156 && $currentUserModel->isAdminUser() === true) {
 						$fieldModel->set('editable', true);
-						$fieldValue = false;
-						$defaultValue = $fieldModel->getDefaultFieldValue();
-						if ($recordModel->get($fieldName) === 'on') {
-							$fieldValue = true;
-						}
+						$raw = $recordModel->get($fieldName);
+						$fieldValue = ($raw === 'on' || $raw === 1 || $raw === '1' || $raw === true);
 						$recordModel->set($fieldName, $fieldValue);
 					}
 					if ($fieldName == 'is_owner') {

@@ -175,7 +175,7 @@ class Loader
 		}
 
 		// Legacy fallback: check if old-style class name exists
-		// Convert Settings:PDF → Settings_PDF_ComponentName_Type
+		// Convert Settings:Template → Settings_Template_ComponentName_Type
 		$legacyClassName = str_replace([':', '\\'], '_', $originalModuleName) . '_' . $componentName . '_' . $componentType;
 		if (class_exists($legacyClassName)) {
 			self::$componentClassCache[$cacheKey] = $legacyClassName;

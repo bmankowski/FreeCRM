@@ -95,7 +95,7 @@ class PDF extends \App\Base\Controllers\BaseActionController
 				if (file_exists($filePath)) {
 					header('Location: index.php?module=OSSMail&view=compose&pdf_path=' . $filePath);
 				} else {
-					throw new \App\Exceptions\AppException(\App\Runtime\Vtiger_Language_Handler::translate('LBL_EXPORT_ERROR', 'Settings:PDF'));
+					throw new \App\Exceptions\AppException(\App\Runtime\Vtiger_Language_Handler::translate('LBL_EXPORT_ERROR', 'Settings:Template'));
 				}
 			} else {
 				\App\Modules\Base\Models\PDF::exportToPdf($recordId[0], $moduleName, $templateIds[0]);
@@ -106,7 +106,7 @@ class PDF extends \App\Base\Controllers\BaseActionController
 			if ($singlePdf) {
 				$handlerClass = \App\Modules\Base\Models\PDF::getPdfRendererClass($moduleName);
 				$pdf = new $handlerClass();
-				$styles = '';
+				$styles = \App\Utils\TemplateStyles::getCss();
 				$headers = '';
 				$footers = '';
 				$classes = '';

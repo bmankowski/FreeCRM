@@ -179,7 +179,7 @@
         "UpdateBalance": "Update balance",
         "UpdateInventory": "Update inventory",
         "LBL_TRIGGER_USER": "User selected in workflow trigger mondal",
-        "LBL_PDF_TEMPLATE": "Select PDF template",
+        "LBL_SEND_PDF_TEMPLATE": "Select document template",
         "LBL_IMPORT_TEMPLATE": "Import trigger",
         "LBL_EXPORT_RECORD": "Export record",
         "LBL_IMPORT_VIEW": "Trigger import",

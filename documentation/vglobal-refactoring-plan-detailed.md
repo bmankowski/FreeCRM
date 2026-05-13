@@ -557,7 +557,7 @@ if ($uploadOk && $_FILES['watermark']['size'][0] > \App\AppConfig::main('upload_
 - `src/Modules/Install/Views/Index.php` (linia 80) - ustawianie podczas instalacji
 - `src/Modules/OpenStreetMap/Actions/GetRoute.php` (linia 48) - domyślny język dla routingu
 - `src/Modules/Base/Actions/PDF.php` (linie 111, 121, 144, 166, 176, 189, 209) - 7 wystąpień w generowaniu PDF
-- `src/Modules/Base/Pdfs/mPDF.php` (linie 340, 341, 350) - 3 wystąpienia w mPDF
+- starszy renderer PDF (usunięty) - dawne wystąpienia podczas generowania PDF
 
 **Charakterystyka:**
 - Wartość konfiguracyjna (łatwa do zastąpienia przez `AppConfig::main()`)
@@ -592,15 +592,13 @@ if ($uploadOk && $_FILES['watermark']['size'][0] > \App\AppConfig::main('upload_
    - Zamieniono odczyty `vglobal('default_language')` na `AppConfig::main('default_language')` (2 wystąpienia)
    - Ustawiania wartości pozostawione jako `vglobal()` (tymczasowe przełączanie języka podczas generowania PDF)
 
-6. ✅ **`src/Modules/Base/Pdfs/mPDF.php`**
-   - Linia: 340
-   - Zamieniono odczyt `vglobal('default_language')` na `AppConfig::main('default_language')`
+6. ✅ Starszy renderer PDF został usunięty z projektu.
    - Ustawiania wartości pozostawione jako `vglobal()` (tymczasowe przełączanie języka podczas generowania PDF)
 
 #### Uwaga specjalna:
 
 - **`src/Modules/Install/Views/Index.php`** (linia 80) - ustawianie podczas instalacji pozostawione jako `vglobal()` (to jest ustawianie konfiguracji podczas instalacji)
-- **`src/Modules/Base/Actions/PDF.php`** i **`src/Modules/Base/Pdfs/mPDF.php`** - ustawiania wartości pozostawione jako `vglobal()` (tymczasowe przełączanie języka podczas generowania PDF, wymaga lokalnej zmiennej)
+- **`src/Modules/Base/Actions/PDF.php`** - ustawiania wartości pozostawione jako `vglobal()` (tymczasowe przełączanie języka podczas generowania PDF, wymaga lokalnej zmiennej)
 
 ### Kolejność wykonania:
 

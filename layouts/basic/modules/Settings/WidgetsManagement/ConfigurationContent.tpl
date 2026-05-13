@@ -71,7 +71,7 @@
 												<strong>{"LBL_ADD_WIDGET"|t:$QUALIFIED_MODULE}</strong>
 											</button>
 										</div>
-										{if $SPECIAL_WIDGETS['Rss']}
+										{if !empty($SPECIAL_WIDGETS['Rss'])}
 											{assign var=RSS_WIDGET value=$SPECIAL_WIDGETS['Rss']}
 											<div class="btn-group">
 												<button class="btn btn-success btn-xs addRss" type="button"  data-url="{$RSS_WIDGET->getUrl()}" data-linkid="{$RSS_WIDGET->get('linkid')}" data-name="{$RSS_WIDGET->getName()}" data-width="{$RSS_WIDGET->getWidth()}" data-height="{$RSS_WIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>
@@ -79,7 +79,7 @@
 												</button>
 											</div>
 										{/if}
-										{if $SPECIAL_WIDGETS['Mini List']}
+										{if !empty($SPECIAL_WIDGETS['Mini List'])}
 											{assign var=MINILISTWIDGET value=$SPECIAL_WIDGETS['Mini List']}
 											<div class="btn-group">
 												<button class="btn btn-success btn-xs addMiniList" type="button"  data-url="{$MINILISTWIDGET->getUrl()}" data-linkid="{$MINILISTWIDGET->get('linkid')}" data-name="{$MINILISTWIDGET->getName()}" data-width="{$MINILISTWIDGET->getWidth()}" data-height="{$MINILISTWIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>
@@ -87,7 +87,7 @@
 												</button>
 											</div>
 										{/if}
-										{if $SPECIAL_WIDGETS['ChartFilter']}
+										{if !empty($SPECIAL_WIDGETS['ChartFilter'])}
 											{assign var=CHART_FILTER_WIDGET value=$SPECIAL_WIDGETS['ChartFilter']}
 											<div class="btn-group">
 												<button class="btn btn-success btn-xs addChartFilter" type="button"  data-url="{$CHART_FILTER_WIDGET->getUrl()}" data-linkid="{$CHART_FILTER_WIDGET->get('linkid')}" data-name="{$CHART_FILTER_WIDGET->getName()}" data-width="{$CHART_FILTER_WIDGET->getWidth()}" data-height="{$CHART_FILTER_WIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>&nbsp;
@@ -95,7 +95,7 @@
 												</button>
 											</div>
 										{/if}
-										{if $SPECIAL_WIDGETS['Notebook']}
+										{if !empty($SPECIAL_WIDGETS['Notebook'])}
 											{assign var=NOTEBOOKWIDGET value=$SPECIAL_WIDGETS['Notebook']}
 											<div class="btn-group">
 												<button class="btn btn-success btn-xs addNotebook" type="button" data-url="{$NOTEBOOKWIDGET->getUrl()}" data-linkid="{$NOTEBOOKWIDGET->get('linkid')}" data-name="{$NOTEBOOKWIDGET->getName()}" data-width="{$NOTEBOOKWIDGET->getWidth()}" data-height="{$NOTEBOOKWIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>
@@ -103,7 +103,7 @@
 												</button>
 											</div>
 										{/if}
-										{if $SPECIAL_WIDGETS['Chart']}
+										{if !empty($SPECIAL_WIDGETS['Chart'])}
 											{assign var=CHART_WIDGET value=$SPECIAL_WIDGETS['Chart']}
 											<div class="btn-group">
 												<button class="btn btn-success btn-xs addCharts" type="button" data-url="{$CHART_WIDGET->getUrl()}" data-linkid="{$CHART_WIDGET->get('linkid')}" data-name="{$CHART_WIDGET->getName()}" data-width="{$CHART_WIDGET->getWidth()}" data-height="{$CHART_WIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>
@@ -186,7 +186,7 @@
 										<strong>{"LBL_ADD_WIDGET"|t:$QUALIFIED_MODULE}</strong>
 									</button>
 								</div>
-								{if $SPECIAL_WIDGETS['Rss']}
+								{if !empty($SPECIAL_WIDGETS['Rss'])}
 									{assign var=RSS_WIDGET value=$SPECIAL_WIDGETS['Rss']}
 									<div class="btn-group">
 										<button class="btn btn-success btn-xs addRss specialWidget" type="button"  data-url="{$RSS_WIDGET->getUrl()}" data-linkid="{$RSS_WIDGET->get('linkid')}" data-name="{$RSS_WIDGET->getName()}" data-width="{$RSS_WIDGET->getWidth()}" data-height="{$RSS_WIDGET->getHeight()}" data-block-id=""><span class="glyphicon glyphicon-plus"></span>
@@ -194,7 +194,7 @@
 										</button>
 									</div>
 								{/if}
-								{if $SPECIAL_WIDGETS['Mini List']}
+								{if !empty($SPECIAL_WIDGETS['Mini List'])}
 									{assign var=MINILISTWIDGET value=$SPECIAL_WIDGETS['Mini List']}
 									<div class="btn-group">
 										<button class="btn btn-success btn-xs addMiniList specialWidget" type="button"  data-url="{$MINILISTWIDGET->getUrl()}" data-linkid="{$MINILISTWIDGET->get('linkid')}" data-name="{$MINILISTWIDGET->getName()}" data-width="{$MINILISTWIDGET->getWidth()}" data-height="{$MINILISTWIDGET->getHeight()}" data-block-id=""><span class="glyphicon glyphicon-plus"></span>&nbsp;
@@ -202,7 +202,7 @@
 										</button>
 									</div>
 								{/if}
-								{if $SPECIAL_WIDGETS['ChartFilter']}
+								{if !empty($SPECIAL_WIDGETS['ChartFilter'])}
 									{assign var=CHART_FILTER_WIDGET value=$SPECIAL_WIDGETS['ChartFilter']}
 									<div class="btn-group">
 										<button class="btn btn-success btn-xs addChartFilter specialWidget" type="button"  data-url="{$CHART_FILTER_WIDGET->getUrl()}" data-linkid="{$CHART_FILTER_WIDGET->get('linkid')}" data-name="{$CHART_FILTER_WIDGET->getName()}" data-width="{$CHART_FILTER_WIDGET->getWidth()}" data-height="{$CHART_FILTER_WIDGET->getHeight()}" data-block-id=""><span class="glyphicon glyphicon-plus"></span>&nbsp;
@@ -210,7 +210,7 @@
 										</button>
 									</div>
 								{/if}
-								{if $SPECIAL_WIDGETS['Notebook']}
+								{if !empty($SPECIAL_WIDGETS['Notebook'])}
 									{assign var=NOTEBOOKWIDGET value=$SPECIAL_WIDGETS['Notebook']}
 									<div class="btn-group">
 										<button class="btn btn-success btn-xs addNotebook specialWidget" type="button" data-url="{$NOTEBOOKWIDGET->getUrl()}" data-linkid="{$NOTEBOOKWIDGET->get('linkid')}" data-name="{$NOTEBOOKWIDGET->getName()}" data-width="{$NOTEBOOKWIDGET->getWidth()}" data-height="{$NOTEBOOKWIDGET->getHeight()}" data-block-id=""><span class="glyphicon glyphicon-plus"></span>&nbsp;
@@ -218,10 +218,10 @@
 										</button>
 									</div>
 								{/if}
-								{if $SPECIAL_WIDGETS['Chart']}
+								{if !empty($SPECIAL_WIDGETS['Chart'])}
 									{assign var=CHART_WIDGET value=$SPECIAL_WIDGETS['Chart']}
 									<div class="btn-group">
-										<button class="btn btn-success btn-xs addCharts specialWidget" type="button" data-url="{$CHART_WIDGET->getUrl()}" data-linkid="{$CHART_WIDGET->get('linkid')}" data-name="{$CHART_WIDGET->getName()}" data-width="{$CHART_WIDGET->getWidth()}" data-height="{$CHART_WIDGET->getHeight()}" data-block-id="{$AUTHORIZATION_KEY}"><span class="glyphicon glyphicon-plus"></span>
+										<button class="btn btn-success btn-xs addCharts specialWidget" type="button" data-url="{$CHART_WIDGET->getUrl()}" data-linkid="{$CHART_WIDGET->get('linkid')}" data-name="{$CHART_WIDGET->getName()}" data-width="{$CHART_WIDGET->getWidth()}" data-height="{$CHART_WIDGET->getHeight()}" data-block-id=""><span class="glyphicon glyphicon-plus"></span>
 											<strong>{"LBL_ADD_WIDGET_CHARTS"|t:$QUALIFIED_MODULE}</strong>
 										</button>
 									</div>

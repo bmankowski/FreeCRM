@@ -117,6 +117,29 @@ CREATE TABLE `a_yf_mapped_fields` (
   CONSTRAINT `a_yf_mapped_fields_ibfk_1` FOREIGN KEY (`mappedid`) REFERENCES `a_yf_mapped_config` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
+/*Table structure for table `a_yf_pdf_dynamic_elements` */
+
+CREATE TABLE `a_yf_pdf_dynamic_elements` (
+  `dynamicid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `code` varchar(64) NOT NULL,
+  `label` varchar(255) NOT NULL,
+  `type` varchar(30) NOT NULL DEFAULT 'PLL_DOCUMENT_LAYOUT',
+  `module_name` varchar(25) NOT NULL DEFAULT '',
+  `language` varchar(7) NOT NULL DEFAULT '',
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `sequence` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `content` mediumtext NOT NULL,
+  `layout_header` mediumtext NOT NULL,
+  `layout_body` mediumtext NOT NULL,
+  `layout_footer` mediumtext NOT NULL,
+  `description` text,
+  PRIMARY KEY (`dynamicid`),
+  UNIQUE KEY `code_scope` (`code`,`module_name`,`language`),
+  KEY `status_type` (`status`,`type`),
+  KEY `module_status` (`module_name`,`status`),
+  KEY `sequence` (`sequence`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
 /*Table structure for table `a_yf_pdf` */
 
 CREATE TABLE `a_yf_pdf` (
@@ -8283,7 +8306,7 @@ CREATE TABLE `vtiger_settings_field` (
   PRIMARY KEY (`fieldid`),
   KEY `fk_1_vtiger_settings_field` (`blockid`),
   CONSTRAINT `fk_1_vtiger_settings_field` FOREIGN KEY (`blockid`) REFERENCES `vtiger_settings_blocks` (`blockid`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=108 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_sharedcalendar` */
 
@@ -8990,6 +9013,7 @@ CREATE TABLE `vtiger_users` (
   `cal_color` varchar(25) DEFAULT '#E6FAD8',
   `first_name` varchar(30) DEFAULT NULL,
   `last_name` varchar(30) DEFAULT NULL,
+  `job_title` varchar(128) DEFAULT NULL,
   `reports_to_id` mediumint(11) unsigned DEFAULT NULL,
   `is_admin` varchar(3) DEFAULT '0',
   `currency_id` mediumint(19) NOT NULL DEFAULT '1',

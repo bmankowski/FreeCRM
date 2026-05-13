@@ -58,6 +58,27 @@ class Field
 		return $fields;
 	}
 
+	/**
+	 * Drop cached field-permission lists for a module tab (all CRM users).
+	 * Required after adding/removing vtiger_field rows so getFieldsForSave() sees new columns.
+	 */
+	public static function clearFieldsPermissionsCacheForTab(int $tabId, ?int $onlyUserId = null): void
+	{
+		Cache::init();
+		$userIds = $onlyUserId !== null
+			? [$onlyUserId]
+			: (new \App\Db\Query())->select(['id'])->from('vtiger_users')->column();
+		foreach ($userIds as $userId) {
+			Cache::delete(self::class . '::getFieldsPermissions' . (int) $userId, $tabId);
+		}
+		unset(
+			self::$fieldPermissionCacheRead[$tabId],
+			self::$fieldPermissionCacheWrite[$tabId],
+			self::$columnPermissionCacheRead[$tabId],
+			self::$columnPermissionCacheWrite[$tabId]
+		);
+	}
+
 	private static $fieldPermissionCacheRead = [];
 	private static $fieldPermissionCacheWrite = [];
 

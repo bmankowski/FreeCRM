@@ -286,6 +286,16 @@ class Privileges extends \App\Runtime\BaseModel
 	}
 
 	/**
+	 * Static function to get the current user record model.
+	 * @deprecated Use \App\Modules\Users\Models\Record::getCurrentUserModel() instead.
+	 * @return \App\Modules\Users\Models\Record
+	 */
+	public static function getCurrentUserModel()
+	{
+		return \App\Modules\Users\Models\Record::getCurrentUserModel();
+	}
+
+	/**
 	 * Function to check permission for a Module/Action/Record
 	 * @param string $moduleName
 	 * @param string $actionName

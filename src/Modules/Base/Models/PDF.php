@@ -390,7 +390,7 @@ class PDF extends \App\Runtime\BaseModel
 		}
 		$textParser = \App\TextParser\TextParser::getInstanceById($this->getMainRecordId(), $this->get('module_name'));
 		$textParser->setType('pdf');
-		$textParser->setParams(['pdf' => $this]);
+		$textParser->setParams($this->getTextParserParams());
 		if ($this->get('language')) {
 			$textParser->setLanguage($this->get('language'));
 		}
@@ -409,7 +409,7 @@ class PDF extends \App\Runtime\BaseModel
 		}
 		$textParser = \App\TextParser\TextParser::getInstanceById($this->getMainRecordId(), $this->get('module_name'));
 		$textParser->setType('pdf');
-		$textParser->setParams(['pdf' => $this]);
+		$textParser->setParams($this->getTextParserParams());
 		if ($this->get('language')) {
 			$textParser->setLanguage($this->get('language'));
 		}
@@ -428,11 +428,33 @@ class PDF extends \App\Runtime\BaseModel
 		}
 		$textParser = \App\TextParser\TextParser::getInstanceById($this->getMainRecordId(), $this->get('module_name'));
 		$textParser->setType('pdf');
-		$textParser->setParams(['pdf' => $this]);
+		$textParser->setParams($this->getTextParserParams());
 		if ($this->get('language')) {
 			$textParser->setLanguage($this->get('language'));
 		}
 		return $textParser->setContent($this->get('body_content'))->parse()->getContent();
+	}
+
+	protected function getTextParserParams()
+	{
+		return [
+			'pdf' => $this,
+		];
+	}
+
+	protected function getGeneratorFooter()
+	{
+		$cacheKey = 'generatorFooter|' . $this->getMainRecordId() . '|' . $this->get('language');
+		if (isset($this->recordCache[$cacheKey])) {
+			return $this->recordCache[$cacheKey];
+		}
+		$textParser = \App\TextParser\TextParser::getInstanceById($this->getMainRecordId(), $this->get('module_name'));
+		$textParser->setType('pdf');
+		$textParser->setParams(['pdf' => $this]);
+		if ($this->get('language')) {
+			$textParser->setLanguage($this->get('language'));
+		}
+		return $this->recordCache[$cacheKey] = $textParser->setContent('$(dynamic : pdf_generator_footer)$')->parse()->getContent();
 	}
 
 	/**
@@ -457,11 +479,7 @@ class PDF extends \App\Runtime\BaseModel
 
 	public static function getPdfRendererName()
 	{
-		$renderer = \App\Core\AppConfig::main('pdfRenderer') ?: 'Chrome';
-		if (strtolower($renderer) === 'mpdf') {
-			return 'mPDF';
-		}
-		return ucfirst($renderer);
+		return 'Chrome';
 	}
 
 	public static function attachToEmail($salt)

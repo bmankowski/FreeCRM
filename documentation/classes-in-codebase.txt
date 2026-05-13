@@ -243,7 +243,6 @@
 \App\Modules\Base\Models\Widget \App\Runtime\BaseModel
 \App\Modules\Base\Models\WorkflowTrigger
 \App\Modules\Base\Pdfs\AbstractPDF
-\App\Modules\Base\Pdfs\mPDF \AbstractPDF
 \App\Modules\Base\UiTypes\BaseUiType \App\Runtime\BaseModel
 \App\Modules\Base\UiTypes\Boolean \BaseUiType
 \App\Modules\Base\UiTypes\CategoryMultipicklist \BaseUiType
@@ -1673,7 +1672,6 @@
 \App\SystemWarnings
 \App\SystemWarnings\SystemRequirements\ConfReport \App\SystemWarnings\Template
 \App\SystemWarnings\SystemRequirements\LibraryChat \App\SystemWarnings\Template
-\App\SystemWarnings\SystemRequirements\LibraryPDF \App\SystemWarnings\Template
 \App\SystemWarnings\SystemRequirements\LibraryPHPExcel \App\SystemWarnings\Template
 \App\SystemWarnings\SystemRequirements\LibraryRoundcube \App\SystemWarnings\Template
 \App\SystemWarnings\Template

@@ -130,8 +130,9 @@ http://localhost/index.php?module=OutsourcedProducts&view=ListView&mid=87&parent
 http://localhost/index.php?module=PBXManager&parent=Settings&view=Index
 http://localhost/index.php?module=PBXManager&parent=Settings&view=Index&block=5&fieldid=29
 http://localhost/index.php?module=PBXManager&view=ListView&mid=98&parent=84
-http://localhost/index.php?module=PDF&parent=Settings&view=ListView
-http://localhost/index.php?module=PDF&parent=Settings&view=ListView&block=4&fieldid=35
+http://localhost/index.php?module=Template&parent=Settings&view=ListView
+http://localhost/index.php?module=Template&parent=Settings&view=ListView&block=18&fieldid=35
+http://localhost/index.php?module=TemplateDynamicElements&parent=Settings&view=ListView&block=18&fieldid=107
 http://localhost/index.php?module=Partners&view=ListView&mid=126&parent=47
 http://localhost/index.php?module=Password&parent=Settings&view=Index
 http://localhost/index.php?module=Password&parent=Settings&view=Index&block=7&fieldid=38

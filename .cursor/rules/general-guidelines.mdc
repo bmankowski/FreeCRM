@@ -30,8 +30,8 @@ alwaysApply: true
 - Focus on incremental improvements
 
 ## Migrated Docker Server
-- FreeCRM is deployed on `10.0.0.20` in `/opt/freecrm` and is available at `http://10.0.0.20/`.
-- Connect as `bmankowski@10.0.0.20`; manage the stack with `docker compose` from `/opt/freecrm`.
+- FreeCRM is deployed on `local.itconnect.pl` in `/opt/freecrm` and is available at `http://local.itconnect.pl/`.
+- Connect as `bmankowski@local.itconnect.pl`; manage the stack with `docker compose` from `/opt/freecrm`.
 - Services are `web`, `app`, and `db`; MariaDB is bound to `127.0.0.1:3306` on the server.
 - Runtime data lives in `/opt/freecrm/storage`; it was copied from production `10.0.0.220:/var/www/yetiforce/storage`.
 - Migration backups are kept in `/opt/freecrm/_migration`, with local rollback dump under `tmp/migration-20260511-134258/`.

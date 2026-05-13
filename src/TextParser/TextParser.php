@@ -42,6 +42,16 @@ class TextParser
 		'LBL_TRANSLATE' => '$(translate : Accounts|LBL_COPY_BILLING_ADDRESS)$, $(translate : LBL_SECONDS)$',
 	];
 
+	/** @var array Variables describing the user who started PDF generation. */
+	public static $variableGenerator = [
+		'LBL_PDF_GENERATOR_FULL_NAME' => '$(generator : full_name)$',
+		'LBL_PDF_GENERATOR_USER_NAME' => '$(generator : user_name)$',
+		'LBL_PDF_GENERATOR_EMAIL' => '$(generator : email1)$',
+		'LBL_PDF_GENERATOR_WORK_PHONE' => '$(generator : phone_work)$',
+		'LBL_PDF_GENERATOR_TITLE' => '$(generator : title)$',
+		'LBL_PDF_GENERATOR_DEPARTMENT' => '$(generator : department)$',
+	];
+
 	/** @var array Variables for entity modules */
 	public static $variableEntity = [
 		'CrmDetailViewURL' => 'LBL_CRM_DETAIL_VIEW_URL',
@@ -54,7 +64,7 @@ class TextParser
 	];
 
 	/** @var string[] List of available functions */
-	protected static $baseFunctions = ['general', 'translate', 'record', 'relatedRecord', 'sourceRecord', 'organization', 'employee', 'params', 'custom'];
+	protected static $baseFunctions = ['general', 'translate', 'record', 'relatedRecord', 'sourceRecord', 'organization', 'employee', 'generator', 'dynamic', 'params', 'custom'];
 
 	/** @var string[] List of source modules */
 	public static $sourceModules = [
@@ -92,6 +102,9 @@ class TextParser
 
 	/** @var array Additional params */
 	protected $params;
+
+	/** @var string[] Dynamic element recursion stack */
+	protected $dynamicStack = [];
 
 	/**
 	 * Get instanace by record id
@@ -350,6 +363,31 @@ class TextParser
 			$value = $instance->record($fieldName);
 		}
 		Cache::save('TextParserEmployeeDetail', $userId . $fieldName, $value, Cache::LONG);
+		return $value;
+	}
+
+	/**
+	 * Parsing PDF generator user details.
+	 * @param string $fieldName
+	 * @return string
+	 */
+	protected function generator($fieldName)
+	{
+		$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
+		if (!$userId) {
+			return '';
+		}
+		$cacheKey = $userId . $fieldName;
+		if (Cache::has('TextParserGeneratorDetail', $cacheKey)) {
+			return Cache::get('TextParserGeneratorDetail', $cacheKey);
+		}
+		$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		if (!$userModel) {
+			return '';
+		}
+		$value = $fieldName === 'full_name' ? $userModel->getDisplayName() : $userModel->get($fieldName);
+		$value = \App\Modules\Base\Helpers\Util::toSafeHTML((string) $value);
+		Cache::save('TextParserGeneratorDetail', $cacheKey, $value, Cache::LONG);
 		return $value;
 	}
 
@@ -630,6 +668,47 @@ class TextParser
 	}
 
 	/**
+	 * Parsing PDF dynamic elements.
+	 * @param string $code
+	 * @return string
+	 */
+	protected function dynamic($code)
+	{
+		$code = trim($code);
+		if ($code === '') {
+			return '';
+		}
+		if (in_array($code, $this->dynamicStack, true)) {
+			\App\Log\Log::warning("Recursive PDF dynamic element detected: $code");
+			return '';
+		}
+		$element = \App\Modules\Settings\TemplateDynamicElements\Models\Record::getActiveElementByCode(
+			$code,
+			(string) $this->moduleName,
+			$this->language ?? null
+		);
+		if (!$element) {
+			\App\Log\Log::warning("PDF dynamic element not found: $code");
+			return '';
+		}
+
+		$parser = new static();
+		$parser->record = $this->record;
+		$parser->moduleName = $this->moduleName;
+		$parser->recordModel = $this->recordModel;
+		$parser->sourceRecordModel = $this->sourceRecordModel;
+		$parser->type = $this->type;
+		$parser->params = $this->params;
+		$parser->language = $this->language ?? ($element['language'] ?: null);
+		$parser->withoutTranslations = $this->withoutTranslations;
+		$parser->dynamicStack = array_merge($this->dynamicStack, [$code]);
+		$raw = ($element['type'] ?? '') === 'PLL_DOCUMENT_LAYOUT'
+			? (string) ($element['layout_body'] ?? '')
+			: (string) ($element['content'] ?? '');
+		return $parser->setContent($raw)->parse()->getContent();
+	}
+
+	/**
 	 * Parsing custom
 	 * @param string $params
 	 * @return string
@@ -798,6 +877,11 @@ class TextParser
 					return \App\Runtime\Vtiger_Language_Handler::translate($value);
 				}, array_flip(static::$variableGeneral))
 		];
+		if ($this->type === 'pdf') {
+			$variables['LBL_PDF_GENERATOR_VARIABLES'] = array_map(function($value) {
+					return \App\Runtime\Vtiger_Language_Handler::translate($value);
+				}, array_flip(static::$variableGenerator));
+		}
 		$companyDetails = \App\Core\Company::getInstanceById()->getData();
 		unset($companyDetails['id'], $companyDetails['logo_login'], $companyDetails['logo_login_height'], $companyDetails['logo_main'], $companyDetails['logo_main_height'], $companyDetails['logo_mail'], $companyDetails['logo_mail_height'], $companyDetails['default']);
 		$companyVariables = [];

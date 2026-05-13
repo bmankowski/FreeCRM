@@ -3,7 +3,7 @@
 	{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 	<div id="VtVTEmailTemplateTaskContainer">
 		<div class="row">
-			<span class="col-md-4 control-label">{'LBL_PDF_TEMPLATE'|t:$QUALIFIED_MODULE}</span>
+			<span class="col-md-4 control-label">{'LBL_SEND_PDF_TEMPLATE'|t:$QUALIFIED_MODULE}</span>
 			<div class="col-md-4 padding-bottom1per">
 			<select class="chzn-select form-control" name="pdfTemplate" data-validation-engine="validate[required]">
 				<option value="none">{'LBL_SELECT_FIELD'|t:$MODULE}</option>

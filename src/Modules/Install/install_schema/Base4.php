@@ -1559,6 +1559,7 @@ class Base4 extends \App\Db\Importers\Base
 					'cal_color' => $this->stringType(25)->defaultValue('#E6FAD8'),
 					'first_name' => $this->stringType(30),
 					'last_name' => $this->stringType(30),
+					'job_title' => $this->stringType(128),
 					'reports_to_id' => $this->integer()->unsigned(),
 					'is_admin' => $this->stringType(3)->defaultValue(0),
 					'currency_id' => $this->integer()->notNull()->defaultValue(1),
@@ -8695,13 +8696,13 @@ class Base4 extends \App\Db\Importers\Base
 				'values' => [
 						[1, 'LBL_USER_MANAGEMENT', 2, 'adminIcon-permissions', 0, NULL, NULL],
 						[2, 'LBL_STUDIO', 3, 'adminIcon-standard-modules', 0, NULL, NULL],
-						[3, 'LBL_COMPANY', 13, 'adminIcon-company-information', 0, NULL, NULL],
+						[3, 'LBL_COMPANY', 14, 'adminIcon-company-information', 0, NULL, NULL],
 						[4, 'LBL_SYSTEM_TOOLS', 12, 'adminIcon-system-tools', 0, NULL, NULL],
 						[5, 'LBL_INTEGRATION', 9, 'adminIcon-integration', 0, NULL, NULL],
-						[6, 'LBL_PROCESSES', 14, 'adminIcon-processes', 0, NULL, NULL],
+						[6, 'LBL_PROCESSES', 15, 'adminIcon-processes', 0, NULL, NULL],
 						[7, 'LBL_SECURITY_MANAGEMENT', 7, 'adminIcon-security', 0, NULL, NULL],
 						[8, 'LBL_MAIL_TOOLS', 11, 'adminIcon-mail-tools', 0, NULL, NULL],
-						[9, 'LBL_About_YetiForce', 15, 'adminIcon-about-yetiforce', 0, NULL, NULL],
+						[9, 'LBL_About_YetiForce', 16, 'adminIcon-about-yetiforce', 0, NULL, NULL],
 						[11, 'LBL_ADVANCED_MODULES', 4, 'adminIcon-advenced-modules', 0, NULL, NULL],
 						[12, 'LBL_CALENDAR_LABELS_COLORS', 5, 'adminIcon-calendar-labels-colors', 0, NULL, NULL],
 						[13, 'LBL_SEARCH_AND_FILTERS', 6, 'adminIcon-search-and-filtres', 0, NULL, NULL],
@@ -8709,12 +8710,13 @@ class Base4 extends \App\Db\Importers\Base
 						[15, 'LBL_AUTOMATION', 10, 'adminIcon-automation', 0, NULL, NULL],
 						[16, 'LBL_MENU_SUMMARRY', 0, 'userIcon-Home', 1, 'index.php?module=Dashboard&parent=Settings&view=Index', NULL],
 						[17, 'LBL_YETIFORCE_SHOP', 1, 'adminIcon-yetiforce-shop', 1, 'https://shop.yetiforce.com/', NULL],
+						[18, 'LBL_TEMPLATE', 13, 'adminIcon-modules-pdf-templates', 0, NULL, NULL],
 				]
 			],
 			'vtiger_settings_blocks_seq' => [
 				'columns' => ['id'],
 				'values' => [
-						[17],
+						[18],
 				]
 			],
 			'vtiger_settings_field' => [
@@ -8747,7 +8749,8 @@ class Base4 extends \App\Db\Importers\Base
 						[28, 4, 'ModTracker', 'adminIcon-modules-track-chanegs', 'LBL_MODTRACKER_DESCRIPTION', 'index.php?module=ModTracker&action=BasicSettings&parenttab=Settings&formodule=ModTracker', 9, 0, 0, NULL],
 						[29, 5, 'LBL_PBXMANAGER', 'adminIcon-pbx-manager', 'LBL_PBXMANAGER_DESCRIPTION', 'index.php?module=PBXManager&parent=Settings&view=Index', 22, 0, 0, NULL],
 						[33, 2, 'LBL_EDIT_FIELDS', 'adminIcon-modules-fields', 'LBL_LAYOUT_EDITOR_DESCRIPTION', 'index.php?module=LayoutEditor&parent=Settings&view=Index', 2, 0, 0, NULL],
-						[35, 4, 'LBL_PDF', 'adminIcon-modules-pdf-templates', 'LBL_PDF_DESCRIPTION', 'index.php?module=PDF&parent=Settings&view=ListView', 10, 0, 0, NULL],
+						[35, 18, 'LBL_TEMPLATE_TEMPLATES', 'adminIcon-modules-pdf-templates', 'LBL_TEMPLATE_TEMPLATES_DESCRIPTION', 'index.php?module=Template&parent=Settings&view=ListView', 1, 0, 0, NULL],
+						[107, 18, 'LBL_TEMPLATE_DYNAMIC_ELEMENTS', 'adminIcon-document-templates', 'LBL_TEMPLATE_DYNAMIC_ELEMENTS_DESCRIPTION', 'index.php?module=TemplateDynamicElements&parent=Settings&view=ListView', 2, 0, 0, NULL],
 						[38, 7, 'LBL_PASSWORD_CONF', 'adminIcon-passwords-configuration', 'LBL_PASSWORD_DESCRIPTION', 'index.php?module=Password&parent=Settings&view=Index', 1, 0, 0, NULL],
 						[40, 2, 'LBL_MENU_BUILDER', 'adminIcon-menu-configuration', 'LBL_MENU_BUILDER_DESCRIPTION', 'index.php?module=Menu&view=Index&parent=Settings', 14, 0, 1, NULL],
 						[41, 2, 'LBL_ARRANGE_RELATED_TABS', 'adminIcon-modules-relations', 'LBL_ARRANGE_RELATED_TABS', 'index.php?module=LayoutEditor&parent=Settings&view=Index&mode=showRelatedListLayout', 4, 0, 1, NULL],

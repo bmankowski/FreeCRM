@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Users\Actions;
-use App\Modules\Settings\PasswordModels\Record;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -14,7 +13,7 @@ use App\Modules\Settings\PasswordModels\Record;
  * *********************************************************************************** */
 
 
-class SaveAjax extends \App\Modules\Base\Actions\Save
+class SaveAjax extends \App\Modules\Base\Actions\SaveAjax
 {
 
 	public function __construct()

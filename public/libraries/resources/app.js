@@ -1657,14 +1657,28 @@ var app = {
 				});
 				trigger = jQuery(trigger);
 				var element = jQuery(trigger.data('copyTarget'));
-				if (trigger.data('copyType') != undefined) {
-					if (element.is("select")) {
-						var val = element.find('option:selected').data(trigger.data('copyType'));
+				var val;
+				var copyTypeKey = trigger.data('copyType');
+				if (copyTypeKey != undefined) {
+					copyTypeKey = String(copyTypeKey);
+					// Prefer reading data-* from the DOM: jQuery/Select2 caches often omit option data-* for .data().
+					var dataAttrName = 'data-' + copyTypeKey.replace(/([A-Z])/g, function (letter) {
+						return '-' + letter.toLowerCase();
+					});
+					if (element.is('select')) {
+						var opt = element.find('option:selected');
+						val = opt.attr(dataAttrName);
+						if (val === undefined || val === null || val === '') {
+							val = opt.data(copyTypeKey);
+						}
 					} else {
-						var val = element.data(trigger.data('copyType'));
+						val = element.attr(dataAttrName);
+						if (val === undefined || val === null || val === '') {
+							val = element.data(copyTypeKey);
+						}
 					}
 				} else {
-					var val = element.val();
+					val = element.val();
 				}
 				return val;
 			}

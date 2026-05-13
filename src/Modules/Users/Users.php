@@ -53,6 +53,7 @@ class Users extends \App\Core\CRMEntity
 	public $user_password;
 	public $first_name;
 	public $last_name;
+	public $job_title;
 	public $roleid;
 	public $email1;
 	public $status;
@@ -122,7 +123,7 @@ class Users extends \App\Core\CRMEntity
 	public $object_name = "User";
 	public $user_preferences;
 	public $homeorder_array = array('HDB', 'ALVT', 'CVLVT', 'HLT', 'GRT', 'MNL', 'LTFAQ', 'UA', 'PA');
-	public $encodeFields = Array("first_name", "last_name", "description");
+	public $encodeFields = Array("first_name", "last_name", "job_title", "description");
 	// This is used to retrieve related fields from form posts.
 	public $additional_column_fields = Array('reports_to_name');
 	// This is the list of vtiger_fields that are in the lists.
@@ -143,7 +144,7 @@ class Users extends \App\Core\CRMEntity
 		'Admin' => 'is_admin'
 	);
 	//Default Fields for Email Templates -- Pavani
-	public $emailTemplate_defaultFields = array('first_name', 'last_name', 'title', 'department', 'phone_home', 'phone_mobile', 'signature', 'email1');
+	public $emailTemplate_defaultFields = array('first_name', 'last_name', 'job_title', 'title', 'department', 'phone_home', 'phone_mobile', 'signature', 'email1');
 	public $popup_fields = array('last_name');
 	// This is the list of fields that are in the lists.
 	public $default_order_by = '';

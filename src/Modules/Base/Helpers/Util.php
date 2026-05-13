@@ -379,7 +379,7 @@ class Util {
 		}
 		
 		if ($userObject) {
-			$userModel = \App\Modules\Users\Models\Privileges::getInstanceFromUserObject($userObject);
+			$userModel = \App\Modules\Users\Models\Record::getInstanceFromUserObject($userObject);
 		} else {
 			$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		}
@@ -401,9 +401,9 @@ class Util {
 	public static function convertTimeIntoUsersDisplayFormat($time, $userObject = null)
 	{
 		if ($userObject) {
-			$userModel = \App\Modules\Users\Models\Privileges::getInstanceFromUserObject($userObject);
+			$userModel = \App\Modules\Users\Models\Record::getInstanceFromUserObject($userObject);
 		} else {
-			$userModel = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
+			$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
 		}
 
 		if ($userModel->get('hour_format') == '12') {

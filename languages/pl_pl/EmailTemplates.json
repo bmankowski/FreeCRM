@@ -16,5 +16,22 @@
         "PLL_LIST": "Lista",
         "PLL_DEFAULT": "Domyślna firma"
     },
-    "jsLanguageStrings": []
+    "jsLanguageStrings": {
+        "JS_FORMAT_HTML": "Formatuj HTML",
+        "JS_FIND_TEXT": "Szukaj",
+        "JS_PREVIEW_HTML": "Podgląd",
+        "JS_INSERT_TEMPLATE_BLOCK": "Wstaw szablon",
+        "JS_TEMPLATE_AI_HELP": "Instrukcja AI",
+        "JS_TEMPLATE_AI_HELP_TEXT": "Twórz HTML używając tylko klas FreeCRM Template CSS: fc-doc, container, row, col-4, col-6, col-8, col-12, card, card-header, card-body, table, table-sm, table-bordered, table-striped, text-left, text-center, text-right, text-muted, font-bold, mt-1/2/3, mb-1/2/3, p-1/2/3, alert, badge, signature, img-logo. Unikaj flex, grid, JavaScript i zewnętrznych CSS.",
+        "JS_TEMPLATE_SNIPPET_EMAIL": "Szablon email",
+        "JS_TEMPLATE_SNIPPET_PDF": "Szablon PDF",
+        "JS_TEMPLATE_BLOCK_DOCUMENT": "Układ wiadomości",
+        "JS_TEMPLATE_BLOCK_HEADER_LOGO": "Nagłówek z logo",
+        "JS_TEMPLATE_BLOCK_DATA_CARD": "Karta danych",
+        "JS_TEMPLATE_BLOCK_DATA_TABLE": "Tabela danych",
+        "JS_TEMPLATE_BLOCK_ITEMS_TABLE": "Tabela pozycji",
+        "JS_TEMPLATE_BLOCK_SUMMARY": "Podsumowanie",
+        "JS_TEMPLATE_BLOCK_ALERT": "Notatka / alert",
+        "JS_TEMPLATE_BLOCK_SIGNATURE": "Podpis"
+    }
 }

@@ -909,7 +909,7 @@ class Field extends \vtlib\Field
 			$module = $context['module'] ?? null;
 			$mode = $context['mode'] ?? null;
 			
-			if (!\App\Core\AppConfig::performance('SEARCH_OWNERS_BY_AJAX') || in_array($module, ['CustomView', 'Workflows', 'PDF', 'MappedFields', 'DataAccess', 'Reports']) || $mode === 'showAdvancedSearch') {
+			if (!\App\Core\AppConfig::performance('SEARCH_OWNERS_BY_AJAX') || in_array($module, ['CustomView', 'Workflows', 'Template', 'MappedFields', 'DataAccess', 'Reports']) || $mode === 'showAdvancedSearch') {
 				$userList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleUsers('', $fieldDataType);
 				$groupList = \App\Fields\Owner::getInstance($this->getModuleName(), $currentUser)->getAccessibleGroups('', $fieldDataType);
 				$pickListValues = [];
@@ -1261,6 +1261,7 @@ class Field extends \vtlib\Field
 		if ($moduleId) {
 			\App\Cache\Cache::delete('ModuleFields', $moduleId);
 			\App\Cache\Cache::delete('fieldInfo', $moduleId);
+			\App\Fields\Field::clearFieldsPermissionsCacheForTab($moduleId);
 			if ($fieldId) {
 				\App\Cache\Cache::delete('field-' . $moduleId, $fieldId);
 			}

@@ -299,7 +299,6 @@ Legend:
 │   │   │   └── ○ WorkflowTrigger
 │   │   ├── 📁 Pdfs
 │   │   │   ├── ○ AbstractPDF
-│   │   │   └── ● mPDF → extends \AbstractPDF
 │   │   ├── 📁 UiTypes
 │   │   │   ├── ● BaseUiType → extends \App\Runtime\BaseModel
 │   │   │   ├── ● Boolean → extends \BaseUiType
@@ -2257,7 +2256,6 @@ Legend:
 │   ├── 📁 SystemRequirements
 │   │   ├── ● ConfReport → extends \App\SystemWarnings\Template
 │   │   ├── ● LibraryChat → extends \App\SystemWarnings\Template
-│   │   ├── ● LibraryPDF → extends \App\SystemWarnings\Template
 │   │   ├── ● LibraryPHPExcel → extends \App\SystemWarnings\Template
 │   │   └── ● LibraryRoundcube → extends \App\SystemWarnings\Template
 │   ├── ○ Template

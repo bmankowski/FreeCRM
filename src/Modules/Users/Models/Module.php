@@ -343,6 +343,19 @@ class Module extends \App\Modules\Base\Models\Module
 		foreach (\App\Fields\Field::getFieldsPermissions($this->getId(), false) as &$field) {
 			$editFields[] = $field['fieldname'];
 		}
+		if (!$recordModel->isNew()) {
+			$changed = array_keys((array) $recordModel->getPreviousValue());
+			if ($changed && array_diff($changed, $editFields)) {
+				$uid = (int) \App\Modules\Users\Models\Record::getCurrentUserRealId();
+				if ($uid > 0) {
+					\App\Fields\Field::clearFieldsPermissionsCacheForTab((int) $this->getId(), $uid);
+				}
+				$editFields = [];
+				foreach (\App\Fields\Field::getFieldsPermissions($this->getId(), false) as &$field) {
+					$editFields[] = $field['fieldname'];
+				}
+			}
+		}
 		return $editFields;
 	}
 }

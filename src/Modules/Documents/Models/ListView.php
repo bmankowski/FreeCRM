@@ -29,7 +29,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 			);
 		}
 
-		if (!\App\Modules\Settings\ModuleManager\Models\Library::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
+		if ($moduleModel->isPermitted('ExportPdf')) {
 			$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');

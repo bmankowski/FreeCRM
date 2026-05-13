@@ -11,7 +11,7 @@ namespace App\Modules\Settings\Users\Actions;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-class SaveAjax extends \App\Modules\Settings\Base\Actions\Save
+class SaveAjax extends \App\Modules\Users\Actions\SaveAjax
 {
 
 	public function __construct()

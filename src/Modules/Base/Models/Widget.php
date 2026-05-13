@@ -22,8 +22,8 @@ class Widget extends \App\Runtime\BaseModel
 	{
 		$largerSizedWidgets = array('GroupedBySalesPerson', 'GroupedBySalesStage', 'Funnel Amount', 'LeadsByIndustry');
 		$title = $this->getName();
-		$size = \App\Utils\Json::decode(html_entity_decode($this->get('size')));
-		$width = $size['width'];
+		$size = $this->get('size') ? \App\Utils\Json::decode(html_entity_decode($this->get('size'))) : [];
+		$width = $size['width'] ?? null;
 		$this->set('width', $width);
 
 		if (empty($width)) {
@@ -35,8 +35,8 @@ class Widget extends \App\Runtime\BaseModel
 	public function getHeight()
 	{
 		//Special case for History widget
-		$size = \App\Utils\Json::decode(html_entity_decode($this->get('size')));
-		$height = $size['height'];
+		$size = $this->get('size') ? \App\Utils\Json::decode(html_entity_decode($this->get('size'))) : [];
+		$height = $size['height'] ?? null;
 		$this->set('height', $height);
 
 		if (empty($height)) {

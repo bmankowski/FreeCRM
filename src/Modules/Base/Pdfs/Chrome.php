@@ -249,7 +249,8 @@ class Chrome extends AbstractPDF
 			'.pdf-body{position:relative;z-index:1;}' .
 			'.pdf-watermark{position:fixed;top:45%;left:0;right:0;text-align:center;z-index:0;opacity:.15;pointer-events:none;}' .
 			'.pdf-watermark-text{font-size:72px;transform:rotate(-35deg);transform-origin:center;}' .
-			'img{max-width:100%;}';
+			'img{max-width:100%;}' .
+			\App\Utils\TemplateStyles::getCss();
 	}
 
 	protected function normalizeMargin($value)

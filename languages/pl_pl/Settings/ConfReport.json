@@ -34,7 +34,7 @@
         "LBL_MYSQLND_LIBRARY": "MySQL Native Driver (mysqlnd)",
         "LBL_SESSION_LIBRARY": "SESSION",
         "LBL_DOM_LIBRARY": "DOM",
-        "LBL_MBSTRING_LIBRARY": "php_mbstring (wymagane dla mPDF)",
+        "LBL_MBSTRING_LIBRARY": "php_mbstring",
         "LBL_ZIP_ARCHIVE": "ZIP",
         "LBL_SPACE": "Pojemność",
         "LBL_SPACE_TOTAL": "Całkowita",

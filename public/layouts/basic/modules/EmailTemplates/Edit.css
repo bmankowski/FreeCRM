@@ -1,0 +1,8 @@
+.emailTemplateToolbar {margin: 10px 0;}
+.emailTemplateToolbar .js-email-template-snippet {display: inline-block; margin-right: 6px; width: auto;}
+.emailTemplateAiHelp {clear: both; margin: 0 0 10px;}
+.emailTemplateAiHelp textarea {font-family: Menlo, Monaco, Consolas, "Courier New", monospace; resize: vertical;}
+.emailTemplatePreview {clear: both; margin: 10px 0 20px;}
+.emailTemplatePreviewFrame {background: #fff; border: 1px solid #ccc; height: 420px; width: 100%;}
+.EmailTemplatesEditView .CodeMirror {border: 1px solid #ccc; font-size: 13px;}
+.EmailTemplatesEditView .CodeMirror pre {font-family: Menlo, Monaco, Consolas, "Courier New", monospace;}

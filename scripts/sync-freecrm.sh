@@ -5,7 +5,7 @@ set -euo pipefail
 
 ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)"
 
-REMOTE_HOST="${FREECRM_SYNC_REMOTE_HOST:-10.0.0.20}"
+REMOTE_HOST="${FREECRM_SYNC_REMOTE_HOST:-local.itconnect.pl}"
 REMOTE_USER="${FREECRM_SYNC_REMOTE_USER:-bmankowski}"
 REMOTE_PATH="${FREECRM_SYNC_REMOTE_PATH:-/opt/freecrm}"
 REMOTE="${REMOTE_USER}@${REMOTE_HOST}"
@@ -30,13 +30,13 @@ Usage:
 
 Commands:
   help      Show this help.
-  pushsrc   Send source changes from localhost to 10.0.0.20.
-  pushdb    Dump localhost DB and import it on 10.0.0.20.
+  pushsrc   Send source changes from localhost to local.itconnect.pl.
+  pushdb    Dump localhost DB and import it on local.itconnect.pl.
   pushall   Run pushsrc and pushdb.
-  pulldb    Dump DB from 10.0.0.20 and import it on localhost.
+  pulldb    Dump DB from local.itconnect.pl and import it on localhost.
 
 Defaults can be changed with environment variables:
-  FREECRM_SYNC_REMOTE_HOST       default: 10.0.0.20
+  FREECRM_SYNC_REMOTE_HOST       default: local.itconnect.pl
   FREECRM_SYNC_REMOTE_USER       default: bmankowski
   FREECRM_SYNC_REMOTE_PATH       default: /opt/freecrm
   FREECRM_SYNC_DB_SERVICE        default: db

@@ -45,6 +45,7 @@ class Configuration extends \App\Modules\Settings\Base\Views\Index
 		$specialWidgets = \App\Modules\Settings\WidgetsManagement\Models\Module::getSpecialWidgets($sourceModule);
 		$filterSelect = $widgetsManagementModel->getFilterSelect();
 		$filterSelectDefault = $widgetsManagementModel->getFilterSelectDefault();
+		$widgetsWithFilterDate = \App\Modules\Settings\WidgetsManagement\Models\Module::getWidgetsWithDate();
 		$widgetsWithFilterUsers = $widgetsManagementModel->getWidgetsWithFilterUsers();
 		$restrictFilter = $widgetsManagementModel->getRestrictFilter();
 
@@ -53,7 +54,7 @@ class Configuration extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('FILTER_SELECT', $filterSelect);
 		$viewer->assign('FILTER_SELECT_DEFAULT', $filterSelectDefault);
 		$viewer->assign('DATE_SELECT_DEFAULT', \App\Modules\Settings\WidgetsManagement\Models\Module::getDateSelectDefault());
-		$viewer->assign('WIDGETS_WITH_FILTER_DATE', \App\Modules\Settings\WidgetsManagement\Models\Module::getWidgetsWithDate());
+		$viewer->assign('WIDGETS_WITH_FILTER_DATE', $widgetsWithFilterDate);
 		$viewer->assign('WIDGETS_WITH_FILTER_USERS', $widgetsWithFilterUsers);
 		$viewer->assign('ALL_AUTHORIZATION', $authorization);
 	$viewer->assign('SELECTED_MODULE_NAME', $sourceModule);

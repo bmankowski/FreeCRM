@@ -196,7 +196,7 @@ class DetailView extends \App\Runtime\BaseModel
 			);
 			$linkModelList['DETAILVIEW'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($duplicateLinkModel);
 		}
-		if (!\App\Modules\Settings\ModuleManager\Models\Library::checkLibrary('mPDF') && $moduleModel->isPermitted('ExportPdf')) {
+		if ($moduleModel->isPermitted('ExportPdf')) {
 			$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'PDF', $moduleName);
 			$pdfModel = new $handlerClass();
 			if ($pdfModel->checkActiveTemplates($recordId, $moduleName, 'Detail')) {

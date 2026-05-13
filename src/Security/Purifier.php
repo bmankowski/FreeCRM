@@ -135,8 +135,8 @@ class Purifier
 					'p[style|class]', 'div[style|class]', 'center', 'address[style]',
 					'span[style|class]', 'pre[style]',
 					'ul', 'ol', 'li',
-					'table[width|height|border|style|class]', 'th[width|height|border|style|class]',
-					'tr[width|height|border|style|class]', 'td[width|height|border|style|class]',
+					'table[width|height|border|style|class]', 'th[width|height|border|style|class|colspan|rowspan]',
+					'tr[width|height|border|style|class]', 'td[width|height|border|style|class|colspan|rowspan]',
 					'hr',
 				];
 				$config = \HTMLPurifier_Config::createDefault();
@@ -149,7 +149,7 @@ class Purifier
 				$config->set('HTML.SafeEmbed', true);
 				$config->set('URI.SafeIframeRegexp', '%^(http:|https:)?//(www.youtube(?:-nocookie)?.com/embed/|player.vimeo.com/video/)%');
 				$config->set('HTML.Allowed', implode(',', $allowed));
-				$config->set('HTML.DefinitionRev', 1);
+				$config->set('HTML.DefinitionRev', 2);
 				if ($def = $config->getHTMLDefinition(true)) {
 					// http://developers.whatwg.org/sections.html
 					$def->addElement('section', 'Block', 'Flow', 'Common');

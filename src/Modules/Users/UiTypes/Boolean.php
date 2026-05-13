@@ -14,11 +14,10 @@ class Boolean extends \App\Modules\Base\UiTypes\BaseUiType
 	public function getDBValue($value, $recordModel = false)
 	{
 		if ($this->getFieldModel()->getFieldName() === 'is_admin') {
-			if ($value === 'on' || $value === 1) {
+			if ($value === 'on' || $value === 1 || $value === '1' || $value === true) {
 				return 'on';
-			} else {
-				return 'off';
 			}
+			return 'off';
 		}
 		return parent::getDBValue($value, $recordModel);
 	}
