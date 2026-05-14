@@ -417,6 +417,7 @@ class Detail extends \App\Modules\Base\Views\Index
 
 		$jsFileNames = array(
 			'modules.Base.resources.Detail',
+			'modules.Base.resources.GenerateModal',
 			"modules.$moduleName.resources.Detail",
 			'modules.Base.resources.RelatedList',
 			"modules.$moduleName.resources.RelatedList",

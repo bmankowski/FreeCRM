@@ -77,8 +77,14 @@ class Record extends \App\Runtime\BaseModel
 	 */
 	public function set($key, $value)
 	{
-		if (!$this->isNew && !in_array($key, ['mode', 'id', 'newRecord', 'modifiedtime', 'modifiedby', 'createdtime']) && isset($this->valueMap[$key]) && $this->valueMap[$key] != $value) {
-			$this->changes[$key] = $this->get($key);
+		if (!$this->isNew && !in_array($key, ['mode', 'id', 'newRecord', 'modifiedtime', 'modifiedby', 'createdtime'], true)) {
+			// Use array_key_exists: isset() is false when the DB value is NULL, so changes were never tracked
+			// and getValuesForSave() skipped the field (e.g. new nullable columns like Users.phone_number).
+			$hadKey = array_key_exists($key, $this->valueMap);
+			$oldValue = $hadKey ? $this->valueMap[$key] : $this->get($key);
+			if ($oldValue != $value) {
+				$this->changes[$key] = $this->get($key);
+			}
 		}
 		$this->valueMap[$key] = $value;
 		return $this;

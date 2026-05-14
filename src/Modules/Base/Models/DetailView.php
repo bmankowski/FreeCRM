@@ -95,15 +95,30 @@ class DetailView extends \App\Runtime\BaseModel
 		if ($moduleModel->isPermitted('RecordMapping')) {
 			$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 			$mfModel = new $handlerClass();
-			if ($mfModel && $mfModel->checkActiveTemplates($recordId, $moduleName, 'Detail')) {
-				$detailViewLinks[] = [
-					'linktype' => 'DETAILVIEWBASIC',
-					'linklabel' => '',
-					'linkdata' => ['url' => 'index.php?module=' . $moduleName . '&view=GenerateModal&fromview=Detail&record=' . $recordId],
-					'linkicon' => 'glyphicon glyphicon-new-window',
-					'linkclass' => 'btn showModal',
-					'linkhint' => 'BTN_GENERATE_RECORD',
-				];
+			if ($mfModel) {
+				$mappingTemplates = $mfModel->getActiveTemplatesForRecord($recordId, 'Detail', $moduleName);
+				$mappingTemplateCount = count($mappingTemplates);
+				if ($mappingTemplateCount === 1) {
+					$template = reset($mappingTemplates);
+					$generateUrl = $template->getRelatedModule()->getCreateRecordUrl() . '&reference_id=' . $recordId;
+					$detailViewLinks[] = [
+						'linktype' => 'DETAILVIEWBASIC',
+						'linklabel' => '',
+						'linkurl' => $generateUrl,
+						'linkicon' => 'glyphicon glyphicon-new-window',
+						'linkclass' => 'btn-default btn',
+						'linkhint' => 'BTN_GENERATE_RECORD',
+					];
+				} elseif ($mappingTemplateCount > 1) {
+					$detailViewLinks[] = [
+						'linktype' => 'DETAILVIEWBASIC',
+						'linklabel' => '',
+						'linkdata' => ['url' => 'index.php?module=' . $moduleName . '&view=GenerateModal&fromview=Detail&record=' . $recordId],
+						'linkicon' => 'glyphicon glyphicon-new-window',
+						'linkclass' => 'btn showModal',
+						'linkhint' => 'BTN_GENERATE_RECORD',
+					];
+				}
 			}
 		}
 		if (\App\Core\AppConfig::module('ModTracker', 'WATCHDOG') && $moduleModel->isPermitted('WatchingRecords')) {

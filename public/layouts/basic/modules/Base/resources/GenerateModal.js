@@ -3,7 +3,11 @@
 jQuery.Class("Vtiger_GenerateModal_Js", {}, {
 	registerGenetateButton: function (container) {
 		var thisInstance = this;
-		container.find('button.genetateButton').on('click', function (e) {
+		var root = container && container.length ? container : jQuery('.generateMappingModal');
+		if (!root.length) {
+			return;
+		}
+		root.find('button.genetateButton').off('click.generateMappingModal').on('click.generateMappingModal', function (e) {
 			document.progressLoader = jQuery.progressIndicator({
 				message: app.vtranslate('JS_LOADING_PLEASE_WAIT'),
 				position: 'html',
@@ -13,18 +17,25 @@ jQuery.Class("Vtiger_GenerateModal_Js", {}, {
 			});
 			var currentTarget = jQuery(e.currentTarget);
 			var actionUrl = currentTarget.data('url');
-			var method = jQuery('[name="method"]:checked');
-			if (method.length <= 0) {
+			var methodRadio = root.find('[name="method"]:checked');
+			var methodHidden = root.find('input[type="hidden"][name="method"]');
+			var methodVal = null;
+			if (methodRadio.length) {
+				methodVal = methodRadio.val();
+			} else if (methodHidden.length) {
+				methodVal = methodHidden.val();
+			}
+			if (methodVal === null || typeof methodVal === 'undefined') {
 				window.location.href = actionUrl;
 			} else {
 				var params = {};
 				params.data = {
 					module: app.getModuleName(),
 					action: 'GenerateRecords',
-					records: jQuery('[name="all_records"]').val(),
+					records: root.find('[name="all_records"]').val(),
 					template: currentTarget.data('id'),
 					target: currentTarget.data('name'),
-					method: method.val()
+					method: methodVal
 				};
 				params.dataType = 'json';
 				AppConnector.request(params).then(
@@ -32,11 +43,11 @@ jQuery.Class("Vtiger_GenerateModal_Js", {}, {
 							var response = data['result'];
 							if (data['success']) {
 								var records = response.ok;
-								thisInstance.summary(container, response);
+								thisInstance.summary(root, response);
 								document.progressLoader.progressIndicator({'mode': 'hide'});
-								if (method.val() == 1) {
+								if (methodVal == 1) {
 									for (var i in records) {
-										var win = window.open(actionUrl + records[i], '_blank');
+										window.open(actionUrl + records[i], '_blank');
 									}
 								}
 							}
@@ -53,16 +64,5 @@ jQuery.Class("Vtiger_GenerateModal_Js", {}, {
 		container.find('.modal-body').html('<div>' + app.vtranslate('JS_SELECTED_RECORDS') + ': <strong>' + data.all + '</strong></div>\n\
 									<div>' + app.vtranslate('JS_SUCCESSFULLY_PERFORMED_ACTION_FOR') + ': <strong>' + data.ok.length + '</strong></div>\n\
 									<div>' + app.vtranslate('JS_ACTION_FAILED_FOR') + ': <strong>' + data.fail.length + '</strong></div>');
-	},
-	registerEvents: function () {
-		var container = jQuery('.generateMappingModal');
-		app.showPopoverElementView(container.find('.popoverTooltip'));
-		this.registerGenetateButton(container);
 	}
-
 });
-
-jQuery(document).ready(function (e) {
-	var instance = new Vtiger_GenerateModal_Js();
-	instance.registerEvents();
-})

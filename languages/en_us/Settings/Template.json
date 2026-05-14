@@ -115,6 +115,8 @@
         "LBL_WATERMARK_ANGLE": "Angle in degrees",
         "LBL_IMPORT_TEMPLATE": "Import template",
         "LBL_EXPORT_RECORD": "Export record",
+        "LBL_DUPLICATE_RECORD": "Duplicate record",
+        "LBL_TEMPLATE_COPY_SUFFIX": "copy",
         "LBL_UPLOAD_ERROR": "Importing PDF template XML file unsuccessful!",
         "LBL_UPLOAD_OK": "Template file imported successfully.",
         "LBL_IMPORT_VIEW": "PDF templates import",

@@ -111,8 +111,10 @@ class Purifier
 		}
 		$value = $input;
 		$cacheKey = md5($input);
-		if (Cache::has('purifyHtml', $cacheKey)) {
-			$value = Cache::get('purifyHtml', $cacheKey);
+		// Pool name bumped when HTMLPurifier policy changes (avoid serving stale stripped HTML).
+		$purifyHtmlCachePool = 'purifyHtml_v5';
+		if (Cache::has($purifyHtmlCachePool, $cacheKey)) {
+			$value = Cache::get($purifyHtmlCachePool, $cacheKey);
 			$ignore = true; //to escape cleaning up again
 		}
 		if (!$ignore) {
@@ -128,7 +130,7 @@ class Purifier
 					'figure', 'figcaption',
 					'video[src|type|width|height|poster|preload|controls|style|class]', 'source[src|type]',
 					'audio[src|type|preload|controls|class]',
-					'a[href|target|class]',
+					'a[href|target|class|style]',
 					'iframe[width|height|src|frameborder|allowfullscreen|class]',
 					'strong', 'b', 'i', 'u', 'em', 'br', 'font',
 					'h1[style|class]', 'h2[style|class]', 'h3[style|class]', 'h4[style|class]', 'h5[style|class]', 'h6[style|class]',
@@ -140,6 +142,8 @@ class Purifier
 					'hr',
 				];
 				$config = \HTMLPurifier_Config::createDefault();
+				// get() triggers autoFinalize() by default; we must read/merge URI.AllowedSchemes before the config locks.
+				$config->autoFinalize = false;
 				$config->set('Core.Encoding', static::$defaultCharset);
 				$config->set('Cache.SerializerPath', $cachePath);
 				$config->set('HTML.Doctype', 'HTML 4.01 Transitional');
@@ -149,7 +153,13 @@ class Purifier
 				$config->set('HTML.SafeEmbed', true);
 				$config->set('URI.SafeIframeRegexp', '%^(http:|https:)?//(www.youtube(?:-nocookie)?.com/embed/|player.vimeo.com/video/)%');
 				$config->set('HTML.Allowed', implode(',', $allowed));
-				$config->set('HTML.DefinitionRev', 2);
+				$config->set('HTML.DefinitionRev', 3);
+				// Default HTMLPurifier drops data: from img[src] etc.; allow for inline images (PDF templates, user photo).
+				$uriSchemes = $config->get('URI.AllowedSchemes');
+				if (is_array($uriSchemes)) {
+					$uriSchemes['data'] = true;
+					$config->set('URI.AllowedSchemes', $uriSchemes);
+				}
 				if ($def = $config->getHTMLDefinition(true)) {
 					// http://developers.whatwg.org/sections.html
 					$def->addElement('section', 'Block', 'Flow', 'Common');
@@ -206,12 +216,13 @@ class Purifier
 					$def->addAttribute('tr', 'height', 'Text');
 					$def->addAttribute('tr', 'border', 'Text');
 				}
+				$config->autoFinalize = true;
 				static::$purifyHtmlInstanceCache = new \HTMLPurifier($config);
 			}
 			if (static::$purifyHtmlInstanceCache) {
 				$value = static::$purifyHtmlInstanceCache->purify(static::decodeHtml($input));
 				$value = static::purifyHtmlEventAttributes(static::decodeHtml($value));
-				Cache::save('purifyHtml', $cacheKey, $value, Cache::SHORT);
+				Cache::save($purifyHtmlCachePool, $cacheKey, $value, Cache::SHORT);
 			}
 		}
 		return $value;

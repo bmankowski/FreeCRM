@@ -9014,6 +9014,7 @@ CREATE TABLE `vtiger_users` (
   `first_name` varchar(30) DEFAULT NULL,
   `last_name` varchar(30) DEFAULT NULL,
   `job_title` varchar(128) DEFAULT NULL,
+  `phone_number` varchar(50) DEFAULT NULL,
   `reports_to_id` mediumint(11) unsigned DEFAULT NULL,
   `is_admin` varchar(3) DEFAULT '0',
   `currency_id` mediumint(19) NOT NULL DEFAULT '1',

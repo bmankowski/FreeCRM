@@ -555,6 +555,14 @@ var app = {
 			app.registerEventForDatePickerFields(modalContainer);
 
 			thisInstance.registerModalEvents(modalContainer, sendByAjaxCb);
+			var generateMappingModalRoot = modalContainer.find('.generateMappingModal');
+			if (generateMappingModalRoot.length && typeof window.Vtiger_GenerateModal_Js === 'function') {
+				var generateModalJsInstance = new Vtiger_GenerateModal_Js();
+				generateModalJsInstance.registerGenetateButton(generateMappingModalRoot);
+				if (generateMappingModalRoot.find('button.genetateButton').length === 1) {
+					generateMappingModalRoot.find('button.genetateButton').trigger('click');
+				}
+			}
 			thisInstance.showPopoverElementView(modalContainer.find('.popoverTooltip'));
 			thisInstance.registerDataTables(modalContainer.find('.dataTable'));
 			modalContainer.one('shown.bs.modal', function () {

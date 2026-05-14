@@ -165,6 +165,7 @@ class ListView extends \App\Modules\Base\Views\Index
 
 		$jsFileNames = array(
 			'modules.Base.resources.Vtiger',
+			'modules.Base.resources.GenerateModal',
 			'modules.Base.resources.ListView',
 			"modules.$moduleName.resources.ListView",
 			'~libraries/jquery/colorpicker/js/colorpicker.js',

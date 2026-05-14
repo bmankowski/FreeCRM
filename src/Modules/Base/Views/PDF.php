@@ -36,8 +36,12 @@ class PDF  extends \App\Modules\Base\Views\Index
 
 		$viewer = $this->getViewer($request);
 		if ($view === 'Detail') {
-			$viewer->assign('TEMPLATES', $pdfModel->getActiveTemplatesForRecord($recordId, $view, $moduleName));
-		} elseif ($view === 'List') {
+			$pdfTemplates = $pdfModel->getActiveTemplatesForRecord($recordId, $view, $moduleName);
+			$viewer->assign('TEMPLATES', $pdfTemplates);
+			if (\count($pdfTemplates) === 1) {
+				$viewer->assign('AUTO_GENERATE_SINGLE_PDF_TEMPLATE', true);
+			}
+		} elseif ($view === 'List' || $view === 'ListView') {
 			$viewer->assign('TEMPLATES', $pdfModel->getActiveTemplatesForModule($moduleName, $view));
 		}
 		$postVars = [

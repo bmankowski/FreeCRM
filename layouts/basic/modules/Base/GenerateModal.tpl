@@ -8,30 +8,34 @@
 		<h3 class="modal-title">{'LBL_GENERATE_RECORD_FOR_MODULE'|t:$BASE_MODULE_NAME}</h3>
 	</div>
 	<div class="modal-body text-center">
-		{if $VIEW eq 'List'}
+		{if $VIEW eq 'List' || $VIEW eq 'ListView'}
 			<input type="hidden" name="all_records" id="all_records" value="{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($ALL_RECORDS))}" />
-			<div class="form-group">
-				<div class="radio-inline">
-					<label>
-						<input type="radio" name="method" id="optionsRadios1" value="0">
-						{'LBL_AUTOGENERATE'|t:$BASE_MODULE_NAME}&nbsp;
-					</label>
-					<span class="popoverTooltip delay0"  data-placement="top"
-						  data-content="{'LBL_AUTOGENERATE_INFO'|t:$BASE_MODULE_NAME}">
-						<span class="glyphicon glyphicon-info-sign"></span>
-					</span>
+			{if isset($GENMAP_TEMPLATE_COUNT) && $GENMAP_TEMPLATE_COUNT eq 1}
+				<input type="hidden" name="method" value="1" />
+			{else}
+				<div class="form-group">
+					<div class="radio-inline">
+						<label>
+							<input type="radio" name="method" id="optionsRadios1" value="0">
+							{'LBL_AUTOGENERATE'|t:$BASE_MODULE_NAME}&nbsp;
+						</label>
+						<span class="popoverTooltip delay0"  data-placement="top"
+							  data-content="{'LBL_AUTOGENERATE_INFO'|t:$BASE_MODULE_NAME}">
+							<span class="glyphicon glyphicon-info-sign"></span>
+						</span>
+					</div>
+					<div class="radio-inline">
+						<label>
+							<input type="radio" name="method" id="optionsRadios2" value="1" checked>
+							{'LBL_OPEN_NEW_WINDOWS'|t:$BASE_MODULE_NAME}&nbsp;
+						</label>
+						<span class="popoverTooltip delay0"  data-placement="top"
+							  data-content="{'LBL_OPEN_NEW_WINDOWS_INFO'|t:$BASE_MODULE_NAME}">
+							<span class="glyphicon glyphicon-info-sign"></span>
+						</span>
+					</div>
 				</div>
-				<div class="radio-inline">
-					<label>
-						<input type="radio" name="method" id="optionsRadios2" value="1" checked>
-						{'LBL_OPEN_NEW_WINDOWS'|t:$BASE_MODULE_NAME}&nbsp;
-					</label>
-					<span class="popoverTooltip delay0"  data-placement="top"
-						  data-content="{'LBL_OPEN_NEW_WINDOWS_INFO'|t:$BASE_MODULE_NAME}">
-						<span class="glyphicon glyphicon-info-sign"></span>
-					</span>
-				</div>
-			</div>
+			{/if}
 		{/if}
 		<div class="btn-elements text-center">
 			{foreach item=TEMPLATE from=$TEMPLATES}

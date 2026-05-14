@@ -27,7 +27,7 @@ class ExportWorkflow extends \App\Modules\Settings\Base\Actions\Index
 		header('Content-Disposition: attachment; filename=' . $recordId . '_workflow.xml');
 		header('Content-Description: PHP Generated Data');
 
-		$xml = new DOMDocument('1.0', 'utf-8');
+		$xml = new \DOMDocument('1.0', 'utf-8');
 		$xml->preserveWhiteSpace = false;
 		$xml->formatOutput = true;
 

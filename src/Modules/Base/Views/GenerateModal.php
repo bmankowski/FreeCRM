@@ -28,7 +28,8 @@ class GenerateModal  extends \App\Modules\Base\Views\Index
 		$viewer = $this->getViewer($request);
 		$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
 		$mfModel = new $handlerClass();
-		if ($view == 'List') {
+		$isListContext = ($view === 'List' || $view === 'ListView');
+		if ($isListContext) {
 			$allRecords = \App\Modules\Base\Actions\Mass::getRecordsListFromRequest($request);
 			$templates = $mfModel->getActiveTemplatesForModule($moduleName, $view);
 			$viewer->assign('ALL_RECORDS', $allRecords);
@@ -38,12 +39,13 @@ class GenerateModal  extends \App\Modules\Base\Views\Index
 		}
 
 		$viewer->assign('TEMPLATES', $templates);
+		$viewer->assign('GENMAP_TEMPLATE_COUNT', \count($templates));
 		$viewer->assign('VIEW', $view);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('BASE_MODULE_NAME', 'Vtiger');
 		$this->preProcess($request);
 		$viewer->view('GenerateModal.tpl', $moduleName);
-		$this->postProcess($request);
+		echo '</div></div></div>';
 		\App\Log\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 	}
 }

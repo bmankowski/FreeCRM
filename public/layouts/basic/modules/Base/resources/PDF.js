@@ -128,6 +128,21 @@ jQuery.Class("Vtiger_PDF_Js", {
 		if (!container.length) {
 			container = jQuery('div.modal-content').last();
 		}
+		var pdfForm = container.find('#pdfExportModal');
+		if (pdfForm.length && pdfForm.data('autoSinglePdfTemplate')) {
+			var tplInputs = pdfForm.find('[name="pdf_template[]"]');
+			if (tplInputs.length === 1) {
+				tplInputs.prop('checked', true);
+				pdfForm.find('[name="template"]').val(tplInputs.val());
+				pdfForm.get(0).submit();
+				setTimeout(function () {
+					if (typeof app !== 'undefined' && app.hideModalWindow) {
+						app.hideModalWindow();
+					}
+				}, 150);
+			}
+			return;
+		}
 		this.registerPreSubmitEvent(container);
 
 		if (app.getViewName() === 'Detail') {

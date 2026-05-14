@@ -5,6 +5,7 @@
  * document and mail templates. Keep selectors simple so they can be inlined
  * for email clients.
  */
+ /* 
 .fc-doc,
 .fc-doc * {
 	box-sizing: border-box;
@@ -331,4 +332,4 @@ tbody tr:nth-child(even) {
 }
 img {
 	max-width: 100%;
-}
+} */

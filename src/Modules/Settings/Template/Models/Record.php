@@ -113,6 +113,12 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
+				'linklabel' => 'LBL_DUPLICATE_RECORD',
+				'linkurl' => 'index.php?module=Template&parent=Settings&action=DuplicateTemplate&id=' . $this->getId(),
+				'linkicon' => 'glyphicon glyphicon-duplicate'
+			],
+			[
+				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => '#',
 				'linkicon' => 'glyphicon glyphicon-trash'

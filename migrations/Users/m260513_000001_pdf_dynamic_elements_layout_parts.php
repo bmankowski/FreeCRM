@@ -25,7 +25,7 @@ class m260513_000001_pdf_dynamic_elements_layout_parts extends Migration
 			return;
 		}
 
-		$mediumText = $this->mediumText()->notNull()->defaultValue('');
+		$mediumText = $this->db->getSchema()->createColumnSchemaBuilder('mediumtext')->notNull()->defaultValue('');
 
 		if (!isset($schema->columns['layout_header'])) {
 			$this->addColumn(self::TABLE, 'layout_header', $mediumText);

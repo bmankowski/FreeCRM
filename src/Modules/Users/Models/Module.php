@@ -306,7 +306,14 @@ class Module extends \App\Modules\Base\Models\Module
 	public function saveRecord(\App\Modules\Base\Models\Record $recordModel, $relationParams = null)
 	{
 		$moduleName = $this->get('name');
-		if (!$recordModel->isNew() && empty($recordModel->getPreviousValue())) {
+		$request = null;
+		if ($relationParams && isset($relationParams['__request'])) {
+			$request = $relationParams['__request'];
+		}
+		if ($relationParams && isset($relationParams['__request'])) {
+			unset($relationParams['__request']);
+		}
+		if (!$recordModel->isNew() && empty($recordModel->getPreviousValue()) && !$recordModel->isMandatorySave()) {
 			\App\Log\Log::info('ERR_NO_DATA');
 			return $recordModel;
 		}
@@ -317,7 +324,7 @@ class Module extends \App\Modules\Base\Models\Module
 		if ($recordModel->getHandlerExceptions()) {
 			$eventHandler->setExceptions($recordModel->getHandlerExceptions());
 		}
-		$recordModel->saveToDb($relationParams);
+		$recordModel->saveToDb($relationParams, $request);
 		//After adding new user, set the default activity types for new user
 		\App\Modules\Base\Helpers\Util::setCalendarDefaultActivityTypesForUser($recordModel->getId());
 		if ($recordModel->getPreviousValue('language') !== false && \App\Modules\Users\Models\Record::getCurrentUserRealId() === $recordModel->getId()) {

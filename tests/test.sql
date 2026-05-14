@@ -29,3 +29,8 @@ describe  yetiforce.vtiger_zrodlo_aplikacji;
 select * from freecrm.vtiger_users;
 
 update freecrm.vtiger_users set is_admin = 'on', job_title = 'CTO' where id = 1;
+
+select *
+from a_yf_pdf;
+
+select * from vtiger_userscf;

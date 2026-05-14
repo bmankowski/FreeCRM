@@ -4,7 +4,7 @@
 	<div class="modal fade" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
-	<form id="pdfExportModal" action="index.php" target="_blank" method="{if isset($EXPORT_VARS.fromview) && $EXPORT_VARS.fromview eq 'Detail'}GET{else}POST{/if}">
+	<form id="pdfExportModal" action="index.php" target="_blank" method="{if isset($EXPORT_VARS.fromview) && $EXPORT_VARS.fromview eq 'Detail'}GET{else}POST{/if}"{if !empty($AUTO_GENERATE_SINGLE_PDF_TEMPLATE)} data-auto-single-pdf-template="1"{/if}>
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 		<h3 id="massEditHeader" class="modal-title">{"LBL_GENERATE_PDF_FILE"|t:$MODULE_NAME}</h3>

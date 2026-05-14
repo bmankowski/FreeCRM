@@ -1560,6 +1560,7 @@ class Base4 extends \App\Db\Importers\Base
 					'first_name' => $this->stringType(30),
 					'last_name' => $this->stringType(30),
 					'job_title' => $this->stringType(128),
+					'phone_number' => $this->stringType(50),
 					'reports_to_id' => $this->integer()->unsigned(),
 					'is_admin' => $this->stringType(3)->defaultValue(0),
 					'currency_id' => $this->integer()->notNull()->defaultValue(1),

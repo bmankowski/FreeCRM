@@ -115,6 +115,8 @@
         "LBL_WATERMARK_ANGLE": "Kąt w stopniach",
         "LBL_IMPORT_TEMPLATE": "Importuj szablon",
         "LBL_EXPORT_RECORD": "Eksportuj rekord",
+        "LBL_DUPLICATE_RECORD": "Duplikuj rekord",
+        "LBL_TEMPLATE_COPY_SUFFIX": "kopia",
         "LBL_UPLOAD_ERROR": "Import pliku XML szablonu PDF nie powiódł się!",
         "LBL_UPLOAD_OK": "Pomyślnie zaimportowano plik szablonu.",
         "LBL_IMPORT_VIEW": "Import szablonów PDF",

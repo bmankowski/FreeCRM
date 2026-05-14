@@ -54,6 +54,7 @@ class Users extends \App\Core\CRMEntity
 	public $first_name;
 	public $last_name;
 	public $job_title;
+	public $phone_number;
 	public $roleid;
 	public $email1;
 	public $status;
@@ -123,7 +124,7 @@ class Users extends \App\Core\CRMEntity
 	public $object_name = "User";
 	public $user_preferences;
 	public $homeorder_array = array('HDB', 'ALVT', 'CVLVT', 'HLT', 'GRT', 'MNL', 'LTFAQ', 'UA', 'PA');
-	public $encodeFields = Array("first_name", "last_name", "job_title", "description");
+	public $encodeFields = Array("first_name", "last_name", "job_title", "phone_number", "description");
 	// This is used to retrieve related fields from form posts.
 	public $additional_column_fields = Array('reports_to_name');
 	// This is the list of vtiger_fields that are in the lists.
@@ -144,7 +145,7 @@ class Users extends \App\Core\CRMEntity
 		'Admin' => 'is_admin'
 	);
 	//Default Fields for Email Templates -- Pavani
-	public $emailTemplate_defaultFields = array('first_name', 'last_name', 'job_title', 'title', 'department', 'phone_home', 'phone_mobile', 'signature', 'email1');
+	public $emailTemplate_defaultFields = array('first_name', 'last_name', 'job_title', 'phone_number', 'title', 'department', 'phone_home', 'phone_mobile', 'signature', 'email1');
 	public $popup_fields = array('last_name');
 	// This is the list of fields that are in the lists.
 	public $default_order_by = '';
@@ -301,14 +302,25 @@ class Users extends \App\Core\CRMEntity
 	 * @param $id -- entity id:: Type integer
 	 * @param $module -- module:: Type varchar
 	 */
-	public function insertIntoAttachment($id, $module)
+	public function insertIntoAttachment($id, $module, $request = null)
 	{
 
 		\App\Log\Log::trace("Entering into insertIntoAttachment($id,$module) method.");
 
 		foreach ($_FILES as $fileindex => $files) {
-			if ($files['name'] != '' && $files['size'] > 0) {
-				$files['original_name'] = $request->get($fileindex . '_hidden');
+			if (!\is_array($files)) {
+				continue;
+			}
+			$fileName = $files['name'] ?? '';
+			$fileSize = isset($files['size']) ? (int) $files['size'] : 0;
+			if (\is_array($fileName)) {
+				$fileName = $fileName[0] ?? '';
+				$fileSize = isset($files['size'][0]) ? (int) $files['size'][0] : $fileSize;
+			}
+			if ($fileName !== '' && $fileSize > 0) {
+				if ($request) {
+					$files['original_name'] = $request->get($fileindex . '_hidden');
+				}
 				$this->uploadAndSaveFile($id, $module, $files);
 			}
 		}
@@ -424,11 +436,14 @@ class Users extends \App\Core\CRMEntity
 				'path' => $uploadFilePath,
 			])->execute();
 			if ($id != '') {
+				\App\Modules\Users\Models\Record::unlinkUserAvatarFilesForUserId((int) $id);
 				$db->createCommand()->delete('vtiger_salesmanattachmentsrel', ['smid' => $id])->execute();
 			}
 			$db->createCommand()->insert('vtiger_salesmanattachmentsrel', ['smid' => $id, 'attachmentsid' => $currentId])->execute();
 			//we should update the imagename in the users table
 			$db->createCommand()->update('vtiger_users', ['imagename' => $id], ['id' => $currentId])->execute();
+			$newRelative = $uploadFilePath . $currentId . '_' . $binFile;
+			\App\Modules\Users\Models\Record::writeUserPhotoBase64SidecarForRelativeImage($newRelative, $fileType);
 			\App\Log\Log::trace("Exiting from uploadAndSaveFile($id,$module,$fileDetails) method.");
 			return true;
 		}
@@ -610,6 +625,7 @@ class Users extends \App\Core\CRMEntity
 		$sql1 = 'SELECT attachmentsid FROM vtiger_salesmanattachmentsrel WHERE smid = ?';
 		$res1 = $this->db->pquery($sql1, array($this->id));
 		if ($this->db->num_rows($res1) > 0) {
+			\App\Modules\Users\Models\Record::unlinkUserAvatarFilesForUserId((int) $this->id);
 			$attachmentId = $this->db->query_result($res1, 0, 'attachmentsid');
 
 			$sql2 = "DELETE FROM vtiger_crmentity WHERE crmid=? && setype='Users Attachments'";

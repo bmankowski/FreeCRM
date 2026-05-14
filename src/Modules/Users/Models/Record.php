@@ -206,7 +206,20 @@ class Record extends \App\Modules\Base\Models\Record
 		$db = \App\Db\Db::getInstance();
 		$transaction = $db->beginTransaction();
 		try {
-			$this->getModule()->saveRecord($this);
+			$relationParams = null;
+			if ($request) {
+				$relationParams = [
+					'createmode' => $request->get('createmode'),
+					'return_module' => $request->get('return_module'),
+					'return_id' => $request->get('return_id'),
+					'return_action' => $request->get('return_action'),
+					'action' => $request->get('action'),
+					'field' => $request->get('field'),
+					'current_module' => $request->getModule(),
+					'__request' => $request,
+				];
+			}
+			$this->getModule()->saveRecord($this, $relationParams);
 			$transaction->commit();
 		} catch (\Exception $e) {
 			$transaction->rollBack();
@@ -218,7 +231,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 * Save data to the database
 	 * @param array $relationParams Optional relation parameters
 	 */
-	public function saveToDb($relationParams = null)
+	public function saveToDb($relationParams = null, ?\App\Http\Vtiger_Request $request = null)
 	{
 		$entityInstance = $this->getModule()->getEntityInstance();
 		$db = \App\Db\Db::getInstance();
@@ -230,6 +243,23 @@ class Record extends \App\Modules\Base\Models\Record
 				$db->createCommand()->update($tableName, $tableData, [$entityInstance->tab_name_index[$tableName] => $this->getId()])->execute();
 			}
 		}
+		if (!empty($_FILES)) {
+			$entityInstance->id = $this->getId();
+			foreach ($this->getData() as $field => $value) {
+				if (\array_key_exists($field, $entityInstance->column_fields)) {
+					$entityInstance->column_fields[$field] = $value;
+				}
+			}
+			$entityInstance->insertIntoAttachment($this->getId(), 'Users', $request);
+		}
+	}
+
+	/**
+	 * @inheritdoc Same idea as Contacts: saving only a new image must still run saveRecord/saveToDb.
+	 */
+	public function isMandatorySave()
+	{
+		return !empty($_FILES) || parent::isMandatorySave();
 	}
 
 	/**
@@ -674,6 +704,116 @@ class Record extends \App\Modules\Base\Models\Record
 	}
 
 	/**
+	 * Relative storage path for the user's own avatar file (not the default icon), or null.
+	 */
+	public function getAttachedImageRelativePath(): ?string
+	{
+		$image = $this->getImageDetails();
+		$image = reset($image);
+		if (empty($image['path']) || empty($image['orgname'])) {
+			return null;
+		}
+		return $image['path'] . '_' . $image['orgname'];
+	}
+
+	public static function getUserPhotoBase64SidecarSuffix(): string
+	{
+		return '.base64';
+	}
+
+	public static function userImageRelativePathFromAttachmentMeta(string $storageDirectoryPath, $attachmentId, string $attachmentDisplayName): string
+	{
+		$dir = str_replace('\\', '/', $storageDirectoryPath);
+		$dir = rtrim($dir, '/') . '/';
+		$orgname = \App\Utils\ListViewUtils::decodeHtml($attachmentDisplayName);
+		return $dir . $attachmentId . '_' . $orgname;
+	}
+
+	public static function unlinkUserPhotoAndSidecarByRelativePath(string $relativeImagePath): void
+	{
+		$relativeImagePath = ltrim(str_replace('\\', '/', $relativeImagePath), '/');
+		$full = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $relativeImagePath);
+		if (is_file($full)) {
+			@unlink($full);
+		}
+		$sidecar = $full . self::getUserPhotoBase64SidecarSuffix();
+		if (is_file($sidecar)) {
+			@unlink($sidecar);
+		}
+	}
+
+	public static function unlinkUserAvatarFilesForUserId(int $userId): void
+	{
+		$db = \App\Database\PearDatabase::getInstance();
+		$result = $db->pquery(
+			'SELECT vtiger_attachments.attachmentsid, vtiger_attachments.path, vtiger_attachments.name FROM vtiger_salesmanattachmentsrel INNER JOIN vtiger_attachments ON vtiger_salesmanattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid WHERE vtiger_salesmanattachmentsrel.smid = ?',
+			[$userId]
+		);
+		for ($i = 0; $i < $db->num_rows($result); $i++) {
+			$aid = $db->query_result($result, $i, 'attachmentsid');
+			$path = $db->query_result($result, $i, 'path');
+			$name = $db->query_result($result, $i, 'name');
+			self::unlinkUserPhotoAndSidecarByRelativePath(self::userImageRelativePathFromAttachmentMeta($path, $aid, $name));
+		}
+	}
+
+	public static function writeUserPhotoBase64SidecarForRelativeImage(string $relativeImagePath, string $mimeType = ''): bool
+	{
+		$relativeImagePath = ltrim(str_replace('\\', '/', $relativeImagePath), '/');
+		$full = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $relativeImagePath);
+		if (!is_file($full) || !is_readable($full)) {
+			return false;
+		}
+		$raw = @file_get_contents($full);
+		if ($raw === false || $raw === '') {
+			return false;
+		}
+		if ($mimeType === '' || strpos($mimeType, '/') === false) {
+			try {
+				$mimeType = \App\Fields\File::loadFromPath($full)->getMimeType();
+			} catch (\Throwable $e) {
+				$mimeType = 'application/octet-stream';
+			}
+		}
+		$dataUri = 'data:' . $mimeType . ';base64,' . base64_encode($raw);
+		$sidecarFull = $full . self::getUserPhotoBase64SidecarSuffix();
+		return false !== @file_put_contents($sidecarFull, $dataUri, LOCK_EX);
+	}
+
+	/**
+	 * Inline img tag for PDF/HTML templates (data URI). Uses sidecar file with suffix .base64 when present; otherwise builds it once from the image file.
+	 */
+	public function getUserPhotoImgHtmlForGenerator(): string
+	{
+		$rel = $this->getAttachedImageRelativePath();
+		if ($rel === null || $rel === '') {
+			return '';
+		}
+		$full = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, ltrim(str_replace('\\', '/', $rel), '/'));
+		$sidecarFull = $full . self::getUserPhotoBase64SidecarSuffix();
+		$dataUri = '';
+		if (is_readable($sidecarFull)) {
+			$dataUri = trim((string) @file_get_contents($sidecarFull));
+		}
+		if ($dataUri === '' || strpos($dataUri, 'data:') !== 0) {
+			$mime = 'image/jpeg';
+			try {
+				$mime = \App\Fields\File::loadFromPath($full)->getMimeType();
+			} catch (\Throwable $e) {
+				// keep default
+			}
+			self::writeUserPhotoBase64SidecarForRelativeImage($rel, $mime);
+			if (is_readable($sidecarFull)) {
+				$dataUri = trim((string) @file_get_contents($sidecarFull));
+			}
+		}
+		if ($dataUri === '' || strpos($dataUri, 'data:') !== 0) {
+			return '';
+		}
+		return '<img src="' . \App\Security\Purifier::encodeHtml($dataUri) . '" alt="" class="user-photo-inline" style="max-height:120px;max-width:120px;" />';
+	}
+
+	/**
 	 * Function to get privillage model
 	 * @return $privillage model
 	 */
@@ -705,12 +845,21 @@ class Record extends \App\Modules\Base\Models\Record
 	{
 		$db = \App\Database\PearDatabase::getInstance();
 
-		$checkResult = $db->pquery('SELECT smid FROM vtiger_salesmanattachmentsrel WHERE attachmentsid = ?', array($imageId));
+		$checkResult = $db->pquery('SELECT smid FROM vtiger_salesmanattachmentsrel WHERE attachmentsid = ?', [$imageId]);
+		if (!$db->getRowCount($checkResult)) {
+			return false;
+		}
 		$smId = $db->query_result($checkResult, 0, 'smid');
 
 		if ($this->getId() === $smId) {
-			$db->pquery('DELETE FROM vtiger_attachments WHERE attachmentsid = ?', array($imageId));
-			$db->pquery('DELETE FROM vtiger_salesmanattachmentsrel WHERE attachmentsid = ?', array($imageId));
+			$attRes = $db->pquery('SELECT path, name FROM vtiger_attachments WHERE attachmentsid = ?', [$imageId]);
+			if ($db->getRowCount($attRes)) {
+				$path = $db->query_result($attRes, 0, 'path');
+				$name = $db->query_result($attRes, 0, 'name');
+				self::unlinkUserPhotoAndSidecarByRelativePath(self::userImageRelativePathFromAttachmentMeta($path, $imageId, $name));
+			}
+			$db->pquery('DELETE FROM vtiger_attachments WHERE attachmentsid = ?', [$imageId]);
+			$db->pquery('DELETE FROM vtiger_salesmanattachmentsrel WHERE attachmentsid = ?', [$imageId]);
 			return true;
 		}
 		return false;

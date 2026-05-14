@@ -27,6 +27,8 @@ class TextParser
 		'LBL_RECORD_COMMENT' => '$(record : Comments 5)$, $(record : Comments)$',
 		'LBL_RELATED_RECORD_LABEL' => '$(relatedRecord : parent_id|email1|Accounts)$, $(relatedRecord : parent_id|email1)$',
 		'LBL_OWNER_EMAIL' => '$(relatedRecord : assigned_user_id|email1|Users)$',
+		'LBL_OWNER_JOB_TITLE' => '$(relatedRecord : assigned_user_id|job_title|Users)$',
+		'LBL_OWNER_PHONE_NUMBER' => '$(relatedRecord : assigned_user_id|phone_number|Users)$',
 		'LBL_SOURCE_RECORD_LABEL' => '$(sourceRecord : RecordLabel)$',
 		'LBL_CUSTOM_FUNCTION' => '$(custom : ContactsPortalPass)$',
 	];
@@ -49,7 +51,10 @@ class TextParser
 		'LBL_PDF_GENERATOR_EMAIL' => '$(generator : email1)$',
 		'LBL_PDF_GENERATOR_WORK_PHONE' => '$(generator : phone_work)$',
 		'LBL_PDF_GENERATOR_TITLE' => '$(generator : title)$',
+		'LBL_PDF_GENERATOR_JOB_TITLE' => '$(generator : job_title)$',
+		'LBL_PDF_GENERATOR_PHONE_NUMBER' => '$(generator : phone_number)$',
 		'LBL_PDF_GENERATOR_DEPARTMENT' => '$(generator : department)$',
+		'LBL_PDF_GENERATOR_USER_PHOTO' => '$(generator : user_photo)$',
 	];
 
 	/** @var array Variables for entity modules */
@@ -376,6 +381,13 @@ class TextParser
 		$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
 		if (!$userId) {
 			return '';
+		}
+		if ($fieldName === 'user_photo') {
+			$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			if (!$userModel) {
+				return '';
+			}
+			return $userModel->getUserPhotoImgHtmlForGenerator();
 		}
 		$cacheKey = $userId . $fieldName;
 		if (Cache::has('TextParserGeneratorDetail', $cacheKey)) {
