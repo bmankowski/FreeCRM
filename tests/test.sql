@@ -34,3 +34,10 @@ select *
 from a_yf_pdf;
 
 select * from vtiger_userscf;
+
+select * from u_yf_emailtemplates;
+
+
+
+
+

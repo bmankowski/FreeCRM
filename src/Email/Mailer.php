@@ -45,8 +45,12 @@ class Mailer
 				}
 			};
 		}
-		$this->mailer->XMailer = 'YetiForceCRM mailer';
-		$this->mailer->Hostname = 'YetiForceCRM';
+		$this->mailer->XMailer = 'FreeCRM mailer';
+		$heloHost = parse_url((string) \App\Core\AppConfig::main('site_URL'), PHP_URL_HOST);
+		if (empty($heloHost) || !str_contains($heloHost, '.')) {
+			$heloHost = gethostname() ?: 'localhost.localdomain';
+		}
+		$this->mailer->Hostname = $heloHost;
 		$this->mailer->CharSet = \App\Core\AppConfig::main('default_charset');
 	}
 
@@ -98,7 +102,7 @@ class Mailer
 			return false;
 		}
 
-		$textParser = $recordModel ? TextParser::getInstanceByModel($recordModel) : TextParser::getInstance(isset($params['moduleName']) ? $params['moduleName'] : '');
+		$textParser = $recordModel ? \App\TextParser\TextParser::getInstanceByModel($recordModel) : \App\TextParser\TextParser::getInstance(isset($params['moduleName']) ? $params['moduleName'] : '');
 		if (!empty($params['language'])) {
 			$textParser->setLanguage($params['language']);
 		}
@@ -177,13 +181,24 @@ class Mailer
 				break;
 		}
 		$this->mailer->Host = $this->smtp['host'];
+		if (!empty($this->smtp['host']) && str_contains($this->smtp['host'], '.')) {
+			$this->mailer->Hostname = $this->smtp['host'];
+		}
 		if (!empty($this->smtp['port'])) {
 			$this->mailer->Port = $this->smtp['port'];
 		}
 		$this->mailer->SMTPSecure = $this->smtp['secure'];
 		$this->mailer->SMTPAuth = isset($this->smtp['authentication']) ? (bool) $this->smtp['authentication'] : false;
 		$this->mailer->Username = trim($this->smtp['username']);
-		$this->mailer->Password = trim($this->smtp['password']);
+		$password = trim($this->smtp['password']);
+		$encryption = new \App\Security\Encryption();
+		if ($encryption->isActive() && $password !== '') {
+			$decrypted = $encryption->decrypt($password);
+			if ($decrypted !== false && $decrypted !== '') {
+				$password = $decrypted;
+			}
+		}
+		$this->mailer->Password = $password;
 		if ($this->smtp['options']) {
 			$this->mailer->SMTPOptions = \App\Utils\Json::decode($this->smtp['options'], true);
 		}

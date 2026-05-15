@@ -13,7 +13,7 @@ class Encryption
 	protected $method = false;
 	protected $pass = false;
 	protected $vector = false;
-	protected $options = true;
+	protected $options = 0;
 
 	public function __construct()
 	{

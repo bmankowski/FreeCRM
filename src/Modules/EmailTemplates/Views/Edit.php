@@ -2,7 +2,7 @@
 
 namespace App\Modules\EmailTemplates\Views;
 
-class Edit  extends \App\Modules\Base\Views\Index
+class Edit extends \App\Modules\Base\Views\Edit
 {
 
 	/**
