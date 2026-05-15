@@ -44,7 +44,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		'Product image directory' => 'storage/Products/',
 		'User image directory' => 'storage/Users/',
 		'Contact image directory' => 'storage/Contacts/',
-		'Logo directory' => 'storage/Logo/',
+		'Logo directory' => 'public/storage/Logo/',
 		'MailView attachments directory' => 'storage/OSSMailView/'
 	);
 	public static $library = array(

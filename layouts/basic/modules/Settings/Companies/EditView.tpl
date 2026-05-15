@@ -53,17 +53,18 @@
 									   name="{$COLUMN}" value="{$RECORD_MODEL->get($COLUMN)}" >
 							</div>
 						{else}
-							<div class="col-sm-3">
-								{$RECORD_MODEL->getDisplayValue($COLUMN)}
-							</div>
-							<div class="col-sm-9">
-								<div class='col-xs-12'>
-									<div class=''>
-										<input type="file" name="{$COLUMN}" id="{$COLUMN}" {if !$RECORD_ID }data-validation-engine="validate[required]"{/if}/>&nbsp;&nbsp;
-									</div>
-									<div class=" col-xs-12 alert alert-info pull-right">
-										{'LBL_PANELLOGO_RECOMMENDED_MESSAGE'|t:$QUALIFIED_MODULE}
-									</div>
+							<label class="col-sm-2 control-label">
+								{'LBL_'|cat:$COLUMN|upper|t:$QUALIFIED_MODULE}
+							</label>
+							<div class="col-sm-10">
+								<div class="mb-2">
+									{$RECORD_MODEL->getDisplayValue($COLUMN)}
+								</div>
+								<div class="mb-2">
+									<input type="file" name="{$COLUMN}" id="{$COLUMN}" {if !$RECORD_ID }data-validation-engine="validate[required]"{/if}/>
+								</div>
+								<div class="alert alert-info">
+									{'LBL_PANELLOGO_RECOMMENDED_MESSAGE'|t:$QUALIFIED_MODULE}
 								</div>
 							</div>
 						{/if}

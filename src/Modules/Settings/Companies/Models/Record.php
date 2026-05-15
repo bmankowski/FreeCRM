@@ -16,7 +16,6 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	public static $logoNames = ['logo_login', 'logo_main', 'logo_mail'];
 	public static $logoSupportedFormats = ['jpeg', 'jpg', 'png', 'gif', 'pjpeg', 'x-png'];
-	public $logoPath = 'storage/Logo/';
 
 	/**
 	 * Function to get the Id
@@ -94,7 +93,16 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			$db->createCommand()->insert('s_#__companies', $params)->execute();
 			$this->set('id', $db->getLastInsertID('s_#__companies_id_seq'));
 		}
-		\App\Cache\Cache::clear();
+		$this->clearCompanyCache();
+	}
+
+	/**
+	 * Clear cached company details and logos.
+	 */
+	public function clearCompanyCache(): void
+	{
+		\App\Cache\Cache::clearNamespace('CompanyDetail');
+		\App\Cache\Cache::clearNamespace('CompanyLogo');
 	}
 
 	/**
@@ -189,28 +197,51 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public function getLogoPath($name)
 	{
-		$logoPath = $this->logoPath;
-		if (!is_dir($logoPath)) {
+		if (!$name || !is_file(\App\Core\Company::getLogoFilesystemPath($name))) {
 			return '';
 		}
-		$iterator = new \DirectoryIterator($logoPath);
-		foreach ($iterator as $fileInfo) {
-			if ($name === $fileInfo->getFilename() && in_array($fileInfo->getExtension(), self::$logoSupportedFormats) && !$fileInfo->isDot() && !$fileInfo->isDir()) {
-				return $logoPath . $name;
-			}
-		}
-		return '';
+		return \App\Core\Company::getLogoWebPath($name);
 	}
 
 	/**
 	 * Function to save the logoinfo
+	 * @param string $name logo field name (logo_login, logo_main, logo_mail)
+	 * @return string|false Saved filename for DB, or false on failure
 	 */
 	public function saveLogo($name)
 	{
-		$uploadDir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $this->logoPath;
-		$logoName = $uploadDir . \App\Fields\File::sanitizeUploadFileName($_FILES[$name]['name']);
-		move_uploaded_file($_FILES[$name]['tmp_name'], $logoName);
-		copy($logoName, $uploadDir . 'application.ico');
+		$uploadDir = \App\Core\Company::getLogoFilesystemDir();
+		if (!is_dir($uploadDir) && !@mkdir($uploadDir, 0777, true) && !is_dir($uploadDir)) {
+			\App\Log\Log::error('Companies logo upload failed: cannot create directory ' . $uploadDir);
+			return false;
+		}
+		if (!is_writable($uploadDir) && !@chmod($uploadDir, 0777)) {
+			\App\Log\Log::error('Companies logo upload failed: directory not writable ' . $uploadDir);
+			return false;
+		}
+		$sanitized = \App\Fields\File::sanitizeUploadFileName($_FILES[$name]['name']);
+		$extension = strtolower(pathinfo($sanitized, PATHINFO_EXTENSION));
+		if (!in_array($extension, self::$logoSupportedFormats, true)) {
+			return false;
+		}
+		$fileName = $name . '.' . $extension;
+		$targetPath = $uploadDir . $fileName;
+		foreach (glob($uploadDir . $name . '.*') ?: [] as $oldFile) {
+			if (!is_file($oldFile) || str_ends_with($oldFile, \App\Core\Company::getLogoBase64SidecarSuffix())) {
+				continue;
+			}
+			\App\Core\Company::unlinkLogoFileAndSidecar(basename($oldFile));
+		}
+		if (!move_uploaded_file($_FILES[$name]['tmp_name'], $targetPath)) {
+			\App\Log\Log::error('Companies logo upload failed: cannot move file to ' . $targetPath);
+			return false;
+		}
+		@chmod($targetPath, 0664);
+		\App\Core\Company::writeLogoBase64Sidecar($fileName);
+		if ('logo_login' === $name) {
+			@copy($targetPath, $uploadDir . 'application.ico');
+		}
+		return $fileName;
 	}
 
 	/**
@@ -244,27 +275,38 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to save company logos
-	 * @return array
+	 * @return array{saved: array<string, string>, errors: string[]}
 	 */
 	public function saveCompanyLogos()
 	{
-		$logoDetails = [];
+		$savedLogos = [];
+		$errors = [];
+		$module = 'Settings:Companies';
 		foreach (self::$logoNames as $image) {
-			$saveLogo[$image] = true;
-			if (!empty($_FILES[$image]['name'])) {
-				$logoDetails[$image] = $_FILES[$image];
-				$fileInstance = \App\Fields\File::loadFromRequest($logoDetails[$image]);
-				if (!$fileInstance->validate('image')) {
-					$saveLogo[$image] = false;
-				}
-				if ($fileInstance->getShortMimeType(0) !== 'image' || !in_array($fileInstance->getShortMimeType(1), self::$logoSupportedFormats)) {
-					$saveLogo[$image] = false;
-				}
-				if ($saveLogo[$image]) {
-					$this->saveLogo($image);
-				}
+			if (empty($_FILES[$image]['name'])) {
+				continue;
+			}
+			$fieldLabel = \App\Runtime\Vtiger_Language_Handler::translate('LBL_' . strtoupper($image), $module);
+			if (UPLOAD_ERR_OK !== (int) $_FILES[$image]['error']) {
+				$errors[] = $fieldLabel . ': ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_LOGO_UPLOAD_FAILED', $module);
+				continue;
+			}
+			$fileInstance = \App\Fields\File::loadFromRequest($_FILES[$image]);
+			if (!$fileInstance->validate('image')) {
+				$errors[] = $fieldLabel . ': ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_LOGO_UPLOAD_INVALID_FORMAT', $module);
+				continue;
+			}
+			if ($fileInstance->getShortMimeType(0) !== 'image' || !in_array($fileInstance->getShortMimeType(1), self::$logoSupportedFormats, true)) {
+				$errors[] = $fieldLabel . ': ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_LOGO_UPLOAD_INVALID_FORMAT', $module);
+				continue;
+			}
+			$savedFileName = $this->saveLogo($image);
+			if ($savedFileName) {
+				$savedLogos[$image] = $savedFileName;
+			} else {
+				$errors[] = $fieldLabel . ': ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_LOGO_UPLOAD_WRITE_ERROR', $module);
 			}
 		}
-		return $logoDetails;
+		return ['saved' => $savedLogos, 'errors' => $errors];
 	}
 }

@@ -30,7 +30,10 @@
         "LBL_LOGO_PATH_LOGIN": "Path to company logo (login page)",
         "LBL_LOGO_PATH_MAIN": "Path to company logo (visible after logging in)",
         "LBL_LOGO_PATH_MAIL": "Path to company logo (email)",
-        "LBL_COMPANY_NAMES_EXIST": "The company name already exists"
+        "LBL_COMPANY_NAMES_EXIST": "The company name already exists",
+        "LBL_LOGO_UPLOAD_FAILED": "File upload failed.",
+        "LBL_LOGO_UPLOAD_INVALID_FORMAT": "Invalid file format. Allowed: JPEG, JPG, PNG, GIF.",
+        "LBL_LOGO_UPLOAD_WRITE_ERROR": "Could not save the file on the server (check public/storage/Logo permissions)."
     },
     "jsLanguageStrings": []
 }

@@ -80,7 +80,7 @@
         "LBL_INSERT_DYNAMIC_ELEMENT": "Wstaw element dynamiczny",
         "LBL_VARIABLE_PANEL_DYNAMIC_ALIASES": "Elementy dynamiczne (zmienna / alias)",
         "LBL_TEMPLATE_AI_HELP": "Instrukcja AI",
-        "LBL_TEMPLATE_AI_HELP_TEXT": "Twórz HTML używając tylko klas FreeCRM Template CSS: fc-doc, container, row, col-4, col-6, col-8, col-12, card, card-header, card-body, table, table-sm, table-bordered, table-striped, text-left, text-center, text-right, text-muted, font-bold, mt-1/2/3, mb-1/2/3, p-1/2/3, alert, badge, signature, img-logo. Unikaj flex, grid, JavaScript i zewnętrznych CSS.",
+        "LBL_TEMPLATE_AI_HELP_TEXT": "Twórz HTML używając tylko klas FreeCRM Template CSS: fc-doc, container, row, col-4, col-6, col-8, col-12, card, card-header, card-body, table, table-sm, table-bordered, table-striped, text-left, text-center, text-right, text-muted, font-bold, mt-1/2/3, mb-1/2/3, p-1/2/3, alert, badge, signature, img-logo. Unikaj flex, grid, JavaScript i zewnętrznych CSS.<br><br><strong>Skróty klawiszowe w edytorze:</strong><br>Ctrl+S – zapis<br>Ctrl+Shift+F – formatuj HTML<br>Ctrl+F – szukaj<br>Ctrl+H – zamień<br>Shift+Ctrl+R – zamień wszystko<br>Ctrl+G – następne wystąpienie<br>Shift+Ctrl+G – poprzednie wystąpienie<br>Tab / Shift+Tab – wcięcie / cofnij wcięcie<br>Ctrl+Z / Ctrl+Y – cofnij / ponów<br><br>Na macOS użyj Cmd zamiast Ctrl.",
         "LBL_TEMPLATE_SNIPPET_EMAIL": "Szablon email",
         "LBL_TEMPLATE_SNIPPET_PDF": "Szablon PDF",
         "LBL_TEMPLATE_BLOCK_DOCUMENT": "Układ dokumentu",

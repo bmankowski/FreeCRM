@@ -24,4 +24,4 @@
 #pdf_step3 .CodeMirror pre {font-family: Menlo, Monaco, Consolas, "Courier New", monospace;}
 #pdf_step3 .pdfEditorToolbar {margin: 10px 0;}
 #pdf_step3 .pdfTemplateAiHelp {clear: both; margin: 0 0 10px;}
-#pdf_step3 .pdfTemplateAiHelp textarea {font-family: Menlo, Monaco, Consolas, "Courier New", monospace; resize: vertical;}
+#pdf_step3 .pdfTemplateAiHelpText {height: auto; min-height: 120px; line-height: 1.5;}

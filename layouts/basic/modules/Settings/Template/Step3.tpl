@@ -20,9 +20,6 @@
 				</div>
 				<div class="pdfEditorToolbar text-right">
 					<input type="hidden" class="js-dynamic-elements-json" value="{$DYNAMIC_ELEMENTS_JSON}">
-					<button class="btn btn-info btn-sm js-format-html" type="button">
-						<span class="glyphicon glyphicon-indent-left"></span>&nbsp;{"LBL_FORMAT_HTML"|t:$QUALIFIED_MODULE}
-					</button>
 					<button class="btn btn-primary btn-sm js-preview-html" type="button">
 						<span class="glyphicon glyphicon-eye-open"></span>&nbsp;{"LBL_PREVIEW_HTML"|t:$QUALIFIED_MODULE}
 					</button>
@@ -31,7 +28,7 @@
 					</button>
 				</div>
 				<div class="pdfTemplateAiHelp hide">
-					<textarea class="form-control" rows="3" readonly>{"LBL_TEMPLATE_AI_HELP_TEXT"|t:$QUALIFIED_MODULE}</textarea>
+					<div class="form-control pdfTemplateAiHelpText">{"LBL_TEMPLATE_AI_HELP_TEXT"|t:$QUALIFIED_MODULE nofilter}</div>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-12">
@@ -61,7 +58,6 @@
 			<br>
 			<div class="pull-right">
 				<button class="btn btn-danger backStep" type="button"><strong>{"LBL_BACK"|t:$QUALIFIED_MODULE}</strong></button>&nbsp;&nbsp;
-				<button class="btn btn-default js-save-step3-only" type="button"><strong>{"LBL_SAVE"|t:$QUALIFIED_MODULE}</strong></button>&nbsp;&nbsp;
 				<button class="btn btn-success" type="submit"><strong>{"LBL_NEXT"|t:$QUALIFIED_MODULE}</strong></button>&nbsp;&nbsp;
 				<button class="btn btn-warning cancelLink" type="reset">{"LBL_CANCEL"|t:$QUALIFIED_MODULE}</button>
 			</div>

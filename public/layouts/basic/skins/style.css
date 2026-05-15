@@ -1463,6 +1463,13 @@ th.htColHeader,
 	padding: 5px;
 	margin-bottom: 2px;
 }
+.select2-container--bootstrap .select2-results__group {
+	color: #333;
+	font-weight: 700;
+}
+.select2-container--bootstrap .select2-results__option[role=group] .select2-results__options--nested > .select2-results__option {
+	padding-left: 22px;
+}
 .select2-results__option.Users.select2-results__option--highlighted,
 .select2-results__option.Groups.select2-results__option--highlighted,
 .select2-results__option.Roles.select2-results__option--highlighted,

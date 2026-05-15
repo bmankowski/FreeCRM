@@ -323,17 +323,10 @@ class TextParser
 		$company = \App\Core\Company::getInstanceById($id);
 		if ($fieldName === 'mailLogo' || $fieldName === 'loginLogo') {
 			$fieldName = ($fieldName === 'mailLogo') ? 'logo_mail' : 'logo_main';
-			$logo = $company->getLogo($fieldName);
-			if (!$logo) {
-				return '';
-			}
-			$logoName = $logo->get('imageUrl');
-			$logoTitle = $company->get('name');
-			$logoAlt = \App\Runtime\Vtiger_Language_Handler::translate('LBL_COMPANY_LOGO_TITLE');
-			$logoHeight = $company->get($fieldName . '_height');
-			return "<img class=\"organizationLogo\" src=\"$logoName\" title=\"$logoTitle\" alt=\"$logoAlt\" height=\"{$logoHeight}px\">";
-		} elseif (in_array($fieldName, ['logo_login', 'logo_main', 'logo_mail'])) {
-			return \App\Core\Company::$logoPath . $company->get($fieldName);
+			return $company->getLogoImgHtmlForTemplate($fieldName);
+		}
+		if (in_array($fieldName, ['logo_login', 'logo_main', 'logo_mail'], true)) {
+			return \App\Core\Company::getLogoDataUri((string) $company->get($fieldName));
 		}
 		return $company->get($fieldName);
 	}

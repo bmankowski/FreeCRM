@@ -376,6 +376,12 @@ Settings_Template_Edit_Js("Settings_Template_Edit3_Js", {}, {
 					},
 					'Cmd-S': function () {
 						thisInstance.saveOnly();
+					},
+					'Shift-Ctrl-F': function () {
+						thisInstance.formatHtmlEditors();
+					},
+					'Shift-Cmd-F': function () {
+						thisInstance.formatHtmlEditors();
 					}
 				}
 			});

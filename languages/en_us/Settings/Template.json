@@ -80,7 +80,7 @@
         "LBL_INSERT_DYNAMIC_ELEMENT": "Insert dynamic element",
         "LBL_VARIABLE_PANEL_DYNAMIC_ALIASES": "Dynamic elements (variable / alias)",
         "LBL_TEMPLATE_AI_HELP": "AI instructions",
-        "LBL_TEMPLATE_AI_HELP_TEXT": "Create HTML using only FreeCRM Template CSS classes: fc-doc, container, row, col-4, col-6, col-8, col-12, card, card-header, card-body, table, table-sm, table-bordered, table-striped, text-left, text-center, text-right, text-muted, font-bold, mt-1/2/3, mb-1/2/3, p-1/2/3, alert, badge, signature, img-logo. Avoid flex, grid, JavaScript and external CSS.",
+        "LBL_TEMPLATE_AI_HELP_TEXT": "Create HTML using only FreeCRM Template CSS classes: fc-doc, container, row, col-4, col-6, col-8, col-12, card, card-header, card-body, table, table-sm, table-bordered, table-striped, text-left, text-center, text-right, text-muted, font-bold, mt-1/2/3, mb-1/2/3, p-1/2/3, alert, badge, signature, img-logo. Avoid flex, grid, JavaScript and external CSS.<br><br><strong>Editor keyboard shortcuts:</strong><br>Ctrl+S – save<br>Ctrl+Shift+F – format HTML<br>Ctrl+F – find<br>Ctrl+H – replace<br>Shift+Ctrl+R – replace all<br>Ctrl+G – find next<br>Shift+Ctrl+G – find previous<br>Tab / Shift+Tab – indent / outdent<br>Ctrl+Z / Ctrl+Y – undo / redo<br><br>On macOS use Cmd instead of Ctrl.",
         "LBL_TEMPLATE_SNIPPET_EMAIL": "Email template",
         "LBL_TEMPLATE_SNIPPET_PDF": "PDF template",
         "LBL_TEMPLATE_BLOCK_DOCUMENT": "Document layout",

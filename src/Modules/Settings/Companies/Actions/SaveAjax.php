@@ -39,7 +39,9 @@ class SaveAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 		$exists = $recordModel->isCompanyDuplicated($request);
 		if (!$exists) {
 			$recordModel->setCompaniesNotDefault($request->get('default'));
-			$logoDetails = $recordModel->saveCompanyLogos();
+			$logoResult = $recordModel->saveCompanyLogos();
+			$savedLogos = $logoResult['saved'];
+			$logoErrors = $logoResult['errors'];
 			$columns = \App\Modules\Settings\Companies\Models\Module::getColumnNames();
 			if ($columns) {
 				if (empty(($request->get('default')))) {
@@ -48,8 +50,8 @@ class SaveAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 				foreach ($columns as $fieldName) {
 					$fieldValue = $request->get($fieldName);
 					if ($fieldName === 'logo_login' || $fieldName === 'logo_main' || $fieldName === 'logo_mail') {
-						if (!empty($logoDetails[$fieldName]['name'])) {
-							$fieldValue = ltrim(basename(" " . \App\Fields\File::sanitizeUploadFileName($logoDetails[$fieldName]['name'])));
+						if (!empty($savedLogos[$fieldName])) {
+							$fieldValue = $savedLogos[$fieldName];
 						} else {
 							$fieldValue = $recordModel->get($fieldName);
 						}
@@ -62,6 +64,10 @@ class SaveAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 				$recordModel->save();
 			}
 			$result = ['success' => true, 'url' => $recordModel->getDetailViewUrl()];
+			if (!empty($logoErrors)) {
+				$result['logoErrors'] = $logoErrors;
+				$result['message'] = implode("\n", $logoErrors);
+			}
 		} else {
 			$result = ['success' => false, 'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_COMPANY_NAMES_EXIST', $request->getModule(false))];
 		}

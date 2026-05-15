@@ -63,4 +63,8 @@
 			</form>
 		</div>
 	</div>
-	{strip}
+<!--/layouts/basic/modules/Settings/Companies/DetailView.tpl -->
+			</div> <!-- close contentsDiv -->
+		</div> <!-- close mainContainer -->
+{/block}
+{/strip}
