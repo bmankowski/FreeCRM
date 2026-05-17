@@ -9,6 +9,7 @@
  *************************************************************************************************************************************/
 jQuery.Class('Settings_Menu_Index_Js', {}, {
 	treeInstance: false,
+	isSavingSequence: false,
 	loadMenuTree: function () {
 		var thisInstance = this;
 		if (thisInstance.treeInstance == false) {
@@ -80,7 +81,7 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 						},
 					}
 				},
-				plugins: ["contextmenu", "dnd", "search", "state", "types"]
+				plugins: ["contextmenu", "dnd", "search", "types"]
 			});
 		}
 		thisInstance.registerMenuChanges();
@@ -88,16 +89,24 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 	},
 	registerMenuChanges: function () {
 		var thisInstance = this;
-		thisInstance.treeInstance.on('move_node.jstree', function (obj) {
+		thisInstance.treeInstance.off('move_node.jstree.menuSeq');
+		thisInstance.treeInstance.on('move_node.jstree.menuSeq', function () {
+			if (thisInstance.isSavingSequence) {
+				return;
+			}
+			thisInstance.isSavingSequence = true;
 			var progress = jQuery.progressIndicator();
 			var json = thisInstance.treeInstance.jstree("get_json");
 			var menus = thisInstance.getChildrenMenu(json, 0);
 			thisInstance.save('updateSequence', JSON.stringify(menus)).then(function (data) {
 				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
-				thisInstance.loadContent();
 				progress.progressIndicator({'mode': 'hide'});
+				thisInstance.isSavingSequence = false;
+			}, function () {
+				progress.progressIndicator({'mode': 'hide'});
+				thisInstance.isSavingSequence = false;
 			});
-		})
+		});
 	},
 	getChildrenMenu: function (childrens, parent) {
 		var menus = [];
@@ -369,6 +378,7 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 	registerEvents: function () {
 		var thisInstance = this;
 		thisInstance.treeInstance = false;
+		thisInstance.isSavingSequence = false;
 		thisInstance.loadMenuTree();
 		thisInstance.registerChangeRoleMenu();
 		thisInstance.registerAddMenu();
