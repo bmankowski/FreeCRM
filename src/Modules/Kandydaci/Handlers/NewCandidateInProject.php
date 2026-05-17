@@ -78,7 +78,7 @@ class NewCandidateInProject
 		$numerProjektu = $recordModelProjekt->get('number');
 		$projektURL = '/' . $recordModelProjekt->getDetailViewUrl();
 
-		$currentUserId = \App\User::getCurrentUserId();
+		$currentUserId = (int) (\App\User\CurrentUser::getId() ?? 0);
 //        Dodanie do Kandydata komentarza o usunięciu Kandydata z konkretnego Projektu
 		$commentForCandidate = \App\Modules\Base\Models\Record::getCleanInstance("ModComments");
 		$commentForCandidate->set('commentcontent', "Kandydat został usunięty z projektu: <a href='$projektURL'>$nazwaProjektu ($numerProjektu)</a>");
@@ -111,7 +111,7 @@ class NewCandidateInProject
 		$date = date('Y-m-d');
 		$recordModelKandydat->set("data_ostatniego_wyslania", $date);
 		$recordModelKandydat->save();
-		$currentUserId = \App\User::getCurrentUserId();
+		$currentUserId = (int) (\App\User\CurrentUser::getId() ?? 0);
 
 //        Dodanie do Kandydata komentarza o dodaniu Kandydata do konkretnego Projektu
 		$commentForCandidate = \App\Modules\Base\Models\Record::getCleanInstance("ModComments");

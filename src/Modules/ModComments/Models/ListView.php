@@ -24,7 +24,7 @@ class Model extends \App\Modules\Base\Models\ListView
 	 */
 	public function getListViewLinks($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)
 	{
-		$currentUser = \App\User\CurrentUser::resolve($currentUser);
+		$currentUser ??= \App\User\CurrentUser::get();
 		$links = parent::getListViewLinks($linkParams, $currentUser);
 		$currentUserModel = $currentUser;
 		$moduleModel = $this->getModule();

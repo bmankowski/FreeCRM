@@ -359,8 +359,6 @@ class DetailView extends \App\Runtime\BaseModel
 	 */
 	public function getSideBarLinks($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)
 	{
-		$currentUser = \App\User\CurrentUser::resolve($currentUser);
-
 		$linkTypes = array('SIDEBARLINK', 'SIDEBARWIDGET');
 		$moduleLinks = $this->getModule()->getSideBarLinks($linkTypes);
 

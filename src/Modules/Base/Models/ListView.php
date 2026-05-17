@@ -168,7 +168,7 @@ class ListView extends \App\Runtime\BaseModel
 	 */
 	public function getListViewMassActions($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)
 	{
-		$currentUser = \App\User\CurrentUser::resolve($currentUser);
+		$currentUser ??= \App\User\CurrentUser::get();
 		$moduleModel = $this->getModule();
 		$links = \App\Modules\Base\Models\Link::getAllByType($moduleModel->getId(), ['LISTVIEWMASSACTION'], $linkParams);
 		$massActionLinks = [];

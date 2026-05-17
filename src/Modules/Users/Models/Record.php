@@ -23,14 +23,8 @@ class Record extends \App\Modules\Base\Models\Record
 	/** @var string Error message for backward compatibility */
 	public $error_string;
 
-	/** @var int Current user ID from session */
-	protected static $currentUserId;
-
 	/** @var int Real user ID (handles admin impersonation) */
 	protected static $currentUserRealId = false;
-
-	/** @var \App\Modules\Users\Models\Record Cached current user model */
-	protected static $currentUserCache = false;
 
 	public function getRealId()
 	{
@@ -409,56 +403,28 @@ class Record extends \App\Modules\Base\Models\Record
 	}
 
 	/**
-	 * Static Function to get the instance of the User Record model for the current user
-	 * @deprecated Use $request->getUser() instead
-	 * @return \App\Modules\Users\Models\Record instance
+	 * @deprecated Use $request->getUser() or \App\User\CurrentUser::get()
 	 */
 	public static function getCurrentUserModel()
 	{
-		$user = \App\User\CurrentUser::get();
-		if ($user !== null) {
-			static::$currentUserCache = $user;
-			static::$currentUserId = $user->getId();
-			return $user;
-		}
-		if (static::$currentUserCache) {
-			return static::$currentUserCache;
-		}
-		if (!static::$currentUserId) {
-			static::$currentUserId = (int) (\App\Http\Vtiger_Session::getEffectiveUserId() ?? 0);
-		}
-		return static::$currentUserCache = self::getInstanceById(
-			static::$currentUserId,
-			'Users'
-		);
+		return \App\User\CurrentUser::get();
 	}
 
 	/**
-	 * Get current user Id
-	 * @deprecated Use $request->getUserId() instead
-	 * @return int
+	 * @deprecated Use $request->getUserId() or \App\User\CurrentUser::getId()
 	 */
 	public static function getCurrentUserId()
 	{
-		$id = \App\User\CurrentUser::getId();
-		if ($id !== null) {
-			static::$currentUserId = $id;
-			return $id;
-		}
-		if (!static::$currentUserId) {
-			static::$currentUserId = (int) (\App\Http\Vtiger_Session::getEffectiveUserId() ?? 0);
-		}
-		return static::$currentUserId;
+		return (int) (\App\User\CurrentUser::getId() ?? 0);
 	}
 
 	/**
-	 * Set current user Id
+	 * Set current user for non-request code paths (CalDAV, cron, webservice).
 	 * @param int $userId
 	 */
 	public static function setCurrentUserId($userId)
 	{
-		static::$currentUserId = $userId;
-		static::$currentUserCache = false; // Invalidate cache
+		\App\User\CurrentUser::setContextUserId((int) $userId);
 	}
 
 	/**
@@ -483,11 +449,11 @@ class Record extends \App\Modules\Base\Models\Record
 	{
 		if ($userId) {
 			\App\Modules\Users\Models\Privileges::clearCache($userId);
-			if (static::$currentUserId === $userId) {
-				static::$currentUserCache = false;
+			if ((int) $userId === (int) (\App\User\CurrentUser::getId() ?? 0)) {
+				\App\User\CurrentUser::clearCache();
 			}
 		} else {
-			static::$currentUserCache = false;
+			\App\User\CurrentUser::clearCache();
 			\App\Modules\Users\Models\Privileges::clearCache();
 		}
 	}

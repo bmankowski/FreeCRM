@@ -251,7 +251,8 @@ class Vtiger_Language_Handler
 	} elseif (\App\Http\Vtiger_Session::get('language') != '') {
 		$language = \App\Http\Vtiger_Session::get('language');
 	} else {
-		$language = \App\User\CurrentUser::get()->get('language');
+		$user = \App\User\CurrentUser::get();
+		$language = $user ? $user->get('language') : '';
 	}
 
 		$language = empty($language) ? \App\Core\AppConfig::main('default_language') : strtolower($language);

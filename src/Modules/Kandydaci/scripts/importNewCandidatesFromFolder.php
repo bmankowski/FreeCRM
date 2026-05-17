@@ -36,10 +36,10 @@ require_once('modules/ModTracker/ModTracker.php');
 \App\Process::$requestMode = 'Cron';
 \App\Utils\ConfReport::$sapi = 'cron';
 \App\Session::init();
-\App\User::setCurrentUserId(\App\User::getUserIdByName("automat"));
+\App\Modules\Users\Models\Record::setCurrentUserId(\App\Modules\Users\Models\Record::getUserIdByName('automat'));
 
-$automatId = \App\User::getUserIdByName("automat");
-$user = \App\User::getUserModel($automatId);
+$automatId = \App\Modules\Users\Models\Record::getUserIdByName('automat');
+$user = \App\Modules\Users\Models\Record::getInstanceById($automatId, 'Users');
 
 \App\Modules\Kandydaci\Crons\ScheduledImport::importAllCandidatesFromFolder("/var/www/import/cv/talent_days/");
 

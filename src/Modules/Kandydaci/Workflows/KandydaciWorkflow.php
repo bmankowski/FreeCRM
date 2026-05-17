@@ -22,7 +22,7 @@ class KandydaciWorkflow {
             $commentForProject = \App\Modules\Base\Models\Record::getCleanInstance("ModComments");
             $commentForProject->set('commentcontent',  App\Language::translate('PLL_MAIL_SENT_STUDY', $recordModel->getModuleName()));
             $commentForProject->set('related_to', $relId);
-            $commentForProject->set('assigned_user_id',  \App\User::getCurrentUserId());
+            $commentForProject->set('assigned_user_id', (int) (\App\User\CurrentUser::getId() ?? 0));
             $commentForProject->save();
         }
     }

@@ -58,7 +58,6 @@ class ListView extends \App\Modules\Base\Models\ListView
 	 */
 	public function getListViewLinks($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)
 	{
-		$currentUser = \App\User\CurrentUser::resolve($currentUser);
 		$links = parent::getListViewLinks($linkParams, $currentUser);
 
 		$index = 0;

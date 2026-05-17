@@ -65,7 +65,8 @@ class ListView extends \App\Modules\Settings\Base\Views\ListView
 		}
 
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'), 'CVID' => $cvId);
-		$linkModels = $this->listViewModel->getListViewMassActions($linkParams);
+		$currentUser = $request->getUser();
+		$linkModels = $this->listViewModel->getListViewMassActions($linkParams, $currentUser);
 		// Ensure LISTVIEWMASSACTION is always an array to prevent template errors
 		if (!isset($linkModels['LISTVIEWMASSACTION'])) {
 			$linkModels['LISTVIEWMASSACTION'] = [];
@@ -132,7 +133,7 @@ class ListView extends \App\Modules\Settings\Base\Views\ListView
 		$viewer->assign('MODULE', $moduleName);
 
 		if (!isset($this->listViewLinks)) {
-			$this->listViewLinks = $this->listViewModel->getListViewLinks($linkParams);
+			$this->listViewLinks = $this->listViewModel->getListViewLinks($linkParams, $currentUser);
 		}
 		// Ensure LISTVIEW_LINKS is always an array with required keys to prevent template errors
 		if (!is_array($this->listViewLinks)) {

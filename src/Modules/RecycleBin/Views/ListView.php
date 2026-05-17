@@ -108,7 +108,8 @@ class ListView extends \App\Modules\Base\Views\Index
 		if (!empty($sourceModule)) {
 			$linkParams['sourceModule'] = $sourceModule;
 		}
-		$linkModels = $moduleModel->getListViewMassActions($linkParams);
+		$currentUser = $request->getUser();
+		$linkModels = $moduleModel->getListViewMassActions($linkParams, $currentUser);
 
 		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
@@ -167,7 +168,7 @@ class ListView extends \App\Modules\Base\Views\Index
 		$viewer->assign('HEADER_LINKS', $headerLinks);
 
 		// Get list view links (including "Back to Source Module" button if sourceModule is available)
-		$listViewLinks = $moduleModel->getListViewLinks($linkParams);
+		$listViewLinks = $moduleModel->getListViewLinks($linkParams, $currentUser);
 		$viewer->assign('LISTVIEW_LINKS', $listViewLinks);
 		$viewer->assign('LISTVIEW_MASSACTIONS', $linkModels);
 
