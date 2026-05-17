@@ -656,7 +656,8 @@ class Record extends \App\Modules\Base\Models\Record
 					'id' => $imageId,
 					'orgname' => $imageOriginalName,
 					'path' => $imagePath . $imageId,
-					'name' => $imageName
+					'name' => $imageName,
+					'url' => 'file.php?module=Users&action=Image&record=' . (int) $recordId,
 				);
 			}
 		}
@@ -673,6 +674,17 @@ class Record extends \App\Modules\Base\Models\Record
 			$imagePath = $image['path'] . '_' . $image['orgname'];
 		}
 		return $imagePath;
+	}
+
+	/**
+	 * Web URL for the user's avatar (served via file.php; storage/ is not public).
+	 */
+	public function getImageWebUrl(): string
+	{
+		if ($this->getAttachedImageRelativePath() === null) {
+			return vimage_path('DefaultUserIcon.png');
+		}
+		return 'file.php?module=Users&action=Image&record=' . (int) $this->getId();
 	}
 
 	/**

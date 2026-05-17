@@ -18,12 +18,8 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="marginLeftZero col-md-8">
-						<div class="logo col-xs-1 col-md-1">
-							{foreach key=ITER item=IMAGE_INFO from=$RECORD->getImageDetails()}
-								{if !empty($IMAGE_INFO.path) && !empty($IMAGE_INFO.orgname)}
-									<img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" alt="{$IMAGE_INFO.orgname}" title="{$IMAGE_INFO.orgname}" data-image-id="{$IMAGE_INFO.id}">
-								{/if}
-							{/foreach}
+						<div class="logo user-photo-logo col-xs-1 col-md-1">
+							<img src="{$RECORD->getImageWebUrl()}" class="user-detail-photo user-detail-photo--avatar" alt="{$RECORD->getName()}" title="{$RECORD->getName()}">
 						</div>
 						<div class="col-xs-9 col-md-9">
 							<div id="myPrefHeading" class="col-md-12">

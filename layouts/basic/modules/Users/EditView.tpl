@@ -14,6 +14,9 @@
 <div class="editViewContainer">
 	<form class="form-horizontal recordEditView equalSplit" id="EditView" name="EditView" method="post" enctype="multipart/form-data" action="index.php">
 		<input type="hidden" name="module" value="{$MODULE}" />
+		{if !empty($PARENT_MODULE)}
+			<input type="hidden" name="parent" value="{$PARENT_MODULE}" />
+		{/if}
 		<input type="hidden" name="action" value="Save" />
 		<input type="hidden" name="record" id="recordId" value="{$RECORD_ID}" />
 		<input type="hidden" name="isPreference" value="{$IS_PREFERENCE}" />

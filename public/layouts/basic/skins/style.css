@@ -3019,7 +3019,14 @@ table.dataTable .form-control {
 	font-size: 17px;
 	padding: 4px;
 }
-#prefPageHeader .logo img{
+#prefPageHeader .logo.user-photo-logo img.user-detail-photo--avatar{
+	max-width: 70px;
+	max-height: 70px;
+	width: auto;
+	height: auto;
+	object-fit: contain;
+}
+#prefPageHeader .logo:not(.user-photo-logo) img{
 	height: 70px;
 	width: 70px;
 }
@@ -3029,6 +3036,29 @@ table.dataTable .form-control {
 .list-user-img{
 	width: 50px;
 	height: 40px;
+	object-fit: cover;
+}
+.user-detail-photo{
+	max-width: 300px;
+	max-height: 200px;
+	width: auto;
+	height: auto;
+	object-fit: contain;
+	display: block;
+}
+.user-detail-photo--compact{
+	max-width: 150px;
+	max-height: 80px;
+}
+.user-detail-photo--avatar{
+	max-width: 70px;
+	max-height: 70px;
+}
+#imageContainer .user-detail-photo{
+	max-width: 300px;
+	max-height: 200px;
+	width: auto !important;
+	height: auto !important;
 }
 span[name=existingImages] img{
 	height: 200px;

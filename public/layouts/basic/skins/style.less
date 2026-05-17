@@ -2667,8 +2667,8 @@ min-height: 14px !important;
 	.gradientBar(@gradient2StrtColor,@gradient2EndColor);
 }
 
-.logo, .imageContainer {
-    img {
+.logo:not(.user-photo-logo), .imageContainer:not(.user-photo-container) {
+    img:not(.user-detail-photo) {
 		height:40px;
         width: 10em !important;
     }
@@ -2695,7 +2695,19 @@ min-height: 14px !important;
     padding: 6px 1.5%;
     width: 100%;
     margin: 0;
-    .logo{
+    .logo.user-photo-logo{
+        min-width: 57px;
+        max-width: 57px;
+        img.user-detail-photo--avatar{
+            width: auto;
+            height: auto;
+            min-width: 0;
+            max-width: 70px;
+            max-height: 70px;
+            object-fit: contain;
+        }
+    }
+    .logo:not(.user-photo-logo){
         min-width: 57px;
         max-width: 57px;
         img{

@@ -11,10 +11,16 @@
 -->*}
 {strip}
 <!-- layouts/basic/modules/Base/uitypes/ImageDetailView.tpl -->
-{foreach key=ITER item=IMAGE_INFO from=$RECORD->getImageDetails()}
-	{if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
-		<img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" width="150" height="80">
-	{/if}
-{/foreach}
+{if $MODULE_NAME eq 'Users'}
+	<img src="{$RECORD->getImageWebUrl()}" class="user-detail-photo user-detail-photo--compact" alt="">
+{else}
+	{foreach key=ITER item=IMAGE_INFO from=$RECORD->getImageDetails()}
+		{if !empty($IMAGE_INFO.url)}
+			<img src="{$IMAGE_INFO.url}" width="150" height="80" alt="">
+		{elseif !empty($IMAGE_INFO.path) && !empty($IMAGE_INFO.orgname)}
+			<img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" width="150" height="80" alt="">
+		{/if}
+	{/foreach}
+{/if}
 <!--/layouts/basic/modules/Base/uitypes/ImageDetailView.tpl -->
 {/strip}

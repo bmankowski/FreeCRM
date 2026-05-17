@@ -48,6 +48,7 @@ class Edit extends \App\Modules\Users\Views\PreferenceEdit
 		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('IS_PREFERENCE', false);
+		$viewer->assign('PARENT_MODULE', 'Settings');
 		// MainLayout handles rendering, no separate preProcess template needed
 	}
 
@@ -126,6 +127,7 @@ class Edit extends \App\Modules\Users\Views\PreferenceEdit
 		$viewer->assign('MODE', '');
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
 		$viewer->assign('IS_PREFERENCE', false);
+		$viewer->assign('PARENT_MODULE', 'Settings');
 		
 		// Render using Settings template which extends MainLayout
 		$viewer->view('EditView.tpl', $qualifiedModuleName);

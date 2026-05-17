@@ -53,12 +53,18 @@
 												class="muted pull-left-xs pull-right-sm pull-right-md pull-right-lg">{$FIELD_MODEL->get('label')|t:$MODULE_NAME}</label>
 										</div>
 										<div class="fieldValue col-sm-7 col-xs-12 {$WIDTHTYPE}">
-											<div id="imageContainer">
-												{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
-													{if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
-														<img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" width="300" height="200">
-													{/if}
-												{/foreach}
+											<div id="imageContainer"{if $MODULE_NAME eq 'Users'} class="user-photo-container"{/if}>
+												{if $MODULE_NAME eq 'Users'}
+													<img src="{$RECORD->getImageWebUrl()}" class="user-detail-photo" alt="">
+												{else}
+													{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
+														{if !empty($IMAGE_INFO.url)}
+															<img src="{$IMAGE_INFO.url}" width="300" height="200" alt="">
+														{elseif !empty($IMAGE_INFO.path) && !empty($IMAGE_INFO.orgname)}
+															<img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" width="300" height="200" alt="">
+														{/if}
+													{/foreach}
+												{/if}
 											</div>
 										</div>
 									</div>

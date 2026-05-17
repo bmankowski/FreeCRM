@@ -90,21 +90,9 @@
 				</td>
 				<td width="5%" class="{$WIDTHTYPE}">
 					<div class="row">
-						{assign var=IMAGE_DETAILS value=$LISTVIEW_ENTRY->getImageDetails()}
-						{assign var=HAS_IMAGE value=false}
-						{foreach item=IMAGE_INFO from=$IMAGE_DETAILS}
-							{if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
-								<div class="col-md-6">
-									<img class="list-user-img" src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}">
-								</div>
-								{assign var=HAS_IMAGE value=true}
-							{/if}
-						{/foreach}
-						{if !$HAS_IMAGE}
-							<div class='col-md-6'>
-								<img class="list-user-img" alt="" src="{vimage_path('DefaultUserIcon.png')}">
-							</div>
-						{/if}
+						<div class="col-md-6">
+							<img class="list-user-img" alt="" src="{$LISTVIEW_ENTRY->getImageWebUrl()}">
+						</div>
 					</div>
 				</td>
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
