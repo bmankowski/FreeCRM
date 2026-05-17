@@ -21,6 +21,8 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 
 	public $pageTitle;
 	protected $viewer;
+	/** @var \App\Modules\Users\Models\Privileges|null */
+	protected $userPrivilegesModel;
 
 	public function __construct()
 	{
@@ -28,6 +30,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 	}
 	public function preProcess(\App\Http\Vtiger_Request $vtigerRequest, $display = true)
 	{
+		$this->userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$moduleName = $vtigerRequest->getModule();
 		$viewer = $this->getViewer($vtigerRequest);
 		$viewer->assign('PAGETITLE', $this->getPageTitle($vtigerRequest));
@@ -44,6 +47,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 		$viewer->assign('LANGUAGE', \App\Runtime\Vtiger_Language_Handler::getLanguage());
 		$viewer->assign('SHOW_BODY_HEADER', $this->showBodyHeader());
 		$viewer->assign('USER_MODEL', $vtigerRequest->getUser());
+		$viewer->assign('PRIVILEGESMODEL', $this->userPrivilegesModel);
 		$viewer->assign('APPTITLE', \App\Runtime\Vtiger_Language_Handler::translate('APPTITLE'));
 		$viewer->assign('YETIFORCE_VERSION', \App\Core\Version::get());
 		$viewer->assign('MODULE_NAME', $vtigerRequest->getModule());
@@ -121,8 +125,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 		$breadcrumbs = [];
 		$pageTitle = $this->getBreadcrumbTitle($request);
 
-		// Load menu structure
-		$userPrivModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$userPrivModel = $this->userPrivilegesModel;
 
 		// If no user is logged in (e.g., on Login page), return empty breadcrumbs
 		if (!$userPrivModel) {

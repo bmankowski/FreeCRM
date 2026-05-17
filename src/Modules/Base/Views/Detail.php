@@ -89,7 +89,7 @@ class Detail extends \App\Modules\Base\Views\Index
 		$eventHandler->setModuleName($moduleName);
 		$eventHandler->trigger('DetailViewBefore');
 
-		$detailViewLinkParams = array('MODULE' => $moduleName, 'RECORD' => $recordId);
+		$detailViewLinkParams = array('MODULE' => $moduleName, 'RECORD' => $recordId, 'VIEW' => $request->get('view'));
 
 		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
 		$this->record->getWidgets($detailViewLinkParams);
@@ -518,7 +518,7 @@ class Detail extends \App\Modules\Base\Views\Index
 			$this->record = \App\Modules\Base\Models\DetailView::getInstance($moduleName, $recordId);
 		}
 		$recordModel = $this->record->getRecord();
-		$detailViewLinkParams = array('MODULE' => $moduleName, 'RECORD' => $recordId);
+		$detailViewLinkParams = array('MODULE' => $moduleName, 'RECORD' => $recordId, 'VIEW' => $request->get('view'));
 		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
 		$this->record->getWidgets($detailViewLinkParams);
 		// CRITICAL: Use the SAME viewer instance from preProcess
@@ -991,7 +991,7 @@ class Detail extends \App\Modules\Base\Views\Index
 		}
 		$recordModel = $this->record->getRecord();
 
-		$detailViewLinkParams = array('MODULE' => $moduleName, 'RECORD' => $recordId);
+		$detailViewLinkParams = array('MODULE' => $moduleName, 'RECORD' => $recordId, 'VIEW' => $request->get('view'));
 		$detailViewLinks = $this->record->getDetailViewLinks($detailViewLinkParams);
 
 		$viewer = $this->getViewer($request);

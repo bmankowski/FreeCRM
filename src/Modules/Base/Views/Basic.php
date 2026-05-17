@@ -200,8 +200,8 @@ abstract class Basic extends \App\Base\Controllers\BaseViewController
 		$viewer = $this->getViewer($request);
 
 		if ($activeReminder = \App\Utils\ModuleUtils::isModuleActive('Calendar')) {
-			$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
-			$activeReminder = $userPrivilegesModel->hasModulePermission('Calendar');
+			$userPrivilegesModel = $this->userPrivilegesModel;
+			$activeReminder = $userPrivilegesModel && $userPrivilegesModel->hasModulePermission('Calendar');
 		}
 		$selectedModule = $request->getModule();
 		$companyDetails = \App\Core\Company::getInstanceById();

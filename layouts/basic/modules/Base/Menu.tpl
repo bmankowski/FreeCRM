@@ -8,7 +8,6 @@
 				<nav>
 					<ul class="nav modulesList" role="menubar">
 					{/if}	
-					{assign var=PRIVILEGESMODEL value=\App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel()}
 					{assign var=TABINDEX value=0}
 					{foreach key=KEY item=MENU from=$MENUS}
 						{assign var=TABINDEX value=$TABINDEX+1}

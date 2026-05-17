@@ -26,44 +26,93 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 		$recordModel = $this->getRecord();
 		$recordId = $recordModel->getId();
 
-		if (($currentUserModel->isAdminUser() === true || $currentUserModel->get('id') == $recordId) && $recordModel->get('status') == 'Active') {
-			$recordModel = $this->getRecord();
+		if (!(($currentUserModel->isAdminUser() === true || $currentUserModel->get('id') == $recordId) && $recordModel->get('status') == 'Active')) {
+			return [];
+		}
 
-			$detailViewLinks = array(
-				array(
+		$isPreference = ($linkParams['VIEW'] ?? '') === 'PreferenceDetail';
+		$showPassword = \App\Core\AppConfig::main('systemMode') != 'demo';
+		$changePasswordUrl = "javascript:Users_Detail_Js.triggerChangePassword('index.php?module=Users&view=EditAjax&mode=changePassword&record=$recordId','Users')";
+		$linkModelList = [];
+
+		if ($isPreference) {
+			$basicLinks = [
+				[
+					'linktype' => 'DETAILVIEWBASIC',
+					'linklabel' => 'LBL_EDIT',
+					'linkurl' => $recordModel->getPreferenceEditViewUrl(),
+					'linkicon' => 'glyphicon glyphicon-pencil',
+					'showLabel' => 1,
+				],
+			];
+			if ($showPassword) {
+				$basicLinks[] = [
+					'linktype' => 'DETAILVIEWBASIC',
+					'linklabel' => 'LBL_CHANGE_PASSWORD',
+					'linkurl' => $changePasswordUrl,
+					'linkicon' => 'glyphicon glyphicon-lock',
+					'showLabel' => 1,
+				];
+			}
+			foreach ($basicLinks as $detailViewLink) {
+				$linkModelList['DETAILVIEWBASIC'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($detailViewLink);
+			}
+
+			$preferenceLinks = $basicLinks;
+			foreach ($preferenceLinks as $detailViewLink) {
+				$detailViewLink['linktype'] = 'DETAILVIEWPREFERENCE';
+				$linkModelList['DETAILVIEWPREFERENCE'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($detailViewLink);
+			}
+
+			$detailViewActionLinks = [
+				[
+					'linktype' => 'DETAILVIEW',
+					'linklabel' => 'LBL_CHANGE_ACCESS_KEY',
+					'linkurl' => "javascript:Users_Detail_Js.triggerChangeAccessKey('index.php?module=Users&action=SaveAjax&mode=changeAccessKey&record=$recordId')",
+					'linkicon' => 'glyphicon glyphicon-key',
+					'showLabel' => 1,
+				],
+			];
+		} else {
+			$detailViewLinks = [
+				[
 					'linktype' => 'DETAILVIEWBASIC',
 					'linklabel' => 'LBL_EDIT',
 					'linkurl' => $recordModel->getEditViewUrl(),
-					'linkicon' => ''
-				),
-			);
-			if (\App\Core\AppConfig::main('systemMode') != 'demo') {
-				$detailViewLinks[] = array(
+					'linkicon' => 'glyphicon glyphicon-pencil',
+					'showLabel' => 1,
+				],
+			];
+			if ($showPassword) {
+				$detailViewLinks[] = [
 					'linktype' => 'DETAILVIEWBASIC',
 					'linklabel' => 'LBL_CHANGE_PASSWORD',
-					'linkurl' => "javascript:Users_Detail_Js.triggerChangePassword('index.php?module=Users&view=EditAjax&mode=changePassword&record=$recordId','Users')",
-					'linkicon' => ''
-				);
+					'linkurl' => $changePasswordUrl,
+					'linkicon' => 'glyphicon glyphicon-lock',
+					'showLabel' => 1,
+				];
 			}
 			foreach ($detailViewLinks as $detailViewLink) {
 				$linkModelList['DETAILVIEWBASIC'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($detailViewLink);
 			}
-			$detailViewPreferenceLinks = array();
-			if (\App\Core\AppConfig::main('systemMode') != 'demo') {
-				$detailViewPreferenceLinks[] = array(
+
+			$detailViewPreferenceLinks = [];
+			if ($showPassword) {
+				$detailViewPreferenceLinks[] = [
 					'linktype' => 'DETAILVIEWPREFERENCE',
 					'linklabel' => 'LBL_CHANGE_PASSWORD',
-					'linkurl' => "javascript:Users_Detail_Js.triggerChangePassword('index.php?module=Users&view=EditAjax&mode=changePassword&record=$recordId','Users')",
-					'linkicon' => ''
-				);
+					'linkurl' => $changePasswordUrl,
+					'linkicon' => 'glyphicon glyphicon-lock',
+					'showLabel' => 1,
+				];
 			}
-			$detailViewPreferenceLinks[] = array(
+			$detailViewPreferenceLinks[] = [
 				'linktype' => 'DETAILVIEWPREFERENCE',
 				'linklabel' => 'LBL_EDIT',
 				'linkurl' => $recordModel->getPreferenceEditViewUrl(),
-				'linkicon' => ''
-			);
-
+				'linkicon' => 'glyphicon glyphicon-pencil',
+				'showLabel' => 1,
+			];
 			foreach ($detailViewPreferenceLinks as $detailViewLink) {
 				$linkModelList['DETAILVIEWPREFERENCE'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($detailViewLink);
 			}
@@ -71,22 +120,26 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 			$detailViewActionLinks = [];
 			if ($currentUserModel->isAdminUser() && $currentUserModel->get('id') != $recordId) {
 				$detailViewActionLinks[] = [
-						'linktype' => 'DETAILVIEW',
-						'linklabel' => 'LBL_DELETE',
-						'linkurl' => 'javascript:Users_Detail_Js.triggerDeleteUser("' . $recordModel->getDeleteUrl() . '")',
-						'linkicon' => ''
+					'linktype' => 'DETAILVIEW',
+					'linklabel' => 'LBL_DELETE',
+					'linkurl' => 'javascript:Users_Detail_Js.triggerDeleteUser("' . $recordModel->getDeleteUrl() . '")',
+					'linkicon' => 'glyphicon glyphicon-trash',
+					'showLabel' => 1,
 				];
 			}
-			$detailViewActionLinks[] = array(
+			$detailViewActionLinks[] = [
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'LBL_CHANGE_ACCESS_KEY',
 				'linkurl' => "javascript:Users_Detail_Js.triggerChangeAccessKey('index.php?module=Users&action=SaveAjax&mode=changeAccessKey&record=$recordId')",
-				'linkicon' => ''
-			);
-			foreach ($detailViewActionLinks as $detailViewLink) {
-				$linkModelList['DETAILVIEW'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($detailViewLink);
-			}
-			return $linkModelList;
+				'linkicon' => 'glyphicon glyphicon-key',
+				'showLabel' => 1,
+			];
 		}
+
+		foreach ($detailViewActionLinks as $detailViewLink) {
+			$linkModelList['DETAILVIEW'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($detailViewLink);
+		}
+
+		return $linkModelList;
 	}
 }

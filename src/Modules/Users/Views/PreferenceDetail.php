@@ -62,7 +62,7 @@ class PreferenceDetail extends \App\Modules\Base\Views\Detail
 
 		// Detail view specific assignments
 		$detailViewModel = \App\Modules\Base\Models\DetailView::getInstance($moduleName, $recordId);
-		$detailViewLinkParams = array('MODULE' => $moduleName, 'RECORD' => $recordId);
+		$detailViewLinkParams = array('MODULE' => $moduleName, 'RECORD' => $recordId, 'VIEW' => $request->get('view'));
 		$detailViewLinks = $detailViewModel->getDetailViewLinks($detailViewLinkParams);
 		$viewer->assign('RECORD', $recordModel);
 		$viewer->assign('MODULE_MODEL', $detailViewModel->getModule());
