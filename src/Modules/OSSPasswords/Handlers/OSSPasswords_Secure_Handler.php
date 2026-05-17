@@ -19,7 +19,7 @@ class OSSPasswords_Secure_Handler {
 		if ($eventHandler->getRecordModel()->getPreviousValue('password')) {
 			$result = (new \App\Db\Query())->select(['basic.id'])->from('vtiger_modtracker_basic basic')
 					->leftJoin('vtiger_modtracker_detail detail', 'basic.id = detail.id')
-					->where(['basic.module' => $eventHandler->getModuleName(), 'basic.whodid' => \App\Modules\Users\Models\Record::getCurrentUserId(), 'detail.fieldname' => 'password'])
+					->where(['basic.module' => $eventHandler->getModuleName(), 'basic.whodid' => (int) (\App\User\CurrentUser::getId() ?? 0), 'detail.fieldname' => 'password'])
 					->andWhere(['>', 'changedon', date('Y-m-d')])
 					->orderBy(['basic.id' => SORT_DESC])->limit(1)->one();
 

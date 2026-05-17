@@ -21,7 +21,7 @@ class Duplicates extends \App\Modules\Base\Views\Index
 		}
 
 		$controller = new WizardController();
-		$context = $controller->buildDuplicatesContext($batchId);
+		$context = $controller->buildDuplicatesContext($batchId, $request);
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('IMPORT_BATCH', $context['batch']);

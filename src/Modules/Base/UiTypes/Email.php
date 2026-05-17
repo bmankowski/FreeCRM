@@ -25,7 +25,7 @@ class Email extends BaseUiType
 
 	public function getDisplayValue($value, $recordId = false, $recordInstance = false, $rawText = false)
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 		$internalMailer = $currentUser->get('internal_mailer');
 		if ($value && !$rawText) {
 			$moduleName = $this->get('field')->get('block')->module->name;

@@ -71,7 +71,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		$userIdsList = \App\Modules\Settings\Profiles\Models\Record::getUsersList();
 		if ($userIdsList) {
 			foreach ($userIdsList as $userId) {
-				\App\Modules\Users\Services\PrivilegeFileManager::createUserPrivilegesFile($userId);
+				\App\Modules\Users\Services\PrivilegeFileManager::invalidateUser((int) $userId, 'Settings\GlobalPermission\Models\Record::recalculate', false);
 			}
 		}
 	}

@@ -46,12 +46,12 @@ class Owner extends BaseUiType
 			}
 			// $detailViewUrl = $userModel->getDetailViewUrl(); // BMN  Method doesn't exist
 			$detailViewUrl = '';
-			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$currentUser = \App\User\CurrentUser::get();
 			if (!$currentUser->isAdminUser() || $rawText) {
 				return $ownerName;
 			}
 		} else {
-			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$currentUser = \App\User\CurrentUser::get();
 			if (!$currentUser->isAdminUser() || $rawText) {
 				return $ownerName;
 			}
@@ -83,12 +83,12 @@ class Owner extends BaseUiType
 			// Get detail view URL using Users Record model instead
 			$userRecordModel = \App\Modules\Users\Models\Record::getInstanceById($value, 'Users');
 			$detailViewUrl = $userRecordModel->getDetailViewUrl();
-			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$currentUser = \App\User\CurrentUser::get();
 			if (!$currentUser->isAdminUser() || $rawText) {
 				return $ownerName;
 			}
 		} else {
-			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$currentUser = \App\User\CurrentUser::get();
 			if (!$currentUser->isAdminUser() || $rawText) {
 				return \vtlib\Functions:: textLength($ownerName, $maxLengthText);
 			}
@@ -132,6 +132,6 @@ class Owner extends BaseUiType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		return empty($value) ? \App\Modules\Users\Models\Record::getCurrentUserId() : (int) $value;
+		return empty($value) ? (int) (\App\User\CurrentUser::getId() ?? 0) : (int) $value;
 	}
 }

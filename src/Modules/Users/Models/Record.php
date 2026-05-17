@@ -34,8 +34,9 @@ class Record extends \App\Modules\Base\Models\Record
 
 	public function getRealId()
 	{
-		if (\App\Http\Vtiger_Session::has('baseUserId') && \App\Http\Vtiger_Session::get('baseUserId') != '') {
-			return \App\Http\Vtiger_Session::get('baseUserId');
+		$realUserId = \App\Http\Vtiger_Session::getRealUserId();
+		if ($realUserId !== null) {
+			return $realUserId;
 		}
 		return $this->getId();
 	}
@@ -414,12 +415,17 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public static function getCurrentUserModel()
 	{
-		// Legacy implementation - get from session
+		$user = \App\User\CurrentUser::get();
+		if ($user !== null) {
+			static::$currentUserCache = $user;
+			static::$currentUserId = $user->getId();
+			return $user;
+		}
 		if (static::$currentUserCache) {
 			return static::$currentUserCache;
 		}
 		if (!static::$currentUserId) {
-			static::$currentUserId = (int) \App\Http\Vtiger_Session::get('authenticated_user_id');
+			static::$currentUserId = (int) (\App\Http\Vtiger_Session::getEffectiveUserId() ?? 0);
 		}
 		return static::$currentUserCache = self::getInstanceById(
 			static::$currentUserId,
@@ -434,9 +440,13 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public static function getCurrentUserId()
 	{
-		// Legacy implementation - get from session
+		$id = \App\User\CurrentUser::getId();
+		if ($id !== null) {
+			static::$currentUserId = $id;
+			return $id;
+		}
 		if (!static::$currentUserId) {
-			static::$currentUserId = (int) \App\Http\Vtiger_Session::get('authenticated_user_id');
+			static::$currentUserId = (int) (\App\Http\Vtiger_Session::getEffectiveUserId() ?? 0);
 		}
 		return static::$currentUserId;
 	}
@@ -460,11 +470,7 @@ class Record extends \App\Modules\Base\Models\Record
 		if (static::$currentUserRealId) {
 			return static::$currentUserRealId;
 		}
-		if (\App\Http\Vtiger_Session::has('baseUserId') && \App\Http\Vtiger_Session::get('baseUserId')) {
-			$id = \App\Http\Vtiger_Session::get('baseUserId');
-		} else {
-			$id = static::getCurrentUserId();
-		}
+		$id = \App\Http\Vtiger_Session::getRealUserId() ?? static::getCurrentUserId();
 		static::$currentUserRealId = $id;
 		return $id;
 	}
@@ -1246,7 +1252,7 @@ class Record extends \App\Modules\Base\Models\Record
 	public function changePassword($userPassword, $newPassword)
 	{
 		$userName = (string)$this->get('user_name');
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 		\App\Log\Log::trace('Starting password change for ' . $userName);
 
 		if (empty($newPassword)) {

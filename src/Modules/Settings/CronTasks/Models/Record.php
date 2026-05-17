@@ -108,7 +108,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	{
 		if ($this->get('lastend') != NULL) {
 			$lastScannedTime = \App\Modules\Base\UiTypes\Datetime::getDisplayDateTimeValue(date('Y-m-d H:i:s', $this->get('lastend')));
-			$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$userModel = \App\User\CurrentUser::get();
 			$hourFormat = $userModel->get('hour_format');
 			if ($hourFormat == '24') {
 				return $lastScannedTime;

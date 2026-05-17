@@ -67,7 +67,7 @@ class SummationByUser  extends \App\Modules\Base\Views\Index
 	public function getWidgetData($moduleName, $widgetParam, $time)
 	{
 		$rawData = $response = $ticks = [];
-		$currentUserId = \App\Modules\Users\Models\Record::getCurrentUserId();
+		$currentUserId = (int) (\App\User\CurrentUser::getId() ?? 0);
 		$param = $time['start'] . ',' . $time['end'];
 
 		$s = new \yii\db\Expression('sum(sum_gross)');

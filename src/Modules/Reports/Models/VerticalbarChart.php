@@ -23,7 +23,7 @@ class VerticalbarChart extends Base_Chart
 
 		$groupByColumnsByFieldModel = $this->getGroupbyColumnsByFieldModel();
 
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\User\CurrentUser::get();
 		$currencyRateAndSymbol = \vtlib\Functions:: getCurrencySymbolandRate($currentUserModel->currency_id);
 		$links = array();
 

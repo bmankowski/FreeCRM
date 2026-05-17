@@ -44,7 +44,7 @@ class Module extends \App\Modules\Base\Models\Module
 		$db = \App\Database\PearDatabase::getInstance();
 
 		if (!$owner) {
-			$currenUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$currenUserModel = \App\User\CurrentUser::get();
 			$owner = $currenUserModel->getId();
 		} else if ($owner === 'all') {
 			$owner = '';

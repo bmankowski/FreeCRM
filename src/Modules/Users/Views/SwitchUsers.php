@@ -66,10 +66,7 @@ class SwitchUsers  extends \App\Modules\Base\Views\Index
 		}
 		
 		$userId = $request->get('id');
-		$baseUserId = $userId;
-		if (\App\Http\Vtiger_Session::has('baseUserId') && \App\Http\Vtiger_Session::get('baseUserId') != '') {
-			$baseUserId = \App\Http\Vtiger_Session::get('baseUserId');
-		}
+		$baseUserId = \App\Http\Vtiger_Session::getRealUserId() ?? $userId;
 		unset($users[$baseUserId]);
 		unset($users[$userId]);
 		$viewer = $this->getViewer($request);

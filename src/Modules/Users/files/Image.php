@@ -39,7 +39,7 @@ class Image {
 		$moduleName = $request->getModule();
 		$record = $request->get('record');
 		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($record, $moduleName);
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\User\CurrentUser::get();
 		// Check for operation access.
 		$allowed = \App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'Save', $record);
 		if ($allowed) {

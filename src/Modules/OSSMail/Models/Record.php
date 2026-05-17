@@ -15,7 +15,7 @@ class Record extends \App\Modules\Base\Models\Record
 	static function getAccountsList($user = false, $onlyMy = false, $password = false)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\User\CurrentUser::get();
 		$param = $users = [];
 		$sql = 'SELECT * FROM roundcube_users';
 		$where = false;

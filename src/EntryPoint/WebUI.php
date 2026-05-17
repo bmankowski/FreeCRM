@@ -168,11 +168,10 @@ class WebUI extends EntryPoint
 	{
 		$user = parent::getLogin();
 
-		if (!$user && \App\Http\Vtiger_Session::has('authenticated_user_id')) {
-			$userid = \App\Http\Vtiger_Session::get('authenticated_user_id');
-			$appKey = \App\Http\Vtiger_Session::get('app_unique_key');
+		if (!$user) {
+			$userid = \App\Http\Vtiger_Session::getEffectiveUserId();
 
-			if ($userid && \App\Core\AppConfig::main('application_unique_key') === $appKey) {
+			if ($userid) {
 				$user = \App\Core\CRMEntity::getInstance('Users');
 				$user->retrieveCurrentUserInfoFromFile($userid);
 				$this->setLogin($user);

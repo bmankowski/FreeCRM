@@ -40,7 +40,7 @@ class GetBatchState extends BaseActionController
 		try {
 			$batchId = (int) $request->get('batch_id');
 			$batch = $this->batches->find($batchId);
-			$currentUserId = \App\Modules\Users\Models\Record::getCurrentUserId();
+			$currentUserId = $request->getUserId();
 			
 			if (!$batch || (int) $batch['created_by'] !== (int) $currentUserId) {
 				throw new \RuntimeException('Brak dostępu do wskazanego wsadu.');

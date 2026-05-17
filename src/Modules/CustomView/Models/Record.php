@@ -92,7 +92,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 		\App\Log\Log::trace('Entering ' . __METHOD__ . ' method ...');
 		if ($this->isDefault === false) {
-			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$currentUser = \App\User\CurrentUser::get();
 			$cvId = $this->getId();
 			if (!$cvId) {
 				$this->isDefault = false;
@@ -117,7 +117,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public function isMine()
 	{
-		$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$userModel = \App\User\CurrentUser::get();
 		return ($this->get('status') == \App\View\CustomView::CV_STATUS_DEFAULT || $this->get('userid') == $userModel->getId());
 	}
 
@@ -192,13 +192,13 @@ class Record extends \App\Modules\Base\Models\Record
 		if (!$cvId)
 			return false;
 		return (new \App\Db\Query())->from('u_#__featured_filter')
-				->where(['cvid' => $cvId, 'user' => 'Users:' . \App\Modules\Users\Models\Record::getCurrentUserModel()->getId()])
+				->where(['cvid' => $cvId, 'user' => 'Users:' . \App\User\CurrentUser::get()->getId()])
 				->exists($db);
 	}
 
 	public function checkPermissionToFeatured($editView = false)
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 		$query = (new \App\Db\Query())->from('u_#__featured_filter');
 	if ($currentUser->isAdminUser()) {
 		$userGroups = $currentUser->getUserGroups($currentUser->getId()) ?? [];
@@ -227,7 +227,7 @@ class Record extends \App\Modules\Base\Models\Record
 		if ($this->get('privileges') == 0) {
 			return false;
 		}
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 		if ($currentUser->isAdminUser()) {
 			return true;
 		}
@@ -305,7 +305,7 @@ class Record extends \App\Modules\Base\Models\Record
 	public function save($request = null)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\User\CurrentUser::get();
 
 		$cvIdOrg = $cvId = $this->getId();
 		$setDefault = intval($this->get('setdefault'));
@@ -372,7 +372,7 @@ class Record extends \App\Modules\Base\Models\Record
 	public function setDefaultFilter()
 	{
 		$db = \App\Db\Db::getInstance();
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 		$userId = 'Users:' . $currentUser->getId();
 		$tabId = $this->getModule()->getId();
 		$db->createCommand()->delete('vtiger_user_module_preferences', ['userid' => $userId, 'tabid' => $tabId])->execute();
@@ -522,7 +522,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public function addCustomView()
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 		$moduleName = $this->getModule()->get('name');
 		$seq = $this->getNextSeq($moduleName);
 		$db = \App\Db\Db::getInstance();
@@ -840,7 +840,7 @@ class Record extends \App\Modules\Base\Models\Record
 	{
 
 		\App\Log\Log::trace('Entering ' . __METHOD__ . " ($moduleName) method ...");
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 		$cacheName = $moduleName . $currentUser->getId();
 		if (\App\Cache\Cache::has('getAllFilters', $cacheName)) {
 			return \App\Cache\Cache::get('getAllFilters', $cacheName);

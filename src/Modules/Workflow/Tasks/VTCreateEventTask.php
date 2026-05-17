@@ -74,7 +74,7 @@ class VTCreateEventTask extends \App\Modules\Workflow\VTTask
 		$endDate = $this->calculateDate($recordModel, $this->endDays, $this->endDirection, $this->endDatefield);
 
 		if ($this->assigned_user_id === 'currentUser') {
-			$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
+			$userId = (int) (\App\User\CurrentUser::getId() ?? 0);
 		} else if ($this->assigned_user_id === 'triggerUser') {
 			$userId = $recordModel->get('executeUser');
 		} else if ($this->assigned_user_id === 'copyParentOwner') {

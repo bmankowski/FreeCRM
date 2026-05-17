@@ -483,7 +483,7 @@ class Record extends \App\Runtime\BaseModel
 			$row['setype'] = $this->getModuleName();
 			$row['smcreatorid'] = \App\Modules\Users\Models\Record::getCurrentUserRealId();
 			$row['createdtime'] = $time;
-			$row['users'] = ',' . \App\Modules\Users\Models\Record::getCurrentUserId() . ',';
+			$row['users'] = ',' . (int) (\App\User\CurrentUser::getId() ?? 0) . ',';
 			$this->set('createdtime', $time);
 		}
 		if ($this->getPreviousValue('modifiedtime')) {
@@ -1104,7 +1104,7 @@ class Record extends \App\Runtime\BaseModel
 		}
 		\App\Log\Log::trace("Entering into uploadAndSaveFile($id,$module,$fileDetailsForLog) method.");
 		$db = \App\Db\Db::getInstance();
-		$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
+		$userId = (int) (\App\User\CurrentUser::getId() ?? 0);
 		$date = date('Y-m-d H:i:s');
 
 		//to get the owner id
@@ -1329,7 +1329,7 @@ class Record extends \App\Runtime\BaseModel
 	public function isCanAssignToHimself()
 	{
 		return \App\Fields\Owner::getType($this->getValueByField('assigned_user_id')) === \App\Security\PrivilegeUtil::MEMBER_TYPE_GROUPS &&
-			array_key_exists(\App\Modules\Users\Models\Record::getCurrentUserId(), \App\Fields\Owner::getInstance($this->getModuleName())->getAccessibleUsers('', 'owner'));
+			array_key_exists((int) (\App\User\CurrentUser::getId() ?? 0), \App\Fields\Owner::getInstance($this->getModuleName())->getAccessibleUsers('', 'owner'));
 	}
 
 	/**
@@ -1339,7 +1339,7 @@ class Record extends \App\Runtime\BaseModel
 	public function autoAssignRecord()
 	{
 		if (\App\Fields\Owner::getType($this->getValueByField('assigned_user_id')) === \App\Security\PrivilegeUtil::MEMBER_TYPE_GROUPS) {
-			$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$userModel = \App\User\CurrentUser::get();
 			$roleData = \App\Security\PrivilegeUtil::getRoleDetail($userModel->getRole());
 			if (!empty($roleData['auto_assign'])) {
 				$autoAssignModel = \App\Modules\Settings\Base\Models\Module::getInstance('Settings:AutomaticAssignment');

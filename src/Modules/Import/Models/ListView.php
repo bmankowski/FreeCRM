@@ -22,7 +22,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 	 * @param <Array> $linkParams
 	 * @return false - no List View Links needed on Import pages
 	 */
-	public function getListViewLinks($linkParams)
+	public function getListViewLinks($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)
 	{
 		return false;
 	}
@@ -32,7 +32,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 	 * @param <Array> $linkParams
 	 * @return false - no List View Links needed on Import pages
 	 */
-	public function getListViewMassActions($linkParams)
+	public function getListViewMassActions($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)
 	{
 		return false;
 	}
@@ -108,7 +108,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 	public function addLastImportedRecordConditions($query)
 	{
 		$moduleModel = $this->getModule();
-		$user = \App\Modules\Users\Models\Record::getCurrentUserId();
+		$user = (int) (\App\User\CurrentUser::getId() ?? 0);
 		$userDBTableName = \App\Modules\Import\Models\Module::getDbTableName($user);
 		$query->innerJoin($userDBTableName, $moduleModel->basetable . '.' . $moduleModel->basetableid . " = $userDBTableName.recordid");
 		$query->where(['and', ['not', [$userDBTableName . '.temp_status' => [\App\Modules\Import\Actions\Data::IMPORT_RECORD_FAILED, \App\Modules\Import\Actions\Data::IMPORT_RECORD_SKIPPED]]], ['not', [$userDBTableName . '.recordid' => null]]]);

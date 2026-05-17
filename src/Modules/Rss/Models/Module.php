@@ -19,7 +19,7 @@ class Module extends \App\Modules\Base\Models\Module
 	 * @param <Array> $linkParams
 	 * @return <Array> List of \App\Modules\Base\Models\Link instances
 	 */
-	public function getSideBarLinks($linkParams)
+	public function getSideBarLinks($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)
 	{
 		$linkTypes = array('SIDEBARLINK', 'SIDEBARWIDGET');
 		$links = \App\Modules\Base\Models\Link::getAllByType($this->getId(), $linkTypes, $linkParams);

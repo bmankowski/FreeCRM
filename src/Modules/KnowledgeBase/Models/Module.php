@@ -21,9 +21,9 @@ class Module extends \App\Modules\Base\Models\Module
 		return 'index.php?module=' . $this->get('name') . '&view=' . $this->getTreeViewName();
 	}
 
-	public function getSideBarLinks($linkParams)
+	public function getSideBarLinks($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)
 	{
-		$links = parent::getSideBarLinks($linkParams);
+		$links = parent::getSideBarLinks($linkParams, $currentUser);
 		$quickLinks = [
 			[
 				'linktype' => 'SIDEBARLINK',

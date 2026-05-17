@@ -21,9 +21,9 @@ class ListView extends \App\Modules\Base\Models\ListView
 	 * Function to get the list of listview links for the module
 	 * @return <Array> - Associate array of Link Type to List of \App\Modules\Base\Models\Link instances
 	 */
-	public function getListViewLinks($linkParams)
+	public function getListViewLinks($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)
 	{
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\User\CurrentUser::get();
 		$privileges = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$basicLinks = array();
 		if ($currentUserModel->isAdminUser() || $privileges->hasModulePermission($this->getModule()->getId())) {
@@ -76,7 +76,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 	 * @param <Array> $linkParams
 	 * @return <Array> - Associative array of Link type to List of  \App\Modules\Base\Models\Link instances for Mass Actions
 	 */
-	public function getListViewMassActions($linkParams)
+	public function getListViewMassActions($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)
 	{
 		$currentUserModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 

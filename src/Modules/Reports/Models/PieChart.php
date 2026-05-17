@@ -34,7 +34,7 @@ class PieChart extends Base_Chart
 			}
 		}
 
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\User\CurrentUser::get();
 		$currencyRateAndSymbol = \vtlib\Functions:: getCurrencySymbolandRate($currentUserModel->currency_id);
 
 		for ($i = 0; $i < $rows; $i++) {

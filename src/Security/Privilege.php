@@ -11,8 +11,40 @@ namespace App\Security;
 class Privilege
 {
 
+	/**
+	 * @deprecated Use {@see self::lastResult()} for the reason code; kept for one release.
+	 */
 	public static $isPermittedLevel;
+
+	/** @var array<int, array{allowed: bool, reason: string}> */
+	private static $resultStack = [];
+
 	protected static $userSharingCache = [];
+
+	/**
+	 * Clear in-memory sharing privilege file cache.
+	 */
+	public static function clearSharingCache($userId = null): void
+	{
+		if ($userId === null) {
+			self::$userSharingCache = [];
+			return;
+		}
+		unset(self::$userSharingCache[$userId]);
+	}
+
+	/**
+	 * Result of the most recent {@see isPermitted()} call at the current stack depth.
+	 *
+	 * @return array{allowed: bool, reason: string}|null
+	 */
+	public static function lastResult(): ?array
+	{
+		if (empty(self::$resultStack)) {
+			return null;
+		}
+		return self::$resultStack[count(self::$resultStack) - 1];
+	}
 
 	/**
 	 * Get sharing privileges from file by id
@@ -56,10 +88,17 @@ class Privilege
 	 */
 	public static function isPermitted($moduleName, $actionName = null, $record = false, $userId = false)
 	{
-	
+		$isNested = !empty(self::$resultStack);
+		if ($isNested) {
+			self::$resultStack[] = ['allowed' => false, 'reason' => ''];
+		} else {
+			self::$resultStack = [['allowed' => false, 'reason' => '']];
+		}
+
+		try {
 	// Step 1: Initialize user ID and load privileges
 	if (!$userId) {
-		$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
+		$userId = (int) (\App\User\CurrentUser::getId() ?? 0);
 	}
 	
 	$userPrivileges = \App\Modules\Users\Models\Privileges::getPrivilegesFile($userId);
@@ -109,8 +148,13 @@ class Privilege
 		// Step 9: Check record-level permissions
 		$recordCheck = static::checkRecordLevelPermissions($moduleName, $tabid, $actionid, $record, $userId, $userPrivileges);
 		
-		\App\Log\Log::trace('Exiting isPermitted method ... - ' . static::$isPermittedLevel);
+		\App\Log\Log::trace('Exiting isPermitted method ... - ' . (self::lastResult()['reason'] ?? ''));
 		return $recordCheck;
+		} finally {
+			if ($isNested) {
+				array_pop(self::$resultStack);
+			}
+		}
 	}
 	
 	/**
@@ -118,6 +162,12 @@ class Privilege
 	 */
 	private static function returnPermissionResult($permitted, $level, $errorMsg = null)
 	{
+		if (!empty(self::$resultStack)) {
+			self::$resultStack[count(self::$resultStack) - 1] = [
+				'allowed' => (bool) $permitted,
+				'reason' => $level,
+			];
+		}
 		static::$isPermittedLevel = $level;
 		if ($errorMsg) {
 			\App\Log\Log::error($errorMsg);

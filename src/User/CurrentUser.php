@@ -45,7 +45,21 @@ class CurrentUser
 		$user = self::get();
 		return $user ? $user->getId() : null;
 	}
-	
-	
+
+	/**
+	 * Resolve user from explicit argument, request, or session (for model methods with optional context).
+	 */
+	public static function resolve(
+		?\App\Modules\Users\Models\Record $currentUser = null,
+		?\App\Http\Vtiger_Request $request = null
+	): ?\App\Modules\Users\Models\Record {
+		if ($currentUser !== null) {
+			return $currentUser;
+		}
+		if ($request !== null && $request->hasUser()) {
+			return $request->getUser();
+		}
+		return self::get();
+	}
 }
 

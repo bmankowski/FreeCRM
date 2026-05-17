@@ -338,7 +338,7 @@ class TextParser
 	 */
 	protected function employee($fieldName)
 	{
-		$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
+		$userId = (int) (\App\User\CurrentUser::getId() ?? 0);
 		if (Cache::has('TextParserEmployeeDetail', $userId . $fieldName)) {
 			return Cache::get('TextParserEmployeeDetail', $userId . $fieldName);
 		}
@@ -371,12 +371,12 @@ class TextParser
 	 */
 	protected function generator($fieldName)
 	{
-		$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
+		$userId = (int) (\App\User\CurrentUser::getId() ?? 0);
 		if (!$userId) {
 			return '';
 		}
 		if ($fieldName === 'user_photo') {
-			$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$userModel = \App\User\CurrentUser::get();
 			if (!$userModel) {
 				return '';
 			}
@@ -386,7 +386,7 @@ class TextParser
 		if (Cache::has('TextParserGeneratorDetail', $cacheKey)) {
 			return Cache::get('TextParserGeneratorDetail', $cacheKey);
 		}
-		$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$userModel = \App\User\CurrentUser::get();
 		if (!$userModel) {
 			return '';
 		}

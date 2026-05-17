@@ -90,12 +90,10 @@ class Bootstrap
 	{
 		\App\Http\Vtiger_Session::init();
 		
-		$authenticatedUserId = \App\Http\Vtiger_Session::get('authenticated_user_id');
-		$appUniqueKey = \App\Http\Vtiger_Session::get('app_unique_key');
-		$expectedKey = \App\Core\AppConfig::main('application_unique_key');
-		
+		$authenticatedUserId = \App\Http\Vtiger_Session::getEffectiveUserId();
+
 		// Check session authentication
-		if (!empty($authenticatedUserId) && !empty($appUniqueKey) && $appUniqueKey === $expectedKey) {
+		if (!empty($authenticatedUserId)) {
 			return true;
 		}
 		

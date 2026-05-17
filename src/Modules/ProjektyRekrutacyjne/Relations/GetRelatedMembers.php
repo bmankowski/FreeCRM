@@ -204,7 +204,7 @@ class GetRelatedMembers extends \App\Modules\Base\Relations\GetRelatedList
                 'crmid' => $sourceRecordId,
                 'relcrmid' => $destinationRecordId,
                 'recruitment_status_rel' => "PPL_APPLIED",
-                'rel_created_user' => \App\Modules\Users\Models\Record::getCurrentUserId(),
+                'rel_created_user' => (int) (\App\User\CurrentUser::getId() ?? 0),
                 'rel_created_time' => date('Y-m-d H:i:s'),
             ])->execute();
         }

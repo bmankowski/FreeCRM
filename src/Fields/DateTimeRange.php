@@ -16,7 +16,7 @@ class DateTimeRange
 	 */
 	public static function getDateRangeByType($type, $dateObject = null)
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 		$weekStartDay = $currentUser->get('dayoftheweek');
 
 		if (!$dateObject) {

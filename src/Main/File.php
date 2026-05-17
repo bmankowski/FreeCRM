@@ -47,22 +47,20 @@ class File
 	 */
 	public function getLogin()
 	{
-		if (\App\Http\Vtiger_Session::has('authenticated_user_id')) {
-			$userid = \App\Http\Vtiger_Session::get('authenticated_user_id');
-			if ($userid && \App\Core\AppConfig::main('application_unique_key') === \App\Http\Vtiger_Session::get('app_unique_key')) {
-				$userModel = \App\Modules\Users\Models\Record::getInstanceById($userid, 'Users');
-				
-				// NEW: Attach to request if available
-				$request = new \App\Http\Vtiger_Request($_REQUEST, $_REQUEST);
-				if ($request instanceof \App\Http\Vtiger_Request) {
-					$request->setUser($userModel);
-				}
-				
-				// Legacy entity for backward compatibility
-				$user = \App\Core\CRMEntity::getInstance('Users');
-				$user->retrieveCurrentUserInfoFromFile($userid);
-				return $user;
+		$userid = \App\Http\Vtiger_Session::getEffectiveUserId();
+		if ($userid) {
+			$userModel = \App\Modules\Users\Models\Record::getInstanceById($userid, 'Users');
+
+			// NEW: Attach to request if available
+			$request = new \App\Http\Vtiger_Request($_REQUEST, $_REQUEST);
+			if ($request instanceof \App\Http\Vtiger_Request) {
+				$request->setUser($userModel);
 			}
+
+			// Legacy entity for backward compatibility
+			$user = \App\Core\CRMEntity::getInstance('Users');
+			$user->retrieveCurrentUserInfoFromFile($userid);
+			return $user;
 		}
 		throw new \App\Exceptions\NoPermitted('Unauthorized', 401);
 	}

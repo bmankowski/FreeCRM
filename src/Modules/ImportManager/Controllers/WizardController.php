@@ -64,9 +64,9 @@ class WizardController
 		return $this->prepareUploadContext($request);
 	}
 
-	public function buildMappingContext(int $batchId): array
+	public function buildMappingContext(int $batchId, \App\Http\Vtiger_Request $request): array
 	{
-		$batch = $this->ensureBatchAccess($batchId);
+		$batch = $this->ensureBatchAccess($batchId, $request);
 		$preview = $this->buildPreviewForBatch($batch);
 		$mappingRow = $this->mappingRepository->findByBatch($batchId);
 		$definition = $mappingRow ? $this->createDefinitionFromRow($mappingRow, $batch) : null;
@@ -99,9 +99,9 @@ class WizardController
 		];
 	}
 
-	public function buildDuplicatesContext(int $batchId): array
+	public function buildDuplicatesContext(int $batchId, \App\Http\Vtiger_Request $request): array
 	{
-		$batch = $this->ensureBatchAccess($batchId);
+		$batch = $this->ensureBatchAccess($batchId, $request);
 		$mappingRow = $this->mappingRepository->findByBatch($batchId);
 		if (!$mappingRow) {
 			throw new \RuntimeException('Najpierw zapisz mapowanie pól dla tego wsadu.');
@@ -134,9 +134,9 @@ class WizardController
 		];
 	}
 
-	public function buildStagingContext(int $batchId): array
+	public function buildStagingContext(int $batchId, \App\Http\Vtiger_Request $request): array
 	{
-		$batch = $this->ensureBatchAccess($batchId);
+		$batch = $this->ensureBatchAccess($batchId, $request);
 		$stats = $this->buildStageStats($batch);
 		
 		// Pobierz informacje o zestawach duplikacji z mapowania
@@ -185,9 +185,9 @@ class WizardController
 		];
 	}
 
-	public function buildFinalizeContext(int $batchId): array
+	public function buildFinalizeContext(int $batchId, \App\Http\Vtiger_Request $request): array
 	{
-		$batch = $this->ensureBatchAccess($batchId);
+		$batch = $this->ensureBatchAccess($batchId, $request);
 		$stats = $this->buildStageStats($batch);
 		
 		// Przygotuj gotowe stringi z tłumaczeniami (bez sprintf w szablonie)
@@ -255,8 +255,7 @@ class WizardController
 			throw new \RuntimeException('Nie przesłano pliku do importu.');
 		}
 
-		$user = $request->getUser();
-		$userId = $user ? (int) $user->getId() : \App\Modules\Users\Models\Record::getCurrentUserId();
+		$userId = $request->getUserId();
 
 		$payload = [
 			'target_module' => $request->get('target_module'),
@@ -302,8 +301,7 @@ class WizardController
 
 	private function prepareUploadContext(\App\Http\Vtiger_Request $request): array
 	{
-		$user = $request->getUser();
-		$userId = $user ? (int) $user->getId() : \App\Modules\Users\Models\Record::getCurrentUserId();
+		$userId = $request->getUserId();
 		$sourceModule = $request->get('sourceModule') ?: $request->get('source_module');
 		$recent = $this->fetchRecentBatches($userId);
 
@@ -359,13 +357,13 @@ class WizardController
 		];
 	}
 
-	private function ensureBatchAccess(int $batchId): array
+	private function ensureBatchAccess(int $batchId, \App\Http\Vtiger_Request $request): array
 	{
 		$batch = $this->batchRepository->find($batchId);
 		if (!$batch) {
 			throw new \RuntimeException('Nie znaleziono wskazanego wsadu importu.');
 		}
-		$currentUserId = \App\Modules\Users\Models\Record::getCurrentUserId();
+		$currentUserId = $request->getUserId();
 		if ((int) $batch['created_by'] !== (int) $currentUserId) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -582,9 +580,9 @@ class WizardController
 		};
 	}
 
-	public function getStepUrlForBatch(int $batchId): ?string
+	public function getStepUrlForBatch(int $batchId, \App\Http\Vtiger_Request $request): ?string
 	{
-		$batch = $this->ensureBatchAccess($batchId);
+		$batch = $this->ensureBatchAccess($batchId, $request);
 		$step = $this->resolveCurrentStep($batch);
 		return $this->buildStepUrl($step, $batch);
 	}

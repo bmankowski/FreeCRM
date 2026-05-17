@@ -119,7 +119,7 @@ class DashBoard  extends \App\Modules\Base\Views\Index
 
 		// DashBoard needs QUICK_LINKS for sidebar navigation (ListView, RecycleBin, etc.)
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
-		$linkModels = $moduleModel->getSideBarLinks($linkParams);
+		$linkModels = $moduleModel->getSideBarLinks($linkParams, $request->getUser());
 		$activeLinkLabel = $this->processSidebarLinks($linkModels, $request);
 
 		$viewer->assign('CURRENT_DASHBOARD', $currentDashboard);

@@ -313,7 +313,7 @@ class SaveAjax extends \App\Modules\Base\Actions\SaveAjax
 			$entity->createAccessKey();
 
 
-			\App\Modules\Users\Services\PrivilegeFileManager::createUserPrivilegesFile($recordId);
+			\App\Modules\Users\Services\PrivilegeFileManager::invalidateUser((int) $recordId, 'Users\Actions\SaveAjax::updateAccessKey', false);
 
 			require("user_privileges/user_privileges_$recordId.php");
 			$newAccessKey = $user_info['accesskey'];

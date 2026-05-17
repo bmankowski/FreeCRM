@@ -151,50 +151,6 @@ class OSSMailView extends \App\Core\CRMEntity
 		return $query;
 	}
 
-	/**
-	 * Apply security restriction (sharing privilege) query part for List view.
-	 */
-	public function getListViewSecurityParameter($module)
-	{
-		$currentUser = \App\User\CurrentUser::get();
-		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
-		require('user_privileges/sharing_privileges_' . $currentUser->id . '.php');
-
-		$sec_query = '';
-		$tabid = \App\Utils\ModuleUtils::getModuleId($module);
-
-		if ($is_admin === false && $profileGlobalPermission[1] == 1 && $profileGlobalPermission[2] == 1 && $defaultOrgSharingPermission[$tabid] == 3) {
-
-			$sec_query .= " && (vtiger_crmentity.smownerid in($currentUser->id) || vtiger_crmentity.smownerid IN
-					(
-						SELECT vtiger_user2role.userid FROM vtiger_user2role
-						INNER JOIN vtiger_users ON vtiger_users.id=vtiger_user2role.userid
-						INNER JOIN vtiger_role ON vtiger_role.roleid=vtiger_user2role.roleid
-						WHERE vtiger_role.parentrole LIKE '" . $current_user_parent_role_seq . "::%'
-					)
-					OR vtiger_crmentity.smownerid IN
-					(
-						SELECT shareduserid FROM vtiger_tmp_read_user_sharing_per
-						WHERE userid=" . $currentUser->id . " && tabid=" . $tabid . "
-					)
-					OR
-						(";
-
-			// Build the query based on the group association of current user.
-			if (sizeof($current_user_groups) > 0) {
-				$sec_query .= " vtiger_groups.groupid IN (" . implode(",", $current_user_groups) . ") || ";
-			}
-			$sec_query .= " vtiger_groups.groupid IN
-						(
-							SELECT vtiger_tmp_read_group_sharing_per.sharedgroupid
-							FROM vtiger_tmp_read_group_sharing_per
-							WHERE userid=" . $currentUser->id . " and tabid=" . $tabid . "
-						)";
-			$sec_query .= ")
-				)";
-		}
-		return $sec_query;
-	}
 
 	/**
 	 * Create query to export the records.
@@ -316,7 +272,7 @@ class OSSMailView extends \App\Core\CRMEntity
 			\App\Core\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions:: getModuleId($moduleName));
 			$registerLink = true;
 			$Module = \App\Modules\Base\Models\Module::getInstance($moduleName);
-			$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
+			$user_id = \App\User\CurrentUser::get()->get('user_name');
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_InstallModule', $moduleName . ' ' . $Module->version, $user_id), false);
 		} else if ($eventType == 'module.disabled') {
 			$registerLink = false;
@@ -328,7 +284,7 @@ class OSSMailView extends \App\Core\CRMEntity
 			
 		} else if ($eventType == 'module.postupdate') {
 			$Module = \App\Modules\Base\Models\Module::getInstance($moduleName);
-			$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
+			$user_id = \App\User\CurrentUser::get()->get('user_name');
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_UpdateModule', $moduleName . ' ' . $Module->version, $user_id), false);
 		}
 		$displayLabel = 'Mail View';

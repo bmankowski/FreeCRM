@@ -705,7 +705,7 @@ class CRMEntity
 					'module' => $module,
 					'relcrmid' => $relcrmid,
 					'relmodule' => $withModule,
-					'rel_created_user' => \App\Modules\Users\Models\Record::getCurrentUserId(),
+					'rel_created_user' => (int) (\App\User\CurrentUser::getId() ?? 0),
 					'rel_created_time' => date('Y-m-d H:i:s')
 				])->execute();
 			}
@@ -1043,34 +1043,7 @@ class CRMEntity
 
 	public function getListViewSecurityParameter($module)
 	{
-	$tabid = \App\Utils\ModuleUtils::getModuleId($module);
-	$currentUser = \App\User\CurrentUser::get();
-	if ($currentUser) {
-		$privileges = \App\Modules\Users\Models\Privileges::getPrivilegesFile($currentUser->getId());
-		$sharingPrivileges = \App\Security\Privilege::getSharingFile($currentUser->getId());
-		if ($privileges === null || $sharingPrivileges === null) {
-			\App\Log\Log::error("User privileges or sharing file not found for user: " . $currentUser->getId());
-				return '';
-			}
-		} else {
-			return '';
-		}
-		$sec_query = '';
-		if ($privileges['is_admin'] === false && $privileges['profile_global_permission'][1] == 1 && $privileges['profile_global_permission'][2] == 1 && $sharingPrivileges['defOrgShare'][$tabid] == 3) {
-			$sec_query .= " and (vtiger_crmentity.smownerid in($current_user->id) or vtiger_crmentity.smownerid
-					in (select vtiger_user2role.userid from vtiger_user2role
-							inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid
-							inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid
-							where vtiger_role.parentrole like '" . $privileges['parent_role_seq'] . "::%') or vtiger_crmentity.smownerid
-					in(select shareduserid from vtiger_tmp_read_user_sharing_per
-						where userid=" . $current_user->id . " and tabid=" . $tabid . ") or (";
-			if (sizeof($privileges['groups']) > 0) {
-				$sec_query .= " vtiger_groups.groupid in (" . implode(",", $privileges['groups']) . ") or ";
-			}
-			$sec_query .= " vtiger_groups.groupid in(select vtiger_tmp_read_group_sharing_per.sharedgroupid
-						from vtiger_tmp_read_group_sharing_per where userid=" . $current_user->id . " and tabid=" . $tabid . "))) ";
-		}
-		return $sec_query;
+		return \App\Security\PrivilegeQuery::buildListViewSecuritySql($module);
 	}
 
 	/**

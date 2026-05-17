@@ -86,7 +86,7 @@ class Module extends \App\Modules\Base\Models\Module
 	 * @param <Array> $linkParams
 	 * @return <Array> List of \App\Modules\Base\Models\Link instances
 	 */
-	public function getSideBarLinks($linkParams)
+	public function getSideBarLinks($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)
 	{
 		$linkTypes = ['SIDEBARLINK', 'SIDEBARWIDGET'];
 		$links = \App\Modules\Base\Models\Link::getAllByType($this->getId(), $linkTypes, $linkParams);
@@ -193,7 +193,7 @@ class Module extends \App\Modules\Base\Models\Module
 				->from('vtiger_activity')
 				->innerJoin('vtiger_crmentity', 'vtiger_activity.activityid = vtiger_crmentity.crmid')
 				->leftJoin('vtiger_activity_reminder', 'vtiger_activity_reminder.activity_id = vtiger_activity.activityid')
-				->where(['vtiger_crmentity.deleted' => 0, 'vtiger_crmentity.smownerid' => \App\Modules\Users\Models\Record::getCurrentUserId()]);
+				->where(['vtiger_crmentity.deleted' => 0, 'vtiger_crmentity.smownerid' => (int) (\App\User\CurrentUser::getId() ?? 0)]);
 	}
 
 	/**
@@ -415,7 +415,7 @@ class Module extends \App\Modules\Base\Models\Module
 	public static function getCalendarReminder($allReminder = false)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\User\CurrentUser::get();
 		$activityReminder = $currentUserModel->getCurrentUserActivityReminderInSeconds();
 		$recordModels = [];
 		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
@@ -489,7 +489,7 @@ class Module extends \App\Modules\Base\Models\Module
 	 */
 	public function getSettingLinks()
 	{
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\User\CurrentUser::get();
 		$settingLinks = [];
 
 		if ($currentUserModel->isAdminUser()) {

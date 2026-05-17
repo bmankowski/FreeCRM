@@ -51,7 +51,7 @@ class OwnerField extends BaseField
 	 */
 	public function operatorOm()
 	{
-		return [$this->getColumnName() => \App\Modules\Users\Models\Record::getCurrentUserId()];
+		return [$this->getColumnName() => (int) (\App\User\CurrentUser::getId() ?? 0)];
 	}
 
 	/**

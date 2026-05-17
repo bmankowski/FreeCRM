@@ -385,7 +385,7 @@ class Reports extends \App\Core\CRMEntity
 	{
 	$srptdetails = "";
 	$adb = \App\Database\PearDatabase::getInstance();
-	$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+	$currentUser = \App\User\CurrentUser::get();
 
 	$currentLanguage = \App\Runtime\Vtiger_Language_Handler::getLanguage();
 	$moduleStrings = \App\Runtime\Vtiger_Language_Handler::getModuleStringsFromFile($currentLanguage, 'Reports');

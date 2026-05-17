@@ -328,7 +328,7 @@ class PBXManager {
 	 */
 	public function call($number, $record)
 	{
-		$user = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$user = \App\User\CurrentUser::get();
 		$extension = $user->phone_crm_extension;
 
 		$webappurl = $this->getServer();

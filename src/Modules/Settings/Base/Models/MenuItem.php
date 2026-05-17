@@ -263,7 +263,7 @@ class MenuItem extends \App\Modules\Base\Models\Record
 		if (count($conditionsSqls) > 0) {
 			$query->where($conditionsSqls);
 		}
-		$dataReader = $query->andWhere(['and', ['NOT IN', 'name', $skipMenuItemList], ['or', ['like', 'admin_access', ',' . \App\Modules\Users\Models\Record::getCurrentUserId() . ','], ['admin_access' => null]]])
+		$dataReader = $query->andWhere(['and', ['NOT IN', 'name', $skipMenuItemList], ['or', ['like', 'admin_access', ',' . (int) (\App\User\CurrentUser::getId() ?? 0) . ','], ['admin_access' => null]]])
 				->orderBy('sequence')
 				->createCommand()->query();
 		$menuItemModels = [];

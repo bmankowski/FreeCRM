@@ -109,7 +109,7 @@ class Utils {
 
 	public static function getAssignedToUserList($module)
 	{
-		$current_user = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$current_user = \App\User\CurrentUser::get();
 		$cacheKey = $module . '-' . $current_user->id;
 		if (\App\Cache\Cache::has('ImportUserList', $cacheKey)) {
 			return \App\Cache\Cache::get('ImportUserList', $cacheKey);
@@ -122,7 +122,7 @@ class Utils {
 
 	public static function getAssignedToGroupList($module)
 	{
-		$current_user = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$current_user = \App\User\CurrentUser::get();
 		$cacheKey = $module . '-' . $current_user->id;
 		if (\App\Cache\Cache::has('ImportGroupList', $cacheKey)) {
 			return \App\Cache\Cache::get('ImportGroupList', $cacheKey);
@@ -148,7 +148,7 @@ class Utils {
 
 	public static function validateFileUpload($request)
 	{
-		$current_user = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$current_user = \App\User\CurrentUser::get();
 
 		$uploadMaxSize = self::getMaxUploadSize();
 		$importDirectory = self::getImportDirectory();

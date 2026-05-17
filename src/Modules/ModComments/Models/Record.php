@@ -78,7 +78,7 @@ class Record extends \App\Modules\Base\Models\Record
 	{
 		$forSave = parent::getValuesForSave();
 		if (empty($forSave['vtiger_modcomments']['userid'])) {
-			$forSave['vtiger_modcomments']['userid'] = \App\Modules\Users\Models\Record::getCurrentUserId();
+			$forSave['vtiger_modcomments']['userid'] = (int) (\App\User\CurrentUser::getId() ?? 0);
 		}
 		return $forSave;
 	}

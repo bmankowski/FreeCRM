@@ -21,7 +21,7 @@ final class MailScannerActionTask extends AbstractCronTask
 		$recordModel = \App\Modules\Base\Models\Record::getCleanInstance('OSSMailScanner');
 		$user_name = '';
 		if (PHP_SAPI === 'cgi-fcgi') {
-			$user_name = \App\Modules\Users\Models\Record::getCurrentUserModel()->user_name;
+			$user_name = \App\User\CurrentUser::get()->user_name;
 		}
 		$recordModel->executeCron(PHP_SAPI . ' - ' . $user_name);
 	}

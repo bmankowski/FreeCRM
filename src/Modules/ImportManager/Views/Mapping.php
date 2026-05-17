@@ -21,7 +21,7 @@ class Mapping extends \App\Modules\Base\Views\Index
 		}
 
 		$controller = new WizardController();
-		$context = $controller->buildMappingContext($batchId);
+		$context = $controller->buildMappingContext($batchId, $request);
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('IMPORT_BATCH', $context['batch']);

@@ -75,20 +75,20 @@ class SwitchUsers extends \App\Base\Controllers\BaseActionController
 		$targetUser = $user->retrieveCurrentUserInfoFromFile($userId);
 		$targetUserName = $targetUser->column_fields['user_name'];
 		$targetUserFullName = $targetUser->column_fields['first_name'] . ' ' . $targetUser->column_fields['last_name'];
-		\App\Http\Vtiger_Session::set('authenticated_user_id', $userId);
+		\App\Http\Vtiger_Session::setAuthenticatedUserId((int) $userId);
 		\App\Http\Vtiger_Session::set('user_name', $targetUserName);
 		\App\Http\Vtiger_Session::set('full_user_name', trim($targetUserFullName));
 
 		$status = 'Switched';
-		if (empty(\App\Http\Vtiger_Session::get('baseUserId'))) {
+		if (!\App\Http\Vtiger_Session::isImpersonated()) {
 			\App\Http\Vtiger_Session::set('baseUserId', $baseUserId);
 			$status = 'Signed in';
-		} elseif ($userId === \App\Http\Vtiger_Session::get('baseUserId')) {
+		} elseif ($userId === \App\Http\Vtiger_Session::getRealUserId()) {
 			$baseUserId = $userId;
 			\App\Http\Vtiger_Session::set('baseUserId', '');
 			$status = 'Signed out';
 		} else {
-			$baseUserId = \App\Http\Vtiger_Session::get('baseUserId');
+			$baseUserId = \App\Http\Vtiger_Session::getRealUserId();
 		}
 
 		$db = \App\Db\Db::getInstance('log');

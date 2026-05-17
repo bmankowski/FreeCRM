@@ -31,7 +31,7 @@ class Tracker
 			return true;
 		}
 		$insertedInfo = $db->createCommand()->insert('l_#__settings_tracker_basic', [
-				'user_id' => \App\Modules\Users\Models\Record::getCurrentUserId(),
+				'user_id' => (int) (\App\User\CurrentUser::getId() ?? 0),
 				'type' => self::$types[$type],
 				'module_name' => ($request !== null ? $request->get('module') : ''),
 				'record_id' => self::$recordId ? self::$recordId : 0,

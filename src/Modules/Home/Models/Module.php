@@ -78,7 +78,7 @@ class Module extends \App\Modules\Base\Models\Module
 	public function getCalendarActivities($mode, \App\Modules\Base\Models\Paging $pagingModel, $user, $recordId = false, $paramsMore = [])
 	{
 		$activities = [];
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 		$query = new \App\Db\Query();
 		if (!$user) {
 			$user = $currentUser->getId();
@@ -186,7 +186,7 @@ class Module extends \App\Modules\Base\Models\Module
 	 */
 	public function getAssignedProjectsTasks($mode, $pagingModel, $user, $recordId = false)
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 		if (!$user) {
 			$user = $currentUser->getId();
 		}

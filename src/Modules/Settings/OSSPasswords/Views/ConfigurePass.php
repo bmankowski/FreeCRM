@@ -46,7 +46,7 @@ class ConfigurePass extends \App\Modules\Settings\Base\Views\Index
 	{
 
 		$adb = \App\Database\PearDatabase::getInstance();
-		$currentUser = \App\User\CurrentUser::get();
+		$currentUser = $request->getUser();
 
 		// config
 		// check if password encode config exists

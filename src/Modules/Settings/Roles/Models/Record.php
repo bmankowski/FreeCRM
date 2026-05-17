@@ -435,8 +435,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		if (is_array($array_users)) {
 			 
 			foreach ($array_users as $userid) {
-				\App\Modules\Users\Services\PrivilegeFileManager::createUserPrivilegesFile($userid);
-				\App\Modules\Users\Services\PrivilegeFileManager::createUserSharingPrivilegesFile($userid);
+				\App\Modules\Users\Services\PrivilegeFileManager::invalidateUser((int) $userid, 'Settings\Roles\Models\Record::save');
 			}
 		}
 		\App\Security\Privilege::setAllUpdater();

@@ -99,7 +99,7 @@ class FieldValueConverter
 			$ownerId = \App\Fields\Owner::getGroupId((string) $value);
 		}
 		if (!$ownerId) {
-			$ownerId = $fallbackOwnerId ?: \App\Modules\Users\Models\Record::getCurrentUserId();
+			$ownerId = $fallbackOwnerId ?: (int) (\App\User\CurrentUser::getId() ?? 0);
 		}
 		return $ownerId ? (int) $ownerId : null;
 	}

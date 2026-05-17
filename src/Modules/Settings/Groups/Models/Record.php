@@ -226,7 +226,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		}
 
 		foreach ($userIdsList as $userId) {
-			\App\Modules\Users\Services\PrivilegeFileManager::createUserPrivilegesFile($userId);
+			\App\Modules\Users\Services\PrivilegeFileManager::invalidateUser((int) $userId, 'Settings\Groups\Models\Record::recalculate', false);
 		}
 	}
 

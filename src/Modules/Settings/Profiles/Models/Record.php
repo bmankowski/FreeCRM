@@ -843,7 +843,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		$userIdsList = self::getUsersList($this->getId());
 		if ($userIdsList) {
 			foreach ($userIdsList as $userId) {
-				\App\Modules\Users\Services\PrivilegeFileManager::createUserPrivilegesFile($userId);
+				\App\Modules\Users\Services\PrivilegeFileManager::invalidateUser((int) $userId, 'Settings\Profiles\Models\Record::recalculate', false);
 			}
 		}
 	}
@@ -880,7 +880,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		$profileId = $this->getId();
 		if (!empty($profileId)) {
 			$db = \App\Database\PearDatabase::getInstance();
-			$userRecordModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$userRecordModel = \App\User\CurrentUser::get();
 			$module = $userRecordModel->getModuleName();
 			$tabId = \App\Utils\ModuleUtils::getModuleId($module);
 			$userModuleModel = \App\Modules\Users\Models\Module::getInstance($module);

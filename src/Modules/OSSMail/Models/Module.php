@@ -106,7 +106,7 @@ class Module extends \App\Modules\Base\Models\Module
 			$return['filePath'] = $request->get('pdf_path');
 		}
 		if (!empty($moduleName)) {
-			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$currentUser = \App\User\CurrentUser::get();
 			$moduleConfig = \App\Core\AppConfig::module($moduleName);
 			if ($moduleConfig && isset($moduleConfig['SEND_IDENTITY'][$currentUser->get('roleid')])) {
 				$return['from'] = $moduleConfig['SEND_IDENTITY'][$currentUser->get('roleid')];

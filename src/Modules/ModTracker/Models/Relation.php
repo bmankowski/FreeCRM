@@ -63,7 +63,7 @@ class Relation extends \App\Modules\Base\Models\Relation
 	public static function reviewChangesQueue($data, $module)
 	{
 		$db = \App\Db\Db::getInstance();
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\User\CurrentUser::get();
 		$id = (new \App\Db\Query())->from('u_#__reviewed_queue')->max('id') + 1;
 		$db->createCommand()->insert('u_#__reviewed_queue', [
 			'id' => $id,

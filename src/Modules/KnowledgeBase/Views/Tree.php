@@ -16,7 +16,7 @@ class Tree  extends \App\Modules\Base\Views\Index
 	$moduleName = $request->getModule();
 	$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 	$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
-	$linkModels = $moduleModel->getSideBarLinks($linkParams);
+	$linkModels = $moduleModel->getSideBarLinks($linkParams, $request->getUser());
 	
 	// Process sidebar links to determine active link
 	$activeLinkLabel = $this->processSidebarLinks($linkModels, $request);

@@ -29,7 +29,7 @@ class ListView extends \App\Modules\Base\Models\ListView {
         $advancedLinks = parent::getAdvancedLinks();
 
 
-		$user = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$user = \App\User\CurrentUser::get();
 
 		//If user is not admin, do not show the link
 		if($user->isAdminUser()) {

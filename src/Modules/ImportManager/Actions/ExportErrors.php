@@ -36,7 +36,7 @@ class ExportErrors extends BaseActionController
 	{
 		$batchId = (int) $request->get('batch_id');
 		$batch = $this->batches->find($batchId);
-		$currentUserId = \App\Modules\Users\Models\Record::getCurrentUserId();
+		$currentUserId = $request->getUserId();
 		if (!$batch || (int) $batch['created_by'] !== (int) $currentUserId) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}

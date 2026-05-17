@@ -33,7 +33,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 		return $basicLinks;
 	}
 
-	public function getListViewMassActions($linkParams)
+	public function getListViewMassActions($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)
 	{
 		$currentUserModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();

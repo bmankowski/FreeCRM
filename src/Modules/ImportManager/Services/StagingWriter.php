@@ -58,7 +58,7 @@ class StagingWriter
 		$total = 0;
 		$failed = 0;
 
-		$currentUserId = \App\Modules\Users\Models\Record::getCurrentUserId();
+		$currentUserId = (int) (\App\User\CurrentUser::getId() ?? 0);
 		
 		$parser->iterate(function (array $sourceRow) use (&$chunk, $chunkSize, &$total, &$failed, $fieldMapper, $tableInfo, $module, $definition, $currentUserId) {
 			$total++;

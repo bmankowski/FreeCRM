@@ -24,11 +24,11 @@ class Accounts_SaveChanges_Handler {
 			if ($isExists) {
 				\App\Db\Db::getInstance()->createCommand()->update('u_#__crmentity_last_changes', [
 					'date_updated' => date('Y-m-d H:i:s'),
-					'user_id' => \App\Modules\Users\Models\Record::getCurrentUserId(),
+					'user_id' => (int) (\App\User\CurrentUser::getId() ?? 0),
 					], ['crmid' => $recordModel->getId(), 'fieldname' => 'active'])->execute();
 			} else {
 				\App\Db\Db::getInstance()->createCommand()->insert('u_#__crmentity_last_changes', [
-					'user_id' => \App\Modules\Users\Models\Record::getCurrentUserId(),
+					'user_id' => (int) (\App\User\CurrentUser::getId() ?? 0),
 					'crmid' => $recordModel->getId(),
 					'fieldname' => 'active',
 					'date_updated' => date('Y-m-d H:i:s'),

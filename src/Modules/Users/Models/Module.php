@@ -179,7 +179,7 @@ class Module extends \App\Modules\Base\Models\Module
 	 */
 	public function saveLogoutHistory()
 	{
-		$userRecordModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$userRecordModel = \App\User\CurrentUser::get();
 		$userIPAddress = \App\Utils\RequestUtil::getRemoteIP();
 		$outtime = date('Y-m-d H:i:s');
 
@@ -331,8 +331,7 @@ class Module extends \App\Modules\Base\Models\Module
 			\App\Http\Vtiger_Session::set('language', $recordModel->get('language'));
 		}
 
-		\App\Modules\Users\Services\PrivilegeFileManager::createUserPrivilegesFile($recordModel->getId());
-		\App\Modules\Users\Services\PrivilegeFileManager::createUserSharingPrivilegesFile($recordModel->getId());
+		\App\Modules\Users\Services\PrivilegeFileManager::invalidateUser((int) $recordModel->getId(), 'Users\Models\Module::saveRecord');
 
 		if (\App\Core\AppConfig::performance('ENABLE_CACHING_USERS')) {
 			\App\PrivilegeFile::createUsersFile();

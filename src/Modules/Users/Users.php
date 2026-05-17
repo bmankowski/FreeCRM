@@ -399,7 +399,7 @@ class Users extends \App\Core\CRMEntity
 	public function uploadAndSaveFile($id, $module, $fileDetails)
 	{
 		\App\Log\Log::trace("Entering into uploadAndSaveFile($id,$module,$fileDetails) method.");
-		$currentUserId = \App\Modules\Users\Models\Record::getCurrentUserId();
+		$currentUserId = (int) (\App\User\CurrentUser::getId() ?? 0);
 		$dateVar = date('Y-m-d H:i:s');
 		$db = \App\Db\Db::getInstance();
 		//to get the owner id

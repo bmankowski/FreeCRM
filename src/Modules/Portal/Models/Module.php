@@ -14,7 +14,7 @@ namespace App\Modules\Portal\Models;
 class Module extends \App\Modules\Base\Models\Module
 {
 
-	public function getSideBarLinks($linkParams)
+	public function getSideBarLinks($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)
 	{
 		$quickLink = array(
 			'linktype' => 'SIDEBARLINK',

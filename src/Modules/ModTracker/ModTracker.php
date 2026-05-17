@@ -319,7 +319,7 @@ class ModTracker {
 	public static function trackRelation($sourceModule, $sourceId, $targetModule, $targetId, $type)
 	{
 		$db = \App\Db\Db::getInstance();
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 		$currentTime = date('Y-m-d H:i:s');
 		$db->createCommand()->insert('vtiger_modtracker_basic', [
 			'crmid' => $sourceId,

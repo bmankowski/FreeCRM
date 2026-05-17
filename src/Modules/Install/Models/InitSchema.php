@@ -117,7 +117,7 @@ class InitSchema_Model
 			[1]
 		);
 
-		\App\Modules\Users\Services\PrivilegeFileManager::createUserPrivilegesFile(1);
+		\App\Modules\Users\Services\PrivilegeFileManager::invalidateUser(1, 'Install\Models\InitSchema');
 	}
 
 	public function _splitQueries($query)

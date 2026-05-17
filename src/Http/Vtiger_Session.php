@@ -111,18 +111,48 @@ class Vtiger_Session
 	 */
 	public static function getAuthenticatedUserId(): ?int
 	{
+		return self::getEffectiveUserId();
+	}
+
+	/**
+	 * User ID the application treats as current (impersonated user when switching).
+	 */
+	public static function getEffectiveUserId(): ?int
+	{
 		if (!self::has('authenticated_user_id')) {
 			return null;
 		}
-		
+
 		$userId = self::get('authenticated_user_id');
 		$appKey = self::get('app_unique_key');
-		
+
 		if (\App\Core\AppConfig::main('application_unique_key') !== $appKey) {
 			return null;
 		}
-		
+
 		return (int) $userId;
+	}
+
+	/**
+	 * Operator behind impersonation, or the effective user when not impersonating.
+	 */
+	public static function getRealUserId(): ?int
+	{
+		$baseUserId = self::get('baseUserId');
+		if ($baseUserId !== '' && $baseUserId !== null && self::has('baseUserId')) {
+			return (int) $baseUserId;
+		}
+
+		return self::getEffectiveUserId();
+	}
+
+	/**
+	 * Whether the session is acting as another user (user switch / impersonation).
+	 */
+	public static function isImpersonated(): bool
+	{
+		$baseUserId = self::get('baseUserId');
+		return $baseUserId !== '' && $baseUserId !== null && self::has('baseUserId');
 	}
 
 	/**

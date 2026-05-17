@@ -28,9 +28,9 @@ class Module extends \App\Modules\Base\Models\Module
 	 * @param <Array> $linkParams - Optional parameters including sourceModule
 	 * @return <Array> - Associate array of Link Type to List of \App\Modules\Base\Models\Link instances
 	 */
-	public function getListViewLinks($linkParams = false)
+	public function getListViewLinks($linkParams = false, ?\App\Modules\Users\Models\Record $currentUser = null)
 	{
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\User\CurrentUser::get();
 		$privileges = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		// Initialize links array with required keys to prevent template errors
 		$links = [
@@ -83,7 +83,7 @@ class Module extends \App\Modules\Base\Models\Module
 	 * @param <Array> $linkParams
 	 * @return <Array> - Associative array of Link type to List of  \App\Modules\Base\Models\Link instances for Mass Actions
 	 */
-	public function getListViewMassActions($linkParams)
+	public function getListViewMassActions($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)
 	{
 		$currentUserModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 
@@ -117,7 +117,7 @@ class Module extends \App\Modules\Base\Models\Module
 	 * @param <Array> $linkParams
 	 * @return <Array> List of \App\Modules\Base\Models\Link instances
 	 */
-	public function getSideBarLinks($linkParams)
+	public function getSideBarLinks($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)
 	{
 		$linkTypes = array('SIDEBARLINK', 'SIDEBARWIDGET');
 		$links = \App\Modules\Base\Models\Link::getAllByType($this->getId(), $linkTypes, $linkParams);

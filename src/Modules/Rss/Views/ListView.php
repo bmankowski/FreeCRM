@@ -36,7 +36,7 @@ class ListView extends \App\Modules\Base\Views\ListView
 			$moduleName = $request->getModule();
 			$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
 			$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
-			$linkModels = $moduleModel->getSideBarLinks($linkParams);
+			$linkModels = $moduleModel->getSideBarLinks($linkParams, $request->getUser());
 			$activeLinkLabel = $this->processSidebarLinks($linkModels, $request);
 			$viewer->assign('QUICK_LINKS', $linkModels);
 			$viewer->assign('ACTIVE_SIDEBAR_LINK', $activeLinkLabel);

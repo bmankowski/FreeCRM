@@ -71,7 +71,7 @@ class PreferenceDetail extends \App\Modules\Base\Views\Detail
 		$viewer->assign('IS_DELETABLE', $detailViewModel->getRecord()->isDeletable($moduleName));
 
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
-		$linkModels = $detailViewModel->getSideBarLinks($linkParams);
+		$linkModels = $detailViewModel->getSideBarLinks($linkParams, $request->getUser());
 
 		// Process sidebar links to determine active link
 		$activeLinkLabel = $this->processSidebarLinks($linkModels, $request);

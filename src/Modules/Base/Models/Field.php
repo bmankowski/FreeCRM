@@ -518,7 +518,7 @@ class Field extends \vtlib\Field
 
 		if ($fieldDataType == 'picklist' || $fieldDataType == 'multipicklist') {
 			if ($this->isRoleBased() && !$skipCheckingRole) {
-				$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+				$userModel = \App\User\CurrentUser::get();
 				$picklistValues = \App\Fields\Picklist::getRoleBasedPicklistValues($this->getName(), $userModel->get('roleid'));
 			} else {
 				$picklistValues = \App\Fields\Picklist::getPickListValues($this->getName());
@@ -859,7 +859,7 @@ class Field extends \vtlib\Field
 	 */
 	public function getFieldInfo($context = [])
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 		$fieldDataType = $this->getFieldDataType();
 
 		$this->fieldInfo['mandatory'] = $this->isMandatory();

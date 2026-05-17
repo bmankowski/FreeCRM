@@ -259,7 +259,7 @@ class PDF extends \App\Runtime\BaseModel
 		if (empty($permissions)) {
 			return true;
 		}
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 		$permissions = explode(',', $permissions);
 		$getTypes = [];
 		foreach ($permissions as $name) {
@@ -340,7 +340,7 @@ class PDF extends \App\Runtime\BaseModel
 			case 'PLL_COMPANY_NAME':
 				return $organizationName;
 			case 'PLL_USER_CREATING':
-				$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+				$currentUser = \App\User\CurrentUser::get();
 				return $currentUser ? $currentUser->getDisplayName() : '';
 			case 'PLL_RECORD_OWNER':
 				return $this->getMainRecordOwnerLabel();

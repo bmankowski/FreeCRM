@@ -24,7 +24,7 @@ class Menu {
 	 */
 	public static function getAll($sequenced = false, $restrictedModulesList = [])
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 		$userPrivModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 
 		$roleMenu = 'user_privileges/menu_' . filter_var($userPrivModel->get('roleid'), FILTER_SANITIZE_NUMBER_INT) . '.php';

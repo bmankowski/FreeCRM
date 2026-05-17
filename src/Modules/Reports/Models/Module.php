@@ -20,7 +20,7 @@ class Module extends \App\Modules\Base\Models\Module
 	 */
 	public function deleteRecord($reportModel)
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 		$subOrdinateUsers = $currentUser->getSubordinateUsers();
 
 		$subOrdinates = array();
@@ -60,7 +60,7 @@ class Module extends \App\Modules\Base\Models\Module
 	 * Function returns quick links for the module
 	 * @return <Array of \App\Modules\Base\Models\Link>
 	 */
-	public function getSideBarLinks($linkParams = '')
+	public function getSideBarLinks($linkParams = '', ?\App\Modules\Users\Models\Record $currentUser = null)
 	{
 		$quickLinks = array(
 			array(

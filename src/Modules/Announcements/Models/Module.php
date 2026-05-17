@@ -37,7 +37,7 @@ class Module extends \App\Modules\Base\Models\Module
 		while ($row = $dataReader->read()) {
 			$query = (new \App\Db\Query())
 				->from('u_#__announcement_mark')
-				->where(['announcementid' => $row['id'], 'userid' => \App\Modules\Users\Models\Record::getCurrentUserId()]);
+				->where(['announcementid' => $row['id'], 'userid' => (int) (\App\User\CurrentUser::getId() ?? 0)]);
 			if (!empty($row['interval'])) {
 				$date = date('Y-m-d H:i:s', strtotime('+' . $row['interval'] . ' day', strtotime('now')));
 				$query->andWhere(['status' => 0]);
@@ -65,12 +65,12 @@ class Module extends \App\Modules\Base\Models\Module
 		$db = \App\Db\Db::getInstance();
 		$query = (new \App\Db\Query())
 				->from('u_#__announcement_mark')
-				->where(['announcementid' => $record, 'userid' => \App\Modules\Users\Models\Record::getCurrentUserId()])->limit(1);
+				->where(['announcementid' => $record, 'userid' => (int) (\App\User\CurrentUser::getId() ?? 0)])->limit(1);
 		if ($query->scalar() === false) {
 			$db->createCommand()
 				->insert('u_#__announcement_mark', [
 					'announcementid' => $record,
-					'userid' => \App\Modules\Users\Models\Record::getCurrentUserId(),
+					'userid' => (int) (\App\User\CurrentUser::getId() ?? 0),
 					'date' => date('Y-m-d H:i:s'),
 					'status' => $state
 				])->execute();
@@ -79,7 +79,7 @@ class Module extends \App\Modules\Base\Models\Module
 				->update('u_#__announcement_mark', [
 					'date' => date('Y-m-d H:i:s'),
 					'status' => $state
-					], ['announcementid' => $record, 'userid' => \App\Modules\Users\Models\Record::getCurrentUserId()])
+					], ['announcementid' => $record, 'userid' => (int) (\App\User\CurrentUser::getId() ?? 0)])
 				->execute();
 		}
 		$this->checkStatus($record);
@@ -105,7 +105,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	public function getUsers($showAll = true)
 	{
-		$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$userModel = \App\User\CurrentUser::get();
 		if ($showAll) {
 			$users = \App\Fields\Owner::getInstance()->getAccessibleUsers('Public');
 		} else {

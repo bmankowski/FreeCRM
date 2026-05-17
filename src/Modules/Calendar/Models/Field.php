@@ -95,7 +95,7 @@ class Field extends \App\Modules\Base\Models\Field
 			if ($fieldName === 'date_start') {
 				return \App\Fields\DateTimeField::convertToUserFormat(date('Y-m-d'));
 			} elseif ($fieldName === 'due_date') {
-				$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+				$currentUser = \App\User\CurrentUser::get();
 				$minutes = $currentUser->get('callduration');
 				return \App\Fields\DateTimeField::convertToUserFormat(date('Y-m-d', strtotime("+$minutes minutes")));
 			}

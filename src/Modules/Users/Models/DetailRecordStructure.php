@@ -25,7 +25,7 @@ class DetailRecordStructure extends \App\Modules\Base\Models\RecordStructure
 		}
 
 		$values = array();
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\User\CurrentUser::get();
 		$recordModel = $this->getRecord();
 		$recordId = $recordModel->getId();
 		$moduleModel = $this->getModule();

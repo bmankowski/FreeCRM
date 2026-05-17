@@ -1,7 +1,7 @@
 {
     "php.validate.enable": true,
     "php.validate.executablePath": "/usr/bin/php",
-    "php.suggest.basic": false,
+    "php.suggest.basic": true,
     "php.debug.executablePath": "/usr/bin/php",
     "php.debug.xdebugSettings": {
         "max_children": 128,

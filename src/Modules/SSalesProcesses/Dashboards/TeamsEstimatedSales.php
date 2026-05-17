@@ -89,7 +89,7 @@ class TeamsEstimatedSales  extends \App\Modules\Base\Views\Index
 		$linkId = $request->get('linkid');
 		$time = $request->get('time');
 		$compare = $request->get('compare') === 'true';
-		$widget = \App\Modules\Base\Models\Widget::getInstance($linkId, \App\Modules\Users\Models\Record::getCurrentUserId());
+		$widget = \App\Modules\Base\Models\Widget::getInstance($linkId, (int) (\App\User\CurrentUser::getId() ?? 0));
 		if (empty($time)) {
 			$time = ['start' => ''];
 			$date = new \DateTime();

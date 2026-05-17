@@ -40,16 +40,16 @@ class OSSMail {
 					  PRIMARY KEY (`id`)
 					) ENGINE=InnoDB DEFAULT CHARSET=utf8");
 			$Module = \App\Modules\Base\Models\Module::getInstance($moduleName);
-			$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
+			$user_id = \App\User\CurrentUser::get()->get('user_name');
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?,?);", array('Action_InstallModule', $moduleName . ' ' . $Module->version, $user_id), false);
 		} else if ($eventType == 'module.disabled') {
-			$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
+			$user_id = \App\User\CurrentUser::get()->get('user_name');
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?,?);", array('Action_DisabledModule', $moduleName, $user_id), false);
 		} else if ($eventType == 'module.enabled') {
 			if (\App\Modules\Settings\ModuleManager\Models\Library::checkLibrary('roundcube')) {
 				throw new \App\Exceptions\NotAllowedMethod(\App\Runtime\Vtiger_Language_Handler::translate('ERR_NO_REQUIRED_LIBRARY', 'Settings:Vtiger', 'roundcube'));
 			}
-			$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
+			$user_id = \App\User\CurrentUser::get()->get('user_name');
 			\App\Db\Db::getInstance()->createCommand()->insert('vtiger_ossmails_logs', ['action' => 'Action_EnabledModule', 'info' => $moduleName, 'user' => $user_id])->execute();
 		} else if ($eventType == 'module.preuninstall') {
 			
@@ -59,7 +59,7 @@ class OSSMail {
 			$adb = \App\Database\PearDatabase::getInstance();
 			$OSSMail = \App\Modules\Base\Models\Module::getInstance('OSSMail');
 			if (version_compare($OSSMail->version, '1.39', '>')) {
-				$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
+				$user_id = \App\User\CurrentUser::get()->get('user_name');
 				$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_UpdateModule', $moduleName . ' ' . $Module->version, $user_id), false);
 			}
 		}

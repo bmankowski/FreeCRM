@@ -21,7 +21,7 @@ class Module extends \App\Modules\Base\Models\Module
 	 */
 	public function getSettingLinks()
 	{
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\User\CurrentUser::get();
 		$settingLinks = parent::getSettingLinks();
 
 		if ($currentUserModel->isAdminUser()) {

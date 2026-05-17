@@ -413,7 +413,7 @@ class Record extends \App\Modules\Base\Models\Record
 	public function save($request = null)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 
 		$reportId = $this->getId();
 		if (empty($reportId)) {

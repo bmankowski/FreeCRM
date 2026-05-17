@@ -181,7 +181,7 @@ class Link
 	 */
 	public static function getAllByType($tabid, $type = false, $parameters = false): array
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 		if (\App\Cache\Cache::has('AllLinks', 'ByType')) {
 			$rows = \App\Cache\Cache::get('AllLinks', 'ByType');
 		} else {

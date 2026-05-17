@@ -101,7 +101,7 @@ class Record extends \App\Modules\Base\Models\Record
 		if (!empty($recordId)) {
 			$baseCurrency = $this->getProductBaseCurrency($recordId, $this->getModuleName());
 		} else {
-			$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$currentUserModel = \App\User\CurrentUser::get();
 			$baseCurrency = \App\Utils\InventoryUtils::getUserCurrencyId($currentUserModel);
 		}
 		$baseCurrencyDetails = array('currencyid' => $baseCurrency);
@@ -170,7 +170,7 @@ class Record extends \App\Modules\Base\Models\Record
 	{
 		$query = false;
 		if ($moduleName !== false && ($moduleName == 'Products' || $moduleName == 'Services' )) {
-			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$currentUser = \App\User\CurrentUser::get();
 			$adb = \App\Database\PearDatabase::getInstance();
 			$params = ['%' . $currentUser->getId() . '%', "%$searchKey%"];
 			$queryFrom = 'SELECT u_yf_crmentity_search_label.`crmid`,u_yf_crmentity_search_label.`setype`,u_yf_crmentity_search_label.`searchlabel` FROM `u_yf_crmentity_search_label`';

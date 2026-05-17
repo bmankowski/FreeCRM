@@ -20,9 +20,9 @@ class ListView extends \App\Modules\Base\Models\ListView
 	 * @param <Array> $linkParams
 	 * @return <Array> - Associative array of Link type to List of  \App\Modules\Base\Models\Link instances for Mass Actions
 	 */
-	public function getListViewMassActions($linkParams)
+	public function getListViewMassActions($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)
 	{
-		$links = parent::getListViewMassActions($linkParams);
+		$links = parent::getListViewMassActions($linkParams, $currentUser);
 		$currentUserModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();
 		$massActionLinks = [];
@@ -53,9 +53,9 @@ class ListView extends \App\Modules\Base\Models\ListView
 	 * @param <Array> $linkParams
 	 * @return <Array> - Associate array of Link Type to List of \App\Modules\Base\Models\Link instances
 	 */
-	public function getListViewLinks($linkParams)
+	public function getListViewLinks($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)
 	{
-		$links = parent::getListViewLinks($linkParams);
+		$links = parent::getListViewLinks($linkParams, $currentUser);
 
 		if (!empty($links['LISTVIEWBASIC'])) {
 			$index = 0;

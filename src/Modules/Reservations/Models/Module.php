@@ -20,7 +20,7 @@ class Module extends \App\Modules\Base\Models\Module
 		return 'index.php?module=' . $this->get('name') . '&view=Calendar';
 	}
 
-	public function getSideBarLinks($linkParams)
+	public function getSideBarLinks($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)
 	{
 		$linkTypes = ['SIDEBARLINK', 'SIDEBARWIDGET'];
 		$links = [];

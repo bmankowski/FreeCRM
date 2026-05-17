@@ -18,7 +18,7 @@ class CheckDayTasks {
 		if (!in_array($moduleName, ['Calendar', 'Events'])) {
 			return ['save_record' => true];
 		}
-		$userRecordModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$userRecordModel = \App\User\CurrentUser::get();
 		$db = \App\Database\PearDatabase::getInstance();
 		$typeInfo = 'info';
 		$statusType = $config['statusType'];

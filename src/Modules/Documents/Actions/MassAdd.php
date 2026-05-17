@@ -47,7 +47,7 @@ class MassAdd extends \App\Base\Controllers\BaseActionController
 				];
 				$recordeModel = \App\Modules\Base\Models\Record::getCleanInstance($moduleName);
 				$recordeModel->set('notes_title', $nameFiles[$i]);
-				$recordeModel->set('assigned_user_id', \App\Modules\Users\Models\Record::getCurrentUserId());
+				$recordeModel->set('assigned_user_id', $request->getUserId());
 				$recordeModel->file = $originalFile;
 				$recordeModel->set('filelocationtype', 'I');
 				$recordeModel->set('filestatus', true);

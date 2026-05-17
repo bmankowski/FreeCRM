@@ -46,7 +46,7 @@ class SharedOwner extends BaseUiType
 	public function getDisplayValue($values, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 		if (empty($values)) {
 			return '';
 		} elseif (!is_array($values)) {
@@ -106,7 +106,7 @@ class SharedOwner extends BaseUiType
 		}
 		$display = $shownerData = [];
 		$maxLengthText = $this->get('field')->get('maxlengthtext');
-		$isAdmin = \App\Modules\Users\Models\Record::getCurrentUserModel()->isAdmin();
+		$isAdmin = \App\User\CurrentUser::get()->isAdmin();
 		foreach ($values as $key => $shownerid) {
 			if (\App\Fields\Owner::getType($shownerid) === 'Users') {
 				$userModel = \App\Modules\Users\Models\Record::getInstanceById($shownerid, 'Users');

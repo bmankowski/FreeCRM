@@ -171,7 +171,7 @@ class Module extends \App\Modules\Base\Models\Module
 		$result = $db->pquery('SELECT id FROM vtiger_users WHERE deleted = ?', [0]);
 
 		while (($id = $db->getSingleValue($result)) !== false) {
-			\App\Modules\Users\Services\PrivilegeFileManager::createUserSharingPrivilegesFile($id);
+			\App\Modules\Users\Services\PrivilegeFileManager::invalidateUser((int) $id, 'Settings\SharingAccess\Models\Module::recalculate');
 		}
 	}
 }

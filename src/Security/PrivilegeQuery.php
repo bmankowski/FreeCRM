@@ -13,7 +13,7 @@ class PrivilegeQuery
 	public static function getAccessConditions($moduleName, $userId = false, $relatedRecord = false)
 	{
 		if (!$userId) {
-			$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
+			$userId = (int) (\App\User\CurrentUser::getId() ?? 0);
 		}
 		$userModel = \App\Modules\Users\Models\Privileges::getInstanceById($userId);
 		if ($relatedRecord !== false && \App\Core\AppConfig::security('PERMITTED_BY_RECORD_HIERARCHY')) {
@@ -76,7 +76,7 @@ public static function getConditions(\App\Db\Query $query, $moduleName, $user = 
 	} elseif ($user && is_numeric($user)) {
 		$userId = $user;
 	} else {
-		$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
+		$userId = (int) (\App\User\CurrentUser::getId() ?? 0);
 	}
 	$userModel = \App\Modules\Users\Models\Privileges::getInstanceById($userId);
 	if (!$userModel) {
@@ -158,6 +158,43 @@ public static function getConditions(\App\Db\Query $query, $moduleName, $user = 
 	{
 		$instance = \App\Core\CRMEntity::getInstance($module);
 		return $instance->getNonAdminAccessControlQuery($module, $user, $scope);
+	}
+
+	/**
+	 * Canonical list-view sharing SQL fragment (owner, role hierarchy, sharing rules, groups).
+	 */
+	public static function buildListViewSecuritySql(string $module, $userId = false): string
+	{
+		if (!$userId) {
+			$userId = (int) (\App\User\CurrentUser::getId() ?? 0);
+		}
+		$privileges = \App\Modules\Users\Models\Privileges::getPrivilegesFile($userId);
+		$sharingPrivileges = \App\Security\Privilege::getSharingFile($userId);
+		if ($privileges === null || $sharingPrivileges === null) {
+			\App\Log\Log::error('User privileges or sharing file not found for user: ' . $userId);
+			return '';
+		}
+
+		$tabid = \App\Utils\ModuleUtils::getModuleId($module);
+		$secQuery = '';
+		if ($privileges['is_admin'] === false
+			&& $privileges['profile_global_permission'][1] == 1
+			&& $privileges['profile_global_permission'][2] == 1
+			&& ($sharingPrivileges['defOrgShare'][$tabid] ?? null) == 3) {
+			$secQuery .= " and (vtiger_crmentity.smownerid in($userId) or vtiger_crmentity.smownerid
+					in (select vtiger_user2role.userid from vtiger_user2role
+							inner join vtiger_users on vtiger_users.id=vtiger_user2role.userid
+							inner join vtiger_role on vtiger_role.roleid=vtiger_user2role.roleid
+							where vtiger_role.parentrole like '" . $privileges['parent_role_seq'] . "::%') or vtiger_crmentity.smownerid
+					in(select shareduserid from vtiger_tmp_read_user_sharing_per
+						where userid=" . $userId . ' and tabid=' . $tabid . ') or (';
+			if (!empty($privileges['groups'])) {
+				$secQuery .= ' vtiger_groups.groupid in (' . implode(',', $privileges['groups']) . ') or ';
+			}
+			$secQuery .= ' vtiger_groups.groupid in(select vtiger_tmp_read_group_sharing_per.sharedgroupid
+						from vtiger_tmp_read_group_sharing_per where userid=' . $userId . ' and tabid=' . $tabid . '))) ';
+		}
+		return $secQuery;
 	}
 
 	/**
@@ -245,8 +282,7 @@ public static function getConditions(\App\Db\Query $query, $moduleName, $user = 
 			}
 			$sec_query .= " vtiger_groups.groupid in(select vtiger_tmp_read_group_sharing_per.sharedgroupid from vtiger_tmp_read_group_sharing_per where userid=" . $currentUser->getId() . " and tabid=" . $tabid . "))) ";
 		} else {
-			$modObj = \App\Core\CRMEntity::getInstance($module);
-			$sec_query = $modObj->getListViewSecurityParameter($module);
+			$sec_query = self::buildListViewSecuritySql($module, $currentUser->getId());
 		}
 		\App\Log\Log::trace("Exiting getListViewSecurityParameter method ...");
 		return $sec_query;

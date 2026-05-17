@@ -52,7 +52,7 @@ class CardDAV {
 		while ($record = $db->getRow($result)) {
 			foreach ($this->davUsers as $key => $user) {
 				$this->addressBookId = $user->get('addressbooksid');
-				$orgUserId = \App\Modules\Users\Models\Record::getCurrentUserId();
+				$orgUserId = (int) (\App\User\CurrentUser::getId() ?? 0);
 				\App\Modules\Users\Models\Record::setCurrentUserId($user->get('id'));
 
 				if (\App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $record['crmid'])) {

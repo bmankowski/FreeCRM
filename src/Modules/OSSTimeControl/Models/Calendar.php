@@ -19,7 +19,7 @@ class Calendar extends \App\Runtime\BaseModel
 	{
 		$db = \App\Database\PearDatabase::getInstance();
 		$module = 'OSSTimeControl';
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 		$query = \App\Utils\ListViewUtils::getListQuery($module);
 		$params = array();
 		if ($this->get('start') && $this->get('end')) {

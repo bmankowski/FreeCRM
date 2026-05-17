@@ -37,12 +37,12 @@ class Multiowner extends BaseUiType
 				$userModel = \App\Modules\Users\Models\Record::getCleanInstance('Users');
 				$userModel->set('id', $value);
 				$detailViewUrl = $userModel->getDetailViewUrl();
-				$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+				$currentUser = \App\User\CurrentUser::get();
 				if (!$currentUser->isAdminUser()) {
 					return \App\Fields\Owner::getLabel($value);
 				}
 			} else {
-				$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+				$currentUser = \App\User\CurrentUser::get();
 				if (!$currentUser->isAdminUser()) {
 					return \App\Fields\Owner::getLabel($value);
 				}

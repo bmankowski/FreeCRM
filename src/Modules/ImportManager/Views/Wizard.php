@@ -18,7 +18,7 @@ class Wizard extends Upload
 		$batchId = (int) $request->get('batch_id');
 		if ($batchId > 0) {
 			$controller = new WizardController();
-			$stepUrl = $controller->getStepUrlForBatch($batchId);
+			$stepUrl = $controller->getStepUrlForBatch($batchId, $request);
 			if ($stepUrl) {
 				header('Location: ' . $stepUrl);
 				exit;

@@ -234,7 +234,7 @@ class Record extends \App\Modules\Base\Models\Record
 	public function addLog($action, $info)
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
-		$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
+		$user_id = \App\User\CurrentUser::get()->get('user_name');
 		$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?); ", array($action, $info, $user_id), true);
 	}
 
@@ -293,7 +293,7 @@ class Record extends \App\Modules\Base\Models\Record
 	public static function addRelated($params)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 
 		$crmid = $params['crmid'];
 		$newModule = $params['newModule'];

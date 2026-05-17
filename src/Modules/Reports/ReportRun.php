@@ -225,7 +225,7 @@ class ReportRun extends \App\Core\CRMEntity
 				}
 				$this->queryPlanner->addTable($selectedfields[0]);
 			} else {
-				$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+				$userModel = \App\User\CurrentUser::get();
 				$userformat = $userModel->get('date_format');
 				$userformat = str_replace('dd', '%d', $userformat);
 				$userformat = str_replace('yyyy', '%Y', $userformat);

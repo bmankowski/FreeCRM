@@ -49,10 +49,10 @@ class ExpiringSoldProducts  extends \App\Modules\Base\Views\Index
 		$query = $queryGenerator->createQuery();
 		$showtype = $request->get('showtype');
 		if ($showtype === 'common') {
-			$subQuery = (new \App\Db\Query())->select('crmid')->from('u_#__crmentity_showners')->where(['userid' => \App\Modules\Users\Models\Record::getCurrentUserId()])->distinct('crmid');
+			$subQuery = (new \App\Db\Query())->select('crmid')->from('u_#__crmentity_showners')->where(['userid' => (int) (\App\User\CurrentUser::getId() ?? 0)])->distinct('crmid');
 			$query->andWhere(['in', 'vtiger_crmentity.smownerid', $subQuery]);
 		} else {
-			$query->andWhere(['vtiger_crmentity.smownerid' => \App\Modules\Users\Models\Record::getCurrentUserId()]);
+			$query->andWhere(['vtiger_crmentity.smownerid' => (int) (\App\User\CurrentUser::getId() ?? 0)]);
 		}
 		$query->orderBy('vtiger_assets.dateinservice');
 		$query->limit($limit);

@@ -128,7 +128,7 @@ class SaveMapping extends BaseActionController
 
 	private function guardBatchOwnership(array $batch): void
 	{
-		$currentUserId = \App\Modules\Users\Models\Record::getCurrentUserId();
+		$currentUserId = $request->getUserId();
 		if ((int) $batch['created_by'] !== (int) $currentUserId) {
 			throw new \RuntimeException('Możesz edytować tylko własne wsady importu.');
 		}

@@ -386,7 +386,7 @@ class DateTimeField
 		$time = $date->format("H:i");
 
 		//Convert time to user preferred value
-		if (\App\Modules\Users\Models\Record::getCurrentUserModel()->get('hour_format') === '12') {
+		if (\App\User\CurrentUser::get()->get('hour_format') === '12') {
 			$time = \App\Modules\Base\UiTypes\Time::getTimeValueInAMorPM($time);
 		}
 		\App\Log\Log::trace('End ' . __METHOD__);

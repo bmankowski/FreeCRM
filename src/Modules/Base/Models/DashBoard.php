@@ -51,7 +51,7 @@ class DashBoard extends \App\Runtime\BaseModel
 	public function getDashboards($action = 1)
 	{
 
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 		$currentUserPrivilegeModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$moduleModel = $this->getModule();
 
@@ -137,7 +137,7 @@ class DashBoard extends \App\Runtime\BaseModel
 	public function verifyDashboard($moduleName)
 	{
 		\App\Log\Log::trace('Entering ' . __METHOD__ . '(' . $moduleName . ')');
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 		$blockId = \App\Modules\Settings\WidgetsManagement\Models\Module::getBlocksFromModule($moduleName, $currentUser->getRole(), $this->get('dashboardId'));
 		if (count($blockId) == 0) {
 			\App\Log\Log::trace('Exiting ' . __METHOD__);
@@ -198,7 +198,7 @@ class DashBoard extends \App\Runtime\BaseModel
 	 */
 	public static function getModulesWithWidgets($moduleName = false, $dashboard)
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 
 		$query = (new \App\Db\Query())->select('vtiger_module_dashboard_widgets.module, vtiger_module_dashboard_blocks.tabid')
 			->from('vtiger_module_dashboard')

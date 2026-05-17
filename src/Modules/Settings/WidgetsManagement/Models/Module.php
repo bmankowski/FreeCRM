@@ -116,7 +116,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	{
 
 		\App\Log\Log::trace('Entering ' . __METHOD__);
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 		$user = '';
 
 		if ($moduleName) {
@@ -347,7 +347,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 			if ($data['isdefault'])
 				$active = 1;
 			$db->createCommand()->insert('vtiger_module_dashboard_widgets', [
-				'linkid' => $data['linkid'], 'userid' => \App\Modules\Users\Models\Record::getCurrentUserModel()->getId(), 'templateid' => $templateId,
+				'linkid' => $data['linkid'], 'userid' => \App\User\CurrentUser::get()->getId(), 'templateid' => $templateId,
 				'filterid' => $data['filterid'],
 				'title' => $data['title'],
 				'data' => $data['data'],

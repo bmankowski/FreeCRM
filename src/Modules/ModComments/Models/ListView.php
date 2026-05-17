@@ -22,10 +22,11 @@ class Model extends \App\Modules\Base\Models\ListView
 	 * @param <Array> $linkParams
 	 * @return <Array> - Associate array of Link Type to List of \App\Modules\Base\Models\Link instances
 	 */
-	public function getListViewLinks($linkParams)
+	public function getListViewLinks($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)
 	{
-		$links = parent::getListViewLinks($linkParams);
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::resolve($currentUser);
+		$links = parent::getListViewLinks($linkParams, $currentUser);
+		$currentUserModel = $currentUser;
 		$moduleModel = $this->getModule();
 
 		unset($links['LISTVIEW']);
@@ -49,7 +50,7 @@ class Model extends \App\Modules\Base\Models\ListView
 	 * @param <Array> $linkParams
 	 * @return <Array> - empty array
 	 */
-	public function getListViewMassActions($linkParams)
+	public function getListViewMassActions($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)
 	{
 		return array();
 	}

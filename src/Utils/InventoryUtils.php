@@ -21,7 +21,7 @@ class InventoryUtils
 			}
 		}
 		if (!$userId) {
-			$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
+			$userId = (int) (\App\User\CurrentUser::getId() ?? 0);
 		}
 		if ($userId) {
 			$currencyId = \vtlib\Functions:: userCurrencyId($userId);

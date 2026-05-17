@@ -75,8 +75,6 @@ class PrivilegeFileManager
             fputs($handle, $newbuf);
             fclose($handle);
             \App\Security\PrivilegeFile::createUserPrivilegesFile($userId);
-            Privileges::clearCache($userId);
-            \App\Modules\Users\Models\Record::clearCache($userId);
             return true;
         }
         return false;
@@ -728,22 +726,54 @@ class PrivilegeFileManager
     }
 
     /**
+     * Single entry point to refresh privilege files and related caches for one user.
+     */
+    public static function invalidateUser(int $userId, string $reason, bool $regenerateSharing = true): void
+    {
+        \App\Log\Log::trace('PrivilegeFileManager::invalidateUser userId=' . $userId . ' reason=' . $reason);
+
+        self::createUserPrivilegesFile($userId);
+        if ($regenerateSharing) {
+            self::createUserSharingPrivilegesFile($userId);
+        }
+
+        Record::clearCache($userId);
+        Privileges::clearCache($userId);
+        \App\Security\Privilege::clearSharingCache($userId);
+        self::clearPrivilegeCaches();
+    }
+
+    /**
+     * Refresh privilege files and caches for every active user (roles, sharing, install, etc.).
+     */
+    public static function invalidateAll(string $reason): void
+    {
+        \App\Log\Log::trace('PrivilegeFileManager::invalidateAll reason=' . $reason);
+        $adb = PearDatabase::getInstance();
+        $result = $adb->pquery('SELECT id FROM vtiger_users WHERE deleted=0', []);
+        $numRows = $adb->num_rows($result);
+        for ($i = 0; $i < $numRows; $i++) {
+            self::invalidateUser((int) $adb->query_result($result, $i, 'id'), $reason);
+        }
+        \App\Log\Log::trace('Exiting PrivilegeFileManager::invalidateAll');
+    }
+
+    /**
+     * Clear App\Cache namespaces used by privilege / owner lookups.
+     */
+    private static function clearPrivilegeCaches(): void
+    {
+        foreach (['UserGroups', 'getRoleUsers', 'getUsers', 'getAccessibleUsers'] as $namespace) {
+            \App\Cache\Cache::clearNamespace($namespace);
+        }
+    }
+
+    /**
      * Function to recalculate the Sharing Rules for all the vtiger_users
      * This function will recalculate all the sharing rules for all the vtiger_users in the Organization and will write them in flat files
      */
     public static function RecalculateSharingRules()
     {
-        \App\Log\Log::trace("Entering RecalculateSharingRules() method ...");
-        $adb = \App\Database\PearDatabase::getInstance();
-
-        $query = "select id from vtiger_users where deleted=0";
-        $result = $adb->pquery($query, []);
-        $num_rows = $adb->num_rows($result);
-        for ($i = 0; $i < $num_rows; $i++) {
-            $id = $adb->query_result($result, $i, 'id');
-            self::createUserPrivilegesFile($id);
-            self::createUserSharingPrivilegesFile($id);
-        }
-        \App\Log\Log::trace("Exiting RecalculateSharingRules method ...");
+        self::invalidateAll('RecalculateSharingRules');
     }
 }

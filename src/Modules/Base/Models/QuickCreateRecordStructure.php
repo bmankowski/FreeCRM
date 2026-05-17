@@ -37,12 +37,12 @@ class QuickCreateRecordStructure extends \App\Modules\Base\Models\RecordStructur
 			if (!empty($recordModelFieldValue)) {
 				$fieldModel->set('fieldvalue', $recordModelFieldValue);
 			} else if ($fieldName == 'activitystatus') {
-				$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+				$currentUserModel = \App\User\CurrentUser::get();
 				$defaulteventstatus = $currentUserModel->get('defaulteventstatus');
 				$fieldValue = $defaulteventstatus;
 				$fieldModel->set('fieldvalue', $fieldValue);
 			} else if ($fieldName == 'activitytype') {
-				$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+				$currentUserModel = \App\User\CurrentUser::get();
 				$defaultactivitytype = $currentUserModel->get('defaultactivitytype');
 				$fieldValue = $defaultactivitytype;
 				$fieldModel->set('fieldvalue', $fieldValue);

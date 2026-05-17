@@ -45,8 +45,8 @@ class Save extends \App\Base\Controllers\BaseActionController
 	public function preProcess(\App\Http\Vtiger_Request $request)
 	{
 		parent::preProcess($request);
-		if (\App\Http\Vtiger_Session::has('baseUserId') && !empty(\App\Http\Vtiger_Session::get('baseUserId'))) {
-			$baseUserId = \App\Http\Vtiger_Session::get('baseUserId');
+		if (\App\Http\Vtiger_Session::isImpersonated()) {
+			$baseUserId = \App\Http\Vtiger_Session::getRealUserId();
 			\App\Modules\Users\Models\Record::setCurrentUserId($baseUserId);
 			$userModel = \App\Modules\Users\Models\Record::getInstanceById($baseUserId, 'Users');
 			$request->setUser($userModel);
@@ -56,8 +56,8 @@ class Save extends \App\Base\Controllers\BaseActionController
 	public function preProcessAjax(\App\Http\Vtiger_Request $request)
 	{
 		parent::preProcessAjax($request);
-		if (\App\Http\Vtiger_Session::has('baseUserId') && !empty(\App\Http\Vtiger_Session::get('baseUserId'))) {
-			$baseUserId = \App\Http\Vtiger_Session::get('baseUserId');
+		if (\App\Http\Vtiger_Session::isImpersonated()) {
+			$baseUserId = \App\Http\Vtiger_Session::getRealUserId();
 			\App\Modules\Users\Models\Record::setCurrentUserId($baseUserId);
 			$userModel = \App\Modules\Users\Models\Record::getInstanceById($baseUserId, 'Users');
 			$request->setUser($userModel);

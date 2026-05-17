@@ -255,7 +255,7 @@ class Export extends \App\Runtime\BaseModel
 	 */
 	public function sanitizeValues($arr)
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 		$roleid = $currentUser->get('roleid');
 		if (empty($this->fieldArray)) {
 			$this->fieldArray = $this->moduleFieldInstances;

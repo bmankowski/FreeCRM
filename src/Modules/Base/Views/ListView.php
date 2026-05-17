@@ -85,7 +85,7 @@ class ListView extends \App\Modules\Base\Views\Index
 
 		// ListView needs QUICK_LINKS for sidebar navigation
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
-		$linkModels = $moduleModel->getSideBarLinks($linkParams);
+		$linkModels = $moduleModel->getSideBarLinks($linkParams, $request->getUser());
 		$activeLinkLabel = $this->processSidebarLinks($linkModels, $request);
 		$viewer->assign('QUICK_LINKS', $linkModels);
 		$viewer->assign('ACTIVE_SIDEBAR_LINK', $activeLinkLabel);
@@ -234,7 +234,7 @@ class ListView extends \App\Modules\Base\Views\Index
 		}
 		$currentUser = $request->getUser();
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'), 'CVID' => $this->viewName);
-		$linkModels = $this->listViewModel->getListViewMassActions($linkParams);
+		$linkModels = $this->listViewModel->getListViewMassActions($linkParams, $currentUser);
 		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		$pagingModel->set('viewid', $this->viewName);
@@ -280,7 +280,7 @@ class ListView extends \App\Modules\Base\Views\Index
 		$viewer->assign('MODULE_MODEL', $this->listViewModel->getModule());
 		$viewer->assign('MODULE', $moduleName);
 		if (!$this->listViewLinks) {
-			$this->listViewLinks = $this->listViewModel->getListViewLinks($linkParams);
+			$this->listViewLinks = $this->listViewModel->getListViewLinks($linkParams, $currentUser);
 		}
 		$viewer->assign('LISTVIEW_LINKS', $this->listViewLinks);
 		$viewer->assign('LISTVIEW_MASSACTIONS', $linkModels['LISTVIEWMASSACTION']);

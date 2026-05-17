@@ -268,7 +268,7 @@ class CustomView
 	public static function getInstance($moduleName, $user = false)
 	{
 		if (!$user) {
-			$user = \App\Modules\Users\Models\Record::getCurrentUserId();
+			$user = (int) (\App\User\CurrentUser::getId() ?? 0);
 	}
 	if (is_numeric($user)) {
 		$user = \App\Modules\Users\Models\Record::getInstanceById($user, 'Users');

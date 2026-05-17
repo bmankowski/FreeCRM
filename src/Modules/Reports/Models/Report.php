@@ -23,7 +23,7 @@ class Report extends Reports
 	public function Reports($reportId = "")
 	{
 		$db = \App\Database\PearDatabase::getInstance();
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 		$userId = $currentUser->getId();
 
 		$this->initListOfModules();

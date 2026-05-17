@@ -19,7 +19,7 @@ class Calendar extends \App\Runtime\BaseModel
 	{
 		$db = \App\Db\Db::getInstance();
 		$module = 'Reservations';
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 		$query = (new \App\Db\Query())->from('vtiger_reservations')
 			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_reservations.reservationsid')
 			->innerJoin('vtiger_reservationscf', 'vtiger_reservationscf.reservationsid = vtiger_reservations.reservationsid')

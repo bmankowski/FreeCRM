@@ -37,7 +37,7 @@ class Calendar  extends \App\Modules\Base\Views\Index
 		// OSSTimeControl Calendar needs QUICK_LINKS for sidebar navigation
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
-		$linkModels = $moduleModel->getSideBarLinks($linkParams);
+		$linkModels = $moduleModel->getSideBarLinks($linkParams, $request->getUser());
 		$activeLinkLabel = $this->processSidebarLinks($linkModels, $request);
 		
 		$viewer->assign('QUICK_LINKS', $linkModels);

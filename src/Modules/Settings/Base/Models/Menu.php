@@ -93,7 +93,7 @@ class Menu extends \App\Modules\Base\Models\Record
 			if ($request && $request->hasUser()) {
 				$userId = $request->getUserId();
 			} else {
-				$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
+				$userId = (int) (\App\User\CurrentUser::getId() ?? 0);
 			}
 		}
 		

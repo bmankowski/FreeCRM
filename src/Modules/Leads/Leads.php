@@ -247,7 +247,7 @@ class Leads extends \App\Core\CRMEntity
 					'crmid' => $crmid,
 					'productid' => $withCrmid,
 					'setype' => $module,
-					'rel_created_user' => \App\Modules\Users\Models\Record::getCurrentUserId(),
+					'rel_created_user' => (int) (\App\User\CurrentUser::getId() ?? 0),
 					'rel_created_time' => date('Y-m-d H:i:s')
 				])->execute();
 			} elseif ($withModule === 'Campaigns') {

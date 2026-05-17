@@ -140,7 +140,7 @@ class Util {
 	 */
 	public static function formatDateIntoStrings($date, $time = false)
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 		$dateTimeInUserFormat = \App\Modules\Base\UiTypes\Datetime::getDisplayDateTimeValue($date . ' ' . $time);
 
 		list($dateInUserFormat, $timeInUserFormat) = explode(' ', $dateTimeInUserFormat);
@@ -198,7 +198,7 @@ class Util {
 	 */
 	public static function formatDateTimeIntoDayString($dateTime, $allday = false)
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 		$dateTimeInUserFormat = explode(' ', \App\Modules\Base\UiTypes\Datetime::getDisplayDateTimeValue($dateTime));
 
 		if (count($dateTimeInUserFormat) == 3) {
@@ -381,7 +381,7 @@ class Util {
 		if ($userObject) {
 			$userModel = \App\Modules\Users\Models\Record::getInstanceFromUserObject($userObject);
 		} else {
-			$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$userModel = \App\User\CurrentUser::get();
 		}
 
 		$date = new \DateTime($dateTime);
@@ -403,7 +403,7 @@ class Util {
 		if ($userObject) {
 			$userModel = \App\Modules\Users\Models\Record::getInstanceFromUserObject($userObject);
 		} else {
-			$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$userModel = \App\User\CurrentUser::get();
 		}
 
 		if ($userModel->get('hour_format') == '12') {

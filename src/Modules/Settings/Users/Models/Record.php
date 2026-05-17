@@ -73,7 +73,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			],
 		];
 
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 		$canChangePassword = $currentUser && ($currentUser->isAdminUser() || $currentUser->getId() == $this->getId());
 		if ($canChangePassword) {
 			$recordLinks[] = [

@@ -24,7 +24,7 @@ class History  extends \App\Modules\Base\Views\Index
 		$type = $request->get('type');
 		$page = $request->get('page');
 		$linkId = $request->get('linkid');
-		$widget = \App\Modules\Base\Models\Widget::getInstance($linkId, \App\Modules\Users\Models\Record::getCurrentUserId());
+		$widget = \App\Modules\Base\Models\Widget::getInstance($linkId, (int) (\App\User\CurrentUser::getId() ?? 0));
 		$limit = (int) $widget->get('limit');
 
 		if (empty($limit)) {

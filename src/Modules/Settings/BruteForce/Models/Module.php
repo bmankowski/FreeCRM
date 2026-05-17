@@ -207,7 +207,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 */
 	public static function unBlock($id)
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 		return \App\Db\Db::getInstance('admin')->createCommand()
 				->update('a_#__bruteforce_blocked', [
 					'blocked' => self::UNBLOCKED_BY_USER,

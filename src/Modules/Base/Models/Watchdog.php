@@ -48,7 +48,7 @@ class Watchdog extends \App\Runtime\BaseModel
 			$moduleName = \App\Utils\ModuleUtils::getModuleName($moduleName);
 		}
 		if (empty($userId)) {
-			$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
+			$userId = (int) (\App\User\CurrentUser::getId() ?? 0);
 		}
 		$cacheName = $moduleName . $userId;
 		if (\App\Cache\Cache::has('WatchdogModel', $cacheName)) {
@@ -152,7 +152,7 @@ class Watchdog extends \App\Runtime\BaseModel
 	public static function getWatchingModules($userId = false)
 	{
 		if ($userId === false) {
-			$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
+			$userId = (int) (\App\User\CurrentUser::getId() ?? 0);
 		}
 		if (\App\Cache\Cache::has('getWatchingModules', $userId)) {
 			return \App\Cache\Cache::get('getWatchingModules', $userId);
@@ -178,7 +178,7 @@ class Watchdog extends \App\Runtime\BaseModel
 	public static function getWatchingModulesSchedule($ownerId = false, $isName = false)
 	{
 		if ($ownerId === false) {
-			$ownerId = \App\Modules\Users\Models\Record::getCurrentUserId();
+			$ownerId = (int) (\App\User\CurrentUser::getId() ?? 0);
 		}
 		$cacheName = $ownerId . '_' . intval($isName);
 		if (\App\Cache\Cache::has('getWatchingModulesSchedule', $cacheName)) {
@@ -293,7 +293,7 @@ class Watchdog extends \App\Runtime\BaseModel
 	public static function setSchedulerByUser($sendNotifications, $frequency, $ownerId = false)
 	{
 		if ($ownerId === false) {
-			$ownerId = \App\Modules\Users\Models\Record::getCurrentUserId();
+			$ownerId = (int) (\App\User\CurrentUser::getId() ?? 0);
 		}
 		$db = \App\Db\Db::getInstance();
 		if (empty($sendNotifications)) {

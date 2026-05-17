@@ -45,7 +45,7 @@ class UserReference extends BaseUiType
 	public function getDisplayValue($value, $recordId = false, $recordInstance = false, $rawText = false)
 	{
 		$displayValue = $this->getEditViewDisplayValue($value);
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\User\CurrentUser::get();
 		if ($currentUserModel->isAdminUser() && $rawText === false) {
 			$recordModel = \App\Modules\Users\Models\Record::getCleanInstance('Users');
 			$recordModel->set('id', $value);

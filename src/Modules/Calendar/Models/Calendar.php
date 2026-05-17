@@ -98,7 +98,7 @@ class Calendar extends \App\Runtime\BaseModel
 			}
 	}
 	$conditions = [];
-	$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+	$currentUser = \App\User\CurrentUser::get();
 	$roleInstance = \App\Modules\Settings\Roles\Models\Record::getInstanceById($currentUser->get('roleid'));
 	if ($roleInstance) {
 		$calendarAlloRecords = $roleInstance->get('clendarallorecords');
@@ -120,7 +120,7 @@ class Calendar extends \App\Runtime\BaseModel
 
 	public function getEntity()
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 		$dataReader = $this->getQuery()->createCommand()->query();
 		$return = $records = $ids = [];
 		while ($record = $dataReader->read()) {
@@ -237,7 +237,7 @@ class Calendar extends \App\Runtime\BaseModel
 
 	public function getEntityCount()
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 		$db = \App\Database\PearDatabase::getInstance();
 		$startDate = \App\Fields\DateTimeField::convertToDBTimeZone($this->get('start'));
 		$startDate = strtotime($startDate->format('Y-m-d H:i:s'));

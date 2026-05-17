@@ -22,8 +22,8 @@ class Field
 	public static function getFieldsPermissions($tabId, $readOnly = true)
 	{
 		\App\Log\Log::trace('Entering ' . __METHOD__ . ": $tabId");
-		if (Cache::has(__METHOD__ . \App\Modules\Users\Models\Record::getCurrentUserId(), $tabId)) {
-			$fields = Cache::get(__METHOD__ . \App\Modules\Users\Models\Record::getCurrentUserId(), $tabId);
+		if (Cache::has(__METHOD__ . (int) (\App\User\CurrentUser::getId() ?? 0), $tabId)) {
+			$fields = Cache::get(__METHOD__ . (int) (\App\User\CurrentUser::getId() ?? 0), $tabId);
 		} else {
 			$query = (new \App\Db\Query())
 				->select('vtiger_field.*, vtiger_profile2field.readonly,vtiger_profile2field.visible')
@@ -36,7 +36,7 @@ class Field
 					'vtiger_def_org_field.visible' => 0,
 					'vtiger_field.presence' => [0, 2]])
 				->groupBy('vtiger_field.fieldid,vtiger_profile2field.readonly,vtiger_profile2field.visible');
-			$profileList = \App\Modules\Users\Models\Record::getCurrentUserModel()->getProfiles();
+			$profileList = \App\User\CurrentUser::get()->getProfiles();
 			if ($profileList) {
 				// Extract profile IDs from array (keys are IDs, values are Profile objects)
 				$profileIds = is_array($profileList) ? array_keys($profileList) : [];
@@ -45,7 +45,7 @@ class Field
 				}
 			}
 			$fields = $query->all();
-			Cache::save(__METHOD__ . \App\Modules\Users\Models\Record::getCurrentUserId(), $tabId, $fields);
+			Cache::save(__METHOD__ . (int) (\App\User\CurrentUser::getId() ?? 0), $tabId, $fields);
 		}
 		if ($readOnly) {
 			return $fields;

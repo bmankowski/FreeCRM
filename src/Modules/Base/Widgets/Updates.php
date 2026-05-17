@@ -22,7 +22,7 @@ class Updates extends \App\Modules\Base\Widgets\Basic
 
 	public function getWidget()
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 		$moduelName = 'ModTracker';
 		$this->Config['tpl'] = 'Updates.tpl';
 		$this->Config['moduleBaseName'] = $moduelName;

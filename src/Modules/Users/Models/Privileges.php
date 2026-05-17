@@ -282,17 +282,17 @@ class Privileges extends \App\Runtime\BaseModel
 	 */
 	public static function getCurrentUserPrivilegesModel()
 	{
-		return self::getInstanceById(\App\Modules\Users\Models\Record::getCurrentUserId());
+		return self::getInstanceById((int) (\App\User\CurrentUser::getId() ?? 0));
 	}
 
 	/**
 	 * Static function to get the current user record model.
-	 * @deprecated Use \App\Modules\Users\Models\Record::getCurrentUserModel() instead.
+	 * @deprecated Use \App\User\CurrentUser::get() instead.
 	 * @return \App\Modules\Users\Models\Record
 	 */
 	public static function getCurrentUserModel()
 	{
-		return \App\Modules\Users\Models\Record::getCurrentUserModel();
+		return \App\User\CurrentUser::get();
 	}
 
 	/**
@@ -458,7 +458,7 @@ class Privileges extends \App\Runtime\BaseModel
 		if (\App\Cache\Cache::has('PrivilegesParentRecord', $cacheKey)) {
 			return \App\Cache\Cache::get('PrivilegesParentRecord', $cacheKey);
 		}
-		$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$userModel = \App\User\CurrentUser::get();
 		$currentUserId = $userModel->getId();
 		$currentUserGroups = $userModel->get('groups');
 		settype($currentUserGroups, 'array');

@@ -66,7 +66,7 @@ class Record extends \App\Modules\Base\Models\Record
 			->one();
 		if ($row) {
 			$lastReviewedUsers = explode('#', $row['last_reviewed_users']);
-			$lastReviewedUsers[] = \App\Modules\Users\Models\Record::getCurrentUserModel()->getRealId();
+			$lastReviewedUsers[] = \App\User\CurrentUser::get()->getRealId();
 			\App\Db\Db::getInstance()->createCommand()
 				->update('vtiger_modtracker_basic', ['last_reviewed_users' => '#' . implode('#', array_filter($lastReviewedUsers)) . '#'], ['id' => $row['id']])
 				->execute();
@@ -78,7 +78,7 @@ class Record extends \App\Modules\Base\Models\Record
 	public static function unsetReviewed($recordId, $userId = false, $exception = false)
 	{
 		if (!$userId) {
-			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$currentUser = \App\User\CurrentUser::get();
 			$userId = $currentUser->getRealId();
 		}
 		$query = new \App\Db\Query();
@@ -101,7 +101,7 @@ class Record extends \App\Modules\Base\Models\Record
 	public static function isNewChange($recordId, $userId = false)
 	{
 		if ($userId === false) {
-			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$currentUser = \App\User\CurrentUser::get();
 			$userId = $currentUser->getId();
 		}
 
@@ -117,7 +117,7 @@ class Record extends \App\Modules\Base\Models\Record
 	public static function getUnreviewed($recordsId, $userId = false, $sort = false)
 	{
 		if ($userId === false) {
-			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$currentUser = \App\User\CurrentUser::get();
 			$userId = $currentUser->getId();
 		}
 
@@ -262,7 +262,7 @@ class Record extends \App\Modules\Base\Models\Record
 	public function isReviewed($userId = false)
 	{
 		if ($userId === false) {
-			$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+			$currentUser = \App\User\CurrentUser::get();
 			$userId = $currentUser->getId();
 		}
 		$reviewed = $this->get('last_reviewed_users');
@@ -378,7 +378,7 @@ class Record extends \App\Modules\Base\Models\Record
 	public static function setLastRelation($sourceId, $sourceModule, $byUser = false)
 	{
 		$db = \App\Db\Db::getInstance();
-		$userId = \App\Modules\Users\Models\Record::getCurrentUserId();
+		$userId = (int) (\App\User\CurrentUser::getId() ?? 0);
 		$query = \App\Modules\Base\Widgets\HistoryRelation::getQuery($sourceId, $sourceModule, \App\Modules\Base\Widgets\HistoryRelation::getActions());
 		if (!$query) {
 			return false;
@@ -410,7 +410,7 @@ class Record extends \App\Modules\Base\Models\Record
 		if (!is_array($sourceIds)) {
 			$sourceIds = [$sourceIds];
 		}
-		$data = (new \App\Db\Query())->from('u_#__timeline')->where(['crmid' => $sourceIds, 'userid' => \App\Modules\Users\Models\Record::getCurrentUserId()])->createCommand()->queryAllByGroup(1);
+		$data = (new \App\Db\Query())->from('u_#__timeline')->where(['crmid' => $sourceIds, 'userid' => (int) (\App\User\CurrentUser::getId() ?? 0)])->createCommand()->queryAllByGroup(1);
 		if (count($data) !== count($sourceIds)) {
 			$reSearch = array_diff_key(array_flip($sourceIds), $data);
 			foreach (array_keys($reSearch) as $id) {

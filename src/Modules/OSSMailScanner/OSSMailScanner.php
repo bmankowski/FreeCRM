@@ -38,17 +38,17 @@ class OSSMailScanner {
 			$fieldModel = \App\Modules\Settings\Picklist\Models\Field::getInstance('ticketstatus', $moduleModel);
 			$id = $moduleModel->addPickListValues($fieldModel, 'Answered');
 			$Module = \App\Modules\Base\Models\Module::getInstance($moduleName);
-			$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
+			$user_id = \App\User\CurrentUser::get()->get('user_name');
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_InstallModule', $moduleName . ' ' . $Module->version, $user_id), false);
 		} else if ($eventType == 'module.disabled') {
 			$this->turn_off($moduleName);
 			$adb->pquery('UPDATE vtiger_cron_task SET status=0 WHERE module=?', array('OSSMailScanner'));
-			$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
+			$user_id = \App\User\CurrentUser::get()->get('user_name');
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_DisabledModule', $moduleName, $user_id), false);
 		} else if ($eventType == 'module.enabled') {
 			$adb->pquery('UPDATE vtiger_cron_task SET status=1 WHERE module=?', array('OSSMailScanner'));
 			$this->turn_on($moduleName);
-			$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
+			$user_id = \App\User\CurrentUser::get()->get('user_name');
 			$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_EnabledModule', $moduleName, $user_id), false);
 		} else if ($eventType == 'module.preuninstall') {
 
@@ -58,7 +58,7 @@ class OSSMailScanner {
 			$adb = \App\Database\PearDatabase::getInstance();
 			$Module = \App\Modules\Base\Models\Module::getInstance($moduleName);
 			if (version_compare($Module->version, '1.21', '>')) {
-				$user_id = \App\Modules\Users\Models\Record::getCurrentUserModel()->get('user_name');
+				$user_id = \App\User\CurrentUser::get()->get('user_name');
 				$adb->pquery("INSERT INTO vtiger_ossmails_logs (`action`, `info`, `user`) VALUES (?, ?, ?);", array('Action_UpdateModule', $moduleName . ' ' . $Module->version, $user_id), false);
 			}
 		}

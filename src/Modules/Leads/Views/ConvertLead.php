@@ -56,7 +56,7 @@ class ConvertLead  extends \App\Modules\Base\Views\Index
 
 		$assignedToFieldModel = $moduleModel->getField('assigned_user_id');
 		if ($marketingProcessConfig['change_owner'] === 'true') {
-			$assignedToFieldModel->set('fieldvalue', \App\Modules\Users\Models\Record::getCurrentUserId());
+			$assignedToFieldModel->set('fieldvalue', $request->getUserId());
 		} else {
 			$assignedToFieldModel->set('fieldvalue', $recordModel->get('assigned_user_id'));
 		}

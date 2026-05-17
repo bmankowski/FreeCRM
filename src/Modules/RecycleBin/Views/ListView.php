@@ -35,7 +35,7 @@ class ListView extends \App\Modules\Base\Views\Index
 
 		$moduleModel = \App\Modules\RecycleBin\Models\Module::getInstance($moduleName);
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
-		$quickLinkModels = $moduleModel->getSideBarLinks($linkParams);
+		$quickLinkModels = $moduleModel->getSideBarLinks($linkParams, $request->getUser());
 
 		// Process sidebar links to determine active link
 		$activeLinkLabel = $this->processSidebarLinks($quickLinkModels, $request);

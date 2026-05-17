@@ -17,7 +17,7 @@ class Save extends \App\Base\Controllers\BaseActionController
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$request->set('assigned_user_id', \App\Modules\Users\Models\Record::getCurrentUserId());
+		$request->set('assigned_user_id', $request->getUserId());
 		$recordModel = $this->saveRecord($request);
 		$responseFieldsToSent = array('reasontoedit', 'commentcontent');
 		$fieldModelList = $recordModel->getModule()->getFields();

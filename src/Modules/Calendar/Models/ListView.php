@@ -80,7 +80,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 	 * @param array $linkParams
 	 * @return array - Associative array of Link type to List of  \App\Modules\Base\Models\Link instances for Mass Actions
 	 */
-	public function getListViewMassActions($linkParams)
+	public function getListViewMassActions($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)
 	{
 		$moduleModel = $this->getModule();
 		$links = \App\Modules\Base\Models\Link::getAllByType($moduleModel->getId(), ['LISTVIEWMASSACTION'], $linkParams);

@@ -49,16 +49,16 @@ class EditRecordStructure extends \App\Modules\Base\Models\RecordStructure
 									$fieldValue = $fieldValue . ' ' . $recordModel->get('time_end');
 								}
 							} else if ($fieldName == 'visibility' && empty($fieldValue)) {
-								$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+								$currentUserModel = \App\User\CurrentUser::get();
 								$sharedType = $currentUserModel->get('calendarsharedtype');
 								if ($sharedType == 'public' || $sharedType == 'selectedusers')
 									$fieldValue = 'Public';
 							} else if ($fieldName == 'activitystatus' && empty($fieldValue)) {
-								$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+								$currentUserModel = \App\User\CurrentUser::get();
 								$defaulteventstatus = $currentUserModel->get('defaulteventstatus');
 								$fieldValue = $defaulteventstatus;
 							} else if ($fieldName == 'activitytype' && empty($fieldValue)) {
-								$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+								$currentUserModel = \App\User\CurrentUser::get();
 								$defaultactivitytype = $currentUserModel->get('defaultactivitytype');
 								$fieldValue = $defaultactivitytype;
 							}

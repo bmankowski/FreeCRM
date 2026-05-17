@@ -602,7 +602,7 @@ class Relation extends \App\Runtime\BaseModel
 			'tree' => $tree,
 			'module' => $this->getParentModuleModel()->getId(),
 			'relmodule' => $this->getRelationModuleModel()->getId(),
-			'rel_created_user' => \App\Modules\Users\Models\Record::getCurrentUserId(),
+			'rel_created_user' => (int) (\App\User\CurrentUser::getId() ?? 0),
 			'rel_created_time' => date('Y-m-d H:i:s')
 		])->execute();
 	}
@@ -909,7 +909,7 @@ class Relation extends \App\Runtime\BaseModel
 				'module' => $moduleName,
 				'relcrmid' => $data['relcrmid'],
 				'relmodule' => $this->getRelationModuleName(),
-				'userid' => \App\Modules\Users\Models\Record::getCurrentUserId()
+				'userid' => (int) (\App\User\CurrentUser::getId() ?? 0)
 			])->execute();
 		} elseif ('delete' === $action) {
 			$result = $db->createCommand()->delete('u_#__favorites', [
@@ -917,7 +917,7 @@ class Relation extends \App\Runtime\BaseModel
 				'module' => $moduleName,
 				'relcrmid' => $data['relcrmid'],
 				'relmodule' => $this->getRelationModuleName(),
-				'userid' => \App\Modules\Users\Models\Record::getCurrentUserId()
+				'userid' => (int) (\App\User\CurrentUser::getId() ?? 0)
 			])->execute();
 		}
 		return $result;

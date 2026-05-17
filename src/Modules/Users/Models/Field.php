@@ -23,7 +23,7 @@ class Field extends \App\Modules\Base\Models\Field
 	 */
 	public function isReadOnly()
 	{
-		$currentUserModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUserModel = \App\User\CurrentUser::get();
 		if (($currentUserModel->isAdminUser() === false && $this->get('uitype') == 98) || in_array($this->get('uitype'), array(115, 156))) {
 			return true;
 		}

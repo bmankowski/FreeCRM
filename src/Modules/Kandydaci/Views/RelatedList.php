@@ -184,7 +184,7 @@ class RelatedList extends \App\Modules\Base\Views\RelatedList
 		$viewer->assign('IS_FAVORITES', $isFavorites);
 		$viewer->assign('IS_EDITABLE', $relationModel->isEditable());
 		$viewer->assign('IS_DELETABLE', $relationModel->isDeletable());
-		$viewer->assign('USER_MODEL', \App\Modules\Users\Models\Record::getCurrentUserModel());
+		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->assign('IS_CREATE_PERMITTED', \App\Modules\Users\Models\Privileges::isPermitted($relatedModuleName, 'CreateView'));
 		$viewer->assign('SEARCH_DETAILS', $searchParams);
 		$viewer->assign('SEARCH_PARAMS', $searchParamsRaw);

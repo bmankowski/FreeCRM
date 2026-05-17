@@ -106,7 +106,7 @@ class QueryGenerator
 		$this->moduleName = $moduleName;
 	$this->moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 	$this->entityModel = \App\Core\CRMEntity::getInstance($moduleName);
-	$this->user = \App\Modules\Users\Models\Record::getInstanceById($userId ? $userId : \App\Modules\Users\Models\Record::getCurrentUserId(), 'Users');
+	$this->user = \App\Modules\Users\Models\Record::getInstanceById($userId ? $userId : (int) (\App\User\CurrentUser::getId() ?? 0), 'Users');
 }
 
 	/**

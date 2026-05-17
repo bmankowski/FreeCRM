@@ -267,7 +267,7 @@ class Detail extends \App\Modules\Base\Views\Index
 		$viewer->assign('IS_DELETABLE', $this->record->getRecord()->isDeletable($moduleName));
 
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
-		$linkModels = $this->record->getSideBarLinks($linkParams);
+		$linkModels = $this->record->getSideBarLinks($linkParams, $request->getUser());
 
 		// Process sidebar links to determine active link
 		$activeLinkLabel = $this->processSidebarLinks($linkModels, $request);

@@ -263,7 +263,7 @@ class MappedFields extends \App\Runtime\BaseModel
 			\App\Log\Log::trace('Exiting ' . __METHOD__ . ' method ...');
 			return true;
 		}
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 		$permissions = explode(',', $permissions);
 		$getTypes = [];
 		$return = false;

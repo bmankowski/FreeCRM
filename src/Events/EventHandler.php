@@ -350,7 +350,7 @@ class EventHandler
 				->insert('s_#__handler_updater', [
 					'tabid' => \App\Utils\ModuleUtils::getModuleId($this->getModuleName()),
 					'crmid' => $this->getRecordModel()->getId(),
-					'userid' => \App\Modules\Users\Models\Record::getCurrentUserId(),
+					'userid' => (int) (\App\User\CurrentUser::getId() ?? 0),
 					'handler_name' => $name,
 					'class' => $class,
 					'params' => \App\Utils\Json::encode($params)

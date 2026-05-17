@@ -371,7 +371,7 @@ class Module extends \vtlib\Module
 	{
 		if (empty($this->moduleMeta)) {
 			if (empty($userModel)) {
-				$userModel = \App\Modules\Users\Models\Record::getCurrentUserModel();
+				$userModel = \App\User\CurrentUser::get();
 			}
 			$this->moduleMeta = \App\Modules\Base\Models\ModuleMeta::getInstance($this->get('name'), $userModel);
 		}
@@ -1052,7 +1052,7 @@ class Module extends \vtlib\Module
 	 * @param <Array> $linkParams
 	 * @return <Array> List of \App\Modules\Base\Models\Link instances
 	 */
-	public function getSideBarLinks($linkParams)
+	public function getSideBarLinks($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)
 	{
 		$linkTypes = ['SIDEBARLINK', 'SIDEBARWIDGET'];
 		$links = \App\Modules\Base\Models\Link::getAllByType($this->getId(), $linkTypes, $linkParams);
@@ -1248,7 +1248,7 @@ class Module extends \vtlib\Module
 	 */
 	public function getCalendarActivities($mode, \App\Modules\Base\Models\Paging $pagingModel, $user, $recordId = false)
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 		if (!$user) {
 			$user = $currentUser->getId();
 		}
@@ -1485,7 +1485,7 @@ class Module extends \vtlib\Module
 	 */
 	public function getSearchRecordsQuery($searchValue, $parentId = false, $parentModule = false)
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::get();
 		return sprintf('SELECT `crmid`,`setype`,`searchlabel` FROM `u_yf_crmentity_search_label` WHERE `userid` LIKE \'%s\' && `searchlabel` LIKE \'%s\'', '%,' . $currentUser->getId() . ',%', "%$searchValue%");
 	}
 

@@ -131,7 +131,7 @@ class ListView extends \App\Runtime\BaseModel
 	 * @param <Array> $linkParams
 	 * @return <Array> - Associate array of Link Type to List of \App\Modules\Base\Models\Link instances
 	 */
-	public function getListViewLinks($linkParams)
+	public function getListViewLinks($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)
 	{
 		$moduleModel = $this->getModule();
 		// Initialize link arrays to prevent undefined array key warnings in templates
@@ -166,9 +166,9 @@ class ListView extends \App\Runtime\BaseModel
 	 * @param <Array> $linkParams
 	 * @return <Array> - Associative array of Link type to List of  \App\Modules\Base\Models\Link instances for Mass Actions
 	 */
-	public function getListViewMassActions($linkParams)
+	public function getListViewMassActions($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)
 	{
-		$currentUser = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		$currentUser = \App\User\CurrentUser::resolve($currentUser);
 		$moduleModel = $this->getModule();
 		$links = \App\Modules\Base\Models\Link::getAllByType($moduleModel->getId(), ['LISTVIEWMASSACTION'], $linkParams);
 		$massActionLinks = [];

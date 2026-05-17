@@ -21,7 +21,7 @@ class Finalize extends \App\Modules\Base\Views\Index
 		}
 
 		$controller = new WizardController();
-		$context = $controller->buildFinalizeContext($batchId);
+		$context = $controller->buildFinalizeContext($batchId, $request);
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('IMPORT_BATCH', $context['batch']);

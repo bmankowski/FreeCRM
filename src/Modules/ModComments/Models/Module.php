@@ -19,9 +19,9 @@ class Module extends \App\Modules\Base\Models\Module
 	 * @param <Array> $linkParams
 	 * @return <Array> List of \App\Modules\Base\Models\Link instances
 	 */
-	public function getSideBarLinks($linkParams)
+	public function getSideBarLinks($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)
 	{
-		$links = parent::getSideBarLinks($linkParams);
+		$links = parent::getSideBarLinks($linkParams, $currentUser);
 		unset($links['SIDEBARLINK']);
 		return $links;
 	}
