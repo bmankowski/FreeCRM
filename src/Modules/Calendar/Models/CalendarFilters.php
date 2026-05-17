@@ -25,7 +25,7 @@ class CalendarFilters extends \App\Runtime\BaseModel
 		if (!is_dir($this->filterPath)) {
 			return false;
 		}
-		$dir = new DirectoryIterator($this->filterPath);
+		$dir = new \DirectoryIterator($this->filterPath);
 		foreach ($dir as $fileinfo) {
 			if (!$fileinfo->isDot()) {
 				$name = $fileinfo->getFilename();

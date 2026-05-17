@@ -15,7 +15,7 @@ class ISTN extends \App\Core\CRMEntity
 
 	public $table_name = 'u_yf_istn';
 	public $table_index = 'istnid';
-	protected $lockFields = ['istn_status' => ['PLL_ACCEPTED']];
+	public $lockFields = ['istn_status' => ['PLL_ACCEPTED']];
 
 	/**
 	 * Mandatory table for supporting custom fields.

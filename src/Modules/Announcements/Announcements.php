@@ -75,7 +75,7 @@ class Announcements extends \App\Core\CRMEntity
 	public $mandatory_fields = ['subject', 'assigned_user_id'];
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
-	protected $lockFields = ['announcementstatus' => ['PLL_PUBLISHED', 'PLL_ARCHIVES']];
+	public $lockFields = ['announcementstatus' => ['PLL_PUBLISHED', 'PLL_ARCHIVES']];
 
 	/**
 	 * Invoked when special actions are performed on the module.

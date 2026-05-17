@@ -12,7 +12,7 @@ namespace App\Modules\KnowledgeBase;
 class KnowledgeBase extends \App\Core\CRMEntity
 {
 
-	protected $lockFields = ['knowledgebase_status' => ['PLL_ACCEPTED', 'PLL_ARCHIVES', 'PLL_CANCELLED']];
+	public $lockFields = ['knowledgebase_status' => ['PLL_ACCEPTED', 'PLL_ARCHIVES', 'PLL_CANCELLED']];
 	public $table_name = 'u_yf_knowledgebase';
 	public $table_index = 'knowledgebaseid';
 

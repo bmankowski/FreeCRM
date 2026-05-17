@@ -417,6 +417,14 @@ class Record extends \App\Runtime\BaseModel
 	}
 
 	/**
+	 * Validation hook before save (override in module record models when needed).
+	 * @throws \Exception
+	 */
+	public function validate()
+	{
+	}
+
+	/**
 	 * Save data to the database
 	 * @param array $relationParams Optional relation parameters
 	 */
@@ -844,8 +852,11 @@ class Record extends \App\Runtime\BaseModel
 				foreach ($commonFields as $fieldName) {
 					if (\App\Fields\Field::getFieldPermission($parentRecordModel->getModuleName(), $fieldName)) {
 						if ($fieldName == 'shownerid') {
+							/** @var \App\Modules\Base\Models\Field|false $fieldInstance */
 							$fieldInstance = \App\Modules\Base\Models\Field::getInstance($fieldName, $parentRecordModel->getModule());
-							$parentRecordModel->set($fieldName, $fieldInstance->getUITypeModel()->getEditViewDisplayValue('', $parentRecordModel->getId()));
+							if ($fieldInstance instanceof \App\Modules\Base\Models\Field) {
+								$parentRecordModel->set($fieldName, $fieldInstance->getUITypeModel()->getEditViewDisplayValue('', $parentRecordModel->getId()));
+							}
 						}
 						$this->set($fieldName, $parentRecordModel->get($fieldName));
 					}
@@ -877,8 +888,11 @@ class Record extends \App\Runtime\BaseModel
 				} elseif ((is_object($mapp['target']) && is_object($mapp['source'])) && \App\Fields\Field::getFieldPermission($parentRecordModel->getModuleName(), $mapp['source']->getName()) && in_array($mapp['source']->getName(), $parentFieldsList)) {
 					$parentMapName = $parentRecordModel->get($mapp['source']->getName());
 					if ($mapp['source']->getName() == 'shownerid' && empty($parentMapName)) {
+						/** @var \App\Modules\Base\Models\Field|false $fieldInstance */
 						$fieldInstance = \App\Modules\Base\Models\Field::getInstance($mapp['source']->getName(), $parentRecordModel->getModule());
-						$parentRecordModel->set($mapp['source']->getName(), $fieldInstance->getUITypeModel()->getEditViewDisplayValue('', $parentRecordModel->getId()));
+						if ($fieldInstance instanceof \App\Modules\Base\Models\Field) {
+							$parentRecordModel->set($mapp['source']->getName(), $fieldInstance->getUITypeModel()->getEditViewDisplayValue('', $parentRecordModel->getId()));
+						}
 					}
 					$value = $parentRecordModel->get($mapp['source']->getName());
 					if (!$value) {
@@ -1342,7 +1356,8 @@ class Record extends \App\Runtime\BaseModel
 			$userModel = \App\User\CurrentUser::get();
 			$roleData = \App\Security\PrivilegeUtil::getRoleDetail($userModel->getRole());
 			if (!empty($roleData['auto_assign'])) {
-				$autoAssignModel = \App\Modules\Settings\Base\Models\Module::getInstance('Settings:AutomaticAssignment');
+				/** @var \App\Modules\Settings\AutomaticAssignment\Models\Module $autoAssignModel */
+				$autoAssignModel = \App\Modules\Settings\AutomaticAssignment\Models\Module::getInstance('Settings:AutomaticAssignment');
 				$autoAssignRecord = $autoAssignModel->searchRecord($this, $userModel->getRole());
 				return $autoAssignRecord ? true : false;
 			}

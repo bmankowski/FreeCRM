@@ -133,7 +133,7 @@ class Module extends \App\Modules\Base\Models\Module
 		$output = [];
 		$path = 'src/Modules/Import/tpl/';
 		if (is_dir($path)) {
-			$list = new DirectoryIterator($path);
+			$list = new \DirectoryIterator($path);
 			foreach ($list as $singleFile) {
 				if (!$singleFile->isDot()) {
 					$fileName = $singleFile->getFilename();

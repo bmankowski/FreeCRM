@@ -17,7 +17,7 @@ class Assets extends \App\Core\CRMEntity
 	public $table_name = 'vtiger_assets';
 	public $table_index = 'assetsid';
 	public $column_fields = Array();
-	protected $lockFields = ['assetstatus' => ['PLL_ACCEPTED', 'PLL_CANCELLED']];
+	public $lockFields = ['assetstatus' => ['PLL_ACCEPTED', 'PLL_CANCELLED']];
 
 	/** Indicator if this is a custom module or standard module */
 	public $IsCustomModule = true;

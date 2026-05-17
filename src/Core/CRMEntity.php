@@ -42,6 +42,9 @@ class CRMEntity
 	public $list_fields;
 	public $list_fields_name;
 	public $search_fields;
+	public $search_fields_name;
+	public $def_basicsearch_col;
+	public $mandatory_fields;
 	public $table_name;
 	public $table_index;
 	public $tab_name;
@@ -54,6 +57,8 @@ class CRMEntity
 	public $checkFlagArr;
 	public $default_sort_order;
 	public $default_order_by;
+	public $customFieldTable;
+	public $lockFields;
 	protected $__inactive_fields_filtered = false;
 
 	/** 	Constructor which will set the column_fields in this object
@@ -163,12 +168,16 @@ class CRMEntity
 		$adb = \App\Database\PearDatabase::getInstance();
 		$query1 = "select * from vtiger_seattachmentsrel where crmid=?";
 		$result = $adb->pquery($query1, array($notesid));
+		$attachmentid = '';
+		$filename = '';
 		$noofrows = $adb->num_rows($result);
-		if ($noofrows != 0)
+		if ($noofrows != 0) {
 			$attachmentid = $adb->query_result($result, 0, 'attachmentsid');
+		}
 		if ($attachmentid != '') {
 			$query2 = "select * from vtiger_attachments where attachmentsid=?";
-			$filename = $adb->query_result($adb->pquery($query2, array($attachmentid)), 0, 'name');
+			$attachmentResult = $adb->pquery($query2, [$attachmentid]);
+			$filename = $adb->query_result($attachmentResult, 0, 'name');
 		}
 		return $filename;
 	}
@@ -1155,6 +1164,8 @@ class CRMEntity
 	public function getRelationQuery($module, $secmodule, $table_name, $column_name, $queryPlanner)
 	{
 		$tab = \App\Utils\Utils::getRelationTables($module, $secmodule);
+		$tables = [];
+		$fields = [];
 
 		foreach ($tab as $key => $value) {
 			$tables[] = $key;
@@ -1235,6 +1246,7 @@ class CRMEntity
 
 		$focus1 = CRMEntity::getInstance($module);
 
+		/** @var array{fieldname: string, tablename?: string} $entityNameArr */
 		$entityNameArr = \vtlib\Functions::getEntityModuleSQLColumnString($module);
 		$entityName = $entityNameArr['fieldname'];
 		$query = "SELECT vtiger_crmentity.deleted, $focus1->table_name.*
@@ -1253,15 +1265,15 @@ class CRMEntity
 		} elseif ($this->checkFlagArr[$module]) {
 			//record not found; create it
 			$focus1->column_fields[$focus1->list_link_field] = $value;
-			$focus1->column_fields['assigned_user_id'] = $current_user->id;
-	$focus1->column_fields['modified_user_id'] = $current_user->id;
-	$focus1->save($module);
+			$focus1->column_fields['assigned_user_id'] = $currentUser->getId();
+			$focus1->column_fields['modified_user_id'] = $currentUser->getId();
+			$focus1->save($module);
 
-	// Track last import
-	$adb->pquery(
-		"INSERT INTO vtiger_users_last_import (assigned_user_id, bean_type, bean_id) VALUES (?, ?, ?)",
-		[$current_user->id, $module, $focus1->id]
-	);
+			// Track last import
+			$adb->pquery(
+				"INSERT INTO vtiger_users_last_import (assigned_user_id, bean_type, bean_id) VALUES (?, ?, ?)",
+				[$currentUser->getId(), $module, $focus1->id]
+			);
 		} else {
 			//record not found and cannot create
 			$this->column_fields[$fieldname] = "";
@@ -1345,6 +1357,7 @@ class CRMEntity
 			}
 		}
 
+		/** @var array{fieldname: string, tablename?: string} $entityfields */
 		$entityfields = \vtlib\Functions::getEntityModuleSQLColumnString($module);
 		$querycolumnnames = implode(',', $lookupcolumns);
 		$entitycolumnnames = $entityfields['fieldname'];
@@ -1547,10 +1560,10 @@ class CRMEntity
 				$this->table_name => $this->table_index
 			]
 		];
-		if (empty($secmodule)) {
+		if ($secmodule === false || $secmodule === '') {
 			return $relTables;
 		}
-		return $relTables[$secmodule];
+		return $relTables[$secmodule] ?? null;
 	}
 
 	/**
@@ -1637,22 +1650,21 @@ class CRMEntity
 	 */
 	public function getQueryForDuplicates($module, $tableColumns, $selectedColumns = '', $ignoreEmpty = false, $additionalColumns = '')
 	{
-		if (is_array($tableColumns)) {
-			$tableColumnsString = implode(',', $tableColumns);
-		}
+		$tableColumnsString = is_array($tableColumns) ? implode(',', $tableColumns) : (string) $tableColumns;
 		if (is_array($additionalColumns)) {
 			$additionalColumns = implode(',', $additionalColumns);
 		}
 		if (!empty($additionalColumns)) {
 			$additionalColumns = ',' . $additionalColumns;
 		}
-	$selectClause = sprintf('SELECT %s.%s AS recordid,%s%s', $this->table_name, $this->table_index, $tableColumnsString, $additionalColumns);
+		$selectClause = sprintf('SELECT %s.%s AS recordid,%s%s', $this->table_name, $this->table_index, $tableColumnsString, $additionalColumns);
 
-	// Select Custom Field Table Columns if present, BMN i do not understand it TODO: correct this
-	if (isset($this->customFieldTable))
-		$selectClause .= ", " . $this->customFieldTable[0] . ".* ";
+		// Select Custom Field Table Columns if present
+		if (!empty($this->customFieldTable)) {
+			$selectClause .= ", " . $this->customFieldTable[0] . ".* ";
+		}
 
-	$fromClause = " FROM $this->table_name";
+		$fromClause = " FROM $this->table_name";
 
 		$fromClause .= " INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = $this->table_name.$this->table_index";
 
@@ -1687,17 +1699,18 @@ class CRMEntity
 			}
 			$sub_query .= " WHERE crm.deleted=0 GROUP BY $selectedColumns HAVING COUNT(*)>1";
 		} else {
-		$sub_query = "SELECT $tableColumnsString $additionalColumns $fromClause $whereClause GROUP BY $tableColumnsString HAVING COUNT(*)>1";
-	}
+			$sub_query = "SELECT $tableColumnsString $additionalColumns $fromClause $whereClause GROUP BY $tableColumnsString HAVING COUNT(*)>1";
+		}
 
-	$i = 1;
-	$duplicateCheckClause = '';
-	foreach ($tableColumns as $tableColumn) {
-		$tableInfo = explode('.', $tableColumn);
-		$duplicateCheckClause .= " ifnull($tableColumn,'null') = ifnull(temp.$tableInfo[1],'null')";
-		if (count($tableColumns) != $i++)
-			$duplicateCheckClause .= ' AND ';
-	}
+		$i = 1;
+		$duplicateCheckClause = '';
+		foreach ($tableColumns as $tableColumn) {
+			$tableInfo = explode('.', $tableColumn);
+			$duplicateCheckClause .= " ifnull($tableColumn,'null') = ifnull(temp.$tableInfo[1],'null')";
+			if (count($tableColumns) != $i++) {
+				$duplicateCheckClause .= ' AND ';
+			}
+		}
 
 		$query = $selectClause . $fromClause .
 			" LEFT JOIN vtiger_users_last_import ON vtiger_users_last_import.bean_id=" . $this->table_name . "." . $this->table_index .

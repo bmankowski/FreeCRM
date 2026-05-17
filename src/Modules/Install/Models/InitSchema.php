@@ -291,7 +291,7 @@ class InitSchema_Model
 		@chmod($src, 0777);
 		\App\Log\Log::trace("Exiting VT620_to_YT::testest(" . $src . ") method ...");
 		if (is_dir($src)) {
-			$dir = new DirectoryIterator($src);
+			$dir = new \DirectoryIterator($src);
 			foreach ($dir as $fileinfo) {
 				if (!$fileinfo->isDot()) {
 					if ($fileinfo->isDir()) {

@@ -19,7 +19,7 @@ class OSSSoldServices extends \App\Core\CRMEntity
 	public $table_name = 'vtiger_osssoldservices';
 	public $table_index = 'osssoldservicesid';
 	public $column_fields = [];
-	protected $lockFields = ['ssservicesstatus' => ['PLL_ACCEPTED', 'PLL_CANCELLED']];
+	public $lockFields = ['ssservicesstatus' => ['PLL_ACCEPTED', 'PLL_CANCELLED']];
 
 	/** Indicator if this is a custom module or standard module */
 	public $IsCustomModule = true;

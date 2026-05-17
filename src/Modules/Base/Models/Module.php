@@ -99,14 +99,14 @@ class Module extends \vtlib\Module
 	 * Function to get the value of a given property
 	 * @param string $propertyName
 	 * @return <Object>
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public function get($propertyName)
 	{
 		if (property_exists($this, $propertyName)) {
 			return $this->$propertyName;
 		}
-		throw new Exception($propertyName . ' doest not exists in class ' . get_class($this));
+		throw new \Exception($propertyName . ' doest not exists in class ' . get_class($this));
 	}
 
 	/**
@@ -561,11 +561,11 @@ class Module extends \vtlib\Module
 	 * @param <Array> $valueArray
 	 * @return \App\Modules\Base\Models\Record or Module Specific Record Model instance
 	 */
-	public function getRecordFromArray($valueArray, $rawData = false)
+	public function getRecordFromArray($valueArray, array|false $rawData = false)
 	{
 		$modelClassName = \App\Core\Loader::getComponentClassName('Model', 'Record', $this->get('name'));
 		$recordInstance = new $modelClassName();
-		if ($rawData !== false) {
+		if (is_array($rawData)) {
 			foreach ($this->getFields() as $field) {
 				$column = $field->get('column');
 				if (isset($rawData[$column])) {
@@ -700,8 +700,8 @@ class Module extends \vtlib\Module
 				$fieldList[$field->getName()] = $field;
 			}
 		}
-		if ($fieldName) {
-			return isset($fieldList[$fieldName]) ? $fieldList[$fieldName] : false;
+		if ($fieldName !== false) {
+			return $fieldList[$fieldName] ?? false;
 		}
 		return $fieldList;
 	}
@@ -752,9 +752,9 @@ class Module extends \vtlib\Module
 
 	/**
 	 * Function gives list fields for save
-	 * @return type
+	 * @return string[]
 	 */
-	public function getFieldsForSave(\App\Modules\Base\Models\Record $recordModel)
+	public function getFieldsForSave(\App\Modules\Base\Models\Record $recordModel): array
 	{
 		$tabId = $this->getId();
 		if ($this->getName() === 'Events') {
@@ -850,7 +850,7 @@ class Module extends \vtlib\Module
 		$db = \App\Database\PearDatabase::getInstance();
 
 		$deletedCondition = $this->getDeletedRecordCondition();
-		$nonAdminQuery .= \App\Modules\Users\Models\Privileges::getNonAdminAccessControlQuery($this->getName());
+		$nonAdminQuery = \App\Modules\Users\Models\Privileges::getNonAdminAccessControlQuery($this->getName());
 		$query = sprintf('SELECT * FROM vtiger_crmentity %s WHERE setype=? && %s && modifiedby = ? ORDER BY modifiedtime DESC LIMIT ?', $nonAdminQuery, $deletedCondition);
 		$params = array($this->getName(), $userId, $limit);
 		$result = $db->pquery($query, $params);
@@ -1218,7 +1218,8 @@ class Module extends \vtlib\Module
 			$row = $db->query_result_rowdata($result, $i);
 			if (\App\Modules\Users\Models\Privileges::isPermitted($row['module'], 'DetailView', $row['crmid'])) {
 				$modTrackerRecorModel = new \App\Modules\ModTracker\Models\Record();
-				$modTrackerRecorModel->setData($row)->setParent($row['crmid'], $row['module']);
+				$modTrackerRecorModel->setData($row);
+				$modTrackerRecorModel->setParent($row['crmid'], $row['module']);
 				$time = $modTrackerRecorModel->get('changedon');
 				$activites[$time] = $modTrackerRecorModel;
 			}
@@ -1502,6 +1503,7 @@ class Module extends \vtlib\Module
 		if (empty($searchValue)) {
 			return [];
 		}
+		$matchingRecords = [];
 		if (empty($parentId) || empty($parentModule)) {
 			$matchingRecords = \App\Modules\Base\Models\Record::getSearchResult($searchValue, $this->getName());
 		} else if ($parentId && $parentModule) {
@@ -1509,6 +1511,7 @@ class Module extends \vtlib\Module
 			$result = $adb->query($this->getSearchRecordsQuery($searchValue, $parentId, $parentModule));
 
 			while ($row = $adb->getRow($result)) {
+				$moduleName = $row['setype'];
 				$recordMeta = \vtlib\Functions:: getCRMRecordMetadata($row['crmid']);
 				$row['id'] = $row['crmid'];
 				$row['smownerid'] = $recordMeta['smownerid'];
@@ -1550,9 +1553,10 @@ class Module extends \vtlib\Module
 	 */
 	public function vtJsonDependentModules()
 	{
-		$db = \App\Database\PearDatabase::getInstance();
-		$param = array('modulename' => $this->getName());
-		return vtJsonDependentModules($db, $param);
+		$request = new \App\Http\Vtiger_Request(['module' => $this->getName()]);
+		ob_start();
+		\App\Modules\Workflow\vtJsonDependentModules(\App\Database\PearDatabase::getInstance(), $request);
+		return ob_get_clean();
 	}
 
 	/**
@@ -1602,6 +1606,7 @@ class Module extends \vtlib\Module
 		if (\App\Cache\Cache::has('PopupViewFieldsList', $this->getName())) {
 			return \App\Cache\Cache::get('PopupViewFieldsList', $this->getName());
 		}
+		$relationModel = false;
 		$parentRecordModel = \App\Modules\Base\Models\Module::getInstance($sourceModule);
 		if (!empty($sourceModule) && $parentRecordModel) {
 			$relationModel = \App\Modules\Base\Models\Relation::getInstance($parentRecordModel, $this);

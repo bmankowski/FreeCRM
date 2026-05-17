@@ -101,7 +101,7 @@ class Module extends \App\Modules\Base\Models\Module
 		$moduleName = $this->get('name');
 		$date_var = date('Y-m-d H:i:s');
 		$query = "UPDATE vtiger_users SET status=?, date_modified=?, modified_user_id=? WHERE id=?";
-		$db->pquery($query, array('Inactive', $adb->formatDate($date_var, true), $recordModel->getId(), $recordModel->getId()), true, "Error marking record deleted: ");
+		$db->pquery($query, array('Inactive', $db->formatDate($date_var, true), $recordModel->getId(), $recordModel->getId()), true, "Error marking record deleted: ");
 	}
 
 	/**
@@ -334,7 +334,7 @@ class Module extends \App\Modules\Base\Models\Module
 		\App\Modules\Users\Services\PrivilegeFileManager::invalidateUser((int) $recordModel->getId(), 'Users\Models\Module::saveRecord');
 
 		if (\App\Core\AppConfig::performance('ENABLE_CACHING_USERS')) {
-			\App\PrivilegeFile::createUsersFile();
+			\App\Security\PrivilegeFile::createUsersFile();
 		}
 		return $recordModel;
 	}
@@ -343,7 +343,7 @@ class Module extends \App\Modules\Base\Models\Module
 	 * Function gives list fields for save
 	 * @return string[]
 	 */
-	public function getFieldsForSave(\App\Modules\Base\Models\Record $recordModel)
+	public function getFieldsForSave(\App\Modules\Base\Models\Record $recordModel): array
 	{
 		$editFields = [];
 		foreach (\App\Fields\Field::getFieldsPermissions($this->getId(), false) as &$field) {

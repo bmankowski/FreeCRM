@@ -58,7 +58,7 @@ class ZipReader extends FileReader
 			$unzip->__destroy();
 			unlink($zipfile);
 		} elseif (is_dir($this->importFolderLocation)) {
-			foreach (new DirectoryIterator($this->importFolderLocation) as $file) {
+			foreach (new \DirectoryIterator($this->importFolderLocation) as $file) {
 				if (!$file->isDot()) {
 					if (strpos($file->getFilename(), '.xml') !== false) {
 						$this->filelist[] = $file->getFilename();

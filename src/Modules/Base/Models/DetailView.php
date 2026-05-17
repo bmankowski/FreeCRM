@@ -424,7 +424,7 @@ class DetailView extends \App\Runtime\BaseModel
 			return [];
 		}
 		$headerFields = [];
-		foreach (new DirectoryIterator($path) as $fileinfo) {
+		foreach (new \DirectoryIterator($path) as $fileinfo) {
 			if (!$fileinfo->isDot()) {
 				$filename = explode('.', $fileinfo->getFilename());
 				$name = reset($filename);

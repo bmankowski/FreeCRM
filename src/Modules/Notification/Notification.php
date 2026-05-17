@@ -15,7 +15,7 @@ class Notification extends \App\Core\CRMEntity
 
 	public $table_name = 'u_yf_notification';
 	public $table_index = 'notificationid';
-	protected $lockFields = ['notification_status' => ['PLL_READ']];
+	public $lockFields = ['notification_status' => ['PLL_READ']];
 
 	/**
 	 * Mandatory table for supporting custom fields.

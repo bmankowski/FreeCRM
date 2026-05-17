@@ -15,7 +15,7 @@ class IGRN extends \App\Core\CRMEntity
 
 	public $table_name = 'u_yf_igrn';
 	public $table_index = 'igrnid';
-	protected $lockFields = ['igrn_status' => ['PLL_ACCEPTED']];
+	public $lockFields = ['igrn_status' => ['PLL_ACCEPTED']];
 
 	/**
 	 * Mandatory table for supporting custom fields.

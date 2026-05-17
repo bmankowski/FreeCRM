@@ -15,7 +15,7 @@ class IGRNC extends \App\Core\CRMEntity
 
 	public $table_name = 'u_yf_igrnc';
 	public $table_index = 'igrncid';
-	protected $lockFields = ['igrnc_status' => ['PLL_ACCEPTED']];
+	public $lockFields = ['igrnc_status' => ['PLL_ACCEPTED']];
 
 	/**
 	 * Mandatory table for supporting custom fields.

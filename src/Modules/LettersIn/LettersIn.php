@@ -147,8 +147,8 @@ class LettersIn extends \App\Core\CRMEntity
 		}
 
 		$currentUser = \App\User\CurrentUser::get();
-		$query .= $this->getNonAdminAccessControlQuery($module, $current_user);
-		$query .= sprintf('	WHERE vtiger_crmentity.deleted = 0 %s', $usewhere);
+		$query .= $this->getNonAdminAccessControlQuery($module, $currentUser);
+		$query .= sprintf('	WHERE vtiger_crmentity.deleted = 0 %s', $where);
 		return $query;
 	}
 
@@ -180,7 +180,7 @@ class LettersIn extends \App\Core\CRMEntity
 
 		$linkedModulesQuery = $this->db->pquery("SELECT distinct fieldname, columnname, relmodule FROM vtiger_field" .
 			" INNER JOIN vtiger_fieldmodulerel ON vtiger_fieldmodulerel.fieldid = vtiger_field.fieldid" .
-			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array($thismodule));
+			" WHERE uitype='10' && vtiger_fieldmodulerel.module=?", array('LettersIn'));
 		$linkedFieldsCount = $this->db->num_rows($linkedModulesQuery);
 
 		for ($i = 0; $i < $linkedFieldsCount; $i++) {
@@ -194,7 +194,7 @@ class LettersIn extends \App\Core\CRMEntity
 			$query .= " LEFT JOIN $other->table_name ON $other->table_name.$other->table_index = $this->table_name.$columnname";
 		}
 
-		$query .= $this->getNonAdminAccessControlQuery($thismodule, $current_user);
+		$query .= $this->getNonAdminAccessControlQuery('LettersIn', $currentUser);
 		$where_auto = " vtiger_crmentity.deleted=0";
 
 		if ($where != '')
@@ -222,7 +222,7 @@ class LettersIn extends \App\Core\CRMEntity
 
 		// Select Custom Field Table Columns if present
 		if (isset($this->customFieldTable))
-			$query .= ", " . $this->customFieldTable[0] . ".* ";
+			$select_clause .= ", " . $this->customFieldTable[0] . ".* ";
 
 		$from_clause = " FROM $this->table_name";
 
@@ -275,10 +275,11 @@ class LettersIn extends \App\Core\CRMEntity
 			$modcommentsModuleInstance = \App\Modules\Base\Models\Module::getInstance('ModComments');
 			if ($modcommentsModuleInstance && file_exists('src/Modules/ModComments/ModComments.php')) {
 				include_once 'src/Modules/ModComments/ModComments.php';
-				if (class_exists('ModComments'))
-					ModComments::addWidgetTo(array('LettersIn'));
+				if (class_exists(\App\Modules\ModComments\ModComments::class)) {
+					\App\Modules\ModComments\ModComments::addWidgetTo(['LettersIn']);
+				}
 			}
-			\App\Core\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions:: getModuleId($modulename));
+			\App\Core\CRMEntity::getInstance('ModTracker')->enableTrackingForModule(\vtlib\Functions::getModuleId($modulename));
 			$adb->pquery('UPDATE vtiger_tab SET customized=0 WHERE name=?', array($modulename));
 			$adb->pquery('UPDATE vtiger_field SET summaryfield=1 WHERE tablename=? && columnname=?', array('vtiger_lettersin', 'title'));
 			$adb->pquery('UPDATE vtiger_field SET summaryfield=1 WHERE tablename=? && columnname=?', array('vtiger_lettersin', 'smownerid'));

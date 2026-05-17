@@ -15,7 +15,7 @@ class IGIN extends \App\Core\CRMEntity
 
 	public $table_name = 'u_yf_igin';
 	public $table_index = 'iginid';
-	protected $lockFields = ['igin_status' => ['PLL_ACCEPTED']];
+	public $lockFields = ['igin_status' => ['PLL_ACCEPTED']];
 
 	/**
 	 * Mandatory table for supporting custom fields.

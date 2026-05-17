@@ -15,7 +15,7 @@ class IGDN extends \App\Core\CRMEntity
 
 	public $table_name = 'u_yf_igdn';
 	public $table_index = 'igdnid';
-	protected $lockFields = ['igdn_status' => ['PLL_ACCEPTED']];
+	public $lockFields = ['igdn_status' => ['PLL_ACCEPTED']];
 
 	/**
 	 * Mandatory table for supporting custom fields.

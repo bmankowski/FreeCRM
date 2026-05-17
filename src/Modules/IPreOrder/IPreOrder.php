@@ -15,7 +15,7 @@ class IPreOrder extends \App\Core\CRMEntity
 
 	public $table_name = 'u_yf_ipreorder';
 	public $table_index = 'ipreorderid';
-	protected $lockFields = ['ipreorder_status' => ['PLL_ACCEPTED']];
+	public $lockFields = ['ipreorder_status' => ['PLL_ACCEPTED']];
 
 	/**
 	 * Mandatory table for supporting custom fields.

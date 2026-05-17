@@ -15,7 +15,7 @@ class IIDN extends \App\Core\CRMEntity
 
 	public $table_name = 'u_yf_iidn';
 	public $table_index = 'iidnid';
-	protected $lockFields = ['iidn_status' => ['PLL_ACCEPTED']];
+	public $lockFields = ['iidn_status' => ['PLL_ACCEPTED']];
 
 	/**
 	 * Mandatory table for supporting custom fields.

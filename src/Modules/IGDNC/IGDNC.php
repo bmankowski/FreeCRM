@@ -15,7 +15,7 @@ class IGDNC extends \App\Core\CRMEntity
 
 	public $table_name = 'u_yf_igdnc';
 	public $table_index = 'igdncid';
-	protected $lockFields = ['igdnc_status' => ['PLL_ACCEPTED']];
+	public $lockFields = ['igdnc_status' => ['PLL_ACCEPTED']];
 
 	/**
 	 * Mandatory table for supporting custom fields.
