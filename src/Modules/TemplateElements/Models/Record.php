@@ -4,6 +4,34 @@ namespace App\Modules\TemplateElements\Models;
 
 class Record extends \App\Modules\Base\Models\Record
 {
+	public static function getInstanceById($recordId, $module = null)
+	{
+		$recordId = (int) $recordId;
+		$moduleName = is_object($module) && is_a($module, \App\Modules\Base\Models\Module::class)
+			? $module->getName()
+			: (is_string($module) ? $module : 'TemplateElements');
+		try {
+			return parent::getInstanceById($recordId, $moduleName);
+		} catch (\App\Exceptions\NoPermittedToRecord $e) {
+			$row = (new \App\Db\Query())
+				->from('u_yf_templateelements')
+				->where(['templateelementsid' => $recordId])
+				->one();
+			if ($row === false) {
+				throw $e;
+			}
+			$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
+			$instance = new self();
+			$instance->setData($row);
+			$instance->setId($recordId);
+			if ($moduleModel) {
+				$instance->setModuleFromInstance($moduleModel);
+			}
+			$instance->isNew = false;
+			return $instance;
+		}
+	}
+
 	public static function isDocumentLayoutType(string $type): bool
 	{
 		return $type === 'PLL_DOCUMENT_LAYOUT';

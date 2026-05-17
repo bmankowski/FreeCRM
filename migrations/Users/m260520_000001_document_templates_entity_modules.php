@@ -108,7 +108,15 @@ class m260520_000001_document_templates_entity_modules extends Migration
 		$now = date('Y-m-d H:i:s');
 		foreach ($rows as $row) {
 			$id = (int) $row['templateelementsid'];
-			if ((new Query())->from('vtiger_crmentity')->where(['crmid' => $id])->exists($this->db)) {
+			$existing = (new Query())
+				->select(['setype'])
+				->from('vtiger_crmentity')
+				->where(['crmid' => $id])
+				->one($this->db);
+			if ($existing && ($existing['setype'] ?? '') === 'TemplateElements') {
+				continue;
+			}
+			if ($existing) {
 				continue;
 			}
 			$this->insert('vtiger_crmentity', [
