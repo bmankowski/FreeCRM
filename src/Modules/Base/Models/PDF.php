@@ -17,8 +17,8 @@ class PDF extends \App\Runtime\BaseModel
 	const WATERMARK_TYPE_TEXT = 0;
 	const WATERMARK_TYPE_IMAGE = 1;
 
-	public static $baseTable = 'a_yf_pdf';
-	public static $baseIndex = 'pdfid';
+	public static $baseTable = 'u_yf_documenttemplates';
+	public static $baseIndex = 'documenttemplatesid';
 	protected $recordCache = [];
 	protected $recordId;
 	protected $viewToPicklistValue = ['Detail' => 'PLL_DETAILVIEW', 'List' => 'PLL_LISTVIEW'];
@@ -41,7 +41,7 @@ class PDF extends \App\Runtime\BaseModel
 	 */
 	public function getId()
 	{
-		return $this->get('pdfid');
+		return $this->get(self::$baseIndex);
 	}
 
 	/**

@@ -22,7 +22,7 @@ class VTSendPdf extends VTTask
 	 */
 	public function getFieldNames(): array
 	{
-		return ['pdfTemplate', 'mailTemplate', 'email', 'emailoptout', 'smtp', 'copy_email'];
+		return ['documentTemplate', 'mailTemplate', 'email', 'emailoptout', 'smtp', 'copy_email'];
 	}
 
 	/**
@@ -31,7 +31,8 @@ class VTSendPdf extends VTTask
 	 */
 	public function doTask($recordModel)
 	{
-		if (!empty($this->mailTemplate) && !empty($this->pdfTemplate)) {
+		$documentTemplateId = $this->documentTemplate ?? null;
+		if (!empty($this->mailTemplate) && !empty($documentTemplateId)) {
 			$mailerContent = [];
 			if (!empty($this->smtp)) {
 				$mailerContent['smtp_id'] = $this->smtp;
@@ -53,10 +54,10 @@ class VTSendPdf extends VTTask
 			if (!empty($this->copy_email)) {
 				$mailerContent['bcc'] = $this->copy_email;
 			}
-			$templateRecord = \App\Modules\Base\Models\PDF::getInstanceById($this->pdfTemplate);
+			$templateRecord = \App\Modules\Base\Models\PDF::getInstanceById($documentTemplateId);
 			$fileName = \vtlib\Functions:: slug($templateRecord->getName()) . '_' . time() . '.pdf';
 			$pdfFile = 'cache' . DIRECTORY_SEPARATOR . 'pdf' . DIRECTORY_SEPARATOR . $fileName;
-			\App\Modules\Base\Models\PDF::exportToPdf($recordModel->getId(), $recordModel->getModuleName(), $this->pdfTemplate, $pdfFile, 'F');
+			\App\Modules\Base\Models\PDF::exportToPdf($recordModel->getId(), $recordModel->getModuleName(), $documentTemplateId, $pdfFile, 'F');
 			if (!file_exists($pdfFile)) {
 				\App\Log\Log::error('An error occurred while generating PFD file, the file doesn\'t exist. Sending email with PDF has been blocked.');
 				return false;

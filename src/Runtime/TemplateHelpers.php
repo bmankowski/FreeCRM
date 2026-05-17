@@ -35,8 +35,20 @@ if (!function_exists('vtemplate_path')) {
 
 if (!function_exists('vresource_url')) {
 	function vresource_url($url) {
-		if (stripos($url, '://') === false && $fs = @filemtime($url)) {
-			return $url . '?s=' . $fs;
+		if (stripos($url, '://') !== false) {
+			return $url;
+		}
+		$candidates = [$url];
+		if (defined('ROOT_DIRECTORY')) {
+			$relative = ltrim($url, '/');
+			$candidates[] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . $relative;
+			$candidates[] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $relative;
+		}
+		foreach ($candidates as $path) {
+			$fs = @filemtime($path);
+			if ($fs) {
+				return $url . '?s=' . $fs;
+			}
 		}
 		return $url;
 	}

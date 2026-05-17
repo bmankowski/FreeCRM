@@ -8750,8 +8750,6 @@ class Base4 extends \App\Db\Importers\Base
 						[28, 4, 'ModTracker', 'adminIcon-modules-track-chanegs', 'LBL_MODTRACKER_DESCRIPTION', 'index.php?module=ModTracker&action=BasicSettings&parenttab=Settings&formodule=ModTracker', 9, 0, 0, NULL],
 						[29, 5, 'LBL_PBXMANAGER', 'adminIcon-pbx-manager', 'LBL_PBXMANAGER_DESCRIPTION', 'index.php?module=PBXManager&parent=Settings&view=Index', 22, 0, 0, NULL],
 						[33, 2, 'LBL_EDIT_FIELDS', 'adminIcon-modules-fields', 'LBL_LAYOUT_EDITOR_DESCRIPTION', 'index.php?module=LayoutEditor&parent=Settings&view=Index', 2, 0, 0, NULL],
-						[35, 18, 'LBL_TEMPLATE_TEMPLATES', 'adminIcon-modules-pdf-templates', 'LBL_TEMPLATE_TEMPLATES_DESCRIPTION', 'index.php?module=Template&parent=Settings&view=ListView', 1, 0, 0, NULL],
-						[107, 18, 'LBL_TEMPLATE_DYNAMIC_ELEMENTS', 'adminIcon-document-templates', 'LBL_TEMPLATE_DYNAMIC_ELEMENTS_DESCRIPTION', 'index.php?module=TemplateDynamicElements&parent=Settings&view=ListView', 2, 0, 0, NULL],
 						[38, 7, 'LBL_PASSWORD_CONF', 'adminIcon-passwords-configuration', 'LBL_PASSWORD_DESCRIPTION', 'index.php?module=Password&parent=Settings&view=Index', 1, 0, 0, NULL],
 						[40, 2, 'LBL_MENU_BUILDER', 'adminIcon-menu-configuration', 'LBL_MENU_BUILDER_DESCRIPTION', 'index.php?module=Menu&view=Index&parent=Settings', 14, 0, 1, NULL],
 						[41, 2, 'LBL_ARRANGE_RELATED_TABS', 'adminIcon-modules-relations', 'LBL_ARRANGE_RELATED_TABS', 'index.php?module=LayoutEditor&parent=Settings&view=Index&mode=showRelatedListLayout', 4, 0, 1, NULL],

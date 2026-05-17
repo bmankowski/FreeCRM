@@ -16,8 +16,8 @@ update vtiger_crmentity set modifiedby = 1 where modifiedby = 6;
 
 
 select *
-from a_yf_pdf
-order by pdfid desc;
+from u_yf_documenttemplates
+order by documenttemplatesid desc;
 
 
 
@@ -31,13 +31,12 @@ select * from freecrm.vtiger_users;
 update freecrm.vtiger_users set is_admin = 'on', job_title = 'CTO' where id = 1;
 
 select *
-from a_yf_pdf;
+from u_yf_documenttemplates;
 
 select * from vtiger_userscf;
 
 select * from u_yf_emailtemplates;
 
-
-
+select * from u_yf_documenttemplates;
 
 

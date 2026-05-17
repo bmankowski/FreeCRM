@@ -117,10 +117,10 @@ CREATE TABLE `a_yf_mapped_fields` (
   CONSTRAINT `a_yf_mapped_fields_ibfk_1` FOREIGN KEY (`mappedid`) REFERENCES `a_yf_mapped_config` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `a_yf_pdf_dynamic_elements` */
+/*Table structure for table `u_yf_templateelements` */
 
-CREATE TABLE `a_yf_pdf_dynamic_elements` (
-  `dynamicid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `u_yf_templateelements` (
+  `templateelementsid` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `code` varchar(64) NOT NULL,
   `label` varchar(255) NOT NULL,
   `type` varchar(30) NOT NULL DEFAULT 'PLL_DOCUMENT_LAYOUT',
@@ -133,17 +133,17 @@ CREATE TABLE `a_yf_pdf_dynamic_elements` (
   `layout_body` mediumtext NOT NULL,
   `layout_footer` mediumtext NOT NULL,
   `description` text,
-  PRIMARY KEY (`dynamicid`),
+  PRIMARY KEY (`templateelementsid`),
   UNIQUE KEY `code_scope` (`code`,`module_name`,`language`),
   KEY `status_type` (`status`,`type`),
   KEY `module_status` (`module_name`,`status`),
   KEY `sequence` (`sequence`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
-/*Table structure for table `a_yf_pdf` */
+/*Table structure for table `u_yf_documenttemplates` */
 
-CREATE TABLE `a_yf_pdf` (
-  `pdfid` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id of record',
+CREATE TABLE `u_yf_documenttemplates` (
+  `documenttemplatesid` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id of record',
   `module_name` varchar(25) NOT NULL COMMENT 'name of the module',
   `header_content` text NOT NULL,
   `body_content` text NOT NULL,
@@ -177,8 +177,8 @@ CREATE TABLE `a_yf_pdf` (
   `watermark_angle` smallint(3) unsigned NOT NULL,
   `watermark_image` varchar(255) NOT NULL,
   `template_members` text NOT NULL,
-  `one_pdf` tinyint(1) DEFAULT NULL,
-  PRIMARY KEY (`pdfid`),
+  `one_file` tinyint(1) DEFAULT NULL,
+  PRIMARY KEY (`documenttemplatesid`),
   KEY `module_name` (`module_name`,`status`),
   KEY `module_name_2` (`module_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;

@@ -687,7 +687,7 @@ class TextParser
 			\App\Log\Log::warning("Recursive PDF dynamic element detected: $code");
 			return '';
 		}
-		$element = \App\Modules\Settings\TemplateDynamicElements\Models\Record::getActiveElementByCode(
+		$element = \App\Modules\TemplateElements\Models\Record::getActiveElementByCode(
 			$code,
 			(string) $this->moduleName,
 			$this->language ?? null
