@@ -91,14 +91,85 @@ Vtiger_Edit_Js('TemplateElements_Edit_Js', {}, {
 			thisInstance.registerCodeMirror();
 		});
 	},
+	syncCodeMirrors: function () {
+		jQuery.each(this.codeMirrors, function (k, cm) {
+			if (cm && typeof cm.save === 'function') {
+				cm.save();
+			}
+		});
+	},
+	saveOnly: function () {
+		var thisInstance = this;
+		var form = this.getForm();
+		thisInstance.syncCodeMirrors();
+		if (form.validationEngine('validate') !== true) {
+			app.formAlignmentAfterValidation(form);
+			return jQuery.Deferred().reject().promise();
+		}
+		var progressIndicatorElement = jQuery.progressIndicator({
+			position: 'html',
+			blockInfo: {
+				enabled: true
+			}
+		});
+		var saveData = form.serializeFormData();
+		saveData.action = 'Save';
+		saveData.mode = 'edit';
+		delete saveData.returnToList;
+		if (typeof csrfMagicName !== 'undefined' && typeof csrfMagicToken !== 'undefined') {
+			saveData[csrfMagicName] = csrfMagicToken;
+		}
+		return AppConnector.request(saveData).then(
+			function (data) {
+				var payload = data;
+				if (typeof data === 'string') {
+					try {
+						payload = JSON.parse(data);
+					} catch (e) {
+						payload = {};
+					}
+				}
+				var result = payload.result || payload;
+				if (result.record) {
+					form.find('[name="record"]').val(result.record);
+					form.find('[name="code"]').prop('readonly', true);
+				}
+				if (result.url && window.history && window.history.replaceState) {
+					window.history.replaceState(null, '', result.url);
+				}
+				Vtiger_Helper_Js.showMessage({
+					text: app.vtranslate('JS_SAVE_NOTIFY_OK', 'Vtiger')
+				});
+				progressIndicatorElement.progressIndicator({
+					mode: 'hide'
+				});
+			},
+			function (error, err) {
+				progressIndicatorElement.progressIndicator({
+					mode: 'hide'
+				});
+				app.errorLog(error, err);
+			}
+		);
+	},
+	registerKeyboardShortcuts: function () {
+		var thisInstance = this;
+		jQuery(document).on('keydown.templateElementsEdit', function (e) {
+			if (!(e.ctrlKey || e.metaKey) || e.key !== 's') {
+				return;
+			}
+			var form = thisInstance.getForm();
+			if (!form.length || !jQuery.contains(document, form.get(0))) {
+				return;
+			}
+			e.preventDefault();
+			thisInstance.saveOnly();
+		});
+	},
 	registerSubmit: function () {
 		var thisInstance = this;
 		this.getForm().on('submit', function (e) {
-			jQuery.each(thisInstance.codeMirrors, function (k, cm) {
-				if (cm && typeof cm.save === 'function') {
-					cm.save();
-				}
-			});
+			thisInstance.syncCodeMirrors();
 			if (jQuery(e.currentTarget).validationEngine('validate') !== true) {
 				app.formAlignmentAfterValidation(jQuery(e.currentTarget));
 				return false;
@@ -119,6 +190,7 @@ Vtiger_Edit_Js('TemplateElements_Edit_Js', {}, {
 		this.registerTypeSwitch();
 		this.registerCodeMirror();
 		this.registerSubmit();
+		this.registerKeyboardShortcuts();
 	}
 });
 

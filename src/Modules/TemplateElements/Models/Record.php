@@ -32,6 +32,15 @@ class Record extends \App\Modules\Base\Models\Record
 		}
 	}
 
+	public static function getCleanInstance($moduleName)
+	{
+		$instance = parent::getCleanInstance($moduleName);
+		$instance->set('type', 'PLL_VARIABLE_ALIAS');
+		$instance->set('status', 1);
+
+		return $instance;
+	}
+
 	public function getListViewDisplayValue($fieldName)
 	{
 		if ($fieldName === 'type') {

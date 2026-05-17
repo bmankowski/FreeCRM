@@ -123,7 +123,7 @@ CREATE TABLE `u_yf_templateelements` (
   `templateelementsid` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `code` varchar(64) NOT NULL,
   `label` varchar(255) NOT NULL,
-  `type` varchar(30) NOT NULL DEFAULT 'PLL_DOCUMENT_LAYOUT',
+  `type` varchar(30) NOT NULL DEFAULT 'PLL_VARIABLE_ALIAS',
   `module_name` varchar(25) NOT NULL DEFAULT '',
   `language` varchar(7) NOT NULL DEFAULT '',
   `status` tinyint(1) NOT NULL DEFAULT '1',

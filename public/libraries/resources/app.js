@@ -1653,11 +1653,16 @@ var app = {
 		}
 		return jQuery(window).height() * percantage / 100;
 	},
+	copyClipboardInstance: false,
 	registerCopyClipboard: function (key) {
 		if (key == undefined) {
 			key = '.clipboard';
 		}
-		new Clipboard(key, {
+		if (this.copyClipboardInstance) {
+			this.copyClipboardInstance.destroy();
+			this.copyClipboardInstance = false;
+		}
+		this.copyClipboardInstance = new Clipboard(key, {
 			text: function (trigger) {
 				Vtiger_Helper_Js.showPnotify({
 					text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),

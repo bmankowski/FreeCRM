@@ -14,8 +14,8 @@ class Module extends \App\Modules\Base\Models\Module
 			[
 				'groupLabel' => '',
 				'types' => [
-					'PLL_DOCUMENT_LAYOUT' => 'PLL_DOCUMENT_LAYOUT',
 					'PLL_VARIABLE_ALIAS' => 'PLL_VARIABLE_ALIAS',
+					'PLL_DOCUMENT_LAYOUT' => 'PLL_DOCUMENT_LAYOUT',
 				],
 			],
 		];

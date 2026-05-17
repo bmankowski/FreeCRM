@@ -68,7 +68,7 @@ Vtiger_Edit_Js("DocumentTemplates_Edit_Js", {
 	currentInstance: false,
 	editContainer: false,
 	init: function () {
-		this.initiate();
+		// Full wizard setup is triggered from document.ready (after DOM is ready).
 	},
 	/**
 	 * Function to get the container which holds all the workflow elements

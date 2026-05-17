@@ -4,6 +4,7 @@
         "SINGLE_TemplateElements": "Template element",
         "All": "All",
         "TemplateDynamicElements": "Template dynamic elements",
+        "LBL_SAVE_AND_CLOSE": "Save and close",
         "LBL_ADD_DYNAMIC_ELEMENT": "Add dynamic element",
         "LBL_EDIT_DYNAMIC_ELEMENT": "Edit dynamic element",
         "LBL_LABEL": "Name",

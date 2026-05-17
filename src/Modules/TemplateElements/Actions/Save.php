@@ -4,6 +4,45 @@ namespace App\Modules\TemplateElements\Actions;
 
 class Save extends \App\Modules\Base\Actions\Save
 {
+	public function process(\App\Http\Vtiger_Request $request)
+	{
+		$recordModel = $this->saveRecord($request);
+		if ($request->get('returnToList')) {
+			$loadUrl = $recordModel->getModule()->getListViewUrl();
+		} else {
+			$params = [
+				'module' => $request->getModule(),
+				'view' => 'Edit',
+				'record' => $recordModel->getId(),
+			];
+			if ($request->has('parent') && $request->get('parent') !== '') {
+				$params['parent'] = $request->get('parent');
+			}
+			if ($request->has('mid') && $request->get('mid') !== '') {
+				$params['mid'] = $request->get('mid');
+			}
+			$loadUrl = 'index.php?' . http_build_query($params);
+		}
+		$this->redirectUrl = $loadUrl;
+		if ($request->get('mode') !== 'edit') {
+			$request->set('record', $recordModel->getId());
+		}
+
+		if ($request->isAjax()) {
+			$response = new \App\Http\Vtiger_Response();
+			$response->setResult([
+				'url' => $loadUrl,
+				'record' => $recordModel->getId(),
+				'success' => true,
+			]);
+			$response->emit();
+			return;
+		}
+
+		header('Location: ' . $loadUrl);
+		exit;
+	}
+
 	protected function getRecordModelFromRequest(\App\Http\Vtiger_Request $request)
 	{
 		$recordModel = parent::getRecordModelFromRequest($request);

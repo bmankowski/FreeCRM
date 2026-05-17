@@ -18,6 +18,7 @@
 						
 						<input type="hidden" name="action" value="Save">
 						<input type="hidden" name="record" value="{$RECORD_ID}">
+						<input type="hidden" name="returnToList" value="1">
 						<div class="form-group">
 							<label class="control-label col-md-3">{'LBL_LABEL'|t:$QUALIFIED_MODULE} <span class="redColor">*</span></label>
 							<div class="controls col-md-8">
@@ -74,7 +75,7 @@
 							<label class="control-label col-md-3">{'LBL_STATUS'|t:$QUALIFIED_MODULE}</label>
 							<div class="controls col-md-8">
 								<label class="checkbox">
-									<input type="checkbox" name="status" value="1" {if $RECORD_MODEL->get('status') eq 1}checked{/if}> {'LBL_ACTIVE'|t:$QUALIFIED_MODULE}
+									<input type="checkbox" name="status" value="1" {if !$RECORD_ID || $RECORD_MODEL->get('status') eq 1}checked{/if}> {'LBL_ACTIVE'|t:$QUALIFIED_MODULE}
 								</label>
 							</div>
 						</div>
@@ -131,7 +132,7 @@
 						<div class="row">
 							<div class="col-md-11">
 								<span class="pull-right">
-									<button class="btn btn-success" type="submit"><span class="glyphicon glyphicon-ok"></span>&nbsp;<strong>{'LBL_SAVE'|t:$QUALIFIED_MODULE}</strong></button>
+									<button class="btn btn-success" type="submit"><span class="glyphicon glyphicon-ok"></span>&nbsp;<strong>{'LBL_SAVE_AND_CLOSE'|t:$QUALIFIED_MODULE}</strong></button>
 									<a class="cancelLink btn btn-warning" href="index.php?module=TemplateElements&view=ListView"><span class="glyphicon glyphicon-remove"></span>&nbsp;{'LBL_CANCEL'|t:$QUALIFIED_MODULE}</a>
 								</span>
 							</div>
