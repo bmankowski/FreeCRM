@@ -312,3 +312,9 @@
 .userIcon-VirtualDesk:before {
   content: "\e938";
 }
+.userIcon-Kandydaci:before {
+  content: "\e910";
+}
+.userIcon-ProjektyRekrutacyjne:before {
+  content: "\e924";
+}
