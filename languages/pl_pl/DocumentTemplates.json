@@ -1,5 +1,9 @@
 {
     "languageStrings": {
+        "DocumentTemplates": "Szablony dokumentów",
+        "SINGLE_DocumentTemplates": "Szablon dokumentu",
+        "LBL_STATUS": "Status",
+        "All": "Wszystkie",
         "PLL_TEXT": "Tekst",
         "PLL_IMAGE": "Obraz",
         "LBL_TEMPLATE": "Szablony dokumentów",

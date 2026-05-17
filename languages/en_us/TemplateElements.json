@@ -1,5 +1,7 @@
 {
     "languageStrings": {
+        "TemplateElements": "Template elements",
+        "SINGLE_TemplateElements": "Template element",
         "TemplateDynamicElements": "Template dynamic elements",
         "LBL_ADD_DYNAMIC_ELEMENT": "Add dynamic element",
         "LBL_EDIT_DYNAMIC_ELEMENT": "Edit dynamic element",

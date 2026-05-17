@@ -1,5 +1,9 @@
 {
     "languageStrings": {
+        "DocumentTemplates": "Document templates",
+        "SINGLE_DocumentTemplates": "Document template",
+        "LBL_STATUS": "Status",
+        "All": "All",
         "PLL_TEXT": "Text",
         "PLL_IMAGE": "Image",
         "LBL_TEMPLATE": "Document templates",
