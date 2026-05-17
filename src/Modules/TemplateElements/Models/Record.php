@@ -32,6 +32,18 @@ class Record extends \App\Modules\Base\Models\Record
 		}
 	}
 
+	public function getListViewDisplayValue($fieldName)
+	{
+		if ($fieldName === 'type') {
+			$value = $this->get($fieldName);
+			if ($value !== '' && $value !== null) {
+				return \App\Runtime\Vtiger_Language_Handler::translate((string) $value, $this->getModuleName());
+			}
+		}
+
+		return parent::getListViewDisplayValue($fieldName);
+	}
+
 	public static function isDocumentLayoutType(string $type): bool
 	{
 		return $type === 'PLL_DOCUMENT_LAYOUT';

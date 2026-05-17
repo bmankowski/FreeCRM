@@ -2,6 +2,7 @@
     "languageStrings": {
         "TemplateElements": "Elementy szablonów",
         "SINGLE_TemplateElements": "Element szablonu",
+        "All": "Wszystkie",
         "TemplateDynamicElements": "Elementy dynamiczne szablonów",
         "LBL_ADD_DYNAMIC_ELEMENT": "Dodaj element dynamiczny",
         "LBL_EDIT_DYNAMIC_ELEMENT": "Edycja elementu dynamicznego",
