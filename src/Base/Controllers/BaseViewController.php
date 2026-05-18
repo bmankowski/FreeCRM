@@ -148,11 +148,16 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 
 		// Regular module breadcrumbs (not Settings)
 		if ($parent !== 'Settings') {
-			if (empty($parent)) {
-				foreach ($parentList as &$parentItem) {
-					if ($moduleName == $parentItem['mod']) {
-						$parent = $parentItem['parent'];
-						break;
+			if ($parent === '' || $parent === null) {
+				$menuId = $request->get('mid');
+				if ($menuId !== '' && $menuId !== null && isset($parentList[$menuId])) {
+					$parent = $parentList[$menuId]['parent'];
+				} else {
+					foreach ($parentList as &$parentItem) {
+						if ($moduleName == $parentItem['mod']) {
+							$parent = $parentItem['parent'];
+							break;
+						}
 					}
 				}
 			}
