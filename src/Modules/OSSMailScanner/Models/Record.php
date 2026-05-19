@@ -153,6 +153,15 @@ class Record extends \App\Modules\Base\Models\Record
 		return $return;
 	}
 
+	/**
+	 * Cron alert threshold in minutes (defaults to 60 when unset or invalid).
+	 */
+	private static function getCronTimeoutMinutes(array $config): int
+	{
+		$minutes = isset($config['time']) ? (int) $config['time'] : 0;
+		return $minutes > 0 ? $minutes : 60;
+	}
+
 	public function setConfigWidget($confType, $type, $value)
 	{
 		if ($value === null || $value == 'null') {
@@ -501,7 +510,7 @@ class Record extends \App\Modules\Base\Models\Record
 			$row = $adb->query_result_rowdata($result, 0);
 			if ($row['status'] == 1) {
 				$config = self::getConfig('cron');
-				$time = strtotime($row['start_time']) + ( $config['time'] * 60);
+				$time = strtotime($row['start_time']) + (self::getCronTimeoutMinutes($config) * 60);
 				if (strtotime("now") > $time) {
 					$return = $row['start_time'];
 				}
@@ -545,7 +554,7 @@ class Record extends \App\Modules\Base\Models\Record
 		$row = self::getCronStatus();
 		if ($row) {
 			$config = self::getConfig('cron');
-			$time = $row['laststart'] + ( $config['time'] * 60);
+			$time = $row['laststart'] + (self::getCronTimeoutMinutes($config) * 60);
 			if (strtotime("now") > $time) {
 				$return = $row['laststart'];
 				//return array( date("Y-m-d H:i:s"), date("Y-m-d H:i:s", $time) , $config['time'] );

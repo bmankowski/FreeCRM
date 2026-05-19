@@ -18,6 +18,11 @@ class DAV {
 
 	public static function runCronCardDav()
 	{
+		global $enableCardDAV;
+		if (empty($enableCardDAV)) {
+			\App\Log\Log::trace(__METHOD__ . ' | CardDAV disabled in config');
+			return;
+		}
 		$dav = new self();
 		\App\Log\Log::trace(__METHOD__ . ' | Start CardDAV Sync ');
 		$crmUsers = \App\Modules\Users\Models\Record::getAll();
@@ -32,7 +37,7 @@ class DAV {
 				\App\Log\Log::info(__METHOD__ . ' | User is inactive ' . $user->getName());
 			}
 		}
-		$cardDav = new API_CardDAV_Model();
+		$cardDav = new CardDAV();
 		$cardDav->davUsers = $dav->davUsers;
 		$cardDav->cardDavCrm2Dav();
 		$cardDav->cardDav2Crm();
@@ -41,6 +46,11 @@ class DAV {
 
 	public static function runCronCalDav()
 	{
+		global $enableCalDAV;
+		if (empty($enableCalDAV)) {
+			\App\Log\Log::trace(__METHOD__ . ' | CalDAV disabled in config');
+			return;
+		}
 		$dav = new self();
 		\App\Log\Log::trace(__METHOD__ . ' | Start CalDAV Sync ');
 		$crmUsers = \App\Modules\Users\Models\Record::getAll();
@@ -55,10 +65,10 @@ class DAV {
 				\App\Log\Log::info(__METHOD__ . ' | User is inactive ' . $user->getName());
 			}
 		}
-		$cardDav = new API_CalDAV_Model();
-		$cardDav->davUsers = $dav->davUsers;
-		$cardDav->calDavCrm2Dav();
-		$cardDav->calDav2Crm();
+		$calDav = new CalDAV();
+		$calDav->davUsers = $dav->davUsers;
+		$calDav->calDavCrm2Dav();
+		$calDav->calDav2Crm();
 		\App\Log\Log::trace(__METHOD__ . ' | End CalDAV Sync ');
 	}
 

@@ -746,7 +746,6 @@ class Data extends \App\Base\Controllers\BaseActionController
 
 	public static function runScheduledImport()
 	{
-		$currentUser = $request->getUser();
 		$scheduledImports = self::getScheduledImport();
 		foreach ($scheduledImports as $scheduledId => $importDataController) {
 			$current_user = $importDataController->user;

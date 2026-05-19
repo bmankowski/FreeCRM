@@ -51,15 +51,20 @@ class VTTaskQueue {
 	 */
 	public function getReadyTasks()
 	{
-		$adb = $this->adb;
 		$time = time();
-		$result = $adb->pquery('SELECT task_id, entity_id, task_contents FROM com_vtiger_workflowtask_queue WHERE do_after<?', array($time));
-		$it = new SqlResultIterator($adb, $result);
-		$arr = array();
-		foreach ($it as $row) {
-			$arr[] = array($row->task_id, $row->entity_id, $row->task_contents);
+		$rows = \App\Db\Db::getInstance()->createCommand(
+			'SELECT task_id, entity_id, task_contents FROM com_vtiger_workflowtask_queue WHERE do_after < :time',
+			[':time' => $time]
+		)->queryAll();
+
+		\App\Db\Db::getInstance()->createCommand()
+			->delete('com_vtiger_workflowtask_queue', ['<', 'do_after', $time])
+			->execute();
+
+		$arr = [];
+		foreach ($rows as $row) {
+			$arr[] = [$row['task_id'], $row['entity_id'], $row['task_contents']];
 		}
-		$adb->pquery("delete from com_vtiger_workflowtask_queue where do_after<?", array($time));
 		return $arr;
 	}
 }

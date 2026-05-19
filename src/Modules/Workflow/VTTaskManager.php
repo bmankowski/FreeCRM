@@ -83,13 +83,15 @@ class VTTaskManager
 	 */
 	public function retrieveTask($taskId)
 	{
-		$adb = $this->adb;
-		$result = $adb->pquery("select task from com_vtiger_workflowtasks where task_id=?", array($taskId));
-		$data = $adb->raw_query_result_rowdata($result, 0);
-		$task = $data["task"];
-		$task = $this->unserializeTask($task);
-
-		return $task;
+		$taskData = (new \App\Db\Query())
+			->select(['task'])
+			->from('com_vtiger_workflowtasks')
+			->where(['task_id' => $taskId])
+			->scalar();
+		if ($taskData === false || $taskData === null || $taskData === '') {
+			return null;
+		}
+		return $this->unserializeTask($taskData);
 	}
 
 	/**
