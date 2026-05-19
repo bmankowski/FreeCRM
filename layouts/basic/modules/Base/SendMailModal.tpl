@@ -1,8 +1,8 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 <!-- layouts/basic/modules/Base/SendMailModal.tpl -->
-	{assign var=DEFAULT_SMTP value=App\Mail::getDefaultSmtp()}
-	{assign var=TEMPLETE_LIST value=App\Mail::getTempleteList($TEMPLATE_MODULE)}
+	{assign var=DEFAULT_SMTP value=App\Email\Mail::getDefaultSmtp()}
+	{assign var=TEMPLETE_LIST value=App\Email\Mail::getTempleteList($TEMPLATE_MODULE)}
 	{assign var=IS_EMAIL value=false}
 	<div class="modal-header">
 		<button type="button" class="btn btn-warning btn-sm pull-right" data-dismiss="modal" aria-hidden="true">&times;</button>

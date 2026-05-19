@@ -21,7 +21,7 @@ class Detail extends \App\Modules\Settings\Base\Views\Index
 		$moduleName = $request->getModule();
 		if ($request->get('record')) {
 			$recordModel = \App\Modules\Settings\Profiles\Models\Record::getInstanceById($request->get('record'));
-			$title = $recordModel->getName();
+			$title = $recordModel ? $recordModel->getName() : \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_DETAIL', $moduleName);
 		} else {
 			$title = \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_DETAIL', $moduleName);
 		}

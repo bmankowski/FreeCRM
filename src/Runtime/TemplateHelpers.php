@@ -35,6 +35,9 @@ if (!function_exists('vtemplate_path')) {
 
 if (!function_exists('vresource_url')) {
 	function vresource_url($url) {
+		if (!is_string($url) || $url === '') {
+			return '';
+		}
 		if (stripos($url, '://') !== false) {
 			return $url;
 		}
@@ -46,7 +49,7 @@ if (!function_exists('vresource_url')) {
 		}
 		foreach ($candidates as $path) {
 			$fs = @filemtime($path);
-			if ($fs) {
+			if ($fs && is_file($path)) {
 				return $url . '?s=' . $fs;
 			}
 		}

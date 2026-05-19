@@ -416,7 +416,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		  }
 		 */
 		//delete handling for sharing rules
-		deleteRoleRelatedSharingRules($roleId);
+		\App\Modules\Settings\SharingAccess\Models\Rule::deleteRoleRelatedSharingRules($roleId);
 
 		$db->pquery('DELETE FROM vtiger_role WHERE roleid=?', array($roleId));
 
@@ -431,12 +431,6 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			$roleModel->set('depth', $newChildDepth);
 			$roleModel->set('parentrole', $newChildParentRoleString);
 			$roleModel->save();
-		}
-		if (is_array($array_users)) {
-			 
-			foreach ($array_users as $userid) {
-				\App\Modules\Users\Services\PrivilegeFileManager::invalidateUser((int) $userid, 'Settings\Roles\Models\Record::save');
-			}
 		}
 		\App\Security\Privilege::setAllUpdater();
 	}

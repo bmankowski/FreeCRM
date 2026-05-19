@@ -70,10 +70,14 @@ class Module
 			case 7:
 				$query = (new \App\Db\Query())->select('viewname, entitytype')->from('vtiger_customview')->where(['cvid' => $row['dataurl']]);
 				$data = $query->one();
-				if ($settings) {
-					$name = \App\Runtime\Vtiger_Language_Handler::translate($data['entitytype'], $data['entitytype']) . ': ' . \App\Runtime\Vtiger_Language_Handler::translate($data['viewname'], $data['entitytype']);
+				if ($data) {
+					if ($settings) {
+						$name = \App\Runtime\Vtiger_Language_Handler::translate($data['entitytype'], $data['entitytype']) . ': ' . \App\Runtime\Vtiger_Language_Handler::translate($data['viewname'], $data['entitytype']);
+					} else {
+						$name = \App\Runtime\Vtiger_Language_Handler::translate($data['viewname'], $data['entitytype']);
+					}
 				} else {
-					$name = \App\Runtime\Vtiger_Language_Handler::translate($data['viewname'], $data['entitytype']);
+					$name = $row['label'] ?: 'CustomFilter';
 				}
 				break;
 			default: $name = $row['label'];
@@ -87,7 +91,13 @@ class Module
 		switch ($row['type']) {
 			case 0:
 				$moduleModel = \App\Modules\Base\Models\Module::getInstance($row['module']);
-				$url = $moduleModel->getDefaultUrl() . '&mid=' . $row['id'] . '&parent=' . $row['parentid'];
+				if ($moduleModel) {
+					$url = $moduleModel->getDefaultUrl() . '&mid=' . $row['id'] . '&parent=' . $row['parentid'];
+				} elseif (!empty($row['name'])) {
+					$url = 'index.php?module=' . $row['name'] . '&view=ListView&mid=' . $row['id'] . '&parent=' . $row['parentid'];
+				} else {
+					$url = null;
+				}
 				break;
 			case 1: $url = $row['dataurl'];
 				break;
@@ -133,7 +143,7 @@ class Module
 		foreach (\App\Modules\Base\Models\Module::getAll() as $module) {
 			$filterDir = 'modules' . DIRECTORY_SEPARATOR . $module->get('name') . DIRECTORY_SEPARATOR . 'filters';
 			if (file_exists($filterDir)) {
-				$fileFilters = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($filterDir, FilesystemIterator::SKIP_DOTS));
+				$fileFilters = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($filterDir, \FilesystemIterator::SKIP_DOTS));
 				foreach ($fileFilters as $filter) {
 					$name = str_replace('.php', '', $filter->getFilename());
 					$handlerClass = \App\Core\Loader::getComponentClassName('Filter', $name, $module->get('name'));

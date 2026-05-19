@@ -47,7 +47,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 
 		$jsFileNames = array(
 			'modules.Settings.Vtiger.resources.Index',
-			"modules.Settings.$moduleName.resources.Index",
+			"modules.Settings.$moduleName.resources.Roles",
 			'modules.Settings.Vtiger.resources.Popup',
 			"modules.Settings.$moduleName.resources.Popup",
 			'libraries.jquery.jquery_windowmsg',

@@ -92,8 +92,8 @@ class TemplateStyles
 		'strong' => 'font-weight:700;',
 		'table' => 'border:0;border-collapse:collapse;border-spacing:0;color:#1f2937;font-size:12px;line-height:1.45;margin:12px 0 18px;width:100%;',
 		'caption' => 'color:#6b7280;font-size:11px;padding:0 0 8px;text-align:left;',
-		'th' => 'background-color:#eef3f8;border:1px solid #d7dee8;color:#1f2937;font-weight:700;padding:9px 10px;text-align:left;vertical-align:top;',
-		'td' => 'border:1px solid #d7dee8;padding:9px 10px;vertical-align:top;',
+		'th' => 'background-color:#eef3f8;border:0;color:#1f2937;font-weight:700;padding:9px 10px;text-align:left;vertical-align:top;',
+		'td' => 'border:0;padding:9px 10px;vertical-align:top;',
 		'img' => 'max-width:100%;',
 	];
 
@@ -202,8 +202,8 @@ class TemplateStyles
 		$styles = '';
 		if ($includeBase && in_array('table', $tableClasses, true)) {
 			$styles .= strtolower($node->tagName) === 'th'
-				? 'background-color:#eef3f8;border:1px solid #d7dee8;color:#1f2937;font-weight:700;padding:9px 10px;text-align:left;vertical-align:top;'
-				: 'border:1px solid #d7dee8;padding:9px 10px;vertical-align:top;';
+				? 'background-color:#eef3f8;border:0;color:#1f2937;font-weight:700;padding:9px 10px;text-align:left;vertical-align:top;'
+				: 'border:0;padding:9px 10px;vertical-align:top;';
 		}
 		if (in_array('table-bordered', $tableClasses, true)) {
 			$styles .= 'border:1px solid #d7dee8;';

@@ -34,9 +34,8 @@ Vtiger_ListView_Js("Settings_Vtiger_ListView_Js",{
 		AppConnector.request(url).then(
 			function(data) {
 				if(data) {
-					app.showModalWindow(data,function(container){
-						thisInstance.postDeleteAction(container);
-					});
+					var container = app.showModalWindow(data);
+					thisInstance.postDeleteAction(container);
 				}
 			},
 			function(error,err){
@@ -46,32 +45,112 @@ Vtiger_ListView_Js("Settings_Vtiger_ListView_Js",{
 	},
 	
 	/**
+	 * Reload settings list table contents after delete/save (lighter than full ListView refresh).
+	 */
+	reloadListViewContents : function(pageNumber) {
+		var thisInstance = this;
+		var aDeferred = jQuery.Deferred();
+		pageNumber = parseInt(pageNumber, 10) || 1;
+		var listViewContentsContainer = jQuery('#listViewContents');
+		if (!listViewContentsContainer.length) {
+			aDeferred.reject();
+			return aDeferred.promise();
+		}
+		var params = {
+			module: app.getModuleName(),
+			parent: app.getParentModuleName(),
+			view: 'ListView',
+			page: pageNumber
+		};
+		var progressIndicatorElement = jQuery.progressIndicator({
+			position: 'html',
+			blockInfo: {enabled: true}
+		});
+		AppConnector.request(params).then(
+			function(data) {
+				progressIndicatorElement.progressIndicator({mode: 'hide'});
+				listViewContentsContainer.html(data);
+				app.changeSelectElementView(listViewContentsContainer);
+				thisInstance.registerRowClickEvent();
+				thisInstance.registerHeadersClickEvent();
+				aDeferred.resolve(data);
+			},
+			function(textStatus, errorThrown) {
+				progressIndicatorElement.progressIndicator({mode: 'hide'});
+				aDeferred.reject(textStatus, errorThrown);
+			}
+		);
+		return aDeferred.promise();
+	},
+
+	/**
+	 * Settings list refresh (used by delete and legacy getListViewRecords callers).
+	 */
+	getListViewRecords : function(urlParams) {
+		var pageNumber = 1;
+		if (urlParams && urlParams.page) {
+			pageNumber = urlParams.page;
+		} else {
+			pageNumber = parseInt(jQuery('#pageNumber').val(), 10) || 1;
+		}
+		return this.reloadListViewContents(pageNumber);
+	},
+
+	refreshListAfterRecordChange : function(pageNumber) {
+		var thisInstance = this;
+		pageNumber = parseInt(pageNumber, 10) || parseInt(jQuery('#pageNumber').val(), 10) || 1;
+		if (parseInt(jQuery('#noOfEntries').val(), 10) === 1 && jQuery('#previousPageExist').val()) {
+			pageNumber = Math.max(pageNumber - 1, 1);
+		}
+		jQuery('#recordsCount').val('');
+		jQuery('#totalPageCount').text('');
+		jQuery('.pagination').data('totalCount', 0);
+		thisInstance.reloadListViewContents(pageNumber).then(
+			function() {
+				thisInstance.updatePagination(pageNumber);
+			},
+			function() {
+				window.location.reload();
+			}
+		);
+	},
+
+	/**
 	 * Function to load list view after deletion of record from list view
 	 */
 	postDeleteAction : function(container){
 		var thisInstance = this;
-		var deleteConfirmForm = jQuery(container).find('#DeleteModal');
-		deleteConfirmForm.on('submit', function(e){
+		var deleteForm = jQuery(container).find('#DeleteModal');
+		if (!deleteForm.length) {
+			return;
+		}
+		deleteForm.off('submit.settingsDelete').on('submit.settingsDelete', function(e){
 			e.preventDefault();
+			var deleteConfirmForm = jQuery(this);
+			var recordId = deleteConfirmForm.find('[name="record"]').val();
 			var deleteActionUrl = deleteConfirmForm.serializeFormData();
 			AppConnector.request(deleteActionUrl).then(
-				function() {
+				function(data) {
+					if (data && data.success === false) {
+						app.hideModalWindow();
+						var errorMessage = (data.error && data.error.message) ? data.error.message : app.vtranslate('JS_DELETE_FAILED');
+						Settings_Vtiger_Index_Js.showMessage({text: errorMessage, type: 'error'});
+						return;
+					}
 					app.hideModalWindow();
-					var params = {
+					Settings_Vtiger_Index_Js.showMessage({
 						text: app.vtranslate('JS_RECORD_DELETED_SUCCESSFULLY')
-					};
-					Settings_Vtiger_Index_Js.showMessage(params);
-					jQuery('#recordsCount').val('');
-					jQuery('#totalPageCount').text('');
-					thisInstance.getListViewRecords().then(function(){
-						thisInstance.updatePagination();
 					});
+					if (recordId) {
+						jQuery('.listViewEntries[data-id="' + recordId + '"]').remove();
+					}
+					thisInstance.refreshListAfterRecordChange();
 				},
 				function(error,err){
 					app.hideModalWindow();
 				}
 			);
-		})
+		});
 	},
 	
 	/**

@@ -321,4 +321,12 @@ and relcrmid=".$this->getId();
         $candidate->set($fieldName, $fieldValue);
 //        $candidate->save();
     }
+
+	/** {@inheritdoc} */
+	public function getRelatedListLeftSideLinks(\App\Modules\Base\Models\Record $parentRecord, array $context): array
+	{
+		$prepend = RelatedListLeftSideEmail::asLinks((int) $this->getId(), $parentRecord, $context);
+
+		return array_merge($prepend, parent::getRelatedListLeftSideLinks($parentRecord, $context));
+	}
 }

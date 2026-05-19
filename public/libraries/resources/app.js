@@ -547,9 +547,6 @@ var app = {
 			jQuery('body').append(container);
 			var modalContainer = container.find('.modal:first');
 			modalContainer.modal(params);
-			app.changeSelectElementView(modalContainer);
-			//register all select2 Elements
-			app.showSelect2ElementView(modalContainer.find('select.select2'));
 			app.showSelectizeElementView(modalContainer.find('select.selectize'));
 			//register date fields event to show mini calendar on click of element
 			app.registerEventForDatePickerFields(modalContainer);
@@ -584,6 +581,12 @@ var app = {
 				modalBody.css('max-height', (modalBody.outerHeight() + height) + 'px');
 				modalBody.css('overflow', 'auto');
 				modalBody.perfectScrollbar();
+				var select2DropdownParent = modalContainer.find('.modal-content');
+				if (!select2DropdownParent.length) {
+					select2DropdownParent = modalContainer;
+				}
+				app.changeSelectElementView(modalContainer);
+				app.showSelect2ElementView(modalContainer.find('select.select2'), {dropdownParent: select2DropdownParent});
 			})
 		}
 		if (data) {

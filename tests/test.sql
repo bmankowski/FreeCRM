@@ -40,3 +40,6 @@ select * from u_yf_emailtemplates;
 select * from u_yf_documenttemplates;
 
 
+delete from
+ vtiger_settings_blocks
+ where label = 'LBL_TEMPLATE';

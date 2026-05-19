@@ -22,15 +22,12 @@ class Vtiger_Theme extends \App\Runtime\CRM_Viewer
 	 */
 	public static function getThemeStyle()
 	{
-		$filePath = self::getThemePath() . '/' . 'style.css';
-		$completeFilePath = \App\Core\Loader::resolveNameToPath('~' . $filePath);
-
-		if (file_exists($completeFilePath)) {
-			return $filePath;
+		$themePath = self::getThemePath();
+		if ($themePath === false) {
+			return false;
 		}
 
-		// Exception should be thrown???
-		return false;
+		return $themePath . '/style.css';
 	}
 
 	/**
@@ -126,19 +123,26 @@ class Vtiger_Theme extends \App\Runtime\CRM_Viewer
 		}
 
 		$selectedThemePath = self::getBaseThemePath() . '/' . $theme;
-		$fallBackThemePath = self::getBaseThemePath() . '/' . self::getDefaultThemeName();
+		if (self::themeDirectoryExists($selectedThemePath)) {
+			return $selectedThemePath;
+		}
 
-		$completeSelectedThemePath = \App\Core\Loader::resolveNameToPath('~' . $selectedThemePath);
-		$completeFallBackThemePath = \App\Core\Loader::resolveNameToPath('~' . $fallBackThemePath);
-        if (file_exists($completeSelectedThemePath)) {
-            return $selectedThemePath;
-        }
-
-		if (file_exists($completeFallBackThemePath)) {
+		$fallBackThemePath = self::getBaseThemePath() . '/' . self::DEFAULTTHEME;
+		if (self::themeDirectoryExists($fallBackThemePath)) {
 			return $fallBackThemePath;
 		}
 
 		return false;
+	}
+
+	/**
+	 * Theme folders live under public/; verify via theme style.css, not directory path alone.
+	 */
+	private static function themeDirectoryExists(string $themePath): bool
+	{
+		$stylePath = \App\Core\Loader::resolveNameToPath('~' . $themePath . '/style.css', 'css');
+
+		return is_file($stylePath);
 	}
 
 	/**

@@ -1,0 +1,3 @@
+# FreeCRM scheduler — runs all active vtiger_cron_task jobs (MINIMUM_CRON_FREQUENCY = 1 min).
+# Per-task intervals are enforced inside CronRunner.
+* * * * * flock -n /var/www/html/cache/cron.lock php /var/www/html/cron/vtigercron.php >> /var/www/html/cache/logs/cron.log 2>&1

@@ -12,7 +12,7 @@ class StyleAsset extends BaseAsset
 	 */
 	public function getHref()
 	{
-		return $this->get('href');
+		return $this->get('href') ?? $this->get('linkurl');
 	}
 
 	/**

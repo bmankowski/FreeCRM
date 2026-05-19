@@ -29,7 +29,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('ROLES_CONTAIN_MENU', $rolesContainMenu);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('ROLEID', $roleId);
-		$data = $settingsModel->getAll(filter_var($roleId, FILTER_SANITIZE_NUMBER_INT));
+		$data = $settingsModel->getAll(\App\Modules\Settings\Menu\Models\Record::normalizeRoleId($roleId));
 		$viewer->assign('DATA', $data);
 		$viewer->assign('LASTID', \App\Modules\Settings\Menu\Models\Module::getLastId());
 		

@@ -17,6 +17,23 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 {
 
 	/**
+	 * Normalize vtiger role id (e.g. H38) to numeric id stored in yetiforce_menu.role.
+	 *
+	 * @param int|string|null $roleId
+	 * @return int
+	 */
+	public static function normalizeRoleId($roleId)
+	{
+		if ($roleId === null || $roleId === '' || $roleId === false) {
+			return 0;
+		}
+		if (is_string($roleId) && strncmp($roleId, 'H', 1) === 0) {
+			return (int) substr($roleId, 1);
+		}
+		return (int) $roleId;
+	}
+
+	/**
 	 * Function to get Id of this record instance
 	 * @return <Integer> Id
 	 */
@@ -104,7 +121,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 				}
 				$sqlCol .= $key . ',';
 				switch ($key) {
-					case 'role': $role = $item = filter_var($item, FILTER_SANITIZE_NUMBER_INT);
+					case 'role': $role = $item = self::normalizeRoleId($item);
 						break;
 					case 'type': $item = $settingsModel->getMenuTypeKey($item);
 						break;
@@ -121,7 +138,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			}
 			$db->createCommand()->insert('yetiforce_menu', $insertParams)->execute();
 		}
-		$this->generateFileMenu($this->get('role'));
+		$this->generateFileMenu(isset($role) ? $role : self::normalizeRoleId($this->get('role')));
 	}
 
 	public function saveSequence($data, $generate = false)
@@ -211,7 +228,16 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	public function generateFileMenu($roleId)
 	{
-		$roleId = filter_var($roleId, FILTER_SANITIZE_NUMBER_INT);
+		try {
+			$this->generateFileMenuInternal($roleId);
+		} catch (\Throwable $e) {
+			\App\Log\Log::error('Menu: generateFileMenu failed for role ' . $roleId . ': ' . $e->getMessage());
+		}
+	}
+
+	protected function generateFileMenuInternal($roleId)
+	{
+		$roleId = self::normalizeRoleId($roleId);
 		$menu = $this->getChildMenu($roleId, 0);
 		$content = '<?php' . PHP_EOL . '$menus = [';
 		foreach ($menu as $item) {
@@ -227,7 +253,14 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		}
 		$content .= '];';
 		$file = ROOT_DIRECTORY . '/user_privileges/menu_' . $roleId . '.php';
-		file_put_contents($file, $content);
+		$dir = dirname($file);
+		if (!is_dir($dir) && !@mkdir($dir, 0755, true) && !is_dir($dir)) {
+			\App\Log\Log::error('Menu: cannot create directory ' . $dir);
+			return;
+		}
+		if (@file_put_contents($file, $content) === false) {
+			\App\Log\Log::error('Menu: cannot write file ' . $file);
+		}
 	}
 
 	public function createContentMenu($menu)
@@ -293,9 +326,10 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		$allRoles = \App\Modules\Settings\Roles\Models\Record::getAll();
 		$this->generateFileMenu(0);
 		foreach ($allRoles as $role) {
-			$roleId = str_replace('H', '', $role->getId());
-			if (file_exists('user_privileges/menu_' . $roleId . '.php'))
+			$roleId = self::normalizeRoleId($role->getId());
+			if (file_exists(ROOT_DIRECTORY . '/user_privileges/menu_' . $roleId . '.php')) {
 				$this->generateFileMenu($roleId);
+			}
 		}
 	}
 
@@ -310,7 +344,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		$menu = [];
 		$counter = 0;
 		foreach ($allRoles as $roleId => $value) {
-			$hasMenu = $this->getAll(filter_var($roleId, FILTER_SANITIZE_NUMBER_INT));
+			$hasMenu = $this->getAll(self::normalizeRoleId($roleId));
 			if ($hasMenu) {
 				$menu[$counter]['roleName'] = $allRoles[$roleId]->get('rolename');
 				$menu[$counter]['roleId'] = $roleId;
@@ -327,6 +361,8 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public function copyMenu($fromRole, $toRole)
 	{
+		$fromRole = self::normalizeRoleId($fromRole);
+		$toRole = self::normalizeRoleId($toRole);
 		$db = \App\Db\Db::getInstance();
 		$nextId = $db->getUniqueID('yetiforce_menu', 'id', false);
 
@@ -335,6 +371,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		$rows = $dataReader->readAll();
 
 		if ($rows) {
+			$oldAndNewIds = [];
 			foreach ($rows as &$row) {
 				$oldAndNewIds[$row['id']] = $nextId;
 				$nextId += 1;
@@ -347,6 +384,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 				}
 
 				$params = [
+					'id' => $oldAndNewIds[$row['id']],
 					'role' => $toRole,
 					'parentid' => $parentId,
 					'type' => $row['type'],

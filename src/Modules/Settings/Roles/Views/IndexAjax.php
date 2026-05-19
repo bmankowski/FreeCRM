@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\Roles\Views;
-use App\Modules\Settings\RolesViews\Index;
 
 
 /* +**********************************************************************************

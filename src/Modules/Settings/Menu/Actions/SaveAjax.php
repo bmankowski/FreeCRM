@@ -87,8 +87,8 @@ class SaveAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 	 */
 	public function copyMenu(\App\Http\Vtiger_Request $request)
 	{
-		$fromRole = filter_var($request->get('fromRole'), FILTER_SANITIZE_NUMBER_INT);
-		$toRole = filter_var($request->get('toRole'), FILTER_SANITIZE_NUMBER_INT);
+		$fromRole = \App\Modules\Settings\Menu\Models\Record::normalizeRoleId($request->get('fromRole'));
+		$toRole = \App\Modules\Settings\Menu\Models\Record::normalizeRoleId($request->get('toRole'));
 		$recordModel = \App\Modules\Settings\Menu\Models\Record::getCleanInstance();
 		$recordModel->copyMenu($fromRole, $toRole);
 		$response = new \App\Http\Vtiger_Response();

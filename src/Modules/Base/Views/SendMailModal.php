@@ -10,7 +10,7 @@ namespace App\Modules\Base\Views;
  */
 
 use App\Http\Vtiger_Request;
-class SendMailModal  extends \App\Modules\Base\Views\Index
+class SendMailModal extends BasicModal
 {
 
 	public $fields = [];

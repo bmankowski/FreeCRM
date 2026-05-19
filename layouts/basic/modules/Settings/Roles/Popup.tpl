@@ -11,6 +11,9 @@
 -->*}
 {strip}
 <!-- layouts/basic/modules/Settings/Roles/Popup.tpl -->
+{extends file='PopupLayout.tpl'|@vtemplate_path}
+
+{block name="content"}
 <div id="popupPageContainer" class="popupContainer" style="min-height: 600px">
 	<div class="popupContainer padding1per">
 		<div class="row">
@@ -26,7 +29,11 @@
 				<li data-role="{$ROOT_ROLE->getParentRoleString()}" data-roleid="{$ROOT_ROLE->getId()}">
 					<div class="toolbar-handle">
 						<div>
-							<a href="javascript:;" class="btn btn-default">{$ROOT_ROLE->getName()}</a>
+							{if $TYPE == 'Transfer'}
+								<a href="javascript:;" class="btn btn-default roleEle">{$ROOT_ROLE->getName()|t:$QUALIFIED_MODULE}</a>
+							{else}
+								<a href="javascript:;" class="btn btn-default">{$ROOT_ROLE->getName()|t:$QUALIFIED_MODULE}</a>
+							{/if}
 						</div>
 					</div>
 					{assign var="ROLE" value=$ROOT_ROLE}
@@ -36,11 +43,6 @@
 		</div>
 	</div>
 </div>
-
-<script type="text/javascript">
-	jQuery('body').ready(function(){
-		Settings_Roles_Js.initPopupView()
-	});
-</script>
+{/block}
 <!--/layouts/basic/modules/Settings/Roles/Popup.tpl -->
 {/strip}

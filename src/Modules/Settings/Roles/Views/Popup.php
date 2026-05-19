@@ -41,15 +41,15 @@ class Popup extends \App\Modules\Base\Views\Basic
 		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('TYPE', $request->get('type'));
 		$viewer->assign('MODULE_NAME', $moduleName);
+		$viewer->assign('TRIGGER_EVENT_NAME', $request->get('triggerEventName'));
+		$viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
 
 		$viewer->view('Popup.tpl', $qualifiedModuleName);
 	}
 
 	public function postProcess(\App\Http\Vtiger_Request $request)
 	{
-		$viewer = $this->getViewer($request);
-		$viewer->assign('FOOTER_SCRIPTS', $this->getFooterScripts($request));
-		// PopupLayout.tpl or MainLayout.tpl handles footer rendering including scripts
+		return;
 	}
 
 	/**
@@ -63,9 +63,8 @@ class Popup extends \App\Modules\Base\Views\Basic
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(
-			'modules.Settings.Vtiger.resources.Popup',
-			"modules.Settings.$moduleName.resources.Popup",
-			"modules.Settings.$moduleName.resources.$moduleName",
+			'modules.Base.resources.Popup',
+			"modules.Settings.$moduleName.resources.Roles",
 			'libraries.jquery.jquery_windowmsg',
 		);
 

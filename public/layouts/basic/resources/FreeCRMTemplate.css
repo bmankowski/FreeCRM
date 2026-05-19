@@ -5,7 +5,6 @@
  * document and mail templates. Keep selectors simple so they can be inlined
  * for email clients.
  */
- /* 
 .fc-doc,
 .fc-doc * {
 	box-sizing: border-box;
@@ -233,16 +232,16 @@ th,
 td,
 .table th,
 .table td {
-	border: 1px solid #d7dee8;
+	border: 0;
 	padding: 9px 10px;
 	vertical-align: top;
 }
-table[border] th,
-table[border] td,
-table[cellpadding] th,
-table[cellpadding] td,
-table[cellspacing] th,
-table[cellspacing] td {
+table[border]:not([border="0"]) th,
+table[border]:not([border="0"]) td,
+table[cellpadding]:not([border="0"]) th,
+table[cellpadding]:not([border="0"]) td,
+table[cellspacing]:not([border="0"]) th,
+table[cellspacing]:not([border="0"]) td {
 	border: 1px solid #d7dee8;
 	padding: 9px 10px;
 }
@@ -332,4 +331,4 @@ tbody tr:nth-child(even) {
 }
 img {
 	max-width: 100%;
-} */
+}

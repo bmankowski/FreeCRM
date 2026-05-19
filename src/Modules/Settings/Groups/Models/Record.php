@@ -19,6 +19,8 @@ namespace App\Modules\Settings\Groups\Models;
  */
 class Record extends \App\Modules\Settings\Base\Models\Record
 {
+	protected $members;
+	protected $modules;
 
 	/**
 	 * Function to get the Id
@@ -180,6 +182,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			}
 		}
 		$modules = $this->get('modules');
+		$removed = $add = [];
 		if (is_array($modules)) {
 			$oldModules = array_flip($this->getModules());
 			$removed = array_diff($oldModules, $modules);
@@ -333,7 +336,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 		$this->transferOwnership($transferToGroup);
 
-		deleteGroupRelatedSharingRules($groupId);
+		\App\Modules\Settings\SharingAccess\Models\Rule::deleteGroupRelatedSharingRules($groupId);
 
 		$db->createCommand()->delete('vtiger_group2grouprel', ['groupid' => $groupId])->execute();
 		$db->createCommand()->delete('vtiger_group2role', ['groupid' => $groupId])->execute();
@@ -396,7 +399,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public static function getInstance($value)
 	{
-		if (vtlib\Utils::isNumber($value)) {
+		if (\vtlib\Utils::isNumber($value)) {
 			$dataReader = (new \App\Db\Query())->from('vtiger_groups')->where(['groupid' => $value])->createCommand()->query();
 		} else {
 			$dataReader = (new \App\Db\Query())->from('vtiger_groups')->where(['groupname' => $value])->createCommand()->query();

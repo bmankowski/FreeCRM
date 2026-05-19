@@ -45,4 +45,26 @@ class ListView extends \App\Modules\Base\Models\ListView {
 
         return $advancedLinks;
     }
+
+	/**
+	 * @inheritdoc
+	 */
+	public function getListViewMassActions($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)
+	{
+		$links = parent::getListViewMassActions($linkParams, $currentUser);
+		$moduleModel = $this->getModule();
+		$massActionLinks = [];
+		if ($moduleModel->isPermitted('MassComposeEmail') && \App\Core\AppConfig::main('isActiveSendingMails') && \App\Email\Mail::getDefaultSmtp()) {
+			$massActionLinks[] = [
+				'linktype' => 'LISTVIEWMASSACTION',
+				'linklabel' => 'LBL_MASS_SEND_EMAIL',
+				'linkurl' => 'javascript:Vtiger_ListView_Js.triggerSendEmail();',
+				'linkicon' => '',
+			];
+		}
+		foreach ($massActionLinks as $massActionLink) {
+			$links['LISTVIEWMASSACTION'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($massActionLink);
+		}
+		return $links;
+	}
 }

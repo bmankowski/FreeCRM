@@ -435,7 +435,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		}
 
 		$db->pquery('DELETE FROM vtiger_profile WHERE profileid=?', array($profileId));
-		vtlib\Access::syncSharingAccess();
+		\App\Modules\Users\Services\PrivilegeFileManager::RecalculateSharingRules();
 	}
 
 	public function save($request = null)

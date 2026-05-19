@@ -42,6 +42,29 @@ services:
       - db
     restart: unless-stopped
 
+  cron:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    user: "33:33" # www-data — same as web for cache/storage writes
+    environment:
+      FREECRM_DB_HOST: db
+      FREECRM_DB_PORT: "3306"
+      FREECRM_DB_NAME: freecrm
+      FREECRM_DB_USER: freecrm
+      FREECRM_DB_PASSWORD: freecrm
+      FREECRM_SITE_URL: "http://localhost/"
+      YII_DEBUG: "0"
+    volumes:
+      - ./:/var/www/html
+      - ./docker/cron/crontab:/etc/freecrm-cron:ro
+    depends_on:
+      db:
+        condition: service_healthy
+    entrypoint: ["/usr/local/bin/supercronic"]
+    command: ["/etc/freecrm-cron"]
+    restart: unless-stopped
+
   db:
     image: mariadb:11.6
     ports:

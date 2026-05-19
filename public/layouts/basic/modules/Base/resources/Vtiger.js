@@ -103,6 +103,96 @@ var Vtiger_Index_Js = {
 		})
 		return aDeferred.promise();
 	},
+	/**
+	 * Open SendMailModal and queue template-based emails (detail, list, related list).
+	 * @param {Object} params module, selectedIds, excludedIds?, cvid?, sourceModule?, sourceRecord?, listParams?, extra?
+	 */
+	triggerSendEmailModal: function (params) {
+		params = params || {};
+		var postData = {
+			module: params.module || app.getModuleName(),
+			view: 'SendMailModal'
+		};
+		if (params.selectedIds !== undefined) {
+			postData.selected_ids = typeof params.selectedIds === 'object'
+				? JSON.stringify(params.selectedIds)
+				: params.selectedIds;
+		}
+		if (params.excludedIds !== undefined) {
+			postData.excluded_ids = params.excludedIds;
+		}
+		if (params.cvid !== undefined) {
+			postData.cvid = params.cvid;
+		}
+		if (params.sourceModule) {
+			postData.sourceModule = params.sourceModule;
+		}
+		if (params.sourceRecord) {
+			postData.sourceRecord = params.sourceRecord;
+		}
+		if (params.listParams) {
+			jQuery.extend(postData, params.listParams);
+		}
+		if (params.extra) {
+			jQuery.extend(postData, params.extra);
+		}
+		var progressIndicator = jQuery.progressIndicator({
+			message: app.vtranslate('JS_LOADING_PLEASE_WAIT'),
+			position: 'html',
+			blockInfo: {enabled: true}
+		});
+		AppConnector.request(postData).then(function (response) {
+			progressIndicator.progressIndicator({mode: 'hide'});
+			if (!response || (typeof response === 'string' && response.trim() === '')) {
+				return;
+			}
+			app.showModalWindow(response, function (modalContainer) {
+				modalContainer.find('[name="saveButton"]').click(function (e) {
+					if (modalContainer.find('form').validationEngine('validate')) {
+						var sendData = jQuery.extend({}, postData, {
+							field: modalContainer.find('#field').val(),
+							template: modalContainer.find('#template').val(),
+							action: 'Mail',
+							mode: 'sendMails',
+						});
+						delete sendData.view;
+						AppConnector.request(sendData).then(function (response) {
+							if (response.result == true) {
+								app.hideModalWindow();
+							}
+						}, function (data, err) {
+							app.hideModalWindow();
+							app.errorLog(data, err);
+						});
+					}
+				});
+			});
+		}, function (data, err) {
+			progressIndicator.progressIndicator({mode: 'hide'});
+			app.errorLog(data, err);
+		});
+	},
+	registerSendEmailModalButtons: function (container) {
+		var target = container && container.length ? container : jQuery(document);
+		target.off('click.sendEmailModal', '.js-send-email-modal');
+		target.on('click.sendEmailModal', '.js-send-email-modal', function (e) {
+			e.preventDefault();
+			e.stopPropagation();
+			var btn = jQuery(this);
+			var recordId = parseInt(btn.data('recordId') || btn.data('record-id') || app.getRecordId(), 10);
+			var params = {
+				module: btn.data('moduleName') || btn.data('module-name') || app.getModuleName(),
+				selectedIds: [recordId]
+			};
+			if (btn.data('sourceModule') || btn.data('source-module')) {
+				params.sourceModule = btn.data('sourceModule') || btn.data('source-module');
+			}
+			if (btn.data('sourceRecord') || btn.data('source-record')) {
+				params.sourceRecord = parseInt(btn.data('sourceRecord') || btn.data('source-record'), 10);
+			}
+			Vtiger_Index_Js.triggerSendEmailModal(params);
+		});
+	},
 	registerMailButtons: function (container) {
 		var thisInstance = this;
 		container.find('.sendMailBtn:not(.mailBtnActive)').each(function (e) {
@@ -669,6 +759,7 @@ var Vtiger_Index_Js = {
 	registerPostAjaxEvents: function () {
 		Vtiger_Index_Js.registerTooltipEvents();
 		Vtiger_Index_Js.registerRelatedListLeftSideTools();
+		Vtiger_Index_Js.registerSendEmailModalButtons();
 	}
 }
 //On Page Load

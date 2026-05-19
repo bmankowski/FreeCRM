@@ -14,7 +14,7 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 			record: app.getRecordId(),
 			view: 'VariablePanel',
 			type: 'mail',
-			selectedModule: form.find('[name="module_name"]').val()
+			selectedModule: form.find('[name="module"]').val()
 		}).then(function (response) {
 			panel.html(response);
 			thisInstance.afterLoadVariablePanel(panel);
@@ -22,8 +22,74 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 			panel.progressIndicator({mode: 'hide'});
 		});
 	},
-	afterLoadVariablePanel: function (html) {
-		app.showSelect2ElementView(html.find('select.select2'));
+	afterLoadVariablePanel: function (panel) {
+		var form = this.getForm();
+		app.showSelect2ElementView(panel.find('select.select2'));
+		this.registerDynamicElementEvents(form, panel);
+		app.registerCopyClipboard('#variablePanel .clipboard');
+	},
+	getDynamicElements: function (form) {
+		var data = form.find('#variablePanel .js-dynamic-elements-json').val() || '[]';
+		try {
+			return JSON.parse(data);
+		} catch (e) {
+			app.errorLog(e);
+			return [];
+		}
+	},
+	getDynamicElementContent: function (form, code) {
+		var content = '';
+		jQuery.each(this.getDynamicElements(form), function (index, element) {
+			if (element.code === code) {
+				if (element.type === 'PLL_DOCUMENT_LAYOUT') {
+					content = element.layout_body || '';
+				} else {
+					content = element.content || '';
+				}
+				return false;
+			}
+		});
+		return content;
+	},
+	expandDynamicElements: function (form, html) {
+		var thisInstance = this;
+		var expanded = html || '';
+		for (var i = 0; i < 10; i++) {
+			var changed = false;
+			expanded = expanded.replace(/\$\(dynamic : ([a-zA-Z0-9_]+)\)\$/g, function (match, code) {
+				var content = thisInstance.getDynamicElementContent(form, code);
+				if (content === '') {
+					return '';
+				}
+				changed = true;
+				return content;
+			});
+			if (!changed) {
+				break;
+			}
+		}
+		return expanded;
+	},
+	insertDynamicElement: function (form, code) {
+		if (!code) {
+			return;
+		}
+		this.insertContentValue(form, '\n$(dynamic : ' + code + ')$\n');
+		this.formatHtmlEditor(form);
+	},
+	registerDynamicElementEvents: function (form, panel) {
+		var thisInstance = this;
+		var scope = panel || form.find('#variablePanel');
+		scope.off('change.templateDynamicAliasVariable').on('change.templateDynamicAliasVariable', '#templateDynamicAliasVariable', function () {
+			var select = jQuery(this);
+			var code = select.val();
+			if (!code) {
+				return;
+			}
+			thisInstance.insertDynamicElement(form, code);
+			var firstCode = select.find('option').first().val();
+			select.val(firstCode).trigger('change.select2');
+		});
 	},
 	registerVariablePanelEvent: function (form) {
 		var thisInstance = this;
@@ -32,7 +98,7 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 		}
 		form.find('.blockContainer[data-label="LBL_CONTENT_MAIL"] .blockContent').prepend('<div id="variablePanel" class="col-md-12 paddingLRZero borderBottom bc-gray-lighter"></div>');
 		thisInstance.loadVariablePanel(form);
-		form.find('[name="module_name"]').on('change', function (e) {
+		form.find('[name="module"]').on('change', function (e) {
 			thisInstance.loadVariablePanel(form);
 		});
 	},
@@ -196,7 +262,7 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 		var documentHtml = '<!doctype html><html><head><meta charset="utf-8"><base href="/">' +
 			'<link rel="stylesheet" href="/layouts/basic/resources/FreeCRMTemplate.css?v=docDefaults2">' +
 			'<style>body{font-family:Arial,sans-serif;font-size:12px;padding:24px;color:#222;}table{max-width:100%;}img{max-width:100%;}</style>' +
-			'</head><body>' + this.getContentValue(form) + '</body></html>';
+			'</head><body>' + this.expandDynamicElements(form, this.getContentValue(form)) + '</body></html>';
 		previewContainer.removeClass('hide');
 		if ('srcdoc' in previewFrame) {
 			previewFrame.srcdoc = documentHtml;
@@ -239,6 +305,5 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 		this.registerTemplateToolbar(container);
 		this.registerCodeMirror(container);
 		this.registerTemplateToolbarEvents(container);
-		app.registerCopyClipboard();
-	}
+	},
 });

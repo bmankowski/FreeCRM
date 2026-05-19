@@ -14,7 +14,7 @@ FreeCRM - Customer Relationship Management System
 	{block name="content"}
 		<div class="mainContainer">
 			<div class="contentsDiv">
-				{include file='EditView.tpl'|@vtemplate_path:'Users'}
+				{include file='EditViewContent.tpl'|@vtemplate_path:'Users'}
 			</div> <!-- close contentsDiv -->
 		</div> <!-- close mainContainer -->
 	{/block}

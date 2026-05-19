@@ -1,6 +1,7 @@
 FROM php:8.3-fpm-bookworm
 
 ARG DEBIAN_FRONTEND=noninteractive
+ARG SUPERCRONIC_VERSION=0.2.33
 
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
@@ -37,6 +38,11 @@ RUN apt-get update \
     xml \
     zip \
   && rm -rf /var/lib/apt/lists/*
+
+# Cron runner for the dedicated `cron` compose service (supercronic)
+RUN curl -fsSL "https://github.com/aptible/supercronic/releases/download/v${SUPERCRONIC_VERSION}/supercronic-linux-amd64" \
+  -o /usr/local/bin/supercronic \
+  && chmod +x /usr/local/bin/supercronic
 
 COPY docker/php/entrypoint.sh /usr/local/bin/freecrm-entrypoint
 RUN chmod +x /usr/local/bin/freecrm-entrypoint

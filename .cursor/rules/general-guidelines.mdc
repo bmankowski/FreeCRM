@@ -32,6 +32,7 @@ alwaysApply: true
 ## Migrated Docker Server
 - FreeCRM is deployed on `local.itconnect.pl` in `/opt/freecrm` and is available at `http://local.itconnect.pl/`.
 - Connect as `bmankowski@local.itconnect.pl`; manage the stack with `docker compose` from `/opt/freecrm`.
-- Services are `web`, `app`, and `db`; MariaDB is bound to `127.0.0.1:3306` on the server.
+- Services are `web`, `app`, `cron`, and `db`; MariaDB is bound to `127.0.0.1:3306` on the server.
+- Background jobs: `docker compose up -d cron` runs `cron/vtigercron.php` every minute via supercronic (log: `cache/logs/cron.log`). No host crontab required.
 - Runtime data lives in `/opt/freecrm/storage`; it was copied from production `10.0.0.220:/var/www/yetiforce/storage`.
 - Migration backups are kept in `/opt/freecrm/_migration`, with local rollback dump under `tmp/migration-20260511-134258/`.

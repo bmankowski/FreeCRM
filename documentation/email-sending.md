@@ -408,3 +408,187 @@ Key strengths:
 - Security features
 
 The system is designed to handle both low-volume and high-volume email operations while maintaining deliverability and user experience standards.
+
+---
+
+# Stage 1 plan — native compose without Roundcube
+
+Goal: when a user clicks the envelope on a Lead (or any other detail view), open a **native CRM modal** with a compose form instead of redirecting to Roundcube. Keep Roundcube available as a fallback for full‑mailbox use (folders, drafts, mass reading).
+
+## Why this is feasible cheaply
+
+All heavy lifting already exists in FreeCRM. Stage 1 is mostly a **thin UI layer** over the existing `App\Email\Mailer`, plus a new persistence hook into `OSSMailView` so the sent message becomes a CRM record like any IMAP‑scanned one.
+
+| Need | Already implemented in | Reuse as‑is? |
+|------|------------------------|--------------|
+| Queue a mail | `App\Email\Mailer::addMail()` (`src/Email/Mailer.php`) | yes |
+| Send from template + parsed variables | `App\Email\Mailer::sendFromTemplate()` (`src/Email/Mailer.php`) | yes |
+| List SMTP servers / pick "from" | `App\Email\Mail::getAll()`, `getDefaultSmtp()` (`src/Email/Mail.php`) | yes |
+| List email templates per module | `App\Email\Mail::getTempleteList($moduleName)` | yes |
+| Variable substitution (record fields) | `App\TextParser\TextParser::getInstanceByModel()` | yes |
+| Resolve "to" e‑mail from a record | `OSSMailView\Models\Record::findEmail($id, $module)` | yes |
+| Build subject `[RECORDNO] Name` | `OSSMail\Models\Module::getComposeParam()` (`src/Modules/OSSMail/Models/Module.php`) | yes |
+| Persist a mail in CRM (Sent, with attachments, relations) | `OSSMailView` module, `scanneractions/CreatedEmail` | yes (call from action) |
+| Actually transmit the queued mail | `cron/Mailer.php` (`MailerTask` cron) | yes |
+
+What's missing is **only the compose modal itself**, the action that ingests its POST, and the swap of the existing `sendMailBtn` URL/handler.
+
+## Files that change (minimal set)
+
+### New files
+
+| File | Purpose |
+|------|---------|
+| `src/Modules/OSSMail/Views/ComposeModal.php` | Modal view (`module=OSSMail&view=ComposeModal`); prefills the form using existing `Module::getComposeParam($request)` plus template/SMTP lists |
+| `src/Modules/OSSMail/Actions/SaveCompose.php` | POST endpoint (`module=OSSMail&action=SaveCompose`); validates, calls `Mailer::addMail()` or `Mailer::sendFromTemplate()`, then persists to `vtiger_ossmailview` with `verify=1` |
+| `layouts/basic/modules/OSSMail/ComposeModal.tpl` | Markup: From (SMTP select), To/Cc/Bcc, Subject, Template select, WYSIWYG body, attachments, hidden `crmModule`/`crmRecord` |
+| `public/layouts/basic/modules/OSSMail/resources/ComposeModal.js` | Modal init, attachment upload, submit via `AppConnector`, success toast |
+| `config/modules/Mail.php` — add key `USE_NATIVE_COMPOSE` | Feature flag; falls back to Roundcube `view=compose` when `false` |
+
+### Files to modify (small, surgical edits)
+
+| File | Change |
+|------|--------|
+| `src/Modules/OSSMail/Models/Module.php` | Add `getNativeComposeUrl(...)` (parallel to `getComposeUrl`) emitting `view=ComposeModal`. Keep `getComposeParam` untouched — `ComposeModal` view consumes it directly. |
+| `src/Modules/Base/UiTypes/Email.php` | In `getDisplayValue()`, when `USE_NATIVE_COMPOSE` is on, emit `data-url` pointing at `getNativeComposeUrl()` and `data-popup="0"`. No other logic changes — `sendMailBtn` JS handles modal vs popup uniformly. |
+| `layouts/basic/modules/Base/widgets/EmailList.tpl` | Same swap of URL builder for the envelope button on EmailList widget. |
+| `src/Modules/OSSMailView/Models/DetailView.php` | Reply/ReplyAll/Forward links (lines 25–48) point to native modal with `type=reply|replyAll|forward`; modal pre‑fills quoted body using existing `getExternalUrlForWidget()` body composition extracted into a helper. |
+| `public/layouts/basic/modules/Base/resources/Vtiger.js` (`sendMailWindow`) | When URL points at `view=ComposeModal`, open it as Bootstrap modal via `app.showModalWindow(...)` instead of `window.open(...)`. One `if` branch, ~6 lines. |
+
+### Files that stay 100% unchanged
+
+- `src/Email/Mailer.php`, `src/Email/Mail.php` — full reuse.
+- `cron/Mailer.php` (`MailerTask`) — picks up `s_#__mail_queue` exactly like today.
+- `src/Modules/OSSMailScanner/scanneractions/*` — still binds the sent copy thanks to `verify=1`.
+- Roundcube: `src/Modules/OSSMail/Views/compose.php` and `index.php` stay (fallback + full mailbox).
+
+## Data flow
+
+```
+[Lead detail / envelope click]
+        │ data-url = index.php?module=OSSMail&view=ComposeModal&crmModule=Leads&crmRecord=123&type=new
+        ▼
+[ComposeModal::process]
+   ├─ getComposeParam($request)            ── from src/Modules/OSSMail/Models/Module.php
+   │    → to, subject "[LEAD123] Acme", from (SEND_IDENTITY per role)
+   ├─ Mail::getAll()                        ── SMTP list
+   ├─ Mail::getTempleteList($moduleName)    ── templates for module
+   └─ render ComposeModal.tpl in #globalModal
+        ▼
+[user fills form / picks template / attaches files]
+        ▼
+[POST → SaveCompose::process]
+   ├─ if template chosen:
+   │     Mailer::sendFromTemplate([...])    ── parser + queue insert
+   │ else:
+   │     Mailer::addMail([
+   │       'smtp_id'  => ...,
+   │       'from'     => {email,name},
+   │       'to/cc/bcc'=> [...],
+   │       'subject'  => '[LEAD123] ...',
+   │       'content'  => $body,
+   │       'attachments' => [path => name, 'ids' => [docIds]],
+   │     ])
+   │
+   └─ persist a copy to vtiger_ossmailview (Sent, type=0, verify=1)
+       so MailScannerBindTask wires it back to Lead 123
+        ▼
+[cron MailerTask] → PHPMailer → SMTP server
+```
+
+## Subject prefix MUST be preserved
+
+`OSSMailScanner` uses the `[RECORDNUMBER]` prefix in the subject to wire incoming replies back to records (`BindHelpDesk`, `BindSSalesProcesses`, `BindCampaigns`, `BindProject`). `getComposeParam()` already builds it:
+
+```84:89:src/Modules/OSSMail/Models/Module.php
+			$recordNumber = $recordModel->getRecordNumber();
+			if (!empty($recordNumber)) {
+				$return['recordNumber'] = $recordNumber;
+				$subject = "[$recordNumber] $subject";
+			}
+```
+
+Native compose must call the same builder and not let the user delete the prefix accidentally — render it as a read‑only badge before the editable subject input, or re‑inject it server‑side on submit if missing.
+
+## Persisting the Sent copy (key trick)
+
+The cheapest way to keep parity with current Roundcube + scanner behaviour is to write the sent message into `vtiger_ossmailview` exactly the way `scanneractions/CreatedEmail` does for incoming mail, then set `verify = 1`. The existing **`MailScannerBindTask`** cron then auto‑wires the OSSMailView row to the source record on the next tick:
+
+```23:30:src/Modules/OSSMailScanner/Cron/MailScannerBindTask.php
+		$result = $db->query("SELECT vtiger_ossmailview.*,roundcube_users.actions FROM vtiger_ossmailview INNER JOIN roundcube_users ON roundcube_users.user_id = vtiger_ossmailview.rc_user WHERE vtiger_ossmailview.verify = 1");
+		while ($row = $db->getRow($result)) {
+			$scanerModel->bindMail($row);
+```
+
+For an immediate (non‑deferred) link, `SaveCompose` can additionally call `OSSMailView_Relation_Model::addRelation($mailId, $crmrecord, $date)` right after insert. Both approaches reuse code, no new binding logic.
+
+Fields to populate on insert (`vtiger_ossmailview`):
+
+| Column | Value |
+|--------|-------|
+| `type` | `0` (Sent) |
+| `ossmailview_sendtype` | `'Sent'` |
+| `from_email` | resolved SMTP from |
+| `to_email`, `cc_email`, `bcc_email` | submitted addresses |
+| `subject`, `content` | submitted, after `TemplateStyles::inlineEmailCss` |
+| `uid` | generated `Message-ID` (also passed to PHPMailer via `MessageID`) |
+| `mbox` | `'Sent'` (synthetic; non‑IMAP) |
+| `rc_user` | user's `roundcube_users.user_id` if exists, else `0` |
+| `attachments_exist` | `1` if any |
+| `verify` | `1` → MailScannerBind will resolve relations |
+
+## Template flow stays compatible
+
+If the user picks a template in the modal, just delegate to the existing `Mailer::sendFromTemplate()`. It already does variable substitution against the record model, attaches template attachments, and inserts into `s_#__mail_queue`:
+
+```86:121:src/Email/Mailer.php
+	public static function sendFromTemplate($params)
+	{
+		// ... parses template with TextParser::getInstanceByModel($recordModel) ...
+		static::addMail(array_intersect_key($params, array_flip(static::$quoteColumn)));
+		return true;
+	}
+```
+
+Native compose only needs to forward `template`, `moduleName`, `recordId`, plus user overrides (`subject`, `content` if edited). No new code path.
+
+## Feature flag and rollout
+
+Add to `config/modules/Mail.php`:
+
+```php
+$CONFIG['USE_NATIVE_COMPOSE'] = true; // false → fall back to Roundcube compose
+```
+
+Rollout order (safe — each step shippable independently):
+
+1. Land `ComposeModal` view/action/template + `SaveCompose` writing to queue and `vtiger_ossmailview`. **Flag off** by default.
+2. Switch UI helpers (`UiTypes/Email`, `EmailList.tpl`, `OSSMailView/DetailView`) to call `getNativeComposeUrl()` when flag is on; otherwise keep `getComposeUrl()`. No behaviour change with the flag off.
+3. Internal dogfood: turn flag on for admins; verify queue, `vtiger_ossmailview` row, subject prefix, scanner bind.
+4. Flip default to `true`. Roundcube `view=compose` remains reachable from "Moja skrzynka" for power users.
+
+## What this does NOT solve in Stage 1
+
+- **Full mailbox UI** (folders, drafts, search across IMAP). Still Roundcube. That's Stage 3.
+- **Live IMAP thread view per record**. `OSSMailView` widget shows scanned mail; the new sent copy will appear there too once `MailScannerBindTask` runs. A "Reply in thread" UX that re‑opens the modal with quoted body already works via the existing `OSSMailView/DetailView` reply links — they just point to the new modal instead of Roundcube.
+- **OAuth2 / XOAUTH2 for IMAP & SMTP** (Gmail / O365 enforcement). Independent track; addresses `PHPMailer` OAuth in `App\Email\Mailer::setSmtp()` and replaces `imap_open` in `OSSMailScanner` with `webklex/php-imap` or similar. Should be planned next regardless of compose UI.
+
+## Risks & mitigations
+
+| Risk | Mitigation |
+|------|-----------|
+| Users delete `[RECORDNO]` prefix in subject → broken thread binding | Render prefix as read‑only chip; re‑inject server‑side if missing |
+| Attachments uploaded but mail never sent (queue paused) → orphan files | Reuse existing `Mailer::sendByRowQueue()` cleanup of `cache/` paths (already deletes attachments after send); for failed sends, add nightly cleanup of orphaned `cache/upload/` files older than N days |
+| Templates expect record context that's missing in free compose | Always pass `crmModule`/`crmRecord` to `sendFromTemplate`; reject template selection when context is empty (UI hint) |
+| Concurrency: `SaveCompose` enqueues but cron `MailerTask` is paused → user thinks mail is sent | Show queue status badge in success toast: "Queued — will be sent within X minutes" (read `MAILER_REQUIRED_ACCEPTATION_BEFORE_SENDING`) |
+| Permission bypass | `SaveCompose::checkPermission` mirrors `SendMailModal::checkPermission` (module perm + record perm via `Privilege::isPermitted($sourceModule, 'DetailView', $sourceRecord)`) |
+| Roundcube identity vs SMTP from name | Use `s_#__mail_smtp.from_email/from_name` (already in `Mailer::setSmtp()`); per‑user override picked via `SEND_IDENTITY[roleid]` in module config — same as today |
+
+## Effort estimate
+
+- `ComposeModal` view + tpl + JS: ~1 day.
+- `SaveCompose` action incl. OSSMailView persistence: ~1 day.
+- Wiring in `UiTypes/Email`, `EmailList.tpl`, `OSSMailView/DetailView`, `Vtiger.js`: ~0.5 day.
+- Template + attachment integration, feature flag, end‑to‑end tests via Roundcube fallback: ~1 day.
+
+Total: **~3–4 dev‑days** to ship Stage 1 behind a flag, before any work on Stage 2 (native thread view) or removing Roundcube.

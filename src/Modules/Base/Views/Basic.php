@@ -305,8 +305,10 @@ abstract class Basic extends \App\Base\Controllers\BaseViewController
 
 		$headerCss = \App\Modules\Base\Models\Link::getAllByType(\vtlib\Link::IGNORE_MODULE, ['HEADERCSS']);
 		$selectedThemeCssPath = \App\Runtime\Vtiger_Theme::getThemeStyle();
-		$cssScriptModel = new \App\View\Assets\StyleAsset();
-		$headerCssInstances[] = $cssScriptModel->set('href', $selectedThemeCssPath);
+		if ($selectedThemeCssPath) {
+			$cssScriptModel = new \App\View\Assets\StyleAsset();
+			$headerCssInstances[] = $cssScriptModel->set('href', $selectedThemeCssPath);
+		}
 
 		foreach ($headerCss as $headerType => $cssLinks) {
 			foreach ($cssLinks as $cssLink) {

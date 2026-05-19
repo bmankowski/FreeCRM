@@ -54,40 +54,19 @@ jQuery.Class("Vtiger_ListView_Js", {
 		var listInstance = Vtiger_ListView_Js.getInstance();
 		var validationResult = listInstance.checkListRecordSelected();
 		if (validationResult != true) {
-			var selectedIds = listInstance.readSelectedIds(true);
-			var excludedIds = listInstance.readExcludedIds(true);
-			var postData = listInstance.getDefaultParams();
-			delete postData.parent;
-			postData.module = app.getModuleName();
-			postData.view = 'SendMailModal';
-			postData.selected_ids = selectedIds;
-			postData.excluded_ids = excludedIds;
-			postData.cvid = listInstance.getCurrentCvId();
+			var listParams = listInstance.getDefaultParams();
+			delete listParams.parent;
+			var modalParams = {
+				module: app.getModuleName(),
+				selectedIds: listInstance.readSelectedIds(true),
+				excludedIds: listInstance.readExcludedIds(true),
+				cvid: listInstance.getCurrentCvId(),
+				listParams: listParams
+			};
 			if (params) {
-				jQuery.extend(postData, params);
+				jQuery.extend(modalParams, params);
 			}
-			AppConnector.request(postData).then(function (response) {
-				app.showModalWindow(response, function (data) {
-					data.find('[name="saveButton"]').click(function (e) {
-						if (data.find('form').validationEngine('validate')) {
-							jQuery.extend(postData, {
-								field: data.find('#field').val(),
-								template: data.find('#template').val(),
-								action: 'Mail',
-								mode: 'sendMails',
-							});
-							delete postData.view;
-							AppConnector.request(postData).then(function (response) {
-								if (response.result == true) {
-									app.hideModalWindow();
-								}
-							}, function (data, err) {
-								app.hideModalWindow();
-							})
-						}
-					});
-				});
-			});
+			Vtiger_Index_Js.triggerSendEmailModal(modalParams);
 		} else {
 			listInstance.noRecordSelectedAlert();
 		}

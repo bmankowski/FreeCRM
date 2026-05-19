@@ -527,6 +527,85 @@ class Rule extends \App\Modules\Base\Models\Record
 	}
 
 	/**
+	 * Function to delete sharing rules related to a role
+	 * @param string $roleId Role Id
+	 */
+	public static function deleteRoleRelatedSharingRules($roleId)
+	{
+		\App\Log\Log::trace('Entering deleteRoleRelatedSharingRules(' . $roleId . ') method ...');
+
+		$adb = \App\Database\PearDatabase::getInstance();
+		$dataShareTableColArr = [
+			'vtiger_datashare_us2role' => 'to_roleid',
+			'vtiger_datashare_grp2role' => 'to_roleid',
+			'vtiger_datashare_role2group' => 'share_roleid',
+			'vtiger_datashare_role2us' => 'share_roleid',
+			'vtiger_datashare_role2role' => 'share_roleid::to_roleid',
+			'vtiger_datashare_role2rs' => 'share_roleid::to_roleandsubid',
+			'vtiger_datashare_rs2grp' => 'share_roleandsubid',
+			'vtiger_datashare_rs2us' => 'share_roleandsubid',
+			'vtiger_datashare_rs2role' => 'share_roleandsubid::to_roleid',
+			'vtiger_datashare_rs2rs' => 'share_roleandsubid::to_roleandsubid',
+		];
+
+		foreach ($dataShareTableColArr as $tablename => $colname) {
+			$colNameArr = explode('::', $colname);
+			$query = sprintf('SELECT shareid FROM %s WHERE %s = ?', $tablename, $colNameArr[0]);
+			$params = [$roleId];
+			if (count($colNameArr) > 1) {
+				$query .= ' OR ' . $colNameArr[1] . ' = ?';
+				$params[] = $roleId;
+			}
+
+			$result = $adb->pquery($query, $params);
+			$numRows = $adb->num_rows($result);
+			for ($i = 0; $i < $numRows; ++$i) {
+				$shareid = $adb->query_result($result, $i, 'shareid');
+				self::deleteSharingRule($shareid);
+			}
+		}
+		\App\Log\Log::trace('Exiting deleteRoleRelatedSharingRules method ...');
+	}
+
+	/**
+	 * Function to delete sharing rules related to a group
+	 * @param int $groupId Group Id
+	 */
+	public static function deleteGroupRelatedSharingRules($groupId)
+	{
+		\App\Log\Log::trace('Entering deleteGroupRelatedSharingRules(' . $groupId . ') method ...');
+
+		$adb = \App\Database\PearDatabase::getInstance();
+		$dataShareTableColArr = [
+			'vtiger_datashare_grp2grp' => 'share_groupid::to_groupid',
+			'vtiger_datashare_grp2us' => 'share_groupid',
+			'vtiger_datashare_grp2role' => 'share_groupid',
+			'vtiger_datashare_grp2rs' => 'share_groupid',
+			'vtiger_datashare_us2grp' => 'to_groupid',
+			'vtiger_datashare_role2group' => 'to_groupid',
+			'vtiger_datashare_rs2grp' => 'to_groupid',
+		];
+
+		foreach ($dataShareTableColArr as $tablename => $colname) {
+			$colNameArr = explode('::', $colname);
+			$query = sprintf('SELECT shareid FROM %s WHERE %s = ?', $tablename, $colNameArr[0]);
+			$params = [$groupId];
+			if (count($colNameArr) > 1) {
+				$query .= ' OR ' . $colNameArr[1] . ' = ?';
+				$params[] = $groupId;
+			}
+
+			$result = $adb->pquery($query, $params);
+			$numRows = $adb->num_rows($result);
+			for ($i = 0; $i < $numRows; ++$i) {
+				$shareid = $adb->query_result($result, $i, 'shareid');
+				self::deleteSharingRule($shareid);
+			}
+		}
+		\App\Log\Log::trace('Exiting deleteGroupRelatedSharingRules method ...');
+	}
+
+	/**
 	 * Function to get all the rules
 	 * @return array - Array of \App\Modules\Settings\Groups\Models\Record instances
 	 */

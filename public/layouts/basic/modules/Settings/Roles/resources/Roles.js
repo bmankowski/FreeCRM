@@ -39,11 +39,15 @@ var Settings_Roles_Js = {
 	},
 	
 	initPopupView: function() {
-		jQuery('.roleEle').click(function(e){
+		jQuery('.roleEle').on('click', function(e) {
+			e.preventDefault();
 			var target = $(e.currentTarget);
 			// jquery_windowmsg plugin expects second parameter to be string.
-			jQuery.triggerParentEvent('postSelection', JSON.stringify({value: target.closest('li').data('roleid'), label: target.text()}));
-			self.close();
+			jQuery.triggerParentEvent('postSelection', JSON.stringify({
+				value: target.closest('li').data('roleid'),
+				label: jQuery.trim(target.text())
+			}));
+			window.close();
 		});
 	},
 	
@@ -236,6 +240,10 @@ var Settings_Roles_Js = {
 	},
 	
 	registerEvents : function() {
+		if (jQuery('#popupPageContainer.popupContainer').length && jQuery('.roleEle').length) {
+			Settings_Roles_Js.initPopupView();
+			return;
+		}
 		Settings_Roles_Js.initEditView();
 		Settings_Roles_Js.registerSubmitEvent();
 	}

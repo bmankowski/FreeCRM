@@ -12,6 +12,10 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 	isSavingSequence: false,
 	loadMenuTree: function () {
 		var thisInstance = this;
+		var $treeContent = $('#treeContent');
+		if ($treeContent.data('jstree')) {
+			$treeContent.jstree('destroy');
+		}
 		if (thisInstance.treeInstance == false) {
 			var treeValues = $('#treeValues').val();
 			var data = [];
@@ -27,7 +31,7 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 			if (!data || data.length == 0) {
 				Settings_Vtiger_Index_Js.showMessage({text: app.vtranslate('JS_NO_DATA')});
 			}
-			thisInstance.treeInstance = $("#treeContent");
+			thisInstance.treeInstance = $treeContent;
 			thisInstance.treeInstance.jstree({
 				core: {
 					data: data,
@@ -102,7 +106,8 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 				Settings_Vtiger_Index_Js.showMessage({type: 'success', text: data.result.message});
 				progress.progressIndicator({'mode': 'hide'});
 				thisInstance.isSavingSequence = false;
-			}, function () {
+			}, function (error) {
+				thisInstance.showSaveError(error);
 				progress.progressIndicator({'mode': 'hide'});
 				thisInstance.isSavingSequence = false;
 			});
@@ -190,6 +195,8 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 					app.hideModalWindow();
 					thisInstance.loadContent();
 					progress.progressIndicator({'mode': 'hide'});
+				}, function () {
+					progress.progressIndicator({'mode': 'hide'});
 				});
 			}
 		});
@@ -236,12 +243,23 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 					app.hideModalWindow();
 					thisInstance.loadContent();
 					progress.progressIndicator({'mode': 'hide'});
+				}, function () {
+					progress.progressIndicator({'mode': 'hide'});
 				});
 			}
 		});
 		container.find('form').submit(function (event) {
 			event.preventDefault();
 		});
+	},
+	showSaveError: function (error) {
+		var message = app.vtranslate('JS_ERROR');
+		if (error && error.message) {
+			message = error.message;
+		} else if (error && error.responseText) {
+			message = error.responseText;
+		}
+		Settings_Vtiger_Index_Js.showMessage({type: 'error', text: message});
 	},
 	save: function (mode, data) {
 		var thisInstance = this;
@@ -254,10 +272,16 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 		params['mdata'] = data;
 		AppConnector.request(params).then(
 				function (data) {
+					if (data && data.success === false) {
+						thisInstance.showSaveError(data);
+						aDeferred.reject(data);
+						return;
+					}
 					aDeferred.resolve(data);
 				},
 				function (error) {
-					aDeferred.reject();
+					thisInstance.showSaveError(error);
+					aDeferred.reject(error);
 				}
 		);
 		return aDeferred.promise();
@@ -306,14 +330,20 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 	},
 	loadFilters: function (container, module) {
 		var thisInstance = this;
-		container.find('[name="filters"]').select2('destroy');
-		container.find('[name="filters"]').html(thisInstance.cacheFilters.html());
-		container.find('[name="filters"] option').each(function (index) {
+		var $filters = container.find('[name="filters"]');
+		if (!$filters.length || !thisInstance.cacheFilters || !thisInstance.cacheFilters.length) {
+			return;
+		}
+		if ($filters.data('select2')) {
+			$filters.select2('destroy');
+		}
+		$filters.html(thisInstance.cacheFilters.html());
+		$filters.find('option').each(function (index) {
 			if ($(this).data('tabid') != module.val()) {
 				$(this).remove();
 			}
 		});
-		app.showSelect2ElementView(container.find('[name="filters"]'), {width: '100%'});
+		app.showSelect2ElementView($filters, {width: '100%'});
 	},
 	registerModalButton: function () {
 		var thisInstance = this;
@@ -368,6 +398,7 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 				aDeferred.resolve(data);
 			},
 			function (error) {
+				thisInstance.showSaveError(error);
 				progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				aDeferred.reject(error);
 			}
