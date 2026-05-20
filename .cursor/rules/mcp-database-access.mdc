@@ -1,5 +1,5 @@
 ---
-description: Use the local MySQL/MariaDB MCP server for DB reads/writes
+description: Workspace MCP policy and local MySQL/MariaDB access for DB reads/writes
 alwaysApply: true
 ---
 
@@ -35,4 +35,3 @@ When an image/file URL fails:
 - If DB points to a path that doesn’t exist, the fix is usually:
   - regenerate the file, or
   - fix the writer path/volume permissions (Docker `storage/` must be writable), not the reader.
-

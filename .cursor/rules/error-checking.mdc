@@ -1,42 +1,50 @@
 ---
-description: "Error checking and debugging guidelines for FreeCRM"
+description: "Testing requirements and error/log checking for FreeCRM"
 alwaysApply: true
 ---
 
-# Error Checking Guidelines
+# Testing & Error Checking
 
-## Log File Locations
+## Web Server Testing Mandatory
 
-### System Log
-- **Path**: `cache/logs/system.log`
-- **Purpose**: Runtime errors and application issues
-- **When to check**: After making changes, before considering task complete
+**Do not rely solely on CLI tests.** The application must be tested through the web server to ensure proper functionality.
 
-## Error Severity Guidelines
+### Why
+- CLI environment differs from web environment (session handling, request lifecycle, env vars).
+- Real-world usage happens through the web interface.
+- PHP deprecation/session warnings in CLI are non-critical if the web version works.
 
-### Critical Errors (Must Fix)
-- Runtime errors in web context
-- Fatal errors that break functionality
-- Errors in `cache/logs/system.log`
+### Workflow
+1. Make code changes.
+2. (Optional) Run a quick CLI sanity check.
+3. **Always** verify functionality in the web browser (or via `curl` against the web server).
+4. Check `cache/logs/system.log` for new errors.
+5. If only CLI-specific warnings exist and the web works, proceed.
 
-### Non-Critical Warnings (Can Ignore)
-- **PHP deprecation warnings in CLI** - non-critical if web version works
-- **Session warnings in CLI mode** - expected and harmless
-- CLI-specific warnings that don't appear in web context
+## Log Files
 
-## Debugging Workflow
+### `cache/logs/system.log`
+- **Purpose**: Runtime errors and application issues.
+- **When to check**: After every meaningful change, before considering the task complete.
 
-1. Make code changes
-2. Test in web browser
-3. Check `cache/logs/system.log` for new errors
-4. If errors exist, fix them
-5. If only CLI warnings exist but web works, proceed
-6. Verify functionality through user interface
+### `cache/logs/cron.log`
+- **Purpose**: stdout from `cron/vtigercron.php`.
+- See `cron.mdc` for cron debugging details.
+
+## Error Severity
+
+### Critical (Must Fix)
+- Runtime errors in web context.
+- Fatal errors that break functionality.
+- New entries in `cache/logs/system.log`.
+
+### Non-Critical (Can Ignore)
+- PHP deprecation warnings in CLI when web works.
+- Session warnings in CLI mode (no HTTP session).
+- CLI-only warnings that don't appear in the web context.
 
 ## Best Practices
-
-- Always check logs after significant changes
-- Distinguish between CLI and web context errors
-- Prioritize web server functionality over CLI
-- Use curl commands to test API endpoints
-- Monitor logs during testing sessions
+- Always inspect logs after significant changes.
+- Distinguish between CLI and web context errors — prioritize web.
+- Use `curl` to test API endpoints quickly.
+- Monitor `system.log` live during testing sessions (e.g. `tail -f`).

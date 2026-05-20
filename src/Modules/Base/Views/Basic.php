@@ -66,10 +66,15 @@ abstract class Basic extends \App\Base\Controllers\BaseViewController
 		// If switched, show button to return to original user
 		if ($isSwitched) {
 			$baseUserModel = \App\Modules\Users\Models\Record::getInstanceById($realUserId, 'Users');
+			$returnUrl = ltrim($_SERVER['REQUEST_URI'] ?? '', '/');
+			if ($returnUrl === '' || strpos($returnUrl, 'index.php') !== 0) {
+				$returnUrl = 'index.php';
+			}
 			$headerLinks[] = [
 				'linktype' => 'HEADERLINK',
 				'linklabel' => 'LBL_SWITCH_TO_YOURSELF',
-				'linkurl' => 'index.php?module=Users&action=SwitchUsers&id=' . $realUserId,
+				'linkurl' => 'index.php?module=Users&action=SwitchUsers&id=' . $realUserId
+					. '&returnUrlForSwitchedUsers=' . rawurlencode($returnUrl),
 				'glyphicon' => 'glyphicon glyphicon-log-out',
 				'nocaret' => true,
 				'linkdata' => [

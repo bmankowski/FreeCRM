@@ -48,6 +48,7 @@ globs: [".cursor/rules/*.mdc"]                # Rule files themselves
 
 ## Best Practices
 
+0. **Always use plain english to describe rules**
 1. **Be concise** – Write clear, actionable rules; avoid lengthy explanations.
 2. **Single responsibility** – Cover only one topic per file; do not mix unrelated guidelines.
 3. **Clear YAML descriptions** – Write precise, meaningful descriptions in the YAML front matter.

@@ -20,8 +20,8 @@
 
 	{foreach key=ITER item=IMAGE_INFO from=$IMAGE_DETAILS}
 		<div class="row">
-			{if !empty($IMAGE_INFO.path) && !empty({$IMAGE_INFO.orgname})}
-				<span class="col-md-8" name="existingImages"><img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" alt="{$IMAGE_INFO.orgname}" data-image-id="{$IMAGE_INFO.id}" class="img-responsive"></span>
+			{if !empty($IMAGE_INFO.url) || (!empty($IMAGE_INFO.path) && !empty($IMAGE_INFO.orgname))}
+				<span class="col-md-8" name="existingImages"><img src="{if !empty($IMAGE_INFO.url)}{$IMAGE_INFO.url}{else}{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}{/if}" alt="{$IMAGE_INFO.orgname}" data-image-id="{$IMAGE_INFO.id}" class="img-responsive{if $MODULE eq 'Users'} user-detail-photo{/if}"></span>
 				<span class="col-md-12">
 					<span class="">[{$IMAGE_INFO.name}]</span>&nbsp;
 					<span class=""><input type="button" id="file_{$ITER}" value="{"LBL_DELETE"|t:$MODULE}" class="imageDelete"></span>

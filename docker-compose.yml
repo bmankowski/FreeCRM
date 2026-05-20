@@ -38,6 +38,7 @@ services:
       YII_DEBUG: "0"
     volumes:
       - ./:/var/www/html
+      - ./import:/var/www/import
     depends_on:
       - db
     restart: unless-stopped
@@ -46,7 +47,7 @@ services:
     build:
       context: .
       dockerfile: docker/php/Dockerfile
-    user: "33:33" # www-data — same as web for cache/storage writes
+    # root so dev CV rsync can use mounted ~/.ssh; vtigercron runs as www-data via gosu in crontab
     environment:
       FREECRM_DB_HOST: db
       FREECRM_DB_PORT: "3306"
@@ -55,9 +56,13 @@ services:
       FREECRM_DB_PASSWORD: freecrm
       FREECRM_SITE_URL: "http://localhost/"
       YII_DEBUG: "0"
+      # DEV ONLY: rsync CV backups from 10.0.0.220 (scripts/dev/sync-cv-from-prod.sh)
+      FREECRM_DEV_CV_SYNC: "1"
     volumes:
       - ./:/var/www/html
+      - ./import:/var/www/import
       - ./docker/cron/crontab:/etc/freecrm-cron:ro
+      - ${HOME}/.ssh:/root/.ssh:ro
     depends_on:
       db:
         condition: service_healthy

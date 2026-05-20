@@ -700,6 +700,60 @@ class Record extends \App\Modules\Base\Models\Record
 		return $image['path'] . '_' . $image['orgname'];
 	}
 
+	public const USER_PHOTO_SIZE = 300;
+
+	public const USER_PHOTO_MIME = 'image/webp';
+
+	/**
+	 * Resize and convert an uploaded user avatar to 300×300 WebP via ImageMagick (`convert`).
+	 *
+	 * @return array{absolutePath: string, displayName: string, mimeType: string}|null
+	 */
+	public static function normalizeUploadedUserPhotoFile(string $absoluteFilePath): ?array
+	{
+		$absoluteFilePath = str_replace('\\', '/', $absoluteFilePath);
+		if (!is_file($absoluteFilePath) || !is_readable($absoluteFilePath)) {
+			return null;
+		}
+		$dir = dirname($absoluteFilePath);
+		$fileBase = basename($absoluteFilePath);
+		$underscorePos = strpos($fileBase, '_');
+		if ($underscorePos === false) {
+			$prefix = '';
+			$displayName = $fileBase;
+		} else {
+			$prefix = substr($fileBase, 0, $underscorePos + 1);
+			$displayName = substr($fileBase, $underscorePos + 1);
+		}
+		$webpDisplayName = pathinfo($displayName, PATHINFO_FILENAME) . '.webp';
+		$targetPath = $dir . '/' . $prefix . $webpDisplayName;
+		$size = self::USER_PHOTO_SIZE;
+		$cmd = sprintf(
+			'convert %s -auto-orient -thumbnail %dx%d^ -gravity center -extent %dx%d -quality 85 %s 2>&1',
+			escapeshellarg($absoluteFilePath),
+			$size,
+			$size,
+			$size,
+			$size,
+			escapeshellarg($targetPath)
+		);
+		$output = [];
+		$exitCode = 0;
+		exec($cmd, $output, $exitCode);
+		if ($exitCode !== 0 || !is_file($targetPath)) {
+			\App\Log\Log::error('User photo WebP conversion failed: ' . implode("\n", $output));
+			return null;
+		}
+		if ($targetPath !== $absoluteFilePath) {
+			@unlink($absoluteFilePath);
+		}
+		return [
+			'absolutePath' => $targetPath,
+			'displayName' => $webpDisplayName,
+			'mimeType' => self::USER_PHOTO_MIME,
+		];
+	}
+
 	public static function getUserPhotoBase64SidecarSuffix(): string
 	{
 		return '.base64';

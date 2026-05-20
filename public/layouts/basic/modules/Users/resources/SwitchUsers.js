@@ -1,10 +1,26 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 
 jQuery.Class("Vtiger_SwitchUsers_Js", {}, {
+	setReturnUrlForSwitchedUsers: function (container) {
+		var returnUrl = window.location.pathname.replace(/^\//, '') + window.location.search;
+		if (returnUrl.indexOf('index.php') !== 0) {
+			returnUrl = 'index.php' + (window.location.search || '');
+		}
+		var field = container.find('[name="returnUrlForSwitchedUsers"]');
+		if (!field.length) {
+			container.find('form').append(jQuery('<input>', {type: 'hidden', name: 'returnUrlForSwitchedUsers'}));
+			field = container.find('[name="returnUrlForSwitchedUsers"]');
+		}
+		field.val(returnUrl);
+	},
 	registerSave: function (container) {
 		var thisInstance = this;
+		var form = container.find('form[name="switchUsersForm"]');
+		// Keep return URL in sync for "switch back to yourself" (type=submit).
+		form.off('submit.switchUsers').on('submit.switchUsers', function () {
+			thisInstance.setReturnUrlForSwitchedUsers(container);
+		});
 		// container is the modal element (with class 'switchUsersContainer')
-		// Use event delegation on the modal itself
 		container.off('click', '.modal-body button.btn-success').on('click', '.modal-body button.btn-success', function (e) {
 			// Only handle if it's the switch button (not other buttons)
 			var button = jQuery(e.currentTarget);
@@ -25,8 +41,13 @@ jQuery.Class("Vtiger_SwitchUsers_Js", {}, {
 				document.progressLoader.progressIndicator({mode: 'hide'});
 				return false;
 			}
-			container.find('[name="id"]').val(userId);
-			container.find('form').submit();
+			form.find('[name="id"]').val(userId);
+			thisInstance.setReturnUrlForSwitchedUsers(container);
+			// Native submit — jQuery .submit() does not navigate when submit handlers exist.
+			var formEl = form.get(0);
+			if (formEl) {
+				formEl.submit();
+			}
 			return false;
 		});
 	},

@@ -104,6 +104,22 @@ class SwitchUsers extends \App\Base\Controllers\BaseActionController
 			'status' => $status,
 		])->execute();
 
-		header('Location: index.php');
+		header('Location: ' . $this->getReturnUrlForSwitchedUsers($request));
+	}
+
+	/**
+	 * Resolve safe redirect target after user switch (stay on current page when possible).
+	 */
+	protected function getReturnUrlForSwitchedUsers(\App\Http\Vtiger_Request $request): string
+	{
+		$returnUrl = trim((string) $request->get('returnUrlForSwitchedUsers', ''));
+		if ($returnUrl === '') {
+			return 'index.php';
+		}
+		$returnUrl = ltrim($returnUrl, '/');
+		if (preg_match('#^(https?:)?//#i', $returnUrl) || strpos($returnUrl, 'index.php') !== 0) {
+			return 'index.php';
+		}
+		return $returnUrl;
 	}
 }

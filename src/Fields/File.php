@@ -10,7 +10,7 @@ namespace App\Fields;
 class File
 {
 
-	private static $allowedFormats = ['image' => ['jpeg', 'png', 'jpg', 'pjpeg', 'x-png', 'gif', 'bmp', 'x-ms-bmp']];
+	private static $allowedFormats = ['image' => ['jpeg', 'png', 'jpg', 'pjpeg', 'x-png', 'gif', 'bmp', 'x-ms-bmp', 'webp']];
 	private static $mimeTypes = [];
 	private static $phpInjection = ['image'];
 	/** @var string|null Original filename (for headers/UI). */

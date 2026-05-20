@@ -38,3 +38,12 @@ tests/e2e/test-data/
 /storage/
 /script/
 dump_to_transfer.sql.gz
+/import/cv/backup/*
+!/import/cv/backup/.gitkeep
+/import/cv/pending/*
+!/import/cv/pending/.gitkeep
+/import/cv/processed/*
+!/import/cv/processed/.gitkeep
+/import/cv/failed/*
+!/import/cv/failed/.gitkeep
+/import/cv/.last_sync

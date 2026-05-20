@@ -1,6 +1,6 @@
 ---
 description: "How to click through FreeCRM web installer (Docker)"
-globs: "{src/Modules/Install/**,docker/**,docker-compose.yml,config/config_override.php}"
+globs: ["src/Modules/Install/**", "docker/**", "docker-compose.yml", "config/config_override.php"]
 alwaysApply: false
 ---
 

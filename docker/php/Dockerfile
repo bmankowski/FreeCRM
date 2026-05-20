@@ -23,6 +23,9 @@ RUN apt-get update \
     libfreetype6-dev \
     libc-client2007e-dev \
     libkrb5-dev \
+    gosu \
+    openssh-client \
+    rsync \
   && docker-php-ext-configure gd --with-freetype --with-jpeg \
   && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
   && docker-php-ext-install -j"$(nproc)" \

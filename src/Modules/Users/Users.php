@@ -307,6 +307,12 @@ class Users extends \App\Core\CRMEntity
 
 		\App\Log\Log::trace("Entering into insertIntoAttachment($id,$module) method.");
 
+		// After transformUploadedFiles(), a single upload may be a flat file array (name, type, …)
+		// instead of [0 => …]; normalize so the loop below always sees file entries.
+		if (isset($_FILES['name'], $_FILES['tmp_name']) && !isset($_FILES[0])) {
+			$_FILES = [0 => $_FILES];
+		}
+
 		foreach ($_FILES as $fileindex => $files) {
 			if (!\is_array($files)) {
 				continue;
@@ -398,7 +404,7 @@ class Users extends \App\Core\CRMEntity
 	 */
 	public function uploadAndSaveFile($id, $module, $fileDetails)
 	{
-		\App\Log\Log::trace("Entering into uploadAndSaveFile($id,$module,$fileDetails) method.");
+		\App\Log\Log::trace("Entering into uploadAndSaveFile($id,$module) method.");
 		$currentUserId = (int) (\App\User\CurrentUser::getId() ?? 0);
 		$dateVar = date('Y-m-d H:i:s');
 		$db = \App\Db\Db::getInstance();
@@ -426,8 +432,19 @@ class Users extends \App\Core\CRMEntity
 		])->execute();
 		$currentId = $db->getLastInsertID('vtiger_crmentity_crmid_seq');
 		//upload the file in server
-		$success = move_uploaded_file($fileTmpName, $uploadFilePath . $currentId . "_" . $binFile);
+		$relativeDest = $uploadFilePath . $currentId . '_' . $binFile;
+		$success = move_uploaded_file($fileTmpName, $relativeDest);
 		if ($success) {
+			$absoluteDest = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $relativeDest);
+			$normalized = \App\Modules\Users\Models\Record::normalizeUploadedUserPhotoFile($absoluteDest);
+			if ($normalized === null) {
+				@unlink($absoluteDest);
+				\App\Log\Log::trace('Exiting from uploadAndSaveFile($id,$module,$fileDetails) method.');
+				return false;
+			}
+			$binFile = $normalized['displayName'];
+			$fileName = $normalized['displayName'];
+			$fileType = $normalized['mimeType'];
 			$db->createCommand()->insert('vtiger_attachments', [
 				'attachmentsid' => $currentId,
 				'name' => $fileName,

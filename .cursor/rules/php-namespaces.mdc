@@ -1,6 +1,6 @@
 ---
 description: "PHP namespace conventions and error patterns for FreeCRM"
-globs: ["src/**/*.php", "modules/**/*.php", "**/*.php"]
+globs: ["**/*.php"]
 ---
 
 # PHP Namespace Guidelines

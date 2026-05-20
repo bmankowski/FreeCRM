@@ -193,12 +193,26 @@ jQuery.Class("Vtiger_Helper_Js", {
 	 */
 	showConfirmationBox: function (data) {
 		var aDeferred = jQuery.Deferred();
-		bootbox.setLocale(this.getLangCode());
-		var bootBoxModal = bootbox.confirm(data['message'], function (result) {
-			if (result) {
-				aDeferred.resolve();
-			} else {
-				aDeferred.reject();
+		var confirmLabel = data['confirmLabel'];
+		if (typeof confirmLabel === 'undefined') {
+			confirmLabel = app.vtranslate('LBL_YES');
+		}
+		var cancelLabel = data['cancelLabel'];
+		if (typeof cancelLabel === 'undefined') {
+			cancelLabel = app.vtranslate('JS_LBL_CANCEL');
+		}
+		var bootBoxModal = bootbox.confirm({
+			message: data['message'],
+			buttons: {
+				cancel: { label: cancelLabel },
+				confirm: { label: confirmLabel }
+			},
+			callback: function (result) {
+				if (result) {
+					aDeferred.resolve();
+				} else {
+					aDeferred.reject();
+				}
 			}
 		});
 

@@ -2,6 +2,16 @@
 Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 	codeMirrorInstance: false,
 
+	getTargetModuleName: function (form) {
+		if (typeof form == 'undefined') {
+			form = this.getForm();
+		}
+		var moduleNameField = form.find('[name="module_name"]');
+		if (moduleNameField.length) {
+			return moduleNameField.val();
+		}
+		return form.find('[name="module"]').val();
+	},
 	loadVariablePanel: function (form) {
 		var thisInstance = this;
 		if (typeof form == 'undefined') {
@@ -14,7 +24,7 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 			record: app.getRecordId(),
 			view: 'VariablePanel',
 			type: 'mail',
-			selectedModule: form.find('[name="module"]').val()
+			selectedModule: thisInstance.getTargetModuleName(form)
 		}).then(function (response) {
 			panel.html(response);
 			thisInstance.afterLoadVariablePanel(panel);
@@ -98,7 +108,7 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 		}
 		form.find('.blockContainer[data-label="LBL_CONTENT_MAIL"] .blockContent').prepend('<div id="variablePanel" class="col-md-12 paddingLRZero borderBottom bc-gray-lighter"></div>');
 		thisInstance.loadVariablePanel(form);
-		form.find('[name="module"]').on('change', function (e) {
+		form.find('[name="module_name"]').on('change', function (e) {
 			thisInstance.loadVariablePanel(form);
 		});
 	},

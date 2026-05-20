@@ -11,6 +11,7 @@
 		<input type="hidden" name="module" value="{$MODULE_NAME}" />
 		<input type="hidden" name="action" value="SwitchUsers" />
 		<input type="hidden" name="id" value="{$BASE_USER_ID}" />
+		<input type="hidden" name="returnUrlForSwitchedUsers" value="" />
 		{if count($SWITCH_USERS) neq 0}
 			<div class="modal-body text-center">
 				<div class="form-group">

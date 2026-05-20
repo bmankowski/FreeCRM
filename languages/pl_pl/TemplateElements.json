@@ -4,6 +4,7 @@
         "SINGLE_TemplateElements": "Element szablonu",
         "All": "Wszystkie", 
         "TemplateDynamicElements": "Elementy dynamiczne szablonów",
+        "LBL_SAVE_AND_CLOSE": "Zapisz i zamknij",
         "LBL_ADD_DYNAMIC_ELEMENT": "Dodaj element dynamiczny",
         "LBL_EDIT_DYNAMIC_ELEMENT": "Edycja elementu dynamicznego",
         "LBL_LABEL": "Nazwa",
