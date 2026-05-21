@@ -1,4 +1,10 @@
 {strip}
+{extends file="MainLayout.tpl"|@vtemplate_path}
+
+{block name="content"}
+		<div class="mainContainer">
+			<div class="contentsDiv">
+
 <!-- layouts/basic/modules/Settings/MailSmtp/Edit.tpl --> {*
 <!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 	<div class="row widget_header">
@@ -10,7 +16,7 @@
 		</div>
 	</div>
 	<div class="editViewContainer">
-		<form name="EditMailSmtp"  id="EditView" class="form-horizontal validateForm">
+		<form name="EditMailSmtp" action="index.php" method="post" id="EditView" class="form-horizontal validateForm">
 			<div class="alert alert-block alert-danger fade in " hidden="">
 				<button type="button" class="close" data-dismiss="alert">×</button>
 				<h4 class="alert-heading">{'LBL_ERROR'|t:$QUALIFIED_MODULE}</h4>
@@ -18,8 +24,7 @@
 			</div>
 			<input type="hidden" name="module" value="MailSmtp">
 			<input type="hidden" name="parent" value="Settings" />
-			<input type="hidden" name="action" value="Save">
-			<input type="hidden" name="mode" value="save">
+			<input type="hidden" name="action" value="SaveAjax">
 			<input type="hidden" name="record" value="{$RECORD_ID}">
 			<div class="form-group">
 				<label class="control-label col-md-3">
@@ -160,5 +165,9 @@
 			</div>
 		</form>
 	</div>
+
+			</div>
+		</div>
+{/block}
 <!--/layouts/basic/modules/Settings/MailSmtp/Edit.tpl -->
 {/strip}

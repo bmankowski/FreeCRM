@@ -9,7 +9,9 @@
 
 ## 1. Background and design constraints
 
-FreeCRM currently embeds Roundcube webmail (`OSSMail`), a scanner (`OSSMailScanner`) and a related-list module (`OSSMailView`). The webmail piece is unused in our workflow; the scanner and per-record mail history are the parts that matter. This design replaces all three with a single new module, scoped to **what we actually use**:
+FreeCRM ships with Roundcube webmail (`OSSMail`), a scanner (`OSSMailScanner`) and a related-list module (`OSSMailView`), but **the project owner confirms none of these are in active use** on the target deployment. We therefore design a clean greenfield module without backward-compatibility code, fallback paths, or coexistence requirements — the OSSMail stack is treated as dead weight to be removed later (cleanup only, not blocking).
+
+This design covers **what we actually use**:
 
 - scanning company mailboxes,
 - sending mails from CRM records (Kandydat, Contact, Account, …) authenticated as the user's own mailbox,
@@ -23,10 +25,17 @@ Design decisions taken with the project owner:
 |------|----------|
 | Account model | Mixed: per-user personal mailbox **and** shared team mailboxes |
 | Auth | Login + password only, against own mail server (no OAuth2) |
-| Outbound | Authenticated with user's own SMTP credentials; `From` = user's address |
-| Sent copy | IMAP `APPEND` to the user's `Sent` folder (per-account flag) |
-| Migration | Fresh start, no migration from `vtiger_ossmailview` |
+| Outbound paths | **Two coexisting paths**: (i) Mail module → user's personal/shared IMAP+SMTP account; (ii) existing `s_yf_mail_smtp` for role-based system sends (`rekrutacja@`, `marketing@`) — chosen per template |
+| Sender selection | Template-driven: each email template carries `sender_type ∈ {user_account, system_smtp, any}` |
+| Per-user editability | A non-admin user can only edit their own personal account record (signature, default flag); admin manages all accounts including shared ones |
+| Sent copy | IMAP `APPEND` to the account's "Sent" folder (per-account flag, folder discovered at TestConnection time — not hard-coded) |
+| Migration | Greenfield, no fallbacks to OSSMail/Roundcube; the legacy modules can be left untouched until a later cleanup |
 | Auto-bind modules | Kandydaci, Contacts, Accounts, Leads, SSalesProcesses, HelpDesk |
+| Visibility of messages on records | **Hybrid**: messages from shared mailboxes are visible to any user with `DetailView` on the bound record; messages from personal mailboxes only to the account owner |
+| Auto-bind outbound | Source record (the one user composed from) always linked; additionally any other CRM record matched by To/Cc/Bcc email |
+| Reply-To for shared mailbox sends | Configurable per shared account (3 modes: same as From, user's personal email, custom address) |
+| Backfill on account add | None by default (`last_uid` = current MAX UID at install); an optional "Import history from date" admin action is deferred to a later phase |
+| Signature | Per-account `signature_html` field, auto-appended to every outbound message from that account; templates can opt out via per-template flag |
 | Target scale | ≤10 mailboxes, ≤500 messages/day, polling cron every 60–120 s |
 
 ---
@@ -53,15 +62,21 @@ Design decisions taken with the project owner:
    - On the message detail view, the user can attach or detach the message from any CRM record they have permission to.
 5. **Per-record related list**
    - Each of the six target modules exposes an "E-maile" related list showing all linked messages, sorted by date desc, with inbound/outbound badge, subject, counterparty, attachments flag.
-6. **Outbound from record**
+6. **Outbound from record (template-driven sender selection)**
    - On any module that has the related list, the user clicks "Wyślij e-mail" (or clicks the email field on the record).
-   - A compose modal opens, prefilled with To = the record's email field, with template picker (existing `App\Email\Mail::getTempleteList`) and live preview through `App\TextParser`.
-   - The modal lists the user's mail accounts in a dropdown; the default is preselected.
-   - On send, the mail is sent through the chosen account's SMTP, authenticated as the user, with `From: <account.from_name> <account.username>`.
-   - On success: the sent message is `IMAP APPEND`-ed to the account's `Sent` folder (if `append_sent = 1`), stored in `u_yf_mail_messages` with `direction = out`, and auto-linked to the originating CRM record.
-7. **Outbound from bulk (existing `IndividualSendMailModal`)**
-   - The bulk modal also picks a Mail account (replaces the global `s_yf_mail_smtp` selection for personal users).
-   - For admin/system mass mailings the existing SMTP queue stays available as a separate path.
+   - A compose modal opens, prefilled with To = the record's email field. The template picker shows templates available for the source module via existing `App\Email\Mail::getTempleteList`.
+   - **Sender choice depends on the picked template's `sender_type`:**
+     - `user_account` — modal shows a dropdown of the current user's accessible **Mail accounts** (personal + shared they're on). On send, mail goes through that account's SMTP, authenticated as the user, with `From: <account.from_name> <account.username>`.
+     - `system_smtp` — modal shows the fixed system SMTP server defined on the template (`u_yf_emailtemplates.smtp_id` → `s_yf_mail_smtp`). No picker, just "Wysyłka z: rekrutacja@itconnect.pl" label. `From` is taken from the SMTP record's `from_email`/`from_name`.
+     - `any` — modal shows both options stacked: user's accounts at top, then available system SMTP servers, with the user's default Mail account preselected.
+   - Live preview through `App\TextParser` works identically regardless of sender choice.
+   - **Behavior when user has no Mail account configured and template requires `user_account`**: modal opens but Send is disabled; an info banner explains the situation and shows a "Skonfiguruj swoje konto pocztowe" button linking to `Settings:MailAccount&view=Edit` (prefilled with the current user's id).
+   - On send via user account: outbound persisted in `u_yf_mail_messages` (direction=out, `account_id` set); IMAP `APPEND` to the account's Sent folder if enabled; **auto-bound to the source record (manual link_type=auto, match_field='compose_source')** plus any additional CRM records whose email field matches To/Cc/Bcc (link_type=auto, match_field=actual field name).
+   - On send via `system_smtp`: outbound persisted in `u_yf_mail_messages` (direction=out, `account_id` = NULL, `smtp_id` set, see §6.3 schema change); no IMAP APPEND (no per-user IMAP context); same auto-binding logic.
+7. **Bulk outbound from list / mass mailing (`IndividualSendMailModal`)**
+   - The same template-driven branching applies. The bulk modal calls into the same Send service per recipient.
+   - Templates intended for mass marketing (`marketing@`) typically carry `sender_type = system_smtp` and use the existing `s_yf_mail_queue` to queue items; templates intended for personal touch-ups (`user_account`) send synchronously through the user's SMTP.
+   - The bulk modal never silently switches paths — if a template requires `user_account` and the user has no configured account, bulk send is blocked with the same banner as the single-record flow.
 8. **Logs and health**
    - Every scan, send, append, bind operation writes a structured entry to `u_yf_mail_log`.
    - Admin UI shows last scan time and status per account; an account is auto-disabled after N consecutive scan failures (configurable, default 5).
@@ -95,33 +110,44 @@ Design decisions taken with the project owner:
 ## 3. System boundaries and responsibilities
 
 ```
-┌─────────────────────────────┐         ┌──────────────────────────┐
-│  IMAP server (own)          │◄────────┤  Mail module: Scanner    │
-│  mail.itconnect.pl:993      │  fetch  │  (cron worker)           │
-│                             │         └────────┬─────────────────┘
-│                             │                  │
-│                             │◄────────┐        │ parse + store
-│                             │ APPEND  │        ▼
-└─────────────────────────────┘         │  ┌──────────────────────┐
-┌─────────────────────────────┐         │  │  u_yf_mail_messages  │
-│  SMTP server (own)          │         │  │  u_yf_mail_attach…   │
-│  mail.itconnect.pl:465      │         │  │  u_yf_mail_record_li…│
-└──────▲──────────────────────┘         │  │  u_yf_mail_log       │
-       │                                │  └────────┬─────────────┘
-       │ send                           │           │
-┌──────┴─────────────────────┐          │           │ related-list query
-│  Mail module: Sender       │◄─────────┘           │
-│  (HTTP action, sync)       │                      │
-└────────────▲───────────────┘                      │
-             │                                      │
-             │ click "Send"                         │
-┌────────────┴─────────────────────────┐  ┌─────────▼──────────────┐
-│  Compose modal on record (Smarty)    │  │  Related list "E-maile"│
-└────────────▲─────────────────────────┘  │  on Kandydat, Contact, │
-             │                            │  Account, Lead, SP, HD │
-┌────────────┴─────────────────────────┐  └────────────────────────┘
-│  Settings: Mail Accounts admin UI    │
-└──────────────────────────────────────┘
+       INBOUND                                  OUTBOUND
+                                  ┌─────────── path A (user) ──────────┐
+┌─────────────────────────┐       │   ┌──────────────────────────┐     │
+│  IMAP server (own)      │◄──────┼───┤ Mail module: Smtp\Sender │     │
+│  mail.itconnect.pl:993  │APPEND │   │ (user's SMTP creds)      │     │
+│                         │       │   └────────────▲─────────────┘     │
+│                         │◄──────┤                │                   │
+│                         │ fetch │                │                   │
+└─────────────────────────┘       │     ┌──────────┴──────────┐        │
+            ▲                     │     │  Mail Actions\Send  │        │
+            │                     │     │  (sync HTTP)        │        │
+┌───────────┴────────────────┐    │     └──────────▲──────────┘        │
+│  Mail Cron\Scanner         │    │                │ if template       │
+│  (cron tick / 60-120 s)    │    │                │ sender_type =     │
+└────────────┬───────────────┘    │                │ user_account      │
+             │ parse + store      │                │ or any+user pick  │
+             ▼                    │     ┌──────────┴──────────┐        │
+   ┌──────────────────────┐       │     │ Compose modal       │        │
+   │ u_yf_mail_messages   │       │     │ on record           │        │
+   │ u_yf_mail_attach…    │       │     └──────────▲──────────┘        │
+   │ u_yf_mail_record_li… │       │                │                   │
+   │ u_yf_mail_log        │       │                │ if template       │
+   └──────────┬───────────┘       │                │ sender_type =     │
+              │                   │                │ system_smtp       │
+              │ related-list      │                ▼                   │
+              │ query             │     ┌─────────────────────┐        │
+              ▼                   │     │ App\Email\Mailer    │        │
+   ┌─────────────────────────┐    │     │ (existing)          │        │
+   │ Related list "E-maile"  │    │     └──────────▲──────────┘        │
+   │ on Kandydat, Contact,   │    │                │                   │
+   │ Account, Lead, SP, HD   │    │     ┌──────────┴──────────┐        │
+   └─────────────────────────┘    │     │ s_yf_mail_smtp      │        │
+                                  │     │ (rekrutacja@, etc.) │        │
+   ┌─────────────────────────┐    │     └──────────▲──────────┘        │
+   │ Settings: Mail Accounts │    │                │                   │
+   │ admin UI                │    │                ▼                   │
+   └─────────────────────────┘    └────────── SMTP server (own) ───────┘
+                                              mail.itconnect.pl:465
 ```
 
 **Owned by Mail module**
@@ -146,9 +172,15 @@ Design decisions taken with the project owner:
 - HTMLPurifier (already in `vendor/ezyang/htmlpurifier`) for safe HTML rendering,
 - supercronic in the `cron` container for scheduling.
 
+**Shared with the existing system SMTP path (`s_yf_mail_smtp`)**
+
+- The existing `App\Email\Mailer` + `s_yf_mail_smtp` infrastructure is **not deprecated**. It stays as the *system/role-based* outbound path for templates marked `sender_type = system_smtp` (e.g. `rekrutacja@`, `marketing@`, system notifications, forgot-password, queued mass mailings).
+- The new Mail module's `Send` action delegates to `App\Email\Mailer` when the chosen template/account combination resolves to `system_smtp`. There is no duplication of SMTP code: the new module brings its own `Smtp\Sender` only for the per-user authenticated path.
+
 **Out of scope for Mail module**
 
-- the legacy `App\Email\Mailer` / `s_yf_mail_smtp` queue stays available for system-level mails (system notifications, forgot password, etc.); the new Mail module is for **user-driven** mail tied to records.
+- Inbound scanning of `s_yf_mail_smtp`-bound mailboxes — system SMTP is send-only by definition. If a `rekrutacja@` mailbox needs to be scanned as well, it must be configured **also** as a shared Mail account.
+- Migration or coexistence wrappers around OSSMail/OSSMailScanner/OSSMailView — they are not running on the target deployment.
 
 ---
 
@@ -220,31 +252,51 @@ We deliberately keep **no plugin loader** for binding rules: the Engine instanti
 
 1. User on record detail (e.g. Kandydat #1234) clicks email link or "Wyślij e-mail".
 2. Browser opens `index.php?module=Mail&view=Compose&sourceModule=Kandydaci&sourceRecord=1234&to=<email>`.
-3. `Views\Compose` renders modal with:
-   - `From` dropdown: list of accounts user owns + accounts shared with user (where `can_send = 1`),
+3. `Views\Compose` loads:
+   - the source record's accessible email fields (for the To prefill),
+   - the list of templates for the source module,
+   - for each template, its `sender_type`,
+   - the current user's accessible Mail accounts (personal + shared with `can_send=1`),
+   - available `s_yf_mail_smtp` servers (admin-managed).
+4. Modal renders:
    - `To`, `Cc`, `Bcc` (Cc/Bcc collapsed by default),
    - Template picker (filtered to the source module),
-   - Subject, body editor (CKEditor, same as existing IndividualSendMailModal),
+   - Subject, body editor (CKEditor),
    - Attachments uploader (multipart, stored under `cache/Mail/upload/`),
-   - Live preview pane fed by `App\TextParser`.
-4. User clicks Send → POST `index.php?module=Mail&action=Send`.
-5. `Actions\Send`:
-   1. permission check: user must have access to chosen account AND `DetailView` permission on source record,
-   2. render subject + body via `TextParser` with `recordId`, `moduleName`, `sourceModule`, `sourceRecord`,
-   3. inline CSS via existing `App\Utils\TemplateStyles::inlineEmailCss`,
-   4. `Smtp\Sender::send($account, $envelope, $body, $attachments)`:
-      - configure PHPMailer with account's host/port/secure/username/decrypted password,
-      - set `From`, `To`/`Cc`/`Bcc`, `Subject`, `Reply-To` (= account.username),
-      - HTML + AltBody, attachments,
+   - Live preview pane fed by `App\TextParser`,
+   - **Sender area whose contents depend on the picked template**:
+     - on `user_account`: dropdown of the user's Mail accounts (default preselected), label "Wysyłka z: " above; if user has no accounts → banner + "Skonfiguruj teraz" button, Send disabled,
+     - on `system_smtp`: read-only label "Wysyłka z: `<smtp.from_name> <smtp.from_email>`" pulled from `s_yf_mail_smtp` row referenced by the template; no picker,
+     - on `any`: combined dropdown grouped into "Moje konta" / "Konta systemowe", default = user's default Mail account if any, otherwise the template's `smtp_id`.
+5. User clicks Send → POST `index.php?module=Mail&action=Send` with `{templateId, senderRef}` where `senderRef` is `account:<id>` or `smtp:<id>`.
+6. `Actions\Send` decides the outbound path:
+
+   **Path A — user_account (Mail module's own Smtp\Sender)**
+   1. permission check: user has access to `account` AND `DetailView` on source record,
+   2. render subject + body via `TextParser`,
+   3. inline CSS via `App\Utils\TemplateStyles::inlineEmailCss`,
+   4. append `account.signature_html` to body unless the template has `skip_account_signature = 1`,
+   5. `Smtp\Sender::send($account, $envelope, $body, $attachments)`:
+      - configure PHPMailer with the account's host/port/secure/username/decrypted password,
+      - set `From: <account.from_name> <account.username>`,
+      - set `Reply-To` according to `account.reply_to_mode` (see §6.1),
+      - set `To`/`Cc`/`Bcc`, `Subject`, HTML + AltBody, attachments,
       - call `send()`,
-   5. on success, if `account.append_sent = 1`:
-      - `Imap\Appender::appendToSent($account, $rfc822)` — builds the RFC822 from PHPMailer's `getSentMIMEMessage()` and IMAP-APPENDs to the configured Sent folder; failure is logged but does **not** fail the user action,
-   6. INSERT into `u_yf_mail_messages` (direction=out, imap_uid=null, message_id from generated `Message-Id` header),
-   7. INSERT attachment rows + move uploaded files from `cache/Mail/upload/` to `storage/Mail/…`,
-   8. INSERT `u_yf_mail_record_links` linking message to source record (link_type=manual, match_field='compose_source'),
-   9. log success, return JSON `{success: true, messageId: X}` to UI,
-   10. modal closes, related list refreshes via in-page AJAX.
-6. On SMTP error: HTTP 200 + `{success: false, error: '…'}`, modal shows error, draft preserved client-side.
+   6. on success, if `account.append_sent = 1`:
+      - `Imap\Appender::appendToSent($account, $rfc822)` — builds RFC822 from PHPMailer's `getSentMIMEMessage()` and APPENDs to `account.imap_folder_sent`; failure is logged but does **not** fail the user action,
+   7. INSERT into `u_yf_mail_messages` (direction=out, `account_id` set, `smtp_id` NULL, `imap_uid` NULL, `message_id` from generated header),
+   8. INSERT attachment rows + move uploaded files from `cache/Mail/upload/` to `storage/Mail/…`,
+   9. INSERT `u_yf_mail_record_links` for the source record (link_type=auto, match_field='compose_source') AND for any other CRM record whose configured email field matches To/Cc/Bcc (link_type=auto, match_field=actual field name),
+   10. log success, return JSON `{success: true, messageId: X}`.
+
+   **Path B — system_smtp (existing App\Email\Mailer)**
+   1. permission check: user has `DetailView` on source record,
+   2. render template (same as Path A) — but **without** account signature,
+   3. delegate to `App\Email\Mailer::sendFromTemplate([...])` with the template's `smtp_id` forced; for queueable mass sends use `App\Email\Mailer::addMail([...])` instead,
+   4. on success, persist a row in `u_yf_mail_messages` with direction=out, `account_id` NULL, `smtp_id` set, `from_email` = the SMTP's `from_email`,
+   5. write attachments and bind links same as Path A.
+
+7. On error from either path: HTTP 200 + `{success: false, error: '…'}`, modal shows error, draft preserved client-side. Failure to APPEND to Sent (Path A only) is silent for the user but logged.
 
 ### 5.3 Manual bind / unbind
 
@@ -265,19 +317,23 @@ All new tables use the FreeCRM `u_yf_*` naming convention.
 |--------|------|-------|
 | `id` | INT UNSIGNED AI PK | |
 | `name` | VARCHAR(120) | display name |
-| `owner_user_id` | INT NULL | NULL = shared/no single owner |
+| `kind` | ENUM('personal','shared') | drives visibility model (§6.8) |
+| `owner_user_id` | INT NULL | required when `kind='personal'`, NULL for shared |
 | `imap_host` | VARCHAR(190) | |
 | `imap_port` | SMALLINT UNSIGNED | default 993 |
 | `imap_secure` | ENUM('ssl','tls','none') | default 'ssl' |
 | `imap_validate_cert` | TINYINT(1) | default 1 |
 | `imap_folder_inbox` | VARCHAR(190) | default 'INBOX' |
-| `imap_folder_sent` | VARCHAR(190) | default 'Sent' |
+| `imap_folder_sent` | VARCHAR(190) | **discovered at TestConnection time**, not hard-coded; admin picks from a dropdown listing the server's actual folders (`Sent`, `Wysłane`, `Elementy wysłane`, …) |
 | `smtp_host` | VARCHAR(190) | |
 | `smtp_port` | SMALLINT UNSIGNED | default 465 |
 | `smtp_secure` | ENUM('ssl','tls','none') | |
 | `username` | VARCHAR(190) | full email address |
 | `password_enc` | VARBINARY(512) | `App\Security\Encryption::encrypt()` |
 | `from_name` | VARCHAR(120) | optional display name in From |
+| `reply_to_mode` | ENUM('same_as_from','user_personal','custom') | default `same_as_from`; `user_personal` only meaningful for shared accounts (resolves to sending user's `vtiger_users.email1` at send time) |
+| `reply_to_address` | VARCHAR(190) NULL | used when `reply_to_mode='custom'` |
+| `signature_html` | MEDIUMTEXT NULL | auto-appended to outbound body unless template opts out |
 | `append_sent` | TINYINT(1) | default 1 |
 | `last_uid` | INT UNSIGNED | last seen UID in Inbox |
 | `last_scan_at` | DATETIME NULL | |
@@ -289,7 +345,13 @@ All new tables use the FreeCRM `u_yf_*` naming convention.
 | `active` | TINYINT(1) | default 1 |
 | `created_at`, `updated_at` | DATETIME | |
 
-Indexes: `(active, next_scan_at)`, `(owner_user_id)`.
+Indexes: `(active, next_scan_at)`, `(owner_user_id)`, `(kind)`.
+
+Edit rules (enforced in `Settings:MailAccount` controller):
+
+- non-admin user can edit only `signature_html`, `reply_to_mode`/`reply_to_address` (if `kind='personal'` and they are `owner_user_id`), `from_name`, and their own row in `u_yf_mail_account_users` (`is_default`),
+- non-admin user **cannot** edit host/port/credentials/`active`/`kind`/`owner_user_id`,
+- admin edits everything.
 
 ### 6.2 `u_yf_mail_account_users` (ACL for shared accounts)
 
@@ -308,9 +370,11 @@ A personal account is represented by `owner_user_id` set; it is also automatical
 | Column | Type | Notes |
 |--------|------|-------|
 | `id` | INT UNSIGNED AI PK | |
-| `account_id` | INT UNSIGNED | FK |
+| `account_id` | INT UNSIGNED NULL | FK → `u_yf_mail_accounts`; NULL when message was sent through `s_yf_mail_smtp` (system path) |
+| `smtp_id` | INT UNSIGNED NULL | FK → `s_yf_mail_smtp`; NULL when message was sent or received through a Mail account |
+| `sender_user_id` | INT NULL | for outbound: which CRM user pressed Send; for inbound: NULL |
 | `direction` | ENUM('in','out') | |
-| `imap_uid` | INT UNSIGNED NULL | NULL for outbound |
+| `imap_uid` | INT UNSIGNED NULL | NULL for outbound or for system-SMTP sends |
 | `message_id` | VARCHAR(255) NULL | RFC 5322 Message-Id, indexed |
 | `in_reply_to` | VARCHAR(255) NULL | for future threading |
 | `references_hdr` | TEXT NULL | space-separated |
@@ -327,7 +391,9 @@ A personal account is represented by `owner_user_id` set; it is also automatical
 | `size_bytes` | INT UNSIGNED | |
 | `created_at` | DATETIME | |
 
-Indexes: UNIQUE `(account_id, imap_uid)` (where `imap_uid IS NOT NULL`), `(message_id)`, `(date_sent)`, `(from_email)`, `(direction, date_sent)`.
+CHECK constraint (or app-level): exactly one of `account_id` / `smtp_id` is non-NULL.
+
+Indexes: UNIQUE `(account_id, imap_uid)` (where `imap_uid IS NOT NULL`), `(message_id)`, `(date_sent)`, `(from_email)`, `(direction, date_sent)`, `(sender_user_id, direction)`.
 
 ### 6.4 `u_yf_mail_attachments`
 
@@ -385,12 +451,43 @@ cache/logs/mail.log                                   # tail-friendly text log
 
 ### 6.8 Permissions matrix (DB-level view)
 
-| Subject | Account read | Account send | Message read | Message link | Account CRUD |
-|---------|-------------|--------------|--------------|--------------|--------------|
-| Admin | all | all | all | all | yes |
-| User — owner of account | yes (own) | yes | own messages | yes | only own non-system fields (signature etc.) |
-| User — shared on account | yes (shared) | if `can_send=1` | shared messages | yes | no |
-| Other user | no | no | no | no | no |
+Two orthogonal checks. **Both must pass** for a user to see a message on a record's related list.
+
+**(1) Account access** — which accounts a user is "in":
+
+| Subject | Account read | Account send | Account CRUD |
+|---------|--------------|--------------|--------------|
+| Admin | all | all | yes |
+| User — owner of `kind='personal'` account | yes (own) | yes | non-system fields only (signature, reply_to, from_name, is_default) |
+| User — listed in `u_yf_mail_account_users` for `kind='shared'` account | yes (shared) | if `can_send=1` | no |
+| Other user | no | no | no |
+
+**(2) Message visibility on a related list** (the "hybrid" rule):
+
+| Message source | Visible to … |
+|----------------|--------------|
+| Inbound from `kind='shared'` account | any user with `DetailView` on the linked record |
+| Inbound from `kind='personal'` account | only the account's `owner_user_id` (and admins) |
+| Outbound, `account_id` set, `kind='shared'` | any user with `DetailView` on the linked record |
+| Outbound, `account_id` set, `kind='personal'` | only `sender_user_id` (i.e. the user who sent it) and admins |
+| Outbound, `smtp_id` set (system SMTP path) | any user with `DetailView` on the linked record |
+
+Concretely: a user's related-list query is
+
+```sql
+SELECT m.* FROM u_yf_mail_messages m
+JOIN u_yf_mail_record_links l ON l.message_id = m.id
+LEFT JOIN u_yf_mail_accounts a ON a.id = m.account_id
+WHERE l.crm_module = :module AND l.crm_record_id = :recordId
+  AND (
+        :isAdmin = 1
+     OR a.kind IS NULL                          -- system_smtp path, always visible if record-permitted
+     OR a.kind = 'shared'                       -- shared mailbox, always visible if record-permitted
+     OR (a.kind = 'personal' AND a.owner_user_id = :userId)
+     OR (m.direction = 'out' AND m.sender_user_id = :userId)
+      )
+ORDER BY m.date_sent DESC;
+```
 
 Plus the standard CRM record permission check on the linked record: a user only sees a message on a related list of a record they have `DetailView` on.
 
@@ -505,13 +602,20 @@ New install schema additions go into `src/Modules/Install/install_schema/` (the 
 
 No data migration — fresh start per decision §1.
 
-### 8.3 OSSMail decommissioning (parallel to migration)
+### 8.3 OSSMail status
 
-1. Disable modules `OSSMail`, `OSSMailScanner`, `OSSMailView` via ModuleManager (sets `presence=1` in `vtiger_tab`).
-2. Remove the three settings links from `vtiger_settings_field`.
-3. Replace `App\Modules\Base\UiTypes\Email::getDisplayValue` so email fields open the new Mail compose URL (one-line edit).
-4. Replace `App\Modules\Base\Views\IndividualSendMailModal` send action to delegate to `Mail\Service::send` when the user has a personal Mail account; fall back to the existing `s_yf_mail_smtp` queue when not.
-5. After two stable weeks: drop tables `vtiger_ossmailview`, `vtiger_ossmail*`, `roundcube_*`, files under `src/Modules/OSSMail*` and `storage/OSSMailView/`. This is a separate cleanup PR, not blocking Phase 1.
+OSSMail / OSSMailScanner / OSSMailView are not in active use on the target deployment, so there is **no decommissioning workflow** to coordinate with the Mail module rollout. The legacy code and tables can be left in place during the rollout; a one-shot cleanup PR can be scheduled at any later date to:
+
+1. Disable modules `OSSMail`, `OSSMailScanner`, `OSSMailView` in `vtiger_tab` (`presence=1`).
+2. Remove their entries from `vtiger_settings_field`.
+3. Drop tables `vtiger_ossmail*` and `roundcube_*`.
+4. Delete `src/Modules/OSSMail*` and `storage/OSSMailView/`.
+
+This is purely housekeeping and is **not** a dependency of any Mail module phase.
+
+### 8.4 Integration with the existing email UI type
+
+`App\Modules\Base\UiTypes\Email::getDisplayValue` currently builds a `<a class="sendMailBtn">` whose URL points at `OSSMail&view=compose`. As part of Phase 3, this is changed to point at `Mail&view=Compose` with the same query parameters (`crmModule`, `crmRecord`, `to`). One-line change, no `internal_mailer` legacy preference check — that flag is ignored in the new flow.
 
 ### 8.4 Containers
 
@@ -618,17 +722,18 @@ Estimated effort assumes one developer, working day = 4 productive hours.
 
 ### Phase 1 — Foundation (5–7 days)
 
-**Goal:** admin can create a mail account in the CRM and validate IMAP/SMTP login. No scanning, no sending yet.
+**Goal:** admin can create a mail account in the CRM and validate IMAP/SMTP login; user can edit their own account's signature and Reply-To. No scanning, no sending yet.
 
 1. `composer require webklex/php-imap`.
-2. Create the seven tables (§6) via a one-off SQL migration + corresponding entries in `install_schema/` for fresh installs.
-3. Register `Mail` module skeleton (`vtiger_tab` row, namespace `App\Modules\Mail`).
-4. Register `Settings:MailAccount` settings module.
-5. Implement `Models\Account` (CRUD with encrypted `password_enc`).
-6. Implement `Actions\TestConnection`: open IMAP → list folders, open SMTP → noop login.
-7. Settings UI: list view, edit form, test-connection button.
+2. Create the seven tables (§6) via a one-off SQL migration + corresponding entries in `install_schema/` for fresh installs. Includes `kind`, `reply_to_mode`, `reply_to_address`, `signature_html` columns and the dual-FK schema on `u_yf_mail_messages`.
+3. Add `sender_type` (and `skip_account_signature`) columns to `u_yf_emailtemplates`. Backfill: all existing templates get `sender_type='system_smtp'` (preserves current behavior).
+4. Register `Mail` module skeleton (`vtiger_tab` row, namespace `App\Modules\Mail`).
+5. Register `Settings:MailAccount` settings module with role-based edit gating (admin vs personal owner).
+6. Implement `Models\Account` (CRUD with encrypted `password_enc`).
+7. Implement `Actions\TestConnection`: open IMAP, list mailbox folders (returned to UI as a dropdown for `imap_folder_sent` selection), open SMTP, perform noop login.
+8. Settings UI: list view (admin sees all, user sees own + accessible shared), edit form, test-connection button, folder-pick dropdown populated from TestConnection response.
 
-**Acceptance:** admin adds an account for `bmankowski@itconnect.pl`, clicks Test, sees green check.
+**Acceptance:** admin adds a personal account for `bmankowski@itconnect.pl` and a shared account `rekrutacja@itconnect.pl`, clicks Test, sees green check + correctly listed "Wysłane"/"Sent"/"Elementy wysłane" folder name; logs in as a non-admin user, sees only own personal account, can change signature and `is_default` but not host/credentials.
 
 ### Phase 2 — Inbound (5–7 days)
 
@@ -647,41 +752,38 @@ Estimated effort assumes one developer, working day = 4 productive hours.
 
 **Acceptance:** send a mail from external account to `bmankowski@itconnect.pl` quoting a candidate's email address; within 2 minutes it appears under the Kandydat's "E-maile" tab with status badge `IN`.
 
-### Phase 3 — Outbound (5–7 days)
+### Phase 3 — Outbound, both paths (5–7 days)
 
-**Goal:** user clicks email on a record, fills the modal, the mail leaves through their own SMTP and a copy lands in their Sent folder.
+**Goal:** user clicks email on a record, fills the modal, and the mail leaves through the appropriate path based on the template — either user's SMTP (with APPEND to their Sent) or `s_yf_mail_smtp` (no APPEND).
 
-1. `Smtp\Sender` — PHPMailer with per-account creds.
-2. `Imap\Appender` — `webklex/php-imap`'s `appendMessage` to the Sent folder; failure logged, doesn't fail send.
-3. `Views\Compose` modal (Smarty), based on the existing `IndividualSendMailModal.tpl` but with the account-picker dropdown.
-4. `Actions\Send`: validate, render template, send, append, persist outbound message, auto-link to source record.
-5. Wire the email UI type (`App\Modules\Base\UiTypes\Email::getDisplayValue`) to open the new compose modal when the user has at least one Mail account; otherwise fall back to `mailto:`.
-6. Per-user "default account" toggle in `u_yf_mail_account_users.is_default`.
+1. `Smtp\Sender` — PHPMailer with per-account creds, signature appending, Reply-To resolution from `account.reply_to_mode`.
+2. `Imap\Appender` — `webklex/php-imap`'s `appendMessage` to the per-account `imap_folder_sent`; failure logged, doesn't fail send.
+3. Adapter for the `system_smtp` path: thin wrapper around existing `App\Email\Mailer` that also writes to `u_yf_mail_messages` and runs the binding engine on outbound.
+4. `Views\Compose` modal (Smarty): template picker, dynamic sender area (account dropdown / system label / combined), live preview, attachment upload, Send disabled when sender resolution fails.
+5. `Actions\Send`: branch by `sender_type` (Path A or Path B per §5.2), persist outbound message, run binding (source record always, plus auto-match on To/Cc/Bcc).
+6. Wire `App\Modules\Base\UiTypes\Email::getDisplayValue` to open the new compose modal (drop the `internal_mailer` legacy check).
+7. Per-user "default account" toggle in `u_yf_mail_account_users.is_default`.
+8. `IndividualSendMailModal` switch: replace its send action with `Mail\Actions\Send` per recipient; the template's `sender_type` dictates the path. Mass sends with `sender_type=system_smtp` still go to `s_yf_mail_queue`.
 
-**Acceptance:** on a Kandydat record, click email → modal opens → write → Send → mail arrives at recipient, copy visible in `bmankowski@itconnect.pl/Sent` via Thunderbird, new row in `u_yf_mail_messages` with `direction=out`, related list refreshes.
+**Acceptance (Path A):** on a Kandydat record, click email, pick a template with `sender_type='user_account'`, write, Send → mail arrives at recipient, copy visible in `bmankowski@itconnect.pl/<chosen_folder>` via Thunderbird, new row in `u_yf_mail_messages` with `direction='out'`, `account_id` set, related list refreshes, binding shows source record (auto/compose_source) plus matched recipients.
 
-### Phase 4 — Polish, operations, decommission OSSMail (3–5 days)
+**Acceptance (Path B):** pick a template with `sender_type='system_smtp'` and `smtp_id` pointing at `rekrutacja@`, send, no APPEND occurs, row written with `account_id=NULL`, `smtp_id` set, `from_email='rekrutacja@itconnect.pl'`, related list still refreshes and shows the message under the Kandydat.
 
-1. Admin log viewer (`Settings:MailAccount&view=Logs`).
-2. Per-account health on the account list (last scan, status, failures).
-3. Rate-limiting on `Actions\Send`.
-4. `Cron\LogPrune` task.
-5. Disable OSSMail / OSSMailScanner / OSSMailView modules in ModuleManager.
-6. Remove their menu and settings entries.
-7. Documentation: short admin guide on adding accounts, and a developer note on adding new Binding rules.
+### Phase 4 — Polish and operations (3–5 days)
 
-**Acceptance:** OSSMail menu items gone; new Mail module visible in main nav; "Wyślij e-mail" works everywhere it used to; cron log shows no errors for 48 h.
+1. Admin log viewer (`Settings:MailAccount&view=Logs`) with filters by level/action/account/date.
+2. Per-account health on the account list (last scan, status badge, failures, last 24 h message count).
+3. Rate-limiting on `Actions\Send` (default 60/min per user, configurable).
+4. `Cron\LogPrune` task — keep `info` 30 d, `warn`/`error` 180 d.
+5. Documentation: short admin guide on adding accounts, developer note on adding new Binding rules, end-user guide on signatures and Reply-To.
 
-### Phase 5 — Cleanup (1 day, scheduled 2 weeks later)
-
-Drop `roundcube_*` and `vtiger_ossmail*` tables, delete `src/Modules/OSSMail*` directories and `storage/OSSMailView/`. Separate PR, gated on Phase 4 stability.
+**Acceptance:** new Mail module visible in main nav and settings; "Wyślij e-mail" works on all six target modules; cron log shows no errors for 48 h; admin can read both paths' logs in one view.
 
 ### Sequencing rules
 
-- Phases 1 and 2 are read-only and can be deployed without disabling OSSMail — they coexist.
+- Phases 1 and 2 are read-only and can be deployed independently.
 - Phase 3 is the first user-visible behaviour change; deploy it only after Phase 2 has been running on production for at least 3 days with `last_scan_status='ok'` consistently.
-- Phase 4's step 5 (disable OSSMail) is the cutover. Do not touch it until Phase 3 has handled at least 20 real sends without errors.
-- Phase 5 is irreversible cleanup. Do not run before Phase 4 has been stable for 14 days.
+- The OSSMail decommissioning described in §8.3 is a **separate housekeeping PR** with no dependency on these phases — schedule it whenever convenient.
 
 ---
 
@@ -698,32 +800,49 @@ These are explicit "we will decide later, the architecture does not block them":
 
 ## 13. Pre-implementation validation questions
 
-The architecture above makes assumptions that should be confirmed against the actual deployment **before Phase 1 starts**. Each item below either confirms a default or surfaces a value that must be wired into the code.
+Status legend: ✅ answered · ⚠️ default chosen, confirm before the relevant phase · 🔍 to be checked against actual deployment data, no decision needed.
 
-1. **Email field names per target module.**
-   The `ByEmail` rule needs a concrete `{module, fieldName}` map. Assumed defaults are based on common FreeCRM conventions:
+### Answered
+
+1. ✅ **Account model** — mixed (personal + shared).
+2. ✅ **Auth** — login/password only, no OAuth2.
+3. ✅ **Outbound** — two paths: Mail module (user/shared with per-user SMTP) + existing `s_yf_mail_smtp` for role-based system sends.
+4. ✅ **Per-user editability** — user edits only own personal account (signature, Reply-To, default); admin edits everything.
+5. ✅ **IMAP Sent folder** — not hard-coded; discovered by TestConnection at account creation, admin picks from dropdown.
+6. ✅ **`IndividualSendMailModal`** — template-driven; `sender_type` on each template chooses path.
+7. ✅ **OSSMail fallbacks** — none; greenfield install.
+
+### Default chosen — confirm before the relevant phase
+
+8. ⚠️ **Visibility of messages on records** (§6.8) — default: **hybrid** (shared mailbox messages visible to anyone with record DetailView; personal mailbox messages only to account owner). Confirm before Phase 2 starts coding the related-list query.
+
+9. ⚠️ **Outbound auto-binding scope** — default: **source record always + auto-match on To/Cc/Bcc** across all six target modules. Confirm before Phase 3.
+
+10. ⚠️ **Reply-To for shared mailbox sends** — default: **per-account config** with three modes (`same_as_from`, `user_personal`, `custom`); admin sets per shared account. Default mode for new shared accounts: `same_as_from`. Confirm before Phase 3.
+
+11. ⚠️ **Behavior when user has no Mail account and template needs `user_account`** — default: **block Send, show banner with "Skonfiguruj teraz" link** to `Settings:MailAccount&view=Edit`. Confirm before Phase 3.
+
+12. ⚠️ **Sender selection encoding in templates** — default: **new column `sender_type` on `u_yf_emailtemplates`** with values `user_account`/`system_smtp`/`any`. Confirm before Phase 1 schema work.
+
+13. ⚠️ **Backfill on account creation** — default: **none** (`last_uid` = current MAX UID at account add); an optional "Import from date" action can be added later if needed. Confirm before Phase 2.
+
+14. ⚠️ **Per-account signature** — default: **`signature_html` column on `u_yf_mail_accounts`**, auto-appended; templates can opt out via `skip_account_signature`. Confirm before Phase 1 schema work.
+
+15. ⚠️ **HelpDesk subject pattern** — default: `[T#NNN]`. Confirm by inspecting one real HelpDesk ticket or the `ticket_no` field format before Phase 2.
+
+### To check against deployment, no decision needed
+
+16. 🔍 **Email field names per target module.** Concrete `{module, fieldName}` map for `ByEmail` rule. Tentative:
    - Kandydaci → `email1`
    - Contacts → `email`
    - Accounts → `email1`
    - Leads → `email`
-   - SSalesProcesses → `assigned_contact_email` (placeholder)
-   Confirm by querying `vtiger_field` for each `tabid` and `uitype IN (13, 104)` (email types) before Phase 2 starts. The result goes into a single config array in `App\Modules\Mail\Models\Binding\ByEmail`.
+   - SSalesProcesses → `assigned_contact_email` (placeholder — verify)
+   Query `vtiger_field` for each `tabid` and `uitype IN (13, 104)` at the start of Phase 2. The result becomes a config array in `App\Modules\Mail\Models\Binding\ByEmail`.
 
-2. **`App\Security\Encryption` key initialisation.**
-   The design relies on the existing encryption key for `password_enc`. The key must already be configured on the target deployment (`local.itconnect.pl`) and must remain stable — losing it means losing all stored mailbox passwords. Confirm:
-   - the key file/value exists in `config/main.php` (or wherever `App\Security\Encryption` reads it),
-   - it is included in the backup policy,
-   - it is **not** rotated as part of the Mail rollout.
+17. 🔍 **`App\Security\Encryption` key.** Verify it is configured on `local.itconnect.pl`, included in backups, and stable across the rollout (do not rotate during Phase 1).
 
-3. **IMAP `Sent` folder name on `mail.itconnect.pl`.**
-   The default value for `imap_folder_sent` is `Sent`, but some servers expose it as `Wysłane`, `Sent Items`, or `INBOX.Sent`. Confirm by logging into one real mailbox and listing folders. The TestConnection action should list folders and let the admin pick from a dropdown rather than hard-coding the value.
-
-4. **`IndividualSendMailModal` scope (Phase 3).**
-   The architecture currently assumes the bulk-send modal switches to per-user Mail accounts with a fallback to `s_yf_mail_smtp` when the user has no Mail account. The alternative is to leave the bulk modal entirely on the existing `s_yf_mail_smtp` path and only switch the single-record "Wyślij e-mail" flow. Confirm which:
-   - **(a)** bulk modal also uses Mail accounts (broader change, consistent UX),
-   - **(b)** bulk modal stays on system SMTP (smaller change, two parallel send paths).
-
-These questions do **not** block writing the architecture but must be answered before code is written for the phase that depends on them. Phase 1 and Phase 2 can start with the defaults above; question 4 only matters at Phase 3.
+These questions do **not** block writing the architecture. Phase 1 and 2 can start with the defaults above; #11 only matters at Phase 3.
 
 ---
 
@@ -734,8 +853,9 @@ Concrete file list an engineer can use as a build order for Phase 1+2+3:
 ```
 composer.json                                       +webklex/php-imap
 config/modules/Mail.php                              new
-src/Modules/Install/install_schema/Mail.php          new (schema)
+src/Modules/Install/install_schema/Mail.php          new (schema: 7 new tables)
 src/Modules/Install/install_schema/data_mail.sql     new (tab+cron+settings+related)
+tools/migrate/2026_mail_module.sql                   new (alter u_yf_emailtemplates: add sender_type, skip_account_signature)
 src/Modules/Mail/Mail.php                            new (install hook)
 src/Modules/Mail/Models/Account.php                  new
 src/Modules/Mail/Models/Message.php                  new
@@ -748,7 +868,8 @@ src/Modules/Mail/Models/Binding/HelpDeskSubject.php  new
 src/Modules/Mail/Imap/Client.php                     new
 src/Modules/Mail/Imap/Fetcher.php                    new
 src/Modules/Mail/Imap/Appender.php                   new
-src/Modules/Mail/Smtp/Sender.php                     new
+src/Modules/Mail/Smtp/Sender.php                     new (Path A: user SMTP)
+src/Modules/Mail/Smtp/SystemSender.php               new (Path B: adapter around App\Email\Mailer)
 src/Modules/Mail/Cron/Scanner.php                    new
 src/Modules/Mail/Cron/LogPrune.php                   new
 src/Modules/Mail/Views/Compose.php                   new

@@ -3,6 +3,7 @@ Settings_Vtiger_Edit_Js('Settings_MailSmtp_Edit_Js', {}, {
 	registerSubmitForm: function () {
 		var form = this.getForm()
 		form.on('submit', function (e) {
+			e.preventDefault();
 			form.find('.alert').hide()
 			if (form.validationEngine('validate') === true) {
 				var paramsForm = form.serializeFormData();
