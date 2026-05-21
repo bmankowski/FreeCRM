@@ -15,7 +15,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 {
 
 	public static $logoNames = ['logo_login', 'logo_main', 'logo_mail'];
-	public static $logoSupportedFormats = ['jpeg', 'jpg', 'png', 'gif', 'pjpeg', 'x-png'];
+	public static $logoSupportedFormats = ['jpeg', 'jpg', 'png', 'gif', 'pjpeg', 'x-png', 'webp'];
 
 	/**
 	 * Function to get the Id
@@ -87,6 +87,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		$db = \App\Db\Db::getInstance('admin');
 		$recordId = $this->getId();
 		$params = $this->getData();
+		unset($params['id']);
 		if ($recordId) {
 			$db->createCommand()->update('s_#__companies', $params, ['id' => $recordId])->execute();
 		} else {
@@ -254,10 +255,17 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		$db = \App\Db\Db::getInstance('admin');
 		$query = new \App\Db\Query();
 		$query->from('s_#__companies')
-			->where(['name' => $request->get('name')])
-			->orWhere(['short_name' => $request->get('short_name')]);
-		if ($request->get('record')) {
-			$query->andWhere(['<>', 'id', $request->get('record')]);
+			->where([
+				'or',
+				['name' => $request->get('name')],
+				['short_name' => $request->get('short_name')],
+			]);
+		$recordId = (int) $request->get('record');
+		if ($recordId <= 0) {
+			$recordId = (int) $this->getId();
+		}
+		if ($recordId > 0) {
+			$query->andWhere(['<>', 'id', $recordId]);
 		}
 		return $query->exists($db);
 	}

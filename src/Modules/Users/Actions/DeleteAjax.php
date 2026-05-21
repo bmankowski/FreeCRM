@@ -31,15 +31,12 @@ class DeleteAjax extends \App\Base\Controllers\BaseActionController
 		if ($request->get('mode') === 'permanent') {
 			\App\Modules\Users\Models\Record::deleteUserPermanently($ownerId, $newOwnerId);
 		} else {
-			$userId = vtws_getWebserviceEntityId($moduleName, $ownerId);
-			$transformUserId = vtws_getWebserviceEntityId($moduleName, $newOwnerId);
+			$userObj = new \App\Modules\Users\Users();
+			$userObj->transformOwnerShipAndDelete((int) $ownerId, (int) $newOwnerId);
 
-			$userModel = $request->getUser();
-
-			vtws_deleteUser($userId, $transformUserId, $userModel);
-
-			if ($request->get('permanent') === '1')
+			if ($request->get('permanent') === '1') {
 				\App\Modules\Users\Models\Record::deleteUserPermanently($ownerId, $newOwnerId);
+			}
 		}
 		$userModuleModel = \App\Modules\Users\Models\Module::getInstance($moduleName);
 		$listViewUrl = $userModuleModel->getListViewUrl();

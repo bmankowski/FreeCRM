@@ -145,7 +145,7 @@ class Users extends \App\Core\CRMEntity
 		'Admin' => 'is_admin'
 	);
 	//Default Fields for Email Templates -- Pavani
-	public $emailTemplate_defaultFields = array('first_name', 'last_name', 'job_title', 'phone_number', 'title', 'department', 'phone_home', 'phone_mobile', 'signature', 'email1');
+	public $emailTemplate_defaultFields = array('first_name', 'last_name', 'job_title', 'phone_number', 'department', 'phone_home', 'phone_mobile', 'signature', 'email1');
 	public $popup_fields = array('last_name');
 	// This is the list of fields that are in the lists.
 	public $default_order_by = '';

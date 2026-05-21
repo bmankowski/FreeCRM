@@ -87,7 +87,13 @@ class Mail
 		if ($hideSystem) {
 			$query->andWhere(['u_#__emailtemplates.sys_name' => null]);
 		}
-		$row = $query->all();
+		$row = $query
+			->orderBy([
+				'u_#__emailtemplates.sequence' => SORT_ASC,
+				'u_#__emailtemplates.name' => SORT_ASC,
+				'u_#__emailtemplates.emailtemplatesid' => SORT_ASC,
+			])
+			->all();
 		Cache::save('MailTempleteList', $cacheKey, $row, Cache::LONG);
 		return $row;
 	}

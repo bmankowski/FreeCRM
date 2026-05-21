@@ -48,6 +48,7 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 		$headerScriptInstances = parent::getFooterScripts($request);
 		$jsFileNames = [
 			'modules.Settings.Vtiger.resources.Edit',
+			'modules.Settings.Vtiger.resources.Index',
 			'modules.Base.resources.AdvanceFilterEx',
 			'modules.Settings.Companies.resources.Edit',
 		];

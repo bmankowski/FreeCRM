@@ -9,6 +9,64 @@
 var Settings_Users_ListView_Js;
 Settings_Vtiger_ListView_Js("Settings_Users_ListView_Js",{
 	/**
+	 * Load delete-user form in a modal (AJAX), then submit via deleteUser().
+	 * @param {string} deleteRecordActionUrl
+	 */
+	deleteRecord: function (deleteRecordActionUrl) {
+		var message = app.vtranslate('LBL_DELETE_USER_CONFIRMATION');
+		Vtiger_Helper_Js.showConfirmationBox({message: message}).then(function () {
+			AppConnector.request(deleteRecordActionUrl).then(function (data) {
+				if (data) {
+					var callback = function () {
+						var params = app.validationEngineOptions;
+						params.onValidationComplete = function (form, valid) {
+							if (valid) {
+								Settings_Users_ListView_Js.deleteUser(form);
+							}
+							return false;
+						};
+						jQuery('#deleteUser').validationEngine(app.validationEngineOptions);
+					};
+					app.showModalWindow(data, function () {
+						if (typeof callback === 'function') {
+							callback();
+						}
+					});
+				}
+			});
+		});
+	},
+	/**
+	 * Delete user and transfer records to another user.
+	 * @param {jQuery} form
+	 */
+	deleteUser: function (form) {
+		var userid = form.find('[name="userid"]').val();
+		var transferUserId = form.find('[name="tranfer_owner_id"]').val();
+		var progressInstance = jQuery.progressIndicator({
+			position: 'html',
+			blockInfo: {enabled: true}
+		});
+		var params = {
+			module: app.getModuleName(),
+			action: 'DeleteAjax',
+			transfer_user_id: transferUserId,
+			userid: userid,
+			permanent: jQuery('[name="deleteUserPermanent"]:checked', form).val()
+		};
+		AppConnector.request(params).then(function (data) {
+			progressInstance.progressIndicator({mode: 'hide'});
+			if (data.success) {
+				app.hideModalWindow();
+				Vtiger_Helper_Js.showPnotify({
+					text: data.result.message,
+					type: 'success'
+				});
+				window.location.reload();
+			}
+		});
+	},
+	/**
 	 * Function to trigger change password for a single user
 	 * @param {string} CHPWActionUrl - URL to load the change password form
 	 * @param {string} module - Module name

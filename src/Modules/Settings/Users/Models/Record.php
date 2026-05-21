@@ -87,7 +87,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		$recordLinks[] = [
 			'linktype' => 'LISTVIEWRECORD',
 			'linklabel' => 'LBL_DELETE_RECORD',
-			'linkurl' => 'index.php?module=Users&parent=Settings&action=DeleteUser&record=' . $this->getId(),
+			'linkurl' => 'javascript:Settings_Users_ListView_Js.deleteRecord("index.php?module=Users&parent=Settings&view=DeleteUser&record=' . $this->getId() . '")',
 			'linkicon' => 'glyphicon glyphicon-trash'
 		];
 		

@@ -4,7 +4,6 @@ DocumentTemplates_Edit_Js("DocumentTemplates_Edit3_Js", {}, {
 	advanceFilterInstance: false,
 	codeMirrorInstances: {},
 	activeEditorId: 'body_content',
-	previewPopoutWindow: null,
 	init: function () {
 		this.initialize();
 	},
@@ -37,7 +36,7 @@ DocumentTemplates_Edit_Js("DocumentTemplates_Edit3_Js", {}, {
 			this.setContainer(jQuery('#pdf_step3'));
 		}
 	},
-	submit: function () {
+	submit: function (showSuccessMessage) {
 		this.syncCodeMirrorEditors();
 		var aDeferred = jQuery.Deferred();
 		var form = this.getContainer();
@@ -56,7 +55,9 @@ DocumentTemplates_Edit_Js("DocumentTemplates_Edit3_Js", {}, {
 				function (data) {
 					data = JSON.parse(data);
 					if (data.success == true) {
-						Vtiger_Helper_Js.showMessage({text: app.vtranslate('JS_TEMPLATE_SAVED_SUCCESSFULLY')});
+						if (showSuccessMessage === true) {
+							Vtiger_Helper_Js.showMessage({text: app.vtranslate('JS_TEMPLATE_SAVED_SUCCESSFULLY')});
+						}
 
 						AppConnector.request(formData).then(
 								function (data) {
@@ -98,7 +99,7 @@ DocumentTemplates_Edit_Js("DocumentTemplates_Edit3_Js", {}, {
 					data = JSON.parse(data);
 					if (data.success == true) {
 						Vtiger_Helper_Js.showMessage({text: app.vtranslate('JS_TEMPLATE_SAVED_SUCCESSFULLY')});
-						thisInstance.refreshPreviewIfVisible();
+						FreeCRM_TemplateEditor_Js.refreshPreviewPopupIfOpen(thisInstance.buildPreviewHtml());
 					}
 					progressIndicatorElement.progressIndicator({
 						'mode': 'hide'
@@ -169,23 +170,7 @@ DocumentTemplates_Edit_Js("DocumentTemplates_Edit3_Js", {}, {
 		return content;
 	},
 	expandDynamicElements: function (html) {
-		var thisInstance = this;
-		var expanded = html || '';
-		for (var i = 0; i < 10; i++) {
-			var changed = false;
-			expanded = expanded.replace(/\$\(dynamic : ([a-zA-Z0-9_]+)\)\$/g, function (match, code) {
-				var content = thisInstance.getDynamicElementContent(code);
-				if (content === '') {
-					return '';
-				}
-				changed = true;
-				return content;
-			});
-			if (!changed) {
-				break;
-			}
-		}
-		return expanded;
+		return FreeCRM_TemplateEditor_Js.expandDynamicElements(html, this.getContainer());
 	},
 	insertDynamicElement: function (code) {
 		if (!code) {
@@ -244,64 +229,17 @@ DocumentTemplates_Edit_Js("DocumentTemplates_Edit3_Js", {}, {
 			}));
 		});
 	},
-	renderPreview: function () {
-		var documentHtml = this.buildPreviewHtml();
-		var w = this.previewPopoutWindow;
-		if (w && !w.closed) {
-			try {
-				w.document.open();
-				w.document.write(documentHtml);
-				w.document.close();
-				w.focus();
-				return;
-			} catch (e) {
-				app.errorLog(e);
-				this.previewPopoutWindow = null;
-			}
-		}
-		w = window.open('', 'FreeCRMTemplatePdfPreview', 'width=960,height=720,scrollbars=yes,resizable=yes');
-		if (!w) {
-			Vtiger_Helper_Js.showMessage({text: app.vtranslate('JS_TEMPLATE_PREVIEW_POPUP_BLOCKED')});
-			return;
-		}
-		this.previewPopoutWindow = w;
-		w.document.open();
-		w.document.write(documentHtml);
-		w.document.close();
-		w.focus();
-	},
-	refreshPreviewIfVisible: function () {
-		var w = this.previewPopoutWindow;
-		if (!w || w.closed) {
-			return;
-		}
-		var documentHtml = this.buildPreviewHtml();
-		try {
-			w.document.open();
-			w.document.write(documentHtml);
-			w.document.close();
-		} catch (e) {
-			app.errorLog(e);
-			this.previewPopoutWindow = null;
-		}
-	},
 	buildPreviewHtml: function () {
-		var header = this.expandDynamicElements(this.getEditorValue('header_content'));
-		var body = this.expandDynamicElements(this.getEditorValue('body_content'));
-		var footer = this.expandDynamicElements(this.getEditorValue('footer_content'));
-		return '<!doctype html><html><head><meta charset="utf-8">' +
-			'<base href="/"><link rel="stylesheet" href="/layouts/basic/resources/FreeCRMTemplate.css?v=docDefaults2">' +
-			'<style>body{font-family:Arial,sans-serif;font-size:12px;padding:24px;color:#222;}' +
-			'.pdf-preview-section{border:1px solid #ddd;margin-bottom:16px;padding:12px;}' +
-			'.pdf-preview-label{background:#f5f5f5;border-bottom:1px solid #ddd;font-weight:bold;margin:-12px -12px 12px;padding:8px;}' +
-			'table{max-width:100%;} img{max-width:100%;}</style></head><body>' +
-			this.buildPreviewSection('Nagłówek', header) +
-			this.buildPreviewSection('Treść główna', body) +
-			this.buildPreviewSection('Stopka', footer) +
-			'</body></html>';
-	},
-	buildPreviewSection: function (label, html) {
-		return '<section class="pdf-preview-section"><div class="pdf-preview-label">' + label + '</div>' + html + '</section>';
+		var container = this.getContainer();
+		var editor = FreeCRM_TemplateEditor_Js;
+		var header = editor.expandDynamicElements(this.getEditorValue('header_content'), container);
+		var body = editor.expandDynamicElements(this.getEditorValue('body_content'), container);
+		var footer = editor.expandDynamicElements(this.getEditorValue('footer_content'), container);
+		return editor.buildPreviewDocumentWithSections([
+			{label: app.vtranslate('LBL_DOCUMENT_HEADER', 'DocumentTemplates'), html: header},
+			{label: app.vtranslate('LBL_DOCUMENT_BODY', 'DocumentTemplates'), html: body},
+			{label: app.vtranslate('LBL_DOCUMENT_FOOTER', 'DocumentTemplates'), html: footer}
+		]);
 	},
 	registerEditorToolbarEvents: function () {
 		var container = this.getContainer();
@@ -311,9 +249,6 @@ DocumentTemplates_Edit_Js("DocumentTemplates_Edit3_Js", {}, {
 		});
 		container.off('click.pdfSaveStep3').on('click.pdfSaveStep3', '.js-save-step3-only', function () {
 			thisInstance.saveOnly();
-		});
-		container.off('click.pdfPreviewHtml').on('click.pdfPreviewHtml', '.js-preview-html', function () {
-			thisInstance.renderPreview();
 		});
 		container.off('change.templateDynamicAliasVariable').on('change.templateDynamicAliasVariable', '#templateDynamicAliasVariable', function () {
 			var select = jQuery(this);
@@ -325,8 +260,11 @@ DocumentTemplates_Edit_Js("DocumentTemplates_Edit3_Js", {}, {
 			var firstCode = select.find('option').first().val();
 			select.val(firstCode).trigger('change.select2');
 		});
-		container.off('click.pdfTemplateAiHelp').on('click.pdfTemplateAiHelp', '.js-toggle-ai-help', function () {
-			container.find('.pdfTemplateAiHelp').toggleClass('hide');
+		FreeCRM_TemplateEditor_Js.registerToolbar(container, {
+			previewDisplay: 'popup',
+			getPreviewDocumentHtml: function () {
+				return thisInstance.buildPreviewHtml();
+			}
 		});
 	},
 	/**
@@ -395,11 +333,6 @@ DocumentTemplates_Edit_Js("DocumentTemplates_Edit3_Js", {}, {
 		var container = this.getContainer();
 
 		var opts = app.validationEngineOptions;
-		// to prevent the page reload after the validation has completed
-		opts['onValidationComplete'] = function (form, valid) {
-			//returns the valid status
-			return valid;
-		};
 		opts['promptPosition'] = "bottomRight";
 		container.validationEngine(opts);
 		app.showSelect2ElementView(container.find('select'));
@@ -407,25 +340,4 @@ DocumentTemplates_Edit_Js("DocumentTemplates_Edit3_Js", {}, {
 		this.registerCodeMirror();
 		this.registerEditorToolbarEvents();
 	}
-});
-
-jQuery(function () {
-	var form = jQuery('#pdf_step3');
-	if (!form.length || form.data('codeMirrorInitialized') || typeof DocumentTemplates_Edit3_Js === 'undefined') {
-		return;
-	}
-	var stepInstance = new DocumentTemplates_Edit3_Js();
-	stepInstance.initialize(form);
-	stepInstance.registerCodeMirror();
-	stepInstance.registerEditorToolbarEvents();
-	form.off('submit.pdfCodeMirrorFallback').on('submit.pdfCodeMirrorFallback', function (e) {
-		e.preventDefault();
-		stepInstance.syncCodeMirrorEditors();
-		stepInstance.submit().then(function (data) {
-			var currentContainer = form.closest('.pdfTemplateContents');
-			currentContainer.replaceWith(data);
-			var editInstance = new DocumentTemplates_Edit_Js();
-			editInstance.initiate(jQuery('.pdfTemplateContents').first());
-		});
-	});
 });

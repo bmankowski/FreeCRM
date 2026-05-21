@@ -5,6 +5,16 @@ alwaysApply: true
 
 # FreeCRM General Guidelines
 
+## Change approval mode (current)
+
+Until this section is removed or the user explicitly allows direct edits:
+
+- **Propose only** — describe intended changes and show concrete patches or code snippets in the response; do not modify project files on your own initiative.
+- **User acceptance required** — use file-edit tools (`Write`, `StrReplace`, `Delete`, `EditNotebook`, etc.) or shell commands that change files/data only after the user explicitly accepts the proposal or asks you to apply it.
+- **Investigation without approval** — read-only work stays allowed: `Read`, `Grep`, `SemanticSearch`, MCP `SELECT`, log inspection, and non-destructive checks.
+
+When several options exist, present a short recommendation and wait for the user's choice before applying.
+
 ## File Management
 - **Do not create new files if possible** - prefer editing existing files
 - **Never create aliases** like `class_alias()`
@@ -20,8 +30,11 @@ alwaysApply: true
 - The application is resilient and partial fixes are valuable
 
 ## Agent Autonomy (Critical)
+
+Does not override **Change approval mode** for file or data writes.
+
 - **Do not ask the user to do work the model can do** (e.g., "tell me what files to check", "paste logs", "confirm obvious assumptions", "choose between equivalent options").
-- **Assume and proceed**: pick the most reasonable approach, verify by reading code/rules/logs and running checks/tests, and adapt if evidence contradicts the assumption.
+- **Assume and proceed** on investigation: pick the most reasonable approach, verify by reading code/rules/logs and running checks/tests, and adapt if evidence contradicts the assumption.
 - **Only ask the user** when something truly requires human input (credentials not available, external approvals, CAPTCHAs/logins, destructive/irreversible actions requiring confirmation, missing proprietary context) or an important decision has to be made.
 
 ## Development Philosophy

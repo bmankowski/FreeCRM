@@ -497,8 +497,7 @@ class Admin extends \App\Db\Importers\Base
 		</tr></table>', '<div style="text-align:center;">{nb} z {PAGENO}</div>
 
 <table border="0" cellpadding="10" cellspacing="0" style="margin:0 auto;" width="100%"><tbody><tr><td align="center" bgcolor="#13181A">
-			<p style="color:#fff;font-size:10px;">WE CREATED AN INNOACTIVE CRM SYSTEM THAT IS OPEN AND ADAPTS PERFECTLY TO YOUR BUSINESS.<br />
-			FIND OUT ABOUT ITS CAPABILITIES BY DOWNLOADING IT OR TESTING. CHANGE YOUR SYSTEM TO YETIFORCE!</p>
+			<p style="color:#fff;font-size:10px;"></p>
 			</td>
 		</tr></tbody></table>', 1, 'Kalkulacje', '*', '', '', '', 1, '', '', 'A4', 1, 0, 0, 0, 0, 0, 0, 'PLL_PORTRAIT', 'pl_pl', 'kalkulacje', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', NULL],
 					[2, 'SQuotes', '', '<table border="0" style="margin:0 auto;" width="100%"><tr><td height="25" width="5%"> </td>
@@ -554,8 +553,7 @@ class Admin extends \App\Db\Importers\Base
 		</tr></table>', '<div style="text-align:center;"> </div>
 
 <table border="0" cellpadding="10" cellspacing="0" style="margin:0 auto;" width="100%"><tbody><tr><td align="center" bgcolor="#13181A">
-			<p style="color:#fff;font-size:10px;">WE CREATED AN INNOACTIVE CRM SYSTEM THAT IS OPEN AND ADAPTS PERFECTLY TO YOUR BUSINESS.<br />
-			FIND OUT ABOUT ITS CAPABILITIES BY DOWNLOADING IT OR TESTING. CHANGE YOUR SYSTEM TO YETIFORCE!</p>
+			<p style="color:#fff;font-size:10px;"></p>
 			</td>
 		</tr></tbody></table>', 1, 'Oferty', '*', '', '', '', 1, '', '', 'A4', 1, 0, 0, 0, 0, 0, 0, 'PLL_PORTRAIT', 'pl_pl', 'oferty', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, '[]', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', NULL],
 					[3, 'SSingleOrders', '', '<table border="0" style="margin:0 auto;" width="100%"><tr><td height="25" width="5%"> </td>
@@ -614,8 +612,7 @@ class Admin extends \App\Db\Importers\Base
 		</tr></table>', '<div style="text-align:center;"> </div>
 
 <table border="0" cellpadding="10" cellspacing="0" style="margin:0 auto;" width="100%"><tbody><tr><td align="center" bgcolor="#13181A">
-			<p style="color:#fff;font-size:10px;">WE CREATED AN INNOACTIVE CRM SYSTEM THAT IS OPEN AND ADAPTS PERFECTLY TO YOUR BUSINESS.<br />
-			FIND OUT ABOUT ITS CAPABILITIES BY DOWNLOADING IT OR TESTING. CHANGE YOUR SYSTEM TO YETIFORCE!</p>
+			<p style="color:#fff;font-size:10px;"></p>
 			</td>
 		</tr></tbody></table>', 1, 'Zapytanie jednorazowe', '*', '', '', '', 1, '', '', 'A4', NULL, 0, 0, 0, 0, 0, 0, 'PLL_PORTRAIT', 'pl_pl', 'zapytanie_jednorazowe', 'PLL_LISTVIEW,PLL_DETAILVIEW', 1, 'null', 0, '', 0, 0, '', 'Roles:H2,RoleAndSubordinates:H2', NULL],
 					[4, 'IStorages', '', '<table style="width:100%;border-collapse:collapse;font-size:10px;"><tr><td style="padding:5px;font-size:20px;text-align:center;"><b>ARKUSZ KONTROLNY STANÓW MAGAZYNOWYCH</b></td>

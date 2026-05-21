@@ -22,17 +22,17 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 		$moduleModel = $recordModel->getModule();
 		$recordId = (int) $recordModel->getId();
 		if ($moduleModel->isPermitted('MassComposeEmail') && \App\Core\AppConfig::main('isActiveSendingMails') && \App\Email\Mail::getDefaultSmtp()) {
+			$individualMailUrl = 'index.php?module=Kandydaci&view=IndividualSendMailModal&selected_ids=' . rawurlencode(\App\Utils\Json::encode([$recordId]));
 			$relatedLinks['DETAILVIEW'][] = \App\Modules\Base\Models\Link::getInstanceFromValues([
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'LBL_SEND_EMAIL',
-				'linkurl' => '#',
+				'linkurl' => $individualMailUrl,
 				'linkhref' => true,
 				'linkicon' => 'glyphicon glyphicon-envelope',
-				'linkclass' => 'js-send-email-modal',
+				'linkclass' => 'showModal',
 				'title' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SEND_EMAIL'),
 				'linkdata' => [
-					'record-id' => $recordId,
-					'module-name' => 'Kandydaci',
+					'url' => $individualMailUrl,
 				],
 			]);
 		}

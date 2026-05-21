@@ -67,7 +67,7 @@
         "LBL_LOGIN_HISTORY_DETAILS": "Użytkownicy - logowanie",
         "LBL_LOGIN_TIME": "Czas logowania",
         "LBL_LOGO_RECOMMENDED_MESSAGE": "Rekomendowany rozmiar 48X48 px (.jpeg, .jpg, .png, .gif, .pjpeg, .x-png format).",
-        "LBL_PANELLOGO_RECOMMENDED_MESSAGE": "Rekomendowany rozmiar 256X256 px (.jpeg, .jpg, .png, .gif, .pjpeg, .x-png format).",
+        "LBL_PANELLOGO_RECOMMENDED_MESSAGE": "Rekomendowany rozmiar 256X256 px (.jpeg, .jpg, .png, .gif, .webp, .pjpeg, .x-png format).",
         "LBL_MAIL_MERGE_DESCRIPTION": "Zarządzaj szablonami korespondencji seryjnej",
         "LBL_MAIL_MERGE": "Korespondencja seryjna",
         "LBL_MAIL_SCANNER_DESCRIPTION": "Konfiguruj reguły dla skanera pocztowego a następnie przydzielaj zadania, jakie mają być definiowane.",

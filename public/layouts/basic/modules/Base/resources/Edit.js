@@ -958,6 +958,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		editViewForm.submit(function (e) {
 			//Form should submit only once for multiple clicks also
 			if (typeof editViewForm.data('submit') != "undefined") {
+				e.preventDefault();
 				return false;
 			} else {
 				document.progressLoader = jQuery.progressIndicator({
@@ -986,6 +987,8 @@ jQuery.Class("Vtiger_Edit_Js", {
 					document.progressLoader.progressIndicator({'mode': 'hide'});
 					editViewForm.removeData('submit');
 					app.formAlignmentAfterValidation(editViewForm);
+					e.preventDefault();
+					return false;
 				}
 			}
 		});

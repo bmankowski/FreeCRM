@@ -71,7 +71,7 @@ class EmailTemplates extends \App\Core\CRMEntity
 	// Used when enabling/disabling the mandatory fields for the module.
 	// Refers to vtiger_field.fieldname values.
 	public $mandatory_fields = ['name', 'assigned_user_id'];
-	public $default_order_by = '';
+	public $default_order_by = 'sequence';
 	public $default_sort_order = 'ASC';
 
 	/**

@@ -34,9 +34,20 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 	},
 	afterLoadVariablePanel: function (panel) {
 		var form = this.getForm();
+		var thisInstance = this;
 		app.showSelect2ElementView(panel.find('select.select2'));
 		this.registerDynamicElementEvents(form, panel);
 		app.registerCopyClipboard('#variablePanel .clipboard');
+		FreeCRM_TemplateEditor_Js.registerToolbar(panel, {
+			previewDisplay: 'inline',
+			getPreviewDocumentHtml: function () {
+				var body = FreeCRM_TemplateEditor_Js.expandDynamicElements(
+					thisInstance.getContentValue(form),
+					panel
+				);
+				return FreeCRM_TemplateEditor_Js.buildPreviewDocument(body);
+			}
+		});
 	},
 	getDynamicElements: function (form) {
 		var data = form.find('#variablePanel .js-dynamic-elements-json').val() || '[]';
@@ -62,23 +73,7 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 		return content;
 	},
 	expandDynamicElements: function (form, html) {
-		var thisInstance = this;
-		var expanded = html || '';
-		for (var i = 0; i < 10; i++) {
-			var changed = false;
-			expanded = expanded.replace(/\$\(dynamic : ([a-zA-Z0-9_]+)\)\$/g, function (match, code) {
-				var content = thisInstance.getDynamicElementContent(form, code);
-				if (content === '') {
-					return '';
-				}
-				changed = true;
-				return content;
-			});
-			if (!changed) {
-				break;
-			}
-		}
-		return expanded;
+		return FreeCRM_TemplateEditor_Js.expandDynamicElements(html, form.find('#variablePanel'));
 	},
 	insertDynamicElement: function (form, code) {
 		if (!code) {
@@ -203,19 +198,13 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 			return;
 		}
 		var toolbar = jQuery(
-			'<div class="emailTemplateToolbar">' +
+			'<div class="emailTemplateToolbar text-right">' +
 				'<select class="form-control input-sm js-email-template-snippet">' +
 					'<option value="">' + app.vtranslate('JS_INSERT_TEMPLATE_BLOCK') + '</option>' +
 					'<option value="emailTemplate">' + app.vtranslate('JS_TEMPLATE_SNIPPET_EMAIL') + '</option>' +
 					'<option value="pdfTemplate">' + app.vtranslate('JS_TEMPLATE_SNIPPET_PDF') + '</option>' +
 				'</select> ' +
-				'<button class="btn btn-info btn-sm js-email-format-html" type="button">' + app.vtranslate('JS_FORMAT_HTML') + '</button> ' +
-				'<button class="btn btn-default btn-sm js-email-editor-find" type="button">' + app.vtranslate('JS_FIND_TEXT') + '</button> ' +
-				'<button class="btn btn-primary btn-sm js-email-preview-html" type="button">' + app.vtranslate('JS_PREVIEW_HTML') + '</button> ' +
-				'<button class="btn btn-default btn-sm js-email-toggle-ai-help" type="button">' + app.vtranslate('JS_TEMPLATE_AI_HELP') + '</button>' +
-			'</div>' +
-			'<div class="emailTemplateAiHelp hide"><textarea class="form-control" rows="3" readonly>' + app.vtranslate('JS_TEMPLATE_AI_HELP_TEXT') + '</textarea></div>' +
-			'<div class="emailTemplatePreview hide"><iframe class="emailTemplatePreviewFrame" sandbox="" style="background:#fff;border:1px solid #ccc;height:420px;width:100%;"></iframe></div>'
+			'</div>'
 		);
 		textarea.closest('.fieldValue').before(toolbar);
 	},
@@ -249,6 +238,7 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 			}
 		});
 		this.codeMirrorInstance.setSize('100%', 420);
+		textarea.validationEngine('detach');
 	},
 	formatHtmlEditor: function (form) {
 		if (typeof html_beautify !== 'function') {
@@ -266,23 +256,6 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 			wrap_line_length: 160
 		}));
 	},
-	renderPreview: function (form) {
-		var previewContainer = form.find('.emailTemplatePreview');
-		var previewFrame = previewContainer.find('.emailTemplatePreviewFrame').get(0);
-		var documentHtml = '<!doctype html><html><head><meta charset="utf-8"><base href="/">' +
-			'<link rel="stylesheet" href="/layouts/basic/resources/FreeCRMTemplate.css?v=docDefaults2">' +
-			'<style>body{font-family:Arial,sans-serif;font-size:12px;padding:24px;color:#222;}table{max-width:100%;}img{max-width:100%;}</style>' +
-			'</head><body>' + this.expandDynamicElements(form, this.getContentValue(form)) + '</body></html>';
-		previewContainer.removeClass('hide');
-		if ('srcdoc' in previewFrame) {
-			previewFrame.srcdoc = documentHtml;
-			return;
-		}
-		var previewDocument = previewFrame.contentWindow.document;
-		previewDocument.open();
-		previewDocument.write(documentHtml);
-		previewDocument.close();
-	},
 	registerTemplateToolbarEvents: function (form) {
 		var thisInstance = this;
 		form.off('change.emailTemplateSnippet').on('change.emailTemplateSnippet', '.js-email-template-snippet', function () {
@@ -293,20 +266,40 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 			}
 			jQuery(this).val('');
 		});
-		form.off('click.emailFormatHtml').on('click.emailFormatHtml', '.js-email-format-html', function () {
-			thisInstance.formatHtmlEditor(form);
-		});
-		form.off('click.emailEditorFind').on('click.emailEditorFind', '.js-email-editor-find', function () {
-			thisInstance.runEditorCommand('find');
-		});
-		form.off('click.emailPreviewHtml').on('click.emailPreviewHtml', '.js-email-preview-html', function () {
-			thisInstance.renderPreview(form);
-		});
-		form.off('click.emailTemplateAiHelp').on('click.emailTemplateAiHelp', '.js-email-toggle-ai-help', function () {
-			form.find('.emailTemplateAiHelp').toggleClass('hide');
-		});
-		form.off('submit.emailCodeMirror').on('submit.emailCodeMirror', function () {
+	},
+	registerSubmitEvent: function () {
+		var thisInstance = this;
+		var editViewForm = this.getForm();
+		editViewForm.off('submit').on('submit', function (e) {
 			thisInstance.syncCodeMirrorEditor();
+			if (typeof editViewForm.data('submit') != 'undefined') {
+				e.preventDefault();
+				return false;
+			}
+			document.progressLoader = jQuery.progressIndicator({
+				'message': app.vtranslate('JS_SAVE_LOADER_INFO'),
+				'position': 'html',
+				'blockInfo': {
+					'enabled': true
+				}
+			});
+			if (editViewForm.validationEngine('validate')) {
+				editViewForm.data('submit', 'true');
+				var recordPreSaveEvent = jQuery.Event(Vtiger_Edit_Js.recordPreSave);
+				editViewForm.trigger(recordPreSaveEvent, {'value': 'edit'});
+				if (recordPreSaveEvent.isDefaultPrevented()) {
+					document.progressLoader.progressIndicator({'mode': 'hide'});
+					editViewForm.removeData('submit');
+					e.preventDefault();
+					return false;
+				}
+			} else {
+				document.progressLoader.progressIndicator({'mode': 'hide'});
+				editViewForm.removeData('submit');
+				app.formAlignmentAfterValidation(editViewForm);
+				e.preventDefault();
+				return false;
+			}
 		});
 	},
 	registerBasicEvents: function (container) {

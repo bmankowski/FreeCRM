@@ -47,7 +47,7 @@ class ExportData extends \App\Base\Controllers\BaseActionController
 		if (!empty($cvId)) {
 			$queryGenerator->initForCustomViewById($cvId);
 		}
-		$acceptedFields = ['user_name', 'title', 'first_name', 'last_name', 'email1', 'email2', 'secondaryemail', 'phone_work', 'phone_mobile', 'phone_fax', 'address_street', 'address_city', 'address_state', 'address_country', 'address_postalcode'];
+		$acceptedFields = ['user_name', 'job_title', 'first_name', 'last_name', 'email1', 'email2', 'secondaryemail', 'phone_work', 'phone_mobile', 'phone_fax', 'address_street', 'address_city', 'address_state', 'address_country', 'address_postalcode'];
 		$queryGenerator->setFields($acceptedFields);
 		return $queryGenerator->createQuery();
 	}

@@ -68,7 +68,7 @@
         "LBL_LOGIN_HISTORY_DETAILS": "Users – Login",
         "LBL_LOGIN_TIME": "Sign-in time",
         "LBL_LOGO_RECOMMENDED_MESSAGE": "Recommended size 48X48 pixels (.jpeg, .jpg, .png, .gif, .pjpeg, .x-png format).",
-        "LBL_PANELLOGO_RECOMMENDED_MESSAGE": "Recommended size 256X256 pixels (.jpeg, .jpg, .png, .gif, .pjpeg, .x-png format).",
+        "LBL_PANELLOGO_RECOMMENDED_MESSAGE": "Recommended size 256X256 pixels (.jpeg, .jpg, .png, .gif, .webp, .pjpeg, .x-png format).",
         "LBL_MAIL_MERGE_DESCRIPTION": "Manage templates for mail merging",
         "LBL_MAIL_MERGE": "Mail merge",
         "LBL_MAIL_SCANNER_DESCRIPTION": "Configure email inbox for scanning and record attachment",

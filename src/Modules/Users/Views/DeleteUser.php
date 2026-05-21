@@ -41,8 +41,7 @@ class DeleteUser  extends \App\Modules\Base\Views\Index
 		$viewer->assign('USERID', $userid);
 		$viewer->assign('DELETE_USER_NAME', $userRecordModel->getName());
 		$viewer->assign('USER_LIST', $usersList);
-		if ($request->get('mode') == 'permanent')
-			$viewer->assign('PERMANENT', true);
+		$viewer->assign('PERMANENT', $request->get('mode') === 'permanent');
 		$viewer->view('DeleteUser.tpl', $moduleName);
 	}
 }

@@ -32,7 +32,7 @@
         "LBL_LOGO_PATH_MAIL": "Ścieżka do loga firmy (wiadomości mail)",
         "LBL_COMPANY_NAMES_EXIST": "Firma o podanej nazwie już istnieje",
         "LBL_LOGO_UPLOAD_FAILED": "Nie udało się przesłać pliku.",
-        "LBL_LOGO_UPLOAD_INVALID_FORMAT": "Nieprawidłowy format pliku. Dozwolone: JPEG, JPG, PNG, GIF.",
+        "LBL_LOGO_UPLOAD_INVALID_FORMAT": "Nieprawidłowy format pliku. Dozwolone: JPEG, JPG, PNG, GIF, WebP.",
         "LBL_LOGO_UPLOAD_WRITE_ERROR": "Nie udało się zapisać pliku na serwerze (sprawdź uprawnienia katalogu public/storage/Logo)."
     },
     "jsLanguageStrings": []

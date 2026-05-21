@@ -51,6 +51,10 @@ class Edit extends \App\Modules\Base\Views\Index
 			}));
 		}
 		$viewer->assign('VARIABLE_PANEL_DYNAMIC_ALIASES', $variableAliases);
+		$viewer->assign(
+			'DYNAMIC_ELEMENTS_JSON',
+			\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($dynamicElements))
+		);
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
@@ -67,6 +71,11 @@ class Edit extends \App\Modules\Base\Views\Index
 			'libraries.codemirror.addon.edit.closebrackets',
 			'libraries.codemirror.addon.edit.closetag',
 			'libraries.codemirror.addon.selection.active-line',
+			'libraries.codemirror.addon.dialog.dialog',
+			'libraries.codemirror.addon.search.searchcursor',
+			'libraries.codemirror.addon.search.search',
+			'~libraries/js-beautify/beautify-html.min.js',
+			'modules.Base.resources.TemplateEditor',
 			'modules.TemplateElements.resources.Edit',
 		];
 		return array_merge($scripts, $this->checkAndConvertJsScripts($jsFileNames));
@@ -77,6 +86,8 @@ class Edit extends \App\Modules\Base\Views\Index
 		$styles = parent::getHeaderCss($request);
 		$cssFileNames = [
 			'libraries.codemirror.lib.codemirror',
+			'libraries.codemirror.addon.dialog.dialog',
+			'modules.Base.resources.TemplateEditor',
 		];
 		return array_merge($this->checkAndConvertCssStyles($cssFileNames), $styles);
 	}

@@ -112,7 +112,7 @@ class Purifier
 		$value = $input;
 		$cacheKey = md5($input);
 		// Pool name bumped when HTMLPurifier policy changes (avoid serving stale stripped HTML).
-		$purifyHtmlCachePool = 'purifyHtml_v5';
+		$purifyHtmlCachePool = 'purifyHtml_v6';
 		if (Cache::has($purifyHtmlCachePool, $cacheKey)) {
 			$value = Cache::get($purifyHtmlCachePool, $cacheKey);
 			$ignore = true; //to escape cleaning up again
@@ -217,6 +217,10 @@ class Purifier
 					$def->addAttribute('tr', 'border', 'Text');
 				}
 				$config->autoFinalize = true;
+				\HTMLPurifier_URISchemeRegistry::instance()->register(
+					'data',
+					new HtmlPurifierDataUriScheme()
+				);
 				static::$purifyHtmlInstanceCache = new \HTMLPurifier($config);
 			}
 			if (static::$purifyHtmlInstanceCache) {

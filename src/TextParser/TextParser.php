@@ -50,7 +50,6 @@ class TextParser
 		'LBL_PDF_GENERATOR_USER_NAME' => '$(generator : user_name)$',
 		'LBL_PDF_GENERATOR_EMAIL' => '$(generator : email1)$',
 		'LBL_PDF_GENERATOR_WORK_PHONE' => '$(generator : phone_work)$',
-		'LBL_PDF_GENERATOR_TITLE' => '$(generator : title)$',
 		'LBL_PDF_GENERATOR_JOB_TITLE' => '$(generator : job_title)$',
 		'LBL_PDF_GENERATOR_PHONE_NUMBER' => '$(generator : phone_number)$',
 		'LBL_PDF_GENERATOR_DEPARTMENT' => '$(generator : department)$',

@@ -35,6 +35,7 @@ class Mail extends \App\Base\Controllers\BaseActionController
 	{
 		parent::__construct();
 		$this->exposeMethod('checkSmtp');
+		$this->exposeMethod('previewMail');
 		$this->exposeMethod('sendMails');
 	}
 
@@ -79,15 +80,42 @@ class Mail extends \App\Base\Controllers\BaseActionController
 		$result = false;
 		if (!empty($template) && !empty($field)) {
 			$dataReader = $this->getQuery($request)->createCommand()->query();
+			$rows = [];
 			while ($row = $dataReader->read()) {
-				$result = \App\Email\Mailer::sendFromTemplate([
+				$rows[] = $row;
+			}
+			$subject = $request->getByType('subject', 'Text');
+			$content = $request->getForHtml('content');
+			$sendEditedContent = $subject !== '' && $content !== '' && count($rows) === 1;
+			foreach ($rows as $row) {
+				if ($sendEditedContent) {
+					$templateDetail = \App\Email\Mail::getTemplete($template);
+					$mailParams = [
 						'template' => $template,
 						'moduleName' => $moduleName,
 						'recordId' => $row['id'],
 						'to' => $row[$field],
 						'sourceModule' => $sourceModule,
 						'sourceRecord' => $sourceRecord,
-				]);
+						'smtp_id' => $templateDetail['smtp_id'],
+						'subject' => $subject,
+						'content' => $content,
+					];
+					if (isset($templateDetail['attachments'])) {
+						$mailParams['attachments'] = $templateDetail['attachments'];
+					}
+					\App\Email\Mailer::addMail(array_intersect_key($mailParams, array_flip(\App\Email\Mailer::$quoteColumn)));
+					$result = true;
+				} else {
+					$result = \App\Email\Mailer::sendFromTemplate([
+						'template' => $template,
+						'moduleName' => $moduleName,
+						'recordId' => $row['id'],
+						'to' => $row[$field],
+						'sourceModule' => $sourceModule,
+						'sourceRecord' => $sourceRecord,
+					]);
+				}
 				if (!$result) {
 					break;
 				}
@@ -96,6 +124,64 @@ class Mail extends \App\Base\Controllers\BaseActionController
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($result);
 		$response->emit();
+	}
+
+	/**
+	 * Preview selected template with the first record from current selection
+	 * @param \App\Http\Vtiger_Request $request
+	 */
+	public function previewMail(\App\Http\Vtiger_Request $request)
+	{
+		$moduleName = $request->getModule();
+		$field = $request->get('field');
+		$template = $request->get('template');
+		$result = ['success' => false];
+		if (!empty($template) && !empty($field)) {
+			$row = $this->getQuery($request)->limit(1)->one();
+			if ($row) {
+				$result = $this->getPreviewFromTemplate($template, $moduleName, $row['id'], $row[$field], $request);
+			}
+		}
+		$response = new \App\Http\Vtiger_Response();
+		$response->setResult($result);
+		$response->emit();
+	}
+
+	/**
+	 * Build parsed subject and content for a template preview
+	 * @param int|string $templateId
+	 * @param string $moduleName
+	 * @param int $recordId
+	 * @param string $recipient
+	 * @param \App\Http\Vtiger_Request $request
+	 * @return array
+	 */
+	private function getPreviewFromTemplate($templateId, $moduleName, $recordId, $recipient, \App\Http\Vtiger_Request $request)
+	{
+		$template = \App\Email\Mail::getTemplete($templateId);
+		if (!$template) {
+			return ['success' => false];
+		}
+		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, $moduleName);
+		$textParser = \App\TextParser\TextParser::getInstanceByModel($recordModel);
+		$textParser->setParams([
+			'template' => $templateId,
+			'moduleName' => $moduleName,
+			'recordId' => $recordId,
+			'to' => $recipient,
+			'sourceModule' => $request->get('sourceModule'),
+			'sourceRecord' => $request->get('sourceRecord'),
+		]);
+		$subject = $textParser->setContent($template['subject'])->parse()->getContent();
+		$content = $textParser->setContent($template['content'])->parse()->getContent();
+		unset($textParser);
+		return [
+			'success' => true,
+			'recordId' => $recordId,
+			'to' => $recipient,
+			'subject' => $subject,
+			'content' => \App\Utils\TemplateStyles::inlineEmailCss($content),
+		];
 	}
 
 	/**
@@ -131,6 +217,7 @@ class Mail extends \App\Base\Controllers\BaseActionController
 			$listView->set('search_params', $transformedSearchParams);
 		}
 		$queryGenerator = $listView->getQueryGenerator();
+		/** @var \App\Modules\Base\Models\Module $moduleModel */
 		$moduleModel = $queryGenerator->getModuleModel();
 		$baseTableName = $moduleModel->get('basetable');
 		$baseTableId = $moduleModel->get('basetableid');

@@ -48,6 +48,9 @@ class SaveAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 					$columns = array_diff($columns, ['default']);
 				}
 				foreach ($columns as $fieldName) {
+					if ($fieldName === 'id') {
+						continue;
+					}
 					$fieldValue = $request->get($fieldName);
 					if ($fieldName === 'logo_login' || $fieldName === 'logo_main' || $fieldName === 'logo_mail') {
 						if (!empty($savedLogos[$fieldName])) {

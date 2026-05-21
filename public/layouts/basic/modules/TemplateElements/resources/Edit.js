@@ -7,6 +7,7 @@
  */
 Vtiger_Edit_Js('TemplateElements_Edit_Js', {}, {
 	codeMirrors: {},
+	activeEditorKey: 'content',
 	registerCodeGeneration: function () {
 		var form = this.getForm();
 		var label = form.find('[name="label"]');
@@ -34,6 +35,47 @@ Vtiger_Edit_Js('TemplateElements_Edit_Js', {}, {
 		});
 		this.codeMirrors = {};
 	},
+	setEditorHtmlValue: function (key, value) {
+		var cm = this.codeMirrors[key];
+		if (cm) {
+			cm.setValue(value);
+			cm.refresh();
+			return;
+		}
+		var map = {
+			content: '#dynamicElementContent',
+			layout_header: '#dynamicElementLayoutHeader',
+			layout_body: '#dynamicElementLayoutBody',
+			layout_footer: '#dynamicElementLayoutFooter'
+		};
+		this.getForm().find(map[key] || map.content).val(value);
+	},
+	formatHtmlEditors: function () {
+		var thisInstance = this;
+		if (typeof html_beautify !== 'function') {
+			Vtiger_Helper_Js.showMessage({
+				text: 'Brak lokalnej biblioteki formatowania HTML.'
+			});
+			return;
+		}
+		var beautifyOpts = {
+			indent_size: 2,
+			indent_char: ' ',
+			max_preserve_newlines: 2,
+			preserve_newlines: true,
+			wrap_line_length: 160
+		};
+		jQuery.each(thisInstance.codeMirrors, function (key, cm) {
+			if (!cm) {
+				return true;
+			}
+			var value = cm.getValue();
+			if (jQuery.trim(value) === '') {
+				return true;
+			}
+			thisInstance.setEditorHtmlValue(key, html_beautify(value, beautifyOpts));
+		});
+	},
 	registerCodeMirror: function () {
 		this.destroyCodeMirrors();
 		if (typeof CodeMirror === 'undefined') {
@@ -42,6 +84,7 @@ Vtiger_Edit_Js('TemplateElements_Edit_Js', {}, {
 		var form = this.getForm();
 		var layoutType = jQuery('#documentLayoutTypeValue').val();
 		var isLayout = form.find('[name="type"]').val() === layoutType;
+		var thisInstance = this;
 		var opts = {
 			mode: 'htmlmixed',
 			lineNumbers: true,
@@ -49,9 +92,26 @@ Vtiger_Edit_Js('TemplateElements_Edit_Js', {}, {
 			matchBrackets: true,
 			autoCloseBrackets: true,
 			autoCloseTags: true,
-			styleActiveLine: true
+			styleActiveLine: true,
+			indentUnit: 2,
+			tabSize: 2,
+			extraKeys: {
+				'Ctrl-F': 'findPersistent',
+				'Ctrl-H': 'replace',
+				'Ctrl-S': function () {
+					thisInstance.saveOnly();
+				},
+				'Cmd-S': function () {
+					thisInstance.saveOnly();
+				},
+				'Shift-Ctrl-F': function () {
+					thisInstance.formatHtmlEditors();
+				},
+				'Shift-Cmd-F': function () {
+					thisInstance.formatHtmlEditors();
+				}
+			}
 		};
-		var thisInstance = this;
 		var bind = function (textareaId, key, height) {
 			var ta = form.find('#' + textareaId).get(0);
 			if (!ta) {
@@ -59,6 +119,9 @@ Vtiger_Edit_Js('TemplateElements_Edit_Js', {}, {
 			}
 			thisInstance.codeMirrors[key] = CodeMirror.fromTextArea(ta, opts);
 			thisInstance.codeMirrors[key].setSize('100%', height);
+			thisInstance.codeMirrors[key].on('focus', function () {
+				thisInstance.activeEditorKey = key;
+			});
 		};
 		if (isLayout) {
 			bind('dynamicElementLayoutHeader', 'layout_header', 200);
@@ -152,18 +215,58 @@ Vtiger_Edit_Js('TemplateElements_Edit_Js', {}, {
 			}
 		);
 	},
+	getEditorHtmlValue: function (key) {
+		var cm = this.codeMirrors[key];
+		if (cm) {
+			return cm.getValue();
+		}
+		var map = {
+			content: '#dynamicElementContent',
+			layout_header: '#dynamicElementLayoutHeader',
+			layout_body: '#dynamicElementLayoutBody',
+			layout_footer: '#dynamicElementLayoutFooter'
+		};
+		return this.getForm().find(map[key] || map.content).val() || '';
+	},
+	buildPreviewHtml: function () {
+		var form = this.getForm();
+		var editor = FreeCRM_TemplateEditor_Js;
+		var layoutType = jQuery('#documentLayoutTypeValue').val();
+		var isLayout = form.find('[name="type"]').val() === layoutType;
+		if (isLayout) {
+			return editor.buildPreviewDocumentWithSections([
+				{label: app.vtranslate('LBL_LAYOUT_HEADER', 'TemplateElements'), html: editor.expandDynamicElements(this.getEditorHtmlValue('layout_header'), form)},
+				{label: app.vtranslate('LBL_LAYOUT_BODY', 'TemplateElements'), html: editor.expandDynamicElements(this.getEditorHtmlValue('layout_body'), form)},
+				{label: app.vtranslate('LBL_LAYOUT_FOOTER', 'TemplateElements'), html: editor.expandDynamicElements(this.getEditorHtmlValue('layout_footer'), form)}
+			]);
+		}
+		var body = editor.expandDynamicElements(this.getEditorHtmlValue('content'), form);
+		return editor.buildPreviewDocument(body);
+	},
+	registerTemplateEditorToolbar: function () {
+		var thisInstance = this;
+		var form = this.getForm();
+		FreeCRM_TemplateEditor_Js.registerToolbar(form, {
+			previewDisplay: 'inline',
+			getPreviewDocumentHtml: function () {
+				return thisInstance.buildPreviewHtml();
+			}
+		});
+	},
 	registerKeyboardShortcuts: function () {
 		var thisInstance = this;
-		jQuery(document).on('keydown.templateElementsEdit', function (e) {
-			if (!(e.ctrlKey || e.metaKey) || e.key !== 's') {
+		jQuery(document).off('keydown.templateElementsEdit').on('keydown.templateElementsEdit', function (e) {
+			if (!(e.ctrlKey || e.metaKey)) {
 				return;
 			}
 			var form = thisInstance.getForm();
 			if (!form.length || !jQuery.contains(document, form.get(0))) {
 				return;
 			}
-			e.preventDefault();
-			thisInstance.saveOnly();
+			if (e.key === 's') {
+				e.preventDefault();
+				thisInstance.saveOnly();
+			}
 		});
 	},
 	registerSubmit: function () {
@@ -189,6 +292,7 @@ Vtiger_Edit_Js('TemplateElements_Edit_Js', {}, {
 		this.applyTypeVisibility();
 		this.registerTypeSwitch();
 		this.registerCodeMirror();
+		this.registerTemplateEditorToolbar();
 		this.registerSubmit();
 		this.registerKeyboardShortcuts();
 	}

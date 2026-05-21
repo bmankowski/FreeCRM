@@ -50,6 +50,7 @@ class Company extends \App\Runtime\BaseModel
 
 	/**
 	 * Write data URI sidecar (image.png.base64) for template/PDF inline embedding.
+	 * WebP sources are stored as transparent PNG so email clients embed image/png (not image/webp).
 	 */
 	public static function writeLogoBase64Sidecar(string $fileName, string $mimeType = ''): bool
 	{
@@ -68,8 +69,120 @@ class Company extends \App\Runtime\BaseModel
 				$mimeType = 'application/octet-stream';
 			}
 		}
-		$dataUri = 'data:' . $mimeType . ';base64,' . base64_encode($raw);
+		$embedded = static::buildLogoEmbeddedBinary($raw, $mimeType, $fileName, $full);
+		if ($embedded === null) {
+			return false;
+		}
+		$dataUri = 'data:' . $embedded['mime'] . ';base64,' . base64_encode($embedded['binary']);
 		return false !== @file_put_contents(static::getLogoBase64SidecarPath($fileName), $dataUri, LOCK_EX);
+	}
+
+	/**
+	 * Prepare logo bytes for data-URI sidecars (WebP → PNG with alpha for email compatibility).
+	 *
+	 * @return array{mime: string, binary: string}|null
+	 */
+	protected static function buildLogoEmbeddedBinary(string $raw, string $mimeType, string $fileName, string $sourcePath = ''): ?array
+	{
+		if ($mimeType === 'image/webp' || preg_match('/\.webp$/i', $fileName)) {
+			$png = static::convertImageBinaryToPngWithAlpha($raw, $sourcePath);
+			if ($png !== null) {
+				return ['mime' => 'image/png', 'binary' => $png];
+			}
+			return null;
+		}
+		return ['mime' => $mimeType, 'binary' => $raw];
+	}
+
+	/**
+	 * Decode image bytes to PNG preserving the alpha channel (GD, then ImageMagick when GD lacks WebP).
+	 */
+	protected static function convertImageBinaryToPngWithAlpha(string $raw, string $sourcePath = ''): ?string
+	{
+		if (function_exists('imagecreatefromstring') && function_exists('imagepng')) {
+			$image = @imagecreatefromstring($raw);
+			if ($image === false && $sourcePath !== '' && function_exists('imagecreatefromwebp')) {
+				$image = @imagecreatefromwebp($sourcePath);
+			}
+			if ($image !== false) {
+				imagealphablending($image, false);
+				imagesavealpha($image, true);
+				ob_start();
+				$ok = imagepng($image);
+				$png = ob_get_clean();
+				imagedestroy($image);
+				if ($ok && $png !== false && $png !== '') {
+					return $png;
+				}
+			}
+		}
+		if ($sourcePath !== '' && is_file($sourcePath)) {
+			$png = static::convertImagePathToPngViaMagick($sourcePath);
+			if ($png !== null) {
+				return $png;
+			}
+		}
+		return static::convertWebpBytesToPngViaMagick($raw);
+	}
+
+	/**
+	 * Convert a logo file to PNG using ImageMagick (used when PHP GD has no WebP support).
+	 */
+	protected static function convertImagePathToPngViaMagick(string $path): ?string
+	{
+		$convert = static::findImageMagickConvertBinary();
+		if ($convert === null) {
+			return null;
+		}
+		$pngPath = tempnam(sys_get_temp_dir(), 'fc_logo_');
+		if ($pngPath === false) {
+			return null;
+		}
+		$pngOut = $pngPath . '.png';
+		@unlink($pngPath);
+		$cmd = escapeshellarg($convert) . ' ' . escapeshellarg($path) . ' PNG:' . escapeshellarg($pngOut) . ' 2>/dev/null';
+		exec($cmd, $unused, $exitCode);
+		if ($exitCode !== 0 || !is_file($pngOut) || filesize($pngOut) === 0) {
+			@unlink($pngOut);
+			return null;
+		}
+		$png = @file_get_contents($pngOut);
+		@unlink($pngOut);
+		return ($png !== false && $png !== '') ? $png : null;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	protected static function convertWebpBytesToPngViaMagick(string $raw): ?string
+	{
+		$tmp = tempnam(sys_get_temp_dir(), 'fc_webp_');
+		if ($tmp === false) {
+			return null;
+		}
+		$webpPath = $tmp . '.webp';
+		@unlink($tmp);
+		if (@file_put_contents($webpPath, $raw) === false) {
+			@unlink($webpPath);
+			return null;
+		}
+		$png = static::convertImagePathToPngViaMagick($webpPath);
+		@unlink($webpPath);
+		return $png;
+	}
+
+	/**
+	 * @return string|null Absolute path to ImageMagick convert
+	 */
+	protected static function findImageMagickConvertBinary(): ?string
+	{
+		$candidates = ['/usr/bin/convert', '/usr/local/bin/convert'];
+		foreach ($candidates as $path) {
+			if (is_executable($path)) {
+				return $path;
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -85,7 +198,10 @@ class Company extends \App\Runtime\BaseModel
 		if (is_readable($sidecarFull)) {
 			$dataUri = trim((string) @file_get_contents($sidecarFull));
 		}
-		if ($dataUri === '' || strpos($dataUri, 'data:') !== 0) {
+		$needsRegenerate = $dataUri === ''
+			|| strpos($dataUri, 'data:') !== 0
+			|| stripos($dataUri, 'data:image/webp') === 0;
+		if ($needsRegenerate) {
 			static::writeLogoBase64Sidecar($fileName);
 			if (is_readable($sidecarFull)) {
 				$dataUri = trim((string) @file_get_contents($sidecarFull));

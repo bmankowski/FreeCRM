@@ -395,11 +395,6 @@ DocumentTemplates_Edit_Js("DocumentTemplates_Edit3_Js", {}, {
 		var container = this.getContainer();
 
 		var opts = app.validationEngineOptions;
-		// to prevent the page reload after the validation has completed
-		opts['onValidationComplete'] = function (form, valid) {
-			//returns the valid status
-			return valid;
-		};
 		opts['promptPosition'] = "bottomRight";
 		container.validationEngine(opts);
 		app.showSelect2ElementView(container.find('select'));

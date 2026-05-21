@@ -10,6 +10,7 @@
         "FL_SUBJECT": "Temat",
         "FL_CONTENT": "Treść",
         "FL_SMTP_PRIORITY": "Priorytet SMTP",
+        "LBL_SEQUENCE": "Kolejność",
         "PLL_MODULE": "Moduł",
         "PLL_RECORD": "Rekord",
         "PLL_MAIL": "Wiadomość mail",

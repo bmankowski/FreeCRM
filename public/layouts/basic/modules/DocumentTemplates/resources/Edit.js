@@ -44,6 +44,10 @@ Vtiger_Edit_Js("DocumentTemplates_Edit_Js", {
 						function (html) {
 							form.hide();
 							DocumentTemplates_Edit_Js.hideProgress(progressIndicatorElement);
+							var nextStepVal = parseInt(step, 10) + 1;
+							if (typeof DocumentTemplates_Edit_Js.syncPdfStepUrlFromForm === 'function') {
+								DocumentTemplates_Edit_Js.syncPdfStepUrlFromForm(nextStepVal, form);
+							}
 							aDeferred.resolve(html);
 						},
 						function (error, err) {
@@ -63,6 +67,40 @@ Vtiger_Edit_Js("DocumentTemplates_Edit_Js", {
 				aDeferred.reject(error);
 			}
 		);
+	},
+	syncPdfStepUrlFromForm: function (stepVal, form) {
+		if (typeof window.history === 'undefined' || typeof window.history.replaceState !== 'function') {
+			return;
+		}
+		try {
+			var pathname = window.location.pathname || '/index.php';
+			if (pathname.indexOf('index.php') === -1) {
+				pathname = '/index.php';
+			}
+			var params = [];
+			params.push('module=' + encodeURIComponent(jQuery('[name="module"]', form).first().val() || 'DocumentTemplates'));
+			var parentName = jQuery('[name="parent"]', form).first().val();
+			if (parentName) {
+				params.push('parent=' + encodeURIComponent(parentName));
+			}
+			params.push('view=' + encodeURIComponent(jQuery('[name="view"]', form).first().val() || 'Edit'));
+			params.push('mode=Step' + parseInt(stepVal, 10));
+			var record = jQuery('[name="record"]', form).first().val();
+			if (record) {
+				params.push('record=' + encodeURIComponent(record));
+			}
+			try {
+				var currentUrl = new URL(window.location.href);
+				if (currentUrl.searchParams.has('mid')) {
+					params.push('mid=' + encodeURIComponent(currentUrl.searchParams.get('mid')));
+				}
+			} catch (e) {
+				app.errorLog(e);
+			}
+			window.history.replaceState({ pdfWizardStep: stepVal }, '', pathname + '?' + params.join('&'));
+		} catch (e) {
+			app.errorLog(e);
+		}
 	}
 }, {
 	currentInstance: false,
@@ -181,7 +219,39 @@ Vtiger_Edit_Js("DocumentTemplates_Edit_Js", {
 		return requestData;
 	},
 	/**
-	 * Keep browser URL in sync with wizard step (same params as full page load: module, parent, view, mode, record).
+	 * Build wizard URL from the active step form (works even when the address bar was stripped by a POST).
+	 */
+	buildPdfWizardUrl: function (stepVal, container) {
+		var params = [];
+		var moduleName = jQuery('[name="module"]', container).first().val() || 'DocumentTemplates';
+		var viewName = jQuery('[name="view"]', container).first().val() || 'Edit';
+		var parentName = jQuery('[name="parent"]', container).first().val();
+		var record = jQuery('[name="record"]', container).first().val();
+		params.push('module=' + encodeURIComponent(moduleName));
+		if (parentName) {
+			params.push('parent=' + encodeURIComponent(parentName));
+		}
+		params.push('view=' + encodeURIComponent(viewName));
+		params.push('mode=Step' + parseInt(stepVal, 10));
+		if (record) {
+			params.push('record=' + encodeURIComponent(record));
+		}
+		try {
+			var currentUrl = new URL(window.location.href);
+			if (currentUrl.searchParams.has('mid')) {
+				params.push('mid=' + encodeURIComponent(currentUrl.searchParams.get('mid')));
+			}
+		} catch (e) {
+			app.errorLog(e);
+		}
+		var pathname = window.location.pathname || '/index.php';
+		if (pathname.indexOf('index.php') === -1) {
+			pathname = '/index.php';
+		}
+		return pathname + '?' + params.join('&');
+	},
+	/**
+	 * Keep browser URL in sync with wizard step (module, view, mode, record).
 	 */
 	syncPdfStepUrl: function (stepVal) {
 		stepVal = parseInt(stepVal, 10);
@@ -201,18 +271,7 @@ Vtiger_Edit_Js("DocumentTemplates_Edit_Js", {
 			return;
 		}
 		try {
-			var url = new URL(window.location.href);
-			url.searchParams.set('module', jQuery('[name="module"]', container).first().val() || 'DocumentTemplates');
-			url.searchParams.delete('parent');
-			url.searchParams.set('view', jQuery('[name="view"]', container).first().val() || 'Edit');
-			url.searchParams.set('mode', 'Step' + stepVal);
-			var record = jQuery('[name="record"]', container).first().val();
-			if (record) {
-				url.searchParams.set('record', record);
-			} else {
-				url.searchParams.delete('record');
-			}
-			window.history.replaceState({ pdfWizardStep: stepVal }, '', url.toString());
+			window.history.replaceState({ pdfWizardStep: stepVal }, '', this.buildPdfWizardUrl(stepVal, container));
 		} catch (e) {
 			app.errorLog(e);
 		}
@@ -260,6 +319,9 @@ Vtiger_Edit_Js("DocumentTemplates_Edit_Js", {
 		return aDeferred.promise();
 	},
 	registerCurrentStepEvents: function () {
+		if (!this.currentInstance || !jQuery.isFunction(this.currentInstance.getContainer)) {
+			return;
+		}
 		var container = this.currentInstance.getContainer();
 		this.registerFormSubmitEvent(container);
 		if (!container.data('pdfStepEventsRegistered')) {
@@ -298,7 +360,7 @@ Vtiger_Edit_Js("DocumentTemplates_Edit_Js", {
 			aDeferred.reject();
 			return aDeferred.promise();
 		}
-		this.currentInstance.submit().then(function (data) {
+		this.currentInstance.submit(true).then(function (data) {
 			var loadedStepVal = thisInstance.getStepValueFromHtml(data);
 			if (!loadedStepVal) {
 				loadedStepVal = currentStepVal + 1;
@@ -328,13 +390,15 @@ Vtiger_Edit_Js("DocumentTemplates_Edit_Js", {
 		var thisInstance = this;
 		if (jQuery.isFunction(thisInstance.currentInstance.submit)) {
 			form.off('submit.pdfEdit').on('submit.pdfEdit', function (e) {
+				e.preventDefault();
+				e.stopImmediatePropagation();
 				var form = jQuery(e.currentTarget);
 				var specialValidation = true;
 				if (jQuery.isFunction(thisInstance.currentInstance.isFormValidate)) {
 					specialValidation = thisInstance.currentInstance.isFormValidate();
 				}
 				if (form.validationEngine('validate') && specialValidation) {
-					thisInstance.currentInstance.submit().then(function (data) {
+					thisInstance.currentInstance.submit(true).then(function (data) {
 						var nextStepVal = thisInstance.getStepValueFromHtml(data);
 						if (!nextStepVal) {
 							nextStepVal = parseInt(thisInstance.getStepValue()) + 1;
@@ -348,8 +412,8 @@ Vtiger_Edit_Js("DocumentTemplates_Edit_Js", {
 					});
 
 				}
-				e.preventDefault();
-			})
+				return false;
+			});
 		}
 	},
 	back: function () {
@@ -402,6 +466,9 @@ Vtiger_Edit_Js("DocumentTemplates_Edit_Js", {
 		});
 	},
 	registerEvents: function () {
+		if (!this.currentInstance || !jQuery.isFunction(this.currentInstance.getContainer)) {
+			return;
+		}
 		var form = this.currentInstance.getContainer();
 		app.registerCopyClipboard();
 		this.registerCurrentStepEvents();

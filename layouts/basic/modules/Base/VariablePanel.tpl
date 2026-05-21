@@ -1,16 +1,150 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 	<!-- layouts/basic/modules/Base/VariablePanel.tpl -->
+	{assign var=VP_LAYOUT value=$VARIABLE_PANEL_LAYOUT|default:'grid'}
 	{if !empty($TEXT_PARSER) && $PARSER_TYPE}
 		{assign var=TEXT_PARSER value=$TEXT_PARSER->setType($PARSER_TYPE)}
 	{/if}
-	{if !empty($TEXT_PARSER) && $SELECTED_MODULE && !empty($VARIABLE_PANEL_HAS_ENTITY_INFO)}
-		<div class="col-md-6 fieldRow">
-			<div class="col-md-3 fieldLabel paddingLeft5px medium {if !empty($GRAY)}bc-gray-lighter{/if}">
-				<label class="muted">{'LBL_MODULE_FIELDS'|t}</label>
+	{if !empty($TEXT_PARSER)}
+		{if $VP_LAYOUT eq 'form'}
+			<div class="form-group variablePanelFormRow">
+				<label class="control-label col-md-3">{'LBL_ADDITIONAL_VARIABLES'|t}</label>
+				<div class="controls col-md-8">
+					<div class="input-group variablePanelInputGroup">
+						<select class="select2 form-control" id="generalVariable">
+							{foreach item=FIELDS key=BLOCK_NAME from=$TEXT_PARSER->getGeneralVariable()}
+								<optgroup label="{$BLOCK_NAME|t}">
+									{foreach item=LABEL key=VARIABLE from=$FIELDS}
+										<option value="{$VARIABLE}">{$LABEL}</option>
+									{/foreach}
+								</optgroup>
+							{/foreach}
+						</select>
+						<div class="input-group-btn">
+							<button type="button" class="btn btn-primary clipboard" data-copy-target="#generalVariable"
+								title="{"LBL_COPY_TO_CLIPBOARD"|t}">
+								<span class="glyphicon glyphicon-copy"></span>
+							</button>
+						</div>
+					</div>
+				</div>
 			</div>
-			<div class="medium col-md-9 fieldValue">
-				<div class="row">
+		{else}
+			<div class="col-md-12 fieldRow">
+				<div class="col-md-3 fieldLabel paddingLeft5px medium {if !empty($GRAY)}bc-gray-lighter{/if}">
+					<label class="muted">{'LBL_ADDITIONAL_VARIABLES'|t}</label>
+				</div>
+				<div class="medium col-md-9 fieldValue">
+					<div class="input-group">
+						<select class="select2 form-control" id="generalVariable">
+							{foreach item=FIELDS key=BLOCK_NAME from=$TEXT_PARSER->getGeneralVariable()}
+								<optgroup label="{$BLOCK_NAME|t}">
+									{foreach item=LABEL key=VARIABLE from=$FIELDS}
+										<option value="{$VARIABLE}">{$LABEL}</option>
+									{/foreach}
+								</optgroup>
+							{/foreach}
+						</select>
+						<div class="input-group-btn">
+							<button type="button" class="btn btn-primary clipboard" data-copy-target="#generalVariable"
+								title="{"LBL_COPY_TO_CLIPBOARD"|t}">
+								<span class="glyphicon glyphicon-copy"></span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		{/if}
+	{/if}
+	{if !empty($VARIABLE_PANEL_DYNAMIC_ALIASES)}
+		{if $VP_LAYOUT eq 'form'}
+			<div class="form-group variablePanelFormRow">
+				<label class="control-label col-md-3">{if !empty($QUALIFIED_SETTINGS_MODULE)}{'LBL_VARIABLE_PANEL_DYNAMIC_ALIASES'|t:$QUALIFIED_SETTINGS_MODULE}{else}{'LBL_VARIABLE_PANEL_DYNAMIC_ALIASES'|t}{/if}</label>
+				<div class="controls col-md-8">
+					<div class="input-group variablePanelInputGroup">
+						<select class="select2 form-control" id="templateDynamicAliasVariable"
+							{if !empty($QUALIFIED_SETTINGS_MODULE)}
+							title="{'LBL_INSERT_DYNAMIC_ELEMENT'|t:$QUALIFIED_SETTINGS_MODULE}" {/if}>
+							{foreach from=$VARIABLE_PANEL_DYNAMIC_ALIASES item=DE}
+								{assign var=DE_DYNAMIC_PH value='$(dynamic : '|cat:$DE.code|cat:')$'}
+								<option value="{$DE.code|escape}" data-dynamic-placeholder="{$DE_DYNAMIC_PH|escape:'html'}">{$DE.label|escape}
+									({$DE.code|escape})</option>
+							{/foreach}
+						</select>
+						<div class="input-group-btn">
+							<button type="button" class="btn btn-primary clipboard" data-copy-target="#templateDynamicAliasVariable"
+								data-copy-type="dynamicPlaceholder"
+								title="{"LBL_COPY_TO_CLIPBOARD"|t} - {"LBL_COPY_VALUE"|t}">
+								<span class="glyphicon glyphicon-copy"></span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		{else}
+			<div class="col-md-12 fieldRow">
+				<div class="col-md-3 fieldLabel paddingLeft5px medium {if !empty($GRAY)}bc-gray-lighter{/if}">
+					<label
+						class="muted">{if !empty($QUALIFIED_SETTINGS_MODULE)}{'LBL_VARIABLE_PANEL_DYNAMIC_ALIASES'|t:$QUALIFIED_SETTINGS_MODULE}{else}{'LBL_VARIABLE_PANEL_DYNAMIC_ALIASES'|t}{/if}</label>
+				</div>
+				<div class="medium col-md-9 fieldValue">
+					<div class="input-group">
+						<select class="select2 form-control" id="templateDynamicAliasVariable"
+							{if !empty($QUALIFIED_SETTINGS_MODULE)}
+							title="{'LBL_INSERT_DYNAMIC_ELEMENT'|t:$QUALIFIED_SETTINGS_MODULE}" {/if}>
+							{foreach from=$VARIABLE_PANEL_DYNAMIC_ALIASES item=DE}
+								{assign var=DE_DYNAMIC_PH value='$(dynamic : '|cat:$DE.code|cat:')$'}
+								<option value="{$DE.code|escape}" data-dynamic-placeholder="{$DE_DYNAMIC_PH|escape:'html'}">{$DE.label|escape}
+									({$DE.code|escape})</option>
+							{/foreach}
+						</select>
+						<div class="input-group-btn">
+							<button type="button" class="btn btn-primary clipboard" data-copy-target="#templateDynamicAliasVariable"
+								data-copy-type="dynamicPlaceholder"
+								title="{"LBL_COPY_TO_CLIPBOARD"|t} - {"LBL_COPY_VALUE"|t}">
+								<span class="glyphicon glyphicon-copy"></span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		{/if}
+	{/if}
+	{if !empty($TEXT_PARSER) && $SELECTED_MODULE && !empty($VARIABLE_PANEL_HAS_ENTITY_INFO)}
+		{if $VP_LAYOUT eq 'form'}
+			<div class="form-group variablePanelFormRow">
+				<label class="control-label col-md-3">{'LBL_MODULE_FIELDS'|t}</label>
+				<div class="controls col-md-8">
+					<div class="input-group variablePanelInputGroup">
+						<select class="select2 form-control" id="recordVariable">
+							{foreach item=FIELDS key=BLOCK_NAME from=$TEXT_PARSER->getRecordVariable()}
+								<optgroup label="{$BLOCK_NAME|t:$SELECTED_MODULE}">
+									{foreach item=ITEM from=$FIELDS}
+										<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}">
+											{$ITEM['label']|t:$SELECTED_MODULE}</option>
+									{/foreach}
+								</optgroup>
+							{/foreach}
+						</select>
+						<div class="input-group-btn">
+							<button type="button" class="btn btn-primary clipboard" data-copy-target="#recordVariable"
+								title="{"LBL_COPY_TO_CLIPBOARD"|t} - {"LBL_COPY_VALUE"|t}">
+								<span class="glyphicon glyphicon-copy"></span>
+							</button>
+							<button type="button" class="btn btn-success clipboard" data-copy-target="#recordVariable"
+								data-copy-type="label" title="{"LBL_COPY_TO_CLIPBOARD"|t}  - {"LBL_COPY_LABEL"|t}">
+								<span class="glyphicon glyphicon-copy"></span>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		{else}
+			<div class="col-md-12 fieldRow">
+				<div class="col-md-3 fieldLabel paddingLeft5px medium {if !empty($GRAY)}bc-gray-lighter{/if}">
+					<label class="muted">{'LBL_MODULE_FIELDS'|t}</label>
+				</div>
+				<div class="medium col-md-9 fieldValue">
 					<div class="input-group">
 						<select class="select2 form-control" id="recordVariable">
 							{foreach item=FIELDS key=BLOCK_NAME from=$TEXT_PARSER->getRecordVariable()}
@@ -35,17 +169,15 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		{/if}
 		{assign var=RELATED_VARIABLE value=$TEXT_PARSER->getRelatedVariable()}
 		{if $RELATED_VARIABLE}
-			<div class="col-md-6 fieldRow">
-				<div class="col-md-3 fieldLabel paddingLeft5px medium {if !empty($GRAY)}bc-gray-lighter{/if}">
-					<label class="muted">{'LBL_RELATED_MODULE_FIELDS'|t}</label>
-				</div>
-				<div class="medium col-md-9 fieldValue">
-					<div class="row">
-						<div class="input-group">
-							<select class="select2" id="relatedVariable">
+			{if $VP_LAYOUT eq 'form'}
+				<div class="form-group variablePanelFormRow">
+					<label class="control-label col-md-3">{'LBL_RELATED_MODULE_FIELDS'|t}</label>
+					<div class="controls col-md-8">
+						<div class="input-group variablePanelInputGroup">
+							<select class="select2 form-control" id="relatedVariable">
 								{foreach item=FIELDS from=$RELATED_VARIABLE}
 									{foreach item=RELATED_FIELDS key=BLOCK_NAME from=$FIELDS}
 										<optgroup label="{$BLOCK_NAME}">
@@ -69,19 +201,48 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			{else}
+				<div class="col-md-12 fieldRow">
+					<div class="col-md-3 fieldLabel paddingLeft5px medium {if !empty($GRAY)}bc-gray-lighter{/if}">
+						<label class="muted">{'LBL_RELATED_MODULE_FIELDS'|t}</label>
+					</div>
+					<div class="medium col-md-9 fieldValue">
+						<div class="input-group">
+							<select class="select2 form-control" id="relatedVariable">
+								{foreach item=FIELDS from=$RELATED_VARIABLE}
+									{foreach item=RELATED_FIELDS key=BLOCK_NAME from=$FIELDS}
+										<optgroup label="{$BLOCK_NAME}">
+											{foreach item=ITEM from=$RELATED_FIELDS}
+												<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}">{$ITEM['label']}</option>
+											{/foreach}
+										</optgroup>
+									{/foreach}
+								{/foreach}
+							</select>
+							<div class="input-group-btn">
+								<button type="button" class="btn btn-primary clipboard" data-copy-target="#relatedVariable"
+									title="{"LBL_COPY_TO_CLIPBOARD"|t} - {"LBL_COPY_VALUE"|t}">
+									<span class="glyphicon glyphicon-copy"></span>
+								</button>
+								<button type="button" class="btn btn-success clipboard" data-copy-target="#relatedVariable"
+									data-copy-type="label" title="{"LBL_COPY_TO_CLIPBOARD"|t}  - {"LBL_COPY_LABEL"|t}">
+									<span class="glyphicon glyphicon-copy"></span>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			{/if}
 		{/if}
 
 		{assign var=SOURCE_VARIABLE value=$TEXT_PARSER->getSourceVariable()}
 		{if $SOURCE_VARIABLE}
-			<div class="col-md-6 fieldRow">
-				<div class="col-md-3 fieldLabel paddingLeft5px medium {if !empty($GRAY)}bc-gray-lighter{/if}">
-					<label class="muted">{'LBL_SOURCE_MODULE_FIELDS'|t}</label>
-				</div>
-				<div class="medium col-md-9 fieldValue">
-					<div class="row">
-						<div class="input-group">
-							<select class="select2" id="sourceVariable">
+			{if $VP_LAYOUT eq 'form'}
+				<div class="form-group variablePanelFormRow">
+					<label class="control-label col-md-3">{'LBL_SOURCE_MODULE_FIELDS'|t}</label>
+					<div class="controls col-md-8">
+						<div class="input-group variablePanelInputGroup">
+							<select class="select2 form-control" id="sourceVariable">
 								{foreach item=BLOCKS key=SOURCE_MODULE from=$SOURCE_VARIABLE}
 									{if $SOURCE_MODULE == 'LBL_ENTITY_VARIABLES'}
 										<optgroup label="{$SOURCE_MODULE|t}">
@@ -115,66 +276,49 @@
 						</div>
 					</div>
 				</div>
-			</div>
+			{else}
+				<div class="col-md-12 fieldRow">
+					<div class="col-md-3 fieldLabel paddingLeft5px medium {if !empty($GRAY)}bc-gray-lighter{/if}">
+						<label class="muted">{'LBL_SOURCE_MODULE_FIELDS'|t}</label>
+					</div>
+					<div class="medium col-md-9 fieldValue">
+						<div class="input-group">
+							<select class="select2 form-control" id="sourceVariable">
+								{foreach item=BLOCKS key=SOURCE_MODULE from=$SOURCE_VARIABLE}
+									{if $SOURCE_MODULE == 'LBL_ENTITY_VARIABLES'}
+										<optgroup label="{$SOURCE_MODULE|t}">
+											{foreach item=ITEM from=$BLOCKS}
+												<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}">{$ITEM['label']}</option>
+											{/foreach}
+										</optgroup>
+									{else}
+										{assign var=SOURCE_LABEL value="SINGLE_$SOURCE_MODULE"|t:$SOURCE_MODULE}
+										{foreach item=FIELDS key=BLOCK_NAME from=$BLOCKS}
+											<optgroup label="{$SOURCE_LABEL} - {$BLOCK_NAME|t:$SOURCE_MODULE}">
+												{foreach item=ITEM from=$FIELDS}
+													<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}">{$SOURCE_LABEL}:
+														{$ITEM['label']}</option>
+												{/foreach}
+											</optgroup>
+										{/foreach}
+									{/if}
+								{/foreach}
+							</select>
+							<div class="input-group-btn">
+								<button type="button" class="btn btn-primary clipboard" data-copy-target="#sourceVariable"
+									title="{"LBL_COPY_TO_CLIPBOARD"|t} - {"LBL_COPY_VALUE"|t}">
+									<span class="glyphicon glyphicon-copy"></span>
+								</button>
+								<button type="button" class="btn btn-success clipboard" data-copy-target="#sourceVariable"
+									data-copy-type="label" title="{"LBL_COPY_TO_CLIPBOARD"|t}  - {"LBL_COPY_LABEL"|t}">
+									<span class="glyphicon glyphicon-copy"></span>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			{/if}
 		{/if}
-	{/if}
-	{if !empty($TEXT_PARSER)}
-		<div class="col-md-6 fieldRow">
-			<div class="col-md-3 fieldLabel paddingLeft5px medium {if !empty($GRAY)}bc-gray-lighter{/if}">
-				<label class="muted">{'LBL_ADDITIONAL_VARIABLES'|t}</label>
-			</div>
-			<div class="medium col-md-9 fieldValue">
-				<div class="row">
-					<div class="input-group">
-						<select class="select2" id="generalVariable">
-							{foreach item=FIELDS key=BLOCK_NAME from=$TEXT_PARSER->getGeneralVariable()}
-								<optgroup label="{$BLOCK_NAME|t}">
-									{foreach item=LABEL key=VARIABLE from=$FIELDS}
-										<option value="{$VARIABLE}">{$LABEL}</option>
-									{/foreach}
-								</optgroup>
-							{/foreach}
-						</select>
-						<div class="input-group-btn">
-							<button type="button" class="btn btn-primary clipboard" data-copy-target="#generalVariable"
-								title="{"LBL_COPY_TO_CLIPBOARD"|t}">
-								<span class="glyphicon glyphicon-copy"></span>
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	{/if}
-	{if !empty($VARIABLE_PANEL_DYNAMIC_ALIASES)}
-		<div class="col-md-6  fieldRow">
-			<div class="col-md-3 fieldLabel paddingLeft5px medium {if !empty($GRAY)}bc-gray-lighter{/if}">
-				<label
-					class="muted">{if !empty($QUALIFIED_SETTINGS_MODULE)}{'LBL_VARIABLE_PANEL_DYNAMIC_ALIASES'|t:$QUALIFIED_SETTINGS_MODULE}{else}{'LBL_VARIABLE_PANEL_DYNAMIC_ALIASES'|t}{/if}</label>
-			</div>
-			<div class="medium col-md-9 fieldValue">
-				<div class="row">
-					<div class="input-group">
-						<select class="select2 form-control" id="templateDynamicAliasVariable"
-							{if !empty($QUALIFIED_SETTINGS_MODULE)}
-							title="{'LBL_INSERT_DYNAMIC_ELEMENT'|t:$QUALIFIED_SETTINGS_MODULE}" {/if}>
-							{foreach from=$VARIABLE_PANEL_DYNAMIC_ALIASES item=DE}
-								{assign var=DE_DYNAMIC_PH value='$(dynamic : '|cat:$DE.code|cat:')$'}
-								<option value="{$DE.code|escape}" data-dynamic-placeholder="{$DE_DYNAMIC_PH|escape:'html'}">{$DE.label|escape}
-									({$DE.code|escape})</option>
-							{/foreach}
-						</select>
-						<div class="input-group-btn">
-							<button type="button" class="btn btn-primary clipboard" data-copy-target="#templateDynamicAliasVariable"
-								data-copy-type="dynamicPlaceholder"
-								title="{"LBL_COPY_TO_CLIPBOARD"|t} - {"LBL_COPY_VALUE"|t}">
-								<span class="glyphicon glyphicon-copy"></span>
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
 	{/if}
 	<!--/layouts/basic/modules/Base/VariablePanel.tpl -->
 {/strip}

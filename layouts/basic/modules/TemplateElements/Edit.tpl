@@ -86,18 +86,15 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<div class="controls col-md-11 col-md-offset-1">
-								<label class="control-label text-left">
-									<strong>{'LBL_VARIABLE_PANEL_SECTION'|t:$QUALIFIED_MODULE}</strong>
-								</label>
+							<label class="control-label col-md-3">{'LBL_VARIABLE_PANEL_SECTION'|t:$QUALIFIED_MODULE}</label>
+							<div class="controls col-md-8">
 								{if empty($SELECTED_MODULE)}
-									<p class="help-block">{'LBL_VARIABLE_PANEL_NEED_MODULE'|t:$QUALIFIED_MODULE}</p>
+									<p class="help-block no-margin">{'LBL_VARIABLE_PANEL_NEED_MODULE'|t:$QUALIFIED_MODULE}</p>
 								{/if}
-								<div class="row marginTop10px">
-									{include file='layouts/basic/modules/Base/VariablePanel.tpl' SELECTED_MODULE=$SELECTED_MODULE PARSER_TYPE='pdf' QUALIFIED_SETTINGS_MODULE=$QUALIFIED_SETTINGS_MODULE VARIABLE_PANEL_DYNAMIC_ALIASES=$VARIABLE_PANEL_DYNAMIC_ALIASES}
-								</div>
 							</div>
 						</div>
+						{include file='layouts/basic/modules/Base/VariablePanel.tpl' SELECTED_MODULE=$SELECTED_MODULE PARSER_TYPE='pdf' QUALIFIED_SETTINGS_MODULE=$QUALIFIED_SETTINGS_MODULE VARIABLE_PANEL_DYNAMIC_ALIASES=$VARIABLE_PANEL_DYNAMIC_ALIASES VARIABLE_PANEL_LAYOUT='form'}
+						{include file='layouts/basic/modules/Base/TemplateEditorToolbar.tpl' DYNAMIC_ELEMENTS_JSON=$DYNAMIC_ELEMENTS_JSON TEMPLATE_EDITOR_LAYOUT='form'}
 						<input type="hidden" id="documentLayoutTypeValue" value="PLL_DOCUMENT_LAYOUT">
 						<div class="form-group js-dynamic-fragment-editor{if $RECORD_MODEL->get('type') eq 'PLL_DOCUMENT_LAYOUT'} hide{/if}">
 							<label class="control-label col-md-3">{'LBL_CONTENT'|t:$QUALIFIED_MODULE} <span class="redColor">*</span></label>

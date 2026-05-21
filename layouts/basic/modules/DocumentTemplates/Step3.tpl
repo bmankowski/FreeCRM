@@ -17,18 +17,7 @@
 				<div class="row">
 					{include file='layouts/basic/modules/Base/VariablePanel.tpl' SELECTED_MODULE=$SELECTED_MODULE PARSER_TYPE='pdf' QUALIFIED_SETTINGS_MODULE=$QUALIFIED_MODULE VARIABLE_PANEL_DYNAMIC_ALIASES=$VARIABLE_PANEL_DYNAMIC_ALIASES}
 				</div>
-				<div class="pdfEditorToolbar text-right">
-					<input type="hidden" class="js-dynamic-elements-json" value="{$DYNAMIC_ELEMENTS_JSON}">
-					<button class="btn btn-primary btn-sm js-preview-html" type="button">
-						<span class="glyphicon glyphicon-eye-open"></span>&nbsp;{"LBL_PREVIEW_HTML"|t:$QUALIFIED_MODULE}
-					</button>
-					<button class="btn btn-default btn-sm js-toggle-ai-help" type="button">
-						<span class="glyphicon glyphicon-info-sign"></span>&nbsp;{*"LBL_TEMPLATE_AI_HELP"|t:$QUALIFIED_MODULE*}
-					</button>
-				</div>
-				<div class="pdfTemplateAiHelp hide">
-					<div class="form-control pdfTemplateAiHelpText">{"LBL_TEMPLATE_AI_HELP_TEXT"|t:$QUALIFIED_MODULE nofilter}</div>
-				</div>
+				{include file='layouts/basic/modules/Base/TemplateEditorToolbar.tpl' DYNAMIC_ELEMENTS_JSON=$DYNAMIC_ELEMENTS_JSON}
 				<div class="form-group">
 					<label class="col-sm-12">
 						{"LBL_DOCUMENT_HEADER"|t:$QUALIFIED_MODULE}

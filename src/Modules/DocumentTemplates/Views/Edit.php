@@ -221,6 +221,7 @@ class Edit extends \App\Modules\Base\Views\Basic
 			"modules.$moduleName.resources.Edit6",
 			'modules.Base.resources.AdvanceFilter',
 			'modules.Base.resources.AdvanceFilterEx',
+			'modules.Base.resources.TemplateEditor',
 		];
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
@@ -235,6 +236,7 @@ class Edit extends \App\Modules\Base\Views\Basic
 		$cssFileNames = [
 			'libraries.codemirror.lib.codemirror',
 			'libraries.codemirror.addon.dialog.dialog',
+			'modules.Base.resources.TemplateEditor',
 			"modules.$moduleName.Edit",
 		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);

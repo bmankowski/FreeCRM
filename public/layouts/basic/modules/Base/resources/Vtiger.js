@@ -111,7 +111,7 @@ var Vtiger_Index_Js = {
 		params = params || {};
 		var postData = {
 			module: params.module || app.getModuleName(),
-			view: 'SendMailModal'
+			view: params.view || 'SendMailModal'
 		};
 		if (params.selectedIds !== undefined) {
 			postData.selected_ids = typeof params.selectedIds === 'object'
@@ -147,7 +147,51 @@ var Vtiger_Index_Js = {
 				return;
 			}
 			app.showModalWindow(response, function (modalContainer) {
+				var previewSection = modalContainer.find('.js-mail-preview-section');
+				var subjectInput = modalContainer.find('.js-mail-subject');
+				var contentEditor = modalContainer.find('.js-mail-content');
+				var contentInput = modalContainer.find('.js-mail-content-input');
+				var syncMailContent = function () {
+					contentInput.val(contentEditor.html());
+				};
+				var loadPreview = function () {
+					if (!previewSection.length) {
+						return;
+					}
+					var previewData = jQuery.extend({}, postData, {
+						field: modalContainer.find('#field').val(),
+						template: modalContainer.find('#template').val(),
+						action: 'Mail',
+						mode: 'previewMail'
+					});
+					delete previewData.view;
+					AppConnector.request(previewData).then(function (previewResponse) {
+						var result = previewResponse && previewResponse.result ? previewResponse.result : {};
+						if (!result.success) {
+							previewSection.addClass('hide');
+							return;
+						}
+						subjectInput.val(result.subject || '');
+						contentEditor.html(app.prepareMailEditorContent(result.content || ''));
+						syncMailContent();
+						previewSection.removeClass('hide');
+					}, function (data, err) {
+						previewSection.addClass('hide');
+						app.errorLog(data, err);
+					});
+				};
+				modalContainer.find('#field, #template').on('change', loadPreview);
+				contentEditor.on('input blur', syncMailContent);
+				contentEditor.on('mousedown', function (e) {
+					if (e.target === contentEditor[0]) {
+						e.preventDefault();
+						app.focusMailEditorStart(contentEditor);
+					}
+				});
+				syncMailContent();
+				loadPreview();
 				modalContainer.find('[name="saveButton"]').click(function (e) {
+					syncMailContent();
 					if (modalContainer.find('form').validationEngine('validate')) {
 						var sendData = jQuery.extend({}, postData, {
 							field: modalContainer.find('#field').val(),
@@ -155,6 +199,10 @@ var Vtiger_Index_Js = {
 							action: 'Mail',
 							mode: 'sendMails',
 						});
+						if (previewSection.length && !previewSection.hasClass('hide')) {
+							sendData.subject = subjectInput.val();
+							sendData.content = contentEditor.html();
+						}
 						delete sendData.view;
 						AppConnector.request(sendData).then(function (response) {
 							if (response.result == true) {
@@ -182,7 +230,8 @@ var Vtiger_Index_Js = {
 			var recordId = parseInt(btn.data('recordId') || btn.data('record-id') || app.getRecordId(), 10);
 			var params = {
 				module: btn.data('moduleName') || btn.data('module-name') || app.getModuleName(),
-				selectedIds: [recordId]
+				selectedIds: [recordId],
+				view: 'IndividualSendMailModal'
 			};
 			if (btn.data('sourceModule') || btn.data('source-module')) {
 				params.sourceModule = btn.data('sourceModule') || btn.data('source-module');

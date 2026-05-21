@@ -16,6 +16,7 @@ namespace App\Utils;
 class TemplateStyles
 {
 	const CSS_PUBLIC_PATH = 'layouts/basic/resources/FreeCRMTemplate.css';
+	const EMAIL_INLINED_MARKER = 'data-fc-inlined';
 
 	protected static $classStyles = [
 		'fc-doc' => 'color:#1f2937;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.55;',
@@ -115,7 +116,9 @@ class TemplateStyles
 
 	public static function inlineEmailCss($html)
 	{
-		if (!is_string($html) || $html === '' || !self::shouldInlineEmailCss($html)) {
+		if (!is_string($html) || $html === ''
+			|| preg_match('/\b' . preg_quote(self::EMAIL_INLINED_MARKER, '/') . '\s*=\s*["\']1["\']/i', $html)
+			|| !self::shouldInlineEmailCss($html)) {
 			return $html;
 		}
 		$internalErrors = libxml_use_internal_errors(true);
@@ -132,7 +135,13 @@ class TemplateStyles
 			libxml_use_internal_errors($internalErrors);
 			return $html;
 		}
-		self::inlineNode($body, true);
+		self::inlineNode($body, false);
+		foreach ($body->childNodes as $child) {
+			if ($child instanceof \DOMElement) {
+				$child->setAttribute(self::EMAIL_INLINED_MARKER, '1');
+				break;
+			}
+		}
 		$result = '';
 		foreach ($body->childNodes as $child) {
 			$result .= $document->saveHTML($child);
@@ -145,7 +154,10 @@ class TemplateStyles
 	protected static function containsTemplateClass($html)
 	{
 		foreach (array_keys(self::$classStyles) as $className) {
-			if (strpos($html, $className) !== false) {
+			if (preg_match(
+				'/\bclass\s*=\s*["\'][^"\']*\b' . preg_quote($className, '/') . '\b/i',
+				$html
+			)) {
 				return true;
 			}
 		}
@@ -154,10 +166,7 @@ class TemplateStyles
 
 	protected static function shouldInlineEmailCss($html)
 	{
-		if (self::containsTemplateClass($html)) {
-			return true;
-		}
-		return (bool) preg_match('/<(table|thead|tbody|tr|th|td|caption|h[1-6]|ul|ol|blockquote|hr)\b/i', $html);
+		return self::containsTemplateClass($html);
 	}
 
 	protected static function inlineNode(\DOMNode $node, $insideTemplate)

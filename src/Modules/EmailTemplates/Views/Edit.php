@@ -28,6 +28,7 @@ class Edit extends \App\Modules\Base\Views\Edit
 			'libraries.codemirror.addon.search.searchcursor',
 			'libraries.codemirror.addon.search.search',
 			'~libraries/js-beautify/beautify-html.min.js',
+			'modules.Base.resources.TemplateEditor',
 		];
 		$scriptInstances = $this->checkAndConvertJsScripts($fileNames);
 		return array_merge($parentScript, $scriptInstances);
@@ -39,6 +40,7 @@ class Edit extends \App\Modules\Base\Views\Edit
 		$cssFileNames = [
 			'libraries.codemirror.lib.codemirror',
 			'libraries.codemirror.addon.dialog.dialog',
+			'modules.Base.resources.TemplateEditor',
 			'modules.EmailTemplates.Edit',
 		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);

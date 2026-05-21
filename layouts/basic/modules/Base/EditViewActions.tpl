@@ -13,7 +13,7 @@
 <!-- layouts/basic/modules/Base/EditViewActions.tpl -->
 <div>
 	<div class="pull-right">
-		<button class="btn btn-success" type="submit"><strong>{"LBL_SAVE"|t:$MODULE}</strong></button>&nbsp;&nbsp;
+		<button class="btn btn-success" type="submit" form="EditView"><strong>{"LBL_SAVE"|t:$MODULE}</strong></button>&nbsp;&nbsp;
 		<button class="btn btn-warning" type="reset" onclick="javascript:window.history.back();"><strong>{"LBL_CANCEL"|t:$MODULE}</strong></button>
 	</div>
 	<div class="clearfix"></div>

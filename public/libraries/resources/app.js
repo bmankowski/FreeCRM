@@ -474,6 +474,34 @@ var app = {
 		}
 		return keyValueMap;
 	},
+	/**
+	 * Normalize HTML shown in the mail contenteditable (no structural changes).
+	 * @param {string} html
+	 * @returns {string}
+	 */
+	prepareMailEditorContent: function (html) {
+		return String(html || '').trim();
+	},
+	/**
+	 * Place caret at the start of the mail contenteditable.
+	 * @param {jQuery} editor
+	 */
+	focusMailEditorStart: function (editor) {
+		editor = jQuery(editor);
+		if (!editor.length) {
+			return;
+		}
+		editor.focus();
+		var selection = window.getSelection();
+		if (!selection) {
+			return;
+		}
+		var range = document.createRange();
+		range.selectNodeContents(editor[0]);
+		range.collapse(true);
+		selection.removeAllRanges();
+		selection.addRange(range);
+	},
 	showModalWindow: function (data, url, cb, paramsObject) {
 		var thisInstance = this;
 		var id = 'globalmodal';
