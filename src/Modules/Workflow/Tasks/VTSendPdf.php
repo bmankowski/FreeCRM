@@ -29,7 +29,7 @@ class VTSendPdf extends VTTask
 	 * Execute task
 	 * @param \App\Modules\Base\Models\Record $recordModel
 	 */
-	public function doTask($recordModel)
+	public function doTask($recordModel, ?\App\Modules\Workflow\RelationWorkflowContext $context = null)
 	{
 		$documentTemplateId = $this->documentTemplate ?? null;
 		if (!empty($this->mailTemplate) && !empty($documentTemplateId)) {

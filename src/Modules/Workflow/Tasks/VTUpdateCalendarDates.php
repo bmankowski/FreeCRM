@@ -24,7 +24,7 @@ class VTUpdateCalendarDates extends VTTask
 	 * Execute task
 	 * @param \App\Modules\Base\Models\Record $recordModel
 	 */
-	public function doTask($recordModel)
+	public function doTask($recordModel, ?\App\Modules\Workflow\RelationWorkflowContext $context = null)
 	{
 		$entityId = $recordModel->getId();
 

@@ -116,6 +116,52 @@ class Mail
 	}
 
 	/**
+	 * Email templates for one or more modules (merged, deduplicated by id).
+	 *
+	 * @param string[] $moduleNames
+	 * @param string|bool $type
+	 * @param bool $hideSystem
+	 * @return array
+	 */
+	public static function getTempleteListForModules(array $moduleNames, $type = false, $hideSystem = true)
+	{
+		$moduleNames = array_values(array_unique(array_filter($moduleNames)));
+		if ($moduleNames === []) {
+			return static::getTempleteList(false, $type, $hideSystem);
+		}
+		if (count($moduleNames) === 1) {
+			return static::getTempleteList($moduleNames[0], $type, $hideSystem);
+		}
+		$cacheKey = implode(',', $moduleNames) . '.' . (string) $type;
+		if (Cache::has('MailTempleteList', $cacheKey)) {
+			return Cache::get('MailTempleteList', $cacheKey);
+		}
+		$query = (new \App\Db\Query())->select(['name' => 'u_#__emailtemplates.name', 'id' => 'u_#__emailtemplates.emailtemplatesid', 'moduleName' => 'u_#__emailtemplates.module'])->from('u_#__emailtemplates')
+			->innerJoin('vtiger_crmentity', 'u_#__emailtemplates.emailtemplatesid = vtiger_crmentity.crmid')
+			->where(['vtiger_crmentity.deleted' => 0, 'u_#__emailtemplates.module' => $moduleNames]);
+		if ($type) {
+			$query->andWhere(['u_#__emailtemplates.email_template_type' => $type]);
+		}
+		if ($hideSystem) {
+			$query->andWhere(['u_#__emailtemplates.sys_name' => null]);
+		}
+		$row = $query
+			->orderBy([
+				'u_#__emailtemplates.sequence' => SORT_ASC,
+				'u_#__emailtemplates.name' => SORT_ASC,
+				'u_#__emailtemplates.emailtemplatesid' => SORT_ASC,
+			])
+			->all();
+		foreach ($row as &$templateRow) {
+			$moduleLabel = \App\Runtime\Vtiger_Language_Handler::translate($templateRow['moduleName'], $templateRow['moduleName']);
+			$templateRow['name'] = $templateRow['name'] . ' (' . $moduleLabel . ')';
+		}
+		unset($templateRow);
+		Cache::save('MailTempleteList', $cacheKey, $row, Cache::LONG);
+		return $row;
+	}
+
+	/**
 	 * Get mail template
 	 * @param int|string $id
 	 * @return array

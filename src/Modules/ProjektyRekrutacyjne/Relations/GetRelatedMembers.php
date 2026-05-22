@@ -221,7 +221,7 @@ class GetRelatedMembers extends \App\Modules\Base\Relations\GetRelatedList
      *
      * @return bool
      */
-    public function updateRelationData(int $sourceRecordId, int $destinationRecordId, array $updateData): bool
+    public function updateRelationData(int $sourceRecordId, int $destinationRecordId, array $updateData, bool $saveProject = true): bool
     {
         $conditions = [
             'or',
@@ -233,13 +233,21 @@ class GetRelatedMembers extends \App\Modules\Base\Relations\GetRelatedList
             $result = (bool)\App\Db\Db::getInstance()->createCommand()->update(static::TABLE_NAME, $updateData, $conditions)->execute();
         }
 
+        if ($saveProject) {
+            $this->saveProjectCountersWithWorkflowDisabled($sourceRecordId);
+        }
+        return $result;
+    }
+
+    protected function saveProjectCountersWithWorkflowDisabled(int $projectId): void
+    {
         try {
-            $project = \App\Modules\Base\Models\Record::getInstanceById($sourceRecordId, 'ProjektyRekrutacyjne');
+            $project = \App\Modules\Base\Models\Record::getInstanceById($projectId, 'ProjektyRekrutacyjne');
             $project->calculateNumberOfCandidatesInProject();
+            $project->setHandlerExceptions(['disableWorkflow' => true]);
             $project->save();
         } catch (\Exception $e) {
         }
-        return $result;
     }
 
     public function changeStatus(int $projectId, int $candidateId, string $sourceStatus, string $destinationStatus): bool
@@ -249,17 +257,41 @@ class GetRelatedMembers extends \App\Modules\Base\Relations\GetRelatedList
         }
 
         try {
+            $relationBefore = $this->getRelationData($projectId, $candidateId) ?: [];
             $sourceStatusTranslated = \App\Language::translate($sourceStatus, 'ProjektyRekrutacyjne');
             $destinationStatusTranslated = \App\Language::translate($destinationStatus, 'ProjektyRekrutacyjne');
             $updateData = [
                 'recruitment_status_rel' => $destinationStatus,
             ];
-            $status = $this->updateRelationData($projectId, $candidateId, $updateData);
+            $status = $this->updateRelationData($projectId, $candidateId, $updateData, false);
+            if ($status) {
+                $relationAfter = $this->getRelationData($projectId, $candidateId) ?: [];
+                $context = new \App\Modules\Workflow\RelationWorkflowContext(
+                    'ProjektyRekrutacyjne',
+                    $projectId,
+                    'Kandydaci',
+                    $candidateId,
+                    static::TABLE_NAME,
+                    'recruitment_status_rel',
+                    $relationBefore,
+                    $relationAfter,
+                    $sourceStatus,
+                    $destinationStatus,
+                    (int) (\App\User\CurrentUser::getId() ?? 0)
+                );
+                \App\Modules\Workflow\RelationWorkflowRunner::run($context);
+            }
             //add comment for project and candidate about status change, omitting changes from 'PPL_APPLIED' to 'PPL_REJECTED' and 'PPL_CANDIDATE_PASSED_SCREENING'
             if ($sourceStatus === 'PPL_APPLIED' && ($destinationStatus === 'PPL_REJECTED_AFTER_CV' || $destinationStatus === 'PPL_CANDIDATE_PASSED_SCREENING')) {
+                if ($status) {
+                    $this->saveProjectCountersWithWorkflowDisabled($projectId);
+                }
                 return $status;
             }
             if ($sourceStatus === 'PPL_REJECTED_AFTER_CV' && $destinationStatus === 'PPL_CANDIDATE_PASSED_SCREENING') {
+                if ($status) {
+                    $this->saveProjectCountersWithWorkflowDisabled($projectId);
+                }
                 return $status;
             }
             $candidate = \App\Modules\Base\Models\Record::getInstanceById($candidateId, "Kandydaci");
@@ -278,7 +310,9 @@ class GetRelatedMembers extends \App\Modules\Base\Relations\GetRelatedList
             $commentForCandidate->set('commentcontent', $commentContentForCandidate);
             $commentForCandidate->save();
 
-            //@todo Send emails to candidate
+            if ($status) {
+                $this->saveProjectCountersWithWorkflowDisabled($projectId);
+            }
 
         } catch (\Exception $e) {
             \App\Log\Log::error("Error " . $e->getMessage());

@@ -35,6 +35,7 @@ class Save extends \App\Modules\Settings\Base\Actions\Basic
 		$workflowModel->set('module_name', $moduleName);
 		$workflowModel->set('conditions', $conditions);
 		$workflowModel->set('execution_condition', $executionCondition);
+		$workflowScheduleType = null;
 
 		if ($executionCondition == '6') {
 			$schtime = $request->get("schtime");
@@ -53,11 +54,11 @@ class Save extends \App\Modules\Settings\Base\Actions\Basic
 			$month = null;
 			$annualDates = null;
 
-			if ($workflowScheduleType == Workflow::$SCHEDULED_WEEKLY) {
+			if ($workflowScheduleType == \App\Modules\Workflow\Workflow::$SCHEDULED_WEEKLY) {
 				$dayOfWeek = \App\Utils\Json::encode($request->get('schdayofweek'));
-			} else if ($workflowScheduleType == Workflow::$SCHEDULED_MONTHLY_BY_DATE) {
+			} else if ($workflowScheduleType == \App\Modules\Workflow\Workflow::$SCHEDULED_MONTHLY_BY_DATE) {
 				$dayOfMonth = \App\Utils\Json::encode($request->get('schdayofmonth'));
-			} else if ($workflowScheduleType == Workflow::$SCHEDULED_ON_SPECIFIC_DATE) {
+			} else if ($workflowScheduleType == \App\Modules\Workflow\Workflow::$SCHEDULED_ON_SPECIFIC_DATE) {
 				$date = $request->get('schdate');
 				$dateDBFormat = \App\Fields\DateTimeField::convertToDBFormat($date);
 				$nextTriggerTime = $dateDBFormat . ' ' . $schtime;
@@ -68,7 +69,7 @@ class Save extends \App\Modules\Settings\Base\Actions\Basic
 					$workflowModel->set('nexttrigger_time', date('Y-m-d H:i:s', strtotime('+10 year')));
 				}
 				$annualDates = \App\Utils\Json::encode(array($dateDBFormat));
-			} else if ($workflowScheduleType == Workflow::$SCHEDULED_ANNUALLY) {
+			} else if ($workflowScheduleType == \App\Modules\Workflow\Workflow::$SCHEDULED_ANNUALLY) {
 				$annualDates = \App\Utils\Json::encode($request->get('schannualdates'));
 			}
 			$workflowModel->set('schdayofmonth', $dayOfMonth);
@@ -84,8 +85,16 @@ class Save extends \App\Modules\Settings\Base\Actions\Basic
 		$workflowModel->set('filtersavedinnew', $filterSavedInNew);
 		$workflowModel->save();
 
+		$workflowId = (int) $workflowModel->get('workflow_id');
+		if ((int) $executionCondition === \App\Modules\Workflow\VTWorkflowManager::$ON_RELATION_MODIFY) {
+			\App\Modules\Settings\Workflows\Models\RelationTrigger::saveFromRequest($workflowId, $request);
+		} else {
+			\App\Modules\Settings\Workflows\Models\RelationTrigger::deleteByWorkflowId($workflowId);
+		}
+		\App\Cache\Cache::delete('WorkflowsForModule', $moduleName);
+
 		//Update only for scheduled workflows other than specific date
-		if ($workflowScheduleType != Workflow::$SCHEDULED_ON_SPECIFIC_DATE && $executionCondition == '6') {
+		if ($workflowScheduleType != \App\Modules\Workflow\Workflow::$SCHEDULED_ON_SPECIFIC_DATE && $executionCondition == '6') {
 			$workflowModel->updateNextTriggerTime();
 		}
 

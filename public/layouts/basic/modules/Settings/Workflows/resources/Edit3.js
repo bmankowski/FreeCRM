@@ -57,8 +57,12 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 					enabled: true
 				}
 			});
-			app.showModalWindow(null, params, function (data) {
-				progressIndicatorElement.progressIndicator({'mode': 'hide'})
+			var hideProgress = function () {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+			};
+			jQuery.get(params).done(function (response) {
+				hideProgress();
+				app.showModalWindow(response, function (data) {
 				thisInstance.registerVTCreateTodoTaskEvents();
 				var taskType = jQuery('#taskType').val();
 				var functionName = 'register' + taskType + 'Events';
@@ -78,6 +82,15 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 						'height': maxHeight + 'px'
 					});
 				}
+				});
+			}).fail(function () {
+				hideProgress();
+				Vtiger_Helper_Js.showPnotify({
+					animation: 'show',
+					type: 'error',
+					title: app.vtranslate('JS_MESSAGE'),
+					text: app.vtranslate('JS_FAILED_TO_LOAD', 'Settings.Vtiger')
+				});
 			});
 
 		});

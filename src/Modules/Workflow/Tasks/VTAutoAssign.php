@@ -22,7 +22,7 @@ class VTAutoAssign extends VTTask
 		return ['template'];
 	}
 
-	public function doTask($recordModel)
+	public function doTask($recordModel, ?\App\Modules\Workflow\RelationWorkflowContext $context = null)
 	{
 		\App\Modules\Settings\AutomaticAssignment\Models\Module::autoAssignExecute($recordModel);
 	}

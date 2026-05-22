@@ -70,32 +70,56 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit2_Js",{},{
 				'enabled' : true
 			}
 		});
+		var hideProgress = function () {
+			progressIndicatorElement.progressIndicator({
+				'mode' : 'hide'
+			});
+		};
 		AppConnector.request(formData).then(
 			function(data) {
 				form.hide();
-				if(data.result) {
-					Settings_Vtiger_Index_Js.showMessage({text : app.vtranslate('JS_WORKFLOW_SAVED_SUCCESSFULLY')});
-					var workflowRecordElement = jQuery('[name="record"]',form);
-					if(workflowRecordElement.val() == '') {
-						workflowRecordElement.val(data.result.id);
-					}
-					var params = {
-						module : app.getModuleName(),
-						parent : app.getParentModuleName(),
-						view : 'Edit',
-						mode : 'Step3',
-						record : data.result.id
-					}
-					AppConnector.request(params).then(function(data) {
-						aDeferred.resolve(data);
-					}); 
+				var recordId = (data && data.result && data.result.id) ? data.result.id : form.find('[name="record"]').val();
+				if (!recordId) {
+					hideProgress();
+					Vtiger_Helper_Js.showPnotify({
+						animation: 'show',
+						type: 'error',
+						title: app.vtranslate('JS_MESSAGE'),
+						text: app.vtranslate('JS_FAILED_TO_SAVE', 'Settings.Vtiger')
+					});
+					aDeferred.reject();
+					return;
 				}
-				progressIndicatorElement.progressIndicator({
-					'mode' : 'hide'
-				})
+				form.find('[name="record"]').val(recordId);
+				if (data && data.result) {
+					Vtiger_Helper_Js.showPnotify({
+						animation: 'show',
+						type: 'success',
+						title: app.vtranslate('JS_MESSAGE'),
+						text: app.vtranslate('JS_WORKFLOW_SAVED_SUCCESSFULLY', 'Settings:Workflows')
+					});
+				}
+				var params = {
+					module : app.getModuleName(),
+					parent : app.getParentModuleName(),
+					view : 'Edit',
+					mode : 'Step3',
+					record : recordId
+				};
+				AppConnector.request(params).then(
+					function(step3Data) {
+						hideProgress();
+						aDeferred.resolve(step3Data);
+					},
+					function () {
+						hideProgress();
+						aDeferred.reject();
+					}
+				);
 			},
-			function(error,err){
-
+			function () {
+				hideProgress();
+				aDeferred.reject();
 			}
 		);
 		return aDeferred.promise();

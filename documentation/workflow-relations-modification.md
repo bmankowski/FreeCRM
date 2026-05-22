@@ -475,7 +475,7 @@ flowchart TD
 
 - `src/Modules/Install/install_schema/Base1.php` (+ matching SQL seed if maintained).
 - New table `com_vtiger_workflow_relation_triggers`: `workflow_id`, `source_module`, `destination_module`, `relation_table`, `relation_field`, `source_value`, `destination_value`.
-- New model `src/Modules/Settings/Workflows/Models/RelationTrigger.php` — load/save by workflow id.
+- New model `src/Modules/Settings/Workflows/Models/RelationTrigger.php` — load/save by workflow id; `relation_table` / `relation_field` are set server-side (`resolveRelationTable` / `resolveRelationField`), not from the request, and stale DB values are repaired on read.
 - `src/Modules/Settings/Workflows/Actions/Save.php` — persist relation config when `execution_condition == ON_RELATION_MODIFY`; clear `WorkflowsForModule` cache for source module after save.
 
 ### 17.4 Workflow edit UI
@@ -514,7 +514,7 @@ flowchart TD
 
 ### 17.10 Restrict tasks for relation trigger
 
-- `Settings/Workflows/Views/Edit.php` or `Models/TaskType.php` — when `ON_RELATION_MODIFY`, show only: `VTEmailTask`, `VTSendNotificationTask`, `VTEntityMethodTask` (comment/watchdog optional).
+- `Settings/Workflows/Views/Edit.php` or `Models/TaskType.php` — when `ON_RELATION_MODIFY`, show only: `VTEmailTask`, `VTEmailTemplateTask`, `VTSendNotificationTask`, `VTEntityMethodTask` (comment/watchdog optional).
 - Hide: `VTUpdateFieldsTask`, `VTCreateEntityTask`, `VTUpdateRelatedFieldTask`, todo/event tasks.
 - Server-side validation on task save (deferred in MVP per planning).
 - `VTSendNotificationTask`: recipient = **source record owner** (project recruiter) via `$context->getSourceRecordModel()`.
@@ -522,6 +522,7 @@ flowchart TD
 ### 17.11 Email and template variable support
 
 - `src/Modules/Workflow/Tasks/VTEmailTask.php` — use `$context` in `doTask()`; relation-aware parsers for recipient, subject, body, cc, bcc, from.
+- `src/Modules/Workflow/Tasks/VTEmailTemplateTask.php` — same for template-based mail: resolve `email` / `copy_email` via `RelationFieldResolver`, merge template subject/body with relation variables, then `TextParser` on source record.
 - `src/TextParser/TextParser.php`, `src/Email/EmailParser.php` — factory/method accepting `RelationWorkflowContext`; syntax `$source.nazwa_projektu$`, `$destination.email$`, `$relation.destinationStatusLabel$`.
 - Mail anchor: source record (`ProjektyRekrutacyjne`); link outbound mail to both records where APIs allow.
 

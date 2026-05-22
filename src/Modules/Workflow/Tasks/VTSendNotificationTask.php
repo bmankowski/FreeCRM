@@ -28,7 +28,7 @@ class VTSendNotificationTask extends VTTask
 	 * Execute task
 	 * @param \App\Modules\Base\Models\Record $recordModel
 	 */
-	public function doTask($recordModel)
+	public function doTask($recordModel, ?\App\Modules\Workflow\RelationWorkflowContext $context = null)
 	{
 		if (is_numeric($this->template) && $this->template > 0) {
 			$db = \App\Database\PearDatabase::getInstance();

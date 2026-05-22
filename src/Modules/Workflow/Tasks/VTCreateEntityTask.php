@@ -28,7 +28,7 @@ class VTCreateEntityTask extends VTTask
 	 * Execute task
 	 * @param \App\Modules\Base\Models\Record $recordModel
 	 */
-	public function doTask($recordModel)
+	public function doTask($recordModel, ?\App\Modules\Workflow\RelationWorkflowContext $context = null)
 	{
 		$currentUser = \App\User\CurrentUser::get();
 		$moduleName = $recordModel->getModuleName();

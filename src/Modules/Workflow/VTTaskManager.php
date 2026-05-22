@@ -18,7 +18,7 @@ class VTTaskManager
 {
 	private $adb = null;
 
-	public function __construct($adb)
+	public function __construct($adb = false)
 	{
 		$this->adb = $adb;
 	}
@@ -107,7 +107,7 @@ class VTTaskManager
 		foreach ($rows as &$task) {
 			$tasks[] = $this->unserializeTask($task);
 		}
-		\App\Cache\Cache::get('getTasksForWorkflow', $workflowId, $tasks);
+		\App\Cache\Cache::save('getTasksForWorkflow', $workflowId, $tasks);
 		return $tasks;
 	}
 

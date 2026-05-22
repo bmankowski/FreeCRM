@@ -47,7 +47,7 @@ Vtiger_ListView_Js("Settings_Vtiger_ListView_Js",{
 	/**
 	 * Reload settings list table contents after delete/save (lighter than full ListView refresh).
 	 */
-	reloadListViewContents : function(pageNumber) {
+	reloadListViewContents : function(pageNumber, urlParams) {
 		var thisInstance = this;
 		var aDeferred = jQuery.Deferred();
 		pageNumber = parseInt(pageNumber, 10) || 1;
@@ -62,6 +62,15 @@ Vtiger_ListView_Js("Settings_Vtiger_ListView_Js",{
 			view: 'ListView',
 			page: pageNumber
 		};
+		if (typeof this.getDefaultParams === 'function') {
+			params = jQuery.extend(this.getDefaultParams(), params);
+		}
+		if (urlParams) {
+			params = jQuery.extend(params, urlParams);
+		}
+		if (params.view === 'List') {
+			params.view = 'ListView';
+		}
 		var progressIndicatorElement = jQuery.progressIndicator({
 			position: 'html',
 			blockInfo: {enabled: true}
@@ -93,7 +102,7 @@ Vtiger_ListView_Js("Settings_Vtiger_ListView_Js",{
 		} else {
 			pageNumber = parseInt(jQuery('#pageNumber').val(), 10) || 1;
 		}
-		return this.reloadListViewContents(pageNumber);
+		return this.reloadListViewContents(pageNumber, urlParams);
 	},
 
 	refreshListAfterRecordChange : function(pageNumber) {

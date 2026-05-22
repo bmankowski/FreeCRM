@@ -79,7 +79,7 @@ class Workflow
 	 * Perform tasks
 	 * @param \App\Modules\Base\Models\Record $recordModel
 	 */
-	public function performTasks($recordModel)
+	public function performTasks($recordModel, ?RelationWorkflowContext $relationContext = null)
 	{
 
 		$tm = new VTTaskManager();
@@ -87,6 +87,9 @@ class Workflow
 		$tasks = $tm->getTasksForWorkflow($this->id);
 		foreach ($tasks as &$task) {
 			if ($task->active) {
+				if ($relationContext !== null && !RelationWorkflowRunner::isAllowedTaskClass(get_class($task))) {
+					continue;
+				}
 				$trigger = $task->trigger;
 				if ($trigger != null) {
 					$delay = strtotime($recordModel->get($trigger['field'])) + $trigger['days'] * 86400;
@@ -94,7 +97,7 @@ class Workflow
 					$delay = 0;
 				}
 				if ($task->executeImmediately == true) {
-					$task->doTask($recordModel);
+					$task->doTask($recordModel, $relationContext);
 				} else {
 					$hasContents = $task->hasContents($recordModel);
 					if ($hasContents) {
@@ -108,11 +111,11 @@ class Workflow
 	public function executionConditionAsLabel($label = null)
 	{
 		if ($label == null) {
-			$arr = ['ON_FIRST_SAVE', 'ONCE', 'ON_EVERY_SAVE', 'ON_MODIFY', 'ON_DELETE', 'ON_SCHEDULE', 'MANUAL', 'TRIGGER', 'BLOCK_EDIT', 'ON_RELATED'];
-			return $arr[$this->executionCondition - 1];
+			$arr = ['ON_FIRST_SAVE', 'ONCE', 'ON_EVERY_SAVE', 'ON_MODIFY', 'ON_DELETE', 'ON_SCHEDULE', 'MANUAL', 'TRIGGER', 'BLOCK_EDIT', 'ON_RELATED', 'ON_RELATION_MODIFY'];
+			return $arr[$this->executionCondition - 1] ?? 'ON_RELATION_MODIFY';
 		} else {
 			$arr = ['ON_FIRST_SAVE' => 1, 'ONCE' => 2, 'ON_EVERY_SAVE' => 3, 'ON_MODIFY' => 4,
-				'ON_DELETE' => 5, 'ON_SCHEDULE' => 6, 'MANUAL' => 7, 'TRIGGER' => 8, 'BLOCK_EDIT' => 9, 'ON_RELATED' => 10];
+				'ON_DELETE' => 5, 'ON_SCHEDULE' => 6, 'MANUAL' => 7, 'TRIGGER' => 8, 'BLOCK_EDIT' => 9, 'ON_RELATED' => 10, 'ON_RELATION_MODIFY' => 11];
 			$this->executionCondition = $arr[$label];
 		}
 	}

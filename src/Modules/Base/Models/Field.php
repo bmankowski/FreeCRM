@@ -662,11 +662,31 @@ class Field extends \vtlib\Field
 	 */
 	public function isEditable()
 	{
+		if ($this->isRelationOnlyField()) {
+			return false;
+		}
 		$displayType = $this->get('displaytype');
 		if (!$this->isWritable() || ( $displayType !== 1 && $displayType !== 10 ) || $this->isReadOnly() === true || $this->get('uitype') === 4) {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Relation-only fields live in vtiger_field for metadata but must not appear on entity forms.
+	 */
+	public function isRelationOnlyField(): bool
+	{
+		$helpinfo = $this->get('helpinfo');
+		if ($helpinfo && str_contains((string) $helpinfo, 'relation_only')) {
+			return true;
+		}
+		$fieldparams = (string) $this->get('fieldparams');
+		if (str_contains($fieldparams, 'relation_table=')) {
+			return true;
+		}
+		$tablename = (string) $this->get('tablename');
+		return str_contains($tablename, '_relations_') || str_contains($tablename, '_relation_');
 	}
 
 	/**

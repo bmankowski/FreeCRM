@@ -26,6 +26,7 @@ class VTWorkflowManager {
 	static $TRIGGER = 8;
 	static $BLOCK_EDIT = 9;
 	static $ON_RELATED = 10;
+	static $ON_RELATION_MODIFY = 11;
 
 	public function __construct($adb = false)
 	{
@@ -147,8 +148,9 @@ class VTWorkflowManager {
 		foreach ($rows as &$row) {
 			$workflow = $this->getWorkflowInstance($row['type']);
 			$workflow->setup($row);
-			if (!is_a($workflow, 'Workflow'))
+			if (!is_a($workflow, Workflow::class)) {
 				continue;
+			}
 
 			$workflows[] = $workflow;
 		}

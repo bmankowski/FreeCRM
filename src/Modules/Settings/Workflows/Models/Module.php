@@ -47,6 +47,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		8 => 'TRIGGER',
 		9 => 'BLOCK_EDIT',
 		//10 => 'ON_RELATED',
+		11 => 'ON_RELATION_MODIFY',
 	];
 
 	/**

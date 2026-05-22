@@ -2,6 +2,8 @@
 
 namespace App\Modules\Workflow\Tasks;
 
+use App\Modules\Workflow\RelationFieldResolver;
+use App\Modules\Workflow\RelationWorkflowContext;
 use App\Modules\Workflow\VTTask;
 
 /* +**********************************************************************************
@@ -28,8 +30,13 @@ class VTEmailTask extends VTTask
 	 * Execute task
 	 * @param \App\Modules\Base\Models\Record $recordModel
 	 */
-	public function doTask($recordModel)
+	public function doTask($recordModel, ?RelationWorkflowContext $context = null)
 	{
+		if ($context !== null) {
+			$this->doRelationTask($recordModel, $context);
+			return;
+		}
+
 		$mailerContent = [
 			'smtp_id' => ($this->smtp) ? $this->smtp : \App\Email\Mail::getDefaultSmtp(),
 		];
@@ -66,5 +73,67 @@ class VTEmailTask extends VTTask
 			\App\Email\Mailer::addMail($mailerContent);
 		}
 		unset($textParser);
+	}
+
+	protected function doRelationTask(\App\Modules\Base\Models\Record $recordModel, RelationWorkflowContext $context): void
+	{
+		$resolver = new RelationFieldResolver($context);
+		$mailerContent = [
+			'smtp_id' => ($this->smtp) ? $this->smtp : \App\Email\Mail::getDefaultSmtp(),
+		];
+
+		if ($this->fromEmail) {
+			$fromRaw = $resolver->replaceInContent($this->fromEmail);
+			$fromParsed = $this->parseEmailsFromString($fromRaw);
+			if ($fromParsed) {
+				$mailerContent['from'] = $fromParsed;
+			}
+		}
+
+		$toRaw = $resolver->replaceInContent($this->recepient);
+		$toEmail = $this->parseEmailsFromString($toRaw);
+		if ($toEmail) {
+			$mailerContent['to'] = $toEmail;
+		}
+		$ccRaw = $resolver->replaceInContent($this->emailcc ?? '');
+		$ccEmail = $this->parseEmailsFromString($ccRaw);
+		if ($ccEmail) {
+			$mailerContent['cc'] = $ccEmail;
+		}
+		$bccRaw = $resolver->replaceInContent($this->emailbcc ?? '');
+		$bccEmail = $this->parseEmailsFromString($bccRaw);
+		if ($bccEmail) {
+			$mailerContent['bcc'] = $bccEmail;
+		}
+		if (empty($toEmail) && empty($ccEmail) && empty($bccEmail)) {
+			return;
+		}
+
+		$textParser = \App\TextParser\TextParser::getInstanceByModel($recordModel);
+		$mailerContent['subject'] = $textParser->setContent($resolver->replaceInContent($this->subject))->parse()->getContent();
+		$mailerContent['content'] = $textParser->setContent($resolver->replaceInContent($this->content))->parse()->getContent();
+		if (!empty($mailerContent['content'])) {
+			\App\Email\Mailer::addMail($mailerContent);
+		}
+	}
+
+	/**
+	 * @return array<string, string>|array<int, string>
+	 */
+	protected function parseEmailsFromString(string $raw): array
+	{
+		$raw = trim($raw);
+		if ($raw === '' || $raw === '-') {
+			return [];
+		}
+		$emails = [];
+		foreach (explode(',', $raw) as $part) {
+			$part = trim($part);
+			if ($part === '' || !filter_var($part, FILTER_VALIDATE_EMAIL)) {
+				continue;
+			}
+			$emails[$part] = '';
+		}
+		return $emails;
 	}
 }

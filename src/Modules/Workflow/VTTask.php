@@ -21,7 +21,7 @@ abstract class VTTask
 	/**
 	 * Execute the task
 	 */
-	abstract public function doTask($recordModel);
+	abstract public function doTask($recordModel, ?RelationWorkflowContext $context = null);
 
 	/**
 	 * Get field names for this task

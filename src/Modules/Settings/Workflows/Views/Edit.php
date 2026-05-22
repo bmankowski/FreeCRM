@@ -159,8 +159,7 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 		// Prepare Step2-specific data for Step2 template
 		$this->prepareWorkflowsStep2Data($viewer, $workFlowModel);
 
-		$viewer->assign('STEP_TEMPLATE', 'Step2.tpl');
-		$viewer->view('EditView.tpl', $qualifiedModuleName);
+		$viewer->view('Step2.tpl', $qualifiedModuleName);
 	}
 	
 	/**
@@ -169,6 +168,38 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 	 */
 	protected function prepareWorkflowsStep2Data($viewer, $workFlowModel)
 	{
+		$executionCondition = (int) $workFlowModel->get('execution_condition');
+		$relationTrigger = null;
+		if ($workFlowModel->getId()) {
+			$relationTrigger = \App\Modules\Settings\Workflows\Models\RelationTrigger::getByWorkflowId((int) $workFlowModel->getId());
+		}
+		if (!$relationTrigger) {
+			$relationTrigger = [
+				'source_module' => \App\Modules\Settings\Workflows\Models\RelationTrigger::DEFAULT_SOURCE_MODULE,
+				'destination_module' => \App\Modules\Settings\Workflows\Models\RelationTrigger::DEFAULT_DESTINATION_MODULE,
+				'relation_table' => \App\Modules\Settings\Workflows\Models\RelationTrigger::DEFAULT_RELATION_TABLE,
+				'relation_field' => \App\Modules\Settings\Workflows\Models\RelationTrigger::DEFAULT_RELATION_FIELD,
+				'source_value' => '',
+				'destination_value' => '',
+				'once_per_pair' => 0,
+			];
+		}
+		$relationSourceModule = $relationTrigger['source_module'] ?? \App\Modules\Settings\Workflows\Models\RelationTrigger::DEFAULT_SOURCE_MODULE;
+		$relationDestinationModule = $relationTrigger['destination_module'] ?? \App\Modules\Settings\Workflows\Models\RelationTrigger::DEFAULT_DESTINATION_MODULE;
+		$viewer->assign('RELATION_TABLE', \App\Modules\Settings\Workflows\Models\RelationTrigger::resolveRelationTable(
+			$relationSourceModule,
+			$relationDestinationModule
+		));
+		$viewer->assign('RELATION_FIELD', \App\Modules\Settings\Workflows\Models\RelationTrigger::resolveRelationField(
+			$relationSourceModule,
+			$relationDestinationModule
+		));
+		$viewer->assign('IS_RELATION_MODIFY_TRIGGER', $executionCondition === \App\Modules\Workflow\VTWorkflowManager::$ON_RELATION_MODIFY);
+		$viewer->assign('RELATION_TRIGGER', $relationTrigger);
+		$viewer->assign('RELATION_STATUS_OPTIONS', \App\Modules\Settings\Workflows\Models\RelationTrigger::getRecruitmentStatusOptions());
+		$viewer->assign('RELATION_SOURCE_MODULE', \App\Modules\Settings\Workflows\Models\RelationTrigger::DEFAULT_SOURCE_MODULE);
+		$viewer->assign('RELATION_DESTINATION_MODULE', \App\Modules\Settings\Workflows\Models\RelationTrigger::DEFAULT_DESTINATION_MODULE);
+
 		// Prepare JSON-encoded workflow data
 		$conditions = $workFlowModel->get('conditions');
 		$schdayofweek = $workFlowModel->get('schdayofweek');
@@ -219,7 +250,13 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 		}
 
 		$moduleModel = $workFlowModel->getModule();
-		$viewer->assign('TASK_TYPES', \App\Modules\Settings\Workflows\Models\TaskType::getAllForModule($moduleModel));
+		$taskTypes = \App\Modules\Settings\Workflows\Models\TaskType::getAllForModule($moduleModel);
+		if ((int) $workFlowModel->get('execution_condition') === \App\Modules\Workflow\VTWorkflowManager::$ON_RELATION_MODIFY) {
+			$taskTypes = array_values(array_filter($taskTypes, static function ($taskType) {
+				return \App\Modules\Workflow\RelationWorkflowRunner::isAllowedTaskClass($taskType->getName());
+			}));
+		}
+		$viewer->assign('TASK_TYPES', $taskTypes);
 		$viewer->assign('SOURCE_MODULE', $selectedModuleName);
 		$viewer->assign('RECORD', $recordId);
 		$viewer->assign('MODULE', $moduleName);
@@ -227,8 +264,7 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('TASK_LIST', $workFlowModel->getTasks());
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 
-		$viewer->assign('STEP_TEMPLATE', 'Step3.tpl');
-		$viewer->view('EditView.tpl', $qualifiedModuleName);
+		$viewer->view('Step3.tpl', $qualifiedModuleName);
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)

@@ -92,6 +92,16 @@ class TaskAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 
 		$workflowId = $request->get('for_workflow');
 		if (!empty($workflowId)) {
+			$workflowModel = \App\Modules\Settings\Workflows\Models\Record::getInstance($workflowId);
+			$taskType = $request->get('taskType');
+			if ((int) $workflowModel->get('execution_condition') === \App\Modules\Workflow\VTWorkflowManager::$ON_RELATION_MODIFY
+				&& $taskType
+				&& !\App\Modules\Workflow\RelationWorkflowRunner::isAllowedTaskClass($taskType)) {
+				$response = new \App\Http\Vtiger_Response();
+				$response->setError('Task type not allowed for relation workflows');
+				$response->emit();
+				return;
+			}
 			$record = $request->get('task_id');
 			if ($record) {
 				$taskRecordModel = \App\Modules\Settings\Workflows\Models\TaskRecord::getInstance($record);

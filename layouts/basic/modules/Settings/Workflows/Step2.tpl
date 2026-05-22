@@ -14,7 +14,7 @@
 		<input type="hidden" name="parent" value="Settings" />
 		<input type="hidden" class="step" value="2" />
 		<input type="hidden" name="summary" value="{$WORKFLOW_MODEL->get('summary')}" />
-		<input type="hidden" name="record" value="{$WORKFLOW_MODEL->get('record')}" />
+		<input type="hidden" name="record" value="{$WORKFLOW_MODEL->getId()}" />
 		<input type="hidden" name="module_name" value="{$WORKFLOW_MODEL->get('module_name')}" />
 		<input type="hidden" name="execution_condition" value="{$WORKFLOW_MODEL->get('execution_condition')}" />
 		<input type="hidden" name="conditions" id="advanced_filter" value='' />
@@ -26,6 +26,56 @@
 		<input type="hidden" name="schdayofweek" value={$SCHDAYOFWEEK_JSON} />
 		<input type="hidden" name="schdayofmonth" value={$SCHDAYOFMONTH_JSON} />
 		<input type="hidden" name="schannualdates" value={$SCHANNUALDATES_JSON} />
+		{if $IS_RELATION_MODIFY_TRIGGER}
+			<div class="relationTriggerContainer padding1per" style="border:1px solid #ccc;">
+				<h5 class="padding-bottom1per"><strong>{"LBL_RELATION_TRIGGER_CONFIG"|t:$QUALIFIED_MODULE}</strong></h5>
+				<input type="hidden" name="relation_source_module" value="{$RELATION_SOURCE_MODULE}" />
+				<input type="hidden" name="relation_destination_module" value="{$RELATION_DESTINATION_MODULE}" />
+				<input type="hidden" name="relation_table" value="{$RELATION_TABLE}" />
+				<input type="hidden" name="relation_field" value="{$RELATION_FIELD}" />
+				<div class="form-group row">
+					<label class="col-md-3 control-label">{"LBL_RELATION_SOURCE_MODULE"|t:$QUALIFIED_MODULE}</label>
+					<div class="col-md-6"><span class="form-control-static">{$RELATION_SOURCE_MODULE}</span></div>
+				</div>
+				<div class="form-group row">
+					<label class="col-md-3 control-label">{"LBL_RELATION_DESTINATION_MODULE"|t:$QUALIFIED_MODULE}</label>
+					<div class="col-md-6"><span class="form-control-static">{$RELATION_DESTINATION_MODULE}</span></div>
+				</div>
+				<div class="form-group row">
+					<label class="col-md-3 control-label">{"LBL_RELATION_TABLE"|t:$QUALIFIED_MODULE}</label>
+					<div class="col-md-6"><span class="form-control-static text-muted">{$RELATION_TABLE}</span></div>
+				</div>
+				<div class="form-group row">
+					<label class="col-md-3 control-label">{"LBL_RELATION_SOURCE_STATUS"|t:$QUALIFIED_MODULE}</label>
+					<div class="col-md-6">
+						<select name="relation_source_value" class="select2 form-control">
+							<option value="">{"LBL_RELATION_ANY_STATUS"|t:$QUALIFIED_MODULE}</option>
+							{foreach from=$RELATION_STATUS_OPTIONS item=LABEL key=VALUE}
+								<option value="{$VALUE}" {if $RELATION_TRIGGER.source_value eq $VALUE}selected{/if}>{$LABEL}</option>
+							{/foreach}
+						</select>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-md-3 control-label">{"LBL_RELATION_DESTINATION_STATUS"|t:$QUALIFIED_MODULE}</label>
+					<div class="col-md-6">
+						<select name="relation_destination_value" class="select2 form-control">
+							<option value="">{"LBL_RELATION_ANY_STATUS"|t:$QUALIFIED_MODULE}</option>
+							{foreach from=$RELATION_STATUS_OPTIONS item=LABEL key=VALUE}
+								<option value="{$VALUE}" {if $RELATION_TRIGGER.destination_value eq $VALUE}selected{/if}>{$LABEL}</option>
+							{/foreach}
+						</select>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-md-3 control-label">{"LBL_RELATION_ONCE_PER_PAIR"|t:$QUALIFIED_MODULE}</label>
+					<div class="col-md-6">
+						<input type="checkbox" name="relation_once_per_pair" value="1" {if $RELATION_TRIGGER.once_per_pair}checked{/if} />
+					</div>
+				</div>
+			</div>
+			<br>
+		{/if}
 		<div class="" style="border:1px solid #ccc;">
 				{if $IS_FILTER_SAVED_NEW == false}
 					<div class="alert alert-info">

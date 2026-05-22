@@ -39,6 +39,9 @@ class EditTask extends \App\Modules\Settings\Base\Views\Index
 			$taskModel = \App\Modules\Settings\Workflows\Models\TaskRecord::getCleanInstance($workflowModel, $taskType);
 		}
 		$taskTypeModel = $taskModel->getTaskType();
+		if (!$taskTypeModel) {
+			throw new \App\Exceptions\AppException('LBL_WORKFLOW_TASK_TYPE_NOT_FOUND');
+		}
 		$viewer->assign('TASK_TYPE_MODEL', $taskTypeModel);
 		$viewer->assign('TASK_TEMPLATE_PATH', $taskTypeModel->getTemplatePath());
 		$moduleModel = $workflowModel->getModule();
@@ -91,8 +94,7 @@ class EditTask extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('SMTP_ACCOUNTS', $smtpAccounts);
 		
 		// Prepare email templates
-		$emailTemplates = \App\Email\Mail::getTempleteList($sourceModule, 'PLL_RECORD');
-		$viewer->assign('EMAIL_TEMPLATES', $emailTemplates);
+		$viewer->assign('EMAIL_TEMPLATES', $this->getEmailTemplatesForWorkflow($workflowModel, $sourceModule));
 	}
 	$viewer->assign('SOURCE_MODULE', $sourceModule);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
@@ -176,7 +178,8 @@ class EditTask extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('MAIL_ACCOUNTS', \App\Email\Mail::getAll());
 		
 		// Prepare email templates for email/notification tasks
-		$viewer->assign('EMAIL_TEMPLATES', \App\Email\Mail::getTempleteList($sourceModule, 'PLL_RECORD'));
+		$workflowModel = $viewer->getTemplateVars('WORKFLOW_MODEL');
+		$viewer->assign('EMAIL_TEMPLATES', $this->getEmailTemplatesForWorkflow($workflowModel, $sourceModule));
 		
 		// Prepare activity status picklist values for VTCreateTodoTask
 		$viewer->assign('ACTIVITY_STATUS_PICKLIST_VALUES', \App\Fields\Picklist::getPickListValues('activitystatus'));
@@ -221,5 +224,41 @@ class EditTask extends \App\Modules\Settings\Base\Views\Index
 			}
 			$viewer->assign('RELATED_FIELD_INFO_JSON', $relatedFieldInfoJson);
 		}
+	}
+
+	/**
+	 * Modules whose PLL_RECORD email templates should appear in workflow task UI.
+	 *
+	 * @return string[]
+	 */
+	protected function getEmailTemplateModulesForWorkflow($workflowModel, string $primaryModule): array
+	{
+		$modules = [$primaryModule];
+		if (!$workflowModel || (int) $workflowModel->get('execution_condition') !== \App\Modules\Workflow\VTWorkflowManager::$ON_RELATION_MODIFY) {
+			return $modules;
+		}
+		$relation = \App\Modules\Settings\Workflows\Models\RelationTrigger::getByWorkflowId((int) $workflowModel->getId());
+		if (!$relation) {
+			return $modules;
+		}
+		foreach (['source_module', 'destination_module'] as $key) {
+			$moduleName = $relation[$key] ?? '';
+			if ($moduleName !== '' && !in_array($moduleName, $modules, true)) {
+				$modules[] = $moduleName;
+			}
+		}
+		return $modules;
+	}
+
+	/**
+	 * @param \App\Modules\Settings\Workflows\Models\Record|null $workflowModel
+	 * @return array
+	 */
+	protected function getEmailTemplatesForWorkflow($workflowModel, string $primaryModule): array
+	{
+		return \App\Email\Mail::getTempleteListForModules(
+			$this->getEmailTemplateModulesForWorkflow($workflowModel, $primaryModule),
+			'PLL_RECORD'
+		);
 	}
 }

@@ -437,19 +437,95 @@ class Mailer
 	}
 
 	/**
+	 * Mailer for cron queue batch: one SMTP connection per smtp_id (SMTPKeepAlive).
+	 *
+	 * @param int $smtpId
+	 * @return self
+	 */
+	public static function createQueueSessionMailer(int $smtpId): self
+	{
+		$mailer = (new self())->loadSmtpByID($smtpId);
+		if (($mailer->smtp['mailer_type'] ?? '') === 'smtp') {
+			$mailer->mailer->SMTPKeepAlive = true;
+		}
+		return $mailer;
+	}
+
+	/**
+	 * Reset PHPMailer state between queue rows on a reused session.
+	 */
+	public function resetForNextQueueRow(): void
+	{
+		$this->mailer->clearAllRecipients();
+		$this->mailer->clearAttachments();
+		$this->mailer->clearCustomHeaders();
+		$this->mailer->clearReplyTos();
+		$this->mailer->Subject = '';
+		$this->mailer->Body = '';
+		$this->mailer->AltBody = '';
+		$this->mailer->Ical = '';
+		$this->restoreSmtpDefaults();
+	}
+
+	/**
+	 * Restore default From / Reply-To from cached SMTP config (no reconnect or password decrypt).
+	 */
+	private function restoreSmtpDefaults(): void
+	{
+		if (!$this->smtp) {
+			return;
+		}
+		if (!empty($this->smtp['from_email'])) {
+			$this->mailer->From = $this->smtp['from_email'];
+		}
+		if (!empty($this->smtp['from_name'])) {
+			$this->mailer->FromName = $this->smtp['from_name'];
+		}
+		if (!empty($this->smtp['reply_to'])) {
+			$this->mailer->addReplyTo($this->smtp['reply_to']);
+		}
+	}
+
+	/**
+	 * Close persistent SMTP connection opened with SMTPKeepAlive.
+	 */
+	public function closeSmtpSession(): void
+	{
+		if (($this->smtp['mailer_type'] ?? '') === 'smtp') {
+			$this->mailer->smtpClose();
+		}
+	}
+
+	/**
 	 * Send mail by row queue
 	 * @param array $rowQueue
+	 * @param self|null $sessionMailer Reused mailer from createQueueSessionMailer(); reset before each row
 	 * @return boolean
 	 */
-	public static function sendByRowQueue($rowQueue)
+	public static function sendByRowQueue($rowQueue, ?self $sessionMailer = null)
 	{
 		if (\App\Core\AppConfig::main('systemMode') === 'demo') {
 			return true;
 		}
-		$mailer = (new self())->loadSmtpByID($rowQueue['smtp_id'])->subject($rowQueue['subject'])->content($rowQueue['content']);
+		if ($sessionMailer !== null) {
+			$sessionMailer->resetForNextQueueRow();
+			return $sessionMailer->deliverQueueRow($rowQueue);
+		}
+		return (new self())->loadSmtpByID($rowQueue['smtp_id'])->deliverQueueRow($rowQueue);
+	}
+
+	/**
+	 * Build and send one queue row (instance must already be configured for smtp_id).
+	 *
+	 * @param array $rowQueue
+	 * @return boolean
+	 */
+	public function deliverQueueRow(array $rowQueue): bool
+	{
+		$this->subject($rowQueue['subject'])->content($rowQueue['content']);
 		if ($rowQueue['from']) {
 			$from = \App\Utils\Json::decode($rowQueue['from']);
-			$mailer->from($from['email'], $from['name']);
+			$this->from($from['email'], $from['name']);
 		}
 		foreach (['cc', 'bcc'] as $key) {
 			if ($rowQueue[$key]) {
@@ -458,7 +534,7 @@ class Mailer
 						$email = $name;
 						$name = '';
 					}
-					$mailer->$key($email, $name);
+					$this->$key($email, $name);
 				}
 			}
 		}
@@ -474,27 +550,31 @@ class Mailer
 					$path = $name;
 					$name = '';
 				}
-				$mailer->attachment($path, $name);
-				if (strpos(realpath($path), 'cache' . DIRECTORY_SEPARATOR)) {
+				$this->attachment($path, $name);
+				$pathReal = realpath($path);
+				if ($pathReal !== false && strpos($pathReal, 'cache' . DIRECTORY_SEPARATOR) !== false) {
 					$attachmentsToRemove[] = $path;
 				}
 			}
 		}
 		if ($rowQueue['params']) {
 			foreach (\App\Utils\Json::decode($rowQueue['params']) as $name => $param) {
-				$this->sendCustomParams($name, $param, $mailer);
+				$this->sendCustomParams($name, $param, $this);
 			}
 		}
-		if ($mailer->getSmtp('individual_delivery')) {
+		$useKeepAlive = $this->mailer->SMTPKeepAlive;
+		if ($this->getSmtp('individual_delivery')) {
+			$status = true;
 			foreach (\App\Utils\Json::decode($rowQueue['to']) as $email => $name) {
-				$separateMailer = clone $mailer;
+				if ($useKeepAlive) {
+					$this->mailer->clearAllRecipients();
+				}
 				if (is_numeric($email)) {
 					$email = $name;
 					$name = '';
 				}
-				$separateMailer->to($email, $name);
-				$status = $separateMailer->send();
-				if (!$status) {
+				$this->to($email, $name);
+				if (!$this->send()) {
 					return false;
 				}
 			}
@@ -504,9 +584,9 @@ class Mailer
 					$email = $name;
 					$name = '';
 				}
-				$mailer->to($email, $name);
+				$this->to($email, $name);
 			}
-			$status = $mailer->send();
+			$status = $this->send();
 		}
 		if ($status) {
 			foreach ($attachmentsToRemove as $file) {

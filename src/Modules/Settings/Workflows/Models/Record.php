@@ -82,7 +82,13 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	public function getTaskTypes()
 	{
-		return \App\Modules\Settings\Workflows\Models\TaskType::getAllForModule($this->getModule());
+		$taskTypes = \App\Modules\Settings\Workflows\Models\TaskType::getAllForModule($this->getModule());
+		if ((int) $this->get('execution_condition') === \App\Modules\Workflow\VTWorkflowManager::$ON_RELATION_MODIFY) {
+			$taskTypes = array_values(array_filter($taskTypes, static function ($taskType) {
+				return \App\Modules\Workflow\RelationWorkflowRunner::isAllowedTaskClass($taskType->getName());
+			}));
+		}
+		return $taskTypes;
 	}
 
 	public function isDefault()
@@ -175,7 +181,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			array(
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
-				'linkurl' => 'javascript:\Vtiger_ListView_Js.deleteRecord(' . $this->getId() . ');',
+				'linkurl' => 'javascript:Vtiger_ListView_Js.deleteRecord(' . $this->getId() . ');',
 				'linkicon' => 'glyphicon glyphicon-trash'
 			)
 		);

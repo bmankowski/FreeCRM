@@ -94,6 +94,36 @@ class Base1 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
+			'com_vtiger_workflow_relation_triggers' => [
+				'columns' => [
+					'id' => $this->primaryKey()->unsigned(),
+					'workflow_id' => $this->integer()->notNull(),
+					'source_module' => $this->stringType(100)->notNull(),
+					'destination_module' => $this->stringType(100)->notNull(),
+					'relation_table' => $this->stringType(200)->notNull(),
+					'relation_field' => $this->stringType(100)->notNull(),
+					'source_value' => $this->stringType(255),
+					'destination_value' => $this->stringType(255)->notNull(),
+					'once_per_pair' => $this->smallInteger(1)->notNull()->defaultValue(0),
+				],
+				'index' => [
+					['com_vtiger_workflow_relation_triggers_workflow_id', 'workflow_id', true],
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
+			'com_vtiger_workflow_relation_activatedonce' => [
+				'columns' => [
+					'workflow_id' => $this->integer()->notNull(),
+					'source_record_id' => $this->integer()->notNull(),
+					'destination_record_id' => $this->integer()->notNull(),
+				],
+				'primaryKeys' => [
+					['com_vtiger_workflow_relation_activatedonce_pk', ['workflow_id', 'source_record_id', 'destination_record_id']]
+				],
+				'engine' => 'InnoDB',
+				'charset' => 'utf8'
+			],
 			'com_vtiger_workflow_tasktypes' => [
 				'columns' => [
 					'id' => $this->integer()->notNull(),

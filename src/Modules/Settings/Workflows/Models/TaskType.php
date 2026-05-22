@@ -49,8 +49,21 @@ class TaskType extends \App\Modules\Base\Models\Record
 	public static function getInstanceFromClassName($taskClass)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
-		$result = $db->pquery("SELECT * FROM com_vtiger_workflow_tasktypes where classname=?", array($taskClass));
+		$shortClass = $taskClass;
+		if (str_contains($taskClass, '\\')) {
+			$shortClass = substr(strrchr($taskClass, '\\'), 1);
+		}
+		$result = $db->pquery('SELECT * FROM com_vtiger_workflow_tasktypes WHERE classname = ?', [$shortClass]);
+		if ($db->num_rows($result) < 1 && $shortClass !== $taskClass) {
+			$result = $db->pquery('SELECT * FROM com_vtiger_workflow_tasktypes WHERE classname = ?', [$taskClass]);
+		}
+		if ($db->num_rows($result) < 1) {
+			return null;
+		}
 		$row = $db->query_result_rowdata($result, 0);
+		if (empty($row)) {
+			return null;
+		}
 		$taskTypeObject = VTTaskType::getInstance($row);
 		return self::getInstanceFromTaskTypeObject($taskTypeObject);
 	}

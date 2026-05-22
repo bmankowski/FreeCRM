@@ -81,6 +81,10 @@ class Vtiger_Workflow_Handler {
 					$doEvaluate = false;
 					break;
 
+				case \App\Modules\Workflow\VTWorkflowManager::$ON_RELATION_MODIFY:
+					$doEvaluate = false;
+					break;
+
 				default:
 					throw new Exception('Should never come here! Execution Condition:' . $workflow->executionCondition);
 			}
