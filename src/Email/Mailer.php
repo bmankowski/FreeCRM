@@ -11,6 +11,9 @@ use App\AppConfig;
 class Mailer
 {
 
+	/** SMTP connect/send timeout during configuration test (seconds) */
+	private const SMTP_TEST_TIMEOUT = 15;
+
 	/** @var string[] Queue status */
 	public static $statuses = [
 		0 => 'LBL_PENDING_ACCEPTANCE',
@@ -331,14 +334,13 @@ class Mailer
 	}
 
 	/**
-	 * Check connection
-	 * @return array
+	 * Enable verbose SMTP logging for configuration tests.
 	 */
-	public function test()
+	private function enableSmtpTestDebug(): void
 	{
 		$this->mailer->SMTPDebug = 2;
 		$this->error = [];
-		$this->mailer->Debugoutput = function($str, $level) {
+		$this->mailer->Debugoutput = function ($str, $level) {
 			if (strpos(strtolower($str), 'error') !== false || strpos(strtolower($str), 'failed') !== false) {
 				$this->error[] = trim($str);
 				\App\Log\Log::error(trim($str), 'Mailer');
@@ -346,6 +348,71 @@ class Mailer
 				\App\Log\Log::trace(trim($str), 'Mailer');
 			}
 		};
+	}
+
+	/**
+	 * Apply short timeouts for SMTP configuration tests.
+	 */
+	private function applySmtpTestTimeout(): void
+	{
+		$this->mailer->Timeout = self::SMTP_TEST_TIMEOUT;
+	}
+
+	/**
+	 * Test SMTP connection and authentication (no message is sent).
+	 * @return array{result: bool, error?: string}
+	 */
+	public function testConnection(): array
+	{
+		if (($this->smtp['mailer_type'] ?? 'smtp') !== 'smtp') {
+			return ['result' => true];
+		}
+		$this->applySmtpTestTimeout();
+		$this->enableSmtpTestDebug();
+		try {
+			if (!$this->mailer->smtpConnect($this->mailer->SMTPOptions)) {
+				return [
+					'result' => false,
+					'error' => $this->formatSmtpTestError('LBL_SMTP_CONNECT_FAILED', $this->mailer->ErrorInfo),
+				];
+			}
+		} catch (\Exception $e) {
+			return [
+				'result' => false,
+				'error' => $this->formatSmtpTestError('LBL_SMTP_CONNECT_FAILED', $e->getMessage()),
+			];
+		}
+		return ['result' => true];
+	}
+
+	/**
+	 * @param string $labelKey
+	 * @param string $details
+	 * @return string
+	 */
+	private function formatSmtpTestError(string $labelKey, string $details): string
+	{
+		$message = \App\Runtime\Vtiger_Language_Handler::translate($labelKey, 'Settings:MailSmtp');
+		$details = trim($details);
+		if ($details !== '') {
+			$debug = trim(implode(PHP_EOL, $this->error));
+			$message .= PHP_EOL . ($debug !== '' ? $debug : $details);
+		}
+		return $message;
+	}
+
+	/**
+	 * Test mail server: connect first, then send a test message to the current user.
+	 * @return array{result: bool, error?: string}
+	 */
+	public function test()
+	{
+		$this->applySmtpTestTimeout();
+		$connectionTest = $this->testConnection();
+		if (!$connectionTest['result']) {
+			return $connectionTest;
+		}
+		$this->enableSmtpTestDebug();
 		$currentUser = \App\User\CurrentUser::get();
 		$this->to($currentUser->get('email1'));
 		$template = \App\Email\Mail::getTempleteDetail('TestMailAboutTheMailServerConfiguration');
@@ -355,7 +422,18 @@ class Mailer
 		$textParser = \App\TextParser\TextParser::getInstanceById($currentUser->getId(), 'Users');
 		$this->subject($textParser->setContent($template['subject'])->parse()->getContent());
 		$this->content($textParser->setContent($template['content'])->parse()->getContent());
-		return ['result' => $this->send(), 'error' => implode(PHP_EOL, $this->error)];
+		$sent = $this->send();
+		if (!$sent) {
+			$error = trim(implode(PHP_EOL, $this->error));
+			if ($error === '' && $this->mailer->ErrorInfo) {
+				$error = $this->mailer->ErrorInfo;
+			}
+			return [
+				'result' => false,
+				'error' => $this->formatSmtpTestError('LBL_SMTP_SEND_TEST_FAILED', $error),
+			];
+		}
+		return ['result' => true, 'error' => ''];
 	}
 
 	/**

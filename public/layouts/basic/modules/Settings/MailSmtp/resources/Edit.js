@@ -12,12 +12,16 @@ Settings_Vtiger_Edit_Js('Settings_MailSmtp_Edit_Js', {}, {
 				});
 				app.saveAjax('updateSmtp', paramsForm).then(function (respons) {
 					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					if(true == respons.result.success){
-						window.location.href = 	respons.result.url
-					}else{
-						form.find('.alert').show()
-						form.find('.alert p').text(respons.result.message)
+					if (true == respons.result.success) {
+						window.location.href = respons.result.url;
+					} else {
+						form.find('.alert').show();
+						form.find('.alert p').text(respons.result.message);
 					}
+				}).fail(function () {
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					form.find('.alert').show();
+					form.find('.alert p').text(app.vtranslate('JS_SMTP_SAVE_REQUEST_FAILED', 'Settings.MailSmtp'));
 				});
 				return false;
 			} else {

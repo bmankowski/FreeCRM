@@ -95,12 +95,6 @@
 					</td>
 				</tr>
 				<tr>
-					<td class="{$WIDTHTYPE} col-md-3" ><label class="pull-right">{'LBL_INDIVIDUAL_DELIVERY'|t:$QUALIFIED_MODULE}</label></td>
-					<td class="{$WIDTHTYPE} col-md-8">
-						{$RECORD_MODEL->getDisplayValue('individual_delivery')}
-					</td>
-				</tr>
-				<tr>
 					<td class="{$WIDTHTYPE} col-md-3" ><label class="pull-right">{'LBL_FROM_NAME'|t:$QUALIFIED_MODULE}</label></td>
 					<td class="{$WIDTHTYPE} col-md-8">
 						{$RECORD_MODEL->getDisplayValue('from_name')}
@@ -127,4 +121,9 @@
 			</tbody>
 		</table>
 	</div>
-	{strip}
+
+			</div>
+		</div>
+{/block}
+<!--/layouts/basic/modules/Settings/MailSmtp/DetailView.tpl -->
+{/strip}

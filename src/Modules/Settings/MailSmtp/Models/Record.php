@@ -60,6 +60,15 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	}
 
 	/**
+	 * Function to get the duplicate (copy as new record) URL
+	 * @return string URL
+	 */
+	public function getDuplicateViewUrl()
+	{
+		return 'index.php?module=MailSmtp&parent=Settings&view=Edit&from_record=' . $this->getId();
+	}
+
+	/**
 	 * Function to get the Save Ajax 
 	 * @return string URL
 	 */
@@ -82,6 +91,13 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 				'linkurl' => $this->getEditViewUrl(),
 				'linkicon' => 'glyphicon glyphicon-pencil',
 				'linkclass' => 'btn btn-xs btn-info'
+			],
+			[
+				'linktype' => 'LISTVIEWRECORD',
+				'linklabel' => 'LBL_DUPLICATE_RECORD',
+				'linkurl' => $this->getDuplicateViewUrl(),
+				'linkicon' => 'glyphicon glyphicon-duplicate',
+				'linkclass' => 'btn btn-xs btn-warning',
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',

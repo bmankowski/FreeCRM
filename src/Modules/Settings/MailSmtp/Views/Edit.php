@@ -23,13 +23,29 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 		$moduleName = $request->getModule(false);
 		$viewer = $this->getViewer($request);
 		$record = $request->get('record');
+		$fromRecord = $request->get('from_record');
+		$recordId = '';
 		if (!empty($record)) {
 			$recordModel = \App\Modules\Settings\MailSmtp\Models\Record::getInstanceById($record);
+			$recordId = $record;
+		} elseif (!empty($fromRecord)) {
+			$sourceModel = \App\Modules\Settings\MailSmtp\Models\Record::getInstanceById($fromRecord);
+			if ($sourceModel) {
+				$recordModel = \App\Modules\Settings\MailSmtp\Models\Record::getCleanInstance();
+				$data = $sourceModel->getData();
+				unset($data['id']);
+				$data['default'] = 0;
+				$copySuffix = ' (' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_MAILSMTP_COPY_SUFFIX', 'Settings:MailSmtp') . ')';
+				$data['name'] = $sourceModel->getName() . $copySuffix;
+				$recordModel->setData($data);
+			} else {
+				$recordModel = \App\Modules\Settings\MailSmtp\Models\Record::getCleanInstance();
+			}
 		} else {
 			$recordModel = \App\Modules\Settings\MailSmtp\Models\Record::getCleanInstance();
 		}
 		$viewer->assign('RECORD_MODEL', $recordModel);
-		$viewer->assign('RECORD_ID', $record);
+		$viewer->assign('RECORD_ID', $recordId);
 		$viewer->assign('QUALIFIED_MODULE', $moduleName);
 		$viewer->view('Edit.tpl', $moduleName);
 	}
