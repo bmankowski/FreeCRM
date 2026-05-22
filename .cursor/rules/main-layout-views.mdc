@@ -1,0 +1,94 @@
+---
+description: "Fix missing menu/header when a view does not use MainLayout"
+globs:
+  - "src/**/Views/*.php"
+  - "src/Modules/Settings/**/Views/*.php"
+  - "layouts/**/*.tpl"
+alwaysApply: false
+---
+
+# MainLayout — brak menu / nagłówka na stronie
+
+## Objaw
+
+Strona CRM (np. Settings) renderuje się **bez lewego menu**, bez pełnego nagłówka/stopki, często tylko „goły” fragment formularza lub listy.
+
+## Przyczyna
+
+`MainLayout.tpl` dostarcza `<html>`, `BodyLeft.tpl` → `Menu.tpl` (`$MENUS`). Widok, który woła szablon **bez** `{extends file="MainLayout.tpl"|@vtemplate_path}`, dostaje sam fragment HTML.
+
+`preProcess()` w kontrolerze **tylko przypisuje** zmienne (m.in. `MENUS` w Settings) — **nie renderuje** layoutu.
+
+## Szybka diagnoza
+
+1. Otwórz szablon renderowany w `process()` (np. `$viewer->view('Step1.tpl', …)`).
+2. Sprawdź, czy ma `{extends file="MainLayout.tpl"|@vtemplate_path}`.
+3. Sprawdź, czy `preProcess()` nie robi `$viewer->view('…Header.tpl', …)` — to omija layout i dokleja HTML przed treścią kroku.
+4. Porównaj z działającym widokiem w tym samym module (np. `ListView.tpl` w Settings często dziedziczy po `Settings/Base/ListView.tpl` → MainLayout).
+
+```bash
+rg "extends file=\"MainLayout" layouts/basic/modules/Settings/<Module>/
+rg "viewer->view\(" src/Modules/Settings/<Module>/Views/
+```
+
+## Wzorzec naprawy (pełna strona, wielokrokowa treść)
+
+**1. Wrapper** `EditView.tpl` (lub `Edit.tpl` / `Index.tpl`):
+
+```smarty
+{extends file="MainLayout.tpl"|@vtemplate_path}
+{block name="content"}
+  <div class="mainContainer">
+    <div class="contentsDiv">
+      {include file='EditHeader.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+      {include file=$STEP_TEMPLATE|@vtemplate_path:$QUALIFIED_MODULE}
+    </div>
+  </div>
+{/block}
+```
+
+Wzorce w repo: `layouts/basic/modules/Settings/Workflows/EditView.tpl`, `DocumentTemplates/Edit.tpl`, `Settings/Groups/EditView.tpl`, `Settings/MailSmtp/Edit.tpl`.
+
+**2. Kontroler** — w `process()`:
+
+```php
+$viewer->assign('STEP_TEMPLATE', 'Step1.tpl'); // lub jeden szablon: 'Edit.tpl'
+$viewer->view('EditView.tpl', $qualifiedModuleName);
+```
+
+W `preProcess()`:
+
+```php
+parent::preProcess($request, false); // jak Settings\Base\Views\Index / DocumentTemplates\Edit
+// bez $viewer->view() — nagłówek kroków idzie do wrappera
+```
+
+**3. Szablony kroków** (`Step1.tpl`, `ListViewContent.tpl` itd.) — zostają fragmentami; **nie** muszą same extends MainLayout, jeśli są `{include}` z wrappera.
+
+## Wzorzec naprawy (prosty Edit jednym plikiem)
+
+Jeden plik `.tpl` z `{extends MainLayout}` + cała treść w `{block name="content"}` — jak `Settings/MailSmtp/Edit.tpl`. W `process()`: `$viewer->view('Edit.tpl', $moduleName);`.
+
+## Settings — menu boczne
+
+- Kontroler powinien dziedziczyć po `App\Modules\Settings\Base\Views\Index` (lub `ListView`).
+- `Settings\Base\Views\Index::preProcess()` ustawia `$MENUS` — wystarczy, jeśli szablon używa MainLayout.
+
+## Kiedy NIE dodawać MainLayout
+
+- Żądania **AJAX** (`$request->isAjax()`) — zwracaj tylko fragment (`ListViewContent.tpl`, modal).
+- **Modale** (`EditTask.tpl`, `BasicModal`) — treść do `#pjaxContainer` / `.modal`.
+- **Export / PDF** — osobne layouty.
+
+## Weryfikacja
+
+1. Odśwież stronę w przeglądarce (nie tylko CLI).
+2. W HTML źródła: `MainLayout.tpl`, `menuContainer`, `BodyLeft.tpl`.
+3. `cache/logs/system.log` — brak nowych błędów po zmianie.
+
+## Checklist
+
+- [ ] Szablon główny `extends MainLayout`
+- [ ] Brak `$viewer->view()` w `preProcess` (poza wyjątkami legacy)
+- [ ] `parent::preProcess($request, false)` przy renderze layoutu w `process`
+- [ ] AJAX/modal nadal bez pełnego layoutu

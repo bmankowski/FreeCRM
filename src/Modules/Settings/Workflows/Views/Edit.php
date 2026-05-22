@@ -30,7 +30,7 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
-		parent::preProcess($request);
+		parent::preProcess($request, false);
 		$viewer = $this->getViewer($request);
 
 		$recordId = $request->get('record');
@@ -40,7 +40,6 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 			$viewer->assign('WORKFLOW_MODEL', $workflowModel);
 		}
 		$viewer->assign('RECORD_MODE', $request->getMode());
-		$viewer->view('EditHeader.tpl', $request->getModule(false));
 	}
 
 	public function step1(\App\Http\Vtiger_Request $request)
@@ -81,8 +80,9 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 		
 		// Prepare Step1-specific data for Step1 template
 		$this->prepareWorkflowsStep1Data($viewer, $workflowModel);
-		
-		$viewer->view('Step1.tpl', $qualifiedModuleName);
+
+		$viewer->assign('STEP_TEMPLATE', 'Step1.tpl');
+		$viewer->view('EditView.tpl', $qualifiedModuleName);
 	}
 	
 	/**
@@ -159,7 +159,8 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 		// Prepare Step2-specific data for Step2 template
 		$this->prepareWorkflowsStep2Data($viewer, $workFlowModel);
 
-		$viewer->view('Step2.tpl', $qualifiedModuleName);
+		$viewer->assign('STEP_TEMPLATE', 'Step2.tpl');
+		$viewer->view('EditView.tpl', $qualifiedModuleName);
 	}
 	
 	/**
@@ -226,7 +227,8 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('TASK_LIST', $workFlowModel->getTasks());
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 
-		$viewer->view('Step3.tpl', $qualifiedModuleName);
+		$viewer->assign('STEP_TEMPLATE', 'Step3.tpl');
+		$viewer->view('EditView.tpl', $qualifiedModuleName);
 	}
 
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
