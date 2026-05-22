@@ -127,17 +127,43 @@ class EditTask extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$emailFieldoptions = [];
 		$textParser = \App\TextParser\TextParser::getInstance($sourceModule);
-		foreach ($textParser->getRecordVariable('email') as $blockName => $fields) {
-			$blockName = \App\Runtime\Vtiger_Language_Handler::translate($blockName, $sourceModule);
-			foreach ($fields as $field) {
-				$emailFieldoptions[$blockName][$field['var_value']] = \App\Runtime\Vtiger_Language_Handler::translate($field['label'], $sourceModule);
-			}
-		}
-		foreach ($textParser->getRelatedVariable('email') as $modules) {
-			foreach ($modules as $blockName => $fields) {
+		$isRelationWorkflowTask = (int) $workflowModel->get('execution_condition') === \App\Modules\Workflow\VTWorkflowManager::$ON_RELATION_MODIFY;
+		$viewer->assign('IS_RELATION_WORKFLOW_TASK', $isRelationWorkflowTask);
+		$viewer->assign('RELATION_VARIABLE_PANEL_SECTIONS', []);
+		if ($isRelationWorkflowTask) {
+			$relationConfig = \App\Modules\Settings\Workflows\Models\RelationTrigger::getByWorkflowId((int) $workflowModel->getId());
+			$relationSourceModule = $relationConfig['source_module'] ?? \App\Modules\Settings\Workflows\Models\RelationTrigger::DEFAULT_SOURCE_MODULE;
+			$relationDestinationModule = $relationConfig['destination_module'] ?? \App\Modules\Settings\Workflows\Models\RelationTrigger::DEFAULT_DESTINATION_MODULE;
+			$viewer->assign(
+				'RELATION_VARIABLE_PANEL_SECTIONS',
+				\App\Modules\Settings\Workflows\Models\RelationTrigger::getVariablePanelSections(
+					$relationSourceModule,
+					$relationDestinationModule
+				)
+			);
+			$emailGroups = \App\Modules\Settings\Workflows\Models\RelationTrigger::getVariablePanelGroups(
+				$relationSourceModule,
+				$relationDestinationModule,
+				'email'
+			);
+			$emailFieldoptions = \App\Modules\Settings\Workflows\Models\RelationTrigger::flattenGroupOptions(
+				$emailGroups,
+				$relationSourceModule,
+				$relationDestinationModule
+			);
+		} else {
+			foreach ($textParser->getRecordVariable('email') as $blockName => $fields) {
 				$blockName = \App\Runtime\Vtiger_Language_Handler::translate($blockName, $sourceModule);
 				foreach ($fields as $field) {
 					$emailFieldoptions[$blockName][$field['var_value']] = \App\Runtime\Vtiger_Language_Handler::translate($field['label'], $sourceModule);
+				}
+			}
+			foreach ($textParser->getRelatedVariable('email') as $modules) {
+				foreach ($modules as $blockName => $fields) {
+					$blockName = \App\Runtime\Vtiger_Language_Handler::translate($blockName, $sourceModule);
+					foreach ($fields as $field) {
+						$emailFieldoptions[$blockName][$field['var_value']] = \App\Runtime\Vtiger_Language_Handler::translate($field['label'], $sourceModule);
+					}
 				}
 			}
 		}

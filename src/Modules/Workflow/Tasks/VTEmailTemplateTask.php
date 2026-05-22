@@ -43,7 +43,7 @@ class VTEmailTemplateTask extends VTTask
 			if (!empty($this->smtp)) {
 				$mailerContent['smtp_id'] = $this->smtp;
 			}
-			$emailParser = \App\EmailParser::getInstanceByModel($recordModel);
+			$emailParser = \App\Email\EmailParser::getInstanceByModel($recordModel);
 			$emailParser->emailoptout = $this->emailoptout ? true : false;
 			if ($this->email) {
 				$email = is_array($this->email) ? implode(',', $this->email) : $this->email;
@@ -132,13 +132,13 @@ class VTEmailTemplateTask extends VTTask
 		$emailContent = $resolver->replaceInContent($emailContent);
 
 		$destModel = $context->getDestinationRecordModel();
-		$emailParser = \App\EmailParser::getInstanceByModel($destModel);
+		$emailParser = \App\Email\EmailParser::getInstanceByModel($destModel);
 		$emailParser->emailoptout = (bool) $this->emailoptout;
 		$toEmails = $emailParser->setContent($emailContent)->parse()->getContent(true);
 		unset($emailParser);
 
 		if (empty($toEmails)) {
-			$emailParser = \App\EmailParser::getInstanceByModel($recordModel);
+			$emailParser = \App\Email\EmailParser::getInstanceByModel($recordModel);
 			$emailParser->emailoptout = (bool) $this->emailoptout;
 			$toEmails = $emailParser->setContent($emailContent)->parse()->getContent(true);
 			unset($emailParser);

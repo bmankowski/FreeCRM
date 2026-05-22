@@ -40,7 +40,7 @@ class VTEmailTask extends VTTask
 		$mailerContent = [
 			'smtp_id' => ($this->smtp) ? $this->smtp : \App\Email\Mail::getDefaultSmtp(),
 		];
-		$emailParser = \App\EmailParser::getInstanceByModel($recordModel);
+		$emailParser = \App\Email\EmailParser::getInstanceByModel($recordModel);
 		$emailParser->emailoptout = $this->emailoptout ? true : false;
 		if ($this->fromEmail) {
 			$fromEmailDetails = $emailParser->setContent($this->fromEmail)->parse()->getContent(true);

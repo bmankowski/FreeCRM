@@ -37,27 +37,37 @@
 				<div class="col-md-4">
 					<select class="chzn-select form-control" name="email" data-placeholder="{'LBL_SELECT_FIELD'|t:$QUALIFIED_MODULE}" multiple  data-validation-engine="validate[required]">
 						<option value="none"></option>
-						{assign var=TEXT_PARSER value=$TEXT_PARSER}
-						{foreach item=FIELDS key=BLOCK_NAME from=$TEXT_PARSER->getRecordVariable('email')}
-							<optgroup label="{$BLOCK_NAME|t:$SOURCE_MODULE}">
-								{foreach item=ITEM from=$FIELDS}
-									<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}" {if $TASK_OBJECT->email && in_array($ITEM['var_value'],$TASK_OBJECT->email)}selected=""{/if}>
-										{$ITEM['label']|t:$SOURCE_MODULE}
-									</option>
-								{/foreach}
-							</optgroup>
-						{/foreach}
-						{foreach item=FIELDS from=$TEXT_PARSER->getRelatedVariable('email')}
-							{foreach item=RELATED_FIELDS key=BLOCK_NAME from=$FIELDS}
+						{if !empty($IS_RELATION_WORKFLOW_TASK)}
+							{foreach item=FIELDS key=BLOCK_NAME from=$EMAIL_FIELD_OPTION}
 								<optgroup label="{$BLOCK_NAME}">
-									{foreach item=ITEM from=$RELATED_FIELDS}
+									{foreach item=LABEL key=VAL from=$FIELDS}
+										<option value="{$VAL}" {if $TASK_OBJECT->email && in_array($VAL, $TASK_OBJECT->email)}selected=""{/if}>{$LABEL}</option>
+									{/foreach}
+								</optgroup>
+							{/foreach}
+						{else}
+							{assign var=TEXT_PARSER value=$TEXT_PARSER}
+							{foreach item=FIELDS key=BLOCK_NAME from=$TEXT_PARSER->getRecordVariable('email')}
+								<optgroup label="{$BLOCK_NAME|t:$SOURCE_MODULE}">
+									{foreach item=ITEM from=$FIELDS}
 										<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}" {if $TASK_OBJECT->email && in_array($ITEM['var_value'],$TASK_OBJECT->email)}selected=""{/if}>
-											{$ITEM['label']}
+											{$ITEM['label']|t:$SOURCE_MODULE}
 										</option>
 									{/foreach}
-								</optgroup> 
+								</optgroup>
 							{/foreach}
-						{/foreach}
+							{foreach item=FIELDS from=$TEXT_PARSER->getRelatedVariable('email')}
+								{foreach item=RELATED_FIELDS key=BLOCK_NAME from=$FIELDS}
+									<optgroup label="{$BLOCK_NAME}">
+										{foreach item=ITEM from=$RELATED_FIELDS}
+											<option value="{$ITEM['var_value']}" data-label="{$ITEM['var_label']}" {if $TASK_OBJECT->email && in_array($ITEM['var_value'],$TASK_OBJECT->email)}selected=""{/if}>
+												{$ITEM['label']}
+											</option>
+										{/foreach}
+									</optgroup>
+								{/foreach}
+							{/foreach}
+						{/if}
 					</select>
 				</div>
 			</div>

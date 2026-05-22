@@ -116,6 +116,154 @@ class RelationTrigger
 	 *
 	 * @return array<string, string> value => translated label
 	 */
+	/**
+	 * Variable picklists for relation workflow tasks ($source.*, $destination.*, $relation.*).
+	 *
+	 * @return array<string, array<string, list<array{var_value: string, label: string}>>>
+	 */
+	public static function getVariablePanelGroups(string $sourceModule, string $destinationModule, ?string $fieldType = null): array
+	{
+		return [
+			'source' => self::buildRecordVariableBlocks('source', $sourceModule, $fieldType),
+			'destination' => self::buildRecordVariableBlocks('destination', $destinationModule, $fieldType),
+			'relation' => self::buildRelationVariableBlocks($sourceModule, $destinationModule),
+		];
+	}
+
+	/**
+	 * Sections for VariablePanelWithRelatedTables.tpl (labels + blocks per namespace).
+	 *
+	 * @return list<array{namespace: string, section_label: string, select_id: string, blocks: array<string, list<array{var_value: string, label: string}>>}>
+	 */
+	public static function getVariablePanelSections(string $sourceModule, string $destinationModule, ?string $fieldType = null): array
+	{
+		$groups = self::getVariablePanelGroups($sourceModule, $destinationModule, $fieldType);
+		$sourceLabel = \App\Runtime\Vtiger_Language_Handler::translate('SINGLE_' . $sourceModule, $sourceModule);
+		$destinationLabel = \App\Runtime\Vtiger_Language_Handler::translate('SINGLE_' . $destinationModule, $destinationModule);
+		$qualifiedModule = 'Settings:Workflows';
+
+		return [
+			[
+				'namespace' => 'source',
+				'module' => $sourceModule,
+				'section_label' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_RELATION_VAR_SOURCE_FIELDS', $qualifiedModule)
+					. ' (' . $sourceLabel . ')',
+				'select_id' => 'relationSourceVariable',
+				'blocks' => $groups['source'],
+			],
+			[
+				'namespace' => 'destination',
+				'module' => $destinationModule,
+				'section_label' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_RELATION_VAR_DESTINATION_FIELDS', $qualifiedModule)
+					. ' (' . $destinationLabel . ')',
+				'select_id' => 'relationDestinationVariable',
+				'blocks' => $groups['destination'],
+			],
+			[
+				'namespace' => 'relation',
+				'module' => 'Settings:Workflows',
+				'section_label' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_RELATION_VAR_RELATION_FIELDS', $qualifiedModule),
+				'select_id' => 'relationLinkVariable',
+				'blocks' => $groups['relation'],
+			],
+		];
+	}
+
+	/**
+	 * Flat optgroups for email/phone pickers in task forms.
+	 *
+	 * @param array<string, array<string, list<array{var_value: string, label: string}>>> $groups
+	 * @return array<string, array<string, string>> optgroup => [var_value => label]
+	 */
+	public static function flattenGroupOptions(array $groups, string $sourceModule, string $destinationModule): array
+	{
+		$sections = self::getVariablePanelSections($sourceModule, $destinationModule);
+		$options = [];
+		foreach ($sections as $section) {
+			$namespace = $section['namespace'];
+			$module = $section['module'];
+			$blocks = $groups[$namespace] ?? [];
+			foreach ($blocks as $blockName => $fields) {
+				$blockLabel = $blockName === 'LBL_ENTITY_VARIABLES'
+					? \App\Runtime\Vtiger_Language_Handler::translate($blockName)
+					: \App\Runtime\Vtiger_Language_Handler::translate($blockName, $module);
+				$optgroupKey = $section['section_label'] . ' — ' . $blockLabel;
+				foreach ($fields as $field) {
+					$options[$optgroupKey][$field['var_value']] = $field['label'];
+				}
+			}
+		}
+		return $options;
+	}
+
+	/**
+	 * @return array<string, list<array{var_value: string, label: string}>>
+	 */
+	private static function buildRecordVariableBlocks(string $namespace, string $moduleName, ?string $fieldType): array
+	{
+		$blocks = [];
+		$blocks['LBL_ENTITY_VARIABLES'][] = [
+			'var_value' => '$' . $namespace . '.RecordLabel$',
+			'label' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_RECORD_LABEL'),
+		];
+
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
+		if (!$moduleModel) {
+			return $blocks;
+		}
+		foreach ($moduleModel->getBlocks() as $blockModel) {
+			foreach ($blockModel->getFields() as $fieldModel) {
+				if (!$fieldModel->isViewable()) {
+					continue;
+				}
+				if ($fieldType !== null && $fieldModel->getFieldDataType() !== $fieldType) {
+					continue;
+				}
+				$fieldName = $fieldModel->getName();
+				$blocks[$blockModel->get('label')][] = [
+					'var_value' => '$' . $namespace . '.' . $fieldName . '$',
+					'label' => \App\Runtime\Vtiger_Language_Handler::translate($fieldModel->getFieldLabel(), $moduleName),
+				];
+			}
+		}
+		return $blocks;
+	}
+
+	/**
+	 * @return array<string, list<array{var_value: string, label: string}>>
+	 */
+	private static function buildRelationVariableBlocks(string $sourceModule, string $destinationModule): array
+	{
+		$relationField = self::resolveRelationField($sourceModule, $destinationModule);
+		$qualifiedModule = 'Settings:Workflows';
+		$statusLabel = \App\Runtime\Vtiger_Language_Handler::translate('LBL_STATUS_REL', 'ProjektyRekrutacyjne');
+
+		return [
+			'LBL_RELATION_VARIABLES' => [
+				[
+					'var_value' => '$relation.' . $relationField . '$',
+					'label' => $statusLabel,
+				],
+				[
+					'var_value' => '$relation.sourceStatus$',
+					'label' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_RELATION_SOURCE_STATUS', $qualifiedModule),
+				],
+				[
+					'var_value' => '$relation.destinationStatus$',
+					'label' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_RELATION_DESTINATION_STATUS', $qualifiedModule),
+				],
+				[
+					'var_value' => '$relation.sourceStatusLabel$',
+					'label' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_RELATION_SOURCE_STATUS', $qualifiedModule) . ' (label)',
+				],
+				[
+					'var_value' => '$relation.destinationStatusLabel$',
+					'label' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_RELATION_DESTINATION_STATUS', $qualifiedModule) . ' (label)',
+				],
+			],
+		];
+	}
+
 	public static function getRecruitmentStatusOptions(): array
 	{
 		$values = [

@@ -133,7 +133,11 @@
 			</div>
 			<hr/>
 			<div class="row">
-				{include file='VariablePanel.tpl'|@vtemplate_path SELECTED_MODULE=$SOURCE_MODULE PARSER_TYPE='mail' GRAY=true}
+				{if !empty($IS_RELATION_WORKFLOW_TASK)}
+					{include file='layouts/basic/modules/Base/VariablePanelWithRelatedTables.tpl' SELECTED_MODULE=$SOURCE_MODULE PARSER_TYPE='mail' GRAY=true TEXT_PARSER=$TEXT_PARSER RELATION_VARIABLE_PANEL_SECTIONS=$RELATION_VARIABLE_PANEL_SECTIONS}
+				{else}
+					{include file='VariablePanel.tpl'|@vtemplate_path SELECTED_MODULE=$SOURCE_MODULE PARSER_TYPE='mail' GRAY=true}
+				{/if}
 			</div>
 			<hr/>
 			<div class="row padding-bottom1per">
