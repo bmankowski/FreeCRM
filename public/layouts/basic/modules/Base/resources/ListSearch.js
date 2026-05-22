@@ -222,7 +222,7 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 			var searchOperator = 'a';
 			if (fieldInfo.hasOwnProperty("searchOperator")) {
 				searchOperator = fieldInfo.searchOperator;
-			} else if (jQuery.inArray(fieldInfo.type, ['modules', 'time', 'userCreator', 'owner', 'picklist', 'tree', 'boolean', 'fileLocationType', 'userRole', 'companySelect','multiReferenceValue']) >= 0) {
+			} else if (jQuery.inArray(fieldInfo.type, ['modules', 'time', 'userCreator', 'owner', 'picklist', 'tree', 'boolean', 'fileLocationType', 'userRole', 'companySelect', 'mailSmtpSelect', 'multiReferenceValue']) >= 0) {
 				searchOperator = 'e';
 			} else if (fieldInfo.type == "date" || fieldInfo.type == "datetime") {
 				searchOperator = 'bw';

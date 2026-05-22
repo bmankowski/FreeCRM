@@ -9955,6 +9955,7 @@ class Base4 extends \App\Db\Importers\Base
 						[49, 309, 'categoryMultipicklist'],
 						[50, 4, 'recordNumber'],
 						[51, 310, 'companySelect'],
+						[57, 358, 'mailSmtpSelect'],
 						[52, 342, 'recurrence'],
 						[53, 311, 'multiImage'],
 				]

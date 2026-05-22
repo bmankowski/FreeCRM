@@ -63,6 +63,23 @@ class Mail
 	}
 
 	/**
+	 * Resolve SMTP server id from an email template row (smtp_id or legacy email_template_priority).
+	 *
+	 * @param array $template Row from getTemplete / getTempleteDetail
+	 * @return int|null
+	 */
+	public static function resolveTemplateSmtpId(array $template)
+	{
+		if (!empty($template['smtp_id'])) {
+			return (int) $template['smtp_id'];
+		}
+		if (!empty($template['email_template_priority'])) {
+			return (int) $template['email_template_priority'];
+		}
+		return null;
+	}
+
+	/**
 	 * Get templte list for module
 	 * @param string|bool $moduleName
 	 * @param string|bool $type

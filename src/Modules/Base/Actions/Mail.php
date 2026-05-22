@@ -97,7 +97,7 @@ class Mail extends \App\Base\Controllers\BaseActionController
 						'to' => $row[$field],
 						'sourceModule' => $sourceModule,
 						'sourceRecord' => $sourceRecord,
-						'smtp_id' => $templateDetail['smtp_id'],
+						'smtp_id' => \App\Email\Mail::resolveTemplateSmtpId($templateDetail),
 						'subject' => $subject,
 						'content' => $content,
 					];

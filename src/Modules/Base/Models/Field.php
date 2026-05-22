@@ -403,6 +403,8 @@ class Field extends \vtlib\Field
 						break;
 					case 311: $fieldDataType = 'multiImage';
 						break;
+					case 358: $fieldDataType = 'mailSmtpSelect';
+						break;
 					default:
 						$webserviceField = $this->getWebserviceFieldObject();
 						$fieldDataType = $webserviceField->getFieldDataType();

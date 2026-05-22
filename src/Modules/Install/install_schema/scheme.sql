@@ -1272,6 +1272,7 @@ CREATE TABLE `u_yf_emailtemplates` (
   `content` text,
   `sys_name` varchar(50) DEFAULT NULL,
   `email_template_priority` tinyint(1) DEFAULT '1',
+  `smtp_id` int(10) unsigned DEFAULT NULL,
   `sequence` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`emailtemplatesid`),
   KEY `sys_name` (`sys_name`),

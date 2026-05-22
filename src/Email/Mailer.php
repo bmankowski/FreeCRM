@@ -114,7 +114,7 @@ class Mailer
 		$params['content'] = $textParser->setContent($template['content'])->parse()->getContent();
 		unset($textParser);
 		if (empty($params['smtp_id'])) {
-			$params['smtp_id'] = $template['smtp_id'];
+			$params['smtp_id'] = \App\Email\Mail::resolveTemplateSmtpId($template);
 		}
 		if (isset($template['attachments'])) {
 			$params['attachments'] = array_merge(empty($params['attachments']) ? [] : $params['attachments'], $template['attachments']);

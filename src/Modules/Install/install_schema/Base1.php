@@ -987,6 +987,7 @@ class Base1 extends \App\Db\Importers\Base
 					'content' => $this->text(),
 					'sys_name' => $this->stringType(50),
 					'email_template_priority' => $this->smallInteger(1)->defaultValue(1),
+					'smtp_id' => $this->integer()->unsigned(),
 					'companyid' => $this->smallInteger(5)
 				],
 				'index' => [
