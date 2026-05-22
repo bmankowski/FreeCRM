@@ -1,6 +1,6 @@
 # FreeCRM Workflow Relations Modification — MVP
 
-**Status:** proposed MVP  
+**Status:** approved MVP — execution plan ready  
 **Author:** bmankowski@gmail.com  
 **Date:** 2026-05-22  
 **Scope:** workflow trigger for changes in relation data, starting with candidate status changes in recruitment projects.
@@ -399,14 +399,20 @@ destination_value
 
 ---
 
-## 15. Open implementation choices
+## 15. Resolved implementation choices
 
-These do not block the MVP vision, but should be decided during implementation planning:
-
-1. Exact trigger name: `ON_RELATION_MODIFY`
-3. relation field metadata starts in `vtiger_field` 
-4. Exact mail variable syntax: generic `source.*` / `destination.*` .
-5. Outbound workflow mail should always be linked to both records 
+| Topic | Decision |
+|------|----------|
+| Trigger name | `ON_RELATION_MODIFY` (constant value `11`) |
+| Relation field metadata | Prefer real `vtiger_field` row with relation-only guard; fallback `CUSTOM_FIELDS` |
+| Mail variable syntax | `$source.field$`, `$destination.field$`, `$relation.field$` |
+| Outbound mail linking | Link to both project and candidate where mail APIs support it |
+| `doTask()` context | New signature `doTask($recordModel, ?RelationWorkflowContext $context = null)` on `VTTask` and all 17 task classes |
+| Workflow cache | Clear `WorkflowsForModule` cache in `Settings\Workflows\Actions\Save` after save |
+| Notification recipient | `VTSendNotificationTask` uses source record owner (project recruiter) |
+| Task type filtering (MVP) | UI/server validation deferred; allowed types documented only |
+| Workflow error isolation | Deferred for MVP |
+| Legacy `VTWorkflowEventHandler` | No change required in MVP |
 
 ---
 
@@ -423,3 +429,143 @@ source record + destination record + relation row + relation workflow context
 ```
 
 This allows FreeCRM to support candidate status automation now and arbitrary relation-field workflow automation later.
+
+---
+
+## 17. Execution plan
+
+Step-by-step implementation guide. Conceptual sections 1–16 above define *what* and *why*; this section defines *how* and *where*.
+
+### 17.0 Assumption
+
+We ship a new trigger `ON_RELATION_MODIFY`, independent of `ON_RELATED`. It runs after a successful Projekt–Kandydat relation UPDATE, exposes fields from both records and the relation row, and does not run project `ON_MODIFY` workflows on the technical counter save. No additional ModTracker logging in MVP.
+
+```mermaid
+flowchart TD
+  kanbanChange["Kanban status change"] --> changeStatus["GetRelatedMembers::changeStatus"]
+  changeStatus --> updateRelation["Update relation row"]
+  updateRelation --> context["Build RelationWorkflowContext"]
+  context --> runner["RelationWorkflowRunner"]
+  runner --> tasks["Allowed workflow tasks"]
+  updateRelation --> projectCounters["Recalculate project counters"]
+  projectCounters --> saveNoWorkflow["Save project with disableWorkflow"]
+```
+
+### 17.1 Implementation todos
+
+| ID | Task | Status |
+|----|------|--------|
+| `trigger-and-storage` | Add `ON_RELATION_MODIFY` constant, translations, relation trigger config storage | pending |
+| `settings-ui` | Extend workflow edit UI: source/destination modules, status filters | pending |
+| `vtiger-field-metadata` | Relation-only `vtiger_field` for `recruitment_status_rel`; guard entity forms | pending |
+| `relation-runtime` | `RelationWorkflowContext`, `RelationFieldResolver`, `RelationWorkflowRunner`, ONCE per pair | pending |
+| `change-status-hook` | Hook runner in `GetRelatedMembers::changeStatus()`; `disableWorkflow` on project save | pending |
+| `task-restrictions` | Restrict task types for relation workflows (UI + server) — deferred in MVP | pending |
+| `mail-context` | Relation-aware parsing in email task (`source` / `destination` / `relation`) | pending |
+| `verification` | Portal + functional checks; `cache/logs/system.log` | pending |
+
+### 17.2 Workflow constants and labels
+
+- `src/Modules/Workflow/VTWorkflowManager.php` — add `static $ON_RELATION_MODIFY = 11`.
+- `src/Modules/Workflow/Workflow.php` — extend `executionConditionAsLabel()`; delegate `ONCE` to relation-specific activation for this trigger.
+- `src/Modules/Settings/Workflows/Models/Module.php` — add `11 => 'ON_RELATION_MODIFY'` to Settings trigger list.
+- `languages/pl_pl/Settings/Workflows.json`, `languages/en_us/Settings/Workflows.json` — labels for trigger, relation fields, source/destination status.
+
+### 17.3 Relation workflow configuration storage
+
+- `src/Modules/Install/install_schema/Base1.php` (+ matching SQL seed if maintained).
+- New table `com_vtiger_workflow_relation_triggers`: `workflow_id`, `source_module`, `destination_module`, `relation_table`, `relation_field`, `source_value`, `destination_value`.
+- New model `src/Modules/Settings/Workflows/Models/RelationTrigger.php` — load/save by workflow id.
+- `src/Modules/Settings/Workflows/Actions/Save.php` — persist relation config when `execution_condition == ON_RELATION_MODIFY`; clear `WorkflowsForModule` cache for source module after save.
+
+### 17.4 Workflow edit UI
+
+- `src/Modules/Settings/Workflows/Views/Edit.php` — Step 2: relation trigger config, recruitment statuses; MVP limit source `ProjektyRekrutacyjne`, destination `Kandydaci`, field `recruitment_status_rel`.
+- `layouts/basic/modules/Settings/Workflows/Step2.tpl` — relation section when `ON_RELATION_MODIFY` selected; destination status required, source status optional.
+- `public/layouts/basic/modules/Settings/Workflows/resources/` — toggle section, validate destination status client-side.
+
+### 17.5 `vtiger_field` metadata for relation fields
+
+- Register `recruitment_status_rel`: table `u_yf_projekty_rekrutacyjne_relations_members_entity`, picklist-compatible `uitype`, label `LBL_STATUS_REL`.
+- Preferred: real `vtiger_field` row + relation-only marker; fallback: `GetRelatedMembers::CUSTOM_FIELDS` + workflow provider, migrate later.
+- Guards: hide on `ProjektyRekrutacyjne` / `Kandydaci` forms; no `Record::get('recruitment_status_rel')` for workflow eval; values via `RelationFieldResolver` only.
+- Files: `GetRelatedMembers.php`, `RelationListView.php`, `Base/Models/Field.php`, install schema.
+
+### 17.6 Relation context and field resolution
+
+- New `src/Modules/Workflow/RelationWorkflowContext.php` — source/destination models, relation before/after, statuses, labels, trigger user; `getSourceRecordModel()`, `getDestinationRecordModel()`, `getRelationValue()`, `toParams()`.
+- New `src/Modules/Workflow/RelationFieldResolver.php` — `source.*`, `destination.*`, `relation.*`; status labels via `ProjektyRekrutacyjne` labels in MVP.
+- **`doTask()` signature**: `src/Modules/Workflow/VTTask.php` → `doTask($recordModel, ?RelationWorkflowContext $context = null)`. All 17 classes in `src/Modules/Workflow/Tasks/` add the optional parameter (PHP 8 compatibility). Only `VTEmailTask`, `VTSendNotificationTask`, `VTEntityMethodTask` use `$context`.
+
+### 17.7 Relation workflow runner
+
+- New `src/Modules/Workflow/RelationWorkflowRunner.php` — load `ON_RELATION_MODIFY` workflows for source module; match modules, table, field, destination status, optional source status; run allowed tasks; `ONCE` key = `workflow_id + sourceRecordId + destinationRecordId`.
+- New table `com_vtiger_workflow_relation_activatedonce` (recommended over reusing `entity_id`).
+
+### 17.8 Hook into candidate status change
+
+- `src/Modules/ProjektyRekrutacyjne/Relations/GetRelatedMembers.php` — in `changeStatus()`: capture relation before/after update; build context; call runner after successful UPDATE (before early returns); project counter save with `disableWorkflow`.
+- `updateRelationData()` — skip project save or accept flag so `changeStatus()` saves with workflow disabled.
+
+### 17.9 Disable normal workflow on internal saves
+
+- Reuse `EventHandler` / `disableWorkflow` on `$project->save()`.
+- Confirm `Base/Models/Module.php` `getHandlerExceptions()` and `Vtiger_Workflow_Handler` removal when `disableWorkflow` is set.
+
+### 17.10 Restrict tasks for relation trigger
+
+- `Settings/Workflows/Views/Edit.php` or `Models/TaskType.php` — when `ON_RELATION_MODIFY`, show only: `VTEmailTask`, `VTSendNotificationTask`, `VTEntityMethodTask` (comment/watchdog optional).
+- Hide: `VTUpdateFieldsTask`, `VTCreateEntityTask`, `VTUpdateRelatedFieldTask`, todo/event tasks.
+- Server-side validation on task save (deferred in MVP per planning).
+- `VTSendNotificationTask`: recipient = **source record owner** (project recruiter) via `$context->getSourceRecordModel()`.
+
+### 17.11 Email and template variable support
+
+- `src/Modules/Workflow/Tasks/VTEmailTask.php` — use `$context` in `doTask()`; relation-aware parsers for recipient, subject, body, cc, bcc, from.
+- `src/TextParser/TextParser.php`, `src/Email/EmailParser.php` — factory/method accepting `RelationWorkflowContext`; syntax `$source.nazwa_projektu$`, `$destination.email$`, `$relation.destinationStatusLabel$`.
+- Mail anchor: source record (`ProjektyRekrutacyjne`); link outbound mail to both records where APIs allow.
+
+### 17.12 Tests and verification
+
+Minimum: browser on `http://local.itconnect.pl/`; inspect `cache/logs/system.log`.
+
+#### Portal — workflow creation
+
+1. Open `http://local.itconnect.pl/index.php?module=Workflows&parent=Settings&view=Edit`.
+2. Select trigger `ON_RELATION_MODIFY`.
+3. Confirm relation section: source module, destination module, status fields.
+4. Set source `ProjektyRekrutacyjne`, destination `Kandydaci`, destination status (e.g. `Zaproszony`), source status empty.
+5. Add email task with `$source.nazwa_projektu$`, `$destination.email$`, `$relation.destinationStatusLabel$`.
+6. Save — no PHP errors; workflow visible in list.
+
+#### Portal — workflow execution
+
+1. Open recruitment project with at least one candidate.
+2. Drag candidate to configured destination status on kanban.
+3. Confirm workflow runs: email sent, visible in mail history.
+4. Drag to non-matching status — workflow must not fire.
+5. Accept/Reject candidate — same hook via `changeStatus()`.
+6. Repeat matching status on same pair — `ONCE` must block second run.
+7. Confirm no project `ON_MODIFY` workflow from counter save.
+8. Check `cache/logs/system.log` — no new errors.
+
+#### Remaining functional checks
+
+- Non-matching destination status does not execute.
+- Empty source status matches any previous status.
+- Specific source status filters correctly.
+- Email resolves project, candidate, and relation fields/labels.
+- Outbound mail linked to both records where supported.
+- Relation workflow tasks do not recursively trigger workflows.
+
+### 17.13 Suggested implementation order
+
+1. Trigger constant/labels and relation config persistence (+ cache clear on Save).
+2. Relation-only `vtiger_field` for `recruitment_status_rel`.
+3. Step 2 UI for relation trigger settings.
+4. `RelationWorkflowContext`, `RelationFieldResolver`, `RelationWorkflowRunner` (+ `doTask()` signature on all tasks).
+5. Hook runner into `GetRelatedMembers::changeStatus()`.
+6. Project save `disableWorkflow` guard.
+7. Task type restrictions (when implemented).
+8. Relation-aware email/notification parsing.
+9. Portal verification and `system.log` review.
