@@ -17,4 +17,12 @@ $CONFIG = [
 	'HELPDESK_OPENTICKET_STATUS' => 'Open',
 	// Required acceptation before sending mails
 	'MAILER_REQUIRED_ACCEPTATION_BEFORE_SENDING' => false,
+	// Write one row to s_yf_mail_sent_log per send attempt (MailerTask)
+	'MAIL_AUDIT_LOG_ENABLED' => true,
+	// Days to retain rows in s_yf_mail_sent_log (CleanupMailAuditLogTask)
+	'AUDIT_LOG_RETENTION_DAYS' => 365,
+	// Route relation workflow emails through the delayed buffer
+	'DELAYED_EMAIL_BUFFER_ENABLED' => true,
+	// Default delay when enqueue() omits explicit minutes
+	'DELAYED_EMAIL_DEFAULT_MINUTES' => 3,
 ];

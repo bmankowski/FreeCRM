@@ -491,17 +491,7 @@ class CustomView
 		if (isset($this->defaultViewId)) {
 			return $this->defaultViewId;
 		}
-		if ($noCache || $request->isEmpty('viewname')) {
-
-			if (!$noCache && self::getCurrentView($this->moduleName)) {
-				$viewId = self::getCurrentView($this->moduleName);
-			} else {
-				$viewId = $this->getDefaultCvId();
-			}
-			if (empty($viewId) || !$this->isPermittedCustomView($viewId, $request)) {
-				$viewId = $this->getMandatoryFilter();
-			}
-		} else {
+		if (!$request->isEmpty('viewname')) {
 			$viewId = $request->get('viewname');
 			if (!is_numeric($viewId)) {
 				if ($viewId === 'All') {
@@ -519,6 +509,16 @@ class CustomView
 			// without going through ListView::process().
 			if ($viewId && self::hasViewChanged($this->moduleName, $viewId, $request)) {
 				self::setCurrentView($this->moduleName, $viewId);
+			}
+		} elseif (!$noCache && self::getCurrentView($this->moduleName)) {
+			$viewId = self::getCurrentView($this->moduleName);
+			if (empty($viewId) || !$this->isPermittedCustomView($viewId, $request)) {
+				$viewId = $this->getMandatoryFilter();
+			}
+		} else {
+			$viewId = $this->getDefaultCvId();
+			if (empty($viewId) || !$this->isPermittedCustomView($viewId, $request)) {
+				$viewId = $this->getMandatoryFilter();
 			}
 		}
 		$this->defaultViewId = $viewId;

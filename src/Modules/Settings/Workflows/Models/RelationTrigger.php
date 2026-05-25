@@ -112,6 +112,25 @@ class RelationTrigger
 	}
 
 	/**
+	 * Copy relation trigger configuration from one workflow to another.
+	 */
+	public static function copyFromWorkflow(int $sourceWorkflowId, int $targetWorkflowId): void
+	{
+		$row = (new \App\Db\Query())
+			->from('com_vtiger_workflow_relation_triggers')
+			->where(['workflow_id' => $sourceWorkflowId])
+			->one();
+		if (!$row) {
+			return;
+		}
+		unset($row['id']);
+		$row['workflow_id'] = $targetWorkflowId;
+		\App\Db\Db::getInstance()->createCommand()
+			->insert('com_vtiger_workflow_relation_triggers', $row)
+			->execute();
+	}
+
+	/**
 	 * Recruitment status picklist values for workflow UI.
 	 *
 	 * @return array<string, string> value => translated label

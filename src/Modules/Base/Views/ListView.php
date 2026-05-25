@@ -103,14 +103,11 @@ class ListView extends \App\Modules\Base\Views\Index
 		$moduleName = $request->getModule();
 		
 		// Assign common data needed by AJAX list view
-		if (!isset($this->viewName)) {
+		if (!$request->isEmpty('viewname')) {
 			// When user changes filter, the new filter id is sent as "viewname" in AJAX requests.
-			// If we ignore it, list view will keep using the previous default filter.
-			if (!$request->isEmpty('viewname')) {
-				$this->viewName = $request->get('viewname');
-			} else {
-				$this->viewName = \App\View\CustomView::getInstance($moduleName)->getViewId();
-			}
+			$this->viewName = \App\View\CustomView::getInstance($moduleName)->getViewId(false, $request);
+		} elseif (!isset($this->viewName)) {
+			$this->viewName = \App\View\CustomView::getInstance($moduleName)->getViewId();
 		}
 		$this->listViewModel = \App\Modules\Base\Models\ListView::getInstance($moduleName, $this->viewName);
 		$this->initializeListViewContents($request, $viewer);	
@@ -130,7 +127,7 @@ class ListView extends \App\Modules\Base\Views\Index
 			// When filter is changed via AJAX, the new filter is sent as "viewname".
 			// Ensure we operate on (and persist) the requested filter, not a stale $this->viewName.
 			if (!$request->isEmpty('viewname')) {
-				$this->viewName = \App\View\CustomView::getInstance($moduleName)->getViewId(true, $request);
+				$this->viewName = \App\View\CustomView::getInstance($moduleName)->getViewId(false, $request);
 			}
 			if (\App\View\CustomView::hasViewChanged($moduleName, $this->viewName, $request)) {
 				$customViewModel = \App\Modules\CustomView\Models\Record::getInstanceById($this->viewName);

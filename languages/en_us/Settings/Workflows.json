@@ -11,6 +11,8 @@
         "LBL_ANNUAL_REVENUE": "annual_revenue",
         "LBL_ASSIGNED_TO": "Assigned to",
         "LBL_CANNOT_DELETE_DEFAULT_WORKFLOW": "You cannot delete default workflow",
+        "LBL_CANNOT_DUPLICATE_DEFAULT_WORKFLOW": "You cannot duplicate default workflow",
+        "LBL_WORKFLOW_COPY_SUFFIX": "copy",
         "LBL_CREATED_IN_OLD_LOOK_CANNOT_BE_EDITED": "This workflow was created in older version. Conditions created in older versions cannot be edited. You can choose to recreate the conditions, or use the existing conditions without changing them.",
         "LBL_CREATING_WORKFLOW": "Create workflow",
         "LBL_DAYS_START": "Active since",

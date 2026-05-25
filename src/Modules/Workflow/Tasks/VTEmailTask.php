@@ -113,7 +113,12 @@ class VTEmailTask extends VTTask
 		$mailerContent['subject'] = $textParser->setContent($resolver->replaceInContent($this->subject))->parse()->getContent();
 		$mailerContent['content'] = $textParser->setContent($resolver->replaceInContent($this->content))->parse()->getContent();
 		if (!empty($mailerContent['content'])) {
-			\App\Email\Mailer::addMail($mailerContent);
+			\App\Email\Delayed\Buffer::enqueueFromMailerContent(
+				$context->getSourceRecordId(),
+				$context->getDestinationRecordId(),
+				\App\Email\Delayed\DelayedEmailType::STATUS_CHANGE,
+				$mailerContent
+			);
 		}
 	}
 

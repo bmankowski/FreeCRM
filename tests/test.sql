@@ -43,3 +43,6 @@ select * from u_yf_documenttemplates;
 delete from
  vtiger_settings_blocks
  where label = 'LBL_TEMPLATE';
+
+
+SELECT * FROM s_yf_delayed_email_queue;

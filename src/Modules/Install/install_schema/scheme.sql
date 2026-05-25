@@ -949,10 +949,55 @@ CREATE TABLE `s_yf_mail_queue` (
   `bcc` text,
   `attachments` text,
   `priority` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `params` text,
+  `source_module` varchar(64) DEFAULT NULL,
+  `source_id` int(11) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `smtp_id` (`smtp_id`),
+  KEY `idx_source` (`source_module`,`source_id`),
   CONSTRAINT `s_yf_mail_queue_ibfk_1` FOREIGN KEY (`smtp_id`) REFERENCES `s_yf_mail_smtp` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `s_yf_delayed_email_queue` */
+
+CREATE TABLE `s_yf_delayed_email_queue` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `source_id` int(11) unsigned NOT NULL,
+  `dest_id` int(11) unsigned NOT NULL,
+  `type` varchar(64) NOT NULL,
+  `recipients_json` json NOT NULL,
+  `subject` varchar(998) NOT NULL,
+  `body` mediumtext NOT NULL,
+  `expected_state_hash` char(64) DEFAULT NULL,
+  `send_after` timestamp NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uniq_pair_type` (`source_id`,`dest_id`,`type`),
+  KEY `idx_due` (`send_after`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+/*Table structure for table `s_yf_mail_sent_log` */
+
+CREATE TABLE `s_yf_mail_sent_log` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `mail_queue_id` int(11) unsigned NOT NULL,
+  `smtp_id` int(11) unsigned NOT NULL,
+  `owner` int(11) unsigned DEFAULT NULL,
+  `recipients_json` json NOT NULL,
+  `subject` varchar(998) NOT NULL,
+  `body_sha256` char(64) NOT NULL,
+  `body_excerpt` varchar(500) DEFAULT NULL,
+  `status` tinyint(4) NOT NULL,
+  `error` text DEFAULT NULL,
+  `attempted_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `source_module` varchar(64) DEFAULT NULL,
+  `source_id` int(11) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_attempted_at` (`attempted_at`),
+  KEY `idx_status` (`status`,`attempted_at`),
+  KEY `idx_source` (`source_module`,`source_id`),
+  KEY `idx_smtp` (`smtp_id`,`attempted_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /*Table structure for table `s_yf_mail_relation_updater` */
 

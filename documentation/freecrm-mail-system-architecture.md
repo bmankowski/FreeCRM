@@ -902,3 +902,20 @@ src/Modules/Base/Views/IndividualSendMailModal.php   modified (account picker)
 ```
 
 This is the complete surface area. Anything not on this list is either reused from the existing FreeCRM code or out of scope for v1.
+
+---
+
+## Delayed emails (buffer and audit)
+
+Implemented MVP for **delayed, cancellable workflow emails** and a generic **delivery audit log**. Full design: [mvp-email-buffer.md](../mvp-email-buffer.md). Operator runbook: [runbooks/delayed-email-runbook.md](runbooks/delayed-email-runbook.md).
+
+| Component | Table / class |
+|-----------|----------------|
+| Buffer | `s_yf_delayed_email_queue`, `App\Email\Delayed\Buffer` |
+| Promote cron | `DelayedEmailQueueTask` (60 s) |
+| Mail queue extension | `s_yf_mail_queue.source_module`, `source_id` |
+| Delivery audit | `s_yf_mail_sent_log`, hook in `MailerTask` |
+| Audit cleanup | `CleanupMailAuditLogTask` |
+| Admin UI | `Settings:DelayedEmails` |
+
+First production caller: relation workflow email tasks (`VTEmailTask` / `VTEmailTemplateTask` on `ON_RELATION_MODIFY`) for recruitment status changes. Feature flags in `config/modules/Mail.php` default to **off** until activation.

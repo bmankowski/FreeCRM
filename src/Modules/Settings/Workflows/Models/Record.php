@@ -53,6 +53,11 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		return 'index.php?module=Workflows&parent=Settings&view=EditTask&for_workflow=' . $this->getId();
 	}
 
+	public function getDuplicateActionUrl()
+	{
+		return 'index.php?module=Workflows&parent=Settings&action=DuplicateWorkflow&record=' . $this->getId();
+	}
+
 	protected function setWorkflowObject($wf)
 	{
 		$this->workflow_object = $wf;
@@ -93,8 +98,11 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	public function isDefault()
 	{
+		if ($this->get('defaultworkflow') !== null && $this->get('defaultworkflow') !== '') {
+			return (int) $this->get('defaultworkflow') === 1;
+		}
 		$wf = $this->getWorkflowObject();
-		if ($wf->defaultworkflow == 1) {
+		if ($wf && (int) $wf->defaultworkflow === 1) {
 			return true;
 		}
 		return false;
@@ -129,6 +137,84 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		$db = \App\Database\PearDatabase::getInstance();
 		$wm = new \App\Modules\Workflow\VTWorkflowManager($db);
 		$wm->delete($this->getId());
+	}
+
+	/**
+	 * Duplicate this workflow with all tasks and relation trigger config.
+	 *
+	 * @return self New workflow record model
+	 */
+	public function duplicate()
+	{
+		if ($this->isDefault()) {
+			throw new \App\Exceptions\AppException('LBL_CANNOT_DUPLICATE_DEFAULT_WORKFLOW');
+		}
+
+		$sourceId = (int) $this->getId();
+		$sourceWorkflow = $this->getWorkflowObject();
+		if (!$sourceWorkflow) {
+			throw new \App\Exceptions\AppException('LBL_RECORD_NOT_FOUND');
+		}
+
+		$db = \App\Db\Db::getInstance();
+		$transaction = $db->beginTransaction();
+		try {
+			$newId = $this->insertDuplicateWorkflowRow($db);
+			$this->duplicateWorkflowTasks($sourceId, $newId);
+			RelationTrigger::copyFromWorkflow($sourceId, $newId);
+			$this->invalidateWorkflowCache($sourceWorkflow->moduleName, $sourceId, $newId);
+			$transaction->commit();
+		} catch (\Throwable $e) {
+			$transaction->rollBack();
+			throw $e;
+		}
+
+		return self::getInstance($newId);
+	}
+
+	/**
+	 * @param \App\Db\Connection $db
+	 */
+	private function insertDuplicateWorkflowRow($db): int
+	{
+		$row = (new \App\Db\Query())
+			->from('com_vtiger_workflows')
+			->where(['workflow_id' => $this->getId()])
+			->one();
+		if (!$row) {
+			throw new \App\Exceptions\AppException('LBL_RECORD_NOT_FOUND');
+		}
+		unset($row['workflow_id']);
+		$row['summary'] = self::buildCopySummary((string) $row['summary']);
+		$row['defaultworkflow'] = null;
+		$db->createCommand()->insert('com_vtiger_workflows', $row)->execute();
+
+		return (int) $db->getLastInsertID('com_vtiger_workflows_workflow_id_seq');
+	}
+
+	private function duplicateWorkflowTasks(int $sourceWorkflowId, int $newWorkflowId): void
+	{
+		$taskManager = new \App\Modules\Workflow\VTTaskManager();
+		foreach ($taskManager->getTasksForWorkflow($sourceWorkflowId) as $task) {
+			$taskCopy = unserialize(serialize($task));
+			unset($taskCopy->id);
+			$taskCopy->workflowId = $newWorkflowId;
+			$taskManager->saveTask($taskCopy);
+		}
+	}
+
+	private static function buildCopySummary(string $summary): string
+	{
+		$suffix = ' (' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_WORKFLOW_COPY_SUFFIX', 'Settings:Workflows') . ')';
+
+		return $summary . $suffix;
+	}
+
+	private function invalidateWorkflowCache(string $moduleName, int $sourceWorkflowId, int $newWorkflowId): void
+	{
+		\App\Cache\Cache::delete('WorkflowsForModule', $moduleName);
+		\App\Cache\Cache::delete('getTasksForWorkflow', $sourceWorkflowId);
+		\App\Cache\Cache::delete('getTasksForWorkflow', $newWorkflowId);
 	}
 
 	/**
@@ -172,18 +258,26 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 				'linkurl' => 'index.php?module=Workflows&parent=Settings&action=ExportWorkflow&id=' . $this->getId(),
 				'linkicon' => 'glyphicon glyphicon-export'
 			],
-			array(
+		);
+		if (!$this->isDefault()) {
+			$recordLinks[] = [
 				'linktype' => 'LISTVIEWRECORD',
-				'linklabel' => 'LBL_EDIT_RECORD',
-				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'glyphicon glyphicon-pencil'
-			),
-			array(
-				'linktype' => 'LISTVIEWRECORD',
-				'linklabel' => 'LBL_DELETE_RECORD',
-				'linkurl' => 'javascript:Vtiger_ListView_Js.deleteRecord(' . $this->getId() . ');',
-				'linkicon' => 'glyphicon glyphicon-trash'
-			)
+				'linklabel' => 'LBL_DUPLICATE_RECORD',
+				'linkurl' => $this->getDuplicateActionUrl(),
+				'linkicon' => 'glyphicon glyphicon-duplicate',
+			];
+		}
+		$recordLinks[] = array(
+			'linktype' => 'LISTVIEWRECORD',
+			'linklabel' => 'LBL_EDIT_RECORD',
+			'linkurl' => $this->getEditViewUrl(),
+			'linkicon' => 'glyphicon glyphicon-pencil'
+		);
+		$recordLinks[] = array(
+			'linktype' => 'LISTVIEWRECORD',
+			'linklabel' => 'LBL_DELETE_RECORD',
+			'linkurl' => 'javascript:Vtiger_ListView_Js.deleteRecord(' . $this->getId() . ');',
+			'linkicon' => 'glyphicon glyphicon-trash'
 		);
 		foreach ($recordLinks as $recordLink) {
 			$links[] = \App\Modules\Base\Models\Link::getInstanceFromValues($recordLink);

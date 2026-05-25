@@ -1,0 +1,18 @@
+{
+  "php": {
+    "LBL_DELAYED_EMAILS": "Delayed emails",
+    "LBL_DELAYED_EMAILS_DESCRIPTION": "Pending emails waiting for the configured delay before send",
+    "LBL_SOURCE": "Source",
+    "LBL_DESTINATION": "Destination",
+    "LBL_TYPE": "Type",
+    "LBL_TYPE_STATUS_CHANGE": "Status change",
+    "LBL_RECIPIENT": "Recipient",
+    "LBL_SUBJECT": "Subject",
+    "LBL_SEND_AFTER": "Sends at",
+    "LBL_CREATED_AT": "Created",
+    "LBL_ACTIONS": "Actions",
+    "LBL_CANCEL": "Cancel",
+    "LBL_SEND_NOW": "Send now",
+    "LBL_NO_RECORDS_FOUND": "No pending delayed emails"
+  }
+}

@@ -40,6 +40,7 @@ class ListView extends \App\Modules\Settings\Base\Models\ListView
 		unset($listFields['active_tasks']);
 		$listFields = array_keys($listFields);
 		$listFields [] = $module->baseIndex;
+		$listFields[] = 'defaultworkflow';
 		$listQuery = (new \App\Db\Query())->select($listFields)
 			->from($module->baseTable);
 

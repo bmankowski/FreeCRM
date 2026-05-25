@@ -21,7 +21,7 @@ class Mailer
 		2 => 'LBL_ERROR_DURING_SENDING',
 	];
 	public static $quoteJsonColumn = ['to', 'cc', 'bcc', 'attachments', 'params'];
-	public static $quoteColumn = ['smtp_id', 'date', 'owner', 'status', 'from', 'subject', 'content', 'to', 'cc', 'bcc', 'attachments', 'priority', 'params'];
+	public static $quoteColumn = ['smtp_id', 'date', 'owner', 'status', 'from', 'subject', 'content', 'to', 'cc', 'bcc', 'attachments', 'priority', 'params', 'source_module', 'source_id'];
 
 	/** @var \PHPMailer PHPMailer instance */
 	protected $mailer;

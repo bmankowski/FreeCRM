@@ -11,6 +11,8 @@
         "LBL_ANNUAL_REVENUE": "Dochód roczny",
         "LBL_ASSIGNED_TO": "Przydzielone do",
         "LBL_CANNOT_DELETE_DEFAULT_WORKFLOW": "Nie możesz usunąć domyślnego obiegu informacji",
+        "LBL_CANNOT_DUPLICATE_DEFAULT_WORKFLOW": "Nie możesz duplikować domyślnego obiegu informacji",
+        "LBL_WORKFLOW_COPY_SUFFIX": "kopia",
         "LBL_CREATED_IN_OLD_LOOK_CANNOT_BE_EDITED": "Te warunki zostały skonfigurowane w starszej wersji systemu, możesz pozostawić je bez zmian lub utworzyć ponownie na nowo.",
         "LBL_CREATING_WORKFLOW": "Utwórz obieg informacji",
         "LBL_DAYS_START": "Aktywne od",
