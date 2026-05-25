@@ -1,0 +1,17 @@
+---
+description: "How to run PHP, composer, cron, and DB commands against the FreeCRM Docker stack"
+alwaysApply: true
+---
+
+# Docker command cheatsheet
+
+All PHP runtime lives in the `app` container. The WSL host has no working PHP for FreeCRM.
+
+- PHP script:     `docker compose exec -T app php <path>`
+- Composer:       `docker compose exec -T app composer <cmd>`
+- Cron task:      `docker compose exec -T app php cron/vtigercron.php service=LBL_<NAME>`
+- MariaDB shell:  `docker compose exec -T db mysql -ufreecrm -pfreecrm freecrm`
+- Tail logs (host): `tail -f cache/logs/system.log` (also `cron.log`)
+- Clear Smarty cache: `rm -f cache/templates_c/*.php`
+
+For DB queries during a task, prefer the MCP server over the shell (`mcp-database-access.mdc`).

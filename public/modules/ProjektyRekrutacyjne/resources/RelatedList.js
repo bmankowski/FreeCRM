@@ -498,6 +498,45 @@ Vtiger_RelatedList_Js(
 		}
 	}
 );
+
+/**
+ * Static method — called directly from onclick of the mass-email button.
+ * Collects all visible candidate rows, respects checkbox selection if available,
+ * then opens IndividualSendMailModal with project context.
+ */
+ProjektyRekrutacyjne_RelatedList_Js.triggerSendEmail = function () {
+	var modalParams = {
+		relatedLoad: true,
+		sourceModule: app.getModuleName(),
+		sourceRecord: app.getRecordId(),
+		module: jQuery('.relatedModuleName').val(),
+		cvid: jQuery('#recordsFilter').val(),
+	};
+	var listInstance = (typeof Vtiger_ListView_Js !== 'undefined' && typeof Vtiger_ListView_Js.getInstance === 'function')
+		? Vtiger_ListView_Js.getInstance()
+		: null;
+	if (listInstance && listInstance.checkListRecordSelected() !== true && typeof Vtiger_ListView_Js.triggerSendEmail === 'function') {
+		Vtiger_ListView_Js.triggerSendEmail(modalParams);
+		return;
+	}
+	var selectedIds = [];
+	jQuery('.RelatedList.relatedContainer .listViewEntriesTable .listViewEntries').each(function () {
+		var rowId = parseInt(jQuery(this).data('id'), 10);
+		if (rowId) {
+			selectedIds.push(rowId);
+		}
+	});
+	if (!selectedIds.length) {
+		if (listInstance && typeof listInstance.noRecordSelectedAlert === 'function') {
+			listInstance.noRecordSelectedAlert();
+		}
+		return;
+	}
+	Vtiger_Index_Js.triggerSendEmailModal(jQuery.extend({}, modalParams, {
+		selectedIds: selectedIds,
+		view: 'IndividualSendMailModal',
+	}));
+};
 // https://192.168.2.230/index.php?module=ProjektyRekrutacyjne&relatedModule=Kandydaci&view=Detail&record=1376448&mode=showRelatedList&relationId=756&tab_label=Kandydaci
 // https://192.168.2.230/index.php?module=ProjektyRekrutacyjne&relatedModule=Kandydaci&view=Detail&record=1376448&mode=showRelatedList&relationId=756&tab_label=Kandydaci&entityState=Active&advancedConditions=null&search_params=[[["recruitment_status_rel%22e%22PPL_REJECTED_AFTER_CV"]]]&totalCount=0
 // 	https://192.168.2.230/index.php?module=ProjektyRekrutacyjne&view=List&viewname=133&page=1&orderby=%7B%22createdtime%22%3A%22DESC%22%7D&entityState=Active&advancedConditions=null&search_params=%5B%5B%5B%22etap_sprzedazy%22%2C%22e%22%2C%22Aktywna%22%5D%5D%5D&totalCount=0

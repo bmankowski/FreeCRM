@@ -65,6 +65,19 @@ class IndividualSendMailModal extends SendMailModal
 		if (!$template) {
 			return ['success' => false];
 		}
+		$sourceRecord = $request->getInteger('sourceRecord');
+		$sourceModule = $request->getByType('sourceModule', 2);
+		$requiresSourceContext = $this->templateRequiresSourceContext($template);
+		$hasSourceContext = $sourceRecord && !empty($sourceModule);
+		if ($requiresSourceContext && !$hasSourceContext) {
+			return [
+				'success' => true,
+				'subject' => $template['subject'] ?? '',
+				'content' => \App\Utils\TemplateStyles::inlineEmailCss($template['content'] ?? ''),
+				'missingSourceContext' => true,
+				'warning' => 'Ten szablon wymaga kontekstu projektu (sourceRecord).',
+			];
+		}
 		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($row['id'], $request->getModule());
 		$textParser = \App\TextParser\TextParser::getInstanceByModel($recordModel);
 		$textParser->setParams([
@@ -75,6 +88,9 @@ class IndividualSendMailModal extends SendMailModal
 			'sourceModule' => $request->get('sourceModule'),
 			'sourceRecord' => $request->get('sourceRecord'),
 		]);
+		if ($hasSourceContext) {
+			$textParser->setSourceRecord($sourceRecord, $sourceModule);
+		}
 		$subject = $textParser->setContent($template['subject'])->parse()->getContent();
 		$content = $textParser->setContent($template['content'])->parse()->getContent();
 		unset($textParser);
@@ -83,6 +99,19 @@ class IndividualSendMailModal extends SendMailModal
 			'subject' => $subject,
 			'content' => \App\Utils\TemplateStyles::inlineEmailCss($content),
 		];
+	}
+
+	/**
+	 * Check whether template uses sourceRecord token.
+	 *
+	 * @param array $template
+	 * @return bool
+	 */
+	private function templateRequiresSourceContext(array $template): bool
+	{
+		$subject = (string) ($template['subject'] ?? '');
+		$content = (string) ($template['content'] ?? '');
+		return str_contains($subject, '$(sourceRecord :') || str_contains($content, '$(sourceRecord :');
 	}
 	public function getSize(\App\Http\Vtiger_Request $request)
 	{

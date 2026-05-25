@@ -1,0 +1,13 @@
+---
+description: "FreeCRM language string conventions"
+globs: ["languages/**/*.php"]
+---
+
+# Translation files
+
+- Each module/language pair has its own file: `languages/<lang>/<Module>.php`.
+- The file returns an associative array keyed by `LBL_*`, `JS_*`, or `INFO_*` constants.
+- Reference from PHP: `App\Language::translate('LBL_FOO', 'ModuleName')`.
+- Reference from Smarty: `{vtranslate('LBL_FOO', $MODULE)}`.
+- When adding a key, add it to all maintained languages (English/`en_US` is the canonical fallback).
+- Settings modules use `languages/<lang>/Settings/<Module>.php`.

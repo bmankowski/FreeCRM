@@ -1,0 +1,28 @@
+---
+description: "Where files live in a FreeCRM/Vtiger-style module and how URLs map to them — read when editing/locating module code"
+---
+
+# Module layout & URL routing
+
+## File locations for module `X`
+
+| Concern | Legacy (`modules/X/`) | Modern (`src/Modules/X/`) |
+|---|---|---|
+| Controller (View) | `modules/X/views/<View>.php` | `src/Modules/X/Views/<View>.php` |
+| Action | `modules/X/actions/<Action>.php` | `src/Modules/X/Actions/<Action>.php` |
+| Model | `modules/X/models/<Model>.php` | `src/Modules/X/Models/<Model>.php` |
+| Smarty templates | `layouts/basic/modules/X/*.tpl` | same |
+| JS/CSS | `public/layouts/basic/modules/X/resources/*.js` | same |
+| Language strings | `languages/<lang>/X.php` | same |
+
+## URL → file mapping
+
+- `index.php?module=X&view=V`     → `views/V.php` (or `Views/V.php`)
+- `index.php?module=X&action=A`   → `actions/A.php` (typically AJAX/POST)
+- `index.php?parent=Settings&module=X&view=V` → `src/Modules/Settings/X/Views/V.php`
+
+## Adding a new view/action
+
+1. Class name = file basename (e.g. `Edit.php` defines `<Module>_Edit_View` or `App\Modules\<Module>\Views\Edit`).
+2. Wire the URL with `view=` or `action=` — no router config needed.
+3. For Settings views, extend `App\Modules\Settings\Base\Views\Index` to inherit the menu.

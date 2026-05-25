@@ -141,9 +141,22 @@ class RelatedList extends \App\Modules\Base\Views\RelatedList
         }
         // ListPreview for candidates on project: full list in one scroll; no paging/relate/search UI.
         if ($forceListPreviewByDefault && 'ListPreview' === $relatedView) {
+            $sendEmailLinks = [];
+            if (isset($links['LISTVIEWBASIC']) && \is_array($links['LISTVIEWBASIC'])) {
+                $sendEmailLinks = array_values(array_filter(
+                    $links['LISTVIEWBASIC'],
+                    static function ($link): bool {
+                        $linkUrl = (string) $link->get('linkurl');
+                        return (bool) $link->get('_sendEmail') || str_contains($linkUrl, 'triggerSendEmail');
+                    }
+                ));
+            }
             unset($links['LISTVIEWBASIC'], $links['RELATEDLIST_MASSACTIONS']);
             if (isset($links['RELATEDLIST_BASIC'])) {
                 unset($links['RELATEDLIST_BASIC']);
+            }
+            if (!empty($sendEmailLinks)) {
+                $links['LISTVIEWBASIC'] = $sendEmailLinks;
             }
         }
         $header = $relationListView->getHeaders();

@@ -5,27 +5,10 @@ alwaysApply: true
 
 # FreeCRM Project Identity
 
-## Project Name
-This is **FreeCRM**, NOT YetiForce, NOT SugarCRM, NOT Vtiger.
+- **Project**: FreeCRM (CRM system) — not YetiForce, SugarCRM, or Vtiger.
+- Historically forked from YetiForce → Vtiger, but evolving independently. Treat any YetiForce references in code/docs as historical context only.
+- **Primary namespace**: `FreeCRM\` (PSR-4 from `src/`).
+- **Framework**: Yii2. **Language**: modern PHP.
+- **Author**: bmankowski@gmail.com. **License**: FreeCRM Public License 1.1.
 
-While FreeCRM is based on YetiForce (which was originally forked from Vtiger CRM), this is a distinct project with its own identity and modifications.
-
-## Key Information
-- **Project Name**: FreeCRM
-- **Type**: Customer Relationship Management (CRM) system
-- **Primary Namespace**: `FreeCRM\` (PSR-4 autoloaded from `src/`)
-- **Language**: PHP (targeting modern versions)
-- **Framework**: Yii2
-
-## Branding Guidelines
-- When creating new files, use FreeCRM branding in headers
-- When suggesting improvements or creating new features, brand them as FreeCRM features
-- Any references to YetiForce in documentation or comments should be understood as historical context only
-- The project inherits some YetiForce/Vtiger structures but is evolving independently
-
-## Author Information
-- **Author**: bmankowski@gmail.com
-- **License**: FreeCRM Public License 1.1
-
-For architecture details, see `architecture.mdc`.
-For namespace conventions, see `php-namespaces.mdc`.
+File header templates: `file-headers.mdc`. Architecture: `architecture.mdc`. Namespaces: `php-namespaces.mdc`.

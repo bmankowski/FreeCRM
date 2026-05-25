@@ -1,4 +1,5 @@
 ---
+description: "Template for designing a minimal MVP — invoke when the user asks to plan/design a new MVP feature"
 alwaysApply: false
 ---
 # create-mvp.md

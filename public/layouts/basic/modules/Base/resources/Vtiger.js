@@ -148,9 +148,35 @@ var Vtiger_Index_Js = {
 			}
 			app.showModalWindow(response, function (modalContainer) {
 				var previewSection = modalContainer.find('.js-mail-preview-section');
+				var sourceWarning = modalContainer.find('.js-source-context-warning');
+				var sourceWarningText = modalContainer.find('.js-source-context-warning-text');
+				var saveButton = modalContainer.find('[name="saveButton"]');
 				var subjectInput = modalContainer.find('.js-mail-subject');
 				var contentEditor = modalContainer.find('.js-mail-content');
 				var contentInput = modalContainer.find('.js-mail-content-input');
+				var updateSourceWarning = function (result) {
+					var hasMissingContext = !!(result && result.missingSourceContext);
+					if (!saveButton.length) {
+						return;
+					}
+					if (hasMissingContext) {
+						if (sourceWarning.length) {
+							sourceWarningText.text(result.warning || 'Ten szablon wymaga kontekstu projektu (sourceRecord).');
+							sourceWarning.removeClass('hide');
+						} else {
+							Vtiger_Helper_Js.showPnotify({
+								text: result.warning || 'Ten szablon wymaga kontekstu projektu (sourceRecord).',
+								type: 'warning'
+							});
+						}
+						saveButton.prop('disabled', true).addClass('disabled');
+					} else {
+						if (sourceWarning.length) {
+							sourceWarning.addClass('hide');
+						}
+						saveButton.prop('disabled', false).removeClass('disabled');
+					}
+				};
 				var syncMailContent = function () {
 					contentInput.val(contentEditor.html());
 				};
@@ -169,14 +195,17 @@ var Vtiger_Index_Js = {
 						var result = previewResponse && previewResponse.result ? previewResponse.result : {};
 						if (!result.success) {
 							previewSection.addClass('hide');
+							updateSourceWarning({});
 							return;
 						}
 						subjectInput.val(result.subject || '');
 						contentEditor.html(app.prepareMailEditorContent(result.content || ''));
 						syncMailContent();
+						updateSourceWarning(result);
 						previewSection.removeClass('hide');
 					}, function (data, err) {
 						previewSection.addClass('hide');
+						updateSourceWarning({});
 						app.errorLog(data, err);
 					});
 				};
@@ -191,6 +220,9 @@ var Vtiger_Index_Js = {
 				syncMailContent();
 				loadPreview();
 				modalContainer.find('[name="saveButton"]').click(function (e) {
+					if (saveButton.prop('disabled')) {
+						return false;
+					}
 					syncMailContent();
 					if (modalContainer.find('form').validationEngine('validate')) {
 						var sendData = jQuery.extend({}, postData, {

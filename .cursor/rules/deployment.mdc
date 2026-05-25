@@ -1,0 +1,12 @@
+---
+description: "FreeCRM deployment details on local.itconnect.pl — read when debugging deploy/cron/storage issues"
+---
+
+# FreeCRM Deployment
+
+- Host: `local.itconnect.pl`, root `/opt/freecrm`, manage via `docker compose`.
+- SSH: `bmankowski@local.itconnect.pl`.
+- Services: `web`, `app`, `cron`, `db`.
+- Cron: `docker compose up -d cron` runs `cron/vtigercron.php` every minute via supercronic; log at `cache/logs/cron.log`.
+- Storage: `/opt/freecrm/storage` (copied from `10.0.0.220:/var/www/yetiforce/storage`).
+- Migration backups: `/opt/freecrm/_migration`; local rollback dump at `tmp/migration-20260511-134258/`.

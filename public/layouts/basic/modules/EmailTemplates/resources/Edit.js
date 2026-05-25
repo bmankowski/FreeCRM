@@ -234,7 +234,13 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 			tabSize: 2,
 			extraKeys: {
 				'Ctrl-F': 'findPersistent',
-				'Ctrl-H': 'replace'
+				'Ctrl-H': 'replace',
+				'Ctrl-S': function () {
+					thisInstance.saveRecord();
+				},
+				'Cmd-S': function () {
+					thisInstance.saveRecord();
+				}
 			}
 		});
 		this.codeMirrorInstance.setSize('100%', 420);
@@ -302,11 +308,66 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 			}
 		});
 	},
+	saveRecord: function () {
+		var thisInstance = this;
+		var form = this.getForm();
+		thisInstance.syncCodeMirrorEditor();
+		if (form.validationEngine('validate') !== true) {
+			app.formAlignmentAfterValidation(form);
+			return;
+		}
+		var progressIndicatorElement = jQuery.progressIndicator({
+			position: 'html',
+			blockInfo: { enabled: true }
+		});
+		var saveData = form.serializeFormData();
+		saveData.action = 'Save';
+		saveData.mode = 'edit';
+		delete saveData.returnToList;
+		if (typeof csrfMagicName !== 'undefined' && typeof csrfMagicToken !== 'undefined') {
+			saveData[csrfMagicName] = csrfMagicToken;
+		}
+		AppConnector.request(saveData).then(
+			function (data) {
+				var payload = (typeof data === 'string') ? (function () { try { return JSON.parse(data); } catch (e) { return {}; } }()) : data;
+				var result = payload.result || payload;
+				if (result.record) {
+					form.find('[name="record"]').val(result.record);
+				}
+				if (result.url && window.history && window.history.replaceState) {
+					window.history.replaceState(null, '', result.url);
+				}
+				Vtiger_Helper_Js.showMessage({ text: app.vtranslate('JS_SAVE_NOTIFY_OK', 'Vtiger') });
+				progressIndicatorElement.progressIndicator({ mode: 'hide' });
+			},
+			function (error, err) {
+				progressIndicatorElement.progressIndicator({ mode: 'hide' });
+				app.errorLog(error, err);
+			}
+		);
+	},
+	registerKeyboardShortcuts: function () {
+		var thisInstance = this;
+		jQuery(document).off('keydown.emailTemplatesEdit').on('keydown.emailTemplatesEdit', function (e) {
+			if (!(e.ctrlKey || e.metaKey)) {
+				return;
+			}
+			var form = thisInstance.getForm();
+			if (!form.length || !jQuery.contains(document, form.get(0))) {
+				return;
+			}
+			if (e.key === 's') {
+				e.preventDefault();
+				thisInstance.saveRecord();
+			}
+		});
+	},
 	registerBasicEvents: function (container) {
 		this._super(container);
 		this.registerVariablePanelEvent(container);
 		this.registerTemplateToolbar(container);
 		this.registerCodeMirror(container);
 		this.registerTemplateToolbarEvents(container);
+		this.registerKeyboardShortcuts();
 	},
 });

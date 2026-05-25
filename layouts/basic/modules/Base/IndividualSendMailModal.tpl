@@ -30,6 +30,10 @@
 				</select>
 			</div>
 			<div class="js-mail-preview-section {if empty($INITIAL_PREVIEW['success'])}hide{/if}">
+				<div class="alert alert-warning js-source-context-warning {if empty($INITIAL_PREVIEW['missingSourceContext'])}hide{/if}" role="alert">
+					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>&nbsp;&nbsp;
+					<span class="js-source-context-warning-text">{if !empty($INITIAL_PREVIEW['warning'])}{\App\Modules\Base\Helpers\Util::toSafeHTML($INITIAL_PREVIEW['warning'])}{/if}</span>
+				</div>
 				<div class="form-group">
 					<label class="control-label" for="mailSubject">{'LBL_SUBJECT'|t}</label>
 					<input type="text" class="form-control js-mail-subject" id="mailSubject" data-validation-engine="validate[required]" value="{if !empty($INITIAL_PREVIEW['subject'])}{\App\Modules\Base\Helpers\Util::toSafeHTML($INITIAL_PREVIEW['subject'])}{/if}" />
@@ -63,9 +67,26 @@
 		(function () {
 			var modalContainer = jQuery('.js-mail-preview-section').last().closest('.modal-content');
 			var previewSection = modalContainer.find('.js-mail-preview-section');
+			var sourceWarning = modalContainer.find('.js-source-context-warning');
+			var sourceWarningText = modalContainer.find('.js-source-context-warning-text');
 			var subjectInput = modalContainer.find('.js-mail-subject');
 			var contentEditor = modalContainer.find('.js-mail-content');
 			var contentInput = modalContainer.find('.js-mail-content-input');
+			var saveButton = modalContainer.find('[name="saveButton"]');
+			var updateSourceWarning = function (result) {
+				var hasMissingContext = !!(result && result.missingSourceContext);
+				if (!sourceWarning.length || !saveButton.length) {
+					return;
+				}
+				if (hasMissingContext) {
+					sourceWarningText.text(result.warning || 'Ten szablon wymaga kontekstu projektu (sourceRecord).');
+					sourceWarning.removeClass('hide');
+					saveButton.prop('disabled', true).addClass('disabled');
+				} else {
+					sourceWarning.addClass('hide');
+					saveButton.prop('disabled', false).removeClass('disabled');
+				}
+			};
 			var syncMailContent = function () {
 				contentInput.val(contentEditor.html());
 			};
@@ -86,14 +107,17 @@
 					var result = previewResponse && previewResponse.result ? previewResponse.result : {};
 					if (!result.success) {
 						previewSection.addClass('hide');
+						updateSourceWarning({});
 						return;
 					}
 					subjectInput.val(result.subject || '');
 					contentEditor.html(app.prepareMailEditorContent(result.content || ''));
 					syncMailContent();
+					updateSourceWarning(result);
 					previewSection.removeClass('hide');
 				}, function (data, err) {
 					previewSection.addClass('hide');
+					updateSourceWarning({});
 					app.errorLog(data, err);
 				});
 			};
@@ -106,6 +130,9 @@
 				}
 			});
 			modalContainer.find('[name="saveButton"]').on('click', function () {
+				if (saveButton.prop('disabled')) {
+					return false;
+				}
 				syncMailContent();
 				if (modalContainer.find('form').validationEngine('validate')) {
 					var sendData = jQuery.extend({}, baseData, {
@@ -129,6 +156,7 @@
 			if (contentEditor.html().trim()) {
 				contentEditor.html(app.prepareMailEditorContent(contentEditor.html()));
 				syncMailContent();
+				updateSourceWarning({ldelim}missingSourceContext: {if !empty($INITIAL_PREVIEW['missingSourceContext'])}true{else}false{/if}{rdelim});
 			} else {
 				loadPreview();
 			}

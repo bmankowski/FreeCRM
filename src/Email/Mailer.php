@@ -110,6 +110,11 @@ class Mailer
 			$textParser->setLanguage($params['language']);
 		}
 		$textParser->setParams(array_diff_key($params, array_flip(['subject', 'content', 'attachments', 'recordModel'])));
+		$sourceRecord = isset($params['sourceRecord']) ? (int) $params['sourceRecord'] : 0;
+		$sourceModule = isset($params['sourceModule']) ? (string) $params['sourceModule'] : '';
+		if ($sourceRecord && '' !== $sourceModule) {
+			$textParser->setSourceRecord($sourceRecord, $sourceModule);
+		}
 		$params['subject'] = $textParser->setContent($template['subject'])->parse()->getContent();
 		$params['content'] = $textParser->setContent($template['content'])->parse()->getContent();
 		unset($textParser);

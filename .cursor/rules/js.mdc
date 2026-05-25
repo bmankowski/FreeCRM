@@ -1,0 +1,59 @@
+---
+description: "JavaScript development and minification workflow for FreeCRM"
+globs: ["public/**/*.js", "package.json"]
+---
+
+# JavaScript Guidelines
+
+## File Structure
+
+- **Source files**: `public/layouts/`, `public/libraries/`, `public/modules/` (only `*.js`, never edit templates here)
+- **Minified files**: same path and basename with `.min.js` (e.g. `Detail.js` → `Detail.min.js`)
+- **Templates / PHP**: `layouts/` (`.tpl`), `src/` — no JS source files in root after `public/` migration
+- Runtime loads `.min.js` when `config/developer.php` has `MINIMIZE_JS => true` and the `.min.js` file exists; on localhost it is usually `false` (full `.js` for debugging), but **min files must still be regenerated** for production and commits
+
+## JS Minification
+
+### Tool
+
+- **Minifier**: `terser` (CLI)
+- **Installed via**: `npm install` (see `package.json` devDependency)
+
+### Setup
+
+```bash
+npm install
+```
+
+### Usage
+
+**Minify one source file** (creates/updates sibling `.min.js`):
+
+```bash
+npm run minify-js -- public/layouts/basic/modules/Base/resources/Detail.js
+```
+
+Direct `terser` (equivalent):
+
+```bash
+terser public/layouts/basic/modules/Base/resources/Detail.js -c -m \
+  -o public/layouts/basic/modules/Base/resources/Detail.min.js
+```
+
+**Do not** pass `*.min.js` to the script — edit and minify from the source `.js` only.
+
+### Workflow (mandatory for agents)
+
+1. Edit the **source** `.js` under `public/` (never hand-edit `.min.js`)
+2. **Immediately after saving** the source file, run minification for that file (`npm run minify-js -- <path>` or `terser` as above)
+3. Verify `*.min.js` exists beside the source and was updated (check mtime or diff)
+4. Commit **both** `.js` and `.min.js` when the change is ready
+
+If multiple source JS files were changed in one task, run `minify-js` once per file (or `npm run minify-js-all` after bulk edits).
+
+### Important Notes
+
+- Qualified names in PHP (e.g. `modules.Base.resources.Detail`) resolve to paths under `public/` via `Loader::resolveNameToPath()`
+- Skip vendor/third-party trees under `public/libraries/` unless you intentionally changed that library’s source `.js`
+- After JS changes, verify in the browser (hard refresh); check `cache/logs/system.log` if something breaks
+- Legacy doc paths mentioning `Vtiger` should be read as `Base` where modules were renamed

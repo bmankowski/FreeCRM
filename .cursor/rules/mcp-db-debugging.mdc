@@ -1,0 +1,11 @@
+---
+description: "Pattern for debugging FreeCRM file/image fields via MCP — read when an image/file URL is failing"
+---
+
+# MCP DB debugging — file/image fields
+
+When an image/file URL fails:
+
+1. Query the file field (e.g. `cv_img_file`) to get its JSON payload (`path`, `key`, `name`, `type`).
+2. Verify the referenced file exists under `storage/`.
+3. If the DB points to a path that doesn't exist, fix the writer (regen the file or fix Docker `storage/` volume permissions), not the reader.

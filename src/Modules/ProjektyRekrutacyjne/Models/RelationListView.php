@@ -16,6 +16,34 @@ use App\Modules\ProjektyRekrutacyjne\Relations\GetRelatedMembers;
 
 class RelationListView extends \App\Modules\Base\Models\RelationListView
 {
+	/**
+	 * Function to get related list links.
+	 *
+	 * @return array
+	 */
+	public function getLinks()
+	{
+		$relatedLinks = parent::getLinks();
+		$relationModel = $this->getRelationModel();
+		$relatedModuleModel = $relationModel->getRelationModuleModel();
+		$relatedModuleName = $relatedModuleModel->getName();
+		if ('Kandydaci' === $relatedModuleName
+			&& $relatedModuleModel->isPermitted('MassComposeEmail')
+			&& \App\Core\AppConfig::main('isActiveSendingMails')
+			&& \App\Email\Mail::getDefaultSmtp()
+		) {
+			$emailLink = \App\Modules\Base\Models\Link::getInstanceFromValues([
+				'linktype' => 'LISTVIEWBASIC',
+				'linklabel' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SEND_EMAIL', $relatedModuleName),
+				'linkurl' => 'javascript:ProjektyRekrutacyjne_RelatedList_Js.triggerSendEmail();',
+				'linkicon' => '',
+			]);
+			$emailLink->set('_sendEmail', true);
+			$relatedLinks['LISTVIEWBASIC'][] = $emailLink;
+		}
+		return $relatedLinks;
+	}
+
     /**
      * Function to get Relation query.
      *
@@ -28,14 +56,18 @@ class RelationListView extends \App\Modules\Base\Models\RelationListView
         if ($this->has('Query')) {
             return $this->get('Query');
         }
-        $queryGenerator = $this->relationModel->getQueryGenerator();
+        $relationModelInstance = $this->getRelationModel();
+        if (empty($relationModelInstance)) {
+            throw new \App\Exceptions\AppException('>>> No relationModel instance, requires verification 2 <<<');
+        }
+        $queryGenerator = $relationModelInstance->getQueryGenerator();
         //BMN
         //@author Bartłomiej Mańkowski
         //Add custom fields to query
         $queryFields = [];
         foreach (GetRelatedMembers::CUSTOM_FIELDS as $fieldName => $data) {
             $field = new \App\Modules\Base\Models\Field();
-            $sourceModule = $this->relationModel->getParentModuleModel();
+            $sourceModule = $relationModelInstance->getParentModuleModel();
             $field->set('name', $fieldName)->set('column', $fieldName)->set('table', GetRelatedMembers::TABLE_NAME)->set('fromOutsideList', false)->setModule($sourceModule);
 
             foreach ($data as $key => $value) {
@@ -55,7 +87,6 @@ class RelationListView extends \App\Modules\Base\Models\RelationListView
 
         $this->loadCondition();
         $this->loadOrderBy();
-        $relationModelInstance = $this->getRelationModel();
         if (!empty($relationModelInstance) && $relationModelInstance->get('name')) {
             $queryGenerator = $relationModelInstance->getQuery();
             $relationModuleName = $queryGenerator->getModule();

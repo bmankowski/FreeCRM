@@ -1,6 +1,6 @@
 ---
-description: "Testing requirements and error/log checking for FreeCRM"
-alwaysApply: true
+description: "Detailed testing workflow, error severity levels, and log file reference for FreeCRM — read when debugging, validating changes, or investigating errors"
+alwaysApply: false
 ---
 
 # Testing & Error Checking

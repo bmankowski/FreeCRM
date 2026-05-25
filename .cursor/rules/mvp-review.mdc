@@ -1,4 +1,5 @@
 ---
+description: "Template for turning an architecture doc into a phased implementation plan — invoke when the user asks for an execution/rollout plan"
 alwaysApply: false
 ---
 

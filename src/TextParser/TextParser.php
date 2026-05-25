@@ -72,7 +72,8 @@ class TextParser
 
 	/** @var string[] List of source modules */
 	public static $sourceModules = [
-		'Campaigns' => ['Leads', 'Accounts', 'Contacts', 'Vendors', 'Partners', 'Competition']
+		'Campaigns' => ['Leads', 'Accounts', 'Contacts', 'Vendors', 'Partners', 'Competition'],
+		'ProjektyRekrutacyjne' => ['Kandydaci'],
 	];
 	private static $recordVariable;
 	private static $relatedVariable;

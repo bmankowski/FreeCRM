@@ -1,0 +1,26 @@
+---
+description: "Smarty template conventions for FreeCRM (layouts/**/*.tpl)"
+globs: ["layouts/**/*.tpl"]
+---
+
+# Smarty templates
+
+## Path resolution
+
+- `|@vtemplate_path` resolves a template name against the current skin + module fallback chain.
+- `|@vtemplate_path:$QUALIFIED_MODULE` resolves against a specific module (use for cross-module includes).
+
+## Common directives
+
+- Inherit layout:  `{extends file="MainLayout.tpl"|@vtemplate_path}`
+- Include partial: `{include file='EditHeader.tpl'|@vtemplate_path:$QUALIFIED_MODULE}`
+- Render dynamic template: `{include file=$STEP_TEMPLATE|@vtemplate_path:$QUALIFIED_MODULE}`
+- Translate label: `{vtranslate('LBL_FOO', $MODULE)}`
+
+## Controller ↔ template
+
+- Pass variables: `$viewer->assign('NAME', $value);`
+- Render: `$viewer->view('Edit.tpl', $qualifiedModuleName);`
+- AJAX/modal views: render fragment only — do NOT `extends MainLayout.tpl`.
+
+For full-page views missing the menu/header, see `main-layout-views.mdc`.

@@ -5,47 +5,31 @@ alwaysApply: true
 
 # FreeCRM General Guidelines
 
-## Change approval mode (current)
+## Change approval
 
-Until this section is removed or the user explicitly allows direct edits:
+- **Propose-only mode**: describe edits and show patches; do not modify files or data until the user explicitly accepts.
+- Read-only investigation (Read/Grep/SemanticSearch/MCP SELECT/logs) is always allowed.
+- Never run `git` without consent.
 
-- **Propose only** — describe intended changes and show concrete patches or code snippets in the response; do not modify project files on your own initiative.
-- **User acceptance required** — use file-edit tools (`Write`, `StrReplace`, `Delete`, `EditNotebook`, etc.) or shell commands that change files/data only after the user explicitly accepts the proposal or asks you to apply it.
-- **Investigation without approval** — read-only work stays allowed: `Read`, `Grep`, `SemanticSearch`, MCP `SELECT`, log inspection, and non-destructive checks.
+## Editing
 
-When several options exist, present a short recommendation and wait for the user's choice before applying.
+- Prefer modifying existing files; do not create new files unless necessary.
+- Never use `class_alias()` or similar aliases.
+- For many edits in one file, prefer `sed`.
+- Continue on partial errors — partial fixes are valuable.
 
-## File Management
-- **Do not create new files if possible** - prefer editing existing files
-- **Never create aliases** like `class_alias()`
+## Agent autonomy
 
-## Version Control
-- **Never use git without consent** - ask the user before running any git command
+- Do not ask the user to do work you can do (paste logs, list files, choose between equivalent options).
+- Only ask when truly blocked (missing credentials, destructive/irreversible actions, real ambiguity).
 
-## Bulk Editing
-- **Use sed for multiple changes** - when performing many changes in a single file, use sed instead of individual edits
+## Deployment (one-liner)
 
-## Error Handling
-- **Continue on errors** - if there are any errors during development, do not stop - continue with the task
-- The application is resilient and partial fixes are valuable
+- Deployed on `local.itconnect.pl` at `/opt/freecrm` (`web`, `app`, `cron`, `db`); MariaDB at `127.0.0.1:3306` on the server.
+- MCP browser (`cursor-ide-browser`) uses `http://localhost` (Docker port 80 on the Windows host). The WSL shell cannot reach `localhost` — never SSH+curl for web tests.
 
-## Agent Autonomy (Critical)
+For deeper testing/log details see `error-checking.mdc`. For deployment specifics see `deployment.mdc`.
 
-Does not override **Change approval mode** for file or data writes.
+## Persisting learnings (end of session)
 
-- **Do not ask the user to do work the model can do** (e.g., "tell me what files to check", "paste logs", "confirm obvious assumptions", "choose between equivalent options").
-- **Assume and proceed** on investigation: pick the most reasonable approach, verify by reading code/rules/logs and running checks/tests, and adapt if evidence contradicts the assumption.
-- **Only ask the user** when something truly requires human input (credentials not available, external approvals, CAPTCHAs/logins, destructive/irreversible actions requiring confirmation, missing proprietary context) or an important decision has to be made.
-
-## Development Philosophy
-- Prefer modifying existing code over creating new structures
-- Keep the codebase maintainable and avoid unnecessary complexity
-- Focus on incremental improvements
-
-## Migrated Docker Server
-- FreeCRM is deployed on `local.itconnect.pl` in `/opt/freecrm` and is available at `http://local.itconnect.pl/`.
-- Connect as `bmankowski@local.itconnect.pl`; manage the stack with `docker compose` from `/opt/freecrm`.
-- Services are `web`, `app`, `cron`, and `db`; MariaDB is bound to `127.0.0.1:3306` on the server.
-- Background jobs: `docker compose up -d cron` runs `cron/vtigercron.php` every minute via supercronic (log: `cache/logs/cron.log`). No host crontab required.
-- Runtime data lives in `/opt/freecrm/storage`; it was copied from production `10.0.0.220:/var/www/yetiforce/storage`.
-- Migration backups are kept in `/opt/freecrm/_migration`, with local rollback dump under `tmp/migration-20260511-134258/`.
+If during the session you discovered a reusable, non-obvious fact (a Docker quirk, a fix pattern, a file location, a working command) that would save time next session, propose adding it to the most relevant `.cursor/rules/*.mdc` before wrapping up. Prefer extending an existing rule over creating a new file. Skip silently if nothing reached that bar or it's already covered.
