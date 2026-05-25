@@ -747,8 +747,13 @@ jQuery.Class("Vtiger_Header_Js", {
 			thisInstance.hideMobileMenu();
 			thisInstance.hideSearchMenu();
 		});
-		block.css('top', $('.commonActionsContainer').height());
-		block.height($(window).height() - $('footer.navbar-default').height() - $('.commonActionsContainer').height() + 2);
+		var topOffset = $('.commonActionsContainer').height() || 0;
+		var footerH = $('footer.navbar-default').height() || 0;
+		var availH = ($(window).height() || 0) - footerH - topOffset + 2;
+		block.css('top', topOffset);
+		if (isFinite(availH) && availH > 0) {
+			block.height(availH);
+		}
 	},
 	registerReminderNotification: function () {
 		var thisInstance = this;
@@ -765,8 +770,13 @@ jQuery.Class("Vtiger_Header_Js", {
 			thisInstance.hideMobileMenu();
 			thisInstance.hideSearchMenu();
 		});
-		block.css('top', $('.commonActionsContainer').height());
-		block.height($(window).height() - $('footer.navbar-default').height() - $('.commonActionsContainer').height() + 2);
+		var topOffset = $('.commonActionsContainer').height() || 0;
+		var footerH = $('footer.navbar-default').height() || 0;
+		var availH = ($(window).height() || 0) - footerH - topOffset + 2;
+		block.css('top', topOffset);
+		if (isFinite(availH) && availH > 0) {
+			block.height(availH);
+		}
 	},
 	registerMobileEvents: function () {
 		var thisInstance = this;

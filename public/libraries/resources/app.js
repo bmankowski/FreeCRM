@@ -1156,6 +1156,16 @@ var app = {
 		if (typeof options.height == 'undefined') {
 			options.height = element.css('height');
 		}
+		// Sanitize numeric heights to prevent slimScroll from writing "NaNpx" / "Infinitypx"
+		// inline styles (Firefox: "Błąd podczas przetwarzania wartości dla 'height'").
+		if (typeof options.height === 'number') {
+			if (!isFinite(options.height) || options.height <= 0) {
+				options.height = 'auto';
+			}
+		} else if (typeof options.height === 'string'
+			&& /^-?(NaN|Infinity)/i.test(options.height)) {
+			options.height = 'auto';
+		}
 
 		return element.slimScroll(options);
 	},

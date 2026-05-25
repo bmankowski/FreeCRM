@@ -398,11 +398,22 @@
         function getBarHeight()
         {
           // calculate scrollbar height and make sure it is not too small
-          barHeight = Math.max((me.outerHeight() / me[0].scrollHeight) * me.outerHeight(), minBarHeight);
+          var outer = me.outerHeight();
+          var scroll = me[0] ? me[0].scrollHeight : 0;
+          // Guard against scroll=0 / outer=0 which yields NaN/Infinity and produces "height: NaNpx".
+          if (!scroll || !outer || !isFinite(outer) || !isFinite(scroll)) {
+            barHeight = minBarHeight;
+            bar.css({ height: barHeight + 'px', display: 'none' });
+            return;
+          }
+          barHeight = Math.max((outer / scroll) * outer, minBarHeight);
+          if (!isFinite(barHeight)) {
+            barHeight = minBarHeight;
+          }
           bar.css({ height: barHeight + 'px' });
 
           // hide scrollbar if content is not long enough
-          var display = barHeight == me.outerHeight() ? 'none' : 'block';
+          var display = barHeight == outer ? 'none' : 'block';
           bar.css({ display: display });
         }
 
