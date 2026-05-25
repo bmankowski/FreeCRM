@@ -1,11 +1,11 @@
 @font-face {
 	font-family: 'adminIcon';
-	src:url('adminIcons.eot?5bzxui');
-	src:url('adminIcons.eot?5bzxui#iefix') format('embedded-opentype'),
-		url('adminIcons.woff2?5bzxui') format('woff2'),
-		url('adminIcons.woff?5bzxui') format('woff'),
-		url('adminIcons.ttf?5bzxui') format('truetype'),
-		url('adminIcons.svg?5bzxui#icomoon') format('svg');
+	src:url('adminIcons.eot?5bzxuib');
+	src:url('adminIcons.eot?5bzxuib#iefix') format('embedded-opentype'),
+		url('adminIcons.woff2?5bzxuib') format('woff2'),
+		url('adminIcons.woff?5bzxuib') format('woff'),
+		url('adminIcons.ttf?5bzxuib') format('truetype'),
+		url('adminIcons.svg?5bzxuib#icomoon') format('svg');
 }
 
 [class^="adminIcon-"], [class*=" adminIcon-"] {

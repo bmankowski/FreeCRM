@@ -1,11 +1,11 @@
 @font-face {
 	font-family: 'UserIcons';
-	src:url('userIcons.eot?dfrtuf');
-	src:url('userIcons.eot?dfrtuf#iefix') format('embedded-opentype'),
-		url('userIcons.woff2?dfrtuf') format('woff2'),
-		url('userIcons.woff?dfrtuf') format('woff'),
-		url('userIcons.ttf?dfrtuf') format('truetype'),
-		url('userIcons.svg?dfrtuf#icons') format('svg');
+	src:url('userIcons.eot?dfrtufb');
+	src:url('userIcons.eot?dfrtufb#iefix') format('embedded-opentype'),
+		url('userIcons.woff2?dfrtufb') format('woff2'),
+		url('userIcons.woff?dfrtufb') format('woff'),
+		url('userIcons.ttf?dfrtufb') format('truetype'),
+		url('userIcons.svg?dfrtufb#icons') format('svg');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
