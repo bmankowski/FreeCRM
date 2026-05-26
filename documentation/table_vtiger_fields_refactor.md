@@ -7,8 +7,10 @@
 | Change 1 — `mandatory` column | **Done** (2026-05-26) |
 | Change 2 — strip `LE~n` from `typeofdata` | **Done** (2026-05-26) |
 | Change 3 — remove M/O segment from `typeofdata` | **Done** (2026-05-26) |
-| Change 4 — cross-field constraints table | Deferred |
-| Change 5 — numeric precision encoding | Deferred |
+| Change 4 — cross-field constraints table + OTH strip | **Done** (2026-05-26) |
+| Change 5 — numeric precision encoding (`N~2~2`) | **Done** (2026-05-26) |
+| Change 6 — strip `DT~time_start` companion pattern | **Done** (2026-05-26) |
+| Fix — self-referential OTH constraints (`vtiger_assets`) | **Done** (2026-05-26) |
 
 Deploy **migration before** PHP on each environment: `yii migrate --migrationPath=migrations/Users/`
 
@@ -160,11 +162,13 @@ Templates and JS are unchanged — they call `isMandatory()` / `fieldInfo.mandat
 
 | Problem | Severity | Status |
 |---------|----------|--------|
-| 1NF violation (type, constraints, LE, precision in one string) | Medium | Open |
+| 1NF violation (type, constraints, LE, precision in one string) | Medium | **Fully resolved** — `typeofdata` is now a single type-code token for every row |
 | No dedicated `mandatory` column | High | **Resolved** |
 | `LE~n` duplicates `maximumlength` | Medium | **Resolved** |
 | Anomalous `D~0` (digit zero) | Low | **Resolved** in migration |
-| Cross-field constraints in string | Low | Deferred (Change 3) |
+| Cross-field constraints in string | Low | Deferred (Change 4) |
+| Numeric precision encoding (`N~2~2`) unused | Low | **Resolved** |
+| Self-referential OTH constraints (`vtiger_assets`) | Low | **Resolved** |
 
 ---
 
@@ -207,29 +211,77 @@ Templates and JS are unchanged — they call `isMandatory()` / `fieldInfo.mandat
 
 ---
 
-### Change 3 — Cross-field constraints table 🔄 Deferred
+### Change 4 — Cross-field constraints table ✅ Done
 
-**Rationale:** Only 17 fields use this. Works correctly today. A proper implementation would require a new `vtiger_field_constraints` table with its own read/write/export path. High effort, low return at this stage.
+**Migrations:** `m260526_000007_vtiger_field_constraints.php`
 
-**Future schema sketch:**
+All OTH cross-field comparison constraints have been extracted from `typeofdata` into a dedicated `vtiger_field_constraints` table. `typeofdata` is now a single type-code token for every field.
+
+**Schema:**
 ```sql
 CREATE TABLE vtiger_field_constraints (
-  constraintid  int NOT NULL AUTO_INCREMENT,
-  fieldid       int NOT NULL,
-  constraint_type VARCHAR(10) NOT NULL,  -- 'OTH'
-  operator      VARCHAR(5) NOT NULL,      -- 'GE', 'G'
-  ref_fieldname VARCHAR(50) NOT NULL,
-  ref_label     VARCHAR(100) DEFAULT '',
-  PRIMARY KEY (constraintid),
-  KEY (fieldid)
+    id            INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    fieldid       INT(10) UNSIGNED NOT NULL,
+    operator      ENUM('GE','G','LE','L') NOT NULL COMMENT 'GE>=  G>  LE<=  L<',
+    ref_fieldname VARCHAR(50) NOT NULL,
+    PRIMARY KEY (id),
+    KEY idx_fieldid (fieldid)
 );
 ```
 
+**26 rows** covering:
+- 16 direct GE/G constraints (migrated from `typeofdata` OTH segments)
+- 6 LE inverse constraints (migrated from the hardcoded `getValidator()` switch)
+- 1 additional LE (`end_period <= duedate`) from `getValidator()`
+- 3 bug-fix rows previously missing from both sources (`dateinservice`, `time_start` in osstimecontrol and reservations)
+
+**`Field::getValidator()` rewritten** — replaced the hardcoded switch with a table-driven lookup. Loads the full `vtiger_field_constraints` table once per request into a static cache, then serves all fields from memory. Single-field validators (`lessThanToday`, `PositiveNumber`, `WholeNumber`, `ReferenceField`) remain as a static in-memory map.
+
+**Files updated:**
+| File | Change |
+|------|--------|
+| `migrations/Users/m260526_000007_vtiger_field_constraints.php` | CREATE TABLE + 26 INSERTs + UPDATE typeofdata strip |
+| `src/Modules/Base/Models/Field.php` | `getValidator()` rewritten; `getFieldConstraints()` helper added |
+| `src/Modules/Install/install_schema/scheme.sql` | `CREATE TABLE vtiger_field_constraints` added |
+| `src/Modules/Install/install_schema/data.sql` | 17 typeofdata rows stripped + 26 constraint rows seeded |
+| `src/Modules/Install/install_schema/Base2.php` | same + `data2()` method for batch insert |
+
+### Change 6 — Strip `DT~time_start` companion pattern ✅ Done
+
+**Migration:** `m260526_000006_typeofdata_strip_dt_companion.php`
+
+The two `date_start` fields in `vtiger_activity` carried `DT~time_start` — a companion time-field name appended to the type code. No PHP code reads this segment (uitype 6 handles the companion relationship intrinsically). Stripped to `DT`.
+
 ---
 
-### Change 4 — Numeric precision encoding 🔄 Deferred
+### Change 5 — Numeric precision encoding ✅ Done
 
-**Rationale:** Only 3 fields. Functional. Could eventually move to `fieldparams` JSON (already used for other per-field config) or a dedicated `decimal_places` column.
+**Migration:** `migrations/Users/m260526_000005_typeofdata_strip_numeric_precision.php`
+
+3 fields (`progress`, `discount`, `probability`) carried `N~2~2` in `typeofdata`. The `2~2` segments (min_integer_digits, max_decimal_digits) were written by the LayoutEditor `Percent` branch but **never read** by any PHP runtime code. The DB column type (`decimal(5,2)`) already encodes precision authoritatively.
+
+1. Stripped `~2~2` from all 3 rows — `typeofdata` is now `N`.
+2. `LayoutEditor/Models/Module.php` `Percent` branch updated to emit `N` only.
+3. Seed data (`data.sql`, `Base2.php`) updated for all 3 fields.
+
+Also bundled in the same migration: fix of self-referential OTH constraints (see section below).
+
+---
+
+### Fix — Self-referential OTH constraints (`vtiger_assets`) ✅ Done
+
+Pre-existing data bug: both `datesold` and `dateinservice` in `vtiger_assets` had OTH constraints that referenced themselves (e.g. `D~OTH~GE~datesold~Date Sold` — "date sold ≥ date sold"), which is a no-op.
+
+Corrected values:
+
+| Field | Before | After |
+|-------|--------|-------|
+| `datesold` | `D~OTH~GE~datesold~Date Sold` | `D~OTH~GE~dateinservice~Date in Service` |
+| `dateinservice` | `D~OTH~GE~dateinservice~Date in Service` | `D` |
+
+Logic: an asset is sold *after* it enters service (`datesold ≥ dateinservice`). `dateinservice` itself has no cross-field lower bound.
+
+Bundled in `migrations/Users/m260526_000005_typeofdata_strip_numeric_precision.php`.
 
 ---
 
@@ -237,21 +289,23 @@ CREATE TABLE vtiger_field_constraints (
 
 | # | Change | Status |
 |---|--------|--------|
-| 1 | Fix `D~0` anomaly | **Done** (in `m260526_000001` migration) |
+| 1 | Fix `D~0` anomaly | **Done** |
 | 2 | Add `mandatory` column + populate | **Done** |
 | 3 | Update PHP consumers of mandatory flag | **Done** |
 | 4 | Strip `LE~n` from `typeofdata` | **Done** |
-| 5 | Cross-field constraints table | Deferred |
+| 5 | Strip `N~2~2` precision encoding + fix OTH self-ref | **Done** |
+| 6 | Strip `DT~time_start` companion pattern | **Done** |
+| 7 | Cross-field constraints table + strip OTH + rewrite `getValidator()` | **Done** |
 
 ---
 
 ## 5. Open questions
 
-- [x] Should `typeofdata` segment 2 continue to be written during field save after `mandatory` column is added? **Yes** — dual-write until a dedicated cleanup pass.
-- [ ] Is any external integration (REST API, package import/export) reading `typeofdata` raw and expecting the `M`/`O` flag to be present? (Unverified; dual-write mitigates risk.)
-- [ ] For `cf_2610`: is `maximumlength=100` or `LE~255` the correct value?
-- [ ] The `DT~M~time_start` companion field pattern — is this the only case or are there other `~field_name` appended variants?
-- [ ] When to stop writing `typeofdata` segment 2 and rely on `mandatory` only?
+- [x] Should `typeofdata` segment 2 continue to be written during field save after `mandatory` column is added? **Resolved** — segment 2 (M/O) has been fully removed (Change 3). `mandatory` column is the sole authority.
+- [x] Is any external integration (REST API, package import/export) reading `typeofdata` raw and expecting the `M`/`O` flag to be present? **Moot** — segment 2 is gone (Change 3 done). If an integration breaks, it should be updated to read the `mandatory` column.
+- [x] For `cf_2610`: is `maximumlength=100` or `LE~255` the correct value? **`maximumlength=100` is authoritative.** The `LE~255` was drift; resolved in Change 2. DB confirmed: `typeofdata=V`, `maximumlength=100`.
+- [x] The `DT~M~time_start` companion field pattern — is this the only case or are there other `~field_name` appended variants? **Confirmed only case.** DB shows exactly 2 rows (`date_start` / `vtiger_activity`), both now `DT~time_start` after M/O strip. No other `~field_name` appended variants exist.
+- [x] When to stop writing `typeofdata` segment 2 and rely on `mandatory` only? **Done** — Change 3 removed all M/O segments.
 
 ---
 
@@ -263,3 +317,7 @@ CREATE TABLE vtiger_field_constraints (
 | 2026-05-26 | bmankowski | Change 1 implemented: `mandatory` column, migration, PHP consumers, install schema; doc updated |
 | 2026-05-26 | bmankowski | Change 2 implemented: `LE~n` stripped from all 29 rows, generator fixed, seed data updated |
 | 2026-05-26 | bmankowski | Change 3 implemented: M/O removed from typeofdata in DB and all PHP/seed files; `updateMandatory()` replaces dual-write method |
+| 2026-05-26 | bmankowski | Change 5 implemented: `N~2~2` stripped from 3 fields (progress, discount, probability); LayoutEditor Percent branch simplified; seed data updated |
+| 2026-05-26 | bmankowski | Fix: self-referential OTH constraints on vtiger_assets corrected (datesold → references dateinservice; dateinservice → plain D); all open questions closed |
+| 2026-05-26 | bmankowski | Change 6: DT~time_start companion stripped (2 rows); migration 006; seed data updated |
+| 2026-05-26 | bmankowski | Change 4+7: vtiger_field_constraints table created (26 rows, ENUM GE/G/LE/L); all OTH segments stripped from typeofdata; Field::getValidator() rewritten as data-driven lookup with request-level cache; 3 previously missing validators added (dateinservice, time_start×2); typeofdata is now fully 1NF |

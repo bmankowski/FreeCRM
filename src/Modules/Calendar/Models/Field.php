@@ -19,30 +19,6 @@ class Field extends \App\Modules\Base\Models\Field
 {
 
 	/**
-	 * Function returns special validator for fields
-	 * @return <Array>
-	 */
-	public function getValidator()
-	{
-		$validator = array();
-		$fieldName = $this->getName();
-
-		switch ($fieldName) {
-			case 'due_date': $funcName = array('name' => 'greaterThanDependentField',
-					'params' => array('date_start'));
-				array_push($validator, $funcName);
-				break;
-			// NOTE: Letting user to add pre or post dated Event.
-			/* case 'date_start' : $funcName = array('name'=>'greaterThanToday');
-			  array_push($validator, $funcName);
-			  break; */
-			default : $validator = parent::getValidator();
-				break;
-		}
-		return $validator;
-	}
-
-	/**
 	 * Function to get the Webservice Field data type
 	 * @return string Data type of the field
 	 */

@@ -1110,86 +1110,60 @@ class Field extends \vtlib\Field
 	 * Function returns Client Side Validators name
 	 * @return <Array> [name=>Name of the Validator, params=>Extra Parameters]
 	 */
-	public function getValidator()
+	public function getValidator(): array
 	{
 		$validator = [];
-		$fieldName = $this->getName();
-		switch ($fieldName) {
-			case 'birthday' : $funcName = array('name' => 'lessThanToday');
-				array_push($validator, $funcName);
-				break;
-			case 'support_end_date' : $funcName = array('name' => 'greaterThanDependentField',
-					'params' => array('support_start_date'));
-				array_push($validator, $funcName);
-				break;
-			case 'support_start_date' : $funcName = array('name' => 'lessThanDependentField',
-					'params' => array('support_end_date'));
-				array_push($validator, $funcName);
-				break;
-			case 'targetenddate' :
-			case 'actualenddate':
-			case 'enddate':
-				$funcName = array('name' => 'greaterThanDependentField',
-					'params' => array('startdate'));
-				array_push($validator, $funcName);
-				break;
-			case 'startdate':
-				if ($this->getModule()->get('name') == 'Project') {
-					$params = array('targetenddate');
-				} else {
-					//for project task
-					$params = array('enddate');
-				}
-				$funcName = array('name' => 'lessThanDependentField',
-					'params' => $params);
-				array_push($validator, $funcName);
-				break;
-			case 'expiry_date':
-			case 'due_date':
-				$funcName = array('name' => 'greaterThanDependentField',
-					'params' => array('start_date'));
-				array_push($validator, $funcName);
-				break;
-			case 'sales_end_date':
-				$funcName = array('name' => 'greaterThanDependentField',
-					'params' => array('sales_start_date'));
-				array_push($validator, $funcName);
-				break;
-			case 'sales_start_date':
-				$funcName = array('name' => 'lessThanDependentField',
-					'params' => array('sales_end_date'));
-				array_push($validator, $funcName);
-				break;
-			case 'qty_per_unit' :
-			case 'qtyindemand' :
-			case 'hours':
-			case 'days':
-				$funcName = array('name' => 'PositiveNumber');
-				array_push($validator, $funcName);
-				break;
-			case 'employees':
-				$funcName = array('name' => 'WholeNumber');
-				array_push($validator, $funcName);
-				break;
-			case 'related_to':
-				$funcName = array('name' => 'ReferenceField');
-				array_push($validator, $funcName);
-				break;
-			//SRecurringOrders field sepecial validators
-			case 'end_period' : $funcName1 = array('name' => 'greaterThanDependentField',
-					'params' => array('start_period'));
-				array_push($validator, $funcName1);
-				$funcName2 = array('name' => 'lessThanDependentField',
-					'params' => array('duedate'));
-				array_push($validator, $funcName2);
 
-			case 'start_period' :
-				$funcName = array('name' => 'lessThanDependentField',
-					'params' => array('end_period'));
-				array_push($validator, $funcName);
-				break;
+		static $singleFieldValidators = [
+			'birthday'     => ['name' => 'lessThanToday'],
+			'qty_per_unit' => ['name' => 'PositiveNumber'],
+			'qtyindemand'  => ['name' => 'PositiveNumber'],
+			'hours'        => ['name' => 'PositiveNumber'],
+			'days'         => ['name' => 'PositiveNumber'],
+			'employees'    => ['name' => 'WholeNumber'],
+			'related_to'   => ['name' => 'ReferenceField'],
+		];
+
+		$fieldName = $this->getName();
+		if (isset($singleFieldValidators[$fieldName])) {
+			$validator[] = $singleFieldValidators[$fieldName];
 		}
+
+		static $operatorMap = [
+			'GE' => 'greaterThanDependentField',
+			'G'  => 'greaterThanDependentField',
+			'LE' => 'lessThanDependentField',
+			'L'  => 'lessThanDependentField',
+		];
+
+		foreach (self::getFieldConstraints((int) $this->get('id')) as $row) {
+			$validator[] = [
+				'name'   => $operatorMap[$row['operator']],
+				'params' => [$row['ref_fieldname']],
+			];
+		}
+
 		return $validator;
+	}
+
+	/**
+	 * Returns cross-field constraints for the given fieldid from vtiger_field_constraints.
+	 * Loaded once per request and cached in memory.
+	 */
+	private static function getFieldConstraints(int $fieldId): array
+	{
+		static $cache = null;
+		if ($cache === null) {
+			$cache = [];
+			$rows = (new \App\Db\Query())
+				->select(['fieldid', 'operator', 'ref_fieldname'])
+				->from('vtiger_field_constraints')
+				->all();
+			foreach ($rows as $row) {
+				$cache[(int) $row['fieldid']][] = $row;
+			}
+		}
+		return $cache[$fieldId] ?? [];
 	}
 
 	/**

@@ -613,12 +613,16 @@ var app = {
 					var height = app.getScreenHeight() - modalDialog.outerHeight(true);
 					modalBody.css('max-height', (modalBody.outerHeight() + height) + 'px');
 					modalBody.css('overflow', 'auto');
-					modalBody.perfectScrollbar('update');
+					var ps = modalBody.data('ps');
+					if (ps) {
+						ps.update();
+					}
 				});
 				var height = app.getScreenHeight() - modalDialog.outerHeight(true);
 				modalBody.css('max-height', (modalBody.outerHeight() + height) + 'px');
 				modalBody.css('overflow', 'auto');
-				modalBody.perfectScrollbar();
+				var ps = new PerfectScrollbar(modalBody[0]);
+				modalBody.data('ps', ps);
 				var select2DropdownParent = modalContainer.find('.modal-content');
 				if (!select2DropdownParent.length) {
 					select2DropdownParent = modalContainer;
@@ -636,6 +640,12 @@ var app = {
 			});
 		}
 		container.one('hidden.bs.modal', function () {
+			var modalBody = container.find('.modal-body');
+			var ps = modalBody.data('ps');
+			if (ps) {
+				ps.destroy();
+				modalBody.removeData('ps');
+			}
 			container.remove();
 			var backdrop = jQuery('.modal-backdrop');
 			var modalContainers = jQuery('.modalContainer');

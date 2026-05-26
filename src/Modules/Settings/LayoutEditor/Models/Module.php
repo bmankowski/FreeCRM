@@ -265,7 +265,7 @@ class Module extends \App\Modules\Base\Models\Module
 			Case 'Percent' :
 				$uitype = 9;
 				$type = $importerType->decimal(5, 2);
-				$uichekdata = 'N~2~2';
+				$uichekdata = 'N';
 				break;
 			Case 'Currency' :
 				$fieldLength = $params['fieldLength'];

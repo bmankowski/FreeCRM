@@ -40,7 +40,7 @@ class Field extends \App\Modules\Base\Models\Field
 	 * Function returns special validator for fields
 	 * @return <Array>
 	 */
-	public function getValidator()
+	public function getValidator(): array
 	{
 		$validator = array();
 		$fieldName = $this->getName();

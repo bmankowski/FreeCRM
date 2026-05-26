@@ -1,0 +1,35 @@
+---
+description: JS and CSS minification tools for FreeCRM frontend assets
+globs: public/**/*.js,public/**/*.css
+alwaysApply: false
+---
+# Frontend Asset Minification
+
+Minification is handled by npm scripts defined in the root `package.json`.
+**Never edit `.min.js` or `.min.css` files directly** — always edit the source file and rebuild.
+
+## Tools
+
+| Asset | Tool | npm script |
+|---|---|---|
+| JS | `terser` | `minify-js` / `minify-js-all` |
+| CSS | `clean-css-cli` | `minify-css` / `minify-css-all` |
+
+## Commands
+
+```bash
+# Single file (output written to <file>.min.js / <file>.min.css automatically)
+npm run minify-js -- public/libraries/resources/app.js
+npm run minify-js -- public/layouts/basic/modules/Base/resources/Header.js
+
+npm run minify-css -- public/layouts/basic/modules/Base/resources/style.css
+
+# Whole tree (use after bulk changes)
+npm run minify-js-all
+npm run minify-css-all
+```
+
+## Workflow rule
+
+After editing any non-minified `.js` or `.css` file under `public/`, run the corresponding
+single-file minify command and commit both the source and the `.min.*` file together.

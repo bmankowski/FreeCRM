@@ -5257,6 +5257,17 @@ CREATE TABLE `vtiger_field` (
   CONSTRAINT `fk_1_vtiger_field` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=2606 DEFAULT CHARSET=utf8;
 
+/*Table structure for table `vtiger_field_constraints` */
+
+CREATE TABLE `vtiger_field_constraints` (
+  `id`            int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `fieldid`       int(10) unsigned NOT NULL,
+  `operator`      enum('GE','G','LE','L') NOT NULL COMMENT 'GE>=  G>  LE<=  L<',
+  `ref_fieldname` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_fieldid` (`fieldid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 /*Table structure for table `vtiger_field_seq` */
 
 CREATE TABLE `vtiger_field_seq` (

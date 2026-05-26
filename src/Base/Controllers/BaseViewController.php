@@ -354,7 +354,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 			'~libraries/jquery/defunkt-jquery-pjax/jquery.pjax.js',
 			'~libraries/jquery/jstorage.js',
 			'~libraries/jquery/autosize/jquery.autosize-min.js',
-			'~libraries/jquery/perfect-scrollbar/js/perfect-scrollbar.jquery.js',
+			'~libraries/jquery/perfect-scrollbar/js/perfect-scrollbar.js',
 			'~libraries/jquery/rochal-jQuery-slimScroll/jquery.slimscroll.js',
 			'~libraries/jquery/pnotify/pnotify.custom.js',
 			'~libraries/jquery/jquery.hoverIntent.minified.js',
