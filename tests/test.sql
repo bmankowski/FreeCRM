@@ -51,3 +51,5 @@ SELECT * FROM s_yf_delayed_email_queue;
 select * from vtiger_field where fieldname = 'accountname';
 
 SELECT typeofdata, COUNT(*) as cnt FROM vtiger_field GROUP BY typeofdata ORDER BY cnt DESC LIMIT 400;
+
+SELECT uitype, GROUP_CONCAT(DISTINCT typeofdata ORDER BY typeofdata) AS typeofdata_values, COUNT(DISTINCT typeofdata) AS distinct_count, COUNT(*) AS field_count FROM vtiger_field WHERE typeofdata IS NOT NULL AND typeofdata != '' GROUP BY uitype HAVING distinct_count > 1 ORDER BY uitype;
