@@ -227,6 +227,14 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 			container.find('.saveAndComplete').removeClass('hide');
 		}
 	},
+	registerDueDateFirstFocusDefault: function (container) {
+		var thisInstance = this;
+		container.find('[name="due_date"], [name="time_end"]').one('focus', function () {
+			if (jQuery('[name="userChangedEndDateTime"]').val() != '1') {
+				thisInstance.setDefaultEndTime(container);
+			}
+		});
+	},
 	registerEndDateTimeChangeLogger: function (container) {
 		var thisInstance = this;
 		container.find('[name="time_end"]').on('change', function (e) {
@@ -426,12 +434,9 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		this.registerTimeStartChangeEvent(container);
 		this.registerActivityTypeChangeEvent(container);
 		this.registerEndDateTimeChangeLogger(container);
+		this.registerDueDateFirstFocusDefault(container);
 		this.registerAutoFillHours(container);
 		this.registerSaveAndCloseBtn(container);
-		var recordId = container.find('[name="record"]').val();
-		if (!recordId && jQuery('[name="userChangedEndDateTime"]').val() != '1') {
-			this.setDefaultEndTime(container);
-		}
 	},
 	toggleTimesInputs: function (container) {
 		container.find(':checkbox').change(function () {

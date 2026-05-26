@@ -70,10 +70,9 @@ class Field extends \App\Modules\Base\Models\Field
 		if (empty($value)) {
 			if ($fieldName === 'date_start') {
 				return \App\Fields\DateTimeField::convertToUserFormat(date('Y-m-d'));
-			} elseif ($fieldName === 'due_date') {
-				$currentUser = \App\User\CurrentUser::get();
-				$minutes = $currentUser->get('callduration');
-				return \App\Fields\DateTimeField::convertToUserFormat(date('Y-m-d', strtotime("+$minutes minutes")));
+			}
+			if ($fieldName === 'due_date') {
+				return '';
 			}
 		}
 		return parent::getEditViewDisplayValue($value, $record);

@@ -24,16 +24,20 @@
 {/if}
 
 {assign var=DATE_TIME_VALUE value=$FIELD_MODEL->get('fieldvalue')}
-{assign var=DATE_TIME_COMPONENTS value=explode(' ' ,$DATE_TIME_VALUE)}
-{if count($DATE_TIME_COMPONENTS) eq 2}
-	{assign var=TIME_FIELD value=$TIME_FIELD->set('fieldvalue',$DATE_TIME_COMPONENTS[1])}
-{elseif $RECORD}
-	{assign var=TIME_FIELD value=$TIME_FIELD->set('fieldvalue',$RECORD->get($TIME_NAME))}
+{if $DATE_TIME_VALUE|trim neq ''}
+	{assign var=DATE_TIME_COMPONENTS value=explode(' ' ,$DATE_TIME_VALUE)}
+	{if count($DATE_TIME_COMPONENTS) eq 2}
+		{assign var=TIME_FIELD value=$TIME_FIELD->set('fieldvalue',$DATE_TIME_COMPONENTS[1])}
+	{elseif $RECORD}
+		{assign var=TIME_FIELD value=$TIME_FIELD->set('fieldvalue',$RECORD->get($TIME_NAME))}
+	{/if}
+	{assign var=DATE_TIME_CONVERTED_VALUE value=\App\Fields\DateTimeField::convertToUserTimeZone($DATE_TIME_VALUE)->format('Y-m-d H:i:s')}
+	{assign var=DATE_TIME_COMPONENTS value=explode(' ' ,$DATE_TIME_CONVERTED_VALUE)}
+	{assign var=DATE_FIELD value=$DATE_FIELD->set('fieldvalue',$DATE_TIME_COMPONENTS[0])}
+{else}
+	{assign var=DATE_FIELD value=$DATE_FIELD->set('fieldvalue','')}
+	{assign var=TIME_FIELD value=$TIME_FIELD->set('fieldvalue','')}
 {/if}
-{* Set the date after converting with repsect to timezone *}
-{assign var=DATE_TIME_CONVERTED_VALUE value=\App\Fields\DateTimeField::convertToUserTimeZone($DATE_TIME_VALUE)->format('Y-m-d H:i:s')}
-{assign var=DATE_TIME_COMPONENTS value=explode(' ' ,$DATE_TIME_CONVERTED_VALUE)}
-{assign var=DATE_FIELD value=$DATE_FIELD->set('fieldvalue',$DATE_TIME_COMPONENTS[0])}
 
 <div class="dateTimeField">
 	<div class="col-xs-7 paddingLRZero">

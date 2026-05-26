@@ -40,13 +40,12 @@ class Time extends \App\Modules\Base\UiTypes\Time
 	 */
 	public function getDisplayTimeDifferenceValue($fieldName, $value)
 	{
+		if ($fieldName === 'time_end' && ($value === '' || $value === null)) {
+			return '';
+		}
+
 		$userModel = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
 		$date = new \DateTime($value);
-
-		if ($fieldName == 'time_end' && empty($value)) {
-			$defaultCallDuration = $userModel->get('callduration');
-			$date->modify("+{$defaultCallDuration} minutes");
-		}
 
 		$dateTimeField = new \App\Fields\DateTimeField($date->format('Y-m-d H:i:s'));
 		$value = $dateTimeField->getDisplayTime();
