@@ -42,3 +42,5 @@ description: "Where files live in a FreeCRM/Vtiger-style module and how URLs map
 - **Drag-select on month grid**: `selectDays()` — use **moment** for start/end; `Date.parse('YYYY-MM-DDTHH:mm')` often returns `NaN` and breaks the quick-create modal.
 - **After save**: prefer `loadCalendarData(true)` over only `addCalendarEvent()` (toolbar filter `showType`, missing display fields).
 - **Browser test**: MCP browser on `http://localhost`; hard-refresh after JS changes so `CalendarView.js?s=` updates.
+- **Quick-create Status (`activitystatus`)**: uitype 15, displaytype 10 → `Picklist.tpl` readonly (not `String.tpl`). `Field::resolveFieldDataType()` uses `vtiger_ws_fieldtype` via webservice; stale `FieldDataType` cache (`string` from `typeofdata`) is ignored when it disagrees. Labels from `getPicklistValues()` in `Picklist.tpl`.
+- **Quick-create picklists (Event/Task tabs)**: inactive tab is hidden before select2 init → `Header.js` `refreshTabPicklists` on tab show; option text uses translated values from `getPicklistValues()`.

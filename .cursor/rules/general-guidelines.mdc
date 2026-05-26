@@ -23,6 +23,12 @@ alwaysApply: true
 - Do not ask the user to do work you can do (paste logs, list files, choose between equivalent options).
 - Only ask when truly blocked (missing credentials, destructive/irreversible actions, real ambiguity).
 
+## Code comments
+
+- **Explain why, never what.** No narrating comments (`// increment counter`, `// loop users`, `// return result`). Good names + types > prose.
+- No filler PHPDoc, no commented-out code, no stale comments. Applies to PHP, JS, Smarty `.tpl`, SQL — everywhere.
+- Details and exceptions: `php-coding-standards.mdc` → Documentation.
+
 ## Deployment (one-liner)
 
 - Deployed on `local.itconnect.pl` at `/opt/freecrm` (`web`, `app`, `cron`, `db`); MariaDB at `127.0.0.1:3306` on the server.

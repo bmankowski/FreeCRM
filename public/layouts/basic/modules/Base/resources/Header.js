@@ -498,7 +498,24 @@ jQuery.Class("Vtiger_Header_Js", {
 		this.registerTabEventsInQuickCreate(form);
 	},
 	registerTabEventsInQuickCreate: function (form) {
+		var thisInstance = this;
 		var tabElements = form.find('.nav.nav-pills , .nav.nav-tabs').find('a');
+		var dropdownParent = form.closest('.modal-content');
+		if (!dropdownParent.length) {
+			dropdownParent = form.closest('.modal');
+		}
+		var refreshTabPicklists = function (target) {
+			if (!target) {
+				return;
+			}
+			jQuery(target).find('select.chzn-select').each(function () {
+				var element = jQuery(this);
+				if (element.hasClass('select2-hidden-accessible')) {
+					element.select2('destroy');
+				}
+				app.changeSelectElementView(element, 'select2', {dropdownParent: dropdownParent});
+			});
+		};
 		//This will remove the name attributes and assign it to data-element-name . We are doing this to avoid
 		//Multiple element to send as in calendar
 		var quickCreateTabOnHide = function (target) {
@@ -516,6 +533,7 @@ jQuery.Class("Vtiger_Header_Js", {
 				element = jQuery(element);
 				element.attr('name', element.attr('data-element-name')).removeAttr('data-element-name');
 			});
+			refreshTabPicklists(target);
 		}
 		tabElements.on('click', function (e) {
 			quickCreateTabOnHide(tabElements.not('[aria-expanded="false"]').attr('data-target'));
@@ -529,6 +547,11 @@ jQuery.Class("Vtiger_Header_Js", {
 		liElements.filter(':not(.active)').find('a').each(function (e) {
 			quickCreateTabOnHide(jQuery(this).attr('data-target'));
 		});
+		// Select2 on hidden tabs shows raw picklist keys (e.g. PLL_PLANNED); refresh after modal init.
+		setTimeout(function () {
+			var activeTarget = liElements.filter('.active').find('a').attr('data-target');
+			refreshTabPicklists(activeTarget);
+		}, 0);
 	},
 	basicSearch: function () {
 		var thisInstance = this;

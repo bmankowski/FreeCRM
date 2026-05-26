@@ -13,10 +13,13 @@ globs: ["**/*.php"]
 - Use meaningful variable and method names (camelCase for methods, PascalCase for classes)
 
 ## Documentation
-- Add PHPDoc blocks for all classes, methods, and properties
-- Include `@param`, `@return`, and `@throws` tags
-- Document any YetiForce/Vtiger legacy compatibility notes
-- Add inline comments for complex logic
+- **Prefer self-explanatory code over comments.** Good names, small functions, and type hints beat prose.
+- Comments must explain **why**, not **what**. If the code already says what it does, the comment is noise — delete it.
+- **No narrating comments.** Forbidden examples: `// increment counter`, `// loop over users`, `// return result`, `// import module`. Never add a comment that restates the next line.
+- **No filler PHPDoc.** Skip docblocks where `@param string $name The name` adds zero information. Only write a docblock when it documents non-obvious behavior, contracts, exceptions, or units.
+- **Do write comments** for: non-obvious intent, trade-offs, performance constraints, workarounds for external bugs, ticket/RFC links, and module-level "what is this layer responsible for" headers.
+- Stale comments are worse than no comments. If you change code, update or delete the comment.
+- Do not leave commented-out code. Delete it; git remembers.
 
 ## Modern PHP Practices
 - Prefer dependency injection over global state
@@ -40,7 +43,7 @@ globs: ["**/*.php"]
 
 ## Legacy Code
 - When modifying legacy code (non-FreeCRM namespace), maintain existing style for consistency
-- Add comments explaining any FreeCRM-specific modifications
+- Mark FreeCRM-specific modifications to legacy code with a short `// FreeCRM:` prefix comment **only when the change would be surprising to a reader expecting upstream Vtiger/YetiForce behavior**. No need to annotate routine edits.
 - Plan gradual migration to FreeCRM namespace when feasible
 
 For namespace conventions, see `php-namespaces.mdc`.

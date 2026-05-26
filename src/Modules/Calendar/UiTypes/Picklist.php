@@ -2,8 +2,6 @@
 
 namespace App\Modules\Calendar\UiTypes;
 
-use App\Modules\Base\UiTypes\BaseUiType as Base;
-
 /* +**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
@@ -13,7 +11,7 @@ use App\Modules\Base\UiTypes\BaseUiType as Base;
  * All Rights Reserved.
  * ********************************************************************************** */
 
-class Picklist extends Base
+class Picklist extends \App\Modules\Base\UiTypes\Picklist
 {
 
 	public function getListSearchTemplateName()

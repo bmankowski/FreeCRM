@@ -346,75 +346,65 @@ class Field extends \vtlib\Field
 			} else {
 				$cacheName = $uiType . '-' . $this->get('typeofdata');
 			}
-			if (\App\Cache\Cache::has('FieldDataType', $cacheName)) {
-				$fieldDataType = \App\Cache\Cache::get('FieldDataType', $cacheName);
-			} else {
-				switch ($uiType) {
-					case 4: $fieldDataType = 'recordNumber';
-						break;
-					case 8: $fieldDataType = 'totalTime';
-						break;
-					case 9: $fieldDataType = 'percentage';
-						break;
-					case 26: $fieldDataType = 'documentsFolder';
-						break;
-					case 27: $fieldDataType = 'fileLocationType';
-						break;
-					case 28: $fieldDataType = 'documentsFileUpload';
-						break;
-					case 32: $fieldDataType = 'languages';
-						break;
-					case 54: $fieldDataType = 'multiowner';
-						break;
-					case 55:
-						if ($this->getName() === 'salutationtype') {
-							$fieldDataType = 'picklist';
-						} else if ($this->getName() === 'firstname') {
-							$fieldDataType = 'salutation';
-						}
-						break;
-					case 66: $fieldDataType = 'referenceProcess';
-						break;
-					case 67: $fieldDataType = 'referenceLink';
-						break;
-					case 68: $fieldDataType = 'referenceSubProcess';
-						break;
-					case 69: $fieldDataType = 'image';
-						break;
-					case 98: $fieldDataType = 'userRole';
-						break;
-					case 117: $fieldDataType = 'currencyList';
-						break;
-					case 120: $fieldDataType = 'sharedOwner';
-						break;
-					case 301: $fieldDataType = 'modules';
-						break;
-					case 302: $fieldDataType = 'tree';
-						break;
-					case 303: $fieldDataType = 'taxes';
-						break;
-					case 304: $fieldDataType = 'inventoryLimit';
-						break;
-					case 305: $fieldDataType = 'multiReferenceValue';
-						break;
-					case 308: $fieldDataType = 'rangeTime';
-						break;
-					case 309: $fieldDataType = 'categoryMultipicklist';
-						break;
-					case 311: $fieldDataType = 'multiImage';
-						break;
-					case 358: $fieldDataType = 'mailSmtpSelect';
-						break;
-					default:
-						$webserviceField = $this->getWebserviceFieldObject();
-						$fieldDataType = $webserviceField->getFieldDataType();
-						break;
-				}
-				\App\Cache\Cache::save('FieldDataType', $cacheName, $fieldDataType);
+			$resolvedType = $this->resolveFieldDataType();
+			$cachedType = \App\Cache\Cache::has('FieldDataType', $cacheName)
+				? \App\Cache\Cache::get('FieldDataType', $cacheName)
+				: null;
+			$this->fieldDataType = ($cachedType !== null && $cachedType === $resolvedType)
+				? $cachedType
+				: $resolvedType;
+			if ($cachedType !== $this->fieldDataType) {
+				\App\Cache\Cache::save('FieldDataType', $cacheName, $this->fieldDataType);
 			}
-			$this->fieldDataType = $fieldDataType;
 		}
 		return $this->fieldDataType;
+	}
+
+	/**
+	 * Resolve logical field data type (switch overrides, then vtiger_ws_fieldtype via webservice).
+	 * @return string
+	 */
+	private function resolveFieldDataType()
+	{
+		$uiType = (int) $this->get('uitype');
+		switch ($uiType) {
+			case 4: return 'recordNumber';
+			case 8: return 'totalTime';
+			case 9: return 'percentage';
+			case 15: return 'picklist';
+			case 16: return 'multipicklist';
+			case 33: return 'picklist';
+			case 26: return 'documentsFolder';
+			case 27: return 'fileLocationType';
+			case 28: return 'documentsFileUpload';
+			case 32: return 'languages';
+			case 54: return 'multiowner';
+			case 55:
+				if ($this->getName() === 'salutationtype') {
+					return 'picklist';
+				}
+				if ($this->getName() === 'firstname') {
+					return 'salutation';
+				}
+				break;
+			case 66: return 'referenceProcess';
+			case 67: return 'referenceLink';
+			case 68: return 'referenceSubProcess';
+			case 69: return 'image';
+			case 98: return 'userRole';
+			case 117: return 'currencyList';
+			case 120: return 'sharedOwner';
+			case 301: return 'modules';
+			case 302: return 'tree';
+			case 303: return 'taxes';
+			case 304: return 'inventoryLimit';
+			case 305: return 'multiReferenceValue';
+			case 308: return 'rangeTime';
+			case 309: return 'categoryMultipicklist';
+			case 311: return 'multiImage';
+			case 358: return 'mailSmtpSelect';
+		}
+		return $this->getWebserviceFieldObject()->getFieldDataType();
 	}
 
 	/**
