@@ -132,7 +132,7 @@ class Filter
 	 */
 	protected function getColumnValue($fieldInstance): string
 	{
-		$typeofdata = isset($fieldInstance->typeofdata) ? $fieldInstance->typeofdata : 'V~O';
+		$typeofdata = isset($fieldInstance->typeofdata) ? $fieldInstance->typeofdata : 'V';
 		$tod = explode('~', $typeofdata);
 		$moduleName = method_exists($fieldInstance, 'getModuleName') ? $fieldInstance->getModuleName() : ($this->module->name ?? '');
 		$label = isset($fieldInstance->label) ? $fieldInstance->label : '';

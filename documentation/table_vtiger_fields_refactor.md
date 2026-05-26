@@ -5,9 +5,10 @@
 | Change | Status |
 |--------|--------|
 | Change 1 — `mandatory` column | **Done** (2026-05-26) |
-| Change 2 — strip `LE~n` from `typeofdata` | Planned |
-| Change 3 — cross-field constraints table | Deferred |
-| Change 4 — numeric precision encoding | Deferred |
+| Change 2 — strip `LE~n` from `typeofdata` | **Done** (2026-05-26) |
+| Change 3 — remove M/O segment from `typeofdata` | **Done** (2026-05-26) |
+| Change 4 — cross-field constraints table | Deferred |
+| Change 5 — numeric precision encoding | Deferred |
 
 Deploy **migration before** PHP on each environment: `yii migrate --migrationPath=migrations/Users/`
 
@@ -69,33 +70,12 @@ uitype 56 → C, I, V      (boolean stored in different column types)
 uitype 15 → V (normal), but also T, D (anomalous legacy data)
 ```
 
-#### Segment 2 — mandatory flag (legacy mirror)
+#### Segment 2 — **removed**
 
-| Code | Meaning   | `mandatory` column |
-|------|-----------|-------------------|
-| `M`  | Mandatory | `1`               |
-| `O`  | Optional  | `0`               |
+The `M`/`O` mandatory flag has been stripped from `typeofdata` entirely (migration `m260526_000004`).  
+`vtiger_field.mandatory` is the sole authority. Segment 2 no longer exists in any row.
 
-**Authoritative source:** `vtiger_field.mandatory`.  
-**Legacy mirror:** `typeofdata` segment 2 — still updated by `Field::updateTypeofDataFromMandatory()` and persisted in `Field::__update()`.
-
-`Field::isMandatory()` reads the column only:
-
-```php
-public function isMandatory(): bool
-{
-    return (bool) $this->get('mandatory');
-}
-```
-
-Population at migration time (265 mandatory fields in dev DB):
-
-```sql
-UPDATE vtiger_field
-SET mandatory = IF(SUBSTRING_INDEX(SUBSTRING_INDEX(typeofdata,'~',2),'~',-1) = 'M', 1, 0);
-```
-
-**Anomalous `D~0` rows:** fixed in the same migration (`typeofdata` → `D~O`); no longer present.
+`typeofdata` now contains only: `<type_code>` optionally followed by cross-field constraints or precision encoding.
 
 #### Segment 3–5 — optional cross-field validation constraint
 
@@ -161,10 +141,10 @@ DT~M~time_start
 |----------|-------|-----|
 | `Field::isMandatory()` | `mandatory` column | `(bool) $this->get('mandatory')` |
 | `Field::getFieldInfo()` | via `isMandatory()` | `fieldInfo['mandatory']` for UI/JS |
-| `Field::updateTypeofDataFromMandatory()` | writes both | sets `typeofdata` segment 2 **and** `mandatory` |
-| `Field::__update()` | writes both | persists `typeofdata` + `mandatory` |
-| `WebserviceField` constructor | `mandatory` column | prefers `row['mandatory']`; falls back to `typeofdata[1]` |
-| `CRMEntity::initRequiredFields()` | `mandatory` column | `mandatory = 1` (replaces `typeofdata LIKE '%M%'`) |
+| `Field::updateMandatory()` | `mandatory` column only | no longer touches `typeofdata` |
+| `Field::__update()` | persists `mandatory` + `typeofdata` | typeofdata no longer encodes M/O |
+| `WebserviceField` constructor | `mandatory` column | `(bool)($row['mandatory'] ?? false)` |
+| `CRMEntity::initRequiredFields()` | `mandatory` column | `mandatory = 1` |
 | `Field::getFieldType()` | segment 1 | `explode('~', ...)[0]` |
 | `Field::getCustomViewColumnName()` | segment 1 | then `transformFieldTypeOfData()` |
 | `Field::getReportFilterColumnName()` | segment 1 | then `transformFieldTypeOfData()` |
@@ -182,7 +162,7 @@ Templates and JS are unchanged — they call `isMandatory()` / `fieldInfo.mandat
 |---------|----------|--------|
 | 1NF violation (type, constraints, LE, precision in one string) | Medium | Open |
 | No dedicated `mandatory` column | High | **Resolved** |
-| `LE~n` duplicates `maximumlength` | Medium | Open (Change 2) |
+| `LE~n` duplicates `maximumlength` | Medium | **Resolved** |
 | Anomalous `D~0` (digit zero) | Low | **Resolved** in migration |
 | Cross-field constraints in string | Low | Deferred (Change 3) |
 
@@ -216,27 +196,14 @@ Templates and JS are unchanged — they call `isMandatory()` / `fieldInfo.mandat
 
 ---
 
-### Change 2 — Remove `LE~n` from `typeofdata` ⚠️ Recommended next
+### Change 2 — Remove `LE~n` from `typeofdata` ✅ Done
 
-**Rationale:** `maximumlength` is the authoritative source. `LE~n` inside `typeofdata` is pure redundancy and has already drifted on one field.
+**Migration:** `migrations/Users/m260526_000002_typeofdata_strip_le.php`
 
-**Migration steps:**
-
-1. Verify and repair the one drifted field:
-   ```sql
-   -- cf_2610: typeofdata says LE~255 but maximumlength=100
-   -- Decide which is authoritative, then fix. Likely maximumlength is correct.
-   UPDATE vtiger_field SET typeofdata = 'V~O' WHERE fieldname = 'cf_2610' AND typeofdata = 'V~O~LE~255';
-   ```
-
-2. Strip `LE~n` from all other matching fields:
-   ```sql
-   UPDATE vtiger_field
-   SET typeofdata = SUBSTRING_INDEX(typeofdata, '~LE~', 1)
-   WHERE typeofdata LIKE '%~LE~%';
-   ```
-
-3. Remove any code that generates or reads `LE~n` from `typeofdata` in the field editor / module management.
+1. Fixed drifted `cf_2610` (`V~O~LE~255` → `V~O`; `maximumlength=100` is authoritative).
+2. Stripped `LE~n` from all 29 affected rows via `SUBSTRING_INDEX`.
+3. `LayoutEditor/Models/Module.php` — `getTypeDetailsForAddField()` for `Text` type no longer embeds `LE~n`; `maximumlength` is the only length store.
+4. Seed data (`data.sql`, `Base2.php`) updated for the 5 affected fields.
 
 ---
 
@@ -273,7 +240,7 @@ CREATE TABLE vtiger_field_constraints (
 | 1 | Fix `D~0` anomaly | **Done** (in `m260526_000001` migration) |
 | 2 | Add `mandatory` column + populate | **Done** |
 | 3 | Update PHP consumers of mandatory flag | **Done** |
-| 4 | Strip `LE~n` from `typeofdata` | Planned |
+| 4 | Strip `LE~n` from `typeofdata` | **Done** |
 | 5 | Cross-field constraints table | Deferred |
 
 ---
@@ -294,3 +261,5 @@ CREATE TABLE vtiger_field_constraints (
 |------|--------|--------|
 | 2026-05-26 | bmankowski | Initial draft |
 | 2026-05-26 | bmankowski | Change 1 implemented: `mandatory` column, migration, PHP consumers, install schema; doc updated |
+| 2026-05-26 | bmankowski | Change 2 implemented: `LE~n` stripped from all 29 rows, generator fixed, seed data updated |
+| 2026-05-26 | bmankowski | Change 3 implemented: M/O removed from typeofdata in DB and all PHP/seed files; `updateMandatory()` replaces dual-write method |

@@ -260,6 +260,7 @@ class Field extends \vtlib\Field
 			'displaytype' => 'displaytype',
 			'generatedtype' => 'generatedtype',
 			'readonly' => 'readonly',
+			'mandatory' => 'mandatory',
 			'presence' => 'presence',
 			'defaultvalue' => 'defaultvalue',
 			'quickcreate' => 'quickcreate',
@@ -1309,17 +1310,12 @@ class Field extends \vtlib\Field
 		return $this;
 	}
 
-	public function updateTypeofDataFromMandatory($mandatoryValue = 'O')
+	public function updateMandatory($mandatoryValue = 'O'): self
 	{
 		$mandatoryValue = strtoupper($mandatoryValue);
-		$supportedMandatoryLiterals = array('O', 'M');
-		if (!in_array($mandatoryValue, $supportedMandatoryLiterals)) {
-			return;
+		if ($mandatoryValue !== 'M' && $mandatoryValue !== 'O') {
+			return $this;
 		}
-		$typeOfData = $this->get('typeofdata');
-		$components = explode('~', $typeOfData);
-		$components[1] = $mandatoryValue;
-		$this->set('typeofdata', implode('~', $components));
 		$this->set('mandatory', $mandatoryValue === 'M' ? 1 : 0);
 		return $this;
 	}

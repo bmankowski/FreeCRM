@@ -135,7 +135,8 @@ class Module extends \App\Modules\Base\Models\Module
 		$field1->uitype = 2;
 		$field1->column = $field1->name;
 		$field1->columntype = 'string(255)';
-		$field1->typeofdata = 'V~M';
+		$field1->typeofdata = 'V';
+		$field1->mandatory = 1;
 		$block->addField($field1);
 
 		$module->setEntityIdentifier($field1);
@@ -147,7 +148,7 @@ class Module extends \App\Modules\Base\Models\Module
 		$field2->column = 'number';
 		$field2->table = $module->basetable;
 		$field2->uitype = 4;
-		$field2->typeofdata = 'V~O';
+		$field2->typeofdata = 'V';
 		$field2->columntype = 'string(32)';
 		$block->addField($field2);
 
@@ -157,7 +158,8 @@ class Module extends \App\Modules\Base\Models\Module
 		$field3->table = 'vtiger_crmentity';
 		$field3->column = 'smownerid';
 		$field3->uitype = 53;
-		$field3->typeofdata = 'V~M';
+		$field3->typeofdata = 'V';
+		$field3->mandatory = 1;
 		$block->addField($field3);
 
 		$field4 = new \vtlib\Field();
@@ -166,7 +168,7 @@ class Module extends \App\Modules\Base\Models\Module
 		$field4->table = 'vtiger_crmentity';
 		$field4->column = 'createdtime';
 		$field4->uitype = 70;
-		$field4->typeofdata = 'DT~O';
+		$field4->typeofdata = 'DT';
 		$field4->displaytype = 2;
 		$block->addField($field4);
 
@@ -176,7 +178,7 @@ class Module extends \App\Modules\Base\Models\Module
 		$field5->table = 'vtiger_crmentity';
 		$field5->column = 'modifiedtime';
 		$field5->uitype = 70;
-		$field5->typeofdata = 'DT~O';
+		$field5->typeofdata = 'DT';
 		$field5->displaytype = 2;
 		$block->addField($field5);
 
@@ -186,7 +188,7 @@ class Module extends \App\Modules\Base\Models\Module
 		$field6->table = 'vtiger_crmentity';
 		$field6->column = 'smcreatorid';
 		$field6->uitype = 53;
-		$field6->typeofdata = 'V~O';
+		$field6->typeofdata = 'V';
 		$field6->displaytype = 2;
 		$field6->quickcreate = 3;
 		$field6->masseditable = 0;

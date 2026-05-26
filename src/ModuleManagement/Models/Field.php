@@ -150,7 +150,7 @@ class Field
 		$maxwidthcolumn = 0,
 		$masseditable = 1,
 		$uitype = 1,
-		$typeofdata = 'V~O',
+		$typeofdata = 'V',
 		$displaytype = 1,
 		$generatedtype = 1,
 		$readonly = 1,
@@ -217,6 +217,7 @@ class Field
 	public function getMandatory() { return $this->mandatory; }
 	public function getPresence() { return $this->presence; }
 
+	/** @deprecated Segment 2 (M/O) has been removed from typeofdata; set mandatory explicitly. */
 	public static function mandatoryFromTypeofdata(string $typeofdata): int
 	{
 		$parts = explode('~', $typeofdata);

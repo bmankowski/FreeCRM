@@ -82,7 +82,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	{
 		$moduleName = $this->getModule()->getName(true);
 		$fieldsLabel = $this->getEditFields();
-		$params = ['uitype' => 1, 'column' => $name, 'name' => $name, 'label' => $fields[$name], 'displaytype' => 1, 'typeofdata' => 'V~M', 'presence' => 0, 'isEditableReadOnly' => false];
+		$params = ['uitype' => 1, 'column' => $name, 'name' => $name, 'label' => $fields[$name], 'displaytype' => 1, 'typeofdata' => 'V', 'mandatory' => 1, 'presence' => 0, 'isEditableReadOnly' => false];
 		switch ($name) {
 			case 'crmid':
 				$params['uitype'] = 10;
@@ -107,7 +107,8 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 				}
 				break;
 			case 'language':
-				$params['typeofdata'] = 'V~O';
+				$params['typeofdata'] = 'V';
+			$params['mandatory'] = 0;
 				$params['uitype'] = 32;
 				$params['picklistValues'] = vtlib\Language::getAll();
 				break;
@@ -116,7 +117,8 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 				$params['picklistValues'] = \App\Fields\Owner::getInstance($moduleName)->getAccessibleUsers('', 'owner');
 				break;
 			case 'password_t':
-				$params['typeofdata'] = 'P~M';
+				$params['typeofdata'] = 'P';
+			$params['mandatory'] = 1;
 				break;
 			default:
 				break;

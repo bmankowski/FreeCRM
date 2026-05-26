@@ -126,7 +126,7 @@ class PaymentsIn extends \App\Core\CRMEntity
 			$fieldInstance->column = 'payment_balance';
 			$fieldInstance->columntype = 'decimal(25,8)';
 			$fieldInstance->uitype = 7;
-			$fieldInstance->typeofdata = 'NN~O';
+			$fieldInstance->typeofdata = 'NN';
 			$fieldInstance->displaytype = 2;
 			$blockInstance->addField($fieldInstance);
 

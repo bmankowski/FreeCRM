@@ -54,7 +54,7 @@ class Field extends \App\Modules\Settings\Base\Actions\Index
 		$fields = ['presence', 'quickcreate', 'summaryfield', 'helpinfo', 'generatedtype', 'masseditable', 'header_field', 'displaytype', 'maxlengthtext', 'maxwidthcolumn'];
 		foreach ($request->getAll() as $key => $value) {
 			if ($key == 'mandatory') {
-				$fieldInstance->updateTypeofDataFromMandatory($value);
+				$fieldInstance->updateMandatory($value);
 			}
 			if (in_array($key, $fields)) {
 				$fieldInstance->set($key, $value);

@@ -298,7 +298,7 @@ class Block
 			(int) $get($fieldInstance, 'maxwidthcolumn', 0),
 			(int) $get($fieldInstance, 'masseditable', 1),
 			(int) $get($fieldInstance, 'uitype', 1),
-			$get($fieldInstance, 'typeofdata', 'V~O'),
+			$get($fieldInstance, 'typeofdata', 'V'),
 			(int) $get($fieldInstance, 'displaytype', 1),
 			(int) $get($fieldInstance, 'generatedtype', 1),
 			(int) $get($fieldInstance, 'readonly', 1),
@@ -310,7 +310,8 @@ class Block
 			$get($fieldInstance, 'quicksequence'),
 			$get($fieldInstance, 'info_type', 'BAS'),
 			$blockId,
-			$get($fieldInstance, 'fieldparams', '')
+			$get($fieldInstance, 'fieldparams', ''),
+			isset($fieldInstance->mandatory) ? (int) $fieldInstance->mandatory : null
 		);
 
 		$fieldId = $fieldService->create($moduleId, $blockId, $fieldModel);

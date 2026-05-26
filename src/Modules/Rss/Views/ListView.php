@@ -117,14 +117,14 @@ class ListView extends \App\Modules\Base\Views\ListView
 				'uitype' => '1',
 				'name' => 'title',
 				'label' => 'LBL_SUBJECT',
-				'typeofdata' => 'V~O',
+				'typeofdata' => 'V',
 				'diplaytype' => '1',
 			],
 			'sender' => [
 				'uitype' => '1',
 				'name' => 'sender',
 				'label' => 'LBL_SENDER',
-				'typeofdata' => 'V~O',
+				'typeofdata' => 'V',
 				'diplaytype' => '1',
 			]
 		];

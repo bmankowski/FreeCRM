@@ -249,7 +249,7 @@ class Module extends \App\Modules\Base\Models\Module
 		switch ($fieldType) {
 			Case 'Text' :
 				$fieldLength = $params['fieldLength'];
-				$uichekdata = 'V~O~LE~' . $fieldLength;
+				$uichekdata = 'V';
 				$uitype = 1;
 				$type = $importerType->stringType($fieldLength)->defaultValue('');
 				break;
@@ -260,12 +260,12 @@ class Module extends \App\Modules\Base\Models\Module
 				$dbfldlength = $fieldLength + $decimal + 1;
 				$type = $importerType->decimal($dbfldlength, $decimal);
 				// Fix for http://trac.vtiger.com/cgi-bin/trac.cgi/ticket/6363
-				$uichekdata = 'NN~O';
+				$uichekdata = 'NN';
 				break;
 			Case 'Percent' :
 				$uitype = 9;
 				$type = $importerType->decimal(5, 2);
-				$uichekdata = 'N~O~2~2';
+				$uichekdata = 'N~2~2';
 				break;
 			Case 'Currency' :
 				$fieldLength = $params['fieldLength'];
@@ -278,27 +278,27 @@ class Module extends \App\Modules\Base\Models\Module
 				}
 				$decimal = $decimal + 3;
 				$type = $importerType->decimal($dbfldlength, $decimal);
-				$uichekdata = 'N~O';
+				$uichekdata = 'N';
 				break;
 			Case 'Date' :
-				$uichekdata = 'D~O';
+				$uichekdata = 'D';
 				$uitype = 5;
 				$type = $importerType->date();
 				break;
 			Case 'Email' :
 				$uitype = 13;
 				$type = $importerType->stringType(100)->defaultValue('');
-				$uichekdata = 'E~O';
+				$uichekdata = 'E';
 				break;
 			Case 'Time' :
 				$uitype = 14;
 				$type = $importerType->time();
-				$uichekdata = 'T~O';
+				$uichekdata = 'T';
 				break;
 			Case 'Phone' :
 				$uitype = 11;
 				$type = $importerType->stringType(30)->defaultValue('');
-				$uichekdata = 'V~O';
+				$uichekdata = 'V';
 				break;
 			Case 'Picklist' :
 				$uitype = 16;
@@ -306,32 +306,32 @@ class Module extends \App\Modules\Base\Models\Module
 					$uitype = 15;
 				}
 				$type = $importerType->stringType()->defaultValue('');
-				$uichekdata = 'V~O';
+				$uichekdata = 'V';
 				break;
 			Case 'URL' :
 				$uitype = 17;
 				$type = $importerType->stringType()->defaultValue('');
-				$uichekdata = 'V~O';
+				$uichekdata = 'V';
 				break;
 			Case 'Checkbox' :
 				$uitype = 56;
 				$type = $importerType->boolean()->defaultValue(false);
-				$uichekdata = 'C~O';
+				$uichekdata = 'C';
 				break;
 			Case 'TextArea' :
 				$uitype = 21;
 				$type = $importerType->text();
-				$uichekdata = 'V~O';
+				$uichekdata = 'V';
 				break;
 			Case 'MultiSelectCombo' :
 				$uitype = 33;
 				$type = $importerType->text();
-				$uichekdata = 'V~O';
+				$uichekdata = 'V';
 				break;
 			Case 'Skype' :
 				$uitype = 85;
 				$type = $importerType->stringType()->defaultValue('');
-				$uichekdata = 'V~O';
+				$uichekdata = 'V';
 				break;
 			Case 'Integer' :
 				$fieldLength = $params['fieldLength'];
@@ -341,38 +341,38 @@ class Module extends \App\Modules\Base\Models\Module
 				} else {
 					$type = $importerType->integer($fieldLength)->defaultValue(0);
 				}
-				$uichekdata = 'I~O';
+				$uichekdata = 'I';
 				break;
 			Case 'Related1M' :
 				$uitype = 10;
 				$type = $importerType->integer()->defaultValue(0)->unsigned();
-				$uichekdata = 'V~O';
+				$uichekdata = 'V';
 				break;
 			Case 'Editor' :
 				$uitype = 300;
 				$type = $importerType->text();
-				$uichekdata = 'V~O';
+				$uichekdata = 'V';
 				break;
 			Case 'Tree' :
 				$uitype = 302;
 				$type = $importerType->stringType(30)->defaultValue('');
-				$uichekdata = 'V~O';
+				$uichekdata = 'V';
 				break;
 			Case 'MultiReferenceValue' :
 				$uitype = 305;
 				$type = $importerType->text();
-				$uichekdata = 'C~O';
+				$uichekdata = 'C';
 				$displayType = 5;
 				break;
 			Case 'MultiImage' :
 				$uitype = 311;
 				$type = $importerType->text();
-				$uichekdata = 'V~O';
+				$uichekdata = 'V';
 				break;
 			Case 'CategoryMultipicklist' :
 				$uitype = 309;
 				$type = $importerType->text();
-				$uichekdata = 'V~O';
+				$uichekdata = 'V';
 				break;
 		}
 		return [

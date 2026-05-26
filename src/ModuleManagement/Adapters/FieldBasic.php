@@ -64,7 +64,7 @@ class FieldBasic
 	public $uitype = 1;
 	
 	/** @var string Type of data */
-	public $typeofdata = 'V~O';
+	public $typeofdata = 'V';
 	
 	/** @var int Display type */
 	public $displaytype = 1;

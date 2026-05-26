@@ -109,12 +109,9 @@ class VtigerCRMActorMeta extends EntityMeta
 			$fieldType = $this->getTypeOfDataForType($dbField->type);
 		}
 		$typeOfData = null;
-		if (($dbField->notNull && !$dbField->primaryKey) || $dbField->uniqueKey == 1) {
-			$typeOfData = $fieldType . '~M';
-		} else {
-			$typeOfData = $fieldType . '~O';
-		}
-		$field['typeofdata'] = $typeOfData;
+		$isMandatory = ($dbField->notNull && !$dbField->primaryKey) || $dbField->uniqueKey == 1;
+		$field['typeofdata'] = $fieldType;
+		$field['mandatory'] = $isMandatory ? 1 : 0;
 		$field['tabid'] = null;
 		$field['fieldid'] = null;
 		$field['masseditable'] = 0;

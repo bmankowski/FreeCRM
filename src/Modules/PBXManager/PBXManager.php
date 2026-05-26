@@ -126,7 +126,7 @@ class PBXManager extends \App\Core\CRMEntity
 				$fieldInstance->name = 'phone_crm_extension';
 				$fieldInstance->label = 'CRM Phone Extension';
 				$fieldInstance->uitype = 11;
-				$fieldInstance->typeofdata = 'V~O';
+				$fieldInstance->typeofdata = 'V';
 				$blockInstance->addField($fieldInstance);
 			}
 		}

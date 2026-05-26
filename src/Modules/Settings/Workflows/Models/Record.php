@@ -455,11 +455,11 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	public function getDependentModules()
 	{
 		$moduleName = $this->getModule()->getName();
-		$query = (new \App\Db\Query())->select(['fieldname', 'tabid', 'typeofdata', 'reference_module' => 'vtiger_ws_referencetype.type'])
+		$query = (new \App\Db\Query())->select(['fieldname', 'tabid', 'mandatory', 'reference_module' => 'vtiger_ws_referencetype.type'])
 			->from('vtiger_field')
 			->innerJoin('vtiger_ws_fieldtype', 'vtiger_field.uitype = vtiger_ws_fieldtype.uitype')
 			->innerJoin('vtiger_ws_referencetype', 'vtiger_ws_fieldtype.fieldtypeid = vtiger_ws_referencetype.fieldtypeid');
-		$querySecond = (new \App\Db\Query())->select(['fieldname', 'tabid', 'typeofdata', 'reference_module' => 'relmodule'])
+		$querySecond = (new \App\Db\Query())->select(['fieldname', 'tabid', 'mandatory', 'reference_module' => 'relmodule'])
 			->from('vtiger_field')
 			->innerJoin('vtiger_fieldmodulerel', 'vtiger_field.fieldid = vtiger_fieldmodulerel.fieldid');
 		$dataReader = $query->union($querySecond)->createCommand()->query();
@@ -477,8 +477,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 					continue;
 				$dependentFields[$tabModuleName] = ['fieldname' => $fieldName, 'modulelabel' => \App\Runtime\Vtiger_Language_Handler::translate($tabModuleName, $tabModuleName)];
 			} else {
-				$dataTypeInfo = explode('~', $row['typeofdata']);
-				if ($dataTypeInfo[1] === 'M') { // If the current reference field is mandatory
+			if ($row['mandatory'] == 1) { // If the current reference field is mandatory
 					$skipFieldsList[$tabModuleName] = array('fieldname' => $fieldName);
 				}
 			}

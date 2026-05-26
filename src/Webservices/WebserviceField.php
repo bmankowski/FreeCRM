@@ -62,9 +62,7 @@ class WebserviceField
 		$this->presence = $row['presence'];
 		$this->typeOfData = $typeOfData;
 		$typeOfData = explode('~', $typeOfData);
-		$this->mandatory = isset($row['mandatory'])
-			? (bool) $row['mandatory']
-			: (isset($typeOfData[1]) && $typeOfData[1] === 'M');
+		$this->mandatory = (bool) ($row['mandatory'] ?? false);
 		if ($this->uitype == 4) {
 			$this->mandatory = false;
 		}

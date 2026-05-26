@@ -76,3 +76,17 @@ For namespace conventions, see `php-namespaces.mdc`.
 ## UiType / Field type system
 
 See `uitypes.mdc` for the full reference: UITYPE_CLASS_MAP, SEMANTIC_TYPE_MAP, renderer resolution, module-specific overrides, and pitfalls.
+
+## Caching (`App\Cache\Cache`)
+
+`App\Cache\Cache` is a thin wrapper around a configurable driver (set in `AppConfig::performance('CACHING_DRIVER')`).
+
+**Default driver: `App\Cache\Base`** — stores data in a PHP static array (`private static $cache = []`).  
+This means **the cache is per-request and non-persistent**. It is wiped on every new HTTP request; there is no stale cache problem between requests.
+
+Practical consequences:
+- Debugging "stale data" issues? The cache is never the culprit — go straight to the DB.
+- `Cache::save(..., Cache::LONG)` stores for 3600 s, but only within a single request lifetime.
+- `getModuleFieldInfos()`, `getFieldInfo()`, and `FieldModel` caches all rebuild from the DB on the next request.
+
+If `CACHING_DRIVER` is set to `Apcu` or `XCache`, entries **do** persist across requests — check `AppConfig` before assuming per-request scope.

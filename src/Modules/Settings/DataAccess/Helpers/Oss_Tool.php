@@ -60,7 +60,7 @@ class Oss_Tool
 			$fieldInstance->column = 'createdtime';
 			$fieldInstance->columntype = 'int(19)';
 			$fieldInstance->uitype = 70;
-			$fieldInstance->typeofdata = 'T~O';
+			$fieldInstance->typeofdata = 'T';
 			$fieldInstance->displaytype = 2;
 			$blockInstance->addField($fieldInstance);
 		}
@@ -111,7 +111,7 @@ class Oss_Tool
 			$field->column = strtolower($fieldName);
 			$field->columntype = 'int(5)';
 			$field->uitype = 56;
-			$field->typeofdata = 'C~O';
+			$field->typeofdata = 'C';
 			$blockInstance->addField($field);
 		}
 	}
@@ -163,11 +163,8 @@ class Oss_Tool
 
 			$field->uitype = 15;
 
-			if ($mandatory) {
-				$field->typeofdata = 'V~M';
-			} else {
-				$field->typeofdata = 'V~O';
-			}
+		$field->typeofdata = 'V';
+		$field->mandatory = $mandatory ? 1 : 0;
 
 			$field->readonly = 1;
 			$field->displaytype = 1;
@@ -224,11 +221,8 @@ class Oss_Tool
 			$fieldInstance->columntype = 'int(19)';
 			$fieldInstance->uitype = 10;
 
-			if ($mandatory) {
-				$fieldInstance->typeofdata = 'V~M';
-			} else {
-				$fieldInstance->typeofdata = 'V~O';
-			}
+		$fieldInstance->typeofdata = 'V';
+		$fieldInstance->mandatory = $mandatory ? 1 : 0;
 
 			$blockInstance->addField($fieldInstance);
 			$fieldInstance->setRelatedModules($relModuleList);

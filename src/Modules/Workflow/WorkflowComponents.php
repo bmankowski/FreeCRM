@@ -28,12 +28,12 @@ function vtJsonDependentModules($adb, \App\Http\Vtiger_Request $request)
 {
 	$moduleName = $request->getModule();
 
-	$result = $adb->pquery("SELECT fieldname, tabid, typeofdata, vtiger_ws_referencetype.type as reference_module FROM vtiger_field
-									INNER JOIN vtiger_ws_fieldtype ON vtiger_field.uitype = vtiger_ws_fieldtype.uitype
-									INNER JOIN vtiger_ws_referencetype ON vtiger_ws_fieldtype.fieldtypeid = vtiger_ws_referencetype.fieldtypeid
-							UNION
-							SELECT fieldname, tabid, typeofdata, relmodule as reference_module FROM vtiger_field
-									INNER JOIN vtiger_fieldmodulerel ON vtiger_field.fieldid = vtiger_fieldmodulerel.fieldid", []);
+	$result = $adb->pquery("SELECT fieldname, tabid, mandatory, vtiger_ws_referencetype.type as reference_module FROM vtiger_field
+								INNER JOIN vtiger_ws_fieldtype ON vtiger_field.uitype = vtiger_ws_fieldtype.uitype
+								INNER JOIN vtiger_ws_referencetype ON vtiger_ws_fieldtype.fieldtypeid = vtiger_ws_referencetype.fieldtypeid
+						UNION
+						SELECT fieldname, tabid, mandatory, relmodule as reference_module FROM vtiger_field
+								INNER JOIN vtiger_fieldmodulerel ON vtiger_field.fieldid = vtiger_fieldmodulerel.fieldid", []);
 
 	$noOfFields = $adb->num_rows($result);
 	$dependentFields = [];
@@ -53,8 +53,8 @@ function vtJsonDependentModules($adb, \App\Http\Vtiger_Request $request)
 				continue;
 			$dependentFields[$tabModuleName] = array('fieldname' => $fieldName, 'modulelabel' => \App\Runtime\Vtiger_Language_Handler::translate($tabModuleName, $tabModuleName));
 		} else {
-			$dataTypeInfo = explode('~', $typeOfData);
-			if ($dataTypeInfo[1] == 'M') { // If the current reference field is mandatory
+		$mandatory = $adb->query_result($result, $i, 'mandatory');
+		if ($mandatory == 1) { // If the current reference field is mandatory
 				$skipFieldsList[$tabModuleName] = array('fieldname' => $fieldName);
 			}
 		}
