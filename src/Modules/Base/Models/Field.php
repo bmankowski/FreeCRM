@@ -16,19 +16,27 @@ namespace App\Modules\Base\Models;
  * Vtiger Field Model Class
  */
 
+use App\Field\FieldDefinition;
 use App\Webservices\WebserviceField;
 
 
-class Field extends \vtlib\Field
+class Field
 {
+
+	/** Immutable DB-mirror — replaced via with(), never mutated in place. */
+	protected ?FieldDefinition $definition = null;
+
+	/** Hydrated Block instance — lazily resolved from $definition->block. */
+	protected mixed $blockInstance = null;
+
+	public $webserviceField = false;
+	public static $referenceTypes = ['reference', 'referenceLink', 'referenceProcess', 'referenceSubProcess'];
 
 	protected $fieldType;
 	protected $fieldDataTypeShort;
 	protected $uitype_instance;
-	public $webserviceField = false;
-	public static $referenceTypes = ['reference', 'referenceLink', 'referenceProcess', 'referenceSubProcess'];
-	
-	// Commonly used dynamic properties - declared to avoid PHP 8.2+ deprecation warnings
+
+	// Runtime state — not persisted in vtiger_field
 	protected $fieldDataType;
 	protected $module;
 	protected $isReadOnly;
@@ -51,14 +59,71 @@ class Field extends \vtlib\Field
 	const QUICKCREATE_ENABLED = 2;
 	const QUICKCREATE_NOT_PERMITTED = 3;
 
+	public function __construct(?FieldDefinition $definition = null)
+	{
+		$this->definition = $definition;
+	}
+
+	/** Preferred factory — hydrates from a vtiger_field DB row (or superset). */
+	public static function fromRow(array $row): static
+	{
+		return new static(FieldDefinition::fromRow($row));
+	}
+
+	public function getDefinition(): ?FieldDefinition
+	{
+		return $this->definition;
+	}
+
 	/**
-	 * Function to get the value of a given property
-	 * @param string $propertyName
-	 * @return <Object>
-	 * @throws Exception
+	 * Property reader that proxies DB-mirror properties through FieldDefinition
+	 * and falls back to declared runtime-state properties.
+	 *
+	 * 'quicksequence' is a backward-compat alias for FieldDefinition::$quickcreatesequence
+	 * (vtlib\FieldBasic used the old name).
+	 * 'readonly' and 'mandatory' are cast to int for backward compat (legacy code uses === 0/1).
 	 */
 	public function get($propertyName)
 	{
+		if ($propertyName === 'block') {
+			if ($this->blockInstance !== null) {
+				return $this->blockInstance;
+			}
+			$blockId = $this->definition?->block;
+			if ($blockId === null) {
+				return null;
+			}
+			// Lazy-hydrate block from vtiger_blocks so templates can access ->id and ->label
+			$row = \App\Cache\Cache::get('BlockRow', $blockId);
+			if ($row === false) {
+				$row = (new \App\Db\Query())
+					->from('vtiger_blocks')
+					->where(['blockid' => $blockId])
+					->one();
+				\App\Cache\Cache::save('BlockRow', $blockId, $row ?: []);
+			}
+			if ($row) {
+				$stub = new \stdClass();
+				$stub->id       = (int) $row['blockid'];
+				$stub->label    = $row['blocklabel'] ?? '';
+				$stub->sequence = (int) ($row['sequence'] ?? 0);
+				$this->blockInstance = $stub;
+				return $stub;
+			}
+			return $blockId;
+		}
+		if ($propertyName === 'quicksequence') {
+			return $this->definition?->quickcreatesequence;
+		}
+		if ($propertyName === 'readonly' && $this->definition !== null) {
+			return (int) $this->definition->readonly;
+		}
+		if ($propertyName === 'mandatory' && $this->definition !== null) {
+			return (int) $this->definition->mandatory;
+		}
+		if ($this->definition !== null && property_exists($this->definition, $propertyName)) {
+			return $this->definition->$propertyName;
+		}
 		if (property_exists($this, $propertyName)) {
 			return $this->$propertyName;
 		}
@@ -66,13 +131,34 @@ class Field extends \vtlib\Field
 	}
 
 	/**
-	 * Function which sets value for given name
-	 * @param string $name - name for which value need to be assinged
-	 * @param <type> $value - values that need to be assigned
-	 * @return \App\Modules\Base\Models\Field
+	 * Property writer that proxies DB-mirror properties through FieldDefinition::with()
+	 * and writes runtime-state properties directly.
 	 */
 	public function set($name, $value)
 	{
+		if ($name === 'block') {
+			if (is_object($value)) {
+				$this->blockInstance = $value;
+			} else {
+				$this->blockInstance = null;
+				if ($this->definition !== null) {
+					$intVal = ($value !== null && $value !== false) ? (int) $value : null;
+					$this->definition = $this->definition->with(['block' => $intVal]);
+				}
+			}
+			return $this;
+		}
+		if ($name === 'quicksequence') {
+			if ($this->definition !== null) {
+				$intVal = ($value !== null && $value !== false) ? (int) $value : null;
+				$this->definition = $this->definition->with(['quickcreatesequence' => $intVal]);
+			}
+			return $this;
+		}
+		if ($this->definition !== null && property_exists($this->definition, $name)) {
+			$this->definition = $this->definition->with([$name => $value]);
+			return $this;
+		}
 		$this->$name = $value;
 		return $this;
 	}
@@ -83,7 +169,7 @@ class Field extends \vtlib\Field
 	 */
 	public function getId()
 	{
-		return $this->id;
+		return $this->definition?->id;
 	}
 
 	/**
@@ -92,7 +178,7 @@ class Field extends \vtlib\Field
 	 */
 	public function getName()
 	{
-		return $this->name;
+		return $this->definition?->name;
 	}
 
 	/**
@@ -101,7 +187,16 @@ class Field extends \vtlib\Field
 	 */
 	public function getFieldName()
 	{
-		return $this->name;
+		return $this->definition?->name;
+	}
+
+	/**
+	 * Get field label
+	 * @return string
+	 */
+	public function getLabel(): string
+	{
+		return $this->definition?->label ?? '';
 	}
 
 	/**
@@ -110,7 +205,7 @@ class Field extends \vtlib\Field
 	 */
 	public function getFieldLabel()
 	{
-		return $this->label;
+		return $this->definition?->label;
 	}
 
 	/**
@@ -119,7 +214,7 @@ class Field extends \vtlib\Field
 	 */
 	public function getTableName()
 	{
-		return $this->table;
+		return $this->definition?->table;
 	}
 
 	/**
@@ -128,7 +223,7 @@ class Field extends \vtlib\Field
 	 */
 	public function getColumnName()
 	{
-		return $this->column;
+		return $this->definition?->column;
 	}
 
 	/**
@@ -137,7 +232,20 @@ class Field extends \vtlib\Field
 	 */
 	public function getUIType()
 	{
-		return $this->uitype;
+		return $this->definition?->uitype;
+	}
+
+	/**
+	 * Returns the module name owning this field, or null if tabid is not set.
+	 */
+	public function getModuleName(): ?string
+	{
+		$tabid = $this->definition?->tabid;
+		if (!$tabid) {
+			return null;
+		}
+		$moduleName = \App\Utils\ModuleUtils::getModuleName($tabid);
+		return $moduleName !== false ? $moduleName : null;
 	}
 
 	/**
@@ -243,46 +351,24 @@ class Field extends \vtlib\Field
 
 	public function initialize($valuemap)
 	{
-		$map = [
-			'fieldid' => 'id',
-			'tabid' => 'tabid',
-			'fieldname' => 'name',
-			'fieldlabel' => 'label',
-			'tablename' => 'table',
-			'columnname' => 'column',
-			'uitype' => 'uitype',
-			'typeofdata' => 'typeofdata',
-			'helpinfo' => 'helpinfo',
-			'masseditable' => 'masseditable',
-			'header_field' => 'header_field',
-			'maxlengthtext' => 'maxlengthtext',
-			'maxwidthcolumn' => 'maxwidthcolumn',
-			'displaytype' => 'displaytype',
-			'generatedtype' => 'generatedtype',
-			'readonly' => 'readonly',
-			'mandatory' => 'mandatory',
-			'presence' => 'presence',
-			'defaultvalue' => 'defaultvalue',
-			'quickcreate' => 'quickcreate',
-			'sequence' => 'sequence',
-			'quickcreatesequence' => 'quicksequence',
-			'summaryfield' => 'summaryfield',
-			'fieldparams' => 'fieldparams',
-			'maximumlength' => 'maximumlength',
-			'block' => 'block',
-			'info_type' => 'info_type',
-		];
-		foreach ($map as $source => $target) {
-			if (array_key_exists($source, $valuemap)) {
-				$this->set($target, $valuemap[$source]);
-			}
+		// Handle block: extract the ID if it is a hydrated object so fromRow() gets a ?int
+		if (isset($valuemap['block']) && is_object($valuemap['block'])) {
+			$blockObj = $valuemap['block'];
+			$this->blockInstance = $blockObj;
+			$valuemap['block'] = $blockObj->id ?? ($blockObj->blockid ?? null);
 		}
+		// Legacy callers may pass 'quicksequence' (vtlib\FieldBasic property name)
+		// rather than the DB column name 'quickcreatesequence'
+		if (array_key_exists('quicksequence', $valuemap) && !array_key_exists('quickcreatesequence', $valuemap)) {
+			$valuemap['quickcreatesequence'] = $valuemap['quicksequence'];
+		}
+		$this->definition = FieldDefinition::fromRow($valuemap);
 		return $this;
 	}
 
 	public function getModuleId()
 	{
-		return $this->get('tabid');
+		return $this->definition?->tabid;
 	}
 
 	/**
@@ -768,32 +854,66 @@ class Field extends \vtlib\Field
 	}
 
 	/**
-	 * Static Function to get the instance fo Vtiger Field Model from a given vtlib\Field object
-	 * @param vtlib\Field $fieldObj - vtlib field object
-	 * @return \App\Modules\Base\Models\Field instance
+	 * Hydrate a Field model from a plain data object (previously vtlib\Field).
+	 * Maps FieldBasic property names → DB column names expected by FieldDefinition::fromRow().
 	 */
-	public static function getInstanceFromFieldObject(\vtlib\Field $fieldObj)
+	public static function getInstanceFromFieldObject(object $fieldObj)
 	{
-		$objectProperties = get_object_vars($fieldObj);
+		$p = get_object_vars($fieldObj);
 		$moduleName = $fieldObj->getModuleName();
-		
-		// If module name is null, try to get it directly from database
-		// This handles cases where cache is stale after module import
-		if ($moduleName === null && $fieldObj->tabid) {
+
+		if ($moduleName === null && !empty($p['tabid'])) {
 			$moduleName = (new \App\Db\Query())
-				->select('name')
-				->from('vtiger_tab')
-				->where(['tabid' => $fieldObj->tabid])
-				->scalar();
+				->select('name')->from('vtiger_tab')
+				->where(['tabid' => $p['tabid']])->scalar();
 		}
-		
-		// Use 'Base' as fallback if module name is still null (e.g., when module was deleted)
 		$moduleName = $moduleName ?? 'Base';
-		$className = \App\Core\Loader::getComponentClassName('Model', 'Field', $moduleName);
-		$fieldModel = new $className();
-		foreach ($objectProperties as $properName => $propertyValue) {
-			$fieldModel->$properName = $propertyValue;
+
+		// Extract block ID from object (hydrated block) or raw value
+		$blockRaw = $p['block'] ?? null;
+		$blockInstance = null;
+		if (is_object($blockRaw)) {
+			$blockId = $blockRaw->id ?? ($blockRaw->blockid ?? null);
+			$blockInstance = $blockRaw;
+		} else {
+			$blockId = ($blockRaw !== null && $blockRaw !== false) ? (int) $blockRaw : null;
 		}
+
+		$row = [
+			'fieldid'             => $p['id'] ?? 0,
+			'tabid'               => $p['tabid'] ?? 0,
+			'fieldname'           => $p['name'] ?? '',
+			'fieldlabel'          => $p['label'] ?? '',
+			'tablename'           => $p['table'] ?? '',
+			'columnname'          => $p['column'] ?? '',
+			'columntype'          => $p['columntype'] ?? null,
+			'uitype'              => $p['uitype'] ?? 1,
+			'typeofdata'          => $p['typeofdata'] ?? 'V',
+			'displaytype'         => $p['displaytype'] ?? 1,
+			'generatedtype'       => $p['generatedtype'] ?? 0,
+			'readonly'            => $p['readonly'] ?? false,
+			'mandatory'           => $p['mandatory'] ?? false,
+			'presence'            => $p['presence'] ?? 1,
+			'defaultvalue'        => $p['defaultvalue'] ?? '',
+			'maximumlength'       => $p['maximumlength'] ?? 100,
+			'sequence'            => $p['sequence'] ?? 0,
+			'block'               => $blockId,
+			'masseditable'        => $p['masseditable'] ?? 1,
+			'quickcreate'         => $p['quickcreate'] ?? 1,
+			'quickcreatesequence' => $p['quicksequence'] ?? null, // FieldBasic uses old name
+			'info_type'           => $p['info_type'] ?? 'BAS',
+			'fieldparams'         => $p['fieldparams'] ?? '',
+			'helpinfo'            => $p['helpinfo'] ?? '',
+			'summaryfield'        => $p['summaryfield'] ?? 0,
+			'header_field'        => $p['header_field'] ?? null,
+			'maxlengthtext'       => $p['maxlengthtext'] ?? 0,
+			'maxwidthcolumn'      => $p['maxwidthcolumn'] ?? 0,
+		];
+
+		$className = \App\Core\Loader::getComponentClassName('Model', 'Field', $moduleName);
+		/** @var static $fieldModel */
+		$fieldModel = $className::fromRow($row);
+		$fieldModel->blockInstance = $blockInstance;
 		return $fieldModel;
 	}
 
@@ -953,6 +1073,7 @@ class Field extends \vtlib\Field
 			}
 			break;
 			case 'modules':
+				$modulesList = [];
 				foreach ($this->getModulesListValues() as $moduleId => $module) {
 					$modulesList[$module['name']] = $module['label'];
 				}
@@ -1014,58 +1135,150 @@ class Field extends \vtlib\Field
 	}
 
 	/**
-	 * Function to retrieve field model for specific block and module
-	 * @param \App\Modules\Base\Models\Module $blockModel - block instance
-	 * @return <array> List of field model
+	 * Function to retrieve field models for a module, grouped by block FK.
+	 * Returns array keyed by block ID (0 = no block).
+	 *
+	 * @param \App\Modules\Base\Models\Module|\vtlib\Module $moduleModel
+	 * @return array<int, static[]>
 	 */
 	public static function getAllForModule($moduleModel)
 	{
 		$fieldModelList = \App\Cache\Cache::get('ModuleFields', $moduleModel->id);
-		if (!$fieldModelList) {
-			$fieldObjects = parent::getAllForModule($moduleModel);
-
-			$fieldModelList = [];
-			//if module dont have any fields
-			if (!is_array($fieldObjects)) {
-				$fieldObjects = [];
-			}
-
-			foreach ($fieldObjects as &$fieldObject) {
-				$fieldModelObject = self::getInstanceFromFieldObject($fieldObject);
-				$block = $fieldModelObject->get('block') ? $fieldModelObject->get('block')->id : 0;
-				$fieldModelList[$block][] = $fieldModelObject;
-				\App\Cache\Cache::save('field-' . $moduleModel->getId(), $fieldModelObject->getId(), $fieldModelObject);
-				\App\Cache\Cache::save('field-' . $moduleModel->getId(), $fieldModelObject->getName(), $fieldModelObject);
-			}
-
-			\App\Cache\Cache::save('ModuleFields', $moduleModel->id, $fieldModelList);
+		if ($fieldModelList) {
+			return $fieldModelList;
 		}
+
+		if (method_exists($moduleModel, 'getName')) {
+			$moduleName = $moduleModel->getName();
+		} else {
+			$moduleName = $moduleModel->name ?? \App\Utils\ModuleUtils::getModuleName($moduleModel->id) ?: 'Base';
+		}
+
+		$rows = (new \App\Db\Query())
+			->from('vtiger_field')
+			->where(['tabid' => $moduleModel->id])
+			->orderBy(['block' => SORT_ASC, 'sequence' => SORT_ASC])
+			->all();
+
+		$fieldModelList = [];
+		foreach ($rows as $row) {
+			$className = \App\Core\Loader::getComponentClassName('Model', 'Field', $moduleName);
+			$fieldModelObject = $className::fromRow($row);
+			$blockId = $fieldModelObject->getDefinition()?->block ?? 0;
+			$fieldModelList[$blockId][] = $fieldModelObject;
+			\App\Cache\Cache::save('field-' . $moduleModel->getId(), $fieldModelObject->getId(), $fieldModelObject);
+			\App\Cache\Cache::save('field-' . $moduleModel->getId(), $fieldModelObject->getName(), $fieldModelObject);
+		}
+
+		\App\Cache\Cache::save('ModuleFields', $moduleModel->id, $fieldModelList);
 		return $fieldModelList;
 	}
 
 	/**
+	 * Returns all fields for a block, in sequence order.
+	 *
+	 * @param \App\Modules\Base\Models\Block|\vtlib\Block $blockInstance
+	 * @param \App\Modules\Base\Models\Module|\vtlib\Module|null $moduleInstance
+	 * @return static[]
+	 */
+	public static function getAllForBlock($blockInstance, $moduleInstance = null)
+	{
+		$blockId = is_object($blockInstance) ? ($blockInstance->id ?? $blockInstance->blockid ?? null) : (int) $blockInstance;
+		if (!$blockId) {
+			return [];
+		}
+
+		$moduleName = null;
+		if ($moduleInstance !== null) {
+			$moduleName = method_exists($moduleInstance, 'getName')
+				? $moduleInstance->getName()
+				: ($moduleInstance->name ?? null);
+		}
+		if (!$moduleName) {
+			$tabid = (new \App\Db\Query())
+				->select('tabid')->from('vtiger_blocks')
+				->where(['blockid' => $blockId])->scalar();
+			$moduleName = $tabid ? (\App\Utils\ModuleUtils::getModuleName((int) $tabid) ?: 'Base') : 'Base';
+		}
+
+		$rows = (new \App\Db\Query())
+			->from('vtiger_field')
+			->where(['block' => $blockId])
+			->orderBy(['sequence' => SORT_ASC])
+			->all();
+
+		$instances = [];
+		foreach ($rows as $row) {
+			$className = \App\Core\Loader::getComponentClassName('Model', 'Field', $moduleName);
+			$instances[] = $className::fromRow($row);
+		}
+		return $instances;
+	}
+
+	/**
 	 * Function to get instance
-	 * @param string $value - fieldname or fieldid
-	 * @param <type> $module - optional - module instance
-	 * @return <\App\Modules\Base\Models\Field>
+	 * @param string|int $value - fieldname or fieldid
+	 * @param \App\Modules\Base\Models\Module|false $module - optional module instance
+	 * @return static|false
 	 */
 	public static function getInstance($value, $module = false)
 	{
-		$fieldObject = null;
 		if ($module) {
-			$fieldObject = \App\Cache\Cache::get('field-' . $module->getId(), $value);
-		}
-		if (!$fieldObject) {
-			$fieldObject = parent::getInstance($value, $module);
-			if ($module) {
-				\App\Cache\Cache::save('field-' . $module->getId(), $value, $fieldObject);
+			$cached = \App\Cache\Cache::get('field-' . $module->getId(), $value);
+			if ($cached) {
+				return $cached;
 			}
 		}
 
-		if ($fieldObject) {
-			return self::getInstanceFromFieldObject($fieldObject);
+		$query = (new \App\Db\Query())->from('vtiger_field');
+		if (is_numeric($value)) {
+			$query->where(['fieldid' => (int) $value]);
+		} else {
+			$query->where(['fieldname' => $value]);
+			if ($module) {
+				$query->andWhere(['tabid' => $module->getId()]);
+			}
 		}
-		return false;
+		$row = $query->one();
+		if (!$row) {
+			return false;
+		}
+
+		$moduleName = \App\Utils\ModuleUtils::getModuleName((int) $row['tabid']) ?: 'Base';
+		$className = \App\Core\Loader::getComponentClassName('Model', 'Field', $moduleName);
+		$fieldModel = $className::fromRow($row);
+
+		if ($module) {
+			\App\Cache\Cache::save('field-' . $module->getId(), $value, $fieldModel);
+		}
+		return $fieldModel;
+	}
+
+	/**
+	 * Deletes all fields and their associated profile/relation data for a module.
+	 * Called during module deletion.
+	 *
+	 * @param \App\Modules\Base\Models\Module|\vtlib\Module $moduleInstance
+	 */
+	public static function deleteForModule($moduleInstance): void
+	{
+		$db = \App\Db\Db::getInstance();
+		$moduleId = is_object($moduleInstance) ? (int) $moduleInstance->id : (int) $moduleInstance;
+
+		$fieldIds = (new \App\Db\Query())
+			->select(['fieldid'])
+			->from('vtiger_field')
+			->where(['tabid' => $moduleId])
+			->column();
+
+		foreach ($fieldIds as $fieldId) {
+			$db->createCommand()->delete('vtiger_def_org_field', ['fieldid' => $fieldId])->execute();
+			$db->createCommand()->delete('vtiger_profile2field', ['fieldid' => $fieldId])->execute();
+			$db->createCommand()->delete('vtiger_fieldmodulerel', ['fieldid' => $fieldId])->execute();
+		}
+
+		$db->createCommand()->delete('vtiger_field', ['tabid' => $moduleId])->execute();
+		\vtlib\Utils::Log('Deleting fields of the module ... DONE');
 	}
 
 	/**
@@ -1204,7 +1417,7 @@ class Field extends \vtlib\Field
 	 */
 	public function getDefaultFieldValue()
 	{
-		return $this->defaultvalue;
+		return $this->definition?->defaultvalue ?? '';
 	}
 
 	/**
@@ -1227,17 +1440,299 @@ class Field extends \vtlib\Field
 		return \App\Fields\Field::getFieldPermission($this->getModuleId(), $this->getName(), $readOnly);
 	}
 
-	public function __update()
+	/**
+	 * Creates a new field in vtiger_field, adds the DB column, initialises profile
+	 * access, and returns a hydrated Field instance. Runs in a single transaction.
+	 */
+	public static function create(int $moduleId, int $blockId, FieldDefinition $def): static
 	{
 		$db = \App\Db\Db::getInstance();
-		$this->get('generatedtype') === 1 ? $generatedType = 1 : $generatedType = 2;
-		$db->createCommand()->update('vtiger_field', ['typeofdata' => $this->get('typeofdata'), 'mandatory' => $this->isMandatory() ? 1 : 0, 'presence' => $this->get('presence'), 'quickcreate' => $this->get('quickcreate'),
-			'masseditable' => $this->get('masseditable'), 'header_field' => $this->get('header_field'), 'maxlengthtext' => $this->get('maxlengthtext'),
-			'maxwidthcolumn' => $this->get('maxwidthcolumn'), 'defaultvalue' => $this->get('defaultvalue'), 'summaryfield' => $this->get('summaryfield'),
-			'displaytype' => $this->get('displaytype'), 'helpinfo' => $this->get('helpinfo'), 'generatedtype' => $generatedType,
-			'fieldparams' => $this->get('fieldparams')
-			], ['fieldid' => $this->get('id')])->execute();
-		if ($this->isMandatory()) {
+		$transaction = $db->beginTransaction();
+		try {
+			$fieldId = $db->getUniqueID('vtiger_field');
+
+			$sequence = $def->sequence;
+			if (!$sequence) {
+				$maxSeq = (new \App\Db\Query())
+					->from('vtiger_field')
+					->where(['tabid' => $moduleId, 'block' => $blockId])
+					->max('sequence');
+				$sequence = $maxSeq ? (int) $maxSeq + 1 : 0;
+			}
+
+			$quickcreatesequence = $def->quickcreatesequence;
+			if ($def->quickcreate != 1 && $quickcreatesequence === null) {
+				$maxSeq = (new \App\Db\Query())
+					->from('vtiger_field')
+					->where(['tabid' => $moduleId])
+					->max('quickcreatesequence');
+				$quickcreatesequence = $maxSeq ? (int) $maxSeq + 1 : 0;
+			}
+
+			$table = $def->table;
+			if (!$table) {
+				$table = (string) ((new \App\Db\Query())
+					->select('basetable')
+					->from('vtiger_tab')
+					->where(['tabid' => $moduleId])
+					->scalar() ?: '');
+			}
+			$column   = $def->column ?: strtolower($def->name);
+			$label    = $def->label  ?: $def->name;
+			$maximumlength = max(0, min(65535, $def->maximumlength));
+
+			$def = $def->with([
+				'id'                  => $fieldId,
+				'tabid'               => $moduleId,
+				'table'               => $table,
+				'column'              => $column,
+				'label'               => $label,
+				'sequence'            => $sequence,
+				'block'               => $blockId,
+				'quickcreatesequence' => $quickcreatesequence,
+				'maximumlength'       => $maximumlength,
+			]);
+
+			$row = $def->toRow();
+			// toRow() returns 'fieldid'; INSERT uses it as the PK value
+			$db->createCommand()->insert('vtiger_field', $row)->execute();
+
+			\App\ModuleManagement\ServiceLocator::getProfileService()->initForField($moduleId, $fieldId);
+
+			$columntype = $def->columntype;
+			if ($columntype) {
+				$tableSchema = $db->getSchema()->getTableSchema($table, true);
+				if ($tableSchema && is_null($tableSchema->getColumn($column))) {
+					if (is_array($columntype)) {
+						$columntype = $db->getSchema()->createColumnSchemaBuilder($columntype[0], $columntype[1]);
+					}
+					$db->createCommand()->addColumn($table, $column, $columntype)->execute();
+				}
+				if ($def->uitype === 10) {
+					$indexName = "{$table}_{$column}_idx";
+					$indexExists = (new \App\Db\Query())
+						->from('INFORMATION_SCHEMA.STATISTICS')
+						->where([
+							'TABLE_SCHEMA' => $db->createCommand('SELECT DATABASE()')->queryScalar(),
+							'TABLE_NAME'   => $table,
+							'INDEX_NAME'   => $indexName,
+						])->exists();
+					if (!$indexExists) {
+						try {
+							$db->createCommand()->createIndex($indexName, $table, $column)->execute();
+						} catch (\Exception $e) {
+							if (strpos($e->getMessage(), 'Duplicate key') === false) {
+								throw $e;
+							}
+						}
+					}
+				}
+			}
+
+			$transaction->commit();
+
+			$instance = static::fromRow($def->toRow());
+			// Bust caches so the new field is visible immediately
+			\App\Cache\Cache::delete('ModuleFields', $moduleId);
+			\App\Cache\Cache::delete('fieldInfo', $moduleId);
+			\App\Fields\Field::clearFieldsPermissionsCacheForTab($moduleId);
+			return $instance;
+		} catch (\Exception $e) {
+			$transaction->rollBack();
+			throw $e;
+		}
+	}
+
+	/**
+	 * Deletes this field from vtiger_field along with its profile and relation data.
+	 * Invalidates all relevant caches.
+	 */
+	public function delete(): void
+	{
+		if ($this->definition === null) {
+			return;
+		}
+		$fieldId  = $this->definition->id;
+		$moduleId = $this->definition->tabid;
+		$fieldName = $this->definition->name;
+
+		$db = \App\Db\Db::getInstance();
+		$db->createCommand()->delete('vtiger_def_org_field', ['fieldid' => $fieldId])->execute();
+		$db->createCommand()->delete('vtiger_profile2field', ['fieldid' => $fieldId])->execute();
+		if ($this->definition->uitype === 10) {
+			$db->createCommand()->delete('vtiger_fieldmodulerel', ['fieldid' => $fieldId])->execute();
+		}
+		$db->createCommand()->delete('vtiger_field', ['fieldid' => $fieldId])->execute();
+
+		if ($moduleId) {
+			\App\Cache\Cache::delete('ModuleFields', $moduleId);
+			\App\Cache\Cache::delete('fieldInfo', $moduleId);
+			\App\Fields\Field::clearFieldsPermissionsCacheForTab($moduleId);
+			\App\Cache\Cache::delete('field-' . $moduleId, $fieldId);
+			if ($fieldName !== '') {
+				\App\Cache\Cache::delete('field-' . $moduleId, $fieldName);
+				if (isset(\App\Utils\VTCacheUtils::$_fieldinfo_cache[$moduleId][$fieldName])) {
+					unset(\App\Utils\VTCacheUtils::$_fieldinfo_cache[$moduleId][$fieldName]);
+				}
+			}
+		}
+		\App\Cache\Cache::delete('FieldModel', $fieldId);
+	}
+
+	/**
+	 * Inserts vtiger_fieldmodulerel rows for UIType 10 reference fields.
+	 */
+	public function setRelatedModules(array $moduleNames): void
+	{
+		if ($this->definition === null || empty($moduleNames)) {
+			return;
+		}
+		$fieldId    = $this->definition->id;
+		$moduleName = $this->getModuleName() ?? '';
+		$db = \App\Db\Db::getInstance();
+		foreach ($moduleNames as $relmodule) {
+			$exists = (new \App\Db\Query())
+				->from('vtiger_fieldmodulerel')
+				->where(['fieldid' => $fieldId, 'module' => $moduleName, 'relmodule' => $relmodule])
+				->exists();
+			if (!$exists) {
+				$db->createCommand()->insert('vtiger_fieldmodulerel', [
+					'fieldid'   => $fieldId,
+					'module'    => $moduleName,
+					'relmodule' => $relmodule,
+				])->execute();
+			}
+		}
+	}
+
+	/**
+	 * Removes vtiger_fieldmodulerel rows for UIType 10 reference fields.
+	 */
+	public function unsetRelatedModules(array $moduleNames): void
+	{
+		if ($this->definition === null || empty($moduleNames)) {
+			return;
+		}
+		\App\Db\Db::getInstance()->createCommand()->delete('vtiger_fieldmodulerel', [
+			'fieldid'   => $this->definition->id,
+			'relmodule' => $moduleNames,
+		])->execute();
+	}
+
+	/**
+	 * Create / extend picklist table and add values for this field.
+	 * Handles both role-based (uitype=15) and non-role-based (uitype=16) picklists.
+	 */
+	public function setPicklistValues(array $values): void
+	{
+		if ($this->definition === null || empty($values)) {
+			return;
+		}
+		$fieldName = $this->definition->name;
+		$uitype    = $this->definition->uitype;
+		$db = \App\Db\Db::getInstance();
+
+		$picklistTable = 'vtiger_' . $fieldName;
+
+		// Non-role picklist (uitype 16)
+		if ($uitype === 16) {
+			$pickListNameIDs = ['recurring_frequency', 'payment_duration'];
+			$picklistIdCol = in_array($fieldName, $pickListNameIDs) ? $fieldName . '_id' : $fieldName . 'id';
+
+			if (!$db->isTableExists($picklistTable)) {
+				$importer = new \App\Db\Importers\Base();
+				$db->createTable($picklistTable, [
+					$picklistIdCol   => 'pk',
+					$fieldName       => 'string',
+					'presence'       => $importer->boolean()->defaultValue(true),
+					'sortorderid'    => $importer->smallInteger()->defaultValue(0),
+				]);
+			}
+
+			$existing = \App\Fields\Picklist::getPickListValues($fieldName);
+			$sortid = 1;
+			foreach ($values as $value) {
+				if (in_array($value, $existing)) {
+					continue;
+				}
+				$db->createCommand()->insert($picklistTable, [
+					$fieldName    => $value,
+					'sortorderid' => $sortid,
+					'presence'    => 1,
+				])->execute();
+				++$sortid;
+			}
+			return;
+		}
+
+		// Role-based picklist (uitype 15 and similar)
+		$picklistIdCol = $fieldName . 'id';
+
+		if (!$db->isTableExists($picklistTable)) {
+			$importer = new \App\Db\Importers\Base();
+			$db->createTable($picklistTable, [
+				$picklistIdCol      => 'pk',
+				$fieldName          => 'string',
+				'presence'          => $importer->boolean()->defaultValue(true),
+				'picklist_valueid'  => $importer->smallInteger()->defaultValue(0),
+				'sortorderid'       => $importer->smallInteger()->defaultValue(0),
+			]);
+			$db->createCommand()->insert('vtiger_picklist', ['name' => $fieldName])->execute();
+			$newPicklistId = $db->getLastInsertID('vtiger_picklist_picklistid_seq');
+		} else {
+			$newPicklistId = (new \App\Db\Query())
+				->select(['picklistid'])
+				->from('vtiger_picklist')
+				->where(['name' => $fieldName])
+				->scalar();
+		}
+
+		// Some picklists use non-standard ID column names
+		$specialNameSpacedPicklists = ['opportunity_type' => 'opptypeid', 'duration_minutes' => 'minutesid'];
+		$tableSchema = $db->getSchema()->getTableSchema($picklistTable, true);
+		if ($tableSchema && $tableSchema->getColumn($fieldName . '_id')) {
+			$picklistIdCol = $fieldName . '_id';
+		} elseif (array_key_exists($fieldName, $specialNameSpacedPicklists)) {
+			$picklistIdCol = $specialNameSpacedPicklists[$fieldName];
+		}
+
+		$existing = \App\Fields\Picklist::getPickListValues($fieldName);
+		$sortid = 0;
+		foreach ($values as $value) {
+			if (in_array($value, $existing)) {
+				continue;
+			}
+			$newPicklistValueId = $db->getUniqueID('vtiger_picklistvalues');
+			++$sortid;
+			$db->createCommand()->insert($picklistTable, [
+				$fieldName          => $value,
+				'presence'          => 1,
+				'picklist_valueid'  => $newPicklistValueId,
+				'sortorderid'       => $sortid,
+			])->execute();
+
+			$roleIds = (new \App\Db\Query)->select('roleid')->from('vtiger_role')->column();
+			$insertedData = [];
+			foreach ($roleIds as $roleId) {
+				$insertedData[] = [$roleId, $newPicklistValueId, $newPicklistId, $sortid];
+			}
+			$db->createCommand()
+				->batchInsert('vtiger_role2picklist', ['roleid', 'picklistvalueid', 'picklistid', 'sortid'], $insertedData)
+				->execute();
+		}
+	}
+
+	public function __update()
+	{
+		if ($this->definition === null) {
+			return;
+		}
+		$db = \App\Db\Db::getInstance();
+		$row = $this->definition->toRow();
+		// fieldid and tabid are structural — not updated via __update
+		unset($row['fieldid'], $row['tabid'], $row['fieldname'], $row['columnname'], $row['tablename']);
+		$db->createCommand()->update('vtiger_field', $row, ['fieldid' => $this->definition->id])->execute();
+		if ($this->definition->mandatory) {
 			$blockId = (int) $this->getBlockId();
 			if ($blockId) {
 				$db->createCommand()->update('vtiger_blocks_hide', ['enabled' => 0], ['blockid' => $blockId])->execute();
@@ -1284,18 +1779,20 @@ class Field extends \vtlib\Field
 		if ($mandatoryValue !== 'M' && $mandatoryValue !== 'O') {
 			return $this;
 		}
-		$this->set('mandatory', $mandatoryValue === 'M' ? 1 : 0);
+		if ($this->definition !== null) {
+			$this->definition = $this->definition->with(['mandatory' => $mandatoryValue === 'M']);
+		}
 		return $this;
 	}
 
 	public function isCustomField()
 	{
-		return ($this->generatedtype == 2) ? true : false;
+		return ($this->definition?->generatedtype == 2) ? true : false;
 	}
 
 	public function hasDefaultValue()
 	{
-		return $this->defaultvalue == '' ? false : true;
+		return ($this->definition?->defaultvalue ?? '') == '' ? false : true;
 	}
 
 	public function isActiveField()
@@ -1306,12 +1803,12 @@ class Field extends \vtlib\Field
 
 	public function isMassEditable()
 	{
-		return $this->masseditable == 1 ? true : false;
+		return ($this->definition?->masseditable ?? 0) == 1 ? true : false;
 	}
 
 	public function isHeaderField()
 	{
-		return !empty($this->header_field) ? true : false;
+		return !empty($this->definition?->header_field) ? true : false;
 	}
 
 	/**
@@ -1340,7 +1837,7 @@ class Field extends \vtlib\Field
 	 * Function returns field instance for field ID
 	 * @param int $fieldId
 	 * @param int $moduleTabId
-	 * @return \App\Modules\Base\Models\Field
+	 * @return static|false
 	 */
 	public static function getInstanceFromFieldId($fieldId, $moduleTabId = false)
 	{
@@ -1348,10 +1845,13 @@ class Field extends \vtlib\Field
 		if ($fieldModel) {
 			return $fieldModel;
 		}
-		$field = \App\Fields\Field::getFieldInfo($fieldId);
-		$className = \App\Core\Loader::getComponentClassName('Model', 'Field', \App\Utils\ModuleUtils::getModuleName($field['tabid']));
-		$fieldModel = new $className();
-		$fieldModel->initialize($field);
+		$row = \App\Fields\Field::getFieldInfo($fieldId);
+		if (!$row) {
+			return false;
+		}
+		$moduleName = \App\Utils\ModuleUtils::getModuleName($row['tabid']) ?: 'Base';
+		$className = \App\Core\Loader::getComponentClassName('Model', 'Field', $moduleName);
+		$fieldModel = $className::fromRow($row);
 		\App\Cache\Cache::save('FieldModel', $fieldId, $fieldModel);
 		return $fieldModel;
 	}

@@ -122,7 +122,7 @@ class PBXManager extends \App\Core\CRMEntity
 			$module->initTables();
 			$blockInstance = \App\Modules\Base\Models\Block::getInstance('LBL_MORE_INFORMATION', $module);
 			if ($blockInstance) {
-				$fieldInstance = new vtlib\Field();
+				$fieldInstance = new \stdClass();
 				$fieldInstance->name = 'phone_crm_extension';
 				$fieldInstance->label = 'CRM Phone Extension';
 				$fieldInstance->uitype = 11;

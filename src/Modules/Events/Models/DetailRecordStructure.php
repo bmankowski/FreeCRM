@@ -12,11 +12,8 @@ namespace App\Modules\Events\Models;
  * *********************************************************************************** */
 
 /**
- * Vtiger Detail View Record Structure Model
+ * Events detail record structure — reuses Calendar activity date/time handling.
  */
-class DetailRecordStructure extends \App\Modules\Base\Models\RecordStructure
+class DetailRecordStructure extends \App\Modules\Calendar\Models\DetailRecordStructure
 {
-	
 }
-
-?>

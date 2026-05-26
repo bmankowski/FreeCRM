@@ -501,8 +501,7 @@ class ModuleService
 			throw new \Exception("Module with ID $moduleId not found");
 		}
 
-		$fieldService = \App\ModuleManagement\ServiceLocator::getFieldService();
-		$field = $fieldService->getInstance($fieldId, $module);
+		$field = \App\Modules\Base\Models\Field::getInstance($fieldId);
 		if (!$field) {
 			throw new \Exception("Field with ID $fieldId not found");
 		}
@@ -512,15 +511,16 @@ class ModuleService
 		$entityidcolumn = $module->getEntityidcolumn() ?: $basetableid;
 
 		if ($entityidfield && $entityidcolumn) {
+			$tableName = $field->getTableName();
 			$isExists = (new \App\Db\Query())
 				->from('vtiger_entityname')
-				->where(['tablename' => $field->getTable(), 'tabid' => $moduleId])
+				->where(['tablename' => $tableName, 'tabid' => $moduleId])
 				->exists();
 			if (!$isExists) {
 				$this->db->createCommand()->insert('vtiger_entityname', [
 					'tabid' => $moduleId,
 					'modulename' => $module->getName(),
-					'tablename' => $field->getTable(),
+					'tablename' => $tableName,
 					'fieldname' => $field->getName(),
 					'entityidfield' => $entityidfield,
 					'entityidcolumn' => $entityidcolumn,
@@ -531,7 +531,7 @@ class ModuleService
 					'fieldname' => $field->getName(),
 					'entityidfield' => $entityidfield,
 					'entityidcolumn' => $module->getName()
-				], ['tabid' => $moduleId, 'tablename' => $field->getTable()])->execute();
+				], ['tabid' => $moduleId, 'tablename' => $tableName])->execute();
 			}
 		}
 	}

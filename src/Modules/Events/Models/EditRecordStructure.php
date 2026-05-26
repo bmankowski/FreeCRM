@@ -12,9 +12,8 @@ namespace App\Modules\Events\Models;
  * *********************************************************************************** */
 
 /**
- * Events Edit View Record Structure Model
+ * Events Edit View Record Structure Model — reuses Calendar date/time handling.
  */
-class EditRecordStructure extends \App\Modules\Base\Models\RecordStructure
+class EditRecordStructure extends \App\Modules\Calendar\Models\EditRecordStructure
 {
-	
 }

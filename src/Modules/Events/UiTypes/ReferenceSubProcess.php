@@ -2,15 +2,9 @@
 
 namespace App\Modules\Events\UiTypes;
 
-use App\Modules\Base\UiTypes\BaseUiType as Base;
-
 /**
- * UIType ReferenceSubProcess Field Class
- * @package YetiForce.Fields
- * @license licenses/License.html
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * Events subprocess reference list — shared with Calendar activities.
  */
-class ReferenceSubProcess extends Base
+class ReferenceSubProcess extends \App\Modules\Calendar\UiTypes\ReferenceSubProcess
 {
-	
 }

@@ -109,10 +109,9 @@ Known module-specific overrides and their purpose:
 |---|---|---|
 | `Calendar/UiTypes/Picklist.php` | `Base\UiTypes\Picklist` | `getListSearchTemplateName()` for `activitystatus` / `activitytype` |
 | `Calendar/UiTypes/Datetime.php` | `Base\UiTypes\Datetime` | Calendar-specific datetime rendering |
-| `Calendar/UiTypes/Time.php` | `Base` alias | Time field with calendar context |
-| `Calendar/UiTypes/ReferenceSubProcess.php` | `Base` alias | |
-| `Events/UiTypes/Datetime.php` | `Base` alias | |
-| `Events/UiTypes/Time.php` | `Base` alias | |
+| `Calendar/UiTypes/Time.php` | `Base\UiTypes\Time` | Companion `time_start` / `time_end` defaults |
+| `Calendar/UiTypes/ReferenceSubProcess.php` | `BaseUiType` | Subprocess reference list for activities |
+| `Events/UiTypes/Time.php` | `Calendar\UiTypes\Time` | Same as Calendar (no `Events\UiTypes\Datetime` — use `Base\UiTypes\Datetime`) |
 | `Events/UiTypes/ReferenceSubProcess.php` | `Base` alias | |
 | `Documents/UiTypes/Text.php` | `BaseUiType` | Documents-specific text rendering |
 | `DocumentTemplates/UiTypes/Conditions.php` | `BaseUiType` | Custom field type, no Base counterpart |

@@ -208,7 +208,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	/**
 	 * Function returns fields of module
-	 * @return <Array of vtlib\Field>
+	 *  \App\Modules\Base\Models\Field[]
 	 */
 	public function getFields($source = false)
 	{

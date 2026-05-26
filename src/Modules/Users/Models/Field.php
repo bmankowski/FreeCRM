@@ -81,11 +81,19 @@ class Field extends \App\Modules\Base\Models\Field
 	 * Function to get all the available picklist values for the current field
 	 * @return array List of picklist values if the field is of type picklist or multipicklist, null otherwise.
 	 */
+	public function isRoleBased()
+	{
+		if ($this->getFieldName() === 'time_zone') {
+			return false;
+		}
+		return parent::isRoleBased();
+	}
+
 	public function getPicklistValues($skipCheckingRole = false)
 	{
 		if ($this->get('uitype') == 32) {
 			return \App\Runtime\Vtiger_Language_Handler::getAllLanguages();
-		} else if ($this->get('uitype') == '115') {
+		} else if ($this->get('uitype') == '115' || $this->getFieldName() === 'time_zone') {
 			$db = \App\Database\PearDatabase::getInstance();
 
 			$query = 'SELECT %s FROM vtiger_%s';

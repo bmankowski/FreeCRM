@@ -119,7 +119,7 @@ class PaymentsIn extends \App\Core\CRMEntity
 
 			$moduleInstance = \App\Modules\Base\Models\Module::getInstance('Accounts');
 			$blockInstance = \App\Modules\Base\Models\Block::getInstance('LBL_ACCOUNT_INFORMATION', $moduleInstance);
-			$fieldInstance = new vtlib\Field();
+			$fieldInstance = new \stdClass();
 			$fieldInstance->name = 'payment_balance';
 			$fieldInstance->table = 'vtiger_account';
 			$fieldInstance->label = 'Payment balance';

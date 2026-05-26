@@ -53,7 +53,7 @@ class Oss_Tool
 			$moduleInstance = \App\Modules\Base\Models\Module::getInstance($moduleName);
 			$blockInstance = \App\Modules\Base\Models\Block::getInstance($blockId, $moduleInstance);
 
-			$fieldInstance = new vtlib\Field();
+			$fieldInstance = new \stdClass();
 			$fieldInstance->name = $fieldName;
 			$fieldInstance->table = 'vtiger_crmentity';
 			$fieldInstance->label = $fieldLabel;
@@ -85,7 +85,7 @@ class Oss_Tool
 			$moduleInstance = \App\Modules\Base\Models\Module::getInstance($moduleName);
 			$blockInstance = \App\Modules\Base\Models\Block::getInstance($blockId, $moduleInstance);
 
-			$field = new vtlib\Field();
+			$field = new \stdClass();
 
 			if ($fieldName) {
 				$field->name = strtolower($fieldName);
@@ -137,7 +137,7 @@ class Oss_Tool
 			$moduleInstance = \App\Modules\Base\Models\Module::getInstance($moduleName);
 			$blockInstance = \App\Modules\Base\Models\Block::getInstance($blockId, $moduleInstance);
 
-			$field = new vtlib\Field();
+			$field = new \stdClass();
 
 			if ($fieldName) {
 				$field->name = strtolower($fieldName);
@@ -162,10 +162,8 @@ class Oss_Tool
 			}
 
 			$field->uitype = 15;
-
-		$field->typeofdata = 'V';
-		$field->mandatory = $mandatory ? 1 : 0;
-
+			$field->typeofdata = 'V';
+			$field->mandatory = $mandatory ? 1 : 0;
 			$field->readonly = 1;
 			$field->displaytype = 1;
 			$field->masseditable = 1;
@@ -177,7 +175,7 @@ class Oss_Tool
 			}
 
 			$blockInstance->addField($field);
-			$field->setPicklistValues($pickValue);
+			($field->_model ?? null)?->setPicklistValues($pickValue);
 		}
 	}
 
@@ -202,7 +200,7 @@ class Oss_Tool
 			$moduleInstance = \App\Modules\Base\Models\Module::getInstance($moduleName);
 			$blockInstance = \App\Modules\Base\Models\Block::getInstance($blockId, $moduleInstance);
 
-			$fieldInstance = new vtlib\Field();
+			$fieldInstance = new \stdClass();
 			$fieldInstance->name = strtolower($fieldName);
 
 			if ($moduleInstance->table_name) {
@@ -220,12 +218,11 @@ class Oss_Tool
 			$fieldInstance->column = $fieldName;
 			$fieldInstance->columntype = 'int(19)';
 			$fieldInstance->uitype = 10;
-
-		$fieldInstance->typeofdata = 'V';
-		$fieldInstance->mandatory = $mandatory ? 1 : 0;
+			$fieldInstance->typeofdata = 'V';
+			$fieldInstance->mandatory = $mandatory ? 1 : 0;
 
 			$blockInstance->addField($fieldInstance);
-			$fieldInstance->setRelatedModules($relModuleList);
+			($fieldInstance->_model ?? null)?->setRelatedModules($relModuleList);
 		}
 	}
 

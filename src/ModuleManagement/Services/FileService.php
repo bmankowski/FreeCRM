@@ -111,10 +111,10 @@ class FileService
 	 * Create module files based on template skeleton.
 	 *
 	 * @param \vtlib\Module $module
-	 * @param \vtlib\Field $entityField
+	 * @param object $entityField object with ->name, ->label, ->column properties
 	 * @return void
 	 */
-	public function createModuleFiles(\vtlib\Module $module, \vtlib\Field $entityField): void
+	public function createModuleFiles(\vtlib\Module $module, object $entityField): void
 	{
 		$moduleName = $module->name;
 		$targetPath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $moduleName;

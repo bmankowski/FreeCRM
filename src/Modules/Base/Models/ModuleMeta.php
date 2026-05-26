@@ -66,7 +66,7 @@ class ModuleMeta extends \App\Runtime\BaseModel
 
 	/**
 	 * Function returns accessible fields in a module
-	 * @return <Array of vtlib\Field>
+	 *  \App\Modules\Base\Models\Field[]
 	 */
 	public function getAccessibleFields($blocks = false)
 	{
@@ -142,7 +142,7 @@ class ModuleMeta extends \App\Runtime\BaseModel
 
 	/**
 	 * Function returns mandatory importable fields
-	 * @return <Array of vtlib\Field>
+	 *  \App\Modules\Base\Models\Field[]
 	 */
 	public function getMandatoryImportableFields()
 	{
@@ -164,7 +164,7 @@ class ModuleMeta extends \App\Runtime\BaseModel
 
 	/**
 	 * Function returns importable fields
-	 * @return <Array of vtlib\Field>
+	 *  \App\Modules\Base\Models\Field[]
 	 */
 	public function getImportableFields($blocks = false)
 	{
@@ -197,7 +197,7 @@ class ModuleMeta extends \App\Runtime\BaseModel
 
 	/**
 	 * Function returns Entity Name fields
-	 * @return <Array of vtlib\Field>
+	 *  \App\Modules\Base\Models\Field[]
 	 */
 	public function getEntityFields()
 	{
@@ -235,7 +235,7 @@ class ModuleMeta extends \App\Runtime\BaseModel
 
 	/**
 	 * Function returns list of mandatory fields
-	 * @return <Array of vtlib\Field>
+	 *  \App\Modules\Base\Models\Field[]
 	 */
 	public function getMandatoryFields()
 	{

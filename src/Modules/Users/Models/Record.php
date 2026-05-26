@@ -69,6 +69,12 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public function set($key, $value)
 	{
+		if ($key === 'time_zone') {
+			if (is_array($value)) {
+				$value = $value[0] ?? '';
+			}
+			$value = \App\Fields\DateTimeField::normalizeTimeZoneName($value);
+		}
 		if (property_exists($this, $key)) {
 			$this->$key = $value;
 		}

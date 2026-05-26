@@ -217,16 +217,7 @@ class BlockService
 	public function deleteForModule(int $moduleId, bool $recursive = true): void
 	{
 		if ($recursive) {
-			// Delete fields first
-			$fieldService = \App\ModuleManagement\ServiceLocator::getFieldService();
-			$fields = (new \App\Db\Query())
-				->select(['fieldid'])
-				->from('vtiger_field')
-				->where(['tabid' => $moduleId])
-				->column();
-			foreach ($fields as $fieldId) {
-				$fieldService->delete($fieldId);
-			}
+			\App\Modules\Base\Models\Field::deleteForModule((object) ['id' => $moduleId]);
 		}
 
 		$this->db->createCommand()

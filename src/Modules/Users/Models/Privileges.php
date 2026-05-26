@@ -271,6 +271,9 @@ class Privileges extends \App\Runtime\BaseModel
 		if (is_array($valueMap['user_info'])) {
 			$valueMap = array_merge($valueMap, $valueMap['user_info']);
 		}
+		if (!empty($valueMap['time_zone'])) {
+			$valueMap['time_zone'] = \App\Fields\DateTimeField::normalizeTimeZoneName($valueMap['time_zone']);
+		}
 		$instance = self::getInstance($valueMap);
 		self::$userPrivilegesModelCache[$userId] = $instance;
 		return $instance;
@@ -649,6 +652,9 @@ class Privileges extends \App\Runtime\BaseModel
 					default:
 						return '';
 				}
+			}
+			if ($property === 'time_zone') {
+				return \App\Fields\DateTimeField::normalizeTimeZoneName($value);
 			}
 			return $value;
 		}

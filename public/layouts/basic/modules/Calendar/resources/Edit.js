@@ -98,6 +98,15 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 			container.find('.repeatMonthUI').removeClass('hide').addClass('show');
 		}
 	},
+	getDefaultEndDurationMinutes: function (container) {
+		if (this.isEvents()) {
+			return 60;
+		}
+		if (container.find('[name="activitytype"]').val() == 'Call') {
+			return parseInt(container.find('[name="defaultCallDuration"]').val(), 10) || 15;
+		}
+		return parseInt(container.find('[name="defaultOtherEventDuration"]').val(), 10) || 60;
+	},
 	setDefaultEndTime: function (container) {
 		var dateStartElement = container.find('[name="date_start"]');
 		var startTimeElement = container.find('[name="time_start"]');
@@ -110,29 +119,23 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 
 		var startDate = dateStartElement.val();
 		var startTime = startTimeElement.val();
+		if (!startDate) {
+			return;
+		}
 
 		var result = Vtiger_Time_Validator_Js.invokeValidation(startTimeElement);
 		if (result != true) {
 			return;
 		}
-		var startDateTime = startDate + ' ' + startTime;
+		var startDateTime = startDate + ' ' + (startTime || '00:00');
 		var dateFormat = container.find('[name="due_date"]').data('dateFormat');
 		var timeFormat = endTimeElement.data('format');
 		startDate = Vtiger_Helper_Js.getDateInstance(startDateTime, dateFormat);
-		// Handle empty dates
 		if (startDate === null) {
 			return;
 		}
 		var startDateInstance = Date.parse(startDate);
-		var endDateInstance = false;
-
-		if (container.find('[name="activitytype"]').val() == 'Call') {
-			var defaulCallDuration = container.find('[name="defaultCallDuration"]').val();
-			endDateInstance = startDateInstance.addMinutes(defaulCallDuration);
-		} else {
-			var defaultOtherEventDuration = container.find('[name="defaultOtherEventDuration"]').val();
-			endDateInstance = startDateInstance.addMinutes(defaultOtherEventDuration);
-		}
+		var endDateInstance = startDateInstance.addMinutes(this.getDefaultEndDurationMinutes(container));
 		var endDateString = app.getDateInVtigerFormat(dateFormat, endDateInstance);
 		if (timeFormat == 24) {
 			var defaultTimeFormat = 'HH:mm';
@@ -164,26 +167,24 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 
 		container.find('[name="date_start"]').on('change', function (e) {
 			var startDateElement = jQuery(e.currentTarget);
-			var endDateElement = container.find('[name="due_date"]');
-
-			var start = thisInstance.getDateInstance(container, 'start');
-			var end = thisInstance.getDateInstance(container, 'end');
-			// Handle empty dates
-			if (start === null || end === null) {
-				return;
-			}
-			var dateFormat = $('#userDateFormat').val();
-			var timeFormat = $('#userTimeFormat').val();
 			container.find('.autofill:visible').trigger('change');
-			if (start > end) {
-				end = start;
-				var endDateString = app.getDateInVtigerFormat(dateFormat, end);
-				endDateElement.val(endDateString);
-				app.registerEventForDatePickerFields(container);
-				thisInstance.setVisibilityBtnSaveAndClose(container);
+			if (jQuery('[name="userChangedEndDateTime"]').val() != '1') {
+				thisInstance.setDefaultEndTime(container);
+			} else {
+				var start = thisInstance.getDateInstance(container, 'start');
+				var end = thisInstance.getDateInstance(container, 'end');
+				if (start !== null && end !== null && start > end) {
+					var dateFormat = $('#userDateFormat').val();
+					endDateElement = container.find('[name="due_date"]');
+					endDateElement.val(app.getDateInVtigerFormat(dateFormat, start));
+					app.registerEventForDatePickerFields(container);
+				}
 			}
+			thisInstance.setVisibilityBtnSaveAndClose(container);
 			var timeStartElement = startDateElement.closest('.fieldValue').find('[name="time_start"]');
-			timeStartElement.trigger('changeTime');
+			if (timeStartElement.length) {
+				timeStartElement.trigger('change');
+			}
 		});
 
 		container.find('input[name="time_start"]').on('focus', function (e) {
@@ -427,6 +428,10 @@ Vtiger_Edit_Js("Calendar_Edit_Js", {
 		this.registerEndDateTimeChangeLogger(container);
 		this.registerAutoFillHours(container);
 		this.registerSaveAndCloseBtn(container);
+		var recordId = container.find('[name="record"]').val();
+		if (!recordId && jQuery('[name="userChangedEndDateTime"]').val() != '1') {
+			this.setDefaultEndTime(container);
+		}
 	},
 	toggleTimesInputs: function (container) {
 		container.find(':checkbox').change(function () {

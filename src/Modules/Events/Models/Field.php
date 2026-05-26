@@ -12,36 +12,16 @@ namespace App\Modules\Events\Models;
  * *********************************************************************************** */
 
 /**
- * Events Field Model Class
+ * Events field model — activity date/time behavior lives in Calendar\Models\Field.
  */
-class Field extends \App\Modules\Base\Models\Field
+class Field extends \App\Modules\Calendar\Models\Field
 {
 
 	public function get($propertyName)
 	{
-		if (property_exists($this, $propertyName)) {
-			$fieldName = $this->getName();
-			if ($propertyName == 'label' && $fieldName == 'due_date') {
-				return 'End Date & Time';
-			}
-			return $this->$propertyName;
+		if ($propertyName === 'label' && $this->getName() === 'due_date') {
+			return 'End Date & Time';
 		}
-		return null;
-	}
-
-	/**
-	 * Customize the display value for detail view.
-	 */
-	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
-	{
-		if ($recordInstance) {
-			if ($this->getName() == 'due_date') {
-				$displayValue = $value . ' ' . $recordInstance->get('time_end');
-				$value = $this->getUITypeModel()->getDisplayValue($displayValue);
-				list($endDate, $endTime, $meridiem) = explode(' ', $value);
-				return $endDate . ' ' . $endTime . ' ' . $meridiem;
-			}
-		}
-		return parent::getDisplayValue($value, $record, $recordInstance, $rawText);
+		return parent::get($propertyName);
 	}
 }

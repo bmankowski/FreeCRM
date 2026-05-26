@@ -955,42 +955,42 @@ class PackageService
 	 */
 	private function import_Field(\SimpleXMLElement $blocknode, Models\Block $block, Models\Module $module, \SimpleXMLElement $fieldnode): void
 	{
-		$fieldService = \App\ModuleManagement\ServiceLocator::getFieldService();
-		
-		$field = new Models\Field(
-			null, // id
-			(string) $fieldnode->fieldname,
-			$module->getId(),
-			(string) $fieldnode->fieldlabel,
-			(string) $fieldnode->tablename,
-			(string) $fieldnode->columnname,
-			isset($fieldnode->columntype) ? (string) $fieldnode->columntype : false,
-			isset($fieldnode->helpinfo) ? (string) $fieldnode->helpinfo : '',
-			isset($fieldnode->summaryfield) ? (int) $fieldnode->summaryfield : 0,
-			false, // header_field
-			0, // maxlengthtext
-			0, // maxwidthcolumn
-			isset($fieldnode->masseditable) ? (int) $fieldnode->masseditable : 1,
-			(int) $fieldnode->uitype,
-			(string) $fieldnode->typeofdata,
-			isset($fieldnode->displaytype) ? (int) $fieldnode->displaytype : 1,
-			(int) $fieldnode->generatedtype,
-			(int) $fieldnode->readonly,
-			(int) $fieldnode->presence,
-			isset($fieldnode->defaultvalue) ? (string) $fieldnode->defaultvalue : '',
-			isset($fieldnode->maximumlength) ? max(0, min((int) $fieldnode->maximumlength, 65535)) : 100,
-			isset($fieldnode->sequence) ? (int) $fieldnode->sequence : false,
-			isset($fieldnode->quickcreate) ? (int) $fieldnode->quickcreate : 1,
-			isset($fieldnode->quickcreatesequence) ? (int) $fieldnode->quickcreatesequence : false,
-			isset($fieldnode->info_type) ? (string) $fieldnode->info_type : 'BAS',
-			$block,
-			isset($fieldnode->fieldparams) ? (string) $fieldnode->fieldparams : ''
-		);
+		$def = \App\Field\FieldDefinition::fromRow([
+			'fieldid'             => 0,
+			'tabid'               => $module->getId(),
+			'fieldname'           => (string) $fieldnode->fieldname,
+			'fieldlabel'          => (string) $fieldnode->fieldlabel,
+			'tablename'           => (string) $fieldnode->tablename,
+			'columnname'          => (string) $fieldnode->columnname,
+			'columntype'          => isset($fieldnode->columntype) ? (string) $fieldnode->columntype : null,
+			'uitype'              => (int) $fieldnode->uitype,
+			'typeofdata'          => (string) $fieldnode->typeofdata,
+			'displaytype'         => isset($fieldnode->displaytype) ? (int) $fieldnode->displaytype : 1,
+			'generatedtype'       => (int) $fieldnode->generatedtype,
+			'readonly'            => (bool) (int) $fieldnode->readonly,
+			'mandatory'           => false,
+			'presence'            => (int) $fieldnode->presence,
+			'defaultvalue'        => isset($fieldnode->defaultvalue) ? (string) $fieldnode->defaultvalue : '',
+			'maximumlength'       => isset($fieldnode->maximumlength) ? max(0, min((int) $fieldnode->maximumlength, 65535)) : 100,
+			'sequence'            => isset($fieldnode->sequence) ? (int) $fieldnode->sequence : 0,
+			'block'               => $block->getId(),
+			'masseditable'        => isset($fieldnode->masseditable) ? (int) $fieldnode->masseditable : 1,
+			'quickcreate'         => isset($fieldnode->quickcreate) ? (int) $fieldnode->quickcreate : 1,
+			'quickcreatesequence' => isset($fieldnode->quickcreatesequence) ? (int) $fieldnode->quickcreatesequence : null,
+			'info_type'           => isset($fieldnode->info_type) ? (string) $fieldnode->info_type : 'BAS',
+			'fieldparams'         => isset($fieldnode->fieldparams) ? (string) $fieldnode->fieldparams : '',
+			'helpinfo'            => isset($fieldnode->helpinfo) ? (string) $fieldnode->helpinfo : '',
+			'summaryfield'        => isset($fieldnode->summaryfield) ? (int) $fieldnode->summaryfield : 0,
+			'header_field'        => null,
+			'maxlengthtext'       => 0,
+			'maxwidthcolumn'      => 0,
+		]);
 
-		$fieldId = $fieldService->create($module->getId(), $block->getId(), $field);
-		
+		$fieldModel = \App\Modules\Base\Models\Field::create($module->getId(), $block->getId(), $def);
+		$fieldId = $fieldModel->getId();
+
 		// Cache field for later use
-		$this->modulefields_cache[$module->getName()][$field->getName()] = $field;
+		$this->modulefields_cache[$module->getName()][$fieldModel->getName()] = $fieldModel;
 
 		// Set entity identifier if specified
 		if (!empty($fieldnode->entityidentifier)) {
@@ -1004,7 +1004,7 @@ class PackageService
 			foreach ($fieldnode->picklistvalues->picklistvalue as $picklistvaluenode) {
 				$picklistvalues[] = (string) $picklistvaluenode;
 			}
-			$fieldService->setPicklistValues($fieldId, $picklistvalues);
+			$fieldModel->setPicklistValues($picklistvalues);
 		}
 
 		// Set related modules
@@ -1013,7 +1013,7 @@ class PackageService
 			foreach ($fieldnode->relatedmodules->relatedmodule as $relatedmodulenode) {
 				$relatedmodules[] = (string) $relatedmodulenode;
 			}
-			$fieldService->setRelatedModules($fieldId, $relatedmodules);
+			$fieldModel->setRelatedModules($relatedmodules);
 		}
 	}
 
@@ -2474,15 +2474,15 @@ class PackageService
 			return;
 		}
 
-		$fieldService = \App\ModuleManagement\ServiceLocator::getFieldService();
+		// Collect all fields for this block, keyed by field name
 		$existingFields = [];
-		$allFields = $fieldService->getAllForModule($module->getId());
-		foreach ($allFields as $f) {
-			// Handle case where block might be null (e.g., system fields)
-			$fieldBlock = $f->getBlock();
-			if ($fieldBlock && $fieldBlock->getId() == $block->getId()) {
-				$existingFields[$f->getName()] = $f;
-			}
+		$blockId = $block->getId();
+		$allRows = (new \App\Db\Query())
+			->from('vtiger_field')
+			->where(['tabid' => $module->getId(), 'block' => $blockId])
+			->all();
+		foreach ($allRows as $row) {
+			$existingFields[$row['fieldname']] = \App\Modules\Base\Models\Field::fromRow($row);
 		}
 		$manifestFieldNames = [];
 
@@ -2490,40 +2490,35 @@ class PackageService
 			$fieldname = (string) $fieldnode->fieldname;
 			$manifestFieldNames[] = $fieldname;
 
-			$existingField = $existingFields[$fieldname] ?? null;
+			$existingFieldModel = $existingFields[$fieldname] ?? null;
 
-			if ($existingField) {
-				// Update existing field
-				$updatedField = new Models\Field(
-					$existingField->getId(),
-					$fieldname,
-					$module->getId(),
-					(string) $fieldnode->fieldlabel,
-					(string) $fieldnode->tablename,
-					(string) $fieldnode->columnname,
-					isset($fieldnode->columntype) ? (string) $fieldnode->columntype : $existingField->getColumntype(),
-					isset($fieldnode->helpinfo) ? (string) $fieldnode->helpinfo : $existingField->getHelpinfo(),
-					isset($fieldnode->summaryfield) ? (int) $fieldnode->summaryfield : $existingField->getSummaryfield(),
-					$existingField->getHeader_field(),
-					$existingField->getMaxlengthtext(),
-					$existingField->getMaxwidthcolumn(),
-					isset($fieldnode->masseditable) ? (int) $fieldnode->masseditable : $existingField->getMasseditable(),
-					(int) $fieldnode->uitype,
-					(string) $fieldnode->typeofdata,
-					isset($fieldnode->displaytype) ? (int) $fieldnode->displaytype : $existingField->getDisplaytype(),
-					(int) $fieldnode->generatedtype,
-					(int) $fieldnode->readonly,
-					(int) $fieldnode->presence,
-					isset($fieldnode->defaultvalue) ? (string) $fieldnode->defaultvalue : $existingField->getDefaultvalue(),
-					isset($fieldnode->maximumlength) ? max(0, min((int) $fieldnode->maximumlength, 65535)) : $existingField->getMaximumlength(),
-					isset($fieldnode->sequence) ? (int) $fieldnode->sequence : $existingField->getSequence(),
-					isset($fieldnode->quickcreate) ? (int) $fieldnode->quickcreate : $existingField->getQuickcreate(),
-					isset($fieldnode->quickcreatesequence) ? (int) $fieldnode->quickcreatesequence : $existingField->getQuicksequence(),
-					isset($fieldnode->info_type) ? (string) $fieldnode->info_type : $existingField->getInfo_type(),
-					$block,
-					isset($fieldnode->fieldparams) ? (string) $fieldnode->fieldparams : $existingField->getFieldparams()
-				);
-				$fieldService->update($existingField->getId(), $updatedField);
+			if ($existingFieldModel) {
+				$def = $existingFieldModel->getDefinition();
+				$updatedDef = $def->with([
+					'label'               => (string) $fieldnode->fieldlabel,
+					'table'               => (string) $fieldnode->tablename,
+					'column'              => (string) $fieldnode->columnname,
+					'columntype'          => isset($fieldnode->columntype) ? (string) $fieldnode->columntype : $def->columntype,
+					'helpinfo'            => isset($fieldnode->helpinfo) ? (string) $fieldnode->helpinfo : $def->helpinfo,
+					'summaryfield'        => isset($fieldnode->summaryfield) ? (int) $fieldnode->summaryfield : $def->summaryfield,
+					'masseditable'        => isset($fieldnode->masseditable) ? (int) $fieldnode->masseditable : $def->masseditable,
+					'uitype'              => (int) $fieldnode->uitype,
+					'typeofdata'          => (string) $fieldnode->typeofdata,
+					'displaytype'         => isset($fieldnode->displaytype) ? (int) $fieldnode->displaytype : $def->displaytype,
+					'generatedtype'       => (int) $fieldnode->generatedtype,
+					'readonly'            => (bool) (int) $fieldnode->readonly,
+					'presence'            => (int) $fieldnode->presence,
+					'defaultvalue'        => isset($fieldnode->defaultvalue) ? (string) $fieldnode->defaultvalue : $def->defaultvalue,
+					'maximumlength'       => isset($fieldnode->maximumlength) ? max(0, min((int) $fieldnode->maximumlength, 65535)) : $def->maximumlength,
+					'sequence'            => isset($fieldnode->sequence) ? (int) $fieldnode->sequence : $def->sequence,
+					'quickcreate'         => isset($fieldnode->quickcreate) ? (int) $fieldnode->quickcreate : $def->quickcreate,
+					'quickcreatesequence' => isset($fieldnode->quickcreatesequence) ? (int) $fieldnode->quickcreatesequence : $def->quickcreatesequence,
+					'info_type'           => isset($fieldnode->info_type) ? (string) $fieldnode->info_type : $def->info_type,
+					'fieldparams'         => isset($fieldnode->fieldparams) ? (string) $fieldnode->fieldparams : $def->fieldparams,
+				]);
+				// Create a new field model with the updated definition and save it
+				$updatedModel = \App\Modules\Base\Models\Field::fromRow($updatedDef->toRow());
+				$updatedModel->save();
 
 				// Update picklist values
 				if (!empty($fieldnode->picklistvalues) && !empty($fieldnode->picklistvalues->picklistvalue)) {
@@ -2531,7 +2526,7 @@ class PackageService
 					foreach ($fieldnode->picklistvalues->picklistvalue as $picklistvaluenode) {
 						$picklistvalues[] = (string) $picklistvaluenode;
 					}
-					$fieldService->setPicklistValues($existingField->getId(), $picklistvalues);
+					$updatedModel->setPicklistValues($picklistvalues);
 				}
 
 				// Update related modules
@@ -2540,21 +2535,19 @@ class PackageService
 					foreach ($fieldnode->relatedmodules->relatedmodule as $relatedmodulenode) {
 						$relatedmodules[] = (string) $relatedmodulenode;
 					}
-					$fieldService->setRelatedModules($existingField->getId(), $relatedmodules);
+					$updatedModel->setRelatedModules($relatedmodules);
 				}
 			} else {
-				// Create new field - this ensures fields are always imported even during update
+				// Create new field
 				$this->import_Field($blocknode, $block, $module, $fieldnode);
 			}
 		}
 
-		// Delete removed fields (only custom fields, not system fields)
-		foreach ($existingFields as $field) {
-			if (!in_array($field->getName(), $manifestFieldNames)) {
-				// Only delete if field is not a system field (generatedtype != 0)
-				// System fields have generatedtype = 0, custom fields have generatedtype = 1
-				if ($field->getGeneratedtype() != 0) {
-					$fieldService->delete($field->getId());
+		// Delete removed fields (only custom fields, generatedtype != 0)
+		foreach ($existingFields as $fieldName => $fieldModel) {
+			if (!in_array($fieldName, $manifestFieldNames)) {
+				if (($fieldModel->getDefinition()?->generatedtype ?? 0) != 0) {
+					$fieldModel->delete();
 				}
 			}
 		}

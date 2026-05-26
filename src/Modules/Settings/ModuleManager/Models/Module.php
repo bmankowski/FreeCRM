@@ -129,7 +129,7 @@ class Module extends \App\Modules\Base\Models\Module
 		$blockcf->label = 'LBL_CUSTOM_INFORMATION';
 		$module->addBlock($blockcf);
 
-		$field1 = new \vtlib\Field();
+		$field1 = new \stdClass();
 		$field1->name = $moduleInformation['entityfieldname'];
 		$field1->label = $moduleInformation['entityfieldlabel'];
 		$field1->uitype = 2;
@@ -141,8 +141,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 		$module->setEntityIdentifier($field1);
 
-		/** Common fields that should be in every module, linked to vtiger CRM core table */
-		$field2 = new \vtlib\Field();
+		$field2 = new \stdClass();
 		$field2->name = 'number';
 		$field2->label = 'FL_NUMBER';
 		$field2->column = 'number';
@@ -152,7 +151,7 @@ class Module extends \App\Modules\Base\Models\Module
 		$field2->columntype = 'string(32)';
 		$block->addField($field2);
 
-		$field3 = new \vtlib\Field();
+		$field3 = new \stdClass();
 		$field3->name = 'assigned_user_id';
 		$field3->label = 'Assigned To';
 		$field3->table = 'vtiger_crmentity';
@@ -162,7 +161,7 @@ class Module extends \App\Modules\Base\Models\Module
 		$field3->mandatory = 1;
 		$block->addField($field3);
 
-		$field4 = new \vtlib\Field();
+		$field4 = new \stdClass();
 		$field4->name = 'createdtime';
 		$field4->label = 'Created Time';
 		$field4->table = 'vtiger_crmentity';
@@ -172,7 +171,7 @@ class Module extends \App\Modules\Base\Models\Module
 		$field4->displaytype = 2;
 		$block->addField($field4);
 
-		$field5 = new \vtlib\Field();
+		$field5 = new \stdClass();
 		$field5->name = 'modifiedtime';
 		$field5->label = 'Modified Time';
 		$field5->table = 'vtiger_crmentity';
@@ -182,7 +181,7 @@ class Module extends \App\Modules\Base\Models\Module
 		$field5->displaytype = 2;
 		$block->addField($field5);
 
-		$field6 = new \vtlib\Field();
+		$field6 = new \stdClass();
 		$field6->name = 'created_user_id';
 		$field6->label = 'Created By';
 		$field6->table = 'vtiger_crmentity';

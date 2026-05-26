@@ -19,6 +19,8 @@ use DateTimeZone;
 class DateTimeField
 {
 
+	private const MULTIVALUE_SEPARATOR = ' |##| ';
+
 	static protected $databaseTimeZone = null;
 	protected $datetime;
 	private static $cache = [];
@@ -269,6 +271,22 @@ class DateTimeField
 	}
 
 	/**
+	 * vtiger_users.time_zone must be a single IANA zone; multipicklist saves use " |##| ".
+	 */
+	public static function normalizeTimeZoneName($timeZoneName): string
+	{
+		if ($timeZoneName === null || $timeZoneName === '') {
+			return \App\Core\AppConfig::main('default_timezone') ?: 'UTC';
+		}
+		$timeZoneName = trim((string) $timeZoneName);
+		if (str_contains($timeZoneName, self::MULTIVALUE_SEPARATOR)) {
+			$parts = explode(self::MULTIVALUE_SEPARATOR, $timeZoneName);
+			$timeZoneName = trim($parts[0]);
+		}
+		return $timeZoneName !== '' ? $timeZoneName : (\App\Core\AppConfig::main('default_timezone') ?: 'UTC');
+	}
+
+	/**
 	 *
 	 * @global Users $current_user
 	 * @param mixed $value
@@ -282,7 +300,7 @@ class DateTimeField
 		if (empty($user)) {
 			$user = $current_user;
 		}
-		$timeZone = ($user->get('time_zone') ?: \App\Core\AppConfig::main('default_timezone'));
+		$timeZone = self::normalizeTimeZoneName($user->get('time_zone') ?: \App\Core\AppConfig::main('default_timezone'));
 		$return = \App\Fields\DateTimeField::convertTimeZone($value, self::getDBTimeZone(), $timeZone);
 		\App\Log\Log::trace('End ' . __METHOD__);
 		return $return;
@@ -302,7 +320,7 @@ class DateTimeField
 		if (empty($user)) {
 			$user = $current_user;
 		}
-		$timeZone = ($user->get('time_zone') ?: \App\Core\AppConfig::main('default_timezone'));
+		$timeZone = self::normalizeTimeZoneName($user->get('time_zone') ?: \App\Core\AppConfig::main('default_timezone'));
 
 		if ($formatDate) {
 			$value = self::sanitizeDate($value, $user);
@@ -323,6 +341,8 @@ class DateTimeField
 	public static function convertTimeZone($time, $sourceTimeZoneName, $targetTimeZoneName)
 	{
 
+		$sourceTimeZoneName = self::normalizeTimeZoneName($sourceTimeZoneName);
+		$targetTimeZoneName = self::normalizeTimeZoneName($targetTimeZoneName);
 		\App\Log\Log::trace('Start ' . __METHOD__ . "($time, $sourceTimeZoneName, $targetTimeZoneName)");
 
 		$sourceTimeZone = new DateTimeZone($sourceTimeZoneName);

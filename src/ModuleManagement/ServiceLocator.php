@@ -42,21 +42,6 @@ class ServiceLocator
 	}
 
 	/**
-	 * Get FieldService instance.
-	 * 
-	 * @return Services\FieldService
-	 */
-	public static function getFieldService(): Services\FieldService
-	{
-		if (!isset(self::$services['field'])) {
-			self::$services['field'] = new Services\FieldService(
-				\App\Db\Db::getInstance()
-			);
-		}
-		return self::$services['field'];
-	}
-
-	/**
 	 * Get BlockService instance.
 	 * 
 	 * @return Services\BlockService

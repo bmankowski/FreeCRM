@@ -19,23 +19,15 @@ class Field extends \App\Modules\Base\Models\Field
 	/**
 	 * Function to remove field
 	 */
-	public function delete()
+	public function delete(): void
 	{
 		$db = \App\Db\Db::getInstance();
 		$fieldId = $this->getId();
 		$moduleId = $this->getModuleId();
 		$fieldName = $this->getName();
 
-		$fieldService = \App\ModuleManagement\ServiceLocator::getFieldService();
-		$fieldService->delete($fieldId);
-
-		\App\Cache\Cache::delete('ModuleFields', $moduleId);
-		\App\Cache\Cache::delete('fieldInfo', $moduleId);
-		\App\Cache\Cache::delete('field-' . $moduleId, $fieldId);
-		\App\Cache\Cache::delete('field-' . $moduleId, $fieldName);
-		if (isset(\App\Utils\VTCacheUtils::$_fieldinfo_cache[$moduleId][$fieldName])) {
-			unset(\App\Utils\VTCacheUtils::$_fieldinfo_cache[$moduleId][$fieldName]);
-		}
+		// Deletes vtiger_field row, profile entries, UIType-10 relation rows, and busts caches
+		parent::delete();
 
 		$fldModule = $this->getModuleName();
 		$uitype = $this->get('uitype');

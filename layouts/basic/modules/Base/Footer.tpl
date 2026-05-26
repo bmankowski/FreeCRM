@@ -26,22 +26,26 @@
 <footer class="footerContainer navbar-default navbar-fixed-bottom noprint">
 	<div class="vtFooter">
 		<div class="pull-left">
-			<a class="iconsInFooter" href="https://www.linkedin.com/groups/8177576">
-				<span class="AdditionalIcon-Linkedin" title="Linkendin"></span>
+			<a class="iconsInFooter" href="https://www.itconnect.pl/polityka-prywatnosci/" style="color:#632E8E;text-decoration:underline;font-size:12px;vertical-align:middle;">Polityka prywatności</a>
+			<a class="iconsInFooter" href="https://www.facebook.com/ITCPeopleinIT/">
+				<span class="fab fa-facebook-square" title="Facebook"></span>
 			</a>
-			<a class="iconsInFooter" href="https://twitter.com/YetiForceEN">
-				<span class="AdditionalIcon-Twitter" title="Twitter"></span>
+			<a class="iconsInFooter" href="https://www.instagram.com/itcpeopleinit/">
+				<span class="fab fa-instagram" title="Instagram"></span>
 			</a>
-			<a class="iconsInFooter" href="https://www.facebook.com/YetiForce-CRM-158646854306054/">
-				<span class="AdditionalIcon-Facebook" title="Facebook"></span>
+			<a class="iconsInFooter" href="https://pl.linkedin.com/company/it-connect-people-in-it">
+				<span class="fab fa-linkedin" title="LinkedIn"></span>
 			</a>
-			<a class="iconsInFooter" href="https://github.com/YetiForceCompany/YetiForceCRM">
-				<span class="AdditionalIcon-Github" title="Github"></span>
+			<a class="iconsInFooter" href="https://www.youtube.com/@ITCONNECT-PeopleinIT">
+				<span class="fab fa-youtube" title="YouTube"></span>
+			</a>
+			<a class="iconsInFooter" href="https://www.tiktok.com/@itconnect2007">
+				<span class="fab fa-tiktok" title="TikTok"></span>
 			</a>
 		</div>
 		<div class="pull-right">
-			<button type="button" class="btn-link" data-toggle="modal" data-target="#yetiforceDetails">
-				<img class="logoFooter" src="storage/Logo/white_logo_yetiforce.png" alt="YetiForceCRM"/>
+			<button type="button" class="btn-link" data-toggle="modal" data-target="#freecrmDetails">
+				<img class="logoFooter" src="storage/Logo/itconnect_logo.png" alt="FreeCRM"/>
 			</button>
 		</div>
 		{if $USER_MODEL->isAdminUser()}
@@ -55,35 +59,35 @@
 		{/if}
 	</div>
 </footer>
-<div class="modal fade" id="yetiforceDetails" tabindex="-1" role="dialog" aria-labelledby="yetiforceDetails">
+<div class="modal fade" id="freecrmDetails" tabindex="-1" role="dialog" aria-labelledby="freecrmDetails">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title" id="myModalLabel">YetiForceCRM v{$YETIFORCE_VERSION} - The best open system in the world</h4>
+				<h4 class="modal-title" id="myModalLabel">FreeCRM v{$YETIFORCE_VERSION}</h4>
 			</div>
 			<div class="modal-body">
-				<p class="text-center"><img  src="storage/Logo/blue_yetiforce_logo.png" title="YetiForceCRM" alt="YetiForceCRM" style="height: 120px;"/></p>
-				<p>Copyright © YetiForce.com All rights reserved.</p>
-				<p>The Program is provided AS IS, without warranty. Licensed under <a href="licenses/LicenseEN.txt" target="_blank"><strong>YetiForce Public License 1.1</strong></a>.</p>
-				<p>YetiForce is based on two systems - <strong>VtigerCRM</strong> and <strong>SugarCRM</strong>.<br><br></p>
-				<p><span class="label label-default">License:</span> <a href="licenses/LicenseEN.txt" target="_blank"><strong>YetiForce Public License 1.1</strong></a></p>
-				<p><span class="label label-primary">WWW:</span> <a href="https://yetiforce.com" target="_blank"><strong>https://yetiforce.com</strong></a></p>
-				<p><span class="label label-success">Code:</span> <a href="https://github.com/YetiForceCompany/YetiForceCRM" target="_blank"><strong>https://github.com/YetiForceCompany/YetiForceCRM</strong></a></p>
-				<p><span class="label label-info">Documentation:</span> <a href="https://yetiforce.com/en/documentation.html" target="_blank"><strong>https://yetiforce.com/en/documentation.html</strong></a></p>
-				<p><span class="label label-warning">Issues:</span> <a href="https://github.com/YetiForceCompany/YetiForceCRM/issues" target="_blank"><strong>https://github.com/YetiForceCompany/YetiForceCRM/issues</strong></a></p>
+				<p class="text-center"><img src="storage/Logo/itconnect_logo.png" title="FreeCRM" alt="FreeCRM" style="height: 80px;"/></p>
+				<p>Copyright &copy; FreeCRM All rights reserved.</p>
+				<p>The Program is provided AS IS, without warranty. Licensed under <a href="licenses/LicenseEN.txt" target="_blank"><strong>FreeCRM Public License 1.1</strong></a>.</p>
+				<p>FreeCRM is based on <strong>VtigerCRM</strong> and <strong>YetiForce</strong> open source projects.<br><br></p>
+				<p><span class="label label-default">License:</span> <a href="licenses/LicenseEN.txt" target="_blank"><strong>FreeCRM Public License 1.1</strong></a></p>
+				<p><span class="label label-primary">WWW:</span> <a href="https://www.itconnect.pl" target="_blank"><strong>https://www.itconnect.pl</strong></a></p>
 				<p class="text-center">
-					<a class="yetiforceDetailsLink" href="https://www.linkedin.com/groups/8177576">
-						<span class="fa fa-linkedin-square" title="LinkendIn"></span>
+					<a class="yetiforceDetailsLink" href="https://www.facebook.com/ITCPeopleinIT/">
+						<span class="fab fa-facebook-square" title="Facebook"></span>
 					</a>
-					<a class="yetiforceDetailsLink" href="https://twitter.com/YetiForceEN">
-						<span class="fa fa-twitter-square" title="Twitter"></span>
+					<a class="yetiforceDetailsLink" href="https://www.instagram.com/itcpeopleinit/">
+						<span class="fab fa-instagram" title="Instagram"></span>
 					</a>
-					<a class="yetiforceDetailsLink" href="https://www.facebook.com/YetiForce-CRM-158646854306054/">
-						<span class="fa fa-facebook-square" title="Facebook"></span>
+					<a class="yetiforceDetailsLink" href="https://pl.linkedin.com/company/it-connect-people-in-it">
+						<span class="fab fa-linkedin" title="LinkedIn"></span>
 					</a>
-					<a class="yetiforceDetailsLink" href="https://github.com/YetiForceCompany/YetiForceCRM">
-						<span class="fa fa-github-square" title="Github"></span>
+					<a class="yetiforceDetailsLink" href="https://www.youtube.com/@ITCONNECT-PeopleinIT">
+						<span class="fab fa-youtube" title="YouTube"></span>
+					</a>
+					<a class="yetiforceDetailsLink" href="https://www.tiktok.com/@itconnect2007">
+						<span class="fab fa-tiktok" title="TikTok"></span>
 					</a>
 				</p>
 			</div>

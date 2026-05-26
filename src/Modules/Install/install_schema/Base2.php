@@ -6114,7 +6114,7 @@ class Base2 extends \App\Db\Importers\Base
 					[29, 498, 'date_format', 'vtiger_users', 1, 16, 'date_format', 'Date Format', 1, 0, '', 30, 1, 118, 1, 'V', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 500, 'description', 'vtiger_users', 1, 21, 'description', 'Documents', 1, 0, '', 250, 14, 79, 1, 'V', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 506, 'accesskey', 'vtiger_users', 1, 3, 'accesskey', 'Webservice Access Key', 1, 0, '', 100, 2, 83, 2, 'V', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
-					[29, 507, 'time_zone', 'vtiger_users', 1, 16, 'time_zone', 'Time Zone', 1, 0, '', 200, 5, 118, 1, 'V', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[29, 507, 'time_zone', 'vtiger_users', 1, 115, 'time_zone', 'Time Zone', 1, 0, '', 200, 5, 118, 1, 'V', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 508, 'currency_id', 'vtiger_users', 1, 117, 'currency_id', 'Currency', 1, 0, '', 100, 1, 78, 1, 'V', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 509, 'currency_grouping_pattern', 'vtiger_users', 1, 16, 'currency_grouping_pattern', 'Digit Grouping Pattern', 1, 0, '', 100, 2, 78, 1, 'V', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[29, 510, 'currency_decimal_separator', 'vtiger_users', 1, 16, 'currency_decimal_separator', 'Decimal Separator', 1, 0, '', 2, 3, 78, 1, 'V', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],

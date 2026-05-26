@@ -196,9 +196,6 @@ class Block
 	 */
 	public function addField($fieldInstance)
 	{
-		$fieldService = ServiceLocator::getFieldService();
-		$moduleService = ServiceLocator::getModuleService();
-
 		$moduleId = null;
 		if (isset($fieldInstance->tabid) && $fieldInstance->tabid) {
 			$moduleId = (int) $fieldInstance->tabid;
@@ -231,11 +228,11 @@ class Block
 			throw new \RuntimeException('Unable to determine block id for field creation');
 		}
 
+		// If field already has an ID, it already exists — update via save()
 		if (isset($fieldInstance->id) && $fieldInstance->id) {
-			$fieldId = (int) $fieldInstance->id;
-			$fieldModel = \App\ModuleManagement\ServiceLocator::getFieldService()->getInstance($fieldId);
+			$fieldModel = \App\Modules\Base\Models\Field::getInstance((int) $fieldInstance->id);
 			if ($fieldModel) {
-				$fieldService->update($fieldId, $fieldModel);
+				$fieldModel->save();
 			}
 			return $this;
 		}
@@ -253,21 +250,20 @@ class Block
 			return $fallback;
 		};
 
+		$moduleService = ServiceLocator::getModuleService();
 		$moduleModel = $moduleService->getInstance($moduleId);
 		if (!$moduleModel) {
 			throw new \RuntimeException("Module with ID {$moduleId} not found");
 		}
 
 		$columntype = $get($fieldInstance, 'columntype');
-		if (is_string($columntype) && strpos($columntype, '(') === false && method_exists($fieldInstance, 'getFieldDataType')) {
-			// Ensure DB column definition if only type name was provided
+		if (is_string($columntype) && strpos($columntype, '(') === false) {
 			$columntype = $columntype ?: 'string(100)';
 		}
 
 		$moduleName = $moduleModel->getName();
 		$lcaseModule = strtolower($moduleName);
 		$defaultBaseTable = $moduleModel->getBasetable() ?: "vtiger_{$lcaseModule}";
-		$defaultBaseId = $moduleModel->getBasetableid() ?: $lcaseModule . 'id';
 		$defaultCustomTable = $moduleModel->getCustomtable() ?: $defaultBaseTable . 'cf';
 
 		$table = $get($fieldInstance, 'table', $defaultBaseTable);
@@ -278,50 +274,47 @@ class Block
 			$table = $defaultBaseTable;
 		}
 
-		$column = $get($fieldInstance, 'column');
-		if (!$column) {
-			$column = $get($fieldInstance, 'name');
-		}
+		$column = $get($fieldInstance, 'column') ?: $get($fieldInstance, 'name');
 
-		$fieldModel = new \App\ModuleManagement\Models\Field(
-			null,
-			$get($fieldInstance, 'name'),
-			$moduleId,
-			$get($fieldInstance, 'label'),
-			$table,
-			$column,
-			$columntype,
-			(string) $get($fieldInstance, 'helpinfo', ''),
-			(int) $get($fieldInstance, 'summaryfield', 0),
-			$get($fieldInstance, 'header_field'),
-			(int) $get($fieldInstance, 'maxlengthtext', 0),
-			(int) $get($fieldInstance, 'maxwidthcolumn', 0),
-			(int) $get($fieldInstance, 'masseditable', 1),
-			(int) $get($fieldInstance, 'uitype', 1),
-			$get($fieldInstance, 'typeofdata', 'V'),
-			(int) $get($fieldInstance, 'displaytype', 1),
-			(int) $get($fieldInstance, 'generatedtype', 1),
-			(int) $get($fieldInstance, 'readonly', 1),
-			(int) $get($fieldInstance, 'presence', 2),
-			(string) $get($fieldInstance, 'defaultvalue', ''),
-			(int) $get($fieldInstance, 'maximumlength', 100),
-			$get($fieldInstance, 'sequence'),
-			(int) $get($fieldInstance, 'quickcreate', 1),
-			$get($fieldInstance, 'quicksequence'),
-			$get($fieldInstance, 'info_type', 'BAS'),
-			$blockId,
-			$get($fieldInstance, 'fieldparams', ''),
-			isset($fieldInstance->mandatory) ? (int) $fieldInstance->mandatory : null
-		);
+		$def = \App\Field\FieldDefinition::fromRow([
+			'fieldid'             => 0,
+			'tabid'               => $moduleId,
+			'fieldname'           => (string) $get($fieldInstance, 'name', ''),
+			'fieldlabel'          => (string) ($get($fieldInstance, 'label') ?: $get($fieldInstance, 'name', '')),
+			'tablename'           => $table,
+			'columnname'          => $column,
+			'columntype'          => $columntype,
+			'uitype'              => (int) $get($fieldInstance, 'uitype', 1),
+			'typeofdata'          => (string) $get($fieldInstance, 'typeofdata', 'V'),
+			'displaytype'         => (int) $get($fieldInstance, 'displaytype', 1),
+			'generatedtype'       => (int) $get($fieldInstance, 'generatedtype', 1),
+			'readonly'            => (bool) $get($fieldInstance, 'readonly', false),
+			'mandatory'           => isset($fieldInstance->mandatory) ? (bool) $fieldInstance->mandatory : false,
+			'presence'            => (int) $get($fieldInstance, 'presence', 1),
+			'defaultvalue'        => (string) $get($fieldInstance, 'defaultvalue', ''),
+			'maximumlength'       => (int) $get($fieldInstance, 'maximumlength', 100),
+			'sequence'            => (int) ($get($fieldInstance, 'sequence') ?? 0),
+			'block'               => $blockId,
+			'masseditable'        => (int) $get($fieldInstance, 'masseditable', 1),
+			'quickcreate'         => (int) $get($fieldInstance, 'quickcreate', 1),
+			'quickcreatesequence' => ($qs = $get($fieldInstance, 'quicksequence')) !== null ? (int) $qs : null,
+			'info_type'           => (string) $get($fieldInstance, 'info_type', 'BAS'),
+			'fieldparams'         => (string) $get($fieldInstance, 'fieldparams', ''),
+			'helpinfo'            => (string) $get($fieldInstance, 'helpinfo', ''),
+			'summaryfield'        => (int) $get($fieldInstance, 'summaryfield', 0),
+			'header_field'        => $get($fieldInstance, 'header_field'),
+			'maxlengthtext'       => (int) $get($fieldInstance, 'maxlengthtext', 0),
+			'maxwidthcolumn'      => (int) $get($fieldInstance, 'maxwidthcolumn', 0),
+		]);
 
-		$fieldId = $fieldService->create($moduleId, $blockId, $fieldModel);
-		$fieldInstance->id = $fieldId;
-		$fieldInstance->tabid = $moduleId;
-		$fieldInstance->block = $this;
+		$newFieldModel = \App\Modules\Base\Models\Field::create($moduleId, $blockId, $def);
+		$fieldId = $newFieldModel->getId();
+		$fieldInstance->id     = $fieldId;
+		$fieldInstance->tabid  = $moduleId;
+		$fieldInstance->block  = $this;
+		// Attach the hydrated model so callers can invoke setPicklistValues/setRelatedModules
+		$fieldInstance->_model = $newFieldModel;
 
-		\App\Cache\Cache::delete('ModuleFields', $moduleId);
-		\App\Cache\Cache::delete('fieldInfo', $moduleId);
-		\App\Fields\Field::clearFieldsPermissionsCacheForTab($moduleId);
 		\App\Utils\VTCacheUtils::updateFieldInfo(
 			$moduleId,
 			$get($fieldInstance, 'name'),
@@ -331,7 +324,7 @@ class Block
 			$table,
 			(int) $get($fieldInstance, 'uitype', 1),
 			$get($fieldInstance, 'typeofdata', 'V~O'),
-			(int) $get($fieldInstance, 'presence', 2)
+			(int) $get($fieldInstance, 'presence', 1)
 		);
 
 		return $this;

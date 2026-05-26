@@ -37,9 +37,9 @@
 
 <div class="dateTimeField">
 	<div class="col-xs-7 paddingLRZero">
-		{include file=vtemplate_path('uitypes/Date.tpl',$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS FIELD_MODEL=$DATE_FIELD}
+		{include file=vtemplate_path('uitypes/Date.tpl',$MODULE) FIELD_MODEL=$DATE_FIELD}
 	</div >
 	<div class="col-xs-5 paddingLRZero">
-		{include file=vtemplate_path('uitypes/Time.tpl',$MODULE) BLOCK_FIELDS=$BLOCK_FIELDS FIELD_MODEL=$TIME_FIELD}
+		{include file=vtemplate_path('uitypes/Time.tpl',$MODULE) FIELD_MODEL=$TIME_FIELD}
 	</div>
 </div>
