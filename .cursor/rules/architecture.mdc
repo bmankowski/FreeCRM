@@ -72,3 +72,7 @@ When creating new modules:
 5. Document module dependencies
 
 For namespace conventions, see `php-namespaces.mdc`.
+
+## UiType / Field type system
+
+See `uitypes.mdc` for the full reference: UITYPE_CLASS_MAP, SEMANTIC_TYPE_MAP, renderer resolution, module-specific overrides, and pitfalls.

@@ -116,6 +116,7 @@ class Field extends FieldBasic
 		$instance->displaytype = $field->getDisplaytype();
 		$instance->generatedtype = $field->getGeneratedtype();
 		$instance->readonly = $field->getReadonly();
+		$instance->mandatory = $field->getMandatory();
 		$instance->presence = $field->getPresence();
 		$instance->defaultvalue = $field->getDefaultvalue();
 		$instance->maximumlength = $field->getMaximumlength();
@@ -170,6 +171,7 @@ class Field extends FieldBasic
 			$instance->displaytype = $field->getDisplaytype();
 			$instance->generatedtype = $field->getGeneratedtype();
 			$instance->readonly = $field->getReadonly();
+			$instance->mandatory = $field->getMandatory();
 			$instance->presence = $field->getPresence();
 			$instance->defaultvalue = $field->getDefaultvalue();
 			$instance->maximumlength = $field->getMaximumlength();
@@ -219,6 +221,7 @@ class Field extends FieldBasic
 			$instance->displaytype = $field->getDisplaytype();
 			$instance->generatedtype = $field->getGeneratedtype();
 			$instance->readonly = $field->getReadonly();
+			$instance->mandatory = $field->getMandatory();
 			$instance->presence = $field->getPresence();
 			$instance->defaultvalue = $field->getDefaultvalue();
 			$instance->maximumlength = $field->getMaximumlength();

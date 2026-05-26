@@ -405,7 +405,7 @@ class CRMEntity
 		$adb = \App\Database\PearDatabase::getInstance();
 
 		$tabid = \App\Utils\ModuleUtils::getModuleId($module);
-		$sql = "select * from vtiger_field where tabid= ? and typeofdata like '%M%' and uitype not in ('53','70') and vtiger_field.presence in (0,2)";
+		$sql = "SELECT * FROM vtiger_field WHERE tabid = ? AND mandatory = 1 AND uitype NOT IN ('53','70') AND presence IN (0,2)";
 		$result = $adb->pquery($sql, array($tabid));
 		$numRows = $adb->num_rows($result);
 		for ($i = 0; $i < $numRows; $i++) {

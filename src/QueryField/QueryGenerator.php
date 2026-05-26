@@ -804,7 +804,7 @@ class QueryGenerator
 			\App\Log\Log::error('Not found field model');
 			throw new \App\Exceptions\AppException('LBL_NOT_FOUND_FIELD_MODEL');
 		}
-		$className = '\App\QueryField\\' . ucfirst($field->getFieldDataType()) . 'Field';
+		$className = '\App\QueryField\\' . ucfirst($field->getUiTypeName()) . 'Field';
 		if (!class_exists($className)) {
 			\App\Log\Log::error('Not found query field condition');
 			throw new \App\Exceptions\AppException('LBL_NOT_FOUND_QUERY_FIELD_CONDITION');
@@ -877,7 +877,7 @@ class QueryGenerator
 		$queryField->setRelated($relatedInfo);
 		return $this->relatedQueryFields[$relatedModule][$field->getName()] = $queryField;
 	}
-		$className = '\App\QueryField\\' . ucfirst($field->getFieldDataType()) . 'Field';
+		$className = '\App\QueryField\\' . ucfirst($field->getUiTypeName()) . 'Field';
 		if (!class_exists($className)) {
 			\App\Log\Log::error('Not found query field condition');
 			throw new \App\Exceptions\AppException('LBL_NOT_FOUND_QUERY_FIELD_CONDITION');

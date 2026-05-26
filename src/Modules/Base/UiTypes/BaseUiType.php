@@ -65,51 +65,116 @@ class BaseUiType extends \App\Runtime\BaseModel
 	}
 
 	/**
-	 * Static function to get the UIType object from Vtiger Field Model
-	 * @param \App\Modules\Base\Models\Field $fieldModel
-	 * @return \App\Modules\Base\UiTypes\BaseUiType or UIType specific object instance
+	 * Direct mapping from uitype integer to UiType class name suffix.
+	 * This is the authoritative source for UI rendering — independent of getFieldDataType().
+	 * Unmapped uitypes fall back to getFieldDataType() for backwards-compatible class resolution.
 	 */
-	public static function getInstanceFromField($fieldModel)
+	private const UITYPE_CLASS_MAP = [
+		3   => 'RecordNumber',
+		4   => 'RecordNumber',
+		8   => 'TotalTime',
+		9   => 'Percentage',
+		10  => 'Reference',
+		11  => 'Phone',
+		13  => 'Email',
+		15  => 'Picklist',
+		16  => 'Multipicklist',
+		17  => 'Url',
+		19  => 'Text',
+		20  => 'Text',
+		21  => 'Text',
+		24  => 'Text',
+		26  => 'Reference',
+		28  => 'DocumentsFileUpload',
+		30  => 'Recurrence',
+		32  => 'Languages',
+		33  => 'Picklist',
+		50  => 'Reference',
+		51  => 'Reference',
+		52  => 'UserCreator',
+		53  => 'Owner',
+		54  => 'Multiowner',
+		56  => 'Boolean',
+		57  => 'Reference',
+		58  => 'Reference',
+		59  => 'Reference',
+		61  => 'Image',
+		66  => 'ReferenceProcess',
+		67  => 'ReferenceLink',
+		68  => 'ReferenceSubProcess',
+		69  => 'Image',
+		71  => 'Currency',
+		72  => 'Currency',
+		73  => 'Reference',
+		75  => 'Reference',
+		76  => 'Reference',
+		80  => 'Reference',
+		81  => 'Reference',
+		85  => 'StringType',
+		98  => 'UserRole',
+		101 => 'Reference',
+		117 => 'CurrencyList',
+		120 => 'SharedOwner',
+		156 => 'Boolean',
+		300 => 'Text',
+		301 => 'Modules',
+		302 => 'Tree',
+		303 => 'Taxes',
+		304 => 'InventoryLimit',
+		305 => 'MultiReferenceValue',
+		308 => 'RangeTime',
+		309 => 'CategoryMultipicklist',
+		310 => 'CompanySelect',
+		311 => 'MultiImage',
+		342 => 'Recurrence',
+		357 => 'Reference',
+		358 => 'MailSmtpSelect',
+	];
+
+	/**
+	 * Resolves the UiType class name suffix for the given uitype integer.
+	 * uitype 55 requires field-name discrimination (Salutation vs plain StringType).
+	 * Everything not in UITYPE_CLASS_MAP falls back to getFieldDataType() for custom uitypes.
+	 */
+	private static function resolveUiTypeClassSuffix($fieldModel): string
 	{
-		$fieldDataType = $fieldModel->getFieldDataType();
-		$uiTypeClassSuffix = ucfirst($fieldDataType);
-		
-		// Map reserved PHP keywords to alternative class names
-		$reservedKeywordMap = [
-			'String' => 'StringType',
+		$uitype = (int) $fieldModel->get('uitype');
+
+		if ($uitype === 55) {
+			return $fieldModel->getName() === 'salutationtype' ? 'Salutation' : 'StringType';
+		}
+
+		if (isset(self::UITYPE_CLASS_MAP[$uitype])) {
+			return self::UITYPE_CLASS_MAP[$uitype];
+		}
+
+		// Custom or future uitypes: derive class suffix from semantic type string
+		$dataType = $fieldModel->getFieldDataType();
+		$suffix = ucfirst($dataType);
+		return $suffix === 'String' ? 'StringType' : $suffix;
+	}
+
+	/**
+	 * Returns a UiType instance for the given field model.
+	 * Resolution order: module-specific class → Base class → BaseUiType fallback.
+	 * @param \App\Modules\Base\Models\Field $fieldModel
+	 * @return self
+	 */
+	public static function getInstanceFromField($fieldModel): self
+	{
+		$classSuffix = self::resolveUiTypeClassSuffix($fieldModel);
+		$module = $fieldModel->getModuleName();
+
+		$candidates = [
+			"\\App\\Modules\\{$module}\\UiTypes\\{$classSuffix}",
+			"\\App\\Modules\\Base\\UiTypes\\{$classSuffix}",
 		];
-		if (isset($reservedKeywordMap[$uiTypeClassSuffix])) {
-			$uiTypeClassSuffix = $reservedKeywordMap[$uiTypeClassSuffix];
+		foreach ($candidates as $class) {
+			if (class_exists($class)) {
+				return (new $class())->set('field', $fieldModel);
+			}
 		}
-		
-		$moduleName = $fieldModel->getModuleName();
-		$moduleSpecificUiTypeClassName = '\App\Modules\\' . $moduleName . '\\UiTypes\\' . $uiTypeClassSuffix;
-		$uiTypeClassName = '\App\Modules\\Base\\UiTypes\\' . $uiTypeClassSuffix;
-		$fallBackClassName = '\App\Modules\\Base\\UiTypes\\BaseUiType';
-
-		// Try PSR-4 paths first, then fallback to old paths
-		$moduleSpecificFilePath = ROOT_DIRECTORY . '/src/Modules/' . $moduleName . '/UiTypes/' . $uiTypeClassSuffix . '.php';
-		$completeFilePath = ROOT_DIRECTORY . '/src/Modules/Base/UiTypes/' . $uiTypeClassSuffix . '.php';
-		
-		// Old path fallback
-		$moduleSpecificFileName = 'modules.' . $moduleName . '.uitypes.' . $uiTypeClassSuffix;
-		$uiTypeClassFileName = 'modules.Base.uitypes.' . $uiTypeClassSuffix;
-		$moduleSpecificOldFilePath = \App\Core\Loader::resolveNameToPath($moduleSpecificFileName);
-		$completeOldFilePath = \App\Core\Loader::resolveNameToPath($uiTypeClassFileName);
-
-		if (file_exists($moduleSpecificFilePath) && class_exists($moduleSpecificUiTypeClassName)) {
-			$instance = new $moduleSpecificUiTypeClassName();
-		} else if (file_exists($completeFilePath) && class_exists($uiTypeClassName)) {
-			$instance = new $uiTypeClassName();
-		} else if (file_exists($moduleSpecificOldFilePath) && class_exists($moduleSpecificUiTypeClassName)) {
-			$instance = new $moduleSpecificUiTypeClassName();
-		} else if (file_exists($completeOldFilePath) && class_exists($uiTypeClassName)) {
-			$instance = new $uiTypeClassName();
-		} else {
-			$instance = new $fallBackClassName();
-		}
-		$instance->set('field', $fieldModel);
-		return $instance;
+		return (new self())->set('field', $fieldModel);
 	}
 
 	/**

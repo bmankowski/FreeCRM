@@ -23,16 +23,16 @@ class Logout extends \App\Base\Controllers\BaseActionController
 	{
 		$eventHandler = new \App\Events\EventHandler();
 		$eventHandler->trigger('UserLogoutBefore');
+
+		$moduleName = $request->getModule();
+		$moduleModel = \App\Modules\Users\Models\Module::getInstance($moduleName);
+		$moduleModel->saveLogoutHistory();
+
 		if (\App\Core\AppConfig::main('session_regenerate_id')) {
 			\App\Http\Vtiger_Session::regenerateId(true); // to overcome session id reuse.
 		}
 		\App\Http\Vtiger_Session::destroy();
 
-		//Track the logout History
-		$moduleName = $request->getModule();
-		$moduleModel = \App\Modules\Users\Models\Module::getInstance($moduleName);
-		$moduleModel->saveLogoutHistory();
-		//End
 		header('Location: index.php');
 	}
 }

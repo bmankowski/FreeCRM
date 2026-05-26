@@ -75,6 +75,9 @@ class FieldBasic
 	/** @var int Readonly flag */
 	public $readonly = 1;
 	
+	/** @var int Mandatory flag */
+	public $mandatory = 0;
+	
 	/** @var int Presence (0 = enabled, 1 = disabled) */
 	public $presence = 2;
 	

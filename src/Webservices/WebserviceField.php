@@ -62,7 +62,9 @@ class WebserviceField
 		$this->presence = $row['presence'];
 		$this->typeOfData = $typeOfData;
 		$typeOfData = explode('~', $typeOfData);
-		$this->mandatory = (isset($typeOfData[1]) && $typeOfData[1] == 'M') ? true : false;
+		$this->mandatory = isset($row['mandatory'])
+			? (bool) $row['mandatory']
+			: (isset($typeOfData[1]) && $typeOfData[1] === 'M');
 		if ($this->uitype == 4) {
 			$this->mandatory = false;
 		}
@@ -249,6 +251,12 @@ class WebserviceField
 		$this->dataFromMeta = true;
 	}
 
+	/**
+	 * Returns the field type for REST API consumers.
+	 * Source: vtiger_ws_fieldtype (by uitype) with typeofdata as fallback.
+	 * Note: 'V~O' typeofdata maps to 'string' here — correct for the API,
+	 * but wrong for UI rendering. Use Field::getUiTypeName() for UI/business logic.
+	 */
 	public function getFieldDataType()
 	{
 		if ($this->fieldDataType === null) {

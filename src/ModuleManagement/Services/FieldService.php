@@ -101,6 +101,7 @@ class FieldService
 				'fieldname' => $field->getName(),
 				'fieldlabel' => $label,
 				'readonly' => $field->getReadonly(),
+				'mandatory' => $field->getMandatory(),
 				'presence' => $field->getPresence(),
 				'defaultvalue' => $field->getDefaultvalue(),
 				'maximumlength' => $maximumlength,
@@ -185,6 +186,7 @@ class FieldService
 				'fieldname' => $field->getName(),
 				'fieldlabel' => $label,
 				'readonly' => $field->getReadonly(),
+				'mandatory' => $field->getMandatory(),
 				'presence' => $field->getPresence(),
 				'defaultvalue' => $field->getDefaultvalue(),
 				'maximumlength' => $field->getMaximumlength(),
@@ -295,7 +297,8 @@ class FieldService
 			$data['quickcreatesequence'] ?? false,
 			$data['info_type'] ?? 'BAS',
 			$block,
-			$data['fieldparams'] ?? ''
+			$data['fieldparams'] ?? '',
+			isset($data['mandatory']) ? (int) $data['mandatory'] : null
 		);
 	}
 
@@ -487,7 +490,8 @@ class FieldService
 				$row['quickcreatesequence'] ?? false,
 				$row['info_type'] ?? 'BAS',
 				$block,
-				$row['fieldparams'] ?? ''
+				$row['fieldparams'] ?? '',
+				isset($row['mandatory']) ? (int) $row['mandatory'] : null
 			);
 		}
 
@@ -582,6 +586,7 @@ class FieldService
 		$vtlibField->displaytype = $field->getDisplaytype();
 		$vtlibField->generatedtype = $field->getGeneratedtype();
 		$vtlibField->readonly = $field->getReadonly();
+		$vtlibField->mandatory = $field->getMandatory();
 		$vtlibField->presence = $field->getPresence();
 		$vtlibField->defaultvalue = $field->getDefaultvalue();
 		$vtlibField->maximumlength = $field->getMaximumlength();

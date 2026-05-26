@@ -73,6 +73,9 @@ class Field
 	/** @var int Readonly flag */
 	private $readonly;
 	
+	/** @var int Mandatory flag */
+	private $mandatory;
+	
 	/** @var int Presence (0 = enabled, 1 = disabled) */
 	private $presence;
 	
@@ -130,6 +133,7 @@ class Field
 	 * @param string $info_type
 	 * @param mixed $block
 	 * @param string $fieldparams
+	 * @param int|null $mandatory
 	 */
 	public function __construct(
 		$id = null,
@@ -158,7 +162,8 @@ class Field
 		$quicksequence = false,
 		$info_type = 'BAS',
 		$block = null,
-		$fieldparams = ''
+		$fieldparams = '',
+		$mandatory = null
 	) {
 		$this->id = $id;
 		$this->name = $name;
@@ -187,6 +192,7 @@ class Field
 		$this->info_type = $info_type;
 		$this->block = $block;
 		$this->fieldparams = $fieldparams;
+		$this->mandatory = $mandatory ?? self::mandatoryFromTypeofdata($typeofdata);
 	}
 
 	public function getId() { return $this->id; }
@@ -208,7 +214,14 @@ class Field
 	public function getDisplaytype() { return $this->displaytype; }
 	public function getGeneratedtype() { return $this->generatedtype; }
 	public function getReadonly() { return $this->readonly; }
+	public function getMandatory() { return $this->mandatory; }
 	public function getPresence() { return $this->presence; }
+
+	public static function mandatoryFromTypeofdata(string $typeofdata): int
+	{
+		$parts = explode('~', $typeofdata);
+		return (isset($parts[1]) && $parts[1] === 'M') ? 1 : 0;
+	}
 	public function getDefaultvalue() { return $this->defaultvalue; }
 	public function getMaximumlength() { return $this->maximumlength; }
 	public function getSequence() { return $this->sequence; }

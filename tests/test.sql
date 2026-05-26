@@ -46,3 +46,8 @@ delete from
 
 
 SELECT * FROM s_yf_delayed_email_queue;
+
+
+select * from vtiger_field;
+
+SELECT typeofdata, COUNT(*) as cnt FROM vtiger_field GROUP BY typeofdata ORDER BY cnt DESC LIMIT 400;
