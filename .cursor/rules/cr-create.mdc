@@ -1,0 +1,147 @@
+---
+description: "Template for designing a Change Request on an existing project — invoke when the user asks to plan/design a CR, feature change, or enhancement"
+alwaysApply: false
+---
+# cr-create.md
+
+Change Request for: **"{{CR_NAME}}"**
+
+## Goal
+{{GOALS}}
+
+---
+
+## Instructions
+
+Design the safest, most targeted change that achieves the goal without breaking existing behavior.
+
+Prioritize:
+- minimal footprint — touch only what must change
+- backward compatibility and data safety
+- clear rollback path
+- regression safety for existing features
+
+Avoid:
+- scope creep beyond the stated goal
+- refactoring unrelated code
+- breaking existing API contracts without a migration plan
+- changes that require coordinated deploys unless justified
+
+Assume:
+- production system is live with real data
+- a small engineering team with limited QA bandwidth
+- iterative delivery; each CR should be independently deployable
+
+---
+
+## Impact analysis
+
+Identify:
+- files, modules, classes, and DB tables touched
+- existing behaviors that change (intentionally or as side effects)
+- dependent modules or features that may be affected
+- consumers of any modified APIs or interfaces
+
+---
+
+## Functional requirements
+
+Define:
+- what changes in system behavior (before → after)
+- business rules that must hold after the change
+- validation rules
+- constraints
+
+Explicitly distinguish:
+- in scope for this CR
+- out of scope / future CR
+
+---
+
+## Data migration
+
+If the DB schema or stored data changes, provide:
+- schema diff (ALTER / new table / index)
+- data migration script (safe to run on live data, idempotent)
+- backward-compatible intermediate state if a zero-downtime deploy is needed
+- rollback SQL
+
+If no DB change: state "No data migration required."
+
+---
+
+## Architecture impact
+
+Describe:
+- which components change and why
+- whether existing interfaces remain compatible
+- any new external dependencies introduced
+- background jobs or cron tasks affected
+
+---
+
+## Implementation plan
+
+Break the change into atomic, independently reviewable steps:
+
+1. Step 1 — e.g. schema migration
+2. Step 2 — e.g. backend logic
+3. Step 3 — e.g. UI / template update
+4. Step 4 — e.g. tests & cleanup
+
+Each step should be deployable or at least committable without breaking the system.
+
+---
+
+## Testing
+
+Specify:
+- manual smoke tests (happy path + edge cases)
+- regression areas to recheck
+- automated tests to add or update
+- how to verify data integrity post-migration
+
+---
+
+## Rollback plan
+
+Describe:
+- how to revert the code change (feature flag, revert commit, etc.)
+- how to reverse the data migration if needed
+- acceptable data loss / downtime during rollback (state explicitly)
+
+---
+
+## Edge cases
+
+Identify and solve:
+- existing records that don't conform to new rules
+- concurrent writes during migration
+- partial deploys (code deployed, migration not yet run)
+- cancellation or interruption mid-migration
+
+---
+
+## Deliverables
+
+Output:
+
+1. Impact analysis summary
+2. Schema / data migration script (if applicable)
+3. Implementation steps (ordered)
+4. Testing checklist
+5. Rollback plan
+6. Decision rationale & tradeoffs
+7. Risks
+
+---
+
+## Questions
+
+Before designing:
+- Ask clarifying questions only if information is truly missing.
+- Otherwise proceed with reasonable assumptions and list them explicitly.
+
+Generate everything in:
+
+`{{OUTPUT_FILENAME}}`

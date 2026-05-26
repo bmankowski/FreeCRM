@@ -1,0 +1,178 @@
+---
+description: "Template for reviewing a Change Request document — invoke when the user asks to review, validate, or quality-check a CR before implementation"
+alwaysApply: false
+---
+# cr-review.md
+
+Review Change Request: **"{{CR_NAME}}"**
+
+Input document:
+`{{CR_DOCUMENT}}`
+
+---
+
+## Role
+
+You are acting as:
+
+**Staff Engineer + Tech Lead + Code Reviewer**
+
+Your task is to review a CR document and determine whether it is safe, complete, and ready to implement.
+
+Do NOT redesign the change unless a blocking issue is discovered.
+
+Do NOT generate a new implementation plan — only validate the one proposed.
+
+---
+
+## Review checklist
+
+Work through each section in order. For each item mark:
+
+- ✅ Adequate
+- ⚠️ Needs clarification
+- ❌ Blocking — must be resolved before implementation
+
+---
+
+# 1. Goal & scope clarity
+
+- Is the goal stated precisely (what changes, not just what is desired)?
+- Is "in scope / out of scope" explicit?
+- Could the scope silently expand during implementation?
+
+---
+
+# 2. Impact analysis
+
+- Are all touched files, modules, classes, and DB tables listed?
+- Are downstream consumers of changed APIs or fields identified?
+- Are there hidden coupling points (cron jobs, event listeners, cached data, indexes) that are missing?
+
+---
+
+# 3. Functional requirements
+
+- Is the "before → after" behavior described concretely?
+- Are all business rules stated?
+- Are validation rules complete?
+- Are there behavioral changes that are not acknowledged?
+
+---
+
+# 4. Data migration
+
+- Is a schema diff provided (if schema changes)?
+- Is the migration script idempotent and safe to run on live data?
+- Is a rollback SQL provided?
+- Is backward compatibility during the deploy window addressed (old code + new schema or vice versa)?
+- Are existing records that don't conform to the new rules handled?
+
+If no DB change: confirm "No data migration required" is stated explicitly.
+
+---
+
+# 5. Architecture impact
+
+- Are all modified components listed?
+- Are existing interface contracts preserved or is a migration path provided?
+- Are new dependencies justified and approved?
+- Are background jobs and cron tasks that are affected listed?
+
+---
+
+# 6. Implementation plan
+
+- Are steps atomic and independently deployable/committable?
+- Is the order correct (e.g. schema before code, not after)?
+- Is there a partial-deploy safety window (code live before migration runs)?
+- Is there a step that is missing or under-specified?
+
+---
+
+# 7. Testing plan
+
+- Are smoke tests defined for the happy path?
+- Are regression areas identified?
+- Are edge cases covered by tests?
+- Is data integrity verification post-migration included?
+
+---
+
+# 8. Rollback plan
+
+- Is the code rollback path described (revert, feature flag, etc.)?
+- Is the data rollback path described?
+- Is acceptable data loss / downtime stated explicitly?
+- Is the rollback realistic to execute under pressure?
+
+---
+
+# 9. Edge cases
+
+- Are concurrent write scenarios during migration addressed?
+- Are partial deploys (code but no migration, or migration but old code) safe?
+- Are interrupted migrations recoverable?
+- Are there existing records that violate the new constraints?
+
+---
+
+# 10. Risk assessment
+
+Classify each identified risk:
+
+| Risk | Severity (Low / Med / High) | Mitigation in CR | Gap |
+|------|-----------------------------|------------------|-----|
+| ...  | ...                         | ✅ / ⚠️ / ❌     | ... |
+
+---
+
+# Required output
+
+## Summary verdict
+
+**READY / READY WITH CONDITIONS / NOT READY**
+
+State the verdict in one sentence with the primary reason.
+
+---
+
+## Blocking issues
+
+List every ❌ item. Each must be resolved before implementation starts.
+
+Format:
+- **[Section]** Description of the gap and what is needed to resolve it.
+
+---
+
+## Conditions (non-blocking)
+
+List every ⚠️ item. These should be resolved before or during implementation.
+
+---
+
+## Strengths
+
+Acknowledge what the CR does well (keep this brief).
+
+---
+
+## Recommended next action
+
+One concrete action the author should take before implementation:
+- e.g. "Add rollback SQL for the ALTER TABLE in step 2."
+- e.g. "Clarify behavior for existing NULL values in column X."
+- e.g. "Confirm cron job Y is not affected."
+
+---
+
+## Assumptions made during review
+
+List any assumptions you made where the CR was silent.
+
+---
+
+Output file:
+
+`{{OUTPUT_FILENAME}}`
