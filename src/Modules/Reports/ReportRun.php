@@ -585,7 +585,7 @@ class ReportRun extends \App\Core\CRMEntity
 		$fieldtablename = $adb->query_result($field_query, 0, 'tablename');
 		$fieldcolname = $adb->query_result($field_query, 0, 'columnname');
 		$typeofdata = $adb->query_result($field_query, 0, 'typeofdata');
-		$fieldtypeofdata = \vtlib\Functions:: transformFieldTypeOfData($fieldtablename, $fieldcolname, $typeofdata[0]);
+		$fieldtypeofdata = \vtlib\Functions::transformFieldTypeOfData($fieldtablename, $fieldcolname, $typeofdata);
 		$uitype = $adb->query_result($field_query, 0, 'uitype');
 		if ($uitype == 68 || $uitype == 59) {
 			$fieldtypeofdata = 'V';
@@ -1115,8 +1115,7 @@ class ReportRun extends \App\Core\CRMEntity
 				$moduleFieldLabel = $selectedfields[3];
 				list($moduleName, $fieldLabel) = explode('__', $moduleFieldLabel, 2);
 				$fieldInfo = getFieldByReportLabel($moduleName, $fieldLabel);
-				$typeOfData = $fieldInfo['typeofdata'];
-				list($type, $typeOtherInfo) = explode('~', $typeOfData, 2);
+				$type = $fieldInfo['typeofdata'];
 
 				if ($datefilter != "custom") {
 					$startenddate = $this->getStandarFiltersStartAndEndDate($datefilter);

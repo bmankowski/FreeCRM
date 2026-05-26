@@ -58,15 +58,13 @@ class WebserviceField
 		$this->fieldLabel = $row['fieldlabel'];
 		$this->displayType = $row['displaytype'];
 		$this->massEditable = ($row['masseditable'] === '1') ? true : false;
-		$typeOfData = $row['typeofdata'];
+		$this->typeOfData = $row['typeofdata'];
 		$this->presence = $row['presence'];
-		$this->typeOfData = $typeOfData;
-		$typeOfData = explode('~', $typeOfData);
 		$this->mandatory = (bool) ($row['mandatory'] ?? false);
 		if ($this->uitype == 4) {
 			$this->mandatory = false;
 		}
-		$this->fieldType = $typeOfData[0];
+		$this->fieldType = $this->typeOfData;
 		$this->tabid = $row['tabid'];
 		$this->fieldId = $row['fieldid'];
 		$this->fieldDataType = null;
@@ -252,7 +250,7 @@ class WebserviceField
 	/**
 	 * Returns the field type for REST API consumers.
 	 * Source: vtiger_ws_fieldtype (by uitype) with typeofdata as fallback.
-	 * Note: 'V~O' typeofdata maps to 'string' here — correct for the API,
+	 * Note: 'V' typeofdata maps to 'string' here — correct for the API,
 	 * but wrong for UI rendering. Use Field::getUiTypeName() for UI/business logic.
 	 */
 	public function getFieldDataType()

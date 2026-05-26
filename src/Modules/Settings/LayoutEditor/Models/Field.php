@@ -43,14 +43,13 @@ class Field extends \App\Modules\Base\Models\Field
 		$oldfieldlabel = $this->get('label');
 		$tablename = $this->get('table');
 		$columnName = $this->get('column');
-		$fieldtype = explode("~", $typeofdata);
 		$tabId = $moduleId;
 
 		$focus = \App\Core\CRMEntity::getInstance($fldModule);
 
-		$deleteColumnName = $tablename . ":" . $columnName . ":" . $fieldName . ":" . $fldModule . "_" . str_replace(" ", "_", $oldfieldlabel) . ":" . $fieldtype[0];
+		$deleteColumnName = $tablename . ":" . $columnName . ":" . $fieldName . ":" . $fldModule . "_" . str_replace(" ", "_", $oldfieldlabel) . ":" . $typeofdata;
 		$columnCvstdfilter = $tablename . ":" . $columnName . ":" . $fieldName . ":" . $fldModule . "_" . str_replace(" ", "_", $oldfieldlabel);
-		$selectColumnname = $tablename . ":" . $columnName . ":" . $fldModule . "_" . str_replace(" ", "_", $oldfieldlabel) . ":" . $fieldName . ":" . $fieldtype[0];
+		$selectColumnname = $tablename . ":" . $columnName . ":" . $fldModule . "_" . str_replace(" ", "_", $oldfieldlabel) . ":" . $fieldName . ":" . $typeofdata;
 		$reportsummaryColumn = $tablename . ":" . $columnName . ":" . str_replace(" ", "_", $oldfieldlabel);
 		if ($tablename != 'vtiger_crmentity' && $db->isTableExists($tablename) && $db->getSchema()->getTableSchema($tablename, true)->getColumn($columnName)) {
 			$db->createCommand()->dropColumn($tablename, $columnName)->execute();

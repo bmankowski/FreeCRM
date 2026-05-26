@@ -604,10 +604,8 @@ class Reports extends \App\Core\CRMEntity
 			$fieldtablename = $adb->query_result($result, $i, "tablename");
 			$fieldcolname = $adb->query_result($result, $i, "columnname");
 			$fieldname = $adb->query_result($result, $i, "fieldname");
-			$fieldtype = $adb->query_result($result, $i, "typeofdata");
+			$fieldtypeofdata = $adb->query_result($result, $i, "typeofdata");
 			$uitype = $adb->query_result($result, $i, "uitype");
-			$fieldtype = explode("~", $fieldtype);
-			$fieldtypeofdata = $fieldtype[0];
 			$blockid = $adb->query_result($result, $i, "block");
 
 			//Here we Changing the displaytype of the field. So that its criteria will be displayed correctly in Reports Advance Filter.
@@ -1071,9 +1069,9 @@ class Reports extends \App\Core\CRMEntity
 		$columntototalrow = $adb->fetch_array($result);
 		$options_list = [];
 		do {
-			$typeofdata = explode("~", $columntototalrow["typeofdata"]);
+			$typeofdata = $columntototalrow["typeofdata"];
 
-			if ($typeofdata[0] == "N" || $typeofdata[0] == "I" || ($typeofdata[0] == "NN" && !empty($typeofdata[2]))) {
+			if (in_array($typeofdata, ['N', 'I', 'NN'], true)) {
 				$options = [];
 				if (isset($this->columnssummary)) {
 					$selectedcolumn = "";

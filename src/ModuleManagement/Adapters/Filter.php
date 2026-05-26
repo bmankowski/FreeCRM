@@ -133,13 +133,12 @@ class Filter
 	protected function getColumnValue($fieldInstance): string
 	{
 		$typeofdata = isset($fieldInstance->typeofdata) ? $fieldInstance->typeofdata : 'V';
-		$tod = explode('~', $typeofdata);
 		$moduleName = method_exists($fieldInstance, 'getModuleName') ? $fieldInstance->getModuleName() : ($this->module->name ?? '');
 		$label = isset($fieldInstance->label) ? $fieldInstance->label : '';
 		$table = isset($fieldInstance->table) ? $fieldInstance->table : '';
 		$column = isset($fieldInstance->column) ? $fieldInstance->column : '';
 		$name = isset($fieldInstance->name) ? $fieldInstance->name : '';
-		$displayinfo = $moduleName . '_' . str_replace(' ', '_', $label) . ':' . $tod[0];
+		$displayinfo = $moduleName . '_' . str_replace(' ', '_', $label) . ':' . $typeofdata;
 		return "{$table}:{$column}:{$name}:{$displayinfo}";
 	}
 

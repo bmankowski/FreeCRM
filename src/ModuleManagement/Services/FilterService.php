@@ -262,8 +262,8 @@ class FilterService
 	 */
 	private function getColumnValue(Models\Field $fieldInstance, Models\Module $module): string
 	{
-		$tod = explode('~', $fieldInstance->getTypeofdata());
-		$displayinfo = $module->getName() . '_' . str_replace(' ', '_', $fieldInstance->getLabel()) . ':' . $tod[0];
+		$typeofdata = $fieldInstance->getTypeofdata();
+		$displayinfo = $module->getName() . '_' . str_replace(' ', '_', $fieldInstance->getLabel()) . ':' . $typeofdata;
 		return "{$fieldInstance->getTable()}:{$fieldInstance->getColumn()}:{$fieldInstance->getName()}:$displayinfo";
 	}
 

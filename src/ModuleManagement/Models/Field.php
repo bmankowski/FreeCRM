@@ -192,7 +192,7 @@ class Field
 		$this->info_type = $info_type;
 		$this->block = $block;
 		$this->fieldparams = $fieldparams;
-		$this->mandatory = $mandatory ?? self::mandatoryFromTypeofdata($typeofdata);
+		$this->mandatory = $mandatory ?? 0;
 	}
 
 	public function getId() { return $this->id; }
@@ -217,12 +217,6 @@ class Field
 	public function getMandatory() { return $this->mandatory; }
 	public function getPresence() { return $this->presence; }
 
-	/** @deprecated Segment 2 (M/O) has been removed from typeofdata; set mandatory explicitly. */
-	public static function mandatoryFromTypeofdata(string $typeofdata): int
-	{
-		$parts = explode('~', $typeofdata);
-		return (isset($parts[1]) && $parts[1] === 'M') ? 1 : 0;
-	}
 	public function getDefaultvalue() { return $this->defaultvalue; }
 	public function getMaximumlength() { return $this->maximumlength; }
 	public function getSequence() { return $this->sequence; }

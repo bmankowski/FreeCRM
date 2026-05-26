@@ -11,6 +11,7 @@
 | Change 5 — numeric precision encoding (`N~2~2`) | **Done** (2026-05-26) |
 | Change 6 — strip `DT~time_start` companion pattern | **Done** (2026-05-26) |
 | Fix — self-referential OTH constraints (`vtiger_assets`) | **Done** (2026-05-26) |
+| Change 7 — remove legacy `explode('~', typeofdata)` in PHP | **Done** (2026-05-26) |
 
 Deploy **migration before** PHP on each environment: `yii migrate --migrationPath=migrations/Users/`
 
@@ -24,7 +25,7 @@ Deploy **migration before** PHP on each environment: `yii migrate --migrationPat
 `readonly` tinyint(1) unsigned NOT NULL,
 `mandatory` tinyint(1) unsigned NOT NULL DEFAULT 0,   -- authoritative for required fields
 `presence` tinyint(1) unsigned NOT NULL DEFAULT 1,
-`typeofdata` varchar(100) DEFAULT NULL,               -- segment 2 (M/O) kept in sync for backward compat
+`typeofdata` varchar(100) DEFAULT NULL,               -- single storage type code (V, D, N, …)
 ```
 
 Index: `field_mandatory_idx` on `mandatory`.
@@ -34,15 +35,18 @@ Existing DBs: [`migrations/Users/m260526_000001_vtiger_field_mandatory.php`](../
 
 ### 1.2 `typeofdata` format
 
-`typeofdata` is a tilde-separated (`~`) string that still packs several facts into one column:
+`typeofdata` now contains **only the type-code token** (e.g. `V`, `D`, `N`). All multi-segment encodings have been removed:
 
-```
-<type_code> ~ <mandatory_flag> [~ <constraint_type> ~ <operator> ~ <ref_field> ~ <ref_label>]
-```
+| Segment | Description | Status |
+|---------|-------------|--------|
+| 1 | DB storage type code (`V`, `D`, `N`, `DT`, …) | **Active — only remaining segment** |
+| 2 | Mandatory flag (`M`/`O`) | **Removed** (Change 3) — `mandatory` column is authoritative |
+| 3–5 | OTH cross-field constraint | **Removed** (Change 4) — `vtiger_field_constraints` table |
+| 3–4 | `LE~n` length constraint | **Removed** (Change 2) — `maximumlength` is authoritative |
+| 3–4 | `2~2` numeric precision | **Removed** (Change 5) — DB column type is authoritative |
+| 3 | `time_start` companion field name | **Removed** (Change 6) — uitype 6 handles this intrinsically |
 
-Segment 2 (`M` / `O`) remains written on field save alongside `mandatory` until a later cleanup pass.
-
-This still violates **First Normal Form** for type code, constraints, and length/precision encodings — only the mandatory flag has been normalized out.
+`typeofdata` is now **fully First Normal Form** — one atomic value per row.
 
 ---
 
@@ -77,63 +81,27 @@ uitype 15 → V (normal), but also T, D (anomalous legacy data)
 The `M`/`O` mandatory flag has been stripped from `typeofdata` entirely (migration `m260526_000004`).  
 `vtiger_field.mandatory` is the sole authority. Segment 2 no longer exists in any row.
 
-`typeofdata` now contains only: `<type_code>` optionally followed by cross-field constraints or precision encoding.
+`typeofdata` now contains only the `<type_code>` token (no `~` segments).
 
-#### Segment 3–5 — optional cross-field validation constraint
+#### Segment 3–5 — OTH cross-field constraint *(removed — Change 4)*
 
-Present on **17 fields** only. Used to declare that one field's value must be ≥ or > another field's value.
+Was present on 17 fields. Format: `D~M~OTH~GE~date_start~Start Date & Time`.  
+All constraints migrated to `vtiger_field_constraints`. `typeofdata` rows stripped to type code only.
 
-```
-D~M~OTH~GE~date_start~Start Date & Time
-     ───  ──  ─────────  ────────────────
-      │    │    │              └── ref field label (display only)
-      │    │    └── ref field name
-      │    └── operator: GE (>=), G (>)
-      └── constraint type: OTH = "other field"
-```
+#### Segments 3–4 — `LE~n` length constraint *(removed — Change 2)*
 
-Examples:
-| Field | typeofdata | Meaning |
-|-------|-----------|---------|
-| `due_date` | `D~M~OTH~GE~date_start~Start Date & Time` | end ≥ start |
-| `time_end` | `T~M~OTH~GE~time_start~LBL_TIME_START` | end time ≥ start time |
-| `support_end_date` | `D~O~OTH~GE~support_start_date~Support Start Date` | end ≥ start |
-| `sales_end_date` | `D~O~OTH~GE~sales_start_date~Sales Start Date` | end ≥ start |
+Was present on 29 varchar fields. Format: `V~O~LE~100`.  
+`maximumlength` column is authoritative. One drifted row (`cf_2610`) corrected.
 
-#### Segments 3–4 (alternative) — inline length constraint
+#### Segments 3–4 — numeric precision *(removed — Change 5)*
 
-Present on **29 fields**. Used on varchar custom fields created through the field editor.
+Was present on 3 fields (`progress`, `discount`, `probability`). Format: `N~O~2~2`.  
+Never read at runtime; DB column type is authoritative.
 
-```
-V~O~LE~100
-     ──  ───
-      │    └── max length value
-      └── operator: LE (≤)
-```
+#### Segment 3 — `time_start` companion field name *(removed — Change 6)*
 
-**This is a duplicate of `maximumlength`.** Both columns store the same value for all but one field:
-
-| fieldname | typeofdata | maximumlength | Drift? |
-|-----------|-----------|---------------|--------|
-| `cf_2610` | `V~O~LE~255` | 100 | **YES — drift** |
-| all others | `V~O~LE~n` | n | No |
-
-#### Segments 3–4 (alternative) — numeric precision
-
-Present on **3 fields** (`progress`, `discount`, `probability`). Encodes `min_integer_digits~max_decimal_digits`:
-
-```
-N~O~2~2   → 2 decimal places
-```
-
-#### Special: `DT~M~time_start`
-
-`date_start` fields (uitype 6) use segment 3 to name the **companion time column** that stores the time portion of the datetime:
-
-```
-DT~M~time_start
-         └── companion time field name
-```
+Was present on 2 `date_start` fields (uitype 6). Format: `DT~M~time_start`.  
+uitype 6 handles the companion relationship intrinsically; segment was unused.
 
 ---
 
@@ -147,12 +115,12 @@ DT~M~time_start
 | `Field::__update()` | persists `mandatory` + `typeofdata` | typeofdata no longer encodes M/O |
 | `WebserviceField` constructor | `mandatory` column | `(bool)($row['mandatory'] ?? false)` |
 | `CRMEntity::initRequiredFields()` | `mandatory` column | `mandatory = 1` |
-| `Field::getFieldType()` | segment 1 | `explode('~', ...)[0]` |
-| `Field::getCustomViewColumnName()` | segment 1 | then `transformFieldTypeOfData()` |
-| `Field::getReportFilterColumnName()` | segment 1 | then `transformFieldTypeOfData()` |
-| `WebserviceField::getFieldTypeFromTypeOfData()` | segment 1 | REST API type fallback |
+| `Field::getFieldType()` | type code | `typeofdata` directly |
+| `Field::getCustomViewColumnName()` | type code | then `transformFieldTypeOfData()` |
+| `Field::getReportFilterColumnName()` | type code | then `transformFieldTypeOfData()` |
+| `WebserviceField::getFieldTypeFromTypeOfData()` | type code | REST API type fallback |
 | Module management (`FieldService`) | both | INSERT/UPDATE `mandatory`; `typeofdata` unchanged |
-| `ModuleManagement/Adapters/Filter.php` | segment 1 | filter criteria type |
+| `ModuleManagement/Adapters/Filter.php` | type code | filter criteria type |
 
 Templates and JS are unchanged — they call `isMandatory()` / `fieldInfo.mandatory`.
 
@@ -166,7 +134,7 @@ Templates and JS are unchanged — they call `isMandatory()` / `fieldInfo.mandat
 | No dedicated `mandatory` column | High | **Resolved** |
 | `LE~n` duplicates `maximumlength` | Medium | **Resolved** |
 | Anomalous `D~0` (digit zero) | Low | **Resolved** in migration |
-| Cross-field constraints in string | Low | Deferred (Change 4) |
+| Cross-field constraints in string | Low | **Resolved** (Change 4) |
 | Numeric precision encoding (`N~2~2`) unused | Low | **Resolved** |
 | Self-referential OTH constraints (`vtiger_assets`) | Low | **Resolved** |
 
@@ -193,7 +161,7 @@ Templates and JS are unchanged — they call `isMandatory()` / `fieldInfo.mandat
 | `src/Webservices/WebserviceField.php` | constructor prefers `mandatory` column |
 | `src/Core/CRMEntity.php` | `initRequiredFields()` uses `mandatory = 1` |
 | `src/ModuleManagement/Services/FieldService.php` | INSERT/UPDATE + loaders |
-| `src/ModuleManagement/Models/Field.php` | `$mandatory`, `getMandatory()`, `mandatoryFromTypeofdata()` |
+| `src/ModuleManagement/Models/Field.php` | `$mandatory`, `getMandatory()` |
 | `src/ModuleManagement/Adapters/FieldBasic.php` | `public $mandatory = 0` |
 | `src/ModuleManagement/Adapters/Field.php` | maps `mandatory` on adapter instances |
 | `src/Modules/Install/install_schema/scheme.sql` | column + index for new installs |
@@ -242,9 +210,21 @@ CREATE TABLE vtiger_field_constraints (
 |------|--------|
 | `migrations/Users/m260526_000007_vtiger_field_constraints.php` | CREATE TABLE + 26 INSERTs + UPDATE typeofdata strip |
 | `src/Modules/Base/Models/Field.php` | `getValidator()` rewritten; `getFieldConstraints()` helper added |
+| `src/Modules/Calendar/Models/Field.php` | removed now-redundant `getValidator()` override (due_date case covered by table) |
+| `src/Modules/Reservations/Models/Field.php` | added `: array` return type to `getValidator()` |
+| `src/Modules/OSSTimeControl/Models/Field.php` | added `: array` return type to `getValidator()` |
+| `src/Modules/SSalesProcesses/Models/Field.php` | added `: array` return type to `getValidator()` |
 | `src/Modules/Install/install_schema/scheme.sql` | `CREATE TABLE vtiger_field_constraints` added |
 | `src/Modules/Install/install_schema/data.sql` | 17 typeofdata rows stripped + 26 constraint rows seeded |
 | `src/Modules/Install/install_schema/Base2.php` | same + `data2()` method for batch insert |
+
+**Bugs found during testing:**
+
+1. **Fatal error on Calendar EditView** — `Calendar\Models\Field::getValidator()` declared without `: array` return type, incompatible with the base class signature. Fixed by removing the override entirely (the table-driven base class now produces the identical result for `due_date`).
+
+2. **Silent constraint lookup returning nothing** — `getFieldConstraints()` was called with `$this->get('fieldid')`, but the field model's `initialize()` maps the DB column `fieldid` to the key `'id'`. The lookup always received `0` and returned no constraints. Fixed to `$this->get('id')`.
+
+3. **Latent fatal errors** — Three other Field subclasses (`Reservations`, `OSSTimeControl`, `SSalesProcesses`) had the same missing `: array` return type. Fixed preemptively.
 
 ### Change 6 — Strip `DT~time_start` companion pattern ✅ Done
 
@@ -285,6 +265,30 @@ Bundled in `migrations/Users/m260526_000005_typeofdata_strip_numeric_precision.p
 
 ---
 
+### Change 7 — Remove legacy `explode('~', typeofdata)` in PHP ✅ Done
+
+No migration — DB already has single-token `typeofdata` only (0 rows with `~`).
+
+1. Replaced all `explode('~', …)[0]` reads with the `typeofdata` string directly.
+2. Removed deprecated `ModuleManagement\Models\Field::mandatoryFromTypeofdata()`.
+3. Simplified report column-total numeric check (`in_array` on `N`/`I`/`NN`; dropped dead `~2~2` branch).
+4. Fixed `ReportRun.php` bug: `$typeofdata[0]` on a string used only the first character (`DT` → `D`).
+
+**Files updated:**
+
+| File | Change |
+|------|--------|
+| `src/Modules/Base/Models/Field.php` | `getFieldType()`, `getCustomViewColumnName()`, `getReportFilterColumnName()` |
+| `src/Webservices/WebserviceField.php` | constructor; comment `V~O` → `V` |
+| `src/ModuleManagement/Adapters/Filter.php` | `getColumnValue()` |
+| `src/ModuleManagement/Services/FilterService.php` | `getColumnValue()` |
+| `src/ModuleManagement/Models/Field.php` | `$mandatory ?? 0`; removed `mandatoryFromTypeofdata()` |
+| `src/Modules/Settings/LayoutEditor/Models/Field.php` | field delete cleanup |
+| `src/Modules/Reports/Reports.php` | advance filter + column totals |
+| `src/Modules/Reports/ReportRun.php` | standard date filter + `transformFieldTypeOfData()` arg |
+
+---
+
 ## 4. Implementation order
 
 | # | Change | Status |
@@ -296,6 +300,7 @@ Bundled in `migrations/Users/m260526_000005_typeofdata_strip_numeric_precision.p
 | 5 | Strip `N~2~2` precision encoding + fix OTH self-ref | **Done** |
 | 6 | Strip `DT~time_start` companion pattern | **Done** |
 | 7 | Cross-field constraints table + strip OTH + rewrite `getValidator()` | **Done** |
+| 8 | Remove legacy `explode('~', typeofdata)` in PHP | **Done** |
 
 ---
 
@@ -321,3 +326,5 @@ Bundled in `migrations/Users/m260526_000005_typeofdata_strip_numeric_precision.p
 | 2026-05-26 | bmankowski | Fix: self-referential OTH constraints on vtiger_assets corrected (datesold → references dateinservice; dateinservice → plain D); all open questions closed |
 | 2026-05-26 | bmankowski | Change 6: DT~time_start companion stripped (2 rows); migration 006; seed data updated |
 | 2026-05-26 | bmankowski | Change 4+7: vtiger_field_constraints table created (26 rows, ENUM GE/G/LE/L); all OTH segments stripped from typeofdata; Field::getValidator() rewritten as data-driven lookup with request-level cache; 3 previously missing validators added (dateinservice, time_start×2); typeofdata is now fully 1NF |
+| 2026-05-26 | bmankowski | Testing bug fixes: (1) Calendar\Models\Field::getValidator() removed (missing return type + now redundant); (2) getFieldConstraints() fixed to use $this->get('id') not 'fieldid' (model key mapping); (3) Reservations/OSSTimeControl/SSalesProcesses Field::getValidator() return types added |
+| 2026-05-26 | bmankowski | Change 7: removed all `explode('~', typeofdata)` in PHP; `mandatoryFromTypeofdata()` deleted; report column-total check simplified; fixed ReportRun `$typeofdata[0]` string-index bug (`DT` fields treated as `D`) |

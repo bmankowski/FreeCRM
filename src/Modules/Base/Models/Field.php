@@ -606,8 +606,7 @@ class Field extends \vtlib\Field
 		if (isset($this->fieldType)) {
 			return $this->fieldType;
 		}
-		$fieldType = explode('~', $this->get('typeofdata'));
-		$fieldType = array_shift($fieldType);
+		$fieldType = (string) $this->get('typeofdata');
 		if ($this->getFieldDataType() === 'reference') {
 			$fieldType = 'V';
 		} else {
@@ -827,9 +826,7 @@ class Field extends \vtlib\Field
 		$columnName = $this->get('column');
 		$fieldName = $this->get('name');
 		$fieldLabel = $this->get('label');
-		$typeOfData = $this->get('typeofdata');
-		$fieldTypeOfData = explode('~', $typeOfData);
-		$fieldType = $fieldTypeOfData[0];
+		$fieldType = (string) $this->get('typeofdata');
 		//Special condition need for reference field as they should be treated as string field
 		if ($this->getFieldDataType() === 'reference') {
 			$fieldType = 'V';
@@ -852,10 +849,7 @@ class Field extends \vtlib\Field
 		$columnName = $this->get('column');
 		$fieldName = $this->get('name');
 		$fieldLabel = $this->get('label');
-		$typeOfData = $this->get('typeofdata');
-
-		$fieldTypeOfData = explode('~', $typeOfData);
-		$fieldType = $fieldTypeOfData[0];
+		$fieldType = (string) $this->get('typeofdata');
 		if ($this->getFieldDataType() == 'reference') {
 			$fieldType = 'V';
 		} else {
