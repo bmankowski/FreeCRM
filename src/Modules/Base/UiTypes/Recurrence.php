@@ -56,29 +56,34 @@ class Recurrence extends BaseUiType
 	public static function getRecurringInfo($value)
 	{
 		$result = [];
-		if (!$value) {
+		if ($value) {
 			$values = explode(';', $value);
 			foreach ($values as $val) {
-				$val = explode('=', $val, 2);
-				$result[$val[0]] = $val[1];
+				$parts = explode('=', $val, 2);
+				if (count($parts) === 2 && $parts[0] !== '') {
+					$result[$parts[0]] = $parts[1];
+				}
 			}
 			if (isset($result['UNTIL'])) {
 				$displayDate = substr($result['UNTIL'], 0, 4) . '-' . substr($result['UNTIL'], 4, 2) . '-' . substr($result['UNTIL'], 6, 2);
 				$result['UNTIL'] = \App\Fields\DateTime::currentUserDisplayDate($displayDate);
 			}
-			switch ($result['FREQ']) {
-				case 'DAILY':
-					$labelFreq = 'LBL_DAYS_TYPE';
-					break;
-				case 'WEEKLY':
-					$labelFreq = 'LBL_WEEKS_TYPE';
-					break;
-				case 'MONTHLY':
-					$labelFreq = 'LBL_MONTHS_TYPE';
-					break;
-				case 'YEARLY':
-					$labelFreq = 'LBL_YEAR_TYPE';
-					break;
+			$labelFreq = '';
+			if (!empty($result['FREQ'])) {
+				switch ($result['FREQ']) {
+					case 'DAILY':
+						$labelFreq = 'LBL_DAYS_TYPE';
+						break;
+					case 'WEEKLY':
+						$labelFreq = 'LBL_WEEKS_TYPE';
+						break;
+					case 'MONTHLY':
+						$labelFreq = 'LBL_MONTHS_TYPE';
+						break;
+					case 'YEARLY':
+						$labelFreq = 'LBL_YEAR_TYPE';
+						break;
+				}
 			}
 			$result['freqLabel'] = $labelFreq;
 		}
@@ -95,19 +100,21 @@ class Recurrence extends BaseUiType
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		$info = self::getRecurringInfo($value);
-		$text = '';
-		if (!$info) {
-			$moduleName = 'Events';
-			$text = \App\Runtime\Vtiger_Language_Handler::translate('LBL_REPEATEVENT', $moduleName) . ' ' . $info['INTERVAL'] . ' '
-				. \App\Runtime\Vtiger_Language_Handler::translate($info['freqLabel'], $moduleName) . ' '
-				. \App\Runtime\Vtiger_Language_Handler::translate('LBL_UNTIL', $moduleName) . ' ';
-			if (isset($info['COUNT'], $info['UNTIL'])) {
-				$text .= \App\Runtime\Vtiger_Language_Handler::translate('LBL_NEVER', $moduleName);
-			} else if (isset($info['COUNT'])) {
-				$text .= \App\Runtime\Vtiger_Language_Handler::translate('LBL_COUNT', $moduleName) . ': ' . $info['COUNT'];
-			} else {
-				$text .= \App\Runtime\Vtiger_Language_Handler::translate('LBL_UNTIL', $moduleName) . ': ' . $info['UNTIL'];
-			}
+		if (empty($info['FREQ'])) {
+			return '';
+		}
+		$moduleName = 'Events';
+		$interval = $info['INTERVAL'] ?? '';
+		$freqLabel = $info['freqLabel'] ?? '';
+		$text = \App\Runtime\Vtiger_Language_Handler::translate('LBL_REPEATEVENT', $moduleName) . ' ' . $interval . ' '
+			. \App\Runtime\Vtiger_Language_Handler::translate($freqLabel, $moduleName) . ' '
+			. \App\Runtime\Vtiger_Language_Handler::translate('LBL_UNTIL', $moduleName) . ' ';
+		if (isset($info['COUNT'], $info['UNTIL'])) {
+			$text .= \App\Runtime\Vtiger_Language_Handler::translate('LBL_NEVER', $moduleName);
+		} elseif (isset($info['COUNT'])) {
+			$text .= \App\Runtime\Vtiger_Language_Handler::translate('LBL_COUNT', $moduleName) . ': ' . $info['COUNT'];
+		} else {
+			$text .= \App\Runtime\Vtiger_Language_Handler::translate('LBL_UNTIL', $moduleName) . ': ' . ($info['UNTIL'] ?? '');
 		}
 		return $text;
 	}

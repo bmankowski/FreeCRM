@@ -41,6 +41,9 @@ class Reminder extends BaseUiType
 	{
 		$reminder_value = '';
 		$reminder_time = $this->getEditViewDisplayValue($value);
+		if (!is_array($reminder_time)) {
+			return $reminder_value;
+		}
 		if (!empty($reminder_time[0])) {
 			$reminder_value = $reminder_time[0] . ' ' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_DAYS');
 		}
@@ -61,14 +64,16 @@ class Reminder extends BaseUiType
 	 */
 	public function getEditViewDisplayValue($value, $record = false)
 	{
-		if ($value != 0) {
-			$rem_days = floor($value / (24 * 60));
-			$rem_hrs = floor(($value - $rem_days * 24 * 60) / 60);
-			$rem_min = ($value - ($rem_days * 24 * 60)) % 60;
-			$reminder_time = array($rem_days, $rem_hrs, $rem_min);
-			return $reminder_time;
-		} else {
+		if ($value === '' || $value === null || $value === false) {
 			return '';
 		}
+		$minutes = (int) $value;
+		if ($minutes <= 0) {
+			return '';
+		}
+		$rem_days = (int) floor($minutes / (24 * 60));
+		$rem_hrs = (int) floor(($minutes - $rem_days * 24 * 60) / 60);
+		$rem_min = (int) (($minutes - ($rem_days * 24 * 60)) % 60);
+		return [$rem_days, $rem_hrs, $rem_min];
 	}
 }

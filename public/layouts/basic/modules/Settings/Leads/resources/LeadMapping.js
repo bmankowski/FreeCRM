@@ -128,8 +128,8 @@ jQuery.Class("Settings_LeadMapping_Js",{
 				contactFieldsSelectElement.prepend('<option data-type="'+noneValue+'" label="'+noneValue+'" value="0" selected>'+noneValue+'</option>');
 			}
 			
-			accountFieldsSelectElement.trigger("chosen:updated").trigger('change',false);
-			contactFieldsSelectElement.trigger("chosen:updated").trigger('change',false);
+			accountFieldsSelectElement.trigger("change").trigger('change',false);
+			contactFieldsSelectElement.trigger("change").trigger('change',false);
 
 		})
 	},

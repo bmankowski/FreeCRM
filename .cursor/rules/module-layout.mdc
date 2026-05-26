@@ -26,3 +26,19 @@ description: "Where files live in a FreeCRM/Vtiger-style module and how URLs map
 1. Class name = file basename (e.g. `Edit.php` defines `<Module>_Edit_View` or `App\Modules\<Module>\Views\Edit`).
 2. Wire the URL with `view=` or `action=` — no router config needed.
 3. For Settings views, extend `App\Modules\Settings\Base\Views\Index` to inherit the menu.
+
+## Calendar module (common pitfalls)
+
+| Concern | Location |
+|---|---|
+| FullCalendar UI | `public/layouts/basic/modules/Calendar/resources/CalendarView.js` (+ `.min.js` via `js.mdc`) |
+| Load events AJAX | `src/Modules/Calendar/Actions/Calendar.php` → `mode=getEvents` |
+| Event payload | `src/Modules/Calendar/Models/Calendar.php` → `getEntity()` |
+| Quick-create save | `src/Modules/Calendar/Actions/SaveAjax.php` |
+| Quick-create modal submit lock | `public/layouts/basic/modules/Base/resources/Header.js` (`quickCreateSave` reject must `form.removeData('submit')`) |
+
+- **Popover / status labels**: `getEntity()` sets raw `sta` / `state` (picklist codes like `PLL_PLANNED`) and **translated** `labels.sta`, `labels.state`, `labels.pri`. UI must prefer `event.labels.*` (see `getCalendarEventLabel()` in `CalendarView.js`). The calendar page loads only `languages/*/Calendar.json` → `jsLanguageStrings`; `JS_PLL_*` in `Vtiger.json` are not exported there unless duplicated in `Calendar.json`.
+- **`event.state`**: `Module::getCalendarState()` returns picklist **values**, not display text — never pass `event.state` straight to `app.vtranslate()` expecting a label.
+- **Drag-select on month grid**: `selectDays()` — use **moment** for start/end; `Date.parse('YYYY-MM-DDTHH:mm')` often returns `NaN` and breaks the quick-create modal.
+- **After save**: prefer `loadCalendarData(true)` over only `addCalendarEvent()` (toolbar filter `showType`, missing display fields).
+- **Browser test**: MCP browser on `http://localhost`; hard-refresh after JS changes so `CalendarView.js?s=` updates.

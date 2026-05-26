@@ -129,7 +129,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 		jQuery('[name="record"]', currentContainer).val(workFlowId);
 		var modulesList = jQuery('#moduleName', currentContainer);
 		if (modulesList.length > 0 && workFlowId != '') {
-			modulesList.attr('disabled', 'disabled').trigger('chosen:updated');
+			modulesList.attr('disabled', 'disabled').trigger('change');
 		}
 	},
 	getPopUp: function (container) {
@@ -265,7 +265,7 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 				concatenatedValue = oldValue + newValue;
 			}
 			data.find('.fieldValue').val(concatenatedValue);
-			currentElement.val('').trigger('chosen:updated');
+			currentElement.val('').trigger('change');
 		});
 	},
 	registerChangeFieldEvent: function (data) {
@@ -294,11 +294,11 @@ Settings_Vtiger_Edit_Js("Settings_Workflows_Edit_Js", {
 	postShowModalAction: function (data, valueType) {
 		if (valueType == 'fieldname') {
 			jQuery('.useFieldContainer', data).removeClass('hide');
-			jQuery('.textType', data).val(valueType).trigger('chosen:updated');
+			jQuery('.textType', data).val(valueType).trigger('change');
 		} else if (valueType == 'expression') {
 			jQuery('.useFieldContainer', data).removeClass('hide');
 			jQuery('.useFunctionContainer', data).removeClass('hide');
-			jQuery('.textType', data).val(valueType).trigger('chosen:updated');
+			jQuery('.textType', data).val(valueType).trigger('change');
 		}
 		jQuery('#' + valueType + '_help', data).removeClass('hide');
 		var uiType = jQuery('.textType', data).find('option:selected').data('ui');

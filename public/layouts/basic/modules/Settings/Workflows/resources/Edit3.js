@@ -589,7 +589,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 				var name = element.attr('name');
 				if ($.inArray(name, taskFields) >= 0) {
 					if (element.is('select')) {
-						element.val('').trigger('chosen:updated').change();
+						element.val('').trigger('change').change();
 					}
 					element.prop('disabled', true);
 				}
@@ -600,7 +600,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit3_Js", {}, {
 				if ($.inArray(name, taskFields) >= 0) {
 					element.prop('disabled', false);
 					if (element.is('select')) {
-						element.val('').trigger('chosen:updated').change();
+						element.val('').trigger('change').change();
 					}
 				}
 			});

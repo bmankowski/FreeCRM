@@ -307,12 +307,12 @@ var Settings_Picklist_Js = {
 			if(typeof value.added != 'undefined'){
 				var id = value.added.id;
 				jQuery('#replaceValue option[value="'+id+'"]').remove();
-				replaceValueElement.trigger('chosen:updated');
+				replaceValueElement.trigger('change');
 			} else {
 				var id = value.removed.id;
 				var text = value.removed.text;
 				replaceValueElement.append('<option value="'+id+'">'+text+'</option>');
-				replaceValueElement.trigger('chosen:updated');
+				replaceValueElement.trigger('change');
 			}
 		}
 		jQuery('[name="delete_value[]"]').on("change", function(e) {

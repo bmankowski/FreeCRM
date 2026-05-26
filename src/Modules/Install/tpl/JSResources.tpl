@@ -12,7 +12,6 @@
 {strip}
 <!-- install/tpl/JSResources.tpl -->
 	<script type="text/javascript" src="../libraries/jquery/jquery.blockUI.js"></script>
-	<script type="text/javascript" src="../libraries/jquery/chosen/chosen.jquery.min.js"></script>
 	<script type="text/javascript" src="../libraries/jquery/select2/select2.min.js"></script>
 	<script type="text/javascript" src="../libraries/jquery/jquery-ui/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="../libraries/jquery/jquery.class.min.js"></script>
@@ -27,7 +26,6 @@
 	<script type="text/javascript" src="../libraries/bootstrap3/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="../libraries/bootstrap3/js/bootstrap-switch.js"></script>
 	<script type="text/javascript" src="../libraries/bootstrap3/js/bootbox.min.js"></script>
-	<script type="text/javascript" src="../libraries/jquery/selectize/js/selectize.js"></script>
 	<script type="text/javascript" src="../libraries/resources/jquery.additions.js"></script>
 	<script type="text/javascript" src="../libraries/resources/app.js"></script>
 	<script type="text/javascript" src="../libraries/resources/helper.js"></script>

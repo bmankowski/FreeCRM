@@ -19,8 +19,6 @@
 			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 			<link rel="stylesheet" href="../libraries/bootstrap3/css/bootstrap.min.css"/>
-			<link rel="stylesheet" href="../libraries/jquery/chosen/chosen.min.css" />
-			<link rel="stylesheet" href="../libraries/jquery/chosen/chosen.bootstrap.min.css" />
 			<link rel="stylesheet" href="../libraries/jquery/jquery-ui/jquery-ui.min.css" />
 			<link rel="stylesheet" href="../libraries/jquery/select2/select2.min.css" />
 			<link rel="stylesheet" href="../libraries/jquery/select2/select2-bootstrap.min.css" />

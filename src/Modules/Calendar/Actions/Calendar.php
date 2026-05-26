@@ -83,8 +83,7 @@ class Calendar extends \App\Base\Controllers\BaseActionController
 			if (!empty($recordId)) {
 				try {
 					$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, $moduleName);
-					$recordData = $recordModel->entity->column_fields;
-					$end = self::changeDateTime($recordData['due_date'] . ' ' . $recordData['time_end'], $delta);
+					$end = self::changeDateTime($recordModel->get('due_date') . ' ' . $recordModel->get('time_end'), $delta);
 					$due_date = $end['date'];
 					$time_end = $end['time'];
 					$recordModel->set('id', $recordId);
@@ -92,7 +91,7 @@ class Calendar extends \App\Base\Controllers\BaseActionController
 					$recordModel->set('due_date', $due_date);
 					if ($request->get('allDay') == 'true') {
 						$recordModel->set('allday', 1);
-						$start = self::changeDateTime($recordData['date_start'] . ' ' . $recordData['time_start'], $delta);
+						$start = self::changeDateTime($recordModel->get('date_start') . ' ' . $recordModel->get('time_start'), $delta);
 						$recordModel->set('date_start', $start['date']);
 					} else {
 						$recordModel->set('time_start', $time_start);

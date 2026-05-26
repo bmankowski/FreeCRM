@@ -63,8 +63,7 @@ class Calendar extends \App\Base\Controllers\BaseActionController
 				try {
 					$delta = $request->get('delta');
 					$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, $moduleName);
-					$recordData = $recordModel->entity->column_fields;
-					$end = self::changeDateTime($recordData['due_date'] . ' ' . $recordData['time_end'], $delta);
+					$end = self::changeDateTime($recordModel->get('due_date') . ' ' . $recordModel->get('time_end'), $delta);
 					$due_date = $end['date'];
 					$time_end = $end['time'];
 					$recordModel->set('id', $recordId);

@@ -103,17 +103,8 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 		var relatedList = jQuery('#relatedTabOrder');
 		var container = relatedList.find('.relatedTabModulesList');
 		var ulEle = container.find('ul.relatedModulesList');
-		var select2Element = app.showSelectizeElementView(container.find('.select2_container'), {plugins: ['drag_drop', 'remove_button'],
-			onInitialize: function () {
-				var s = this, children = this.revertSettings.$children;
-				if (children.first().is('optgroup')) {
-					children = children.find('option');
-				}
-				children.each(function () {
-					var data = $(this).data();
-					$.extend(s.options[this.value], data);
-				});
-			}
+		app.showSelectizeElementView(container.find('.select2_container'), {
+			plugins: ['drag_drop', 'remove_button']
 		});
 
 		relatedList.on('click', '.inActiveRelationModule', function (e) {
@@ -187,11 +178,13 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 	getSelectedFields: function (target) {
 		var selectedFields = [];
 		target.find(':selected').each(function (e) {
+			var $opt = jQuery(this);
+			var fieldName = $opt.data('fieldName') || $opt.data('name') || $opt.attr('data-field-name') || $opt.attr('data-name');
 			selectedFields.push({
-				id: jQuery(this).val(),
-				name: target[0].selectize.options[jQuery(this).val()].fieldName
+				id: $opt.val(),
+				name: fieldName
 			});
-		})
+		});
 		return selectedFields;
 	},
 	/**
@@ -1338,7 +1331,7 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 				defaultValueUi.removeClass('zeroOpacity');
 				defaultField.removeAttr('disabled');
 				if (defaultField.is('select')) {
-					defaultField.trigger("chosen:updated");
+					defaultField.trigger("change");
 				}
 			} else {
 				defaultField.attr('disabled', 'disabled');

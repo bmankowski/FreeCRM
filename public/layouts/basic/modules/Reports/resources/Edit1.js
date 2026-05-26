@@ -203,10 +203,10 @@ Reports_Edit_Js("Reports_Edit1_Js",{},{
 		app.registerEventForClockPicker();
 		app.registerEventForDatePickerFields('#scheduleByDate', true);
 		
-		jQuery('#annualDates').chosen();
-		jQuery('#schdayoftheweek').chosen();
-		jQuery('#schdayofthemonth').chosen();
-		jQuery('#recipients').chosen();
+		app.showSelect2ElementView(jQuery('#annualDates'));
+		app.showSelect2ElementView(jQuery('#schdayoftheweek'));
+		app.showSelect2ElementView(jQuery('#schdayofthemonth'));
+		app.showSelect2ElementView(jQuery('#recipients'));
 		
 		var currentYear = new Date().getFullYear();
 		var weekStartId = jQuery('#weekStartDay').data('value');
@@ -234,12 +234,12 @@ Reports_Edit_Js("Reports_Edit1_Js",{},{
 						html += '<option selected value='+thisInstance.DateToYMD(date)+'>'+thisInstance.DateToYMD(date)+'</option>';
 					}
 					annualDatesEle.append(html);
-					annualDatesEle.trigger("chosen:updated");
+					annualDatesEle.trigger("change");
 				}
 			});
 			var annualDatesEle = jQuery('#annualDates');
 			thisInstance.updateAnnualDates(annualDatesEle);
-			annualDatesEle.trigger("chosen:updated");
+			annualDatesEle.trigger("change");
 	},
 
 	removeYearInAnnualReport : function() {
@@ -309,11 +309,10 @@ Reports_Edit_Js("Reports_Edit1_Js",{},{
 	//Remove annual dates element 
 	registerEventForRemoveAnnualDates : function() {
 		var thisInstance = this;
-		jQuery("#annualDates").chosen().change(function(e){
+		jQuery("#annualDates").on('change', function (e) {
 			jQuery('#hiddenAnnualDates').val(JSON.stringify(jQuery(e.target).val()));
 			var element = jQuery(e.currentTarget);
 			thisInstance.updateAnnualDates(element);
-			element.trigger("chosen:updated");
 		});
 	},
 

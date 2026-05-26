@@ -217,7 +217,7 @@ function DataAccessConditions() {
 				}));
 			});
 			comparator.val(value);
-			comparator.trigger("chosen:updated");
+			comparator.trigger("change");
 		});
 	};
 	this.fieldTypeHasChanged = function () {

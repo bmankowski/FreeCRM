@@ -50,9 +50,9 @@ var Settings_Index_Js = {
 		var target = $(e.currentTarget);
 		var name = target.attr("name");
 		var value = target.val();
-		target.trigger("chosen:updated")
+		target.trigger("change")
 		if(value.length == 1){
-			app.getChosenElementFromSelect(target).find('.search-choice-close').remove();
+			app.getChosenElementFromSelect(target).find('.select2-selection__choice__remove').remove();
 		}
 		var closestTrElement = target.closest('tr');
 		var progress = $.progressIndicator({
@@ -209,7 +209,7 @@ var Settings_Index_Js = {
 		element.each(function (e) {
 			var value = jQuery(this).val();
 			if (value && value.length == 1) {
-				app.getChosenElementFromSelect(jQuery(this)).find('.search-choice-close').remove();
+				app.getChosenElementFromSelect(jQuery(this)).find('.select2-selection__choice__remove').remove();
 			}
 		})
 	},

@@ -38,7 +38,7 @@ Vtiger_AdvanceFilter_Js('HideBlocks_AdvanceFilter_Js',{},{
 
 		//change in to chosen elements
 		app.changeSelectElementView(newRowElement);
-		newRowElement.find('[name="columnname"]').find('optgroup:first option:first').attr('selected','selected').trigger('chosen:updated').trigger('change');
+		newRowElement.find('[name="columnname"]').find('optgroup:first option:first').attr('selected','selected').trigger('change').trigger('change');
 		return this;
 	},
 
@@ -86,7 +86,7 @@ Vtiger_AdvanceFilter_Js('HideBlocks_AdvanceFilter_Js',{},{
                 }
 			}
 		}
-		conditionSelectElement.empty().html(options).trigger("chosen:updated");
+		conditionSelectElement.empty().html(options).trigger("change");
 		return conditionSelectElement;
 	},
 

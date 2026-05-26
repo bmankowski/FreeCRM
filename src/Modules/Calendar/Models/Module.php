@@ -539,9 +539,11 @@ class Module extends \App\Modules\Base\Models\Module
 				return false;
 			}
 
-			$dueDateTime = $data['due_date'] . ' ' . $data['time_end'];
-			$startDateTime = $data['date_start'] . ' ' . $data['time_start'];
-			$dates = ['start' => $startDateTime, 'end' => $dueDateTime, 'current' => null];
+			$timeStart = !empty($data['time_start']) ? $data['time_start'] : '00:00:00';
+			$timeEnd = !empty($data['time_end']) ? $data['time_end'] : '00:00:00';
+			$dueDateTime = $data['due_date'] . ' ' . $timeEnd;
+			$startDateTime = $data['date_start'] . ' ' . $timeStart;
+			$dates = ['start' => $startDateTime, 'end' => $dueDateTime, 'current' => date('Y-m-d H:i:s')];
 
 			foreach ($dates as $key => $date) {
 				$date = new \App\Fields\DateTimeField($date);

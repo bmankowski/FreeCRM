@@ -231,7 +231,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 				options += '>' + conditionLabel + '</option>';
 			}
 		}
-		conditionSelectElement.empty().html(options).trigger("chosen:updated");
+		conditionSelectElement.empty().html(options).trigger("change");
 		return conditionSelectElement;
 	},
 	/**

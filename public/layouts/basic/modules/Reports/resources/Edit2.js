@@ -161,10 +161,9 @@ Reports_Edit_Js("Reports_Edit2_Js",{},{
 		var selectElement = this.getReportsColumnsList();
 		var selectedFields = JSON.parse(this.getSelectedFields().val());
 		selectElement = app.changeSelectElementView(selectElement, 'selectize', {plugins: ['drag_drop', 'remove_button'], maxItems: app.getMainParams('maxReportColumn')});
-		var selectizeInstance = selectElement[0].selectize;
-		selectizeInstance.clear();
-		for (var i in selectedFields) {
-			selectizeInstance.addItem(selectedFields[i]);
+		selectElement.val(null).trigger('change');
+		if (selectedFields && selectedFields.length) {
+			selectElement.val(selectedFields).trigger('change');
 		}
 	},
 

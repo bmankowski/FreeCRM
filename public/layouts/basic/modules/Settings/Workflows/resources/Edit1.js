@@ -85,9 +85,9 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit1_Js",{},{
 		app.registerEventForClockPicker($('.clockPicker'));
 		app.registerEventForDatePickerFields('#scheduleByDate', true);
 
-		jQuery('#annualDates').chosen();
-		jQuery('#schdayofweek').chosen();
-		jQuery('#schdayofmonth').chosen();
+		app.showSelect2ElementView(jQuery('#annualDates'));
+		app.showSelect2ElementView(jQuery('#schdayofweek'));
+		app.showSelect2ElementView(jQuery('#schdayofmonth'));
 
 		var currentYear = new Date().getFullYear();
 		var weekStartId = jQuery('#weekStartDay').data('value');
@@ -115,12 +115,12 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit1_Js",{},{
 						html += '<option selected value='+thisInstance.DateToYMD(date)+'>'+thisInstance.DateToYMD(date)+'</option>';
 					}
 					annualDatesEle.append(html);
-					annualDatesEle.trigger("chosen:updated");
+					annualDatesEle.trigger("change");
 				}
 			});
 			var annualDatesEle = jQuery('#annualDates');
 			thisInstance.updateAnnualDates(annualDatesEle);
-			annualDatesEle.trigger("chosen:updated");
+			annualDatesEle.trigger("change");
 	},
 
 	removeYearInAnnualWorkflow : function() {

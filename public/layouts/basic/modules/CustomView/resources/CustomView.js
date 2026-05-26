@@ -197,13 +197,12 @@ var Vtiger_CustomView_Js = {
 		var select2Element = Vtiger_CustomView_Js.columnListSelect2Element = Vtiger_CustomView_Js.registerSelect2ElementForColumnsSelection();
 		var contentsContainer = Vtiger_CustomView_Js.getContentsContainer();
 		jQuery('.stndrdFilterDateSelect').datepicker();
-		jQuery('.chzn-select').chosen();
+		app.changeSelectElementView(jQuery('.chzn-select'));
 
-		var selectizeInstance = select2Element[0].selectize;
 		var columnsList = JSON.parse(jQuery('input[name="columnslist"]').val());
-		selectizeInstance.clear();
-		for (var i in columnsList) {
-			selectizeInstance.addItem(columnsList[i]);
+		select2Element.val(null).trigger('change');
+		if (columnsList && columnsList.length) {
+			select2Element.val(columnsList).trigger('change');
 		}
 		jQuery("#standardDateFilter").change(function () {
 			Vtiger_CustomView_Js.loadDateFilterValues();

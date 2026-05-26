@@ -195,7 +195,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 						var mapFieldElement = formElement.find('[name="' + key + '"]');
 						if (mapFieldElement.is('select')) {
 							if (mapFieldElement.find('option[value="' + response[value[0]] + '"]').length) {
-								mapFieldElement.val(response[value[0]]).trigger("chosen:updated").change();
+								mapFieldElement.val(response[value[0]]).trigger("change").change();
 							}
 						} else if (mapFieldElement.length == 0) {
 							$("<input type='hidden'/>").attr("name", key).attr("value", response[value[0]]).appendTo(formElement);
@@ -207,7 +207,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 							mapFieldDisplayElement.val(response[value[0] + '_label']).attr('readonly', true);
 							var referenceModulesList = formElement.find('#' + thisInstance.moduleName + '_editView_fieldName_' + key + '_dropDown');
 							if (referenceModulesList.length > 0 && value[1]) {
-								referenceModulesList.val(value[1]).change().trigger("chosen:updated");
+								referenceModulesList.val(value[1]).change().trigger("change");
 							}
 							thisInstance.setReferenceFieldValue(mapFieldDisplayElement.closest('.fieldValue'), {
 								name: response[value[0] + '_label'],
@@ -360,7 +360,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		container.on("click", '.relatedPopup', function (e) {
 			thisInstance.openPopUp(e);
 		});
-		container.find('.referenceModulesList').chosen().change(function (e) {
+		app.showSelect2ElementView(container.find('.referenceModulesList')).on('change', function (e) {
 			var element = jQuery(e.currentTarget);
 			var parentElem = element.closest('.fieldValue');
 			var popupReferenceModule = element.val();
@@ -500,7 +500,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		$.each(mappingRelatedField, function (key, value) {
 			var mapFieldElement = formElement.find('[name="' + key + '"]');
 			if (mapFieldElement.is('select')) {
-				mapFieldElement.val(mapFieldElement.find("option:first").val()).trigger("chosen:updated").change();
+				mapFieldElement.val(mapFieldElement.find("option:first").val()).trigger("change").change();
 			} else {
 				mapFieldElement.val('');
 			}
@@ -509,7 +509,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 				mapFieldDisplayElement.val('').attr('readonly', false);
 				var referenceModulesList = formElement.find('#' + thisInstance.moduleName + '_editView_fieldName_' + key + '_dropDown');
 				if (referenceModulesList.length > 0 && value[1]) {
-					referenceModulesList.val(referenceModulesList.find("option:first").val()).change().trigger("chosen:updated");
+					referenceModulesList.val(referenceModulesList.find("option:first").val()).change().trigger("change");
 				}
 			}
 		});
@@ -1077,7 +1077,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 				})
 				var targetPickListSelectedValue = '';
 				var targetPickListSelectedValue = targetOptions.filter('[selected]').val();
-				targetPickList.html(targetOptions).val(targetPickListSelectedValue).trigger("chosen:updated");
+				targetPickList.html(targetOptions).val(targetPickListSelectedValue).trigger("change");
 			})
 		});
 

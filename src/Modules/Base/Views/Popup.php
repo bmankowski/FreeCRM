@@ -63,7 +63,6 @@ class Popup  extends \App\Modules\Base\Views\Index
 		$jsFileNames = array(
 			'libraries.bootstrap.js.eternicode-bootstrap-datepicker.js.bootstrap-datepicker',
 			'~libraries/bootstrap/js/eternicode-bootstrap-datepicker/js/locales/bootstrap-datepicker.' . \App\Runtime\Vtiger_Language_Handler::getShortLanguageName() . '.js',
-			'~libraries/jquery/timepicker/jquery.timepicker.min.js',
 			'~libraries/jquery/clockpicker/jquery-clockpicker.min.js',
 			'modules.Base.resources.BaseList',
 			"modules.$moduleName.resources.BaseList",

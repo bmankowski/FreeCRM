@@ -390,7 +390,7 @@ jQuery.Class("Vtiger_Helper_Js", {
 			}
 		});
 		element.val(opval);
-		element.trigger('chosen:updated');
+		element.trigger('change');
 	},
 	unique: function (array) {
 		return array.filter(function (el, index, arr) {

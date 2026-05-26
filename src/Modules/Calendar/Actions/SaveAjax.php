@@ -114,10 +114,14 @@ class SaveAjax extends \App\Modules\Base\Actions\Save
 	{
 		$recordModel = parent::getRecordModelFromRequest($request);
 
+		$currentUser = $request->getUser();
 		$startDate = $request->get('date_start');
 		if (!empty($startDate)) {
 			//Start Date and Time values
 			$startTime = \App\Modules\Base\UiTypes\Time::getTimeValueWithSeconds($request->get('time_start'));
+			if (empty($startTime)) {
+				$startTime = \App\Modules\Base\UiTypes\Time::getTimeValueWithSeconds($currentUser->get('start_hour'));
+			}
 			$startDate = \App\Modules\Base\UiTypes\Date::getDBInsertedValue($request->get('date_start'));
 			if ($startTime) {
 				$startDateTime = \App\Modules\Base\UiTypes\Datetime::getDBDateTimeValue($request->get('date_start') . " " . $startTime);
@@ -135,6 +139,8 @@ class SaveAjax extends \App\Modules\Base\Actions\Save
 				$endTime = \App\Modules\Base\UiTypes\Time::getTimeValueWithSeconds($endTime);
 				$endDateTime = \App\Modules\Base\UiTypes\Datetime::getDBDateTimeValue($request->get('due_date') . " " . $endTime);
 				list($endDate, $endTime) = explode(' ', $endDateTime);
+			} else {
+				$endTime = \App\Modules\Base\UiTypes\Time::getTimeValueWithSeconds($currentUser->get('end_hour'));
 			}
 			$recordModel->set('time_end', $endTime);
 			$recordModel->set('due_date', $endDate);
@@ -154,6 +160,17 @@ class SaveAjax extends \App\Modules\Base\Actions\Save
 		}
 		if ($request->has('saveAndClose')) {
 			$recordModel->set('activitystatus', $request->get('saveAndClose'));
+		}
+		if ($request->get('set_reminder') && $request->get('set_reminder') !== 'No' && (int) $request->get('set_reminder') !== 0) {
+			unset($_SESSION['next_reminder_time']);
+			$remDays = (int) $request->get('remdays');
+			$remHrs = (int) $request->get('remhrs');
+			$remMin = (int) $request->get('remmin');
+			$reminderTime = $remDays * 24 * 60 + $remHrs * 60 + $remMin;
+			$recordModel->set('set_reminder', $reminderTime);
+			$recordModel->set('reminder_time', $reminderTime);
+		} else {
+			$recordModel->set('set_reminder', false);
 		}
 		$startTime = $recordModel->get('time_start');
 		$endTime = $recordModel->get('time_end');

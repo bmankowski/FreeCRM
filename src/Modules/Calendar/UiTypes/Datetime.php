@@ -2,8 +2,6 @@
 
 namespace App\Modules\Calendar\UiTypes;
 
-use App\Modules\Base\UiTypes\BaseUiType as Base;
-
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -13,25 +11,25 @@ use App\Modules\Base\UiTypes\BaseUiType as Base;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Datetime extends Base
+class Datetime extends \App\Modules\Base\UiTypes\Datetime
 {
 
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		//Since date_start and due_date fields of calendar can have time appended or removed
+		if (empty($value)) {
+			return '';
+		}
+		// date_start and due_date may be date-only or date+time depending on context
 		if ($this->hasTimeComponent($value)) {
 			return self::getDisplayDateTimeValue($value);
-		} else {
-			return $this->getDisplayDateValue($value);
 		}
+
+		return \App\Modules\Base\UiTypes\Date::getDisplayDateValue($value);
 	}
 
 	public function hasTimeComponent($value)
 	{
 		$component = explode(' ', $value);
-		if (!empty($component[1])) {
-			return true;
-		}
-		return false;
+		return !empty($component[1]);
 	}
 }

@@ -117,62 +117,7 @@ var app = {
 			jQuery(e.currentTarget).trigger('focusout');
 		});
 
-		var params = {
-			no_results_text: app.vtranslate('JS_NO_RESULTS_FOUND') + ':'
-		};
-
-		var moduleName = app.getModuleName();
-		if (selectElement.filter('[multiple]') && moduleName != 'Install') {
-			params.placeholder_text_multiple = ' ' + app.vtranslate('JS_SELECT_SOME_OPTIONS');
-		}
-		if (moduleName != 'Install') {
-			params.placeholder_text_single = ' ' + app.vtranslate('JS_SELECT_AN_OPTION');
-		}
-		selectElement.chosen(params);
-
-		selectElement.each(function () {
-			var select = $(this);
-			// hide selected items in the chosen instance when item is hidden.
-			if (select.hasClass('hideSelected')) {
-				var ns = [];
-				select.find('optgroup,option').each(function (n, e) {
-					if (jQuery(this).hasClass('hide')) {
-						ns.push(n);
-					}
-				});
-				if (ns.length) {
-					select.next().find('.search-choice-close').each(function (n, e) {
-						var element = jQuery(this);
-						var index = element.data('option-array-index');
-						if (jQuery.inArray(index, ns) != -1) {
-							element.closest('li').remove();
-						}
-					})
-				}
-			}
-			if (select.attr('readonly') == 'readonly') {
-				select.on('chosen:updated', function () {
-					if (select.attr('readonly')) {
-						var wasDisabled = select.is(':disabled');
-						var selectData = select.data('chosen');
-						select.attr('disabled', 'disabled');
-						if (typeof selectData == 'object') {
-							selectData.search_field_disabled();
-						}
-						if (wasDisabled) {
-							select.attr('disabled', 'disabled');
-						} else {
-							select.removeAttr('disabled');
-						}
-					}
-				});
-				select.trigger('chosen:updated');
-			}
-		});
-
-		// Improve the display of default text (placeholder)
-		var chosenSelectConainer = jQuery('.chosen-container-multi .default').css('width', '100%');
-		return chosenSelectConainer;
+		return app.showSelect2ElementView(selectElement, viewParams);
 	},
 	/**
 	 * Function to destroy the chosen element and get back the basic select Element
@@ -189,7 +134,12 @@ var app = {
 			selectElement = parent;
 		}
 
-		selectElement.css('display', 'block').removeClass("chzn-done").data("chosen", null).next().remove();
+		selectElement.each(function () {
+			var $select = jQuery(this);
+			if ($select.hasClass('select2-hidden-accessible')) {
+				$select.select2('destroy');
+			}
+		});
 
 		return selectElement;
 
@@ -202,14 +152,63 @@ var app = {
 		if (typeof parent == 'undefined') {
 			parent = jQuery('body');
 		}
-		selectElements = jQuery('.selectized', parent);
-		//parent itself is the element
-		if (parent.is('select.selectized')) {
+		selectElements = jQuery('select.selectize, .selectized', parent);
+		if (parent.is('select.selectize') || parent.is('select.selectized')) {
 			selectElements = parent;
 		}
 		selectElements.each(function () {
-			$(this)[0].selectize.destroy();
+			var $select = jQuery(this);
+			if ($select.hasClass('select2-hidden-accessible')) {
+				$select.select2('destroy');
+			}
 		});
+		return selectElements;
+	},
+	/**
+	 * Enable drag-and-drop reordering of selected items in a select2 multi-select.
+	 */
+	registerSelect2Sortable: function (selectElement) {
+		selectElement.each(function () {
+			var $select = jQuery(this);
+			if (!$select.attr('multiple')) {
+				return;
+			}
+			var bindSortable = function () {
+				var $container = $select.next('.select2-container');
+				var $rendered = $container.find('.select2-selection__rendered');
+				if (!$rendered.length || $rendered.hasClass('ui-sortable')) {
+					return;
+				}
+				$rendered.sortable({
+					containment: 'parent',
+					items: '.select2-selection__choice',
+					tolerance: 'pointer',
+					stop: function () {
+						var ordered = [];
+						$rendered.find('.select2-selection__choice').each(function () {
+							var data = jQuery(this).data('data');
+							if (data && data.id !== undefined) {
+								ordered.push(String(data.id));
+							}
+						});
+						if (!ordered.length) {
+							return;
+						}
+						ordered.forEach(function (id) {
+							$select.append($select.find('option').filter(function () {
+								return String(jQuery(this).val()) === id;
+							}));
+						});
+						$select.trigger('change');
+					}
+				});
+			};
+			$select.on('select2:select select2:unselect change', function () {
+				setTimeout(bindSortable, 0);
+			});
+			setTimeout(bindSortable, 0);
+		});
+		return selectElement;
 	},
 	/**
 	 * Function which will show the select2 element for select boxes . This will use select2 library
@@ -393,7 +392,18 @@ var app = {
 		if (typeof params == 'undefined') {
 			params = {plugins: ['remove_button']};
 		}
-		selectElement.selectize(params);
+		var useSortable = params.plugins && jQuery.inArray('drag_drop', params.plugins) !== -1;
+		var select2Params = jQuery.extend({}, params);
+		delete select2Params.plugins;
+		delete select2Params.onInitialize;
+		if (typeof select2Params.maxItems != 'undefined') {
+			select2Params.maximumSelectionLength = select2Params.maxItems;
+			delete select2Params.maxItems;
+		}
+		app.showSelect2ElementView(selectElement, select2Params);
+		if (useSortable) {
+			app.registerSelect2Sortable(selectElement);
+		}
 		return selectElement;
 	},
 	hidePopover: function (element) {
@@ -747,6 +757,16 @@ var app = {
 			}, 'slow');
 		}
 	},
+	getUserDateFormat: function () {
+		return jQuery('#userDateFormat').val() || app.getMainParams('userDateFormat') || 'yyyy-mm-dd';
+	},
+	getDateFormatFromElement: function (element) {
+		var $element = jQuery(element).first();
+		if (!$element.length) {
+			return app.getUserDateFormat();
+		}
+		return $element.attr('data-date-format') || $element.data('date-format') || $element.data('dateFormat') || app.getUserDateFormat();
+	},
 	convertToDatePickerFormat: function (dateFormat) {
 		switch (dateFormat) {
 			case 'yyyy-mm-dd':
@@ -779,6 +799,9 @@ var app = {
 		}
 	},
 	convertTojQueryDatePickerFormat: function (dateFormat) {
+		if (!dateFormat || typeof dateFormat !== 'string') {
+			dateFormat = app.getUserDateFormat();
+		}
 		var i = 0;
 		var dotMode = '-';
 		if (dateFormat.indexOf("-") != -1) {
@@ -811,6 +834,9 @@ var app = {
 	 * Converts user formated date to database format yyyy-mm-dd
 	 */
 	getDateInDBInsertFormat: function (dateFormat, dateString) {
+		if (!dateFormat || typeof dateFormat !== 'string') {
+			dateFormat = app.getUserDateFormat();
+		}
 		var i = 0;
 		var dotMode = '-';
 		if (dateFormat.indexOf("-") != -1) {
@@ -1048,9 +1074,6 @@ var app = {
 		if (typeof cotainer == 'undefined') {
 			container = jQuery('body');
 		}
-		if (typeof registerForAddon == 'undefined') {
-			registerForAddon = true;
-		}
 
 		container = jQuery(container);
 
@@ -1060,31 +1083,8 @@ var app = {
 			var element = container.find('.timepicker-default');
 		}
 
-		if (registerForAddon == true) {
-			var parentTimeElem = element.closest('.time');
-			jQuery('.input-group-addon', parentTimeElem).on('click', function (e) {
-				var elem = jQuery(e.currentTarget);
-				elem.closest('.time').find('.timepicker-default').focus();
-			});
-		}
-
-		if (typeof params == 'undefined') {
-			params = {};
-		}
-
-		var timeFormat = element.data('format');
-		if (timeFormat == '24') {
-			timeFormat = 'H:i';
-		} else {
-			timeFormat = 'h:i A';
-		}
-		var defaultsTimePickerParams = {
-			'timeFormat': timeFormat,
-			'className': 'timePicker'
-		};
-		var params = jQuery.extend(defaultsTimePickerParams, params);
-
-		element.timepicker(params);
+		element.addClass('clockPicker');
+		app.registerEventForClockPicker(element);
 
 		return container;
 	},
@@ -1102,7 +1102,12 @@ var app = {
 		} else {
 			var element = container.find('.timepicker-default');
 		}
-		element.data('timepicker-list', null);
+		element.each(function () {
+			var $el = jQuery(this);
+			if ($el.data('clockpicker')) {
+				$el.clockpicker('remove');
+			}
+		});
 		return container;
 	},
 	/**
@@ -1111,9 +1116,11 @@ var app = {
 	 * @return : chosenElement - corresponding chosen element
 	 */
 	getChosenElementFromSelect: function (selectElement) {
+		if (selectElement.hasClass('select2-hidden-accessible')) {
+			return selectElement.next('.select2-container');
+		}
 		var selectId = selectElement.attr('id');
-		var chosenEleId = selectId + "_chosen";
-		return jQuery('#' + chosenEleId);
+		return jQuery('#' + selectId + '_chosen');
 	},
 	/**
 	 * Function to get the select2 element from the raw select element

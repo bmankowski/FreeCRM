@@ -127,7 +127,7 @@ Vtiger_Detail_Js("OSSEmployees_Detail_Js",{
                         };
                         Vtiger_Helper_Js.showPnotify(params);
 						end = true;
-						jQuery('[name="assigned_user_id"]').val(userId).trigger('chosen:updated');
+						jQuery('[name="assigned_user_id"]').val(userId).trigger('change');
 						return false;
 						
                     }

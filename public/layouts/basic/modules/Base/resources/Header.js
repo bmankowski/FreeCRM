@@ -212,10 +212,14 @@ jQuery.Class("Vtiger_Header_Js", {
 		var thisInstance = this;
 		var typeActive = data.find('ul li.active a').data('tab-name');
 		var user = data.find('[name="assigned_user_id"]');
-		var dateStartEl = data.find('[name="date_start"]');
+		var activePane = data.find('.tab-pane.active, .tab-pane.active.in').first();
+		var dateStartEl = activePane.find('[name="date_start"].dateField').first();
+		if (!dateStartEl.length) {
+			dateStartEl = data.find('[name="date_start"].dateField').first();
+		}
 		var dateStartVal = dateStartEl.val();
-		var dateStartFormat = dateStartEl.data('date-format');
-		if (typeof dateStartVal == 'undefined' || !data.find('.eventsTable').length) {
+		var dateStartFormat = app.getDateFormatFromElement(dateStartEl);
+		if (typeof dateStartVal == 'undefined' || dateStartVal === '' || !data.find('.eventsTable').length) {
 			return;
 		}
 		var days = [];
@@ -362,22 +366,28 @@ jQuery.Class("Vtiger_Header_Js", {
 			thisInstance.getNearCalendarEvent(data, module);
 		});
 		data.find('.nextDayBtn').on('click', function () {
-			var dateStartEl = data.find('[name="date_start"]')
+			var dateStartEl = data.find('.tab-pane.active [name="date_start"].dateField, .tab-pane.active.in [name="date_start"].dateField').first();
+			if (!dateStartEl.length) {
+				dateStartEl = data.find('[name="date_start"].dateField').first();
+			}
 			var startDay = dateStartEl.val();
-			var dateStartFormat = dateStartEl.data('date-format');
+			var dateStartFormat = app.getDateFormatFromElement(dateStartEl);
 			startDay = app.getDateInVtigerFormat(dateStartFormat, Date.parse(Vtiger_Helper_Js.convertToDateString(startDay, dateStartFormat, '+7', ' ')));
-			dateStartEl.val(startDay);
-			dateEnd.val(startDay);
+			data.find('[name="date_start"]').val(startDay);
+			data.find('[name="due_date"]').val(startDay);
 			data.find('.addedNearCalendarEvent').remove();
 			thisInstance.getNearCalendarEvent(data, module);
 		});
 		data.find('.previousDayBtn').on('click', function () {
-			var dateStartEl = data.find('[name="date_start"]')
+			var dateStartEl = data.find('.tab-pane.active [name="date_start"].dateField, .tab-pane.active.in [name="date_start"].dateField').first();
+			if (!dateStartEl.length) {
+				dateStartEl = data.find('[name="date_start"].dateField').first();
+			}
 			var startDay = dateStartEl.val();
-			var dateStartFormat = dateStartEl.data('date-format');
+			var dateStartFormat = app.getDateFormatFromElement(dateStartEl);
 			startDay = app.getDateInVtigerFormat(dateStartFormat, Date.parse(Vtiger_Helper_Js.convertToDateString(startDay, dateStartFormat, '-7', ' ')));
-			dateStartEl.val(startDay);
-			dateEnd.val(startDay);
+			data.find('[name="date_start"]').val(startDay);
+			data.find('[name="due_date"]').val(startDay);
 			data.find('.addedNearCalendarEvent').remove();
 			thisInstance.getNearCalendarEvent(data, module);
 		});
@@ -459,6 +469,10 @@ jQuery.Class("Vtiger_Header_Js", {
 								jQuery('body').trigger(jQuery.Event('QuickCreateSave.PostLoad'), data);
 							},
 							function (error, err) {
+								form.removeData('submit');
+								form.closest('#globalmodal').find('.modal-header h3').progressIndicator({
+									'mode': 'hide'
+								});
 							}
 					);
 				} else {
@@ -830,26 +844,12 @@ jQuery.Class("Vtiger_Header_Js", {
 		app.showModalWindow(null, url);
 	},
 	registerFooTable: function () {
-		var container = $('.tableRWD');
-		container.find('thead tr th:gt(1)').attr('data-hide', 'phone');
-		container.find('thead tr th:gt(3)').attr('data-hide', 'tablet,phone');
-		container.find('thead tr th:last').attr('data-hide', '');
-		var whichColumnEnable = container.find('thead').attr('col-visible-alltime');
-		container.find('thead tr th:eq(' + whichColumnEnable + ')').attr('data-hide', '');
-		$('.tableRWD, .customTableRWD').footable({
-			breakpoints: {
-				phone: 768,
-				tablet: 1024
-			},
-			addRowToggle: true,
-			toggleSelector: ' > tbody > tr:not(.footable-row-detail)'
+		$('.tableRWD, .customTableRWD').each(function () {
+			var table = $(this);
+			if (!table.parent().hasClass('table-responsive')) {
+				table.wrap('<div class="table-responsive"></div>');
+			}
 		});
-		$('.footable-toggle').click(function (event) {
-			event.stopPropagation();
-			$(this).trigger('footable_toggle_row');
-		});
-		var records = $('.customTableRWD').find('[data-toggle-visible=false]');
-		records.find('.footable-toggle').css("display", "none");
 	},
 	registerShowHideRightPanelEvent: function (container) {
 		var thisInstance = this;
