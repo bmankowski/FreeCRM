@@ -7,7 +7,60 @@ file/line/method was cross-checked against the current codebase.
 
 ---
 
-## Summary verdict
+## Revision note (2026-05-26, second pass)
+
+After this review surfaced the gaps below, the CR was rewritten under
+**option c1** — scope expanded to include Phase 3 (composition of
+`Base\Models\Field` over `FieldDefinition` + deletion of `FieldService`,
+`vtlib\Field`, `vtlib\FieldBasic`, and `ModuleManagement\Models\Field`). The
+rewrite addresses every blocking issue and condition raised in the original
+review:
+
+| Original finding | Resolution in revised CR |
+|------------------|--------------------------|
+| **B1** — DTO missing `sequence`, `block`, `header_field`, `maxlengthtext`, `maxwidthcolumn` | All 5 added to `FieldDefinition` with documented types and defaults. `block` is `?int` (FK only); Block-instance resolution is now a separate concern handled by `Base\Models\Field`. |
+| **B2** — `Block.php::addField()` block argument unspecified | `Block.php` consumer is now migrated in Phase 3c step 3c.2; uses `FieldDefinition` with `?int $block`. |
+| **B3** — External `getFieldService()` consumers not enumerated | Phase 3c §Implementation plan now lists every consumer (Settings/LayoutEditor, Block.php, PackageService, ModuleService, BlockService) with file:line targets; gate grep `rg "getFieldService\("` must return zero hits before Phase 3c lands. |
+| **C1** — Read-boundary `bool` vs `int` impact unaddressed | Documented in §Edge cases: removal of magic `get()` in Phase 3a forces any template/caller reading `$field->mandatory` directly to migrate to `isMandatory()`; centralised `toRow()` `(int)` casts handle write path. |
+| **C2** — Only `presence` default divergence acknowledged | §Data model now has a full reconciliation table covering `presence` (1), `readonly` (false), `generatedtype` (0), `quickcreatesequence` (null) — all DB-aligned. |
+| **C3** — `'ModuleFields'` cache shape change | §Edge cases + §Risks + §Rollback all document the deploy-time cache bust requirement for Phase 3a. |
+| **C4** — Phase 2 grep regex too narrow | Broadened to `rg "App\\Modules\\X\\Models\\Field"` (no leading `new`) in Phase 2 gate. |
+| **C5** — Namespace direction unspecified | Decided: `App\Field\FieldDefinition` (consistent with surrounding codebase); rationale in §Tradeoffs. |
+| **C6** — Round-trip test against single shape only | §Testing Phase 1 covers both `fromRow()` round-trip and `toRow()` write-compat. |
+| **C7** — Phase 2 subclass audit lacks inventory | Phase 2 step 2.1 generates a commit-with-the-PR audit inventory table. |
+| **C8** — Loader capitalized-name fallback not cited | Phase 2 gate explicitly cites both `Loader.php:158–164` and `:167–175`. |
+| Cosmetic — "27-arg constructor" | Corrected to 28 throughout. |
+
+**Net structural change:** the CR now collapses **five Field-shaped classes**
+(`FieldBasic`, `vtlib\Field`, `ModuleManagement\Models\Field`, `FieldService`,
+`Base\Models\Field`) into **two** (`FieldDefinition` + `Base\Models\Field`),
+with `WebserviceField` deferred to Phase 4 as before.
+
+### New risks introduced by the c1 expansion
+
+The wider scope brings risks the original (Phase 1 + 2 only) did not have:
+
+- **Phase 3a magic-method removal is the highest-risk single step.** Removing `Base\Models\Field::get($name)` and `set($name, $value)` forces every internal call site (and every Smarty template that reads field properties via the magic getter) to migrate. The CR mitigates by gate-grepping `\$\w+->get\('` and full smoke pass, but the blast radius is broader than any Phase 1 step.
+- **Phase 3b adds DDL (`ALTER TABLE`) inside a model class.** `Base\Models\Field::create()` will execute `ALTER TABLE` to add the column when a new field is created. This was already true for `FieldService::create()` — the code moves, the risk doesn't increase — but it does mean a 1400-line model now formally owns DDL.
+- **Cache shape mismatch across the Phase 3a deploy window.** Documented; mitigation is a cache clear on deploy. If the deploy is partial (some servers on 3a, others not), cached objects would be partially incompatible. Recommend deploying 3a in a single rolling step with cache bust as step zero.
+- **`PackageService::create()` regression risk.** Module-package install creates many fields in sequence; bugs in `Base\Models\Field::create()` would surface as install failures rather than runtime errors. Phase 3c step 3c.3 is paired with a real module-install smoke test.
+
+### Updated verdict
+
+**READY WITH CONDITIONS.** The revised CR resolves every blocking issue from
+the first pass. The remaining gates before implementation are:
+
+1. Confirm the Phase 2 audit inventory is generated and committed alongside the Phase 2 PR.
+2. Confirm the cache-bust deploy step for Phase 3a is in the runbook.
+3. Confirm at least one full module-package install smoke test exists or will be added before Phase 3c lands.
+
+The historical analysis below is retained for context — every issue listed is
+now resolved in the current CR, but the reasoning may be useful when
+evaluating future revisions.
+
+---
+
+## Summary verdict (original, first pass)
 
 **NOT READY.**
 
