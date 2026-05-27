@@ -596,7 +596,7 @@ hr {
 .customFilterMainSpan .select2-container {
 	width: 95% !important;
 }
-.select2-container .select2-choice {
+.select2-container--bootstrap .select2-selection--single {
 	border-radius: 2px;
 	background: #ffffff;
 	border-color: #dddddd;
@@ -604,12 +604,12 @@ hr {
 	letter-spacing: 0.01em;
 	color: #2b2b2b;
 }
-.select2-container .select2-choice div {
+.select2-container--bootstrap .select2-selection--single .select2-selection__rendered {
 	border-radius: 0;
 	border-left: 0;
 	background: #ffffff;
 }
-.select2-drop {
+.select2-container--bootstrap .select2-dropdown {
 	border-color: #dddddd;
 }
 
@@ -630,7 +630,7 @@ li.ui-timepicker-selected,
 	background: #404952;
 }
 /*Do not shrink select2 input box in layout editor*/
-#relatedTabOrder .select2-input {
+#relatedTabOrder .select2-search__field {
 	min-width: 200px;
 }
 .alphabetSearch a{
@@ -2352,7 +2352,7 @@ textarea.col-md-11 {
 #composeEmailContainer .MultiFile-intercepted .ui-wrapper {
 	min-height: 400px;
 }
-#transferOwnershipContainer .select2-container.select2-container-multi {
+#transferOwnershipContainer .select2-container--bootstrap .select2-selection--multiple {
 	max-width: 220px;
 }
 .fieldInfo.in {
@@ -2405,14 +2405,14 @@ textarea.col-md-11 {
 .chzn-container .chzn-results .highlighted {
 	background: #404952;
 }
-.select2-results .select2-highlighted {
+.select2-container .select2-results__option--highlighted[aria-selected] {
 	background: #404952;
 }
 
 .select2-result-label i {
 	background-image: url("./../../../libraries/bootstrap/img/glyphicons-halflings-white.png");
 }
-.select2-container-multi .select2-choices .select2-search-choice {
+#transferOwnershipContainer .select2-container--bootstrap .select2-selection--multiple .select2-selection__choice {
 	cursor: move;
 }
 
@@ -2504,7 +2504,7 @@ form {
 	box-sizing: border-box;
 	word-wrap: break-word;
 }
-.select2-container-multi .select2-choices .select2-search-choice {
+.select2-container--bootstrap .select2-selection--multiple .select2-selection__choice {
 	cursor: move;
 }
 .removeNoFileChosen {
