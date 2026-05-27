@@ -27,7 +27,6 @@
 	}
 /* Safari renders non-retina tile on retina better with this, but Chrome is worse */
 .leaflet-safari .leaflet-tile {
-	image-rendering: -webkit-optimize-contrast;
 	}
 /* hack that prevents hw layers "stretching" when loading new tiles */
 .leaflet-safari .leaflet-tile-container {
@@ -95,7 +94,6 @@
 	height: 1px;
 	}
 .lvml {
-	behavior: url(#default#VML);
 	display: inline-block;
 	position: absolute;
 	}
@@ -515,9 +513,6 @@
 .leaflet-oldie .leaflet-popup-tip {
 	width: 24px;
 	margin: 0 auto;
-
-	-ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678)";
-	filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678);
 	}
 .leaflet-oldie .leaflet-popup-tip-container {
 	margin-top: -1px;
