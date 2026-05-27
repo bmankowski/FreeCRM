@@ -2,8 +2,12 @@
     "languageStrings": {
         "RecruitmentApplication": "Aplikacje kandydatów",
         "SINGLE_RecruitmentApplication": "Aplikacja kandydata",
-        "LBL_CUSTOM_INFORMATION": "Informacje dodatkowe",
+        "LBL_CUSTOM_INFORMATION": "Metadane formularza WWW",
         "LBL_BASIC_INFORMATION": "Informacje podstawowe",
+        "LBL_APPLICATION_CONTEXT": "Kontekst aplikacji",
+        "LBL_TERMS_AND_MESSAGE": "Warunki i wiadomość",
+        "LBL_CV_AND_ATTACHMENTS": "CV i załączniki",
+        "LBL_REFERRAL": "Polecenie znajomego",
         "FL_APPLICATION_NUMBER": "Numer aplikacji",
         "FL_NUMBER": "Numer",
         "FL_EMAIL": "E-mail",

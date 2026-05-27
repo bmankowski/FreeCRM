@@ -2,8 +2,12 @@
     "languageStrings": {
         "RecruitmentApplication": "Candidate Applications",
         "SINGLE_RecruitmentApplication": "Candidate Application",
-        "LBL_CUSTOM_INFORMATION": "Custom Information",
+        "LBL_CUSTOM_INFORMATION": "Web form metadata",
         "LBL_BASIC_INFORMATION": "Basic Information",
+        "LBL_APPLICATION_CONTEXT": "Application context",
+        "LBL_TERMS_AND_MESSAGE": "Terms and message",
+        "LBL_CV_AND_ATTACHMENTS": "CV and attachments",
+        "LBL_REFERRAL": "Employee referral",
         "FL_APPLICATION_NUMBER": "Application number",
         "FL_NUMBER": "Number",
         "FL_EMAIL": "Email",
