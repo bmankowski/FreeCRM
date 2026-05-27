@@ -99,9 +99,17 @@ class AccessService
 			->where(['share_action_name' => ['Public: Read Only', 'Public: Read, Create/Edit', 'Public: Read, Create/Edit, Delete', 'Private']]);
 
 		$actionIds = $query->column();
+		$existingActionIds = (new \App\Db\Query())
+			->select(['share_action_id'])
+			->from('vtiger_org_share_action2tab')
+			->where(['tabid' => $moduleId])
+			->column();
 		$insertedData = [];
 
 		foreach ($actionIds as $id) {
+			if (in_array($id, $existingActionIds, true)) {
+				continue;
+			}
 			$insertedData[] = [$id, $moduleId];
 		}
 

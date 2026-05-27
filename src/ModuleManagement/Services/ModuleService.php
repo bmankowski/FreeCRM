@@ -126,9 +126,6 @@ class ModuleService
 				$this->initSharing($moduleId);
 			}
 
-			// Fire postinstall event
-			$this->eventDispatcher->fire($module->getName(), 'module.postinstall');
-
 			$transaction->commit();
 			return $moduleId;
 		} catch (\Exception $e) {

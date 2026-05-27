@@ -121,6 +121,12 @@ class Module extends \App\Modules\Base\Models\Module
 		$module->save();
 		$module->initTables();
 
+		$entityField = new \stdClass();
+		$entityField->name = $moduleInformation['entityfieldname'];
+		$entityField->label = $moduleInformation['entityfieldlabel'];
+		$entityField->column = $entityField->name;
+		$module->createFiles($entityField);
+
 		$block = new \vtlib\Block();
 		$block->label = 'LBL_BASIC_INFORMATION';
 		$module->addBlock($block);
@@ -216,9 +222,10 @@ class Module extends \App\Modules\Base\Models\Module
 		// Initialize Webservice support
 		$module->initWebservice();
 
-		// Create files
-		$module->createFiles($field1);
 		\App\Fields\RecordNumber::setNumber($module->id, 'N', 1);
+
+		\App\ModuleManagement\ServiceLocator::getEventDispatcher()
+			->fire($module->name, 'module.postinstall');
 	}
 
 	public static function toAlphaNumeric($value)

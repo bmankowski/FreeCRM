@@ -117,13 +117,19 @@ class FileService
 	public function createModuleFiles(\vtlib\Module $module, object $entityField): void
 	{
 		$moduleName = $module->name;
-		$targetPath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $moduleName;
+		$psrModuleFile = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Modules'
+			. DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . $moduleName . '.php';
 
-		if (is_dir($targetPath)) {
+		if (is_file($psrModuleFile)) {
 			return;
 		}
 
 		$templatePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'vtlib' . DIRECTORY_SEPARATOR . 'ModuleDir' . DIRECTORY_SEPARATOR . 'BaseModule' . DIRECTORY_SEPARATOR;
+		if (!is_dir($templatePath)) {
+			$this->createMinimalModuleFiles($module, $entityField);
+			return;
+		}
+
 		$flags = \FilesystemIterator::KEY_AS_PATHNAME | \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::UNIX_PATHS;
 		$objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($templatePath, $flags), \RecursiveIteratorIterator::SELF_FIRST);
 
@@ -191,6 +197,72 @@ class FileService
 			$content = preg_replace('/^<\?php\s*/', "<?php\n\nnamespace App\\Modules\\{$moduleName};\n\n", $content);
 			$content = str_replace('PearDatabase::getInstance()', '\App\\Database\\PearDatabase::getInstance()', $content);
 			file_put_contents($moduleFile, $content);
+		}
+	}
+
+	/**
+	 * Create a minimal PSR-4 CRMEntity class when vtlib template skeleton is unavailable.
+	 */
+	private function createMinimalModuleFiles(\vtlib\Module $module, object $entityField): void
+	{
+		$moduleName = $module->name;
+		$lcasemodname = strtolower($moduleName);
+		$basetable = $module->basetable ?: "vtiger_{$lcasemodname}";
+		$basetableid = $module->basetableid ?: $lcasemodname . 'id';
+		$customtable = $module->customtable ?: $basetable . 'cf';
+		$fieldName = (string) ($entityField->name ?? 'name');
+		$fieldLabel = (string) ($entityField->label ?? $fieldName);
+		$fieldLabelEscaped = addslashes($fieldLabel);
+
+		$psrModuleDir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Modules'
+			. DIRECTORY_SEPARATOR . $moduleName;
+		if (!is_dir($psrModuleDir) && !mkdir($psrModuleDir, 0775, true) && !is_dir($psrModuleDir)) {
+			throw new \App\Exceptions\AppException('Cannot create module directory: ' . $psrModuleDir);
+		}
+
+		$moduleFile = $psrModuleDir . DIRECTORY_SEPARATOR . $moduleName . '.php';
+		$content = <<<PHP
+<?php
+
+namespace App\\Modules\\{$moduleName};
+
+class {$moduleName} extends \\App\\Core\\CRMEntity
+{
+	public \$table_name = '{$basetable}';
+	public \$table_index = '{$basetableid}';
+
+	public \$customFieldTable = ['{$customtable}', '{$basetableid}'];
+
+	public \$tab_name = ['vtiger_crmentity', '{$basetable}', '{$customtable}'];
+
+	public \$tab_name_index = [
+		'vtiger_crmentity' => 'crmid',
+		'{$basetable}' => '{$basetableid}',
+		'{$customtable}' => '{$basetableid}',
+	];
+
+	public \$list_fields_name = [
+		'{$fieldLabelEscaped}' => '{$fieldName}',
+		'Assigned To' => 'assigned_user_id',
+	];
+
+	public \$search_fields = [
+		'{$fieldLabelEscaped}' => ['{$lcasemodname}', '{$fieldName}'],
+	];
+
+	public \$search_fields_name = [
+		'{$fieldLabelEscaped}' => '{$fieldName}',
+	];
+
+	public \$popup_fields = ['{$fieldName}'];
+	public \$def_basicsearch_col = '{$fieldName}';
+	public \$def_detailview_recname = '{$fieldName}';
+	public \$mandatory_fields = ['{$fieldName}', 'assigned_user_id'];
+}
+
+PHP;
+		if (file_put_contents($moduleFile, $content) === false) {
+			throw new \App\Exceptions\AppException('Cannot write module file: ' . $moduleFile);
 		}
 	}
 }

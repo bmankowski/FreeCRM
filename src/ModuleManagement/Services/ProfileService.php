@@ -50,14 +50,27 @@ class ProfileService
 		$profileids = $this->getAllIds();
 
 		foreach ($profileids as $profileid) {
-			$this->db->createCommand()->insert('vtiger_profile2tab', [
-				'profileid' => $profileid,
-				'tabid' => $moduleId,
-				'permissions' => 0
-			])->execute();
+			$tabPermissionExists = (new \App\Db\Query())
+				->from('vtiger_profile2tab')
+				->where(['profileid' => $profileid, 'tabid' => $moduleId])
+				->exists();
+			if (!$tabPermissionExists) {
+				$this->db->createCommand()->insert('vtiger_profile2tab', [
+					'profileid' => $profileid,
+					'tabid' => $moduleId,
+					'permissions' => 0
+				])->execute();
+			}
 
 			if ($isEntityType) {
 				foreach ($actionids as $actionid) {
+					$operationPermissionExists = (new \App\Db\Query())
+						->from('vtiger_profile2standardpermissions')
+						->where(['profileid' => $profileid, 'tabid' => $moduleId, 'operation' => $actionid])
+						->exists();
+					if ($operationPermissionExists) {
+						continue;
+					}
 					$this->db->createCommand()->insert('vtiger_profile2standardpermissions', [
 						'profileid' => $profileid,
 						'tabid' => $moduleId,

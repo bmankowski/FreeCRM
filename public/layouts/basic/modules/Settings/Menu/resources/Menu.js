@@ -10,6 +10,7 @@
 jQuery.Class('Settings_Menu_Index_Js', {}, {
 	treeInstance: false,
 	isSavingSequence: false,
+	isLoadingContent: false,
 	loadMenuTree: function () {
 		var thisInstance = this;
 		var $treeContent = $('#treeContent');
@@ -128,27 +129,18 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 	},
 	registerChangeRoleMenu: function () {
 		var thisInstance = this;
-		$('.menuConfigContainer').on('change', '[name="roleMenu"]', function (e) {
-			thisInstance.loadContent();
-		});
+		$('.menuConfigContainer').off('change.menuRole', '[name="roleMenu"]')
+			.on('change.menuRole', '[name="roleMenu"]', function () {
+				thisInstance.loadContent();
+			});
 	},
 	getMenuData: function (selectedRole) {
-		var thisInstance = this;
-		var aDeferred = jQuery.Deferred();
 		var params = {};
 		params['module'] = app.getModuleName();
 		params['parent'] = app.getParentModuleName();
 		params['view'] = app.getViewName();
 		params['roleid'] = selectedRole;
-		AppConnector.requestPjax(params).then(
-				function (data) {
-					aDeferred.resolve(data);
-				},
-				function (error) {
-					aDeferred.reject();
-				}
-		);
-		return aDeferred.promise();
+		return AppConnector.request(params);
 	},
 	registerAddMenu: function () {
 		var thisInstance = this;
@@ -161,22 +153,31 @@ jQuery.Class('Settings_Menu_Index_Js', {}, {
 		});
 	},
 	loadContent: function () {
+		var thisInstance = this;
+		if (thisInstance.isLoadingContent) {
+			return;
+		}
+		thisInstance.isLoadingContent = true;
 		var progress = jQuery.progressIndicator({
 			'position': '#treeContent',
 			'blockInfo': {
 				'enabled': true
 			}
 		});
-		var thisInstance = this;
 		var contentsDiv = $('.contentsDiv');
 		thisInstance.getMenuData($('[name="roleMenu"]').val()).then(
-				function (data) {
-					contentsDiv.html(data);
-					app.showSelect2ElementView(contentsDiv.find("[name='roleMenu']"));
-					thisInstance.registerEvents();
-					progress.progressIndicator({'mode': 'hide'});
-				}
-		);
+			function (data) {
+				contentsDiv.html(data);
+				app.showSelect2ElementView(contentsDiv.find("[name='roleMenu']"));
+				thisInstance.registerEvents();
+			},
+			function (error) {
+				thisInstance.showSaveError(error);
+			}
+		).always(function () {
+			progress.progressIndicator({'mode': 'hide'});
+			thisInstance.isLoadingContent = false;
+		});
 	},
 	registerEditMenu: function (container) {
 		var thisInstance = this;

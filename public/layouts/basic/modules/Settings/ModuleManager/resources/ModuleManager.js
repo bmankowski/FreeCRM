@@ -15,6 +15,17 @@ jQuery.Class('Settings_Module_Manager_Js', {
 		}
 		return true;
 	},
+	getCreateModuleErrorMessage: function (data) {
+		if (data) {
+			if (data.result && data.result.text) {
+				return data.result.text;
+			}
+			if (data.error && data.error.message) {
+				return data.error.message;
+			}
+		}
+		return app.vtranslate('JS_FAILED_TO_LOAD', 'Settings.Vtiger');
+	},
 	registerMondalCreateModule: function (data) {
 		data.find('[name="saveButton"]').attr("disabled", true);
 		var form = data.find('form');
@@ -59,20 +70,31 @@ jQuery.Class('Settings_Module_Manager_Js', {
 				params['formData'] = formData;
 				AppConnector.request(params).then(
 						function (data) {
+							progress.progressIndicator({'mode': 'hide'});
 							var result = data.result;
-							if (!result.success) {
-								var params = {
-									text: result.text,
+							if (!data.success || !result || !result.success) {
+								app.hideModalWindow();
+								Vtiger_Helper_Js.showPnotify({
+									text: Settings_Module_Manager_Js.getCreateModuleErrorMessage(data),
 									animation: 'show',
 									type: 'error'
-								};
-								Vtiger_Helper_Js.showPnotify(params);
+								});
 							} else {
-								window.location.href = 'index.php?parent=Settings&module=LayoutEditor&sourceModule=' + result.text;
+								app.hideModalWindow(function () {
+									window.location.href = 'index.php?parent=Settings&module=LayoutEditor&sourceModule=' + result.text;
+								});
 							}
+						},
+						function () {
+							progress.progressIndicator({'mode': 'hide'});
+							app.hideModalWindow();
+							Vtiger_Helper_Js.showPnotify({
+								text: Settings_Module_Manager_Js.getCreateModuleErrorMessage(null),
+								animation: 'show',
+								type: 'error'
+							});
 						}
 				);
-				progress.progressIndicator({'mode': 'hide'});
 			}
 		});
 	}

@@ -70,12 +70,6 @@ class Utils
 	static function Log($message, $delimit = true)
 	{
 		\App\Log\Log::trace($message);
-		if ($delimit) {
-			if (isset($_REQUEST))
-				echo "<BR>";
-			else
-				echo "\n";
-		}
 	}
 
 	/**

@@ -147,7 +147,7 @@ class Basic extends \App\Modules\Settings\Base\Views\IndexAjax
 		$result = array('success' => true, 'text' => ucfirst($formData['module_name']));
 		try {
 			$moduleManagerModel->createModule($formData);
-		} catch (Exception $e) {
+		} catch (\Throwable $e) {
 			$result = array('success' => false, 'text' => $e->getMessage());
 		}
 		$response = new \App\Http\Vtiger_Response();

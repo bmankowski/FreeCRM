@@ -247,9 +247,9 @@ class Module extends ModuleBasic
 
 	/**
 	 * Create module files from templates
-	 * @param Field $entityField
+	 * @param object $entityField object with name, label, column properties
 	 */
-	public function createFiles(Field $entityField)
+	public function createFiles(object $entityField)
 	{
 		$fileService = ServiceLocator::getFileService();
 		$fileService->createModuleFiles($this, $entityField);
