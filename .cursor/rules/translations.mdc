@@ -1,13 +1,108 @@
 ---
-description: "FreeCRM language string conventions"
-globs: ["languages/**/*.php"]
+description: "FreeCRM language string conventions — use when adding or changing UI labels"
+globs: ["languages/**/*.json", "custom/languages/**/*.json"]
 ---
 
 # Translation files
 
-- Each module/language pair has its own file: `languages/<lang>/<Module>.php`.
-- The file returns an associative array keyed by `LBL_*`, `JS_*`, or `INFO_*` constants.
-- Reference from PHP: `App\Language::translate('LBL_FOO', 'ModuleName')`.
-- Reference from Smarty: `{vtranslate('LBL_FOO', $MODULE)}`.
-- When adding a key, add it to all maintained languages (English/`en_US` is the canonical fallback).
-- Settings modules use `languages/<lang>/Settings/<Module>.php`.
+Format is **JSON** (not PHP). Loader: `src/Runtime/Vtiger_Language_Handler.php`.
+
+## Maintained locales
+
+Always update **both**:
+
+| Locale | Path |
+|--------|------|
+| English (canonical fallback) | `languages/en_us/` |
+| Polish | `languages/pl_pl/` |
+
+Other dirs (`de_de`, `es_es`, …) exist for core modules only — do **not** touch unless the user asks.
+
+## File paths
+
+| Scope | Path |
+|-------|------|
+| Module | `languages/<lang>/<ModuleName>.json` |
+| Settings module | `languages/<lang>/Settings/<ModuleName>.json` |
+| Custom overrides (if enabled) | `custom/languages/<lang>/…` |
+
+`<ModuleName>` = exact PHP module name (e.g. `RecruitmentApplication`, `Kandydaci`).
+
+## JSON shape
+
+```json
+{
+    "languageStrings": { "KEY": "translated text" },
+    "jsLanguageStrings": {}
+}
+```
+
+Use `JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE`. Keys are the **lookup string**, not always `LBL_*` — module name, field labels, and picklist values are used as-is.
+
+## Referencing in code
+
+- PHP: `\App\Runtime\Vtiger_Language_Handler::translate('LBL_FOO', 'ModuleName')` or `App\Language::translate(...)`
+- Smarty: `{vtranslate('LBL_FOO', $MODULE)}`
+- JS strings: `jsLanguageStrings` in the same file
+
+## Fast workflow: translate a module name or labels
+
+Do **not** grep `user_privileges/`, the whole repo, or `vtiger_tab` unless a key is missing after editing lang files.
+
+1. **Open or create** `languages/pl_pl/<Module>.json` and `languages/en_us/<Module>.json`.
+2. If the file is missing, **copy structure** from a sibling module in the same domain, e.g. recruitment: `Kandydaci.json`, `ProjektyRekrutacyjne.json`.
+3. Set **module labels** (required for menu/list/detail titles):
+   - `"<ModuleName>"` — plural (list, menu)
+   - `"SINGLE_<ModuleName>"` — singular (record views)
+4. Add **block labels** if the module has standard blocks:
+   - `LBL_BASIC_INFORMATION`, `LBL_CUSTOM_INFORMATION` (copy PL/EN from any module file).
+5. For **field / picklist labels**, keys must match `vtiger_field.fieldlabel` exactly (`FL_*`, `PLL_*`, `LBL_*`, or legacy plain text like `Nazwisko i imię`). Get keys in one query:
+
+```sql
+SELECT DISTINCT fieldlabel
+FROM vtiger_field
+WHERE tabid = (SELECT tabid FROM vtiger_tab WHERE name = '<ModuleName>')
+  AND fieldlabel NOT IN ('Created By', 'Modified Time', 'Created Time', 'Assigned To')
+ORDER BY fieldlabel;
+```
+
+(MCP `freecrm-mysql` → `execute_query`.)
+
+6. **Do not duplicate** strings already in `languages/<lang>/Vtiger.json` (`Assigned To`, `FL_NUMBER` as global record number, etc.) unless the module needs a different wording.
+7. After changes, labels load on next request; no Smarty cache clear for lang files.
+
+## Minimal new-module template
+
+**`languages/pl_pl/<Module>.json`**
+
+```json
+{
+    "languageStrings": {
+        "<Module>": "<PL plural>",
+        "SINGLE_<Module>": "<PL singular>",
+        "LBL_CUSTOM_INFORMATION": "Informacje dodatkowe",
+        "LBL_BASIC_INFORMATION": "Informacje podstawowe"
+    },
+    "jsLanguageStrings": {}
+}
+```
+
+**`languages/en_us/<Module>.json`** — same keys, English values.
+
+Add `FL_*` / `PLL_*` keys from the SQL above as the user or task requires.
+
+## Examples (recruitment)
+
+| Key | pl_pl | en_us |
+|-----|-------|-------|
+| `RecruitmentApplication` | Aplikacje kandydatów | Candidate Applications |
+| `SINGLE_RecruitmentApplication` | Aplikacja kandydata | Candidate Application |
+| `Kandydaci` | Kandydaci | Candidates |
+| `SINGLE_Kandydaci` | Kandydat | Candidate |
+
+## Checklist
+
+- [ ] Both `en_us` and `pl_pl` files updated (or created)
+- [ ] `<Module>` and `SINGLE_<Module>` set
+- [ ] Field keys match `fieldlabel` from DB, not `fieldname`
+- [ ] Copied recruitment/custom strings from peer module when unsure of PL phrasing

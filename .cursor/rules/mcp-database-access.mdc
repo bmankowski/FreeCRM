@@ -5,9 +5,39 @@ alwaysApply: true
 
 # MCP Database Access
 
-- Use the `freecrm-mysql` MCP server (`.cursor/mcp.json`) for SELECT, INSERT, UPDATE, DELETE, DDL on the dev DB.
-- Connect via `127.0.0.1:3306` (host name `db` is not resolvable from WSL).
-- Default to SELECT; only write when the user asks or the task clearly requires it (describe intent first).
+## Use MCP — not Docker shell
+
+For **any** database work during an agent task (SELECT, schema inspection, INSERT/UPDATE/DELETE, DDL), use the **`freecrm-mysql` MCP server** configured in `.cursor/mcp.json`.
+
+- **Do not** run `docker compose exec db mysql …` or `docker compose exec db mariadb …` for routine queries.
+- **Do not** use host-side `mysql`/`mariadb` CLI as a substitute when MCP is available.
+- Docker DB shell is only for manual, interactive debugging when the user explicitly asks for it or MCP is unavailable.
+
+## Server and tools
+
+| Item | Value |
+|------|-------|
+| MCP server name (config) | `freecrm-mysql` |
+| Cursor server identifier | `project-0-FreeCRM-freecrm-mysql` |
+| Database | `freecrm` |
+| Host (MCP env) | `127.0.0.1:3306` — host name `db` is not resolvable from WSL |
+
+**Before calling a tool**, read its schema under `mcps/project-0-FreeCRM-freecrm-mysql/tools/`.
+
+| Tool | Purpose |
+|------|---------|
+| `execute_query` | SELECT (read-only) |
+| `execute_dml` | INSERT, UPDATE, DELETE |
+| `execute_ddl` | CREATE, ALTER, DROP, etc. |
+| `list_tables` | List tables in a database |
+| `describe_table` / `table_schema` | Column definitions |
+
+Invoke via `CallMcpTool` with `server: "project-0-FreeCRM-freecrm-mysql"`.
+
+## Write safety
+
+- Default to **SELECT**; only write when the user asks or the task clearly requires it (state intent first).
 - For `DROP`, `TRUNCATE`, or unscoped UPDATE/DELETE: require explicit confirmation in chat.
 
 See `mcp-db-debugging.mdc` for file/image payload debugging patterns.
+See `database-config.mdc` for credentials and connection details.

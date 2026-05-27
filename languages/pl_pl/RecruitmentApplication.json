@@ -1,0 +1,11 @@
+{
+    "languageStrings": {
+        "RecruitmentApplication": "Aplikacje kandydatów",
+        "SINGLE_RecruitmentApplication": "Aplikacja kandydata",
+        "LBL_CUSTOM_INFORMATION": "Informacje dodatkowe",
+        "LBL_BASIC_INFORMATION": "Informacje podstawowe",
+        "FL_APPLICATION_NUMBER": "Numer aplikacji",
+        "FL_NUMBER": "Numer"
+    },
+    "jsLanguageStrings": {}
+}
