@@ -160,7 +160,8 @@ class PDF extends \App\Runtime\BaseModel
 	{
 
 		$dataReader = (new \App\Db\Query())->from(self::$baseTable)
-				->where(['module_name' => $moduleName, 'status' => 1])
+				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = ' . self::$baseTable . '.' . self::$baseIndex . ' AND vtiger_crmentity.deleted = 0')
+				->where([self::$baseTable . '.module_name' => $moduleName, self::$baseTable . '.status' => 1])
 				->createCommand()->query();
 		$templates = [];
 		while ($row = $dataReader->read()) {
@@ -184,7 +185,9 @@ class PDF extends \App\Runtime\BaseModel
 		if ($pdf) {
 			return $pdf;
 		}
-		$row = (new \App\Db\Query())->from(self::$baseTable)->where([self::$baseIndex => $recordId])->one();
+		$row = (new \App\Db\Query())->from(self::$baseTable)
+				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = ' . self::$baseTable . '.' . self::$baseIndex . ' AND vtiger_crmentity.deleted = 0')
+				->where([self::$baseIndex => $recordId])->one();
 		if ($row === false) {
 			return false;
 		}
@@ -491,7 +494,7 @@ class PDF extends \App\Runtime\BaseModel
 	{
 
 		//create the object
-		$zip = new ZipArchive();
+		$zip = new \ZipArchive();
 
 		mt_srand(time());
 		$postfix = time() . '_' . mt_rand(0, 1000);
@@ -500,14 +503,18 @@ class PDF extends \App\Runtime\BaseModel
 		$fileName = $zipPath . $zipName;
 
 		//create the file and throw the error if unsuccessful
-		if ($zip->open($zipPath . $zipName, ZIPARCHIVE::CREATE) !== true) {
+		if ($zip->open($zipPath . $zipName, \ZipArchive::CREATE) !== true) {
 			\App\Log\Log::error("cannot open <$zipPath.$zipName>\n");
 			throw new \App\Exceptions\NoPermitted("cannot open <$zipPath.$zipName>");
 		}
 
 		//add each files of $file_name array to archive
-		foreach ($fileNames as $file) {
-			$zip->addFile($file, basename($file));
+		foreach ($fileNames as $index => $file) {
+			$entryName = basename($file);
+			if ($zip->locateName($entryName) !== false) {
+				$entryName = ($index + 1) . '_' . $entryName;
+			}
+			$zip->addFile($file, $entryName);
 		}
 		$zip->close();
 

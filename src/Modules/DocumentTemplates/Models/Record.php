@@ -13,6 +13,12 @@ class Record extends \App\Modules\Base\Models\Record
 		return parent::getId();
 	}
 
+	public function getName(): string
+	{
+		$name = (string) $this->get('primary_name');
+		return $name !== '' ? $name : (string) $this->get('filename');
+	}
+
 	public function getDetailViewUrl()
 	{
 		return 'index.php?module=DocumentTemplates&view=Edit&record=' . $this->getId() . '&mode=Step1';
@@ -58,51 +64,71 @@ class Record extends \App\Modules\Base\Models\Record
 		];
 	}
 
-	public static function getCleanInstance($moduleName = 'Vtiger'): DocumentTemplate
+	public static function getCleanInstance($moduleName = 'Vtiger'): self
 	{
-		$pdf = new DocumentTemplate();
-		$pdf->setData(self::getDefaultData($moduleName));
-		return $pdf;
+		$targetModule = ($moduleName !== '' && $moduleName !== 'DocumentTemplates') ? $moduleName : 'Vtiger';
+		$instance = parent::getCleanInstance('DocumentTemplates');
+		foreach (self::getDefaultData($targetModule) as $field => $value) {
+			$instance->set($field, $value);
+		}
+		$userId = \App\User\CurrentUser::getId();
+		if ($userId) {
+			$instance->set('assigned_user_id', $userId);
+		}
+		return $instance;
 	}
 
-	public static function saveWizardStep(DocumentTemplate $pdfModel, $step = 1)
+	public static function saveWizardStep(self $recordModel, int $step): int
 	{
-		$db = \App\Db\Db::getInstance('admin');
-		$table = DocumentTemplate::$baseTable;
-		$index = DocumentTemplate::$baseIndex;
-		$step = (int) $step;
+		self::applyDefaultsForNewRecord($recordModel);
+		$recordModel->save();
+		self::clearTemplateCaches($recordModel->getId());
+		return $recordModel->getId();
+	}
 
-		if ($step >= 2 && $step <= 6) {
-			$fields = [];
-			foreach (Module::getFieldsByStep($step) as $field) {
-				$value = $pdfModel->get($field);
-				$fields[$field] = $field === 'conditions' && is_array($value)
-					? json_encode($value)
-					: $value;
-			}
-			$db->createCommand()->update($table, $fields, [$index => $pdfModel->getId()])->execute();
-			\App\Cache\Cache::delete('DocumentTemplateModel', $pdfModel->getId());
-			return $pdfModel->getId();
-		}
+	public static function saveFullImport(self $recordModel): int
+	{
+		self::applyDefaultsForNewRecord($recordModel);
+		$recordModel->save();
+		self::clearTemplateCaches($recordModel->getId());
+		return $recordModel->getId();
+	}
 
-		$stepFields = Module::getFieldsByStep(1);
-		if (!$pdfModel->getId()) {
-			$params = self::getDefaultData((string) $pdfModel->get('module_name'));
-			foreach ($stepFields as $field) {
-				$params[$field] = $pdfModel->get($field);
-			}
-			$db->createCommand()->insert($table, $params)->execute();
-			$newId = (int) $db->getLastInsertID();
-			$pdfModel->set($index, $newId);
-		} else {
-			$fields = [];
-			foreach ($stepFields as $field) {
-				$fields[$field] = $pdfModel->get($field);
-			}
-			$db->createCommand()->update($table, $fields, [$index => $pdfModel->getId()])->execute();
+	public function save($request = null)
+	{
+		parent::save($request);
+		self::clearTemplateCaches($this->getId());
+		return $this;
+	}
+
+	protected static function applyDefaultsForNewRecord(self $recordModel): void
+	{
+		if (!$recordModel->isNew()) {
+			return;
 		}
-		\App\Cache\Cache::delete('DocumentTemplateModel', $pdfModel->getId());
-		return $pdfModel->getId();
+		$moduleName = (string) ($recordModel->get('module_name') ?: 'Vtiger');
+		foreach (self::getDefaultData($moduleName) as $field => $value) {
+			$current = $recordModel->get($field);
+			if ($current === null || $current === '') {
+				$recordModel->set($field, $value);
+			}
+		}
+		if (!$recordModel->get('assigned_user_id')) {
+			$userId = \App\User\CurrentUser::getId();
+			if ($userId) {
+				$recordModel->set('assigned_user_id', $userId);
+			}
+		}
+	}
+
+	protected static function clearTemplateCaches(int $recordId): void
+	{
+		if ($recordId <= 0) {
+			return;
+		}
+		\App\Cache\Cache::delete('DocumentTemplateModel', $recordId);
+		\App\Cache\Cache::delete('PDFModel', $recordId);
+		\App\Cache\Cache::delete('RecordModel', $recordId . ':DocumentTemplates');
 	}
 
 	public function getDisplayValue($fieldName, $recordId = false, $rawText = false)
@@ -168,9 +194,9 @@ class Record extends \App\Modules\Base\Models\Record
 		return $links;
 	}
 
-	public static function applyDocumentLayoutFromDynamicId(\App\Modules\Base\Models\PDF $pdfModel, int $dynamicId): void
+	public static function applyDocumentLayoutFromDynamicId(self $recordModel, int $dynamicId): void
 	{
-		if ($dynamicId <= 0 || !$pdfModel->getId()) {
+		if ($dynamicId <= 0 || !$recordModel->getId()) {
 			return;
 		}
 		$row = (new \App\Db\Query())
@@ -184,26 +210,21 @@ class Record extends \App\Modules\Base\Models\Record
 		if (!$row) {
 			return;
 		}
-		$moduleName = (string) $pdfModel->get('module_name');
+		$moduleName = (string) $recordModel->get('module_name');
 		$rowModule = (string) ($row['module_name'] ?? '');
 		if ($rowModule !== '' && $rowModule !== $moduleName) {
 			return;
 		}
-		$tplLang = (string) ($pdfModel->get('language') ?? '');
+		$tplLang = (string) ($recordModel->get('language') ?? '');
 		$rowLang = (string) ($row['language'] ?? '');
 		if ($rowLang !== '' && $tplLang !== '' && $rowLang !== $tplLang) {
 			return;
 		}
 		$parts = \App\Modules\TemplateElements\Models\Record::getLayoutParts($row);
-		$db = \App\Db\Db::getInstance('admin');
-		$db->createCommand()->update('u_yf_documenttemplates', [
-			'header_content' => $parts['layout_header'],
-			'body_content' => $parts['layout_body'],
-			'footer_content' => $parts['layout_footer'],
-		], ['documenttemplatesid' => $pdfModel->getId()])->execute();
-		$pdfModel->set('header_content', $parts['layout_header']);
-		$pdfModel->set('body_content', $parts['layout_body']);
-		$pdfModel->set('footer_content', $parts['layout_footer']);
+		$recordModel->set('header_content', $parts['layout_header']);
+		$recordModel->set('body_content', $parts['layout_body']);
+		$recordModel->set('footer_content', $parts['layout_footer']);
+		$recordModel->save();
 	}
 
 	public static function transformAdvanceFilterToWorkFlowFilter($recordModel): void
@@ -247,14 +268,13 @@ class Record extends \App\Modules\Base\Models\Record
 
 	public static function deleteWatermark(int $recordId): bool
 	{
-		$pdfModel = DocumentTemplate::getInstanceById($recordId);
-		if (!$pdfModel) {
+		$recordModel = self::getInstanceById($recordId, 'DocumentTemplates');
+		if (!$recordModel) {
 			return false;
 		}
-		$watermarkImage = $pdfModel->get('watermark_image');
-		\App\Db\Db::getInstance('admin')->createCommand()
-			->update('u_yf_documenttemplates', ['watermark_image' => null], ['documenttemplatesid' => $recordId])
-			->execute();
+		$watermarkImage = $recordModel->get('watermark_image');
+		$recordModel->set('watermark_image', '');
+		$recordModel->save();
 		if ($watermarkImage && file_exists($watermarkImage)) {
 			return unlink($watermarkImage);
 		}

@@ -138,6 +138,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			}
 			$db->createCommand()->insert('yetiforce_menu', $insertParams)->execute();
 		}
+		\vtlib\Deprecated::createModuleMetaFile();
 		$this->generateFileMenu(isset($role) ? $role : self::normalizeRoleId($this->get('role')));
 	}
 
@@ -152,8 +153,10 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			}
 			$role = $item['r'];
 		}
-		if ($generate)
+		if ($generate) {
+			\vtlib\Deprecated::createModuleMetaFile();
 			$this->generateFileMenu($role);
+		}
 	}
 
 	/**
@@ -189,6 +192,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 				$this->removeMenu($childId);
 			}
 			$db->createCommand()->delete('yetiforce_menu', ['id' => $id])->execute();
+			\vtlib\Deprecated::createModuleMetaFile();
 			$this->generateFileMenu($role);
 		}
 	}
@@ -323,6 +327,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public function refreshMenuFiles()
 	{
+		\vtlib\Deprecated::createModuleMetaFile();
 		$allRoles = \App\Modules\Settings\Roles\Models\Record::getAll();
 		$this->generateFileMenu(0);
 		foreach ($allRoles as $role) {

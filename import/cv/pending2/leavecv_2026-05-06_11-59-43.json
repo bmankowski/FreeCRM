@@ -1,0 +1,43 @@
+{
+    "name": "Diana Vizor ",
+    "email": "dianavizor13@gmail.com",
+    "phone_number": "505144122",
+    "message": "Dzień dobry, szukam pierwszego doświadczenia w IT. Jestem studentką II roku Informatyki na PJATK. Pisanie kodu nie jest moją najmocniejszą stroną ale lubię SQL i analizowanie danych.\r\nBędę naprawdę wdzięczna za próbę znalezienia oferty dla mnie\r\nMiłego dnia!",
+    "available_from": "Od lipca ",
+    "preferred_contract_type": "Umowa zlecenia",
+    "expected_salary": "32\/h",
+    "attachment_cv": "https:\/\/www.itconnect.pl\/wp-content\/uploads\/metform-uploads\/entry-file-41be0e37bf192a7077c28add2c6eccb1.pdf",
+    "__form_id": "902",
+    "__refer": "https:\/\/www.itconnect.pl\/kariera\/zostaw-cv\/",
+    "__is_ajax": true,
+    "formtype": "leavecv",
+    "allfield": {
+        "cv-jezyk-formularza": "pl",
+        "name": "Diana Vizor ",
+        "expected_salary": "32\/h",
+        "available_from": "Od lipca ",
+        "email": "dianavizor13@gmail.com",
+        "phone_number": "505144122",
+        "preferred_contract_type": "Umowa zlecenia",
+        "message": "Dzień dobry, szukam pierwszego doświadczenia w IT. Jestem studentką II roku Informatyki na PJATK. Pisanie kodu nie jest moją najmocniejszą stroną ale lubię SQL i analizowanie danych.\r\nBędę naprawdę wdzięczna za próbę znalezienia oferty dla mnie\r\nMiłego dnia!",
+        "attachment_cv": "https:\/\/www.itconnect.pl\/wp-content\/uploads\/metform-uploads\/entry-file-41be0e37bf192a7077c28add2c6eccb1.pdf",
+        "__form_id": "902",
+        "__refer": "https:\/\/www.itconnect.pl\/kariera\/zostaw-cv\/",
+        "formtype": "leavecv"
+    },
+    "post": {
+        "entries": "{\\\"cv-jezyk-formularza\\\":\\\"pl\\\",\\\"name\\\":\\\"Diana Vizor \\\",\\\"expected_salary\\\":\\\"32\\\\\/h\\\",\\\"available_from\\\":\\\"Od lipca \\\",\\\"email\\\":\\\"dianavizor13@gmail.com\\\",\\\"phone_number\\\":\\\"505144122\\\",\\\"preferred_contract_type\\\":\\\"Umowa zlecenia\\\",\\\"message\\\":\\\"Dzie\\\\u0144 dobry, szukam pierwszego do\\\\u015bwiadczenia w IT. Jestem studentk\\\\u0105 II roku Informatyki na PJATK. Pisanie kodu nie jest moj\\\\u0105 najmocniejsz\\\\u0105 stron\\\\u0105 ale lubi\\\\u0119 SQL i analizowanie danych.\\\\r\\\\nB\\\\u0119d\\\\u0119 naprawd\\\\u0119 wdzi\\\\u0119czna za pr\\\\u00f3b\\\\u0119 znalezienia oferty dla mnie\\\\r\\\\nMi\\\\u0142ego dnia!\\\"}",
+        "entry_id": "11595",
+        "form_id": "902",
+        "version": "4.0.6",
+        "file_uploads": "{\\\"attachment_cv\\\":[{\\\"name\\\":\\\"Diana vizor (1).pdf\\\",\\\"url\\\":\\\"https:\\\\\/\\\\\/www.itconnect.pl\\\\\/wp-content\\\\\/uploads\\\\\/metform-uploads\\\\\/entry-file-41be0e37bf192a7077c28add2c6eccb1.pdf\\\",\\\"file\\\":\\\"\\\\\/home\\\\\/itconnect\\\\\/domains\\\\\/itconnect.pl\\\\\/public_html\\\\\/wp-content\\\\\/uploads\\\\\/metform-uploads\\\\\/entry-file-41be0e37bf192a7077c28add2c6eccb1.pdf\\\",\\\"type\\\":\\\"application\\\\\/pdf\\\"}]}",
+        "referrer_url": "https:\/\/www.itconnect.pl\/kariera\/zostaw-cv\/"
+    },
+    "get": {
+        "intercept_metforms": "true"
+    },
+    "cv_original_path": "https:\/\/www.itconnect.pl\/wp-content\/uploads\/metform-uploads\/entry-file-41be0e37bf192a7077c28add2c6eccb1.pdf",
+    "cv_original_filename": "entry-file-41be0e37bf192a7077c28add2c6eccb1.pdf",
+    "cv_saved_filename": "leavecv_cv_2026-05-06_11-59-43.pdf",
+    "cv_saved_path": "\/home\/itconnect\/domains\/itconnect.pl\/public_html\/wp-content\/uploads\/cv\/leavecv_cv_2026-05-06_11-59-43.pdf"
+}

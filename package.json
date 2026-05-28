@@ -4,7 +4,7 @@
   "description": "FreeCRM - Open Source CRM System",
   "scripts": {
     "minify-css": "sh -c 'cleancss -o \"${1%.css}.min.css\" \"$1\"' _",
-    "minify-css-all": "find public/layouts -name 'style.css' ! -name '*.min.css' -exec sh -c 'cleancss -o \"${1%.css}.min.css\" \"$1\"' _ {} \\;",
+    "minify-css-all": "find public/layouts public/libraries/resources -name '*.css' ! -name '*.min.css' -exec sh -c 'cleancss -o \"${1%.css}.min.css\" \"$1\"' _ {} \\;",
     "minify-js": "sh -c 'case \"$1\" in *.min.js) echo \"Refuse to minify already minified file: $1\" >&2; exit 1;; esac; terser \"$1\" -c -m -o \"${1%.js}.min.js\"' _",
     "minify-js-all": "find public/layouts public/libraries public/modules -name '*.js' ! -name '*.min.js' -exec npm run minify-js -- {} \\;",
     "test:e2e": "npm --prefix tests/e2e test -- --reporter=list",

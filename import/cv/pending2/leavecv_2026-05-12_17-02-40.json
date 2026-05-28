@@ -1,0 +1,43 @@
+{
+    "name": "Przemysław Kabała",
+    "email": "kabala.przemyslaw@gmail.com",
+    "phone_number": "502137167",
+    "message": "Cześć, zapoznałem się z ofertą pracy i wysłałem CV. Oto mój profil na LinkedIn: https:\/\/www.linkedin.com\/in\/przemyslaw-kabala\/  Jeśli macie jakieś pytania albo potrzebujecie więcej informacji chętnie pomogę.",
+    "available_from": "1.06",
+    "preferred_contract_type": "UoP",
+    "expected_salary": "11000 brutto ",
+    "attachment_cv": "https:\/\/www.itconnect.pl\/wp-content\/uploads\/metform-uploads\/entry-file-b8b5622dee1c9124048e2ae42dbc72ec.pdf",
+    "__form_id": "902",
+    "__refer": "https:\/\/www.itconnect.pl\/kontakt\/",
+    "__is_ajax": true,
+    "formtype": "leavecv",
+    "allfield": {
+        "cv-jezyk-formularza": "pl",
+        "name": "Przemysław Kabała",
+        "expected_salary": "11000 brutto ",
+        "available_from": "1.06",
+        "email": "kabala.przemyslaw@gmail.com",
+        "phone_number": "502137167",
+        "preferred_contract_type": "UoP",
+        "message": "Cześć, zapoznałem się z ofertą pracy i wysłałem CV. Oto mój profil na LinkedIn: https:\/\/www.linkedin.com\/in\/przemyslaw-kabala\/  Jeśli macie jakieś pytania albo potrzebujecie więcej informacji chętnie pomogę.",
+        "attachment_cv": "https:\/\/www.itconnect.pl\/wp-content\/uploads\/metform-uploads\/entry-file-b8b5622dee1c9124048e2ae42dbc72ec.pdf",
+        "__form_id": "902",
+        "__refer": "https:\/\/www.itconnect.pl\/kontakt\/",
+        "formtype": "leavecv"
+    },
+    "post": {
+        "entries": "{\\\"cv-jezyk-formularza\\\":\\\"pl\\\",\\\"name\\\":\\\"Przemys\\\\u0142aw Kaba\\\\u0142a\\\",\\\"expected_salary\\\":\\\"11000 brutto \\\",\\\"available_from\\\":\\\"1.06\\\",\\\"email\\\":\\\"kabala.przemyslaw@gmail.com\\\",\\\"phone_number\\\":\\\"502137167\\\",\\\"preferred_contract_type\\\":\\\"UoP\\\",\\\"message\\\":\\\"Cze\\\\u015b\\\\u0107, zapozna\\\\u0142em si\\\\u0119 z ofert\\\\u0105 pracy i wys\\\\u0142a\\\\u0142em CV. Oto m\\\\u00f3j profil na LinkedIn: https:\\\\\/\\\\\/www.linkedin.com\\\\\/in\\\\\/przemyslaw-kabala\\\\\/  Je\\\\u015bli macie jakie\\\\u015b pytania albo potrzebujecie wi\\\\u0119cej informacji ch\\\\u0119tnie pomog\\\\u0119.\\\"}",
+        "entry_id": "11831",
+        "form_id": "902",
+        "version": "4.0.6",
+        "file_uploads": "{\\\"attachment_cv\\\":[{\\\"name\\\":\\\"Przemyslaw Kabala.pdf\\\",\\\"url\\\":\\\"https:\\\\\/\\\\\/www.itconnect.pl\\\\\/wp-content\\\\\/uploads\\\\\/metform-uploads\\\\\/entry-file-b8b5622dee1c9124048e2ae42dbc72ec.pdf\\\",\\\"file\\\":\\\"\\\\\/home\\\\\/itconnect\\\\\/domains\\\\\/itconnect.pl\\\\\/public_html\\\\\/wp-content\\\\\/uploads\\\\\/metform-uploads\\\\\/entry-file-b8b5622dee1c9124048e2ae42dbc72ec.pdf\\\",\\\"type\\\":\\\"application\\\\\/pdf\\\"}]}",
+        "referrer_url": "https:\/\/www.itconnect.pl\/kontakt\/"
+    },
+    "get": {
+        "intercept_metforms": "true"
+    },
+    "cv_original_path": "https:\/\/www.itconnect.pl\/wp-content\/uploads\/metform-uploads\/entry-file-b8b5622dee1c9124048e2ae42dbc72ec.pdf",
+    "cv_original_filename": "entry-file-b8b5622dee1c9124048e2ae42dbc72ec.pdf",
+    "cv_saved_filename": "leavecv_cv_2026-05-12_17-02-40.pdf",
+    "cv_saved_path": "\/home\/itconnect\/domains\/itconnect.pl\/public_html\/wp-content\/uploads\/cv\/leavecv_cv_2026-05-12_17-02-40.pdf"
+}

@@ -11,10 +11,20 @@ alwaysApply: true
 - Read-only investigation (Read/Grep/SemanticSearch/MCP SELECT/logs) is always allowed.
 - Never run `git` without consent.
 
+## Modernization stance
+
+FreeCRM is being actively modernized. **No fallbacks. No compat shims. No parallel code paths.**
+
+- When a contract changes, update every call site in the same change.
+- When something is replaced, delete the old version in the same change (or as an explicit final step within it). Legacy code does not get to "stick around for now".
+- No `class_alias()`, no `if ($useLegacy) … else …` branches, no "kept for backward compatibility" comments.
+- Internal APIs, class hierarchies, table columns, and module contracts may all be broken freely. What we preserve is **data integrity** and **user-facing flows** (the screens / APIs / cron jobs people actually use).
+- For larger refactors and feature changes, use the CR templates `cr-create.mdc` and `cr-review.mdc`, which encode this stance.
+
 ## Editing
 
 - Prefer modifying existing files; do not create new files unless necessary.
-- Never use `class_alias()` or similar aliases.
+- Never use `class_alias()` or similar aliases (see Modernization stance).
 - For many edits in one file, prefer `sed`.
 - Continue on partial errors — partial fixes are valuable.
 

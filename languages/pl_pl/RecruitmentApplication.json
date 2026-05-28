@@ -37,7 +37,8 @@
         "FL_REFERRED_BY_EMPLOYEE": "Osoba polecająca",
         "FL_REFERRED_BY_EMAIL": "E-mail osoby polecającej",
         "FL_REFERRED_ON_POSITION": "Stanowisko (przy poleceniu)",
-        "FL_CV_DOCUMENT": "Plik CV"
+        "FL_CV_DOCUMENT": "Plik CV",
+        "LBL_SCHEDULED_CV_IMPORT": "Zaplanowany import aplikacji CV"
     },
     "jsLanguageStrings": {}
 }

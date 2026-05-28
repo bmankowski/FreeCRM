@@ -60,27 +60,11 @@ class AccessService
 			$permission = 2; // public_readwritedelete is default
 		}
 
-		$editstatus = 0; // 0 or 1
-
-		$ruleId = (new \App\Db\Query())
-			->select(['ruleid'])
-			->from('vtiger_def_org_share')
-			->where(['tabid' => $moduleId])
-			->scalar();
-
-		if ($ruleId) {
-			$this->db->createCommand()
-				->update('vtiger_def_org_share', ['permission' => $permission], ['ruleid' => $ruleId])
-				->execute();
-		} else {
-			$this->db->createCommand()
-				->insert('vtiger_def_org_share', [
-					'tabid' => $moduleId,
-					'permission' => $permission,
-					'editstatus' => $editstatus
-				])
-				->execute();
-		}
+		$this->db->createCommand()->upsert(
+			\App\Security\ModuleSharingDefault::TABLE,
+			['tabid' => $moduleId, 'permission' => $permission],
+			['permission']
+		)->execute();
 
 		$this->syncSharingAccess();
 	}

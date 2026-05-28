@@ -18,7 +18,7 @@ final class MigrateKandydaciScheduledImportToClass
 	{
 		$db = \App\Db\Db::getInstance();
 
-		$handlerClass = \App\Modules\Kandydaci\Cron\ScheduledImportTask::class;
+		$handlerClass = 'App\\Modules\\Kandydaci\\Cron\\ScheduledImportTask';
 
 		$updated = 0;
 		try {

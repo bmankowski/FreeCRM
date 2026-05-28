@@ -226,6 +226,8 @@ class Module extends \App\Modules\Base\Models\Module
 
 		\App\ModuleManagement\ServiceLocator::getEventDispatcher()
 			->fire($module->name, 'module.postinstall');
+
+		\App\Utils\VtlibUtils::recreateUserPrivilegeFiles();
 	}
 
 	public static function toAlphaNumeric($value)

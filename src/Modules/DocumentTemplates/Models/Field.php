@@ -21,25 +21,18 @@ class Field extends \App\Modules\Base\Models\Field
 
 	public function getUITypeModel()
 	{
+		if ($this->get('uitypeModel')) {
+			return $this->get('uitypeModel');
+		}
 		$name = $this->getName();
-		if ($name === 'conditions') {
-			return new \App\Modules\DocumentTemplates\UiTypes\Conditions($this);
-		}
-		if ($name === 'template_members') {
-			return new \App\Modules\DocumentTemplates\UiTypes\TemplateMembers($this);
-		}
-		if ($name === 'watermark_image') {
-			return new \App\Modules\DocumentTemplates\UiTypes\WatermarkImage($this);
-		}
 		$params = (string) $this->get('fieldparams');
-		if ($params === 'document_template_conditions') {
-			return new \App\Modules\DocumentTemplates\UiTypes\Conditions($this);
+		$class = null;
+		if ($name === 'conditions' || $params === 'document_template_conditions') {
+			$class = \App\Modules\DocumentTemplates\UiTypes\Conditions::class;
 		}
-		if ($params === 'document_template_members') {
-			return new \App\Modules\DocumentTemplates\UiTypes\TemplateMembers($this);
-		}
-		if ($params === 'document_template_watermark') {
-			return new \App\Modules\DocumentTemplates\UiTypes\WatermarkImage($this);
+		if ($class !== null) {
+			$this->set('uitypeModel', (new $class())->set('field', $this));
+			return $this->get('uitypeModel');
 		}
 		return parent::getUITypeModel();
 	}

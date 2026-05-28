@@ -2,7 +2,7 @@
 
 > **Purpose:** store a single candidate application submitted via the itconnect.pl website (job apply form, leave-CV form, employee referral). One record = one submission; links optionally to `Kandydaci`, `ProjektyRekrutacyjne`, and `Documents`.
 >
-> **Status (2026-05):** module scaffold + custom fields configured in Layout Editor. CV import cron still writes to `Kandydaci` (`Kandydaci/Crons/ScheduledImport.php`); wiring import to this module is a follow-up task.
+> **Status (2026-05):** CV JSON import runs via `RecruitmentApplicationImporter` and cron task `LBL_SCHEDULED_CV_IMPORT` (`App\Modules\RecruitmentApplication\Cron\CvImportTask`). Pending files: `import/cv/pending/`; duplicate `application_number` deletes pending files; success moves to `processed/`; errors to `failed/`.
 
 ---
 
@@ -182,7 +182,7 @@ Related lists for `RecruitmentApplication` are not configured yet (`vtiger_relat
 ## Implementation notes
 
 1. **Custom field column names** — use `cf_*` column names (or field ids from `vtiger_field`) in import code, not semantic names like `candidate_name`.
-2. **`FL_SOURCE_ID`** — integer id into `vtiger_zrodlo_aplikacji`; resolve display name the same way as Kandydaci (`ScheduledImport::getSourceName()`).
+2. **`FL_SOURCE_ID`** — integer id into `vtiger_zrodlo_aplikacji`; resolve display name via `CandidateApplicationSideEffects::getSourceName()`.
 3. **`FL_FORM_TYPE` / `FL_FORM_LANGUAGE`** — stored as Text (picklist creation failed in Layout Editor for cf fields); values are free-form strings.
 4. **`FL_SUBMITTED_AT`** — Text, not DateTime, to preserve full WWW timestamp strings.
 5. **GDPR consent** — checkbox; source values include `tak`, empty, `Yes`; normalize on import like Kandydaci (`agreeToContact`).
@@ -191,15 +191,50 @@ Related lists for `RecruitmentApplication` are not configured yet (`vtiger_relat
 
 ---
 
+## CV import (cron)
+
+| Item | Value |
+|------|-------|
+| Cron service | `LBL_SCHEDULED_CV_IMPORT` |
+| Handler | `App\Modules\RecruitmentApplication\Cron\CvImportTask` |
+| Importer | `RecruitmentApplicationImporter::importPending()` |
+| Manual trigger | Kandydaci list → import candidates (same importer) |
+
+```bash
+docker compose exec -T app php cron/vtigercron.php service=LBL_SCHEDULED_CV_IMPORT
+```
+
+**Backfill** (idempotent, from existing `Kandydaci.application_id`):
+
+```bash
+docker compose exec -T app php src/Modules/RecruitmentApplication/scripts/backfillFromKandydaci.php --dry-run
+docker compose exec -T app php src/Modules/RecruitmentApplication/scripts/backfillFromKandydaci.php
+```
+
+**SQL migrations** (fresh install / UNIQUE index / field dedup):
+
+```bash
+docker compose exec -T app php -r "chdir('/var/www/html'); require 'vendor/autoload.php'; \App\Modules\Cron\Bootstrap::init(); \App\Modules\RecruitmentApplication\Migration\RunSqlMigrations::execute();"
+```
+
+Rollback note: files moved to `import/cv/processed/` are authoritative; re-import from there if code is reverted.
+
+---
+
 ## Files
 
 ```
 src/Modules/RecruitmentApplication/
-  RecruitmentApplication.php          # CRMEntity definition
+  RecruitmentApplication.php
+  Cron/CvImportTask.php
+  Services/RecruitmentApplicationImporter.php
+  Services/CvImport/                    # parser, DTO, side-effects
+  scripts/backfillFromKandydaci.php
+  sql/001_bootstrap_module.sql
 languages/pl_pl/RecruitmentApplication.json
 languages/en_us/RecruitmentApplication.json
-import/cv/                            # Incoming CV JSON + PDF (not module-specific yet)
-documentation/module/RecruitmentApplication.md   # this file
+import/cv/{pending,processed,failed,backup}/
+documentation/module/RecruitmentApplication.md
 ```
 
 ---

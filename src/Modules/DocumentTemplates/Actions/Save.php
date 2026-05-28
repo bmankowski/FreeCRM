@@ -9,19 +9,23 @@ class Save extends \App\Modules\Base\Actions\Config
 {
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
-		\App\Modules\DocumentTemplates\Models\Module::checkRequestPermission($request);
+		$permission = $request->get('record') ? 'EditView' : 'CreateView';
+		\App\Modules\DocumentTemplates\Models\Module::checkRequestPermission($request, $permission);
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('record');
-		$step = $request->get('step');
+		$step = (int) $request->get('step');
 		$moduleName = $request->get('module_name');
 
 		if ($recordId) {
-			$pdfModel = \App\Modules\DocumentTemplates\Models\DocumentTemplate::getInstanceById($recordId);
+			$recordModel = \App\Modules\DocumentTemplates\Models\Record::getInstanceById(
+				$recordId,
+				'DocumentTemplates'
+			);
 		} else {
-			$pdfModel = \App\Modules\DocumentTemplates\Models\Record::getCleanInstance($moduleName);
+			$recordModel = \App\Modules\DocumentTemplates\Models\Record::getCleanInstance($moduleName);
 		}
 
 		$stepFields = \App\Modules\DocumentTemplates\Models\Module::getFieldsByStep($step);
@@ -39,32 +43,32 @@ class Save extends \App\Modules\Base\Actions\Config
 				$value = implode(',', $value);
 			}
 
-			if ($field === 'module_name' && $pdfModel->get('module_name') != $value) {
-				$pdfModel->set('conditions', '[]');
+			if ($field === 'module_name' && $recordModel->get('module_name') != $value) {
+				$recordModel->set('conditions', '[]');
 			}
-			$pdfModel->set($field, $value);
+			$recordModel->set($field, $value);
 		}
 		if ($request->has('conditions')) {
-			$pdfModel->set('conditions', $request->get('conditions'));
+			$recordModel->set('conditions', $request->get('conditions'));
 		}
-		\App\Modules\DocumentTemplates\Models\Record::transformAdvanceFilterToWorkFlowFilter($pdfModel);
-		\App\Modules\DocumentTemplates\Models\Record::encodeConditionsForDb($pdfModel);
-		\App\Modules\DocumentTemplates\Models\Record::saveWizardStep($pdfModel, $step);
+		\App\Modules\DocumentTemplates\Models\Record::transformAdvanceFilterToWorkFlowFilter($recordModel);
+		\App\Modules\DocumentTemplates\Models\Record::encodeConditionsForDb($recordModel);
+		\App\Modules\DocumentTemplates\Models\Record::saveWizardStep($recordModel, $step);
 
-		if ((int) $step === 2) {
+		if ($step === 2) {
 			$layoutSourceId = (int) $request->get('document_layout_source');
 			if ($layoutSourceId > 0) {
-				\App\Modules\DocumentTemplates\Models\Record::applyDocumentLayoutFromDynamicId($pdfModel, $layoutSourceId);
+				\App\Modules\DocumentTemplates\Models\Record::applyDocumentLayoutFromDynamicId($recordModel, $layoutSourceId);
 			}
 		}
 
-		if (!$request->isAjax() && (int) $step === 6) {
+		if (!$request->isAjax() && $step === 6) {
 			header('Location: index.php?module=DocumentTemplates&view=ListView');
 			exit;
 		}
 
 		$response = new \App\Http\Vtiger_Response();
-		$response->setResult(['id' => $pdfModel->getId()]);
+		$response->setResult(['id' => $recordModel->getId()]);
 		$response->emit();
 	}
 }

@@ -14,6 +14,11 @@ namespace App\Modules\DocumentTemplates\Views;
 
 class Edit extends \App\Modules\Base\Views\Basic
 {
+	public function checkPermission(\App\Http\Vtiger_Request $request): void
+	{
+		$permission = $request->get('record') ? 'EditView' : 'CreateView';
+		\App\Modules\DocumentTemplates\Models\Module::checkRequestPermission($request, $permission);
+	}
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{
@@ -27,8 +32,11 @@ class Edit extends \App\Modules\Base\Views\Basic
 		$recordId = $request->get('record');
 		if ($recordId) {
 			try {
-				$pdfModel = \App\Modules\DocumentTemplates\Models\DocumentTemplate::getInstanceById($recordId);
-				$name = $pdfModel->getName();
+				$recordModel = \App\Modules\DocumentTemplates\Models\Record::getInstanceById(
+					$recordId,
+					'DocumentTemplates'
+				);
+				$name = $recordModel->getName();
 				if ($name !== '') {
 					return $name;
 				}
@@ -64,23 +72,26 @@ class Edit extends \App\Modules\Base\Views\Basic
 
 		$recordId = $request->get('record');
 		if ($recordId) {
-			$pdfModel = \App\Modules\DocumentTemplates\Models\DocumentTemplate::getInstanceById($recordId);
+			$recordModel = \App\Modules\DocumentTemplates\Models\Record::getInstanceById(
+				$recordId,
+				'DocumentTemplates'
+			);
 			$viewer->assign('RECORDID', $recordId);
 			$viewer->assign('MODE', 'edit');
-			$selectedModuleName = $pdfModel->get('module_name');
+			$selectedModuleName = $recordModel->get('module_name');
 		} else {
 			$viewer->assign('RECORDID', '');
 			$selectedModuleName = $request->get('source_module');
-			$pdfModel = \App\Modules\DocumentTemplates\Models\Record::getCleanInstance($selectedModuleName ?: 'Vtiger');
+			$recordModel = \App\Modules\DocumentTemplates\Models\Record::getCleanInstance($selectedModuleName ?: 'Vtiger');
 		}
 		$viewer->assign('SELECTED_MODULE', $selectedModuleName);
-		$viewer->assign('PDF_MODEL', $pdfModel);
+		$viewer->assign('PDF_MODEL', $recordModel);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('SOURCE_MODULE', $selectedModuleName);
 		switch ($step) {
 			case 'step6':
-				$this->preparePDFWatermarkData($viewer, $pdfModel);
+				$this->preparePDFWatermarkData($viewer, $recordModel);
 				$template = 'Step6.tpl';
 				break;
 
@@ -90,12 +101,12 @@ class Edit extends \App\Modules\Base\Views\Basic
 				break;
 
 			case 'step4':
-				$moduleModel = \App\Modules\Base\Models\Module::getInstance($pdfModel->get('module_name'));
+				$moduleModel = \App\Modules\Base\Models\Module::getInstance($recordModel->get('module_name'));
 				$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceForModule($moduleModel);
 				$viewer->assign('MODULE_MODEL', $moduleModel);
 				$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
-				$viewer->assign('ADVANCE_CRITERIA', \App\Modules\Base\Helpers\AdvancedFilter::transformToAdvancedFilterCondition($pdfModel->get('conditions')));
-				$viewer->assign('DATE_FILTERS', \App\Modules\Base\Helpers\AdvancedFilter::getDateFilter($pdfModel->get('module_name')));
+				$viewer->assign('ADVANCE_CRITERIA', \App\Modules\Base\Helpers\AdvancedFilter::transformToAdvancedFilterCondition($recordModel->get('conditions')));
+				$viewer->assign('DATE_FILTERS', \App\Modules\Base\Helpers\AdvancedFilter::getDateFilter($recordModel->get('module_name')));
 				$viewer->assign('ADVANCED_FILTER_OPTIONS', \App\Modules\Base\Helpers\AdvancedFilter::getAdvancedFilterOptions());
 				$viewer->assign('ADVANCED_FILTER_OPTIONS_BY_TYPE', \App\Modules\Base\Helpers\AdvancedFilter::getAdvancedFilterOpsByFieldType());
 				$viewer->assign('FIELD_EXPRESSIONS', \App\Modules\Base\Helpers\AdvancedFilter::getExpressions());
@@ -108,7 +119,7 @@ class Edit extends \App\Modules\Base\Views\Basic
 					'PAGENO' => 'PAGENO',
 					'PAGENUM' => 'nb'
 				];
-				$dynamicElements = \App\Modules\TemplateElements\Models\Record::getActiveElements($selectedModuleName, $pdfModel->get('language') ?: null);
+				$dynamicElements = \App\Modules\TemplateElements\Models\Record::getActiveElements($selectedModuleName, $recordModel->get('language') ?: null);
 				$variableAliases = array_values(array_filter($dynamicElements, static function (array $row): bool {
 					return ($row['type'] ?? '') === 'PLL_VARIABLE_ALIAS';
 				}));
@@ -133,12 +144,12 @@ class Edit extends \App\Modules\Base\Views\Basic
 				$viewer->assign('LANGUAGES', $languages);
 				$docLayouts = \App\Modules\TemplateElements\Models\Record::getActiveDocumentLayouts(
 					$selectedModuleName,
-					(string) ($pdfModel->get('language') ?? '')
+					(string) ($recordModel->get('language') ?? '')
 				);
 				$viewer->assign('DOCUMENT_LAYOUT_OPTIONS', $docLayouts);
-				$h = trim((string) $pdfModel->get('header_content'));
-				$b = trim((string) $pdfModel->get('body_content'));
-				$f = trim((string) $pdfModel->get('footer_content'));
+				$h = trim((string) $recordModel->get('header_content'));
+				$b = trim((string) $recordModel->get('body_content'));
+				$f = trim((string) $recordModel->get('footer_content'));
 				$viewer->assign('STEP2_HAS_TEMPLATE_CONTENT', ($h !== '' || $b !== '' || $f !== ''));
 				$template = 'Step2.tpl';
 				break;
@@ -171,12 +182,15 @@ class Edit extends \App\Modules\Base\Views\Basic
 	 * @param \App\Runtime\CRM_Viewer $viewer
 	 * @param \App\Modules\Base\Models\PDF $pdfModel
 	 */
-	protected function preparePDFWatermarkData($viewer, $pdfModel)
+	protected function preparePDFWatermarkData($viewer, $recordModel)
 	{
 		$viewer->assign('WATERMARK_TEXT', \App\Modules\Base\Models\PDF::WATERMARK_TYPE_TEXT);
-		$viewer->assign('WATERMARK_TYPES', $pdfModel->getWatermarkType());
-		$viewer->assign('WATERMARK_SIZE', (int) $pdfModel->get('watermark_size'));
-		$viewer->assign('WATERMARK_ANGLE', (int) $pdfModel->get('watermark_angle'));
+		$viewer->assign('WATERMARK_TYPES', [
+			\App\Modules\Base\Models\PDF::WATERMARK_TYPE_TEXT => 'PLL_TEXT',
+			\App\Modules\Base\Models\PDF::WATERMARK_TYPE_IMAGE => 'PLL_IMAGE',
+		]);
+		$viewer->assign('WATERMARK_SIZE', (int) $recordModel->get('watermark_size'));
+		$viewer->assign('WATERMARK_ANGLE', (int) $recordModel->get('watermark_angle'));
 	}
 
 	/**

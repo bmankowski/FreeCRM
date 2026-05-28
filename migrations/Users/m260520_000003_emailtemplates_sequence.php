@@ -64,13 +64,6 @@ class m260520_000003_emailtemplates_sequence extends Migration
 			'maxwidthcolumn' => 0,
 		]);
 
-		$this->insert('vtiger_def_org_field', [
-			'tabid' => self::TABID,
-			'fieldid' => self::FIELD_ID,
-			'visible' => 0,
-			'readonly' => 0,
-		]);
-
 		$profileIds = (new Query())
 			->select('profileid')
 			->distinct()
@@ -102,7 +95,6 @@ class m260520_000003_emailtemplates_sequence extends Migration
 	public function safeDown(): void
 	{
 		$this->delete('vtiger_profile2field', ['fieldid' => self::FIELD_ID]);
-		$this->delete('vtiger_def_org_field', ['fieldid' => self::FIELD_ID]);
 		$this->delete('vtiger_field', ['fieldid' => self::FIELD_ID]);
 
 		$schema = $this->db->getSchema()->getTableSchema(self::TABLE, true);

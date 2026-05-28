@@ -1,0 +1,19 @@
+{
+  "post_id": "10246",
+  "project_id": "1420532",
+  "job_title": "Backend Developer",
+  "full_name": "Testowy Kandydat",
+  "email": "test@itconnect.pl",
+  "phone_number": "501606752",
+  "message": "Heja",
+  "available_from": "Od zaraz",
+  "preferred_contract_type": "B2B",
+  "expected_salary": "12000",
+  "future_recruitment_consent": "tak",
+  "sourceId": "42",
+  "__form_id": 8063,
+  "__refer": "https://www.itconnect.pl/en/oferta/backend-developer/",
+  "formtype": "apply",
+  "cv_original_filename": "Testowe-cv.docx",
+  "cv_saved_filename": "apply_cv_test.docx"
+}

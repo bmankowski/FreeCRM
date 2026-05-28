@@ -37,7 +37,8 @@
         "FL_REFERRED_BY_EMPLOYEE": "Referring person",
         "FL_REFERRED_BY_EMAIL": "Referrer email",
         "FL_REFERRED_ON_POSITION": "Position (referral)",
-        "FL_CV_DOCUMENT": "CV document"
+        "FL_CV_DOCUMENT": "CV document",
+        "LBL_SCHEDULED_CV_IMPORT": "Scheduled CV application import"
     },
     "jsLanguageStrings": {}
 }

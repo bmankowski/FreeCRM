@@ -91,14 +91,6 @@ class ProfileService
 	 */
 	public function initForField(int $moduleId, int $fieldId): void
 	{
-		// Allow field access to all
-		$this->db->createCommand()->insert('vtiger_def_org_field', [
-			'tabid' => $moduleId,
-			'fieldid' => $fieldId,
-			'visible' => 0,
-			'readonly' => 0,
-		])->execute();
-
 		$profileids = $this->getAllIds();
 		$insertedValues = [];
 
@@ -123,8 +115,7 @@ class ProfileService
 	 */
 	public function deleteForModule(int $moduleId): void
 	{
-		$this->db->createCommand()->delete('vtiger_def_org_field', ['tabid' => $moduleId])->execute();
-		$this->db->createCommand()->delete('vtiger_def_org_share', ['tabid' => $moduleId])->execute();
+		$this->db->createCommand()->delete(\App\Security\ModuleSharingDefault::TABLE, ['tabid' => $moduleId])->execute();
 		$this->db->createCommand()->delete('vtiger_profile2field', ['tabid' => $moduleId])->execute();
 		$this->db->createCommand()->delete('vtiger_profile2standardpermissions', ['tabid' => $moduleId])->execute();
 		$this->db->createCommand()->delete('vtiger_profile2tab', ['tabid' => $moduleId])->execute();
@@ -138,7 +129,6 @@ class ProfileService
 	 */
 	public function deleteForField(int $fieldId): void
 	{
-		$this->db->createCommand()->delete('vtiger_def_org_field', ['fieldid' => $fieldId])->execute();
 		$this->db->createCommand()->delete('vtiger_profile2field', ['fieldid' => $fieldId])->execute();
 	}
 

@@ -30,7 +30,7 @@ class Import extends \App\Modules\Settings\Base\Views\Index
 			$imagePath = '';
 			$base64Image = false;
 
-			$pdfModel = \App\Modules\DocumentTemplates\Models\Record::getCleanInstance();
+			$recordModel = \App\Modules\DocumentTemplates\Models\Record::getCleanInstance();
 			if ($xmlError == UPLOAD_ERR_OK && $extension === 'xml') {
 				$xml = simplexml_load_file($uploadedXml);
 
@@ -44,29 +44,29 @@ class Import extends \App\Modules\Settings\Base\Views\Index
 
 								case 'watermark_image':
 									$imagePath = (string) $columnValue;
-									$pdfModel->set($columnKey, '');
+									$recordModel->set($columnKey, '');
 									break;
 
 								default:
 									$value = (string) $columnValue;
-									$pdfModel->set($columnKey, $value);
+									$recordModel->set($columnKey, $value);
 							}
 						}
 					}
 				}
-				\App\Modules\DocumentTemplates\Models\Record::save($pdfModel, 'import');
+				\App\Modules\DocumentTemplates\Models\Record::saveFullImport($recordModel);
 
-				if ($pdfModel->getId() && $imagePath != '' && $base64Image) {
+				if ($recordModel->getId() && $imagePath != '' && $base64Image) {
 					$targetDir = \App\Modules\DocumentTemplates\Models\Module::$uploadPath;
 					$imageExt = end(explode('.', basename($imagePath)));
 					$imageData = base64_decode($base64Image);
-					$newFilePath = $targetDir . $pdfModel->getId() . '.' . $imageExt;
+					$newFilePath = $targetDir . $recordModel->getId() . '.' . $imageExt;
 
-					$pdfModel->set('watermark_image', $newFilePath);
-					\App\Modules\DocumentTemplates\Models\Record::save($pdfModel, 8);
+					$recordModel->set('watermark_image', $newFilePath);
+					$recordModel->save();
 					file_put_contents($newFilePath, $imageData);
 				}
-				$viewer->assign('RECORDID', $pdfModel->getId());
+				$viewer->assign('RECORDID', $recordModel->getId());
 				$viewer->assign('UPLOAD', true);
 			} else {
 				$viewer->assign('UPLOAD_ERROR', \App\Runtime\Vtiger_Language_Handler::translate('LBL_UPLOAD_ERROR', $qualifiedModule));

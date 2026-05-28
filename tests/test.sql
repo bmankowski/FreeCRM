@@ -53,3 +53,18 @@ select * from vtiger_field where fieldname = 'accountname';
 SELECT typeofdata, COUNT(*) as cnt FROM vtiger_field GROUP BY typeofdata ORDER BY cnt DESC LIMIT 400;
 
 SELECT uitype, GROUP_CONCAT(DISTINCT typeofdata ORDER BY typeofdata) AS typeofdata_values, COUNT(DISTINCT typeofdata) AS distinct_count, COUNT(*) AS field_count FROM vtiger_field WHERE typeofdata IS NOT NULL AND typeofdata != '' GROUP BY uitype HAVING distinct_count > 1 ORDER BY uitype;
+
+
+select * from vtiger_def_org_field;
+
+
+select * from vtiger_tab_sharing_default;
+
+select * from vtiger_field;
+
+select * from vtiger_org_share_action_mapping;
+
+select tabid, count(*) from vtiger_tab_sharing_default group by tabid having count(*) > 1;
+
+
+select distinct vtiger_field.presence from vtiger_field;

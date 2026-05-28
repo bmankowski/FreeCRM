@@ -1,0 +1,43 @@
+{
+    "name": "Oskar Ławrynowicz",
+    "email": "o.lawryn@gmail.com",
+    "phone_number": "796 358 090",
+    "message": "Dzien dobry,\r\n\r\nAplikuje poprzez ten formularz poniewaz nie dziala mi przycisk Aplikuj pod oferta ktora mnie interesuje (probowalem w 3 przegladarakch), mianowicie chodzi o stanowisko Financial Reporting Analyst (Katowice).\r\n\r\nPozdrawiam serdecznie,\r\nOskar",
+    "available_from": "(czerwiec)\/lipiec\/sierpien",
+    "preferred_contract_type": "B2B\/UoP",
+    "expected_salary": "8k-10k netto",
+    "attachment_cv": "https:\/\/www.itconnect.pl\/wp-content\/uploads\/metform-uploads\/entry-file-5fb9e95ee4bd3e36f25c6ffae123b4e0.pdf",
+    "__form_id": "902",
+    "__refer": "https:\/\/www.itconnect.pl\/kariera\/zostaw-cv\/",
+    "__is_ajax": true,
+    "formtype": "leavecv",
+    "allfield": {
+        "cv-jezyk-formularza": "pl",
+        "name": "Oskar Ławrynowicz",
+        "expected_salary": "8k-10k netto",
+        "available_from": "(czerwiec)\/lipiec\/sierpien",
+        "email": "o.lawryn@gmail.com",
+        "phone_number": "796 358 090",
+        "preferred_contract_type": "B2B\/UoP",
+        "message": "Dzien dobry,\r\n\r\nAplikuje poprzez ten formularz poniewaz nie dziala mi przycisk Aplikuj pod oferta ktora mnie interesuje (probowalem w 3 przegladarakch), mianowicie chodzi o stanowisko Financial Reporting Analyst (Katowice).\r\n\r\nPozdrawiam serdecznie,\r\nOskar",
+        "attachment_cv": "https:\/\/www.itconnect.pl\/wp-content\/uploads\/metform-uploads\/entry-file-5fb9e95ee4bd3e36f25c6ffae123b4e0.pdf",
+        "__form_id": "902",
+        "__refer": "https:\/\/www.itconnect.pl\/kariera\/zostaw-cv\/",
+        "formtype": "leavecv"
+    },
+    "post": {
+        "entries": "{\\\"cv-jezyk-formularza\\\":\\\"pl\\\",\\\"name\\\":\\\"Oskar \\\\u0141awrynowicz\\\",\\\"expected_salary\\\":\\\"8k-10k netto\\\",\\\"available_from\\\":\\\"(czerwiec)\\\\\/lipiec\\\\\/sierpien\\\",\\\"email\\\":\\\"o.lawryn@gmail.com\\\",\\\"phone_number\\\":\\\"796 358 090\\\",\\\"preferred_contract_type\\\":\\\"B2B\\\\\/UoP\\\",\\\"message\\\":\\\"Dzien dobry,\\\\r\\\\n\\\\r\\\\nAplikuje poprzez ten formularz poniewaz nie dziala mi przycisk Aplikuj pod oferta ktora mnie interesuje (probowalem w 3 przegladarakch), mianowicie chodzi o stanowisko Financial Reporting Analyst (Katowice).\\\\r\\\\n\\\\r\\\\nPozdrawiam serdecznie,\\\\r\\\\nOskar\\\"}",
+        "entry_id": "11828",
+        "form_id": "902",
+        "version": "4.0.6",
+        "file_uploads": "{\\\"attachment_cv\\\":[{\\\"name\\\":\\\"oskar-lawrynowicz-pl1205.pdf\\\",\\\"url\\\":\\\"https:\\\\\/\\\\\/www.itconnect.pl\\\\\/wp-content\\\\\/uploads\\\\\/metform-uploads\\\\\/entry-file-5fb9e95ee4bd3e36f25c6ffae123b4e0.pdf\\\",\\\"file\\\":\\\"\\\\\/home\\\\\/itconnect\\\\\/domains\\\\\/itconnect.pl\\\\\/public_html\\\\\/wp-content\\\\\/uploads\\\\\/metform-uploads\\\\\/entry-file-5fb9e95ee4bd3e36f25c6ffae123b4e0.pdf\\\",\\\"type\\\":\\\"application\\\\\/pdf\\\"}]}",
+        "referrer_url": "https:\/\/www.itconnect.pl\/kariera\/zostaw-cv\/"
+    },
+    "get": {
+        "intercept_metforms": "true"
+    },
+    "cv_original_path": "https:\/\/www.itconnect.pl\/wp-content\/uploads\/metform-uploads\/entry-file-5fb9e95ee4bd3e36f25c6ffae123b4e0.pdf",
+    "cv_original_filename": "entry-file-5fb9e95ee4bd3e36f25c6ffae123b4e0.pdf",
+    "cv_saved_filename": "leavecv_cv_2026-05-12_08-46-01.pdf",
+    "cv_saved_path": "\/home\/itconnect\/domains\/itconnect.pl\/public_html\/wp-content\/uploads\/cv\/leavecv_cv_2026-05-12_08-46-01.pdf"
+}

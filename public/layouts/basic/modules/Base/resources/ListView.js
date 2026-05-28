@@ -1709,7 +1709,7 @@ jQuery.Class("Vtiger_ListView_Js", {
 		var listViewTopMenuDiv = this.getListViewTopMenuContainer();
 		var filterBlock = this.getFilterBlock()
 		if (filterBlock != false) {
-			filterBlock.on('hover', 'li.select2-results__option[role="treeitem"]', function (event) {
+			filterBlock.on('hover', 'li.select2-results__option[role="option"]', function (event) {
 				var liElement = jQuery(event.currentTarget);
 				var liFilterImages = liElement.find('.filterActionImgs');
 				if (liElement.hasClass('group-result')) {

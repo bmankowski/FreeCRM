@@ -84,6 +84,10 @@ class Deprecated
 				$newbuf .= 'return ' . Functions::varExportMin($tabdata) . ";\n";
 				fputs($handle, $newbuf);
 				fclose($handle);
+				\App\Utils\ModuleUtils::clearTabDataCache();
+				if (\App\Cache\Cache::$pool !== null) {
+					\App\Cache\Cache::delete('moduleTabs', 'all');
+				}
 			} else {
 				\App\Log\Log::error("The file $filename is not writable");
 			}

@@ -1272,7 +1272,6 @@ class Field
 			->column();
 
 		foreach ($fieldIds as $fieldId) {
-			$db->createCommand()->delete('vtiger_def_org_field', ['fieldid' => $fieldId])->execute();
 			$db->createCommand()->delete('vtiger_profile2field', ['fieldid' => $fieldId])->execute();
 			$db->createCommand()->delete('vtiger_fieldmodulerel', ['fieldid' => $fieldId])->execute();
 		}
@@ -1557,7 +1556,6 @@ class Field
 		$fieldName = $this->definition->name;
 
 		$db = \App\Db\Db::getInstance();
-		$db->createCommand()->delete('vtiger_def_org_field', ['fieldid' => $fieldId])->execute();
 		$db->createCommand()->delete('vtiger_profile2field', ['fieldid' => $fieldId])->execute();
 		if ($this->definition->uitype === 10) {
 			$db->createCommand()->delete('vtiger_fieldmodulerel', ['fieldid' => $fieldId])->execute();

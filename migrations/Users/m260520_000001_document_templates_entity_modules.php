@@ -316,7 +316,6 @@ class m260520_000001_document_templates_entity_modules extends Migration
 			'maxlengthtext' => 0,
 			'maxwidthcolumn' => 0,
 		]);
-		$this->insert('vtiger_def_org_field', ['tabid' => $tabId, 'fieldid' => $fieldId, 'visible' => 0, 'readonly' => 0]);
 	}
 
 	private function cloneProfilesFromEmailTemplates(int $targetTabId): void
@@ -369,14 +368,12 @@ class m260520_000001_document_templates_entity_modules extends Migration
 				]);
 			}
 		}
-		if (!(new Query())->from('vtiger_def_org_share')->where(['tabid' => $targetTabId])->exists($this->db)) {
-			$share = (new Query())->from('vtiger_def_org_share')->where(['tabid' => $emailTabId])->one($this->db);
+		if (!(new Query())->from(\App\Security\ModuleSharingDefault::TABLE)->where(['tabid' => $targetTabId])->exists($this->db)) {
+			$share = (new Query())->from(\App\Security\ModuleSharingDefault::TABLE)->where(['tabid' => $emailTabId])->one($this->db);
 			if ($share) {
-				unset($share['ruleid']);
-				$this->insert('vtiger_def_org_share', [
+				$this->insert(\App\Security\ModuleSharingDefault::TABLE, [
 					'tabid' => $targetTabId,
 					'permission' => $share['permission'],
-					'editstatus' => $share['editstatus'],
 				]);
 			}
 		}

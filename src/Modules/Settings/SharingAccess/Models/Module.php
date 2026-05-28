@@ -22,13 +22,6 @@ class Module extends \App\Modules\Base\Models\Module
 {
 
 	/**
-	 * Constants for mapping module's Sharing Access permissions editable
-	 */
-	const EDITABLE = 0;
-	const READONLY = 1;
-	const HIDDEN = 2;
-
-	/**
 	 * Constants used for mapping module's Sharing Access Permission
 	 */
 	const SHARING_ACCESS_READ_ONLY = 0;
@@ -47,7 +40,7 @@ class Module extends \App\Modules\Base\Models\Module
 	 */
 	public function isSharingEditable()
 	{
-		return ($this->get('editstatus') == self::EDITABLE);
+		return !\App\Security\ModuleSharingDefault::isLockedModule($this->getName());
 	}
 
 	/**
@@ -65,7 +58,7 @@ class Module extends \App\Modules\Base\Models\Module
 	 */
 	public function isPublic()
 	{
-		return ($this->get('editstatus') == self::SHARING_ACCESS_PUBLIC);
+		return ((int) $this->get('permission') < self::SHARING_ACCESS_PRIVATE);
 	}
 
 	public function getRulesListUrl()
@@ -91,7 +84,7 @@ class Module extends \App\Modules\Base\Models\Module
 	public function save($request = null)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
-		$sql = 'UPDATE vtiger_def_org_share SET permission = ? WHERE tabid = ?';
+		$sql = 'UPDATE ' . \App\Security\ModuleSharingDefault::TABLE . ' SET permission = ? WHERE tabid = ?';
 		$params = [$this->get('permission'), $this->getId()];
 		$db->pquery($sql, $params);
 	}
@@ -105,10 +98,11 @@ class Module extends \App\Modules\Base\Models\Module
 		$db = \App\Database\PearDatabase::getInstance();
 		$instance = false;
 		$query = false;
+		$table = \App\Security\ModuleSharingDefault::TABLE;
 		if (\vtlib\Utils::isNumber($value)) {
-			$query = 'SELECT * FROM vtiger_def_org_share INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_def_org_share.tabid WHERE vtiger_tab.tabid=?';
+			$query = 'SELECT * FROM ' . $table . ' INNER JOIN vtiger_tab ON vtiger_tab.tabid = ' . $table . '.tabid WHERE vtiger_tab.tabid=?';
 		} else {
-			$query = 'SELECT * FROM vtiger_def_org_share INNER JOIN vtiger_tab ON vtiger_tab.tabid = vtiger_def_org_share.tabid WHERE name=?';
+			$query = 'SELECT * FROM ' . $table . ' INNER JOIN vtiger_tab ON vtiger_tab.tabid = ' . $table . '.tabid WHERE name=?';
 		}
 		$result = $db->pquery($query, [$value]);
 		if ($db->num_rows($result)) {
@@ -116,7 +110,6 @@ class Module extends \App\Modules\Base\Models\Module
 			$instance = new \App\Modules\Settings\SharingAccess\Models\Module();
 			$instance->initialize($row);
 			$instance->set('permission', $row['permission']);
-			$instance->set('editstatus', $row['editstatus']);
 		}
 		return $instance;
 	}
@@ -128,19 +121,19 @@ class Module extends \App\Modules\Base\Models\Module
 	public static function getAll($editable = false, $restrictedModulesList = [], $isEntityType = false)
 	{
 		$moduleModels = [];
-		$query = (new \App\Db\Query())->from('vtiger_def_org_share')
-				->innerJoin('vtiger_tab', 'vtiger_tab.tabid = vtiger_def_org_share.tabid')
+		$table = \App\Security\ModuleSharingDefault::TABLE;
+		$query = (new \App\Db\Query())->from($table)
+				->innerJoin('vtiger_tab', 'vtiger_tab.tabid = ' . $table . '.tabid')
 				->where(['vtiger_tab.presence' => [0, 2]]);
 		if ($editable) {
-			$query->andWhere(['editstatus' => self::EDITABLE]);
+			$query->andWhere(['not in', 'vtiger_tab.name', \App\Security\ModuleSharingDefault::LOCKED_MODULE_NAMES]);
 		}
-		$query->orderBy(['vtiger_def_org_share.tabid' => SORT_ASC]);
+		$query->orderBy([$table . '.tabid' => SORT_ASC]);
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
 			$instance = new \App\Modules\Settings\SharingAccess\Models\Module();
 			$instance->initialize($row);
 			$instance->set('permission', $row['permission']);
-			$instance->set('editstatus', $row['editstatus']);
 			$moduleModels[$row['tabid']] = $instance;
 		}
 		return $moduleModels;

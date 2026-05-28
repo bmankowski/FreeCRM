@@ -4,6 +4,14 @@ namespace App\Modules\RecruitmentApplication;
 
 class RecruitmentApplication extends \App\Core\CRMEntity
 {
+	public function trash($moduleName, $id)
+	{
+		\App\Db\Db::getInstance()->createCommand()
+			->update('vtiger_recruitmentapplication', ['application_number' => null], ['recruitmentapplicationid' => $id])
+			->execute();
+		parent::trash($moduleName, $id);
+	}
+
 	public $table_name = 'vtiger_recruitmentapplication';
 	public $table_index = 'recruitmentapplicationid';
 

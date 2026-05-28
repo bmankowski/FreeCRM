@@ -67,6 +67,7 @@ class VtlibUtils
 	 */
 	public static function recreateUserPrivilegeFiles()
 	{
+		\vtlib\Deprecated::createModuleMetaFile();
 		\App\Modules\Users\Services\PrivilegeFileManager::invalidateAll('VtlibUtils::recreateUserPrivilegeFiles');
 	}
 

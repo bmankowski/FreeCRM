@@ -22,22 +22,28 @@
 		{foreach from=$EXPORT_VARS key=INDEX item=VALUE}
 			<input type="hidden" name="{$INDEX}" value="{$VALUE}" />
 		{/foreach}
-		<div class="panel panel-default">
-			<div class="panel-heading"><strong>{"LBL_AVAILABLE_TEMPLATES"|t:$MODULE_NAME}</strong></div>
-			<div class="panel-body">
-				{foreach from=$TEMPLATES item=TEMPLATE}
-					<div class="form-group row form-horizontal">
-						<label class="col-sm-6 control-label" for="pdfTpl{$TEMPLATE->getId()}">
-							{$TEMPLATE->get('primary_name')}<br />
-							<span class="secondaryName">{$TEMPLATE->get('secondary_name')}</span>
-						</label>
-						<div class="col-sm-6 control-group">
-							<input type="checkbox" id="pdfTpl{$TEMPLATE->getId()}" name="pdf_template[]" class="checkbox" value="{$TEMPLATE->getId()}" {if $TEMPLATE->get('default') eq 1}checked="checked"{/if} />
-						</div>
-					</div>
-				{/foreach}
-			</div>
-		</div>
+		<table class="table table-condensed table-hover">
+				<thead>
+					<tr>
+						<th class="text-center" style="width:40px;"></th>
+						<th>{"LBL_PRIMARY_NAME"|t:"DocumentTemplates"}</th>
+						<th>{"LBL_SECONDARY_NAME"|t:"DocumentTemplates"}</th>
+					</tr>
+				</thead>
+				<tbody>
+					{foreach from=$TEMPLATES item=TEMPLATE}
+						<tr>
+							<td class="text-center">
+								<input type="checkbox" id="pdfTpl{$TEMPLATE->getId()}" name="pdf_template[]" class="checkbox" value="{$TEMPLATE->getId()}" {if $TEMPLATE->get('default') eq 1}checked="checked"{/if} />
+							</td>
+							<td>
+								<label for="pdfTpl{$TEMPLATE->getId()}" class="u-cursor-pointer mb-0">{$TEMPLATE->get('primary_name')}</label>
+							</td>
+							<td>{$TEMPLATE->get('secondary_name')}</td>
+						</tr>
+					{/foreach}
+				</tbody>
+			</table>
 	</div>
 	<div class="modal-footer">
 		<div class="btn-group">

@@ -1,0 +1,43 @@
+{
+    "name": "Marcin Włoga",
+    "email": "wloga.marcin@gmail.com",
+    "phone_number": "792960083",
+    "message": "Dzień dobry jestem otwarty na propozycje w niżej wymienionych obszarach:\r\n- Java backend developer\r\n- QA Automation & Manual",
+    "available_from": "Od zaraz",
+    "preferred_contract_type": "B2B",
+    "expected_salary": "6000 - 9000 netto",
+    "attachment_cv": "https:\/\/www.itconnect.pl\/wp-content\/uploads\/metform-uploads\/entry-file-64a55f9171456df505f43feb9312cb69.pdf",
+    "__form_id": "902",
+    "__refer": "https:\/\/www.itconnect.pl\/kariera\/zostaw-cv\/",
+    "__is_ajax": true,
+    "formtype": "leavecv",
+    "allfield": {
+        "cv-jezyk-formularza": "pl",
+        "name": "Marcin Włoga",
+        "expected_salary": "6000 - 9000 netto",
+        "available_from": "Od zaraz",
+        "email": "wloga.marcin@gmail.com",
+        "phone_number": "792960083",
+        "preferred_contract_type": "B2B",
+        "message": "Dzień dobry jestem otwarty na propozycje w niżej wymienionych obszarach:\r\n- Java backend developer\r\n- QA Automation & Manual",
+        "attachment_cv": "https:\/\/www.itconnect.pl\/wp-content\/uploads\/metform-uploads\/entry-file-64a55f9171456df505f43feb9312cb69.pdf",
+        "__form_id": "902",
+        "__refer": "https:\/\/www.itconnect.pl\/kariera\/zostaw-cv\/",
+        "formtype": "leavecv"
+    },
+    "post": {
+        "entries": "{\\\"cv-jezyk-formularza\\\":\\\"pl\\\",\\\"name\\\":\\\"Marcin W\\\\u0142oga\\\",\\\"expected_salary\\\":\\\"6000 - 9000 netto\\\",\\\"available_from\\\":\\\"Od zaraz\\\",\\\"email\\\":\\\"wloga.marcin@gmail.com\\\",\\\"phone_number\\\":\\\"792960083\\\",\\\"preferred_contract_type\\\":\\\"B2B\\\",\\\"message\\\":\\\"Dzie\\\\u0144 dobry jestem otwarty na propozycje w ni\\\\u017cej wymienionych obszarach:\\\\r\\\\n- Java backend developer\\\\r\\\\n- QA Automation & Manual\\\"}",
+        "entry_id": "11827",
+        "form_id": "902",
+        "version": "4.0.6",
+        "file_uploads": "{\\\"attachment_cv\\\":[{\\\"name\\\":\\\"CV - Marcin W\\\\u0142oga.pdf\\\",\\\"url\\\":\\\"https:\\\\\/\\\\\/www.itconnect.pl\\\\\/wp-content\\\\\/uploads\\\\\/metform-uploads\\\\\/entry-file-64a55f9171456df505f43feb9312cb69.pdf\\\",\\\"file\\\":\\\"\\\\\/home\\\\\/itconnect\\\\\/domains\\\\\/itconnect.pl\\\\\/public_html\\\\\/wp-content\\\\\/uploads\\\\\/metform-uploads\\\\\/entry-file-64a55f9171456df505f43feb9312cb69.pdf\\\",\\\"type\\\":\\\"application\\\\\/pdf\\\"}]}",
+        "referrer_url": "https:\/\/www.itconnect.pl\/kariera\/zostaw-cv\/"
+    },
+    "get": {
+        "intercept_metforms": "true"
+    },
+    "cv_original_path": "https:\/\/www.itconnect.pl\/wp-content\/uploads\/metform-uploads\/entry-file-64a55f9171456df505f43feb9312cb69.pdf",
+    "cv_original_filename": "entry-file-64a55f9171456df505f43feb9312cb69.pdf",
+    "cv_saved_filename": "leavecv_cv_2026-05-12_08-26-21.pdf",
+    "cv_saved_path": "\/home\/itconnect\/domains\/itconnect.pl\/public_html\/wp-content\/uploads\/cv\/leavecv_cv_2026-05-12_08-26-21.pdf"
+}

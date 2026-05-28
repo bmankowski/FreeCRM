@@ -185,7 +185,8 @@ class PDF extends \App\Base\Controllers\BaseActionController
 						$pdf->setLanguage($template->get('language'));
 						$pdf->setFileName($template->get('filename'));
 
-						$pdf->parseParams($template->getParameters());
+						$params = $template->getParameters();
+						$pdf->parseParams($params);
 
 						$html = '';
 
@@ -194,7 +195,14 @@ class PDF extends \App\Base\Controllers\BaseActionController
 						$html = $template->getBody();
 
 						$pdf->loadHTML($html);
-						$pdfFileName = 'cache/pdf/' . $record . '_' . $pdf->getFileName() . '_' . $postfix . '.pdf';
+						$fileLabel = $pdf->getFileName();
+						if ($fileLabel === '' || $fileLabel === null) {
+							$fileLabel = preg_replace('/[^\p{L}\p{N}_-]+/u', '_', (string) $template->get('primary_name'));
+						}
+						if ($fileLabel === '' || $fileLabel === null) {
+							$fileLabel = 'template_' . $id;
+						}
+						$pdfFileName = 'cache/pdf/' . $record . '_' . $id . '_' . $fileLabel . '_' . $postfix . '.pdf';
 						$pdf->output($pdfFileName, 'F');
 
 						if (file_exists($pdfFileName)) {

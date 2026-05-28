@@ -13,25 +13,24 @@ Input document:
 
 ## Role
 
-You are acting as:
+You are acting as: **Staff Engineer + Tech Lead + Code Reviewer**
 
-**Staff Engineer + Tech Lead + Code Reviewer**
+Your task is to determine whether the CR is safe, complete, and ready to implement under FreeCRM's modernization stance:
 
-Your task is to review a CR document and determine whether it is safe, complete, and ready to implement.
+> **No fallbacks. No compat shims. No parallel code paths.** Internal contracts may break; data integrity and user-facing flows are what we preserve. See `cr-create.mdc` and `general-guidelines.mdc`.
 
 Do NOT redesign the change unless a blocking issue is discovered.
-
 Do NOT generate a new implementation plan — only validate the one proposed.
 
 ---
 
 ## Review checklist
 
-Work through each section in order. For each item mark:
+For each item mark:
 
 - ✅ Adequate
-- ⚠️ Needs clarification
-- ❌ Blocking — must be resolved before implementation
+- ⚠️ Needs clarification (non-blocking, fix during implementation)
+- ❌ Blocking — must be resolved before implementation starts
 
 ---
 
@@ -39,91 +38,94 @@ Work through each section in order. For each item mark:
 
 - Is the goal stated precisely (what changes, not just what is desired)?
 - Is "in scope / out of scope" explicit?
+- Is anything deferred to a future CR being deferred **"to keep the old version around"**? → ❌
 - Could the scope silently expand during implementation?
 
 ---
 
-# 2. Impact analysis
+# 2. Impact
 
-- Are all touched files, modules, classes, and DB tables listed?
-- Are downstream consumers of changed APIs or fields identified?
-- Are there hidden coupling points (cron jobs, event listeners, cached data, indexes) that are missing?
+- Are all **modified** files, classes, methods, and DB tables/columns listed?
+- Are all **deletions** explicitly listed (legacy classes, columns, methods, dead modules)?
+- Are all known **call sites** of changed contracts identified — and is the plan to update them in this CR?
+- Are language files mentioned where labels change (`languages/en_us/...` + `languages/pl_pl/...`)?
+- Are hidden coupling points listed: `vtigercron` services, picklists, module manifests, `WebserviceField`, Smarty cache, REST endpoints?
 
 ---
 
 # 3. Functional requirements
 
-- Is the "before → after" behavior described concretely?
-- Are all business rules stated?
-- Are validation rules complete?
-- Are there behavioral changes that are not acknowledged?
+- Is "before → after" behavior described concretely?
+- Are business and validation rules stated?
+- Are user-facing behavioral changes acknowledged (UI, API, data shape)?
+- Are internal-only changes distinguished from observable ones?
 
 ---
 
 # 4. Data migration
 
-- Is a schema diff provided (if schema changes)?
-- Is the migration script idempotent and safe to run on live data?
-- Is a rollback SQL provided?
-- Is backward compatibility during the deploy window addressed (old code + new schema or vice versa)?
-- Are existing records that don't conform to the new rules handled?
+- Is a schema diff provided, including any `DROP` / `RENAME` / type changes?
+- Is the migration script **idempotent** (safe to re-run)?
+- Is the rollback strategy stated — rollback SQL **or** explicit "restore from backup"?
+- Are existing **non-conforming rows** handled (converted, deleted, or flagged)?
 
-If no DB change: confirm "No data migration required" is stated explicitly.
-
----
-
-# 5. Architecture impact
-
-- Are all modified components listed?
-- Are existing interface contracts preserved or is a migration path provided?
-- Are new dependencies justified and approved?
-- Are background jobs and cron tasks that are affected listed?
+If no DB change: confirm **"No data migration required"** is stated explicitly.
 
 ---
 
-# 6. Implementation plan
+# 5. Implementation plan
 
-- Are steps atomic and independently deployable/committable?
-- Is the order correct (e.g. schema before code, not after)?
-- Is there a partial-deploy safety window (code live before migration runs)?
-- Is there a step that is missing or under-specified?
+- Are steps atomic and **individually committable**, with the system runnable after each commit?
+- Is the order sane (schema before dependent code; call-site migration before legacy deletion)?
+- Is **legacy deletion explicitly a step in this CR**, not deferred? → if deferred without justification, ❌
+- Are file paths named per step?
 
 ---
 
-# 7. Testing plan
+# 6. Testing plan
 
 - Are smoke tests defined for the happy path?
-- Are regression areas identified?
-- Are edge cases covered by tests?
-- Is data integrity verification post-migration included?
+- Are user-facing regression flows identified (specific screens / APIs / cron jobs)?
+- Is there a **grep / search verification** step confirming no references to deleted code remain?
+- Is data integrity verification post-migration included (counts, spot-checks)?
+- Are logs to watch named (`cache/logs/system.log`, `cron.log`)?
 
 ---
 
-# 8. Rollback plan
+# 7. Rollback plan
 
-- Is the code rollback path described (revert, feature flag, etc.)?
-- Is the data rollback path described?
-- Is acceptable data loss / downtime stated explicitly?
-- Is the rollback realistic to execute under pressure?
+- Is the code rollback path described (revert commit / previous tag)?
+- Is the data rollback path described — SQL revert for additive, **restore from backup** for destructive?
+- Is acceptable data loss / downtime stated explicitly and realistically?
 
 ---
 
-# 9. Edge cases
+# 8. Edge cases
 
-- Are concurrent write scenarios during migration addressed?
-- Are partial deploys (code but no migration, or migration but old code) safe?
-- Are interrupted migrations recoverable?
-- Are there existing records that violate the new constraints?
+- Are existing records that violate the new constraints handled?
+- Are interrupted / partially-applied migrations safe to re-run?
+- Is **"how do we know we got all the call sites"** answered (grep evidence, type-checker, IDE find-usages)?
+- Are picklist values, custom fields, or user-customized data considered?
+
+---
+
+# 9. Modernization completeness (no-fallbacks check)
+
+This is the distinctive FreeCRM check. Any ❌ here blocks the CR.
+
+- Are compat shims, fallback branches, or "legacy path" code blocks being introduced or left in place? → ❌
+- Are any call sites left calling the old contract after this CR ships? → ❌
+- Is `class_alias()` or any similar bridge being introduced? → ❌
+- Does the system end up in a **dual state** (old + new coexisting) after this CR? → ❌ unless explicitly justified and time-boxed
+- For every deleted class / method / column: is it also removed from documentation, language files, manifests, fixtures, and tests?
 
 ---
 
 # 10. Risk assessment
 
-Classify each identified risk:
-
 | Risk | Severity (Low / Med / High) | Mitigation in CR | Gap |
-|------|-----------------------------|------------------|-----|
-| ...  | ...                         | ✅ / ⚠️ / ❌     | ... |
+|------|------------------------------|------------------|-----|
+| ...  | ...                          | ✅ / ⚠️ / ❌    | ... |
 
 ---
 
@@ -139,31 +141,30 @@ State the verdict in one sentence with the primary reason.
 
 ## Blocking issues
 
-List every ❌ item. Each must be resolved before implementation starts.
+List every ❌ item. Format:
 
-Format:
 - **[Section]** Description of the gap and what is needed to resolve it.
 
 ---
 
 ## Conditions (non-blocking)
 
-List every ⚠️ item. These should be resolved before or during implementation.
+List every ⚠️ item.
 
 ---
 
 ## Strengths
 
-Acknowledge what the CR does well (keep this brief).
+Acknowledge what the CR does well (brief).
 
 ---
 
 ## Recommended next action
 
 One concrete action the author should take before implementation:
-- e.g. "Add rollback SQL for the ALTER TABLE in step 2."
-- e.g. "Clarify behavior for existing NULL values in column X."
-- e.g. "Confirm cron job Y is not affected."
+- e.g. "Add explicit rollback strategy for the `vtiger_field` column drop in step 1."
+- e.g. "Confirm all 15 `getFieldService()` call sites are listed in Impact."
+- e.g. "Remove the `if ($legacyMode)` branch in step 4 — violates no-fallbacks stance."
 
 ---
 

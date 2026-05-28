@@ -146,6 +146,12 @@ class ModuleUtils
 
 	protected static $tabdataCache = false;
 
+	public static function clearTabDataCache(): void
+	{
+		static::$tabdataCache = false;
+		static::$isModuleActiveCache = [];
+	}
+
 	static public function getTabData($type)
 	{
 		if (static::$tabdataCache === false) {

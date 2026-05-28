@@ -1,0 +1,43 @@
+{
+    "name": "Martyna Milczarek",
+    "email": "martyna.milczarek02@gmail.com",
+    "phone_number": "784027429",
+    "message": "Dzień dobry,\r\njestem ekspertem ds. sprzedaży B2B (Senior AE \/ BDM) z udowodnioną skutecznością w pełnym cyklu sprzedażowym. Specjalizuję się w sprzedaży rozwiązań B2B IT oraz Industrial Tech na szczeblu Enterprise i C-level.\r\n\r\nW ostatnim kwartale wygenerowałam od zera lejek o wartości >1 mln PLN netto z cold outreachu, a obecnie domykam kontrakt na 600 tys. PLN. Szukam dojrzałej organizacji z ułożonym procesem (IT, SaaS, oprogramowanie dedykowane), w której mogłabym objąć rolę Senior Account Executive lub Head of Sales.\r\n\r\nPreferuję model w pełni zdalny lub hybrydowy (Wrocław).",
+    "available_from": "1 miesiąc (okres wypowiedzenia na B2B)",
+    "preferred_contract_type": "B2B",
+    "expected_salary": "13 000 - 17 000 PLN netto (+ prowizje)",
+    "attachment_cv": "https:\/\/www.itconnect.pl\/wp-content\/uploads\/metform-uploads\/entry-file-19f15419afb835b7e133f6625ba46bf2.pdf",
+    "__form_id": "902",
+    "__refer": "https:\/\/www.itconnect.pl\/kariera\/zostaw-cv\/",
+    "__is_ajax": true,
+    "formtype": "leavecv",
+    "allfield": {
+        "cv-jezyk-formularza": "pl",
+        "name": "Martyna Milczarek",
+        "expected_salary": "13 000 - 17 000 PLN netto (+ prowizje)",
+        "available_from": "1 miesiąc (okres wypowiedzenia na B2B)",
+        "email": "martyna.milczarek02@gmail.com",
+        "phone_number": "784027429",
+        "preferred_contract_type": "B2B",
+        "message": "Dzień dobry,\r\njestem ekspertem ds. sprzedaży B2B (Senior AE \/ BDM) z udowodnioną skutecznością w pełnym cyklu sprzedażowym. Specjalizuję się w sprzedaży rozwiązań B2B IT oraz Industrial Tech na szczeblu Enterprise i C-level.\r\n\r\nW ostatnim kwartale wygenerowałam od zera lejek o wartości >1 mln PLN netto z cold outreachu, a obecnie domykam kontrakt na 600 tys. PLN. Szukam dojrzałej organizacji z ułożonym procesem (IT, SaaS, oprogramowanie dedykowane), w której mogłabym objąć rolę Senior Account Executive lub Head of Sales.\r\n\r\nPreferuję model w pełni zdalny lub hybrydowy (Wrocław).",
+        "attachment_cv": "https:\/\/www.itconnect.pl\/wp-content\/uploads\/metform-uploads\/entry-file-19f15419afb835b7e133f6625ba46bf2.pdf",
+        "__form_id": "902",
+        "__refer": "https:\/\/www.itconnect.pl\/kariera\/zostaw-cv\/",
+        "formtype": "leavecv"
+    },
+    "post": {
+        "entries": "{\\\"cv-jezyk-formularza\\\":\\\"pl\\\",\\\"name\\\":\\\"Martyna Milczarek\\\",\\\"expected_salary\\\":\\\"13 000 - 17 000 PLN netto (+ prowizje)\\\",\\\"available_from\\\":\\\"1 miesi\\\\u0105c (okres wypowiedzenia na B2B)\\\",\\\"email\\\":\\\"martyna.milczarek02@gmail.com\\\",\\\"phone_number\\\":\\\"784027429\\\",\\\"preferred_contract_type\\\":\\\"B2B\\\",\\\"message\\\":\\\"Dzie\\\\u0144 dobry,\\\\r\\\\njestem ekspertem ds. sprzeda\\\\u017cy B2B (Senior AE \\\\\/ BDM) z udowodnion\\\\u0105 skuteczno\\\\u015bci\\\\u0105 w pe\\\\u0142nym cyklu sprzeda\\\\u017cowym. Specjalizuj\\\\u0119 si\\\\u0119 w sprzeda\\\\u017cy rozwi\\\\u0105za\\\\u0144 B2B IT oraz Industrial Tech na szczeblu Enterprise i C-level.\\\\r\\\\n\\\\r\\\\nW ostatnim kwartale wygenerowa\\\\u0142am od zera lejek o warto\\\\u015bci >1 mln PLN netto z cold outreachu, a obecnie domykam kontrakt na 600 tys. PLN. Szukam dojrza\\\\u0142ej organizacji z u\\\\u0142o\\\\u017conym procesem (IT, SaaS, oprogramowanie dedykowane), w kt\\\\u00f3rej mog\\\\u0142abym obj\\\\u0105\\\\u0107 rol\\\\u0119 Senior Account Executive lub Head of Sales.\\\\r\\\\n\\\\r\\\\nPreferuj\\\\u0119 model w pe\\\\u0142ni zdalny lub hybrydowy (Wroc\\\\u0142aw).\\\"}",
+        "entry_id": "11863",
+        "form_id": "902",
+        "version": "4.0.6",
+        "file_uploads": "{\\\"attachment_cv\\\":[{\\\"name\\\":\\\"Martyna Milczarek CV EN.pdf\\\",\\\"url\\\":\\\"https:\\\\\/\\\\\/www.itconnect.pl\\\\\/wp-content\\\\\/uploads\\\\\/metform-uploads\\\\\/entry-file-19f15419afb835b7e133f6625ba46bf2.pdf\\\",\\\"file\\\":\\\"\\\\\/home\\\\\/itconnect\\\\\/domains\\\\\/itconnect.pl\\\\\/public_html\\\\\/wp-content\\\\\/uploads\\\\\/metform-uploads\\\\\/entry-file-19f15419afb835b7e133f6625ba46bf2.pdf\\\",\\\"type\\\":\\\"application\\\\\/pdf\\\"}]}",
+        "referrer_url": "https:\/\/www.itconnect.pl\/kariera\/zostaw-cv\/"
+    },
+    "get": {
+        "intercept_metforms": "true"
+    },
+    "cv_original_path": "https:\/\/www.itconnect.pl\/wp-content\/uploads\/metform-uploads\/entry-file-19f15419afb835b7e133f6625ba46bf2.pdf",
+    "cv_original_filename": "entry-file-19f15419afb835b7e133f6625ba46bf2.pdf",
+    "cv_saved_filename": "leavecv_cv_2026-05-18_10-07-08.pdf",
+    "cv_saved_path": "\/home\/itconnect\/domains\/itconnect.pl\/public_html\/wp-content\/uploads\/cv\/leavecv_cv_2026-05-18_10-07-08.pdf"
+}

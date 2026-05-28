@@ -2,30 +2,26 @@
 
 namespace App\Modules\DocumentTemplates\Actions;
 
-
-
 /**
- * Returns special functions for PDF Settings
- * @package YetiForce.Action
- * @license licenses/License.html
- * @author Maciej Stencel <m.stencel@yetiforce.com>
- * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
+ * Watermark upload/delete for document templates.
  */
-
 class Watermark extends \App\Modules\Base\Actions\Config
 {
-
 	public function __construct()
 	{
 		$this->exposeMethod('Delete');
 		$this->exposeMethod('Upload');
 	}
 
+	public function checkPermission(\App\Http\Vtiger_Request $request)
+	{
+		\App\Modules\DocumentTemplates\Models\Module::checkRequestPermission($request, 'EditView');
+	}
+
 	public function Delete(\App\Http\Vtiger_Request $request)
 	{
-		$recordId = $request->get('id');
-		$pdfModel = \App\Modules\Base\Models\PDF::getInstanceById($recordId);
-		$output = \App\Modules\DocumentTemplates\Models\Record::deleteWatermark((int) $recordId);
+		$recordId = (int) $request->get('id');
+		$output = \App\Modules\DocumentTemplates\Models\Record::deleteWatermark($recordId);
 
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult($output);
@@ -34,7 +30,7 @@ class Watermark extends \App\Modules\Base\Actions\Config
 
 	public function Upload(\App\Http\Vtiger_Request $request)
 	{
-		$templateId = $request->get('template_id');
+		$templateId = (int) $request->get('template_id');
 		$newName = basename($_FILES['watermark']['name'][0]);
 		$newName = explode('.', $newName);
 		$newName = $templateId . '.' . end($newName);
@@ -47,25 +43,24 @@ class Watermark extends \App\Modules\Base\Actions\Config
 			$uploadOk = 0;
 		}
 
-		// Check allowed upload file size
 		if ($uploadOk && $_FILES['watermark']['size'][0] > \App\Core\AppConfig::main('upload_maxsize')) {
 			$uploadOk = 0;
 		}
-		// Check if $uploadOk is set to 0 by an error
 		if ($uploadOk === 1) {
-			$db = \App\Db\Db::getInstance('admin');
-			$watermarkImage = (new \App\Db\Query())->select('watermark_image')
-				->from('u_yf_documenttemplates')
-				->where(['documenttemplatesid' => $templateId])
-				->scalar($db);
-			if (file_exists($watermarkImage)) {
+			$recordModel = \App\Modules\DocumentTemplates\Models\Record::getInstanceById(
+				$templateId,
+				'DocumentTemplates'
+			);
+			if (!$recordModel) {
+				return;
+			}
+			$watermarkImage = (string) $recordModel->get('watermark_image');
+			if ($watermarkImage !== '' && file_exists($watermarkImage)) {
 				unlink($watermarkImage);
 			}
-			// successful upload
 			if ($fileInstance->moveFile($targetFile)) {
-				$db->createCommand()
-					->update('u_yf_documenttemplates', ['watermark_image' => $targetFile], ['documenttemplatesid' => $templateId])
-					->execute();
+				$recordModel->set('watermark_image', $targetFile);
+				$recordModel->save();
 			}
 		}
 	}

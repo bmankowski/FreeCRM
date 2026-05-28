@@ -63,13 +63,6 @@ class m260514_000001_users_phone_number extends Migration
 			'maxwidthcolumn' => 0,
 		]);
 
-		$this->insert('vtiger_def_org_field', [
-			'tabid' => self::TABID,
-			'fieldid' => self::FIELD_ID,
-			'visible' => 0,
-			'readonly' => 0,
-		]);
-
 		$profileIds = (new Query())
 			->select('profileid')
 			->distinct()
@@ -101,7 +94,6 @@ class m260514_000001_users_phone_number extends Migration
 	public function safeDown(): void
 	{
 		$this->delete('vtiger_profile2field', ['fieldid' => self::FIELD_ID]);
-		$this->delete('vtiger_def_org_field', ['fieldid' => self::FIELD_ID]);
 		$this->delete('vtiger_field', ['fieldid' => self::FIELD_ID]);
 
 		$schema = $this->db->getSchema()->getTableSchema(self::TABLE, true);

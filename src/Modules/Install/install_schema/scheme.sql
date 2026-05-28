@@ -4848,30 +4848,15 @@ CREATE TABLE `vtiger_dayoftheweek_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_def_org_field` */
+/*Table structure for table `vtiger_tab_sharing_default` */
 
-CREATE TABLE `vtiger_def_org_field` (
-  `tabid` int(10) DEFAULT NULL,
-  `fieldid` int(19) NOT NULL,
-  `visible` int(19) DEFAULT NULL,
-  `readonly` int(19) DEFAULT NULL,
-  PRIMARY KEY (`fieldid`),
-  KEY `def_org_field_tabid_fieldid_idx` (`tabid`,`fieldid`),
-  KEY `def_org_field_tabid_idx` (`tabid`),
-  KEY `def_org_field_visible_fieldid_idx` (`visible`,`fieldid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_def_org_share` */
-
-CREATE TABLE `vtiger_def_org_share` (
-  `ruleid` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `vtiger_tab_sharing_default` (
   `tabid` int(11) NOT NULL,
-  `permission` int(19) DEFAULT NULL,
-  `editstatus` int(19) DEFAULT NULL,
-  PRIMARY KEY (`ruleid`),
-  KEY `fk_1_vtiger_def_org_share` (`permission`),
-  CONSTRAINT `fk_1_vtiger_def_org_share` FOREIGN KEY (`permission`) REFERENCES `vtiger_org_share_action_mapping` (`share_action_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8;
+  `permission` int(11) NOT NULL,
+  PRIMARY KEY (`tabid`),
+  CONSTRAINT `fk_vtiger_tab_sharing_default_tabid` FOREIGN KEY (`tabid`) REFERENCES `vtiger_tab` (`tabid`) ON DELETE CASCADE,
+  CONSTRAINT `fk_vtiger_tab_sharing_default_permission` FOREIGN KEY (`permission`) REFERENCES `vtiger_org_share_action_mapping` (`share_action_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_default_record_view` */
 
@@ -5225,6 +5210,7 @@ CREATE TABLE `vtiger_field` (
   `fieldname` varchar(50) NOT NULL,
   `fieldlabel` varchar(50) NOT NULL,
   `readonly` tinyint(1) unsigned NOT NULL,
+  `org_visible` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `mandatory` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `presence` tinyint(1) unsigned NOT NULL DEFAULT '1',
   `defaultvalue` text,

@@ -16,7 +16,7 @@ class RunImportCandidatesWorkflow {
      * @param \App\Modules\Kandydaci\Models\Record $recordModel
      */
     public static function runImportCandidates(\App\Modules\Kandydaci\Models\Record $recordModel) {
-		\App\Modules\Kandydaci\Crons\ScheduledImport::importNewCandidates();
+		(new \App\Modules\RecruitmentApplication\Services\RecruitmentApplicationImporter())->importPending();
 
     }
 }

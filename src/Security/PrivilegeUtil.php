@@ -124,7 +124,7 @@ class PrivilegeUtil
 			$adb = \App\Database\PearDatabase::getInstance();
 			$copy = [];
 			//retreiving the standard permissions
-			$result = $adb->query('select * from vtiger_def_org_share');
+			$result = $adb->query('select * from ' . \App\Security\ModuleSharingDefault::TABLE);
 			while ($row = $adb->getRow($result)) {
 				$copy[$row['tabid']] = $row['permission'];
 			}

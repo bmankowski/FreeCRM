@@ -1,0 +1,43 @@
+{
+    "name": "Kacper Pastusiak",
+    "email": "pastusiakkacper@gmail.com",
+    "phone_number": "666313923",
+    "message": "Witam,\r\n\r\nNa wstępie chciałbym krótko wyjaśnić, że w moim doświadczeniu zawodowym widoczna jest ponad roczna przerwa. Był to dla mnie czas na rozwiązanie spraw osobistych, ale przez cały ten czas śledziłem rozwój technologii, a teraz z pełną motywacją chcę wrócić do pracy w IT.\r\n\r\nMam doświadczenie w .NET w architekturze mikroserwisowej, PostgreSQL czy Dockerze i naprawdę zależy mi na tym, żeby szybko nadrobić ewentualne zaległości lub poznać nowe technologię i ponownie stać się pełnowartościowym członkiem zespołu developerskiego.\r\n\r\nByłem już w roli team leadera i software developera – cenię sobie dokładność, komunikację a przede wszystkim ciągłe doskonalenie.\r\n\r\nBędę wdzięczny za danie mi szansy na rozmowę.\r\n\r\nZ góry dziękuję i pozdrawiam,\r\nKacper Pastusiak",
+    "available_from": "Od zaraz",
+    "preferred_contract_type": "Umowa o pracę",
+    "expected_salary": "12000 brutto",
+    "attachment_cv": "https:\/\/www.itconnect.pl\/wp-content\/uploads\/metform-uploads\/entry-file-3b45403488309d1b6ee37bbfc65456aa.pdf",
+    "__form_id": "902",
+    "__refer": "https:\/\/www.itconnect.pl\/kariera\/zostaw-cv\/",
+    "__is_ajax": true,
+    "formtype": "leavecv",
+    "allfield": {
+        "cv-jezyk-formularza": "pl",
+        "name": "Kacper Pastusiak",
+        "expected_salary": "12000 brutto",
+        "available_from": "Od zaraz",
+        "email": "pastusiakkacper@gmail.com",
+        "phone_number": "666313923",
+        "preferred_contract_type": "Umowa o pracę",
+        "message": "Witam,\r\n\r\nNa wstępie chciałbym krótko wyjaśnić, że w moim doświadczeniu zawodowym widoczna jest ponad roczna przerwa. Był to dla mnie czas na rozwiązanie spraw osobistych, ale przez cały ten czas śledziłem rozwój technologii, a teraz z pełną motywacją chcę wrócić do pracy w IT.\r\n\r\nMam doświadczenie w .NET w architekturze mikroserwisowej, PostgreSQL czy Dockerze i naprawdę zależy mi na tym, żeby szybko nadrobić ewentualne zaległości lub poznać nowe technologię i ponownie stać się pełnowartościowym członkiem zespołu developerskiego.\r\n\r\nByłem już w roli team leadera i software developera – cenię sobie dokładność, komunikację a przede wszystkim ciągłe doskonalenie.\r\n\r\nBędę wdzięczny za danie mi szansy na rozmowę.\r\n\r\nZ góry dziękuję i pozdrawiam,\r\nKacper Pastusiak",
+        "attachment_cv": "https:\/\/www.itconnect.pl\/wp-content\/uploads\/metform-uploads\/entry-file-3b45403488309d1b6ee37bbfc65456aa.pdf",
+        "__form_id": "902",
+        "__refer": "https:\/\/www.itconnect.pl\/kariera\/zostaw-cv\/",
+        "formtype": "leavecv"
+    },
+    "post": {
+        "entries": "{\\\"cv-jezyk-formularza\\\":\\\"pl\\\",\\\"name\\\":\\\"Kacper Pastusiak\\\",\\\"expected_salary\\\":\\\"12000 brutto\\\",\\\"available_from\\\":\\\"Od zaraz\\\",\\\"email\\\":\\\"pastusiakkacper@gmail.com\\\",\\\"phone_number\\\":\\\"666313923\\\",\\\"preferred_contract_type\\\":\\\"Umowa o prac\\\\u0119\\\",\\\"message\\\":\\\"Witam,\\\\r\\\\n\\\\r\\\\nNa wst\\\\u0119pie chcia\\\\u0142bym kr\\\\u00f3tko wyja\\\\u015bni\\\\u0107, \\\\u017ce w moim do\\\\u015bwiadczeniu zawodowym widoczna jest ponad roczna przerwa. By\\\\u0142 to dla mnie czas na rozwi\\\\u0105zanie spraw osobistych, ale przez ca\\\\u0142y ten czas \\\\u015bledzi\\\\u0142em rozw\\\\u00f3j technologii, a teraz z pe\\\\u0142n\\\\u0105 motywacj\\\\u0105 chc\\\\u0119 wr\\\\u00f3ci\\\\u0107 do pracy w IT.\\\\r\\\\n\\\\r\\\\nMam do\\\\u015bwiadczenie w .NET w architekturze mikroserwisowej, PostgreSQL czy Dockerze i naprawd\\\\u0119 zale\\\\u017cy mi na tym, \\\\u017ceby szybko nadrobi\\\\u0107 ewentualne zaleg\\\\u0142o\\\\u015bci lub pozna\\\\u0107 nowe technologi\\\\u0119 i ponownie sta\\\\u0107 si\\\\u0119 pe\\\\u0142nowarto\\\\u015bciowym cz\\\\u0142onkiem zespo\\\\u0142u developerskiego.\\\\r\\\\n\\\\r\\\\nBy\\\\u0142em ju\\\\u017c w roli team leadera i software developera \\\\u2013 ceni\\\\u0119 sobie dok\\\\u0142adno\\\\u015b\\\\u0107, komunikacj\\\\u0119 a przede wszystkim ci\\\\u0105g\\\\u0142e doskonalenie.\\\\r\\\\n\\\\r\\\\nB\\\\u0119d\\\\u0119 wdzi\\\\u0119czny za danie mi szansy na rozmow\\\\u0119.\\\\r\\\\n\\\\r\\\\nZ g\\\\u00f3ry dzi\\\\u0119kuj\\\\u0119 i pozdrawiam,\\\\r\\\\nKacper Pastusiak\\\"}",
+        "entry_id": "11594",
+        "form_id": "902",
+        "version": "4.0.6",
+        "file_uploads": "{\\\"attachment_cv\\\":[{\\\"name\\\":\\\"Kacper_Pastusiak_CV.pdf\\\",\\\"url\\\":\\\"https:\\\\\/\\\\\/www.itconnect.pl\\\\\/wp-content\\\\\/uploads\\\\\/metform-uploads\\\\\/entry-file-3b45403488309d1b6ee37bbfc65456aa.pdf\\\",\\\"file\\\":\\\"\\\\\/home\\\\\/itconnect\\\\\/domains\\\\\/itconnect.pl\\\\\/public_html\\\\\/wp-content\\\\\/uploads\\\\\/metform-uploads\\\\\/entry-file-3b45403488309d1b6ee37bbfc65456aa.pdf\\\",\\\"type\\\":\\\"application\\\\\/pdf\\\"}]}",
+        "referrer_url": "https:\/\/www.itconnect.pl\/kariera\/zostaw-cv\/"
+    },
+    "get": {
+        "intercept_metforms": "true"
+    },
+    "cv_original_path": "https:\/\/www.itconnect.pl\/wp-content\/uploads\/metform-uploads\/entry-file-3b45403488309d1b6ee37bbfc65456aa.pdf",
+    "cv_original_filename": "entry-file-3b45403488309d1b6ee37bbfc65456aa.pdf",
+    "cv_saved_filename": "leavecv_cv_2026-05-06_10-46-06.pdf",
+    "cv_saved_path": "\/home\/itconnect\/domains\/itconnect.pl\/public_html\/wp-content\/uploads\/cv\/leavecv_cv_2026-05-06_10-46-06.pdf"
+}

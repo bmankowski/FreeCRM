@@ -19,6 +19,9 @@
 	{foreach key=index item=cssModel from=$STYLES}
 		<link rel="{$cssModel->getRel()}" href="{vresource_url($cssModel->getHref())}" />
 	{/foreach}
+	{foreach key=index item=jsModel from=$HEADER_SCRIPTS}
+		<script type="{$jsModel->getType()}" src="{vresource_url($jsModel->getSrc())}"></script>
+	{/foreach}
 </head>
 <body>
 <!-- layouts/basic/modules/Users/Login.Default.tpl -->

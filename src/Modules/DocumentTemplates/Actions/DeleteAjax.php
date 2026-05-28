@@ -4,6 +4,11 @@ namespace App\Modules\DocumentTemplates\Actions;
 
 class DeleteAjax extends \App\Modules\Base\Actions\Delete
 {
+	public function checkPermission(\App\Http\Vtiger_Request $request)
+	{
+		\App\Modules\DocumentTemplates\Models\Module::checkRequestPermission($request, 'Delete');
+	}
+
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordModel = \App\Modules\DocumentTemplates\Models\Record::getInstanceById(

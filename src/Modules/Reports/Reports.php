@@ -584,7 +584,7 @@ class Reports extends \App\Core\CRMEntity
 		$params = array($tabid, $block);
 
 		$profileList = $currentUser->getProfiles();
-		$sql = sprintf("select * from vtiger_field inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid where vtiger_field.tabid in (%s)  and vtiger_field.block in (%s) and vtiger_field.displaytype in (1,2,3,10) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)", \App\Utils\Utils::generateQuestionMarks($tabid), \App\Utils\Utils::generateQuestionMarks($block));
+		$sql = sprintf("select * from vtiger_field inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid where vtiger_field.tabid in (%s)  and vtiger_field.block in (%s) and vtiger_field.displaytype in (1,2,3,10) and vtiger_profile2field.visible=0 and vtiger_field.org_visible=0 and vtiger_field.presence in (0,2)", \App\Utils\Utils::generateQuestionMarks($tabid), \App\Utils\Utils::generateQuestionMarks($block));
 		if ($profileList !== false && count($profileList) > 0) {
 			$sql .= " and vtiger_profile2field.profileid in (" . \App\Utils\Utils::generateQuestionMarks($profileList) . ")";
 			array_push($params, $profileList);
@@ -731,10 +731,10 @@ class Reports extends \App\Core\CRMEntity
 		$access_fields = [];
 
 		$profileList = $currentUser->getProfiles();
-		$query = "select vtiger_field.fieldname from vtiger_field inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid where";
+		$query = "select vtiger_field.fieldname from vtiger_field inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid where";
 		$params = array();
 		if ($module == "Calendar") {
-			$query .= " vtiger_field.tabid in (9,16) and vtiger_field.displaytype in (1,2,3) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)";
+			$query .= " vtiger_field.tabid in (9,16) and vtiger_field.displaytype in (1,2,3) and vtiger_profile2field.visible=0 and vtiger_field.org_visible=0 and vtiger_field.presence in (0,2)";
 			if (count($profileList) > 0) {
 				$query .= " and vtiger_profile2field.profileid in (" . \App\Utils\Utils::generateQuestionMarks($profileList) . ")";
 				array_push($params, $profileList);
@@ -742,7 +742,7 @@ class Reports extends \App\Core\CRMEntity
 			$query .= " group by vtiger_field.fieldid order by block,sequence";
 		} else {
 			array_push($params, $this->primodule, $this->secmodule);
-			$query .= " vtiger_field.tabid in (select tabid from vtiger_tab where vtiger_tab.name in (?,?)) and vtiger_field.displaytype in (1,2,3) and vtiger_profile2field.visible=0 and vtiger_def_org_field.visible=0 and vtiger_field.presence in (0,2)";
+			$query .= " vtiger_field.tabid in (select tabid from vtiger_tab where vtiger_tab.name in (?,?)) and vtiger_field.displaytype in (1,2,3) and vtiger_profile2field.visible=0 and vtiger_field.org_visible=0 and vtiger_field.presence in (0,2)";
 			if (count($profileList) > 0) {
 				$query .= " and vtiger_profile2field.profileid in (" . \App\Utils\Utils::generateQuestionMarks($profileList) . ")";
 				array_push($params, $profileList);
@@ -1033,7 +1033,7 @@ class Reports extends \App\Core\CRMEntity
 		$escapedchars = Array('__SUM', '__AVG', '__MIN', '__MAX');
 		$sparams = array($tabid);
 		$profileList = $currentUser->getProfiles();
-		$ssql = "select * from vtiger_field inner join vtiger_tab on vtiger_tab.tabid = vtiger_field.tabid inner join vtiger_def_org_field on vtiger_def_org_field.fieldid=vtiger_field.fieldid inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid  where vtiger_field.uitype != 50 and vtiger_field.tabid=? and vtiger_field.displaytype in (1,2,3) and vtiger_def_org_field.visible=0 and vtiger_profile2field.visible=0 and vtiger_field.presence in (0,2)";
+		$ssql = "select * from vtiger_field inner join vtiger_tab on vtiger_tab.tabid = vtiger_field.tabid inner join vtiger_profile2field on vtiger_profile2field.fieldid=vtiger_field.fieldid  where vtiger_field.uitype != 50 and vtiger_field.tabid=? and vtiger_field.displaytype in (1,2,3) and vtiger_field.org_visible=0 and vtiger_profile2field.visible=0 and vtiger_field.presence in (0,2)";
 		if ($profileList !== false && count($profileList) > 0) {
 			$ssql .= " and vtiger_profile2field.profileid in (" . \App\Utils\Utils::generateQuestionMarks($profileList) . ")";
 			array_push($sparams, $profileList);

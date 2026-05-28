@@ -55,6 +55,7 @@ class Login extends \App\Base\Controllers\BaseViewController
 		$viewer->assign('STATUS', $request->get('status'));
 		$viewer->assign('STATUS_ERROR', $request->get('statusError'));
 		$viewer->assign('STYLES', $this->getHeaderCss($request));
+		$viewer->assign('HEADER_SCRIPTS', $this->getHeaderScripts($request));
 		$viewer->assign('SYSTEM_MODE', \App\Core\AppConfig::main('systemMode'));
 		$viewer->view('Login.tpl', 'Users');
 	}

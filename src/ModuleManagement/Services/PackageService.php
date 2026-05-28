@@ -1853,7 +1853,7 @@ class PackageService
 	private function export_SharingAccess(Models\Module $module): void
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
-		$deforgshare = $adb->pquery("SELECT * FROM vtiger_def_org_share WHERE tabid=?", [$module->getId()]);
+		$deforgshare = $adb->pquery('SELECT * FROM ' . \App\Security\ModuleSharingDefault::TABLE . ' WHERE tabid=?', [$module->getId()]);
 		$deforgshareCount = $adb->num_rows($deforgshare);
 
 		if (empty($deforgshareCount)) {

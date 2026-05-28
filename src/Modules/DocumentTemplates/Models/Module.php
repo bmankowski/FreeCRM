@@ -55,14 +55,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	public function getListFields(): array
 	{
-		if (!isset($this->listFieldModels)) {
-			$fieldObjects = [];
-			foreach ($this->listFields as $fieldName => $fieldLabel) {
-				$fieldObjects[$fieldName] = new \App\Runtime\BaseModel(['name' => $fieldName, 'label' => $fieldLabel]);
-			}
-			$this->listFieldModels = $fieldObjects;
-		}
-		return $this->listFieldModels;
+		return parent::getListFields();
 	}
 
 	public function hasCreatePermissions(): bool
@@ -75,10 +68,10 @@ class Module extends \App\Modules\Base\Models\Module
 		return true;
 	}
 
-	public static function checkRequestPermission(\App\Http\Vtiger_Request $request): void
+	public static function checkRequestPermission(\App\Http\Vtiger_Request $request, string $permission = 'EditView'): void
 	{
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance('DocumentTemplates');
-		if (!$moduleModel || !\App\Modules\Users\Models\Privileges::isPermitted('DocumentTemplates', 'EditView')) {
+		if (!$moduleModel || !\App\Modules\Users\Models\Privileges::isPermitted('DocumentTemplates', $permission)) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}

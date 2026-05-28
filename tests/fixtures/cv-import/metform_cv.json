@@ -1,0 +1,22 @@
+{
+  "created_at": "2024-01-15 10:00:00",
+  "entries": {
+    "cv-imie-nazwisko": "KOWALSKI JAN",
+    "cv-email": "jan.kowalski@example.com",
+    "cv-numer-telefonu": "501606752",
+    "cv-id-projektu": "100",
+    "cv-source-id": "5",
+    "cv-zgoda": "tak",
+    "cv-od-kiedy": "od zaraz",
+    "cv-oczekiwania": "10000",
+    "cv-wiadomosc": "Wiadomosc testowa"
+  },
+  "file_uploads": {
+    "cv-zalacz-cv": [
+      {
+        "name": "cv.pdf",
+        "file": "cv_test_upload.pdf"
+      }
+    ]
+  }
+}

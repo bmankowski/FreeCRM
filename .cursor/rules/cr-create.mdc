@@ -11,128 +11,165 @@ Change Request for: **"{{CR_NAME}}"**
 
 ---
 
-## Instructions
+## Stance
 
-Design the safest, most targeted change that achieves the goal without breaking existing behavior.
+FreeCRM is being actively modernized. **No fallbacks. No compat shims. No parallel code paths.**
 
-Prioritize:
-- minimal footprint — touch only what must change
-- backward compatibility and data safety
-- clear rollback path
-- regression safety for existing features
+When something changes:
+- Update **every** call site.
+- Delete the old code in the same CR (or as the explicit final step).
+- If a class, table column, or API shape is replaced, the old one goes away — it does not coexist with the new one.
 
-Avoid:
-- scope creep beyond the stated goal
-- refactoring unrelated code
-- breaking existing API contracts without a migration plan
-- changes that require coordinated deploys unless justified
-
-Assume:
-- production system is live with real data
-- a small engineering team with limited QA bandwidth
-- iterative delivery; each CR should be independently deployable
+`class_alias()` and similar bridges are forbidden (see `general-guidelines.mdc`).
 
 ---
 
-## Impact analysis
+## Instructions
 
-Identify:
-- files, modules, classes, and DB tables touched
-- existing behaviors that change (intentionally or as side effects)
-- dependent modules or features that may be affected
-- consumers of any modified APIs or interfaces
+Design the cleanest change that achieves the goal. Break legacy *code* freely; preserve user-facing *behavior* and *data*.
+
+Prioritize:
+- data integrity — real production data must not be lost or corrupted
+- regression safety for **user-facing flows** (the screens / APIs / cron jobs users actually use)
+- clean removal of legacy code, duplication, and dead branches
+- clear path to revert the deploy if it goes wrong (revert commit + restore backup is acceptable)
+
+Allow / embrace:
+- breaking internal APIs, deleting classes, renaming tables / columns
+- destructive migrations (DROP / RENAME / data rewrites) when justified
+- touching many files when a refactor genuinely requires it
+
+Avoid:
+- scope creep into unrelated refactors (note them, defer to a follow-up CR)
+- keeping a "legacy path" around "just in case"
+- silent breaking changes — every contract change must be listed in Impact and every call site updated in the implementation plan
+- inventing infrastructure that does not exist in this project (feature flags, zero-downtime orchestration, blue/green)
+
+Assume:
+- production system is live with real data
+- single deployment target (one server, `docker compose` based); brief maintenance windows are acceptable
+- code and DB migration ship together in the same deploy cycle
+- a small team with limited QA bandwidth
+- backups exist and can be restored for destructive changes
+
+---
+
+## Impact
+
+List concretely what this CR touches. Be specific — paths, not just module names.
+
+- **Code being modified**: files, classes, methods (PHP, JS, Smarty `.tpl`)
+- **Code being deleted**: legacy classes, deprecated methods, dead modules — list them explicitly
+- **DB**: tables, columns, indexes, FKs — additions, modifications, **and drops** (use MCP `freecrm-mysql` to inspect current shape)
+- **Module metadata**: module manifests, blocks, fields, picklists, profiles, sharing rules
+- **Language files**: `languages/en_us/...` and `languages/pl_pl/...` (both must stay in sync — see `translations.mdc`)
+- **Cron / background**: any `vtigercron.php` services affected
+- **Webservices / REST**: `WebserviceField`, REST endpoints, mobile API consumers
+- **Caches**: Smarty (`cache/templates_c/`), module / language caches
+- **External consumers**: integrations, webhooks, scheduled imports
+
+For each touchpoint state whether the change is **internal-only** or **observable** (UI, API, data shape).
+
+For every modified or deleted contract, list **all known call sites** that need updating in this CR.
 
 ---
 
 ## Functional requirements
 
 Define:
-- what changes in system behavior (before → after)
+- what changes in system behavior (before → after) — be concrete
 - business rules that must hold after the change
 - validation rules
 - constraints
 
 Explicitly distinguish:
 - in scope for this CR
-- out of scope / future CR
+- out of scope / future CR (and why deferred — never "to keep the old version around")
 
 ---
 
 ## Data migration
 
 If the DB schema or stored data changes, provide:
-- schema diff (ALTER / new table / index)
-- data migration script (safe to run on live data, idempotent)
-- backward-compatible intermediate state if a zero-downtime deploy is needed
-- rollback SQL
+- schema diff (`ALTER` / new table / index / **DROP**)
+- data migration script — **must be idempotent** (safe to re-run)
+- rollback strategy: rollback SQL if cheap, otherwise explicit **"restore from backup"** statement
+- how existing non-conforming rows are handled (the most important question) — converted, deleted, or flagged?
 
-If no DB change: state "No data migration required."
+If no DB change: state **"No data migration required."**
 
----
-
-## Architecture impact
-
-Describe:
-- which components change and why
-- whether existing interfaces remain compatible
-- any new external dependencies introduced
-- background jobs or cron tasks affected
+Inspection (current schema, row counts, sample data) should be done via the `freecrm-mysql` MCP server, not Docker shell.
 
 ---
 
 ## Implementation plan
 
-Break the change into atomic, independently reviewable steps:
+Break the change into atomic, ordered steps. Each step should be **committable in isolation** and leave the system runnable.
 
-1. Step 1 — e.g. schema migration
-2. Step 2 — e.g. backend logic
-3. Step 3 — e.g. UI / template update
-4. Step 4 — e.g. tests & cleanup
+Typical order:
+1. Schema migration (may be destructive — that's fine)
+2. Backend / model changes (new code)
+3. **Update every call site** — search and replace, no leftovers
+4. UI / template / JS changes
+5. Language file updates (`en_us` + `pl_pl`)
+6. **Delete legacy code** — old classes, methods, columns no longer used
+7. Tests and cleanup
 
-Each step should be deployable or at least committable without breaking the system.
+For each step, name the files involved.
+
+Step 6 (legacy deletion) is **not optional** and **not a future CR** unless explicitly justified. If the old code stays, this CR is incomplete.
 
 ---
 
 ## Testing
 
 Specify:
-- manual smoke tests (happy path + edge cases)
-- regression areas to recheck
-- automated tests to add or update
-- how to verify data integrity post-migration
+- manual smoke tests (happy path + the obvious edge cases)
+- regression areas to recheck (list specific user-facing screens / flows, not "everything")
+- automated tests to add or update — especially around the deleted code paths to confirm no callers remain
+- log files to watch (`cache/logs/system.log`, `cron.log`) — see `error-checking.mdc`
+- how to verify data integrity after migration (count queries, spot-checks)
+- grep / search verification that no references to deleted classes / columns / methods remain
+
+If the change touches templates, include: clear `cache/templates_c/*.php` and reload.
 
 ---
 
 ## Rollback plan
 
 Describe:
-- how to revert the code change (feature flag, revert commit, etc.)
-- how to reverse the data migration if needed
-- acceptable data loss / downtime during rollback (state explicitly)
+- how to revert the code change (revert commit / redeploy previous tag)
+- how to reverse the data state:
+  - if the migration is additive only → drop the new columns/tables
+  - if the migration is destructive → **restore from backup** (state this plainly — it is a valid answer)
+- acceptable downtime / data loss during rollback — state explicitly
+
+Rollback realism matters more than rollback elegance. "Restore last night's backup, lose <N hours> of data" is fine if it's true.
 
 ---
 
 ## Edge cases
 
 Identify and solve:
-- existing records that don't conform to new rules
-- concurrent writes during migration
-- partial deploys (code deployed, migration not yet run)
-- cancellation or interruption mid-migration
+- existing records that don't conform to the new rules — converted, deleted, or rejected?
+- interrupted / partially-applied migration — is it safe to re-run?
+- modules / tenants / roles that may behave differently
+- picklist values, custom fields, or user-customized data that may not match expectations
+- callers we might have missed — how do we know we got them all?
 
 ---
 
 ## Deliverables
 
-Output:
+Output, in order:
 
-1. Impact analysis summary
+1. Impact summary (including **explicit list of code being deleted**)
 2. Schema / data migration script (if applicable)
-3. Implementation steps (ordered)
+3. Implementation steps (ordered, with file paths)
 4. Testing checklist
 5. Rollback plan
-6. Decision rationale & tradeoffs
-7. Risks
+6. Decision rationale & tradeoffs (why this approach vs alternatives)
+7. Risks (with severity: Low / Med / High)
 
 ---
 

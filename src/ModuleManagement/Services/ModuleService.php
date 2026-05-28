@@ -118,15 +118,13 @@ class ModuleService
 			// Initialize profile
 			$this->initProfile($moduleId, $module->getIsentitytype());
 
-			// Sync file
-			$this->syncfile();
-
 			// Initialize sharing if entity type
 			if ($module->getIsentitytype()) {
 				$this->initSharing($moduleId);
 			}
 
 			$transaction->commit();
+			$this->syncfile();
 			return $moduleId;
 		} catch (\Exception $e) {
 			$transaction->rollBack();
@@ -198,8 +196,8 @@ class ModuleService
 				}
 			}
 
-			$this->syncfile();
 			$transaction->commit();
+			$this->syncfile();
 		} catch (\Exception $e) {
 			$transaction->rollBack();
 			throw $e;
@@ -231,9 +229,9 @@ class ModuleService
 			// Delete from vtiger_tab
 			$this->db->createCommand()->delete('vtiger_tab', ['tabid' => $moduleId])->execute();
 
+			$transaction->commit();
 			$this->syncfile();
 			\App\Cache\Cache::clear();
-			$transaction->commit();
 		} catch (\Exception $e) {
 			$transaction->rollBack();
 			throw $e;
