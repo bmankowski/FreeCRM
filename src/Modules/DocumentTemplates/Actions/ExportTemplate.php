@@ -17,7 +17,7 @@ class ExportTemplate extends \App\Modules\Settings\Base\Actions\Index
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$recordId = $request->get('id');
-		$pdfModel = \App\Modules\Base\Models\PDF::getInstanceById($recordId);
+		$pdfModel = \App\Modules\Base\Models\DocumentTemplate::getInstanceById($recordId);
 		if ($pdfModel === false) {
 			throw new \App\Exceptions\AppException(\App\Runtime\Vtiger_Language_Handler::translate('LBL_RECORD_NOT_FOUND', 'Vtiger'));
 		}

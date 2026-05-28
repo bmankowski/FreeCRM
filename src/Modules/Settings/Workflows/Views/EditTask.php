@@ -86,7 +86,7 @@ class EditTask extends \App\Modules\Settings\Base\Views\Index
 	}
 	if ($taskType === 'App\\Modules\\com_vtiger_workflow\\tasks\\VTSendPdf' || $taskType === 'VTSendPdf') {
 		// Prepare PDF templates for the template
-		$pdfTemplates = \App\Modules\Base\Models\PDF::getTemplatesByModule($sourceModule);
+		$pdfTemplates = \App\Modules\Base\Models\DocumentTemplate::getTemplatesByModule($sourceModule);
 		$viewer->assign('PDF_TEMPLATES', $pdfTemplates);
 		
 		// Prepare SMTP accounts

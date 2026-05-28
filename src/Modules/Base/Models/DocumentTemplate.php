@@ -11,8 +11,8 @@ namespace App\Modules\Base\Models;
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
 
-class PDF extends \App\Runtime\BaseModel
-{ 
+class DocumentTemplate extends \App\Runtime\BaseModel
+{
 
 	const WATERMARK_TYPE_TEXT = 0;
 	const WATERMARK_TYPE_IMAGE = 1;
@@ -164,7 +164,7 @@ class PDF extends \App\Runtime\BaseModel
 				->createCommand()->query();
 		$templates = [];
 		while ($row = $dataReader->read()) {
-			$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'PDF', $moduleName);
+			$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'DocumentTemplate', $moduleName);
 			$pdf = new $handlerClass();
 			$pdf->setData($row);
 			$templates[] = $pdf;
@@ -173,14 +173,14 @@ class PDF extends \App\Runtime\BaseModel
 	}
 
 	/**
-	 * Get PDF instance by id
+	 * Get document template instance by id
 	 * @param int $recordId
 	 * @param string $moduleName
-	 * @return \App\Modules\Base\Models\PDF|boolean
+	 * @return \App\Modules\Base\Models\DocumentTemplate|boolean
 	 */
 	public static function getInstanceById($recordId, $moduleName = 'Vtiger')
 	{
-		$pdf = \App\Cache\Cache::get('PDFModel', $recordId);
+		$pdf = \App\Cache\Cache::get('DocumentTemplateModel', $recordId);
 		if ($pdf) {
 			return $pdf;
 		}
@@ -192,10 +192,10 @@ class PDF extends \App\Runtime\BaseModel
 			$moduleName = $row['module_name'];
 		}
 
-		$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'PDF', $moduleName);
+		$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'DocumentTemplate', $moduleName);
 		$pdf = new $handlerClass();
 		$pdf->setData($row);
-		\App\Cache\Cache::save('PDFModel', $recordId, $pdf);
+		\App\Cache\Cache::save('DocumentTemplateModel', $recordId, $pdf);
 		return $pdf;
 	}
 

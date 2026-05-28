@@ -31,7 +31,7 @@ class PDF  extends \App\Modules\Base\Views\Index
 		$view = $request->get('fromview');
 		$allRecords = \App\Modules\Base\Actions\Mass::getRecordsListFromRequest($request);
 
-		$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'PDF', $moduleName);
+		$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'DocumentTemplate', $moduleName);
 		$pdfModel = new $handlerClass();
 
 		$viewer = $this->getViewer($request);

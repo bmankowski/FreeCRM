@@ -114,6 +114,6 @@ class Module extends \App\Modules\Base\Models\Module
 
 	public function getTemplatesByModule($moduleName)
 	{
-		return \App\Modules\Base\Models\PDF::getTemplatesByModule($moduleName);
+		return \App\Modules\Base\Models\DocumentTemplate::getTemplatesByModule($moduleName);
 	}
 }

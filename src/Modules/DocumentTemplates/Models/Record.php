@@ -127,7 +127,7 @@ class Record extends \App\Modules\Base\Models\Record
 			return;
 		}
 		\App\Cache\Cache::delete('DocumentTemplateModel', $recordId);
-		\App\Cache\Cache::delete('PDFModel', $recordId);
+		\App\Cache\Cache::delete('DocumentTemplateModel', $recordId);
 		\App\Cache\Cache::delete('RecordModel', $recordId . ':DocumentTemplates');
 	}
 

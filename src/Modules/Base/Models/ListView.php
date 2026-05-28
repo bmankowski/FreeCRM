@@ -377,7 +377,7 @@ class ListView extends \App\Runtime\BaseModel
 			];
 		}
 		if ($moduleModel->isPermitted('ExportPdf')) {
-			$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
+			$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'DocumentTemplate', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
 			if (count($templates) > 0) {
@@ -444,7 +444,7 @@ class ListView extends \App\Runtime\BaseModel
 		}
 
 		if ($moduleModel->isPermitted('ExportPdf')) {
-			$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
+			$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'DocumentTemplate', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
 			if (count($templates) > 0) {

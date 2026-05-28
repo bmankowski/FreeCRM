@@ -54,10 +54,10 @@ class VTSendPdf extends VTTask
 			if (!empty($this->copy_email)) {
 				$mailerContent['bcc'] = $this->copy_email;
 			}
-			$templateRecord = \App\Modules\Base\Models\PDF::getInstanceById($documentTemplateId);
+			$templateRecord = \App\Modules\Base\Models\DocumentTemplate::getInstanceById($documentTemplateId);
 			$fileName = \vtlib\Functions:: slug($templateRecord->getName()) . '_' . time() . '.pdf';
 			$pdfFile = 'cache' . DIRECTORY_SEPARATOR . 'pdf' . DIRECTORY_SEPARATOR . $fileName;
-			\App\Modules\Base\Models\PDF::exportToPdf($recordModel->getId(), $recordModel->getModuleName(), $documentTemplateId, $pdfFile, 'F');
+			\App\Modules\Base\Models\DocumentTemplate::exportToPdf($recordModel->getId(), $recordModel->getModuleName(), $documentTemplateId, $pdfFile, 'F');
 			if (!file_exists($pdfFile)) {
 				\App\Log\Log::error('An error occurred while generating PFD file, the file doesn\'t exist. Sending email with PDF has been blocked.');
 				return false;

@@ -32,7 +32,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 		}
 
 		if (\App\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'ExportPdf')) {
-			$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
+			$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'DocumentTemplate', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
 			if (count($templates) > 0) {
@@ -67,7 +67,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 		$basicLinks = [];
 		$moduleModel = $this->getModule();
 		if (\App\Modules\Users\Models\Privileges::isPermitted($moduleModel->getName(), 'ExportPdf')) {
-			$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'PDF', $moduleModel->getName());
+			$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'DocumentTemplate', $moduleModel->getName());
 			$pdfModel = new $handlerClass();
 			$templates = $pdfModel->getActiveTemplatesForModule($moduleModel->getName(), 'List');
 			if (count($templates) > 0) {

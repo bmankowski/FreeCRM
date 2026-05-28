@@ -48,7 +48,7 @@ class PDF extends \App\Base\Controllers\BaseActionController
 
 		if (!empty($templates) && count($templates) > 0) {
 			foreach ($templates as $templateId) {
-				$templateRecord = \App\Modules\Base\Models\PDF::getInstanceById($templateId);
+				$templateRecord = \App\Modules\Base\Models\DocumentTemplate::getInstanceById($templateId);
 				foreach ($records as $recordId) {
 					if (!$templateRecord->checkFiltersForRecord(intval($recordId))) {
 						if (($key = array_search($recordId, $records)) !== false) {
@@ -84,27 +84,27 @@ class PDF extends \App\Base\Controllers\BaseActionController
 		$recordsAmount = count($recordId);
 		$selectedOneTemplate = $templateAmount == 1 ? true : false;
 		if ($selectedOneTemplate) {
-			$template = \App\Modules\Base\Models\PDF::getInstanceById($templateIds[0]);
+			$template = \App\Modules\Base\Models\DocumentTemplate::getInstanceById($templateIds[0]);
 			$generateOnePdf = $template->get('one_pdf');
 		}
 
 		if ($selectedOneTemplate && $recordsAmount == 1) {
 			if ($emailPdf) {
 				$filePath = 'cache/pdf/' . $recordId[0] . '_' . time() . '.pdf';
-				\App\Modules\Base\Models\PDF::exportToPdf($recordId[0], $moduleName, $templateIds[0], $filePath, 'F');
+				\App\Modules\Base\Models\DocumentTemplate::exportToPdf($recordId[0], $moduleName, $templateIds[0], $filePath, 'F');
 				if (file_exists($filePath)) {
 					header('Location: index.php?module=OSSMail&view=compose&pdf_path=' . $filePath);
 				} else {
 					throw new \App\Exceptions\AppException(\App\Runtime\Vtiger_Language_Handler::translate('LBL_EXPORT_ERROR', 'Settings:Template'));
 				}
 			} else {
-				\App\Modules\Base\Models\PDF::exportToPdf($recordId[0], $moduleName, $templateIds[0]);
+				\App\Modules\Base\Models\DocumentTemplate::exportToPdf($recordId[0], $moduleName, $templateIds[0]);
 			}
 		} else if ($selectedOneTemplate && $recordsAmount > 1 && $generateOnePdf) {
-			\App\Modules\Base\Models\PDF::exportToPdf($recordId, $moduleName, $templateIds[0]);
+			\App\Modules\Base\Models\DocumentTemplate::exportToPdf($recordId, $moduleName, $templateIds[0]);
 		} else {
 			if ($singlePdf) {
-				$handlerClass = \App\Modules\Base\Models\PDF::getPdfRendererClass($moduleName);
+				$handlerClass = \App\Modules\Base\Models\DocumentTemplate::getPdfRendererClass($moduleName);
 				$pdf = new $handlerClass();
 				$styles = \App\Utils\TemplateStyles::getCss();
 				$headers = '';
@@ -117,7 +117,7 @@ class PDF extends \App\Base\Controllers\BaseActionController
 					$pdf->setModuleName($moduleName);
 
 					$firstTemplate = array_shift($templateIdsTemp);
-					$template = \App\Modules\Base\Models\PDF::getInstanceById($firstTemplate);
+					$template = \App\Modules\Base\Models\DocumentTemplate::getInstanceById($firstTemplate);
 					$template->setMainRecordId($record);
 					$pdf->setLanguage($template->get('language'));
 					$template->getParameters();
@@ -139,7 +139,7 @@ class PDF extends \App\Base\Controllers\BaseActionController
 					$body .= '<div class="page_' . $record . '_' . $firstTemplate . '">' . $template->getBody() . '</div>';
 
 					foreach ($templateIdsTemp as $id) {
-						$template = \App\Modules\Base\Models\PDF::getInstanceById($id);
+						$template = \App\Modules\Base\Models\DocumentTemplate::getInstanceById($id);
 						$template->setMainRecordId($record);
 						$pdf->setLanguage($template->get('language'));
 
@@ -174,13 +174,13 @@ class PDF extends \App\Base\Controllers\BaseActionController
 				$pdfFiles = [];
 				foreach ($templateIds as $id) {
 					foreach ($recordId as $record) {
-						$handlerClass = \App\Modules\Base\Models\PDF::getPdfRendererClass($moduleName);
+						$handlerClass = \App\Modules\Base\Models\DocumentTemplate::getPdfRendererClass($moduleName);
 						$pdf = new $handlerClass();
 						$pdf->setTemplateId($id);
 						$pdf->setRecordId($record);
 						$pdf->setModuleName($moduleName);
 
-						$template = \App\Modules\Base\Models\PDF::getInstanceById($id);
+						$template = \App\Modules\Base\Models\DocumentTemplate::getInstanceById($id);
 						$template->setMainRecordId($record);
 						$pdf->setLanguage($template->get('language'));
 						$pdf->setFileName($template->get('filename'));
@@ -214,9 +214,9 @@ class PDF extends \App\Base\Controllers\BaseActionController
 
 				if (!empty($pdfFiles)) {
 					if (!empty($emailPdf)) {
-						\App\Modules\Base\Models\PDF::attachToEmail($postfix);
+						\App\Modules\Base\Models\DocumentTemplate::attachToEmail($postfix);
 					} else {
-						\App\Modules\Base\Models\PDF::zipAndDownload($pdfFiles);
+						\App\Modules\Base\Models\DocumentTemplate::zipAndDownload($pdfFiles);
 					}
 				}
 			}
@@ -253,7 +253,7 @@ class PDF extends \App\Base\Controllers\BaseActionController
 		$moduleName = $request->get('modulename');
 		$view = $request->get('view');
 
-		$pdfModel = new \App\Modules\Base\Models\PDF();
+		$pdfModel = new \App\Modules\Base\Models\DocumentTemplate();
 		$pdfModel->setMainRecordId($recordId);
 		$valid = $pdfModel->checkActiveTemplates($recordId, $moduleName, $view);
 		$output = ['valid' => $valid];

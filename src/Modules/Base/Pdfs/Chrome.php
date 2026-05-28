@@ -163,7 +163,7 @@ class Chrome extends AbstractPDF
 
 	public function setWaterMark($templateModel)
 	{
-		if ((int) $templateModel->get('watermark_type') === \App\Modules\Base\Models\PDF::WATERMARK_TYPE_TEXT && $templateModel->get('watermark_text')) {
+		if ((int) $templateModel->get('watermark_type') === \App\Modules\Base\Models\DocumentTemplate::WATERMARK_TYPE_TEXT && $templateModel->get('watermark_text')) {
 			$text = \App\Modules\Base\Helpers\Util::toSafeHTML($templateModel->get('watermark_text'));
 			$this->watermarkHtml = '<div class="pdf-watermark pdf-watermark-text">' . $text . '</div>';
 		}
@@ -200,7 +200,7 @@ class Chrome extends AbstractPDF
 	/** {@inheritdoc} */
 	public function export($recordId, $moduleName, $templateId, $filePath = '', $saveFlag = '')
 	{
-		$template = \App\Modules\Base\Models\PDF::getInstanceById($templateId, $moduleName);
+		$template = \App\Modules\Base\Models\DocumentTemplate::getInstanceById($templateId, $moduleName);
 		$template->setMainRecordId($recordId);
 
 		$pdf = new self();

@@ -180,14 +180,14 @@ class Edit extends \App\Modules\Base\Views\Basic
 	 * Prepare data for PDF watermark template.
 	 *
 	 * @param \App\Runtime\CRM_Viewer $viewer
-	 * @param \App\Modules\Base\Models\PDF $pdfModel
+	 * @param \App\Modules\Base\Models\DocumentTemplate $pdfModel
 	 */
 	protected function preparePDFWatermarkData($viewer, $recordModel)
 	{
-		$viewer->assign('WATERMARK_TEXT', \App\Modules\Base\Models\PDF::WATERMARK_TYPE_TEXT);
+		$viewer->assign('WATERMARK_TEXT', \App\Modules\Base\Models\DocumentTemplate::WATERMARK_TYPE_TEXT);
 		$viewer->assign('WATERMARK_TYPES', [
-			\App\Modules\Base\Models\PDF::WATERMARK_TYPE_TEXT => 'PLL_TEXT',
-			\App\Modules\Base\Models\PDF::WATERMARK_TYPE_IMAGE => 'PLL_IMAGE',
+			\App\Modules\Base\Models\DocumentTemplate::WATERMARK_TYPE_TEXT => 'PLL_TEXT',
+			\App\Modules\Base\Models\DocumentTemplate::WATERMARK_TYPE_IMAGE => 'PLL_IMAGE',
 		]);
 		$viewer->assign('WATERMARK_SIZE', (int) $recordModel->get('watermark_size'));
 		$viewer->assign('WATERMARK_ANGLE', (int) $recordModel->get('watermark_angle'));

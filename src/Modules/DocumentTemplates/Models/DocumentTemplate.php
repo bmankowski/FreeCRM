@@ -7,7 +7,7 @@ declare(strict_types=1);
 
 namespace App\Modules\DocumentTemplates\Models;
 
-class DocumentTemplate extends \App\Modules\Base\Models\PDF
+class DocumentTemplate extends \App\Modules\Base\Models\DocumentTemplate
 {
 	public static $baseTable = 'u_yf_documenttemplates';
 	public static $baseIndex = 'documenttemplatesid';
