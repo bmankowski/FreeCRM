@@ -3200,15 +3200,13 @@ span[name=existingImages] img{
 	background: #ffffff;
 	color: #404040;
 }
-.ui-menu .ui-menu-item a.ui-state-focus,
-.ui-menu .ui-menu-item a.ui-state-active,
-.ui-menu .ui-menu-item a.ui-widget-content{
+.ui-menu .ui-menu-item.ui-state-focus,
+.ui-menu .ui-menu-item.ui-state-active {
 	font-weight: bold;
 	margin: 0;
 	background-color: #428BCA;
 	border-color: #357EBD;
 	color: #FFFFFF;
-	display: block;
 }
 .ui-menu .ui-menu-item a {
 	text-decoration: none;
@@ -5386,6 +5384,13 @@ select.form-control {
 .narrow.fieldValue .referenceGroup button.btn{
 	height: 27px;
 	padding: 4px 12px;
+}
+.referenceGroup .form-control[readonly] {
+	background-color: #e9ecef;
+}
+.referenceGroup .btn {
+	background-color: #f8f9fa;
+	border-color: #dee2e6;
 }
 .timeline {
 	position: relative;
