@@ -4,9 +4,13 @@
  */
 
 CKEDITOR.editorConfig = function (config) {
-	// Define changes to default configuration here. For example:
-	// config.language = 'fr';
-	// config.uiColor = '#AADC6E';
+	var crmLang = document.body && document.body.getAttribute('data-language');
+	if (crmLang) {
+		var short = crmLang.split('_')[0];
+		if (CKEDITOR.lang.languages[short]) {
+			config.language = short;
+		}
+	}
 	config.removePlugins = 'copyformatting';
 	config.fullPage = false;
 	config.allowedContent = true;

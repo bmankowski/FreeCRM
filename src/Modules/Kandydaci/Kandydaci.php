@@ -46,7 +46,13 @@ class Kandydaci extends \App\Core\CRMEntity
 		'Nazwisko i imię' => ['kandydaci', 'name'],
 		'Assigned To' => ['vtiger_crmentity', 'assigned_user_id'],
 	];
-	public $search_fields_name = [];
+	public $search_fields_name = [
+		'Nazwisko i imię' => 'name',
+		'Status'          => 'status_kandydata',
+		'Telefon'         => 'telefon',
+		'E-mail'          => 'email_prywatny',
+		'Assigned To'     => 'assigned_user_id',
+	];
 	// For Popup window record selection
 	public $popup_fields = ['name'];
 	// For Alphabetical search

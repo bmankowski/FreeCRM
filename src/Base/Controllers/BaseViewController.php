@@ -409,7 +409,8 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 				}
 
 				$minFilePath = str_replace('.js', '.min.js', $filePath);
-				if (\vtlib\Functions:: getMinimizationOptions($fileExtension) && is_file(\App\Core\Loader::resolveNameToPath('~' . $minFilePath, $fileExtension))) {
+				$skipMinify = $filePath === 'libraries/jquery/ckeditor/ckeditor.js';
+				if (!$skipMinify && \vtlib\Functions:: getMinimizationOptions($fileExtension) && is_file(\App\Core\Loader::resolveNameToPath('~' . $minFilePath, $fileExtension))) {
 					$filePath = $minFilePath;
 				}
 

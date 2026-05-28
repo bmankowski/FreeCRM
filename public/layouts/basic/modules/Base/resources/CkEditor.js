@@ -7,7 +7,25 @@
  * All Rights Reserved.
  * Contributor(s): YetiForce.com
  *************************************************************************************/
-jQuery.Class("Vtiger_CkEditor_Js", {}, {
+jQuery.Class("Vtiger_CkEditor_Js", {
+	_languagePackPromises: {},
+	_basePathFixed: false,
+
+	fixBasePath: function () {
+		if (Vtiger_CkEditor_Js._basePathFixed || typeof CKEDITOR === 'undefined') {
+			return;
+		}
+		var scripts = document.getElementsByTagName('script');
+		for (var i = 0; i < scripts.length; i++) {
+			var match = scripts[i].src.match(/^(.*\/libraries\/jquery\/ckeditor\/)ckeditor(?:\.min)?\.js(?:\?.*)?$/i);
+			if (match) {
+				CKEDITOR.basePath = match[1];
+				Vtiger_CkEditor_Js._basePathFixed = true;
+				return;
+			}
+		}
+	},
+}, {
 
 	/*
 	 *Function to set the textArea element 
@@ -40,6 +58,49 @@ jQuery.Class("Vtiger_CkEditor_Js", {}, {
 		return CKEDITOR.instances[elementName];
 	},
 
+	resolveCkEditorLanguage: function (preferred) {
+		var lang = preferred || jQuery('body').data('language') || '';
+		var short = lang.split('_')[0] || 'en';
+		if (!CKEDITOR.lang.languages[short]) {
+			short = 'en';
+		}
+		return short;
+	},
+
+	ensureLanguagePack: function (lang, callback) {
+		Vtiger_CkEditor_Js.fixBasePath();
+		lang = this.resolveCkEditorLanguage(lang);
+		if (CKEDITOR.lang[lang] && CKEDITOR.lang[lang].editor) {
+			CKEDITOR.lang[lang].dir = CKEDITOR.lang.rtl[lang] ? 'rtl' : 'ltr';
+			callback();
+			return;
+		}
+		var promises = Vtiger_CkEditor_Js._languagePackPromises;
+		if (!promises[lang]) {
+			promises[lang] = jQuery.getScript(CKEDITOR.getUrl('lang/' + lang + '.js'));
+		}
+		promises[lang].done(function () {
+			if (CKEDITOR.lang[lang] && CKEDITOR.lang[lang].editor) {
+				CKEDITOR.lang[lang].dir = CKEDITOR.lang.rtl[lang] ? 'rtl' : 'ltr';
+				callback();
+				return;
+			}
+			delete promises[lang];
+			if (lang !== 'en') {
+				Vtiger_CkEditor_Js.prototype.ensureLanguagePack.call(this, 'en', callback);
+			} else {
+				callback();
+			}
+		}).fail(function () {
+			delete promises[lang];
+			if (lang !== 'en') {
+				Vtiger_CkEditor_Js.prototype.ensureLanguagePack.call(this, 'en', callback);
+			} else {
+				callback();
+			}
+		});
+	},
+
 	/***
 	 * Function to get the plain text
 	 */
@@ -56,6 +117,9 @@ jQuery.Class("Vtiger_CkEditor_Js", {}, {
 		this.setElement(element);
 		var instance = this.getCkEditorInstanceFromName();
 		var elementName = this.getElementId();
+		if (!elementName) {
+			return;
+		}
 		var config = {
 			on: {
 				instanceReady: function (evt) {
@@ -69,11 +133,13 @@ jQuery.Class("Vtiger_CkEditor_Js", {}, {
 		if (typeof customConfig != 'undefined') {
 			config = jQuery.extend(config, customConfig);
 		}
-		if (instance)
-		{
-			CKEDITOR.remove(instance);
-		}
-		CKEDITOR.replace(elementName, config);
+		config.language = this.resolveCkEditorLanguage(config.language);
+		this.ensureLanguagePack(config.language, function () {
+			if (instance) {
+				instance.destroy(true);
+			}
+			CKEDITOR.replace(elementName, config);
+		});
 	},
 
 	/*

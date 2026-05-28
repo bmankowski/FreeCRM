@@ -1105,8 +1105,16 @@ jQuery.Class("Vtiger_Edit_Js", {
 	registerEventForCkEditor: function () {
 		var form = this.getForm();
 		var thisInstance = this;
-		$.each(form.find('.ckEditorSource'), function (key, data) {
-			thisInstance.loadCkEditorElement(jQuery(data));
+		var elements = form.find('.ckEditorSource');
+		if (!elements.length) {
+			return;
+		}
+		var ckEditorHelper = new Vtiger_CkEditor_Js();
+		var lang = ckEditorHelper.resolveCkEditorLanguage();
+		ckEditorHelper.ensureLanguagePack(lang, function () {
+			elements.each(function (key, data) {
+				thisInstance.loadCkEditorElement(jQuery(data));
+			});
 		});
 	},
 	loadCkEditorElement: function (noteContentElement) {
