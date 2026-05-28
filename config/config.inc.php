@@ -30,7 +30,7 @@ $dbconfig['db_hostname'] = 'db' . ':' . '3306';
 
 $host_name = $dbconfig['db_hostname'];
 
-$site_URL = 'http://localhost/';
+$site_URL = 'https://localhost/';
 
 $cache_dir = 'cache/';
 $tmp_dir = 'cache/images/';
@@ -96,7 +96,7 @@ $davHistoryDir = 'storage/FilesHistory';
 
 $systemMode = 'prod';
 
-$forceSSL = false;
+$forceSSL = true;
 
 $listMaxEntriesMassEdit = 500;
 

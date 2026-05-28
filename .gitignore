@@ -1,4 +1,5 @@
 /node_modules/
+/docker/nginx/certs/*.key
 
 /.gitignore
 /.settings

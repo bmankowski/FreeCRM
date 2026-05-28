@@ -42,7 +42,7 @@ FreeCRM is being actively modernized. **No fallbacks. No compat shims. No parall
 ## Deployment (one-liner)
 
 - Deployed on `local.itconnect.pl` at `/opt/freecrm` (`web`, `app`, `cron`, `db`); MariaDB at `127.0.0.1:3306` on the server.
-- MCP browser (`cursor-ide-browser`) uses `http://localhost` (Docker port 80 on the Windows host). The WSL shell cannot reach `localhost` — never SSH+curl for web tests.
+- MCP browser (`cursor-ide-browser`) uses `https://localhost` (Docker port 443 on the Windows host). The WSL shell cannot reach `localhost` — never SSH+curl for web tests.
 
 For deeper testing/log details see `error-checking.mdc`. For deployment specifics see `deployment.mdc`.
 
