@@ -46,6 +46,12 @@ FreeCRM is being actively modernized. **No fallbacks. No compat shims. No parall
 
 For deeper testing/log details see `error-checking.mdc`. For deployment specifics see `deployment.mdc`.
 
+## Focused JS playbook
+
+- For ListView/list-page JavaScript work, use `listview-javascript-playbook.mdc` as the first reference (boot flow, core files, safe edit strategy, debugging checklist, and minification expectations).
+- For DetailView/detail-page JavaScript work, use `detailview-javascript-playbook.mdc` as the first reference (boot flow, core files, safe edit strategy, navigation context, and minification expectations).
+- For RelatedList/related-tab JavaScript work, use `relatedlist-javascript-playbook.mdc` as the first reference (detail integration, core files, safe edit strategy, reload/event lifecycle, and minification expectations).
+
 ## Persisting learnings (end of session)
 
 If during the session you discovered a reusable, non-obvious fact (a Docker quirk, a fix pattern, a file location, a working command) that would save time next session, propose adding it to the most relevant `.cursor/rules/*.mdc` before wrapping up. Prefer extending an existing rule over creating a new file. Skip silently if nothing reached that bar or it's already covered.

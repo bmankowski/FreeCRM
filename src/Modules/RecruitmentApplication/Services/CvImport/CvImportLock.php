@@ -14,7 +14,8 @@ namespace App\Modules\RecruitmentApplication\Services\CvImport;
 
 final class CvImportLock
 {
-	private $handle;
+	/** @var resource|null */
+	private $handle = null;
 
 	public function acquire(): bool
 	{

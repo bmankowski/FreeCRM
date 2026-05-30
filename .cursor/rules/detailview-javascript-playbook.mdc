@@ -1,0 +1,52 @@
+# DetailView JavaScript Playbook (FreeCRM)
+
+Use this when a task touches DetailView behavior (header actions, related tabs, prev/next navigation, widgets, inline edit, module-specific detail customizations).
+
+## Core files first
+
+Read these in order:
+
+1. `public/layouts/basic/modules/Base/resources/Detail.js`
+2. `src/Modules/Base/Views/Detail.php`
+3. `layouts/basic/modules/Base/DetailView.tpl`
+
+Then check module overrides:
+
+- `public/layouts/basic/modules/<Module>/resources/Detail.js`
+- `src/Modules/<Module>/Views/Detail.php`
+- `layouts/basic/modules/<Module>/DetailView.tpl`
+
+## How DetailView boots
+
+- Page controller is resolved via `app.getPageController()` in `public/libraries/resources/app.js`.
+- Detail pages use `Vtiger_Detail_Js` plus module subclass if present.
+- Runtime actions commonly use `Vtiger_Detail_Js.getInstance()` singleton.
+- Backend script wiring for detail pages is in `src/Modules/Base/Views/Detail.php` (`getFooterScripts()`).
+
+## Safe change strategy
+
+- Prefer extending module `Detail.js`; edit base only for true cross-module fixes.
+- Keep request contracts stable for record actions and related list refreshes.
+- Preserve prev/next behavior based on ListView context (`DetailViewNavigation:<Module>` in sessionStorage).
+- After AJAX content updates, re-register only required handlers and avoid duplicate bindings.
+- Do not add fallback or legacy branches.
+
+## Debug checklist for detail issues
+
+1. Confirm current view/module and valid record id.
+2. Verify loaded scripts include base and module detail resources.
+3. Check `Vtiger_Detail_Js.getInstance()` resolves expected subclass.
+4. Validate list-context navigation data in sessionStorage when prev/next fails.
+5. Reproduce after related tab switches and AJAX reloads (binding regressions are common there).
+
+## Frontend asset rule
+
+- Never edit `*.min.js` directly.
+- If changing JS under `public/`, update source file and regenerate minified file via npm minify scripts.
+
+## Definition of done (DetailView JS)
+
+- Header actions and related tabs work on initial load and after AJAX updates.
+- No duplicate click/change handlers after tab reloads.
+- Prev/next navigation works (or degrades cleanly when context is missing).
+- Module override still calls `_super()` when needed.

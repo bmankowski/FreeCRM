@@ -36,7 +36,7 @@ final class RecruitmentApplicationImporter
 		}
 		$lock = new CvImportLock();
 		if (!$lock->acquire()) {
-			CvImportLogger::log('CV import already running, skipping');
+			CvImportLogger::log('Lock acquisition failed, CV import already running, skipping');
 			return;
 		}
 		try {

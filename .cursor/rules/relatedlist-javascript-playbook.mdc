@@ -1,0 +1,52 @@
+# RelatedList JavaScript Playbook (FreeCRM)
+
+Use this when a task touches DetailView related tabs (related list loading, pagination, relation add/remove, related search, module-specific related tab behavior).
+
+## Core files first
+
+Read these in order:
+
+1. `public/layouts/basic/modules/Base/resources/RelatedList.js`
+2. `public/layouts/basic/modules/Base/resources/Detail.js`
+3. `src/Modules/Base/Views/Detail.php`
+
+Then check module overrides:
+
+- `public/layouts/basic/modules/<Module>/resources/RelatedList.js`
+- `src/Modules/<Module>/Views/Detail.php`
+- related tab templates under `layouts/basic/modules/<Module>/`
+
+## How RelatedList boots
+
+- RelatedList runs inside DetailView and is wired from detail resources.
+- Base related list controller is `Vtiger_RelatedList_Js` (module subclass if present).
+- Script wiring comes from `src/Modules/Base/Views/Detail.php` (`getFooterScripts()` includes `modules.Base.resources.RelatedList` and module-specific related list resources).
+- Main reload path is `loadRelatedList()` and replaces related content container HTML.
+
+## Safe change strategy
+
+- Prefer module `RelatedList.js` override for module-specific behavior; edit base only for cross-module fixes.
+- Keep relation action contracts stable (`RelationAjax`, `src_record`, `related_module`, `related_record_list`).
+- After related list HTML replacement, re-register only required handlers (search, pagination, row actions).
+- Avoid duplicate bindings on repeated tab loads; use scoped `.off(...).on(...)` where appropriate.
+- Do not add fallback or legacy branches.
+
+## Debug checklist for related tab issues
+
+1. Confirm selected related tab metadata (`data-url`, `data-reference`, active tab state).
+2. Verify request params from `getCompleteParams()` and tab-specific params.
+3. Check target container replacement and post-load hooks (`LoadRelatedRecordList.PostLoad`).
+4. Validate related-list search instance wiring after reload.
+5. Reproduce across tab switches and pagination (common source of duplicate handlers/state loss).
+
+## Frontend asset rule
+
+- Never edit `*.min.js` directly.
+- If changing JS under `public/`, update source file and regenerate minified file via npm minify scripts.
+
+## Definition of done (RelatedList JS)
+
+- Related tabs load correctly on initial click and subsequent switches.
+- Pagination/search/actions work after each related-list reload.
+- No duplicate click/change handlers after repeated tab navigation.
+- Module override still calls `_super()` when needed.

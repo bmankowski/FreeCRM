@@ -256,6 +256,10 @@ class GetRelatedMembers extends \App\Modules\Base\Relations\GetRelatedList
             return true;
         }
 
+        if (!\App\Modules\ProjektyRekrutacyjne\Services\RecruitmentStatusTransition::isAllowed($sourceStatus, $destinationStatus)) {
+            return false;
+        }
+
         try {
             $relationBefore = $this->getRelationData($projectId, $candidateId) ?: [];
             $sourceStatusTranslated = \App\Language::translate($sourceStatus, 'ProjektyRekrutacyjne');

@@ -20,8 +20,13 @@
 {/function}
 
 <div class="summaryWidgetContainer" id="{$WIDGET_UID}">
+<style>
+	.summaryWidgetContainer .candidate-status.drop-allowed { outline: 2px solid #28a745; outline-offset: -2px; background-color: rgba(40, 167, 69, 0.08); }
+	.summaryWidgetContainer .candidate-status.drop-forbidden { outline: 2px dashed #dc3545; outline-offset: -2px; opacity: 0.55; }
+</style>
 
 	<input type="hidden" class="project-id" value="{$PROJECT_ID}"/>
+	<input type="hidden" class="js-status-transitions" value="{\App\Security\Purifier::encodeHtml(\App\Utils\Json::encode($WIDGET['data']['statusTransitions']))}"/>
 	
 	{* Table 1: Initial screening *}
 	<table class="table table-bordered table-sm">

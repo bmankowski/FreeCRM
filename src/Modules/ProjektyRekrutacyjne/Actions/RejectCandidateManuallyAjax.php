@@ -57,16 +57,26 @@ class RejectCandidateManuallyAjax extends \App\Base\Controllers\BaseActionContro
 
         $relationData = $typeRelationModel->getRelationData($projectId, $candidateId);
         $sourceStatus = $relationData['recruitment_status_rel'];
-        $result = $typeRelationModel->changeStatus($projectId, $candidateId, $sourceStatus, 'PPL_REJECTED_AFTER_CV');
+        $destinationStatus = 'PPL_REJECTED_AFTER_CV';
+        $result = $typeRelationModel->changeStatus($projectId, $candidateId, $sourceStatus, $destinationStatus);
         if ($result && isset(self::REJECTION_REASONS[$rejectionReason])) {
             $typeRelationModel->updateRelationData($projectId, $candidateId, [
                 'comment_rel' => $this->buildRejectionReasonComment($relationData, $rejectionReason),
             ]);
         }
         $response = new \App\Http\Vtiger_Response();
+        if (!$result && \App\Modules\ProjektyRekrutacyjne\Services\RecruitmentStatusTransition::isConfigured()
+            && !\App\Modules\ProjektyRekrutacyjne\Services\RecruitmentStatusTransition::isAllowed($sourceStatus, $destinationStatus)) {
+            $response->setResult([
+                'success' => false,
+                'message' => 'PLL_STATUS_TRANSITION_NOT_ALLOWED',
+            ]);
+            $response->emit();
+            return;
+        }
         $response->setResult([
-            'success' => (bool)$result,
-            'message' => $result ? "PLL_REJECT_SUCCESS" : "PLL_REJECT_FAILED"
+            'success' => (bool) $result,
+            'message' => $result ? 'PLL_REJECT_SUCCESS' : 'PLL_REJECT_FAILED',
         ]);
         $response->emit();
     }

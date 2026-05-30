@@ -26,7 +26,8 @@
         "PPL_REJECTED_AFTER_VERIFICATION": "Rejected after verification",
         "PPL_REJECTED_AFTER_INTERVIEW": "Rejected after interview",
         "PPL_OFFER_REJECTED_BY_CANDIDATE": "Offer rejected by candidate",
-        "PPL_REJECTED_BY_CLIENT": "Rejected by client"
+        "PPL_REJECTED_BY_CLIENT": "Rejected by client",
+        "PLL_STATUS_TRANSITION_NOT_ALLOWED": "This status change is not allowed"
     },
     "jsLanguageStrings": {
         "PLL_ACCEPTANCE_FAILED": "Acceptance failed",
@@ -37,6 +38,7 @@
         "PLL_REJECTION_REASON_NO_EXPERIENCE": "Missing required experience in a similar position",
         "PLL_REJECTION_REASON_MISSING_SKILLS": "Missing key skills, technologies, tools or certificates required by the project",
         "PLL_REJECTION_REASON_PROFILE_FIT": "Professional profile is not sufficiently aligned with the scope of responsibilities",
-        "PLL_REJECTION_REASON_MISSING_POLISH_LANGUAGE": "Missing required Polish language proficiency"
+        "PLL_REJECTION_REASON_MISSING_POLISH_LANGUAGE": "Missing required Polish language proficiency",
+        "PLL_STATUS_TRANSITION_NOT_ALLOWED": "This status change is not allowed"
     }
 }

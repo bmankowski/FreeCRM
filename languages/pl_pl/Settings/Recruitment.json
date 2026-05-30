@@ -1,0 +1,19 @@
+{
+    "languageStrings": {
+        "Recruitment": "Rekrutacja",
+        "LBL_RECRUITMENT": "Rekrutacja",
+        "LBL_RECRUITMENT_DESCRIPTION": "Konfiguracja ustawień procesu rekrutacji, w tym dozwolonych przejść statusów kandydatów.",
+        "LBL_STATUS_TRANSITIONS": "Przejścia statusów",
+        "LBL_STATUS_TRANSITIONS_HELP": "Zaznacz przejścia, które rekruterzy mogą wykonać ręcznie (kanban oraz akceptacja/odrzucenie na Screening). Odznaczone pary będą blokowane po zapisie.",
+        "LBL_FROM_TO": "Z \\ Do",
+        "LBL_ROW_ACTIONS": "Wiersz",
+        "LBL_COLUMN_ACTIONS": "Kolumna",
+        "LBL_SELECT_ROW": "Wszystkie",
+        "LBL_CLEAR_ROW": "Wyczyść",
+        "LBL_SAVE": "Zapisz",
+        "LBL_SAVE_TRANSITIONS_SUCCESS": "Reguły przejść statusów zostały zapisane.",
+        "LBL_SAVE_TRANSITIONS_FAILED": "Nie udało się zapisać reguł przejść statusów.",
+        "LBL_TRANSITIONS_NOT_CONFIGURED": "Reguły przejść nie są jeszcze aktywne. Poniższa macierz pokazuje sugerowane domyślne ustawienia — sprawdź je i kliknij Zapisz, aby je włączyć."
+    },
+    "jsLanguageStrings": {}
+}

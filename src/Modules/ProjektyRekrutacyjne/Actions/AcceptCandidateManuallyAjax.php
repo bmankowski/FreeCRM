@@ -50,12 +50,22 @@ class AcceptCandidateManuallyAjax extends \App\Base\Controllers\BaseActionContro
         $typeRelationModel = \App\Modules\Base\Models\Relation::getInstance($project->getModule(), $candidate->getModule())->getTypeRelationModel();
 
         $sourceStatus = $typeRelationModel->getRelationData($projectId, $candidateId)['recruitment_status_rel'];
-        $result = $typeRelationModel->changeStatus($projectId, $candidateId, $sourceStatus, 'PPL_CANDIDATE_PASSED_SCREENING');
+        $destinationStatus = 'PPL_CANDIDATE_PASSED_SCREENING';
+        $result = $typeRelationModel->changeStatus($projectId, $candidateId, $sourceStatus, $destinationStatus);
 
         $response = new \App\Http\Vtiger_Response();
+        if (!$result && \App\Modules\ProjektyRekrutacyjne\Services\RecruitmentStatusTransition::isConfigured()
+            && !\App\Modules\ProjektyRekrutacyjne\Services\RecruitmentStatusTransition::isAllowed($sourceStatus, $destinationStatus)) {
+            $response->setResult([
+                'success' => false,
+                'message' => 'PLL_STATUS_TRANSITION_NOT_ALLOWED',
+            ]);
+            $response->emit();
+            return;
+        }
         $response->setResult([
-            'success' => true,
-            'message' => "PLL_ACCEPTANCE_SUCCESS"
+            'success' => (bool) $result,
+            'message' => $result ? 'PLL_ACCEPTANCE_SUCCESS' : 'PLL_ACCEPTANCE_FAILED',
         ]);
         $response->emit();
     }

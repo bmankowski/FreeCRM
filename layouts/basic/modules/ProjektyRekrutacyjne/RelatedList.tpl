@@ -571,7 +571,7 @@
 					</div>
 					<div class="c-list-preview-resizer js-list-preview-resizer" aria-hidden="true"></div>
 					<div class="c-detail-preview js-detail-preview">
-						{if $RELATED_MODULE_NAME eq "Kandydaci"}
+						{if $RELATED_MODULE_NAME eq "Kandydaci" && $RELATION_MODEL->get('label') eq 'Screening'}
 							<div class="c-candidate-thumb-actions" aria-label="{\App\Language::translate('LBL_ACTIONS', 'Vtiger')}">
 								<div class="c-candidate-thumb-actions__inputs">
 									<input type="hidden" id="projectId" value="{$PARENT_RECORD->getID()}"/>

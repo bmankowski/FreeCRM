@@ -1,0 +1,52 @@
+# ListView JavaScript Playbook (FreeCRM)
+
+Use this when a task touches ListView behavior (filters, pagination, mass actions, row click, reloads, module-specific list customizations).
+
+## Core files first
+
+Read these in order:
+
+1. `public/layouts/basic/modules/Base/resources/ListView.js`
+2. `public/layouts/basic/modules/Base/resources/ListSearch.js`
+3. `src/Modules/Base/Views/ListView.php`
+
+Then check module overrides:
+
+- `public/layouts/basic/modules/<Module>/resources/ListView.js`
+- `src/Modules/<Module>/Views/ListView.php`
+- `src/Modules/<Module>/Models/ListView.php`
+
+## How ListView boots
+
+- Page controller is resolved via `app.getPageController()` in `public/libraries/resources/app.js`.
+- List pages use `Vtiger_ListView_Js` plus module subclass if present.
+- Runtime actions commonly use `Vtiger_ListView_Js.getInstance()` singleton.
+- AJAX list refresh is done by `getListViewRecords()` and replaces `#listViewContents`.
+
+## Safe change strategy
+
+- Prefer extending existing module `ListView.js`; avoid editing base unless a cross-module fix is required.
+- Keep behavior consistent with `selected_ids`, `excluded_ids`, `viewname`, `search_params`.
+- After replacing list HTML, ensure events are re-registered for pagination, search controls, and row actions.
+- Avoid duplicate bindings: use scoped `.off(...).on(...)` for reloaded DOM.
+- Do not add fallback or legacy branches.
+
+## Debug checklist for list issues
+
+1. Confirm current view and module (`ListView` vs `ListPreview`, Settings parent).
+2. Verify request params sent by `getDefaultParams()` and `getListViewRecords()`.
+3. Check `#customFilter`, `#pageNumber`, `#orderBy`, `#sortOrder` state.
+4. Confirm search payload from `ListSearch.js` (`search_params`, alphabet search).
+5. Reproduce after AJAX reload (many bugs are post-reload event binding bugs).
+
+## Frontend asset rule
+
+- Never edit `*.min.js` directly.
+- If changing JS under `public/`, update source file and regenerate minified file via npm minify scripts.
+
+## Definition of done (ListView JS)
+
+- Behavior works on initial load and after AJAX reload.
+- No duplicate click or change handlers.
+- Pagination, filter, search, and mass action still work.
+- Module override still calls `_super()` when needed.

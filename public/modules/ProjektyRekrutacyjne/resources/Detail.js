@@ -107,12 +107,65 @@ Vtiger_Detail_Js(
 		candidatesDragAndDropSupport: function () {
 			let sourceStatus = null;
 			let candidateId = null;
+			let draggedCandidate = null;
+
+			const parseStatusTransitions = function ($container) {
+				const raw = $container.find('.js-status-transitions').val();
+				if (!raw) {
+					return { configured: false, transitions: {} };
+				}
+				try {
+					return JSON.parse(raw);
+				} catch (_e) {
+					return { configured: false, transitions: {} };
+				}
+			};
+
+			const isTransitionAllowed = function (cfg, from, to) {
+				if (!cfg || !cfg.configured) {
+					return true;
+				}
+				const allowed = cfg.transitions && cfg.transitions[from];
+				return Array.isArray(allowed) && allowed.indexOf(to) !== -1;
+			};
+
+			const clearDropHighlights = function ($container) {
+				$container.find('.candidate-status').removeClass('drop-allowed drop-forbidden');
+			};
+
+			const applyDropHighlights = function ($container, fromStatus, cfg) {
+				clearDropHighlights($container);
+				if (!cfg.configured || !fromStatus) {
+					return;
+				}
+				$container.find('.candidate-status').each(function () {
+					const $cell = $(this);
+					const toStatus = $cell.attr('data-value');
+					if (toStatus === fromStatus) {
+						return;
+					}
+					if (isTransitionAllowed(cfg, fromStatus, toStatus)) {
+						$cell.addClass('drop-allowed');
+					} else {
+						$cell.addClass('drop-forbidden');
+					}
+				});
+			};
+
+			const showTransitionError = function (messageKey) {
+				const text = app.vtranslate(messageKey || 'PLL_STATUS_TRANSITION_NOT_ALLOWED');
+				Vtiger_Helper_Js.showPnotify({ text: text, type: 'error' });
+			};
 
 			$(document).off('dragstart.projektyKanban dragend.projektyKanban drop.projektyKanban dragover.projektyKanban dragenter.projektyKanban');
 
 			$(document).on('dragstart.projektyKanban', '.candidate', function (e) {
-				candidateId = $(this).attr('data-candidate-id');
-				sourceStatus = $(this).closest('.candidate-status').attr('data-value');
+				draggedCandidate = $(this);
+				candidateId = draggedCandidate.attr('data-candidate-id');
+				sourceStatus = draggedCandidate.closest('.candidate-status').attr('data-value');
+				const $container = draggedCandidate.closest('.summaryWidgetContainer');
+				const cfg = parseStatusTransitions($container);
+				applyDropHighlights($container, sourceStatus, cfg);
 				const ev = e.originalEvent;
 				if (ev && ev.dataTransfer) {
 					ev.dataTransfer.setData('text/plain', String(candidateId));
@@ -121,8 +174,11 @@ Vtiger_Detail_Js(
 			});
 
 			$(document).on('dragend.projektyKanban', '.candidate', function () {
+				const $container = $(this).closest('.summaryWidgetContainer');
+				clearDropHighlights($container);
 				sourceStatus = null;
 				candidateId = null;
+				draggedCandidate = null;
 			});
 
 			$(document).on('drop.projektyKanban', '.candidate-status', function (event) {
@@ -131,19 +187,28 @@ Vtiger_Detail_Js(
 				if (sourceStatus === destinationStatus) {
 					return;
 				}
-				const projectId = $(this).closest('.summaryWidgetContainer').find('.project-id').val() || $('.project-id').val();
-				changeCandidateStatus(projectId, candidateId, sourceStatus, destinationStatus);
+				const $container = $(this).closest('.summaryWidgetContainer');
+				const cfg = parseStatusTransitions($container);
+				clearDropHighlights($container);
+				if (!isTransitionAllowed(cfg, sourceStatus, destinationStatus)) {
+					showTransitionError('PLL_STATUS_TRANSITION_NOT_ALLOWED');
+					return;
+				}
+				const projectId = $container.find('.project-id').val() || $('.project-id').val();
+				changeCandidateStatus(projectId, candidateId, sourceStatus, destinationStatus, draggedCandidate);
 			});
 
 			$(document).on('dragover.projektyKanban dragenter.projektyKanban', '.candidate-status', function (event) {
 				event.preventDefault();
 				const ev = event.originalEvent;
 				if (ev && ev.dataTransfer) {
-					ev.dataTransfer.dropEffect = 'move';
+					const $cell = $(this);
+					ev.dataTransfer.dropEffect = $cell.hasClass('drop-forbidden') ? 'none' : 'move';
 				}
 			});
-			function changeCandidateStatus (projectId, candidateId, sourceStatus, destinationStatus) {
-				if(!projectId || !candidateId || !sourceStatus || !destinationStatus) {
+
+			function changeCandidateStatus(projectId, candidateId, sourceStatus, destinationStatus, $candidateElement) {
+				if (!projectId || !candidateId || !sourceStatus || !destinationStatus) {
 					console.error('Missing parameters for changeCandidateStatus');
 					return;
 				}
@@ -156,24 +221,26 @@ Vtiger_Detail_Js(
 					destinationStatus: destinationStatus
 				};
 				AppConnector.request(params).done(function (data) {
-					var result = data.result || {};
-					var ok = data.success === true && result.success === true;
+					const result = data.result || {};
+					const ok = data.success === true && result.success === true;
 					if (ok) {
-						const candidateElement = $(`.candidate[data-candidate-id="${candidateId}"]`);
+						const candidateElement = $candidateElement && $candidateElement.length
+							? $candidateElement
+							: $(`.candidate[data-candidate-id="${candidateId}"]`);
 						const candidateNewParent = $(`.candidate-status[data-value="${destinationStatus}"]`);
 						const candidateParent = candidateElement.parent();
 						candidateNewParent.append(candidateElement.first());
-						if(candidateParent.length > 1) {
-							candidateParent.each(function(index, element) {
+						if (candidateParent.length > 1) {
+							candidateParent.each(function (index, element) {
 								$(element).find(candidateElement).remove();
 							});
 						}
 					} else {
-						var errMsg = (result.message) || (data.error && data.error.message) || 'PLL_ACCEPTANCE_FAILED';
-						Vtiger_Helper_Js.showPnotify({text: errMsg, type: 'error'});
+						const errMsg = (result.message) || (data.error && data.error.message) || 'PLL_ACCEPTANCE_FAILED';
+						showTransitionError(errMsg);
 					}
 				}).fail(function () {
-					Vtiger_Helper_Js.showPnotify({text: 'PLL_ACCEPTANCE_FAILED', type: 'error'});
+					showTransitionError('PLL_ACCEPTANCE_FAILED');
 				});
 			}
 		},

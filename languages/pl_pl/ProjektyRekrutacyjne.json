@@ -45,7 +45,8 @@
         "PPL_REJECTED_AFTER_VERIFICATION": "Odrzuceni po weryfikacji",
         "PPL_REJECTED_AFTER_INTERVIEW": "Odrzuceni po rozmowie",
         "PPL_OFFER_REJECTED_BY_CANDIDATE": "Oferta odrzucona przez kandydata",
-        "PPL_REJECTED_BY_CLIENT": "Odrzuceni przez klienta"
+        "PPL_REJECTED_BY_CLIENT": "Odrzuceni przez klienta",
+        "PLL_STATUS_TRANSITION_NOT_ALLOWED": "Ta zmiana statusu jest niedozwolona"
     },
     "jsLanguageStrings": {
         "PLL_ACCEPTANCE_FAILED": "Akceptacja nie powiodła się",
@@ -57,7 +58,8 @@
         "PLL_REJECTION_REASON_MISSING_SKILLS": "Brak kluczowych kompetencji, technologii, narzędzi lub certyfikatów wymaganych w projekcie",
         "PLL_REJECTION_REASON_PROFILE_FIT": "Profil zawodowy nie jest wystarczająco dopasowany do zakresu obowiązków",
         "PLL_REJECTION_REASON_MISSING_POLISH_LANGUAGE": "Brak wymaganej znajomości języka polskiego",
-        "PLL_NO_SUCH_RECORD": "Nie znaleziono rekordu"
+        "PLL_NO_SUCH_RECORD": "Nie znaleziono rekordu",
+        "PLL_STATUS_TRANSITION_NOT_ALLOWED": "Ta zmiana statusu jest niedozwolona"
     }
 }
 

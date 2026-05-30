@@ -26,6 +26,10 @@ class RecruitmentProjectKanban extends \App\Modules\Base\Widgets\Basic
         }
         $this->Config['data']['candidatesByStatus'] = $candidatesByStatus;
         $this->Config['data']['projectId'] = $projectId;
+        $this->Config['data']['statusTransitions'] = [
+            'configured' => \App\Modules\ProjektyRekrutacyjne\Services\RecruitmentStatusTransition::isConfigured(),
+            'transitions' => \App\Modules\ProjektyRekrutacyjne\Services\RecruitmentStatusTransition::getAdjacencyMap(),
+        ];
 
         return $this->Config;
     }
