@@ -108,9 +108,10 @@ final class CandidateApplicationSideEffects
 		if (!self::isProjectActive($dto->projectId)) {
 			return;
 		}
-		$relation = DocumentHelper::prepareRelationsString('ProjektyRekrutacyjne', (int) $dto->projectId);
-		if ($relation !== []) {
-			$candidate->ext = ['relations' => $relation];
+		$projectModule = \App\Modules\Base\Models\Module::getInstance('ProjektyRekrutacyjne');
+		$relationModel = \App\Modules\Base\Models\Relation::getInstance($projectModule, $candidate->getModule());
+		if ($relationModel !== false) {
+			$relationModel->addRelation((int) $dto->projectId, (int) $candidate->getId());
 		}
 	}
 
