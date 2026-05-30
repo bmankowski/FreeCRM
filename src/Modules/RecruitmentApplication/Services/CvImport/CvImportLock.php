@@ -8,8 +8,6 @@
  * @license FreeCRM Public License 1.0
  */
 
-declare(strict_types=1);
-
 namespace App\Modules\RecruitmentApplication\Services\CvImport;
 
 final class CvImportLock
