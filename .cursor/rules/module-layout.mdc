@@ -41,7 +41,7 @@ description: "Where files live in a FreeCRM/Vtiger-style module and how URLs map
 - **`event.state`**: `Module::getCalendarState()` returns picklist **values**, not display text — never pass `event.state` straight to `app.vtranslate()` expecting a label.
 - **Drag-select on month grid**: `selectDays()` — use **moment** for start/end; `Date.parse('YYYY-MM-DDTHH:mm')` often returns `NaN` and breaks the quick-create modal.
 - **After save**: prefer `loadCalendarData(true)` over only `addCalendarEvent()` (toolbar filter `showType`, missing display fields).
-- **Browser test**: MCP browser on `https://localhost`; hard-refresh after JS changes so `CalendarView.js?s=` updates.
+- **Browser test**: MCP browser on `https://dev.itconnect.pl`; hard-refresh after JS changes so `CalendarView.js?s=` updates.
 - **Quick-create Status (`activitystatus`)**: uitype 15, displaytype 10 → renders `Picklist.tpl` (readonly). Labels come from `getPicklistValues()`. See `uitypes.mdc` for renderer resolution details.
 - **Quick-create picklists (Event/Task tabs)**: inactive tab is hidden before select2 init → `Header.js` `refreshTabPicklists` on tab show; option text uses translated values from `getPicklistValues()`.
 - **Module-specific UiType classes** (`src/Modules/X/UiTypes/`) must extend their Base counterpart, not `BaseUiType` directly — see `uitypes.mdc`.

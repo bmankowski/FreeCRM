@@ -5,6 +5,7 @@
 
 URLS_FILE="tests/urls.txt"
 COOKIE_FILE="/tmp/test_cookies.txt"
+BASE_URL="${FREECRM_BASE_URL:-https://dev.itconnect.pl}"
 
 # Colors for output
 RED='\033[0;31m'
@@ -31,7 +32,7 @@ echo -e "${YELLOW}Logging in...${NC}"
 # Don't follow redirects for login - just check for successful redirect response
 login_response=$(curl -s -w "%{http_code}" -c "$COOKIE_FILE" -b "$COOKIE_FILE" --max-time 10 \
   -d "username=admin&password=admin" \
-  -X POST "http://localhost/index.php?module=Users&action=Login" -o /dev/null)
+  -X POST "$BASE_URL/index.php?module=Users&action=Login" -o /dev/null)
 
 if [ $? -ne 0 ] || [ "$login_response" != "302" ]; then
     echo -e "${RED}Failed to login (HTTP $login_response)${NC}"
@@ -59,10 +60,11 @@ while IFS= read -r url || [ -n "$url" ]; do
     fi
     
     url_count=$((url_count + 1))
-    echo -e "${YELLOW}Testing [${url_count}/${total_urls}]:${NC} $url"
+    target_url=$(echo "$url" | sed -E "s#^https?://[^/]+#$BASE_URL#")
+    echo -e "${YELLOW}Testing [${url_count}/${total_urls}]:${NC} $target_url"
     
     # Fetch URL and check for errors (with timeout to prevent hanging)
-    response=$(curl -s -c "$COOKIE_FILE" -b "$COOKIE_FILE" -L --max-time 30 "$url")
+    response=$(curl -s -c "$COOKIE_FILE" -b "$COOKIE_FILE" -L --max-time 30 "$target_url")
     
     if [ $? -ne 0 ]; then
         echo -e "${RED}✗ Failed to fetch URL (curl error)${NC}\n"

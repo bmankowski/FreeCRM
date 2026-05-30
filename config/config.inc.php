@@ -30,7 +30,7 @@ $dbconfig['db_hostname'] = 'db' . ':' . '3306';
 
 $host_name = $dbconfig['db_hostname'];
 
-$site_URL = 'https://localhost/';
+$site_URL = 'https://dev.itconnect.pl/';
 
 $cache_dir = 'cache/';
 $tmp_dir = 'cache/images/';

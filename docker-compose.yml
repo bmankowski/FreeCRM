@@ -19,6 +19,7 @@ services:
       - ./cache:/var/www/html/cache
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
       - ./docker/nginx/certs:/etc/nginx/certs:ro
+      - ./docker/nginx/letsencrypt:/etc/letsencrypt:ro
     restart: unless-stopped
 
   app:
@@ -33,7 +34,7 @@ services:
       FREECRM_DB_USER: freecrm
       FREECRM_DB_PASSWORD: freecrm
       # When behind nginx, keep base URL consistent
-      FREECRM_SITE_URL: "https://localhost/"
+      FREECRM_SITE_URL: "https://dev.itconnect.pl/"
       FREECRM_FORCE_SSL: "1"
       FREECRM_PDF_CHROME_BINARY: "/usr/bin/chromium"
       FREECRM_PDF_BASE_URL: "http://web:8080/"
@@ -57,7 +58,7 @@ services:
       FREECRM_DB_NAME: freecrm
       FREECRM_DB_USER: freecrm
       FREECRM_DB_PASSWORD: freecrm
-      FREECRM_SITE_URL: "https://localhost/"
+      FREECRM_SITE_URL: "https://dev.itconnect.pl/"
       FREECRM_FORCE_SSL: "1"
       YII_DEBUG: "0"
       # DEV ONLY: rsync CV backups from 10.0.0.220 (scripts/dev/sync-cv-from-prod.sh)

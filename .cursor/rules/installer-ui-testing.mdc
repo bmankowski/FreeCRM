@@ -6,7 +6,7 @@ alwaysApply: false
 
 # FreeCRM Installer UI Testing (Docker)
 
-Use this checklist when testing the FreeCRM installer in the browser at `https://localhost/`.
+Use this checklist when testing the FreeCRM installer in the browser at `https://dev.itconnect.pl/`.
 
 ## Click-path (Step1 → Step7)
 
@@ -59,6 +59,6 @@ Installer pages are **tall**; the **`Dalej` / `Instalacja` / `Zgadzam się`** co
 
 ## Success criteria
 
-- `https://localhost/` shows the **FreeCRM login page** (or you land in the app after auto-login).
+- `https://dev.itconnect.pl/` shows the **FreeCRM login page** (or you land in the app after auto-login).
 - `cache/logs/system.log` contains **no new fatal errors** produced by the installation run.
 

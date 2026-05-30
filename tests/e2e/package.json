@@ -8,7 +8,7 @@
     "test:ui": "playwright test --ui",
     "test:debug": "playwright test --debug",
     "test:headed": "playwright test --headed",
-    "codegen": "playwright codegen http://localhost",
+    "codegen": "playwright codegen https://dev.itconnect.pl",
     "report": "playwright show-report"
   },
   "keywords": ["e2e", "playwright", "crm", "testing"],
