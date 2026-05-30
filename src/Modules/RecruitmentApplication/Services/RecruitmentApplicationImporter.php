@@ -65,38 +65,38 @@ final class RecruitmentApplicationImporter
 
 	public static function mapDtoToRecord(\App\Modules\Base\Models\Record $record, CvApplicationDto $dto): void
 	{
-		$record->set('cf_303291', $dto->candidateName);
-		$record->set('cf_303283', $dto->candidateEmail);
-		$record->set('cf_303293', $dto->candidateOriginalPhone);
+		$record->set('candidate_name', $dto->candidateName);
+		$record->set('candidate_email', $dto->candidateEmail);
+		$record->set('phone_raw', $dto->candidateOriginalPhone);
 		if (PhoneNormalizer::isValidE164($dto->candidateTransformedPhone)) {
-			$record->set('cf_303285', $dto->candidateTransformedPhone);
+			$record->set('candidate_phone', $dto->candidateTransformedPhone);
 		}
-		$record->set('cf_303295', $dto->jobTitle);
+		$record->set('job_title', $dto->jobTitle);
 		if ($dto->projectId !== '' && is_numeric($dto->projectId)) {
-			$record->set('cf_303297', (int) $dto->projectId);
+			$record->set('project_id', (int) $dto->projectId);
 		}
 		if ($dto->sourceId !== '' && is_numeric($dto->sourceId)) {
-			$record->set('cf_303299', (int) $dto->sourceId);
+			$record->set('source_id', (int) $dto->sourceId);
 		}
-		$record->set('cf_303339', $dto->formType);
-		$record->set('cf_303325', $dto->submittedAt);
-		$record->set('cf_303287', $dto->message);
-		$record->set('cf_303311', $dto->availability);
-		$record->set('cf_303313', $dto->preferredContractType);
-		$record->set('cf_303315', $dto->expectedSalary);
-		$record->set('cf_303317', self::consentToInt($dto->agreeToContact));
-		$record->set('cf_303319', $dto->cvOriginalFilename);
-		$record->set('cf_303321', $dto->cvSavedFilename);
-		$record->set('cf_303323', $dto->cvAttachmentUrl);
-		$record->set('cf_303327', $dto->rawJsonData);
-		$record->set('cf_303329', $dto->isReferredByEmployee ? 1 : 0);
-		$record->set('cf_303331', $dto->referredByEmployee);
-		$record->set('cf_303333', $dto->referredByEmail);
-		$record->set('cf_303335', $dto->referredOnPosition);
-		$record->set('cf_303305', $dto->postId !== '' && is_numeric($dto->postId) ? (int) $dto->postId : null);
-		$record->set('cf_303307', $dto->formId !== '' && is_numeric($dto->formId) ? (int) $dto->formId : null);
-		$record->set('cf_303309', $dto->referrerUrl);
-		$record->set('cf_303341', $dto->formLanguage);
+		$record->set('form_type', $dto->formType);
+		$record->set('submitted_at', $dto->submittedAt);
+		$record->set('message', $dto->message);
+		$record->set('available_from', $dto->availability);
+		$record->set('preferred_contract_type', $dto->preferredContractType);
+		$record->set('expected_salary', $dto->expectedSalary);
+		$record->set('future_recruitment_consent', self::consentToInt($dto->agreeToContact));
+		$record->set('cv_original_filename', $dto->cvOriginalFilename);
+		$record->set('cv_saved_filename', $dto->cvSavedFilename);
+		$record->set('cv_attachment_url', $dto->cvAttachmentUrl);
+		$record->set('application_json_content', $dto->rawJsonData);
+		$record->set('is_referred_by_employee', $dto->isReferredByEmployee ? 1 : 0);
+		$record->set('referred_by_employee', $dto->referredByEmployee);
+		$record->set('referred_by_email', $dto->referredByEmail);
+		$record->set('referred_on_position', $dto->referredOnPosition);
+		$record->set('post_id', $dto->postId !== '' && is_numeric($dto->postId) ? (int) $dto->postId : null);
+		$record->set('form_id', $dto->formId !== '' && is_numeric($dto->formId) ? (int) $dto->formId : null);
+		$record->set('referrer_url', $dto->referrerUrl);
+		$record->set('form_language', $dto->formLanguage);
 	}
 
 	private function processPendingFiles(?int $limit = null): void
@@ -129,12 +129,12 @@ final class RecruitmentApplicationImporter
 				$candidate->save();
 				CandidateApplicationSideEffects::bindCandidateToProject($candidate, $dto);
 				$candidate->save();
-				$application->set('cf_303289', (int) $candidate->getId());
+				$application->set('kandydaci_id', (int) $candidate->getId());
 				if ($document !== null) {
-					$application->set('cf_303337', (int) $document->getId());
+					$application->set('cv_document_id', (int) $document->getId());
 				}
 				if ($dto->projectId !== '' && is_numeric($dto->projectId)) {
-					$application->set('cf_303297', (int) $dto->projectId);
+					$application->set('project_id', (int) $dto->projectId);
 				}
 				$application->save();
 				CvFileOperations::deleteFiles($dto);
