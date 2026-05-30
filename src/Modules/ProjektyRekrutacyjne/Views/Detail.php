@@ -23,6 +23,10 @@ class Detail extends \App\Modules\Base\Views\Detail
 	public function getHeaderCss(\App\Http\Vtiger_Request $request)
 	{
 		$headerCssInstances = parent::getHeaderCss($request);
+		$relatedListCss = $this->checkAndConvertCssStyles([
+			'modules.ProjektyRekrutacyjne.resources.RelatedList',
+		]);
+		$headerCssInstances = array_merge($headerCssInstances, $relatedListCss);
 		if ($this->shouldIncludeBootstrap5Utilities($request)) {
 			$bs5Utilities = $this->checkAndConvertCssStyles([
 				'~libraries/bootstrap5/css/bootstrap-utilities.min.css',
