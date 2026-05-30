@@ -36,19 +36,10 @@ class Relation extends \App\Modules\Base\Models\Relation
 			$queryGenerator->setCustomColumn([$fieldName => "{$tableName}.{$fieldName}"]);
 		}
 		
-		// Join relation table - relation is bidirectional
-		// When Kandydaci is parent, we need to find ProjektyRekrutacyjne where:
-		// - relcrmid = kandydaci_id (Kandydaci is related to project)
-		// - OR crmid = kandydaci_id (Kandydaci is the project itself - less common)
-		$queryGenerator->addJoin(['INNER JOIN', $tableName, "({$tableName}.relcrmid = vtiger_crmentity.crmid OR {$tableName}.crmid = vtiger_crmentity.crmid)"]);
-		$queryGenerator->addNativeCondition([
-			'or',
-			["{$tableName}.relcrmid" => $record],
-			["{$tableName}.crmid" => $record]
-		]);
-		
-		// Ensure we only get ProjektyRekrutacyjne records (not Kandydaci)
-		// The join condition already filters by the relation table
+		// Directional relation for this view:
+		// parent candidate is stored in relcrmid, related project in crmid.
+		$queryGenerator->addJoin(['INNER JOIN', $tableName, "{$tableName}.crmid = vtiger_crmentity.crmid"]);
+		$queryGenerator->addNativeCondition(["{$tableName}.relcrmid" => $record]);
 	}
 }
 

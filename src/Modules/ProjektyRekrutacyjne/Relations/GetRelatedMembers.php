@@ -17,6 +17,9 @@ namespace App\Modules\ProjektyRekrutacyjne\Relations;
  */
 class GetRelatedMembers extends \App\Modules\Base\Relations\GetRelatedList
 {
+    private const PROJECT_MODULE = 'ProjektyRekrutacyjne';
+    private const CANDIDATE_MODULE = 'Kandydaci';
+
     /** {@inheritdoc} */
     public const TABLE_NAME = 'u_yf_projekty_rekrutacyjne_relations_members_entity';
 
@@ -187,9 +190,10 @@ class GetRelatedMembers extends \App\Modules\Base\Relations\GetRelatedList
             $queryGenerator->setCustomColumn([$fieldName => "{$tableName}.{$fieldName}"]);
         }
         
-        // Join the custom relation table instead of vtiger_crmentityrel
-        $queryGenerator->addJoin(['INNER JOIN', $tableName, "({$tableName}.relcrmid = vtiger_crmentity.crmid OR {$tableName}.crmid = vtiger_crmentity.crmid)"]);
-        $queryGenerator->addNativeCondition(['or', ["{$tableName}.crmid" => $record], ["{$tableName}.relcrmid" => $record]]);
+        // Directional relation for this view:
+        // parent project is stored in crmid, related candidate in relcrmid.
+        $queryGenerator->addJoin(['INNER JOIN', $tableName, "{$tableName}.relcrmid = vtiger_crmentity.crmid"]);
+        $queryGenerator->addNativeCondition(["{$tableName}.crmid" => $record]);
         if (0 === \strcasecmp((string) $this->relationModel->get('label'), 'Screening')) {
             $queryGenerator->addNativeCondition(["{$tableName}.recruitment_status_rel" => 'PPL_APPLIED']);
         }
@@ -198,6 +202,7 @@ class GetRelatedMembers extends \App\Modules\Base\Relations\GetRelatedList
     /** {@inheritdoc} */
     public function create(int $sourceRecordId, int $destinationRecordId): bool
     {
+        [$sourceRecordId, $destinationRecordId] = $this->normalizeRelationDirection($sourceRecordId, $destinationRecordId);
         $result = false;
         if (!$this->getRelationData($sourceRecordId, $destinationRecordId)) {
             $result = \App\Db\Db::getInstance()->createCommand()->insert(static::TABLE_NAME, [
@@ -223,11 +228,8 @@ class GetRelatedMembers extends \App\Modules\Base\Relations\GetRelatedList
      */
     public function updateRelationData(int $sourceRecordId, int $destinationRecordId, array $updateData, bool $saveProject = true): bool
     {
-        $conditions = [
-            'or',
-            ['crmid' => $sourceRecordId, 'relcrmid' => $destinationRecordId],
-            ['crmid' => $destinationRecordId, 'relcrmid' => $sourceRecordId],
-        ];
+        [$sourceRecordId, $destinationRecordId] = $this->normalizeRelationDirection($sourceRecordId, $destinationRecordId);
+        $conditions = ['crmid' => $sourceRecordId, 'relcrmid' => $destinationRecordId];
         $result = (bool)$this->getRelationData($sourceRecordId, $destinationRecordId);
         if ($result) {
             $result = (bool)\App\Db\Db::getInstance()->createCommand()->update(static::TABLE_NAME, $updateData, $conditions)->execute();
@@ -335,10 +337,27 @@ class GetRelatedMembers extends \App\Modules\Base\Relations\GetRelatedList
      */
     public function getRelationData(int $sourceRecordId, int $destinationRecordId)
     {
+        [$sourceRecordId, $destinationRecordId] = $this->normalizeRelationDirection($sourceRecordId, $destinationRecordId);
         return (new \App\Db\Query())->from(static::TABLE_NAME)->where([
-            'or',
-            ['crmid' => $sourceRecordId, 'relcrmid' => $destinationRecordId],
-            ['crmid' => $destinationRecordId, 'relcrmid' => $sourceRecordId],
+            'crmid' => $sourceRecordId,
+            'relcrmid' => $destinationRecordId,
         ])->one();
+    }
+
+    /**
+     * Force canonical direction in relation table:
+     * crmid = project, relcrmid = candidate.
+     */
+    private function normalizeRelationDirection(int $sourceRecordId, int $destinationRecordId): array
+    {
+        $sourceModule = (string) \App\Utils\ModuleUtils::getModuleName($sourceRecordId);
+        $destinationModule = (string) \App\Utils\ModuleUtils::getModuleName($destinationRecordId);
+        if (self::PROJECT_MODULE === $sourceModule && self::CANDIDATE_MODULE === $destinationModule) {
+            return [$sourceRecordId, $destinationRecordId];
+        }
+        if (self::CANDIDATE_MODULE === $sourceModule && self::PROJECT_MODULE === $destinationModule) {
+            return [$destinationRecordId, $sourceRecordId];
+        }
+        return [$sourceRecordId, $destinationRecordId];
     }
 }

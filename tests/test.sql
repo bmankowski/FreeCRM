@@ -68,3 +68,78 @@ select tabid, count(*) from vtiger_tab_sharing_default group by tabid having cou
 
 
 select distinct vtiger_field.presence from vtiger_field;
+
+
+SELECT
+    vtiger_crmentity.crmid,
+    u_yf_kandydaci.kandydaciid AS id,
+    u_yf_kandydaci.name,
+    rel.recruitment_status_rel,
+    rel.comment_rel,
+    rel.rel_created_time,
+    rel.rel_created_user
+FROM vtiger_crmentity
+INNER JOIN u_yf_kandydaci
+    ON u_yf_kandydaci.kandydaciid = vtiger_crmentity.crmid
+INNER JOIN u_yf_projekty_rekrutacyjne_relations_members_entity rel
+    ON (rel.relcrmid = vtiger_crmentity.crmid OR rel.crmid = vtiger_crmentity.crmid)
+WHERE vtiger_crmentity.deleted = 0
+  AND vtiger_crmentity.setype = 'Kandydaci'
+  AND (rel.crmid = 1349638 OR rel.relcrmid = 1349638);
+
+  SELECT
+    c.crmid,
+    k.kandydaciid AS id,
+    k.name,
+    rel.recruitment_status_rel,
+    rel.comment_rel,
+    rel.rel_created_time,
+    rel.rel_created_user
+FROM u_yf_projekty_rekrutacyjne_relations_members_entity rel
+INNER JOIN vtiger_crmentity c
+    ON c.crmid = rel.relcrmid
+INNER JOIN u_yf_kandydaci k
+    ON k.kandydaciid = c.crmid
+WHERE rel.crmid = 1349638
+  AND c.deleted = 0
+  AND c.setype = 'Kandydaci';
+
+-- One-time normalization for relation direction:
+-- canonical: crmid = ProjektyRekrutacyjne, relcrmid = Kandydaci
+SELECT
+    SUM(CASE WHEN p1.projektyrekrutacyjneid IS NOT NULL AND k1.kandydaciid IS NOT NULL THEN 1 ELSE 0 END) AS canonical_rows,
+    SUM(CASE WHEN p2.projektyrekrutacyjneid IS NOT NULL AND k2.kandydaciid IS NOT NULL THEN 1 ELSE 0 END) AS reversed_rows,
+    COUNT(*) AS total_rows
+FROM u_yf_projekty_rekrutacyjne_relations_members_entity r
+LEFT JOIN u_yf_projektyrekrutacyjne p1 ON p1.projektyrekrutacyjneid = r.crmid
+LEFT JOIN u_yf_kandydaci k1 ON k1.kandydaciid = r.relcrmid
+LEFT JOIN u_yf_projektyrekrutacyjne p2 ON p2.projektyrekrutacyjneid = r.relcrmid
+LEFT JOIN u_yf_kandydaci k2 ON k2.kandydaciid = r.crmid;
+
+-- Step 1: flip only reversed rows without colliding with already existing canonical pair.
+UPDATE u_yf_projekty_rekrutacyjne_relations_members_entity r
+JOIN u_yf_kandydaci k ON k.kandydaciid = r.crmid
+JOIN u_yf_projektyrekrutacyjne p ON p.projektyrekrutacyjneid = r.relcrmid
+LEFT JOIN u_yf_projekty_rekrutacyjne_relations_members_entity canon
+  ON canon.crmid = r.relcrmid
+ AND canon.relcrmid = r.crmid
+SET r.crmid = -r.crmid,
+    r.relcrmid = -r.relcrmid
+WHERE canon.crmid IS NULL;
+
+-- Step 2: restore sign (now rows are canonical).
+UPDATE u_yf_projekty_rekrutacyjne_relations_members_entity
+SET crmid = -crmid,
+    relcrmid = -relcrmid
+WHERE crmid < 0;
+
+-- Verify after normalization.
+SELECT
+    SUM(CASE WHEN p1.projektyrekrutacyjneid IS NOT NULL AND k1.kandydaciid IS NOT NULL THEN 1 ELSE 0 END) AS canonical_rows,
+    SUM(CASE WHEN p2.projektyrekrutacyjneid IS NOT NULL AND k2.kandydaciid IS NOT NULL THEN 1 ELSE 0 END) AS reversed_rows,
+    COUNT(*) AS total_rows
+FROM u_yf_projekty_rekrutacyjne_relations_members_entity r
+LEFT JOIN u_yf_projektyrekrutacyjne p1 ON p1.projektyrekrutacyjneid = r.crmid
+LEFT JOIN u_yf_kandydaci k1 ON k1.kandydaciid = r.relcrmid
+LEFT JOIN u_yf_projektyrekrutacyjne p2 ON p2.projektyrekrutacyjneid = r.relcrmid
+LEFT JOIN u_yf_kandydaci k2 ON k2.kandydaciid = r.crmid;
