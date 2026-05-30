@@ -15,6 +15,8 @@
         "PLL_REJECTION_REASON_MISSING_SKILLS": "Missing key skills, technologies, tools or certificates required by the project",
         "PLL_REJECTION_REASON_PROFILE_FIT": "Professional profile is not sufficiently aligned with the scope of responsibilities",
         "PLL_REJECTION_REASON_MISSING_POLISH_LANGUAGE": "Missing required Polish language proficiency",
+        "PLL_REJECTION_REASON_OTHER_CANDIDATE_CHOSEN": "Another candidate was chosen",
+        "PLL_REJECTION_REASON_PROJECT_CLOSED": "Recruitment process was suspended or closed",
         "LBL_RECRUITMENT_KANBAN": "Recruitment kanban",
         "PPL_REJECTED_AFTER_CV": "Rejected after CV",
         "PPL_APPLIED": "Applied",
@@ -39,6 +41,8 @@
         "PLL_REJECTION_REASON_MISSING_SKILLS": "Missing key skills, technologies, tools or certificates required by the project",
         "PLL_REJECTION_REASON_PROFILE_FIT": "Professional profile is not sufficiently aligned with the scope of responsibilities",
         "PLL_REJECTION_REASON_MISSING_POLISH_LANGUAGE": "Missing required Polish language proficiency",
+        "PLL_REJECTION_REASON_OTHER_CANDIDATE_CHOSEN": "Another candidate was chosen",
+        "PLL_REJECTION_REASON_PROJECT_CLOSED": "Recruitment process was suspended or closed",
         "PLL_STATUS_TRANSITION_NOT_ALLOWED": "This status change is not allowed"
     }
 }

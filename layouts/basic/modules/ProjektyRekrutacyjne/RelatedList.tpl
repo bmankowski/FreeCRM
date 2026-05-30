@@ -78,7 +78,7 @@
 				}
 				.RelatedList.relatedContainer .c-candidate-reject-menu{position:relative}
 				.RelatedList.relatedContainer .c-candidate-rejection-bubbles{
-					position:absolute;left:50%;top:50%;width:0;height:0;pointer-events:none;opacity:0;transform:translate(-50%,-50%) scale(.86);
+					position:absolute;left:0%;top:-20%;width:0;height:0;pointer-events:none;opacity:0;transform:translate(-50%,-50%) scale(.86);
 					transition:opacity .16s ease,transform .16s ease;
 				}
 				.RelatedList.relatedContainer .c-candidate-thumb-actions.is-rejection-reasons-open .c-candidate-rejection-bubbles{
@@ -93,18 +93,24 @@
 				.RelatedList.relatedContainer .c-candidate-rejection-bubble:focus{
 					background:#f8f9fa;border-color:#6c757d;color:#222;outline:0;transform:translate(-50%,-50%) scale(1.06);
 				}
-				.RelatedList.relatedContainer .c-candidate-rejection-bubble--experience{transform:translate(-50%,-205%)}
-				.RelatedList.relatedContainer .c-candidate-rejection-bubble--skills{transform:translate(60%,-160%)}
-				.RelatedList.relatedContainer .c-candidate-rejection-bubble--fit{transform:translate(105%,-50%)}
-				.RelatedList.relatedContainer .c-candidate-rejection-bubble--language{transform:translate(60%,60%)}
+				.RelatedList.relatedContainer .c-candidate-rejection-bubble--experience{transform:translate(-72%,-125%)}
+				.RelatedList.relatedContainer .c-candidate-rejection-bubble--skills{transform:translate(72%,-125%)}
+				.RelatedList.relatedContainer .c-candidate-rejection-bubble--fit{transform:translate(144%,0)}
+				.RelatedList.relatedContainer .c-candidate-rejection-bubble--language{transform:translate(72%,125%)}
 				.RelatedList.relatedContainer .c-candidate-rejection-bubble--experience:hover,
-				.RelatedList.relatedContainer .c-candidate-rejection-bubble--experience:focus{transform:translate(-50%,-205%) scale(1.06)}
+				.RelatedList.relatedContainer .c-candidate-rejection-bubble--experience:focus{transform:translate(-72%,-125%) scale(1.06)}
 				.RelatedList.relatedContainer .c-candidate-rejection-bubble--skills:hover,
-				.RelatedList.relatedContainer .c-candidate-rejection-bubble--skills:focus{transform:translate(60%,-160%) scale(1.06)}
+				.RelatedList.relatedContainer .c-candidate-rejection-bubble--skills:focus{transform:translate(72%,-125%) scale(1.06)}
 				.RelatedList.relatedContainer .c-candidate-rejection-bubble--fit:hover,
-				.RelatedList.relatedContainer .c-candidate-rejection-bubble--fit:focus{transform:translate(105%,-50%) scale(1.06)}
+				.RelatedList.relatedContainer .c-candidate-rejection-bubble--fit:focus{transform:translate(144%,0) scale(1.06)}
 				.RelatedList.relatedContainer .c-candidate-rejection-bubble--language:hover,
-				.RelatedList.relatedContainer .c-candidate-rejection-bubble--language:focus{transform:translate(60%,60%) scale(1.06)}
+				.RelatedList.relatedContainer .c-candidate-rejection-bubble--language:focus{transform:translate(72%,125%) scale(1.06)}
+				.RelatedList.relatedContainer .c-candidate-rejection-bubble--other-candidate{transform:translate(-72%,125%)}
+				.RelatedList.relatedContainer .c-candidate-rejection-bubble--other-candidate:hover,
+				.RelatedList.relatedContainer .c-candidate-rejection-bubble--other-candidate:focus{transform:translate(-72%,125%) scale(1.06)}
+				.RelatedList.relatedContainer .c-candidate-rejection-bubble--project-closed{transform:translate(-144%,0)}
+				.RelatedList.relatedContainer .c-candidate-rejection-bubble--project-closed:hover,
+				.RelatedList.relatedContainer .c-candidate-rejection-bubble--project-closed:focus{transform:translate(-144%,0) scale(1.06)}
 				.RelatedList.relatedContainer .c-candidate-rejection-bubble__icon{font-size:1.875rem;line-height:1;position:relative;display:inline-flex;align-items:center;justify-content:center}
 				.RelatedList.relatedContainer .c-candidate-rejection-bubble__icon::after{
 					content:"";position:absolute;left:50%;top:50%;width:145%;height:.18rem;border-radius:999px;background:#dc3545;
@@ -128,6 +134,12 @@
 					.RelatedList.relatedContainer .c-candidate-rejection-bubble--fit:focus{transform:translate(-55%,-230%) scale(1.06)}
 					.RelatedList.relatedContainer .c-candidate-rejection-bubble--language:hover,
 					.RelatedList.relatedContainer .c-candidate-rejection-bubble--language:focus{transform:translate(-150%,-260%) scale(1.06)}
+					.RelatedList.relatedContainer .c-candidate-rejection-bubble--other-candidate{transform:translate(-230%,-260%)}
+					.RelatedList.relatedContainer .c-candidate-rejection-bubble--project-closed{transform:translate(-260%,-150%)}
+					.RelatedList.relatedContainer .c-candidate-rejection-bubble--other-candidate:hover,
+					.RelatedList.relatedContainer .c-candidate-rejection-bubble--other-candidate:focus{transform:translate(-230%,-260%) scale(1.06)}
+					.RelatedList.relatedContainer .c-candidate-rejection-bubble--project-closed:hover,
+					.RelatedList.relatedContainer .c-candidate-rejection-bubble--project-closed:focus{transform:translate(-260%,-150%) scale(1.06)}
 				}
 				{/literal}
 			</style>
@@ -624,6 +636,22 @@
 											        aria-label="{\App\Language::translate('PLL_REJECTION_REASON_MISSING_POLISH_LANGUAGE', $MODULE_NAME)}">
 												<span class="fas fa-comment-alt c-candidate-rejection-bubble__icon"></span>
 												<span class="c-candidate-rejection-bubble__code">PL</span>
+											</button>
+											<button type="button"
+											        class="c-candidate-rejection-bubble c-candidate-rejection-bubble--other-candidate rejectCandidateReason"
+											        data-rejection-reason="OTHER_CANDIDATE_CHOSEN"
+											        title="{\App\Language::translate('PLL_REJECTION_REASON_OTHER_CANDIDATE_CHOSEN', $MODULE_NAME)}"
+											        aria-label="{\App\Language::translate('PLL_REJECTION_REASON_OTHER_CANDIDATE_CHOSEN', $MODULE_NAME)}">
+												<span class="fas fa-user-check c-candidate-rejection-bubble__icon"></span>
+												<span class="c-candidate-rejection-bubble__code">OTHER</span>
+											</button>
+											<button type="button"
+											        class="c-candidate-rejection-bubble c-candidate-rejection-bubble--project-closed rejectCandidateReason"
+											        data-rejection-reason="PROJECT_CLOSED"
+											        title="{\App\Language::translate('PLL_REJECTION_REASON_PROJECT_CLOSED', $MODULE_NAME)}"
+											        aria-label="{\App\Language::translate('PLL_REJECTION_REASON_PROJECT_CLOSED', $MODULE_NAME)}">
+												<span class="fas fa-pause-circle c-candidate-rejection-bubble__icon"></span>
+												<span class="c-candidate-rejection-bubble__code">HOLD</span>
 											</button>
 										</div>
 									</div>

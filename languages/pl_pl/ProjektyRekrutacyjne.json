@@ -30,6 +30,8 @@
         "PLL_REJECTION_REASON_MISSING_SKILLS": "Brak kluczowych kompetencji, technologii, narzędzi lub certyfikatów wymaganych w projekcie",
         "PLL_REJECTION_REASON_PROFILE_FIT": "Profil zawodowy nie jest wystarczająco dopasowany do zakresu obowiązków",
         "PLL_REJECTION_REASON_MISSING_POLISH_LANGUAGE": "Brak wymaganej znajomości języka polskiego",
+        "PLL_REJECTION_REASON_OTHER_CANDIDATE_CHOSEN": "Wybrano innego kandydata",
+        "PLL_REJECTION_REASON_PROJECT_CLOSED": "Proces rekrutacyjny został wstrzymany lub zamknięty",
         "PLL_NO_SUCH_RECORD": "Nie znaleziono rekordu",
         "PLL_POLISH": "Polski",
         "PLL_ENGLISH": "Angielski",
@@ -58,6 +60,8 @@
         "PLL_REJECTION_REASON_MISSING_SKILLS": "Brak kluczowych kompetencji, technologii, narzędzi lub certyfikatów wymaganych w projekcie",
         "PLL_REJECTION_REASON_PROFILE_FIT": "Profil zawodowy nie jest wystarczająco dopasowany do zakresu obowiązków",
         "PLL_REJECTION_REASON_MISSING_POLISH_LANGUAGE": "Brak wymaganej znajomości języka polskiego",
+        "PLL_REJECTION_REASON_OTHER_CANDIDATE_CHOSEN": "Wybrano innego kandydata",
+        "PLL_REJECTION_REASON_PROJECT_CLOSED": "Proces rekrutacyjny został wstrzymany lub zamknięty",
         "PLL_NO_SUCH_RECORD": "Nie znaleziono rekordu",
         "PLL_STATUS_TRANSITION_NOT_ALLOWED": "Ta zmiana statusu jest niedozwolona"
     }

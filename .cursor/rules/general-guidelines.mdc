@@ -27,6 +27,7 @@ FreeCRM is being actively modernized. **No fallbacks. No compat shims. No parall
 - Never use `class_alias()` or similar aliases (see Modernization stance).
 - For many edits in one file, prefer `sed`.
 - Continue on partial errors — partial fixes are valuable.
+- **Minify frontend assets in the same change**: after editing any non-minified `.js` or `.css` under `public/`, run `npm run minify-js -- <file>` or `npm run minify-css -- <file>` and commit the `.min.*` output together with the source. Never edit `.min.js` / `.min.css` by hand. Details: `frontend-assets.mdc`.
 
 ## Agent autonomy
 
