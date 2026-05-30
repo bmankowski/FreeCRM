@@ -116,16 +116,28 @@ LEFT JOIN u_yf_kandydaci k1 ON k1.kandydaciid = r.relcrmid
 LEFT JOIN u_yf_projektyrekrutacyjne p2 ON p2.projektyrekrutacyjneid = r.relcrmid
 LEFT JOIN u_yf_kandydaci k2 ON k2.kandydaciid = r.crmid;
 
--- Step 1: flip only reversed rows without colliding with already existing canonical pair.
+-- Step 1: swap only reversed rows (candidate->project) without colliding
+-- with already existing canonical pair (project->candidate). Keep negative
+-- values temporarily to avoid UNIQUE(crmid, relcrmid) conflicts.
 UPDATE u_yf_projekty_rekrutacyjne_relations_members_entity r
-JOIN u_yf_kandydaci k ON k.kandydaciid = r.crmid
-JOIN u_yf_projektyrekrutacyjne p ON p.projektyrekrutacyjneid = r.relcrmid
-LEFT JOIN u_yf_projekty_rekrutacyjne_relations_members_entity canon
-  ON canon.crmid = r.relcrmid
- AND canon.relcrmid = r.crmid
-SET r.crmid = -r.crmid,
-    r.relcrmid = -r.relcrmid
-WHERE canon.crmid IS NULL;
+JOIN (
+    SELECT
+        r2.crmid AS old_crmid,
+        r2.relcrmid AS old_relcrmid,
+        r2.relcrmid AS new_crmid,
+        r2.crmid AS new_relcrmid
+    FROM u_yf_projekty_rekrutacyjne_relations_members_entity r2
+    JOIN u_yf_kandydaci k ON k.kandydaciid = r2.crmid
+    JOIN u_yf_projektyrekrutacyjne p ON p.projektyrekrutacyjneid = r2.relcrmid
+    LEFT JOIN u_yf_projekty_rekrutacyjne_relations_members_entity canon
+      ON canon.crmid = r2.relcrmid
+     AND canon.relcrmid = r2.crmid
+    WHERE canon.crmid IS NULL
+) x
+  ON x.old_crmid = r.crmid
+ AND x.old_relcrmid = r.relcrmid
+SET r.crmid = -x.new_crmid,
+    r.relcrmid = -x.new_relcrmid;
 
 -- Step 2: restore sign (now rows are canonical).
 UPDATE u_yf_projekty_rekrutacyjne_relations_members_entity
