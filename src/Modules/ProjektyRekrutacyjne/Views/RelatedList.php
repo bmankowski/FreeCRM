@@ -18,6 +18,22 @@ namespace App\Modules\ProjektyRekrutacyjne\Views;
 class RelatedList extends \App\Modules\Base\Views\RelatedList
 {
     /**
+     * Load module styles for related list layout.
+     *
+     * @param \App\Http\Vtiger_Request $request
+     * @return array
+     */
+    public function getHeaderCss(\App\Http\Vtiger_Request $request)
+    {
+        $headerCssInstances = parent::getHeaderCss($request);
+        $cssFileNames = [
+            'modules.ProjektyRekrutacyjne.resources.RelatedList',
+        ];
+        $cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
+        return array_merge($headerCssInstances, $cssInstances);
+    }
+
+    /**
      * Process.
      *
      * @param \App\Http\Vtiger_Request $request

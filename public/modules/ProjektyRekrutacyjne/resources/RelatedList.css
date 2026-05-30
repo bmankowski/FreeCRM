@@ -1,0 +1,323 @@
+.RelatedList.relatedContainer--listPreview .relatedHeader > .d-inline-flex.flex-wrap {
+	width: 100%;
+	display: flex !important;
+	flex-wrap: nowrap !important;
+	align-items: center;
+	gap: 8px;
+	min-width: 0;
+	overflow-x: auto;
+	overflow-y: hidden;
+	-webkit-overflow-scrolling: touch;
+	padding-bottom: 2px;
+}
+.RelatedList.relatedContainer--listPreview .relatedHeader > .d-inline-flex > .u-w-sm-down-100.d-flex.flex-wrap.flex-sm-nowrap {
+	margin-bottom: 0 !important;
+	flex-wrap: nowrap !important;
+	flex-shrink: 0;
+	align-items: center;
+}
+.RelatedList.relatedContainer--listPreview .relatedHeader > .d-inline-flex > .d-flex.flex-wrap.u-w-sm-down-100 {
+	margin-bottom: 0 !important;
+	flex-wrap: nowrap !important;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: flex-end !important;
+	margin-left: auto !important;
+}
+.RelatedList.relatedContainer--listPreview .relatedHeader .paginationDiv {
+	width: auto;
+	flex: 0 0 auto;
+}
+.RelatedList.relatedContainer--listPreview .relatedHeader .paginationDiv nav {
+	display: flex !important;
+	flex-direction: row !important;
+	flex-wrap: nowrap !important;
+	align-items: center;
+	gap: 8px;
+	width: auto;
+}
+.RelatedList.relatedContainer--listPreview .relatedHeader .paginationDiv .pagination {
+	display: inline-flex !important;
+	flex-wrap: nowrap !important;
+	float: none;
+	margin: 0;
+	align-items: center;
+}
+.RelatedList.relatedContainer--listPreview .relatedHeader .paginationDiv .pagination > li {
+	float: none;
+}
+.RelatedList.relatedContainer--listPreview .relatedHeader .paginationDiv .pageInfo {
+	float: none !important;
+	margin: 0 !important;
+	padding: 6px 8px !important;
+	flex: 0 0 auto;
+	white-space: nowrap;
+}
+.RelatedList.relatedContainer--listPreview .relatedHeader .relatedViewGroup.mb-1,
+.RelatedList.relatedContainer--listPreview .relatedHeader .c-btn-block-sm-down.mb-1 {
+	margin-bottom: 0 !important;
+}
+.RelatedList.relatedContainer .relatedContents::after {
+	content: "";
+	display: block;
+	clear: both;
+}
+.RelatedList.relatedContainer .c-list-preview {
+	float: left;
+	width: 55%;
+	min-width: 320px;
+	overflow: auto;
+}
+.RelatedList.relatedContainer .c-detail-preview {
+	float: left;
+	width: calc(45% - 10px);
+	min-width: 320px;
+	height: auto !important;
+	max-height: none !important;
+	overflow: visible !important;
+	border-left: 1px solid #ddd;
+	background: #fff;
+	display: flex;
+	flex-direction: column;
+}
+.RelatedList.relatedContainer iframe.listPreviewframe {
+	flex: 0 0 auto;
+	width: 100%;
+	min-height: 200px;
+	border: 0;
+	background: #fff;
+}
+.RelatedList.relatedContainer .c-list-preview-resizer {
+	float: left;
+	width: 10px;
+	min-width: 10px;
+	background: #f0f0f0;
+	border-left: 1px solid #ddd;
+	border-right: 1px solid #ddd;
+	cursor: col-resize;
+	user-select: none;
+	position: relative;
+	z-index: 3;
+}
+.RelatedList.relatedContainer .c-list-preview-resizer::after {
+	content: "";
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 4px;
+	height: 48px;
+	transform: translate(-50%, -50%);
+	border-left: 2px dotted #aaa;
+	border-right: 2px dotted #aaa;
+	opacity: 0.9;
+}
+.RelatedList.relatedContainer.is-resizing,
+.RelatedList.relatedContainer.is-resizing * {
+	cursor: col-resize !important;
+	user-select: none !important;
+}
+.RelatedList.relatedContainer.is-resizing iframe.listPreviewframe {
+	pointer-events: none !important;
+}
+.RelatedList.relatedContainer .c-candidate-thumb-actions {
+	position: fixed;
+	left: max(7rem, min(80%, calc(100vw - 7rem)));
+	top: max(7rem, min(78%, calc(100vh - 7rem)));
+	transform: translate(-50%, -50%);
+	z-index: 1025;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0;
+	max-width: calc(100vw - 48px);
+}
+.RelatedList.relatedContainer .c-candidate-thumb-actions__inputs {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	border: 0;
+	padding: 0;
+}
+.RelatedList.relatedContainer .c-candidate-thumb-actions__buttons {
+	display: flex;
+	flex-wrap: nowrap;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.5rem 0.65rem;
+	border-radius: 0.75rem;
+	background: rgba(255, 255, 255, 0.96);
+	box-shadow: 0 0.35rem 1.5rem rgba(0, 0, 0, 0.14), 0.05rem 0.05rem 0 rgba(0, 0, 0, 0.03);
+	border: 1px solid rgba(0, 0, 0, 0.06);
+	backdrop-filter: saturate(180%) blur(8px);
+	-webkit-backdrop-filter: saturate(180%) blur(8px);
+}
+.RelatedList.relatedContainer .c-candidate-reject-menu {
+	position: relative;
+}
+.RelatedList.relatedContainer .c-candidate-rejection-bubbles {
+	position: absolute;
+	left: 0;
+	top: -20%;
+	width: 0;
+	height: 0;
+	pointer-events: none;
+	opacity: 0;
+	transform: translate(-50%, -50%) scale(0.86);
+	transition: opacity 0.16s ease, transform 0.16s ease;
+}
+.RelatedList.relatedContainer .c-candidate-thumb-actions.is-rejection-reasons-open .c-candidate-rejection-bubbles {
+	pointer-events: auto;
+	opacity: 1;
+	transform: translate(-50%, -50%) scale(1);
+}
+.RelatedList.relatedContainer .c-candidate-rejection-bubble {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 7.2rem;
+	height: 7.2rem;
+	border-radius: 999px;
+	border: 1px solid rgba(0, 0, 0, 0.12);
+	background: #fff;
+	color: #444;
+	box-shadow: 0 0.35rem 1.2rem rgba(0, 0, 0, 0.18);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 0.1rem;
+	transform: translate(-50%, -50%);
+	cursor: pointer;
+	transition: background 0.14s ease, border-color 0.14s ease, color 0.14s ease, transform 0.14s ease;
+}
+.RelatedList.relatedContainer .c-candidate-rejection-bubble:hover,
+.RelatedList.relatedContainer .c-candidate-rejection-bubble:focus {
+	background: #f8f9fa;
+	border-color: #6c757d;
+	color: #222;
+	outline: 0;
+	transform: translate(-50%, -50%) scale(1.06);
+}
+.RelatedList.relatedContainer .c-candidate-rejection-bubble--experience {
+	transform: translate(-72%, -125%);
+}
+.RelatedList.relatedContainer .c-candidate-rejection-bubble--skills {
+	transform: translate(72%, -125%);
+}
+.RelatedList.relatedContainer .c-candidate-rejection-bubble--fit {
+	transform: translate(144%, 0);
+}
+.RelatedList.relatedContainer .c-candidate-rejection-bubble--language {
+	transform: translate(72%, 125%);
+}
+.RelatedList.relatedContainer .c-candidate-rejection-bubble--experience:hover,
+.RelatedList.relatedContainer .c-candidate-rejection-bubble--experience:focus {
+	transform: translate(-72%, -125%) scale(1.06);
+}
+.RelatedList.relatedContainer .c-candidate-rejection-bubble--skills:hover,
+.RelatedList.relatedContainer .c-candidate-rejection-bubble--skills:focus {
+	transform: translate(72%, -125%) scale(1.06);
+}
+.RelatedList.relatedContainer .c-candidate-rejection-bubble--fit:hover,
+.RelatedList.relatedContainer .c-candidate-rejection-bubble--fit:focus {
+	transform: translate(144%, 0) scale(1.06);
+}
+.RelatedList.relatedContainer .c-candidate-rejection-bubble--language:hover,
+.RelatedList.relatedContainer .c-candidate-rejection-bubble--language:focus {
+	transform: translate(72%, 125%) scale(1.06);
+}
+.RelatedList.relatedContainer .c-candidate-rejection-bubble--other-candidate {
+	transform: translate(-72%, 125%);
+}
+.RelatedList.relatedContainer .c-candidate-rejection-bubble--other-candidate:hover,
+.RelatedList.relatedContainer .c-candidate-rejection-bubble--other-candidate:focus {
+	transform: translate(-72%, 125%) scale(1.06);
+}
+.RelatedList.relatedContainer .c-candidate-rejection-bubble--project-closed {
+	transform: translate(-144%, 0);
+}
+.RelatedList.relatedContainer .c-candidate-rejection-bubble--project-closed:hover,
+.RelatedList.relatedContainer .c-candidate-rejection-bubble--project-closed:focus {
+	transform: translate(-144%, 0) scale(1.06);
+}
+.RelatedList.relatedContainer .c-candidate-rejection-bubble__icon {
+	font-size: 1.875rem;
+	line-height: 1;
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
+.RelatedList.relatedContainer .c-candidate-rejection-bubble__icon::after {
+	content: "";
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 145%;
+	height: 0.18rem;
+	border-radius: 999px;
+	background: #dc3545;
+	box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.75);
+	transform: translate(-50%, -50%) rotate(-38deg);
+	transform-origin: center;
+}
+.RelatedList.relatedContainer .c-candidate-rejection-bubble__code {
+	font-size: 0.78rem;
+	font-weight: 700;
+	letter-spacing: 0.04em;
+	line-height: 1;
+}
+@media (max-width: 767px) {
+	.RelatedList.relatedContainer .c-candidate-thumb-actions {
+		left: auto;
+		top: auto;
+		bottom: max(1rem, env(safe-area-inset-bottom, 0));
+		right: max(0.75rem, env(safe-area-inset-right, 0));
+		transform: none;
+	}
+	.RelatedList.relatedContainer .c-candidate-rejection-bubble--experience {
+		transform: translate(-230%, -55%);
+	}
+	.RelatedList.relatedContainer .c-candidate-rejection-bubble--skills {
+		transform: translate(-150%, -150%);
+	}
+	.RelatedList.relatedContainer .c-candidate-rejection-bubble--fit {
+		transform: translate(-55%, -230%);
+	}
+	.RelatedList.relatedContainer .c-candidate-rejection-bubble--language {
+		transform: translate(-150%, -260%);
+	}
+	.RelatedList.relatedContainer .c-candidate-rejection-bubble--experience:hover,
+	.RelatedList.relatedContainer .c-candidate-rejection-bubble--experience:focus {
+		transform: translate(-230%, -55%) scale(1.06);
+	}
+	.RelatedList.relatedContainer .c-candidate-rejection-bubble--skills:hover,
+	.RelatedList.relatedContainer .c-candidate-rejection-bubble--skills:focus {
+		transform: translate(-150%, -150%) scale(1.06);
+	}
+	.RelatedList.relatedContainer .c-candidate-rejection-bubble--fit:hover,
+	.RelatedList.relatedContainer .c-candidate-rejection-bubble--fit:focus {
+		transform: translate(-55%, -230%) scale(1.06);
+	}
+	.RelatedList.relatedContainer .c-candidate-rejection-bubble--language:hover,
+	.RelatedList.relatedContainer .c-candidate-rejection-bubble--language:focus {
+		transform: translate(-150%, -260%) scale(1.06);
+	}
+	.RelatedList.relatedContainer .c-candidate-rejection-bubble--other-candidate {
+		transform: translate(-230%, -260%);
+	}
+	.RelatedList.relatedContainer .c-candidate-rejection-bubble--project-closed {
+		transform: translate(-260%, -150%);
+	}
+	.RelatedList.relatedContainer .c-candidate-rejection-bubble--other-candidate:hover,
+	.RelatedList.relatedContainer .c-candidate-rejection-bubble--other-candidate:focus {
+		transform: translate(-230%, -260%) scale(1.06);
+	}
+	.RelatedList.relatedContainer .c-candidate-rejection-bubble--project-closed:hover,
+	.RelatedList.relatedContainer .c-candidate-rejection-bubble--project-closed:focus {
+		transform: translate(-260%, -150%) scale(1.06);
+	}
+}
