@@ -30,7 +30,7 @@ class SummaryRecordStructure extends \App\Modules\Base\Models\RecordStructure
 			foreach ($summaryFieldsList as $fieldName => $fieldModel) {
 				if ($fieldModel->isViewableInDetailView()) {
 					$fieldModel->set('fieldvalue', $recordModel->get($fieldName));
-					$blockSequence = $fieldModel->block->sequence;
+					$blockSequence = $fieldModel->getBlockSequence();
 					$blockSeqSortSummaryFields[$blockSequence]['SUMMARY_FIELDS'][$fieldName] = $fieldModel;
 				}
 			}

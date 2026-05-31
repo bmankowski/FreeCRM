@@ -134,14 +134,14 @@
 									{foreach item=RELATION from=$SELECTED_MODULE_MODEL->getRelations()}
 										{assign var=COUNT_FIELDS value=count($RELATION->getFields())}
 										{foreach item=FIELD key=KEY from=$RELATION->getFields()}
-											{if !isset($LAST_BLOCK) || $LAST_BLOCK->id != $FIELD->get('block')->id}
-												<optgroup label="{$FIELD->get('block')->label|t:$RELATION->get('modulename')}" data-module="{$RELATION->get('modulename')}">
+											{if !isset($LAST_BLOCK) || $LAST_BLOCK != $FIELD->getBlockId()}
+												<optgroup label="{$FIELD->getBlockName()|t:$RELATION->get('modulename')}" data-module="{$RELATION->get('modulename')}">
 												{/if} 
 												<option value="{$FIELD->getId()}" >{$FIELD->get('label')|t:$RELATION->get('modulename')}</option>
 												{if $COUNT_FIELDS == ($KEY - 1)}
 												</optgroup>
 											{/if} 
-											{assign var=LAST_BLOCK value=$FIELD->get('block')}
+											{assign var=LAST_BLOCK value=$FIELD->getBlockId()}
 										{/foreach}
 									{/foreach}
 								</select>

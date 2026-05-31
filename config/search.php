@@ -17,4 +17,10 @@ $CONFIG = [
 	'GLOBAL_SEARCH_AUTOCOMPLETE_MIN_LENGTH' => 3,
 	// Global search - Show operator
 	'GLOBAL_SEARCH_OPERATOR' => true,
+	// Entity state dropdown/list border colors (Active, Archived, Trash)
+	'LIST_ENTITY_STATE_COLOR' => [
+		'Active' => '#009405',
+		'Archived' => '#0032a2',
+		'Trash' => '#ab0505',
+	],
 ];

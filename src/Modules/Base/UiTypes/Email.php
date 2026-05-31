@@ -28,7 +28,7 @@ class Email extends BaseUiType
 		$currentUser = \App\User\CurrentUser::get();
 		$internalMailer = $currentUser->get('internal_mailer');
 		if ($value && !$rawText) {
-			$moduleName = $this->get('field')->get('block')->module->name;
+			$moduleName = $this->get('field')->getModuleName();
 			$fieldName = $this->get('field')->get('name');
 			$rawValue = $value;
 			$value = \vtlib\Functions:: textLength($value);

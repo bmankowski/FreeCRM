@@ -349,6 +349,16 @@ class Field
 		return '';
 	}
 
+	public function getBlockSequence(): int
+	{
+		$block = $this->get('block');
+		if (is_object($block)) {
+			return (int) ($block->sequence ?? 0);
+		}
+
+		return (int) ($block ?? 0);
+	}
+
 	public function initialize($valuemap)
 	{
 		// Handle block: extract the ID if it is a hydrated object so fromRow() gets a ?int

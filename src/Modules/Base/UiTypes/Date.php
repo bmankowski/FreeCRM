@@ -80,7 +80,7 @@ class Date extends BaseUiType
 		if (empty($value) || $value === ' ') {
 			$value = $value ? trim($value) : '';
 			$fieldInstance = $this->get('field')->getWebserviceFieldObject();
-			$moduleName = $this->get('field')->getModule()->getName();
+			$moduleName = $this->get('field')->getModuleName();
 			$fieldName = $fieldInstance->getFieldName();
 
 			//Restricted Fields for to show Default Value

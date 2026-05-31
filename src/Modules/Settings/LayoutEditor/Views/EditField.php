@@ -40,7 +40,7 @@ class EditField extends \App\Modules\Settings\Base\Views\BasicModal
 		$fieldModel = \App\Modules\Settings\LayoutEditor\Models\Field::getInstance($fieldId);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('FIELD_MODEL', $fieldModel);
-		$viewer->assign('SELECTED_MODULE_NAME', $fieldModel->getModule()->getName());
+		$viewer->assign('SELECTED_MODULE_NAME', $fieldModel->getModuleName());
 		
 		// Prepare LayoutEditor EditField-specific data for EditField template
 		$this->prepareLayoutEditorEditFieldData($viewer, $fieldModel);

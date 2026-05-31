@@ -133,7 +133,7 @@ class Field extends \App\Modules\Settings\Base\Actions\Index
 			foreach ($fieldIds as $fieldId) {
 				$fieldModel = \App\Modules\Settings\LayoutEditor\Models\Field::getInstance($fieldId);
 				$fieldInfo = $fieldModel->getFieldInfo();
-				$responseData[] = array_merge(array('id' => $fieldModel->getId(), 'blockid' => $fieldModel->get('block')->id, 'customField' => $fieldModel->isCustomField()), $fieldInfo);
+				$responseData[] = array_merge(array('id' => $fieldModel->getId(), 'blockid' => $fieldModel->getBlockId(), 'customField' => $fieldModel->isCustomField()), $fieldInfo);
 			}
 			$response->setResult($responseData);
 		} catch (Exception $e) {
