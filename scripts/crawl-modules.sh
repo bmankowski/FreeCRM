@@ -81,9 +81,9 @@ ENVIRONMENT VARIABLES (Node crawler)
 
   FREECRM_LOG_LEVEL
       Which system.log lines count as failures.
-        errors   — PHP Fatal error, PHP Parse error, Uncaught
-        warnings — above + PHP Warning, PHP Error
-        all      — above + PHP Deprecated, PHP Notice
+        errors   — [error], PHP Fatal error, PHP Parse error, Uncaught
+        warnings — above + [warning], PHP Warning, PHP Error
+        all      — above + [info], [trace], PHP Deprecated, PHP Notice
       Default: warnings (overridden to errors by this shell script unless set)
 
   FREECRM_LOG_PATH
@@ -147,15 +147,15 @@ LOG LEVEL REFERENCE
 -------------------
 
   errors
-      Matches: PHP Fatal error, PHP Parse error, Uncaught
+      Matches: [error] in system.log, PHP Fatal error, PHP Parse error, Uncaught
       Use for: smoke runs, CI gates, finding hard breakages only.
 
   warnings
-      Matches: errors + PHP Warning, PHP Error
+      Matches: errors + [warning], PHP Warning, PHP Error
       Use for: routine regression checks after code changes.
 
   all
-      Matches: warnings + PHP Deprecated, PHP Notice
+      Matches: warnings + [info], [trace], PHP Deprecated, PHP Notice
       Use for: modernization sweeps (noisy — many known deprecations exist).
 
 
@@ -260,10 +260,15 @@ PLAYWRIGHT_IMAGE="${FREECRM_PLAYWRIGHT_IMAGE:-mcr.microsoft.com/playwright:v1.56
 LOG_LEVEL="${FREECRM_LOG_LEVEL:-errors}"
 
 EXTRA_ARGS=()
+CRAWL_LOG_LEVEL="$LOG_LEVEL"
 HAS_LOG_LEVEL=0
-for arg in "$@"; do
-	if [[ "$arg" == "--log-level" ]]; then
+args=("$@")
+for ((i = 0; i < ${#args[@]}; i++)); do
+	if [[ "${args[i]}" == "--log-level" ]]; then
 		HAS_LOG_LEVEL=1
+		if [[ -n "${args[i + 1]:-}" ]]; then
+			CRAWL_LOG_LEVEL="${args[i + 1]}"
+		fi
 	fi
 done
 
@@ -277,7 +282,7 @@ docker compose exec -T app php scripts/export-crawl-urls.php > tests/e2e/.crawl-
 URL_COUNT="$(node -e "console.log(require('./tests/e2e/.crawl-urls.json').length)")"
 echo "    $URL_COUNT URLs ready"
 echo ""
-echo "==> Crawling (stop on fail, log level: ${FREECRM_LOG_LEVEL:-$LOG_LEVEL})..."
+echo "==> Crawling (stop on fail, log level: ${CRAWL_LOG_LEVEL})..."
 echo "    Report: tests/e2e/.crawl-report.json"
 echo "    Log:    tests/e2e/.crawl-run.log"
 echo "    Help:   ./crawl.sh --help"

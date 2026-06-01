@@ -9,91 +9,81 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-/**
- * WebUI Error Handler
- * 
- * Converts PHP errors to exceptions for better error handling.
- * Provides logging and display capabilities for application errors.
- * 
- * @package Main
- */
-
-
 namespace App\EntryPoint;
 
+/**
+ * Routes PHP runtime errors into App\Log (Yii FileTarget → cache/logs/system.log).
+ */
 class WebUI_ErrorHandler
 {
-    /**
-     * Handle PHP errors by logging and optionally displaying them
-     * 
-     * @param int $errno Error number
-     * @param string $errstr Error message
-     * @param string $errfile Error file
-     * @param int $errline Error line
-     * @return bool False to let PHP handle the error normally
-     */
-    public static function handle($errno, $errstr, $errfile, $errline)
-    {
-        // Skip if output buffering is active to avoid conflicts
-        if (ob_get_level() > 0) {
-            return false;
-        }
-
-        $message = sprintf('%d: %s in %s, line %d', $errno, $errstr, $errfile, $errline);
-        
-        self::logError($message);
-        self::displayError($message);
-
-        return false; // Let PHP handle the error normally
-    }
-
-    /**
-     * Log error to file
-     * 
-     * @param string $message Error message
-     */
-    private static function logError($message)
-    {
-        if (!\App\Core\AppConfig::debug('EXCEPTION_ERROR_TO_FILE')) {
-            return;
-        }
-        
-        $content = $message . PHP_EOL . \App\Debug\Debugger::getBacktrace() . PHP_EOL;
-        @file_put_contents(
-            'cache/logs/system.log',
-            $content,
-            FILE_APPEND | LOCK_EX
-        );
-    }
-
-	/**
-	 * Display error to user
-	 * 
-	 * @param string $message Error message
-	 */
-	private static function displayError($message)
+	public static function handle(int $errno, string $errstr, string $errfile, int $errline): bool
 	{
-		if (\App\Core\AppConfig::debug('EXCEPTION_ERROR_TO_SHOW')) {
-			// Display backtrace if debug is enabled
-			if (\App\Core\AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
-				$trace = \App\Debug\Debugger::getBacktrace();
-				echo '<pre>Stack trace:' . PHP_EOL . $trace . '</pre>';
-			}
-			\vtlib\Functions:: throwNewException($message, false);
+		$level = self::mapErrno($errno);
+		if ($level === null) {
+			return false;
 		}
+
+		if (\App\Core\AppConfig::debug('EXCEPTION_ERROR_TO_FILE')) {
+			self::log($level, self::formatMessage($errstr, $errfile, $errline));
+		}
+
+		if (ob_get_level() === 0) {
+			self::displayError(self::formatMessage($errstr, $errfile, $errline));
+		}
+
+		return true;
 	}
 
-    /**
-     * Register the error handler
-     * 
-     * @return void
-     */
-    public static function register()
-    {
-        set_error_handler(
-            [self::class, 'handle'],
-            \App\Core\AppConfig::debug('EXCEPTION_ERROR_LEVEL')
-        );
-    }
-}
+	private static function mapErrno(int $errno): ?string
+	{
+		if ($errno & (E_ERROR | E_CORE_ERROR | E_COMPILE_ERROR | E_PARSE | E_USER_ERROR | E_RECOVERABLE_ERROR)) {
+			return 'error';
+		}
+		if ($errno & (E_WARNING | E_CORE_WARNING | E_COMPILE_WARNING | E_USER_WARNING)) {
+			return 'warning';
+		}
+		if ($errno & (E_NOTICE | E_USER_NOTICE | E_DEPRECATED | E_USER_DEPRECATED)) {
+			return 'warning';
+		}
 
+		return null;
+	}
+
+	private static function formatMessage(string $errstr, string $errfile, int $errline): string
+	{
+		$file = str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $errfile);
+
+		return sprintf('%s in %s on line %d', $errstr, $file, $errline);
+	}
+
+	private static function log(string $level, string $message): void
+	{
+		if ($level === 'error') {
+			\App\Log\Log::error($message, 'php');
+			return;
+		}
+
+		\App\Log\Log::warning($message, 'php');
+	}
+
+	private static function displayError(string $message): void
+	{
+		if (!\App\Core\AppConfig::debug('EXCEPTION_ERROR_TO_SHOW')) {
+			return;
+		}
+
+		if (\App\Core\AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
+			$trace = \App\Debug\Debugger::getBacktrace();
+			echo '<pre>Stack trace:' . PHP_EOL . $trace . '</pre>';
+		}
+		\vtlib\Functions::throwNewException($message, false);
+	}
+
+	public static function register(): void
+	{
+		set_error_handler(
+			[self::class, 'handle'],
+			\App\Core\AppConfig::debug('EXCEPTION_ERROR_LEVEL')
+		);
+	}
+}

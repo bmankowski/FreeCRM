@@ -41,17 +41,12 @@ if (!function_exists('vresource_url')) {
 		if (stripos($url, '://') !== false) {
 			return $url;
 		}
-		$candidates = [$url];
-		if (defined('ROOT_DIRECTORY')) {
-			$relative = ltrim($url, '/');
-			$candidates[] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . $relative;
-			$candidates[] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $relative;
+		if (!defined('ROOT_DIRECTORY')) {
+			return $url;
 		}
-		foreach ($candidates as $path) {
-			$fs = @filemtime($path);
-			if ($fs && is_file($path)) {
-				return $url . '?s=' . $fs;
-			}
+		$path = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . ltrim($url, '/');
+		if (is_file($path)) {
+			return $url . '?s=' . filemtime($path);
 		}
 		return $url;
 	}

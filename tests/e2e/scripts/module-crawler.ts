@@ -74,9 +74,9 @@ Options:
                           Env: FREECRM_URL
 
   --log-level LEVEL       Log filter: errors | warnings | all
-                          errors   — Fatal, Parse, Uncaught
-                          warnings — above + Warning, Error
-                          all      — above + Deprecated, Notice
+                          errors   — [error], Fatal, Parse, Uncaught
+                          warnings — above + [warning], PHP Warning/Error
+                          all      — above + [info], [trace], Deprecated, Notice
                           Default: warnings
                           Env: FREECRM_LOG_LEVEL
 

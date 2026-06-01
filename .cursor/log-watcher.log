@@ -865,3 +865,5 @@
 2026-06-01 12:27:17 skip templates_c (no source .tpl): [01-Jun-2026 11:27:17 Europe/London] PHP Deprecated:  explode(): Passing null to parameter #2 ($string) of type string i
 2026-06-01 12:27:56 skip templates_c (no source .tpl): [01-Jun-2026 11:27:56 Europe/London] PHP Deprecated:  explode(): Passing null to parameter #2 ($string) of type string i
 2026-06-01 12:29:15 skip templates_c (no source .tpl): [01-Jun-2026 11:29:15 Europe/London] PHP Deprecated:  trim(): Passing null to parameter #1 ($string) of type string is d
+2026-06-01 12:32:57 skip templates_c (no source .tpl): [01-Jun-2026 11:32:57 Europe/London] PHP Deprecated:  explode(): Passing null to parameter #2 ($string) of type string i
+2026-06-01 12:38:25 skip templates_c (no source .tpl): [01-Jun-2026 11:38:25 Europe/London] PHP Deprecated:  trim(): Passing null to parameter #1 ($string) of type string is d
