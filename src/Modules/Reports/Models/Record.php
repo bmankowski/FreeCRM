@@ -198,7 +198,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public function getSecondaryModules()
 	{
-		return $this->report->secmodule;
+		return $this->report->secmodule ?? '';
 	}
 
 	/**
