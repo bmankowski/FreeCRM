@@ -17,6 +17,11 @@ use App\Modules\Base\UiTypes\BaseUiType;
 class Time extends BaseUiType
 {
 
+	/**
+	 * @param mixed $value
+	 * @param mixed $record
+	 * @return string
+	 */
 	public function getEditViewDisplayValue($value, $record = false)
 	{
 		if (!empty($value)) {

@@ -18,7 +18,7 @@ class BaseField
 	protected $queryGenerator;
 
 	/**
-	 * @var \App\Modules\Base\Models\Field 
+	 * @var \App\Modules\Base\Models\Field|false
 	 */
 	protected $fieldModel;
 
@@ -50,9 +50,7 @@ class BaseField
 	/**
 	 * Constructor
 	 * @param \App\QueryField\QueryGenerator $queryGenerator
-	 * @param \App\Modules\Base\Models\Field $fieldModel
-	 * @param string|array $value
-	 * @param string $operator
+	 * @param \App\Modules\Base\Models\Field|false $fieldModel
 	 */
 	public function __construct(\App\QueryField\QueryGenerator $queryGenerator, $fieldModel = false)
 	{

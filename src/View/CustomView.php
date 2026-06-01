@@ -3,7 +3,6 @@ namespace App\View;
 
 use App\Cache\Cache;
 
-use \App\Db;
 
 /**
  * Custom view class
@@ -263,7 +262,7 @@ class CustomView
 	 * Static Function to get the Instance of CustomView
 	 * @param string $moduleName
 	 * @param mixed $user
-	 * @return \self
+	 * @return self
 	 */
 	public static function getInstance($moduleName, $user = false)
 	{
@@ -280,14 +279,19 @@ class CustomView
 		$instance = new self();
 		$instance->moduleName = $moduleName;
 		$instance->user = $user;
-		\App\Cache\Cache::get('AppCustomView', $cacheName, $instance);
+		\App\Cache\Cache::save('AppCustomView', $cacheName, $instance);
 		return $instance;
 	}
 
+	/** @var string */
 	private $moduleName;
+	/** @var \App\Modules\Users\Models\Record */
 	private $user;
+	/** @var int|null */
 	private $defaultViewId;
+	/** @var int|null */
 	private $cvStatus;
+	/** @var int|null */
 	private $cvUserId;
 
 	/**
@@ -343,7 +347,7 @@ class CustomView
 	/**
 	 * Get the standard filter
 	 * @param mixed $cvId
-	 * @return array
+	 * @return array|false
 	 */
 	public function getStdFilterByCvid($cvId)
 	{
@@ -598,7 +602,7 @@ class CustomView
 					$subQuery = (new \App\Db\Query())->select(['vtiger_user2role.userid'])->from('vtiger_user2role')
 						->innerJoin('vtiger_users', 'vtiger_user2role.userid = vtiger_users.id')
 						->innerJoin('vtiger_role', 'vtiger_user2role.userid = vtiger_role.roleid')
-						->where(['like', 'vtiger_role.parentrole', $this->user->getParentRolesSeq() . '::']);
+						->where(['like', 'vtiger_role.parentrole', $this->user->getParentRoleSequence() . '::%']);
 					$query = (new \App\Db\Query())
 						->select(['vtiger_users.id'])
 						->from('vtiger_customview')
@@ -649,7 +653,7 @@ class CustomView
 
 	/**
 	 * Get mandatory filter by module
-	 * @param bolean $returnData
+	 * @param boolean $returnData
 	 * @return array|int
 	 */
 	public function getMandatoryFilter($returnData = false)

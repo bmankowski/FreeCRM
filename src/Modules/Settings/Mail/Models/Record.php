@@ -66,7 +66,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 * @param string $key
 	 * @return string
 	 */
-	public function getDisplayValue($key)
+	public function getDisplayValue(string $key): string
 	{
 		$value = $this->get($key);
 		switch ($key) {

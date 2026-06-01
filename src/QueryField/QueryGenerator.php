@@ -1,7 +1,5 @@
 <?php
 namespace App\QueryField;
-use App\AppConfig;
-use App\CRMEntity;
 
 /**
  * Query generator class
@@ -28,10 +26,10 @@ class QueryGenerator
 	/** @var string Module name */
 	private $moduleName;
 
-	/** @var \App\Db\Query  */
+	/** @var \App\Db\Query|null */
 	private $query;
 
-	/** @var \App\Db\Query  */
+	/** @var \App\Db\Query|null */
 	private $buildedQuery;
 	private $fields = [];
 	private $referenceFields = [];
@@ -39,7 +37,9 @@ class QueryGenerator
 	private $customColumns = [];
 	/** @var array<int|string, string>|null */
 	private ?array $cvColumns = null;
+	/** @var array|false|null */
 	private $stdFilterList;
+	/** @var array|null */
 	private $advFilterList;
 
 	/** @var array Joins */
@@ -50,13 +50,13 @@ class QueryGenerator
 	private $queryFields = [];
 	private $order = [];
 	private $group = [];
+	/** @var int|null */
 	private $sourceRecord;
 	private $concatColumn = [];
 	private $relatedFields = [];
 	private $relatedQueryFields = [];
 	
-	// Commonly used dynamic properties - declared to avoid PHP 8.2+ deprecation warnings
-	private $customViewFields = [];
+	/** @var int|null */
 	public $currencyId;
 
 	/**
@@ -80,7 +80,7 @@ class QueryGenerator
 	private $moduleModel;
 
 	/**
-	 * @var array \App\Modules\Base\Models\Field 
+	 * @var array<string, \App\Modules\Base\Models\Field>|null
 	 */
 	private $fieldsModel;
 
@@ -89,13 +89,13 @@ class QueryGenerator
 	 */
 	private $entityModel;
 
-	/** @var User */
+	/** @var \App\Modules\Base\Models\Record */
 	private $user;
 
-	/** @var Limit */
+	/** @var int|null */
 	private $limit;
 
-	/** @var Offset */
+	/** @var int|null */
 	private $offset;
 
 	/**
@@ -122,7 +122,7 @@ class QueryGenerator
 
 	/**
 	 * Get module model
-	 * @return string
+	 * @return \App\Modules\Base\Models\Module
 	 */
 	public function getModuleModel()
 	{
@@ -243,7 +243,8 @@ class QueryGenerator
 
 	/**
 	 * Set concat column
-	 * @param mixed $columns
+	 * @param mixed $fieldName
+	 * @param mixed $concat
 	 */
 	public function setConcatColumn($fieldName, $concat)
 	{
@@ -344,7 +345,7 @@ class QueryGenerator
 	/**
 	 * Set order
 	 * @param string $fieldName
-	 * @param string $order ASC/DESC
+	 * @param string|false $order ASC/DESC
 	 */
 	public function setOrder($fieldName, $order = false)
 	{
@@ -408,9 +409,10 @@ class QueryGenerator
 
 	/**
 	 * Get field module
-	 * @return \App\Modules\Base\Models\Field
+	 * @param string $fieldName
+	 * @return \App\Modules\Base\Models\Field|false
 	 */
-	public function getModuleField($fieldName)
+	public function getModuleField(string $fieldName): \App\Modules\Base\Models\Field|false
 	{
 		if (!$this->fieldsModel) {
 			$this->getModuleFields();
@@ -423,13 +425,13 @@ class QueryGenerator
 
 	/**
 	 * Get default custom view query
-	 * @return \App\Db\Query
+	 * @return \App\Db\Query|false
 	 */
 	public function getDefaultCustomViewQuery()
 	{
 		$customView = \App\View\CustomView::getInstance($this->moduleName, $this->user);
 		$viewId = $customView->getViewId();
-		if (empty($viewId) || $viewId === 0) {
+		if (empty($viewId)) {
 			return false;
 		}
 		return $this->getCustomViewQueryById($viewId);
@@ -445,7 +447,7 @@ class QueryGenerator
 	{
 		$customView = \App\View\CustomView::getInstance($this->moduleName, $this->user);
 		$viewId = $customView->getViewId($noCache);
-		if (empty($viewId) || $viewId === 0) {
+		if (empty($viewId)) {
 			return false;
 		}
 		$this->initForCustomViewById($viewId, $onlyFields);
@@ -500,11 +502,9 @@ class QueryGenerator
 			foreach ($this->cvColumns as &$cvColumn) {
 				list ($tableName, $columnName, $fieldName, $moduleFieldLabel, $fieldType) = explode(':', $cvColumn);
 				if (empty($fieldName) && $columnName === 'crmid' && $tableName === 'vtiger_crmentity') {
-					$this->customViewFields[] = 'id';
-				} else {
-					$this->fields[] = $fieldName;
-					$this->customViewFields[] = $fieldName;
+					continue;
 				}
+				$this->fields[] = $fieldName;
 			}
 		}
 		if ($this->moduleName === 'Calendar' && !in_array('activitytype', $this->fields)) {
@@ -563,6 +563,7 @@ class QueryGenerator
 				$this->addCondition($fieldName, $filter['value'], $filter['comparator'], $and);
 			}
 		}
+		return true;
 	}
 
 	/**
@@ -648,6 +649,7 @@ class QueryGenerator
 		$moduleTableIndexList = $this->entityModel->tab_name_index;
 		$baseTable = $this->entityModel->table_name;
 		$baseTableIndex = $moduleTableIndexList[$baseTable];
+		$ownerField = null;
 		foreach ($this->fields as &$fieldName) {
 			if ($fieldName === 'id') {
 				continue;
@@ -692,9 +694,15 @@ class QueryGenerator
 		foreach ($this->tablesList as $tableName) {
 			$joinType = isset($tableJoin[$tableName]) ? $tableJoin[$tableName] : 'INNER JOIN';
 			if ($tableName === 'vtiger_users') {
+				if ($ownerField === null) {
+					continue;
+				}
 				$field = $this->getModuleField($ownerField);
 				$this->addJoin([$joinType, $tableName, "{$field->getTableName()}.{$field->getColumnName()} = $tableName.id"]);
 			} elseif ($tableName == 'vtiger_groups') {
+				if ($ownerField === null) {
+					continue;
+				}
 				$field = $this->getModuleField($ownerField);
 				$this->addJoin([$joinType, $tableName, "{$field->getTableName()}.{$field->getColumnName()} = $tableName.groupid"]);
 			} else {
@@ -792,7 +800,7 @@ class QueryGenerator
 	/**
 	 * Get query field instance
 	 * @param string $fieldName
-	 * @return QueryField\BaseField
+	 * @return \App\QueryField\BaseField
 	 * @throws \App\Exceptions\AppException
 	 */
 	private function getQueryField($fieldName)
@@ -801,7 +809,7 @@ class QueryGenerator
 		return $this->queryFields[$fieldName];
 	}
 	if ($fieldName === 'id') {
-		$queryField = new IdField($this, '');
+		$queryField = new IdField($this, false);
 		return $this->queryFields[$fieldName] = $queryField;
 	}
 		$field = $this->getModuleField($fieldName);
@@ -851,6 +859,7 @@ class QueryGenerator
 	protected function addRelatedJoin($fieldDetail)
 	{
 		$relatedModuleModel = \App\Modules\Base\Models\Module::getInstance($fieldDetail['relatedModule']);
+		/** @var \App\Modules\Base\Models\Field|false $relatedFieldModel */
 		$relatedFieldModel = $relatedModuleModel->getField($fieldDetail['relatedField']);
 		if (!$relatedFieldModel || !$relatedFieldModel->isActiveField()) {
 			\App\Log\Log::warning("Field in related module is inactive or does not exist. Related module: {$fieldDetail['referenceModule']} | Related field: {$fieldDetail['relatedField']}");
@@ -868,7 +877,7 @@ class QueryGenerator
 	 * Get query related field instance
 	 * @param \App\Modules\Base\Models\Field $field
 	 * @param array $relatedInfo
-	 * @return QueryField\BaseField
+	 * @return \App\QueryField\BaseField
 	 * @throws \App\Exceptions\AppException
 	 */
 	private function getQueryRelatedField($field, $relatedInfo)
@@ -878,7 +887,7 @@ class QueryGenerator
 		return $this->relatedQueryFields[$relatedModule][$field->getName()];
 	}
 	if ($field->getName() === 'id') {
-		$queryField = new IdField($this, '');
+		$queryField = new IdField($this, false);
 		$queryField->setRelated($relatedInfo);
 		return $this->relatedQueryFields[$relatedModule][$field->getName()] = $queryField;
 	}
@@ -915,7 +924,7 @@ class QueryGenerator
 	/**
 	 * Set base search condition (search_key,search_value in url)
 	 * @param string $fieldName
-	 * @param mixed $value
+	 * @param mixed $values
 	 * @param string $operator
 	 */
 	public function addBaseSearchConditions($fieldName, $values, $operator = 'e')

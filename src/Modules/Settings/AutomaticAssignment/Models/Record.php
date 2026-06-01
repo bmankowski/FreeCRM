@@ -15,6 +15,9 @@ namespace App\Modules\Settings\AutomaticAssignment\Models;
 class Record extends \App\Modules\Settings\Base\Models\Record
 {
 
+	/** @var \App\Modules\Settings\AutomaticAssignment\Models\Module */
+	protected $module;
+
 	/**
 	 * Raw data
 	 * @var mixed 
@@ -26,6 +29,15 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 * @var mixed 
 	 */
 	public $checkDuplicate = false;
+
+	/** @var array<string, mixed>|null */
+	private ?array $customConditions = null;
+
+	/** @var array<int, int>|null */
+	private ?array $availableUsers = null;
+
+	/** @var \App\Modules\Base\Models\Record */
+	public $sourceRecordModel;
 
 	/**
 	 * Function to get the Id
@@ -112,9 +124,9 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	/**
 	 * Function returns field instances for given name
 	 * @param string $name
-	 * @return \App\Modules\Base\Models\Field
+	 * @return \App\Modules\Base\Models\Field|null
 	 */
-	public function getFieldInstanceByName($name)
+	public function getFieldInstanceByName($name): ?\App\Modules\Base\Models\Field
 	{
 		switch ($name) {
 			case 'value':
@@ -144,7 +156,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 * Function returns url of selected tab in edition view
 	 * @return string
 	 */
-	public function getEditViewTabUrl($tab)
+	public function getEditViewTabUrl(string $tab): string
 	{
 		return $this->getEditViewUrl() . '&tab=' . $tab;
 	}
@@ -216,34 +228,30 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 					$value = explode(',', $this->get($key));
 					foreach ($value as $index => $val) {
 						$data = explode(':', $val);
-						$name = \App\Runtime\Vtiger_Language_Handler::translate(\App\Security\PrivilegeUtil::getRoleName($data[1]));
+						$name = \App\Runtime\Vtiger_Language_Handler::translate(\App\Security\PrivilegeUtil::getRoleName((int) $data[1]));
 						$rows[$index]['type'] = $data[0];
 						$rows[$index]['name'] = $name;
 						$rows[$index]['id'] = $val;
 					}
 				}
 				return $rows;
-				break;
 			case 'tabid':
-				$value = (int) $value;
-				break;
+				return (int) $this->get($key);
 			case 'smowners':
 				$rows = [];
 				if ($this->get($key)) {
 					$value = explode(',', $this->get($key));
 					foreach ($value as $index => $val) {
 						$name = \App\Runtime\Vtiger_Language_Handler::translate(\App\Fields\Owner::getLabel($val));
-						$rows[$index]['type'] = \App\Fields\Owner::getType($val);
+						$rows[$index]['type'] = \App\Fields\Owner::getType((int) $val);
 						$rows[$index]['name'] = $name;
 						$rows[$index]['id'] = $val;
 					}
 				}
 				return $rows;
-				break;
 			default:
-				break;
+				return $this->get($key);
 		}
-		return $value;
 	}
 
 	/**
@@ -313,10 +321,10 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function transforms Advance filter to workflow conditions
-	 * @param array $condition
+	 * @param array|string $conditions
 	 * @return array
 	 */
-	public function transformAdvanceFilter($conditions)
+	public function transformAdvanceFilter(array|string $conditions): array
 	{
 		if (is_string($conditions)) {
 			$conditions = \App\Utils\Json::decode($conditions);
@@ -396,13 +404,15 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	/**
 	 * Function to get the instance, given id
 	 * @param int $id
-	 * @return \self
+	 * @return static
 	 */
-	public static function getInstanceById($id)
+	public static function getInstanceById(int $id): static
 	{
 		$cacheName = get_class();
-		if (\App\Cache\Cache::has($cacheName, $id)) {
-			return \App\Cache\Cache::get($cacheName, $id);
+		$cacheKey = (string) $id;
+		if (\App\Cache\Cache::has($cacheName, $cacheKey)) {
+			/** @var static */
+			return \App\Cache\Cache::get($cacheName, $cacheKey);
 		}
 		$instance = self::getCleanInstance();
 		$data = (new \App\Db\Query())
@@ -411,19 +421,20 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			->one(\App\Db\Db::getInstance('admin'));
 		$instance->setData($data);
 		$instance->rawData = $data;
-		\App\Cache\Cache::save($cacheName, $id, $instance);
+		\App\Cache\Cache::save($cacheName, $cacheKey, $instance);
 		return $instance;
 	}
 
 	/**
 	 * Function to get the clean instance
-	 * @return \self
+	 * @return static
 	 */
-	public static function getCleanInstance()
+	public static function getCleanInstance(): static
 	{
 		$cacheName = get_class();
 		$key = 'Clean';
 		if (\App\Cache\Cache::has($cacheName, $key)) {
+			/** @var static */
 			return \App\Cache\Cache::get($cacheName, $key);
 		}
 		$moduleInstance = \App\Modules\Settings\Base\Models\Module::getInstance('Settings:AutomaticAssignment');
@@ -438,18 +449,18 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 * @param string $name
 	 * @return string
 	 */
-	public function getDisplayValue($name)
+	public function getDisplayValue(string $name): string
 	{
 		switch ($name) {
 			case 'field':
 				$fieldInstance = $this->getFieldInstanceByName('value');
-				return $fieldInstance->get('label');
+				return $fieldInstance !== null ? (string) $fieldInstance->get('label') : '';
 			case 'tabid':
 				return \App\Utils\ModuleUtils::getModuleName($this->get($name));
 			case 'active':
 				return empty($this->get($name)) ? 'LBL_NO' : 'LBL_YES';
 			case 'roleid':
-				return empty($this->get($name)) ? 'LBL_SYSTEM' : \App\Runtime\Vtiger_Language_Handler::translate(\App\Security\PrivilegeUtil::getRoleName($this->get($name)));
+				return empty($this->get($name)) ? 'LBL_SYSTEM' : \App\Runtime\Vtiger_Language_Handler::translate(\App\Security\PrivilegeUtil::getRoleName((int) $this->get($name)));
 			default:
 				break;
 		}
@@ -483,8 +494,10 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		if (empty($users)) {
 			$smowners = $this->get('smowners') ? explode(',', $this->get('smowners')) : [];
 			foreach ($smowners as $key => $user) {
-				if (\App\Fields\Owner::getType($user) !== 'Users') {
-					$users = array_merge($users, \App\Security\PrivilegeUtil::getUsersByGroup($user));
+				/** @var \App\Fields\Owner::TYPE_USER|\App\Fields\Owner::TYPE_GROUP $ownerType */
+				$ownerType = \App\Fields\Owner::getType((int) $user);
+				if ($ownerType !== 'Users') {
+					$users = array_merge($users, \App\Security\PrivilegeUtil::getUsersByGroup((int) $user));
 				} else {
 					$users[] = $user;
 				}
@@ -502,8 +515,12 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	public function filterUsers($users)
 	{
 		foreach ($users as $key => $userId) {
-			$userModel = \App\Modules\Users\Models\Record::getInstanceById($userId, 'Users');
-			if (!$userModel->isActive() || !$userModel->get('available') || !$userModel->get('auto_assign') || $this->getCustomConditions($userModel)) {
+			$userModel = \App\Modules\Users\Models\Record::getInstanceById((int) $userId, 'Users');
+			if (!$userModel instanceof \App\Modules\Users\Models\Record
+				|| $userModel->get('status') !== 'Active'
+				|| !$userModel->get('available')
+				|| !$userModel->get('auto_assign')
+				|| $this->getCustomConditions($userModel)) {
 				unset($users[$key]);
 			}
 		}
@@ -515,9 +532,9 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 * @param \App\Modules\Users\Models\Record $userModel
 	 * @return boolean
 	 */
-	private function getCustomConditions($userModel)
+	private function getCustomConditions(\App\Modules\Users\Models\Record $userModel)
 	{
-		if (!isset($this->customConditions)) {
+		if ($this->customConditions === null) {
 			$userContitions = \App\Core\AppConfig::module('Users', 'AUTO_ASSIGN_CONDITIONS');
 			$this->customConditions = ($userContitions && isset($userContitions['modules'][$this->getSourceModuleName()])) ? $userContitions['modules'][$this->getSourceModuleName()] : [];
 		}
@@ -561,11 +578,17 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public function getDefaultOwner()
 	{
-	$owner = $this->get('assign');
-	if (\App\Fields\Owner::getType($owner) === 'Users') {
-		return \App\Modules\Users\Models\Record::isExists($owner) ? $owner : 0;
-	}
-	return \App\Modules\Settings\Groups\Models\Record::getInstance($owner) ? $owner : 0;
+		$owner = (int) $this->get('assign');
+		/** @var \App\Fields\Owner::TYPE_USER|\App\Fields\Owner::TYPE_GROUP $ownerType */
+		$ownerType = \App\Fields\Owner::getType($owner);
+		if ($ownerType === 'Users') {
+			return \App\Modules\Users\Models\Record::isExists($owner) ? $owner : 0;
+		}
+		$groupExists = (new \App\Db\Query())
+			->from('vtiger_groups')
+			->where(['groupid' => $owner])
+			->exists();
+		return $groupExists ? $owner : 0;
 	}
 
 	/**
@@ -574,18 +597,18 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 */
 	public function getAvailableUsers()
 	{
-		if (isset($this->availableUsers)) {
+		if ($this->availableUsers !== null) {
 			return $this->availableUsers;
 		}
 
 		$this->availableUsers = array_fill_keys($this->getUsers(), 0);
 		if (empty($this->availableUsers)) {
 			return $this->availableUsers;
-	}
+		}
 
-	$queryGenerator = new \App\QueryField\QueryGenerator($this->getSourceModuleName(), \App\Modules\Users\Models\Record::getActiveAdminId());
-	$queryGenerator->setFields(['assigned_user_id']);
-	$queryGenerator->addJoin(['INNER JOIN', 'vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id']);
+		$queryGenerator = new \App\QueryField\QueryGenerator($this->getSourceModuleName(), \App\Modules\Users\Models\Record::getActiveAdminId());
+		$queryGenerator->setFields(['assigned_user_id']);
+		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_users', 'vtiger_crmentity.smownerid = vtiger_users.id']);
 		$queryGenerator->addNativeCondition(['vtiger_users.available' => 1, 'vtiger_users.auto_assign' => 1]);
 		$conditions = $this->get('conditions');
 		if ($conditions) {
@@ -600,11 +623,9 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			->groupBy([$queryGenerator->getColumnName('assigned_user_id'), 'vtiger_users.records_limit'])
 			->orderBy(['c' => SORT_ASC]);
 		if ($this->get('user_limit')) {
-			$usersRecords = [];
 			$access = new \yii\db\Expression('CASE WHEN ' . $count . '<=vtiger_users.records_limit OR vtiger_users.records_limit IS NULL OR vtiger_users.records_limit = 0 THEN 1 ELSE 0 END');
 			$query->addSelect(['a' => $access]);
-			$dataReader = $query->createCommand()->query();
-			while ($row = $dataReader->read()) {
+			foreach ($query->createCommand()->queryAll() as $row) {
 				$userId = $row['assigned_user_id'];
 				if (!empty($row['a']) && isset($this->availableUsers[$userId])) {
 					$this->availableUsers[$userId] = $row['c'];
@@ -613,8 +634,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 				}
 			}
 		} else {
-			$dataReader = $query->createCommand()->query();
-			while ($row = $dataReader->read()) {
+			foreach ($query->createCommand()->queryAll() as $row) {
 				$userId = $row['assigned_user_id'];
 				if (isset($this->availableUsers[$userId])) {
 					$this->availableUsers[$userId] = $row['c'];

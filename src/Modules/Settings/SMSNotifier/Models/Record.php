@@ -108,7 +108,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 * @param string field name
 	 * @return string field value
 	 */
-	public function getDisplayValue($key)
+	public function getDisplayValue(string $key): string
 	{
 		$value = $this->get($key);
 		if ($key === 'isactive') {

@@ -137,7 +137,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 * @param string $fieldName
 	 * @return string
 	 */
-	public function getDisplayValue($fieldName)
+	public function getDisplayValue(string $fieldName): string
 	{
 		$fieldValue = $this->get($fieldName);
 		switch ($fieldName) {

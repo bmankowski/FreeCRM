@@ -56,11 +56,7 @@ class RecycleBinAjax extends \App\Base\Controllers\BaseActionController
 		}
 	}
 
-	/**
-	 * Get records list from request, handling JSON strings and arrays
-	 * @param \App\Http\Vtiger_Request $request
-	 * @return array|null
-	 */
+	/** @return int[]|null selected_ids, JSON-encoded lists, or mass-action view selection */
 	private function getRecordsListFromRequest(\App\Http\Vtiger_Request $request)
 	{
 		// First check if selected_ids is directly provided (for single record actions)
@@ -118,11 +114,6 @@ class RecycleBinAjax extends \App\Base\Controllers\BaseActionController
 		return null;
 	}
 
-	/**
-	 * Function to restore the deleted records.
-	 * @param string $sourceModule
-	 * @param mixed $recordIds
-	 */
 	public function restoreRecords(\App\Http\Vtiger_Request $request)
 	{
 		$sourceModule = $request->get('sourceModule');
@@ -143,9 +134,6 @@ class RecycleBinAjax extends \App\Base\Controllers\BaseActionController
 		$response->emit();
 	}
 
-	/**
-	 * Function to delete the records permanently in vitger CRM database
-	 */
 	public function emptyRecycleBin(\App\Http\Vtiger_Request $request)
 	{
 		$recycleBinModule = new \App\Modules\RecycleBin\Models\Module();
@@ -159,10 +147,6 @@ class RecycleBinAjax extends \App\Base\Controllers\BaseActionController
 		}
 	}
 
-	/**
-	 * Function to deleted the records permanently in CRM
-	 * @param mixed $reocrdIds
-	 */
 	public function deleteRecords(\App\Http\Vtiger_Request $request)
 	{
 		$recordIds = $this->getRecordsListFromRequest($request);

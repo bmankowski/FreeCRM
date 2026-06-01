@@ -24,7 +24,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		return (string) $this->get('subject');
 	}
 
-	public function getDisplayValue($fieldName)
+	public function getDisplayValue(string $fieldName): string
 	{
 		switch ($fieldName) {
 			case 'source_id':

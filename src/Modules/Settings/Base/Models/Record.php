@@ -35,8 +35,8 @@ abstract class Record extends \App\Runtime\BaseModel
 		return $links;
 	}
 
-	public function getDisplayValue($key)
+	public function getDisplayValue(string $key): string
 	{
-		return $this->get($key);
+		return (string) $this->get($key);
 	}
 }

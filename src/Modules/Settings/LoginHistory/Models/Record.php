@@ -48,7 +48,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 * @param string $fieldName - field name for which values need to get
 	 * @return string
 	 */
-	public function getDisplayValue($fieldName, $recordId = false)
+	public function getDisplayValue(string $fieldName, $recordId = false): string
 	{
 		switch ($fieldName) {
 			case 'login_time':

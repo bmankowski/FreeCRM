@@ -218,7 +218,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 * @param string $name
 	 * @return string
 	 */
-	public function getDisplayValue($name)
+	public function getDisplayValue(string $name): string
 	{
 		switch ($name) {
 			case 'server_id':
