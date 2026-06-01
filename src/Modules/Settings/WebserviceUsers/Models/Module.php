@@ -73,7 +73,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	/**
 	 * Function returns name of table in database
-	 * @return type
+	 * @return mixed
 	 */
 	public function getBaseTable()
 	{

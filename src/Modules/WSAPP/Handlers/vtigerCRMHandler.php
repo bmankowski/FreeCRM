@@ -287,9 +287,9 @@ class vtigerCRMHandler extends SyncHandler
 
 	/**
 	 * Function to fillMandatory fields in vtiger with given values
-	 * @param type $recordLists
-	 * @param type $user
-	 * @return type
+	 * @param mixed $recordLists
+	 * @param mixed $user
+	 * @return mixed
 	 */
 	public function fillMandatoryFields($recordLists, $user)
 	{

@@ -25,9 +25,9 @@ class Field extends \App\Modules\Base\Models\Field
 
 	/**
 	 * Function which will give the picklistvalues for given roleids
-	 * @param type $roleIdList -- array of role ids
-	 * @param type $groupMode -- Intersection/Conjuction , intersection will give only picklist values that exist for all roles
-	 * @return type -- array
+	 * @param mixed $roleIdList -- array of role ids
+	 * @param string $groupMode -- Intersection/Conjuction , intersection will give only picklist values that exist for all roles
+	 * @return array
 	 */
 	public function getPicklistValuesForRole($roleIdList, $groupMode = 'INTERSECTION')
 	{

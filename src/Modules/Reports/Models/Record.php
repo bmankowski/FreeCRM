@@ -252,7 +252,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function returns Report enabled Modules
-	 * @return type
+	 * @return mixed
 	 */
 	public function getReportRelatedModules()
 	{
@@ -320,7 +320,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function returns Report Calculation Fields
-	 * @return type
+	 * @return mixed
 	 */
 	public function getSelectedCalculationFields()
 	{
@@ -340,7 +340,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function returns Report Sort Fields
-	 * @return type
+	 * @return mixed
 	 */
 	public function getSelectedSortFields()
 	{
@@ -362,7 +362,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function returns Reports Standard Filters
-	 * @return type
+	 * @return mixed
 	 */
 	public function getSelectedStandardFilter()
 	{
@@ -398,7 +398,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function returns Reports Advanced Filters
-	 * @return type
+	 * @return mixed
 	 */
 	public function getSelectedAdvancedFilter()
 	{

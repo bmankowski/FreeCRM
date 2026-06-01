@@ -1551,9 +1551,9 @@ class ReportRun extends \App\Core\CRMEntity
 	 * Fix for Case :- Report with One Primary Module, and Two Secondary modules, let's say for one of the
 	 * secondary module, non-admin user don't have permission, then reports is not showing the record even
 	 * the user has permission for another seconday module.
-	 * @param type $module
-	 * @param type $user
-	 * @param type $scope
+	 * @param string $module
+	 * @param mixed $user
+	 * @param string $scope
 	 * @return $query
 	 */
 	public function getReportsNonAdminAccessControlQuery($module, $user, $scope = '')

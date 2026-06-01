@@ -120,8 +120,8 @@ class RecycleBinAjax extends \App\Base\Controllers\BaseActionController
 
 	/**
 	 * Function to restore the deleted records.
-	 * @param type $sourceModule
-	 * @param type $recordIds
+	 * @param string $sourceModule
+	 * @param mixed $recordIds
 	 */
 	public function restoreRecords(\App\Http\Vtiger_Request $request)
 	{
@@ -161,7 +161,7 @@ class RecycleBinAjax extends \App\Base\Controllers\BaseActionController
 
 	/**
 	 * Function to deleted the records permanently in CRM
-	 * @param type $reocrdIds
+	 * @param mixed $reocrdIds
 	 */
 	public function deleteRecords(\App\Http\Vtiger_Request $request)
 	{

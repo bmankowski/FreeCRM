@@ -911,7 +911,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to get the Day Starts picklist values
-	 * @param type $name Description
+	 * @param string $name Description
 	 */
 	public static function getDayStartsPicklistValues($stucturedValues)
 	{

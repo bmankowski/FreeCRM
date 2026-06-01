@@ -16,7 +16,7 @@ class ListView extends \App\Modules\Settings\Base\Models\ListView
 
 	/**
 	 * Funtion to get the Login history basic query
-	 * @return type
+	 * @return mixed
 	 */
 	public function getBasicListQuery()
 	{

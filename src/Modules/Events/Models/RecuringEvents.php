@@ -99,7 +99,7 @@ class RecuringEvents extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to set changes which user modified
-	 * @param type $values
+	 * @param mixed $values
 	 */
 	public function setChanges($values)
 	{
@@ -108,8 +108,8 @@ class RecuringEvents extends \App\Runtime\BaseModel
 
 	/**
 	 * Update ommited records, change recuring rule for each records
-	 * @param type $records
-	 * @param type $dateStart
+	 * @param mixed $records
+	 * @param string $dateStart
 	 */
 	public function updateOmmitedRecords($records, $dateStart)
 	{
@@ -259,8 +259,8 @@ class RecuringEvents extends \App\Runtime\BaseModel
 
 	/**
 	 * Check if recurrence rule is never ending
-	 * @param type $recurrenceRule
-	 * @return type
+	 * @param string $recurrenceRule
+	 * @return mixed
 	 */
 	public function isNeverEndingRule($recurrenceRule)
 	{

@@ -35,13 +35,7 @@ class Time extends BaseUiType
 		}
 	}
 
-	/**
-	 * Function to get the calendar event call duration value in hour format
-	 * @param type $fieldName
-	 * @param type $value
-	 * @return <\App\Modules\Base\UiTypes\Time> - getTimeValue 
-	 */
-	public function getDisplayTimeDifferenceValue($fieldName, $value)
+	public function getDisplayTimeDifferenceValue(string $fieldName, ?string $value): string
 	{
 		if ($value === '' || $value === null) {
 			$date = new \DateTime();

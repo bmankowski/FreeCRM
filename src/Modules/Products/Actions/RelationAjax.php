@@ -63,7 +63,7 @@ class RelationAjax extends \App\Base\Controllers\BaseActionController
 
 	/**
 	 * Function adds Products/Services-PriceBooks Relation
-	 * @param type $request
+	 * @param mixed $request
 	 */
 	public function addListPrice($request)
 	{

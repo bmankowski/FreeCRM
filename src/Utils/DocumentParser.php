@@ -19,7 +19,7 @@ class DocumentParser {
      * Parse a document from the contents of the string
      * @param mixed $string The contents of the file to process
      * @param string $mimetype [optional] The mimetype of the file. Defaults to text/plain
-     * @return type
+     * @return mixed
      * @throws Exception
      */
     static function parseFromString($string, $mimetype = 'text/plain') {

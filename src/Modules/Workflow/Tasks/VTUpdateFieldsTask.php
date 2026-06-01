@@ -100,7 +100,7 @@ class VTUpdateFieldsTask extends VTTask
 	/**
 	 * Function to calculate Product Unit Price.
 	 * Product Unit Price value converted with based product currency
-	 * @param type $fieldValue
+	 * @param string $fieldValue
 	 */
 	public function calculateProductUnitPrice($fieldValue, $request = null)
 	{

@@ -31,7 +31,7 @@ namespace App\Modules\Kandydaci\Handlers;
 
 class NewCandidateInProject
 {
-	public function entityAfterLink(App\EventHandler $eventHandler)
+	public function entityAfterLink(App\Events\EventHandler $eventHandler)
 	{
 		$params = $eventHandler->getParams();
 
@@ -48,7 +48,7 @@ class NewCandidateInProject
 		}
 	}
 
-	public function entityAfterUnLink(App\EventHandler $eventHandler)
+	public function entityAfterUnLink(App\Events\EventHandler $eventHandler)
 	{
 		$params = $eventHandler->getParams();
 

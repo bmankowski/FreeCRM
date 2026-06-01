@@ -30,7 +30,7 @@ class TimeLineModal  extends \App\Modules\Base\Views\Index
 	/**
 	 * The initial process
 	 * @param \App\Http\Vtiger_Request $request
-	 * @param type $display
+	 * @param bool $display
 	 */
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{

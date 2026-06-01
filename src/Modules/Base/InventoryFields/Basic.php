@@ -190,32 +190,17 @@ class Basic extends \App\Runtime\BaseModel
 		$this->setData($valueArray);
 	}
 
-	/**
-	 * Getting value to display
-	 * @param type $value
-	 * @return string
-	 */
-	public function getDisplayValue($value)
+	public function getDisplayValue(mixed $value): string
 	{
 		return $value;
 	}
 
-	/**
-	 * Getting value to display
-	 * @param type $value
-	 * @return string
-	 */
-	public function getEditValue($value)
+	public function getEditValue(mixed $value): string
 	{
 		return $this->getDisplayValue($value);
 	}
 
-	/**
-	 * Getting value
-	 * @param type $value
-	 * @return string
-	 */
-	public function getValue($value)
+	public function getValue(mixed $value): string
 	{
 		if ($value == '') {
 			return $this->get('defaultvalue');

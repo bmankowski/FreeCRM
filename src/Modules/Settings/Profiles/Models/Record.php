@@ -878,7 +878,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	/**
 	 * Function to save user fields in vtiger_profile2field table
 	 * We need user field values to generating the Email Templates variable valuues.
-	 * @param type $profileId
+	 * @param int $profileId
 	 */
 	public function saveUserAccessbleFieldsIntoProfile2Field()
 	{

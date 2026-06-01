@@ -32,7 +32,7 @@ class LeadsByIndustry  extends \App\Modules\Base\Views\Index
 
 	/**
 	 * Function returns Leads grouped by Industry
-	 * @param type $data
+	 * @param mixed $data
 	 * @return array
 	 */
 	public function getLeadsByIndustry($owner, $dateFilter)

@@ -112,7 +112,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * The function decide about mandatory save record
-	 * @return type
+	 * @return mixed
 	 */
 	public function isMandatorySave()
 	{

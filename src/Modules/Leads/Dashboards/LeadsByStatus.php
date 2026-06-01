@@ -34,7 +34,7 @@ class LeadsByStatus  extends \App\Modules\Base\Views\Index
 
 	/**
 	 * Function returns Leads grouped by Status
-	 * @param type $data
+	 * @param mixed $data
 	 * @return array
 	 */
 	public function getLeadsByStatus($owner, $dateFilter)

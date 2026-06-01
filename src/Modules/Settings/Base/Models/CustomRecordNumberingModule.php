@@ -17,7 +17,7 @@ class CustomRecordNumberingModule extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function to get focus of this object
-	 * @return <type>
+	 * @return mixed
 	 */
 	public function getFocus()
 	{

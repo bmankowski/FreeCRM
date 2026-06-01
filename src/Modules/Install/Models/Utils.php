@@ -55,8 +55,8 @@ class Install_Utils_Model
 
 	/**
 	 * Function checks if its mysql type
-	 * @param type $dbType
-	 * @return type
+	 * @param string $dbType
+	 * @return mixed
 	 */
 	static function isMySQL($dbType)
 	{

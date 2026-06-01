@@ -26,7 +26,7 @@ class Currency extends Basic
 	 * @param int $value
 	 * @return string
 	 */
-	public function getDisplayValue($value)
+	public function getDisplayValue(mixed $value): string
 	{
 		return \vtlib\Functions:: getCurrencyName($value, false);
 	}

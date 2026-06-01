@@ -19,10 +19,10 @@ class Value extends Basic
 
 	/**
 	 * Getting value to display
-	 * @param type $value
+	 * @param mixed $value
 	 * @return string
 	 */
-	public function getDisplayValue($value)
+	public function getDisplayValue(mixed $value): string
 	{
 		$mapDetail = $this->getMapDetail(true);
 		if ($mapDetail) {
@@ -33,10 +33,10 @@ class Value extends Basic
 
 	/**
 	 * Getting value to display
-	 * @param type $value
+	 * @param mixed $value
 	 * @return string
 	 */
-	public function getEditValue($value)
+	public function getEditValue(mixed $value): string
 	{
 		return $value;
 	}

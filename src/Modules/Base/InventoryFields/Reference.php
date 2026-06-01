@@ -17,12 +17,7 @@ class Reference extends Basic
 	protected $dbType = 'int';
 	protected $params = ['modules'];
 
-	/**
-	 * Getting value to display
-	 * @param type $value
-	 * @return type
-	 */
-	public function getDisplayValue($value)
+	public function getDisplayValue(mixed $value): string
 	{
 		if ($value == 0) {
 			return '';
@@ -34,16 +29,15 @@ class Reference extends Basic
 
 	/**
 	 * Getting value to display
-	 * @param type $value
+	 * @param mixed $value
 	 * @return string
 	 */
-	public function getEditValue($value)
+	public function getEditValue(mixed $value): string
 	{
 		if (empty($value)) {
 			return '';
 		}
-		$value = \App\Records\Record::getLabel($value);
-		return $value;
+		return \App\Records\Record::getLabel($value) ?? '';
 	}
 
 	public function getReferenceModules()

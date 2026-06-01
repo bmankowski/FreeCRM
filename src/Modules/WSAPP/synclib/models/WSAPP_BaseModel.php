@@ -49,7 +49,7 @@ class WSAPP_BaseModel {
 
 	/**
 	 * Function to check if the key is empty.
-	 * @param type $key
+	 * @param string $key
 	 */
 	public function isEmpty($key)
 	{

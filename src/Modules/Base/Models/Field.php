@@ -1436,8 +1436,8 @@ class Field
 
 	/**
 	 * Function whcih will get the databse insert value format from user format
-	 * @param type $value in user format
-	 * @return type
+	 * @param mixed $value in user format
+	 * @return mixed
 	 */
 	public function getDBValue($value)
 	{

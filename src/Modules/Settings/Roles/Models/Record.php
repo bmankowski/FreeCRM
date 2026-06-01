@@ -533,7 +533,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		return null;
 	}
 	/* Function to get the instance of the role by Name
-	 * @param type $name -- name of the role
+	 * @param string $name -- name of the role
 	 * @return null/role instance
 	 */
 

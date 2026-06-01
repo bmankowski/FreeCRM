@@ -36,8 +36,8 @@ class Relation extends \App\Modules\Base\Models\Relation
 
 	/**
 	 * Function to delete the product to product relation(product bundles)
-	 * @param type $sourceRecordId
-	 * @param type $relatedRecordId true / false
+	 * @param int $sourceRecordId
+	 * @param int $relatedRecordId true / false
 	 * @return <boolean>
 	 */
 	public function deleteProductToProductRelation($sourceRecordId, $relatedRecordId)

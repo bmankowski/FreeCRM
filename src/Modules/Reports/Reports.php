@@ -537,7 +537,7 @@ class Reports extends \App\Core\CRMEntity
 	/**
 	 *
 	 * @param string $module
-	 * @param type $blockIdList
+	 * @param mixed $blockIdList
 	 * @param array  $currentFieldList
 	 * @return array
 	 */

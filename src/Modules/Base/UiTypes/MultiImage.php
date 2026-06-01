@@ -121,7 +121,7 @@ class MultiImage extends BaseUiType
 	 * @param string $value
 	 * @param array $fields
 	 * @param bool $limit
-	 * @return type
+	 * @return mixed
 	 */
 	public function getMultiImageQuery($value, $fields = [], $limit = true)
 	{

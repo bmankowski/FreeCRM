@@ -452,7 +452,7 @@ class Privileges extends \App\Runtime\BaseModel
 	 * @param int $record
 	 * @param string|bool $moduleName
 	 * @param int $type
-	 * @param type $actionid
+	 * @param int $actionid
 	 * @return int|bool
 	 */
 	public static function getParentRecord($record, $moduleName = false, $type = 1, $actionid = false)

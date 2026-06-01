@@ -116,8 +116,8 @@ class Block extends \vtlib\Block
 
 	/**
 	 * Function to get the in active fields for the block
-	 * @param type $raw - true to send field in model format or false to send in array format
-	 * @return type - arrays
+	 * @param bool $raw - true to send field in model format or false to send in array format
+	 * @return array
 	 */
 	public function getInActiveFields($raw = true)
 	{
@@ -239,7 +239,7 @@ class Block extends \vtlib\Block
 
 	/**
 	 * Function to push all blocks down after sequence number
-	 * @param type $fromSequence 
+	 * @param int $fromSequence 
 	 */
 	public static function pushDown($fromSequence, $sourceModuleTabId)
 	{

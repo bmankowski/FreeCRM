@@ -32,7 +32,7 @@ class LeadsBySource  extends \App\Modules\Base\Views\Index
 
 	/**
 	 * Function returns Leads grouped by Source
-	 * @param type $data
+	 * @param mixed $data
 	 * @return array
 	 */
 	public function getLeadsBySource($owner, $dateFilter)

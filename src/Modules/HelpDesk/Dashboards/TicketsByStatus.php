@@ -33,7 +33,7 @@ class TicketsByStatus  extends \App\Modules\Base\Views\Index
 
 	/**
 	 * Function returns Tickets grouped by Status
-	 * @param type $data
+	 * @param mixed $data
 	 * @return array
 	 */
 	public function getTicketsByStatus($owner)

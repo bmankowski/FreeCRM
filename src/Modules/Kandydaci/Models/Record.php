@@ -240,12 +240,12 @@ and relcrmid=".$this->getId();
 
     /**
      * Function serve script use only
-     * @param type $candidateId
-     * @param type $attachmentsid
-     * @param type $dbFilename
-     * @param type $path
-     * @param type $mimeType
-     * @return type
+     * @param int $candidateId
+     * @param int $attachmentsid
+     * @param string $dbFilename
+     * @param string $path
+     * @param string $mimeType
+     * @return mixed
      */
     public static function transformFileToCV($candidateId, $attachmentsid, $dbFilename, $path, $mimeType) {
 

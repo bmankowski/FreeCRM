@@ -140,7 +140,7 @@ class Field extends \App\Modules\Base\Models\Field
 
 	/**
 	 * Function to get name
-	 * @return <type>
+	 * @return mixed
 	 */
 	public function getName()
 	{

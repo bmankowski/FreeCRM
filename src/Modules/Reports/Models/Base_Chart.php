@@ -215,7 +215,7 @@ abstract class Base_Chart extends \App\Runtime\BaseModel
 
 	/**
 	 * Function returns labels for aggregate functions
-	 * @param type $aggregateFunction
+	 * @param string $aggregateFunction
 	 * @return string
 	 */
 	public function getAggregateFunctionLabel($aggregateFunction)

@@ -1404,7 +1404,7 @@ class Module extends \vtlib\Module
 	/**
 	 * Function to get Specific Relation Query for this Module
 	 * @param <type> $relatedModule
-	 * @return <type>
+	 * @return mixed
 	 */
 	public function getSpecificRelationQuery($relatedModule)
 	{
@@ -1559,7 +1559,7 @@ class Module extends \vtlib\Module
 
 	/**
 	 * Function which will give complusory mandatory fields
-	 * @return type
+	 * @return mixed
 	 */
 	public function getCumplosoryMandatoryFieldList()
 	{

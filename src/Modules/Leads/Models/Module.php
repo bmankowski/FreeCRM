@@ -52,7 +52,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function returns the Number of Leads created per week
-	 * @param type $data
+	 * @param mixed $data
 	 * @return <Array>
 	 */
 	public function getLeadsCreated($owner, $dateFilter)
@@ -88,7 +88,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function returns Leads grouped by Status
-	 * @param type $data
+	 * @param mixed $data
 	 * @return array
 	 */
 	public function getLeadsByStatusConverted($owner, $dateFilter)

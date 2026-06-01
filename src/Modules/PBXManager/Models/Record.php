@@ -61,7 +61,7 @@ class Record extends \App\Modules\Base\Models\Record
 	/**
 	 * To update call status from 'ringing' to 'no-response', if status not updated 
 	 * for more than 5 minutes
-	 * @param type $recordIds
+	 * @param mixed $recordIds
 	 */
 	public function updateCallStatus($recordIds)
 	{
@@ -82,9 +82,9 @@ class Record extends \App\Modules\Base\Models\Record
 		$details = array_change_key_case($params, CASE_LOWER);
 		$fieldModelList = $moduleModel->getFields();
 		if (!isset($details["assigned_user_id"]))
-			$details["assigned_user_id"] = \App\Modules\Users\Users::getActiveAdminId();
+			$details["assigned_user_id"] = \App\Modules\Users\Models\Record::getActiveAdminId();
 		if (!isset($details["created_user_id"]))
-			$details["created_user_id"] = \App\Modules\Users\Users::getActiveAdminId();
+			$details["created_user_id"] = \App\Modules\Users\Models\Record::getActiveAdminId();
 		foreach ($fieldModelList as $fieldName => $fieldModel) {
 			$fieldValue = $details[$fieldName];
 			$recordModel->set($fieldName, $fieldValue);
@@ -251,11 +251,10 @@ class Record extends \App\Modules\Base\Models\Record
 			return false;
 		}
 
-		$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
+		$cachedModuleFields = \App\Utils\VTCacheUtils::lookupFieldInfo_Module($module);
 		if ($cachedModuleFields === false) {
-	\App\Utils\Utils::getColumnFields($module); // This API will initialize the cache as well
-			// We will succeed now due to above function call
-			$cachedModuleFields = VTCacheUtils::lookupFieldInfo_Module($module);
+			\App\Utils\Utils::getColumnFields($module);
+			$cachedModuleFields = \App\Utils\VTCacheUtils::lookupFieldInfo_Module($module);
 		}
 
 		$lookuptables = array();
@@ -267,7 +266,8 @@ class Record extends \App\Modules\Base\Models\Record
 			}
 		}
 
-		$entityfields = \vtlib\Functions:: getEntityModuleSQLColumnString($module);
+		/** @var array{fieldname: string, tablename?: string} $entityfields */
+		$entityfields = \vtlib\Functions::getEntityModuleSQLColumnString($module);
 		$querycolumnnames = implode(',', $lookupcolumns);
 		$entitycolumnnames = $entityfields['fieldname'];
 

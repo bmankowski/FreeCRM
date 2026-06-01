@@ -412,7 +412,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		return null;
 	}
 	/* Function to get the instance of the group by Name
-	 * @param type $name -- name of the group
+	 * @param string $name -- name of the group
 	 * @return null/group instance
 	 */
 

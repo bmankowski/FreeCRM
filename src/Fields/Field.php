@@ -16,7 +16,7 @@ class Field
 	/**
 	 * Function gets the list of fields that the user has permissions to
 	 * @param int $tabId Module ID
-	 * @param type $readOnly Read/preview only fields
+	 * @param bool $readOnly Read/preview only fields
 	 * @return array
 	 */
 	public static function getFieldsPermissions($tabId, $readOnly = true)

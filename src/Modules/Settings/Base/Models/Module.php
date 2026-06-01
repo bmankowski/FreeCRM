@@ -236,7 +236,7 @@ class Module extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Delete settings field by module name
-	 * @param type $moduleName
+	 * @param string $moduleName
 	 */
 	public static function deleteSettingsFieldBymodule($moduleName)
 	{

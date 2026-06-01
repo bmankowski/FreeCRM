@@ -42,7 +42,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to get module instance of this record
-	 * @return <type>
+	 * @return mixed
 	 */
 	public function getModule()
 	{

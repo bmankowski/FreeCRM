@@ -51,9 +51,9 @@ class Coordinate extends \App\Runtime\BaseModel
 
 	/**
 	 * The function return the border coordinates for the point
-	 * @param type $coordinates
-	 * @param type $radius
-	 * @return type
+	 * @param mixed $coordinates
+	 * @param float|int $radius
+	 * @return mixed
 	 */
 	private function getMargins($coordinates, $radius)
 	{
@@ -558,7 +558,7 @@ class Coordinate extends \App\Runtime\BaseModel
 
 	/**
 	 * Adding records to the clipboard
-	 * @param type $record
+	 * @param mixed $record
 	 */
 	public function addCache($record)
 	{

@@ -213,7 +213,7 @@ class Detail extends \App\Modules\Base\Views\Detail
 	/**
 	 * Function shows the entire detail for the record
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return <type>
+	 * @return mixed
 	 */
 	public function showModuleDetailView(\App\Http\Vtiger_Request $request)
 	{

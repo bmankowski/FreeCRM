@@ -41,7 +41,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function to disable a module 
-	 * @param type $moduleName - name of the module
+	 * @param string $moduleName - name of the module
 	 */
 	public function disableModule($moduleName)
 	{
@@ -51,7 +51,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function to enable the module
-	 * @param type $moduleName -- name of the module
+	 * @param string $moduleName -- name of the module
 	 */
 	public function enableModule($moduleName)
 	{

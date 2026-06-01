@@ -157,7 +157,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function to store the login history
-	 * @param type $userName
+	 * @param string $userName
 	 */
 	public function saveLoginHistory($userName, $status = 'Signed in')
 	{

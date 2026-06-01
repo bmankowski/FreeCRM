@@ -20,13 +20,14 @@ class Name extends Basic
 
 	/**
 	 * Getting value to display
-	 * @param type $value
+	 * @param mixed $value
 	 * @return string
 	 */
-	public function getDisplayValue($value)
+	public function getDisplayValue(mixed $value): string
 	{
-		if ($value != 0)
-			return \App\Records\Record::getLabel($value);
+		if ($value != 0) {
+			return \App\Records\Record::getLabel($value) ?? '';
+		}
 		return '';
 	}
 

@@ -56,7 +56,7 @@ class SummaryWidget {
 	/**
 	 * Get related modules record counts
 	 * @param \App\Modules\Base\Models\Record $parentRecordModel
-	 * @return type
+	 * @return mixed
 	 */
 	public static function getModulesAndCount(\App\Modules\Base\Models\Record $parentRecordModel)
 	{

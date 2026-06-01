@@ -20,7 +20,7 @@ class Util {
 	 * @param array $_files - ex: array( 'file' => array('name'=> array(0=>'name1',1=>'name2'),
 	 * 												array('type'=>array(0=>'type1',2=>'type2'),
 	 * 												...);
-	 * @param type $top
+	 * @param string $top
 	 * @return array   array( 'file' => array(0=> array('name'=> 'name1','type' => 'type1'),
 	 * 									array(1=> array('name'=> 'name2','type' => 'type2'),
 	 * 												...);

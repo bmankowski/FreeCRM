@@ -170,7 +170,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function to deleted the records perminently in CRM
-	 * @param type $reocrdIds
+	 * @param mixed $reocrdIds
 	 */
 	public function deleteRecords($recordIds)
 	{
@@ -184,7 +184,7 @@ class Module extends \App\Modules\Base\Models\Module
 		\App\Modules\Base\Models\Files::getRidOfTrash(['crmid' => $recordIds]);
 	}
 	/*	 * Function to delete files from CRM.
-	 * @param type $recordIds
+	 * @param mixed $recordIds
 	 */
 
 	public function deletePerminently($recordIds)

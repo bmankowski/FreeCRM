@@ -20,12 +20,7 @@ class Quantity extends Basic
 		'qtyparam' => 'smallint(1) DEFAULT 0',
 	];
 
-	/**
-	 * Getting value to display
-	 * @param type $value
-	 * @return type
-	 */
-	public function getDisplayValue($value)
+	public function getDisplayValue(mixed $value): string
 	{
 		return \vtlib\Functions:: formatDecimal($value);
 	}

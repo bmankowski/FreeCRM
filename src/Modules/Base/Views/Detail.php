@@ -448,7 +448,7 @@ class Detail extends \App\Modules\Base\Views\Index
 	/**
 	 * Function shows the entire detail for the record
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return <type>
+	 * @return mixed
 	 */
 	public function showModuleDetailView(\App\Http\Vtiger_Request $request)
 	{
@@ -619,7 +619,7 @@ class Detail extends \App\Modules\Base\Views\Index
 	/**
 	 * Function returns latest comments
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return <type>
+	 * @return mixed
 	 */
 	public function showRecentComments(\App\Http\Vtiger_Request $request)
 	{
@@ -656,7 +656,7 @@ class Detail extends \App\Modules\Base\Views\Index
 	/**
 	 * Function returns related records
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return <type>
+	 * @return mixed
 	 */
 	public function showRelatedList(\App\Http\Vtiger_Request $request)
 	{
@@ -839,7 +839,7 @@ class Detail extends \App\Modules\Base\Views\Index
 	/**
 	 * Function returns related records based on related moduleName
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return <type>
+	 * @return mixed
 	 */
 	public function showRelatedRecords(\App\Http\Vtiger_Request $request)
 	{

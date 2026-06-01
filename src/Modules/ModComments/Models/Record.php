@@ -213,7 +213,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function returns all the child comment count
-	 * @return <type>
+	 * @return mixed
 	 */
 	public function getChildCommentsCount()
 	{

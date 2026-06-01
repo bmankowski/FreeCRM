@@ -322,11 +322,11 @@ class Activity extends \App\Core\CRMEntity
 
 	/**
 	 * To get non admin access query for Reports generation
-	 * @param type $tableName
-	 * @param type $tabId
-	 * @param type $user
-	 * @param type $parent_roles
-	 * @param type $groups
+	 * @param string $tableName
+	 * @param int $tabId
+	 * @param mixed $user
+	 * @param mixed $parent_roles
+	 * @param mixed $groups
 	 * @return $query
 	 */
 	public function getReportsNonAdminAccessControlQuery($tableName, $tabId, $user, $parent_roles, $groups)

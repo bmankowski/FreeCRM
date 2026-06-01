@@ -20,12 +20,7 @@ class MarginP extends Basic
 	protected $summationValue = true;
 	protected $colSpan = 15;
 
-	/**
-	 * Getting value to display
-	 * @param type $value
-	 * @return type
-	 */
-	public function getDisplayValue($value)
+	public function getDisplayValue(mixed $value): string
 	{
 		return \App\Fields\CurrencyField::convertToUserFormat($value, null, true);
 	}

@@ -56,7 +56,7 @@ class ModuleMeta extends \App\Runtime\BaseModel
 	/**
 	 * Function returns list of fields based on type
 	 * @param <type> $type
-	 * @return <type>
+	 * @return mixed
 	 */
 	public function getFieldListByType($type)
 	{
@@ -215,7 +215,7 @@ class ModuleMeta extends \App\Runtime\BaseModel
 
 	/**
 	 * Function checks if the field is editable
-	 * @param type $fieldInstance
+	 * @param mixed $fieldInstance
 	 * @return boolean
 	 */
 	public function isEditableField($fieldInstance)

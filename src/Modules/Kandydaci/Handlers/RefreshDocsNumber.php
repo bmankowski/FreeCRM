@@ -33,15 +33,15 @@ namespace App\Modules\Kandydaci\Handlers;
 
 class RefreshDocsNumber {
 
-    public function entityAfterLink(App\EventHandler $eventHandler) {
+    public function entityAfterLink(\App\Events\EventHandler $eventHandler) {
         $this->performCalculations($eventHandler);
     }
 
-    public function entityAfterUnLink(App\EventHandler $eventHandler) {
+    public function entityAfterUnLink(\App\Events\EventHandler $eventHandler) {
         $this->performCalculations($eventHandler);
     }
  
-    private function performCalculations(App\EventHandler $eventHandler) {
+    private function performCalculations(\App\Events\EventHandler $eventHandler) {
         $params = $eventHandler->getParams();
          
         //Obliczanie ilości dokumentów dowiązanych do Kandydata

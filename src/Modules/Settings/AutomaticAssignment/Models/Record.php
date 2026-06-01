@@ -17,13 +17,13 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Raw data
-	 * @var type 
+	 * @var mixed 
 	 */
 	private $rawData = [];
 
 	/**
 	 * Variable determines the possibility of creating value duplicates
-	 * @var type 
+	 * @var mixed 
 	 */
 	public $checkDuplicate = false;
 

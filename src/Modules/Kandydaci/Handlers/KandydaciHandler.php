@@ -31,19 +31,16 @@
 
 namespace App\Modules\Kandydaci\Handlers;
 
+use App\Events\EventHandler;
+
 class KandydaciHandler {
 
-    public function detailViewBefore(App\EventHandler $eventHandler) {
+    public function detailViewBefore(EventHandler $eventHandler): void {
         $params = $eventHandler->getParams();
         $recordModel = $eventHandler->getRecordModel();
     }
 
-    /**
-     *
-     * @param App\EventHandler $eventHandler
-     * @return type
-     */
-    public function entityBeforeSave(App\EventHandler $eventHandler) {
+    public function entityBeforeSave(EventHandler $eventHandler): void {
 
         /** @var \App\Modules\Kandydaci\Models\Record $candidate */
         $candidate = $eventHandler->getRecordModel();

@@ -56,7 +56,7 @@ class Module extends \App\Modules\Base\Models\Module
 	/**
 	 * Function to get Specific Relation Query for this Module
 	 * @param <type> $relatedModule
-	 * @return <type>
+	 * @return mixed
 	 */
 	public function getSpecificRelationQuery($relatedModule)
 	{

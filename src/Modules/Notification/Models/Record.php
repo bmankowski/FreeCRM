@@ -44,7 +44,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to get id
-	 * @return type
+	 * @return mixed
 	 */
 	public function getId()
 	{

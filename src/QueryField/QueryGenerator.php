@@ -37,7 +37,8 @@ class QueryGenerator
 	private $referenceFields = [];
 	private $ownerFields = [];
 	private $customColumns = [];
-	private $cvColumns;
+	/** @var array<int|string, string>|null */
+	private ?array $cvColumns = null;
 	private $stdFilterList;
 	private $advFilterList;
 
@@ -198,7 +199,7 @@ class QueryGenerator
 
 	/**
 	 * Set query field
-	 * @param type $fields
+	 * @param mixed $fields
 	 */
 	public function setField($fields)
 	{
@@ -223,7 +224,7 @@ class QueryGenerator
 
 	/**
 	 * Set custom column
-	 * @param type $columns
+	 * @param mixed $columns
 	 */
 	public function setCustomColumn($columns)
 	{
@@ -242,7 +243,7 @@ class QueryGenerator
 
 	/**
 	 * Set concat column
-	 * @param type $columns
+	 * @param mixed $columns
 	 */
 	public function setConcatColumn($fieldName, $concat)
 	{
@@ -709,7 +710,7 @@ class QueryGenerator
 
 	/**
 	 * Get entity default table list
-	 * @return type
+	 * @return mixed
 	 */
 	public function getEntityDefaultTableList()
 	{

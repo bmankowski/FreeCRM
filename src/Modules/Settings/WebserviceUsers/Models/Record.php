@@ -274,7 +274,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Type field values
-	 * @param type $value
+	 * @param mixed $value
 	 * @return string
 	 */
 	public function getTypeValues($value = false)

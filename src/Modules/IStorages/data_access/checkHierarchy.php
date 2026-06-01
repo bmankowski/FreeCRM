@@ -43,8 +43,8 @@ class checkHierarchy {
 
 	/**
 	 * Checks if chosen parent is record child
-	 * @param type $parentId
-	 * @param type $childArray
+	 * @param int $parentId
+	 * @param mixed $childArray
 	 * @return true if parent can be set
 	 */
 	public function checkChildren($parentId, $childArray)

@@ -19,12 +19,7 @@ class Margin extends Basic
 	protected $dbType = 'decimal(27,8) DEFAULT 0';
 	protected $summationValue = true;
 
-	/**
-	 * Getting value to display
-	 * @param type $value
-	 * @return type
-	 */
-	public function getDisplayValue($value)
+	public function getDisplayValue(mixed $value): string
 	{
 		return \App\Fields\CurrencyField::convertToUserFormat($value, null, true);
 	}

@@ -55,8 +55,8 @@ class Menu {
 
 	/**
 	 * 
-	 * @param type $url
-	 * @return type modulename 
+	 * @param string $url
+	 * @return string|null modulename 
 	 */
 	public static function getModuleNameFromUrl($url)
 	{

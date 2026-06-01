@@ -249,8 +249,8 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 * Function gets translations
 	 * @param string[] $lang
 	 * @param string $mod
-	 * @param type $ShowDifferences
-	 * @return type
+	 * @param bool $ShowDifferences
+	 * @return mixed
 	 */
 	public function loadLangTranslation($lang, $mod, $ShowDifferences = 0)
 	{

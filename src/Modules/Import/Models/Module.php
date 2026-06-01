@@ -99,7 +99,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function returns supported extensions
-	 * @return type
+	 * @return mixed
 	 */
 	public static function getSupportedFileEncoding()
 	{
@@ -108,7 +108,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Get supported delimiters
-	 * @return type
+	 * @return mixed
 	 */
 	public static function getSupportedDelimiters()
 	{
@@ -125,7 +125,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function returns list of templates to import
-	 * @param type $moduleName
+	 * @param string $moduleName
 	 * @return array
 	 */
 	public static function getListTplForXmlType($moduleName)
@@ -148,8 +148,8 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Get file reader
-	 * @param type $request
-	 * @param type $user
+	 * @param mixed $request
+	 * @param mixed $user
 	 * @return \App\Modules\Import\Readers\FileReader
 	 */
 	public static function getFileReader($request, $user): ?\App\Modules\Import\Readers\FileReader

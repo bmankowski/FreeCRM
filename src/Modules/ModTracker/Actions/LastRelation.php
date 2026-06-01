@@ -50,7 +50,7 @@ class LastRelation extends \App\Base\Controllers\BaseActionController
 	/**
 	 * Validate request
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return type
+	 * @return mixed
 	 */
 	public function validateRequest(\App\Http\Vtiger_Request $request)
 	{

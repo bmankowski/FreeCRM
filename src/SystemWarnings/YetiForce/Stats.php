@@ -35,7 +35,7 @@ class Stats extends \App\SystemWarnings\Template
 
 	/**
 	 * Get unique key
-	 * @return type
+	 * @return mixed
 	 */
 	public function getKey()
 	{

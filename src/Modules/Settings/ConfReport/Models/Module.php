@@ -332,7 +332,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	/**
 	 * Get hardware details
-	 * @return type
+	 * @return mixed
 	 */
 	public static function getHardwareInfo()
 	{

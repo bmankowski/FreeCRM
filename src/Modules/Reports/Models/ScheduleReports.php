@@ -2,7 +2,10 @@
 
 namespace App\Modules\Reports\Models;
 
+use App\Modules\Reports\ReportRun;
 use App\Modules\Workflow\VTWorkflowUtils;
+use App\Modules\Workflow\Workflow;
+use App\Utils\GetGroupUsers;
 
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
@@ -198,17 +201,17 @@ class ScheduleReports extends \App\Runtime\BaseModel
 	public function sendEmail()
 	{
 		$recipientEmails = $this->getRecipientEmails();
-		\vtlib\Utils::ModuleLog('ScheduleReprots', $recipientEmails);
+		\App\Log\Log::trace('Recipients: ' . print_r($recipientEmails, true), 'ScheduleReports');
 		$to = [];
 		foreach ($recipientEmails as $name => $email) {
 			$to[$email] = $name;
 		}
 		$reportRecordModel = \App\Modules\Reports\Models\Record::getInstanceById($this->get('reportid'));
 		$currentTime = date('Y-m-d.H.i.s');
-		\vtlib\Utils::ModuleLog('ScheduleReprots Send Mail Start ::', $currentTime);
+		\App\Log\Log::trace('Send mail start: ' . $currentTime, 'ScheduleReports');
 		$reportname = \App\Utils\ListViewUtils::decodeHtml($reportRecordModel->getName());
 		$subject = $reportname;
-		\vtlib\Utils::ModuleLog('ScheduleReprot Name ::', $reportname);
+		\App\Log\Log::trace('Report name: ' . $reportname, 'ScheduleReports');
 		$baseFileName = $reportname . '__' . $currentTime;
 		$fileName = $baseFileName . '.csv';
 
@@ -231,7 +234,7 @@ class ScheduleReports extends \App\Runtime\BaseModel
 			$oReportRun->writeReportToExcelFile($filePath);
 		}
 		//Added cc to account owner
-		$accountOwnerId = \App\Modules\Users\Users::getActiveAdminId();
+		$accountOwnerId = \App\Modules\Users\Models\Record::getActiveAdminId();
 		\App\Email\Mailer::sendFromTemplate([
 			'to' => $to,
 			'cc' => [\App\Modules\Users\Models\Record::getInstanceById($accountOwnerId, 'Users')->get('email1') => \App\Fields\Owner::getUserLabel($accountOwnerId)],
@@ -247,7 +250,7 @@ class ScheduleReports extends \App\Runtime\BaseModel
 	/**
 	 * Function gets the next trigger for the workflows
 	 * @global string $default_timezone
-	 * @return type
+	 * @return mixed
 	 */
 	public function getNextTriggerTime()
 	{
@@ -286,9 +289,9 @@ class ScheduleReports extends \App\Runtime\BaseModel
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
 		$nextTriggerTime = $this->getNextTriggerTime();
-		\vtlib\Utils::ModuleLog('ScheduleReprot Next Trigger Time >> ', $nextTriggerTime);
+		\App\Log\Log::trace('Next trigger time: ' . $nextTriggerTime, 'ScheduleReports');
 		$adb->pquery('UPDATE vtiger_schedulereports SET next_trigger_time=? WHERE reportid=?', array($nextTriggerTime, $this->get('reportid')));
-		\vtlib\Utils::ModuleLog('ScheduleReprot', 'Next Trigger Time updated');
+		\App\Log\Log::trace('Next trigger time updated', 'ScheduleReports');
 	}
 
 	public static function getScheduledReports()
@@ -323,7 +326,7 @@ class ScheduleReports extends \App\Runtime\BaseModel
 		$scheduledReports = self::getScheduledReports();
 		foreach ($scheduledReports as $scheduledReport) {
 			$status = $scheduledReport->sendEmail();
-			\vtlib\Utils::ModuleLog('ScheduleReprot Send Mail Status ', $status);
+			\App\Log\Log::trace('Send mail status: ' . (int) $status, 'ScheduleReports');
 			if ($status)
 				$scheduledReport->updateNextTriggerTime();
 		}

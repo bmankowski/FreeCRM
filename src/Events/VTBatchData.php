@@ -48,7 +48,7 @@ class VTBatchData
 
 	/**
 	 * Function sets the module name
-	 * @param type $module
+	 * @param string $module
 	 */
 	function setModuleName($module)
 	{

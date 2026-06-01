@@ -28,7 +28,7 @@ class TreeCategoryModal extends \App\Runtime\BaseModel
 
 	/**
 	 * Load tree ID
-	 * @return type
+	 * @return mixed
 	 */
 	public function getTemplate()
 	{
