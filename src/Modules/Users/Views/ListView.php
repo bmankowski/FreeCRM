@@ -2,31 +2,44 @@
 
 namespace App\Modules\Users\Views;
 
-/* +**********************************************************************************
- * The contents of this file are subject to the vtiger CRM Public License Version 1.1
- * ("License"); You may not use this file except in compliance with the License
- * The Original Code is:  vtiger CRM Open Source
- * The Initial Developer of the Original Code is vtiger.
- * Portions created by vtiger are Copyright (C) vtiger.
- * All Rights Reserved.
- * Contributor(s): YetiForce.com
- * ********************************************************************************** */
-
-
-class ListView extends \App\Modules\Settings\Base\Views\ListView
+/**
+ * User administration lives under Settings; non-settings URLs redirect there.
+ */
+class ListView extends \App\Modules\Base\Views\Index
 {
-
-	public function getFooterScripts(\App\Http\Vtiger_Request $request)
+	public function checkPermission(\App\Http\Vtiger_Request $request): void
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-
-		// Add Users-specific scripts (parent already includes Settings scripts)
-		$jsFileNames = [
-			'modules.Users.resources.List',
-		];
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
+		if (!$request->getUser()->isAdminUser()) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+		}
 	}
 
+	public function process(\App\Http\Vtiger_Request $request)
+	{
+		$params = [
+			'module' => 'Users',
+			'parent' => 'Settings',
+			'view' => 'ListView',
+		];
+		foreach (
+			[
+				'page',
+				'viewname',
+				'orderby',
+				'sortorder',
+				'status',
+				'search_key',
+				'search_value',
+				'operator',
+				'search_params',
+				'searchResult',
+			] as $key
+		) {
+			if ($request->has($key)) {
+				$params[$key] = $request->get($key);
+			}
+		}
+		header('Location: index.php?' . http_build_query($params));
+		exit;
+	}
 }

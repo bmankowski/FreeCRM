@@ -322,8 +322,14 @@ class ListView extends \App\Modules\Base\Views\Index
 		$viewer->assign('IS_MODULE_DELETABLE', $this->listViewModel->getModule()->isPermitted('Delete'));
 		// Ensure search details exist for all headers to avoid undefined index notices in templates
 		if (is_array($this->listViewHeaders)) {
-			foreach ($this->listViewHeaders as $header) {
-				$headerName = $header->getName();
+			foreach ($this->listViewHeaders as $headerKey => $header) {
+				if (is_object($header) && method_exists($header, 'getName')) {
+					$headerName = $header->getName();
+				} elseif (is_string($headerKey)) {
+					$headerName = $headerKey;
+				} else {
+					continue;
+				}
 				if (!isset($searchParams[$headerName])) {
 					$searchParams[$headerName] = ['searchValue' => '', 'fieldName' => $headerName];
 				}

@@ -8,7 +8,7 @@
  * All Rights Reserved.
  *
  * ******************************************************************************* */
-require_once(ROOT_DIRECTORY . "/src/events/include.php");
+require_once ROOT_DIRECTORY . '/src/Events/include.php';
 
 /**
  * @author MAK

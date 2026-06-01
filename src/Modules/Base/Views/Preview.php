@@ -45,10 +45,16 @@ class Preview extends \App\Modules\Base\Views\Index
 		// when the module supports it; otherwise the compact ModuleSummaryBlock only.
 		$detailModel = \App\Modules\Base\Models\DetailView::getInstance($moduleName, $recordId);
 		$detailModel->getWidgets(['MODULE' => $moduleName, 'RECORD' => $recordId]);
-		if ($detailModel->getModule()->isSummaryViewSupported() && !empty($detailModel->widgetsList)) {
+		if (
+			$detailModel->getModule()->isSummaryViewSupported()
+			&& !empty($detailModel->widgetsList)
+			&& method_exists($detailView, 'showModuleBasicView')
+		) {
 			$summaryHtml = $detailView->showModuleBasicView($request);
-		} else {
+		} elseif (method_exists($detailView, 'showModuleSummaryView')) {
 			$summaryHtml = $detailView->showModuleSummaryView($request);
+		} else {
+			$summaryHtml = '';
 		}
 
 		$viewer = $this->getViewer($request);

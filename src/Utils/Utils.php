@@ -499,7 +499,7 @@ class Utils
 	public static function DeleteEntity($destinationModule, $sourceModule, $focus, $destinationRecordId, $sourceRecordId, $relatedName = false)
 	{
 		\App\Log\Log::trace("Entering DeleteEntity method ($destinationModule, $sourceModule, $destinationRecordId, $sourceRecordId)");
-		require_once(ROOT_DIRECTORY . '/src/events/include.php');
+		require_once ROOT_DIRECTORY . '/src/Events/include.php';
 		if ($destinationModule != $sourceModule && !empty($sourceModule) && !empty($sourceRecordId)) {
 			$eventHandler = new \App\Events\EventHandler();
 			$eventHandler->setModuleName($sourceModule);

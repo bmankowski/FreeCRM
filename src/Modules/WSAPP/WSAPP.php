@@ -10,7 +10,7 @@ namespace App\Modules\WSAPP;
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * ********************************************************************************** */
-require_once(ROOT_DIRECTORY . '/src/events/include.php');
+require_once ROOT_DIRECTORY . '/src/Events/include.php';
 
 class WSAPP {
 

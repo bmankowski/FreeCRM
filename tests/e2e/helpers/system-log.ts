@@ -18,6 +18,12 @@ const LEVEL_PATTERNS: Record<LogLevel, RegExp> = {
 	all: /PHP Fatal error|PHP Parse error|Uncaught|PHP Warning|PHP Error|PHP Deprecated|PHP Notice/i,
 };
 
+const STACK_CONTINUATION = /^(Stack trace:|#\d+ |  thrown in |  #\d+ )/;
+
+function isStackContinuation(line: string): boolean {
+	return STACK_CONTINUATION.test(line);
+}
+
 export class SystemLogWatcher {
 	private offset = 0;
 
@@ -51,7 +57,22 @@ export class SystemLogWatcher {
 
 	filterByLevel(lines: string[], level: LogLevel): string[] {
 		const pattern = LEVEL_PATTERNS[level];
-		return lines.filter((line) => pattern.test(line));
+		const result: string[] = [];
+
+		for (let i = 0; i < lines.length; i++) {
+			const line = lines[i];
+			if (!pattern.test(line)) {
+				continue;
+			}
+
+			result.push(line);
+			for (let j = i + 1; j < lines.length && isStackContinuation(lines[j]); j++) {
+				result.push(lines[j]);
+				i = j;
+			}
+		}
+
+		return result;
 	}
 }
 

@@ -11,7 +11,7 @@ namespace App\Modules\Reports\Models;
  * All Rights Reserved.
  * *********************************************************************************** */
 
-class Report extends Reports
+class Report extends \App\Modules\Reports\Reports
 {
 
 	static function getInstance($reportId = "")
