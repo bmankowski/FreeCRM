@@ -4,12 +4,12 @@
 	{assign var=VALUE value=$FIELD->getValue($ITEM_VALUE)}
 	{assign var="ITEM_UNIT" value=""}
 	{assign var="ITEM_QTYPARAM" value=""}
-	{if isset($ITEM_DATA) && is_array($ITEM_DATA)}
-		{if isset($ITEM_DATA['unit'])}
-			{assign var="ITEM_UNIT" value=$ITEM_DATA['unit']}
+	{if isset($INVENTORY_ROW) && is_array($INVENTORY_ROW)}
+		{if isset($INVENTORY_ROW['unit'])}
+			{assign var="ITEM_UNIT" value=$INVENTORY_ROW['unit']}
 		{/if}
-		{if isset($ITEM_DATA['qtyparam'])}
-			{assign var="ITEM_QTYPARAM" value=$ITEM_DATA['qtyparam']}
+		{if isset($INVENTORY_ROW['qtyparam'])}
+			{assign var="ITEM_QTYPARAM" value=$INVENTORY_ROW['qtyparam']}
 		{/if}
 	{/if}
 	{if $ITEM_UNIT === 'pack' || $ITEM_UNIT === 'pcs'}

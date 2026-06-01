@@ -12,7 +12,7 @@ class RequestUtil
 
 	public static function getRemoteIP($onlyIP = false)
 	{
-		$address = $_SERVER['REMOTE_ADDR'];
+		$address = $_SERVER['REMOTE_ADDR'] ?? '';
 		// append the NGINX X-Real-IP header, if set
 		if (!empty($_SERVER['HTTP_X_REAL_IP'])) {
 			$remoteIp[] = 'X-Real-IP: ' . $_SERVER['HTTP_X_REAL_IP'];
@@ -32,7 +32,7 @@ class RequestUtil
 	public static function getBrowserInfo()
 	{
 		if (static::$browserCache === null) {
-			$browserAgent = strtolower($_SERVER['HTTP_USER_AGENT']);
+			$browserAgent = strtolower($_SERVER['HTTP_USER_AGENT'] ?? '');
 
 			$browser = new \stdClass;
 			$browser->ver = 0;
@@ -87,14 +87,15 @@ class RequestUtil
 			if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) == 'https') {
 				$browser->https = true;
 			}
-			$sp = strtolower($_SERVER['SERVER_PROTOCOL']);
+			$sp = strtolower($_SERVER['SERVER_PROTOCOL'] ?? 'HTTP/1.1');
 			$protocol = substr($sp, 0, strpos($sp, '/')) . (($browser->https) ? 's' : '');
-			$port = (int) $_SERVER['SERVER_PORT'];
+			$port = (int) ($_SERVER['SERVER_PORT'] ?? 80);
 			$port = ((!$browser->https && $port === 80) || ($browser->https && $port === 443)) ? '' : ':' . $port;
-			$host = isset($_SERVER['HTTP_X_FORWARDED_HOST']) ? $_SERVER['HTTP_X_FORWARDED_HOST'] : (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : null);
-			$host = isset($host) ? $host : $_SERVER['SERVER_NAME'] . $port;
-			$browser->url = $protocol . '://' . $host . $_SERVER['REQUEST_URI'];
-			$browser->requestUri = ltrim($_SERVER['REQUEST_URI'], '/');
+			$host = $_SERVER['HTTP_X_FORWARDED_HOST'] ?? $_SERVER['HTTP_HOST'] ?? null;
+			$host = $host ?? ($_SERVER['SERVER_NAME'] ?? 'localhost') . $port;
+			$requestUri = $_SERVER['REQUEST_URI'] ?? '/';
+			$browser->url = $protocol . '://' . $host . $requestUri;
+			$browser->requestUri = ltrim($requestUri, '/');
 			static::$browserCache = $browser;
 		}
 		return static::$browserCache;

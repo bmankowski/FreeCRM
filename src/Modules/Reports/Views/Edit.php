@@ -105,9 +105,10 @@ class Edit extends \App\Modules\Base\Views\Edit
 		if (!empty($record)) {
 			$viewer->assign('MODE', 'edit');
 		} else {
-			$firstModuleName = reset($modulesList);
-			if ($firstModuleName)
+			$firstModuleName = array_key_first($modulesList);
+			if ($firstModuleName) {
 				$reportModel->setPrimaryModule($firstModuleName);
+			}
 			$viewer->assign('MODE', '');
 		}
 
@@ -139,9 +140,7 @@ class Edit extends \App\Modules\Base\Views\Edit
 		$admin = \App\Modules\Users\Users::getActiveAdminUser();
 		$viewer->assign('ACTIVE_ADMIN', $admin);
 
-		if ($request->get('isDuplicate')) {
-			$viewer->assign('IS_DUPLICATE', true);
-		}
+		$viewer->assign('IS_DUPLICATE', (bool) $request->get('isDuplicate'));
 		$viewer->view('Step1.tpl', $moduleName);
 	}
 
@@ -221,9 +220,7 @@ class Edit extends \App\Modules\Base\Views\Edit
 		$viewer->assign('CALCULATION_FIELDS', $reportModel->getCalculationFields());
 		$viewer->assign('MODULE', $moduleName);
 
-		if ($request->get('isDuplicate')) {
-			$viewer->assign('IS_DUPLICATE', true);
-		}
+		$viewer->assign('IS_DUPLICATE', (bool) $request->get('isDuplicate'));
 
 		$viewer->view('step2.tpl', $moduleName);
 	}
@@ -309,9 +306,7 @@ class Edit extends \App\Modules\Base\Views\Edit
 		if ($calculationFields) {
 			$viewer->assign('LINEITEM_FIELD_IN_CALCULATION', $reportModel->showLineItemFieldsInFilter($calculationFields));
 		}
-		if ($request->get('isDuplicate')) {
-			$viewer->assign('IS_DUPLICATE', true);
-		}
+		$viewer->assign('IS_DUPLICATE', (bool) $request->get('isDuplicate'));
 		$viewer->view('step3.tpl', $moduleName);
 	}
 

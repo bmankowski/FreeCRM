@@ -1,8 +1,8 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 <!-- layouts/basic/modules/Base/EditViewInventoryItem.tpl -->
-	{if isset($ITEM_DATA) && is_array($ITEM_DATA) && !empty($ITEM_DATA['name'])}
-		{assign var="REFERENCE_MODULE" value=\App\Records\Record::getType($ITEM_DATA['name'])}
+	{if isset($INVENTORY_ROW) && is_array($INVENTORY_ROW) && !empty($INVENTORY_ROW['name'])}
+		{assign var="REFERENCE_MODULE" value=\App\Records\Record::getType($INVENTORY_ROW['name'])}
 	{elseif isset($MAIN_PARAMS) && is_array($MAIN_PARAMS) && isset($MAIN_PARAMS['modules'])}
 		{assign var="REFERENCE_MODULE" value=reset($MAIN_PARAMS['modules'])}
 	{/if}
@@ -24,10 +24,10 @@
 					{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
 					{assign var="FIELD_COLUMN_NAME" value=$FIELD->get('columnname')}
 					{assign var="ITEM_VALUE" value=""}
-					{if isset($ITEM_DATA) && is_array($ITEM_DATA) && isset($ITEM_DATA[$FIELD_COLUMN_NAME])}
-						{assign var="ITEM_VALUE" value=$ITEM_DATA[$FIELD_COLUMN_NAME]}
+					{if isset($INVENTORY_ROW) && is_array($INVENTORY_ROW) && isset($INVENTORY_ROW[$FIELD_COLUMN_NAME])}
+						{assign var="ITEM_VALUE" value=$INVENTORY_ROW[$FIELD_COLUMN_NAME]}
 					{/if}
-					{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE ITEM_VALUE=$ITEM_VALUE}
+					{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE ITEM_VALUE=$ITEM_VALUE INVENTORY_ROW=$INVENTORY_ROW}
 				</td>
 			{/foreach}
 		{/if}
@@ -39,10 +39,10 @@
 					{assign var="FIELD_TPL_NAME" value="inventoryfields/"|cat:$FIELD->getTemplateName('EditView',$MODULE)}
 					{assign var="FIELD_COLUMN_NAME" value=$FIELD->get('columnname')}
 					{assign var="ITEM_VALUE" value=""}
-					{if isset($ITEM_DATA) && is_array($ITEM_DATA) && isset($ITEM_DATA[$FIELD_COLUMN_NAME])}
-						{assign var="ITEM_VALUE" value=$ITEM_DATA[$FIELD_COLUMN_NAME]}
+					{if isset($INVENTORY_ROW) && is_array($INVENTORY_ROW) && isset($INVENTORY_ROW[$FIELD_COLUMN_NAME])}
+						{assign var="ITEM_VALUE" value=$INVENTORY_ROW[$FIELD_COLUMN_NAME]}
 					{/if}
-					{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE ITEM_VALUE=$ITEM_VALUE}
+					{include file=$FIELD_TPL_NAME|@vtemplate_path:$MODULE ITEM_VALUE=$ITEM_VALUE INVENTORY_ROW=$INVENTORY_ROW}
 				{/foreach}
 			</td>
 		</tr>

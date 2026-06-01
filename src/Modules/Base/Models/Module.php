@@ -76,6 +76,20 @@ class Module extends \vtlib\Module
 		return true;
 	}
 
+	public function isListPreviewSupported(): bool
+	{
+		static $nonEntityWithPreview = ['Reports'];
+		static $entityExcluded = ['ModComments', 'Integration', 'DashBoard'];
+
+		if (!$this->isEntityModule()) {
+			return in_array($this->getName(), $nonEntityWithPreview, true);
+		}
+		if (in_array($this->getName(), $entityExcluded, true)) {
+			return false;
+		}
+		return \App\Modules\Users\Models\Privileges::isPermitted($this->getName(), 'Index');
+	}
+
 	public function getModuleType()
 	{
 		return $this->get('type');
@@ -469,8 +483,14 @@ class Module extends \vtlib\Module
 	{
 		// Remember last chosen list display mode per user + module
 		$prefKey = 'ListViewDefaultView_' . $this->getName();
-		if (!empty($_SESSION[$prefKey]) && in_array($_SESSION[$prefKey], ['ListView', 'ListPreview'], true)) {
-			return $_SESSION[$prefKey];
+		if (!empty($_SESSION[$prefKey])) {
+			$view = $_SESSION[$prefKey];
+			if ($view === 'ListPreview' && !$this->isListPreviewSupported()) {
+				return 'ListView';
+			}
+			if (in_array($view, ['ListView', 'ListPreview'], true)) {
+				return $view;
+			}
 		}
 		return 'ListView';
 	}
@@ -1065,13 +1085,16 @@ class Module extends \vtlib\Module
 				'linkurl' => $this->getListViewUrl(),
 				'linkicon' => '',
 			],
-			[
+		];
+
+		if ($this->isListPreviewSupported()) {
+			$quickLinks[] = [
 				'linktype' => 'SIDEBARLINK',
 				'linklabel' => 'LBL_PREVIEW',
 				'linkurl' => 'index.php?module=' . $this->getName() . '&view=ListPreview',
 				'linkicon' => '',
-			],
-		];
+			];
+		}
 
 		if ($userPrivilegesModel->hasModulePermission('Dashboard') && $userPrivilegesModel->hasModuleActionPermission($this->getId(), 'Dashboard')) {
 			$quickLinks[] = [

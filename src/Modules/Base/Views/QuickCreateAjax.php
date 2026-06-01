@@ -101,6 +101,9 @@ class QuickCreateAjax extends \App\Modules\Base\Views\Index
 		// Always assign the variable (even if false) to avoid Smarty warnings when template checks for it
 		$salutationFieldModel = \App\Modules\Base\Models\Field::getInstance('salutationtype', $moduleModel);
 		$viewer->assign('SALUTATION_FIELD_MODEL', $salutationFieldModel ? $salutationFieldModel : false);
+
+		$imageDetails = method_exists($recordModel, 'getImageDetails') ? $recordModel->getImageDetails() : [];
+		$viewer->assign('IMAGE_DETAILS', is_array($imageDetails) ? $imageDetails : []);
 		
 		echo $viewer->view('QuickCreate.tpl', $moduleName, true);
 	}

@@ -1,4 +1,7 @@
 <?php
+
+namespace App\Modules\Events\Views;
+
 /* +***********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.0
  * ("License"); You may not use this file except in compliance with the License
@@ -10,6 +13,15 @@
 
 class Edit extends \App\Modules\Calendar\Views\Edit
 {
+
+	public function process(\App\Http\Vtiger_Request $request)
+	{
+		if (!empty($request->get('record'))) {
+			parent::process($request);
+			return;
+		}
+		$this->Events($request, $request->getModule());
+	}
 
 	/**
 	 * Function to get the list of Script models to be included

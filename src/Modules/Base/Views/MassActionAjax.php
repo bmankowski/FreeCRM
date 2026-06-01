@@ -87,6 +87,7 @@ class MassActionAjax extends \App\Modules\Base\Views\Index
 		
 		// Assign empty SCRIPTS array to avoid undefined array key warning
 		$viewer->assign('SCRIPTS', []);
+		$viewer->assign('IMAGE_DETAILS', []);
 
 		echo $viewer->view('MassEditForm.tpl', $moduleName, true);
 	}

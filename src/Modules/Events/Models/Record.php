@@ -61,7 +61,10 @@ class Record extends \App\Modules\Base\Models\Record
 	static public function getInvitionStatus($status = false)
 	{
 		$statuses = [0 => 'LBL_NEEDS-ACTION', 1 => 'LBL_ACCEPTED', 2 => 'LBL_DECLINED'];
-		return $status !== false ? $statuses[$status] : $statuses;
+		if ($status !== false && isset($statuses[$status])) {
+			return $statuses[$status];
+		}
+		return $status !== false ? $statuses[0] : $statuses;
 	}
 
 	public function getInviteUserMailData(\App\Http\Vtiger_Request $request = null)

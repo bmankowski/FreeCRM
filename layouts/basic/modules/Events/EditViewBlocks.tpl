@@ -13,7 +13,8 @@
 <!-- layouts/basic/modules/Events/EditViewBlocks.tpl -->
     {include file="EditViewBlocks.tpl"|@vtemplate_path:'Vtiger'}
     <input type="hidden" name="userChangedEndDateTime" value="{$USER_CHANGED_END_DATE_TIME}" />
-	<div class="panel panel-default row marginLeftZero marginRightZero blockContainer" data-label="{$BLOCK_LABEL}">
+	{assign var=IS_HIDDEN value=false}
+	<div class="panel panel-default row marginLeftZero marginRightZero blockContainer" data-label="LBL_INVITE_RECORDS">
 		<div class="row blockHeader panel-heading marginLeftZero marginRightZero">
 			<div class="col-md-8 fieldRow paddingLRZero">
 				<div class="iconCollapse">
@@ -29,6 +30,7 @@
 		<div class="col-md-12 paddingLRZero panel-body blockContent {if $IS_HIDDEN}hide{/if}">
 			<div class="inviteesContent">
 				<div class="hide">
+					{assign var=INVITIE value=['crmid'=>'','inviteesid'=>'','email'=>'','status'=>0]}
 					{include file="InviteRow.tpl"|@vtemplate_path:$MODULE}
 				</div>
 				{foreach key=KEY item=INVITIE from=$INVITIES_SELECTED}

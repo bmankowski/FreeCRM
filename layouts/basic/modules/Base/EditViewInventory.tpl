@@ -57,13 +57,13 @@
 					</thead>
 				{/if}
 				<tbody>
-					{foreach key=KEY item=ITEM_DATA from=$INVENTORY_ROWS}
+					{foreach key=KEY item=INVENTORY_ROW from=$INVENTORY_ROWS}
 						{assign var="ROW_NO" value=$KEY+1}
-						{include file='EditViewInventoryItem.tpl'|@vtemplate_path:$MODULE}
+						{include file='EditViewInventoryItem.tpl'|@vtemplate_path:$MODULE INVENTORY_ROW=$INVENTORY_ROW}
 					{foreachelse}
 						{assign var="KEY" value=0}
 						{assign var="ROW_NO" value=1}
-						{include file='EditViewInventoryItem.tpl'|@vtemplate_path:$MODULE}
+						{include file='EditViewInventoryItem.tpl'|@vtemplate_path:$MODULE INVENTORY_ROW=$DEFAULT_ITEM_DATA}
 					{/foreach}
 				</tbody>
 				<tfoot>
@@ -85,11 +85,10 @@
 			</table>
 		</div>
 		{include file='EditViewInventorySummary.tpl'|@vtemplate_path:$MODULE}
-		{* ITEM_DATA is now prepared in controller *}
 		<table id="blackIthemTable" class="noValidate hide">
 			<tbody>
 				{assign var="ROW_NO" value='_NUM_'}
-				{include file='EditViewInventoryItem.tpl'|@vtemplate_path:$MODULE}
+				{include file='EditViewInventoryItem.tpl'|@vtemplate_path:$MODULE INVENTORY_ROW=$DEFAULT_ITEM_DATA}
 			</tbody>
 		</table>
 		<br/>

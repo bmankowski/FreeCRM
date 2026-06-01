@@ -43,7 +43,7 @@ $notPermittedListModules = ['ModComments', 'Integration', 'DashBoard'];
 /**
  * Mirror Loader view resolution without class_exists (some legacy views fatal on autoload).
  */
-function viewFileExists(string $moduleName, string $view): bool
+function viewFileExists(string $moduleName, string $view, bool $moduleOnly = false): bool
 {
 	$candidates = [$view, ucfirst($view)];
 	$moduleDir = str_replace('\\', '/', $moduleName);
@@ -52,6 +52,10 @@ function viewFileExists(string $moduleName, string $view): bool
 		$modulePath = ROOT_DIRECTORY . "/src/Modules/{$moduleDir}/Views/{$viewName}.php";
 		if (file_exists($modulePath)) {
 			return true;
+		}
+
+		if ($moduleOnly) {
+			continue;
 		}
 
 		$basePath = ROOT_DIRECTORY . "/src/Modules/Base/Views/{$viewName}.php";
@@ -107,7 +111,15 @@ foreach ($rows as $row) {
 			continue;
 		}
 
-		if (!viewFileExists($moduleName, $view)) {
+		if ($view === 'ListPreview' && !$moduleModel->isListPreviewSupported()) {
+			continue;
+		}
+
+		if (!viewFileExists(
+			$moduleName,
+			$view,
+			!$isEntity && in_array($view, $standardViews, true)
+		)) {
 			continue;
 		}
 

@@ -11,6 +11,12 @@ class ListPreview extends \App\Modules\Base\Views\ListView
 {
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($request->getModule());
+		if ($moduleModel === false || !$moduleModel->isListPreviewSupported()) {
+			header('Location: ' . ($moduleModel !== false ? $moduleModel->getListViewUrl() : 'index.php'));
+			exit;
+		}
+
 		parent::preProcess($request, $display);
 		// For AJAX list reloads we only render ListViewContents.tpl, no need for preview flag.
 		if ($request->isAjax()) {

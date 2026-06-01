@@ -9,8 +9,14 @@ declare(strict_types=1);
 
 namespace App\Modules\ImportManager;
 
-class ImportManager
+class ImportManager extends \App\Core\CRMEntity
 {
+	public $table_name = 'vtiger_import_batches';
+	public $table_index = 'id';
+	public $tab_name = ['vtiger_import_batches'];
+	public $tab_name_index = ['vtiger_import_batches' => 'id'];
+	public $list_fields = [];
+	public $list_fields_name = [];
 	public $default_order_by = '';
 	public $default_sort_order = 'DESC';
 
@@ -26,4 +32,3 @@ class ImportManager
 		}
 	}
 }
-

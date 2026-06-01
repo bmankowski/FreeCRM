@@ -363,6 +363,13 @@ class Users extends \App\Core\CRMEntity
 				$this->$fieldName = $value;
 			}
 		}
+		$usersRow = $result['vtiger_users'] ?? [];
+		if (isset($usersRow['date_entered'])) {
+			$this->column_fields['createdtime'] = $usersRow['date_entered'];
+		}
+		if (isset($usersRow['date_modified'])) {
+			$this->column_fields['modifiedtime'] = $usersRow['date_modified'];
+		}
 		$this->column_fields['record_id'] = $record;
 		$this->column_fields['record_module'] = $module;
 

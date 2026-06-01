@@ -914,20 +914,59 @@ class Record extends \App\Runtime\BaseModel
 	}
 
 	/**
-	 * Function to gets inventory default data fields
-	 * @return string|int|null
+	 * Default per-line inventory params for new edit rows (tax/discount/currency JSON fields).
+	 *
+	 * @return array<string, mixed>
 	 */
-	public function getInventoryDefaultDataFields()
+	public function getInventoryDefaultDataFields(): array
 	{
+		$keys = ['discountparam', 'currencyparam', 'taxparam', 'taxmode', 'discountmode'];
+		$defaultData = [
+			'taxparam' => '[]',
+			'taxmode' => 0,
+			'discountparam' => '[]',
+			'discountmode' => 0,
+			'currencyparam' => '',
+		];
+
 		$inventoryData = $this->getInventoryData();
 		$lastItem = end($inventoryData);
-		$defaultData = [];
-		if (!empty($lastItem)) {
-			$items = ['discountparam', 'currencyparam', 'taxparam', 'taxmode', 'discountmode'];
-			foreach ($items as $key) {
-				$defaultData[$key] = isset($lastItem[$key]) ? $lastItem[$key] : null;
+		if (is_array($lastItem) && $lastItem !== []) {
+			foreach ($keys as $key) {
+				if (array_key_exists($key, $lastItem) && $lastItem[$key] !== null && $lastItem[$key] !== '') {
+					$defaultData[$key] = $lastItem[$key];
+				}
+			}
+			return $defaultData;
+		}
+
+		$moduleName = $this->getModuleName();
+		$inventoryField = \App\Modules\Base\Models\InventoryField::getInstance($moduleName);
+		$fields = $inventoryField->getFields(true);
+		if (is_array($fields)) {
+			foreach ([0, 1] as $block) {
+				if (empty($fields[$block])) {
+					continue;
+				}
+				foreach ($fields[$block] as $field) {
+					$column = $field->get('columnname');
+					if (in_array($column, ['taxmode', 'discountmode'], true) && $field->get('defaultvalue') !== '') {
+						$defaultData[$column] = $field->get('defaultvalue');
+					}
+				}
+			}
+			$columns = $inventoryField->getColumns();
+			if (is_array($columns) && in_array('currency', $columns, true) && !empty($fields[0])) {
+				foreach ($fields[0] as $field) {
+					if ($field->get('columnname') === 'currency') {
+						$currencies = \vtlib\Functions::getAllCurrency(true);
+						$defaultData['currencyparam'] = \App\Utils\Json::encode($field->getCurrencyParam($currencies));
+						break;
+					}
+				}
 			}
 		}
+
 		return $defaultData;
 	}
 

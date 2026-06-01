@@ -198,21 +198,25 @@ class Util {
 	 */
 	public static function formatDateTimeIntoDayString($dateTime, $allday = false)
 	{
-		$currentUser = \App\User\CurrentUser::get();
-		$dateTimeInUserFormat = explode(' ', \App\Modules\Base\UiTypes\Datetime::getDisplayDateTimeValue($dateTime));
-
-		if (count($dateTimeInUserFormat) == 3) {
-			list($dateInUserFormat, $timeInUserFormat, $meridiem) = $dateTimeInUserFormat;
-		} else {
-			list($dateInUserFormat, $timeInUserFormat) = $dateTimeInUserFormat;
-			$meridiem = '';
+		if (empty($dateTime) || $dateTime === '0000-00-00' || $dateTime === '0000-00-00 00:00:00') {
+			return '';
 		}
-		$timeInUserFormat = explode(':', $timeInUserFormat);
-		if (count($timeInUserFormat) == 3) {
-			list($hours, $minutes, $seconds) = $timeInUserFormat;
-		} else {
-			list($hours, $minutes) = $timeInUserFormat;
-			$seconds = '';
+		$displayDateTime = \App\Modules\Base\UiTypes\Datetime::getDisplayDateTimeValue($dateTime);
+		if ($displayDateTime === '') {
+			return '';
+		}
+		$dateTimeInUserFormat = explode(' ', $displayDateTime);
+		$dateInUserFormat = $dateTimeInUserFormat[0] ?? '';
+		$timeInUserFormat = $dateTimeInUserFormat[1] ?? '';
+		if ($dateInUserFormat === '' || $timeInUserFormat === '') {
+			return '';
+		}
+		$meridiem = $dateTimeInUserFormat[2] ?? '';
+		$timeParts = explode(':', $timeInUserFormat);
+		$hours = $timeParts[0] ?? '';
+		$minutes = $timeParts[1] ?? '';
+		if ($hours === '' || $minutes === '') {
+			return '';
 		}
 
 		$dateDay = \App\Runtime\Vtiger_Language_Handler::translate(\App\Fields\DateTimeField::getDayFromDate($dateTime), 'Calendar');

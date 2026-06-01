@@ -23,16 +23,16 @@ class MapModal  extends \App\Modules\Base\Views\Index
 		$moduleName = $request->getModule();
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 		$coordinatesModel = \App\Modules\OpenStreetMap\Models\Coordinate::getInstance();
+		$fieldsToGroup = [];
 		if (!$request->isEmpty('srcModule')) {
 			$srcModuleModel = \App\Modules\Base\Models\Module::getInstance($request->get('srcModule'));
 			$fields = $srcModuleModel->getFields();
-			$fieldsToGroup = [];
 			foreach ($fields as &$fieldModel) {
 				if ($fieldModel->getFieldDataType() == 'picklist') {
 					$fieldsToGroup [] = $fieldModel;
 				}
 			}
-			$cacheRecords[$request->get('srcModule')] = 0; // default values
+			$cacheRecords[$request->get('srcModule')] = 0;
 			$cacheRecords = array_merge($cacheRecords, $coordinatesModel->getCachedRecords());
 		} else {
 			$cacheRecords = $coordinatesModel->getCachedRecords();

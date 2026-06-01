@@ -13,6 +13,16 @@ use App\AppConfig;
 class Module extends \App\Modules\Base\Models\Module
 {
 
+	public function getDefaultViewName()
+	{
+		return 'MapModal';
+	}
+
+	public function getDefaultUrl(): string
+	{
+		return 'index.php?module=' . $this->getName() . '&view=' . $this->getDefaultViewName();
+	}
+
 	/**
 	 * Check if module is allowed
 	 * @param string $moduleName

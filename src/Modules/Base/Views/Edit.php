@@ -182,6 +182,9 @@ class Edit extends \App\Modules\Base\Views\Index
 			}
 		}
 		$viewer->assign('SALUTATION_FIELD_MODEL', $salutationFieldModel ? $salutationFieldModel : false);
+
+		$imageDetails = method_exists($recordModel, 'getImageDetails') ? $recordModel->getImageDetails() : [];
+		$viewer->assign('IMAGE_DETAILS', is_array($imageDetails) ? $imageDetails : []);
 		
 		// Prepare inventory data if module supports inventory
 		if ($moduleModel->isInventory()) {
@@ -281,8 +284,7 @@ class Edit extends \App\Modules\Base\Views\Index
 		}
 		$viewer->assign('INVENTORY_SUMMARY_VALUES', $summaryValues);
 		
-		// Pre-assign default inventory data fields
-		$viewer->assign('ITEM_DATA', $recordModel->getInventoryDefaultDataFields());
+		$viewer->assign('DEFAULT_ITEM_DATA', $recordModel->getInventoryDefaultDataFields());
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)

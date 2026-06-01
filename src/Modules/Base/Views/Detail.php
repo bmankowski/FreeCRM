@@ -99,6 +99,8 @@ class Detail extends \App\Modules\Base\Views\Index
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD', $recordModel);
+		$imageDetails = method_exists($recordModel, 'getImageDetails') ? $recordModel->getImageDetails() : [];
+		$viewer->assign('IMAGE_DETAILS', is_array($imageDetails) ? $imageDetails : []);
 		$viewer->assign('NAVIGATION', $navigationInfo);
 		// Show prev/next buttons; they will be disabled when no navigation context exists.
 		$viewer->assign('NO_PAGINATION', false);
@@ -468,6 +470,8 @@ class Detail extends \App\Modules\Base\Views\Index
 		$viewer = $this->viewer ? $this->viewer : $this->getViewer($request);
 		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('RECORD', $recordModel);
+		$imageDetails = method_exists($recordModel, 'getImageDetails') ? $recordModel->getImageDetails() : [];
+		$viewer->assign('IMAGE_DETAILS', is_array($imageDetails) ? $imageDetails : []);
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('USER_MODEL', $request->getUser());

@@ -27,6 +27,11 @@ class Module extends \App\Modules\Base\Models\Module
 		return 'index';
 	}
 
+	public function getDefaultUrl(): string
+	{
+		return 'index.php?module=' . $this->getName() . '&parent=Settings&view=Index';
+	}
+
 	public function getSettingLinks()
 	{
 		$layoutEditorImagePath = \App\Runtime\Vtiger_Theme::getImagePath('LayoutEditor.gif');

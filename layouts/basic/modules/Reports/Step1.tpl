@@ -72,7 +72,7 @@
 								{/if}
 							{/foreach}
 						{/if}
-						{assign var=PRIMARY_RELATED_MODULES value=$RELATED_MODULES[$PRIMARY_MODULE]}
+						{assign var=PRIMARY_RELATED_MODULES value=$RELATED_MODULES[$PRIMARY_MODULE]|default:[]}
 						<select class="col-md-6 select2-container form-control" id="secondary_module" multiple name="secondary_modules[]" title="{"LBL_SELECT_RELATED_MODULES"|t:$MODULE}" data-placeholder="{"LBL_SELECT_RELATED_MODULES"|t:$MODULE}">
 							{foreach key=PRIMARY_RELATED_MODULE  item=PRIMARY_RELATED_MODULE_LABEL from=$PRIMARY_RELATED_MODULES}
 								<option {if in_array($PRIMARY_RELATED_MODULE,$SECONDARY_MODULES_ARR)} selected="" {/if} value="{$PRIMARY_RELATED_MODULE}">{$PRIMARY_RELATED_MODULE_LABEL}</option>
@@ -148,9 +148,12 @@
 						<div class='col-md-3 marginBottom5px' style='position:relative;top:5px;'><span class="redColor">*</span>{"LBL_CHOOSE_DATE"|t:$MODULE}</div>
 						<div class='col-md-6'>
 							<div class='input-group date' style='width: 185px;'>
+								{assign var=specificDate1 value=''}
 								{assign var=specificDate value=\App\Utils\Json::decode($SCHEDULEDREPORTS->get('schdate'))}
-								{if $specificDate[0] neq ''} {assign var=specificDate1 value=\App\Fields\DateTimeField::convertToUserFormat($specificDate[0])} {/if}
-								<input  type="text" class="dateField form-control input-sm col-md-6" id="schdate" name="schdate" value="{$specificDate1}" data-date-format="{$CURRENT_USER->date_format}" data-validation-engine="validate[ required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"/>
+								{if is_array($specificDate) && isset($specificDate[0]) && $specificDate[0] neq ''}
+									{assign var=specificDate1 value=\App\Fields\DateTimeField::convertToUserFormat($specificDate[0])}
+								{/if}
+								<input  type="text" class="dateField form-control input-sm col-md-6" id="schdate" name="schdate" value="{$specificDate1}" data-date-format="{$CURRENT_USER->get('date_format')}" data-validation-engine="validate[ required,funcCall[Vtiger_Base_Validator_Js.invokeValidation]]"/>
 								<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
 							</div>
 						</div>

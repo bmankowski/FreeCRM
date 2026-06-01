@@ -35,7 +35,7 @@ class SummaryRecordStructure extends \App\Modules\Base\Models\RecordStructure
 				}
 			}
 		}
-		$summaryFieldModelsList = [];
+		$summaryFieldModelsList = ['SUMMARY_FIELDS' => []];
 		ksort($blockSeqSortSummaryFields);
 		foreach ($blockSeqSortSummaryFields as $blockSequence => $summaryFields) {
 			$summaryFieldModelsList = array_merge_recursive($summaryFieldModelsList, $summaryFields);

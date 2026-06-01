@@ -18,6 +18,7 @@ class Currency extends Basic
 	protected $customColumn = [
 		'currencyparam' => [\yii\db\Schema::TYPE_STRING, 1024]
 	];
+	protected $params = ['type'];
 	protected $blocks = [0];
 
 	/**

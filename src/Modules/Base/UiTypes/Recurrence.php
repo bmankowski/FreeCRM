@@ -49,44 +49,57 @@ class Recurrence extends BaseUiType
 	}
 
 	/**
+	 * @return array<string, string>
+	 */
+	private static function emptyRecurringInfo(): array
+	{
+		return [
+			'FREQ' => 'DAILY',
+			'INTERVAL' => '1',
+			'freqLabel' => 'LBL_DAYS_TYPE',
+		];
+	}
+
+	/**
 	 * Parse recuring rule to array
 	 * @param string $value
 	 * @return array
 	 */
 	public static function getRecurringInfo($value)
 	{
-		$result = [];
-		if ($value) {
-			$values = explode(';', $value);
-			foreach ($values as $val) {
-				$parts = explode('=', $val, 2);
-				if (count($parts) === 2 && $parts[0] !== '') {
-					$result[$parts[0]] = $parts[1];
-				}
-			}
-			if (isset($result['UNTIL'])) {
-				$displayDate = substr($result['UNTIL'], 0, 4) . '-' . substr($result['UNTIL'], 4, 2) . '-' . substr($result['UNTIL'], 6, 2);
-				$result['UNTIL'] = \App\Fields\DateTime::currentUserDisplayDate($displayDate);
-			}
-			$labelFreq = '';
-			if (!empty($result['FREQ'])) {
-				switch ($result['FREQ']) {
-					case 'DAILY':
-						$labelFreq = 'LBL_DAYS_TYPE';
-						break;
-					case 'WEEKLY':
-						$labelFreq = 'LBL_WEEKS_TYPE';
-						break;
-					case 'MONTHLY':
-						$labelFreq = 'LBL_MONTHS_TYPE';
-						break;
-					case 'YEARLY':
-						$labelFreq = 'LBL_YEAR_TYPE';
-						break;
-				}
-			}
-			$result['freqLabel'] = $labelFreq;
+		if (!$value) {
+			return self::emptyRecurringInfo();
 		}
+		$result = [];
+		$values = explode(';', $value);
+		foreach ($values as $val) {
+			$parts = explode('=', $val, 2);
+			if (count($parts) === 2 && $parts[0] !== '') {
+				$result[$parts[0]] = $parts[1];
+			}
+		}
+		if (isset($result['UNTIL'])) {
+			$displayDate = substr($result['UNTIL'], 0, 4) . '-' . substr($result['UNTIL'], 4, 2) . '-' . substr($result['UNTIL'], 6, 2);
+			$result['UNTIL'] = \App\Fields\DateTime::currentUserDisplayDate($displayDate);
+		}
+		$labelFreq = '';
+		if (!empty($result['FREQ'])) {
+			switch ($result['FREQ']) {
+				case 'DAILY':
+					$labelFreq = 'LBL_DAYS_TYPE';
+					break;
+				case 'WEEKLY':
+					$labelFreq = 'LBL_WEEKS_TYPE';
+					break;
+				case 'MONTHLY':
+					$labelFreq = 'LBL_MONTHS_TYPE';
+					break;
+				case 'YEARLY':
+					$labelFreq = 'LBL_YEAR_TYPE';
+					break;
+			}
+		}
+		$result['freqLabel'] = $labelFreq;
 		return $result;
 	}
 

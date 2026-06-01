@@ -12,6 +12,11 @@ namespace App\Modules\Dashboard\Models;
 class Module extends \App\Modules\Base\Models\Module
 {
 
+	public function getDefaultUrl(): string
+	{
+		return 'index.php?module=Home&view=Index';
+	}
+
 	public function isUtilityActionEnabled()
 	{
 		return true;

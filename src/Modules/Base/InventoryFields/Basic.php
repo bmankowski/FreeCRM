@@ -60,9 +60,27 @@ class Basic extends \App\Runtime\BaseModel
 		return $this->params;
 	}
 
-	public function getParamsConfig()
+	public function getParamsConfig(): array
 	{
-		return \App\Utils\Json::decode($this->get('params'));
+		$params = $this->get('params');
+		$config = [];
+		if ($params !== null && $params !== '') {
+			$decoded = \App\Utils\Json::decode($params);
+			if (is_array($decoded)) {
+				$config = $decoded;
+			}
+		}
+		foreach ($this->getParams() as $param) {
+			if (!array_key_exists($param, $config)) {
+				$config[$param] = match ($param) {
+					'modules' => [],
+					'limit' => 0,
+					'type' => '0',
+					default => '',
+				};
+			}
+		}
+		return $config;
 	}
 
 	/**
