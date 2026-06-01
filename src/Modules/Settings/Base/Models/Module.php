@@ -24,6 +24,7 @@ class Module extends \App\Modules\Base\Models\Record
 	public $baseIndex = 'fieldid';
 	public $listFields = array('name' => 'Name', 'description' => 'Description');
 	protected array $virtualListFields = ['actions'];
+	protected ?array $listFieldModels = null;
 	public $nameFields = array('name');
 	public $name = 'Vtiger';
 
@@ -58,7 +59,7 @@ class Module extends \App\Modules\Base\Models\Record
 
 	public function getListFields(): array
 	{
-		if (!isset($this->listFieldModels)) {
+		if ($this->listFieldModels === null) {
 			$fields = $this->listFields;
 			$fieldObjects = array();
 			foreach ($fields as $fieldName => $fieldLabel) {
@@ -106,7 +107,7 @@ class Module extends \App\Modules\Base\Models\Record
 	/**
 	 * Function to get all the Settings menus
 	 * @param \App\Http\Vtiger_Request $request Optional request for user context and caching
-	 * @return <Array> - List of \App\Modules\Settings\Base\Models\Menu instances
+	 * @return array - List of \App\Modules\Settings\Base\Models\Menu instances
 	 */
 	public function getMenus($request = null)
 	{
