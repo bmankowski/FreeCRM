@@ -35,11 +35,8 @@ class ListView extends \App\Modules\Settings\Base\Models\ListView
 		}
 		$recordModelClass = \App\Core\Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
 
-		$listFields = $module->listFields;
-		unset($listFields['all_tasks']);
-		unset($listFields['active_tasks']);
-		$listFields = array_keys($listFields);
-		$listFields [] = $module->baseIndex;
+		$listFields = $module->getQueryableListFields();
+		$listFields[] = $module->baseIndex;
 		$listFields[] = 'defaultworkflow';
 		$listQuery = (new \App\Db\Query())->select($listFields)
 			->from($module->baseTable);
@@ -58,7 +55,7 @@ class ListView extends \App\Modules\Settings\Base\Models\ListView
 				$orderBy = 'COALESCE(' . \App\Utils\ModuleUtils::getSqlForNameInDisplayFormat('Users') . ',vtiger_groups.groupname)';
 			}
 		}
-		if (!empty($orderBy)) {
+		if (!empty($orderBy) && !$module->isVirtualListField($orderBy)) {
 			$listQuery->orderBy(sprintf('%s %s', $orderBy, $this->getForSql('sortorder')));
 		}
 		$listQuery->limit($pageLimit + 1)->offset($startIndex);

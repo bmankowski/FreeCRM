@@ -89,7 +89,7 @@ class ListView extends \App\Runtime\BaseModel
 				$orderBy = 'COALESCE(' . \App\Utils\ModuleUtils::getSqlForNameInDisplayFormat('Users') . ',vtiger_groups.groupname)';
 			}
 		}
-		if (!empty($orderBy) && $orderBy !== 'actions') {
+		if (!empty($orderBy) && !$moduleModel->isVirtualListField($orderBy)) {
 			if ($this->getForSql('sortorder') === 'DASC') {
 				$listQuery->orderBy([$orderBy => SORT_DESC]);
 			} else {

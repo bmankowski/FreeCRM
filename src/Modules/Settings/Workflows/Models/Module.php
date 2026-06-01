@@ -20,6 +20,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	public $baseTable = 'com_vtiger_workflows';
 	public $baseIndex = 'workflow_id';
 	public $listFields = ['summary' => 'Summary', 'module_name' => 'Module', 'execution_condition' => 'Execution Condition', 'all_tasks' => 'LBL_ALL_TASKS', 'active_tasks' => 'LBL_ACTIVE_TASKS', 'actions' => 'LBL_ACTIONS'];
+	protected array $virtualListFields = ['all_tasks', 'active_tasks', 'actions'];
 	public static $allFields = [
 		'module_name',
 		'summary',

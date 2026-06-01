@@ -39,7 +39,7 @@
 				{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 					{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
-					<th width="{$WIDTH}%" nowrap class="{$WIDTHTYPE}{if $LISTVIEW_HEADERNAME eq 'actions'} text-center{/if}">
+					<th width="{$WIDTH}%" nowrap class="{$WIDTHTYPE}">
 						{if $LISTVIEW_HEADERNAME eq 'actions'}
 							{$LISTVIEW_HEADER->get('label')|t:$QUALIFIED_MODULE}
 						{else}
@@ -61,7 +61,7 @@
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 					{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
 					{if $LISTVIEW_HEADERNAME eq 'actions'}
-						<td nowrap class="{$WIDTHTYPE} rightRecordActions text-center" width="{$WIDTH}%">
+						<td nowrap class="{$WIDTHTYPE} rightRecordActions" width="{$WIDTH}%">
 							{assign var=LINKS value=$LISTVIEW_ENTRY->getRecordLinks()}
 							{if count($LINKS) > 0}
 								<div class="actions">

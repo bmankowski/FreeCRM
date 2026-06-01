@@ -28,7 +28,7 @@ class ListView extends \App\Modules\Settings\Base\Models\ListView
 			$qualifiedModuleName = $parentModuleName . ':' . $qualifiedModuleName;
 		}
 		$recordModelClass = \App\Core\Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
-		$listFields = array_values(array_diff(array_keys($module->listFields), ['actions']));
+		$listFields = $module->getQueryableListFields();
 		if (!in_array($module->baseIndex, $listFields, true)) {
 			$listFields[] = $module->baseIndex;
 		}
@@ -46,7 +46,7 @@ class ListView extends \App\Modules\Settings\Base\Models\ListView
 		$startIndex = $pagingModel->getStartIndex();
 		$pageLimit = $pagingModel->getPageLimit();
 		$orderBy = $this->getForSql('orderby');
-		if (!empty($orderBy) && $orderBy !== 'actions') {
+		if (!empty($orderBy) && !$module->isVirtualListField($orderBy)) {
 			$query->orderBy(sprintf('%s %s ', $orderBy, $this->getForSql('sortorder')));
 		}
 		$query->limit($pageLimit + 1)->offset($startIndex);

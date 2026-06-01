@@ -19,8 +19,8 @@ namespace App\Runtime;
 class Vtiger_Language_Handler
 {
 
-	//Contains module language translations
-	protected static $languageContainer;
+	/** @var array<string, array<string, array{languageStrings: array<string, string>, jsLanguageStrings: array<string, string>}>> */
+	protected static array $languageContainer = [];
 
 	protected static function resolveLanguageModuleName(string $language, $module)
 	{
@@ -362,7 +362,7 @@ class Vtiger_Language_Handler
 	}
 	public static function translate(?string $key, ...$args)
 	{
-		if (empty($key)) {
+		if ($key === null || $key === '') {
 			return 'NO KEY';
 		}
 		// Use the existing Vtiger translation system

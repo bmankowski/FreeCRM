@@ -23,6 +23,7 @@ class Module extends \App\Modules\Base\Models\Record
 	public $baseTable = 'vtiger_settings_field';
 	public $baseIndex = 'fieldid';
 	public $listFields = array('name' => 'Name', 'description' => 'Description');
+	protected array $virtualListFields = ['actions'];
 	public $nameFields = array('name');
 	public $name = 'Vtiger';
 
@@ -66,6 +67,16 @@ class Module extends \App\Modules\Base\Models\Record
 			$this->listFieldModels = $fieldObjects;
 		}
 		return $this->listFieldModels;
+	}
+
+	public function getQueryableListFields(): array
+	{
+		return array_values(array_diff(array_keys($this->listFields), $this->virtualListFields));
+	}
+
+	public function isVirtualListField(string $fieldName): bool
+	{
+		return in_array($fieldName, $this->virtualListFields, true);
 	}
 
 	/**
