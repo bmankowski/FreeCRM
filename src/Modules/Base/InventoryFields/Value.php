@@ -28,7 +28,7 @@ class Value extends Basic
 		if ($mapDetail) {
 			$value = $mapDetail->getDisplayValue($value, false, false, true);
 		}
-		return $value;
+		return $value ?? '';
 	}
 
 	/**
@@ -38,6 +38,6 @@ class Value extends Basic
 	 */
 	public function getEditValue(mixed $value): string
 	{
-		return $value;
+		return $value ?? '';
 	}
 }

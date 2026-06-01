@@ -31,6 +31,9 @@ class Json
 	 */
 	public static function decode($encodedValue, $objectDecodeType = self::TYPE_ARRAY)
 	{
+		if ($encodedValue === null) {
+			return null;
+		}
 		if (function_exists('json_decode')) {
 			return json_decode($encodedValue, $objectDecodeType);
 		}

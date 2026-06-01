@@ -190,6 +190,9 @@ class DateTimeField
 	public static function convertToInternalFormat($date)
 	{
 		if (!is_array($date)) {
+			if ($date === null || $date === '') {
+				return ['', ''];
+			}
 			$date = explode(' ', $date);
 		}
 		return $date;
