@@ -24,7 +24,7 @@
 {/if}
 
 {assign var=DATE_TIME_VALUE value=$FIELD_MODEL->get('fieldvalue')}
-{if $DATE_TIME_VALUE|trim neq ''}
+{if ($DATE_TIME_VALUE|default:'')|trim neq ''}
 	{assign var=DATE_TIME_COMPONENTS value=explode(' ' ,$DATE_TIME_VALUE)}
 	{if count($DATE_TIME_COMPONENTS) eq 2}
 		{assign var=TIME_FIELD value=$TIME_FIELD->set('fieldvalue',$DATE_TIME_COMPONENTS[1])}
