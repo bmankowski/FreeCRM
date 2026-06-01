@@ -56,7 +56,7 @@ class Module extends \App\Modules\Base\Models\Record
 		return $this;
 	}
 
-	public function getListFields()
+	public function getListFields(): array
 	{
 		if (!isset($this->listFieldModels)) {
 			$fields = $this->listFields;

@@ -24,23 +24,19 @@ class ListView extends \App\Runtime\BaseModel
 	 */
 	protected $module;
 
-	/**
-	 * Function to get the Module Model
-	 * @return \App\Modules\Settings\Base\Models\Module|\App\Modules\Base\Models\Module 
-	 */
 	public function getModule()
 	{
 		return $this->module;
 	}
 
-	public function setModule($name)
+	public function setModule(string $name): self
 	{
 		$modelClassName = \App\Core\Loader::getComponentClassName('Model', 'Module', $name);
 		$this->module = new $modelClassName();
 		return $this;
 	}
 
-	public function setModuleFromInstance($module)
+	public function setModuleFromInstance(\App\Modules\Settings\Base\Models\Module $module): self
 	{
 		$this->module = $module;
 		return $this;
@@ -48,9 +44,9 @@ class ListView extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get the list view header
-	 * @return <Array> - List of \App\Modules\Base\Models\Field instances
+	 * @return array - List of \App\Modules\Base\Models\Field instances
 	 */
-	public function getListViewHeaders()
+	public function getListViewHeaders(): array 
 	{
 		$module = $this->getModule();
 		return $module->getListFields();
