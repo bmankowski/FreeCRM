@@ -37,6 +37,7 @@ $adminId = \App\Modules\Users\Models\Record::getActiveAdminId();
 \App\Modules\Users\Models\Record::setCurrentUserId($adminId);
 
 $standardViews = ['ListView', 'ListPreview', 'DashBoard', 'Edit'];
+$skippedModules = ['Import'];
 $notPermittedListModules = ['ModComments', 'Integration', 'DashBoard'];
 
 /**
@@ -78,6 +79,9 @@ $urls = [];
 
 foreach ($rows as $row) {
 	$moduleName = (string) $row['name'];
+	if (in_array($moduleName, $skippedModules, true)) {
+		continue;
+	}
 	$isEntity = (int) $row['isentitytype'] === 1;
 	$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 

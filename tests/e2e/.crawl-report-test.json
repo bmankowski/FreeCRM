@@ -1,0 +1,25 @@
+{
+  "startedAt": "2026-06-01T09:19:41.754Z",
+  "finishedAt": "2026-06-01T09:19:44.913Z",
+  "baseUrl": "https://dev.itconnect.pl",
+  "logLevel": "errors",
+  "logPath": "/work/cache/logs/system.log",
+  "stopOnFail": true,
+  "startFrom": 40,
+  "total": 362,
+  "visited": 40,
+  "stoppedEarly": true,
+  "httpFailures": 0,
+  "logFindings": 1,
+  "findings": [
+    {
+      "url": "https://dev.itconnect.pl/index.php?module=CMileageLogbook&view=Edit",
+      "module": "CMileageLogbook",
+      "view": "Edit",
+      "status": 200,
+      "logLines": [
+        "[01-Jun-2026 10:19:44 Europe/London] PHP Fatal error:  Uncaught Error: Call to undefined method App\\Modules\\HelpDesk\\Models\\DashBoard::setModule() in /var/www/html/src/Modules/Base/Models/DashBoard.php:191"
+      ]
+    }
+  ]
+}

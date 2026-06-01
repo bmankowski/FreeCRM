@@ -5,7 +5,7 @@
 	<div class="rowName">
 		{assign var="FIELD_NAME" value={$FIELD->getColumnName()}|cat:$ROW_NO}
 		{assign var="FIELD_INFO" value=\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode(['mandatory'=>true]))}
-		{assign var="CRMEntity" value=\App\CRMEntity::getInstance($REFERENCE_MODULE)}
+		{assign var="CRMEntity" value=\App\Core\CRMEntity::getInstance($REFERENCE_MODULE)}
 		<div class="input-group">
 			<input name="popupReferenceModule" type="hidden" data-multi-reference="1" data-field="{$CRMEntity->table_index}" value="{$REFERENCE_MODULE}" />
 			<input name="{$FIELD_NAME}" type="hidden" value="{$ITEM_VALUE}" title="{$ITEM_VALUE}" class="sourceField" data-type="inventory" data-displayvalue='{$FIELD->getEditValue($ITEM_VALUE)}' data-fieldinfo='{$FIELD_INFO}' data-columnname="{$FIELD->getColumnName()}" {if $FIELD->get('displaytype') == 10}readonly="readonly"{/if} />

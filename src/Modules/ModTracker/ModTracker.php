@@ -16,6 +16,9 @@ namespace App\Modules\ModTracker;
 
 class ModTracker {
 
+	public $default_order_by = '';
+	public $default_sort_order = 'ASC';
+
 	/**
 	 * Constant variables which indicates the status of the changed record.
 	 */

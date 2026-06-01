@@ -40,14 +40,10 @@ class Field extends \App\Modules\Base\Models\Field
 		if ($recordInstance) {
 			if ($this->getName() == 'date_start') {
 				$dateTimeValue = $value . ' ' . $recordInstance->get('time_start');
-				$value = $this->getUITypeModel()->getDisplayValue($dateTimeValue);
-				list($startDate, $startTime, $meridiem) = explode(' ', $value);
-				return $startDate . ' ' . $startTime . ' ' . $meridiem;
+				return $this->getUITypeModel()->getDisplayValue($dateTimeValue);
 			} else if ($this->getName() == 'due_date') {
 				$dateTimeValue = $value . ' ' . $recordInstance->get('time_end');
-				$value = $this->getUITypeModel()->getDisplayValue($dateTimeValue);
-				list($startDate, $startTime, $meridiem) = explode(' ', $value);
-				return $startDate . ' ' . $startTime . ' ' . $meridiem;
+				return $this->getUITypeModel()->getDisplayValue($dateTimeValue);
 			}
 		}
 		return parent::getDisplayValue($value, $record, $recordInstance, $rawText);

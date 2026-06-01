@@ -165,7 +165,14 @@ class Record extends \App\Modules\Base\Models\Record
 	public function getModule()
 	{
 		if (empty($this->parent)) {
-			return \App\Modules\Base\Models\Module::getInstance($this->getModuleName());
+			$trackedModule = $this->get('module');
+			if ($trackedModule !== null && $trackedModule !== '') {
+				return \App\Modules\Base\Models\Module::getInstance($trackedModule);
+			}
+			if (!empty($this->module)) {
+				return $this->module;
+			}
+			return \App\Modules\Base\Models\Module::getInstance('ModTracker');
 		}
 		return $this->getParent()->getModule();
 	}
@@ -176,7 +183,14 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public function getModuleName()
 	{
-		return $this->get('module');
+		$trackedModule = $this->get('module');
+		if ($trackedModule !== null && $trackedModule !== '') {
+			return $trackedModule;
+		}
+		if (!empty($this->module)) {
+			return $this->module->getName();
+		}
+		return 'ModTracker';
 	}
 
 	/**

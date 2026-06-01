@@ -36,7 +36,7 @@ class Preview extends \App\Modules\Base\Views\Index
 
 		// Make widgets/templates behave exactly like DetailView context
 		$request->set('view', 'Detail');
-		$request->set('isReadOnly', true);
+		$request->set('isReadOnly', 'true');
 
 		$handlerClass = \App\Core\Loader::getComponentClassName('View', 'Detail', $moduleName);
 		$detailView = new $handlerClass();

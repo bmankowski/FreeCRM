@@ -497,6 +497,7 @@ class Detail extends \App\Modules\Base\Views\Index
 		$viewer->assign('VIEW', $request->get('view'));
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('IS_AJAX_ENABLED', $this->isAjaxEnabled($recordModel));
+		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStrucure);
 		$viewer->assign('SUMMARY_RECORD_STRUCTURE', $recordStrucure->getStructure());
 		if (is_callable($moduleName . "_Record_Model", 'getStructure')) {
 			$viewer->assign('SUMMARY_RECORD_STRUCTURE', $recordStrucure->getStructure());

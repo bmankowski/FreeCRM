@@ -39,6 +39,7 @@ interface CrawlReport {
 	logLevel: LogLevel;
 	logPath: string;
 	stopOnFail: boolean;
+	startFrom: number;
 	total: number;
 	visited: number;
 	stoppedEarly: boolean;
@@ -54,6 +55,7 @@ interface CrawlerConfig {
 	urlsFile: string;
 	reportFile: string;
 	stopOnFail: boolean;
+	startFrom: number;
 }
 
 function printHelp(): void {
@@ -92,6 +94,10 @@ Options:
   --continue-on-fail      Visit all URLs; report all failures at end
                           Env: FREECRM_CONTINUE_ON_FAIL=1
 
+  --start-from N          Begin at URL N (1-based, matches [N/total] progress)
+                          Default: 1
+                          Env: FREECRM_START_FROM
+
 Environment:
   FREECRM_URL             Base URL
   FREECRM_USER            Login username (default: admin)
@@ -99,6 +105,7 @@ Environment:
   FREECRM_LOG_LEVEL       Same as --log-level
   FREECRM_LOG_PATH        Same as --log-path
   FREECRM_CONTINUE_ON_FAIL  Same as --continue-on-fail
+  FREECRM_START_FROM        Same as --start-from
 
 Exit codes:
   0  No failures
@@ -122,6 +129,7 @@ function parseArgs(argv: string[]): CrawlerConfig {
 		urlsFile: path.resolve(__dirname, '../.crawl-urls.json'),
 		reportFile: path.resolve(__dirname, '../.crawl-report.json'),
 		stopOnFail: process.env.FREECRM_CONTINUE_ON_FAIL !== '1',
+		startFrom: parseStartFrom(process.env.FREECRM_START_FROM),
 	};
 
 	for (let i = 2; i < argv.length; i++) {
@@ -159,10 +167,27 @@ function parseArgs(argv: string[]): CrawlerConfig {
 					: path.resolve(process.cwd(), next ?? config.reportFile);
 				i++;
 				break;
+			case '--start-from':
+				config.startFrom = parseStartFrom(next);
+				i++;
+				break;
 		}
 	}
 
 	return config;
+}
+
+function parseStartFrom(value: string | undefined): number {
+	if (value === undefined || value === '') {
+		return 1;
+	}
+
+	const parsed = Number.parseInt(value, 10);
+	if (!Number.isFinite(parsed) || parsed < 1) {
+		throw new Error(`--start-from must be a positive integer, got: ${value}`);
+	}
+
+	return parsed;
 }
 
 function loadUrls(urlsFile: string): CrawlUrl[] {
@@ -224,6 +249,7 @@ function writeReport(
 		logLevel: config.logLevel,
 		logPath: config.logPath,
 		stopOnFail: config.stopOnFail,
+		startFrom: config.startFrom,
 		total: urls.length,
 		visited,
 		stoppedEarly,
@@ -260,7 +286,16 @@ async function main(): Promise<void> {
 	console.log(`URLs file:  ${config.urlsFile}`);
 	console.log(`Stop on fail: ${config.stopOnFail ? 'yes' : 'no'}`);
 	console.log(`Total URLs: ${urls.length}`);
+	if (config.startFrom > 1) {
+		console.log(`Start from: URL ${config.startFrom} (skipping ${config.startFrom - 1})`);
+	}
 	console.log('');
+
+	if (config.startFrom > urls.length) {
+		throw new Error(`--start-from ${config.startFrom} exceeds URL count (${urls.length})`);
+	}
+
+	const startIndex = config.startFrom - 1;
 
 	const browser = await chromium.launch();
 	const page = await browser.newPage();
@@ -268,7 +303,7 @@ async function main(): Promise<void> {
 	try {
 		await login(page, config.baseUrl, getLoginCredentials());
 
-		for (let i = 0; i < urls.length; i++) {
+		for (let i = startIndex; i < urls.length; i++) {
 			const entry = urls[i];
 			const fullUrl = `${config.baseUrl}/${entry.path.replace(/^\//, '')}`;
 

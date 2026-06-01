@@ -94,6 +94,10 @@ ENVIRONMENT VARIABLES (Node crawler)
       Set to 1 to keep crawling after failures (same as --continue-on-fail).
       Default: unset (stop on first failure)
 
+  FREECRM_START_FROM
+      Begin at URL N (1-based). Same as --start-from.
+      Default: 1
+
 
 CLI OPTIONS (passed to module-crawler.ts)
 -----------------------------------------
@@ -131,6 +135,12 @@ CLI OPTIONS (passed to module-crawler.ts)
 
   --continue-on-fail
       Visit all URLs even when failures occur; report everything at the end.
+
+  --start-from N
+      Begin crawling at URL N (1-based index, same as [N/total] in progress output).
+      Skips URLs 1 through N-1. Useful after fixing a failure to resume where you left off.
+      Example: ./crawl.sh --start-from 84
+      Env: FREECRM_START_FROM
 
 
 LOG LEVEL REFERENCE
@@ -196,6 +206,9 @@ EXAMPLES
   # Custom credentials and target
   FREECRM_USER=admin FREECRM_PASS='MySecret#42' \
     ./crawl.sh --url https://dev.itconnect.pl
+
+  # Resume after fixing a failure at URL 84
+  ./crawl.sh --start-from 84
 
   # Smoke-test a subset (export full list first, then slice manually)
   node -e "const u=require('./tests/e2e/.crawl-urls.json'); \
@@ -278,6 +291,7 @@ docker run --rm --network host \
 	-e FREECRM_PASS="${FREECRM_PASS:-NewArgon2idAdmin#42}" \
 	-e FREECRM_LOG_PATH="${FREECRM_LOG_PATH:-/work/cache/logs/system.log}" \
 	-e FREECRM_CONTINUE_ON_FAIL="${FREECRM_CONTINUE_ON_FAIL:-}" \
+	-e FREECRM_START_FROM="${FREECRM_START_FROM:-}" \
 	"$PLAYWRIGHT_IMAGE" \
 	npx tsx scripts/module-crawler.ts \
 		--log-path /work/cache/logs/system.log \

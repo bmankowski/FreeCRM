@@ -11,6 +11,9 @@ namespace App\Modules\ImportManager;
 
 class ImportManager
 {
+	public $default_order_by = '';
+	public $default_sort_order = 'DESC';
+
 	/**
 	 * Entry point for vtlib events.
 	 */

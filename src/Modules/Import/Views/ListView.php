@@ -48,7 +48,7 @@ class ListView extends Popup
 	 * Function to initialize the required data in smarty to display the List View Contents
 	 */
 
-	public function initializeListViewContents(\App\Http\Vtiger_Request $request, CRM_Viewer $viewer)
+	public function initializeListViewContents(\App\Http\Vtiger_Request $request, \App\Runtime\CRM_Viewer $viewer)
 	{
 		$moduleName = $request->get('for_module');
 		$cvId = $request->get('viewname');
