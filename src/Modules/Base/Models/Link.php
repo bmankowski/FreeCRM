@@ -33,6 +33,20 @@ class Link extends \vtlib\Link
 	public $showLabel;          // Boolean - whether to show label
 	public $class;              // CSS class property (commonly used in link data)
 	public $target;             // HTML target attribute for links (_blank, _self, etc.)
+	public $nocaret;            // Hide dropdown caret on header links
+	public $linkhint;           // Tooltip / action label key
+	public $title;              // HTML title attribute
+	public $linkKey;            // Tab identifier for detail view navigation
+	public $related;            // Related tab type (Summary, Details, module name, …)
+	public $countRelated;       // Whether to show related record count badge
+	public $badgeClass;         // CSS class for count badge
+	public $linkhref;           // Render as <a> instead of <button>
+	public $linktarget;         // HTML target attribute (alias used in templates)
+	public $linkPopup;           // Open link in popup window
+	public $linkimg;            // Image URL for button icon
+	public $linkqcs = false;    // Quick-create supported on related list tab
+	public $_selectRelation = false;
+	public $_module;
 
 	/**
 	 * Function to get the value of a given property

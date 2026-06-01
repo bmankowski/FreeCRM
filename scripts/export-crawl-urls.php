@@ -115,6 +115,10 @@ foreach ($rows as $row) {
 			continue;
 		}
 
+		if ($view === 'Edit' && (!$moduleModel->isPermitted('CreateView') || !$moduleModel->isPermitted('EditView'))) {
+			continue;
+		}
+
 		if (!viewFileExists(
 			$moduleName,
 			$view,

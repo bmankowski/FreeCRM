@@ -27,6 +27,7 @@ class Record extends \App\Runtime\BaseModel
 	protected $handlerExceptions;
 	public $summaryRowCount = 4;
 	public $isNew = true;
+	public array $colorList = [];
 
 	// Commonly used dynamic properties - declared to avoid PHP 8.2+ deprecation warnings
 	protected $entity;            // \App\Core\CRMEntity instance

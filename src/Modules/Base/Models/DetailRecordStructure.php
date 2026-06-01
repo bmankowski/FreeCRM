@@ -17,7 +17,7 @@ namespace App\Modules\Base\Models;
 class DetailRecordStructure extends \App\Modules\Base\Models\RecordStructure
 {
 
-	private $fieldsInHeader = false;
+	private array $fieldsInHeader = [];
 
 	/**
 	 * Function to get the values in stuctured format

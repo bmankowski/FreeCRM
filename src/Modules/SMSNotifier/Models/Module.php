@@ -40,7 +40,7 @@ class Module extends \App\Modules\Base\Models\Module
 	 */
 	public function isPermitted($actionName)
 	{
-		if ($actionName === 'EditView') {
+		if ($actionName === 'EditView' || $actionName === 'Edit' || $actionName === 'CreateView') {
 			return false;
 		}
 		return \App\Modules\Users\Models\Privileges::isPermitted($this->getName(), $actionName);

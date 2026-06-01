@@ -15,6 +15,8 @@ namespace App\Modules\Base\Models;
 class DashBoard extends \App\Runtime\BaseModel
 {
 
+	protected $module;
+
 	/**
 	 * Function to get Module instance
 	 * @return \App\Modules\Base\Models\Module

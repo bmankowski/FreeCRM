@@ -50,6 +50,11 @@ class Field
 	protected $reportlabel;
 	protected $reportcolumninfo;
 	protected $fromOutsideList;
+	protected $uitype;
+	protected $name;
+	protected $label;
+	protected $typeofdata;
+	protected $diplaytype;
 
 	const REFERENCE_TYPE = 'reference';
 	const OWNER_TYPE = 'owner';

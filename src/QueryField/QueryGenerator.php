@@ -726,6 +726,9 @@ class QueryGenerator
 		if ($this->deletedCondition) {
 			$this->query->andWhere($this->getDeletedCondition());
 		}
+		if (isset($this->entityModel->tab_name_index['vtiger_crmentity'])) {
+			$this->query->andWhere(['vtiger_crmentity.setype' => $this->moduleName]);
+		}
 		$this->query->andWhere(['or', array_merge(['and'], $this->conditionsAnd), array_merge(['or'], $this->conditionsOr)]);
 		if ($this->permissions) {
 			if (\App\Core\AppConfig::security('CACHING_PERMISSION_TO_RECORD') && $this->moduleName !== 'Users') {

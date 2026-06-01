@@ -1,0 +1,80 @@
+---
+description: "How to fix common PHP 8.2+ deprecation warnings logged to cache/logs/system.log — read when triaging [warning][php] entries"
+alwaysApply: false
+---
+
+# Fixing PHP deprecation warnings
+
+FreeCRM runs on PHP 8.3. Deprecations are routed through `WebUI_ErrorHandler` → `cache/logs/system.log` as `[warning][php]`. Fix them at the source; do not suppress with `@` or lower `EXCEPTION_ERROR_LEVEL`.
+
+See also: `error-checking.mdc` (where to look), `php-coding-standards.mdc` (typing/style).
+
+## 1. Creation of dynamic property … is deprecated
+
+**Cause:** PHP 8.2 forbids assigning undeclared object properties (`$obj->foo = …`).
+
+**Fix:** Declare the property on the class that receives the assignment. Match visibility to how callers/templates access it (Smarty often needs `public`).
+
+```php
+// src/Modules/Base/Models/Record.php
+public array $colorList = [];
+
+// src/Modules/Base/Models/Link.php
+public $linkKey;
+public $related;
+public $countRelated;
+```
+
+**Where to look:**
+- Stack trace class + property name.
+- Grep the property name to find all assignment sites.
+- Common targets: `App\Modules\Base\Models\Link`, `Record`, adapters under `src/ModuleManagement/Adapters/`.
+- `Link::initialize()` and `Link::getInstanceFromValues()` assign every key from value maps — declare all keys used in link arrays and `.tpl` files (`$LINK->get('…')`, `$LISTVIEW_ENTRY->…`).
+
+**Do not:** add `#[\AllowDynamicProperties]` or leave properties undeclared “for flexibility”.
+
+## 2. Automatic conversion of false to array is deprecated
+
+**Cause:** A property initialized as `false` is later used with array syntax (`$prop[$key] = …`).
+
+**Fix:** Initialize as an empty typed array.
+
+```php
+// Before
+private $fieldsInHeader = false;
+
+// After
+private array $fieldsInHeader = [];
+```
+
+Smarty `{if $VAR}` treats `[]` as falsy — no template change needed.
+
+## 3. filemtime(): stat failed for libraries/…
+
+**Cause:** `vresource_url()` in `src/Runtime/TemplateHelpers.php` probed web-relative paths as filesystem paths. Static assets live only under `public/` (document root).
+
+**Fix:** Resolve cache-busting mtime only via `ROOT_DIRECTORY/public/…`. Check `is_file()` before `filemtime()`. Do not probe the bare URL or project root without `public/`.
+
+```php
+$path = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . ltrim($url, '/');
+if (is_file($path)) {
+    return $url . '?s=' . filemtime($path);
+}
+```
+
+**Note:** `@filemtime()` does not suppress warnings inside the called function on PHP 8+ when a custom error handler is registered.
+
+## Workflow
+
+1. Reproduce via browser (not CLI-only) and read `cache/logs/system.log`.
+2. Identify pattern from message (dynamic property / false→array / stat failed).
+3. Apply the matching fix above — minimal diff, no compat shims.
+4. Reload the page; confirm the warning is gone and behaviour unchanged.
+
+## Quick grep helpers
+
+```bash
+rg "->colorList" src/
+rg "getInstanceFromValues" src/ --glob '*.php'
+rg "vresource_url" layouts/ src/
+```
