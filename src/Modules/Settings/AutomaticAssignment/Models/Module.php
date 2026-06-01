@@ -30,7 +30,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 * List of fields displayed in list view
 	 * @var string 
 	 */
-	public $listFields = ['tabid' => 'FL_MODULE', 'field' => 'FL_FIELD', 'value' => 'FL_VALUE', 'active' => 'FL_ACTIVE', 'roleid' => 'FL_MODE'];
+	public $listFields = ['tabid' => 'FL_MODULE', 'field' => 'FL_FIELD', 'value' => 'FL_VALUE', 'active' => 'FL_ACTIVE', 'roleid' => 'FL_MODE', 'actions' => 'LBL_ACTIONS'];
 
 	/**
 	 * Module Name

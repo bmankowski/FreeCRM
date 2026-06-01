@@ -20,6 +20,6 @@ final class CvImportLogger
 			return;
 		}
 		echo $message . "\n";
-		\App\Log\Log::warning($message);
+		\App\Log\Log::info($message, 'cv-import');
 	}
 }

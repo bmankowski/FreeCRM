@@ -38,7 +38,7 @@
 									{foreach item=LISTVIEW_ADVANCEDACTIONS from=$LISTVIEW_LINKS['LISTVIEW']}
 										<li
 											id="{$MODULE}_listView_advancedAction_{\App\Modules\Base\Helpers\Util::replaceSpaceWithUnderScores($LISTVIEW_ADVANCEDACTIONS->getLabel())}">
-											<a {if stripos($LISTVIEW_ADVANCEDACTIONS->getUrl(), 'javascript:')===0}
+											<a {if stripos($LISTVIEW_ADVANCEDACTIONS->getUrl()|default:'', 'javascript:')===0}
 													href="javascript:void(0);"
 												onclick='{$LISTVIEW_ADVANCEDACTIONS->getUrl()|substr:strlen("javascript:")};' {else}
 												href='{$LISTVIEW_ADVANCEDACTIONS->getUrl()}' {/if}

@@ -12,7 +12,12 @@ namespace App\Modules\ApiAddress;
  * All Rights Reserved.
  * *********************************************************************************************************************************** */
 
-class ApiAddress {
+class ApiAddress extends \App\Core\CRMEntity
+{
+
+	public $table_name = 'vtiger_apiaddress';
+	public $default_order_by = '';
+	public $default_sort_order = 'ASC';
 
 	/**
 	 * Invoked when special actions are performed on the module.

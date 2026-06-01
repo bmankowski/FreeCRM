@@ -18,7 +18,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	public $baseTable = 'vtiger_smsnotifier_servers';
 	public $nameFields = array();
-	public $listFields = array('providertype' => 'Provider', 'username' => 'User Name', 'isactive' => 'Active');
+	public $listFields = ['providertype' => 'Provider', 'username' => 'User Name', 'isactive' => 'Active', 'actions' => 'LBL_ACTIONS'];
 	public $name = 'SMSNotifier';
 
 	/**

@@ -9,15 +9,21 @@
     "test:debug": "playwright test --debug",
     "test:headed": "playwright test --headed",
     "codegen": "playwright codegen https://dev.itconnect.pl",
-    "report": "playwright show-report"
+    "report": "playwright show-report",
+    "crawl:modules": "tsx scripts/module-crawler.ts"
   },
-  "keywords": ["e2e", "playwright", "crm", "testing"],
+  "keywords": [
+    "e2e",
+    "playwright",
+    "crm",
+    "testing"
+  ],
   "author": "bmankowski@gmail.com",
   "license": "FreeCRM Public License 1.1",
   "devDependencies": {
     "@playwright/test": "^1.40.0",
     "@types/node": "^20.0.0",
+    "tsx": "^4.22.4",
     "typescript": "^5.0.0"
   }
 }
-

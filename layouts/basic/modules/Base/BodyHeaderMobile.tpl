@@ -45,7 +45,7 @@
 		{/if}
 			{if \App\Modules\Users\Models\Privileges::isPermitted('Notification', 'DetailView')}
 			<div class="row">
-				<div class="notificationsNotice quickAction{if \App\Core\AppConfig::module('Home', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
+				<div class="notificationsNotice quickAction{if \App\Core\AppConfig::module('Notification', 'AUTO_REFRESH_REMINDERS')} autoRefreshing{/if}">
 					<div class="pull-left">
 						{'LBL_NOTIFICATIONS'|t}
 					</div>

@@ -21,7 +21,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	public $baseTable = 'vtiger_profile';
 	public $baseIndex = 'profileid';
-	public $listFields = array('profilename' => 'Name', 'description' => 'Description');
+	public $listFields = ['profilename' => 'Name', 'description' => 'Description', 'actions' => 'LBL_ACTIONS'];
 
 	const GLOBAL_ACTION_VIEW = 1;
 	const GLOBAL_ACTION_EDIT = 2;

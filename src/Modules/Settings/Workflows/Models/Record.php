@@ -237,28 +237,34 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 		$links = array();
 
-		$recordLinks = array(
-			array(
+		$allTasks = (int) $this->get('all_tasks');
+		$activeTasks = (int) $this->get('active_tasks');
+		$recordLinks = [];
+		if ($activeTasks < $allTasks) {
+			$recordLinks[] = [
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_ACTIVATION_TASKS',
 				'linkurl' => 'javascript:Settings_Workflows_ListView_Js.setChangeStatusTasks(this,' . $this->getId() . ',true);',
 				'linkicon' => 'glyphicon glyphicon-ok',
-				'class' => 'activeTasks'
-			),
-			array(
+				'linkclass' => 'btn btn-xs btn-success activeTasks',
+			];
+		}
+		if ($activeTasks > 0) {
+			$recordLinks[] = [
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DEACTIVATION_TASKS',
 				'linkurl' => 'javascript:Settings_Workflows_ListView_Js.setChangeStatusTasks(this,' . $this->getId() . ', false);',
 				'linkicon' => 'glyphicon glyphicon-remove',
-				'class' => 'deactiveTasks'
-			),
-			[
-				'linktype' => 'LISTVIEWRECORD',
-				'linklabel' => 'LBL_EXPORT_RECORD',
-				'linkurl' => 'index.php?module=Workflows&parent=Settings&action=ExportWorkflow&id=' . $this->getId(),
-				'linkicon' => 'glyphicon glyphicon-export'
-			],
-		);
+				'linkclass' => 'btn btn-xs btn-warning deactiveTasks',
+			];
+		}
+		$recordLinks[] = [
+			'linktype' => 'LISTVIEWRECORD',
+			'linklabel' => 'LBL_EXPORT_RECORD',
+			'linkurl' => 'index.php?module=Workflows&parent=Settings&action=ExportWorkflow&id=' . $this->getId(),
+			'linkicon' => 'glyphicon glyphicon-export',
+			'linkclass' => 'btn btn-xs btn-default',
+		];
 		if (!$this->isDefault()) {
 			$recordLinks[] = [
 				'linktype' => 'LISTVIEWRECORD',

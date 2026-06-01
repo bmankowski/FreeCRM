@@ -21,7 +21,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	public $baseTable = 'vtiger_role';
 	public $baseIndex = 'roleid';
-	public $listFields = array('roleid' => 'Role Id', 'rolename' => 'Name');
+	public $listFields = ['roleid' => 'Role Id', 'rolename' => 'Name', 'actions' => 'LBL_ACTIONS'];
 	public $name = 'Roles';
 
 	/**

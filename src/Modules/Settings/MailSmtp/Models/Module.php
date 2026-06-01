@@ -15,7 +15,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	public $baseTable = 's_#__mail_smtp';
 	public $baseIndex = 'id';
-	public $listFields = ['name' => 'LBL_NAME', 'host' => 'LBL_HOST', 'port' => 'LBL_PORT' , 'username' => 'LBL_USERNAME', 'from_email' => 'LBL_FROM_EMAIL'];
+	public $listFields = ['name' => 'LBL_NAME', 'host' => 'LBL_HOST', 'port' => 'LBL_PORT', 'username' => 'LBL_USERNAME', 'from_email' => 'LBL_FROM_EMAIL', 'actions' => 'LBL_ACTIONS'];
 	public $name = 'MailSmtp';
 
 	/**

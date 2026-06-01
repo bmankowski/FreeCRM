@@ -21,7 +21,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	public $baseTable = 'vtiger_groups';
 	public $baseIndex = 'groupid';
-	public $listFields = array('groupname' => 'Name', 'description' => 'Description');
+	public $listFields = ['groupname' => 'Name', 'description' => 'Description', 'actions' => 'LBL_ACTIONS'];
 	public $name = 'Groups';
 
 	/**

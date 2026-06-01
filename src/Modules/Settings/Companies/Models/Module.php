@@ -15,7 +15,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	public $baseTable = 's_yf_companies';
 	public $baseIndex = 'id';
-	public $listFields = ['name' => 'LBL_NAME', 'phone' => 'LBL_PHONE', 'vatid' => 'LBL_VATID', 'email' => 'LBL_EMAIL', 'city' => 'LBL_CITY'];
+	public $listFields = ['name' => 'LBL_NAME', 'phone' => 'LBL_PHONE', 'vatid' => 'LBL_VATID', 'email' => 'LBL_EMAIL', 'city' => 'LBL_CITY', 'actions' => 'LBL_ACTIONS'];
 	public $name = 'Companies';
 
 	/**

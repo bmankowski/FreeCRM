@@ -252,7 +252,7 @@ class Accounts extends \App\Core\CRMEntity
 
 		\App\Log\Log::trace('Entering getHierarchyData(' . $id . ',' . $accountId . ') method ...');
 		$currentUser = \App\User\CurrentUser::get();
-		require('user_privileges/user_privileges_' . $currentUser->id . '.php');
+		require('user_privileges/user_privileges_' . $currentUser->getId() . '.php');
 
 		$hasRecordViewAccess = (\vtlib\Functions:: userIsAdministrator($currentUser)) || \App\Security\Privilege::isPermitted('Accounts', 'DetailView', $accountId);
 		foreach ($this->hierarchyFields as &$field) {

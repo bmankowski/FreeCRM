@@ -22,7 +22,8 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	public $listFields = [
 		'tabid' => 'LBL_MODULE',
 		'reltabid' => 'LBL_REL_MODULE',
-		'status' => 'LBL_STATUS'
+		'status' => 'LBL_STATUS',
+		'actions' => 'LBL_ACTIONS',
 	];
 	public static $allFields = [
 		'tabid',

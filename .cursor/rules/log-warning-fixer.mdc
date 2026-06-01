@@ -1,0 +1,51 @@
+---
+description: "Fix PHP warnings from cache/logs/system.log during modernization — used by log-watcher hooks"
+alwaysApply: false
+---
+
+# Log Warning Fixer
+
+Used when the log-watcher `stop` hook submits a queued entry, or when explicitly asked to drain/fix log warnings.
+
+Queued line types:
+- `PHP Warning`, `PHP Deprecated`, `PHP Fatal error` (maps `cache/templates_c/` back to `layouts/` when possible)
+- Application `[error]` and `[warning]` lines from FreeCRM logging (including `=> /path/file.php:line`)
+
+Not queued: `[info]`, request dumps, `vendor/`, or paths with no source file on disk.
+Activity and skip reasons: `.cursor/log-watcher.log` (use `tail -f` here — the queue stays empty when lines are deduped or already drained).
+
+Dedupe: each log line gets a key in `.cursor/log-warnings.seen`. The stop hook removes that key when it pops the item, so a warning can re-enter the queue if it still appears after a fix attempt. Only one background watcher should run (`start-log-watcher.sh` enforces this on reload).
+
+## Scope
+
+- Fix **one** warning per turn.
+- Edit `src/` or `layouts/` only.
+- Never edit `vendor/`, `cache/templates_c/`, or generated files.
+- Docker log paths use `/var/www/html/` — map to the project root.
+
+## Smarty warnings
+
+- Warnings in `cache/templates_c/*.php` come from a `.tpl` under `layouts/`.
+- Fix the template source, then: `rm -f cache/templates_c/*.php`
+
+## Fix patterns (modern PHP)
+
+| Pattern | Approach |
+|---------|----------|
+| `Passing null to parameter` | Guard caller or default before the call |
+| `Undefined array key` | Fix data flow or use `??` when the key is legitimately optional |
+| `Undefined property` | Add typed property, initialize in constructor, or fix accessor — avoid blind `@` suppression |
+| Smarty unregistered function/class | Register via Smarty bootstrap, not in templates |
+| Fatal `Failed opening required` | Fix include path or guard missing prerequisites |
+
+## Verification
+
+1. Prefer reproducing via the web UI (see `error-checking.mdc`).
+2. Ignore CLI-only warnings if web context is clean.
+3. Do not consider the warning fixed until it stops appearing in `cache/logs/system.log` for that code path.
+
+## Queue state
+
+Runtime files (gitignored): `.cursor/log-warnings.queue`, `.cursor/log-warnings.seen`, `.cursor/log-watcher.pid`
+
+To reset deduplication and re-queue all warnings: stop the watcher, delete `.cursor/log-warnings.seen`, restart Cursor or run `.cursor/hooks/start-log-watcher.sh`.

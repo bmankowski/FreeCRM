@@ -1,18 +1,20 @@
 {
-  "php": {
-    "LBL_DELAYED_EMAILS": "Opóźnione e-maile",
-    "LBL_DELAYED_EMAILS_DESCRIPTION": "E-maile oczekujące na wysłanie po skonfigurowanym opóźnieniu",
-    "LBL_SOURCE": "Źródło",
-    "LBL_DESTINATION": "Cel",
-    "LBL_TYPE": "Typ",
-    "LBL_TYPE_STATUS_CHANGE": "Zmiana statusu",
-    "LBL_RECIPIENT": "Odbiorca",
-    "LBL_SUBJECT": "Temat",
-    "LBL_SEND_AFTER": "Wysyłka o",
-    "LBL_CREATED_AT": "Utworzono",
-    "LBL_ACTIONS": "Akcje",
-    "LBL_CANCEL": "Anuluj",
-    "LBL_SEND_NOW": "Wyślij teraz",
-    "LBL_NO_RECORDS_FOUND": "Brak oczekujących e-maili"
-  }
+    "languageStrings": {
+        "LBL_DELAYED_EMAILS": "Opóźnione e-maile",
+        "LBL_DELAYED_EMAILS_DESCRIPTION": "E-maile oczekujące na wysłanie po skonfigurowanym opóźnieniu",
+        "LBL_SOURCE": "Źródło",
+        "LBL_DESTINATION": "Cel",
+        "LBL_TYPE": "Typ",
+        "LBL_TYPE_STATUS_CHANGE": "Zmiana statusu",
+        "LBL_RECIPIENT": "Odbiorca",
+        "LBL_SUBJECT": "Temat",
+        "LBL_SEND_AFTER": "Wysyłka o",
+        "LBL_CREATED_AT": "Utworzono",
+        "LBL_ACTIONS": "Akcje",
+        "LBL_CANCEL": "Anuluj",
+        "LBL_SEND_NOW": "Wyślij teraz",
+        "LBL_NO_RECORDS_FOUND": "Brak oczekujących e-maili",
+        "LBL_VIEW_LISTVIEW": "Lista"
+    },
+    "jsLanguageStrings": {}
 }

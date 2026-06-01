@@ -19,7 +19,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	public $baseTable = 'vtiger_blocks_hide';
 	public $baseIndex = 'id';
 	public $nameFields = array('name');
-	public $listFields = array('name' => 'LBL_MODULE', 'blocklabel' => 'LBL_BLOCK_LABEL', 'enabled' => 'LBL_ENABLED', 'view' => 'LBL_VIEW');
+	public $listFields = ['name' => 'LBL_MODULE', 'blocklabel' => 'LBL_BLOCK_LABEL', 'enabled' => 'LBL_ENABLED', 'view' => 'LBL_VIEW', 'actions' => 'LBL_ACTIONS'];
 	public $name = 'HideBlocks';
 	public $views = array('Detail', 'Edit');
 

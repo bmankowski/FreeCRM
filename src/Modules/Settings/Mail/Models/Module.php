@@ -16,7 +16,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	public $baseTable = 's_#__mail_queue';
 	public $baseIndex = 'id';
-	public $listFields = ['smtp_id' => 'LBL_SMTP_NAME', 'date' => 'LBL_DATE', 'owner' => 'LBL_CREATED_BY', 'subject' => 'LBL_SUBJECT', 'status' => 'LBL_STATUS', 'priority' => 'LBL_PRIORITY'];
+	public $listFields = ['smtp_id' => 'LBL_SMTP_NAME', 'date' => 'LBL_DATE', 'owner' => 'LBL_CREATED_BY', 'subject' => 'LBL_SUBJECT', 'status' => 'LBL_STATUS', 'priority' => 'LBL_PRIORITY', 'actions' => 'LBL_ACTIONS'];
 	public $name = 'Mail';
 	public $filterFields = ['smtp_id', 'status', 'priority'];
 

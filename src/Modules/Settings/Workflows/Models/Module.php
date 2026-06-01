@@ -19,7 +19,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	public $baseTable = 'com_vtiger_workflows';
 	public $baseIndex = 'workflow_id';
-	public $listFields = array('summary' => 'Summary', 'module_name' => 'Module', 'execution_condition' => 'Execution Condition', 'all_tasks' => 'LBL_ALL_TASKS', 'active_tasks' => 'LBL_ACTIVE_TASKS');
+	public $listFields = ['summary' => 'Summary', 'module_name' => 'Module', 'execution_condition' => 'Execution Condition', 'all_tasks' => 'LBL_ALL_TASKS', 'active_tasks' => 'LBL_ACTIVE_TASKS', 'actions' => 'LBL_ACTIONS'];
 	public static $allFields = [
 		'module_name',
 		'summary',
@@ -112,7 +112,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		if (!property_exists($this, 'listFieldModels')) {
 			$fields = $this->listFields;
 			$fieldObjects = array();
-			$fieldsNoSort = array('module_name', 'execution_condition', 'all_tasks', 'active_tasks');
+			$fieldsNoSort = ['module_name', 'execution_condition', 'all_tasks', 'active_tasks', 'actions'];
 			foreach ($fields as $fieldName => $fieldLabel) {
 				if (in_array($fieldName, $fieldsNoSort)) {
 					$fieldObjects[$fieldName] = new \App\Runtime\BaseModel(array('name' => $fieldName, 'label' => $fieldLabel, 'sort' => false));

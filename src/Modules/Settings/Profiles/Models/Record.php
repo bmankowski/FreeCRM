@@ -695,26 +695,31 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 		$links = [];
 
-		$recordLinks = array(
-			array(
+		$recordLinks = [
+			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_EDIT_RECORD',
 				'linkurl' => $this->getEditViewUrl(),
-				'linkicon' => 'glyphicon glyphicon-pencil'
-			),
-			array(
+				'linkicon' => 'glyphicon glyphicon-pencil',
+				'linkclass' => 'btn btn-xs btn-info',
+			],
+			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DUPLICATE_RECORD',
 				'linkurl' => $this->getDuplicateViewUrl(),
-				'linkicon' => 'icon-share'
-			),
-			array(
+				'linkicon' => 'glyphicon glyphicon-duplicate',
+				'linkclass' => 'btn btn-xs btn-warning',
+			],
+		];
+		if ((new \App\Db\Query())->from('vtiger_profile')->count() > 1) {
+			$recordLinks[] = [
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
 				'linkurl' => "javascript:Settings_Vtiger_ListView_Js.triggerDelete(event,'" . $this->getDeleteActionUrl() . "')",
-				'linkicon' => 'glyphicon glyphicon-trash'
-			)
-		);
+				'linkicon' => 'glyphicon glyphicon-trash',
+				'linkclass' => 'btn btn-xs btn-danger',
+			];
+		}
 		foreach ($recordLinks as $recordLink) {
 			$links[] = \App\Modules\Base\Models\Link::getInstanceFromValues($recordLink);
 		}

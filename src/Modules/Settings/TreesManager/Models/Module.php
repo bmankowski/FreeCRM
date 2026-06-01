@@ -19,7 +19,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	public $baseTable = 'vtiger_trees_templates';
 	public $baseIndex = 'id';
 	public $nameFields = array('name');
-	public $listFields = array('name' => 'LBL_NAME', 'module' => 'LBL_MODULE');
+	public $listFields = ['name' => 'LBL_NAME', 'module' => 'LBL_MODULE', 'actions' => 'LBL_ACTIONS'];
 	public $name = 'TreesManager';
 
 	public static function getSupportedModules()

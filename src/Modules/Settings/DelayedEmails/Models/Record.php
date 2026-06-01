@@ -41,8 +41,6 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			case 'send_after':
 			case 'created_at':
 				return \App\Fields\DateTimeField::convertToUserFormat((string) $this->get($fieldName));
-			case 'actions':
-				return $this->renderActionLinks();
 			default:
 				return (string) $this->get($fieldName);
 		}
@@ -50,7 +48,28 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	public function getRecordLinks(): array
 	{
-		return [];
+		$id = (int) $this->getId();
+		$recordLinks = [
+			[
+				'linktype' => 'LISTVIEWRECORD',
+				'linklabel' => 'LBL_SEND_NOW',
+				'linkurl' => 'index.php?module=DelayedEmails&parent=Settings&action=SendNow&record=' . $id,
+				'linkicon' => 'glyphicon glyphicon-send',
+				'linkclass' => 'btn btn-xs btn-success',
+			],
+			[
+				'linktype' => 'LISTVIEWRECORD',
+				'linklabel' => 'LBL_CANCEL',
+				'linkurl' => 'index.php?module=DelayedEmails&parent=Settings&action=Cancel&record=' . $id,
+				'linkicon' => 'glyphicon glyphicon-remove',
+				'linkclass' => 'btn btn-xs btn-danger',
+			],
+		];
+		$links = [];
+		foreach ($recordLinks as $recordLink) {
+			$links[] = \App\Modules\Base\Models\Link::getInstanceFromValues($recordLink);
+		}
+		return $links;
 	}
 
 	private function resolveRecordLabel(int $recordId): string
@@ -84,16 +103,5 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			return (string) $email;
 		}
 		return '-';
-	}
-
-	private function renderActionLinks(): string
-	{
-		$id = (int) $this->getId();
-		$cancelUrl = 'index.php?module=DelayedEmails&parent=Settings&action=Cancel&record=' . $id;
-		$sendUrl = 'index.php?module=DelayedEmails&parent=Settings&action=SendNow&record=' . $id;
-		$cancelLabel = \App\Runtime\Vtiger_Language_Handler::translate('LBL_CANCEL', 'Settings:DelayedEmails');
-		$sendLabel = \App\Runtime\Vtiger_Language_Handler::translate('LBL_SEND_NOW', 'Settings:DelayedEmails');
-		return '<a class="btn btn-danger btn-xs" href="' . $cancelUrl . '">' . $cancelLabel . '</a> '
-			. '<a class="btn btn-primary btn-xs" href="' . $sendUrl . '">' . $sendLabel . '</a>';
 	}
 }

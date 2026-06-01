@@ -202,7 +202,8 @@ class Record extends \App\Modules\Base\Models\Record
 
 	public function setParent($id, $moduleName)
 	{
-		$this->parent = \App\Modules\Base\Models\Record::getInstanceById($id, $moduleName);
+		$actualModule = \App\Records\Record::getType($id) ?? $moduleName;
+		$this->parent = \App\Modules\Base\Models\Record::getInstanceById($id, $actualModule);
 	}
 
 	public function getParent()

@@ -8,22 +8,13 @@ namespace App\Modules\Accounts\Actions;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class RelationAjax extends \App\Base\Controllers\BaseActionController
+class RelationAjax extends \App\Modules\Base\Actions\RelationAjax
 {
 
 	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('getHierarchyCount');
-	}
-
-	public function process(\App\Http\Vtiger_Request $request)
-	{
-		$mode = $request->get('mode');
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
 	}
 
 	public function getHierarchyCount($request)

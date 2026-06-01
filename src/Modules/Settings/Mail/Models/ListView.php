@@ -23,27 +23,30 @@ class ListView extends \App\Modules\Settings\Base\Models\ListView
 	{
 		$module = $this->getModule();
 		$parentModuleName = $module->getParentName();
+		$qualifiedModuleName = $module->getName();
 		if (!empty($parentModuleName)) {
-			$qualifiedModuleName = $parentModuleName . ':' . $module->getName();
+			$qualifiedModuleName = $parentModuleName . ':' . $qualifiedModuleName;
 		}
 		$recordModelClass = \App\Core\Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
-		$listFields = array_keys($module->listFields);
-		$listFields [] = $module->baseIndex;
+		$listFields = array_values(array_diff(array_keys($module->listFields), ['actions']));
+		if (!in_array($module->baseIndex, $listFields, true)) {
+			$listFields[] = $module->baseIndex;
+		}
 		$query = (new \App\Db\Query())->select($listFields)
 			->from($module->baseTable);
 		$searchParams = $this->get('searchParams');
-		if(!empty($searchParams)){
+		if (!empty($searchParams)) {
 			foreach ($searchParams as $key => $value) {
-				if('' !== $value['value']){
+				if ('' !== $value['value']) {
 					$query->andWhere([$key => $value['value']]);
 				}
 			}
 		}
-	
+
 		$startIndex = $pagingModel->getStartIndex();
 		$pageLimit = $pagingModel->getPageLimit();
 		$orderBy = $this->getForSql('orderby');
-		if (!empty($orderBy)) {
+		if (!empty($orderBy) && $orderBy !== 'actions') {
 			$query->orderBy(sprintf('%s %s ', $orderBy, $this->getForSql('sortorder')));
 		}
 		$query->limit($pageLimit + 1)->offset($startIndex);
@@ -51,11 +54,10 @@ class ListView extends \App\Modules\Settings\Base\Models\ListView
 		$listViewRecordModels = [];
 		while ($row = $dataReader->read()) {
 			$recordModel = new $recordModelClass();
-			$moduleName = \App\Utils\ModuleUtils::getModuleName($row['tabid']);
-			$relModuleName = \App\Utils\ModuleUtils::getModuleName($row['reltabid']);
-			$row['tabid'] = \App\Runtime\Vtiger_Language_Handler::translate($moduleName, $moduleName);
-			$row['reltabid'] = \App\Runtime\Vtiger_Language_Handler::translate($relModuleName, $relModuleName);
 			$recordModel->setData($row);
+			if (method_exists($recordModel, 'setModule')) {
+				$recordModel->setModule($module);
+			}
 			$listViewRecordModels[$recordModel->getId()] = $recordModel;
 		}
 		$pagingModel->calculatePageRange($dataReader->count());

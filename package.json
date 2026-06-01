@@ -9,6 +9,7 @@
     "minify-js-all": "find public/layouts public/libraries public/modules -name '*.js' ! -name '*.min.js' -exec npm run minify-js -- {} \\;",
     "test:e2e": "npm --prefix tests/e2e test -- --reporter=list",
     "test:e2e:html": "npm --prefix tests/e2e test -- --reporter=html && npm --prefix tests/e2e run report",
+    "crawl:modules": "bash scripts/crawl-modules.sh",
     "bootstrap:sync": "rm -rf public/libraries/bootstrap5 && mkdir -p public/libraries/bootstrap5 && cp -r node_modules/bootstrap/dist/. public/libraries/bootstrap5/"
   },
   "devDependencies": {

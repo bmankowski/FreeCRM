@@ -65,8 +65,9 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 				[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_DELETE_RECORD',
-				'class' => 'deleteMap',
-				'linkicon' => 'glyphicon glyphicon-trash'
+				'linkurl' => 'javascript:void(0);',
+				'linkicon' => 'glyphicon glyphicon-trash',
+				'linkclass' => 'btn btn-xs btn-danger deleteMap',
 			]
 		];
 		foreach ($recordLinks as $recordLink) {

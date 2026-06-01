@@ -27,7 +27,7 @@ FreeCRM - Customer Relationship Management System
                     <select class="chzn-select form-control" id="moduleFilter" style="margin-left:5px;" >
                         <option value="">{"LBL_CONDITION_ALL"|t:$QUALIFIED_MODULE}</option>
                         {foreach item=item key=key from=$SUPPORTED_MODULE_MODELS}
-                            <option value="{$item}">{$item|t:$item}</option>
+                            <option value="{$item}">{if $item eq 'All'}{"LBL_ALL"|t:'Vtiger'}{else}{$item|t:$item}{/if}</option>
                         {/foreach}
                     </select>
                 </div>
@@ -47,7 +47,7 @@ FreeCRM - Customer Relationship Management System
                     <tbody>
                         {foreach from=$DOC_TPL_LIST item=item key=key}
                         <tr class="listViewEntries" data-id="{$item.id}">
-                                <td onclick="location.href = jQuery(this).data('url')" data-url="index.php?module={$MODULE_NAME}&parent=Settings&view=Step1&tpl_id={$item.id}">{$item.module|t:$item.module}</td>
+                                <td onclick="location.href = jQuery(this).data('url')" data-url="index.php?module={$MODULE_NAME}&parent=Settings&view=Step1&tpl_id={$item.id}">{if $item.module eq 'All'}{"LBL_ALL"|t:'Vtiger'}{else}{$item.module|t:$item.module}{/if}</td>
                                 <td onclick="location.href = jQuery(this).data('url')" data-url="index.php?module={$MODULE_NAME}&parent=Settings&view=Step1&tpl_id={$item.id}"> {$item.summary|t:$QUALIFIED_MODULE}</td>
                                 <td><a class="pull-right edit_tpl" href="index.php?module={$MODULE_NAME}&parent=Settings&view=Step1&tpl_id={$item.id}"><!--<span title="{"LBL_EDIT"|t}" class="glyphicon glyphicon-pencil alignMiddle"></span>--></a>
                                     <a href='index.php?module={$MODULE_NAME}&parent=Settings&action=DeleteTemplate&tpl_id={$item.id}' class="pull-right marginRight10px">

@@ -32,7 +32,7 @@ Settings_Vtiger_ListView_Js("Settings_MappedFields_ListView_Js", {}, {
 	 */
 	registerRowClickEvent: function () {
 		var listViewContentDiv = this.getListViewContentContainer();
-		listViewContentDiv.on('click', '.listViewEntries td:not(.tdActions)', function (e) {
+		listViewContentDiv.on('click', '.listViewEntries td:not(.rightRecordActions)', function (e) {
 			var editUrl = jQuery(e.currentTarget).parent().find('.glyphicon-pencil').closest('a').attr('href');
 			window.location.href = editUrl;
 		});

@@ -1,0 +1,14 @@
+{
+  "startedAt": "2026-06-01T08:19:27.036Z",
+  "finishedAt": "2026-06-01T08:19:41.661Z",
+  "baseUrl": "https://dev.itconnect.pl",
+  "logLevel": "errors",
+  "logPath": "/work/cache/logs/system.log",
+  "stopOnFail": true,
+  "total": 15,
+  "visited": 15,
+  "stoppedEarly": false,
+  "httpFailures": 0,
+  "logFindings": 0,
+  "findings": []
+}

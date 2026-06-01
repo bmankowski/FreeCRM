@@ -1,0 +1,77 @@
+[
+  {
+    "module": "Accounts",
+    "view": "ListView",
+    "path": "index.php?module=Accounts&view=ListView"
+  },
+  {
+    "module": "Accounts",
+    "view": "ListPreview",
+    "path": "index.php?module=Accounts&view=ListPreview"
+  },
+  {
+    "module": "Accounts",
+    "view": "DashBoard",
+    "path": "index.php?module=Accounts&view=DashBoard"
+  },
+  {
+    "module": "Accounts",
+    "view": "Edit",
+    "path": "index.php?module=Accounts&view=Edit"
+  },
+  {
+    "module": "Announcements",
+    "view": "ListView",
+    "path": "index.php?module=Announcements&view=ListView"
+  },
+  {
+    "module": "Announcements",
+    "view": "ListPreview",
+    "path": "index.php?module=Announcements&view=ListPreview"
+  },
+  {
+    "module": "Announcements",
+    "view": "DashBoard",
+    "path": "index.php?module=Announcements&view=DashBoard"
+  },
+  {
+    "module": "Announcements",
+    "view": "Edit",
+    "path": "index.php?module=Announcements&view=Edit"
+  },
+  {
+    "module": "ApiAddress",
+    "view": "ListView",
+    "path": "index.php?module=ApiAddress&view=ListView"
+  },
+  {
+    "module": "ApiAddress",
+    "view": "ListPreview",
+    "path": "index.php?module=ApiAddress&view=ListPreview"
+  },
+  {
+    "module": "ApiAddress",
+    "view": "DashBoard",
+    "path": "index.php?module=ApiAddress&view=DashBoard"
+  },
+  {
+    "module": "ApiAddress",
+    "view": "Edit",
+    "path": "index.php?module=ApiAddress&view=Edit"
+  },
+  {
+    "module": "Assets",
+    "view": "ListView",
+    "path": "index.php?module=Assets&view=ListView"
+  },
+  {
+    "module": "Assets",
+    "view": "ListPreview",
+    "path": "index.php?module=Assets&view=ListPreview"
+  },
+  {
+    "module": "Assets",
+    "view": "DashBoard",
+    "path": "index.php?module=Assets&view=DashBoard"
+  }
+]

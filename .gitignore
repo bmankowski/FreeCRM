@@ -34,8 +34,15 @@ README.md
 /vendor/simshaun/
 /vendor/linfo/node_modules/
 tests/e2e/test-data/
+tests/e2e/.crawl-urls.json
+tests/e2e/.crawl-report.json
 /tmp/
 /.venv-sig/
+/.cursor/log-watcher.pid
+/.cursor/log-watcher.log
+/.cursor/log-warnings.queue
+/.cursor/log-warnings.seen
+/.cursor/log-warnings.lock
 /storage/
 /script/
 dump_to_transfer.sql.gz

@@ -29,7 +29,7 @@ class ListView extends \App\Modules\Settings\Base\Models\ListView
 		$listQuery = $this->getBasicListQuery();
 
 		$orderBy = $this->getForSql('orderby');
-		if (!empty($orderBy) && $orderBy !== 'actions' && $orderBy !== 'recipient') {
+		if (!empty($orderBy) && $orderBy !== 'recipient') {
 			if ($this->getForSql('sortorder') === 'DESC') {
 				$listQuery->orderBy([$orderBy => SORT_DESC]);
 			} else {

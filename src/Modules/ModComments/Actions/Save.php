@@ -12,7 +12,7 @@ namespace App\Modules\ModComments\Actions;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-class Save extends \App\Base\Controllers\BaseActionController
+class Save extends \App\Modules\Base\Actions\Save
 {
 
 	public function process(\App\Http\Vtiger_Request $request)

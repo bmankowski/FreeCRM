@@ -41,7 +41,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 * List of fields displayed in list view
 	 * @var string[] 
 	 */
-	public $listFields = ['Portal' => ['server_id' => 'FL_SERVER', 'status' => 'FL_STATUS', 'user_name' => 'FL_LOGIN', 'type' => 'FL_TYPE', 'login_time' => 'FL_LOGIN_TIME', 'logout_time' => 'FL_LOGOUT_TIME', 'language' => 'FL_LANGUAGE', 'crmid' => 'FL_RECORD_NAME', 'user_id' => 'FL_USER']];
+	public $listFields = ['Portal' => ['server_id' => 'FL_SERVER', 'status' => 'FL_STATUS', 'user_name' => 'FL_LOGIN', 'type' => 'FL_TYPE', 'login_time' => 'FL_LOGIN_TIME', 'logout_time' => 'FL_LOGOUT_TIME', 'language' => 'FL_LANGUAGE', 'crmid' => 'FL_RECORD_NAME', 'user_id' => 'FL_USER', 'actions' => 'LBL_ACTIONS']];
 
 	/**
 	 * Function to retrieve name fields of a module

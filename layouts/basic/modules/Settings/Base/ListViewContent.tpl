@@ -38,10 +38,15 @@
 				</th>
 				{assign var=WIDTH value={99/(count($LISTVIEW_HEADERS))}}
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-				<th  width="{$WIDTH}%" nowrap {if $LISTVIEW_HEADER@last}colspan="2" {/if} class="{$WIDTHTYPE}">
-					<a  {if $LISTVIEW_HEADER->isListviewSortable()} class="listViewHeaderValues cursorPointer" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADER->get('name')}" {/if}>{$LISTVIEW_HEADER->get('label')|t:$QUALIFIED_MODULE}
-						{if $COLUMN_NAME eq $LISTVIEW_HEADER->get('name')}&nbsp;&nbsp;<span class="{$SORT_IMAGE}"></span>{/if}</a>
-				</th>
+					{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
+					<th width="{$WIDTH}%" nowrap class="{$WIDTHTYPE}{if $LISTVIEW_HEADERNAME eq 'actions'} text-center{/if}">
+						{if $LISTVIEW_HEADERNAME eq 'actions'}
+							{$LISTVIEW_HEADER->get('label')|t:$QUALIFIED_MODULE}
+						{else}
+							<a {if $LISTVIEW_HEADER->isListviewSortable()} class="listViewHeaderValues cursorPointer" data-nextsortorderval="{if $COLUMN_NAME eq $LISTVIEW_HEADERNAME}{$NEXT_SORT_ORDER}{else}ASC{/if}" data-columnname="{$LISTVIEW_HEADERNAME}" {/if}>{$LISTVIEW_HEADER->get('label')|t:$QUALIFIED_MODULE}
+								{if $COLUMN_NAME eq $LISTVIEW_HEADERNAME}&nbsp;&nbsp;<span class="{$SORT_IMAGE}"></span>{/if}</a>
+						{/if}
+					</th>
 				{/foreach}
 			</tr>
 		</thead>
@@ -55,31 +60,28 @@
 			</td>
 				{foreach item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
 					{assign var=LISTVIEW_HEADERNAME value=$LISTVIEW_HEADER->get('name')}
-					{assign var=LAST_COLUMN value=$LISTVIEW_HEADER@last}
-					<td class="listViewEntryValue {$WIDTHTYPE}"  width="{$WIDTH}%" nowrap>
-						&nbsp;{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)|t:$QUALIFIED_MODULE}
-						{if $LAST_COLUMN && $LISTVIEW_ENTRY->getRecordLinks()}
-							</td><td nowrap class="{$WIDTHTYPE} rightRecordActions">
-								{assign var=LINKS value=$LISTVIEW_ENTRY->getRecordLinks()}
-								{if count($LINKS) > 0}
-									<div class="actions">
-										<div class="pull-right">
-											{foreach from=$LINKS item=LINK}
-												{include file='ButtonLink.tpl'|@vtemplate_path:$QUALIFIED_MODULE BUTTON_VIEW='listViewBasic' MODULE=$QUALIFIED_MODULE}
-											{/foreach}
-										</div>
-									</div>
-								{/if}
-							</td>
-						{/if}
-					</td>
+					{if $LISTVIEW_HEADERNAME eq 'actions'}
+						<td nowrap class="{$WIDTHTYPE} rightRecordActions text-center" width="{$WIDTH}%">
+							{assign var=LINKS value=$LISTVIEW_ENTRY->getRecordLinks()}
+							{if count($LINKS) > 0}
+								<div class="actions">
+									{foreach from=$LINKS item=LINK}
+										{include file='ButtonLink.tpl'|@vtemplate_path:$QUALIFIED_MODULE BUTTON_VIEW='listViewBasic' MODULE=$QUALIFIED_MODULE}
+									{/foreach}
+								</div>
+							{/if}
+						</td>
+					{else}
+						<td class="listViewEntryValue {$WIDTHTYPE}" width="{$WIDTH}%" nowrap>
+							&nbsp;{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)|t:$QUALIFIED_MODULE}
+						</td>
+					{/if}
 				{/foreach}
 			</tr>
 		{/foreach}
 		</tbody>
 	</table>
 
-	<!--added this div for Temporarily -->
 	{if $LISTVIEW_ENTRIES_COUNT eq '0'}
 	<table class="emptyRecordsDiv">
 		<tbody>
@@ -91,6 +93,6 @@
 		</tbody>
 	</table>
 	{/if}
-</div>	
+</div>
 <!--/layouts/basic/modules/Settings/Base/ListViewContent.tpl -->
 {/strip}

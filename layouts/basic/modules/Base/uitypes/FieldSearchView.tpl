@@ -23,7 +23,7 @@
 		<div class="input-group col-xs-12">
 			<input type="text" name="{$FIELD_MODEL->get('name')}" class="listSearchContributor form-control" value="{$SEARCH_VALUE}" title='{$LABEL['label']}' aria-label='{$LABEL['label']}' data-fieldinfo='{$FIELD_INFO|escape}'/>
 			<div  class="input-group-btn alphabetBtnContainer">
-				{if $ALPHABET_VALUE}
+				{if isset($ALPHABET_VALUE) && $ALPHABET_VALUE}
 					<button class=" btn btn-primary alphabetBtn" type="button" aria-label="{'LBL_ALPHABETIC_FILTER'|t} {$ALPHABET_VALUE}">
 						{$ALPHABET_VALUE}
 					</button>

@@ -17,8 +17,14 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	const tableName = 'vtiger_currency_info';
 
-	public $listFields = array('currency_name' => 'Currency Name', 'currency_code' => 'Currency Code', 'currency_symbol' => 'Symbol',
-		'conversion_rate' => 'Conversion Rate', 'currency_status' => 'Status');
+	public $listFields = [
+		'currency_name' => 'Currency Name',
+		'currency_code' => 'Currency Code',
+		'currency_symbol' => 'Symbol',
+		'conversion_rate' => 'Conversion Rate',
+		'currency_status' => 'Status',
+		'actions' => 'LBL_ACTIONS',
+	];
 	public $name = 'Currency';
 
 	public function isPagingSupported()
