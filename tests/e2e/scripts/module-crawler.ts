@@ -187,6 +187,9 @@ function isHttpFailure(status: number | null): boolean {
 	return status >= 400;
 }
 
+function formatPageDuration(ms: number): string {
+	return `${(ms / 1000).toFixed(1)}s`;
+}
 
 function printFindingDetails(finding: CrawlFinding): void {
 	console.log('');
@@ -273,6 +276,7 @@ async function main(): Promise<void> {
 
 			let status: number | null = null;
 			let finding: CrawlFinding | null = null;
+			const pageStart = performance.now();
 
 			try {
 				const response = await page.goto(fullUrl, {
@@ -291,6 +295,8 @@ async function main(): Promise<void> {
 					logLines: [`Navigation error: ${message}`],
 				};
 			}
+
+			const pageDuration = formatPageDuration(performance.now() - pageStart);
 
 			if (!finding) {
 				const logLines = logWatcher.filterByLevel(logWatcher.readNewLines(), config.logLevel);
@@ -319,7 +325,7 @@ async function main(): Promise<void> {
 
 				const logCount = finding.logLines.filter((line) => !line.startsWith('Navigation error:')).length;
 				console.log(
-					`[${visited}/${urls.length}] FAIL ${finding.status ?? '?'} ${label} (${logCount} log lines, HTTP ${finding.status ?? '?'})`,
+					`[${visited}/${urls.length}] FAIL ${finding.status ?? '?'} ${label} (${logCount} log lines, HTTP ${finding.status ?? '?'}, ${pageDuration})`,
 				);
 				printFindingDetails(finding);
 
@@ -328,7 +334,7 @@ async function main(): Promise<void> {
 					break;
 				}
 			} else {
-				console.log(`[${visited}/${urls.length}] ${status ?? '?'} ${label} OK`);
+				console.log(`[${visited}/${urls.length}] ${status ?? '?'} ${label} OK (${pageDuration})`);
 			}
 		}
 	} finally {
