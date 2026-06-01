@@ -17,6 +17,9 @@ use App\Modules\Settings\PicklistModels\Field;
 
 class OSSMailScanner {
 
+	public $moduleName;
+	public array $column_fields = [];
+
 	public function vtlib_handler($moduleName, $eventType)
 	{
 		$registerLink = false;

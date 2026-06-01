@@ -12,7 +12,7 @@ class CalendarFilters extends \App\Runtime\BaseModel
 {
 
 	protected $filterPath = 'src/Modules/Calendar/calendarfilters';
-	protected $filters = false;
+	protected array $filters = [];
 
 	public static function getCleanInstance()
 	{

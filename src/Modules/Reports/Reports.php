@@ -63,6 +63,8 @@ class Reports extends \App\Core\CRMEntity
 	public $advft_criteria;
 	public $adv_rel_fields = [];
 	public $module_list = [];
+	public $module_id = [];
+	public $related_modules = [];
 
 	/** Function to set primodule,secmodule,reporttype,reportname,reportdescription,folderid for given vtiger_reportid
 	 *  This function accepts the vtiger_reportid as argument

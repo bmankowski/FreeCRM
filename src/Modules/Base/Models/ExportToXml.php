@@ -12,6 +12,7 @@ class ExportToXml extends \App\Runtime\BaseModel
 {
 
 	protected $attrList = ['crmfield', 'crmfieldtype', 'partvalue', 'constvalue', 'refmoule', 'spec', 'refkeyfld', 'delimiter', 'testcondition'];
+	protected array $xmlList = [];
 	protected $product = false;
 	protected $tplName = '';
 	protected $tmpXmlPath = '';

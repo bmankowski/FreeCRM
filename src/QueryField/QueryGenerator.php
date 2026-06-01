@@ -56,6 +56,7 @@ class QueryGenerator
 	
 	// Commonly used dynamic properties - declared to avoid PHP 8.2+ deprecation warnings
 	private $customViewFields = [];
+	public $currencyId;
 
 	/**
 	 * @var boolean 

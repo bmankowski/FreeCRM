@@ -16,8 +16,8 @@ namespace App\Modules\Reports\Views;
 class ListView extends \App\Modules\Base\Views\Index
 {
 
-	protected $listViewHeaders = false;
-	protected $listViewEntries = false;
+	protected array $listViewHeaders = [];
+	protected array $listViewEntries = [];
 	protected $listViewCount = false;
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)

@@ -18,8 +18,8 @@ use App\Modules\Base\Views\Popup;
 class ListView extends Popup
 {
 
-	protected $listViewEntries = false;
-	protected $listViewHeaders = false;
+	protected array $listViewEntries = [];
+	protected array $listViewHeaders = [];
 
 	public function __construct()
 	{

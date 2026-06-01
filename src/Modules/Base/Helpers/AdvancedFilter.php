@@ -172,7 +172,7 @@ class AdvancedFilter {
 		return $dateFilters;
 	}
 
-	protected static $recordStructure = false;
+	protected static array $recordStructure = [];
 
 	public static function getRecordStructure($recordModel)
 	{

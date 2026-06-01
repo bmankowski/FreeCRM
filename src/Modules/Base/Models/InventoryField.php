@@ -12,8 +12,8 @@ namespace App\Modules\Base\Models;
 class InventoryField extends \App\Runtime\BaseModel
 {
 
-	protected $fields = false;
-	protected $columns = false;
+	protected array $fields = [];
+	protected array $columns = [];
 	protected $jsonFields = ['discountparam', 'taxparam', 'currencyparam'];
 
 	/**

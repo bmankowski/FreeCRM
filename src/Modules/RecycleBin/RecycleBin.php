@@ -13,6 +13,8 @@ namespace App\Modules\RecycleBin;
 
 class RecycleBin {
 
+	public $moduleName;
+
 	/**
 	 * Invoked when special actions are performed on the module.
 	 * @param string Module name

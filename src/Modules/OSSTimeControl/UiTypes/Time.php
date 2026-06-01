@@ -43,15 +43,16 @@ class Time extends BaseUiType
 	 */
 	public function getDisplayTimeDifferenceValue($fieldName, $value)
 	{
-		$userModel = \App\Modules\Users\Models\Privileges::getCurrentUserModel();
-		$date = new \DateTime($value);
-
-		if ($fieldName == 'time_end' && empty($value)) {
-			$date->modify("+15 minutes");
+		if ($value === '' || $value === null) {
+			$date = new \DateTime();
+			if ($fieldName === 'time_end') {
+				$date->modify('+15 minutes');
+			}
+		} else {
+			$date = new \DateTime($value);
 		}
 
 		$dateTimeField = new \App\Fields\DateTimeField($date->format('Y-m-d H:i:s'));
-		$value = $dateTimeField->getDisplayTime();
-		return $value;
+		return $dateTimeField->getDisplayTime();
 	}
 }

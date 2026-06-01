@@ -15,7 +15,7 @@ namespace App\Modules\Base\Models;
 class Block extends \vtlib\Block
 {
 
-	public $fields = false;
+	public array $fields = [];
 
 	public function getFields()
 	{

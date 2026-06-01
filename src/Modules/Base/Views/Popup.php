@@ -17,8 +17,8 @@ use App\Http\Vtiger_Request;
 class Popup  extends \App\Modules\Base\Views\Index
 {
 
-	protected $listViewEntries = false;
-	protected $listViewHeaders = false;
+	protected array $listViewEntries = [];
+	protected array $listViewHeaders = [];
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{

@@ -37,7 +37,7 @@ class ReportRun extends \App\Core\CRMEntity
 		'Month' => array('Year')
 	);
 	public $queryPlanner = null;
-	protected static $instances = false;
+	protected static array $instances = [];
 	// Added to support line item fields calculation, if line item fields
 	// are selected then module fields cannot be selected and vice versa
 	public $lineItemFieldsInCalculation = false;

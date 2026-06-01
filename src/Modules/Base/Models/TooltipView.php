@@ -15,7 +15,7 @@ namespace App\Modules\Base\Models;
 class TooltipView extends \App\Runtime\BaseModel
 {
 
-	protected $fields = false;
+	protected array $fields = [];
 
 	/**
 	 * Function to set the module instance

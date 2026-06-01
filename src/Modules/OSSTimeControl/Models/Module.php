@@ -109,6 +109,7 @@ class Module extends \App\Modules\Base\Models\Module
 		if (empty($id) || empty($fieldName))
 			$response = false;
 		else {
+			$response = [];
 			$query = (new \App\Db\Query())->select([
 				'vtiger_crmentity.smownerid',
 				'time' => new \yii\db\Expression('SUM(vtiger_osstimecontrol.sum_time)')

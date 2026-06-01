@@ -162,9 +162,10 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		$query->groupBy('holidaytype');
 		$dataReader = $query->createCommand()->query();
 
-		if (0 == $dataReader->count())
+		if (0 == $dataReader->count()) {
 			$return = false;
-		else {
+		} else {
+			$return = [];
 			while ($row = $dataReader->read()) {
 				$return[$row['holidaytype']] = $row['count'];
 			}

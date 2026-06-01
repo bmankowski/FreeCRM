@@ -383,7 +383,7 @@ class Record extends \App\Modules\Base\Models\Record
 	public static function get_cron()
 	{
 		$adb = \App\Database\PearDatabase::getInstance();
-		$return = false;
+		$return = [];
 		$result = $adb->pquery("SELECT * FROM vtiger_cron_task WHERE module = ?", array('OSSMailScanner'));
 		for ($i = 0; $i < $adb->getRowCount($result); $i++) {
 			$rowData = $adb->query_result_rowdata($result, $i);
