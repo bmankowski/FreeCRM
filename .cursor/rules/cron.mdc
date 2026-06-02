@@ -32,3 +32,8 @@ alwaysApply: false
 - Exceptions are caught and logged; the task still gets `markFinished()` — one failure does not stop the whole cron run.
 - CardDAV/CalDAV: `config/api.php` (`$enableCardDAV`, `$enableCalDAV`) — DAV cron should early-return when disabled.
 - New task: row in `vtiger_cron_task` + handler class; patterns: `src/Modules/Cron/Tasks/*.php` or `src/Modules/<Module>/Cron/*Task.php`.
+
+## Mail queue (`MailerTask`)
+
+- Handler: `src/Modules/Cron/Tasks/MailerTask.php` → `Mailer::sendByRowQueue()` (also manual send in Settings → Mail).
+- Dev/staging safety: `config/modules/Mail.php` → `MAIL_FILTER_SEND_ONLY_TO_DOMAIN`. Only listed `@domain` recipients get SMTP; others stripped; rows with no match drained without send. Off: `''` or `[]`. One: `'itconnect.pl'`. Several: `['a.pl', 'b.com']` or comma-separated string. Subdomains match. Not applied to `Mailer::test()` or OSSMail compose.

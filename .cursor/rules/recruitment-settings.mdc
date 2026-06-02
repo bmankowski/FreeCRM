@@ -1,0 +1,36 @@
+---
+description: "Settings › Rekrutacja — status transitions, workflows matrix, mail-on-transition"
+globs:
+  - "src/Modules/Settings/Recruitment/**"
+  - "src/Modules/ProjektyRekrutacyjne/Services/RecruitmentStatusTransition*.php"
+  - "layouts/basic/modules/Settings/Recruitment/**"
+  - "public/layouts/basic/modules/Settings/Recruitment/**"
+  - "migrations/Users/m260*recruitment*"
+alwaysApply: false
+---
+
+# Settings › Rekrutacja
+
+Block `LBL_RECRUITMENT` (`m260601_…_recruitment_settings_menu.php`). Submenus:
+
+| View | Purpose |
+|------|---------|
+| `Transitions` | Whitelist `u_yf_recruitment_status_transitions` + `u_yf_recruitment_settings.configured` |
+| `Workflows` | Relation workflow badges / create links (`RelationTrigger`) |
+| `TransitionMail` | Mail prompt matrix `u_yf_recruitment_status_transition_mail` |
+
+Services: `RecruitmentStatusTransition`, `RecruitmentStatusTransitionMail` (multi-template rows per `from_status`/`to_status`). Save: `Settings\Recruitment\Actions\SaveAjax` (`saveTransitions`, `saveTransitionMail`).
+
+## Mail-on-transition (runtime)
+
+- **Trigger:** kanban drag only, after successful `changeStatus()`.
+- **Templates:** `ProjektyRekrutacyjne` module list; modal filters via `templateIds` on `IndividualSendMailModal` + `Vtiger.js` `triggerSendEmailModal`.
+- **Gates:** `MassComposeEmail` on Kandydaci, `isActiveSendingMails`, default SMTP, candidate has email (`RelatedListLeftSideEmail::recordHasEmail`).
+
+## TransitionMail matrix UI
+
+- Per cell: checkbox → show `.js-mail-template-wrap` (hide when unchecked); template `<select multiple>` inside wrap only if `TEMPLATE_OPTIONS` non-empty.
+- Init Select2 with `select2noactive` + `app.showSelect2ElementView($select, { placeholder: '\u00a0', tags: false })` then clear `.select2-selection__placeholder` text — avoids `JS_SELECT_SOME_OPTIONS` default for bare `multiple` selects (`app.js` ~259).
+- Do not use `LBL_MAIL_PROMPT_TEMPLATES` as visible placeholder.
+
+Smoke: `docker compose exec -T app php tests/recruitment_status_transition_mail_smoke.php`

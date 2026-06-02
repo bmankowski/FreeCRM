@@ -104,9 +104,13 @@ Or insert into `vtiger_settings_field` with explicit `sequence` when adding mult
 - [ ] Run: `docker compose exec -T app php yii migrate --migrationPath=migrations/Users/ --interactive=0`
 - [ ] Hard-refresh Settings (menu may be cached per request in `Menu::$casheMenu`)
 
+## Custom Settings matrices (Select2)
+
+For `multiple` selects, never call raw `.select2()` without `placeholder` — `app.showSelect2ElementView` injects `JS_SELECT_SOME_OPTIONS`. Use `select2noactive`, explicit `placeholder: '\u00a0'`, `tags: false`. Example: `Settings/Recruitment/TransitionMail.js`.
+
 ## Reference implementation
 
-- Block + two submenus: `migrations/Users/m260601_000001_recruitment_settings_menu.php`
+- Block + submenus: `m260601_000001_recruitment_settings_menu.php` (Transitions, Workflows); mail: `m260604_000001_recruitment_status_transition_mail.php`
 - Icon fix: `m260602_000001_recruitment_settings_icons.php`
 - Menu render: `src/Modules/Settings/Base/Models/Module.php` → `prepareMenuToDisplay()`
 - Templates: `layouts/basic/modules/Base/menu/Label.tpl`, `Shortcut.tpl`

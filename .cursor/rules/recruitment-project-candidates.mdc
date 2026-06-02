@@ -1,0 +1,48 @@
+---
+description: "ProjektyRekrutacyjne ↔ Kandydaci relation, kanban manual add, recruitment_status_rel"
+globs:
+  - "src/Modules/ProjektyRekrutacyjne/**"
+  - "src/Modules/Kandydaci/Kandydaci.php"
+  - "src/Modules/Kandydaci/Handlers/NewCandidateInProject.php"
+  - "layouts/basic/modules/ProjektyRekrutacyjne/**"
+  - "public/modules/ProjektyRekrutacyjne/**"
+---
+
+# Recruitment project ↔ candidates
+
+## Relation row
+
+- Table: `u_yf_projekty_rekrutacyjne_relations_members_entity` (`crmid` = project, `relcrmid` = candidate).
+- Handler: `GetRelatedMembers` — use **`createMembership($projectId, $candidateId, $status)`** for inserts.
+- Do **not** change `create(int, int): bool` signature on the parent `GetRelatedList` (PHP fatal). Parent `create()` must stay 2-arg; throw or delegate if called without status.
+
+## Initial status contract
+
+| Source | `recruitment_status_rel` |
+|--------|--------------------------|
+| CV / `CandidateApplicationSideEffects::bindCandidateToProject` | `PPL_APPLIED` via `createLink(..., STATUS_APPLIED)` |
+| Manual (kanban +, related-list Select, `RelationAjax`) | `PPL_MANUALLY_ADDED` via `save_related_module` → `createMembership` |
+
+`cvs_applied_number` counts only `PPL_APPLIED`. New status must be added to `RelationTrigger::getRecruitmentStatusOptions()` and `RecruitmentStatusTransition::SUGGESTED_DEFAULTS`.
+
+## Kanban widget (summary tab)
+
+- Rendered server-side in `SummaryViewWidgets.tpl` (`RecruitmentProjectKanban.tpl`) — **not** a `widgetContainer_*` AJAX widget.
+- **`loadWidgets()` does not refresh the kanban.** After manual add, update chips in the DOM (`Detail.js` → `refreshUiAfterManualCandidatesAdd`) or return candidate payloads from `AddManualCandidatesAjax`.
+- (+) button: `AddManualCandidatesAjax` + `Vtiger_Popup_Js` multi-select `Kandydaci`.
+
+## Manual-add UX (do not regress)
+
+- No success toast on add (chips appearing is enough).
+- All candidates already linked: info skip message only — **not** `PLL_NO_SUCH_RECORD`. API: `success` true when `added` or `skipped` non-empty; JS must not treat skip-only as failure.
+
+## Side effects
+
+- `relateEntities(..., 'getRelatedMembers')` → `EntityAfterLink` → `NewCandidateInProject` (comments differ for applied vs manual).
+- Import uses `createLink()` directly (not `relateEntities`) to keep `PPL_APPLIED` and still run the same handler.
+
+## Kanban status change + optional mail modal
+
+- Manual drag: `Detail.js` → `ChangeCandidateStatusManuallyAjax` → `GetRelatedMembers::changeStatus()` (whitelist: `RecruitmentStatusTransition`).
+- Configured mail prompt (separate matrix): `RecruitmentStatusTransitionMail::getPrompt()` → JSON `mailPrompt.templateIds` → `Vtiger_Index_Js.triggerSendEmailModal` (`Kandydaci`, `sourceModule`/`sourceRecord` = project). See `recruitment-settings.mdc`.
+- Screening Accept/Reject and workflows do **not** use the mail-prompt matrix.
