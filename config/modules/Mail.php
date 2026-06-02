@@ -25,4 +25,6 @@ $CONFIG = [
 	'DELAYED_EMAIL_BUFFER_ENABLED' => true,
 	// Default delay when enqueue() omits explicit minutes
 	'DELAYED_EMAIL_DEFAULT_MINUTES' => 3,
+	// Only @domain recipients receive SMTP; other addresses are stripped; rows with no match are drained. Empty = disabled.
+	'MAIL_FILTER_SEND_ONLY_TO_DOMAIN' => 'itconnect.pl',
 ];

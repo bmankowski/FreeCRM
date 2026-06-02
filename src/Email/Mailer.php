@@ -512,11 +512,90 @@ class Mailer
 		if (\App\Core\AppConfig::main('systemMode') === 'demo') {
 			return true;
 		}
+		$allowedDomain = trim((string) \App\Core\AppConfig::module('Mail', 'MAIL_FILTER_SEND_ONLY_TO_DOMAIN'));
+		if ($allowedDomain !== '') {
+			$queueId = (int) ($rowQueue['id'] ?? 0);
+			$filtered = self::applySendOnlyToDomainFilter($rowQueue, $allowedDomain);
+			if ($filtered === null) {
+				\App\Log\Log::trace(
+					'Mailer drained queue id=' . $queueId . ' (no @' . $allowedDomain . ' recipients)',
+					'Mailer'
+				);
+				return true;
+			}
+			$rowQueue = $filtered;
+		}
 		if ($sessionMailer !== null) {
 			$sessionMailer->resetForNextQueueRow();
 			return $sessionMailer->deliverQueueRow($rowQueue);
 		}
 		return (new self())->loadSmtpByID($rowQueue['smtp_id'])->deliverQueueRow($rowQueue);
+	}
+
+	/**
+	 * @return array|null Filtered queue row, or null when no allowed-domain recipients remain
+	 */
+	private static function applySendOnlyToDomainFilter(array $rowQueue, string $allowedDomain): ?array
+	{
+		$to = self::filterRecipientMapByDomain($rowQueue['to'] ?? null, $allowedDomain);
+		$cc = self::filterRecipientMapByDomain($rowQueue['cc'] ?? null, $allowedDomain);
+		$bcc = self::filterRecipientMapByDomain($rowQueue['bcc'] ?? null, $allowedDomain);
+
+		if ($to === [] && $cc === [] && $bcc === []) {
+			return null;
+		}
+
+		if ($to === []) {
+			if ($cc !== []) {
+				$key = array_key_first($cc);
+				$to = [$key => $cc[$key]];
+				unset($cc[$key]);
+			} elseif ($bcc !== []) {
+				$key = array_key_first($bcc);
+				$to = [$key => $bcc[$key]];
+				unset($bcc[$key]);
+			}
+		}
+
+		$rowQueue['to'] = \App\Utils\Json::encode($to);
+		$rowQueue['cc'] = $cc !== [] ? \App\Utils\Json::encode($cc) : null;
+		$rowQueue['bcc'] = $bcc !== [] ? \App\Utils\Json::encode($bcc) : null;
+
+		return $rowQueue;
+	}
+
+	private static function filterRecipientMapByDomain(?string $json, string $allowedDomain): array
+	{
+		if ($json === null || $json === '') {
+			return [];
+		}
+		$decoded = \App\Utils\Json::decode($json);
+		if (!is_array($decoded)) {
+			return [];
+		}
+		$filtered = [];
+		foreach ($decoded as $email => $name) {
+			if (is_numeric($email)) {
+				$email = $name;
+				$name = '';
+			}
+			if (self::recipientMatchesDomain((string) $email, $allowedDomain)) {
+				$filtered[$email] = $name;
+			}
+		}
+		return $filtered;
+	}
+
+	private static function recipientMatchesDomain(string $email, string $allowedDomain): bool
+	{
+		$email = strtolower(trim($email));
+		$allowedDomain = strtolower(trim($allowedDomain));
+		$at = strrpos($email, '@');
+		if ($at === false) {
+			return false;
+		}
+		$domain = substr($email, $at + 1);
+		return $domain === $allowedDomain || str_ends_with($domain, '.' . $allowedDomain);
 	}
 
 	/**
