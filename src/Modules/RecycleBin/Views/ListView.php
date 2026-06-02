@@ -264,19 +264,12 @@ class ListView extends \App\Modules\Base\Views\Index
 	 */
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
-		$jsFileNames = array(
-			'modules.Base.resources.ListView',
-			"modules.$moduleName.resources.ListView",
+		$headerScriptInstances = $this->stripCkEditorScripts(parent::getFooterScripts($request));
+
+		return array_merge($headerScriptInstances, $this->checkAndConvertJsScripts([
 			'modules.CustomView.resources.CustomView',
-			"modules.$moduleName.resources.CustomView",
-			'modules.Base.resources.CkEditor',
-			'modules.Base.resources.ListSearch'
-		);
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
+			'modules.Base.resources.ListSearch',
+		]));
 	}
 
 	/**

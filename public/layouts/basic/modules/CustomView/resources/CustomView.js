@@ -11,22 +11,91 @@ var Vtiger_CustomView_Js = {
 	contentsCotainer: false,
 	columnListSelect2Element: false,
 	advanceFilterInstance: false,
-	//This will store the columns selection container
 	columnSelectElement: false,
-	//This will store the input hidden selectedColumnsList element
 	selectedColumnsList: false,
+	_editorAssetsPromise: false,
+	_loadScript: function (src) {
+		var deferred = jQuery.Deferred();
+		var existing = jQuery('script[src*="' + src + '"]');
+		if (existing.length && existing.data('customViewLoaded')) {
+			deferred.resolve();
+			return deferred.promise();
+		}
+		jQuery.ajax({ url: src, dataType: 'script', cache: true }).done(function () {
+			jQuery('script[src*="' + src + '"]').data('customViewLoaded', true);
+			deferred.resolve();
+		}).fail(function () {
+			deferred.reject();
+		});
+		return deferred.promise();
+	},
+	_loadStylesheet: function (href) {
+		var deferred = jQuery.Deferred();
+		if (jQuery('link[href*="' + href + '"]').length) {
+			deferred.resolve();
+			return deferred.promise();
+		}
+		var link = document.createElement('link');
+		link.rel = 'stylesheet';
+		link.type = 'text/css';
+		link.href = href;
+		link.onload = function () {
+			deferred.resolve();
+		};
+		link.onerror = function () {
+			deferred.reject();
+		};
+		document.head.appendChild(link);
+		return deferred.promise();
+	},
+	ensureEditorAssets: function () {
+		if (Vtiger_CustomView_Js._editorAssetsPromise) {
+			return Vtiger_CustomView_Js._editorAssetsPromise;
+		}
+		var deferred = jQuery.Deferred();
+		Vtiger_CustomView_Js._editorAssetsPromise = deferred.promise();
+		var loads = [];
+		if (typeof CKEDITOR === 'undefined') {
+			loads.push(Vtiger_CustomView_Js._loadScript('libraries/jquery/ckeditor/ckeditor.min.js'));
+			loads.push(Vtiger_CustomView_Js._loadScript('libraries/jquery/ckeditor/adapters/jquery.min.js'));
+		}
+		if (typeof Vtiger_CkEditor_Js === 'undefined') {
+			loads.push(Vtiger_CustomView_Js._loadScript('layouts/basic/modules/Base/resources/CkEditor.min.js'));
+		}
+		if (typeof jQuery.fn.ColorPicker === 'undefined') {
+			loads.push(Vtiger_CustomView_Js._loadStylesheet('libraries/jquery/colorpicker/css/colorpicker.css'));
+			loads.push(Vtiger_CustomView_Js._loadScript('libraries/jquery/colorpicker/js/colorpicker.min.js'));
+		} else if (!jQuery('link[href*="colorpicker/css/colorpicker"]').length) {
+			loads.push(Vtiger_CustomView_Js._loadStylesheet('libraries/jquery/colorpicker/css/colorpicker.css'));
+		}
+		if (!loads.length) {
+			deferred.resolve();
+			return Vtiger_CustomView_Js._editorAssetsPromise;
+		}
+		jQuery.when.apply(jQuery, loads).done(function () {
+			deferred.resolve();
+		}).fail(function () {
+			Vtiger_CustomView_Js._editorAssetsPromise = false;
+			deferred.reject();
+		});
+		return Vtiger_CustomView_Js._editorAssetsPromise;
+	},
 	loadFilterView: function (url) {
 		var progressIndicatorElement = jQuery.progressIndicator();
 		AppConnector.request(url).then(
 				function (data) {
 					app.hideModalWindow();
 					var contents = jQuery(".contentsDiv").html(data);
-					progressIndicatorElement.progressIndicator({'mode': 'hide'});
-					Vtiger_CustomView_Js.registerEvents();
-					Vtiger_CustomView_Js.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance(jQuery('.filterContainer', contents));
+					Vtiger_CustomView_Js.ensureEditorAssets().done(function () {
+						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+						Vtiger_CustomView_Js.registerEventsInternal();
+						Vtiger_CustomView_Js.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance(jQuery('.filterContainer', contents));
+					}).fail(function () {
+						progressIndicatorElement.progressIndicator({'mode': 'hide'});
+					});
 				},
 				function (error, err) {
-
+					progressIndicatorElement.progressIndicator({'mode': 'hide'});
 				}
 		);
 	},
@@ -190,6 +259,11 @@ var Vtiger_CustomView_Js = {
 		});
 	},
 	registerEvents: function () {
+		Vtiger_CustomView_Js.ensureEditorAssets().done(function () {
+			Vtiger_CustomView_Js.registerEventsInternal();
+		});
+	},
+	registerEventsInternal: function () {
 		this.registerIconEvents();
 		this.registerCkEditorElement();
 		this.registerBlockToggleEvent();

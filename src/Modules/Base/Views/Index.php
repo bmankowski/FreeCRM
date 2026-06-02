@@ -93,4 +93,21 @@ class Index extends \App\Modules\Base\Views\Basic
 	{
 		$request->validateReadAccess();
 	}
+
+	/**
+	 * @param array<string, \App\View\Assets\ScriptAsset> $scripts
+	 * @return array<string, \App\View\Assets\ScriptAsset>
+	 */
+	protected function stripCkEditorScripts(array $scripts): array
+	{
+		foreach ([
+			'libraries.jquery.ckeditor.ckeditor',
+			'libraries.jquery.ckeditor.adapters.jquery',
+			'modules.Base.resources.CkEditor',
+		] as $key) {
+			unset($scripts[$key]);
+		}
+
+		return $scripts;
+	}
 }

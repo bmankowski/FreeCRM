@@ -78,31 +78,9 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
 
-		$jsFileNames = array(
-			'~libraries/jquery/colorpicker/js/colorpicker.js',
-			'modules.CustomView.resources.CustomView'
-		);
-
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
-	}
-
-	/**
-	 * Retrieves css styles that need to loaded in the page
-	 * @param \App\Http\Vtiger_Request $request - request model
-	 * @return <array> - array of StyleAsset
-	 */
-	public function getHeaderCss(\App\Http\Vtiger_Request $request)
-	{
-		$headerCssInstances = parent::getHeaderCss($request);
-		$cssFileNames = array(
-			'~libraries/jquery/colorpicker/css/colorpicker.css'
-		);
-		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
-		return $headerCssInstances;
+		return array_merge($headerScriptInstances, $this->checkAndConvertJsScripts([
+			'modules.CustomView.resources.CustomView',
+		]));
 	}
 }

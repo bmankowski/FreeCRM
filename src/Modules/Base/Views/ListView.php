@@ -157,41 +157,24 @@ class ListView extends \App\Modules\Base\Views\Index
 	 */
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
-		$headerScriptInstances = parent::getFooterScripts($request);
+		$headerScriptInstances = $this->stripCkEditorScripts(parent::getFooterScripts($request));
 		$moduleName = $request->getModule();
 
-		$jsFileNames = array(
-			'modules.Base.resources.Vtiger',
-			'modules.Base.resources.GenerateModal',
-			'modules.Base.resources.ListView',
-			"modules.$moduleName.resources.ListView",
-			'~libraries/jquery/colorpicker/js/colorpicker.js',
+		$jsFileNames = [
 			'modules.CustomView.resources.CustomView',
-			"modules.$moduleName.resources.CustomView",
-			'modules.Base.resources.CkEditor',
 			'modules.Base.resources.ListSearch',
-			"modules.$moduleName.resources.ListSearch"
-		);
+		];
 
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
-	}
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
+		if ($moduleModel && $moduleModel->isPermitted('RecordMappingList')) {
+			$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'MappedFields', $moduleName);
+			$mfModel = new $handlerClass();
+			if (count($mfModel->getActiveTemplatesForModule($moduleName, 'List')) > 0) {
+				$jsFileNames[] = 'modules.Base.resources.GenerateModal';
+			}
+		}
 
-	/**
-	 * Retrieves css styles that need to loaded in the page
-	 * @param \App\Http\Vtiger_Request $request - request model
-	 * @return <array> - array of StyleAsset
-	 */
-	public function getHeaderCss(\App\Http\Vtiger_Request $request)
-	{
-		$headerCssInstances = parent::getHeaderCss($request);
-		$cssFileNames = array(
-			'~libraries/jquery/colorpicker/css/colorpicker.css'
-		);
-		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
-		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);
-		return $headerCssInstances;
+		return array_merge($headerScriptInstances, $this->checkAndConvertJsScripts($jsFileNames));
 	}
 	/*
 	 * Function to initialize the required data in smarty to display the List View Contents
