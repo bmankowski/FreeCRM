@@ -10,6 +10,8 @@ This guide documents a **repeatable** way to make `localhost` contain the same:
 
 It is written for the current FreeCRM Docker setup in this repo (`docker-compose.yml`) and for the source server layout observed on `10.0.0.220` (`/var/www/yetiforce`).
 
+**Automated pipeline (recommended):** run `./scripts/sync-from-prod` from the repo root. It dumps prod into local `yetiforce`, promotes recruitment data (including linked Documents) into `freecrm`, rsyncs `storage/`, and rebuilds labels. See [`scripts/migration/candidates/README.md`](scripts/migration/candidates/README.md).
+
 ---
 
 ## What must match (minimum viable sync)

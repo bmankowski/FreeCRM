@@ -213,6 +213,9 @@ pushsrc() {
     --exclude 'storage/' \
     --exclude 'tmp/' \
     --exclude '_migration/' \
+    --exclude 'docker/nginx/letsencrypt/accounts/' \
+    --exclude 'docker/nginx/letsencrypt/archive/' \
+    --exclude 'docker/nginx/letsencrypt/live/' \
     "${ROOT_DIR}/" "${REMOTE}:${REMOTE_PATH}/"
 }
 

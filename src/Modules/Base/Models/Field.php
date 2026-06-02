@@ -55,6 +55,31 @@ class Field
 	protected $label;
 	protected $typeofdata;
 	protected $diplaytype;
+	protected $type;
+	protected $permissions;
+	protected $sort;
+
+	/** @var array<string, mixed> vtiger_field row keys before FieldDefinition is hydrated */
+	private array $pendingDefinitionRow = [];
+
+	/** Legacy / alias setter names → FieldDefinition property names */
+	private const DEFINITION_PROPERTY_ALIASES = [
+		'fieldid' => 'id',
+		'fieldname' => 'name',
+		'fieldlabel' => 'label',
+		'tablename' => 'table',
+		'columnname' => 'column',
+		'quicksequence' => 'quickcreatesequence',
+	];
+
+	/** FieldDefinition property names → vtiger_field row keys for fromRow() */
+	private const DEFINITION_TO_ROW_KEY = [
+		'id' => 'fieldid',
+		'name' => 'fieldname',
+		'label' => 'fieldlabel',
+		'table' => 'tablename',
+		'column' => 'columnname',
+	];
 
 	const REFERENCE_TYPE = 'reference';
 	const OWNER_TYPE = 'owner';
@@ -146,26 +171,58 @@ class Field
 				$this->blockInstance = $value;
 			} else {
 				$this->blockInstance = null;
-				if ($this->definition !== null) {
-					$intVal = ($value !== null && $value !== false) ? (int) $value : null;
-					$this->definition = $this->definition->with(['block' => $intVal]);
-				}
+				$intVal = ($value !== null && $value !== false) ? (int) $value : null;
+				$this->assignDefinitionProperty('block', $intVal);
 			}
 			return $this;
 		}
 		if ($name === 'quicksequence') {
-			if ($this->definition !== null) {
-				$intVal = ($value !== null && $value !== false) ? (int) $value : null;
-				$this->definition = $this->definition->with(['quickcreatesequence' => $intVal]);
-			}
+			$intVal = ($value !== null && $value !== false) ? (int) $value : null;
+			$this->assignDefinitionProperty('quickcreatesequence', $intVal);
 			return $this;
 		}
-		if ($this->definition !== null && property_exists($this->definition, $name)) {
-			$this->definition = $this->definition->with([$name => $value]);
+		$definitionProperty = self::resolveDefinitionProperty($name);
+		if ($definitionProperty !== null) {
+			$this->assignDefinitionProperty($definitionProperty, $value);
 			return $this;
 		}
-		$this->$name = $value;
+		if (property_exists($this, $name)) {
+			$this->$name = $value;
+			return $this;
+		}
 		return $this;
+	}
+
+	private static function resolveDefinitionProperty(string $name): ?string
+	{
+		if (array_key_exists($name, self::DEFINITION_PROPERTY_ALIASES)) {
+			return self::DEFINITION_PROPERTY_ALIASES[$name];
+		}
+		return property_exists(FieldDefinition::class, $name) ? $name : null;
+	}
+
+	private static function definitionPropertyToRowKey(string $property): string
+	{
+		return self::DEFINITION_TO_ROW_KEY[$property] ?? $property;
+	}
+
+	private function assignDefinitionProperty(string $property, mixed $value): void
+	{
+		if ($this->definition !== null) {
+			$this->definition = $this->definition->with([$property => $value]);
+			return;
+		}
+
+		$this->pendingDefinitionRow[self::definitionPropertyToRowKey($property)] = $value;
+		$this->definition = FieldDefinition::fromRow(array_merge([
+			'fieldid' => 0,
+			'tabid' => 0,
+			'fieldname' => '',
+			'fieldlabel' => '',
+			'tablename' => '',
+			'columnname' => '',
+			'uitype' => 1,
+		], $this->pendingDefinitionRow));
 	}
 
 	/**

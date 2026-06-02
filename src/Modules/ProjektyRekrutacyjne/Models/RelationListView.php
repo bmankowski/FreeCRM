@@ -16,6 +16,13 @@ use App\Modules\ProjektyRekrutacyjne\Relations\GetRelatedMembers;
 
 class RelationListView extends \App\Modules\Base\Models\RelationListView
 {
+	private const KANDYDACI_RELATED_ACTION_LABELS = [
+		'LBL_MASS_SEND_EMAIL',
+		'LBL_QUICK_EXPORT_TO_EXCEL',
+		'LBL_EXPORT',
+		'PPL_EXPORT_CV',
+	];
+
 	/**
 	 * Function to get related list links.
 	 *
@@ -24,24 +31,84 @@ class RelationListView extends \App\Modules\Base\Models\RelationListView
 	public function getLinks()
 	{
 		$relatedLinks = parent::getLinks();
-		$relationModel = $this->getRelationModel();
-		$relatedModuleModel = $relationModel->getRelationModuleModel();
-		$relatedModuleName = $relatedModuleModel->getName();
-		if ('Kandydaci' === $relatedModuleName
-			&& $relatedModuleModel->isPermitted('MassComposeEmail')
-			&& \App\Core\AppConfig::main('isActiveSendingMails')
-			&& \App\Email\Mail::getDefaultSmtp()
-		) {
-			$emailLink = \App\Modules\Base\Models\Link::getInstanceFromValues([
-				'linktype' => 'LISTVIEWBASIC',
-				'linklabel' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SEND_EMAIL', $relatedModuleName),
-				'linkurl' => 'javascript:ProjektyRekrutacyjne_RelatedList_Js.triggerSendEmail();',
-				'linkicon' => '',
-			]);
-			$emailLink->set('_sendEmail', true);
-			$relatedLinks['LISTVIEWBASIC'][] = $emailLink;
+		$relatedModuleName = $this->getRelationModel()->getRelationModuleModel()->getName();
+		if ('Kandydaci' !== $relatedModuleName) {
+			return $relatedLinks;
 		}
+
+		$massActions = $this->getKandydaciRelatedMassActions();
+		if ([] !== $massActions) {
+			$relatedLinks['RELATEDLIST_MASSACTIONS'] = $massActions;
+		}
+
+		if (isset($relatedLinks['LISTVIEWBASIC'])) {
+			$relatedLinks['LISTVIEWBASIC'] = array_values(array_filter(
+				$relatedLinks['LISTVIEWBASIC'],
+				static fn($link): bool => !(bool) $link->get('_sendEmail')
+					&& !str_contains((string) $link->getUrl(), 'triggerSendEmail')
+			));
+		}
+
 		return $relatedLinks;
+	}
+
+	/**
+	 * @return \App\Modules\Base\Models\Link[]
+	 */
+	private function getKandydaciRelatedMassActions(): array
+	{
+		$relatedModuleName = 'Kandydaci';
+		$relatedModuleModel = $this->getRelationModel()->getRelationModuleModel();
+		$listViewModel = \App\Modules\Base\Models\ListView::getInstance($relatedModuleName);
+		$linkParams = ['MODULE' => $relatedModuleName, 'ACTION' => 'Detail'];
+
+		$links = [];
+		$massActionLinks = $listViewModel->getListViewMassActions($linkParams)['LISTVIEWMASSACTION'] ?? [];
+		foreach ($massActionLinks as $link) {
+			if (!$this->isKandydaciRelatedActionLabel((string) $link->get('linklabel'))) {
+				continue;
+			}
+			$links[] = $this->mapKandydaciLinkForRelatedList($link, $relatedModuleModel);
+		}
+
+		foreach ($listViewModel->getAdvancedLinks() as $advancedLink) {
+			if (!\in_array($advancedLink['linktype'], ['LISTVIEW', 'LISTVIEWMASSACTION'], true)) {
+				continue;
+			}
+			if (!$this->isKandydaciRelatedActionLabel((string) $advancedLink['linklabel'])) {
+				continue;
+			}
+			$links[] = $this->mapKandydaciLinkForRelatedList(
+				\App\Modules\Base\Models\Link::getInstanceFromValues($advancedLink),
+				$relatedModuleModel
+			);
+		}
+
+		return $links;
+	}
+
+	private function isKandydaciRelatedActionLabel(string $label): bool
+	{
+		return \in_array($label, self::KANDYDACI_RELATED_ACTION_LABELS, true);
+	}
+
+	private function mapKandydaciLinkForRelatedList(
+		\App\Modules\Base\Models\Link $link,
+		\App\Modules\Base\Models\Module $relatedModuleModel
+	): \App\Modules\Base\Models\Link {
+		$url = (string) $link->getUrl();
+		if (str_contains($url, 'triggerSendEmail')) {
+			$link->set('linkurl', 'javascript:ProjektyRekrutacyjne_RelatedList_Js.triggerSendEmail();');
+		} elseif (str_contains($url, 'triggerQuickExportToExcel')) {
+			$link->set('linkurl', 'javascript:ProjektyRekrutacyjne_RelatedList_Js.triggerQuickExportToExcel();');
+		} elseif (str_contains($url, 'triggerExportAction')) {
+			$exportUrl = $relatedModuleModel->getExportUrl();
+			$link->set('linkurl', 'javascript:ProjektyRekrutacyjne_RelatedList_Js.triggerExportAction("' . $exportUrl . '");');
+		} elseif (str_contains($url, 'triggerExportCvZip')) {
+			$link->set('linkurl', 'javascript:ProjektyRekrutacyjne_RelatedList_Js.triggerExportCvZip();');
+		}
+
+		return $link;
 	}
 
     /**

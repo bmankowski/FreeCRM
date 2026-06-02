@@ -468,6 +468,7 @@ Vtiger_RelatedList_Js(
 		 */
 		registerRelatedEvents: function () {
 			this._super();
+			this.registerRelatedListCheckboxes();
 
 			// Ensure ListPreview preview pane is wired for Kandydaci related list.
 			const content = this.getContentContainer();
@@ -476,6 +477,9 @@ Vtiger_RelatedList_Js(
 				// Clicking name link should not navigate away in ListPreview.
 				content.off('click.projektyPreviewLink', '.listViewEntries a')
 					.on('click.projektyPreviewLink', '.listViewEntries a', (e) => {
+						if (jQuery(e.target).closest('.listViewEntriesCheckBox, .leftRecordActions, .actions').length) {
+							return;
+						}
 						e.preventDefault();
 						e.stopPropagation();
 						const row = jQuery(e.currentTarget).closest('.listViewEntries');
@@ -495,15 +499,141 @@ Vtiger_RelatedList_Js(
 			}
 			this.acceptCandidateManually();
 			this.rejectCandidateManually();
+		},
+		registerRelatedListCheckboxes: function () {
+			const root = this.getContentContainer().find('.RelatedList.relatedContainer');
+			if (!root.length || !root.find('.listViewEntriesCheckBox').length) {
+				return;
+			}
+			const listInstance = ProjektyRekrutacyjne_RelatedList_Js.createRelatedListViewInstance(root);
+			listInstance.registerMainCheckBoxClickEvent();
+			listInstance.registerCheckBoxClickEvent();
+			root.off('click.projRelatedCheckboxStop');
+			root.on('click.projRelatedCheckboxStop', '.listViewEntriesCheckBox', (e) => {
+				e.stopPropagation();
+			});
 		}
 	}
 );
 
+ProjektyRekrutacyjne_RelatedList_Js._relatedListViewInstance = false;
+
+ProjektyRekrutacyjne_RelatedList_Js.createRelatedListViewInstance = function (root) {
+	const listInstance = new Vtiger_ListView_Js();
+	listInstance.listViewContainer = root;
+	listInstance.getListViewContainer = function () {
+		return this.listViewContainer;
+	};
+	listInstance.getCurrentCvId = function () {
+		return 0;
+	};
+	listInstance.getRecordsCount = function () {
+		const deferred = jQuery.Deferred();
+		deferred.resolve(root.find('.listViewEntries').length);
+		return deferred.promise();
+	};
+	listInstance.writeSelectedIds([]);
+	listInstance.writeExcludedIds([]);
+	ProjektyRekrutacyjne_RelatedList_Js._relatedListViewInstance = listInstance;
+	return listInstance;
+};
+
+ProjektyRekrutacyjne_RelatedList_Js.getRelatedListViewInstance = function () {
+	return ProjektyRekrutacyjne_RelatedList_Js._relatedListViewInstance || false;
+};
+
 /**
- * Static method — called directly from onclick of the mass-email button.
- * Collects all visible candidate rows, respects checkbox selection if available,
- * then opens IndividualSendMailModal with project context.
+ * Selected candidate ids from checkboxes (ListView selection state).
  */
+ProjektyRekrutacyjne_RelatedList_Js.collectRelatedCandidateIds = function () {
+	const listInstance = ProjektyRekrutacyjne_RelatedList_Js.getRelatedListViewInstance();
+	const root = jQuery('.RelatedList.relatedContainer');
+	if (listInstance && listInstance.checkListRecordSelected() !== true) {
+		let selectedIds = listInstance.readSelectedIds();
+		if (selectedIds === 'all') {
+			const excludedIds = listInstance.readExcludedIds() || [];
+			selectedIds = [];
+			root.find('.listViewEntries').each(function () {
+				const rowId = String(jQuery(this).data('id'));
+				if (rowId && jQuery.inArray(rowId, excludedIds) === -1) {
+					selectedIds.push(rowId);
+				}
+			});
+		}
+		return selectedIds.map((id) => parseInt(id, 10)).filter((id) => id > 0);
+	}
+	const checkedIds = [];
+	root.find('.listViewEntriesCheckBox:checked').each(function () {
+		const rowId = parseInt(jQuery(this).val(), 10);
+		if (rowId) {
+			checkedIds.push(rowId);
+		}
+	});
+	return checkedIds;
+};
+
+ProjektyRekrutacyjne_RelatedList_Js.triggerQuickExportToExcel = function () {
+	var module = jQuery('.relatedModuleName').val() || 'Kandydaci';
+	var selectedIds = ProjektyRekrutacyjne_RelatedList_Js.collectRelatedCandidateIds();
+	if (!selectedIds.length) {
+		Vtiger_Helper_Js.showPnotify({
+			text: app.vtranslate('LBL_SELECT_RECORD', 'Vtiger'),
+			type: 'error'
+		});
+		return;
+	}
+	var form = jQuery('<form method="POST" action="index.php">');
+	form.append(jQuery('<input />', {name: 'module', value: module}));
+	form.append(jQuery('<input />', {name: 'action', value: 'QuickExport'}));
+	form.append(jQuery('<input />', {name: 'mode', value: 'ExportToExcel'}));
+	form.append(jQuery('<input />', {name: 'selected_ids', value: JSON.stringify(selectedIds)}));
+	if (typeof csrfMagicName !== 'undefined') {
+		form.append(jQuery('<input />', {name: csrfMagicName, value: csrfMagicToken}));
+	}
+	jQuery('body').append(form);
+	form.submit();
+	Vtiger_Helper_Js.showMessage({text: app.vtranslate('JS_STARTED_GENERATING_FILE'), type: 'info'});
+};
+
+ProjektyRekrutacyjne_RelatedList_Js.triggerExportCvZip = function () {
+	var module = jQuery('.relatedModuleName').val() || 'Kandydaci';
+	var selectedIds = ProjektyRekrutacyjne_RelatedList_Js.collectRelatedCandidateIds();
+	if (!selectedIds.length) {
+		Vtiger_Helper_Js.showPnotify({
+			text: app.vtranslate('LBL_SELECT_RECORD', 'Vtiger'),
+			type: 'error'
+		});
+		return;
+	}
+	var form = jQuery('<form method="POST" action="index.php">');
+	form.append(jQuery('<input />', {name: 'module', value: module}));
+	form.append(jQuery('<input />', {name: 'action', value: 'ExportCvZip'}));
+	form.append(jQuery('<input />', {name: 'selected_ids', value: JSON.stringify(selectedIds)}));
+	if (typeof csrfMagicName !== 'undefined') {
+		form.append(jQuery('<input />', {name: csrfMagicName, value: csrfMagicToken}));
+	}
+	jQuery('body').append(form);
+	form.submit();
+	Vtiger_Helper_Js.showMessage({text: app.vtranslate('JS_STARTED_GENERATING_FILE'), type: 'info'});
+};
+
+ProjektyRekrutacyjne_RelatedList_Js.triggerExportAction = function (exportActionUrl) {
+	var selectedIds = ProjektyRekrutacyjne_RelatedList_Js.collectRelatedCandidateIds();
+	if (!selectedIds.length) {
+		Vtiger_Helper_Js.showPnotify({
+			text: app.vtranslate('LBL_SELECT_RECORD', 'Vtiger'),
+			type: 'error'
+		});
+		return;
+	}
+	var url = exportActionUrl + '&selected_ids=' + encodeURIComponent(JSON.stringify(selectedIds));
+	var searchParams = jQuery('#search_params').val();
+	if (searchParams) {
+		url += '&search_params=' + encodeURIComponent(searchParams);
+	}
+	window.location.href = url;
+};
+
 ProjektyRekrutacyjne_RelatedList_Js.triggerSendEmail = function () {
 	var modalParams = {
 		relatedLoad: true,
@@ -512,30 +642,31 @@ ProjektyRekrutacyjne_RelatedList_Js.triggerSendEmail = function () {
 		module: jQuery('.relatedModuleName').val(),
 		cvid: jQuery('#recordsFilter').val(),
 	};
-	var listInstance = (typeof Vtiger_ListView_Js !== 'undefined' && typeof Vtiger_ListView_Js.getInstance === 'function')
-		? Vtiger_ListView_Js.getInstance()
-		: null;
-	if (listInstance && listInstance.checkListRecordSelected() !== true && typeof Vtiger_ListView_Js.triggerSendEmail === 'function') {
-		Vtiger_ListView_Js.triggerSendEmail(modalParams);
-		return;
-	}
-	var selectedIds = [];
-	jQuery('.RelatedList.relatedContainer .listViewEntriesTable .listViewEntries').each(function () {
-		var rowId = parseInt(jQuery(this).data('id'), 10);
-		if (rowId) {
-			selectedIds.push(rowId);
-		}
-	});
+	var listInstance = ProjektyRekrutacyjne_RelatedList_Js.getRelatedListViewInstance();
+	var selectedIds = ProjektyRekrutacyjne_RelatedList_Js.collectRelatedCandidateIds();
 	if (!selectedIds.length) {
 		if (listInstance && typeof listInstance.noRecordSelectedAlert === 'function') {
 			listInstance.noRecordSelectedAlert();
+		} else {
+			Vtiger_Helper_Js.showPnotify({
+				text: app.vtranslate('LBL_SELECT_RECORD', 'Vtiger'),
+				type: 'error'
+			});
 		}
 		return;
 	}
-	Vtiger_Index_Js.triggerSendEmailModal(jQuery.extend({}, modalParams, {
-		selectedIds: selectedIds,
-		view: 'IndividualSendMailModal',
-	}));
+	if (listInstance && listInstance.checkListRecordSelected() !== true && typeof Vtiger_ListView_Js.triggerSendEmail === 'function') {
+		Vtiger_ListView_Js.listInstance = listInstance;
+		Vtiger_ListView_Js.triggerSendEmail(modalParams);
+		Vtiger_ListView_Js.listInstance = false;
+		return;
+	}
+	Vtiger_Index_Js.triggerSendEmailModal(
+		jQuery.extend({}, modalParams, {
+			selectedIds: selectedIds,
+			view: 'IndividualSendMailModal'
+		})
+	);
 };
 // https://192.168.2.230/index.php?module=ProjektyRekrutacyjne&relatedModule=Kandydaci&view=Detail&record=1376448&mode=showRelatedList&relationId=756&tab_label=Kandydaci
 // https://192.168.2.230/index.php?module=ProjektyRekrutacyjne&relatedModule=Kandydaci&view=Detail&record=1376448&mode=showRelatedList&relationId=756&tab_label=Kandydaci&entityState=Active&advancedConditions=null&search_params=[[["recruitment_status_rel%22e%22PPL_REJECTED_AFTER_CV"]]]&totalCount=0

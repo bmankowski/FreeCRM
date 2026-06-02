@@ -1,28 +1,41 @@
 .RelatedList.relatedContainer--listPreview .relatedHeader > .d-inline-flex.flex-wrap {
 	width: 100%;
 	display: flex !important;
-	flex-wrap: nowrap !important;
+	flex-wrap: wrap !important;
 	align-items: center;
 	gap: 8px;
 	min-width: 0;
-	overflow-x: auto;
-	overflow-y: hidden;
-	-webkit-overflow-scrolling: touch;
+	overflow: visible;
 	padding-bottom: 2px;
 }
-.RelatedList.relatedContainer--listPreview .relatedHeader > .d-inline-flex > .u-w-sm-down-100.d-flex.flex-wrap.flex-sm-nowrap {
+.RelatedList.relatedContainer--listPreview .relatedHeader > .d-inline-flex > .relatedHeader__toolbar.u-w-sm-down-100 {
 	margin-bottom: 0 !important;
 	flex-wrap: nowrap !important;
-	flex-shrink: 0;
+	flex: 1 1 auto;
+	width: 100%;
+	max-width: 100%;
 	align-items: center;
+	justify-content: flex-start !important;
+	margin-left: 0 !important;
 }
-.RelatedList.relatedContainer--listPreview .relatedHeader > .d-inline-flex > .d-flex.flex-wrap.u-w-sm-down-100 {
+.RelatedList.relatedContainer--listPreview .relatedHeader .listViewMassActions {
+	flex: 0 0 auto;
+	white-space: nowrap;
+	margin-right: 0.5rem;
+}
+.RelatedList.relatedContainer--listPreview .relatedHeader .listViewMassActions .dropdown-toggle {
+	white-space: nowrap;
+}
+.RelatedList.relatedContainer--listPreview .relatedHeader > .d-inline-flex > .relatedHeader__pagination.d-flex.flex-wrap.u-w-sm-down-100 {
 	margin-bottom: 0 !important;
 	flex-wrap: nowrap !important;
 	flex-shrink: 0;
 	align-items: center;
 	justify-content: flex-end !important;
 	margin-left: auto !important;
+}
+.RelatedList.relatedContainer--listPreview .relatedHeader > .d-inline-flex.flex-wrap.w-100 {
+	justify-content: flex-start !important;
 }
 .RelatedList.relatedContainer--listPreview .relatedHeader .paginationDiv {
 	width: auto;
@@ -56,6 +69,19 @@
 .RelatedList.relatedContainer--listPreview .relatedHeader .relatedViewGroup.mb-1,
 .RelatedList.relatedContainer--listPreview .relatedHeader .c-btn-block-sm-down.mb-1 {
 	margin-bottom: 0 !important;
+}
+.RelatedList.relatedContainer--listPreview .c-list-preview {
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+.RelatedList.relatedContainer--listPreview .c-list-preview__content {
+	flex: 1 1 auto;
+	min-height: 0;
+	overflow: auto;
+}
+.RelatedList.relatedContainer--listPreview .relatedHeader {
+	flex: 0 0 auto;
 }
 .RelatedList.relatedContainer .relatedContents::after {
 	content: "";

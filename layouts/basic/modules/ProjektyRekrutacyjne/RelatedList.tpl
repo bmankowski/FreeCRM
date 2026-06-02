@@ -155,6 +155,9 @@
 					// Click row or link -> update preview instead of navigation
 					container.off('click.listPreview', '.listViewEntries, .listViewEntries a')
 						.on('click.listPreview', '.listViewEntries, .listViewEntries a', function (e) {
+							if (jQuery(e.target).closest('.listViewEntriesCheckBox, .leftRecordActions, .actions').length) {
+								return;
+							}
 							e.preventDefault();
 							e.stopPropagation();
 							var row = jQuery(e.currentTarget).closest('.listViewEntries');
@@ -283,9 +286,29 @@
 		<input type="hidden" class="js-empty-fields" data-js="value" value="{\App\Security\Purifier::encodeHtml(\App\Utils\Json::encode($LOCKED_EMPTY_FIELDS))}"/>
 		{if $SHOW_HEADER}
 			{if !isset($CUSTOM_VIEW_LIST)}{assign var=CUSTOM_VIEW_LIST value=[]}{/if}
+			{capture assign=RELATED_HEADER_HTML}
 			<div class="relatedHeader mt-1">
-				<div class="d-inline-flex flex-wrap w-100 justify-content-between">
-					<div class="u-w-sm-down-100 d-flex flex-wrap flex-sm-nowrap mb-1 {if $CUSTOM_VIEW_LIST}mb-lg-0{else}mb-md-0{/if}">
+				<div class="d-inline-flex flex-wrap w-100 justify-content-start">
+					<div class="relatedHeader__toolbar u-w-sm-down-100 d-flex flex-wrap flex-sm-nowrap justify-content-start mb-1 {if $CUSTOM_VIEW_LIST}mb-lg-0{else}mb-md-0{/if}">
+						{if isset($RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS']) && $RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS']|@count gt 0}
+							<div class="btn-group listViewMassActions mr-sm-1 relatedViewGroup c-btn-block-sm-down mb-1 mb-sm-0">
+								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+									<strong>{"LBL_ACTIONS"|t:$RELATED_MODULE_NAME}</strong>&nbsp;&nbsp;<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu">
+									{foreach item=ACTION_LINK from=$RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS']}
+										<li id="{$RELATED_MODULE_NAME}_relatedList_massAction_{\App\Modules\Base\Helpers\Util::replaceSpaceWithUnderScores($ACTION_LINK->getLabel())}">
+											<a href="javascript:void(0);"
+												{if stripos($ACTION_LINK->getUrl(), 'javascript:')===0}
+													onclick='{$ACTION_LINK->getUrl()|substr:strlen("javascript:")};'
+												{else}
+													onclick="Vtiger_ListView_Js.triggerMassAction('{$ACTION_LINK->getUrl()}')"
+												{/if}>{$ACTION_LINK->getLabel()|t:$RELATED_MODULE_NAME}</a>
+										</li>
+									{/foreach}
+								</ul>
+							</div>
+						{/if}
 						{if isset($RELATED_LIST_LINKS['RELATEDLIST_VIEWS']) && $RELATED_LIST_LINKS['RELATEDLIST_VIEWS']|@count gt 0}
 							<div class="btn-group mr-sm-1 relatedViewGroup c-btn-block-sm-down mb-1 mb-sm-0">
 								{assign var=TEXT_HOLDER value=''}
@@ -297,13 +320,14 @@
 										{/if}
 									{/if}
 								{/foreach}
-								<button class="btn btn-light dropdown-toggle relatedViewBtn" data-toggle="dropdown">
+								<button type="button" class="btn btn-default dropdown-toggle relatedViewBtn" data-toggle="dropdown">
 									{if $BTN_ICON}
 										<span class="{$BTN_ICON} mr-1"></span>
 									{else}
 										<span class="fas fa-list mr-1"></span>
 									{/if}
 									<span class="textHolder">{\App\Language::translate($TEXT_HOLDER, $MODULE_NAME)}</span>
+									<span class="caret"></span>
 								</button>
 								<ul class="dropdown-menu">
 									{foreach item=RELATEDLIST_VIEW from=$RELATED_LIST_LINKS['RELATEDLIST_VIEWS']}
@@ -318,9 +342,6 @@
 									{/foreach}
 								</ul>
 							</div>
-						{/if}
-						{if isset($RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'])}
-							{include file='ButtonViewLinks.tpl'|@vtemplate_path LINKS=$RELATED_LIST_LINKS['RELATEDLIST_MASSACTIONS'] TEXT_HOLDER='LBL_ACTIONS' BTN_ICON='fa fa-list' CLASS='btn-group mr-sm-1 relatedViewGroup c-btn-block-sm-down mb-1 mb-sm-0'}
 						{/if}
 						{if isset($RELATED_LIST_LINKS['LISTVIEWBASIC'])}
 							{foreach item=RELATED_LINK from=$RELATED_LIST_LINKS['LISTVIEWBASIC']}
@@ -382,7 +403,7 @@
 							   value="{if $VIEW_MODEL->has('entityState')}{$VIEW_MODEL->get('entityState')}{else}Active{/if}">
 					{/if}
 					{if !$RELATED_LIST_SUPPRESS_PAGINATION}
-					<div class="d-flex flex-wrap u-w-sm-down-100 justify-content-between justify-content-md-end">
+					<div class="relatedHeader__pagination d-flex flex-wrap u-w-sm-down-100 justify-content-between justify-content-md-end">
 						<div class="paginationDiv">
 							{include file='Pagination.tpl'|@vtemplate_path:$MODULE_NAME VIEWNAME='related'}
 						</div>
@@ -443,22 +464,34 @@
 					{/if}
 				</div>
 			</div>
+			{/capture}
+			{if $RELATED_VIEW !== 'ListPreview'}
+				{$RELATED_HEADER_HTML nofilter}
+			{/if}
 		{/if}
 		{if $RELATED_VIEW === 'ListPreview'}
 			<div class="relatedContents mt-1">
 				<input type="hidden" id="defaultDetailViewName"
 					   value="{\App\Core\AppConfig::module($MODULE_NAME, 'defaultDetailViewName')}"/>
 				{if empty($RELATED_RECORDS)}
-					<div class="h-100 d-flex justify-content-center align-items-center py-5">
-						<div>
-							{\App\Language::translate('PLL_LIST_IS_EMPTY', $MODULE_NAME)}
+					<div class="c-list-preview c-list-preview--empty">
+						{if $SHOW_HEADER}
+							{$RELATED_HEADER_HTML nofilter}
+						{/if}
+						<div class="h-100 d-flex justify-content-center align-items-center py-5">
+							<div>
+								{\App\Language::translate('PLL_LIST_IS_EMPTY', $MODULE_NAME)}
+							</div>
 						</div>
 					</div>
 				{else}
 					<div class="c-list-preview js-list-preview js-fixed-scroll" data-js="scroll">
+						{if $SHOW_HEADER}
+							{$RELATED_HEADER_HTML nofilter}
+						{/if}
 						<div class="c-list-preview__content js-list-preview--scroll" data-js="perfectScrollbar">
 							<div id="recordsList">
-								{include file='RelatedListContents.tpl'|@vtemplate_path:$RELATED_MODULE->get('name')}
+								{include file='RelatedListContents.tpl'|@vtemplate_path:$MODULE}
 							</div>
 						</div>
 					</div>
@@ -545,7 +578,11 @@
 			</div>
 		{else}
 			<div class="relatedContents mt-1">
-				{include file='RelatedListContents.tpl'|@vtemplate_path:$RELATED_MODULE->get('name')}
+				{if $RELATED_MODULE_NAME eq 'Kandydaci'}
+					{include file='RelatedListContents.tpl'|@vtemplate_path:$MODULE}
+				{else}
+					{include file='RelatedListContents.tpl'|@vtemplate_path:$RELATED_MODULE->get('name')}
+				{/if}
 			</div>
 		{/if}
 	</div>

@@ -1,0 +1,122 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
+# shellcheck source=lib/common.sh
+source "${SCRIPT_DIR}/lib/common.sh"
+
+usage() {
+  cat <<'HELP'
+Sync recruitment data from prod (10.0.0.220) to local FreeCRM.
+
+Usage:
+  ./scripts/sync-from-prod [options]
+  ./scripts/migration/candidates/sync-from-prod [options]
+
+One-time setup:
+  cp scripts/migration/candidates/.env.example ~/.freecrm-sync.env
+
+Options:
+  -h, --help           Show this help
+  -y, --yes            Skip confirmation prompt
+  --skip-dump          Reuse latest tmp/sync/yetiforce2-*.sql.gz
+  --skip-storage       Do not rsync storage/ from prod
+  --skip-backup        Skip freecrm backup before promote
+  --only-promote       Skip prod dump; promote yetiforce → freecrm only
+  --skip-references    Skip Accounts/Contacts referenced by projects
+  --dry-run            Print steps without writing
+
+Environment:
+  ~/.freecrm-sync.env  Remote SSH/DB credentials (see .env.example)
+HELP
+}
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -h|--help) usage; exit 0 ;;
+    -y|--yes) SYNC_YES=1; shift ;;
+    --skip-dump) SYNC_SKIP_DUMP=1; shift ;;
+    --skip-storage) SYNC_SKIP_STORAGE=1; shift ;;
+    --skip-backup) SYNC_SKIP_BACKUP=1; shift ;;
+    --only-promote) SYNC_ONLY_PROMOTE=1; SYNC_SKIP_DUMP=1; shift ;;
+    --skip-references) SYNC_SKIP_REFERENCES=1; shift ;;
+    --dry-run) SYNC_DRY_RUN=1; shift ;;
+    *) die "Unknown option: $1 (try --help)" ;;
+  esac
+done
+
+export SYNC_YES SYNC_DRY_RUN SYNC_SKIP_DUMP SYNC_SKIP_STORAGE SYNC_SKIP_BACKUP SYNC_ONLY_PROMOTE SYNC_SKIP_REFERENCES
+load_sync_env
+cd "$ROOT_DIR"
+
+require_docker_db
+mkdir -p "$TMP_DIR" "$BACKUP_DIR"
+
+LAST_BACKUP=""
+
+run_step() {
+  local n="$1" total="$2" name="$3"
+  shift 3
+  log "sync" "[${n}/${total}] ${name}"
+  "$@"
+}
+
+TOTAL=6
+if [[ "${SYNC_ONLY_PROMOTE}" == "1" ]]; then
+  TOTAL=4
+fi
+if [[ "${SYNC_SKIP_REFERENCES}" == "1" ]]; then
+  TOTAL=$((TOTAL - 1))
+fi
+
+STEP=1
+if [[ "${SYNC_ONLY_PROMOTE}" != "1" ]]; then
+  run_step "$STEP" "$TOTAL" "Dump prod → local ${STAGING_DB_NAME}" \
+    "${SCRIPT_DIR}/01-import-prod-to-yetiforce.sh"
+  STEP=$((STEP + 1))
+fi
+
+if [[ "${SYNC_SKIP_BACKUP}" != "1" && "${SYNC_DRY_RUN}" != "1" ]]; then
+  run_step "$STEP" "$TOTAL" "Backup local ${LOCAL_DB_NAME}" \
+    "${SCRIPT_DIR}/local-backup.sh"
+  LAST_BACKUP="$(ls -1t "${BACKUP_DIR}/${LOCAL_DB_NAME}-"*.sql 2>/dev/null | head -1 || true)"
+else
+  log "sync" "[${STEP}/${TOTAL}] Backup skipped"
+fi
+STEP=$((STEP + 1))
+
+if [[ "${SYNC_DRY_RUN}" != "1" ]]; then
+  confirm_destructive
+fi
+run_step "$STEP" "$TOTAL" "Promote ${STAGING_DB_NAME} → ${LOCAL_DB_NAME}" \
+  "${SCRIPT_DIR}/02-promote-yetiforce-to-freecrm.sh"
+STEP=$((STEP + 1))
+
+if [[ "${SYNC_SKIP_REFERENCES:-0}" != "1" ]]; then
+  run_step "$STEP" "$TOTAL" "Promote project Accounts/Contacts references" \
+    "${SCRIPT_DIR}/02b-promote-project-references.sh"
+  STEP=$((STEP + 1))
+fi
+
+if [[ "${SYNC_SKIP_STORAGE}" != "1" ]]; then
+  run_step "$STEP" "$TOTAL" "Sync storage/ from prod" \
+    "${SCRIPT_DIR}/sync-storage.sh"
+else
+  log "sync" "[${STEP}/${TOTAL}] Sync storage/ skipped (--skip-storage)"
+fi
+STEP=$((STEP + 1))
+
+run_step "$STEP" "$TOTAL" "Post-process (labels, cache, verify)" \
+  "${SCRIPT_DIR}/03-post-process.sh"
+
+echo
+log "sync" "Done."
+log "sync" "${LOCAL_DB_NAME}: $(recruitment_counts "${LOCAL_DB_NAME}")"
+if [[ -n "${LAST_BACKUP}" ]]; then
+  log "sync" "Rollback backup: ${LAST_BACKUP}"
+  log "sync" "  scripts/import-db.sh \"${LAST_BACKUP}\" --root --drop-first --db-name ${LOCAL_DB_NAME} --db-pass ${LOCAL_DB_PASS}"
+fi
+SAMPLE_ID="$(sample_candidate_id)"
+if [[ -n "${SAMPLE_ID}" ]]; then
+  log "sync" "Open: ${FREECRM_BASE_URL}/index.php?module=Kandydaci&view=Detail&record=${SAMPLE_ID}"
+fi

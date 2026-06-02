@@ -127,6 +127,38 @@ jQuery.Class("Vtiger_ListView_Js", {
 			listInstance.noRecordSelectedAlert();
 		}
 	},
+	triggerExportCvZip: function () {
+		var listInstance = Vtiger_ListView_Js.getInstance();
+		if (listInstance.checkListRecordSelected() === true) {
+			listInstance.noRecordSelectedAlert();
+			return;
+		}
+		var selectedIds = listInstance.readSelectedIds(true);
+		var excludedIds = listInstance.readExcludedIds(true);
+		if (selectedIds === 'all') {
+			selectedIds = [];
+			listInstance.getListViewContainer().find('.listViewEntries').each(function () {
+				var rowId = String(jQuery(this).data('id'));
+				if (rowId && jQuery.inArray(rowId, excludedIds) === -1) {
+					selectedIds.push(rowId);
+				}
+			});
+		}
+		if (!selectedIds || !selectedIds.length) {
+			listInstance.noRecordSelectedAlert();
+			return;
+		}
+		var form = jQuery('<form method="POST" action="index.php">');
+		form.append(jQuery('<input />', {name: 'module', value: app.getModuleName()}));
+		form.append(jQuery('<input />', {name: 'action', value: 'ExportCvZip'}));
+		form.append(jQuery('<input />', {name: 'selected_ids', value: JSON.stringify(selectedIds)}));
+		if (typeof csrfMagicName !== 'undefined') {
+			form.append(jQuery('<input />', {name: csrfMagicName, value: csrfMagicToken}));
+		}
+		jQuery('body').append(form);
+		form.submit();
+		Vtiger_Helper_Js.showMessage({text: app.vtranslate('JS_STARTED_GENERATING_FILE'), type: 'info'});
+	},
 	triggerQuickExportToExcel: function (module) {
 		var massActionUrl = "index.php";
 		var thisInstance = this;

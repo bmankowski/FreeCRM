@@ -62,6 +62,12 @@ class ListView extends \App\Modules\Base\Models\ListView {
 				'linkicon' => '',
 			];
 		}
+		$massActionLinks[] = [
+			'linktype' => 'LISTVIEWMASSACTION',
+			'linklabel' => 'PPL_EXPORT_CV',
+			'linkurl' => 'javascript:Vtiger_ListView_Js.triggerExportCvZip();',
+			'linkicon' => '',
+		];
 		foreach ($massActionLinks as $massActionLink) {
 			$links['LISTVIEWMASSACTION'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($massActionLink);
 		}
