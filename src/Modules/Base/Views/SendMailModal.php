@@ -50,6 +50,8 @@ class SendMailModal extends BasicModal
 		$viewer->assign('RECORDS', $this->getRecordsListFromRequest($request));
 		$viewer->assign('FIELDS', $this->fields);
 		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('DEFAULT_SMTP', \App\Email\Mail::getDefaultSmtp());
+		$viewer->assign('TEMPLETE_LIST', \App\Email\Mail::getTempleteList($templateModule));
 		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->view('SendMailModal.tpl', $moduleName);
 		$this->postProcess($request);

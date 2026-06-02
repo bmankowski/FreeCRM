@@ -15,6 +15,7 @@ class VTUpdateRelatedFieldTask extends VTTask
 {
 
 	public $executeImmediately = false;
+	public $field_value_mapping;
 
 	public function getFieldNames(): array
 	{

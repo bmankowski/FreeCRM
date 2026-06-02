@@ -1,7 +1,6 @@
 {*<!-- {[The file is published on the basis of FreeCRM Public License 1.1 that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 <!-- layouts/basic/modules/Base/IndividualSendMailModal.tpl -->
-	{assign var=DEFAULT_SMTP value=App\Email\Mail::getDefaultSmtp()}
 	{assign var=IS_EMAIL value=false}
 	<div class="modal-header">
 		<button type="button" class="btn btn-warning btn-sm pull-right" data-dismiss="modal" aria-hidden="true">&times;</button>

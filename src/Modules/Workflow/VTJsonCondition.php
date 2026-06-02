@@ -147,7 +147,7 @@ class VTJsonCondition {
 		} else {
 			$fieldValue = $recordModel->get($cond['fieldname']);
 		}
-		$value = trim(html_entity_decode($cond['value']));
+		$value = trim(html_entity_decode((string) ($cond['value'] ?? '')));
 		$expressionType = $cond['valuetype'];
 		if ($expressionType === 'fieldname') {
 			if ($referredEntityData !== null) {

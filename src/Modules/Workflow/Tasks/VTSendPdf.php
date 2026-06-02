@@ -15,6 +15,12 @@ class VTSendPdf extends VTTask
 
 	/** @var bool Sending email takes more time, this should be handled via queue all the time. */
 	public $executeImmediately = true;
+	public $documentTemplate;
+	public $mailTemplate;
+	public $email;
+	public $emailoptout;
+	public $smtp;
+	public $copy_email;
 
 	/**
 	 * Get field names

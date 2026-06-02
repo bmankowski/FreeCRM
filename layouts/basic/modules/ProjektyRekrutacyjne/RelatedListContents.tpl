@@ -17,11 +17,13 @@
 								{break}
 							{/if}
 							{assign var=COUNT value=$COUNT+1}
+							{assign var=FIELD_MODULE value=$HEADER_FIELD->getModuleName()}
+							{if empty($FIELD_MODULE)}{assign var=FIELD_MODULE value=$RELATED_MODULE_NAME}{/if}
 						<th {if $HEADER_FIELD@last} colspan="2" {/if} nowrap>
 							{if $HEADER_FIELD->get('column') eq 'access_count' or $HEADER_FIELD->get('column') eq 'idlists' }
-								<a href="javascript:void(0);" class="noSorting">{$HEADER_FIELD->get('label')|t:$RELATED_MODULE_NAME}</a>
+								<a href="javascript:void(0);" class="noSorting">{$HEADER_FIELD->get('label')|t:$FIELD_MODULE}</a>
 							{else}
-								<a href="javascript:void(0);" class="relatedListHeaderValues" {if $HEADER_FIELD->isListviewSortable()}data-nextsortorderval="{if $COLUMN_NAME eq $HEADER_FIELD->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}"{/if} data-fieldname="{$HEADER_FIELD->get('column')}">{$HEADER_FIELD->get('label')|t:$RELATED_MODULE_NAME}
+								<a href="javascript:void(0);" class="relatedListHeaderValues" {if $HEADER_FIELD->isListviewSortable()}data-nextsortorderval="{if $COLUMN_NAME eq $HEADER_FIELD->get('column')}{$NEXT_SORT_ORDER}{else}ASC{/if}"{/if} data-fieldname="{$HEADER_FIELD->get('column')}">{$HEADER_FIELD->get('label')|t:$FIELD_MODULE}
 									&nbsp;&nbsp;{if $COLUMN_NAME eq $HEADER_FIELD->get('column')}<span class="{$SORT_IMAGE}"></span>{/if}
 								</a>
 							{/if}
@@ -44,6 +46,8 @@
 					</td>
 					{foreach item=HEADER_FIELD from=$RELATED_HEADERS}
 						<td>
+							{assign var=FIELD_MODULE value=$HEADER_FIELD->getModuleName()}
+							{if empty($FIELD_MODULE)}{assign var=FIELD_MODULE value=$RELATED_MODULE_NAME}{/if}
 							{assign var=FIELD_UI_TYPE_MODEL value=$HEADER_FIELD->getUITypeModel()}
 							{if isset($SEARCH_DETAILS[$HEADER_FIELD->getName()])}
 								{assign var=SEARCH_INFO value=$SEARCH_DETAILS[$HEADER_FIELD->getName()]}
@@ -51,7 +55,7 @@
 								{assign var=SEARCH_INFO value=[]}
 							{/if}
 							{include file=vtemplate_path($FIELD_UI_TYPE_MODEL->getListSearchTemplateName(),$RELATED_MODULE_NAME)
-				FIELD_MODEL=$HEADER_FIELD SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL MODULE_MODEL=$RELATED_MODULE MODULE=$RELATED_MODULE_NAME}
+				FIELD_MODEL=$HEADER_FIELD SEARCH_INFO=$SEARCH_INFO USER_MODEL=$USER_MODEL MODULE_MODEL=$RELATED_MODULE MODULE=$FIELD_MODULE}
 						</td>
 					{/foreach}
 					<td>

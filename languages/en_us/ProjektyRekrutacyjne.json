@@ -33,6 +33,7 @@
         "PPL_REJECTED_AFTER_INTERVIEW": "Rejected after interview",
         "PPL_OFFER_REJECTED_BY_CANDIDATE": "Offer rejected by candidate",
         "PPL_REJECTED_BY_CLIENT": "Rejected by client",
+        "LBL_STATUS_REL": "Status in project",
         "PLL_STATUS_TRANSITION_NOT_ALLOWED": "This status change is not allowed"
     },
     "jsLanguageStrings": {

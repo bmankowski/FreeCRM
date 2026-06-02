@@ -18,6 +18,7 @@ class VTAddressBookTask extends VTTask
 {
 
 	public $executeImmediately = false;
+	public $test;
 
 	public function getFieldNames(): array
 	{

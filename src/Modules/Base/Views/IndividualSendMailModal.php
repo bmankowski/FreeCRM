@@ -36,6 +36,7 @@ class IndividualSendMailModal extends SendMailModal
 		$viewer->assign('SOURCE_MODULE', $request->get('sourceModule'));
 		$viewer->assign('SOURCE_RECORD', $request->get('sourceRecord'));
 		$viewer->assign('TEMPLETE_LIST', $templateList);
+		$viewer->assign('DEFAULT_SMTP', \App\Email\Mail::getDefaultSmtp());
 		$viewer->assign('INITIAL_PREVIEW', $this->getInitialPreview($request, $records, $templateList));
 		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->view('IndividualSendMailModal.tpl', $moduleName);

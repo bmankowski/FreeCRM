@@ -19,6 +19,24 @@ class VTCreateTodoTask extends VTTask
 {
 
 	public $executeImmediately = true;
+	public $todo;
+	public $description;
+	public $time;
+	public $days_start;
+	public $days_end;
+	public $status;
+	public $priority;
+	public $days;
+	public $direction_start;
+	public $datefield_start;
+	public $direction_end;
+	public $datefield_end;
+	public $sendNotification;
+	public $assigned_user_id;
+	public $doNotDuplicate;
+	public $duplicateStatus;
+	public $updateDates;
+	public $originalUser;
 
 	public function getFieldNames(): array
 	{

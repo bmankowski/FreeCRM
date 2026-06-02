@@ -18,6 +18,7 @@ class VTSendNotificationTask extends VTTask
 
 	// Sending email takes more time, this should be handled via queue all the time.
 	public $executeImmediately = true;
+	public $template;
 
 	public function getFieldNames(): array
 	{

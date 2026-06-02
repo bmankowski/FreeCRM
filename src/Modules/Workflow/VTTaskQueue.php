@@ -17,6 +17,8 @@ namespace App\Modules\Workflow;
  */
 class VTTaskQueue {
 
+	public $adb;
+
 	public function __construct($adb = false)
 	{
 		$this->adb = $adb;

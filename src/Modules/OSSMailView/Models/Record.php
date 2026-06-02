@@ -179,7 +179,8 @@ class Record extends \App\Modules\Base\Models\Record
 			if (count($emailFields) > 0) {
 				$recordModel = \App\Modules\Base\Models\Record::getInstanceById($record, $module);
 				foreach ($emailFields as $emailField) {
-					$email = $recordModel->get($emailField['columnname']);
+					$fieldName = $emailField['fieldname'] ?? $emailField['columnname'];
+					$email = $recordModel->get($fieldName);
 					if (!empty($email)) {
 						$returnEmail = $email;
 						break;

@@ -132,7 +132,8 @@ class RelatedList extends \App\Modules\Base\Views\RelatedList
         if (empty($searchParams) || !\is_array($searchParams)) {
             $searchParams = [];
         }
-        
+
+        $relationListView->registerRelationQueryFields();
         $transformedSearchParams = $relationListView->get('query_generator')->parseBaseSearchParamsToCondition($searchParams);
         $relationListView->set('search_params', $transformedSearchParams);
 

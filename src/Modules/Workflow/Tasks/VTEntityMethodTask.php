@@ -18,6 +18,7 @@ class VTEntityMethodTask extends VTTask
 {
 
 	public $executeImmediately = true;
+	public $methodName;
 
 	public function getFieldNames(): array
 	{

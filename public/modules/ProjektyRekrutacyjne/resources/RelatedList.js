@@ -501,10 +501,15 @@ Vtiger_RelatedList_Js(
 			this.rejectCandidateManually();
 		},
 		registerRelatedListCheckboxes: function () {
-			const root = this.getContentContainer().find('.RelatedList.relatedContainer');
+			const root = this.getContentContainer().find('.RelatedList.relatedContainer').first();
 			if (!root.length || !root.find('.listViewEntriesCheckBox').length) {
 				return;
 			}
+			if (typeof Vtiger_ListView_Js === 'undefined') {
+				return;
+			}
+			root.off('click', '#listViewEntriesMainCheckBox');
+			root.off('click', '.listViewEntriesCheckBox');
 			const listInstance = ProjektyRekrutacyjne_RelatedList_Js.createRelatedListViewInstance(root);
 			listInstance.registerMainCheckBoxClickEvent();
 			listInstance.registerCheckBoxClickEvent();
@@ -519,6 +524,9 @@ Vtiger_RelatedList_Js(
 ProjektyRekrutacyjne_RelatedList_Js._relatedListViewInstance = false;
 
 ProjektyRekrutacyjne_RelatedList_Js.createRelatedListViewInstance = function (root) {
+	if (typeof Vtiger_ListView_Js === 'undefined') {
+		return false;
+	}
 	const listInstance = new Vtiger_ListView_Js();
 	listInstance.listViewContainer = root;
 	listInstance.getListViewContainer = function () {

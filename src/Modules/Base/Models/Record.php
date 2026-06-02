@@ -410,8 +410,11 @@ class Record extends \App\Runtime\BaseModel
 		$this->getModule()->saveRecord($this, $relationParams);
 		$db->completeTransaction();
 
+		$cacheName = $this->getId() . ':' . $this->getModuleName();
 		if ($this->isNew()) {
-			\App\Cache\Cache::save('RecordModel', $this->getId() . ':' . $this->getModuleName(), $this);
+			\App\Cache\Cache::save('RecordModel', $cacheName, $this);
+		} else {
+			\App\Cache\Cache::delete('RecordModel', $cacheName);
 		}
 		\App\Cache\Cache::delete('recordLabel', $this->getId());
 		\App\Security\PrivilegeUpdater::updateOnRecordSave($this);

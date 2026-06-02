@@ -420,6 +420,12 @@ class QueryGenerator
 		if (isset($this->fieldsModel[$fieldName])) {
 			return $this->fieldsModel[$fieldName];
 		}
+		if (isset($this->queryFields[$fieldName])) {
+			$fieldModel = $this->queryFields[$fieldName]->getFieldModel();
+			if ($fieldModel) {
+				return $fieldModel;
+			}
+		}
 		return false;
 	}
 

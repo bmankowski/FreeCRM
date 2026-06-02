@@ -16,6 +16,7 @@ class VTAutoAssign extends VTTask
 {
 
 	public $executeImmediately = true;
+	public $template;
 
 	public function getFieldNames(): array
 	{

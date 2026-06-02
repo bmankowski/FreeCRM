@@ -59,6 +59,14 @@ class BaseField
 	}
 
 	/**
+	 * @return \App\Modules\Base\Models\Field|false
+	 */
+	public function getFieldModel()
+	{
+		return $this->fieldModel ?: false;
+	}
+
+	/**
 	 * Get module name
 	 * @return string
 	 */

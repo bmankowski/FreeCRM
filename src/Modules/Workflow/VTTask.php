@@ -17,6 +17,11 @@ namespace App\Modules\Workflow;
 abstract class VTTask
 {
 	public $contents;
+	public $workflowId;
+	public $summary;
+	public $active;
+	public $trigger;
+	public $id;
 
 	/**
 	 * Execute the task

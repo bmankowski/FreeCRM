@@ -54,4 +54,21 @@ class Detail extends \App\Modules\Base\Views\Detail
 
 		return true;
 	}
+
+	/**
+	 * Related-list mass actions reuse ListView selection helpers (select-all, selectedIds).
+	 *
+	 * @param \App\Http\Vtiger_Request $request
+	 * @return array
+	 */
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
+	{
+		$headerScriptInstances = parent::getFooterScripts($request);
+
+		$jsScriptInstances = $this->checkAndConvertJsScripts([
+			'modules.Base.resources.ListView',
+		]);
+
+		return array_merge($headerScriptInstances, $jsScriptInstances);
+	}
 }

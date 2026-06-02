@@ -18,6 +18,10 @@ class VTCreateEntityTask extends VTTask
 {
 
 	public $executeImmediately = true;
+	public $entity_type;
+	public $reference_field;
+	public $field_value_mapping;
+	public $mappingPanel;
 
 	public function getFieldNames(): array
 	{

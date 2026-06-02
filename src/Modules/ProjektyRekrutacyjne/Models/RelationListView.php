@@ -16,6 +16,8 @@ use App\Modules\ProjektyRekrutacyjne\Relations\GetRelatedMembers;
 
 class RelationListView extends \App\Modules\Base\Models\RelationListView
 {
+	private bool $relationQueryFieldsRegistered = false;
+
 	private const KANDYDACI_RELATED_ACTION_LABELS = [
 		'LBL_MASS_SEND_EMAIL',
 		'LBL_QUICK_EXPORT_TO_EXCEL',
@@ -111,6 +113,86 @@ class RelationListView extends \App\Modules\Base\Models\RelationListView
 		return $link;
 	}
 
+	/**
+	 * @return \App\Modules\Base\Models\Field[]
+	 */
+	public function getHeaders()
+	{
+		$headers = parent::getHeaders();
+		if ('Kandydaci' !== $this->getRelatedModuleModel()->getName()) {
+			return $headers;
+		}
+		if (isset($headers['recruitment_status_rel'])) {
+			return $headers;
+		}
+
+		$statusField = Relation::createRecruitmentStatusRelField(
+			$this->getRelationModel()->getParentModuleModel()
+		);
+		$result = [];
+		$inserted = false;
+		foreach ($headers as $name => $fieldModel) {
+			$result[$name] = $fieldModel;
+			if ('name' === $name) {
+				$result['recruitment_status_rel'] = $statusField;
+				$inserted = true;
+			}
+		}
+		if (!$inserted) {
+			$result['recruitment_status_rel'] = $statusField;
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Register relation-table query fields on the query generator (must run before list search parsing).
+	 */
+	public function registerRelationQueryFields(): void
+	{
+		if ($this->relationQueryFieldsRegistered || 'Kandydaci' !== $this->getRelatedModuleModel()->getName()) {
+			return;
+		}
+
+		$relationModelInstance = $this->getRelationModel();
+		$queryGenerator = $relationModelInstance->getQueryGenerator();
+		$sourceModule = $relationModelInstance->getParentModuleModel();
+		$queryFields = [];
+
+		foreach (GetRelatedMembers::CUSTOM_FIELDS as $fieldName => $data) {
+			if ('recruitment_status_rel' === $fieldName) {
+				$field = Relation::createRecruitmentStatusRelField($sourceModule);
+				$queryType = 'Picklist';
+			} else {
+				$field = new \App\Modules\Base\Models\Field();
+				$field->set('name', $fieldName)
+					->set('column', $fieldName)
+					->set('table', GetRelatedMembers::TABLE_NAME)
+					->set('tabid', $sourceModule->getId())
+					->set('fromOutsideList', false)
+					->setModule($sourceModule);
+
+				foreach ($data as $key => $value) {
+					if ('type' === $key) {
+						continue;
+					}
+					$field->set($key, $value);
+				}
+				$queryType = $data['type'];
+			}
+
+			$className = '\App\QueryField\\' . ucfirst($queryType) . 'Field';
+			if (!class_exists($className)) {
+				\App\Log\Log::error("Not found query relation field condition: class {$className} not found");
+				throw new \App\Exceptions\AppException('ERR_NOT_FOUND_QUERY_FIELD_CONDITION|' . $fieldName);
+			}
+			$queryFields[$fieldName] = new $className($queryGenerator, $field);
+		}
+
+		$queryGenerator->setQueryFields($queryFields);
+		$this->relationQueryFieldsRegistered = true;
+	}
+
     /**
      * Function to get Relation query.
      *
@@ -127,30 +209,7 @@ class RelationListView extends \App\Modules\Base\Models\RelationListView
         if (empty($relationModelInstance)) {
             throw new \App\Exceptions\AppException('>>> No relationModel instance, requires verification 2 <<<');
         }
-        $queryGenerator = $relationModelInstance->getQueryGenerator();
-        //BMN
-        //@author Bartłomiej Mańkowski
-        //Add custom fields to query
-        $queryFields = [];
-        foreach (GetRelatedMembers::CUSTOM_FIELDS as $fieldName => $data) {
-            $field = new \App\Modules\Base\Models\Field();
-            $sourceModule = $relationModelInstance->getParentModuleModel();
-            $field->set('name', $fieldName)->set('column', $fieldName)->set('table', GetRelatedMembers::TABLE_NAME)->set('fromOutsideList', false)->setModule($sourceModule);
-
-            foreach ($data as $key => $value) {
-                $field->set($key, $value);
-            }
-
-            $className = '\App\QueryField\\' . ucfirst($data['type']) . 'Field';
-            if (!class_exists($className)) {
-                \App\Log\Log::error("Not found query relation field condition: class {$className} not found");
-                throw new \App\Exceptions\AppException('ERR_NOT_FOUND_QUERY_FIELD_CONDITION|' . $fieldName);
-            }
-            $queryField = new $className($queryGenerator, $field);
-
-            $queryFields[$fieldName] = $queryField;
-        }
-        $queryGenerator->setQueryFields($queryFields);
+        $this->registerRelationQueryFields();
 
         $this->loadCondition();
         $this->loadOrderBy();

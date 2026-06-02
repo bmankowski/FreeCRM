@@ -20,6 +20,14 @@ class VTEmailTask extends VTTask
 
 	// Sending email takes more time, this should be handled via queue all the time.
 	public $executeImmediately = true;
+	public $recepient;
+	public $subject;
+	public $content;
+	public $emailcc;
+	public $emailbcc;
+	public $fromEmail;
+	public $smtp;
+	public $emailoptout;
 
 	public function getFieldNames(): array
 	{

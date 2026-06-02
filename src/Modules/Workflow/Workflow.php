@@ -4,6 +4,20 @@ namespace App\Modules\Workflow;
 
 class Workflow
 {
+	public VTJsonCondition $conditionStrategy;
+	public $id;
+	public $moduleName;
+	public $description;
+	public $test;
+	public $executionCondition;
+	public $schtypeid;
+	public $schtime;
+	public $schdayofmonth;
+	public $schdayofweek;
+	public $schannualdates;
+	public $defaultworkflow;
+	public $filtersavedinnew;
+	public $nexttrigger_time;
 
 	static $SCHEDULED_HOURLY = 1;
 	static $SCHEDULED_DAILY = 2;

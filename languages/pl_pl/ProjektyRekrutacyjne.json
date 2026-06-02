@@ -52,6 +52,7 @@
         "PPL_REJECTED_AFTER_INTERVIEW": "Odrzuceni po rozmowie",
         "PPL_OFFER_REJECTED_BY_CANDIDATE": "Oferta odrzucona przez kandydata",
         "PPL_REJECTED_BY_CLIENT": "Odrzuceni przez klienta",
+        "LBL_STATUS_REL": "Status w projekcie",
         "PLL_STATUS_TRANSITION_NOT_ALLOWED": "Ta zmiana statusu jest niedozwolona"
     },
     "jsLanguageStrings": {

@@ -17,6 +17,11 @@ class VTWatchdog extends VTTask
 
 	public $executeImmediately = true;
 	public $srcWatchdogModule = 'Notification';
+	public $type;
+	public $message;
+	public $recipients;
+	public $title;
+	public $skipCurrentUser;
 
 	public function getFieldNames(): array
 	{
