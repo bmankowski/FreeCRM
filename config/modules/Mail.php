@@ -25,6 +25,14 @@ $CONFIG = [
 	'DELAYED_EMAIL_BUFFER_ENABLED' => true,
 	// Default delay when enqueue() omits explicit minutes
 	'DELAYED_EMAIL_DEFAULT_MINUTES' => 3,
-	// Only @domain recipients receive SMTP; other addresses are stripped; rows with no match are drained. Empty = disabled.
+	/*
+	  Queue send filter (dev/staging safety). Only @domain recipients receive SMTP;
+	  other addresses are stripped; rows with no match are drained without sending.
+	  Disabled: '' or []
+	  Single:   'itconnect.pl'
+	  Several:  ['itconnect.pl', 'example.com']
+	            'itconnect.pl, example.com'
+	  Subdomains match (user@mail.itconnect.pl matches itconnect.pl).
+	 */
 	'MAIL_FILTER_SEND_ONLY_TO_DOMAIN' => 'itconnect.pl',
 ];

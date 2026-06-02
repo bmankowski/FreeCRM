@@ -512,13 +512,16 @@ class Mailer
 		if (\App\Core\AppConfig::main('systemMode') === 'demo') {
 			return true;
 		}
-		$allowedDomain = trim((string) \App\Core\AppConfig::module('Mail', 'MAIL_FILTER_SEND_ONLY_TO_DOMAIN'));
-		if ($allowedDomain !== '') {
+		$allowedDomains = self::parseSendOnlyToDomains(
+			\App\Core\AppConfig::module('Mail', 'MAIL_FILTER_SEND_ONLY_TO_DOMAIN')
+		);
+		if ($allowedDomains !== []) {
 			$queueId = (int) ($rowQueue['id'] ?? 0);
-			$filtered = self::applySendOnlyToDomainFilter($rowQueue, $allowedDomain);
+			$filtered = self::applySendOnlyToDomainFilter($rowQueue, $allowedDomains);
 			if ($filtered === null) {
 				\App\Log\Log::trace(
-					'Mailer drained queue id=' . $queueId . ' (no @' . $allowedDomain . ' recipients)',
+					'Mailer drained queue id=' . $queueId . ' (no allowed-domain recipients: '
+					. implode(', ', $allowedDomains) . ')',
 					'Mailer'
 				);
 				return true;
@@ -533,13 +536,34 @@ class Mailer
 	}
 
 	/**
+	 * @param string|array<int|string, string>|null $config
+	 * @return string[]
+	 */
+	private static function parseSendOnlyToDomains(mixed $config): array
+	{
+		if ($config === null || $config === '' || $config === []) {
+			return [];
+		}
+		$raw = is_array($config) ? $config : explode(',', (string) $config);
+		$domains = [];
+		foreach ($raw as $domain) {
+			$domain = strtolower(trim((string) $domain));
+			if ($domain !== '') {
+				$domains[] = $domain;
+			}
+		}
+		return array_values(array_unique($domains));
+	}
+
+	/**
+	 * @param string[] $allowedDomains
 	 * @return array|null Filtered queue row, or null when no allowed-domain recipients remain
 	 */
-	private static function applySendOnlyToDomainFilter(array $rowQueue, string $allowedDomain): ?array
+	private static function applySendOnlyToDomainFilter(array $rowQueue, array $allowedDomains): ?array
 	{
-		$to = self::filterRecipientMapByDomain($rowQueue['to'] ?? null, $allowedDomain);
-		$cc = self::filterRecipientMapByDomain($rowQueue['cc'] ?? null, $allowedDomain);
-		$bcc = self::filterRecipientMapByDomain($rowQueue['bcc'] ?? null, $allowedDomain);
+		$to = self::filterRecipientMapByDomain($rowQueue['to'] ?? null, $allowedDomains);
+		$cc = self::filterRecipientMapByDomain($rowQueue['cc'] ?? null, $allowedDomains);
+		$bcc = self::filterRecipientMapByDomain($rowQueue['bcc'] ?? null, $allowedDomains);
 
 		if ($to === [] && $cc === [] && $bcc === []) {
 			return null;
@@ -564,7 +588,10 @@ class Mailer
 		return $rowQueue;
 	}
 
-	private static function filterRecipientMapByDomain(?string $json, string $allowedDomain): array
+	/**
+	 * @param string[] $allowedDomains
+	 */
+	private static function filterRecipientMapByDomain(?string $json, array $allowedDomains): array
 	{
 		if ($json === null || $json === '') {
 			return [];
@@ -579,11 +606,24 @@ class Mailer
 				$email = $name;
 				$name = '';
 			}
-			if (self::recipientMatchesDomain((string) $email, $allowedDomain)) {
+			if (self::recipientMatchesAllowedDomains((string) $email, $allowedDomains)) {
 				$filtered[$email] = $name;
 			}
 		}
 		return $filtered;
+	}
+
+	/**
+	 * @param string[] $allowedDomains
+	 */
+	private static function recipientMatchesAllowedDomains(string $email, array $allowedDomains): bool
+	{
+		foreach ($allowedDomains as $allowedDomain) {
+			if (self::recipientMatchesDomain($email, $allowedDomain)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private static function recipientMatchesDomain(string $email, string $allowedDomain): bool
