@@ -42,7 +42,7 @@ class DetailView extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get the Record model
-	 * @return <\App\Modules\Base\Models\Record>
+	 * @return \App\Modules\Base\Models\Record
 	 */
 	public function getRecord()
 	{
@@ -51,7 +51,7 @@ class DetailView extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to set the record instance3
-	 * @param <type> $recordModuleInstance - record model
+	 * @param mixed $recordModuleInstance - record model
 	 * @return \App\Modules\Base\Models\DetailView
 	 */
 	public function setRecord($recordModuleInstance)
@@ -62,9 +62,9 @@ class DetailView extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get the detail view links (links and widgets)
-	 * @param <array> $linkParams - parameters which will be used to calicaulate the params
-	 * @return <array> - array of link models in the format as below
-	 *                   array('linktype'=>list of link models);
+	 * @param array $linkParams - parameters which will be used to calicaulate the params
+	 * @return array - array of link models in the format as below
+	 *                  array('linktype'=>list of link models);
 	 */
 	public function getDetailViewLinks($linkParams)
 	{
@@ -246,7 +246,7 @@ class DetailView extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get the detail view related links
-	 * @return <array> - list of links parameters
+	 * @return array - list of links parameters
 	 */
 	public function getDetailViewRelatedLinks()
 	{
@@ -318,7 +318,7 @@ class DetailView extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get the detail view widgets
-	 * @return <Array> - List of widgets , where each widget is an \App\Modules\Base\Models\Link
+	 * @return array - List of widgets , where each widget is an \App\Modules\Base\Models\Link
 	 */
 	public function getWidgets()
 	{
@@ -354,8 +354,8 @@ class DetailView extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get the Quick Links for the Detail view of the module
-	 * @param <Array> $linkParams
-	 * @return <Array> List of \App\Modules\Base\Models\Link instances
+	 * @param array $linkParams
+	 * @return array List of \App\Modules\Base\Models\Link instances
 	 */
 	public function getSideBarLinks($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)
 	{
@@ -392,8 +392,8 @@ class DetailView extends \App\Runtime\BaseModel
 	}
 
 	/**
-	 *  Function to get the module name
-	 *  @return string - name of the module
+	 * Function to get the module name
+	 * @return string - name of the module
 	 */
 	public function getModuleName()
 	{
@@ -404,7 +404,7 @@ class DetailView extends \App\Runtime\BaseModel
 	 * Function to get the instance
 	 * @param string $moduleName - module name
 	 * @param string $recordId - record id
-	 * @return <\App\Modules\Base\Models\DetailView>
+	 * @return \App\Modules\Base\Models\DetailView
 	 */
 	public static function getInstance($moduleName, $recordId)
 	{

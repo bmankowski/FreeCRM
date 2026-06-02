@@ -42,8 +42,7 @@ class Cron
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param array $data Task data from database
+	 * 	 * @param array $data Task data from database
 	 */
 	public function __construct(array $data = [])
 	{
@@ -53,8 +52,7 @@ class Cron
 
 	/**
 	 * Set cron action flag.
-	 * 
-	 * @param bool $value
+	 * 	 * @param bool $value
 	 * @return void
 	 */
 	public static function setCronAction(bool $value): void
@@ -64,8 +62,7 @@ class Cron
 
 	/**
 	 * Check if cron action is active.
-	 * 
-	 * @return bool
+	 * 	 * @return bool
 	 */
 	public static function isCronAction(): bool
 	{
@@ -74,13 +71,11 @@ class Cron
 
 	/**
 	 * Get cron task instance by name.
-	 * 
-	 * Tries multiple strategies:
+	 * 	 * Tries multiple strategies:
 	 * 1. Exact name match
 	 * 2. Handler file name match (e.g., "PrivilegesUpdater" matches "PrivilegesUpdater.php")
 	 * 3. Partial name match (e.g., "PrivilegesUpdater" matches "LBL_PRIVILEGES_UPDATER")
-	 * 
-	 * @param string $name Task name or handler file name
+	 * 	 * @param string $name Task name or handler file name
 	 * @return self|null
 	 */
 	public static function getInstance(string $name): ?self
@@ -135,8 +130,7 @@ class Cron
 
 	/**
 	 * List all active cron task instances.
-	 * 
-	 * @return array Array of Cron instances
+	 * 	 * @return array Array of Cron instances
 	 */
 	public static function listAllActiveInstances(): array
 	{
@@ -158,8 +152,7 @@ class Cron
 
 	/**
 	 * Register a cron task.
-	 * 
-	 * @param string $name Task name
+	 * 	 * @param string $name Task name
 	 * @param string $handler Handler file path
 	 * @param int|string $frequency Frequency in seconds
 	 * @param string $moduleName Module name
@@ -221,8 +214,7 @@ class Cron
 
 	/**
 	 * Deregister a cron task.
-	 * 
-	 * @param string $name Task name
+	 * 	 * @param string $name Task name
 	 * @return void
 	 */
 	public static function deregister(string $name): void
@@ -235,8 +227,7 @@ class Cron
 
 	/**
 	 * Delete all cron tasks for a module.
-	 * 
-	 * @param string $moduleName Module name
+	 * 	 * @param string $moduleName Module name
 	 * @return void
 	 */
 	public static function deleteForModule(string $moduleName): void
@@ -249,8 +240,7 @@ class Cron
 
 	/**
 	 * Get task name.
-	 * 
-	 * @return string
+	 * 	 * @return string
 	 */
 	public function getName(): string
 	{
@@ -259,8 +249,7 @@ class Cron
 
 	/**
 	 * Get handler file path.
-	 * 
-	 * @return string
+	 * 	 * @return string
 	 */
 	public function getHandlerFile(): string
 	{
@@ -291,8 +280,7 @@ class Cron
 
 	/**
 	 * Check if task had timeout (started but never finished).
-	 * 
-	 * @return bool|int Returns timestamp of laststart if timeout occurred, false otherwise
+	 * 	 * @return bool|int Returns timestamp of laststart if timeout occurred, false otherwise
 	 */
 	public function hadTimeout()
 	{
@@ -308,8 +296,7 @@ class Cron
 
 	/**
 	 * Check if task is currently running.
-	 * 
-	 * @return bool
+	 * 	 * @return bool
 	 */
 	public function isRunning(): bool
 	{
@@ -318,8 +305,7 @@ class Cron
 
 	/**
 	 * Check if task is runnable (enabled and frequency time has passed).
-	 * 
-	 * @return bool
+	 * 	 * @return bool
 	 */
 	public function isRunnable(): bool
 	{
@@ -349,8 +335,7 @@ class Cron
 
 	/**
 	 * Mark task as running.
-	 * 
-	 * @return void
+	 * 	 * @return void
 	 */
 	public function markRunning(): void
 	{
@@ -369,8 +354,7 @@ class Cron
 
 	/**
 	 * Mark task as finished.
-	 * 
-	 * @return void
+	 * 	 * @return void
 	 */
 	public function markFinished(): void
 	{
@@ -389,8 +373,7 @@ class Cron
 
 	/**
 	 * Unlock task (set status to enabled).
-	 * 
-	 * @return void
+	 * 	 * @return void
 	 */
 	public function unlockTask(): void
 	{
@@ -406,8 +389,7 @@ class Cron
 
 	/**
 	 * Update task status.
-	 * 
-	 * @param int $status New status
+	 * 	 * @param int $status New status
 	 * @return void
 	 */
 	public function updateStatus(int $status): void
@@ -424,8 +406,7 @@ class Cron
 
 	/**
 	 * Set a data value.
-	 * 
-	 * @param string $key
+	 * 	 * @param string $key
 	 * @param mixed $value
 	 * @return void
 	 */
@@ -436,8 +417,7 @@ class Cron
 
 	/**
 	 * Get a data value.
-	 * 
-	 * @param string $key
+	 * 	 * @param string $key
 	 * @param mixed $default
 	 * @return mixed
 	 */
@@ -448,8 +428,7 @@ class Cron
 
 	/**
 	 * Get all task data.
-	 * 
-	 * @return array
+	 * 	 * @return array
 	 */
 	public function getData(): array
 	{

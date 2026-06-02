@@ -64,8 +64,8 @@ abstract class WSAPP_BaseConnector
 	/*
 	 * This will performs basic transformation between two records
 	 * <params>
-	 * 		The sourece records refers to record which has data
-	 * 			Target record refers to record to which data has to be copied
+	 * 	The sourece records refers to record which has data
+	 * 		Target record refers to record to which data has to be copied
 	 *
 	 */
 

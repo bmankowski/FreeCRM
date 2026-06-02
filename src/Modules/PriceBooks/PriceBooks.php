@@ -54,8 +54,8 @@ class PriceBooks extends \App\Core\CRMEntity
 	public $def_basicsearch_col = 'bookname';
 
 	/** function used to get whether the pricebook has related with a product or not
-	 * 	@param int $id - product id
-	 * 	@return true or false - if there are no pricebooks available or associated pricebooks for the product is equal to total number of pricebooks then return false, else return true
+	 * @param int $id - product id
+	 * @return true or false - if there are no pricebooks available or associated pricebooks for the product is equal to total number of pricebooks then return false, else return true
 	 */
 	public function get_pricebook_noproduct($id)
 	{

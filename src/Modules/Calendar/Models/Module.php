@@ -37,7 +37,7 @@ class Module extends \App\Modules\Base\Models\Module
 	}
 
 	/**
-	 *  Function returns the url for Calendar view
+	 * Function returns the url for Calendar view
 	 * @return string
 	 */
 	public function getCalendarViewUrl()
@@ -74,7 +74,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function to get list of field for summary view
-	 * @return <Array> empty array
+	 * @return array empty array
 	 */
 	public function getSummaryViewFieldsList()
 	{
@@ -83,8 +83,8 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function to get the Quick Links for the module
-	 * @param <Array> $linkParams
-	 * @return <Array> List of \App\Modules\Base\Models\Link instances
+	 * @param array $linkParams
+	 * @return array List of \App\Modules\Base\Models\Link instances
 	 */
 	public function getSideBarLinks($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)
 	{
@@ -336,7 +336,7 @@ class Module extends \App\Modules\Base\Models\Module
 	}
 
 	/**
-	 *  Function returns the url for Shared Calendar view
+	 * Function returns the url for Shared Calendar view
 	 * @return string
 	 */
 	public function getSharedCalendarViewUrl()
@@ -381,8 +381,8 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function to get the list of recently visisted records
-	 * @param <Number> $limit
-	 * @return <Array> - List of \App\Modules\Calendar\Models\Record
+	 * @param mixed $limit
+	 * @return array - List of \App\Modules\Calendar\Models\Record
 	 */
 	public function getRecentRecords(int $userId, int $limit = 10)
 	{
@@ -458,7 +458,7 @@ class Module extends \App\Modules\Base\Models\Module
 	/**
 	 * Function gives fields based on the type
 	 * @param string $type - field type
-	 * @return <Array of \App\Modules\Base\Models\Field> - list of field models
+	 * @return array - list of field models
 	 */
 	public function getFieldsByType($type)
 	{
@@ -573,7 +573,7 @@ class Module extends \App\Modules\Base\Models\Module
 	/**
 	 * The function gets the labels for a given status field 
 	 * @param string $key
-	 * @return <Array> 
+	 * @return array 
 	 */
 	public static function getComponentActivityStateLabel($key = '')
 	{

@@ -68,9 +68,9 @@ class Documents extends \App\Core\CRMEntity
 	public $default_sort_order = 'DESC';
 
 	/**    Function used to get the sort order for Documents listview
-	 *      @param string|null $sortOrder Optional sort order parameter
-	 *      @param \App\Http\Vtiger_Request|null $request Optional request instance
-	 *      @return string  $sorder - first check the $sortOrder parameter, then $_SESSION, then default
+	 *     @param string|null $sortOrder Optional sort order parameter
+	 *     @param \App\Http\Vtiger_Request|null $request Optional request instance
+	 *     @return string  $sorder - first check the $sortOrder parameter, then $_SESSION, then default
 	 */
 	public function getSortOrder($sortOrder = null, $request = null)
 	{
@@ -91,9 +91,9 @@ class Documents extends \App\Core\CRMEntity
 	}
 
 	/**     Function used to get the order by value for Documents listview
-	 *       @param string|null $orderBy Optional order by parameter
-	 *       @param \App\Http\Vtiger_Request|null $request Optional request instance
-	 *       @return string  $order_by  - first check the $orderBy parameter, then $_SESSION, then default
+	 *      @param string|null $orderBy Optional order by parameter
+	 *      @param \App\Http\Vtiger_Request|null $request Optional request instance
+	 *      @return string  $order_by  - first check the $orderBy parameter, then $_SESSION, then default
 	 */
 	public function getOrderBy($orderBy = null, $request = null)
 	{

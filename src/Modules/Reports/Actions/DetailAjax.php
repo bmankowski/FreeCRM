@@ -41,7 +41,7 @@ class DetailAjax extends \App\Base\Controllers\BaseActionController
 	/**
 	 * Function to get related Records count from this relation
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return <Number> Number of record from this relation
+	 * @return mixed Number of record from this relation
 	 */
 	public function getRecordsCount(\App\Http\Vtiger_Request $request)
 	{

@@ -17,8 +17,8 @@ class ListView extends \App\Modules\Base\Models\ListView
 
 	/**
 	 * Function to get the list of listview links for the module
-	 * @param <Array> $linkParams
-	 * @return <Array> - Associate array of Link Type to List of \App\Modules\Base\Models\Link instances
+	 * @param array $linkParams
+	 * @return array - Associate array of Link Type to List of \App\Modules\Base\Models\Link instances
 	 */
 	public function getListViewLinks($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)
 	{
@@ -46,8 +46,8 @@ class ListView extends \App\Modules\Base\Models\ListView
 
 	/**
 	 * Function to get the list of Mass actions for the module
-	 * @param <Array> $linkParams
-	 * @return <Array> - Associative array of Link type to List of  \App\Modules\Base\Models\Link instances for Mass Actions
+	 * @param array $linkParams
+	 * @return array - Associative array of Link type to List of  \App\Modules\Base\Models\Link instances for Mass Actions
 	 */
 	public function getListViewMassActions($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)
 	{
@@ -92,7 +92,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 	/**
 	 * Function to get the list view entries
 	 * @param \App\Modules\Base\Models\Paging $pagingModel, $status (Active or Inactive User). Default false
-	 * @return <Array> - Associative array of record id mapped to \App\Modules\Base\Models\Record instance.
+	 * @return array - Associative array of record id mapped to \App\Modules\Base\Models\Record instance.
 	 */
 	public function getListViewEntries(\App\Modules\Base\Models\Paging $pagingModel)
 	{

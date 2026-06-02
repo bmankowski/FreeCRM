@@ -30,7 +30,7 @@ class RecordStructure extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to set the record Model
-	 * @param <type> $record - record instance
+	 * @param mixed $record - record instance
 	 * @return \App\Modules\Base\Models\RecordStructure
 	 */
 	public function setRecord($record)
@@ -41,7 +41,7 @@ class RecordStructure extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get the record
-	 * @return <\App\Modules\Base\Models\Record>
+	 * @return \App\Modules\Base\Models\Record
 	 */
 	public function getRecord()
 	{
@@ -64,7 +64,7 @@ class RecordStructure extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to set the module
-	 * @param <type> $module - module model
+	 * @param mixed $module - module model
 	 * @return \App\Modules\Base\Models\RecordStructure
 	 */
 	public function setModule($module)
@@ -75,7 +75,7 @@ class RecordStructure extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get the values in stuctured format
-	 * @return <array> - values in structure array('block'=>array(fieldinfo));
+	 * @return array - values in structure array('block'=>array(fieldinfo));
 	 */
 	public function getStructure()
 	{
@@ -108,7 +108,7 @@ class RecordStructure extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to retieve the instance from record model
-	 * @param <\App\Modules\Base\Models\Record> $recordModel - record instance
+	 * @param \App\Modules\Base\Models\Record $recordModel - record instance
 	 * @return \App\Modules\Base\Models\RecordStructure
 	 */
 	public static function getInstanceFromRecordModel($recordModel, $mode = self::RECORD_STRUCTURE_MODE_DEFAULT)

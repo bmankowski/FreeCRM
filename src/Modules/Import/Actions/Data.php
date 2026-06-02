@@ -799,10 +799,10 @@ class Data extends \App\Base\Controllers\BaseActionController
 	}
 
 	/**
-	 *  Function to get Record details of import
-	 *  @parms User Record Model $user Current Users
-	 * 	@parms string $forModule Imported module
-	 *  @returns array Import Records with the list of skipped records and failed records
+	 * Function to get Record details of import
+	 * @parms User Record Model $user Current Users
+	 * @parms string $forModule Imported module
+	 * @returns array Import Records with the list of skipped records and failed records
 	 */
 	public static function getImportDetails($user, $forModule)
 	{

@@ -179,10 +179,10 @@ class Module extends \App\Modules\Base\Models\Module
 	/**
 	 * Function returns the Calendar Events for the module
 	 * @param string $mode - upcoming/overdue mode
-	 * @param <\App\Modules\Base\Models\Paging> $pagingModel - $pagingModel
+	 * @param \App\Modules\Base\Models\Paging $pagingModel - $pagingModel
 	 * @param string $user - all/userid
 	 * @param string $recordId - record id
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getAssignedProjectsTasks($mode, $pagingModel, $user, $recordId = false)
 	{
@@ -241,9 +241,9 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function returns comments and recent activities across module
-	 * @param <\App\Modules\Base\Models\Paging> $pagingModel
+	 * @param \App\Modules\Base\Models\Paging $pagingModel
 	 * @param string $type - comments, updates or all
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getHistory($pagingModel, $type = false)
 	{

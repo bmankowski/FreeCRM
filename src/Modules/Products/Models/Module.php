@@ -55,7 +55,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function to get Specific Relation Query for this Module
-	 * @param <type> $relatedModule
+	 * @param mixed $relatedModule
 	 * @return mixed
 	 */
 	public function getSpecificRelationQuery($relatedModule)
@@ -69,9 +69,9 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function to get prices for specified products with specific currency
-	 * @param <Integer> $currenctId
-	 * @param <Array> $productIdsList
-	 * @return <Array>
+	 * @param int $currenctId
+	 * @param array $productIdsList
+	 * @return array
 	 */
 	public function getPricesForProducts($currencyId, $productIdsList)
 	{
@@ -91,9 +91,9 @@ class Module extends \App\Modules\Base\Models\Module
 	 * Function searches the records in the module, if parentId & parentModule
 	 * is given then searches only those records related to them.
 	 * @param string $searchValue - Search value
-	 * @param <Integer> $parentId - parent recordId
+	 * @param int $parentId - parent recordId
 	 * @param string $parentModule - parent module name
-	 * @return <Array of \App\Modules\Base\Models\Record>
+	 * @return array
 	 */
 	public function searchRecord($searchValue, $parentId = false, $parentModule = false, $relatedModule = false)
 	{

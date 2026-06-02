@@ -18,7 +18,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to get Id of this record instance
-	 * @return <Integer> Id
+	 * @return int Id
 	 */
 	public function getId()
 	{
@@ -72,7 +72,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to get record links
-	 * @return <Array> list of link models <\App\Modules\Base\Models\Link>
+	 * @return array list of link models <\App\Modules\Base\Models\Link>
 	 */
 	public function getRecordLinks()
 	{

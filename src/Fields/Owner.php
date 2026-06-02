@@ -52,7 +52,7 @@ class Owner
 
 	/**
 	 * Function to get all the accessible groups
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getAccessibleGroups($private = '', $fieldType = false, $translate = false)
 	{
@@ -353,7 +353,7 @@ class Owner
 
 	/**
 	 * Function returns List of Accessible Users for a Module
-	 * @return <Array of \App\Modules\Users\Models\Record>
+	 * @return array
 	 */
 	public function getAccessibleGroupForModule()
 	{
@@ -374,7 +374,7 @@ class Owner
 	/**
 	 * Function returns List of Accessible Users for a Module
 	 * @param string $module
-	 * @return <Array of \App\Modules\Users\Models\Record>
+	 * @return array
 	 */
 	public function getAccessibleUsersForModule()
 	{

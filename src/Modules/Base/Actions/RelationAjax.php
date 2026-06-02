@@ -55,12 +55,12 @@ class RelationAjax extends \App\Base\Controllers\BaseActionController
 	}
 	/*
 	 * Function to add relation for specified source record id and related record id list
-	 * @param <array> $request
-	 * 		keys					Content
-	 * 		src_module				source module name
-	 * 		src_record				source record id
-	 * 		related_module			related module name
-	 * 		related_record_list		json encoded of list of related record ids
+	 * @param array $request
+	 * 	keys					Content
+	 * 	src_module				source module name
+	 * 	src_record				source record id
+	 * 	related_module			related module name
+	 * 	related_record_list		json encoded of list of related record ids
 	 */
 
 	public function addRelation($request)
@@ -90,12 +90,12 @@ class RelationAjax extends \App\Base\Controllers\BaseActionController
 
 	/**
 	 * Function to delete the relation for specified source record id and related record id list
-	 * @param <array> $request
-	 * 		keys					Content
-	 * 		src_module				source module name
-	 * 		src_record				source record id
-	 * 		related_module			related module name
-	 * 		related_record_list		json encoded of list of related record ids
+	 * @param array $request
+	 * 	keys					Content
+	 * 	src_module				source module name
+	 * 	src_record				source record id
+	 * 	related_module			related module name
+	 * 	related_record_list		json encoded of list of related record ids
 	 */
 	public function deleteRelation($request)
 	{
@@ -118,13 +118,13 @@ class RelationAjax extends \App\Base\Controllers\BaseActionController
 
 	/**
 	 * Function to update the relation for specified source record id and related record id list
-	 * @param <array> $request
-	 * 		keys					Content
-	 * 		src_module				source module name
-	 * 		src_record				source record id
-	 * 		related_module			related module name
-	 * 		toRemove				list of related record to remove
-	 * 		toAdd					list of related record to add
+	 * @param array $request
+	 * 	keys					Content
+	 * 	src_module				source module name
+	 * 	src_record				source record id
+	 * 	related_module			related module name
+	 * 	toRemove				list of related record to remove
+	 * 	toAdd					list of related record to add
 	 */
 	public function updateRelation(\App\Http\Vtiger_Request $request)
 	{

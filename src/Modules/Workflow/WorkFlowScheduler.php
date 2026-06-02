@@ -174,7 +174,7 @@ class WorkFlowScheduler {
 
 	/**
 	 * Special Date functions
-	 * @return <Array>
+	 * @return array
 	 */
 	public function _specialDateTimeOperator()
 	{
@@ -184,7 +184,7 @@ class WorkFlowScheduler {
 
 	/**
 	 * Function parse the value based on the condition
-	 * @param <Array> $condition
+	 * @param array $condition
 	 * @return string
 	 */
 	public function _parseValueForDate($condition)

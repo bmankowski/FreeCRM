@@ -17,9 +17,9 @@ class Relation extends \App\Modules\Base\Models\Relation
 
 	/**
 	 * Function to add PriceBook-Products/Services Relation
-	 * @param <Integer> $sourceRecordId
-	 * @param <Integer> $destinationRecordId
-	 * @param <Integer> $listPrice
+	 * @param int $sourceRecordId
+	 * @param int $destinationRecordId
+	 * @param int $listPrice
 	 */
 	public function addListPrice($sourceRecordId, $destinationRecordId, $listPrice)
 	{
@@ -31,8 +31,8 @@ class Relation extends \App\Modules\Base\Models\Relation
 
 	/**
 	 * Function that deletes PriceBooks related records information
-	 * @param <Integer> $sourceRecordId - PriceBook Id
-	 * @param <Integer> $relatedRecordId - Related Record Id
+	 * @param int $sourceRecordId - PriceBook Id
+	 * @param int $relatedRecordId - Related Record Id
 	 */
 	public function deleteRelation($sourceRecordId, $relatedRecordId)
 	{

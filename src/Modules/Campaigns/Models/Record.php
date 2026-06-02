@@ -17,8 +17,8 @@ class Record extends \App\Modules\Base\Models\Record
 	/**
 	 * Function to get selected ids list of related module for send email
 	 * @param string $relatedModuleName
-	 * @param <array> $excludedIds
-	 * @return <array> List of selected ids
+	 * @param array $excludedIds
+	 * @return array List of selected ids
 	 */
 	public function getSelectedIdsList($relatedModuleName, $excludedIds = false)
 	{

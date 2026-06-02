@@ -49,13 +49,13 @@ interface SMSNotifier_ISMSProvider_Model
 	/**
 	 * Function to handle SMS Send operation
 	 * @param string $message
-	 * @param <Mixed> $toNumbers One or Array of numbers
+	 * @param mixed $toNumbers One or Array of numbers
 	 */
 	public function send($message, $toNumbers);
 
 	/**
 	 * Function to get query for status using messgae id
-	 * @param <Number> $messageId
+	 * @param mixed $messageId
 	 */
 	public function query($messageId);
 }

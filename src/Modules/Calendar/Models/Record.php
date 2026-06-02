@@ -73,8 +73,8 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to insert details about reminder in to Database
-	 * @param <Date> $reminderSent
-	 * @param <integer> $recurId
+	 * @param mixed $reminderSent
+	 * @param int $recurId
 	 * @param string $reminderMode like edit/delete
 	 */
 	public function setActivityReminder($reminderSent = 0, $recurId = '', $reminderMode = '')

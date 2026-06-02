@@ -130,7 +130,7 @@ class Coordinate extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get params url
-	 * @param <\App\Modules\Base\Models\Record> $recordModel
+	 * @param \App\Modules\Base\Models\Record $recordModel
 	 * @param string $type a,b or c
 	 * @return array
 	 */
@@ -147,7 +147,7 @@ class Coordinate extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get coordinates for record
-	 * @param <\App\Modules\Base\Models\Record> $recordModel
+	 * @param \App\Modules\Base\Models\Record $recordModel
 	 * @return array
 	 */
 	public function getCoordinatesByRecord($recordModel)

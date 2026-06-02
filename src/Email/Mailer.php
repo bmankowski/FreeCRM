@@ -82,8 +82,7 @@ class Mailer
 	}
 
 	/**
-	 * 
-	 * @param array $params
+	 * 	 * @param array $params
 	 * @return boolean
 	 */
 	public static function sendFromTemplate($params)

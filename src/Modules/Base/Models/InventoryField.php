@@ -579,8 +579,7 @@ class InventoryField extends \App\Runtime\BaseModel
 	}
 
 	/**
-	 * 
-	 * @param \App\Modules\Base\Models\Record $recordModel
+	 * 	 * @param \App\Modules\Base\Models\Record $recordModel
 	 * @return float
 	 */
 	public function getInventoryPrice(\App\Modules\Base\Models\Record $recordModel)

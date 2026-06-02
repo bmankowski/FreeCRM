@@ -74,8 +74,8 @@ class Field extends \App\Modules\Base\Models\Field
 	/**
 	 * Function to get instance
 	 * @param string $value - fieldname or fieldid
-	 * @param <type> $module - optional - module instance
-	 * @return <\App\Modules\Base\Models\Field>
+	 * @param mixed $module - optional - module instance
+	 * @return \App\Modules\Base\Models\Field
 	 */
 	public static function getInstance($value, $module = false)
 	{

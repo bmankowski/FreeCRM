@@ -136,7 +136,7 @@ class Edit extends \App\Modules\Users\Views\PreferenceEdit
 	/**
 	 * Function to get Ajax is enabled or not
 	 * @param \App\Modules\Base\Models\Record record model
-	 * @return <boolean> true/false
+	 * @return bool true/false
 	 */
 	public function isAjaxEnabled($recordModel)
 	{

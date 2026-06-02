@@ -25,7 +25,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to get the Id
-	 * @return <Number> Custom View Id
+	 * @return mixed Custom View Id
 	 */
 	public function getId()
 	{
@@ -34,7 +34,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to get the Owner Id
-	 * @return <Number> Id of the User who created the Custom View
+	 * @return mixed Id of the User who created the Custom View
 	 */
 	public function getOwnerId()
 	{
@@ -592,7 +592,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to get the Standard filter condition for the current custom view
-	 * @return <Array> Standard filter condition
+	 * @return array Standard filter condition
 	 */
 	public function getStandardCriteria()
 	{
@@ -792,7 +792,7 @@ class Record extends \App\Modules\Base\Models\Record
 	}
 
 	/**
-	 *  Functions returns delete url
+	 * Functions returns delete url
 	 * @return String - delete url
 	 */
 	public function getDeleteUrl()
@@ -814,7 +814,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to get the advanced filter option names by Field type
-	 * @return <Array>
+	 * @return array
 	 */
 	public static function getAdvancedFilterOpsByFieldType()
 	{
@@ -991,7 +991,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 * filter and other with ANY(OR) condition, this functions tranforms the older
 	 * filter with 'AND' condition between filters of a group and will be placed under
 	 * match ALL conditions group and the rest of it will be placed under match Any group.
-	 * @return <Array>
+	 * @return array
 	 */
 	public function transformToNewAdvancedFilter()
 	{
@@ -1031,8 +1031,8 @@ class Record extends \App\Modules\Base\Models\Record
 		return $transformedAdvancedCondition;
 	}
 	/*
-	 *  Function used to tranform the standard filter as like as advanced filter format
-	 * 	@returns array of tranformed standard filter
+	 * Function used to tranform the standard filter as like as advanced filter format
+	 * @returns array of tranformed standard filter
 	 */
 
 	public function transformStandardFilter()
@@ -1062,7 +1062,7 @@ class Record extends \App\Modules\Base\Models\Record
 	/**
 	 * Function gives default custom view for a module
 	 * @param string $module
-	 * @return <\App\Modules\CustomView\Models\Record>
+	 * @return \App\Modules\CustomView\Models\Record
 	 */
 	public static function getAllFilterByModule($module)
 	{

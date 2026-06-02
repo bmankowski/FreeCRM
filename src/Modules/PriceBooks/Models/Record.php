@@ -32,8 +32,8 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function returns the List Price for PriceBook-Product/Service relation
-	 * @param <Integer> $relatedRecordId - Product/Service Id
-	 * @return <Integer>
+	 * @param int $relatedRecordId - Product/Service Id
+	 * @return int
 	 */
 	public function getProductsListPrice($relatedRecordId)
 	{
@@ -46,8 +46,8 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function updates ListPrice for PriceBook-Product/Service relation
-	 * @param <Integer> $relatedRecordId - Product/Service Id
-	 * @param <Integer> $price - listprice
+	 * @param int $relatedRecordId - Product/Service Id
+	 * @param int $price - listprice
 	 */
 	public function updateListPrice($relatedRecordId, $price)
 	{
@@ -69,7 +69,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function deletes the List Price for PriceBooks-Product/Services relationship
-	 * @param <Integer> $relatedRecordId - Product/Service Id
+	 * @param int $relatedRecordId - Product/Service Id
 	 */
 	public function deleteListPrice($relatedRecordId)
 	{

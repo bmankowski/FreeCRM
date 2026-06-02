@@ -17,7 +17,7 @@ class ICSReader extends iCal
 
 	/**
 	 * Function to get info about imported file contains header or not
-	 * @return <boolean>
+	 * @return bool
 	 */
 	public function hasHeader()
 	{
@@ -26,8 +26,8 @@ class ICSReader extends iCal
 
 	/**
 	 * Function to get info about imported file contains First Row or not
-	 * @param <boolean> $hasHeader
-	 * @return <boolean>
+	 * @param bool $hasHeader
+	 * @return bool
 	 */
 	public function getFirstRowData($hasHeader = true)
 	{

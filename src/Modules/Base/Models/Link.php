@@ -51,7 +51,7 @@ class Link extends \vtlib\Link
 	/**
 	 * Function to get the value of a given property
 	 * @param string $propertyName
-	 * @return <Object>
+	 * @return object
 	 * @throws Exception
 	 */
 	public function get($propertyName)
@@ -64,7 +64,7 @@ class Link extends \vtlib\Link
 	/**
 	 * Function to set the value of a given property
 	 * @param string $propertyName
-	 * @param <Object> $propertyValue
+	 * @param object $propertyValue
 	 * @return \App\Modules\Base\Models\Link instance
 	 */
 	public function set($propertyName, $propertyValue)
@@ -142,8 +142,8 @@ class Link extends \vtlib\Link
 
 	/**
 	 * Function to retrieve the icon path for the link icon
-	 * @return <String/Boolean> - returns image path if icon exits
-	 *                              else returns false;
+	 * @return string|bool - returns image path if icon exits
+	 *                             else returns false;
 	 */
 	public function getIconPath()
 	{
@@ -155,7 +155,7 @@ class Link extends \vtlib\Link
 
 	/**
 	 * Function to get the Class Name
-	 * @return <class name>
+	 * @return string
 	 */
 	public function getClassName()
 	{
@@ -173,7 +173,7 @@ class Link extends \vtlib\Link
 
 	/**
 	 * Function to get the grup Class Name
-	 * @return <class name>
+	 * @return string
 	 */
 	public function getGrupClassName()
 	{
@@ -182,7 +182,7 @@ class Link extends \vtlib\Link
 
 	/**
 	 * Function to get the link id
-	 * @return <Number>
+	 * @return mixed
 	 */
 	public function getId()
 	{
@@ -384,10 +384,10 @@ class Link extends \vtlib\Link
 
 	/**
 	 * Function to get all the Vtiger Link Models for a module of the given list of link types
-	 * @param <Number> $tabid
-	 * @param <Array> $type
-	 * @param <Array> $parameters
-	 * @return <Array> - List of \App\Modules\Base\Models\Link instances
+	 * @param mixed $tabid
+	 * @param array $type
+	 * @param array $parameters
+	 * @return array - List of \App\Modules\Base\Models\Link instances
 	 */
 	public static function getAllByType($tabid, $type = false, $parameters = false): array
 	{

@@ -33,6 +33,22 @@ if (!function_exists('vtemplate_path')) {
 	}
 }
 
+if (!function_exists('script_time')) {
+	/**
+	 * @param array<string, mixed> $params
+	 */
+	function script_time(array $params, \Smarty_Internal_Template $template): string
+	{
+		$time = isset($GLOBALS['startTime']) ? round(microtime(true) - $GLOBALS['startTime'], 3) : 0;
+		if (!empty($params['assign'])) {
+			$template->assign($params['assign'], $time);
+			return '';
+		}
+
+		return (string) $time;
+	}
+}
+
 if (!function_exists('vresource_url')) {
 	function vresource_url($url) {
 		if (!is_string($url) || $url === '') {

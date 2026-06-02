@@ -47,7 +47,7 @@ class Mapping extends \App\Modules\Settings\Base\Models\Module
 
 	/**
 	 * Function to get headers for detail view
-	 * @return <Array> headers list
+	 * @return array headers list
 	 */
 	public function getHeaders()
 	{
@@ -56,7 +56,7 @@ class Mapping extends \App\Modules\Settings\Base\Models\Module
 
 	/**
 	 * Function to get list of detail view link models
-	 * @return <Array> list of detail view link models <\App\Modules\Base\Models\Link>
+	 * @return array list of detail view link models <\App\Modules\Base\Models\Link>
 	 */
 	public function getDetailViewLinks()
 	{
@@ -70,7 +70,7 @@ class Mapping extends \App\Modules\Settings\Base\Models\Module
 
 	/**
 	 * Function to get list of mapping link models
-	 * @return <Array> list of mapping link models <\App\Modules\Base\Models\Link>
+	 * @return array list of mapping link models <\App\Modules\Base\Models\Link>
 	 */
 	public function getMappingLinks()
 	{
@@ -84,7 +84,7 @@ class Mapping extends \App\Modules\Settings\Base\Models\Module
 
 	/**
 	 * Function to get mapping details
-	 * @return <Array> list of mapping details
+	 * @return array list of mapping details
 	 */
 	public function getMapping($editable = false)
 	{
@@ -121,8 +121,8 @@ class Mapping extends \App\Modules\Settings\Base\Models\Module
 
 	/**
 	 * Function to get fields info
-	 * @param <Array> list of field ids
-	 * @return <Array> list of field info
+	 * @param array list of field ids
+	 * @return array list of field info
 	 */
 	public function getFieldsInfo($fieldIdsList)
 	{
@@ -151,7 +151,7 @@ class Mapping extends \App\Modules\Settings\Base\Models\Module
 
 	/**
 	 * Function to save the mapping info
-	 * @param <Array> $mapping info
+	 * @param array $mapping info
 	 */
 	public function saveMapping($mapping)
 	{
@@ -240,7 +240,7 @@ class Mapping extends \App\Modules\Settings\Base\Models\Module
 	/**
 	 * Function to get instance
 	 * @param boolean true/false
-	 * @return <\App\Modules\Settings\Leads\Models\Mapping>
+	 * @return \App\Modules\Settings\Leads\Models\Mapping
 	 */
 	public static function getInstance($editable = false)
 	{
@@ -251,7 +251,7 @@ class Mapping extends \App\Modules\Settings\Base\Models\Module
 
 	/**
 	 * Function to get instance
-	 * @return <\App\Modules\Settings\Leads\Models\Mapping>
+	 * @return \App\Modules\Settings\Leads\Models\Mapping
 	 */
 	public static function getCleanInstance($moduleName = null)
 	{

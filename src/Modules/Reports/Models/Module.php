@@ -58,7 +58,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function returns quick links for the module
-	 * @return <Array of \App\Modules\Base\Models\Link>
+	 * @return array
 	 */
 	public function getSideBarLinks($linkParams = '', ?\App\Modules\Users\Models\Record $currentUser = null)
 	{
@@ -91,8 +91,8 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function returns the recent created reports
-	 * @param <Number> $limit
-	 * @return <Array of \App\Modules\Reports\Models\Record>
+	 * @param mixed $limit
+	 * @return array
 	 */
 	public function getRecentRecords(int $userId, int $limit = 10)
 	{
@@ -111,7 +111,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function returns the report folders
-	 * @return <Array of \App\Modules\Reports\Models\Folder>
+	 * @return array
 	 */
 	public function getFolders()
 	{
@@ -129,7 +129,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function to check if the extension module is permitted for utility action
-	 * @return <boolean> true
+	 * @return bool true
 	 */
 	public function isUtilityActionEnabled()
 	{

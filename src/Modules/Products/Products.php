@@ -68,8 +68,8 @@ class Products extends \App\Core\CRMEntity
 	public $unit_price;
 
 	/** 	function used to get the number of vendors which are related to the product
-	 * 	@param int $id - product id
-	 * 	@return int number of rows - return the number of products which do not have relationship with vendor
+	 * @param int $id - product id
+	 * @return int number of rows - return the number of products which do not have relationship with vendor
 	 */
 	public function product_novendor()
 	{
@@ -87,8 +87,8 @@ class Products extends \App\Core\CRMEntity
 	}
 
 	/** 	function used to get the export query for product
-	 * 	@param reference $where - reference of the where variable which will be added with the query
-	 * 	@return string $query - return the query which will give the list of products to export
+	 * @param reference $where - reference of the where variable which will be added with the query
+	 * @return string $query - return the query which will give the list of products to export
 	 */
 	public function create_export_query($where)
 	{

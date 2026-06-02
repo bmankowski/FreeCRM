@@ -39,7 +39,7 @@ class Module extends \App\Modules\Base\Models\Record
 	}
 	/*
 	 * Returns list of active currencies in CRM
-	 * @return <Integer> - number of currencies
+	 * @return int - number of currencies
 	 */
 
 	public function getCurrencyNum()
@@ -48,7 +48,7 @@ class Module extends \App\Modules\Base\Models\Record
 	}
 	/*
 	 * Returns currency exchange rates for systems active currencies from bank
-	 * @param <Date> $date - date for which to fetch exchange rates
+	 * @param mixed $date - date for which to fetch exchange rates
 	 * @param boolean $cron - true if fired by server, and so updates systems currency conversion rates
 	 * @return boolean - true if fetched new exchange rates, false otherwise
 	 */
@@ -125,8 +125,8 @@ class Module extends \App\Modules\Base\Models\Record
 	}
 	/*
 	 * Update currency rate in archives
-	 * @param <Integer> $id - exchange rate id
-	 * @param <Float> $exchange - exchange rate
+	 * @param int $id - exchange rate id
+	 * @param float $exchange - exchange rate
 	 */
 
 	public function updateCurrencyRate($id, $exchange)
@@ -137,10 +137,10 @@ class Module extends \App\Modules\Base\Models\Record
 	}
 	/*
 	 * Adds currency exchange rate to archive
-	 * @param <Integer> $currId - currency id
-	 * @param <Date> $exchangeDate - exchange date
-	 * @param <Float> $exchange - exchange rate
-	 * @param <Integer> $bankId - bank id
+	 * @param int $currId - currency id
+	 * @param mixed $exchangeDate - exchange date
+	 * @param float $exchange - exchange rate
+	 * @param int $bankId - bank id
 	 */
 
 	public function addCurrencyRate($currId, $exchangeDate, $exchange, $bankId)
@@ -156,10 +156,10 @@ class Module extends \App\Modules\Base\Models\Record
 	}
 	/*
 	 * Returns currency exchange rate id
-	 * @param <Integer> $currencyId - systems currency id
-	 * @param <Date> $exchangeDate - date of exchange rate
-	 * @param <Integer> $bankId - id of bank
-	 * @return <Integer> - currency rate id
+	 * @param int $currencyId - systems currency id
+	 * @param mixed $exchangeDate - date of exchange rate
+	 * @param int $bankId - id of bank
+	 * @return int - currency rate id
 	 */
 
 	public function getCurrencyRateId($currencyId, $exchangeDate, $bankId)
@@ -171,9 +171,9 @@ class Module extends \App\Modules\Base\Models\Record
 	}
 	/*
 	 * Returns currency rates from archive
-	 * @param <Integer> $bankId - bank id
-	 * @param <Date> $dateCur - date, if empty show this months history
-	 * @return <Array> - array containing currency rates
+	 * @param int $bankId - bank id
+	 * @param mixed $dateCur - date, if empty show this months history
+	 * @return array - array containing currency rates
 	 */
 
 	public function getRatesHistory($bankId, $dateCur, $request)
@@ -199,7 +199,7 @@ class Module extends \App\Modules\Base\Models\Record
 	/*
 	 * Returns list of supported currencies by active bank
 	 * @param string $bankName - bank name
-	 * @return <Array> - array of supported currencies
+	 * @return array - array of supported currencies
 	 */
 
 	public function getSupportedCurrencies($bankName = null)
@@ -214,7 +214,7 @@ class Module extends \App\Modules\Base\Models\Record
 	/*
 	 * Returns list of unsupported currencies by active bank
 	 * @param string $bankName - bank name
-	 * @return <Array> - array of unsupported currencies
+	 * @return array - array of unsupported currencies
 	 */
 
 	public function getUnSupportedCurrencies($bankName = null)
@@ -238,7 +238,7 @@ class Module extends \App\Modules\Base\Models\Record
 	/*
 	 * Sets systems exchange rate for chosen currency
 	 * @param string $currency - currency code
-	 * @param <Float> $exchange - exchange rate
+	 * @param float $exchange - exchange rate
 	 */
 
 	public function setCRMConversionRate($currency, $exchange)
@@ -252,8 +252,8 @@ class Module extends \App\Modules\Base\Models\Record
 	 * Function that retrieves conversion rate from and to specified currency
 	 * @param string $from - currency code or id (converted to code)
 	 * @param string $to - currency code or id (converted to code)
-	 * @param <Date> $date - date of the exchange rate
-	 * @return <Float> - conversion rate
+	 * @param mixed $date - date of the exchange rate
+	 * @return float - conversion rate
 	 */
 
 	public function getCRMConversionRate($from, $to, $date = '')
@@ -369,11 +369,11 @@ class Module extends \App\Modules\Base\Models\Record
 	}
 	/*
 	 * Convert given amount in one currency to another
-	 * @param <Float> $amount - number to convert
+	 * @param float $amount - number to convert
 	 * @param string $from - currency code
 	 * @param string $to - currency code
-	 * @param <Date> $date - date of the exchange rate
-	 * @return <Float> - floating point number
+	 * @param mixed $date - date of the exchange rate
+	 * @return float - floating point number
 	 */
 
 	public function convertFromTo($amount, $from, $to, $date = false)
@@ -382,7 +382,7 @@ class Module extends \App\Modules\Base\Models\Record
 	}
 	/*
 	 * Returns id of active bank
-	 * @return <Integer> - bank id
+	 * @return int - bank id
 	 */
 
 	public function getActiveBankId()
@@ -391,7 +391,7 @@ class Module extends \App\Modules\Base\Models\Record
 	}
 	/*
 	 * Saves new active bank by id
-	 * @param <Integer> $bankId - bank id
+	 * @param int $bankId - bank id
 	 * @return boolean - true on success or false
 	 */
 

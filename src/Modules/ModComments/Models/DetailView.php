@@ -16,8 +16,8 @@ class Model extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get the detail view links (links and widgets)
-	 * @param <array> $linkParams - parameters which will be used to calicaulate the params
-	 * @return <array> - empty array
+	 * @param array $linkParams - parameters which will be used to calicaulate the params
+	 * @return array - empty array
 	 */
 	public function getDetailViewLinks($linkParams)
 	{

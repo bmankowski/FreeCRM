@@ -24,8 +24,7 @@ class RelationService
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param \App\Db\Db $db
+	 * 	 * @param \App\Db\Db $db
 	 */
 	public function __construct(\App\Db\Db $db)
 	{
@@ -34,8 +33,7 @@ class RelationService
 
 	/**
 	 * Set related list between two modules.
-	 * 
-	 * @param int $sourceModuleId
+	 * 	 * @param int $sourceModuleId
 	 * @param int $targetModuleId
 	 * @param string $label
 	 * @param array $actions
@@ -146,8 +144,7 @@ class RelationService
 
 	/**
 	 * Unset related list between two modules.
-	 * 
-	 * @param int $sourceModuleId
+	 * 	 * @param int $sourceModuleId
 	 * @param int $targetModuleId
 	 * @param string $label
 	 * @param string $functionName

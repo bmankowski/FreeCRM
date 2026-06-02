@@ -268,8 +268,7 @@ class EventHandler
 	}
 
 	/**
-	 * 
-	 * @param string $name Event name
+	 * 	 * @param string $name Event name
 	 * @return array Handlers list
 	 */
 	protected function getHandlers($name)

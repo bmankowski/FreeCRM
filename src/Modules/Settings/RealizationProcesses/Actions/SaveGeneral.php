@@ -24,7 +24,7 @@ class SaveGeneral extends \App\Modules\Settings\Base\Actions\Index
 
 	/**
 	 * Save date
-	 * @param <array> request
+	 * @param array request
 	 * @return true if saved, false otherwise
 	 */
 	public function save(\App\Http\Vtiger_Request $request)

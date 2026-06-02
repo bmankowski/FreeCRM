@@ -35,8 +35,7 @@ class CronService
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param \App\Db\Db $db
+	 * 	 * @param \App\Db\Db $db
 	 */
 	public function __construct(\App\Db\Db $db)
 	{
@@ -45,8 +44,7 @@ class CronService
 
 	/**
 	 * Register a cron task.
-	 * 
-	 * @param string $name Task name
+	 * 	 * @param string $name Task name
 	 * @param string $handler Handler file path
 	 * @param string $frequency Frequency in seconds
 	 * @param string $moduleName Module name
@@ -91,8 +89,7 @@ class CronService
 
 	/**
 	 * Deregister a cron task.
-	 * 
-	 * @param string $name Task name
+	 * 	 * @param string $name Task name
 	 * @return void
 	 */
 	public function deregister(string $name): void
@@ -104,8 +101,7 @@ class CronService
 
 	/**
 	 * Delete all cron tasks for a module.
-	 * 
-	 * @param string $moduleName Module name
+	 * 	 * @param string $moduleName Module name
 	 * @return void
 	 */
 	public function deleteForModule(string $moduleName): void
@@ -117,8 +113,7 @@ class CronService
 
 	/**
 	 * List all cron task instances for a module.
-	 * 
-	 * @param string $moduleName Module name
+	 * 	 * @param string $moduleName Module name
 	 * @return array Array of cron task data
 	 */
 	public function listAllInstancesByModule(string $moduleName): array
@@ -151,8 +146,7 @@ class CronService
 
 	/**
 	 * Get next sequence number.
-	 * 
-	 * @return int Next sequence number
+	 * 	 * @return int Next sequence number
 	 */
 	public function nextSequence(): int
 	{
@@ -161,8 +155,7 @@ class CronService
 
 	/**
 	 * Export cron tasks to XML.
-	 * 
-	 * @param Models\Module $module Module instance
+	 * 	 * @param Models\Module $module Module instance
 	 * @param resource $manifestHandle Manifest file handle
 	 * @return void
 	 */
@@ -190,8 +183,7 @@ class CronService
 
 	/**
 	 * Write XML node to manifest handle.
-	 * 
-	 * @param resource $handle File handle
+	 * 	 * @param resource $handle File handle
 	 * @param string $node Node name
 	 * @param mixed $value Node value
 	 * @param bool $open Whether to open or close node

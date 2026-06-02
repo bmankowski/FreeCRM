@@ -79,8 +79,7 @@ class Privilege
 	/**
 	 * Function to check permission for a Module/Action/Record
 	 * Refactored for better maintainability and debugging
-	 * 
-	 * @param string $moduleName Module name to check
+	 * 	 * @param string $moduleName Module name to check
 	 * @param string|null $actionName Action to perform
 	 * @param int|bool $record Record ID (false for module-level checks)
 	 * @param int|bool $userId User ID (defaults to current user)

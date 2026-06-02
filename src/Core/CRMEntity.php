@@ -184,7 +184,7 @@ class CRMEntity
 
 	/**
 	 * Function returns the column alias for a field
-	 * @param <Array> $fieldinfo - field information
+	 * @param array $fieldinfo - field information
 	 * @return string field value
 	 */
 	protected function createColumnAliasForField($fieldinfo)
@@ -1414,10 +1414,10 @@ class CRMEntity
 
 	/**
 	 *
-	 * @param <type> $module
-	 * @param <type> $user
-	 * @param <type> $parentRole
-	 * @param <type> $userGroups
+	 * @param mixed $module
+	 * @param mixed $user
+	 * @param mixed $parentRole
+	 * @param mixed $userGroups
 	 */
 	public function getNonAdminAccessQuery($module, $user, $parentRole, $userGroups)
 	{
@@ -1433,9 +1433,9 @@ class CRMEntity
 
 	/**
 	 *
-	 * @param <type> $user
-	 * @param <type> $parentRole
-	 * @param <type> $userGroups
+	 * @param mixed $user
+	 * @param mixed $parentRole
+	 * @param mixed $userGroups
 	 */
 	public function getNonAdminUserAccessQuery($user, $parentRole, $userGroups)
 	{
@@ -1452,8 +1452,8 @@ class CRMEntity
 
 	/**
 	 *
-	 * @param <type> $module
-	 * @param <type> $user
+	 * @param mixed $module
+	 * @param mixed $user
 	 */
 	public function getNonAdminModuleAccessQuery($module, $user)
 	{
@@ -1475,10 +1475,10 @@ class CRMEntity
 
 	/**
 	 *
-	 * @param <type> $module
-	 * @param <type> $user
-	 * @param <type> $parentRole
-	 * @param <type> $userGroups
+	 * @param mixed $module
+	 * @param mixed $user
+	 * @param mixed $parentRole
+	 * @param mixed $userGroups
 	 */
 	protected function setupTemporaryTable($tableName, $tabId, $user, $parentRole, $userGroups)
 	{

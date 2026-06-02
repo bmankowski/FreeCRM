@@ -26,8 +26,7 @@ class FilterService
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param \App\Db\Db $db
+	 * 	 * @param \App\Db\Db $db
 	 */
 	public function __construct(\App\Db\Db $db)
 	{
@@ -36,8 +35,7 @@ class FilterService
 
 	/**
 	 * Import filter from XML.
-	 * 
-	 * @param Models\Module $module Module instance
+	 * 	 * @param Models\Module $module Module instance
 	 * @param \SimpleXMLElement $filterNode Filter XML node
 	 * @param array $fieldsCache Cached field instances
 	 * @return void
@@ -133,8 +131,7 @@ class FilterService
 
 	/**
 	 * Export filter to XML.
-	 * 
-	 * @param Models\Module $module Module instance
+	 * 	 * @param Models\Module $module Module instance
 	 * @param resource $manifestHandle Manifest file handle
 	 * @return void
 	 */
@@ -195,8 +192,7 @@ class FilterService
 
 	/**
 	 * Delete a specific filter by ID.
-	 * 
-	 * @param int $filterId Filter ID
+	 * 	 * @param int $filterId Filter ID
 	 * @return void
 	 */
 	public function delete(int $filterId): void
@@ -208,8 +204,7 @@ class FilterService
 
 	/**
 	 * Delete filters for module.
-	 * 
-	 * @param int $moduleId Module ID
+	 * 	 * @param int $moduleId Module ID
 	 * @return void
 	 */
 	public function deleteForModule(int $moduleId): void
@@ -238,8 +233,7 @@ class FilterService
 
 	/**
 	 * Get filter instance by name.
-	 * 
-	 * @param string $filterName Filter name
+	 * 	 * @param string $filterName Filter name
 	 * @param Models\Module $module Module instance
 	 * @return array|null Filter data or null if not found
 	 */
@@ -255,8 +249,7 @@ class FilterService
 
 	/**
 	 * Get column value for custom view.
-	 * 
-	 * @param Models\Field $fieldInstance Field instance
+	 * 	 * @param Models\Field $fieldInstance Field instance
 	 * @param Models\Module $module Module instance
 	 * @return string Column value
 	 */
@@ -269,8 +262,7 @@ class FilterService
 
 	/**
 	 * Translate comparator to short or long form.
-	 * 
-	 * @param string $value Comparator value
+	 * 	 * @param string $value Comparator value
 	 * @param bool $toLongForm Whether to convert to long form
 	 * @return string Translated comparator
 	 */
@@ -329,8 +321,7 @@ class FilterService
 
 	/**
 	 * Write XML node to manifest handle.
-	 * 
-	 * @param resource $handle File handle
+	 * 	 * @param resource $handle File handle
 	 * @param string $node Node name
 	 * @param mixed $value Node value
 	 * @param bool $open Whether to open or close node

@@ -13,7 +13,7 @@ class Install_Utils_Model
 
 	/**
 	 * Function that provides default configuration based on installer setup
-	 * @return <Array>
+	 * @return array
 	 */
 	public static function getDefaultPreInstallParameters()
 	{
@@ -36,7 +36,7 @@ class Install_Utils_Model
 
 	/**
 	 * Returns list of currencies
-	 * @return <Array>
+	 * @return array
 	 */
 	public static function getCurrencyList()
 	{
@@ -74,7 +74,7 @@ class Install_Utils_Model
 	 * @param string $create_utf8_db
 	 * @param string $root_user
 	 * @param string $root_password
-	 * @return <Array>
+	 * @return array
 	 */
 	public static function checkDbConnection(\App\Http\Vtiger_Request $request)
 	{

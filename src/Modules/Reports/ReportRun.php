@@ -43,10 +43,10 @@ class ReportRun extends \App\Core\CRMEntity
 	public $lineItemFieldsInCalculation = false;
 
 	/** Function to set reportid,primarymodule,secondarymodule,reporttype,reportname, for given reportid
-	 *  This function accepts the $reportid as argument
-	 *  It sets reportid,primarymodule,secondarymodule,reporttype,reportname for the given reportid
-	 *  To ensure single-instance is present for $reportid
-	 *  as we optimize using ReportRunPlanner and setup temporary tables.
+	 * This function accepts the $reportid as argument
+	 * It sets reportid,primarymodule,secondarymodule,reporttype,reportname for the given reportid
+	 * To ensure single-instance is present for $reportid
+	 * as we optimize using ReportRunPlanner and setup temporary tables.
 	 */
 	public function __construct($reportid)
 	{
@@ -68,12 +68,12 @@ class ReportRun extends \App\Core\CRMEntity
 	}
 
 	/** Function to get the columns for the reportid
-	 *  This function accepts the $reportid and $outputformat (optional)
-	 *  This function returns  $columnslist Array($tablename:$columnname:$fieldlabel:$fieldname:$typeofdata=>$tablename.$columnname As Header value,
-	 * 					      $tablename1:$columnname1:$fieldlabel1:$fieldname1:$typeofdata1=>$tablename1.$columnname1 As Header value,
-	 * 					      					|
-	 * 					      $tablenamen:$columnnamen:$fieldlabeln:$fieldnamen:$typeofdatan=>$tablenamen.$columnnamen As Header value
-	 * 				      	     )
+	 * This function accepts the $reportid and $outputformat (optional)
+	 * This function returns  $columnslist Array($tablename:$columnname:$fieldlabel:$fieldname:$typeofdata=>$tablename.$columnname As Header value,
+	 * 				      $tablename1:$columnname1:$fieldlabel1:$fieldname1:$typeofdata1=>$tablename1.$columnname1 As Header value,
+	 * 				      					|
+	 * 				      $tablenamen:$columnnamen:$fieldlabeln:$fieldnamen:$typeofdatan=>$tablenamen.$columnnamen As Header value
+	 * 			      	     )
 	 *
 	 */
 	public function getQueryColumnsList($reportid, $outputformat = '')
@@ -341,8 +341,8 @@ class ReportRun extends \App\Core\CRMEntity
 	}
 
 	/** Function to get field columns based on profile
-	 *  @ param $module : Type string
-	 *  returns permitted fields in array format
+	 * @ param $module : Type string
+	 * returns permitted fields in array format
 	 */
 	public function getaccesfield($module)
 	{
@@ -385,8 +385,8 @@ class ReportRun extends \App\Core\CRMEntity
 	}
 
 	/** Function to get Escapedcolumns for the field in case of multiple parents
-	 *  @ param $selectedfields : Type Array
-	 *  returns the case query for the escaped columns
+	 * @ param $selectedfields : Type Array
+	 * returns the case query for the escaped columns
 	 */
 	public function getEscapedColumns($selectedfields)
 	{
@@ -421,8 +421,8 @@ class ReportRun extends \App\Core\CRMEntity
 	}
 
 	/** Function to get selectedcolumns for the given reportid
-	 *  @ param $reportid : Type Integer
-	 *  returns the query of columnlist for the selected columns
+	 * @ param $reportid : Type Integer
+	 * returns the query of columnlist for the selected columns
 	 */
 	public function getSelectedColumnsList($reportid)
 	{
@@ -470,9 +470,9 @@ class ReportRun extends \App\Core\CRMEntity
 	}
 
 	/** Function to get advanced comparator in query form for the given Comparator and value
-	 *  @ param $comparator : Type String
-	 *  @ param $value : Type String
-	 *  returns the check query for the comparator
+	 * @ param $comparator : Type String
+	 * @ param $value : Type String
+	 * returns the check query for the comparator
 	 */
 	public function getAdvComparator($comparator, $value, $datatype = "", $columnName = '')
 	{
@@ -563,8 +563,8 @@ class ReportRun extends \App\Core\CRMEntity
 	}
 
 	/** Function to get field that is to be compared in query form for the given Comparator and field
-	 *  @ param $field : field
-	 *  returns the value for the comparator
+	 * @ param $field : field
+	 * returns the value for the comparator
 	 */
 	public function getFilterComparedField($field)
 	{
@@ -613,12 +613,12 @@ class ReportRun extends \App\Core\CRMEntity
 	}
 
 	/** Function to get the advanced filter columns for the reportid
-	 *  This function accepts the $reportid
-	 *  This function returns  $columnslist Array($columnname => $tablename:$columnname:$fieldlabel:$fieldname:$typeofdata=>$tablename.$columnname filtercriteria,
-	 * 					      $tablename1:$columnname1:$fieldlabel1:$fieldname1:$typeofdata1=>$tablename1.$columnname1 filtercriteria,
-	 * 					      					|
-	 * 					      $tablenamen:$columnnamen:$fieldlabeln:$fieldnamen:$typeofdatan=>$tablenamen.$columnnamen filtercriteria
-	 * 				      	     )
+	 * This function accepts the $reportid
+	 * This function returns  $columnslist Array($columnname => $tablename:$columnname:$fieldlabel:$fieldname:$typeofdata=>$tablename.$columnname filtercriteria,
+	 * 				      $tablename1:$columnname1:$fieldlabel1:$fieldname1:$typeofdata1=>$tablename1.$columnname1 filtercriteria,
+	 * 				      					|
+	 * 				      $tablenamen:$columnnamen:$fieldlabeln:$fieldnamen:$typeofdatan=>$tablenamen.$columnnamen filtercriteria
+	 * 			      	     )
 	 *
 	 */
 	public function getAdvFilterList($reportid)
@@ -1078,10 +1078,10 @@ class ReportRun extends \App\Core\CRMEntity
 	}
 
 	/** Function to get the Standard filter columns for the reportid
-	 *  This function accepts the $reportid datatype Integer
-	 *  This function returns  $stdfilterlist Array($columnname => $tablename:$columnname:$fieldlabel:$fieldname:$typeofdata=>$tablename.$columnname filtercriteria,
-	 * 					      $tablename1:$columnname1:$fieldlabel1:$fieldname1:$typeofdata1=>$tablename1.$columnname1 filtercriteria,
-	 * 				      	     )
+	 * This function accepts the $reportid datatype Integer
+	 * This function returns  $stdfilterlist Array($columnname => $tablename:$columnname:$fieldlabel:$fieldname:$typeofdata=>$tablename.$columnname filtercriteria,
+	 * 				      $tablename1:$columnname1:$fieldlabel1:$fieldname1:$typeofdata1=>$tablename1.$columnname1 filtercriteria,
+	 * 			      	     )
 	 *
 	 */
 	public function getStdFilterList($reportid)
@@ -1167,11 +1167,11 @@ class ReportRun extends \App\Core\CRMEntity
 	}
 
 	/** Function to get the RunTime filter columns for the given $filtercolumn,$filter,$startdate,$enddate
-	 *  @ param $filtercolumn : Type String
-	 *  @ param $filter : Type String
-	 *  @ param $startdate: Type String
-	 *  @ param $enddate : Type String
-	 *  This function returns  $stdfilterlist Array($columnname => $tablename:$columnname:$fieldlabel=>$tablename.$columnname 'between' $startdate 'and' $enddate)
+	 * @ param $filtercolumn : Type String
+	 * @ param $filter : Type String
+	 * @ param $startdate: Type String
+	 * @ param $enddate : Type String
+	 * This function returns  $stdfilterlist Array($columnname => $tablename:$columnname:$fieldlabel=>$tablename.$columnname 'between' $startdate 'and' $enddate)
 	 *
 	 */
 	public function RunTimeFilter($filtercolumn, $filter, $startdate, $enddate)
@@ -1198,9 +1198,9 @@ class ReportRun extends \App\Core\CRMEntity
 	}
 
 	/** Function to get the RunTime Advanced filter conditions
-	 *  @ param $advft_criteria : Type Array
-	 *  @ param $advft_criteria_groups : Type Array
-	 *  This function returns  $advfiltersql
+	 * @ param $advft_criteria : Type Array
+	 * @ param $advft_criteria_groups : Type Array
+	 * This function returns  $advfiltersql
 	 *
 	 */
 	public function RunTimeAdvFilter($advft_criteria, $advft_criteria_groups)
@@ -1291,8 +1291,8 @@ class ReportRun extends \App\Core\CRMEntity
 	}
 
 	/** Function to get standardfilter for the given reportid
-	 *  @ param $reportid : Type Integer
-	 *  returns the query of columnlist for the selected columns
+	 * @ param $reportid : Type Integer
+	 * returns the query of columnlist for the selected columns
 	 */
 	public function getStandardCriterialSql($reportid)
 	{
@@ -1349,9 +1349,9 @@ class ReportRun extends \App\Core\CRMEntity
 	}
 
 	/** Function to get standardfilter startdate and enddate for the given type
-	 *  @ param $type : Type String
-	 *  returns the $datevalue Array in the given format
-	 * 		$datevalue = Array(0=>$startdate,1=>$enddate)
+	 * @ param $type : Type String
+	 * returns the $datevalue Array in the given format
+	 * 	$datevalue = Array(0=>$startdate,1=>$enddate)
 	 */
 	public function getStandarFiltersStartAndEndDate($type)
 	{
@@ -1366,11 +1366,11 @@ class ReportRun extends \App\Core\CRMEntity
 	}
 
 	/** Function to get getGroupingList for the given reportid
-	 *  @ param $reportid : Type Integer
-	 *  returns the $grouplist Array in the following format
-	 *  		$grouplist = Array($tablename:$columnname:$fieldlabel:fieldname:typeofdata=>$tablename:$columnname $sorder,
-	 * 				   $tablename1:$columnname1:$fieldlabel1:fieldname1:typeofdata1=>$tablename1:$columnname1 $sorder,
-	 * 				   $tablename2:$columnname2:$fieldlabel2:fieldname2:typeofdata2=>$tablename2:$columnname2 $sorder)
+	 * @ param $reportid : Type Integer
+	 * returns the $grouplist Array in the following format
+	 * 		$grouplist = Array($tablename:$columnname:$fieldlabel:fieldname:typeofdata=>$tablename:$columnname $sorder,
+	 * 			   $tablename1:$columnname1:$fieldlabel1:fieldname1:typeofdata1=>$tablename1:$columnname1 $sorder,
+	 * 			   $tablename2:$columnname2:$fieldlabel2:fieldname2:typeofdata2=>$tablename2:$columnname2 $sorder)
 	 * This function also sets the return value in the class variable $this->groupbylist
 	 */
 	public function getGroupingList($reportid)
@@ -1450,8 +1450,8 @@ class ReportRun extends \App\Core\CRMEntity
 	}
 
 	/** function to replace special characters
-	 *  @ param $selectedfield : type string
-	 *  this returns the string for grouplist
+	 * @ param $selectedfield : type string
+	 * this returns the string for grouplist
 	 */
 	public function replaceSpecialChar($selectedfield)
 	{
@@ -1464,9 +1464,9 @@ class ReportRun extends \App\Core\CRMEntity
 	}
 
 	/** function to get the selectedorderbylist for the given reportid
-	 *  @ param $reportid : type integer
-	 *  this returns the columns query for the sortorder columns
-	 *  this function also sets the return value in the class variable $this->orderbylistsql
+	 * @ param $reportid : type integer
+	 * this returns the columns query for the sortorder columns
+	 * this function also sets the return value in the class variable $this->orderbylistsql
 	 */
 	public function getSelectedOrderbyList($reportid)
 	{
@@ -1512,9 +1512,9 @@ class ReportRun extends \App\Core\CRMEntity
 	}
 
 	/** function to get secondary Module for the given Primary module and secondary module
-	 *  @ param $module : type String
-	 *  @ param $secmodule : type String
-	 *  this returns join query for the given secondary module
+	 * @ param $module : type String
+	 * @ param $secmodule : type String
+	 * this returns join query for the given secondary module
 	 */
 	public function getRelatedModulesQuery($module, $secmodule)
 	{
@@ -1600,8 +1600,8 @@ class ReportRun extends \App\Core\CRMEntity
 	}
 
 	/** function to get report query for the given module
-	 *  @ param $module : type String
-	 *  this returns join query for the given module
+	 * @ param $module : type String
+	 * this returns join query for the given module
 	 */
 	public function getReportsQuery($module, $type = '')
 	{
@@ -2002,10 +2002,10 @@ class ReportRun extends \App\Core\CRMEntity
 	}
 
 	/** function to get query for the given reportid,filterlist,type
-	 *  @ param $reportid : Type integer
-	 *  @ param $filtersql : Type Array
-	 *  @ param $module : Type String
-	 *  this returns join query for the report
+	 * @ param $reportid : Type integer
+	 * @ param $filtersql : Type Array
+	 * @ param $module : Type String
+	 * this returns join query for the report
 	 */
 	public function sGetSQLforReport($reportid, $filtersql, $type = '', $chartReport = false, $startLimit = false, $endLimit = false)
 	{
@@ -2137,14 +2137,14 @@ class ReportRun extends \App\Core\CRMEntity
 	}
 
 	/** function to get the report output in HTML,PDF,TOTAL,PRINT,PRINTTOTAL formats depends on the argument $outputformat
-	 *  @ param $outputformat : Type String (valid parameters HTML,PDF,TOTAL,PRINT,PRINT_TOTAL)
-	 *  @ param $filtersql : Type String
-	 *  This returns HTML Report if $outputformat is HTML
-	 *  		Array for PDF if  $outputformat is PDF
-	 * 		HTML strings for TOTAL if $outputformat is TOTAL
-	 * 		Array for PRINT if $outputformat is PRINT
-	 * 		HTML strings for TOTAL fields  if $outputformat is PRINTTOTAL
-	 * 		HTML strings for
+	 * @ param $outputformat : Type String (valid parameters HTML,PDF,TOTAL,PRINT,PRINT_TOTAL)
+	 * @ param $filtersql : Type String
+	 * This returns HTML Report if $outputformat is HTML
+	 * 		Array for PDF if  $outputformat is PDF
+	 * 	HTML strings for TOTAL if $outputformat is TOTAL
+	 * 	Array for PRINT if $outputformat is PRINT
+	 * 	HTML strings for TOTAL fields  if $outputformat is PRINTTOTAL
+	 * 	HTML strings for
 	 */
 	// Performance Optimization: Added parameter directOutput to avoid building big-string!
 	public function GenerateReport($outputformat, $filtersql, $directOutput = false, $startLimit = false, $endLimit = false)
@@ -3026,8 +3026,8 @@ class ReportRun extends \App\Core\CRMEntity
 	}
 
 	/** function to get query for the columns to total for the given reportid
-	 *  @ param $reportid : Type integer
-	 *  This returns columnstoTotal query for the reportid
+	 * @ param $reportid : Type integer
+	 * This returns columnstoTotal query for the reportid
 	 */
 	public function getColumnsToTotalColumns($reportid)
 	{
@@ -3069,8 +3069,8 @@ class ReportRun extends \App\Core\CRMEntity
 	}
 
 	/** Function to convert the Report Header Names into i18n
-	 *  @param $fldname: Type Varchar
-	 *  Returns Language Converted Header Strings
+	 * @param $fldname: Type Varchar
+	 * Returns Language Converted Header Strings
 	 * */
 	public function getLstringforReportHeaders($fldname)
 	{
@@ -3103,7 +3103,7 @@ class ReportRun extends \App\Core\CRMEntity
 	}
 
 	/** Function to get picklist value array based on profile
-	 *          *  returns permitted fields in array format
+	 *         *  returns permitted fields in array format
 	 * */
 	public function getAccessPickListValues()
 	{

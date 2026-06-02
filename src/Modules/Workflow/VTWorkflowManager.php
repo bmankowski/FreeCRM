@@ -272,8 +272,8 @@ class VTWorkflowManager {
 
 	/**
 	 * Function to get workflows modules those are supporting comments
-	 * @param <String> $moduleName
-	 * @return <Array> list of Workflow models
+	 * @param string $moduleName
+	 * @return array list of Workflow models
 	 */
 	public function getWorkflowsForModuleSupportingComments($moduleName)
 	{

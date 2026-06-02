@@ -81,8 +81,7 @@ class Module
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param int|false $id
+	 * 	 * @param int|false $id
 	 * @param string|false $name
 	 * @param string|false $label
 	 * @param int $version

@@ -83,8 +83,8 @@ class Field extends \App\Modules\Base\Models\Field
 
 	/**
 	 * Function to Move the field
-	 * @param <Array> $fieldNewDetails
-	 * @param <Array> $fieldOlderDetails
+	 * @param array $fieldNewDetails
+	 * @param array $fieldOlderDetails
 	 */
 	public function move($fieldNewDetails, $fieldOlderDetails)
 	{
@@ -242,7 +242,7 @@ class Field extends \App\Modules\Base\Models\Field
 	/**
 	 * Function to get instance
 	 * @param string $value - fieldname or fieldid
-	 * @param <type> $module - optional - module instance
+	 * @param mixed $module - optional - module instance
 	 * @return \App\Modules\Settings\LayoutEditor\Models\Field
 	 */
 	public static function getInstance($value, $module = false)
@@ -284,7 +284,7 @@ class Field extends \App\Modules\Base\Models\Field
 	/**
 	 * Function to get the field details
 	 * @param array $context
-	 * @return <Array> - array of field values
+	 * @return array - array of field values
 	 */
 	public function getFieldInfo($context = [])
 	{

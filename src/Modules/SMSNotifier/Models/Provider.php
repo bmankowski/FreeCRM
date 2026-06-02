@@ -17,7 +17,7 @@ class Provider extends \App\Runtime\BaseModel
 	/**
 	 * Function to get instance of provider model
 	 * @param string $providerName
-	 * @return <SMSNotifier_Provider_Model> provider object
+	 * @return mixed provider object
 	 */
 	public static function getInstance($providerName)
 	{
@@ -31,7 +31,7 @@ class Provider extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get All providers
-	 * @return <Array> list of all providers <SMSNotifier_Provider_Model>
+	 * @return array list of all providers <SMSNotifier_Provider_Model>
 	 */
 	public static function getAll()
 	{

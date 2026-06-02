@@ -36,7 +36,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to get the Id
-	 * @return <Number> Profile Id
+	 * @return mixed Profile Id
 	 */
 	public function getId()
 	{
@@ -45,7 +45,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to get the Id
-	 * @return <Number> Profile Id
+	 * @return mixed Profile Id
 	 */
 	protected function setId($id)
 	{
@@ -688,7 +688,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return <Array> - Associate array of \App\Modules\Base\Models\Link instances
+	 * @return array - Associate array of \App\Modules\Base\Models\Link instances
 	 */
 	public function getRecordLinks()
 	{
@@ -730,7 +730,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	/**
 	 * Function to get all the profiles linked to the given role
 	 * @param string - $roleId
-	 * @return <Array> - Array of \App\Modules\Settings\Profiles\Models\Record instances
+	 * @return array - Array of \App\Modules\Settings\Profiles\Models\Record instances
 	 */
 	public static function getAllByRole($roleId)
 	{
@@ -755,7 +755,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to get all the profiles
-	 * @return <Array> - Array of \App\Modules\Settings\Profiles\Models\Record instances
+	 * @return array - Array of \App\Modules\Settings\Profiles\Models\Record instances
 	 */
 	public static function getAll()
 	{
@@ -773,7 +773,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to get the instance of Profile model, given profile id
-	 * @param <Integer> $profileId
+	 * @param int $profileId
 	 * @return \App\Modules\Settings\Profiles\Models\Record instance, if exists. Null otherwise
 	 */
 	public static function getInstanceById($profileId)
@@ -856,7 +856,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	/**
 	 * Function to get Users list from this Profile
 	 * @param boolean $allUsers
-	 * @return <Array> list of user ids
+	 * @return array list of user ids
 	 */
 	public static function getUsersList($profileId = false)
 	{
@@ -968,10 +968,10 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 * Function to get the Profile Action Permissions for the specified vtiger_profileid
 	 * @param int $profileid Profile Id
 	 * @return array Profile Tabs Action Permission Array in the following format:
-	 *    $tabActionPermission = Array($tabid1=>Array(actionid1=>permission, actionid2=>permission,...,actionidn=>permission),
-	 *                        $tabid2=>Array(actionid1=>permission, actionid2=>permission,...,actionidn=>permission),
-	 *                                |
-	 *                        $tabidn=>Array(actionid1=>permission, actionid2=>permission,...,actionidn=>permission))
+	 *   $tabActionPermission = Array($tabid1=>Array(actionid1=>permission, actionid2=>permission,...,actionidn=>permission),
+	 *                       $tabid2=>Array(actionid1=>permission, actionid2=>permission,...,actionidn=>permission),
+	 *                               |
+	 *                       $tabidn=>Array(actionid1=>permission, actionid2=>permission,...,actionidn=>permission))
 	 */
 	public static function getProfileActionPermission($profileid)
 	{
@@ -1004,9 +1004,9 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 * @param int $profileid Profile Id
 	 * @return array Tab Utility Action Permission Array in the following format:
 	 * $tabPermission = Array($tabid1=>Array(actionid1=>permission, actionid2=>permission,...,actionidn=>permission),
-	 *                        $tabid2=>Array(actionid1=>permission, actionid2=>permission,...,actionidn=>permission),
-	 *                                |
-	 *                        $tabidn=>Array(actionid1=>permission, actionid2=>permission,...,actionidn=>permission))
+	 *                       $tabid2=>Array(actionid1=>permission, actionid2=>permission,...,actionidn=>permission),
+	 *                               |
+	 *                       $tabidn=>Array(actionid1=>permission, actionid2=>permission,...,actionidn=>permission))
 	 */
 	public static function getTabsUtilityActionPermission($profileid)
 	{
@@ -1039,10 +1039,10 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	 * Function to get the Standard and Utility Profile Action Permissions for the specified vtiger_profileid
 	 * @param int $profileid Profile Id
 	 * @return array Profile Tabs Action Permission Array in the following format:
-	 *    $tabActionPermission = Array($tabid1=>Array(actionid1=>permission, actionid2=>permission,...,actionidn=>permission),
-	 *                        $tabid2=>Array(actionid1=>permission, actionid2=>permission,...,actionidn=>permission),
-	 *                                |
-	 *                        $tabidn=>Array(actionid1=>permission, actionid2=>permission,...,actionidn=>permission))
+	 *   $tabActionPermission = Array($tabid1=>Array(actionid1=>permission, actionid2=>permission,...,actionidn=>permission),
+	 *                       $tabid2=>Array(actionid1=>permission, actionid2=>permission,...,actionidn=>permission),
+	 *                               |
+	 *                       $tabidn=>Array(actionid1=>permission, actionid2=>permission,...,actionidn=>permission))
 	 */
 	public static function getProfileAllActionPermission($profileid)
 	{

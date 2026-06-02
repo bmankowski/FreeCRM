@@ -23,8 +23,7 @@ class LanguageExport
 {
 	/**
 	 * Get all languages.
-	 * 
-	 * @return array Array of languages with prefix as key and label as value
+	 * 	 * @return array Array of languages with prefix as key and label as value
 	 */
 	public static function getAll(): array
 	{
@@ -33,8 +32,7 @@ class LanguageExport
 
 	/**
 	 * Export language package to ZIP file.
-	 * 
-	 * @param string $lang Language prefix (e.g., 'en_us')
+	 * 	 * @param string $lang Language prefix (e.g., 'en_us')
 	 * @param string $todir Target directory (unused)
 	 * @param string $zipfilename ZIP filename
 	 * @param bool $directDownload Whether to force download
@@ -94,8 +92,7 @@ class LanguageExport
 
 	/**
 	 * Force download ZIP file.
-	 * 
-	 * @param string $zipfilepath Full path to ZIP file
+	 * 	 * @param string $zipfilepath Full path to ZIP file
 	 * @return void
 	 */
 	private function forceDownload(string $zipfilepath): void

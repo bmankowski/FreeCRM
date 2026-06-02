@@ -16,7 +16,7 @@ class Folder extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get the id of the folder
-	 * @return <Number>
+	 * @return mixed
 	 */
 	public function getId()
 	{
@@ -25,7 +25,7 @@ class Folder extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to set the if for the folder
-	 * @param <Number>
+	 * @return mixed
 	 */
 	public function setId($value)
 	{
@@ -43,7 +43,7 @@ class Folder extends \App\Runtime\BaseModel
 
 	/**
 	 * Function returns the instance of Folder model
-	 * @return <\App\Modules\Reports\Models\Folder>
+	 * @return \App\Modules\Reports\Models\Folder
 	 */
 	public static function getInstance()
 	{
@@ -80,8 +80,8 @@ class Folder extends \App\Runtime\BaseModel
 
 	/**
 	 * Function returns Report Models for the folder
-	 * @param <\App\Modules\Base\Models\Paging> $pagingModel
-	 * @return <\App\Modules\Reports\Models\Record>
+	 * @param \App\Modules\Base\Models\Paging $pagingModel
+	 * @return \App\Modules\Reports\Models\Record
 	 */
 	public function getReports($pagingModel)
 	{
@@ -177,7 +177,7 @@ class Folder extends \App\Runtime\BaseModel
 	/**
 	 * Function returns the instance of Folder model
 	 * @param FolderId
-	 * @return <\App\Modules\Reports\Models\Folder>
+	 * @return \App\Modules\Reports\Models\Folder
 	 */
 	public static function getInstanceById($folderId)
 	{
@@ -199,7 +199,7 @@ class Folder extends \App\Runtime\BaseModel
 
 	/**
 	 * Function returns the instance of Folder model
-	 * @return <\App\Modules\Reports\Models\Folder>
+	 * @return \App\Modules\Reports\Models\Folder
 	 */
 	public static function getAll()
 	{
@@ -291,7 +291,7 @@ class Folder extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to check whether folder is editable or not
-	 * @return <boolean>
+	 * @return bool
 	 */
 	public function isEditable()
 	{
@@ -303,7 +303,7 @@ class Folder extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get check whether folder is deletable or not
-	 * @return <boolean>
+	 * @return bool
 	 */
 	public function isDeletable()
 	{
@@ -315,7 +315,7 @@ class Folder extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to calculate number of reports in this folder
-	 * @return <Integer>
+	 * @return int
 	 */
 	public function getReportsCount()
 	{
@@ -377,9 +377,9 @@ class Folder extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get all Report Record Models
-	 * @param <Array> $allReportsList
+	 * @param array $allReportsList
 	 * @param \App\Modules\Base\Models\Module - Reports Module Model
-	 * @return <Array> Reports Record Models
+	 * @return array Reports Record Models
 	 */
 	public function getAllReportModels($allReportsList, $reportModuleModel)
 	{
@@ -401,7 +401,7 @@ class Folder extends \App\Runtime\BaseModel
 	/**
 	 * Function which provides the records for the current view
 	 * @param boolean $skipRecords - List of the RecordIds to be skipped
-	 * @return <Array> List of RecordsIds
+	 * @return array List of RecordsIds
 	 */
 	public function getRecordIds($skipRecords = false, $module)
 	{
@@ -425,7 +425,7 @@ class Folder extends \App\Runtime\BaseModel
 
 	/**
 	 * Function returns Report Models for the folder
-	 * @return <\App\Modules\Reports\Models\Record>
+	 * @return \App\Modules\Reports\Models\Record
 	 */
 	public function getListViewQuery($folderId)
 	{

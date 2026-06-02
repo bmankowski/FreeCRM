@@ -178,10 +178,10 @@ class SyncServer {
 
 	/**
 	 *
-	 * @param <type> $appid
-	 * @param <type> $serverid
-	 * @param <type> $clientid
-	 * @param <type> $modifiedTime
+	 * @param mixed $appid
+	 * @param mixed $serverid
+	 * @param mixed $clientid
+	 * @param mixed $modifiedTime
 	 * update the mapping of server and client id
 	 */
 	public function idmap_update($appid, $serverid, $clientid, $clientModifiedTime, $serverModifiedTime, $serverAppId)
@@ -192,9 +192,9 @@ class SyncServer {
 
 	/**
 	 *
-	 * @param <type> $appid
-	 * @param <type> $serverid
-	 * @param <type> $clientid
+	 * @param mixed $appid
+	 * @param mixed $serverid
+	 * @param mixed $clientid
 	 * delete the mapping for client and server id
 	 */
 	public function idmap_delete($appid, $serverid, $clientid, $serverAppId)
@@ -511,7 +511,7 @@ class SyncServer {
 
 	/**
 	 * Retrieve serverid  of record   for the given
-	 *  client
+	 * client
 	 */
 	public function idmap_get_serverId($clientid, $appId)
 	{
@@ -530,7 +530,7 @@ class SyncServer {
 
 	/**
 	 * Retrieve clientid  of record   for the given
-	 *  client
+	 * client
 	 */
 	public function idmap_get_clientId($serverid, $appId)
 	{

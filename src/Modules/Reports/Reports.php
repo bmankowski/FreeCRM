@@ -67,8 +67,8 @@ class Reports extends \App\Core\CRMEntity
 	public $related_modules = [];
 
 	/** Function to set primodule,secmodule,reporttype,reportname,reportdescription,folderid for given vtiger_reportid
-	 *  This function accepts the vtiger_reportid as argument
-	 *  It sets primodule,secmodule,reporttype,reportname,reportdescription,folderid for the given vtiger_reportid
+	 * This function accepts the vtiger_reportid as argument
+	 * It sets primodule,secmodule,reporttype,reportname,reportdescription,folderid for the given vtiger_reportid
 	 */
 	public function __construct($reportid = "")
 	{
@@ -281,9 +281,9 @@ class Reports extends \App\Core\CRMEntity
 	// END
 
 	/** Function to get the Listview of Reports
-	 *  This function accepts no argument
-	 *  This generate the Reports view page and returns a string
-	 *  contains HTML
+	 * This function accepts no argument
+	 * This generate the Reports view page and returns a string
+	 * contains HTML
 	 */
 	public function sgetRptFldr($mode = '')
 	{
@@ -330,9 +330,9 @@ class Reports extends \App\Core\CRMEntity
 	}
 
 	/** Function to get all Reports when in list view
-	 *  This function accepts the folderid,paramslist
-	 *  This Generates the Reports under each Reports module
-	 *  This Returns a HTML sring
+	 * This function accepts the folderid,paramslist
+	 * This Generates the Reports under each Reports module
+	 * This Returns a HTML sring
 	 */
 	public function sgetAllRpt($fldrId, $paramsList)
 	{
@@ -379,9 +379,9 @@ class Reports extends \App\Core\CRMEntity
 	}
 
 	/** Function to get the Reports inside each modules
-	 *  This function accepts the folderid
-	 *  This Generates the Reports under each Reports module
-	 *  This Returns a HTML sring
+	 * This function accepts the folderid
+	 * This Generates the Reports under each Reports module
+	 * This Returns a HTML sring
 	 */
 	public function sgetRptsforFldr($rpt_fldr_id, $paramsList = false)
 	{
@@ -473,10 +473,10 @@ class Reports extends \App\Core\CRMEntity
 	}
 
 	/** Function to get the array of ids
-	 *  This function forms the array for the ExpandCollapse
-	 *  Javascript
-	 *  It returns the array of ids
-	 *  Array('1RptFldr','2RptFldr',........,'9RptFldr','10RptFldr')
+	 * This function forms the array for the ExpandCollapse
+	 * Javascript
+	 * It returns the array of ids
+	 * Array('1RptFldr','2RptFldr',........,'9RptFldr','10RptFldr')
 	 */
 	public function sgetJsRptFldr()
 	{
@@ -486,9 +486,9 @@ class Reports extends \App\Core\CRMEntity
 	}
 
 	/** Function to set the Primary module vtiger_fields for the given Report
-	 *  This function sets the primary module columns for the given Report
-	 *  It accepts the Primary module as the argument and set the vtiger_fields of the module
-	 *  to the varialbe pri_module_columnslist and returns true if sucess
+	 * This function sets the primary module columns for the given Report
+	 * It accepts the Primary module as the argument and set the vtiger_fields of the module
+	 * to the varialbe pri_module_columnslist and returns true if sucess
 	 */
 	public function getPriModuleColumnsList($module)
 	{
@@ -509,9 +509,9 @@ class Reports extends \App\Core\CRMEntity
 	}
 
 	/** Function to set the Secondary module fields for the given Report
-	 *  This function sets the secondary module columns for the given module
-	 *  It accepts the module as the argument and set the vtiger_fields of the module
-	 *  to the varialbe sec_module_columnslist and returns true if sucess
+	 * This function sets the secondary module columns for the given module
+	 * It accepts the module as the argument and set the vtiger_fields of the module
+	 * to the varialbe sec_module_columnslist and returns true if sucess
 	 */
 	public function getSecModuleColumnsList($module)
 	{
@@ -565,10 +565,10 @@ class Reports extends \App\Core\CRMEntity
 	}
 
 	/** Function to get vtiger_fields for the given module and block
-	 *  This function gets the vtiger_fields for the given module
-	 *  It accepts the module and the block as arguments and
-	 *  returns the array column lists
-	 *  Array module_columnlist[ vtiger_fieldtablename:fieldcolname:module_fieldlabel1:fieldname:fieldtypeofdata]=fieldlabel
+	 * This function gets the vtiger_fields for the given module
+	 * It accepts the module and the block as arguments and
+	 * returns the array column lists
+	 * Array module_columnlist[ vtiger_fieldtablename:fieldcolname:module_fieldlabel1:fieldname:fieldtypeofdata]=fieldlabel
 	 */
 	public function getColumnsListbyBlock($module, $block, $group_res_by_block = false)
 	{
@@ -650,9 +650,9 @@ class Reports extends \App\Core\CRMEntity
 	}
 
 	/** Function to set the standard filter vtiger_fields for the given vtiger_report
-	 *  This function gets the standard filter vtiger_fields for the given vtiger_report
-	 *  and set the values to the corresponding variables
-	 *  It accepts the repordid as argument
+	 * This function gets the standard filter vtiger_fields for the given vtiger_report
+	 * and set the values to the corresponding variables
+	 * It accepts the repordid as argument
 	 */
 	public function getSelectedStandardCriteria($reportid)
 	{
@@ -677,8 +677,8 @@ class Reports extends \App\Core\CRMEntity
 	}
 
 	/** Function to get the combo values for the standard filter
-	 *  This function get the combo values for the standard filter for the given vtiger_report
-	 *  and return a HTML string
+	 * This function get the combo values for the standard filter for the given vtiger_report
+	 * and return a HTML string
 	 */
 	public function getSelectedStdFilterCriteria($selecteddatefilter = "")
 	{
@@ -761,10 +761,10 @@ class Reports extends \App\Core\CRMEntity
 	}
 
 	/** Function to set the order of grouping and to find the columns responsible
-	 *  to the grouping
-	 *  This function accepts the vtiger_reportid as variable,sets the variable ascdescorder[] to the sort order and
-	 *  returns the array array_list which has the column responsible for the grouping
-	 *  Array array_list[0]=columnname
+	 * to the grouping
+	 * This function accepts the vtiger_reportid as variable,sets the variable ascdescorder[] to the sort order and
+	 * returns the array array_list which has the column responsible for the grouping
+	 * Array array_list[0]=columnname
 	 */
 	public function getSelctedSortingColumns($reportid)
 	{
@@ -791,9 +791,9 @@ class Reports extends \App\Core\CRMEntity
 	}
 
 	/** Function to get the selected columns list for a selected vtiger_report
-	 *  This function accepts the vtiger_reportid as the argument and get the selected columns
-	 *  for the given vtiger_reportid and it forms a combo lists and returns
-	 *  HTML of the combo values
+	 * This function accepts the vtiger_reportid as the argument and get the selected columns
+	 * for the given vtiger_reportid and it forms a combo lists and returns
+	 * HTML of the combo values
 	 */
 	public function getSelectedColumnsList($reportid)
 	{
@@ -947,9 +947,9 @@ class Reports extends \App\Core\CRMEntity
 	//<<<<<<<<advanced filter>>>>>>>>>>>>>>
 
 	/** Function to get the list of vtiger_report folders when Save and run  the vtiger_report
-	 *  This function gets the vtiger_report folders from database and form
-	 *  a combo values of the folders and return
-	 *  HTML of the combo values
+	 * This function gets the vtiger_report folders from database and form
+	 * a combo values of the folders and return
+	 * HTML of the combo values
 	 */
 	public function sgetRptFldrSaveReport()
 	{
@@ -969,9 +969,9 @@ class Reports extends \App\Core\CRMEntity
 	}
 
 	/** Function to get the column to total vtiger_fields in Reports
-	 *  This function gets columns to total vtiger_field
-	 *  and generated the html for that vtiger_fields
-	 *  It returns the HTML of the vtiger_fields along with the check boxes
+	 * This function gets columns to total vtiger_field
+	 * and generated the html for that vtiger_fields
+	 * It returns the HTML of the vtiger_fields along with the check boxes
 	 */
 	public function sgetColumntoTotal($primarymodule, $secondarymodule)
 	{
@@ -987,9 +987,9 @@ class Reports extends \App\Core\CRMEntity
 	}
 
 	/** Function to get the selected columns of total vtiger_fields in Reports
-	 *  This function gets selected columns of total vtiger_field
-	 *  and generated the html for that vtiger_fields
-	 *  It returns the HTML of the vtiger_fields along with the check boxes
+	 * This function gets selected columns of total vtiger_field
+	 * and generated the html for that vtiger_fields
+	 * It returns the HTML of the vtiger_fields along with the check boxes
 	 */
 	public function sgetColumntoTotalSelected($primarymodule, $secondarymodule, $reportid)
 	{
@@ -1021,9 +1021,9 @@ class Reports extends \App\Core\CRMEntity
 	}
 
 	/** Function to form the HTML for columns to total
-	 *  This function formulates the HTML format of the
-	 *  vtiger_fields along with four checkboxes
-	 *  It returns the HTML of the vtiger_fields along with the check boxes
+	 * This function formulates the HTML format of the
+	 * vtiger_fields along with four checkboxes
+	 * It returns the HTML of the vtiger_fields along with the check boxes
 	 */
 	public function sgetColumnstoTotalHTML($module)
 	{

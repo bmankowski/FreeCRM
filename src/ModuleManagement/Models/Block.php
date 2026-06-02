@@ -54,8 +54,7 @@ class Block
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param int $id
+	 * 	 * @param int $id
 	 * @param string $label
 	 * @param int $sequence
 	 * @param int $showtitle

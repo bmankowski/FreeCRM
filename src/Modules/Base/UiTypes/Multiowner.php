@@ -25,8 +25,8 @@ class Multiowner extends BaseUiType
 
 	/**
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param <Object> $value
-	 * @return <Object>
+	 * @param object $value
+	 * @return object
 	 */
 	public function getDisplayValue($values, $record = false, $recordInstance = false, $rawText = false)
 	{
@@ -62,7 +62,7 @@ class Multiowner extends BaseUiType
 
 	/**
 	 * Function to know owner is either User or Group
-	 * @param <Integer> userId/GroupId
+	 * @param int userId/GroupId
 	 * @return string User/Group
 	 */
 	public static function getOwnerType($id)

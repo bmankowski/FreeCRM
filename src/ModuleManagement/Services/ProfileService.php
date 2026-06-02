@@ -24,8 +24,7 @@ class ProfileService
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param \App\Db\Db $db
+	 * 	 * @param \App\Db\Db $db
 	 */
 	public function __construct(\App\Db\Db $db)
 	{
@@ -34,8 +33,7 @@ class ProfileService
 
 	/**
 	 * Initialize profile setup for a module.
-	 * 
-	 * @param int $moduleId Module ID
+	 * 	 * @param int $moduleId Module ID
 	 * @param bool $isEntityType Whether module is entity type
 	 * @return void
 	 */
@@ -84,8 +82,7 @@ class ProfileService
 
 	/**
 	 * Initialize profile setup for a field.
-	 * 
-	 * @param int $moduleId Module ID
+	 * 	 * @param int $moduleId Module ID
 	 * @param int $fieldId Field ID
 	 * @return void
 	 */
@@ -109,8 +106,7 @@ class ProfileService
 
 	/**
 	 * Delete profile information related with module.
-	 * 
-	 * @param int $moduleId Module ID
+	 * 	 * @param int $moduleId Module ID
 	 * @return void
 	 */
 	public function deleteForModule(int $moduleId): void
@@ -123,8 +119,7 @@ class ProfileService
 
 	/**
 	 * Delete profile information related with field.
-	 * 
-	 * @param int $fieldId Field ID
+	 * 	 * @param int $fieldId Field ID
 	 * @return void
 	 */
 	public function deleteForField(int $fieldId): void
@@ -134,8 +129,7 @@ class ProfileService
 
 	/**
 	 * Get all existing profile IDs.
-	 * 
-	 * @return array Array of profile IDs
+	 * 	 * @return array Array of profile IDs
 	 */
 	public function getAllIds(): array
 	{

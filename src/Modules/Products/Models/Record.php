@@ -32,7 +32,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to get values of more currencies listprice
-	 * @return <Array> of listprice values
+	 * @return array of listprice values
 	 */
 	static function getListPriceValues($id)
 	{
@@ -47,7 +47,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to get subproducts for this record
-	 * @return <Array> of subproducts
+	 * @return array of subproducts
 	 */
 	public function getSubProducts()
 	{
@@ -73,7 +73,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to get price details
-	 * @return <Array> List of prices
+	 * @return array List of prices
 	 */
 	public function getPriceDetails()
 	{
@@ -88,7 +88,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to get base currency details
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getBaseCurrencyDetails()
 	{
@@ -115,7 +115,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to get Image Details
-	 * @return <array> Image Details List
+	 * @return array Image Details List
 	 */
 	public function getImageDetails()
 	{
@@ -164,7 +164,7 @@ class Record extends \App\Modules\Base\Models\Record
 	/**
 	 * Static Function to get the list of records matching the search key
 	 * @param string $searchKey
-	 * @return <Array> - List of \App\Modules\Base\Models\Record or Module Specific Record Model instances
+	 * @return array - List of \App\Modules\Base\Models\Record or Module Specific Record Model instances
 	 */
 	public static function getSearchResult($searchKey, $moduleName = false, $limit = false, $operator = false)
 	{
@@ -270,9 +270,9 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function updates ListPrice for Product/Service-PriceBook relation
-	 * @param <Integer> $relatedRecordId - PriceBook Id
-	 * @param <Integer> $price - listprice
-	 * @param <Integer> $currencyId - currencyId
+	 * @param int $relatedRecordId - PriceBook Id
+	 * @param int $price - listprice
+	 * @param int $currencyId - currencyId
 	 */
 	public function updateListPrice($relatedRecordId, $price, $currencyId)
 	{

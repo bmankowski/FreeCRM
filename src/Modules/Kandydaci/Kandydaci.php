@@ -67,8 +67,7 @@ class Kandydaci extends \App\Core\CRMEntity
 
 	/**
 	 * Save related module - handles M:M relation with ProjektyRekrutacyjne
-	 * 
-	 * @param string $module This module name
+	 * 	 * @param string $module This module name
 	 * @param integer $crmid This module record number
 	 * @param string $withModule Related module name
 	 * @param mixed $withCrmid Integer or Array of related module record number
@@ -98,8 +97,7 @@ class Kandydaci extends \App\Core\CRMEntity
 
 	/**
 	 * Delete related module - handles M:M relation with ProjektyRekrutacyjne
-	 * 
-	 * @param string $module This module name
+	 * 	 * @param string $module This module name
 	 * @param integer $crmid This module record number
 	 * @param string $withModule Related module name
 	 * @param mixed $withCrmid Integer or Array of related module record number

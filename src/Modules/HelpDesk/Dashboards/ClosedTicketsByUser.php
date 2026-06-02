@@ -17,7 +17,7 @@ class ClosedTicketsByUser  extends \App\Modules\Base\Views\Index
 	/**
 	 * Return search params (use to in building address URL to listview)
 	 * @param int $owner numer id of user
-	 * @param <Array> $time contain start date and end time
+	 * @param array $time contain start date and end time
 	 * @return string 
 	 */
 	public function getSearchParams($owner, $time)
@@ -36,8 +36,8 @@ class ClosedTicketsByUser  extends \App\Modules\Base\Views\Index
 
 	/**
 	 * Function returns Tickets grouped by users
-	 * @param <Array> $time contain start date and end time
-	 * @return <Array> data to display chart
+	 * @param array $time contain start date and end time
+	 * @return array data to display chart
 	 */
 	public function getTicketsByUser($time)
 	{

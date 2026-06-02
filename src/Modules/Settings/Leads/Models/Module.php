@@ -18,7 +18,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function to get fields of this model
-	 * @return <Array> list of field models <\App\Modules\Settings\Leads\Models\Field>
+	 * @return array list of field models <\App\Modules\Settings\Leads\Models\Field>
 	 */
 	public function getFields($blockInstance = false)
 	{
@@ -37,7 +37,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function to get mapping supported field ids list
-	 * @return <Array> list of field ids
+	 * @return array list of field ids
 	 */
 	public function getMappingSupportedFieldIdsList()
 	{
@@ -66,7 +66,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function to get the Restricted Ui Types
-	 * @return <array> Restricted ui types
+	 * @return array Restricted ui types
 	 */
 	public function getRestrictedUitypes()
 	{
@@ -76,7 +76,7 @@ class Module extends \App\Modules\Base\Models\Module
 	/**
 	 * Function to get instance of module
 	 * @param string $moduleName
-	 * @return <\App\Modules\Settings\Leads\Models\Module>
+	 * @return \App\Modules\Settings\Leads\Models\Module
 	 */
 	public static function getInstance($moduleName)
 	{

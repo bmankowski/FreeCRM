@@ -30,7 +30,7 @@ class MultiReferenceValue extends BaseUiType
 
 	/**
 	 * Function to get all the available picklist values for the current field
-	 * @return <Array> List of picklist values if the field is of type MultiReferenceValue.
+	 * @return array List of picklist values if the field is of type MultiReferenceValue.
 	 */
 	public function getPicklistValues()
 	{
@@ -180,7 +180,7 @@ class MultiReferenceValue extends BaseUiType
 
 	/**
 	 * Function to get all the available picklist values for the current field
-	 * @return <Array> List of picklist values if the field is of type MultiReferenceValue.
+	 * @return array List of picklist values if the field is of type MultiReferenceValue.
 	 */
 	public function getPicklistValuesForModuleList($module, $view)
 	{

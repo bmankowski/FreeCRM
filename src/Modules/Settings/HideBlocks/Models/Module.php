@@ -43,7 +43,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	/**
 	 * Function to get list of Blocks
-	 * @return <Array> list of Block models \App\Modules\Settings\HideBlocks\Models\Module
+	 * @return array list of Block models \App\Modules\Settings\HideBlocks\Models\Module
 	 */
 	public function getBlocks()
 	{

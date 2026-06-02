@@ -38,7 +38,7 @@ class RelationListView extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get the links for related list
-	 * @return <Array> List of action models <\App\Modules\Base\Models\Link>
+	 * @return array List of action models <\App\Modules\Base\Models\Link>
 	 */
 	public function getLinks()
 	{

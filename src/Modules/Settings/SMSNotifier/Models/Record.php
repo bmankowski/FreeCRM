@@ -19,7 +19,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	
 	/**
 	 * Function to get Id of this record instance
-	 * @return <Integer> Id
+	 * @return int Id
 	 */
 	public function getId()
 	{
@@ -77,7 +77,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to get record links
-	 * @return <Array> list of link models <\App\Modules\Base\Models\Link>
+	 * @return array list of link models <\App\Modules\Base\Models\Link>
 	 */
 	public function getRecordLinks()
 	{
@@ -123,7 +123,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to get Editable fields for this instance
-	 * @return <Array> field models list <\App\Modules\Settings\SMSNotifier\Models\Field>
+	 * @return array field models list <\App\Modules\Settings\SMSNotifier\Models\Field>
 	 */
 	public function getEditableFields()
 	{
@@ -182,7 +182,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	/**
 	 * Function to get clean record instance by using moduleName
 	 * @param string $qualifiedModuleName
-	 * @return <\App\Modules\Settings\SMSNotifier\Models\Record>
+	 * @return \App\Modules\Settings\SMSNotifier\Models\Record
 	 */
 	static public function getCleanInstance($qualifiedModuleName)
 	{

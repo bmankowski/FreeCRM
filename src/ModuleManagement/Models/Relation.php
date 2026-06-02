@@ -42,8 +42,7 @@ class Relation
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param int $sourceModuleId
+	 * 	 * @param int $sourceModuleId
 	 * @param int $targetModuleId
 	 * @param string $label
 	 * @param array $actions

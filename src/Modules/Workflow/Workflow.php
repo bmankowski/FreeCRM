@@ -240,7 +240,7 @@ class Workflow
 	 * get next trigger Time For weekly
 	 * @param mixed $scheduledDaysOfWeek
 	 * @param string $scheduledTime
-	 * @return <time>
+	 * @return int
 	 */
 	public function getNextTriggerTimeForWeekly($scheduledDaysOfWeek, $scheduledTime)
 	{
@@ -296,7 +296,7 @@ class Workflow
 	 * get next triggertime for monthly
 	 * @param string $scheduledDayOfMonth
 	 * @param string $scheduledTime
-	 * @return <time>
+	 * @return int
 	 */
 	public function getNextTriggerTimeForMonthlyByDate($scheduledDayOfMonth, $scheduledTime)
 	{
@@ -341,7 +341,7 @@ class Workflow
 	 * to get next trigger time for weekday of the month
 	 * @param string $scheduledWeekDayOfMonth
 	 * @param string $scheduledTime
-	 * @return <time>
+	 * @return int
 	 */
 	public function getNextTriggerTimeForMonthlyByWeekDay($scheduledWeekDayOfMonth, $scheduledTime)
 	{
@@ -366,7 +366,7 @@ class Workflow
 	 * to get next trigger time
 	 * @param mixed $annualDates
 	 * @param string $scheduledTime
-	 * @return <time>
+	 * @return int
 	 */
 	public function getNextTriggerTimeForAnnualDates($annualDates, $scheduledTime)
 	{

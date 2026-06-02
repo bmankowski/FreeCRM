@@ -42,7 +42,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function to get Settings links
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getSettingLinks()
 	{

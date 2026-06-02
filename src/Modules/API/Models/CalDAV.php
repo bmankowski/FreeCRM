@@ -613,12 +613,12 @@ class CalDAV {
 	 * calendar-queries.
 	 *
 	 * Returns an array with the following keys:
-	 *   * etag - An md5 checksum of the object without the quotes.
-	 *   * size - Size of the object in bytes
-	 *   * componentType - VEVENT, VTODO or VJOURNAL
-	 *   * firstOccurence
-	 *   * lastOccurence
-	 *   * uid - value of the UID property
+	 *  * etag - An md5 checksum of the object without the quotes.
+	 *  * size - Size of the object in bytes
+	 *  * componentType - VEVENT, VTODO or VJOURNAL
+	 *  * firstOccurence
+	 *  * lastOccurence
+	 *  * uid - value of the UID property
 	 *
 	 * @param string $calendarData
 	 * @return array

@@ -219,7 +219,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Functions returns the Custom Entity Methods that are supported for a module
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getEntityMethods()
 	{
@@ -230,7 +230,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return <Array> - Associate array of \App\Modules\Base\Models\Link instances
+	 * @return array - Associate array of \App\Modules\Base\Models\Link instances
 	 */
 	public function getRecordLinks()
 	{
@@ -335,7 +335,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to get the count of active workflows
-	 * @return <Integer> count of acive workflows
+	 * @return int count of acive workflows
 	 */
 	public static function getActiveCount()
 	{
@@ -386,7 +386,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Functions transforms workflow filter to advanced filter
-	 * @return <Array>
+	 * @return array
 	 */
 	public function transformToAdvancedFilterCondition($conditions = false)
 	{
@@ -456,7 +456,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function returns all the related modules for workflows create entity task
-	 * @return <JSON>
+	 * @return array
 	 */
 	public function getDependentModules()
 	{

@@ -25,7 +25,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to get the id of the Report
-	 * @return <Number> - Report Id
+	 * @return mixed - Report Id
 	 */
 	public function getId()
 	{
@@ -34,8 +34,8 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to set the id of the Report
-	 * @param <type> $value - id value
-	 * @return <Object> - current instance
+	 * @param mixed $value - id value
+	 * @return object - current instance
 	 */
 	public function setId($value)
 	{
@@ -137,9 +137,9 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function returns the Reports Model instance
-	 * @param <Number> $recordId
+	 * @param mixed $recordId
 	 * @param string $module
-	 * @return <\App\Modules\Reports\Models\Record>
+	 * @return \App\Modules\Reports\Models\Record
 	 */
 	public static function getInstanceById($recordId, $module = null)
 	{
@@ -158,8 +158,8 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function creates \App\Modules\Reports\Models\Record
-	 * @param <Number> $recordId
-	 * @return <\App\Modules\Reports\Models\Record>
+	 * @param mixed $recordId
+	 * @return \App\Modules\Reports\Models\Record
 	 */
 	public static function getCleanInstance($recordId = null)
 	{
@@ -234,7 +234,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Returns the Reports Owner
-	 * @return <Number>
+	 * @return mixed
 	 */
 	public function getOwner()
 	{
@@ -267,7 +267,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function returns Primary Module Fields
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getPrimaryModuleFields()
 	{
@@ -280,7 +280,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function returns Secondary Module fields
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getSecondaryModuleFields()
 	{
@@ -292,7 +292,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function returns Report Selected Fields
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getSelectedFields()
 	{
@@ -723,9 +723,9 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function returns report's data
-	 * @param <\App\Modules\Base\Models\Paging> $pagingModel
+	 * @param \App\Modules\Base\Models\Paging $pagingModel
 	 * @param string $filterQuery
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getReportData($pagingModel = false, $filterQuery = false)
 	{
@@ -809,7 +809,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function returns data in printable format
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getReportPrint()
 	{
@@ -823,7 +823,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function returns reports is default or not
-	 * @return <boolean>
+	 * @return bool
 	 */
 	public function isDefault()
 	{
@@ -846,7 +846,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to get Calculation fields for Primary module
-	 * @return <Array> Primary module calculation fields
+	 * @return array Primary module calculation fields
 	 */
 	public function getPrimaryModuleCalculationFields()
 	{
@@ -871,7 +871,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to get Calculation fields for Secondary modules
-	 * @return <Array> Secondary modules calculation fields
+	 * @return array Secondary modules calculation fields
 	 */
 	public function getSecondaryModuleCalculationFields()
 	{
@@ -906,7 +906,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to get Calculation fields for entire Report
-	 * @return <Array> report calculation fields
+	 * @return array report calculation fields
 	 */
 	public function getCalculationFields()
 	{
@@ -922,7 +922,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 * filter and other with ANY(OR) condition, this functions tranforms the older
 	 * filter with 'AND' condition between filters of a group and will be placed under
 	 * match ALL conditions group and the rest of it will be placed under match Any group.
-	 * @return <Array>
+	 * @return array
 	 */
 	public function transformToNewAdvancedFilter()
 	{
@@ -962,8 +962,8 @@ class Record extends \App\Modules\Base\Models\Record
 		return $transformedAdvancedCondition;
 	}
 	/*
-	 *  Function used to tranform the standard filter as like as advanced filter format
-	 * 	@returns array of tranformed standard filter
+	 * Function used to tranform the standard filter as like as advanced filter format
+	 * @returns array of tranformed standard filter
 	 */
 
 	public function transformStandardFilter()
@@ -1030,7 +1030,7 @@ class Record extends \App\Modules\Base\Models\Record
 	/**
 	 * Function to generate data for advanced filter conditions
 	 * @param \App\Modules\Base\Models\Paging $pagingModel
-	 * @return <Array>
+	 * @return array
 	 */
 	public function generateData($pagingModel = false)
 	{
@@ -1041,7 +1041,7 @@ class Record extends \App\Modules\Base\Models\Record
 	/**
 	 * Function to generate data for advanced filter conditions
 	 * @param \App\Modules\Base\Models\Paging $pagingModel
-	 * @return <Array>
+	 * @return array
 	 */
 	public function generateCalculationData()
 	{
@@ -1051,7 +1051,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to check duplicate exists or not
-	 * @return <boolean>
+	 * @return bool
 	 */
 	public function checkDuplicate()
 	{

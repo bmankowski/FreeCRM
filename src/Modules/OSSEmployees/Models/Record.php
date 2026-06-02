@@ -17,7 +17,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function returns the details of Employees Hierarchy
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getEmployeeHierarchy()
 	{

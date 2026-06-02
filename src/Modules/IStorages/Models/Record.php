@@ -13,7 +13,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function returns the details of IStorages Hierarchy
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getHierarchy()
 	{

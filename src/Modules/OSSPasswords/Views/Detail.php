@@ -34,7 +34,7 @@ class Detail  extends \App\Modules\Base\Views\Detail
 	/**
 	 * Function to get Ajax is enabled or not
 	 * @param \App\Modules\Base\Models\Record record model
-	 * @return <boolean> true/false
+	 * @return bool true/false
 	 */
 	public function isAjaxEnabled($recordModel)
 	{

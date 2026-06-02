@@ -40,8 +40,8 @@ abstract class AbstractBank
 
 	/*
 	 * Fetch exchange rates
-	 * @param <Array> $currencies - list of systems active currencies
-	 * @param <Date> $date - date for which exchange is fetched
+	 * @param array $currencies - list of systems active currencies
+	 * @param mixed $date - date for which exchange is fetched
 	 * @param boolean $cron - if true then it is fired by server and crms currency conversion rates are updated 
 	 */
 

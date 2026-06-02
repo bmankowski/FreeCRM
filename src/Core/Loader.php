@@ -39,11 +39,9 @@ class Loader
 	];
 	/**
 	 * Get PSR-4 component class name
-	 * 
-	 * Resolves module components (Views, Actions, Models, etc.) to their
+	 * 	 * Resolves module components (Views, Actions, Models, etc.) to their
 	 * fully qualified class names following PSR-4 standard.
-	 * 
-	 * @param string $componentType Type of component (View, Action, Model, etc.)
+	 * 	 * @param string $componentType Type of component (View, Action, Model, etc.)
 	 * @param string $componentName Name of the component (Detail, Save, Record, etc.)
 	 * @param string $moduleName Module name (can include Settings:SubModule pattern)
 	 * @param bool $throwException Whether to throw exception if not found (default: true)
@@ -212,8 +210,7 @@ class Loader
 
 	/**
 	 * Resolve component file path (for validation/debugging)
-	 * 
-	 * @param string $componentType
+	 * 	 * @param string $componentType
 	 * @param string $componentName
 	 * @param string $moduleName
 	 * @return string File path relative to ROOT_DIRECTORY
@@ -239,14 +236,12 @@ class Loader
 
 	/**
 	 * Resolve qualified name to absolute file path
-	 * 
-	 * Handles asset loading (JS, CSS, LESS) and PHP files with special prefixes:
+	 * 	 * Handles asset loading (JS, CSS, LESS) and PHP files with special prefixes:
 	 * - Prefix ~ means literal path from root
 	 * - No prefix means convert dots to directory separators
 	 * - Checks public/ directory first for assets
 	 * - Language files (languages.*) default to JSON format
-	 * 
-	 * @param string $qualifiedName Qualified resource name (e.g., 'libraries.jquery.jquery' or '~layouts/basic/style.css')
+	 * 	 * @param string $qualifiedName Qualified resource name (e.g., 'libraries.jquery.jquery' or '~layouts/basic/style.css')
 	 * @param string $fileExtension File extension (php, js, css, less, json)
 	 * @return string Absolute file path
 	 */
@@ -288,8 +283,7 @@ class Loader
 
 	/**
 	 * Include a PHP file once with caching
-	 * 
-	 * @param string $qualifiedName Qualified file name
+	 * 	 * @param string $qualifiedName Qualified file name
 	 * @param bool $suppressWarning Whether to suppress inclusion warnings
 	 * @return bool True if included successfully, false otherwise
 	 */
@@ -326,8 +320,7 @@ class Loader
 
 	/**
 	 * Add path to PHP include path
-	 * 
-	 * @param string $qualifiedName Qualified path name
+	 * 	 * @param string $qualifiedName Qualified path name
 	 * @return bool Always returns true
 	 */
 	public static function includePath($qualifiedName)
@@ -346,11 +339,9 @@ class Loader
 
 	/**
 	 * Auto-load legacy class files
-	 * 
-	 * Handles legacy Module_Component_Type pattern (e.g., Settings_Base_Module_Model)
+	 * 	 * Handles legacy Module_Component_Type pattern (e.g., Settings_Base_Module_Model)
 	 * Searches in multiple directories with fallback support
-	 * 
-	 * @param string $className Legacy class name
+	 * 	 * @param string $className Legacy class name
 	 * @return bool True if loaded successfully, false otherwise
 	 */
 	public static function autoLoad($className)
@@ -385,8 +376,7 @@ class Loader
 
 	/**
 	 * Register the legacy autoloader
-	 * 
-	 * Should be called during application bootstrap to support
+	 * 	 * Should be called during application bootstrap to support
 	 * legacy Module_Component_Type class naming
 	 */
 	public static function register()

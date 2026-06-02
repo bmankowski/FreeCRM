@@ -28,8 +28,8 @@ class Currency extends BaseUiType
 
 	/**
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param <Object> $value
-	 * @return <Object>
+	 * @param object $value
+	 * @return object
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
@@ -78,8 +78,8 @@ class Currency extends BaseUiType
 
 	/**
 	 * Function converts User currency format to database format
-	 * @param <Object> $value - Currency value
-	 * @param <User Object> $user
+	 * @param object $value - Currency value
+	 * @param object $user
 	 * @param boolean $skipConversion
 	 */
 	public static function convertToDBFormat($value, $user = null, $skipConversion = false)

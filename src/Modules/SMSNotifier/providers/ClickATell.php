@@ -33,7 +33,7 @@ class Provider implements SMSNotifier_ISMSProvider_Model
 
 	/**
 	 * Function to get required parameters other than (userName, password)
-	 * @return <array> required parameters list
+	 * @return array required parameters list
 	 */
 	public function getRequiredParams()
 	{
@@ -93,7 +93,7 @@ class Provider implements SMSNotifier_ISMSProvider_Model
 
 	/**
 	 * Function to prepare parameters
-	 * @return <Array> parameters
+	 * @return array parameters
 	 */
 	protected function prepareParameters()
 	{
@@ -107,7 +107,7 @@ class Provider implements SMSNotifier_ISMSProvider_Model
 	/**
 	 * Function to handle SMS Send operation
 	 * @param string $message
-	 * @param <Mixed> $toNumbers One or Array of numbers
+	 * @param mixed $toNumbers One or Array of numbers
 	 */
 	public function send($message, $toNumbers)
 	{
@@ -150,7 +150,7 @@ class Provider implements SMSNotifier_ISMSProvider_Model
 
 	/**
 	 * Function to get query for status using messgae id
-	 * @param <Number> $messageId
+	 * @param mixed $messageId
 	 */
 	public function query($messageId)
 	{

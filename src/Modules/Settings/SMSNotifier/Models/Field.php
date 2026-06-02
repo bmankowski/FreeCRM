@@ -26,8 +26,8 @@ class Field extends \App\Modules\Base\Models\Field
 
 	/**
 	 * Function to get instance of this model
-	 * @param <Array> $rowData
-	 * @return <\App\Modules\Settings\SMSNotifier\Models\Field> field model
+	 * @param array $rowData
+	 * @return \App\Modules\Settings\SMSNotifier\Models\Field field model
 	 */
 	public static function getInstanceByRow($rowData)
 	{

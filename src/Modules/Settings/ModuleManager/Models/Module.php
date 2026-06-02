@@ -61,7 +61,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Static Function to get the instance of Vtiger Module Model for all the modules
-	 * @return <Array> - List of Vtiger Module Model or sub class instances
+	 * @return array - List of Vtiger Module Model or sub class instances
 	 */
 	public static function getAll($presence = [], $restrictedModulesList = [], $isEntityType = false)
 	{
@@ -71,7 +71,7 @@ class Module extends \App\Modules\Base\Models\Module
 	/**
 	 * Function which will get count of modules
 	 * @param boolean $onlyActive - if true get count of only active modules else all the modules
-	 * @return <integer> number of modules
+	 * @return int number of modules
 	 */
 	public static function getModulesCount($onlyActive = false)
 	{
@@ -85,7 +85,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function that returns all those modules that support Module Sequence Numbering
-	 * @return <Array of \App\Modules\Base\Models\Module>
+	 * @return array
 	 */
 	public static function getModulesSupportingSequenceNumbering()
 	{

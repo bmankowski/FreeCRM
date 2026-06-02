@@ -10,6 +10,7 @@
 ********************************************************************************/
 -->*}
 {strip}
+{script_time assign=SCRIPT_TIME}
 <!-- layouts/basic/modules/Base/Footer.tpl -->
 <div class="clearfix"></div>
 <input id="activityReminder" class="hide noprint" type="hidden" value="{$ACTIVITY_REMINDER}"/>

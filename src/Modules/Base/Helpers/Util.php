@@ -18,12 +18,12 @@ class Util {
 	/**
 	 * Function used to transform mulitiple uploaded file information into useful format.
 	 * @param array $_files - ex: array( 'file' => array('name'=> array(0=>'name1',1=>'name2'),
-	 * 												array('type'=>array(0=>'type1',2=>'type2'),
-	 * 												...);
+	 * 											array('type'=>array(0=>'type1',2=>'type2'),
+	 * 											...);
 	 * @param string $top
 	 * @return array   array( 'file' => array(0=> array('name'=> 'name1','type' => 'type1'),
-	 * 									array(1=> array('name'=> 'name2','type' => 'type2'),
-	 * 												...);
+	 * 								array(1=> array('name'=> 'name2','type' => 'type2'),
+	 * 											...);
 	 */
 	public static function transformUploadedFiles(array $_files, $top = true)
 	{
@@ -54,7 +54,7 @@ class Util {
 
 	/**
 	 * Function parses date into readable format
-	 * @param <Date Time> $dateTime
+	 * @param string $dateTime
 	 * @return string
 	 */
 	public static function formatDateDiffInStrings($dateTime)
@@ -103,7 +103,7 @@ class Util {
 
 	/**
 	 * Function returns singular or plural text
-	 * @param <Number> $count
+	 * @param mixed $count
 	 * @param string $text
 	 * @return string
 	 */
@@ -134,8 +134,8 @@ class Util {
 
 	/**
 	 * Function to parses date into string format
-	 * @param <Date> $date
-	 * @param <Time> $time
+	 * @param mixed $date
+	 * @param int $time
 	 * @return string
 	 */
 	public static function formatDateIntoStrings($date, $time = false)
@@ -193,7 +193,7 @@ class Util {
 
 	/**
 	 * Function to parse dateTime into Days
-	 * @param <DateTime> $dateTime
+	 * @param mixed $dateTime
 	 * @return string
 	 */
 	public static function formatDateTimeIntoDayString($dateTime, $allday = false)
@@ -250,8 +250,7 @@ class Util {
 
 	/**
 	 * Parse human-readable byte string (e.g., "128M", "2G") to numeric bytes
-	 * 
-	 * @param mixed $str Byte string or numeric value
+	 * 	 * @param mixed $str Byte string or numeric value
 	 * @return float Bytes as numeric value
 	 */
 	public static function parseHumanReadableToBytes($str)
@@ -283,8 +282,7 @@ class Util {
 
 	/**
 	 * Convert bytes to human-readable format (e.g., "2.5 MB", "1 GB")
-	 * 
-	 * @param mixed $bytes Bytes value (can be string like "128M" or numeric)
+	 * 	 * @param mixed $bytes Bytes value (can be string like "128M" or numeric)
 	 * @param string|null $unit Reference to store the unit (GB, MB, KB, B)
 	 * @return string Formatted string like "2.5 MB"
 	 */
@@ -372,7 +370,7 @@ class Util {
 
 	/**
 	 * Function to get the datetime value in user preferred hour format
-	 * @param <DateTime> $dateTime
+	 * @param mixed $dateTime
 	 * @param \App\Modules\Users\Models\Record $userObject
 	 * @return string date and time with hour format
 	 */
@@ -398,8 +396,8 @@ class Util {
 
 	/**
 	 * Function to get the time value in user preferred hour format
-	 * @param <Time> $time
-	 * @param <\App\Modules\Base\Models\Users> $userObject
+	 * @param int $time
+	 * @param \App\Modules\Base\Models\Users $userObject
 	 * @return string time with hour format
 	 */
 	public static function convertTimeIntoUsersDisplayFormat($time, $userObject = null)
@@ -479,7 +477,7 @@ class Util {
 	}
 	/*	 * *
 	 * Function to set the default calendar activity types for new user
-	 * @param <Integer> $userId - id of the user
+	 * @param int $userId - id of the user
 	 */
 
 	public static function setCalendarDefaultActivityTypesForUser($userId)

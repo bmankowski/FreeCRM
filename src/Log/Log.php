@@ -100,9 +100,9 @@ class Log extends Logger
 	 * ```php
 	 * \Yii::beginProfile('block1');
 	 * // some code to be profiled
-	 *     \Yii::beginProfile('block2');
-	 *     // some other code to be profiled
-	 *     \Yii::endProfile('block2');
+	 *    \Yii::beginProfile('block2');
+	 *    // some other code to be profiled
+	 *    \Yii::endProfile('block2');
 	 * \Yii::endProfile('block1');
 	 * ```
 	 * @param string $token token for the code block

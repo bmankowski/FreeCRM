@@ -35,7 +35,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to get Id of this record instance
-	 * @return <Integer> Id
+	 * @return int Id
 	 */
 	public function getId()
 	{

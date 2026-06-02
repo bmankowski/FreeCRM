@@ -165,8 +165,7 @@ class VTEntityData
 
 	/**
 	 * Check whether the object is stored on the database.
-	 * 
-	 * @return True if the object is saved false otherwiser.
+	 * 	 * @return True if the object is saved false otherwiser.
 	 */
 	function isSaved()
 	{
@@ -175,8 +174,7 @@ class VTEntityData
 
 	/**
 	 * Check wether the obkect is new.
-	 * 
-	 * @return True if the object is new, false otherwise.
+	 * 	 * @return True if the object is new, false otherwise.
 	 */
 	function isNew()
 	{

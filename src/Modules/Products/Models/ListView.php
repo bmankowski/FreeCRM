@@ -113,7 +113,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 	/**
 	 * Function to get the list view entries
 	 * @param \App\Modules\Base\Models\Paging $pagingModel
-	 * @return <Array> - Associative array of record id mapped to \App\Modules\Base\Models\Record instance.
+	 * @return array - Associative array of record id mapped to \App\Modules\Base\Models\Record instance.
 	 */
 	public function getListViewCount()
 	{

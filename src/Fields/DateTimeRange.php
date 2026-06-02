@@ -12,7 +12,7 @@ class DateTimeRange
 	/** Function that converts string to dates
 	 * @param $type :: type string
 	 * @returns  $dateValue array in the following format
-	 *           $dateValue = Array(0=>$startdate,1=>$enddate)
+	 *          $dateValue = Array(0=>$startdate,1=>$enddate)
 	 */
 	public static function getDateRangeByType($type, $dateObject = null)
 	{

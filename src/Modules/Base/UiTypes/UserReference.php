@@ -25,7 +25,7 @@ class UserReference extends BaseUiType
 
 	/**
 	 * Function to get the display value in detail view
-	 * @param <Integer> crmid of record
+	 * @param int crmid of record
 	 * @return string
 	 */
 	public function getEditViewDisplayValue($value, $record = false)
@@ -39,7 +39,7 @@ class UserReference extends BaseUiType
 	/**
 	 * Function to get display value
 	 * @param string $value
-	 * @param <Number> $recordId
+	 * @param mixed $recordId
 	 * @return string display value
 	 */
 	public function getDisplayValue($value, $recordId = false, $recordInstance = false, $rawText = false)

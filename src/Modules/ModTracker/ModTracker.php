@@ -180,9 +180,9 @@ class ModTracker {
 
 	/**
 	 * Get the list of changed record after $mtime
-	 * @param <type> $mtime
-	 * @param <type> $user
-	 * @param <type> $limit 
+	 * @param mixed $mtime
+	 * @param mixed $user
+	 * @param mixed $limit 
 	 */
 	public function getChangedRecords($uniqueId, $mtime, $limit = 100)
 	{

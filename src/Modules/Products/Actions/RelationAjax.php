@@ -30,7 +30,7 @@ class RelationAjax extends \App\Base\Controllers\BaseActionController
 	}
 	/*
 	 * Function to add relation for specified source record id and related record id list
-	 * @param <array> $request
+	 * @param array $request
 	 */
 
 	public function addRelation($request)

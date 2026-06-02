@@ -55,8 +55,7 @@ class PackageService
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param \App\Db\Db $db
+	 * 	 * @param \App\Db\Db $db
 	 * @param Events\Dispatcher $eventDispatcher
 	 * @param string $tempDir
 	 */
@@ -74,8 +73,7 @@ class PackageService
 
 	/**
 	 * Check if ZIP file is a valid package.
-	 * 
-	 * @param string $zipfile
+	 * 	 * @param string $zipfile
 	 * @return bool
 	 */
 	public function checkZip(string $zipfile): bool
@@ -227,8 +225,7 @@ class PackageService
 
 	/**
 	 * Parse manifest file from ZIP.
-	 * 
-	 * @param ZipArchive $zip
+	 * 	 * @param ZipArchive $zip
 	 * @param string $manifestPath
 	 * @return void
 	 */
@@ -247,8 +244,7 @@ class PackageService
 
 	/**
 	 * Get temporary manifest file path.
-	 * 
-	 * @return string
+	 * 	 * @return string
 	 */
 	private function __getManifestFilePath(): string
 	{
@@ -260,8 +256,7 @@ class PackageService
 
 	/**
 	 * Get module name from ZIP file.
-	 * 
-	 * @param string $zipfile
+	 * 	 * @param string $zipfile
 	 * @return string|null
 	 */
 	public function getModuleNameFromZip(string $zipfile): ?string
@@ -274,8 +269,7 @@ class PackageService
 
 	/**
 	 * Get package type.
-	 * 
-	 * @return string|null
+	 * 	 * @return string|null
 	 */
 	public function type(): ?string
 	{
@@ -287,8 +281,7 @@ class PackageService
 
 	/**
 	 * Check if language package.
-	 * 
-	 * @param string|null $zipfile
+	 * 	 * @param string|null $zipfile
 	 * @return bool
 	 */
 	public function isLanguageType(?string $zipfile = null): bool
@@ -310,8 +303,7 @@ class PackageService
 
 	/**
 	 * Check if extension package.
-	 * 
-	 * @param string|null $zipfile
+	 * 	 * @param string|null $zipfile
 	 * @return bool
 	 */
 	public function isExtensionType(?string $zipfile = null): bool
@@ -333,8 +325,7 @@ class PackageService
 
 	/**
 	 * Check if update package.
-	 * 
-	 * @param string|null $zipfile
+	 * 	 * @param string|null $zipfile
 	 * @return bool
 	 */
 	public function isUpdateType(?string $zipfile = null): bool
@@ -356,8 +347,7 @@ class PackageService
 
 	/**
 	 * Check if layout package.
-	 * 
-	 * @param string|null $zipfile
+	 * 	 * @param string|null $zipfile
 	 * @return bool
 	 */
 	public function isLayoutType(?string $zipfile = null): bool
@@ -379,8 +369,7 @@ class PackageService
 
 	/**
 	 * Check if module bundle.
-	 * 
-	 * @param string|null $zipfile
+	 * 	 * @param string|null $zipfile
 	 * @return bool
 	 */
 	public function isModuleBundle(?string $zipfile = null): bool
@@ -395,8 +384,7 @@ class PackageService
 
 	/**
 	 * Check if package is in FreeCRM format.
-	 * 
-	 * @param string|null $zipfile
+	 * 	 * @param string|null $zipfile
 	 * @return bool
 	 */
 	public function isFreeCRMFormat(?string $zipfile = null): bool
@@ -414,8 +402,7 @@ class PackageService
 
 	/**
 	 * Get error text.
-	 * 
-	 * @return string
+	 * 	 * @return string
 	 */
 	public function getErrorText(): string
 	{
@@ -424,8 +411,7 @@ class PackageService
 
 	/**
 	 * XPath evaluation on manifest.
-	 * 
-	 * @param string $path
+	 * 	 * @param string $path
 	 * @return array
 	 */
 	public function xpath(string $path): array
@@ -435,8 +421,7 @@ class PackageService
 
 	/**
 	 * Get XPath value.
-	 * 
-	 * @param string $path
+	 * 	 * @param string $path
 	 * @return mixed
 	 */
 	public function xpath_value(string $path)
@@ -452,8 +437,7 @@ class PackageService
 
 	/**
 	 * Get license text.
-	 * 
-	 * @return string|null
+	 * 	 * @return string|null
 	 */
 	public function getLicense(): ?string
 	{
@@ -465,8 +449,7 @@ class PackageService
 
 	/**
 	 * Get parameters.
-	 * 
-	 * @return array
+	 * 	 * @return array
 	 */
 	public function getParameters(): array
 	{
@@ -488,8 +471,7 @@ class PackageService
 
 	/**
 	 * Get version.
-	 * 
-	 * @return string|null
+	 * 	 * @return string|null
 	 */
 	public function getVersion(): ?string
 	{
@@ -501,8 +483,7 @@ class PackageService
 
 	/**
 	 * Get dependent vtiger version.
-	 * 
-	 * @return string|null
+	 * 	 * @return string|null
 	 */
 	public function getDependentVtigerVersion(): ?string
 	{
@@ -543,8 +524,7 @@ class PackageService
 
 	/**
 	 * Get dependent max vtiger version.
-	 * 
-	 * @return string|null
+	 * 	 * @return string|null
 	 */
 	public function getDependentMaxVtigerVersion(): ?string
 	{
@@ -556,8 +536,7 @@ class PackageService
 
 	/**
 	 * Get temporary file path.
-	 * 
-	 * @param string|null $filepath
+	 * 	 * @param string|null $filepath
 	 * @return string
 	 */
 	public function getTemporaryFilePath(?string $filepath = null): string
@@ -570,8 +549,7 @@ class PackageService
 
 	/**
 	 * Import module from ZIP file.
-	 * 
-	 * @param string $zipfile
+	 * 	 * @param string $zipfile
 	 * @param bool $overwrite
 	 * @return void
 	 * @throws \Exception
@@ -624,8 +602,7 @@ class PackageService
 
 	/**
 	 * Initialize import - extract files from ZIP.
-	 * 
-	 * @param string $zipfile
+	 * 	 * @param string $zipfile
 	 * @param bool $overwrite
 	 * @return string|null Module name
 	 */
@@ -704,8 +681,7 @@ class PackageService
 
 	/**
 	 * Import module from manifest.
-	 * 
-	 * @return void
+	 * 	 * @return void
 	 * @throws \Exception
 	 */
 	public function import_Module(): void
@@ -780,8 +756,7 @@ class PackageService
 
 	/**
 	 * Import tables from manifest.
-	 * 
-	 * @param \SimpleXMLElement $modulenode
+	 * 	 * @param \SimpleXMLElement $modulenode
 	 * @return void
 	 */
 	private function import_Tables(\SimpleXMLElement $modulenode): void
@@ -813,8 +788,7 @@ class PackageService
 
 	/**
 	 * Check if SQL is CREATE TABLE.
-	 * 
-	 * @param string $sql
+	 * 	 * @param string $sql
 	 * @return bool
 	 */
 	private function isCreateSql(string $sql): bool
@@ -824,8 +798,7 @@ class PackageService
 
 	/**
 	 * Check if SQL is destructive.
-	 * 
-	 * @param string $sql
+	 * 	 * @param string $sql
 	 * @return bool
 	 */
 	private function isDestructiveSql(string $sql): bool
@@ -835,8 +808,7 @@ class PackageService
 
 	/**
 	 * Execute SQL query.
-	 * 
-	 * @param string $sqlquery
+	 * 	 * @param string $sqlquery
 	 * @param bool $suppressDie
 	 * @return void
 	 */
@@ -856,8 +828,7 @@ class PackageService
 
 	/**
 	 * Import blocks from manifest.
-	 * 
-	 * @param \SimpleXMLElement $modulenode
+	 * 	 * @param \SimpleXMLElement $modulenode
 	 * @param Models\Module $module
 	 * @return void
 	 */
@@ -877,8 +848,7 @@ class PackageService
 
 	/**
 	 * Import single block.
-	 * 
-	 * @param \SimpleXMLElement $modulenode
+	 * 	 * @param \SimpleXMLElement $modulenode
 	 * @param Models\Module $module
 	 * @param \SimpleXMLElement $blocknode
 	 * @return Models\Block
@@ -927,8 +897,7 @@ class PackageService
 
 	/**
 	 * Import fields from manifest.
-	 * 
-	 * @param \SimpleXMLElement $blocknode
+	 * 	 * @param \SimpleXMLElement $blocknode
 	 * @param Models\Block $block
 	 * @param Models\Module $module
 	 * @return void
@@ -946,8 +915,7 @@ class PackageService
 
 	/**
 	 * Import single field.
-	 * 
-	 * @param \SimpleXMLElement $blocknode
+	 * 	 * @param \SimpleXMLElement $blocknode
 	 * @param Models\Block $block
 	 * @param Models\Module $module
 	 * @param \SimpleXMLElement $fieldnode
@@ -1019,8 +987,7 @@ class PackageService
 
 	/**
 	 * Import related lists.
-	 * 
-	 * @param \SimpleXMLElement $modulenode
+	 * 	 * @param \SimpleXMLElement $modulenode
 	 * @param Models\Module $module
 	 * @return void
 	 */
@@ -1066,8 +1033,7 @@ class PackageService
 
 	/**
 	 * Import custom views (filters).
-	 * 
-	 * @param \SimpleXMLElement $modulenode
+	 * 	 * @param \SimpleXMLElement $modulenode
 	 * @param Models\Module $module
 	 * @return void
 	 */
@@ -1084,8 +1050,7 @@ class PackageService
 
 	/**
 	 * Import sharing access.
-	 * 
-	 * @param \SimpleXMLElement $modulenode
+	 * 	 * @param \SimpleXMLElement $modulenode
 	 * @param Models\Module $module
 	 * @return void
 	 */
@@ -1104,8 +1069,7 @@ class PackageService
 
 	/**
 	 * Import events.
-	 * 
-	 * @param \SimpleXMLElement $modulenode
+	 * 	 * @param \SimpleXMLElement $modulenode
 	 * @param Models\Module $module
 	 * @return void
 	 */
@@ -1130,8 +1094,7 @@ class PackageService
 
 	/**
 	 * Import actions.
-	 * 
-	 * @param \SimpleXMLElement $modulenode
+	 * 	 * @param \SimpleXMLElement $modulenode
 	 * @param Models\Module $module
 	 * @return void
 	 */
@@ -1153,8 +1116,7 @@ class PackageService
 
 	/**
 	 * Import custom links.
-	 * 
-	 * @param \SimpleXMLElement $modulenode
+	 * 	 * @param \SimpleXMLElement $modulenode
 	 * @param Models\Module $module
 	 * @return void
 	 */
@@ -1187,8 +1149,7 @@ class PackageService
 
 	/**
 	 * Import cron tasks.
-	 * 
-	 * @param \SimpleXMLElement $modulenode
+	 * 	 * @param \SimpleXMLElement $modulenode
 	 * @return void
 	 */
 	private function import_CronTasks(\SimpleXMLElement $modulenode): void
@@ -1214,8 +1175,7 @@ class PackageService
 
 	/**
 	 * Import inventory fields.
-	 * 
-	 * @return void
+	 * 	 * @return void
 	 */
 	private function importInventory(): void
 	{
@@ -1225,8 +1185,7 @@ class PackageService
 
 	/**
 	 * Import update package.
-	 * 
-	 * @param \SimpleXMLElement $modulenode
+	 * 	 * @param \SimpleXMLElement $modulenode
 	 * @return void
 	 */
 	private function import_update(\SimpleXMLElement $modulenode): void
@@ -1237,8 +1196,7 @@ class PackageService
 
 	/**
 	 * Create vtlib Module instance for compatibility.
-	 * 
-	 * @param Models\Module $module
+	 * 	 * @param Models\Module $module
 	 * @return \vtlib\Module
 	 */
 	private function createVtlibModuleInstance(Models\Module $module): \vtlib\Module
@@ -1266,8 +1224,7 @@ class PackageService
 
 	/**
 	 * Export module to ZIP file.
-	 * 
-	 * @param Models\Module $module
+	 * 	 * @param Models\Module $module
 	 * @param string $todir
 	 * @param string $zipfilename
 	 * @param bool $directDownload
@@ -1372,8 +1329,7 @@ class PackageService
 
 	/**
 	 * Initialize export.
-	 * 
-	 * @param Models\Module $module
+	 * 	 * @param Models\Module $module
 	 * @return void
 	 */
 	private function __initExport(Models\Module $module): void
@@ -1385,8 +1341,7 @@ class PackageService
 
 	/**
 	 * Finish export.
-	 * 
-	 * @return void
+	 * 	 * @return void
 	 */
 	private function __finishExport(): void
 	{
@@ -1398,8 +1353,7 @@ class PackageService
 
 	/**
 	 * Clean up old include_once statements from imported module files.
-	 * 
-	 * @param string $moduleName
+	 * 	 * @param string $moduleName
 	 * @return void
 	 */
 	private function cleanupImportedModuleFiles(string $moduleName): void
@@ -1490,8 +1444,7 @@ class PackageService
 
 	/**
 	 * Cleanup export.
-	 * 
-	 * @return void
+	 * 	 * @return void
 	 */
 	private function __cleanupExport(): void
 	{
@@ -1503,8 +1456,7 @@ class PackageService
 
 	/**
 	 * Write to manifest file.
-	 * 
-	 * @param string $value
+	 * 	 * @param string $value
 	 * @return void
 	 */
 	private function __write(string $value): void
@@ -1514,8 +1466,7 @@ class PackageService
 
 	/**
 	 * Open XML node.
-	 * 
-	 * @param string $node
+	 * 	 * @param string $node
 	 * @param string $delimiter
 	 * @return void
 	 */
@@ -1526,8 +1477,7 @@ class PackageService
 
 	/**
 	 * Close XML node.
-	 * 
-	 * @param string $node
+	 * 	 * @param string $node
 	 * @param string $delimiter
 	 * @return void
 	 */
@@ -1538,8 +1488,7 @@ class PackageService
 
 	/**
 	 * Output XML node with value.
-	 * 
-	 * @param mixed $value
+	 * 	 * @param mixed $value
 	 * @param string $node
 	 * @return void
 	 */
@@ -1556,8 +1505,7 @@ class PackageService
 
 	/**
 	 * Export module to manifest.
-	 * 
-	 * @param Models\Module $module
+	 * 	 * @param Models\Module $module
 	 * @return void
 	 */
 	private function export_Module(Models\Module $module): void
@@ -1633,8 +1581,7 @@ class PackageService
 
 	/**
 	 * Export dependencies.
-	 * 
-	 * @param Models\Module $module
+	 * 	 * @param Models\Module $module
 	 * @return void
 	 */
 	private function export_Dependencies(Models\Module $module): void
@@ -1666,8 +1613,7 @@ class PackageService
 
 	/**
 	 * Export tables.
-	 * 
-	 * @param Models\Module $module
+	 * 	 * @param Models\Module $module
 	 * @return void
 	 */
 	private function export_Tables(Models\Module $module): void
@@ -1698,8 +1644,7 @@ class PackageService
 
 	/**
 	 * Export blocks.
-	 * 
-	 * @param Models\Module $module
+	 * 	 * @param Models\Module $module
 	 * @return void
 	 */
 	private function export_Blocks(Models\Module $module): void
@@ -1733,8 +1678,7 @@ class PackageService
 
 	/**
 	 * Export fields.
-	 * 
-	 * @param Models\Module $module
+	 * 	 * @param Models\Module $module
 	 * @param int $blockId
 	 * @return void
 	 */
@@ -1834,8 +1778,7 @@ class PackageService
 
 	/**
 	 * Export custom views (filters).
-	 * 
-	 * @param Models\Module $module
+	 * 	 * @param Models\Module $module
 	 * @return void
 	 */
 	private function export_CustomViews(Models\Module $module): void
@@ -1846,8 +1789,7 @@ class PackageService
 
 	/**
 	 * Export sharing access.
-	 * 
-	 * @param Models\Module $module
+	 * 	 * @param Models\Module $module
 	 * @return void
 	 */
 	private function export_SharingAccess(Models\Module $module): void
@@ -1880,8 +1822,7 @@ class PackageService
 
 	/**
 	 * Export events.
-	 * 
-	 * @param Models\Module $module
+	 * 	 * @param Models\Module $module
 	 * @return void
 	 */
 	private function export_Events(Models\Module $module): void
@@ -1892,8 +1833,7 @@ class PackageService
 
 	/**
 	 * Export actions.
-	 * 
-	 * @param Models\Module $module
+	 * 	 * @param Models\Module $module
 	 * @return void
 	 */
 	private function export_Actions(Models\Module $module): void
@@ -1920,8 +1860,7 @@ class PackageService
 
 	/**
 	 * Export related lists.
-	 * 
-	 * @param Models\Module $module
+	 * 	 * @param Models\Module $module
 	 * @return void
 	 */
 	private function export_RelatedLists(Models\Module $module): void
@@ -1961,8 +1900,7 @@ class PackageService
 
 	/**
 	 * Export custom links.
-	 * 
-	 * @param Models\Module $module
+	 * 	 * @param Models\Module $module
 	 * @return void
 	 */
 	private function export_CustomLinks(Models\Module $module): void
@@ -1973,8 +1911,7 @@ class PackageService
 
 	/**
 	 * Export cron tasks.
-	 * 
-	 * @param Models\Module $module
+	 * 	 * @param Models\Module $module
 	 * @return void
 	 */
 	private function export_CronTasks(Models\Module $module): void
@@ -1985,8 +1922,7 @@ class PackageService
 
 	/**
 	 * Export inventory fields.
-	 * 
-	 * @param Models\Module $module
+	 * 	 * @param Models\Module $module
 	 * @return void
 	 */
 	private function exportInventory(Models\Module $module): void
@@ -2032,8 +1968,7 @@ class PackageService
 
 	/**
 	 * Copy directory to ZIP.
-	 * 
-	 * @param ZipArchive $zip
+	 * 	 * @param ZipArchive $zip
 	 * @param string $sourceDir
 	 * @param string $zipDir
 	 * @return void
@@ -2062,8 +1997,7 @@ class PackageService
 	/**
 	 * Copy language files to ZIP.
 	 * Copies JSON language files (YetiForce compatible format).
-	 * 
-	 * @param ZipArchive $zip
+	 * 	 * @param ZipArchive $zip
 	 * @param string $module
 	 * @return void
 	 */
@@ -2100,8 +2034,7 @@ class PackageService
 
 	/**
 	 * Force download ZIP file.
-	 * 
-	 * @param string $zipfileName
+	 * 	 * @param string $zipfileName
 	 * @return void
 	 */
 	private function forceDownload(string $zipfileName): void
@@ -2121,8 +2054,7 @@ class PackageService
 
 	/**
 	 * Update module from ZIP file.
-	 * 
-	 * @param Models\Module $module
+	 * 	 * @param Models\Module $module
 	 * @param string $zipfile
 	 * @param bool $overwrite
 	 * @return void
@@ -2181,8 +2113,7 @@ class PackageService
 
 	/**
 	 * Initialize update - extract files.
-	 * 
-	 * @param Models\Module $module
+	 * 	 * @param Models\Module $module
 	 * @param string $zipfile
 	 * @param bool $overwrite
 	 * @return string|null Module name
@@ -2254,8 +2185,7 @@ class PackageService
 
 	/**
 	 * Update module from manifest.
-	 * 
-	 * @param Models\Module $module
+	 * 	 * @param Models\Module $module
 	 * @return void
 	 * @throws \Exception
 	 */
@@ -2344,8 +2274,7 @@ class PackageService
 
 	/**
 	 * Handle migrations.
-	 * 
-	 * @param \SimpleXMLElement $modulenode
+	 * 	 * @param \SimpleXMLElement $modulenode
 	 * @param Models\Module $module
 	 * @return void
 	 */
@@ -2388,8 +2317,7 @@ class PackageService
 
 	/**
 	 * Update tables.
-	 * 
-	 * @param \SimpleXMLElement $modulenode
+	 * 	 * @param \SimpleXMLElement $modulenode
 	 * @return void
 	 */
 	private function update_Tables(\SimpleXMLElement $modulenode): void
@@ -2399,8 +2327,7 @@ class PackageService
 
 	/**
 	 * Update blocks.
-	 * 
-	 * @param \SimpleXMLElement $modulenode
+	 * 	 * @param \SimpleXMLElement $modulenode
 	 * @param Models\Module $module
 	 * @return void
 	 */
@@ -2462,8 +2389,7 @@ class PackageService
 
 	/**
 	 * Update fields.
-	 * 
-	 * @param \SimpleXMLElement $blocknode
+	 * 	 * @param \SimpleXMLElement $blocknode
 	 * @param Models\Block $block
 	 * @param Models\Module $module
 	 * @return void
@@ -2555,8 +2481,7 @@ class PackageService
 
 	/**
 	 * Update custom views.
-	 * 
-	 * @param \SimpleXMLElement $modulenode
+	 * 	 * @param \SimpleXMLElement $modulenode
 	 * @param Models\Module $module
 	 * @return void
 	 */
@@ -2578,8 +2503,7 @@ class PackageService
 
 	/**
 	 * Update sharing access.
-	 * 
-	 * @param \SimpleXMLElement $modulenode
+	 * 	 * @param \SimpleXMLElement $modulenode
 	 * @param Models\Module $module
 	 * @return void
 	 */
@@ -2593,8 +2517,7 @@ class PackageService
 
 	/**
 	 * Update events.
-	 * 
-	 * @param \SimpleXMLElement $modulenode
+	 * 	 * @param \SimpleXMLElement $modulenode
 	 * @param Models\Module $module
 	 * @return void
 	 */
@@ -2612,8 +2535,7 @@ class PackageService
 
 	/**
 	 * Update actions.
-	 * 
-	 * @param \SimpleXMLElement $modulenode
+	 * 	 * @param \SimpleXMLElement $modulenode
 	 * @param Models\Module $module
 	 * @return void
 	 */
@@ -2627,8 +2549,7 @@ class PackageService
 
 	/**
 	 * Update related lists.
-	 * 
-	 * @param \SimpleXMLElement $modulenode
+	 * 	 * @param \SimpleXMLElement $modulenode
 	 * @param Models\Module $module
 	 * @return void
 	 */
@@ -2656,8 +2577,7 @@ class PackageService
 
 	/**
 	 * Update custom links.
-	 * 
-	 * @param \SimpleXMLElement $modulenode
+	 * 	 * @param \SimpleXMLElement $modulenode
 	 * @param Models\Module $module
 	 * @return void
 	 */
@@ -2671,8 +2591,7 @@ class PackageService
 
 	/**
 	 * Update cron tasks.
-	 * 
-	 * @param \SimpleXMLElement $modulenode
+	 * 	 * @param \SimpleXMLElement $modulenode
 	 * @return void
 	 */
 	private function update_CronTasks(\SimpleXMLElement $modulenode): void

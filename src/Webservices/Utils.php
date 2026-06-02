@@ -479,8 +479,8 @@ function vtws_normalizeHandlerClass($handlerClass, $handlerPath)
  *
  * @global PearDatabase $adb
  * @global <type> $log
- * @param <type> $name
- * @param <type> $user
+ * @param mixed $name
+ * @param mixed $user
  * @return WebserviceEntityOperation
  */
 function vtws_getModuleHandlerFromName($name, $user)

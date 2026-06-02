@@ -23,11 +23,9 @@ class Dispatcher
 {
 	/**
 	 * Fire an event for a module (if vtlib_handler is defined).
-	 * 
-	 * This maintains compatibility with the existing vtlib_handler pattern
+	 * 	 * This maintains compatibility with the existing vtlib_handler pattern
 	 * used throughout FreeCRM modules.
-	 * 
-	 * @param string $moduleName Module name
+	 * 	 * @param string $moduleName Module name
 	 * @param string $eventType Event type (e.g., 'module.postinstall')
 	 * @return bool True if event was handled successfully, false otherwise
 	 */
@@ -50,8 +48,7 @@ class Dispatcher
 
 	/**
 	 * Get instance of the module class.
-	 * 
-	 * @param string $moduleName Module name
+	 * 	 * @param string $moduleName Module name
 	 * @return object|false Module instance or false if not found
 	 */
 	private function getClassInstance(string $moduleName)

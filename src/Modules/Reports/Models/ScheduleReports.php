@@ -33,7 +33,7 @@ class ScheduleReports extends \App\Runtime\BaseModel
 
 	/**
 	 * Function returns the Scheduled Reports Model instance
-	 * @param <Number> $recordId
+	 * @param mixed $recordId
 	 * @return \App\Modules\Reports\Models\ScheduleReports
 	 */
 	public static function getInstanceById($recordId)

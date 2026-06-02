@@ -30,7 +30,7 @@ class VTBatchData
 
 	/**
 	 * Function gives an array of VTEntityData
-	 * @param <Array of VTEntityData> $data
+	 * @param array $data
 	 */
 	function setData($data)
 	{

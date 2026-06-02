@@ -26,8 +26,7 @@ class LinkService
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param \App\Db\Db $db
+	 * 	 * @param \App\Db\Db $db
 	 */
 	public function __construct(\App\Db\Db $db)
 	{
@@ -36,8 +35,7 @@ class LinkService
 
 	/**
 	 * Add custom link for a module.
-	 * 
-	 * @param int $moduleId Module ID
+	 * 	 * @param int $moduleId Module ID
 	 * @param string $type Link type (e.g., 'DETAILVIEW', 'LISTVIEW')
 	 * @param string $label Link label
 	 * @param string $url Link URL
@@ -88,8 +86,7 @@ class LinkService
 
 	/**
 	 * Delete all links for a module.
-	 * 
-	 * @param int $moduleId Module ID
+	 * 	 * @param int $moduleId Module ID
 	 * @return void
 	 */
 	public function deleteAll(int $moduleId): void
@@ -101,8 +98,7 @@ class LinkService
 
 	/**
 	 * Export custom links to XML.
-	 * 
-	 * @param Models\Module $module Module instance
+	 * 	 * @param Models\Module $module Module instance
 	 * @param resource $manifestHandle Manifest file handle
 	 * @return void
 	 */
@@ -137,8 +133,7 @@ class LinkService
 
 	/**
 	 * Get all links for export.
-	 * 
-	 * @param int $moduleId Module ID
+	 * 	 * @param int $moduleId Module ID
 	 * @return array Array of link data
 	 */
 	private function getAllForExport(int $moduleId): array
@@ -177,8 +172,7 @@ class LinkService
 
 	/**
 	 * Write XML node to manifest handle.
-	 * 
-	 * @param resource $handle File handle
+	 * 	 * @param resource $handle File handle
 	 * @param string $node Node name
 	 * @param mixed $value Node value
 	 * @param bool $open Whether to open or close node

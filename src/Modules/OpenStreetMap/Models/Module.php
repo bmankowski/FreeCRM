@@ -24,6 +24,16 @@ class Module extends \App\Modules\Base\Models\Module
 	}
 
 	/**
+	 * @param int|string $mixed
+	 * @return static|null
+	 */
+	public static function getInstance($mixed)
+	{
+		$instance = parent::getInstance($mixed);
+		return $instance instanceof self ? $instance : null;
+	}
+
+	/**
 	 * Check if module is allowed
 	 * @param string $moduleName
 	 * @return boolean

@@ -149,7 +149,7 @@ class Field extends \App\Modules\Base\Models\Field
 
 	/**
 	 * Function to get Display Value
-	 * @param <type> $value
+	 * @param mixed $value
 	 * @return string
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)

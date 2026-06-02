@@ -22,13 +22,13 @@ class ListView extends \App\Modules\Base\Views\ListView
 	public function initializeListViewContents(\App\Http\Vtiger_Request $request, \App\Runtime\CRM_Viewer $viewer)
 	{
 		$moduleName = $request->getModule();
-		if (!isset($this->viewName)) {
-			$this->viewName = \App\View\CustomView::getInstance($moduleName)->getViewId();
+		if (!isset($this->viewId)) {
+			$this->viewId = \App\View\CustomView::getInstance($moduleName)->getViewId();
 		}
 		if (!$this->listViewModel instanceof \App\Modules\DocumentTemplates\Models\ListView) {
 			$this->listViewModel = \App\Modules\DocumentTemplates\Models\ListView::getInstance(
 				$moduleName,
-				$this->viewName
+				$this->viewId
 			);
 		}
 		$sourceModule = $request->get('sourceModule');

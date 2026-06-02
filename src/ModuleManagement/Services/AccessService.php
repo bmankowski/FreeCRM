@@ -27,8 +27,7 @@ class AccessService
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param \App\Db\Db $db
+	 * 	 * @param \App\Db\Db $db
 	 * @param ProfileService $profileService
 	 */
 	public function __construct(\App\Db\Db $db, ProfileService $profileService)
@@ -39,8 +38,7 @@ class AccessService
 
 	/**
 	 * Set default sharing for a module.
-	 * 
-	 * @param int $moduleId Module ID
+	 * 	 * @param int $moduleId Module ID
 	 * @param string $permissionText Permission text: 'public_readonly', 'public_readwrite', 'public_readwritedelete', 'private'
 	 * @return void
 	 */
@@ -71,8 +69,7 @@ class AccessService
 
 	/**
 	 * Initialize sharing access for a module.
-	 * 
-	 * @param int $moduleId Module ID
+	 * 	 * @param int $moduleId Module ID
 	 * @return void
 	 */
 	public function initSharing(int $moduleId): void
@@ -106,8 +103,7 @@ class AccessService
 
 	/**
 	 * Delete sharing access setup for module.
-	 * 
-	 * @param int $moduleId Module ID
+	 * 	 * @param int $moduleId Module ID
 	 * @return void
 	 */
 	public function deleteSharing(int $moduleId): void
@@ -119,8 +115,7 @@ class AccessService
 
 	/**
 	 * Delete tools (actions) of the module.
-	 * 
-	 * @param int $moduleId Module ID
+	 * 	 * @param int $moduleId Module ID
 	 * @return void
 	 */
 	public function deleteTools(int $moduleId): void
@@ -132,8 +127,7 @@ class AccessService
 
 	/**
 	 * Enable or disable tool for module.
-	 * 
-	 * @param int $moduleId Module ID
+	 * 	 * @param int $moduleId Module ID
 	 * @param string $toolAction Tool action name (e.g., 'Import', 'Export')
 	 * @param bool $enabled True to enable, false to disable
 	 * @param int|false $profileId Profile ID to apply to, false for all profiles
@@ -188,8 +182,7 @@ class AccessService
 
 	/**
 	 * Recalculate sharing access rules.
-	 * 
-	 * @return void
+	 * 	 * @return void
 	 */
 	private function syncSharingAccess(): void
 	{

@@ -28,7 +28,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function to retrieve name fields of a module
-	 * @return <array> - array which contains fields which together construct name fields
+	 * @return array - array which contains fields which together construct name fields
 	 */
 	public function getNameFields()
 	{

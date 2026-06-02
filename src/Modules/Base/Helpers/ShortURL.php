@@ -35,10 +35,10 @@ class ShortURL {
 	 * 'handler_class'    => 'TrackerClass',
 	 * 'handler_function' => 'trackingFunction',
 	 * 'handler_data'     => array(
-	 * 			'key1' => 'value1',
-	 * 			'key2' => 'value2'
-	 * 		)
-	 * 	));
+	 * 		'key1' => 'value1',
+	 * 		'key2' => 'value2'
+	 * 	)
+	 * ));
 	 */
 
 	static function generateURL(array $options)

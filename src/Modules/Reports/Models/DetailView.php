@@ -18,7 +18,7 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 	 * Function to get the instance
 	 * @param string $moduleName - module name
 	 * @param string $recordId - record id
-	 * @return <\App\Modules\Base\Models\DetailView>
+	 * @return \App\Modules\Base\Models\DetailView
 	 */
 	public static function getInstance($moduleName, $recordId)
 	{
@@ -33,9 +33,9 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 
 	/**
 	 * Function to get the detail view links (links and widgets)
-	 * @param <array> $linkParams - parameters which will be used to calicaulate the params
-	 * @return <array> - array of link models in the format as below
-	 *                   array('linktype'=>list of link models);
+	 * @param array $linkParams - parameters which will be used to calicaulate the params
+	 * @return array - array of link models in the format as below
+	 *                  array('linktype'=>list of link models);
 	 */
 	public function getDetailViewLinks($linkParams = '')
 	{
@@ -82,7 +82,7 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 
 	/**
 	 * Function to get the detail view widgets
-	 * @return <Array> - List of widgets , where each widget is an \App\Modules\Base\Models\Link
+	 * @return array - List of widgets , where each widget is an \App\Modules\Base\Models\Link
 	 */
 	public function getWidgets()
 	{

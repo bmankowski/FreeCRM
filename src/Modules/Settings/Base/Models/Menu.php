@@ -147,7 +147,7 @@ class Menu extends \App\Modules\Base\Models\Record
 	/**
 	 * Static Function to get the instance of Settings Menu model with the given value map array
 	 * @param array $valueMap
-	 * @return <\App\Modules\Settings\Base\Models\Menu> instance
+	 * @return \App\Modules\Settings\Base\Models\Menu instance
 	 */
 	public static function getInstanceFromArray($valueMap)
 	{
@@ -163,7 +163,7 @@ class Menu extends \App\Modules\Base\Models\Record
 	/**
 	 * Static Function to get the instance of Settings Menu model for given menu id
 	 * @param int $id - Menu Id
-	 * @return <\App\Modules\Settings\Base\Models\Menu> instance
+	 * @return \App\Modules\Settings\Base\Models\Menu instance
 	 */
 	public static function getInstanceById($id, $module = null)
 	{
@@ -192,7 +192,7 @@ class Menu extends \App\Modules\Base\Models\Record
 	/**
 	 * Static Function to get the instance of Settings Menu model for the given menu name
 	 * @param string $name - Menu Name
-	 * @return <\App\Modules\Settings\Base\Models\Menu> instance
+	 * @return \App\Modules\Settings\Base\Models\Menu instance
 	 */
 	public static function getInstance($name)
 	{
@@ -212,7 +212,7 @@ class Menu extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function returns menu items for the current menu
-	 * @return <\App\Modules\Settings\Base\Models\MenuItem>
+	 * @return \App\Modules\Settings\Base\Models\MenuItem
 	 */
 	public function getMenuItems()
 	{

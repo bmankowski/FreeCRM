@@ -153,6 +153,7 @@ class CRM_Viewer extends \Smarty
 			$this->registerPlugin('modifier', 'vtemplate_path', 'vtemplate_path'); // Also as modifier
 			$this->registerPlugin('function', 'vresource_url', 'vresource_url');
 			$this->registerPlugin('modifier', 'vresource_url', 'vresource_url'); // Also as modifier
+			$this->registerPlugin('function', 'script_time', 'script_time');
 
 
 		// Register  modifier 't'

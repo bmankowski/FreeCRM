@@ -24,8 +24,7 @@ class MenuService
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param \App\Db\Db $db
+	 * 	 * @param \App\Db\Db $db
 	 */
 	public function __construct(\App\Db\Db $db)
 	{
@@ -34,8 +33,7 @@ class MenuService
 
 	/**
 	 * Delete menu items for a module.
-	 * 
-	 * @param int $moduleId Module ID
+	 * 	 * @param int $moduleId Module ID
 	 * @return void
 	 */
 	public function deleteForModule(int $moduleId): void

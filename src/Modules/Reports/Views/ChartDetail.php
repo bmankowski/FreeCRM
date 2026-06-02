@@ -137,7 +137,7 @@ class ChartDetail  extends \App\Modules\Base\Views\Index
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return <Array> - List of \App\Modules\Base\Models\JsScript instances
+	 * @return array - List of \App\Modules\Base\Models\JsScript instances
 	 */
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
@@ -173,7 +173,7 @@ class ChartDetail  extends \App\Modules\Base\Views\Index
 	/**
 	 * Function to get the list of Css models to be included
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return <Array> - List of \App\Modules\Base\Models\CssScript instances
+	 * @return array - List of \App\Modules\Base\Models\CssScript instances
 	 */
 	public function getHeaderCss(\App\Http\Vtiger_Request $request)
 	{

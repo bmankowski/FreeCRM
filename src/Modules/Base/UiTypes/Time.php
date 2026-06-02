@@ -96,7 +96,7 @@ class Time extends BaseUiType
 
 	/**
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param <Object> $value
+	 * @param object $value
 	 * @return $value
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)

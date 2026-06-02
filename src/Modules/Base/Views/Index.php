@@ -66,7 +66,7 @@ class Index extends \App\Modules\Base\Views\Basic
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return <Array> - List of \App\Modules\Base\Models\JsScript instances
+	 * @return array - List of \App\Modules\Base\Models\JsScript instances
 	 */
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{

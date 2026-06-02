@@ -19,7 +19,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function that returns all the fields for the module
-	 * @return <Array of \App\Modules\Base\Models\Field> - list of field models
+	 * @return array - list of field models
 	 */
 	public function getFields($blockInstance = false)
 	{
@@ -58,7 +58,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function returns all the blocks for the module
-	 * @return <Array of \App\Modules\Base\Models\Block> - list of block models
+	 * @return array - list of block models
 	 */
 	public function getBlocks()
 	{
@@ -103,7 +103,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function whcih will give information about the field types that are supported for add
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getAddFieldTypeInfo()
 	{
@@ -456,7 +456,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function to get Entity module names list
-	 * @return <Array> List of Entity modules
+	 * @return array List of Entity modules
 	 */
 	public static function getEntityModulesList()
 	{

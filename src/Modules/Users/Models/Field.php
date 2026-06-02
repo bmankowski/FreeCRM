@@ -119,7 +119,7 @@ class Field extends \App\Modules\Base\Models\Field
 
 	/**
 	 * Function to returns all skins(themes)
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getAllSkins()
 	{

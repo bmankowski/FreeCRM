@@ -20,7 +20,7 @@ class ConfigModule extends \App\Modules\Settings\Base\Models\Module
 
 	/**
 	 * Function to read config file
-	 * @return <Array> The data of config file
+	 * @return array The data of config file
 	 */
 	public function readFile()
 	{
@@ -62,7 +62,7 @@ class ConfigModule extends \App\Modules\Settings\Base\Models\Module
 
 	/**
 	 * Function to get Viewable data of config details
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getViewableData()
 	{
@@ -127,7 +127,7 @@ class ConfigModule extends \App\Modules\Settings\Base\Models\Module
 
 	/**
 	 * Function to get editable fields
-	 * @return <Array> list of field names
+	 * @return array list of field names
 	 */
 	public function getEditableFields()
 	{
@@ -179,7 +179,7 @@ class ConfigModule extends \App\Modules\Settings\Base\Models\Module
 
 	/**
 	 * Function to validate the field values
-	 * @param <Array> $updatedFields
+	 * @param array $updatedFields
 	 * @return string True/Error message
 	 */
 	public function validateFieldValues($updatedFields)
@@ -194,7 +194,7 @@ class ConfigModule extends \App\Modules\Settings\Base\Models\Module
 
 	/**
 	 * Function to get the instance of Config module model
-	 * @return <\App\Modules\Settings\Base\Models\ConfigModule> $moduleModel
+	 * @return \App\Modules\Settings\Base\Models\ConfigModule $moduleModel
 	 */
 	public static function getInstance($name = false)
 	{

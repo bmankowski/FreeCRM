@@ -62,7 +62,7 @@ class VTUpdateWorkTime extends VTTask
 	/**
 	 * Function to get contents of this task
 	 * @param \App\Modules\Base\Models\Record $recordModel
-	 * @return <String> contents
+	 * @return string contents
 	 */
 	public function getContents($recordModel)
 	{

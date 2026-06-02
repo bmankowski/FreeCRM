@@ -97,8 +97,8 @@ class Block extends \App\Modules\Base\Models\Block
 
 	/**
 	 * Function to retrieve block instances for a module
-	 * @param <type> $moduleModel - module instance
-	 * @return <array> - list of \App\Modules\Base\Models\Block
+	 * @param mixed $moduleModel - module instance
+	 * @return array - list of \App\Modules\Base\Models\Block
 	 */
 	public static function getAllForModule($moduleModel)
 	{

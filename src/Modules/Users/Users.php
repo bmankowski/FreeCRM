@@ -699,7 +699,7 @@ class Users extends \App\Core\CRMEntity
 
 	/**
 	 * This function should be overridden in each module.  It marks an item as deleted.
-	 * @param <type> $id
+	 * @param mixed $id
 	 */
 	public function mark_deleted($id)
 	{

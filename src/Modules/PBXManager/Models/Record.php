@@ -94,7 +94,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to update call details
-	 * @param <array> $details
+	 * @param array $details
 	 * $param string $callid
 	 * return true
 	 */

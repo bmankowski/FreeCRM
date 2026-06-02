@@ -63,15 +63,12 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Initialize the WebUI environment
-	 * 
-	 * This method handles service initialization including:
+	 * 	 * This method handles service initialization including:
 	 * - Error reporting configuration
 	 * - Cache and debugger initialization
 	 * - Error handler registration
-	 * 
-	 * Note: Autoloaders are already loaded in bootstrap section above
-	 * 
-	 * @return void
+	 * 	 * Note: Autoloaders are already loaded in bootstrap section above
+	 * 	 * @return void
 	 */
 	public static function initialize()
 	{
@@ -88,8 +85,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Configure PHP error reporting for production
-	 * 
-	 * @return void
+	 * 	 * @return void
 	 */
 	private static function configureErrorReporting()
 	{
@@ -101,8 +97,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Initialize application services (cache, debugger, database, logging)
-	 * 
-	 * @return void
+	 * 	 * @return void
 	 */
 	private static function initializeServices()
 	{
@@ -117,8 +112,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Register custom error handler if configured
-	 * 
-	 * @return void
+	 * 	 * @return void
 	 */
 	private static function registerErrorHandler()
 	{
@@ -130,8 +124,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Check if the user has logged in and redirect if necessary
-	 * 
-	 * @param \App\Http\Vtiger_Request $request
+	 * 	 * @param \App\Http\Vtiger_Request $request
 	 * @throws \App\Exceptions\AppException When login is required but not present
 	 */
 	protected function checkLogin(\App\Http\Vtiger_Request $request)
@@ -144,8 +137,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Handle login redirect with return parameters
-	 * 
-	 * @return void
+	 * 	 * @return void
 	 */
 	private function handleLoginRedirect()
 	{
@@ -161,8 +153,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Get the instance of the logged in User
-	 * 
-	 * @return \Users|false User object or null if not logged in
+	 * 	 * @return \Users|false User object or null if not logged in
 	 */
 	public function getLogin()
 	{
@@ -195,8 +186,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Trigger permission check for the current request
-	 * 
-	 * @param \App\Base\Controllers\BaseActionController $handler
+	 * 	 * @param \App\Base\Controllers\BaseActionController $handler
 	 * @param \App\Http\Vtiger_Request $request
 	 * @throws \App\Exceptions\AppException When module is not found
 	 * @throws \App\Exceptions\NoPermitted When user lacks permissions
@@ -223,8 +213,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Trigger pre-process phase
-	 * 
-	 * @param \App\Base\Controllers\BaseActionController $handler
+	 * 	 * @param \App\Base\Controllers\BaseActionController $handler
 	 * @param \App\Http\Vtiger_Request $request
 	 * @return bool|null True for AJAX requests, null otherwise
 
@@ -242,8 +231,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Trigger post-process phase
-	 * 
-	 * @param \App\Base\Controllers\BaseActionController $handler
+	 * 	 * @param \App\Base\Controllers\BaseActionController $handler
 	 * @param \App\Http\Vtiger_Request $request
 	 * @return bool|null True for AJAX requests, null otherwise
 	 */
@@ -257,8 +245,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Check if the application is installed
-	 * 
-	 * @return bool
+	 * 	 * @return bool
 	 */
 	public function isInstalled()
 	{
@@ -280,8 +267,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Main process method - handles the complete request lifecycle
-	 * 
-	 * @param \App\Http\Vtiger_Request $request
+	 * 	 * @param \App\Http\Vtiger_Request $request
 	 */
 	public function process(\App\Http\Vtiger_Request $request)
 	{
@@ -305,8 +291,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Enforce security policies (SSL, installation check, URL redirect)
-	 * 
-	 * @param \App\Http\Vtiger_Request $request
+	 * 	 * @param \App\Http\Vtiger_Request $request
 	 */
 	private function enforceSecurityPolicies(\App\Http\Vtiger_Request $request)
 	{
@@ -317,8 +302,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Enforce SSL if configured
-	 * 
-	 * @return void
+	 * 	 * @return void
 	 */
 	private function enforceSSL()
 	{
@@ -338,8 +322,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Check if application is installed, redirect if not
-	 * 
-	 * @return void
+	 * 	 * @return void
 	 */
 	private function checkInstallation()
 	{
@@ -357,8 +340,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Enforce URL redirect if configured
-	 * 
-	 * @return void
+	 * 	 * @return void
 	 */
 	private function enforceUrlRedirect()
 	{
@@ -386,8 +368,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Initialize session and CSRF protection
-	 * 
-	 * @param \App\Http\Vtiger_Request $request
+	 * 	 * @param \App\Http\Vtiger_Request $request
 	 */
 	private function initializeSession(\App\Http\Vtiger_Request $request)
 	{
@@ -402,8 +383,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Determine if CSRF protection should be enabled
-	 * 
-	 * @param \App\Http\Vtiger_Request $request
+	 * 	 * @param \App\Http\Vtiger_Request $request
 	 * @return bool
 	 */
 	private function shouldEnableCsrfProtection(\App\Http\Vtiger_Request $request)
@@ -417,8 +397,7 @@ class WebUI extends EntryPoint
 	/**
 	 * Initialize global variables and language
 	 * UPDATED: Attach user to request and session
-	 * 
-	 * @param \App\Http\Vtiger_Request $request
+	 * 	 * @param \App\Http\Vtiger_Request $request
 	 * @return \Users|false Current user or false
 	 */
 	private function initializeGlobals(\App\Http\Vtiger_Request $request)
@@ -440,8 +419,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Load module and application language strings
-	 * 
-	 * @param \App\Http\Vtiger_Request $request
+	 * 	 * @param \App\Http\Vtiger_Request $request
 	 * @param string $currentLanguage
 	 */
 	private function loadLanguageStrings(\App\Http\Vtiger_Request $request, $currentLanguage)
@@ -457,8 +435,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Load module-specific language strings
-	 * 
-	 * @param string $moduleName
+	 * 	 * @param string $moduleName
 	 * @param string $language
 	 */
 	private function loadModuleLanguageStrings($moduleName, $language)
@@ -468,8 +445,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Load application-wide language strings
-	 * 
-	 * @param string $language
+	 * 	 * @param string $language
 	 */
 	private function loadAppLanguageStrings($language)
 	{
@@ -478,8 +454,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Handle the main request processing
-	 * 
-	 * @param \App\Http\Vtiger_Request $request
+	 * 	 * @param \App\Http\Vtiger_Request $request
 	 * @param \Users|false $currentUser
 	 * @return mixed Response object or false
 	 */
@@ -504,8 +479,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Resolve module and view from request, setting defaults if needed
-	 * 
-	 * @param \App\Http\Vtiger_Request $request
+	 * 	 * @param \App\Http\Vtiger_Request $request
 	 */
 	private function resolveModuleAndView(\App\Http\Vtiger_Request $request)
 	{
@@ -518,8 +492,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Set default module and view based on login status
-	 * 
-	 * @param \App\Http\Vtiger_Request $request
+	 * 	 * @param \App\Http\Vtiger_Request $request
 	 */
 	private function setDefaultModuleAndView(\App\Http\Vtiger_Request $request)
 	{
@@ -532,8 +505,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Set default module for logged in user
-	 * 
-	 * @param \App\Http\Vtiger_Request $request
+	 * 	 * @param \App\Http\Vtiger_Request $request
 	 */
 	private function setDefaultModuleForLoggedInUser(\App\Http\Vtiger_Request $request)
 	{
@@ -555,8 +527,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Set login module for non-authenticated users
-	 * 
-	 * @param \App\Http\Vtiger_Request $request
+	 * 	 * @param \App\Http\Vtiger_Request $request
 	 */
 	private function setLoginModule(\App\Http\Vtiger_Request $request)
 	{
@@ -566,8 +537,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Check if user has access to settings pages
-	 * 
-	 * @param string|null $qualifiedModuleName
+	 * 	 * @param string|null $qualifiedModuleName
 	 * @param \App\Http\Vtiger_Request $request
 	 * @param User|false $currentUser
 	 */
@@ -585,8 +555,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Resolve component type and name from request
-	 * 
-	 * @param \App\Http\Vtiger_Request $request
+	 * 	 * @param \App\Http\Vtiger_Request $request
 	 * @param string $moduleName Module name
 	 * @return array [componentType, componentName]
 	 */
@@ -617,8 +586,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Create handler instance
-	 * 
-	 * @param string $componentType
+	 * 	 * @param string $componentType
 	 * @param string $componentName
 	 * @param string|null $qualifiedModuleName
 	 * @return \App\Base\Controllers\BaseActionController
@@ -655,8 +623,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Execute handler with full lifecycle
-	 * 
-	 * @param \App\Base\Controllers\BaseActionController $handler
+	 * 	 * @param \App\Base\Controllers\BaseActionController $handler
 	 * @param \App\Http\Vtiger_Request $request
 	 * @param string $module
 	 * @param string|null $qualifiedModuleName
@@ -677,8 +644,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Validate handler request
-	 * 
-	 * @param \App\Base\Controllers\BaseActionController $handler
+	 * 	 * @param \App\Base\Controllers\BaseActionController $handler
 	 * @param \App\Http\Vtiger_Request $request
 	 */
 	private function validateHandler($handler, \App\Http\Vtiger_Request $request)
@@ -691,8 +657,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Check if handler requires login
-	 * 
-	 * @param \App\Base\Controllers\BaseActionController $handler
+	 * 	 * @param \App\Base\Controllers\BaseActionController $handler
 	 * @param \App\Http\Vtiger_Request $request
 	 */
 	private function checkHandlerLogin($handler, \App\Http\Vtiger_Request $request)
@@ -704,8 +669,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Check handler permissions
-	 * 
-	 * @param \App\Base\Controllers\BaseActionController $handler
+	 * 	 * @param \App\Base\Controllers\BaseActionController $handler
 	 * @param \App\Http\Vtiger_Request $request
 	 * @param string $module
 	 * @param string|null $qualifiedModuleName
@@ -729,8 +693,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Handle modules that should not have list views
-	 * 
-	 * @param string $module
+	 * 	 * @param string $module
 	 * @param \App\Http\Vtiger_Request $request
 	 */
 	private function handleNotPermittedListModules($module, \App\Http\Vtiger_Request $request)
@@ -745,8 +708,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Handle exceptions during request processing
-	 * 
-	 * @param \Exception $exception
+	 * 	 * @param \Exception $exception
 	 * @param \App\Http\Vtiger_Request $request
 	 * @throws \Exception In test mode
 	 */
@@ -773,8 +735,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Get appropriate exception template
-	 * 
-	 * @param \Exception $exception
+	 * 	 * @param \Exception $exception
 	 * @return string
 	 */
 	private function getExceptionTemplate(\Exception $exception)
@@ -791,8 +752,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Display debug backtrace
-	 * 
-	 * @param \Exception $exception
+	 * 	 * @param \Exception $exception
 	 */
 	private function displayDebugBacktrace(\Exception $exception)
 	{
@@ -806,8 +766,7 @@ class WebUI extends EntryPoint
 
 	/**
 	 * Log request data for testing purposes
-	 * 
-	 * @param \App\Http\Vtiger_Request $request
+	 * 	 * @param \App\Http\Vtiger_Request $request
 	 */
 	private function logRequestForTesting(\App\Http\Vtiger_Request $request)
 	{

@@ -16,8 +16,8 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function to get the Quick Links for the module
-	 * @param <Array> $linkParams
-	 * @return <Array> List of \App\Modules\Base\Models\Link instances
+	 * @param array $linkParams
+	 * @return array List of \App\Modules\Base\Models\Link instances
 	 */
 	public function getSideBarLinks($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)
 	{
@@ -28,7 +28,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function to get the create url with parent id set
-	 * @param <type> $parentRecord	- parent record for which comment need to be added
+	 * @param mixed $parentRecord	- parent record for which comment need to be added
 	 * @return string Url
 	 */
 	public function getCreateRecordUrlWithParent($parentRecord)
@@ -40,7 +40,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function to get Settings links
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getSettingLinks()
 	{

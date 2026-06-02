@@ -30,7 +30,7 @@ class Field extends \App\Modules\Base\Models\Field
 
 	/**
 	 * Function to get field picklist
-	 * @return <Array> picklist
+	 * @return array picklist
 	 */
 	public function getPicklistDetails()
 	{
@@ -157,7 +157,7 @@ class Field extends \App\Modules\Base\Models\Field
 
 	/**
 	 * Function to get instance
-	 * @param <String/Integer> $value
+	 * @param string|int $value
 	 * @param string $module
 	 * @param string $type
 	 * @return \App\Modules\Settings\MappedFields\Models\Field field model

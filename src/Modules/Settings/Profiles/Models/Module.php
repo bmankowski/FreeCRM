@@ -55,7 +55,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	/**
 	 * Function to get non visible modules list
-	 * @return <Array> list of modules
+	 * @return array list of modules
 	 */
 	public static function getNonVisibleModulesList()
 	{

@@ -621,8 +621,7 @@ class Relation extends \App\Runtime\BaseModel
 
 	/**
 	 * Get type relation model instance.
-	 * 
-	 * Loads the specific relation type class based on the relation name.
+	 * 	 * Loads the specific relation type class based on the relation name.
 	 * For example, if relation name is 'getRelatedMembers', it will try to load
 	 * App\Modules\{ParentModule}\Relations\GetRelatedMembers class.
 	 *

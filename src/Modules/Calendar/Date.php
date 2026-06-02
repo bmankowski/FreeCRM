@@ -376,7 +376,7 @@ class Date {
 
 	/**
 	 * Function to get formatted date in users time zone
-	 * @return <Date>
+	 * @return mixed
 	 */
 	public function get_userTimezone_formatted_date()
 	{

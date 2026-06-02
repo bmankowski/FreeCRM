@@ -179,7 +179,7 @@ abstract class Base_Chart extends \App\Runtime\BaseModel
 
 	/**
 	 * Function returns sql column for group by fields
-	 * @param <Array> $selectedfields - field info report format
+	 * @param array $selectedfields - field info report format
 	 * @return string
 	 */
 	public function getReportColumnSQL($selectedfields)
@@ -203,7 +203,7 @@ abstract class Base_Chart extends \App\Runtime\BaseModel
 
 	/**
 	 * Function returns sql column for data fields
-	 * @param <Array> $fieldInfo - field info report format
+	 * @param array $fieldInfo - field info report format
 	 * @return string
 	 */
 	public function getReportTotalColumnSQL($fieldInfo)
@@ -319,7 +319,7 @@ abstract class Base_Chart extends \App\Runtime\BaseModel
 	/**
 	 * Function generate links
 	 * @param string $field - fieldname
-	 * @param <Decimal> $value - value
+	 * @param mixed $value - value
 	 * @return string
 	 */
 	public function generateLink($field, $value)

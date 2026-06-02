@@ -21,7 +21,7 @@ class EditView extends \App\Runtime\BaseModel
 	 * Function to get the instance
 	 * @param string $moduleName - module name
 	 * @param string $recordId - record id
-	 * @return <\App\Modules\Base\Models\DetailView>
+	 * @return \App\Modules\Base\Models\DetailView
 	 */
 	public static function getInstance($moduleName, $recordId)
 	{
@@ -42,8 +42,8 @@ class EditView extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get the list of listview links for the module
-	 * @param <Array> $linkParams
-	 * @return <Array> - Associate array of Link Type to List of \App\Modules\Base\Models\Link instances
+	 * @param array $linkParams
+	 * @return array - Associate array of Link Type to List of \App\Modules\Base\Models\Link instances
 	 */
 	public function getEditViewLinks($linkParams)
 	{

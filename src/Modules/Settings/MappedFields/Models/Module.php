@@ -57,7 +57,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	/**
 	 * Function to get the Module/Tab id
-	 * @return <Number>
+	 * @return mixed
 	 */
 	public function getId()
 	{
@@ -81,7 +81,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	/**
 	 * Function to get the Restricted Ui Types
-	 * @return <array> Restricted ui types
+	 * @return array Restricted ui types
 	 */
 	public function getRestrictedUitypes()
 	{
@@ -90,7 +90,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	/**
 	 * Function to get the Restricted Ui Types
-	 * @return <array> Restricted ui types
+	 * @return array Restricted ui types
 	 */
 	public function getRecordId()
 	{
@@ -112,7 +112,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	/**
 	 * Function to get instance
-	 * @return <\App\Modules\Settings\MappedFields\Models\Module>
+	 * @return \App\Modules\Settings\MappedFields\Models\Module
 	 */
 	public static function getCleanInstance($moduleName = 'Vtiger')
 	{
@@ -145,7 +145,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	/**
 	 * Function to get instance of module
 	 * @param string $moduleName
-	 * @return <\App\Modules\Settings\MappedFields\Models\Module>
+	 * @return \App\Modules\Settings\MappedFields\Models\Module
 	 */
 	public static function getInstance($moduleName = 'Settings:Vtiger')
 	{
@@ -175,7 +175,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	/**
 	 * Function to get mapping details
-	 * @return <Array> list of mapping details
+	 * @return array list of mapping details
 	 */
 	public function getMapping()
 	{
@@ -209,7 +209,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	/**
 	 * Function returns fields of module
-	 *  \App\Modules\Base\Models\Field[]
+	 * \App\Modules\Base\Models\Field[]
 	 */
 	public function getFields($source = false)
 	{

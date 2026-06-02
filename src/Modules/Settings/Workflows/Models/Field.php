@@ -18,7 +18,7 @@ class Field extends \App\Modules\Base\Models\Field
 
 	/**
 	 * Function to get all the supported advanced filter operations
-	 * @return <Array>
+	 * @return array
 	 */
 	public static function getAdvancedFilterOptions()
 	{
@@ -27,7 +27,7 @@ class Field extends \App\Modules\Base\Models\Field
 
 	/**
 	 * Function to get the advanced filter option names by Field type
-	 * @return <Array>
+	 * @return array
 	 */
 	public static function getAdvancedFilterOpsByFieldType()
 	{
@@ -37,7 +37,7 @@ class Field extends \App\Modules\Base\Models\Field
 	/**
 	 * Function to get comment field which will useful in creating conditions
 	 * @param \App\Modules\Base\Models\Module $moduleModel
-	 * @return <\App\Modules\Base\Models\Field>
+	 * @return \App\Modules\Base\Models\Field
 	 */
 	public static function getCommentFieldForFilterConditions($moduleModel)
 	{
@@ -53,7 +53,7 @@ class Field extends \App\Modules\Base\Models\Field
 	/**
 	 * Function to get comment fields list which are useful in tasks
 	 * @param \App\Modules\Base\Models\Module $moduleModel
-	 * @return <Array> list of Field models <\App\Modules\Base\Models\Field>
+	 * @return array list of Field models <\App\Modules\Base\Models\Field>
 	 */
 	public static function getCommentFieldsListForTasks($moduleModel)
 	{

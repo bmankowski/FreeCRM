@@ -85,7 +85,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function returns the parent Comment Model
-	 * @return <\App\Modules\Base\Models\Record>
+	 * @return \App\Modules\Base\Models\Record
 	 */
 	public function getParentCommentModel()
 	{
@@ -98,7 +98,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function returns the parent Record Model(Contacts, Accounts etc)
-	 * @return <\App\Modules\Base\Models\Record>
+	 * @return \App\Modules\Base\Models\Record
 	 */
 	public function getParentRecordModel()
 	{
@@ -180,7 +180,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function returns all the parent comments model
-	 * @param <Integer> $parentId
+	 * @param int $parentId
 	 * @return \App\Modules\ModComments\Models\Record(s)
 	 */
 	public static function getAllParentComments($parentId, $hierarchy = false)
@@ -227,7 +227,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function returns all the comment count
-	 * @return <int>
+	 * @return mixed
 	 */
 	public static function getCommentsCount($recordId)
 	{

@@ -29,7 +29,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to get the Id
-	 * @return <Number> Role Id
+	 * @return mixed Role Id
 	 */
 	public function getId()
 	{
@@ -47,7 +47,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to get the depth of the role
-	 * @return <Number>
+	 * @return mixed
 	 */
 	public function getDepth()
 	{
@@ -65,7 +65,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to set the immediate parent role
-	 * @return <\App\Modules\Settings\Roles\Models\Record> instance
+	 * @return \App\Modules\Settings\Roles\Models\Record instance
 	 */
 	public function setParent($parentRole)
 	{
@@ -75,7 +75,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to get the immediate parent role
-	 * @return <\App\Modules\Settings\Roles\Models\Record> instance
+	 * @return \App\Modules\Settings\Roles\Models\Record instance
 	 */
 	public function getParent()
 	{
@@ -94,7 +94,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to get the immediate children roles
-	 * @return <Array> - List of \App\Modules\Settings\Roles\Models\Record instances
+	 * @return array - List of \App\Modules\Settings\Roles\Models\Record instances
 	 */
 	public function getChildren()
 	{
@@ -147,7 +147,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to get all the children roles
-	 * @return <Array> - List of \App\Modules\Settings\Roles\Models\Record instances
+	 * @return array - List of \App\Modules\Settings\Roles\Models\Record instances
 	 */
 	public function getAllChildren()
 	{
@@ -169,7 +169,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function returns profiles related to the current role
-	 * @return <Array> - profile ids
+	 * @return array - profile ids
 	 */
 	public function getProfileIdList()
 	{
@@ -251,7 +251,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to get all the profiles associated with the current role
-	 * @return <Array> \App\Modules\Settings\Profiles\Models\Record instances
+	 * @return array \App\Modules\Settings\Profiles\Models\Record instances
 	 */
 	public function getProfiles()
 	{
@@ -263,7 +263,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to add a child role to the current role
-	 * @param <\App\Modules\Settings\Roles\Models\Record> $role
+	 * @param \App\Modules\Settings\Roles\Models\Record $role
 	 * @return \App\Modules\Settings\Roles\Models\Record instance
 	 */
 	public function addChildRole($role)
@@ -275,7 +275,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to move the current role and all its children nodes to the new parent role
-	 * @param <\App\Modules\Settings\Roles\Models\Record> $newParentRole
+	 * @param \App\Modules\Settings\Roles\Models\Record $newParentRole
 	 */
 	public function moveTo($newParentRole)
 	{
@@ -393,7 +393,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to delete the role
-	 * @param <\App\Modules\Settings\Roles\Models\Record> $transferToRole
+	 * @param \App\Modules\Settings\Roles\Models\Record $transferToRole
 	 */
 	public function delete($transferToRole)
 	{
@@ -437,7 +437,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return <Array> - Associate array of \App\Modules\Base\Models\Link instances
+	 * @return array - Associate array of \App\Modules\Base\Models\Link instances
 	 */
 	public function getRecordLinks()
 	{
@@ -469,7 +469,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	/**
 	 * Function to get all the roles
 	 * @param boolean $baseRole
-	 * @return <Array> list of Role models <\App\Modules\Settings\Roles\Models\Record>
+	 * @return array list of Role models <\App\Modules\Settings\Roles\Models\Record>
 	 */
 	public static function getAll($baseRole = false)
 	{
@@ -496,7 +496,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to get the instance of Role model, given role id
-	 * @param <Integer> $roleId
+	 * @param int $roleId
 	 * @return \App\Modules\Settings\Roles\Models\Record instance, if exists. Null otherwise
 	 */
 	public static function getInstanceById($roleId)
@@ -554,7 +554,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to get Users who are from this role
-	 * @return <Array> User record models list <\App\Modules\Users\Models\Record>
+	 * @return array User record models list <\App\Modules\Users\Models\Record>
 	 */
 	public function getUsers()
 	{

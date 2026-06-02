@@ -19,7 +19,7 @@ class ProjectWidget  extends \App\Modules\Base\Views\Index
 	/**
 	 * Retrieves css styles that need to loaded in the page
 	 * @param \App\Http\Vtiger_Request $request - request model
-	 * @return <array> - array of StyleAsset
+	 * @return array - array of StyleAsset
 	 */
 	public function getHeaderCss(\App\Http\Vtiger_Request $request)
 	{

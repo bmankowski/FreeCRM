@@ -132,7 +132,7 @@ class Rule extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to get the Id of the Sharing Access Rule
-	 * @return <Number> Id
+	 * @return mixed Id
 	 */
 	public function getId()
 	{
@@ -324,7 +324,7 @@ class Rule extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return <Array> - Associate array of \App\Modules\Base\Models\Link instances
+	 * @return array - Associate array of \App\Modules\Base\Models\Link instances
 	 */
 	public function getRecordLinks()
 	{
@@ -621,7 +621,7 @@ class Rule extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to get all the rules
-	 * @return <Array> - Array of \App\Modules\Settings\Groups\Models\Record instances
+	 * @return array - Array of \App\Modules\Settings\Groups\Models\Record instances
 	 */
 	public static function getAllByModule($moduleModel)
 	{

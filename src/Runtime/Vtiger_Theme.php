@@ -18,7 +18,7 @@ class Vtiger_Theme extends \App\Runtime\CRM_Viewer
 
 	/**
 	 * Function to get the path of a given style sheet or default style sheet
-	 * @return <string / Boolean> - file path , false if not exists
+	 * @return string|bool - file path , false if not exists
 	 */
 	public static function getThemeStyle()
 	{
@@ -34,7 +34,7 @@ class Vtiger_Theme extends \App\Runtime\CRM_Viewer
 	 * Function to get the image path
 	 * This checks image in selected theme if not in images folder if it doest nor exists either case will retutn false
 	 * @param string $imageFileName - file name with extension
-	 * @return <string/boolean> - returns file path if exists or false;
+	 * @return string|bool - returns file path if exists or false;
 	 */
 	public static function getImagePath(string $imageFileName)
 	{
@@ -59,7 +59,7 @@ class Vtiger_Theme extends \App\Runtime\CRM_Viewer
 	 * if there's no image with a default name it will return false
 	 * @param string $imageFileName - file name 
 	 * @param string $defaultFileName - file name 
-	 * @return <string/boolean> - returns file path if exists or false;
+	 * @return string|bool - returns file path if exists or false;
 	 */
 	public static function getOrignOrDefaultImgPath(string $imageFileName, string $defaultFileName)
 	{
@@ -105,7 +105,7 @@ class Vtiger_Theme extends \App\Runtime\CRM_Viewer
 	}
 
 	/**
-	 *  * @return string -  path to base style
+	 * * @return string -  path to base style
 	 */
 	public static function getBaseStylePath()
 	{
@@ -158,7 +158,7 @@ class Vtiger_Theme extends \App\Runtime\CRM_Viewer
 
 	/**
 	 * Function to returns all skins(themes)
-	 * @return <Array>
+	 * @return array
 	 */
 	public static function getAllSkins()
 	{

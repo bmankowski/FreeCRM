@@ -17,7 +17,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function returns the details of Accounts Hierarchy
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getAccountHierarchy()
 	{
@@ -61,7 +61,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to get List of Fields which are related from Accounts to Inventory Record.
-	 * @return <array>
+	 * @return array
 	 */
 	public function getInventoryMappingFields()
 	{

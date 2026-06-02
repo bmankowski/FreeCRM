@@ -26,8 +26,8 @@ class Datetime extends BaseUiType
 
 	/**
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param <Object> $value
-	 * @return <Object>
+	 * @param object $value
+	 * @return object
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
@@ -53,7 +53,7 @@ class Datetime extends BaseUiType
 
 	/**
 	 * Function to get Date and Time value for Display
-	 * @param <type> $date
+	 * @param mixed $date
 	 * @return string
 	 */
 	public static function getDBDateTimeValue($date)
@@ -76,7 +76,7 @@ class Datetime extends BaseUiType
 
 	/**
 	 * Function to get the datetime value in user preferred hour format
-	 * @param <type> $dateTime
+	 * @param mixed $dateTime
 	 * @return string date and time with hour format
 	 */
 	public static function getDateTimeValue($dateTime)

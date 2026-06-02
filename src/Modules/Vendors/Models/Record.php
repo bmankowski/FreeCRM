@@ -16,7 +16,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to get List of Fields which are related from Vendors to Inventyory Record
-	 * @return <array>
+	 * @return array
 	 */
 	public function getInventoryMappingFields()
 	{

@@ -30,7 +30,7 @@ class CustomRecordNumberingModule extends \App\Modules\Base\Models\Module
 	/**
 	 * Function to get Instance of this module
 	 * @param string $moduleName
-	 * @return <\App\Modules\Settings\Base\Models\CustomRecordNumberingModule> $moduleModel
+	 * @return \App\Modules\Settings\Base\Models\CustomRecordNumberingModule $moduleModel
 	 */
 	public static function getInstance($moduleName, $tabId = false)
 	{
@@ -44,7 +44,7 @@ class CustomRecordNumberingModule extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function to ger Supported modules for Custom record numbering
-	 * @return <Array> list of supported modules \App\Modules\Base\Models\Module
+	 * @return array list of supported modules \App\Modules\Base\Models\Module
 	 */
 	public static function getSupportedModules()
 	{
@@ -64,7 +64,7 @@ class CustomRecordNumberingModule extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function to set Module sequence
-	 * @return <Array> result of success
+	 * @return array result of success
 	 */
 	public function setModuleSequence()
 	{
@@ -84,7 +84,7 @@ class CustomRecordNumberingModule extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function to update record sequences which are under this module
-	 * @return <Array> result of success
+	 * @return array result of success
 	 */
 	public function updateRecordsWithSequence()
 	{

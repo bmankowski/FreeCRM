@@ -44,7 +44,7 @@ class Field extends \App\Modules\Base\Models\Field
 
 	/**
 	 * Function to get clean instance
-	 * @return <\App\Modules\Settings\Leads\Models\Field>
+	 * @return \App\Modules\Settings\Leads\Models\Field
 	 */
 	public static function getCleanInstance()
 	{
@@ -53,9 +53,9 @@ class Field extends \App\Modules\Base\Models\Field
 
 	/**
 	 * Function to get instance
-	 * @param <String/Integer> $value
+	 * @param string|int $value
 	 * @param string $module
-	 * @return <\App\Modules\Settings\Leads\Models\Field> field model
+	 * @return \App\Modules\Settings\Leads\Models\Field field model
 	 */
 	public static function getInstance($value, $module = false)
 	{

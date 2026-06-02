@@ -26,7 +26,7 @@ class Member extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to get the Qualified Id of the Group Member
-	 * @return <Number> Id
+	 * @return mixed Id
 	 */
 	public function getId()
 	{
@@ -175,7 +175,7 @@ class Member extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to get all the groups
-	 * @return <Array> - Array of \App\Modules\Settings\Groups\Models\Record instances
+	 * @return array - Array of \App\Modules\Settings\Groups\Models\Record instances
 	 */
 	public static function getAllByGroup($groupModel)
 	{
@@ -191,7 +191,7 @@ class Member extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to get all the groups
-	 * @return <Array> - Array of \App\Modules\Settings\Groups\Models\Record instances
+	 * @return array - Array of \App\Modules\Settings\Groups\Models\Record instances
 	 */
 	public static function getAll($onlyActive = true)
 	{

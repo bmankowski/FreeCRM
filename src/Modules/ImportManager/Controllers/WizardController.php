@@ -472,8 +472,7 @@ class WizardController
 	/**
 	 * Liczy faktyczne błędy w tabeli stagingowej.
 	 * Jedyne źródło prawdy dla liczby błędów - nie używa $batch['error_rows'].
-	 * 
-	 * @return int Liczba błędów (0 jeśli tabela stagingowa nie istnieje)
+	 * 	 * @return int Liczba błędów (0 jeśli tabela stagingowa nie istnieje)
 	 */
 	private function countStagingErrors(array $batch): int
 	{

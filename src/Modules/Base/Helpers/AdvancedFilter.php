@@ -28,7 +28,7 @@ class AdvancedFilter {
 
 	/**
 	 * Function to get all the supported advanced filter operations
-	 * @return <Array>
+	 * @return array
 	 */
 	public static function getAdvancedFilterOptions()
 	{
@@ -116,7 +116,7 @@ class AdvancedFilter {
 
 	/**
 	 * Functions transforms workflow filter to advanced filter
-	 * @return <Array>
+	 * @return array
 	 */
 	public static function transformToAdvancedFilterCondition($conditions = false)
 	{

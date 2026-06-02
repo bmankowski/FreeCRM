@@ -24,7 +24,7 @@ class Paging extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get the current page number
-	 * @return <Number>
+	 * @return mixed
 	 */
 	public function getCurrentPage()
 	{
@@ -37,7 +37,7 @@ class Paging extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get the Next page number
-	 * @return <Number>
+	 * @return mixed
 	 */
 	public function getNextPage()
 	{
@@ -50,7 +50,7 @@ class Paging extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get the limit on the number of records per page
-	 * @return <Number>
+	 * @return mixed
 	 */
 	public function getPageLimit()
 	{
@@ -75,7 +75,7 @@ class Paging extends \App\Runtime\BaseModel
 
 	/**
 	 * Retrieves start sequence number of records in the page
-	 * @return <Integer>
+	 * @return int
 	 */
 	public function getRecordStartRange()
 	{
@@ -88,7 +88,7 @@ class Paging extends \App\Runtime\BaseModel
 
 	/**
 	 * Retrieves end sequence number of records in the page
-	 * @return <Integer>
+	 * @return int
 	 */
 	public function getRecordEndRange()
 	{
@@ -101,9 +101,9 @@ class Paging extends \App\Runtime\BaseModel
 
 	/**
 	 * Retrieves start and end sequence number of records in the page
-	 * @return <array> - array of values
-	 * 						- start key which gives start sequence number
-	 * 						- end key which gives end sequence number
+	 * @return array - array of values
+	 * 					- start key which gives start sequence number
+	 * 					- end key which gives end sequence number
 	 */
 	public function getRecordRange()
 	{
@@ -175,7 +175,7 @@ class Paging extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to return info about the number of pages
-	 * @return <int> - Number of pages
+	 * @return mixed - Number of pages
 	 */
 	public function getPageCount()
 	{
@@ -194,7 +194,7 @@ class Paging extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to return the page number where pagination begins
-	 * @return <int> - number of page
+	 * @return mixed - number of page
 	 */
 	public function getStartPagingFrom()
 	{

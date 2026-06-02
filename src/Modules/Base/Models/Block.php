@@ -42,7 +42,7 @@ class Block extends \vtlib\Block
 	/**
 	 * Function to get the value of a given property
 	 * @param string $propertyName
-	 * @return <Object>
+	 * @return object
 	 */
 	public function get($propertyName)
 	{
@@ -139,8 +139,8 @@ class Block extends \vtlib\Block
 
 	/**
 	 * Function to retrieve block instances for a module
-	 * @param <type> $moduleModel - module instance
-	 * @return <array> - list of \App\Modules\Base\Models\Block
+	 * @param mixed $moduleModel - module instance
+	 * @return array - list of \App\Modules\Base\Models\Block
 	 */
 	public static function getAllForModule($moduleModel)
 	{

@@ -21,8 +21,7 @@ class FileService
 {
 	/**
 	 * Recursively delete a file or directory.
-	 * 
-	 * @param string $path Path relative to ROOT_DIRECTORY
+	 * 	 * @param string $path Path relative to ROOT_DIRECTORY
 	 * @return void
 	 */
 	public function recurseDelete(string $path): void
@@ -66,8 +65,7 @@ class FileService
 
 	/**
 	 * Check if file access is safe for PHP inclusion.
-	 * 
-	 * @param string $filepath File path to check
+	 * 	 * @param string $filepath File path to check
 	 * @param bool $dieOnFail Whether to throw exception on failure
 	 * @return bool True if safe, false otherwise
 	 * @throws \App\Exceptions\AppException If $dieOnFail is true and check fails

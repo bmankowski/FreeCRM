@@ -329,8 +329,8 @@ class Utils
 	 * Function to format the input value for SQL like clause.
 	 * @param $str - Input string value to be formatted.
 	 * @param $flag - By default set to 0 (Will look for cases %string%).
-	 *                If set to 1 - Will look for cases %string.
-	 *                If set to 2 - Will look for cases string%.
+	 *               If set to 1 - Will look for cases %string.
+	 *               If set to 2 - Will look for cases string%.
 	 * @return String formatted as per the SQL like clause requirement
 	 */
 	public static function formatForSqlLike($str, $flag = 0, $is_field = false)

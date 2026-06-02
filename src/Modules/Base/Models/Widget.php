@@ -79,7 +79,7 @@ class Widget extends \App\Runtime\BaseModel
 	}
 
 	/**
-	 *  Function to get the Title of the widget
+	 * Function to get the Title of the widget
 	 */
 	public function getTitle()
 	{
@@ -105,7 +105,7 @@ class Widget extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get the instance of Vtiger Widget Model from the given array of key-value mapping
-	 * @param <Array> $valueMap
+	 * @param array $valueMap
 	 * @return \App\Modules\Base\Models\Widget instance
 	 */
 	public static function getInstanceFromValues($valueMap)
@@ -215,7 +215,7 @@ class Widget extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to check the Widget is Default widget or not
-	 * @return <boolean> true/false
+	 * @return bool true/false
 	 */
 	public function isDefault()
 	{

@@ -98,10 +98,15 @@ class CustomView
 		return $dateFilters;
 	}
 
+	private static function normalizeViewId(mixed $viewId): int
+	{
+		return is_numeric($viewId) ? (int) $viewId : 0;
+	}
+
 	/**
 	 * Get current page
 	 * @param string $moduleName
-	 * @param int|string $viewId
+	 * @param int $viewId
 	 * @return int
 	 */
 	public static function getCurrentPage($moduleName, $viewId)
@@ -115,7 +120,7 @@ class CustomView
 	/**
 	 * Set current page
 	 * @param string $moduleName
-	 * @param int|string $viewId
+	 * @param int $viewId
 	 * @param int $start
 	 */
 	public static function setCurrentPage($moduleName, $viewId, $start)
@@ -126,56 +131,53 @@ class CustomView
 	/**
 	 * Function that sets the module filter in session
 	 * @param string $moduleName - module name
-	 * @param int|string $viewId - filter id
+	 * @param int $viewId - filter id
 	 */
 	public static function setCurrentView($moduleName, $viewId)
 	{
+		$viewId = self::normalizeViewId($viewId);
+		if ($viewId <= 0) {
+			return;
+		}
 		$_SESSION['lvs'][$moduleName]['viewname'] = $viewId;
-		// Persist last used filter per user + module (so it survives session).
-		// Reuse existing vtiger_user_module_preferences mechanism used for default filters.
-		if (is_numeric($viewId)) {
-			$userId = \App\Http\Vtiger_Session::getAuthenticatedUserId();
-			if (!$userId) {
-				// Fallback for legacy flows where session auth key isn't available,
-				// but current user is still present in global context.
-				global $current_user;
-				if (!empty($current_user) && !empty($current_user->id)) {
-					$userId = (int) $current_user->id;
-				}
+		$userId = \App\Http\Vtiger_Session::getAuthenticatedUserId();
+		if (!$userId) {
+			global $current_user;
+			if (!empty($current_user) && !empty($current_user->id)) {
+				$userId = (int) $current_user->id;
 			}
-			if (!$userId) {
-				return;
+		}
+		if (!$userId) {
+			return;
+		}
+		$tabId = \App\Utils\ModuleUtils::getModuleId($moduleName);
+		if ($tabId) {
+			$prefUser = 'Users:' . $userId;
+			$db = \App\Db\Db::getInstance();
+			$exists = (new \App\Db\Query())
+				->from('vtiger_user_module_preferences')
+				->where(['userid' => $prefUser, 'tabid' => $tabId])
+				->exists();
+			if ($exists) {
+				$db->createCommand()->update('vtiger_user_module_preferences', ['default_cvid' => $viewId], ['userid' => $prefUser, 'tabid' => $tabId])->execute();
+			} else {
+				$db->createCommand()->insert('vtiger_user_module_preferences', ['userid' => $prefUser, 'tabid' => $tabId, 'default_cvid' => $viewId])->execute();
 			}
-			$tabId = \App\Utils\ModuleUtils::getModuleId($moduleName);
-			if ($tabId) {
-				$prefUser = 'Users:' . $userId;
-				$db = \App\Db\Db::getInstance();
-				$exists = (new \App\Db\Query())
-					->from('vtiger_user_module_preferences')
-					->where(['userid' => $prefUser, 'tabid' => $tabId])
-					->exists();
-				if ($exists) {
-					$db->createCommand()->update('vtiger_user_module_preferences', ['default_cvid' => (int) $viewId], ['userid' => $prefUser, 'tabid' => $tabId])->execute();
-				} else {
-					$db->createCommand()->insert('vtiger_user_module_preferences', ['userid' => $prefUser, 'tabid' => $tabId, 'default_cvid' => (int) $viewId])->execute();
-				}
-				// Clear cached default cvId so next request picks up the new value
-				// Cache key format in getDefaultCvId(): $moduleName . $user->getId()
-				\App\Cache\Cache::delete('GetDefaultCvId', $moduleName . $userId);
-			}
+			\App\Cache\Cache::delete('GetDefaultCvId', $moduleName . $userId);
 		}
 	}
 
 	/**
 	 * Function that reads current module filter
 	 * @param string $moduleName - module name
-	 * @return int|string
+	 * @return int
 	 */
-	public static function getCurrentView($moduleName)
+	public static function getCurrentView($moduleName): int
 	{
 		if (!empty($_SESSION['lvs'][$moduleName]['viewname'])) {
-			return $_SESSION['lvs'][$moduleName]['viewname'];
+			return self::normalizeViewId($_SESSION['lvs'][$moduleName]['viewname']);
 		}
+		return 0;
 	}
 
 	/**
@@ -240,19 +242,27 @@ class CustomView
 	/**
 	 * Has view changed
 	 * @param string $moduleName
-	 * @param int|string $viewId
+	 * @param int $viewId
 	 * @param \App\Http\Vtiger_Request|null $request
 	 * @return boolean
 	 */
-	public static function hasViewChanged($moduleName, $viewId = false, \App\Http\Vtiger_Request $request)
+	public static function hasViewChanged($moduleName, $viewId = 0, \App\Http\Vtiger_Request $request = null)
 	{
-		if (empty($_SESSION['lvs'][$moduleName]['viewname'])) {
+		$sessionViewId = self::getCurrentView($moduleName);
+		if ($sessionViewId <= 0) {
 			return true;
 		}
-		if ($request !== null && !$request->isEmpty('viewname') && ($request->get('viewname') !== $_SESSION['lvs'][$moduleName]['viewname'])) {
-			return true;
+		if ($request !== null && !$request->isEmpty('viewname')) {
+			$requestViewName = $request->get('viewname');
+			if (is_numeric($requestViewName)) {
+				if ((int) $requestViewName !== $sessionViewId) {
+					return true;
+				}
+			} elseif ($requestViewName !== $_SESSION['lvs'][$moduleName]['viewname']) {
+				return true;
+			}
 		}
-		if ($viewId && ($viewId !== $_SESSION['lvs'][$moduleName]['viewname'])) {
+		if ($viewId > 0 && $viewId !== $sessionViewId) {
 			return true;
 		}
 		return false;
@@ -484,15 +494,15 @@ class CustomView
 	 * To get the customViewId of the specified module
 	 * @param bool $noCache
 	 * @param \App\Http\Vtiger_Request|null $request
-	 * @return int|string
+	 * @return int
 	 */
-	public function getViewId($noCache = false, \App\Http\Vtiger_Request $request = null)
+	public function getViewId($noCache = false, \App\Http\Vtiger_Request $request = null): int
 	{
 		if ($request === null) {
 			$request = new \App\Http\Vtiger_Request($_REQUEST, $_REQUEST);
 		}
 		\App\Log\Log::trace(__METHOD__);
-		if (isset($this->defaultViewId)) {
+		if ($this->defaultViewId !== null) {
 			return $this->defaultViewId;
 		}
 		if (!$request->isEmpty('viewname')) {
@@ -506,73 +516,80 @@ class CustomView
 				if (!$viewId) {
 					$viewId = $this->getDefaultCvId();
 				}
-			}
-			// When the filter is explicitly selected (viewname param), persist it
-			// so it becomes the "last used" filter for this user + module.
-			// This is the most reliable place, because multiple endpoints call getViewId()
-			// without going through ListView::process().
-			if ($viewId && self::hasViewChanged($this->moduleName, $viewId, $request)) {
-				self::setCurrentView($this->moduleName, $viewId);
+			} else {
+				$viewId = self::normalizeViewId($viewId);
 			}
 		} elseif (!$noCache && self::getCurrentView($this->moduleName)) {
 			$viewId = self::getCurrentView($this->moduleName);
-			if (empty($viewId) || !$this->isPermittedCustomView($viewId, $request)) {
+			if ($viewId <= 0 || !$this->isPermittedCustomView($viewId, $request)) {
 				$viewId = $this->getMandatoryFilter();
 			}
 		} else {
 			$viewId = $this->getDefaultCvId();
-			if (empty($viewId) || !$this->isPermittedCustomView($viewId, $request)) {
+			if ($viewId <= 0 || !$this->isPermittedCustomView($viewId, $request)) {
 				$viewId = $this->getMandatoryFilter();
 			}
 		}
-		$this->defaultViewId = $viewId;
+		$viewId = self::normalizeViewId($viewId);
+		if (!$request->isEmpty('viewname') && $viewId > 0 && self::hasViewChanged($this->moduleName, $viewId, $request)) {
+			self::setCurrentView($this->moduleName, $viewId);
+		}
+		if ($viewId > 0) {
+			$this->defaultViewId = $viewId;
+		}
 		return $viewId;
 	}
 
 	/**
 	 * Get default cvId
-	 * @return int|string
+	 * @return int
 	 */
-	public function getDefaultCvId()
+	public function getDefaultCvId(): int
 	{
 		\App\Log\Log::trace(__METHOD__);
 		$cacheName = $this->moduleName . $this->user->getId();
 		if (Cache::has('GetDefaultCvId', $cacheName)) {
-			return Cache::get('GetDefaultCvId', $cacheName);
+			return self::normalizeViewId(Cache::get('GetDefaultCvId', $cacheName));
 		}
 		$query = (new \App\Db\Query())->select('userid, default_cvid')->from('vtiger_user_module_preferences')->where(['tabid' => \App\Utils\ModuleUtils::getModuleId($this->moduleName)]);
 		$data = $query->createCommand()->queryAllByGroup();
 		$user = 'Users:' . $this->user->getId();
 		if (isset($data[$user])) {
-			Cache::save('GetDefaultCvId', $cacheName, $data[$user]);
-			return $data[$user];
+			$viewId = self::normalizeViewId($data[$user]);
+			Cache::save('GetDefaultCvId', $cacheName, $viewId);
+			return $viewId;
 		}
 		foreach ($this->user->getGroups() as $groupId) {
 			$group = 'Groups:' . $groupId;
 			if (isset($data[$group])) {
-				Cache::save('GetDefaultCvId', $cacheName, $data[$group]);
-				return $data[$group];
+				$viewId = self::normalizeViewId($data[$group]);
+				Cache::save('GetDefaultCvId', $cacheName, $viewId);
+				return $viewId;
 			}
 		}
 		$role = 'Roles:' . $this->user->getRole();
 		if (isset($data[$role])) {
-			Cache::save('GetDefaultCvId', $cacheName, $data[$role]);
-			return $data[$role];
+			$viewId = self::normalizeViewId($data[$role]);
+			Cache::save('GetDefaultCvId', $cacheName, $viewId);
+			return $viewId;
 		}
 		foreach ($this->user->getParentRoles() as $roleId) {
 			$role = 'RoleAndSubordinates:' . $roleId;
 			if (isset($data[$role])) {
-				Cache::save('GetDefaultCvId', $cacheName, $data[$role]);
-				return $data[$role];
+				$viewId = self::normalizeViewId($data[$role]);
+				Cache::save('GetDefaultCvId', $cacheName, $viewId);
+				return $viewId;
 			}
 		}
 		$info = $this->getInfoFilter($this->moduleName);
 		foreach ($info as &$values) {
 			if ($values['setdefault'] === 1) {
-				Cache::save('GetDefaultCvId', $cacheName, $values['cvid']);
-				return $values['cvid'];
+				$viewId = self::normalizeViewId($values['cvid']);
+				Cache::save('GetDefaultCvId', $cacheName, $viewId);
+				return $viewId;
 			}
 		}
+		return 0;
 	}
 
 	/**
@@ -656,15 +673,16 @@ class CustomView
 	 * @param boolean $returnData
 	 * @return array|int
 	 */
-	public function getMandatoryFilter($returnData = false)
+	public function getMandatoryFilter($returnData = false): array|int
 	{
 		\App\Log\Log::trace(__METHOD__);
 		$info = $this->getInfoFilter($this->moduleName);
 		foreach ($info as &$values) {
 			if ($values['presence'] === 0) {
-				return $returnData ? $values : $values['cvid'];
+				return $returnData ? $values : self::normalizeViewId($values['cvid']);
 			}
 		}
+		return $returnData ? [] : 0;
 	}
 
 	/**
@@ -672,16 +690,16 @@ class CustomView
 	 * @param int|string $viewName
 	 * @return int
 	 */
-	public function getViewIdByName($viewName)
+	public function getViewIdByName($viewName): int
 	{
 		\App\Log\Log::trace(__METHOD__);
 		$info = $this->getInfoFilter($this->moduleName);
 		foreach ($info as &$values) {
 			if ($values['viewname'] === $viewName) {
-				return $values['cvid'];
+				return self::normalizeViewId($values['cvid']);
 			}
 		}
-		return false;
+		return 0;
 	}
 
 	/**

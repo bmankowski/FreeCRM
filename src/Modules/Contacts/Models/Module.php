@@ -18,7 +18,7 @@ class Module extends \App\Modules\Base\Models\Module
 	/**
 	 * Function returns query for module record's search
 	 * @param string $searchValue - part of record name (label column of crmentity table)
-	 * @param <Integer> $parentId - parent record id
+	 * @param int $parentId - parent record id
 	 * @param string $parentModule - parent module name
 	 * @return string - query
 	 */

@@ -13,8 +13,8 @@ class ListView extends \App\Modules\Base\Models\ListView
 
 	/**
 	 * Function to get the Quick Links for the List view of the module
-	 * @param <Array> $linkParams
-	 * @return <Array> List of \App\Modules\Base\Models\Link instances
+	 * @param array $linkParams
+	 * @return array List of \App\Modules\Base\Models\Link instances
 	 */
 	public function getHederLinks($linkParams)
 	{

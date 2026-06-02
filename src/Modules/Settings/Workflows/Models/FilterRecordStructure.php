@@ -18,7 +18,7 @@ class FilterRecordStructure extends \App\Modules\Settings\Workflows\Models\Recor
 
 	/**
 	 * Function to get the values in stuctured format
-	 * @return <array> - values in structure array('block'=>array(fieldinfo));
+	 * @return array - values in structure array('block'=>array(fieldinfo));
 	 */
 	public function getStructure()
 	{

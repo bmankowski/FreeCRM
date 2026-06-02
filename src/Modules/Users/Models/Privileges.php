@@ -35,7 +35,7 @@ class Privileges extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get the Global Read Permission for the user
-	 * @return <Number> 0/1
+	 * @return mixed 0/1
 	 */
 	protected function getGlobalReadPermission()
 	{
@@ -45,7 +45,7 @@ class Privileges extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get the Global Write Permission for the user
-	 * @return <Number> 0/1
+	 * @return mixed 0/1
 	 */
 	protected function getGlobalWritePermission()
 	{
@@ -110,8 +110,8 @@ class Privileges extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to check whether the user has access to the specified action/operation on a given module by tabid
-	 * @param <Number> $tabId
-	 * @param <String/Number> $action
+	 * @param mixed $tabId
+	 * @param string|int $action
 	 * @return boolean true/false
 	 */
 	public function hasModuleActionPermission($mixed, $action)
@@ -139,7 +139,7 @@ class Privileges extends \App\Runtime\BaseModel
 
 	/**
 	 * Static Function to get the instance of the User Privileges model from the given list of key-value array
-	 * @param <Array> $valueMap
+	 * @param array $valueMap
 	 * @return \App\Modules\Users\Models\Privileges
 	 */
 	public static function getInstance($valueMap)
@@ -252,7 +252,7 @@ class Privileges extends \App\Runtime\BaseModel
 
 	/**
 	 * Static Function to get the instance of the User Privileges model, given the User id
-	 * @param <Number> $userId
+	 * @param mixed $userId
 	 * @return \App\Modules\Users\Models\Privileges object
 	 */
 	public static function getInstanceById($userId, $module = null)
@@ -302,7 +302,7 @@ class Privileges extends \App\Runtime\BaseModel
 	 * Function to check permission for a Module/Action/Record
 	 * @param string $moduleName
 	 * @param string $actionName
-	 * @param <Number> $record
+	 * @param mixed $record
 	 * @return Boolean
 	 */
 	public static function isPermitted($moduleName, $actionName = null, $record = false)
@@ -667,7 +667,7 @@ class Privileges extends \App\Runtime\BaseModel
 	 * To retrieve the global permission of the specified user from the various vtiger_profiles associated with the user
 	 * @param int $userId The User Id
 	 * @return array user global permission array in the following format:
-	 *     $globalPermissionArray=(view all action id=>permission, edit all action id=>permission)
+	 *    $globalPermissionArray=(view all action id=>permission, edit all action id=>permission)
 	 */
 	public static function getCombinedUserGlobalPermissions($userId)
 	{
@@ -703,7 +703,7 @@ class Privileges extends \App\Runtime\BaseModel
 	 * To retrieve the vtiger_tab permissions of the specified user from the various vtiger_profiles associated with the user
 	 * @param int $userId The User Id
 	 * @return array user tab permission array in the following format:
-	 *     $tabPermissionArray=(tabid1=>permission, tabid2=>permission)
+	 *    $tabPermissionArray=(tabid1=>permission, tabid2=>permission)
 	 */
 	public static function getCombinedUserTabsPermissions($userId)
 	{
@@ -743,7 +743,7 @@ class Privileges extends \App\Runtime\BaseModel
 	 * To retrieve the vtiger_tab action permissions of the specified user from the various vtiger_profiles associated with the user
 	 * @param int $userId The User Id
 	 * @return array user action permission array in the following format:
-	 *     $actionPermissionArray=(tabid1=>Array(actionid1=>permission, actionid2=>permission), tabid2=>Array(...))
+	 *    $actionPermissionArray=(tabid1=>Array(actionid1=>permission, actionid2=>permission), tabid2=>Array(...))
 	 */
 	public static function getCombinedUserActionPermissions($userId)
 	{

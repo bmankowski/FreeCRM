@@ -96,10 +96,10 @@ class Record extends \App\Modules\Base\Models\Record
 	}
 
 	/** 	Function used to add the tax type which will do database alterations
-	 * 	@param string $taxlabel - tax label name to be added
-	 * 	@param string $taxvalue - tax value to be added
-	 *      @param string $sh - sh or empty , if sh passed then the tax will be added in shipping and handling related table
-	 *      @return void
+	 * @param string $taxlabel - tax label name to be added
+	 * @param string $taxvalue - tax value to be added
+	 *     @param string $sh - sh or empty , if sh passed then the tax will be added in shipping and handling related table
+	 *     @return void
 	 */
 	public function add()
 	{

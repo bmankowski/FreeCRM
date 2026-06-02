@@ -65,8 +65,7 @@ class SqlResultIterator implements \Iterator
 	 * Return the contents of the resultset as an array. Destroys a running iterator's state.
 	 *
 	 * This method will reset the iterator using the rewind method.
-	 * 
-	 * $copyFields specify which fields of the result to copy to the array. 
+	 * 	 * $copyFields specify which fields of the result to copy to the array. 
 	 * If not specified the function will return values for all the fields.
 	 */
 	function toArray($copyFields = null)

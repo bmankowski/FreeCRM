@@ -25,7 +25,7 @@ class Holiday extends \App\Modules\Settings\Base\Actions\Index
 
 	/**
 	 * Delete date
-	 * @param <Object> $request
+	 * @param object $request
 	 * @return true if deleted, false otherwise
 	 */
 	public function delete(\App\Http\Vtiger_Request $request)
@@ -50,7 +50,7 @@ class Holiday extends \App\Modules\Settings\Base\Actions\Index
 
 	/**
 	 * Save date
-	 * @param <Object> $request
+	 * @param object $request
 	 * @return true if saved, false otherwise
 	 */
 	public function save(\App\Http\Vtiger_Request $request)

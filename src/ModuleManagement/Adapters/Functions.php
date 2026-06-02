@@ -467,11 +467,11 @@ class Functions
 	}
 
 	/** 	Function used to retrieve a single field value from database
-	 * 	@param string $tableName - tablename from which we will retrieve the field value
-	 * 	@param string $fieldName - fieldname to which we want to get the value from database
-	 * 	@param string $idName	 - idname which is the name of the entity id in the table like, inoviceid, etc.,
-	 * 	@param int    $id	 - entity id
-	 * 	return mixed $fieldval  - field value of the needed fieldname from database will be returned
+	 * @param string $tableName - tablename from which we will retrieve the field value
+	 * @param string $fieldName - fieldname to which we want to get the value from database
+	 * @param string $idName	 - idname which is the name of the entity id in the table like, inoviceid, etc.,
+	 * @param int    $id	 - entity id
+	 * return mixed $fieldval  - field value of the needed fieldname from database will be returned
 	 */
 	public static function getSingleFieldValue($tableName, $fieldName, $idName, $id)
 	{
@@ -955,8 +955,8 @@ class Functions
 	}
 	/*
 	 * Checks if given date is working day, if not returns last working day
-	 * @param <Date> $date
-	 * @return <Date> - last working y
+	 * @param mixed $date
+	 * @return mixed - last working y
 	 */
 
 	public static function getLastWorkingDay($date)
@@ -1353,12 +1353,12 @@ class Functions
 	}
 	/*
 	 * Function that returns conversion info from default system currency to chosen one
-	 * @param <Integer> $currencyId - id of currency for which we want to retrieve conversion rate to default currency
-	 * @param <Date> $date - date of exchange rates, if empty then rate from yesterday
-	 * @return <Array> - array containing:
-	 * 		date - date of rate
-	 * 		value - conversion 1 default currency -> $currencyId
-	 * 		conversion - 1 $currencyId -> default currency
+	 * @param int $currencyId - id of currency for which we want to retrieve conversion rate to default currency
+	 * @param mixed $date - date of exchange rates, if empty then rate from yesterday
+	 * @return array - array containing:
+	 * 	date - date of rate
+	 * 	value - conversion 1 default currency -> $currencyId
+	 * 	conversion - 1 $currencyId -> default currency
 	 */
 
 	public static function getConversionRateInfo($currencyId, $date = '')

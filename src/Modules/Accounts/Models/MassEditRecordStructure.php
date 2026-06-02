@@ -18,8 +18,8 @@ class MassEditRecordStructure extends \App\Modules\Base\Models\RecordStructure
 {
 	/*
 	 * Function that return Field Restricted are not
-	 * 	@params Field Model
-	 *  @returns boolean true or false
+	 * @params Field Model
+	 * @returns boolean true or false
 	 */
 
 	public function isFieldRestricted($fieldModel)

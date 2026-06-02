@@ -24,7 +24,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to get the Id
-	 * @return <Number> Group Id
+	 * @return mixed Group Id
 	 */
 	public function getId()
 	{
@@ -33,7 +33,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to set the Id
-	 * @param <Number> Group Id
+	 * @return mixed Group Id
 	 * @return \App\Modules\Settings\Groups\Models\Record instance
 	 */
 	public function setId($id)
@@ -88,7 +88,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to get all the members of the groups
-	 * @return <Array> \App\Modules\Settings\Profiles\Models\Record instances
+	 * @return array \App\Modules\Settings\Profiles\Models\Record instances
 	 */
 	public function getMembers()
 	{
@@ -100,7 +100,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to get the Modules
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getModules()
 	{
@@ -210,7 +210,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to recalculate user priviliges files
-	 * @param <Array> $oldUsersList
+	 * @param array $oldUsersList
 	 */
 	public function recalculate($oldUsersList)
 	{
@@ -236,7 +236,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	/**
 	 * Function to get all users related to this group
 	 * @param boolean $nonAdmin true/false
-	 * @return <Array> Users models list <\App\Modules\Users\Models\Record>
+	 * @return array Users models list <\App\Modules\Users\Models\Record>
 	 */
 	public function getUsersList($nonAdmin = false)
 	{
@@ -323,7 +323,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to delete the group
-	 * @param <\App\Modules\Settings\Groups\Models\Record> $transferToGroup
+	 * @param \App\Modules\Settings\Groups\Models\Record $transferToGroup
 	 */
 	public function delete($transferToGroup)
 	{
@@ -349,7 +349,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return <Array> - Associate array of \App\Modules\Base\Models\Link instances
+	 * @return array - Associate array of \App\Modules\Base\Models\Link instances
 	 */
 	public function getRecordLinks()
 	{
@@ -378,7 +378,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to get all the groups
-	 * @return <Array> - Array of \App\Modules\Settings\Groups\Models\Record instances
+	 * @return array - Array of \App\Modules\Settings\Groups\Models\Record instances
 	 */
 	public static function getAll()
 	{
@@ -394,7 +394,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to get the instance of Group model, given group id or name
-	 * @param <Object> $value
+	 * @param object $value
 	 * @return \App\Modules\Settings\Groups\Models\Record instance, if exists. Null otherwise
 	 */
 	public static function getInstance($value)

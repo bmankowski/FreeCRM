@@ -21,8 +21,7 @@ class WebserviceService
 {
 	/**
 	 * Initialize webservice for a module.
-	 * 
-	 * @param int $moduleId Module ID
+	 * 	 * @param int $moduleId Module ID
 	 * @param string $moduleName Module name
 	 * @param bool $isEntityType Whether module is entity type
 	 * @return void
@@ -38,8 +37,7 @@ class WebserviceService
 
 	/**
 	 * Uninitialize webservice for a module.
-	 * 
-	 * @param string $moduleName Module name
+	 * 	 * @param string $moduleName Module name
 	 * @param bool $isEntityType Whether module is entity type
 	 * @return void
 	 */

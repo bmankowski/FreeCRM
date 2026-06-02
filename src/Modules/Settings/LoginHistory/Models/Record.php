@@ -15,7 +15,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to get the Id
-	 * @return <Number> Profile Id
+	 * @return mixed Profile Id
 	 */
 	public function getId()
 	{

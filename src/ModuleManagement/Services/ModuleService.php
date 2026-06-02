@@ -30,8 +30,7 @@ class ModuleService
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param \App\Db\Db $db
+	 * 	 * @param \App\Db\Db $db
 	 * @param Events\Dispatcher $eventDispatcher
 	 */
 	public function __construct(\App\Db\Db $db, Events\Dispatcher $eventDispatcher)
@@ -42,8 +41,7 @@ class ModuleService
 
 	/**
 	 * Create a new module.
-	 * 
-	 * @param Models\Module $module
+	 * 	 * @param Models\Module $module
 	 * @return int Module ID
 	 * @throws \Exception
 	 */
@@ -134,8 +132,7 @@ class ModuleService
 
 	/**
 	 * Update an existing module.
-	 * 
-	 * @param int $moduleId
+	 * 	 * @param int $moduleId
 	 * @param Models\Module $module
 	 * @return void
 	 * @throws \Exception
@@ -206,8 +203,7 @@ class ModuleService
 
 	/**
 	 * Delete a module.
-	 * 
-	 * @param int $moduleId
+	 * 	 * @param int $moduleId
 	 * @return void
 	 * @throws \Exception
 	 */
@@ -240,8 +236,7 @@ class ModuleService
 
 	/**
 	 * Get module instance by name or ID.
-	 * 
-	 * @param string|int $nameOrId
+	 * 	 * @param string|int $nameOrId
 	 * @return Models\Module|null
 	 */
 	public function getInstance($nameOrId): ?Models\Module
@@ -338,8 +333,7 @@ class ModuleService
 
 	/**
 	 * Toggle module access (enable/disable).
-	 * 
-	 * @param string $moduleName
+	 * 	 * @param string $moduleName
 	 * @param bool $enable
 	 * @return void
 	 * @throws \Exception
@@ -362,8 +356,7 @@ class ModuleService
 
 	/**
 	 * Initialize tables for a module.
-	 * 
-	 * @param int $moduleId
+	 * 	 * @param int $moduleId
 	 * @param Models\Module $module
 	 * @return void
 	 * @throws \Exception
@@ -465,8 +458,7 @@ class ModuleService
 
 	/**
 	 * Initialize webservice for a module.
-	 * 
-	 * @param int $moduleId
+	 * 	 * @param int $moduleId
 	 * @return void
 	 */
 	public function initWebservice(int $moduleId): void
@@ -483,8 +475,7 @@ class ModuleService
 
 	/**
 	 * Set entity identifier field for a module.
-	 * 
-	 * @param int $moduleId
+	 * 	 * @param int $moduleId
 	 * @param int $fieldId
 	 * @return void
 	 * @throws \Exception
@@ -533,8 +524,7 @@ class ModuleService
 
 	/**
 	 * Initialize profile for module.
-	 * 
-	 * @param int $moduleId
+	 * 	 * @param int $moduleId
 	 * @param bool $isentitytype
 	 * @return void
 	 */
@@ -545,8 +535,7 @@ class ModuleService
 
 	/**
 	 * Initialize sharing access for module.
-	 * 
-	 * @param int $moduleId
+	 * 	 * @param int $moduleId
 	 * @return void
 	 */
 	private function initSharing(int $moduleId): void
@@ -556,8 +545,7 @@ class ModuleService
 
 	/**
 	 * Delete cascade operations for module.
-	 * 
-	 * @param int $moduleId
+	 * 	 * @param int $moduleId
 	 * @param Models\Module $module
 	 * @return void
 	 */
@@ -645,8 +633,7 @@ class ModuleService
 
 	/**
 	 * Delete from CRMEntity.
-	 * 
-	 * @param string $moduleName
+	 * 	 * @param string $moduleName
 	 * @return void
 	 */
 	private function deleteFromCRMEntity(string $moduleName): void
@@ -665,8 +652,7 @@ class ModuleService
 
 	/**
 	 * Delete module tables.
-	 * 
-	 * @param Models\Module $module
+	 * 	 * @param Models\Module $module
 	 * @param string $tableName
 	 * @return void
 	 */
@@ -698,8 +684,7 @@ class ModuleService
 
 	/**
 	 * Delete icons.
-	 * 
-	 * @param string $moduleName
+	 * 	 * @param string $moduleName
 	 * @return void
 	 */
 	private function deleteIcons(string $moduleName): void
@@ -717,8 +702,7 @@ class ModuleService
 
 	/**
 	 * Clean up old include_once statements from module files.
-	 * 
-	 * @param string $moduleName
+	 * 	 * @param string $moduleName
 	 * @return void
 	 */
 	private function cleanupModuleFiles(string $moduleName): void
@@ -809,8 +793,7 @@ class ModuleService
 
 	/**
 	 * Delete directory.
-	 * 
-	 * @param object $moduleInstance
+	 * 	 * @param object $moduleInstance
 	 * @return void
 	 */
 	private function deleteDir($moduleInstance): void
@@ -832,8 +815,7 @@ class ModuleService
 
 	/**
 	 * Unset all related lists.
-	 * 
-	 * @param int $moduleId
+	 * 	 * @param int $moduleId
 	 * @return void
 	 */
 	private function unsetAllRelatedList(int $moduleId): void
@@ -858,8 +840,7 @@ class ModuleService
 
 	/**
 	 * Sync file (create module meta file).
-	 * 
-	 * @return void
+	 * 	 * @return void
 	 */
 	private function syncfile(): void
 	{
@@ -868,8 +849,7 @@ class ModuleService
 
 	/**
 	 * Create vtlib Module instance for compatibility.
-	 * 
-	 * @param Models\Module $module
+	 * 	 * @param Models\Module $module
 	 * @return \vtlib\Module
 	 */
 	private function createVtlibModuleInstance(Models\Module $module): \vtlib\Module

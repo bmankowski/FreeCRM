@@ -20,7 +20,7 @@ class MappedFields extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get the id of the record
-	 * @return <Number> - Record Id
+	 * @return mixed - Record Id
 	 */
 	public function getId()
 	{

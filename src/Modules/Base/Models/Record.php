@@ -55,7 +55,7 @@ class Record extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to set the id of the record
-	 * @param <type> $value - id value
+	 * @param mixed $value - id value
 	 */
 	public function setId($value)
 	{
@@ -212,7 +212,7 @@ class Record extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get raw data
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getRawData()
 	{
@@ -221,7 +221,7 @@ class Record extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to set raw data
-	 * @param <Array> $data
+	 * @param array $data
 	 * @return \App\Modules\Base\Models\Record instance
 	 */
 	public function setRawData($data)
@@ -357,7 +357,7 @@ class Record extends \App\Runtime\BaseModel
 	/**
 	 * Function returns the \App\Modules\Base\Models\Field
 	 * @param string $fieldName - field name
-	 * @return <\App\Modules\Base\Models\Field>
+	 * @return \App\Modules\Base\Models\Field
 	 */
 	public function getField($fieldName)
 	{
@@ -366,7 +366,7 @@ class Record extends \App\Runtime\BaseModel
 
 	/**
 	 * Function returns all the field values in user format
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getDisplayableValues()
 	{
@@ -595,7 +595,7 @@ class Record extends \App\Runtime\BaseModel
 	/**
 	 * Static Function to get the list of records matching the search key
 	 * @param string $searchKey
-	 * @return <Array> - List of \App\Modules\Base\Models\Record or Module Specific Record Model instances
+	 * @return array - List of \App\Modules\Base\Models\Record or Module Specific Record Model instances
 	 */
 	public static function getSearchResult($searchKey, $module = false, $limit = false, $operator = false)
 	{
@@ -745,7 +745,7 @@ class Record extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to delete corresponding image
-	 * @param <type> $imageId
+	 * @param mixed $imageId
 	 */
 	public function deleteImage($imageId)
 	{
@@ -777,7 +777,7 @@ class Record extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to transfer related records of parent records to this record
-	 * @param <Array> $recordIds
+	 * @param array $recordIds
 	 * @return boolean true/false
 	 */
 	public function transferRelationInfoOfRecords($recordIds = [])

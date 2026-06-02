@@ -19,7 +19,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 
 	/**
 	 * Function to get the list of listview links for the module
-	 * @param <Array> $linkParams
+	 * @param array $linkParams
 	 * @return false - no List View Links needed on Import pages
 	 */
 	public function getListViewLinks($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)
@@ -29,7 +29,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 
 	/**
 	 * Function to get the list of Mass actions for the module
-	 * @param <Array> $linkParams
+	 * @param array $linkParams
 	 * @return false - no List View Links needed on Import pages
 	 */
 	public function getListViewMassActions($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)

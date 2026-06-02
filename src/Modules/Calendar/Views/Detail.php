@@ -234,7 +234,7 @@ class Detail extends \App\Modules\Base\Views\Detail
 
 	/**
 	 * Function shows basic detail for the record
-	 * @param <type> $request
+	 * @param mixed $request
 	 */
 	public function showModuleBasicView(\App\Http\Vtiger_Request $request)
 	{

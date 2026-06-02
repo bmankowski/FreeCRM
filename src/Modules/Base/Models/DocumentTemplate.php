@@ -37,7 +37,7 @@ class DocumentTemplate extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get the id of the record
-	 * @return <Number> - Record Id
+	 * @return mixed - Record Id
 	 */
 	public function getId()
 	{
@@ -70,7 +70,7 @@ class DocumentTemplate extends \App\Runtime\BaseModel
 
 	/**
 	 * Get record id for which template is generated
-	 * @return <Integer> - id of a main module record
+	 * @return int - id of a main module record
 	 */
 	public function getMainRecordId()
 	{
@@ -81,7 +81,7 @@ class DocumentTemplate extends \App\Runtime\BaseModel
 
 	/**
 	 * Get records id for which template is generated
-	 * @return <Array> - ids of a main module record
+	 * @return array - ids of a main module record
 	 */
 	public function getRecordIds()
 	{
@@ -90,7 +90,7 @@ class DocumentTemplate extends \App\Runtime\BaseModel
 
 	/**
 	 * Sets record id for which template will be generated
-	 * @param <Integer> $id
+	 * @param int $id
 	 */
 	public function setMainRecordId($id)
 	{
@@ -289,7 +289,7 @@ class DocumentTemplate extends \App\Runtime\BaseModel
 
 	/**
 	 * Returns array of template parameters understood by the pdf engine
-	 * @return <Array> - array of parameters
+	 * @return array - array of parameters
 	 */
 	public function getParameters()
 	{

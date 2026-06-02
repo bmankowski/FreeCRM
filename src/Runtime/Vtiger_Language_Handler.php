@@ -168,8 +168,7 @@ class Vtiger_Language_Handler
 	/**
 	 * Function that returns translation strings from file
 	 * Loads language files in JSON format (YetiForce compatible)
-	 * 
-	 * @param string $language Language code (e.g., 'pl_pl', 'en_us')
+	 * 	 * @param string $language Language code (e.g., 'pl_pl', 'en_us')
 	 * @param string $module Module name (e.g., 'Vtiger', 'Accounts')
 	 * @return array Array with 'languageStrings' and 'jsLanguageStrings' keys
 	 */
@@ -274,7 +273,7 @@ class Vtiger_Language_Handler
 	 * Function returns module strings
 	 * @param string $module - module Name
 	 * @param string languageStrings or jsLanguageStrings
-	 * @return <Array>
+	 * @return array
 	 */
 	public static function export($module, $type = 'languageStrings')
 	{
@@ -323,7 +322,7 @@ class Vtiger_Language_Handler
 
 	/**
 	 * Function to returns all language information
-	 * @return <Array>
+	 * @return array
 	 */
 	public static function getAllLanguages()
 	{

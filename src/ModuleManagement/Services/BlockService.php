@@ -26,8 +26,7 @@ class BlockService
 
 	/**
 	 * Constructor.
-	 * 
-	 * @param \App\Db\Db $db
+	 * 	 * @param \App\Db\Db $db
 	 */
 	public function __construct(\App\Db\Db $db)
 	{
@@ -36,8 +35,7 @@ class BlockService
 
 	/**
 	 * Create a new block.
-	 * 
-	 * @param int $moduleId
+	 * 	 * @param int $moduleId
 	 * @param Models\Block $block
 	 * @return int Block ID
 	 * @throws \Exception
@@ -84,8 +82,7 @@ class BlockService
 
 	/**
 	 * Update an existing block.
-	 * 
-	 * @param int $blockId
+	 * 	 * @param int $blockId
 	 * @param Models\Block $block
 	 * @return void
 	 * @throws \Exception
@@ -115,8 +112,7 @@ class BlockService
 
 	/**
 	 * Delete a block.
-	 * 
-	 * @param int $blockId
+	 * 	 * @param int $blockId
 	 * @return void
 	 * @throws \Exception
 	 */
@@ -134,8 +130,7 @@ class BlockService
 
 	/**
 	 * Get all blocks for a module.
-	 * 
-	 * @param int $moduleId
+	 * 	 * @param int $moduleId
 	 * @return array Array of Models\Block
 	 */
 	public function getAllForModule(int $moduleId): array
@@ -209,8 +204,7 @@ class BlockService
 
 	/**
 	 * Delete all blocks for a module.
-	 * 
-	 * @param int $moduleId Module ID
+	 * 	 * @param int $moduleId Module ID
 	 * @param bool $recursive Whether to delete associated fields
 	 * @return void
 	 */

@@ -53,7 +53,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	/**
 	 * Delete holiday
-	 * @param <Int> $id - id of holiday
+	 * @param mixed $id - id of holiday
 	 * @return - true on success, false on failure
 	 */
 	public static function deleteHoliday($id)
@@ -94,7 +94,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	/**
 	 * Edit holiday
-	 * @param <Int> $id - id of the holiday
+	 * @param mixed $id - id of the holiday
 	 * @param string $date - date of the holiday
 	 * @param string $name - name of the holiday
 	 * @param string $type - name of the holiday
@@ -143,7 +143,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	}
 
 	/**
-	 * @param <array> $date - start and end date to get holidays
+	 * @param array $date - start and end date to get holidays
 	 * @return - holidays count group by type if exist or false
 	 */
 	public static function getHolidayGroupType($date = false)

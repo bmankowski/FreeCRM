@@ -18,7 +18,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 {
 	/*
 	 * Function to give advance links of a module
-	 * 	@RETURN array of advanced links
+	 * @RETURN array of advanced links
 	 */
 
 	public function getAdvancedLinks()

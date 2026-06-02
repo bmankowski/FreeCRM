@@ -27,8 +27,8 @@ class Tree extends BaseUiType
 
 	/**
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param <Object> $value
-	 * @return <Object>
+	 * @param object $value
+	 * @return object
 	 */
 	public function getDisplayValue($tree, $record = false, $recordInstance = false, $rawText = false)
 	{
@@ -81,8 +81,8 @@ class Tree extends BaseUiType
 
 	/**
 	 * Function to get the all Values
-	 * @param <Object> $value
-	 * @return <Object>
+	 * @param object $value
+	 * @return object
 	 */
 	public function getAllValue()
 	{

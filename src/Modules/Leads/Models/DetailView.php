@@ -17,9 +17,9 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 
 	/**
 	 * Function to get the detail view links (links and widgets)
-	 * @param <array> $linkParams - parameters which will be used to calicaulate the params
-	 * @return <array> - array of link models in the format as below
-	 *                   array('linktype'=>list of link models);
+	 * @param array $linkParams - parameters which will be used to calicaulate the params
+	 * @return array - array of link models in the format as below
+	 *                  array('linktype'=>list of link models);
 	 */
 	public function getDetailViewLinks($linkParams)
 	{

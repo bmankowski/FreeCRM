@@ -9,7 +9,7 @@
  * Contributor(s): YetiForce.com
  * ********************************************************************************** */
 
-$startTime = microtime(true);
+$GLOBALS['startTime'] = microtime(true);
 
 // Support for public directory structure
 // If called from public/index.php, __DIR__ will be /path/to/public
@@ -41,6 +41,7 @@ require_once ROOT_DIRECTORY . '/vendor/autoload.php';  // Composer PSR-4 autoloa
 require_once ROOT_DIRECTORY . '/vendor/yiisoft/yii2/Yii.php';
 require_once ROOT_DIRECTORY . '/config/api.php';
 require_once ROOT_DIRECTORY . '/config/config.php';
+global $API_CONFIG;
 \App\Core\AppConfig::init($API_CONFIG);
 \App\Core\Loader::register();  // For Settings modules in old_modules
 

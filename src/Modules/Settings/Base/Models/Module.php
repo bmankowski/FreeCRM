@@ -82,7 +82,7 @@ class Module extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to get name fields of this module
-	 * @return <Array> list field names
+	 * @return array list field names
 	 */
 	public function getNameFields()
 	{
@@ -92,7 +92,7 @@ class Module extends \App\Modules\Base\Models\Record
 	/**
 	 * Function to get field using field name
 	 * @param string $fieldName
-	 * @return <Field_Model>
+	 * @return mixed
 	 */
 	public function getField($fieldName)
 	{
@@ -119,7 +119,7 @@ class Module extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to get all the Settings menu items for the given menu
-	 * @return <Array> - List of \App\Modules\Settings\Base\Models\MenuItem instances
+	 * @return array - List of \App\Modules\Settings\Base\Models\MenuItem instances
 	 */
 	public function getMenuItems($menu = false)
 	{

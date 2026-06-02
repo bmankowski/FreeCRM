@@ -36,7 +36,7 @@ class Module extends \App\Modules\Base\Models\Module
 	/**
 	 * Function to get the module is permitted to specific action
 	 * @param string $actionName
-	 * @return <boolean>
+	 * @return bool
 	 */
 	public function isPermitted($actionName)
 	{
@@ -48,7 +48,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function to get Settings links
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getSettingLinks()
 	{

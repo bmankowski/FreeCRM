@@ -23,7 +23,7 @@ class ModuleMeta extends \App\Runtime\BaseModel
 	/**
 	 * creates an instance of \App\Modules\Base\Models\ModuleMeta
 	 * @param string $name - module name
-	 * @param <Object> $user - Users Object
+	 * @param object $user - Users Object
 	 * @return \App\Modules\Base\Models\ModuleMeta
 	 */
 	public static function getInstance($name, $user)
@@ -55,7 +55,7 @@ class ModuleMeta extends \App\Runtime\BaseModel
 
 	/**
 	 * Function returns list of fields based on type
-	 * @param <type> $type
+	 * @param mixed $type
 	 * @return mixed
 	 */
 	public function getFieldListByType($type)
@@ -66,7 +66,7 @@ class ModuleMeta extends \App\Runtime\BaseModel
 
 	/**
 	 * Function returns accessible fields in a module
-	 *  \App\Modules\Base\Models\Field[]
+	 * \App\Modules\Base\Models\Field[]
 	 */
 	public function getAccessibleFields($blocks = false)
 	{
@@ -103,7 +103,7 @@ class ModuleMeta extends \App\Runtime\BaseModel
 
 	/**
 	 * Function returns mergable fields in the module
-	 * @return <Array of Vtiger_field>
+	 * @return array
 	 */
 	public function getMergableFields($blocks = false)
 	{
@@ -142,7 +142,7 @@ class ModuleMeta extends \App\Runtime\BaseModel
 
 	/**
 	 * Function returns mandatory importable fields
-	 *  \App\Modules\Base\Models\Field[]
+	 * \App\Modules\Base\Models\Field[]
 	 */
 	public function getMandatoryImportableFields()
 	{
@@ -164,7 +164,7 @@ class ModuleMeta extends \App\Runtime\BaseModel
 
 	/**
 	 * Function returns importable fields
-	 *  \App\Modules\Base\Models\Field[]
+	 * \App\Modules\Base\Models\Field[]
 	 */
 	public function getImportableFields($blocks = false)
 	{
@@ -197,7 +197,7 @@ class ModuleMeta extends \App\Runtime\BaseModel
 
 	/**
 	 * Function returns Entity Name fields
-	 *  \App\Modules\Base\Models\Field[]
+	 * \App\Modules\Base\Models\Field[]
 	 */
 	public function getEntityFields()
 	{
@@ -235,7 +235,7 @@ class ModuleMeta extends \App\Runtime\BaseModel
 
 	/**
 	 * Function returns list of mandatory fields
-	 *  \App\Modules\Base\Models\Field[]
+	 * \App\Modules\Base\Models\Field[]
 	 */
 	public function getMandatoryFields()
 	{

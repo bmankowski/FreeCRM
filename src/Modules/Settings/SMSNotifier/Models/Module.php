@@ -23,7 +23,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	/**
 	 * Function to get editable fields from this module
-	 * @return <Array> list of editable fields
+	 * @return array list of editable fields
 	 */
 	public function getEditableFields()
 	{
@@ -61,7 +61,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	/**
 	 * Function to get list of all providers
-	 * @return <Array> list of all providers <SMSNotifier_Provider_Model>
+	 * @return array list of all providers <SMSNotifier_Provider_Model>
 	 */
 	public function getAllProviders()
 	{
@@ -73,7 +73,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	/**
 	 * Function to delete records
-	 * @param <Array> $recordIdsList
+	 * @param array $recordIdsList
 	 * @return boolean true/false
 	 */
 	public static function deleteRecords($recordIdsList = array())

@@ -242,7 +242,7 @@ class PrivilegeUtil
 	}
 
 	/**
-	 *  This function is to retreive the vtiger_profiles associated with the  the specified user
+	 * This function is to retreive the vtiger_profiles associated with the  the specified user
 	 * @param int $userId
 	 * @return array
 	 */
@@ -455,7 +455,7 @@ class PrivilegeUtil
 	 * Function to get the vtiger_role related users (with names)
 	 * @param string $roleId RoleId
 	 * @return array Role Related User Array in the following format:
-	 *       $roleUsers=Array($userId1=>$userName,$userId2=>$userName,........,$userIdn=>$userName)
+	 *      $roleUsers=Array($userId1=>$userName,$userId2=>$userName,........,$userIdn=>$userName)
 	 */
 	public static function getRoleUsers($roleId)
 	{
@@ -484,10 +484,10 @@ class PrivilegeUtil
 	 * To retrieve the subordinate vtiger_roles and vtiger_users of the specified parent vtiger_role
 	 * @param string $roleId The Role Id
 	 * @return array subordinate vtiger_role array in the following format:
-	 *     $subordinateRoleUserArray=(roleid1=>Array(userid1=>userName,userid2=>userName,userid3=>userName),
-	 *                                roleid2=>Array(userid1=>userName,userid2=>userName,userid3=>userName),
-	 *                                |
-	 *                                roleidn=>Array(userid1=>userName,userid2=>userName,userid3=>userName))
+	 *    $subordinateRoleUserArray=(roleid1=>Array(userid1=>userName,userid2=>userName,userid3=>userName),
+	 *                               roleid2=>Array(userid1=>userName,userid2=>userName,userid3=>userName),
+	 *                               |
+	 *                               roleidn=>Array(userid1=>userName,userid2=>userName,userid3=>userName))
 	 */
 	public static function getSubordinateRoleAndUsers($roleId)
 	{
@@ -585,7 +585,7 @@ class PrivilegeUtil
 	 * Function to get the vtiger_role and subordinate vtiger_users
 	 * @param string $roleId RoleId
 	 * @return array Role and Subordinates Related Users Array in the following format:
-	 *       $roleSubUsers=Array($userId1=>$userName,$userId2=>$userName,........,$userIdn=>$userName)
+	 *      $roleSubUsers=Array($userId1=>$userName,$userId2=>$userName,........,$userIdn=>$userName)
 	 */
 	public static function getRoleAndSubordinateUsers($roleId)
 	{

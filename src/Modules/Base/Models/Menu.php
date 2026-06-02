@@ -20,7 +20,7 @@ class Menu {
 	/**
 	 * Static Function to get all the accessible menu models with/without ordering them by sequence
 	 * @param boolean $sequenced - true/false
-	 * @return <Array> - List of \App\Modules\Base\Models\Menu instances
+	 * @return array - List of \App\Modules\Base\Models\Menu instances
 	 */
 	public static function getAll($sequenced = false, $restrictedModulesList = [])
 	{
@@ -54,8 +54,7 @@ class Menu {
 	}
 
 	/**
-	 * 
-	 * @param string $url
+	 * 	 * @param string $url
 	 * @return string|null modulename 
 	 */
 	public static function getModuleNameFromUrl($url)

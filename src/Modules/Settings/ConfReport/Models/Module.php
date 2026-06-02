@@ -366,7 +366,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	/**
 	 * Function returns permissions to the core files and folder
-	 * @return <Array>
+	 * @return array
 	 */
 	public static function getPermissionsFiles($onlyError = false)
 	{

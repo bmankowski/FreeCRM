@@ -18,7 +18,7 @@ class ProviderField extends \App\Modules\Settings\SMSNotifier\Models\Field
 
 	/**
 	 * Function to get all provider field models
-	 * @return <Array> field models list 
+	 * @return array field models list 
 	 */
 	public static function getAll()
 	{
@@ -37,8 +37,8 @@ class ProviderField extends \App\Modules\Settings\SMSNotifier\Models\Field
 
 	/**
 	 * Function to get all provider field models
-	 * @param <Object> provider instance
-	 * @return <Array> field Info 
+	 * @param object provider instance
+	 * @return array field Info 
 	 */
 	public static function getInstanceByProvider($provider)
 	{

@@ -43,7 +43,7 @@ class EditAjax extends \App\Modules\Settings\Profiles\Views\Edit
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return <Array> - List of ScriptAsset instances
+	 * @return array - List of ScriptAsset instances
 	 */
 	public function getScripts(\App\Http\Vtiger_Request $request)
 	{

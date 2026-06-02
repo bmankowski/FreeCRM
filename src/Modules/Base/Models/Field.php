@@ -312,7 +312,7 @@ class Field
 
 	/**
 	 * Function to retrieve full data
-	 * @return <array>
+	 * @return array
 	 */
 	public function getData()
 	{
@@ -680,7 +680,7 @@ class Field
 	/**
 	 * Function to get all the available picklist values for the current field
 	 * @param boolean $skipCheckingRole
-	 * @return <Array> List of picklist values if the field is of type picklist or multipicklist, null otherwise.
+	 * @return array List of picklist values if the field is of type picklist or multipicklist, null otherwise.
 	 */
 	public function getPicklistValues($skipCheckingRole = false)
 	{
@@ -718,7 +718,7 @@ class Field
 
 	/**
 	 * Function to get all the available picklist values for the current field
-	 * @return <Array> List of picklist values if the field is of type picklist or multipicklist, null otherwise.
+	 * @return array List of picklist values if the field is of type picklist or multipicklist, null otherwise.
 	 */
 	public function getModulesListValues()
 	{
@@ -1074,7 +1074,7 @@ class Field
 	/**
 	 * Function to get the field details
 	 * @param array $context Optional context information (module, mode, etc.)
-	 * @return <Array> - array of field values
+	 * @return array - array of field values
 	 */
 	public function getFieldInfo($context = [])
 	{
@@ -1189,7 +1189,7 @@ class Field
 
 	/**
 	 * Function to get the advanced filter option names by Field type
-	 * @return <Array>
+	 * @return array
 	 */
 	public static function getAdvancedFilterOpsByFieldType()
 	{
@@ -1354,7 +1354,7 @@ class Field
 
 	/**
 	 * Added function that returns the folders in a Document
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getDocumentFolders()
 	{
@@ -1386,7 +1386,7 @@ class Field
 
 	/**
 	 * Function returns Client Side Validators name
-	 * @return <Array> [name=>Name of the Validator, params=>Extra Parameters]
+	 * @return array [name=>Name of the Validator, params=>Extra Parameters]
 	 */
 	public function getValidator(): array
 	{

@@ -49,9 +49,9 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Gets the value of the key . First it will check whether specified key is a property if not it
-	 *  will get from normal data attribure from base class
+	 * will get from normal data attribure from base class
 	 * @param string $key - property or key name
-	 * @return <object>
+	 * @return object
 	 */
 	public function get($key)
 	{
@@ -399,7 +399,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to get all the Home Page components list
-	 * @return <Array> List of the Home Page components
+	 * @return array List of the Home Page components
 	 */
 	public function getHomePageComponents()
 	{
@@ -480,7 +480,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Static Function to get the instance of all the User Record models
-	 * @return <Array> - List of \App\Modules\Users\Models\Record instances
+	 * @return array - List of \App\Modules\Users\Models\Record instances
 	 */
 	public static function getAll($onlyActive = true)
 	{
@@ -512,7 +512,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function returns the Subordinate users
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getSubordinateUsers()
 	{
@@ -636,7 +636,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to get Images Data
-	 * @return <Array> list of Image names and paths
+	 * @return array list of Image names and paths
 	 */
 	public function getImageDetails()
 	{
@@ -883,7 +883,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to delete corresponding image
-	 * @param <type> $imageId
+	 * @param mixed $imageId
 	 */
 	public function deleteImage($imageId)
 	{
@@ -1009,7 +1009,7 @@ class Record extends \App\Modules\Base\Models\Record
 	/**
 	 * Function to get instance of user model by name
 	 * @param string $userName
-	 * @return <\App\Modules\Users\Models\Record>
+	 * @return \App\Modules\Users\Models\Record
 	 */
 	public static function getInstanceByName($userName)
 	{

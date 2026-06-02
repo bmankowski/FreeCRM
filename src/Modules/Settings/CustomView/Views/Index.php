@@ -73,7 +73,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return <Array> - List of ScriptAsset instances
+	 * @return array - List of ScriptAsset instances
 	 */
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{

@@ -16,8 +16,8 @@ class Relation extends \App\Modules\Base\Models\Relation
 
 	/**
 	 * Function to update the status of relation
-	 * @param <Number> Campaign record id
-	 * @param <array> $statusDetails
+	 * @return mixed Campaign record id
+	 * @param array $statusDetails
 	 */
 	public function updateStatus($sourceRecordId, $statusDetails = [])
 	{

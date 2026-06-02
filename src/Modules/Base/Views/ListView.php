@@ -15,12 +15,12 @@ namespace App\Modules\Base\Views;
 class ListView extends \App\Modules\Base\Views\Index
 {
 
-	protected $listViewEntries = null;
-	protected $listViewCount = null;
-	protected $listViewLinks = null;
-	protected $listViewHeaders = null;
-	protected $listViewModel;
-	protected $viewName;
+	protected ?array $listViewEntries = null;
+	protected ?int $listViewCount = null;
+	protected ?array $listViewLinks = null;
+	protected ?array $listViewHeaders = null;
+	protected ?\App\Modules\Base\Models\ListView $listViewModel = null;
+	protected ?int $viewId = null;
 
 	public function __construct()
 	{
@@ -79,8 +79,8 @@ class ListView extends \App\Modules\Base\Views\Index
 
 		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'));
 
-		$this->viewName = \App\View\CustomView::getInstance($moduleName)->getViewId();
-		$this->listViewModel = \App\Modules\Base\Models\ListView::getInstance($moduleName, $this->viewName);
+		$this->viewId = \App\View\CustomView::getInstance($moduleName)->getViewId();
+		$this->listViewModel = \App\Modules\Base\Models\ListView::getInstance($moduleName, $this->viewId);
 		$this->initializeListViewContents($request, $viewer);
 
 		// ListView needs QUICK_LINKS for sidebar navigation
@@ -93,7 +93,7 @@ class ListView extends \App\Modules\Base\Views\Index
 		// Assign all viewer data at the end
 		$viewer->assign('CUSTOM_VIEWS', \App\Modules\CustomView\Models\Record::getAllByGroup($moduleName, $mid));
 		$viewer->assign('HEADER_LINKS', $this->listViewModel->getHederLinks($linkParams));
-		$viewer->assign('VIEWID', $this->viewName);
+		$viewer->assign('VIEWID', $this->viewId);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 	}
 	
@@ -105,16 +105,16 @@ class ListView extends \App\Modules\Base\Views\Index
 		// Assign common data needed by AJAX list view
 		if (!$request->isEmpty('viewname')) {
 			// When user changes filter, the new filter id is sent as "viewname" in AJAX requests.
-			$this->viewName = \App\View\CustomView::getInstance($moduleName)->getViewId(false, $request);
-		} elseif (!isset($this->viewName)) {
-			$this->viewName = \App\View\CustomView::getInstance($moduleName)->getViewId();
+			$this->viewId = \App\View\CustomView::getInstance($moduleName)->getViewId(false, $request);
+		} elseif (!isset($this->viewId)) {
+			$this->viewId = \App\View\CustomView::getInstance($moduleName)->getViewId();
 		}
-		$this->listViewModel = \App\Modules\Base\Models\ListView::getInstance($moduleName, $this->viewName);
+		$this->listViewModel = \App\Modules\Base\Models\ListView::getInstance($moduleName, $this->viewId);
 		$this->initializeListViewContents($request, $viewer);	
 		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('MODULE_MODEL', \App\Modules\Base\Models\Module::getInstance($moduleName));
-		$viewer->assign('VIEWID', $this->viewName);
+		$viewer->assign('VIEWID', $this->viewId);
 	}
 	
 
@@ -125,20 +125,20 @@ class ListView extends \App\Modules\Base\Views\Index
 		
 		if ($request->isAjax()) {
 			// When filter is changed via AJAX, the new filter is sent as "viewname".
-			// Ensure we operate on (and persist) the requested filter, not a stale $this->viewName.
+			// Ensure we operate on (and persist) the requested filter, not a stale $this->viewId.
 			if (!$request->isEmpty('viewname')) {
-				$this->viewName = \App\View\CustomView::getInstance($moduleName)->getViewId(false, $request);
+				$this->viewId = \App\View\CustomView::getInstance($moduleName)->getViewId(false, $request);
 			}
-			if (\App\View\CustomView::hasViewChanged($moduleName, $this->viewName, $request)) {
-				$customViewModel = \App\Modules\CustomView\Models\Record::getInstanceById($this->viewName);
+			if (\App\View\CustomView::hasViewChanged($moduleName, $this->viewId, $request)) {
+				$customViewModel = \App\Modules\CustomView\Models\Record::getInstanceById($this->viewId);
 				if ($customViewModel) {
 					\App\View\CustomView::setDefaultSortOrderBy($moduleName, ['orderBy' => $customViewModel->getSortOrderBy('orderBy'), 'sortOrder' => $customViewModel->getSortOrderBy('sortOrder')]);
 				}
-				\App\View\CustomView::setCurrentView($moduleName, $this->viewName);
+				\App\View\CustomView::setCurrentView($moduleName, $this->viewId);
 			} else {
 				\App\View\CustomView::setDefaultSortOrderBy($moduleName);
 				if ($request->has('page')) {
-					\App\View\CustomView::setCurrentPage($moduleName, $this->viewName, $request->get('page'));
+					\App\View\CustomView::setCurrentPage($moduleName, $this->viewId, $request->get('page'));
 				}
 			}
 
@@ -153,7 +153,7 @@ class ListView extends \App\Modules\Base\Views\Index
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Http\Vtiger_Request $request
-	 * @return <Array> - List of \App\Modules\Base\Models\JsScript instances
+	 * @return array<int, \App\View\Assets\ScriptAsset>
 	 */
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
@@ -204,20 +204,20 @@ class ListView extends \App\Modules\Base\Views\Index
 			$sortImage = 'glyphicon glyphicon-chevron-up';
 		}
 		if (empty($pageNumber)) {
-			$pageNumber = \App\View\CustomView::getCurrentPage($moduleName, $this->viewName);
+			$pageNumber = \App\View\CustomView::getCurrentPage($moduleName, $this->viewId);
 		}
 		if (!$this->listViewModel) {
-			$this->listViewModel = \App\Modules\Base\Models\ListView::getInstance($moduleName, $this->viewName);
+			$this->listViewModel = \App\Modules\Base\Models\ListView::getInstance($moduleName, $this->viewId);
 		}
 		if (!empty($searchResult)) {
 			$this->listViewModel->set('searchResult', $searchResult);
 		}
 		$currentUser = $request->getUser();
-		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'), 'CVID' => $this->viewName);
+		$linkParams = array('MODULE' => $moduleName, 'ACTION' => $request->get('view'), 'CVID' => $this->viewId);
 		$linkModels = $this->listViewModel->getListViewMassActions($linkParams, $currentUser);
 		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
-		$pagingModel->set('viewid', $this->viewName);
+		$pagingModel->set('viewid', $this->viewId);
 		if (!empty($orderBy)) {
 			$this->listViewModel->set('orderby', $orderBy);
 			$this->listViewModel->set('sortorder', $sortOrder);

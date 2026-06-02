@@ -38,8 +38,8 @@ class DashBoard extends \App\Runtime\BaseModel
 	}
 
 	/**
-	 *  Function to get the module name
-	 *  @return string - name of the module
+	 * Function to get the module name
+	 * @return string - name of the module
 	 */
 	public function getModuleName()
 	{
@@ -48,7 +48,7 @@ class DashBoard extends \App\Runtime\BaseModel
 
 	/**
 	 * Function returns List of User's selected Dashboard Widgets
-	 * @return <Array of \App\Modules\Base\Models\Widget>
+	 * @return array
 	 */
 	public function getDashboards($action = 1)
 	{
@@ -196,7 +196,7 @@ class DashBoard extends \App\Runtime\BaseModel
 	/**
 	 * Function to get modules with widgets
 	 * @param string $moduleName - module name
-	 * @return <Array> $modules
+	 * @return array $modules
 	 */
 	public static function getModulesWithWidgets($moduleName = false, $dashboard)
 	{

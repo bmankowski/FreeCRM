@@ -17,8 +17,8 @@ class Relation extends \App\Modules\Base\Models\Relation
 
 	/**
 	 * Function that deletes PriceBooks related records information
-	 * @param <Integer> $sourceRecordId - Product/Service Id
-	 * @param <Integer> $relatedRecordId - Related Record Id
+	 * @param int $sourceRecordId - Product/Service Id
+	 * @param int $relatedRecordId - Related Record Id
 	 */
 	public function deleteRelation($sourceRecordId, $relatedRecordId)
 	{
@@ -38,7 +38,7 @@ class Relation extends \App\Modules\Base\Models\Relation
 	 * Function to delete the product to product relation(product bundles)
 	 * @param int $sourceRecordId
 	 * @param int $relatedRecordId true / false
-	 * @return <boolean>
+	 * @return bool
 	 */
 	public function deleteProductToProductRelation($sourceRecordId, $relatedRecordId)
 	{
@@ -62,9 +62,9 @@ class Relation extends \App\Modules\Base\Models\Relation
 
 	/**
 	 * Function to add Products/Services-PriceBooks Relation
-	 * @param <Integer> $sourceRecordId
-	 * @param <Integer> $destinationRecordId
-	 * @param <Integer> $listPrice
+	 * @param int $sourceRecordId
+	 * @param int $destinationRecordId
+	 * @param int $listPrice
 	 */
 	public function addListPrice($sourceRecordId, $destinationRecordId, $listPrice)
 	{

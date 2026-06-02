@@ -116,7 +116,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Static Function to get the instance of Vtiger Module Model for all the modules
-	 * @return <Array> - List of Vtiger Module Model or sub class instances
+	 * @return array - List of Vtiger Module Model or sub class instances
 	 */
 	public static function getAll($editable = false, $restrictedModulesList = [], $isEntityType = false)
 	{
@@ -141,7 +141,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Static Function to get the instance of Vtiger Module Model for all the modules
-	 * @return <Array> - List of Vtiger Module Model or sub class instances
+	 * @return array - List of Vtiger Module Model or sub class instances
 	 */
 	public static function getDependentModules()
 	{

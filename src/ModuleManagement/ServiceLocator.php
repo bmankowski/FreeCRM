@@ -27,8 +27,7 @@ class ServiceLocator
 
 	/**
 	 * Get ModuleService instance.
-	 * 
-	 * @return Services\ModuleService
+	 * 	 * @return Services\ModuleService
 	 */
 	public static function getModuleService(): Services\ModuleService
 	{
@@ -43,8 +42,7 @@ class ServiceLocator
 
 	/**
 	 * Get BlockService instance.
-	 * 
-	 * @return Services\BlockService
+	 * 	 * @return Services\BlockService
 	 */
 	public static function getBlockService(): Services\BlockService
 	{
@@ -58,8 +56,7 @@ class ServiceLocator
 
 	/**
 	 * Get RelationService instance.
-	 * 
-	 * @return Services\RelationService
+	 * 	 * @return Services\RelationService
 	 */
 	public static function getRelationService(): Services\RelationService
 	{
@@ -73,8 +70,7 @@ class ServiceLocator
 
 	/**
 	 * Get EventDispatcher instance.
-	 * 
-	 * @return Events\Dispatcher
+	 * 	 * @return Events\Dispatcher
 	 */
 	public static function getEventDispatcher(): Events\Dispatcher
 	{
@@ -86,8 +82,7 @@ class ServiceLocator
 
 	/**
 	 * Get PackageService instance.
-	 * 
-	 * @return Services\PackageService
+	 * 	 * @return Services\PackageService
 	 */
 	public static function getPackageService(): Services\PackageService
 	{
@@ -102,8 +97,7 @@ class ServiceLocator
 
 	/**
 	 * Get FileService instance.
-	 * 
-	 * @return Services\FileService
+	 * 	 * @return Services\FileService
 	 */
 	public static function getFileService(): Services\FileService
 	{
@@ -115,8 +109,7 @@ class ServiceLocator
 
 	/**
 	 * Get ProfileService instance.
-	 * 
-	 * @return Services\ProfileService
+	 * 	 * @return Services\ProfileService
 	 */
 	public static function getProfileService(): Services\ProfileService
 	{
@@ -130,8 +123,7 @@ class ServiceLocator
 
 	/**
 	 * Get AccessService instance.
-	 * 
-	 * @return Services\AccessService
+	 * 	 * @return Services\AccessService
 	 */
 	public static function getAccessService(): Services\AccessService
 	{
@@ -146,8 +138,7 @@ class ServiceLocator
 
 	/**
 	 * Get FilterService instance.
-	 * 
-	 * @return Services\FilterService
+	 * 	 * @return Services\FilterService
 	 */
 	public static function getFilterService(): Services\FilterService
 	{
@@ -161,8 +152,7 @@ class ServiceLocator
 
 	/**
 	 * Get LinkService instance.
-	 * 
-	 * @return Services\LinkService
+	 * 	 * @return Services\LinkService
 	 */
 	public static function getLinkService(): Services\LinkService
 	{
@@ -176,8 +166,7 @@ class ServiceLocator
 
 	/**
 	 * Get CronService instance.
-	 * 
-	 * @return Services\CronService
+	 * 	 * @return Services\CronService
 	 */
 	public static function getCronService(): Services\CronService
 	{
@@ -191,8 +180,7 @@ class ServiceLocator
 
 	/**
 	 * Get WebserviceService instance.
-	 * 
-	 * @return Services\WebserviceService
+	 * 	 * @return Services\WebserviceService
 	 */
 	public static function getWebserviceService(): Services\WebserviceService
 	{
@@ -204,8 +192,7 @@ class ServiceLocator
 
 	/**
 	 * Get LanguageService instance.
-	 * 
-	 * @return Services\LanguageService
+	 * 	 * @return Services\LanguageService
 	 */
 	public static function getLanguageService(): Services\LanguageService
 	{
@@ -217,8 +204,7 @@ class ServiceLocator
 
 	/**
 	 * Get MenuService instance.
-	 * 
-	 * @return Services\MenuService
+	 * 	 * @return Services\MenuService
 	 */
 	public static function getMenuService(): Services\MenuService
 	{

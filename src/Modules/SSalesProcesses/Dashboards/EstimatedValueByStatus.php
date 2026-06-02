@@ -34,7 +34,7 @@ class EstimatedValueByStatus  extends \App\Modules\Base\Views\Index
 	/**
 	 * Function to get data to chart
 	 * @param int $owner
-	 * @return <Array>
+	 * @return array
 	 */
 	private function getEstimatedValue($owner = false)
 	{

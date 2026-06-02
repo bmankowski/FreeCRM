@@ -56,7 +56,7 @@ class MenuItem extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to get the Id of the menu item
-	 * @return <Number> - Menu Item Id
+	 * @return mixed - Menu Item Id
 	 */
 	public function getId()
 	{
@@ -74,7 +74,7 @@ class MenuItem extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to set the Menu to which the Item belongs, given Menu Id
-	 * @param <Number> $menuId
+	 * @param mixed $menuId
 	 * @return \App\Modules\Settings\Base\Models\MenuItem
 	 */
 	public function setMenu($menuId)
@@ -85,7 +85,7 @@ class MenuItem extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to set the Menu to which the Item belongs, given Menu Model instance
-	 * @param <\App\Modules\Settings\Base\Models\Menu> $menu - Settings Menu Model instance
+	 * @param \App\Modules\Settings\Base\Models\Menu $menu - Settings Menu Model instance
 	 * @return \App\Modules\Settings\Base\Models\MenuItem
 	 */
 	public function setMenuFromInstance($menu)
@@ -121,7 +121,7 @@ class MenuItem extends \App\Modules\Base\Models\Record
 	}
 
 	/**
-	 *  Function to get the pin and unpin action url
+	 * Function to get the pin and unpin action url
 	 */
 	public function getPinUnpinActionUrl()
 	{
@@ -181,7 +181,7 @@ class MenuItem extends \App\Modules\Base\Models\Record
 	/**
 	 * Function to get the instance of the Menu Item model, given name and Menu instance
 	 * @param string $name
-	 * @param <\App\Modules\Settings\Base\Models\Menu> $menuModel
+	 * @param \App\Modules\Settings\Base\Models\Menu $menuModel
 	 * @return ?\App\Modules\Settings\Base\Models\MenuItem instance
 	 */
 	public static function getInstance($name, $menuModel = null)
@@ -213,7 +213,7 @@ class MenuItem extends \App\Modules\Base\Models\Record
 	/**
 	 * Function to get the instance of the Menu Item model, given item id and Menu instance
 	 * @param string $name
-	 * @param <\App\Modules\Settings\Base\Models\Menu> $menuModel
+	 * @param \App\Modules\Settings\Base\Models\Menu $menuModel
 	 * @return ?\App\Modules\Settings\Base\Models\MenuItem instance
 	 */
 	public static function getInstanceById($id, $menuModel=null)
@@ -244,7 +244,7 @@ class MenuItem extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Static function to get the list of all the items of the given Menu, all items if Menu is not specified
-	 * @param <\App\Modules\Settings\Base\Models\Menu> $menuModel
+	 * @param \App\Modules\Settings\Base\Models\Menu $menuModel
 	 * @return array - List of <\App\Modules\Settings\Base\Models\MenuItem> instances
 	 */
 	public static function getAll($menuModel = false, $onlyActive = true)

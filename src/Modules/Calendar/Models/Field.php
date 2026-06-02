@@ -76,7 +76,7 @@ class Field extends \App\Modules\Base\Models\Field
 
 	/**
 	 * Function to get the advanced filter option names by Field type
-	 * @return <Array>
+	 * @return array
 	 */
 	public static function getAdvancedFilterOpsByFieldType()
 	{
@@ -113,7 +113,7 @@ class Field extends \App\Modules\Base\Models\Field
 	/**
 	 * Function to get the field details
 	 * @param array $context Optional context array that may contain search_params
-	 * @return <Array> - array of field values
+	 * @return array - array of field values
 	 */
 	public function getFieldInfo($context = [])
 	{

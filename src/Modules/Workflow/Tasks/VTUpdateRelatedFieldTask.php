@@ -91,8 +91,8 @@ class VTUpdateRelatedFieldTask extends VTTask
 
 	/**
 	 * Function to get contents of this task
-	 * @param <Object> $entity
-	 * @return <Array> contents
+	 * @param object $entity
+	 * @return array contents
 	 */
 	public function getContents($recordModel)
 	{

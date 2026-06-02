@@ -89,8 +89,7 @@ class VTWorkflowTemplateManager {
 
 	/**
 	 * Get all templates
-	 * 
-	 * Get all the templates as an array
+	 * 	 * Get all the templates as an array
 	 *
 	 * @return An array containing template objects.
 	 */

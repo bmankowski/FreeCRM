@@ -27,7 +27,7 @@ class RuleMember extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to get the Qualified Id of the Group RuleMember
-	 * @return <Number> Id
+	 * @return mixed Id
 	 */
 	public function getId()
 	{
@@ -144,7 +144,7 @@ class RuleMember extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to get all the rule members
-	 * @return <Array> - Array of \App\Modules\Settings\SharingAccess\Models\RuleMember instances
+	 * @return array - Array of \App\Modules\Settings\SharingAccess\Models\RuleMember instances
 	 */
 	public static function getAll()
 	{

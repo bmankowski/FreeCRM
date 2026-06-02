@@ -52,7 +52,7 @@ class Autologin
 	/**
 	 * Function to get instance
 	 * @param boolean true/false
-	 * @return <\App\Modules\Settings\Mail\Models\Autologin>
+	 * @return \App\Modules\Settings\Mail\Models\Autologin
 	 */
 	public static function getInstance()
 	{

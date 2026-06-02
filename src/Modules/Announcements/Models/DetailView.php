@@ -13,7 +13,7 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 
 	/**
 	 * Function to get the detail view related links
-	 * @return <array> - list of links parameters
+	 * @return array - list of links parameters
 	 */
 	public function getDetailViewRelatedLinks()
 	{

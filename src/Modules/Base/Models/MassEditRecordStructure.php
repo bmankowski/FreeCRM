@@ -19,7 +19,7 @@ class MassEditRecordStructure extends \App\Modules\Base\Models\RecordStructure
 
 	/**
 	 * Function to get the values in stuctured format
-	 * @return <array> - values in structure array('block'=>array(fieldinfo));
+	 * @return array - values in structure array('block'=>array(fieldinfo));
 	 */
 	public function getStructure()
 	{
@@ -56,8 +56,8 @@ class MassEditRecordStructure extends \App\Modules\Base\Models\RecordStructure
 	}
 	/*
 	 * Function that return Field Restricted are not
-	 * 	@params Field Model
-	 *  @returns boolean true or false
+	 * @params Field Model
+	 * @returns boolean true or false
 	 */
 
 	public function isFieldRestricted($fieldModel)

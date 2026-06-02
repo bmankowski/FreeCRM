@@ -16,8 +16,8 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function to get the Quick Links for the module
-	 * @param <Array> $linkParams
-	 * @return <Array> List of \App\Modules\Base\Models\Link instances
+	 * @param array $linkParams
+	 * @return array List of \App\Modules\Base\Models\Link instances
 	 */
 	public function getSideBarLinks($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)
 	{

@@ -22,8 +22,7 @@ class LanguageService
 	/**
 	 * Delete language files for a module.
 	 * Deletes JSON language files (YetiForce compatible format).
-	 * 
-	 * @param string $moduleName Module name
+	 * 	 * @param string $moduleName Module name
 	 * @return void
 	 */
 	public function deleteForModule(string $moduleName): void

@@ -44,7 +44,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to get List of Fields which are related from Contacts to Inventory Record
-	 * @return <array>
+	 * @return array
 	 */
 	public function getInventoryMappingFields()
 	{
@@ -75,7 +75,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function to get Image Details
-	 * @return <array> Image Details List
+	 * @return array Image Details List
 	 */
 	public function getImageDetails()
 	{

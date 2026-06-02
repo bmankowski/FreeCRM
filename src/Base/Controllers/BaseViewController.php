@@ -56,8 +56,6 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 		$viewer->assign('VIEW', $vtigerRequest->get('view'));
 		$userModel = $vtigerRequest->getUser();
 		$viewer->assign('ACTIVITY_REMINDER', $userModel ? $userModel->getCurrentUserActivityReminderInSeconds() : 0);
-		// Calculate script execution time
-		$viewer->assign('SCRIPT_TIME', isset($GLOBALS['startTime']) ? round(microtime(true) - $GLOBALS['startTime'], 3) : 0);
 		$viewer->assign('PARENT_MODULE', $vtigerRequest->get('parent'));
 
 		// Build array of all module active statuses for templates
@@ -304,8 +302,8 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 
 	/**
 	 * Retrieves css styles that need to loaded in the page
-	 * @param, \App\Http\Vtiger_Request $vtigerRequest - request model
-	 * @return <array> - array of StyleAsset
+	 * @param \App\Http\Vtiger_Request $vtigerRequest - request model
+	 * @return array - array of StyleAsset
 	 */
 	public function getHeaderCss(\App\Http\Vtiger_Request $vtigerRequest)
 	{
@@ -332,8 +330,8 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 
 	/**
 	 * Retrieves headers scripts that need to loaded in the page
-	 * @param, \App\Http\Vtiger_Request $vtigerRequest - request model
-	 * @return <array> - array of ScriptAsset
+	 * @param \App\Http\Vtiger_Request $vtigerRequest - request model
+	 * @return array - array of ScriptAsset
 	 */
 	public function getHeaderScripts(\App\Http\Vtiger_Request $vtigerRequest)
 	{
@@ -465,8 +463,8 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 
 	/**
 	 * Function returns the css files
-	 * @param <Array> $cssFileNames
-	 * @return <Array of StyleAsset>
+	 * @param array $cssFileNames
+	 * @return array
 	 *
 	 * First check if $cssFileName exists
 	 * if not, check under layout folder $cssFileName eg:layouts/basic/$cssFileName

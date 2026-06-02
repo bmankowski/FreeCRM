@@ -40,7 +40,7 @@ class Detail  extends \App\Modules\Base\Views\Detail
 	/**
 	 * Function to get Ajax is enabled or not
 	 * @param \App\Modules\Base\Models\Record record model
-	 * @return <boolean> true/false
+	 * @return bool true/false
 	 */
 	public function isAjaxEnabled($recordModel)
 	{
@@ -49,7 +49,7 @@ class Detail  extends \App\Modules\Base\Views\Detail
 
 	/**
 	 * Function shows basic detail for the record
-	 * @param <type> $request
+	 * @param mixed $request
 	 */
 	public function showModuleBasicView(\App\Http\Vtiger_Request $request)
 	{

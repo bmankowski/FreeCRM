@@ -21,7 +21,7 @@ class RecordStructure extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get the values in stuctured format
-	 * @return <array> - values in structure array('block'=>array(fieldinfo));
+	 * @return array - values in structure array('block'=>array(fieldinfo));
 	 */
 	public function getStructure()
 	{
@@ -58,7 +58,7 @@ class RecordStructure extends \App\Runtime\BaseModel
 
 	/**
 	 * Function returns the Primary Module Record Structure
-	 * @return <\App\Modules\Base\Models\RecordStructure>
+	 * @return \App\Modules\Base\Models\RecordStructure
 	 */
 	public function getPrimaryModuleRecordStructure()
 	{
@@ -69,7 +69,7 @@ class RecordStructure extends \App\Runtime\BaseModel
 
 	/**
 	 * Function returns the Secondary Modules Record Structure
-	 * @return <Array of \App\Modules\Base\Models\RecordSructures>
+	 * @return array
 	 */
 	public function getSecondaryModuleRecordStructure()
 	{

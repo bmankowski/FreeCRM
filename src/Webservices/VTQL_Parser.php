@@ -510,8 +510,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 
 	/** The next table maps tokens into fallback tokens.  If a construct
 	 * like the following:
-	 * 
-	 *      %fallback ID X Y Z.
+	 * 	 *     %fallback ID X Y Z.
 	 *
 	 * appears in the grammer, then ID becomes a fallback token for X, Y,
 	 * and Z.  Whenever one of the tokens X, Y, or Z is input to the parser
@@ -527,16 +526,14 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 	 * by making either argument NULL 
 	 *
 	 * Inputs:
-	 * 
-	 * - A stream resource to which trace output should be written.
-	 *   If NULL, then tracing is turned off.
+	 * 	 * - A stream resource to which trace output should be written.
+	 *  If NULL, then tracing is turned off.
 	 * - A prefix string written at the beginning of every
-	 *   line of trace output.  If NULL, then tracing is
-	 *   turned off.
+	 *  line of trace output.  If NULL, then tracing is
+	 *  turned off.
 	 *
 	 * Outputs:
-	 * 
-	 * - None.
+	 * 	 * - None.
 	 * @param resource
 	 * @param string
 	 */
@@ -811,8 +808,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 	/**
 	 * Based on the parser state and current parser stack, determine whether
 	 * the lookahead token is possible.
-	 * 
-	 * The parser will convert the token value to an error token if not.  This
+	 * 	 * The parser will convert the token value to an error token if not.  This
 	 * catches some unusual edge cases where the parser would fail.
 	 * @param int
 	 * @return bool
@@ -1000,10 +996,10 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 	 *
 	 * <pre>
 	 * array(
-	 *  array(
-	 *   int $lhs;         Symbol on the left-hand side of the rule
-	 *   int $nrhs;     Number of right-hand side symbols in the rule
-	 *  ),...
+	 * array(
+	 *  int $lhs;         Symbol on the left-hand side of the rule
+	 *  int $nrhs;     Number of right-hand side symbols in the rule
+	 * ),...
 	 * );
 	 * </pre>
 	 */
@@ -1055,8 +1051,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 	/**
 	 * The following table contains a mapping of reduce action to method name
 	 * that handles the reduction.
-	 * 
-	 * If a rule is not set, it has no handler.
+	 * 	 * If a rule is not set, it has no handler.
 	 */
 	static public $yyReduceMap = array(
 		1 => 1,
@@ -1358,15 +1353,12 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 
 	/**
 	 * placeholder for the left hand side in a reduce operation.
-	 * 
-	 * For a parser with a rule like this:
+	 * 	 * For a parser with a rule like this:
 	 * <pre>
 	 * rule(A) ::= B. { A = 1; }
 	 * </pre>
-	 * 
-	 * The parser will translate to something like:
-	 * 
-	 * <code>
+	 * 	 * The parser will translate to something like:
+	 * 	 * <code>
 	 * function yy_r0(){$this->_retvalue = 1;}
 	 * </code>
 	 */
@@ -1375,14 +1367,11 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 	/**
 	 * Perform a reduce action and the shift that must immediately
 	 * follow the reduce.
-	 * 
-	 * For a rule such as:
-	 * 
-	 * <pre>
+	 * 	 * For a rule such as:
+	 * 	 * <pre>
 	 * A ::= B blah C. { dosomething(); }
 	 * </pre>
-	 * 
-	 * This function will first call the action, if any, ("dosomething();" in our
+	 * 	 * This function will first call the action, if any, ("dosomething();" in our
 	 * example), and then it will pop three states from the stack,
 	 * one for each entry on the right-hand side of the expression
 	 * (B, blah, and C in our example rule), and then push the result of the action
@@ -1440,8 +1429,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 
 	/**
 	 * The following code executes when the parse fails
-	 * 
-	 * Code from %parse_fail is inserted here
+	 * 	 * Code from %parse_fail is inserted here
 	 */
 	public function yy_parse_failed()
 	{
@@ -1463,8 +1451,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 
 	/**
 	 * The following code executes when a syntax error first occurs.
-	 * 
-	 * %syntax_error code is inserted here
+	 * 	 * %syntax_error code is inserted here
 	 * @param int The major type of the error token
 	 * @param mixed The minor type of the error token
 	 */
@@ -1486,8 +1473,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 
 	/**
 	 * The following is executed when the parser accepts
-	 * 
-	 * %parse_accept code is inserted here
+	 * 	 * %parse_accept code is inserted here
 	 */
 	public function yy_accept()
 	{
@@ -1507,8 +1493,7 @@ class VTQL_Parser#line 102 "e:\workspace\nonadmin\pkg\vtiger\extensions\Webservi
 
 	/**
 	 * The main parser program.
-	 * 
-	 * The first argument is the major token number.  The second is
+	 * 	 * The first argument is the major token number.  The second is
 	 * the token value string as scanned from the input.
 	 *
 	 * @param int the token number

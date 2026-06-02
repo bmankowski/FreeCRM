@@ -85,8 +85,8 @@ class CustomView extends \App\Core\CRMEntity
 	 * @param $cvid :: Type Integer
 	 * @returns  $customviewlist Array in the following format
 	 * $customviewlist = Array('viewname'=>value,
-	 *                         'setdefault'=>defaultchk,
-	 *                         'setmetrics'=>setmetricschk)
+	 *                        'setdefault'=>defaultchk,
+	 *                        'setmetrics'=>setmetricschk)
 	 */
 	public function getCustomViewByCvid($cvid)
 	{
@@ -211,9 +211,9 @@ class CustomView extends \App\Core\CRMEntity
 	 * @param $cvid :: Type Integer
 	 * @returns  $columnlist Array in the following format
 	 * $columnlist = Array( $columnindex => $columnname,
-	 * 			 $columnindex1 => $columnname1,
-	 * 					|
-	 * 			 $columnindexn => $columnnamen)
+	 * 		 $columnindex1 => $columnname1,
+	 * 				|
+	 * 		 $columnindexn => $columnnamen)
 	 */
 	public function getColumnsListByCvid($cvid)
 	{
@@ -428,7 +428,7 @@ class CustomView extends \App\Core\CRMEntity
 	 * @param $cvid :: Type Integer
 	 * @returns  $getCvColumnList as a string
 	 * This function will return the columns for the given customfield in comma seperated values in the format
-	 *                     $tablename.$columnname,$tablename1.$columnname1, ------ $tablenamen.$columnnamen
+	 *                    $tablename.$columnname,$tablename1.$columnname1, ------ $tablenamen.$columnnamen
 	 *
 	 */
 	public function getCvColumnListSQL($cvid)
@@ -654,7 +654,7 @@ class CustomView extends \App\Core\CRMEntity
 	 * @param $comparator :: type string
 	 * @param $value :: type string
 	 * @returns  $value as a string in the following format
-	 * 	  $tablename.$fieldname comparator
+	 *   $tablename.$fieldname comparator
 	 */
 	public function getRealValues($tablename, $fieldname, $comparator, $value, $datatype)
 	{

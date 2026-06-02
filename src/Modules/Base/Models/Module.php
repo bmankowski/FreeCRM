@@ -37,7 +37,7 @@ class Module extends \vtlib\Module
 
 	/**
 	 * Function to get the Module/Tab id
-	 * @return <Number>
+	 * @return mixed
 	 */
 	public function getId()
 	{
@@ -112,7 +112,7 @@ class Module extends \vtlib\Module
 	/**
 	 * Function to get the value of a given property
 	 * @param string $propertyName
-	 * @return <Object>
+	 * @return object
 	 * @throws \Exception
 	 */
 	public function get($propertyName)
@@ -126,7 +126,7 @@ class Module extends \vtlib\Module
 	/**
 	 * Function to set the value of a given property
 	 * @param string $propertyName
-	 * @param <Object> $propertyValue
+	 * @param object $propertyValue
 	 * @return \App\Modules\Base\Models\Module instance
 	 */
 	public function set($propertyName, $propertyValue)
@@ -379,7 +379,7 @@ class Module extends \vtlib\Module
 
 	/**
 	 * Function to get the module meta information
-	 * @param <type> $userModel - user model
+	 * @param mixed $userModel - user model
 	 */
 	public function getModuleMeta($userModel = false)
 	{
@@ -396,7 +396,7 @@ class Module extends \vtlib\Module
 
 	/**
 	 * Function to get the module field mapping
-	 * @return <array>
+	 * @return array
 	 */
 	public function getColumnFieldMapping()
 	{
@@ -578,7 +578,7 @@ class Module extends \vtlib\Module
 
 	/**
 	 * Function to get a Vtiger Record Model instance from an array of key-value mapping
-	 * @param <Array> $valueArray
+	 * @param array $valueArray
 	 * @return \App\Modules\Base\Models\Record or Module Specific Record Model instance
 	 */
 	public function getRecordFromArray($valueArray, array|false $rawData = false)
@@ -600,7 +600,7 @@ class Module extends \vtlib\Module
 
 	/**
 	 * Function returns all the blocks for the module
-	 * @return <Array of \App\Modules\Base\Models\Block> - list of block models
+	 * @return array - list of block models
 	 */
 	public function getBlocks()
 	{
@@ -810,7 +810,7 @@ class Module extends \vtlib\Module
 
 	/**
 	 * Function that returns all the quickcreate fields for the module
-	 * @return <Array of \App\Modules\Base\Models\Field> - list of field models
+	 * @return array - list of field models
 	 */
 	public function getQuickCreateFields()
 	{
@@ -849,7 +849,7 @@ class Module extends \vtlib\Module
 
 	/**
 	 * Function to retrieve name fields of a module
-	 * @return <array> - array which contains fields which together construct name fields
+	 * @return array - array which contains fields which together construct name fields
 	 */
 	public function getNameFields()
 	{
@@ -862,8 +862,8 @@ class Module extends \vtlib\Module
 
 	/**
 	 * Function to get the list of recently visisted records
-	 * @param <Number> $limit
-	 * @return <Array> - List of \App\Modules\Base\Models\Record or Module Specific Record Model instances
+	 * @param mixed $limit
+	 * @return array - List of \App\Modules\Base\Models\Record or Module Specific Record Model instances
 	 */
 	public function getRecentRecords(int $userId, int $limit = 10)
 	{
@@ -894,7 +894,7 @@ class Module extends \vtlib\Module
 
 	/**
 	 * Funtion that returns fields that will be showed in the record selection popup
-	 * @return <Array of fields>
+	 * @return array
 	 */
 	public function getPopupFields()
 	{
@@ -934,9 +934,9 @@ class Module extends \vtlib\Module
 
 	/**
 	 * Function to get all modules from CRM
-	 * @param <array> $presence
-	 * @param <array> $restrictedModulesList
-	 * @return <array> List of module models \App\Modules\Base\Models\Module
+	 * @param array $presence
+	 * @param array $restrictedModulesList
+	 * @return array List of module models \App\Modules\Base\Models\Module
 	 */
 	public static function getAll($presence = [], $restrictedModulesList = [], $isEntityType = false)
 	{
@@ -993,7 +993,7 @@ class Module extends \vtlib\Module
 
 	/**
 	 * Function to get the list of all accessible modules for Quick Create
-	 * @return <Array> - List of \App\Modules\Base\Models\Record or Module Specific Record Model instances
+	 * @return array - List of \App\Modules\Base\Models\Record or Module Specific Record Model instances
 	 */
 	public static function getQuickCreateModules($restrictList = false)
 	{
@@ -1069,8 +1069,8 @@ class Module extends \vtlib\Module
 
 	/**
 	 * Function to get the Quick Links for the module
-	 * @param <Array> $linkParams
-	 * @return <Array> List of \App\Modules\Base\Models\Link instances
+	 * @param array $linkParams
+	 * @return array List of \App\Modules\Base\Models\Link instances
 	 */
 	public function getSideBarLinks($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)
 	{
@@ -1162,7 +1162,7 @@ class Module extends \vtlib\Module
 
 	/**
 	 * Function returns the default custom filter for the module
-	 * @return <Int> custom filter id
+	 * @return mixed custom filter id
 	 */
 	public function getDefaultCustomFilter()
 	{
@@ -1177,8 +1177,8 @@ class Module extends \vtlib\Module
 
 	/**
 	 * Function returns latest comments for the module
-	 * @param <\App\Modules\Base\Models\Paging> $pagingModel
-	 * @return <Array>
+	 * @param \App\Modules\Base\Models\Paging $pagingModel
+	 * @return array
 	 */
 	public function getComments($pagingModel)
 	{
@@ -1208,9 +1208,9 @@ class Module extends \vtlib\Module
 
 	/**
 	 * Function returns comments and recent activities across module
-	 * @param <\App\Modules\Base\Models\Paging> $pagingModel
+	 * @param \App\Modules\Base\Models\Paging $pagingModel
 	 * @param string $type - comments, updates or all
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getHistory($pagingModel, $type = false)
 	{
@@ -1371,7 +1371,7 @@ class Module extends \vtlib\Module
 	/**
 	 * Function to get list of fields which are required while importing records
 	 * @param string $module
-	 * @return <Array> list of fields
+	 * @return array list of fields
 	 */
 	public function getRequiredFields($module = '')
 	{
@@ -1394,7 +1394,7 @@ class Module extends \vtlib\Module
 	/**
 	 * Function to get the module is permitted to specific action
 	 * @param string $actionName
-	 * @return <boolean>
+	 * @return bool
 	 */
 	public function isPermitted($actionName)
 	{
@@ -1403,7 +1403,7 @@ class Module extends \vtlib\Module
 
 	/**
 	 * Function to get Specific Relation Query for this Module
-	 * @param <type> $relatedModule
+	 * @param mixed $relatedModule
 	 * @return mixed
 	 */
 	public function getSpecificRelationQuery($relatedModule)
@@ -1416,7 +1416,7 @@ class Module extends \vtlib\Module
 
 	/**
 	 * Function to get Settings links
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getSettingLinks()
 	{
@@ -1503,7 +1503,7 @@ class Module extends \vtlib\Module
 	/**
 	 * Function returns query for module record's search
 	 * @param string $searchValue - part of record name (label column of crmentity table)
-	 * @param <Integer> $parentId - parent record id
+	 * @param int $parentId - parent record id
 	 * @param string $parentModule - parent module name
 	 * @return string - query
 	 */
@@ -1517,9 +1517,9 @@ class Module extends \vtlib\Module
 	 * Function searches the records in the module, if parentId & parentModule
 	 * is given then searches only those records related to them.
 	 * @param string $searchValue - Search value
-	 * @param <Integer> $parentId - parent recordId
+	 * @param int $parentId - parent recordId
 	 * @param string $parentModule - parent module name
-	 * @return <Array of \App\Modules\Base\Models\Record>
+	 * @return array
 	 */
 	public function searchRecord($searchValue, $parentId = false, $parentModule = false, $relatedModule = false)
 	{
@@ -1572,7 +1572,7 @@ class Module extends \vtlib\Module
 
 	/**
 	 * Function returns all the related modules for workflows create entity task
-	 * @return <JSON>
+	 * @return array
 	 */
 	public function vtJsonDependentModules()
 	{
@@ -1659,7 +1659,7 @@ class Module extends \vtlib\Module
 
 	/**
 	 * function to check if the extension module is permitted for utility action
-	 * @return <boolean> false
+	 * @return bool false
 	 */
 	public function isUtilityActionEnabled()
 	{

@@ -25,8 +25,8 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function to get the list of recently visisted records
-	 * @param <Number> $limit
-	 * @return <Array> - List of \App\Modules\Base\Models\Record or Module Specific Record Model instances
+	 * @param mixed $limit
+	 * @return array - List of \App\Modules\Base\Models\Record or Module Specific Record Model instances
 	 */
 	public function getRecentRecords(int $userId, int $limit = 10)
 	{
@@ -53,7 +53,7 @@ class Module extends \App\Modules\Base\Models\Module
 	/**
 	 * Function returns the Number of Leads created per week
 	 * @param mixed $data
-	 * @return <Array>
+	 * @return array
 	 */
 	public function getLeadsCreated($owner, $dateFilter)
 	{
@@ -128,8 +128,8 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function to get Converted Information for selected records
-	 * @param <array> $recordIdsList
-	 * @return <array> converted Info
+	 * @param array $recordIdsList
+	 * @return array converted Info
 	 */
 	public static function getConvertedInfo($recordIdsList = [])
 	{
@@ -224,7 +224,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 	/**
 	 * Function that returns status that allow to convert Lead
-	 * @return <Array> array of statuses
+	 * @return array array of statuses
 	 */
 	public static function getConversionAvaibleStatuses()
 	{
@@ -236,7 +236,7 @@ class Module extends \App\Modules\Base\Models\Module
 	/**
 	 * Function that checks if lead record can be converted
 	 * @param string $status - lead status
-	 * @return <boolean> if or not allowed to convert
+	 * @return bool if or not allowed to convert
 	 */
 	public static function checkIfAllowedToConvert($status)
 	{

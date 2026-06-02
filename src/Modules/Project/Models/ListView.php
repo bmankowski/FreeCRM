@@ -19,8 +19,8 @@ class ListView extends \App\Modules\Base\Models\ListView
 
 	/**
 	 * Function to get the list of listview links
-	 * @param <Array> $linkParams Parameters to be replaced in the link template
-	 * @return <Array> - an array of \App\Modules\Base\Models\Link instances
+	 * @param array $linkParams Parameters to be replaced in the link template
+	 * @return array - an array of \App\Modules\Base\Models\Link instances
 	 */
 	public function getListViewLinks($linkParams, ?\App\Modules\Users\Models\Record $currentUser = null)
 	{

@@ -24,7 +24,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to get Id of this record instance
-	 * @return <Integer> id
+	 * @return int id
 	 */
 	public function getId()
 	{
@@ -51,8 +51,8 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to set module to this record instance
-	 * @param <\App\Modules\Settings\CronTasks\Models\Module> $moduleModel
-	 * @return <\App\Modules\Settings\CronTasks\Models\Record> record model
+	 * @param \App\Modules\Settings\CronTasks\Models\Module $moduleModel
+	 * @return \App\Modules\Settings\CronTasks\Models\Record record model
 	 */
 	public function setModule($moduleModel)
 	{
@@ -205,9 +205,9 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to get record instance by using id and moduleName
-	 * @param <Integer> $recordId
+	 * @param int $recordId
 	 * @param string $qualifiedModuleName
-	 * @return <\App\Modules\Settings\CronTasks\Models\Record> RecordModel
+	 * @return \App\Modules\Settings\CronTasks\Models\Record RecordModel
 	 */
 	static public function getInstanceById($recordId, $qualifiedModuleName)
 	{
@@ -245,7 +245,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	/**
 	 * Function to get the list view actions for the record
-	 * @return <Array> - Associate array of \App\Modules\Base\Models\Link instances
+	 * @return array - Associate array of \App\Modules\Base\Models\Link instances
 	 */
 	public function getRecordLinks()
 	{

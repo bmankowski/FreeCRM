@@ -120,7 +120,7 @@ class Record extends \App\Modules\Base\Models\Record
 
 	/**
 	 * Function returns the fields required for Lead Convert
-	 * @return <Array of \App\Modules\Base\Models\Field>
+	 * @return array
 	 */
 	public function getConvertLeadFields()
 	{
