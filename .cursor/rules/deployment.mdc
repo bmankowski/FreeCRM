@@ -1,12 +1,34 @@
 ---
-description: "FreeCRM deployment details on local.itconnect.pl — read when debugging deploy/cron/storage issues"
+description: "FreeCRM deployment details on test.itconnect.pl — read when debugging deploy/cron/storage issues"
 ---
 
 # FreeCRM Deployment
 
-- Host: `local.itconnect.pl`, root `/opt/freecrm`, manage via `docker compose`.
-- SSH: `bmankowski@local.itconnect.pl`.
+- Host: `test.itconnect.pl`, root `/opt/freecrm`, manage via `docker compose`.
+- SSH: `bmankowski@test.itconnect.pl`.
+- HTTPS: Let's Encrypt via Cloudflare DNS (`certbot/dns-cloudflare`, creds in `docker/nginx/letsencrypt/cloudflare.ini`). Nginx reads `docker/nginx/certs/{host}.{fullchain,privkey}.pem` only — after issue/renew, copy from `letsencrypt/live/` (see `renewal/*.conf`). Privkeys: `640`, group `www-data` (nginx uid 33).
+- Hostnames: `test.itconnect.pl` on this server; `dev.itconnect.pl` in the same `default.conf` for local Docker.
 - Services: `web`, `app`, `cron`, `db`.
 - Cron: `docker compose up -d cron` runs `cron/vtigercron.php` every minute via supercronic; log at `cache/logs/cron.log`.
 - Storage: `/opt/freecrm/storage` (copied from `10.0.0.220:/var/www/yetiforce/storage`).
 - Migration backups: `/opt/freecrm/_migration`; local rollback dump at `tmp/migration-20260511-134258/`.
+
+## TLS (issue / renew)
+
+From repo root; replace `HOST` (`dev.itconnect.pl` or `test.itconnect.pl`):
+
+```bash
+docker run --rm \
+  -v "$PWD/docker/nginx/letsencrypt:/etc/letsencrypt" \
+  -v "$PWD/docker/nginx/letsencrypt/cloudflare.ini:/etc/letsencrypt/cloudflare.ini:ro" \
+  certbot/dns-cloudflare certonly --dns-cloudflare \
+  --dns-cloudflare-credentials /etc/letsencrypt/cloudflare.ini \
+  --dns-cloudflare-propagation-seconds 60 \
+  -d HOST --key-type ecdsa --non-interactive --agree-tos --register-unsafely-without-email
+
+sudo cp docker/nginx/letsencrypt/live/HOST/fullchain.pem docker/nginx/certs/HOST.fullchain.pem
+sudo cp docker/nginx/letsencrypt/live/HOST/privkey.pem docker/nginx/certs/HOST.privkey.pem
+sudo chgrp www-data docker/nginx/certs/HOST.privkey.pem && sudo chmod 640 docker/nginx/certs/HOST.privkey.pem
+```
+
+Renew: same mounts, `certbot/dns-cloudflare renew --cert-name HOST`, then recopy + reload nginx (`docker compose exec web nginx -s reload` on server).
