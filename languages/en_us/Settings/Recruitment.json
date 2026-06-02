@@ -2,9 +2,11 @@
     "languageStrings": {
         "Recruitment": "Recruitment",
         "LBL_RECRUITMENT": "Recruitment",
-        "LBL_RECRUITMENT_DESCRIPTION": "Configure recruitment process settings, including allowed candidate status transitions.",
+        "LBL_RECRUITMENT_DESCRIPTION": "Configure recruitment process settings.",
         "LBL_STATUS_TRANSITIONS": "Status transitions",
         "LBL_STATUS_TRANSITIONS_HELP": "Check the transitions that recruiters may perform manually (kanban drag-and-drop and Screening accept/reject). Unchecked pairs are blocked after you save.",
+        "LBL_RECRUITMENT_WORKFLOWS": "Workflows",
+        "LBL_RECRUITMENT_WORKFLOWS_HELP": "Relation workflows that run when a candidate status changes in a project. Click a count to open linked workflows, or use + to add one for that transition.",
         "LBL_FROM_TO": "From \\ To",
         "LBL_ROW_ACTIONS": "Row",
         "LBL_COLUMN_ACTIONS": "Column",
@@ -13,7 +15,12 @@
         "LBL_SAVE": "Save",
         "LBL_SAVE_TRANSITIONS_SUCCESS": "Status transition rules saved successfully.",
         "LBL_SAVE_TRANSITIONS_FAILED": "Could not save status transition rules.",
-        "LBL_TRANSITIONS_NOT_CONFIGURED": "Transition rules are not active yet. The matrix below shows suggested defaults — review and click Save to enforce them."
+        "LBL_TRANSITIONS_NOT_CONFIGURED": "Transition rules are not active yet. The matrix below shows suggested defaults — review and click Save to enforce them.",
+        "LBL_ADD_WORKFLOW": "Add workflow",
+        "LBL_ADD_WORKFLOW_FOR_TRANSITION": "Add workflow for this transition",
+        "LBL_VIEW_ALL_WORKFLOWS": "View all project workflows"
     },
-    "jsLanguageStrings": {}
+    "jsLanguageStrings": {
+        "LBL_WORKFLOW_POPOVER_TITLE": "Workflows"
+    }
 }

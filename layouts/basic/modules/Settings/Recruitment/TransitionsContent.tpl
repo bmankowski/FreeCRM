@@ -1,10 +1,10 @@
 {strip}
-<!-- layouts/basic/modules/Settings/Recruitment/IndexContent.tpl -->
-<div id="recruitmentSettingsContainer">
+<!-- layouts/basic/modules/Settings/Recruitment/TransitionsContent.tpl -->
+<div id="recruitmentTransitionsContainer">
 	<div class="widget_header row">
 		<div class="col-xs-12">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
-			<p class="text-muted">{"LBL_RECRUITMENT_DESCRIPTION"|t:$QUALIFIED_MODULE}</p>
+			<p class="text-muted">{"LBL_STATUS_TRANSITIONS_HELP"|t:$QUALIFIED_MODULE}</p>
 		</div>
 	</div>
 
@@ -13,11 +13,6 @@
 			{"LBL_TRANSITIONS_NOT_CONFIGURED"|t:$QUALIFIED_MODULE}
 		</div>
 	{/if}
-
-	<div class="mb-3">
-		<h4>{"LBL_STATUS_TRANSITIONS"|t:$QUALIFIED_MODULE}</h4>
-		<p class="text-muted small">{"LBL_STATUS_TRANSITIONS_HELP"|t:$QUALIFIED_MODULE}</p>
-	</div>
 
 	<div class="table-responsive">
 		<table class="table table-bordered table-sm js-transition-matrix">
@@ -85,5 +80,5 @@
 		</button>
 	</div>
 </div>
-<!-- /layouts/basic/modules/Settings/Recruitment/IndexContent.tpl -->
+<!-- /layouts/basic/modules/Settings/Recruitment/TransitionsContent.tpl -->
 {/strip}

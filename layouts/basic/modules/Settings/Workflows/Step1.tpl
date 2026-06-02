@@ -17,6 +17,12 @@
             <input type="hidden" class="step" value="1" />
             <input type="hidden" name="record" value="{$RECORDID}" />
 			<input type="hidden" id="weekStartDay" data-value='{$WEEK_START_ID}' />
+			{if isset($PREFILL_RELATION_SOURCE_VALUE)}
+				<input type="hidden" name="relation_source_value" value="{$PREFILL_RELATION_SOURCE_VALUE|escape}" />
+			{/if}
+			{if isset($PREFILL_RELATION_DESTINATION_VALUE)}
+				<input type="hidden" name="relation_destination_value" value="{$PREFILL_RELATION_DESTINATION_VALUE|escape}" />
+			{/if}
 
             <div class="padding1per" style="border:1px solid #ccc;">
                 <label>
@@ -64,7 +70,7 @@
 
                         {foreach from=$TRIGGER_TYPES item=LABEL key=LABEL_ID}
                             <div>
-                                <label><input type="radio" class="alignTop" name="execution_condition" {if $WORKFLOW_MODEL_OBJ->executionCondition eq $LABEL_ID} checked="" {/if} value="{$LABEL_ID}" {if $WORKFLOW_MODEL->getId() eq '' && $SCHEDULED_WORKFLOW_COUNT >= $MAX_ALLOWED_SCHEDULED_WORKFLOWS && $LABEL_ID eq 6} disabled {/if} />&nbsp;&nbsp;{$LABEL|t:$QUALIFIED_MODULE}
+                                <label><input type="radio" class="alignTop" name="execution_condition" {if $WORKFLOW_MODEL_OBJ->executionCondition eq $LABEL_ID || (isset($SELECTED_EXECUTION_CONDITION) && $SELECTED_EXECUTION_CONDITION eq $LABEL_ID && !$RECORDID)} checked="" {/if} value="{$LABEL_ID}" {if $WORKFLOW_MODEL->getId() eq '' && $SCHEDULED_WORKFLOW_COUNT >= $MAX_ALLOWED_SCHEDULED_WORKFLOWS && $LABEL_ID eq 6} disabled {/if} />&nbsp;&nbsp;{$LABEL|t:$QUALIFIED_MODULE}
                                     {if $WORKFLOW_MODEL->getId() eq '' && $SCHEDULED_WORKFLOW_COUNT >= $MAX_ALLOWED_SCHEDULED_WORKFLOWS && $LABEL_ID eq 6}
                                         <span class='alert alert-warning' style="position:relative;left:100px">{"LBL_EXCEEDING_MAXIMUM_LIMIT"|t:$QUALIFIED_MODULE} : {$MAX_ALLOWED_SCHEDULED_WORKFLOWS}</span>
                                     {/if}

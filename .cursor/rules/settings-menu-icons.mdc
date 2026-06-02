@@ -1,0 +1,112 @@
+---
+description: "How to add Settings sidebar menu blocks, submenus, and icons — read when registering Settings entries or fixing empty menu icons"
+globs:
+  - "migrations/Users/**"
+  - "src/Modules/Settings/**"
+  - "public/layouts/basic/skins/icons/**"
+alwaysApply: false
+---
+
+# Settings menu and icons
+
+## Data model
+
+| Layer | Table | Icon column | Renders as |
+|-------|--------|-------------|------------|
+| Sidebar group (expandable) | `vtiger_settings_blocks` | `icon` | Left rail `iconImage` via `menu/Label.tpl` |
+| Submenu shortcut | `vtiger_settings_field` | `iconpath` | Flyout/submenu link via `menu/Shortcut.tpl` |
+
+- Block `type = 0` → label with children (`prepareMenuToDisplay()` in `Settings\Base\Models\Module`).
+- Block `type = 1` → single shortcut (no children).
+- Menu item URL: `linkto` (e.g. `index.php?module=Recruitment&parent=Settings&view=Transitions`).
+
+## How icons render
+
+`App\Modules\Base\Models\Menu::getMenuIcon()` (`src/Modules/Base/Models/Menu.php`):
+
+| Stored value | Example | Rendered HTML |
+|--------------|---------|---------------|
+| `adminIcon-*` | `adminIcon-workflow` | `<span class="menuIcon adminIcon-workflow">` |
+| `userIcon-*` | `userIcon-ProjektyRekrutacyjne` | `<span class="menuIcon userIcon-ProjektyRekrutacyjne">` |
+| `glyphicon-*` only | `glyphicon-transfer` | `<span class="glyphicon glyphicon-transfer">` |
+| `fa-*` | `fa fa-cog` | `<span class="fa fa-cog">` |
+| Image path | `layouts/.../icon.png` | `<img class="menuIcon">` if file exists |
+
+**Glyphicon rule:** store `glyphicon-transfer`, not `glyphicon glyphicon-transfer` — the renderer prepends `glyphicon ` automatically.
+
+**Invalid class = empty icon:** e.g. `adminIcon-recruitment` does nothing unless defined in `public/layouts/basic/skins/icons/adminIcons.css` (and font files). Always verify the class exists before shipping.
+
+## Picking an icon
+
+1. **Module-related block** → `userIcon-<ModuleName>` if defined in `userIcons.css` (e.g. `userIcon-ProjektyRekrutacyjne`).
+2. **Process / automation** → existing `adminIcon-*` from `adminIcons.css` (e.g. `adminIcon-processes`, `adminIcon-workflow`, `adminIcon-automation`, `adminIcon-marketing`).
+3. **Generic UI metaphor** → `glyphicon-*` (Bootstrap 3): `glyphicon-transfer`, `glyphicon-th`, `glyphicon-cog`.
+4. **New admin glyph** → add to `adminIcons.svg`, rebuild font/CSS/min.css — only when no existing icon fits.
+
+```bash
+rg "adminIcon-workflow|userIcon-Projekty" public/layouts/basic/skins/icons/
+```
+
+## Registering via migration (preferred)
+
+Use `migrations/Users/`. Pattern from Recruitment:
+
+```php
+// 1. Create block (blockid is NOT auto-increment — use PearDatabase::getUniqueID)
+$blockId = (int) $adb->getUniqueID('vtiger_settings_blocks');
+$db->createCommand()->insert('vtiger_settings_blocks', [
+    'blockid' => $blockId,
+    'label' => 'LBL_MY_BLOCK',           // translate in Settings:Vtiger.json
+    'sequence' => $maxSequence + 1,
+    'icon' => 'userIcon-MyModule',
+    'type' => 0,
+    'linkto' => null,
+])->execute();
+$db->createCommand()->update('vtiger_settings_blocks_seq', ['id' => $blockId])->execute();
+
+// 2. Add submenu items
+\App\Modules\Settings\Base\Models\Module::addSettingsField('LBL_MY_BLOCK', [
+    'name' => 'LBL_MY_ITEM',
+    'iconpath' => 'adminIcon-workflow',
+    'description' => 'LBL_MY_ITEM_HELP',
+    'linkto' => 'index.php?module=MySettings&parent=Settings&view=Index',
+]);
+```
+
+Or insert into `vtiger_settings_field` with explicit `sequence` when adding multiple items under one block.
+
+**Remove old entry** when moving out of another block:
+
+```php
+\App\Modules\Settings\Base\Models\Module::deleteSettingsField('LBL_PROCESSES', 'LBL_OLD_ITEM');
+```
+
+## Translations
+
+| Key location | Used for |
+|--------------|----------|
+| `languages/*/Settings/Vtiger.json` | Block label (`LBL_MY_BLOCK`) |
+| `languages/*/Settings/<Module>.json` | Field `name`, `description` help strings |
+
+## Settings view wiring
+
+- URL: `index.php?module=<SettingsModule>&parent=Settings&view=<View>`
+- Class: `src/Modules/Settings/<Module>/Views/<View>.php` extending `Settings\Base\Views\Index`
+- Template: `layouts/basic/modules/Settings/<Module>/<View>.tpl` → `{extends MainLayout}` → include content tpl
+- See `main-layout-views.mdc` for full layout rules.
+
+## Checklist after adding menu + icons
+
+- [ ] Icon class exists in `adminIcons.css` / `userIcons.css` (or is valid `glyphicon-*`)
+- [ ] Glyphicon values omit duplicate `glyphicon` prefix
+- [ ] Migration updates both `vtiger_settings_blocks.icon` and `vtiger_settings_field.iconpath`
+- [ ] Labels in `Settings:Vtiger.json` and module lang file
+- [ ] Run: `docker compose exec -T app php yii migrate --migrationPath=migrations/Users/ --interactive=0`
+- [ ] Hard-refresh Settings (menu may be cached per request in `Menu::$casheMenu`)
+
+## Reference implementation
+
+- Block + two submenus: `migrations/Users/m260601_000001_recruitment_settings_menu.php`
+- Icon fix: `m260602_000001_recruitment_settings_icons.php`
+- Menu render: `src/Modules/Settings/Base/Models/Module.php` → `prepareMenuToDisplay()`
+- Templates: `layouts/basic/modules/Base/menu/Label.tpl`, `Shortcut.tpl`

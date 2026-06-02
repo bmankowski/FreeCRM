@@ -58,9 +58,25 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 			$viewer->assign('MODE', 'edit');
 		} else {
 			$workflowModel = \App\Modules\Settings\Workflows\Models\Record::getCleanInstance($moduleName);
+			$viewer->assign('RECORDID', '');
+			$viewer->assign('MODE', 'create');
 			$selectedModule = $request->get('source_module');
 			if (!empty($selectedModule)) {
 				$viewer->assign('SELECTED_MODULE', $selectedModule);
+			}
+			$executionCondition = (int) $request->get('execution_condition');
+			$validTriggers = array_keys(\App\Modules\Settings\Workflows\Models\Module::getTriggerTypes());
+			if ($executionCondition > 0 && \in_array($executionCondition, $validTriggers, true)) {
+				$viewer->assign('SELECTED_EXECUTION_CONDITION', $executionCondition);
+				$workflowModel->set('execution_condition', $executionCondition);
+			}
+			$relationSourceValue = $request->get('relation_source_value');
+			$relationDestValue = $request->get('relation_destination_value');
+			if ($relationSourceValue !== null && $relationSourceValue !== '') {
+				$viewer->assign('PREFILL_RELATION_SOURCE_VALUE', (string) $relationSourceValue);
+			}
+			if ($relationDestValue !== null && $relationDestValue !== '') {
+				$viewer->assign('PREFILL_RELATION_DESTINATION_VALUE', (string) $relationDestValue);
 			}
 		}
 		$db = \App\Database\PearDatabase::getInstance();
@@ -183,6 +199,16 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 				'destination_value' => '',
 				'once_per_pair' => 0,
 			];
+			if (!$workFlowModel->getId()) {
+				$prefillSource = $workFlowModel->get('relation_source_value');
+				$prefillDest = $workFlowModel->get('relation_destination_value');
+				if ($prefillSource !== null && $prefillSource !== false && $prefillSource !== '') {
+					$relationTrigger['source_value'] = (string) $prefillSource;
+				}
+				if ($prefillDest !== null && $prefillDest !== false && $prefillDest !== '') {
+					$relationTrigger['destination_value'] = (string) $prefillDest;
+				}
+			}
 		}
 		$relationSourceModule = $relationTrigger['source_module'] ?? \App\Modules\Settings\Workflows\Models\RelationTrigger::DEFAULT_SOURCE_MODULE;
 		$relationDestinationModule = $relationTrigger['destination_module'] ?? \App\Modules\Settings\Workflows\Models\RelationTrigger::DEFAULT_DESTINATION_MODULE;

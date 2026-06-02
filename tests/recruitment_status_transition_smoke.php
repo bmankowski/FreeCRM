@@ -18,6 +18,7 @@ require_once ROOT_DIRECTORY . '/config/config.php';
 \App\EntryPoint\WebUI::initialize();
 
 use App\Modules\ProjektyRekrutacyjne\Services\RecruitmentStatusTransition;
+use App\Modules\Settings\Workflows\Models\RelationTrigger;
 
 $failures = 0;
 
@@ -78,6 +79,20 @@ assertTrue(
 // Reset for production Option B state
 $db->createCommand()->delete('u_yf_recruitment_status_transitions')->execute();
 $db->createCommand()->update('u_yf_recruitment_settings', ['configured' => 0], ['id' => 1])->execute();
+
+$workflows = RelationTrigger::listRecruitmentRelationWorkflows();
+assertTrue(is_array($workflows), 'listRecruitmentRelationWorkflows returns array');
+$matrixMap = RelationTrigger::getWorkflowsForTransitionMatrix();
+assertTrue(is_array($matrixMap), 'getWorkflowsForTransitionMatrix returns array');
+$createUrl = RelationTrigger::buildCreateWorkflowUrl('PPL_APPLIED', 'PPL_CANDIDATE_PASSED_SCREENING');
+assertTrue(
+	str_contains($createUrl, 'execution_condition=11') && str_contains($createUrl, 'relation_source_value=PPL_APPLIED'),
+	'buildCreateWorkflowUrl includes trigger and status params'
+);
+assertTrue(
+	RelationTrigger::formatStatusLabel('') !== '',
+	'formatStatusLabel handles empty status'
+);
 
 echo $failures === 0 ? "\nAll service smoke tests passed.\n" : "\n$failures test(s) failed.\n";
 exit($failures === 0 ? 0 : 1);

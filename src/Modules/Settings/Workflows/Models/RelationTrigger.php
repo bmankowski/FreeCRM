@@ -283,6 +283,132 @@ class RelationTrigger
 		];
 	}
 
+	public static function formatStatusLabel(string $code): string
+	{
+		if ($code === '') {
+			return \App\Language::translate('LBL_RELATION_ANY_STATUS', 'Settings:Workflows');
+		}
+
+		$options = self::getRecruitmentStatusOptions();
+
+		return $options[$code] ?? $code;
+	}
+
+	public static function buildCreateWorkflowUrl(?string $from = null, ?string $to = null): string
+	{
+		$params = [
+			'module' => 'Workflows',
+			'parent' => 'Settings',
+			'view' => 'Edit',
+			'source_module' => self::DEFAULT_SOURCE_MODULE,
+			'execution_condition' => (string) \App\Modules\Workflow\VTWorkflowManager::$ON_RELATION_MODIFY,
+		];
+		if ($from !== null && $from !== '') {
+			$params['relation_source_value'] = $from;
+		}
+		if ($to !== null && $to !== '') {
+			$params['relation_destination_value'] = $to;
+		}
+
+		return 'index.php?' . http_build_query($params);
+	}
+
+	/**
+	 * @return list<array<string, mixed>>
+	 */
+	public static function listRecruitmentRelationWorkflows(): array
+	{
+		$rows = (new \App\Db\Query())
+			->select([
+				'w.workflow_id',
+				'w.summary',
+				'rt.source_value',
+				'rt.destination_value',
+				'rt.once_per_pair',
+			])
+			->from(['w' => 'com_vtiger_workflows'])
+			->innerJoin(['rt' => 'com_vtiger_workflow_relation_triggers'], 'rt.workflow_id = w.workflow_id')
+			->where([
+				'w.execution_condition' => \App\Modules\Workflow\VTWorkflowManager::$ON_RELATION_MODIFY,
+				'rt.source_module' => self::DEFAULT_SOURCE_MODULE,
+				'rt.destination_module' => self::DEFAULT_DESTINATION_MODULE,
+				'rt.relation_table' => self::DEFAULT_RELATION_TABLE,
+				'rt.relation_field' => self::DEFAULT_RELATION_FIELD,
+			])
+			->orderBy(['w.summary' => SORT_ASC])
+			->all();
+
+		$result = [];
+		foreach ($rows as $row) {
+			$workflowId = (int) $row['workflow_id'];
+			$workflowModel = \App\Modules\Settings\Workflows\Models\Record::getInstance($workflowId);
+			$taskList = $workflowModel->getTasks();
+			$sourceValue = (string) ($row['source_value'] ?? '');
+			$destValue = (string) ($row['destination_value'] ?? '');
+
+			$result[] = [
+				'workflow_id' => $workflowId,
+				'summary' => \App\Language::translate((string) $row['summary'], 'Settings:Workflows'),
+				'source_value' => $sourceValue,
+				'destination_value' => $destValue,
+				'source_label' => self::formatStatusLabel($sourceValue),
+				'destination_label' => self::formatStatusLabel($destValue),
+				'once_per_pair' => (int) ($row['once_per_pair'] ?? 0),
+				'edit_url' => $workflowModel->getEditViewUrl(),
+				'active_tasks' => $workflowModel->getActiveCountFromRecord($taskList),
+				'all_tasks' => \count($taskList),
+			];
+		}
+
+		return $result;
+	}
+
+	/**
+	 * @return array<string, array<string, list<array{id: int, summary: string, editUrl: string}>>>
+	 */
+	public static function getWorkflowsForTransitionMatrix(): array
+	{
+		$workflows = self::listRecruitmentRelationWorkflows();
+		$statusCodes = array_keys(self::getRecruitmentStatusOptions());
+		$map = [];
+
+		foreach ($statusCodes as $from) {
+			foreach ($statusCodes as $to) {
+				if ($from === $to) {
+					continue;
+				}
+				$matching = [];
+				foreach ($workflows as $workflow) {
+					if (!self::workflowMatchesTransition($workflow, $from, $to)) {
+						continue;
+					}
+					$matching[] = [
+						'id' => $workflow['workflow_id'],
+						'summary' => $workflow['summary'],
+						'editUrl' => $workflow['edit_url'],
+					];
+				}
+				if ($matching !== []) {
+					$map[$from][$to] = $matching;
+				}
+			}
+		}
+
+		return $map;
+	}
+
+	/**
+	 * @param array<string, mixed> $workflow
+	 */
+	private static function workflowMatchesTransition(array $workflow, string $from, string $to): bool
+	{
+		$sourceFilter = (string) ($workflow['source_value'] ?? '');
+		$destFilter = (string) ($workflow['destination_value'] ?? '');
+
+		return ($sourceFilter === '' || $sourceFilter === $from)
+			&& ($destFilter === '' || $destFilter === $to);
+	}
+
 	public static function getRecruitmentStatusOptions(): array
 	{
 		$values = [

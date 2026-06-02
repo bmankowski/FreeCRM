@@ -1,17 +1,13 @@
 /**
- * FreeCRM - Customer Relationship Management System
- *
- * @project FreeCRM
- * @author bmankowski@gmail.com
- * @copyright (c) FreeCRM
+ * FreeCRM - Recruitment status transition rules (Settings)
  */
 
 'use strict';
 
-jQuery.Class('Settings_Recruitment_Index_Js', {}, {
+jQuery.Class('Settings_Recruitment_Transitions_Js', {}, {
 	collectTransitions: function () {
 		const transitions = [];
-		jQuery('#recruitmentSettingsContainer .js-transition-checkbox:checked').each(function () {
+		jQuery('#recruitmentTransitionsContainer .js-transition-checkbox:checked').each(function () {
 			const $el = jQuery(this);
 			transitions.push({
 				from: $el.data('from'),
@@ -21,7 +17,7 @@ jQuery.Class('Settings_Recruitment_Index_Js', {}, {
 		return transitions;
 	},
 	registerRowActions: function () {
-		const container = jQuery('#recruitmentSettingsContainer');
+		const container = jQuery('#recruitmentTransitionsContainer');
 		container.on('click', '.js-select-row', function () {
 			const from = jQuery(this).data('from');
 			container.find('.js-transition-checkbox[data-from="' + from + '"]').prop('checked', true);
@@ -37,7 +33,7 @@ jQuery.Class('Settings_Recruitment_Index_Js', {}, {
 	},
 	registerSave: function () {
 		const thisInstance = this;
-		const container = jQuery('#recruitmentSettingsContainer');
+		const container = jQuery('#recruitmentTransitionsContainer');
 		container.on('click', '.js-save-transitions', function () {
 			const transitions = thisInstance.collectTransitions();
 			app.saveAjax('saveTransitions', { transitions: transitions }).done(function (data) {
@@ -61,6 +57,6 @@ jQuery.Class('Settings_Recruitment_Index_Js', {}, {
 });
 
 jQuery(document).ready(function () {
-	const instance = new Settings_Recruitment_Index_Js();
+	const instance = new Settings_Recruitment_Transitions_Js();
 	instance.registerEvents();
 });

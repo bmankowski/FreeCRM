@@ -108,9 +108,9 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		return $mem->expressionFunctions();
 	}
 
-	public function getListFields()
+	public function getListFields(): array
 	{
-		if (!property_exists($this, 'listFieldModels')) {
+		if ($this->listFieldModels === null) {
 			$fields = $this->listFields;
 			$fieldObjects = array();
 			$fieldsNoSort = ['module_name', 'execution_condition', 'all_tasks', 'active_tasks', 'actions'];

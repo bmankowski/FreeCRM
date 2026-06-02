@@ -329,8 +329,8 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		if ($executionCondition === null) {
 			$executionCondition = $this->get('execution_condition');
 		}
-		$arr = ['ON_FIRST_SAVE', 'ONCE', 'ON_EVERY_SAVE', 'ON_MODIFY', 'ON_DELETE', 'ON_SCHEDULE', 'MANUAL', 'TRIGGER', 'BLOCK_EDIT', 'ON_RELATED'];
-		return $arr[$executionCondition - 1];
+		$arr = ['ON_FIRST_SAVE', 'ONCE', 'ON_EVERY_SAVE', 'ON_MODIFY', 'ON_DELETE', 'ON_SCHEDULE', 'MANUAL', 'TRIGGER', 'BLOCK_EDIT', 'ON_RELATED', 'ON_RELATION_MODIFY'];
+		return $arr[$executionCondition - 1] ?? 'ON_RELATION_MODIFY';
 	}
 
 	/**
