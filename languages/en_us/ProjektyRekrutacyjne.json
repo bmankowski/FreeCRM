@@ -18,6 +18,10 @@
         "PLL_REJECTION_REASON_OTHER_CANDIDATE_CHOSEN": "Another candidate was chosen",
         "PLL_REJECTION_REASON_PROJECT_CLOSED": "Recruitment process was suspended or closed",
         "LBL_RECRUITMENT_KANBAN": "Recruitment kanban",
+        "LBL_ADD_MANUAL_CANDIDATE": "Add candidate",
+        "LBL_MANUAL_CANDIDATES_ADDED": "Candidates added: %s",
+        "LBL_MANUAL_CANDIDATES_SKIPPED": "Skipped (already in project): %s",
+        "PPL_MANUALLY_ADDED": "Manually added",
         "PPL_REJECTED_AFTER_CV": "Rejected after CV",
         "PPL_APPLIED": "Applied",
         "PPL_CANDIDATE_PASSED_SCREENING": "Passed screening",
@@ -32,6 +36,8 @@
         "PLL_STATUS_TRANSITION_NOT_ALLOWED": "This status change is not allowed"
     },
     "jsLanguageStrings": {
+        "LBL_MANUAL_CANDIDATES_ADDED": "Candidates added: %s",
+        "LBL_MANUAL_CANDIDATES_SKIPPED": "Skipped (already in project): %s",
         "PLL_ACCEPTANCE_FAILED": "Acceptance failed",
         "PLL_ACCEPTANCE_SUCCESS": "Acceptance completed successfully",
         "PLL_REJECT_FAILED": "Rejection failed",

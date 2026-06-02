@@ -108,11 +108,12 @@ final class CandidateApplicationSideEffects
 		if (!self::isProjectActive($dto->projectId)) {
 			return;
 		}
-		$projectModule = \App\Modules\Base\Models\Module::getInstance('ProjektyRekrutacyjne');
-		$relationModel = \App\Modules\Base\Models\Relation::getInstance($projectModule, $candidate->getModule());
-		if ($relationModel !== false) {
-			$relationModel->addRelation((int) $dto->projectId, (int) $candidate->getId());
-		}
+		$relationHandler = new \App\Modules\ProjektyRekrutacyjne\Relations\GetRelatedMembers();
+		$relationHandler->createLink(
+			(int) $dto->projectId,
+			(int) $candidate->getId(),
+			\App\Modules\ProjektyRekrutacyjne\Relations\GetRelatedMembers::STATUS_APPLIED
+		);
 	}
 
 	public static function getCandidateIdByNameAndEmail(string $name, string $email): ?string

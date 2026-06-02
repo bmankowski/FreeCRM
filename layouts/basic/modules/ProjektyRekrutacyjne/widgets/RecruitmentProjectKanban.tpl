@@ -23,6 +23,7 @@
 <style>
 	.summaryWidgetContainer .candidate-status.drop-allowed { outline: 2px solid #28a745; outline-offset: -2px; background-color: rgba(40, 167, 69, 0.08); }
 	.summaryWidgetContainer .candidate-status.drop-forbidden { outline: 2px dashed #dc3545; outline-offset: -2px; opacity: 0.55; }
+	.summaryWidgetContainer .js-kanban-add-manual-candidate { margin-left: 6px; vertical-align: middle; line-height: 1; padding: 0 6px; }
 </style>
 
 	<input type="hidden" class="project-id" value="{$PROJECT_ID}"/>
@@ -32,6 +33,10 @@
 	<table class="table table-bordered table-sm">
 		<thead class="thead-light">
 		<tr>
+			<th>
+				{'PPL_MANUALLY_ADDED'|t:$MODULE_NAME}
+				<button type="button" class="btn btn-sm btn-success js-kanban-add-manual-candidate" title="{'LBL_ADD_MANUAL_CANDIDATE'|t:$MODULE_NAME}" aria-label="{'LBL_ADD_MANUAL_CANDIDATE'|t:$MODULE_NAME}">+</button>
+			</th>
 			<th>{'PPL_REJECTED_AFTER_CV'|t:$MODULE_NAME}</th>
 			<th>{'PPL_APPLIED'|t:$MODULE_NAME}</th>
 			<th>{'PPL_CANDIDATE_PASSED_SCREENING'|t:$MODULE_NAME}</th>
@@ -39,6 +44,9 @@
 		</thead>
 		<tbody>
 		<tr>
+			<td class="candidate-status" data-value="PPL_MANUALLY_ADDED">
+				{renderCandidates status='PPL_MANUALLY_ADDED'}
+			</td>
 			<td class="candidate-status" data-value="PPL_REJECTED_AFTER_CV">
 				{renderCandidates status='PPL_REJECTED_AFTER_CV'}
 			</td>

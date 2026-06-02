@@ -77,6 +77,104 @@ Vtiger_Detail_Js(
 			setTimeout(collectAndLog, 400);
 			setTimeout(collectAndLog, 1200);
 		},
+		refreshUiAfterManualCandidatesAdd: function (result) {
+			const statusManual = 'PPL_MANUALLY_ADDED';
+			if (result && result.addedCandidates && result.addedCandidates.length) {
+				result.addedCandidates.forEach(function (candidate) {
+					const candidateId = String(candidate.id);
+					const status = candidate.status || statusManual;
+					if ($('.candidate[data-candidate-id="' + candidateId + '"]').length) {
+						return;
+					}
+					const $col = $('.candidate-status[data-value="' + status + '"]').first();
+					if (!$col.length) {
+						return;
+					}
+					const $chip = $('<div class="candidate candidate-chip" draggable="true"></div>')
+						.attr('datasrc', candidate.detailUrl || '')
+						.attr('data-candidate-id', candidateId)
+						.text(candidate.name || '');
+					$col.append($chip);
+				});
+			}
+			if (typeof this.getRelatedModuleName === 'function'
+				&& this.getRelatedModuleName() === 'Kandydaci'
+				&& typeof this.loadRelatedList === 'function') {
+				const tab = this.getSelectedTab();
+				const params = { page: 1 };
+				if (tab && tab.length && tab.data('label-key')) {
+					params.tab_label = tab.data('label-key');
+				}
+				this.loadRelatedList(params);
+			}
+		},
+		registerKanbanAddManualCandidate: function () {
+			const thisInstance = this;
+			$(document).off('click.projektyKanbanAddManual', '.js-kanban-add-manual-candidate');
+			$(document).on('click.projektyKanbanAddManual', '.js-kanban-add-manual-candidate', function (event) {
+				event.preventDefault();
+				const $container = $(this).closest('.summaryWidgetContainer');
+				const projectId = $container.find('.project-id').val() || app.getRecordId();
+				if (!projectId) {
+					return;
+				}
+				const popupParams = {
+					module: 'Kandydaci',
+					src_module: app.getModuleName(),
+					src_record: projectId,
+					multi_select: true
+				};
+				Vtiger_Popup_Js.getInstance().show(popupParams, function (responseString) {
+					let responseData = {};
+					try {
+						responseData = JSON.parse(responseString);
+					} catch (_e) {
+						return;
+					}
+					const candidateIds = Object.keys(responseData);
+					if (!candidateIds.length) {
+						return;
+					}
+					const params = {
+						module: app.getModuleName(),
+						action: 'AddManualCandidatesAjax',
+						projectId: projectId,
+						candidateIds: JSON.stringify(candidateIds)
+					};
+					AppConnector.request(params).done(function (data) {
+						if (data.success !== true) {
+							const errMsg = (data.error && data.error.message)
+								|| (data.result && data.result.message)
+								|| app.vtranslate('PLL_ACCEPTANCE_FAILED', app.getModuleName());
+							Vtiger_Helper_Js.showPnotify({ text: errMsg, type: 'error' });
+							return;
+						}
+						const result = data.result || {};
+						if (result.skipped && result.skipped.length) {
+							const msg = app.vtranslate('LBL_MANUAL_CANDIDATES_SKIPPED', app.getModuleName())
+								.replace('%s', result.skipped.length);
+							Vtiger_Helper_Js.showPnotify({ text: msg, type: 'info' });
+						}
+						if (!result.success && (!result.added || !result.added.length)) {
+							if (result.skipped && result.skipped.length) {
+								return;
+							}
+							const msg = result.message
+								? app.vtranslate(result.message, app.getModuleName())
+								: app.vtranslate('PLL_NO_SUCH_RECORD', app.getModuleName());
+							Vtiger_Helper_Js.showPnotify({ text: msg, type: 'error' });
+							return;
+						}
+						thisInstance.refreshUiAfterManualCandidatesAdd(result);
+					}).fail(function (_jqXHR, _textStatus, errorThrown) {
+						Vtiger_Helper_Js.showPnotify({
+							text: errorThrown || app.vtranslate('PLL_ACCEPTANCE_FAILED', app.getModuleName()),
+							type: 'error'
+						});
+					});
+				});
+			});
+		},
 		registerProjectRelatedListController: function () {
 			const thisInstance = this;
 			const register = function () {
@@ -262,6 +360,7 @@ Vtiger_Detail_Js(
 			this._super();
 			this.candidatesSupport();
 			this.candidatesDragAndDropSupport();
+			this.registerKanbanAddManualCandidate();
 			this.logLoadedCandidatesToConsole();
 			this.registerProjectRelatedListController();
 		}

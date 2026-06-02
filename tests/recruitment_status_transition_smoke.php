@@ -44,11 +44,12 @@ assertTrue(
 	'all transitions allowed before save'
 );
 assertTrue(
-	count(RecruitmentStatusTransition::getStatusOptions()) === 11,
-	'11 status options'
+	count(RecruitmentStatusTransition::getStatusOptions()) === 12,
+	'12 status options'
 );
 
 $suggested = RecruitmentStatusTransition::getSuggestedDefaults();
+assertTrue(isset($suggested['PPL_MANUALLY_ADDED']), 'suggested defaults include PPL_MANUALLY_ADDED');
 assertTrue(isset($suggested['PPL_APPLIED']), 'suggested defaults include PPL_APPLIED');
 assertTrue(
 	in_array('PPL_REJECTED_AFTER_CV', $suggested['PPL_APPLIED'], true),

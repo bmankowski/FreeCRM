@@ -31,24 +31,18 @@ namespace App\Modules\Kandydaci\Handlers;
 
 class NewCandidateInProject
 {
-	public function entityAfterLink(App\Events\EventHandler $eventHandler)
+	public function entityAfterLink(\App\Events\EventHandler $eventHandler)
 	{
 		$params = $eventHandler->getParams();
 
 		if ($params['sourceModule'] == "Kandydaci" && $params['destinationModule'] == "ProjektyRekrutacyjne") {
-			$kandydatId = $params["sourceRecordId"];
-			$projektId = $params["destinationRecordId"];
-			$this->addComentsAboutNewCandidateInProject($kandydatId, $projektId);         // Wstawienie komentarzy o nowym Kandydacie
-			$this->calculateNumberOfCandidatesInProject($projektId);
+			$this->onCandidateLinkedToProject((int) $params['sourceRecordId'], (int) $params['destinationRecordId']);
 		} elseif ($params['sourceModule'] == "ProjektyRekrutacyjne" && $params['destinationModule'] == "Kandydaci") {
-			$kandydatId = $params["destinationRecordId"];
-			$projektId = $params["sourceRecordId"];
-			$this->addComentsAboutNewCandidateInProject($kandydatId, $projektId);         // Wstawienie komentarzy o nowym Kandydacie
-			$this->calculateNumberOfCandidatesInProject($projektId);
+			$this->onCandidateLinkedToProject((int) $params['destinationRecordId'], (int) $params['sourceRecordId']);
 		}
 	}
 
-	public function entityAfterUnLink(App\Events\EventHandler $eventHandler)
+	public function entityAfterUnLink(\App\Events\EventHandler $eventHandler)
 	{
 		$params = $eventHandler->getParams();
 
@@ -94,7 +88,13 @@ class NewCandidateInProject
 		$commentForProject->save();
 	}
 
-	protected function addComentsAboutNewCandidateInProject($candidateId, $projectId)
+	public function onCandidateLinkedToProject(int $candidateId, int $projectId): void
+	{
+		$this->addComentsAboutNewCandidateInProject($candidateId, $projectId);
+		$this->calculateNumberOfCandidatesInProject($projectId);
+	}
+
+	protected function addComentsAboutNewCandidateInProject(int $candidateId, int $projectId): void
 	{
 		$recordModelKandydat = \App\Modules\Base\Models\Record::getInstanceById($candidateId, 'Kandydaci');
 		$nazwaKandydata = $recordModelKandydat->get('name');
@@ -113,16 +113,26 @@ class NewCandidateInProject
 		$recordModelKandydat->save();
 		$currentUserId = (int) (\App\User\CurrentUser::getId() ?? 0);
 
-//        Dodanie do Kandydata komentarza o dodaniu Kandydata do konkretnego Projektu
+		$relationHandler = new \App\Modules\ProjektyRekrutacyjne\Relations\GetRelatedMembers();
+		$relationRow = $relationHandler->getRelationData($projectId, $candidateId);
+		$isApplied = ($relationRow['recruitment_status_rel'] ?? '') === \App\Modules\ProjektyRekrutacyjne\Relations\GetRelatedMembers::STATUS_APPLIED;
+
+		if ($isApplied) {
+			$candidateComment = "Kandydat zaaplikował do projektu: <a href='$projektURL'>$nazwaProjektu ($numerProjektu)</a>";
+			$projectComment = "Kandydat <a href='$kandydatURL'>$nazwaKandydata ($numerKandydata)</a> zaaplikował do tego projektu.";
+		} else {
+			$candidateComment = "Kandydat został dodany ręcznie do projektu: <a href='$projektURL'>$nazwaProjektu ($numerProjektu)</a>";
+			$projectComment = "Kandydat <a href='$kandydatURL'>$nazwaKandydata ($numerKandydata)</a> został dodany ręcznie do tego projektu.";
+		}
+
 		$commentForCandidate = \App\Modules\Base\Models\Record::getCleanInstance("ModComments");
-		$commentForCandidate->set('commentcontent', "Kandydat został przypisany do projektu: <a href='$projektURL'>$nazwaProjektu ($numerProjektu)</a>");
+		$commentForCandidate->set('commentcontent', $candidateComment);
 		$commentForCandidate->set('related_to', $candidateId);
 		$commentForCandidate->set('assigned_user_id', $currentUserId);
 		$commentForCandidate->save();
 
-//        Dodanie do Projektu komentarza o dodaniu Kandydata do tego Projektu
 		$commentForProject = \App\Modules\Base\Models\Record::getCleanInstance("ModComments");
-		$commentForProject->set('commentcontent', "Kandydat <a href='$kandydatURL'>$nazwaKandydata ($numerKandydata)</a> został przypisany do tego projektu.");
+		$commentForProject->set('commentcontent', $projectComment);
 		$commentForProject->set('related_to', $projectId);
 		$commentForProject->set('assigned_user_id', $currentUserId);
 		$commentForProject->save();
@@ -131,6 +141,7 @@ class NewCandidateInProject
 	public static function calculateNumberOfCandidatesInProject($projectId)
 	{
 		if (!empty($recordModelProject = \App\Modules\Base\Models\Record::getInstanceById($projectId, 'ProjektyRekrutacyjne'))) {
+			/** @var \App\Modules\ProjektyRekrutacyjne\Models\Record $recordModelProject */
 			$recordModelProject->calculateNumberOfCandidatesInProject();
 			$recordModelProject->save();
 		}

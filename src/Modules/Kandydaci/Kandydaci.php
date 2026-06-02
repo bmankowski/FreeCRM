@@ -82,13 +82,13 @@ class Kandydaci extends \App\Core\CRMEntity
 
 		// Handle ProjektyRekrutacyjne relation using custom M:M table
 		if ($withModule === 'ProjektyRekrutacyjne' && $relatedName === 'getRelatedMembers') {
-			// Use relation class create method to ensure status is always set
 			$typeRelationModel = new \App\Modules\ProjektyRekrutacyjne\Relations\GetRelatedMembers();
-			
-			// Use relation's create method which always sets status
-			// crmid = ProjektyRekrutacyjne ID, relcrmid = Kandydaci ID
-			foreach ($withCrmid as $relcrmid) {
-				$typeRelationModel->create($relcrmid, $crmid);
+			foreach ($withCrmid as $projectId) {
+				$typeRelationModel->createMembership(
+					(int) $projectId,
+					(int) $crmid,
+					\App\Modules\ProjektyRekrutacyjne\Relations\GetRelatedMembers::STATUS_MANUALLY_ADDED
+				);
 			}
 		} else {
 			// Default handling for other relations
@@ -112,13 +112,9 @@ class Kandydaci extends \App\Core\CRMEntity
 
 		// Handle ProjektyRekrutacyjne relation using custom M:M table
 		if ($withModule === 'ProjektyRekrutacyjne') {
-			$tableName = 'u_yf_projekty_rekrutacyjne_relations_members_entity';
-			
-			foreach ($withCrmid as $relcrmid) {
-				\App\Db\Db::getInstance()->createCommand()->delete($tableName, [
-					'crmid' => $relcrmid,
-					'relcrmid' => $crmid
-				])->execute();
+			$typeRelationModel = new \App\Modules\ProjektyRekrutacyjne\Relations\GetRelatedMembers();
+			foreach ($withCrmid as $projectId) {
+				$typeRelationModel->delete((int) $projectId, (int) $crmid);
 			}
 		} else {
 			// Default handling for other relations

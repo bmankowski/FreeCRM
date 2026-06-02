@@ -20,6 +20,9 @@ class GetRelatedMembers extends \App\Modules\Base\Relations\GetRelatedList
     private const PROJECT_MODULE = 'ProjektyRekrutacyjne';
     private const CANDIDATE_MODULE = 'Kandydaci';
 
+    public const STATUS_APPLIED = 'PPL_APPLIED';
+    public const STATUS_MANUALLY_ADDED = 'PPL_MANUALLY_ADDED';
+
     /** {@inheritdoc} */
     public const TABLE_NAME = 'u_yf_projekty_rekrutacyjne_relations_members_entity';
 
@@ -199,22 +202,49 @@ class GetRelatedMembers extends \App\Modules\Base\Relations\GetRelatedList
         }
     }
 
-    /** {@inheritdoc} */
     public function create(int $sourceRecordId, int $destinationRecordId): bool
     {
+        throw new \App\Exceptions\AppException(
+            'Recruitment relation requires explicit status; use createMembership() instead of create().'
+        );
+    }
+
+    public function createMembership(int $sourceRecordId, int $destinationRecordId, string $initialStatus): bool
+    {
         [$sourceRecordId, $destinationRecordId] = $this->normalizeRelationDirection($sourceRecordId, $destinationRecordId);
-        $result = false;
-        if (!$this->getRelationData($sourceRecordId, $destinationRecordId)) {
-            $result = \App\Db\Db::getInstance()->createCommand()->insert(static::TABLE_NAME, [
-                'crmid' => $sourceRecordId,
-                'relcrmid' => $destinationRecordId,
-                'recruitment_status_rel' => "PPL_APPLIED",
-                'rel_created_user' => (int) (\App\User\CurrentUser::getId() ?? 0),
-                'rel_created_time' => date('Y-m-d H:i:s'),
-            ])->execute();
+        if ($this->getRelationData($sourceRecordId, $destinationRecordId)) {
+            return false;
         }
-//                \App\Log::warning("create relations");
-        return $result;
+
+        return (bool) \App\Db\Db::getInstance()->createCommand()->insert(static::TABLE_NAME, [
+            'crmid' => $sourceRecordId,
+            'relcrmid' => $destinationRecordId,
+            'recruitment_status_rel' => $initialStatus,
+            'rel_created_user' => (int) (\App\User\CurrentUser::getId() ?? 0),
+            'rel_created_time' => date('Y-m-d H:i:s'),
+        ])->execute();
+    }
+
+    public function createLink(int $projectId, int $candidateId, string $initialStatus): bool
+    {
+        if (!$this->createMembership($projectId, $candidateId, $initialStatus)) {
+            return false;
+        }
+
+        $handler = new \App\Modules\Kandydaci\Handlers\NewCandidateInProject();
+        $handler->onCandidateLinkedToProject($candidateId, $projectId);
+
+        return true;
+    }
+
+    public function delete(int $sourceRecordId, int $destinationRecordId): bool
+    {
+        [$projectId, $candidateId] = $this->normalizeRelationDirection($sourceRecordId, $destinationRecordId);
+
+        return (bool) \App\Db\Db::getInstance()->createCommand()->delete(static::TABLE_NAME, [
+            'crmid' => $projectId,
+            'relcrmid' => $candidateId,
+        ])->execute();
     }
 
     /**
@@ -288,7 +318,8 @@ class GetRelatedMembers extends \App\Modules\Base\Relations\GetRelatedList
                 \App\Modules\Workflow\RelationWorkflowRunner::run($context);
             }
             //add comment for project and candidate about status change, omitting changes from 'PPL_APPLIED' to 'PPL_REJECTED' and 'PPL_CANDIDATE_PASSED_SCREENING'
-            if ($sourceStatus === 'PPL_APPLIED' && ($destinationStatus === 'PPL_REJECTED_AFTER_CV' || $destinationStatus === 'PPL_CANDIDATE_PASSED_SCREENING')) {
+            if (($sourceStatus === self::STATUS_APPLIED || $sourceStatus === self::STATUS_MANUALLY_ADDED)
+                && ($destinationStatus === 'PPL_REJECTED_AFTER_CV' || $destinationStatus === 'PPL_CANDIDATE_PASSED_SCREENING')) {
                 if ($status) {
                     $this->saveProjectCountersWithWorkflowDisabled($projectId);
                 }

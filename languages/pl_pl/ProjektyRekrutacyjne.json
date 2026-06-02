@@ -37,6 +37,10 @@
         "PLL_ENGLISH": "Angielski",
         
         "LBL_RECRUITMENT_KANBAN": "Tablica Kanban rekrutacji",
+        "LBL_ADD_MANUAL_CANDIDATE": "Dodaj kandydata",
+        "LBL_MANUAL_CANDIDATES_ADDED": "Dodano kandydatów: %s",
+        "LBL_MANUAL_CANDIDATES_SKIPPED": "Pominięto (już w projekcie): %s",
+        "PPL_MANUALLY_ADDED": "Dobre kandydatury",
         "PPL_REJECTED_AFTER_CV": "Odrzuceni po CV",
         "PPL_APPLIED": "Aplikowali",
         "PPL_CANDIDATE_PASSED_SCREENING": "Przeszli screening",
@@ -51,6 +55,8 @@
         "PLL_STATUS_TRANSITION_NOT_ALLOWED": "Ta zmiana statusu jest niedozwolona"
     },
     "jsLanguageStrings": {
+        "LBL_MANUAL_CANDIDATES_ADDED": "Dodano kandydatów: %s",
+        "LBL_MANUAL_CANDIDATES_SKIPPED": "Pominięto (już w projekcie): %s",
         "PLL_ACCEPTANCE_FAILED": "Akceptacja nie powiodła się",
         "PLL_ACCEPTANCE_SUCCESS": "Akceptacja zakończona sukcesem",
         "PLL_REJECT_FAILED": "Odrzucenie nie powiodło się",

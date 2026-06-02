@@ -412,6 +412,7 @@ class RelationTrigger
 	public static function getRecruitmentStatusOptions(): array
 	{
 		$values = [
+			'PPL_MANUALLY_ADDED',
 			'PPL_APPLIED',
 			'PPL_REJECTED_AFTER_CV',
 			'PPL_CANDIDATE_PASSED_SCREENING',

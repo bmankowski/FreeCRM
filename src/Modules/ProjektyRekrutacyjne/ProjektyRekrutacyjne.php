@@ -62,6 +62,44 @@ class ProjektyRekrutacyjne extends \App\Core\CRMEntity
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
 
+	public function save_related_module($module, $crmid, $withModule, $withCrmid, $relatedName = false)
+	{
+		if (!is_array($withCrmid)) {
+			$withCrmid = [$withCrmid];
+		}
+
+		if ($withModule === 'Kandydaci' && $relatedName === 'getRelatedMembers') {
+			$typeRelationModel = new \App\Modules\ProjektyRekrutacyjne\Relations\GetRelatedMembers();
+			foreach ($withCrmid as $candidateId) {
+				$typeRelationModel->createMembership(
+					(int) $crmid,
+					(int) $candidateId,
+					\App\Modules\ProjektyRekrutacyjne\Relations\GetRelatedMembers::STATUS_MANUALLY_ADDED
+				);
+			}
+			return;
+		}
+
+		parent::save_related_module($module, $crmid, $withModule, $withCrmid, $relatedName);
+	}
+
+	public function delete_related_module($module, $crmid, $withModule, $withCrmid)
+	{
+		if (!is_array($withCrmid)) {
+			$withCrmid = [$withCrmid];
+		}
+
+		if ($withModule === 'Kandydaci') {
+			$typeRelationModel = new \App\Modules\ProjektyRekrutacyjne\Relations\GetRelatedMembers();
+			foreach ($withCrmid as $candidateId) {
+				$typeRelationModel->delete((int) $crmid, (int) $candidateId);
+			}
+			return;
+		}
+
+		parent::delete_related_module($module, $crmid, $withModule, $withCrmid);
+	}
+
 	/**
 	 * Invoked when special actions are performed on the module.
 	 *
