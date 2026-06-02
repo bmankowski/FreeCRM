@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace App\Modules\ProjektyRekrutacyjne\Actions;
 
-use App\Exceptions\IllegalValue;
 use App\Modules\ProjektyRekrutacyjne\Relations\GetRelatedMembers;
 
 class AddManualCandidatesAjax extends \App\Base\Controllers\BaseActionController
@@ -30,9 +29,8 @@ class AddManualCandidatesAjax extends \App\Base\Controllers\BaseActionController
 	{
 		$response = new \App\Http\Vtiger_Response();
 
-		try {
-			$projectId = $request->getInteger('projectId');
-		} catch (IllegalValue $e) {
+		$projectId = $request->getInteger('projectId');
+		if ($projectId <= 0) {
 			$response->setResult(['success' => false, 'message' => 'PLL_NO_SUCH_RECORD']);
 			$response->emit();
 			return;
