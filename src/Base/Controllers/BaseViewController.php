@@ -238,7 +238,7 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 						$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate($pageTitle, $qualifiedModuleName)];
 					} elseif ($view == 'Edit' && $request->get('record') == '' && $request->get('parent_roleid') == '') {
 						$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_CREATE', $qualifiedModuleName)];
-					} elseif ($view != '' && $view != 'List') {
+					} elseif ($view != '' && $view != 'List' && $view != 'ListView') {
 						$breadcrumbs[] = ['name' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_VIEW_' . strtoupper($view), $qualifiedModuleName)];
 					}
 					if ($request->get('record') != '' && $moduleName == 'Users') {

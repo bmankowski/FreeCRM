@@ -18,10 +18,6 @@ class ListView extends \App\Modules\Settings\Base\Views\ListView
 		}
 	}
 	
-	/**
-	 * Get breadcrumb title - return null to avoid extra text in breadcrumbs
-	 * The base buildBreadcrumbs will use this and not add view-specific breadcrumb
-	 */
 	public function getBreadcrumbTitle(\App\Http\Vtiger_Request $request)
 	{
 		return null;
@@ -118,6 +114,10 @@ class ListView extends \App\Modules\Settings\Base\Views\ListView
 		if (!$this->listViewHeaders) {
 			$this->listViewHeaders = $this->listViewModel->getListViewHeaders();
 		}
+		$this->listViewHeaders['actions'] = new \App\Runtime\BaseModel([
+			'name' => 'actions',
+			'label' => 'LBL_ACTIONS',
+		]);
 		if (!$this->listViewEntries) {
 			$rawEntries = $this->listViewModel->getListViewEntries($pagingModel);
 			// Convert regular User records to Settings User records
@@ -181,7 +181,7 @@ class ListView extends \App\Modules\Settings\Base\Views\ListView
 		// Ensure search details exist for all headers to avoid undefined index notices in templates
 		if (is_array($this->listViewHeaders)) {
 			foreach ($this->listViewHeaders as $header) {
-				$headerName = $header->getName();
+				$headerName = method_exists($header, 'getName') ? $header->getName() : $header->get('name');
 				if (!isset($searchParmams[$headerName])) {
 					$searchParmams[$headerName] = ['searchValue' => '', 'fieldName' => $headerName];
 				}
