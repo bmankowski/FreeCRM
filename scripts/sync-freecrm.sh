@@ -25,15 +25,17 @@ Usage:
   scripts/sync-freecrm.sh help
   scripts/sync-freecrm.sh pushsrc
   scripts/sync-freecrm.sh pushdb
+  scripts/sync-freecrm.sh pushstorage
   scripts/sync-freecrm.sh pushall
   scripts/sync-freecrm.sh pulldb
 
 Commands:
-  help      Show this help.
-  pushsrc   Send source changes from localhost to local.itconnect.pl.
-  pushdb    Dump localhost DB and import it on local.itconnect.pl.
-  pushall   Run pushsrc and pushdb.
-  pulldb    Dump DB from local.itconnect.pl and import it on localhost.
+  help         Show this help.
+  pushsrc      Send source changes from localhost to local.itconnect.pl.
+  pushdb       Dump localhost DB and import it on local.itconnect.pl.
+  pushstorage  Send storage/ files to local.itconnect.pl (no --delete; DB paths only work if blobs exist).
+  pushall      Run pushsrc, pushdb, and pushstorage.
+  pulldb       Dump DB from local.itconnect.pl and import it on localhost.
 
 Defaults can be changed with environment variables:
   FREECRM_SYNC_REMOTE_HOST       default: local.itconnect.pl
@@ -50,6 +52,7 @@ Defaults can be changed with environment variables:
 Examples:
   scripts/sync-freecrm.sh pushsrc
   scripts/sync-freecrm.sh pushdb
+  FREECRM_SYNC_YES=1 scripts/sync-freecrm.sh pushall
   FREECRM_SYNC_YES=1 scripts/sync-freecrm.sh pulldb
 EOF
 }
@@ -219,6 +222,17 @@ pushsrc() {
     "${ROOT_DIR}/" "${REMOTE}:${REMOTE_PATH}/"
 }
 
+pushstorage() {
+  require_cmd rsync
+  require_cmd ssh
+
+  echo "Syncing storage/ to ${REMOTE}:${REMOTE_PATH}/storage/ (additive; remote-only files are kept)"
+  remote_run "mkdir -p '${REMOTE_PATH}/storage'"
+  rsync -rltDz --human-readable --info=stats2,progress2 \
+    --no-perms --no-owner --no-group --omit-dir-times \
+    "${ROOT_DIR}/storage/" "${REMOTE}:${REMOTE_PATH}/storage/"
+}
+
 pushdb() {
   require_cmd docker
   require_cmd gzip
@@ -286,9 +300,13 @@ main() {
     pushdb)
       pushdb
       ;;
+    pushstorage)
+      pushstorage
+      ;;
     pushall)
       pushsrc
       pushdb
+      pushstorage
       ;;
     pulldb)
       pulldb

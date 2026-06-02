@@ -80,6 +80,23 @@
 	min-height: 0;
 	overflow: auto;
 }
+.RelatedList.relatedContainer--listPreview .c-list-preview__content .listViewEntriesDiv {
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+}
+.RelatedList.relatedContainer--listPreview .c-list-preview__content .listViewEntriesTable {
+	min-width: max-content;
+}
+.RelatedList.relatedContainer--listPreview .c-list-preview__content .listViewEntriesTable thead {
+	position: sticky;
+	top: 0;
+	z-index: 2;
+	background: #fff;
+}
+.RelatedList.relatedContainer--listPreview .c-list-preview__content .listViewEntriesTable thead th,
+.RelatedList.relatedContainer--listPreview .c-list-preview__content .listViewEntriesTable thead td {
+	background: #fff;
+}
 .RelatedList.relatedContainer--listPreview .relatedHeader {
 	flex: 0 0 auto;
 }

@@ -155,7 +155,7 @@ class RelatedList extends \App\Modules\Base\Views\RelatedList
                 static fn($link): bool => 'ListPreview' === $link->get('view')
             ));
         }
-        // ListPreview for candidates on project: full list in one scroll; no paging/relate/search UI.
+        // ListPreview for candidates on project: full list in one scroll; column quick search enabled.
         if ($forceListPreviewByDefault && 'ListPreview' === $relatedView) {
             unset($links['LISTVIEWBASIC']);
             if (isset($links['RELATEDLIST_BASIC'])) {
@@ -243,7 +243,7 @@ class RelatedList extends \App\Modules\Base\Views\RelatedList
         $viewer->assign('SHOW_HEADER', true);
         $viewer->assign('CUSTOM_VIEW_LIST', []);
         $suppressListPreviewMinimalToolbar = ($forceListPreviewByDefault && 'ListPreview' === $relatedView);
-        $viewer->assign('RELATED_LIST_SUPPRESS_QUICKSEARCH', $suppressListPreviewMinimalToolbar);
+        $viewer->assign('RELATED_LIST_SUPPRESS_QUICKSEARCH', false);
         $viewer->assign('RELATED_LIST_SUPPRESS_ENTITY_STATE', $suppressListPreviewMinimalToolbar);
         $viewer->assign('RELATED_LIST_SUPPRESS_PAGINATION', $suppressListPreviewMinimalToolbar);
         $viewer->assign('VIEW', $request->get('view'));
