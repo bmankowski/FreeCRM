@@ -18,7 +18,14 @@
         "LBL_TRANSITIONS_NOT_CONFIGURED": "Reguły przejść nie są jeszcze aktywne. Poniższa macierz pokazuje sugerowane domyślne ustawienia — sprawdź je i kliknij Zapisz, aby je włączyć.",
         "LBL_ADD_WORKFLOW": "Dodaj obieg",
         "LBL_ADD_WORKFLOW_FOR_TRANSITION": "Dodaj obieg dla tego przejścia",
-        "LBL_VIEW_ALL_WORKFLOWS": "Pokaż wszystkie obiegi projektu"
+        "LBL_VIEW_ALL_WORKFLOWS": "Pokaż wszystkie obiegi projektu",
+        "LBL_TRANSITION_MAIL": "E-mail po przejściu",
+        "LBL_TRANSITION_MAIL_HELP": "Dla zaznaczonych przejść statusów (kanban) po udanej zmianie statusu otworzy się okno wysyłki e-mail z wybranymi szablonami. Wybierz co najmniej jeden szablon na przejście.",
+        "LBL_MAIL_PROMPT_ENABLE": "Pokaż okno e-mail",
+        "LBL_MAIL_PROMPT_TEMPLATES": "Szablony e-mail",
+        "LBL_SAVE_TRANSITION_MAIL_SUCCESS": "Reguły e-mail po przejściu zostały zapisane.",
+        "LBL_SAVE_TRANSITION_MAIL_FAILED": "Nie udało się zapisać reguł e-mail po przejściu.",
+        "LBL_SAVE_TRANSITION_MAIL_TEMPLATES_REQUIRED": "Każde włączone przejście musi mieć co najmniej jeden wybrany szablon."
     },
     "jsLanguageStrings": {
         "LBL_WORKFLOW_POPOVER_TITLE": "Obiegi informacji"

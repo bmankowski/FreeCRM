@@ -18,7 +18,14 @@
         "LBL_TRANSITIONS_NOT_CONFIGURED": "Transition rules are not active yet. The matrix below shows suggested defaults — review and click Save to enforce them.",
         "LBL_ADD_WORKFLOW": "Add workflow",
         "LBL_ADD_WORKFLOW_FOR_TRANSITION": "Add workflow for this transition",
-        "LBL_VIEW_ALL_WORKFLOWS": "View all project workflows"
+        "LBL_VIEW_ALL_WORKFLOWS": "View all project workflows",
+        "LBL_TRANSITION_MAIL": "Email on transition",
+        "LBL_TRANSITION_MAIL_HELP": "For checked status transitions (kanban), after a successful status change a compose-email window opens with the selected templates. Pick at least one template per enabled transition.",
+        "LBL_MAIL_PROMPT_ENABLE": "Show email window",
+        "LBL_MAIL_PROMPT_TEMPLATES": "Email templates",
+        "LBL_SAVE_TRANSITION_MAIL_SUCCESS": "Email-on-transition rules saved successfully.",
+        "LBL_SAVE_TRANSITION_MAIL_FAILED": "Could not save email-on-transition rules.",
+        "LBL_SAVE_TRANSITION_MAIL_TEMPLATES_REQUIRED": "Each enabled transition must have at least one template selected."
     },
     "jsLanguageStrings": {
         "LBL_WORKFLOW_POPOVER_TITLE": "Workflows"

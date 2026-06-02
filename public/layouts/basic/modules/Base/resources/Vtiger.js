@@ -130,6 +130,11 @@ var Vtiger_Index_Js = {
 		if (params.sourceRecord) {
 			postData.sourceRecord = params.sourceRecord;
 		}
+		if (params.templateIds !== undefined) {
+			postData.templateIds = typeof params.templateIds === 'object'
+				? JSON.stringify(params.templateIds)
+				: params.templateIds;
+		}
 		if (params.listParams) {
 			jQuery.extend(postData, params.listParams);
 		}

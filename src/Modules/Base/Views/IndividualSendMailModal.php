@@ -24,7 +24,10 @@ class IndividualSendMailModal extends SendMailModal
 			$templateModule = $sourceModule;
 		}
 		$records = $this->getRecordsListFromRequest($request);
-		$templateList = \App\Email\Mail::getTempleteList($templateModule);
+		$templateList = $this->filterTemplateList(
+			\App\Email\Mail::getTempleteList($templateModule),
+			$this->parseTemplateIdsFromRequest($request)
+		);
 		$viewer->assign('TEMPLATE_MODULE', $templateModule);
 		$viewer->assign('RECORDS', $records);
 		$viewer->assign('FIELDS', $this->fields);
@@ -32,6 +35,7 @@ class IndividualSendMailModal extends SendMailModal
 		$viewer->assign('SELECTED_IDS', $request->get('selected_ids'));
 		$viewer->assign('SOURCE_MODULE', $request->get('sourceModule'));
 		$viewer->assign('SOURCE_RECORD', $request->get('sourceRecord'));
+		$viewer->assign('TEMPLETE_LIST', $templateList);
 		$viewer->assign('INITIAL_PREVIEW', $this->getInitialPreview($request, $records, $templateList));
 		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->view('IndividualSendMailModal.tpl', $moduleName);
@@ -113,6 +117,57 @@ class IndividualSendMailModal extends SendMailModal
 		$content = (string) ($template['content'] ?? '');
 		return str_contains($subject, '$(sourceRecord :') || str_contains($content, '$(sourceRecord :');
 	}
+
+	/**
+	 * @return list<int>
+	 */
+	private function parseTemplateIdsFromRequest(\App\Http\Vtiger_Request $request): array
+	{
+		$raw = $request->get('templateIds');
+		if ($raw === null || $raw === '') {
+			return [];
+		}
+		if (\is_string($raw)) {
+			$decoded = json_decode($raw, true);
+			if (\is_array($decoded)) {
+				return array_values(array_filter(array_map('intval', $decoded)));
+			}
+			return array_values(array_filter(array_map('intval', explode(',', $raw))));
+		}
+		if (\is_array($raw)) {
+			return array_values(array_filter(array_map('intval', $raw)));
+		}
+
+		return [];
+	}
+
+	/**
+	 * @param array<int, array<string, mixed>> $templateList
+	 * @param list<int> $allowedIds
+	 * @return array<int, array<string, mixed>>
+	 */
+	private function filterTemplateList(array $templateList, array $allowedIds): array
+	{
+		if ($allowedIds === []) {
+			return $templateList;
+		}
+		$byId = [];
+		foreach ($templateList as $row) {
+			if (!empty($row['id'])) {
+				$byId[(int) $row['id']] = $row;
+			}
+		}
+		$filtered = [];
+		foreach ($allowedIds as $id) {
+			$id = (int) $id;
+			if ($id > 0 && isset($byId[$id])) {
+				$filtered[] = $byId[$id];
+			}
+		}
+
+		return $filtered;
+	}
+
 	public function getSize(\App\Http\Vtiger_Request $request)
 	{
 		return 'modal-full';

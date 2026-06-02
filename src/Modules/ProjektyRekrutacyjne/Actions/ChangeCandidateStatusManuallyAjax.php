@@ -84,10 +84,46 @@ class ChangeCandidateStatusManuallyAjax extends \App\Base\Controllers\BaseAction
             $response->emit();
             return;
         }
-        $response->setResult([
+        $resultPayload = [
             'success' => (bool) $result,
             'message' => $result ? 'PLL_ACCEPTANCE_SUCCESS' : 'PLL_ACCEPTANCE_FAILED',
-        ]);
+        ];
+        if ($result) {
+            $mailPrompt = $this->buildMailPrompt($candidateId, $projectId, $sourceStatus, $destinationStatus);
+            if ($mailPrompt !== null) {
+                $resultPayload['mailPrompt'] = $mailPrompt;
+            }
+        }
+        $response->setResult($resultPayload);
         $response->emit();
+    }
+
+    /**
+     * @return array{candidateId: int, projectId: int, templateIds: list<int>}|null
+     */
+    private function buildMailPrompt(int $candidateId, int $projectId, string $sourceStatus, string $destinationStatus): ?array
+    {
+        $kandydaciModule = \App\Modules\Base\Models\Module::getInstance('Kandydaci');
+        if (!$kandydaciModule
+            || !$kandydaciModule->isPermitted('MassComposeEmail')
+            || !\App\Core\AppConfig::main('isActiveSendingMails')
+            || !\App\Email\Mail::getDefaultSmtp()) {
+            return null;
+        }
+
+        $prompt = \App\Modules\ProjektyRekrutacyjne\Services\RecruitmentStatusTransitionMail::getPrompt($sourceStatus, $destinationStatus);
+        if ($prompt === null || empty($prompt['templateIds'])) {
+            return null;
+        }
+
+        if (!\App\Modules\Kandydaci\Models\RelatedListLeftSideEmail::recordHasEmail($candidateId)) {
+            return null;
+        }
+
+        return [
+            'candidateId' => $candidateId,
+            'projectId' => $projectId,
+            'templateIds' => $prompt['templateIds'],
+        ];
     }
 }

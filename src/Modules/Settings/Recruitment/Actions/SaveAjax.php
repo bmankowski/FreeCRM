@@ -18,6 +18,7 @@ class SaveAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 	{
 		parent::__construct();
 		$this->exposeMethod('saveTransitions');
+		$this->exposeMethod('saveTransitionMail');
 	}
 
 	public function saveTransitions(\App\Http\Vtiger_Request $request): void
@@ -45,6 +46,40 @@ class SaveAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 		$response->setResult([
 			'success' => true,
 			'message' => \App\Language::translate('LBL_SAVE_TRANSITIONS_SUCCESS', $request->getModule(false)),
+		]);
+		$response->emit();
+	}
+
+	public function saveTransitionMail(\App\Http\Vtiger_Request $request): void
+	{
+		$param = $request->get('param');
+		$entries = \is_array($param) ? ($param['entries'] ?? []) : [];
+		if (!\is_array($entries)) {
+			$entries = [];
+		}
+
+		$normalized = [];
+		foreach ($entries as $entry) {
+			if (!\is_array($entry)) {
+				continue;
+			}
+			$templateIds = $entry['templateIds'] ?? [];
+			if (!\is_array($templateIds)) {
+				$templateIds = [];
+			}
+			$normalized[] = [
+				'from' => (string) ($entry['from'] ?? ''),
+				'to' => (string) ($entry['to'] ?? ''),
+				'templateIds' => array_map('intval', $templateIds),
+			];
+		}
+
+		\App\Modules\ProjektyRekrutacyjne\Services\RecruitmentStatusTransitionMail::saveMatrix($normalized);
+
+		$response = new \App\Http\Vtiger_Response();
+		$response->setResult([
+			'success' => true,
+			'message' => \App\Language::translate('LBL_SAVE_TRANSITION_MAIL_SUCCESS', $request->getModule(false)),
 		]);
 		$response->emit();
 	}

@@ -235,6 +235,19 @@ Vtiger_Detail_Js(
 								$(element).find(candidateElement).remove();
 							});
 						}
+						const mailPrompt = result.mailPrompt;
+						if (mailPrompt && mailPrompt.templateIds && mailPrompt.templateIds.length
+							&& typeof Vtiger_Index_Js !== 'undefined'
+							&& typeof Vtiger_Index_Js.triggerSendEmailModal === 'function') {
+							Vtiger_Index_Js.triggerSendEmailModal({
+								module: 'Kandydaci',
+								selectedIds: [mailPrompt.candidateId],
+								sourceModule: app.getModuleName(),
+								sourceRecord: mailPrompt.projectId,
+								view: 'IndividualSendMailModal',
+								templateIds: mailPrompt.templateIds
+							});
+						}
 					} else {
 						const errMsg = (result.message) || (data.error && data.error.message) || 'PLL_ACCEPTANCE_FAILED';
 						showTransitionError(errMsg);

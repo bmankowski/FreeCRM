@@ -45,7 +45,7 @@ class RelatedListLeftSideEmail
 		])];
 	}
 
-	protected static function recordHasEmail(int $recordId): bool
+	public static function recordHasEmail(int $recordId): bool
 	{
 		if (!\App\Utils\Utils::isRecordExists($recordId)) {
 			return false;

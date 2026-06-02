@@ -2,7 +2,6 @@
 {strip}
 <!-- layouts/basic/modules/Base/IndividualSendMailModal.tpl -->
 	{assign var=DEFAULT_SMTP value=App\Email\Mail::getDefaultSmtp()}
-	{assign var=TEMPLETE_LIST value=App\Email\Mail::getTempleteList($TEMPLATE_MODULE)}
 	{assign var=IS_EMAIL value=false}
 	<div class="modal-header">
 		<button type="button" class="btn btn-warning btn-sm pull-right" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -50,6 +49,11 @@
 			<div class="alert alert-danger" role="alert">
 				<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>&nbsp;&nbsp;
 				{'ERR_NO_DEFAULT_SMTP'|t}
+			</div>
+		{elseif empty($TEMPLETE_LIST)}
+			<div class="alert alert-warning" role="alert">
+				<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>&nbsp;&nbsp;
+				{'LBL_NO_DATA'|t}
 			</div>
 		{/if}
 	</div>
