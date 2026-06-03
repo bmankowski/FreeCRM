@@ -36,6 +36,7 @@ README.md
 tests/e2e/test-data/
 tests/e2e/.crawl-urls.json
 tests/e2e/.crawl-report.json
+tests/e2e/.crawl-run.log
 /tmp/
 /.venv-sig/
 /storage/
