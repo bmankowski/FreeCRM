@@ -92,7 +92,7 @@ class Mail
 		if (Cache::has('MailTempleteList', $cacheKey)) {
 			return Cache::get('MailTempleteList', $cacheKey);
 		}
-		$query = (new \App\Db\Query())->select(['name' => 'u_#__emailtemplates.name', 'id' => 'u_#__emailtemplates.emailtemplatesid', 'moduleName' => 'u_#__emailtemplates.module'])->from('u_#__emailtemplates')
+		$query = (new \App\Db\Query())->select(['name' => 'u_#__emailtemplates.name', 'id' => 'u_#__emailtemplates.emailtemplatesid', 'moduleName' => 'u_#__emailtemplates.module', 'sender_type' => 'u_#__emailtemplates.sender_type', 'smtp_id' => 'u_#__emailtemplates.smtp_id'])->from('u_#__emailtemplates')
 			->innerJoin('vtiger_crmentity', 'u_#__emailtemplates.emailtemplatesid = vtiger_crmentity.crmid')
 			->where(['vtiger_crmentity.deleted' => 0]);
 		if ($moduleName) {
@@ -136,7 +136,7 @@ class Mail
 		if (Cache::has('MailTempleteList', $cacheKey)) {
 			return Cache::get('MailTempleteList', $cacheKey);
 		}
-		$query = (new \App\Db\Query())->select(['name' => 'u_#__emailtemplates.name', 'id' => 'u_#__emailtemplates.emailtemplatesid', 'moduleName' => 'u_#__emailtemplates.module'])->from('u_#__emailtemplates')
+		$query = (new \App\Db\Query())->select(['name' => 'u_#__emailtemplates.name', 'id' => 'u_#__emailtemplates.emailtemplatesid', 'moduleName' => 'u_#__emailtemplates.module', 'sender_type' => 'u_#__emailtemplates.sender_type', 'smtp_id' => 'u_#__emailtemplates.smtp_id'])->from('u_#__emailtemplates')
 			->innerJoin('vtiger_crmentity', 'u_#__emailtemplates.emailtemplatesid = vtiger_crmentity.crmid')
 			->where(['vtiger_crmentity.deleted' => 0, 'u_#__emailtemplates.module' => $moduleNames]);
 		if ($type) {

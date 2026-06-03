@@ -27,7 +27,6 @@
 <footer class="footerContainer navbar-default navbar-fixed-bottom noprint">
 	<div class="vtFooter">
 		<div class="pull-left">
-			<a class="iconsInFooter" href="https://www.itconnect.pl/polityka-prywatnosci/" style="color:#632E8E;text-decoration:underline;font-size:12px;vertical-align:middle;">Polityka prywatności</a>
 			<a class="iconsInFooter" href="https://www.facebook.com/ITCPeopleinIT/">
 				<span class="fab fa-facebook-square" title="Facebook"></span>
 			</a>
@@ -43,11 +42,6 @@
 			<a class="iconsInFooter" href="https://www.tiktok.com/@itconnect2007">
 				<span class="fab fa-tiktok" title="TikTok"></span>
 			</a>
-		</div>
-		<div class="pull-right">
-			<button type="button" class="btn-link" data-toggle="modal" data-target="#freecrmDetails">
-				<img class="logoFooter" src="storage/Logo/itconnect_logo.png" alt="FreeCRM"/>
-			</button>
 		</div>
 		{if $USER_MODEL->isAdminUser()}
 			{assign var=FOOTVR value= '[ver. '|cat:$YETIFORCE_VERSION|cat:'] ['|cat:'WEBLOADTIME'|t|cat:': '|cat:$SCRIPT_TIME|cat:'s.]'}

@@ -34,10 +34,11 @@ class DeleteAjax extends \App\Modules\Settings\Base\Actions\Delete
 	{
 		$record = $request->get('record');
 		$qualifiedModuleName = $request->getModule(false);
-		$recordModel = \App\Modules\Settings\Mail\Models\Record::getInstance($record);
-		$recordModel->delete();
-
 		$moduleModel = \App\Modules\Settings\Base\Models\Module::getInstance($qualifiedModuleName);
+		$recordModel = \App\Modules\Settings\Mail\Models\Record::getInstance($record);
+		if ($recordModel) {
+			$recordModel->delete();
+		}
 		header("Location: {$moduleModel->getDefaultUrl()}");
 	}
 	

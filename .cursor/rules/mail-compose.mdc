@@ -1,0 +1,50 @@
+---
+description: "Record-context mail compose — modal flow, URLs, SendMailModal query pitfall"
+globs:
+  - "src/Modules/Mail/**"
+  - "src/Modules/Base/Views/SendMailModal.php"
+  - "src/Modules/Base/Views/IndividualSendMailModal.php"
+  - "src/Modules/Base/Actions/Mail.php"
+  - "public/layouts/basic/modules/Base/resources/Vtiger.js"
+  - "layouts/basic/modules/Base/IndividualSendMailModal.tpl"
+  - "public/libraries/resources/app.js"
+alwaysApply: false
+---
+
+# Mail compose (record context)
+
+No global “Compose” menu. Users send from record UI (email UiType, E-maile widget, related-list envelope, history reply).
+
+## UI flow
+
+- Links use `Module::getComposeUrl()` → `Mail&view=Compose&sourceModule=…&sourceRecord=…` (+ optional `to`, `recordModule`, `recordId`).
+- `.sendMailBtn` click → `Vtiger_Index_Js.openComposeModal()` → `triggerSendEmailModal({ view: 'IndividualSendMailModal', … })`.
+- Template preview / send: `Base\Actions\Mail` modes `previewMail` / `sendMails` (not `Mail\Actions\Send` — that is the full-page compose path).
+
+## Query pitfall
+
+`SendMailModal::getQuery()` and `Base\Actions\Mail::getQuery()` must use `RelationListView` **only when** `sourceModule !== $moduleName`.
+
+Same-module detail compose (e.g. Kandydaci → Kandydaci) → `ListView` + `selected_ids`. Cross-module (Projekt parent → Kandydaci related row) → `RelationListView`.
+
+Passing `sourceModule === moduleName` triggers `>>> No relationModel instance, requires verification 1 <<<`.
+
+## URL params
+
+| Param | Role |
+|-------|------|
+| `sourceModule` / `sourceRecord` | TextParser `$(sourceRecord:…)` context (often parent project) |
+| `recordModule` / `recordId` | Recipient record when different from source (related list) |
+| `to` | Pre-select email field in `IndividualSendMailModal` |
+
+## Still full-page / legacy
+
+- `Mail&view=Compose` — PDF redirect, direct links; no live template preview in UI.
+- List mass email — `SendMailModal`. Kandydaci toolbar — `showModal` + `IndividualSendMailModal` URL directly.
+
+## IndividualSendMailModal JS (single path)
+
+- All preview/send wiring lives in `Vtiger_Index_Js.registerSendMailModalView()`; called from `triggerSendEmailModal` and from `app.registerModal` when the loaded modal contains `.js-mail-preview-section`.
+- **No inline `<script>` in `IndividualSendMailModal.tpl`** — duplicate handlers caused double `previewMail` requests and template preview races.
+- Template passes context via `data-mail-*` on `.js-mail-preview-section` (raw `Json::encode`, never `toSafeHTML` on JSON — breaks `selected_ids`).
+- Preview uses a request sequence counter; stale responses are ignored. Re-bind with namespaced events (`.mailPreview`, `.mailSend`).

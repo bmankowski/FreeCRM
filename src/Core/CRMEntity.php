@@ -59,6 +59,8 @@ class CRMEntity
 	public $default_order_by;
 	public $customFieldTable;
 	public $lockFields;
+	/** @var string[] */
+	public $relationFields = [];
 	protected $__inactive_fields_filtered = false;
 
 	/** 	Constructor which will set the column_fields in this object

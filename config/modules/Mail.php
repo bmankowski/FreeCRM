@@ -1,38 +1,37 @@
 <?php
-/* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
+/**
+ * FreeCRM - Mail module tunables.
+ */
+
 $CONFIG = [
-	// URL address characters limit for mailto links, 
-	/*
-	  Recommended configuration
-	  Outlook = 2030
-	  Thunderbird = 8036
-	  GMAIL = 8036
-	 */
-	'MAILTO_LIMIT' => 2030,
-	// List of of modules from which you can choose e-mail address in the mail
-	'RC_COMPOSE_ADDRESS_MODULES' => ['Accounts', 'Contacts', 'OSSEmployees', 'Leads', 'Vendors', 'Partners', 'Competition'],
-	// What status should be set when a new mail is received regarding a ticket, whose status is awaiting response.
-	'HELPDESK_NEXT_WAIT_FOR_RESPONSE_STATUS' => 'Answered',
-	// What status should be set when a ticket is closed, but a new mail regarding the ticket is received.
-	'HELPDESK_OPENTICKET_STATUS' => 'Open',
-	// Required acceptation before sending mails
+	'default_scan_interval' => 120,
+	'max_consecutive_failures' => 5,
+	'attachment_max_size_mb' => 25,
+	'purge_info_logs_days' => 30,
+	'purge_error_logs_days' => 180,
+	'compose_upload_ttl_minutes' => 60,
+	'send_rate_limit_per_minute' => 60,
+	'password_mask' => '**********',
+
 	'MAILER_REQUIRED_ACCEPTATION_BEFORE_SENDING' => false,
-	// Write one row to s_yf_mail_sent_log per send attempt (MailerTask)
-	'MAIL_AUDIT_LOG_ENABLED' => true,
-	// Days to retain rows in s_yf_mail_sent_log (CleanupMailAuditLogTask)
+	'MAIL_FILTER_SEND_ONLY_TO_DOMAIN' => '',
+	'MAIL_AUDIT_LOG_ENABLED' => false,
 	'AUDIT_LOG_RETENTION_DAYS' => 365,
-	// Route relation workflow emails through the delayed buffer
-	'DELAYED_EMAIL_BUFFER_ENABLED' => true,
-	// Default delay when enqueue() omits explicit minutes
-	'DELAYED_EMAIL_DEFAULT_MINUTES' => 3,
-	/*
-	  Queue send filter (dev/staging safety). Only @domain recipients receive SMTP;
-	  other addresses are stripped; rows with no match are drained without sending.
-	  Disabled: '' or []
-	  Single:   'itconnect.pl'
-	  Several:  ['itconnect.pl', 'example.com']
-	            'itconnect.pl, example.com'
-	  Subdomains match (user@mail.itconnect.pl matches itconnect.pl).
-	 */
-	'MAIL_FILTER_SEND_ONLY_TO_DOMAIN' => 'itconnect.pl',
+	'DELAYED_EMAIL_BUFFER_ENABLED' => false,
+	'DELAYED_EMAIL_DEFAULT_MINUTES' => 120,
+
+	// Org-wide defaults for new personal mail accounts (hosts/ports only; username/password/from_name are per user).
+	'personal_account_defaults' => [
+		'imap_host' => 'itconnect.pl',
+		'imap_port' => 993,
+		'imap_secure' => 'ssl',
+		'imap_validate_cert' => 1,
+		'imap_folder_inbox' => 'INBOX',
+		'imap_folder_sent' => 'Sent',
+		'smtp_host' => 'itconnect.pl',
+		'smtp_port' => 465,
+		'smtp_secure' => 'ssl',
+		'append_sent' => 1,
+		'reply_to_mode' => 'same_as_from',
+	],
 ];

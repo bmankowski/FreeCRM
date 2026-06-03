@@ -90,6 +90,6 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 				$value = $value ? 'active' : 'inactive';
 				break;
 		}
-		return $value;
+		return (string) ($value ?? '');
 	}
 }

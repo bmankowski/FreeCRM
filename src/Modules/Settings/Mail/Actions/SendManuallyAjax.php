@@ -33,7 +33,7 @@ class SendManuallyAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$record = $request->get('id');
-		$db = \App\Db::getInstance('admin');
+		$db = \App\Db\Db::getInstance('admin');
 		$row = (new \App\Db\Query())->from('s_#__mail_queue')
 				->where(['id' => $record])->one($db);
 		$status = \App\Email\Mailer::sendByRowQueue($row);

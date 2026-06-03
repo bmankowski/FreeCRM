@@ -45,6 +45,7 @@
         "LBL_CRM_DIR": "Katalog lokalny CRM",
         "LBL_SOAP_LIBRARY": "SOAP",
         "LBL_PHP_SAPI": "Server API",
+        "LBL_PHP_UNAME": "Informacje o systemie",
         "LBL_APCU_LIBRARY": "APCu",
         "LBL_OPCACHE_LIBRARY": "OPcache",
         "LBL_CRON_PHP": "Cron - Wersja PHP",

@@ -675,205 +675,6 @@ CREATE TABLE `o_yf_csrf` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `roundcube_cache` */
-
-CREATE TABLE `roundcube_cache` (
-  `user_id` int(10) unsigned NOT NULL,
-  `cache_key` varchar(128) CHARACTER SET ascii NOT NULL,
-  `created` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
-  `expires` datetime DEFAULT NULL,
-  `data` longtext NOT NULL,
-  KEY `expires_index` (`expires`),
-  KEY `user_cache_index` (`user_id`,`cache_key`),
-  CONSTRAINT `roundcube_user_id_fk_cache` FOREIGN KEY (`user_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `roundcube_cache_index` */
-
-CREATE TABLE `roundcube_cache_index` (
-  `user_id` int(10) unsigned NOT NULL,
-  `mailbox` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `expires` datetime DEFAULT NULL,
-  `valid` tinyint(1) NOT NULL DEFAULT '0',
-  `data` longtext NOT NULL,
-  PRIMARY KEY (`user_id`,`mailbox`),
-  KEY `expires_index` (`expires`),
-  CONSTRAINT `roundcube_user_id_fk_cache_index` FOREIGN KEY (`user_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `roundcube_cache_messages` */
-
-CREATE TABLE `roundcube_cache_messages` (
-  `user_id` int(10) unsigned NOT NULL,
-  `mailbox` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `uid` int(11) unsigned NOT NULL DEFAULT '0',
-  `expires` datetime DEFAULT NULL,
-  `data` longtext NOT NULL,
-  `flags` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`user_id`,`mailbox`,`uid`),
-  KEY `expires_index` (`expires`),
-  CONSTRAINT `roundcube_user_id_fk_cache_messages` FOREIGN KEY (`user_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `roundcube_cache_shared` */
-
-CREATE TABLE `roundcube_cache_shared` (
-  `cache_key` varchar(255) CHARACTER SET ascii NOT NULL,
-  `created` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
-  `expires` datetime DEFAULT NULL,
-  `data` longtext NOT NULL,
-  KEY `expires_index` (`expires`),
-  KEY `cache_key_index` (`cache_key`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `roundcube_cache_thread` */
-
-CREATE TABLE `roundcube_cache_thread` (
-  `user_id` int(10) unsigned NOT NULL,
-  `mailbox` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `expires` datetime DEFAULT NULL,
-  `data` longtext NOT NULL,
-  PRIMARY KEY (`user_id`,`mailbox`),
-  KEY `expires_index` (`expires`),
-  CONSTRAINT `roundcube_user_id_fk_cache_thread` FOREIGN KEY (`user_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `roundcube_contactgroupmembers` */
-
-CREATE TABLE `roundcube_contactgroupmembers` (
-  `contactgroup_id` int(10) unsigned NOT NULL,
-  `contact_id` int(10) unsigned NOT NULL,
-  `created` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
-  PRIMARY KEY (`contactgroup_id`,`contact_id`),
-  KEY `roundcube_contactgroupmembers_contact_index` (`contact_id`),
-  CONSTRAINT `roundcube_contact_id_fk_contacts` FOREIGN KEY (`contact_id`) REFERENCES `roundcube_contacts` (`contact_id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `roundcube_contactgroup_id_fk_contactgroups` FOREIGN KEY (`contactgroup_id`) REFERENCES `roundcube_contactgroups` (`contactgroup_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `roundcube_contactgroups` */
-
-CREATE TABLE `roundcube_contactgroups` (
-  `contactgroup_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) unsigned NOT NULL,
-  `changed` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
-  `del` tinyint(1) NOT NULL DEFAULT '0',
-  `name` varchar(128) NOT NULL DEFAULT '',
-  PRIMARY KEY (`contactgroup_id`),
-  KEY `roundcube_contactgroups_user_index` (`user_id`,`del`),
-  CONSTRAINT `roundcube_user_id_fk_contactgroups` FOREIGN KEY (`user_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `roundcube_contacts` */
-
-CREATE TABLE `roundcube_contacts` (
-  `contact_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `changed` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
-  `del` tinyint(1) NOT NULL DEFAULT '0',
-  `name` varchar(128) NOT NULL DEFAULT '',
-  `email` text NOT NULL,
-  `firstname` varchar(128) NOT NULL DEFAULT '',
-  `surname` varchar(128) NOT NULL DEFAULT '',
-  `vcard` longtext,
-  `words` text,
-  `user_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`contact_id`),
-  KEY `roundcube_user_contacts_index` (`user_id`,`del`),
-  CONSTRAINT `roundcube_user_id_fk_contacts` FOREIGN KEY (`user_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `roundcube_dictionary` */
-
-CREATE TABLE `roundcube_dictionary` (
-  `user_id` int(10) unsigned DEFAULT NULL,
-  `language` varchar(5) NOT NULL,
-  `data` longtext NOT NULL,
-  UNIQUE KEY `uniqueness` (`user_id`,`language`),
-  CONSTRAINT `roundcube_user_id_fk_dictionary` FOREIGN KEY (`user_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `roundcube_identities` */
-
-CREATE TABLE `roundcube_identities` (
-  `identity_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) unsigned NOT NULL,
-  `changed` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
-  `del` tinyint(1) NOT NULL DEFAULT '0',
-  `standard` tinyint(1) NOT NULL DEFAULT '0',
-  `name` varchar(128) NOT NULL,
-  `organization` varchar(128) NOT NULL DEFAULT '',
-  `email` varchar(128) NOT NULL,
-  `reply-to` varchar(128) NOT NULL DEFAULT '',
-  `bcc` varchar(128) NOT NULL DEFAULT '',
-  `signature` longtext,
-  `html_signature` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`identity_id`),
-  KEY `user_identities_index` (`user_id`,`del`),
-  KEY `email_identities_index` (`email`,`del`),
-  CONSTRAINT `roundcube_user_id_fk_identities` FOREIGN KEY (`user_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `roundcube_searches` */
-
-CREATE TABLE `roundcube_searches` (
-  `search_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) unsigned NOT NULL,
-  `type` int(3) NOT NULL DEFAULT '0',
-  `name` varchar(128) NOT NULL,
-  `data` text,
-  PRIMARY KEY (`search_id`),
-  UNIQUE KEY `uniqueness` (`user_id`,`type`,`name`),
-  CONSTRAINT `roundcube_user_id_fk_searches` FOREIGN KEY (`user_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `roundcube_session` */
-
-CREATE TABLE `roundcube_session` (
-  `sess_id` varchar(128) NOT NULL,
-  `created` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
-  `changed` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
-  `ip` varchar(40) NOT NULL,
-  `vars` mediumtext NOT NULL,
-  PRIMARY KEY (`sess_id`),
-  KEY `changed_index` (`changed`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `roundcube_system` */
-
-CREATE TABLE `roundcube_system` (
-  `name` varchar(64) NOT NULL,
-  `value` mediumtext,
-  PRIMARY KEY (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `roundcube_users` */
-
-CREATE TABLE `roundcube_users` (
-  `user_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `username` varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-  `mail_host` varchar(128) NOT NULL,
-  `created` datetime NOT NULL DEFAULT '1000-01-01 00:00:00',
-  `last_login` datetime DEFAULT NULL,
-  `failed_login` datetime DEFAULT NULL,
-  `failed_login_counter` int(10) unsigned DEFAULT NULL,
-  `language` varchar(5) DEFAULT NULL,
-  `preferences` longtext,
-  `actions` text,
-  `password` varchar(200) DEFAULT NULL,
-  `crm_user_id` int(19) DEFAULT '0',
-  PRIMARY KEY (`user_id`),
-  UNIQUE KEY `username` (`username`,`mail_host`),
-  KEY `crm_user_id` (`crm_user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `roundcube_users_autologin` */
-
-CREATE TABLE `roundcube_users_autologin` (
-  `rcuser_id` int(10) unsigned NOT NULL,
-  `crmuser_id` int(19) NOT NULL,
-  KEY `rcuser_id` (`rcuser_id`),
-  CONSTRAINT `roundcube_users_autologin_ibfk_1` FOREIGN KEY (`rcuser_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `s_yf_automatic_assignment` */
 
 CREATE TABLE `s_yf_automatic_assignment` (
@@ -1318,6 +1119,7 @@ CREATE TABLE `u_yf_emailtemplates` (
   `sys_name` varchar(50) DEFAULT NULL,
   `email_template_priority` tinyint(1) DEFAULT '1',
   `smtp_id` int(10) unsigned DEFAULT NULL,
+  `sender_type` enum('user_account','system_smtp','any') NOT NULL DEFAULT 'system_smtp',
   `sequence` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`emailtemplatesid`),
   KEY `sys_name` (`sys_name`),
@@ -6758,133 +6560,6 @@ CREATE TABLE `vtiger_osservicesstatus_seq` (
   `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_ossmails_logs` */
-
-CREATE TABLE `vtiger_ossmails_logs` (
-  `id` int(19) NOT NULL AUTO_INCREMENT,
-  `start_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `end_time` timestamp NULL DEFAULT NULL,
-  `action` varchar(100) DEFAULT NULL,
-  `status` tinyint(3) DEFAULT NULL,
-  `user` varchar(100) DEFAULT NULL,
-  `count` int(10) DEFAULT NULL,
-  `stop_user` varchar(100) DEFAULT NULL,
-  `info` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_ossmailscanner_config` */
-
-CREATE TABLE `vtiger_ossmailscanner_config` (
-  `conf_type` varchar(100) NOT NULL,
-  `parameter` varchar(100) DEFAULT NULL,
-  `value` text
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_ossmailscanner_folders_uid` */
-
-CREATE TABLE `vtiger_ossmailscanner_folders_uid` (
-  `user_id` int(10) unsigned DEFAULT NULL,
-  `type` varchar(50) DEFAULT NULL,
-  `folder` varchar(100) DEFAULT NULL,
-  `uid` int(19) DEFAULT '1',
-  KEY `user_id` (`user_id`),
-  KEY `folder` (`folder`),
-  CONSTRAINT `vtiger_ossmailscanner_folders_uid_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_ossmailscanner_log_cron` */
-
-CREATE TABLE `vtiger_ossmailscanner_log_cron` (
-  `id` int(19) NOT NULL AUTO_INCREMENT,
-  `created_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `laststart` int(11) unsigned DEFAULT NULL,
-  `status` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_ossmailview` */
-
-CREATE TABLE `vtiger_ossmailview` (
-  `ossmailviewid` int(19) NOT NULL,
-  `ossmailview_no` varchar(50) DEFAULT NULL,
-  `from_email` text,
-  `to_email` text,
-  `subject` text,
-  `content` text,
-  `cc_email` text,
-  `bcc_email` text,
-  `id` int(19) DEFAULT NULL,
-  `mbox` varchar(100) DEFAULT NULL,
-  `uid` varchar(150) DEFAULT NULL,
-  `reply_to_email` text,
-  `ossmailview_sendtype` varchar(30) DEFAULT NULL,
-  `attachments_exist` smallint(1) DEFAULT '0',
-  `rc_user` varchar(3) DEFAULT NULL,
-  `type` tinyint(1) DEFAULT NULL,
-  `from_id` varchar(50) NOT NULL,
-  `to_id` varchar(100) NOT NULL,
-  `orginal_mail` text,
-  `verify` smallint(1) DEFAULT '0',
-  `rel_mod` varchar(128) DEFAULT NULL,
-  `date` datetime DEFAULT NULL,
-  PRIMARY KEY (`ossmailviewid`),
-  KEY `id` (`id`),
-  KEY `verify` (`verify`),
-  KEY `message_id` (`uid`,`rc_user`),
-  KEY `mbox` (`mbox`),
-  CONSTRAINT `fk_1_vtiger_ossmailview` FOREIGN KEY (`ossmailviewid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_ossmailview_files` */
-
-CREATE TABLE `vtiger_ossmailview_files` (
-  `ossmailviewid` int(19) NOT NULL,
-  `documentsid` int(19) NOT NULL,
-  `attachmentsid` int(19) NOT NULL,
-  KEY `fk_1_vtiger_ossmailview_files` (`ossmailviewid`),
-  KEY `documentsid` (`documentsid`),
-  CONSTRAINT `fk_1_vtiger_ossmailview_files` FOREIGN KEY (`ossmailviewid`) REFERENCES `vtiger_ossmailview` (`ossmailviewid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_ossmailview_relation` */
-
-CREATE TABLE `vtiger_ossmailview_relation` (
-  `ossmailviewid` int(19) NOT NULL,
-  `crmid` int(19) NOT NULL,
-  `date` datetime DEFAULT NULL,
-  `deleted` tinyint(1) DEFAULT '0',
-  UNIQUE KEY `ossmailviewid_2` (`ossmailviewid`,`crmid`),
-  KEY `ossmailviewid` (`ossmailviewid`),
-  KEY `crmid` (`crmid`,`deleted`),
-  CONSTRAINT `vtiger_ossmailview_relation_ibfk_1` FOREIGN KEY (`ossmailviewid`) REFERENCES `vtiger_ossmailview` (`ossmailviewid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_ossmailview_sendtype` */
-
-CREATE TABLE `vtiger_ossmailview_sendtype` (
-  `ossmailview_sendtypeid` int(11) NOT NULL AUTO_INCREMENT,
-  `ossmailview_sendtype` varchar(200) NOT NULL,
-  `presence` int(1) NOT NULL DEFAULT '1',
-  `picklist_valueid` int(11) NOT NULL DEFAULT '0',
-  `sortorderid` int(11) DEFAULT '0',
-  PRIMARY KEY (`ossmailview_sendtypeid`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_ossmailview_sendtype_seq` */
-
-CREATE TABLE `vtiger_ossmailview_sendtype_seq` (
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_ossmailviewcf` */
-
-CREATE TABLE `vtiger_ossmailviewcf` (
-  `ossmailviewid` int(19) NOT NULL,
-  PRIMARY KEY (`ossmailviewid`),
-  CONSTRAINT `fk_1_vtiger_ossmailviewcf` FOREIGN KEY (`ossmailviewid`) REFERENCES `vtiger_ossmailview` (`ossmailviewid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_ossoutsourcedservices` */
 
 CREATE TABLE `vtiger_ossoutsourcedservices` (
@@ -9575,16 +9250,6 @@ CREATE TABLE `yetiforce_mail_config` (
   KEY `type_2` (`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `yetiforce_mail_quantities` */
-
-CREATE TABLE `yetiforce_mail_quantities` (
-  `userid` int(10) unsigned NOT NULL,
-  `num` int(10) unsigned DEFAULT '0',
-  `status` tinyint(1) DEFAULT '0',
-  PRIMARY KEY (`userid`),
-  CONSTRAINT `yetiforce_mail_quantities_ibfk_1` FOREIGN KEY (`userid`) REFERENCES `roundcube_users` (`user_id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `yetiforce_menu` */
 
 CREATE TABLE `yetiforce_menu` (
@@ -9647,6 +9312,129 @@ CREATE TABLE `yetiforce_updates` (
   `result` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*Table structure for table `u_yf_mail_accounts` */
+
+CREATE TABLE `u_yf_mail_accounts` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(120) NOT NULL,
+  `kind` enum('personal','shared') NOT NULL,
+  `owner_user_id` int(11) DEFAULT NULL,
+  `imap_host` varchar(190) NOT NULL,
+  `imap_port` smallint(5) unsigned NOT NULL DEFAULT '993',
+  `imap_secure` enum('ssl','tls','none') NOT NULL DEFAULT 'ssl',
+  `imap_validate_cert` tinyint(1) NOT NULL DEFAULT '1',
+  `imap_folder_inbox` varchar(190) NOT NULL DEFAULT 'INBOX',
+  `imap_folder_sent` varchar(190) DEFAULT NULL,
+  `smtp_host` varchar(190) NOT NULL,
+  `smtp_port` smallint(5) unsigned NOT NULL DEFAULT '465',
+  `smtp_secure` enum('ssl','tls','none') NOT NULL DEFAULT 'ssl',
+  `username` varchar(190) NOT NULL,
+  `password_enc` text,
+  `from_name` varchar(120) DEFAULT NULL,
+  `reply_to_mode` enum('same_as_from','user_personal','custom') NOT NULL DEFAULT 'same_as_from',
+  `reply_to_address` varchar(190) DEFAULT NULL,
+  `append_sent` tinyint(1) NOT NULL DEFAULT '1',
+  `last_uid` int(10) unsigned NOT NULL DEFAULT '0',
+  `last_scan_at` datetime DEFAULT NULL,
+  `last_scan_status` enum('ok','error','disabled') DEFAULT NULL,
+  `last_scan_error` text,
+  `consecutive_failures` smallint(5) unsigned NOT NULL DEFAULT '0',
+  `next_scan_at` datetime DEFAULT NULL,
+  `scan_interval_sec` smallint(5) unsigned NOT NULL DEFAULT '120',
+  `active` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_owner_user_id` (`owner_user_id`),
+  KEY `idx_active_scan` (`active`,`next_scan_at`),
+  KEY `idx_owner` (`owner_user_id`),
+  KEY `idx_kind` (`kind`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `u_yf_mail_account_users` (
+  `account_id` int(10) unsigned NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `can_send` tinyint(1) NOT NULL DEFAULT '1',
+  `is_default` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`account_id`,`user_id`),
+  CONSTRAINT `fk_mail_acct_users_account` FOREIGN KEY (`account_id`) REFERENCES `u_yf_mail_accounts` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `u_yf_mail_messages` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `account_id` int(10) unsigned DEFAULT NULL,
+  `smtp_id` int(10) unsigned DEFAULT NULL,
+  `sender_user_id` int(11) DEFAULT NULL,
+  `direction` enum('in','out') NOT NULL,
+  `imap_uid` int(10) unsigned DEFAULT NULL,
+  `message_id` varchar(255) DEFAULT NULL,
+  `in_reply_to` varchar(255) DEFAULT NULL,
+  `references_hdr` text,
+  `date_sent` datetime NOT NULL,
+  `from_email` varchar(190) NOT NULL,
+  `from_name` varchar(255) DEFAULT NULL,
+  `to_json` json NOT NULL,
+  `cc_json` json DEFAULT NULL,
+  `bcc_json` json DEFAULT NULL,
+  `subject` varchar(998) NOT NULL DEFAULT '',
+  `body_html` mediumtext,
+  `body_text` mediumtext,
+  `has_attachments` tinyint(1) NOT NULL DEFAULT '0',
+  `size_bytes` int(10) unsigned NOT NULL DEFAULT '0',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_account_imap_uid` (`account_id`,`imap_uid`),
+  KEY `idx_message_id` (`message_id`),
+  KEY `idx_date_sent` (`date_sent`),
+  KEY `idx_from_email` (`from_email`),
+  KEY `idx_direction_date` (`direction`,`date_sent`),
+  KEY `idx_sender` (`sender_user_id`,`direction`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `u_yf_mail_attachments` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `message_id` int(10) unsigned NOT NULL,
+  `filename` varchar(255) NOT NULL,
+  `original_name` varchar(255) NOT NULL,
+  `mime_type` varchar(127) NOT NULL DEFAULT 'application/octet-stream',
+  `size_bytes` int(10) unsigned NOT NULL DEFAULT '0',
+  `content_id` varchar(255) DEFAULT NULL,
+  `storage_path` varchar(500) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_message` (`message_id`),
+  CONSTRAINT `fk_mail_attach_message` FOREIGN KEY (`message_id`) REFERENCES `u_yf_mail_messages` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `u_yf_mail_record_links` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `message_id` int(10) unsigned NOT NULL,
+  `crm_module` varchar(50) NOT NULL,
+  `crm_record_id` int(10) unsigned NOT NULL,
+  `link_type` enum('auto','manual') NOT NULL DEFAULT 'auto',
+  `match_field` varchar(60) DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_message_record` (`message_id`,`crm_module`,`crm_record_id`),
+  KEY `idx_crm_record` (`crm_module`,`crm_record_id`,`message_id`),
+  CONSTRAINT `fk_mail_link_message` FOREIGN KEY (`message_id`) REFERENCES `u_yf_mail_messages` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `u_yf_mail_log` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `account_id` int(10) unsigned DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `level` enum('info','warn','error') NOT NULL DEFAULT 'info',
+  `action` varchar(30) NOT NULL,
+  `message` varchar(500) NOT NULL,
+  `context_json` json DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_created` (`created_at`),
+  KEY `idx_account` (`account_id`),
+  KEY `idx_level` (`level`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

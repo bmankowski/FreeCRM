@@ -95,7 +95,7 @@
 						{/if}
 						{if $STATUS}
 							<div class="alert alert-success">
-								<p>{"LBL_MAIL_WAITING_TO_SENT"|t:$MODULE}</p>
+								<p>{"LBL_MAIL_WAITING_TO_BE_SENT"|t:$MODULE}</p>
 							</div>
 						{/if}
 						{if $STATUS_ERROR}

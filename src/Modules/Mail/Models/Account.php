@@ -1,0 +1,334 @@
+<?php
+/**
+ * FreeCRM - Customer Relationship Management System
+ *
+ * @project FreeCRM
+ * @author bmankowski@gmail.com
+ * @copyright (c) FreeCRM
+ * @license FreeCRM Public License 1.0
+ */
+
+declare(strict_types=1);
+
+namespace App\Modules\Mail\Models;
+
+class Account
+{
+	private const PERSONAL_DEFAULT_FIELDS = [
+		'name',
+		'imap_host',
+		'imap_port',
+		'imap_secure',
+		'imap_validate_cert',
+		'imap_folder_inbox',
+		'imap_folder_sent',
+		'smtp_host',
+		'smtp_port',
+		'smtp_secure',
+		'username',
+		'from_name',
+		'reply_to_mode',
+		'reply_to_address',
+		'append_sent',
+	];
+
+	public static function passwordMask(): string
+	{
+		return (string) (\App\Core\AppConfig::module('Mail', 'password_mask') ?? '**********');
+	}
+
+	public static function getById(int $id): ?array
+	{
+		$row = (new \App\Db\Query())->from('u_yf_mail_accounts')->where(['id' => $id])->one();
+		return $row ? self::sanitizeForDisplay($row) : null;
+	}
+
+	public static function getPersonalAccountDefaults(): array
+	{
+		$defaults = \App\Core\AppConfig::module('Mail', 'personal_account_defaults');
+		return is_array($defaults) ? $defaults : [];
+	}
+
+	public static function applyPersonalDefaults(array $data, int $userId): array
+	{
+		$defaults = self::getPersonalAccountDefaults();
+		$hints = self::getUserPersonalHints($userId);
+		$result = $data;
+
+		foreach (self::PERSONAL_DEFAULT_FIELDS as $field) {
+			if (!self::isEmptyAccountField($result[$field] ?? null)) {
+				continue;
+			}
+			if (!self::isEmptyAccountField($hints[$field] ?? null)) {
+				$result[$field] = $hints[$field];
+				continue;
+			}
+			if (array_key_exists($field, $defaults) && !self::isEmptyAccountField($defaults[$field])) {
+				$result[$field] = $defaults[$field];
+			}
+		}
+
+		if (self::isEmptyAccountField($result['name'] ?? null) && !self::isEmptyAccountField($result['username'] ?? null)) {
+			$result['name'] = $result['username'];
+		}
+
+		return $result;
+	}
+
+	public static function getPersonalForDisplay(int $userId): array
+	{
+		$row = (new \App\Db\Query())
+			->from('u_yf_mail_accounts')
+			->where(['kind' => 'personal', 'owner_user_id' => $userId])
+			->one();
+
+		return self::sanitizeForDisplay(self::applyPersonalDefaults($row ?: [], $userId));
+	}
+
+	public static function getPersonalForUser(int $userId): ?array
+	{
+		$row = (new \App\Db\Query())
+			->from('u_yf_mail_accounts')
+			->where(['kind' => 'personal', 'owner_user_id' => $userId])
+			->one();
+		return $row ? self::sanitizeForDisplay(self::applyPersonalDefaults($row, $userId)) : null;
+	}
+
+	public static function getUserAccounts(int $userId, bool $sendOnly = false): array
+	{
+		$accounts = [];
+		$personal = self::getPersonalForUser($userId);
+		if ($personal !== null && (!$sendOnly || (int) $personal['active'] === 1)) {
+			$accounts[] = $personal;
+		}
+		$query = (new \App\Db\Query())
+			->select(['a.*', 'au.is_default', 'au.can_send'])
+			->from(['a' => 'u_yf_mail_accounts'])
+			->innerJoin(['au' => 'u_yf_mail_account_users'], 'au.account_id = a.id')
+			->where(['a.kind' => 'shared', 'au.user_id' => $userId]);
+		if ($sendOnly) {
+			$query->andWhere(['au.can_send' => 1, 'a.active' => 1]);
+		}
+		foreach ($query->all() as $row) {
+			$accounts[] = self::sanitizeForDisplay($row);
+		}
+		return $accounts;
+	}
+
+	public static function getDefaultAccountId(int $userId): ?int
+	{
+		$id = (new \App\Db\Query())
+			->select('account_id')
+			->from('u_yf_mail_account_users')
+			->where(['user_id' => $userId, 'is_default' => 1])
+			->scalar();
+		return $id ? (int) $id : null;
+	}
+
+	public static function savePersonalForUser(int $userId, array $data, bool $activate = false): array
+	{
+		$encryption = new \App\Security\Encryption();
+		if (!$encryption->isActive()) {
+			throw new \App\Exceptions\AppException('LBL_ENCRYPTION_NOT_ACTIVE');
+		}
+
+		$existing = (new \App\Db\Query())
+			->from('u_yf_mail_accounts')
+			->where(['kind' => 'personal', 'owner_user_id' => $userId])
+			->one() ?: null;
+
+		$password = trim((string) ($data['password'] ?? ''));
+		$passwordEnc = null;
+		if ($existing) {
+			if ($password !== '' && $password !== self::passwordMask()) {
+				$passwordEnc = $encryption->encrypt($password);
+			} else {
+				$passwordEnc = $existing['password_enc'];
+			}
+		} elseif ($password === '' || $password === self::passwordMask()) {
+			throw new \App\Exceptions\AppException('LBL_MAIL_PASSWORD_REQUIRED');
+		} else {
+			$passwordEnc = $encryption->encrypt($password);
+		}
+
+		$row = self::buildRow(self::applyPersonalDefaults($data, $userId), 'personal', $userId, $passwordEnc, $existing, $activate);
+
+		$db = \App\Db\Db::getInstance();
+		if ($existing) {
+			$db->createCommand()->update('u_yf_mail_accounts', $row, ['id' => $existing['id']])->execute();
+			$accountId = (int) $existing['id'];
+		} else {
+			$db->createCommand()->insert('u_yf_mail_accounts', $row)->execute();
+			$accountId = (int) $db->getLastInsertID();
+			$db->createCommand()->insert('u_yf_mail_account_users', [
+				'account_id' => $accountId,
+				'user_id' => $userId,
+				'can_send' => 1,
+				'is_default' => 1,
+			])->execute();
+		}
+
+		return self::getById($accountId) ?? [];
+	}
+
+	public static function saveShared(array $data, ?int $accountId = null, array $userIds = [], bool $activate = false): array
+	{
+		$encryption = new \App\Security\Encryption();
+		if (!$encryption->isActive()) {
+			throw new \App\Exceptions\AppException('LBL_ENCRYPTION_NOT_ACTIVE');
+		}
+
+		$existing = $accountId ? ((new \App\Db\Query())->from('u_yf_mail_accounts')->where(['id' => $accountId])->one() ?: null) : null;
+		$password = trim((string) ($data['password'] ?? ''));
+		if ($existing) {
+			$passwordEnc = ($password !== '' && $password !== self::passwordMask())
+				? $encryption->encrypt($password)
+				: $existing['password_enc'];
+		} elseif ($password === '' || $password === self::passwordMask()) {
+			throw new \App\Exceptions\AppException('LBL_MAIL_PASSWORD_REQUIRED');
+		} else {
+			$passwordEnc = $encryption->encrypt($password);
+		}
+
+		$row = self::buildRow($data, 'shared', null, $passwordEnc, $existing, $activate);
+		$row['owner_user_id'] = null;
+		$db = \App\Db\Db::getInstance();
+
+		if ($existing) {
+			$db->createCommand()->update('u_yf_mail_accounts', $row, ['id' => $accountId])->execute();
+		} else {
+			$db->createCommand()->insert('u_yf_mail_accounts', $row)->execute();
+			$accountId = (int) $db->getLastInsertID();
+		}
+
+		if ($accountId && $userIds !== []) {
+			$db->createCommand()->delete('u_yf_mail_account_users', ['account_id' => $accountId])->execute();
+			foreach ($userIds as $uid) {
+				$db->createCommand()->insert('u_yf_mail_account_users', [
+					'account_id' => $accountId,
+					'user_id' => (int) $uid,
+					'can_send' => 1,
+					'is_default' => 0,
+				])->execute();
+			}
+		}
+
+		return self::getById((int) $accountId) ?? [];
+	}
+
+	public static function deleteAccount(int $accountId): void
+	{
+		\App\Db\Db::getInstance()->createCommand()->delete('u_yf_mail_accounts', ['id' => $accountId])->execute();
+	}
+
+	public static function getDecryptedPassword(array $account): string
+	{
+		$encryption = new \App\Security\Encryption();
+		return (string) $encryption->decrypt((string) ($account['password_enc'] ?? ''));
+	}
+
+	public static function listAllForAdmin(): array
+	{
+		$rows = [];
+		foreach ((new \App\Db\Query())->from('u_yf_mail_accounts')->orderBy(['kind' => SORT_ASC, 'name' => SORT_ASC])->all() as $row) {
+			$rows[] = self::sanitizeForDisplay($row);
+		}
+		return $rows;
+	}
+
+	public static function getAccountsDueForScan(): array
+	{
+		return (new \App\Db\Query())
+			->from('u_yf_mail_accounts')
+			->where(['active' => 1])
+			->andWhere(['or', ['next_scan_at' => null], ['<=', 'next_scan_at', date('Y-m-d H:i:s')]])
+			->andWhere(['or', ['last_scan_status' => null], ['!=', 'last_scan_status', 'disabled']])
+			->all();
+	}
+
+	public static function markScanResult(int $accountId, bool $ok, int $lastUid = 0, ?string $error = null): void
+	{
+		$maxFailures = (int) (\App\Core\AppConfig::module('Mail', 'max_consecutive_failures') ?? 5);
+		$interval = (int) (\App\Core\AppConfig::module('Mail', 'default_scan_interval') ?? 120);
+		$account = (new \App\Db\Query())->from('u_yf_mail_accounts')->where(['id' => $accountId])->one();
+		$failures = $ok ? 0 : ((int) ($account['consecutive_failures'] ?? 0) + 1);
+		$backoff = min($interval * max(1, $failures), 3600);
+
+		\App\Db\Db::getInstance()->createCommand()->update('u_yf_mail_accounts', [
+			'last_scan_at' => date('Y-m-d H:i:s'),
+			'last_scan_status' => $ok ? 'ok' : 'error',
+			'last_scan_error' => $error,
+			'consecutive_failures' => $failures,
+			'last_uid' => $lastUid > 0 ? $lastUid : ($account['last_uid'] ?? 0),
+			'next_scan_at' => date('Y-m-d H:i:s', time() + $backoff),
+			'active' => $failures >= $maxFailures ? 0 : ($account['active'] ?? 1),
+		], ['id' => $accountId])->execute();
+	}
+
+	private static function getUserPersonalHints(int $userId): array
+	{
+		$user = (new \App\Db\Query())
+			->select(['email1', 'first_name', 'last_name'])
+			->from('vtiger_users')
+			->where(['id' => $userId])
+			->one();
+		if (!$user) {
+			return [];
+		}
+
+		$hints = [];
+		if (!empty($user['email1'])) {
+			$hints['username'] = $user['email1'];
+		}
+		$fromName = trim(($user['first_name'] ?? '') . ' ' . ($user['last_name'] ?? ''));
+		if ($fromName !== '') {
+			$hints['from_name'] = $fromName;
+		}
+
+		return $hints;
+	}
+
+	private static function isEmptyAccountField(mixed $value): bool
+	{
+		return $value === null || $value === '';
+	}
+
+	private static function buildRow(array $data, string $kind, ?int $ownerUserId, ?string $passwordEnc, ?array $existing, bool $activate): array
+	{
+		$row = [
+			'name' => trim((string) ($data['name'] ?? $data['username'] ?? '')),
+			'kind' => $kind,
+			'owner_user_id' => $ownerUserId,
+			'imap_host' => trim((string) ($data['imap_host'] ?? '')),
+			'imap_port' => (int) ($data['imap_port'] ?? 993),
+			'imap_secure' => $data['imap_secure'] ?? 'ssl',
+			'imap_validate_cert' => (int) ($data['imap_validate_cert'] ?? 1),
+			'imap_folder_inbox' => trim((string) ($data['imap_folder_inbox'] ?? 'INBOX')),
+			'imap_folder_sent' => $data['imap_folder_sent'] ?? null,
+			'smtp_host' => trim((string) ($data['smtp_host'] ?? '')),
+			'smtp_port' => (int) ($data['smtp_port'] ?? 465),
+			'smtp_secure' => $data['smtp_secure'] ?? 'ssl',
+			'username' => trim((string) ($data['username'] ?? '')),
+			'password_enc' => $passwordEnc,
+			'from_name' => $data['from_name'] ?? null,
+			'reply_to_mode' => $data['reply_to_mode'] ?? 'same_as_from',
+			'reply_to_address' => $data['reply_to_address'] ?? null,
+			'append_sent' => (int) ($data['append_sent'] ?? 1),
+		];
+		if ($activate) {
+			$row['active'] = 1;
+			$row['last_scan_status'] = 'ok';
+			$row['next_scan_at'] = date('Y-m-d H:i:s');
+		} elseif (!$existing) {
+			$row['active'] = 0;
+		}
+		return $row;
+	}
+
+	private static function sanitizeForDisplay(array $row): array
+	{
+		unset($row['password_enc']);
+		$row['password'] = self::passwordMask();
+		return $row;
+	}
+}

@@ -464,7 +464,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			default:
 				break;
 		}
-		return $this->get($name);
+		return (string) ($this->get($name) ?? '');
 	}
 
 	/**

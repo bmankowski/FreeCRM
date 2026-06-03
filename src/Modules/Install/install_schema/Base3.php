@@ -1548,150 +1548,6 @@ class Base3 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'vtiger_ossmails_logs' => [
-				'columns' => [
-					'id' => $this->primaryKey(),
-					'start_time' => $this->timestamp()->notNull()->defaultExpression('CURRENT_TIMESTAMP'),
-					'end_time' => $this->timestamp(),
-					'action' => $this->stringType(100),
-					'status' => $this->smallInteger(3),
-					'user' => $this->stringType(100),
-					'count' => $this->integer(10),
-					'stop_user' => $this->stringType(100),
-					'info' => $this->stringType(100),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_ossmailscanner_config' => [
-				'columns' => [
-					'conf_type' => $this->stringType(100)->notNull(),
-					'parameter' => $this->stringType(100),
-					'value' => $this->text(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_ossmailscanner_folders_uid' => [
-				'columns' => [
-					'user_id' => $this->integer(10)->unsigned(),
-					'type' => $this->stringType(50),
-					'folder' => $this->stringType(100),
-					'uid' => $this->integer()->defaultValue(1),
-				],
-				'index' => [
-						['mailfolders_user_id_idx', 'user_id'],
-						['mailfolders_folder_idx', 'folder'],
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_ossmailscanner_log_cron' => [
-				'columns' => [
-					'id' => $this->primaryKey(),
-					'created_time' => $this->timestamp()->defaultExpression('CURRENT_TIMESTAMP'),
-					'laststart' => $this->integer()->unsigned(),
-					'status' => $this->stringType(50),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_ossmailview' => [
-				'columns' => [
-					'ossmailviewid' => $this->integer()->notNull(),
-					'ossmailview_no' => $this->stringType(50),
-					'from_email' => $this->text(),
-					'to_email' => $this->text(),
-					'subject' => $this->text(),
-					'content' => $this->text(),
-					'cc_email' => $this->text(),
-					'bcc_email' => $this->text(),
-					'id' => $this->integer(),
-					'mbox' => $this->stringType(100),
-					'uid' => $this->stringType(150),
-					'reply_to_email' => $this->text(),
-					'ossmailview_sendtype' => $this->stringType(30),
-					'attachments_exist' => $this->smallInteger(1)->defaultValue(0),
-					'rc_user' => $this->stringType(3),
-					'type' => $this->smallInteger(1),
-					'from_id' => $this->stringType(50)->notNull(),
-					'to_id' => $this->stringType(100)->notNull(),
-					'orginal_mail' => $this->text(),
-					'verify' => $this->smallInteger(1)->defaultValue(0),
-					'rel_mod' => $this->stringType(128),
-					'date' => $this->dateTime(),
-				],
-				'index' => [
-						['ossmailview_id_idx', 'id'],
-						['ossmailview_uid_idx', ['uid', 'rc_user']],
-						['ossmailview_verify_idx', 'verify'],
-						['ossmailview_mbox_idx', 'mbox'],
-				],
-				'primaryKeys' => [
-						['ossmailview_pk', 'ossmailviewid']
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_ossmailview_files' => [
-				'columns' => [
-					'ossmailviewid' => $this->integer()->notNull(),
-					'documentsid' => $this->integer()->notNull(),
-					'attachmentsid' => $this->integer()->notNull(),
-				],
-				'index' => [
-						['ossmailview_files_id_idx', 'ossmailviewid'],
-						['ossmailview_files_doc_idx', 'documentsid'],
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_ossmailview_relation' => [
-				'columns' => [
-					'ossmailviewid' => $this->integer()->notNull(),
-					'crmid' => $this->integer()->notNull(),
-					'date' => $this->dateTime(),
-					'deleted' => $this->smallInteger(1)->defaultValue(0),
-				],
-				'index' => [
-						['ossmailview_relation_idx', ['ossmailviewid', 'crmid'], true],
-						['ossmailview_relation_id_idx', 'ossmailviewid'],
-						['ossmailview_relation_crm_idx', ['crmid', 'deleted']],
-				],
-				'primaryKeys' => [
-						['ossmailview_relation_pk', ['ossmailviewid', 'crmid']]
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_ossmailview_sendtype' => [
-				'columns' => [
-					'ossmailview_sendtypeid' => $this->primaryKey(),
-					'ossmailview_sendtype' => $this->stringType(200)->notNull(),
-					'presence' => $this->integer(1)->notNull()->defaultValue(1),
-					'picklist_valueid' => $this->integer()->notNull()->defaultValue(0),
-					'sortorderid' => $this->integer()->defaultValue(0),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_ossmailview_sendtype_seq' => [
-				'columns' => [
-					'id' => $this->integer()->notNull(),
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_ossmailviewcf' => [
-				'columns' => [
-					'ossmailviewid' => $this->integer()->notNull(),
-				],
-				'primaryKeys' => [
-						['ossmailviewcf_pk', 'ossmailviewid']
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'vtiger_ossoutsourcedservices' => [
 				'columns' => [
 					'ossoutsourcedservicesid' => $this->integer()->notNull()->defaultValue(0),
@@ -3199,9 +3055,7 @@ class Base3 extends \App\Db\Importers\Base
 					[111, 42, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, NULL, NULL, NULL, NULL],
 					[114, 43, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, NULL, NULL, NULL, NULL],
 					[186, 51, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, NULL, NULL, NULL, NULL],
-					[188, 54, 'DASHBOARDWIDGET', 'Graf', 'index.php?module=OSSMailView&view=ShowWidget&name=Graf', '', 1, NULL, NULL, NULL, NULL],
 					[195, 61, 'DETAILVIEWWIDGET', 'DetailViewBlockCommentWidget', 'block://ModComments:modules/ModComments/ModComments.php', '', 0, NULL, NULL, NULL, NULL],
-					[198, 48, 'HEADERSCRIPT', 'OSSMailJScheckmails', 'layouts/_layoutName_/modules/OSSMail/resources/checkmails.js', NULL, 0, NULL, NULL, NULL, NULL],
 					[199, 3, 'DASHBOARDWIDGET', 'Mails List', 'index.php?module=Home&view=ShowWidget&name=MailsList', '', NULL, NULL, NULL, NULL, NULL],
 					[201, 3, 'DASHBOARDWIDGET', 'Delagated Events/To Dos', 'index.php?module=Home&view=ShowWidget&name=AssignedUpcomingCalendarTasks', '', NULL, NULL, NULL, NULL, NULL],
 					[202, 3, 'DASHBOARDWIDGET', 'Delegated (overdue) Events/ToDos', 'index.php?module=Home&view=ShowWidget&name=AssignedOverdueCalendarTasks', '', NULL, NULL, NULL, NULL, NULL],
@@ -3885,34 +3739,6 @@ class Base3 extends \App\Db\Importers\Base
 				]
 			],
 			'vtiger_osservicesstatus_seq' => [
-				'columns' => ['id'],
-				'values' => [
-					[3],
-				]
-			],
-			'vtiger_ossmailscanner_config' => [
-				'columns' => ['conf_type', 'parameter', 'value'],
-				'values' => [
-					['emailsearch', 'fields', NULL],
-					['cron', 'email', ''],
-					['cron', 'time', ''],
-					['emailsearch', 'changeTicketStatus', 'noAction'],
-					['email_list', 'widget_limit', '10'],
-					['email_list', 'target', '_blank'],
-					['email_list', 'permissions', 'vtiger'],
-					['exceptions', 'crating_mails', NULL],
-					['exceptions', 'crating_tickets', NULL],
-				]
-			],
-			'vtiger_ossmailview_sendtype' => [
-				'columns' => ['ossmailview_sendtypeid', 'ossmailview_sendtype', 'presence', 'picklist_valueid', 'sortorderid'],
-				'values' => [
-					[1, 'Sent', 1, 388, 1],
-					[2, 'Received', 1, 389, 2],
-					[3, 'Internal', 1, 700, 3],
-				]
-			],
-			'vtiger_ossmailview_sendtype_seq' => [
 				'columns' => ['id'],
 				'values' => [
 					[3],

@@ -44,6 +44,7 @@
         "LBL_CRM_DIR": "CRM Local directory",
         "LBL_SOAP_LIBRARY": "SOAP",
         "LBL_PHP_SAPI": "Server API",
+        "LBL_PHP_UNAME": "System information",
         "LBL_APCU_LIBRARY": "APCu",
         "LBL_OPCACHE_LIBRARY": "OPcache",
         "LBL_CRON_PHP": "Cron - PHP version",

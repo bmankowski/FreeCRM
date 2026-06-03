@@ -794,8 +794,7 @@ function vtws_transferRelatedRecords($sourceRecordId, $destinationRecordId)
 	$db->createCommand()->update('vtiger_ossoutsourcedservices', ['parent_id' => $destinationRecordId], ['parent_id' => $sourceRecordId])->execute();
 	//OSSTimeControl
 	$db->createCommand()->update('vtiger_osstimecontrol', ['link' => $destinationRecordId], ['link' => $sourceRecordId])->execute();
-	//OSSMailView
-	$db->createCommand()->update('vtiger_ossmailview_relation', ['crmid' => $destinationRecordId], ['crmid' => $sourceRecordId])->execute();
+	$db->createCommand()->update('u_yf_mail_record_links', ['crm_record_id' => $destinationRecordId], ['crm_record_id' => $sourceRecordId])->execute();
 	//CallHistory
 	$db->createCommand()->update('vtiger_callhistory', ['destination' => $destinationRecordId], ['destination' => $sourceRecordId])->execute();
 	//LettersIn

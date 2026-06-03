@@ -1,0 +1,30 @@
+{
+    "languageStrings": {
+        "LBL_MAIL_ACCOUNTS": "Konta pocztowe",
+        "LBL_MAIL_ACCOUNTS_DESCRIPTION": "Zarządzaj kontami współdzielonymi i osobistymi",
+        "LBL_NAME": "Nazwa",
+        "LBL_KIND": "Typ",
+        "LBL_USERNAME": "Login",
+        "LBL_ACTIVE": "Aktywne",
+        "LBL_LAST_SCAN": "Ostatnie skanowanie",
+        "LBL_ADD_RECORD": "Dodaj konto",
+        "LBL_EDIT": "Edytuj",
+        "LBL_NO_RECORDS": "Brak kont pocztowych",
+        "LBL_IMAP_HOST": "Serwer IMAP",
+        "LBL_IMAP_PORT": "Port IMAP",
+        "LBL_SMTP_HOST": "Serwer SMTP",
+        "LBL_SMTP_PORT": "Port SMTP",
+        "LBL_PASSWORD": "Hasło",
+        "LBL_FROM_NAME": "Nazwa nadawcy",
+        "LBL_ASSIGNED_USERS": "Użytkownicy z dostępem do wysyłki",
+        "LBL_IMAP_FOLDER_SENT": "Folder Wysłane",
+        "LBL_TEST_CONNECTION": "Test połączenia",
+        "LBL_SAVE": "Zapisz",
+        "LBL_CONNECTION_OK": "Połączenie poprawne",
+        "LBL_CONNECTION_FAILED": "Połączenie nieudane",
+        "LBL_MAIL_PASSWORD_REQUIRED": "Hasło jest wymagane",
+        "LBL_MAIL_ACCOUNT_NOT_FOUND": "Nie znaleziono konta pocztowego",
+        "LBL_MAIL_SMTP_CONNECT_FAILED": "Połączenie SMTP nieudane",
+        "LBL_LOGS": "Logi"
+    }
+}

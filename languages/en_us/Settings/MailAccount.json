@@ -1,0 +1,31 @@
+{
+    "languageStrings": {
+        "LBL_MAIL_ACCOUNTS": "Mail accounts",
+        "LBL_MAIL_ACCOUNTS_DESCRIPTION": "Manage shared and personal mail accounts",
+        "LBL_NAME": "Name",
+        "LBL_KIND": "Type",
+        "LBL_USERNAME": "Username",
+        "LBL_ACTIVE": "Active",
+        "LBL_LAST_SCAN": "Last scan",
+        "LBL_ADD_RECORD": "Add account",
+        "LBL_EDIT": "Edit",
+        "LBL_NO_RECORDS": "No mail accounts",
+        "LBL_IMAP_HOST": "IMAP host",
+        "LBL_IMAP_PORT": "IMAP port",
+        "LBL_SMTP_HOST": "SMTP host",
+        "LBL_SMTP_PORT": "SMTP port",
+        "LBL_PASSWORD": "Password",
+        "LBL_FROM_NAME": "From name",
+        "LBL_ASSIGNED_USERS": "Users with send access",
+        "LBL_IMAP_FOLDER_SENT": "Sent folder",
+        "LBL_TEST_CONNECTION": "Test connection",
+        "LBL_SAVE": "Save",
+        "LBL_CONNECTION_OK": "Connection successful",
+        "LBL_CONNECTION_FAILED": "Connection failed",
+        "LBL_MAIL_PASSWORD_REQUIRED": "Password is required",
+        "LBL_MAIL_ACCOUNT_NOT_FOUND": "Mail account not found",
+        "LBL_MAIL_SMTP_CONNECT_FAILED": "SMTP connection failed",
+        "LBL_LOGS": "Logs",
+        "LBL_STATUS": "Status"
+    }
+}

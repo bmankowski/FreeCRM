@@ -25,7 +25,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		// Prepare all data in controller instead of calling functions in template
 		$this->prepareConfReportData($viewer, $qualifiedModuleName);
 		
-		$viewer->assign('CCURL', 'index.php?module=OSSMail&view=CheckConfig');
+		$viewer->assign('CCURL', 'index.php?module=MailAccount&parent=Settings&view=List');
 		$viewer->assign('MODULE', $qualifiedModuleName);
 		
 		// Check if this is an AJAX request - if so, return only content without MainLayout

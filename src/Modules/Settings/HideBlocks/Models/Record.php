@@ -210,7 +210,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 				}
 				break;
 		}
-		return $fieldValue;
+		return (string) ($fieldValue ?? '');
 	}
 
 	public static function getModuleInstanceByBlockId($blockId)

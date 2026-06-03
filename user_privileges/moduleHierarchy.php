@@ -96,6 +96,6 @@ return [
 	'modulesMapMMCustom' => [
 		'Documents' => ['table' => 'vtiger_senotesrel', 'rel' => 'crmid', 'base' => 'notesid'],
 		'Products' => ['table' => 'vtiger_seproductsrel', 'rel' => 'crmid', 'base' => 'productid'],
-		'OSSMailView' => ['table' => 'vtiger_ossmailview_relation', 'rel' => 'crmid', 'base' => 'ossmailviewid'],
+		'Mail' => ['table' => 'u_yf_mail_record_links', 'rel' => 'crm_record_id', 'base' => 'message_id'],
 	]
 ];

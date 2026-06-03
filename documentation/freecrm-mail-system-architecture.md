@@ -27,7 +27,7 @@ Design decisions taken with the project owner:
 | Auth | Login + password only, against own mail server (no OAuth2) |
 | Outbound paths | **Two coexisting paths**: (i) Mail module → user's personal/shared IMAP+SMTP account; (ii) existing `s_yf_mail_smtp` for role-based system sends (`rekrutacja@`, `marketing@`) — chosen per template |
 | Sender selection | Template-driven: each email template carries `sender_type ∈ {user_account, system_smtp, any}` |
-| Per-user editability | A non-admin user can only edit their own personal account record (signature, default flag); admin manages all accounts including shared ones |
+| Per-user editability | A non-admin user can only edit their own personal account record (default flag); admin manages all accounts including shared ones |
 | Sent copy | IMAP `APPEND` to the account's "Sent" folder (per-account flag, folder discovered at TestConnection time — not hard-coded) |
 | Migration | Greenfield, no fallbacks to OSSMail/Roundcube; the legacy modules can be left untouched until a later cleanup |
 | Auto-bind modules | Kandydaci, Contacts, Accounts, Leads, SSalesProcesses, HelpDesk |
@@ -35,7 +35,6 @@ Design decisions taken with the project owner:
 | Auto-bind outbound | Source record (the one user composed from) always linked; additionally any other CRM record matched by To/Cc/Bcc email |
 | Reply-To for shared mailbox sends | Configurable per shared account (3 modes: same as From, user's personal email, custom address) |
 | Backfill on account add | None by default (`last_uid` = current MAX UID at install); an optional "Import history from date" admin action is deferred to a later phase |
-| Signature | Per-account `signature_html` field, auto-appended to every outbound message from that account; templates can opt out via per-template flag |
 | Target scale | ≤10 mailboxes, ≤500 messages/day, polling cron every 60–120 s |
 
 ---
@@ -275,7 +274,6 @@ We deliberately keep **no plugin loader** for binding rules: the Engine instanti
    1. permission check: user has access to `account` AND `DetailView` on source record,
    2. render subject + body via `TextParser`,
    3. inline CSS via `App\Utils\TemplateStyles::inlineEmailCss`,
-   4. append `account.signature_html` to body unless the template has `skip_account_signature = 1`,
    5. `Smtp\Sender::send($account, $envelope, $body, $attachments)`:
       - configure PHPMailer with the account's host/port/secure/username/decrypted password,
       - set `From: <account.from_name> <account.username>`,
@@ -291,7 +289,7 @@ We deliberately keep **no plugin loader** for binding rules: the Engine instanti
 
    **Path B — system_smtp (existing App\Email\Mailer)**
    1. permission check: user has `DetailView` on source record,
-   2. render template (same as Path A) — but **without** account signature,
+   2. render template (same as Path A),
    3. delegate to `App\Email\Mailer::sendFromTemplate([...])` with the template's `smtp_id` forced; for queueable mass sends use `App\Email\Mailer::addMail([...])` instead,
    4. on success, persist a row in `u_yf_mail_messages` with direction=out, `account_id` NULL, `smtp_id` set, `from_email` = the SMTP's `from_email`,
    5. write attachments and bind links same as Path A.
@@ -333,7 +331,6 @@ All new tables use the FreeCRM `u_yf_*` naming convention.
 | `from_name` | VARCHAR(120) | optional display name in From |
 | `reply_to_mode` | ENUM('same_as_from','user_personal','custom') | default `same_as_from`; `user_personal` only meaningful for shared accounts (resolves to sending user's `vtiger_users.email1` at send time) |
 | `reply_to_address` | VARCHAR(190) NULL | used when `reply_to_mode='custom'` |
-| `signature_html` | MEDIUMTEXT NULL | auto-appended to outbound body unless template opts out |
 | `append_sent` | TINYINT(1) | default 1 |
 | `last_uid` | INT UNSIGNED | last seen UID in Inbox |
 | `last_scan_at` | DATETIME NULL | |
@@ -349,7 +346,7 @@ Indexes: `(active, next_scan_at)`, `(owner_user_id)`, `(kind)`.
 
 Edit rules (enforced in `Settings:MailAccount` controller):
 
-- non-admin user can edit only `signature_html`, `reply_to_mode`/`reply_to_address` (if `kind='personal'` and they are `owner_user_id`), `from_name`, and their own row in `u_yf_mail_account_users` (`is_default`),
+- non-admin user can edit only `reply_to_mode`/`reply_to_address` (if `kind='personal'` and they are `owner_user_id`), `from_name`, and their own row in `u_yf_mail_account_users` (`is_default`),
 - non-admin user **cannot** edit host/port/credentials/`active`/`kind`/`owner_user_id`,
 - admin edits everything.
 
@@ -458,7 +455,7 @@ Two orthogonal checks. **Both must pass** for a user to see a message on a recor
 | Subject | Account read | Account send | Account CRUD |
 |---------|--------------|--------------|--------------|
 | Admin | all | all | yes |
-| User — owner of `kind='personal'` account | yes (own) | yes | non-system fields only (signature, reply_to, from_name, is_default) |
+| User — owner of `kind='personal'` account | yes (own) | yes | non-system fields only (reply_to, from_name, is_default) |
 | User — listed in `u_yf_mail_account_users` for `kind='shared'` account | yes (shared) | if `can_send=1` | no |
 | Other user | no | no | no |
 
@@ -722,18 +719,18 @@ Estimated effort assumes one developer, working day = 4 productive hours.
 
 ### Phase 1 — Foundation (5–7 days)
 
-**Goal:** admin can create a mail account in the CRM and validate IMAP/SMTP login; user can edit their own account's signature and Reply-To. No scanning, no sending yet.
+**Goal:** admin can create a mail account in the CRM and validate IMAP/SMTP login; user can edit their own account Reply-To. No scanning, no sending yet.
 
 1. `composer require webklex/php-imap`.
-2. Create the seven tables (§6) via a one-off SQL migration + corresponding entries in `install_schema/` for fresh installs. Includes `kind`, `reply_to_mode`, `reply_to_address`, `signature_html` columns and the dual-FK schema on `u_yf_mail_messages`.
-3. Add `sender_type` (and `skip_account_signature`) columns to `u_yf_emailtemplates`. Backfill: all existing templates get `sender_type='system_smtp'` (preserves current behavior).
+2. Create the seven tables (§6) via a one-off SQL migration + corresponding entries in `install_schema/` for fresh installs. Includes `kind`, `reply_to_mode`, `reply_to_address` columns and the dual-FK schema on `u_yf_mail_messages`.
+3. Add `sender_type` columns to `u_yf_emailtemplates`. Backfill: all existing templates get `sender_type='system_smtp'` (preserves current behavior).
 4. Register `Mail` module skeleton (`vtiger_tab` row, namespace `App\Modules\Mail`).
 5. Register `Settings:MailAccount` settings module with role-based edit gating (admin vs personal owner).
 6. Implement `Models\Account` (CRUD with encrypted `password_enc`).
 7. Implement `Actions\TestConnection`: open IMAP, list mailbox folders (returned to UI as a dropdown for `imap_folder_sent` selection), open SMTP, perform noop login.
 8. Settings UI: list view (admin sees all, user sees own + accessible shared), edit form, test-connection button, folder-pick dropdown populated from TestConnection response.
 
-**Acceptance:** admin adds a personal account for `bmankowski@itconnect.pl` and a shared account `rekrutacja@itconnect.pl`, clicks Test, sees green check + correctly listed "Wysłane"/"Sent"/"Elementy wysłane" folder name; logs in as a non-admin user, sees only own personal account, can change signature and `is_default` but not host/credentials.
+**Acceptance:** admin adds a personal account for `bmankowski@itconnect.pl` and a shared account `rekrutacja@itconnect.pl`, clicks Test, sees green check + correctly listed "Wysłane"/"Sent"/"Elementy wysłane" folder name; logs in as a non-admin user, sees only own personal account, can change `is_default` but not host/credentials.
 
 ### Phase 2 — Inbound (5–7 days)
 
@@ -756,7 +753,7 @@ Estimated effort assumes one developer, working day = 4 productive hours.
 
 **Goal:** user clicks email on a record, fills the modal, and the mail leaves through the appropriate path based on the template — either user's SMTP (with APPEND to their Sent) or `s_yf_mail_smtp` (no APPEND).
 
-1. `Smtp\Sender` — PHPMailer with per-account creds, signature appending, Reply-To resolution from `account.reply_to_mode`.
+1. `Smtp\Sender` — PHPMailer with per-account creds Reply-To resolution from `account.reply_to_mode`.
 2. `Imap\Appender` — `webklex/php-imap`'s `appendMessage` to the per-account `imap_folder_sent`; failure logged, doesn't fail send.
 3. Adapter for the `system_smtp` path: thin wrapper around existing `App\Email\Mailer` that also writes to `u_yf_mail_messages` and runs the binding engine on outbound.
 4. `Views\Compose` modal (Smarty): template picker, dynamic sender area (account dropdown / system label / combined), live preview, attachment upload, Send disabled when sender resolution fails.
@@ -775,7 +772,7 @@ Estimated effort assumes one developer, working day = 4 productive hours.
 2. Per-account health on the account list (last scan, status badge, failures, last 24 h message count).
 3. Rate-limiting on `Actions\Send` (default 60/min per user, configurable).
 4. `Cron\LogPrune` task — keep `info` 30 d, `warn`/`error` 180 d.
-5. Documentation: short admin guide on adding accounts, developer note on adding new Binding rules, end-user guide on signatures and Reply-To.
+5. Documentation: short admin guide on adding accounts, developer note on adding new Binding rules, end-user guide on Reply-To.
 
 **Acceptance:** new Mail module visible in main nav and settings; "Wyślij e-mail" works on all six target modules; cron log shows no errors for 48 h; admin can read both paths' logs in one view.
 
@@ -807,7 +804,7 @@ Status legend: ✅ answered · ⚠️ default chosen, confirm before the relevan
 1. ✅ **Account model** — mixed (personal + shared).
 2. ✅ **Auth** — login/password only, no OAuth2.
 3. ✅ **Outbound** — two paths: Mail module (user/shared with per-user SMTP) + existing `s_yf_mail_smtp` for role-based system sends.
-4. ✅ **Per-user editability** — user edits only own personal account (signature, Reply-To, default); admin edits everything.
+4. ✅ **Per-user editability** — user edits only own personal account (Reply-To, default); admin edits everything.
 5. ✅ **IMAP Sent folder** — not hard-coded; discovered by TestConnection at account creation, admin picks from dropdown.
 6. ✅ **`IndividualSendMailModal`** — template-driven; `sender_type` on each template chooses path.
 7. ✅ **OSSMail fallbacks** — none; greenfield install.
@@ -826,7 +823,6 @@ Status legend: ✅ answered · ⚠️ default chosen, confirm before the relevan
 
 13. ⚠️ **Backfill on account creation** — default: **none** (`last_uid` = current MAX UID at account add); an optional "Import from date" action can be added later if needed. Confirm before Phase 2.
 
-14. ⚠️ **Per-account signature** — default: **`signature_html` column on `u_yf_mail_accounts`**, auto-appended; templates can opt out via `skip_account_signature`. Confirm before Phase 1 schema work.
 
 15. ⚠️ **HelpDesk subject pattern** — default: `[T#NNN]`. Confirm by inspecting one real HelpDesk ticket or the `ticket_no` field format before Phase 2.
 
@@ -855,7 +851,7 @@ composer.json                                       +webklex/php-imap
 config/modules/Mail.php                              new
 src/Modules/Install/install_schema/Mail.php          new (schema: 7 new tables)
 src/Modules/Install/install_schema/data_mail.sql     new (tab+cron+settings+related)
-tools/migrate/2026_mail_module.sql                   new (alter u_yf_emailtemplates: add sender_type, skip_account_signature)
+tools/migrate/2026_mail_module.sql                   new (alter u_yf_emailtemplates: add sender_type)
 src/Modules/Mail/Mail.php                            new (install hook)
 src/Modules/Mail/Models/Account.php                  new
 src/Modules/Mail/Models/Message.php                  new

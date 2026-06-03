@@ -13,19 +13,10 @@
 				</div>
 				<div class="pull-right">
 					{if $RECORD->get('link') neq '' && $PERMISSION_TO_SENDE_MAIL}
-						{if $USER_MODEL->get('internal_mailer') == 1}
-							{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl($RECORD->get('link_module_name'), $RECORD->get('link'), 'Detail', 'new')}
-							<a target="_blank" class="btn btn-default" href="{$COMPOSE_URL}" title="{"LBL_SEND_EMAIL"|t}">
-								<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-							</a>
-						{else}
-							{assign var=URLDATA value=OSSMail_Module_Model::getExternalUrl($RECORD->get('link_module_name'), $RECORD->get('link'), 'Detail', 'new')}
-							{if $URLDATA && $URLDATA != 'mailto:?'}
-								<a class="btn btn-default" href="{$URLDATA}" title="{"LBL_CREATEMAIL"|t:"OSSMailView"}">
-									<span class="glyphicon glyphicon-envelope" title="{"LBL_CREATEMAIL"|t:"OSSMailView"}"></span>
-								</a>
-							{/if}
-						{/if}
+						{assign var=COMPOSE_URL value=\App\Modules\Mail\Models\Module::getComposeUrl($RECORD->get('link_module_name'), $RECORD->get('link'))}
+						<a target="_blank" class="btn btn-default" href="{$COMPOSE_URL}" title="{"LBL_COMPOSE"|t:"Mail"}">
+							<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
+						</a>
 					{/if}
 					{if $RECORD->isEditable()}
 						<a href="{$RECORD->getEditViewUrl()}" class="btn btn-default"><span class="glyphicon glyphicon-pencil summaryViewEdit" title="{"LBL_EDIT"|t:$MODULE_NAME}"></span></a>

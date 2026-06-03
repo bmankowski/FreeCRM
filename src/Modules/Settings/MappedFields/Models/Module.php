@@ -99,7 +99,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	public static function getSupportedModules()
 	{
-		$restrictedModules = ['OSSMailView', 'ModComments'];
+		$restrictedModules = ['Mail', 'ModComments'];
 		$moduleModels = \App\Modules\Base\Models\Module::getAll([0, 2]);
 		$supportedModuleModels = [];
 		foreach ($moduleModels as $tabId => $moduleModel) {

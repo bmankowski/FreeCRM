@@ -5,8 +5,8 @@ parameters:
     
     # Exclude auto-generated parser files
     excludePaths:
-        - src/events/VTEventConditionParserLexer.php
-        - src/events/VTEventConditionParserParser.php
+        - src/Events/VTEventConditionParserLexer.php
+        - src/Events/VTEventConditionParserParser.php
         - vendor
     
     # Bootstrap files to load before analysis

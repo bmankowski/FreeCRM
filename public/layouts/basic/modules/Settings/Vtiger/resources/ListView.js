@@ -185,6 +185,9 @@ Vtiger_ListView_Js("Settings_Vtiger_ListView_Js",{
 		//this.triggerDisplayTypeEvent();
 		this.registerRowClickEvent();
 		this.registerCheckBoxClickEvent();
+		this.registerMainCheckBoxClickEvent();
+		this.registerSelectAllClickEvent();
+		this.registerDeselectAllClickEvent();
 		this.registerHeadersClickEvent();
 		this.registerPageNavigationEvents();
 		this.registerEventForTotalRecordsCount();

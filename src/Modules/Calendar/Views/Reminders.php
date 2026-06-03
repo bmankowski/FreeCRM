@@ -37,7 +37,7 @@ class Reminders  extends \App\Modules\Base\Views\Index
 		}
 		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
-		$permissionToSendEmail = $permission && \App\Core\AppConfig::main('isActiveSendingMails') && \App\Modules\Users\Models\Privileges::isPermitted('OSSMail');
+		$permissionToSendEmail = $permission && \App\Modules\Mail\Models\Module::canUserSend((int) \App\User\CurrentUser::getId());
 		$viewer->assign('COLOR_LIST', array_filter($colorList));
 		$viewer->assign('PERMISSION_TO_SENDE_MAIL', $permissionToSendEmail);
 		$viewer->assign('MODULE_NAME', $moduleName);

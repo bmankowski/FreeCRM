@@ -70,7 +70,7 @@ class TextParser
 	/** @var string[] List of available functions */
 	protected static $baseFunctions = ['general', 'translate', 'record', 'relatedRecord', 'sourceRecord', 'organization', 'employee', 'generator', 'dynamic', 'params', 'custom'];
 
-	/** @var string[] List of source modules */
+	/** @var array<string, string[]> Source module => related modules for template context */
 	public static $sourceModules = [
 		'Campaigns' => ['Leads', 'Accounts', 'Contacts', 'Vendors', 'Partners', 'Competition'],
 		'ProjektyRekrutacyjne' => ['Kandydaci'],

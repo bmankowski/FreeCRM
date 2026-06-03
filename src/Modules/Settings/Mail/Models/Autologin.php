@@ -2,59 +2,23 @@
 
 namespace App\Modules\Settings\Mail\Models;
 
-
-/* +***********************************************************************************************************************************
- * The contents of this file are subject to the YetiForce Public License Version 1.1 (the "License"); you may not use this file except
- * in compliance with the License.
- * Software distributed under the License is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations under the License.
- * The Original Code is YetiForce.
- * The Initial Developer of the Original Code is YetiForce. Portions created by YetiForce are Copyright (C) www.yetiforce.com. 
- * All Rights Reserved.
- * *********************************************************************************************************************************** */
-
 class Autologin
 {
-
-	public function getAccountsList()
+	public function getAccountsList(): array
 	{
-		return (new \App\Db\Query())->from('roundcube_users')
-				->where(['<>', 'password', ''])
-				->all();
+		return [];
 	}
 
-	public function getAutologinUsers($userId)
+	public function getAutologinUsers($userId): array
 	{
-		return (new \App\Db\Query())->select('crmuser_id')
-				->from('roundcube_users_autologin')
-				->where(['rcuser_id' => $userId])
-				->createCommand()->queryColumn();
+		return [];
 	}
 
-	public function updateUsersAutologin($id, $users)
+	public function updateUsersAutologin($id, $users): void
 	{
-		if (!$users) {
-			$users = [];
-		}
-		$db = \App\Db\Db::getInstance();
-		$db->createCommand()->delete('roundcube_users_autologin', ['rcuser_id' => $id])
-			->execute();
-		if (!empty($users)) {
-			$insertData = [];
-			foreach ($users as $user) {
-				$insertData [] = [$id, $user];
-			}
-			$db->createCommand()->batchInsert('roundcube_users_autologin', ['rcuser_id', 'crmuser_id'], $insertData)
-				->execute();
-		}
 	}
 
-	/**
-	 * Function to get instance
-	 * @param boolean true/false
-	 * @return \App\Modules\Settings\Mail\Models\Autologin
-	 */
-	public static function getInstance()
+	public static function getInstance(): self
 	{
 		return new self();
 	}

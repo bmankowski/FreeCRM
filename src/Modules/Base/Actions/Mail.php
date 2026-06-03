@@ -87,25 +87,45 @@ class Mail extends \App\Base\Controllers\BaseActionController
 			$subject = $request->getByType('subject', 'Text');
 			$content = $request->getForHtml('content');
 			$sendEditedContent = $subject !== '' && $content !== '' && count($rows) === 1;
+			$userId = (int) $request->getUser()->getId();
 			foreach ($rows as $row) {
 				if ($sendEditedContent) {
-					$templateDetail = \App\Email\Mail::getTemplete($template);
+					$templateDetail = \App\Email\Mail::getTemplete($template) ?: [];
 					$mailParams = [
 						'template' => $template,
 						'moduleName' => $moduleName,
 						'recordId' => $row['id'],
-						'to' => $row[$field],
+						'field' => $field,
+						'to' => self::normalizeRecipientList($row[$field]),
 						'sourceModule' => $sourceModule,
 						'sourceRecord' => $sourceRecord,
-						'smtp_id' => \App\Email\Mail::resolveTemplateSmtpId($templateDetail),
 						'subject' => $subject,
 						'content' => $content,
+						'body_html' => $content,
 					];
-					if (isset($templateDetail['attachments'])) {
-						$mailParams['attachments'] = $templateDetail['attachments'];
+					$senderRef = (string) $request->get('senderRef');
+					if ($senderRef === '' && (int) $request->get('accountId') > 0) {
+						$senderRef = 'account:' . (int) $request->get('accountId');
 					}
-					\App\Email\Mailer::addMail(array_intersect_key($mailParams, array_flip(\App\Email\Mailer::$quoteColumn)));
-					$result = true;
+					if ($senderRef === '') {
+						$senderRef = \App\Modules\Mail\Models\Module::defaultSenderRefForTemplate($templateDetail, $userId);
+					}
+					if ($senderRef === '' || !\App\Modules\Mail\Models\Module::userCanSendTemplate($userId, $templateDetail)) {
+						\App\Log\Log::warning(
+							'sendMails aborted: missing or invalid sender (senderRef=' . ($senderRef ?: 'empty') . ')',
+							'Mail'
+						);
+						$result = false;
+						break;
+					}
+					try {
+						\App\Modules\Mail\Models\Module::dispatchOutbound($userId, $senderRef, $mailParams, $templateDetail);
+						$result = true;
+					} catch (\Throwable $e) {
+						\App\Log\Log::error('sendMails failed: ' . $e->getMessage(), 'Mail');
+						$result = false;
+						break;
+					}
 				} else {
 					$result = \App\Email\Mailer::sendFromTemplate([
 						'template' => $template,
@@ -193,12 +213,17 @@ class Mail extends \App\Base\Controllers\BaseActionController
 		$subject = $textParser->setContent($template['subject'])->parse()->getContent();
 		$content = $textParser->setContent($template['content'])->parse()->getContent();
 		unset($textParser);
+		$userId = (int) $request->getUser()->getId();
+
 		return [
 			'success' => true,
 			'recordId' => $recordId,
 			'to' => $recipient,
 			'subject' => $subject,
 			'content' => \App\Utils\TemplateStyles::inlineEmailCss($content),
+			'senderType' => \App\Modules\Mail\Models\Module::resolveSenderType($template),
+			'templateSmtpId' => \App\Email\Mail::resolveTemplateSmtpId($template),
+			'defaultSenderRef' => \App\Modules\Mail\Models\Module::defaultSenderRefForTemplate($template, $userId),
 		];
 	}
 
@@ -224,7 +249,7 @@ class Mail extends \App\Base\Controllers\BaseActionController
 	{
 		$moduleName = $request->getModule();
 		$sourceModule = $request->get('sourceModule');
-		if ($sourceModule) {
+		if ($sourceModule && $sourceModule !== $moduleName) {
 			$parentRecordModel = \App\Modules\Base\Models\Record::getInstanceById($request->get('sourceRecord'), $sourceModule);
 			$listView = \App\Modules\Base\Models\RelationListView::getInstance($parentRecordModel, $moduleName);
 		} else {
@@ -263,5 +288,22 @@ class Mail extends \App\Base\Controllers\BaseActionController
 			$queryGenerator->addNativeCondition(['not in', "$baseTableName.$baseTableId" => $excluded]);
 		}
 		return $queryGenerator->createQuery();
+	}
+
+	/**
+	 * @param mixed $recipient
+	 * @return list<string>
+	 */
+	private static function normalizeRecipientList(mixed $recipient): array
+	{
+		if (is_array($recipient)) {
+			return array_values(array_filter(array_map('trim', $recipient)));
+		}
+		$recipient = trim((string) $recipient);
+		if ($recipient === '') {
+			return [];
+		}
+
+		return array_values(array_filter(array_map('trim', explode(',', $recipient))));
 	}
 }

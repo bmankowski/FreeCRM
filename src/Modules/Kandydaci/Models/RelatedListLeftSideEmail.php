@@ -22,7 +22,7 @@ class RelatedListLeftSideEmail
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance('Kandydaci');
 		if (!$moduleModel || !$moduleModel->isPermitted('MassComposeEmail')
 			|| !\App\Core\AppConfig::main('isActiveSendingMails')
-			|| !\App\Email\Mail::getDefaultSmtp()) {
+			|| !\App\Modules\Mail\Models\Module::canUserSend((int) \App\User\CurrentUser::getId())) {
 			return [];
 		}
 		if (!self::recordHasEmail($recordId)) {
@@ -60,8 +60,7 @@ class RelatedListLeftSideEmail
 				return true;
 			}
 		}
-		$mailViewModel = \App\Modules\Base\Models\Record::getCleanInstance('OSSMailView');
 
-		return !empty($mailViewModel->findEmail($recordId, 'Kandydaci'));
+		return false;
 	}
 }

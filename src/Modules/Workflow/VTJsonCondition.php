@@ -16,9 +16,9 @@ class VTJsonCondition {
 
 	/**
 	 * Evaluate
-	 * @param array $condition
+	 * @param string $condition JSON-encoded conditions
 	 * @param \App\Modules\Base\Models\Record $recordModel
-	 * @return string
+	 * @return bool
 	 */
 	public function evaluate($condition, $recordModel)
 	{

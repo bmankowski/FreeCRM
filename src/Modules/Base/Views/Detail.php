@@ -1041,14 +1041,13 @@ class Detail extends \App\Modules\Base\Views\Index
 		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('page', $pageNumber);
 		$pagingModel->set('limit', $limitPage);
-		$config = \App\Modules\OSSMail\Models\Module::getComposeParameters();
 		$histories = \App\Modules\Base\Widgets\HistoryRelation::getHistory($request, $pagingModel);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('RECORD_ID', $request->get('record'));
 		$viewer->assign('HISTORIES', $histories);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
-		$viewer->assign('POPUP', $config['popup']);
+		$viewer->assign('POPUP', false);
 		$viewer->assign('NO_MORE', $request->get('noMore'));
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
 		$viewer->assign('IS_FULLSCREEN', $request->getBoolean('isFullscreen'));

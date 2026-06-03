@@ -120,7 +120,6 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			return \App\Runtime\Vtiger_Language_Handler::translate($value, 'Users');
 		}
 		
-		return $value;
+		return (string) ($value ?? '');
 	}
 }
-

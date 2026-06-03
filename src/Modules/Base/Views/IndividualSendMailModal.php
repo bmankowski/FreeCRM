@@ -10,6 +10,14 @@ namespace App\Modules\Base\Views;
  */
 class IndividualSendMailModal extends SendMailModal
 {
+	public function getModalScripts(\App\Http\Vtiger_Request $request)
+	{
+		return array_merge(
+			parent::getModalScripts($request),
+			$this->checkAndConvertJsScripts(['modules.Mail.resources.SenderPicker'])
+		);
+	}
+
 	/**
 	 * Process function
 	 * @param \App\Http\Vtiger_Request $request
@@ -24,10 +32,19 @@ class IndividualSendMailModal extends SendMailModal
 			$templateModule = $sourceModule;
 		}
 		$records = $this->getRecordsListFromRequest($request);
+		$viewer->assign('FIELD_EMAILS', $this->getFieldEmailDisplayValues($request, $records));
+		$userId = (int) $request->getUser()->getId();
 		$templateList = $this->filterTemplateList(
 			\App\Email\Mail::getTempleteList($templateModule),
 			$this->parseTemplateIdsFromRequest($request)
 		);
+		foreach ($templateList as &$tpl) {
+			$detail = \App\Email\Mail::getTempleteDetail($tpl['id']);
+			$tpl['default_sender_ref'] = $detail
+				? \App\Modules\Mail\Models\Module::defaultSenderRefForTemplate($detail, $userId)
+				: '';
+		}
+		unset($tpl);
 		$viewer->assign('TEMPLATE_MODULE', $templateModule);
 		$viewer->assign('RECORDS', $records);
 		$viewer->assign('FIELDS', $this->fields);
@@ -37,28 +54,86 @@ class IndividualSendMailModal extends SendMailModal
 		$viewer->assign('SOURCE_RECORD', $request->get('sourceRecord'));
 		$viewer->assign('TEMPLETE_LIST', $templateList);
 		$viewer->assign('DEFAULT_SMTP', \App\Email\Mail::getDefaultSmtp());
-		$viewer->assign('INITIAL_PREVIEW', $this->getInitialPreview($request, $records, $templateList));
+		$viewer->assign('MAIL_ACCOUNTS', \App\Modules\Mail\Models\Service::getUserAccounts($userId, true));
+		$viewer->assign('SMTP_LIST', \App\Email\Mail::getAll());
+		$viewer->assign('CAN_SEND_MAIL', \App\Modules\Mail\Models\Module::canUserSend($userId));
+		$initialField = $this->resolveInitialField($request, $records);
+		$viewer->assign('INITIAL_FIELD', $initialField);
+		$viewer->assign('INITIAL_PREVIEW', $this->getInitialPreview($request, $records, $templateList, $initialField));
 		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->view('IndividualSendMailModal.tpl', $moduleName);
 		$this->postProcess($request);
 	}
 
 	/**
-	 * Get initial preview for first available template and email field
-	 * @param \App\Http\Vtiger_Request $request
-	 * @param array $records
-	 * @param array $templateList
-	 * @return array
+	 * @param array<string, int> $records
+	 * @return array<string, string>
 	 */
-	private function getInitialPreview(\App\Http\Vtiger_Request $request, array $records, array $templateList)
+	private function getFieldEmailDisplayValues(\App\Http\Vtiger_Request $request, array $records): array
 	{
-		$field = '';
+		$fieldValues = [];
 		foreach ($this->fields as $fieldName => $fieldModel) {
-			if (!empty($records[$fieldName])) {
-				$field = $fieldName;
-				break;
+			$fieldValues[$fieldName] = [];
+		}
+		$dataReader = $this->getQuery($request)->createCommand()->query();
+		while ($row = $dataReader->read()) {
+			foreach ($this->fields as $fieldName => $fieldModel) {
+				$email = trim((string) ($row[$fieldName] ?? ''));
+				if ($email !== '') {
+					$fieldValues[$fieldName][$email] = true;
+				}
 			}
 		}
+		$display = [];
+		foreach ($this->fields as $fieldName => $fieldModel) {
+			if (($records[$fieldName] ?? 0) !== 1) {
+				continue;
+			}
+			$unique = array_keys($fieldValues[$fieldName]);
+			if (\count($unique) === 1) {
+				$display[$fieldName] = $unique[0];
+			}
+		}
+
+		return $display;
+	}
+
+	private function resolveInitialField(\App\Http\Vtiger_Request $request, array $records): string
+	{
+		$to = strtolower(trim((string) $request->getByType('to', 'Email')));
+		if ($to !== '') {
+			$selectedRaw = $request->get('selected_ids');
+			$selectedIds = \is_array($selectedRaw) ? $selectedRaw : (\App\Utils\Json::decode((string) $selectedRaw) ?: []);
+			if (\is_array($selectedIds) && $selectedIds !== []) {
+				$recordId = (int) reset($selectedIds);
+				if ($recordId > 0) {
+					try {
+						$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, $request->getModule());
+						foreach ($this->fields as $fieldName => $fieldModel) {
+							if (!$fieldModel->isActiveField()) {
+								continue;
+							}
+							$value = strtolower(trim((string) $recordModel->get($fieldName)));
+							if ($value !== '' && $value === $to) {
+								return $fieldName;
+							}
+						}
+					} catch (\Throwable) {
+					}
+				}
+			}
+		}
+		foreach ($this->fields as $fieldName => $fieldModel) {
+			if (!empty($records[$fieldName])) {
+				return $fieldName;
+			}
+		}
+
+		return '';
+	}
+
+	private function getInitialPreview(\App\Http\Vtiger_Request $request, array $records, array $templateList, string $field)
+	{
 		if ($field === '' || empty($templateList[0]['id'])) {
 			return ['success' => false];
 		}
@@ -99,10 +174,15 @@ class IndividualSendMailModal extends SendMailModal
 		$subject = $textParser->setContent($template['subject'])->parse()->getContent();
 		$content = $textParser->setContent($template['content'])->parse()->getContent();
 		unset($textParser);
+		$userId = (int) $request->getUser()->getId();
+
 		return [
 			'success' => true,
 			'subject' => $subject,
 			'content' => \App\Utils\TemplateStyles::inlineEmailCss($content),
+			'senderType' => \App\Modules\Mail\Models\Module::resolveSenderType($template),
+			'templateSmtpId' => \App\Email\Mail::resolveTemplateSmtpId($template),
+			'defaultSenderRef' => \App\Modules\Mail\Models\Module::defaultSenderRefForTemplate($template, $userId),
 		];
 	}
 

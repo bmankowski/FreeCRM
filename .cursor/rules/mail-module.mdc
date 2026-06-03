@@ -1,0 +1,45 @@
+---
+description: "Mail module — credential UI, cron scan, and common pitfalls when editing Mail code"
+globs: ["src/Modules/Mail/**", "src/Modules/Settings/Mail/**", "src/Modules/Settings/MailAccount/**", "layouts/basic/modules/Mail/**", "layouts/basic/modules/Settings/Mail/**", "layouts/basic/modules/Settings/MailAccount/**"]
+alwaysApply: false
+---
+
+# Mail module
+
+Replaces OSSMail/OSSMailScanner/OSSMailView. Messages live in `u_yf_mail_*`; `vtiger_tab` Mail row is `isentitytype=0` (utility module, not CRMEntity).
+
+## Where users configure email
+
+| Who | UI | URL |
+|-----|-----|-----|
+| User (personal IMAP+SMTP) | **Moje ustawienia** → Edytuj → panel **Skrzynka pocztowa** | `index.php?module=Users&view=PreferenceEdit&record=<userId>` |
+| Admin (shared + all accounts) | Settings → **Narzędzia pocztowe** → **Konta pocztowe** | `index.php?parent=Settings&module=MailAccount&view=List` |
+| Admin (system SMTP for templates/workflows) | Settings → **Konfiguracja - SMTP** | `index.php?parent=Settings&module=MailSmtp&view=List` |
+| Admin (outbound queue, manual send) | Settings → **E-maile do wysłania** | `index.php?parent=Settings&module=Mail&view=ListView` — detail **Manual sending** → `SendManuallyAjax` |
+
+Personal mailbox saves via Ajax (`Mail/SavePersonalAccount`, `TestConnection`) — not the main Users Save button. Requires active encryption (`Settings → Hasła - szyfrowanie`).
+
+## Personal account defaults
+
+Org-wide IMAP/SMTP settings (hosts, ports, SSL, inbox/sent folder names) live in **`config/modules/Mail.php`** → `personal_account_defaults`. Per-user only: **username** (fallback `vtiger_users.email1`), **password**, **from_name** (fallback user full name). Never put credentials in config.
+
+Merge via `Account::applyPersonalDefaults($data, $userId)` — used on save, test connection, IMAP scan, and `getPersonalForDisplay()` (mailbox form when account missing or fields empty). Shared accounts (`kind=shared`) skip this.
+
+Cron: `LBL_MAIL_SCAN` → `Mail\Cron\Scanner`; `LBL_MAIL_LOG_PRUNE` → `Mail\Cron\LogPrune`.
+
+## Pitfalls (real bugs from 2026-06)
+
+- **`Mail\Models\Module` must extend `Base\Models\Module`.** Same class name holds static compose helpers; without extend, `Module::getAll()` / global search fatals on `->get()`.
+- **Use `\App\Db\Query`, not `\yii\db\Query`.** Cron (and some CLI) bootstraps without `Yii::$app->db`; raw Yii Query → `getDb() on null`. Same for `Settings/MailAccount`.
+- **No `App\User\User`.** Use `CurrentUser::getId()` or an already-loaded user model's `getId()`.
+- **Smarty mailbox include:** `{include file='PreferenceMailbox.tpl'|@vtemplate_path:'Mail'}` (filename only) — see `smarty-templates.mdc`.
+- **`s_#__mail_queue` (admin connection):** `\App\Db\Db::getInstance('admin')` — `\App\Db::getInstance` is invalid and fatals (`SendManuallyAjax`, `MassSend`). Same send path as cron: `Mailer::sendByRowQueue()`.
+
+Design reference: `documentation/cr-Mail-module.md`.
+
+## Inline images (templates → Gmail)
+
+- Template logos/photos use **data-URI** `<img src="data:…">` in HTML. Browsers and FreeCRM Sent view render them; **Gmail strips raw `data:` URLs**.
+- **`Mail\Smtp\Sender` must call `PHPMailer::msgHTML()`** — not `$mailer->Body = …` — so data URIs become `multipart/related` MIME with `cid:` parts. Legacy `App\Email\Mailer::content()` already did this.
+- PHPMailer `msgHTML()` embeds only **`image/jpeg|gif|png`** data URIs. WebP is not converted at send time.
+- **Sidecars:** company logo and user photo `.base64` files must hold PNG (or jpeg/gif) data URIs. Use `Company::embeddedImageBinaryForDataUri()` when building sidecars; user avatars are stored as **PNG on disk** (`Users\Models\Record::normalizeUploadedUserPhotoFile`, `USER_PHOTO_MIME = image/png`). Legacy WebP files migrate in `writeUserPhotoBase64SidecarForRelativeImage`.

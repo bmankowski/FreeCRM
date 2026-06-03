@@ -28,6 +28,7 @@ alwaysApply: false
 ## Rules when changing cron code
 
 - **Do not use** `App\Db\Db::pquery()` — use `\App\Db\Query` / `createCommand()` (legacy: `PearDatabase::getInstance()`).
+- **Not** `(new \yii\db\Query())` — cron bootstrap has no `Yii::$app->db`; `\App\Db\Query` resolves via `Db::getInstance()`.
 - CLI has no HTTP session — runner sets admin via `Users\Models\Record::setCurrentUserId()`; do not use `$request`.
 - Exceptions are caught and logged; the task still gets `markFinished()` — one failure does not stop the whole cron run.
 - CardDAV/CalDAV: `config/api.php` (`$enableCardDAV`, `$enableCalDAV`) — DAV cron should early-return when disabled.

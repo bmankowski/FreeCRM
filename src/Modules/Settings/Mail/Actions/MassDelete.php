@@ -33,10 +33,12 @@ class MassDelete extends \App\Modules\Base\Actions\Mass
 	 */
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$selectedIds = $request->get('selected_ids');
-		$recordIds = $this->getRecordsListFromRequest($request);
+		$recordIds = \App\Modules\Settings\Mail\Models\ListView::getRecordIdsFromRequest($request);
 		foreach ($recordIds as $recordId) {
 			$recordModel = \App\Modules\Settings\Mail\Models\Record::getInstance($recordId);
+			if (!$recordModel) {
+				continue;
+			}
 			$recordModel->delete();
 		}
 		$response = new \App\Http\Vtiger_Response();

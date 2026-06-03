@@ -3717,7 +3717,7 @@ html,body,.baseContainer
 	height: 50px;
 	padding-right: 0;
 	padding-left: 0;
-	background-color: #4979aa;
+	background-color: #fff;
 }
 .userActionContainer{
 	padding-right: 0;
@@ -3757,9 +3757,11 @@ html,body,.baseContainer
 .userDetails .name{
 	line-height: 18px;
 	font-size: 14.5px;
+	color: #4a5364;
 }
 .userDetails .companyName{
 	font-size: 11px;
+	color: #4a5364;
 }
 .userDetails .name:nth-child(2){
 	font-size: 13px;
@@ -5595,7 +5597,7 @@ select.form-control {
 .tdUnderline{
 	text-decoration: underline;
 }
-#OSSMailBoxInfo{
+#headerMailBoxInfo{
 	position: relative;
 	z-index: 999;
 }

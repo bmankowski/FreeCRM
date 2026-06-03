@@ -537,7 +537,7 @@ class Record extends \App\Runtime\BaseModel
 		$instance = new $modelClassName();
 		$instance->setModuleFromInstance($module);
 		$instance->isNew = true;
-		// Handle modules that don't extend CRMEntity (like OSSMailScanner)
+		// Handle modules that don't extend CRMEntity (utility modules)
 		// Initialize column_fields if it doesn't exist
 		if (!isset($focus->column_fields) || !is_array($focus->column_fields)) {
 			$focus->column_fields = [];

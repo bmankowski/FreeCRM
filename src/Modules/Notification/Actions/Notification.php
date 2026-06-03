@@ -16,16 +16,16 @@ class Notification extends \App\Base\Controllers\BaseActionController
 	{
 		$id = $request->get('id');
 		if (!empty($id)) {
+			/** @var \App\Modules\Notification\Models\Record $notice */
 			$notice = \App\Modules\Notification\Models\Record::getInstanceById($id);
-			$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
-			if ($userPrivilegesModel->getId() != $notice->getUserId()) {
+			if ((int) \App\User\CurrentUser::getId() !== $notice->getUserId()) {
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 			}
 		}
 		$mode = $request->getMode();
 		if ($mode == 'createMessage' && !\App\Modules\Users\Models\Privileges::isPermitted('Notification', 'CreateView')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
-		} elseif ($mode == 'createMail' && (!\App\Modules\Users\Models\Privileges::isPermitted('Notification', 'NotificationCreateMail') || !\App\Core\AppConfig::main('isActiveSendingMails') || !\App\Modules\Users\Models\Privileges::isPermitted('OSSMail'))) {
+		} elseif ($mode == 'createMail' && (!\App\Modules\Users\Models\Privileges::isPermitted('Notification', 'NotificationCreateMail') || !\App\Core\AppConfig::main('isActiveSendingMails') || !\App\Modules\Mail\Models\Module::canUserSend((int) \App\User\CurrentUser::getId()))) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		} elseif (in_array($mode, ['setMark', 'saveWatchingModules']) && !\App\Modules\Users\Models\Privileges::isPermitted('Notification', 'DetailView')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
@@ -60,7 +60,8 @@ class Notification extends \App\Base\Controllers\BaseActionController
 			$ids = [$ids];
 		}
 		foreach ($ids as $id) {
-			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($id);
+			/** @var \App\Modules\Notification\Models\Record $recordModel */
+			$recordModel = \App\Modules\Notification\Models\Record::getInstanceById($id);
 			$recordModel->setMarked();
 		}
 
@@ -93,7 +94,9 @@ class Notification extends \App\Base\Controllers\BaseActionController
 
 	public function createMail(\App\Http\Vtiger_Request $request)
 	{
-		$accessibleUsers = \App\Fields\Owner::getInstance()->getAccessibleUsers();
+		/** @var \App\Fields\Owner $owner */
+		$owner = \App\Fields\Owner::getInstance();
+		$accessibleUsers = $owner->getAccessibleUsers();
 		$content = $request->get('message');
 		$subject = $request->get('title');
 		$users = $request->get('users');

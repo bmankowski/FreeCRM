@@ -13,13 +13,23 @@ namespace App\Modules\Settings\Base\Actions;
  * ********************************************************************************** */
 
 
-class ListAjax extends \App\Modules\Settings\Base\Views\ListViewAjax
+class ListAjax extends \App\Base\Controllers\BaseActionController
 {
 
 	public function __construct()
 	{
 		parent::__construct();
 		$this->exposeMethod('getPageCount');
+		$this->exposeMethod('getRecordsCount');
+	}
+
+	public function process(\App\Http\Vtiger_Request $request)
+	{
+		$mode = $request->get('mode');
+		if (!empty($mode)) {
+			$this->invokeExposedMethod($mode, $request);
+			return;
+		}
 	}
 
 	/**
@@ -43,15 +53,20 @@ class ListAjax extends \App\Modules\Settings\Base\Views\ListViewAjax
 		$response->emit();
 	}
 
-	public function getListViewCount(\App\Http\Vtiger_Request $request)
+	public function getListViewCount(\App\Http\Vtiger_Request $request): int
 	{
 		$qualifiedModuleName = $request->getModule(false);
 		$sourceModule = $request->get('sourceModule');
+		$searchParams = $request->get('searchParams');
 
+		/** @var \App\Modules\Settings\Base\Models\ListView $listViewModel */
 		$listViewModel = \App\Modules\Settings\Base\Models\ListView::getInstance($qualifiedModuleName);
 
 		if (!empty($sourceModule)) {
 			$listViewModel->set('sourceModule', $sourceModule);
+		}
+		if (!empty($searchParams)) {
+			$listViewModel->set('searchParams', $searchParams);
 		}
 
 		return $listViewModel->getListViewCount();

@@ -78,8 +78,8 @@ var Vtiger_Index_Js = {
 		AppConnector.request({
 			dataType: 'html',
 			data: {
-				module: 'OSSMail',
-				action: 'GetMail',
+				module: 'Mail',
+				action: 'GetRecordEmails',
 				sourceModule: module,
 				sourceRecord: record,
 				maxEmails: maxEmails,
@@ -102,6 +102,197 @@ var Vtiger_Index_Js = {
 			aDeferred.reject(error);
 		})
 		return aDeferred.promise();
+	},
+	/**
+	 * Wire preview/send handlers for IndividualSendMailModal (and mass modal when preview section exists).
+	 * @param {jQuery} modalContainer
+	 * @param {Object} postData request base params (module, selected_ids, sourceModule, sourceRecord, to, …)
+	 */
+	registerSendMailModalView: function (modalContainer, postData) {
+		postData = postData || {};
+		var mailSenderPicker = null;
+		var mailForm = modalContainer.find('form.validateForm');
+		var previewSection = modalContainer.find('.js-mail-preview-section');
+		var initMailSenderPicker = function () {
+			if (typeof Mail_SenderPicker_Js === 'undefined') {
+				return null;
+			}
+			var picker = jQuery.extend({}, Mail_SenderPicker_Js);
+			picker.init(modalContainer, {
+				accounts: mailForm.data('mailAccounts') || previewSection.data('mailAccounts') || [],
+				smtpList: mailForm.data('mailSmtpList') || previewSection.data('mailSmtpList') || {}
+			});
+			return picker;
+		};
+		mailSenderPicker = initMailSenderPicker();
+		if (!mailSenderPicker) {
+			modalContainer.one('shown.bs.modal.mailSenderPicker', function () {
+				if (!mailSenderPicker) {
+					mailSenderPicker = initMailSenderPicker();
+				}
+			});
+		}
+		if (previewSection.length) {
+			var mailModule = previewSection.data('mailModule');
+			var mailSelectedIds = previewSection.data('mailSelectedIds');
+			if (mailModule && !postData.module) {
+				postData.module = mailModule;
+			}
+			if (mailSelectedIds !== undefined && postData.selected_ids === undefined) {
+				postData.selected_ids = typeof mailSelectedIds === 'object'
+					? JSON.stringify(mailSelectedIds)
+					: mailSelectedIds;
+			}
+			if (previewSection.data('mailSourceModule') && !postData.sourceModule) {
+				postData.sourceModule = previewSection.data('mailSourceModule');
+			}
+			if (previewSection.data('mailSourceRecord') && !postData.sourceRecord) {
+				postData.sourceRecord = previewSection.data('mailSourceRecord');
+			}
+		}
+		var sourceWarning = modalContainer.find('.js-source-context-warning');
+		var sourceWarningText = modalContainer.find('.js-source-context-warning-text');
+		var saveButton = modalContainer.find('[name="saveButton"]');
+		var subjectInput = modalContainer.find('.js-mail-subject');
+		var contentEditor = modalContainer.find('.js-mail-content');
+		var contentInput = modalContainer.find('.js-mail-content-input');
+		var previewSeq = 0;
+		var updateSourceWarning = function (result) {
+			var hasMissingContext = !!(result && result.missingSourceContext);
+			if (!saveButton.length) {
+				return;
+			}
+			if (hasMissingContext) {
+				if (sourceWarning.length) {
+					sourceWarningText.text(result.warning || 'Ten szablon wymaga kontekstu projektu (sourceRecord).');
+					sourceWarning.removeClass('hide');
+				} else {
+					Vtiger_Helper_Js.showPnotify({
+						text: result.warning || 'Ten szablon wymaga kontekstu projektu (sourceRecord).',
+						type: 'warning'
+					});
+				}
+				saveButton.prop('disabled', true).addClass('disabled');
+			} else {
+				if (sourceWarning.length) {
+					sourceWarning.addClass('hide');
+				}
+				saveButton.prop('disabled', false).removeClass('disabled');
+			}
+		};
+		var syncMailContent = function () {
+			contentInput.val(contentEditor.html());
+		};
+		var loadPreview = function () {
+			if (!previewSection.length) {
+				return;
+			}
+			var seq = ++previewSeq;
+			var previewData = jQuery.extend({}, postData, {
+				field: modalContainer.find('#field').val(),
+				template: modalContainer.find('#template').val(),
+				action: 'Mail',
+				mode: 'previewMail'
+			});
+			delete previewData.view;
+			AppConnector.request(previewData).then(function (previewResponse) {
+				if (seq !== previewSeq) {
+					return;
+				}
+				var result = previewResponse && previewResponse.result ? previewResponse.result : {};
+				if (!result.success) {
+					previewSection.addClass('hide');
+					updateSourceWarning({});
+					return;
+				}
+				subjectInput.val(result.subject || '');
+				contentEditor.html(app.prepareMailEditorContent(result.content || ''));
+				syncMailContent();
+				updateSourceWarning(result);
+				previewSection.removeClass('hide');
+				if (mailSenderPicker) {
+					mailSenderPicker.applyPreviewMeta(result);
+				}
+			}, function (data, err) {
+				if (seq !== previewSeq) {
+					return;
+				}
+				previewSection.addClass('hide');
+				updateSourceWarning({});
+				app.errorLog(data, err);
+			});
+		};
+		modalContainer.find('#field, #template').off('change.mailPreview').on('change.mailPreview', loadPreview);
+		contentEditor.off('input.mailPreview blur.mailPreview').on('input.mailPreview blur.mailPreview', syncMailContent);
+		contentEditor.off('mousedown.mailPreview').on('mousedown.mailPreview', function (e) {
+			if (e.target === contentEditor[0]) {
+				e.preventDefault();
+				app.focusMailEditorStart(contentEditor);
+			}
+		});
+		if (contentEditor.length && contentEditor.html().trim()) {
+			contentEditor.html(app.prepareMailEditorContent(contentEditor.html()));
+			syncMailContent();
+			if (previewSection.length) {
+				updateSourceWarning({
+					missingSourceContext: String(previewSection.data('mailMissingSourceContext')) === '1'
+				});
+				if (mailSenderPicker) {
+					mailSenderPicker.refresh();
+				}
+			}
+		} else {
+			syncMailContent();
+			loadPreview();
+		}
+		modalContainer.find('[name="saveButton"]').off('click.mailSend').on('click.mailSend', function () {
+			if (saveButton.prop('disabled')) {
+				return false;
+			}
+			syncMailContent();
+			if (modalContainer.find('form').validationEngine('validate')) {
+				var sendData = jQuery.extend({}, postData, {
+					field: modalContainer.find('#field').val(),
+					template: modalContainer.find('#template').val(),
+					action: 'Mail',
+					mode: 'sendMails'
+				});
+				if (previewSection.length && !previewSection.hasClass('hide')) {
+					sendData.subject = subjectInput.val();
+					sendData.content = contentEditor.html();
+				}
+				if (mailSenderPicker) {
+					var senderRef = mailSenderPicker.getSenderRef();
+					if (senderRef) {
+						sendData.senderRef = senderRef;
+					}
+				}
+				delete sendData.view;
+				AppConnector.request(sendData).then(function (response) {
+					if (response.result == true) {
+						app.hideModalWindow();
+						Vtiger_Helper_Js.showPnotify({
+							text: app.vtranslate('JS_MAIL_SEND_SUCCESS'),
+							type: 'success',
+							animation: 'show'
+						});
+					} else {
+						Vtiger_Helper_Js.showPnotify({
+							text: app.vtranslate('JS_ERROR'),
+							type: 'error',
+							animation: 'show'
+						});
+					}
+				}, function (data, err) {
+					app.errorLog(data, err);
+					Vtiger_Helper_Js.showPnotify({
+						text: app.vtranslate('JS_ERROR'),
+						type: 'error',
+						animation: 'show'
+					});
+				});
+			}
+		});
 	},
 	/**
 	 * Open SendMailModal and queue template-based emails (detail, list, related list).
@@ -130,6 +321,9 @@ var Vtiger_Index_Js = {
 		if (params.sourceRecord) {
 			postData.sourceRecord = params.sourceRecord;
 		}
+		if (params.to) {
+			postData.to = params.to;
+		}
 		if (params.templateIds !== undefined) {
 			postData.templateIds = typeof params.templateIds === 'object'
 				? JSON.stringify(params.templateIds)
@@ -152,105 +346,7 @@ var Vtiger_Index_Js = {
 				return;
 			}
 			app.showModalWindow(response, function (modalContainer) {
-				var previewSection = modalContainer.find('.js-mail-preview-section');
-				var sourceWarning = modalContainer.find('.js-source-context-warning');
-				var sourceWarningText = modalContainer.find('.js-source-context-warning-text');
-				var saveButton = modalContainer.find('[name="saveButton"]');
-				var subjectInput = modalContainer.find('.js-mail-subject');
-				var contentEditor = modalContainer.find('.js-mail-content');
-				var contentInput = modalContainer.find('.js-mail-content-input');
-				var updateSourceWarning = function (result) {
-					var hasMissingContext = !!(result && result.missingSourceContext);
-					if (!saveButton.length) {
-						return;
-					}
-					if (hasMissingContext) {
-						if (sourceWarning.length) {
-							sourceWarningText.text(result.warning || 'Ten szablon wymaga kontekstu projektu (sourceRecord).');
-							sourceWarning.removeClass('hide');
-						} else {
-							Vtiger_Helper_Js.showPnotify({
-								text: result.warning || 'Ten szablon wymaga kontekstu projektu (sourceRecord).',
-								type: 'warning'
-							});
-						}
-						saveButton.prop('disabled', true).addClass('disabled');
-					} else {
-						if (sourceWarning.length) {
-							sourceWarning.addClass('hide');
-						}
-						saveButton.prop('disabled', false).removeClass('disabled');
-					}
-				};
-				var syncMailContent = function () {
-					contentInput.val(contentEditor.html());
-				};
-				var loadPreview = function () {
-					if (!previewSection.length) {
-						return;
-					}
-					var previewData = jQuery.extend({}, postData, {
-						field: modalContainer.find('#field').val(),
-						template: modalContainer.find('#template').val(),
-						action: 'Mail',
-						mode: 'previewMail'
-					});
-					delete previewData.view;
-					AppConnector.request(previewData).then(function (previewResponse) {
-						var result = previewResponse && previewResponse.result ? previewResponse.result : {};
-						if (!result.success) {
-							previewSection.addClass('hide');
-							updateSourceWarning({});
-							return;
-						}
-						subjectInput.val(result.subject || '');
-						contentEditor.html(app.prepareMailEditorContent(result.content || ''));
-						syncMailContent();
-						updateSourceWarning(result);
-						previewSection.removeClass('hide');
-					}, function (data, err) {
-						previewSection.addClass('hide');
-						updateSourceWarning({});
-						app.errorLog(data, err);
-					});
-				};
-				modalContainer.find('#field, #template').on('change', loadPreview);
-				contentEditor.on('input blur', syncMailContent);
-				contentEditor.on('mousedown', function (e) {
-					if (e.target === contentEditor[0]) {
-						e.preventDefault();
-						app.focusMailEditorStart(contentEditor);
-					}
-				});
-				syncMailContent();
-				loadPreview();
-				modalContainer.find('[name="saveButton"]').click(function (e) {
-					if (saveButton.prop('disabled')) {
-						return false;
-					}
-					syncMailContent();
-					if (modalContainer.find('form').validationEngine('validate')) {
-						var sendData = jQuery.extend({}, postData, {
-							field: modalContainer.find('#field').val(),
-							template: modalContainer.find('#template').val(),
-							action: 'Mail',
-							mode: 'sendMails',
-						});
-						if (previewSection.length && !previewSection.hasClass('hide')) {
-							sendData.subject = subjectInput.val();
-							sendData.content = contentEditor.html();
-						}
-						delete sendData.view;
-						AppConnector.request(sendData).then(function (response) {
-							if (response.result == true) {
-								app.hideModalWindow();
-							}
-						}, function (data, err) {
-							app.hideModalWindow();
-							app.errorLog(data, err);
-						});
-					}
-				});
+				Vtiger_Index_Js.registerSendMailModalView(modalContainer, postData);
 			});
 		}, function (data, err) {
 			progressIndicator.progressIndicator({mode: 'hide'});
@@ -279,22 +375,65 @@ var Vtiger_Index_Js = {
 			Vtiger_Index_Js.triggerSendEmailModal(params);
 		});
 	},
+	parseComposeUrl: function (url) {
+		if (!url) {
+			return null;
+		}
+		var query = url;
+		var qIdx = url.indexOf('?');
+		if (qIdx >= 0) {
+			query = url.substring(qIdx + 1);
+		}
+		var params = {};
+		query.split('&').forEach(function (part) {
+			if (!part) {
+				return;
+			}
+			var eq = part.indexOf('=');
+			var key = eq >= 0 ? part.substring(0, eq) : part;
+			var val = eq >= 0 ? part.substring(eq + 1) : '';
+			try {
+				params[decodeURIComponent(key)] = decodeURIComponent(val.replace(/\+/g, ' '));
+			} catch (e) {
+				params[key] = val;
+			}
+		});
+		return params;
+	},
+	openComposeModal: function (url, sendButton) {
+		var params = Vtiger_Index_Js.parseComposeUrl(url);
+		if (!params || params.module !== 'Mail' || params.view !== 'Compose') {
+			Vtiger_Index_Js.sendMailWindow(url, sendButton ? sendButton.data('popup') : false);
+			return;
+		}
+		var recordModule = params.recordModule || (sendButton && sendButton.data('module')) || params.sourceModule;
+		var recordId = parseInt(params.recordId || (sendButton && sendButton.data('record')) || params.sourceRecord, 10);
+		if (!recordModule || !recordId) {
+			Vtiger_Index_Js.sendMailWindow(url, sendButton ? sendButton.data('popup') : false);
+			return;
+		}
+		Vtiger_Index_Js.triggerSendEmailModal({
+			module: recordModule,
+			selectedIds: [recordId],
+			view: 'IndividualSendMailModal',
+			sourceModule: params.sourceModule || recordModule,
+			sourceRecord: parseInt(params.sourceRecord || recordId, 10),
+			to: params.to || (sendButton && sendButton.data('to')) || ''
+		});
+	},
 	registerMailButtons: function (container) {
 		var thisInstance = this;
 		container.find('.sendMailBtn:not(.mailBtnActive)').each(function (e) {
 			var sendButton = jQuery(this);
 			sendButton.addClass('mailBtnActive');
 			sendButton.click(function (e) {
+				e.preventDefault();
 				e.stopPropagation();
-				var url = sendButton.data("url");
-				var module = sendButton.data("module");
-				var record = sendButton.data("record");
-				var popup = sendButton.data("popup");
-				var toMail = sendButton.data("to");
-				if (toMail) {
-					url += '&to=' + toMail;
+				var url = sendButton.data('url') || sendButton.attr('href');
+				if (sendButton.data('to')) {
+					url += (url.indexOf('?') >= 0 ? '&' : '?') + 'to=' + encodeURIComponent(sendButton.data('to'));
 				}
-				thisInstance.sendMailWindow(url, popup);
+				Vtiger_Index_Js.openComposeModal(url, sendButton);
 			});
 		});
 	},

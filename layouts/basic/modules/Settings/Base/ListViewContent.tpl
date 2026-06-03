@@ -23,6 +23,13 @@
 <input type='hidden' value="{$PAGING_MODEL->getPageLimit()}" id='pageLimit'>
 <input type="hidden" value="{$LISTVIEW_ENTRIES_COUNT}" id="noOfEntries">
 
+<div id="selectAllMsgDiv" class="alert-block msgDiv noprint hide">
+	<strong><a id="selectAllMsg">{"LBL_SELECT_ALL"|t:$QUALIFIED_MODULE}&nbsp;(<span id="totalRecordsCount"></span>)</a></strong>
+</div>
+<div id="deSelectAllMsgDiv" class="alert-block msgDiv noprint hide">
+	<strong><a id="deSelectAllMsg">{"LBL_DESELECT_ALL_RECORDS"|t:$QUALIFIED_MODULE}</a></strong>
+</div>
+
 <div class="listViewEntriesDiv">
 	<span class="listViewLoadingImageBlock hide modal" id="loadingListViewModal">
 		<img class="listViewLoadingImage" src="{vimage_path('loading.gif')}" alt="no-image" title="{'LBL_LOADING'|t}"/>

@@ -43,7 +43,7 @@ class SendMailModal extends BasicModal
 		$viewer = $this->getViewer($request);
 		$templateModule = $moduleName = $request->getModule();
 		$sourceModule = $request->get('sourceModule');
-		if ($sourceModule && isset(\App\TextParser\TextParser::$sourceModules[$sourceModule]) && in_array($moduleName, \App\TextParser\TextParser::$sourceModules[$sourceModule])) {
+		if ($sourceModule && isset(\App\TextParser\TextParser::$sourceModules[$sourceModule]) && is_array(\App\TextParser\TextParser::$sourceModules[$sourceModule]) && in_array($moduleName, \App\TextParser\TextParser::$sourceModules[$sourceModule])) {
 			$templateModule = $sourceModule;
 		}
 		$viewer->assign('TEMPLATE_MODULE', $templateModule);
@@ -90,7 +90,7 @@ class SendMailModal extends BasicModal
 	{
 		$moduleName = $request->getModule();
 		$sourceModule = $request->get('sourceModule');
-		if ($sourceModule) {
+		if ($sourceModule && $sourceModule !== $moduleName) {
 			$parentRecordModel = \App\Modules\Base\Models\Record::getInstanceById($request->get('sourceRecord'), $sourceModule);
 			$listView = \App\Modules\Base\Models\RelationListView::getInstance($parentRecordModel, $moduleName);
 		} else {

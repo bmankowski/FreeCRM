@@ -64,6 +64,9 @@ class PreferenceEdit extends \App\Modules\Base\Views\Edit
 			$viewer->assign('IMAGE_DETAILS', $recordModel->getImageDetails());
 		}
 		$viewer->assign('USER_MODEL', $currentUser);
+		if (!empty($recordId)) {
+			$viewer->assign('PREFERENCE_MAILBOX_URL', $recordModel->getPreferenceMailboxViewUrl());
+		}
 	}
 
 }

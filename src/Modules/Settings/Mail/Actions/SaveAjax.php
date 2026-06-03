@@ -22,7 +22,6 @@ class SaveAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 		parent::__construct();
 		$this->exposeMethod('updateUsers');
 		$this->exposeMethod('updateConfig');
-		$this->exposeMethod('updateSignature');
 		$this->exposeMethod('acceptanceRecord');
 	}
 
@@ -53,18 +52,6 @@ class SaveAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 		$response->emit();
 	}
 
-	public function updateSignature(\App\Http\Vtiger_Request $request)
-	{
-		$val = $request->get('val');
-		\App\Modules\Settings\Mail\Models\Config::updateConfig('signature', $val, 'signature');
-		$response = new \App\Http\Vtiger_Response();
-		$response->setResult([
-			'success' => true,
-			'message' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SAVED_SIGNATURE', $request->getModule(false))
-		]);
-		$response->emit();
-	}
-	
 	public function acceptanceRecord(\App\Http\Vtiger_Request $request)
 	{
 		\App\Modules\Settings\Mail\Models\Config::acceptanceRecord($request->get('id'));

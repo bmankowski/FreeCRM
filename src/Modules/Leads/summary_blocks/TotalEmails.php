@@ -12,7 +12,7 @@ class TotalEmails {
 
 	public $name = 'Total emails';
 	public $sequence = 1;
-	public $reference = 'OSSMailView';
+	public $reference = 'Mail';
 
 	/**
 	 * Function get number of emails

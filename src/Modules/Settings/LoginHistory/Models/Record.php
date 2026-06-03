@@ -63,7 +63,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			case 'status':
 				return \App\Runtime\Vtiger_Language_Handler::translate($this->get($fieldName), 'Settings::Vtiger');
 			default:
-				return $this->get($fieldName);
+				return (string) ($this->get($fieldName) ?? '');
 		}
 	}
 }

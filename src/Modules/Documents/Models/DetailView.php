@@ -16,6 +16,15 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 {
 
 	/**
+	 * @return \App\Modules\Documents\Models\Record
+	 */
+	public function getRecord()
+	{
+		/** @var \App\Modules\Documents\Models\Record */
+		return parent::getRecord();
+	}
+
+	/**
 	 * Function to get the detail view links (links and widgets)
 	 * @param array $linkParams - parameters which will be used to calicaulate the params
 	 * @return array - array of link models in the format as below
@@ -23,8 +32,6 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 	 */
 	public function getDetailViewLinks($linkParams)
 	{
-		$currentUserModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
-
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$recordModel = $this->getRecord();
 
@@ -46,13 +53,13 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 		$linkModelList['DETAILVIEW'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($basicActionLink);
 
 		if ($recordModel->get('filestatus') && $recordModel->get('filename') && $recordModel->get('filelocationtype') === 'I') {
-			if ($currentUserModel->hasModulePermission('OSSMail') && \App\Core\AppConfig::main('isActiveSendingMails')) {
+			if (\App\Core\AppConfig::main('isActiveSendingMails') && \App\Modules\Mail\Models\Module::canUserSend((int) \App\User\CurrentUser::getId())) {
 				$basicActionLink = array(
 					'linktype' => 'DETAILVIEW',
 					'linklabel' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_EMAIL_FILE_AS_ATTACHMENT', 'Documents'),
 					'linkhref' => true,
 					'linktarget' => '_blank',
-					'linkurl' => 'index.php?module=OSSMail&view=compose&type=new&crmModule=Documents&crmRecord=' . $recordModel->getId(),
+					'linkurl' => \App\Modules\Mail\Models\Module::getComposeUrl('Documents', (int) $recordModel->getId()),
 					'linkicon' => 'glyphicon glyphicon-envelope'
 				);
 				$linkModelList['DETAILVIEW'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($basicActionLink);

@@ -28,21 +28,15 @@
 								{if $HISTORY['attachments_exist'] eq 1}
 									&nbsp;<span class="body-icon glyphicon glyphicon-paperclip"></span>
 								{/if}
-								{if !$IS_READ_ONLY && $HISTORY['type'] eq 'OSSMailView'}
+								{if !$IS_READ_ONLY && $HISTORY['type'] eq 'Mail'}
 									<div class="pull-right marginRight10 btn-group" role="group">
-										<button data-url="{$HISTORY['url']|cat:'&noloadlibs=1'}" type="button" title="{"LBL_SHOW_PREVIEW_EMAIL"|t:"OSSMailView"}" class="showModal btn btn-xs btn-default" data-cb="Vtiger_Index_Js.registerMailButtons">
+										<button data-url="{$HISTORY['url']}" type="button" title="{"LBL_SHOW_PREVIEW_EMAIL"|t:"Mail"}" class="showModal btn btn-xs btn-default">
 											<span class="body-icon glyphicon glyphicon-search"></span>
 										</button>
-									{if \App\Core\AppConfig::main('isActiveSendingMails') && \App\Modules\Users\Models\Privileges::isPermitted('OSSMail') && $USER_MODEL->internal_mailer == 1}
-										{assign var=COMPOSE_URL value=OSSMail_Module_Model::getComposeUrl($MODULE_NAME, $RECORD_ID, 'Detail')}
-										<button type="button" class="btn btn-xs btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$HISTORY['id']}&type=reply" data-popup="{$POPUP}" title="{"LBL_REPLY"|t:"OSSMailView"}">
-											<img width="14px" src="{\App\Runtime\Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReply.png')}" alt="{"LBL_REPLY"|t:"OSSMailView"}">
-										</button>
-										<button type="button" class="btn btn-xs btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$HISTORY['id']}&type=replyAll" data-popup="{$POPUP}" title="{"LBL_REPLYALLL"|t:"OSSMailView"}">
-											<img width="14px" src="{\App\Runtime\Yeti_Layout::getLayoutFile('modules/OSSMailView/previewReplyAll.png')}" alt="{"LBL_REPLYALLL"|t:"OSSMailView"}">
-										</button>
-										<button type="button" class="btn btn-xs btn-default sendMailBtn" data-url="{$COMPOSE_URL}&mid={$HISTORY['id']}&type=forward" data-popup="{$POPUP}" title="{"LBL_FORWARD"|t:"OSSMailView"}">
-											<span class="glyphicon glyphicon-share-alt"></span>
+									{if \App\Core\AppConfig::main('isActiveSendingMails') && \App\Modules\Mail\Models\Module::canUserSend($USER_MODEL->getId())}
+										{assign var=COMPOSE_URL value=\App\Modules\Mail\Models\Module::getComposeUrl($MODULE_NAME, $RECORD_ID)}
+										<button type="button" class="btn btn-xs btn-default sendMailBtn" data-url="{$COMPOSE_URL}&replyTo={$HISTORY['id']}" title="{"LBL_COMPOSE"|t:"Mail"}">
+											<span class="glyphicon glyphicon-envelope"></span>
 										</button>
 									{/if}
 									</div>

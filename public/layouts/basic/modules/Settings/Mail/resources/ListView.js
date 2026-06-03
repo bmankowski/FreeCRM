@@ -32,7 +32,7 @@ Settings_Vtiger_ListView_Js("Settings_Mail_ListView_Js", {}, {
 			if (validationResult != true) {
 				var selectedIds = listInstance.readSelectedIds(true);
 				var excludedIds = listInstance.readExcludedIds(true);
-				var cvId = listInstance.getCurrentCvId();
+				var searchParams = listInstance.getParams().searchParams;
 				var message = app.vtranslate('LBL_MASS_DELETE_CONFIRMATION');
 				Vtiger_Helper_Js.showConfirmationBox({'message': message}).then(
 						function (e) {
@@ -41,6 +41,10 @@ Settings_Vtiger_ListView_Js("Settings_Mail_ListView_Js", {}, {
 							params['parent'] = app.getParentModuleName();
 							params['action'] = 'MassDelete';
 							params['selected_ids'] = selectedIds;
+							params['excluded_ids'] = excludedIds;
+							if (searchParams && Object.keys(searchParams).length) {
+								params['searchParams'] = searchParams;
+							}
 							var deleteMessage = app.vtranslate('JS_RECORDS_ARE_GETTING_DELETED');
 							var progressIndicatorElement = jQuery.progressIndicator({
 								'message': deleteMessage,
@@ -152,6 +156,41 @@ Settings_Vtiger_ListView_Js("Settings_Mail_ListView_Js", {}, {
 				);
 			});
 		}
+	},
+	getRecordsCount: function () {
+		var aDeferred = jQuery.Deferred();
+		var recordCountVal = jQuery('#recordsCount').val();
+		if (recordCountVal !== '') {
+			aDeferred.resolve(recordCountVal);
+			return aDeferred.promise();
+		}
+		var totalCount = jQuery('#totalCount').val();
+		if (totalCount !== '') {
+			aDeferred.resolve(totalCount);
+			return aDeferred.promise();
+		}
+		var postData = {
+			module: app.getModuleName(),
+			parent: app.getParentModuleName(),
+			action: 'ListAjax',
+			view: 'ListAjax',
+			mode: 'getRecordsCount'
+		};
+		var searchParams = this.getParams().searchParams;
+		if (searchParams && Object.keys(searchParams).length) {
+			postData.searchParams = searchParams;
+		}
+		AppConnector.request(postData).then(
+				function (data) {
+					var response = JSON.parse(data);
+					jQuery('#recordsCount').val(response.result.count);
+					aDeferred.resolve(response.result.count);
+				},
+				function () {
+					aDeferred.resolve(0);
+				}
+		);
+		return aDeferred.promise();
 	},
 	registerEvents: function () {
 		this._super();

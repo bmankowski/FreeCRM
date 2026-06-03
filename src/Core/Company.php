@@ -69,12 +69,25 @@ class Company extends \App\Runtime\BaseModel
 				$mimeType = 'application/octet-stream';
 			}
 		}
-		$embedded = static::buildLogoEmbeddedBinary($raw, $mimeType, $fileName, $full);
+		$embedded = static::embeddedImageBinaryForDataUri($raw, $mimeType, $full, $fileName);
 		if ($embedded === null) {
 			return false;
 		}
 		$dataUri = 'data:' . $embedded['mime'] . ';base64,' . base64_encode($embedded['binary']);
 		return false !== @file_put_contents(static::getLogoBase64SidecarPath($fileName), $dataUri, LOCK_EX);
+	}
+
+	/**
+	 * Prepare image bytes for inline email/PDF data URIs (WebP → PNG with alpha).
+	 *
+	 * @return array{mime: string, binary: string}|null
+	 */
+	public static function embeddedImageBinaryForDataUri(string $raw, string $mimeType, string $sourcePath = '', string $fileName = ''): ?array
+	{
+		if ($fileName === '' && $sourcePath !== '') {
+			$fileName = basename($sourcePath);
+		}
+		return static::buildLogoEmbeddedBinary($raw, $mimeType, $fileName, $sourcePath);
 	}
 
 	/**

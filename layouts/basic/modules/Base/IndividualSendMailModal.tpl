@@ -7,27 +7,36 @@
 		<h4 class="modal-title">{"LBL_SEND_EMAIL"|t:$MODULE}</h4>
 	</div>
 	<div class="modal-body">
-		<form class="validateForm">
+		<form class="validateForm"
+			data-mail-accounts='{\App\Utils\Json::encode($MAIL_ACCOUNTS)|escape:'html'}'
+			data-mail-smtp-list='{\App\Utils\Json::encode($SMTP_LIST)|escape:'html'}'>
+			<div class="form-group">
+				<label class="control-label" for="template">{'LBL_EMAIL_TEMPLATE'|t}</label>
+				<select class="select2" id="template" data-validation-engine="validate[required]">
+					{foreach item=ROW from=$TEMPLETE_LIST}
+						<option value="{$ROW['id']}"
+							data-sender-type="{$ROW['sender_type']|default:'system_smtp'|escape}"
+							data-smtp-id="{$ROW['smtp_id']|default:''|escape}"
+							data-default-sender-ref="{$ROW['default_sender_ref']|default:''|escape}">{$ROW['name']}</option>
+					{/foreach}
+				</select>
+			</div>
+			<div class="form-group js-mail-sender-picker hide">
+				<label class="control-label" for="mailSender">{"LBL_SEND_FROM"|t:"Mail"}</label>
+				<select class="select2" id="mailSender"></select>
+			</div>
 			<div class="form-group">
 				<label class="control-label" for="field">{'LBL_EMAIL_ADRESS'|t}</label>
 				<select class="select2" id="field" data-validation-engine="validate[required]">
 					{foreach item=COUNT key=NAME from=$RECORDS}
 						{if $NAME != 'all' && $NAME != 'emails' && $COUNT > 0}
-							<option value="{$FIELDS[$NAME]->getName()}">{$FIELDS[$NAME]->getFieldLabel()|t:$MODULE} ({$COUNT})</option>
+							<option value="{$FIELDS[$NAME]->getName()}" {if !empty($INITIAL_FIELD) && $INITIAL_FIELD eq $NAME}selected{/if}>{if !empty($FIELD_EMAILS[$NAME])}{$FIELD_EMAILS[$NAME]|escape}{else}{$FIELDS[$NAME]->getFieldLabel()|t:$MODULE} ({$COUNT}){/if}</option>
 							{assign var=IS_EMAIL value=true}
 						{/if}
 					{/foreach}
 				</select>
 			</div>
-			<div class="form-group">
-				<label class="control-label" for="template">{'LBL_EMAIL_TEMPLATE'|t}</label>
-				<select class="select2" id="template" data-validation-engine="validate[required]">
-					{foreach item=ROW from=$TEMPLETE_LIST}
-						<option value="{$ROW['id']}">{$ROW['name']}</option>
-					{/foreach}
-				</select>
-			</div>
-			<div class="js-mail-preview-section {if empty($INITIAL_PREVIEW['success'])}hide{/if}">
+			<div class="js-mail-preview-section {if empty($INITIAL_PREVIEW['success'])}hide{/if}" data-mail-module="{$MODULE|escape:'html'}" data-mail-selected-ids='{\App\Utils\Json::encode($SELECTED_IDS)|escape:'html'}' data-mail-source-module="{$SOURCE_MODULE|escape:'html'}" data-mail-source-record="{$SOURCE_RECORD|escape:'html'}" data-mail-missing-source-context="{if !empty($INITIAL_PREVIEW['missingSourceContext'])}1{else}0{/if}">
 				<div class="alert alert-warning js-source-context-warning {if empty($INITIAL_PREVIEW['missingSourceContext'])}hide{/if}" role="alert">
 					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>&nbsp;&nbsp;
 					<span class="js-source-context-warning-text">{if !empty($INITIAL_PREVIEW['warning'])}{\App\Modules\Base\Helpers\Util::toSafeHTML($INITIAL_PREVIEW['warning'])}{/if}</span>
@@ -44,7 +53,7 @@
 				</div>
 			</div>
 		</form>
-		{if !$DEFAULT_SMTP}
+		{if !$DEFAULT_SMTP && !$CAN_SEND_MAIL}
 			<div class="alert alert-danger" role="alert">
 				<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>&nbsp;&nbsp;
 				{'ERR_NO_DEFAULT_SMTP'|t}
@@ -57,7 +66,7 @@
 		{/if}
 	</div>
 	<div class="modal-footer">
-		{if $DEFAULT_SMTP && $TEMPLETE_LIST && $IS_EMAIL}
+		{if ($DEFAULT_SMTP || $CAN_SEND_MAIL) && $TEMPLETE_LIST && $IS_EMAIL}
 			<button class="btn btn-success" type="submit" name="saveButton">
 				<strong>{'LBL_SEND'|t}</strong>
 			</button>
@@ -66,104 +75,5 @@
 			<strong>{'LBL_CANCEL'|t}</strong>
 		</button>
 	</div>
-	<script>
-		(function () {
-			var modalContainer = jQuery('.js-mail-preview-section').last().closest('.modal-content');
-			var previewSection = modalContainer.find('.js-mail-preview-section');
-			var sourceWarning = modalContainer.find('.js-source-context-warning');
-			var sourceWarningText = modalContainer.find('.js-source-context-warning-text');
-			var subjectInput = modalContainer.find('.js-mail-subject');
-			var contentEditor = modalContainer.find('.js-mail-content');
-			var contentInput = modalContainer.find('.js-mail-content-input');
-			var saveButton = modalContainer.find('[name="saveButton"]');
-			var updateSourceWarning = function (result) {
-				var hasMissingContext = !!(result && result.missingSourceContext);
-				if (!sourceWarning.length || !saveButton.length) {
-					return;
-				}
-				if (hasMissingContext) {
-					sourceWarningText.text(result.warning || 'Ten szablon wymaga kontekstu projektu (sourceRecord).');
-					sourceWarning.removeClass('hide');
-					saveButton.prop('disabled', true).addClass('disabled');
-				} else {
-					sourceWarning.addClass('hide');
-					saveButton.prop('disabled', false).removeClass('disabled');
-				}
-			};
-			var syncMailContent = function () {
-				contentInput.val(contentEditor.html());
-			};
-			var baseData = {
-				module: '{$MODULE}',
-				selected_ids: '{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($SELECTED_IDS))}',
-				sourceModule: '{$SOURCE_MODULE}',
-				sourceRecord: '{$SOURCE_RECORD}'
-			};
-			var loadPreview = function () {
-				var previewData = jQuery.extend({}, baseData, {
-					field: modalContainer.find('#field').val(),
-					template: modalContainer.find('#template').val(),
-					action: 'Mail',
-					mode: 'previewMail'
-				});
-				AppConnector.request(previewData).then(function (previewResponse) {
-					var result = previewResponse && previewResponse.result ? previewResponse.result : {};
-					if (!result.success) {
-						previewSection.addClass('hide');
-						updateSourceWarning({});
-						return;
-					}
-					subjectInput.val(result.subject || '');
-					contentEditor.html(app.prepareMailEditorContent(result.content || ''));
-					syncMailContent();
-					updateSourceWarning(result);
-					previewSection.removeClass('hide');
-				}, function (data, err) {
-					previewSection.addClass('hide');
-					updateSourceWarning({});
-					app.errorLog(data, err);
-				});
-			};
-			modalContainer.find('#field, #template').on('change', loadPreview);
-			contentEditor.on('input blur', syncMailContent);
-			contentEditor.on('mousedown', function (e) {
-				if (e.target === contentEditor[0]) {
-					e.preventDefault();
-					app.focusMailEditorStart(contentEditor);
-				}
-			});
-			modalContainer.find('[name="saveButton"]').on('click', function () {
-				if (saveButton.prop('disabled')) {
-					return false;
-				}
-				syncMailContent();
-				if (modalContainer.find('form').validationEngine('validate')) {
-					var sendData = jQuery.extend({}, baseData, {
-						field: modalContainer.find('#field').val(),
-						template: modalContainer.find('#template').val(),
-						subject: subjectInput.val(),
-						content: contentEditor.html(),
-						action: 'Mail',
-						mode: 'sendMails'
-					});
-					AppConnector.request(sendData).then(function (response) {
-						if (response.result == true) {
-							app.hideModalWindow();
-						}
-					}, function (data, err) {
-						app.hideModalWindow();
-						app.errorLog(data, err);
-					});
-				}
-			});
-			if (contentEditor.html().trim()) {
-				contentEditor.html(app.prepareMailEditorContent(contentEditor.html()));
-				syncMailContent();
-				updateSourceWarning({ldelim}missingSourceContext: {if !empty($INITIAL_PREVIEW['missingSourceContext'])}true{else}false{/if}{rdelim});
-			} else {
-				loadPreview();
-			}
-		}());
-	</script>
 <!--/layouts/basic/modules/Base/IndividualSendMailModal.tpl -->
 {/strip}

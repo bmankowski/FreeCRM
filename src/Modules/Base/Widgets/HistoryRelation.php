@@ -2,36 +2,19 @@
 
 namespace App\Modules\Base\Widgets;
 
-/**
- * Class for history widget
- * @package YetiForce.Widget
- * @license licenses/License.html
- * @author Tomasz Kur <t.kur@yetiforce.com>
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
- */
-
 class HistoryRelation extends \App\Modules\Base\Widgets\Basic
 {
 
-	/**
-	 * Names od classes that define color
-	 * @var string[] 
-	 */
 	public static $colors = [
 		'ModComments' => 'bgBlue',
-		'OSSMailViewReceived' => 'bgDanger',
-		'OSSMailViewSent' => 'bgGreen',
-		'OSSMailViewInternal' => 'bgBlue',
+		'MailReceived' => 'bgDanger',
+		'MailSent' => 'bgGreen',
 		'Calendar' => 'bgOrange',
 	];
 
-	/**
-	 * Function gets modules name
-	 * @return string[]
-	 */
 	static public function getActions()
 	{
-		$modules = ['ModComments', 'OSSMailView', 'Calendar'];
+		$modules = ['ModComments', 'Mail', 'Calendar'];
 		foreach ($modules as $key => $module) {
 			if (!\App\Security\Privilege::isPermitted($module)) {
 				unset($modules[$key]);
@@ -53,8 +36,7 @@ class HistoryRelation extends \App\Modules\Base\Widgets\Basic
 	{
 		$this->Config['tpl'] = 'HistoryRelation.tpl';
 		$this->Config['url'] = $this->getUrl();
-		$widget = $this->Config;
-		return $widget;
+		return $this->Config;
 	}
 
 	public function getConfigTplName()
@@ -62,15 +44,8 @@ class HistoryRelation extends \App\Modules\Base\Widgets\Basic
 		return 'HistoryRelationConfig';
 	}
 
-	/**
-	 * Function gets records for timeline widget
-	 * @param \App\Http\Vtiger_Request $request
-	 * @param \App\Modules\Base\Models\Paging $pagingModel
-	 * @return array - List of records
-	 */
 	public static function getHistory(\App\Http\Vtiger_Request $request, \App\Modules\Base\Models\Paging $pagingModel)
 	{
-		$db = \App\Db\Db::getInstance();
 		$recordId = $request->get('record');
 		$type = $request->get('type');
 		if (empty($type)) {
@@ -97,19 +72,19 @@ class HistoryRelation extends \App\Modules\Base\Widgets\Basic
 				$row['isGroup'] = false;
 				$row['userModel'] = \App\Modules\Users\Models\Privileges::getInstanceById($row['user']);
 			}
-			$row['class'] = self::$colors[$row['type']];
-			if (strpos($row['type'], 'OSSMailView') !== false) {
-				$row['type'] = 'OSSMailView';
-				$row['url'] = \App\Modules\Base\Models\Module::getInstance('OSSMailView')->getPreviewViewUrl($row['id']);
+			$row['class'] = self::$colors[$row['type']] ?? 'bgBlue';
+			if (strpos((string) $row['type'], 'Mail') === 0) {
+				$row['type'] = 'Mail';
+				$row['url'] = 'index.php?module=Mail&view=Detail&record=' . (int) $row['id'];
 			} else {
 				$row['url'] = \App\Modules\Base\Models\Module::getInstance($row['type'])->getDetailViewUrl($row['id']);
 			}
 			$body = trim(\App\Security\Purifier::purify($row['body']));
 			if (!$request->getBoolean('isFullscreen')) {
-				$body = \vtlib\Functions:: textLength($body, 100);
+				$body = \vtlib\Functions::textLength($body, 100);
 			} else {
 				$body = str_replace(['<p></p>', '<p class="MsoNormal">'], ["\r\n", "\r\n"], \App\Utils\ListViewUtils::decodeHtml(\App\Security\Purifier::purify($body)));
-				$body = nl2br(\vtlib\Functions:: textLength($body, 500), false);
+				$body = nl2br(\vtlib\Functions::textLength($body, 500), false);
 			}
 			$row['body'] = $body;
 			$history[] = $row;
@@ -117,13 +92,6 @@ class HistoryRelation extends \App\Modules\Base\Widgets\Basic
 		return $history;
 	}
 
-	/**
-	 * Function creates database query in order to get records for timeline widget
-	 * @param int $recordId
-	 * @param string $moduleName
-	 * @param array $type
-	 * @return \App\Db\Query()|false
-	 */
 	public static function getQuery($recordId, $moduleName, $type)
 	{
 		$queries = [];
@@ -165,26 +133,38 @@ class HistoryRelation extends \App\Modules\Base\Widgets\Basic
 			\App\Security\PrivilegeQuery::getConditions($query, 'ModComments', false, $recordId);
 			$queries[] = $query;
 		}
-		if (in_array('OSSMailView', $type)) {
+		if (in_array('Mail', $type)) {
 			$query = (new \App\Db\Query())
 				->select([
-					'body' => 'o.content',
-					'attachments_exist',
-					'type' => new \yii\db\Expression('CONCAT(\'OSSMailView\', o.ossmailview_sendtype)'),
-					'id' => 'o.ossmailviewid',
-					'content' => 'o.subject',
-					'user' => 'vtiger_crmentity.smownerid',
-					'time' => 'vtiger_crmentity.createdtime'
+					'body' => 'm.body_text',
+					'attachments_exist' => new \yii\db\Expression('IF(m.has_attachments, 1, 0)'),
+					'type' => new \yii\db\Expression("IF(m.direction = 'out', 'MailSent', 'MailReceived')"),
+					'id' => 'm.id',
+					'content' => 'm.subject',
+					'user' => 'm.sender_user_id',
+					'time' => 'm.date_sent',
 				])
-				->from('vtiger_ossmailview o')
-				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = o.ossmailviewid')
-				->innerJoin('vtiger_ossmailview_relation r', 'r.ossmailviewid = o.ossmailviewid ')
-				->where(['vtiger_crmentity.deleted' => 0])
-				->andWhere(['=', 'r.crmid', $recordId]);
-			\App\Security\PrivilegeQuery::getConditions($query, 'OSSMailView', false, $recordId);
+				->from(['m' => 'u_yf_mail_messages'])
+				->innerJoin(['l' => 'u_yf_mail_record_links'], 'l.message_id = m.id')
+				->where(['l.crm_module' => $moduleName, 'l.crm_record_id' => $recordId]);
+			$user = \App\User\CurrentUser::get();
+			$userId = (int) ($user?->getId() ?? 0);
+			if ($user === null || !$user->isAdminUser()) {
+				$query->leftJoin(['a' => 'u_yf_mail_accounts'], 'a.id = m.account_id')
+					->andWhere([
+						'or',
+						['m.smtp_id' => null, 'a.kind' => 'shared'],
+						['not', ['m.smtp_id' => null]],
+						['and', ['a.kind' => 'personal'], ['a.owner_user_id' => $userId]],
+						['and', ['m.direction' => 'out'], ['m.sender_user_id' => $userId]],
+					]);
+			}
 			$queries[] = $query;
 		}
-		if (count($queries) == 1) {
+		if (count($queries) === 0) {
+			return false;
+		}
+		if (count($queries) === 1) {
 			$sql = reset($queries);
 		} else {
 			$subQuery = reset($queries);
@@ -193,14 +173,9 @@ class HistoryRelation extends \App\Modules\Base\Widgets\Basic
 				if ($index !== 0) {
 					$subQuery->union($query, true);
 				}
-
 				$index++;
 			}
-			if ($subQuery) {
-				$sql = (new \App\Db\Query)->from(['records' => $subQuery]);
-			} else {
-				return false;
-			}
+			$sql = (new \App\Db\Query)->from(['records' => $subQuery]);
 		}
 		return $sql->orderBy(['time' => SORT_DESC]);
 	}

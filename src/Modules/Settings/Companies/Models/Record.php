@@ -130,7 +130,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 				$value = "<img src='{$this->getLogoPath($value)}' class='alignMiddle'/>";
 				break;
 		}
-		return $value;
+		return (string) ($value ?? '');
 	}
 
 	/**

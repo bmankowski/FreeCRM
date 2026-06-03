@@ -6,6 +6,22 @@ This document provides a comprehensive overview of all email sending mechanisms 
 
 FreeCRM implements a sophisticated email system with multiple sending methods, queue management, template processing, and workflow integration. The system supports various email providers, automated workflows, and both manual and scheduled email sending.
 
+### Mail module (user mailboxes)
+
+Since 2026-06, CRM-integrated mail uses the **`Mail`** module (`src/Modules/Mail/`):
+
+| Path | Purpose |
+|------|---------|
+| **Personal accounts** | My Preferences → mailbox block (`PreferenceMailbox.tpl`) |
+| **Shared accounts** | Settings → Mail Accounts |
+| **Inbound** | Cron `LBL_MAIL_SCAN` → IMAP fetch → auto-bind to Kandydaci, Leads, Accounts, Contacts, HelpDesk, SSalesProcesses |
+| **Outbound Path A** | Template `sender_type=user_account` → `Mail\Smtp\Sender` via user's personal/shared account; optional APPEND to Sent |
+| **Outbound Path B** | Template `sender_type=system_smtp` → existing `App\Email\Mailer` + `s_yf_mail_smtp`; message row stored in `u_yf_mail_messages` |
+| **Related list** | “E-maile” tab on bind modules |
+| **Compose** | `index.php?module=Mail&view=Compose&sourceModule=…&sourceRecord=…` |
+
+Legacy OSSMail / OSSMailScanner / OSSMailView / Roundcube stack has been removed.
+
 ## Core Components
 
 ### 1. Mailer Class (`vendor/yetiforce/Mailer.php`)

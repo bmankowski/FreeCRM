@@ -82,7 +82,7 @@ This section **replaces** §6.8 edit rules and Phase 1 acceptance criteria in `f
 
 | Subject | Personal account (`kind='personal'`, owner = self) | Shared account |
 |---------|-----------------------------------------------------|----------------|
-| **Owner user (My Preferences)** | CRUD on: `imap_*`, `smtp_*`, `username`, `password_enc`, `from_name`, `signature_html`, `reply_to_mode`, `reply_to_address`, `append_sent`, `imap_folder_sent` (after TestConnection). Cannot set `active=0` (admin can disable). | Read-only visibility in compose dropdown if listed in `u_yf_mail_account_users`; **no credential access** |
+| **Owner user (My Preferences)** | CRUD on: `imap_*`, `smtp_*`, `username`, `password_enc`, `from_name`, `reply_to_mode`, `reply_to_address`, `append_sent`, `imap_folder_sent` (after TestConnection). Cannot set `active=0` (admin can disable). | Read-only visibility in compose dropdown if listed in `u_yf_mail_account_users`; **no credential access** |
 | **Admin (Settings:MailAccount)** | Full CRUD on all fields including `active`, disable/enable scan | Full CRUD + assign users in `u_yf_mail_account_users` |
 | **Other users** | No access | Send-only if `can_send=1` in ACL table; no credentials |
 
@@ -91,7 +91,7 @@ This section **replaces** §6.8 edit rules and Phase 1 acceptance criteria in `f
 Add a **“Mailbox”** panel to `Users/PreferenceEdit` (and `Settings/Users/Edit` when admin edits another user’s personal mailbox):
 
 - Rendered via `{include file='modules/Mail/PreferenceMailbox.tpl'}` included from `layouts/basic/modules/Users/PreferenceEdit.tpl` (or a small PHP hook in `PreferenceEdit::process()` assigning `$MAIL_ACCOUNT` from `Account::getPersonalForUser($recordId)`).
-- Fields: account display name, IMAP host/port/secure, SMTP host/port/secure, username, password (optional on edit), from name, signature (HTML), append-to-sent checkbox.
+- Fields: account display name, IMAP host/port/secure, SMTP host/port/secure, username, password (optional on edit), from name, append-to-sent checkbox.
 - Buttons: **Test connection** (Ajax → `Mail&action=TestConnection`), **Save** (Ajax → `Mail&action=SavePersonalAccount`).
 - First-time UX: empty state with short explanation + link text “Configure your mailbox to send and receive mail in CRM”.
 - **Activation gate:** account remains `active=0` until TestConnection succeeds at least once; scanner skips inactive accounts.
@@ -132,7 +132,7 @@ Admin **Settings → Mail Accounts** remains the place to manage shared mailboxe
 | `src/Modules/Users/Views/PreferenceEdit.php` | Assign mailbox model; include PreferenceMailbox block | Yes |
 | `layouts/basic/modules/Users/PreferenceEdit.tpl` | Include mailbox panel | Yes |
 | `public/layouts/basic/modules/Users/resources/PreferenceEdit.js` | TestConnection + SavePersonalAccount handlers | Yes |
-| `u_yf_emailtemplates` | Add `sender_type`, `skip_account_signature` columns | Admin templates |
+| `u_yf_emailtemplates` | Add `sender_type` columns | Admin templates |
 | `composer.json` | Add `webklex/php-imap` | Deploy |
 | `user_privileges/moduleHierarchy.php` | Remove OSSMailView relation; add Mail relation config if needed | Internal |
 | `src/Modules/Install/install_schema/data.sql` | Mail module tab, cron, related lists, settings field | Fresh install |
@@ -171,7 +171,7 @@ Admin **Settings → Mail Accounts** remains the place to manage shared mailboxe
 | Item | Change | Observable? |
 |------|--------|-------------|
 | **New tables** | `u_yf_mail_accounts`, `u_yf_mail_account_users`, `u_yf_mail_messages`, `u_yf_mail_attachments`, `u_yf_mail_record_links`, `u_yf_mail_log` | Internal |
-| `u_yf_emailtemplates` | ADD `sender_type ENUM('user_account','system_smtp','any') DEFAULT 'system_smtp'`, ADD `skip_account_signature TINYINT(1) DEFAULT 0` | Template admin |
+| `u_yf_emailtemplates` | ADD `sender_type ENUM('user_account','system_smtp','any') DEFAULT 'system_smtp'` | Template admin |
 | `vtiger_tab` | INSERT `Mail` module; SET `presence=1` on OSSMail, OSSMailScanner, OSSMailView | Module manager |
 | `vtiger_cron_task` | INSERT Mail scanner + log prune; DELETE OSSMailScanner cron rows | Cron admin |
 | `vtiger_relatedlists` | INSERT Mail related list on 6 modules; DELETE OSSMailView related lists | UI |
@@ -318,7 +318,6 @@ CREATE TABLE IF NOT EXISTS u_yf_mail_accounts (
   from_name VARCHAR(120) NULL,
   reply_to_mode ENUM('same_as_from','user_personal','custom') NOT NULL DEFAULT 'same_as_from',
   reply_to_address VARCHAR(190) NULL,
-  signature_html MEDIUMTEXT NULL,
   append_sent TINYINT(1) NOT NULL DEFAULT 1,
   last_uid INT UNSIGNED NOT NULL DEFAULT 0,
   last_scan_at DATETIME NULL,
@@ -354,9 +353,7 @@ CREATE TABLE IF NOT EXISTS u_yf_mail_account_users (
 
 -- 7. Email templates
 ALTER TABLE u_yf_emailtemplates
-  ADD COLUMN IF NOT EXISTS sender_type ENUM('user_account','system_smtp','any') NOT NULL DEFAULT 'system_smtp',
-  ADD COLUMN IF NOT EXISTS skip_account_signature TINYINT(1) NOT NULL DEFAULT 0;
-
+  ADD COLUMN IF NOT EXISTS sender_type ENUM('user_account','system_smtp','any') NOT NULL DEFAULT 'system_smtp';
 -- 8. Module + cron + settings + related lists: use PHP runner tools/migrate/2026_mail_module.php
 --    (insert vtiger_tab, vtiger_cron_task, vtiger_settings_field, vtiger_relatedlists — idempotent)
 ```

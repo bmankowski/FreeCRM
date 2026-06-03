@@ -21,6 +21,10 @@ class RelatedList  extends \App\Modules\Base\Views\Index
 	{
 		$moduleName = $request->getModule();
 		$relatedModuleName = $request->get('relatedModule');
+		if ($relatedModuleName === 'Mail') {
+			$this->processMailRelatedList($request);
+			return;
+		}
 		$parentId = $request->get('record');
 		$label = $request->get('tab_label');
 		$pageNumber = $request->get('page');
@@ -174,41 +178,37 @@ class RelatedList  extends \App\Modules\Base\Views\Index
 	{
 		// Prepare global config and permissions (checked once, not per record)
 		$isActiveSendingMails = \App\Core\AppConfig::main('isActiveSendingMails');
-		$canUseOSSMail = \App\Modules\Users\Models\Privileges::isPermitted('OSSMail');
+		$userId = (int) $userModel->getId();
+		$canSendMail = $isActiveSendingMails && \App\Modules\Mail\Models\Module::canUserSend($userId);
 		$modTrackerUnreviewedCount = \App\Core\AppConfig::module('ModTracker', 'UNREVIEWED_COUNT');
 		$canReviewUpdates = $relatedModuleModel->isPermitted('ReviewingUpdates');
 		$isTrackingEnabled = $relatedModuleModel->isTrackingEnabled();
 		
-		$viewer->assign('CAN_SEND_MAILS', $isActiveSendingMails && $canUseOSSMail);
+		$viewer->assign('CAN_SEND_MAILS', $canSendMail);
 		$viewer->assign('SHOW_MODTRACKER_UNREVIEWED', $modTrackerUnreviewedCount && $canReviewUpdates && $isTrackingEnabled);
 		
-		// Prepare per-record OSSMail URLs
-		$osSMailUrls = [];
-		$internalMailer = $userModel->get('internal_mailer') == 1;
+		$mailComposeUrls = [];
+		$parentModuleName = $parentRecordModel->getModuleName();
 		
 		foreach ($models as $record) {
 			$recordId = $record->getId();
 			$moduleName = $record->getModuleName();
 			
-			if ($isActiveSendingMails && $canUseOSSMail) {
-				if ($internalMailer) {
-					$osSMailUrls[$recordId] = [
-						'type' => 'compose',
-						'url' => \App\Modules\OSSMail\Models\Module::getComposeUrl($moduleName, $recordId, 'Detail', 'new')
-					];
-				} else {
-					$externalUrl = \App\Modules\OSSMail\Models\Module::getExternalUrl($moduleName, $recordId, 'Detail', 'new');
-					if ($externalUrl && $externalUrl != 'mailto:?') {
-						$osSMailUrls[$recordId] = [
-							'type' => 'external',
-							'url' => $externalUrl
-						];
-					}
+			if ($canSendMail) {
+				$email = $this->findFirstEmail($record);
+				if ($email) {
+					$mailComposeUrls[$recordId] = \App\Modules\Mail\Models\Module::getComposeUrl(
+						$parentModuleName,
+						(int) $parentRecordModel->getId(),
+						$email,
+						$moduleName,
+						(int) $recordId
+					);
 				}
 			}
 		}
 		
-		$viewer->assign('OSSMail_URLS', $osSMailUrls);
+		$viewer->assign('MAIL_COMPOSE_URLS', $mailComposeUrls);
 		
 		// Prepare Documents-specific data if related module is Documents
 		$relatedModuleName = $relatedModuleModel->getName();
@@ -221,14 +221,13 @@ class RelatedList  extends \App\Modules\Base\Views\Index
 			$currentActivityLabels = \App\Modules\Calendar\Models\Module::getComponentActivityStateLabel('current');
 		}
 
-		$parentModuleName = $parentRecordModel->getModuleName();
-		$canSendMails = $isActiveSendingMails && $canUseOSSMail;
+		$canSendMails = $canSendMail;
 		$ctx = [
 			'parentModuleName' => $parentModuleName,
 			'relationIsEditable' => $relationIsEditable,
 			'relationIsDeletable' => $relationIsDeletable,
 			'currentActivityLabels' => $currentActivityLabels,
-			'ossMailUrls' => $osSMailUrls,
+			'mailComposeUrls' => $mailComposeUrls,
 			'canSendMails' => $canSendMails,
 		];
 		$linksById = [];
@@ -249,6 +248,34 @@ class RelatedList  extends \App\Modules\Base\Views\Index
 			$imageClasses[$recordId] = \App\Modules\Documents\Models\Record::getFileIconByFileType($record->get('filetype'));
 		}
 		$viewer->assign('RECORD_LEFT_ICON_CLASSES', $imageClasses);
+	}
+
+	protected function processMailRelatedList(\App\Http\Vtiger_Request $request): void
+	{
+		$moduleName = $request->getModule();
+		$parentId = (int) $request->get('record');
+		$userId = (int) $request->getUser()->getId();
+		$entries = \App\Modules\Mail\Models\Service::getMessagesForRecord($moduleName, $parentId, $userId);
+		$viewer = $this->getViewer($request);
+		$viewer->assign('MODULE', $moduleName);
+		$viewer->assign('PARENT_RECORD', $parentId);
+		$viewer->assign('MAIL_ENTRIES', $entries);
+		$viewer->assign('CAN_SEND_MAILS', \App\Core\AppConfig::main('isActiveSendingMails'));
+		$viewer->view('RelatedList.tpl', 'Mail');
+	}
+
+	protected function findFirstEmail(\App\Modules\Base\Models\Record $record): ?string
+	{
+		$moduleModel = $record->getModule();
+		foreach ($moduleModel->getFieldsByType('email') as $fieldName => $fieldModel) {
+			if ($fieldModel->isActiveField()) {
+				$value = trim((string) $record->get($fieldName));
+				if ($value !== '') {
+					return $value;
+				}
+			}
+		}
+		return null;
 	}
 	
 }

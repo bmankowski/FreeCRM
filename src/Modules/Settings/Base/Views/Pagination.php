@@ -8,6 +8,11 @@ namespace App\Modules\Settings\Base\Views;
 
 class Pagination extends \App\Modules\Settings\Base\Views\IndexAjax
 {
+	/** @var array<int|string, \App\Modules\Settings\Base\Models\Record>|null */
+	protected $listViewEntries = null;
+
+	/** @var int|null */
+	protected $listViewCount;
 
 	public function __construct()
 	{
@@ -22,6 +27,8 @@ class Pagination extends \App\Modules\Settings\Base\Views\IndexAjax
 		$searchResult = $request->get('searchResult');
 		$qualifiedModuleName = $request->getModule(false);
 		$sourceModule = $request->get('sourceModule');
+		$forModule = $request->get('formodule');
+		/** @var \App\Modules\Settings\Base\Models\ListView $listViewModel */
 		$listViewModel = \App\Modules\Settings\Base\Models\ListView::getInstance($qualifiedModuleName);
 		if (empty($pageNumber)) {
 			$pageNumber = '1';
@@ -58,10 +65,10 @@ class Pagination extends \App\Modules\Settings\Base\Views\IndexAjax
 		if (!empty($searchResult) && is_array($searchResult)) {
 			$listViewModel->get('query_generator')->addNativeCondition(['vtiger_crmentity.crmid' => $searchResult]);
 		}
-		if (!property_exists($this, 'listViewEntries') || empty($this->listViewEntries)) {
+		if (empty($this->listViewEntries)) {
 			$this->listViewEntries = $listViewModel->getListViewEntries($pagingModel);
 		}
-		if (!property_exists($this, 'listViewCount') || empty($this->listViewCount)) {
+		if (empty($this->listViewCount)) {
 			$this->listViewCount = $listViewModel->getListViewCount();
 		}
 		$noOfEntries = count($this->listViewEntries);
@@ -79,7 +86,12 @@ class Pagination extends \App\Modules\Settings\Base\Views\IndexAjax
 		echo $viewer->view('Pagination.tpl', $qualifiedModuleName, true);
 	}
 
-	public function transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel)
+	/**
+	 * @param array<int|string, mixed> $listSearchParams
+	 * @param \App\Modules\Base\Models\Module|\App\Modules\Settings\Base\Models\Module $moduleModel
+	 * @return array<int|string, mixed>
+	 */
+	public function transferListSearchParamsToFilterCondition(array $listSearchParams, $moduleModel): array
 	{
 		return \App\Modules\Base\Helpers\Util::transferListSearchParamsToFilterCondition($listSearchParams, $moduleModel);
 	}

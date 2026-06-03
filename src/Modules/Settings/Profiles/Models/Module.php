@@ -59,6 +59,6 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 */
 	public static function getNonVisibleModulesList()
 	{
-		return ['ModTracker', 'Users', 'WSAPP', 'Import', 'Home', 'OSSMailScanner'];
+		return ['ModTracker', 'Users', 'WSAPP', 'Import', 'Home'];
 	}
 }

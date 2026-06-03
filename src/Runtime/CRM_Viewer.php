@@ -198,9 +198,6 @@ class CRM_Viewer extends \Smarty
 		$this->registerClass('\App\\Modules\\Users\\Models\\Colors', '\App\\Modules\\Users\\Models\\Colors');
 		$this->registerClass('\App\\Modules\\Settings\\ModuleManager\\Models\\Library', '\App\\Modules\\Settings\\ModuleManager\\Models\\Library');
 		$this->registerClass('App\Modules\Settings\Mail\Models\Config', '\App\\Modules\\Settings\\Mail\\Models\\Config');
-		$this->registerClass('OSSMail_Autologin_Model', '\App\\Modules\\OSSMail\\Models\\Autologin');
-		$this->registerClass('OSSMail_Module_Model', '\App\\Modules\\OSSMail\\Models\\Module');
-		$this->registerClass('OSSMail_Record_Model', '\App\\Modules\\OSSMail\\Models\\Record');
 		$this->registerClass('PBXManager_Record_Model', '\App\\Modules\\PBXManager\\Models\\Record');
 		$this->registerClass('Settings_SMSNotifier_ProviderField_Model', '\App\\Modules\\Settings\\SMSNotifier\\Models\\ProviderField');
 

@@ -25,17 +25,14 @@ class Email extends BaseUiType
 
 	public function getDisplayValue($value, $recordId = false, $recordInstance = false, $rawText = false)
 	{
-		$currentUser = \App\User\CurrentUser::get();
-		$internalMailer = $currentUser->get('internal_mailer');
-		if ($value && !$rawText) {
+		$rawValue = \is_string($value) ? $value : (\is_scalar($value) ? (string) $value : '');
+		if ($rawValue !== '' && !$rawText) {
 			$moduleName = $this->get('field')->getModuleName();
 			$fieldName = $this->get('field')->get('name');
-			$rawValue = $value;
-			$value = \vtlib\Functions:: textLength($value);
-			if ($internalMailer == 1 && \App\Modules\Users\Models\Privileges::isPermitted('OSSMail')) {
-				$url = \App\Modules\OSSMail\Models\Module::getComposeUrl($moduleName, $recordId, 'Detail', 'new');
-				$mailConfig = \App\Modules\OSSMail\Models\Module::getComposeParameters();
-				$value = "<a class=\"cursorPointer sendMailBtn\" data-url=\"$url\" data-module=\"$moduleName\" data-record=\"$recordId\" data-to=\"$rawValue\" data-popup=" . $mailConfig['popup'] . " title=" . \App\Runtime\Vtiger_Language_Handler::translate('LBL_SEND_EMAIL') . ">$value</a>";
+			$value = \vtlib\Functions::textLength($rawValue);
+			if (\App\Core\AppConfig::main('isActiveSendingMails') && $recordId && $moduleName !== 'Users') {
+				$url = \App\Modules\Mail\Models\Module::getComposeUrl($moduleName, (int) $recordId, $rawValue);
+				$value = "<a class=\"cursorPointer sendMailBtn\" href=\"$url\" title=" . \App\Runtime\Vtiger_Language_Handler::translate('LBL_SEND_EMAIL') . ">$value</a>";
 			} else {
 				if ($moduleName == 'Users' && $fieldName == 'user_name') {
 					$value = "<a class='cursorPointer' href='mailto:" . $rawValue . "'>" . $value . "</a>";

@@ -30,34 +30,28 @@ class Relation extends \App\Modules\Base\Models\Relation
 		$destinationModuleName = $sourceModule->get('name');
 		$sourceModuleName = $this->getRelationModuleModel()->get('name');
 
-		if ($destinationModuleName == 'OSSMailView' || $sourceModuleName == 'OSSMailView') {
-			if ($destinationModuleName == 'OSSMailView') {
-				$mailId = $relatedRecordId;
-				$crmid = $sourceRecordId;
-			} else {
-				$mailId = $sourceRecordId;
-				$crmid = $relatedRecordId;
-			}
-			$db = \App\Database\PearDatabase::getInstance();
-			if ($db->delete('vtiger_ossmailview_relation', 'crmid = ? && ossmailviewid = ?', [$crmid, $mailId]) > 0) {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			if ($destinationModuleName == 'ModComments') {
-				 \App\Modules\ModTracker\ModTracker::unLinkRelation($destinationModuleName, $relatedRecordId, $sourceModuleName, $sourceRecordId);
-				return true;
-			}
-			$relationFieldModel = $this->getRelationField();
-			if ($relationFieldModel && $relationFieldModel->isMandatory()) {
-				return false;
-			}
-			$destinationModuleFocus = \App\Core\CRMEntity::getInstance($destinationModuleName);
-			\App\Utils\Utils::DeleteEntity($destinationModuleName, $sourceModuleName, $destinationModuleFocus, $relatedRecordId, $sourceRecordId, $this->get('name'));
-			 \App\Modules\ModTracker\ModTracker::unLinkRelation($destinationModuleName, $relatedRecordId, $sourceModuleName, $sourceRecordId);
+		if ($destinationModuleName === 'Mail' || $sourceModuleName === 'Mail') {
+			$mailId = $destinationModuleName === 'Mail' ? $relatedRecordId : $sourceRecordId;
+			$crmid = $destinationModuleName === 'Mail' ? $sourceRecordId : $relatedRecordId;
+			$crmModule = $destinationModuleName === 'Mail' ? $sourceModuleName : $destinationModuleName;
+			return (bool) \App\Db\Db::getInstance()->createCommand()->delete('u_yf_mail_record_links', [
+				'message_id' => $mailId,
+				'crm_module' => $crmModule,
+				'crm_record_id' => $crmid,
+			])->execute();
+		}
+		if ($destinationModuleName == 'ModComments') {
+			\App\Modules\ModTracker\ModTracker::unLinkRelation($destinationModuleName, $relatedRecordId, $sourceModuleName, $sourceRecordId);
 			return true;
 		}
+		$relationFieldModel = $this->getRelationField();
+		if ($relationFieldModel && $relationFieldModel->isMandatory()) {
+			return false;
+		}
+		$destinationModuleFocus = \App\Core\CRMEntity::getInstance($destinationModuleName);
+		\App\Utils\Utils::DeleteEntity($destinationModuleName, $sourceModuleName, $destinationModuleFocus, $relatedRecordId, $sourceRecordId, $this->get('name'));
+		\App\Modules\ModTracker\ModTracker::unLinkRelation($destinationModuleName, $relatedRecordId, $sourceModuleName, $sourceRecordId);
+		return true;
 	}
 
 	/**

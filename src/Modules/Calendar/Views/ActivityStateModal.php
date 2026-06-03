@@ -19,7 +19,7 @@ class ActivityStateModal  extends \App\Modules\Base\Views\Index
 		$moduleName = $request->getModule();
 		$id = $request->get('record');
 		$recordInstance = \App\Modules\Base\Models\Record::getInstanceById($id, $moduleName);
-		$permissionToSendEmail = \App\Utils\ModuleUtils::isModuleActive('OSSMail') && \App\Modules\Users\Models\Privileges::isPermitted('OSSMail');
+		$permissionToSendEmail = \App\Modules\Mail\Models\Module::canUserSend((int) \App\User\CurrentUser::getId());
 		
 		// Pre-process record to add link_module_name if link exists
 		$linkId = $recordInstance->get('link');

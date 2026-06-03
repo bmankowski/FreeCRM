@@ -136,4 +136,9 @@
 			</div>	
 		{/if}
 	</div>
-	{strip}
+
+			</div>
+		</div>
+{/block}
+<!--/layouts/basic/modules/Settings/Mail/DetailView.tpl -->
+{/strip}

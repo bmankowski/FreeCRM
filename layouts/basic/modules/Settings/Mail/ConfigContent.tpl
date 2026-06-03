@@ -7,58 +7,30 @@
 			&nbsp;{"LBL_MAIL_GENERAL_CONFIGURATION_DESCRIPTION"|t:$QUALIFIED_MODULE}
 		</div>
 	</div>
-	{assign var=ALL_ACTIVEUSER_LIST value=$ALL_ACTIVEUSER_LIST}
-	<ul id="tabs" class="nav nav-tabs nav-justified" data-tabs="tabs">
-		<li class="active"><a href="#configuration" data-toggle="tab">{"LBL_MAIL_ICON_CONFIG"|t:$QUALIFIED_MODULE}</a></li>
-		<li><a href="#signature" data-toggle="tab">{"LBL_SIGNATURE"|t:$QUALIFIED_MODULE}</a></li>
-	</ul>
 	<br />
-	<div class="tab-content">
-		<div class="tab-pane active" id="configuration">
-			{assign var=CONFIG value=$MODULE_MODEL->getConfig('mailIcon')}
-			<div class="col-xs-12">
-				<div class="pull-left pagination-centered">
-					<input class="configCheckbox" type="checkbox" name="showMailIcon" id="showMailIcon" data-type="mailIcon" value="1" {if $CONFIG['showMailIcon']=='true'}checked=""{/if}>
-				</div>
-				<div class="col-md-11 col-sm-10 col-xs-10">
-					<label for="showMailIcon">{"LBL_SHOW_MAIL_ICON"|t:$QUALIFIED_MODULE}</label>
-				</div>
-			</div>
-			<div class="col-xs-12">
-				<div class="pull-left pagination-centered">
-					<input class="configCheckbox" type="checkbox" name="showMailAccounts" id="showMailAccounts" data-type="mailIcon" value="1" {if $CONFIG['showMailAccounts']=='true'}checked=""{/if}>
-				</div>
-				<div class="col-md-11 col-sm-10 col-xs-10">
-					<label for="showMailAccounts">{"LBL_SHOW_MAIL_ACCOUNTS"|t:$QUALIFIED_MODULE}</label>
-				</div>
-			</div>
-			<div class="col-xs-12">
-				<div class="pull-left pagination-centered">
-					<input class="configCheckbox" type="checkbox" name="showNumberUnreadEmails" id="showNumberUnreadEmails" data-type="mailIcon" value="1" {if $CONFIG['showNumberUnreadEmails']=='true'}checked=""{/if}>
-				</div>
-				<div class="col-md-11 col-sm-10 col-xs-10">
-					<label for="showNumberUnreadEmails">{"LBL_NUMBER_UNREAD_EMAILS"|t:$QUALIFIED_MODULE}</label>
-				</div>
-			</div>
+	{assign var=CONFIG value=$MODULE_MODEL->getConfig('mailIcon')}
+	<div class="col-xs-12">
+		<div class="pull-left pagination-centered">
+			<input class="configCheckbox" type="checkbox" name="showMailIcon" id="showMailIcon" data-type="mailIcon" value="1" {if $CONFIG['showMailIcon']=='true'}checked=""{/if}>
 		</div>
-		<div class="tab-pane" id="signature">
-			{assign var=CONFIG_SIGNATURE value=$MODULE_MODEL->getConfig('signature')}
-			<div>
-				<input class="configCheckbox" type="checkbox" name="addSignature" id="addSignature" data-type="signature" value="1" {if $CONFIG_SIGNATURE['addSignature']=='true'}checked=""{/if}>
-				&nbsp;<label for="addSignature">{"LBL_ADD_SIGNATURE"|t:$QUALIFIED_MODULE}</label>
-			</div>
-			<hr />
-			<div class="row">
-				<div class="col-md-12">
-					<textarea id="signatureCkEditor" class="ckEditorSource" name="signature">{$CONFIG_SIGNATURE['signature']}</textarea>
-				</div>
-			</div>
-			<br />
-			<div class="row">
-				<div class="col-md-12">
-					<button class="btn btn-success pull-right"><strong>{"LBL_SAVE"|t:$QUALIFIED_MODULE}</strong></button>
-				</div>
-			</div>
+		<div class="col-md-11 col-sm-10 col-xs-10">
+			<label for="showMailIcon">{"LBL_SHOW_MAIL_ICON"|t:$QUALIFIED_MODULE}</label>
+		</div>
+	</div>
+	<div class="col-xs-12">
+		<div class="pull-left pagination-centered">
+			<input class="configCheckbox" type="checkbox" name="showMailAccounts" id="showMailAccounts" data-type="mailIcon" value="1" {if $CONFIG['showMailAccounts']=='true'}checked=""{/if}>
+		</div>
+		<div class="col-md-11 col-sm-10 col-xs-10">
+			<label for="showMailAccounts">{"LBL_SHOW_MAIL_ACCOUNTS"|t:$QUALIFIED_MODULE}</label>
+		</div>
+	</div>
+	<div class="col-xs-12">
+		<div class="pull-left pagination-centered">
+			<input class="configCheckbox" type="checkbox" name="showNumberUnreadEmails" id="showNumberUnreadEmails" data-type="mailIcon" value="1" {if $CONFIG['showNumberUnreadEmails']=='true'}checked=""{/if}>
+		</div>
+		<div class="col-md-11 col-sm-10 col-xs-10">
+			<label for="showNumberUnreadEmails">{"LBL_NUMBER_UNREAD_EMAILS"|t:$QUALIFIED_MODULE}</label>
 		</div>
 	</div>
 </div>

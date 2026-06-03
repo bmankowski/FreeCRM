@@ -420,7 +420,7 @@ class Module extends \App\Modules\Base\Models\Module
 		$recordModels = [];
 		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		$permission = $userPrivilegesModel->hasModulePermission('Calendar');
-		$permissionToSendEmail = $permission && \App\Core\AppConfig::main('isActiveSendingMails') && \App\Modules\Users\Models\Privileges::isPermitted('OSSMail');
+		$permissionToSendEmail = $permission && \App\Modules\Mail\Models\Module::canUserSend((int) $currentUserModel->getId());
 		if (!empty($activityReminder)) {
 			$currentTime = time();
 			$time = date('Y-m-d H:i:s', strtotime("+$activityReminder seconds", $currentTime));
@@ -446,7 +446,7 @@ class Module extends \App\Modules\Base\Models\Module
 				$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, 'Calendar');
 				$link = $recordModel->get('link');
 				if ($link && $permissionToSendEmail) {
-					$url = "index.php?module=OSSMail&view=compose&mod=" . \App\Records\Record::getType($link) . "&record=$link";
+					$url = \App\Modules\Mail\Models\Module::getComposeUrl(\App\Records\Record::getType($link), (int) $link);
 					$recordModel->set('mailUrl', "<a href='$url' class='btn btn-info' target='_blank'><span class='glyphicon glyphicon-envelope icon-white'></span>&nbsp;&nbsp;" . \App\Runtime\Vtiger_Language_Handler::translate('LBL_SEND_MAIL') . "</a>");
 				}
 				$recordModels[] = $recordModel;

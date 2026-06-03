@@ -1,6 +1,7 @@
 <?php
 namespace App\Email;
-use App\AppConfig;
+
+use PHPMailer\PHPMailer\PHPMailer;
 
 /**
  * Mailer basic class
@@ -23,7 +24,7 @@ class Mailer
 	public static $quoteJsonColumn = ['to', 'cc', 'bcc', 'attachments', 'params'];
 	public static $quoteColumn = ['smtp_id', 'date', 'owner', 'status', 'from', 'subject', 'content', 'to', 'cc', 'bcc', 'attachments', 'priority', 'params', 'source_module', 'source_id'];
 
-	/** @var \PHPMailer PHPMailer instance */
+	/** @var PHPMailer PHPMailer instance */
 	protected $mailer;
 
 	/** @var array SMTP configuration */
@@ -37,7 +38,7 @@ class Mailer
 	 */
 	public function __construct()
 	{
-		$this->mailer = new \PHPMailer();
+		$this->mailer = new PHPMailer(false);
 		if (\App\Core\AppConfig::debug('MAILER_DEBUG')) {
 			$this->mailer->SMTPDebug = 2;
 			$this->mailer->Debugoutput = function($str, $level) {
@@ -175,7 +176,7 @@ class Mailer
 	public function setSmtp()
 	{
 		if (!$this->smtp) {
-			throw new Exceptions\AppException('ERR_NO_SMTP_CONFIGURATION');
+			throw new \App\Exceptions\AppException('ERR_NO_SMTP_CONFIGURATION');
 		}
 		switch ($this->smtp['mailer_type']) {
 			case 'smtp': $this->mailer->isSMTP();
@@ -234,7 +235,7 @@ class Mailer
 	/**
 	 * Creates a message from an HTML string, making modifications for inline images and backgrounds and creates a plain-text version by converting the HTML
 	 * @param text $message
-	 * @see \PHPMailer::MsgHTML()
+	 * @see PHPMailer::msgHTML()
 	 * @return $this mailer object itself
 	 */
 	public function content($message)

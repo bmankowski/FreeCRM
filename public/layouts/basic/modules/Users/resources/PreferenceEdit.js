@@ -5,6 +5,11 @@
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
+ * Contributor(s): YetiForce.com
  *************************************************************************************/
 
-Users_Edit_Js("Users_PreferenceEdit_Js",{},{});
+Users_Edit_Js('Users_PreferenceEdit_Js', {}, {
+	registerEvents: function () {
+		this._super();
+	}
+});

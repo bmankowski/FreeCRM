@@ -34,18 +34,16 @@
 									{/if}
 									<div class="pull-right-md pull-left-sm pull-right-lg">
 										<div class="btn-toolbar">
-											<span class="btn-group ">
-												{foreach item=LINK from=$DETAILVIEW_LINKS['DETAILVIEWBASIC']}	
-													{include file='ButtonLink.tpl'|@vtemplate_path:$MODULE BUTTON_VIEW='detailViewBasic'}
-												{/foreach}
-											</span>
-											{if $DETAILVIEW_LINKS['DETAILVIEW']|@count gt 0}
+											{foreach item=LINK from=$DETAILVIEW_LINKS['DETAILVIEWBASIC']}
 												<span class="btn-group">
-													{foreach item=LINK from=$DETAILVIEW_LINKS['DETAILVIEW']}
-														{include file='ButtonLink.tpl'|@vtemplate_path:$MODULE BUTTON_VIEW='detailView'}
-													{/foreach}
+													{include file='ButtonLink.tpl'|@vtemplate_path:$MODULE BUTTON_VIEW='detailViewBasic'}
 												</span>
-											{/if}
+											{/foreach}
+											{foreach item=LINK from=$DETAILVIEW_LINKS['DETAILVIEW']}
+												<span class="btn-group">
+													{include file='ButtonLink.tpl'|@vtemplate_path:$MODULE BUTTON_VIEW='detailView'}
+												</span>
+											{/foreach}
 										</div>
 									</div>
 								</div>

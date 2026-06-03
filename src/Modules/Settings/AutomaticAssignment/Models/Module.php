@@ -77,7 +77,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 */
 	public static function getSupportedModules()
 	{
-		return \App\Modules\Base\Models\Module::getAll([0], ['SMSNotifier', 'OSSMailView', 'Dashboard', 'ModComments', 'Notification'], true);
+		return \App\Modules\Base\Models\Module::getAll([0], ['SMSNotifier', 'Mail', 'Dashboard', 'ModComments', 'Notification'], true);
 	}
 
 	/**

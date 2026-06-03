@@ -8,6 +8,9 @@ namespace App\Modules\Reports\Views;
 use App\Http\Vtiger_Request;
 class Pagination  extends \App\Modules\Base\Views\Index
 {
+	protected array $listViewHeaders = [];
+	protected array $listViewEntries = [];
+	protected int|false $listViewCount = false;
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
@@ -30,6 +33,9 @@ class Pagination  extends \App\Modules\Base\Views\Index
 		$viewer = $this->getViewer($request);
 		$moduleName = $request->getModule();
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
+		if (!$moduleModel instanceof \App\Modules\Reports\Models\Module) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+		}
 
 		$folders = $moduleModel->getFolders();
 		$listViewModel = new \App\Modules\Reports\Models\ListView();
@@ -46,9 +52,9 @@ class Pagination  extends \App\Modules\Base\Views\Index
 		$listViewModel->set('orderby', $orderBy);
 		$listViewModel->set('sortorder', $sortBy);
 
-		$linkModels = $listViewModel->getListViewLinks(false);
+		$linkModels = $listViewModel->getListViewLinks([]);
 		$pageNumber = $request->get('page');
-		$listViewMassActionModels = $listViewModel->getListViewMassActions(false);
+		$listViewMassActionModels = $listViewModel->getListViewMassActions([]);
 
 		if (empty($pageNumber)) {
 			$pageNumber = '1';

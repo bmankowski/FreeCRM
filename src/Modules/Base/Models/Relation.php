@@ -108,7 +108,10 @@ class Relation extends \App\Runtime\BaseModel
 		if ($this->get('c') === 'Activity History') {
 			return [];
 		}
-		$actions = explode(',', strtolower($this->get('actions')));
+		$actionsValue = $this->get('actions');
+		$actions = ($actionsValue === null || $actionsValue === '')
+			? []
+			: explode(',', strtolower((string) $actionsValue));
 		$this->set('actions', $actions);
 		return $actions;
 	}
@@ -209,7 +212,7 @@ class Relation extends \App\Runtime\BaseModel
 			return self::$cachedInstances[$relKey];
 		}
 		if (($relatedModuleModel->getName() == 'ModComments' && $parentModuleModel->isCommentEnabled()) || $parentModuleModel->getName() == 'Documents') {
-			$relationModelClassName = \App\Core\Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
+			$relationModelClassName = \App\Core\Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->getName());
 			$relationModel = new $relationModelClassName();
 			$relationModel->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
 			if (method_exists($relationModel, 'setExceptionData')) {
@@ -237,7 +240,7 @@ class Relation extends \App\Runtime\BaseModel
 			$row = $query->one();
 		}
 		if ($row) {
-			$relationModelClassName = \App\Core\Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
+			$relationModelClassName = \App\Core\Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->getName());
 			$relationModel = new $relationModelClassName();
 			$relationModel->setData($row)->setParentModuleModel($parentModuleModel)->setRelationModuleModel($relatedModuleModel);
 			self::$cachedInstances[$relKey] = $relationModel;
@@ -287,7 +290,7 @@ class Relation extends \App\Runtime\BaseModel
 		$relatedListFields = [];
 		$relatedModuleModel = $this->getRelationModuleModel();
 		// Get fields from panel
-		foreach (\App\Fields\Field::getFieldsFromRelation($this->getId()) as &$fieldName) {
+		foreach (\App\Fields\Field::getFieldsFromRelation($this->getId()) as $fieldName) {
 			$relatedListFields[$fieldName] = $relatedModuleModel->getFieldByName($fieldName);
 		}
 		if ($relatedListFields) {
@@ -296,15 +299,14 @@ class Relation extends \App\Runtime\BaseModel
 		}
 		$queryGenerator = $this->getQueryGenerator();
 		$entity = $queryGenerator->getEntityModel();
-		if (!empty($entity->relationFields)) {
-			// Get fields from entity model
-			foreach ($entity->relationFields as &$fieldName) {
+		$entityRelationFields = $entity->relationFields ?? [];
+		if ($entityRelationFields !== []) {
+			foreach ($entityRelationFields as $fieldName) {
 				$relatedListFields[$fieldName] = $relatedModuleModel->getFieldByName($fieldName);
 			}
 		} else {
-			// Get fields from default CustomView
 			$queryGenerator->initForDefaultCustomView(true, true);
-			foreach ($queryGenerator->getFields() as &$fieldName) {
+			foreach ($queryGenerator->getFields() as $fieldName) {
 				if ($fieldName !== 'id') {
 					$relatedListFields[$fieldName] = $relatedModuleModel->getFieldByName($fieldName);
 				}
@@ -333,17 +335,17 @@ class Relation extends \App\Runtime\BaseModel
 		$relatedModuleName = $relatedModuleModel->getName();
 		$fieldRel = \App\Fields\Field::getRelatedFieldForModule($relatedModuleName, $parentModuleName);
 		$relatedModelFields = $relatedModuleModel->getFields();
+		$relationField = false;
 		if (isset($fieldRel['fieldid'])) {
-			foreach ($relatedModelFields as &$fieldModel) {
+			foreach ($relatedModelFields as $fieldModel) {
 				if ($fieldModel->getId() === $fieldRel['fieldid']) {
 					$relationField = $fieldModel;
 					break;
 				}
 			}
 		}
-		if (!isset($relationField) || !$relationField) {
-			$relationField = false;
-			foreach ($relatedModelFields as &$fieldModel) {
+		if (!$relationField) {
+			foreach ($relatedModelFields as $fieldModel) {
 				if ($fieldModel->isReferenceField()) {
 					$referenceList = $fieldModel->getReferenceList();
 					if (!empty($referenceList) && in_array($parentModuleName, $referenceList)) {
@@ -362,7 +364,7 @@ class Relation extends \App\Runtime\BaseModel
 	 */
 	public function getDependentsList()
 	{
-		$fieldModel = $this->getRelationField(true);
+		$fieldModel = $this->getRelationField();
 		$queryGenerator = $this->getQueryGenerator();
 		$queryGenerator->addNativeCondition([
 			$fieldModel->getTableName() . '.' . $fieldModel->getColumnName() => $this->get('parentRecord')->getId()
@@ -451,8 +453,14 @@ class Relation extends \App\Runtime\BaseModel
 	public function getEmails()
 	{
 		$queryGenerator = $this->getQueryGenerator();
-		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_ossmailview_relation', 'vtiger_ossmailview_relation.ossmailviewid = vtiger_ossmailview.ossmailviewid']);
-		$queryGenerator->addNativeCondition(['vtiger_ossmailview_relation.crmid' => $this->get('parentRecord')->getId()]);
+		$queryGenerator->addNativeCondition(['1' => 0]);
+	}
+
+	public function getMails()
+	{
+		// Mail messages are loaded via Mail\Models\Service in Base\Views\RelatedList::processMailRelatedList
+		$queryGenerator = $this->getQueryGenerator();
+		$queryGenerator->addNativeCondition(['1' => 0]);
 	}
 
 	/**
@@ -461,8 +469,7 @@ class Relation extends \App\Runtime\BaseModel
 	public function getRecordToMails()
 	{
 		$queryGenerator = $this->getQueryGenerator();
-		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_ossmailview_relation', 'vtiger_ossmailview_relation.crmid = vtiger_crmentity.crmid']);
-		$queryGenerator->addNativeCondition(['vtiger_ossmailview_relation.ossmailviewid' => $this->get('parentRecord')->getId()]);
+		$queryGenerator->addNativeCondition(['1' => 0]);
 	}
 
 	/**
@@ -494,7 +501,7 @@ class Relation extends \App\Runtime\BaseModel
 			->column();
 		$inventoryFields = InventoryField::getInstance($this->get('modulename'))->getFields();
 		$fields = [];
-		foreach ($columns as &$column) {
+		foreach ($columns as $column) {
 			if (!empty($inventoryFields[$column]) && $inventoryFields[$column]->isVisible()) {
 				$fields[$column] = $inventoryFields[$column];
 			}
@@ -523,7 +530,7 @@ class Relation extends \App\Runtime\BaseModel
 
 	public function getListUrl($parentRecordModel)
 	{
-		$url = 'module=' . $this->getParentModuleModel()->get('name') . '&relatedModule=' . $this->get('modulename') .
+		$url = 'module=' . $this->getParentModuleModel()->getName() . '&relatedModule=' . $this->get('modulename') .
 			'&view=Detail&record=' . $parentRecordModel->getId() . '&mode=showRelatedList';
 		if ($this->get('modulename') == 'Calendar') {
 			$url .= '&time=current';
@@ -534,8 +541,8 @@ class Relation extends \App\Runtime\BaseModel
 	public function addRelation($sourceRecordId, $destinationRecordId)
 	{
 		$sourceModule = $this->getParentModuleModel();
-		$sourceModuleName = $sourceModule->get('name');
-		$destinationModuleName = $this->getRelationModuleModel()->get('name');
+		$sourceModuleName = $sourceModule->getName();
+		$destinationModuleName = $this->getRelationModuleModel()->getName();
 		$sourceModuleFocus = \App\Core\CRMEntity::getInstance($sourceModuleName);
 		\App\Utils\Utils::relateEntities($sourceModuleFocus, $sourceModuleName, $sourceRecordId, $destinationModuleName, $destinationRecordId, $this->get('name'));
 	}
@@ -549,50 +556,31 @@ class Relation extends \App\Runtime\BaseModel
 	public function deleteRelation($sourceRecordId, $relatedRecordId)
 	{
 		$sourceModule = $this->getParentModuleModel();
-		$sourceModuleName = $sourceModule->get('name');
-		$destinationModuleName = $this->getRelationModuleModel()->get('name');
+		$sourceModuleName = $sourceModule->getName();
+		$destinationModuleName = $this->getRelationModuleModel()->getName();
 
-		if ($destinationModuleName === 'OSSMailView' || $sourceModuleName === 'OSSMailView') {
-			$moduleName = 'OSSMailView';
-			if ($destinationModuleName === 'OSSMailView') {
-				$destinationModuleName = $sourceModuleName;
-				$mailId = $relatedRecordId;
-				$crmid = $sourceRecordId;
-			} else {
-				$mailId = $sourceRecordId;
-				$crmid = $relatedRecordId;
-			}
-			$data = [
-				'CRMEntity' => \App\Core\CRMEntity::getInstance($destinationModuleName),
-				'sourceModule' => $destinationModuleName,
-				'sourceRecordId' => $crmid,
-				'destinationModule' => $moduleName,
-				'destinationRecordId' => $mailId
-			];
-			$eventHandler = new \App\Events\EventHandler();
-			$eventHandler->setModuleName($destinationModuleName);
-			$eventHandler->setParams($data);
-			$eventHandler->trigger('EntityBeforeUnLink');
-			$query = \App\Db\Db::getInstance()->createCommand()->delete('vtiger_ossmailview_relation', ['crmid' => $crmid, 'ossmailviewid' => $mailId]);
-			if ($query->execute()) {
-				$eventHandler->trigger('EntityAfterUnLink');
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			if ($destinationModuleName === 'ModComments') {
-				\App\Modules\ModTracker\ModTracker::unLinkRelation($sourceModuleName, $sourceRecordId, $destinationModuleName, $relatedRecordId);
-				return true;
-			}
-			$relationFieldModel = $this->getRelationField();
-			if ($relationFieldModel && $relationFieldModel->isMandatory()) {
-				return false;
-			}
-			$destinationModuleFocus = \App\Core\CRMEntity::getInstance($destinationModuleName);
-			\App\Utils\Utils::DeleteEntity($destinationModuleName, $sourceModuleName, $destinationModuleFocus, $relatedRecordId, $sourceRecordId, $this->get('name'));
+		if ($destinationModuleName === 'Mail') {
+			$mailId = $relatedRecordId;
+			$crmid = $sourceRecordId;
+			$crmModule = $sourceModuleName;
+			return (bool) \App\Db\Db::getInstance()->createCommand()->delete('u_yf_mail_record_links', [
+				'message_id' => $mailId,
+				'crm_module' => $crmModule,
+				'crm_record_id' => $crmid,
+			])->execute();
+		}
+
+		if ($destinationModuleName === 'ModComments') {
+			\App\Modules\ModTracker\ModTracker::unLinkRelation($sourceModuleName, $sourceRecordId, $destinationModuleName, $relatedRecordId);
 			return true;
 		}
+		$relationFieldModel = $this->getRelationField();
+		if ($relationFieldModel && $relationFieldModel->isMandatory()) {
+			return false;
+		}
+		$destinationModuleFocus = \App\Core\CRMEntity::getInstance($destinationModuleName);
+		\App\Utils\Utils::DeleteEntity($destinationModuleName, $sourceModuleName, $destinationModuleFocus, $relatedRecordId, $sourceRecordId, $this->get('name'));
+		return true;
 	}
 
 	public function addRelTree($crmid, $tree)
@@ -685,9 +673,9 @@ class Relation extends \App\Runtime\BaseModel
 			\App\Cache\Cache::save('getAllRelations', $cacheName, $relationList);
 		}
 		$relationModels = [];
-		$relationModelClassName = \App\Core\Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->get('name'));
+		$relationModelClassName = \App\Core\Loader::getComponentClassName('Model', 'Relation', $parentModuleModel->getName());
 		$privilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
-		foreach ($relationList as &$row) {
+		foreach ($relationList as $row) {
 			// Skip relation where target module does not exits or is no permitted for view.
 			if ($permissions && !$privilegesModel->hasModuleActionPermission($row['moduleid'], 'DetailView')) {
 				continue;
@@ -900,7 +888,7 @@ class Relation extends \App\Runtime\BaseModel
 	public function updateFavoriteForRecord($action, $data)
 	{
 		$db = \App\Db\Db::getInstance();
-		$moduleName = $this->getParentModuleModel()->get('name');
+		$moduleName = $this->getParentModuleModel()->getName();
 		$result = false;
 		if ('add' === $action) {
 			$result = $db->createCommand()->insert('u_#__favorites', [

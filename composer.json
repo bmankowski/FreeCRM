@@ -41,7 +41,7 @@
 		"ext-xml": "*",
 		"rmccue/requests": ">=1.7",
 		"smarty/smarty": "^4",
-		"phpmailer/phpmailer": ">=v5.2.22",
+		"phpmailer/phpmailer": "^7.0",
 		"ezyang/htmlpurifier": ">=v4.8.0",
 		"symfony/var-dumper": "^7.3",
 		"simshaun/recurr": "^2.2",
@@ -51,7 +51,8 @@
 		"monolog/monolog": "^3.9",
 		"filp/whoops": "^2.18",
 		"giggsey/libphonenumber-for-php": "^9.0",
-		"phpoffice/phpspreadsheet": "^5.7"
+		"phpoffice/phpspreadsheet": "^5.7",
+		"webklex/php-imap": "^5.0"
 	},
 	"archive": {
 		"exclude": [

@@ -159,11 +159,11 @@ class DocumentTemplate extends \App\Runtime\BaseModel
 	public static function getTemplatesByModule($moduleName)
 	{
 
-		$dataReader = (new \App\Db\Query())->from(self::$baseTable)
+		$rows = (new \App\Db\Query())->from(self::$baseTable)
 				->where(['module_name' => $moduleName, 'status' => 1])
-				->createCommand()->query();
+				->all();
 		$templates = [];
-		while ($row = $dataReader->read()) {
+		foreach ($rows as $row) {
 			$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'DocumentTemplate', $moduleName);
 			$pdf = new $handlerClass();
 			$pdf->setData($row);
@@ -180,7 +180,8 @@ class DocumentTemplate extends \App\Runtime\BaseModel
 	 */
 	public static function getInstanceById($recordId, $moduleName = 'Vtiger')
 	{
-		$pdf = \App\Cache\Cache::get('DocumentTemplateModel', $recordId);
+		$cacheKey = (string) $recordId;
+		$pdf = \App\Cache\Cache::get('DocumentTemplateModel', $cacheKey);
 		if ($pdf) {
 			return $pdf;
 		}
@@ -195,13 +196,13 @@ class DocumentTemplate extends \App\Runtime\BaseModel
 		$handlerClass = \App\Core\Loader::getComponentClassName('Model', 'DocumentTemplate', $moduleName);
 		$pdf = new $handlerClass();
 		$pdf->setData($row);
-		\App\Cache\Cache::save('DocumentTemplateModel', $recordId, $pdf);
+		\App\Cache\Cache::save('DocumentTemplateModel', $cacheKey, $pdf);
 		return $pdf;
 	}
 
 	/**
 	 * Function returns valuetype of the field filter
-	 * @return string
+	 * @return string|false
 	 */
 	public function getFieldFilterValueType($fieldname)
 	{
@@ -247,8 +248,8 @@ class DocumentTemplate extends \App\Runtime\BaseModel
 		}
 		$conditionStrategy = new \App\Modules\Workflow\VTJsonCondition();
 		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId);
-		$conditions = htmlspecialchars_decode($this->getRaw('conditions'));
-		$test = $conditionStrategy->evaluate($conditions, $recordModel);
+		$conditions = htmlspecialchars_decode((string) $this->getRaw('conditions'));
+		$test = (bool) $conditionStrategy->evaluate($conditions, $recordModel);
 		\App\Cache\Cache::save(__METHOD__, $key, $test);
 		return $test;
 	}
@@ -271,7 +272,9 @@ class DocumentTemplate extends \App\Runtime\BaseModel
 		} elseif (in_array('Roles:' . $currentUser->getRole(), $permissions)) {
 			return true;
 		} elseif (array_key_exists('Groups', $getTypes)) {
-			$accessibleGroups = array_keys(\App\Fields\Owner::getInstance($this->get('module_name'), $currentUser)->getAccessibleGroupForModule());
+			/** @var \App\Fields\Owner $owner */
+			$owner = \App\Fields\Owner::getInstance($this->get('module_name'), $currentUser);
+			$accessibleGroups = array_keys($owner->getAccessibleGroupForModule());
 			$groups = array_intersect($getTypes['Groups'], $currentUser->getGroups());
 			if (array_intersect($groups, $accessibleGroups)) {
 				return true;
@@ -310,7 +313,9 @@ class DocumentTemplate extends \App\Runtime\BaseModel
 		}
 
 		// metadata
-		$companyDetails = \App\Core\Company::getInstanceById()->getData();
+		/** @var \App\Core\Company $company */
+		$company = \App\Core\Company::getInstanceById();
+		$companyDetails = $company->getData();
 		$organizationName = $companyDetails['organizationname'] ?? '';
 		if ($this->get('metatags_status') == 0) {
 			$parameters['title'] = $this->get('meta_title');
@@ -388,6 +393,7 @@ class DocumentTemplate extends \App\Runtime\BaseModel
 		if ($raw) {
 			return $this->get('header_content');
 		}
+		/** @var \App\TextParser\TextParser $textParser */
 		$textParser = \App\TextParser\TextParser::getInstanceById($this->getMainRecordId(), $this->get('module_name'));
 		$textParser->setType('pdf');
 		$textParser->setParams($this->getTextParserParams());
@@ -407,6 +413,7 @@ class DocumentTemplate extends \App\Runtime\BaseModel
 		if ($raw) {
 			return $this->get('footer_content');
 		}
+		/** @var \App\TextParser\TextParser $textParser */
 		$textParser = \App\TextParser\TextParser::getInstanceById($this->getMainRecordId(), $this->get('module_name'));
 		$textParser->setType('pdf');
 		$textParser->setParams($this->getTextParserParams());
@@ -426,6 +433,7 @@ class DocumentTemplate extends \App\Runtime\BaseModel
 		if ($raw) {
 			return $this->get('body_content');
 		}
+		/** @var \App\TextParser\TextParser $textParser */
 		$textParser = \App\TextParser\TextParser::getInstanceById($this->getMainRecordId(), $this->get('module_name'));
 		$textParser->setType('pdf');
 		$textParser->setParams($this->getTextParserParams());
@@ -448,6 +456,7 @@ class DocumentTemplate extends \App\Runtime\BaseModel
 		if (isset($this->recordCache[$cacheKey])) {
 			return $this->recordCache[$cacheKey];
 		}
+		/** @var \App\TextParser\TextParser $textParser */
 		$textParser = \App\TextParser\TextParser::getInstanceById($this->getMainRecordId(), $this->get('module_name'));
 		$textParser->setType('pdf');
 		$textParser->setParams(['pdf' => $this]);
@@ -484,14 +493,14 @@ class DocumentTemplate extends \App\Runtime\BaseModel
 
 	public static function attachToEmail($salt)
 	{
-		header('Location: index.php?module=OSSMail&view=compose&pdf_path=' . $salt);
+		header('Location: index.php?module=Mail&view=Compose&pdf_path=' . urlencode($salt));
 	}
 
 	public static function zipAndDownload(array $fileNames)
 	{
 
 		//create the object
-		$zip = new ZipArchive();
+		$zip = new \ZipArchive();
 
 		mt_srand(time());
 		$postfix = time() . '_' . mt_rand(0, 1000);
@@ -500,7 +509,7 @@ class DocumentTemplate extends \App\Runtime\BaseModel
 		$fileName = $zipPath . $zipName;
 
 		//create the file and throw the error if unsuccessful
-		if ($zip->open($zipPath . $zipName, ZIPARCHIVE::CREATE) !== true) {
+		if ($zip->open($zipPath . $zipName, \ZipArchive::CREATE) !== true) {
 			\App\Log\Log::error("cannot open <$zipPath.$zipName>\n");
 			throw new \App\Exceptions\NoPermitted("cannot open <$zipPath.$zipName>");
 		}

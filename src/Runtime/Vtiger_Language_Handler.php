@@ -191,8 +191,7 @@ class Vtiger_Language_Handler
 					\App\Log\Log::error(sprintf('Invalid JSON in language file: %s (error: %s)', $file, json_last_error_msg()));
 				}
 			} else {
-				// Only log warning if module is not empty (empty module warnings are expected for common strings)
-				if (!empty($module)) {
+				if (!empty($module) && \App\Utils\ModuleUtils::isModuleActive($module)) {
 					\App\Log\Log::warning(sprintf('Language file does not exist, module: %s ,language: %s', $module, $language));
 				}
 			}

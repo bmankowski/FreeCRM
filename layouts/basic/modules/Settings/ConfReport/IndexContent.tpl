@@ -25,9 +25,6 @@ FreeCRM - Customer Relationship Management System
 		<ul class="nav nav-tabs">
 			<li class="active"><a data-toggle="tab" href="#Configuration">{"LBL_YETIFORCE_ENGINE"|t:$MODULE}</a></li>
 			<li><a data-toggle="tab" href="#Permissions">{"LBL_FILES_PERMISSIONS"|t:$MODULE}</a></li>
-			{if $ACTIVE_MODULES.OSSMail}
-				<li><a href="#check_config" data-toggle="tab">{"LBL_CHECK_CONFIG"|t:$MODULE}</a></li>
-			{/if}
 		</ul>
 		<div class="tab-content">
 			<div id="Configuration" class="tab-pane fade in active">
@@ -181,13 +178,6 @@ FreeCRM - Customer Relationship Management System
 				</table>
 
 			</div>
-			{* check config module *}
-			{if $ACTIVE_MODULES.OSSMail}
-				<div class='editViewContainer tab-pane' id="check_config">
-					<iframe id="roundcube_interface" style="width: 100%; min-height: 590px;" src="{$CCURL}" frameborder="0">
-					</iframe>
-				</div>
-			{/if}
 		</div>
 	</div>
 	<!--/layouts/basic/modules/Settings/ConfReport/IndexContent.tpl -->

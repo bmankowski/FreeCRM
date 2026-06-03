@@ -132,6 +132,11 @@ class Record extends \App\Modules\Base\Models\Record
 		return 'index.php?module=' . $this->getModuleName() . '&view=PreferenceEdit&record=' . $this->getId();
 	}
 
+	public function getPreferenceMailboxViewUrl(): string
+	{
+		return 'index.php?module=' . $this->getModuleName() . '&view=PreferenceMailbox&record=' . $this->getId();
+	}
+
 	/**
 	 * Function to get the Delete Action url for the record
 	 * @return string - Record Delete Action Url
@@ -708,10 +713,10 @@ class Record extends \App\Modules\Base\Models\Record
 
 	public const USER_PHOTO_SIZE = 300;
 
-	public const USER_PHOTO_MIME = 'image/webp';
+	public const USER_PHOTO_MIME = 'image/png';
 
 	/**
-	 * Resize and convert an uploaded user avatar to 300×300 WebP via ImageMagick (`convert`).
+	 * Resize and convert an uploaded user avatar to 300×300 PNG via ImageMagick (`convert`).
 	 *
 	 * @return array{absolutePath: string, displayName: string, mimeType: string}|null
 	 */
@@ -731,11 +736,11 @@ class Record extends \App\Modules\Base\Models\Record
 			$prefix = substr($fileBase, 0, $underscorePos + 1);
 			$displayName = substr($fileBase, $underscorePos + 1);
 		}
-		$webpDisplayName = pathinfo($displayName, PATHINFO_FILENAME) . '.webp';
-		$targetPath = $dir . '/' . $prefix . $webpDisplayName;
+		$pngDisplayName = pathinfo($displayName, PATHINFO_FILENAME) . '.png';
+		$targetPath = $dir . '/' . $prefix . $pngDisplayName;
 		$size = self::USER_PHOTO_SIZE;
 		$cmd = sprintf(
-			'convert %s -auto-orient -thumbnail %dx%d^ -gravity center -extent %dx%d -quality 85 %s 2>&1',
+			'convert %s -auto-orient -thumbnail %dx%d^ -gravity center -extent %dx%d PNG:%s 2>&1',
 			escapeshellarg($absoluteFilePath),
 			$size,
 			$size,
@@ -747,7 +752,7 @@ class Record extends \App\Modules\Base\Models\Record
 		$exitCode = 0;
 		exec($cmd, $output, $exitCode);
 		if ($exitCode !== 0 || !is_file($targetPath)) {
-			\App\Log\Log::error('User photo WebP conversion failed: ' . implode("\n", $output));
+			\App\Log\Log::error('User photo PNG conversion failed: ' . implode("\n", $output));
 			return null;
 		}
 		if ($targetPath !== $absoluteFilePath) {
@@ -755,7 +760,7 @@ class Record extends \App\Modules\Base\Models\Record
 		}
 		return [
 			'absolutePath' => $targetPath,
-			'displayName' => $webpDisplayName,
+			'displayName' => $pngDisplayName,
 			'mimeType' => self::USER_PHOTO_MIME,
 		];
 	}
@@ -819,9 +824,41 @@ class Record extends \App\Modules\Base\Models\Record
 				$mimeType = 'application/octet-stream';
 			}
 		}
-		$dataUri = 'data:' . $mimeType . ';base64,' . base64_encode($raw);
+		$embedded = \App\Core\Company::embeddedImageBinaryForDataUri($raw, $mimeType, $full, basename($full));
+		if ($embedded === null) {
+			return false;
+		}
+		$isWebpSource = $mimeType === 'image/webp' || preg_match('/\.webp$/i', basename($full));
+		if ($isWebpSource && $embedded['mime'] === 'image/png') {
+			$pngRelative = preg_replace('/\.webp$/i', '.png', $relativeImagePath);
+			$pngFull = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, ltrim($pngRelative, '/'));
+			if (@file_put_contents($pngFull, $embedded['binary'], LOCK_EX) === false) {
+				return false;
+			}
+			@unlink($full);
+			@unlink($full . self::getUserPhotoBase64SidecarSuffix());
+			self::updateUserPhotoAttachmentAfterPngConversion($relativeImagePath, $pngRelative);
+			$full = $pngFull;
+		}
+		$dataUri = 'data:' . $embedded['mime'] . ';base64,' . base64_encode($embedded['binary']);
 		$sidecarFull = $full . self::getUserPhotoBase64SidecarSuffix();
 		return false !== @file_put_contents($sidecarFull, $dataUri, LOCK_EX);
+	}
+
+	private static function updateUserPhotoAttachmentAfterPngConversion(string $oldRelativePath, string $newRelativePath): void
+	{
+		$fileBase = basename($oldRelativePath);
+		if (!preg_match('/^(\d+)_(.+)$/', $fileBase, $m)) {
+			return;
+		}
+		$newOrgName = basename($newRelativePath);
+		if (preg_match('/^\d+_(.+)$/', $newOrgName, $newMatch)) {
+			$newOrgName = $newMatch[1];
+		}
+		\App\Db\Db::getInstance()->createCommand()->update('vtiger_attachments', [
+			'name' => $newOrgName,
+			'type' => self::USER_PHOTO_MIME,
+		], ['attachmentsid' => (int) $m[1]])->execute();
 	}
 
 	/**
@@ -839,7 +876,10 @@ class Record extends \App\Modules\Base\Models\Record
 		if (is_readable($sidecarFull)) {
 			$dataUri = trim((string) @file_get_contents($sidecarFull));
 		}
-		if ($dataUri === '' || strpos($dataUri, 'data:') !== 0) {
+		$needsRegenerate = $dataUri === ''
+			|| strpos($dataUri, 'data:') !== 0
+			|| stripos($dataUri, 'data:image/webp') === 0;
+		if ($needsRegenerate) {
 			$mime = 'image/jpeg';
 			try {
 				$mime = \App\Fields\File::loadFromPath($full)->getMimeType();
@@ -847,6 +887,9 @@ class Record extends \App\Modules\Base\Models\Record
 				// keep default
 			}
 			self::writeUserPhotoBase64SidecarForRelativeImage($rel, $mime);
+			$rel = $this->getAttachedImageRelativePath() ?? $rel;
+			$full = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, ltrim(str_replace('\\', '/', $rel), '/'));
+			$sidecarFull = $full . self::getUserPhotoBase64SidecarSuffix();
 			if (is_readable($sidecarFull)) {
 				$dataUri = trim((string) @file_get_contents($sidecarFull));
 			}

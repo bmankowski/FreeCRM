@@ -81,6 +81,7 @@ class PreferenceDetail extends \App\Modules\Base\Views\Detail
 
 		$viewer->assign('DAY_STARTS', \App\Utils\Json::encode($dayStartPicklistValues));
 		$viewer->assign('IMAGE_DETAILS', $recordModel->getImageDetails());
+		$viewer->assign('NO_PAGINATION', true);
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)

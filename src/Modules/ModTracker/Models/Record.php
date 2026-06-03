@@ -128,9 +128,8 @@ class Record extends \App\Modules\Base\Models\Record
 			->where(['crmid' => $recordsId])
 			->andWhere(['<>', 'status', self::DISPLAYED]);
 		if ($sort) {
-			$query->addSelect('vtiger_ossmailview.type');
+			$query->addSelect(['targetmodule' => 'vtiger_modtracker_relations.targetmodule']);
 			$query->leftJoin('vtiger_modtracker_relations', 'vtiger_modtracker_basic.id = vtiger_modtracker_relations.id');
-			$query->leftJoin('vtiger_ossmailview', 'vtiger_modtracker_relations.targetid = vtiger_ossmailview.ossmailviewid');
 			$query->orderBy('vtiger_modtracker_basic.crmid ,vtiger_modtracker_basic.id DESC');
 		}
 		$dataReader = $query->createCommand()->query();
@@ -146,9 +145,9 @@ class Record extends \App\Modules\Base\Models\Record
 				if (strpos($row['u'], "#$userId#") !== false) {
 					break;
 				}
-				if ($row['type'] === 1) {
+				if (in_array($row['targetmodule'] ?? null, ['Mail', 'OSSMailView'], true)) {
 					++$mails;
-				} elseif ($row['type'] !== 0) {
+				} else {
 					++$all;
 				}
 			}
@@ -203,7 +202,7 @@ class Record extends \App\Modules\Base\Models\Record
 		switch ($moduleName) {
 			case 'Documents': $action = 'action=DownloadFile';
 				break;
-			case 'OSSMailView': $action = 'view=preview';
+			case 'Mail': $action = 'view=Detail';
 				break;
 			default: $action = 'view=Detail';
 				break;
@@ -437,8 +436,8 @@ class Record extends \App\Modules\Base\Models\Record
 		}
 		foreach ($data as $id => &$type) {
 			$type['color'] = $colors[$type['type']];
-			if (strpos($type['type'], 'OSSMailView') !== false) {
-				$type['type'] = 'OSSMailView';
+			if (strpos($type['type'], 'Mail') === 0) {
+				$type['type'] = 'Mail';
 			}
 		}
 		return $data;

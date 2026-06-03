@@ -22,7 +22,7 @@ class SaveAjax extends \App\Modules\Settings\Base\Actions\Index
 		$url = $request->get('url');
 		$pass = $request->get('pass');
 		$accounts = $request->get('accounts');
-		$db = \App\Db::getInstance('webservice');
+		$db = \App\Db\Db::getInstance('webservice');
 		if (empty($id)) {
 			$type = $request->get('type');
 			$key = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, $keyLength);

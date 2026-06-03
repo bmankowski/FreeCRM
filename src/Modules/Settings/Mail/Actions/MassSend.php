@@ -32,8 +32,7 @@ class MassSend extends \App\Modules\Base\Actions\Mass
 	 */
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		$selectedIds = $request->get('selected_ids');
-		$recordIds = $this->getRecordsListFromRequest($request);
+		$recordIds = \App\Modules\Settings\Mail\Models\ListView::getRecordIdsFromRequest($request);
 		$db = \App\Db\Db::getInstance('admin');
 		$dataReader = (new \App\Db\Query())->from('s_#__mail_queue')
 				->where(['id' => $recordIds])

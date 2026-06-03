@@ -19,6 +19,14 @@ use App\Runtime\CRM_Viewer;
 class Functions
 {
 
+	private static function rootDirectory(): string
+	{
+		if (\defined('ROOT_DIRECTORY')) {
+			return \constant('ROOT_DIRECTORY');
+		}
+		return dirname(__DIR__, 3);
+	}
+
 	public static function userIsAdministrator($user)
 	{
 		return (isset($user->is_admin) && $user->is_admin == 'on');
@@ -203,7 +211,7 @@ class Functions
 	/**
 	 * this function returns the entity field name for a given module; for e.g. for Contacts module it return concat(lastname, ' ', firstname)
 	 * @param string $mixed - the module name
-	 * @return string $fieldsname - the entity field name for the module
+	 * @return array{tablename?: string, fieldname?: string, colums?: string}
 	 */
 	public static function getEntityModuleSQLColumnString($mixed)
 	{
@@ -250,6 +258,7 @@ class Functions
 				->from('vtiger_crmentity')
 				->where(['in', 'crmid', $missing]);
 			$dataReader = $query->createCommand()->query();
+			/** @var \yii\db\DataReader $dataReader */
 			while ($row = $dataReader->read()) {
 				self::$crmRecordIdMetadataCache[$row['crmid']] = $row;
 			}
@@ -299,7 +308,7 @@ class Functions
 
 	/**
 	 * Function get module field infos
-	 * @param int|string $mixed
+	 * @param int|string $module
 	 * @param bool $returnByColumn
 	 * @return mixed[]
 	 */
@@ -314,6 +323,7 @@ class Functions
 				->from('vtiger_field')
 				->where(['tabid' => $module === 'Calendar' ? [9, 16] : self::getModuleId($module)])
 				->createCommand()->query();
+			/** @var \yii\db\DataReader $dataReader */
 			$fieldInfoByName = $fieldInfoByColumn = [];
 			while ($row = $dataReader->read()) {
 				$fieldInfoByName[$row['fieldname']] = $row;
@@ -407,7 +417,7 @@ class Functions
 	{
 		$filepath = 'storage/';
 
-		if ($module && in_array($module, array('Users', 'Contacts', 'Products', 'OSSMailView', 'MultiImage'))) {
+		if ($module && in_array($module, array('Users', 'Contacts', 'Products', 'Mail', 'MultiImage'))) {
 			$filepath .= $module . '/';
 		}
 		if (!is_dir($filepath)) {
@@ -416,8 +426,7 @@ class Functions
 		}
 		$year = date('Y');
 		$month = date('F');
-		$day = date('j');
-		$week = '';
+		$day = (int) date('j');
 		$filepath .= $year;
 		if (!is_dir($filepath)) {
 			//create new folder
@@ -429,16 +438,13 @@ class Functions
 			mkdir($filepath);
 		}
 
-		if ($day > 0 && $day <= 7)
-			$week = 'week1';
-		elseif ($day > 7 && $day <= 14)
-			$week = 'week2';
-		elseif ($day > 14 && $day <= 21)
-			$week = 'week3';
-		elseif ($day > 21 && $day <= 28)
-			$week = 'week4';
-		else
-			$week = 'week5';
+		$week = match (true) {
+			$day <= 7 => 'week1',
+			$day <= 14 => 'week2',
+			$day <= 21 => 'week3',
+			$day <= 28 => 'week4',
+			default => 'week5',
+		};
 
 		$filepath .= '/' . $week;
 		if (!is_dir($filepath)) {
@@ -558,7 +564,6 @@ class Functions
 		'vtiger_campaign_records:crmid' => 'V',
 		'vtiger_pricebookproductrel:pricebookid' => 'V',
 		'vtiger_pricebookproductrel:productid' => 'V',
-		'vtiger_senotesrel:crmid' => 'V',
 		'vtiger_senotesrel:notesid' => 'V',
 		'vtiger_seproductsrel:crmid' => 'V',
 		'vtiger_seproductsrel:productid' => 'V',
@@ -737,7 +742,7 @@ class Functions
 		$response->setEmitType(Vtiger_Response::$EMIT_JSON);
 		$trace = '';
 		if (\App\Core\AppConfig::debug('DISPLAY_DEBUG_BACKTRACE') && is_object($e)) {
-			$trace = str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->getTraceAsString());
+			$trace = str_replace(self::rootDirectory() . DIRECTORY_SEPARATOR, '', $e->getTraceAsString());
 		}
 		if (is_object($e)) {
 			$response->setError($e->getCode(), $e->getMessage(), $trace);
@@ -748,7 +753,7 @@ class Functions
 	} else {
 		// Display stack trace for non-AJAX requests if debug is enabled
 		if (\App\Core\AppConfig::debug('DISPLAY_DEBUG_BACKTRACE') && is_object($e)) {
-			$trace = str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', $e->getTraceAsString());
+			$trace = str_replace(self::rootDirectory() . DIRECTORY_SEPARATOR, '', $e->getTraceAsString());
 			echo '<pre>Stack trace:' . PHP_EOL . $trace . '</pre>';
 		}
 		$viewer = new CRM_Viewer();
@@ -757,11 +762,6 @@ class Functions
 	}
 	if ($die) {
 		trigger_error(print_r($message, true), E_USER_ERROR);
-		if (is_object($e)) {
-			throw new $e;
-		} else {
-			throw new \Exception($message);
-		}
 	}
 	}
 
@@ -828,18 +828,25 @@ class Functions
 
 	public static function recurseDelete($src)
 	{
-		$rootDir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
+		$rootDir = self::rootDirectory() . DIRECTORY_SEPARATOR;
 		if (!file_exists($rootDir . $src))
 			return;
 		$dirs = [];
-		@chmod($root_dir . $src, 0777);
+		@chmod($rootDir . $src, 0777);
 		$dirs[] = $rootDir . $src;
 		if (is_dir($src)) {
-			foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
+			$iterator = new \RecursiveIteratorIterator(
+				new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS),
+				\RecursiveIteratorIterator::SELF_FIRST
+			);
+			foreach ($iterator as $item) {
+				/** @var \RecursiveDirectoryIterator $directoryIterator */
+				$directoryIterator = $iterator->getInnerIterator();
+				$subPathName = $directoryIterator->getSubPathname();
 				if ($item->isDir()) {
-					$dirs[] = $rootDir . $src . DIRECTORY_SEPARATOR . $iterator->getSubPathName();
+					$dirs[] = $rootDir . $src . DIRECTORY_SEPARATOR . $subPathName;
 				} else {
-					unlink($rootDir . $src . DIRECTORY_SEPARATOR . $iterator->getSubPathName());
+					unlink($rootDir . $src . DIRECTORY_SEPARATOR . $subPathName);
 				}
 			}
 			arsort($dirs);
@@ -853,7 +860,7 @@ class Functions
 
 	public function recurseCopy($src, $dest, $delete = false)
 	{
-		$rootDir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
+		$rootDir = self::rootDirectory() . DIRECTORY_SEPARATOR;
 		if (!file_exists($rootDir . $src)) {
 			return;
 		}
@@ -861,11 +868,18 @@ class Functions
 			$dest = $dest . DIRECTORY_SEPARATOR;
 		}
 		$dest = $rootDir . $dest;
-		foreach ($iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST) as $item) {
-			if ($item->isDir() && !file_exists($dest . $iterator->getSubPathName())) {
-				mkdir($dest . $iterator->getSubPathName());
+		$iterator = new \RecursiveIteratorIterator(
+			new \RecursiveDirectoryIterator($src, \RecursiveDirectoryIterator::SKIP_DOTS),
+			\RecursiveIteratorIterator::SELF_FIRST
+		);
+		foreach ($iterator as $item) {
+			/** @var \RecursiveDirectoryIterator $directoryIterator */
+			$directoryIterator = $iterator->getInnerIterator();
+			$subPathName = $directoryIterator->getSubPathname();
+			if ($item->isDir() && !file_exists($dest . $subPathName)) {
+				mkdir($dest . $subPathName);
 			} elseif (!$item->isDir()) {
-				copy($item->getRealPath(), $dest . $iterator->getSubPathName());
+				copy($item->getRealPath(), $dest . $subPathName);
 			}
 		}
 	}
@@ -882,6 +896,7 @@ class Functions
 
 	public static function getMinimizationOptions($type = 'js')
 	{
+		$return = false;
 		switch ($type) {
 			case 'js':
 				$return = \App\Core\AppConfig::developer('MINIMIZE_JS');
@@ -904,7 +919,7 @@ class Functions
 	public static function getDiskSpace($dir = '')
 	{
 		if ($dir == '') {
-			$dir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR;
+			$dir = self::rootDirectory() . DIRECTORY_SEPARATOR;
 		}
 		$total = disk_total_space($dir);
 		$free = disk_free_space($dir);
@@ -1127,15 +1142,9 @@ class Functions
 			// Turkish
 			'Ĺž' => 'S',
 			'Ä°' => 'I',
-			'Ă‡' => 'C',
-			'Ăś' => 'U',
-			'Ă–' => 'O',
 			'Äž' => 'G',
 			'Ĺź' => 's',
 			'Ä±' => 'i',
-			'Ă§' => 'c',
-			'ĂĽ' => 'u',
-			'Ă¶' => 'o',
 			'Äź' => 'g',
 			// Russian
 			'Đ' => 'A',
@@ -1305,7 +1314,6 @@ class Functions
 			'Ä' => 'e',
 			'Ĺ' => 'L',
 			'Ĺ' => 'N',
-			'Ă“' => 'o',
 			'Ĺš' => 'S',
 			'Ĺą' => 'Z',
 			'Ĺ»' => 'Z',
@@ -1314,33 +1322,26 @@ class Functions
 			'Ä™' => 'e',
 			'Ĺ‚' => 'l',
 			'Ĺ„' => 'n',
-			'Ăł' => 'o',
 			'Ĺ›' => 's',
 			'Ĺş' => 'z',
 			'ĹĽ' => 'z',
 			// Latvian
 			'Ä€' => 'A',
-			'ÄŚ' => 'C',
 			'Ä’' => 'E',
 			'Ä˘' => 'G',
 			'ÄŞ' => 'i',
 			'Ä¶' => 'k',
 			'Ä»' => 'L',
 			'Ĺ…' => 'N',
-			'Ĺ ' => 'S',
 			'ĹŞ' => 'u',
-			'Ĺ˝' => 'Z',
 			'Ä' => 'a',
-			'ÄŤ' => 'c',
 			'Ä“' => 'e',
 			'ÄŁ' => 'g',
 			'Ä«' => 'i',
 			'Ä·' => 'k',
 			'ÄĽ' => 'l',
 			'Ĺ†' => 'n',
-			'Ĺˇ' => 's',
-			'Ĺ«' => 'u',
-			'Ĺľ' => 'z'
+			'Ĺ«' => 'u'
 		);
 
 		// Transliterate characters to ASCII
@@ -1363,6 +1364,7 @@ class Functions
 
 	public static function getConversionRateInfo($currencyId, $date = '')
 	{
+		/** @var \App\Modules\Settings\CurrencyUpdate\Models\Module $currencyUpdateModel */
 		$currencyUpdateModel = \App\Modules\Settings\CurrencyUpdate\Models\Module::getCleanInstance();
 		$defaultCurrencyInfo = self::getDefaultCurrencyInfo();
 		if ($defaultCurrencyInfo === false || !isset($defaultCurrencyInfo['id'])) {

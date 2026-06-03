@@ -30,6 +30,7 @@ public $countRelated;
 - Grep the property name to find all assignment sites.
 - Common targets: `App\Modules\Base\Models\Link`, `Record`, adapters under `src/ModuleManagement/Adapters/`.
 - `Link::initialize()` and `Link::getInstanceFromValues()` assign every key from value maps — declare all keys used in link arrays and `.tpl` files (`$LINK->get('…')`, `$LISTVIEW_ENTRY->…`).
+- `Views/Pagination.php` that cache `$listViewEntries` / `$listViewCount` but extend `Index` or `IndexAjax` (not `ListView`) — copy property declarations from the module’s `ListView.php`.
 
 **Do not:** add `#[\AllowDynamicProperties]` or leave properties undeclared “for flexibility”.
 
@@ -77,4 +78,5 @@ if (is_file($path)) {
 rg "->colorList" src/
 rg "getInstanceFromValues" src/ --glob '*.php'
 rg "vresource_url" layouts/ src/
+rg "listViewEntries|listViewCount" src/ --glob '**/Views/Pagination.php'
 ```

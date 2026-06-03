@@ -93,7 +93,7 @@ class PDF extends \App\Base\Controllers\BaseActionController
 				$filePath = 'cache/pdf/' . $recordId[0] . '_' . time() . '.pdf';
 				\App\Modules\Base\Models\DocumentTemplate::exportToPdf($recordId[0], $moduleName, $templateIds[0], $filePath, 'F');
 				if (file_exists($filePath)) {
-					header('Location: index.php?module=OSSMail&view=compose&pdf_path=' . $filePath);
+					header('Location: index.php?module=Mail&view=Compose&pdf_path=' . urlencode($filePath));
 				} else {
 					throw new \App\Exceptions\AppException(\App\Runtime\Vtiger_Language_Handler::translate('LBL_EXPORT_ERROR', 'Settings:Template'));
 				}

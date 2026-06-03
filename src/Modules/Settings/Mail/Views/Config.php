@@ -60,8 +60,6 @@ class Config extends \App\Modules\Settings\Base\Views\Index
 
 		$jsFileNames = [
 			'modules.Settings.Vtiger.resources.Index',
-			'~libraries/jquery/ckeditor/ckeditor.js',
-			'modules.Base.resources.CkEditor',
 			"modules.Settings.$moduleName.resources.Config",
 		];
 

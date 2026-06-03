@@ -31,6 +31,22 @@ Then check module overrides:
 - Avoid duplicate bindings: use scoped `.off(...).on(...)` for reloaded DOM.
 - Do not add fallback or legacy branches.
 
+## Settings list views
+
+Settings lists are **not** `Base/ListViewContents.tpl`. They use:
+
+- Template: `layouts/basic/modules/Settings/Base/ListViewContent.tpl` (inside `#listViewContents`)
+- JS base: `Settings_Vtiger_ListView_Js` → module `Settings_<Module>_ListView_Js`
+- Hidden state: `#selectedIds`, `#excludedIds` in `Base/ListViewActions.tpl` (included by Settings list header)
+
+**Select all (page → full list):** header checkbox alone only selects the current page. Full CRM behaviour needs all of:
+
+1. `#selectAllMsgDiv` / `#deSelectAllMsgDiv` in `Settings/Base/ListViewContent.tpl`
+2. `registerMainCheckBoxClickEvent`, `registerSelectAllClickEvent`, `registerDeselectAllClickEvent` in `Settings/Vtiger/resources/ListView.js`
+3. Backend mass actions: `Base\Actions\Mass::getRecordsListFromRequest()` uses CustomView — **wrong for Settings modules without CV**. Resolve IDs in the module `ListView` model (see `Settings\Mail\Models\ListView::getRecordIdsFromRequest()`). Mass JS must send `selected_ids`, `excluded_ids`, and active `searchParams` when `selected_ids === 'all'`.
+
+**Settings Mail queue:** `Record::getInstance($id)` returns `false` for missing queue rows — skip before `delete()` (rows may disappear after send/cron).
+
 ## Debug checklist for list issues
 
 1. Confirm current view and module (`ListView` vs `ListPreview`, Settings parent).

@@ -168,7 +168,7 @@
 .userIcon-Contacts:before {
   content: "\e909";
 }
-.userIcon-OSSMailView:before {
+.userIcon-Mail:before {
   content: "\e90a";
 }
 .userIcon-Database:before {
@@ -207,7 +207,7 @@
 .userIcon-EmailTemplates:before {
   content: "\e916";
 }
-.userIcon-OSSMail:before {
+.userIcon-MailAccount:before {
   content: "\e917";
 }
 .userIcon-Announcements:before {

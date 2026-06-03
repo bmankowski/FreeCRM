@@ -67,6 +67,13 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 			$detailViewActionLinks = [
 				[
 					'linktype' => 'DETAILVIEW',
+					'linklabel' => 'LBL_MAILBOX',
+					'linkurl' => $recordModel->getPreferenceMailboxViewUrl(),
+					'linkicon' => 'glyphicon glyphicon-envelope',
+					'showLabel' => 1,
+				],
+				[
+					'linktype' => 'DETAILVIEW',
 					'linklabel' => 'LBL_CHANGE_ACCESS_KEY',
 					'linkurl' => "javascript:Users_Detail_Js.triggerChangeAccessKey('index.php?module=Users&action=SaveAjax&mode=changeAccessKey&record=$recordId')",
 					'linkicon' => 'glyphicon glyphicon-key',

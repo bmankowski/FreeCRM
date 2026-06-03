@@ -24,6 +24,10 @@ class RelatedList extends \App\Modules\Base\Views\RelatedList
 	{
 		$moduleName = $request->getModule();
 		$relatedModuleName = $request->getByType('relatedModule', 2);
+		if ($relatedModuleName === 'Mail') {
+			$this->processMailRelatedList($request);
+			return;
+		}
 		$parentId = $request->getInteger('record');
 		if ($request->isEmpty('relatedView', true)) {
 			$relatedView = empty($_SESSION['relatedView'][$moduleName][$relatedModuleName]) ? 'List' : $_SESSION['relatedView'][$moduleName][$relatedModuleName];
@@ -38,9 +42,9 @@ class RelatedList extends \App\Modules\Base\Views\RelatedList
 		if ($request->has('limit')) {
 			$pagingModel->set('limit', $request->getInteger('limit'));
 		}
-		$cvId = $request->isEmpty('cvId', true) ? 0 : $request->getByType('cvId', 'Alnum');
+		$label = $request->get('tab_label');
 		$parentRecordModel = \App\Modules\Base\Models\Record::getInstanceById($parentId, $moduleName);
-		$relationListView = \App\Modules\Base\Models\RelationListView::getInstance($parentRecordModel, $relatedModuleName, $request->getInteger('relationId'), $cvId);
+		$relationListView = \App\Modules\Base\Models\RelationListView::getInstance($parentRecordModel, $relatedModuleName, $label);
 
 		$orderBy = $request->get('orderby');
 		$sortOrder = $request->get('sortorder');

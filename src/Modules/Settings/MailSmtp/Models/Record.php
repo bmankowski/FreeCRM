@@ -140,7 +140,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 				}
 				break;
 		}
-		return $value;
+		return (string) ($value ?? '');
 	}
 
 	/**

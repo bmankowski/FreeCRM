@@ -104,8 +104,15 @@
 				<button class="btn btn-success" type="submit"><strong>{"LBL_SAVE"|t:$MODULE}</strong></button>
 				<button class="cancelLink btn btn-warning" type="reset" onclick="javascript:window.history.back();">{"LBL_CANCEL"|t:$MODULE}</button>
 			</div>
-		</div>
     </form>
+	{if $IS_PREFERENCE && !empty($PREFERENCE_MAILBOX_URL)}
+		<p class="marginTop10px">
+			<a href="{$PREFERENCE_MAILBOX_URL}" class="btn btn-default">
+				<span class="glyphicon glyphicon-envelope"></span>
+				{"LBL_MAILBOX"|t:"Mail"}
+			</a>
+		</p>
+	{/if}
 </div>
 <!--/layouts/basic/modules/Users/EditViewContent.tpl -->
 {/strip}

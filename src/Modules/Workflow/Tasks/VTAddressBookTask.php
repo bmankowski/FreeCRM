@@ -36,7 +36,7 @@ class VTAddressBookTask extends VTTask
 		$entityId = $recordModel->getId();
 
 		$users = $name = '';
-		$table = OSSMail_AddressBook_Model::TABLE;
+		$table = \App\Modules\Mail\Models\AddressBook::TABLE;
 		$metainfo = \App\Utils\ModuleUtils::getEntityInfo($moduleName);
 		foreach ($metainfo['fieldnameArr'] as $entityName) {
 			$name .= ' ' . $recordModel->get($entityName);
@@ -58,7 +58,7 @@ class VTAddressBookTask extends VTTask
 				$db->insert($table, ['id' => $entityId, 'email' => $recordModel->get($fieldname), 'name' => trim($name), 'users' => $users]);
 			}
 		}
-		OSSMail_AddressBook_Model::createABFile();
+		\App\Modules\Mail\Models\AddressBook::createABFile();
 	}
 
 	/**

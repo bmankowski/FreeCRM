@@ -16,10 +16,7 @@ namespace App\Modules\Settings\ConfReport\Models;
 class Module extends \App\Modules\Settings\Base\Models\Module
 {
 
-	/**
-	 * variable has all the files and folder that should be writable
-	 * @var <Array>
-	 */
+	/** @var array<string, string> */
 	public static $writableFilesAndFolders = array(
 		'Configuration directory' => 'config/',
 		'Configuration file' => 'config/config.inc.php',
@@ -45,7 +42,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		'User image directory' => 'storage/Users/',
 		'Contact image directory' => 'storage/Contacts/',
 		'Logo directory' => 'public/storage/Logo/',
-		'MailView attachments directory' => 'storage/OSSMailView/'
+		'Mail attachments directory' => 'storage/Mail/'
 	);
 	public static $library = array(
 		'LBL_IMAP_SUPPORT' => ['type' => 'f', 'name' => 'imap_open', 'mandatory' => true],
@@ -75,6 +72,8 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 				$status = function_exists($v['name']);
 			} elseif ($v['type'] == 'e') {
 				$status = extension_loaded($v['name']);
+			} else {
+				$status = false;
 			}
 			self::$library[$k]['status'] = $status ? 'LBL_YES' : 'LBL_NO';
 		}
@@ -224,9 +223,6 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		}
 		$directiveValues['expose_php']['current'] = self::getFlag(ini_get('expose_php'));
 
-		if (version_compare(PHP_VERSION, '5.4.0', '<')) {
-			$directiveValues['PHP']['status'] = true;
-		}
 		$directiveValues['PHP']['current'] = PHP_VERSION;
 
 
@@ -316,16 +312,24 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		$params = [
 			'LBL_PHPINI' => php_ini_loaded_file(),
 			'LBL_LOG_FILE' => ini_get('error_log'),
-			'LBL_CRM_DIR' => ROOT_DIRECTORY,
+			'LBL_CRM_DIR' => self::rootDirectory(),
 			'LBL_PHP_SAPI' => PHP_SAPI,
-			'LBL_PHP_SAPI' => php_uname()
+			'LBL_PHP_UNAME' => php_uname(),
 		];
 		if (file_exists('user_privileges/cron.php')) {
 			include 'user_privileges/cron.php';
-			$params['LBL_CRON_PHP'] = $vphp;
-			$params['LBL_CRON_PHPINI'] = $ini;
-			$params['LBL_CRON_LOG_FILE'] = $log;
-			$params['LBL_CRON_PHP_SAPI'] = $sapi;
+			if (isset($vphp)) {
+				$params['LBL_CRON_PHP'] = $vphp;
+			}
+			if (isset($ini)) {
+				$params['LBL_CRON_PHPINI'] = $ini;
+			}
+			if (isset($log)) {
+				$params['LBL_CRON_LOG_FILE'] = $log;
+			}
+			if (isset($sapi)) {
+				$params['LBL_CRON_PHP_SAPI'] = $sapi;
+			}
 		}
 		return $params;
 	}
@@ -342,7 +346,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		try {
 			$linfo = new \Linfo\Linfo;
 			$parser = $linfo->getParser();
-		} catch (Exception $exc) {
+		} catch (\Exception $exc) {
 			return [];
 		}
 		$params = [];
@@ -385,6 +389,14 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		return $permissions;
 	}
 
+	private static function rootDirectory(): string
+	{
+		if (\defined('ROOT_DIRECTORY')) {
+			return \constant('ROOT_DIRECTORY');
+		}
+		return dirname(__DIR__, 5);
+	}
+
 	public static function getFlag($val)
 	{
 		if ($val == 'On' || $val == 1 || stripos($val, 'On') !== false) {
@@ -421,7 +433,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 	 */
 	public static function testSpeed()
 	{
-		$dir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'speed' . DIRECTORY_SEPARATOR;
+		$dir = self::rootDirectory() . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'speed' . DIRECTORY_SEPARATOR;
 		if (!is_dir($dir)) {
 			mkdir($dir, 0777);
 		}

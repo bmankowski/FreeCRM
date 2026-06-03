@@ -36,7 +36,7 @@ class SaveAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 		if (isset($testMailer['result']) && $testMailer['result'] !== false) {
 			$recordId = $data['record'];
 			if ($data['default']) {
-				\App\Db::getInstance('admin')->createCommand()->update('s_#__mail_smtp', ['default' => 0])->execute();
+				\App\Db\Db::getInstance('admin')->createCommand()->update('s_#__mail_smtp', ['default' => 0])->execute();
 			}
 
 			if ($recordId) {

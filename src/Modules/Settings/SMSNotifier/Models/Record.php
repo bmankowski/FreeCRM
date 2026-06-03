@@ -118,7 +118,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 				$value = 'No';
 			}
 		}
-		return $value;
+		return (string) ($value ?? '');
 	}
 
 	/**

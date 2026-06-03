@@ -1522,20 +1522,6 @@ jQuery.Class("Vtiger_Detail_Js", {
 		})
 	},
 	registerEmailEvent: function () {
-		var thisInstance = this;
-		this.getContentHolder().find('.resetRelationsEmail').on('click', function (e) {
-			var currentElement = jQuery(e.currentTarget);
-			Vtiger_Helper_Js.showConfirmationBox({'message': app.vtranslate('JS_EMAIL_RESET_RELATIONS_CONFIRMATION')}).then(function (data) {
-				AppConnector.request({
-					module: 'OSSMailView',
-					action: 'Relation',
-					moduleName: app.getModuleName(),
-					record: app.getRecordId()
-				}).then(function (d) {
-					Vtiger_Helper_Js.showMessage({text: d.result});
-				})
-			});
-		})
 	},
 	getFiltersDataAndLoad: function (e, params) {
 		var data = this.getFiltersData(e, params);
@@ -2454,8 +2440,8 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var recordId = $('#recordId').val();
 		var progress = widgetDataContainer.progressIndicator();
 		var params = {};
-		params['module'] = 'OSSMailView';
-		params['view'] = 'widget';
+		params['module'] = 'Mail';
+		params['view'] = 'Widget';
 		params['smodule'] = $('#module').val();
 		params['srecord'] = recordId;
 		params['mode'] = 'showEmailsList';
