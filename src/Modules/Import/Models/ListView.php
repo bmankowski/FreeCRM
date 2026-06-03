@@ -76,12 +76,12 @@ class ListView extends \App\Modules\Base\Models\ListView
 	 * ListView count
 	 * @return int
 	 */
-	public function getListViewCount()
+	public function getListViewCount(): int
 	{
 		$this->loadListViewCondition();
 		$query = $this->getQueryGenerator()->createQuery();
 		$query = $this->addLastImportedRecordConditions($query);
-		return $query->count();
+		return (int) $query->count();
 	}
 
 	/**

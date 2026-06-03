@@ -50,7 +50,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 	 * @param \App\Modules\Base\Models\Paging $pagingModel
 	 * @return array - Associative array of record id mapped to \App\Modules\Base\Models\Record instance.
 	 */
-	public function getListViewCount()
+	public function getListViewCount(): int
 	{
 		$queryGenerator = $this->get('query_generator');
 		$queryGenerator->deletedCondition = false;

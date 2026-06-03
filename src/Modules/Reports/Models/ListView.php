@@ -147,11 +147,11 @@ class ListView extends \App\Modules\Base\Models\ListView
 	 * Function to get the list view entries count
 	 * @return int
 	 */
-	public function getListViewCount()
+	public function getListViewCount(): int
 	{
 		$reportFolderModel = \App\Modules\Reports\Models\Folder::getInstance();
 		$reportFolderModel->set('folderid', $this->get('folderid'));
-		return $reportFolderModel->getReportsCount();
+		return (int) $reportFolderModel->getReportsCount();
 	}
 
 	public function getCreateRecordUrl()

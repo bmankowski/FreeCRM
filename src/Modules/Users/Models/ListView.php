@@ -134,7 +134,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 		return $headerFieldModels;
 	}
 
-	public function getListViewCount()
+	public function getListViewCount(): int
 	{
 		$searchParams = $this->get('search_params');
 		if (is_array($searchParams) && count($searchParams[0]['columns']) < 1) {
