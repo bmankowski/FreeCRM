@@ -4,7 +4,7 @@
 
 Introduce a **public-facing link-action endpoint** on the Cyberfolks www server (`https://itconnect.pl/la`) that:
 
-1. Accepts **Ed25519-signed tokens** generated exclusively by FreeCRM (private key never leaves CRM).
+1. Accepts **ECDSA P-256-signed tokens** generated exclusively by FreeCRM (private key never leaves CRM).
 2. Verifies signature + expiry on www using **public key only** — a www server compromise must **not** allow forging valid action links.
 3. Appends accepted events to a **JSON Lines queue file** on www.
 4. Lets FreeCRM **pull and import** that queue via cron (CRM is behind VPN; www cannot call CRM).
@@ -23,7 +23,7 @@ This replaces any ad-hoc “unsubscribe URL in template” approach with a gener
 
 ## Stance
 
-- **Asymmetric crypto only.** No shared HMAC secret on www. Private key lives on CRM only; www holds public key(s) only.
+- **Asymmetric crypto only.** No shared HMAC secret on www. Private key lives on CRM only; www holds public key(s) only. Algorithm: **ECDSA P-256** (`prime256v1`) with SHA-256 — available via PHP `openssl` extension on all supported hosts with no additional dependencies.
 - **Defense in depth.** CRM **re-verifies** every token signature when importing the queue file — tampered rows are rejected even if www PHP was patched.
 - **No parallel import paths.** One queue format, one cron importer, one dedup key (`jti`).
 - **No `class_alias()`**, no legacy unsubscribe shim.
@@ -37,8 +37,8 @@ This replaces any ad-hoc “unsubscribe URL in template” approach with a gener
 | # | Assumption |
 |---|------------|
 | A1 | CRM runs on VPN-only server; cron container has outbound SSH/SFTP to `itconnect.pl:22222` (same host as existing `GetProjectsToJSON`). |
-| A2 | Cyberfolks serves PHP 8.1+ with OpenSSL Ed25519 support (`openssl_verify` with `OPENSSL_ALGO_SHA256` on Ed25519 keys, or `sodium_crypto_sign_verify_detached`). |
-| A3 | www document root: `public_html/autoinstalator/wordpress/` (or sibling path); `la.php` deployed as `public_html/.../la.php` → URL `https://itconnect.pl/la.php` (rewrite to `/la` optional). |
+| A2 | Cyberfolks serves PHP 8.2+ with OpenSSL extension (`openssl_sign` / `openssl_verify` with `OPENSSL_ALGO_SHA256` and EC keys). **Verified** on `s63.cyber-folks.pl`: PHP 8.2.30, OpenSSL 3.5.1, ECDSA P-256 key generation and sign/verify confirmed working. `sodium` extension is NOT available — do not use it. |
+| A3 | www document root: `public_html/autoinstalator/wordpress/` (or sibling path); `la.php` deployed outside direct public use. Public URL is **only** `https://itconnect.pl/la`; web server rewrite routes `/la` to the PHP endpoint. |
 | A4 | Target module for v1 unsubscribe is **`Kandydaci`**; field `is_future_contact_allowed` (uitype 56) is the consent flag; `data_maksymalny_kontakt_rodo` is updated on revoke. |
 | A5 | Token TTL in emails: **730 days** (2 years) — old mailing links remain valid. |
 | A6 | Queue file on www: `../private/la/queue.jsonl` (outside `public_html`); CRM pulls to `import/link-action/incoming/queue.jsonl`. |
@@ -62,15 +62,17 @@ This replaces any ad-hoc “unsubscribe URL in template” approach with a gener
 | `src/Modules/LinkAction/Services/FilePaths.php` | **New** — `incoming/`, `processed/`, `failed/` under `import/link-action/` | Internal |
 | `src/Modules/LinkAction/Cron/ImportTask.php` | **New** — cron entry point | Internal |
 | `src/Modules/Kandydaci/textparsers/KandydaciLinkActionUrl.php` | **New** — `$(custom : KandydaciLinkActionUrl\|Kandydaci)$` with params `action\|scope\|emailField` | Email templates |
-| `src/Email/EmailParser.php` | Add `Kandydaci` → `is_future_contact_allowed` (inverted: send only when `= 1`) | Mass/workflow mail |
-| `src/Modules/Install/install_schema/Base2.php` | Cron row + `u_yf_link_action_log` table | Install |
+| `src/Email/EmailParser.php` | Add `Kandydaci` → `is_future_contact_allowed`; this is an allow flag: send only when field value is `1` | Mass/workflow mail |
+| `migrations/LinkAction/m260604_000001_link_action_schema.php` | **New** — upgrade migration for log table, cron registration, and seeded Template Element | Install/upgrade |
+| `src/Modules/Install/install_schema/Base2.php` | Cron row, `u_yf_link_action_log` table, and Template Element seed | Install |
 | `src/Modules/Install/install_schema/data.sql` | Same seed data | Fresh install |
 | `languages/en_us/LinkAction.json`, `languages/pl_pl/LinkAction.json` | **New** — cron label, admin messages | Cron UI |
 | `languages/en_us/Kandydaci.json`, `languages/pl_pl/Kandydaci.json` | TextParser label `LBL_KANDYDACI_LINK_ACTION_URL` | Template editor |
+| `languages/en_us/TemplateElements.json`, `languages/pl_pl/TemplateElements.json` | Label for seeded unsubscribe footer Template Element | Template editor |
 | `documentation/module/LinkAction.md` | **New** — token spec, deploy runbook | Docs |
 | `external/www-la/la.php` | **New** — verify-only endpoint for Cyberfolks deploy | External |
 | `external/www-la/config.example.php` | **New** — public key path, rate limits, queue path | External |
-| `external/www-la/views/` | **New** — minimal HTML confirmation pages per action (pl/en) | External |
+| `external/www-la/responses/` | **New** — plain PHP HTML response includes per action (pl/en); no Smarty/Twig/template engine on Cyberfolks | External |
 | `tests/unit/LinkAction/LinkActionTokenTest.php` | **New** — sign/verify round-trip, tamper, expiry | Tests |
 | `tests/fixtures/link-action/` | **New** — sample tokens + queue lines | Tests |
 
@@ -116,16 +118,17 @@ Task order: pull remote queue (append or replace) → import new lines → archi
 
 | Consumer | Change |
 |----------|--------|
-| **Cyberfolks www** | Deploy `external/www-la/*`; install public key PEM; create `private/la/` directory writable by PHP |
-| **Email templates** | Add `$(custom : KandydaciLinkActionUrl\|Kandydaci\|unsubscribe\|future_contact\|newsletter_email)$` (exact param syntax TBD in impl) |
-| **itconnect.pl WordPress** | No WP plugin required; standalone `la.php` |
+| **Cyberfolks www** | Deploy `external/www-la/*`; install public key PEM; create `private/la/` directory writable by PHP; route public `/la` to the PHP endpoint |
+| **Email templates** | Update existing `Kandydaci` email template record `1444661` to include seeded `$(dynamic : kandydaci_unsubscribe_footer)$`; raw `$(custom : KandydaciLinkActionUrl\|Kandydaci\|unsubscribe\|future_contact\|newsletter_email)$` remains available inside the Template Element |
+| **itconnect.pl WordPress** | No WP plugin required; standalone PHP endpoint behind `/la` rewrite |
 
 ### Call sites to update
 
 | Contract | Call sites |
 |----------|------------|
-| `EmailParser::$permissionToSend` | `src/Email/EmailParser.php` — add `Kandydaci` entry; verify workflows using `emailoptout` flag on Kandydaci templates |
+| `EmailParser::$permissionToSend` | `src/Email/EmailParser.php` — add `Kandydaci` entry; verify workflows and mass mail honor `is_future_contact_allowed = 1` before sending |
 | TextParser custom | New file only; auto-discovered via `modules/Kandydaci/textparsers/` |
+| Email template content | Update `Kandydaci` email template record `1444661` to include `$(dynamic : kandydaci_unsubscribe_footer)$` |
 
 ---
 
@@ -135,8 +138,8 @@ Task order: pull remote queue (append or replace) → import new lines → archi
 
 | ID | Requirement | Before → After |
 |----|-------------|----------------|
-| F1 | Token generation | None → CRM signs Ed25519 payload when rendering email template variable |
-| F2 | www endpoint | None → `GET /la.php?t=<kid>.<payload_b64url>.<sig_b64url>` verifies and appends to queue |
+| F1 | Token generation | None → CRM signs ECDSA P-256 payload when rendering email template variable |
+| F2 | www endpoint | None → `GET /la?t=<kid>.<payload_b64url>.<sig_b64url>` verifies and appends to queue |
 | F3 | CRM import | None → Cron pulls queue, re-verifies, applies handler, logs `jti` |
 | F4 | `unsubscribe` / `future_contact` | Manual only → Sets `is_future_contact_allowed = 0`, sets `data_maksymalny_kontakt_rodo = today` |
 | F5 | `unsubscribe` / `all` | — → Same as `future_contact` in v1 (only one consent dimension exists today) |
@@ -144,9 +147,11 @@ Task order: pull remote queue (append or replace) → import new lines → archi
 | F7 | Idempotency | — → Same `jti` processed once (DB unique + www-side `jti` file optional) |
 | F8 | Expired token | — → www shows generic message; **no queue write** |
 | F9 | Invalid signature | — → Generic message; no queue write; rate-limited |
-| F10 | Mass mail guard | Kandydaci ignores opt-out → `EmailParser` skips recipients with `is_future_contact_allowed = 0` when `emailoptout` checking enabled |
+| F10 | Mass mail guard | Kandydaci ignores future-contact consent → `EmailParser` skips recipients with `is_future_contact_allowed = 0` when `emailoptout` checking enabled |
 | F11 | Audit | — → `u_yf_link_action_log` row per applied action; ModComment on candidate optional (v1: log table only) |
 | F12 | Key rotation | — → `kid` in token; CRM + www support multiple public keys; CRM signs with active private `kid` |
+| F13 | Template Element | — → Seed active `kandydaci_unsubscribe_footer` Template Element containing the signed unsubscribe link and standard footer copy |
+| F14 | Confirmation UX | — → Successful unsubscribe click shows a thank-you/completed message; invalid/expired/rejected tokens still show a generic failure page |
 
 ### Out of scope (future CR)
 
@@ -162,12 +167,13 @@ Task order: pull remote queue (append or replace) → import new lines → archi
 
 ### Business rules
 
-1. Unsubscribe is **immediate on www** (queue write) and **effective in CRM** after next successful cron import (≤5 min default).
-2. CRM import **never** applies an action without valid Ed25519 signature, even if the queue line exists.
+1. Unsubscribe is **acknowledged as complete on www** after queue write and **effective in CRM** after next successful cron import (≤5 min default).
+2. CRM import **never** applies an action without valid ECDSA P-256 signature, even if the queue line exists.
 3. If `cid` not found or `eh` does not match any email field on candidate → line moved to `failed/`, logged, no record change.
 4. Duplicate `jti` → skip silently (idempotent).
 5. www **never** stores or reads private key material.
-6. Error responses on www are **generic** (no leak: expired vs bad sig vs unknown action).
+6. Success response on www says thank you and confirms unsubscribe completion from the user's perspective.
+7. Error responses on www are **generic** (no leak: expired vs bad sig vs unknown action).
 
 ### Token payload schema (v1)
 
@@ -188,20 +194,20 @@ Task order: pull remote queue (append or replace) → import new lines → archi
 **Wire format:**
 
 ```
-t = <kid>.<base64url(json_payload)>.<base64url(ed25519_signature)>
-URL = https://itconnect.pl/la.php?t=<urlencoded_t>
+t = <kid>.<base64url(json_payload)>.<base64url(ecdsa_p256_signature_der)>
+URL = https://itconnect.pl/la?t=<urlencoded_t>
 ```
 
 **Signing (CRM only):**
 
 ```
-signature = Ed25519_sign( kid + "." + payload_b64url , private_key[kid] )
+openssl_sign( kid . "." . payload_b64url , $sig, $privateKey, OPENSSL_ALGO_SHA256 )
 ```
 
 **Verification (www + CRM):**
 
 ```
-openssl_verify( kid + "." + payload_b64url , signature , public_key[kid] , OPENSSL_ALGO_SHA256 ) === 1
+openssl_verify( kid . "." . payload_b64url , $sig, $publicKey, OPENSSL_ALGO_SHA256 ) === 1
 ```
 
 ### Queue line schema (www → CRM)
@@ -215,6 +221,14 @@ www writes **only** after successful verify + expiry check. Minimal metadata —
 ---
 
 ## Data migration
+
+Upgrade migration file:
+
+```bash
+docker compose exec -T app php yii migrate --migrationPath=migrations/LinkAction/ --interactive=0
+```
+
+Fresh installs receive the same table, cron seed, and Template Element seed through `src/Modules/Install/install_schema/Base2.php` and `src/Modules/Install/install_schema/data.sql`.
 
 ### Schema
 
@@ -256,13 +270,19 @@ WHERE NOT EXISTS (
 );
 ```
 
+Idempotence rules:
+
+- The table is created with `CREATE TABLE IF NOT EXISTS`.
+- The cron row is inserted only when the `handler_class` is absent.
+- Existing `Kandydaci` rows are not migrated or rewritten; existing non-conforming rows are handled at import time by failing the queue line without changing the record.
+
 ### Key generation (ops, not SQL)
 
 Run once on CRM server (private key **never** copied to www):
 
 ```bash
-openssl genpkey -algorithm ED25519 -out config/keys/link_action_private_v1.pem
-openssl pkey -in config/keys/link_action_private_v1.pem -pubout -out config/keys/link_action_public_v1.pem
+openssl ecparam -name prime256v1 -genkey -noout -out config/keys/link_action_private_v1.pem
+openssl ec -in config/keys/link_action_private_v1.pem -pubout -out config/keys/link_action_public_v1.pem
 # Deploy link_action_public_v1.pem to Cyberfolks ../private/keys/
 ```
 
@@ -297,7 +317,7 @@ Existing `Kandydaci` consent values changed by import: **restore from backup** i
 
 5. `external/www-la/la.php` — verify-only, rate limit, append queue, render view
 6. `external/www-la/config.example.php` — copy to `../private/la/config.php` on server
-7. `external/www-la/views/unsubscribe_ok.tpl.php` (+ generic error view)
+7. `external/www-la/responses/unsubscribe_ok.php` — plain PHP thank-you/completed response include (+ generic error response); no `.tpl` files on Cyberfolks
 8. `external/www-la/.htaccess` — optional rate limit hint
 9. Manual deploy runbook in `documentation/module/LinkAction.md`
 
@@ -308,22 +328,30 @@ Existing `Kandydaci` consent values changed by import: **restore from backup** i
 12. `src/Modules/LinkAction/Services/Handlers/UnsubscribeHandler.php`
 13. `src/Modules/LinkAction/Services/QueueImporter.php`
 14. `src/Modules/LinkAction/Cron/ImportTask.php`
-15. DB migration script + `Base2.php` / `data.sql` seeds
+15. `migrations/LinkAction/m260604_000001_link_action_schema.php` + `Base2.php` / `data.sql` seeds
 16. `mkdir -p import/link-action/{incoming,processed,failed}` in repo `.gitkeep`
 
 ### Phase 3 — Email integration
 
 17. `src/Modules/Kandydaci/textparsers/KandydaciLinkActionUrl.php`
     - Params: `action`, `scope`, email field name (default `newsletter_email`)
-    - Output: full `https://itconnect.pl/la.php?t=...` URL (or `<a href>` variant — match template needs)
-18. `src/Email/EmailParser.php` — add Kandydaci consent check
-19. Language files (`en_us` + `pl_pl`)
+    - Output: full `https://itconnect.pl/la?t=...` URL (or `<a href>` variant — match template needs)
+18. Seed two `u_yf_templateelements` records, one for `pl_pl` and one for `en_us`:
+    - `code`: `kandydaci_unsubscribe_footer`
+    - `module_name`: `Kandydaci`
+    - `language`: `pl_pl` / `en_us`
+    - `type`: `PLL_VARIABLE_ALIAS`
+    - `status`: `1`
+    - `content`: short footer copy containing `$(custom : KandydaciLinkActionUrl|Kandydaci|unsubscribe|future_contact|newsletter_email)$`
+19. Update `Kandydaci` email template record `1444661` to include `$(dynamic : kandydaci_unsubscribe_footer)$`
+20. `src/Email/EmailParser.php` — add Kandydaci consent check
+21. Language files (`en_us` + `pl_pl`)
 
 ### Phase 4 — Docs + verification
 
-20. `documentation/module/LinkAction.md` — token spec, deploy, rotate keys, troubleshoot
-21. Grep verification (see Testing)
-22. Update `.cursor/rules/` if useful (optional: `link-action.mdc` — defer unless team wants it)
+22. `documentation/module/LinkAction.md` — token spec, deploy, rotate keys, troubleshoot
+23. Grep verification (see Testing)
+24. Update `.cursor/rules/` if useful (optional: `link-action.mdc` — defer unless team wants it)
 
 ---
 
@@ -347,14 +375,46 @@ Cases:
 ### Manual smoke (CRM dev)
 
 1. Generate token via CLI script or temporary test endpoint for candidate ID + email
-2. Open `https://dev.itconnect.pl/la.php?t=...` (or local mock of `external/www-la/la.php`)
+2. Open `https://dev.itconnect.pl/la?t=...` (or local mock of `external/www-la/la.php`)
 3. Confirm queue line appended on www
 4. Run: `docker compose exec -T app php cron/vtigercron.php service=LBL_LINK_ACTION_IMPORT`
 5. Verify `Kandydaci.is_future_contact_allowed = 0` and row in `u_yf_link_action_log`
 
+### Migration/data integrity checks
+
+Run the migration:
+
+```bash
+docker compose exec -T app php yii migrate --migrationPath=migrations/LinkAction/ --interactive=0
+```
+
+Verify via `freecrm-mysql` MCP `execute_query`:
+
+```sql
+SELECT COUNT(*) AS table_exists
+FROM information_schema.tables
+WHERE table_schema = DATABASE()
+  AND table_name = 'u_yf_link_action_log';
+
+SELECT name, handler_class, frequency, status
+FROM vtiger_cron_task
+WHERE handler_class = 'App\\Modules\\LinkAction\\Cron\\ImportTask';
+
+SHOW INDEX FROM u_yf_link_action_log WHERE Key_name = 'uk_link_action_jti';
+
+SELECT code, module_name, language, type, status
+FROM u_yf_templateelements
+WHERE code = 'kandydaci_unsubscribe_footer';
+
+SELECT emailtemplatesid, module, content
+FROM u_yf_emailtemplates
+WHERE emailtemplatesid = 1444661
+  AND content LIKE '%$(dynamic : kandydaci_unsubscribe_footer)$%';
+```
+
 ### Manual smoke (email template)
 
-1. Add `$(custom : KandydaciLinkActionUrl|Kandydaci|unsubscribe|future_contact|newsletter_email)$` to test template
+1. Add `$(dynamic : kandydaci_unsubscribe_footer)$` to test template
 2. Send to test candidate via mass mail / compose
 3. Click link → confirm end-to-end
 
@@ -377,7 +437,7 @@ Cases:
 
 ```bash
 rg 'ImportTask|LinkActionToken|LinkAction' src/ config/
-rg 'is_future_contact_allowed' src/Email/EmailParser.php
+rg 'KandydaciLinkActionUrl|kandydaci_unsubscribe_footer|is_future_contact_allowed|permissionToSend' src/Email/EmailParser.php src/Modules/Kandydaci/ migrations/
 # No private key paths in external/www-la/
 rg 'PRIVATE|private.*pem' external/www-la/
 ```
@@ -388,20 +448,13 @@ rg 'PRIVATE|private.*pem' external/www-la/
 
 ### Code
 
-1. Revert deploy commit / redeploy previous tag
-2. Remove `la.php` from Cyberfolks (or return 503)
+1. Revert deploy commit / redeploy previous tag.
+2. Disable the `/la` route on Cyberfolks (remove endpoint file or return 503).
 3. Disable cron: `UPDATE vtiger_cron_task SET status = 0 WHERE name = 'LBL_LINK_ACTION_IMPORT'`
 
 ### Data
 
-- `u_yf_link_action_log` → `DROP TABLE` (rollback SQL above)
-- Consent changes applied during broken deploy → **restore DB from backup** (consent state not reversible from log alone in v1)
-- Queue file on www can be discarded
-
-### Acceptable rollback cost
-
-- Loss of audit log rows (low impact)
-- If restore needed: up to last backup window of consent flag changes (state explicitly per backup policy)
+Use rollback SQL above to drop `u_yf_link_action_log` and remove the cron row. Consent flag changes applied before rollback cannot be reversed from the log — restore from backup if needed. Acceptable operational impact: unsubscribe links may return an error while `/la` is disabled; no record deletions occur, but consent changes already imported are destructive unless restored from backup.
 
 ---
 
@@ -426,11 +479,13 @@ rg 'PRIVATE|private.*pem' external/www-la/
 
 ## Decision rationale & tradeoffs
 
-### Why Ed25519 asymmetric (not HMAC)?
+### Why ECDSA P-256 asymmetric (not HMAC)?
 
-**Requirement:** www compromise must not enable token generation. HMAC requires shared secret on www → fails requirement. Ed25519 gives short tokens, fast verify, native PHP 8.2+ support.
+**Requirement:** www compromise must not enable token generation. HMAC requires shared secret on www → fails requirement. ECDSA P-256 gives short tokens (~96-char base64url signature), fast verify, and works natively via PHP `openssl_sign` / `openssl_verify` with `OPENSSL_ALGO_SHA256` on every supported host — including Cyberfolks PHP 8.2 (verified).
 
-**Alternative considered:** RSA-4096 — more compatible with ancient PHP but longer URLs; rejected because Cyberfolks runs modern PHP.
+**Ed25519 considered and rejected:** Ed25519 is not supported by PHP's OpenSSL extension on Cyberfolks (confirmed: `openssl_pkey_new` with `ed25519` fails; `sodium` extension unavailable). ECDSA P-256 provides equivalent 128-bit security with full PHP OpenSSL support.
+
+**RSA-4096 considered and rejected:** 342-char base64url signature makes email URLs unwieldy. ECDSA P-256 signature is 96 chars.
 
 ### Why signed plaintext payload (not encrypted)?
 
@@ -458,15 +513,22 @@ Link actions are generic (unsubscribe today, confirm/preference tomorrow); Recru
 
 ## Risks
 
-| Risk | Severity | Mitigation |
-|------|----------|------------|
-| Private key leaked from CRM | **High** | PEM outside web root; restrictive permissions; key rotation runbook |
-| SSH credentials for queue pull leaked | **Med** | Key-based SSH; read-only remote user; path scoped to queue file |
-| Delayed unsubscribe (cron lag) | **Low** | 5-min cron; confirmation page sets expectation |
-| Email template not updated | **Low** | Document variable; update marketing templates in same deploy |
-| Ed25519 unsupported on www PHP | **Med** | Verify in deploy runbook before go-live; fallback CR to RSA only if needed |
-| False failed imports (email normalization mismatch) | **Med** | Single `normalizeEmail()` shared between sign and verify |
-| GDPR: unsubscribe not instant in CRM | **Med** | www confirmation immediate; CRM within minutes; document in privacy policy |
+| Risk | Severity | Mitigation in CR | Gap |
+|------|----------|------------------|-----|
+| Private key leaked from CRM | **Low** | CRM is VPN-only (no network exposure); PEM outside web root; restrictive file permissions; `.gitignore` entry for key files; key rotation runbook | None |
+| SSH credentials for queue pull leaked | **Med** | Key-based SSH; read-only remote user; path scoped to queue file | Confirm Cyberfolks user can be restricted to queue path |
+| Delayed unsubscribe (cron lag) | **Low** | 5-min cron; confirmation page sets expectation | None |
+| Email template not updated | **Low** | Document variable; update marketing templates in same deploy | Need list of production templates during implementation |
+| ECDSA P-256 unavailable on www PHP | **Low** | Verified working on Cyberfolks s63 PHP 8.2.30 / OpenSSL 3.5.1 | None |
+| False failed imports (email normalization mismatch) | **Med** | Single `normalizeEmail()` shared between sign and verify | Include Unicode/IDN email cases in unit tests if present in data |
+| GDPR: unsubscribe not instant in CRM | **Med** | www thank-you page confirms completion; CRM applies within minutes; document processing timing in privacy policy if required | None |
+
+---
+
+## Resolved implementation decisions
+
+1. Update existing `Kandydaci` email template record `1444661` in the same deploy.
+2. Seed separate `pl_pl` and `en_us` Template Element records selected by template language.
 
 ---
 
@@ -478,7 +540,7 @@ Link actions are generic (unsubscribe today, confirm/preference tomorrow); Recru
 - [ ] `external/www-la/` deploy package
 - [ ] Unit tests + manual test protocol
 - [ ] Key generation + Cyberfolks deploy (ops)
-- [ ] Marketing email templates updated with unsubscribe link variable
+- [ ] Marketing email template record `1444661` updated with unsubscribe footer dynamic element
 
 ---
 
@@ -494,7 +556,7 @@ return [
     ],
     'token_ttl_seconds' => 63072000, // 730 days
     'email_pepper' => '…', // or read from secret_keys
-    'www_base_url' => 'https://itconnect.pl/la.php',
+    'www_base_url' => 'https://itconnect.pl/la',
     'allowed_actions' => [
         'unsubscribe' => ['future_contact', 'all'],
     ],
@@ -511,10 +573,16 @@ return [
 ## Appendix B — TextParser usage (template)
 
 ```
+$(dynamic : kandydaci_unsubscribe_footer)$
+```
+
+Seeded Template Element content contains the raw signed URL variable:
+
+```
 $(custom : KandydaciLinkActionUrl|Kandydaci|unsubscribe|future_contact|newsletter_email)$
 ```
 
-Renders full HTTPS URL. Optional HTML wrapper variant: `KandydaciLinkActionLink` if templates need `<a>` tag (defer or same class with `format=link` param).
+Template authors should use the dynamic element by default so footer copy, link text, and future wording changes stay centralized.
 
 ## Appendix C — UnsubscribeHandler field effects
 
@@ -522,5 +590,3 @@ Renders full HTTPS URL. Optional HTML wrapper variant: `KandydaciLinkActionLink`
 |-------|----------------------------|--------------------------------|
 | `future_contact` | `0` | today (UTC date) |
 | `all` | `0` | today (UTC date) |
-
-Add ModComment: *"Rezygnacja z kontaktu marketingowego via link (jti: …)"* — optional follow-up in same CR if low effort.
