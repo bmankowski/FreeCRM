@@ -50,6 +50,24 @@ var FreeCRM_TemplateEditor_Js = {
 		return expanded;
 	},
 
+	parsePreviewContent: function (html, params) {
+		params = params || {};
+		return AppConnector.request(params).then(function (data) {
+			var payload = (typeof data === 'string') ? (function () {
+				try {
+					return JSON.parse(data);
+				} catch (e) {
+					return {};
+				}
+			}()) : data;
+			var result = payload.result || payload;
+			return (result && result.content) ? result.content : (html || '');
+		}, function (error, err) {
+			app.errorLog(error, err);
+			return html || '';
+		});
+	},
+
 	buildPreviewDocument: function (bodyHtml, extraCss) {
 		return '<!doctype html><html><head><meta charset="utf-8"><base href="/">' +
 			'<link rel="stylesheet" href="' + this.previewCssHref + '">' +
@@ -140,15 +158,21 @@ var FreeCRM_TemplateEditor_Js = {
 			scope.find('.templateEditorHelp').first().toggleClass('hide');
 		});
 		scope.off('click.templateEditorPreview').on('click.templateEditorPreview', '.js-template-editor-preview', function () {
+			var renderPreview = function (documentHtml) {
+				if (config.previewDisplay === 'popup') {
+					self.showPreviewPopup(documentHtml);
+				} else {
+					self.showPreviewIframe(scope, documentHtml);
+				}
+			};
+			if (typeof config.getPreviewDocumentHtmlAsync === 'function') {
+				config.getPreviewDocumentHtmlAsync().then(renderPreview);
+				return;
+			}
 			if (typeof config.getPreviewDocumentHtml !== 'function') {
 				return;
 			}
-			var documentHtml = config.getPreviewDocumentHtml();
-			if (config.previewDisplay === 'popup') {
-				self.showPreviewPopup(documentHtml);
-			} else {
-				self.showPreviewIframe(scope, documentHtml);
-			}
+			renderPreview(config.getPreviewDocumentHtml());
 		});
 	}
 };

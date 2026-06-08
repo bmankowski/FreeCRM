@@ -69,10 +69,33 @@ parent::preProcess($request, false); // jak Settings\Base\Views\Index / Document
 
 Jeden plik `.tpl` z `{extends MainLayout}` + cała treść w `{block name="content"}` — jak `Settings/MailSmtp/Edit.tpl`. W `process()`: `$viewer->view('Edit.tpl', $moduleName);`.
 
+## Settings Edit — przyciski Zapisz / Anuluj (`form-horizontal`)
+
+Pola: `label col-md-3` + `div col-md-8`. Przyciski akcji w tej samej kolumnie co inputy — **nie** `row` + `col-md-5 pull-right` (to wypycha do prawej krawędzi strony).
+
+```smarty
+<div class="form-group">
+  <div class="col-md-offset-3 col-md-8">
+    <span class="pull-right">
+      <button class="btn btn-success" …>Zapisz</button>
+      <button class="cancelLink btn btn-warning" …>Anuluj</button>
+    </span>
+  </div>
+</div>
+```
+
+Wzorzec: `Settings/MailAccount/EditContent.tpl`. Pomocnicze akcje (np. test połączenia) — ten sam offset, bez `pull-right`.
+
 ## Settings — menu boczne
 
 - Kontroler powinien dziedziczyć po `App\Modules\Settings\Base\Views\Index` (lub `ListView`).
 - `Settings\Base\Views\Index::preProcess()` ustawia `$MENUS` — wystarczy, jeśli szablon używa MainLayout.
+
+## Detail view — `mode=` na pełnej stronie (nie tylko AJAX)
+
+`Detail::process()`: AJAX → `echo invokeExposedMethod($mode)`; pełna strona z `?mode=showRelatedList` (itd.) → wynik handlera trafia do `DETAIL_CONTENT` w `DetailViewHeader.tpl`.
+
+Handlery wołane z pełnej strony muszą **zwracać** HTML: `return $viewer->view('…tpl', $module, true)`. Bez trzeciego argumentu `true` szablon jest **echo** przed `<html>` — layout wygląda na zniszczony przy odświeżeniu URL, choć kliknięcie zakładki (AJAX) może działać. Przykład: `Base\Views\RelatedList::processMailRelatedList`.
 
 ## Kiedy NIE dodawać MainLayout
 

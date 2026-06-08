@@ -1,0 +1,7 @@
+{
+    "languageStrings": {
+        "LBL_LINK_ACTION_IMPORT": "Import signed link actions",
+        "LBL_LINK_ACTION_URL": "Signed link action URL (for href attribute)",
+        "LBL_LINK_ACTION_IMAGE_URL": "Signed open-tracking image URL (for img src)"
+    }
+}

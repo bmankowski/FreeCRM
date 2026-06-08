@@ -1,0 +1,129 @@
+---
+description: "LinkAction — signed /la unsubscribe endpoint, Cyberfolks deploy, CRM queue import"
+globs: ["src/Modules/LinkAction/**", "external/www-la/**", "config/modules/LinkAction.php", "migrations/LinkAction/**", "src/TextParser/LinkActionUrl.php", "src/TextParser/LinkActionImageUrl.php", "src/TextParser/TextParser.php", "src/Modules/Mail/Models/Outbound.php", "src/Modules/Mail/Models/Service.php", "src/Modules/EmailTemplates/**"]
+alwaysApply: false
+---
+
+# LinkAction (signed `/la`)
+
+CRM signs tokens (ECDSA P-256, private key in `config/keys/`); www verifies and appends JSONL; cron `LBL_LINK_ACTION_IMPORT` fetches via HTTPS API and re-verifies.
+
+**Module-generic:** token payload uses `module`, `record_id`, `email_field` (not module-specific IDs). New modules = registry entry in config + handler class; `LinkActionUrl` / `LinkActionImageUrl` active only for registered modules. Handlers: `KandydaciUnsubscribeHandler`, `KandydaciOpenHandler` (audit log only).
+
+## Config
+
+- `config/modules/LinkAction.php` — registry, `email_pepper`, `www_base_url`, `queue_api.*`
+- Keys gitignored: `config/keys/link_action_private_v1.pem`, `link_action_public_v1.pem`, `link_action_queue_api_key.txt`
+- Spec: `documentation/module/LinkAction.md`
+
+## Cyberfolks (itconnect.pl www)
+
+| Item | Value |
+|------|--------|
+| Public click URL | `https://www.itconnect.pl/la` → `public_html/la.php` |
+| Open tracking image | `https://www.itconnect.pl/la/o/{token}/logo.png` → `public_html/img.php` |
+| Queue pull API | `https://www.itconnect.pl/la/queue` → `public_html/queue-api.php` |
+| Deploy package | `external/www-la/` |
+
+**open_basedir** allows only `public_html` — web PHP cannot read `/home/itconnect/private/`. Runtime data lives in `public_html/_link_action/` (`.htaccess`: `Require all denied`). Config fallback in `Config::load()`: `../private/la/config.php` then `_link_action/config.php`.
+
+Deploy: run `composer install --no-dev` in `external/www-la/`, then rsync (SSH **port 222**):
+
+```bash
+REMOTE="itconnect@itconnect.pl:domains/itconnect.pl/public_html"
+RSYNC="rsync -avz -e 'ssh -p 222'"
+cd external/www-la && composer install --no-dev
+eval $RSYNC la.php img.php queue-api.php bootstrap.php "$REMOTE/"
+eval $RSYNC vendor/ "$REMOTE/vendor/"
+eval $RSYNC src/ "$REMOTE/src/"
+eval $RSYNC assets/ "$REMOTE/assets/"
+eval $RSYNC responses/ "$REMOTE/responses/"
+```
+
+**Live host:** `ssh -p 222 itconnect@itconnect.pl` → web root `/home/itconnect/domains/itconnect.pl/public_html/`. Production runs **`bootstrap.php` + `vendor/` + `src/`** (legacy `common.php` may remain unused).
+
+**Config:** edit `public_html/_link_action/config.php` in place — **do not** rsync `config.production.php` (would overwrite `pull_api_key`). Merge new keys (`open`, `logo_asset_path`, `img_rate_limit`) with `__DIR__`-relative paths. Avoid `var_export(require …)` from SSH (CLI cwd breaks paths).
+
+| Path (home-relative) | Purpose |
+|---------------------|---------|
+| `domains/itconnect.pl/public_html/la.php` | Click endpoint |
+| `domains/itconnect.pl/public_html/img.php` | Open-tracking image endpoint |
+| `domains/itconnect.pl/public_html/assets/logo.png` | Static logo served by img.php |
+| `domains/itconnect.pl/public_html/queue-api.php` | CRM queue pull API |
+| `domains/itconnect.pl/public_html/bootstrap.php` + `vendor/` | PSR-4 autoload |
+| `domains/itconnect.pl/public_html/src/` | LinkAction www classes (optional on host if only vendor deployed) |
+| `domains/itconnect.pl/public_html/_link_action/queue.jsonl` | Queue file |
+| `domains/itconnect.pl/public_html/_link_action/keys/link_action_public_v1.pem` | Public key |
+
+Shared secret: `pull_api_key` in www `_link_action/config.php`; CRM reads `config/keys/link_action_queue_api_key.txt` (gitignored) or env `FREECRM_LINK_ACTION_QUEUE_API_KEY`.
+
+Use **`www.itconnect.pl`** in URLs — bare `itconnect.pl` 301s via WordPress.
+
+`.htaccess` in `public_html/` (before WordPress block; **leading `/`** on targets matches live `RewriteBase /`):
+
+```apache
+RewriteRule ^la/o/([^/]+)/logo\.png$ /img.php?t=$1 [L,QSA]
+RewriteRule ^la/queue$ /queue-api.php [L]
+RewriteRule ^la$ /la.php [L,QSA]
+```
+
+## CRM import
+
+- **Pull, not push** — Cyberfolks queues clicks; CRM polls. `vtigercron` runs every minute; `LBL_LINK_ACTION_IMPORT` runs at most once per **300s** → typical latency **1–5 min** after click.
+- Cron: `App\Modules\LinkAction\Cron\ImportTask` (300s) — `fetch()` → `importIncoming()` → `ack()`
+- Local dirs: `import/link-action/{incoming,processed,failed}/` — must be **writable by `www-data`** (cron runs as `gosu www-data`)
+- Manual: `docker compose exec -T cron gosu www-data php cron/vtigercron.php service=LBL_LINK_ACTION_IMPORT`
+- **GET `/la/queue`** = read only (queue unchanged). **POST ack** = truncate remote file (after import). Reading queue in browser/curl does not delete it.
+
+## Queue API behaviour
+
+| GET | 200 + JSONL, or 204 empty |
+| POST ack | 204; CRM sends `{}` + `Content-Type: application/json` (empty POST blocked by Cyberfolks ModSecurity) |
+| Bad key / rate limit | 404 |
+
+WWW logs: `_link_action/pull.log`, `reject.log`, `queue.jsonl`. Inspect via SSH (`ssh -p 222 itconnect@itconnect.pl`).
+
+## Manual smoke
+
+```bash
+# 1. Generate URL (saves cache/la_e2e_token.txt)
+docker compose exec -T app php -r '…'  # see documentation/module/LinkAction.md
+
+# 2. Click — use @file, NOT @$(cat file)
+curl -sS -G "https://www.itconnect.pl/la" --data-urlencode "t@cache/la_e2e_token.txt"
+
+# 2b. Open image (expect image/png; repeat = replay, same bytes)
+curl -sS -D- -o /tmp/logo.png "https://www.itconnect.pl/la/o/{token}/logo.png"
+
+# 3. Peek queue (does not delete)
+curl -sS -H "X-LinkAction-Pull-Key: $(cat config/keys/link_action_queue_api_key.txt)" https://www.itconnect.pl/la/queue
+
+# 4. Import + ack
+docker compose exec -T cron gosu www-data php cron/vtigercron.php service=LBL_LINK_ACTION_IMPORT
+```
+
+Kandydaci email fields live in `u_yf_kandydacicf` (`email_prywatny`, `newsletter_email`); token must match field used at sign time.
+
+## CRM UI
+
+- **Settings → Logs → Link actions** (`Settings:LinkAction` ListView) — read-only audit of `u_yf_link_action_log`; **Mail subject** column joins `mail_message_id` → `u_yf_mail_messages` (which outbound mail was opened)
+- **Settings → Cron tasks** — row `LBL_LINK_ACTION_IMPORT` / `Import podpisanych akcji linkowych` (status, last run)
+- **Email templates + Template elements** — `kandydaci_unsubscribe_footer`, `kandydaci_open_tracking_logo`, variables `LinkActionUrl`, `LinkActionImageUrl`
+- **Kandydaci record** — Maile related list: send status + opened-at time per outbound message; unsubscribe effect: `is_future_contact_allowed` → 0 after import
+- **Not in UI:** queue on Cyberfolks, keys/config (files + DB)
+
+## Email
+
+- Token payload includes **`mid`** = `u_yf_mail_messages.id` (signed; not a raw URL id). Open handler requires valid `mid` + outbound row.
+- **Send lifecycle** (all paths via `Outbound::sendFromTemplate` / `sendRaw`): insert message `send_status=prepared` → `TextParser::setMailMessageId($id)` → parse → send → `sent`|`failed`. Queue rows store `mail_message_id` in `params` JSON; cron `MailerTask` finalizes status.
+- `LinkActionUrl` / `LinkActionImageUrl` emit URLs **only when `mailMessageId > 0`** — template preview / edit preview stays empty (no orphan tokens).
+- **`TextParser::dynamic()` must copy `mailMessageId`** to the nested parser — logo/unsubscribe elements use `$(dynamic : …)`; without this, send body gets `<img src="">` / `<a href="">` even after prepare+parse.
+- Variable: `$(custom : LinkActionUrl|unsubscribe|future_contact|email_prywatny)$` — signed click URL for `<a href="…">`.
+- Variable: `$(custom : LinkActionImageUrl|open|email|email_prywatny)$` — signed image URL for `<img src="…">`; first load = open in audit log.
+- Footer element: `$(dynamic : kandydaci_unsubscribe_footer)$` (pl_pl / en_us)
+- Logo element: `$(dynamic : kandydaci_open_tracking_logo)$` (pl_pl / en_us)
+- Mass mail guard: `EmailParser::$permissionToSend['Kandydaci']` → `is_future_contact_allowed`
+- **Send / compose preview** (`EmailParser` + record): `dynamic` → inner `custom` resolves on server.
+- **Template edit “Podgląd HTML”**: JS `expandDynamicElements` only inlines element HTML — `$(custom : LinkActionUrl…)$` stays literal unless `EmailTemplates` action `ParsePreview` runs (`Edit.js` → `getPreviewDocumentHtmlAsync`). Sample record: latest entity row with non-empty `default_email_field` on `{tablename}cf`.
+- `TextParser\Base::__construct` type hint must be `\App\TextParser\TextParser` (not `\App\TextParser` — breaks `VariablePanel` / `getGeneralVariable()`).
+- DB in actions: `\App\Db\Db::getInstance()`, not `\App\Db`.

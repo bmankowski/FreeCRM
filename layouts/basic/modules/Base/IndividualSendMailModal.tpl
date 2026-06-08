@@ -8,8 +8,7 @@
 	</div>
 	<div class="modal-body">
 		<form class="validateForm"
-			data-mail-accounts='{\App\Utils\Json::encode($MAIL_ACCOUNTS)|escape:'html'}'
-			data-mail-smtp-list='{\App\Utils\Json::encode($SMTP_LIST)|escape:'html'}'>
+			data-mail-compose-senders='{\App\Utils\Json::encode($COMPOSE_SENDERS)|escape:'html'}'>
 			<div class="form-group">
 				<label class="control-label" for="template">{'LBL_EMAIL_TEMPLATE'|t}</label>
 				<select class="select2" id="template" data-validation-engine="validate[required]">
@@ -53,10 +52,10 @@
 				</div>
 			</div>
 		</form>
-		{if !$DEFAULT_SMTP && !$CAN_SEND_MAIL}
+		{if !$CAN_SEND_MAIL}
 			<div class="alert alert-danger" role="alert">
 				<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>&nbsp;&nbsp;
-				{'ERR_NO_DEFAULT_SMTP'|t}
+				{"LBL_NO_MAIL_ACCOUNT"|t:"Mail"}
 			</div>
 		{elseif empty($TEMPLETE_LIST)}
 			<div class="alert alert-warning" role="alert">
@@ -66,7 +65,7 @@
 		{/if}
 	</div>
 	<div class="modal-footer">
-		{if ($DEFAULT_SMTP || $CAN_SEND_MAIL) && $TEMPLETE_LIST && $IS_EMAIL}
+		{if $CAN_SEND_MAIL && $TEMPLETE_LIST && $IS_EMAIL}
 			<button class="btn btn-success" type="submit" name="saveButton">
 				<strong>{'LBL_SEND'|t}</strong>
 			</button>

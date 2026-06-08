@@ -115,6 +115,116 @@ class Account
 		return $accounts;
 	}
 
+	/**
+	 * @return list<array{ref: string, role: string, id: int, name: string, username: string, from_name: string, group_name: string}>
+	 */
+	public static function getComposeSenders(int $userId): array
+	{
+		$senders = [];
+		$personal = self::getPersonalForUser($userId);
+		if ($personal !== null && (int) ($personal['active'] ?? 0) === 1) {
+			$senders[] = self::formatComposeSender($personal, 'personal', '');
+		}
+		$groupAccount = self::getGroupMailboxForUser($userId);
+		if ($groupAccount !== null) {
+			$groupName = (string) ((new \App\Db\Query())
+				->select('groupname')
+				->from('vtiger_groups')
+				->where(['groupid' => (int) ($groupAccount['group_id'] ?? 0)])
+				->scalar() ?: '');
+			$senders[] = self::formatComposeSender($groupAccount, 'group', $groupName);
+		}
+
+		return $senders;
+	}
+
+	public static function getGroupMailboxForUser(int $userId): ?array
+	{
+		$row = (new \App\Db\Query())
+			->select(['a.*'])
+			->from(['a' => 'u_yf_mail_accounts'])
+			->innerJoin(['au' => 'u_yf_mail_account_users'], 'au.account_id = a.id')
+			->where([
+				'a.kind' => 'shared',
+				'au.user_id' => $userId,
+				'au.can_send' => 1,
+				'a.active' => 1,
+			])
+			->andWhere(['not', ['a.group_id' => null]])
+			->orderBy(['a.name' => SORT_ASC])
+			->one();
+
+		return $row ? self::sanitizeForDisplay($row) : null;
+	}
+
+	/**
+	 * @return list<int>
+	 */
+	public static function getUserIdsForGroup(int $groupId): array
+	{
+		if ($groupId <= 0) {
+			return [];
+		}
+		$focus = new \App\Utils\GetGroupUsers();
+		$focus->getAllUsersInGroup($groupId);
+
+		return array_values(array_unique(array_map('intval', $focus->group_users)));
+	}
+
+	public static function syncForGroup(int $groupId): void
+	{
+		if ($groupId <= 0) {
+			return;
+		}
+		$accountIds = (new \App\Db\Query())
+			->select(['id'])
+			->from('u_yf_mail_accounts')
+			->where(['kind' => 'shared', 'group_id' => $groupId])
+			->column();
+		foreach ($accountIds as $accountId) {
+			self::syncGroupMembers((int) $accountId, $groupId);
+		}
+	}
+
+	public static function syncGroupMembers(int $accountId, int $groupId): void
+	{
+		if ($accountId <= 0 || $groupId <= 0) {
+			return;
+		}
+		$db = \App\Db\Db::getInstance();
+		$db->createCommand()->delete('u_yf_mail_account_users', ['account_id' => $accountId])->execute();
+		foreach (self::getUserIdsForGroup($groupId) as $userId) {
+			if ($userId <= 0) {
+				continue;
+			}
+			$db->createCommand()->insert('u_yf_mail_account_users', [
+				'account_id' => $accountId,
+				'user_id' => $userId,
+				'can_send' => 1,
+				'is_default' => 0,
+			])->execute();
+		}
+	}
+
+	/**
+	 * @param array<string, mixed> $account
+	 * @return array{ref: string, role: string, id: int, name: string, username: string, from_name: string, group_name: string}
+	 */
+	private static function formatComposeSender(array $account, string $role, string $groupName): array
+	{
+		$id = (int) ($account['id'] ?? 0);
+
+		return [
+			'ref' => 'account:' . $id,
+			'role' => $role,
+			'id' => $id,
+			'name' => (string) ($account['name'] ?? $account['username'] ?? ''),
+			'username' => (string) ($account['username'] ?? ''),
+			'from_name' => (string) ($account['from_name'] ?? ''),
+			'group_name' => $groupName,
+		];
+	}
+
 	public static function getDefaultAccountId(int $userId): ?int
 	{
 		$id = (new \App\Db\Query())
@@ -192,6 +302,8 @@ class Account
 
 		$row = self::buildRow($data, 'shared', null, $passwordEnc, $existing, $activate);
 		$row['owner_user_id'] = null;
+		$groupId = (int) ($data['group_id'] ?? 0);
+		$row['group_id'] = $groupId > 0 ? $groupId : null;
 		$db = \App\Db\Db::getInstance();
 
 		if ($existing) {
@@ -201,15 +313,19 @@ class Account
 			$accountId = (int) $db->getLastInsertID();
 		}
 
-		if ($accountId && $userIds !== []) {
-			$db->createCommand()->delete('u_yf_mail_account_users', ['account_id' => $accountId])->execute();
-			foreach ($userIds as $uid) {
-				$db->createCommand()->insert('u_yf_mail_account_users', [
-					'account_id' => $accountId,
-					'user_id' => (int) $uid,
-					'can_send' => 1,
-					'is_default' => 0,
-				])->execute();
+		if ($accountId) {
+			if ($groupId > 0) {
+				self::syncGroupMembers((int) $accountId, $groupId);
+			} elseif ($userIds !== []) {
+				$db->createCommand()->delete('u_yf_mail_account_users', ['account_id' => $accountId])->execute();
+				foreach ($userIds as $uid) {
+					$db->createCommand()->insert('u_yf_mail_account_users', [
+						'account_id' => $accountId,
+						'user_id' => (int) $uid,
+						'can_send' => 1,
+						'is_default' => 0,
+					])->execute();
+				}
 			}
 		}
 
@@ -229,9 +345,29 @@ class Account
 
 	public static function listAllForAdmin(): array
 	{
+		$groupNames = (new \App\Db\Query())
+			->select(['groupid', 'groupname'])
+			->from('vtiger_groups')
+			->indexBy('groupid')
+			->all();
+		$userNames = (new \App\Db\Query())
+			->select(['id', 'first_name', 'last_name'])
+			->from('vtiger_users')
+			->indexBy('id')
+			->all();
 		$rows = [];
 		foreach ((new \App\Db\Query())->from('u_yf_mail_accounts')->orderBy(['kind' => SORT_ASC, 'name' => SORT_ASC])->all() as $row) {
-			$rows[] = self::sanitizeForDisplay($row);
+			$display = self::sanitizeForDisplay($row);
+			$gid = (int) ($display['group_id'] ?? 0);
+			$display['group_name'] = $gid > 0 ? (string) ($groupNames[$gid]['groupname'] ?? '') : '';
+			$uid = (int) ($display['owner_user_id'] ?? 0);
+			if (($display['kind'] ?? '') === 'personal' && $uid > 0 && isset($userNames[$uid])) {
+				$u = $userNames[$uid];
+				$display['owner_name'] = trim(($u['first_name'] ?? '') . ' ' . ($u['last_name'] ?? ''));
+			} else {
+				$display['owner_name'] = '';
+			}
+			$rows[] = $display;
 		}
 		return $rows;
 	}
@@ -295,10 +431,12 @@ class Account
 
 	private static function buildRow(array $data, string $kind, ?int $ownerUserId, ?string $passwordEnc, ?array $existing, bool $activate): array
 	{
+		$groupId = (int) ($data['group_id'] ?? 0);
 		$row = [
 			'name' => trim((string) ($data['name'] ?? $data['username'] ?? '')),
 			'kind' => $kind,
 			'owner_user_id' => $ownerUserId,
+			'group_id' => $kind === 'shared' && $groupId > 0 ? $groupId : null,
 			'imap_host' => trim((string) ($data['imap_host'] ?? '')),
 			'imap_port' => (int) ($data['imap_port'] ?? 993),
 			'imap_secure' => $data['imap_secure'] ?? 'ssl',

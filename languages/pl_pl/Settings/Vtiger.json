@@ -217,6 +217,8 @@
         "LBL_AUTOLOGIN_DESCRIPTION": "Konfiguracja automatycznego logowania do modułu poczty",
         "LBL_MAIL_GENERAL_CONFIGURATION": "Konfiguracja ogólna",
         "LBL_MAIL_GENERAL_CONFIGURATION_DESCRIPTION": "Ogólna konfiguracja poczty w systemie",
+        "LBL_MAIL_ACCOUNTS": "Konta pocztowe",
+        "LBL_MAIL_ACCOUNTS_DESCRIPTION": "Zarządzaj kontami współdzielonymi i osobistymi",
         "LBL_SUPPORT_PROCESSES": "Procesy wsparcia",
         "LBL_SUPPORT_PROCESSES_DESCRIPTION": "Zarządzaj procesami wsparcia",
         "LBL_REALIZATION_PROCESSES": "Realizacja",

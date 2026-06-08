@@ -9,15 +9,9 @@
 README.md
 /storage/
 /user_privileges/cron.php
-/cache/session/
-/cache/tmp/
-/cache/pdf/
-/cache/templates_c
+/cache/
 /config/csrf_secret.php
 /config/config_override.php
-/cache/logs/*.log
-/cache/vtlib/
-/cache/smarty/
 /test/templates_c/basic/*.php
 /nbproject/
 /libraries/mPDF/
@@ -51,3 +45,6 @@ dump_to_transfer.sql.gz
 /import/cv/failed/*
 !/import/cv/failed/.gitkeep
 /import/cv/.last_sync
+/config/keys/*.pem
+/config/keys/link_action_queue_api_key.txt
+/import

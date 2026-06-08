@@ -8,6 +8,19 @@ class Module extends \App\Modules\Base\Models\Module
 	public $baseTable = 'u_yf_templateelements';
 	public $baseIndex = 'templateelementsid';
 
+	public static $copyFields = [
+		'type',
+		'module_name',
+		'language',
+		'status',
+		'sequence',
+		'content',
+		'layout_header',
+		'layout_body',
+		'layout_footer',
+		'description',
+	];
+
 	public static function getTypeSelectGroups(): array
 	{
 		return [

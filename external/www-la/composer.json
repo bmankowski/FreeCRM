@@ -1,0 +1,14 @@
+{
+	"name": "freecrm/link-action-www",
+	"description": "LinkAction public www endpoint (token verify, queue)",
+	"type": "project",
+	"license": "proprietary",
+	"require": {
+		"php": ">=8.2"
+	},
+	"autoload": {
+		"psr-4": {
+			"FreeCRM\\LinkAction\\Www\\": "src/"
+		}
+	}
+}

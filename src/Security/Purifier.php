@@ -98,6 +98,18 @@ class Purifier
 	}
 
 	/**
+	 * Strip legacy CSS constructs that were used for script execution in old browsers.
+	 */
+	public static function purifyDangerousCss(string $value): string
+	{
+		return preg_replace(
+			'/\b(expression\s*\(|javascript:|behavior\s*:|(-moz-)?binding\s*:)/i',
+			'',
+			$value
+		);
+	}
+
+	/**
 	 * Purify HTML (Cleanup) malicious snippets of code from the input
 	 *
 	 * @param string $input
@@ -112,7 +124,7 @@ class Purifier
 		$value = $input;
 		$cacheKey = md5($input);
 		// Pool name bumped when HTMLPurifier policy changes (avoid serving stale stripped HTML).
-		$purifyHtmlCachePool = 'purifyHtml_v6';
+		$purifyHtmlCachePool = 'purifyHtml_v7';
 		if (Cache::has($purifyHtmlCachePool, $cacheKey)) {
 			$value = Cache::get($purifyHtmlCachePool, $cacheKey);
 			$ignore = true; //to escape cleaning up again
@@ -126,7 +138,7 @@ class Purifier
 					@mkdir($cachePath, 0755, true);
 				}
 				$allowed = [
-					'img[src|alt|title|width|height|style|data-mce-src|data-mce-json|class]',
+					'img[src|alt|title|width|height|style|decoding|loading|data-mce-src|data-mce-json|class]',
 					'figure', 'figcaption',
 					'video[src|type|width|height|poster|preload|controls|style|class]', 'source[src|type]',
 					'audio[src|type|preload|controls|class]',
@@ -135,7 +147,7 @@ class Purifier
 					'strong', 'b', 'i', 'u', 'em', 'br', 'font',
 					'h1[style|class]', 'h2[style|class]', 'h3[style|class]', 'h4[style|class]', 'h5[style|class]', 'h6[style|class]',
 					'p[style|class]', 'div[style|class]', 'center', 'address[style]',
-					'span[style|class]', 'pre[style]',
+					'span[style|class|aria-hidden]', 'pre[style]',
 					'ul', 'ol', 'li',
 					'table[width|height|border|style|class]', 'th[width|height|border|style|class|colspan|rowspan]',
 					'tr[width|height|border|style|class]', 'td[width|height|border|style|class|colspan|rowspan]',
@@ -153,7 +165,7 @@ class Purifier
 				$config->set('HTML.SafeEmbed', true);
 				$config->set('URI.SafeIframeRegexp', '%^(http:|https:)?//(www.youtube(?:-nocookie)?.com/embed/|player.vimeo.com/video/)%');
 				$config->set('HTML.Allowed', implode(',', $allowed));
-				$config->set('HTML.DefinitionRev', 3);
+				$config->set('HTML.DefinitionRev', 4);
 				// Default HTMLPurifier drops data: from img[src] etc.; allow for inline images (PDF templates, user photo).
 				$uriSchemes = $config->get('URI.AllowedSchemes');
 				if (is_array($uriSchemes)) {
@@ -215,6 +227,15 @@ class Purifier
 					$def->addAttribute('tr', 'width', 'Text');
 					$def->addAttribute('tr', 'height', 'Text');
 					$def->addAttribute('tr', 'border', 'Text');
+					foreach ([
+						'div', 'span', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+						'table', 'tr', 'td', 'th', 'a', 'img', 'video', 'address', 'pre',
+					] as $styleTag) {
+						$def->addAttribute($styleTag, 'style', 'Text');
+					}
+					$def->addAttribute('span', 'aria-hidden', 'Text');
+					$def->addAttribute('img', 'decoding', 'Text');
+					$def->addAttribute('img', 'loading', 'Text');
 				}
 				$config->autoFinalize = true;
 				\HTMLPurifier_URISchemeRegistry::instance()->register(
@@ -226,6 +247,7 @@ class Purifier
 			if (static::$purifyHtmlInstanceCache) {
 				$value = static::$purifyHtmlInstanceCache->purify(static::decodeHtml($input));
 				$value = static::purifyHtmlEventAttributes(static::decodeHtml($value));
+				$value = static::purifyDangerousCss($value);
 				Cache::save($purifyHtmlCachePool, $cacheKey, $value, Cache::SHORT);
 			}
 		}

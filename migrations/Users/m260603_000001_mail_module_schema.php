@@ -278,7 +278,7 @@ SQL);
 		if ((new Query())->from('vtiger_settings_field')->where(['name' => 'LBL_MAIL_ACCOUNTS'])->exists()) {
 			return;
 		}
-		\App\Modules\Settings\Base\Models\Module::addSettingsField('LBL_MAIL', [
+		\App\Modules\Settings\Base\Models\Module::addSettingsField('LBL_MAIL_TOOLS', [
 			'name' => 'LBL_MAIL_ACCOUNTS',
 			'iconpath' => 'adminIcon-mail-scanner',
 			'description' => 'LBL_MAIL_ACCOUNTS_DESCRIPTION',

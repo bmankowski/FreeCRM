@@ -1,0 +1,21 @@
+{
+    "languageStrings": {
+        "LBL_LINK_ACTION_LOG": "Akcje linkowe",
+        "LBL_LINK_ACTION_LOG_DESCRIPTION": "Rejestr kliknięć podpisanych linków publicznych i otwarć e-maili importowanych z www",
+        "LBL_CLICKED_AT": "Kliknięto",
+        "LBL_PROCESSED_AT": "Przetworzono",
+        "LBL_MODULE": "Moduł",
+        "LBL_RECORD": "Rekord",
+        "LBL_LINK_ACTION_SEND_SUBJECT": "Temat wiadomości",
+        "LBL_ACTION": "Akcja",
+        "LBL_SCOPE": "Zakres",
+        "LBL_EMAIL_FIELD": "Pole e-mail",
+        "LBL_TOKEN_FP": "Odcisk tokenu",
+        "LBL_LINK_ACTION_ACTION_UNSUBSCRIBE": "Wypisanie",
+        "LBL_LINK_ACTION_ACTION_OPEN": "Otwarcie",
+        "LBL_LINK_ACTION_SCOPE_FUTURE_CONTACT": "Przyszły kontakt",
+        "LBL_LINK_ACTION_SCOPE_ALL": "Cały kontakt",
+        "LBL_LINK_ACTION_SCOPE_EMAIL": "E-mail"
+    },
+    "jsLanguageStrings": {}
+}

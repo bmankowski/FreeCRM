@@ -91,41 +91,44 @@ class Mailer
 		if (empty($params['template'])) {
 			return false;
 		}
-		$recordModel = false;
-		if (empty($params['recordModel'])) {
-			$moduleName = isset($params['moduleName']) ? $params['moduleName'] : null;
-			if (isset($params['recordId'])) {
-				$recordModel = \App\Modules\Base\Models\Record::getInstanceById($params['recordId'], $moduleName);
-			}
-		} else {
-			$recordModel = $params['recordModel'];
-		}
 		$template = \App\Email\Mail::getTemplete($params['template']);
 		if (!$template) {
 			return false;
 		}
 
-		$textParser = $recordModel ? \App\TextParser\TextParser::getInstanceByModel($recordModel) : \App\TextParser\TextParser::getInstance(isset($params['moduleName']) ? $params['moduleName'] : '');
-		if (!empty($params['language'])) {
-			$textParser->setLanguage($params['language']);
+		$userId = self::resolveSendUserId($params);
+		$senderRef = (string) ($params['senderRef'] ?? '');
+		if ($senderRef === '') {
+			$senderRef = \App\Modules\Mail\Models\Module::defaultSenderRefForTemplate($template, $userId);
 		}
-		$textParser->setParams(array_diff_key($params, array_flip(['subject', 'content', 'attachments', 'recordModel'])));
-		$sourceRecord = isset($params['sourceRecord']) ? (int) $params['sourceRecord'] : 0;
-		$sourceModule = isset($params['sourceModule']) ? (string) $params['sourceModule'] : '';
-		if ($sourceRecord && '' !== $sourceModule) {
-			$textParser->setSourceRecord($sourceRecord, $sourceModule);
+		if ($senderRef === '') {
+			return false;
 		}
-		$params['subject'] = $textParser->setContent($template['subject'])->parse()->getContent();
-		$params['content'] = $textParser->setContent($template['content'])->parse()->getContent();
-		unset($textParser);
-		if (empty($params['smtp_id'])) {
-			$params['smtp_id'] = \App\Email\Mail::resolveTemplateSmtpId($template);
+
+		try {
+			\App\Modules\Mail\Models\Outbound::sendFromTemplate($userId, $senderRef, $params, $template);
+		} catch (\Throwable $e) {
+			\App\Log\Log::error('sendFromTemplate failed: ' . $e->getMessage(), 'Mailer');
+			return false;
 		}
-		if (isset($template['attachments'])) {
-			$params['attachments'] = array_merge(empty($params['attachments']) ? [] : $params['attachments'], $template['attachments']);
-		}
-		static::addMail(array_intersect_key($params, array_flip(static::$quoteColumn)));
+
 		return true;
+	}
+
+	/**
+	 * @param array<string, mixed> $params
+	 */
+	private static function resolveSendUserId(array $params): int
+	{
+		if (!empty($params['owner'])) {
+			return (int) $params['owner'];
+		}
+		if (!empty($params['userId'])) {
+			return (int) $params['userId'];
+		}
+		$owner = \App\Modules\Users\Models\Record::getCurrentUserRealId();
+
+		return $owner ? (int) $owner : 1;
 	}
 
 	/**
@@ -134,6 +137,12 @@ class Mailer
 	 */
 	public static function addMail($params)
 	{
+		$crmMessageId = (int) ($params['mail_message_id'] ?? 0);
+		if ($crmMessageId <= 0) {
+			throw new \App\Exceptions\AppException('Outbound mail requires mail_message_id');
+		}
+		unset($params['mail_message_id']);
+
 		if (!empty($params['content'])) {
 			$params['content'] = \App\Utils\TemplateStyles::inlineEmailCss($params['content']);
 		}
@@ -154,7 +163,18 @@ class Mailer
 				$params[$key] = \App\Utils\Json::encode($params[$key]);
 			}
 		}
-		\App\Db\Db::getInstance('admin')->createCommand()->insert('s_#__mail_queue', $params)->execute();
+		$customParams = [];
+		if (!empty($params['params'])) {
+			$decoded = \App\Utils\Json::decode($params['params']);
+			if (is_array($decoded)) {
+				$customParams = $decoded;
+			}
+		}
+		$customParams['mail_message_id'] = $crmMessageId;
+		$params['params'] = \App\Utils\Json::encode($customParams);
+
+		$db = \App\Db\Db::getInstance('admin');
+		$db->createCommand()->insert('s_#__mail_queue', $params)->execute();
 	}
 
 	/**

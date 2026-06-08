@@ -14,7 +14,8 @@ class EmailParser extends \App\TextParser\TextParser
 		'Accounts' => 'emailoptout',
 		'Contacts' => 'emailoptout',
 		'Users' => 'emailoptout',
-		'Leads' => 'noapprovalemails'
+		'Leads' => 'noapprovalemails',
+		'Kandydaci' => 'is_future_contact_allowed',
 	];
 	public $emailoptout = true;
 

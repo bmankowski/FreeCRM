@@ -82,4 +82,15 @@ class Message
 		$db->createCommand()->insert('u_yf_mail_messages', $data)->execute();
 		return (int) $db->getLastInsertID();
 	}
+
+	/**
+	 * @param array<string, mixed> $data
+	 */
+	public static function updateOutbound(int $id, array $data): void
+	{
+		if ($data === []) {
+			return;
+		}
+		\App\Db\Db::getInstance()->createCommand()->update('u_yf_mail_messages', $data, ['id' => $id])->execute();
+	}
 }

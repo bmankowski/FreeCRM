@@ -1,6 +1,6 @@
 ---
 description: "Mail module — credential UI, cron scan, and common pitfalls when editing Mail code"
-globs: ["src/Modules/Mail/**", "src/Modules/Settings/Mail/**", "src/Modules/Settings/MailAccount/**", "layouts/basic/modules/Mail/**", "layouts/basic/modules/Settings/Mail/**", "layouts/basic/modules/Settings/MailAccount/**"]
+globs: ["src/Modules/Mail/**", "src/Modules/Settings/Mail/**", "src/Modules/Settings/MailAccount/**", "src/Email/Mailer.php", "src/Modules/Cron/Tasks/MailerTask.php", "layouts/basic/modules/Mail/**", "layouts/basic/modules/Settings/Mail/**", "layouts/basic/modules/Settings/MailAccount/**"]
 alwaysApply: false
 ---
 
@@ -13,11 +13,15 @@ Replaces OSSMail/OSSMailScanner/OSSMailView. Messages live in `u_yf_mail_*`; `vt
 | Who | UI | URL |
 |-----|-----|-----|
 | User (personal IMAP+SMTP) | **Moje ustawienia** → Edytuj → panel **Skrzynka pocztowa** | `index.php?module=Users&view=PreferenceEdit&record=<userId>` |
-| Admin (shared + all accounts) | Settings → **Narzędzia pocztowe** → **Konta pocztowe** | `index.php?parent=Settings&module=MailAccount&view=List` |
+| Admin (all mailboxes — personal + shared) | Settings → **Narzędzia pocztowe** → **Konta pocztowe** | `index.php?parent=Settings&module=MailAccount&view=List` |
 | Admin (system SMTP for templates/workflows) | Settings → **Konfiguracja - SMTP** | `index.php?parent=Settings&module=MailSmtp&view=List` |
 | Admin (outbound queue, manual send) | Settings → **E-maile do wysłania** | `index.php?parent=Settings&module=Mail&view=ListView` — detail **Manual sending** → `SendManuallyAjax` |
 
 Personal mailbox saves via Ajax (`Mail/SavePersonalAccount`, `TestConnection`) — not the main Users Save button. Requires active encryption (`Settings → Hasła - szyfrowanie`).
+
+**Admin hub (Settings → Konta pocztowe):** unified list (`Account::listAllForAdmin()`). Row click → `Settings/MailAccount/Edit`. Connection UI shared with user self-service: `Mail/MailboxFields.tpl` + `Mail/MailboxForm.js` (PreferenceMailbox + Settings Edit). **Test:** `Mail/TestConnection` only (never save on test). **Personal** edit from Settings: `kind=personal`, save via `Mail/SavePersonalAccount`. **Shared** edit: `kind=shared`, **Grupa CRM** picker, save via `Settings/MailAccount/SaveAjax`. **Dodaj** creates shared only (`LBL_ADD_SHARED_ACCOUNT`). Users still use PreferenceMailbox for self-service.
+
+**Shared / group accounts:** `kind=shared`, `group_id` → `vtiger_groups`. `Account::syncGroupMembers()` fills `u_yf_mail_account_users` from group membership (`GetGroupUsers`) when the shared account is saved **or** when the linked CRM group is saved (`GroupAfterSave` → `Mail_GroupMailboxSync_Handler` → `Account::syncForGroup()`). Manual compose offers this account via `Account::getComposeSenders()` (see `mail-compose.mdc`).
 
 ## Personal account defaults
 
@@ -26,6 +30,19 @@ Org-wide IMAP/SMTP settings (hosts, ports, SSL, inbox/sent folder names) live in
 Merge via `Account::applyPersonalDefaults($data, $userId)` — used on save, test connection, IMAP scan, and `getPersonalForDisplay()` (mailbox form when account missing or fields empty). Shared accounts (`kind=shared`) skip this.
 
 Cron: `LBL_MAIL_SCAN` → `Mail\Cron\Scanner`; `LBL_MAIL_LOG_PRUNE` → `Mail\Cron\LogPrune`.
+
+## Settings MailAccount pitfalls (2026-06)
+
+- Menu field `LBL_MAIL_ACCOUNTS` must sit under block **`LBL_MAIL_TOOLS`** (`vtiger_settings_field.blockid`). Wrong block label (`LBL_MAIL`) → invisible menu.
+- URL `view=List` → class **`ListView`**; file must be `src/Modules/Settings/MailAccount/Views/ListView.php` (not `List.php`). Load `Settings/MailAccount/resources/List.js` in `ListView::getFooterScripts` — page controller is `Settings_MailAccount_List_Js` (not `ListView_Js`).
+- **`Module::$virtualListFields`:** must be `protected array` (same as parent) — wrong visibility/type → blank list fatal.
+- **`Settings\MailAccount\Models\Module`:** do not override `getInstance()` with a zero-arg signature — fatals vs parent. Set `$name = 'MailAccount'` only.
+- **`Settings\MailAccount\Models\Record`:** use parent `BaseModel` (`valueMap`); never `get(string $key)` / `set(string $key)` — incompatible with `BaseModel::get($key)`.
+- **`Edit.tpl`:** `{include file='EditContent.tpl'|@vtemplate_path:$QUALIFIED_MODULE}` — not `modules/Settings/MailAccount/…` (Smarty resolves under `layouts/basic/modules/Settings/MailAccount/`).
+- Form id `#MailAccountForm`; `Settings_MailAccount_Edit_Js` must override `getForm()` — default `#EditView` is wrong.
+- List uses standard `Settings\Base\Views\ListView` + `ListViewContent.tpl`: row click via `data-recordurl` from `Record::getDetailViewUrl()` (→ Edit). No per-row Edit button.
+- `Edit.php` `getFooterScripts`: use `$request->getModule()` (not `getModule(false)`) for JS path `modules.Settings.MailAccount.resources.Edit`. Load **`modules.Settings.Vtiger.resources.Edit` first** (defines `Settings_Vtiger_Edit_Js` — without it `Settings_MailAccount_Edit_Js` never registers), then `Mail/MailboxForm.js` + `ImapFolderPicker.js`.
+- Menu label: add `LBL_MAIL_ACCOUNTS` to `languages/*/Settings/Vtiger.json` (settings sidebar uses that module for `|t`).
 
 ## Pitfalls (real bugs from 2026-06)
 
@@ -36,6 +53,32 @@ Cron: `LBL_MAIL_SCAN` → `Mail\Cron\Scanner`; `LBL_MAIL_LOG_PRUNE` → `Mail\Cr
 - **`s_#__mail_queue` (admin connection):** `\App\Db\Db::getInstance('admin')` — `\App\Db::getInstance` is invalid and fatals (`SendManuallyAjax`, `MassSend`). Same send path as cron: `Mailer::sendByRowQueue()`.
 
 Design reference: `documentation/cr-Mail-module.md`.
+
+## Outbound send (2026-06)
+
+All outbound mail creates **`u_yf_mail_messages`** first (`send_status`: `prepared` → `sent`|`failed`). Entry points: `Outbound::sendFromTemplate`, `Outbound::sendRaw`, `Mailer::sendFromTemplate` (delegates).
+
+| Path | Delivery | Status finalized |
+|------|----------|------------------|
+| `account:` sender | `Outbound::deliverViaAccount` (immediate) | on SMTP success/fail |
+| `smtp:` sender | `Mailer::addMail` → cron `MailerTask` | after `sendByRowQueue` |
+
+- **`Mailer::addMail` requires `mail_message_id`** — stored in queue `params` JSON; never insert queue row without prepared CRM message.
+- LinkAction tokens get `mid` at parse time — see `link-action.mdc`. Do not parse template body before `prepare()` + `setMailMessageId()`.
+- List mass-mail / compose modal: always re-parse template at send (subject override OK); do not send pre-previewed HTML with baked-in tracking URLs.
+
+## Record mail list (Kandydaci → Maile tab)
+
+- **Related list:** `Base\Views\RelatedList::processMailRelatedList` → `Mail\Models\Service::getMessagesForRecord()` → `layouts/basic/modules/Mail/RelatedList.tpl`. Must `return $viewer->view(..., true)` and `RelatedList::process()` must `return` it — see `main-layout-views.mdc` (broken layout on URL refresh if echoed).
+- Outbound columns: **`send_status`** (`sent` / `failed` / `prepared`) and **opened at** — `LEFT JOIN` subquery on `u_yf_link_action_log` (`action=open`, `mail_message_id`, `MIN(clicked_at)`). Same data on `Mail/Detail.tpl` and `Mail/widgets.tpl`.
+- Inbound rows: status/open columns show `—`. Open requires valid tracking pixel in stored `body_html` + import cron; empty `<img src="">` = broken send (see `link-action.mdc` dynamic pitfall).
+- **Detail links** from related list / widget: `Module::getMessageDetailUrl($id, $sourceModule, $sourceRecord)` — pass parent context so breadcrumbs and prev/next work.
+
+## Mail detail view (`Mail&view=Detail`)
+
+- `Mail\Views\Detail` + `layouts/basic/modules/Mail/Detail.tpl` — full page (`extends MainLayout`), header with `BreadCrumbs.tpl` + prev/next (same shell as `DetailViewHeader.tpl`, no `Detail.js` dependency).
+- Parent context: `sourceModule` + `sourceRecord` query params, else first `u_yf_mail_record_links` row. Breadcrumb trail: parent module → record label → **E-maile** (`Module::getParentRelatedListUrl`) → subject.
+- Prev/next: `Service::getAdjacentMessageIds()` — same `date_sent DESC` order as `getMessagesForRecord`; URLs via `getMessageDetailUrl()` keeping source params.
 
 ## Inline images (templates → Gmail)
 

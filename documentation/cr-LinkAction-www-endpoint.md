@@ -8,10 +8,10 @@ Introduce a **public-facing link-action endpoint** on the Cyberfolks www server 
 2. Verifies signature + expiry on www using **public key only** — a www server compromise must **not** allow forging valid action links.
 3. Appends accepted events to a **JSON Lines queue file** on www.
 4. Lets FreeCRM **pull and import** that queue via cron (CRM is behind VPN; www cannot call CRM).
-5. Executes v1 action **`unsubscribe`** (scopes: `future_contact`, `all`) on **`Kandydaci`** records.
-6. Exposes a **TextParser variable** for email templates: `$(custom : KandydaciLinkActionUrl|Kandydaci)$` with parameters for `action` / `scope` / target email field.
+5. Executes registered link actions for any opted-in module; v1 registers **`unsubscribe`** (scopes: `future_contact`, `all`) for **`Kandydaci`** records.
+6. Exposes a reusable **TextParser variable** for email templates: `$(custom : LinkActionUrl|unsubscribe|future_contact|newsletter_email)$`, resolved against the current template record module.
 
-This replaces any ad-hoc “unsubscribe URL in template” approach with a generic, extensible **link-action** contract usable for future actions (confirm email, preference change) without new endpoints.
+This replaces any ad-hoc “unsubscribe URL in template” approach with a generic, extensible **link-action** contract usable by every module that registers supported actions (unsubscribe today, confirm email or preference changes later) without new endpoints.
 
 **Reference patterns in repo today:**
 
@@ -27,8 +27,8 @@ This replaces any ad-hoc “unsubscribe URL in template” approach with a gener
 - **Defense in depth.** CRM **re-verifies** every token signature when importing the queue file — tampered rows are rejected even if www PHP was patched.
 - **No parallel import paths.** One queue format, one cron importer, one dedup key (`jti`).
 - **No `class_alias()`**, no legacy unsubscribe shim.
-- **Generic action contract** from day one; v1 implements only `unsubscribe` handlers — other actions are rejected on www and skipped in CRM until implemented.
-- **Preserve production data.** Unsubscribe only clears consent flags; never deletes candidate records.
+- **Generic action contract** from day one; modules opt in through a LinkAction registry/config, and v1 implements only the registered `Kandydaci` `unsubscribe` handler — unregistered modules/actions are rejected on www and skipped in CRM.
+- **Preserve production data.** Unsubscribe only clears configured consent flags; never deletes records.
 
 ---
 
@@ -39,7 +39,7 @@ This replaces any ad-hoc “unsubscribe URL in template” approach with a gener
 | A1 | CRM runs on VPN-only server; cron container has outbound SSH/SFTP to `itconnect.pl:22222` (same host as existing `GetProjectsToJSON`). |
 | A2 | Cyberfolks serves PHP 8.2+ with OpenSSL extension (`openssl_sign` / `openssl_verify` with `OPENSSL_ALGO_SHA256` and EC keys). **Verified** on `s63.cyber-folks.pl`: PHP 8.2.30, OpenSSL 3.5.1, ECDSA P-256 key generation and sign/verify confirmed working. `sodium` extension is NOT available — do not use it. |
 | A3 | www document root: `public_html/autoinstalator/wordpress/` (or sibling path); `la.php` deployed outside direct public use. Public URL is **only** `https://itconnect.pl/la`; web server rewrite routes `/la` to the PHP endpoint. |
-| A4 | Target module for v1 unsubscribe is **`Kandydaci`**; field `is_future_contact_allowed` (uitype 56) is the consent flag; `data_maksymalny_kontakt_rodo` is updated on revoke. |
+| A4 | LinkAction is module-generic; v1 registers **`Kandydaci`** for `unsubscribe`. Field `is_future_contact_allowed` (uitype 56) is the consent flag; `data_maksymalny_kontakt_rodo` is updated on revoke. |
 | A5 | Token TTL in emails: **730 days** (2 years) — old mailing links remain valid. |
 | A6 | Queue file on www: `../private/la/queue.jsonl` (outside `public_html`); CRM pulls to `import/link-action/incoming/queue.jsonl`. |
 | A7 | Email binding uses normalized lowercase email + install pepper (`config/secret_keys.php` or dedicated `email_pepper` in `config/modules/LinkAction.php`). |
@@ -53,21 +53,22 @@ This replaces any ad-hoc “unsubscribe URL in template” approach with a gener
 
 | Path | Change | Observable? |
 |------|--------|---------------|
-| `config/modules/LinkAction.php` | **New** — keys paths, www SSH pull config, allowed actions, token TTL, base URL | Internal |
+| `config/modules/LinkAction.php` | **New** — keys paths, www SSH pull config, module/action registry, token TTL, base URL | Internal |
 | `config/secret_keys.php` or `config/modules/LinkAction.php` | `email_pepper` (or reuse existing pepper pattern) | Internal |
 | `src/Modules/LinkAction/Services/LinkActionToken.php` | **New** — sign (CRM), verify (CRM import), payload encode/decode | Internal |
 | `src/Modules/LinkAction/Services/QueuePuller.php` | **New** — SSH/SCP pull queue from www → `import/link-action/incoming/` | Internal |
 | `src/Modules/LinkAction/Services/QueueImporter.php` | **New** — parse JSONL, re-verify, dedup, dispatch handlers | Internal |
-| `src/Modules/LinkAction/Services/Handlers/UnsubscribeHandler.php` | **New** — `unsubscribe` + scopes | Internal |
+| `src/Modules/LinkAction/Services/Handlers/HandlerInterface.php` | **New** — common handler contract for module/action implementations | Internal |
+| `src/Modules/LinkAction/Services/Handlers/KandydaciUnsubscribeHandler.php` | **New** — first registered `unsubscribe` implementation | Internal |
 | `src/Modules/LinkAction/Services/FilePaths.php` | **New** — `incoming/`, `processed/`, `failed/` under `import/link-action/` | Internal |
 | `src/Modules/LinkAction/Cron/ImportTask.php` | **New** — cron entry point | Internal |
-| `src/Modules/Kandydaci/textparsers/KandydaciLinkActionUrl.php` | **New** — `$(custom : KandydaciLinkActionUrl\|Kandydaci)$` with params `action\|scope\|emailField` | Email templates |
+| `src/TextParser/LinkActionUrl.php` | **New** — reusable `$(custom : LinkActionUrl\|action\|scope\|emailField)$`, resolved against current record module | Email templates |
+| `src/TextParser/TextParser.php` | Ensure global custom TextParser variables are discoverable in the template variable picker if current discovery does not list `src/TextParser/*.php` classes | Template editor |
 | `src/Email/EmailParser.php` | Add `Kandydaci` → `is_future_contact_allowed`; this is an allow flag: send only when field value is `1` | Mass/workflow mail |
 | `migrations/LinkAction/m260604_000001_link_action_schema.php` | **New** — upgrade migration for log table, cron registration, and seeded Template Element | Install/upgrade |
 | `src/Modules/Install/install_schema/Base2.php` | Cron row, `u_yf_link_action_log` table, and Template Element seed | Install |
 | `src/Modules/Install/install_schema/data.sql` | Same seed data | Fresh install |
-| `languages/en_us/LinkAction.json`, `languages/pl_pl/LinkAction.json` | **New** — cron label, admin messages | Cron UI |
-| `languages/en_us/Kandydaci.json`, `languages/pl_pl/Kandydaci.json` | TextParser label `LBL_KANDYDACI_LINK_ACTION_URL` | Template editor |
+| `languages/en_us/LinkAction.json`, `languages/pl_pl/LinkAction.json` | **New** — cron label, admin messages, TextParser label `LBL_LINK_ACTION_URL` | Cron UI / Template editor |
 | `languages/en_us/TemplateElements.json`, `languages/pl_pl/TemplateElements.json` | Label for seeded unsubscribe footer Template Element | Template editor |
 | `documentation/module/LinkAction.md` | **New** — token spec, deploy runbook | Docs |
 | `external/www-la/la.php` | **New** — verify-only endpoint for Cyberfolks deploy | External |
@@ -88,7 +89,7 @@ Hardcoded credentials in `GetProjectsToJSON.php` / `test.php` are **not** in sco
 
 | Item | Change | Observable? |
 |------|--------|---------------|
-| `u_yf_link_action_log` | **New table** — processed `jti`, action metadata, audit | Internal |
+| `u_yf_link_action_log` | **New table** — processed `jti`, module, record id, action metadata, audit | Internal |
 | `vtiger_cron_task` | Insert: `LBL_LINK_ACTION_IMPORT` → `LinkAction\Cron\ImportTask`, frequency 300s | Cron admin |
 | Module metadata (`vtiger_tab`) | **No new tab** — utility cron only (like Mail scanner registration) | — |
 | `Kandydaci` fields | **No schema change** — uses existing `is_future_contact_allowed`, `data_maksymalny_kontakt_rodo` | — |
@@ -119,7 +120,7 @@ Task order: pull remote queue (append or replace) → import new lines → archi
 | Consumer | Change |
 |----------|--------|
 | **Cyberfolks www** | Deploy `external/www-la/*`; install public key PEM; create `private/la/` directory writable by PHP; route public `/la` to the PHP endpoint |
-| **Email templates** | Update existing `Kandydaci` email template record `1444661` to include seeded `$(dynamic : kandydaci_unsubscribe_footer)$`; raw `$(custom : KandydaciLinkActionUrl\|Kandydaci\|unsubscribe\|future_contact\|newsletter_email)$` remains available inside the Template Element |
+| **Email templates** | Update existing `Kandydaci` email template record `1444661` to include seeded `$(dynamic : kandydaci_unsubscribe_footer)$`; raw `$(custom : LinkActionUrl\|unsubscribe\|future_contact\|newsletter_email)$` remains available inside the Template Element |
 | **itconnect.pl WordPress** | No WP plugin required; standalone PHP endpoint behind `/la` rewrite |
 
 ### Call sites to update
@@ -127,7 +128,7 @@ Task order: pull remote queue (append or replace) → import new lines → archi
 | Contract | Call sites |
 |----------|------------|
 | `EmailParser::$permissionToSend` | `src/Email/EmailParser.php` — add `Kandydaci` entry; verify workflows and mass mail honor `is_future_contact_allowed = 1` before sending |
-| TextParser custom | New file only; auto-discovered via `modules/Kandydaci/textparsers/` |
+| TextParser custom | New reusable parser class plus any loader adjustment needed for global parser discoverability |
 | Email template content | Update `Kandydaci` email template record `1444661` to include `$(dynamic : kandydaci_unsubscribe_footer)$` |
 
 ---
@@ -138,19 +139,18 @@ Task order: pull remote queue (append or replace) → import new lines → archi
 
 | ID | Requirement | Before → After |
 |----|-------------|----------------|
-| F1 | Token generation | None → CRM signs ECDSA P-256 payload when rendering email template variable |
+| F1 | Token generation | None → CRM signs ECDSA P-256 payload when rendering email template variable for any registered module/action |
 | F2 | www endpoint | None → `GET /la?t=<kid>.<payload_b64url>.<sig_b64url>` verifies and appends to queue |
 | F3 | CRM import | None → Cron pulls queue, re-verifies, applies handler, logs `jti` |
-| F4 | `unsubscribe` / `future_contact` | Manual only → Sets `is_future_contact_allowed = 0`, sets `data_maksymalny_kontakt_rodo = today` |
-| F5 | `unsubscribe` / `all` | — → Same as `future_contact` in v1 (only one consent dimension exists today) |
-| F6 | Email binding | — → Token valid only if `eh` matches SHA-256 of normalized target email + pepper for that candidate |
+| F4 | `Kandydaci` `unsubscribe` / `future_contact` | Manual only → Sets `is_future_contact_allowed = 0`, sets `data_maksymalny_kontakt_rodo = today` |
+| F5 | `Kandydaci` `unsubscribe` / `all` | — → Same as `future_contact` in v1 (only one consent dimension exists today) |
+| F6 | Email binding | — → Token valid only if `eh` matches SHA-256 of normalized target email + pepper for the token's module, record, and email field |
 | F7 | Idempotency | — → Same `jti` processed once (DB unique + www-side `jti` file optional) |
 | F8 | Expired token | — → www shows generic message; **no queue write** |
 | F9 | Invalid signature | — → Generic message; no queue write; rate-limited |
 | F10 | Mass mail guard | Kandydaci ignores future-contact consent → `EmailParser` skips recipients with `is_future_contact_allowed = 0` when `emailoptout` checking enabled |
-| F11 | Audit | — → `u_yf_link_action_log` row per applied action; ModComment on candidate optional (v1: log table only) |
 | F12 | Key rotation | — → `kid` in token; CRM + www support multiple public keys; CRM signs with active private `kid` |
-| F13 | Template Element | — → Seed active `kandydaci_unsubscribe_footer` Template Element containing the signed unsubscribe link and standard footer copy |
+| F13 | Template Element | — → Seed active `kandydaci_unsubscribe_footer` Template Element containing the generic signed unsubscribe link and standard footer copy |
 | F14 | Confirmation UX | — → Successful unsubscribe click shows a thank-you/completed message; invalid/expired/rejected tokens still show a generic failure page |
 
 ### Out of scope (future CR)
@@ -159,6 +159,7 @@ Task order: pull remote queue (append or replace) → import new lines → archi
 |------|--------|
 | `unsubscribe` / `newsletter` as separate consent field | No dedicated newsletter-consent checkbox on `Kandydaci` — deferred until field exists |
 | `confirm`, `preference` actions | Contract ready; handlers not implemented |
+| Additional module registrations | Supported by the contract, but only `Kandydaci` is registered in v1 |
 | WP plugin wrapper | Standalone PHP sufficient |
 | Real-time webhook (www → CRM) | CRM behind VPN |
 | Admin UI for key rotation | Manual PEM deploy in v1 |
@@ -169,7 +170,7 @@ Task order: pull remote queue (append or replace) → import new lines → archi
 
 1. Unsubscribe is **acknowledged as complete on www** after queue write and **effective in CRM** after next successful cron import (≤5 min default).
 2. CRM import **never** applies an action without valid ECDSA P-256 signature, even if the queue line exists.
-3. If `cid` not found or `eh` does not match any email field on candidate → line moved to `failed/`, logged, no record change.
+3. If `module` is not registered, `record_id` is not found, `email_field` is not allowed, or `eh` does not match that field on the record → line moved to `failed/`, logged, no record change.
 4. Duplicate `jti` → skip silently (idempotent).
 5. www **never** stores or reads private key material.
 6. Success response on www says thank you and confirms unsubscribe completion from the user's perspective.
@@ -181,9 +182,11 @@ Task order: pull remote queue (append or replace) → import new lines → archi
 {
   "v": 1,
   "kid": "v1",
+  "module": "Kandydaci",
+  "record_id": 1404311,
   "action": "unsubscribe",
   "scope": "future_contact",
-  "cid": 1404311,
+  "email_field": "newsletter_email",
   "eh": "<sha256_hex>",
   "iat": 1748966400,
   "exp": 1780502400,
@@ -237,15 +240,17 @@ CREATE TABLE IF NOT EXISTS `u_yf_link_action_log` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `jti` varchar(64) NOT NULL,
   `kid` varchar(16) NOT NULL,
+  `module` varchar(64) NOT NULL,
+  `record_id` int unsigned NOT NULL,
   `action` varchar(32) NOT NULL,
   `scope` varchar(32) NOT NULL,
-  `cid` int unsigned NOT NULL,
+  `email_field` varchar(64) NOT NULL,
   `eh` char(64) NOT NULL,
   `token_fp` char(64) NOT NULL,
   `processed_at` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `uk_link_action_jti` (`jti`),
-  KEY `idx_link_action_cid` (`cid`),
+  KEY `idx_link_action_target` (`module`, `record_id`),
   KEY `idx_link_action_processed_at` (`processed_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ```
@@ -296,7 +301,7 @@ DELETE FROM `vtiger_cron_task`
  WHERE `handler_class` = 'App\\Modules\\LinkAction\\Cron\\ImportTask';
 ```
 
-Existing `Kandydaci` consent values changed by import: **restore from backup** if rollback needed (cannot infer previous consent from log alone unless ModComment added later).
+Existing consent values changed by import: **restore from backup** if rollback needed (cannot infer previous consent from log alone unless ModComment added later).
 
 ---
 
@@ -304,12 +309,12 @@ Existing `Kandydaci` consent values changed by import: **restore from backup** i
 
 ### Phase 0 — Crypto + config (CRM)
 
-1. `config/modules/LinkAction.php` — paths, active `kid`, token TTL, www SSH host/path, `base_url`, allowed actions/scopes
+1. `config/modules/LinkAction.php` — paths, active `kid`, token TTL, www SSH host/path, `base_url`, module/action registry
 2. `config/keys/.gitignore` entry
 3. `src/Modules/LinkAction/Services/LinkActionToken.php`
    - `sign(array $payload): string`
    - `verify(string $token): ?array` (returns payload or null)
-   - `buildPayload(int $cid, string $email, string $action, string $scope): array`
+   - `buildPayload(string $moduleName, int $recordId, string $emailField, string $email, string $action, string $scope): array`
    - `emailHash(string $email): string`
 4. `tests/unit/LinkAction/LinkActionTokenTest.php`
 
@@ -325,33 +330,37 @@ Existing `Kandydaci` consent values changed by import: **restore from backup** i
 
 10. `src/Modules/LinkAction/Services/FilePaths.php`
 11. `src/Modules/LinkAction/Services/QueuePuller.php` — SSH/SCP (mirror `GetProjectsToJSON` connection params from config, not hardcoded)
-12. `src/Modules/LinkAction/Services/Handlers/UnsubscribeHandler.php`
-13. `src/Modules/LinkAction/Services/QueueImporter.php`
-14. `src/Modules/LinkAction/Cron/ImportTask.php`
-15. `migrations/LinkAction/m260604_000001_link_action_schema.php` + `Base2.php` / `data.sql` seeds
-16. `mkdir -p import/link-action/{incoming,processed,failed}` in repo `.gitkeep`
+12. `src/Modules/LinkAction/Services/Handlers/HandlerInterface.php`
+13. `src/Modules/LinkAction/Services/Handlers/KandydaciUnsubscribeHandler.php`
+14. `src/Modules/LinkAction/Services/QueueImporter.php`
+15. `src/Modules/LinkAction/Cron/ImportTask.php`
+16. `migrations/LinkAction/m260604_000001_link_action_schema.php` + `Base2.php` / `data.sql` seeds
+17. `mkdir -p import/link-action/{incoming,processed,failed}` in repo `.gitkeep`
 
 ### Phase 3 — Email integration
 
-17. `src/Modules/Kandydaci/textparsers/KandydaciLinkActionUrl.php`
-    - Params: `action`, `scope`, email field name (default `newsletter_email`)
+18. `src/TextParser/LinkActionUrl.php`
+    - Params: `action`, `scope`, email field name (default comes from module registry)
+    - Module: current parser record module; no module name in template variable unless a future use case requires cross-record links
     - Output: full `https://itconnect.pl/la?t=...` URL (or `<a href>` variant — match template needs)
-18. Seed two `u_yf_templateelements` records, one for `pl_pl` and one for `en_us`:
+19. `src/TextParser/TextParser.php`
+    - Ensure reusable parser appears in the template variable picker as `$(custom : LinkActionUrl|unsubscribe|future_contact|newsletter_email)$` for registered modules
+20. Seed two `u_yf_templateelements` records, one for `pl_pl` and one for `en_us`:
     - `code`: `kandydaci_unsubscribe_footer`
     - `module_name`: `Kandydaci`
     - `language`: `pl_pl` / `en_us`
     - `type`: `PLL_VARIABLE_ALIAS`
     - `status`: `1`
-    - `content`: short footer copy containing `$(custom : KandydaciLinkActionUrl|Kandydaci|unsubscribe|future_contact|newsletter_email)$`
-19. Update `Kandydaci` email template record `1444661` to include `$(dynamic : kandydaci_unsubscribe_footer)$`
-20. `src/Email/EmailParser.php` — add Kandydaci consent check
-21. Language files (`en_us` + `pl_pl`)
+    - `content`: short footer copy containing `$(custom : LinkActionUrl|unsubscribe|future_contact|newsletter_email)$`
+21. Update `Kandydaci` email template record `1444661` to include `$(dynamic : kandydaci_unsubscribe_footer)$`
+22. `src/Email/EmailParser.php` — add Kandydaci consent check
+23. Language files (`en_us` + `pl_pl`)
 
 ### Phase 4 — Docs + verification
 
-22. `documentation/module/LinkAction.md` — token spec, deploy, rotate keys, troubleshoot
-23. Grep verification (see Testing)
-24. Update `.cursor/rules/` if useful (optional: `link-action.mdc` — defer unless team wants it)
+24. `documentation/module/LinkAction.md` — token spec, deploy, rotate keys, troubleshoot
+25. Grep verification (see Testing)
+26. Update `.cursor/rules/` if useful (optional: `link-action.mdc` — defer unless team wants it)
 
 ---
 
@@ -369,12 +378,12 @@ Cases:
 - Tampered payload → verify fails
 - Tampered signature → verify fails
 - Expired `exp` → verify fails (CRM); www rejects
-- Wrong `eh` for candidate → importer moves to failed
+- Wrong `module`, `record_id`, `email_field`, or `eh` → importer moves to failed
 - Duplicate `jti` → second import skipped
 
 ### Manual smoke (CRM dev)
 
-1. Generate token via CLI script or temporary test endpoint for candidate ID + email
+1. Generate token via CLI script or temporary test endpoint for module + record ID + email field
 2. Open `https://dev.itconnect.pl/la?t=...` (or local mock of `external/www-la/la.php`)
 3. Confirm queue line appended on www
 4. Run: `docker compose exec -T app php cron/vtigercron.php service=LBL_LINK_ACTION_IMPORT`
@@ -415,7 +424,7 @@ WHERE emailtemplatesid = 1444661
 ### Manual smoke (email template)
 
 1. Add `$(dynamic : kandydaci_unsubscribe_footer)$` to test template
-2. Send to test candidate via mass mail / compose
+2. Send to test record via mass mail / compose
 3. Click link → confirm end-to-end
 
 ### Regression areas
@@ -437,7 +446,7 @@ WHERE emailtemplatesid = 1444661
 
 ```bash
 rg 'ImportTask|LinkActionToken|LinkAction' src/ config/
-rg 'KandydaciLinkActionUrl|kandydaci_unsubscribe_footer|is_future_contact_allowed|permissionToSend' src/Email/EmailParser.php src/Modules/Kandydaci/ migrations/
+rg 'LinkActionUrl|kandydaci_unsubscribe_footer|is_future_contact_allowed|permissionToSend' src/Email/EmailParser.php src/TextParser/ src/Modules/LinkAction/ migrations/
 # No private key paths in external/www-la/
 rg 'PRIVATE|private.*pem' external/www-la/
 ```
@@ -462,8 +471,8 @@ Use rollback SQL above to drop `u_yf_link_action_log` and remove the cron row. C
 
 | Case | Handling |
 |------|----------|
-| Candidate deleted before import | Import fails line → `failed/`; no crmentity update |
-| Email changed in CRM after mail sent | Old link still valid for old `eh` — import matches by `cid` + `eh`; if email no longer on record → failed |
+| Target record deleted before import | Import fails line → `failed/`; no crmentity update |
+| Email changed in CRM after mail sent | Old link still valid for old `eh` — import matches by `module` + `record_id` + `email_field` + `eh`; if email no longer matches that field → failed |
 | Multiple email fields | Token bound to specific field used at send time (`newsletter_email` vs `email_prywatny`) |
 | User clicks unsubscribe twice | www idempotent (same `jti` — optional www `jti.cache`; CRM dedups via DB) |
 | Partial queue file during pull | Pull to temp file, atomic rename; importer reads complete file only |
@@ -489,13 +498,19 @@ Use rollback SQL above to drop `u_yf_link_action_log` and remove the cron row. C
 
 ### Why signed plaintext payload (not encrypted)?
 
-PHP must read `exp` and `action` without private key. Encryption would require symmetric key on www → back to shared-secret problem. Payload fields (`cid`, `eh`) are not secret; security is in **unforgeability**, not confidentiality.
+PHP must read `exp`, `module`, and `action` without private key. Encryption would require symmetric key on www → back to shared-secret problem. Payload fields (`module`, `record_id`, `email_field`, `eh`) are not secret; security is in **unforgeability**, not confidentiality.
 
 ### Why file queue (not DB on www)?
 
-Matches existing CV/projects integration pattern; no MySQL access needed on www; CRM pull fits VPN topology.
+Matches existing CV/projects integration pattern; no MySQL access needed on www; CRM pulls from www over outbound HTTPS (CRM is VPN-only; www cannot call CRM).
 
 **Alternative:** www POST directly to CRM — impossible without exposing CRM.
+
+### Why HTTP pull API (not SSH/SCP)?
+
+SSH pull on Cyberfolks proved brittle (login format, `sshpass` vs cron `www-data`, OpenSSH vs PHP ssh2). An authenticated HTTPS GET/POST on `https://itconnect.pl/la/queue` is simpler to operate and test. Queue file remains on disk; only the transport changed.
+
+**Ack after import:** remote queue is truncated only after CRM successfully imports (safer than truncate-on-download).
 
 ### Why CRM re-verify?
 
@@ -516,7 +531,7 @@ Link actions are generic (unsubscribe today, confirm/preference tomorrow); Recru
 | Risk | Severity | Mitigation in CR | Gap |
 |------|----------|------------------|-----|
 | Private key leaked from CRM | **Low** | CRM is VPN-only (no network exposure); PEM outside web root; restrictive file permissions; `.gitignore` entry for key files; key rotation runbook | None |
-| SSH credentials for queue pull leaked | **Med** | Key-based SSH; read-only remote user; path scoped to queue file | Confirm Cyberfolks user can be restricted to queue path |
+| SSH credentials for queue pull leaked | **Med** | *(superseded)* | Replaced by HTTP pull API key — see addendum below |
 | Delayed unsubscribe (cron lag) | **Low** | 5-min cron; confirmation page sets expectation | None |
 | Email template not updated | **Low** | Document variable; update marketing templates in same deploy | Need list of production templates during implementation |
 | ECDSA P-256 unavailable on www PHP | **Low** | Verified working on Cyberfolks s63 PHP 8.2.30 / OpenSSL 3.5.1 | None |
@@ -557,14 +572,23 @@ return [
     'token_ttl_seconds' => 63072000, // 730 days
     'email_pepper' => '…', // or read from secret_keys
     'www_base_url' => 'https://itconnect.pl/la',
-    'allowed_actions' => [
-        'unsubscribe' => ['future_contact', 'all'],
+    'modules' => [
+        'Kandydaci' => [
+            'default_email_field' => 'newsletter_email',
+            'email_fields' => ['newsletter_email', 'email_prywatny'],
+            'actions' => [
+                'unsubscribe' => [
+                    'handler' => \App\Modules\LinkAction\Services\Handlers\KandydaciUnsubscribeHandler::class,
+                    'scopes' => ['future_contact', 'all'],
+                ],
+            ],
+        ],
     ],
-    'queue_pull' => [
-        'host' => 'itconnect.pl',
-        'port' => 22222,
-        'user' => '…',
-        'remote_path' => 'private/la/queue.jsonl',
+    'queue_api' => [
+        'fetch_url' => 'https://itconnect.pl/la/queue',
+        'ack_url' => 'https://itconnect.pl/la/queue',
+        'api_key' => '…', // same as www pull_api_key
+        'timeout_seconds' => 30,
         'local_incoming' => ROOT_DIRECTORY . '/import/link-action/incoming/queue.jsonl',
     ],
 ];
@@ -576,10 +600,10 @@ return [
 $(dynamic : kandydaci_unsubscribe_footer)$
 ```
 
-Seeded Template Element content contains the raw signed URL variable:
+Seeded Template Element wraps the signed URL variable in a styled anchor (parser returns URL only):
 
-```
-$(custom : KandydaciLinkActionUrl|Kandydaci|unsubscribe|future_contact|newsletter_email)$
+```html
+<a href="$(custom : LinkActionUrl|unsubscribe|future_contact|email_prywatny)$">Wypisuje się</a>
 ```
 
 Template authors should use the dynamic element by default so footer copy, link text, and future wording changes stay centralized.
@@ -590,3 +614,42 @@ Template authors should use the dynamic element by default so footer copy, link 
 |-------|----------------------------|--------------------------------|
 | `future_contact` | `0` | today (UTC date) |
 | `all` | `0` | today (UTC date) |
+
+---
+
+## Addendum — HTTP queue pull API (2026-06)
+
+Replaces SSH/SCP pull described in the original CR. Click flow (`la.php`) unchanged.
+
+### www
+
+| File | Role |
+|------|------|
+| `external/www-la/common.php` | Shared config + helpers |
+| `external/www-la/queue-api.php` | `GET`/`POST /la/queue` |
+| `_link_action/config.php` | `pull_api_key`, `pull_rate_limit`, `pull_log_path` |
+
+- Auth: header `X-LinkAction-Pull-Key` (constant-time compare); wrong key → **404**
+- `GET`: locked read of `queue.jsonl`; **200** (JSONL) or **204** (empty)
+- `POST`: locked truncate (ack); **204**
+- `.htaccess`: `RewriteRule ^la/queue$ queue-api.php [L]`
+
+### CRM
+
+| Change | Detail |
+|--------|--------|
+| Config | `queue_pull` → `queue_api` (`fetch_url`, `ack_url`, `api_key`, `timeout_seconds`) |
+| `QueuePuller` | `fetch()` + `ack()` via `QueueHttpClient` (curl) |
+| `ImportTask` | `fetch()` → `importIncoming()` → `ack()` |
+| Removed | All `scp`/`ssh`/`sshpass`/`exec` pull code |
+
+### Deploy
+
+1. `openssl rand -hex 32` → set `pull_api_key` (www) and `queue_api.api_key` (CRM, prefer `config_override.php`)
+2. Upload `common.php`, `queue-api.php`, updated `la.php`, `.htaccess`
+3. Rotate/remove obsolete SSH password used for queue pull
+4. Smoke: click `/la`, `curl` GET queue, run cron, verify log + empty queue after ack
+
+### Risk: pull API key leak
+
+Treat like SSH credentials: HTTPS only, rotate on compromise, monitor `_link_action/pull.log`.

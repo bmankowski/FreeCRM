@@ -11,6 +11,7 @@ globs: ["**/*.php"]
 - Always use proper `use` statements at the top of files
 - If you see unnecessary `include` or `include_once` clauses - remove them
 - **Always use fully qualified class names**
+- Type hint `\App\TextParser` means class `TextParser` in namespace `App`, not `App\TextParser\TextParser` — use the full class name in hints (e.g. `Base::__construct`).
 
 ## Common Namespace Error Patterns & Fixes
 

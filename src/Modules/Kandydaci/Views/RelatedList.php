@@ -25,8 +25,7 @@ class RelatedList extends \App\Modules\Base\Views\RelatedList
 		$moduleName = $request->getModule();
 		$relatedModuleName = $request->getByType('relatedModule', 2);
 		if ($relatedModuleName === 'Mail') {
-			$this->processMailRelatedList($request);
-			return;
+			return $this->processMailRelatedList($request);
 		}
 		$parentId = $request->getInteger('record');
 		if ($request->isEmpty('relatedView', true)) {

@@ -55,6 +55,7 @@ final class MailerTask extends AbstractCronTask
 					} else {
 						$db->createCommand()->update('s_#__mail_queue', ['status' => 2], ['id' => $rowQueue['id']])->execute();
 					}
+					$this->syncCrmMessageStatus($rowQueue, $status);
 				}
 			} finally {
 				$sessionMailer?->closeSmtpSession();
@@ -89,5 +90,18 @@ final class MailerTask extends AbstractCronTask
 				$db->createCommand()->update('s_#__mail_queue', ['status' => 2], ['id' => $rowQueue['id']])->execute();
 			}
 		});
+	}
+
+	private function syncCrmMessageStatus(array $rowQueue, bool $sent): void
+	{
+		$crmMessageId = \App\Modules\Mail\Models\Outbound::crmMessageIdFromQueueRow($rowQueue);
+		if ($crmMessageId <= 0) {
+			return;
+		}
+		if ($sent) {
+			\App\Modules\Mail\Models\Outbound::markSent($crmMessageId);
+		} else {
+			\App\Modules\Mail\Models\Outbound::markFailed($crmMessageId);
+		}
 	}
 }

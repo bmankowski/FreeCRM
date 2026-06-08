@@ -45,16 +45,12 @@ class Compose extends \App\Modules\Base\Views\Index
 				: '';
 		}
 		unset($tpl);
-		$accounts = \App\Modules\Mail\Models\Service::getUserAccounts($userId, true);
-		$smtpList = \App\Email\Mail::getAll();
-
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
 		$viewer->assign('SOURCE_RECORD', $sourceRecord);
 		$viewer->assign('TO', $to);
 		$viewer->assign('TEMPLATES', $templates);
-		$viewer->assign('MAIL_ACCOUNTS', $accounts);
-		$viewer->assign('SMTP_LIST', $smtpList);
+		$viewer->assign('COMPOSE_SENDERS', \App\Modules\Mail\Models\Account::getComposeSenders($userId));
 		$viewer->assign('CAN_SEND', \App\Modules\Mail\Models\Module::canUserSend($userId));
 		$viewer->view('Compose.tpl', 'Mail');
 	}

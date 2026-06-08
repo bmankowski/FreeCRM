@@ -54,8 +54,7 @@ class IndividualSendMailModal extends SendMailModal
 		$viewer->assign('SOURCE_RECORD', $request->get('sourceRecord'));
 		$viewer->assign('TEMPLETE_LIST', $templateList);
 		$viewer->assign('DEFAULT_SMTP', \App\Email\Mail::getDefaultSmtp());
-		$viewer->assign('MAIL_ACCOUNTS', \App\Modules\Mail\Models\Service::getUserAccounts($userId, true));
-		$viewer->assign('SMTP_LIST', \App\Email\Mail::getAll());
+		$viewer->assign('COMPOSE_SENDERS', \App\Modules\Mail\Models\Account::getComposeSenders($userId));
 		$viewer->assign('CAN_SEND_MAIL', \App\Modules\Mail\Models\Module::canUserSend($userId));
 		$initialField = $this->resolveInitialField($request, $records);
 		$viewer->assign('INITIAL_FIELD', $initialField);

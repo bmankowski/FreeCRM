@@ -53,6 +53,7 @@ class EventHandler
 		'IStorages_RecalculateStockHandler_Handler' => '\App\Modules\IStorages\Handlers\IStorages_RecalculateStockHandler_Handler',
 		'ProjektyRekrutacyjne_Calculations_Handler' => '\App\Modules\ProjektyRekrutacyjne\Handlers\Calculations',
 		'Kandydaci_NewCandidateInProject_Handler' => '\App\Modules\Kandydaci\Handlers\NewCandidateInProject',
+		'Mail_GroupMailboxSync_Handler' => '\App\Modules\Mail\Handlers\Mail_GroupMailboxSync_Handler',
 	];
 
 	/**

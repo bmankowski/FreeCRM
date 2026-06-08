@@ -21,6 +21,11 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 		}
 	}
 
+	public function getPageTitle(\App\Http\Vtiger_Request $request): string
+	{
+		return 'LBL_MAIL_ACCOUNTS';
+	}
+
 	public function process(\App\Http\Vtiger_Request $request): void
 	{
 		$recordId = (int) $request->get('record');
@@ -31,29 +36,49 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 			throw new \App\Exceptions\AppException('LBL_RECORD_NOT_FOUND');
 		}
 
+		$kind = (string) ($recordModel->get('kind') ?? 'shared');
+		if ($recordId && $kind === 'personal') {
+			$ownerUserId = (int) $recordModel->get('owner_user_id');
+			$mailAccount = \App\Modules\Mail\Models\Account::getPersonalForDisplay($ownerUserId);
+			$ownerUser = $ownerUserId > 0
+				? \App\Modules\Users\Models\Record::getInstanceById($ownerUserId, 'Users')
+				: null;
+			$ownerName = $ownerUser ? $ownerUser->getName() : '';
+			$ownerMailboxUrl = $ownerUser ? $ownerUser->getPreferenceMailboxViewUrl() : '';
+		} else {
+			$kind = 'shared';
+			$ownerUserId = 0;
+			$ownerName = '';
+			$ownerMailboxUrl = '';
+			$mailAccount = $recordId
+				? (\App\Modules\Mail\Models\Account::getById($recordId) ?? $recordModel->getData())
+				: $recordModel->getData();
+		}
+
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RECORD_MODEL', $recordModel);
 		$viewer->assign('RECORD_ID', $recordId);
 		$viewer->assign('QUALIFIED_MODULE', $request->getModule(false));
-		$viewer->assign('USER_OPTIONS', $this->getUserOptions());
+		$viewer->assign('GROUP_OPTIONS', $this->getGroupOptions());
+		$viewer->assign('MAIL_ACCOUNT', $mailAccount);
+		$viewer->assign('ACCOUNT_KIND', $kind);
+		$viewer->assign('OWNER_USER_ID', $ownerUserId);
+		$viewer->assign('OWNER_USER_NAME', $ownerName);
+		$viewer->assign('OWNER_PREFERENCE_MAILBOX_URL', $ownerMailboxUrl);
 		$viewer->view('Edit.tpl', $request->getModule(false));
 	}
 
-	private function getUserOptions(): array
+	private function getGroupOptions(): array
 	{
 		$options = [];
 		$dataReader = (new \App\Db\Query())
-			->select(['id', 'user_name', 'first_name', 'last_name'])
-			->from('vtiger_users')
-			->where(['status' => 'Active'])
+			->select(['groupid', 'groupname'])
+			->from('vtiger_groups')
+			->orderBy(['groupname' => SORT_ASC])
 			->createCommand()
 			->query();
 		while ($row = $dataReader->read()) {
-			$label = trim(($row['first_name'] ?? '') . ' ' . ($row['last_name'] ?? ''));
-			if ($label === '') {
-				$label = $row['user_name'];
-			}
-			$options[(int) $row['id']] = $label . ' (' . $row['user_name'] . ')';
+			$options[(int) $row['groupid']] = (string) $row['groupname'];
 		}
 		return $options;
 	}
@@ -61,10 +86,13 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 	public function getFooterScripts(\App\Http\Vtiger_Request $request): array
 	{
 		$scripts = parent::getFooterScripts($request);
-		$module = $request->getModule(false);
+		$moduleName = $request->getModule();
+
 		return array_merge($scripts, $this->checkAndConvertJsScripts([
+			'modules.Settings.Vtiger.resources.Edit',
+			'modules.Mail.resources.MailboxForm',
 			'modules.Mail.resources.ImapFolderPicker',
-			"modules.Settings.$module.resources.Edit",
+			"modules.Settings.$moduleName.resources.Edit",
 		]));
 	}
 

@@ -40,12 +40,20 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 		app.registerCopyClipboard('#variablePanel .clipboard');
 		FreeCRM_TemplateEditor_Js.registerToolbar(panel, {
 			previewDisplay: 'inline',
-			getPreviewDocumentHtml: function () {
+			getPreviewDocumentHtmlAsync: function () {
 				var body = FreeCRM_TemplateEditor_Js.expandDynamicElements(
 					thisInstance.getContentValue(form),
 					panel
 				);
-				return FreeCRM_TemplateEditor_Js.buildPreviewDocument(body);
+				return FreeCRM_TemplateEditor_Js.parsePreviewContent(body, {
+					module: 'EmailTemplates',
+					action: 'ParsePreview',
+					content: body,
+					moduleName: thisInstance.getTargetModuleName(form),
+					parserType: 'mail'
+				}).then(function (parsedBody) {
+					return FreeCRM_TemplateEditor_Js.buildPreviewDocument(parsedBody);
+				});
 			}
 		});
 	},

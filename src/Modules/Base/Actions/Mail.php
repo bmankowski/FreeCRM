@@ -89,53 +89,36 @@ class Mail extends \App\Base\Controllers\BaseActionController
 			$sendEditedContent = $subject !== '' && $content !== '' && count($rows) === 1;
 			$userId = (int) $request->getUser()->getId();
 			foreach ($rows as $row) {
-				if ($sendEditedContent) {
-					$templateDetail = \App\Email\Mail::getTemplete($template) ?: [];
-					$mailParams = [
-						'template' => $template,
-						'moduleName' => $moduleName,
-						'recordId' => $row['id'],
-						'field' => $field,
-						'to' => self::normalizeRecipientList($row[$field]),
-						'sourceModule' => $sourceModule,
-						'sourceRecord' => $sourceRecord,
-						'subject' => $subject,
-						'content' => $content,
-						'body_html' => $content,
-					];
-					$senderRef = (string) $request->get('senderRef');
-					if ($senderRef === '' && (int) $request->get('accountId') > 0) {
-						$senderRef = 'account:' . (int) $request->get('accountId');
-					}
-					if ($senderRef === '') {
-						$senderRef = \App\Modules\Mail\Models\Module::defaultSenderRefForTemplate($templateDetail, $userId);
-					}
-					if ($senderRef === '' || !\App\Modules\Mail\Models\Module::userCanSendTemplate($userId, $templateDetail)) {
-						\App\Log\Log::warning(
-							'sendMails aborted: missing or invalid sender (senderRef=' . ($senderRef ?: 'empty') . ')',
-							'Mail'
-						);
-						$result = false;
-						break;
-					}
-					try {
-						\App\Modules\Mail\Models\Module::dispatchOutbound($userId, $senderRef, $mailParams, $templateDetail);
-						$result = true;
-					} catch (\Throwable $e) {
-						\App\Log\Log::error('sendMails failed: ' . $e->getMessage(), 'Mail');
-						$result = false;
-						break;
-					}
-				} else {
-					$result = \App\Email\Mailer::sendFromTemplate([
-						'template' => $template,
-						'moduleName' => $moduleName,
-						'recordId' => $row['id'],
-						'to' => $row[$field],
-						'sourceModule' => $sourceModule,
-						'sourceRecord' => $sourceRecord,
-					]);
+				$templateDetail = \App\Email\Mail::getTemplete($template) ?: [];
+				$senderRef = (string) $request->get('senderRef');
+				if ($senderRef === '' && (int) $request->get('accountId') > 0) {
+					$senderRef = 'account:' . (int) $request->get('accountId');
 				}
+				if ($senderRef === '') {
+					$senderRef = \App\Modules\Mail\Models\Module::defaultSenderRefForTemplate($templateDetail, $userId);
+				}
+				if ($senderRef === '' || !\App\Modules\Mail\Models\Module::userCanSendTemplate($userId, $templateDetail)) {
+					\App\Log\Log::warning(
+						'sendMails aborted: missing or invalid sender (senderRef=' . ($senderRef ?: 'empty') . ')',
+						'Mail'
+					);
+					$result = false;
+					break;
+				}
+				$mailParams = [
+					'template' => $template,
+					'moduleName' => $moduleName,
+					'recordId' => $row['id'],
+					'field' => $field,
+					'to' => self::normalizeRecipientList($row[$field]),
+					'sourceModule' => $sourceModule,
+					'sourceRecord' => $sourceRecord,
+					'senderRef' => $senderRef,
+				];
+				if ($sendEditedContent && $subject !== '') {
+					$mailParams['subjectOverride'] = $subject;
+				}
+				$result = \App\Email\Mailer::sendFromTemplate($mailParams);
 				if (!$result) {
 					break;
 				}

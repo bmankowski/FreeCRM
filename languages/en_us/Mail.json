@@ -39,6 +39,11 @@
         "LBL_TO": "To",
         "LBL_BODY": "Body",
         "LBL_CONFIGURE_MAILBOX": "Configure your mailbox in My Preferences to send mail.",
-        "LBL_MAIL_RATE_LIMIT": "Send rate limit exceeded. Try again in a minute."
+        "LBL_MAIL_RATE_LIMIT": "Send rate limit exceeded. Try again in a minute.",
+        "LBL_MAIL_SEND_STATUS": "Send status",
+        "LBL_MAIL_SEND_STATUS_SENT": "Sent",
+        "LBL_MAIL_SEND_STATUS_FAILED": "Failed",
+        "LBL_MAIL_SEND_STATUS_PREPARED": "Queued",
+        "LBL_MAIL_OPENED_AT": "Opened at"
     }
 }

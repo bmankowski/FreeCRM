@@ -38,7 +38,11 @@
         "PLL_HEADER": "Header",
         "PLL_VARIABLE_ALIAS": "Variable/alias",
         "PLL_BODY": "Body",
-        "PLL_ANY": "Any"
+        "PLL_ANY": "Any",
+        "LBL_KANDYDACI_UNSUBSCRIBE_FOOTER": "Kandydaci unsubscribe footer",
+        "LBL_KANDYDACI_OPEN_TRACKING_LOGO": "Kandydaci open-tracking logo",
+        "LBL_DUPLICATE_RECORD": "Duplicate record",
+        "LBL_TEMPLATE_ELEMENT_COPY_SUFFIX": "copy"
     },
     "jsLanguageStrings": []
 }

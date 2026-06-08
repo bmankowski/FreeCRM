@@ -1,0 +1,20 @@
+/vendor/
+
+# Secrets and runtime data for _link_action/ (deploy: public_html/_link_action/)
+_link_action/config.php
+_link_action/queue.jsonl
+_link_action/reject.log
+_link_action/jti.cache
+_link_action/rate_limit.json
+_link_action/pull.log
+_link_action/pull_rate_limit.json
+_link_action/keys/
+
+# Stray local runtime at package root (misplaced config paths)
+config.php
+queue.jsonl
+reject.log
+jti.cache
+rate_limit.json
+pull.log
+pull_rate_limit.json

@@ -74,6 +74,7 @@ class PreferenceMailbox extends \App\Modules\Base\Views\Index
 		$scripts = $this->stripCkEditorScripts(parent::getFooterScripts($request));
 
 		return array_merge($scripts, $this->checkAndConvertJsScripts([
+			'modules.Mail.resources.MailboxForm',
 			'modules.Mail.resources.ImapFolderPicker',
 		]));
 	}

@@ -1,0 +1,21 @@
+{
+    "languageStrings": {
+        "LBL_LINK_ACTION_LOG": "Link actions",
+        "LBL_LINK_ACTION_LOG_DESCRIPTION": "Audit log of signed public link clicks and email opens imported from www",
+        "LBL_CLICKED_AT": "Clicked at",
+        "LBL_PROCESSED_AT": "Processed at",
+        "LBL_MODULE": "Module",
+        "LBL_RECORD": "Record",
+        "LBL_LINK_ACTION_SEND_SUBJECT": "Mail subject",
+        "LBL_ACTION": "Action",
+        "LBL_SCOPE": "Scope",
+        "LBL_EMAIL_FIELD": "Email field",
+        "LBL_TOKEN_FP": "Token fingerprint",
+        "LBL_LINK_ACTION_ACTION_UNSUBSCRIBE": "Unsubscribe",
+        "LBL_LINK_ACTION_ACTION_OPEN": "Open",
+        "LBL_LINK_ACTION_SCOPE_FUTURE_CONTACT": "Future contact",
+        "LBL_LINK_ACTION_SCOPE_ALL": "All contact",
+        "LBL_LINK_ACTION_SCOPE_EMAIL": "Email"
+    },
+    "jsLanguageStrings": {}
+}

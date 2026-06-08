@@ -39,6 +39,11 @@
         "LBL_TO": "Do",
         "LBL_BODY": "Treść",
         "LBL_CONFIGURE_MAILBOX": "Skonfiguruj skrzynkę w Moich preferencjach, aby wysyłać pocztę.",
-        "LBL_MAIL_RATE_LIMIT": "Przekroczono limit wysyłki. Spróbuj ponownie za minutę."
+        "LBL_MAIL_RATE_LIMIT": "Przekroczono limit wysyłki. Spróbuj ponownie za minutę.",
+        "LBL_MAIL_SEND_STATUS": "Status wysyłki",
+        "LBL_MAIL_SEND_STATUS_SENT": "Wysłana",
+        "LBL_MAIL_SEND_STATUS_FAILED": "Błąd wysyłki",
+        "LBL_MAIL_SEND_STATUS_PREPARED": "W kolejce",
+        "LBL_MAIL_OPENED_AT": "Otwarto"
     }
 }

@@ -3,7 +3,12 @@
 {block name="content"}
 <div class="mainContainer">
 	<div class="contentsDiv">
-		{include file='modules/Settings/MailAccount/EditContent.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+		<div class="row widget_header">
+			<div class="col-xs-12">
+				{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+			</div>
+		</div>
+		{include file='EditContent.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
 	</div>
 </div>
 {/block}

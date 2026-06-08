@@ -1,0 +1,4 @@
+RewriteEngine On
+RewriteRule ^la/o/([^/]+)/logo\.png$ img.php?t=$1 [L,QSA]
+RewriteRule ^la/queue$ queue-api.php [L]
+RewriteRule ^la$ la.php [L,QSA]

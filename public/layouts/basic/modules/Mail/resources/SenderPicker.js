@@ -38,10 +38,15 @@ var Mail_SenderPicker_Js = {
 		}
 	},
 	buildOptions: function (type, templateSmtpId) {
+		var composeSenders = this.config.composeSenders || [];
+		if (composeSenders.length) {
+			return this.buildComposeSenderOptions(composeSenders);
+		}
+
 		var accounts = this.config.accounts || [];
 		var smtpList = this.config.smtpList || {};
-		var accountLabel = app.vtranslate('LBL_SENDER_ACCOUNT', 'Mail');
-		var smtpLabel = app.vtranslate('LBL_SYSTEM_SMTP', 'Mail');
+		var accountLabel = app.vtranslate('LBL_SENDER_ACCOUNT');
+		var smtpLabel = app.vtranslate('LBL_SYSTEM_SMTP');
 		var parts = [];
 
 		if (type === 'user_account' || type === 'any') {
@@ -79,6 +84,36 @@ var Mail_SenderPicker_Js = {
 				parts.push('</optgroup>');
 			}
 		}
+
+		return parts.join('');
+	},
+	buildComposeSenderOptions: function (senders) {
+		var personalLabel = app.vtranslate('LBL_SENDER_PERSONAL');
+		var groupLabel = app.vtranslate('LBL_SENDER_GROUP');
+		var parts = [];
+
+		senders.forEach(function (sender) {
+			var displayName = sender.from_name || sender.name || '';
+			if (sender.role === 'group' && displayName === '') {
+				displayName = sender.group_name || groupLabel;
+			}
+			var email = sender.username || '';
+			var label;
+			if (displayName !== '' && email !== '') {
+				label = displayName + ' <' + email + '>';
+			} else if (email !== '') {
+				label = email;
+			} else if (displayName !== '') {
+				label = displayName;
+			} else {
+				label = sender.role === 'group' ? groupLabel : personalLabel;
+			}
+			parts.push(
+				'<option value="' + sender.ref + '">' +
+				jQuery('<div>').text(label).html() +
+				'</option>'
+			);
+		});
 
 		return parts.join('');
 	},

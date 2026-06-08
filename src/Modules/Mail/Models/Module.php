@@ -14,6 +14,33 @@ namespace App\Modules\Mail\Models;
 
 class Module extends \App\Modules\Base\Models\Module
 {
+	public static function getMessageDetailUrl(int $messageId, ?string $sourceModule = null, ?int $sourceRecord = null): string
+	{
+		$params = [
+			'module' => 'Mail',
+			'view' => 'Detail',
+			'record' => $messageId,
+		];
+		if ($sourceModule !== null && $sourceModule !== '' && $sourceRecord !== null && $sourceRecord > 0) {
+			$params['sourceModule'] = $sourceModule;
+			$params['sourceRecord'] = $sourceRecord;
+		}
+
+		return 'index.php?' . http_build_query($params);
+	}
+
+	public static function getParentRelatedListUrl(string $parentModule, int $parentRecordId): string
+	{
+		return 'index.php?' . http_build_query([
+			'module' => $parentModule,
+			'view' => 'Detail',
+			'record' => $parentRecordId,
+			'relatedModule' => 'Mail',
+			'mode' => 'showRelatedList',
+			'tab_label' => 'LBL_MAILS',
+		]);
+	}
+
 	public static function getComposeUrl(
 		string $sourceModule,
 		int $sourceRecord,
@@ -43,10 +70,8 @@ class Module extends \App\Modules\Base\Models\Module
 		if (!\App\Core\AppConfig::main('isActiveSendingMails')) {
 			return false;
 		}
-		if (Service::getUserAccounts($userId, true) !== []) {
-			return true;
-		}
-		return (bool) \App\Email\Mail::getDefaultSmtp();
+
+		return Account::getComposeSenders($userId) !== [];
 	}
 
 	public static function resolveSenderType(array $template): string
@@ -61,7 +86,7 @@ class Module extends \App\Modules\Base\Models\Module
 			return (bool) (\App\Email\Mail::resolveTemplateSmtpId($template) ?: \App\Email\Mail::getDefaultSmtp());
 		}
 		if ($type === 'user_account') {
-			return Service::getUserAccounts($userId, true) !== [];
+			return Account::getComposeSenders($userId) !== [];
 		}
 		return self::canUserSend($userId);
 	}
@@ -70,62 +95,32 @@ class Module extends \App\Modules\Base\Models\Module
 	{
 		$type = self::resolveSenderType($template);
 		if ($type === 'user_account') {
-			$default = Service::getDefaultAccount($userId);
-			if ($default) {
-				return 'account:' . (int) $default['id'];
-			}
-			$accounts = Service::getUserAccounts($userId, true);
-			return $accounts !== [] ? 'account:' . (int) $accounts[0]['id'] : '';
+			return self::defaultUserAccountRef($userId);
 		}
 		if ($type === 'system_smtp') {
 			$smtpId = \App\Email\Mail::resolveTemplateSmtpId($template) ?: \App\Email\Mail::getDefaultSmtp();
 
 			return 'smtp:' . (int) $smtpId;
 		}
+		$accountRef = self::defaultUserAccountRef($userId);
+		if ($accountRef !== '') {
+			return $accountRef;
+		}
 		$smtpId = \App\Email\Mail::resolveTemplateSmtpId($template);
 		if ($smtpId) {
 			return 'smtp:' . (int) $smtpId;
-		}
-		$default = Service::getDefaultAccount($userId);
-		if ($default) {
-			return 'account:' . (int) $default['id'];
-		}
-		$accounts = Service::getUserAccounts($userId, true);
-		if ($accounts !== []) {
-			return 'account:' . (int) $accounts[0]['id'];
 		}
 
 		return 'smtp:' . (int) \App\Email\Mail::getDefaultSmtp();
 	}
 
-	/**
-	 * @param array<string, mixed> $mailParams
-	 */
-	public static function dispatchOutbound(int $userId, string $senderRef, array $mailParams, ?array $templateDetail = null): void
+	private static function defaultUserAccountRef(int $userId): string
 	{
-		if (str_starts_with($senderRef, 'account:')) {
-			\App\Modules\Mail\Models\Outbound::sendViaAccount($userId, (int) substr($senderRef, 8), $mailParams);
-
-			return;
+		$senders = Account::getComposeSenders($userId);
+		if ($senders === []) {
+			return '';
 		}
-		if (str_starts_with($senderRef, 'smtp:')) {
-			$smtpId = (int) substr($senderRef, 5);
-			$queueParams = [
-				'smtp_id' => $smtpId,
-				'subject' => $mailParams['subject'] ?? '',
-				'content' => $mailParams['content'] ?? $mailParams['body_html'] ?? '',
-				'to' => $mailParams['to'] ?? [],
-				'source_module' => $mailParams['sourceModule'] ?? $mailParams['source_module'] ?? null,
-				'source_id' => $mailParams['sourceRecord'] ?? $mailParams['source_id'] ?? null,
-			];
-			if ($templateDetail !== null && isset($templateDetail['attachments'])) {
-				$queueParams['attachments'] = $templateDetail['attachments'];
-			}
-			\App\Email\Mailer::addMail(array_intersect_key($queueParams, array_flip(\App\Email\Mailer::$quoteColumn)));
-			\App\Modules\Mail\Models\Outbound::recordSystemSend($userId, $smtpId, $mailParams);
 
-			return;
-		}
-		throw new \App\Exceptions\AppException('Invalid sender');
+		return $senders[0]['ref'];
 	}
 }

@@ -220,6 +220,8 @@
         "LBL_AUTOLOGIN_DESCRIPTION": "Configuration of auto login for the email module",
         "LBL_MAIL_GENERAL_CONFIGURATION": "General configuration",
         "LBL_MAIL_GENERAL_CONFIGURATION_DESCRIPTION": "General configuration of the email module",
+        "LBL_MAIL_ACCOUNTS": "Mail accounts",
+        "LBL_MAIL_ACCOUNTS_DESCRIPTION": "Manage shared and personal mail accounts",
         "LBL_SUPPORT_PROCESSES": "Support processes",
         "LBL_SUPPORT_PROCESSES_DESCRIPTION": "Manage support processes",
         "LBL_REALIZATION_PROCESSES": "Realization",

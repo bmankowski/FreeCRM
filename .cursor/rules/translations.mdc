@@ -47,7 +47,7 @@ Use `JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE`. Keys are the **lookup string**
 
 ### JavaScript pitfall
 
-Page boot embeds `#js_strings` from `BaseViewController::getJSLanguageStrings()` — current module + **Vtiger** `jsLanguageStrings` merged. Keys in `languageStrings` alone (e.g. `Users.json` for login tpl) are **not** available to `app.vtranslate()`. If the UI shows the raw key, add it to `jsLanguageStrings` (use `Vtiger.json` for cross-module toasts in shared JS like `Vtiger.js`).
+Page boot embeds `#js_strings` from `BaseViewController::getJSLanguageStrings()` — current module + **Vtiger** `jsLanguageStrings` merged. Keys in `languageStrings` alone (e.g. `Users.json` for login tpl) are **not** available to `app.vtranslate()`. If the UI shows the raw key, add it to `jsLanguageStrings` (use `Vtiger.json` for cross-module toasts in shared JS like `Vtiger.js`). Example: mail compose `SenderPicker.js` needs `LBL_SENDER_PERSONAL` / `LBL_SENDER_GROUP` in `Vtiger.json`, not only `Mail.json`.
 
 ## Fast workflow: translate a module name or labels
 

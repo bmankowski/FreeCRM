@@ -2,61 +2,46 @@
 <div class="editViewContainer" id="mailAccountEdit">
 	<form class="form-horizontal" id="MailAccountForm">
 		<input type="hidden" name="record" value="{$RECORD_ID}">
-		<input type="hidden" name="kind" value="shared">
-		<div class="form-group">
-			<label class="control-label col-md-3">{"LBL_NAME"|t:$QUALIFIED_MODULE} *</label>
-			<div class="col-md-8"><input class="form-control" name="name" value="{$RECORD_MODEL->get('name')}" required></div>
-		</div>
-		<div class="form-group">
-			<label class="control-label col-md-3">{"LBL_IMAP_HOST"|t:$QUALIFIED_MODULE} *</label>
-			<div class="col-md-8"><input class="form-control" name="imap_host" value="{$RECORD_MODEL->get('imap_host')}"></div>
-		</div>
-		<div class="form-group">
-			<label class="control-label col-md-3">{"LBL_IMAP_PORT"|t:$QUALIFIED_MODULE}</label>
-			<div class="col-md-8"><input class="form-control" name="imap_port" value="{$RECORD_MODEL->get('imap_port')|default:993}"></div>
-		</div>
-		<div class="form-group">
-			<label class="control-label col-md-3">{"LBL_SMTP_HOST"|t:$QUALIFIED_MODULE} *</label>
-			<div class="col-md-8"><input class="form-control" name="smtp_host" value="{$RECORD_MODEL->get('smtp_host')}"></div>
-		</div>
-		<div class="form-group">
-			<label class="control-label col-md-3">{"LBL_SMTP_PORT"|t:$QUALIFIED_MODULE}</label>
-			<div class="col-md-8"><input class="form-control" name="smtp_port" value="{$RECORD_MODEL->get('smtp_port')|default:465}"></div>
-		</div>
-		<div class="form-group">
-			<label class="control-label col-md-3">{"LBL_USERNAME"|t:$QUALIFIED_MODULE} *</label>
-			<div class="col-md-8"><input class="form-control" name="username" value="{$RECORD_MODEL->get('username')}"></div>
-		</div>
-		<div class="form-group">
-			<label class="control-label col-md-3">{"LBL_PASSWORD"|t:$QUALIFIED_MODULE}</label>
-			<div class="col-md-8"><input class="form-control" type="password" name="password" value="{$RECORD_MODEL->get('password')|default:'**********'}" autocomplete="new-password"></div>
-		</div>
-		<div class="form-group">
-			<label class="control-label col-md-3">{"LBL_FROM_NAME"|t:$QUALIFIED_MODULE}</label>
-			<div class="col-md-8"><input class="form-control" name="from_name" value="{$RECORD_MODEL->get('from_name')}"></div>
-		</div>
-		<div class="form-group">
-			<label class="control-label col-md-3">{"LBL_ASSIGNED_USERS"|t:$QUALIFIED_MODULE}</label>
-			<div class="col-md-8">
-				<select class="select2 form-control" name="assigned_users[]" multiple>
-					{foreach from=$USER_OPTIONS key=UID item=LABEL}
-						<option value="{$UID}" {if in_array($UID, $RECORD_MODEL->get('assigned_users'))}selected{/if}>{$LABEL}</option>
-					{/foreach}
-				</select>
+		<input type="hidden" name="kind" value="{$ACCOUNT_KIND}">
+		{if $ACCOUNT_KIND eq 'personal'}
+			<input type="hidden" name="owner_user_id" value="{$OWNER_USER_ID}">
+		{/if}
+		{if $ACCOUNT_KIND eq 'shared'}
+			<div class="form-group">
+				<label class="control-label col-md-3">{"LBL_CRM_GROUP"|t:$QUALIFIED_MODULE} *</label>
+				<div class="col-md-8">
+					<select class="select2 form-control" name="group_id" data-validation-engine="validate[required]">
+						<option value="">—</option>
+						{foreach from=$GROUP_OPTIONS key=GID item=GNAME}
+							<option value="{$GID}" {if $MAIL_ACCOUNT.group_id|default:'' eq $GID}selected{/if}>{$GNAME}</option>
+						{/foreach}
+					</select>
+					<p class="help-block text-muted small">{"LBL_CRM_GROUP_HELP"|t:$QUALIFIED_MODULE}</p>
+				</div>
 			</div>
-		</div>
-		<div class="form-group">
-			<label class="control-label col-md-3">{"LBL_IMAP_FOLDER_SENT"|t:$QUALIFIED_MODULE}</label>
-			<div class="col-md-8">
-				<input class="form-control js-mail-imap-folder-sent" name="imap_folder_sent" value="{$RECORD_MODEL->get('imap_folder_sent')}">
-				<p class="help-block text-muted small">{"LBL_IMAP_FOLDER_SENT_HELP"|t:"Mail"}</p>
-				{include file='ImapFolderBrowser.tpl'|@vtemplate_path:'Mail'}
+		{else}
+			<div class="form-group">
+				<label class="control-label col-md-3">{"LBL_OWNER_USER"|t:$QUALIFIED_MODULE}</label>
+				<div class="col-md-8">
+					<p class="form-control-static">
+						{$OWNER_USER_NAME|escape}
+						{if $OWNER_PREFERENCE_MAILBOX_URL}
+							<a class="marginLeft10px" href="{$OWNER_PREFERENCE_MAILBOX_URL}" target="_blank">{"LBL_OPEN_USER_MAILBOX"|t:$QUALIFIED_MODULE}</a>
+						{/if}
+					</p>
+				</div>
 			</div>
+		{/if}
+		<div class="col-md-offset-0 col-md-12">
+			{include file='MailboxFields.tpl'|@vtemplate_path:'Mail'}
 		</div>
 		<div class="form-group">
-			<div class="col-md-offset-3 col-md-8">
-				<button type="button" class="btn btn-default js-mail-test-connection">{"LBL_TEST_CONNECTION"|t:$QUALIFIED_MODULE}</button>
-				<button type="button" class="btn btn-success js-mail-save-account">{"LBL_SAVE"|t:$QUALIFIED_MODULE}</button>
+			<div class="col-md-12">
+				<button type="button" class="btn btn-default js-mailbox-test">{"LBL_TEST_CONNECTION"|t:$QUALIFIED_MODULE}</button>
+				<span class="pull-right">
+					<button type="button" class="btn btn-success js-mailbox-save"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span>&nbsp;<strong>{"LBL_SAVE"|t:$QUALIFIED_MODULE}</strong></button>
+					<button class="cancelLink btn btn-warning" type="button" onclick="javascript:window.history.back();"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>&nbsp;{"LBL_CANCEL"|t:$QUALIFIED_MODULE}</button>
+				</span>
 			</div>
 		</div>
 	</form>

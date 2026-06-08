@@ -1,0 +1,7 @@
+{
+    "languageStrings": {
+        "LBL_LINK_ACTION_IMPORT": "Import podpisanych akcji linkowych",
+        "LBL_LINK_ACTION_URL": "Podpisany URL akcji linkowej (do atrybutu href)",
+        "LBL_LINK_ACTION_IMAGE_URL": "Podpisany URL obrazka śledzenia otwarć (do atrybutu img src)"
+    }
+}

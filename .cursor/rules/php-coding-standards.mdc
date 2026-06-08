@@ -42,6 +42,11 @@ globs: ["**/*.php"]
 - Validate all incoming data
 - Escape output appropriately
 
+### HTML purification (`App\Security\Purifier::purifyHtml`)
+- Entry point for uitype **300** / `getForHtml()` — TemplateElements, DocumentTemplates, mail HTML.
+- Security boundary: **tag whitelist** + strip `on*` handlers (`purifyHtmlEventAttributes`) + block legacy CSS (`expression()`, `javascript:`, `behavior:`, `-moz-binding` in `purifyDangerousCss`). Do **not** rely on HTMLPurifier’s CSS property validator — it strips modern layout CSS (`grid`, `transform`, `linear-gradient`).
+- Inline `style` is registered as **`Text`** (opaque), not parsed CSS. When changing policy, bump `HTML.DefinitionRev` and cache pool `purifyHtml_v*`.
+
 ## PHPStan
 - Run: `docker compose exec -T app vendor/bin/phpstan analyse <path> --no-progress --memory-limit=512M` (uses `phpstan.neon`). Default 128M OOMs on multi-file runs.
 - `phpstan.neon` `excludePaths` for event parsers must be `src/Events/` (capital E); lowercase `src/events/` breaks config load.

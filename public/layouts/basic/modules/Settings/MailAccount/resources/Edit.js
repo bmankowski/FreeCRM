@@ -1,54 +1,54 @@
 'use strict';
 
 Settings_Vtiger_Edit_Js('Settings_MailAccount_Edit_Js', {}, {
-	showMailNotify: function (labelKey, type) {
-		Vtiger_Helper_Js.showPnotify({
-			text: app.vtranslate(labelKey),
-			type: type,
-			animation: 'show'
-		});
-	},
-	onTestSuccess: function (form, result) {
-		(new Mail_ImapFolderPicker_Js()).render(form, result);
+	getForm: function () {
+		return jQuery('#MailAccountForm');
 	},
 	registerEvents: function () {
 		this._super();
-		var form = jQuery('#MailAccountForm');
-		var thisInstance = this;
+		var form = this.getForm();
 		if (!form.length) {
 			return;
 		}
-		form.find('.js-mail-test-connection').on('click', function () {
-			var params = form.serializeFormData();
-			params.module = 'MailAccount';
-			params.parent = 'Settings';
-			params.action = 'SaveAjax';
-			params.param = params;
-			params.param.test_connection = 1;
-			AppConnector.request(params).then(function (data) {
-				if (data.result && data.result.success) {
-					thisInstance.onTestSuccess(form, data.result);
-					thisInstance.showMailNotify('LBL_CONNECTION_OK', 'success');
-				} else {
-					thisInstance.showMailNotify((data.result && data.result.message) || 'LBL_CONNECTION_FAILED', 'error');
+		var kind = form.find('[name="kind"]').val();
+		var mailboxConfig = {
+			formSelector: '#MailAccountForm',
+			testButtonSelector: '.js-mailbox-test',
+			saveButtonSelector: '.js-mailbox-save',
+			validateOnSave: kind !== 'personal',
+			buildTestParams: function (formData) {
+				formData.module = 'Mail';
+				formData.action = 'TestConnection';
+				formData.kind = kind;
+				return formData;
+			}
+		};
+
+		if (kind === 'personal') {
+			mailboxConfig.saveSuccessMessage = 'LBL_SAVE_MAILBOX_OK';
+			mailboxConfig.buildSaveParams = function (formData) {
+				formData.module = 'Mail';
+				formData.action = 'SavePersonalAccount';
+				formData.activate = 1;
+				return formData;
+			};
+		} else {
+			mailboxConfig.saveSuccessMessage = 'LBL_SAVE';
+			mailboxConfig.buildSaveParams = function (formData) {
+				return {
+					module: 'MailAccount',
+					parent: 'Settings',
+					action: 'SaveAjax',
+					param: jQuery.extend(formData, { activate: 1 })
+				};
+			};
+			mailboxConfig.handleSaveSuccess = function (data) {
+				if (data.result && data.result.url) {
+					window.location.href = data.result.url;
 				}
-			});
-		});
-		form.find('.js-mail-save-account').on('click', function () {
-			var params = form.serializeFormData();
-			params.module = 'MailAccount';
-			params.parent = 'Settings';
-			params.action = 'SaveAjax';
-			params.param = params;
-			AppConnector.request(params).then(function (data) {
-				if (data.result && data.result.success) {
-					if (data.result.url) {
-						window.location.href = data.result.url;
-					}
-				} else {
-					thisInstance.showMailNotify((data.result && data.result.message) || 'LBL_CONNECTION_FAILED', 'error');
-				}
-			});
-		});
+			};
+		}
+
+		(new Mail_MailboxForm_Js(mailboxConfig)).registerEvents();
 	}
 });

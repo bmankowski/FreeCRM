@@ -38,3 +38,8 @@ alwaysApply: false
 
 - Handler: `src/Modules/Cron/Tasks/MailerTask.php` → `Mailer::sendByRowQueue()` (also manual send in Settings → Mail).
 - Dev/staging safety: `config/modules/Mail.php` → `MAIL_FILTER_SEND_ONLY_TO_DOMAIN`. Only listed `@domain` recipients get SMTP; others stripped; rows with no match drained without send. Off: `''` or `[]`. One: `'itconnect.pl'`. Several: `['a.pl', 'b.com']` or comma-separated string. Subdomains match. Not applied to `Mailer::test()` or OSSMail compose.
+
+## LinkAction import (`LBL_LINK_ACTION_IMPORT`)
+
+- Handler: `LinkAction\Cron\ImportTask` — fetch → import → ack. See `link-action.mdc`.
+- Run from **`cron`** container as **`www-data`**, not `app`.

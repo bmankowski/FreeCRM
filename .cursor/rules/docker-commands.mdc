@@ -17,3 +17,5 @@ All PHP runtime lives in the `app` container. The WSL host has no working PHP fo
 
 MariaDB shell (manual debugging only, when user asks or MCP is down):
 `docker compose exec -T db mariadb -ufreecrm -pfreecrm freecrm`
+
+**PHP image (`docker/php/Dockerfile`):** `openssh-client` + `rsync` for key-based dev sync (`cron` mounts `~/.ssh`). No `sshpass` — nothing in the repo uses password-based CLI SSH.

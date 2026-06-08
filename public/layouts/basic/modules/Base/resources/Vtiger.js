@@ -119,6 +119,7 @@ var Vtiger_Index_Js = {
 			}
 			var picker = jQuery.extend({}, Mail_SenderPicker_Js);
 			picker.init(modalContainer, {
+				composeSenders: mailForm.data('mailComposeSenders') || previewSection.data('mailComposeSenders') || [],
 				accounts: mailForm.data('mailAccounts') || previewSection.data('mailAccounts') || [],
 				smtpList: mailForm.data('mailSmtpList') || previewSection.data('mailSmtpList') || {}
 			});

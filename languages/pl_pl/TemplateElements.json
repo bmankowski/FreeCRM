@@ -38,7 +38,11 @@
         "PLL_HEADER": "Nagłówek",
         "PLL_VARIABLE_ALIAS": "Zmienna/alias",
         "PLL_BODY": "Treść",
-        "PLL_ANY": "Dowolne"
+        "PLL_ANY": "Dowolne",
+        "LBL_KANDYDACI_UNSUBSCRIBE_FOOTER": "Stopka wypisania Kandydaci",
+        "LBL_KANDYDACI_OPEN_TRACKING_LOGO": "Logo ze śledzeniem otwarć Kandydaci",
+        "LBL_DUPLICATE_RECORD": "Duplikuj rekord",
+        "LBL_TEMPLATE_ELEMENT_COPY_SUFFIX": "kopia"
     },
     "jsLanguageStrings": []
 }

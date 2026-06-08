@@ -50,8 +50,10 @@ class Widget extends \App\Modules\Base\Views\Index
 				'from_email' => $row['from_email'] ?? '',
 				'direction' => $row['direction'] ?? 'in',
 				'date' => $row['date_sent'] ?? '',
+				'send_status' => $row['send_status'] ?? null,
+				'opened_at_display' => $row['opened_at_display'] ?? '',
 				'attachments_exist' => !empty($row['has_attachments']),
-				'url' => 'index.php?module=Mail&view=Detail&record=' . (int) $row['id'],
+				'url' => \App\Modules\Mail\Models\Module::getMessageDetailUrl((int) $row['id'], $smodule, $srecord),
 			];
 		}
 		$viewer = $this->getViewer($request);

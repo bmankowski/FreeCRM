@@ -140,6 +140,28 @@ CREATE TABLE `u_yf_templateelements` (
   KEY `sequence` (`sequence`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
+/*Table structure for table `u_yf_link_action_log` */
+
+CREATE TABLE `u_yf_link_action_log` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `jti` varchar(64) NOT NULL,
+  `kid` varchar(16) NOT NULL,
+  `module` varchar(64) NOT NULL,
+  `record_id` int unsigned NOT NULL,
+  `action` varchar(32) NOT NULL,
+  `scope` varchar(32) NOT NULL,
+  `email_field` varchar(64) NOT NULL,
+  `eh` char(64) NOT NULL,
+  `token_fp` char(64) NOT NULL,
+  `processed_at` datetime NOT NULL,
+  `clicked_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_link_action_jti` (`jti`),
+  KEY `idx_link_action_target` (`module`,`record_id`),
+  KEY `idx_link_action_processed_at` (`processed_at`),
+  KEY `idx_link_action_clicked_at` (`clicked_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 /*Table structure for table `u_yf_documenttemplates` */
 
 CREATE TABLE `u_yf_documenttemplates` (

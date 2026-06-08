@@ -166,4 +166,91 @@ class Record extends \App\Modules\Base\Models\Record
 		$code = trim((string) $code, '_');
 		return $code ?: 'dynamic_element';
 	}
+
+	public function getDuplicateActionUrl(): string
+	{
+		return 'index.php?module=TemplateElements&action=DuplicateTemplateElement&id=' . $this->getId();
+	}
+
+	public function getRecordLinks(): array
+	{
+		$links = [];
+		if (!\App\Modules\Users\Models\Privileges::isPermitted('TemplateElements', 'EditView')) {
+			return $links;
+		}
+		$recordLinks = [
+			[
+				'linktype' => 'LISTVIEWRECORD',
+				'linklabel' => 'LBL_DUPLICATE_RECORD',
+				'linkurl' => $this->getDuplicateActionUrl(),
+				'linkicon' => 'glyphicon glyphicon-duplicate',
+			],
+		];
+		foreach ($recordLinks as $recordLink) {
+			$links[] = \App\Modules\Base\Models\Link::getInstanceFromValues($recordLink);
+		}
+		return $links;
+	}
+
+	public function getRecordListViewLinksLeftSide()
+	{
+		$links = parent::getRecordListViewLinksLeftSide();
+		if (!\App\Modules\Users\Models\Privileges::isPermitted('TemplateElements', 'EditView')) {
+			return $links;
+		}
+		$links[] = \App\Modules\Base\Models\Link::getInstanceFromValues([
+			'linktype' => 'LIST_VIEW_ACTIONS_RECORD_LEFT_SIDE',
+			'linklabel' => 'LBL_DUPLICATE_RECORD',
+			'linkurl' => $this->getDuplicateActionUrl(),
+			'linkicon' => 'glyphicon glyphicon-duplicate',
+			'linkclass' => 'btn-sm btn-default',
+		]);
+		return $links;
+	}
+
+	public static function buildDuplicateCode(string $sourceCode, string $moduleName, string $language): string
+	{
+		$copySuffix = '_copy';
+		$maxLen = 64;
+		$baseCode = self::normalizeCode($sourceCode);
+		if ($baseCode === '') {
+			$baseCode = 'dynamic_element';
+		}
+		if (strlen($baseCode) + strlen($copySuffix) > $maxLen) {
+			$baseCode = rtrim(substr($baseCode, 0, $maxLen - strlen($copySuffix)), '_');
+		}
+		$base = $baseCode . $copySuffix;
+		$candidate = $base;
+		$n = 2;
+		while (self::codeScopeExists($candidate, $moduleName, $language)) {
+			$numericSuffix = (string) $n;
+			$trimmedBase = $baseCode;
+			if (strlen($trimmedBase) + strlen($copySuffix) + strlen($numericSuffix) > $maxLen) {
+				$trimmedBase = rtrim(substr($trimmedBase, 0, $maxLen - strlen($copySuffix) - strlen($numericSuffix)), '_');
+			}
+			$candidate = $trimmedBase . $copySuffix . $numericSuffix;
+			$n++;
+		}
+		return $candidate;
+	}
+
+	protected static function normalizeCode(string $code): string
+	{
+		$code = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $code);
+		$code = strtolower((string) $code);
+		$code = preg_replace('/[^a-z0-9]+/', '_', $code);
+		return trim((string) $code, '_');
+	}
+
+	protected static function codeScopeExists(string $code, string $moduleName, string $language): bool
+	{
+		return (new \App\Db\Query())
+			->from('u_yf_templateelements')
+			->where([
+				'code' => $code,
+				'module_name' => $moduleName,
+				'language' => $language,
+			])
+			->exists();
+	}
 }

@@ -40,38 +40,35 @@ class Send extends \App\Base\Controllers\BaseActionController
 		$toRaw = $request->get('to');
 		$to = is_array($toRaw) ? $toRaw : array_filter(array_map('trim', explode(',', (string) $toRaw)));
 
-		$template = $templateId ? \App\Email\Mail::getTemplete($templateId) : null;
-		if ($template && ($subject === '' || $content === '')) {
-			$parsed = $this->parseTemplate($template, $request, $to[0] ?? '');
-			$subject = $subject !== '' ? $subject : $parsed['subject'];
-			$content = $content !== '' ? $content : $parsed['content'];
-		}
-
 		$params = [
 			'subject' => $subject,
 			'body_html' => $content,
 			'to' => $to,
 			'sourceModule' => $sourceModule,
 			'sourceRecord' => $sourceRecord,
+			'recordModule' => $request->getByType('recordModule', 2),
+			'recordId' => $request->getInteger('recordId'),
 		];
 
 		try {
-			if (str_starts_with($senderRef, 'account:')) {
-				$accountId = (int) substr($senderRef, 8);
-				$messageId = \App\Modules\Mail\Models\Outbound::sendViaAccount($userId, $accountId, $params);
-			} elseif (str_starts_with($senderRef, 'smtp:')) {
-				$smtpId = (int) substr($senderRef, 5);
-				\App\Email\Mailer::addMail([
-					'smtp_id' => $smtpId,
-					'subject' => $subject,
-					'content' => $content,
-					'to' => $to,
-					'source_module' => $sourceModule,
-					'source_id' => $sourceRecord,
-				]);
-				$messageId = \App\Modules\Mail\Models\Outbound::recordSystemSend($userId, $smtpId, $params);
+			if ($templateId > 0) {
+				$template = \App\Email\Mail::getTemplete($templateId);
+				if (!$template) {
+					throw new \App\Exceptions\AppException('Template not found');
+				}
+				if ($senderRef === '') {
+					$senderRef = \App\Modules\Mail\Models\Module::defaultSenderRefForTemplate($template, $userId);
+				}
+				$params['template'] = $templateId;
+				if ($subject !== '') {
+					$params['subjectOverride'] = $subject;
+				}
+				$messageId = \App\Modules\Mail\Models\Outbound::sendFromTemplate($userId, $senderRef, $params, $template);
 			} else {
-				throw new \App\Exceptions\AppException('Invalid sender');
+				if ($senderRef === '') {
+					throw new \App\Exceptions\AppException('Invalid sender');
+				}
+				$messageId = \App\Modules\Mail\Models\Outbound::sendRaw($userId, $senderRef, $params);
 			}
 			$response = new \App\Http\Vtiger_Response();
 			$response->setResult(['success' => true, 'messageId' => $messageId]);
@@ -81,33 +78,5 @@ class Send extends \App\Base\Controllers\BaseActionController
 			$response->setResult(['success' => false, 'error' => $e->getMessage()]);
 			$response->emit();
 		}
-	}
-
-	/**
-	 * @param list<string> $to
-	 * @return array{subject: string, content: string}
-	 */
-	private function parseTemplate(array $template, \App\Http\Vtiger_Request $request, string $to): array
-	{
-		$moduleName = $request->getByType('recordModule', 2) ?: $request->getByType('sourceModule', 2);
-		$recordId = $request->getInteger('recordId') ?: $request->getInteger('sourceRecord');
-		$recordModel = $recordId ? \App\Modules\Base\Models\Record::getInstanceById($recordId, $moduleName) : null;
-		$textParser = $recordModel
-			? \App\TextParser\TextParser::getInstanceByModel($recordModel)
-			: \App\TextParser\TextParser::getInstance($moduleName);
-		$textParser->setParams([
-			'template' => $template['emailtemplatesid'] ?? $template['id'] ?? null,
-			'moduleName' => $moduleName,
-			'recordId' => $recordId,
-			'to' => $to,
-			'sourceModule' => $request->get('sourceModule'),
-			'sourceRecord' => $request->get('sourceRecord'),
-		]);
-		if ($request->getInteger('sourceRecord') && $request->get('sourceModule')) {
-			$textParser->setSourceRecord($request->getInteger('sourceRecord'), $request->getByType('sourceModule', 2));
-		}
-		$subject = $textParser->setContent($template['subject'] ?? '')->parse()->getContent();
-		$content = $textParser->setContent($template['content'] ?? '')->parse()->getContent();
-		return ['subject' => $subject, 'content' => $content];
 	}
 }

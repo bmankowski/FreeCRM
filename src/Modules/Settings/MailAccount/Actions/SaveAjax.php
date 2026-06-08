@@ -14,6 +14,19 @@ namespace App\Modules\Settings\MailAccount\Actions;
 
 class SaveAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 {
+	/**
+	 * @return list<string>
+	 */
+	private static function accountFields(): array
+	{
+		return [
+			'kind', 'name', 'group_id', 'imap_host', 'imap_port', 'imap_secure',
+			'imap_validate_cert', 'imap_folder_inbox', 'imap_folder_sent', 'smtp_host', 'smtp_port',
+			'smtp_secure', 'username', 'password', 'from_name', 'reply_to_mode', 'reply_to_address',
+			'append_sent', 'activate',
+		];
+	}
+
 	public function checkPermission(\App\Http\Vtiger_Request $request): void
 	{
 		if (!$request->getUser()->isAdminUser()) {
@@ -24,6 +37,14 @@ class SaveAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 	public function process(\App\Http\Vtiger_Request $request): void
 	{
 		$data = $request->get('param') ?? $request->getAll();
+		$kind = (string) ($data['kind'] ?? 'shared');
+		if ($kind === 'personal') {
+			$response = new \App\Http\Vtiger_Response();
+			$response->setResult(['success' => false, 'message' => 'LBL_PERSONAL_ACCOUNT_USE_MAIL_SAVE']);
+			$response->emit();
+			return;
+		}
+
 		$recordId = (int) ($data['record'] ?? $data['id'] ?? 0);
 		$recordModel = $recordId
 			? \App\Modules\Settings\MailAccount\Models\Record::getInstanceById($recordId)
@@ -31,37 +52,30 @@ class SaveAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 		if ($recordId && $recordModel === null) {
 			throw new \App\Exceptions\AppException('LBL_RECORD_NOT_FOUND');
 		}
-
-		foreach ($data as $key => $value) {
-			$recordModel->set($key, $value);
+		if ($recordId) {
+			$recordModel->set('id', $recordId);
 		}
 
-		if (!empty($data['test_connection'])) {
-			$test = \App\Modules\Mail\Imap\Client::testConnection(array_merge($recordModel->getData(), ['id' => $recordId]), $data['password'] ?? null);
-			if (!$test['success']) {
-				$response = new \App\Http\Vtiger_Response();
-				$response->setResult(['success' => false, 'message' => $test['error'] ?? 'LBL_CONNECTION_FAILED']);
-				$response->emit();
-				return;
+		foreach (self::accountFields() as $key) {
+			if (array_key_exists($key, $data)) {
+				$recordModel->set($key, $data[$key]);
 			}
-			$recordModel->set('activate', true);
-			if (empty(trim((string) ($data['imap_folder_sent'] ?? ''))) && !empty($test['suggested_sent'])) {
-				$recordModel->set('imap_folder_sent', $test['suggested_sent']);
-			}
+		}
+
+		$groupId = (int) ($data['group_id'] ?? 0);
+		if ($groupId <= 0) {
+			$response = new \App\Http\Vtiger_Response();
+			$response->setResult(['success' => false, 'message' => 'LBL_CRM_GROUP_REQUIRED']);
+			$response->emit();
+			return;
 		}
 
 		$recordModel->save();
 		$response = new \App\Http\Vtiger_Response();
-		$result = [
+		$response->setResult([
 			'success' => true,
 			'url' => $recordModel->getEditViewUrl(),
-		];
-		if (!empty($data['test_connection']) && !empty($test['success'])) {
-			$result['folders'] = $test['folders'] ?? [];
-			$result['folder_tree'] = $test['folder_tree'] ?? [];
-			$result['suggested_sent'] = $test['suggested_sent'] ?? null;
-		}
-		$response->setResult($result);
+		]);
 		$response->emit();
 	}
 }

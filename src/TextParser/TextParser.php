@@ -108,6 +108,9 @@ class TextParser
 	/** @var array Additional params */
 	protected $params;
 
+	/** @var int|null CRM u_yf_mail_messages.id embedded in outbound LinkAction tokens */
+	public ?int $mailMessageId = null;
+
 	/** @var string[] Dynamic element recursion stack */
 	protected $dynamicStack = [];
 
@@ -201,6 +204,12 @@ class TextParser
 		return $this;
 	}
 
+	public function setMailMessageId(int $mailMessageId): self
+	{
+		$this->mailMessageId = $mailMessageId;
+		return $this;
+	}
+
 	/**
 	 * Get additional params
 	 * @param string $key
@@ -230,7 +239,7 @@ class TextParser
 	 */
 	public function setContent($content)
 	{
-		$this->rawContent = $this->content = str_replace('%20%3A%20', ' : ', $content);
+		$this->rawContent = $this->content = str_replace(['%20%3A%20', '%7C'], [' : ', '|'], $content);
 		return $this;
 	}
 
@@ -704,6 +713,7 @@ class TextParser
 		$parser->sourceRecordModel = $this->sourceRecordModel;
 		$parser->type = $this->type;
 		$parser->params = $this->params;
+		$parser->mailMessageId = $this->mailMessageId;
 		$parser->language = $this->language ?? ($element['language'] ?: null);
 		$parser->withoutTranslations = $this->withoutTranslations;
 		$parser->dynamicStack = array_merge($this->dynamicStack, [$code]);
@@ -910,24 +920,26 @@ class TextParser
 	protected function getBaseGeneralVariable()
 	{
 		$variables = [];
-		$parserDirectory = __DIR__ . DIRECTORY_SEPARATOR . 'TextParser';
-		if (!is_dir($parserDirectory)) {
-			return $variables;
-		}
+		$parserDirectory = __DIR__;
 		foreach ((new \DirectoryIterator($parserDirectory)) as $fileInfo) {
-			$fileName = $fileInfo->getBasename('.php');
-			if ($fileInfo->getType() !== 'dir' && $fileName !== 'Base' && $fileInfo->getExtension() === 'php') {
-				$className = '\App\TextParser\\' . $fileName;
-				if (!class_exists($className)) {
-					\App\Log\Log::warning('Not found custom class');
-					continue;
-				}
-				$instance = new $className($this);
-				if (isset($this->type) && $this->type !== $instance->type) {
-					continue;
-				}
-				$variables["$(custom : $fileName)$"] = \App\Runtime\Vtiger_Language_Handler::translate($instance->name);
+			if ($fileInfo->getType() === 'dir') {
+				continue;
 			}
+			$fileName = $fileInfo->getBasename('.php');
+			if ($fileName === 'Base' || $fileName === 'TextParser' || $fileInfo->getExtension() !== 'php') {
+				continue;
+			}
+			$className = '\App\TextParser\\' . $fileName;
+			if (!class_exists($className)) {
+				\App\Log\Log::warning('Not found custom class');
+				continue;
+			}
+			$instance = new $className($this);
+			if (isset($this->type) && $this->type !== $instance->type) {
+				continue;
+			}
+			$labelModule = in_array($fileName, ['LinkActionUrl', 'LinkActionImageUrl'], true) ? 'LinkAction' : 'Vtiger';
+			$variables["$(custom : $fileName)$"] = \App\Runtime\Vtiger_Language_Handler::translate($instance->name, $labelModule);
 		}
 		return $variables;
 	}

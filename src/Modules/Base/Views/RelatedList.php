@@ -22,8 +22,7 @@ class RelatedList  extends \App\Modules\Base\Views\Index
 		$moduleName = $request->getModule();
 		$relatedModuleName = $request->get('relatedModule');
 		if ($relatedModuleName === 'Mail') {
-			$this->processMailRelatedList($request);
-			return;
+			return $this->processMailRelatedList($request);
 		}
 		$parentId = $request->get('record');
 		$label = $request->get('tab_label');
@@ -250,7 +249,7 @@ class RelatedList  extends \App\Modules\Base\Views\Index
 		$viewer->assign('RECORD_LEFT_ICON_CLASSES', $imageClasses);
 	}
 
-	protected function processMailRelatedList(\App\Http\Vtiger_Request $request): void
+	protected function processMailRelatedList(\App\Http\Vtiger_Request $request): string
 	{
 		$moduleName = $request->getModule();
 		$parentId = (int) $request->get('record');
@@ -261,7 +260,7 @@ class RelatedList  extends \App\Modules\Base\Views\Index
 		$viewer->assign('PARENT_RECORD', $parentId);
 		$viewer->assign('MAIL_ENTRIES', $entries);
 		$viewer->assign('CAN_SEND_MAILS', \App\Core\AppConfig::main('isActiveSendingMails'));
-		$viewer->view('RelatedList.tpl', 'Mail');
+		return (string) $viewer->view('RelatedList.tpl', 'Mail', true);
 	}
 
 	protected function findFirstEmail(\App\Modules\Base\Models\Record $record): ?string

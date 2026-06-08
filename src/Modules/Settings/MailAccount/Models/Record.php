@@ -14,38 +14,17 @@ namespace App\Modules\Settings\MailAccount\Models;
 
 class Record extends \App\Modules\Settings\Base\Models\Record
 {
-	protected array $data = [];
+	/** @var \App\Modules\Settings\MailAccount\Models\Module|null */
+	protected $module;
 
-	public function getId(): int
+	public function getId()
 	{
-		return (int) ($this->data['id'] ?? 0);
+		return (int) $this->get('id');
 	}
 
-	public function getName(): string
+	public function getName()
 	{
-		return (string) ($this->data['name'] ?? '');
-	}
-
-	public function get(string $key)
-	{
-		return $this->data[$key] ?? null;
-	}
-
-	public function set(string $key, $value): self
-	{
-		$this->data[$key] = $value;
-		return $this;
-	}
-
-	public function setData(array $data): self
-	{
-		$this->data = $data;
-		return $this;
-	}
-
-	public function getData(): array
-	{
-		return $this->data;
+		return (string) ($this->get('name') ?? '');
 	}
 
 	public static function getInstanceById(int $id): ?self
@@ -54,31 +33,82 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 		if ($row === null) {
 			return null;
 		}
-		$raw = (new \App\Db\Query())->from('u_yf_mail_account_users')->where(['account_id' => $id])->all();
-		$row['assigned_users'] = array_column($raw, 'user_id');
-		$model = new self();
-		$model->setData($row);
-		return $model;
+
+		return new self($row);
 	}
 
 	public static function getCleanInstance(): self
 	{
-		$model = new self();
-		$model->setData([
+		return new self([
 			'kind' => 'shared',
 			'imap_port' => 993,
 			'imap_secure' => 'ssl',
 			'smtp_port' => 465,
 			'smtp_secure' => 'ssl',
 			'append_sent' => 1,
-			'assigned_users' => [],
+			'group_id' => null,
 		]);
-		return $model;
+	}
+
+	public function getModule()
+	{
+		return $this->module;
+	}
+
+	public function setModule(\App\Modules\Settings\Base\Models\Module $module): self
+	{
+		$this->module = $module;
+		return $this;
 	}
 
 	public function getEditViewUrl(): string
 	{
 		return 'index.php?module=MailAccount&parent=Settings&view=Edit&record=' . $this->getId();
+	}
+
+	public function getDetailViewUrl(): string
+	{
+		return $this->getEditViewUrl();
+	}
+
+	public function getDisplayValue(string $key): string
+	{
+		$value = $this->get($key);
+		switch ($key) {
+			case 'active':
+				return \App\Runtime\Vtiger_Language_Handler::translate(
+					((int) $value === 1) ? 'LBL_YES' : 'LBL_NO',
+					'Vtiger'
+				);
+			case 'kind':
+				$label = 'LBL_KIND_' . strtoupper((string) $value);
+				$translated = \App\Runtime\Vtiger_Language_Handler::translate($label, 'Settings:MailAccount');
+				return $translated !== $label ? $translated : (string) $value;
+			case 'group_name':
+				return (string) ($value ?: '-');
+			case 'owner_name':
+				return (string) ($value ?: '-');
+			case 'last_scan_at':
+				return $value ? (string) $value : '-';
+			case 'last_scan_status':
+				if ($value === 'ok') {
+					return 'OK';
+				}
+				if ($value === 'error') {
+					return 'Error (' . (int) ($this->get('consecutive_failures') ?? 0) . ')';
+				}
+				if ($value === 'disabled') {
+					return 'off';
+				}
+				return '-';
+			default:
+				return (string) ($value ?? '');
+		}
+	}
+
+	public function getRecordLinks(): array
+	{
+		return [];
 	}
 
 	public function getDeleteActionUrl(): string
@@ -88,13 +118,12 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	public function save(): void
 	{
-		$userIds = array_map('intval', (array) ($this->data['assigned_users'] ?? []));
 		$saved = \App\Modules\Mail\Models\Account::saveShared(
-			$this->data,
+			$this->getData(),
 			$this->getId() ?: null,
-			$userIds,
-			!empty($this->data['activate'])
+			[],
+			!empty($this->get('activate'))
 		);
-		$this->data = $saved;
+		$this->setData($saved);
 	}
 }

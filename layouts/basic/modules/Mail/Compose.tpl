@@ -7,8 +7,7 @@
 		<div class="alert alert-warning">{"LBL_CONFIGURE_MAILBOX"|t:"Mail"}</div>
 	{/if}
 	<form id="mail-compose-form"
-		data-mail-accounts='{\App\Utils\Json::encode($MAIL_ACCOUNTS)|escape:'html'}'
-		data-mail-smtp-list='{\App\Utils\Json::encode($SMTP_LIST)|escape:'html'}'>
+		data-mail-compose-senders='{\App\Utils\Json::encode($COMPOSE_SENDERS)|escape:'html'}'>
 		<input type="hidden" name="sourceModule" value="{$SOURCE_MODULE|escape}" />
 		<input type="hidden" name="sourceRecord" value="{$SOURCE_RECORD|escape}" />
 		<div class="form-group">

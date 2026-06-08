@@ -7,6 +7,7 @@ jQuery(function ($) {
 	}
 	var picker = Mail_SenderPicker_Js;
 	picker.init(form, {
+		composeSenders: form.data('mailComposeSenders') || [],
 		accounts: form.data('mailAccounts') || [],
 		smtpList: form.data('mailSmtpList') || {}
 	});
