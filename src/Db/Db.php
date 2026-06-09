@@ -1,6 +1,5 @@
 <?php
 namespace App\Db;
-use App\AppConfig;
 
 /**
  * Database connection class
@@ -20,15 +19,11 @@ class Db extends \yii\db\Connection
 	 */
 	public $emulatePrepare = false;
 
-	/**
-	 * @var Table of connections with database
-	 */
-	static private $cache = [];
+	/** @var array<string, self> */
+	private static $cache = [];
 
-	/**
-	 * @var Configuration with database
-	 */
-	static private $config;
+	/** @var array<string, array<string, mixed>>|null */
+	private static $config = null;
 
 	/**
 	 * @var boolean Enable caching database instance 
@@ -62,36 +57,30 @@ class Db extends \yii\db\Connection
 	public $commandClass = '\App\Db\Command';
 
 	/**
-	 * @var Cache|string the cache object or the ID of the cache application component that
-	 * is used to cache the table metadata.
-	 * @see enableSchemaCache
-	 */
-	public $schemaCache = false;
-
-	/**
-	 * Creates the \yii\db\Connection instance.
+	 * Creates the database connection instance.
 	 * @param string $type Name of database connection
-	 * @return \yii\db\Connection instance
+	 * @return self
 	 */
-	public static function getInstance($type = 'base')
+	public static function getInstance($type = 'base'): self
 	{
-		if (isset(static::$cache[$type])) {
-			return static::$cache[$type];
+		if (isset(self::$cache[$type])) {
+			return self::$cache[$type];
 		}
-		$db = new self(static::getConfig($type));
+		$db = new self(self::getConfig($type));
 		$db->dbType = $type;
-		static::$cache[$type] = $db;
+		self::$cache[$type] = $db;
 		return $db;
 	}
 
 	/**
 	 * Load database connection configuration
-	 * @param array $type
-	 * @return array with database configuration.
+	 * @param string $type
+	 * @param bool $reload
+	 * @return array<string, mixed>
 	 */
 	public static function getConfig($type, $reload = false)
 	{
-		if (!static::$config || $reload) {
+		if (self::$config === null || $reload) {
 			// Try to get config from AppConfig first
 			$dbconfig = \App\Core\AppConfig::main('dbconfig');
 			if ($dbconfig === false) {
@@ -104,7 +93,7 @@ class Db extends \yii\db\Connection
 			}
 			
 			// Build the configuration array
-			static::$config = [
+			self::$config = [
 				'base' => [
 					'dsn' => $dbconfig['db_type'] . ':host=' . $dbconfig['db_server'] . ';dbname=' . $dbconfig['db_name'] . ';port=' . $dbconfig['db_port'],
 					'host' => $dbconfig['db_server'],
@@ -113,24 +102,27 @@ class Db extends \yii\db\Connection
 					'password' => $dbconfig['db_password'],
 					'dbName' => $dbconfig['db_name'],
 					'tablePrefix' => 'yf_',
-					'charset' => 'utf8'
+					'charset' => 'utf8mb4'
 				]
 			];
 		}
-		if (isset(static::$config[$type])) {
-			return static::$config[$type];
+		if (isset(self::$config[$type])) {
+			return self::$config[$type];
 		}
-		return static::$config['base'];
+		return self::$config['base'];
 	}
 
 	/**
 	 * Set database connection configuration
-	 * @param array $config
-	 * @param string $type 
+	 * @param array<string, mixed> $config
+	 * @param string $type
 	 */
 	public static function setConfig($config, $type = 'base')
 	{
-		static::$config[$type] = $config;
+		if (self::$config === null) {
+			self::$config = [];
+		}
+		self::$config[$type] = $config;
 	}
 
 	/**
@@ -163,11 +155,12 @@ class Db extends \yii\db\Connection
 	 * This method is called by [[open]] to establish a DB connection.
 	 * The default implementation will create a PHP PDO instance.
 	 * You may override this method if the default PDO needs to be adapted for certain DBMS.
-	 * @return PDO the pdo instance
+	 * @return \PDO the pdo instance
 	 */
 	protected function createPdoInstance()
 	{
 		if (\App\Debug\Debugger::isDebugBar()) {
+			/** @var \DebugBar\DebugBar $debugBar */
 			$debugBar = \App\Debug\Debugger::getDebugBar();
 			$pdo = new \DebugBar\DataCollector\PDO\TraceablePDO(parent::createPdoInstance());
 			
@@ -176,10 +169,9 @@ class Db extends \yii\db\Connection
 			try {
 				$pdoCollector = $debugBar->getCollector('pdo');
 			} catch (\Exception $e) {
-				// Collector doesn't exist yet, create it
 			}
-			
-			if ($pdoCollector === null) {
+
+			if (!$pdoCollector instanceof \DebugBar\DataCollector\PDO\PDOCollector) {
 				$pdoCollector = new \DebugBar\DataCollector\PDO\PDOCollector();
 				$debugBar->addCollector($pdoCollector);
 			}
@@ -228,7 +220,8 @@ class Db extends \yii\db\Connection
 	/**
 	 * Creating a new DB table
 	 * @param string $tableName
-	 * @return boolean
+	 * @param array<string, mixed> $columns
+	 * @return int
 	 */
 	public function createTable($tableName, $columns)
 	{

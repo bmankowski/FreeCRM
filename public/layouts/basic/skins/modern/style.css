@@ -616,8 +616,17 @@ button.selectAllBtn.btn.btn-default {
     color: #455A64;
     background-color: #CFD8DC;
 }
+.detailViewHeaderFields {
+    padding: 0;
+}
 .detailViewHeaderFields .detailViewHeaderFieldsName {
     font-weight: bold;
+}
+.detailViewHeaderFields .detailViewHeaderFieldsContent--valueOnly {
+    text-align: left;
+}
+.detailViewHeaderFields .detailViewHeaderFieldsContent--valueOnly .detailViewHeaderFieldsValue {
+    float: none;
 }
 .widget_header .btn,.quickAction .btn {
     border-color: rgba(255, 255, 255, 0);

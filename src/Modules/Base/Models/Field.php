@@ -12,14 +12,14 @@ namespace App\Modules\Base\Models;
  * Contributor(s): YetiForce.com
  * *********************************************************************************** */
 
-/**
- * Vtiger Field Model Class
- */
-
 use App\Field\FieldDefinition;
 use App\Webservices\WebserviceField;
 
-
+/**
+ * Vtiger Field Model Class
+ *
+ * @phpstan-consistent-constructor
+ */
 class Field
 {
 
@@ -98,6 +98,12 @@ class Field
 	public static function fromRow(array $row): static
 	{
 		return new static(FieldDefinition::fromRow($row));
+	}
+
+	private static function fieldModelClass(string $moduleName): string
+	{
+		$className = \App\Core\Loader::getComponentClassName('Model', 'Field', $moduleName);
+		return $className !== false ? $className : self::class;
 	}
 
 	public function getDefinition(): ?FieldDefinition
@@ -258,7 +264,7 @@ class Field
 	 */
 	public function getLabel(): string
 	{
-		return $this->definition?->label ?? '';
+		return $this->definition !== null ? $this->definition->label : '';
 	}
 
 	/**
@@ -324,11 +330,11 @@ class Field
 		if (!isset($this->module) || !$this->module) {
 			$moduleObj = null;
 			$block = $this->get('block');
-			if (is_object($block) && isset($block->module)) {
+			if (is_object($block) && property_exists($block, 'module') && $block->module) {
 				$moduleObj = $block->module;
 			} elseif (is_numeric($block)) {
 				$blockInstance = \App\Modules\Base\Models\Block::getInstance((int) $block);
-				if ($blockInstance && isset($blockInstance->module)) {
+				if ($blockInstance) {
 					$moduleObj = $blockInstance->module;
 				}
 			}
@@ -446,7 +452,7 @@ class Field
 	/**
 	 * Function to retieve display value for a value
 	 * @param string $value - value which need to be converted to display value
-	 * @return string - converted display value
+	 * @return mixed converted display value
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
@@ -455,11 +461,11 @@ class Field
 
 	/**
 	 * Function to retrieve display type of a field
-	 * @return string - display type of the field
+	 * @return int display type of the field
 	 */
-	public function getDisplayType()
+	public function getDisplayType(): int
 	{
-		return $this->get('displaytype');
+		return $this->definition !== null ? $this->definition->displaytype : 0;
 	}
 
 	/**
@@ -596,8 +602,9 @@ class Field
 		if (\App\Cache\Cache::has('getReferenceList', $this->getId())) {
 			return \App\Cache\Cache::get('getReferenceList', $this->getId());
 		}
-		if (method_exists($this->getUITypeModel(), 'getReferenceList')) {
-			$list = $this->getUITypeModel()->getReferenceList();
+		$uiTypeModel = $this->getUITypeModel();
+		if ($uiTypeModel instanceof \App\Modules\Base\UiTypes\ReferenceListProvider) {
+			$list = $uiTypeModel->getReferenceList();
 		} else {
 			if ($this->getUIType() === 10) {
 				$query = (new \App\Db\Query())->select(['module' => 'relmodule'])
@@ -680,18 +687,20 @@ class Field
 	/**
 	 * Function to get all the available picklist values for the current field
 	 * @param boolean $skipCheckingRole
-	 * @return array List of picklist values if the field is of type picklist or multipicklist, null otherwise.
+	 * @return array<string, string> Map of raw picklist value to translated label; empty when not applicable.
 	 */
 	public function getPicklistValues($skipCheckingRole = false)
 	{
 		$fieldDataType = $this->getFieldDataType();
-		if ($this->getName() == 'hdnTaxType')
-			return null;
+		if ($this->getName() == 'hdnTaxType') {
+			return [];
+		}
 
 		if ($fieldDataType == 'picklist' || $fieldDataType == 'multipicklist') {
 			if ($this->isRoleBased() && !$skipCheckingRole) {
 				$userModel = \App\User\CurrentUser::get();
-				$picklistValues = \App\Fields\Picklist::getRoleBasedPicklistValues($this->getName(), $userModel->get('roleid'));
+				$roleId = (string) $userModel->get('roleid');
+				$picklistValues = \App\Fields\Picklist::getRoleBasedPicklistValues($this->getName(), $roleId);
 			} else {
 				$picklistValues = \App\Fields\Picklist::getPickListValues($this->getName());
 			}
@@ -711,9 +720,9 @@ class Field
 			}
 			return $fieldPickListValues;
 		} else if (method_exists($this->getUITypeModel(), 'getPicklistValues')) {
-			return $this->getUITypeModel()->getPicklistValues();
+			return $this->getUITypeModel()->getPicklistValues() ?? [];
 		}
-		return null;
+		return [];
 	}
 
 	/**
@@ -982,9 +991,8 @@ class Field
 			'maxwidthcolumn'      => $p['maxwidthcolumn'] ?? 0,
 		];
 
-		$className = \App\Core\Loader::getComponentClassName('Model', 'Field', $moduleName);
 		/** @var static $fieldModel */
-		$fieldModel = $className::fromRow($row);
+		$fieldModel = self::fieldModelClass($moduleName)::fromRow($row);
 		$fieldModel->blockInstance = $blockInstance;
 		return $fieldModel;
 	}
@@ -1153,12 +1161,16 @@ class Field
 				break;
 			case 'categoryMultipicklist':
 			case 'tree':
-				$tree = $this->getUITypeModel()->getAllValue();
-				$pickListValues = [];
-				foreach ($tree as $key => $labels) {
-					$pickListValues[$key] = $labels[0];
+				$uiTypeModel = $this->getUITypeModel();
+				if ($uiTypeModel instanceof \App\Modules\Base\UiTypes\Tree
+					|| $uiTypeModel instanceof \App\Modules\Base\UiTypes\CategoryMultipicklist) {
+					$tree = $uiTypeModel->getAllValue();
+					$pickListValues = [];
+					foreach ($tree as $key => $labels) {
+						$pickListValues[$key] = $labels[0];
+					}
+					$this->fieldInfo['picklistvalues'] = $pickListValues;
 				}
-				$this->fieldInfo['picklistvalues'] = $pickListValues;
 				break;
 			case 'email':
 				if (\App\Core\AppConfig::security('RESTRICTED_DOMAINS_ACTIVE') && !empty(\App\Core\AppConfig::security('RESTRICTED_DOMAINS_VALUES'))) {
@@ -1223,7 +1235,9 @@ class Field
 		if (method_exists($moduleModel, 'getName')) {
 			$moduleName = $moduleModel->getName();
 		} else {
-			$moduleName = $moduleModel->name ?? \App\Utils\ModuleUtils::getModuleName($moduleModel->id) ?: 'Base';
+			$moduleName = $moduleModel->name !== false
+				? $moduleModel->name
+				: (\App\Utils\ModuleUtils::getModuleName($moduleModel->id) ?: 'Base');
 		}
 
 		$rows = (new \App\Db\Query())
@@ -1234,9 +1248,8 @@ class Field
 
 		$fieldModelList = [];
 		foreach ($rows as $row) {
-			$className = \App\Core\Loader::getComponentClassName('Model', 'Field', $moduleName);
-			$fieldModelObject = $className::fromRow($row);
-			$blockId = $fieldModelObject->getDefinition()?->block ?? 0;
+			$fieldModelObject = self::fieldModelClass($moduleName)::fromRow($row);
+			$blockId = $fieldModelObject->getDefinition()->block ?? 0;
 			$fieldModelList[$blockId][] = $fieldModelObject;
 			\App\Cache\Cache::save('field-' . $moduleModel->getId(), $fieldModelObject->getId(), $fieldModelObject);
 			\App\Cache\Cache::save('field-' . $moduleModel->getId(), $fieldModelObject->getName(), $fieldModelObject);
@@ -1255,7 +1268,7 @@ class Field
 	 */
 	public static function getAllForBlock($blockInstance, $moduleInstance = null)
 	{
-		$blockId = is_object($blockInstance) ? ($blockInstance->id ?? $blockInstance->blockid ?? null) : (int) $blockInstance;
+		$blockId = $blockInstance->id;
 		if (!$blockId) {
 			return [];
 		}
@@ -1264,7 +1277,7 @@ class Field
 		if ($moduleInstance !== null) {
 			$moduleName = method_exists($moduleInstance, 'getName')
 				? $moduleInstance->getName()
-				: ($moduleInstance->name ?? null);
+				: ($moduleInstance->name !== false ? $moduleInstance->name : null);
 		}
 		if (!$moduleName) {
 			$tabid = (new \App\Db\Query())
@@ -1281,8 +1294,7 @@ class Field
 
 		$instances = [];
 		foreach ($rows as $row) {
-			$className = \App\Core\Loader::getComponentClassName('Model', 'Field', $moduleName);
-			$instances[] = $className::fromRow($row);
+			$instances[] = self::fieldModelClass($moduleName)::fromRow($row);
 		}
 		return $instances;
 	}
@@ -1317,8 +1329,7 @@ class Field
 		}
 
 		$moduleName = \App\Utils\ModuleUtils::getModuleName((int) $row['tabid']) ?: 'Base';
-		$className = \App\Core\Loader::getComponentClassName('Model', 'Field', $moduleName);
-		$fieldModel = $className::fromRow($row);
+		$fieldModel = self::fieldModelClass($moduleName)::fromRow($row);
 
 		if ($module) {
 			\App\Cache\Cache::save('field-' . $module->getId(), $value, $fieldModel);
@@ -1335,7 +1346,7 @@ class Field
 	public static function deleteForModule($moduleInstance): void
 	{
 		$db = \App\Db\Db::getInstance();
-		$moduleId = is_object($moduleInstance) ? (int) $moduleInstance->id : (int) $moduleInstance;
+		$moduleId = (int) $moduleInstance->id;
 
 		$fieldIds = (new \App\Db\Query())
 			->select(['fieldid'])
@@ -1447,7 +1458,7 @@ class Field
 	/**
 	 * Function to retrieve display value in edit view
 	 * @param string $value - value which need to be converted to display value
-	 * @return string - converted display value
+	 * @return mixed converted display value
 	 */
 	public function getEditViewDisplayValue($value, $record = false)
 	{
@@ -1488,7 +1499,7 @@ class Field
 	 */
 	public function getDefaultFieldValue()
 	{
-		return $this->definition?->defaultvalue ?? '';
+		return $this->definition !== null ? $this->definition->defaultvalue : '';
 	}
 
 	/**
@@ -1574,9 +1585,6 @@ class Field
 			if ($columntype) {
 				$tableSchema = $db->getSchema()->getTableSchema($table, true);
 				if ($tableSchema && is_null($tableSchema->getColumn($column))) {
-					if (is_array($columntype)) {
-						$columntype = $db->getSchema()->createColumnSchemaBuilder($columntype[0], $columntype[1]);
-					}
 					$db->createCommand()->addColumn($table, $column, $columntype)->execute();
 				}
 				if ($def->uitype === 10) {
@@ -1862,7 +1870,7 @@ class Field
 
 	public function hasDefaultValue()
 	{
-		return ($this->definition?->defaultvalue ?? '') == '' ? false : true;
+		return $this->definition !== null && $this->definition->defaultvalue !== '';
 	}
 
 	public function isActiveField()
@@ -1873,12 +1881,12 @@ class Field
 
 	public function isMassEditable()
 	{
-		return ($this->definition?->masseditable ?? 0) == 1 ? true : false;
+		return $this->definition !== null && $this->definition->masseditable === 1;
 	}
 
 	public function isHeaderField()
 	{
-		return !empty($this->definition?->header_field) ? true : false;
+		return $this->definition !== null && !empty($this->definition->header_field);
 	}
 
 	/**
@@ -1909,7 +1917,7 @@ class Field
 	 * @param int $moduleTabId
 	 * @return static|false
 	 */
-	public static function getInstanceFromFieldId($fieldId, $moduleTabId = false)
+	public static function getInstanceFromFieldId(int $fieldId, int|false $moduleTabId = false)
 	{
 		$fieldModel = \App\Cache\Cache::get('FieldModel', $fieldId);
 		if ($fieldModel) {
@@ -1920,8 +1928,7 @@ class Field
 			return false;
 		}
 		$moduleName = \App\Utils\ModuleUtils::getModuleName($row['tabid']) ?: 'Base';
-		$className = \App\Core\Loader::getComponentClassName('Model', 'Field', $moduleName);
-		$fieldModel = $className::fromRow($row);
+		$fieldModel = self::fieldModelClass($moduleName)::fromRow($row);
 		\App\Cache\Cache::save('FieldModel', $fieldId, $fieldModel);
 		return $fieldModel;
 	}

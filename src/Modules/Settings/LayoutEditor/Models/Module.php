@@ -16,6 +16,8 @@ namespace App\Modules\Settings\LayoutEditor\Models;
 
 class Module extends \App\Modules\Base\Models\Module
 {
+	/** @var array<\App\Modules\Settings\LayoutEditor\Models\Field> */
+	protected array $fieldsModule = [];
 
 	/**
 	 * Function that returns all the fields for the module
@@ -145,7 +147,7 @@ class Module extends \App\Modules\Base\Models\Module
 	 * @param int $blockId
 	 * @param array $params
 	 * @return \App\Modules\Settings\LayoutEditor\Models\Field
-	 * @throws Exception
+	 * @throws \Exception
 	 */
 	public function addField($fieldType, $blockId, $params)
 	{
@@ -175,12 +177,16 @@ class Module extends \App\Modules\Base\Models\Module
 			$columnName = $name;
 			$tableName = $focus->table_name;
 		} elseif ($type == 1) {
-			$columnName = 'cf_' . \App\Db\Db::getInstance()->getUniqueID('vtiger_field');
+			/** @var \App\Db\Db $db */
+			$db = \App\Db\Db::getInstance();
+			$columnName = 'cf_' . $db->getUniqueID('vtiger_field');
 			if (isset($focus->customFieldTable)) {
 				$tableName = $focus->customFieldTable[0];
 			} else {
 				$tableName = 'vtiger_' . strtolower($moduleName) . 'cf';
 			}
+		} else {
+			throw new \Exception(\App\Runtime\Vtiger_Language_Handler::translate('LBL_WRONG_FIELD_TYPE', 'Settings::LayoutEditor'), 513);
 		}
 		if ($fieldType === 'Tree' || $fieldType === 'CategoryMultipicklist') {
 			$fieldParams = (int) $params['tree'];
@@ -208,11 +214,8 @@ class Module extends \App\Modules\Base\Models\Module
 			->set('typeofdata', $typeofdata)
 			->set('quickcreate', $quickCreate)
 			->set('fieldparams', $fieldParams ? \App\Utils\Json::encode($fieldParams) : '')
-			->set('columntype', $dbType);
-
-		if (isset($details['displayType'])) {
-			$fieldModel->set('displaytype', $details['displayType']);
-		}
+			->set('columntype', $dbType)
+			->set('displaytype', $details['displayType']);
 		$blockModel = \App\Modules\Base\Models\Block::getInstance($blockId, $this);
 		$blockModel->addField($fieldModel);
 
@@ -240,7 +243,7 @@ class Module extends \App\Modules\Base\Models\Module
 	 * Function defines details of the created field
 	 * @param string $fieldType
 	 * @param array $params
-	 * @return (sting|int)[]
+	 * @return array{uitype: int, typeofdata: string, dbType: \yii\db\ColumnSchemaBuilder, displayType: int}
 	 */
 	public function getTypeDetailsForAddField($fieldType, $params)
 	{
@@ -374,6 +377,8 @@ class Module extends \App\Modules\Base\Models\Module
 				$type = $importerType->text();
 				$uichekdata = 'V';
 				break;
+			default:
+				throw new \InvalidArgumentException('Unsupported field type: ' . $fieldType);
 		}
 		return [
 			'uitype' => $uitype,
@@ -409,7 +414,7 @@ class Module extends \App\Modules\Base\Models\Module
 	{
 		$tabId = [$this->getId()];
 		if ($this->getName() == 'Calendar' || $this->getName() == 'Events') {
-			$tabId = [vtlib\Functions::getModuleId('Calendar'), \vtlib\Functions::getModuleId('Events')];
+			$tabId = [\vtlib\Functions::getModuleId('Calendar'), \vtlib\Functions::getModuleId('Events')];
 		}
 		$count = (new \App\Db\Query())->from('vtiger_field')->where(['tabid' => $tabId])
 			->andWhere(['or', ['fieldname' => $fieldName], ['columnname' => $fieldName]])
@@ -420,6 +425,7 @@ class Module extends \App\Modules\Base\Models\Module
 	public function checkFieldNameIsAnException($fieldName, $moduleName)
 	{
 		$exceptions = ['id', 'inventoryItemsNo', 'seq'];
+		/** @var \App\Modules\Base\Models\InventoryField $instance */
 		$instance = \App\Modules\Base\Models\InventoryField::getInstance($moduleName);
 		foreach ($instance->getAllFields() as $field) {
 			$exceptions[] = $field->getColumnName();
@@ -465,6 +471,7 @@ class Module extends \App\Modules\Base\Models\Module
 
 		$query = (new \App\Db\Query())->select('name')->from('vtiger_tab')->where(['presence' => $presence, 'isentitytype' => 1])->andWhere(['not in', 'name', $restrictedModules]);
 		$dataReader = $query->createCommand()->query();
+		/** @var \yii\db\DataReader $dataReader */
 		$modulesList = [];
 		while ($moduleName = $dataReader->read()) {
 			$moduleName = $moduleName['name'];
@@ -561,7 +568,7 @@ class Module extends \App\Modules\Base\Models\Module
 		$query = (new \App\Db\Query())->select('templateid, name')->from('vtiger_trees_templates')->where(['module' => $sourceModule])->orWhere(['like', 'share', ",$sourceModule,"]);
 		$treeList = [];
 		$dataReader = $query->createCommand()->query();
-		$modulesList = [];
+		/** @var \yii\db\DataReader $dataReader */
 		while ($row = $dataReader->read()) {
 			$treeList[$row['templateid']] = $row['name'];
 		}
@@ -594,6 +601,7 @@ class Module extends \App\Modules\Base\Models\Module
 			->innerJoin('vtiger_field', 'vtiger_relatedlists_fields.fieldid = vtiger_field.fieldid')
 			->where(['vtiger_relatedlists_fields.relation_id' => $moduleId, 'vtiger_field.presence' => [0, 2]]);
 		$dataReader = $query->createCommand()->query();
+		/** @var \yii\db\DataReader $dataReader */
 		$fields = [];
 		while ($row = $dataReader->read()) {
 			$fields[] = $row['fieldname'];

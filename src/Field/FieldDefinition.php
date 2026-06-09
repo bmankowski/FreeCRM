@@ -27,6 +27,15 @@ namespace App\Field;
  */
 final class FieldDefinition
 {
+    /** FieldDefinition property names that differ from vtiger_field column names. */
+    private const PROPERTY_TO_ROW_KEY = [
+        'id'     => 'fieldid',
+        'name'   => 'fieldname',
+        'label'  => 'fieldlabel',
+        'table'  => 'tablename',
+        'column' => 'columnname',
+    ];
+
     public function __construct(
         public readonly int     $id,                  // vtiger_field.fieldid
         public readonly int     $tabid,               // vtiger_field.tabid
@@ -108,8 +117,12 @@ final class FieldDefinition
      */
     public function with(array $changes): self
     {
-        $args = array_merge(get_object_vars($this), $changes);
-        return new self(...$args);
+        $row = $this->toRow();
+        foreach ($changes as $property => $value) {
+            $rowKey = self::PROPERTY_TO_ROW_KEY[$property] ?? $property;
+            $row[$rowKey] = $value;
+        }
+        return self::fromRow($row);
     }
 
     /**

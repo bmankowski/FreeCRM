@@ -8,7 +8,7 @@ namespace App\Modules\Base\UiTypes;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class ReferenceSubProcess extends Reference
+class ReferenceSubProcess extends Reference implements ReferenceListProvider
 {
 
 	/**
@@ -20,7 +20,7 @@ class ReferenceSubProcess extends Reference
 		return 'uitypes/ReferenceSubProcess.tpl';
 	}
 
-	public function getReferenceList()
+	public function getReferenceList(): array
 	{
 		$modules = \App\Core\ModuleHierarchy::getModulesByLevel(2);
 		if (!empty($modules)) {
@@ -29,7 +29,7 @@ class ReferenceSubProcess extends Reference
 		return [];
 	}
 
-	public function getParentModule($module)
+	public function getParentModule(string $module): string
 	{
 		$modules = \App\Core\ModuleHierarchy::getModulesByLevel(2);
 		if (isset($modules[$module]['parentModule'])) {

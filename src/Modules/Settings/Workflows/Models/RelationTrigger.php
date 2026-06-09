@@ -18,6 +18,91 @@ class RelationTrigger
 	public const DEFAULT_SOURCE_MODULE = 'ProjektyRekrutacyjne';
 	public const DEFAULT_DESTINATION_MODULE = 'Kandydaci';
 
+	/**
+	 * @return list<string>
+	 */
+	public static function decodeStatusFilter(mixed $stored): array
+	{
+		if ($stored === null || $stored === '') {
+			return [];
+		}
+		if (!is_string($stored)) {
+			return [];
+		}
+		$trimmed = trim($stored);
+		if ($trimmed === '') {
+			return [];
+		}
+		$valid = array_keys(self::getRecruitmentStatusOptions());
+		if (str_starts_with($trimmed, '[')) {
+			$decoded = \App\Utils\Json::decode($trimmed);
+			if (!is_array($decoded)) {
+				return [];
+			}
+			$result = [];
+			foreach ($decoded as $code) {
+				if (is_string($code) && $code !== '' && \in_array($code, $valid, true)) {
+					$result[] = $code;
+				}
+			}
+
+			return array_values(array_unique($result));
+		}
+		if (\in_array($trimmed, $valid, true)) {
+			return [$trimmed];
+		}
+
+		return [];
+	}
+
+	/**
+	 * @param array<int, string>|string|null $values
+	 */
+	public static function encodeStatusFilter(array|string|null $values): ?string
+	{
+		if (is_string($values)) {
+			$values = $values === '' ? [] : [$values];
+		}
+		if (!is_array($values)) {
+			return null;
+		}
+		$valid = array_keys(self::getRecruitmentStatusOptions());
+		$filtered = [];
+		foreach ($values as $code) {
+			if (is_string($code) && $code !== '' && \in_array($code, $valid, true)) {
+				$filtered[] = $code;
+			}
+		}
+		$filtered = array_values(array_unique($filtered));
+		if ($filtered === []) {
+			return null;
+		}
+
+		return \count($filtered) === 1 ? $filtered[0] : \App\Utils\Json::encode($filtered);
+	}
+
+	public static function statusFilterMatches(mixed $stored, string $actualStatus): bool
+	{
+		$filter = self::decodeStatusFilter($stored);
+
+		return $filter === [] || \in_array($actualStatus, $filter, true);
+	}
+
+	/**
+	 * @return list<string>
+	 */
+	private static function normalizeRequestStatusValues(mixed $raw): array
+	{
+		if (is_array($raw)) {
+			return $raw;
+		}
+		if (is_string($raw) && $raw !== '') {
+			return [$raw];
+		}
+
+		return [];
+	}
+
 	public static function getByWorkflowId(int $workflowId): ?array
 	{
 		$row = (new \App\Db\Query())
@@ -84,8 +169,8 @@ class RelationTrigger
 			'destination_module' => $destinationModule,
 			'relation_table' => self::resolveRelationTable($sourceModule, $destinationModule),
 			'relation_field' => self::resolveRelationField($sourceModule, $destinationModule),
-			'source_value' => $request->get('relation_source_value') ?: null,
-			'destination_value' => $request->get('relation_destination_value') ?: '',
+			'source_value' => self::encodeStatusFilter(self::normalizeRequestStatusValues($request->get('relation_source_value'))),
+			'destination_value' => self::encodeStatusFilter(self::normalizeRequestStatusValues($request->get('relation_destination_value'))) ?? '',
 			'once_per_pair' => (int) $request->get('relation_once_per_pair'),
 		];
 		$exists = (new \App\Db\Query())
@@ -283,15 +368,24 @@ class RelationTrigger
 		];
 	}
 
-	public static function formatStatusLabel(string $code): string
+	public static function formatStatusFilterLabel(mixed $stored): string
 	{
-		if ($code === '') {
+		$codes = self::decodeStatusFilter($stored);
+		if ($codes === []) {
 			return \App\Language::translate('LBL_RELATION_ANY_STATUS', 'Settings:Workflows');
 		}
-
 		$options = self::getRecruitmentStatusOptions();
+		$labels = [];
+		foreach ($codes as $code) {
+			$labels[] = $options[$code] ?? $code;
+		}
 
-		return $options[$code] ?? $code;
+		return implode(', ', $labels);
+	}
+
+	public static function formatStatusLabel(string $code): string
+	{
+		return self::formatStatusFilterLabel($code);
 	}
 
 	public static function buildCreateWorkflowUrl(?string $from = null, ?string $to = null): string
@@ -351,8 +445,8 @@ class RelationTrigger
 				'summary' => \App\Language::translate((string) $row['summary'], 'Settings:Workflows'),
 				'source_value' => $sourceValue,
 				'destination_value' => $destValue,
-				'source_label' => self::formatStatusLabel($sourceValue),
-				'destination_label' => self::formatStatusLabel($destValue),
+				'source_label' => self::formatStatusFilterLabel($sourceValue),
+				'destination_label' => self::formatStatusFilterLabel($destValue),
 				'once_per_pair' => (int) ($row['once_per_pair'] ?? 0),
 				'edit_url' => $workflowModel->getEditViewUrl(),
 				'active_tasks' => $workflowModel->getActiveCountFromRecord($taskList),
@@ -402,11 +496,8 @@ class RelationTrigger
 	 */
 	private static function workflowMatchesTransition(array $workflow, string $from, string $to): bool
 	{
-		$sourceFilter = (string) ($workflow['source_value'] ?? '');
-		$destFilter = (string) ($workflow['destination_value'] ?? '');
-
-		return ($sourceFilter === '' || $sourceFilter === $from)
-			&& ($destFilter === '' || $destFilter === $to);
+		return self::statusFilterMatches($workflow['source_value'] ?? '', $from)
+			&& self::statusFilterMatches($workflow['destination_value'] ?? '', $to);
 	}
 
 	public static function getRecruitmentStatusOptions(): array

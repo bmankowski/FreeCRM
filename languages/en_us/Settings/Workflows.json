@@ -153,6 +153,7 @@
         "LBL_RELATION_ONCE_PER_PAIR": "Run once per record pair",
         "LBL_RELATION_DESTINATION_STATUS_REQUIRED": "Destination status is required",
         "LBL_RELATION_ANY_STATUS": "Any status",
+        "LBL_RELATION_STATUS_FILTER_HELP": "Leave empty to match any status. Select one or more to limit when this workflow runs.",
         "LBL_RELATION_VAR_SOURCE_FIELDS": "Source record fields",
         "LBL_RELATION_VAR_DESTINATION_FIELDS": "Destination record fields",
         "LBL_RELATION_VAR_RELATION_FIELDS": "Relation link fields",

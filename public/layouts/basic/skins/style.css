@@ -5227,6 +5227,9 @@ select.form-control {
 	padding-top:10px;
 	border-top: 4px solid #404952;
 }
+.detailViewHeaderFields {
+	padding: 0;
+}
 .detailViewHeaderFields .detailViewHeaderFieldsName{
 	display: inline-block;
 	float: left;
@@ -5234,6 +5237,12 @@ select.form-control {
 .detailViewHeaderFields .detailViewHeaderFieldsValue{
 	display: inline-block;
 	float: right;
+}
+.detailViewHeaderFields .detailViewHeaderFieldsContent--valueOnly {
+	text-align: left;
+}
+.detailViewHeaderFields .detailViewHeaderFieldsContent--valueOnly .detailViewHeaderFieldsValue {
+	float: none;
 }
 .detailViewHeaderFields .detailViewHeaderFieldsValue .badge{
 	padding: 3px 10px !important;

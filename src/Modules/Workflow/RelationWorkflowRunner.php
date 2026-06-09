@@ -74,14 +74,19 @@ class RelationWorkflowRunner
 		if ($expectedField !== $context->getRelationField()) {
 			return false;
 		}
-		$destinationFilter = $config['destination_value'] ?? '';
-		if ($destinationFilter !== '' && $destinationFilter !== $context->getDestinationStatus()) {
+		if (!\App\Modules\Settings\Workflows\Models\RelationTrigger::statusFilterMatches(
+			$config['destination_value'] ?? '',
+			$context->getDestinationStatus()
+		)) {
 			return false;
 		}
-		$sourceFilter = $config['source_value'] ?? '';
-		if ($sourceFilter !== '' && $sourceFilter !== $context->getSourceStatus()) {
+		if (!\App\Modules\Settings\Workflows\Models\RelationTrigger::statusFilterMatches(
+			$config['source_value'] ?? '',
+			$context->getSourceStatus()
+		)) {
 			return false;
 		}
+
 		return true;
 	}
 

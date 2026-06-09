@@ -8,10 +8,10 @@ namespace App\Modules\Base\UiTypes;
  * @license licenses/License.html
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
-class ReferenceProcess extends BaseUiType
+class ReferenceProcess extends BaseUiType implements ReferenceListProvider
 {
 
-	public function getReferenceList()
+	public function getReferenceList(): array
 	{
 		$modules = \App\Core\ModuleHierarchy::getModulesByLevel(1);
 		if (!empty($modules)) {

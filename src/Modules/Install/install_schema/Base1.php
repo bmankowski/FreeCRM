@@ -102,8 +102,8 @@ class Base1 extends \App\Db\Importers\Base
 					'destination_module' => $this->stringType(100)->notNull(),
 					'relation_table' => $this->stringType(200)->notNull(),
 					'relation_field' => $this->stringType(100)->notNull(),
-					'source_value' => $this->stringType(255),
-					'destination_value' => $this->stringType(255)->notNull(),
+					'source_value' => $this->text(),
+					'destination_value' => $this->text()->notNull(),
 					'once_per_pair' => $this->smallInteger(1)->notNull()->defaultValue(0),
 				],
 				'index' => [

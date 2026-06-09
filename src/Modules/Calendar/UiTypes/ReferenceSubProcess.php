@@ -11,7 +11,7 @@ namespace App\Modules\Calendar\UiTypes;
 class ReferenceSubProcess extends \App\Modules\Base\UiTypes\ReferenceSubProcess
 {
 
-	public function getReferenceList()
+	public function getReferenceList(): array
 	{
 		return ['SQuoteEnquiries', 'SRequirementsCards', 'SCalculations', 'SQuotes', 'SSingleOrders', 'SRecurringOrders', 'HelpDesk', 'SVendorEnquiries'];
 	}

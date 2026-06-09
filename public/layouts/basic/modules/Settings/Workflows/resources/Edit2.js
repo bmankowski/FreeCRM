@@ -142,6 +142,25 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit2_Js",{},{
 	
 	
 	
+	registerRelationStatusSelect2 : function() {
+		var container = this.getContainer();
+		container.find('.js-relation-status-filter').each(function() {
+			var $select = jQuery(this);
+			if ($select.data('select2')) {
+				return;
+			}
+			app.showSelect2ElementView($select, {
+				allowClear: true,
+				placeholder: '\u00a0',
+				tags: false
+			});
+			var $rendered = $select.next('.select2-container');
+			if ($rendered.length) {
+				$rendered.find('.select2-selection__placeholder').text('');
+			}
+		});
+	},
+	
 	registerEvents : function(){
 		var opts = app.validationEngineOptions;
 		// to prevent the page reload after the validation has completed
@@ -167,6 +186,7 @@ Settings_Workflows_Edit_Js("Settings_Workflows_Edit2_Js",{},{
             }
         });
 		app.changeSelectElementView(container);
+		this.registerRelationStatusSelect2();
 		this.advanceFilterInstance = Vtiger_AdvanceFilter_Js.getInstance(jQuery('.filterContainer',container));
 		this.getPopUp();
 		if(jQuery('[name="filtersavedinnew"]',container).val() == '5'){

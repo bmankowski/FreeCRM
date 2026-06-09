@@ -63,6 +63,13 @@ class CategoryMultipicklist extends BaseUiType
 		return implode(', ', $names);
 	}
 
+	public function getAllValue()
+	{
+		$tree = new Tree();
+		$tree->set('field', $this->get('field'));
+		return $tree->getAllValue();
+	}
+
 	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param mixed $value

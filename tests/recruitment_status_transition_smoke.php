@@ -94,6 +94,35 @@ assertTrue(
 	RelationTrigger::formatStatusLabel('') !== '',
 	'formatStatusLabel handles empty status'
 );
+assertTrue(
+	RelationTrigger::decodeStatusFilter('PPL_APPLIED') === ['PPL_APPLIED'],
+	'decode legacy single status value'
+);
+assertTrue(
+	RelationTrigger::decodeStatusFilter('["PPL_APPLIED","PPL_ACCEPTED"]') === ['PPL_APPLIED', 'PPL_ACCEPTED'],
+	'decode JSON multi status filter'
+);
+assertTrue(
+	RelationTrigger::statusFilterMatches('PPL_APPLIED', 'PPL_APPLIED'),
+	'single status filter matches'
+);
+assertTrue(
+	!RelationTrigger::statusFilterMatches('PPL_APPLIED', 'PPL_ACCEPTED'),
+	'single status filter rejects non-member'
+);
+$multiEncoded = RelationTrigger::encodeStatusFilter(['PPL_APPLIED', 'PPL_ACCEPTED']);
+assertTrue(
+	RelationTrigger::statusFilterMatches($multiEncoded, 'PPL_ACCEPTED'),
+	'multi status filter matches member'
+);
+assertTrue(
+	!RelationTrigger::statusFilterMatches($multiEncoded, 'PPL_SENT_TO_CLIENT'),
+	'multi status filter rejects non-member'
+);
+assertTrue(
+	str_contains(RelationTrigger::formatStatusFilterLabel($multiEncoded), ','),
+	'multi status filter label lists all selections'
+);
 
 echo $failures === 0 ? "\nAll service smoke tests passed.\n" : "\n$failures test(s) failed.\n";
 exit($failures === 0 ? 0 : 1);

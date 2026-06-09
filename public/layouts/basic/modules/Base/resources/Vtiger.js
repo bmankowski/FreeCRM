@@ -104,6 +104,74 @@ var Vtiger_Index_Js = {
 		return aDeferred.promise();
 	},
 	/**
+	 * Chain wheel scroll: down = modal form first, then mail body; up = mail body first, then form.
+	 * @param {jQuery} modalContainer
+	 * @param {jQuery} contentEditor
+	 * @param {jQuery} previewSection
+	 */
+	registerMailComposeScrollChain: function (modalContainer, contentEditor, previewSection) {
+		var modalBody = modalContainer.find('.modal-body');
+		if (!modalBody.length || !contentEditor.length) {
+			return;
+		}
+		var modalEl = modalContainer[0];
+		var threshold = 1;
+		var isOtherScrollArea = function (target) {
+			return !!target.closest('.select2-results, .select2-dropdown, .ps__rail-y, .ps__thumb-y');
+		};
+		var updateModalScrollbar = function () {
+			var ps = modalBody.data('ps');
+			if (ps) {
+				ps.update();
+			}
+		};
+		var wheelHandler = function (e) {
+			if (isOtherScrollArea(e.target)) {
+				return;
+			}
+			var previewVisible = previewSection.length && !previewSection.hasClass('hide');
+			var deltaY = e.deltaY;
+			if (!deltaY) {
+				return;
+			}
+			var bodyEl = modalBody[0];
+			var contentEl = contentEditor[0];
+			var bodyAtBottom = bodyEl.scrollTop + bodyEl.clientHeight >= bodyEl.scrollHeight - threshold;
+			var bodyAtTop = bodyEl.scrollTop <= threshold;
+			var contentScrollable = previewVisible && contentEl.scrollHeight > contentEl.clientHeight + threshold;
+			var contentAtBottom = !contentScrollable
+				|| contentEl.scrollTop + contentEl.clientHeight >= contentEl.scrollHeight - threshold;
+			var contentAtTop = !contentScrollable || contentEl.scrollTop <= threshold;
+			var handled = false;
+
+			if (deltaY > 0) {
+				if (!bodyAtBottom) {
+					bodyEl.scrollTop += deltaY;
+					handled = true;
+				} else if (contentScrollable && !contentAtBottom) {
+					contentEl.scrollTop += deltaY;
+					handled = true;
+				}
+			} else if (contentScrollable && !contentAtTop) {
+				contentEl.scrollTop += deltaY;
+				handled = true;
+			} else if (!bodyAtTop) {
+				bodyEl.scrollTop += deltaY;
+				handled = true;
+			}
+
+			if (handled) {
+				e.preventDefault();
+				e.stopPropagation();
+				updateModalScrollbar();
+			}
+		};
+		modalEl.addEventListener('wheel', wheelHandler, { passive: false, capture: true });
+		modalContainer.one('hidden.bs.modal.mailScrollChain', function () {
+			modalEl.removeEventListener('wheel', wheelHandler, { capture: true });
+		});
+	},
+	/**
 	 * Wire preview/send handlers for IndividualSendMailModal (and mass modal when preview section exists).
 	 * @param {jQuery} modalContainer
 	 * @param {Object} postData request base params (module, selected_ids, sourceModule, sourceRecord, to, …)
@@ -294,6 +362,7 @@ var Vtiger_Index_Js = {
 				});
 			}
 		});
+		this.registerMailComposeScrollChain(modalContainer, contentEditor, previewSection);
 	},
 	/**
 	 * Open SendMailModal and queue template-based emails (detail, list, related list).

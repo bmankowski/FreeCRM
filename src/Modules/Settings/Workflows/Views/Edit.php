@@ -203,10 +203,14 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 				$prefillSource = $workFlowModel->get('relation_source_value');
 				$prefillDest = $workFlowModel->get('relation_destination_value');
 				if ($prefillSource !== null && $prefillSource !== false && $prefillSource !== '') {
-					$relationTrigger['source_value'] = (string) $prefillSource;
+					$relationTrigger['source_value'] = \App\Modules\Settings\Workflows\Models\RelationTrigger::encodeStatusFilter(
+						is_array($prefillSource) ? $prefillSource : [(string) $prefillSource]
+					);
 				}
 				if ($prefillDest !== null && $prefillDest !== false && $prefillDest !== '') {
-					$relationTrigger['destination_value'] = (string) $prefillDest;
+					$relationTrigger['destination_value'] = \App\Modules\Settings\Workflows\Models\RelationTrigger::encodeStatusFilter(
+						is_array($prefillDest) ? $prefillDest : [(string) $prefillDest]
+					) ?? '';
 				}
 			}
 		}
@@ -223,6 +227,8 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('IS_RELATION_MODIFY_TRIGGER', $executionCondition === \App\Modules\Workflow\VTWorkflowManager::$ON_RELATION_MODIFY);
 		$viewer->assign('RELATION_TRIGGER', $relationTrigger);
 		$viewer->assign('RELATION_STATUS_OPTIONS', \App\Modules\Settings\Workflows\Models\RelationTrigger::getRecruitmentStatusOptions());
+		$viewer->assign('RELATION_SOURCE_VALUES', \App\Modules\Settings\Workflows\Models\RelationTrigger::decodeStatusFilter($relationTrigger['source_value'] ?? null));
+		$viewer->assign('RELATION_DESTINATION_VALUES', \App\Modules\Settings\Workflows\Models\RelationTrigger::decodeStatusFilter($relationTrigger['destination_value'] ?? null));
 		$viewer->assign('RELATION_SOURCE_MODULE', \App\Modules\Settings\Workflows\Models\RelationTrigger::DEFAULT_SOURCE_MODULE);
 		$viewer->assign('RELATION_DESTINATION_MODULE', \App\Modules\Settings\Workflows\Models\RelationTrigger::DEFAULT_DESTINATION_MODULE);
 

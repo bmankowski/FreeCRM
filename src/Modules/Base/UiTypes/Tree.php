@@ -27,8 +27,11 @@ class Tree extends BaseUiType
 
 	/**
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param object $value
-	 * @return object
+	 * @param string $tree
+	 * @param int|false $record
+	 * @param \App\Modules\Base\Models\Record|false $recordInstance
+	 * @param bool $rawText
+	 * @return string|false
 	 */
 	public function getDisplayValue($tree, $record = false, $recordInstance = false, $rawText = false)
 	{
@@ -66,8 +69,9 @@ class Tree extends BaseUiType
 
 	/**
 	 * Function to get the display value in edit view
-	 * @param reference record id
-	 * @return link
+	 * @param string $value
+	 * @param int|false $record
+	 * @return string|false
 	 */
 	public function getEditViewDisplayValue($value, $record = false)
 	{
@@ -79,14 +83,11 @@ class Tree extends BaseUiType
 		return 'uitypes/TreeFieldSearchView.tpl';
 	}
 
-	/**
-	 * Function to get the all Values
-	 * @param object $value
-	 * @return object
-	 */
-	public function getAllValue()
+	/** @return array<string|int, array{0: string, 1: string}> */
+	public function getAllValue(): array
 	{
 		$template = $this->get('field')->getFieldParams();
+		$module = $this->get('field')->getModuleName();
 		$adb = \App\Database\PearDatabase::getInstance();
 		$values = [];
 		$result = $adb->pquery('SELECT * FROM vtiger_trees_templates_data WHERE templateid = ?', array($template));
@@ -104,7 +105,7 @@ class Tree extends BaseUiType
 				$parentName = $adb->getSingleValue($result3);
 				$parentName = '(' . \App\Runtime\Vtiger_Language_Handler::translate($parentName, $module) . ') ';
 			}
-			$values[$row['tree']] = array($parentName . \App\Runtime\Vtiger_Language_Handler::translate($row['name'], $this->get('field')->getModuleName()), $parent);
+			$values[$row['tree']] = array($parentName . \App\Runtime\Vtiger_Language_Handler::translate($row['name'], $module), $parent);
 		}
 		return $values;
 	}

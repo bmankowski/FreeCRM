@@ -49,14 +49,23 @@ globs: ["**/*.php"]
 
 ## PHPStan
 - Run: `docker compose exec -T app vendor/bin/phpstan analyse <path> --no-progress --memory-limit=512M` (uses `phpstan.neon`). Default 128M OOMs on multi-file runs.
+- `Parameter $X has no type information available` — add native param (and return) types; infer from call sites and usage (e.g. module name strings in UiTypes).
 - `phpstan.neon` `excludePaths` for event parsers must be `src/Events/` (capital E); lowercase `src/events/` breaks config load.
 - `Module::getInstance($name)` is typed as base `Module` — `instanceof` the module model before module-specific methods.
 - List-view link/mass-action APIs expect `array`; pass `[]`, not `false`.
 - `Record::getInstanceById()` is typed as base `Record`; module methods (e.g. `isAdminUser()`) need the subclass. For the logged-in user, use `CurrentUser::get()` (`?Users\Models\Record`) instead of `Users\Models\Record::getInstanceById(...)`.
-- `@return \self` in legacy PHPDoc is often read as unknown class `self` — prefer FQCN in `@return`, or `/** @var \App\…\Concrete $x */` after `getInstance*()` at the call site.
+- `@return \self` in legacy PHPDoc is often read as unknown class `self` — use `@return self` (no backslash), FQCN, or `/** @var \App\…\Concrete $x */` after `getInstance*()`.
+- `Db::getInstance()` must be `@return self` / `: self` — otherwise PHPStan types `yii\db\Connection` and misses `App\Db\Db` helpers (`getUniqueID()`, `isTableExists()`, `createTable()`).
+- `Loader::getComponentClassName()` returns `string|false` — guard before `::$className::fromRow()`; see `Field::fieldModelClass()` in `Base\Models\Field`.
+- Model factories with `new static()` need `@phpstan-consistent-constructor` on the base class (docblock directly above `class`, not above `use`).
+- `FieldDefinition::$displaytype` is `int` — prefer `getDisplayType(): int` / `$definition->displaytype`, not string from `get('displaytype')`.
+- `BaseUiType::getDisplayValue()` / `getEditViewDisplayValue()` PHPDoc: `@param/@return mixed` (legacy `@param object` / `@return link` breaks callers). `Tree::getAllValue()` same class of bug: stale `@return object` makes `CategoryMultipicklist::getAllValue(): array` fail static analysis — fix the callee’s return type/PHPDoc, not only the delegate.
 - In namespaced PHP, built-ins need a leading `\` (`\ZipArchive`, `\ZipArchive::CREATE`) or PHPStan assumes `App\…\ZipArchive`.
-- `Cache::get/save` keys are `string|array` — cast numeric ids with `(string)`.
+- `Cache::get/has/save/delete` keys accept `string|int|array` (ints are stringified in the cache key).
 - Prefer `Query::all()` over `createCommand()->query()` + `read()`. If the loop stays, annotate `/** @var \yii\db\DataReader $dataReader */` (Yii2 class, not `App\Db\DataReader`).
+- Legacy `\App\PrivilegeFile` → `\App\Security\PrivilegeFile` (`class.notFound` in Owner, Users Record, etc.).
+- `Users\Models\Record::getRole()` returns `string`; role APIs (`Roles\Models\Record::getInstanceById`, `PrivilegeUtil::getRoleSubordinates`) expect `int` — cast with `(int)`.
+- Methods typed `@return \App\Db\Query` must not return `[]`; use `(new \App\Db\Query())->from('…')->where('0=1')` for an empty result set.
 - `ROOT_DIRECTORY` is runtime-only — not in PHPStan bootstrap. In files you fix, use `\defined('ROOT_DIRECTORY') ? \constant('ROOT_DIRECTORY') : dirname(__DIR__, N)` (N = levels to project root) instead of bare `ROOT_DIRECTORY`.
 - Duplicate keys in literal arrays (overlapping locale maps) and PHPDoc return types that disagree with runtime (`string` vs `array{…}`) are level-5 errors.
 - Keep callee PHPDoc aligned with runtime: e.g. `VTJsonCondition::evaluate()` takes a JSON **string**, returns **bool**.

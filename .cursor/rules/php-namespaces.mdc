@@ -68,6 +68,7 @@ App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();  // Looks 
 | `CurrencyField` | `\App\fields\CurrencyField` (note lowercase 'fields') |
 | `Vtiger_Language_Handler` | `\App\Runtime\Vtiger_Language_Handler` |
 | `Users_Privileges_Model` | `\Users_Privileges_Model` (global namespace) |
+| `PrivilegeFile` | `\App\Security\PrivilegeFile` (not `\App\PrivilegeFile`) |
 | PHP classes (DateTime, Exception, etc.) | Always prefix with `\` |
 
 ## Debugging Namespace Errors

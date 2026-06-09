@@ -11,28 +11,25 @@ namespace App\Fields;
 class Owner
 {
 
-	protected $moduleName;
-	protected $searchValue;
-	protected $currentUser;
+	protected string|false $moduleName = false;
+	protected ?string $searchValue = null;
+	protected \App\Modules\Users\Models\Record $currentUser;
 
 	/**
 	 * Function to get the instance
-	 * @param string $moduleName
-	 * @param mixed $currentUser
-	 * @param \App\Http\Vtiger_Request $request
-	 * @return \self
+	 * @param string|false $moduleName
+	 * @param \App\Modules\Users\Models\Record|null $currentUser
+	 * @param \App\Http\Vtiger_Request|null $request
+	 * @return self
 	 */
-	public static function getInstance($moduleName = false, $currentUser = false, $request = null)
-	{
-		if ($currentUser && $currentUser instanceof \App\Modules\Users\Users) {
-			$currentUser = \App\Modules\Users\Models\Record::getInstanceById($currentUser->id, 'Users');
-		} elseif ($currentUser === false) {
+	public static function getInstance(
+		string|false $moduleName = false,
+		?\App\Modules\Users\Models\Record $currentUser = null,
+		?\App\Http\Vtiger_Request $request = null,
+	): self {
+		if ($currentUser === null) {
 			$currentUser = \App\User\CurrentUser::get();
-		} elseif (is_numeric($currentUser)) {
-			$currentUser = \App\Modules\Users\Models\Record::getInstanceById($currentUser, 'Users');
-	} elseif (is_object($currentUser) && get_class($currentUser) === '\App\Modules\Users\Models\Record') {
-		$currentUser = \App\Modules\Users\Models\Record::getInstanceById($currentUser->getId(), 'Users');
-	}
+		}
 
 		$cacheKey = $moduleName . $currentUser->getId();
 		$instance = \App\Cache\Cache::get('App\Fields\Owner', $cacheKey);
@@ -40,7 +37,7 @@ class Owner
 			$instance = new self();
 			$instance->moduleName = $moduleName != false ? $moduleName : ($request !== null ? $request->get('module') : false);
 			$instance->currentUser = $currentUser;
-		\App\Cache\Cache::save('App\Fields\Owner', $cacheKey, $instance);
+			\App\Cache\Cache::save('App\Fields\Owner', $cacheKey, $instance);
 		}
 		return $instance;
 	}
@@ -59,13 +56,13 @@ class Owner
 		$cacheKey = $private . $this->moduleName . $fieldType;
 		$accessibleGroups = \App\Cache\Cache::get('getAccessibleGroups', $cacheKey);
 		if ($accessibleGroups === false) {
-			$currentUserRoleModel = \App\Modules\Settings\Roles\Models\Record::getInstanceById($this->currentUser->getRole());
+			$currentUserRoleModel = \App\Modules\Settings\Roles\Models\Record::getInstanceById((int) $this->currentUser->getRole());
 			if (!empty($fieldType) && $currentUserRoleModel->get('allowassignedrecordsto') == '5' && $private != 'Public') {
 				$accessibleGroups = $this->getAllocation('groups', $private, $fieldType);
 			} else {
 				$accessibleGroups = $this->getGroups(false, $private);
 			}
-		\App\Cache\Cache::save('getAccessibleGroups', $cacheKey, $accessibleGroups);
+			\App\Cache\Cache::save('getAccessibleGroups', $cacheKey, $accessibleGroups);
 		}
 		if ($translate) {
 			foreach ($accessibleGroups as &$name) {
@@ -73,9 +70,9 @@ class Owner
 			}
 		}
 		if (!empty($this->searchValue)) {
-			$this->searchValue = strtolower($this->searchValue);
-			$accessibleGroups = array_filter($accessibleGroups, function($name) {
-				return strstr(strtolower($name), $this->searchValue);
+			$searchValue = strtolower($this->searchValue);
+			$accessibleGroups = array_filter($accessibleGroups, function ($name) use ($searchValue) {
+				return strstr(strtolower($name), $searchValue);
 			});
 		}
 		return $accessibleGroups;
@@ -92,25 +89,27 @@ class Owner
 		$cacheKey = $private . $this->moduleName . $fieldType . $fieldType;
 		$accessibleUser = \App\Cache\Cache::get('getAccessibleUsers', $cacheKey);
 		if ($accessibleUser === false) {
-			$currentUserRoleModel = \App\Modules\Settings\Roles\Models\Record::getInstanceById($this->currentUser->getRole());
+			$currentUserRoleModel = \App\Modules\Settings\Roles\Models\Record::getInstanceById((int) $this->currentUser->getRole());
 			if ($currentUserRoleModel->get('allowassignedrecordsto') == '1' || $private == 'Public') {
 				$accessibleUser = $this->getUsers(false, 'Active', '', $private, true);
 			} else if ($currentUserRoleModel->get('allowassignedrecordsto') == '2') {
-				$currentUserRoleModel = \App\Modules\Settings\Roles\Models\Record::getInstanceById($this->currentUser->getRole());
+				$currentUserRoleModel = \App\Modules\Settings\Roles\Models\Record::getInstanceById((int) $this->currentUser->getRole());
 				$sameLevelRoles = array_keys($currentUserRoleModel->getSameLevelRoles());
-				$childernRoles = \App\Security\PrivilegeUtil::getRoleSubordinates($this->currentUser->getRole());
+				$childernRoles = \App\Security\PrivilegeUtil::getRoleSubordinates((int) $this->currentUser->getRole());
 				$roles = array_merge($sameLevelRoles, $sameLevelRoles);
 				$accessibleUser = $this->getUsers(false, 'Active', '', '', false, array_unique($roles));
 			} else if ($currentUserRoleModel->get('allowassignedrecordsto') == '3') {
-				$childernRoles = \App\Security\PrivilegeUtil::getRoleSubordinates($this->currentUser->getRole());
+				$childernRoles = \App\Security\PrivilegeUtil::getRoleSubordinates((int) $this->currentUser->getRole());
 				$accessibleUser = $this->getUsers(false, 'Active', '', '', false, array_unique($childernRoles));
 				$accessibleUser[$this->currentUser->getId()] = $this->currentUser->getName();
 			} else if (!empty($fieldType) && $currentUserRoleModel->get('allowassignedrecordsto') == '5') {
 				$accessibleUser = $this->getAllocation('users', '', $fieldType);
 			} else {
-				$accessibleUser[$this->currentUser->getId()] = $this->currentUser->getName();
+				$accessibleUser = [
+					$this->currentUser->getId() => $this->currentUser->getName(),
+				];
 			}
-		\App\Cache\Cache::save('getAccessibleUsers', $cacheKey, $accessibleUser);
+			\App\Cache\Cache::save('getAccessibleUsers', $cacheKey, $accessibleUser);
 		}
 		return $accessibleUser;
 	}
@@ -123,10 +122,11 @@ class Owner
 		];
 	}
 
-	public function getAllocation($mode, $private = '', $fieldType, $request = null)
+	public function getAllocation($mode, $private = '', $fieldType = false, $request = null)
 	{
-		if ($request === null || $request->get('parent') != 'Settings') {
-			$moduleName = $this->moduleName;
+		$moduleName = $this->moduleName;
+		if ($request !== null && $request->get('parent') == 'Settings') {
+			$moduleName = $request->get('module') ?: $moduleName;
 		}
 
 		$result = [];
@@ -172,6 +172,7 @@ class Owner
 				$query->where(['vtiger_users.id' => $assignedUser]);
 			}
 			$tempResult = [];
+			/** @var \yii\db\DataReader $dataReader */
 			$dataReader = $query->createCommand()->query();
 			// Get the id and the name.
 			while ($row = $dataReader->read()) {
@@ -198,13 +199,13 @@ class Owner
 	public function getQueryInitUsers($private = false, $status = false, $roles = false)
 	{
 		$entityData = \App\Utils\ModuleUtils::getEntityInfo('Users');
-	$selectFields = array_unique(array_merge($entityData['fieldnameArr'], ['id' => 'id', 'is_admin', 'cal_color', 'status']));
-	// Including deleted vtiger_users for now.
-	if ($private === 'private') {
-		$userPrivileges = \App\Modules\Users\Models\Privileges::getPrivilegesFile($this->currentUser->getId());
-		if ($userPrivileges === null) {
-			\App\Log\Log::error("User privileges file not found for user: " . $this->currentUser->getId());
-			return [];
+		$selectFields = array_unique(array_merge($entityData['fieldnameArr'], ['id' => 'id', 'is_admin', 'cal_color', 'status']));
+		// Including deleted vtiger_users for now.
+		if ($private === 'private') {
+			$userPrivileges = \App\Modules\Users\Models\Privileges::getPrivilegesFile($this->currentUser->getId());
+			if ($userPrivileges === null) {
+				\App\Log\Log::error("User privileges file not found for user: " . $this->currentUser->getId());
+				return (new \App\Db\Query())->from('vtiger_users')->where('0=1');
 			}
 			\App\Log\Log::trace('Sharing is Private. Only the current user should be listed');
 			$query = new \App\Db\Query ();
@@ -259,10 +260,6 @@ class Owner
 		\App\Log\Log::trace("Entering getUsers($addBlank,$status,$assignedUser,$private) method ...");
 
 		$tempResult = $this->initUsers($status, $assignedUser, $private);
-
-		if (!is_array($tempResult)) {
-			return [];
-		}
 		$users = [];
 		if ($addBlank === true) {
 			// Add in a blank row
@@ -284,6 +281,7 @@ class Owner
 	{
 		\App\Log\Log::trace("Entering getGroups($addBlank,$private) method ...");
 		$moduleName = '';
+		$tabid = 0;
 		if (($request === null || $request->get('parent') != 'Settings') && $this->moduleName) {
 			$moduleName = $this->moduleName;
 			$tabid = \App\Utils\ModuleUtils::getModuleId($moduleName);
@@ -300,18 +298,19 @@ class Owner
 
 		if (!empty($moduleName) && $moduleName != 'CustomView') {
 			$query .= ' WHERE groupid IN (SELECT groupid FROM vtiger_group2modules WHERE tabid = ?)';
-		$params[] = $tabid;
-	}
-	if ($private == 'private') {
-		$userPrivileges = \App\Modules\Users\Models\Privileges::getPrivilegesFile($this->currentUser->getId());
-		if ($userPrivileges === null) {
-			\App\Log\Log::error("User privileges file not found for user: " . $this->currentUser->getId());
-			return [];
+			$params[] = $tabid;
+		}
+		if ($private == 'private') {
+			$userPrivileges = \App\Modules\Users\Models\Privileges::getPrivilegesFile($this->currentUser->getId());
+			if ($userPrivileges === null) {
+				\App\Log\Log::error("User privileges file not found for user: " . $this->currentUser->getId());
+				return [];
 			}
-			if (strpos($query, 'WHERE') === false)
+			if (strpos($query, 'WHERE') === false) {
 				$query .= ' WHERE';
-			else
+			} else {
 				$query .= ' AND';
+			}
 			$query .= ' groupid=?';
 			array_push($params, $this->currentUser->getId());
 
@@ -362,7 +361,7 @@ class Owner
 			$groups = $this->getAccessibleGroups('');
 		} else {
 			$sharingAccessModel = \App\Modules\Settings\SharingAccess\Models\Module::getInstance($this->moduleName);
-			if ($sharingAccessModel && $sharingAccessModel->isPrivate()) {
+			if ($sharingAccessModel instanceof \App\Modules\Settings\SharingAccess\Models\Module && $sharingAccessModel->isPrivate()) {
 				$groups = $this->getAccessibleGroups('private');
 			} else {
 				$groups = $this->getAccessibleGroups('');
@@ -373,7 +372,6 @@ class Owner
 
 	/**
 	 * Function returns List of Accessible Users for a Module
-	 * @param string $module
 	 * @return array
 	 */
 	public function getAccessibleUsersForModule()
@@ -383,7 +381,7 @@ class Owner
 			$users = $this->getAccessibleUsers('');
 		} else {
 			$sharingAccessModel = \App\Modules\Settings\SharingAccess\Models\Module::getInstance($this->moduleName);
-			if ($sharingAccessModel && $sharingAccessModel->isPrivate()) {
+			if ($sharingAccessModel instanceof \App\Modules\Settings\SharingAccess\Models\Module && $sharingAccessModel->isPrivate()) {
 				$users = $this->getAccessibleUsers('private');
 			} else {
 				$users = $this->getAccessibleUsers('');
@@ -392,7 +390,7 @@ class Owner
 		return $users;
 	}
 
-	public function getUsersAndGroupForModuleList($view = false, $conditions = false)
+	public function getUsersAndGroupForModuleList(int|false $view = false, array|false $conditions = false)
 	{
 		$queryGenerator = new \App\QueryField\QueryGenerator($this->moduleName, $this->currentUser->getId());
 		if ($view) {
@@ -411,9 +409,10 @@ class Owner
 		$users = $groups = [];
 		$adminInList = \App\Core\AppConfig::performance('SHOW_ADMINISTRATORS_IN_USERS_LIST');
 		foreach ($ids as $id) {
+			/** @var \App\Modules\Users\Models\Record $userModel */
 			$userModel = \App\Modules\Users\Models\Record::getInstanceById($id, 'Users');
 			$name = $userModel->getName();
-			if (!empty($name) && ($adminInList || (!$adminInList && !$userModel->isAdmin()))) {
+			if (!empty($name) && ($adminInList || !$userModel->isAdmin())) {
 				$users[$id] = $name;
 			}
 		}
@@ -442,7 +441,7 @@ class Owner
 		if (!isset(self::$usersIdsCache[$status])) {
 			$rows = [];
 			if (\App\Core\AppConfig::performance('ENABLE_CACHING_USERS')) {
-				$rows = \App\PrivilegeFile::getUser('id');
+				$rows = \App\Security\PrivilegeFile::getUser('id');
 			} else {
 				$instance = new self();
 				$rows = $instance->initUsers($status);
@@ -531,13 +530,13 @@ class Owner
 		}
 
 		if (\App\Core\AppConfig::performance('ENABLE_CACHING_USERS')) {
-			$users = \App\PrivilegeFile::getUser('id');
+			$users = \App\Security\PrivilegeFile::getUser('id');
 		} else {
 			$instance = new self();
 			if ($single) {
-				$users = $instance->initUsers(false, $id);
+				$users = $instance->initUsers('', $id);
 			} else {
-				$users = $instance->initUsers(false);
+				$users = $instance->initUsers('');
 			}
 		}
 		foreach ($users as $uid => &$user) {
@@ -552,7 +551,7 @@ class Owner
 	/**
 	 * Function checks record type
 	 * @param int $id
-	 * @return boolean
+	 * @return string
 	 */
 	public static function getType($id)
 	{
@@ -560,7 +559,7 @@ class Owner
 			return self::$typeCache[$id];
 		}
 		if (\App\Core\AppConfig::performance('ENABLE_CACHING_USERS')) {
-			$users = \App\PrivilegeFile::getUser('id');
+			$users = \App\Security\PrivilegeFile::getUser('id');
 			$isExists = isset($users[$id]);
 		} else {
 			$isExists = (new \App\Db\Query())

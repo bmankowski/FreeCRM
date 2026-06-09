@@ -42,7 +42,7 @@ class Field extends \App\Modules\Base\Models\Field
 	/**
 	 * Function to get all the available picklist values for the current field
 	 * @param boolean $skipCheckingRole
-	 * @return array List of picklist values if the field is of type picklist or multipicklist, null otherwise.
+	 * @return array<string, string> Map of raw picklist value to translated label; empty when not applicable.
 	 */
 	public function getPicklistValues($skipCheckingRole = false)
 	{

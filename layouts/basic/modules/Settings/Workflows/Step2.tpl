@@ -48,23 +48,23 @@
 				<div class="form-group row">
 					<label class="col-md-3 control-label">{"LBL_RELATION_SOURCE_STATUS"|t:$QUALIFIED_MODULE}</label>
 					<div class="col-md-6">
-						<select name="relation_source_value" class="select2 form-control">
-							<option value="">{"LBL_RELATION_ANY_STATUS"|t:$QUALIFIED_MODULE}</option>
+						<select name="relation_source_value[]" multiple="multiple" class="select2noactive form-control js-relation-status-filter">
 							{foreach from=$RELATION_STATUS_OPTIONS item=LABEL key=VALUE}
-								<option value="{$VALUE}" {if $RELATION_TRIGGER.source_value eq $VALUE}selected{/if}>{$LABEL}</option>
+								<option value="{$VALUE|escape}" {if in_array($VALUE, $RELATION_SOURCE_VALUES)}selected="selected"{/if}>{$LABEL|escape}</option>
 							{/foreach}
 						</select>
+						<p class="help-block text-muted">{"LBL_RELATION_STATUS_FILTER_HELP"|t:$QUALIFIED_MODULE}</p>
 					</div>
 				</div>
 				<div class="form-group row">
 					<label class="col-md-3 control-label">{"LBL_RELATION_DESTINATION_STATUS"|t:$QUALIFIED_MODULE}</label>
 					<div class="col-md-6">
-						<select name="relation_destination_value" class="select2 form-control">
-							<option value="">{"LBL_RELATION_ANY_STATUS"|t:$QUALIFIED_MODULE}</option>
+						<select name="relation_destination_value[]" multiple="multiple" class="select2noactive form-control js-relation-status-filter">
 							{foreach from=$RELATION_STATUS_OPTIONS item=LABEL key=VALUE}
-								<option value="{$VALUE}" {if $RELATION_TRIGGER.destination_value eq $VALUE}selected{/if}>{$LABEL}</option>
+								<option value="{$VALUE|escape}" {if in_array($VALUE, $RELATION_DESTINATION_VALUES)}selected="selected"{/if}>{$LABEL|escape}</option>
 							{/foreach}
 						</select>
+						<p class="help-block text-muted">{"LBL_RELATION_STATUS_FILTER_HELP"|t:$QUALIFIED_MODULE}</p>
 					</div>
 				</div>
 				<div class="form-group row">

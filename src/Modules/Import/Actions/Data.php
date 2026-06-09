@@ -411,7 +411,7 @@ class Data extends \App\Base\Controllers\BaseActionController
 		if (empty($ownerId) && isset($defaultFieldValues[$fieldName])) {
 			$ownerId = $defaultFieldValues[$fieldName];
 		}
-		if (!empty($ownerId) && \App\Fields\Owner::getType($ownerId) === 'Users' && !array_key_exists($ownerId, \App\Fields\Owner::getInstance($fieldInstance->getModuleName(), $this->user->id)->getAccessibleUsers('', 'owner'))) {
+		if (!empty($ownerId) && \App\Fields\Owner::getType($ownerId) === 'Users' && !array_key_exists($ownerId, \App\Fields\Owner::getInstance($fieldInstance->getModuleName(), $this->user)->getAccessibleUsers('', 'owner'))) {
 			$ownerId = '';
 		}
 		if (empty($ownerId)) {
@@ -506,7 +506,7 @@ class Data extends \App\Base\Controllers\BaseActionController
 				$referenceModuleName = $referenceModule;
 				if ($referenceModule === 'Users') {
 					$referenceEntityId = \App\Modules\Users\Models\Record::getUserIdByName(trim($entityLabel));
-					if (empty($referenceEntityId) || !array_key_exists($referenceEntityId, \App\Fields\Owner::getInstance($fieldInstance->getModuleName(), $this->user->id)->getAccessibleUsers('', 'owner'))) {
+					if (empty($referenceEntityId) || !array_key_exists($referenceEntityId, \App\Fields\Owner::getInstance($fieldInstance->getModuleName(), $this->user)->getAccessibleUsers('', 'owner'))) {
 						$referenceEntityId = $this->user->id;
 						}
 					} elseif ($referenceModule === 'Currency') {

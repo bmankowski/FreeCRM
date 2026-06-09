@@ -152,9 +152,6 @@ class Field extends \App\Modules\Settings\Base\Actions\Index
 			$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
 			$fieldInstance = \App\Modules\Base\Models\Field::getInstance($fieldName, $moduleModel);
 			$picklistValues = $fieldInstance->getPicklistValues();
-			if ($picklistValues === null) {
-				$picklistValues = [];
-			}
 		}
 		$response->setResult($picklistValues);
 		$response->emit();

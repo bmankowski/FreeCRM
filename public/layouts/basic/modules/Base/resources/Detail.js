@@ -2478,7 +2478,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 		//register all the events for summary view container
 		thisInstance.registerSummaryViewContainerEvents(detailContentsHolder);
 		thisInstance.registerCommentEvents(detailContentsHolder);
-		thisInstance.registerEmailEvents(detailContentsHolder);
+		thisInstance.registerEmailEvents(detailViewContainer.length ? detailViewContainer : detailContentsHolder);
 		thisInstance.registerMapsEvents(detailContentsHolder);
 		app.registerEventForDatePickerFields(detailContentsHolder);
 		//Attach time picker event to time fields

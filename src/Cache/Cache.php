@@ -32,7 +32,7 @@ class Cache
 	/**
 	 * Returns a Cache Item representing the specified key
 	 * @param string $nameSpace Cache namespace
-	 * @param string|array $key Cache ID
+	 * @param string|int|array $key Cache ID
 	 * @return mixed Cached value or false if not found
 	 */
 	public static function get($nameSpace, $key)
@@ -44,7 +44,7 @@ class Cache
 	/**
 	 * Confirms if the cache contains specified cache item
 	 * @param string $nameSpace Cache namespace
-	 * @param string|array $key Cache ID
+	 * @param string|int|array $key Cache ID
 	 * @return bool
 	 */
 	public static function has($nameSpace, $key)
@@ -56,7 +56,7 @@ class Cache
 	/**
 	 * Cache Save
 	 * @param string $nameSpace Cache namespace
-	 * @param string|array $key Cache ID
+	 * @param string|int|array $key Cache ID
 	 * @param mixed $value Data to store, supports string, array, objects
 	 * @param int $duration Cache TTL (in seconds)
 	 * @return bool
@@ -70,7 +70,7 @@ class Cache
 	/**
 	 * Removes the item from the cache
 	 * @param string $nameSpace Cache namespace
-	 * @param string|array $key Cache ID
+	 * @param string|int|array $key Cache ID
 	 * @return bool
 	 */
 	public static function delete($nameSpace, $key)

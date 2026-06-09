@@ -40,7 +40,7 @@ class BaseUiType extends \App\Runtime\BaseModel
 	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param mixed $value
-	 * @param \App\Modules\Base\Models\Record $recordModel
+	 * @param \App\Modules\Base\Models\Record|false $recordModel
 	 * @return mixed
 	 */
 	public function getDBValue($value, $recordModel = false)
@@ -56,8 +56,8 @@ class BaseUiType extends \App\Runtime\BaseModel
 
 	/**
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
-	 * @param object $value
-	 * @return object
+	 * @param mixed $value
+	 * @return mixed
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
@@ -171,16 +171,21 @@ class BaseUiType extends \App\Runtime\BaseModel
 		];
 		foreach ($candidates as $class) {
 			if (class_exists($class)) {
-				return (new $class())->set('field', $fieldModel);
+				/** @var self $instance */
+				$instance = new $class();
+				$instance->set('field', $fieldModel);
+				return $instance;
 			}
 		}
-		return (new self())->set('field', $fieldModel);
+		$instance = new self();
+		$instance->set('field', $fieldModel);
+		return $instance;
 	}
 
 	/**
 	 * Function to get the display value in edit view
-	 * @param reference record id
-	 * @return link
+	 * @param mixed $value
+	 * @return mixed
 	 */
 	public function getEditViewDisplayValue($value, $record = false)
 	{

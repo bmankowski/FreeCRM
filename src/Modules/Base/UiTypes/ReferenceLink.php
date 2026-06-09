@@ -9,7 +9,7 @@ namespace App\Modules\Base\UiTypes;
  * @author Mariusz Krzaczkowski <m.krzaczkowski@yetiforce.com>
  */
 
-class ReferenceLink extends BaseUiType
+class ReferenceLink extends BaseUiType implements ReferenceListProvider
 {
 
 	public function isAjaxEditable()
@@ -17,7 +17,7 @@ class ReferenceLink extends BaseUiType
 		return false;
 	}
 
-	public function getReferenceList()
+	public function getReferenceList(): array
 	{
 		$modules = \App\Core\ModuleHierarchy::getModulesByLevel();
 		return array_keys($modules);

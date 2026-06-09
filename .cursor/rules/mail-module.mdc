@@ -47,6 +47,7 @@ Cron: `LBL_MAIL_SCAN` → `Mail\Cron\Scanner`; `LBL_MAIL_LOG_PRUNE` → `Mail\Cr
 ## Pitfalls (real bugs from 2026-06)
 
 - **`Mail\Models\Module` must extend `Base\Models\Module`.** Same class name holds static compose helpers; without extend, `Module::getAll()` / global search fatals on `->get()`.
+- **Group mailbox compose access uses `u_yf_mail_account_users`, not a live group join.** `getGroupMailboxForUser()` reads that table. Sync runs on shared-account save and on CRM group save (`GroupAfterSave` → `Mail_GroupMailboxSync_Handler`). If a user is in `vtiger_users2group` but missing from compose senders, re-save the group or call `Account::syncForGroup($groupId)`.
 - **Use `\App\Db\Query`, not `\yii\db\Query`.** Cron (and some CLI) bootstraps without `Yii::$app->db`; raw Yii Query → `getDb() on null`. Same for `Settings/MailAccount`.
 - **No `App\User\User`.** Use `CurrentUser::getId()` or an already-loaded user model's `getId()`.
 - **Smarty mailbox include:** `{include file='PreferenceMailbox.tpl'|@vtemplate_path:'Mail'}` (filename only) — see `smarty-templates.mdc`.

@@ -49,8 +49,6 @@
 											   data-workflows="{$CELL_WORKFLOWS|@json_encode|escape:'html'}">
 												{$CELL_WORKFLOWS|@count}
 											</a>
-										{else}
-											<span class="text-muted">—</span>
 										{/if}
 										<a href="{$CREATE_TRANSITION_WORKFLOW_URLS[$FROM_CODE][$TO_CODE]|escape}"
 										   class="js-add-workflow-for-transition"

@@ -100,7 +100,7 @@ class PearDatabase
 	public function connect()
 	{
 		// Set DSN 
-		$dsn = $this->dbType . ':host=' . $this->dbHostName . ';dbname=' . $this->dbName . ';port=' . $this->port . ';charset=utf8';
+		$dsn = $this->dbType . ':host=' . $this->dbHostName . ';dbname=' . $this->dbName . ';port=' . $this->port . ';charset=utf8mb4';
 
 		// Set options
 		$options = array(
@@ -111,7 +111,7 @@ class PearDatabase
 		// Create a new PDO instanace
 		try {
 			$this->database = new \PDO($dsn, $this->userName, $this->userPassword, $options);
-			$this->database->exec('SET NAMES ' . $this->database->quote('utf8'));
+			$this->database->exec('SET NAMES ' . $this->database->quote('utf8mb4'));
 		} catch (\PDOException $e) {
 			\App\Log\Log::error('Database connect (PDOException): ' . $e->getMessage());
 			$this->checkError($e->getMessage());

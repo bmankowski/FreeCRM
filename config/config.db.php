@@ -47,6 +47,6 @@ return [
 		'password' => $dbconfig['db_password'],
 		'dbName' => $dbconfig['db_name'],
 		'tablePrefix' => 'yf_',
-		'charset' => 'utf8'
+		'charset' => 'utf8mb4'
 	]
 ];
