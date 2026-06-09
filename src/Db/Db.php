@@ -160,8 +160,10 @@ class Db extends \yii\db\Connection
 	protected function createPdoInstance()
 	{
 		if (\App\Debug\Debugger::isDebugBar()) {
-			/** @var \DebugBar\DebugBar $debugBar */
 			$debugBar = \App\Debug\Debugger::getDebugBar();
+			if (!$debugBar instanceof \DebugBar\DebugBar) {
+				return parent::createPdoInstance();
+			}
 			$pdo = new \DebugBar\DataCollector\PDO\TraceablePDO(parent::createPdoInstance());
 			
 			// Check if PDO collector already exists

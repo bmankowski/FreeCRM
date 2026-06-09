@@ -15,11 +15,12 @@ use App\AppConfig;
 class Debugger
 {
 
+	/** @var \DebugBar\DebugBar|null */
 	protected static $debugBar;
 
 	/**
 	 * Initiating debugging console
-	 * @return \App\DebugBar\Debugger
+	 * @return \DebugBar\DebugBar|null
 	 */
 	static public function initConsole()
 	{
@@ -67,7 +68,7 @@ class Debugger
 
 	/**
 	 * Get Debugger instance
-	 * @return \App\DebugBar\Debugger
+	 * @return \DebugBar\DebugBar|null
 	 */
 	static public function getDebugBar()
 	{
@@ -83,7 +84,7 @@ class Debugger
 		return isset(static::$debugBar);
 	}
 
-	public static function addLogs($message, $level, $traces)
+	public static function addLogs(string $message,string $level, string $traces)
 	{
 		if (isset(static::$debugBar['logs'])) {
 			static::$debugBar['logs']->addMessage($message, $level, $traces);
