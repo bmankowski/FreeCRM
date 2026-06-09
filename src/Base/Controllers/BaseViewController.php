@@ -130,15 +130,8 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 			return $breadcrumbs;
 		}
 
-		$roleMenu = 'user_privileges/menu_' . filter_var($userPrivModel->get('roleid'), FILTER_SANITIZE_NUMBER_INT) . '.php';
-		if (file_exists($roleMenu)) {
-			require($roleMenu);
-		} else {
-			require('user_privileges/menu_0.php');
-		}
-		if (count($menus) == 0) {
-			require('user_privileges/menu_0.php');
-		}
+		$menuPrivileges = \App\Modules\Base\Models\Menu::loadPrivilegeFile($userPrivModel->get('roleid'));
+		$parentList = $menuPrivileges['parentList'];
 
 		$moduleName = $request->getModule();
 		$view = $request->get('view');

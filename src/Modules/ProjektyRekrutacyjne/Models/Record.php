@@ -187,7 +187,7 @@ class Record extends \App\Modules\Base\Models\Record
         $candidates = [];
         //Changing ids to objects grouped by status
         foreach ($candidatesIds as $key => $values) {
-            $candidate = \App\Modules\Base\Models\Record::getInstanceById($values['relcrmid'], 'Kandydaci');
+            $candidate = \App\Modules\Base\Models\Record::getInstanceById($values['relcrmid'], 'Candidates');
             $status = $values['recruitment_status_rel'];
             $candidates[$status][] = $candidate;
         }

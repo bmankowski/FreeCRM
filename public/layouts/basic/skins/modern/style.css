@@ -904,7 +904,7 @@ input.form-control.globalSearchValue.ui-autocomplete-input {
 }
 }
 
-/* Related list: ListPreview split-pane layout (ProjektyRekrutacyjne -> Kandydaci) */
+/* Related list: ListPreview split-pane layout (ProjektyRekrutacyjne -> Candidates) */
 .RelatedList.relatedContainer .relatedContents::after {
 	content: "";
 	display: block;

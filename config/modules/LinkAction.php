@@ -24,16 +24,16 @@ $CONFIG = [
 	'www_base_url' => 'https://www.itconnect.pl/la',
 	'iat_skew_seconds' => 60,
 	'modules' => [
-		'Kandydaci' => [
+		'Candidates' => [
 			'default_email_field' => 'newsletter_email',
-			'email_fields' => ['newsletter_email', 'email_prywatny'],
+			'email_fields' => ['newsletter_email', 'email_private'],
 			'actions' => [
 				'unsubscribe' => [
-					'handler' => 'App\\Modules\\LinkAction\\Services\\Handlers\\KandydaciUnsubscribeHandler',
+					'handler' => 'App\\Modules\\LinkAction\\Services\\Handlers\\CandidatesUnsubscribeHandler',
 					'scopes' => ['future_contact', 'all'],
 				],
 				'open' => [
-					'handler' => 'App\\Modules\\LinkAction\\Services\\Handlers\\KandydaciOpenHandler',
+					'handler' => 'App\\Modules\\LinkAction\\Services\\Handlers\\CandidatesOpenHandler',
 					'scopes' => ['email'],
 				],
 			],

@@ -53,7 +53,7 @@ $originalStatus = (string) $row['recruitment_status_rel'];
 
 $relation = \App\Modules\Base\Models\Relation::getInstance(
 	\App\Modules\Base\Models\Module::getInstance('ProjektyRekrutacyjne'),
-	\App\Modules\Base\Models\Module::getInstance('Kandydaci')
+	\App\Modules\Base\Models\Module::getInstance('Candidates')
 )->getTypeRelationModel();
 
 /** @var \App\Modules\ProjektyRekrutacyjne\Relations\GetRelatedMembers $relation */

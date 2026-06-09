@@ -1,4 +1,4 @@
-{*<!-- Project → Kandydaci related list with row selection (mass actions). -->*}
+{*<!-- Project → Candidates related list with row selection (mass actions). -->*}
 {strip}
 <!-- layouts/basic/modules/ProjektyRekrutacyjne/RelatedListContents.tpl -->
 	{include file=vtemplate_path('ListViewAlphabet.tpl',$RELATED_MODULE_NAME) MODULE_MODEL=$RELATED_MODULE}

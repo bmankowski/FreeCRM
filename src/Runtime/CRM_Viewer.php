@@ -177,6 +177,7 @@ class CRM_Viewer extends \Smarty
 		$this->registerClass('\App\Modules\Settings\Calendar\Models\Module', '\App\Modules\\Settings\\Calendar\Models\\Module');
 		$this->registerClass('\App\Modules\Calendar\Models\Module', '\App\Modules\\Calendar\Models\\Module');
 		$this->registerClass('\App\\Utils\\Json', '\App\\Utils\\Json');
+		$this->registerClass('\App\\Utils\\ModuleUtils', '\App\\Utils\\ModuleUtils');
 		$this->registerClass('\App\\Debug\\Debugger', '\App\\Debug\\Debugger');
 		$this->registerClass('App\\Core\\Company', '\App\\Core\\Company');
 		$this->registerClass('\App\\Records\\Record', '\App\\Records\\Record');
@@ -191,6 +192,8 @@ class CRM_Viewer extends \Smarty
 		$this->registerClass('\App\\Modules\\Users\\Models\\Record', '\App\\Modules\\Users\\Models\\Record');
 		$this->registerClass('\App\\Modules\\Settings\\Roles\\Models\\Record', '\App\\Modules\\Settings\\Roles\\Models\\Record');
 		$this->registerClass('\App\\Modules\\Base\\Models\\Module', '\App\\Modules\\Base\\Models\\Module');
+		$this->registerClass('\App\\Modules\\Base\\Models\\Record', '\App\\Modules\\Base\\Models\\Record');
+		$this->registerClass('\App\\Modules\\Base\\Models\\RelationListView', '\App\\Modules\\Base\\Models\\RelationListView');
 		$this->registerClass('\App\\Modules\\Base\\Models\\Field', '\App\\Modules\\Base\\Models\\Field');
 		$this->registerClass('\App\\Modules\\Base\\Models\\InventoryField', '\App\\Modules\\Base\\Models\\InventoryField');
 		$this->registerClass('\App\\Modules\\Base\\Helpers\\Util', '\App\\Modules\\Base\\Helpers\\Util');

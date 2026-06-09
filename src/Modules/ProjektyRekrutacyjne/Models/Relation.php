@@ -17,12 +17,12 @@ use App\Modules\ProjektyRekrutacyjne\Relations\GetRelatedMembers;
  */
 class Relation extends \App\Modules\Base\Models\Relation
 {
-	private const KANDYDACI_MODULE = 'Kandydaci';
+	private const CANDIDATES_MODULE = 'Candidates';
 
 	private const RECRUITMENT_STATUS_REL = 'recruitment_status_rel';
 
 	/**
-	 * Get related members (Kandydaci) for the recruitment project.
+	 * Get related members (Candidates) for the recruitment project.
 	 * Uses custom relation table with additional fields like recruitment_status_rel.
 	 */
 	public function getRelatedMembers()
@@ -38,7 +38,7 @@ class Relation extends \App\Modules\Base\Models\Relation
 	public function getQueryFields()
 	{
 		$fields = parent::getQueryFields();
-		if (0 !== \strcasecmp(self::KANDYDACI_MODULE, $this->getRelationModuleModel()->getName())) {
+		if (0 !== \strcasecmp(self::CANDIDATES_MODULE, $this->getRelationModuleModel()->getName())) {
 			return $fields;
 		}
 

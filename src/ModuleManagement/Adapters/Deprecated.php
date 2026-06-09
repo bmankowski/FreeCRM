@@ -62,6 +62,14 @@ class Deprecated
 
 		$filename = 'user_privileges/tabdata.php';
 
+		$dir = dirname($filename);
+		if (!is_dir($dir)) {
+			mkdir($dir, 0755, true);
+		}
+		if (!file_exists($filename)) {
+			touch($filename);
+		}
+
 		if (file_exists($filename)) {
 			if (is_writable($filename)) {
 				if (!$handle = fopen($filename, 'w+')) {
@@ -94,6 +102,14 @@ class Deprecated
 		} else {
 			\App\Log\Log::error("The file $filename does not exist");
 		}
+	}
+
+	public static function ensureMenuPrivilegeFiles(): void
+	{
+		if (is_file(ROOT_DIRECTORY . '/user_privileges/menu_0.php')) {
+			return;
+		}
+		(new \App\Modules\Settings\Menu\Models\Record())->refreshMenuFiles();
 	}
 
 	/**

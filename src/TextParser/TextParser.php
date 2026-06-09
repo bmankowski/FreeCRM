@@ -73,7 +73,7 @@ class TextParser
 	/** @var array<string, string[]> Source module => related modules for template context */
 	public static $sourceModules = [
 		'Campaigns' => ['Leads', 'Accounts', 'Contacts', 'Vendors', 'Partners', 'Competition'],
-		'ProjektyRekrutacyjne' => ['Kandydaci'],
+		'ProjektyRekrutacyjne' => ['Candidates'],
 	];
 	private static $recordVariable;
 	private static $relatedVariable;

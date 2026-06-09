@@ -36,7 +36,7 @@ class LinkActionTokenTest extends TestCase
 	{
 		$tokenService = new LinkActionToken($this->config);
 		$payload = $tokenService->buildPayload(
-			'Kandydaci',
+			'Candidates',
 			1404311,
 			'newsletter_email',
 			'Test@Example.com',
@@ -46,7 +46,7 @@ class LinkActionTokenTest extends TestCase
 		$token = $tokenService->sign($payload);
 		$verified = $tokenService->verify($token);
 		$this->assertIsArray($verified);
-		$this->assertSame('Kandydaci', $verified['module']);
+		$this->assertSame('Candidates', $verified['module']);
 		$this->assertSame(1404311, $verified['record_id']);
 		$this->assertSame($payload['jti'], $verified['jti']);
 	}
@@ -55,7 +55,7 @@ class LinkActionTokenTest extends TestCase
 	{
 		$tokenService = new LinkActionToken($this->config);
 		$payload = $tokenService->buildPayload(
-			'Kandydaci',
+			'Candidates',
 			1404311,
 			'newsletter_email',
 			'test@example.com',
@@ -72,7 +72,7 @@ class LinkActionTokenTest extends TestCase
 	{
 		$tokenService = new LinkActionToken($this->config);
 		$payload = $tokenService->buildPayload(
-			'Kandydaci',
+			'Candidates',
 			1404311,
 			'newsletter_email',
 			'test@example.com',
@@ -89,7 +89,7 @@ class LinkActionTokenTest extends TestCase
 	{
 		$tokenService = new LinkActionToken($this->config);
 		$payload = $tokenService->buildPayload(
-			'Kandydaci',
+			'Candidates',
 			1404311,
 			'newsletter_email',
 			'test@example.com',
@@ -104,8 +104,8 @@ class LinkActionTokenTest extends TestCase
 	public function testEmailHashNormalizesCase(): void
 	{
 		$tokenService = new LinkActionToken($this->config);
-		$lower = $tokenService->emailHash('Kandydaci', 1, 'newsletter_email', 'test@example.com');
-		$upper = $tokenService->emailHash('Kandydaci', 1, 'newsletter_email', 'TEST@EXAMPLE.COM');
+		$lower = $tokenService->emailHash('Candidates', 1, 'newsletter_email', 'test@example.com');
+		$upper = $tokenService->emailHash('Candidates', 1, 'newsletter_email', 'TEST@EXAMPLE.COM');
 		$this->assertSame($lower, $upper);
 	}
 
@@ -113,7 +113,7 @@ class LinkActionTokenTest extends TestCase
 	{
 		$tokenService = new LinkActionToken($this->config);
 		$payload = $tokenService->buildPayload(
-			'Kandydaci',
+			'Candidates',
 			1404311,
 			'newsletter_email',
 			'test@example.com',
@@ -128,7 +128,7 @@ class LinkActionTokenTest extends TestCase
 	{
 		$tokenService = new LinkActionToken($this->config);
 		$payload = $tokenService->buildPayload(
-			'Kandydaci',
+			'Candidates',
 			1404311,
 			'newsletter_email',
 			'test@example.com',
@@ -149,7 +149,7 @@ class LinkActionTokenTest extends TestCase
 	{
 		$tokenService = new LinkActionToken($this->config);
 		$payload = $tokenService->buildPayload(
-			'Kandydaci',
+			'Candidates',
 			1,
 			'newsletter_email',
 			'test@example.com',

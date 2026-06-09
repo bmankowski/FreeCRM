@@ -73,7 +73,7 @@ confirm_destructive() {
     return 0
   fi
   echo
-  echo "This replaces Kandydaci, ProjektyRekrutacyjne, their relations, comments,"
+  echo "This replaces Candidates, ProjektyRekrutacyjne, their relations, comments,"
   echo "and linked Documents in local database '${LOCAL_DB_NAME}'."
   read -r -p "Continue? [y/N] " ans
   [[ "${ans,,}" == "y" || "${ans,,}" == "yes" ]] || die "Aborted."
@@ -137,8 +137,8 @@ recruitment_counts() {
   local db="$1"
   mariadb_query "
     SELECT CONCAT(
-      'kandydaci=', (SELECT COUNT(*) FROM \`${db}\`.u_yf_kandydaci k
-        INNER JOIN \`${db}\`.vtiger_crmentity e ON e.crmid=k.kandydaciid AND e.setype='Kandydaci' AND e.deleted=0),
+      'candidates=', (SELECT COUNT(*) FROM \`${db}\`.u_yf_candidates k
+        INNER JOIN \`${db}\`.vtiger_crmentity e ON e.crmid=k.candidatesid AND e.setype='Candidates' AND e.deleted=0),
       ' projekty=', (SELECT COUNT(*) FROM \`${db}\`.u_yf_projektyrekrutacyjne p
         INNER JOIN \`${db}\`.vtiger_crmentity e ON e.crmid=p.projektyrekrutacyjneid AND e.setype='ProjektyRekrutacyjne' AND e.deleted=0),
       ' relations=', (SELECT COUNT(*) FROM \`${db}\`.u_yf_projekty_rekrutacyjne_relations_members_entity)
@@ -151,5 +151,5 @@ latest_yetiforce_dump() {
 }
 
 sample_candidate_id() {
-  mariadb_query "SELECT MAX(kandydaciid) FROM \`${LOCAL_DB_NAME}\`.u_yf_kandydaci LIMIT 1;" 2>/dev/null || echo ""
+  mariadb_query "SELECT MAX(candidatesid) FROM \`${LOCAL_DB_NAME}\`.u_yf_candidates LIMIT 1;" 2>/dev/null || echo ""
 }

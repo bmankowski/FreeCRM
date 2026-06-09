@@ -14,9 +14,9 @@ namespace App\Modules\RecruitmentApplication\Services\CvImport;
 
 final class CandidateApplicationSideEffects
 {
-	private const KANDYDACI_APPLICATION_ID_MAX_LENGTH = 15;
+	private const CANDIDATES_APPLICATION_ID_MAX_LENGTH = 15;
 
-	public static function resolveCandidate(CvApplicationDto $dto): \App\Modules\Kandydaci\Models\Record
+	public static function resolveCandidate(CvApplicationDto $dto): \App\Modules\Candidates\Models\Record
 	{
 		CvImportLogger::log('Processing application ' . $dto->applicationNumber . ' for ' . $dto->candidateName);
 		$candidateId = null;
@@ -30,14 +30,14 @@ final class CandidateApplicationSideEffects
 			return self::createNewCandidate($dto);
 		}
 		CvImportLogger::log('Candidate already exists: ' . $dto->candidateName);
-		$candidate = \App\Modules\Kandydaci\Models\Record::getInstanceById($candidateId, 'Kandydaci');
-		$candidate->set('data_maksymalny_kontakt_rodo', date('Y-m-d', strtotime('+3 years')));
-		$candidate->set('application_id', self::kandydaciApplicationId($dto->applicationNumber));
+		$candidate = \App\Modules\Candidates\Models\Record::getInstanceById($candidateId, 'Candidates');
+		$candidate->set('gdpr_max_contact_date', date('Y-m-d', strtotime('+3 years')));
+		$candidate->set('application_id', self::candidatesApplicationId($dto->applicationNumber));
 		$candidate->save();
 		return $candidate;
 	}
 
-	public static function addCommentToCandidate(\App\Modules\Kandydaci\Models\Record $candidate, CvApplicationDto $dto): void
+	public static function addCommentToCandidate(\App\Modules\Candidates\Models\Record $candidate, CvApplicationDto $dto): void
 	{
 		if ($dto->message === '' && $dto->availability === '' && $dto->financialExpectations === '') {
 			return;
@@ -60,7 +60,7 @@ final class CandidateApplicationSideEffects
 		$comment->save();
 	}
 
-	public static function addCvToCandidate(\App\Modules\Kandydaci\Models\Record $candidate, CvApplicationDto $dto): ?\App\Modules\Base\Models\Record
+	public static function addCvToCandidate(\App\Modules\Candidates\Models\Record $candidate, CvApplicationDto $dto): ?\App\Modules\Base\Models\Record
 	{
 		$originalPath = $dto->pendingDirectory . basename($dto->originalFilename);
 		$attachmentPath = $dto->cvAttachmentPath;
@@ -83,8 +83,8 @@ final class CandidateApplicationSideEffects
 			$fileContent = '';
 		}
 		$cvContent = trim(preg_replace('/[\x{10000}-\x{10FFFF}]/u', '', $fileContent));
-		$candidate->set('tresc_cv', $cvContent);
-		$relations = DocumentHelper::prepareRelationsString('Kandydaci', (int) $candidate->getId());
+		$candidate->set('cv_text', $cvContent);
+		$relations = DocumentHelper::prepareRelationsString('Candidates', (int) $candidate->getId());
 		$documentRecord = DocumentHelper::saveAndDeleteFile($parsePath, 'CV', $relations);
 		if ($documentRecord === false) {
 			return null;
@@ -94,7 +94,7 @@ final class CandidateApplicationSideEffects
 		return $documentRecord;
 	}
 
-	public static function bindCandidateToProject(\App\Modules\Kandydaci\Models\Record $candidate, CvApplicationDto $dto): void
+	public static function bindCandidateToProject(\App\Modules\Candidates\Models\Record $candidate, CvApplicationDto $dto): void
 	{
 		if ($dto->projectId === '') {
 			\App\Log\Log::error('No project id in application');
@@ -122,14 +122,14 @@ final class CandidateApplicationSideEffects
 			return null;
 		}
 		$row = (new \App\Db\Query())
-			->select(['u_yf_kandydaci.kandydaciid'])
-			->from('u_yf_kandydaci')
-			->innerJoin('u_yf_kandydacicf', 'u_yf_kandydacicf.kandydaciid = u_yf_kandydaci.kandydaciid')
-			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = u_yf_kandydaci.kandydaciid')
+			->select(['u_yf_candidates.candidatesid'])
+			->from('u_yf_candidates')
+			->innerJoin('u_yf_candidatescf', 'u_yf_candidatescf.candidatesid = u_yf_candidates.candidatesid')
+			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = u_yf_candidates.candidatesid')
 			->where(['vtiger_crmentity.deleted' => 0, 'name' => $name])
-			->andWhere(['or', ['u_yf_kandydacicf.email_prywatny' => $email], ['u_yf_kandydacicf.email_firmowy' => $email]])
+			->andWhere(['or', ['u_yf_candidatescf.email_private' => $email], ['u_yf_candidatescf.email_business' => $email]])
 			->one();
-		return isset($row['kandydaciid']) ? (string) $row['kandydaciid'] : null;
+		return isset($row['candidatesid']) ? (string) $row['candidatesid'] : null;
 	}
 
 	public static function getCandidateIdByNameAndPhone(string $name, string $phone): ?string
@@ -138,12 +138,12 @@ final class CandidateApplicationSideEffects
 			return null;
 		}
 		$row = (new \App\Db\Query())
-			->select(['u_yf_kandydaci.kandydaciid'])
-			->from('u_yf_kandydaci')
-			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = u_yf_kandydaci.kandydaciid')
-			->where(['vtiger_crmentity.deleted' => 0, 'telefon' => $phone, 'name' => $name])
+			->select(['u_yf_candidates.candidatesid'])
+			->from('u_yf_candidates')
+			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = u_yf_candidates.candidatesid')
+			->where(['vtiger_crmentity.deleted' => 0, 'phone' => $phone, 'name' => $name])
 			->one();
-		return isset($row['kandydaciid']) ? (string) $row['kandydaciid'] : null;
+		return isset($row['candidatesid']) ? (string) $row['candidatesid'] : null;
 	}
 
 	public static function getSourceName(string $sourceId): string
@@ -152,30 +152,30 @@ final class CandidateApplicationSideEffects
 			return 'WWW ITC';
 		}
 		$sourceName = (new \App\Db\Query())
-			->select(['vtiger_zrodlo_aplikacji.zrodlo_aplikacji'])
-			->from('vtiger_zrodlo_aplikacji')
-			->where(['zrodlo_aplikacjiid' => $sourceId])
+			->select(['z.application_source'])
+			->from(['z' => 'vtiger_application_source'])
+			->where(['z.application_sourceid' => $sourceId])
 			->scalar();
 		return $sourceName ?: 'WWW ITC';
 	}
 
-	private static function createNewCandidate(CvApplicationDto $dto): \App\Modules\Kandydaci\Models\Record
+	private static function createNewCandidate(CvApplicationDto $dto): \App\Modules\Candidates\Models\Record
 	{
 		if ($dto->candidateName === '') {
 			throw new \RuntimeException('Candidate name is empty');
 		}
 		CvImportLogger::log('Creating new candidate ' . $dto->candidateName);
-		$candidate = \App\Modules\Base\Models\Record::getCleanInstance('Kandydaci');
+		$candidate = \App\Modules\Base\Models\Record::getCleanInstance('Candidates');
 		$candidate->set('name', $dto->candidateName);
-		$candidate->set('telefon', $dto->candidateTransformedPhone);
-		$candidate->set('status_kandydata', 'Kandydat');
-		$candidate->set('email_prywatny', $dto->candidateEmail);
-		$candidate->set('application_id', self::kandydaciApplicationId($dto->applicationNumber));
-		$candidate->set('zrodlo_aplikacji', self::getSourceName($dto->sourceId));
+		$candidate->set('phone', $dto->candidateTransformedPhone);
+		$candidate->set('candidate_status', 'Kandydat');
+		$candidate->set('email_private', $dto->candidateEmail);
+		$candidate->set('application_id', self::candidatesApplicationId($dto->applicationNumber));
+		$candidate->set('application_source', self::getSourceName($dto->sourceId));
 		$allowed = self::isFutureContactAllowed($dto->agreeToContact);
 		$candidate->set('is_future_contact_allowed', $allowed ? 1 : 0);
 		$candidate->set(
-			'data_maksymalny_kontakt_rodo',
+			'gdpr_max_contact_date',
 			date('Y-m-d', strtotime($allowed ? '+3 years' : '+9 months'))
 		);
 		$candidate->set('application_json_content', $dto->rawJsonData);
@@ -184,12 +184,12 @@ final class CandidateApplicationSideEffects
 			$candidate->set('referred_by_employee', $dto->referredByEmployee);
 			$consultant = self::getConsultantByEmail($dto->referredByEmail)
 				?? self::getConsultantByName($dto->referredByEmployee);
-			$candidate->set('polec_znajomego', $consultant);
+			$candidate->set('referrer_consultant_id', $consultant);
 			$candidate->set('referred_on_position', $dto->referredOnPosition);
 			$candidate->set('referred_by_email', $dto->referredByEmail);
 		}
 		$candidate->save();
-		return \App\Modules\Kandydaci\Models\Record::getInstanceById($candidate->getId(), 'Kandydaci');
+		return \App\Modules\Candidates\Models\Record::getInstanceById($candidate->getId(), 'Candidates');
 	}
 
 	private static function isFutureContactAllowed(string $value): bool
@@ -208,7 +208,7 @@ final class CandidateApplicationSideEffects
 			->from(['k' => 'u_yf_konsultanci'])
 			->innerJoin('vtiger_crmentity e', 'k.konsultanciid = e.crmid')
 			->where(['e.deleted' => 0])
-			->andWhere(['or', ['k.email_prywatny' => $email], ['k.email_firmowy' => $email]])
+			->andWhere(['or', ['k.email_private' => $email], ['k.email_business' => $email]])
 			->scalar();
 		return $id ? (int) $id : null;
 	}
@@ -256,8 +256,8 @@ final class CandidateApplicationSideEffects
 			->exists();
 	}
 
-	private static function kandydaciApplicationId(string $applicationNumber): string
+	private static function candidatesApplicationId(string $applicationNumber): string
 	{
-		return substr($applicationNumber, 0, self::KANDYDACI_APPLICATION_ID_MAX_LENGTH);
+		return substr($applicationNumber, 0, self::CANDIDATES_APPLICATION_ID_MAX_LENGTH);
 	}
 }

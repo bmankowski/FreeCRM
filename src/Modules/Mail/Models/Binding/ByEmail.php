@@ -15,7 +15,7 @@ namespace App\Modules\Mail\Models\Binding;
 class ByEmail
 {
 	private static array $rules = [
-		['module' => 'Kandydaci', 'fields' => ['email_prywatny', 'email_firmowy', 'newsletter_email', 'referred_by_email']],
+		['module' => 'Candidates', 'fields' => ['email_private', 'email_business', 'newsletter_email', 'referred_by_email']],
 		['module' => 'Leads', 'fields' => ['email', 'secondaryemail']],
 		['module' => 'Accounts', 'fields' => ['email1', 'email2']],
 		['module' => 'Contacts', 'fields' => ['email', 'secondaryemail']],

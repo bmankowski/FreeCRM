@@ -47,7 +47,7 @@ final class MigrateCvImportToRecruitmentApplication
 				->execute();
 
 			$transaction->commit();
-			echo sprintf("Registered RecruitmentApplication CV import; removed %d Kandydaci cron row(s).\n", $deleted);
+			echo sprintf("Registered RecruitmentApplication CV import; removed %d legacy scheduled-import cron row(s).\n", $deleted);
 		} catch (\Throwable $e) {
 			$transaction->rollBack();
 			\App\Log\Log::error($e, 'CRON');

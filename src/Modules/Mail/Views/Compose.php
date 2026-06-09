@@ -36,7 +36,7 @@ class Compose extends \App\Modules\Base\Views\Index
 			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
 		}
 
-		$templateModule = $sourceModule ?: 'Kandydaci';
+		$templateModule = $sourceModule ?: 'Candidates';
 		$templates = \App\Email\Mail::getTempleteList($templateModule);
 		foreach ($templates as &$tpl) {
 			$detail = \App\Email\Mail::getTempleteDetail($tpl['id']);

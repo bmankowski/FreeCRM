@@ -1,0 +1,47 @@
+{
+    "languageStrings": {
+        "Candidates": "Kandydaci",
+        "SINGLE_Candidates": "Kandydat",
+        "LBL_CUSTOM_INFORMATION": "Informacje dodatkowe",
+        "LBL_BASIC_INFORMATION": "Informacje podstawowe",
+        "Nazwisko i imię": "Nazwisko i imię",
+        "PLL_TOGGLE_FAILED": "Przełączenie nie powiodło się",
+        "PLL_TOGGLE_SUCCESS": "Przełączenie zakończone sukcesem",
+        "PLL_MAIL_SENT_STUDY": "Wysłano maila z ankietą",
+        "PLL_IS_FUTURE_CONTACT_ALLOWED": "Zgoda na kontakt w przyszłości",
+        "PLL_STARRED": "Oznaczony gwiazdką",
+        "PLL_APPLICATION_ID": "ID aplikacji",
+        "PLL_CV_IMG_FILE": "Zdjęcie CV",
+        "PLL_IS_REFERRED_BY_EMPLOYEE": "Polecony przez pracownika",
+        "PLL_REFERRED_BY_EMAIL": "E-mail osoby polecającej",
+        "PLL_REFERRED_BY_EMPLOYEE": "Osoba polecająca",
+        "PLL_REFERRED_ON_POSITION": "Polecony na stanowisko",
+        "PLL_APPLICATION_JSON_CONTENT": "Zawartość JSON aplikacji",
+        "PPL_EXPORT_CV": "Eksportuj CV (ZIP)",
+        "PPL_EXPORT_CV_NO_FILES": "Brak dokumentów oznaczonych jako CV dla wybranych kandydatów.",
+        "PPL_EXPORT_CV_ZIP_FAILED": "Nie udało się utworzyć archiwum ZIP.",
+        "LBL_RELATED_ACTION_SET_AS_CV": "Ustaw jako CV",
+        "LBL_TRANSFORM_DOCUMENT_TO_CV_TITLE": "Ustaw dokument jako CV",
+        "LBL_TRANSFORM_DOCUMENT_TO_CV_DESC": "To ustawi wybrany dokument jako CV kandydata.",
+        "PPL_REJECTED_AFTER_CV": "Odrzucony po CV",
+        "PPL_APPLIED": "Zaaplikował",
+        "PPL_CANDIDATE_PASSED_SCREENING": "Przeszedł screening",
+        "PPL_WAITING_FOR_INTERVIEW": "Oczekuje na rozmowę",
+        "PPL_TO_BE_SENT_TO_CLIENT": "Do wysłania do klienta",
+        "PPL_SENT_TO_CLIENT": "Wysłany do klienta",
+        "PPL_ACCEPTED": "Zaakceptowany",
+        "PPL_REJECTED_AFTER_VERIFICATION": "Odrzucony po weryfikacji",
+        "PPL_REJECTED_AFTER_INTERVIEW": "Odrzucony po rozmowie",
+        "PPL_OFFER_REJECTED_BY_CANDIDATE": "Odrzucił ofertę",
+        "PPL_REJECTED_BY_CLIENT": "Odrzucony przez klienta"
+    },
+    "jsLanguageStrings": {
+        "PLL_TOGGLE_FAILED": "Przełączenie nie powiodło się",
+        "PLL_TOGGLE_SUCCESS": "Przełączenie zakończone sukcesem"
+    }
+}
+
+
+
+
+

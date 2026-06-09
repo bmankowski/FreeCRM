@@ -225,7 +225,7 @@ class Record extends \App\Modules\Base\Models\Record
 	}
 
 	/**
-	 * Related list left column — adds “set as CV” when parent is Kandydaci.
+	 * Related list left column — adds “set as CV” when parent is Candidates.
 	 *
 	 * @param array<string, mixed> $context
 	 * @return \App\Modules\Base\Models\Link[]
@@ -234,6 +234,6 @@ class Record extends \App\Modules\Base\Models\Record
 	{
 		$links = parent::getRelatedListLeftSideLinks($parentRecord, $context);
 
-		return \App\Modules\Kandydaci\Models\RelatedListLeftSideExtras::mergeLinks($links, $parentRecord, $this, $this->getModule(), $context);
+		return \App\Modules\Candidates\Models\RelatedListLeftSideExtras::mergeLinks($links, $parentRecord, $this, $this->getModule(), $context);
 	}
 }

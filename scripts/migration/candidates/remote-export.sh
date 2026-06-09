@@ -13,35 +13,35 @@ ssh "$REMOTE_HOST" "set -euo pipefail
   # Create ID tables to avoid huge IN (...) argument lists.
   # We intentionally use regular tables and DROP them at the end so mysqldump can reference them.
   mysql -h\"$REMOTE_DB_HOST\" -u\"$REMOTE_DB_USER\" -p\"$REMOTE_DB_PASS\" \"$REMOTE_DB_NAME\" -e \"
-    DROP TABLE IF EXISTS tmp_sync_kandydaci_ids;
+    DROP TABLE IF EXISTS tmp_sync_candidates_ids;
     DROP TABLE IF EXISTS tmp_sync_projekty_ids;
     DROP TABLE IF EXISTS tmp_sync_related_to_ids;
     DROP TABLE IF EXISTS tmp_sync_modcomments_ids;
 
-    CREATE TABLE tmp_sync_kandydaci_ids (crmid INT NOT NULL PRIMARY KEY) ENGINE=InnoDB;
-    INSERT INTO tmp_sync_kandydaci_ids (crmid)
-      SELECT crmid FROM vtiger_crmentity WHERE setype='Kandydaci' AND deleted=0;
+    CREATE TABLE tmp_sync_candidates_ids (crmid INT NOT NULL PRIMARY KEY) ENGINE=InnoDB;
+    INSERT INTO tmp_sync_candidates_ids (crmid)
+      SELECT crmid FROM vtiger_crmentity WHERE setype='Candidates' AND deleted=0;
 
     CREATE TABLE tmp_sync_projekty_ids (crmid INT NOT NULL PRIMARY KEY) ENGINE=InnoDB;
     INSERT INTO tmp_sync_projekty_ids (crmid)
       SELECT crmid FROM vtiger_crmentity WHERE setype='ProjektyRekrutacyjne' AND deleted=0;
 
     CREATE TABLE tmp_sync_related_to_ids (crmid INT NOT NULL PRIMARY KEY) ENGINE=InnoDB;
-    INSERT INTO tmp_sync_related_to_ids (crmid) SELECT crmid FROM tmp_sync_kandydaci_ids;
+    INSERT INTO tmp_sync_related_to_ids (crmid) SELECT crmid FROM tmp_sync_candidates_ids;
     INSERT IGNORE INTO tmp_sync_related_to_ids (crmid) SELECT crmid FROM tmp_sync_projekty_ids;
 
     CREATE TABLE tmp_sync_modcomments_ids (crmid INT NOT NULL PRIMARY KEY) ENGINE=InnoDB;
     INSERT INTO tmp_sync_modcomments_ids (crmid)
       SELECT modcommentsid FROM vtiger_modcomments WHERE related_to IN (SELECT crmid FROM tmp_sync_related_to_ids);
 
-    SELECT COUNT(*) AS kandydaci_ids FROM tmp_sync_kandydaci_ids;
+    SELECT COUNT(*) AS candidates_ids FROM tmp_sync_candidates_ids;
     SELECT COUNT(*) AS projekty_ids FROM tmp_sync_projekty_ids;
     SELECT COUNT(*) AS modcomments_ids FROM tmp_sync_modcomments_ids;
   \"
 
   # For debugging/inspection: also export plain id lists.
   mysql -N -B -h\"$REMOTE_DB_HOST\" -u\"$REMOTE_DB_USER\" -p\"$REMOTE_DB_PASS\" \"$REMOTE_DB_NAME\" -e \
-    \"SELECT crmid FROM tmp_sync_kandydaci_ids\" > /tmp/kandydaci_ids.tsv
+    \"SELECT crmid FROM tmp_sync_candidates_ids\" > /tmp/candidates_ids.tsv
   mysql -N -B -h\"$REMOTE_DB_HOST\" -u\"$REMOTE_DB_USER\" -p\"$REMOTE_DB_PASS\" \"$REMOTE_DB_NAME\" -e \
     \"SELECT crmid FROM tmp_sync_projekty_ids\" > /tmp/projekty_ids.tsv
 
@@ -51,14 +51,14 @@ ssh "$REMOTE_HOST" "set -euo pipefail
   DUMP_OPTS=\"--single-transaction --skip-lock-tables --no-tablespaces --no-create-info --skip-add-drop-table --complete-insert --skip-extended-insert\"
 
   mysqldump -h\"$REMOTE_DB_HOST\" -u\"$REMOTE_DB_USER\" -p\"$REMOTE_DB_PASS\" \"$REMOTE_DB_NAME\" \$DUMP_OPTS \
-    vtiger_crmentity --where=\"crmid IN (SELECT crmid FROM tmp_sync_kandydaci_ids)\" \
-    > /tmp/kandydaci_core.sql
+    vtiger_crmentity --where=\"crmid IN (SELECT crmid FROM tmp_sync_candidates_ids)\" \
+    > /tmp/candidates_core.sql
   mysqldump -h\"$REMOTE_DB_HOST\" -u\"$REMOTE_DB_USER\" -p\"$REMOTE_DB_PASS\" \"$REMOTE_DB_NAME\" \$DUMP_OPTS \
-    u_yf_kandydaci --where=\"kandydaciid IN (SELECT crmid FROM tmp_sync_kandydaci_ids)\" \
-    >> /tmp/kandydaci_core.sql
+    u_yf_candidates --where=\"candidatesid IN (SELECT crmid FROM tmp_sync_candidates_ids)\" \
+    >> /tmp/candidates_core.sql
   mysqldump -h\"$REMOTE_DB_HOST\" -u\"$REMOTE_DB_USER\" -p\"$REMOTE_DB_PASS\" \"$REMOTE_DB_NAME\" \$DUMP_OPTS \
-    u_yf_kandydacicf --where=\"kandydaciid IN (SELECT crmid FROM tmp_sync_kandydaci_ids)\" \
-    >> /tmp/kandydaci_core.sql
+    u_yf_candidatescf --where=\"candidatesid IN (SELECT crmid FROM tmp_sync_candidates_ids)\" \
+    >> /tmp/candidates_core.sql
 
   mysqldump -h\"$REMOTE_DB_HOST\" -u\"$REMOTE_DB_USER\" -p\"$REMOTE_DB_PASS\" \"$REMOTE_DB_NAME\" \$DUMP_OPTS \
     vtiger_crmentity --where=\"crmid IN (SELECT crmid FROM tmp_sync_projekty_ids)\" \
@@ -72,8 +72,8 @@ ssh "$REMOTE_HOST" "set -euo pipefail
 
   mysqldump -h\"$REMOTE_DB_HOST\" -u\"$REMOTE_DB_USER\" -p\"$REMOTE_DB_PASS\" \"$REMOTE_DB_NAME\" \$DUMP_OPTS \
     u_yf_projekty_rekrutacyjne_relations_members_entity \
-    --where=\"relcrmid IN (SELECT crmid FROM tmp_sync_kandydaci_ids) OR crmid IN (SELECT crmid FROM tmp_sync_kandydaci_ids)\" \
-    > /tmp/kandydaci_relations.sql
+    --where=\"relcrmid IN (SELECT crmid FROM tmp_sync_candidates_ids) OR crmid IN (SELECT crmid FROM tmp_sync_candidates_ids)\" \
+    > /tmp/candidates_relations.sql
 
   mysql -N -B -h\"$REMOTE_DB_HOST\" -u\"$REMOTE_DB_USER\" -p\"$REMOTE_DB_PASS\" \"$REMOTE_DB_NAME\" -e \
     \"SELECT crmid FROM tmp_sync_modcomments_ids\" > /tmp/modcomments_ids.tsv
@@ -92,12 +92,12 @@ ssh "$REMOTE_HOST" "set -euo pipefail
     : > /tmp/modcomments_core.sql
   fi
 
-  wc -l /tmp/kandydaci_ids.tsv /tmp/projekty_ids.tsv || true
-  ls -la /tmp/kandydaci_core.sql /tmp/projekty_core.sql /tmp/kandydaci_relations.sql /tmp/modcomments_core.sql
+  wc -l /tmp/candidates_ids.tsv /tmp/projekty_ids.tsv || true
+  ls -la /tmp/candidates_core.sql /tmp/projekty_core.sql /tmp/candidates_relations.sql /tmp/modcomments_core.sql
 
   # Cleanup temp tables
   mysql -h\"$REMOTE_DB_HOST\" -u\"$REMOTE_DB_USER\" -p\"$REMOTE_DB_PASS\" \"$REMOTE_DB_NAME\" -e \"
-    DROP TABLE IF EXISTS tmp_sync_kandydaci_ids;
+    DROP TABLE IF EXISTS tmp_sync_candidates_ids;
     DROP TABLE IF EXISTS tmp_sync_projekty_ids;
     DROP TABLE IF EXISTS tmp_sync_related_to_ids;
     DROP TABLE IF EXISTS tmp_sync_modcomments_ids;

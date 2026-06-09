@@ -52,7 +52,7 @@ class RelatedList extends \App\Modules\Base\Views\RelatedList
 
         // Determine related view.
         $relatedView = $request->get('relatedView');
-        $forceListPreviewByDefault = 'ProjektyRekrutacyjne' === $moduleName && 0 === \strcasecmp('Kandydaci', $relatedModuleName);
+        $forceListPreviewByDefault = 'ProjektyRekrutacyjne' === $moduleName && 0 === \strcasecmp('Candidates', $relatedModuleName);
         if ($forceListPreviewByDefault) {
             $relatedView = 'ListPreview';
             $_SESSION['relatedView'][$moduleName][$relatedModuleName] = $relatedView;

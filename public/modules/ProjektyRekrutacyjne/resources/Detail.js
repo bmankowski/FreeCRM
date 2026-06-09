@@ -70,7 +70,7 @@ Vtiger_Detail_Js(
 					return;
 				}
 				lastSerialized = key;
-				console.log('[ProjektyRekrutacyjne] Załadowani kandydaci (' + list.length + '):', list);
+				console.log('[ProjektyRekrutacyjne] Loaded candidates (' + list.length + '):', list);
 				console.table(list);
 			};
 			setTimeout(collectAndLog, 0);
@@ -98,7 +98,7 @@ Vtiger_Detail_Js(
 				});
 			}
 			if (typeof this.getRelatedModuleName === 'function'
-				&& this.getRelatedModuleName() === 'Kandydaci'
+				&& this.getRelatedModuleName() === 'Candidates'
 				&& typeof this.loadRelatedList === 'function') {
 				const tab = this.getSelectedTab();
 				const params = { page: 1 };
@@ -119,7 +119,7 @@ Vtiger_Detail_Js(
 					return;
 				}
 				const popupParams = {
-					module: 'Kandydaci',
+					module: 'Candidates',
 					src_module: app.getModuleName(),
 					src_record: projectId,
 					multi_select: true
@@ -182,7 +182,7 @@ Vtiger_Detail_Js(
 					return;
 				}
 				const relatedModuleName = thisInstance.getRelatedModuleName && thisInstance.getRelatedModuleName();
-				if (relatedModuleName !== 'Kandydaci') {
+				if (relatedModuleName !== 'Candidates') {
 					return;
 				}
 				const selectedTab = thisInstance.getSelectedTab();
@@ -338,7 +338,7 @@ Vtiger_Detail_Js(
 							&& typeof Vtiger_Index_Js !== 'undefined'
 							&& typeof Vtiger_Index_Js.triggerSendEmailModal === 'function') {
 							Vtiger_Index_Js.triggerSendEmailModal({
-								module: 'Kandydaci',
+								module: 'Candidates',
 								selectedIds: [mailPrompt.candidateId],
 								sourceModule: app.getModuleName(),
 								sourceRecord: mailPrompt.projectId,

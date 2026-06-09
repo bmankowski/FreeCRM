@@ -23,7 +23,7 @@
         "FL_FORM_TYPE": "Form type",
         "FL_FORM_LANGUAGE": "Form language",
         "FL_MESSAGE": "Candidate message",
-        "FL_KANDYDACI": "Candidate",
+        "FL_CANDIDATE": "Candidate",
         "FL_AVAILABLE_FROM": "Availability",
         "FL_PREFERRED_CONTRACT_TYPE": "Preferred contract type",
         "FL_EXPECTED_SALARY": "Expected salary",

@@ -26,7 +26,7 @@ Other dirs (`de_de`, `es_es`, …) exist for core modules only — do **not** to
 | Settings module | `languages/<lang>/Settings/<ModuleName>.json` |
 | Custom overrides (if enabled) | `custom/languages/<lang>/…` |
 
-`<ModuleName>` = exact PHP module name (e.g. `RecruitmentApplication`, `Kandydaci`).
+`<ModuleName>` = exact PHP module name (e.g. `RecruitmentApplication`, `Candidates`).
 
 ## JSON shape
 
@@ -54,7 +54,7 @@ Page boot embeds `#js_strings` from `BaseViewController::getJSLanguageStrings()`
 Do **not** grep `user_privileges/`, the whole repo, or `vtiger_tab` unless a key is missing after editing lang files.
 
 1. **Open or create** `languages/pl_pl/<Module>.json` and `languages/en_us/<Module>.json`.
-2. If the file is missing, **copy structure** from a sibling module in the same domain, e.g. recruitment: `Kandydaci.json`, `ProjektyRekrutacyjne.json`.
+2. If the file is missing, **copy structure** from a sibling module in the same domain, e.g. recruitment: `Candidates.json`, `ProjektyRekrutacyjne.json`.
 3. Set **module labels** (required for menu/list/detail titles):
    - `"<ModuleName>"` — plural (list, menu)
    - `"SINGLE_<ModuleName>"` — singular (record views)
@@ -101,8 +101,8 @@ Add `FL_*` / `PLL_*` keys from the SQL above as the user or task requires.
 |-----|-------|-------|
 | `RecruitmentApplication` | Aplikacje kandydatów | Candidate Applications |
 | `SINGLE_RecruitmentApplication` | Aplikacja kandydata | Candidate Application |
-| `Kandydaci` | Kandydaci | Candidates |
-| `SINGLE_Kandydaci` | Kandydat | Candidate |
+| `Candidates` | Kandydaci | Candidates |
+| `SINGLE_Candidates` | Kandydat | Candidate |
 
 ## Checklist
 

@@ -103,9 +103,9 @@ class ChangeCandidateStatusManuallyAjax extends \App\Base\Controllers\BaseAction
      */
     private function buildMailPrompt(int $candidateId, int $projectId, string $sourceStatus, string $destinationStatus): ?array
     {
-        $kandydaciModule = \App\Modules\Base\Models\Module::getInstance('Kandydaci');
-        if (!$kandydaciModule
-            || !$kandydaciModule->isPermitted('MassComposeEmail')
+        $candidatesModule = \App\Modules\Base\Models\Module::getInstance('Candidates');
+        if (!$candidatesModule
+            || !$candidatesModule->isPermitted('MassComposeEmail')
             || !\App\Core\AppConfig::main('isActiveSendingMails')
             || !\App\Email\Mail::getDefaultSmtp()) {
             return null;
@@ -116,7 +116,7 @@ class ChangeCandidateStatusManuallyAjax extends \App\Base\Controllers\BaseAction
             return null;
         }
 
-        if (!\App\Modules\Kandydaci\Models\RelatedListLeftSideEmail::recordHasEmail($candidateId)) {
+        if (!\App\Modules\Candidates\Models\RelatedListLeftSideEmail::recordHasEmail($candidateId)) {
             return null;
         }
 

@@ -129,7 +129,7 @@ final class RecruitmentApplicationImporter
 				$candidate->save();
 				CandidateApplicationSideEffects::bindCandidateToProject($candidate, $dto);
 				$candidate->save();
-				$application->set('kandydaci_id', (int) $candidate->getId());
+				$application->set('candidate_id', (int) $candidate->getId());
 				if ($document !== null) {
 					$application->set('cv_document_id', (int) $document->getId());
 				}

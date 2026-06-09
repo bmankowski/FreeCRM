@@ -118,5 +118,5 @@ if [[ -n "${LAST_BACKUP}" ]]; then
 fi
 SAMPLE_ID="$(sample_candidate_id)"
 if [[ -n "${SAMPLE_ID}" ]]; then
-  log "sync" "Open: ${FREECRM_BASE_URL}/index.php?module=Kandydaci&view=Detail&record=${SAMPLE_ID}"
+  log "sync" "Open: ${FREECRM_BASE_URL}/index.php?module=Candidates&view=Detail&record=${SAMPLE_ID}"
 fi

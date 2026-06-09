@@ -25,7 +25,7 @@ Services: `RecruitmentStatusTransition`, `RecruitmentStatusTransitionMail` (mult
 
 - **Trigger:** kanban drag only, after successful `changeStatus()`.
 - **Templates:** `ProjektyRekrutacyjne` module list; modal filters via `templateIds` on `IndividualSendMailModal` + `Vtiger.js` `triggerSendEmailModal`.
-- **Gates:** `MassComposeEmail` on Kandydaci, `isActiveSendingMails`, default SMTP, candidate has email (`RelatedListLeftSideEmail::recordHasEmail`).
+- **Gates:** `MassComposeEmail` on Candidates, `isActiveSendingMails`, default SMTP, candidate has email (`RelatedListLeftSideEmail::recordHasEmail`).
 
 ## TransitionMail matrix UI
 

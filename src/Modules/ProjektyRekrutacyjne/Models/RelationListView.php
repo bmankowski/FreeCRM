@@ -18,7 +18,7 @@ class RelationListView extends \App\Modules\Base\Models\RelationListView
 {
 	private bool $relationQueryFieldsRegistered = false;
 
-	private const KANDYDACI_RELATED_ACTION_LABELS = [
+	private const CANDIDATES_RELATED_ACTION_LABELS = [
 		'LBL_MASS_SEND_EMAIL',
 		'LBL_QUICK_EXPORT_TO_EXCEL',
 		'LBL_EXPORT',
@@ -34,11 +34,11 @@ class RelationListView extends \App\Modules\Base\Models\RelationListView
 	{
 		$relatedLinks = parent::getLinks();
 		$relatedModuleName = $this->getRelationModel()->getRelationModuleModel()->getName();
-		if ('Kandydaci' !== $relatedModuleName) {
+		if ('Candidates' !== $relatedModuleName) {
 			return $relatedLinks;
 		}
 
-		$massActions = $this->getKandydaciRelatedMassActions();
+		$massActions = $this->getCandidatesRelatedMassActions();
 		if ([] !== $massActions) {
 			$relatedLinks['RELATEDLIST_MASSACTIONS'] = $massActions;
 		}
@@ -57,9 +57,9 @@ class RelationListView extends \App\Modules\Base\Models\RelationListView
 	/**
 	 * @return \App\Modules\Base\Models\Link[]
 	 */
-	private function getKandydaciRelatedMassActions(): array
+	private function getCandidatesRelatedMassActions(): array
 	{
-		$relatedModuleName = 'Kandydaci';
+		$relatedModuleName = 'Candidates';
 		$relatedModuleModel = $this->getRelationModel()->getRelationModuleModel();
 		$listViewModel = \App\Modules\Base\Models\ListView::getInstance($relatedModuleName);
 		$linkParams = ['MODULE' => $relatedModuleName, 'ACTION' => 'Detail'];
@@ -67,20 +67,20 @@ class RelationListView extends \App\Modules\Base\Models\RelationListView
 		$links = [];
 		$massActionLinks = $listViewModel->getListViewMassActions($linkParams)['LISTVIEWMASSACTION'] ?? [];
 		foreach ($massActionLinks as $link) {
-			if (!$this->isKandydaciRelatedActionLabel((string) $link->get('linklabel'))) {
+			if (!$this->isCandidatesRelatedActionLabel((string) $link->get('linklabel'))) {
 				continue;
 			}
-			$links[] = $this->mapKandydaciLinkForRelatedList($link, $relatedModuleModel);
+			$links[] = $this->mapCandidatesLinkForRelatedList($link, $relatedModuleModel);
 		}
 
 		foreach ($listViewModel->getAdvancedLinks() as $advancedLink) {
 			if (!\in_array($advancedLink['linktype'], ['LISTVIEW', 'LISTVIEWMASSACTION'], true)) {
 				continue;
 			}
-			if (!$this->isKandydaciRelatedActionLabel((string) $advancedLink['linklabel'])) {
+			if (!$this->isCandidatesRelatedActionLabel((string) $advancedLink['linklabel'])) {
 				continue;
 			}
-			$links[] = $this->mapKandydaciLinkForRelatedList(
+			$links[] = $this->mapCandidatesLinkForRelatedList(
 				\App\Modules\Base\Models\Link::getInstanceFromValues($advancedLink),
 				$relatedModuleModel
 			);
@@ -89,12 +89,12 @@ class RelationListView extends \App\Modules\Base\Models\RelationListView
 		return $links;
 	}
 
-	private function isKandydaciRelatedActionLabel(string $label): bool
+	private function isCandidatesRelatedActionLabel(string $label): bool
 	{
-		return \in_array($label, self::KANDYDACI_RELATED_ACTION_LABELS, true);
+		return \in_array($label, self::CANDIDATES_RELATED_ACTION_LABELS, true);
 	}
 
-	private function mapKandydaciLinkForRelatedList(
+	private function mapCandidatesLinkForRelatedList(
 		\App\Modules\Base\Models\Link $link,
 		\App\Modules\Base\Models\Module $relatedModuleModel
 	): \App\Modules\Base\Models\Link {
@@ -119,7 +119,7 @@ class RelationListView extends \App\Modules\Base\Models\RelationListView
 	public function getHeaders()
 	{
 		$headers = parent::getHeaders();
-		if ('Kandydaci' !== $this->getRelatedModuleModel()->getName()) {
+		if ('Candidates' !== $this->getRelatedModuleModel()->getName()) {
 			return $headers;
 		}
 		if (isset($headers['recruitment_status_rel'])) {
@@ -150,7 +150,7 @@ class RelationListView extends \App\Modules\Base\Models\RelationListView
 	 */
 	public function registerRelationQueryFields(): void
 	{
-		if ($this->relationQueryFieldsRegistered || 'Kandydaci' !== $this->getRelatedModuleModel()->getName()) {
+		if ($this->relationQueryFieldsRegistered || 'Candidates' !== $this->getRelatedModuleModel()->getName()) {
 			return;
 		}
 

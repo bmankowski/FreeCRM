@@ -17,6 +17,44 @@ use App\Modules\Settings\Base\Models\MenuItem;
 
 class Menu {
 
+	public static function ensurePrivilegeFiles(): void
+	{
+		\vtlib\Deprecated::ensureMenuPrivilegeFiles();
+	}
+
+	/**
+	 * @return array{menus: array<int|string, mixed>, parentList: array<int|string, mixed>, filterList: array<int|string, mixed>}
+	 */
+	public static function loadPrivilegeFile(int|string|null $roleId): array
+	{
+		self::ensurePrivilegeFiles();
+		$numericRoleId = filter_var(
+			\App\Modules\Settings\Menu\Models\Record::normalizeRoleId($roleId),
+			FILTER_SANITIZE_NUMBER_INT
+		);
+		$roleMenu = ROOT_DIRECTORY . '/user_privileges/menu_' . $numericRoleId . '.php';
+		$defaultMenu = ROOT_DIRECTORY . '/user_privileges/menu_0.php';
+		$menus = [];
+		$parentList = [];
+		$filterList = [];
+		if (is_file($roleMenu)) {
+			require $roleMenu;
+		} else {
+			require $defaultMenu;
+		}
+		if (!isset($menus) || count($menus) === 0) {
+			$menus = [];
+			$parentList = [];
+			$filterList = [];
+			require $defaultMenu;
+		}
+		return [
+			'menus' => $menus ?? [],
+			'parentList' => $parentList ?? [],
+			'filterList' => $filterList ?? [],
+		];
+	}
+
 	/**
 	 * Static Function to get all the accessible menu models with/without ordering them by sequence
 	 * @param boolean $sequenced - true/false
@@ -27,20 +65,14 @@ class Menu {
 		$currentUser = \App\User\CurrentUser::get();
 		$userPrivModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 
-		$roleMenu = 'user_privileges/menu_' . filter_var($userPrivModel->get('roleid'), FILTER_SANITIZE_NUMBER_INT) . '.php';
-		if (file_exists($roleMenu)) {
-			require($roleMenu);
-		} else {
-			require('user_privileges/menu_0.php');
-		}
-		if (count($menus) == 0) {
-			require('user_privileges/menu_0.php');
-		}
-		return $menus;
+		return self::loadPrivilegeFile($userPrivModel->get('roleid'))['menus'];
 	}
 
 	public static function getParentMenu($parentList, $parent, $module, $return = [])
 	{
+		if (!\is_array($parentList)) {
+			return $return;
+		}
 		if ($parent != 0 && key_exists($parent, $parentList)) {
 			$return [] = [
 				'name' => \App\Runtime\Vtiger_Language_Handler::translate($parentList[$parent]['name'], $module),

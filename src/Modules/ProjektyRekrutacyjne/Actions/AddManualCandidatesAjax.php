@@ -20,7 +20,7 @@ class AddManualCandidatesAjax extends \App\Base\Controllers\BaseActionController
 	{
 		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$userPrivilegesModel->hasModulePermission('ProjektyRekrutacyjne')
-			|| !$userPrivilegesModel->hasModulePermission('Kandydaci')) {
+			|| !$userPrivilegesModel->hasModulePermission('Candidates')) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
@@ -77,7 +77,7 @@ class AddManualCandidatesAjax extends \App\Base\Controllers\BaseActionController
 			}
 
 			try {
-				\App\Modules\Base\Models\Record::getInstanceById($candidateId, 'Kandydaci');
+				\App\Modules\Base\Models\Record::getInstanceById($candidateId, 'Candidates');
 			} catch (\Exception $e) {
 				$skipped[] = $candidateId;
 				continue;
@@ -87,7 +87,7 @@ class AddManualCandidatesAjax extends \App\Base\Controllers\BaseActionController
 				$focus,
 				'ProjektyRekrutacyjne',
 				$projectId,
-				'Kandydaci',
+				'Candidates',
 				$candidateId,
 				'getRelatedMembers'
 			);
@@ -97,7 +97,7 @@ class AddManualCandidatesAjax extends \App\Base\Controllers\BaseActionController
 		$addedCandidates = [];
 		foreach ($added as $candidateId) {
 			try {
-				$candidate = \App\Modules\Base\Models\Record::getInstanceById($candidateId, 'Kandydaci');
+				$candidate = \App\Modules\Base\Models\Record::getInstanceById($candidateId, 'Candidates');
 				$addedCandidates[] = [
 					'id' => $candidateId,
 					'name' => (string) $candidate->get('name'),

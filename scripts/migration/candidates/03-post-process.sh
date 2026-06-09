@@ -23,7 +23,7 @@ for _ in $(seq 1 30); do
     SELECT COUNT(*) FROM \`${LOCAL_DB_NAME}\`.vtiger_crmentity ce
     INNER JOIN \`${LOCAL_DB_NAME}\`.vtiger_tab t ON t.name = ce.setype AND t.presence = 0
     LEFT JOIN \`${LOCAL_DB_NAME}\`.u_yf_crmentity_label l ON l.crmid = ce.crmid
-    WHERE ce.deleted = 0 AND ce.setype IN ('Kandydaci','ProjektyRekrutacyjne','Documents','Accounts','Contacts','ModComments')
+    WHERE ce.deleted = 0 AND ce.setype IN ('Candidates','ProjektyRekrutacyjne','Documents','Accounts','Contacts','ModComments')
       AND (l.label IS NULL OR l.label = '');
   " 2>/dev/null || echo "1")"
   log "post" "labels remaining (imported modules): ${remaining:-?}"
@@ -35,5 +35,5 @@ rm -f "${ROOT_DIR}/cache/templates_c/"*.php 2>/dev/null || true
 
 SAMPLE_ID="$(sample_candidate_id)"
 if [[ -n "${SAMPLE_ID}" ]]; then
-  log "verify" "Sample: ${FREECRM_BASE_URL}/index.php?module=Kandydaci&view=Detail&record=${SAMPLE_ID}"
+  log "verify" "Sample: ${FREECRM_BASE_URL}/index.php?module=Candidates&view=Detail&record=${SAMPLE_ID}"
 fi

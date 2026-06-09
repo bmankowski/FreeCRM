@@ -68,7 +68,7 @@ All outbound mail creates **`u_yf_mail_messages`** first (`send_status`: `prepar
 - LinkAction tokens get `mid` at parse time — see `link-action.mdc`. Do not parse template body before `prepare()` + `setMailMessageId()`.
 - List mass-mail / compose modal: always re-parse template at send (subject override OK); do not send pre-previewed HTML with baked-in tracking URLs.
 
-## Record mail list (Kandydaci → Maile tab)
+## Record mail list (Candidates → Maile tab)
 
 - **Related list:** `Base\Views\RelatedList::processMailRelatedList` → `Mail\Models\Service::getMessagesForRecord()` → `layouts/basic/modules/Mail/RelatedList.tpl`. Must `return $viewer->view(..., true)` and `RelatedList::process()` must `return` it — see `main-layout-views.mdc` (broken layout on URL refresh if echoed).
 - Outbound columns: **`send_status`** (`sent` / `failed` / `prepared`) and **opened at** — `LEFT JOIN` subquery on `u_yf_link_action_log` (`action=open`, `mail_message_id`, `MIN(clicked_at)`). Same data on `Mail/Detail.tpl` and `Mail/widgets.tpl`.

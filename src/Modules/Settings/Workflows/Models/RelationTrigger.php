@@ -16,7 +16,7 @@ class RelationTrigger
 	public const DEFAULT_RELATION_TABLE = 'u_yf_projekty_rekrutacyjne_relations_members_entity';
 	public const DEFAULT_RELATION_FIELD = 'recruitment_status_rel';
 	public const DEFAULT_SOURCE_MODULE = 'ProjektyRekrutacyjne';
-	public const DEFAULT_DESTINATION_MODULE = 'Kandydaci';
+	public const DEFAULT_DESTINATION_MODULE = 'Candidates';
 
 	/**
 	 * @return list<string>
@@ -116,7 +116,7 @@ class RelationTrigger
 	}
 
 	/**
-	 * Canonical relation table for MVP (ProjektyRekrutacyjne ↔ Kandydaci).
+	 * Canonical relation table for MVP (ProjektyRekrutacyjne ↔ Candidates).
 	 * Ignores client-supplied names — must match GetRelatedMembers::TABLE_NAME.
 	 */
 	public static function resolveRelationTable(string $sourceModule, string $destinationModule): string

@@ -6080,7 +6080,7 @@ select.form-control {
 	color: #ffffff;
 }
 
-/* Related list: ListPreview split-pane layout (ProjektyRekrutacyjne -> Kandydaci) */
+/* Related list: ListPreview split-pane layout (ProjektyRekrutacyjne -> Candidates) */
 .RelatedList.relatedContainer .relatedContents::after {
 	content: "";
 	display: block;

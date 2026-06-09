@@ -470,7 +470,7 @@ Vtiger_RelatedList_Js(
 			this._super();
 			this.registerRelatedListCheckboxes();
 
-			// Ensure ListPreview preview pane is wired for Kandydaci related list.
+			// Ensure ListPreview preview pane is wired for Candidates related list.
 			const content = this.getContentContainer();
 			if (content.find('input.relatedView').val() === 'ListPreview') {
 				this.registerPreviewEvent();
@@ -581,7 +581,7 @@ ProjektyRekrutacyjne_RelatedList_Js.collectRelatedCandidateIds = function () {
 };
 
 ProjektyRekrutacyjne_RelatedList_Js.triggerQuickExportToExcel = function () {
-	var module = jQuery('.relatedModuleName').val() || 'Kandydaci';
+	var module = jQuery('.relatedModuleName').val() || 'Candidates';
 	var selectedIds = ProjektyRekrutacyjne_RelatedList_Js.collectRelatedCandidateIds();
 	if (!selectedIds.length) {
 		Vtiger_Helper_Js.showPnotify({
@@ -604,7 +604,7 @@ ProjektyRekrutacyjne_RelatedList_Js.triggerQuickExportToExcel = function () {
 };
 
 ProjektyRekrutacyjne_RelatedList_Js.triggerExportCvZip = function () {
-	var module = jQuery('.relatedModuleName').val() || 'Kandydaci';
+	var module = jQuery('.relatedModuleName').val() || 'Candidates';
 	var selectedIds = ProjektyRekrutacyjne_RelatedList_Js.collectRelatedCandidateIds();
 	if (!selectedIds.length) {
 		Vtiger_Helper_Js.showPnotify({
@@ -676,6 +676,6 @@ ProjektyRekrutacyjne_RelatedList_Js.triggerSendEmail = function () {
 		})
 	);
 };
-// https://192.168.2.230/index.php?module=ProjektyRekrutacyjne&relatedModule=Kandydaci&view=Detail&record=1376448&mode=showRelatedList&relationId=756&tab_label=Kandydaci
-// https://192.168.2.230/index.php?module=ProjektyRekrutacyjne&relatedModule=Kandydaci&view=Detail&record=1376448&mode=showRelatedList&relationId=756&tab_label=Kandydaci&entityState=Active&advancedConditions=null&search_params=[[["recruitment_status_rel%22e%22PPL_REJECTED_AFTER_CV"]]]&totalCount=0
+// https://192.168.2.230/index.php?module=ProjektyRekrutacyjne&relatedModule=Candidates&view=Detail&record=1376448&mode=showRelatedList&relationId=756&tab_label=Candidates
+// https://192.168.2.230/index.php?module=ProjektyRekrutacyjne&relatedModule=Candidates&view=Detail&record=1376448&mode=showRelatedList&relationId=756&tab_label=Candidates&entityState=Active&advancedConditions=null&search_params=[[["recruitment_status_rel%22e%22PPL_REJECTED_AFTER_CV"]]]&totalCount=0
 // 	https://192.168.2.230/index.php?module=ProjektyRekrutacyjne&view=List&viewname=133&page=1&orderby=%7B%22createdtime%22%3A%22DESC%22%7D&entityState=Active&advancedConditions=null&search_params=%5B%5B%5B%22etap_sprzedazy%22%2C%22e%22%2C%22Aktywna%22%5D%5D%5D&totalCount=0

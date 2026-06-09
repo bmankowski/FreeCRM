@@ -929,15 +929,8 @@ class Record extends \App\Modules\Base\Models\Record
 		$menuFilter = false;
 		if ($menuId) {
 			$userPrivModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
-			$roleMenu = 'user_privileges/menu_' . filter_var($userPrivModel->get('roleid'), FILTER_SANITIZE_NUMBER_INT) . '.php';
-			if (file_exists($roleMenu)) {
-				require($roleMenu);
-			} else {
-				require('user_privileges/menu_0.php');
-			}
-			if (count($menus) == 0) {
-				require('user_privileges/menu_0.php');
-			}
+			$menuPrivileges = \App\Modules\Base\Models\Menu::loadPrivilegeFile($userPrivModel->get('roleid'));
+			$filterList = $menuPrivileges['filterList'];
 			if (array_key_exists($menuId, $filterList)) {
 				$filters = explode(',', $filterList[$menuId]['filters']);
 				$menuFilter = true;

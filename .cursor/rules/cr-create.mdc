@@ -62,6 +62,9 @@ List concretely what this CR touches. Be specific — paths, not just module nam
 - **Code being deleted**: legacy classes, deprecated methods, dead modules — list them explicitly
 - **DB**: tables, columns, indexes, FKs — additions, modifications, **and drops** (use MCP `freecrm-mysql` to inspect current shape)
 - **Module metadata**: module manifests, blocks, fields, picklists, profiles, sharing rules
+  - **Module rename**: also update `vtiger_fieldmodulerel` (`module` + `relmodule`) — stale names break `Field::getRelatedFieldForModule()` and direct related lists (`RelationListView::getCreateViewUrl()` fatal when relation field is missing)
+  - **Field rename (picklist)**: physical table is `vtiger_{fieldname}` (`Picklist::getPickListValues()`), not only `vtiger_picklist.name`
+  - **After metadata changes**: run `bin/regenerate_user_privileges.php`; smoke-check with module-specific scripts (e.g. `bin/check_candidates_migration.php`)
 - **Language files**: `languages/en_us/...` and `languages/pl_pl/...` (both must stay in sync — see `translations.mdc`)
 - **Cron / background**: any `vtigercron.php` services affected
 - **Webservices / REST**: `WebserviceField`, REST endpoints, mobile API consumers

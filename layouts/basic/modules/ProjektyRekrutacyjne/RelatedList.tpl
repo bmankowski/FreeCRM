@@ -23,7 +23,7 @@
 		{assign var=RELATED_MODULE_NAME value=$RELATED_MODULE->get('name')}
 		{assign var=INVENTORY_MODULE value=$RELATED_MODULE->isInventory()}
 		{assign var=RELATION_MODEL value=$VIEW_MODEL->getRelationModel()}
-		{if $RELATED_VIEW === 'ListPreview' && $RELATED_MODULE_NAME eq 'Kandydaci'}
+		{if $RELATED_VIEW === 'ListPreview' && $RELATED_MODULE_NAME eq 'Candidates'}
 			<script>
 				{literal}
 				jQuery(function () {
@@ -35,7 +35,7 @@
 					var listPane = container.find('.c-list-preview');
 					var detailPane = container.find('.c-detail-preview');
 					var divider = container.find('.c-list-preview-resizer');
-					var storageKey = 'FreeCRM.ListPreview.ProjektyRekrutacyjne.Kandydaci.listWidthPx';
+					var storageKey = 'FreeCRM.ListPreview.ProjektyRekrutacyjne.Candidates.listWidthPx';
 
 					var clamp = function (val, min, max) {
 						return Math.max(min, Math.min(max, val));
@@ -497,7 +497,7 @@
 					</div>
 					<div class="c-list-preview-resizer js-list-preview-resizer" aria-hidden="true"></div>
 					<div class="c-detail-preview js-detail-preview">
-						{if $RELATED_MODULE_NAME eq "Kandydaci" && $RELATION_MODEL->get('label') eq 'Screening'}
+						{if $RELATED_MODULE_NAME eq 'Candidates' && $RELATION_MODEL->get('label') eq 'Screening'}
 							<div class="c-candidate-thumb-actions" aria-label="{\App\Language::translate('LBL_ACTIONS', 'Vtiger')}">
 								<div class="c-candidate-thumb-actions__inputs">
 									<input type="hidden" id="projectId" value="{$PARENT_RECORD->getID()}"/>
@@ -578,7 +578,7 @@
 			</div>
 		{else}
 			<div class="relatedContents mt-1">
-				{if $RELATED_MODULE_NAME eq 'Kandydaci'}
+				{if $RELATED_MODULE_NAME eq 'Candidates'}
 					{include file='RelatedListContents.tpl'|@vtemplate_path:$MODULE}
 				{else}
 					{include file='RelatedListContents.tpl'|@vtemplate_path:$RELATED_MODULE->get('name')}

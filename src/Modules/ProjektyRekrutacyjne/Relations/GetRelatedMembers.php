@@ -18,7 +18,7 @@ namespace App\Modules\ProjektyRekrutacyjne\Relations;
 class GetRelatedMembers extends \App\Modules\Base\Relations\GetRelatedList
 {
     private const PROJECT_MODULE = 'ProjektyRekrutacyjne';
-    private const CANDIDATE_MODULE = 'Kandydaci';
+    private const CANDIDATE_MODULE = 'Candidates';
 
     public const STATUS_APPLIED = 'PPL_APPLIED';
     public const STATUS_MANUALLY_ADDED = 'PPL_MANUALLY_ADDED';
@@ -231,7 +231,7 @@ class GetRelatedMembers extends \App\Modules\Base\Relations\GetRelatedList
             return false;
         }
 
-        $handler = new \App\Modules\Kandydaci\Handlers\NewCandidateInProject();
+        $handler = new \App\Modules\Candidates\Handlers\NewCandidateInProject();
         $handler->onCandidateLinkedToProject($candidateId, $projectId);
 
         return true;
@@ -305,7 +305,7 @@ class GetRelatedMembers extends \App\Modules\Base\Relations\GetRelatedList
                 $context = new \App\Modules\Workflow\RelationWorkflowContext(
                     'ProjektyRekrutacyjne',
                     $projectId,
-                    'Kandydaci',
+                    'Candidates',
                     $candidateId,
                     static::TABLE_NAME,
                     'recruitment_status_rel',
@@ -331,7 +331,7 @@ class GetRelatedMembers extends \App\Modules\Base\Relations\GetRelatedList
                 }
                 return $status;
             }
-            $candidate = \App\Modules\Base\Models\Record::getInstanceById($candidateId, "Kandydaci");
+            $candidate = \App\Modules\Base\Models\Record::getInstanceById($candidateId, "Candidates");
             $commentContentForProject = "Status kandydata " . $candidate->getName() . " w projekcie zmieniony z '" . $sourceStatusTranslated . "' na '" . $destinationStatusTranslated . "'";
             $commentForProject = \App\Modules\Base\Models\Record::getCleanInstance("ModComments");
             $commentForProject->set('assigned_user_id', \App\Modules\Users\Models\Record::getCurrentUserRealId());

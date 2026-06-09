@@ -65,6 +65,23 @@ if (is_file($path)) {
 
 **Note:** `@filemtime()` does not suppress warnings inside the called function on PHP 8+ when a custom error handler is registered.
 
+## 4. Smarty: unregistered static method … is deprecated
+
+**Cause:** Smarty 4 requires explicit class registration before templates call `\Fully\Qualified\Class::method()`.
+
+**Fix:** Register the class in `src/Runtime/CRM_Viewer.php` (constructor, alongside existing `registerClass` calls):
+
+```php
+$this->registerClass('\App\\Utils\\ModuleUtils', '\App\\Utils\\ModuleUtils');
+$this->registerClass('\App\\Modules\\Base\\Models\\Record', '\App\\Modules\\Base\\Models\\Record');
+$this->registerClass('\App\\Modules\\Base\\Models\\RelationListView', '\App\\Modules\\Base\\Models\\RelationListView');
+```
+
+**Where to look:**
+- Log message names the class + method; grep that class in `layouts/**/*.tpl`.
+- Common offenders: Detail summary widgets (`layouts/basic/modules/Base/widgets/Basic.tpl`).
+- After fix: `rm -f cache/templates_c/*.php` and reload the page.
+
 ## Workflow
 
 1. Reproduce via browser (not CLI-only) and read `cache/logs/system.log`.
@@ -79,4 +96,6 @@ rg "->colorList" src/
 rg "getInstanceFromValues" src/ --glob '*.php'
 rg "vresource_url" layouts/ src/
 rg "listViewEntries|listViewCount" src/ --glob '**/Views/Pagination.php'
+rg "\\\\App\\\\" layouts/ --glob '*.tpl'   # Smarty static calls → registerClass in CRM_Viewer.php
+rg "Kandydaci|fieldmodulerel" migrations/ bin/   # module-rename leftovers
 ```

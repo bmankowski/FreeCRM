@@ -25,7 +25,7 @@ return [
 		'storage_path' => __DIR__ . '/../private/la/rate_limit.json',
 	],
 	'modules' => [
-		'Kandydaci' => [
+		'Candidates' => [
 			'actions' => [
 				'unsubscribe' => [
 					'scopes' => ['future_contact', 'all'],

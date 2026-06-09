@@ -70,8 +70,8 @@ class Calculations
         foreach ($sources as $sourceRecord) {
             //Change all backslashes to dash and to lowercase
             $projectName = str_replace("/", "-", strtolower($projectName));
-            $link = "https://itconnect.pl/oferta/" . $projectName . "/?action=Aplikuj&projectId=$projectId&sourceId=" . $sourceRecord["zrodlo_aplikacjiid"];
-            $links .= "<tr><td>" . $sourceRecord["zrodlo_aplikacji"] . "</td>" .
+            $link = "https://itconnect.pl/oferta/" . $projectName . "/?action=Aplikuj&projectId=$projectId&sourceId=" . $sourceRecord["application_sourceid"];
+            $links .= "<tr><td>" . $sourceRecord["application_source"] . "</td>" .
                 "<td><a href='" . $link . "'>" . $link . "</a></td>" .
                 "<td><button onclick='navigator.clipboard.writeText(\"$link\")'>&#10697;</button></td>" .
                 "</tr>";
@@ -88,7 +88,11 @@ class Calculations
 
     protected static function getDataFromSourceOfCandidate()
     {
-        $rows = (new \App\Db\Query())->select(['vtiger_zrodlo_aplikacji.zrodlo_aplikacjiid', 'vtiger_zrodlo_aplikacji.zrodlo_aplikacji'])->from('vtiger_zrodlo_aplikacji')->where(['vtiger_zrodlo_aplikacji.generate_link' => 1])->all();
+        $rows = (new \App\Db\Query())
+            ->select(['z.application_sourceid', 'z.application_source'])
+            ->from(['z' => 'vtiger_application_source'])
+            ->where(['z.generate_link' => 1])
+            ->all();
         return $rows;
     }
 }

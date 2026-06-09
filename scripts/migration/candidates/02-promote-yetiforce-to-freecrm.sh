@@ -23,23 +23,23 @@ fi
 BUILD_SQL=$(cat <<SQL
 SET FOREIGN_KEY_CHECKS=0;
 
-DROP TABLE IF EXISTS \`${TGT}\`.tmp_imp_kandydaci_ids;
+DROP TABLE IF EXISTS \`${TGT}\`.tmp_imp_candidates_ids;
 DROP TABLE IF EXISTS \`${TGT}\`.tmp_imp_projekty_ids;
 DROP TABLE IF EXISTS \`${TGT}\`.tmp_imp_related_to_ids;
 DROP TABLE IF EXISTS \`${TGT}\`.tmp_imp_modcomments_ids;
 DROP TABLE IF EXISTS \`${TGT}\`.tmp_imp_document_ids;
 DROP TABLE IF EXISTS \`${TGT}\`.tmp_imp_attachment_ids;
 
-CREATE TABLE \`${TGT}\`.tmp_imp_kandydaci_ids (crmid INT NOT NULL PRIMARY KEY) ENGINE=InnoDB;
-INSERT INTO \`${TGT}\`.tmp_imp_kandydaci_ids (crmid)
-  SELECT crmid FROM \`${SRC}\`.vtiger_crmentity WHERE setype='Kandydaci' AND deleted=0;
+CREATE TABLE \`${TGT}\`.tmp_imp_candidates_ids (crmid INT NOT NULL PRIMARY KEY) ENGINE=InnoDB;
+INSERT INTO \`${TGT}\`.tmp_imp_candidates_ids (crmid)
+  SELECT crmid FROM \`${SRC}\`.vtiger_crmentity WHERE setype='Candidates' AND deleted=0;
 
 CREATE TABLE \`${TGT}\`.tmp_imp_projekty_ids (crmid INT NOT NULL PRIMARY KEY) ENGINE=InnoDB;
 INSERT INTO \`${TGT}\`.tmp_imp_projekty_ids (crmid)
   SELECT crmid FROM \`${SRC}\`.vtiger_crmentity WHERE setype='ProjektyRekrutacyjne' AND deleted=0;
 
 CREATE TABLE \`${TGT}\`.tmp_imp_related_to_ids (crmid INT NOT NULL PRIMARY KEY) ENGINE=InnoDB;
-INSERT INTO \`${TGT}\`.tmp_imp_related_to_ids (crmid) SELECT crmid FROM \`${TGT}\`.tmp_imp_kandydaci_ids;
+INSERT INTO \`${TGT}\`.tmp_imp_related_to_ids (crmid) SELECT crmid FROM \`${TGT}\`.tmp_imp_candidates_ids;
 INSERT IGNORE INTO \`${TGT}\`.tmp_imp_related_to_ids (crmid) SELECT crmid FROM \`${TGT}\`.tmp_imp_projekty_ids;
 
 CREATE TABLE \`${TGT}\`.tmp_imp_modcomments_ids (crmid INT NOT NULL PRIMARY KEY) ENGINE=InnoDB;
@@ -83,9 +83,9 @@ DELETE ce FROM \`${TGT}\`.vtiger_crmentity ce
 
 DELETE FROM \`${TGT}\`.u_yf_projekty_rekrutacyjne_relations_members_entity;
 
-DELETE FROM \`${TGT}\`.u_yf_kandydacicf;
-DELETE FROM \`${TGT}\`.u_yf_kandydaci;
-DELETE ce FROM \`${TGT}\`.vtiger_crmentity ce WHERE ce.setype='Kandydaci';
+DELETE FROM \`${TGT}\`.u_yf_candidatescf;
+DELETE FROM \`${TGT}\`.u_yf_candidates;
+DELETE ce FROM \`${TGT}\`.vtiger_crmentity ce WHERE ce.setype='Candidates';
 
 DELETE FROM \`${TGT}\`.u_yf_projektyrekrutacyjnecf;
 DELETE FROM \`${TGT}\`.u_yf_projektyrekrutacyjne;
@@ -94,7 +94,7 @@ DELETE ce FROM \`${TGT}\`.vtiger_crmentity ce WHERE ce.setype='ProjektyRekrutacy
 DELETE ce FROM \`${TGT}\`.vtiger_crmentity ce
   INNER JOIN \`${TGT}\`.tmp_imp_projekty_ids t ON t.crmid = ce.crmid;
 DELETE ce FROM \`${TGT}\`.vtiger_crmentity ce
-  INNER JOIN \`${TGT}\`.tmp_imp_kandydaci_ids t ON t.crmid = ce.crmid;
+  INNER JOIN \`${TGT}\`.tmp_imp_candidates_ids t ON t.crmid = ce.crmid;
 
 DELETE lbl FROM \`${TGT}\`.u_yf_crmentity_label lbl
   WHERE lbl.crmid IN (SELECT crmid FROM \`${TGT}\`.tmp_imp_related_to_ids)
@@ -122,13 +122,13 @@ sql_copy_table "$TGT" "$SRC" u_yf_projektyrekrutacyjne "WHERE projektyrekrutacyj
 sql_copy_table "$TGT" "$SRC" u_yf_projektyrekrutacyjnecf "WHERE projektyrekrutacyjneid IN (SELECT crmid FROM \`${TGT}\`.tmp_imp_projekty_ids)"
 
 log "promote" "Copying candidates..."
-sql_copy_table "$TGT" "$SRC" vtiger_crmentity "WHERE crmid IN (SELECT crmid FROM \`${TGT}\`.tmp_imp_kandydaci_ids)"
-sql_copy_table "$TGT" "$SRC" u_yf_kandydaci "WHERE kandydaciid IN (SELECT crmid FROM \`${TGT}\`.tmp_imp_kandydaci_ids)"
-sql_copy_table "$TGT" "$SRC" u_yf_kandydacicf "WHERE kandydaciid IN (SELECT crmid FROM \`${TGT}\`.tmp_imp_kandydaci_ids)"
+sql_copy_table "$TGT" "$SRC" vtiger_crmentity "WHERE crmid IN (SELECT crmid FROM \`${TGT}\`.tmp_imp_candidates_ids)"
+sql_copy_table "$TGT" "$SRC" u_yf_candidates "WHERE candidatesid IN (SELECT crmid FROM \`${TGT}\`.tmp_imp_candidates_ids)"
+sql_copy_table "$TGT" "$SRC" u_yf_candidatescf "WHERE candidatesid IN (SELECT crmid FROM \`${TGT}\`.tmp_imp_candidates_ids)"
 
 log "promote" "Copying relations..."
 sql_copy_table "$TGT" "$SRC" u_yf_projekty_rekrutacyjne_relations_members_entity \
-  "WHERE relcrmid IN (SELECT crmid FROM \`${TGT}\`.tmp_imp_kandydaci_ids) OR crmid IN (SELECT crmid FROM \`${TGT}\`.tmp_imp_projekty_ids)"
+  "WHERE relcrmid IN (SELECT crmid FROM \`${TGT}\`.tmp_imp_candidates_ids) OR crmid IN (SELECT crmid FROM \`${TGT}\`.tmp_imp_projekty_ids)"
 
 log "promote" "Copying comments..."
 sql_copy_table "$TGT" "$SRC" vtiger_crmentity "WHERE crmid IN (SELECT crmid FROM \`${TGT}\`.tmp_imp_modcomments_ids)"
@@ -165,7 +165,7 @@ WHERE (ce.crmid IN (SELECT crmid FROM \`${TGT}\`.tmp_imp_related_to_ids)
 "
 
 mariadb_exec "
-DROP TABLE IF EXISTS \`${TGT}\`.tmp_imp_kandydaci_ids;
+DROP TABLE IF EXISTS \`${TGT}\`.tmp_imp_candidates_ids;
 DROP TABLE IF EXISTS \`${TGT}\`.tmp_imp_projekty_ids;
 DROP TABLE IF EXISTS \`${TGT}\`.tmp_imp_related_to_ids;
 DROP TABLE IF EXISTS \`${TGT}\`.tmp_imp_modcomments_ids;

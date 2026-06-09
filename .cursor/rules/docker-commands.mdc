@@ -19,3 +19,9 @@ MariaDB shell (manual debugging only, when user asks or MCP is down):
 `docker compose exec -T db mariadb -ufreecrm -pfreecrm freecrm`
 
 **PHP image (`docker/php/Dockerfile`):** `openssh-client` + `rsync` for key-based dev sync (`cron` mounts `~/.ssh`). No `sshpass` — nothing in the repo uses password-based CLI SSH.
+
+## Do not restart containers by default
+
+- **Do not** run `docker compose restart` / `docker compose down && up` after every code or config change. Source is bind-mounted; PHP picks up edits without a restart in normal dev.
+- Restart **only** when the user asks, or when something truly requires it (Dockerfile/`docker-compose.yml` change, stuck PHP-FPM, port conflict). Say why before restarting.
+- Prefer: `docker compose exec -T app php …`, log tail (`cache/logs/system.log`), Smarty cache wipe — not container bounce.

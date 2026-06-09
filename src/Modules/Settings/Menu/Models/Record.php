@@ -328,11 +328,31 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	public function refreshMenuFiles()
 	{
 		\vtlib\Deprecated::createModuleMetaFile();
-		$allRoles = \App\Modules\Settings\Roles\Models\Record::getAll();
 		$this->generateFileMenu(0);
+
+		$roleIds = (new \App\Db\Query())
+			->select('role')
+			->from('yetiforce_menu')
+			->distinct()
+			->column();
+		foreach ($roleIds as $roleId) {
+			$roleId = self::normalizeRoleId($roleId);
+			if ($roleId === 0) {
+				continue;
+			}
+			$this->generateFileMenu($roleId);
+		}
+
+		$allRoles = \App\Modules\Settings\Roles\Models\Record::getAll();
 		foreach ($allRoles as $role) {
 			$roleId = self::normalizeRoleId($role->getId());
-			if (file_exists(ROOT_DIRECTORY . '/user_privileges/menu_' . $roleId . '.php')) {
+			if ($roleId === 0) {
+				continue;
+			}
+			if (is_file(ROOT_DIRECTORY . '/user_privileges/menu_' . $roleId . '.php')) {
+				continue;
+			}
+			if ((new \App\Db\Query())->from('yetiforce_menu')->where(['role' => $roleId])->exists()) {
 				$this->generateFileMenu($roleId);
 			}
 		}

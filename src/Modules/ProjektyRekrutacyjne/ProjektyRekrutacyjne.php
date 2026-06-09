@@ -68,7 +68,7 @@ class ProjektyRekrutacyjne extends \App\Core\CRMEntity
 			$withCrmid = [$withCrmid];
 		}
 
-		if ($withModule === 'Kandydaci' && $relatedName === 'getRelatedMembers') {
+		if ($withModule === 'Candidates' && $relatedName === 'getRelatedMembers') {
 			$typeRelationModel = new \App\Modules\ProjektyRekrutacyjne\Relations\GetRelatedMembers();
 			foreach ($withCrmid as $candidateId) {
 				$typeRelationModel->createMembership(
@@ -89,7 +89,7 @@ class ProjektyRekrutacyjne extends \App\Core\CRMEntity
 			$withCrmid = [$withCrmid];
 		}
 
-		if ($withModule === 'Kandydaci') {
+		if ($withModule === 'Candidates') {
 			$typeRelationModel = new \App\Modules\ProjektyRekrutacyjne\Relations\GetRelatedMembers();
 			foreach ($withCrmid as $candidateId) {
 				$typeRelationModel->delete((int) $crmid, (int) $candidateId);

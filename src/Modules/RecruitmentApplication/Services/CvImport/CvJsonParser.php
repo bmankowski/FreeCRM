@@ -160,7 +160,7 @@ final class CvJsonParser
 		$dto->cvAttachmentPath = $basename !== '' ? $pendingDirectory . $basename : '';
 
 		$dto->candidateOriginalPhone = filter_var(
-			(string) ($entries['cv-numer-telefonu'] ?? $entries['numer-telefonu'] ?? $entries['cv-numer-telefonu-en'] ?? $entries['numer-telefonu-en'] ?? ''),
+			(string) ($entries['cv-numer-phoneu'] ?? $entries['numer-phoneu'] ?? $entries['cv-numer-phoneu-en'] ?? $entries['numer-phoneu-en'] ?? ''),
 			FILTER_SANITIZE_NUMBER_INT
 		);
 		$dto->candidateTransformedPhone = PhoneNormalizer::normalize($dto->candidateOriginalPhone);
