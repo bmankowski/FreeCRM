@@ -102,7 +102,9 @@ class Db extends \yii\db\Connection
 					'password' => $dbconfig['db_password'],
 					'dbName' => $dbconfig['db_name'],
 					'tablePrefix' => 'yf_',
-					'charset' => 'utf8mb4'
+					'charset' => 'utf8mb4',
+					'enableSchemaCache' => false,
+					'schemaCache' => null,
 				]
 			];
 		}

@@ -298,12 +298,14 @@ class ModuleService
 		$isentitytype = (bool) $data['isentitytype'];
 		
 		if ($isentitytype || $data['name'] === 'Users') {
-			$entitydata = \App\Utils\ModuleUtils::getEntityInfo($data['name']);
-			if ($entitydata) {
-				$basetable = $entitydata['tablename'];
-				$basetableid = $entitydata['entityidfield'];
-				$entityidcolumn = $entitydata['entityidcolumn'] ?? false;
-				$entityidfield = $entitydata['entityidfield'] ?? false;
+			if ($this->moduleEntityClassAvailable($data['name']) || $data['name'] === 'Users') {
+				$entitydata = \App\Utils\ModuleUtils::getEntityInfo($data['name']);
+				if ($entitydata) {
+					$basetable = $entitydata['tablename'];
+					$basetableid = $entitydata['entityidfield'];
+					$entityidcolumn = $entitydata['entityidcolumn'] ?? false;
+					$entityidfield = $entitydata['entityidfield'] ?? false;
+				}
 			}
 		}
 
@@ -555,8 +557,7 @@ class ModuleService
 		$this->cleanupModuleFiles($module->getName());
 		
 		$moduleInstance = \App\Modules\Base\Models\Module::getInstance($module->getName());
-		$focus = \App\Core\CRMEntity::getInstance($module->getName());
-		$tableName = $focus->table_name ?? null;
+		$tableName = $this->resolveEntityTableName($module);
 
 		if ($module->getIsentitytype()) {
 			// Delete from CRMEntity
@@ -638,6 +639,20 @@ class ModuleService
 	 */
 	private function deleteFromCRMEntity(string $moduleName): void
 	{
+		if (!$this->moduleEntityClassAvailable($moduleName)) {
+			$ids = (new \App\Db\Query())
+				->select(['crmid'])
+				->from('vtiger_crmentity')
+				->where(['setype' => $moduleName])
+				->column();
+			if ($ids) {
+				$this->db->createCommand()->delete('u_yf_crmentity_label', ['crmid' => $ids])->execute();
+				$this->db->createCommand()->delete('u_yf_crmentity_search_label', ['crmid' => $ids])->execute();
+			}
+			$this->db->createCommand()->delete('vtiger_crmentity', ['setype' => $moduleName])->execute();
+			return;
+		}
+
 		$query = (new \App\Db\Query())
 			->select(['crmid'])
 			->from('vtiger_crmentity')
@@ -648,6 +663,45 @@ class ModuleService
 			$recordModel->delete();
 		}
 		$this->db->createCommand()->delete('vtiger_crmentity', ['setype' => $moduleName])->execute();
+	}
+
+	private function resolveEntityTableName(Models\Module $module): ?string
+	{
+		if ($module->getBasetable()) {
+			return (string) $module->getBasetable();
+		}
+
+		if ($this->moduleEntityClassAvailable($module->getName())) {
+			$entityInfo = \App\Utils\ModuleUtils::getEntityInfo($module->getName());
+			if ($entityInfo && !empty($entityInfo['tablename'])) {
+				return (string) $entityInfo['tablename'];
+			}
+
+			try {
+				$focus = \App\Core\CRMEntity::getInstance($module->getName());
+				if (!empty($focus->table_name)) {
+					return (string) $focus->table_name;
+				}
+			} catch (\Throwable $e) {
+			}
+		}
+
+		$candidate = 'vtiger_' . strtolower((string) $module->getName());
+		if (!$module->getIsentitytype()) {
+			return $this->db->isTableExists($candidate) ? $candidate : null;
+		}
+
+		return $candidate;
+	}
+
+	private function moduleEntityClassAvailable(string $moduleName): bool
+	{
+		$namespacedClass = "\\App\\Modules\\{$moduleName}\\{$moduleName}";
+		if (class_exists($namespacedClass)) {
+			return true;
+		}
+
+		return is_file(ROOT_DIRECTORY . "/src/Modules/{$moduleName}/{$moduleName}.php");
 	}
 
 	/**
@@ -664,22 +718,23 @@ class ModuleService
 		if ($moduleInstance->isInventory()) {
 			$tablesName = [$tableName . '_inventory', $tableName . '_invfield', $tableName . '_invmap'];
 			foreach ($tablesName as $tblName) {
-				if ($this->db->isTableExists($tblName)) {
-					$this->db->createCommand()->dropTable($tblName)->execute();
-				}
+				$this->dropModuleTable($tblName);
 			}
 		}
 		
 		if (!empty($tableName)) {
-			$tablesName = [$tableName . 'cf', $tableName];
-			foreach ($tablesName as $tblName) {
-				if ($this->db->isTableExists($tblName)) {
-					$this->db->createCommand()->dropTable($tblName)->execute();
-				}
-			}
+			$this->dropModuleTable($tableName . 'cf');
+			$this->dropModuleTable($tableName);
 		}
 		
 		$this->db->createCommand()->checkIntegrity(true)->execute();
+	}
+
+	private function dropModuleTable(string $tableName): void
+	{
+		$this->db->createCommand(
+			'DROP TABLE IF EXISTS ' . $this->db->quoteTableName($tableName)
+		)->execute();
 	}
 
 	/**

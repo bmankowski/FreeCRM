@@ -155,3 +155,8 @@ LEFT JOIN u_yf_projektyrekrutacyjne p1 ON p1.projektyrekrutacyjneid = r.crmid
 LEFT JOIN u_yf_candidates k1 ON k1.candidatesid = r.relcrmid
 LEFT JOIN u_yf_projektyrekrutacyjne p2 ON p2.projektyrekrutacyjneid = r.relcrmid
 LEFT JOIN u_yf_candidates k2 ON k2.candidatesid = r.crmid;
+
+
+select * from u_yf_candidates;
+
+select * from u_yf_privacyconsent;

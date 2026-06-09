@@ -61,7 +61,7 @@ class AccessService
 		$this->db->createCommand()->upsert(
 			\App\Security\ModuleSharingDefault::TABLE,
 			['tabid' => $moduleId, 'permission' => $permission],
-			['permission']
+			true
 		)->execute();
 
 		$this->syncSharingAccess();

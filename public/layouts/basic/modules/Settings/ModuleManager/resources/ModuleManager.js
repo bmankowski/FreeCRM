@@ -199,15 +199,30 @@ jQuery.Class('Settings_Module_Manager_Js', {
 			}
 			AppConnector.request(params).then(
 					function (data) {
-						var params = {
-							title: app.vtranslate('JS_REMOVED_MODULE'),
+						if (data.success) {
+							Vtiger_Helper_Js.showPnotify({
+								title: app.vtranslate('JS_REMOVED_MODULE'),
+								animation: 'show',
+								type: 'info'
+							});
+							window.location.href = 'index.php?module=ModuleManager&parent=Settings&view=ListView';
+							return;
+						}
+						Vtiger_Helper_Js.showPnotify({
+							title: app.vtranslate('JS_MESSAGE'),
+							text: (data.error && data.error.message) || (data.result && data.result.text) || 'Delete failed',
 							animation: 'show',
-							type: 'info'
-						};
-						Vtiger_Helper_Js.showPnotify(params);
-						window.location.href = 'index.php?module=ModuleManager&parent=Settings&view=ListView';
+							type: 'error'
+						});
 					},
-					function (error) {}
+					function (error) {
+						Vtiger_Helper_Js.showPnotify({
+							title: app.vtranslate('JS_MESSAGE'),
+							text: (error && error.message) || 'Delete failed',
+							animation: 'show',
+							type: 'error'
+						});
+					}
 			);
 		});
 	},
