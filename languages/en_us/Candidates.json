@@ -4,6 +4,7 @@
         "SINGLE_Candidates": "Candidate",
         "LBL_CUSTOM_INFORMATION": "Custom Information",
         "LBL_BASIC_INFORMATION": "Basic Information",
+        "LBL_PRIVACY_CONSENT_HISTORY": "Privacy consent history",
         "Nazwisko i imię": "Full Name",
         "PPL_EXPORT_CV": "Export CVs (ZIP)",
         "PPL_EXPORT_CV_NO_FILES": "No documents marked as CV for the selected candidates.",

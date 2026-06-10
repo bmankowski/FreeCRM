@@ -114,8 +114,13 @@ class Module extends \App\Modules\Base\Models\Module
 	{
 		$moduleInformation['entityfieldname'] = strtolower(self::toAlphaNumeric($moduleInformation['entityfieldname']));
 
+		$moduleName = ucfirst($moduleInformation['module_name']);
+		if (\App\Modules\Base\Models\Module::getInstance($moduleName)) {
+			throw new \App\Exceptions\AppException('Module already exists: ' . $moduleName);
+		}
+
 		$module = new \vtlib\Module();
-		$module->name = ucfirst($moduleInformation['module_name']);
+		$module->name = $moduleName;
 		$module->label = $moduleInformation['module_label'];
 		$module->type = (int) $moduleInformation['entitytype'];
 		$module->save();
@@ -138,6 +143,7 @@ class Module extends \App\Modules\Base\Models\Module
 		$field1 = new \stdClass();
 		$field1->name = $moduleInformation['entityfieldname'];
 		$field1->label = $moduleInformation['entityfieldlabel'];
+		$field1->table = $module->basetable;
 		$field1->uitype = 2;
 		$field1->column = $field1->name;
 		$field1->columntype = 'string(255)';

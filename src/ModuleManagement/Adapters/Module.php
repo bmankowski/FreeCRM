@@ -107,15 +107,14 @@ class Module extends ModuleBasic
 			$this->basetableid = $basetableid;
 		}
 
-		$lcasemodname = strtolower($this->name);
 		if (!$this->basetable) {
-			$this->basetable = "vtiger_$lcasemodname";
+			$this->basetable = \App\ModuleManagement\Services\ModuleService::entityTableName($this->name);
 		}
 		if (!$this->basetableid) {
-			$this->basetableid = $lcasemodname . 'id';
+			$this->basetableid = \App\ModuleManagement\Services\ModuleService::entityIdColumn($this->name);
 		}
 		if (!$this->customtable) {
-			$this->customtable = $this->basetable . 'cf';
+			$this->customtable = \App\ModuleManagement\Services\ModuleService::entityCustomTableName($this->name);
 		}
 
 		ServiceLocator::getModuleService()->initTables($this->id, $this->toModuleModel());
@@ -331,6 +330,7 @@ class Module extends ModuleBasic
 			])->execute();
 		} else {
 			$db->createCommand()->update('vtiger_entityname', [
+				'modulename' => $this->name,
 				'fieldname' => $fieldName,
 				'entityidfield' => $this->entityidfield,
 				'entityidcolumn' => $this->entityidcolumn,

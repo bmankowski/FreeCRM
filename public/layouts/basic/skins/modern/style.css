@@ -738,6 +738,27 @@ div#calendarview.fc.fc-ltr {
 .iconsInFooter span {
     font-size: 14px;
 }
+.reportIssueInFooter {
+    margin: 2px 8px 0 5px;
+    color: #fff;
+    text-decoration: none;
+    display: inline-block;
+}
+.reportIssueInFooter:hover,
+.reportIssueInFooter:focus {
+    color: #fff;
+    text-decoration: none;
+    opacity: 0.85;
+}
+.reportIssueInFooter span.fas {
+    font-size: 14px;
+    margin-right: 4px;
+    vertical-align: middle;
+}
+.reportIssueInFooterLabel {
+    font-size: 0.85em;
+    vertical-align: middle;
+}
 .baseContainer .leftPanel,.baseContainer .leftPanel:after{
 	width: 200px!important;
 }

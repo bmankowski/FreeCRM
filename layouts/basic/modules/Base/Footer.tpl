@@ -43,6 +43,14 @@
 				<span class="fab fa-tiktok" title="TikTok"></span>
 			</a>
 		</div>
+		{if $USER_MODEL && \App\Modules\Users\Models\Privileges::isPermitted('HelpDesk', 'CreateView')}
+			<div class="pull-right">
+				<a class="reportIssueInFooter js-report-issue-btn" href="#" role="button" title="{"LBL_REPORT_ISSUE"|t:"ReportIssue"}">
+					<span class="fas fa-exclamation-circle" title="{"LBL_REPORT_ISSUE"|t:"ReportIssue"}"></span>
+					<span class="reportIssueInFooterLabel">{"LBL_REPORT_ISSUE"|t:"ReportIssue"}</span>
+				</a>
+			</div>
+		{/if}
 		{if $USER_MODEL->isAdminUser()}
 			{assign var=FOOTVR value= '[ver. '|cat:$YETIFORCE_VERSION|cat:'] ['|cat:'WEBLOADTIME'|t|cat:': '|cat:$SCRIPT_TIME|cat:'s.]'}
 			{assign var=FOOTVRM value= '['|cat:$SCRIPT_TIME|cat:'s.]'}
@@ -54,6 +62,9 @@
 		{/if}
 	</div>
 </footer>
+{if $USER_MODEL && \App\Modules\Users\Models\Privileges::isPermitted('HelpDesk', 'CreateView')}
+	{include file='ReportIssueModal.tpl'|@vtemplate_path:'Base'}
+{/if}
 <div class="modal fade" id="freecrmDetails" tabindex="-1" role="dialog" aria-labelledby="freecrmDetails">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">

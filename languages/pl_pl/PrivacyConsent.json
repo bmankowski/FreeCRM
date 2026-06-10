@@ -1,0 +1,30 @@
+{
+    "languageStrings": {
+        "Consent action": "Akcja zgody",
+        "Consent type": "Typ zgody",
+        "Effective at": "Obowiązuje od",
+        "Expires at": "Wygasa",
+        "FL_NUMBER": "Numer rekordu",
+        "Label": "Etykieta",
+        "LBL_BASIC_INFORMATION": "Informacje podstawowe",
+        "LBL_CUSTOM_INFORMATION": "Informacje dodatkowe",
+        "LBL_PRIVACY_CONSENT_HISTORY": "Historia zgód prywatności",
+        "Legal text version": "Wersja treści prawnej",
+        "Link action jti": "Token akcji (JTI)",
+        "Notes": "Notatki",
+        "PrivacyConsent": "Zgoda prywatności",
+        "SINGLE_PrivacyConsent": "Zgoda prywatności",
+        "Source": "Źródło",
+        "Source record id": "ID rekordu źródłowego",
+        "Subject": "E-mail",
+        "application_form": "Formularz aplikacji",
+        "future_contact": "Kontakt w przyszłości",
+        "granted": "Udzielona",
+        "import": "Import",
+        "manual": "Ręcznie",
+        "revoked": "Cofnięta",
+        "system": "System",
+        "unsubscribe_link": "Link wypisania"
+    },
+    "jsLanguageStrings": []
+}

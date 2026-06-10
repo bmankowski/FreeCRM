@@ -118,6 +118,9 @@ final class FieldDefinition
     public function with(array $changes): self
     {
         $row = $this->toRow();
+        if ($this->columntype !== null) {
+            $row['columntype'] = $this->columntype;
+        }
         foreach ($changes as $property => $value) {
             $rowKey = self::PROPERTY_TO_ROW_KEY[$property] ?? $property;
             $row[$rowKey] = $value;

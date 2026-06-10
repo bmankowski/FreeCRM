@@ -1,0 +1,26 @@
+{
+    "languageStrings": {
+        "LBL_REPORT_ISSUE": "Zgłoś problem",
+        "LBL_REPORT_ISSUE_TITLE": "Tytuł",
+        "LBL_REPORT_ISSUE_DESCRIPTION": "Opis",
+        "LBL_REPORT_ISSUE_PAGE_URL": "Adres strony",
+        "LBL_REPORT_ISSUE_SCREENSHOT": "Zrzut ekranu",
+        "LBL_REPORT_ISSUE_SCREENSHOT_LOADING": "Robię zrzut ekranu…",
+        "LBL_REPORT_ISSUE_SCREENSHOT_FAILED": "Nie udało się wykonać zrzutu ekranu.",
+        "LBL_REPORT_ISSUE_REFRESH_SCREENSHOT": "Odśwież zrzut ekranu",
+        "LBL_REPORT_ISSUE_SUBMIT": "Wyślij zgłoszenie",
+        "LBL_REPORT_ISSUE_SUCCESS": "Utworzono ticket %s.",
+        "LBL_REPORT_ISSUE_SUBMIT_FAILED": "Nie udało się wysłać zgłoszenia. Spróbuj ponownie.",
+        "LBL_REPORT_ISSUE_GITHUB_ERROR": "Ticket został zapisany, ale utworzenie issue w GitHubie nie powiodło się.",
+        "LBL_REPORT_ISSUE_NO_HTML2CANVAS": "Biblioteka zrzutów ekranu nie jest dostępna.",
+        "LBL_REPORT_ISSUE_REQUIRED_FIELDS": "Tytuł i opis są wymagane."
+    },
+    "jsLanguageStrings": {
+        "LBL_REPORT_ISSUE_SCREENSHOT_LOADING": "Robię zrzut ekranu…",
+        "LBL_REPORT_ISSUE_SCREENSHOT_FAILED": "Nie udało się wykonać zrzutu ekranu.",
+        "LBL_REPORT_ISSUE_NO_HTML2CANVAS": "Biblioteka zrzutów ekranu nie jest dostępna.",
+        "LBL_REPORT_ISSUE_SUCCESS": "Utworzono ticket %s.",
+        "LBL_REPORT_ISSUE_SUBMIT_FAILED": "Nie udało się wysłać zgłoszenia. Spróbuj ponownie.",
+        "LBL_REPORT_ISSUE_GITHUB_ERROR": "Ticket został zapisany, ale utworzenie issue w GitHubie nie powiodło się."
+    }
+}

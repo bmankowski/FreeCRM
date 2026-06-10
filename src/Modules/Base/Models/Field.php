@@ -1553,15 +1553,21 @@ class Field
 
 			$table = $def->table;
 			if (!$table) {
-				$table = (string) ((new \App\Db\Query())
-					->select('basetable')
-					->from('vtiger_tab')
-					->where(['tabid' => $moduleId])
-					->scalar() ?: '');
+				$moduleName = \App\Utils\ModuleUtils::getModuleName($moduleId);
+				if ($moduleName) {
+					$entityInfo = \App\Utils\ModuleUtils::getEntityInfo($moduleName);
+					if ($entityInfo && !empty($entityInfo['tablename'])) {
+						$table = (string) $entityInfo['tablename'];
+					}
+				}
+				if (!$table && $moduleName) {
+					$table = \App\ModuleManagement\Services\ModuleService::entityTableName($moduleName);
+				}
 			}
 			$column   = $def->column ?: strtolower($def->name);
 			$label    = $def->label  ?: $def->name;
 			$maximumlength = max(0, min(65535, $def->maximumlength));
+			$columntype = $def->columntype;
 
 			$def = $def->with([
 				'id'                  => $fieldId,
@@ -1581,10 +1587,12 @@ class Field
 
 			\App\ModuleManagement\ServiceLocator::getProfileService()->initForField($moduleId, $fieldId);
 
-			$columntype = $def->columntype;
 			if ($columntype) {
 				$tableSchema = $db->getSchema()->getTableSchema($table, true);
-				if ($tableSchema && is_null($tableSchema->getColumn($column))) {
+				if (!$tableSchema) {
+					throw new \RuntimeException("Cannot add column {$column}: table {$table} does not exist");
+				}
+				if (is_null($tableSchema->getColumn($column))) {
 					$db->createCommand()->addColumn($table, $column, $columntype)->execute();
 				}
 				if ($def->uitype === 10) {
@@ -1609,6 +1617,11 @@ class Field
 			}
 
 			$transaction->commit();
+
+			$moduleName = \App\Utils\ModuleUtils::getModuleName($moduleId);
+			if ($moduleName && $label !== '') {
+				\App\ModuleManagement\ServiceLocator::getLanguageService()->ensureTranslationKey($moduleName, $label, $label);
+			}
 
 			$instance = static::fromRow($def->toRow());
 			// Bust caches so the new field is visible immediately
@@ -1740,6 +1753,7 @@ class Field
 				])->execute();
 				++$sortid;
 			}
+			$this->ensurePicklistValueTranslations($values);
 			return;
 		}
 
@@ -1797,6 +1811,31 @@ class Field
 			$db->createCommand()
 				->batchInsert('vtiger_role2picklist', ['roleid', 'picklistvalueid', 'picklistid', 'sortid'], $insertedData)
 				->execute();
+		}
+
+		$this->ensurePicklistValueTranslations($values);
+	}
+
+	/**
+	 * @param string[] $values
+	 */
+	private function ensurePicklistValueTranslations(array $values): void
+	{
+		if ($this->definition === null || empty($values)) {
+			return;
+		}
+
+		$moduleName = \App\Utils\ModuleUtils::getModuleName($this->definition->tabid);
+		if (!$moduleName) {
+			return;
+		}
+
+		$langService = \App\ModuleManagement\ServiceLocator::getLanguageService();
+		foreach ($values as $value) {
+			$value = trim((string) $value);
+			if ($value !== '') {
+				$langService->ensureTranslationKey($moduleName, $value);
+			}
 		}
 	}
 

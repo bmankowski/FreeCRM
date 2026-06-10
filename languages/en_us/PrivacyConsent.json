@@ -1,0 +1,30 @@
+{
+    "languageStrings": {
+        "Consent action": "Consent action",
+        "Consent type": "Consent type",
+        "Effective at": "Effective at",
+        "Expires at": "Expires at",
+        "FL_NUMBER": "Record number",
+        "Label": "Label",
+        "LBL_BASIC_INFORMATION": "Basic Information",
+        "LBL_CUSTOM_INFORMATION": "Custom information",
+        "LBL_PRIVACY_CONSENT_HISTORY": "Privacy consent history",
+        "Legal text version": "Legal text version",
+        "Link action jti": "Link action JTI",
+        "Notes": "Notes",
+        "PrivacyConsent": "Privacy consent",
+        "SINGLE_PrivacyConsent": "Privacy consent",
+        "Source": "Source",
+        "Source record id": "Source record ID",
+        "Subject": "Subject",
+        "application_form": "Application form",
+        "future_contact": "Future contact",
+        "granted": "Granted",
+        "import": "Import",
+        "manual": "Manual",
+        "revoked": "Revoked",
+        "system": "System",
+        "unsubscribe_link": "Unsubscribe link"
+    },
+    "jsLanguageStrings": []
+}

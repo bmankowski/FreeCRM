@@ -118,64 +118,48 @@ class FileService
 		$psrModuleFile = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Modules'
 			. DIRECTORY_SEPARATOR . $moduleName . DIRECTORY_SEPARATOR . $moduleName . '.php';
 
-		if (is_file($psrModuleFile)) {
-			return;
-		}
-
-		$templatePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'vtlib' . DIRECTORY_SEPARATOR . 'ModuleDir' . DIRECTORY_SEPARATOR . 'BaseModule' . DIRECTORY_SEPARATOR;
-		if (!is_dir($templatePath)) {
-			$this->createMinimalModuleFiles($module, $entityField);
-			return;
-		}
-
-		$flags = \FilesystemIterator::KEY_AS_PATHNAME | \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::UNIX_PATHS;
-		$objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($templatePath, $flags), \RecursiveIteratorIterator::SELF_FIRST);
-
-		foreach ($objects as $name => $object) {
-			$relativeTarget = str_replace($templatePath, '', $name);
-			$relativeTarget = str_replace('_ModuleName_', $moduleName, $relativeTarget);
-			$destination = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $relativeTarget;
-
-			if ($object->isDir()) {
-				if (!is_dir($destination)) {
-					mkdir($destination, 0777, true);
-				}
+		if (!is_file($psrModuleFile)) {
+			$templatePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'vtlib' . DIRECTORY_SEPARATOR . 'ModuleDir' . DIRECTORY_SEPARATOR . 'BaseModule' . DIRECTORY_SEPARATOR;
+			if (!is_dir($templatePath)) {
+				$this->createMinimalModuleFiles($module, $entityField);
 			} else {
-				$fileContent = file_get_contents($name);
-				$replaceVars = [
-					'<ModuleName>' => $moduleName,
-					'<ModuleLabel>' => $module->label,
-					'<modulename>' => strtolower($moduleName),
-					'<entityfieldlabel>' => $entityField->label,
-					'<entitycolumn>' => $entityField->column,
-					'<entityfieldname>' => $entityField->name,
-					'_ModuleName_' => $moduleName,
-				];
-				foreach ($replaceVars as $search => $replace) {
-					$fileContent = str_replace($search, addslashes($replace), $fileContent);
+				$flags = \FilesystemIterator::KEY_AS_PATHNAME | \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::UNIX_PATHS;
+				$objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($templatePath, $flags), \RecursiveIteratorIterator::SELF_FIRST);
+
+				foreach ($objects as $name => $object) {
+					$relativeTarget = str_replace($templatePath, '', $name);
+					$relativeTarget = str_replace('_ModuleName_', $moduleName, $relativeTarget);
+					$destination = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $relativeTarget;
+
+					if ($object->isDir()) {
+						if (!is_dir($destination)) {
+							mkdir($destination, 0777, true);
+						}
+					} else {
+						$fileContent = file_get_contents($name);
+						$replaceVars = [
+							'<ModuleName>' => $moduleName,
+							'<ModuleLabel>' => $module->label,
+							'<modulename>' => strtolower($moduleName),
+							'<entityfieldlabel>' => $entityField->label,
+							'<entitycolumn>' => $entityField->column,
+							'<entityfieldname>' => $entityField->name,
+							'_ModuleName_' => $moduleName,
+						];
+						foreach ($replaceVars as $search => $replace) {
+							$fileContent = str_replace($search, addslashes($replace), $fileContent);
+						}
+						file_put_contents($destination, $fileContent);
+					}
 				}
-				file_put_contents($destination, $fileContent);
 			}
 		}
 
-		$languages = \App\Modules\Users\Models\Module::getLanguagesList();
-		// Copy JSON language files (YetiForce compatible format)
-		$sourceLangFile = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'languages' . DIRECTORY_SEPARATOR . 'en_us' . DIRECTORY_SEPARATOR . $moduleName . '.json';
-		if (file_exists($sourceLangFile)) {
-			foreach ($languages as $langKey => $language) {
-				if ($langKey === 'en_us') {
-					continue;
-				}
-				$destDir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'languages' . DIRECTORY_SEPARATOR . $langKey;
-				if (!is_dir($destDir)) {
-					mkdir($destDir, 0777, true);
-				}
-				$destLangFile = $destDir . DIRECTORY_SEPARATOR . $moduleName . '.json';
-				if (!file_exists($destLangFile)) {
-					copy($sourceLangFile, $destLangFile);
-				}
-			}
-		}
+		\App\ModuleManagement\ServiceLocator::getLanguageService()->createForModule(
+			$moduleName,
+			(string) ($module->label ?: $moduleName),
+			$this->buildModuleLanguageExtras($entityField)
+		);
 
 		$legacyModuleDir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'modules' . DIRECTORY_SEPARATOR . $moduleName;
 		$legacyModuleFile = $legacyModuleDir . DIRECTORY_SEPARATOR . $moduleName . '.php';
@@ -205,9 +189,9 @@ class FileService
 	{
 		$moduleName = $module->name;
 		$lcasemodname = strtolower($moduleName);
-		$basetable = $module->basetable ?: "vtiger_{$lcasemodname}";
-		$basetableid = $module->basetableid ?: $lcasemodname . 'id';
-		$customtable = $module->customtable ?: $basetable . 'cf';
+		$basetable = $module->basetable ?: ModuleService::entityTableName($moduleName);
+		$basetableid = $module->basetableid ?: ModuleService::entityIdColumn($moduleName);
+		$customtable = $module->customtable ?: ModuleService::entityCustomTableName($moduleName);
 		$fieldName = (string) ($entityField->name ?? 'name');
 		$fieldLabel = (string) ($entityField->label ?? $fieldName);
 		$fieldLabelEscaped = addslashes($fieldLabel);
@@ -262,6 +246,20 @@ PHP;
 		if (file_put_contents($moduleFile, $content) === false) {
 			throw new \App\Exceptions\AppException('Cannot write module file: ' . $moduleFile);
 		}
+	}
+
+	/**
+	 * @return array<string, string>
+	 */
+	private function buildModuleLanguageExtras(object $entityField): array
+	{
+		$extras = [];
+		$fieldLabel = trim((string) ($entityField->label ?? ''));
+		if ($fieldLabel !== '') {
+			$extras[$fieldLabel] = $fieldLabel;
+		}
+
+		return $extras;
 	}
 }
 

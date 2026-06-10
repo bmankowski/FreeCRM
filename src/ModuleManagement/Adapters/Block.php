@@ -246,6 +246,12 @@ class Block
 				if (method_exists($object, $method)) {
 					return $object->$method();
 				}
+				if (method_exists($object, 'get')) {
+					$viaGet = $object->get($property);
+					if ($viaGet !== null) {
+						return $viaGet;
+					}
+				}
 			}
 			return $fallback;
 		};
@@ -257,14 +263,28 @@ class Block
 		}
 
 		$columntype = $get($fieldInstance, 'columntype');
+		if ($columntype instanceof \yii\db\ColumnSchemaBuilder) {
+			$columntype = (string) $columntype;
+		}
 		if (is_string($columntype) && strpos($columntype, '(') === false) {
 			$columntype = $columntype ?: 'string(100)';
 		}
 
 		$moduleName = $moduleModel->getName();
 		$lcaseModule = strtolower($moduleName);
-		$defaultBaseTable = $moduleModel->getBasetable() ?: "vtiger_{$lcaseModule}";
-		$defaultCustomTable = $moduleModel->getCustomtable() ?: $defaultBaseTable . 'cf';
+		$defaultBaseTable = null;
+		if (isset($this->module) && $this->module instanceof \vtlib\Module && !empty($this->module->basetable)) {
+			$defaultBaseTable = (string) $this->module->basetable;
+		} else {
+			$defaultBaseTable = $moduleModel->getBasetable()
+				?: \App\ModuleManagement\Services\ModuleService::entityTableName($moduleName);
+		}
+		$defaultCustomTable = null;
+		if (isset($this->module) && $this->module instanceof \vtlib\Module && !empty($this->module->customtable)) {
+			$defaultCustomTable = (string) $this->module->customtable;
+		} else {
+			$defaultCustomTable = $moduleModel->getCustomtable() ?: $defaultBaseTable . 'cf';
+		}
 
 		$table = $get($fieldInstance, 'table', $defaultBaseTable);
 		if (!$table && isset($this->label) && $this->label === 'LBL_CUSTOM_INFORMATION') {
@@ -290,7 +310,7 @@ class Block
 			'generatedtype'       => (int) $get($fieldInstance, 'generatedtype', 1),
 			'readonly'            => (bool) $get($fieldInstance, 'readonly', false),
 			'mandatory'           => isset($fieldInstance->mandatory) ? (bool) $fieldInstance->mandatory : false,
-			'presence'            => (int) $get($fieldInstance, 'presence', 1),
+			'presence'            => (int) $get($fieldInstance, 'presence', 0),
 			'defaultvalue'        => (string) $get($fieldInstance, 'defaultvalue', ''),
 			'maximumlength'       => (int) $get($fieldInstance, 'maximumlength', 100),
 			'sequence'            => (int) ($get($fieldInstance, 'sequence') ?? 0),
@@ -312,6 +332,9 @@ class Block
 		$fieldInstance->id     = $fieldId;
 		$fieldInstance->tabid  = $moduleId;
 		$fieldInstance->block  = $this;
+		if (method_exists($fieldInstance, 'set')) {
+			$fieldInstance->set('id', $fieldId);
+		}
 		// Attach the hydrated model so callers can invoke setPicklistValues/setRelatedModules
 		$fieldInstance->_model = $newFieldModel;
 
@@ -324,7 +347,7 @@ class Block
 			$table,
 			(int) $get($fieldInstance, 'uitype', 1),
 			$get($fieldInstance, 'typeofdata', 'V~O'),
-			(int) $get($fieldInstance, 'presence', 1)
+			(int) $get($fieldInstance, 'presence', 0)
 		);
 
 		return $this;

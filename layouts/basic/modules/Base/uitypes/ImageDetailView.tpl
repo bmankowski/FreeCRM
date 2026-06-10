@@ -15,10 +15,21 @@
 	<img src="{$RECORD->getImageWebUrl()}" class="user-detail-photo user-detail-photo--compact" alt="">
 {else}
 	{foreach key=ITER item=IMAGE_INFO from=$RECORD->getImageDetails()}
+		{assign var=IMAGE_SRC value=''}
 		{if !empty($IMAGE_INFO.url)}
-			<img src="{$IMAGE_INFO.url}" width="150" height="80" alt="">
+			{assign var=IMAGE_SRC value=$IMAGE_INFO.url}
 		{elseif !empty($IMAGE_INFO.path) && !empty($IMAGE_INFO.orgname)}
-			<img src="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}" width="150" height="80" alt="">
+			{assign var=IMAGE_SRC value="{$IMAGE_INFO.path}_{$IMAGE_INFO.orgname}"}
+		{/if}
+		{if $IMAGE_SRC neq ''}
+			<div class="multiImageContenDiv pull-left" title="{$IMAGE_INFO.orgname|escape:'html'}">
+				<div class="contentImage">
+					<button type="button" class="btn btn-sm btn-default imageFullModal hide">
+						<span class="glyphicon glyphicon-fullscreen"></span>
+					</button>
+					<img src="{$IMAGE_SRC}" class="multiImageListIcon cursorPointer" alt="">
+				</div>
+			</div>
 		{/if}
 	{/foreach}
 {/if}

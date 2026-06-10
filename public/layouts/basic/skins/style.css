@@ -5662,6 +5662,27 @@ select.form-control {
 	color: #fff;
 	font-size: 20px;
 }
+.reportIssueInFooter{
+	margin: 7px 8px 0 5px;
+	color: #fff;
+	text-decoration: none;
+	display: inline-block;
+}
+.reportIssueInFooter:hover,
+.reportIssueInFooter:focus{
+	color: #fff;
+	text-decoration: none;
+	opacity: 0.85;
+}
+.reportIssueInFooter span.fas{
+	font-size: 20px;
+	margin-right: 5px;
+	vertical-align: middle;
+}
+.reportIssueInFooterLabel{
+	font-size: 0.9em;
+	vertical-align: middle;
+}
 .infoUser{
 	padding:0 5px;
 	position: fixed;
@@ -5886,6 +5907,24 @@ select.form-control {
 }
 .contentImage:hover .imageFullModal{
 	display: inline-block !important;
+}
+.modal-dialog-imagePreview {
+	width: 90vw;
+	max-width: 90vw;
+	height: 90vh;
+	margin: 5vh auto;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.modal-dialog-imagePreview > img.modal-content {
+	max-width: 100%;
+	max-height: 100%;
+	width: auto;
+	height: auto;
+	object-fit: contain;
+	border: none;
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
 }
 .contentImage:hover .multiImageListIcon{
 	max-width: 160px;

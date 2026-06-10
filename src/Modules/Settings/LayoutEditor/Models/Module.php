@@ -209,6 +209,7 @@ class Module extends \App\Modules\Base\Models\Module
 		$fieldModel->set('name', $columnName)
 			->set('table', $tableName)
 			->set('generatedtype', 2)
+			->set('presence', 0)
 			->set('uitype', $uitype)
 			->set('label', $label)
 			->set('typeofdata', $typeofdata)

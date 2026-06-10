@@ -290,9 +290,30 @@ abstract class Basic extends \App\Base\Controllers\BaseViewController
 			'modules.Settings.DataAccess.resources.SaveResult',
 		);
 
+		if (\App\Modules\Users\Models\Privileges::isPermitted('HelpDesk', 'CreateView')) {
+			$jsFileNames[] = '~libraries/html2canvas/html2canvas.min.js';
+			$jsFileNames[] = 'modules.Base.resources.ReportIssue';
+		}
+
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
 		return $headerScriptInstances;
+	}
+
+	public function getJSLanguageStrings(\App\Http\Vtiger_Request $request)
+	{
+		$strings = parent::getJSLanguageStrings($request);
+		if (!\App\Modules\Users\Models\Privileges::isPermitted('HelpDesk', 'CreateView')) {
+			return $strings;
+		}
+		$reportIssueStrings = \App\Runtime\Vtiger_Language_Handler::getModuleStringsFromFile(
+			\App\Runtime\Vtiger_Language_Handler::getLanguage(),
+			'ReportIssue'
+		);
+		if (!empty($reportIssueStrings['jsLanguageStrings'])) {
+			$strings += $reportIssueStrings['jsLanguageStrings'];
+		}
+		return $strings;
 	}
 
 	/**

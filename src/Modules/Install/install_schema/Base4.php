@@ -1471,6 +1471,9 @@ class Base4 extends \App\Db\Importers\Base
 					'contracts_end_date' => $this->date(),
 					'report_time' => $this->integer(10),
 					'response_time' => $this->dateTime(),
+					'github_issue_url' => $this->stringType(512),
+					'github_issue_number' => $this->integer(),
+					'report_issue_screenshot' => $this->stringType(255),
 				],
 				'index' => [
 						['troubletickets_ticketid_idx', 'ticketid'],

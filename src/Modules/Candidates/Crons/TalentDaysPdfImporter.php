@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Candidates\Crons;
 
+use App\Modules\PrivacyConsent\PrivacyConsentWriter;
 use App\Modules\RecruitmentApplication\Services\CvImport\ApplicationImportRepository;
 use App\Modules\RecruitmentApplication\Services\CvImport\CandidateApplicationSideEffects;
 use App\Modules\RecruitmentApplication\Services\CvImport\CvImportLogger;
@@ -78,10 +79,14 @@ final class TalentDaysPdfImporter
 					$candidate->set('candidate_status', 'Kandydat');
 					$candidate->set('email_private', $email);
 					$candidate->set('application_source', 'TalentDays');
-					$candidate->set('is_future_contact_allowed', 1);
-					$candidate->set('gdpr_max_contact_date', date('Y-m-d', strtotime('+3 years')));
 					$candidate->save();
-					$candidate = \App\Modules\Candidates\Models\Record::getInstanceById($candidate->getId(), 'Candidates');
+					$candidateId = (int) $candidate->getId();
+					PrivacyConsentWriter::grant(
+						$candidateId,
+						'import',
+						date('Y-m-d', strtotime('+3 years'))
+					);
+					$candidate = \App\Modules\Candidates\Models\Record::getInstanceById($candidateId, 'Candidates');
 				}
 				$candidate->set('application_id', $candidateData['applicationNumber']);
 				$cvContent = trim(preg_replace('/[\x{10000}-\x{10FFFF}]/u', '', $pdfContent));

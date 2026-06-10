@@ -43,6 +43,81 @@ class Record extends \App\Modules\Base\Models\Record
 		return $commentsList;
 	}
 
+	/**
+	 * @return array<int, array{id: int|string, orgname: string, path: string, name: string, url: string}>
+	 */
+	public function getImageDetails(): array
+	{
+		$recordId = (int) $this->getId();
+		if ($recordId <= 0) {
+			return [];
+		}
+
+		$rows = (new \App\Db\Query())
+			->select(['vtiger_attachments.attachmentsid', 'vtiger_attachments.path', 'vtiger_attachments.name'])
+			->from('vtiger_attachments')
+			->innerJoin('vtiger_seattachmentsrel', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')
+			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_attachments.attachmentsid')
+			->where([
+				'vtiger_crmentity.setype' => 'HelpDesk Image',
+				'vtiger_seattachmentsrel.crmid' => $recordId,
+			])
+			->all();
+
+		$imageDetails = [];
+		foreach ($rows as $row) {
+			$imageName = (string) ($row['name'] ?? '');
+			if ($imageName === '') {
+				continue;
+			}
+			$attachmentId = (int) $row['attachmentsid'];
+			$imageDetails[] = [
+				'id' => $attachmentId,
+				'orgname' => \App\Utils\ListViewUtils::decodeHtml($imageName),
+				'path' => $row['path'] . $attachmentId,
+				'name' => $imageName,
+				'url' => 'file.php?module=HelpDesk&action=Image&record=' . $recordId . '&attachment=' . $attachmentId,
+			];
+		}
+
+		return $imageDetails;
+	}
+
+	public function attachReportIssueScreenshot(array $fileDetails): string
+	{
+		$fileInstance = \App\Fields\File::loadFromRequest($fileDetails);
+		if (!$fileInstance->validate('image')) {
+			return '';
+		}
+
+		if (!$this->uploadAndSaveFile($fileDetails, 'Attachment', 'HelpDesk')) {
+			return '';
+		}
+
+		$id = $this->getId();
+		$imageName = (new \App\Db\Query())
+			->select(['vtiger_attachments.name'])
+			->from('vtiger_seattachmentsrel')
+			->innerJoin('vtiger_attachments', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')
+			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_attachments.attachmentsid')
+			->where([
+				'vtiger_seattachmentsrel.crmid' => $id,
+				'vtiger_crmentity.setype' => 'HelpDesk Image',
+			])
+			->orderBy(['vtiger_attachments.attachmentsid' => SORT_DESC])
+			->scalar();
+		$imageName = \App\Utils\ListViewUtils::decodeHtml((string) $imageName);
+
+		\App\Db\Db::getInstance()->createCommand()->update(
+			'vtiger_troubletickets',
+			['report_issue_screenshot' => $imageName],
+			['ticketid' => $id]
+		)->execute();
+		$this->set('report_issue_screenshot', $imageName);
+
+		return (string) ($fileDetails['name'] ?? $imageName);
+	}
+
 	public static function updateTicketRangeTimeField($recordModel, $updateFieldImmediately = false)
 	{
 		if (!$recordModel->isNew() && ($recordModel->getPreviousValue('ticketstatus') || $updateFieldImmediately)) {

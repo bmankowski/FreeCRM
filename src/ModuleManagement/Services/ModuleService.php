@@ -22,6 +22,21 @@ use App\ModuleManagement\Events;
  */
 class ModuleService
 {
+	public static function entityTableName(string $moduleName): string
+	{
+		return 'u_yf_' . strtolower($moduleName);
+	}
+
+	public static function entityCustomTableName(string $moduleName): string
+	{
+		return self::entityTableName($moduleName) . 'cf';
+	}
+
+	public static function entityIdColumn(string $moduleName): string
+	{
+		return strtolower($moduleName) . 'id';
+	}
+
 	/** @var \App\Db\Db Database instance */
 	private $db;
 	
@@ -369,16 +384,15 @@ class ModuleService
 		$basetableid = $module->getBasetableid();
 		$customtable = $module->getCustomtable();
 
-		// Initialize tablename and index column names
-		$lcasemodname = strtolower($module->getName());
+		$moduleName = $module->getName();
 		if (!$basetable) {
-			$basetable = "vtiger_$lcasemodname";
+			$basetable = self::entityTableName($moduleName);
 		}
 		if (!$basetableid) {
-			$basetableid = $lcasemodname . 'id';
+			$basetableid = self::entityIdColumn($moduleName);
 		}
 		if (!$customtable) {
-			$customtable = $basetable . 'cf';
+			$customtable = self::entityCustomTableName($moduleName);
 		}
 
 		$importer = new \App\Db\Importers\Base();
@@ -570,7 +584,7 @@ class ModuleService
 			\App\ModuleManagement\ServiceLocator::getFilterService()->deleteForModule($moduleId);
 			
 			// Delete blocks
-			\App\ModuleManagement\ServiceLocator::getBlockService()->deleteForModule($moduleId, false);
+			\App\ModuleManagement\ServiceLocator::getBlockService()->deleteForModule($moduleId, true);
 			
 			// Deinit webservice
 			\App\ModuleManagement\ServiceLocator::getWebserviceService()->uninitialize(
@@ -608,6 +622,9 @@ class ModuleService
 
 		// Delete menu
 		\App\ModuleManagement\ServiceLocator::getMenuService()->deleteForModule($moduleId);
+
+		// Delete entity name metadata
+		$this->db->createCommand()->delete('vtiger_entityname', ['tabid' => $moduleId])->execute();
 
 		// Delete group2modules
 		$this->db->createCommand()->delete('vtiger_group2modules', ['tabid' => $moduleId])->execute();

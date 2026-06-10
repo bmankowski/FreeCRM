@@ -25,3 +25,11 @@ MariaDB shell (manual debugging only, when user asks or MCP is down):
 - **Do not** run `docker compose restart` / `docker compose down && up` after every code or config change. Source is bind-mounted; PHP picks up edits without a restart in normal dev.
 - Restart **only** when the user asks, or when something truly requires it (Dockerfile/`docker-compose.yml` change, stuck PHP-FPM, port conflict). Say why before restarting.
 - Prefer: `docker compose exec -T app php …`, log tail (`cache/logs/system.log`), Smarty cache wipe — not container bounce.
+
+## Privilege files (module create)
+
+ModuleManager create/update rewrites `user_privileges/tabdata.php`. If log shows **not writable**, fix group write in container (file is often `root:www-data` 644):
+
+```bash
+docker compose exec -T -u root app chmod 664 user_privileges/tabdata.php
+```

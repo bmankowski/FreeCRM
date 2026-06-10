@@ -1,0 +1,40 @@
+---
+description: "Report Issue footer widget — HelpDesk ticket + optional GitHub issue"
+alwaysApply: false
+globs: ["layouts/basic/modules/Base/ReportIssueModal.tpl", "layouts/basic/modules/Base/Footer.tpl", "public/layouts/basic/modules/Base/resources/ReportIssue.js", "src/Modules/Base/Actions/ReportIssue.php", "src/Modules/HelpDesk/Services/ReportIssue*.php", "config/modules/ReportIssue.php"]
+---
+
+# Report Issue widget
+
+Footer link (HelpDesk `CreateView`) → modal → html2canvas screenshot → POST → HelpDesk ticket + Image field (`report_issue_screenshot`, uitype 69) → optional GitHub issue when Settings → GitHub token is authorized.
+
+## Screenshot storage
+
+Screenshot is saved to HelpDesk field **`report_issue_screenshot`** (uitype **Image**): file in `vtiger_attachments` with setype `HelpDesk Image`, filename in `vtiger_troubletickets.report_issue_screenshot`. DetailView loads via `getImageDetails()` → `file.php?module=HelpDesk&action=Image&record=…&attachment=…` (`HelpDesk/Files/Image.php`). Click thumbnail or hover → fullscreen (`.imageFullModal` in `ImageDetailView.tpl` / `DetailViewBlockView.tpl`, `app.registerImageFullModal()`).
+
+## Key files
+
+| Layer | Path |
+|---|---|
+| Footer trigger | `layouts/basic/modules/Base/Footer.tpl` (`.reportIssueInFooter`, `pull-right`) |
+| Modal | `layouts/basic/modules/Base/ReportIssueModal.tpl` |
+| JS | `public/layouts/basic/modules/Base/resources/ReportIssue.js` |
+| Action | `src/Modules/Base/Actions/ReportIssue.php` |
+| Services | `src/Modules/HelpDesk/Services/ReportIssueService.php`, `GithubIssueSyncService.php` |
+| Config | `config/modules/ReportIssue.php` (`default_assigned_user_id`, priority/status picklist values, `github_labels`) |
+| i18n | `languages/*/ReportIssue.json` |
+| Script load | `src/Modules/Base/Views/Basic.php` → `getFooterScripts()` (not `vtiger_links` HEADERSCRIPT) |
+
+## UX / JS notes
+
+- AJAX POST uses `module=HelpDesk`, `action=ReportIssue` — not `module=Base` (Base is not a CRM module; WebUI permission check fails with „Handler nie został odnaleziony”).
+- JS toasts use `app.vtranslate()` → keys must live in `ReportIssue.json` **`jsLanguageStrings`**; merged in `Basic::getJSLanguageStrings()` when HelpDesk `CreateView` is allowed.
+- First open: screenshot first (`captureScreenshot({ reopenModal: false })` + `progressIndicator`), then modal with form. Refresh screenshot: hide modal → capture → re-show.
+- Set title focus on `shown.bs.modal` (`showModalAndFocusTitle`).
+- Validation: see `js.mdc` — bind `validationEngine` to `.validationEngineContainer`, not `#reportIssueModal`.
+- Footer CSS: `.reportIssueInFooter` in `public/layouts/basic/skins/style.css` (+ `modern/style.css`).
+
+## GitHub
+
+- Client: `src/Modules/Settings/Github/Models/Client.php` — repo `FreeCRM/FreeCRM`, `createIssue($title, $body, $labels)`.
+- Ticket fields: `github_issue_url`, `github_issue_number` on HelpDesk (migration in `migrations/Users/`).

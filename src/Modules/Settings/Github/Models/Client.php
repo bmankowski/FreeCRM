@@ -14,8 +14,8 @@ use App\Modules\Settings\Github\Models\Issues;
 class Client
 {
 
-	const repository = 'YetiForceCRM';
-	const ownerRepository = 'YetiForceCompany';
+	const repository = 'FreeCRM';
+	const ownerRepository = 'FreeCRM';
 	const url = 'https://api.github.com';
 	const timeout = 240;
 
@@ -59,13 +59,17 @@ class Client
 		return $issuesModel;
 	}
 
-	public function createIssue($body, $title)
+	public function createIssue($title, $body, array $labels = [])
 	{
 		$path = '/repos/' . self::ownerRepository . '/' . self::repository . '/issues';
-		$data['title'] = $title;
-		$data['body'] = $body;
-		$data = json_encode($data);
-		return $this->doRequest($path, 'POST', $data, '201 OK');
+		$data = [
+			'title' => $title,
+			'body' => $body,
+		];
+		if ($labels !== []) {
+			$data['labels'] = array_values($labels);
+		}
+		return $this->doRequest($path, 'POST', json_encode($data), '201');
 	}
 
 	public function isAuthorized()
@@ -121,7 +125,7 @@ class Client
 			curl_setopt($curl, CURLOPT_USERPWD, "$this->clientId:$this->clientToken");
 		}
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($curl, CURLOPT_USERAGENT, "YetiforceCRM");
+		curl_setopt($curl, CURLOPT_USERAGENT, 'FreeCRM');
 		curl_setopt($curl, CURLOPT_TIMEOUT, self::timeout);
 		curl_setopt($curl, CURLOPT_HEADER, false);
 		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);

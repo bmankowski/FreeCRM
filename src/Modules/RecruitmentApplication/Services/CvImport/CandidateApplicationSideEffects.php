@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace App\Modules\RecruitmentApplication\Services\CvImport;
 
+use App\Modules\PrivacyConsent\PrivacyConsentWriter;
+
 final class CandidateApplicationSideEffects
 {
 	private const CANDIDATES_APPLICATION_ID_MAX_LENGTH = 15;
@@ -172,12 +174,6 @@ final class CandidateApplicationSideEffects
 		$candidate->set('email_private', $dto->candidateEmail);
 		$candidate->set('application_id', self::candidatesApplicationId($dto->applicationNumber));
 		$candidate->set('application_source', self::getSourceName($dto->sourceId));
-		$allowed = self::isFutureContactAllowed($dto->agreeToContact);
-		$candidate->set('is_future_contact_allowed', $allowed ? 1 : 0);
-		$candidate->set(
-			'gdpr_max_contact_date',
-			date('Y-m-d', strtotime($allowed ? '+3 years' : '+9 months'))
-		);
 		$candidate->set('application_json_content', $dto->rawJsonData);
 		$candidate->set('is_referred_by_employee', $dto->isReferredByEmployee ? 1 : 0);
 		if ($dto->isReferredByEmployee) {
@@ -189,7 +185,19 @@ final class CandidateApplicationSideEffects
 			$candidate->set('referred_by_email', $dto->referredByEmail);
 		}
 		$candidate->save();
-		return \App\Modules\Candidates\Models\Record::getInstanceById($candidate->getId(), 'Candidates');
+		$candidateId = (int) $candidate->getId();
+		$allowed = self::isFutureContactAllowed($dto->agreeToContact);
+		$expiresAt = date('Y-m-d', strtotime($allowed ? '+3 years' : '+9 months'));
+		if ($allowed) {
+			PrivacyConsentWriter::grant($candidateId, 'application_form', $expiresAt);
+		} else {
+			$candidate = \App\Modules\Base\Models\Record::getInstanceById($candidateId, 'Candidates');
+			$candidate->set('is_future_contact_allowed', 0);
+			$candidate->set('gdpr_max_contact_date', $expiresAt);
+			$candidate->set('mode', 'edit');
+			$candidate->save();
+		}
+		return \App\Modules\Candidates\Models\Record::getInstanceById($candidateId, 'Candidates');
 	}
 
 	private static function isFutureContactAllowed(string $value): bool

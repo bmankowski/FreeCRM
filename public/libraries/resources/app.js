@@ -1762,9 +1762,16 @@ var app = {
 		$('body').on('click', '.imageFullModal', function (e) {
 			e.preventDefault();
 			var img = $(this).next().clone(true, true).addClass('modal-content img-responsive');
-			var html = '<div class="modal fade"><div class="modal-dialog modal-lg">' + img.get(0).outerHTML + '</div></div>';
+			var html = '<div class="modal fade"><div class="modal-dialog modal-dialog-imagePreview">' + img.get(0).outerHTML + '</div></div>';
 			app.showModalWindow(html);
-		})
+		});
+		$('body').on('click', '.contentImage .multiImageListIcon', function (e) {
+			var btn = $(this).closest('.contentImage').find('.imageFullModal').first();
+			if (btn.length) {
+				e.preventDefault();
+				btn.trigger('click');
+			}
+		});
 	},
 }
 jQuery(document).ready(function () {

@@ -57,3 +57,10 @@ If multiple source JS files were changed in one task, run `minify-js` once per f
 - Skip vendor/third-party trees under `public/libraries/` unless you intentionally changed that library’s source `.js`
 - After JS changes, verify in the browser (hard refresh); check `cache/logs/system.log` if something breaks
 - Legacy doc paths mentioning `Vtiger` should be read as `Base` where modules were renamed
+
+## jQuery Validation Engine (modals)
+
+Modals without a `<form>` wrap fields in `.validationEngineContainer` (e.g. `ReportIssueModal.tpl`, Settings GitHub/Notifications modals).
+
+- **Init and `validate` on `.validationEngineContainer`**, not the outer `#…Modal` element — the outer div lacks that class, so `$('#…Modal').validationEngine('validate')` returns `false` and submit handlers exit silently.
+- Pattern: `modal.find('.validationEngineContainer').validationEngine(app.validationEngineOptions)` then `.validationEngine('validate')` before AJAX/submit.

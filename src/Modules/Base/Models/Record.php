@@ -1197,7 +1197,7 @@ class Record extends \App\Runtime\BaseModel
 			'createdtime' => $date,
 			'modifiedtime' => $date
 		];
-		if ($module === 'Contacts' || $module === 'Products') {
+		if ($module === 'Contacts' || $module === 'Products' || $module === 'HelpDesk') {
 			$params['setype'] = $module . ' Image';
 		} else {
 			$params['setype'] = $module . ' Attachment';
@@ -1222,11 +1222,12 @@ class Record extends \App\Runtime\BaseModel
 			if ($module === 'Documents') {
 				$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id])->execute();
 			}
-			if ($module === 'Contacts') {
+			if ($module === 'Contacts' || $module === 'HelpDesk') {
+				$imageSetype = $module . ' Image';
 				$attachmentsId = (new \App\Db\Query())->select(['vtiger_seattachmentsrel.attachmentsid'])
 					->from('vtiger_seattachmentsrel')
 					->innerJoin('vtiger_crmentity', 'vtiger_seattachmentsrel.attachmentsid=vtiger_crmentity.crmid')
-					->where(['vtiger_crmentity.setype' => 'Contacts Image', 'vtiger_seattachmentsrel.crmid' => $id])
+					->where(['vtiger_crmentity.setype' => $imageSetype, 'vtiger_seattachmentsrel.crmid' => $id])
 					->scalar();
 				if (!empty($attachmentsId)) {
 					$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => $attachmentsId])->execute();

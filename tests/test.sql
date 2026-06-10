@@ -159,4 +159,10 @@ LEFT JOIN u_yf_candidates k2 ON k2.candidatesid = r.crmid;
 
 select * from u_yf_candidates;
 
-select * from u_yf_privacyconsent;
+
+SELECT count(*)
+from u_yf_candidates c inner join u_yf_candidatescf ccf on (c.candidatesid=ccf.candidatesid ) 
+where email_private in (
+select email_private from u_yf_candidatescf 
+where  email_private <>'' GROUp by email_private HAVING COUNT(*)>1) order by email_private;
+

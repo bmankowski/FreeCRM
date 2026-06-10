@@ -99,6 +99,11 @@ class RelationService
 				'actions' => $useactionsText
 			])->execute();
 
+			\App\ModuleManagement\ServiceLocator::getLanguageService()->ensureTranslationKey(
+				$targetModule->getName(),
+				$label
+			);
+
 			// Handle many-to-many table creation
 			if ($functionName === 'getManyToMany') {
 				$refTableName = \App\Modules\Base\Models\Relation::getReferenceTableInfo($targetModule->getName(), $sourceModule->getName());

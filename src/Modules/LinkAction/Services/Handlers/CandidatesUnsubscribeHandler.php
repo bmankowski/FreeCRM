@@ -14,6 +14,7 @@ namespace App\Modules\LinkAction\Services\Handlers;
 
 use App\Modules\LinkAction\Services\LinkActionConfig;
 use App\Modules\LinkAction\Services\LinkActionToken;
+use App\Modules\PrivacyConsent\PrivacyConsentWriter;
 
 final class CandidatesUnsubscribeHandler implements HandlerInterface
 {
@@ -47,9 +48,7 @@ final class CandidatesUnsubscribeHandler implements HandlerInterface
 			throw new \RuntimeException('Email hash mismatch for Candidates record ' . $recordId);
 		}
 
-		$record->set('is_future_contact_allowed', 0);
-		$record->set('gdpr_max_contact_date', gmdate('Y-m-d'));
-		$record->set('mode', 'edit');
-		$record->save();
+		$jti = (string) ($payload['jti'] ?? '');
+		PrivacyConsentWriter::revoke($recordId, 'unsubscribe_link', $jti !== '' ? $jti : null);
 	}
 }

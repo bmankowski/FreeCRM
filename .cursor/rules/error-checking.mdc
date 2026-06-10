@@ -48,3 +48,19 @@ alwaysApply: false
 - Distinguish between CLI and web context errors — prioritize web.
 - Use `curl` to test API endpoints quickly.
 - Monitor `system.log` live during testing sessions (e.g. `tail -f`).
+
+## ModuleManager create / delete
+
+Symptoms and fixes discovered in production debugging — verify **both** directions via Settings → ModuleManager UI on dev, not CLI alone.
+
+| Symptom | Likely cause | Fix / check |
+|--------|----------------|-------------|
+| `Call to a member function get() on null` in `vendor/yiisoft/yii2/db/Schema.php` during create or delete | Yii DDL calls `Yii::$app->get('cache')` when `schemaCache` is the default string `'cache'`, but FreeCRM never boots `Yii::$app` | `App\Db\Db::getConfig()` must set `'enableSchemaCache' => false, 'schemaCache' => null` |
+| `The file user_privileges/tabdata.php is not writable` in log after create | File owned root, mode 644 | `docker compose exec -T -u root app chmod 664 user_privileges/tabdata.php` |
+| `Unknown column '0' in 'UPDATE'` on `vtiger_tab_sharing_default` during create | Bad Yii `upsert()` update columns: `['permission']` is indexed array → column `0` | Use third arg `true` (or assoc map), e.g. `AccessService::setDefaultSharing()` |
+| Delete fails; log spam `PrivacyConsent.php - File does not exist`; module stays in list | Ghost module: row in `vtiger_tab`, PHP tree removed | `ModuleService::deleteCascade()` must not require `CRMEntity::getInstance()`; use table-name fallback + direct CRM cleanup |
+| Delete drops table but module still listed | MariaDB auto-commits DDL; Yii `dropTable()` / schema refresh threw mid-transaction | Use `DROP TABLE IF EXISTS` in `ModuleService::dropModuleTable()` — no `getSchema()->refresh()` |
+
+Orphan cleanup: if UI delete still blocked, remove via `ModuleService::delete($tabid)` in app container after code fixes are deployed.
+
+Core files: `src/ModuleManagement/Services/ModuleService.php`, `src/Db/Db.php`, `src/ModuleManagement/Services/AccessService.php`, `public/layouts/basic/modules/Settings/ModuleManager/resources/ModuleManager.js`.

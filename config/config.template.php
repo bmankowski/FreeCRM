@@ -18,6 +18,8 @@ $PORTAL_URL = 'https://portal.yetiforce.com';
 $HELPDESK_SUPPORT_NAME = 'your-support name';
 $HELPDESK_SUPPORT_EMAIL_REPLY = '';
 
+// Report Issue widget: config/modules/ReportIssue.php
+
 $dbconfig['db_server'] = '_DBC_SERVER_';
 $dbconfig['db_port'] = '_DBC_PORT_';
 $dbconfig['db_username'] = '_DBC_USER_';

@@ -18,7 +18,7 @@ class SaveIssuesAjax extends \App\Modules\Settings\Base\Actions\Basic
 		$title = $request->get('title');
 		$body = $request->get('body');
 		$clientModel = \App\Modules\Settings\Github\Models\Client::getInstance();
-		$success = $clientModel->createIssue($body, $title);
+		$success = $clientModel->createIssue($title, $body);
 		$success = $success ? true : false;
 		$responce = new \App\Http\Vtiger_Response();
 		$responce->setResult(array('success' => $success));
