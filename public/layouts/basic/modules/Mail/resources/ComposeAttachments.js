@@ -14,10 +14,9 @@ var Mail_ComposeAttachments_Js = {
 			return;
 		}
 		this.limits = this.root.data('mailAttachmentLimits') || {};
-		this.dropzone = this.root.find('.js-mail-attachment-dropzone');
+		this.addBtn = this.root.find('.js-mail-attachment-add');
 		this.fileInput = this.root.find('.js-mail-attachment-input');
 		this.list = this.root.find('.js-mail-attachment-list');
-		this.summary = this.root.find('.js-mail-attachment-summary');
 		this.templateWrap = this.root.find('.js-mail-template-attachments-wrap');
 		this.templateList = this.root.find('.js-mail-template-attachment-list');
 		this.tokens = [];
@@ -29,7 +28,6 @@ var Mail_ComposeAttachments_Js = {
 		this.resetStaging().then(function () {
 			self.bindEvents();
 			self.loadTemplateAttachments();
-			self.updateSummary();
 		});
 	},
 
@@ -46,35 +44,9 @@ var Mail_ComposeAttachments_Js = {
 
 	bindEvents: function () {
 		var self = this;
-		this.dropzone.off('click.mailAttach').on('click.mailAttach', function (e) {
-			if (e.target === self.fileInput[0]) {
-				return;
-			}
+		this.addBtn.off('click.mailAttach').on('click.mailAttach', function (e) {
+			e.preventDefault();
 			self.fileInput.trigger('click');
-		});
-		this.dropzone.on('dragenter dragover', function (e) {
-			if (!self.isFileDrag(e)) {
-				return;
-			}
-			e.preventDefault();
-			e.stopPropagation();
-			self.dropzone.addClass('dragover');
-		});
-		this.dropzone.on('dragleave dragend drop', function (e) {
-			e.preventDefault();
-			e.stopPropagation();
-			self.dropzone.removeClass('dragover');
-		});
-		this.dropzone.on('drop', function (e) {
-			if (!self.isFileDrag(e)) {
-				return;
-			}
-			e.preventDefault();
-			e.stopPropagation();
-			var files = e.originalEvent.dataTransfer.files;
-			if (files && files.length) {
-				self.uploadFiles(files);
-			}
 		});
 		this.fileInput.off('change.mailAttach').on('change.mailAttach', function () {
 			var files = self.fileInput[0].files;
@@ -207,7 +179,6 @@ var Mail_ComposeAttachments_Js = {
 			self.tokens.push(result.token);
 			self.totalBytes += parseInt(result.size, 10) || 0;
 			self.appendListItem(result.token, result.name, result.size);
-			self.updateSummary();
 		}, function () {
 			self.removeUploadingItem(uploadId);
 			self.notify('LBL_MAIL_ATTACHMENT_UPLOAD_FAILED', 'error');
@@ -229,7 +200,6 @@ var Mail_ComposeAttachments_Js = {
 			self.tokens.splice(idx, 1);
 			self.totalBytes = Math.max(0, self.totalBytes - size);
 			self.list.find('[data-token="' + token + '"]').remove();
-			self.updateSummary();
 		});
 	},
 
@@ -237,29 +207,32 @@ var Mail_ComposeAttachments_Js = {
 		this.uploadingCount += 1;
 		var sizeLabel = this.formatSize(size);
 		var html = '<li class="mail-compose-attachment-item--uploading" data-upload-id="' + uploadId + '">' +
-			'<span class="glyphicon glyphicon-refresh mail-compose-attachment-file-icon" aria-hidden="true"></span>' +
-			'<span class="mail-compose-attachment-name">' + jQuery('<div>').text(name).html() + '</span>' +
-			'<span class="mail-compose-attachment-size">' + sizeLabel + '</span>' +
-			'</li>';
+			'<span class="btn-group mail-compose-attachment-chip">' +
+			'<span class="btn btn-default btn-xs mail-compose-attachment-chip__file" disabled="disabled">' +
+			'<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> ' +
+			'<span class="mail-compose-attachment-chip__name">' + jQuery('<div>').text(name).html() + '</span>' +
+			'<span class="mail-compose-attachment-chip__size text-muted">' + sizeLabel + '</span>' +
+			'</span></span></li>';
 		this.list.append(html);
-		this.updateSummary();
 	},
 
 	removeUploadingItem: function (uploadId) {
 		this.list.find('[data-upload-id="' + uploadId + '"]').remove();
 		this.uploadingCount = Math.max(0, this.uploadingCount - 1);
-		this.updateSummary();
 	},
 
 	appendListItem: function (token, name, size) {
 		var sizeLabel = this.formatSize(size);
 		var html = '<li data-token="' + token + '" data-size="' + (size || 0) + '">' +
-			'<span class="glyphicon glyphicon-file mail-compose-attachment-file-icon" aria-hidden="true"></span>' +
-			'<span class="mail-compose-attachment-name">' + jQuery('<div>').text(name).html() + '</span>' +
-			'<span class="mail-compose-attachment-size">' + sizeLabel + '</span>' +
-			'<button type="button" class="mail-compose-attachment-remove js-mail-attachment-remove" data-token="' + token + '" title="' +
+			'<span class="btn-group mail-compose-attachment-chip">' +
+			'<span class="btn btn-default btn-xs mail-compose-attachment-chip__file" disabled="disabled">' +
+			'<span class="mail-compose-attachment-chip__name">' + jQuery('<div>').text(name).html() + '</span>' +
+			'<span class="mail-compose-attachment-chip__size text-muted">' + sizeLabel + '</span>' +
+			'</span>' +
+			'<button type="button" class="btn btn-default btn-xs mail-compose-attachment-chip__remove js-mail-attachment-remove" data-token="' + token + '" title="' +
 			app.vtranslate('LBL_DELETE') + '">' +
-			'<span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button></li>';
+			'<span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>' +
+			'</span></li>';
 		this.list.append(html);
 	},
 
@@ -291,40 +264,16 @@ var Mail_ComposeAttachments_Js = {
 				var name = item.name || 'Document';
 				self.templateList.append(
 					'<li>' +
-					'<span class="glyphicon glyphicon-file mail-compose-attachment-file-icon" aria-hidden="true"></span>' +
-					'<span class="mail-compose-attachment-name">' + jQuery('<div>').text(name).html() + '</span>' +
-					'<span class="mail-compose-template-badge"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>' +
-					'</li>'
+					'<span class="btn-group mail-compose-attachment-chip">' +
+					'<span class="btn btn-default btn-xs mail-compose-attachment-chip__file" disabled="disabled">' +
+					'<span class="mail-compose-attachment-chip__name">' + jQuery('<div>').text(name).html() + '</span>' +
+					'</span>' +
+					'<span class="btn btn-default btn-xs" disabled="disabled" title="' + app.vtranslate('LBL_TEMPLATE_ATTACHMENTS') + '">' +
+					'<span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>' +
+					'</span></li>'
 				);
 			});
 			self.templateWrap.removeClass('hide');
-		});
-	},
-
-	updateSummary: function () {
-		var count = this.tokens.length;
-		var hasFiles = count > 0 || this.uploadingCount > 0;
-		if (hasFiles) {
-			this.root.addClass('mail-compose-attachments--has-files');
-			this.summary.removeClass('hide').text(
-				this.formatSummary(count, this.totalBytes)
-			);
-		} else {
-			this.root.removeClass('mail-compose-attachments--has-files');
-			this.summary.addClass('hide').empty();
-		}
-	},
-
-	formatSummary: function (count, totalBytes) {
-		var template = app.vtranslate('LBL_MAIL_ATTACHMENT_SUMMARY');
-		if (!template || template === 'LBL_MAIL_ATTACHMENT_SUMMARY') {
-			template = '%s files · %s';
-		}
-		var sizeLabel = this.formatSize(totalBytes);
-		var placeholder = 0;
-		return template.replace(/%s/g, function () {
-			placeholder += 1;
-			return placeholder === 1 ? String(count) : sizeLabel;
 		});
 	},
 
