@@ -11,7 +11,12 @@ final class ImageResponse
 			http_response_code(404);
 			exit;
 		}
-		header('Content-Type: image/png');
+		$mime = match (strtolower((string) pathinfo($assetPath, PATHINFO_EXTENSION))) {
+			'gif' => 'image/gif',
+			'png' => 'image/png',
+			default => 'application/octet-stream',
+		};
+		header('Content-Type: ' . $mime);
 		header('Cache-Control: no-store, no-cache');
 		header('Pragma: no-cache');
 		header('Content-Length: ' . (string) filesize($assetPath));

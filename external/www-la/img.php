@@ -2,8 +2,8 @@
 /**
  * Public LinkAction open-tracking image endpoint (/la/o/{token}/logo.png).
  *
- * Verifies the CRM-signed token, enqueues the first hit, then serves the static logo PNG.
- * Invalid or expired tokens still return the logo without recording an open.
+ * Verifies the CRM-signed token, enqueues the first hit, then serves the static tracking PNG.
+ * Invalid or expired tokens still return the pixel without recording an open.
  */
 declare(strict_types=1);
 
@@ -19,7 +19,7 @@ use FreeCRM\LinkAction\Www\Token;
 
 $root = __DIR__;
 $config = Config::load($root);
-$logoPath = (string) ($config['logo_asset_path'] ?? $root . '/assets/logo.png');
+$logoPath = (string) ($config['logo_asset_path'] ?? $root . '/assets/pixel.gif');
 
 $token = trim((string) ($_GET['t'] ?? ''));
 if ($token === '') {

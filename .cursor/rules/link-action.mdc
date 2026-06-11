@@ -40,15 +40,17 @@ eval $RSYNC assets/ "$REMOTE/assets/"
 eval $RSYNC responses/ "$REMOTE/responses/"
 ```
 
+**Agent: deploy in the same session** after any `external/www-la/` or LinkAction token/mail change — rsync only what changed when possible; **never** rsync `config.production.php` over live `_link_action/config.php` (merge new keys in place, e.g. `logo_asset_path`). CRM side: `scripts/sync-freecrm.sh pushsrc` and run new `migrations/LinkAction/` on `test.itconnect.pl` when migrations were added.
+
 **Live host:** `ssh -p 222 itconnect@itconnect.pl` → web root `/home/itconnect/domains/itconnect.pl/public_html/`. Production runs **`bootstrap.php` + `vendor/` + `src/`** (legacy `common.php` may remain unused).
 
-**Config:** edit `public_html/_link_action/config.php` in place — **do not** rsync `config.production.php` (would overwrite `pull_api_key`). Merge new keys (`open`, `logo_asset_path`, `img_rate_limit`, `redirect_url` on Candidates `unsubscribe` → `wypisanie-zakonczone`, `resubscribe` → `zapis-ponowny-do-bazy-mailingowej`) with `__DIR__`-relative paths. Avoid `var_export(require …)` from SSH (CLI cwd breaks paths).
+**Config:** edit `public_html/_link_action/config.php` in place — **do not** rsync `config.production.php` (would overwrite `pull_api_key`). Merge new keys (`open`, `logo_asset_path`, `img_rate_limit`, `redirect_url` on Candidates `unsubscribe` → `wypisanie-zakonczone`, `resubscribe` → `zapis-ponowny-do-bazy-mailingowej`) with `__DIR__`-relative paths. Avoid `var_export(require …)` from SSH (CLI cwd breaks paths). Current tracking asset: `assets/pixel.gif` (`logo_asset_path`).
 
 | Path (home-relative) | Purpose |
 |---------------------|---------|
 | `domains/itconnect.pl/public_html/la.php` | Click endpoint |
 | `domains/itconnect.pl/public_html/img.php` | Open-tracking image endpoint |
-| `domains/itconnect.pl/public_html/assets/logo.png` | Static logo served by img.php |
+| `domains/itconnect.pl/public_html/assets/pixel.gif` | 1×1 transparent GIF served by img.php |
 | `domains/itconnect.pl/public_html/queue-api.php` | CRM queue pull API |
 | `domains/itconnect.pl/public_html/bootstrap.php` + `vendor/` | PSR-4 autoload |
 | `domains/itconnect.pl/public_html/src/` | LinkAction www classes (optional on host if only vendor deployed) |
@@ -103,8 +105,8 @@ docker compose exec -T app php -r '…'  # see documentation/module/LinkAction.m
 # 2. Click — use @file, NOT @$(cat file)
 curl -sS -G "https://www.itconnect.pl/la" --data-urlencode "t@cache/la_e2e_token.txt"
 
-# 2b. Open image (expect image/png; repeat = replay, same bytes)
-curl -sS -D- -o /tmp/logo.png "https://www.itconnect.pl/la/o/{token}/logo.png"
+# 2b. Open image (expect image/gif, 1×1 transparent; repeat = replay)
+curl -sS -D- -o /tmp/pixel.gif "https://www.itconnect.pl/la/o/{token}/logo.png"
 
 # 3. Peek queue (does not delete)
 curl -sS -H "X-LinkAction-Pull-Key: $(cat config/keys/link_action_queue_api_key.txt)" https://www.itconnect.pl/la/queue
@@ -127,12 +129,14 @@ Candidates email fields live in `u_yf_candidatescf` (`email_private`, `newslette
 
 - Token payload includes **`mid`** = `u_yf_mail_messages.id` (signed; not a raw URL id). Open handler requires valid `mid` + outbound row.
 - **Send lifecycle** (all paths via `Outbound::sendFromTemplate` / `sendRaw`): insert message `send_status=prepared` → `TextParser::setMailMessageId($id)` → parse → send → `sent`|`failed`. Queue rows store `mail_message_id` in `params` JSON; cron `MailerTask` finalizes status.
-- `LinkActionUrl` / `LinkActionImageUrl` emit URLs **only when `mailMessageId > 0`** — template preview / edit preview stays empty (no orphan tokens).
-- **`TextParser::dynamic()` must copy `mailMessageId`** to the nested parser — logo/unsubscribe elements use `$(dynamic : …)`; without this, send body gets `<img src="">` / `<a href="">` even after prepare+parse.
+- **Open tracking pixel:** template element `candidates_open_tracking_logo` — 1×1 invisible `<img>` via `LinkActionImageUrl`; www serves `assets/pixel.gif` (transparent GIF; URL path still `…/logo.png`). Prefer GIF over PNG — Outlook mishandles PNG alpha.
+- **`mailMessageId` absent (preview):** `LinkActionUrl` / `LinkActionImageUrl` emit **deferred** `$(custom : …)$` tokens (not empty `src`/`href`) so compose can round-trip through `contentOverride`.
+- **Send with compose preview:** `Vtiger.js` posts editor HTML as `contentOverride` → `Outbound::sendFromTemplate` **re-parses** override after `prepare()` (resolves deferred tokens). Grafts tracking `<img>` from template parse if editor still has stale `src=""`.
+- **`TextParser::dynamic()` must copy `mailMessageId`** to the nested parser.
 - Variable: `$(custom : LinkActionUrl|unsubscribe|future_contact|email_private)$` — signed click URL for `<a href="…">`.
 - Variable: `$(custom : LinkActionImageUrl|open|email|email_private)$` — signed image URL for `<img src="…">`; first load = open in audit log.
 - Footer element: `$(dynamic : candidates_unsubscribe_footer)$` (pl_pl / en_us)
-- Logo element: `$(dynamic : candidates_open_tracking_logo)$` (pl_pl / en_us)
+- Tracking element: `$(dynamic : candidates_open_tracking_logo)$` (pl_pl / en_us)
 - Mass mail guard: `EmailParser::$permissionToSend['Candidates']` → `is_future_contact_allowed`
 - **Send / compose preview** (`EmailParser` + record): `dynamic` → inner `custom` resolves on server.
 - **Template edit “Podgląd HTML”**: JS `expandDynamicElements` only inlines element HTML — `$(custom : LinkActionUrl…)$` stays literal unless `EmailTemplates` action `ParsePreview` runs (`Edit.js` → `getPreviewDocumentHtmlAsync`). Sample record: latest entity row with non-empty `default_email_field` on `{tablename}cf`.

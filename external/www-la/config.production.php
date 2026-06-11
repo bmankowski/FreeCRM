@@ -23,7 +23,7 @@ return [
 		'max_requests' => 30,
 		'storage_path' => __DIR__ . '/rate_limit.json',
 	],
-	'logo_asset_path' => __DIR__ . '/../assets/logo.png',
+	'logo_asset_path' => __DIR__ . '/../assets/pixel.gif',
 	'img_rate_limit' => [
 		'window_seconds' => 60,
 		'max_requests' => 500,

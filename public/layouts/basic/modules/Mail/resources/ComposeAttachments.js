@@ -15,15 +15,15 @@ var Mail_ComposeAttachments_Js = {
 		}
 		this.limits = this.root.data('mailAttachmentLimits') || {};
 		this.addBtn = this.root.find('.js-mail-attachment-add');
+		this.addWrap = this.root.find('.js-mail-attachment-add-wrap');
 		this.fileInput = this.root.find('.js-mail-attachment-input');
-		this.list = this.root.find('.js-mail-attachment-list');
+		this.toolbar = this.root.find('.js-mail-attachment-toolbar');
 		this.templateWrap = this.root.find('.js-mail-template-attachments-wrap');
 		this.templateList = this.root.find('.js-mail-template-attachment-list');
 		this.tokens = [];
 		this.totalBytes = 0;
 		this.uploadingCount = 0;
 		this.modalDragDepth = 0;
-		this.container.addClass('mail-compose-modal');
 		var self = this;
 		this.resetStaging().then(function () {
 			self.bindEvents();
@@ -58,7 +58,7 @@ var Mail_ComposeAttachments_Js = {
 		this.container.find('#field, #template').off('change.mailAttachTemplate').on('change.mailAttachTemplate', function () {
 			self.loadTemplateAttachments();
 		});
-		this.list.off('click.mailAttachRemove').on('click.mailAttachRemove', '.js-mail-attachment-remove', function (e) {
+		this.toolbar.off('click.mailAttachRemove').on('click.mailAttachRemove', '.js-mail-attachment-remove', function (e) {
 			e.preventDefault();
 			e.stopPropagation();
 			var token = jQuery(this).data('token');
@@ -81,7 +81,7 @@ var Mail_ComposeAttachments_Js = {
 				return;
 			}
 			self.modalDragDepth += 1;
-			self.container.addClass('mail-compose-modal--file-drag');
+			self.toolbar.addClass('js-mail-attachment-toolbar--drag');
 		});
 		this.container.on('dragleave.mailAttachModal', function (e) {
 			if (!self.isFileDrag(e)) {
@@ -89,7 +89,7 @@ var Mail_ComposeAttachments_Js = {
 			}
 			self.modalDragDepth = Math.max(0, self.modalDragDepth - 1);
 			if (self.modalDragDepth === 0) {
-				self.container.removeClass('mail-compose-modal--file-drag');
+				self.toolbar.removeClass('js-mail-attachment-toolbar--drag');
 			}
 		});
 		this.container.on('dragover.mailAttachModal', function (e) {
@@ -101,7 +101,7 @@ var Mail_ComposeAttachments_Js = {
 		});
 		this.container.on('drop.mailAttachModal', function (e) {
 			self.modalDragDepth = 0;
-			self.container.removeClass('mail-compose-modal--file-drag');
+			self.toolbar.removeClass('js-mail-attachment-toolbar--drag');
 			if (!self.isFileDrag(e)) {
 				return;
 			}
@@ -191,7 +191,7 @@ var Mail_ComposeAttachments_Js = {
 		if (idx < 0) {
 			return;
 		}
-		var size = parseInt(this.list.find('[data-token="' + token + '"]').data('size'), 10) || 0;
+		var size = parseInt(this.toolbar.find('[data-token="' + token + '"]').data('size'), 10) || 0;
 		AppConnector.request({
 			module: 'Mail',
 			action: 'DeleteComposeAttachment',
@@ -199,41 +199,39 @@ var Mail_ComposeAttachments_Js = {
 		}).then(function () {
 			self.tokens.splice(idx, 1);
 			self.totalBytes = Math.max(0, self.totalBytes - size);
-			self.list.find('[data-token="' + token + '"]').remove();
+			self.toolbar.find('[data-token="' + token + '"]').remove();
 		});
 	},
 
 	appendUploadingItem: function (uploadId, name, size) {
 		this.uploadingCount += 1;
 		var sizeLabel = this.formatSize(size);
-		var html = '<li class="mail-compose-attachment-item--uploading" data-upload-id="' + uploadId + '">' +
-			'<span class="btn-group mail-compose-attachment-chip">' +
-			'<span class="btn btn-default btn-xs mail-compose-attachment-chip__file" disabled="disabled">' +
+		var html = '<div class="btn-group js-mail-attachment-uploading" data-upload-id="' + uploadId + '">' +
+			'<span class="btn btn-default btn-xs js-mail-attachment-chip-file" disabled="disabled">' +
 			'<span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> ' +
-			'<span class="mail-compose-attachment-chip__name">' + jQuery('<div>').text(name).html() + '</span>' +
-			'<span class="mail-compose-attachment-chip__size text-muted">' + sizeLabel + '</span>' +
-			'</span></span></li>';
-		this.list.append(html);
+			'<span class="js-mail-attachment-chip-name">' + jQuery('<div>').text(name).html() + '</span>' +
+			'<small class="text-muted">' + sizeLabel + '</small>' +
+			'</span></div>';
+		this.addWrap.before(html);
 	},
 
 	removeUploadingItem: function (uploadId) {
-		this.list.find('[data-upload-id="' + uploadId + '"]').remove();
+		this.toolbar.find('[data-upload-id="' + uploadId + '"]').remove();
 		this.uploadingCount = Math.max(0, this.uploadingCount - 1);
 	},
 
 	appendListItem: function (token, name, size) {
 		var sizeLabel = this.formatSize(size);
-		var html = '<li data-token="' + token + '" data-size="' + (size || 0) + '">' +
-			'<span class="btn-group mail-compose-attachment-chip">' +
-			'<span class="btn btn-default btn-xs mail-compose-attachment-chip__file" disabled="disabled">' +
-			'<span class="mail-compose-attachment-chip__name">' + jQuery('<div>').text(name).html() + '</span>' +
-			'<span class="mail-compose-attachment-chip__size text-muted">' + sizeLabel + '</span>' +
+		var html = '<div class="btn-group" data-token="' + token + '" data-size="' + (size || 0) + '">' +
+			'<span class="btn btn-default btn-xs js-mail-attachment-chip-file" disabled="disabled">' +
+			'<span class="js-mail-attachment-chip-name">' + jQuery('<div>').text(name).html() + '</span>' +
+			'<small class="text-muted">' + sizeLabel + '</small>' +
 			'</span>' +
-			'<button type="button" class="btn btn-default btn-xs mail-compose-attachment-chip__remove js-mail-attachment-remove" data-token="' + token + '" title="' +
+			'<button type="button" class="btn btn-default btn-xs js-mail-attachment-remove" data-token="' + token + '" title="' +
 			app.vtranslate('LBL_DELETE') + '">' +
 			'<span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>' +
-			'</span></li>';
-		this.list.append(html);
+			'</div>';
+		this.addWrap.before(html);
 	},
 
 	loadTemplateAttachments: function () {
@@ -263,14 +261,13 @@ var Mail_ComposeAttachments_Js = {
 			items.forEach(function (item) {
 				var name = item.name || 'Document';
 				self.templateList.append(
-					'<li>' +
-					'<span class="btn-group mail-compose-attachment-chip">' +
-					'<span class="btn btn-default btn-xs mail-compose-attachment-chip__file" disabled="disabled">' +
-					'<span class="mail-compose-attachment-chip__name">' + jQuery('<div>').text(name).html() + '</span>' +
+					'<div class="btn-group">' +
+					'<span class="btn btn-default btn-xs js-mail-attachment-chip-file" disabled="disabled">' +
+					'<span class="js-mail-attachment-chip-name">' + jQuery('<div>').text(name).html() + '</span>' +
 					'</span>' +
 					'<span class="btn btn-default btn-xs" disabled="disabled" title="' + app.vtranslate('LBL_TEMPLATE_ATTACHMENTS') + '">' +
 					'<span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>' +
-					'</span></li>'
+					'</div>'
 				);
 			});
 			self.templateWrap.removeClass('hide');

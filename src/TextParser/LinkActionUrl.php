@@ -46,7 +46,7 @@ class LinkActionUrl extends Base
 
 		$mailMessageId = (int) ($this->textParser->mailMessageId ?? 0);
 		if ($mailMessageId <= 0) {
-			return '';
+			return LinkActionConfig::deferredCustomToken('LinkActionUrl', $action, $scope, $emailField);
 		}
 
 		$email = (string) $recordModel->get($emailField);

@@ -59,4 +59,9 @@ final class LinkActionConfig
 		}
 		return (string) $config['actions'][$action]['handler'];
 	}
+
+	public static function deferredCustomToken(string $parserName, string $action, string $scope, string $emailField): string
+	{
+		return '$' . '(custom : ' . $parserName . '|' . $action . '|' . $scope . '|' . $emailField . ')$';
+	}
 }

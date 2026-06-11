@@ -70,11 +70,22 @@ class Outbound
 		$textParser->setMailMessageId($crmMessageId);
 		$subject = $textParser->setContent($template['subject'] ?? '')->parse()->getContent();
 		$content = $textParser->setContent($template['content'] ?? '')->parse()->getContent();
+		$parsedTemplateContent = $content;
 		if (!empty($params['subjectOverride'])) {
-			$subject = (string) $params['subjectOverride'];
+			$subject = $textParser->setContent((string) $params['subjectOverride'])->parse()->getContent();
 		}
 		if (!empty($params['contentOverride'])) {
-			$content = (string) $params['contentOverride'];
+			$override = (string) $params['contentOverride'];
+			if (str_contains($override, 'src=""')
+				&& preg_match('/<img src="[^"]+" width="[12]" height="[12]"[^>]*>/', $parsedTemplateContent, $trackingImg)) {
+				$override = (string) preg_replace(
+					'/<img src="" width="[12]" height="[12]"[^>]*>/',
+					$trackingImg[0],
+					$override,
+					1
+				);
+			}
+			$content = $textParser->setContent($override)->parse()->getContent();
 		}
 
 		self::finalizeParsedContent($crmMessageId, $subject, $content);
