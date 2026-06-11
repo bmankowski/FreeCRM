@@ -64,7 +64,20 @@ class LinkActionUrl extends Base
 			$scope,
 			$mailMessageId
 		);
-		$url = $tokenService->buildUrl($payload);
+		if ($action === 'unsubscribe') {
+			$url = $tokenService->buildUrlFromSignedToken(
+				$tokenService->signUnsubscribeWithResubscribe(
+					$moduleName,
+					(int) $recordModel->getId(),
+					$emailField,
+					$email,
+					$scope,
+					$mailMessageId
+				)
+			);
+		} else {
+			$url = $tokenService->buildUrl($payload);
+		}
 		return htmlspecialchars($url, ENT_QUOTES, 'UTF-8');
 	}
 

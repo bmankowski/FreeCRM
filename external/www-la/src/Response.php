@@ -15,6 +15,16 @@ final class Response
 		exit;
 	}
 
+	public static function redirect(string $url): void
+	{
+		$parts = parse_url($url);
+		if (!is_array($parts) || ($parts['scheme'] ?? '') !== 'https' || ($parts['host'] ?? '') === '') {
+			throw new \RuntimeException('Invalid redirect URL');
+		}
+		header('Location: ' . $url, true, 302);
+		exit;
+	}
+
 	public static function reject(string $root, array $config, string $reason): void
 	{
 		$logPath = (string) ($config['reject_log_path'] ?? '');

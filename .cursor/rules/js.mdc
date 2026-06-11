@@ -64,3 +64,9 @@ Modals without a `<form>` wrap fields in `.validationEngineContainer` (e.g. `Rep
 
 - **Init and `validate` on `.validationEngineContainer`**, not the outer `#…Modal` element — the outer div lacks that class, so `$('#…Modal').validationEngine('validate')` returns `false` and submit handlers exit silently.
 - Pattern: `modal.find('.validationEngineContainer').validationEngine(app.validationEngineOptions)` then `.validationEngine('validate')` before AJAX/submit.
+
+## Image fullscreen preview (DetailView)
+
+- UiType **Image** (69) detail markup uses `.contentImage` > `.imageFullModal` + `.multiImageListIcon`.
+- Handler: `app.registerImageFullModal()` — `.imageFullModal` opens Bootstrap modal; click on `.multiImageListIcon` triggers the same.
+- Large preview dialog: class **`modal-dialog-imagePreview`** on `.modal-dialog` (90vw × 90vh in `style.css`). After `app.js` / `style.css` edits, minify both.

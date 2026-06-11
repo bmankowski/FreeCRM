@@ -29,7 +29,11 @@ return [
 			'actions' => [
 				'unsubscribe' => [
 					'scopes' => ['future_contact', 'all'],
-					'response' => 'unsubscribe_ok',
+					'redirect_url' => 'https://www.itconnect.pl/wypisanie-zakonczone/',
+				],
+				'resubscribe' => [
+					'scopes' => ['future_contact'],
+					'redirect_url' => 'https://www.itconnect.pl/zapis-ponowny-do-bazy-mailingowej/',
 				],
 			],
 		],

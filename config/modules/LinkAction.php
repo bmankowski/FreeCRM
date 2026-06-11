@@ -32,6 +32,10 @@ $CONFIG = [
 					'handler' => 'App\\Modules\\LinkAction\\Services\\Handlers\\CandidatesUnsubscribeHandler',
 					'scopes' => ['future_contact', 'all'],
 				],
+				'resubscribe' => [
+					'handler' => 'App\\Modules\\LinkAction\\Services\\Handlers\\CandidatesResubscribeHandler',
+					'scopes' => ['future_contact'],
+				],
 				'open' => [
 					'handler' => 'App\\Modules\\LinkAction\\Services\\Handlers\\CandidatesOpenHandler',
 					'scopes' => ['email'],

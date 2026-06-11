@@ -12,7 +12,7 @@ Private keys stay on CRM only. www holds public key PEM files.
 
 ## Token format
 
-Payload JSON fields: `v`, `kid`, `module`, `record_id`, `action`, `scope`, `email_field`, `eh`, `iat`, `exp`, `jti`.
+Payload JSON fields: `v`, `kid`, `module`, `record_id`, `action`, `scope`, `email_field`, `eh`, `iat`, `exp`, `jti`, optional `mid`, optional `rs_t` (unsubscribe tokens only — full signed wire token for paired `resubscribe` action).
 
 Wire token:
 
@@ -59,6 +59,24 @@ Deploy `link_action_public_v1.pem` to Cyberfolks `_link_action/keys/`.
 4. Ensure `_link_action/` is writable (queue, jti cache, logs).
 5. Route `/la`, `/la/o/{token}/logo.png`, and `/la/queue` via `.htaccess` rewrites.
 6. Ensure PHP 8.2+ with OpenSSL (ECDSA P-256).
+
+On an **existing** host, merge new keys into `_link_action/config.php` in place — do not rsync `config.production.php` (would overwrite `pull_api_key`). For unsubscribe success UX, set per-action `redirect_url` under `modules → Candidates → actions → unsubscribe` and remove legacy `response => unsubscribe_ok` if present.
+
+### www action responses
+
+Each registered action in `external/www-la/config.production.php` may define:
+
+- `redirect_url` — HTTPS URL; on success (including replay clicks) `/la` responds with **302** to this URL. Candidates: `unsubscribe` → `https://www.itconnect.pl/wypisanie-zakonczone/`; `resubscribe` → `https://www.itconnect.pl/zapis-ponowny-do-bazy-mailingowej/`.
+- For **`unsubscribe` only**, when the verified token payload contains a valid paired **`rs_t`** (signed `resubscribe` token), the redirect appends **`?rt=<rs_t>`** (or `&rt=` if the base URL already has query params). WordPress reads `rt` for the “Chcę nadal otrzymywać wiadomości” button.
+- `response` — name of a PHP include under `responses/` (e.g. `error` fallback). Used when no `redirect_url` is set.
+
+### WordPress resubscribe button
+
+After unsubscribe, the user lands on `https://www.itconnect.pl/wypisanie-zakonczone/?rt=v1.…` (signed resubscribe token from www `redirectTarget`). Elementor Button link field: `https://www.itconnect.pl/la?t=` — **not** shortcodes or dynamic tags (`rt` is a URL query param, not post meta).
+
+On itconnect.pl, Elementor PHP filters do not update the button `href`; production uses a **Code Snippets** `wp_footer` hook: PHP reads `$_GET['rt']`, inline JS sets `href` on the „Chcę nadal otrzymywać wiadomości” button (`a.elementor-button[href*="la?t="]`). Hide the button when `rt` is empty. Details: `.cursor/rules/link-action.mdc` → WordPress UX.
+
+Invalid tokens still render the generic `error` response. CRM applies consent changes asynchronously (1–5 min after click) regardless of redirect.
 
 ### Queue pull API (`/la/queue`)
 
@@ -128,8 +146,9 @@ Mass mail guard: `EmailParser` skips Kandydaci recipients with `is_future_contac
 
 | Module | Action | Scopes | Effect |
 |--------|--------|--------|--------|
-| Kandydaci | unsubscribe | future_contact, all | `is_future_contact_allowed = 0`, `data_maksymalny_kontakt_rodo = today` |
-| Kandydaci | open | email | Audit log only (`u_yf_link_action_log`) |
+| Candidates | unsubscribe | future_contact, all | `is_future_contact_allowed = 0`, `gdpr_max_contact_date = today`; redirect includes `?rt=` when paired token present |
+| Candidates | resubscribe | future_contact | `is_future_contact_allowed = 1`, `gdpr_max_contact_date = today + 3 years`; redirect → `zapis-ponowny-do-bazy-mailingowej` |
+| Candidates | open | email | Audit log only (`u_yf_link_action_log`) |
 
 Outbound mail lifecycle: every send creates a row in `u_yf_mail_messages` with `send_status = prepared`, embeds that row’s `id` as **`mid`** in signed LinkAction tokens (`LinkActionImageUrl`, `LinkActionUrl`), then sends and sets `send_status = sent` (or `failed`). Settings log joins `u_yf_link_action_log.mail_message_id` → message subject so you can tell which of several sends to the same person was opened. Template preview omits LinkAction tokens until send (`mailMessageId` unset).
 
@@ -155,11 +174,14 @@ Outbound mail lifecycle: every send creates a row in `u_yf_mail_messages` with `
 ## Manual smoke test
 
 1. Ensure keys exist in `config/keys/` and matching `pull_api_key` / `queue_api.api_key`.
-2. Generate URL from a Kandydaci record email template preview.
-3. Open `https://itconnect.pl/la?t=...`.
-4. Verify queue: `curl -sS -H "X-LinkAction-Pull-Key: $KEY" https://itconnect.pl/la/queue`
+2. Generate URL from a Candidates record email template preview.
+3. `curl -sS -D- -o /dev/null -G "https://www.itconnect.pl/la" --data-urlencode "t@…"` — expect **302** with `Location: https://www.itconnect.pl/wypisanie-zakonczone/?rt=…`.
+4. Verify queue: `curl -sS -H "X-LinkAction-Pull-Key: $KEY" https://www.itconnect.pl/la/queue`
 5. Run cron import command above.
 6. Verify consent fields, `u_yf_link_action_log` row, empty remote queue after ack.
+7. Repeat click on same URL — still **302** to WordPress, no second queue row.
+8. Resubscribe: `curl -sS -D- -o /dev/null -G "https://www.itconnect.pl/la" --data-urlencode "t@RT_FILE"` where `RT_FILE` holds the `rt` query value from step 3 — expect **302** to `https://www.itconnect.pl/zapis-ponowny-do-bazy-mailingowej/`; CRM restores consent after import.
+9. `curl -sS -G "https://www.itconnect.pl/la" --data-urlencode "t=garbage"` — generic error HTML, no redirect.
 
 ## Automated tests
 
@@ -167,4 +189,4 @@ Outbound mail lifecycle: every send creates a row in `u_yf_mail_messages` with `
 docker compose exec -T app php vendor/bin/phpunit -c tests/phpunit.xml tests/phpunit/LinkAction/
 ```
 
-Tests: `LinkActionTokenTest.php`, `KandydaciOpenHandlerTest.php`, `QueuePullerTest.php` (mock HTTP client).
+Tests: `LinkActionTokenTest.php`, `CandidatesResubscribeHandlerTest.php`, `CandidatesOpenHandlerTest.php`, `QueuePullerTest.php` (mock HTTP client).

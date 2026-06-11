@@ -3,7 +3,7 @@
  * Public LinkAction click endpoint (/la?t=…).
  *
  * Verifies the CRM-signed token, enforces rate limits and replay protection,
- * appends a JSON Lines row for CRM import, then renders the configured HTML response.
+ * appends a JSON Lines row for CRM import, then redirects or renders the configured response.
  */
 declare(strict_types=1);
 
@@ -33,18 +33,30 @@ if ($payload === null) {
 	Response::reject($root, $config, 'invalid_token');
 }
 
+$redirectUrl = Registry::redirectTarget($payload, $config);
 $response = Registry::response($payload, $config);
-if ($response === null) {
+if ($redirectUrl === null && $response === null) {
 	Response::reject($root, $config, 'unregistered_action');
 }
 
+$finishSuccess = static function () use ($root, $config, $redirectUrl, $response): void {
+	if ($redirectUrl !== null) {
+		try {
+			Response::redirect($redirectUrl);
+		} catch (\RuntimeException) {
+			Response::reject($root, $config, 'invalid_redirect_url');
+		}
+	}
+	Response::render($root, $response ?? 'error');
+};
+
 $jti = (string) ($payload['jti'] ?? '');
 if ($jti !== '' && Replay::seen($jti, $config)) {
-	Response::render($root, $response);
+	$finishSuccess();
 }
 
 if (!Queue::append($token, $config)) {
 	Response::reject($root, $config, 'queue_write_failed');
 }
 
-Response::render($root, $response);
+$finishSuccess();

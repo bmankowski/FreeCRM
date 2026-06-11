@@ -127,8 +127,44 @@ final class LinkActionToken
 
 	public function buildUrl(array $payload): string
 	{
+		return $this->buildUrlFromSignedToken($this->sign($payload));
+	}
+
+	public function buildUrlFromSignedToken(string $token): string
+	{
 		$baseUrl = rtrim((string) $this->config('www_base_url'), '/');
-		return $baseUrl . '?t=' . rawurlencode($this->sign($payload));
+		return $baseUrl . '?t=' . rawurlencode($token);
+	}
+
+	public function signUnsubscribeWithResubscribe(
+		string $moduleName,
+		int $recordId,
+		string $emailField,
+		string $email,
+		string $scope,
+		?int $mailMessageId = null
+	): string {
+		$resubPayload = $this->buildPayload(
+			$moduleName,
+			$recordId,
+			$emailField,
+			$email,
+			'resubscribe',
+			$scope,
+			$mailMessageId
+		);
+		$unsubPayload = $this->buildPayload(
+			$moduleName,
+			$recordId,
+			$emailField,
+			$email,
+			'unsubscribe',
+			$scope,
+			$mailMessageId
+		);
+		$unsubPayload['rs_t'] = $this->sign($resubPayload);
+
+		return $this->sign($unsubPayload);
 	}
 
 	public function buildImageUrl(array $payload): string

@@ -8,7 +8,7 @@ alwaysApply: false
 
 CRM signs tokens (ECDSA P-256, private key in `config/keys/`); www verifies and appends JSONL; cron `LBL_LINK_ACTION_IMPORT` fetches via HTTPS API and re-verifies.
 
-**Module-generic:** token payload uses `module`, `record_id`, `email_field` (not module-specific IDs). New modules = registry entry in config + handler class; `LinkActionUrl` / `LinkActionImageUrl` active only for registered modules. Handlers: `CandidatesUnsubscribeHandler`, `CandidatesOpenHandler` (audit log only).
+**Module-generic:** token payload uses `module`, `record_id`, `email_field` (not module-specific IDs). New modules = registry entry in config + handler class; `LinkActionUrl` / `LinkActionImageUrl` active only for registered modules. Handlers: `CandidatesUnsubscribeHandler`, `CandidatesResubscribeHandler`, `CandidatesOpenHandler` (audit log only). Unsubscribe tokens embed paired `rs_t`; www redirect appends `?rt=` for WordPress resubscribe button.
 
 ## Config
 
@@ -42,7 +42,7 @@ eval $RSYNC responses/ "$REMOTE/responses/"
 
 **Live host:** `ssh -p 222 itconnect@itconnect.pl` → web root `/home/itconnect/domains/itconnect.pl/public_html/`. Production runs **`bootstrap.php` + `vendor/` + `src/`** (legacy `common.php` may remain unused).
 
-**Config:** edit `public_html/_link_action/config.php` in place — **do not** rsync `config.production.php` (would overwrite `pull_api_key`). Merge new keys (`open`, `logo_asset_path`, `img_rate_limit`) with `__DIR__`-relative paths. Avoid `var_export(require …)` from SSH (CLI cwd breaks paths).
+**Config:** edit `public_html/_link_action/config.php` in place — **do not** rsync `config.production.php` (would overwrite `pull_api_key`). Merge new keys (`open`, `logo_asset_path`, `img_rate_limit`, `redirect_url` on Candidates `unsubscribe` → `wypisanie-zakonczone`, `resubscribe` → `zapis-ponowny-do-bazy-mailingowej`) with `__DIR__`-relative paths. Avoid `var_export(require …)` from SSH (CLI cwd breaks paths).
 
 | Path (home-relative) | Purpose |
 |---------------------|---------|
@@ -66,6 +66,17 @@ RewriteRule ^la/o/([^/]+)/logo\.png$ /img.php?t=$1 [L,QSA]
 RewriteRule ^la/queue$ /queue-api.php [L]
 RewriteRule ^la$ /la.php [L,QSA]
 ```
+
+## WordPress UX (Candidates unsubscribe / resubscribe)
+
+| Step | URL |
+|------|-----|
+| After unsubscribe click | `wypisanie-zakonczone/?rt=<signed_resubscribe_token>` (Elementor page post **11957**) |
+| After resubscribe click | `zapis-ponowny-do-bazy-mailingowej/` |
+
+**Resubscribe button** on `wypisanie-zakonczone`: Elementor Button link = `https://www.itconnect.pl/la?t=` (no shortcodes — Elementor emits them literally). `?rt=` is a **URL query param**, not post meta. Elementor PHP hooks (`before_render`, `render_content`) do **not** change `href` on live (widget/cache); use **Code Snippets** `wp_footer` JS: read `$_GET['rt']`, set `href` on `a.elementor-button[href*="la?t="]` with text „Chcę nadal…”, hide when `rt` empty. Optional `DONOTCACHEPAGE` when `rt` present.
+
+**Live `_link_action/config.php` merge:** `unsubscribe` and `resubscribe` have different `redirect_url` — edit each action block; blind `sed` on the URL string hits both.
 
 ## CRM import
 

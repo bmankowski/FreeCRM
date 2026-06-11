@@ -159,4 +159,27 @@ class LinkActionTokenTest extends TestCase
 		);
 		$this->assertSame(99, $payload['mid']);
 	}
+
+	public function testSignUnsubscribeWithResubscribePairsTokens(): void
+	{
+		$tokenService = new LinkActionToken($this->config);
+		$token = $tokenService->signUnsubscribeWithResubscribe(
+			'Candidates',
+			9414,
+			'email_private',
+			'test@example.com',
+			'future_contact',
+			837
+		);
+		$unsubPayload = $tokenService->verify($token);
+		$this->assertIsArray($unsubPayload);
+		$this->assertSame('unsubscribe', $unsubPayload['action']);
+		$this->assertArrayHasKey('rs_t', $unsubPayload);
+		$rsPayload = $tokenService->verify((string) $unsubPayload['rs_t']);
+		$this->assertIsArray($rsPayload);
+		$this->assertSame('resubscribe', $rsPayload['action']);
+		$this->assertSame(9414, $rsPayload['record_id']);
+		$this->assertSame(837, $rsPayload['mid']);
+		$this->assertNotSame($unsubPayload['jti'], $rsPayload['jti']);
+	}
 }
