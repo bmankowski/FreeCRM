@@ -28,7 +28,7 @@
 			{assign var=END_DATE value=$RECORD->get('due_date')}
 			{assign var=END_TIME value=$RECORD->get('time_end')}
 			{assign var=STATUS value=$RECORD->get('status')}
-			{assign var=SHAREDOWNER value=\App\Modules\Base\UiTypes\SharedOwner::getSharedOwners($RECORD->get('crmid'), $RECORD->getModuleName())}
+			{assign var=SHAREDOWNER value=$SHARED_OWNERS[$RECORD->getId()]}
 			<div class="activityEntries padding5"
 				 {if !empty($COLOR_LIST[$RECORD->getId()])}
 					 style="background: {$COLOR_LIST[$RECORD->getId()]['background']}; color: {$COLOR_LIST[$RECORD->getId()]['text']}" 

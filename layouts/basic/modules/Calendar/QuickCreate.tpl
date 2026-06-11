@@ -118,41 +118,41 @@
 														<button type="button" class="btn btn-xs btn-primary previousDayBtn"><</button>
 													</th>
 													<th class="text-center taskPrevThreeDaysAgo">
-														{\App\Modules\Base\UiTypes\Date::getDisplayDateValue($THREEDAYSAGO)}
+														{$THREEDAYSAGO_DISPLAY}
 													</th>
 												</tr>
 											</table>
 										</div>
 										<div class="width1per7 paddingLRZero" id="twoDaysAgo">
 											<table class="table">
-												<tr><th class="text-center taskPrevTwoDaysAgo">{\App\Modules\Base\UiTypes\Date::getDisplayDateValue($TWODAYSAGO)}</th></tr>
+												<tr><th class="text-center taskPrevTwoDaysAgo">{$TWODAYSAGO_DISPLAY}</th></tr>
 											</table>
 										</div>
 										<div class="width1per7 paddingLRZero" id="oneDaysAgo">
 											<table class="table">
-												<tr><th class="text-center taskPrevOneDayAgo">{\App\Modules\Base\UiTypes\Date::getDisplayDateValue($ONEDAYAGO)}</th></tr>
+												<tr><th class="text-center taskPrevOneDayAgo">{$ONEDAYAGO_DISPLAY}</th></tr>
 											</table>
 										</div>
 										<div class="width1per7 paddingLRZero" id="cur_events">
 											 <table class="table">
-												<tr><th class="text-center taskCur">{\App\Modules\Base\UiTypes\Date::getDisplayDateValue($CURRENTDATE)}</th></tr>
+												<tr><th class="text-center taskCur">{$CURRENTDATE_DISPLAY}</th></tr>
 											</table>
 										</div>
 										<div class="width1per7 paddingLRZero" id="oneDaysLater">
 											<table class="table">
-												<tr><th class="text-center taskNextOneDayLater">{\App\Modules\Base\UiTypes\Date::getDisplayDateValue($ONEDAYLATER)}</th></tr>
+												<tr><th class="text-center taskNextOneDayLater">{$ONEDAYLATER_DISPLAY}</th></tr>
 											</table>
 										</div>
 										<div class="width1per7 paddingLRZero" id="twoDaysLater">
 											<table class="table">
-												<tr><th class="text-center taskNextTwoDaysLater">{\App\Modules\Base\UiTypes\Date::getDisplayDateValue($TWODAYLATER)}</th></tr>
+												<tr><th class="text-center taskNextTwoDaysLater">{$TWODAYLATER_DISPLAY}</th></tr>
 											</table>
 										</div>
 										<div class="width1per7 paddingLRZero" id="threeDaysLater">
 											<table class="table">
 												<tr>
 													<th class="text-center taskNextThreeDaysLater">
-														{\App\Modules\Base\UiTypes\Date::getDisplayDateValue($THREEDAYSLATER)}
+														{$THREEDAYSLATER_DISPLAY}
 													</th>
 													<th class="padding5">
 														<button type="button" class="btn btn-xs btn-primary nextDayBtn">></button>

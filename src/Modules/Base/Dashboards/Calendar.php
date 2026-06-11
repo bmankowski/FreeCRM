@@ -54,6 +54,7 @@ class Calendar  extends \App\Modules\Base\Views\Index
 
 		$currentUserModel = $request->getUser();
 		$viewer->assign('CURRENT_USER', $currentUserModel);
+		$viewer->assign('CUSTOM_VIEWS', \App\Modules\CustomView\Models\Record::getAllByGroup('Calendar'));
 
 		$content = $request->get('content');
 		if (!empty($content)) {

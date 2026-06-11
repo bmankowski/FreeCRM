@@ -17,7 +17,9 @@ class RecruitmentProjectKanban extends \App\Modules\Base\Widgets\Basic
     {
         $this->Config['tpl'] = 'RecruitmentProjectKanban.tpl';
         $projectId = $this->Record;
-        $project = \App\Modules\Base\Models\Record::getInstanceById($projectId, 'ProjektyRekrutacyjne');
+
+        /** @var \App\Modules\ProjektyRekrutacyjne\Models\Record $project */
+        $project = \App\Modules\ProjektyRekrutacyjne\Models\Record::getInstanceById($projectId, 'ProjektyRekrutacyjne');
         $candidatesByStatus = $project->getRelatedCandidates();
 
         foreach ($candidatesByStatus as $status => $candidates) {
@@ -30,6 +32,9 @@ class RecruitmentProjectKanban extends \App\Modules\Base\Widgets\Basic
             'configured' => \App\Modules\ProjektyRekrutacyjne\Services\RecruitmentStatusTransition::isConfigured(),
             'transitions' => \App\Modules\ProjektyRekrutacyjne\Services\RecruitmentStatusTransition::getAdjacencyMap(),
         ];
+        $this->Config['data']['statusTransitionsJson'] = \App\Security\Purifier::encodeHtml(
+            \App\Utils\Json::encode($this->Config['data']['statusTransitions'])
+        );
 
         return $this->Config;
     }

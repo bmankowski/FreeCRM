@@ -72,6 +72,10 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 	{
 		if ($this->viewer === null) {
 			$viewer = \App\Runtime\CRM_Viewer::getInstance();
+			$user = $vtigerRequest->getUser();
+			if ($user) {
+				$viewer->assign('USER_MODEL', $user);
+			}
 			if ($vtigerRequest->isAjax()) {
 				$moduleName = $vtigerRequest->getModule();
 				$viewer->assign('USER_MODEL', $vtigerRequest->getUser());

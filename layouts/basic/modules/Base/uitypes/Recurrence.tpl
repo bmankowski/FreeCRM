@@ -67,7 +67,7 @@
 		<input type="hidden" name="typeSaving">
 		<input id="{$MODULE}_editView_fieldName_{$FIELD_MODEL->get('name')}" type="hidden" name="{$FIELD_MODEL->getFieldName()}" 
 			   value="{$FIELD_MODEL->get('fieldvalue')}" />
-		{assign var="RECURRING_INFORMATION" value=\App\Modules\Base\UiTypes\Recurrence::getRecurringInfo($FIELD_MODEL->get('fieldvalue'))}
+		{assign var="RECURRING_INFORMATION" value=$FIELD_MODEL->getUITypeModel()->getRecurringInformationForTemplate($FIELD_MODEL->get('fieldvalue'))}
 		<div class="clearfix">
 			<div class="col-xs-4 paddingLRZero marginBottom10px">
 				<span class="control-label pull-left alignMiddle">{'LBL_RECURRING_TYPE'|t:$MODULE}</span>

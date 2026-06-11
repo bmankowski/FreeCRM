@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Modules\Settings\ModTracker\Views;
-use App\Modules\Settings\ModTrackerModels\Module;
 
 
 /* +***********************************************************************************************************************************
@@ -34,5 +33,19 @@ class ListView extends \App\Modules\Settings\Base\Views\Index
 			// Initial page load - return full page with MainLayout
 			$viewer->view('ListViewIndex.tpl', $qualifiedModuleName);
 		}
+	}
+
+	public function getFooterScripts(\App\Http\Vtiger_Request $request)
+	{
+		$footerScripts = parent::getFooterScripts($request);
+		$moduleName = $request->getModule();
+
+		$jsFileNames = [
+			'modules.Settings.Vtiger.resources.Index',
+			"modules.Settings.$moduleName.resources.ModTracker",
+		];
+
+		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
+		return array_merge($footerScripts, $jsScriptInstances);
 	}
 }

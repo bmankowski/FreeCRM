@@ -95,6 +95,7 @@
 										</optgroup>
 									{/foreach}
 									{*Required to include event fields for columns in calendar module advanced filter*}
+									{if !empty($EVENT_RECORD_STRUCTURE)}
 									{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$EVENT_RECORD_STRUCTURE}
 										<optgroup label='{$BLOCK_LABEL|t:"Events"}'>
 											{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
@@ -111,6 +112,7 @@
 										{/foreach}
 										</optgroup>
 									{/foreach}
+									{/if}
 								</select>
 							</div>
 							<input type="hidden" name="columnslist" value='{\App\Utils\Json::encode($SELECTED_FIELDS)}' />

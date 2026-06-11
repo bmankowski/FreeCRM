@@ -11,7 +11,7 @@
 						</div>
 						<div class="col-md-8" align="center" style="padding-right: 40px;">
 							<div class="btn-group" data-toggle="buttons">
-								{foreach name=BTN item=COUNT key=MODULE_DATA from=\App\Modules\Base\Widgets\ProductsServicesBasic::getModulesAndCount($RECORD)}
+								{foreach name=BTN item=COUNT key=MODULE_DATA from=$WIDGET['data']['modulesAndCount']}
 									<label class="btn btn-xs btn-default {if $smarty.foreach.BTN.first}active{/if}" title="{$MODULE_DATA|t:$MODULE_DATA}">
 										<input type="radio" name="mod" class="filterField" value="{$MODULE_DATA}" if {if $smarty.foreach.BTN.first}checked{/if}>
 										<span class="cursorPointer userIcon-{$MODULE_DATA}"></span>&nbsp;&nbsp;

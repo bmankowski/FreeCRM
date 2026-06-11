@@ -27,7 +27,7 @@
 </style>
 
 	<input type="hidden" class="project-id" value="{$PROJECT_ID}"/>
-	<input type="hidden" class="js-status-transitions" value="{\App\Security\Purifier::encodeHtml(\App\Utils\Json::encode($WIDGET['data']['statusTransitions']))}"/>
+	<input type="hidden" class="js-status-transitions" value="{$WIDGET['data']['statusTransitionsJson']}"/>
 	
 	{* Table 1: Initial screening *}
 	<table class="table table-bordered table-sm">

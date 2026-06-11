@@ -48,7 +48,7 @@
 							{if $smarty.foreach.rowData.iteration gt 1}
 								{assign var="TYPE_AVAILABLE_BLOCKS" value=$INVENTORY_BLOCKS}
 								{assign var="PREFIX" value='inventory_'}
-								{assign var="INVENTORY_FIELDS" value=\App\Modules\Base\Models\Inventory\App\Fields\Field::getInstance($FOR_MODULE)->getColumns()}
+								{assign var="INVENTORY_FIELDS" value=$INVENTORY_FIELD_COLUMNS}
 								{append var='INVENTORY_FIELDS' value='recordIteration'}
 							{else}
 								{assign var="TYPE_AVAILABLE_BLOCKS" value=$AVAILABLE_BLOCKS}
@@ -68,7 +68,7 @@
 									</td>
 								{/if}
 								<td class="cellLabel">
-									<span>{\vtlib\Functions:: textLength($_FIELD_VALUE)}</span>
+									<span>{$ROW_1_FIELD_PREVIEWS[$TYPE_NAME][$_HEADER_NAME]}</span>
 								</td>
 								<td class="cellLabel">
 									<input type="hidden" name="row_counter" value="{$_COUNTER}" />

@@ -345,6 +345,9 @@ class DetailView extends \App\Runtime\BaseModel
 					$widgetInstance = new $widgetClassName($module, $moduleModel, $record, $widget);
 					$widgetObject = $widgetInstance->getWidget();
 					if (count($widgetObject) > 0) {
+						if (!empty($widgetObject['tpl'])) {
+							$widgetObject['detailWidgetTemplate'] = vtemplate_path('Detail/Widget/' . $widgetObject['tpl'], $module);
+						}
 						$this->widgets[$widgetObject['wcol']][] = $widgetObject;
 					}
 				}

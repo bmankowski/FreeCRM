@@ -277,6 +277,8 @@ class Detail extends \App\Modules\Base\Views\Index
 		$viewer->assign('QUICK_LINKS', $linkModels);
 		$viewer->assign('ACTIVE_SIDEBAR_LINK', $activeLinkLabel);
 		$viewer->assign('DEFAULT_RECORD_VIEW', $currentUserModel->get('default_record_view'));
+		$viewer->assign('DETAIL_BLOCK_LINK_TOP_TEMPLATE', vtemplate_path('DetailViewBlockLink.tpl', $moduleName));
+		$viewer->assign('DETAIL_BLOCK_LINK_BOTTOM_TEMPLATE', vtemplate_path('DetailViewBlockLink.tpl', $moduleName));
 
 		$picklistDependencyDatasource = \App\Modules\PickList\DependencyPicklist::getPicklistDependencyDatasource($moduleName);
 		$viewer->assign('PICKLIST_DEPENDENCY_DATASOURCE', \App\Utils\Json::encode($picklistDependencyDatasource));
@@ -820,12 +822,18 @@ class Detail extends \App\Modules\Base\Views\Index
 			$relatedActivities = $moduleModel->getCalendarActivities($type, $pagingModel, 'all', $recordId);
 
 			$colorList = [];
+			$sharedOwners = [];
 			foreach ($relatedActivities as $activityModel) {
 				$colorList[$activityModel->getId()] = \App\Modules\Settings\DataAccess\Models\Module::executeColorListHandlers('Calendar', $activityModel->getId(), $activityModel);
+				$sharedOwners[$activityModel->getId()] = \App\Modules\Base\UiTypes\SharedOwner::getSharedOwners(
+					$activityModel->get('crmid'),
+					$activityModel->getModuleName()
+				);
 			}
 			$viewer = $this->getViewer($request);
 			$viewer->assign('RECORD', $recordModel);
 			$viewer->assign('COLOR_LIST', $colorList);
+			$viewer->assign('SHARED_OWNERS', $sharedOwners);
 			$viewer->assign('MODULE_NAME', $moduleName);
 			$viewer->assign('PAGING_MODEL', $pagingModel);
 			$viewer->assign('PAGE_NUMBER', $pageNumber);
@@ -915,6 +923,7 @@ class Detail extends \App\Modules\Base\Views\Index
 		$colorList = [];
 		foreach ($models as $record) {
 			$colorList[$record->getId()] = \App\Modules\Settings\DataAccess\Models\Module::executeColorListHandlers($relatedModuleName, $record->getId(), $record);
+			$this->assignRelationCommentDisplay($record);
 		}
 		$viewer = $this->getViewer($request);
 		$viewer->assign('COLOR_LIST', $colorList);
@@ -972,6 +981,18 @@ class Detail extends \App\Modules\Base\Views\Index
 
 		$header = $relationListView->getTreeHeaders();
 		$entries = $relationListView->getTreeEntries();
+		$commentMaxLength = (int) \App\Core\AppConfig::relation('COMMENT_MAX_LENGTH');
+		foreach ($entries as &$entry) {
+			$comment = (string) ($entry['rel_comment'] ?? '');
+			if ($comment !== '' && strlen($comment) > $commentMaxLength) {
+				$entry['rel_comment_display'] = \vtlib\Functions::textLength($comment, $commentMaxLength);
+				$entry['rel_comment_truncated'] = true;
+			} else {
+				$entry['rel_comment_display'] = $comment;
+				$entry['rel_comment_truncated'] = false;
+			}
+		}
+		unset($entry);
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $moduleName);
@@ -1042,10 +1063,18 @@ class Detail extends \App\Modules\Base\Views\Index
 		$pagingModel->set('page', $pageNumber);
 		$pagingModel->set('limit', $limitPage);
 		$histories = \App\Modules\Base\Widgets\HistoryRelation::getHistory($request, $pagingModel);
+		$user = $request->getUser();
+		$canSendMail = \App\Core\AppConfig::main('isActiveSendingMails')
+			&& \App\Modules\Mail\Models\Module::canUserSend((int) $user->getId());
+		$mailComposeUrl = $canSendMail
+			? \App\Modules\Mail\Models\Module::getComposeUrl($moduleName, (int) $request->get('record'))
+			: '';
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('RECORD_ID', $request->get('record'));
 		$viewer->assign('HISTORIES', $histories);
+		$viewer->assign('CAN_SEND_MAIL', $canSendMail);
+		$viewer->assign('MAIL_COMPOSE_URL', $mailComposeUrl);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('POPUP', false);
 		$viewer->assign('NO_MORE', $request->get('noMore'));
@@ -1064,5 +1093,18 @@ class Detail extends \App\Modules\Base\Views\Index
 		$viewer->assign('COORRDINATES', $coordinates);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
 		return $viewer->view('DetailViewMap.tpl', $moduleName, true);
+	}
+
+	private function assignRelationCommentDisplay(\App\Modules\Base\Models\Record $record): void
+	{
+		$comment = (string) $record->get('rel_comment');
+		$maxLength = (int) \App\Core\AppConfig::relation('COMMENT_MAX_LENGTH');
+		if ($comment !== '' && strlen($comment) > $maxLength) {
+			$record->set('rel_comment_display', \vtlib\Functions::textLength($comment, $maxLength));
+			$record->set('rel_comment_truncated', true);
+			return;
+		}
+		$record->set('rel_comment_display', $comment);
+		$record->set('rel_comment_truncated', false);
 	}
 }

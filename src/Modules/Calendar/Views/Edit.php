@@ -135,6 +135,10 @@ class Edit extends \App\Modules\Base\Views\Edit
 		$viewer->assign('MAPPING_RELATED_FIELD', \App\Utils\Json::encode(\App\Core\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));
 		// Enrich invitees with record metadata (replacing vtlib\Functions::getCRMRecordMetadata)
 		$invitees = $recordModel->getInvities();
+		foreach ($invitees as &$invitee) {
+			$invitee['status_label'] = \App\Modules\Events\Models\Record::getInvitionStatus($invitee['status'] ?? false);
+		}
+		unset($invitee);
 		$inviteeIds = array_filter(array_column($invitees, 'crmid'));
 		if (!empty($inviteeIds)) {
 			$metadata = (new \App\Db\Query())

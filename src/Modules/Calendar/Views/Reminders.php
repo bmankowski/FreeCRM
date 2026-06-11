@@ -27,17 +27,23 @@ class Reminders  extends \App\Modules\Base\Views\Index
 			$recordModels = \App\Modules\Calendar\Models\Module::getCalendarReminder();
 		}
 		$colorList = [];
+		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
+		$permissionToSendEmail = $permission && \App\Modules\Mail\Models\Module::canUserSend((int) \App\User\CurrentUser::getId());
 		foreach ($recordModels as $record) {
 			$record->updateReminderStatus(2);
 			$linkId = $record->get('link');
 			if ($linkId) {
 				$record->set('link_module_name', \App\Records\Record::getType($linkId));
+				if ($permissionToSendEmail) {
+					$record->set(
+						'compose_url',
+						\App\Modules\Mail\Models\Module::getComposeUrl($record->get('link_module_name'), $linkId)
+					);
+				}
 			}
 			$colorList[$record->getId()] = \App\Modules\Settings\DataAccess\Models\Module::executeColorListHandlers($moduleName, $record->getId(), $record);
 		}
-		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
-		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
-		$permissionToSendEmail = $permission && \App\Modules\Mail\Models\Module::canUserSend((int) \App\User\CurrentUser::getId());
 		$viewer->assign('COLOR_LIST', array_filter($colorList));
 		$viewer->assign('PERMISSION_TO_SENDE_MAIL', $permissionToSendEmail);
 		$viewer->assign('MODULE_NAME', $moduleName);

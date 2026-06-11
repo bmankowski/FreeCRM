@@ -18,6 +18,14 @@ class WYSIWYG extends \App\Modules\Base\Widgets\Basic
 	public function getWidget()
 	{
 		$this->Config['tpl'] = 'WYSIWYG.tpl';
+		$fieldName = $this->Data['field_name'] ?? '';
+		if ($fieldName !== '') {
+			$recordModel = \App\Modules\Base\Models\Record::getInstanceById((int) $this->Record, $this->Module);
+			$this->Config['data']['previewText'] = \vtlib\Functions::removeHtmlTags(
+				['link', 'style', 'img', 'script', 'base'],
+				decode_html($recordModel->get($fieldName))
+			);
+		}
 		return $this->Config;
 	}
 

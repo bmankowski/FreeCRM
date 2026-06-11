@@ -81,6 +81,13 @@ class QuickCreateAjax  extends \App\Modules\Base\Views\QuickCreateAjax
 		$viewer->assign('ONEDAYLATER', date('Y-n-j', strtotime('tomorrow')));
 		$viewer->assign('TWODAYLATER', date('Y-n-j', strtotime('+2 day')));
 		$viewer->assign('THREEDAYSLATER', date('Y-n-j', strtotime('+3 day')));
+		$viewer->assign('THREEDAYSAGO_DISPLAY', \App\Modules\Base\UiTypes\Date::getDisplayDateValue(date('Y-n-j', strtotime('-3 day'))));
+		$viewer->assign('TWODAYSAGO_DISPLAY', \App\Modules\Base\UiTypes\Date::getDisplayDateValue(date('Y-n-j', strtotime('-2 day'))));
+		$viewer->assign('ONEDAYAGO_DISPLAY', \App\Modules\Base\UiTypes\Date::getDisplayDateValue(date('Y-n-j', strtotime('yesterday'))));
+		$viewer->assign('CURRENTDATE_DISPLAY', \App\Modules\Base\UiTypes\Date::getDisplayDateValue(date('Y-n-j')));
+		$viewer->assign('ONEDAYLATER_DISPLAY', \App\Modules\Base\UiTypes\Date::getDisplayDateValue(date('Y-n-j', strtotime('tomorrow'))));
+		$viewer->assign('TWODAYLATER_DISPLAY', \App\Modules\Base\UiTypes\Date::getDisplayDateValue(date('Y-n-j', strtotime('+2 day'))));
+		$viewer->assign('THREEDAYSLATER_DISPLAY', \App\Modules\Base\UiTypes\Date::getDisplayDateValue(date('Y-n-j', strtotime('+3 day'))));
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUICK_CREATE_CONTENTS', $quickCreateContents);
 		$viewer->assign('USER_MODEL', $request->getUser());

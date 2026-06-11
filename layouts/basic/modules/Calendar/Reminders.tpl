@@ -48,9 +48,8 @@
 					{if $RECORD->get('link') neq ''}
 						<div>
 							{"FL_RELATION"|t:$MODULE_NAME}: <strong>{$RECORD->getDisplayValue('link')}</strong>
-							{if $PERMISSION_TO_SENDE_MAIL}
-								{assign var=COMPOSE_URL value=\App\Modules\Mail\Models\Module::getComposeUrl($RECORD->get('link_module_name'), $RECORD->get('link'))}
-								<a target="_blank" class="pull-right btn btn-default btn-xs" href="{$COMPOSE_URL}" title="{"LBL_COMPOSE"|t:"Mail"}">
+							{if $PERMISSION_TO_SENDE_MAIL && $RECORD->get('compose_url')}
+								<a target="_blank" class="pull-right btn btn-default btn-xs" href="{$RECORD->get('compose_url')}" title="{"LBL_COMPOSE"|t:"Mail"}">
 									<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
 								</a>
 							{/if}

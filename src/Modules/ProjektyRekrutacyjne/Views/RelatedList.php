@@ -240,7 +240,8 @@ class RelatedList extends \App\Modules\Base\Views\RelatedList
         }
         $viewer->assign('SEARCH_DETAILS', $searchParams);
         $viewer->assign('SEARCH_PARAMS', $searchParams);
-        $viewer->assign('LOCKED_EMPTY_FIELDS', []);
+        $lockedEmptyFields = [];
+        $viewer->assign('LOCKED_EMPTY_FIELDS', $lockedEmptyFields);
         $viewer->assign('SHOW_HEADER', true);
         $viewer->assign('CUSTOM_VIEW_LIST', []);
         $suppressListPreviewMinimalToolbar = ($forceListPreviewByDefault && 'ListPreview' === $relatedView);
@@ -256,6 +257,10 @@ class RelatedList extends \App\Modules\Base\Views\RelatedList
         
         // Prepare data for RelatedList template - move function calls from templates to controller
         $viewer->assign('AUTO_REFRESH_LIST_ON_CHANGE', \App\Core\AppConfig::performance('AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE'));
+        $viewer->assign('ORDER_BY_JSON', \App\Security\Purifier::encodeHtml(\App\Utils\Json::encode($orderBy)));
+        $viewer->assign('RELATION_TAB_LABEL', \App\Security\Purifier::encodeHtml($relationModel->get('label')));
+        $viewer->assign('SEARCH_PARAMS_JSON', \App\Security\Purifier::encodeHtml(\App\Utils\Json::encode($searchParams)));
+        $viewer->assign('LOCKED_EMPTY_FIELDS_JSON', \App\Security\Purifier::encodeHtml(\App\Utils\Json::encode($lockedEmptyFields)));
 
         return $viewer->view('RelatedList.tpl', $moduleName, true);
     }

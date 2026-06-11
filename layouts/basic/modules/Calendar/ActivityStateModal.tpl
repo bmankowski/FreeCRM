@@ -12,8 +12,7 @@
 					<h3 class="modal-title">{"LBL_SET_RECORD_STATUS"|t:$MODULE_NAME}</h3>
 				</div>
 				<div class="pull-right">
-					{if $RECORD->get('link') neq '' && $PERMISSION_TO_SENDE_MAIL}
-						{assign var=COMPOSE_URL value=\App\Modules\Mail\Models\Module::getComposeUrl($RECORD->get('link_module_name'), $RECORD->get('link'))}
+					{if $RECORD->get('link') neq '' && $PERMISSION_TO_SENDE_MAIL && $COMPOSE_URL}
 						<a target="_blank" class="btn btn-default" href="{$COMPOSE_URL}" title="{"LBL_COMPOSE"|t:"Mail"}">
 							<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
 						</a>

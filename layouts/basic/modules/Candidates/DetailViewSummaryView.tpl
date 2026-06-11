@@ -2,7 +2,7 @@
 <!-- tpl-Base-DetailViewSummaryView -->
 {strip}
     <div>
-        {include file=\App\Layout::getTemplatePath('DetailViewBlockLink.tpl', $MODULE_NAME) TYPE_VIEW='SummaryTop'}
+        {include file=$DETAIL_BLOCK_LINK_TOP_TEMPLATE TYPE_VIEW='SummaryTop'}
     </div>
 
     <div class="o-detail-widgets row no-gutters mx-n1">
@@ -17,13 +17,13 @@
             <div class="col-md-{$span} px-1">
                 {foreach key=key item=WIDGET from=$WIDGETCOLUMN}
                     {assign var=FILE value='Detail/Widget/'|cat:$WIDGET['tpl']}
-                    {include file=\App\Layout::getTemplatePath($FILE, $MODULE_NAME)}
+                    {include file=$WIDGET['detailWidgetTemplate']}
                 {/foreach}
             </div>
         {/foreach}
     </div>
     <div>
-        {include file=\App\Layout::getTemplatePath('DetailViewBlockLink.tpl', $MODULE_NAME) TYPE_VIEW='SummaryBottom'}
+        {include file=$DETAIL_BLOCK_LINK_BOTTOM_TEMPLATE TYPE_VIEW='SummaryBottom'}
     </div>
     <!-- /tpl-Base-DetailViewSummaryView -->
 {/strip}

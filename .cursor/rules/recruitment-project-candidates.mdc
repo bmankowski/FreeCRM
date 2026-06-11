@@ -27,6 +27,7 @@ globs:
 
 ## Kanban widget (summary tab)
 
+- Load project via `ProjektyRekrutacyjne\Models\Record::getInstanceById()` — `getRelatedCandidates()` is module-specific (not on `Base\Models\Record`); add `/** @var \App\Modules\ProjektyRekrutacyjne\Models\Record $project */` for Intelephense. Same pattern as `CandidatesRecruitmentProjects` widget.
 - Rendered server-side in `SummaryViewWidgets.tpl` (`RecruitmentProjectKanban.tpl`) — **not** a `widgetContainer_*` AJAX widget.
 - **`loadWidgets()` does not refresh the kanban.** After manual add, update chips in the DOM (`Detail.js` → `refreshUiAfterManualCandidatesAdd`) or return candidate payloads from `AddManualCandidatesAjax`.
 - (+) button: `AddManualCandidatesAjax` + `Vtiger_Popup_Js` multi-select `Candidates`.

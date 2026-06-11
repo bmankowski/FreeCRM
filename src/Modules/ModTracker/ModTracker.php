@@ -16,6 +16,7 @@ namespace App\Modules\ModTracker;
 
 class ModTracker {
 
+	public $moduleName;
 	public $default_order_by = '';
 	public $default_sort_order = 'ASC';
 

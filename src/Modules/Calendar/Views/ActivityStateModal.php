@@ -20,6 +20,13 @@ class ActivityStateModal  extends \App\Modules\Base\Views\Index
 		$id = $request->get('record');
 		$recordInstance = \App\Modules\Base\Models\Record::getInstanceById($id, $moduleName);
 		$permissionToSendEmail = \App\Modules\Mail\Models\Module::canUserSend((int) \App\User\CurrentUser::getId());
+		$composeUrl = '';
+		if ($permissionToSendEmail && $recordInstance->get('link')) {
+			$composeUrl = \App\Modules\Mail\Models\Module::getComposeUrl(
+				$recordInstance->get('link_module_name'),
+				$recordInstance->get('link')
+			);
+		}
 		
 		// Pre-process record to add link_module_name if link exists
 		$linkId = $recordInstance->get('link');
@@ -29,6 +36,7 @@ class ActivityStateModal  extends \App\Modules\Base\Views\Index
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('PERMISSION_TO_SENDE_MAIL', $permissionToSendEmail);
+		$viewer->assign('COMPOSE_URL', $composeUrl);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('RECORD', $recordInstance);
 		$viewer->assign('USER_MODEL', $request->getUser());

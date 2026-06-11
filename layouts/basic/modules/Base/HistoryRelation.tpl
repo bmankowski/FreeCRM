@@ -33,9 +33,8 @@
 										<button data-url="{$HISTORY['url']}" type="button" title="{"LBL_SHOW_PREVIEW_EMAIL"|t:"Mail"}" class="showModal btn btn-xs btn-default">
 											<span class="body-icon glyphicon glyphicon-search"></span>
 										</button>
-									{if \App\Core\AppConfig::main('isActiveSendingMails') && \App\Modules\Mail\Models\Module::canUserSend($USER_MODEL->getId())}
-										{assign var=COMPOSE_URL value=\App\Modules\Mail\Models\Module::getComposeUrl($MODULE_NAME, $RECORD_ID)}
-										<button type="button" class="btn btn-xs btn-default sendMailBtn" data-url="{$COMPOSE_URL}&replyTo={$HISTORY['id']}" title="{"LBL_COMPOSE"|t:"Mail"}">
+									{if $CAN_SEND_MAIL}
+										<button type="button" class="btn btn-xs btn-default sendMailBtn" data-url="{$MAIL_COMPOSE_URL}&replyTo={$HISTORY['id']}" title="{"LBL_COMPOSE"|t:"Mail"}">
 											<span class="glyphicon glyphicon-envelope"></span>
 										</button>
 									{/if}

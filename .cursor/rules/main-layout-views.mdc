@@ -91,6 +91,17 @@ Wzorzec: `Settings/MailAccount/EditContent.tpl`. Pomocnicze akcje (np. test poł
 - Kontroler powinien dziedziczyć po `App\Modules\Settings\Base\Views\Index` (lub `ListView`).
 - `Settings\Base\Views\Index::preProcess()` ustawia `$MENUS` — wystarczy, jeśli szablon używa MainLayout.
 
+## Settings — footer scripts (custom pages)
+
+Widoki dziedziczące po `Settings\Base\Views\Index` (nie po `ListView`) **nie** ładują automatycznie JS modułu. Dodaj `getFooterScripts()`:
+
+- JS strony: `modules.Settings.$moduleName.resources.<Name>` (plik w `public/layouts/basic/modules/Settings/<Module>/resources/`)
+- Przy `Settings_Vtiger_Index_Js.showMessage`: też `modules.Settings.Vtiger.resources.Index`
+
+`Settings\Base\Views\ListView` sam dokłada `ListView.js` i `Settings/Vtiger/resources/$moduleName` — niestandardowe strony (np. ModTracker: checkboxy + AJAX bez Save) wymagają własnego wiringu.
+
+Wzorce: `Settings/ModTracker/Views/ListView.php`, `Settings/Mail/Views/Config.php`.
+
 ## Detail view — `mode=` na pełnej stronie (nie tylko AJAX)
 
 `Detail::process()`: AJAX → `echo invokeExposedMethod($mode)`; pełna strona z `?mode=showRelatedList` (itd.) → wynik handlera trafia do `DETAIL_CONTENT` w `DetailViewHeader.tpl`.

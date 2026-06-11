@@ -36,6 +36,7 @@ class HistoryRelation extends \App\Modules\Base\Widgets\Basic
 	{
 		$this->Config['tpl'] = 'HistoryRelation.tpl';
 		$this->Config['url'] = $this->getUrl();
+		$this->Config['data']['historyActions'] = self::getActions();
 		return $this->Config;
 	}
 

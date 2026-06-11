@@ -26,6 +26,8 @@ class ProductsServices extends \App\Modules\Base\Widgets\Basic
 	{
 		$this->Config['url'] = $this->getUrl();
 		$this->Config['tpl'] = 'ProductsServicesBasic.tpl';
+		$recordModel = \App\Modules\Base\Models\Record::getInstanceById((int) $this->Record, $this->Module);
+		$this->Config['data']['modulesAndCount'] = \App\Modules\Products\Models\SummaryWidget::getModulesAndCount($recordModel);
 		return $this->Config;
 	}
 

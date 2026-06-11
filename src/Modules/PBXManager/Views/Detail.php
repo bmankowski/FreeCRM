@@ -42,6 +42,14 @@ class Detail  extends \App\Modules\Base\Views\Detail
 		if ($recordModel->get('callstatus') != 'completed') {
 			$recordModel->set('recordingurl', '');
 		}
+		$callerName = $recordModel->get('customernumber');
+		$customerId = $recordModel->get('customer');
+		if ($customerId) {
+			$customerModule = $recordModel->get('customertype');
+			$entityNames = \App\Utils\Utils::getEntityName($customerModule, [$customerId]);
+			$callerName = $entityNames[$customerId] ?? $callerName;
+		}
+		$this->getViewer($request)->assign('CALLER_NAME', $callerName);
 		return parent::preProcess($request, true);
 	}
 }

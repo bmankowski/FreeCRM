@@ -152,8 +152,22 @@ class Import  extends \App\Modules\Base\Views\Index
 					$inventoryFieldsBlock[$blocksName[$key]] = $data;
 				}
 				$viewer->assign('INVENTORY_BLOCKS', $inventoryFieldsBlock);
+				$viewer->assign('INVENTORY_FIELD_COLUMNS', $inventoryFieldModel->getColumns());
 				$viewer->assign('INVENTORY', true);
 			}
+			$rowPreviewData = is_array($rowData) ? $rowData : ['LBL_STANDARD_FIELDS' => $rowData];
+			$fieldPreviews = [];
+			foreach ($rowPreviewData as $typeName => $fieldsData) {
+				if (!is_array($fieldsData)) {
+					continue;
+				}
+				foreach ($fieldsData as $headerName => $fieldValue) {
+					if (is_string($fieldValue) || is_numeric($fieldValue)) {
+						$fieldPreviews[$typeName][$headerName] = \vtlib\Functions::textLength((string) $fieldValue);
+					}
+				}
+			}
+			$viewer->assign('ROW_1_FIELD_PREVIEWS', $fieldPreviews);
 			$importModule = \App\Modules\Base\Models\Module::getInstance('Import')->setImportModule($moduleName);
 			$viewer->assign('AVAILABLE_BLOCKS', $importModule->getFieldsByBlocks());
 			$viewer->assign('ENCODED_MANDATORY_FIELDS', \App\Utils\Json::encode($moduleMeta->getMandatoryFields()));

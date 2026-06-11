@@ -11,9 +11,6 @@
 -->*}
 {strip}
 <!-- layouts/basic/modules/Base/AdvanceFilterCondition.tpl -->
-	{if !$USER_MODEL}
-		{assign var=USER_MODEL value=\App\User\CurrentUser::get()}
-	{/if}
 	{assign var=SELECTED_FIELD_MODEL value=null}
 	{assign var=FIELD_TYPE value=''}
 	{assign var=ADVANCE_FILTER_OPTIONS value=array()}

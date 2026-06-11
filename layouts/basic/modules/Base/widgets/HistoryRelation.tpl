@@ -10,7 +10,7 @@
 					</div>
 					<div class="col-xs-7">
 						<select class="select2 relatedHistoryTypes" multiple>
-							{foreach from=\App\Modules\Base\Widgets\HistoryRelation::getActions() item=ACTIONS}
+							{foreach from=$WIDGET['data']['historyActions'] item=ACTIONS}
 								<option selected value="{$ACTIONS}">{$ACTIONS|t:$ACTIONS}</option>	
 							{/foreach}
 						</select>

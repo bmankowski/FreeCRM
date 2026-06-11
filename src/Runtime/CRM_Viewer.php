@@ -184,9 +184,7 @@ class CRM_Viewer extends \Smarty
 		// Register UIType and utility classes used in templates
 		$this->registerClass('\App\\Fields\\Owner', '\App\\Fields\\Owner');
 		$this->registerClass('\App\\Fields\\DateTimeField', '\App\\Fields\\DateTimeField');
-		$this->registerClass('CurrencyField', '\App\\Fields\\CurrencyField');
 		$this->registerClass('\App\Fields\CurrencyField', '\App\\Fields\\CurrencyField');
-		$this->registerClass('vtlib\\Functions', 'vtlib\\Functions');
 		// Register additional model classes used in templates
 		$this->registerClass('\App\\Modules\\Users\\Models\\Privileges', '\App\\Modules\\Users\\Models\\Privileges');
 		$this->registerClass('\App\\Modules\\Users\\Models\\Record', '\App\\Modules\\Users\\Models\\Record');
@@ -195,12 +193,9 @@ class CRM_Viewer extends \Smarty
 		$this->registerClass('\App\\Modules\\Base\\Models\\Record', '\App\\Modules\\Base\\Models\\Record');
 		$this->registerClass('\App\\Modules\\Base\\Models\\RelationListView', '\App\\Modules\\Base\\Models\\RelationListView');
 		$this->registerClass('\App\\Modules\\Base\\Models\\Field', '\App\\Modules\\Base\\Models\\Field');
-		$this->registerClass('\App\\Modules\\Base\\Models\\InventoryField', '\App\\Modules\\Base\\Models\\InventoryField');
 		$this->registerClass('\App\\Modules\\Base\\Helpers\\Util', '\App\\Modules\\Base\\Helpers\\Util');
 		$this->registerClass('\App\\Security\\Privilege', '\App\\Security\\Privilege');
 		$this->registerClass('\App\\Modules\\Users\\Models\\Colors', '\App\\Modules\\Users\\Models\\Colors');
-		$this->registerClass('\App\\Modules\\Settings\\ModuleManager\\Models\\Library', '\App\\Modules\\Settings\\ModuleManager\\Models\\Library');
-		$this->registerClass('App\Modules\Settings\Mail\Models\Config', '\App\\Modules\\Settings\\Mail\\Models\\Config');
 		$this->registerClass('PBXManager_Record_Model', '\App\\Modules\\PBXManager\\Models\\Record');
 		$this->registerClass('Settings_SMSNotifier_ProviderField_Model', '\App\\Modules\\Settings\\SMSNotifier\\Models\\ProviderField');
 

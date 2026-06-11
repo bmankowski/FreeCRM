@@ -23,7 +23,7 @@
 			</span>
 			<span class="input-group-addon inviteName {if $TITLE}popoverTooltip{/if}" data-content="{$TITLE}" style="width: 100px;">{$LABEL}</span>
 			<span class="input-group-addon inviteStatus">
-				{assign var=STATUS_LABEL value=\App\Modules\Events\Models\Record::getInvitionStatus($INVITIE['status'])}
+				{assign var=STATUS_LABEL value=$INVITIE['status_label']|default:''}
 				{if $INVITIE['status'] == '1'}
 					<span class="glyphicon glyphicon-ok-sign popoverTooltip" data-placement="top" data-content="{$STATUS_LABEL|t:$MODULE} {if $INVITIE['time']}({\App\Fields\DateTimeField::convertToUserFormat($INVITIE['time'])}){/if}" aria-hidden="true"></span>
 				{elseif $INVITIE['status'] == '2'}

@@ -79,6 +79,14 @@ class Inventory  extends \App\Modules\Base\Views\Index
 		$viewer->assign('AGGREGATION_INPUT_TYPE', $config['aggregation'] == 0 ? 'radio' : 'checkbox');
 		$viewer->assign('GROUP_TAXS', $accountTaxs['taxs']);
 		$viewer->assign('ACCOUNT_NAME', $accountTaxs['name']);
+		if ($taxType === '0' && !empty($record) && !empty($recordModule)) {
+			$taxField = \App\Modules\Base\Models\InventoryField::getTaxField($recordModule);
+			if ($taxField) {
+				$recordModel = \App\Modules\Base\Models\Record::getInstanceById((int) $record, $recordModule);
+				$viewer->assign('RECORD_MODEL', $recordModel);
+				$viewer->assign('SELECTED_TAXES', \App\Modules\Base\UiTypes\Taxes::getValues($recordModel->get($taxField)));
+			}
+		}
 		echo $viewer->view('InventoryTaxes.tpl', $moduleName, true);
 	}
 }

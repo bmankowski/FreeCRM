@@ -183,7 +183,10 @@ class Detail extends \App\Modules\Base\Views\Detail
 
 		if ($moduleName == 'Events') {
 			$invitees = $recordModel->getInvities();
-			// Enrich invitees with record metadata (replacing vtlib\Functions::getCRMRecordMetadata)
+			foreach ($invitees as &$invitee) {
+				$invitee['status_label'] = \App\Modules\Events\Models\Record::getInvitionStatus($invitee['status'] ?? false);
+			}
+			unset($invitee);
 			$inviteeIds = array_filter(array_column($invitees, 'crmid'));
 			if (!empty($inviteeIds)) {
 				$metadata = (new \App\Db\Query())
@@ -192,19 +195,17 @@ class Detail extends \App\Modules\Base\Views\Detail
 					->where(['in', 'crmid', $inviteeIds])
 					->indexBy('crmid')
 					->all();
-				// Add metadata and labels to each invitee
 				foreach ($invitees as &$invitee) {
 					if (!empty($invitee['crmid']) && isset($metadata[$invitee['crmid']])) {
 						$invitee['metadata'] = $metadata[$invitee['crmid']];
 						$invitee['metadata']['label'] = \App\Records\Record::getLabel($invitee['crmid']);
-						// Prepare translated module name for template (replaces Vtiger_Language_Handler::getTranslateSingularModuleName)
 						if (!empty($invitee['metadata']['setype'])) {
 							$invitee['metadata']['module_label'] = \App\Runtime\Vtiger_Language_Handler::getTranslateSingularModuleName($invitee['metadata']['setype']);
-							// Also prepare full title for convenience
 							$invitee['title'] = $invitee['metadata']['module_label'] . ': ' . $invitee['metadata']['label'] . ' - ' . $invitee['email'];
 						}
 					}
 				}
+				unset($invitee);
 			}
 			$viewer->assign('INVITIES_SELECTED', $invitees);
 		}

@@ -10,9 +10,8 @@
 					</div>
 					<div class="col-xs-5">
 						<div class="pull-right">
-							{if \App\Core\AppConfig::main('isActiveSendingMails') && \App\Modules\Mail\Models\Module::canUserSend($USER_MODEL->getId())}
-								{assign var=COMPOSE_URL value=\App\Modules\Mail\Models\Module::getComposeUrl($MODULE_NAME, $RECORD->getId())}
-								<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$COMPOSE_URL}" data-module="{$MODULE_NAME}" data-record="{$RECORD->getId()}" title="{"LBL_COMPOSE"|t:"Mail"}">
+							{if \App\Core\AppConfig::main('isActiveSendingMails') && $WIDGET['data']['canUserSend']}
+								<button type="button" class="btn btn-sm btn-default sendMailBtn" data-url="{$WIDGET['data']['composeUrl']}" data-module="{$MODULE_NAME}" data-record="{$RECORD->getId()}" title="{"LBL_COMPOSE"|t:"Mail"}">
 									<span class="glyphicon glyphicon-envelope" title="{"LBL_COMPOSE"|t:"Mail"}"></span>
 								</button>&nbsp;
 							{/if}

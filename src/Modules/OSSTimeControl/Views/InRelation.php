@@ -77,6 +77,9 @@ class InRelation  extends \App\Modules\Base\Views\Index
 		$relationField = $relationModel->getRelationField();
 
 		$relatedSummary = $relatedModuleModel->getRelatedSummary($relationListView->getRelationQuery());
+		if (!empty($relatedSummary['totalTime'])) {
+			$relatedSummary['totalTimeFormatted'] = \vtlib\Functions::decimalTimeFormat($relatedSummary['totalTime']);
+		}
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('RELATED_SUMMARY', $relatedSummary);

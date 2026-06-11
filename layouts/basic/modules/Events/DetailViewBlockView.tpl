@@ -49,7 +49,7 @@
 									{assign var=ICON value='<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>'}
 								{/if}
 								<div>
-									{assign var=STATUS_LABEL value=\App\Modules\Events\Models\Record::getInvitionStatus($INVITIE['status'])}
+									{assign var=STATUS_LABEL value=$INVITIE['status_label']}
 									{if $INVITIE['status'] == '1'}
 										<span class="glyphicon glyphicon-ok-sign popoverTooltip" data-placement="top" data-content="{$STATUS_LABEL|t:$MODULE_NAME} {if $INVITIE['time']}({\App\Fields\DateTimeField::convertToUserFormat($INVITIE['time'])}){/if}" aria-hidden="true"></span>
 									{elseif $INVITIE['status'] == '2'}

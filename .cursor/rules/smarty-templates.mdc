@@ -11,6 +11,11 @@ globs: ["layouts/**/*.tpl"]
 - `|@vtemplate_path:$QUALIFIED_MODULE` resolves against a specific module (use for cross-module includes).
 - **Filename only** when a module is passed: `{include file='PreferenceMailbox.tpl'|@vtemplate_path:'Mail'}` — not `modules/Mail/PreferenceMailbox.tpl` (modifier already builds `modules/{module}/{name}`; a full path falls back to `modules/Base/modules/...` and fails).
 
+### PHP (assigning resolved paths to Smarty)
+
+- **No `\App\Layout::getTemplatePath()`** — that class does not exist (`App\Layout\Icon` only).
+- Use `vtemplate_path($templateName, $moduleName)` or `\App\Runtime\CRM_Viewer::getInstance()->getTemplatePath(...)`.
+
 ## Common directives
 
 - Inherit layout:  `{extends file="MainLayout.tpl"|@vtemplate_path}`
@@ -23,5 +28,6 @@ globs: ["layouts/**/*.tpl"]
 - Pass variables: `$viewer->assign('NAME', $value);`
 - Render: `$viewer->view('Edit.tpl', $qualifiedModuleName);`
 - AJAX/modal views: render fragment only — do NOT `extends MainLayout.tpl`.
+- **No new `\Class::method()` in `.tpl` files** — prepare data in PHP (see `fix-warnings.mdc` §4). Templates consume `$VAR` only.
 
 For full-page views missing the menu/header, see `main-layout-views.mdc`.

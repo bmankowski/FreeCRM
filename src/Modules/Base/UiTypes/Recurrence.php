@@ -103,6 +103,11 @@ class Recurrence extends BaseUiType
 		return $result;
 	}
 
+	public function getRecurringInformationForTemplate($value): array
+	{
+		return self::getRecurringInfo($value);
+	}
+
 	/**
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
 	 * @param string $value

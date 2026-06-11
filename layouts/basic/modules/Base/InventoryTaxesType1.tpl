@@ -1,9 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 <!-- layouts/basic/modules/Base/InventoryTaxesType1.tpl -->
-	{if $TAX_TYPE == '0' && $TAX_FIELD && $RECORD}
-		{assign var=RECORD_MODEL value=\App\Modules\Base\Models\Record::getInstanceById($RECORD)}
-		{assign var=SELECTED_TAXES value=\App\Modules\Base\UiTypes\Taxes::getValues($RECORD_MODEL->get($TAX_FIELD))}
+	{if $TAX_TYPE == '0' && $TAX_FIELD && $RECORD && $RECORD_MODEL}
 		{if count($SELECTED_TAXES) > 0}
 			<div class="panel panel-default">
 				<div class="panel-heading">
