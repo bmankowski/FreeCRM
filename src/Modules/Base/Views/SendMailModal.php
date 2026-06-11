@@ -53,6 +53,7 @@ class SendMailModal extends BasicModal
 		$viewer->assign('DEFAULT_SMTP', \App\Email\Mail::getDefaultSmtp());
 		$viewer->assign('TEMPLETE_LIST', \App\Email\Mail::getTempleteList($templateModule));
 		$viewer->assign('USER_MODEL', $request->getUser());
+		$this->assignComposeAttachmentLimits($viewer);
 		$viewer->view('SendMailModal.tpl', $moduleName);
 		$this->postProcess($request);
 	}
@@ -132,5 +133,32 @@ class SendMailModal extends BasicModal
 			$queryGenerator->addNativeCondition(['not in', "$baseTableName.$baseTableId" => $excluded]);
 		}
 		return $queryGenerator->createQuery();
+	}
+
+	protected function assignComposeAttachmentLimits(\App\Runtime\CRM_Viewer $viewer): void
+	{
+		$viewer->assign('MAIL_COMPOSE_ATTACHMENT_LIMITS', [
+			'maxFileMb' => (int) \App\Core\AppConfig::module('Mail', 'attachment_max_size_mb'),
+			'maxTotalMb' => (int) \App\Core\AppConfig::module('Mail', 'compose_max_total_mb'),
+			'maxFiles' => (int) \App\Core\AppConfig::module('Mail', 'compose_max_files'),
+			'maxFileBytes' => \App\Modules\Mail\Models\ComposeAttachment::maxFileBytes(),
+			'maxTotalBytes' => \App\Modules\Mail\Models\ComposeAttachment::maxTotalBytes(),
+		]);
+	}
+
+	public function getModalScripts(\App\Http\Vtiger_Request $request)
+	{
+		return array_merge(
+			parent::getModalScripts($request),
+			$this->checkAndConvertJsScripts(['modules.Mail.resources.ComposeAttachments'])
+		);
+	}
+
+	public function getModalCss(\App\Http\Vtiger_Request $request)
+	{
+		return array_merge(
+			parent::getModalCss($request),
+			$this->checkAndConvertCssStyles(['modules.Mail.ComposeAttachments'])
+		);
 	}
 }

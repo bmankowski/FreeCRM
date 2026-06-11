@@ -5,7 +5,7 @@ This is the **pragmatic, low-ceremony** version of `users-new-architecture.plan-
 Context that shapes every decision in this document:
 
 - FreeCRM is a single-developer fork of YetiForce/Vtiger.
-- It runs on **one** Docker host (`local.itconnect.pl`), MariaDB on `127.0.0.1:3306`. No Redis, no multi-webhead, no Kubernetes.
+- It runs on **one** Docker host (`test.itconnect.pl`), MariaDB on `127.0.0.1:3306`. No Redis, no multi-webhead, no Kubernetes.
 - ~170 source files call `\App\Security\Privilege::isPermitted()` today.
 - `Privilege::isPermitted()` is already broken into nine `checkXxx()` step methods returning reason codes via the static `$isPermittedLevel`.
 - `\App\User\CurrentUser` (51 lines) and `$request->getUser()` / `$request->getUserId()` already exist as the "current user" accessors.

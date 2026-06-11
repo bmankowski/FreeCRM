@@ -67,6 +67,7 @@ globs: ["**/*.php"]
 - `Users\Models\Record::getRole()` returns `string`; role APIs (`Roles\Models\Record::getInstanceById`, `PrivilegeUtil::getRoleSubordinates`) expect `int` — cast with `(int)`.
 - Methods typed `@return \App\Db\Query` must not return `[]`; use `(new \App\Db\Query())->from('…')->where('0=1')` for an empty result set.
 - `ROOT_DIRECTORY` is runtime-only — not in PHPStan bootstrap. In files you fix, use `\defined('ROOT_DIRECTORY') ? \constant('ROOT_DIRECTORY') : dirname(__DIR__, N)` (N = levels to project root) instead of bare `ROOT_DIRECTORY`.
+- `ROOT_DIRECTORY` has **no trailing slash** — join to `cache/` or `storage/` with `DIRECTORY_SEPARATOR` (or `/` after `ROOT_DIRECTORY`), never `ROOT_DIRECTORY . 'cache/…'` (breaks as `htmlcache/…` / `htmlstorage/…`).
 - Duplicate keys in literal arrays (overlapping locale maps) and PHPDoc return types that disagree with runtime (`string` vs `array{…}`) are level-5 errors.
 - Keep callee PHPDoc aligned with runtime: e.g. `VTJsonCondition::evaluate()` takes a JSON **string**, returns **bool**.
 

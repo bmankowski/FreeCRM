@@ -684,16 +684,10 @@ class Mailer
 		}
 		$attachmentsToRemove = [];
 		if ($rowQueue['attachments']) {
-			$attachments = \App\Utils\Json::decode($rowQueue['attachments']);
-			if (isset($attachments['ids'])) {
-				$attachments = array_merge($attachments, \App\Email\Mail::getAttachmentsFromDocument($attachments['ids']));
-				unset($attachments['ids']);
-			}
+			$attachments = \App\Modules\Mail\Models\Attachment::resolveForSend(
+				\App\Utils\Json::decode($rowQueue['attachments'])
+			);
 			foreach ($attachments as $path => $name) {
-				if (is_numeric($path)) {
-					$path = $name;
-					$name = '';
-				}
 				$this->attachment($path, $name);
 				$pathReal = realpath($path);
 				if ($pathReal !== false && strpos($pathReal, 'cache' . DIRECTORY_SEPARATOR) !== false) {

@@ -5,7 +5,7 @@ set -euo pipefail
 
 ROOT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd -P)"
 
-REMOTE_HOST="${FREECRM_SYNC_REMOTE_HOST:-local.itconnect.pl}"
+REMOTE_HOST="${FREECRM_SYNC_REMOTE_HOST:-test.itconnect.pl}"
 REMOTE_USER="${FREECRM_SYNC_REMOTE_USER:-bmankowski}"
 REMOTE_PATH="${FREECRM_SYNC_REMOTE_PATH:-/opt/freecrm}"
 REMOTE="${REMOTE_USER}@${REMOTE_HOST}"
@@ -31,14 +31,14 @@ Usage:
 
 Commands:
   help         Show this help.
-  pushsrc      Send source changes from localhost to local.itconnect.pl.
-  pushdb       Dump localhost DB and import it on local.itconnect.pl.
-  pushstorage  Send storage/ files to local.itconnect.pl (no --delete; DB paths only work if blobs exist).
+  pushsrc      Send source changes from localhost to test.itconnect.pl.
+  pushdb       Dump localhost DB and import it on test.itconnect.pl.
+  pushstorage  Send storage/ files to test.itconnect.pl (no --delete; DB paths only work if blobs exist).
   pushall      Run pushsrc, pushdb, and pushstorage.
-  pulldb       Dump DB from local.itconnect.pl and import it on localhost.
+  pulldb       Dump DB from test.itconnect.pl and import it on localhost.
 
 Defaults can be changed with environment variables:
-  FREECRM_SYNC_REMOTE_HOST       default: local.itconnect.pl
+  FREECRM_SYNC_REMOTE_HOST       default: test.itconnect.pl
   FREECRM_SYNC_REMOTE_USER       default: bmankowski
   FREECRM_SYNC_REMOTE_PATH       default: /opt/freecrm
   FREECRM_SYNC_DB_SERVICE        default: db

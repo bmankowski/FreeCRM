@@ -45,14 +45,26 @@ class Outbound
 		if (!empty($params['language'])) {
 			$textParser->setLanguage($params['language']);
 		}
-		$textParser->setParams(array_diff_key($params, array_flip(['subject', 'content', 'attachments', 'recordModel', 'subjectOverride'])));
+		$textParser->setParams(array_diff_key($params, array_flip([
+			'subject', 'content', 'attachments', 'recordModel', 'subjectOverride', 'contentOverride', 'composeAttachmentTokens',
+		])));
 		$sourceRecord = isset($params['sourceRecord']) ? (int) $params['sourceRecord'] : 0;
 		$sourceModule = isset($params['sourceModule']) ? (string) $params['sourceModule'] : '';
 		if ($sourceRecord > 0 && $sourceModule !== '') {
 			$textParser->setSourceRecord($sourceRecord, $sourceModule);
 		}
 
+		$attachmentInput = [];
+		if (!empty($params['attachments']) && is_array($params['attachments'])) {
+			$attachmentInput = array_merge($attachmentInput, $params['attachments']);
+		}
+		if (isset($template['attachments']) && is_array($template['attachments'])) {
+			$attachmentInput = array_merge($attachmentInput, $template['attachments']);
+		}
+		$resolvedAttachments = Attachment::resolveForSend($attachmentInput);
+
 		$mailParams = self::buildMailParams($params, $template);
+		$mailParams['attachments'] = $resolvedAttachments;
 		$crmMessageId = self::prepare($userId, $senderRef, $mailParams);
 
 		$textParser->setMailMessageId($crmMessageId);
@@ -61,19 +73,25 @@ class Outbound
 		if (!empty($params['subjectOverride'])) {
 			$subject = (string) $params['subjectOverride'];
 		}
+		if (!empty($params['contentOverride'])) {
+			$content = (string) $params['contentOverride'];
+		}
 
 		self::finalizeParsedContent($crmMessageId, $subject, $content);
 		$mailParams['subject'] = $subject;
 		$mailParams['body_html'] = $content;
 		$mailParams['content'] = $content;
-		if (isset($template['attachments'])) {
-			$mailParams['attachments'] = array_merge(
-				empty($mailParams['attachments']) ? [] : $mailParams['attachments'],
-				$template['attachments']
-			);
-		}
+		$mailParams['attachments'] = $resolvedAttachments;
+
+		[$accountId] = self::resolveSenderAccountId($senderRef);
+		Attachment::storeFromPaths($crmMessageId, $accountId ?? 0, $resolvedAttachments);
 
 		self::deliver($userId, $senderRef, $crmMessageId, $mailParams);
+
+		$composeTokens = $params['composeAttachmentTokens'] ?? [];
+		if (is_array($composeTokens) && $composeTokens !== []) {
+			ComposeAttachment::deleteTokens($userId, $composeTokens);
+		}
 
 		return $crmMessageId;
 	}
@@ -85,12 +103,23 @@ class Outbound
 	 */
 	public static function sendRaw(int $userId, string $senderRef, array $params): int
 	{
+		if (!empty($params['attachments']) && is_array($params['attachments'])) {
+			$params['attachments'] = Attachment::resolveForSend($params['attachments']);
+		}
 		$crmMessageId = self::prepare($userId, $senderRef, $params);
 		$body = (string) ($params['body_html'] ?? $params['content'] ?? '');
 		self::finalizeParsedContent($crmMessageId, (string) ($params['subject'] ?? ''), $body);
 		$params['body_html'] = $body;
 		$params['content'] = $body;
+		[$accountId] = self::resolveSenderAccountId($senderRef);
+		if (!empty($params['attachments'])) {
+			Attachment::storeFromPaths($crmMessageId, $accountId ?? 0, $params['attachments']);
+		}
 		self::deliver($userId, $senderRef, $crmMessageId, $params);
+		$composeTokens = $params['composeAttachmentTokens'] ?? [];
+		if (is_array($composeTokens) && $composeTokens !== []) {
+			ComposeAttachment::deleteTokens($userId, $composeTokens);
+		}
 
 		return $crmMessageId;
 	}
@@ -205,13 +234,17 @@ class Outbound
 
 		$row = Message::getById($crmMessageId);
 		$bodyHtml = (string) ($row['body_html'] ?? $params['body_html'] ?? '');
+		$attachments = $params['attachments'] ?? [];
+		if (is_array($attachments)) {
+			$attachments = Attachment::resolveForSend($attachments);
+		}
 		$envelope = [
 			'to' => self::normalizeAddresses($params['to'] ?? []),
 			'cc' => self::normalizeAddresses($params['cc'] ?? []),
 			'bcc' => self::normalizeAddresses($params['bcc'] ?? []),
 			'subject' => (string) ($row['subject'] ?? $params['subject'] ?? ''),
 			'body_html' => $bodyHtml,
-			'attachments' => $params['attachments'] ?? [],
+			'attachments' => $attachments,
 		];
 
 		$result = Sender::send($accountRow, $envelope);
@@ -267,6 +300,21 @@ class Outbound
 			array_intersect_key($queueParams, array_flip(\App\Email\Mailer::$quoteColumn)),
 			['mail_message_id' => $crmMessageId]
 		));
+	}
+
+	/**
+	 * @return array{0:?int,1:?int,2:string,3:?string}
+	 */
+	/**
+	 * @return array{0:?int}
+	 */
+	private static function resolveSenderAccountId(string $senderRef): array
+	{
+		if (str_starts_with($senderRef, 'account:')) {
+			return [(int) substr($senderRef, 8)];
+		}
+
+		return [null];
 	}
 
 	/**

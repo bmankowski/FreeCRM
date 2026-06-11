@@ -33,3 +33,13 @@ ModuleManager create/update rewrites `user_privileges/tabdata.php`. If log shows
 ```bash
 docker compose exec -T -u root app chmod 664 user_privileges/tabdata.php
 ```
+
+## Cache dirs created as root
+
+`docker compose exec app` runs as root. `mkdir` under bind-mounted `cache/` leaves `root:root` `755` dirs that block PHP-FPM (`www-data`) — e.g. mail compose uploads (`cache/mail-compose/`, log: `mkdir(): Permission denied`).
+
+```bash
+docker compose exec -T -u root app chown -R www-data:www-data /var/www/html/cache/mail-compose
+```
+
+Prefer `-u www-data` for manual cache writes, or let entrypoint create runtime dirs (`cache/mail-compose`, `storage/Mail` in `docker/php/entrypoint.sh`).

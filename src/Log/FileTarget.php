@@ -33,6 +33,22 @@ class FileTarget extends \yii\log\FileTarget
 	public $logVars = ['_GET', '_POST', '_FILES', '_SESSION'];
 
 	/**
+	 * @var list<string>
+	 */
+	public $maskVars = [
+		'_SERVER.HTTP_AUTHORIZATION',
+		'_SERVER.PHP_AUTH_USER',
+		'_SERVER.PHP_AUTH_PW',
+		'_POST.content',
+		'_POST.contentOverride',
+		'_POST.body',
+		'_POST.body_html',
+		'_POST.body_text',
+		'_POST.message',
+		'_POST.mail_body',
+	];
+
+	/**
 	 * Initializes the route.
 	 * This method is invoked after the route is created by the route manager.
 	 */
@@ -144,6 +160,7 @@ class FileTarget extends \yii\log\FileTarget
 	protected function getContextMessage()
 	{
 		$context = \yii\helpers\ArrayHelper::filter($GLOBALS, $this->logVars);
+		$context = $this->maskContext($context);
 		$library = \App\Modules\Settings\ConfReport\Models\Module::getConfigurationLibrary();
 		$directiveValues = \App\Modules\Settings\ConfReport\Models\Module::getConfigurationValue(true);
 		$permissionsFiles = \App\Modules\Settings\ConfReport\Models\Module::getPermissionsFiles(true);
@@ -164,7 +181,28 @@ class FileTarget extends \yii\log\FileTarget
 		foreach ($context as $key => $value) {
 			$result .= "\n\${$key} = " . \yii\helpers\VarDumper::dumpAsString($value);
 		}
-		//$result .= PHP_EOL.
 		return $result . "====================================================================================================================================\n";
+	}
+
+	/**
+	 * @param array<string, mixed> $context
+	 * @return array<string, mixed>
+	 */
+	private function maskContext(array $context): array
+	{
+		$items = \yii\helpers\ArrayHelper::flatten($context);
+		foreach ($this->maskVars as $var) {
+			foreach ($items as $key => $value) {
+				if (\yii\helpers\StringHelper::matchWildcard($var, $key, ['caseSensitive' => false])) {
+					$replacement = '***';
+					if (is_string($value) && $value !== '') {
+						$replacement = '*** (' . strlen($value) . ' chars)';
+					}
+					\yii\helpers\ArrayHelper::setValue($context, $key, $replacement);
+				}
+			}
+		}
+
+		return $context;
 	}
 }

@@ -528,11 +528,11 @@ flowchart TD
 
 ### 17.12 Tests and verification
 
-Minimum: browser on `http://local.itconnect.pl/`; inspect `cache/logs/system.log`.
+Minimum: browser on `http://test.itconnect.pl/`; inspect `cache/logs/system.log`.
 
 #### Portal — workflow creation
 
-1. Open `http://local.itconnect.pl/index.php?module=Workflows&parent=Settings&view=Edit`.
+1. Open `http://test.itconnect.pl/index.php?module=Workflows&parent=Settings&view=Edit`.
 2. Select trigger `ON_RELATION_MODIFY`.
 3. Confirm relation section: source module, destination module, status fields.
 4. Set source `ProjektyRekrutacyjne`, destination `Kandydaci`, destination status (e.g. `Zaproszony`), source status empty.

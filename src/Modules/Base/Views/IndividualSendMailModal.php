@@ -60,6 +60,7 @@ class IndividualSendMailModal extends SendMailModal
 		$viewer->assign('INITIAL_FIELD', $initialField);
 		$viewer->assign('INITIAL_PREVIEW', $this->getInitialPreview($request, $records, $templateList, $initialField));
 		$viewer->assign('USER_MODEL', $request->getUser());
+		$this->assignComposeAttachmentLimits($viewer);
 		$viewer->view('IndividualSendMailModal.tpl', $moduleName);
 		$this->postProcess($request);
 	}

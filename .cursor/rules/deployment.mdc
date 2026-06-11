@@ -32,3 +32,14 @@ sudo chgrp www-data docker/nginx/certs/HOST.privkey.pem && sudo chmod 640 docker
 ```
 
 Renew: same mounts, `certbot/dns-cloudflare renew --cert-name HOST`, then recopy + reload nginx (`docker compose exec web nginx -s reload` on server).
+
+## Deploy a single migration
+
+```bash
+rsync -az migrations/Users/mXXXX_....php bmankowski@test.itconnect.pl:/opt/freecrm/migrations/Users/
+ssh bmankowski@test.itconnect.pl 'cd /opt/freecrm && docker compose exec -T app php yii migrate --migrationPath=migrations/Users/ --interactive=0'
+```
+
+Full source sync: `scripts/sync-freecrm.sh pushsrc`.
+
+If the migration touches `yetiforce_menu`, regen menu cache on the server after migrate (see `settings-menu-icons.mdc` — `refreshMenuFiles()` inside migrate is unreliable).

@@ -44,6 +44,16 @@
         "LBL_MAIL_SEND_STATUS_SENT": "Sent",
         "LBL_MAIL_SEND_STATUS_FAILED": "Failed",
         "LBL_MAIL_SEND_STATUS_PREPARED": "Queued",
-        "LBL_MAIL_OPENED_AT": "Opened at"
+        "LBL_MAIL_OPENED_AT": "Opened at",
+        "LBL_ATTACHMENTS": "Attachments",
+        "LBL_DROP_ATTACHMENTS_HERE": "Drop files here or click to browse",
+        "LBL_TEMPLATE_ATTACHMENTS": "Template attachments (included automatically)",
+        "LBL_MAIL_ATTACHMENT_TOO_LARGE": "File exceeds maximum upload size",
+        "LBL_MAIL_ATTACHMENT_TOTAL_TOO_LARGE": "Total attachment size exceeds the limit",
+        "LBL_MAIL_ATTACHMENT_MAX_FILES": "Maximum number of attachments reached",
+        "LBL_MAIL_ATTACHMENT_INVALID": "Invalid attachment file",
+        "LBL_MAIL_ATTACHMENT_BLOCKED_TYPE": "This file type is not allowed",
+        "LBL_MAIL_ATTACHMENT_UPLOAD_FAILED": "Attachment upload failed",
+        "LBL_MAIL_COMPOSE_STAGING_CLEANUP": "Compose attachment cleanup"
     }
 }

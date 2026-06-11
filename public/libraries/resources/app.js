@@ -1627,7 +1627,7 @@ var app = {
 							}
 
 						}
-						if (typeof Vtiger_Index_Js !== 'undefined' && container.find('.js-mail-preview-section').length) {
+						if (typeof Vtiger_Index_Js !== 'undefined' && (container.find('.js-mail-preview-section').length || container.find('.js-mail-attachments').length)) {
 							Vtiger_Index_Js.registerSendMailModalView(container);
 						}
 						currentElement.removeAttr("disabled");

@@ -26,6 +26,7 @@ alwaysApply: false
 ### `cache/logs/system.log`
 - **Purpose**: Runtime errors and application issues.
 - **When to check**: After every meaningful change, before considering the task complete.
+- **Request context block**: Each flush appends `$_GET`/`$_POST`/`$_FILES`/`$_SESSION` via `App\Log\FileTarget::getContextMessage()`. Mail HTML in `$_POST.content` (and related body keys) is masked — `*** (N chars)`. Other large POST fields still appear in full.
 
 ### `cache/logs/cron.log`
 - **Purpose**: stdout from `cron/vtigercron.php`.

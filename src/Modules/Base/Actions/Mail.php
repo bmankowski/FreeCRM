@@ -88,6 +88,10 @@ class Mail extends \App\Base\Controllers\BaseActionController
 			$content = $request->getForHtml('content');
 			$sendEditedContent = $subject !== '' && $content !== '' && count($rows) === 1;
 			$userId = (int) $request->getUser()->getId();
+			$attachmentTokens = self::parseAttachmentTokens($request);
+			$userAttachments = $attachmentTokens !== []
+				? \App\Modules\Mail\Models\ComposeAttachment::resolveTokens($userId, $attachmentTokens)
+				: [];
 			foreach ($rows as $row) {
 				$templateDetail = \App\Email\Mail::getTemplete($template) ?: [];
 				$senderRef = (string) $request->get('senderRef');
@@ -117,6 +121,15 @@ class Mail extends \App\Base\Controllers\BaseActionController
 				];
 				if ($sendEditedContent && $subject !== '') {
 					$mailParams['subjectOverride'] = $subject;
+				}
+				if ($sendEditedContent && $content !== '') {
+					$mailParams['contentOverride'] = $content;
+				}
+				if ($userAttachments !== []) {
+					$mailParams['attachments'] = $userAttachments;
+				}
+				if ($attachmentTokens !== []) {
+					$mailParams['composeAttachmentTokens'] = $attachmentTokens;
 				}
 				$result = \App\Email\Mailer::sendFromTemplate($mailParams);
 				if (!$result) {
@@ -178,6 +191,7 @@ class Mail extends \App\Base\Controllers\BaseActionController
 				'content' => \App\Utils\TemplateStyles::inlineEmailCss($template['content'] ?? ''),
 				'missingSourceContext' => true,
 				'warning' => 'Ten szablon wymaga kontekstu projektu (sourceRecord).',
+				'templateAttachments' => \App\Modules\Mail\Models\ComposeAttachment::getTemplateAttachmentMeta((int) $templateId),
 			];
 		}
 		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, $moduleName);
@@ -207,7 +221,28 @@ class Mail extends \App\Base\Controllers\BaseActionController
 			'senderType' => \App\Modules\Mail\Models\Module::resolveSenderType($template),
 			'templateSmtpId' => \App\Email\Mail::resolveTemplateSmtpId($template),
 			'defaultSenderRef' => \App\Modules\Mail\Models\Module::defaultSenderRefForTemplate($template, $userId),
+			'templateAttachments' => \App\Modules\Mail\Models\ComposeAttachment::getTemplateAttachmentMeta((int) $templateId),
 		];
+	}
+
+	/**
+	 * @return list<string>
+	 */
+	private static function parseAttachmentTokens(\App\Http\Vtiger_Request $request): array
+	{
+		$raw = $request->get('attachmentTokens');
+		if ($raw === null || $raw === '') {
+			return [];
+		}
+		if (is_array($raw)) {
+			return array_values(array_filter(array_map('strval', $raw)));
+		}
+		$decoded = \App\Utils\Json::decode((string) $raw);
+		if (is_array($decoded)) {
+			return array_values(array_filter(array_map('strval', $decoded)));
+		}
+
+		return [];
 	}
 
 	/**

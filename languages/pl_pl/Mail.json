@@ -44,6 +44,16 @@
         "LBL_MAIL_SEND_STATUS_SENT": "Wysłana",
         "LBL_MAIL_SEND_STATUS_FAILED": "Błąd wysyłki",
         "LBL_MAIL_SEND_STATUS_PREPARED": "W kolejce",
-        "LBL_MAIL_OPENED_AT": "Otwarto"
+        "LBL_MAIL_OPENED_AT": "Otwarto",
+        "LBL_ATTACHMENTS": "Załączniki",
+        "LBL_DROP_ATTACHMENTS_HERE": "Upuść pliki tutaj lub kliknij, aby przeglądać",
+        "LBL_TEMPLATE_ATTACHMENTS": "Załączniki szablonu (dołączone automatycznie)",
+        "LBL_MAIL_ATTACHMENT_TOO_LARGE": "Plik przekracza maksymalny rozmiar",
+        "LBL_MAIL_ATTACHMENT_TOTAL_TOO_LARGE": "Łączny rozmiar załączników przekracza limit",
+        "LBL_MAIL_ATTACHMENT_MAX_FILES": "Osiągnięto limit liczby załączników",
+        "LBL_MAIL_ATTACHMENT_INVALID": "Nieprawidłowy plik załącznika",
+        "LBL_MAIL_ATTACHMENT_BLOCKED_TYPE": "Ten typ pliku jest niedozwolony",
+        "LBL_MAIL_ATTACHMENT_UPLOAD_FAILED": "Nie udało się przesłać załącznika",
+        "LBL_MAIL_COMPOSE_STAGING_CLEANUP": "Czyszczenie tymczasowych załączników"
     }
 }

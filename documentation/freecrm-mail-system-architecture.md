@@ -836,7 +836,7 @@ Status legend: ✅ answered · ⚠️ default chosen, confirm before the relevan
    - SSalesProcesses → `assigned_contact_email` (placeholder — verify)
    Query `vtiger_field` for each `tabid` and `uitype IN (13, 104)` at the start of Phase 2. The result becomes a config array in `App\Modules\Mail\Models\Binding\ByEmail`.
 
-17. 🔍 **`App\Security\Encryption` key.** Verify it is configured on `local.itconnect.pl`, included in backups, and stable across the rollout (do not rotate during Phase 1).
+17. 🔍 **`App\Security\Encryption` key.** Verify it is configured on `test.itconnect.pl`, included in backups, and stable across the rollout (do not rotate during Phase 1).
 
 These questions do **not** block writing the architecture. Phase 1 and 2 can start with the defaults above; #11 only matters at Phase 3.
 

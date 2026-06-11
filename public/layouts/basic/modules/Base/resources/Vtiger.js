@@ -178,6 +178,7 @@ var Vtiger_Index_Js = {
 	 */
 	registerSendMailModalView: function (modalContainer, postData) {
 		postData = postData || {};
+		var mailComposeAttachments = null;
 		var mailSenderPicker = null;
 		var mailForm = modalContainer.find('form.validateForm');
 		var previewSection = modalContainer.find('.js-mail-preview-section');
@@ -200,6 +201,10 @@ var Vtiger_Index_Js = {
 					mailSenderPicker = initMailSenderPicker();
 				}
 			});
+		}
+		if (typeof Mail_ComposeAttachments_Js !== 'undefined' && modalContainer.find('.js-mail-attachments').length) {
+			mailComposeAttachments = jQuery.extend({}, Mail_ComposeAttachments_Js);
+			mailComposeAttachments.init(modalContainer, postData);
 		}
 		if (previewSection.length) {
 			var mailModule = previewSection.data('mailModule');
@@ -335,6 +340,9 @@ var Vtiger_Index_Js = {
 					if (senderRef) {
 						sendData.senderRef = senderRef;
 					}
+				}
+				if (mailComposeAttachments) {
+					sendData.attachmentTokens = JSON.stringify(mailComposeAttachments.getTokens());
 				}
 				delete sendData.view;
 				AppConnector.request(sendData).then(function (response) {

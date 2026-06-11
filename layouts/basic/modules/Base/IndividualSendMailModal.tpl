@@ -24,6 +24,7 @@
 				<label class="control-label" for="mailSender">{"LBL_SEND_FROM"|t:"Mail"}</label>
 				<select class="select2" id="mailSender"></select>
 			</div>
+			{include file='partials/MailComposeAttachments.tpl'|@vtemplate_path:'Base'}
 			<div class="form-group">
 				<label class="control-label" for="field">{'LBL_EMAIL_ADRESS'|t}</label>
 				<select class="select2" id="field" data-validation-engine="validate[required]">

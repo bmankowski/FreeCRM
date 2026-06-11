@@ -8,6 +8,8 @@ globs:
   - "public/layouts/basic/modules/Base/resources/Vtiger.js"
   - "layouts/basic/modules/Base/IndividualSendMailModal.tpl"
   - "public/layouts/basic/modules/Mail/resources/SenderPicker.js"
+  - "public/layouts/basic/modules/Mail/resources/ComposeAttachments.js"
+  - "layouts/basic/modules/Base/partials/MailComposeAttachments.tpl"
 alwaysApply: false
 ---
 
@@ -51,3 +53,22 @@ Passing `sourceModule === moduleName` triggers `>>> No relationModel instance, r
 - Template passes context via `data-mail-*` on `.js-mail-preview-section` (raw `Json::encode`, never `toSafeHTML` on JSON — breaks `selected_ids`).
 - Preview uses a request sequence counter; stale responses are ignored. Re-bind with namespaced events (`.mailPreview`, `.mailSend`).
 - **Scroll chain:** `registerMailComposeScrollChain()` (same file) — wheel on modal (capture, `passive: false`): scroll **down** = `.modal-body` first, then `.js-mail-content`; scroll **up** = content first, then body. Only when `.js-mail-preview-section` is visible and content overflows. Skips `.select2-*` and PerfectScrollbar rails; call `modalBody.data('ps').update()` after body scroll.
+- **Attachments:** `Mail_ComposeAttachments_Js` + partial `Base/partials/MailComposeAttachments.tpl`. Staged upload via `Mail&action=UploadComposeAttachment`; send passes `attachmentTokens` JSON to `Base\Actions\Mail::sendMails`. Template document list from `previewMail` → `templateAttachments`. Staging under `cache/mail-compose/{userId}/` (`ROOT_DIRECTORY` has no trailing slash — use `DIRECTORY_SEPARATOR` before `cache`). Cron `LBL_MAIL_COMPOSE_STAGING_CLEANUP`. Model: `Mail\Models\ComposeAttachment`.
+
+## Attachment staging permissions
+
+PHP-FPM runs as `www-data`. `cache/mail-compose/` must be writable by `www-data` (user subdirs created on upload).
+
+- `docker compose exec app` defaults to **root** — `mkdir cache/mail-compose` as root → `root:root` `755` → `www-data` cannot `mkdir` inside → `LBL_MAIL_ATTACHMENT_UPLOAD_FAILED` (log: `mkdir(): Permission denied` in `ComposeAttachment.php`).
+- Entrypoint pre-creates `cache/mail-compose` with `www-data` ownership on `app` start; dirs created later as root still need a one-time fix.
+- Fix: `docker compose exec -T -u root app chown -R www-data:www-data /var/www/html/cache/mail-compose` (or delete dir + restart `app`).
+- `move_uploaded_file` failures log `tmp`, `dest`, `is_uploaded` to `system.log` under category `Mail`.
+
+## Attachment persistence (after send)
+
+- On send, staged files copy to **`storage/Mail/{Y/m}/{accountId}/{messageId}/`** + `u_yf_mail_attachments` (`Attachment::storeFromPaths`). Same `ROOT_DIRECTORY` rule — never `ROOT_DIRECTORY . 'storage/…'` (yields `/var/www/htmlstorage/…`).
+- `storage/Mail/` is not in git; entrypoint creates it. Send-time `mkdir(): Permission denied` in `Attachment.php` → same root-owned bind-mount issue as staging (see `docker-commands.mdc`).
+
+## system.log noise
+
+- `App\Log\FileTarget` dumps `$_GET`/`$_POST` on each export. Mail body fields (`content`, `contentOverride`, `body*`, …) are **masked** as `*** (N chars)` — do not log full HTML there.

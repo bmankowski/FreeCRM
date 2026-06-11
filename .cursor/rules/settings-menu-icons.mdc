@@ -1,13 +1,43 @@
 ---
-description: "How to add Settings sidebar menu blocks, submenus, and icons — read when registering Settings entries or fixing empty menu icons"
+description: "Menu icons — Settings sidebar (vtiger_settings_blocks) and main app menu (yetiforce_menu); read when fixing empty icons or renaming modules"
 globs:
   - "migrations/Users/**"
   - "src/Modules/Settings/**"
+  - "user_privileges/menu_*.php"
   - "public/layouts/basic/skins/icons/**"
 alwaysApply: false
 ---
 
-# Settings menu and icons
+# Menu icons
+
+## Main sidebar menu (`yetiforce_menu`)
+
+| Layer | Table / file | Icon column |
+|-------|----------------|-------------|
+| DB | `yetiforce_menu` | `icon` |
+| Runtime cache | `user_privileges/menu_{role}.php` | `'icon'` key per entry |
+
+Rendered via `App\Modules\Base\Models\Menu::getMenuIcon()` → `layouts/basic/modules/Base/menu/Module.tpl`.
+
+- Empty `icon` on a Module row → fallback `userIcon-{mod}` (module name from `vtiger_tab.name`).
+- Non-empty `icon` in DB **overrides** the fallback — after a module rename, stale values like `userIcon-Kandydaci` show nothing if that CSS class was removed.
+- **Module rename:** update `yetiforce_menu.icon` to `userIcon-<NewModuleName>` and ensure `.userIcon-<NewModuleName>` exists in `userIcons.css` (+ run minify).
+
+Reference: `m260611_000001_fix_candidates_menu_icon.php`.
+
+### Regenerate menu cache after DB changes
+
+`Record::refreshMenuFiles()` called from inside `yii migrate` often leaves stale `user_privileges/menu_*.php` (DB updated, cache not). After any `yetiforce_menu` migration, regen explicitly:
+
+```bash
+docker compose exec -T app php bin/regenerate_user_privileges.php
+```
+
+Menu-only alternative: bootstrap as in `bin/regenerate_user_privileges.php`, then `(new \App\Modules\Settings\Menu\Models\Record())->refreshMenuFiles()`.
+
+Verify: check `'icon'` for the module in `user_privileges/menu_0.php`. Migrations that call `refreshMenuFiles()` should set `public $transaction = false;`.
+
+## Settings menu and icons
 
 ## Data model
 

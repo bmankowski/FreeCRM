@@ -1,0 +1,51 @@
+.mail-compose-dropzone {
+	border: 2px dashed #ccc;
+	border-radius: 4px;
+	background: #fafafa;
+	padding: 1rem;
+	text-align: center;
+	cursor: pointer;
+	transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.mail-compose-dropzone:hover,
+.mail-compose-dropzone.dragover {
+	border-color: #5cb85c;
+	background: #f4fff4;
+}
+
+.mail-compose-dropzone__content {
+	color: #666;
+}
+
+.mail-compose-dropzone__text {
+	display: block;
+	margin-top: 0.35rem;
+}
+
+.mail-compose-attachment-list {
+	margin-top: 0.5rem;
+}
+
+.mail-compose-attachment-list li {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0.35rem 0.5rem;
+	border: 1px solid #e5e5e5;
+	border-radius: 3px;
+	margin-bottom: 0.35rem;
+	background: #fff;
+}
+
+.mail-compose-attachment-list .mail-compose-attachment-name {
+	flex: 1;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	margin-right: 0.5rem;
+}
+
+.mail-compose-template-attachments li {
+	background: #f5f5f5;
+}

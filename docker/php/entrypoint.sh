@@ -15,7 +15,7 @@ chown -R www-data:www-data cache storage || true
 chmod -R a+rwX config cache storage user_privileges 2>/dev/null || true
 
 # Installer also checks write access to these paths.
-mkdir -p cache/addressBook cache/images cache/import cron/modules 2>/dev/null || true
+mkdir -p cache/addressBook cache/images cache/import cache/mail-compose storage/Mail cron/modules 2>/dev/null || true
 chmod -R a+rwX cache cron modules libraries 2>/dev/null || true
 
 exec "$@"
