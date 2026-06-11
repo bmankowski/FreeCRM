@@ -42,4 +42,6 @@ ssh bmankowski@test.itconnect.pl 'cd /opt/freecrm && docker compose exec -T app 
 
 Full source sync: `scripts/sync-freecrm.sh pushsrc`.
 
+**Agent policy:** never run `pushsrc` automatically — ask the user first, then deploy only after explicit approval.
+
 If the migration touches `yetiforce_menu`, regen menu cache on the server after migrate (see `settings-menu-icons.mdc` — `refreshMenuFiles()` inside migrate is unreliable).

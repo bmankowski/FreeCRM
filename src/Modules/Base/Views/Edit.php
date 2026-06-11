@@ -252,6 +252,7 @@ class Edit extends \App\Modules\Base\Views\Index
 			}
 			$viewer->assign('CURRENCY', $currency);
 			$viewer->assign('CURRENCY_SYMBOLAND', \vtlib\Functions::getCurrencySymbolandRate($currency));
+			$viewer->assign('INVENTORY_CURRENCIES', \vtlib\Functions::getAllCurrency(true));
 		}
 		
 		$viewer->assign('INVENTORY_ITEMS_NO', count($inventoryRows));

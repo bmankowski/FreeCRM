@@ -108,14 +108,13 @@
 					<tr class="listViewEntries" data-id={$LISTVIEW_ENTRY->getId()} data-recordUrl='{$LISTVIEW_ENTRY->getDetailViewUrl()}' id="{$MODULE}_listView_row_{$smarty.foreach.listview.index+1}">
 						<td class="{$WIDTHTYPE}"><input type="checkbox" value="{$LISTVIEW_ENTRY->getId()}" title="{"LBL_SELECT_SINGLE_ROW"|t}" class="listViewEntriesCheckBox"></td>
 						{foreach key=LISTVIEW_HEADER_KEY item=LISTVIEW_HEADER from=$LISTVIEW_HEADERS}
-							{assign var=REPORT_MODEL value=\App\Modules\Reports\Models\Record::getCleanInstance($LISTVIEW_ENTRY->getId())}
 							<td nowrap class="{$WIDTHTYPE}">
 								<a href="{$LISTVIEW_ENTRY->getDetailViewUrl()}">{$LISTVIEW_ENTRY->get($LISTVIEW_HEADER_KEY)|t:$MODULE}</a>
 								{if $LISTVIEW_HEADER@last}
 									</td><td nowrap class="{$WIDTHTYPE}">
 									<div class="pull-right actions">
 										<span class="actionImages">
-											{if $REPORT_MODEL->isEditable()}
+											{if $LISTVIEW_ENTRY->isEditable()}
 												<a href='{$LISTVIEW_ENTRY->getEditViewUrl()}'><span title="{"LBL_EDIT"|t:$MODULE}" class="glyphicon glyphicon-pencil alignMiddle"></span></a>&nbsp;
 												{if $LISTVIEW_ENTRY->isDefault() eq false}
 													<a class="deleteRecordButton"><span title="{"LBL_DELETE"|t:$MODULE}" class="glyphicon glyphicon-trash alignMiddle"></span></a>

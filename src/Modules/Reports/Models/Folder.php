@@ -137,11 +137,7 @@ class Folder extends \App\Runtime\BaseModel
 			$reportModels = array();
 			$countReportsList = count($reportsList);
 			for ($i = 0; $i < $countReportsList; $i++) {
-				$reportModel = new \App\Modules\Reports\Models\Record();
-
-				$reportModel->setData($reportsList[$i])->setModuleFromInstance($reportModuleModel);
-				$reportModels[] = $reportModel;
-				unset($reportModel);
+				$reportModels[] = $this->createInitializedReportRecord($reportsList[$i], $reportModuleModel);
 			}
 			return $reportModels;
 		}
@@ -375,6 +371,14 @@ class Folder extends \App\Runtime\BaseModel
 		return 0;
 	}
 
+	private function createInitializedReportRecord(array $rowData, \App\Modules\Base\Models\Module $reportModuleModel): \App\Modules\Reports\Models\Record
+	{
+		$reportModel = new \App\Modules\Reports\Models\Record();
+		$reportModel->setData($rowData)->setModuleFromInstance($reportModuleModel);
+		$reportModel->initialize();
+		return $reportModel;
+	}
+
 	/**
 	 * Function to get all Report Record Models
 	 * @param array $allReportsList
@@ -388,11 +392,9 @@ class Folder extends \App\Runtime\BaseModel
 		foreach ($allReportsList as $key => $reportsList) {
 			$countReportsList = count($reportsList);
 			for ($i = 0; $i < $countReportsList; $i++) {
-				$reportModel = new \App\Modules\Reports\Models\Record();
-				$reportModel->setData($reportsList[$i])->setModuleFromInstance($reportModuleModel);
+				$reportModel = $this->createInitializedReportRecord($reportsList[$i], $reportModuleModel);
 				$reportModel->set('foldername', $folders[$key]->getName());
 				$allReportModels[] = $reportModel;
-				unset($reportModel);
 			}
 		}
 		return $allReportModels;

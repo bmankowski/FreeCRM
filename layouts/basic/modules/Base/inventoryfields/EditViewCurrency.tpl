@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 <!-- layouts/basic/modules/Base/inventoryfields/EditViewCurrency.tpl -->
-	{assign var=CURRENCIES value=\vtlib\Functions::getAllCurrency(true)}
+	{assign var=CURRENCIES value=$INVENTORY_CURRENCIES}
 	{assign var=SELECTED_CURRENCY value=$ITEM_VALUE}
 	{assign var="FIELD_PARAMS" value=$FIELD->getParamsConfig()}
 
