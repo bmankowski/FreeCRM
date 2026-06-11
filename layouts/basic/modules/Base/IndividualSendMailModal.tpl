@@ -24,7 +24,6 @@
 				<label class="control-label" for="mailSender">{"LBL_SEND_FROM"|t:"Mail"}</label>
 				<select class="select2" id="mailSender"></select>
 			</div>
-			{include file='partials/MailComposeAttachments.tpl'|@vtemplate_path:'Base'}
 			<div class="form-group">
 				<label class="control-label" for="field">{'LBL_EMAIL_ADRESS'|t}</label>
 				<select class="select2" id="field" data-validation-engine="validate[required]">
@@ -51,6 +50,7 @@
 					<textarea class="hide js-mail-content-input" id="mailContent" data-validation-engine="validate[required]"></textarea>
 					<div class="form-control js-mail-content" contenteditable="true" style="background:#fff;border:1px solid #ccc;height:360px;overflow:auto;padding:18px;">{if !empty($INITIAL_PREVIEW['content'])}{$INITIAL_PREVIEW['content']}{/if}</div>
 				</div>
+				{include file='partials/MailComposeAttachments.tpl'|@vtemplate_path:'Base'}
 			</div>
 		</form>
 		{if !$CAN_SEND_MAIL}

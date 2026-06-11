@@ -98,6 +98,21 @@ class ComposeAttachment
 		}
 	}
 
+	public static function clearUserStaging(int $userId): void
+	{
+		$dir = self::userDir($userId);
+		if (!is_dir($dir)) {
+			return;
+		}
+		foreach (glob($dir . '*.meta') ?: [] as $metaFile) {
+			$token = basename($metaFile, '.meta');
+			self::deleteToken($userId, $token);
+		}
+		if (is_dir($dir) && count(glob($dir . DIRECTORY_SEPARATOR . '*') ?: []) === 0) {
+			rmdir($dir);
+		}
+	}
+
 	/**
 	 * @param list<string> $tokens
 	 * @return array<string, string>

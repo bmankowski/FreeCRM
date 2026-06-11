@@ -34,6 +34,7 @@ class UploadComposeAttachment extends \App\Base\Controllers\BaseActionController
 		if (!is_array($file) || empty($file['tmp_name'])) {
 			throw new \App\Exceptions\AppException('LBL_MAIL_ATTACHMENT_INVALID');
 		}
+		\App\Modules\Mail\Models\ComposeAttachment::cleanupExpired();
 		if (\App\Modules\Mail\Models\ComposeAttachment::countUserTokens($userId) >= \App\Modules\Mail\Models\ComposeAttachment::maxFiles()) {
 			throw new \App\Exceptions\AppException('LBL_MAIL_ATTACHMENT_MAX_FILES');
 		}

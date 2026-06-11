@@ -51,8 +51,10 @@
 					</select>
 				</div>
 			</div>
-			<div class="col-sm-offset-4 col-sm-8">
-				{include file='partials/MailComposeAttachments.tpl'|@vtemplate_path:'Base'}
+			<div class="form-group">
+				<div class="col-sm-offset-4 col-sm-8">
+					{include file='partials/MailComposeAttachments.tpl'|@vtemplate_path:'Base'}
+				</div>
 			</div>
 		</form>
 		{if !$DEFAULT_SMTP}

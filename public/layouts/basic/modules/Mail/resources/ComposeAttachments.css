@@ -1,41 +1,143 @@
+.mail-compose-attachments {
+	margin-bottom: 0;
+}
+
+.mail-compose-attachments-panel {
+	border: 1px solid #e2e8f0;
+	border-radius: 8px;
+	background: #f8fafc;
+	padding: 0.75rem 1rem;
+}
+
+.mail-compose-attachments-panel__header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem;
+	margin-bottom: 0.65rem;
+}
+
+.mail-compose-attachments-panel__title {
+	font-weight: 600;
+	font-size: 0.9375rem;
+	color: #334155;
+}
+
+.mail-compose-attachments-panel__summary {
+	font-size: 0.8125rem;
+	color: #64748b;
+	white-space: nowrap;
+}
+
+.mail-compose-attachments-panel__body {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+
+.mail-compose-attachments-panel__footer {
+	margin-top: 0.65rem;
+	padding-top: 0.5rem;
+	border-top: 1px solid #e2e8f0;
+	font-size: 0.75rem;
+	color: #94a3b8;
+	line-height: 1.4;
+}
+
+.mail-compose-attachments-panel__modal-hint {
+	display: block;
+	margin-top: 0.15rem;
+}
+
 .mail-compose-dropzone {
-	border: 2px dashed #ccc;
-	border-radius: 4px;
-	background: #fafafa;
-	padding: 1rem;
-	text-align: center;
+	border: 2px dashed #cbd5e1;
+	border-radius: 6px;
+	background: #fff;
 	cursor: pointer;
-	transition: border-color 0.15s ease, background 0.15s ease;
+	transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
 }
 
 .mail-compose-dropzone:hover,
 .mail-compose-dropzone.dragover {
 	border-color: #5cb85c;
 	background: #f4fff4;
+	box-shadow: 0 2px 8px rgba(92, 184, 92, 0.1);
 }
 
-.mail-compose-dropzone__content {
-	color: #666;
+.mail-compose-dropzone__empty {
+	padding: 1.1rem 1rem;
+	text-align: center;
 }
 
-.mail-compose-dropzone__text {
+.mail-compose-dropzone__icon {
+	width: 48px;
+	height: 48px;
+	margin: 0 auto 0.6rem;
+	border-radius: 50%;
+	background: linear-gradient(135deg, #7dd87d 0%, #5cb85c 100%);
+	color: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.15rem;
+}
+
+.mail-compose-dropzone__main {
 	display: block;
-	margin-top: 0.35rem;
+	font-weight: 600;
+	font-size: 0.9375rem;
+	color: #334155;
+}
+
+.mail-compose-dropzone__add-more {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.4rem;
+	padding: 0.55rem 0.75rem;
+	font-size: 0.875rem;
+	color: #475569;
+}
+
+.mail-compose-dropzone__add-more .glyphicon {
+	color: #5cb85c;
+	font-size: 0.75rem;
+}
+
+.mail-compose-attachments:not(.mail-compose-attachments--has-files) .mail-compose-dropzone__add-more {
+	display: none;
+}
+
+.mail-compose-attachments--has-files .mail-compose-dropzone__empty {
+	display: none;
+}
+
+.mail-compose-attachments:not(.mail-compose-attachments--has-files) .mail-compose-attachment-list:empty {
+	display: none;
 }
 
 .mail-compose-attachment-list {
-	margin-top: 0.5rem;
+	margin: 0;
 }
 
 .mail-compose-attachment-list li {
 	display: flex;
 	align-items: center;
-	justify-content: space-between;
-	padding: 0.35rem 0.5rem;
-	border: 1px solid #e5e5e5;
-	border-radius: 3px;
+	gap: 0.5rem;
+	padding: 0.45rem 0.6rem;
+	border: 1px solid #e2e8f0;
+	border-radius: 6px;
 	margin-bottom: 0.35rem;
 	background: #fff;
+}
+
+.mail-compose-attachment-list li:last-child {
+	margin-bottom: 0;
+}
+
+.mail-compose-attachment-list .mail-compose-attachment-file-icon {
+	color: #64748b;
+	flex-shrink: 0;
 }
 
 .mail-compose-attachment-list .mail-compose-attachment-name {
@@ -43,9 +145,85 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	margin-right: 0.5rem;
+	min-width: 0;
 }
 
-.mail-compose-template-attachments li {
-	background: #f5f5f5;
+.mail-compose-attachment-list .mail-compose-attachment-size {
+	flex-shrink: 0;
+	font-size: 0.8125rem;
+	color: #64748b;
+	margin-left: 0.25rem;
+}
+
+.mail-compose-attachment-remove {
+	flex-shrink: 0;
+	width: 28px;
+	height: 28px;
+	padding: 0;
+	border: none;
+	border-radius: 50%;
+	background: #f1f5f9;
+	color: #64748b;
+	line-height: 28px;
+	text-align: center;
+	cursor: pointer;
+	transition: background 0.15s ease, color 0.15s ease;
+}
+
+.mail-compose-attachment-remove:hover {
+	background: #fee2e2;
+	color: #dc2626;
+}
+
+.mail-compose-attachment-item--uploading {
+	opacity: 0.75;
+}
+
+.mail-compose-attachment-item--uploading .glyphicon-refresh {
+	animation: mail-compose-spin 0.8s linear infinite;
+}
+
+@keyframes mail-compose-spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+.mail-compose-template-wrap {
+	margin-top: 0.25rem;
+}
+
+.mail-compose-template-heading {
+	font-size: 0.8125rem;
+	font-weight: 600;
+	color: #64748b;
+	margin-bottom: 0.35rem;
+}
+
+.mail-compose-template-heading .glyphicon {
+	margin-right: 0.25rem;
+	font-size: 0.75rem;
+}
+
+.mail-compose-attachment-list--template li {
+	background: #f1f5f9;
+	border-color: #e2e8f0;
+}
+
+.mail-compose-attachment-list--template .mail-compose-template-badge {
+	flex-shrink: 0;
+	font-size: 0.6875rem;
+	color: #64748b;
+}
+
+.mail-compose-modal--file-drag .mail-compose-attachments-panel {
+	border-color: #5cb85c;
+	box-shadow: 0 0 0 2px rgba(92, 184, 92, 0.2);
+}
+
+.mail-compose-modal--file-drag .mail-compose-attachments-panel__modal-hint {
+	color: #5cb85c;
 }
