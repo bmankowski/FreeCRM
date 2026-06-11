@@ -13,6 +13,7 @@ var Vtiger_CustomView_Js = {
 	advanceFilterInstance: false,
 	columnSelectElement: false,
 	selectedColumnsList: false,
+	columnSelectionOrder: [],
 	_editorAssetsPromise: false,
 	_loadScript: function (src) {
 		var deferred = jQuery.Deferred();
@@ -86,6 +87,9 @@ var Vtiger_CustomView_Js = {
 				function (data) {
 					app.hideModalWindow();
 					var contents = jQuery(".contentsDiv").html(data);
+					Vtiger_CustomView_Js.columnSelectElement = false;
+					Vtiger_CustomView_Js.columnListSelect2Element = false;
+					Vtiger_CustomView_Js.columnSelectionOrder = [];
 					Vtiger_CustomView_Js.ensureEditorAssets().done(function () {
 						progressIndicatorElement.progressIndicator({'mode': 'hide'});
 						Vtiger_CustomView_Js.registerEventsInternal();
@@ -139,13 +143,74 @@ var Vtiger_CustomView_Js = {
 		}
 		return Vtiger_CustomView_Js.selectedColumnsList;
 	},
+	normalizeColumnIds: function (columnIds) {
+		if (!columnIds) {
+			return [];
+		}
+		if (Array.isArray(columnIds)) {
+			return columnIds;
+		}
+		return Object.keys(columnIds).sort(function (a, b) {
+			return Number(a) - Number(b);
+		}).map(function (key) {
+			return columnIds[key];
+		});
+	},
+	reorderColumnSelectOptions: function (columnIds) {
+		var selectElement = Vtiger_CustomView_Js.getColumnSelectElement();
+		columnIds = Vtiger_CustomView_Js.normalizeColumnIds(columnIds);
+		if (!columnIds.length) {
+			return;
+		}
+		columnIds.forEach(function (id) {
+			selectElement.append(selectElement.find('option').filter(function () {
+				return String(jQuery(this).val()) === String(id);
+			}));
+		});
+	},
+	initColumnSelectionOrder: function (columnIds) {
+		Vtiger_CustomView_Js.columnSelectionOrder = Vtiger_CustomView_Js.normalizeColumnIds(columnIds);
+	},
+	registerColumnOrderEvents: function () {
+		var selectElement = Vtiger_CustomView_Js.getColumnSelectElement();
+		selectElement.off('select2:select.customViewOrder select2:unselect.customViewOrder columnorderchange.customViewOrder');
+		selectElement.on('select2:select.customViewOrder', function (e) {
+			var id = String(e.params.data.id);
+			Vtiger_CustomView_Js.columnSelectionOrder = Vtiger_CustomView_Js.columnSelectionOrder.filter(function (x) {
+				return x !== id;
+			});
+			Vtiger_CustomView_Js.columnSelectionOrder.push(id);
+		});
+		selectElement.on('select2:unselect.customViewOrder', function (e) {
+			var id = String(e.params.data.id);
+			Vtiger_CustomView_Js.columnSelectionOrder = Vtiger_CustomView_Js.columnSelectionOrder.filter(function (x) {
+				return x !== id;
+			});
+		});
+		selectElement.on('columnorderchange.customViewOrder', function (e, ordered) {
+			if (ordered && ordered.length) {
+				Vtiger_CustomView_Js.columnSelectionOrder = ordered.map(String);
+			}
+		});
+	},
 	/**
 	 * Function which will get the selected columns
 	 * @return : array of selected values
 	 */
 	getSelectedColumns: function () {
-		var columnListSelectElement = Vtiger_CustomView_Js.getColumnSelectElement();
-		return columnListSelectElement.val();
+		var selectElement = Vtiger_CustomView_Js.getColumnSelectElement();
+		var selected = (selectElement.val() || []).map(String);
+		var order = Vtiger_CustomView_Js.columnSelectionOrder.filter(function (id) {
+			return selected.indexOf(id) >= 0;
+		});
+		selected.forEach(function (id) {
+			if (order.indexOf(id) < 0) {
+				order.push(id);
+			}
+		});
+		Vtiger_CustomView_Js.columnSelectionOrder = order;
+		Vtiger_CustomView_Js.reorderColumnSelectOptions(order);
+		return order;
 	},
 	saveFilter: function () {
 		var aDeferred = jQuery.Deferred();
@@ -273,11 +338,14 @@ var Vtiger_CustomView_Js = {
 		jQuery('.stndrdFilterDateSelect').datepicker();
 		app.changeSelectElementView(jQuery('.chzn-select'));
 
-		var columnsList = JSON.parse(jQuery('input[name="columnslist"]').val());
+		var columnsList = Vtiger_CustomView_Js.normalizeColumnIds(JSON.parse(jQuery('input[name="columnslist"]').val()));
+		Vtiger_CustomView_Js.initColumnSelectionOrder(columnsList);
 		select2Element.val(null).trigger('change');
-		if (columnsList && columnsList.length) {
+		if (columnsList.length) {
+			Vtiger_CustomView_Js.reorderColumnSelectOptions(columnsList);
 			select2Element.val(columnsList).trigger('change');
 		}
+		Vtiger_CustomView_Js.registerColumnOrderEvents();
 		jQuery("#standardDateFilter").change(function () {
 			Vtiger_CustomView_Js.loadDateFilterValues();
 		});

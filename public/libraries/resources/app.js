@@ -164,6 +164,25 @@ var app = {
 		});
 		return selectElements;
 	},
+	getSelect2ChoiceOrder: function ($select) {
+		var ordered = [];
+		$select.next('.select2-container')
+			.find('.select2-selection__rendered .select2-selection__choice')
+			.each(function () {
+				var $choice = jQuery(this);
+				var tagText = ($choice.attr('title') || $choice.text()).replace(/[\u00d7×]/g, '').trim();
+				$select.find('option').each(function () {
+					var optText = jQuery(this).text().trim();
+					var normTag = tagText.replace(/\s*\*$/, '').trim();
+					var normOpt = optText.replace(/\s*\*$/, '').trim();
+					if (optText === tagText || normOpt === normTag) {
+						ordered.push(String(jQuery(this).val()));
+						return false;
+					}
+				});
+			});
+		return ordered;
+	},
 	/**
 	 * Enable drag-and-drop reordering of selected items in a select2 multi-select.
 	 */
@@ -184,13 +203,7 @@ var app = {
 					items: '.select2-selection__choice',
 					tolerance: 'pointer',
 					stop: function () {
-						var ordered = [];
-						$rendered.find('.select2-selection__choice').each(function () {
-							var data = jQuery(this).data('data');
-							if (data && data.id !== undefined) {
-								ordered.push(String(data.id));
-							}
-						});
+						var ordered = app.getSelect2ChoiceOrder($select);
 						if (!ordered.length) {
 							return;
 						}
@@ -199,7 +212,7 @@ var app = {
 								return String(jQuery(this).val()) === id;
 							}));
 						});
-						$select.trigger('change');
+						$select.val(ordered).trigger('change').trigger('columnorderchange', [ordered]);
 					}
 				});
 			};
