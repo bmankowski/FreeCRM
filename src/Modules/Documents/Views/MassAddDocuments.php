@@ -10,14 +10,9 @@ namespace App\Modules\Documents\Views;
  */
 
 use App\Http\Vtiger_Request;
-class MassAddDocuments  extends \App\Modules\Base\Views\Index
-{
 
-	/**
-	 * Function to check permission
-	 * @param \App\Http\Vtiger_Request $request
-	 * @throws \App\Exceptions\NoPermitted
-	 */
+class MassAddDocuments extends \App\Modules\Base\Views\BasicModal
+{
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
@@ -27,17 +22,13 @@ class MassAddDocuments  extends \App\Modules\Base\Views\Index
 		}
 	}
 
-	/**
-	 * Process
-	 * @param \App\Http\Vtiger_Request $request
-	 */
 	public function process(\App\Http\Vtiger_Request $request)
 	{
-		parent::preProcess($request);
+		$this->preProcess($request);
 		$moduleName = $request->getModule();
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->view('MassAddDocuments.tpl', $moduleName);
-		parent::postProcess($request);
+		$this->postProcess($request);
 	}
 }

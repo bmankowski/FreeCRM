@@ -7,6 +7,8 @@
  *
  * Usage:
  *   php scripts/cleanup-orphan-documents.php [--dry-run] [--missing-file-only]
+ *       [--dangling-link-only] [--no-relation-only] [--no-attachment-only]
+ *       [--created-before=YYYY-MM-DD]
  *       [--batch-size=500] [--limit=0] [--permanent] [--verify-disk]
  *
  * Examples:
@@ -31,6 +33,10 @@ require_once getcwd() . '/vendor/autoload.php';
 
 \App\Http\Vtiger_Session::init();
 
+$_SERVER['HTTP_USER_AGENT'] ??= 'cleanup-orphan-documents-cli';
+$_SERVER['REMOTE_ADDR'] ??= '127.0.0.1';
+$_SERVER['REQUEST_URI'] ??= '/cli/cleanup-orphan-documents';
+
 $options = parseOptions($argv);
 $adminId = \App\Modules\Users\Models\Record::getActiveAdminId();
 if ($adminId <= 0) {
@@ -41,9 +47,10 @@ if ($adminId <= 0) {
 
 $totalCandidates = countOrphanCandidates($options);
 echo sprintf(
-	"Orphan document candidates: %d (dry-run=%s, missing-file-only=%s, verify-disk=%s, permanent=%s, batch-size=%d, limit=%s)\n",
+	"Orphan document candidates: %d (dry-run=%s, slice=%s, missing-file-only=%s, verify-disk=%s, permanent=%s, batch-size=%d, limit=%s)\n",
 	$totalCandidates,
 	$options['dry_run'] ? 'yes' : 'no',
+	describeSlice($options),
 	$options['missing_file_only'] ? 'yes' : 'no',
 	$options['verify_disk'] ? 'yes' : 'no',
 	$options['permanent'] ? 'yes' : 'no',
@@ -138,6 +145,10 @@ exit($failed > 0 ? 1 : 0);
  * @return array{
  *     dry_run: bool,
  *     missing_file_only: bool,
+ *     dangling_link_only: bool,
+ *     no_relation_only: bool,
+ *     no_attachment_only: bool,
+ *     created_before: string|null,
  *     verify_disk: bool,
  *     permanent: bool,
  *     batch_size: int,
@@ -149,6 +160,10 @@ function parseOptions(array $argv): array
 	$options = [
 		'dry_run' => false,
 		'missing_file_only' => false,
+		'dangling_link_only' => false,
+		'no_relation_only' => false,
+		'no_attachment_only' => false,
+		'created_before' => null,
 		'verify_disk' => false,
 		'permanent' => false,
 		'batch_size' => 500,
@@ -162,6 +177,27 @@ function parseOptions(array $argv): array
 		}
 		if ($arg === '--missing-file-only') {
 			$options['missing_file_only'] = true;
+			continue;
+		}
+		if ($arg === '--dangling-link-only') {
+			$options['dangling_link_only'] = true;
+			continue;
+		}
+		if ($arg === '--no-relation-only') {
+			$options['no_relation_only'] = true;
+			continue;
+		}
+		if ($arg === '--no-attachment-only') {
+			$options['no_attachment_only'] = true;
+			continue;
+		}
+		if (str_starts_with($arg, '--created-before=')) {
+			$date = substr($arg, 17);
+			if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $date)) {
+				fwrite(STDERR, "Invalid --created-before date: {$date}\n");
+				exit(1);
+			}
+			$options['created_before'] = $date;
 			continue;
 		}
 		if ($arg === '--verify-disk') {
@@ -188,6 +224,10 @@ Usage:
 Options:
   --dry-run              Count and show sample IDs only; no deletes
   --missing-file-only    Restrict to legacy storage/oss_mailscanner/ attachments
+  --dangling-link-only   Orphans with senotesrel pointing to missing/deleted parents
+  --no-relation-only     Orphans with no vtiger_senotesrel row at all
+  --no-attachment-only   Orphans with no vtiger_seattachmentsrel row
+  --created-before=DATE  Only orphans created before YYYY-MM-DD
   --verify-disk          Skip records whose attachment file exists on disk
   --permanent            Purge immediately after soft-delete (skip Recycle Bin)
   --batch-size=N         Records per batch (default 500)
@@ -207,13 +247,52 @@ HELP;
 		exit(1);
 	}
 
+	$sliceFlags = (int) $options['dangling_link_only']
+		+ (int) $options['no_relation_only']
+		+ (int) $options['no_attachment_only'];
+	if ($sliceFlags > 1) {
+		fwrite(STDERR, "Use only one of --dangling-link-only, --no-relation-only, --no-attachment-only.\n");
+		exit(1);
+	}
+
 	return $options;
+}
+
+/**
+ * @param array{
+ *     dangling_link_only: bool,
+ *     no_relation_only: bool,
+ *     no_attachment_only: bool,
+ *     created_before: string|null
+ * } $options
+ */
+function describeSlice(array $options): string
+{
+	$parts = [];
+	if ($options['dangling_link_only']) {
+		$parts[] = 'dangling-link';
+	}
+	if ($options['no_relation_only']) {
+		$parts[] = 'no-relation';
+	}
+	if ($options['no_attachment_only']) {
+		$parts[] = 'no-attachment';
+	}
+	if ($options['created_before'] !== null) {
+		$parts[] = 'created-before-' . $options['created_before'];
+	}
+
+	return $parts === [] ? 'all' : implode('+', $parts);
 }
 
 /**
  * @param array{
  *     dry_run: bool,
  *     missing_file_only: bool,
+ *     dangling_link_only: bool,
+ *     no_relation_only: bool,
+ *     no_attachment_only: bool,
+ *     created_before: string|null,
  *     verify_disk: bool,
  *     permanent: bool,
  *     batch_size: int,
@@ -236,7 +315,7 @@ function orphanQuery(array $options): \App\Db\Query
 		->select(['n.notesid'])
 		->from(['n' => 'vtiger_notes'])
 		->innerJoin(['ce' => 'vtiger_crmentity'], 'ce.crmid = n.notesid')
-		->where(['ce.deleted' => 0])
+		->where(['ce.deleted' => 0, 'ce.setype' => 'Documents'])
 		->andWhere(['not in', 'n.notesid', $activeLinkSubQuery])
 		->andWhere(['not in', 'n.notesid', $templateLinkSubQuery])
 		->orderBy(['n.notesid' => SORT_ASC]);
@@ -246,6 +325,40 @@ function orphanQuery(array $options): \App\Db\Query
 			->innerJoin(['sar' => 'vtiger_seattachmentsrel'], 'sar.crmid = n.notesid')
 			->innerJoin(['a' => 'vtiger_attachments'], 'a.attachmentsid = sar.attachmentsid')
 			->andWhere(['like', 'a.path', 'storage/oss_mailscanner/', false]);
+	}
+
+	if ($options['dangling_link_only']) {
+		$query->andWhere([
+			'exists',
+			(new \App\Db\Query())
+				->select([new \yii\db\Expression('1')])
+				->from(['sr' => 'vtiger_senotesrel'])
+				->where('sr.notesid = n.notesid'),
+		]);
+	}
+
+	if ($options['no_relation_only']) {
+		$query->andWhere([
+			'not exists',
+			(new \App\Db\Query())
+				->select([new \yii\db\Expression('1')])
+				->from(['sr' => 'vtiger_senotesrel'])
+				->where('sr.notesid = n.notesid'),
+		]);
+	}
+
+	if ($options['no_attachment_only']) {
+		$query->andWhere([
+			'not exists',
+			(new \App\Db\Query())
+				->select([new \yii\db\Expression('1')])
+				->from(['sar' => 'vtiger_seattachmentsrel'])
+				->where('sar.crmid = n.notesid'),
+		]);
+	}
+
+	if ($options['created_before'] !== null) {
+		$query->andWhere(['<', 'ce.createdtime', $options['created_before'] . ' 00:00:00']);
 	}
 
 	return $query;

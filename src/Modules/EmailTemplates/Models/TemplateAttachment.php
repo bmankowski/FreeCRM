@@ -198,9 +198,10 @@ class TemplateAttachment
 	public static function clearCaches(int $templateId, array $documentIds = []): void
 	{
 		\App\Cache\Cache::delete('MailAttachmentsFromTemplete', (string) $templateId);
-		if ($documentIds !== []) {
-			$cacheId = implode(',', array_map('strval', $documentIds));
-			\App\Cache\Cache::delete('MailAttachmentsFromDocument', $cacheId);
+		$allIds = self::getDocumentIdsForTemplate($templateId);
+		if ($allIds !== []) {
+			sort($allIds);
+			\App\Cache\Cache::delete('MailAttachmentsFromDocument', 'v2:' . implode(',', $allIds));
 		}
 	}
 

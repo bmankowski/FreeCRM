@@ -38,6 +38,12 @@ class MassAdd extends \App\Base\Controllers\BaseActionController
 		foreach ($_FILES as $file) {
 			$countFiles = count($file['name']);
 			for ($i = 0; $i < $countFiles; $i++) {
+				if (($file['error'][$i] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
+					continue;
+				}
+				if (($file['size'][$i] ?? 0) <= 0 || ($file['name'][$i] ?? '') === '') {
+					continue;
+				}
 				$originalFile = [
 					'name' => $file['name'][$i],
 					'type' => $file['type'][$i],
@@ -46,12 +52,12 @@ class MassAdd extends \App\Base\Controllers\BaseActionController
 					'size' => $file['size'][$i],
 				];
 				$recordeModel = \App\Modules\Base\Models\Record::getCleanInstance($moduleName);
-				$recordeModel->set('notes_title', $nameFiles[$i]);
+				$recordeModel->set('notes_title', $nameFiles[$i] ?? $originalFile['name']);
 				$recordeModel->set('assigned_user_id', $request->getUserId());
-				$recordeModel->file = $originalFile;
+				$recordeModel->setPendingUploadFile($originalFile);
 				$recordeModel->set('filelocationtype', 'I');
 				$recordeModel->set('filestatus', true);
-				$recordeModel->save();
+				$recordeModel->save($request);
 				
 				// Link the document to parent record if createmode is 'link'
 				if ($createMode === 'link' && !empty($returnModule) && !empty($returnId)) {

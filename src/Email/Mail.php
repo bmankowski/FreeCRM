@@ -226,24 +226,42 @@ class Mail
 	 */
 	public static function getAttachmentsFromDocument($ids)
 	{
-		$cacheId = is_array($ids) ? implode(',', $ids) : $ids;
+		$idsList = is_array($ids) ? $ids : [$ids];
+		$idsList = array_values(array_unique(array_filter(array_map('intval', $idsList), static fn (int $id): bool => $id > 0)));
+		sort($idsList);
+		if ($idsList === []) {
+			return [];
+		}
+		$cacheId = 'v2:' . implode(',', $idsList);
 		if (Cache::has('MailAttachmentsFromDocument', $cacheId)) {
 			return Cache::get('MailAttachmentsFromDocument', $cacheId);
 		}
-		$query = (new \App\Db\Query())->select(['vtiger_attachments.*'])->from('vtiger_attachments')
-			->innerJoin('vtiger_crmentity', 'vtiger_attachments.attachmentsid = vtiger_crmentity.crmid')
+		$query = (new \App\Db\Query())
+			->select(['vtiger_attachments.*', 'vtiger_notes.title AS notes_title'])
+			->from('vtiger_attachments')
 			->innerJoin('vtiger_seattachmentsrel', 'vtiger_attachments.attachmentsid = vtiger_seattachmentsrel.attachmentsid')
-			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_seattachmentsrel.crmid' => $ids]);
+			->innerJoin('vtiger_crmentity', 'vtiger_seattachmentsrel.crmid = vtiger_crmentity.crmid')
+			->innerJoin('vtiger_notes', 'vtiger_notes.notesid = vtiger_seattachmentsrel.crmid')
+			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_seattachmentsrel.crmid' => $idsList]);
 		$attachments = [];
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$name = \App\Utils\ListViewUtils::decodeHtml($row['name']);
-			$filePath = realpath(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $row['path'] . $row['attachmentsid'] . '_' . $name);
-			if (is_file($filePath)) {
-				$attachments[$filePath] = $name;
+			$name = \App\Utils\ListViewUtils::decodeHtml((string) ($row['name'] ?? ''));
+			$filePath = realpath(
+				ROOT_DIRECTORY . DIRECTORY_SEPARATOR . ($row['path'] ?? '') . ($row['attachmentsid'] ?? '') . '_' . $name
+			);
+			if ($filePath !== false && is_file($filePath)) {
+				$displayName = (string) ($row['notes_title'] ?? '');
+				if ($displayName === '') {
+					$displayName = $name;
+				}
+				$attachments[$filePath] = $displayName;
 			}
 		}
-		Cache::save('MailAttachmentsFromDocument', $cacheId, $attachments, Cache::LONG);
+		if (count($attachments) >= count($idsList)) {
+			Cache::save('MailAttachmentsFromDocument', $cacheId, $attachments, Cache::LONG);
+		}
+
 		return $attachments;
 	}
 }

@@ -14,6 +14,30 @@ namespace App\Modules\Documents\Models;
 
 class Record extends \App\Modules\Base\Models\Record
 {
+	/** @var array<string, mixed>|null */
+	private ?array $pendingUploadFile = null;
+
+	public function setPendingUploadFile(array $fileDetails): self
+	{
+		$this->pendingUploadFile = $fileDetails;
+
+		return $this;
+	}
+
+	/**
+	 * @return array<string, mixed>|null
+	 */
+	private function resolveUploadFile(string $fieldName = 'filename'): ?array
+	{
+		if ($this->pendingUploadFile !== null) {
+			return $this->pendingUploadFile;
+		}
+		if (isset($_FILES[$fieldName])) {
+			return $_FILES[$fieldName];
+		}
+
+		return null;
+	}
 
 	public function getDownloadFileURL()
 	{
@@ -152,15 +176,7 @@ class Record extends \App\Modules\Base\Models\Record
 			$fileLocationType = 'I';
 		}
 		if ($fileLocationType === 'I') {
-			if (!isset($this->file)) {
-				if (isset($_FILES[$fileNameByField])) {
-					$file = $_FILES[$fileNameByField];
-				} else {
-					$file = null;
-				}
-			} else {
-				$file = $this->file;
-			}
+			$file = $this->resolveUploadFile($fileNameByField);
 			if (is_array($file) && !empty($file['name'])) {
 				$errCode = $file['error'];
 				if ($errCode === 0) {
@@ -201,20 +217,17 @@ class Record extends \App\Modules\Base\Models\Record
 		$db->createCommand()->update('vtiger_notes', ['filename' => \App\Utils\ListViewUtils::decodeHtml($fileName), 'filesize' => $fileSize, 'filetype' => $fileType, 'filelocationtype' => $fileLocationType, 'filedownloadcount' => $fileDownloadCount], ['notesid' => $this->getId()])->execute();
 		//Inserting into attachments table
 		if ($fileLocationType === 'I') {
-			if (!isset($this->file)) {
-				if (isset($_FILES[$fileNameByField])) {
-					$file = $_FILES[$fileNameByField];
-				} else {
-					$file = null;
-				}
-			} else {
-				$file = $this->file;
-			}
+			$file = $this->resolveUploadFile($fileNameByField);
 			if (is_array($file) && $file['name'] != '' && $file['size'] > 0) {
-				$file['original_name'] = $request->get('0_hidden');
-				$module = $request->get('module');
-				$mode = $request->get('mode');
-				$fileId = $request->get('fileid');
+				if ($request !== null) {
+					$hiddenOriginal = $request->get('0_hidden');
+					if ($hiddenOriginal !== null && $hiddenOriginal !== '') {
+						$file['original_name'] = $hiddenOriginal;
+					}
+				}
+				$module = $request !== null ? $request->get('module') : $this->getModuleName();
+				$mode = $request !== null ? $request->get('mode') : null;
+				$fileId = $request !== null ? $request->get('fileid') : null;
 				$this->uploadAndSaveFile($file, 'Attachment', $module, $mode, $fileId);
 			}
 		} else {

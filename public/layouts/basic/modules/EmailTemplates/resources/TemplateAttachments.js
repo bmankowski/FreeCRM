@@ -80,7 +80,7 @@ var EmailTemplates_TemplateAttachments_Js = {
 				'<small class="text-muted">' + sizeLabel + '</small>' +
 				'</span>' +
 				'<button type="button" class="btn btn-default btn-xs js-emailtemplate-attachment-remove" data-document-id="' + item.id + '" title="' +
-				app.vtranslate('LBL_DELETE') + '">' +
+				app.vtranslate('LBL_DELETE', 'Vtiger') + '">' +
 				'<span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>' +
 				'</div>';
 			self.list.append(html);
