@@ -26,6 +26,15 @@
 	}
 }
 
+.js-mail-attachment-chip-file--missing {
+	border-color: #f0ad4e;
+}
+
+.js-mail-template-attachments-warning {
+	margin-top: 6px;
+	margin-bottom: 0;
+}
+
 .js-mail-attachment-toolbar--drag {
 	outline: 2px dashed #5cb85c;
 	outline-offset: 2px;

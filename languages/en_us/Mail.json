@@ -58,6 +58,7 @@
         "LBL_MAIL_ATTACHMENT_INVALID": "Invalid attachment file",
         "LBL_MAIL_ATTACHMENT_BLOCKED_TYPE": "This file type is not allowed",
         "LBL_MAIL_ATTACHMENT_UPLOAD_FAILED": "Attachment upload failed",
+        "LBL_MAIL_TEMPLATE_ATTACHMENTS_BLOCKED": "Cannot send: a template attachment file is missing on disk. Fix the document or re-upload it in the template editor.",
         "LBL_MAIL_COMPOSE_STAGING_CLEANUP": "Compose attachment cleanup"
     }
 }

@@ -210,11 +210,9 @@ class Mail
 		if (Cache::has('MailAttachmentsFromTemplete', $id)) {
 			return Cache::get('MailAttachmentsFromTemplete', $id);
 		}
-		$ids = (new \App\Db\Query())->select(['u_#__documents_emailtemplates.crmid'])->from('u_#__documents_emailtemplates')
-				->innerJoin('vtiger_crmentity', 'u_#__documents_emailtemplates.relcrmid = vtiger_crmentity.crmid')
-				->where(['vtiger_crmentity.deleted' => 0, 'u_#__documents_emailtemplates.relcrmid' => $id])->column();
+		$ids = \App\Modules\EmailTemplates\Models\TemplateAttachment::getDocumentIdsForTemplate((int) $id);
 		$attachments = [];
-		if ($ids) {
+		if ($ids !== []) {
 			$attachments['attachments'] = ['ids' => $ids];
 		}
 		Cache::save('MailAttachmentsFromTemplete', $id, $attachments, Cache::LONG);

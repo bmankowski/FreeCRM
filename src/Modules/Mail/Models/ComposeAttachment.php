@@ -192,30 +192,18 @@ class ComposeAttachment
 	}
 
 	/**
-	 * @return list<array{id: int, name: string}>
+	 * @return list<array{id: int, name: string, size: int, hasFile: bool}>
 	 */
 	public static function getTemplateAttachmentMeta(int $templateId): array
 	{
-		$ids = (new \App\Db\Query())
-			->select(['u_#__documents_emailtemplates.crmid'])
-			->from('u_#__documents_emailtemplates')
-			->innerJoin('vtiger_crmentity', 'u_#__documents_emailtemplates.relcrmid = vtiger_crmentity.crmid')
-			->where(['vtiger_crmentity.deleted' => 0, 'u_#__documents_emailtemplates.relcrmid' => $templateId])
-			->column();
-		if ($ids === []) {
-			return [];
-		}
-		$rows = (new \App\Db\Query())
-			->select(['crmid', 'notes_title'])
-			->from('vtiger_notes')
-			->innerJoin('vtiger_crmentity', 'vtiger_notes.notesid = vtiger_crmentity.crmid')
-			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_notes.notesid' => $ids])
-			->all();
+		$rows = \App\Modules\EmailTemplates\Models\TemplateAttachment::listForTemplate($templateId);
 		$out = [];
 		foreach ($rows as $row) {
 			$out[] = [
-				'id' => (int) $row['crmid'],
-				'name' => (string) ($row['notes_title'] ?? 'Document'),
+				'id' => (int) ($row['id'] ?? 0),
+				'name' => (string) ($row['name'] ?? 'Document'),
+				'size' => (int) ($row['size'] ?? 0),
+				'hasFile' => !empty($row['hasFile']),
 			];
 		}
 

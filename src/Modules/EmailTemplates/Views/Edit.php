@@ -5,6 +5,17 @@ namespace App\Modules\EmailTemplates\Views;
 class Edit extends \App\Modules\Base\Views\Edit
 {
 
+	protected function assignEditViewData(\App\Http\Vtiger_Request $request)
+	{
+		parent::assignEditViewData($request);
+		$viewer = $this->getViewer($request);
+		$viewer->assign('MAIL_ATTACHMENT_LIMITS', [
+			'maxFileBytes' => \App\Modules\Mail\Models\ComposeAttachment::maxFileBytes(),
+			'maxTotalBytes' => \App\Modules\Mail\Models\ComposeAttachment::maxTotalBytes(),
+			'maxFiles' => \App\Modules\Mail\Models\ComposeAttachment::maxFiles(),
+		]);
+	}
+
 	/**
 	 * Function to get the list of Script models to be included
 	 * @param \App\Http\Vtiger_Request $request
@@ -29,6 +40,7 @@ class Edit extends \App\Modules\Base\Views\Edit
 			'libraries.codemirror.addon.search.search',
 			'~libraries/js-beautify/beautify-html.min.js',
 			'modules.Base.resources.TemplateEditor',
+			'modules.EmailTemplates.resources.TemplateAttachments',
 		];
 		$scriptInstances = $this->checkAndConvertJsScripts($fileNames);
 		return array_merge($parentScript, $scriptInstances);
@@ -42,6 +54,7 @@ class Edit extends \App\Modules\Base\Views\Edit
 			'libraries.codemirror.addon.dialog.dialog',
 			'modules.Base.resources.TemplateEditor',
 			'modules.EmailTemplates.Edit',
+			'modules.EmailTemplates.TemplateAttachments',
 		];
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		return array_merge($headerCssInstances, $cssInstances);

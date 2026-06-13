@@ -20,6 +20,8 @@ var Mail_ComposeAttachments_Js = {
 		this.toolbar = this.root.find('.js-mail-attachment-toolbar');
 		this.templateWrap = this.root.find('.js-mail-template-attachments-wrap');
 		this.templateList = this.root.find('.js-mail-template-attachment-list');
+		this.templateWarning = this.root.find('.js-mail-template-attachments-warning');
+		this.missingTemplateFiles = false;
 		this.tokens = [];
 		this.totalBytes = 0;
 		this.uploadingCount = 0;
@@ -40,6 +42,10 @@ var Mail_ComposeAttachments_Js = {
 
 	getTokens: function () {
 		return this.tokens.slice();
+	},
+
+	hasMissingTemplateFiles: function () {
+		return !!this.missingTemplateFiles;
 	},
 
 	bindEvents: function () {
@@ -241,6 +247,8 @@ var Mail_ComposeAttachments_Js = {
 		if (!template || !field) {
 			this.templateWrap.addClass('hide');
 			this.templateList.empty();
+			this.missingTemplateFiles = false;
+			this.container.trigger('mailTemplateAttachmentState', [false]);
 			return;
 		}
 		var previewData = jQuery.extend({}, this.postData, {
@@ -256,21 +264,41 @@ var Mail_ComposeAttachments_Js = {
 			self.templateList.empty();
 			if (!items.length) {
 				self.templateWrap.addClass('hide');
+				self.missingTemplateFiles = false;
+				self.container.trigger('mailTemplateAttachmentState', [false]);
 				return;
 			}
+			self.missingTemplateFiles = items.some(function (item) {
+				return item.hasFile === false;
+			});
 			items.forEach(function (item) {
 				var name = item.name || 'Document';
+				var missing = item.hasFile === false;
+				var fileClass = missing ? ' js-mail-attachment-chip-file--missing' : '';
+				var warning = missing
+					? ' title="' + app.vtranslate('LBL_ATTACHMENT_FILE_MISSING', 'EmailTemplates') + '"'
+					: '';
+				var sizeLabel = self.formatSize(item.size || 0);
 				self.templateList.append(
 					'<div class="btn-group">' +
-					'<span class="btn btn-default btn-xs js-mail-attachment-chip-file" disabled="disabled">' +
+					'<span class="btn btn-default btn-xs js-mail-attachment-chip-file' + fileClass + '" disabled="disabled"' + warning + '>' +
 					'<span class="js-mail-attachment-chip-name">' + jQuery('<div>').text(name).html() + '</span>' +
+					(sizeLabel ? '<small class="text-muted">' + sizeLabel + '</small>' : '') +
 					'</span>' +
 					'<span class="btn btn-default btn-xs" disabled="disabled" title="' + app.vtranslate('LBL_TEMPLATE_ATTACHMENTS') + '">' +
 					'<span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>' +
 					'</div>'
 				);
 			});
+			if (self.templateWarning.length) {
+				if (self.missingTemplateFiles) {
+					self.templateWarning.text(app.vtranslate('LBL_MAIL_TEMPLATE_ATTACHMENTS_BLOCKED', 'Mail')).removeClass('hide');
+				} else {
+					self.templateWarning.addClass('hide').text('');
+				}
+			}
 			self.templateWrap.removeClass('hide');
+			self.container.trigger('mailTemplateAttachmentState', [self.missingTemplateFiles]);
 		});
 	},
 

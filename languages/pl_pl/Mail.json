@@ -58,6 +58,7 @@
         "LBL_MAIL_ATTACHMENT_INVALID": "Nieprawidłowy plik załącznika",
         "LBL_MAIL_ATTACHMENT_BLOCKED_TYPE": "Ten typ pliku jest niedozwolony",
         "LBL_MAIL_ATTACHMENT_UPLOAD_FAILED": "Nie udało się przesłać załącznika",
+        "LBL_MAIL_TEMPLATE_ATTACHMENTS_BLOCKED": "Nie można wysłać: brakuje pliku standardowego załącznika szablonu. Napraw dokument lub prześlij plik ponownie w edycji szablonu.",
         "LBL_MAIL_COMPOSE_STAGING_CLEANUP": "Czyszczenie tymczasowych załączników"
     }
 }

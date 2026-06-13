@@ -12,6 +12,10 @@ globs:
   - "public/layouts/basic/modules/Mail/resources/ComposeAttachments.css"
   - "layouts/basic/modules/Base/partials/MailComposeAttachments.tpl"
   - "layouts/basic/modules/Base/SendMailModal.tpl"
+  - "src/Modules/EmailTemplates/Models/TemplateAttachment.php"
+  - "src/Modules/EmailTemplates/Actions/TemplateAttachment.php"
+  - "layouts/basic/modules/EmailTemplates/**"
+  - "public/layouts/basic/modules/EmailTemplates/resources/TemplateAttachments.*"
 alwaysApply: false
 ---
 
@@ -56,6 +60,8 @@ Passing `sourceModule === moduleName` triggers `>>> No relationModel instance, r
 - Preview uses a request sequence counter; stale responses are ignored. Re-bind with namespaced events (`.mailPreview`, `.mailSend`).
 - **Scroll chain:** `registerMailComposeScrollChain()` (same file) — wheel on modal (capture, `passive: false`): scroll **down** = `.modal-body` first, then `.js-mail-content`; scroll **up** = content first, then body. Only when `.js-mail-preview-section` is visible and content overflows. Skips `.select2-*` and PerfectScrollbar rails; call `modalBody.data('ps').update()` after body scroll.
 - **Attachments:** `Mail_ComposeAttachments_Js` + partial `Base/partials/MailComposeAttachments.tpl`. Staged upload via `Mail&action=UploadComposeAttachment`; send passes `attachmentTokens` JSON to `Base\Actions\Mail::sendMails`. Template document list from `previewMail` → `templateAttachments`. Staging under `cache/mail-compose/{userId}/` (`ROOT_DIRECTORY` has no trailing slash — use `DIRECTORY_SEPARATOR` before `cache`). Cron `LBL_MAIL_COMPOSE_STAGING_CLEANUP`. Model: `Mail\Models\ComposeAttachment`. CSS registered in `SendMailModal::getModalCss()` (`modules.Mail.ComposeAttachments`).
+- **Template standard attachments (admin):** configure on **EmailTemplates Edit** — panel `LBL_STANDARD_ATTACHMENTS` links Documents via `u_yf_documents_emailtemplates` (`EmailTemplates\Models\TemplateAttachment`). Junction columns via `Relation::getReferenceTableInfo('EmailTemplates','Documents')`: **`crmid` = Document**, **`relcrmid` = EmailTemplate**. Ajax: `EmailTemplates&action=TemplateAttachment` modes `list`/`link`/`unlink`. Upload (`Documents/MassAdd` + `TemplateAttachment::link`) or popup select; Detail Documents tab also ADD+SELECT. On compose send, linked Documents auto-attach (locked chips); resolve path `Mail::getTemplete` → `Outbound::sendFromTemplate` → `Attachment::resolveForSend` → `Mail::getAttachmentsFromDocument`.
+- **Template attachment pitfalls:** `Relation::deleteRelation` / `Documents::unlinkRelationship` do **not** remove junction rows — **`TemplateAttachment::unlink` deletes `u_yf_documents_emailtemplates` directly**. Link/unlink call `clearCaches` on `MailAttachmentsFromTemplete` / `MailAttachmentsFromDocument`. **`getAttachmentsFromDocument` skips files where `realpath` fails** (silent empty attach) — `link()` requires physical file on disk; send blocked via `assertAllFilesPresent` + compose UI (`hasFile` on `templateAttachments`, send button disabled). Legacy `storage/oss_mailscanner/` docs often have DB metadata but no blob. List query uses `vtiger_notes.title` (not `notes_title`).
 
 ## Attachment UI (frontend)
 

@@ -61,7 +61,23 @@ class Outbound
 		if (isset($template['attachments']) && is_array($template['attachments'])) {
 			$attachmentInput = array_merge($attachmentInput, $template['attachments']);
 		}
+		$templateId = (int) ($params['template'] ?? $template['emailtemplatesid'] ?? 0);
+		if ($templateId > 0) {
+			\App\Modules\EmailTemplates\Models\TemplateAttachment::assertAllFilesPresent($templateId);
+		}
 		$resolvedAttachments = Attachment::resolveForSend($attachmentInput);
+		if ($templateId > 0) {
+			$expectedCount = count(\App\Modules\EmailTemplates\Models\TemplateAttachment::getDocumentIdsForTemplate($templateId));
+			if ($expectedCount > 0 && count($resolvedAttachments) < $expectedCount) {
+				\App\Log\Log::warning(
+					'Template attachments unresolved at send: templateId=' . $templateId
+					. ' expected=' . $expectedCount
+					. ' resolved=' . count($resolvedAttachments),
+					'Mail'
+				);
+				throw new \App\Exceptions\AppException('LBL_ATTACHMENT_FILE_MISSING');
+			}
+		}
 
 		$mailParams = self::buildMailParams($params, $template);
 		$mailParams['attachments'] = $resolvedAttachments;

@@ -107,6 +107,8 @@ class Mailer
 
 		try {
 			\App\Modules\Mail\Models\Outbound::sendFromTemplate($userId, $senderRef, $params, $template);
+		} catch (\App\Exceptions\AppException $e) {
+			throw $e;
 		} catch (\Throwable $e) {
 			\App\Log\Log::error('sendFromTemplate failed: ' . $e->getMessage(), 'Mailer');
 			return false;

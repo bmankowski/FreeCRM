@@ -18,6 +18,7 @@
 				<span>{'LBL_TEMPLATE_ATTACHMENTS'|t:'Mail'}</span>
 			</p>
 			<div class="btn-toolbar js-mail-template-attachment-list"></div>
+			<p class="small text-warning hide js-mail-template-attachments-warning"></p>
 		</div>
 		<input type="file" class="hide js-mail-attachment-input" multiple />
 	</div>

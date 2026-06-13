@@ -55,13 +55,16 @@ class MassAdd extends \App\Base\Controllers\BaseActionController
 				
 				// Link the document to parent record if createmode is 'link'
 				if ($createMode === 'link' && !empty($returnModule) && !empty($returnId)) {
-					$parentModuleModel = \App\Modules\Base\Models\Module::getInstance($returnModule);
-					$relatedModule = $recordeModel->getModule();
-					$relatedRecordId = $recordeModel->getId();
-					
-					$relationModel = \App\Modules\Base\Models\Relation::getInstance($parentModuleModel, $relatedModule);
-					if ($relationModel) {
-						$relationModel->addRelation($returnId, $relatedRecordId);
+					$relatedRecordId = (int) $recordeModel->getId();
+					if ($returnModule === 'EmailTemplates') {
+						\App\Modules\EmailTemplates\Models\TemplateAttachment::link((int) $returnId, [$relatedRecordId]);
+					} else {
+						$parentModuleModel = \App\Modules\Base\Models\Module::getInstance($returnModule);
+						$relatedModule = $recordeModel->getModule();
+						$relationModel = \App\Modules\Base\Models\Relation::getInstance($parentModuleModel, $relatedModule);
+						if ($relationModel) {
+							$relationModel->addRelation($returnId, $relatedRecordId);
+						}
 					}
 				}
 			}

@@ -377,5 +377,6 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 		this.registerCodeMirror(container);
 		this.registerTemplateToolbarEvents(container);
 		this.registerKeyboardShortcuts();
+		EmailTemplates_TemplateAttachments_Js.init(container);
 	},
 });

@@ -16,7 +16,13 @@
         "PLL_RECORD": "Rekord",
         "PLL_MAIL": "Wiadomość mail",
         "PLL_LIST": "Lista",
-        "PLL_DEFAULT": "Domyślna firma"
+        "PLL_DEFAULT": "Domyślna firma",
+        "LBL_STANDARD_ATTACHMENTS": "Standardowe załączniki",
+        "LBL_SAVE_TEMPLATE_FIRST": "Zapisz szablon, aby dodać załączniki.",
+        "LBL_UPLOAD_ATTACHMENT": "Prześlij plik",
+        "LBL_SELECT_ATTACHMENT": "Wybierz dokument",
+        "LBL_ATTACHMENT_FILE_MISSING": "Brak pliku na dysku",
+        "LBL_EMAILTEMPLATE_ATTACHMENT_INVALID_DOCUMENT": "Do szablonu można dołączyć tylko aktywne pliki wewnętrzne."
     },
     "jsLanguageStrings": {
         "JS_FORMAT_HTML": "Formatuj HTML",

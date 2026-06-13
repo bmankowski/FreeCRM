@@ -16,7 +16,13 @@
         "PLL_RECORD": "Record",
         "PLL_MAIL": "Message",
         "PLL_LIST": "List",
-        "PLL_DEFAULT": "Default company"
+        "PLL_DEFAULT": "Default company",
+        "LBL_STANDARD_ATTACHMENTS": "Standard attachments",
+        "LBL_SAVE_TEMPLATE_FIRST": "Save the template first to add attachments.",
+        "LBL_UPLOAD_ATTACHMENT": "Upload file",
+        "LBL_SELECT_ATTACHMENT": "Select document",
+        "LBL_ATTACHMENT_FILE_MISSING": "File missing on disk",
+        "LBL_EMAILTEMPLATE_ATTACHMENT_INVALID_DOCUMENT": "Only active internal document files can be attached."
     },
     "jsLanguageStrings": {
         "JS_FORMAT_HTML": "Format HTML",

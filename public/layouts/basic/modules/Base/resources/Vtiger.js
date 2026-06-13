@@ -17,7 +17,8 @@ var Vtiger_Index_Js = {
 			container.find('.searchBtn').trigger('click');
 		});
 	},
-	massAddDocuments: function (url) {
+	massAddDocuments: function (url, options) {
+		options = options || {};
 		app.showModalWindow(null, url, function (container) {
 			var uploadButton = container.find('#filesToUpload');
 			var template = container.find('.fileContainer');
@@ -36,7 +37,11 @@ var Vtiger_Index_Js = {
 				var formData = new FormData(form[0]);
 				if (formData) {
 					url = 'index.php';
-					if (app.getViewName() === 'Detail') {
+					if (options.createmode === 'link' && options.return_module && options.return_id) {
+						formData.append('createmode', options.createmode);
+						formData.append('return_module', options.return_module);
+						formData.append('return_id', options.return_id);
+					} else if (app.getViewName() === 'Detail') {
 						formData.append('createmode', 'link');
 						formData.append('return_module', app.getModuleName());
 						formData.append('return_id', app.getRecordId());
@@ -54,7 +59,9 @@ var Vtiger_Index_Js = {
 					AppConnector.request(params).then(function (data) {
 						progressIndicatorElement.progressIndicator({'mode': 'hide'});
 						app.hideModalWindow();
-						if (app.getViewName() === 'Detail') {
+						if (typeof options.onSuccess === 'function') {
+							options.onSuccess(data);
+						} else if (app.getViewName() === 'Detail') {
 							var detailView = Vtiger_Detail_Js.getInstance();
 							if (detailView.getSelectedTab().data('reference') === 'Documents') {
 								detailView.reloadTabContent();
@@ -231,29 +238,36 @@ var Vtiger_Index_Js = {
 		var contentEditor = modalContainer.find('.js-mail-content');
 		var contentInput = modalContainer.find('.js-mail-content-input');
 		var previewSeq = 0;
-		var updateSourceWarning = function (result) {
-			var hasMissingContext = !!(result && result.missingSourceContext);
+		var sendBlocked = { source: false, attachment: false };
+		var refreshSendButton = function () {
 			if (!saveButton.length) {
 				return;
 			}
-			if (hasMissingContext) {
-				if (sourceWarning.length) {
+			var blocked = sendBlocked.source || sendBlocked.attachment;
+			saveButton.prop('disabled', blocked).toggleClass('disabled', blocked);
+		};
+		var updateSourceWarning = function (result) {
+			var hasMissingContext = !!(result && result.missingSourceContext);
+			if (sourceWarning.length) {
+				if (hasMissingContext) {
 					sourceWarningText.text(result.warning || 'Ten szablon wymaga kontekstu projektu (sourceRecord).');
 					sourceWarning.removeClass('hide');
 				} else {
-					Vtiger_Helper_Js.showPnotify({
-						text: result.warning || 'Ten szablon wymaga kontekstu projektu (sourceRecord).',
-						type: 'warning'
-					});
-				}
-				saveButton.prop('disabled', true).addClass('disabled');
-			} else {
-				if (sourceWarning.length) {
 					sourceWarning.addClass('hide');
 				}
-				saveButton.prop('disabled', false).removeClass('disabled');
+			} else if (hasMissingContext) {
+				Vtiger_Helper_Js.showPnotify({
+					text: result.warning || 'Ten szablon wymaga kontekstu projektu (sourceRecord).',
+					type: 'warning'
+				});
 			}
+			sendBlocked.source = hasMissingContext;
+			refreshSendButton();
 		};
+		modalContainer.off('mailTemplateAttachmentState.mailSend').on('mailTemplateAttachmentState.mailSend', function (e, missing) {
+			sendBlocked.attachment = !!missing;
+			refreshSendButton();
+		});
 		var syncMailContent = function () {
 			contentInput.val(contentEditor.html());
 		};
@@ -323,6 +337,14 @@ var Vtiger_Index_Js = {
 			if (saveButton.prop('disabled')) {
 				return false;
 			}
+			if (mailComposeAttachments && mailComposeAttachments.hasMissingTemplateFiles()) {
+				Vtiger_Helper_Js.showPnotify({
+					text: app.vtranslate('LBL_MAIL_TEMPLATE_ATTACHMENTS_BLOCKED', 'Mail'),
+					type: 'error',
+					animation: 'show'
+				});
+				return false;
+			}
 			syncMailContent();
 			if (modalContainer.find('form').validationEngine('validate')) {
 				var sendData = jQuery.extend({}, postData, {
@@ -362,8 +384,12 @@ var Vtiger_Index_Js = {
 					}
 				}, function (data, err) {
 					app.errorLog(data, err);
+					var message = app.vtranslate('JS_ERROR');
+					if (data && data.error && data.error.message) {
+						message = data.error.message;
+					}
 					Vtiger_Helper_Js.showPnotify({
-						text: app.vtranslate('JS_ERROR'),
+						text: message,
 						type: 'error',
 						animation: 'show'
 					});
