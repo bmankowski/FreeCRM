@@ -47,6 +47,20 @@ Settings lists are **not** `Base/ListViewContents.tpl`. They use:
 
 **Settings Mail queue:** `Record::getInstance($id)` returns `false` for missing queue rows — skip before `delete()` (rows may disappear after send/cron).
 
+## CustomView column order (filter editor)
+
+Editing columns on a list filter (`CustomView` → `EditAjax`, loaded via `Vtiger_CustomView_Js.loadFilterView()` from `ListView.js`):
+
+- **Files:** `public/layouts/basic/modules/CustomView/resources/CustomView.js`, `public/libraries/resources/app.js` (`getSelect2ChoiceOrder`, `registerSelect2Sortable`).
+- **Symptom:** user sets order e.g. Nazwa → Kod → Typ; after save list shows Nazwa → Typ → Kod (often `code` stuck first/last).
+- **Cause:** Select2 multi-select ignores `.val([…])` array order — selected values follow **DOM `<option>` order** (field sequence in layout). Select2 stores choice metadata in its internal cache (`Utils.StoreData`), **not** jQuery `.data('data')`, so drag-to-reorder and save both broke silently.
+- **Fix pattern (already in repo):**
+  - Track intended order in `Vtiger_CustomView_Js.columnSelectionOrder` (init from saved `columnslist`, update on `select2:select` / `select2:unselect`, update on `columnorderchange` after drag).
+  - `reorderColumnSelectOptions()` before `.val()` on load; `getSelectedColumns()` returns tracked order (not bare `.val()`).
+  - `app.getSelect2ChoiceOrder()` matches tag text → option value for sortable stop; sortable triggers `columnorderchange`.
+  - Reset `columnSelectElement` / `columnSelectionOrder` when `loadFilterView` replaces `.contentsDiv` HTML.
+- **Verify:** save filter, check `vtiger_cvcolumnlist.columnindex` order for the `cvid`, then list header order on reload.
+
 ## Debug checklist for list issues
 
 1. Confirm current view and module (`ListView` vs `ListPreview`, Settings parent).
