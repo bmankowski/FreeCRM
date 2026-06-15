@@ -408,6 +408,7 @@ function isMissingOnDisk(int $documentId): bool
 			'vtiger_notes.location_type',
 			'vtiger_notes.active',
 			'vtiger_notes.storage_path',
+			'vtiger_notes.original_name',
 		])
 		->from('vtiger_notes')
 		->where(['vtiger_notes.notesid' => $documentId])
@@ -419,7 +420,10 @@ function isMissingOnDisk(int $documentId): bool
 	if ((string) ($row['location_type'] ?? '') !== 'internal' || (int) ($row['active'] ?? 0) !== 1) {
 		return true;
 	}
-	$path = \App\Modules\Documents\Models\Record::resolveStoragePath((string) ($row['storage_path'] ?? ''));
+	$path = \App\Modules\Documents\Models\Record::resolveStoragePath(
+		(string) ($row['storage_path'] ?? ''),
+		(string) ($row['original_name'] ?? '') ?: null
+	);
 
 	return $path === false || !is_file($path);
 }

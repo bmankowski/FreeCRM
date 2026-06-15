@@ -314,14 +314,36 @@ sample_candidate_id() {
 
 document_storage_file_exists() {
   local storage_path="$1"
+  local original_name="${2:-}"
   [[ -n "$storage_path" ]] || return 1
 
-  if [[ "${SYNC_SKIP_STORAGE:-0}" != "1" ]]; then
-    [[ -f "${ROOT_DIR}/${storage_path}" ]]
-    return $?
+  local candidates=("$storage_path")
+  local base="${storage_path##*/}"
+  local dir="${storage_path%/*}"
+  if [[ "$base" =~ ^([0-9]+)_(.+)$ ]]; then
+    candidates+=("${dir}/${BASH_REMATCH[1]}")
+  elif [[ "$base" =~ ^([0-9]+)$ && -n "$original_name" ]]; then
+    candidates+=("${dir}/${BASH_REMATCH[1]}_${original_name}")
+    local sanitized="${original_name// /_}"
+    if [[ "$sanitized" != "$original_name" ]]; then
+      candidates+=("${dir}/${BASH_REMATCH[1]}_${sanitized}")
+    fi
   fi
 
-  require_ssh
-  ssh -o BatchMode=yes -o ConnectTimeout=10 "${REMOTE_HOST}" \
-    "test -f '${REMOTE_WEB_ROOT}/${storage_path}'" >/dev/null 2>&1
+  local candidate
+  for candidate in "${candidates[@]}"; do
+    if [[ "${SYNC_SKIP_STORAGE:-0}" != "1" ]]; then
+      if [[ -f "${ROOT_DIR}/${candidate}" ]]; then
+        return 0
+      fi
+    else
+      require_ssh
+      if ssh -o BatchMode=yes -o ConnectTimeout=10 "${REMOTE_HOST}" \
+        "test -f '${REMOTE_WEB_ROOT}/${candidate}'" >/dev/null 2>&1; then
+        return 0
+      fi
+    fi
+  done
+
+  return 1
 }

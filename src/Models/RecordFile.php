@@ -17,13 +17,36 @@ class RecordFile
 	public const ROLE_ATTACHMENT = 'attachment';
 	public const ROLE_IMAGE = 'image';
 
-	public static function resolveAbsolutePath(?string $storagePath): string|false
+	public static function resolveAbsolutePath(?string $storagePath, ?string $originalName = null): string|false
 	{
 		if ($storagePath === null || $storagePath === '') {
 			return false;
 		}
 
-		return realpath(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $storagePath));
+		$candidates = [$storagePath];
+		$base = basename($storagePath);
+		$dir = dirname($storagePath);
+		$dirPrefix = ($dir === '.' ? '' : $dir . '/');
+
+		if (preg_match('/^(\d+)_(.+)$/', $base, $matches)) {
+			$candidates[] = $dirPrefix . $matches[1];
+		} elseif (preg_match('/^(\d+)$/', $base, $matches) && $originalName !== null && $originalName !== '') {
+			$decoded = \App\Utils\ListViewUtils::decodeHtml($originalName);
+			$candidates[] = $dirPrefix . $matches[1] . '_' . $decoded;
+			$sanitized = preg_replace('/\s+/', '_', $decoded) ?? $decoded;
+			if ($sanitized !== $decoded) {
+				$candidates[] = $dirPrefix . $matches[1] . '_' . $sanitized;
+			}
+		}
+
+		foreach (array_unique($candidates) as $candidate) {
+			$absolute = realpath(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $candidate));
+			if ($absolute !== false && is_file($absolute)) {
+				return $absolute;
+			}
+		}
+
+		return false;
 	}
 
 	/**

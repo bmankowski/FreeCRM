@@ -31,16 +31,18 @@ DROP TABLE IF EXISTS \`${TGT}\`.tmp_imp_document_meta;
 CREATE TABLE \`${TGT}\`.tmp_imp_document_meta (
   notesid INT NOT NULL PRIMARY KEY,
   is_external TINYINT(1) NOT NULL DEFAULT 0,
-  storage_path VARCHAR(500) DEFAULT NULL
+  storage_path VARCHAR(500) DEFAULT NULL,
+  original_name VARCHAR(255) DEFAULT NULL
 ) ENGINE=InnoDB;
-INSERT INTO \`${TGT}\`.tmp_imp_document_meta (notesid, is_external, storage_path)
+INSERT INTO \`${TGT}\`.tmp_imp_document_meta (notesid, is_external, storage_path, original_name)
 SELECT d.notesid,
        CASE WHEN yn.filelocationtype = 'E' THEN 1 ELSE 0 END,
        CASE
          WHEN yn.filelocationtype = 'E' THEN NULL
          WHEN a.attachmentsid IS NULL THEN NULL
-         ELSE CONCAT(a.path, a.attachmentsid, '_', a.name)
-       END
+         ELSE CONCAT(a.path, a.attachmentsid)
+       END,
+       CASE WHEN yn.filelocationtype = 'E' THEN NULL ELSE yn.filename END
 FROM \`${TGT}\`.tmp_imp_document_ids d
 INNER JOIN \`${SRC}\`.vtiger_notes yn ON yn.notesid = d.notesid
 LEFT JOIN \`${SRC}\`.vtiger_seattachmentsrel s ON s.crmid = d.notesid
@@ -57,20 +59,20 @@ DROP TABLE IF EXISTS \`${TGT}\`.tmp_imp_document_drop;
 CREATE TABLE \`${TGT}\`.tmp_imp_document_drop (notesid INT NOT NULL PRIMARY KEY) ENGINE=InnoDB;
 "
 
-while IFS=$'\t' read -r notesid is_external storage_path; do
+while IFS=$'\t' read -r notesid is_external storage_path original_name; do
   [[ -z "${notesid}" || ! "${notesid}" =~ ^[0-9]+$ ]] && continue
   if [[ "${is_external}" == "1" ]]; then
     skipped_external=$((skipped_external + 1))
     continue
   fi
   checked=$((checked + 1))
-  if document_storage_file_exists "${storage_path}"; then
+  if document_storage_file_exists "${storage_path}" "${original_name}"; then
     continue
   fi
   mariadb_exec "INSERT IGNORE INTO \`${TGT}\`.tmp_imp_document_drop (notesid) VALUES (${notesid});"
   dropped=$((dropped + 1))
 done < <(mariadb_query "
-  SELECT notesid, is_external, IFNULL(storage_path, '')
+  SELECT notesid, is_external, IFNULL(storage_path, ''), IFNULL(original_name, '')
   FROM \`${TGT}\`.tmp_imp_document_meta
   ORDER BY notesid;
 ")

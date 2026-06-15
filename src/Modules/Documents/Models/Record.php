@@ -42,9 +42,9 @@ class Record extends \App\Modules\Base\Models\Record
 		return null;
 	}
 
-	public static function resolveStoragePath(?string $storagePath): string|false
+	public static function resolveStoragePath(?string $storagePath, ?string $originalName = null): string|false
 	{
-		return \App\Models\RecordFile::resolveAbsolutePath($storagePath);
+		return \App\Models\RecordFile::resolveAbsolutePath($storagePath, $originalName);
 	}
 
 	public function getDownloadFileURL()
@@ -66,7 +66,10 @@ class Record extends \App\Modules\Base\Models\Record
 		if ($this->get('location_type') !== 'internal') {
 			return false;
 		}
-		$filePath = self::resolveStoragePath((string) $this->get('storage_path'));
+		$filePath = self::resolveStoragePath(
+			(string) $this->get('storage_path'),
+			(string) ($this->get('original_name') ?: null)
+		);
 
 		return $filePath !== false && is_file($filePath) && is_readable($filePath);
 	}
@@ -76,7 +79,10 @@ class Record extends \App\Modules\Base\Models\Record
 		if ($this->get('location_type') !== 'internal') {
 			return;
 		}
-		$filePath = self::resolveStoragePath((string) $this->get('storage_path'));
+		$filePath = self::resolveStoragePath(
+			(string) $this->get('storage_path'),
+			(string) ($this->get('original_name') ?: null)
+		);
 		if ($filePath === false || !is_file($filePath)) {
 			return;
 		}
@@ -218,7 +224,7 @@ class Record extends \App\Modules\Base\Models\Record
 					isset($file['original_name']) && $file['original_name'] !== '' ? $file['original_name'] : $file['name']
 				);
 				$displayName = ltrim(basename(' ' . $binFile));
-				$relativePath = $uploadDir . $this->getId() . '_' . $binFile;
+				$relativePath = $uploadDir . $this->getId();
 				$absolutePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $relativePath);
 				if (move_uploaded_file((string) $file['tmp_name'], $absolutePath)) {
 					$storagePath = $relativePath;

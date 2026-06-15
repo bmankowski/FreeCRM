@@ -155,7 +155,10 @@ class ExportCvZip extends \App\Base\Controllers\BaseActionController
 		if ($storagePath === '') {
 			return null;
 		}
-		$resolved = \App\Modules\Documents\Models\Record::resolveStoragePath($storagePath);
+		$resolved = \App\Modules\Documents\Models\Record::resolveStoragePath(
+			$storagePath,
+			(string) ($row['original_name'] ?? '') ?: null
+		);
 
 		return $resolved !== false && is_file($resolved) && is_readable($resolved) ? $resolved : null;
 	}

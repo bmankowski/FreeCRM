@@ -190,7 +190,7 @@ UPDATE \`${TGT}\`.vtiger_notes n
 INNER JOIN \`${SRC}\`.vtiger_seattachmentsrel s ON s.crmid = n.notesid
 INNER JOIN \`${SRC}\`.vtiger_attachments a ON a.attachmentsid = s.attachmentsid
 INNER JOIN \`${TGT}\`.tmp_imp_document_ids d ON d.notesid = n.notesid
-SET n.storage_path = CONCAT(a.path, a.attachmentsid, '_', a.name)
+SET n.storage_path = CONCAT(a.path, a.attachmentsid)
 WHERE n.location_type = 'internal'
   AND (n.storage_path IS NULL OR n.storage_path = '');
 "

@@ -151,7 +151,10 @@ and relcrmid=".$this->getId();
 		}
         $hash = hash('crc32', hrtime(true));
         $storagePath = (string) $document->get('storage_path');
-        $srcPath = \App\Modules\Documents\Models\Record::resolveStoragePath($storagePath);
+        $srcPath = \App\Modules\Documents\Models\Record::resolveStoragePath(
+            $storagePath,
+            (string) ($document->get('original_name') ?: null)
+        );
         if ($srcPath === false || !is_file($srcPath)) {
             \App\Log\Log::warning('[transformDocumentToCV] Cannot locate source document file. ' . \App\Utils\Json::encode([
                 'candidateId' => $this->getId(),

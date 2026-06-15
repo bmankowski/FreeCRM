@@ -249,7 +249,10 @@ class Mail
 		$attachments = [];
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$filePath = \App\Modules\Documents\Models\Record::resolveStoragePath((string) ($row['storage_path'] ?? ''));
+			$filePath = \App\Modules\Documents\Models\Record::resolveStoragePath(
+				(string) ($row['storage_path'] ?? ''),
+				(string) ($row['original_name'] ?? '') ?: null
+			);
 			if ($filePath !== false && is_file($filePath)) {
 				$displayName = (string) ($row['notes_title'] ?? '');
 				if ($displayName === '') {

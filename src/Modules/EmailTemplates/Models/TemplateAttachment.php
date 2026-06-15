@@ -330,6 +330,9 @@ class TemplateAttachment
 	 */
 	private static function resolveDocumentPath(array $row): string|false
 	{
-		return \App\Modules\Documents\Models\Record::resolveStoragePath((string) ($row['storage_path'] ?? ''));
+		return \App\Modules\Documents\Models\Record::resolveStoragePath(
+			(string) ($row['storage_path'] ?? ''),
+			(string) ($row['original_name'] ?? '') ?: null
+		);
 	}
 }
