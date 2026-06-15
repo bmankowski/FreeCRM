@@ -53,8 +53,6 @@ class RefreshDocsNumber {
                     innerJoin('vtiger_senotesrel', 'vtiger_senotesrel.notesid = vtiger_notes.notesid')->
                     innerJoin('vtiger_crmentity crm', 'crm.crmid = vtiger_senotesrel.crmid')->
                     innerJoin('vtiger_crmentity crm2', 'crm2.crmid = vtiger_notes.notesid')->
-                    leftJoin('vtiger_seattachmentsrel', 'vtiger_seattachmentsrel.crmid = vtiger_notes.notesid')->
-                    leftJoin('vtiger_attachments', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')->
                     innerJoin('vtiger_users', 'crm2.smcreatorid = vtiger_users.id')->
                     innerJoin('u_yf_candidates vr', 'vr.candidatesid=vtiger_senotesrel.crmid')->
                     where(['vr.candidatesid' => $candidateId])->

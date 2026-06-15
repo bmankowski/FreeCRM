@@ -48,39 +48,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public function getImageDetails(): array
 	{
-		$recordId = (int) $this->getId();
-		if ($recordId <= 0) {
-			return [];
-		}
-
-		$rows = (new \App\Db\Query())
-			->select(['vtiger_attachments.attachmentsid', 'vtiger_attachments.path', 'vtiger_attachments.name'])
-			->from('vtiger_attachments')
-			->innerJoin('vtiger_seattachmentsrel', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')
-			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_attachments.attachmentsid')
-			->where([
-				'vtiger_crmentity.setype' => 'HelpDesk Image',
-				'vtiger_seattachmentsrel.crmid' => $recordId,
-			])
-			->all();
-
-		$imageDetails = [];
-		foreach ($rows as $row) {
-			$imageName = (string) ($row['name'] ?? '');
-			if ($imageName === '') {
-				continue;
-			}
-			$attachmentId = (int) $row['attachmentsid'];
-			$imageDetails[] = [
-				'id' => $attachmentId,
-				'orgname' => \App\Utils\ListViewUtils::decodeHtml($imageName),
-				'path' => $row['path'] . $attachmentId,
-				'name' => $imageName,
-				'url' => 'file.php?module=HelpDesk&action=Image&record=' . $recordId . '&attachment=' . $attachmentId,
-			];
-		}
-
-		return $imageDetails;
+		return \App\Models\RecordFile::getImageDetailsForRecord((int) $this->getId(), 'HelpDesk');
 	}
 
 	public function attachReportIssueScreenshot(array $fileDetails): string
@@ -95,18 +63,8 @@ class Record extends \App\Modules\Base\Models\Record
 		}
 
 		$id = $this->getId();
-		$imageName = (new \App\Db\Query())
-			->select(['vtiger_attachments.name'])
-			->from('vtiger_seattachmentsrel')
-			->innerJoin('vtiger_attachments', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')
-			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_attachments.attachmentsid')
-			->where([
-				'vtiger_seattachmentsrel.crmid' => $id,
-				'vtiger_crmentity.setype' => 'HelpDesk Image',
-			])
-			->orderBy(['vtiger_attachments.attachmentsid' => SORT_DESC])
-			->scalar();
-		$imageName = \App\Utils\ListViewUtils::decodeHtml((string) $imageName);
+		$row = \App\Models\RecordFile::getByRecord((int) $id, \App\Models\RecordFile::ROLE_IMAGE);
+		$imageName = $row ? \App\Utils\ListViewUtils::decodeHtml((string) ($row['original_name'] ?? '')) : '';
 
 		\App\Db\Db::getInstance()->createCommand()->update(
 			'vtiger_troubletickets',

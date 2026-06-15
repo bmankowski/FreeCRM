@@ -235,11 +235,11 @@ class HelpDesk extends \App\Core\CRMEntity
 
 		\App\Log\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
-		$rel_table_arr = Array("Attachments" => "vtiger_seattachmentsrel", "Documents" => "vtiger_senotesrel");
+		$rel_table_arr = Array("Documents" => "vtiger_senotesrel");
 
-		$tbl_field_arr = Array("vtiger_seattachmentsrel" => "attachmentsid", "vtiger_senotesrel" => "notesid");
+		$tbl_field_arr = Array("vtiger_senotesrel" => "notesid");
 
-		$entity_tbl_field_arr = Array("vtiger_seattachmentsrel" => "crmid", "vtiger_senotesrel" => "crmid");
+		$entity_tbl_field_arr = Array("vtiger_senotesrel" => "crmid");
 
 		foreach ($transferEntityIds as $transferId) {
 			foreach ($rel_table_arr as $rel_module => $rel_table) {

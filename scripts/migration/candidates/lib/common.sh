@@ -96,6 +96,29 @@ mariadb_query() {
   docker_compose exec -T db mariadb -N -B -u"${LOCAL_DB_USER}" -p"${LOCAL_DB_PASS}" "${LOCAL_DB_NAME}" -e "$sql"
 }
 
+table_exists_in_db() {
+  local db="$1"
+  local table="$2"
+  local count
+  count="$(mariadb_query "
+    SELECT COUNT(*) FROM information_schema.tables
+    WHERE table_schema='${db}' AND table_name='${table}';
+  " 2>/dev/null || echo "0")"
+  [[ "${count:-0}" != "0" ]]
+}
+
+column_exists_in_db() {
+  local db="$1"
+  local table="$2"
+  local column="$3"
+  local count
+  count="$(mariadb_query "
+    SELECT COUNT(*) FROM information_schema.columns
+    WHERE table_schema='${db}' AND table_name='${table}' AND column_name='${column}';
+  " 2>/dev/null || echo "0")"
+  [[ "${count:-0}" != "0" ]]
+}
+
 intersection_columns() {
   local target_db="$1"
   local source_db="$2"
@@ -133,12 +156,147 @@ sql_copy_table() {
   mariadb_exec "${sql};"
 }
 
+# Prod Kandydaci → local Candidates (m260609_000001_rename_kandydaci_to_candidates).
+candidates_main_column_pairs() {
+  cat <<'MAP'
+kandydaciid:candidatesid
+status_kandydata:candidate_status
+telefon_extra:phone_extra
+telefon:phone
+rekrutowany_stanowisko:recruited_position
+dostepnosc:availability
+wymiar_czasu_pracy:work_time_type
+polec_znajomego:referrer_consultant_id
+MAP
+}
+
+candidates_cf_column_pairs() {
+  cat <<'MAP'
+kandydaciid:candidatesid
+ilosc_dokumentow_kandydata:documents_count
+ilosc_dokumentow:documents_count_legacy
+projekt_na_ktory_ostatnio_wysl:last_sent_to_project_id
+data_maksymalny_kontakt_rodo:gdpr_max_contact_date
+oczekiwania_finansowe_brutto:salary_expectation_gross
+data_ostatniego_wyslania:last_sent_to_project_date
+email_prywatny:email_private
+email_firmowy:email_business
+zrodlo_aplikacji:application_source
+tresc_cv:cv_text
+komunikator:messenger
+MAP
+}
+
+sql_copy_table_mapped() {
+  local target_db="$1"
+  local source_db="$2"
+  local source_table="$3"
+  local target_table="$4"
+  local where_clause="${5:-}"
+
+  declare -A src_for_tgt=()
+  local old_col new_col
+  while IFS=: read -r old_col new_col; do
+    [[ -z "${old_col}" || -z "${new_col}" ]] && continue
+    src_for_tgt["${new_col}"]="${old_col}"
+  done < <(candidates_main_column_pairs)
+
+  if [[ "${source_table}" == "u_yf_kandydacicf" ]]; then
+    src_for_tgt=()
+    while IFS=: read -r old_col new_col; do
+      [[ -z "${old_col}" || -z "${new_col}" ]] && continue
+      src_for_tgt["${new_col}"]="${old_col}"
+    done < <(candidates_cf_column_pairs)
+  fi
+
+  local tgt_cols insert_cols="" select_exprs="" tgt_col src_col bt=$'\x60'
+  local -a tgt_col_arr=()
+  tgt_cols="$(mariadb_query "
+    SELECT COLUMN_NAME FROM information_schema.COLUMNS
+    WHERE TABLE_SCHEMA='${target_db}' AND TABLE_NAME='${target_table}'
+    ORDER BY ORDINAL_POSITION;
+  ")"
+  mapfile -t tgt_col_arr <<< "$tgt_cols"
+
+  for tgt_col in "${tgt_col_arr[@]}"; do
+    [[ -z "${tgt_col}" ]] && continue
+    src_col="${src_for_tgt[$tgt_col]:-$tgt_col}"
+    column_exists_in_db "$source_db" "$source_table" "$src_col" \
+      || die "Missing ${source_db}.${source_table}.${src_col} for ${target_table}.${tgt_col}"
+    insert_cols+=$bt$tgt_col$bt,
+    select_exprs+=$bt$src_col$bt,
+  done
+
+  insert_cols="${insert_cols%,}"
+  select_exprs="${select_exprs%,}"
+
+  local sql=
+  sql+='INSERT INTO `'
+  sql+=$target_db
+  sql+='`.`'
+  sql+=$target_table
+  sql+='` ('
+  sql+=$insert_cols
+  sql+=') SELECT '
+  sql+=$select_exprs
+  sql+=' FROM `'
+  sql+=$source_db
+  sql+='`.`'
+  sql+=$source_table
+  sql+='`'
+  if [[ -n "$where_clause" ]]; then
+    sql+=" ${where_clause}"
+  fi
+  mariadb_exec "${sql};"
+}
+
+copy_candidates_from_source() {
+  local target_db="$1"
+  local source_db="$2"
+  local ids_where="(SELECT crmid FROM \`${target_db}\`.tmp_imp_candidates_ids)"
+
+  sql_copy_table "$target_db" "$source_db" vtiger_crmentity "WHERE crmid IN ${ids_where}"
+  mariadb_exec "
+UPDATE \`${target_db}\`.vtiger_crmentity
+SET setype = 'Candidates'
+WHERE crmid IN ${ids_where} AND setype = 'Kandydaci';
+"
+
+  if table_exists_in_db "$source_db" "u_yf_candidates"; then
+    sql_copy_table "$target_db" "$source_db" u_yf_candidates "WHERE candidatesid IN ${ids_where}"
+    sql_copy_table "$target_db" "$source_db" u_yf_candidatescf "WHERE candidatesid IN ${ids_where}"
+    return 0
+  fi
+
+  if table_exists_in_db "$source_db" "u_yf_kandydaci"; then
+    sql_copy_table_mapped "$target_db" "$source_db" u_yf_kandydaci u_yf_candidates \
+      "WHERE kandydaciid IN ${ids_where}"
+    sql_copy_table_mapped "$target_db" "$source_db" u_yf_kandydacicf u_yf_candidatescf \
+      "WHERE kandydaciid IN ${ids_where}"
+    return 0
+  fi
+
+  die "No candidates module tables in ${source_db}"
+}
+
 recruitment_counts() {
   local db="$1"
+  local candidates_count_sql="NULL"
+
+  if table_exists_in_db "$db" "u_yf_candidates"; then
+    candidates_count_sql="(SELECT COUNT(*) FROM \`${db}\`.u_yf_candidates k
+      INNER JOIN \`${db}\`.vtiger_crmentity e ON e.crmid=k.candidatesid AND e.setype='Candidates' AND e.deleted=0)"
+  elif table_exists_in_db "$db" "u_yf_kandydaci"; then
+    candidates_count_sql="(SELECT COUNT(*) FROM \`${db}\`.u_yf_kandydaci k
+      INNER JOIN \`${db}\`.vtiger_crmentity e ON e.crmid=k.kandydaciid AND e.setype='Kandydaci' AND e.deleted=0)"
+  else
+    echo "(counts unavailable)"
+    return 0
+  fi
+
   mariadb_query "
     SELECT CONCAT(
-      'candidates=', (SELECT COUNT(*) FROM \`${db}\`.u_yf_candidates k
-        INNER JOIN \`${db}\`.vtiger_crmentity e ON e.crmid=k.candidatesid AND e.setype='Candidates' AND e.deleted=0),
+      'candidates=', ${candidates_count_sql},
       ' projekty=', (SELECT COUNT(*) FROM \`${db}\`.u_yf_projektyrekrutacyjne p
         INNER JOIN \`${db}\`.vtiger_crmentity e ON e.crmid=p.projektyrekrutacyjneid AND e.setype='ProjektyRekrutacyjne' AND e.deleted=0),
       ' relations=', (SELECT COUNT(*) FROM \`${db}\`.u_yf_projekty_rekrutacyjne_relations_members_entity)
@@ -152,4 +310,18 @@ latest_yetiforce_dump() {
 
 sample_candidate_id() {
   mariadb_query "SELECT MAX(candidatesid) FROM \`${LOCAL_DB_NAME}\`.u_yf_candidates LIMIT 1;" 2>/dev/null || echo ""
+}
+
+document_storage_file_exists() {
+  local storage_path="$1"
+  [[ -n "$storage_path" ]] || return 1
+
+  if [[ "${SYNC_SKIP_STORAGE:-0}" != "1" ]]; then
+    [[ -f "${ROOT_DIR}/${storage_path}" ]]
+    return $?
+  fi
+
+  require_ssh
+  ssh -o BatchMode=yes -o ConnectTimeout=10 "${REMOTE_HOST}" \
+    "test -f '${REMOTE_WEB_ROOT}/${storage_path}'" >/dev/null 2>&1
 }

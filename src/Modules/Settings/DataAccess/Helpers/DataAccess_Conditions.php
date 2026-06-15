@@ -186,7 +186,7 @@ class DataAccess_Conditions
 			if (\App\Utils\Utils::isRecordExists($ID)) {
 				$documentModel = \App\Modules\Base\Models\Record::getInstanceById($ID);
 				if ($docName == $documentModel->get('notes_title') && $folder == $documentModel->get('folderid')) {
-					return $documentModel->get('ossdc_status');
+					return $documentModel->get('active');
 				}
 			}
 		}

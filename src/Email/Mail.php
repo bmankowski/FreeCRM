@@ -237,23 +237,23 @@ class Mail
 			return Cache::get('MailAttachmentsFromDocument', $cacheId);
 		}
 		$query = (new \App\Db\Query())
-			->select(['vtiger_attachments.*', 'vtiger_notes.title AS notes_title'])
-			->from('vtiger_attachments')
-			->innerJoin('vtiger_seattachmentsrel', 'vtiger_attachments.attachmentsid = vtiger_seattachmentsrel.attachmentsid')
-			->innerJoin('vtiger_crmentity', 'vtiger_seattachmentsrel.crmid = vtiger_crmentity.crmid')
-			->innerJoin('vtiger_notes', 'vtiger_notes.notesid = vtiger_seattachmentsrel.crmid')
-			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_seattachmentsrel.crmid' => $idsList]);
+			->select([
+				'vtiger_notes.notesid',
+				'vtiger_notes.title AS notes_title',
+				'vtiger_notes.storage_path',
+				'vtiger_notes.original_name',
+			])
+			->from('vtiger_notes')
+			->innerJoin('vtiger_crmentity', 'vtiger_notes.notesid = vtiger_crmentity.crmid')
+			->where(['vtiger_crmentity.deleted' => 0, 'vtiger_notes.notesid' => $idsList]);
 		$attachments = [];
 		$dataReader = $query->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			$name = \App\Utils\ListViewUtils::decodeHtml((string) ($row['name'] ?? ''));
-			$filePath = realpath(
-				ROOT_DIRECTORY . DIRECTORY_SEPARATOR . ($row['path'] ?? '') . ($row['attachmentsid'] ?? '') . '_' . $name
-			);
+			$filePath = \App\Modules\Documents\Models\Record::resolveStoragePath((string) ($row['storage_path'] ?? ''));
 			if ($filePath !== false && is_file($filePath)) {
 				$displayName = (string) ($row['notes_title'] ?? '');
 				if ($displayName === '') {
-					$displayName = $name;
+					$displayName = (string) ($row['original_name'] ?? basename($filePath));
 				}
 				$attachments[$filePath] = $displayName;
 			}

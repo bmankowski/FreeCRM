@@ -5,7 +5,7 @@
  * @project FreeCRM
  * @author bmankowski@gmail.com
  * @copyright (c) FreeCRM
- * @license FreeCRM Public License 1.0
+ * @license FreeCRM Public License 1.1
  */
 
 declare(strict_types=1);
@@ -34,11 +34,12 @@ class TemplateAttachment
 			->select([
 				"{$table}.{$documentColumn} AS document_id",
 				'vtiger_notes.title AS notes_title',
-				'vtiger_notes.filesize',
-				'vtiger_notes.filetype',
-				'vtiger_notes.filelocationtype',
-				'vtiger_notes.filestatus',
-				'vtiger_notes.filename',
+				'vtiger_notes.size_bytes',
+				'vtiger_notes.mime_type',
+				'vtiger_notes.location_type',
+				'vtiger_notes.active',
+				'vtiger_notes.original_name',
+				'vtiger_notes.storage_path',
 			])
 			->from($table)
 			->innerJoin('vtiger_crmentity', "vtiger_crmentity.crmid = {$table}.{$documentColumn}")
@@ -71,15 +72,14 @@ class TemplateAttachment
 			return [];
 		}
 		$ref = self::referenceInfo();
-		$table = $ref['table'];
 
 		$ids = (new \App\Db\Query())
-			->select(["{$table}.{$ref['base']}"])
-			->from($table)
-			->innerJoin('vtiger_crmentity', "vtiger_crmentity.crmid = {$table}.{$ref['base']}")
+			->select(["{$ref['table']}.{$ref['base']}"])
+			->from($ref['table'])
+			->innerJoin('vtiger_crmentity', "vtiger_crmentity.crmid = {$ref['table']}.{$ref['base']}")
 			->where([
 				'vtiger_crmentity.deleted' => 0,
-				"{$table}.{$ref['rel']}" => $templateId,
+				"{$ref['table']}.{$ref['rel']}" => $templateId,
 			])
 			->column();
 
@@ -240,10 +240,11 @@ class TemplateAttachment
 
 		$row = (new \App\Db\Query())
 			->select([
-				'vtiger_notes.filesize',
-				'vtiger_notes.filelocationtype',
-				'vtiger_notes.filestatus',
-				'vtiger_notes.filename',
+				'vtiger_notes.size_bytes',
+				'vtiger_notes.location_type',
+				'vtiger_notes.active',
+				'vtiger_notes.original_name',
+				'vtiger_notes.storage_path',
 			])
 			->from('vtiger_notes')
 			->innerJoin('vtiger_crmentity', 'vtiger_notes.notesid = vtiger_crmentity.crmid')
@@ -253,14 +254,14 @@ class TemplateAttachment
 		if (!$row) {
 			throw new \App\Exceptions\AppException('LBL_RECORD_NOT_FOUND');
 		}
-		if ((string) ($row['filelocationtype'] ?? '') !== 'I' || (int) ($row['filestatus'] ?? 0) !== 1) {
+		if ((string) ($row['location_type'] ?? '') !== 'internal' || (int) ($row['active'] ?? 0) !== 1) {
 			throw new \App\Exceptions\AppException('LBL_EMAILTEMPLATE_ATTACHMENT_INVALID_DOCUMENT');
 		}
 		if (!self::documentHasPhysicalFile($documentId, $row)) {
 			throw new \App\Exceptions\AppException('LBL_ATTACHMENT_FILE_MISSING');
 		}
 
-		$size = (int) ($row['filesize'] ?? 0);
+		$size = (int) ($row['size_bytes'] ?? 0);
 		if ($size <= 0) {
 			$size = self::physicalFileSize($documentId, $row);
 		}
@@ -275,14 +276,14 @@ class TemplateAttachment
 	private static function formatRow(int $documentId, array $row): array
 	{
 		$name = (string) ($row['notes_title'] ?? 'Document');
-		$fileType = (string) ($row['filetype'] ?? '');
+		$fileType = (string) ($row['mime_type'] ?? '');
 		$hasFile = self::documentHasPhysicalFile($documentId, $row);
 		$downloadUrl = '';
 		if ($hasFile) {
 			$recordModel = \App\Modules\Documents\Models\Record::getInstanceById($documentId, self::DOCUMENT_MODULE);
 			$downloadUrl = (string) $recordModel->getDownloadFileURL();
 		}
-		$size = (int) ($row['filesize'] ?? 0);
+		$size = (int) ($row['size_bytes'] ?? 0);
 		if ($hasFile && $size <= 0) {
 			$size = self::physicalFileSize($documentId, $row);
 		}
@@ -302,25 +303,8 @@ class TemplateAttachment
 	 */
 	private static function physicalFileSize(int $documentId, array $row): int
 	{
-		$fileName = (string) ($row['filename'] ?? '');
-		if ($fileName === '') {
-			return 0;
-		}
-		$attachmentRow = (new \App\Db\Query())
-			->select(['vtiger_attachments.attachmentsid', 'vtiger_attachments.path', 'vtiger_attachments.name'])
-			->from('vtiger_attachments')
-			->innerJoin('vtiger_seattachmentsrel', 'vtiger_attachments.attachmentsid = vtiger_seattachmentsrel.attachmentsid')
-			->where(['vtiger_seattachmentsrel.crmid' => $documentId])
-			->one();
-		if (!$attachmentRow) {
-			return 0;
-		}
-		$storedName = \App\Utils\ListViewUtils::decodeHtml((string) ($attachmentRow['name'] ?? $fileName));
-		$filePath = realpath(
-			ROOT_DIRECTORY . DIRECTORY_SEPARATOR . ($attachmentRow['path'] ?? '')
-			. ($attachmentRow['attachmentsid'] ?? '') . '_' . $storedName
-		);
-		if ($filePath === false || !is_file($filePath)) {
+		$filePath = self::resolveDocumentPath($row);
+		if ($filePath === false) {
 			return 0;
 		}
 
@@ -329,28 +313,23 @@ class TemplateAttachment
 
 	private static function documentHasPhysicalFile(int $documentId, array $row): bool
 	{
-		if ((string) ($row['filelocationtype'] ?? '') !== 'I' || (int) ($row['filestatus'] ?? 0) !== 1) {
+		if ((string) ($row['location_type'] ?? '') !== 'internal' || (int) ($row['active'] ?? 0) !== 1) {
 			return false;
 		}
-		$fileName = (string) ($row['filename'] ?? '');
-		if ($fileName === '') {
+		if ((string) ($row['storage_path'] ?? '') === '') {
 			return false;
 		}
-		$attachmentRow = (new \App\Db\Query())
-			->select(['vtiger_attachments.attachmentsid', 'vtiger_attachments.path', 'vtiger_attachments.name'])
-			->from('vtiger_attachments')
-			->innerJoin('vtiger_seattachmentsrel', 'vtiger_attachments.attachmentsid = vtiger_seattachmentsrel.attachmentsid')
-			->where(['vtiger_seattachmentsrel.crmid' => $documentId])
-			->one();
-		if (!$attachmentRow) {
-			return false;
-		}
-		$storedName = \App\Utils\ListViewUtils::decodeHtml((string) ($attachmentRow['name'] ?? $fileName));
-		$filePath = realpath(
-			ROOT_DIRECTORY . DIRECTORY_SEPARATOR . ($attachmentRow['path'] ?? '')
-			. ($attachmentRow['attachmentsid'] ?? '') . '_' . $storedName
-		);
+
+		$filePath = self::resolveDocumentPath($row);
 
 		return $filePath !== false && is_file($filePath);
+	}
+
+	/**
+	 * @param array<string, mixed> $row
+	 */
+	private static function resolveDocumentPath(array $row): string|false
+	{
+		return \App\Modules\Documents\Models\Record::resolveStoragePath((string) ($row['storage_path'] ?? ''));
 	}
 }

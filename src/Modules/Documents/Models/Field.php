@@ -23,9 +23,9 @@ class Field extends \App\Modules\Base\Models\Field
 	{
 		$fieldName = $this->getName();
 
-		if ($fieldName == 'filesize' && $recordInstance) {
-			$downloadType = $recordInstance->get('filelocationtype');
-			if ($downloadType == 'I') {
+		if ($fieldName == 'size_bytes' && $recordInstance) {
+			$downloadType = $recordInstance->get('location_type');
+			if ($downloadType == 'internal') {
 				$filesize = $value;
 				if ($filesize < 1024)
 					$value = $filesize . ' B';

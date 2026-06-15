@@ -126,22 +126,20 @@ class ExportCvZip extends \App\Base\Controllers\BaseActionController
 		$rows = (new Query())
 			->select([
 				'notesid' => 'n.notesid',
-				'filename' => 'n.filename',
-				'filelocationtype' => 'n.filelocationtype',
-				'attachmentsid' => 'a.attachmentsid',
-				'path' => 'a.path',
-				'name' => 'a.name',
+				'original_name' => 'n.original_name',
+				'location_type' => 'n.location_type',
+				'storage_path' => 'n.storage_path',
 			])
 			->from(['rel' => 'vtiger_senotesrel'])
 			->innerJoin(['n' => 'vtiger_notes'], 'n.notesid = rel.notesid')
 			->innerJoin(['ne' => 'vtiger_crmentity'], 'ne.crmid = n.notesid AND ne.deleted = 0')
-			->innerJoin(['ar' => 'vtiger_seattachmentsrel'], 'ar.crmid = n.notesid')
-			->innerJoin(['a' => 'vtiger_attachments'], 'a.attachmentsid = ar.attachmentsid')
 			->where([
 				'rel.crmid' => $candidateId,
-				'n.filelocationtype' => 'I',
+				'n.location_type' => 'internal',
+				'n.active' => 1,
 			])
 			->andWhere('LOWER(TRIM(n.title)) = :cvTitle', [':cvTitle' => 'cv'])
+			->andWhere(['not', ['n.storage_path' => null]])
 			->orderBy(['n.notesid' => SORT_ASC])
 			->all();
 
@@ -153,50 +151,13 @@ class ExportCvZip extends \App\Base\Controllers\BaseActionController
 	 */
 	private static function resolveAttachmentDiskPath(array $row): ?string
 	{
-		$path = (string) ($row['path'] ?? '');
-		$attachmentsId = (int) ($row['attachmentsid'] ?? 0);
-		if ($path === '' || $attachmentsId <= 0) {
+		$storagePath = (string) ($row['storage_path'] ?? '');
+		if ($storagePath === '') {
 			return null;
 		}
+		$resolved = \App\Modules\Documents\Models\Record::resolveStoragePath($storagePath);
 
-		$name = html_entity_decode((string) ($row['name'] ?? ''), ENT_QUOTES, \App\Core\AppConfig::main('default_charset'));
-		$name = \App\Utils\ListViewUtils::decodeHtml($name);
-
-		$relativeDir = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $path);
-		if (!str_ends_with($relativeDir, DIRECTORY_SEPARATOR)) {
-			$relativeDir .= DIRECTORY_SEPARATOR;
-		}
-		$absoluteDir = $relativeDir;
-		if ($absoluteDir[0] !== DIRECTORY_SEPARATOR && !preg_match('/^[A-Za-z]:[/\\\\]/', $absoluteDir)) {
-			$absoluteDir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . ltrim($absoluteDir, DIRECTORY_SEPARATOR);
-		}
-		if (!str_ends_with($absoluteDir, DIRECTORY_SEPARATOR)) {
-			$absoluteDir .= DIRECTORY_SEPARATOR;
-		}
-
-		$candidates = [];
-		if ($name !== '') {
-			$candidates[] = $absoluteDir . $attachmentsId . '_' . $name;
-			$candidates[] = $relativeDir . $attachmentsId . '_' . $name;
-		}
-		$candidates[] = $absoluteDir . (string) $attachmentsId;
-		$candidates[] = $relativeDir . (string) $attachmentsId;
-
-		foreach (array_unique($candidates) as $diskPath) {
-			$resolved = realpath($diskPath);
-			$checkPath = $resolved !== false ? $resolved : $diskPath;
-			if (is_file($checkPath) && is_readable($checkPath)) {
-				return $checkPath;
-			}
-		}
-
-		\App\Log\Log::warning('[ExportCvZip] Missing attachment file', [
-			'notesid' => $row['notesid'] ?? null,
-			'attachmentsid' => $attachmentsId,
-			'candidates' => $candidates,
-		]);
-
-		return null;
+		return $resolved !== false && is_file($resolved) && is_readable($resolved) ? $resolved : null;
 	}
 
 	/**

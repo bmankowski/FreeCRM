@@ -54,25 +54,23 @@ and relcrmid=".$this->getId();
         if (empty($candidateId)) {
             return;
         }
-        $query = " select x.candidateid, x.attachmentsid, notesid, x.path, x.name, x.type
+        $query = " select x.candidateid, x.notesid, x.storage_path, x.original_name, x.mime_type
             from
             (
-            select e.crmid as candidateId, zalacznik.attachmentsId as attachmentsId, dokument.notesid, zalacznik.path, zalacznik.name, zalacznik.type, row_number() over (partition by e.crmid order by dokument_zalacznik.crmid desc) as ord_number
+            select e.crmid as candidateId, dokument.notesid, dokument.storage_path, dokument.original_name, dokument.mime_type, row_number() over (partition by e.crmid order by kandydat_dokument.notesid desc) as ord_number
             from vtiger_crmentity e inner join vtiger_senotesrel kandydat_dokument on (e.crmid=kandydat_dokument.crmid)
             inner join vtiger_notes dokument on (kandydat_dokument.notesid=dokument.notesid)
-            inner join vtiger_seattachmentsrel dokument_zalacznik on (dokument.notesid=dokument_zalacznik.crmid)
-            inner join vtiger_attachments zalacznik on (dokument_zalacznik.attachmentsid=zalacznik.attachmentsid)
-            where zalacznik.name not rlike 'PRO[0-9]'
-            and zalacznik.name not rlike 'PRO_[0-9]'
-            and zalacznik.name not like '%umowa%'
-            and zalacznik.name not like '%zgoda%'
-            and zalacznik.name not like '%zgody%'
-            and zalacznik.name not like '%skierowania%'
-            and zalacznik.name not like '%adzczenie%'
-            and zalacznik.name not like '%sprzet.jpg%'
-            and zalacznik.name not like '%obowi%'
-            and zalacznik.name not like '%szablon%'
-            and zalacznik.name <> 'NDA.pdf'
+            where dokument.original_name not rlike 'PRO[0-9]'
+            and dokument.original_name not rlike 'PRO_[0-9]'
+            and dokument.original_name not like '%umowa%'
+            and dokument.original_name not like '%zgoda%'
+            and dokument.original_name not like '%zgody%'
+            and dokument.original_name not like '%skierowania%'
+            and dokument.original_name not like '%adzczenie%'
+            and dokument.original_name not like '%sprzet.jpg%'
+            and dokument.original_name not like '%obowi%'
+            and dokument.original_name not like '%szablon%'
+            and dokument.original_name <> 'NDA.pdf'
             and dokument.title not like '%kwestionariusz%'
             and dokument.title not like '%aneks%'
             and dokument.title not like '%blind%'
@@ -113,7 +111,10 @@ and relcrmid=".$this->getId();
             and lower(dokument.title) not like  '%potwierdzenie_prac%'
             and dokument.title not like '%zgoda%'
             and dokument.title not like '%Potwierdzenia%'
-            and lower(substr(dokument.filename,-4)) in ('.pdf','docx','.doc','.jpg','.gif','.png')
+            and lower(substr(dokument.original_name,-4)) in ('.pdf','docx','.doc','.jpg','.gif','.png')
+            and dokument.location_type = 'internal'
+            and dokument.active = 1
+            and dokument.storage_path is not null
             and e.setype='Candidates'
             and e.crmid = $candidateId
             ) as x
@@ -148,28 +149,24 @@ and relcrmid=".$this->getId();
 		if (empty($document)) {
 			return;
 		}
-        // Locating the document file
-        $docDetails = $document->getFileDetails();
-        //Adding hash to the document name
         $hash = hash('crc32', hrtime(true));
-        $srcPath = ($docDetails['path'] ?? '') . ($docDetails['attachmentsid'] ?? '') . '_' . ($docDetails['name'] ?? '');
-        if (empty($docDetails) || empty($docDetails['path']) || empty($docDetails['attachmentsid']) || empty($docDetails['name']) || !file_exists($srcPath)) {
+        $storagePath = (string) $document->get('storage_path');
+        $srcPath = \App\Modules\Documents\Models\Record::resolveStoragePath($storagePath);
+        if ($srcPath === false || !is_file($srcPath)) {
             \App\Log\Log::warning('[transformDocumentToCV] Cannot locate source document file. ' . \App\Utils\Json::encode([
                 'candidateId' => $this->getId(),
                 'documentId' => $document->getId(),
-                'attachmentsid' => $docDetails['attachmentsid'] ?? null,
-                'path' => $docDetails['path'] ?? null,
-                'name' => $docDetails['name'] ?? null,
+                'storage_path' => $storagePath,
                 'computedPath' => $srcPath,
             ]));
             return;
         }
-        $filenameBase = $docDetails["attachmentsid"] . "_" . $hash;
+        $filenameBase = $document->getId() . "_" . $hash;
         $tmpDir = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'tmp' . DIRECTORY_SEPARATOR;
         if (!is_dir($tmpDir)) {
             @mkdir($tmpDir, 0755, true);
         }
-        $originalExt = strtolower((string) pathinfo((string) ($docDetails['name'] ?? ''), PATHINFO_EXTENSION));
+        $originalExt = strtolower((string) pathinfo((string) ($document->get('original_name') ?? ''), PATHINFO_EXTENSION));
         $tmpSourcePath = $tmpDir . $filenameBase . ($originalExt ? ('.' . $originalExt) : '');
         // Locating the file and copying to temporary location
         if (!copy($srcPath, $tmpSourcePath)) {
@@ -182,7 +179,7 @@ and relcrmid=".$this->getId();
             return;
         }
         $finalPath = $tmpSourcePath;
-        switch ($docDetails["type"]) {
+        switch ($document->get('mime_type')) {
             case "application/msword":
             case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
                 // doc/docx -> pdf (same base name), then fall through to pdf -> jpg

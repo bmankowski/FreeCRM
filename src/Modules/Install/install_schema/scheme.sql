@@ -3663,17 +3663,20 @@ CREATE TABLE `vtiger_asteriskincomingevents` (
   PRIMARY KEY (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_attachments` */
+/*Table structure for table `s_yf_record_files` */
 
-CREATE TABLE `vtiger_attachments` (
-  `attachmentsid` int(19) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `description` text,
-  `type` varchar(100) DEFAULT NULL,
-  `path` text,
-  `subject` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`attachmentsid`),
-  CONSTRAINT `fk_1_vtiger_attachments` FOREIGN KEY (`attachmentsid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
+CREATE TABLE `s_yf_record_files` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `crm_record_id` int(19) NOT NULL,
+  `role` varchar(32) NOT NULL DEFAULT 'attachment',
+  `storage_path` varchar(500) NOT NULL,
+  `original_name` varchar(255) NOT NULL,
+  `mime_type` varchar(127) NOT NULL DEFAULT 'application/octet-stream',
+  `size_bytes` int(10) unsigned NOT NULL DEFAULT '0',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `idx_record` (`crm_record_id`,`role`),
+  CONSTRAINT `fk_record_files_crmid` FOREIGN KEY (`crm_record_id`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_audit_trial` */
@@ -6412,28 +6415,20 @@ CREATE TABLE `vtiger_notes` (
   `notesid` int(19) NOT NULL DEFAULT '0',
   `note_no` varchar(100) NOT NULL,
   `title` varchar(200) NOT NULL,
-  `filename` varchar(200) DEFAULT NULL,
   `notecontent` text,
   `folderid` varchar(255) DEFAULT NULL,
-  `filetype` varchar(100) DEFAULT NULL,
-  `filelocationtype` varchar(5) DEFAULT NULL,
-  `filedownloadcount` int(19) DEFAULT NULL,
-  `filestatus` smallint(1) DEFAULT NULL,
-  `filesize` int(19) NOT NULL DEFAULT '0',
-  `fileversion` varchar(50) DEFAULT NULL,
-  `ossdc_status` varchar(255) DEFAULT NULL,
+  `location_type` enum('internal','external') NOT NULL DEFAULT 'internal',
+  `storage_path` varchar(500) DEFAULT NULL,
+  `original_name` varchar(255) DEFAULT NULL,
+  `external_url` varchar(2048) DEFAULT NULL,
+  `mime_type` varchar(127) DEFAULT NULL,
+  `size_bytes` int(19) unsigned NOT NULL DEFAULT '0',
+  `download_count` int(19) unsigned NOT NULL DEFAULT '0',
+  `active` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`notesid`),
   KEY `notes_title_idx` (`title`),
   KEY `notes_notesid_idx` (`notesid`),
   CONSTRAINT `fk_1_vtiger_notes` FOREIGN KEY (`notesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_notescf` */
-
-CREATE TABLE `vtiger_notescf` (
-  `notesid` int(19) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`notesid`),
-  CONSTRAINT `vtiger_notescf_ibfk_1` FOREIGN KEY (`notesid`) REFERENCES `vtiger_notes` (`notesid`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_notification_status` */
@@ -7777,17 +7772,6 @@ CREATE TABLE `vtiger_rss` (
   PRIMARY KEY (`rssid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*Table structure for table `vtiger_salesmanattachmentsrel` */
-
-CREATE TABLE `vtiger_salesmanattachmentsrel` (
-  `smid` int(19) NOT NULL DEFAULT '0',
-  `attachmentsid` int(19) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`smid`,`attachmentsid`),
-  KEY `salesmanattachmentsrel_smid_idx` (`smid`),
-  KEY `salesmanattachmentsrel_attachmentsid_idx` (`attachmentsid`),
-  CONSTRAINT `fk_2_vtiger_salesmanattachmentsrel` FOREIGN KEY (`attachmentsid`) REFERENCES `vtiger_attachments` (`attachmentsid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /*Table structure for table `vtiger_salesmanticketrel` */
 
 CREATE TABLE `vtiger_salesmanticketrel` (
@@ -7855,17 +7839,6 @@ CREATE TABLE `vtiger_schedulereports` (
   `filetype` varchar(20) DEFAULT NULL,
   KEY `reportid` (`reportid`),
   CONSTRAINT `vtiger_schedulereports_ibfk_1` FOREIGN KEY (`reportid`) REFERENCES `vtiger_report` (`reportid`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-/*Table structure for table `vtiger_seattachmentsrel` */
-
-CREATE TABLE `vtiger_seattachmentsrel` (
-  `crmid` int(19) NOT NULL DEFAULT '0',
-  `attachmentsid` int(19) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`crmid`,`attachmentsid`),
-  KEY `seattachmentsrel_attachmentsid_idx` (`attachmentsid`),
-  KEY `seattachmentsrel_crmid_idx` (`crmid`),
-  KEY `seattachmentsrel_attachmentsid_crmid_idx` (`attachmentsid`,`crmid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_selectcolumn` */

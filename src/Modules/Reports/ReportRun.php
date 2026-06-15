@@ -304,15 +304,15 @@ class ReportRun extends \App\Core\CRMEntity
 			} else {
 				$columnSQL = "concat(" . $selectedfields[0] . ".currency_id,'::'," . $selectedfields[0] . "." . $selectedfields[1] . ") AS '" . \App\Utils\ListViewUtils::decodeHtml($header_label) . "'";
 			}
-		} elseif ($selectedfields[0] == 'vtiger_notes' && ($selectedfields[1] == 'filelocationtype' || $selectedfields[1] == 'filesize' || $selectedfields[1] == 'folderid' || $selectedfields[1] == 'filestatus')) {
-			if ($selectedfields[1] == 'filelocationtype') {
-				$columnSQL = "case " . $selectedfields[0] . "." . $selectedfields[1] . " when 'I' then 'Internal' when 'E' then 'External' else '-' end AS '" . \App\Utils\ListViewUtils::decodeHtml($selectedfields[2]) . "'";
+		} elseif ($selectedfields[0] == 'vtiger_notes' && ($selectedfields[1] == 'location_type' || $selectedfields[1] == 'size_bytes' || $selectedfields[1] == 'folderid' || $selectedfields[1] == 'active')) {
+			if ($selectedfields[1] == 'location_type') {
+				$columnSQL = "case " . $selectedfields[0] . "." . $selectedfields[1] . " when 'internal' then 'Internal' when 'external' then 'External' else '-' end AS '" . \App\Utils\ListViewUtils::decodeHtml($selectedfields[2]) . "'";
 			} else if ($selectedfields[1] == 'folderid') {
 				$columnSQL = "`vtiger_trees_templates_data`.name AS '$selectedfields[2]'";
 				$this->queryPlanner->addTable("`vtiger_trees_templates_data`");
-			} elseif ($selectedfields[1] == 'filestatus') {
+			} elseif ($selectedfields[1] == 'active') {
 				$columnSQL = "case " . $selectedfields[0] . "." . $selectedfields[1] . " when '1' then 'yes' when '0' then 'no' else '-' end AS '" . \App\Utils\ListViewUtils::decodeHtml($selectedfields[2]) . "'";
-			} elseif ($selectedfields[1] == 'filesize') {
+			} elseif ($selectedfields[1] == 'size_bytes') {
 				$columnSQL = "case " . $selectedfields[0] . "." . $selectedfields[1] . " when '' then '-' else concat(" . $selectedfields[0] . "." . $selectedfields[1] . "/1024,'  ','KB') end AS '" . \App\Utils\ListViewUtils::decodeHtml($selectedfields[2]) . "'";
 			}
 		} elseif ($selectedfields[0] == 'vtiger_inventoryproductrel') {

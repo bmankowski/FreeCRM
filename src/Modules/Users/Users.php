@@ -412,67 +412,41 @@ class Users extends \App\Core\CRMEntity
 	public function uploadAndSaveFile($id, $module, $fileDetails)
 	{
 		\App\Log\Log::trace("Entering into uploadAndSaveFile($id,$module) method.");
-		$currentUserId = (int) (\App\User\CurrentUser::getId() ?? 0);
-		$dateVar = date('Y-m-d H:i:s');
-		$db = \App\Db\Db::getInstance();
-		//to get the owner id
-		$ownerid = $this->column_fields['assigned_user_id'];
-		if (!isset($ownerid) || $ownerid == '')
-			$ownerid = $currentUserId;
 		$fileInstance = \App\Fields\File::loadFromRequest($fileDetails);
 		if (!$fileInstance->validate('image')) {
 			\App\Log\Log::trace('Skip the save attachment process.');
 			return false;
 		}
 		$binFile = $fileInstance->getSanitizeName();
-		$fileName = ltrim(basename(" " . $binFile)); //allowed filename like UTF-8 characters
 		$fileType = $fileDetails['type'];
 		$fileTmpName = $fileDetails['tmp_name'];
-		$uploadFilePath = \vtlib\Functions:: initStorageFileDirectory($module);
-		$db->createCommand()->insert('vtiger_crmentity', [
-			'smcreatorid' => $currentUserId,
-			'smownerid' => $ownerid,
-			'setype' => $module . ' Attachment',
-			'description' => $this->column_fields['description'],
-			'createdtime' => $dateVar,
-			'modifiedtime' => $dateVar
-		])->execute();
-		$currentId = $db->getLastInsertID('vtiger_crmentity_crmid_seq');
-		//upload the file in server
-		$relativeDest = $uploadFilePath . $currentId . '_' . $binFile;
-		$success = move_uploaded_file($fileTmpName, $relativeDest);
-		if ($success) {
-			$absoluteDest = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $relativeDest);
-			$normalized = \App\Modules\Users\Models\Record::normalizeUploadedUserPhotoFile($absoluteDest);
-			if ($normalized === null) {
-				@unlink($absoluteDest);
-				\App\Log\Log::trace('Exiting from uploadAndSaveFile($id,$module,$fileDetails) method.');
-				return false;
-			}
-			$binFile = $normalized['displayName'];
-			$fileName = $normalized['displayName'];
-			$fileType = $normalized['mimeType'];
-			$db->createCommand()->insert('vtiger_attachments', [
-				'attachmentsid' => $currentId,
-				'name' => $fileName,
-				'description' => $this->column_fields['description'],
-				'type' => $fileType,
-				'path' => $uploadFilePath,
-			])->execute();
-			if ($id != '') {
-				\App\Modules\Users\Models\Record::unlinkUserAvatarFilesForUserId((int) $id);
-				$db->createCommand()->delete('vtiger_salesmanattachmentsrel', ['smid' => $id])->execute();
-			}
-			$db->createCommand()->insert('vtiger_salesmanattachmentsrel', ['smid' => $id, 'attachmentsid' => $currentId])->execute();
-			//we should update the imagename in the users table
-			$db->createCommand()->update('vtiger_users', ['imagename' => $id], ['id' => $currentId])->execute();
-			$newRelative = $uploadFilePath . $currentId . '_' . $binFile;
-			\App\Modules\Users\Models\Record::writeUserPhotoBase64SidecarForRelativeImage($newRelative, $fileType);
-			\App\Log\Log::trace("Exiting from uploadAndSaveFile($id,$module,$fileDetails) method.");
-			return true;
+		$uploadFilePath = \vtlib\Functions::initStorageFileDirectory($module);
+		$userId = (int) $id;
+		\App\Modules\Users\Models\Record::unlinkUserAvatarFilesForUserId($userId);
+		$relativeDest = $uploadFilePath . $userId . '_' . time() . '_' . $binFile;
+		$absoluteDest = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $relativeDest);
+		if (!move_uploaded_file($fileTmpName, $absoluteDest)) {
+			return false;
 		}
+		$normalized = \App\Modules\Users\Models\Record::normalizeUploadedUserPhotoFile($absoluteDest);
+		if ($normalized === null) {
+			@unlink($absoluteDest);
+			return false;
+		}
+		$relativeDest = str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', str_replace('\\', '/', $normalized['absolutePath']));
+		$db = \App\Db\Db::getInstance();
+		$db->createCommand()->insert('s_yf_record_files', [
+			'crm_record_id' => $userId,
+			'role' => \App\Models\RecordFile::ROLE_IMAGE,
+			'storage_path' => $relativeDest,
+			'original_name' => $normalized['displayName'],
+			'mime_type' => $normalized['mimeType'],
+			'size_bytes' => (int) @filesize($normalized['absolutePath']),
+		])->execute();
+		$db->createCommand()->update('vtiger_users', ['imagename' => $normalized['displayName']], ['id' => $userId])->execute();
+		\App\Modules\Users\Models\Record::writeUserPhotoBase64SidecarForRelativeImage($relativeDest, $normalized['mimeType']);
 		\App\Log\Log::trace("Exiting from uploadAndSaveFile($id,$module,$fileDetails) method.");
-		return false;
+		return true;
 	}
 
 	/**
@@ -646,24 +620,8 @@ class Users extends \App\Core\CRMEntity
 
 	public function deleteImage()
 	{
-		$sql1 = 'SELECT attachmentsid FROM vtiger_salesmanattachmentsrel WHERE smid = ?';
-		$res1 = $this->db->pquery($sql1, array($this->id));
-		if ($this->db->num_rows($res1) > 0) {
-			\App\Modules\Users\Models\Record::unlinkUserAvatarFilesForUserId((int) $this->id);
-			$attachmentId = $this->db->query_result($res1, 0, 'attachmentsid');
-
-			$sql2 = "DELETE FROM vtiger_crmentity WHERE crmid=? && setype='Users Attachments'";
-			$this->db->pquery($sql2, array($attachmentId));
-
-			$sql3 = 'DELETE FROM vtiger_salesmanattachmentsrel WHERE smid=? && attachmentsid=?';
-			$this->db->pquery($sql3, array($this->id, $attachmentId));
-
-			$sql2 = "UPDATE vtiger_users SET imagename='' WHERE id=?";
-			$this->db->pquery($sql2, array($this->id));
-
-			$sql4 = 'DELETE FROM vtiger_attachments WHERE attachmentsid=?';
-			$this->db->pquery($sql4, array($attachmentId));
-		}
+		\App\Modules\Users\Models\Record::unlinkUserAvatarFilesForUserId((int) $this->id);
+		$this->db->pquery("UPDATE vtiger_users SET imagename='' WHERE id=?", array($this->id));
 	}
 
 	/** Function to delete an entity with given Id */

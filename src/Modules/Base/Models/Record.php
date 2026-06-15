@@ -749,15 +749,20 @@ class Record extends \App\Runtime\BaseModel
 	 */
 	public function deleteImage($imageId)
 	{
-		$db = \App\Database\PearDatabase::getInstance();
-		$checkResult = $db->pquery('SELECT crmid FROM vtiger_seattachmentsrel WHERE attachmentsid = ?', array($imageId));
-		$crmId = $db->query_result($checkResult, 0, 'crmid');
-		if ($this->getId() == $crmId) {
-			$db->pquery('DELETE FROM vtiger_attachments WHERE attachmentsid = ?', array($imageId));
-			$db->pquery('DELETE FROM vtiger_seattachmentsrel WHERE attachmentsid = ?', array($imageId));
-			return true;
+		$row = (new \App\Db\Query())
+			->from('s_yf_record_files')
+			->where(['id' => (int) $imageId, 'crm_record_id' => (int) $this->getId(), 'role' => \App\Models\RecordFile::ROLE_IMAGE])
+			->one();
+		if (!$row) {
+			return false;
 		}
-		return false;
+		$path = \App\Models\RecordFile::resolveAbsolutePath((string) ($row['storage_path'] ?? ''));
+		if ($path !== false && is_file($path)) {
+			@unlink($path);
+		}
+		\App\Db\Db::getInstance()->createCommand()->delete('s_yf_record_files', ['id' => (int) $imageId])->execute();
+
+		return true;
 	}
 
 	/**
@@ -1148,7 +1153,7 @@ class Record extends \App\Runtime\BaseModel
 	 */
 	public function uploadAndSaveFile($fileDetails, $attachmentType = 'Attachment', $moduleName = null, $mode = null, $fileId = null)
 	{
-		$id = $this->getId();
+		$id = (int) $this->getId();
 		$module = $moduleName !== null ? $moduleName : $this->getModuleName();
 		$fileDetailsForLog = $fileDetails;
 		if (\is_array($fileDetailsForLog)) {
@@ -1160,90 +1165,17 @@ class Record extends \App\Runtime\BaseModel
 			], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 		}
 		\App\Log\Log::trace("Entering into uploadAndSaveFile($id,$module,$fileDetailsForLog) method.");
-		$db = \App\Db\Db::getInstance();
-		$userId = (int) (\App\User\CurrentUser::getId() ?? 0);
-		$date = date('Y-m-d H:i:s');
 
-		//to get the owner id
-		$ownerid = $this->get('assigned_user_id');
-		if (!isset($ownerid) || $ownerid === '')
-			$ownerid = $userId;
-
-		if (isset($fileDetails['original_name']) && $fileDetails['original_name'] != null) {
-			$fileName = $fileDetails['original_name'];
-		} else {
-			$fileName = $fileDetails['name'];
-		}
-
-		$fileInstance = \App\Fields\File::loadFromRequest($fileDetails);
-		if (!$fileInstance->validate()) {
+		if ($module === 'Documents') {
 			return false;
 		}
-		$binFile = \App\Fields\File::sanitizeUploadFileName($fileName);
 
-		$filename = ltrim(basename(' ' . $binFile)); //allowed filename like UTF-8 characters
-		$filetype = $fileDetails['type'];
-		$filesize = $fileDetails['size'];
-		$filetmp_name = $fileDetails['tmp_name'];
+		$role = in_array($module, ['Contacts', 'Products', 'HelpDesk'], true)
+			? \App\Models\RecordFile::ROLE_IMAGE
+			: \App\Models\RecordFile::ROLE_ATTACHMENT;
+		$replace = $module !== 'Products';
 
-		//get the file path inwhich folder we want to upload the file
-		$uploadFilePath = \vtlib\Functions:: initStorageFileDirectory($module);
-
-		$params = [
-			'smcreatorid' => $userId,
-			'smownerid' => $ownerid,
-			'setype' => $module . ' Image',
-			'description' => $this->get('description'),
-			'createdtime' => $date,
-			'modifiedtime' => $date
-		];
-		if ($module === 'Contacts' || $module === 'Products' || $module === 'HelpDesk') {
-			$params['setype'] = $module . ' Image';
-		} else {
-			$params['setype'] = $module . ' Attachment';
-		}
-		$db->createCommand()->insert('vtiger_crmentity', $params)->execute();
-		$currentId = $db->getLastInsertID('vtiger_crmentity_crmid_seq');
-		$uploadStatus = move_uploaded_file($filetmp_name, $uploadFilePath . $currentId . '_' . $binFile);
-		if ($uploadStatus) {
-			$db->createCommand()->insert('vtiger_attachments', [
-				'attachmentsid' => $currentId,
-				'name' => $filename,
-				'description' => $this->get('description'),
-				'type' => $filetype,
-				'path' => $uploadFilePath
-			])->execute();
-
-			if ($mode === 'edit') {
-				if (!empty($id) && !empty($fileId)) {
-					$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => $fileId])->execute();
-				}
-			}
-			if ($module === 'Documents') {
-				$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id])->execute();
-			}
-			if ($module === 'Contacts' || $module === 'HelpDesk') {
-				$imageSetype = $module . ' Image';
-				$attachmentsId = (new \App\Db\Query())->select(['vtiger_seattachmentsrel.attachmentsid'])
-					->from('vtiger_seattachmentsrel')
-					->innerJoin('vtiger_crmentity', 'vtiger_seattachmentsrel.attachmentsid=vtiger_crmentity.crmid')
-					->where(['vtiger_crmentity.setype' => $imageSetype, 'vtiger_seattachmentsrel.crmid' => $id])
-					->scalar();
-				if (!empty($attachmentsId)) {
-					$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => $attachmentsId])->execute();
-					$db->createCommand()->delete('vtiger_crmentity', ['crmid' => $attachmentsId])->execute();
-					$db->createCommand()->insert('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => $currentId])->execute();
-				} else {
-					$db->createCommand()->insert('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => $currentId])->execute();
-				}
-			} else {
-				$db->createCommand()->insert('vtiger_seattachmentsrel', ['crmid' => $id, 'attachmentsid' => $currentId])->execute();
-			}
-			return true;
-		} else {
-			\App\Log\Log::trace('Skip the save attachment process.');
-			return false;
-		}
+		return \App\Models\RecordFile::saveUploadedFile($id, $fileDetails, $module, $role, $replace);
 	}
 
 	/**

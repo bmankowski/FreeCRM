@@ -1355,16 +1355,16 @@ class Base3 extends \App\Db\Importers\Base
 					'notesid' => $this->integer()->notNull()->defaultValue(0),
 					'note_no' => $this->stringType(100)->notNull(),
 					'title' => $this->stringType(200)->notNull(),
-					'filename' => $this->stringType(200),
 					'notecontent' => $this->text(),
 					'folderid' => $this->stringType()->null(),
-					'filetype' => $this->stringType(100),
-					'filelocationtype' => $this->stringType(5),
-					'filedownloadcount' => $this->integer(),
-					'filestatus' => $this->smallInteger(1),
-					'filesize' => $this->integer()->notNull()->defaultValue(0),
-					'fileversion' => $this->stringType(50),
-					'ossdc_status' => $this->stringType(),
+					'location_type' => "ENUM('internal','external') NOT NULL DEFAULT 'internal'",
+					'storage_path' => $this->stringType(500),
+					'original_name' => $this->stringType(255),
+					'external_url' => $this->stringType(2048),
+					'mime_type' => $this->stringType(127),
+					'size_bytes' => $this->integer()->unsigned()->notNull()->defaultValue(0),
+					'download_count' => $this->integer()->unsigned()->notNull()->defaultValue(0),
+					'active' => $this->boolean()->notNull()->defaultValue(1),
 				],
 				'index' => [
 						['notes_title_idx', 'title'],
@@ -1372,16 +1372,6 @@ class Base3 extends \App\Db\Importers\Base
 				],
 				'primaryKeys' => [
 						['notes_pk', 'notesid']
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
-			'vtiger_notescf' => [
-				'columns' => [
-					'notesid' => $this->integer()->notNull()->defaultValue(0),
-				],
-				'primaryKeys' => [
-						['notescf_pk', 'notesid']
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'

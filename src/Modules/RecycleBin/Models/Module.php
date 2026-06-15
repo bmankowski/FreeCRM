@@ -179,7 +179,7 @@ class Module extends \App\Modules\Base\Models\Module
 		\App\Db\Db::getInstance()->createCommand()
 			->delete('vtiger_crmentity', ['deleted' => 1, 'crmid' => $recordIds])
 			->execute();
-		// Delete entries of attachments from vtiger_attachments and vtiger_seattachmentsrel
+		// Delete record files and document blobs for permanently removed records
 		$this->deleteFiles($recordIds);
 		\App\Modules\Base\Models\Files::getRidOfTrash(['crmid' => $recordIds]);
 	}
@@ -199,34 +199,26 @@ class Module extends \App\Modules\Base\Models\Module
 	public function deleteFiles($recordIds)
 	{
 		$db = \App\Database\PearDatabase::getInstance();
-		$getAttachmentsIdQuery = sprintf('SELECT * FROM vtiger_seattachmentsrel WHERE crmid in(%s)', \App\Utils\Utils::generateQuestionMarks($recordIds));
-		$result = $db->pquery($getAttachmentsIdQuery, [$recordIds]);
-		$attachmentsIds = [];
-		if ($db->num_rows($result)) {
-			for ($i = 0; $i < ($db->num_rows($result)); $i++) {
-				$attachmentsIds[$i] = $db->query_result($result, $i, 'attachmentsid');
+		foreach ($recordIds as $recordId) {
+			$recordId = (int) $recordId;
+			if ($recordId <= 0) {
+				continue;
 			}
-		}
-		if (!empty($attachmentsIds)) {
-			$deleteRelQuery = sprintf('DELETE FROM vtiger_seattachmentsrel WHERE crmid in(%s)', \App\Utils\Utils::generateQuestionMarks($recordIds));
-			$db->pquery($deleteRelQuery, array($recordIds));
-			$attachmentsLocation = array();
-			$getPathQuery = sprintf('SELECT * FROM vtiger_attachments WHERE attachmentsid in (%s)', \App\Utils\Utils::generateQuestionMarks($attachmentsIds));
-			$pathResult = $db->pquery($getPathQuery, array($attachmentsIds));
-			if ($db->num_rows($pathResult)) {
-				for ($i = 0; $i < ($db->num_rows($pathResult)); $i++) {
-					$attachmentsLocation[$i] = $db->query_result($pathResult, $i, 'path');
-					$attachmentName = $db->query_result($pathResult, $i, 'name');
-					$attachmentId = $db->query_result($pathResult, $i, 'attachmentsid');
-					$fileName = $attachmentsLocation[$i] . $attachmentId . '_' . $attachmentName;
-					if (file_exists($fileName)) {
-						chmod($fileName, 0750);
-						unlink($fileName);
+			$moduleName = \App\Records\Record::getType($recordId);
+			if ($moduleName === 'Documents') {
+				$storagePath = (new \App\Db\Query())
+					->select(['storage_path'])
+					->from('vtiger_notes')
+					->where(['notesid' => $recordId])
+					->scalar();
+				if ($storagePath) {
+					$absolute = \App\Models\RecordFile::resolveAbsolutePath((string) $storagePath);
+					if ($absolute !== false && is_file($absolute)) {
+						@unlink($absolute);
 					}
 				}
 			}
-			$where = sprintf('attachmentsid in (%s)', \App\Utils\Utils::generateQuestionMarks($attachmentsIds));
-			$db->delete('vtiger_attachments', $where, [$attachmentsIds]);
+			\App\Models\RecordFile::deleteByRecord($recordId);
 		}
 	}
 

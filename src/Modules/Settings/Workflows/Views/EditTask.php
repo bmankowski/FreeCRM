@@ -80,7 +80,7 @@ class EditTask extends \App\Modules\Settings\Base\Views\Index
 		}
 	if ($taskType === 'VTUpdateFieldsTask') {
 		if ($sourceModule == "Documents") {
-			$restrictFields = array('folderid', 'filename', 'filelocationtype');
+			$restrictFields = array('folderid', 'original_name', 'location_type');
 			$viewer->assign('RESTRICTFIELDS', $restrictFields);
 		}
 	}

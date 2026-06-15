@@ -9,8 +9,8 @@
 
 Vtiger_Edit_Js("Documents_Edit_Js", {} ,{
 
-	INTERNAL_FILE_LOCATION_TYPE : 'I',
-	EXTERNAL_FILE_LOCATION_TYPE : 'E',
+	INTERNAL_FILE_LOCATION_TYPE : 'internal',
+	EXTERNAL_FILE_LOCATION_TYPE : 'external',
 
 	getMaxiumFileUploadingSize : function(container) {
 		return container.find('.maxUploadSize').data('value');
@@ -44,9 +44,9 @@ Vtiger_Edit_Js("Documents_Edit_Js", {} ,{
 
 	registerFileLocationTypeChangeEvent : function(container) {
 		var thisInstance = this;
-		container.on('change', 'select[name="filelocationtype"]', function(e){
-            var fileLocationTypeElement = container.find('[name="filelocationtype"]');
-            var fileNameElement = container.find('[name="filename"]');
+		container.on('change', 'select[name="location_type"]', function(e){
+            var fileLocationTypeElement = container.find('[name="location_type"]');
+            var fileNameElement = container.find('[name="original_name"]');
 			var newFileNameElement;
 			if (thisInstance.isFileLocationInternalType(fileLocationTypeElement)) {
 				newFileNameElement = jQuery('<input type="file"/>');
@@ -57,7 +57,6 @@ Vtiger_Edit_Js("Documents_Edit_Js", {} ,{
 			
 			for(var index=0; index<oldElementAttributeList.length; index++) {
 				var attributeObject = oldElementAttributeList[index];
-				//Dont update the type attribute
 				if(attributeObject.name=='type' || attributeObject.name == 'value' || attributeObject.name == 'class'){
 					continue;
 				}
@@ -89,11 +88,10 @@ Vtiger_Edit_Js("Documents_Edit_Js", {} ,{
 
 	registerFileChangeEvent : function(container) {
 		var thisInstance = this;
-		container.on('change', 'input[name="filename"]', function(e){
+		container.on('change', 'input[name="original_name"]', function(e){
             if(e.target.type == "text") return false;
             file = e.target.files[0];
-			var element = container.find('[name="filename"]');
-			//ignore all other types than file 
+			var element = container.find('[name="original_name"]');
 			if(element.attr('type') != 'file'){
 				return ;
 			}
@@ -111,19 +109,13 @@ Vtiger_Edit_Js("Documents_Edit_Js", {} ,{
 		});
 	},
     
-    /**
-     * Function to save the quickcreate module
-     * @param accepts form element as parameter
-     * @return returns deferred promise
-     */
     quickCreateSave: function(form) {
         var thisInstance = this;
         var aDeferred = jQuery.Deferred();
-                    //Using formData object to send data to server as a multipart/form-data form submit
         var formData = new FormData(form[0]);
-        var fileLocationTypeElement = form.find('[name="filelocationtype"]');
+        var fileLocationTypeElement = form.find('[name="location_type"]');
                     if(typeof file != "undefined" && thisInstance.isFileLocationInternalType(fileLocationTypeElement)){
-                        formData.append("filename", file);
+                        formData.append("original_name", file);
                         delete file;
                     }
                     if (formData) {
@@ -154,5 +146,3 @@ Vtiger_Edit_Js("Documents_Edit_Js", {} ,{
 		this._super();
 	}
 });
-
-

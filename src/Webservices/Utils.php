@@ -615,14 +615,6 @@ function vtws_getRelatedNotesAttachments($id, $relatedId)
 		$db->createCommand()->insert('vtiger_senotesrel', ['crmid' => $relatedId, 'notesid' => $noteId])->execute();
 	}
 
-	$sql = 'SELECT attachmentsid FROM vtiger_seattachmentsrel WHERE crmid=?';
-	$result = $adb->pquery($sql, [$id]);
-	if (!$result->rowCount()) {
-		return false;
-	}
-	while ($attachmentId = $adb->getSingleValue($result)) {
-		$db->createCommand()->insert('vtiger_seattachmentsrel', ['crmid' => $relatedId, 'attachmentsid' => $attachmentId])->execute();
-	}
 	return true;
 }
 

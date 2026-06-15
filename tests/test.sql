@@ -166,3 +166,11 @@ where email_private in (
 select email_private from u_yf_candidatescf 
 where  email_private <>'' GROUp by email_private HAVING COUNT(*)>1) order by email_private;
 
+
+
+select setype,count(*) from vtiger_crmentity where description is not null and description <> '' and deleted = 0 group by setype;
+
+select * from vtiger_crmentity where description is not null and description <> '' and setype = 'ProjektyRekrutacyjne';
+
+
+select setype,count(*) from yetiforce.vtiger_crmentity where description is not null and description <> '' and deleted = 0 group by setype;

@@ -101,11 +101,9 @@ class ExportUtils
 				$fields .= " concat(vtiger_contactdetails.lastname,' ',vtiger_contactdetails.firstname) as 'Contact Name',";
 			} elseif ($tablename == 'vtiger_products' && $columnName == 'vendor_id') { // Product - Vendor Name
 				$fields .= "vtiger_vendor.vendorname as '" . $fieldlabel . "',";
-			} elseif ($tablename == 'vtiger_attachments' && $columnName == 'name') { // Emails filename
-				$fields .= $tablename . ".name as '" . $fieldlabel . "',";
 			} elseif ($tablename == 'vtiger_troubletickets' && $columnName == 'product_id') { // Ticket - Product
 				$fields .= "vtiger_products.productname as '" . $fieldlabel . "',";
-			} elseif ($tablename == 'vtiger_notes' && ($columnName == 'filename' || $columnName == 'filetype' || $columnName == 'filesize' || $columnName == 'filelocationtype' || $columnName == 'filestatus' || $columnName == 'filedownloadcount' || $columnName == 'folderid')) {
+			} elseif ($tablename == 'vtiger_notes' && ($columnName == 'original_name' || $columnName == 'mime_type' || $columnName == 'size_bytes' || $columnName == 'location_type' || $columnName == 'active' || $columnName == 'download_count' || $columnName == 'folderid')) {
 				continue;
 			} else {
 				$fields .= $tablename . "." . $columnName . " as '" . $fieldlabel . "',";

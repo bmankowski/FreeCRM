@@ -148,11 +148,11 @@ class OutsourcedProducts extends \App\Core\CRMEntity
 
 		\App\Log\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
-		$rel_table_arr = Array("Documents" => "vtiger_senotesrel", "Attachments" => "vtiger_seattachmentsrel");
+		$rel_table_arr = Array("Documents" => "vtiger_senotesrel");
 
-		$tbl_field_arr = Array("vtiger_senotesrel" => "notesid", "vtiger_seattachmentsrel" => "attachmentsid");
+		$tbl_field_arr = Array("vtiger_senotesrel" => "notesid");
 
-		$entity_tbl_field_arr = Array("vtiger_senotesrel" => "crmid", "vtiger_seattachmentsrel" => "crmid");
+		$entity_tbl_field_arr = Array("vtiger_senotesrel" => "crmid");
 
 		foreach ($transferEntityIds as $transferId) {
 			foreach ($rel_table_arr as $rel_module => $rel_table) {

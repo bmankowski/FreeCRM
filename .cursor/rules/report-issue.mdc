@@ -11,9 +11,9 @@ Footer link (HelpDesk `CreateView`) → **screenshot first** → modal form → 
 ## Screenshot storage
 
 - Field **`report_issue_screenshot`** (uitype **69**, migration `m260609_000010_report_issue_screenshot_image.php`).
-- Backend: `HelpDesk\Models\Record::attachReportIssueScreenshot()` → `uploadAndSaveFile(..., 'HelpDesk')` with setype **`HelpDesk Image`** (HelpDesk included in Contacts-like branch in `Base\Models\Record::uploadAndSaveFile`).
-- **Not** the HelpDesk „Documents” tab — that is `getAttachments()` / `vtiger_senotesrel`, not `vtiger_seattachmentsrel`.
-- **`storage/` is not web-public** — DetailView `<img>` must use `file.php?module=HelpDesk&action=Image&record=…&attachment=…` (`HelpDesk/Files/Image.php`), not `storage/…` URLs.
+- Backend: `HelpDesk\Models\Record::attachReportIssueScreenshot()` → `uploadAndSaveFile(..., 'HelpDesk')` → row in **`s_yf_record_files`** (`role=image`). See `documents-storage.mdc`.
+- **Not** the HelpDesk „Documents” tab — that is `getAttachments()` / `vtiger_senotesrel` (linked Document records), not `s_yf_record_files`.
+- **`storage/` is not web-public** — DetailView `<img>` must use `file.php?module=HelpDesk&action=Image&record=…` (`HelpDesk/Files/Image.php` reads `s_yf_record_files` by record id), not `storage/…` URLs.
 
 ## Image preview (DetailView)
 

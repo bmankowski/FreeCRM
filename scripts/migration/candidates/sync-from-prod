@@ -88,6 +88,15 @@ STEP=$((STEP + 1))
 if [[ "${SYNC_DRY_RUN}" != "1" ]]; then
   confirm_destructive
 fi
+
+if [[ "${SYNC_SKIP_STORAGE}" != "1" ]]; then
+  run_step "$STEP" "$TOTAL" "Sync storage/ from prod (before document import)" \
+    "${SCRIPT_DIR}/sync-storage.sh"
+else
+  log "sync" "[${STEP}/${TOTAL}] Sync storage/ skipped (--skip-storage; missing files checked on prod via SSH)"
+fi
+STEP=$((STEP + 1))
+
 run_step "$STEP" "$TOTAL" "Promote ${STAGING_DB_NAME} → ${LOCAL_DB_NAME}" \
   "${SCRIPT_DIR}/02-promote-yetiforce-to-freecrm.sh"
 STEP=$((STEP + 1))
@@ -97,14 +106,6 @@ if [[ "${SYNC_SKIP_REFERENCES:-0}" != "1" ]]; then
     "${SCRIPT_DIR}/02b-promote-project-references.sh"
   STEP=$((STEP + 1))
 fi
-
-if [[ "${SYNC_SKIP_STORAGE}" != "1" ]]; then
-  run_step "$STEP" "$TOTAL" "Sync storage/ from prod" \
-    "${SCRIPT_DIR}/sync-storage.sh"
-else
-  log "sync" "[${STEP}/${TOTAL}] Sync storage/ skipped (--skip-storage)"
-fi
-STEP=$((STEP + 1))
 
 run_step "$STEP" "$TOTAL" "Post-process (labels, cache, verify)" \
   "${SCRIPT_DIR}/03-post-process.sh"

@@ -389,7 +389,7 @@ class Relation extends \App\Runtime\BaseModel
 	public function getAttachments()
 	{
 		$queryGenerator = $this->getQueryGenerator();
-		$queryGenerator->setCustomColumn('vtiger_notes.filetype');
+		$queryGenerator->setCustomColumn('vtiger_notes.mime_type');
 		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_senotesrel', 'vtiger_senotesrel.notesid= vtiger_notes.notesid']);
 		$queryGenerator->addJoin(['INNER JOIN', 'vtiger_crmentity crm2', 'crm2.crmid = vtiger_senotesrel.crmid']);
 		$queryGenerator->addNativeCondition(['crm2.crmid' => $this->get('parentRecord')->getId()]);

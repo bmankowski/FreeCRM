@@ -244,7 +244,7 @@ class RelatedList  extends \App\Modules\Base\Views\Index
 		$imageClasses = [];
 		foreach ($models as $record) {
 			$recordId = $record->getId();
-			$imageClasses[$recordId] = \App\Modules\Documents\Models\Record::getFileIconByFileType($record->get('filetype'));
+			$imageClasses[$recordId] = \App\Modules\Documents\Models\Record::getFileIconByFileType($record->get('mime_type'));
 		}
 		$viewer->assign('RECORD_LEFT_ICON_CLASSES', $imageClasses);
 	}

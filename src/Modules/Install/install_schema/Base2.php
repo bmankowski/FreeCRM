@@ -489,21 +489,6 @@ class Base2 extends \App\Db\Importers\Base
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'
 			],
-			'vtiger_attachments' => [
-				'columns' => [
-					'attachmentsid' => $this->integer()->notNull(),
-					'name' => $this->stringType()->notNull(),
-					'description' => $this->text(),
-					'type' => $this->stringType(100),
-					'path' => $this->text(),
-					'subject' => $this->stringType(),
-				],
-				'primaryKeys' => [
-					['attachments_pk', 'attachmentsid']
-				],
-				'engine' => 'InnoDB',
-				'charset' => 'utf8'
-			],
 			'vtiger_audit_trial' => [
 				'columns' => [
 					'auditid' => $this->integer()->notNull(),
@@ -4309,15 +4294,14 @@ class Base2 extends \App\Db\Importers\Base
 					[8, 204, 'title', 'vtiger_notes', 1, 2, 'notes_title', 'Title', 1, 0, '', 100, 1, 17, 1, 'V', 0, 1, 'BAS', 1, '', 1, '', NULL, 0, 0],
 					[8, 205, 'createdtime', 'vtiger_crmentity', 1, 70, 'createdtime', 'Created Time', 1, 0, '', 100, 5, 17, 2, 'DT', 3, NULL, 'BAS', 0, '', 0, '', NULL, 0, 0],
 					[8, 206, 'modifiedtime', 'vtiger_crmentity', 1, 70, 'modifiedtime', 'Modified Time', 1, 0, '', 100, 8, 17, 2, 'DT', 3, NULL, 'BAS', 0, '', 1, '', NULL, 0, 0],
-					[8, 207, 'filename', 'vtiger_notes', 1, 28, 'filename', 'File Name', 1, 2, '', 100, 3, 18, 1, 'V', 0, 2, 'BAS', 0, '', 1, '', NULL, 0, 0],
+					[8, 207, 'original_name', 'vtiger_notes', 1, 28, 'original_name', 'File Name', 1, 2, '', 100, 3, 18, 1, 'V', 0, 2, 'BAS', 0, '', 1, '', NULL, 0, 0],
 					[8, 208, 'smownerid', 'vtiger_crmentity', 1, 53, 'assigned_user_id', 'Assigned To', 1, 0, '', 100, 4, 17, 1, 'V', 0, 5, 'BAS', 1, '', 1, '', NULL, 0, 0],
 					[8, 209, 'notecontent', 'vtiger_notes', 1, 300, 'notecontent', 'Note', 1, 2, '', 100, 1, 84, 1, 'V', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
-					[8, 210, 'filetype', 'vtiger_notes', 1, 1, 'filetype', 'File Type', 1, 2, '', 100, 5, 18, 2, 'V', 3, 0, 'BAS', 0, '', 0, '', NULL, 0, 0],
-					[8, 211, 'filesize', 'vtiger_notes', 1, 1, 'filesize', 'File Size', 1, 2, '', 100, 4, 18, 2, 'I', 3, 0, 'BAS', 0, '', 0, '', NULL, 0, 0],
-					[8, 212, 'filelocationtype', 'vtiger_notes', 1, 27, 'filelocationtype', 'Download Type', 1, 0, '', 100, 1, 18, 1, 'V', 0, 4, 'BAS', 0, '', 0, '', NULL, 0, 0],
-					[8, 213, 'fileversion', 'vtiger_notes', 1, 1, 'fileversion', 'Version', 1, 2, '', 100, 6, 18, 1, 'V', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
-					[8, 214, 'filestatus', 'vtiger_notes', 1, 56, 'filestatus', 'Active', 1, 2, '1', 100, 2, 18, 1, 'V', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
-					[8, 215, 'filedownloadcount', 'vtiger_notes', 1, 1, 'filedownloadcount', 'Download Count', 1, 2, '', 100, 7, 18, 2, 'I', 3, 0, 'BAS', 0, '', 0, '', NULL, 0, 0],
+					[8, 210, 'mime_type', 'vtiger_notes', 1, 1, 'mime_type', 'File Type', 1, 2, '', 100, 5, 18, 2, 'V', 3, 0, 'BAS', 0, '', 0, '', NULL, 0, 0],
+					[8, 211, 'size_bytes', 'vtiger_notes', 1, 1, 'size_bytes', 'File Size', 1, 2, '', 100, 4, 18, 2, 'I', 3, 0, 'BAS', 0, '', 0, '', NULL, 0, 0],
+					[8, 212, 'location_type', 'vtiger_notes', 1, 27, 'location_type', 'Download Type', 1, 0, '', 100, 1, 18, 1, 'V', 0, 4, 'BAS', 0, '', 0, '', NULL, 0, 0],
+					[8, 214, 'active', 'vtiger_notes', 1, 56, 'active', 'Active', 1, 2, '1', 100, 2, 18, 1, 'V', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[8, 215, 'download_count', 'vtiger_notes', 1, 1, 'download_count', 'Download Count', 1, 2, '', 100, 7, 18, 2, 'I', 3, 0, 'BAS', 0, '', 0, '', NULL, 0, 0],
 					[8, 216, 'folderid', 'vtiger_notes', 1, 302, 'folderid', 'Folder Name', 1, 2, 'T1', 100, 2, 17, 1, 'V', 2, 3, 'BAS', 1, '', 1, '1', NULL, 0, 0],
 					[8, 217, 'note_no', 'vtiger_notes', 1, 4, 'note_no', 'Document No', 1, 0, '', 100, 3, 17, 1, 'V', 3, NULL, 'BAS', 0, '', 0, '', NULL, 0, 0],
 					[8, 218, 'modifiedby', 'vtiger_crmentity', 1, 52, 'modifiedby', 'Last Modified By', 1, 0, '', 100, 12, 17, 3, 'V', 3, NULL, 'BAS', 0, '', 0, '', NULL, 0, 0],
@@ -4592,7 +4576,6 @@ class Base2 extends \App\Db\Importers\Base
 					[54, 860, 'smownerid', 'vtiger_crmentity', 1, 53, 'assigned_user_id', 'Assigned To', 1, 0, '', 100, 3, 135, 1, 'V', 0, 6, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[54, 861, 'createdtime', 'vtiger_crmentity', 1, 70, 'createdtime', 'Created Time', 1, 0, '', 100, 1, 135, 2, 'DT', 3, 0, 'BAS', 0, '', 0, '', NULL, 0, 0],
 					[54, 862, 'modifiedtime', 'vtiger_crmentity', 1, 70, 'modifiedtime', 'Modified Time', 1, 0, '', 100, 2, 135, 2, 'DT', 3, 0, 'BAS', 0, '', 0, '', NULL, 0, 0],
-					[8, 865, 'ossdc_status', 'vtiger_notes', 1, 15, 'ossdc_status', 'ossdc_status', 1, 2, '', 100, 7, 17, 1, 'V', 1, NULL, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[57, 866, 'osservicesstatus', 'vtiger_ossoutsourcedservices', 1, 15, 'osservicesstatus', 'LBL_osservicesstatus', 1, 2, '', 100, 3, 138, 1, 'V', 2, 3, 'BAS', 2, '', 1, '', NULL, 0, 0],
 					[57, 867, 'productname', 'vtiger_ossoutsourcedservices', 1, 2, 'productname', 'Product Name', 1, 2, '', 250, 1, 138, 1, 'V', 2, 1, 'BAS', 1, '', 1, '', NULL, 0, 0],
 					[57, 868, 'pscategory', 'vtiger_ossoutsourcedservices', 1, 302, 'pscategory', 'Category', 1, 2, '', 250, 2, 138, 1, 'V', 2, 5, 'BAS', 1, '', 1, '4', NULL, 0, 0],

@@ -176,16 +176,16 @@ class Contacts extends \App\Core\CRMEntity
 		\App\Log\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("Products" => "vtiger_seproductsrel", "Documents" => "vtiger_senotesrel",
-			"Attachments" => "vtiger_seattachmentsrel", "Campaigns" => "vtiger_campaign_records",
+			"Campaigns" => "vtiger_campaign_records",
 			'ServiceContracts' => 'vtiger_servicecontracts', 'Project' => 'vtiger_project');
 
 		$tbl_field_arr = Array("vtiger_seproductsrel" => "productid", "vtiger_senotesrel" => "notesid",
-			"vtiger_seattachmentsrel" => "attachmentsid", "vtiger_campaign_records" => "campaignid",
+			"vtiger_campaign_records" => "campaignid",
 			'vtiger_servicecontracts' => 'servicecontractsid', 'vtiger_project' => 'projectid',
 			'vtiger_payments' => 'paymentsid');
 
 		$entity_tbl_field_arr = Array("vtiger_seproductsrel" => "crmid", "vtiger_senotesrel" => "crmid",
-			"vtiger_seattachmentsrel" => "crmid", "vtiger_campaign_records" => "crmid",
+			"vtiger_campaign_records" => "crmid",
 			'vtiger_servicecontracts' => 'sc_related_to', 'vtiger_project' => 'linktoaccountscontacts',
 			'vtiger_payments' => 'relatedcontact');
 

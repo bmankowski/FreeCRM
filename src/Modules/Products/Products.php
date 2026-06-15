@@ -156,16 +156,16 @@ class Products extends \App\Core\CRMEntity
 
 		\App\Log\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
-		$rel_table_arr = Array("HelpDesk" => "vtiger_troubletickets", "Products" => "vtiger_seproductsrel", "Attachments" => "vtiger_seattachmentsrel",
+		$rel_table_arr = Array("HelpDesk" => "vtiger_troubletickets", "Products" => "vtiger_seproductsrel",
 			"PriceBooks" => "vtiger_pricebookproductrel", "Leads" => "vtiger_seproductsrel",
 			"Accounts" => "vtiger_seproductsrel", "Contacts" => "vtiger_seproductsrel",
 			"Documents" => "vtiger_senotesrel", 'Assets' => 'vtiger_assets',);
 
-		$tbl_field_arr = Array("vtiger_troubletickets" => "ticketid", "vtiger_seproductsrel" => "crmid", "vtiger_seattachmentsrel" => "attachmentsid",
+		$tbl_field_arr = Array("vtiger_troubletickets" => "ticketid", "vtiger_seproductsrel" => "crmid",
 			"vtiger_inventoryproductrel" => "id", "vtiger_pricebookproductrel" => "pricebookid", "vtiger_seproductsrel" => "crmid",
 			"vtiger_senotesrel" => "notesid", 'vtiger_assets' => 'assetsid');
 
-		$entity_tbl_field_arr = Array("vtiger_troubletickets" => "product_id", "vtiger_seproductsrel" => "crmid", "vtiger_seattachmentsrel" => "crmid",
+		$entity_tbl_field_arr = Array("vtiger_troubletickets" => "product_id", "vtiger_seproductsrel" => "crmid",
 			"vtiger_inventoryproductrel" => "productid", "vtiger_pricebookproductrel" => "productid", "vtiger_seproductsrel" => "productid",
 			"vtiger_senotesrel" => "crmid", 'vtiger_assets' => 'product');
 

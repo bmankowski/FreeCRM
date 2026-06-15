@@ -4,6 +4,8 @@ globs:
   - "src/Modules/ProjektyRekrutacyjne/**"
   - "src/Modules/Candidates/Candidates.php"
   - "src/Modules/Candidates/Handlers/NewCandidateInProject.php"
+  - "src/Modules/Candidates/Models/RelatedListLeftSideExtras.php"
+  - "src/Modules/RecruitmentApplication/Services/CvImport/DocumentHelper.php"
   - "layouts/basic/modules/ProjektyRekrutacyjne/**"
   - "public/modules/ProjektyRekrutacyjne/**"
 ---
@@ -53,3 +55,10 @@ globs:
 - Manual drag: `Detail.js` → `ChangeCandidateStatusManuallyAjax` → `GetRelatedMembers::changeStatus()` (whitelist: `RecruitmentStatusTransition`).
 - Configured mail prompt (separate matrix): `RecruitmentStatusTransitionMail::getPrompt()` → JSON `mailPrompt.templateIds` → `Vtiger_Index_Js.triggerSendEmailModal` (`Candidates`, `sourceModule`/`sourceRecord` = project). See `recruitment-settings.mdc`.
 - Screening Accept/Reject and workflows do **not** use the mail-prompt matrix.
+
+## Candidate files (CV, consents, etc.)
+
+- **Canonical storage:** Documents module + `vtiger_senotesrel` — Candidate detail → Więcej → **Documents** (`getAttachments`, `m260613_000006`). ADD/SELECT + per-row **CV** (Set as CV) via `RelatedListLeftSideExtras`.
+- **Preview only:** Summary **Preview** widget reads `cv_img_file` (JPG pages); empty if no Set-as-CV / transform yet, even when Documents exist.
+- **CV import:** `DocumentHelper::saveAndDeleteFile` links new Document to **Candidates** only (`prepareRelationsString('Candidates', …)`).
+- **Counts:** `u_yf_candidatescf.documents_count` via `RefreshDocsNumber` on link/unlink.

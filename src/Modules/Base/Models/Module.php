@@ -1409,7 +1409,7 @@ class Module extends \vtlib\Module
 	public function getSpecificRelationQuery($relatedModule)
 	{
 		if ($relatedModule == 'Documents') {
-			return ' AND vtiger_notes.filestatus = 1 ';
+			return ' AND vtiger_notes.active = 1 ';
 		}
 		return;
 	}

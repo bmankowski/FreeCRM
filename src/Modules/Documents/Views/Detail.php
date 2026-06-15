@@ -29,7 +29,7 @@ class Detail  extends \App\Modules\Base\Views\Detail
 		// Assign Documents-specific data
 		$recordId = $request->get('record');
 		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId);
-		$fileType = $recordModel->get('filetype');
+		$fileType = $recordModel->get('mime_type');
 		$fileIcon = \App\Layout\Icon::getIconByFileType($fileType);
 
 		$viewer = $this->getViewer($request);

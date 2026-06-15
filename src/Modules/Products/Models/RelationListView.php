@@ -19,7 +19,7 @@ class RelationListView extends \App\Runtime\BaseModel
 		'IStorages' => ['qtyinstock' => 'qtyinstock'],
 		'Calendar' => ['visibility' => 'visibility'],
 		'PriceBooks' => ['unit_price' => 'unit_price', 'listprice' => 'listprice', 'currency_id' => 'currency_id'],
-		'Documents' => ['filelocationtype' => 'filelocationtype', 'filestatus' => 'filestatus']
+		'Documents' => ['location_type' => 'location_type', 'active' => 'active']
 	];
 
 	/**

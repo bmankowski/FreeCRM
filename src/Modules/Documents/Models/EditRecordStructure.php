@@ -43,7 +43,7 @@ class EditRecordStructure extends \App\Modules\Base\Models\RecordStructure
 						}
 
 						//By default the file status should be active while creating a Document record
-						if ($fieldName === 'filestatus' && !$recordId) {
+						if ($fieldName === 'active' && !$recordId) {
 							$fieldValue = true;
 						}
 

@@ -32,7 +32,7 @@ class DocumentsFileUpload extends BaseUiType
 	 */
 	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		return $this->getDisplayValue(\vtlib\Functions:: textLength($value, $this->get('field')->get('maxlengthtext')), $record, $recordInstance, $rawText);
+		return $this->getDisplayValue(\vtlib\Functions::textLength($value, $this->get('field')->get('maxlengthtext')), $record, $recordInstance, $rawText);
 	}
 
 	/**
@@ -45,20 +45,18 @@ class DocumentsFileUpload extends BaseUiType
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
 		if ($recordInstance) {
-			$fileLocationType = $recordInstance->get('filelocationtype');
-			$fileStatus = $recordInstance->get('filestatus');
-			if (!empty($value) && $fileStatus) {
-				if ($fileLocationType == 'I') {
-					$fileId = (new \App\Db\Query())->select(['attachmentsid'])
-						->from('vtiger_seattachmentsrel')
-						->where(['crmid' => $record])
-						->scalar();
-					if ($fileId) {
-						$value = '<a href="index.php?module=Documents&action=DownloadFile&record=' . $record . '&fileid=' . $fileId . '"' .
+			$locationType = $recordInstance->get('location_type');
+			$active = $recordInstance->get('active');
+			if (!empty($value) && $active) {
+				if ($locationType === 'internal') {
+					$storagePath = (string) $recordInstance->get('storage_path');
+					if ($storagePath !== '') {
+						$value = '<a href="index.php?module=Documents&action=DownloadFile&record=' . $record . '"' .
 							' title="' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $value . '</a>';
 					}
 				} else {
-					$value = '<a href="' . $value . '" target="_blank" title="' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $value . '</a>';
+					$url = (string) ($recordInstance->get('external_url') ?: $value);
+					$value = '<a href="' . $url . '" target="_blank" title="' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $value . '</a>';
 				}
 			}
 		}
@@ -76,7 +74,7 @@ class DocumentsFileUpload extends BaseUiType
 		if ($value === null) {
 			$notesId = ($recordModel && is_object($recordModel) && method_exists($recordModel, 'getId')) ? $recordModel->getId() : null;
 			if ($notesId) {
-				$fileName = (new \App\Db\Query())->select(['filename'])->from('vtiger_notes')->where(['notesid' => $notesId])->scalar();
+				$fileName = (new \App\Db\Query())->select(['original_name'])->from('vtiger_notes')->where(['notesid' => $notesId])->scalar();
 				if ($fileName !== false && $fileName !== null && $fileName !== '') {
 					return \App\Utils\ListViewUtils::decodeHtml($fileName);
 				}

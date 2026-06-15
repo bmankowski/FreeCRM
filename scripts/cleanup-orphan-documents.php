@@ -226,7 +226,7 @@ Options:
   --missing-file-only    Restrict to legacy storage/oss_mailscanner/ attachments
   --dangling-link-only   Orphans with senotesrel pointing to missing/deleted parents
   --no-relation-only     Orphans with no vtiger_senotesrel row at all
-  --no-attachment-only   Orphans with no vtiger_seattachmentsrel row
+  --no-attachment-only   Orphans with no storage_path (internal docs without file)
   --created-before=DATE  Only orphans created before YYYY-MM-DD
   --verify-disk          Skip records whose attachment file exists on disk
   --permanent            Purge immediately after soft-delete (skip Recycle Bin)
@@ -322,9 +322,8 @@ function orphanQuery(array $options): \App\Db\Query
 
 	if ($options['missing_file_only']) {
 		$query
-			->innerJoin(['sar' => 'vtiger_seattachmentsrel'], 'sar.crmid = n.notesid')
-			->innerJoin(['a' => 'vtiger_attachments'], 'a.attachmentsid = sar.attachmentsid')
-			->andWhere(['like', 'a.path', 'storage/oss_mailscanner/', false]);
+			->andWhere(['n.location_type' => 'internal'])
+			->andWhere(['like', 'n.storage_path', 'storage/oss_mailscanner/', false]);
 	}
 
 	if ($options['dangling_link_only']) {
@@ -349,11 +348,9 @@ function orphanQuery(array $options): \App\Db\Query
 
 	if ($options['no_attachment_only']) {
 		$query->andWhere([
-			'not exists',
-			(new \App\Db\Query())
-				->select([new \yii\db\Expression('1')])
-				->from(['sar' => 'vtiger_seattachmentsrel'])
-				->where('sar.crmid = n.notesid'),
+			'or',
+			['n.storage_path' => null],
+			['n.storage_path' => ''],
 		]);
 	}
 
@@ -408,36 +405,21 @@ function isMissingOnDisk(int $documentId): bool
 {
 	$row = (new \App\Db\Query())
 		->select([
-			'vtiger_notes.filename',
-			'vtiger_notes.filelocationtype',
-			'vtiger_notes.filestatus',
-			'vtiger_attachments.attachmentsid',
-			'vtiger_attachments.path',
-			'vtiger_attachments.name',
+			'vtiger_notes.location_type',
+			'vtiger_notes.active',
+			'vtiger_notes.storage_path',
 		])
 		->from('vtiger_notes')
-		->innerJoin('vtiger_seattachmentsrel', 'vtiger_seattachmentsrel.crmid = vtiger_notes.notesid')
-		->innerJoin('vtiger_attachments', 'vtiger_attachments.attachmentsid = vtiger_seattachmentsrel.attachmentsid')
 		->where(['vtiger_notes.notesid' => $documentId])
 		->one();
 
 	if (!$row) {
 		return true;
 	}
-	if ((string) ($row['filelocationtype'] ?? '') !== 'I' || (int) ($row['filestatus'] ?? 0) !== 1) {
+	if ((string) ($row['location_type'] ?? '') !== 'internal' || (int) ($row['active'] ?? 0) !== 1) {
 		return true;
 	}
+	$path = \App\Modules\Documents\Models\Record::resolveStoragePath((string) ($row['storage_path'] ?? ''));
 
-	$fileName = (string) ($row['filename'] ?? '');
-	if ($fileName === '') {
-		return true;
-	}
-
-	$storedName = \App\Utils\ListViewUtils::decodeHtml((string) ($row['name'] ?? $fileName));
-	$filePath = realpath(
-		(\defined('ROOT_DIRECTORY') ? ROOT_DIRECTORY : getcwd()) . DIRECTORY_SEPARATOR . ($row['path'] ?? '')
-		. ($row['attachmentsid'] ?? '') . '_' . $storedName
-	);
-
-	return $filePath === false || !is_file($filePath);
+	return $path === false || !is_file($path);
 }

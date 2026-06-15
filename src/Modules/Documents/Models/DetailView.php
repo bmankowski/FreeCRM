@@ -35,7 +35,7 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$recordModel = $this->getRecord();
 
-		if ($recordModel->get('filestatus') && $recordModel->get('filename') && $recordModel->get('filelocationtype') === 'I') {
+		if ($recordModel->get('active') && $recordModel->get('original_name') && $recordModel->get('location_type') === 'internal') {
 			$basicActionLink = array(
 				'linktype' => 'DETAILVIEW',
 				'linklabel' => 'LBL_DOWNLOAD_FILE',
@@ -52,7 +52,7 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 		);
 		$linkModelList['DETAILVIEW'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($basicActionLink);
 
-		if ($recordModel->get('filestatus') && $recordModel->get('filename') && $recordModel->get('filelocationtype') === 'I') {
+		if ($recordModel->get('active') && $recordModel->get('original_name') && $recordModel->get('location_type') === 'internal') {
 			if (\App\Core\AppConfig::main('isActiveSendingMails') && \App\Modules\Mail\Models\Module::canUserSend((int) \App\User\CurrentUser::getId())) {
 				$basicActionLink = array(
 					'linktype' => 'DETAILVIEW',

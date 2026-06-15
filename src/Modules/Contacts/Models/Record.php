@@ -79,35 +79,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public function getImageDetails()
 	{
-		$db = \App\Database\PearDatabase::getInstance();
-		$imageDetails = array();
-		$recordId = $this->getId();
-
-		if ($recordId) {
-			$sql = "SELECT vtiger_attachments.*, vtiger_crmentity.setype FROM vtiger_attachments
-						INNER JOIN vtiger_seattachmentsrel ON vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid
-						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_attachments.attachmentsid
-						WHERE vtiger_crmentity.setype = 'Contacts Image' and vtiger_seattachmentsrel.crmid = ?";
-
-			$result = $db->pquery($sql, array($recordId));
-
-			$imageId = $db->query_result($result, 0, 'attachmentsid');
-			$imagePath = $db->query_result($result, 0, 'path');
-			$imageName = $db->query_result($result, 0, 'name');
-
-			//decode_html - added to handle UTF-8 characters in file names
-			$imageOriginalName = \App\Utils\ListViewUtils::decodeHtml($imageName);
-
-			if (!empty($imageName)) {
-				$imageDetails[] = array(
-					'id' => $imageId,
-					'orgname' => $imageOriginalName,
-					'path' => $imagePath . $imageId,
-					'name' => $imageName
-				);
-			}
-		}
-		return $imageDetails;
+		return \App\Models\RecordFile::getImageDetailsForRecord((int) $this->getId(), 'Contacts');
 	}
 
 	/**
@@ -132,7 +104,7 @@ class Record extends \App\Modules\Base\Models\Record
 	}
 
 	/**
-	 * This function is used to add the vtiger_attachments. This will call the function uploadAndSaveFile which will upload the attachment into the server and save that attachment information in the database.
+	 * This function uploads an image via uploadAndSaveFile (s_yf_record_files).
 	 */
 	public function insertAttachment(\App\Http\Vtiger_Request $request = null)
 	{
@@ -145,10 +117,6 @@ class Record extends \App\Modules\Base\Models\Record
 		$id = $this->getId();
 		$db = \App\Db\Db::getInstance();
 		$fileSaved = false;
-		//This is to added to store the existing attachment id of the contact where we should delete this when we give new image
-		$oldAttachmentid = (new \App\Db\Query())->select(['vtiger_crmentity.crmid'])->from('vtiger_seattachmentsrel')
-				->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_seattachmentsrel.attachmentsid')
-				->where(['vtiger_seattachmentsrel.crmid' => $id])->scalar();
 		if ($_FILES) {
 			foreach ($_FILES as $fileindex => $files) {
 				if (empty($files['tmp_name'])) {
@@ -157,33 +125,16 @@ class Record extends \App\Modules\Base\Models\Record
 				$fileInstance = \App\Fields\File::loadFromRequest($files);
 				if ($fileInstance->validate('image')) {
 					$files['original_name'] = $request->get($fileindex . '_hidden');
-					$fileId = $request->get('fileid');
-					$fileSaved = $this->uploadAndSaveFile($files, 'Attachment', $module, $mode, $fileId);
+					$fileSaved = $this->uploadAndSaveFile($files, 'Attachment', $module, $mode, $request->get('fileid'));
 				}
 			}
 		}
-		$imageName = (new \App\Db\Query())->select(['name'])->from('vtiger_seattachmentsrel')
-				->innerJoin('vtiger_attachments', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')
-				->leftJoin('vtiger_contactdetails', 'vtiger_contactdetails.contactid = vtiger_seattachmentsrel.crmid')
-				->where(['vtiger_seattachmentsrel.crmid' => $id])->scalar();
-		$imageName = \App\Utils\ListViewUtils::decodeHtml($imageName);
-		//Inserting image information of record into base table
+		$row = \App\Models\RecordFile::getByRecord((int) $id, \App\Models\RecordFile::ROLE_IMAGE);
+		$imageName = $row ? \App\Utils\ListViewUtils::decodeHtml((string) ($row['original_name'] ?? '')) : '';
 		$db->createCommand()->update('vtiger_contactdetails', ['imagename' => $imageName], ['contactid' => $id])
 			->execute();
-		//This is to handle the delete image for contacts
-		if ($module === 'Contacts' && $fileSaved) {
-			if ($oldAttachmentid) {
-				$setype = (new \App\Db\Query())->select(['setype'])
-					->from('vtiger_crmentity')
-					->where(['crmid' => $oldAttachmentid])
-					->scalar();
-				if ($setype === 'Contacts Image') {
-					$db->createCommand()->delete('vtiger_attachments', ['attachmentsid' => $oldAttachmentid])->execute();
-					$db->createCommand()->delete('vtiger_seattachmentsrel', ['attachmentsid' => $oldAttachmentid])->execute();
-				}
-			}
-		}
 
 		\App\Log\Log::trace("Exiting from insertIntoAttachment($id,$module) method.");
 	}
 }
+

@@ -91,10 +91,8 @@ class Vendors extends \App\Core\CRMEntity
                                         ON vtiger_crmentity.crmid = vtiger_vendor.vendorid
                                 LEFT JOIN vtiger_vendorcf
                                         ON vtiger_vendorcf.vendorid=vtiger_vendor.vendorid
-                                LEFT JOIN vtiger_seattachmentsrel
-                                        ON vtiger_vendor.vendorid=vtiger_seattachmentsrel.crmid
-                                LEFT JOIN vtiger_attachments
-                                ON vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid
+                                LEFT JOIN s_yf_record_files
+                                        ON vtiger_vendor.vendorid = s_yf_record_files.crm_record_id AND s_yf_record_files.role = 'image'
                                 LEFT JOIN vtiger_users
                                         ON vtiger_crmentity.smownerid = vtiger_users.id and vtiger_users.status='Active'
                                 ";

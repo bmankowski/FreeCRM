@@ -119,46 +119,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public function getImageDetails()
 	{
-		$db = \App\Database\PearDatabase::getInstance();
-		$imageDetails = array();
-		$recordId = $this->getId();
-
-		if ($recordId) {
-			$sql = "SELECT vtiger_attachments.*, vtiger_crmentity.setype FROM vtiger_attachments
-						INNER JOIN vtiger_seattachmentsrel ON vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid
-						INNER JOIN vtiger_crmentity ON vtiger_crmentity.crmid = vtiger_attachments.attachmentsid
-						WHERE vtiger_crmentity.setype = 'Products Image' AND vtiger_seattachmentsrel.crmid = ?";
-
-			$result = $db->pquery($sql, array($recordId));
-			$count = $db->num_rows($result);
-
-			$imageOriginalNamesList = [];
-
-			for ($i = 0; $i < $count; $i++) {
-				$imageIdsList[] = $db->query_result($result, $i, 'attachmentsid');
-				$imagePathList[] = $db->query_result($result, $i, 'path');
-				$imageName = $db->query_result($result, $i, 'name');
-
-				//decode_html - added to handle UTF-8 characters in file names
-				$imageOriginalNamesList[] = \App\Utils\ListViewUtils::decodeHtml($imageName);
-
-				//urlencode - added to handle special characters like #, %, etc.,
-				$imageNamesList[] = $imageName;
-			}
-
-			if (is_array($imageOriginalNamesList)) {
-				$countOfImages = count($imageOriginalNamesList);
-				for ($j = 0; $j < $countOfImages; $j++) {
-					$imageDetails[] = array(
-						'id' => $imageIdsList[$j],
-						'orgname' => $imageOriginalNamesList[$j],
-						'path' => $imagePathList[$j] . $imageIdsList[$j],
-						'name' => $imageNamesList[$j]
-					);
-				}
-			}
-		}
-		return $imageDetails;
+		return \App\Models\RecordFile::getImageDetailsListForRecord((int) $this->getId(), 'Products');
 	}
 
 	/**
@@ -520,7 +481,7 @@ class Record extends \App\Modules\Base\Models\Record
 	}
 
 	/**
-	 * This function is used to add the vtiger_attachments. This will call the function uploadAndSaveFile which will upload the attachment into the server and save that attachment information in the database.
+	 * This function uploads an image via uploadAndSaveFile (s_yf_record_files).
 	 */
 	public function insertAttachment(\App\Http\Vtiger_Request $request = null)
 	{
@@ -548,29 +509,25 @@ class Record extends \App\Modules\Base\Models\Record
 				$this->uploadAndSaveFile($files, 'Attachment', $module, $mode, $fileId);
 			}
 		}
-		//Updating image information in main table of products
-		$dataReader = (new \App\Db\Query())->select(['name'])->from('vtiger_seattachmentsrel')
-				->innerJoin('vtiger_attachments', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')
-				->leftJoin('vtiger_products', 'vtiger_products.productid = vtiger_seattachmentsrel.crmid')
-				->where(['vtiger_seattachmentsrel.crmid' => $id])
-				->createCommand()->query();
 		$productImageMap = [];
-		while ($imageName = $dataReader->readColumn(0)) {
-			$productImageMap [] = \App\Utils\ListViewUtils::decodeHtml($imageName);
+		foreach (\App\Models\RecordFile::listByRecord((int) $id, \App\Models\RecordFile::ROLE_IMAGE) as $row) {
+			$productImageMap[] = \App\Utils\ListViewUtils::decodeHtml((string) ($row['original_name'] ?? ''));
 		}
-		$db->createCommand()->update('vtiger_products', ['imagename' => implode(",", $productImageMap)], ['productid' => $id])
+		$db->createCommand()->update('vtiger_products', ['imagename' => implode(',', $productImageMap)], ['productid' => $id])
 			->execute();
-		//Remove the deleted vtiger_attachments from db - Products
 		if ($module === 'Products' && $request->get('del_file_list') != '') {
-			$deleteFileList = explode("###", trim($request->get('del_file_list'), "###"));
+			$deleteFileList = explode('###', trim($request->get('del_file_list'), '###'));
 			foreach ($deleteFileList as $fileName) {
-				$attachmentId = (new \App\Db\Query())->select(['vtiger_attachments.attachmentsid'])
-					->from('vtiger_attachments')
-					->innerJoin('vtiger_seattachmentsrel', 'vtiger_attachments.attachmentsid = vtiger_seattachmentsrel.attachmentsid')
-					->where(['crmid' => $id, 'name' => $fileName])
-					->scalar();
-				$db->createCommand()->delete('vtiger_attachments', ['attachmentsid' => $attachmentId])->execute();
-				$db->createCommand()->delete('vtiger_seattachmentsrel', ['attachmentsid' => $attachmentId])->execute();
+				$rows = \App\Models\RecordFile::listByRecord((int) $id, \App\Models\RecordFile::ROLE_IMAGE);
+				foreach ($rows as $row) {
+					if ((string) ($row['original_name'] ?? '') === $fileName || (string) ($row['name'] ?? '') === $fileName) {
+						$path = \App\Models\RecordFile::resolveAbsolutePath((string) ($row['storage_path'] ?? ''));
+						if ($path !== false && is_file($path)) {
+							@unlink($path);
+						}
+						$db->createCommand()->delete('s_yf_record_files', ['id' => (int) $row['id']])->execute();
+					}
+				}
 			}
 		}
 		\App\Log\Log::trace("Exiting from insertIntoAttachment($id,$module) method.");

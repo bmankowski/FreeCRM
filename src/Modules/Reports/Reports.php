@@ -577,7 +577,7 @@ class Reports extends \App\Core\CRMEntity
 
 		if (is_string($block))
 			$block = explode(',', $block);
-		$skipTalbes = array('vtiger_attachments');
+		$skipTalbes = array();
 
 		$tabid = \App\Utils\ModuleUtils::getModuleId($module);
 		if ($module == 'Calendar') {

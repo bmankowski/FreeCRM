@@ -23,8 +23,8 @@
 	</div>
 	{foreach item=RELATED_RECORD from=$RELATED_RECORDS}
 		{assign var=DOWNLOAD_FILE_URL value=$RELATED_RECORD->getDownloadFileURL()}
-		{assign var=DOWNLOAD_STATUS value=$RELATED_RECORD->get('filestatus')}
-		{assign var=DOWNLOAD_LOCATION_TYPE value=$RELATED_RECORD->get('filelocationtype')}
+		{assign var=DOWNLOAD_STATUS value=$RELATED_RECORD->get('active')}
+		{assign var=DOWNLOAD_LOCATION_TYPE value=$RELATED_RECORD->get('location_type')}
 		<div class="recentActivitiesContainer" id="relatedDocuments">
 			<ul class="unstyled">
 				<li>
@@ -36,9 +36,9 @@
 						</span>
 						<span class="col-md-5 textOverflowEllipsis" id="DownloadableLink">
 							{if $DOWNLOAD_STATUS eq 1}
-								{$RELATED_RECORD->getDisplayValue('filename', $RELATED_RECORD->getId(), $RELATED_RECORD)}
+								{$RELATED_RECORD->getDisplayValue('original_name', $RELATED_RECORD->getId(), $RELATED_RECORD)}
 							{else}
-								{$RELATED_RECORD->get('filename')} 
+								{$RELATED_RECORD->get('original_name')} 
 							{/if}
 						</span>
 					</div>

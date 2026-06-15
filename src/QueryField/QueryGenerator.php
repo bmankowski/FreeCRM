@@ -517,12 +517,12 @@ class QueryGenerator
 			$this->fields[] = 'activitytype';
 		}
 		if ($this->moduleName === 'Documents') {
-			if (in_array('filename', $this->fields)) {
-				if (!in_array('filelocationtype', $this->fields)) {
-					$this->fields[] = 'filelocationtype';
+			if (in_array('original_name', $this->fields)) {
+				if (!in_array('location_type', $this->fields)) {
+					$this->fields[] = 'location_type';
 				}
-				if (!in_array('filestatus', $this->fields)) {
-					$this->fields[] = 'filestatus';
+				if (!in_array('active', $this->fields)) {
+					$this->fields[] = 'active';
 				}
 			}
 		}

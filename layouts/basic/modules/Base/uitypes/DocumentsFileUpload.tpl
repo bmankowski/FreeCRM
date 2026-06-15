@@ -11,17 +11,17 @@
 -->*}
 {strip}
 <!-- layouts/basic/modules/Base/uitypes/DocumentsFileUpload.tpl -->
-{if isset($RECORD_STRUCTURE['LBL_FILE_INFORMATION']['filelocationtype'])}
-	{assign var=FILE_LOCATION_TYPE_FIELD value=$RECORD_STRUCTURE['LBL_FILE_INFORMATION']['filelocationtype']}
+{if isset($RECORD_STRUCTURE['LBL_FILE_INFORMATION']['location_type'])}
+	{assign var=FILE_LOCATION_TYPE_FIELD value=$RECORD_STRUCTURE['LBL_FILE_INFORMATION']['location_type']}
 {else}
 	{assign var=FILE_LOCATION_TYPE_FIELD value=NULL}
 {/if}
 {if $FILE_LOCATION_TYPE_FIELD eq NULL}
     {assign var=DOCUMENTS_MODULE_MODEL value=\App\Modules\Base\Models\Module::getInstance('Documents')}
-    {assign var=FILE_LOCATION_TYPE_FIELD value=$DOCUMENTS_MODULE_MODEL->getField('filelocationtype')}
+    {assign var=FILE_LOCATION_TYPE_FIELD value=$DOCUMENTS_MODULE_MODEL->getField('location_type')}
 {/if}
-{assign var=IS_INTERNAL_LOCATION_TYPE value=$FILE_LOCATION_TYPE_FIELD->get('fieldvalue') neq 'E'}
-{assign var=IS_EXTERNAL_LOCATION_TYPE value=$FILE_LOCATION_TYPE_FIELD->get('fieldvalue') eq 'E'}
+{assign var=IS_INTERNAL_LOCATION_TYPE value=$FILE_LOCATION_TYPE_FIELD->get('fieldvalue') neq 'external'}
+{assign var=IS_EXTERNAL_LOCATION_TYPE value=$FILE_LOCATION_TYPE_FIELD->get('fieldvalue') eq 'external'}
 
 {assign var=FIELD_VALUE value=$FIELD_MODEL->get('fieldvalue')}
 {assign var=RAW_FIELD_INFO value=$FIELD_MODEL->getFieldInfo()}

@@ -131,7 +131,7 @@ class ListView extends \App\Modules\Base\Models\ListView
 	public function loadListViewCondition()
 	{
 		$queryGenerator = $this->get('query_generator');
-		$queryGenerator->setField('filetype');
+		$queryGenerator->setField('mime_type');
 		$folderValue = $this->get('folder_value');
 		if (!empty($folderValue)) {
 			$queryGenerator->addCondition($this->get('folder_id'), $folderValue, 'e');

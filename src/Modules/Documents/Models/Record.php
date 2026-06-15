@@ -27,7 +27,7 @@ class Record extends \App\Modules\Base\Models\Record
 	/**
 	 * @return array<string, mixed>|null
 	 */
-	private function resolveUploadFile(string $fieldName = 'filename'): ?array
+	private function resolveUploadFile(string $fieldName = 'original_name'): ?array
 	{
 		if ($this->pendingUploadFile !== null) {
 			return $this->pendingUploadFile;
@@ -35,18 +35,25 @@ class Record extends \App\Modules\Base\Models\Record
 		if (isset($_FILES[$fieldName])) {
 			return $_FILES[$fieldName];
 		}
+		if (isset($_FILES['filename'])) {
+			return $_FILES['filename'];
+		}
 
 		return null;
 	}
 
+	public static function resolveStoragePath(?string $storagePath): string|false
+	{
+		return \App\Models\RecordFile::resolveAbsolutePath($storagePath);
+	}
+
 	public function getDownloadFileURL()
 	{
-		if ($this->get('filelocationtype') == 'I') {
-			$fileDetails = $this->getFileDetails();
-			return 'index.php?module=' . $this->getModuleName() . '&action=DownloadFile&record=' . $this->getId() . '&fileid=' . $fileDetails['attachmentsid'];
-		} else {
-			return $this->get('filename');
+		if ($this->get('location_type') === 'external') {
+			return $this->get('external_url');
 		}
+
+		return 'index.php?module=' . $this->getModuleName() . '&action=DownloadFile&record=' . $this->getId();
 	}
 
 	public function checkFileIntegrityURL()
@@ -56,71 +63,51 @@ class Record extends \App\Modules\Base\Models\Record
 
 	public function checkFileIntegrity()
 	{
-		$returnValue = false;
-		if ($this->get('filelocationtype') === 'I') {
-			$fileDetails = $this->getFileDetails();
-			if (!empty($fileDetails)) {
-				$savedFile = $fileDetails['path'] . $fileDetails['attachmentsid'] . '_' . $fileDetails['name'];
-				if (file_exists($savedFile) && fopen($savedFile, 'r')) {
-					$returnValue = true;
-				}
-			}
+		if ($this->get('location_type') !== 'internal') {
+			return false;
 		}
-		return $returnValue;
-	}
+		$filePath = self::resolveStoragePath((string) $this->get('storage_path'));
 
-	public function getFileDetails()
-	{
-		return (new \App\Db\Query())->from('vtiger_attachments')
-				->innerJoin('vtiger_seattachmentsrel', 'vtiger_seattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid')
-				->where(['crmid' => $this->get('id')])
-				->one();
+		return $filePath !== false && is_file($filePath) && is_readable($filePath);
 	}
 
 	public function downloadFile()
 	{
-		$fileDetails = $this->getFileDetails();
-		$fileContent = false;
-
-		if (!empty($fileDetails)) {
-			$filePath = $fileDetails['path'];
-			$fileName = $fileDetails['name'];
-
-			if ($this->get('filelocationtype') == 'I') {
-				$fileName = html_entity_decode($fileName, ENT_QUOTES, \App\Core\AppConfig::main('default_charset'));
-				$savedFile = $fileDetails['attachmentsid'] . "_" . $fileName;
-
-				$fileSize = filesize($filePath . $savedFile);
-				$fileSize = $fileSize + ($fileSize % 1024);
-
-				if (fopen($filePath . $savedFile, "r")) {
-					$fileContent = fread(fopen($filePath . $savedFile, "r"), $fileSize);
-					$fileName = $this->get('filename');
-					header("Content-type: " . $fileDetails['type']);
-					header("Pragma: public");
-					header("Cache-Control: private");
-					header("Content-Disposition: attachment; filename=\"$fileName\"");
-					header("Content-Description: PHP Generated Data");
-				}
-			}
+		if ($this->get('location_type') !== 'internal') {
+			return;
 		}
-		echo $fileContent;
+		$filePath = self::resolveStoragePath((string) $this->get('storage_path'));
+		if ($filePath === false || !is_file($filePath)) {
+			return;
+		}
+
+		$fileName = (string) ($this->get('original_name') ?: basename($filePath));
+		$mimeType = (string) ($this->get('mime_type') ?: 'application/octet-stream');
+		$fileSize = filesize($filePath);
+		if ($fileSize === false) {
+			return;
+		}
+
+		header('Content-type: ' . $mimeType);
+		header('Pragma: public');
+		header('Cache-Control: private');
+		header('Content-Disposition: attachment; filename="' . $fileName . '"');
+		header('Content-Description: PHP Generated Data');
+		header('Content-Length: ' . $fileSize);
+		readfile($filePath);
 	}
 
 	public function updateFileStatus($status)
 	{
-		\App\Db\Db::getInstance()->createCommand()->update('vtiger_notes', ['filestatus' => $status], ['notesid' => $this->get('id')])->execute();
+		\App\Db\Db::getInstance()->createCommand()->update('vtiger_notes', ['active' => (int) $status], ['notesid' => $this->getId()])->execute();
 	}
 
 	public function updateDownloadCount()
 	{
-		$db = \App\Database\PearDatabase::getInstance();
 		$notesId = $this->get('id');
-
-		$result = $db->pquery("SELECT filedownloadcount FROM vtiger_notes WHERE notesid = ?", array($notesId));
-		$downloadCount = $db->query_result($result, 0, 'filedownloadcount') + 1;
-
-		$db->pquery("UPDATE vtiger_notes SET filedownloadcount = ? WHERE notesid = ?", array($downloadCount, $notesId));
+		$downloadCount = (int) ($this->get('download_count') ?? 0) + 1;
+		\App\Db\Db::getInstance()->createCommand()->update('vtiger_notes', ['download_count' => $downloadCount], ['notesid' => $notesId])->execute();
+		$this->set('download_count', $downloadCount);
 	}
 
 	public function getDownloadCountUpdateUrl()
@@ -160,81 +147,114 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public function saveToDb($relationParams = null, \App\Http\Vtiger_Request $request = null)
 	{
-		if ($request === null) {
-			// Request should be passed as parameter
-		}
 		parent::saveToDb();
 		$db = \App\Db\Db::getInstance();
-		$fileNameByField = 'filename';
-		$fileName = (string) ($this->get($fileNameByField) ?? '');
-		$fileSize = (int) ($this->get('filesize') ?? 0);
-		$fileType = (string) ($this->get('filetype') ?? '');
-		$fdc = $this->get('filedownloadcount');
-		$fileDownloadCount = ($fdc === null || $fdc === '') ? 0 : (int) $fdc;
-		$fileLocationType = $this->get('filelocationtype');
-		if ($fileLocationType !== 'I' && $fileLocationType !== 'E') {
-			$fileLocationType = 'I';
+		$fileNameByField = 'original_name';
+		$originalName = (string) ($this->get($fileNameByField) ?? '');
+		$sizeBytes = (int) ($this->get('size_bytes') ?? 0);
+		$mimeType = (string) ($this->get('mime_type') ?? '');
+		$downloadCount = (int) ($this->get('download_count') ?? 0);
+		$locationType = $this->get('location_type');
+		if ($locationType === 'E') {
+			$locationType = 'external';
+		} elseif ($locationType === 'I') {
+			$locationType = 'internal';
+		} elseif ($locationType !== 'external') {
+			$locationType = 'internal';
 		}
-		if ($fileLocationType === 'I') {
+
+		$storagePath = null;
+		$externalUrl = null;
+		$active = 1;
+
+		if ($locationType === 'internal') {
 			$file = $this->resolveUploadFile($fileNameByField);
 			if (is_array($file) && !empty($file['name'])) {
 				$errCode = $file['error'];
 				if ($errCode === 0) {
 					$fileInstance = \App\Fields\File::loadFromRequest($file);
 					if ($fileInstance->validate()) {
-						$fileName = $file['name'];
-						$fileName = \vtlib\Functions:: fromHTML(preg_replace('/\s+/', '_', $fileName));
-						$fileType = $file['type'];
-						$fileSize = $file['size'];
-						$fileLocationType = 'I';
-						$fileName = ltrim(basename(" " . $fileName)); //allowed filename like UTF-8 characters
+						$originalName = $file['name'];
+						$originalName = \vtlib\Functions::fromHTML(preg_replace('/\s+/', '_', $originalName));
+						$mimeType = $file['type'];
+						$sizeBytes = (int) $file['size'];
+						$originalName = ltrim(basename(' ' . $originalName));
 					}
 				}
 			} elseif ($this->get($fileNameByField)) {
-				$fileName = $this->get($fileNameByField);
-				$fileSize = (int) ($this->get('filesize') ?? 0);
-				$fileType = (string) ($this->get('filetype') ?? '');
-				$fileLocationType = 'I';
-				$fileDownloadCount = 0;
+				$originalName = (string) $this->get($fileNameByField);
+				$sizeBytes = (int) ($this->get('size_bytes') ?? 0);
+				$mimeType = (string) ($this->get('mime_type') ?? '');
+				$downloadCount = 0;
 			} else {
-				$fileLocationType = 'I';
-				$fileType = '';
-				$fileSize = 0;
-				$fileDownloadCount = 0;
+				$mimeType = '';
+				$sizeBytes = 0;
+				$downloadCount = 0;
+				$active = 0;
 			}
-		} else if ($fileLocationType === 'E') {
-			$fileLocationType = 'E';
-			$fileName = $this->get($fileNameByField);
-			// If filename does not has the protocol prefix, default it to http://
-			// Protocol prefix could be like (https://, smb://, file://, \\, smb:\\,...)
-			if (!empty($fileName) && !preg_match('/^\w{1,5}:\/\/|^\w{0,3}:?\\\\\\\\/', trim($fileName), $match)) {
-				$fileName = "http://$fileName";
+		} else {
+			$externalUrl = (string) ($this->get($fileNameByField) ?? '');
+			if ($externalUrl !== '' && !preg_match('/^\w{1,5}:\/\/|^\w{0,3}:?\\\\\\\\/', trim($externalUrl), $match)) {
+				$externalUrl = "http://$externalUrl";
 			}
-			$fileType = '';
-			$fileSize = 0;
-			$fileDownloadCount = 0;
+			$mimeType = '';
+			$sizeBytes = 0;
+			$downloadCount = 0;
+			$originalName = '';
+			$storagePath = null;
 		}
-		$db->createCommand()->update('vtiger_notes', ['filename' => \App\Utils\ListViewUtils::decodeHtml($fileName), 'filesize' => $fileSize, 'filetype' => $fileType, 'filelocationtype' => $fileLocationType, 'filedownloadcount' => $fileDownloadCount], ['notesid' => $this->getId()])->execute();
-		//Inserting into attachments table
-		if ($fileLocationType === 'I') {
+
+		if ($locationType === 'internal') {
 			$file = $this->resolveUploadFile($fileNameByField);
-			if (is_array($file) && $file['name'] != '' && $file['size'] > 0) {
+			if (is_array($file) && ($file['name'] ?? '') !== '' && (int) ($file['size'] ?? 0) > 0) {
 				if ($request !== null) {
 					$hiddenOriginal = $request->get('0_hidden');
 					if ($hiddenOriginal !== null && $hiddenOriginal !== '') {
 						$file['original_name'] = $hiddenOriginal;
 					}
 				}
-				$module = $request !== null ? $request->get('module') : $this->getModuleName();
-				$mode = $request !== null ? $request->get('mode') : null;
-				$fileId = $request !== null ? $request->get('fileid') : null;
-				$this->uploadAndSaveFile($file, 'Attachment', $module, $mode, $fileId);
+				$uploadDir = \vtlib\Functions::initStorageFileDirectory('Documents');
+				$binFile = \App\Fields\File::sanitizeUploadFileName(
+					isset($file['original_name']) && $file['original_name'] !== '' ? $file['original_name'] : $file['name']
+				);
+				$displayName = ltrim(basename(' ' . $binFile));
+				$relativePath = $uploadDir . $this->getId() . '_' . $binFile;
+				$absolutePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $relativePath);
+				if (move_uploaded_file((string) $file['tmp_name'], $absolutePath)) {
+					$storagePath = $relativePath;
+					$originalName = $displayName;
+					$mimeType = (string) ($file['type'] ?? $mimeType);
+					$sizeBytes = (int) ($file['size'] ?? 0);
+					$active = 1;
+				} else {
+					$active = 0;
+					$storagePath = null;
+				}
+			} elseif ($this->get('storage_path')) {
+				$storagePath = (string) $this->get('storage_path');
+				$active = (int) ($this->get('active') ?? 1);
 			}
-		} else {
-			$db->createCommand()->delete('vtiger_seattachmentsrel', ['crmid' => $this->getId()])->execute();
 		}
-		//set the column_fields so that its available in the event handlers
-		$this->set('filename', $fileName)->set('filesize', $fileSize)->set('filetype', $fileType)->set('filedownloadcount', $fileDownloadCount);
+
+		$db->createCommand()->update('vtiger_notes', [
+			'original_name' => \App\Utils\ListViewUtils::decodeHtml($originalName),
+			'external_url' => $externalUrl,
+			'size_bytes' => $sizeBytes,
+			'mime_type' => $mimeType,
+			'location_type' => $locationType,
+			'download_count' => $downloadCount,
+			'storage_path' => $storagePath,
+			'active' => $active,
+		], ['notesid' => $this->getId()])->execute();
+
+		$this->set('original_name', $originalName)
+			->set('external_url', $externalUrl)
+			->set('size_bytes', $sizeBytes)
+			->set('mime_type', $mimeType)
+			->set('location_type', $locationType)
+			->set('download_count', $downloadCount)
+			->set('storage_path', $storagePath)
+			->set('active', $active);
 	}
 
 	/**

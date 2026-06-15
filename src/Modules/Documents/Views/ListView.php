@@ -49,7 +49,7 @@ class ListView extends \App\Modules\Base\Views\ListView
 		if ($listViewEntries) {
 			foreach ($listViewEntries as $record) {
 				$recordId = $record->getId();
-				$imageClasses[$recordId] = \App\Modules\Documents\Models\Record::getFileIconByFileType($record->get('filetype'));
+				$imageClasses[$recordId] = \App\Modules\Documents\Models\Record::getFileIconByFileType($record->get('mime_type'));
 			}
 		}
 		$viewer->assign('RECORD_LEFT_ICON_CLASSES', $imageClasses);

@@ -158,30 +158,17 @@ class CRMEntity
 		}
 	}
 
-	/** Function to attachment filename of the given entity
-	 * @param $notesid -- crmid:: Type Integer
-	 * The function will get the attachmentsid for the given entityid from vtiger_seattachmentsrel table and get the attachmentsname from vtiger_attachments table
-	 * returns the 'filename'
-	 */
+	/** Returns original_name for a document notesid from vtiger_notes. */
 	public function getOldFileName($notesid)
 	{
 
 		\App\Log\Log::trace("in getOldFileName  " . $notesid);
 		$adb = \App\Database\PearDatabase::getInstance();
-		$query1 = "select * from vtiger_seattachmentsrel where crmid=?";
-		$result = $adb->pquery($query1, array($notesid));
-		$attachmentid = '';
-		$filename = '';
-		$noofrows = $adb->num_rows($result);
-		if ($noofrows != 0) {
-			$attachmentid = $adb->query_result($result, 0, 'attachmentsid');
+		$result = $adb->pquery('SELECT original_name FROM vtiger_notes WHERE notesid=?', array($notesid));
+		if ($adb->num_rows($result) != 0) {
+			return $adb->query_result($result, 0, 'original_name');
 		}
-		if ($attachmentid != '') {
-			$query2 = "select * from vtiger_attachments where attachmentsid=?";
-			$attachmentResult = $adb->pquery($query2, [$attachmentid]);
-			$filename = $adb->query_result($attachmentResult, 0, 'name');
-		}
-		return $filename;
+		return '';
 	}
 
 	/**
@@ -213,7 +200,7 @@ class CRMEntity
 			$multiRowTables = $this->multirow_tables;
 		} else {
 			$multiRowTables = array(
-				'vtiger_attachments',
+				's_yf_record_files',
 			);
 		}
 
@@ -759,9 +746,6 @@ class CRMEntity
 		\App\Log\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$relTables = $this->setRelationTables();
-		if (key_exists('Documents', $relTables)) {
-			$relTables['Attachments'] = ['vtiger_seattachmentsrel' => ['crmid', 'attachmentsid']];
-		}
 		foreach ($transferEntityIds as &$transferId) {
 			// Pick the records related to the entity to be transfered, but do not pick the once which are already related to the current entity.
 			$relatedRecords = $db->pquery('SELECT relcrmid, relmodule FROM vtiger_crmentityrel WHERE crmid=? && module=?' .

@@ -403,13 +403,13 @@ class Project extends \App\Core\CRMEntity
 		\App\Log\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
 		$rel_table_arr = Array("ProjectTask" => "vtiger_projecttask", 'ProjectMilestone' => 'vtiger_projectmilestone',
-			"Documents" => "vtiger_senotesrel", "Attachments" => "vtiger_seattachmentsrel");
+			"Documents" => "vtiger_senotesrel");
 
 		$tbl_field_arr = Array("vtiger_projecttask" => "projecttaskid", 'vtiger_projectmilestone' => 'projectmilestoneid',
-			"vtiger_senotesrel" => "notesid", "vtiger_seattachmentsrel" => "attachmentsid");
+			"vtiger_senotesrel" => "notesid");
 
 		$entity_tbl_field_arr = Array("vtiger_projecttask" => "projectid", 'vtiger_projectmilestone' => 'projectid',
-			"vtiger_senotesrel" => "crmid", "vtiger_seattachmentsrel" => "crmid");
+			"vtiger_senotesrel" => "crmid");
 
 		foreach ($transferEntityIds as $transferId) {
 			foreach ($rel_table_arr as $rel_module => $rel_table) {

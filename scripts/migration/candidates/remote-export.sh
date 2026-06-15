@@ -20,7 +20,8 @@ ssh "$REMOTE_HOST" "set -euo pipefail
 
     CREATE TABLE tmp_sync_candidates_ids (crmid INT NOT NULL PRIMARY KEY) ENGINE=InnoDB;
     INSERT INTO tmp_sync_candidates_ids (crmid)
-      SELECT crmid FROM vtiger_crmentity WHERE setype='Candidates' AND deleted=0;
+      SELECT crmid FROM vtiger_crmentity
+      WHERE setype IN ('Candidates', 'Kandydaci') AND deleted=0;
 
     CREATE TABLE tmp_sync_projekty_ids (crmid INT NOT NULL PRIMARY KEY) ENGINE=InnoDB;
     INSERT INTO tmp_sync_projekty_ids (crmid)
@@ -54,10 +55,10 @@ ssh "$REMOTE_HOST" "set -euo pipefail
     vtiger_crmentity --where=\"crmid IN (SELECT crmid FROM tmp_sync_candidates_ids)\" \
     > /tmp/candidates_core.sql
   mysqldump -h\"$REMOTE_DB_HOST\" -u\"$REMOTE_DB_USER\" -p\"$REMOTE_DB_PASS\" \"$REMOTE_DB_NAME\" \$DUMP_OPTS \
-    u_yf_candidates --where=\"candidatesid IN (SELECT crmid FROM tmp_sync_candidates_ids)\" \
+    u_yf_kandydaci --where=\"kandydaciid IN (SELECT crmid FROM tmp_sync_candidates_ids)\" \
     >> /tmp/candidates_core.sql
   mysqldump -h\"$REMOTE_DB_HOST\" -u\"$REMOTE_DB_USER\" -p\"$REMOTE_DB_PASS\" \"$REMOTE_DB_NAME\" \$DUMP_OPTS \
-    u_yf_candidatescf --where=\"candidatesid IN (SELECT crmid FROM tmp_sync_candidates_ids)\" \
+    u_yf_kandydacicf --where=\"kandydaciid IN (SELECT crmid FROM tmp_sync_candidates_ids)\" \
     >> /tmp/candidates_core.sql
 
   mysqldump -h\"$REMOTE_DB_HOST\" -u\"$REMOTE_DB_USER\" -p\"$REMOTE_DB_PASS\" \"$REMOTE_DB_NAME\" \$DUMP_OPTS \

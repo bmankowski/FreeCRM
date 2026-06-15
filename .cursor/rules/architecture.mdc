@@ -73,6 +73,10 @@ When creating new modules:
 
 For namespace conventions, see `php-namespaces.mdc`.
 
+## Documents & record files
+
+Documents module files live on `vtiger_notes` (`storage_path`, `location_type`, …). Other module images/attachments use `s_yf_record_files` via `App\Models\RecordFile`. Full contract: `documents-storage.mdc`.
+
 ## UiType / Field type system
 
 See `uitypes.mdc` for the full reference: UITYPE_CLASS_MAP, SEMANTIC_TYPE_MAP, renderer resolution, module-specific overrides, and pitfalls.

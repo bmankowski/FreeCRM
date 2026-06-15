@@ -130,13 +130,13 @@ class Leads extends \App\Core\CRMEntity
 
 		\App\Log\Log::trace("Entering function transferRelatedRecords ($module, $transferEntityIds, $entityId)");
 
-		$rel_table_arr = Array('Documents' => 'vtiger_senotesrel', 'Attachments' => 'vtiger_seattachmentsrel',
+		$rel_table_arr = Array('Documents' => 'vtiger_senotesrel',
 			'Products' => 'vtiger_seproductsrel', 'Campaigns' => 'vtiger_campaign_records');
 
-		$tbl_field_arr = Array('vtiger_senotesrel' => 'notesid', 'vtiger_seattachmentsrel' => 'attachmentsid',
+		$tbl_field_arr = Array('vtiger_senotesrel' => 'notesid',
 			'vtiger_seproductsrel' => 'productid', 'vtiger_campaign_records' => 'campaignid');
 
-		$entity_tbl_field_arr = Array('vtiger_senotesrel' => 'crmid', 'vtiger_seattachmentsrel' => 'crmid',
+		$entity_tbl_field_arr = Array('vtiger_senotesrel' => 'crmid',
 			'vtiger_seproductsrel' => 'crmid', 'vtiger_campaign_records' => 'crmid');
 
 		foreach ($transferEntityIds as $transferId) {

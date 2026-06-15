@@ -645,34 +645,23 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public function getImageDetails()
 	{
-		$db = \App\Database\PearDatabase::getInstance();
-
-		$imageDetails = [];
-		$recordId = $this->getId();
-
-		if ($recordId) {
-			$query = 'SELECT vtiger_attachments.* FROM vtiger_attachments
-            LEFT JOIN vtiger_salesmanattachmentsrel ON vtiger_salesmanattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid
-            WHERE vtiger_salesmanattachmentsrel.smid=?';
-
-			$result = $db->pquery($query, [$recordId]);
-
-			if ($db->getRowCount($result)) {
-				$imageId = $db->query_result($result, 0, 'attachmentsid');
-				$imagePath = $db->query_result($result, 0, 'path');
-				$imageName = $db->query_result($result, 0, 'name');
-				//decode_html - added to handle UTF-8 characters in file names
-				$imageOriginalName = \App\Utils\ListViewUtils::decodeHtml($imageName);
-				$imageDetails[] = array(
-					'id' => $imageId,
-					'orgname' => $imageOriginalName,
-					'path' => $imagePath . $imageId,
-					'name' => $imageName,
-					'url' => 'file.php?module=Users&action=Image&record=' . (int) $recordId,
-				);
-			}
+		$recordId = (int) $this->getId();
+		if ($recordId <= 0) {
+			return [];
 		}
-		return $imageDetails;
+		$row = \App\Models\RecordFile::getByRecord($recordId, \App\Models\RecordFile::ROLE_IMAGE);
+		if (!$row) {
+			return [];
+		}
+		$imageOriginalName = \App\Utils\ListViewUtils::decodeHtml((string) ($row['original_name'] ?? ''));
+
+		return [[
+			'id' => (int) ($row['id'] ?? 0),
+			'orgname' => $imageOriginalName,
+			'path' => (string) ($row['storage_path'] ?? ''),
+			'name' => $imageOriginalName,
+			'url' => 'file.php?module=Users&action=Image&record=' . $recordId,
+		]];
 	}
 
 	public function getImagePath()
@@ -682,7 +671,7 @@ class Record extends \App\Modules\Base\Models\Record
 		if (empty($image) || empty($image['path'])) {
 			$imagePath = vimage_path('DefaultUserIcon.png');
 		} else {
-			$imagePath = $image['path'] . '_' . $image['orgname'];
+			$imagePath = (string) $image['path'];
 		}
 		return $imagePath;
 	}
@@ -705,10 +694,10 @@ class Record extends \App\Modules\Base\Models\Record
 	{
 		$image = $this->getImageDetails();
 		$image = reset($image);
-		if (empty($image['path']) || empty($image['orgname'])) {
+		if (empty($image['path'])) {
 			return null;
 		}
-		return $image['path'] . '_' . $image['orgname'];
+		return (string) $image['path'];
 	}
 
 	public const USER_PHOTO_SIZE = 300;
@@ -793,17 +782,11 @@ class Record extends \App\Modules\Base\Models\Record
 
 	public static function unlinkUserAvatarFilesForUserId(int $userId): void
 	{
-		$db = \App\Database\PearDatabase::getInstance();
-		$result = $db->pquery(
-			'SELECT vtiger_attachments.attachmentsid, vtiger_attachments.path, vtiger_attachments.name FROM vtiger_salesmanattachmentsrel INNER JOIN vtiger_attachments ON vtiger_salesmanattachmentsrel.attachmentsid = vtiger_attachments.attachmentsid WHERE vtiger_salesmanattachmentsrel.smid = ?',
-			[$userId]
-		);
-		for ($i = 0; $i < $db->num_rows($result); $i++) {
-			$aid = $db->query_result($result, $i, 'attachmentsid');
-			$path = $db->query_result($result, $i, 'path');
-			$name = $db->query_result($result, $i, 'name');
-			self::unlinkUserPhotoAndSidecarByRelativePath(self::userImageRelativePathFromAttachmentMeta($path, $aid, $name));
+		$rows = \App\Models\RecordFile::listByRecord($userId, \App\Models\RecordFile::ROLE_IMAGE);
+		foreach ($rows as $row) {
+			self::unlinkUserPhotoAndSidecarByRelativePath((string) ($row['storage_path'] ?? ''));
 		}
+		\App\Models\RecordFile::deleteByRecord($userId, \App\Models\RecordFile::ROLE_IMAGE);
 	}
 
 	public static function writeUserPhotoBase64SidecarForRelativeImage(string $relativeImagePath, string $mimeType = ''): bool
@@ -847,18 +830,19 @@ class Record extends \App\Modules\Base\Models\Record
 
 	private static function updateUserPhotoAttachmentAfterPngConversion(string $oldRelativePath, string $newRelativePath): void
 	{
-		$fileBase = basename($oldRelativePath);
-		if (!preg_match('/^(\d+)_(.+)$/', $fileBase, $m)) {
+		$row = (new \App\Db\Query())
+			->from('s_yf_record_files')
+			->where(['storage_path' => $oldRelativePath, 'role' => \App\Models\RecordFile::ROLE_IMAGE])
+			->one();
+		if (!$row) {
 			return;
 		}
 		$newOrgName = basename($newRelativePath);
-		if (preg_match('/^\d+_(.+)$/', $newOrgName, $newMatch)) {
-			$newOrgName = $newMatch[1];
-		}
-		\App\Db\Db::getInstance()->createCommand()->update('vtiger_attachments', [
-			'name' => $newOrgName,
-			'type' => self::USER_PHOTO_MIME,
-		], ['attachmentsid' => (int) $m[1]])->execute();
+		\App\Db\Db::getInstance()->createCommand()->update('s_yf_record_files', [
+			'storage_path' => $newRelativePath,
+			'original_name' => $newOrgName,
+			'mime_type' => self::USER_PHOTO_MIME,
+		], ['id' => (int) $row['id']])->execute();
 	}
 
 	/**
@@ -930,26 +914,17 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public function deleteImage($imageId)
 	{
-		$db = \App\Database\PearDatabase::getInstance();
-
-		$checkResult = $db->pquery('SELECT smid FROM vtiger_salesmanattachmentsrel WHERE attachmentsid = ?', [$imageId]);
-		if (!$db->getRowCount($checkResult)) {
+		$row = (new \App\Db\Query())
+			->from('s_yf_record_files')
+			->where(['id' => (int) $imageId, 'crm_record_id' => (int) $this->getId(), 'role' => \App\Models\RecordFile::ROLE_IMAGE])
+			->one();
+		if (!$row) {
 			return false;
 		}
-		$smId = $db->query_result($checkResult, 0, 'smid');
+		self::unlinkUserPhotoAndSidecarByRelativePath((string) ($row['storage_path'] ?? ''));
+		\App\Db\Db::getInstance()->createCommand()->delete('s_yf_record_files', ['id' => (int) $imageId])->execute();
 
-		if ($this->getId() === $smId) {
-			$attRes = $db->pquery('SELECT path, name FROM vtiger_attachments WHERE attachmentsid = ?', [$imageId]);
-			if ($db->getRowCount($attRes)) {
-				$path = $db->query_result($attRes, 0, 'path');
-				$name = $db->query_result($attRes, 0, 'name');
-				self::unlinkUserPhotoAndSidecarByRelativePath(self::userImageRelativePathFromAttachmentMeta($path, $imageId, $name));
-			}
-			$db->pquery('DELETE FROM vtiger_attachments WHERE attachmentsid = ?', [$imageId]);
-			$db->pquery('DELETE FROM vtiger_salesmanattachmentsrel WHERE attachmentsid = ?', [$imageId]);
-			return true;
-		}
-		return false;
+		return true;
 	}
 
 	/**

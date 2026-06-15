@@ -1,0 +1,81 @@
+---
+description: "Documents module file storage and s_yf_record_files — read when touching uploads, downloads, images, or attachment queries"
+globs:
+  - "src/Modules/Documents/**"
+  - "src/Models/RecordFile.php"
+  - "src/Modules/Base/Models/Record.php"
+  - "migrations/Users/m260613_00000*_documents*.php"
+  - "migrations/Users/m260613_000006_restore_documents_senotesrel_relatedlists.php"
+  - "src/Modules/Candidates/Models/RelatedListLeftSideExtras.php"
+  - "src/Modules/EmailTemplates/Models/TemplateAttachment.php"
+  - "src/Modules/Mail/**"
+  - "src/Modules/HelpDesk/Files/Image.php"
+  - "src/Modules/**/Files/Image.php"
+alwaysApply: false
+---
+
+# Documents & record file storage
+
+Rebuilt 2026-06 (`documentation/cr-documents-storage-rebuild.md`). **No legacy fallbacks** — dropped tables/columns are gone from runtime code.
+
+## Two storage paths
+
+| Use case | Table | Key columns |
+|---|---|---|
+| **Documents module** (file or external URL) | `vtiger_notes` | `storage_path`, `location_type` (`internal` \| `external`), `original_name`, `mime_type`, `size_bytes`, `active`, `download_count`, `external_url` |
+| **Record images / non-Document attachments** (Contacts, Products, HelpDesk screenshot, Users photo, mail template upload, etc.) | `s_yf_record_files` | `crm_record_id`, `role` (`image` \| `attachment`), `storage_path`, `original_name`, `mime_type`, `size_bytes` |
+
+Record ↔ Document **links**: `vtiger_senotesrel`. UI: `vtiger_relatedlists.name = getAttachments` → `Relation::getAttachments()` (join `senotesrel`). **Exception:** EmailTemplates uses `getManyToMany` + `u_yf_documents_emailtemplates` (not `senotesrel`).
+
+Restored by `m260613_000006` on entity modules (incl. **Candidates**, ProjektyRekrutacyjne, HelpDesk, Accounts, Leads, Contacts, …). Do not delete `getAttachments` rows when touching metadata migrations.
+
+## Helper: `App\Models\RecordFile`
+
+- `resolveAbsolutePath($storagePath)` — `ROOT_DIRECTORY` + `realpath`
+- `getByRecord` / `listByRecord` / `saveUploadedFile` / `deleteByRecord`
+- `getImageDetailsForRecord` / `getImageDetailsListForRecord` — uitype 69 / multi-image consumers
+
+`Base\Models\Record::uploadAndSaveFile()` delegates here for all modules **except** Documents (Documents save file metadata in `Documents\Models\Record::saveToDb`).
+
+Documents path resolution: `Documents\Models\Record::resolveStoragePath()` (internal → disk under `storage/`, external → `external_url`).
+
+## Dropped (do not reintroduce)
+
+Tables: `vtiger_attachments`, `vtiger_seattachmentsrel`, `vtiger_salesmanattachmentsrel`, `vtiger_notescf`.
+
+`vtiger_notes` columns: `filename`, `filelocationtype`, `filesize`, `filetype`, `fileversion`, `filestatus`, `filedownloadcount`, `ossdc_status`. (`notes_title` is still the **fieldname** for column `title` — not dropped.)
+
+UiType: `DocumentsFolder` (folder field removed). `Documents.php` list/search `list_fields` alias: `notes` (not legacy `attachmentsfolder`).
+
+**Out of scope** (separate systems): `u_yf_mail_attachments`, `u_yf_attachments` (OSS mail scanner).
+
+## Field metadata (`vtiger_field`)
+
+Documents uitype 28 columns renamed to match DB: `original_name`, `location_type`, `mime_type`, `size_bytes`, `active`, `download_count`. JS/templates use these names (not `filename` / `filelocationtype`).
+
+## Migrations (order)
+
+1. `m260613_000002_documents_storage_rebuild.php` — additive columns, `s_yf_record_files`, backfill, disk verify, orphan purge
+2. `m260613_000003_documents_field_metadata.php` — field renames (no longer drops `getAttachments`)
+3. `m260613_000004_documents_drop_legacy.php` — drop legacy columns/tables
+4. `m260613_000005_fix_documents_field_metadata.php` — correct field IDs 208–211 after 000003 mistake
+5. `m260613_000006_restore_documents_senotesrel_relatedlists.php` — `getAttachments` related lists on entity modules
+
+Post-migrate: `bin/regenerate_user_privileges.php`; clear `cache/templates_c/*.php`.
+
+## Pitfalls
+
+- **Internal doc without blob:** `location_type='internal'`, `active=1`, `storage_path IS NULL` → deactivate (`active=0`); mail/template send skips via `realpath` failure.
+- **Migration collation:** `s_yf_record_files` uses `utf8` (not `utf8mb4`) to match legacy `vtiger_*` string compares; cross-table `NOT EXISTS` may need `CONVERT(... USING utf8)`.
+- **User photos:** migrated from dropped `vtiger_salesmanattachmentsrel` into `s_yf_record_files`; image URLs use `record` only (no `attachment` id) — e.g. HelpDesk `file.php?module=HelpDesk&action=Image&record=…`.
+- **Products multi-image:** `saveUploadedFile(..., $replace = false)` appends rows; single-image modules use `$replace = true`.
+
+## Grep gate (install / dead code)
+
+Zero hits in `scheme.sql`, `data.sql`, runtime `src/` for **dropped** identifiers above.
+
+**Do not grep-delete `getAttachments`** — that is the live `vtiger_relatedlists.name` / `Relation::getAttachments()` handler (`vtiger_senotesrel`), not the dropped `vtiger_seattachmentsrel` table.
+
+Post-rebuild footguns (old column names that survived initial pass): `Module::getSpecificRelationQuery` → `active`; `Relation::getAttachments` `setCustomColumn` → `mime_type`; `RelatedList::prepareDocumentsRelatedListData` → `get('mime_type')`.
+
+Fresh install: `getAttachments` relatedlist seeds were removed from `data.sql`/`Base4.php`; run `m260613_000006` after install (or re-seed from that migration’s `MODULES` list).

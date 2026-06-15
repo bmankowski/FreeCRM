@@ -43,7 +43,7 @@ class Module extends \App\Modules\Base\Models\Module
 	{
 		$queryGenerator->addNativeCondition(['and',
 			['not in', 'vtiger_notes.notesid', (new \App\Db\Query())->select(['notesid'])->from('vtiger_senotesrel')->where(['crmid' => $record])],
-			['vtiger_notes.filestatus' => 1]
+			['vtiger_notes.active' => 1]
 		]);
 	}
 
@@ -55,7 +55,7 @@ class Module extends \App\Modules\Base\Models\Module
 	public function getPopupViewFieldsList($sourceModule = false)
 	{
 		$popupFields = parent::getPopupViewFieldsList($sourceModule);
-		$reqPopUpFields = ['filestatus', 'filesize', 'filelocationtype'];
+		$reqPopUpFields = ['active', 'size_bytes', 'location_type'];
 		foreach ($reqPopUpFields as &$fieldName) {
 			if (!isset($popupFields[$fieldName])) {
 				$fieldModel = \App\Modules\Base\Models\Field::getInstance($fieldName, $this);

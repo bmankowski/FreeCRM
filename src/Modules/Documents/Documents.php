@@ -18,27 +18,27 @@ class Documents extends \App\Core\CRMEntity
 	public $table_name = 'vtiger_notes';
 	public $table_index = 'notesid';
 	public $default_note_name_dom = array('Meeting vtiger_notes', 'Reminder');
-	public $tab_name = Array('vtiger_crmentity', 'vtiger_notes', 'vtiger_notescf');
-	public $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_notes' => 'notesid', 'vtiger_senotesrel' => 'notesid', 'vtiger_notescf' => 'notesid');
+	public $tab_name = Array('vtiger_crmentity', 'vtiger_notes');
+	public $tab_name_index = Array('vtiger_crmentity' => 'crmid', 'vtiger_notes' => 'notesid', 'vtiger_senotesrel' => 'notesid');
 
 	/**
 	 * Mandatory table for supporting custom fields.
 	 */
-	public $customFieldTable = Array('vtiger_notescf', 'notesid');
+	public $customFieldTable = Array();
 	public $column_fields = Array();
 	// This is used to retrieve related vtiger_fields from form posts.
 	public $additional_column_fields = Array('', '', '', '');
 	// This is the list of vtiger_fields that are in the lists.
 	public $list_fields = Array(
 		'Title' => Array('notes' => 'title'),
-		'File Name' => Array('notes' => 'filename'),
+		'File Name' => Array('notes' => 'original_name'),
 		'Modified Time' => Array('crmentity' => 'modifiedtime'),
 		'Assigned To' => Array('crmentity' => 'smownerid'),
-		'Folder Name' => Array('attachmentsfolder' => 'folderid')
+		'Folder Name' => Array('notes' => 'folderid')
 	);
 	public $list_fields_name = Array(
 		'Title' => 'notes_title',
-		'File Name' => 'filename',
+		'File Name' => 'original_name',
 		'Modified Time' => 'modifiedtime',
 		'Assigned To' => 'assigned_user_id',
 		'Folder Name' => 'folderid'
@@ -47,22 +47,22 @@ class Documents extends \App\Core\CRMEntity
 	/**
 	 * @var string[] List of fields in the RelationListView
 	 */
-	public $relationFields = ['notes_title', 'filename', 'modifiedtime', 'assigned_user_id', 'folderid', 'filelocationtype', 'filestatus'];
+	public $relationFields = ['notes_title', 'original_name', 'modifiedtime', 'assigned_user_id', 'folderid', 'location_type', 'active'];
 	public $search_fields = Array(
 		'Title' => Array('notes' => 'notes_title'),
-		'File Name' => Array('notes' => 'filename'),
+		'File Name' => Array('notes' => 'original_name'),
 		'Assigned To' => Array('crmentity' => 'smownerid'),
-		'Folder Name' => Array('attachmentsfolder' => 'foldername')
+		'Folder Name' => Array('notes' => 'folderid')
 	);
 	public $search_fields_name = Array(
 		'Title' => 'notes_title',
-		'File Name' => 'filename',
+		'File Name' => 'original_name',
 		'Assigned To' => 'assigned_user_id',
 		'Folder Name' => 'folderid'
 	);
 	public $list_link_field = 'notes_title';
 	public $old_filename = '';
-	public $mandatory_fields = Array('notes_title', 'createdtime', 'modifiedtime', 'filename', 'filesize', 'filetype', 'filedownloadcount', 'assigned_user_id');
+	public $mandatory_fields = Array('notes_title', 'createdtime', 'modifiedtime', 'original_name', 'size_bytes', 'mime_type', 'download_count', 'assigned_user_id');
 	//Added these variables which are used as default order by and sortorder in ListView
 	public $default_order_by = '';
 	public $default_sort_order = 'DESC';
@@ -236,7 +236,6 @@ class Documents extends \App\Core\CRMEntity
 			$query .= ' left join vtiger_users as vtiger_users' . $module . ' on vtiger_users' . $module . '.id = vtiger_crmentity.smownerid';
 		}
 		$query .= ' left join vtiger_groups on vtiger_groups.groupid = vtiger_crmentity.smownerid';
-		$query .= ' left join vtiger_notescf on vtiger_notes.notesid = vtiger_notescf.notesid';
 		$query .= ' left join vtiger_users on vtiger_users.id = vtiger_crmentity.smownerid';
 		if ($queryplanner->requireTable('vtiger_lastModifiedBy' . $module)) {
 			$query .= ' left join vtiger_users as vtiger_lastModifiedBy' . $module . ' on vtiger_lastModifiedBy' . $module . '.id = vtiger_crmentity.modifiedby ';
@@ -268,7 +267,6 @@ class Documents extends \App\Core\CRMEntity
 			return '';
 		}
 		$query = $this->getRelationQuery($module, $secmodule, 'vtiger_notes', 'notesid', $queryplanner);
-		$query .= ' left join vtiger_notescf on vtiger_notes.notesid = vtiger_notescf.notesid';
 		if ($queryplanner->requireTable('vtiger_crmentityDocuments', $matrix)) {
 			$query .= ' left join vtiger_crmentity as vtiger_crmentityDocuments on vtiger_crmentityDocuments.crmid=vtiger_notes.notesid and vtiger_crmentityDocuments.deleted=0';
 		}

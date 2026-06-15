@@ -31,7 +31,7 @@ final class DocumentHelper
 		$newDocument = \App\Modules\Documents\Models\Record::getCleanInstance('Documents');
 		$automatUserId = \App\Modules\Users\Models\Record::getUserIdByName('automat');
 		$newDocument->set('assigned_user_id', $automatUserId);
-		$maxLength = $newDocument->getField('filename')->get('maximumlength');
+		$maxLength = $newDocument->getField('original_name')->get('maximumlength');
 		$fileNameLength = mb_strlen((string) $fileName);
 		if ($fileNameLength > $maxLength) {
 			$extSuffix = '';
@@ -52,16 +52,16 @@ final class DocumentHelper
 		}
 		$fileName = \App\Security\Purifier::decodeHtml(\App\Security\Purifier::purify($fileName));
 		$newDocument->set('notes_title', $title);
-		$newDocument->set('filename', $fileName);
-		$newDocument->set('filestatus', 1);
-		$newDocument->set('filelocationtype', 'I');
-		$newDocument->file = [
+		$newDocument->set('original_name', $fileName);
+		$newDocument->set('active', 1);
+		$newDocument->set('location_type', 'internal');
+		$newDocument->setPendingUploadFile([
 			'name' => $fileName,
 			'size' => $file->getSize(),
 			'type' => $file->getMimeType(),
 			'tmp_name' => $file->getPath(),
 			'error' => 0,
-		];
+		]);
 		if ($relations !== null) {
 			$newDocument->ext = ['relations' => $relations];
 		}
@@ -69,7 +69,7 @@ final class DocumentHelper
 		$request->set('module', 'Documents');
 		$request->set('mode', '');
 		$newDocument->save($request);
-		if (isset($newDocument->ext['attachmentsId'])) {
+		if ((string) $newDocument->get('storage_path') !== '') {
 			return $newDocument;
 		}
 		return false;

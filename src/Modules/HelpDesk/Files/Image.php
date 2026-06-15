@@ -3,29 +3,20 @@
 namespace App\Modules\HelpDesk\Files;
 
 /**
- * Serves HelpDesk Image attachments (uitype 69) from vtiger_attachments.
+ * Serves HelpDesk Image attachments (uitype 69) from s_yf_record_files.
  */
 class Image extends \App\Modules\Base\Files\File
 {
 	public function getCheckPermission(\App\Http\Vtiger_Request $request): bool
 	{
 		$recordId = $request->getInteger('record');
-		$attachmentId = $request->getInteger('attachment');
-		if ($recordId <= 0 || $attachmentId <= 0) {
+		if ($recordId <= 0) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 		if (!\App\Security\Privilege::isPermitted('HelpDesk', 'DetailView', $recordId)) {
 			throw new \App\Exceptions\NoPermitted('ERR_NO_PERMISSIONS_FOR_THE_RECORD', 406);
 		}
-		$linked = (new \App\Db\Query())
-			->from('vtiger_seattachmentsrel')
-			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = vtiger_seattachmentsrel.attachmentsid')
-			->where([
-				'vtiger_seattachmentsrel.crmid' => $recordId,
-				'vtiger_seattachmentsrel.attachmentsid' => $attachmentId,
-				'vtiger_crmentity.setype' => 'HelpDesk Image',
-			])
-			->exists();
+		$linked = \App\Models\RecordFile::getByRecord($recordId, \App\Models\RecordFile::ROLE_IMAGE) !== null;
 		if (!$linked) {
 			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
@@ -35,17 +26,14 @@ class Image extends \App\Modules\Base\Files\File
 
 	public function get(\App\Http\Vtiger_Request $request)
 	{
-		$attachmentId = $request->getInteger('attachment');
-		$row = (new \App\Db\Query())
-			->from('vtiger_attachments')
-			->where(['attachmentsid' => $attachmentId])
-			->one();
+		$recordId = $request->getInteger('record');
+		$row = \App\Models\RecordFile::getByRecord($recordId, \App\Models\RecordFile::ROLE_IMAGE);
 		if (!$row) {
 			throw new \App\Exceptions\NoPermitted('LBL_NOT_ACCESSIBLE', 404);
 		}
 
-		$path = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $row['path'] . $row['attachmentsid'] . '_' . $row['name'];
-		if (!is_file($path)) {
+		$path = \App\Models\RecordFile::resolveAbsolutePath((string) ($row['storage_path'] ?? ''));
+		if ($path === false || !is_file($path)) {
 			throw new \App\Exceptions\NoPermitted('LBL_NOT_ACCESSIBLE', 404);
 		}
 
@@ -53,7 +41,7 @@ class Image extends \App\Modules\Base\Files\File
 		header('Content-Type: ' . $file->getMimeType());
 		header('Content-Transfer-Encoding: binary');
 		header('Cache-Control: private, max-age=86400');
-		header('Content-Disposition: inline; filename="' . $row['name'] . '"');
+		header('Content-Disposition: inline; filename="' . ($row['original_name'] ?? basename($path)) . '"');
 		readfile($path);
 
 		return false;

@@ -55,8 +55,8 @@ class MassAdd extends \App\Base\Controllers\BaseActionController
 				$recordeModel->set('notes_title', $nameFiles[$i] ?? $originalFile['name']);
 				$recordeModel->set('assigned_user_id', $request->getUserId());
 				$recordeModel->setPendingUploadFile($originalFile);
-				$recordeModel->set('filelocationtype', 'I');
-				$recordeModel->set('filestatus', true);
+				$recordeModel->set('location_type', 'internal');
+				$recordeModel->set('active', true);
 				$recordeModel->save($request);
 				
 				// Link the document to parent record if createmode is 'link'
