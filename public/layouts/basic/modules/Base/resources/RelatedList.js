@@ -685,6 +685,9 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 					if (target.is('input[type="checkbox"]') || (target.is('td:first-child') && target.find('input[type="checkbox"]').length)) {
 						return;
 					}
+					if (target.closest('a[href]').length && !target.closest('a.noLinkBtn').length) {
+						return;
+					}
 					var elem = jQuery(e.currentTarget);
 					var recordUrl = elem.data('recordurl');
 					if (recordUrl) {

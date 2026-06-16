@@ -49,11 +49,8 @@ class DocumentsFileUpload extends BaseUiType
 			$active = $recordInstance->get('active');
 			if (!empty($value) && $active) {
 				if ($locationType === 'internal') {
-					$storagePath = (string) $recordInstance->get('storage_path');
-					if ($storagePath !== '') {
-						$value = '<a href="index.php?module=Documents&action=DownloadFile&record=' . $record . '"' .
-							' title="' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $value . '</a>';
-					}
+					$value = '<a href="index.php?module=Documents&action=DownloadFile&record=' . $record . '"' .
+						' title="' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $value . '</a>';
 				} else {
 					$url = (string) ($recordInstance->get('external_url') ?: $value);
 					$value = '<a href="' . $url . '" target="_blank" title="' . \App\Runtime\Vtiger_Language_Handler::translate('LBL_DOWNLOAD_FILE', 'Documents') . '" >' . $value . '</a>';

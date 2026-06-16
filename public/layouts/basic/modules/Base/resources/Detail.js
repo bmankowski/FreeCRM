@@ -824,6 +824,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 				return;
 			if (jQuery(e.target).is('input[type="checkbox"]'))
 				return;
+			if (jQuery(e.target).closest('a[href]').length && !jQuery(e.target).closest('a.noLinkBtn').length) {
+				return;
+			}
 			var elem = jQuery(e.currentTarget);
 			var recordUrl = elem.data('recordurl');
 			if (typeof recordUrl != "undefined") {

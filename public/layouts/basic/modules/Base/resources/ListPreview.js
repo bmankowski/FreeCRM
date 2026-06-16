@@ -113,6 +113,10 @@ Vtiger_ListView_Js("Vtiger_ListPreview_Js", {}, {
 			if (link.hasClass('noLinkBtn')) {
 				return;
 			}
+			var href = link.attr('href') || '';
+			if (href.indexOf('action=DownloadFile') !== -1 || href.indexOf('action=DownloadAttachment') !== -1) {
+				return;
+			}
 			// Keep native browser behavior for intentional new-tab/window actions.
 			if (e.ctrlKey || e.metaKey || e.shiftKey || e.altKey || e.button === 1) {
 				return;
