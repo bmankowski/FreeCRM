@@ -8,7 +8,11 @@
 				<div class="btn-toolbar">
 					<div class="btn-group">
 						{assign var="SPECIAL_WIDGETS" value=\App\Modules\Settings\WidgetsManagement\Models\Module::getSpecialWidgets('Home')}
-						{if $WIDGETS|count gt 0}
+						{assign var="DASHBOARD_JS" value="Vtiger_DashBoard_Js"}
+						{if $MODULE_NAME eq 'Home'}
+							{assign var="DASHBOARD_JS" value="Home_Index_Js"}
+						{/if}
+						{if $HEADER_WIDGETS|count gt 0}
 							<button class="btn btn-default addButton dropdown-toggle" data-toggle="dropdown">
 								<p class="hidden-xs no-margin">
 									<strong>{"LBL_ADD_WIDGET"|t}</strong>
@@ -23,8 +27,8 @@
 									</a>
 								</li>
 								{assign var="WIDGET" value=""}
-								{foreach from=$WIDGETS item=WIDGET}
-									<li><a class="pull-left" onclick="Vtiger_DashBoard_Js.addWidget(this, '{$WIDGET->getUrl()}')" href="javascript:void(0);"
+								{foreach from=$HEADER_WIDGETS item=WIDGET}
+									<li><a class="pull-left" onclick="{$DASHBOARD_JS}.addWidget(this, '{$WIDGET->getUrl()}')" href="javascript:void(0);"
 										   data-linkid="{$WIDGET->get('linkid')}" data-name="{$WIDGET->getName()}" data-width="{$WIDGET->getWidth()}" data-height="{$WIDGET->getHeight()}" data-id="{$WIDGET->get('widgetid')}">
 											{$WIDGET->getTitle()|t:$MODULE_NAME} </a>
 										{if $WIDGET->get('deleteFromList')}

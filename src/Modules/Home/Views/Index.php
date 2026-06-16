@@ -46,9 +46,11 @@ class Index extends \App\Modules\Base\Views\Index
 		
 		if ($permission) {
 			$dashBoardModel->verifyDashboard($moduleName);
-			$widgets = $dashBoardModel->getDashboards();
+			$viewer->assign('WIDGETS', $dashBoardModel->getDashboards());
+			$viewer->assign('HEADER_WIDGETS', $dashBoardModel->getDashboards('Header'));
 		} else {
-			$widgets = [];
+			$viewer->assign('WIDGETS', []);
+			$viewer->assign('HEADER_WIDGETS', []);
 		}
 
 		$modulesWithWidget = \App\Modules\Base\Models\DashBoard::getModulesWithWidgets($moduleName, $currentDashboard);
@@ -57,7 +59,6 @@ class Index extends \App\Modules\Base\Views\Index
 		$viewer->assign('DASHBOARD_TYPES', \App\Modules\Settings\WidgetsManagement\Models\Module::getDashboardTypes());
 		$viewer->assign('USER_PRIVILEGES_MODEL', $userPrivilegesModel);
 		$viewer->assign('MODULE_PERMISSION', $permission);
-		$viewer->assign('WIDGETS', $widgets);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('MODULES_WITH_WIDGET', $modulesWithWidget);

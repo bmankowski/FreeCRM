@@ -51,9 +51,9 @@ class DashBoard  extends \App\Modules\Base\Views\Index
 		}
 		if ($permission) {
 			$dashBoardModel->verifyDashboard($moduleName);
-			$widgets = $dashBoardModel->getDashboards('Header');
+			$viewer->assign('HEADER_WIDGETS', $dashBoardModel->getDashboards('Header'));
 		} else {
-			$widgets = [];
+			$viewer->assign('HEADER_WIDGETS', []);
 		}
 		$modulesWithWidget = \App\Modules\Base\Models\DashBoard::getModulesWithWidgets($sourceModule, $currentDashboard);
 		$viewer->assign('CURRENT_DASHBOARD', $currentDashboard);
@@ -61,7 +61,6 @@ class DashBoard  extends \App\Modules\Base\Views\Index
 		$viewer->assign('MODULES_WITH_WIDGET', $modulesWithWidget);
 		$viewer->assign('USER_PRIVILEGES_MODEL', $userPrivilegesModel);
 		$viewer->assign('MODULE_PERMISSION', $permission);
-		$viewer->assign('WIDGETS', $widgets);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('SRC_MODULE_NAME', $sourceModule);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
@@ -72,23 +71,6 @@ class DashBoard  extends \App\Modules\Base\Views\Index
 	{
 		parent::preProcess($request, false);
 		$this->assignDashboardData($request);
-		
-		// Assign process data in preProcess for inheritance
-		$viewer = $this->getViewer($request);
-		$moduleName = $request->getModule();
-		$currentDashboard = $request->get('dashboardId');
-		if (empty($currentDashboard)) {
-			$currentDashboard = \App\Modules\Settings\WidgetsManagement\Models\Module::getDefaultDashboard();
-		}
-		$dashBoardModel = \App\Modules\Base\Models\DashBoard::getInstance($moduleName);
-		$dashBoardModel->set('dashboardId', $currentDashboard);
-		//check profile permissions for Dashboards
-		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
-		$permission = $userPrivilegesModel->hasModulePermission($moduleName);
-		if ($permission) {
-			$widgets = $dashBoardModel->getDashboards();
-			$viewer->assign('WIDGETS', $widgets);
-		}
 	}
 
 	protected function assignDashboardData(\App\Http\Vtiger_Request $request)
@@ -112,9 +94,11 @@ class DashBoard  extends \App\Modules\Base\Views\Index
 		}
 		if ($permission) {
 			$dashBoardModel->verifyDashboard($moduleName);
-			$widgets = $dashBoardModel->getDashboards('Header');
+			$viewer->assign('WIDGETS', $dashBoardModel->getDashboards());
+			$viewer->assign('HEADER_WIDGETS', $dashBoardModel->getDashboards('Header'));
 		} else {
-			$widgets = [];
+			$viewer->assign('WIDGETS', []);
+			$viewer->assign('HEADER_WIDGETS', []);
 		}
 
 		// DashBoard needs QUICK_LINKS for sidebar navigation (ListView, RecycleBin, etc.)
@@ -126,7 +110,6 @@ class DashBoard  extends \App\Modules\Base\Views\Index
 		$viewer->assign('DASHBOARD_TYPES', \App\Modules\Settings\WidgetsManagement\Models\Module::getDashboardTypes());
 		$viewer->assign('USER_PRIVILEGES_MODEL', $userPrivilegesModel);
 		$viewer->assign('MODULE_PERMISSION', $permission);
-		$viewer->assign('WIDGETS', $widgets);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('QUICK_LINKS', $linkModels);
