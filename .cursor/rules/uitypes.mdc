@@ -57,6 +57,7 @@ Located at `BaseUiType::UITYPE_CLASS_MAP`. Maps uitype integer directly to the U
 | 309 | `CategoryMultipicklist` | Same picklist path as Tree — `getAllValue()` delegates to `Tree` |
 | 310 | `CompanySelect` | |
 | 311 | `MultiImage` | |
+| 330 | `MultiAttachmentJson` | JSON multi-attachment (e.g. Candidates `cv_img_file`); not AJAX-editable |
 | 358 | `MailSmtpSelect` | |
 | *(unmapped)* | derived from `getFieldDataType()` | Fallback for custom/future uitypes |
 

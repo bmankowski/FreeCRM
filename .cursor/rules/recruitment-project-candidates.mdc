@@ -5,7 +5,10 @@ globs:
   - "src/Modules/Candidates/Candidates.php"
   - "src/Modules/Candidates/Handlers/NewCandidateInProject.php"
   - "src/Modules/Candidates/Models/RelatedListLeftSideExtras.php"
+  - "src/Modules/Candidates/Models/Record.php"
+  - "src/Modules/Candidates/Files/MultiAttachment.php"
   - "src/Modules/RecruitmentApplication/Services/CvImport/DocumentHelper.php"
+  - "layouts/basic/modules/Candidates/**"
   - "layouts/basic/modules/ProjektyRekrutacyjne/**"
   - "public/modules/ProjektyRekrutacyjne/**"
 ---
@@ -59,6 +62,9 @@ globs:
 ## Candidate files (CV, consents, etc.)
 
 - **Canonical storage:** Documents module + `vtiger_senotesrel` — Candidate detail → Więcej → **Documents** (`getAttachments`, `m260613_000006`). ADD/SELECT + per-row **CV** (Set as CV) via `RelatedListLeftSideExtras`.
-- **Preview only:** Summary **Preview** widget reads `cv_img_file` (JPG pages); empty if no Set-as-CV / transform yet, even when Documents exist.
+- **Preview only:** Summary widget **`CandidatesPreview`** (`CandidatesPreview.tpl`) reads **`cv_img_file`** (uitype **330**, JSON array in `u_yf_candidates`). **No widget title in template** — image only (`.summaryWidgetContainer--cv-preview`). Empty if no Set-as-CV / transform yet, even when Documents exist. First summary column (`m260616_000002`; DB widget label is config-only). Header thumbnail: `DetailViewHeaderTitle.tpl` via `Record::getCVPathname()`.
+- **Image URL:** `/file.php?module=Candidates&action=MultiAttachment&field=cv_img_file&record={id}&key={key}` — handler `Candidates/Files/MultiAttachment.php`. Requires login (session cookie); unauthenticated → 401 blank `<img>`.
+- **UiType 330:** `MultiAttachmentJson` — `getDBValue()` JSON-encodes arrays; `isAjaxEditable()` false (SaveAjax inline edit once wrote literal `"Array"` into DB).
+- **Template pitfalls:** never `height="100%"` on preview `<img>` without a fixed-height parent (Firefox collapses to 0px). Do not Smarty `escape:'url'` on `file.php` URLs (over-encodes). Use explicit `max-width:100%; height:auto` (`.candidates-cv-preview__image`).
 - **CV import:** `DocumentHelper::saveAndDeleteFile` links new Document to **Candidates** only (`prepareRelationsString('Candidates', …)`).
 - **Counts:** `u_yf_candidatescf.documents_count` via `RefreshDocsNumber` on link/unlink.

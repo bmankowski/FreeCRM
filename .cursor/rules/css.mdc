@@ -10,6 +10,7 @@ globs: ["**/*.css", "**/*.scss", "package.json"]
 - **Source files**: `public/layouts/basic/skins/style.css` (and variants)
 - **Minified files**: `public/layouts/basic/skins/style.min.css` (automatically generated)
 - The application loads `style.min.css` in production
+- **`style.less`** (same folder) — legacy YetiForce LESS source (Bootstrap variables/mixins). **Not compiled by npm**; no `less` script in `package.json`. Runtime changes: edit **`style.css`** only, then minify. Do not edit `style.less` unless deliberately syncing both; `style.less.min.css` is old compiled output, unused.
 
 ## CSS Minification
 

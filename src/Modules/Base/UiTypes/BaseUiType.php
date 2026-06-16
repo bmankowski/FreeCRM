@@ -126,6 +126,7 @@ class BaseUiType extends \App\Runtime\BaseModel
 		309 => 'CategoryMultipicklist',
 		310 => 'CompanySelect',
 		311 => 'MultiImage',
+		330 => 'MultiAttachmentJson',
 		342 => 'Recurrence',
 		357 => 'Reference',
 		358 => 'MailSmtpSelect',

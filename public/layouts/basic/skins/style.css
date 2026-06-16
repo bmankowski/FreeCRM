@@ -2991,6 +2991,24 @@ table.dataTable .form-control {
 	max-width: 70px;
 	max-height: 70px;
 }
+.candidates-cv-preview {
+	text-align: center;
+}
+.candidates-cv-preview__link {
+	display: inline-block;
+	max-width: 100%;
+}
+.candidates-cv-preview__image {
+	display: block;
+	width: auto;
+	max-width: 100%;
+	height: auto;
+	margin: 0 auto;
+}
+.summaryWidgetContainer--cv-preview {
+	padding-top: 2px;
+	padding-bottom: 8px;
+}
 #imageContainer .user-detail-photo{
 	max-width: 300px;
 	max-height: 200px;

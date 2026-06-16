@@ -11,6 +11,7 @@
 -->*}
 {strip}
 	<!-- tpl-Candidates-DetailViewHeaderTitle -->
+	{assign var=CV_IMG value=$RECORD->getCVPathname()}
 	<div class="col-md-12 paddingLRZero row">
 		<div class="col-xs-12 col-sm-12 col-md-8">
 			<div class="moduleIcon">
@@ -20,7 +21,11 @@
 						<span class="badge {if $RECORD->get('active')} bgGreen {else} bgOrange {/if}"></span>
 					</span>
 				{/if}
-				<span class="detailViewIcon {if $COUNT_IN_HIERARCHY}cursorPointer{/if} userIcon-{$MODULE}" {if $COLORLISTHANDLERS}style="background-color: {$COLORLISTHANDLERS['background']};color: {$COLORLISTHANDLERS['text']};"{/if}></span>
+				{if !empty($CV_IMG)}
+					<img src="{$CV_IMG}" class="user-detail-photo user-detail-photo--avatar pushDown" alt="CV" loading="eager" decoding="async" />
+				{else}
+					<span class="detailViewIcon {if $COUNT_IN_HIERARCHY}cursorPointer{/if} userIcon-{$MODULE}" {if $COLORLISTHANDLERS}style="background-color: {$COLORLISTHANDLERS['background']};color: {$COLORLISTHANDLERS['text']};"{/if}></span>
+				{/if}
 			</div>
 			<div class="paddingLeft5px">
 				<h4 class="recordLabel textOverflowEllipsis pushDown marginbottomZero" title="{$RECORD->getName()}">
@@ -29,8 +34,7 @@
 				{include file='DetailViewHeaderFields.tpl'|@vtemplate_path:$MODULE_NAME}
 			</div>
 		</div>
-		
+
 	</div>
 	<!-- /tpl-Candidates-DetailViewHeaderTitle -->
 {/strip}
-

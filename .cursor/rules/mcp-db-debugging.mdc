@@ -7,5 +7,7 @@ description: "Pattern for debugging FreeCRM file/image fields via MCP — read w
 When an image/file URL fails:
 
 1. Query the file field (e.g. `cv_img_file`) to get its JSON payload (`path`, `key`, `name`, `type`).
-2. Verify the referenced file exists under `storage/`.
-3. If the DB points to a path that doesn't exist, fix the writer (regen the file or fix Docker `storage/` volume permissions), not the reader.
+2. **Corrupted value:** literal `"Array"` (5 chars) = SaveAjax inline edit saved a PHP array as string — restore from ModTracker pre-value; uitype 330 blocks re-edit via `MultiAttachmentJson`.
+3. Verify the referenced file exists under `storage/`.
+4. **`file.php` 401:** image needs authenticated session — check Network tab, not just DB/disk.
+5. If the DB points to a path that doesn't exist, fix the writer (regen the file or fix Docker `storage/` volume permissions), not the reader.

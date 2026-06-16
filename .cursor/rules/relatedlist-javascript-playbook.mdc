@@ -38,6 +38,13 @@ Then check module overrides:
 - Left column: `RelatedListLeftSide.tpl` inside `td.leftRecordActions`; inline layout is `.leftRecordActions > div { display: inline-block }` in `style.css`.
 - Main ListView (`ListView.js`) still uses `attr('class', widthType)` — same pitfall if left-column icons misalign there.
 
+## Row click vs in-cell links
+
+- `Detail.js` → `registerRelatedRowClickEvent`: row click navigates to `data-recordurl` (detail). **Skip** clicks on `a[href]` (except `noLinkBtn`) so download / mail / external links keep native behavior.
+- `RelatedList.js` ListPreview row handler: same `a[href]` skip before `updatePreview`.
+- `ListPreview.js`: do not intercept `action=DownloadFile` or `action=DownloadAttachment` anchor clicks — let the browser download.
+- Symptom: Documents related tab — **Pobierz plik** on detail works, filename click opens detail or does nothing.
+
 ## Debug checklist for related tab issues
 
 1. Confirm selected related tab metadata (`data-url`, `data-reference`, active tab state).

@@ -31,3 +31,8 @@ globs: ["layouts/**/*.tpl"]
 - **No new `\Class::method()` in `.tpl` files** — prepare data in PHP (see `fix-warnings.mdc` §4). Templates consume `$VAR` only.
 
 For full-page views missing the menu/header, see `main-layout-views.mdc`.
+
+## `<img>` in templates
+
+- **`file.php` URLs:** pass through as `{$URL}` — not `|escape:'url'` (breaks the path). Prefer root-relative `/file.php?…` from PHP.
+- **Sizing:** use `max-width:100%; height:auto` — avoid `height="100%"` on `<img>` without a fixed-height parent (Firefox → 0px height).

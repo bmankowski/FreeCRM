@@ -39,7 +39,8 @@ and relcrmid=".$this->getId();
                 return "";
             }
 
-            return "file.php?module=Candidates&action=MultiAttachment&field=cv_img_file&record=" . $this->getId() . "&key=" . $jsonData[0]["key"];
+            return '/file.php?module=Candidates&action=MultiAttachment&field=cv_img_file&record='
+                . $this->getId() . '&key=' . rawurlencode((string) $jsonData[0]['key']);
         }
 
         return "";

@@ -553,6 +553,7 @@ class Field
 		308 => 'rangeTime',
 		309 => 'categoryMultipicklist',
 		311 => 'multiImage',
+		330 => 'multiAttachmentJson',
 		342 => 'recurrence',
 		357 => 'reference',
 		358 => 'mailSmtpSelect',
