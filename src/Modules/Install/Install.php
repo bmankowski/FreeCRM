@@ -5,7 +5,6 @@ $requiredVendors = [
 	'vendor/smarty/smarty',
 	'vendor/phpmailer/phpmailer',
 	'vendor/ezyang/htmlpurifier',
-	'vendor/symfony/var-dumper',
 	'vendor/simshaun/recurr',
 ];
 foreach ($requiredVendors as $dir) {

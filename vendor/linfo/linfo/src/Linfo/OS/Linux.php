@@ -989,7 +989,7 @@ class Linux extends Unixcommon
                     $charge_now = Common::getIntFromFile($b.'/charge_now');
                     break;
                 default:
-                    continue 2;
+                    continue;
                     break;
             }
 
@@ -1306,7 +1306,7 @@ class Linux extends Unixcommon
                                 $state = 'Up (Stopped)';
                             break;
                             default:
-                                continue 3;
+                                continue;
                             break;
                         }
                     break;

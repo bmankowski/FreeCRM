@@ -4,7 +4,9 @@ Audit date: June 2026. Compares **installed versions in the repo** against **lat
 
 Sources: `composer.lock`, `package.json`, on-disk headers under `public/libraries/`, Packagist/npm registry.
 
-**Short answer:** Most libraries are **not** up to date. A handful of Composer packages are current or one patch behind; the bundled frontend stack is largely years behind, and several items are EOL or unmaintained.
+**Short answer:** Phases **0** and **1** of the [update plan](#update-plan) are done (June 2026). Security-sensitive sanitization (DOMPurify, HTML Purifier) and CKEditor are upgraded; unused Composer deps removed. The broader frontend stack (jQuery 2, Bootstrap 3, FullCalendar, etc.) remains years behind and largely EOL.
+
+**Rollout status:** Phase 0 ✅ · Phase 1 ✅ · Phase 2 next.
 
 Related: credits page is generated from `scripts/generate-credits.php` → `licenses/Credits.html`.
 
@@ -74,17 +76,17 @@ Format: **Purpose** (what it does) · **Used in** (concrete paths). Global JS/CS
 - **Purpose:** Server hardware/OS diagnostics in Settings.
 - **Used in:** `src/Modules/Settings/ConfReport/Models/Module.php`; `src/Modules/Settings/ConfReport/Views/Index.php`.
 
-#### monolog/monolog
-- **Purpose:** PSR-3 logging (declared in Composer).
-- **Used in:** **Not imported in `src/`** — app logs via Yii `src/Log/Log.php` instead.
+#### monolog/monolog — removed (Phase 0)
+- **Purpose:** PSR-3 logging (was declared in Composer; unused).
+- **Used in:** **Removed** — app logs via Yii `src/Log/Log.php`.
 
-#### symfony/var-dumper `symfony/var-dumper`
-- **Purpose:** Variable dump formatting (declared in Composer).
-- **Used in:** **Not imported in `src/`** — Yii `\yii\helpers\VarDumper` used in log targets.
+#### symfony/var-dumper — removed from direct deps (Phase 0)
+- **Purpose:** Variable dump formatting (was declared in Composer; unused).
+- **Used in:** **Removed from `composer.json`** — Yii `\yii\helpers\VarDumper` in log targets. May remain as a **transitive** dev dependency of `php-debugbar/php-debugbar`.
 
-#### filp/whoops `filp/whoops`
-- **Purpose:** Pretty error pages (declared in Composer).
-- **Used in:** **Not imported in `src/`** — `src/EntryPoint/WebUI_ErrorHandler.php` handles errors.
+#### filp/whoops — removed (Phase 0)
+- **Purpose:** Pretty error pages (was declared in Composer; unused).
+- **Used in:** **Removed** — `src/EntryPoint/WebUI_ErrorHandler.php` handles errors.
 
 ---
 
@@ -336,6 +338,14 @@ Loaded on **all authenticated pages** unless noted. Asset registration: `src/Bas
 - **Purpose:** Source for Bootstrap 5 dist copied into `public/libraries/bootstrap5/`.
 - **Used in:** `package.json` script `bootstrap:sync`.
 
+#### dompurify (npm)
+- **Purpose:** Upstream for client-side HTML sanitization copied into `public/libraries/jquery/dompurify/`.
+- **Used in:** `package.json` script `dompurify:sync`; runtime loaded globally via `BaseViewController`.
+
+#### ckeditor4 (npm)
+- **Purpose:** Upstream for CKEditor 4 copied into `public/libraries/jquery/ckeditor/` (pinned to **4.22.1** — last OSS release; see [CKEditor licensing](#ckeditor-4-licensing)).
+- **Used in:** `package.json` script `ckeditor:sync`; Workflows, Dashboard, `CkEditor.js`, CustomView lazy load.
+
 #### perfect-scrollbar (npm)
 - **Purpose:** Upstream package; runtime uses bundled copy under `public/libraries/jquery/perfect-scrollbar/`.
 - **Used in:** `package.json` devDependency only; not loaded from `node_modules` at runtime.
@@ -347,7 +357,10 @@ Loaded on **all authenticated pages** unless noted. Asset registration: `src/Bas
 | Library | Installed | Latest | Purpose | Used in |
 |---------|-----------|--------|---------|---------|
 | PHPMailer | 7.1.1 | 7.1.1 | Outbound SMTP mail | `src/Email/Mailer.php`, Mail SMTP/IMAP modules |
+| HTML Purifier | 4.19.0 | 4.19.0 | Server HTML sanitization | `src/Security/Purifier.php`, `Vtiger_Request`, UiTypes |
 | ANTLR4 PHP runtime | 0.9.1 | 0.9.1 | Workflow condition parser | `src/Events/VTEventConditionParser*.php` |
+| DOMPurify | 3.4.10 | 3.4.10 | Client HTML sanitization | Global footer; `BaseViewController` |
+| CKEditor 4 | 4.22.1 | 4.22.1 OSS / 4.25.1 LTS† | Rich text editor | Workflows, Dashboard, `CkEditor.js` |
 | html2canvas | 1.4.1 | 1.4.1 | Page screenshot for issue report | `Base/Views/Basic.php` (HelpDesk permission) |
 | Bootstrap 5 utilities | 5.3.8 | 5.3.8 | BS5 utility CSS (partial) | `ProjektyRekrutacyjne/Views/Detail.php` |
 | Perfect Scrollbar | 1.5.6 | 1.5.6 | Custom scrollbars | Global stack; `app.js` |
@@ -355,7 +368,11 @@ Loaded on **all authenticated pages** unless noted. Asset registration: `src/Bas
 | Gridster | 0.5.6 | 0.5.6 | Dashboard widget grid (**unmaintained**) | `Home/Views/Index.php`, `DashBoard.php` |
 | CodeMirror 5 | 5.65.21 | 5.65.21 | Code editor for templates | EmailTemplates, DocumentTemplates, TemplateElements |
 | npm: clean-css-cli | 5.6.3 | 5.6.3 | CSS minification (dev) | `package.json` `minify-css` scripts |
-| npm: terser | 5.39.x | 5.48.x | JS minification (dev) | `package.json` `minify-js` scripts |
+| npm: terser | 5.48.x | 5.48.x | JS minification (dev) | `package.json` `minify-js` scripts |
+| npm: dompurify | 3.4.10 | 3.4.10 | DOMPurify sync source (dev) | `dompurify:sync` |
+| npm: ckeditor4 | 4.22.1 | 4.22.1 OSS / 4.25.1 LTS† | CKEditor sync source (dev) | `ckeditor:sync` |
+
+† CKEditor **4.23.0+** (LTS) requires a commercial license key; FreeCRM pins **4.22.1**. See [CKEditor licensing](#ckeditor-4-licensing).
 
 ---
 
@@ -366,10 +383,8 @@ Run on host: `composer outdated --direct`
 | Library | Installed | Latest | Gap | Purpose | Used in |
 |---------|-----------|--------|-----|---------|---------|
 | Yii 2 | 2.0.53 | 2.0.55 | Patch | App framework (DB, log, migrate) | `src/Db/*`, `src/Log/*`, `config/console.php` |
-| HTML Purifier | 4.18.0 | 4.19.0 | Minor | Server HTML sanitization | `src/Security/Purifier.php`, `Vtiger_Request`, UiTypes |
 | PhpSpreadsheet | 5.7.0 | 5.8.0 | Minor | Excel export | `QuickExport.php`, `Reports/ReportRun.php` |
 | libphonenumber-for-php | 9.0.28 | 9.0.32 | Patch | Phone normalization | `RecruitmentApplication/.../PhoneNormalizer.php` |
-| monolog/monolog | 3.9.0 | 3.10.0 | Patch | Logging (**unused in `src/`**) | — |
 | phpstan (dev) | 2.1.31 | 2.2.2 | Dev | Static analysis | `phpstan.neon` |
 | rector (dev) | 2.1.7 | 2.4.5 | Dev | PHP refactoring | `rector.php`, `src/Rector/` |
 
@@ -385,7 +400,6 @@ Run on host: `composer outdated --direct`
 | Recurr | 2.2.3 | **6.0.0** | Major | Recurring Events RRULE | `Events/Models/RecuringEvents.php`, cron |
 | Linfo | 3.0.1 | **4.0.9** | Major | Server diagnostics | `Settings/ConfReport/` |
 | php-debugbar (dev) | 2.2.4 | **3.7.6** | Major | Debug toolbar | `src/Debug/Debugger.php` |
-| symfony/var-dumper | 7.3.5 | **8.1.0** | **Unused** | Var dump (**unused**) | — |
 
 ---
 
@@ -395,12 +409,10 @@ Vendored under `public/libraries/`. Versions from file headers unless noted.
 
 | Library | Installed | Latest | Severity | Purpose | Used in |
 |---------|-----------|--------|----------|---------|---------|
-| **DOMPurify** | **0.8.9** | **3.4.10** | Critical | Client HTML sanitization | Global footer; `BaseViewController` |
 | **jQuery** | **2.1.4** | 3.7.x / 4.0 | EOL | DOM/AJAX core | Global header; all module JS |
 | jQuery Migrate | 1.2.1 | 4.0.2 | Ancient | jQuery 1.x compat | Global header |
 | jQuery UI | 1.11.4 | 1.14.2 | Behind | UI widgets | Global CSS+JS |
 | **Bootstrap 3** | 3.3.5 | 3.4.1 | **EOL** | Primary UI framework | Global CSS+JS; all layouts |
-| CKEditor 4 | 4.6.2 | 4.25.1 | Security | Rich text editor | Workflows, Dashboard, CkEditor.js |
 | FullCalendar | 2.3.1 | 6.1.20 | Major gap | Calendar views | Calendar, Home, DashBoard, OSSTimeControl |
 | DataTables | 1.10.7 | 2.3.8 | Major | Sortable tables | Settings lists, KnowledgeBase, trees |
 | Leaflet | 1.0.0-rc.3 | 1.9.4 | Behind | Maps | Detail map, OpenStreetMap modal |
@@ -445,11 +457,11 @@ Not applicable for “up to date” version checks.
 
 | Category | Status |
 |----------|--------|
-| Composer runtime (~11 used packages) | ~3 current, ~4 patch/minor behind, ~4 major behind |
+| Composer runtime (~11 used packages) | ~4 current (incl. HTML Purifier 4.19), ~3 patch/minor behind, ~4 major behind |
 | Frontend core (jQuery + Bootstrap 3 + plugins) | Years behind; BS3 and jQuery 2 are EOL |
-| Security-sensitive JS | DOMPurify 0.8.9 and CKEditor 4.6.2 are the largest gaps |
+| Security-sensitive JS | DOMPurify and CKEditor upgraded in Phase 1; CKEditor 4.22.1 is last OSS (EOL, no vendor security patches) |
 | Bundled PHP libs | SabreDAV outdated; HTTP_Session and csrf-magic should be replaced |
-| Unused Composer deps | `symfony/var-dumper`, `monolog/monolog`, `filp/whoops` — candidates for removal |
+| Unused Composer deps | **Removed** in Phase 0 (`monolog`, `whoops`, direct `symfony/var-dumper`) |
 
 ---
 
@@ -459,10 +471,10 @@ See **[Update plan](#update-plan)** below for phased work items, verification, a
 
 Quick reference:
 
-1. **Security first** — DOMPurify, CKEditor 4 LTS, Composer patches
-2. **Medium effort** — Select2, jsTree, Font Awesome 6.7.x, Bootstrap 3.4.1
-3. **Large projects** — jQuery 3, Bootstrap 5, FullCalendar 6, DataTables 2, SabreDAV 4
-4. **Cleanup** — remove unused Composer deps, regenerate credits
+1. ~~**Security first**~~ — DOMPurify, CKEditor 4.22.1, HTML Purifier 4.19 (**done**, Phase 1)
+2. **Composer patches** — Yii, PhpSpreadsheet, libphonenumber (Phase 2)
+3. **Medium effort** — Select2, jsTree, Font Awesome 6.7.x, Bootstrap 3.4.1 (Phase 3)
+4. **Large projects** — jQuery 3, Bootstrap 5, FullCalendar 6, DataTables 2, SabreDAV 4 (Phases 5–8)
 
 ---
 
@@ -476,7 +488,7 @@ Phased rollout for library updates. Each phase is a separate deployable unit (br
 - **Drop-in patch upgrades** can be batched (Composer minors, Font Awesome 6.5 → 6.7).
 - After every phase: run minify for touched JS/CSS (`npm run minify-js` / `minify-css`), smoke-test on `dev.itconnect.pl`, check `cache/logs/system.log`.
 - Update `scripts/generate-credits.php` and regenerate `licenses/Credits.html`.
-- Prefer **npm → `public/libraries/`** for new frontend assets (see `package.json` `bootstrap:sync` pattern) over hand-copying minified blobs.
+- Prefer **npm → `public/libraries/`** for new frontend assets (see `package.json` `bootstrap:sync`, `dompurify:sync`, `ckeditor:sync`) over hand-copying minified blobs.
 
 ### Dependency order
 
@@ -503,7 +515,7 @@ Phase 5 blocks Phase 6 (Bootbox, PNotify, many plugins assume jQuery/Bootstrap v
 
 ---
 
-### Phase 0 — Cleanup (low risk)
+### Phase 0 — Cleanup (low risk) ✅ Done (June 2026)
 
 **Goal:** Remove dead weight; no user-visible change.
 
@@ -513,31 +525,48 @@ Phase 5 blocks Phase 6 (Bootbox, PNotify, many plugins assume jQuery/Bootstrap v
 | Credits accuracy | Fix SabreDAV version to 3.1.3 in `scripts/generate-credits.php`; pin CodeMirror to 5.65.21 |
 | npm dev tools | `npm update terser` (optional) |
 
+**Done:** Direct deps removed; `src/Modules/Install/Install.php` vendor check updated; credits regenerated; terser at 5.48.x.
+
 **Verify:** `composer install`, login, Settings index, one ListView, one DetailView.
 
 **Estimate:** 1–2 h.
 
 ---
 
-### Phase 1 — Security hotfixes (high priority, contained)
+### Phase 1 — Security hotfixes (high priority, contained) ✅ Done (June 2026)
 
 **Goal:** Close the worst security gaps without changing the UI framework.
 
 | Library | From → To | Touch points |
 |---------|-----------|--------------|
-| DOMPurify | 0.8.9 → 3.4.x | `public/libraries/jquery/dompurify/`, `BaseViewController::getFooterScripts()`, test rich-text preview / any `purify` usage in `app.js` |
-| CKEditor 4 | 4.6.2 → 4.25.x LTS | `public/libraries/jquery/ckeditor/`, Workflows edit, Dashboard, Base Index, TreesManager |
-| HTML Purifier | 4.18 → 4.19 | `composer update ezyang/htmlpurifier` |
+| DOMPurify | 0.8.9 → 3.4.10 | `npm run dompurify:sync` → `public/libraries/jquery/dompurify/`; global footer via `BaseViewController` |
+| CKEditor 4 | 4.6.2 → **4.22.1** | `npm run ckeditor:sync` → `public/libraries/jquery/ckeditor/`; custom `config.js` preserved; Workflows, Dashboard, Base Index, CustomView |
+| HTML Purifier | 4.18 → 4.19 | `composer update ezyang/htmlpurifier --minimal-changes` |
+
+**CKEditor target:** **4.22.1**, not 4.25.x — see [CKEditor licensing](#ckeditor-4-licensing).
 
 **Work:**
 
-1. Replace vendored files; run minify on any edited non-min sources.
+1. Replace vendored files via npm sync scripts; minify CKEditor `config.js`, `adapters/jquery.js`, `ckeditor.js`.
 2. Manual test: Workflow HTML field, email template editor, mail detail HTML body.
 3. Regression: forms that accept HTML still save and display correctly.
+
+**Done:** All three libraries upgraded; `scripts/generate-credits.php` and `licenses/Credits.html` updated.
 
 **Verify:** Browser console clean on pages that load CKEditor; paste sanitization in compose fields.
 
 **Estimate:** 1–2 days.
+
+---
+
+### CKEditor 4 licensing
+
+| Version | License | Security patches | FreeCRM |
+|---------|---------|------------------|---------|
+| **4.22.1 and below** | GPL / LGPL / MPL (OSS) | None since EOL (June 2023) | **Installed** — `ckeditor4@4.22.1` via `ckeditor:sync` |
+| **4.23.0+ (LTS)** | Commercial only ([Extended Support Model](https://ckeditor.com/ckeditor-4-support/)) | Yes, with paid license key | **Not used** — npm 4.25.x fails at runtime without `licenseKey` |
+
+To move beyond 4.22.1: purchase CKEditor 4 LTS, add `licenseKey` to editor config, then bump `ckeditor4` in `package.json` and re-run `ckeditor:sync`. Long-term alternative: migrate rich-text screens to CKEditor 5 or another editor (out of scope for Phase 1).
 
 ---
 
@@ -546,9 +575,11 @@ Phase 5 blocks Phase 6 (Bootbox, PNotify, many plugins assume jQuery/Bootstrap v
 **Goal:** Bring runtime PHP deps to latest compatible minor.
 
 ```bash
-composer update yiisoft/yii2 ezyang/htmlpurifier phpoffice/phpspreadsheet giggsey/libphonenumber-for-php --with-dependencies
+composer update yiisoft/yii2 phpoffice/phpspreadsheet giggsey/libphonenumber-for-php --minimal-changes
 composer update phpstan/phpstan rector/rector --dev  # optional
 ```
+
+HTML Purifier 4.19 was applied in Phase 1 — do not re-batch here.
 
 | Package | Verify |
 |---------|--------|
@@ -696,9 +727,11 @@ This is a **multi-month** effort. Extend existing `bootstrap5` partial usage (`P
 
 ### Per-phase checklist
 
+- [x] Phase 0 — cleanup
+- [x] Phase 1 — security hotfixes
 - [ ] Branch from `main`; one phase (or sub-phase) per PR
 - [ ] Update vendored files or `composer.json` / `package.json`
-- [ ] Minify touched assets under `public/`
+- [ ] Minify touched assets under `public/` (or run `dompurify:sync` / `ckeditor:sync` where applicable)
 - [ ] Grep for old paths (`libraries/jquery/dompurify/purify.js`, etc.)
 - [ ] Update `scripts/generate-credits.php` versions
 - [ ] Run `docker compose exec -T app php scripts/generate-credits.php`
@@ -708,22 +741,23 @@ This is a **multi-month** effort. Extend existing `bootstrap5` partial usage (`P
 
 ### Suggested timeline (indicative)
 
-| Phase | Duration | Cumulative |
-|-------|----------|------------|
-| 0 Cleanup | 0.5 d | 0.5 d |
-| 1 Security | 1–2 d | 2.5 d |
-| 2 Composer patches | 0.5 d | 3 d |
-| 3 Frontend patches | 2–3 d | 6 d |
-| 4 Composer majors | 5–15 d | 3–4 wk |
-| 5 jQuery 3 | 5–10 d | 5–6 wk |
-| 6 Feature JS | 10–20 d | 8–10 wk |
-| 7 PHP replacements | 10–15 d | 10–13 wk |
-| 8 BS5 platform | months | separate roadmap |
+| Phase | Duration | Cumulative | Status |
+|-------|----------|------------|--------|
+| 0 Cleanup | 0.5 d | 0.5 d | ✅ Done |
+| 1 Security | 1–2 d | 2.5 d | ✅ Done |
+| 2 Composer patches | 0.5 d | 3 d | Next |
+| 3 Frontend patches | 2–3 d | 6 d | Pending |
+| 4 Composer majors | 5–15 d | 3–4 wk | Pending |
+| 5 jQuery 3 | 5–10 d | 5–6 wk | Pending |
+| 6 Feature JS | 10–20 d | 8–10 wk | Pending |
+| 7 PHP replacements | 10–15 d | 10–13 wk | Pending |
+| 8 BS5 platform | months | separate roadmap | Pending |
 
 ### Out of scope (defer or won’t fix)
 
 | Item | Reason |
 |------|--------|
+| CKEditor 4.23+ without commercial license | LTS builds require `licenseKey`; stay on 4.22.1 OSS or buy Extended Support Model |
 | jQuery 4 | Ecosystem not ready; target 3.7 LTS |
 | Moment.js upgrade beyond 2.30 | Drop when FullCalendar 6 no longer needs it |
 | jqPlot / Flot / Gridster feature parity | Replace rather than patch |
@@ -743,6 +777,11 @@ npm outdated
 
 # Regenerate credits page after updates
 docker compose exec -T app php scripts/generate-credits.php
+
+# Resync vendored frontend from npm (after bumping devDependencies)
+npm run dompurify:sync
+npm run ckeditor:sync   # preserves public/libraries/jquery/ckeditor/config.js
+npm run bootstrap:sync
 ```
 
 For bundled JS under `public/libraries/`, read version banners in source files or compare paths referenced in `src/Base/Controllers/BaseViewController.php` and per-module `getFooterScripts()`.

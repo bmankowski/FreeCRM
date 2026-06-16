@@ -1167,22 +1167,6 @@ class JavascriptRenderer
         if ($this->useRequireJs){
             return "<script type=\"text/javascript\"{$nonce}>\nrequire(['debugbar'], function(PhpDebugBar){ $js });\n</script>\n";
         } else {
-            // Wrap all JavaScript code to ensure PhpDebugBar is loaded before execution
-            if (!empty($js)) {
-                $js = "(function() {\n" .
-                      "  var attempts = 0;\n" .
-                      "  var maxAttempts = 100; // 5 seconds max wait (100 * 50ms)\n" .
-                      "  var initDebugBar = function() {\n" .
-                      "    if (typeof PhpDebugBar !== 'undefined') {\n" .
-                      "      $js\n" .
-                      "    } else if (attempts < maxAttempts) {\n" .
-                      "      attempts++;\n" .
-                      "      setTimeout(initDebugBar, 50);\n" .
-                      "    }\n" .
-                      "  };\n" .
-                      "  initDebugBar();\n" .
-                      "})();\n";
-            }
             return "<script type=\"text/javascript\"{$nonce}>\n$js\n</script>\n";
         }
 

@@ -39,7 +39,7 @@ use yii\helpers\ArrayHelper;
  * @author Carsten Brandt <mail@cebe.cc>
  * @since 2.0
  */
-abstract class BaseActiveRecord extends \App\Runtime\BaseModel implements ActiveRecordInterface
+abstract class BaseActiveRecord extends Model implements ActiveRecordInterface
 {
     /**
      * @event Event an event that is triggered when the record is initialized via [[init()]].

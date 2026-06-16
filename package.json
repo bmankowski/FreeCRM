@@ -10,11 +10,15 @@
     "test:e2e": "npm --prefix tests/e2e test -- --reporter=list",
     "test:e2e:html": "npm --prefix tests/e2e test -- --reporter=html && npm --prefix tests/e2e run report",
     "crawl:modules": "bash scripts/crawl-modules.sh",
-    "bootstrap:sync": "rm -rf public/libraries/bootstrap5 && mkdir -p public/libraries/bootstrap5 && cp -r node_modules/bootstrap/dist/. public/libraries/bootstrap5/"
+    "bootstrap:sync": "rm -rf public/libraries/bootstrap5 && mkdir -p public/libraries/bootstrap5 && cp -r node_modules/bootstrap/dist/. public/libraries/bootstrap5/",
+    "dompurify:sync": "mkdir -p public/libraries/jquery/dompurify && cp node_modules/dompurify/dist/purify.js public/libraries/jquery/dompurify/purify.js && cp node_modules/dompurify/dist/purify.min.js public/libraries/jquery/dompurify/purify.min.js",
+    "ckeditor:sync": "cp public/libraries/jquery/ckeditor/config.js /tmp/freecrm-ckeditor-config.js && rm -rf public/libraries/jquery/ckeditor && mkdir -p public/libraries/jquery/ckeditor && cp -r node_modules/ckeditor4/. public/libraries/jquery/ckeditor/ && cp /tmp/freecrm-ckeditor-config.js public/libraries/jquery/ckeditor/config.js && npm run minify-js -- public/libraries/jquery/ckeditor/config.js && npm run minify-js -- public/libraries/jquery/ckeditor/adapters/jquery.js && npm run minify-js -- public/libraries/jquery/ckeditor/ckeditor.js"
   },
   "devDependencies": {
     "bootstrap": "^5.3.3",
+    "ckeditor4": "^4.22.1",
     "clean-css-cli": "^5.6.3",
+    "dompurify": "^3.4.10",
     "perfect-scrollbar": "^1.5.6",
     "terser": "^5.39.0"
   },

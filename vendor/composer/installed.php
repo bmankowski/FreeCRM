@@ -3,7 +3,7 @@
         'name' => 'freecrm/freecrm',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '25584b355592918b554d68cdf55943e2ff8c8b93',
+        'reference' => '26f9afdfee291e38212d244f4d1c5d297246a051',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -110,27 +110,18 @@
             'dev_requirement' => false,
         ),
         'ezyang/htmlpurifier' => array(
-            'pretty_version' => 'v4.18.0',
-            'version' => '4.18.0.0',
-            'reference' => 'cb56001e54359df7ae76dc522d08845dc741621b',
+            'pretty_version' => 'v4.19.0',
+            'version' => '4.19.0.0',
+            'reference' => 'b287d2a16aceffbf6e0295559b39662612b77fcf',
             'type' => 'library',
             'install_path' => __DIR__ . '/../ezyang/htmlpurifier',
-            'aliases' => array(),
-            'dev_requirement' => false,
-        ),
-        'filp/whoops' => array(
-            'pretty_version' => '2.18.4',
-            'version' => '2.18.4.0',
-            'reference' => 'd2102955e48b9fd9ab24280a7ad12ed552752c4d',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../filp/whoops',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
         'freecrm/freecrm' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '25584b355592918b554d68cdf55943e2ff8c8b93',
+            'reference' => '26f9afdfee291e38212d244f4d1c5d297246a051',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -217,7 +208,7 @@
         'linfo/linfo' => array(
             'pretty_version' => 'v3.0.1',
             'version' => '3.0.1.0',
-            'reference' => 'c6b3af3e103235ad00976ef3532c43ac32df71ff',
+            'reference' => '99fb594fbdbc6372de132e2af4157cbc5fbb7229',
             'type' => 'library',
             'install_path' => __DIR__ . '/../linfo/linfo',
             'aliases' => array(),
@@ -255,15 +246,6 @@
             'replaced' => array(
                 0 => 'v2.2.4',
             ),
-        ),
-        'monolog/monolog' => array(
-            'pretty_version' => '3.9.0',
-            'version' => '3.9.0.0',
-            'reference' => '10d85740180ecba7896c87e06a166e0c95a0e3b6',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../monolog/monolog',
-            'aliases' => array(),
-            'dev_requirement' => false,
         ),
         'nesbot/carbon' => array(
             'pretty_version' => '2.73.0',
@@ -342,12 +324,6 @@
             'install_path' => __DIR__ . '/../psr/log',
             'aliases' => array(),
             'dev_requirement' => false,
-        ),
-        'psr/log-implementation' => array(
-            'dev_requirement' => false,
-            'provided' => array(
-                0 => '3.0.0',
-            ),
         ),
         'psr/simple-cache' => array(
             'pretty_version' => '3.0.0',
@@ -467,7 +443,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../symfony/var-dumper',
             'aliases' => array(),
-            'dev_requirement' => false,
+            'dev_requirement' => true,
         ),
         'voku/portable-ascii' => array(
             'pretty_version' => '2.1.1',

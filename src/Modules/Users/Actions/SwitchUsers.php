@@ -71,10 +71,9 @@ class SwitchUsers extends \App\Base\Controllers\BaseActionController
 		$currentUserModel = $request->getUser();
 		$baseUserId = $currentUserModel->getRealId();
 		$userId = $request->get('id');
-		$user = new \App\Modules\Users\Users();
-		$targetUser = $user->retrieveCurrentUserInfoFromFile($userId);
-		$targetUserName = $targetUser->column_fields['user_name'];
-		$targetUserFullName = $targetUser->column_fields['first_name'] . ' ' . $targetUser->column_fields['last_name'];
+		$targetUserModel = \App\Modules\Users\Models\Record::getInstanceById($userId, 'Users');
+		$targetUserName = (string) $targetUserModel->get('user_name');
+		$targetUserFullName = $targetUserModel->getName();
 		\App\Http\Vtiger_Session::setAuthenticatedUserId((int) $userId);
 		\App\Http\Vtiger_Session::set('user_name', $targetUserName);
 		\App\Http\Vtiger_Session::set('full_user_name', trim($targetUserFullName));

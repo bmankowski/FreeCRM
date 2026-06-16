@@ -123,7 +123,7 @@ use yii\validators\Validator;
  * @author Paul Klimov <klimov.paul@gmail.com>
  * @since 2.0.13
  */
-class DataFilter extends \App\Runtime\BaseModel
+class DataFilter extends Model
 {
     const TYPE_INTEGER = 'integer';
     const TYPE_FLOAT = 'float';

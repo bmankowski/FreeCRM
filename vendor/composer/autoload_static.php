@@ -51,7 +51,6 @@ class ComposerStaticInitYT
         ),
         'W' =>
         array (
-            'Whoops\\' => 7,
             'Webklex\\PHPIMAP\\' => 16,
         ),
         'S' =>
@@ -74,7 +73,6 @@ class ComposerStaticInitYT
         ),
         'M' =>
         array (
-            'Monolog\\' => 8,
             'Matrix\\' => 7,
         ),
         'L' =>
@@ -145,10 +143,6 @@ class ComposerStaticInitYT
         array (
             0 => __DIR__ . '/..' . '/maennchen/zipstream-php/src',
         ),
-        'Whoops\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/filp/whoops/src/Whoops',
-        ),
         'Webklex\\PHPIMAP\\' =>
         array (
             0 => __DIR__ . '/..' . '/webklex/php-imap/src',
@@ -200,10 +194,6 @@ class ComposerStaticInitYT
         'PHPMailer\\PHPMailer\\' =>
         array (
             0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
-        ),
-        'Monolog\\' =>
-        array (
-            0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
         'Matrix\\' =>
         array (

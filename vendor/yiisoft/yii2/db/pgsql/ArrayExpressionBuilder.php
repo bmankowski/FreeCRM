@@ -27,7 +27,7 @@ class ArrayExpressionBuilder implements ExpressionBuilderInterface
 
     /**
      * {@inheritdoc}
-     * @param array Expression|ExpressionInterface $expression the expression to be built
+     * @param ArrayExpression|ExpressionInterface $expression the expression to be built
      */
     public function build(ExpressionInterface $expression, array &$params = [])
     {
@@ -88,7 +88,7 @@ class ArrayExpressionBuilder implements ExpressionBuilderInterface
     }
 
     /**
-     * @param array Expression $expression
+     * @param ArrayExpression $expression
      * @param mixed $value
      * @return ArrayExpression
      */
@@ -100,7 +100,7 @@ class ArrayExpressionBuilder implements ExpressionBuilderInterface
     }
 
     /**
-     * @param array Expression $expression
+     * @param ArrayExpression $expression
      * @return string the typecast expression based on [[type]].
      */
     protected function getTypehint(ArrayExpression $expression)
@@ -119,7 +119,7 @@ class ArrayExpressionBuilder implements ExpressionBuilderInterface
      * Build an array expression from a subquery SQL.
      *
      * @param string $sql the subquery SQL.
-     * @param array Expression $expression
+     * @param ArrayExpression $expression
      * @return string the subquery array expression.
      */
     protected function buildSubqueryArray($sql, ArrayExpression $expression)
@@ -130,7 +130,7 @@ class ArrayExpressionBuilder implements ExpressionBuilderInterface
     /**
      * Casts $value to use in $expression
      *
-     * @param array Expression $expression
+     * @param ArrayExpression $expression
      * @param mixed $value
      * @return JsonExpression
      */

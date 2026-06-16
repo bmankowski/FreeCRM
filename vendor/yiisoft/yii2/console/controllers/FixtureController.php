@@ -327,7 +327,7 @@ class FixtureController extends Controller
     {
         $this->stdout("Some fixtures were not found under path:\n", Console::BG_RED);
         $this->stdout("\t" . $this->getFixturePath() . "\n\n", Console::FG_GREEN);
-        $this->stdout("Check that they have correct namespace "{$this->namespace}\" \n", Console::BG_RED);
+        $this->stdout("Check that they have correct namespace \"{$this->namespace}\" \n", Console::BG_RED);
         $this->outputList($fixtures);
         $this->stdout("\n");
     }

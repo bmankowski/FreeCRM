@@ -1114,6 +1114,7 @@
         "LBL_YRS": "yrs",
         "FL_ACTIVE": "Active",
         "SwitchUsers": "Switch Users",
+        "LBL_SWITCH_TO_YOURSELF": "Switch to yourself",
         "Api Address": "Address search",
         "Notifications": "Notifications",
         "Mails": "Mails",

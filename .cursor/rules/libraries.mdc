@@ -1,0 +1,78 @@
+---
+description: FreeCRM third-party libraries — what they are and where they are used
+alwaysApply: false
+---
+
+# Libraries (concise)
+
+Full audit: `documentation/update-libraries.md`. Credits: `scripts/generate-credits.php` → `licenses/Credits.html`.
+
+## Composer (PHP runtime)
+
+| Library | Purpose | Used in |
+|---------|---------|---------|
+| Yii 2 | Framework (DB, log, migrations) | `src/Db/*`, `src/Log/*`, `config/console.php` |
+| Smarty | Template engine | `src/Runtime/CRM_Viewer.php`, `layouts/**/*.tpl` |
+| PHPMailer | Outbound SMTP | `src/Email/Mailer.php`, Mail SMTP/IMAP |
+| HTML Purifier 4.19 | Server HTML sanitization | `src/Security/Purifier.php`, `Vtiger_Request`, UiTypes |
+| PhpSpreadsheet | Excel export | `QuickExport.php`, `Reports/ReportRun.php` |
+| webklex/php-imap | IMAP mail client | `Mail/Imap/*`, mail cron |
+| rmccue/requests | HTTP client | RSS, SMS providers, PBX, system warnings |
+| Recurr | RRULE → calendar instances | `Events/Models/RecuringEvents.php`, cron |
+| ANTLR4 PHP | Workflow condition parser | `src/Events/VTEventConditionParser*.php` |
+| libphonenumber-for-php | Phone normalize on import | `RecruitmentApplication/.../PhoneNormalizer.php` |
+| Linfo | Server diagnostics | `Settings/ConfReport/` |
+
+## PHP bundled (not Composer)
+
+| Library | Purpose | Used in |
+|---------|---------|---------|
+| SabreDAV 3.1.3 | CalDAV/CardDAV | `src/Api/dav.php`, API CalDAV/CardDAV models |
+| HTTP_Session | Webservice sessions (legacy) | `Webservices/SessionManager.php`, `Vtiger_Session.php` |
+| CSRF-magic | Form CSRF tokens | `WebUI.php`, `config/csrf_config.php`, entrypoints |
+| RSS & Atom Feeds | RSS dashboard widget | `RSSFeeds/Feed.php`, Rss module |
+
+## Global JS/CSS (authenticated pages)
+
+Registered in `src/Base/Controllers/BaseViewController.php` + `src/Modules/Base/Views/Basic.php`. Behavior: `public/libraries/resources/app.js`, `helper.js`.
+
+| Library | Purpose |
+|---------|---------|
+| jQuery 2.1.4 + Migrate | DOM/AJAX foundation (EOL) |
+| jQuery UI | Widgets (sortable, dialog, …) |
+| Bootstrap 3 | Primary UI framework (EOL) |
+| Font Awesome 6 | Icons |
+| Select2 | Enhanced `<select>` |
+| Perfect Scrollbar | Panel/modal scrollbars |
+| jQuery Validation Engine | Client form validation |
+| PNotify | Toasts |
+| Bootbox | Bootstrap modals |
+| blockUI | AJAX loading overlay |
+| PJAX | Partial page navigation |
+| DOMPurify 3.4.10 | Client HTML sanitization |
+| Input Mask, Mousetrap, Datepicker, ClockPicker | Masks, shortcuts, date/time pickers |
+
+Sync vendored JS: `npm run dompurify:sync`, `npm run ckeditor:sync`, `npm run bootstrap:sync`.
+
+## Feature JS (loaded per view)
+
+| Library | Purpose | Typical screens |
+|---------|---------|-----------------|
+| CKEditor 4.22.1 | Rich text (OSS; not 4.25 LTS) | Workflows, Dashboard, `CkEditor.js` |
+| CodeMirror 5 | Code/HTML templates | Email/Document/Template element editors |
+| DataTables | Sortable tables | Settings lists, KB tree, trees |
+| FullCalendar + Moment | Calendars | Calendar, Home, DashBoard, OSSTimeControl |
+| Gridster | Dashboard widget grid | Home, DashBoard |
+| jqPlot, Flot | Charts | Dashboards, Reports, detail charts |
+| jsTree | Trees | Settings Menu, KB, tree popups |
+| Leaflet (+ cluster, awesome-markers) | Maps | Detail map, OpenStreetMap modal |
+| html2canvas | Screenshot for issue report | `Basic.php` (HelpDesk) |
+| clipboard.js | Copy buttons | Template editors, OSSPasswords, Settings |
+
+## npm dev only
+
+`terser`, `clean-css-cli` — minify; `bootstrap`, `dompurify`, `ckeditor4` — upstream for `*:sync` scripts.
+
+## Rollout (June 2026)
+
+Phase 0 ✅ cleanup (removed unused Composer deps). Phase 1 ✅ DOMPurify, CKEditor 4.22.1, HTML Purifier 4.19. Next: Phase 2 Composer patches — see `documentation/update-libraries.md`.

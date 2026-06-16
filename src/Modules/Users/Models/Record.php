@@ -978,8 +978,8 @@ class Record extends \App\Modules\Base\Models\Record
 	{
 		$activityReminder = $this->get('reminder_interval');
 		$activityReminderInSeconds = '';
-		if ($activityReminder != 'None') {
-			preg_match('/([0-9]+)[\s]([a-zA-Z]+)/', $activityReminder, $matches);
+		if (!empty($activityReminder) && $activityReminder !== 'None') {
+			preg_match('/([0-9]+)[\s]([a-zA-Z]+)/', (string) $activityReminder, $matches);
 			if ($matches) {
 				$number = $matches[1];
 				$string = $matches[2];

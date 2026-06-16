@@ -16,7 +16,9 @@ Always update **both**:
 | English (canonical fallback) | `languages/en_us/` |
 | Polish | `languages/pl_pl/` |
 
-Other dirs (`de_de`, `es_es`, …) exist for core modules only — do **not** touch unless the user asks.
+Other dirs (`es_es`, `fr_fr`, `ru_ru`, …) exist for core modules only — do **not** touch unless the user asks.
+
+**Runtime language** (not `config.inc.php` alone): `Vtiger_Language_Handler::getLanguage()` uses session → `vtiger_users.language` → `default_language` (`pl_pl`). Users on an unmaintained locale (e.g. legacy `de_de` still in `vtiger_language`) trigger dozens of `Language file does not exist` warnings per page — global search (`HeaderGlobalSearch.tpl`) translates every searchable module. Fix: set users to `pl_pl`, delete the row from `vtiger_language`, remove `languages/<locale>/`. After bulk `vtiger_users.language` changes, run `docker compose exec -T app php bin/regenerate_user_privileges.php` (`user_privileges_*.php` caches language). Migrations that UPDATE language then regen privileges need `public $transaction = false;` or regen as a follow-up step.
 
 ## File paths
 

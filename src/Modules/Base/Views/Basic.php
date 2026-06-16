@@ -78,7 +78,8 @@ abstract class Basic extends \App\Base\Controllers\BaseViewController
 				'glyphicon' => 'glyphicon glyphicon-log-out',
 				'nocaret' => true,
 				'linkdata' => [
-					'content' => 'LBL_SWITCH_TO_YOURSELF: ' . $baseUserModel->getName()
+					'content' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SWITCH_TO_YOURSELF', 'Vtiger')
+						. ': ' . $baseUserModel->getName()
 				],
 			];
 		}

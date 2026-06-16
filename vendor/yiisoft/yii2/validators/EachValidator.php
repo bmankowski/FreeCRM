@@ -16,7 +16,7 @@ use yii\base\Model;
  * EachValidator validates an array by checking each of its elements against an embedded validation rule.
  *
  * ```php
- * class MyModel extends \App\Runtime\BaseModel
+ * class MyModel extends Model
  * {
  *     public $categoryIDs = [];
  *
