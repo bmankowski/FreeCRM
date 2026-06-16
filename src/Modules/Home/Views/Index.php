@@ -39,7 +39,6 @@ class Index extends \App\Modules\Base\Views\Index
 		
 		if (!$moduleModel) {
 			$permission = false;
-			$widgets = [];
 		} else {
 			$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 		}

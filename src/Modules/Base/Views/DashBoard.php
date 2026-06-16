@@ -45,7 +45,6 @@ class DashBoard  extends \App\Modules\Base\Views\Index
 		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$moduleModel) {
 			$permission = false;
-			$widgets = [];
 		} else {
 			$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 		}
@@ -88,7 +87,6 @@ class DashBoard  extends \App\Modules\Base\Views\Index
 		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if (!$moduleModel) {
 			$permission = false;
-			$widgets = [];
 		} else {
 			$permission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
 		}
