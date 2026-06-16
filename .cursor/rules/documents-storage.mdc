@@ -5,6 +5,7 @@ globs:
   - "src/Models/RecordFile.php"
   - "src/Modules/Base/Models/Record.php"
   - "migrations/Users/m260613_00000*_documents*.php"
+  - "migrations/Users/m260615_00000*_documents*.php"
   - "migrations/Users/m260613_000006_restore_documents_senotesrel_relatedlists.php"
   - "src/Modules/Candidates/Models/RelatedListLeftSideExtras.php"
   - "src/Modules/EmailTemplates/Models/TemplateAttachment.php"
@@ -29,15 +30,23 @@ Record ↔ Document **links**: `vtiger_senotesrel`. UI: `vtiger_relatedlists.nam
 
 Restored by `m260613_000006` on entity modules (incl. **Candidates**, ProjektyRekrutacyjne, HelpDesk, Accounts, Leads, Contacts, …). Do not delete `getAttachments` rows when touching metadata migrations.
 
+## Blob naming (canonical)
+
+- **`storage_path`** (internal): `{uploadDir}{numeric_id}` — id-only, no filename suffix. Imported prod blobs use legacy **`attachmentsid`**; new uploads use **`notesid`**.
+- **`original_name`**: human download name (`Content-Disposition`); not part of the disk key.
+- **Disk is mixed** (prod rsync): many files are id-only (`267518`), ~19k still `{id}_{name}`. Resolver tries both (see below); do not mass-rename storage.
+
+New upload (`Documents\Models\Record::saveToDb`): `$uploadDir . $notesid`. Sync promote (`02-promote-yetiforce-to-freecrm.sh`): `CONCAT(a.path, a.attachmentsid)`.
+
 ## Helper: `App\Models\RecordFile`
 
-- `resolveAbsolutePath($storagePath)` — `ROOT_DIRECTORY` + `realpath`
+- `resolveAbsolutePath($storagePath, $originalName = null)` — `ROOT_DIRECTORY` + `realpath`; optional legacy disk fallbacks (id-only ↔ `{id}_{original_name}`); pass `original_name` for Documents.
 - `getByRecord` / `listByRecord` / `saveUploadedFile` / `deleteByRecord`
 - `getImageDetailsForRecord` / `getImageDetailsListForRecord` — uitype 69 / multi-image consumers
 
 `Base\Models\Record::uploadAndSaveFile()` delegates here for all modules **except** Documents (Documents save file metadata in `Documents\Models\Record::saveToDb`).
 
-Documents path resolution: `Documents\Models\Record::resolveStoragePath()` (internal → disk under `storage/`, external → `external_url`).
+Documents path resolution: `Documents\Models\Record::resolveStoragePath($storagePath, $originalName = null)`.
 
 ## Dropped (do not reintroduce)
 
@@ -53,6 +62,8 @@ UiType: `DocumentsFolder` (folder field removed). `Documents.php` list/search `l
 
 Documents uitype 28 columns renamed to match DB: `original_name`, `location_type`, `mime_type`, `size_bytes`, `active`, `download_count`. JS/templates use these names (not `filename` / `filelocationtype`).
 
+**`storage_path` and `external_url` must also be in `vtiger_field`** (hidden, `presence=2`, `displaytype=2`) or `CRMEntity::retrieve_entity_info` never loads them → download/mail attach sees `storage_path = NULL` and fails silently. Registered by `m260615_000002_documents_missing_field_metadata.php` (fieldids **213**, **865**). After adding/changing Documents fields, clear field cache (`ModuleFields` / `fieldInfo` tabid 8).
+
 ## Migrations (order)
 
 1. `m260613_000002_documents_storage_rebuild.php` — additive columns, `s_yf_record_files`, backfill, disk verify, orphan purge
@@ -60,11 +71,14 @@ Documents uitype 28 columns renamed to match DB: `original_name`, `location_type
 3. `m260613_000004_documents_drop_legacy.php` — drop legacy columns/tables
 4. `m260613_000005_fix_documents_field_metadata.php` — correct field IDs 208–211 after 000003 mistake
 5. `m260613_000006_restore_documents_senotesrel_relatedlists.php` — `getAttachments` related lists on entity modules
+6. `m260615_000001_documents_storage_path_id_only.php` — normalize DB `storage_path` to id-only
+7. `m260615_000002_documents_missing_field_metadata.php` — register `storage_path` / `external_url` in `vtiger_field`
 
 Post-migrate: `bin/regenerate_user_privileges.php`; clear `cache/templates_c/*.php`.
 
 ## Pitfalls
 
+- **Missing `vtiger_field` for `storage_path`:** DB row has a path, `getInstanceById` returns `storage_path = NULL`, `DownloadFile` exits with empty body. Verify with `Record::getInstanceById($id, 'Documents')->get('storage_path')`.
 - **Internal doc without blob:** `location_type='internal'`, `active=1`, `storage_path IS NULL` → deactivate (`active=0`); mail/template send skips via `realpath` failure.
 - **Migration collation:** `s_yf_record_files` uses `utf8` (not `utf8mb4`) to match legacy `vtiger_*` string compares; cross-table `NOT EXISTS` may need `CONVERT(... USING utf8)`.
 - **User photos:** migrated from dropped `vtiger_salesmanattachmentsrel` into `s_yf_record_files`; image URLs use `record` only (no `attachment` id) — e.g. HelpDesk `file.php?module=HelpDesk&action=Image&record=…`.

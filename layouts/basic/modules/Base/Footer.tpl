@@ -54,11 +54,12 @@
 		{if $USER_MODEL->isAdminUser()}
 			{assign var=FOOTVR value= '[ver. '|cat:$YETIFORCE_VERSION|cat:'] ['|cat:'WEBLOADTIME'|t|cat:': '|cat:$SCRIPT_TIME|cat:'s.]'}
 			{assign var=FOOTVRM value= '['|cat:$SCRIPT_TIME|cat:'s.]'}
-			{assign var=FOOTOSP value= '<u><a href="index.php?module=Home&view=Credits&parent=Settings">open source project</a></u>'}
+			{assign var=FOOTOSPLABEL value='LBL_OPEN_SOURCE_PROJECTS'|t:'Vtiger'}
+			{assign var=FOOTOSP value= '<u><a href="index.php?module=Home&view=Credits&parent=Settings">'|cat:$FOOTOSPLABEL|cat:'</a></u>'}
 			<p class="hidden-xs">{sprintf( 'LBL_FOOTER_CONTENT'|t , $FOOTVR ,$FOOTOSP)}</p>
 			<p class="visible-xs-block">{sprintf( 'LBL_FOOTER_CONTENT'|t , $FOOTVRM ,$FOOTOSP)}</p>
 		{else}
-			<p>{sprintf( 'LBL_FOOTER_CONTENT'|t , '['|cat:'WEBLOADTIME'|t|cat:': '|cat:$SCRIPT_TIME|cat:'s.]', 'open source project' )}</p>
+			<p>{sprintf( 'LBL_FOOTER_CONTENT'|t , '['|cat:'WEBLOADTIME'|t|cat:': '|cat:$SCRIPT_TIME|cat:'s.]', 'LBL_OPEN_SOURCE_PROJECTS'|t:'Vtiger' )}</p>
 		{/if}
 	</div>
 </footer>

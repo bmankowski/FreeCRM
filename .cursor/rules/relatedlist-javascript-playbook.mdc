@@ -31,6 +31,13 @@ Then check module overrides:
 - Avoid duplicate bindings on repeated tab loads; use scoped `.off(...).on(...)` where appropriate.
 - Do not add fallback or legacy branches.
 
+## Row width / left actions column
+
+- `triggerDisplayTypeEvent()` runs on each related-list load (`registerRelatedEvents`). Scope to `this.relatedContentContainer` and use `addClass(widthType)` — **never** `attr('class', widthType)`; replacing classes strips `leftRecordActions`, `noWrap`, and server `narrow`/`medium`/`wide`, so action icons stack vertically instead of staying inline.
+- Server row height: `narrow` / `medium` / `wide` from `$USER_MODEL->get('rowheight')`. User-pref cache (`app.cacheGet('widthType')`) adds `narrowWidthType` etc.; CSS padding/line-height in `style.css` targets `.narrow`/`.medium`/`.wide` only.
+- Left column: `RelatedListLeftSide.tpl` inside `td.leftRecordActions`; inline layout is `.leftRecordActions > div { display: inline-block }` in `style.css`.
+- Main ListView (`ListView.js`) still uses `attr('class', widthType)` — same pitfall if left-column icons misalign there.
+
 ## Debug checklist for related tab issues
 
 1. Confirm selected related tab metadata (`data-url`, `data-reference`, active tab state).

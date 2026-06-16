@@ -89,9 +89,8 @@ jQuery.Class("Vtiger_RelatedList_Js", {}, {
 	},
 	triggerDisplayTypeEvent: function () {
 		var widthType = app.cacheGet('widthType', 'narrowWidthType');
-		if (widthType) {
-			var elements = jQuery('.listViewEntriesTable').find('td,th');
-			elements.attr('class', widthType);
+		if (widthType && this.relatedContentContainer) {
+			this.relatedContentContainer.find('.listViewEntriesTable').find('td,th').addClass(widthType);
 		}
 	},
 	showSelectRelationPopup: function (extendParams) {
