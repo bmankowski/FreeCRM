@@ -1,5 +1,6 @@
 /node_modules/
 /docker/nginx/certs/*.key
+/docker/nginx/letsencrypt/cloudflare.ini
 
 /.gitignore
 /.settings
