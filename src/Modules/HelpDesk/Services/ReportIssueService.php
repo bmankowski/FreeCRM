@@ -36,10 +36,9 @@ class ReportIssueService
 		$record->set('assigned_user_id', $assignedUserId);
 		$record->set('update_log', $this->buildUpdateLog($reporter, $assignedUserId));
 
-		$relatedRecordId = (int) ($context['recordId'] ?? 0);
-		$relatedModule = (string) ($context['module'] ?? '');
-		if ($relatedRecordId > 0 && $relatedModule !== '' && !in_array($relatedModule, ['HelpDesk', 'Users', 'Home'], true)) {
-			$record->set('parent_id', $relatedRecordId);
+		$parentId = $this->resolveParentId($context);
+		if ($parentId > 0) {
+			$record->set('parent_id', $parentId);
 		}
 
 		$record->save();
@@ -70,6 +69,22 @@ class ReportIssueService
 			'github_url' => $githubUrl,
 			'github_error' => $githubError,
 		];
+	}
+
+	private function resolveParentId(array $context): int
+	{
+		$defaultParentId = (int) (\App\Core\AppConfig::module('ReportIssue', 'default_parent_id') ?: 0);
+		if ($defaultParentId > 0) {
+			return $defaultParentId;
+		}
+
+		$relatedRecordId = (int) ($context['recordId'] ?? 0);
+		$relatedModule = (string) ($context['module'] ?? '');
+		if ($relatedRecordId > 0 && $relatedModule !== '' && !in_array($relatedModule, ['HelpDesk', 'Users', 'Home'], true)) {
+			return $relatedRecordId;
+		}
+
+		return 0;
 	}
 
 	private function buildTicketDescription(string $description, array $context): string

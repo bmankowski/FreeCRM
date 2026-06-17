@@ -23,7 +23,7 @@ class WYSIWYG extends \App\Modules\Base\Widgets\Basic
 			$recordModel = \App\Modules\Base\Models\Record::getInstanceById((int) $this->Record, $this->Module);
 			$this->Config['data']['previewText'] = \vtlib\Functions::removeHtmlTags(
 				['link', 'style', 'img', 'script', 'base'],
-				decode_html($recordModel->get($fieldName))
+				\App\Security\Purifier::decodeHtml($recordModel->get($fieldName))
 			);
 		}
 		return $this->Config;

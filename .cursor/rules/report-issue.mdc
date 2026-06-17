@@ -29,7 +29,7 @@ Footer link (HelpDesk `CreateView`) → **screenshot first** → modal form → 
 | JS | `public/layouts/basic/modules/Base/resources/ReportIssue.js` |
 | Action | `src/Modules/Base/Actions/ReportIssue.php` |
 | Services | `ReportIssueService.php`, `GithubIssueSyncService.php` |
-| Config | `config/modules/ReportIssue.php` |
+| Config | `config/modules/ReportIssue.php` (`default_parent_id` → Related To on every widget ticket) |
 | i18n | `languages/*/ReportIssue.json` (`jsLanguageStrings` for toasts) |
 | Script load | `Base/Views/Basic.php` → `getFooterScripts()` |
 
