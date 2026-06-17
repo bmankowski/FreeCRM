@@ -598,6 +598,78 @@ class QueryGenerator
 	}
 
 	/**
+	 * Modules whose deleted/security/identity predicates reach beyond vtiger_crmentity,
+	 * or whose vtiger_crmentity.setype differs from the module name. The crmentity-first
+	 * pagination fast path must not apply to them.
+	 */
+	private const ENTITY_ORDERING_FAST_PATH_EXCLUDED = ['Leads', 'Users', 'Calendar', 'Events'];
+
+	/**
+	 * Whether the current query is a plain entity list paginated/sorted purely on
+	 * vtiger_crmentity columns. In that case the page of ids can be read from the
+	 * indexed vtiger_crmentity table directly, avoiding a full module-table scan + filesort.
+	 * Any filter, grouping, join, related field or related-record context makes it ineligible.
+	 */
+	private function isEntityDateOrderingEligible(): bool
+	{
+		if (!isset($this->entityModel->tab_name_index['vtiger_crmentity'])) {
+			return false;
+		}
+		if (in_array($this->moduleName, self::ENTITY_ORDERING_FAST_PATH_EXCLUDED, true)) {
+			return false;
+		}
+		if (empty($this->order)) {
+			return false;
+		}
+		foreach (array_keys($this->order) as $column) {
+			if (strpos((string) $column, 'vtiger_crmentity.') !== 0) {
+				return false;
+			}
+		}
+		if (!empty($this->conditionsAnd) || !empty($this->conditionsOr)) {
+			return false;
+		}
+		if (!empty($this->group) || !empty($this->relatedFields) || !empty($this->joins)) {
+			return false;
+		}
+		if (!empty($this->sourceRecord)) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Lean query selecting only vtiger_crmentity.crmid for the current page, ordered by the
+	 * requested vtiger_crmentity column(s). Mirrors loadWhere()'s deleted/setype/permission
+	 * predicates (all vtiger_crmentity-only here, guaranteed by the eligibility check).
+	 * Returns null when the fast path does not apply.
+	 *
+	 * @return \App\Db\Query|null
+	 */
+	public function buildEntityDateOrderingIdQuery(): ?\App\Db\Query
+	{
+		if (!$this->isEntityDateOrderingEligible()) {
+			return null;
+		}
+		$query = new \App\Db\Query();
+		$query->select('vtiger_crmentity.crmid')->from('vtiger_crmentity');
+		if ($this->deletedCondition) {
+			$query->andWhere($this->getDeletedCondition());
+		}
+		$query->andWhere(['vtiger_crmentity.setype' => $this->moduleName]);
+		if ($this->permissions) {
+			if (\App\Core\AppConfig::security('CACHING_PERMISSION_TO_RECORD') && $this->moduleName !== 'Users') {
+				$userId = $this->user->getId();
+				$query->andWhere(['like', 'vtiger_crmentity.users', ",$userId,"]);
+			} else {
+				\App\Security\PrivilegeQuery::getConditions($query, $this->moduleName, $this->user, $this->sourceRecord);
+			}
+		}
+		$query->orderBy($this->order);
+		return $query;
+	}
+
+	/**
 	 * Sets the SELECT part of the query.
 	 */
 	public function loadSelect()

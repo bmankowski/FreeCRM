@@ -314,11 +314,38 @@ class ListView extends \App\Runtime\BaseModel
 		$this->loadListViewCondition();
 		$this->loadListViewOrderBy();
 		$pageLimit = $pagingModel->getPageLimit();
-		$query = $this->getQueryGenerator()->createQuery();
+		$queryGenerator = $this->getQueryGenerator();
+		$pageIds = null;
 		if ($pagingModel->get('limit') !== 'no_limit') {
-			$query->limit($pageLimit + 1)->offset($pagingModel->getStartIndex());
+			$idQuery = $queryGenerator->buildEntityDateOrderingIdQuery();
+			if ($idQuery !== null) {
+				$pageIds = $idQuery->limit($pageLimit + 1)->offset($pagingModel->getStartIndex())->column();
+			}
 		}
-		$rows = $query->all();
+		if ($pageIds !== null) {
+			if (empty($pageIds)) {
+				$rows = [];
+			} else {
+				$query = clone $queryGenerator->createQuery();
+				$query->andWhere(['vtiger_crmentity.crmid' => $pageIds]);
+				$rowsById = [];
+				foreach ($query->all() as $row) {
+					$rowsById[$row['id']] = $row;
+				}
+				$rows = [];
+				foreach ($pageIds as $crmId) {
+					if (isset($rowsById[$crmId])) {
+						$rows[] = $rowsById[$crmId];
+					}
+				}
+			}
+		} else {
+			$query = $queryGenerator->createQuery();
+			if ($pagingModel->get('limit') !== 'no_limit') {
+				$query->limit($pageLimit + 1)->offset($pagingModel->getStartIndex());
+			}
+			$rows = $query->all();
+		}
 		$count = count($rows);
 		if ($count > $pageLimit) {
 			array_pop($rows);
