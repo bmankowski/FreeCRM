@@ -328,15 +328,35 @@ var Vtiger_CustomView_Js = {
 			Vtiger_CustomView_Js.registerEventsInternal();
 		});
 	},
+	registerSortOrderEvents: function () {
+		var container = this.getContentsContainer();
+		var form = container.find('#CustomView');
+		container.find('.customViewSortClear').on('click', function (e) {
+			jQuery(e.currentTarget).closest('.input-group').find('select').val('').trigger('change');
+		});
+		container.find('.customViewSortOrderButton').on('click', function (e) {
+			var currentTarget = jQuery(e.currentTarget);
+			currentTarget.find('.glyphicon').each(function () {
+				if (jQuery(this).hasClass('hide')) {
+					jQuery(this).removeClass('hide');
+					form.find('[name="sortOrder"]').val(jQuery(this).data('val'));
+				} else {
+					jQuery(this).addClass('hide');
+				}
+			});
+		});
+	},
 	registerEventsInternal: function () {
 		this.registerIconEvents();
 		this.registerCkEditorElement();
 		this.registerBlockToggleEvent();
 		this.registerColorEvent();
+		this.registerSortOrderEvents();
 		var select2Element = Vtiger_CustomView_Js.columnListSelect2Element = Vtiger_CustomView_Js.registerSelect2ElementForColumnsSelection();
 		var contentsContainer = Vtiger_CustomView_Js.getContentsContainer();
 		jQuery('.stndrdFilterDateSelect').datepicker();
 		app.changeSelectElementView(jQuery('.chzn-select'));
+		app.changeSelectElementView(contentsContainer.find('#defaultOrderBy'), 'select2');
 
 		var columnsList = Vtiger_CustomView_Js.normalizeColumnIds(JSON.parse(jQuery('input[name="columnslist"]').val()));
 		Vtiger_CustomView_Js.initColumnSelectionOrder(columnsList);

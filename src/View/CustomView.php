@@ -240,6 +240,62 @@ class CustomView
 	}
 
 	/**
+	 * Resolve list sort for a module/view. Single entry point for ListView.
+	 *
+	 * @return array{orderBy: string, sortOrder: string}
+	 */
+	public static function resolveListSort(
+		string $moduleName,
+		int $viewId,
+		\App\Http\Vtiger_Request $request
+	): array {
+		$orderBy = $request->get('orderby');
+		$sortOrder = $request->get('sortorder');
+		if (!empty($orderBy) || !empty($sortOrder)) {
+			return [
+				'orderBy' => (string) $orderBy,
+				'sortOrder' => strtoupper((string) $sortOrder) === 'DESC' ? 'DESC' : 'ASC',
+			];
+		}
+
+		if (self::hasViewChanged($moduleName, $viewId, $request) && $viewId > 0) {
+			$customViewModel = \App\Modules\CustomView\Models\Record::getInstanceById($viewId);
+			if ($customViewModel) {
+				$parsed = \App\Modules\CustomView\Models\Record::parseSortValue($customViewModel->get('sort'));
+				self::setDefaultSortOrderBy($moduleName, $parsed);
+				if (!empty($parsed['orderBy'])) {
+					return $parsed;
+				}
+			}
+		}
+
+		$orderBy = self::getSortby($moduleName);
+		$sortOrder = self::getSorder($moduleName);
+		if (!empty($orderBy)) {
+			return [
+				'orderBy' => $orderBy,
+				'sortOrder' => strtoupper((string) $sortOrder) === 'DESC' ? 'DESC' : 'ASC',
+			];
+		}
+
+		if ($viewId > 0) {
+			$customViewModel = \App\Modules\CustomView\Models\Record::getInstanceById($viewId);
+			if ($customViewModel) {
+				$parsed = \App\Modules\CustomView\Models\Record::parseSortValue($customViewModel->get('sort'));
+				if (!empty($parsed['orderBy'])) {
+					return $parsed;
+				}
+			}
+		}
+
+		$moduleInstance = \App\Core\CRMEntity::getInstance($moduleName);
+		return [
+			'orderBy' => (string) $moduleInstance->default_order_by,
+			'sortOrder' => strtoupper((string) $moduleInstance->default_sort_order) === 'DESC' ? 'DESC' : 'ASC',
+		];
+	}
+
+	/**
 	 * Has view changed
 	 * @param string $moduleName
 	 * @param int $viewId

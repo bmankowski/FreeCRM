@@ -2,7 +2,12 @@
     "languageStrings": {
         "CustomView": "Filtry - konfiguracja",
         "LBL_FEATURED": "Dodaj do ulubionych",
-        "LBL_COLOR_VIEW": "Kolor widoku"
+        "LBL_COLOR_VIEW": "Kolor widoku",
+        "LBL_SORTING_SETTINGS": "Ustawienia sortowania",
+        "LBL_SELECT_FIELD_TO_SORT_RECORDS": "Wybierz pole, po którym chcesz sortować rekordy",
+        "LBL_SORT_ASCENDING_ORDER": "Sortuj rosnąco",
+        "LBL_SORT_DESCENDING_ORDER": "Sortuj malejąco",
+        "LBL_INVALID_SORT_FIELD": "Wybrane pole sortowania jest nieprawidłowe"
     },
     "jsLanguageStrings": []
 }

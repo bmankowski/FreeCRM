@@ -61,6 +61,13 @@ Editing columns on a list filter (`CustomView` → `EditAjax`, loaded via `Vtige
   - Reset `columnSelectElement` / `columnSelectionOrder` when `loadFilterView` replaces `.contentsDiv` HTML.
 - **Verify:** save filter, check `vtiger_cvcolumnlist.columnindex` order for the `cvid`, then list header order on reload.
 
+## CustomView filter editor (save + default sort)
+
+- **Save flow:** `#CustomView` submit is intercepted in `registerEventsInternal()` → `saveAndViewFilter()` → `AppConnector.request()` → redirect to `result.listviewurl`. If JS init fails, the form POSTs normally and the browser shows raw JSON (`{"success":true,...}`).
+- **Init footgun:** In `registerEventsInternal()`, the container is `contentsContainer` from `getContentsContainer()` — not `container` (that name exists only inside other `register*` methods). A `ReferenceError` there skips submit binding.
+- **Default sort UI:** `layouts/basic/modules/CustomView/EditView.tpl` — `defaultOrderBy` (field `column` name, not `getCustomViewColumnName()`) + hidden `sortOrder`; handlers in `registerSortOrderEvents()`.
+- **Persistence:** `CustomView/Actions/Save.php` → `Record::formatSortValue()` → `vtiger_customview.sort` as `{column},{ASC|DESC}`. List applies via `CustomView::resolveListSort()`. No Settings sort modal — configure on create/edit filter only.
+
 ## Debug checklist for list issues
 
 1. Confirm current view and module (`ListView` vs `ListPreview`, Settings parent).

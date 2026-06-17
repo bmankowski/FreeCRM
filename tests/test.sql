@@ -174,3 +174,12 @@ select * from vtiger_crmentity where description is not null and description <> 
 
 
 select setype,count(*) from yetiforce.vtiger_crmentity where description is not null and description <> '' and deleted = 0 group by setype;
+
+
+EXPLAIN SELECT u_yf_candidates.candidatesid AS id, u_yf_candidates.name AS name
+FROM u_yf_candidates
+INNER JOIN vtiger_crmentity ON u_yf_candidates.candidatesid = vtiger_crmentity.crmid
+INNER JOIN u_yf_candidatescf ON u_yf_candidates.candidatesid = u_yf_candidatescf.candidatesid
+WHERE vtiger_crmentity.deleted=0 AND vtiger_crmentity.setype='Candidates'
+ORDER BY vtiger_crmentity.createdtime DESC
+LIMIT 51;

@@ -4135,7 +4135,9 @@ CREATE TABLE `vtiger_crmentity` (
   KEY `crmid` (`crmid`,`deleted`),
   KEY `crmid_2` (`crmid`,`setype`),
   KEY `setypedeleted` (`setype`,`deleted`),
-  KEY `setype` (`setype`)
+  KEY `setype` (`setype`),
+  KEY `crmentity_setype_deleted_created_idx` (`setype`,`deleted`,`createdtime`),
+  KEY `crmentity_setype_deleted_modified_idx` (`setype`,`deleted`,`modifiedtime`)
 ) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `vtiger_crmentityrel` */

@@ -19,13 +19,23 @@ class Save extends \App\Base\Controllers\BaseActionController
 	{
 		$moduleName = $request->get('source_module');
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
-		$customViewModel = $this->getCVModelFromRequest($request);
 		$response = new \App\Http\Vtiger_Response();
+
+		$sortError = null;
+		$sort = $this->normalizeSortFromRequest($request, $moduleName, $sortError);
+		if ($sortError !== null) {
+			$response->setError($sortError);
+			$response->emit();
+			return;
+		}
+
+		$customViewModel = $this->getCVModelFromRequest($request, $sort);
 
 		if (!$customViewModel->checkDuplicate()) {
 			$customViewModel->save();
 			$cvId = $customViewModel->getId();
 			\App\Cache\Cache::delete('\App\Modules\CustomView\Models\RecordgetInstanceById', $cvId);
+			$this->syncSessionSortIfCurrentView($moduleName, (int) $cvId, $sort);
 			$response->setResult(array('id' => $cvId, 'listviewurl' => $moduleModel->getListViewUrl() . '&viewname=' . $cvId));
 		} else {
 			$response->setError(\App\Runtime\Vtiger_Language_Handler::translate('LBL_CUSTOM_VIEW_NAME_DUPLICATES_EXIST', $moduleName));
@@ -39,7 +49,7 @@ class Save extends \App\Base\Controllers\BaseActionController
 	 * @param \App\Http\Vtiger_Request $request
 	 * @return \App\Modules\CustomView\Models\Record or Module specific Record Model instance
 	 */
-	private function getCVModelFromRequest(\App\Http\Vtiger_Request $request)
+	private function getCVModelFromRequest(\App\Http\Vtiger_Request $request, string $sort = '')
 	{
 		$cvId = $request->get('record');
 
@@ -58,7 +68,8 @@ class Save extends \App\Base\Controllers\BaseActionController
 			'status' => $request->get('status'),
 			'featured' => $request->get('featured'),
 			'color' => $request->get('color'),
-			'description' => $request->get('description')
+			'description' => $request->get('description'),
+			'sort' => $sort,
 		);
 		$selectedColumnsList = $request->get('columnslist');
 		if (empty($selectedColumnsList)) {
@@ -81,6 +92,39 @@ class Save extends \App\Base\Controllers\BaseActionController
 		}
 
 		return $customViewModel->setData($customViewData);
+	}
+
+	private function normalizeSortFromRequest(
+		\App\Http\Vtiger_Request $request,
+		string $moduleName,
+		?string &$error
+	): string {
+		$orderBy = trim((string) $request->get('defaultOrderBy', ''));
+		if ($orderBy === '') {
+			return '';
+		}
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
+		$field = $moduleModel->getFieldByColumn($orderBy);
+		if (!$field || !$field->isListviewSortable()) {
+			$error = \App\Runtime\Vtiger_Language_Handler::translate('LBL_INVALID_SORT_FIELD', 'CustomView');
+			return '';
+		}
+		$formatted = \App\Modules\CustomView\Models\Record::formatSortValue($orderBy, $request->get('sortOrder'));
+		if (strlen($formatted) > 30) {
+			$error = \App\Runtime\Vtiger_Language_Handler::translate('LBL_INVALID_SORT_FIELD', 'CustomView');
+			return '';
+		}
+		return $formatted;
+	}
+
+	private function syncSessionSortIfCurrentView(string $moduleName, int $cvId, string $sort): void
+	{
+		if (\App\View\CustomView::getCurrentView($moduleName) !== $cvId) {
+			return;
+		}
+		$parsed = \App\Modules\CustomView\Models\Record::parseSortValue($sort);
+		\App\View\CustomView::setSortby($moduleName, $parsed['orderBy']);
+		\App\View\CustomView::setSorder($moduleName, $parsed['sortOrder']);
 	}
 
 	public function validateRequest(\App\Http\Vtiger_Request $request)

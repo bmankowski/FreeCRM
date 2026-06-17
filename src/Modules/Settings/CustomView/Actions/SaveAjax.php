@@ -39,7 +39,6 @@ class SaveAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 	{
 		$params = $request->get('param');
 		\App\Modules\Settings\CustomView\Models\Module::updateField($params);
-		\App\Modules\Settings\CustomView\Models\Module::updateOrderAndSort($params);
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult([
 			'message' => \App\Runtime\Vtiger_Language_Handler::translate('Saving CustomView', $request->getModule(false))

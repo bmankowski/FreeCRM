@@ -23,9 +23,8 @@
 				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 				<meta name="robots" content="noindex" />
-				<link rel="preconnect" href="https://fonts.googleapis.com">
-				<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-				<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+				<link rel="preload" href="{vresource_url('libraries/resources/fonts/lato/lato-latin-400-normal.woff2')}" as="font" type="font/woff2" crossorigin>
+				<link rel="preload" href="{vresource_url('libraries/resources/fonts/lato/lato-latin-ext-400-normal.woff2')}" as="font" type="font/woff2" crossorigin>
 			{/block}
 
 			{block name="styles"}

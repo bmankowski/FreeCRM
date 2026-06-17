@@ -154,6 +154,59 @@
 					</div>
 				</div>
 			</div>
+			{assign var=SORT_ORDER value=$CUSTOMVIEW_MODEL->getSortOrderBy('sortOrder')}
+			{if $SORT_ORDER eq ''}{assign var=SORT_ORDER value='ASC'}{/if}
+			<div class="panel panel-default row marginLeftZero marginRightZero blockContainer">
+				<div class="row blockHeader panel-heading marginLeftZero marginRightZero"><div class="iconCollapse">
+						<span class="cursorPointer iconToggle glyphicon glyphicon glyphicon-menu-down" data-hide="glyphicon-menu-right" data-show="glyphicon-menu-down"></span>
+						<h4 class="">{"LBL_SORTING_SETTINGS"|t:$MODULE}</h4></div></div>
+				<div class="panel-body padding5">
+					<div class="form-group">
+						<label class="paddingLeftMd control-label">{"LBL_SELECT_FIELD_TO_SORT_RECORDS"|t:$MODULE}</label>
+						<div class="col-md-9 col-sm-10 col-xs-12 paddingLeftMd">
+							<div class="input-group customViewSortGroup">
+								<span class="input-group-addon customViewSortClear cursorPointer" title="{"LBL_CLEAR"|t:$MODULE}">
+									<span class="glyphicon glyphicon-trash alignMiddle"></span>
+								</span>
+								<select class="select2 form-control" name="defaultOrderBy" id="defaultOrderBy">
+									<option></option>
+									{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$RECORD_STRUCTURE}
+										<optgroup label='{$BLOCK_LABEL|t:$SOURCE_MODULE}'>
+											{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
+												{if $FIELD_MODEL->isListviewSortable()}
+													<option value="{$FIELD_MODEL->get('column')}"{if $FIELD_MODEL->get('column') eq $CUSTOMVIEW_MODEL->getSortOrderBy('orderBy')} selected{/if}>
+														{$FIELD_MODEL->get('label')|t:$SOURCE_MODULE}
+													</option>
+												{/if}
+											{/foreach}
+										</optgroup>
+									{/foreach}
+									{if !empty($EVENT_RECORD_STRUCTURE)}
+									{foreach key=BLOCK_LABEL item=BLOCK_FIELDS from=$EVENT_RECORD_STRUCTURE}
+										<optgroup label='{$BLOCK_LABEL|t:"Events"}'>
+											{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS}
+												{if $FIELD_MODEL->isListviewSortable()}
+													<option value="{$FIELD_MODEL->get('column')}"{if $FIELD_MODEL->get('column') eq $CUSTOMVIEW_MODEL->getSortOrderBy('orderBy')} selected{/if}>
+														{$FIELD_MODEL->get('label')|t:$SOURCE_MODULE}
+													</option>
+												{/if}
+											{/foreach}
+										</optgroup>
+									{/foreach}
+									{/if}
+								</select>
+								<input type="hidden" name="sortOrder" value="{$SORT_ORDER}" />
+								<div class="input-group-btn">
+									<button type="button" class="btn btn-primary customViewSortOrderButton">
+										<span class="glyphicon glyphicon-sort-by-alphabet{if $SORT_ORDER eq 'DESC'} hide{/if}" data-val="ASC" title="{"LBL_SORT_ASCENDING_ORDER"|t:$MODULE}"></span>
+										<span class="glyphicon glyphicon-sort-by-alphabet-alt{if $SORT_ORDER eq 'ASC'} hide{/if}" data-val="DESC" title="{"LBL_SORT_DESCENDING_ORDER"|t:$MODULE}"></span>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 		<div class="filterActions">
 			<button class="cancelLink pull-right btn btn-warning" type="reset" onClick="window.location.reload()">{"LBL_CANCEL"|t:$MODULE}</button>

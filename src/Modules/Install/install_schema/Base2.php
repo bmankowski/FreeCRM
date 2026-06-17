@@ -999,6 +999,8 @@ class Base2 extends \App\Db\Importers\Base
 					['crmentity_crmid_setype_idx', ['crmid', 'setype']],
 					['crmentity_setype_deleted_idx', ['setype', 'deleted']],
 					['crmentity_setype_idx', 'setype'],
+					['crmentity_setype_deleted_created_idx', ['setype', 'deleted', 'createdtime']],
+					['crmentity_setype_deleted_modified_idx', ['setype', 'deleted', 'modifiedtime']],
 				],
 				'engine' => 'InnoDB',
 				'charset' => 'utf8'

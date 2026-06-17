@@ -108,7 +108,7 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 
 	public static function updateField($params)
 	{
-		$authorizedFields = ['setdefault', 'privileges', 'featured', 'sort'];
+		$authorizedFields = ['setdefault', 'privileges', 'featured'];
 		$db = \App\Db\Db::getInstance();
 		$cvid = $params['cvid'];
 		$name = $params['name'];
@@ -155,11 +155,6 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		return 'index.php?module=CustomView&parent=Settings&view=FilterPermissions&type=featured&sourceModule=' . $module . '&cvid=' . $cvid;
 	}
 
-	public function getSortingFilterUrl($module, $cvid)
-	{
-		return 'index.php?module=CustomView&parent=Settings&view=Sorting&type=featured&sourceModule=' . $module . '&cvid=' . $cvid;
-	}
-
 	public static function getSupportedModules()
 	{
 		$modulesList = [];
@@ -172,17 +167,5 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 			$modulesList[$row['tabid']] = $row['entitytype'];
 		}
 		return $modulesList;
-	}
-
-	public static function updateOrderAndSort($params)
-	{
-		$customViewModel = \App\Modules\CustomView\Models\Record::getInstanceById($params['cvid']);
-		$moduleName = $customViewModel->get('entitytype');
-		$curretView = \App\View\CustomView::getCurrentView($moduleName);
-		if ($curretView == $params['cvid']) {
-			$sortOrder = explode(',', $params['value']);
-			\App\View\CustomView::setSorder($moduleName, $sortOrder[1]);
-			\App\View\CustomView::setSortby($moduleName, $sortOrder[0]);
-		}
 	}
 }

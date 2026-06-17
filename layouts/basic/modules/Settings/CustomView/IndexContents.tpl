@@ -11,7 +11,6 @@
 					<th><strong>{"SetDefault"|t:$QUALIFIED_MODULE}</strong></th>
 					<th><strong>{"Privileges"|t:$QUALIFIED_MODULE}</strong></th>
 					<th><strong>{"LBL_FEATURED_LABELS"|t:$QUALIFIED_MODULE}</strong></th>
-					<th><strong>{"LBL_SORTING"|t:$QUALIFIED_MODULE}</strong></th>
 					<th><strong>{"LBL_CREATED_BY"|t:$QUALIFIED_MODULE}</strong></th>
 					<th><strong>{"Actions"|t:$QUALIFIED_MODULE}</strong></th>
 				</tr>
@@ -39,9 +38,6 @@
 							<input class="switchBtn updateField" type="checkbox" name="featured" {if $item['featured']}checked{/if} data-size="small" data-label-width="5" data-on-text="{"LBL_YES"|t}" data-off-text="{"LBL_NO"|t}" value="1">
 							&nbsp;&nbsp;
 							<button type="button" class="btn btn-default btn-sm showModal" data-url="{$MODULE_MODEL->getFeaturedFilterUrl($SOURCE_MODULE_ID,$key)}"><span class="glyphicon glyphicon-user"></span></button>
-						</td>
-						<td>
-							<button type="button" id="sort" name="sort" class="btn btn-default btn-sm showModal" data-url="{$MODULE_MODEL->getSortingFilterUrl($SOURCE_MODULE_ID,$key)}"><span class="glyphicon glyphicon-sort"></span></button>
 						</td>
 						<td>{if isset($OWNER_LABELS[$key]) && $OWNER_LABELS[$key]}{$OWNER_LABELS[$key]}{/if}</td>
 						<td>

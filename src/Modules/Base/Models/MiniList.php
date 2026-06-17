@@ -124,10 +124,10 @@ class MiniList extends \App\Runtime\BaseModel
 			$targetModuleFocus = \App\Core\CRMEntity::getInstance($targetModuleName);
 			$filterId = $this->widgetModel->get('filterid');
 			$filterModel = \App\Modules\CustomView\Models\Record::getInstanceById($filterId);
-			if (!empty($filterModel->get('sort'))) {
-				list($orderby, $sort) = explode(',', $filterModel->get('sort'));
-				$this->queryGenerator->setOrder($orderby, $sort);
-			} else if ($targetModuleFocus->default_order_by && $targetModuleFocus->default_sort_order) {
+			$parsed = \App\Modules\CustomView\Models\Record::parseSortValue($filterModel->get('sort'));
+			if (!empty($parsed['orderBy'])) {
+				$this->queryGenerator->setOrder($parsed['orderBy'], $parsed['sortOrder']);
+			} elseif ($targetModuleFocus->default_order_by && $targetModuleFocus->default_sort_order) {
 				$this->queryGenerator->setOrder($targetModuleFocus->default_order_by, $targetModuleFocus->default_sort_order);
 			}
 			$query = $this->queryGenerator->createQuery();

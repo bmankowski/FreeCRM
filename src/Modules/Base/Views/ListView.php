@@ -130,16 +130,9 @@ class ListView extends \App\Modules\Base\Views\Index
 				$this->viewId = \App\View\CustomView::getInstance($moduleName)->getViewId(false, $request);
 			}
 			if (\App\View\CustomView::hasViewChanged($moduleName, $this->viewId, $request)) {
-				$customViewModel = \App\Modules\CustomView\Models\Record::getInstanceById($this->viewId);
-				if ($customViewModel) {
-					\App\View\CustomView::setDefaultSortOrderBy($moduleName, ['orderBy' => $customViewModel->getSortOrderBy('orderBy'), 'sortOrder' => $customViewModel->getSortOrderBy('sortOrder')]);
-				}
 				\App\View\CustomView::setCurrentView($moduleName, $this->viewId);
-			} else {
-				\App\View\CustomView::setDefaultSortOrderBy($moduleName);
-				if ($request->has('page')) {
-					\App\View\CustomView::setCurrentPage($moduleName, $this->viewId, $request->get('page'));
-				}
+			} elseif ($request->has('page')) {
+				\App\View\CustomView::setCurrentPage($moduleName, $this->viewId, $request->get('page'));
 			}
 
 			$this->prepareAjaxListViewData($request);
@@ -184,18 +177,13 @@ class ListView extends \App\Modules\Base\Views\Index
 	{
 		$moduleName = $request->getModule();
 		$pageNumber = $request->get('page');
-		$orderBy = $request->get('orderby');
-		$sortOrder = $request->get('sortorder');
 		$searchResult = $request->get('searchResult');
-		if (empty($orderBy) && empty($sortOrder)) {
-			$orderBy = \App\View\CustomView::getSortby($moduleName);
-			$sortOrder = \App\View\CustomView::getSorder($moduleName);
-			if (empty($orderBy)) {
-				$moduleInstance = \App\Core\CRMEntity::getInstance($moduleName);
-				$orderBy = $moduleInstance->default_order_by;
-				$sortOrder = $moduleInstance->default_sort_order;
-			}
+		if ($this->viewId > 0 && \App\View\CustomView::getCurrentView($moduleName) <= 0) {
+			\App\View\CustomView::setCurrentView($moduleName, $this->viewId);
 		}
+		$resolved = \App\View\CustomView::resolveListSort($moduleName, (int) $this->viewId, $request);
+		$orderBy = $resolved['orderBy'];
+		$sortOrder = $resolved['sortOrder'];
 		if ($sortOrder === 'ASC') {
 			$nextSortOrder = 'DESC';
 			$sortImage = 'glyphicon glyphicon-chevron-down';

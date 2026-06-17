@@ -535,7 +535,8 @@ class Record extends \App\Modules\Base\Models\Record
 			'sequence' => $seq,
 			'featured' => null,
 			'color' => $this->get('color'),
-			'description' => $this->get('description')
+			'description' => $this->get('description'),
+			'sort' => (string) ($this->get('sort') ?? ''),
 		])->execute();
 		$this->set('cvid', $db->getLastInsertID('vtiger_customview_cvid_seq'));
 		$this->setColumnlist();
@@ -562,7 +563,8 @@ class Record extends \App\Modules\Base\Models\Record
 			'setmetrics' => $this->get('setmetrics'),
 			'status' => $this->get('status'),
 			'color' => $this->get('color'),
-			'description' => $this->get('description')
+			'description' => $this->get('description'),
+			'sort' => (string) ($this->get('sort') ?? ''),
 			], ['cvid' => $cvId]
 		)->execute();
 		$db->createCommand()->delete('vtiger_cvcolumnlist', ['cvid' => $cvId])->execute();
@@ -1069,19 +1071,43 @@ class Record extends \App\Modules\Base\Models\Record
 		return self::getInstanceById($viewId);
 	}
 
+	/**
+	 * Parse vtiger_customview.sort — canonical format: {column},{ASC|DESC}
+	 *
+	 * @return array{orderBy: string, sortOrder: string}
+	 */
+	public static function parseSortValue(?string $sort): array
+	{
+		if ($sort === null || $sort === '') {
+			return ['orderBy' => '', 'sortOrder' => ''];
+		}
+		$parts = explode(',', $sort, 2);
+		$orderBy = trim($parts[0]);
+		$sortOrder = strtoupper(trim($parts[1] ?? 'ASC'));
+		if ($sortOrder !== 'DESC') {
+			$sortOrder = 'ASC';
+		}
+		return ['orderBy' => $orderBy, 'sortOrder' => $sortOrder];
+	}
+
+	/**
+	 * Build vtiger_customview.sort from field column + direction.
+	 */
+	public static function formatSortValue(?string $orderBy, ?string $sortOrder = null): string
+	{
+		$orderBy = trim((string) $orderBy);
+		if ($orderBy === '') {
+			return '';
+		}
+		$parsed = self::parseSortValue($orderBy . ',' . ($sortOrder ?? 'ASC'));
+		return $parsed['orderBy'] !== '' ? $parsed['orderBy'] . ',' . $parsed['sortOrder'] : '';
+	}
+
 	public function getSortOrderBy($name = '')
 	{
 		if ($this->sortOrderBy === false) {
-			$sort = $this->get('sort');
-			if ($sort === null || $sort === '') {
-				$this->sortOrderBy = ['', ''];
-			} else {
-				$this->sortOrderBy = explode(',', $sort);
-				// Ensure at least one element exists for orderBy access
-				if (empty($this->sortOrderBy)) {
-					$this->sortOrderBy = ['', ''];
-				}
-			}
+			$parsed = self::parseSortValue($this->get('sort'));
+			$this->sortOrderBy = [$parsed['orderBy'], $parsed['sortOrder']];
 		}
 		$return = $this->sortOrderBy;
 		switch ($name) {

@@ -12,6 +12,14 @@ globs: ["**/*.css", "**/*.scss", "package.json"]
 - The application loads `style.min.css` in production
 - **`style.less`** (same folder) — legacy YetiForce LESS source (Bootstrap variables/mixins). **Not compiled by npm**; no `less` script in `package.json`. Runtime changes: edit **`style.css`** only, then minify. Do not edit `style.less` unless deliberately syncing both; `style.less.min.css` is old compiled output, unused.
 
+## UI font (Lato)
+
+- **Default UI font**: Lato, **self-hosted** (no Google Fonts).
+- **Files**: `public/libraries/resources/fonts/lato/` — woff2 only, weights 400 + 700, **latin + latin-ext** (Polish diacritics).
+- **`@font-face`**: top of `public/layouts/basic/skins/style.css` (then minify). Do not use legacy SVG webfonts — old Open Sans `@font-face` was removed for glyph bbox warnings.
+- **Preload**: `layouts/basic/modules/Base/Header.tpl` and `MainLayout.tpl` preload the two 400-weight files via `vresource_url('libraries/resources/fonts/lato/…')`.
+- **License**: `OFL.txt` in the font directory.
+
 ## CSS Minification
 
 ### Tool
