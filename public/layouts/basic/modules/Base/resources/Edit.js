@@ -1494,6 +1494,98 @@ jQuery.Class("Vtiger_Edit_Js", {
 		subProcessfieldElement.find('[name="popupReferenceModule"]').val(subProcessValue);
 		thisInstance.checkSubProcessModulesList(subProcessfieldElement.find('.referenceModulesList'));
 	},
+	registerMultiReferenceFields: function (container) {
+		var thisInstance = this;
+		container.find('.js-multi-reference-field').each(function () {
+			var fieldContainer = jQuery(this);
+			var fieldValue = fieldContainer.closest('.fieldValue');
+			var sourceField = fieldContainer.find('input.sourceField[data-fieldtype="multiReference"]');
+			var selectElement = fieldContainer.find('select.js-multi-reference-select');
+			if (!sourceField.length || !selectElement.length || sourceField.data('multiReferenceInit')) {
+				return;
+			}
+			sourceField.data('multiReferenceInit', true);
+
+			var syncHidden = function () {
+				var ids = selectElement.val();
+				if (!ids) {
+					ids = [];
+				} else if (!jQuery.isArray(ids)) {
+					ids = [ids];
+				}
+				sourceField.val(ids.join(','));
+			};
+
+			var addSelection = function (id, name) {
+				id = String(id);
+				if (selectElement.find('option').filter(function () {
+					return jQuery(this).val() === id;
+				}).length) {
+					return;
+				}
+				var option = new Option(name, id, true, true);
+				selectElement.append(option);
+				selectElement.trigger('change');
+				syncHidden();
+			};
+
+			var openPopup = function () {
+				if (sourceField.prop('readonly') || selectElement.prop('disabled')) {
+					return;
+				}
+				var fakeEvent = jQuery.Event('click');
+				fakeEvent.target = fieldValue.find('.select2-container .select2-selection')[0] || fieldContainer[0];
+				thisInstance.openPopUp(fakeEvent);
+			};
+
+			if (selectElement.hasClass('select2-hidden-accessible')) {
+				selectElement.select2('destroy');
+			}
+			app.showSelect2ElementView(selectElement, {
+				minimumResultsForSearch: Infinity,
+				closeOnSelect: false,
+				tags: false,
+				placeholder: app.vtranslate('JS_SELECT_SOME_OPTIONS')
+			});
+
+			fieldValue.on('mousedown', '.select2-selection__choice__remove', function () {
+				selectElement.data('unselecting', true);
+			});
+
+			selectElement.on('select2:opening', function (e) {
+				e.preventDefault();
+				if (selectElement.data('unselecting')) {
+					selectElement.removeData('unselecting');
+					return;
+				}
+				openPopup();
+			});
+
+			fieldValue.on('focus click', '.select2-search__field', function (e) {
+				if (selectElement.data('unselecting')) {
+					selectElement.removeData('unselecting');
+					return;
+				}
+				e.preventDefault();
+				openPopup();
+			});
+
+			selectElement.on('change select2:unselect', function () {
+				syncHidden();
+			});
+
+			sourceField.on(Vtiger_Edit_Js.refrenceMultiSelectionEvent, function (e, eventData) {
+				if (!eventData || !eventData.data) {
+					return;
+				}
+				jQuery.each(eventData.data, function (index, item) {
+					addSelection(item.id, item.name);
+				});
+			});
+
+			syncHidden();
+		});
+	},
 	registerReferenceFields: function (container) {
 		var thisInstance = this;
 		if (!app.getMainParams('fieldsReferencesDependent')) {
@@ -1548,6 +1640,7 @@ jQuery.Class("Vtiger_Edit_Js", {
 		this.registerMaskFields(container);
 		this.registerHelpInfo();
 		this.registerReferenceFields(container);
+		this.registerMultiReferenceFields(container);
 		this.registerFocusFirstField(container);
 	},
 	registerEvents: function () {

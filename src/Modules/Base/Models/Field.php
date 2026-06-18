@@ -550,6 +550,7 @@ class Field
 		303 => 'taxes',
 		304 => 'inventoryLimit',
 		305 => 'multiReferenceValue',
+		306 => 'multiReference',
 		308 => 'rangeTime',
 		309 => 'categoryMultipicklist',
 		311 => 'multiImage',
@@ -607,7 +608,7 @@ class Field
 		if ($uiTypeModel instanceof \App\Modules\Base\UiTypes\ReferenceListProvider) {
 			$list = $uiTypeModel->getReferenceList();
 		} else {
-			if ($this->getUIType() === 10) {
+			if ($this->getUIType() === 10 || $this->getUIType() === 306) {
 				$query = (new \App\Db\Query())->select(['module' => 'relmodule'])
 					->from('vtiger_fieldmodulerel')
 					->innerJoin('vtiger_tab', 'vtiger_tab.name = vtiger_fieldmodulerel.relmodule')
@@ -921,7 +922,7 @@ class Field
 	 */
 	public function isActiveReference()
 	{
-		if ($this->getFieldDataType() === 'reference' && empty($this->getReferenceList())) {
+		if (in_array($this->getFieldDataType(), ['reference', 'multiReference'], true) && empty($this->getReferenceList())) {
 			return false;
 		}
 		return true;

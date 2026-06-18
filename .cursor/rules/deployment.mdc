@@ -4,10 +4,16 @@ description: "FreeCRM deployment details on test.itconnect.pl — read when debu
 
 # FreeCRM Deployment
 
+## Local dev (`dev.itconnect.pl`)
+
+**Same environment as the WSL repo + `docker compose` — not a separate host.** Nginx in `docker/nginx/default.conf` serves the bind-mounted tree; `FREECRM_SITE_URL` is `https://dev.itconnect.pl/`. MCP browser and manual browser QA on that URL hit local PHP/DB. No `pushsrc` needed for local changes.
+
+## Remote test server (`test.itconnect.pl`)
+
 - Host: `test.itconnect.pl`, root `/opt/freecrm`, manage via `docker compose`.
 - SSH: `bmankowski@test.itconnect.pl`.
 - HTTPS: Let's Encrypt via Cloudflare DNS (`certbot/dns-cloudflare`, creds in `docker/nginx/letsencrypt/cloudflare.ini`). Nginx reads `docker/nginx/certs/{host}.{fullchain,privkey}.pem` only — after issue/renew, copy from `letsencrypt/live/` (see `renewal/*.conf`). Privkeys: `640`, group `www-data` (nginx uid 33).
-- Hostnames: `test.itconnect.pl` on this server; `dev.itconnect.pl` in the same `default.conf` for local Docker.
+- Hostnames: `test.itconnect.pl` on remote server; `dev.itconnect.pl` → local Docker only (see above).
 - Services: `web`, `app`, `cron`, `db`.
 - Cron: `docker compose up -d cron` runs `cron/vtigercron.php` every minute via supercronic; log at `cache/logs/cron.log`.
 - Storage: `/opt/freecrm/storage` (copied from `10.0.0.220:/var/www/yetiforce/storage`).

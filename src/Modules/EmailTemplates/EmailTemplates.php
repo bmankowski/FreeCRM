@@ -41,11 +41,13 @@ class EmailTemplates extends \App\Core\CRMEntity
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'name' => ['emailtemplates', 'name'],
+		'sys_name' => ['emailtemplates', 'sys_name'],
 		'Assigned To' => ['crmentity', 'smownerid']
 	];
 	public $list_fields_name = [
 		/* Format: Field Label => fieldname */
 		'name' => 'name',
+		'sys_name' => 'sys_name',
 		'Assigned To' => 'assigned_user_id',
 	];
 	// Make the field link to detail view
@@ -55,11 +57,13 @@ class EmailTemplates extends \App\Core\CRMEntity
 		/* Format: Field Label => Array(tablename, columnname) */
 		// tablename should not have prefix 'vtiger_'
 		'name' => ['emailtemplates', 'name'],
+		'sys_name' => ['emailtemplates', 'sys_name'],
 		'Assigned To' => ['vtiger_crmentity', 'assigned_user_id'],
 	];
 	public $search_fields_name = [
 		/* Format: Field Label => fieldname */
 		'name' => 'name',
+		'sys_name' => 'sys_name',
 		'Assigned To' => 'assigned_user_id',
 	];
 	// For Popup window record selection

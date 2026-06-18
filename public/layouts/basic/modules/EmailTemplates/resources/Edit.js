@@ -378,5 +378,23 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 		this.registerTemplateToolbarEvents(container);
 		this.registerKeyboardShortcuts();
 		EmailTemplates_TemplateAttachments_Js.init(container);
+		this.registerRecruitmentModuleToggle(container);
+	},
+	registerRecruitmentModuleToggle: function (container) {
+		var form = container.is('form') ? container : container.find('form');
+		if (!form.length) {
+			return;
+		}
+		var moduleField = form.find('[name="module_name"]');
+		if (!moduleField.length) {
+			return;
+		}
+		var accountRow = form.find('[name="account_id"]').closest('.fieldRow');
+		var sync = function () {
+			var isRecruitment = moduleField.val() === 'ProjektyRekrutacyjne';
+			accountRow.toggleClass('hide', !isRecruitment);
+		};
+		moduleField.off('change.recruitmentAccountField').on('change.recruitmentAccountField', sync);
+		sync();
 	},
 });

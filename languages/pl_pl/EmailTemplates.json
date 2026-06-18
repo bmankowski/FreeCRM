@@ -11,6 +11,8 @@
         "FL_CONTENT": "Treść",
         "FL_SMTP": "Serwer SMTP",
         "FL_SMTP_PRIORITY": "Priorytet SMTP",
+        "FL_SHORT_NAME": "Nazwa skrócona",
+        "FL_ACCOUNT": "Kontrahent",
         "LBL_SEQUENCE": "Kolejność",
         "PLL_MODULE": "Moduł",
         "PLL_RECORD": "Rekord",
@@ -22,7 +24,14 @@
         "LBL_UPLOAD_ATTACHMENT": "Prześlij plik",
         "LBL_SELECT_ATTACHMENT": "Wybierz dokument",
         "LBL_ATTACHMENT_FILE_MISSING": "Brak pliku na dysku",
-        "LBL_EMAILTEMPLATE_ATTACHMENT_INVALID_DOCUMENT": "Do szablonu można dołączyć tylko aktywne pliki wewnętrzne."
+        "LBL_EMAILTEMPLATE_ATTACHMENT_INVALID_DOCUMENT": "Do szablonu można dołączyć tylko aktywne pliki wewnętrzne.",
+        "LBL_TEMPLATE_ACCOUNTS": "Kontrahenci",
+        "LBL_TEMPLATE_ACCOUNTS_GLOBAL_HINT": "Brak powiązanych kontrahentów — szablon obowiązuje dla wszystkich klientów (globalny).",
+        "LBL_SELECT_ACCOUNT": "Wybierz kontrahenta",
+        "LBL_ERR_SYS_NAME_REQUIRED": "Nazwa skrócona jest wymagana dla szablonów projektów rekrutacyjnych.",
+        "LBL_ERR_SYS_NAME_TOO_LONG": "Nazwa skrócona może mieć maksymalnie 50 znaków.",
+        "LBL_ERR_SYS_NAME_MATRIX_IN_USE": "Ta nazwa skrócona jest używana w macierzy e-mail po przejściu i nie może być zmieniona ani usunięta.",
+        "LBL_ERR_SYS_NAME_ACCOUNT_OVERLAP": "Inny szablon ma już tę nazwę skróconą dla tego samego kontrahenta (lub slotu globalnego)."
     },
     "jsLanguageStrings": {
         "JS_FORMAT_HTML": "Formatuj HTML",

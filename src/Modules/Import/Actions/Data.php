@@ -471,6 +471,35 @@ class Data extends \App\Base\Controllers\BaseActionController
 	}
 
 	/**
+	 * @param \App\Modules\Base\Models\Field $fieldInstance
+	 * @param string $fieldValue
+	 * @return string
+	 */
+	public function transformMultiReference($fieldInstance, $fieldValue)
+	{
+		if ($fieldValue === '' || $fieldValue === null) {
+			return '';
+		}
+		$ids = [];
+		foreach (explode(',', (string) $fieldValue) as $token) {
+			$token = trim($token);
+			if ($token === '') {
+				continue;
+			}
+			if (ctype_digit($token)) {
+				$ids[] = (int) $token;
+				continue;
+			}
+			$entityId = $this->transformReference($fieldInstance, $token);
+			if ($entityId) {
+				$ids[] = (int) $entityId;
+			}
+		}
+		$ids = array_values(array_unique(array_filter($ids)));
+		return implode(',', $ids);
+	}
+
+	/**
 	 * Function transforms value for reference type field
 	 * @param \App\Modules\Base\Models\Field $fieldInstance
 	 * @param string $fieldValue
@@ -616,6 +645,8 @@ class Data extends \App\Base\Controllers\BaseActionController
 				$fieldData[$fieldName] = $this->transformSharedOwner($fieldValue);
 			} elseif ($fieldInstance->getFieldDataType() === 'multipicklist') {
 				$fieldData[$fieldName] = $this->transformMultipicklist($fieldInstance, $fieldValue);
+			} elseif ($fieldInstance->getFieldDataType() === 'multiReference') {
+				$fieldData[$fieldName] = $this->transformMultiReference($fieldInstance, $fieldValue);
 			} elseif (in_array($fieldInstance->getFieldDataType(), \App\Modules\Base\Models\Field::$referenceTypes)) {
 				$fieldData[$fieldName] = $this->transformReference($fieldInstance, $fieldValue);
 			} elseif ($fieldInstance->getFieldDataType() === 'picklist') {

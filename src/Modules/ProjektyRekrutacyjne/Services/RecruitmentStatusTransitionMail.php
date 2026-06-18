@@ -5,7 +5,7 @@
  * @project FreeCRM
  * @author bmankowski@gmail.com
  * @copyright (c) FreeCRM
- * @license FreeCRM Public License 1.0
+ * @license FreeCRM Public License 1.1
  */
 
 declare(strict_types=1);
@@ -18,7 +18,6 @@ namespace App\Modules\ProjektyRekrutacyjne\Services;
 class RecruitmentStatusTransitionMail
 {
 	private const TABLE = 'u_yf_recruitment_status_transition_mail';
-	private const TEMPLATE_MODULE = 'ProjektyRekrutacyjne';
 
 	public static function getStatusOptions(): array
 	{
@@ -26,12 +25,12 @@ class RecruitmentStatusTransitionMail
 	}
 
 	/**
-	 * @return array<string, array<string, list<int>>>
+	 * @return array<string, array<string, list<string>>>
 	 */
 	public static function getMatrixForDisplay(): array
 	{
 		$rows = (new \App\Db\Query())
-			->select(['from_status', 'to_status', 'email_template_id'])
+			->select(['from_status', 'to_status', 'short_name'])
 			->from(self::TABLE)
 			->orderBy(['id' => SORT_ASC])
 			->all();
@@ -40,8 +39,11 @@ class RecruitmentStatusTransitionMail
 		foreach ($rows as $row) {
 			$from = (string) $row['from_status'];
 			$to = (string) $row['to_status'];
-			$templateId = (int) $row['email_template_id'];
-			$matrix[$from][$to][] = $templateId;
+			$shortName = trim((string) $row['short_name']);
+			if ($shortName === '') {
+				continue;
+			}
+			$matrix[$from][$to][] = $shortName;
 		}
 
 		return $matrix;
@@ -50,38 +52,52 @@ class RecruitmentStatusTransitionMail
 	/**
 	 * @return array{templateIds: list<int>}|null
 	 */
-	public static function getPrompt(string $from, string $to): ?array
+	public static function getPrompt(string $from, string $to, int $accountId): ?array
 	{
 		if ($from === '' || $to === '' || $from === $to) {
 			return null;
 		}
 
-		$rows = (new \App\Db\Query())
-			->select(['email_template_id'])
+		$shortNames = (new \App\Db\Query())
+			->select(['short_name'])
 			->from(self::TABLE)
 			->where(['from_status' => $from, 'to_status' => $to])
 			->orderBy(['id' => SORT_ASC])
 			->column();
 
-		if ($rows === []) {
+		if ($shortNames === []) {
 			return null;
 		}
 
-		$validIds = self::filterValidTemplateIds(array_map('intval', $rows));
-		if ($validIds === []) {
+		$normalized = [];
+		foreach ($shortNames as $shortName) {
+			$shortName = trim((string) $shortName);
+			if ($shortName !== '' && !\in_array($shortName, $normalized, true)) {
+				$normalized[] = $shortName;
+			}
+		}
+		if ($normalized === []) {
 			return null;
 		}
 
-		return ['templateIds' => $validIds];
+		$templateIds = \App\Modules\EmailTemplates\Models\RecruitmentTemplate::resolveShortNamesForAccount(
+			$normalized,
+			$accountId
+		);
+		if ($templateIds === []) {
+			return null;
+		}
+
+		return ['templateIds' => $templateIds];
 	}
 
 	/**
-	 * @param list<array{from: string, to: string, templateIds: list<int>}> $entries
+	 * @param list<array{from: string, to: string, shortNames: list<string>}> $entries
 	 */
 	public static function saveMatrix(array $entries): void
 	{
 		$validStatuses = array_keys(self::getStatusOptions());
-		$validTemplateIds = array_flip(self::getValidTemplateIdList());
+		$validShortNames = array_flip(\App\Modules\EmailTemplates\Models\RecruitmentTemplate::getDistinctShortNames());
 
 		$db = \App\Db\Db::getInstance();
 		$transaction = $db->beginTransaction();
@@ -93,9 +109,9 @@ class RecruitmentStatusTransitionMail
 			foreach ($entries as $entry) {
 				$from = (string) ($entry['from'] ?? '');
 				$to = (string) ($entry['to'] ?? '');
-				$templateIds = $entry['templateIds'] ?? [];
+				$shortNames = $entry['shortNames'] ?? [];
 
-				if ($from === '' || $to === '' || $from === $to || !\is_array($templateIds)) {
+				if ($from === '' || $to === '' || $from === $to || !\is_array($shortNames)) {
 					continue;
 				}
 
@@ -103,18 +119,18 @@ class RecruitmentStatusTransitionMail
 					continue;
 				}
 
-				$usedTemplates = [];
-				foreach ($templateIds as $templateId) {
-					$templateId = (int) $templateId;
-					if ($templateId <= 0 || !isset($validTemplateIds[$templateId])) {
+				$usedShortNames = [];
+				foreach ($shortNames as $shortName) {
+					$shortName = trim((string) $shortName);
+					if ($shortName === '' || !isset($validShortNames[$shortName])) {
 						continue;
 					}
-					if (isset($usedTemplates[$templateId])) {
+					if (isset($usedShortNames[$shortName])) {
 						continue;
 					}
-					$usedTemplates[$templateId] = true;
+					$usedShortNames[$shortName] = true;
 
-					$key = $from . '|' . $to . '|' . $templateId;
+					$key = $from . '|' . $to . '|' . $shortName;
 					if (isset($seen[$key])) {
 						continue;
 					}
@@ -123,7 +139,7 @@ class RecruitmentStatusTransitionMail
 					$db->createCommand()->insert(self::TABLE, [
 						'from_status' => $from,
 						'to_status' => $to,
-						'email_template_id' => $templateId,
+						'short_name' => $shortName,
 					])->execute();
 				}
 			}
@@ -133,40 +149,5 @@ class RecruitmentStatusTransitionMail
 			$transaction->rollBack();
 			throw $e;
 		}
-	}
-
-	/**
-	 * @param list<int> $templateIds
-	 * @return list<int>
-	 */
-	public static function filterValidTemplateIds(array $templateIds): array
-	{
-		$valid = self::getValidTemplateIdList();
-		$validSet = array_flip($valid);
-		$result = [];
-		foreach ($templateIds as $id) {
-			$id = (int) $id;
-			if ($id > 0 && isset($validSet[$id]) && !\in_array($id, $result, true)) {
-				$result[] = $id;
-			}
-		}
-
-		return $result;
-	}
-
-	/**
-	 * @return list<int>
-	 */
-	private static function getValidTemplateIdList(): array
-	{
-		$list = \App\Email\Mail::getTempleteList(self::TEMPLATE_MODULE);
-		$ids = [];
-		foreach ($list as $row) {
-			if (!empty($row['id'])) {
-				$ids[] = (int) $row['id'];
-			}
-		}
-
-		return $ids;
 	}
 }

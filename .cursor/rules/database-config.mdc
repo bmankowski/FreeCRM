@@ -6,7 +6,7 @@ description: "Database configuration and credentials for FreeCRM (development)"
 
 ## Development Credentials
 
-These match `.cursor/mcp.json` and the Docker `db` service in `docker-compose.yml`.
+These match `.cursor/mcp.json` and the Docker `db` service in `docker-compose.yml`. **`dev.itconnect.pl` uses this same local database** (not test server).
 
 - **Host (from host/WSL)**: `127.0.0.1`
 - **Host (from inside Docker network)**: `db`

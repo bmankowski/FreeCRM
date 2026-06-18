@@ -122,6 +122,7 @@ class BaseUiType extends \App\Runtime\BaseModel
 		303 => 'Taxes',
 		304 => 'InventoryLimit',
 		305 => 'MultiReferenceValue',
+		306 => 'MultiReference',
 		308 => 'RangeTime',
 		309 => 'CategoryMultipicklist',
 		310 => 'CompanySelect',

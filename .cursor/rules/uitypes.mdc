@@ -53,6 +53,7 @@ Located at `BaseUiType::UITYPE_CLASS_MAP`. Maps uitype integer directly to the U
 | 303 | `Taxes` | |
 | 304 | `InventoryLimit` | |
 | 305 | `MultiReferenceValue` | |
+| 306 | `MultiReference` | Manual multi-record reference; comma-separated CRM IDs in TEXT |
 | 308 | `RangeTime` | |
 | 309 | `CategoryMultipicklist` | Same picklist path as Tree — `getAllValue()` delegates to `Tree` |
 | 310 | `CompanySelect` | |
@@ -85,6 +86,8 @@ Key entries that differ from the naive uitype name:
 | 61 | `file` | Not `image` |
 | 69 | `image` | Not `file` |
 | 117 | `currencyList` | Not `currency` (71/72 are `currency`) |
+| 305 | `multiReferenceValue` | Auto-aggregated from relations; read-only on Edit |
+| 306 | `MultiReference` | Manual multi-pick via popup; comma-separated CRM IDs in TEXT; target module from `vtiger_fieldmodulerel` (implements `ReferenceListProvider`) |
 | *(unmapped)* | delegated to `WebserviceField::getFieldDataType()` | Falls back to `vtiger_ws_fieldtype`; plain text fields get `'string'` via `typeofdata V~O` |
 
 ---

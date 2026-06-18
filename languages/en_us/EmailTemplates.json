@@ -11,6 +11,8 @@
         "FL_CONTENT": "Content",
         "FL_SMTP": "SMTP server",
         "FL_SMTP_PRIORITY": "SMTP priority",
+        "FL_SHORT_NAME": "Short name",
+        "FL_ACCOUNT": "Account",
         "LBL_SEQUENCE": "Sequence",
         "PLL_MODULE": "Module",
         "PLL_RECORD": "Record",
@@ -22,7 +24,14 @@
         "LBL_UPLOAD_ATTACHMENT": "Upload file",
         "LBL_SELECT_ATTACHMENT": "Select document",
         "LBL_ATTACHMENT_FILE_MISSING": "File missing on disk",
-        "LBL_EMAILTEMPLATE_ATTACHMENT_INVALID_DOCUMENT": "Only active internal document files can be attached."
+        "LBL_EMAILTEMPLATE_ATTACHMENT_INVALID_DOCUMENT": "Only active internal document files can be attached.",
+        "LBL_TEMPLATE_ACCOUNTS": "Accounts",
+        "LBL_TEMPLATE_ACCOUNTS_GLOBAL_HINT": "No accounts linked — this template applies to all clients (global fallback).",
+        "LBL_SELECT_ACCOUNT": "Select account",
+        "LBL_ERR_SYS_NAME_REQUIRED": "Short name is required for recruitment project templates.",
+        "LBL_ERR_SYS_NAME_TOO_LONG": "Short name must be at most 50 characters.",
+        "LBL_ERR_SYS_NAME_MATRIX_IN_USE": "This short name is used in the recruitment transition mail matrix and cannot be changed or deleted.",
+        "LBL_ERR_SYS_NAME_ACCOUNT_OVERLAP": "Another template already uses this short name for the same account (or global slot)."
     },
     "jsLanguageStrings": {
         "JS_FORMAT_HTML": "Format HTML",

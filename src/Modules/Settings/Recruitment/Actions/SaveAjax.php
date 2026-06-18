@@ -63,14 +63,16 @@ class SaveAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 			if (!\is_array($entry)) {
 				continue;
 			}
-			$templateIds = $entry['templateIds'] ?? [];
-			if (!\is_array($templateIds)) {
-				$templateIds = [];
+			$shortNames = $entry['shortNames'] ?? [];
+			if (!\is_array($shortNames)) {
+				$shortNames = [];
 			}
 			$normalized[] = [
 				'from' => (string) ($entry['from'] ?? ''),
 				'to' => (string) ($entry['to'] ?? ''),
-				'templateIds' => array_map('intval', $templateIds),
+				'shortNames' => array_values(array_filter(array_map(static function ($name): string {
+					return trim((string) $name);
+				}, $shortNames))),
 			];
 		}
 

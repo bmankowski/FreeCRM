@@ -34,8 +34,10 @@ class IndividualSendMailModal extends SendMailModal
 		$records = $this->getRecordsListFromRequest($request);
 		$viewer->assign('FIELD_EMAILS', $this->getFieldEmailDisplayValues($request, $records));
 		$userId = (int) $request->getUser()->getId();
+		$rawTemplateList = \App\Email\Mail::getTempleteList($templateModule);
+		$rawTemplateList = $this->filterTemplateListByProjectAccount($request, $templateModule, $rawTemplateList);
 		$templateList = $this->filterTemplateList(
-			\App\Email\Mail::getTempleteList($templateModule),
+			$rawTemplateList,
 			$this->parseTemplateIdsFromRequest($request)
 		);
 		foreach ($templateList as &$tpl) {
@@ -247,6 +249,39 @@ class IndividualSendMailModal extends SendMailModal
 		}
 
 		return $filtered;
+	}
+
+	/**
+	 * @param array<int, array<string, mixed>> $templateList
+	 * @return array<int, array<string, mixed>>
+	 */
+	private function filterTemplateListByProjectAccount(
+		\App\Http\Vtiger_Request $request,
+		string $templateModule,
+		array $templateList
+	): array {
+		if ($templateModule !== 'ProjektyRekrutacyjne' || $templateList === []) {
+			return $templateList;
+		}
+		$sourceRecord = $request->getInteger('sourceRecord');
+		$sourceModule = $request->getByType('sourceModule', 2);
+		if ($sourceRecord <= 0 || $sourceModule !== 'ProjektyRekrutacyjne') {
+			return $templateList;
+		}
+		try {
+			$project = \App\Modules\Base\Models\Record::getInstanceById($sourceRecord, 'ProjektyRekrutacyjne');
+			$accountId = (int) $project->get('kontrahent');
+		} catch (\Throwable) {
+			return $templateList;
+		}
+		if ($accountId <= 0) {
+			return [];
+		}
+
+		return \App\Modules\EmailTemplates\Models\RecruitmentTemplate::filterTemplateListForAccount(
+			$templateList,
+			$accountId
+		);
 	}
 
 	public function getSize(\App\Http\Vtiger_Request $request)

@@ -82,10 +82,10 @@ class Fields extends BaseActionController
 
 	private function resolveReferenceModules(\App\Modules\Base\Models\Field $field): array
 	{
-		if ($field->getFieldDataType() !== 'reference') {
-			return [];
+		if (in_array($field->getFieldDataType(), ['reference', 'multiReference'], true)) {
+			return $field->getReferenceList();
 		}
-		return $field->getReferenceList();
+		return [];
 	}
 }
 

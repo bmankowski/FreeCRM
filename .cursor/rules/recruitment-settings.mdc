@@ -3,9 +3,13 @@ description: "Settings › Rekrutacja — status transitions, workflows matrix, 
 globs:
   - "src/Modules/Settings/Recruitment/**"
   - "src/Modules/ProjektyRekrutacyjne/Services/RecruitmentStatusTransition*.php"
+  - "src/Modules/EmailTemplates/Models/RecruitmentTemplate.php"
   - "layouts/basic/modules/Settings/Recruitment/**"
   - "public/layouts/basic/modules/Settings/Recruitment/**"
   - "migrations/Users/m260*recruitment*"
+  - "migrations/Users/m260617*email_template*"
+  - "migrations/Users/m260618*email_template*"
+  - "migrations/Users/m260621*email_template*"
 alwaysApply: false
 ---
 
@@ -17,20 +21,33 @@ Block `LBL_RECRUITMENT` (`m260601_…_recruitment_settings_menu.php`). Submenus:
 |------|---------|
 | `Transitions` | Whitelist `u_yf_recruitment_status_transitions` + `u_yf_recruitment_settings.configured` |
 | `Workflows` | Relation workflow badges / create links (`RelationTrigger`) |
-| `TransitionMail` | Mail prompt matrix `u_yf_recruitment_status_transition_mail` |
+| `TransitionMail` | Mail prompt matrix `u_yf_recruitment_status_transition_mail` (`short_name` per `from_status`/`to_status`) |
 
-Services: `RecruitmentStatusTransition`, `RecruitmentStatusTransitionMail` (multi-template rows per `from_status`/`to_status`). Save: `Settings\Recruitment\Actions\SaveAjax` (`saveTransitions`, `saveTransitionMail`).
+Services: `RecruitmentStatusTransition`, `RecruitmentStatusTransitionMail`. Save: `Settings\Recruitment\Actions\SaveAjax` (`saveTransitions`, `saveTransitionMail`).
 
 ## Mail-on-transition (runtime)
 
 - **Trigger:** kanban drag only, after successful `changeStatus()`.
-- **Templates:** `ProjektyRekrutacyjne` module list; modal filters via `templateIds` on `IndividualSendMailModal` + `Vtiger.js` `triggerSendEmailModal`.
+- **Matrix:** stores **short names** (`u_yf_emailtemplates.sys_name`), not template IDs.
+- **Resolution:** `RecruitmentTemplate::resolveShortNamesForAccount()` — project `kontrahent` → account-specific template (`account_id` uitype 306 MultiReference), else global (`account_id` empty); account-specific hides globals.
+- **Modal:** still passes `templateIds` to `IndividualSendMailModal` + `Vtiger.js` `triggerSendEmailModal`.
+- **Manual compose:** `IndividualSendMailModal` filters all `ProjektyRekrutacyjne` templates by same account tier when `sourceModule=ProjektyRekrutacyjne` + `sourceRecord`.
 - **Gates:** `MassComposeEmail` on Candidates, `isActiveSendingMails`, default SMTP, candidate has email (`RelatedListLeftSideEmail::recordHasEmail`).
+
+## EmailTemplates (recruitment)
+
+- **`sys_name`** required on Edit/Detail for `module = ProjektyRekrutacyjne`.
+- **Accounts** optional via **`account_id`** MultiReference field (uitype 306 → Accounts, comma-separated IDs) on Edit/Detail; empty = global.
+- Uniqueness: one template per `(sys_name, account)` for each linked account; one global per `sys_name`.
+- Block delete/rename `sys_name` when listed in transition matrix.
+- **`account_id`** field row visible only when Edit **Moduł** (`module_name`) = `ProjektyRekrutacyjne` (`Edit.js` toggle). After JS edits: minify `Edit.js`.
+- Empty `sys_name` backfill: `m260618_000001` (+ `m260618_000002` iconv transliteration fix); slug via `iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', …)`.
 
 ## TransitionMail matrix UI
 
-- Per cell: checkbox → show `.js-mail-template-wrap` (hide when unchecked); template `<select multiple>` inside wrap only if `TEMPLATE_OPTIONS` non-empty.
-- Init Select2 with `select2noactive` + `app.showSelect2ElementView($select, { placeholder: '\u00a0', tags: false })` then clear `.select2-selection__placeholder` text — avoids `JS_SELECT_SOME_OPTIONS` default for bare `multiple` selects (`app.js` ~259).
-- Do not use `LBL_MAIL_PROMPT_TEMPLATES` as visible placeholder.
+- URL: `index.php?module=Recruitment&parent=Settings&view=TransitionMail` — **not** `module=Settings` (handler not found).
 
-Smoke: `docker compose exec -T app php tests/recruitment_status_transition_mail_smoke.php`
+- Per cell: checkbox → show `.js-mail-short-name-wrap`; multi-select **short names only** from existing recruitment templates.
+- Init Select2 with `select2noactive` + `app.showSelect2ElementView($select, { placeholder: '\u00a0', tags: false })` then clear `.select2-selection__placeholder` text.
+
+Smoke: `docker compose exec -T app php tests/recruitment_status_transition_mail_smoke.php` — **clears** `u_yf_recruitment_status_transition_mail`; re-save matrix after run.

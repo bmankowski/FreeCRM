@@ -5711,6 +5711,7 @@ class Base2 extends \App\Db\Importers\Base
 					[112, 2481, 'subject', 'u_yf_emailtemplates', 1, 1, 'subject', 'FL_SUBJECT', 1, 2, '', 100, 0, 377, 1, 'V', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[112, 2482, 'content', 'u_yf_emailtemplates', 1, 300, 'content', 'FL_CONTENT', 1, 2, '', 100, 0, 377, 1, 'V', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[112, 2483, 'smtp_id', 'u_yf_emailtemplates', 1, 358, 'smtp_id', 'FL_SMTP', 1, 2, '', 100, 0, 376, 1, 'I', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
+					[112, 303430, 'account_id', 'u_yf_emailtemplates', 1, 306, 'account_id', 'FL_ACCOUNT', 1, 2, '', 100, 6, 376, 1, 'V', 1, 0, 'BAS', 0, '', 0, '', NULL, 0, 0],
 					[86, 2484, 'startdate', 'u_yf_ssalesprocesses', 1, 5, 'startdate', 'FL_START_DATE', 1, 2, '', 100, 11, 269, 1, 'D', 2, 5, 'BAS', 1, '', 1, '', NULL, 0, 0],
 					[113, 2485, 'subject', 'u_yf_cfixedassets', 1, 2, 'subject', 'FL_SUBJECT', 1, 2, '', 100, 1, 379, 1, 'V', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
 					[113, 2486, 'number', 'u_yf_cfixedassets', 1, 4, 'number', 'FL_NUMBER', 1, 2, '', 100, 2, 379, 1, 'V', 1, 0, 'BAS', 1, '', 0, '', NULL, 0, 0],
@@ -6011,6 +6012,7 @@ class Base2 extends \App\Db\Importers\Base
 					[2586, 'SVendorEnquiries', 'SCalculations', NULL, 0],
 					[601, 'ModComments', 'SVendorEnquiries', NULL, 0],
 					[2604, 'Project', 'Project', NULL, 0],
+					[303430, 'EmailTemplates', 'Accounts', NULL, 0],
 				]
 			],
 			'vtiger_finvoice_formpayment' => [

@@ -21,14 +21,14 @@ jQuery.Class('Settings_Recruitment_TransitionMail_Js', {}, {
 	},
 	initSelect2: function (container) {
 		const thisInstance = this;
-		container.find('.js-mail-template-wrap:not(.hide) .js-mail-template-ids').each(function () {
+		container.find('.js-mail-short-name-wrap:not(.hide) .js-mail-short-names').each(function () {
 			thisInstance.initSelect2ForSelect(jQuery(this));
 		});
 	},
-	syncTemplateSelectState: function ($cell) {
+	syncShortNameSelectState: function ($cell) {
 		const $checkbox = $cell.find('.js-mail-prompt-checkbox');
-		const $wrap = $cell.find('.js-mail-template-wrap');
-		const $select = $cell.find('.js-mail-template-ids');
+		const $wrap = $cell.find('.js-mail-short-name-wrap');
+		const $select = $cell.find('.js-mail-short-names');
 		if (!$wrap.length || !$select.length) {
 			return;
 		}
@@ -46,14 +46,14 @@ jQuery.Class('Settings_Recruitment_TransitionMail_Js', {}, {
 	syncAllCells: function () {
 		const thisInstance = this;
 		jQuery('#recruitmentTransitionMailContainer .js-mail-prompt-checkbox').each(function () {
-			thisInstance.syncTemplateSelectState(jQuery(this).closest('td'));
+			thisInstance.syncShortNameSelectState(jQuery(this).closest('td'));
 		});
 	},
 	registerCheckboxToggle: function () {
 		const thisInstance = this;
 		const container = jQuery('#recruitmentTransitionMailContainer');
 		container.on('change', '.js-mail-prompt-checkbox', function () {
-			thisInstance.syncTemplateSelectState(jQuery(this).closest('td'));
+			thisInstance.syncShortNameSelectState(jQuery(this).closest('td'));
 		});
 	},
 	collectEntries: function () {
@@ -63,19 +63,17 @@ jQuery.Class('Settings_Recruitment_TransitionMail_Js', {}, {
 			const $checkbox = jQuery(this);
 			const from = $checkbox.data('from');
 			const to = $checkbox.data('to');
-			const $select = container.find('.js-mail-template-ids[data-from="' + from + '"][data-to="' + to + '"]');
+			const $select = container.find('.js-mail-short-names[data-from="' + from + '"][data-to="' + to + '"]');
 			if (!$select.length) {
 				return;
 			}
-			const templateIds = ($select.val() || []).map(function (id) {
-				return parseInt(id, 10);
-			}).filter(function (id) {
-				return id > 0;
+			const shortNames = ($select.val() || []).filter(function (name) {
+				return typeof name === 'string' && name.trim() !== '';
 			});
-			if (!templateIds.length) {
+			if (!shortNames.length) {
 				return;
 			}
-			entries.push({ from: from, to: to, templateIds: templateIds });
+			entries.push({ from: from, to: to, shortNames: shortNames });
 		});
 		return entries;
 	},
@@ -87,7 +85,7 @@ jQuery.Class('Settings_Recruitment_TransitionMail_Js', {}, {
 			container.find('tr[data-from-row="' + from + '"] .js-mail-prompt-checkbox').each(function () {
 				const $checkbox = jQuery(this);
 				$checkbox.prop('checked', true);
-				thisInstance.syncTemplateSelectState($checkbox.closest('td'));
+				thisInstance.syncShortNameSelectState($checkbox.closest('td'));
 			});
 		});
 		container.on('click', '.js-mail-clear-row', function () {
@@ -95,7 +93,7 @@ jQuery.Class('Settings_Recruitment_TransitionMail_Js', {}, {
 			container.find('tr[data-from-row="' + from + '"] .js-mail-prompt-checkbox').each(function () {
 				const $checkbox = jQuery(this);
 				$checkbox.prop('checked', false);
-				thisInstance.syncTemplateSelectState($checkbox.closest('td'));
+				thisInstance.syncShortNameSelectState($checkbox.closest('td'));
 			});
 		});
 	},
@@ -108,7 +106,7 @@ jQuery.Class('Settings_Recruitment_TransitionMail_Js', {}, {
 				const $checkbox = jQuery(this);
 				const from = $checkbox.data('from');
 				const to = $checkbox.data('to');
-				const $select = container.find('.js-mail-template-ids[data-from="' + from + '"][data-to="' + to + '"]');
+				const $select = container.find('.js-mail-short-names[data-from="' + from + '"][data-to="' + to + '"]');
 				if (!$select.length) {
 					return;
 				}
@@ -119,7 +117,7 @@ jQuery.Class('Settings_Recruitment_TransitionMail_Js', {}, {
 			});
 			if (invalid) {
 				Vtiger_Helper_Js.showPnotify({
-					text: app.vtranslate('LBL_SAVE_TRANSITION_MAIL_TEMPLATES_REQUIRED', 'Settings:Recruitment'),
+					text: app.vtranslate('LBL_SAVE_TRANSITION_MAIL_SHORT_NAMES_REQUIRED', 'Settings:Recruitment'),
 					type: 'error'
 				});
 				return;

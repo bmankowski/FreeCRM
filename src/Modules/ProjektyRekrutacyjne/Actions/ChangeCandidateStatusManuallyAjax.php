@@ -111,7 +111,22 @@ class ChangeCandidateStatusManuallyAjax extends \App\Base\Controllers\BaseAction
             return null;
         }
 
-        $prompt = \App\Modules\ProjektyRekrutacyjne\Services\RecruitmentStatusTransitionMail::getPrompt($sourceStatus, $destinationStatus);
+        $accountId = 0;
+        try {
+            $project = \App\Modules\Base\Models\Record::getInstanceById($projectId, 'ProjektyRekrutacyjne');
+            $accountId = (int) $project->get('kontrahent');
+        } catch (\Throwable) {
+            return null;
+        }
+        if ($accountId <= 0) {
+            return null;
+        }
+
+        $prompt = \App\Modules\ProjektyRekrutacyjne\Services\RecruitmentStatusTransitionMail::getPrompt(
+            $sourceStatus,
+            $destinationStatus,
+            $accountId
+        );
         if ($prompt === null || empty($prompt['templateIds'])) {
             return null;
         }

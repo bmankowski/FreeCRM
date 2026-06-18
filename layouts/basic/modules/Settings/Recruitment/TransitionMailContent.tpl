@@ -5,9 +5,9 @@
 		<div class="col-xs-12">
 			{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
 			<p class="text-muted">{"LBL_TRANSITION_MAIL_HELP"|t:$QUALIFIED_MODULE}</p>
-			{if $TEMPLATE_OPTIONS|@count == 0}
+			{if $SHORT_NAME_OPTIONS|@count == 0}
 				<div class="alert alert-warning" role="alert">
-					{"LBL_NO_DATA"|t}
+					{"LBL_NO_SHORT_NAMES"|t:$QUALIFIED_MODULE}
 				</div>
 			{/if}
 		</div>
@@ -35,28 +35,28 @@
 						{foreach from=$STATUS_OPTIONS key=TO_CODE item=TO_LABEL}
 							<td class="text-center align-top{if $FROM_CODE eq $TO_CODE} bg-light{/if}" style="min-width: 10rem;">
 								{if $FROM_CODE neq $TO_CODE}
-									{assign var=CELL_TEMPLATES value=[]}
+									{assign var=CELL_SHORT_NAMES value=[]}
 									{if isset($MAIL_MATRIX[$FROM_CODE][$TO_CODE])}
-										{assign var=CELL_TEMPLATES value=$MAIL_MATRIX[$FROM_CODE][$TO_CODE]}
+										{assign var=CELL_SHORT_NAMES value=$MAIL_MATRIX[$FROM_CODE][$TO_CODE]}
 									{/if}
 									<div class="mb-1">
 										<input type="checkbox"
 										       class="js-mail-prompt-checkbox"
 										       data-from="{$FROM_CODE|escape}"
 										       data-to="{$TO_CODE|escape}"
-										       {if $CELL_TEMPLATES|@count > 0}checked="checked"{/if}
+										       {if $CELL_SHORT_NAMES|@count > 0}checked="checked"{/if}
 										       aria-label="{"LBL_MAIL_PROMPT_ENABLE"|t:$QUALIFIED_MODULE}: {$FROM_LABEL|escape} → {$TO_LABEL|escape}" />
 									</div>
-									{if $TEMPLATE_OPTIONS|@count > 0}
-										<div class="js-mail-template-wrap mt-1{if $CELL_TEMPLATES|@count == 0} hide{/if}">
-											<select class="form-control input-sm select2noactive js-mail-template-ids" multiple="multiple"
+									{if $SHORT_NAME_OPTIONS|@count > 0}
+										<div class="js-mail-short-name-wrap mt-1{if $CELL_SHORT_NAMES|@count == 0} hide{/if}">
+											<select class="form-control input-sm select2noactive js-mail-short-names" multiple="multiple"
 											        data-from="{$FROM_CODE|escape}"
 											        data-to="{$TO_CODE|escape}"
 											        aria-label="{$FROM_LABEL|escape} → {$TO_LABEL|escape}">
-												{foreach from=$TEMPLATE_OPTIONS item=TPL_ROW}
-													<option value="{$TPL_ROW['id']}"
-													        {if in_array($TPL_ROW['id'], $CELL_TEMPLATES)}selected="selected"{/if}>
-														{$TPL_ROW['name']|escape}
+												{foreach from=$SHORT_NAME_OPTIONS item=SHORT_NAME}
+													<option value="{$SHORT_NAME|escape}"
+													        {if in_array($SHORT_NAME, $CELL_SHORT_NAMES)}selected="selected"{/if}>
+														{$SHORT_NAME|escape}
 													</option>
 												{/foreach}
 											</select>

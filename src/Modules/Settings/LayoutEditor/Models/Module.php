@@ -99,7 +99,7 @@ class Module extends \App\Modules\Base\Models\Module
 	public function getAddSupportedFieldTypes()
 	{
 		return [
-			'Text', 'Decimal', 'Integer', 'Percent', 'Currency', 'Date', 'Email', 'Phone', 'Picklist', 'URL', 'Checkbox', 'TextArea', 'MultiSelectCombo', 'Skype', 'Time', 'Related1M', 'Editor', 'Tree', 'MultiReferenceValue', 'MultiImage', 'CategoryMultipicklist'
+			'Text', 'Decimal', 'Integer', 'Percent', 'Currency', 'Date', 'Email', 'Phone', 'Picklist', 'URL', 'Checkbox', 'TextArea', 'MultiSelectCombo', 'Skype', 'Time', 'Related1M', 'MultiReference', 'Editor', 'Tree', 'MultiReferenceValue', 'MultiImage', 'CategoryMultipicklist'
 		];
 	}
 
@@ -237,6 +237,9 @@ class Module extends \App\Modules\Base\Models\Module
 				$targetModule->setRelatedList($this, $moduleName, array('Add'), 'getDependentsList');
 			}
 		}
+		if ($fieldType == 'MultiReference') {
+			$fieldModel->setRelatedModules([$params['referenceModule']]);
+		}
 		return $fieldModel;
 	}
 
@@ -350,6 +353,11 @@ class Module extends \App\Modules\Base\Models\Module
 			Case 'Related1M' :
 				$uitype = 10;
 				$type = $importerType->integer()->defaultValue(0)->unsigned();
+				$uichekdata = 'V';
+				break;
+			Case 'MultiReference' :
+				$uitype = 306;
+				$type = $importerType->text();
 				$uichekdata = 'V';
 				break;
 			Case 'Editor' :

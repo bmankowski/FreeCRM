@@ -1143,6 +1143,7 @@ CREATE TABLE `u_yf_emailtemplates` (
   `smtp_id` int(10) unsigned DEFAULT NULL,
   `sender_type` enum('user_account','system_smtp','any') NOT NULL DEFAULT 'system_smtp',
   `sequence` int(11) NOT NULL DEFAULT '0',
+  `account_id` text,
   PRIMARY KEY (`emailtemplatesid`),
   KEY `sys_name` (`sys_name`),
   CONSTRAINT `fk_1_vtiger_emailtemplatesemailtemplatesid` FOREIGN KEY (`emailtemplatesid`) REFERENCES `vtiger_crmentity` (`crmid`) ON DELETE CASCADE

@@ -5,7 +5,7 @@
  * @project FreeCRM
  * @author bmankowski@gmail.com
  * @copyright (c) FreeCRM
- * @license FreeCRM Public License 1.0
+ * @license FreeCRM Public License 1.1
  */
 
 declare(strict_types=1);
@@ -19,13 +19,13 @@ class TransitionMail extends \App\Modules\Settings\Base\Views\Index
 		$qualifiedModule = $request->getModule(false);
 		$statusOptions = \App\Modules\ProjektyRekrutacyjne\Services\RecruitmentStatusTransitionMail::getStatusOptions();
 		$matrix = \App\Modules\ProjektyRekrutacyjne\Services\RecruitmentStatusTransitionMail::getMatrixForDisplay();
-		$templateOptions = \App\Email\Mail::getTempleteList('ProjektyRekrutacyjne');
+		$shortNameOptions = \App\Modules\EmailTemplates\Models\RecruitmentTemplate::getDistinctShortNames();
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModule);
 		$viewer->assign('STATUS_OPTIONS', $statusOptions);
 		$viewer->assign('MAIL_MATRIX', $matrix);
-		$viewer->assign('TEMPLATE_OPTIONS', $templateOptions);
+		$viewer->assign('SHORT_NAME_OPTIONS', $shortNameOptions);
 
 		if ($request->isAjax()) {
 			$viewer->view('TransitionMailContent.tpl', $qualifiedModule);

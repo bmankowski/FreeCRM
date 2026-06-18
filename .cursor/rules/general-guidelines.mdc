@@ -42,10 +42,11 @@ FreeCRM is being actively modernized. **No fallbacks. No compat shims. No parall
 
 ## Deployment (one-liner)
 
+- **`https://dev.itconnect.pl` = local dev** — same bind-mounted repo, same Docker `web`/`app`/`cron`/`db` stack as WSL (`docker compose`). Not a remote server; code/DB changes apply immediately (no deploy). Distinct from **`test.itconnect.pl`** (`/opt/freecrm`, remote).
 - Deployed on `test.itconnect.pl` at `/opt/freecrm` (`web`, `app`, `cron`, `db`); MariaDB at `127.0.0.1:3306` on the server.
 - **Never run `scripts/sync-freecrm.sh pushsrc` without explicit user approval** — even when a task changes runtime behavior. Offer deploy as a follow-up; wait for confirmation before syncing to the server.
 - After approval: CRM deploy is `scripts/sync-freecrm.sh pushsrc` (+ migrations on server if needed). LinkAction www: see `link-action.mdc` (Cyberfolks rsync + merge `_link_action/config.php`).
-- MCP browser (`cursor-ide-browser`) uses `https://dev.itconnect.pl` for dev web checks. The WSL shell cannot reach `localhost` — never SSH+curl for web tests.
+- MCP browser (`cursor-ide-browser`) uses `https://dev.itconnect.pl` for dev web checks — that **is** local. WSL cannot reach `http://localhost` for this stack; never SSH to test server for local web QA.
 
 For deeper testing/log details see `error-checking.mdc`. For deployment specifics see `deployment.mdc`.
 

@@ -38,6 +38,8 @@ class FieldValueConverter
 			$normalized = $this->resolveSharedOwner($normalized, $fallbackOwnerId);
 		} elseif ($dataType === 'multipicklist') {
 			$normalized = $this->resolveMultiPicklist($normalized);
+		} elseif ($dataType === 'multiReference') {
+			$normalized = $this->resolveMultiReference($fieldModel, $normalized);
 		} elseif ($dataType === 'picklist') {
 			$normalized = $this->resolvePicklist($fieldModel, $normalized);
 		} elseif ($dataType === 'tree' || $dataType === 'categoryMultipicklist') {
@@ -220,6 +222,37 @@ class FieldValueConverter
 		}
 
 		return null;
+	}
+
+	/**
+	 * @param mixed $value
+	 */
+	private function resolveMultiReference(FieldModel $fieldModel, $value): string
+	{
+		if ($value === '' || $value === null) {
+			return '';
+		}
+		if (is_array($value)) {
+			$tokens = $value;
+		} else {
+			$tokens = explode(',', (string) $value);
+		}
+		$ids = [];
+		foreach ($tokens as $token) {
+			$token = trim((string) $token);
+			if ($token === '') {
+				continue;
+			}
+			if (ctype_digit($token)) {
+				$ids[] = (int) $token;
+				continue;
+			}
+			$resolved = $this->resolveReference($fieldModel, $token);
+			if ($resolved) {
+				$ids[] = $resolved;
+			}
+		}
+		return implode(',', array_values(array_unique(array_filter($ids))));
 	}
 
 	private function resolveDate($value): string

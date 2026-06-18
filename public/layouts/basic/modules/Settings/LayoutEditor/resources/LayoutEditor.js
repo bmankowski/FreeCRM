@@ -757,6 +757,11 @@ jQuery.Class('Settings_LayoutEditor_Js', {
 			}
 			if (selectedOption.val() == 'Related1M') {
 				form.find('.preDefinedModuleList').removeClass('hide');
+				form.find('.referenceModule').prop('multiple', true);
+			}
+			if (selectedOption.val() == 'MultiReference') {
+				form.find('.preDefinedModuleList').removeClass('hide');
+				form.find('.referenceModule').prop('multiple', false);
 			}
 			if (selectedOption.val() == 'Tree' || selectedOption.val() == 'CategoryMultipicklist') {
 				form.find('.preDefinedTreeList').removeClass('hide');

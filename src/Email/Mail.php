@@ -102,7 +102,11 @@ class Mail
 			$query->andWhere(['u_#__emailtemplates.email_template_type' => $type]);
 		}
 		if ($hideSystem) {
-			$query->andWhere(['u_#__emailtemplates.sys_name' => null]);
+			$query->andWhere([
+				'or',
+				['u_#__emailtemplates.sys_name' => null],
+				['u_#__emailtemplates.module' => 'ProjektyRekrutacyjne'],
+			]);
 		}
 		$row = $query
 			->orderBy([
@@ -143,7 +147,11 @@ class Mail
 			$query->andWhere(['u_#__emailtemplates.email_template_type' => $type]);
 		}
 		if ($hideSystem) {
-			$query->andWhere(['u_#__emailtemplates.sys_name' => null]);
+			$query->andWhere([
+				'or',
+				['u_#__emailtemplates.sys_name' => null],
+				['u_#__emailtemplates.module' => 'ProjektyRekrutacyjne'],
+			]);
 		}
 		$row = $query
 			->orderBy([
@@ -266,5 +274,10 @@ class Mail
 		}
 
 		return $attachments;
+	}
+
+	public static function clearTemplateListCache(): void
+	{
+		\App\Cache\Cache::clearNamespace('MailTempleteList');
 	}
 }
