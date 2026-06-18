@@ -64,7 +64,7 @@ class Documents extends \App\Core\CRMEntity
 	public $old_filename = '';
 	public $mandatory_fields = Array('notes_title', 'createdtime', 'modifiedtime', 'original_name', 'size_bytes', 'mime_type', 'download_count', 'assigned_user_id');
 	//Added these variables which are used as default order by and sortorder in ListView
-	public $default_order_by = '';
+	public $default_order_by = 'modifiedtime';
 	public $default_sort_order = 'DESC';
 
 	/**    Function used to get the sort order for Documents listview

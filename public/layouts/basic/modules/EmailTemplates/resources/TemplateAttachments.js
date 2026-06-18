@@ -8,12 +8,14 @@ var EmailTemplates_TemplateAttachments_Js = {
 			return;
 		}
 		this.limits = this.root.data('mailAttachmentLimits') || {};
-		this.list = this.root.find('.js-emailtemplate-attachment-list');
+		this.fieldWrap = this.root.find('.js-emailtemplate-attachment-field');
+		this.selectElement = this.root.find('.js-emailtemplate-attachment-select');
 		this.saveFirst = this.root.find('.js-emailtemplate-attachments-save-first');
 		this.uploadBtn = this.root.find('.js-emailtemplate-attachment-upload');
-		this.selectBtn = this.root.find('.js-emailtemplate-attachment-select');
 		this.templateId = parseInt(form.find('[name="record"]').val(), 10) || 0;
+		this.syncing = false;
 		this.bindEvents();
+		this.bindSelect2Events();
 		this.refreshState();
 	},
 
@@ -22,13 +24,48 @@ var EmailTemplates_TemplateAttachments_Js = {
 		this.uploadBtn.off('click.templateAttach').on('click.templateAttach', function () {
 			self.openUploadModal();
 		});
-		this.selectBtn.off('click.templateAttach').on('click.templateAttach', function () {
-			self.openSelectPopup();
-		});
-		this.root.off('click.templateAttach', '.js-emailtemplate-attachment-remove').on('click.templateAttach', '.js-emailtemplate-attachment-remove', function (e) {
+	},
+
+	bindSelect2Events: function () {
+		var self = this;
+		var select = this.selectElement;
+
+		this.fieldWrap.on('mousedown.templateAttach click.templateAttach', '.select2-selection__choice__remove', function (e) {
 			e.preventDefault();
 			e.stopPropagation();
-			var documentId = parseInt(jQuery(this).attr('data-document-id'), 10);
+			select.data('unselecting', true);
+			window.setTimeout(function () {
+				select.removeData('unselecting');
+			}, 250);
+		});
+
+		select.on('select2:opening.templateAttach', function (e) {
+			e.preventDefault();
+			if (select.data('unselecting')) {
+				return;
+			}
+			if (select.prop('disabled')) {
+				return;
+			}
+			self.openSelectPopup();
+		});
+
+		this.fieldWrap.on('focusin.templateAttach click.templateAttach', '.select2-search__field', function (e) {
+			if (select.data('unselecting')) {
+				return;
+			}
+			if (select.prop('disabled')) {
+				return;
+			}
+			e.preventDefault();
+			self.openSelectPopup();
+		});
+
+		select.on('select2:unselect.templateAttach', function (e) {
+			if (self.syncing) {
+				return;
+			}
+			var documentId = parseInt(e.params.data.id, 10);
 			if (documentId > 0) {
 				self.unlink(documentId);
 			}
@@ -39,13 +76,13 @@ var EmailTemplates_TemplateAttachments_Js = {
 		if (this.templateId <= 0) {
 			this.saveFirst.removeClass('hide');
 			this.uploadBtn.prop('disabled', true);
-			this.selectBtn.prop('disabled', true);
-			this.list.empty();
+			this.selectElement.prop('disabled', true);
+			this.renderList([]);
 			return;
 		}
 		this.saveFirst.addClass('hide');
 		this.uploadBtn.prop('disabled', false);
-		this.selectBtn.prop('disabled', false);
+		this.selectElement.prop('disabled', false);
 		this.loadList();
 	},
 
@@ -67,23 +104,44 @@ var EmailTemplates_TemplateAttachments_Js = {
 
 	renderList: function (items) {
 		var self = this;
-		this.list.empty();
+		var select = this.selectElement;
+		this.syncing = true;
+
+		if (select.hasClass('select2-hidden-accessible')) {
+			select.select2('destroy');
+		}
+
+		select.empty();
 		items.forEach(function (item) {
 			var name = item.name || 'Document';
-			var sizeLabel = self.formatSize(item.size || 0);
-			var missing = item.hasFile === false;
-			var fileClass = missing ? ' js-emailtemplate-attachment-chip-file--missing' : '';
-			var warning = missing ? ' title="' + app.vtranslate('LBL_ATTACHMENT_FILE_MISSING', 'EmailTemplates') + '"' : '';
-			var html = '<div class="btn-group" data-document-id="' + item.id + '">' +
-				'<span class="btn btn-default btn-xs js-emailtemplate-attachment-chip-file' + fileClass + '" disabled="disabled"' + warning + '>' +
-				'<span class="js-emailtemplate-attachment-chip-name">' + jQuery('<div>').text(name).html() + '</span>' +
-				'<small class="text-muted">' + sizeLabel + '</small>' +
-				'</span>' +
-				'<button type="button" class="btn btn-default btn-xs js-emailtemplate-attachment-remove" data-document-id="' + item.id + '" title="' +
-				app.vtranslate('LBL_DELETE', 'Vtiger') + '">' +
-				'<span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>' +
-				'</div>';
-			self.list.append(html);
+			var option = new Option(name, String(item.id), true, true);
+			if (item.hasFile === false) {
+				option.className = 'js-emailtemplate-attachment-missing';
+				option.title = app.vtranslate('LBL_ATTACHMENT_FILE_MISSING', 'EmailTemplates');
+			}
+			select.append(option);
+		});
+
+		this.initSelect2();
+		this.syncing = false;
+	},
+
+	initSelect2: function () {
+		var select = this.selectElement;
+		app.showSelect2ElementView(select, {
+			minimumResultsForSearch: Infinity,
+			closeOnSelect: false,
+			tags: false,
+			placeholder: app.vtranslate('JS_SELECT_SOME_OPTIONS'),
+			templateSelection: function (data, container) {
+				if (data.element && data.element.className) {
+					jQuery(container).addClass(data.element.className);
+				}
+				if (data.element && data.element.title) {
+					jQuery(container).attr('title', data.element.title);
+				}
+				return data.text;
+			}
 		});
 	},
 
@@ -146,24 +204,15 @@ var EmailTemplates_TemplateAttachments_Js = {
 		}).then(function (response) {
 			if (response && response.error) {
 				self.notifyError(response.error);
+				self.loadList();
 				return;
 			}
 			var result = response && response.result ? response.result : {};
 			self.renderList(result.items || []);
 		}, function (error) {
 			self.notifyError(error);
+			self.loadList();
 		});
-	},
-
-	formatSize: function (bytes) {
-		var n = parseInt(bytes, 10) || 0;
-		if (n < 1024) {
-			return n + ' B';
-		}
-		if (n < 1048576) {
-			return (n / 1024).toFixed(1) + ' KB';
-		}
-		return (n / 1048576).toFixed(1) + ' MB';
 	},
 
 	notifyError: function (error) {

@@ -12,16 +12,17 @@
 			<p class="small text-muted js-emailtemplate-attachments-save-first hide">
 				{'LBL_SAVE_TEMPLATE_FIRST'|t:'EmailTemplates'}
 			</p>
-			<div class="btn-toolbar js-emailtemplate-attachment-toolbar">
-				<div class="btn-group js-emailtemplate-attachment-list"></div>
-				<div class="btn-group js-emailtemplate-attachment-actions">
-					<button type="button" class="btn btn-default btn-xs js-emailtemplate-attachment-upload" disabled="disabled">
+			<div class="col-md-12 paddingLRZero fieldRow js-emailtemplate-attachment-field">
+				<div class="col-md-9 fieldValue paddingLRZero">
+					<div class="js-emailtemplate-attachment-select-wrap">
+						<select id="EmailTemplates_attachment_select" title="{'LBL_STANDARD_ATTACHMENTS'|t:'EmailTemplates'}" multiple class="chzn-select form-control js-emailtemplate-attachment-select" disabled="disabled"></select>
+					</div>
+
+				</div>
+				<div class="col-md-3 fieldLabel hidden-xs hidden-sm">
+					<button type="button" class="btn btn-default js-emailtemplate-attachment-upload">
 						<span class="glyphicon glyphicon-upload" aria-hidden="true"></span>
 						<span>{'LBL_UPLOAD_ATTACHMENT'|t:'EmailTemplates'}</span>
-					</button>
-					<button type="button" class="btn btn-default btn-xs js-emailtemplate-attachment-select" disabled="disabled">
-						<span class="glyphicon glyphicon-paperclip" aria-hidden="true"></span>
-						<span>{'LBL_SELECT_ATTACHMENT'|t:'EmailTemplates'}</span>
 					</button>
 				</div>
 			</div>

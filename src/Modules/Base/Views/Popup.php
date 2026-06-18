@@ -269,7 +269,7 @@ class Popup  extends \App\Modules\Base\Views\Index
 			}
 		}
 		$viewer->assign('SEARCH_DETAILS', $searchParmams);
-		// Enable the switch button block in popup actions; it will be disabled automatically if no related parent id
+		// Switch is shown only when a related parent record can narrow the popup list
 		$viewer->assign('SWITCH', true);
 	}
 

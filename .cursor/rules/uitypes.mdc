@@ -90,6 +90,22 @@ Key entries that differ from the naive uitype name:
 | 306 | `MultiReference` | Manual multi-pick via popup; comma-separated CRM IDs in TEXT; target module from `vtiger_fieldmodulerel` (implements `ReferenceListProvider`) |
 | *(unmapped)* | delegated to `WebserviceField::getFieldDataType()` | Falls back to `vtiger_ws_fieldtype`; plain text fields get `'string'` via `typeofdata V~O` |
 
+### MultiReference (306) — Edit UI
+
+Looks like Multipicklist (`email_template_type`): Select2 `select2-selection--multiple` chips; click empty area → record popup (not a dropdown of all records).
+
+| Piece | Location |
+|---|---|
+| Template | `layouts/basic/modules/Base/uitypes/MultiReference.tpl` |
+| JS | `public/layouts/basic/modules/Base/resources/Edit.js` → `registerMultiReferenceFields()` (+ minify) |
+| UiType | `src/Modules/Base/UiTypes/MultiReference.php` |
+| QueryField | `src/QueryField/MultiReferenceField.php` |
+
+- Hidden `input.sourceField[data-fieldtype="multiReference"][data-multiple="true"]` holds comma-separated IDs for save; `<select multiple class="chzn-select js-multi-reference-select">` has **no** `name` — options only for currently selected records.
+- **Smarty:** write `multiple class="..."` on one line; a line break between `multiple` and `class` compiles to invalid `multipleclass=`.
+- **Init order:** `app.changeSelectElementView()` runs on `document.ready` before `registerMultiReferenceFields()` — destroy existing Select2 and reinit with `tags: false`, `minimumResultsForSearch: Infinity`. Popup via `select2:opening` (preventDefault) + `openPopUp`; selection event `Vtiger.MultiReference.Selection`.
+- **Remove chip (×):** mousedown on `.select2-selection__choice__remove` sets Select2 `unselecting` flag (same as `app.js`) so `select2:opening` / search-field focus do not reopen the popup.
+
 ---
 
 ## UiType class files
