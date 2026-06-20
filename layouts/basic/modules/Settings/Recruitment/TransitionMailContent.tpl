@@ -35,29 +35,48 @@
 						{foreach from=$STATUS_OPTIONS key=TO_CODE item=TO_LABEL}
 							<td class="text-center align-top{if $FROM_CODE eq $TO_CODE} bg-light{/if}" style="min-width: 10rem;">
 								{if $FROM_CODE neq $TO_CODE}
-									{assign var=CELL_SHORT_NAMES value=[]}
+									{assign var=CELL_TEMPLATES value=[]}
 									{if isset($MAIL_MATRIX[$FROM_CODE][$TO_CODE])}
-										{assign var=CELL_SHORT_NAMES value=$MAIL_MATRIX[$FROM_CODE][$TO_CODE]}
+										{assign var=CELL_TEMPLATES value=$MAIL_MATRIX[$FROM_CODE][$TO_CODE]}
 									{/if}
 									<div class="mb-1">
 										<input type="checkbox"
 										       class="js-mail-prompt-checkbox"
 										       data-from="{$FROM_CODE|escape}"
 										       data-to="{$TO_CODE|escape}"
-										       {if $CELL_SHORT_NAMES|@count > 0}checked="checked"{/if}
+										       {if $CELL_TEMPLATES|@count > 0}checked="checked"{/if}
 										       aria-label="{"LBL_MAIL_PROMPT_ENABLE"|t:$QUALIFIED_MODULE}: {$FROM_LABEL|escape} → {$TO_LABEL|escape}" />
 									</div>
 									{if $SHORT_NAME_OPTIONS|@count > 0}
-										<div class="js-mail-short-name-wrap mt-1{if $CELL_SHORT_NAMES|@count == 0} hide{/if}">
-											<select class="form-control input-sm select2noactive js-mail-short-names" multiple="multiple"
+										<div class="js-mail-templates-wrap mt-1{if $CELL_TEMPLATES|@count == 0} hide{/if}"
+										     data-from="{$FROM_CODE|escape}"
+										     data-to="{$TO_CODE|escape}">
+											<div class="js-mail-template-pills mb-1">
+												{foreach from=$CELL_TEMPLATES item=TEMPLATE}
+													<span class="js-mail-template-pill transition-mail-pill"
+													      data-short-name="{$TEMPLATE.shortName|escape}"
+													      data-delivery-mode="{$TEMPLATE.deliveryMode|escape}">
+														<span class="transition-mail-pill__name" title="{$TEMPLATE.shortName|escape}">{$TEMPLATE.shortName|escape}</span>
+														<button type="button"
+														        class="js-mail-pill-mode transition-mail-pill__mode transition-mail-pill__mode--{$TEMPLATE.deliveryMode|escape}"
+														        title="{"LBL_DELIVERY_MODE_TOGGLE"|t:$QUALIFIED_MODULE}"
+														        aria-label="{"LBL_DELIVERY_MODE_TOGGLE"|t:$QUALIFIED_MODULE}">
+															{if $TEMPLATE.deliveryMode eq 'auto'}{"LBL_DELIVERY_AUTO"|t:$QUALIFIED_MODULE}{else}{"LBL_DELIVERY_PROMPT"|t:$QUALIFIED_MODULE}{/if}
+														</button>
+														<button type="button"
+														        class="js-mail-pill-remove transition-mail-pill__remove"
+						        title="{"LBL_PILL_REMOVE"|t:$QUALIFIED_MODULE}"
+						        aria-label="{"LBL_PILL_REMOVE"|t:$QUALIFIED_MODULE}">&times;</button>
+													</span>
+												{/foreach}
+											</div>
+											<select class="form-control input-sm js-mail-add-template"
 											        data-from="{$FROM_CODE|escape}"
 											        data-to="{$TO_CODE|escape}"
-											        aria-label="{$FROM_LABEL|escape} → {$TO_LABEL|escape}">
+											        aria-label="{"LBL_ADD_TEMPLATE"|t:$QUALIFIED_MODULE}: {$FROM_LABEL|escape} → {$TO_LABEL|escape}">
+												<option value="">{"LBL_ADD_TEMPLATE"|t:$QUALIFIED_MODULE}</option>
 												{foreach from=$SHORT_NAME_OPTIONS item=SHORT_NAME}
-													<option value="{$SHORT_NAME|escape}"
-													        {if in_array($SHORT_NAME, $CELL_SHORT_NAMES)}selected="selected"{/if}>
-														{$SHORT_NAME|escape}
-													</option>
+													<option value="{$SHORT_NAME|escape}">{$SHORT_NAME|escape}</option>
 												{/foreach}
 											</select>
 										</div>

@@ -63,16 +63,32 @@ class SaveAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 			if (!\is_array($entry)) {
 				continue;
 			}
-			$shortNames = $entry['shortNames'] ?? [];
-			if (!\is_array($shortNames)) {
-				$shortNames = [];
+			$templates = $entry['templates'] ?? [];
+			if (!\is_array($templates)) {
+				$templates = [];
+			}
+			$normalizedTemplates = [];
+			foreach ($templates as $template) {
+				if (!\is_array($template)) {
+					continue;
+				}
+				$shortName = trim((string) ($template['shortName'] ?? ''));
+				if ($shortName === '') {
+					continue;
+				}
+				$deliveryMode = (string) ($template['deliveryMode'] ?? '');
+				if ($deliveryMode !== \App\Modules\ProjektyRekrutacyjne\Services\RecruitmentStatusTransitionMail::DELIVERY_AUTO) {
+					$deliveryMode = \App\Modules\ProjektyRekrutacyjne\Services\RecruitmentStatusTransitionMail::DELIVERY_PROMPT;
+				}
+				$normalizedTemplates[] = [
+					'shortName' => $shortName,
+					'deliveryMode' => $deliveryMode,
+				];
 			}
 			$normalized[] = [
 				'from' => (string) ($entry['from'] ?? ''),
 				'to' => (string) ($entry['to'] ?? ''),
-				'shortNames' => array_values(array_filter(array_map(static function ($name): string {
-					return trim((string) $name);
-				}, $shortNames))),
+				'templates' => $normalizedTemplates,
 			];
 		}
 

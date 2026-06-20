@@ -55,23 +55,29 @@ $db->createCommand()->delete('u_yf_recruitment_status_transition_mail')->execute
 $db->createCommand()->update('u_yf_emailtemplates', ['account_id' => null], ['module' => 'ProjektyRekrutacyjne'])->execute();
 
 assertTrue(
-	RecruitmentStatusTransitionMail::getPrompt('PPL_APPLIED', 'PPL_CANDIDATE_PASSED_SCREENING', 1) === null,
-	'no prompt before save'
+	RecruitmentStatusTransitionMail::resolveMailActions('PPL_APPLIED', 'PPL_CANDIDATE_PASSED_SCREENING', 1) === [],
+	'no actions before save'
 );
 
 RecruitmentStatusTransitionMail::saveMatrix([
 	[
 		'from' => 'PPL_APPLIED',
 		'to' => 'PPL_CANDIDATE_PASSED_SCREENING',
-		'shortNames' => [$shortName1],
+		'templates' => [
+			['shortName' => $shortName1, 'deliveryMode' => RecruitmentStatusTransitionMail::DELIVERY_PROMPT],
+		],
 	],
 ]);
 
-$promptGlobal = RecruitmentStatusTransitionMail::getPrompt('PPL_APPLIED', 'PPL_CANDIDATE_PASSED_SCREENING', 999999);
-assertTrue($promptGlobal !== null, 'prompt exists for global template');
+$actionsGlobal = RecruitmentStatusTransitionMail::resolveMailActions('PPL_APPLIED', 'PPL_CANDIDATE_PASSED_SCREENING', 999999);
+assertTrue($actionsGlobal !== [], 'actions exist for global template');
 assertTrue(
-	isset($promptGlobal['templateIds'][0]) && (int) $promptGlobal['templateIds'][0] === $templateId1,
+	isset($actionsGlobal[0]['templateId']) && (int) $actionsGlobal[0]['templateId'] === $templateId1,
 	'global template resolved'
+);
+assertTrue(
+	($actionsGlobal[0]['deliveryMode'] ?? '') === RecruitmentStatusTransitionMail::DELIVERY_PROMPT,
+	'prompt delivery mode preserved'
 );
 
 $accountId = (new \App\Db\Query())
@@ -85,9 +91,9 @@ if ($accountId) {
 	$accountId = (int) $accountId;
 	$db->createCommand()->update('u_yf_emailtemplates', ['account_id' => (string) $accountId], ['emailtemplatesid' => $templateId1])->execute();
 
-	$promptAccount = RecruitmentStatusTransitionMail::getPrompt('PPL_APPLIED', 'PPL_CANDIDATE_PASSED_SCREENING', $accountId);
-	assertTrue($promptAccount !== null, 'account-specific prompt');
-	assertTrue((int) $promptAccount['templateIds'][0] === $templateId1, 'account template id');
+	$actionsAccount = RecruitmentStatusTransitionMail::resolveMailActions('PPL_APPLIED', 'PPL_CANDIDATE_PASSED_SCREENING', $accountId);
+	assertTrue($actionsAccount !== [], 'account-specific actions');
+	assertTrue((int) $actionsAccount[0]['templateId'] === $templateId1, 'account template id');
 
 	if (isset($templates[1])) {
 		$templateId2 = (int) $templates[1]['emailtemplatesid'];
@@ -96,14 +102,28 @@ if ($accountId) {
 			[
 				'from' => 'PPL_APPLIED',
 				'to' => 'PPL_CANDIDATE_PASSED_SCREENING',
-				'shortNames' => [$shortName1, $shortName2],
+				'templates' => [
+					['shortName' => $shortName1, 'deliveryMode' => RecruitmentStatusTransitionMail::DELIVERY_AUTO],
+					['shortName' => $shortName2, 'deliveryMode' => RecruitmentStatusTransitionMail::DELIVERY_PROMPT],
+				],
 			],
 		]);
 		$db->createCommand()->update('u_yf_emailtemplates', ['account_id' => null], ['emailtemplatesid' => $templateId1])->execute();
 		$db->createCommand()->update('u_yf_emailtemplates', ['account_id' => (string) $accountId], ['emailtemplatesid' => $templateId2])->execute();
 
-		$promptMulti = RecruitmentStatusTransitionMail::getPrompt('PPL_APPLIED', 'PPL_CANDIDATE_PASSED_SCREENING', $accountId);
-		assertTrue($promptMulti !== null && count($promptMulti['templateIds']) >= 1, 'multi short name resolves');
+		$actionsMixed = RecruitmentStatusTransitionMail::resolveMailActions('PPL_APPLIED', 'PPL_CANDIDATE_PASSED_SCREENING', $accountId);
+		assertTrue(\count($actionsMixed) >= 1, 'mixed delivery modes resolve');
+		$autoCount = 0;
+		$promptCount = 0;
+		foreach ($actionsMixed as $action) {
+			if (($action['deliveryMode'] ?? '') === RecruitmentStatusTransitionMail::DELIVERY_AUTO) {
+				++$autoCount;
+			}
+			if (($action['deliveryMode'] ?? '') === RecruitmentStatusTransitionMail::DELIVERY_PROMPT) {
+				++$promptCount;
+			}
+		}
+		assertTrue($autoCount >= 1 || $promptCount >= 1, 'mixed modes present in resolved actions');
 	}
 
 	$db->createCommand()->update('u_yf_emailtemplates', ['account_id' => null], ['emailtemplatesid' => $templateId1])->execute();
@@ -111,9 +131,13 @@ if ($accountId) {
 
 $matrix = RecruitmentStatusTransitionMail::getMatrixForDisplay();
 assertTrue(
-	isset($matrix['PPL_APPLIED']['PPL_CANDIDATE_PASSED_SCREENING'])
-	&& in_array($shortName1, $matrix['PPL_APPLIED']['PPL_CANDIDATE_PASSED_SCREENING'], true),
-	'matrix for display contains short name'
+	isset($matrix['PPL_APPLIED']['PPL_CANDIDATE_PASSED_SCREENING'][0]['shortName'])
+	&& $matrix['PPL_APPLIED']['PPL_CANDIDATE_PASSED_SCREENING'][0]['shortName'] === $shortName1,
+	'matrix for display contains short name with structure'
+);
+assertTrue(
+	isset($matrix['PPL_APPLIED']['PPL_CANDIDATE_PASSED_SCREENING'][0]['deliveryMode']),
+	'matrix for display contains delivery mode'
 );
 
 assertTrue(
@@ -123,8 +147,8 @@ assertTrue(
 
 RecruitmentStatusTransitionMail::saveMatrix([]);
 assertTrue(
-	RecruitmentStatusTransitionMail::getPrompt('PPL_APPLIED', 'PPL_CANDIDATE_PASSED_SCREENING', 1) === null,
-	'prompt cleared after empty save'
+	RecruitmentStatusTransitionMail::resolveMailActions('PPL_APPLIED', 'PPL_CANDIDATE_PASSED_SCREENING', 1) === [],
+	'actions cleared after empty save'
 );
 
 $db->createCommand()->delete('u_yf_recruitment_status_transition_mail')->execute();

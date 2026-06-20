@@ -53,11 +53,11 @@ globs:
 - **Picklist fields** (`status`, `availability`, `work_time_type`): table must match field name (`vtiger_candidate_status`, etc.) — see `m260609_000006`.
 - **Verification**: `bin/check_candidates_migration.php` after migrations; migrations `m260609_000001`–`000007` in `migrations/Users/`.
 
-## Kanban status change + optional mail modal
+## Kanban status change + transition mail
 
 - Manual drag: `Detail.js` → `ChangeCandidateStatusManuallyAjax` → `GetRelatedMembers::changeStatus()` (whitelist: `RecruitmentStatusTransition`).
-- Configured mail prompt (separate matrix): `RecruitmentStatusTransitionMail::getPrompt()` → JSON `mailPrompt.templateIds` → `Vtiger_Index_Js.triggerSendEmailModal` (`Candidates`, `sourceModule`/`sourceRecord` = project). See `recruitment-settings.mdc`.
-- Screening Accept/Reject and workflows do **not** use the mail-prompt matrix.
+- Transition mail matrix: `RecruitmentStatusTransitionMail::resolveMailActions()` splits by `delivery_mode` — **`auto`** → `sendAutoTemplates()` + JSON `autoSend` toast; **`prompt`** → JSON `mailPrompt.templateIds` → `Vtiger_Index_Js.triggerSendEmailModal` (`Candidates`, `sourceModule`/`sourceRecord` = project). See `recruitment-settings.mdc`.
+- Screening Accept/Reject and workflows do **not** use the mail matrix.
 
 ## Candidate files (CV, consents, etc.)
 

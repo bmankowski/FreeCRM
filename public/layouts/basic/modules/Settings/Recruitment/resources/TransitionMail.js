@@ -5,78 +5,174 @@
 'use strict';
 
 jQuery.Class('Settings_Recruitment_TransitionMail_Js', {}, {
-	initSelect2ForSelect: function ($select) {
-		if (!$select.length || $select.data('select2')) {
+	DELIVERY_PROMPT: 'prompt',
+	DELIVERY_AUTO: 'auto',
+
+	getCellWrap: function (from, to) {
+		return jQuery('#recruitmentTransitionMailContainer .js-mail-templates-wrap[data-from="' + from + '"][data-to="' + to + '"]');
+	},
+
+	getPillsContainer: function ($wrap) {
+		return $wrap.find('.js-mail-template-pills');
+	},
+
+	getModeLabel: function (mode) {
+		const module = 'Settings:Recruitment';
+		return mode === this.DELIVERY_AUTO
+			? app.vtranslate('LBL_DELIVERY_AUTO', module)
+			: app.vtranslate('LBL_DELIVERY_PROMPT', module);
+	},
+
+	escapeHtml: function (value) {
+		return String(value)
+			.replace(/&/g, '&amp;')
+			.replace(/</g, '&lt;')
+			.replace(/>/g, '&gt;')
+			.replace(/"/g, '&quot;');
+	},
+
+	buildPillHtml: function (shortName, deliveryMode) {
+		const mode = deliveryMode === this.DELIVERY_AUTO ? this.DELIVERY_AUTO : this.DELIVERY_PROMPT;
+		const modeLabel = this.getModeLabel(mode);
+		const removeLabel = app.vtranslate('LBL_PILL_REMOVE', 'Settings:Recruitment');
+		const toggleLabel = app.vtranslate('LBL_DELIVERY_MODE_TOGGLE', 'Settings:Recruitment');
+		const esc = this.escapeHtml.bind(this);
+		return '<span class="js-mail-template-pill transition-mail-pill" data-short-name="' + esc(shortName) + '" data-delivery-mode="' + mode + '">'
+			+ '<span class="transition-mail-pill__name" title="' + esc(shortName) + '">' + esc(shortName) + '</span>'
+			+ '<button type="button" class="js-mail-pill-mode transition-mail-pill__mode transition-mail-pill__mode--' + mode + '" title="' + esc(toggleLabel) + '" aria-label="' + esc(toggleLabel) + '">' + esc(modeLabel) + '</button>'
+			+ '<button type="button" class="js-mail-pill-remove transition-mail-pill__remove" title="' + esc(removeLabel) + '" aria-label="' + esc(removeLabel) + '">&times;</button>'
+			+ '</span>';
+	},
+
+	refreshAddTemplateOptions: function ($wrap) {
+		const $select = $wrap.find('.js-mail-add-template');
+		if (!$select.length) {
 			return;
 		}
-		app.showSelect2ElementView($select, {
-			allowClear: true,
-			placeholder: '\u00a0',
-			tags: false
+		const used = {};
+		this.getPillsContainer($wrap).find('.js-mail-template-pill').each(function () {
+			used[jQuery(this).data('shortName')] = true;
 		});
-		const $rendered = $select.next('.select2-container');
-		if ($rendered.length) {
-			$rendered.find('.select2-selection__placeholder').text('');
-		}
-	},
-	initSelect2: function (container) {
-		const thisInstance = this;
-		container.find('.js-mail-short-name-wrap:not(.hide) .js-mail-short-names').each(function () {
-			thisInstance.initSelect2ForSelect(jQuery(this));
+		$select.find('option').each(function () {
+			const $option = jQuery(this);
+			const val = $option.val();
+			if (!val) {
+				return;
+			}
+			$option.prop('disabled', !!used[val]);
 		});
+		$select.val('');
 	},
-	syncShortNameSelectState: function ($cell) {
+
+	syncTemplatesWrapState: function ($cell) {
 		const $checkbox = $cell.find('.js-mail-prompt-checkbox');
-		const $wrap = $cell.find('.js-mail-short-name-wrap');
-		const $select = $cell.find('.js-mail-short-names');
-		if (!$wrap.length || !$select.length) {
+		const $wrap = $cell.find('.js-mail-templates-wrap');
+		if (!$wrap.length) {
 			return;
 		}
 		const enabled = $checkbox.is(':checked');
 		if (enabled) {
 			$wrap.removeClass('hide');
-			$select.prop('disabled', false);
-			this.initSelect2ForSelect($select);
+			this.refreshAddTemplateOptions($wrap);
 		} else {
 			$wrap.addClass('hide');
-			$select.prop('disabled', true);
-			$select.val(null).trigger('change');
+			this.getPillsContainer($wrap).empty();
+			$wrap.find('.js-mail-add-template').val('');
 		}
 	},
+
 	syncAllCells: function () {
 		const thisInstance = this;
 		jQuery('#recruitmentTransitionMailContainer .js-mail-prompt-checkbox').each(function () {
-			thisInstance.syncShortNameSelectState(jQuery(this).closest('td'));
+			thisInstance.syncTemplatesWrapState(jQuery(this).closest('td'));
 		});
 	},
+
 	registerCheckboxToggle: function () {
 		const thisInstance = this;
 		const container = jQuery('#recruitmentTransitionMailContainer');
 		container.on('change', '.js-mail-prompt-checkbox', function () {
-			thisInstance.syncShortNameSelectState(jQuery(this).closest('td'));
+			thisInstance.syncTemplatesWrapState(jQuery(this).closest('td'));
 		});
 	},
+
+	registerPillActions: function () {
+		const thisInstance = this;
+		const container = jQuery('#recruitmentTransitionMailContainer');
+
+		container.on('change', '.js-mail-add-template', function () {
+			const $select = jQuery(this);
+			const shortName = ($select.val() || '').trim();
+			if (!shortName) {
+				return;
+			}
+			const $wrap = $select.closest('.js-mail-templates-wrap');
+			const $pills = thisInstance.getPillsContainer($wrap);
+			if ($pills.find('.js-mail-template-pill[data-short-name="' + shortName + '"]').length) {
+				$select.val('');
+				return;
+			}
+			$pills.append(thisInstance.buildPillHtml(shortName, thisInstance.DELIVERY_PROMPT));
+			thisInstance.refreshAddTemplateOptions($wrap);
+		});
+
+		container.on('click', '.js-mail-pill-mode', function (e) {
+			e.preventDefault();
+			const $btn = jQuery(this);
+			const $pill = $btn.closest('.js-mail-template-pill');
+			const current = $pill.data('deliveryMode') === thisInstance.DELIVERY_AUTO
+				? thisInstance.DELIVERY_AUTO
+				: thisInstance.DELIVERY_PROMPT;
+			const next = current === thisInstance.DELIVERY_AUTO
+				? thisInstance.DELIVERY_PROMPT
+				: thisInstance.DELIVERY_AUTO;
+			$pill.attr('data-delivery-mode', next).data('deliveryMode', next);
+			$btn
+				.removeClass('transition-mail-pill__mode--prompt transition-mail-pill__mode--auto')
+				.addClass('transition-mail-pill__mode--' + next)
+				.text(thisInstance.getModeLabel(next));
+		});
+
+		container.on('click', '.js-mail-pill-remove', function (e) {
+			e.preventDefault();
+			const $wrap = jQuery(this).closest('.js-mail-templates-wrap');
+			jQuery(this).closest('.js-mail-template-pill').remove();
+			thisInstance.refreshAddTemplateOptions($wrap);
+		});
+	},
+
 	collectEntries: function () {
 		const entries = [];
+		const self = this;
 		const container = jQuery('#recruitmentTransitionMailContainer');
 		container.find('.js-mail-prompt-checkbox:checked').each(function () {
 			const $checkbox = jQuery(this);
 			const from = $checkbox.data('from');
 			const to = $checkbox.data('to');
-			const $select = container.find('.js-mail-short-names[data-from="' + from + '"][data-to="' + to + '"]');
-			if (!$select.length) {
+			const $wrap = container.find('.js-mail-templates-wrap[data-from="' + from + '"][data-to="' + to + '"]');
+			if (!$wrap.length) {
 				return;
 			}
-			const shortNames = ($select.val() || []).filter(function (name) {
-				return typeof name === 'string' && name.trim() !== '';
+			const templates = [];
+			$wrap.find('.js-mail-template-pill').each(function () {
+				const $pill = jQuery(this);
+				const shortName = String($pill.data('shortName') || '').trim();
+				if (!shortName) {
+					return;
+				}
+				const deliveryMode = $pill.data('deliveryMode') === self.DELIVERY_AUTO
+					? self.DELIVERY_AUTO
+					: self.DELIVERY_PROMPT;
+				templates.push({ shortName: shortName, deliveryMode: deliveryMode });
 			});
-			if (!shortNames.length) {
+			if (!templates.length) {
 				return;
 			}
-			entries.push({ from: from, to: to, shortNames: shortNames });
+			entries.push({ from: from, to: to, templates: templates });
 		});
 		return entries;
 	},
+
 	registerRowActions: function () {
 		const container = jQuery('#recruitmentTransitionMailContainer');
 		const thisInstance = this;
@@ -85,7 +181,7 @@ jQuery.Class('Settings_Recruitment_TransitionMail_Js', {}, {
 			container.find('tr[data-from-row="' + from + '"] .js-mail-prompt-checkbox').each(function () {
 				const $checkbox = jQuery(this);
 				$checkbox.prop('checked', true);
-				thisInstance.syncShortNameSelectState($checkbox.closest('td'));
+				thisInstance.syncTemplatesWrapState($checkbox.closest('td'));
 			});
 		});
 		container.on('click', '.js-mail-clear-row', function () {
@@ -93,10 +189,11 @@ jQuery.Class('Settings_Recruitment_TransitionMail_Js', {}, {
 			container.find('tr[data-from-row="' + from + '"] .js-mail-prompt-checkbox').each(function () {
 				const $checkbox = jQuery(this);
 				$checkbox.prop('checked', false);
-				thisInstance.syncShortNameSelectState($checkbox.closest('td'));
+				thisInstance.syncTemplatesWrapState($checkbox.closest('td'));
 			});
 		});
 	},
+
 	registerSave: function () {
 		const thisInstance = this;
 		const container = jQuery('#recruitmentTransitionMailContainer');
@@ -106,12 +203,8 @@ jQuery.Class('Settings_Recruitment_TransitionMail_Js', {}, {
 				const $checkbox = jQuery(this);
 				const from = $checkbox.data('from');
 				const to = $checkbox.data('to');
-				const $select = container.find('.js-mail-short-names[data-from="' + from + '"][data-to="' + to + '"]');
-				if (!$select.length) {
-					return;
-				}
-				const vals = $select.val();
-				if (!vals || !vals.length) {
+				const $wrap = container.find('.js-mail-templates-wrap[data-from="' + from + '"][data-to="' + to + '"]');
+				if (!$wrap.length || !$wrap.find('.js-mail-template-pill').length) {
 					invalid = true;
 				}
 			});
@@ -137,17 +230,17 @@ jQuery.Class('Settings_Recruitment_TransitionMail_Js', {}, {
 			});
 		});
 	},
+
 	registerEvents: function () {
 		const container = jQuery('#recruitmentTransitionMailContainer');
+		if (!container.length || container.data('transitionMailBound')) {
+			return;
+		}
+		container.data('transitionMailBound', true);
 		this.syncAllCells();
-		this.initSelect2(container);
 		this.registerCheckboxToggle();
+		this.registerPillActions();
 		this.registerRowActions();
 		this.registerSave();
 	}
-});
-
-jQuery(document).ready(function () {
-	const instance = new Settings_Recruitment_TransitionMail_Js();
-	instance.registerEvents();
 });

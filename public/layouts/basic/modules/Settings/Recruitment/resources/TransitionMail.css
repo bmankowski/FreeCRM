@@ -1,0 +1,70 @@
+.transition-mail-pill {
+	display: inline-flex;
+	align-items: center;
+	max-width: 100%;
+	margin: 0 0.25rem 0.25rem 0;
+	padding: 0.1rem 0.15rem 0.1rem 0.35rem;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	background: #f9f9f9;
+	font-size: 11px;
+	line-height: 1.3;
+	vertical-align: top;
+}
+
+.transition-mail-pill__name {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	max-width: 7rem;
+}
+
+.transition-mail-pill__mode {
+	margin-left: 0.25rem;
+	padding: 0 0.35rem;
+	border: 1px solid transparent;
+	border-radius: 2px;
+	background: transparent;
+	font-size: 10px;
+	font-weight: 600;
+	text-transform: lowercase;
+	cursor: pointer;
+}
+
+.transition-mail-pill__mode--prompt {
+	color: #555;
+	background: #eee;
+	border-color: #ddd;
+}
+
+.transition-mail-pill__mode--auto {
+	color: #8a6d3b;
+	background: #fcf8e3;
+	border-color: #faebcc;
+}
+
+.transition-mail-pill__remove {
+	margin-left: 0.15rem;
+	padding: 0 0.25rem;
+	border: 0;
+	background: transparent;
+	color: #999;
+	font-size: 14px;
+	line-height: 1;
+	cursor: pointer;
+}
+
+.transition-mail-pill__remove:hover {
+	color: #333;
+}
+
+.js-mail-template-pills {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	min-height: 1.5rem;
+}
+
+.js-mail-add-template {
+	font-size: 11px;
+}

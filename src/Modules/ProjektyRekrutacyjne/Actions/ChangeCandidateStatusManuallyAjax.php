@@ -89,9 +89,18 @@ class ChangeCandidateStatusManuallyAjax extends \App\Base\Controllers\BaseAction
             'message' => $result ? 'PLL_ACCEPTANCE_SUCCESS' : 'PLL_ACCEPTANCE_FAILED',
         ];
         if ($result) {
-            $mailPrompt = $this->buildMailPrompt($candidateId, $projectId, $sourceStatus, $destinationStatus);
-            if ($mailPrompt !== null) {
-                $resultPayload['mailPrompt'] = $mailPrompt;
+            $mailActions = $this->buildMailActions(
+                $candidateId,
+                $projectId,
+                $sourceStatus,
+                $destinationStatus,
+                (int) $request->getUser()->getId()
+            );
+            if (!empty($mailActions['mailPrompt'])) {
+                $resultPayload['mailPrompt'] = $mailActions['mailPrompt'];
+            }
+            if (!empty($mailActions['autoSend'])) {
+                $resultPayload['autoSend'] = $mailActions['autoSend'];
             }
         }
         $response->setResult($resultPayload);
@@ -99,16 +108,21 @@ class ChangeCandidateStatusManuallyAjax extends \App\Base\Controllers\BaseAction
     }
 
     /**
-     * @return array{candidateId: int, projectId: int, templateIds: list<int>}|null
+     * @return array{mailPrompt?: array{candidateId: int, projectId: int, templateIds: list<int>}, autoSend?: array{sent: int, failed: int, failedShortNames: list<string>}}
      */
-    private function buildMailPrompt(int $candidateId, int $projectId, string $sourceStatus, string $destinationStatus): ?array
-    {
+    private function buildMailActions(
+        int $candidateId,
+        int $projectId,
+        string $sourceStatus,
+        string $destinationStatus,
+        int $userId
+    ): array {
         $candidatesModule = \App\Modules\Base\Models\Module::getInstance('Candidates');
         if (!$candidatesModule
             || !$candidatesModule->isPermitted('MassComposeEmail')
             || !\App\Core\AppConfig::main('isActiveSendingMails')
             || !\App\Email\Mail::getDefaultSmtp()) {
-            return null;
+            return [];
         }
 
         $accountId = 0;
@@ -116,29 +130,58 @@ class ChangeCandidateStatusManuallyAjax extends \App\Base\Controllers\BaseAction
             $project = \App\Modules\Base\Models\Record::getInstanceById($projectId, 'ProjektyRekrutacyjne');
             $accountId = (int) $project->get('kontrahent');
         } catch (\Throwable) {
-            return null;
+            return [];
         }
         if ($accountId <= 0) {
-            return null;
+            return [];
         }
 
-        $prompt = \App\Modules\ProjektyRekrutacyjne\Services\RecruitmentStatusTransitionMail::getPrompt(
+        if (!\App\Modules\Candidates\Models\RelatedListLeftSideEmail::recordHasEmail($candidateId)) {
+            return [];
+        }
+
+        $actions = \App\Modules\ProjektyRekrutacyjne\Services\RecruitmentStatusTransitionMail::resolveMailActions(
             $sourceStatus,
             $destinationStatus,
             $accountId
         );
-        if ($prompt === null || empty($prompt['templateIds'])) {
-            return null;
+        if ($actions === []) {
+            return [];
         }
 
-        if (!\App\Modules\Candidates\Models\RelatedListLeftSideEmail::recordHasEmail($candidateId)) {
-            return null;
+        $autoItems = [];
+        $promptTemplateIds = [];
+        foreach ($actions as $action) {
+            if (($action['deliveryMode'] ?? '') === \App\Modules\ProjektyRekrutacyjne\Services\RecruitmentStatusTransitionMail::DELIVERY_AUTO) {
+                $autoItems[] = [
+                    'templateId' => (int) $action['templateId'],
+                    'shortName' => (string) $action['shortName'],
+                ];
+            } else {
+                $promptTemplateIds[] = (int) $action['templateId'];
+            }
         }
 
-        return [
-            'candidateId' => $candidateId,
-            'projectId' => $projectId,
-            'templateIds' => $prompt['templateIds'],
-        ];
+        $result = [];
+        if ($autoItems !== []) {
+            $autoSend = \App\Modules\ProjektyRekrutacyjne\Services\RecruitmentStatusTransitionMail::sendAutoTemplates(
+                $candidateId,
+                $projectId,
+                $autoItems,
+                $userId
+            );
+            if ($autoSend['sent'] > 0 || $autoSend['failed'] > 0) {
+                $result['autoSend'] = $autoSend;
+            }
+        }
+        if ($promptTemplateIds !== []) {
+            $result['mailPrompt'] = [
+                'candidateId' => $candidateId,
+                'projectId' => $projectId,
+                'templateIds' => $promptTemplateIds,
+            ];
+        }
+
+        return $result;
     }
 }

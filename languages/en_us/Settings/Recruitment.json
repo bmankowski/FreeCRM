@@ -20,9 +20,14 @@
         "LBL_ADD_WORKFLOW_FOR_TRANSITION": "Add workflow for this transition",
         "LBL_VIEW_ALL_WORKFLOWS": "View all project workflows",
         "LBL_TRANSITION_MAIL": "Email on transition",
-        "LBL_TRANSITION_MAIL_HELP": "For checked status transitions (kanban), after a successful status change a compose-email window opens when a matching template exists for the project's account. Pick at least one short name per enabled transition.",
-        "LBL_MAIL_PROMPT_ENABLE": "Show email window",
+        "LBL_TRANSITION_MAIL_HELP": "For checked status transitions (kanban), after a successful status change the system sends or prompts for email using matching templates for the project's account. Add at least one template per enabled transition. Click the mode badge on each pill to toggle prompt (ask before send) or auto (send immediately).",
+        "LBL_MAIL_PROMPT_ENABLE": "Email on transition",
         "LBL_MAIL_PROMPT_TEMPLATES": "Email templates",
+        "LBL_ADD_TEMPLATE": "Add template",
+        "LBL_DELIVERY_PROMPT": "prompt",
+        "LBL_DELIVERY_AUTO": "auto",
+        "LBL_DELIVERY_MODE_TOGGLE": "Click to toggle prompt / auto",
+        "LBL_PILL_REMOVE": "Remove",
         "LBL_NO_SHORT_NAMES": "No recruitment email template short names defined yet. Add short names on ProjektyRekrutacyjne email templates first.",
         "LBL_SAVE_TRANSITION_MAIL_SUCCESS": "Email-on-transition rules saved successfully.",
         "LBL_SAVE_TRANSITION_MAIL_FAILED": "Could not save email-on-transition rules.",
@@ -30,6 +35,13 @@
         "LBL_SAVE_TRANSITION_MAIL_SHORT_NAMES_REQUIRED": "Each enabled transition must have at least one short name selected."
     },
     "jsLanguageStrings": {
-        "LBL_WORKFLOW_POPOVER_TITLE": "Workflows"
+        "LBL_WORKFLOW_POPOVER_TITLE": "Workflows",
+        "LBL_DELIVERY_PROMPT": "prompt",
+        "LBL_DELIVERY_AUTO": "auto",
+        "LBL_DELIVERY_MODE_TOGGLE": "Click to toggle prompt / auto",
+        "LBL_PILL_REMOVE": "Remove",
+        "LBL_SAVE_TRANSITION_MAIL_SUCCESS": "Email-on-transition rules saved successfully.",
+        "LBL_SAVE_TRANSITION_MAIL_FAILED": "Could not save email-on-transition rules.",
+        "LBL_SAVE_TRANSITION_MAIL_SHORT_NAMES_REQUIRED": "Each enabled transition must have at least one short name selected."
     }
 }

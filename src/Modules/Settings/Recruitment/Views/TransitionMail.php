@@ -45,4 +45,16 @@ class TransitionMail extends \App\Modules\Settings\Base\Views\Index
 
 		return array_merge($headerScriptInstances, $jsScriptInstances);
 	}
+
+	public function getHeaderCss(\App\Http\Vtiger_Request $request): array
+	{
+		$headerCssInstances = parent::getHeaderCss($request);
+		$moduleName = $request->getModule();
+		$cssFileNames = [
+			"modules.Settings.$moduleName.resources.TransitionMail",
+		];
+		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
+
+		return array_merge($headerCssInstances, $cssInstances);
+	}
 }

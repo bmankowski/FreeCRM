@@ -20,9 +20,14 @@
         "LBL_ADD_WORKFLOW_FOR_TRANSITION": "Dodaj obieg dla tego przejścia",
         "LBL_VIEW_ALL_WORKFLOWS": "Pokaż wszystkie obiegi projektu",
         "LBL_TRANSITION_MAIL": "E-mail po przejściu",
-        "LBL_TRANSITION_MAIL_HELP": "Dla zaznaczonych przejść statusów (kanban) po udanej zmianie statusu otworzy się okno wysyłki e-mail, gdy istnieje pasujący szablon dla kontrahenta projektu. Wybierz co najmniej jedną nazwę skróconą na przejście.",
-        "LBL_MAIL_PROMPT_ENABLE": "Pokaż okno e-mail",
+        "LBL_TRANSITION_MAIL_HELP": "Dla zaznaczonych przejść statusów (kanban) po udanej zmianie statusu system wyśle e-mail lub pokaże okno wysyłki, gdy istnieje pasujący szablon dla kontrahenta projektu. Dodaj co najmniej jeden szablon na przejście. Kliknij etykietę trybu na pigułce, aby przełączyć prompt (pytaj przed wysyłką) lub auto (wyślij od razu).",
+        "LBL_MAIL_PROMPT_ENABLE": "E-mail po przejściu",
         "LBL_MAIL_PROMPT_TEMPLATES": "Szablony e-mail",
+        "LBL_ADD_TEMPLATE": "Dodaj szablon",
+        "LBL_DELIVERY_PROMPT": "prompt",
+        "LBL_DELIVERY_AUTO": "auto",
+        "LBL_DELIVERY_MODE_TOGGLE": "Kliknij, aby przełączyć prompt / auto",
+        "LBL_PILL_REMOVE": "Usuń",
         "LBL_NO_SHORT_NAMES": "Brak nazw skróconych szablonów rekrutacyjnych. Najpierw dodaj je w szablonach e-mail modułu ProjektyRekrutacyjne.",
         "LBL_SAVE_TRANSITION_MAIL_SUCCESS": "Reguły e-mail po przejściu zostały zapisane.",
         "LBL_SAVE_TRANSITION_MAIL_FAILED": "Nie udało się zapisać reguł e-mail po przejściu.",
@@ -30,6 +35,13 @@
         "LBL_SAVE_TRANSITION_MAIL_SHORT_NAMES_REQUIRED": "Każde włączone przejście musi mieć co najmniej jedną wybraną nazwę skróconą."
     },
     "jsLanguageStrings": {
-        "LBL_WORKFLOW_POPOVER_TITLE": "Obiegi informacji"
+        "LBL_WORKFLOW_POPOVER_TITLE": "Obiegi informacji",
+        "LBL_DELIVERY_PROMPT": "prompt",
+        "LBL_DELIVERY_AUTO": "auto",
+        "LBL_DELIVERY_MODE_TOGGLE": "Kliknij, aby przełączyć prompt / auto",
+        "LBL_PILL_REMOVE": "Usuń",
+        "LBL_SAVE_TRANSITION_MAIL_SUCCESS": "Reguły e-mail po przejściu zostały zapisane.",
+        "LBL_SAVE_TRANSITION_MAIL_FAILED": "Nie udało się zapisać reguł e-mail po przejściu.",
+        "LBL_SAVE_TRANSITION_MAIL_SHORT_NAMES_REQUIRED": "Każde włączone przejście musi mieć co najmniej jedną wybraną nazwę skróconą."
     }
 }

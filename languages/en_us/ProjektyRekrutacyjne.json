@@ -50,6 +50,9 @@
         "PLL_REJECTION_REASON_MISSING_POLISH_LANGUAGE": "Missing required Polish language proficiency",
         "PLL_REJECTION_REASON_OTHER_CANDIDATE_CHOSEN": "Another candidate was chosen",
         "PLL_REJECTION_REASON_PROJECT_CLOSED": "Recruitment process was suspended or closed",
-        "PLL_STATUS_TRANSITION_NOT_ALLOWED": "This status change is not allowed"
+        "PLL_STATUS_TRANSITION_NOT_ALLOWED": "This status change is not allowed",
+        "JS_TRANSITION_MAIL_AUTO_SENT": "Email sent automatically after status change.",
+        "JS_TRANSITION_MAIL_AUTO_PARTIAL": "Some emails were sent automatically; some failed.",
+        "JS_TRANSITION_MAIL_AUTO_FAILED": "Automatic email could not be sent."
     }
 }

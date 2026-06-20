@@ -10,6 +10,7 @@ globs:
   - "migrations/Users/m260617*email_template*"
   - "migrations/Users/m260618*email_template*"
   - "migrations/Users/m260621*email_template*"
+  - "migrations/Users/m260622*recruitment*"
 alwaysApply: false
 ---
 
@@ -21,18 +22,19 @@ Block `LBL_RECRUITMENT` (`m260601_…_recruitment_settings_menu.php`). Submenus:
 |------|---------|
 | `Transitions` | Whitelist `u_yf_recruitment_status_transitions` + `u_yf_recruitment_settings.configured` |
 | `Workflows` | Relation workflow badges / create links (`RelationTrigger`) |
-| `TransitionMail` | Mail prompt matrix `u_yf_recruitment_status_transition_mail` (`short_name` per `from_status`/`to_status`) |
+| `TransitionMail` | Mail matrix `u_yf_recruitment_status_transition_mail` (`short_name` + `delivery_mode` per `from_status`/`to_status`) |
 
 Services: `RecruitmentStatusTransition`, `RecruitmentStatusTransitionMail`. Save: `Settings\Recruitment\Actions\SaveAjax` (`saveTransitions`, `saveTransitionMail`).
 
 ## Mail-on-transition (runtime)
 
 - **Trigger:** kanban drag only, after successful `changeStatus()`.
-- **Matrix:** stores **short names** (`u_yf_emailtemplates.sys_name`), not template IDs.
-- **Resolution:** `RecruitmentTemplate::resolveShortNamesForAccount()` — project `kontrahent` → account-specific template (`account_id` uitype 306 MultiReference), else global (`account_id` empty); account-specific hides globals.
-- **Modal:** still passes `templateIds` to `IndividualSendMailModal` + `Vtiger.js` `triggerSendEmailModal`.
+- **Matrix:** stores **short names** (`u_yf_emailtemplates.sys_name`) + **`delivery_mode`** (`prompt` | `auto`) per row.
+- **Resolution:** `RecruitmentStatusTransitionMail::resolveMailActions()` → per row `RecruitmentTemplate::resolveShortNamesForAccount()` for that short name; project `kontrahent` → account-specific template (`account_id` uitype 306 MultiReference), else global; account-specific hides globals.
+- **`prompt`:** JSON `mailPrompt.templateIds` → `IndividualSendMailModal` + `Vtiger.js` `triggerSendEmailModal`.
+- **`auto`:** server-side `RecruitmentStatusTransitionMail::sendAutoTemplates()` via `Mailer::sendFromTemplate`; JSON `autoSend` → toast in `Detail.js`.
 - **Manual compose:** `IndividualSendMailModal` filters all `ProjektyRekrutacyjne` templates by same account tier when `sourceModule=ProjektyRekrutacyjne` + `sourceRecord`.
-- **Gates:** `MassComposeEmail` on Candidates, `isActiveSendingMails`, default SMTP, candidate has email (`RelatedListLeftSideEmail::recordHasEmail`).
+- **Gates:** `MassComposeEmail` on Candidates, `isActiveSendingMails`, default SMTP, candidate has email (`RelatedListLeftSideEmail::recordHasEmail` / `resolvePrimaryEmailField`).
 
 ## EmailTemplates (recruitment)
 
@@ -47,7 +49,11 @@ Services: `RecruitmentStatusTransition`, `RecruitmentStatusTransitionMail`. Save
 
 - URL: `index.php?module=Recruitment&parent=Settings&view=TransitionMail` — **not** `module=Settings` (handler not found).
 
-- Per cell: checkbox → show `.js-mail-short-name-wrap`; multi-select **short names only** from existing recruitment templates.
-- Init Select2 with `select2noactive` + `app.showSelect2ElementView($select, { placeholder: '\u00a0', tags: false })` then clear `.select2-selection__placeholder` text.
+- Per cell: checkbox → `.js-mail-templates-wrap` with **template pills** + add-template `<select>`.
+- Each pill: short name + clickable mode badge (`prompt` ↔ `auto`, default `prompt`); `×` removes pill.
+- CSS: `public/layouts/basic/modules/Settings/Recruitment/resources/TransitionMail.css` (registered in `TransitionMail.php` `getHeaderCss()`).
+- Save payload: `entries[].templates[{ shortName, deliveryMode }]`.
 
 Smoke: `docker compose exec -T app php tests/recruitment_status_transition_mail_smoke.php` — **clears** `u_yf_recruitment_status_transition_mail`; re-save matrix after run.
+
+Dev pill fixture (no API): `https://dev.itconnect.pl/dev/transition-mail-pills.html` — `public/dev/transition-mail-pills.html`.

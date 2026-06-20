@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Transition mail pills — dev fixture</title>
+	<link rel="stylesheet" href="/layouts/basic/modules/Settings/Recruitment/resources/TransitionMail.css">
+	<style>
+		body {
+			font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+			margin: 1.5rem;
+			color: #333;
+		}
+		h1 { font-size: 1.25rem; margin: 0 0 0.5rem; }
+		.lead { color: #666; font-size: 0.9rem; margin-bottom: 1.25rem; }
+		.hide { display: none !important; }
+		table { border-collapse: collapse; margin-bottom: 1rem; }
+		th, td { border: 1px solid #ddd; padding: 0.5rem; vertical-align: top; }
+		th { background: #f5f5f5; text-align: left; }
+		.btn {
+			display: inline-block;
+			padding: 0.35rem 0.75rem;
+			border: 1px solid #ccc;
+			border-radius: 3px;
+			background: #fff;
+			cursor: pointer;
+			font-size: 0.85rem;
+		}
+		.btn-success { background: #5cb85c; border-color: #4cae4c; color: #fff; }
+		.btn-outline-secondary { background: #fff; }
+		.btn-xs { padding: 0.15rem 0.4rem; font-size: 0.75rem; }
+		#fixture-log {
+			margin-top: 1rem;
+			padding: 0.75rem;
+			background: #f8f8f8;
+			border: 1px solid #e0e0e0;
+			border-radius: 4px;
+			font-size: 0.85rem;
+		}
+		#fixture-log .log-line { margin: 0.25rem 0; }
+		#fixture-log .log-line--error { color: #a94442; }
+		#fixture-log .log-line--success { color: #3c763d; }
+		#fixture-payload {
+			margin-top: 0.75rem;
+			padding: 0.75rem;
+			background: #1e1e1e;
+			color: #d4d4d4;
+			border-radius: 4px;
+			font-size: 0.8rem;
+			overflow: auto;
+			max-height: 16rem;
+		}
+	</style>
+</head>
+<body>
+	<h1>Transition mail pills (dev fixture)</h1>
+	<p class="lead">
+		Isolated harness for <code>TransitionMail.js</code>.
+		Toggle checkbox, add templates, click mode badge (prompt ↔ auto), Save previews JSON (no API).
+	</p>
+
+	<div id="recruitmentTransitionMailContainer">
+		<table class="js-transition-mail-matrix">
+			<thead>
+				<tr>
+					<th>From \ To</th>
+					<th>Passed screening</th>
+					<th>Waiting for interview</th>
+					<th>Row</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr data-from-row="PPL_APPLIED">
+					<th scope="row">Applied</th>
+					<td class="bg-light"></td>
+					<td>
+						<div class="mb-1">
+							<input type="checkbox"
+							       class="js-mail-prompt-checkbox"
+							       data-from="PPL_APPLIED"
+							       data-to="PPL_CANDIDATE_PASSED_SCREENING"
+							       checked="checked"
+							       aria-label="Applied → Passed screening" />
+						</div>
+						<div class="js-mail-templates-wrap mt-1"
+						     data-from="PPL_APPLIED"
+						     data-to="PPL_CANDIDATE_PASSED_SCREENING">
+							<div class="js-mail-template-pills mb-1">
+								<span class="js-mail-template-pill transition-mail-pill"
+								      data-short-name="potwierdzenie_aplikacji"
+								      data-delivery-mode="auto">
+									<span class="transition-mail-pill__name" title="potwierdzenie_aplikacji">potwierdzenie_aplikacji</span>
+									<button type="button" class="js-mail-pill-mode transition-mail-pill__mode transition-mail-pill__mode--auto">auto</button>
+									<button type="button" class="js-mail-pill-remove transition-mail-pill__remove" aria-label="Remove">&times;</button>
+								</span>
+							</div>
+							<select class="form-control input-sm js-mail-add-template"
+							        data-from="PPL_APPLIED"
+							        data-to="PPL_CANDIDATE_PASSED_SCREENING"
+							        aria-label="Add template">
+								<option value="">Add template</option>
+								<option value="potwierdzenie_aplikacji">potwierdzenie_aplikacji</option>
+								<option value="zaproszenie_na_rozmowe">zaproszenie_na_rozmowe</option>
+								<option value="odmowa_po_rozmowie">odmowa_po_rozmowie</option>
+							</select>
+						</div>
+					</td>
+					<td>
+						<div class="mb-1">
+							<input type="checkbox"
+							       class="js-mail-prompt-checkbox"
+							       data-from="PPL_APPLIED"
+							       data-to="PPL_WAITING_FOR_INTERVIEW"
+							       aria-label="Applied → Waiting for interview" />
+						</div>
+						<div class="js-mail-templates-wrap mt-1 hide"
+						     data-from="PPL_APPLIED"
+						     data-to="PPL_WAITING_FOR_INTERVIEW">
+							<div class="js-mail-template-pills mb-1"></div>
+							<select class="form-control input-sm js-mail-add-template"
+							        data-from="PPL_APPLIED"
+							        data-to="PPL_WAITING_FOR_INTERVIEW"
+							        aria-label="Add template">
+								<option value="">Add template</option>
+								<option value="potwierdzenie_aplikacji">potwierdzenie_aplikacji</option>
+								<option value="zaproszenie_na_rozmowe">zaproszenie_na_rozmowe</option>
+								<option value="odmowa_po_rozmowie">odmowa_po_rozmowie</option>
+							</select>
+						</div>
+					</td>
+					<td class="text-nowrap">
+						<button type="button" class="btn btn-xs btn-outline-secondary js-mail-select-row" data-from="PPL_APPLIED">All</button>
+						<button type="button" class="btn btn-xs btn-outline-secondary js-mail-clear-row" data-from="PPL_APPLIED">Clear</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<button type="button" class="btn btn-success js-save-transition-mail">Save (preview payload)</button>
+		<button type="button" class="btn js-fixture-preview-json" id="fixture-preview-json">Preview JSON</button>
+	</div>
+
+	<div id="fixture-log" aria-live="polite"></div>
+	<pre id="fixture-payload">{}</pre>
+
+	<script src="/libraries/jquery/jquery.min.js"></script>
+	<script src="/libraries/jquery/jquery.class.js"></script>
+	<script>
+		window.FREECRM_TRANSITION_MAIL_MANUAL_INIT = true;
+		(function () {
+			const strings = {
+				'LBL_DELIVERY_PROMPT': 'prompt',
+				'LBL_DELIVERY_AUTO': 'auto',
+				'LBL_PILL_REMOVE': 'Remove',
+				'LBL_DELIVERY_MODE_TOGGLE': 'Click to toggle prompt / auto',
+				'LBL_SAVE_TRANSITION_MAIL_SHORT_NAMES_REQUIRED': 'Each enabled transition must have at least one template.',
+				'LBL_SAVE_TRANSITION_MAIL_SUCCESS': 'Payload OK (fixture — not saved).',
+				'LBL_SAVE_TRANSITION_MAIL_FAILED': 'Save failed.'
+			};
+
+			window.app = {
+				vtranslate: function (key) {
+					return strings[key] || key;
+				},
+				saveAjax: function (_action, payload) {
+					const deferred = jQuery.Deferred();
+					setTimeout(function () {
+						deferred.resolve({
+							result: {
+								success: true,
+								message: 'LBL_SAVE_TRANSITION_MAIL_SUCCESS'
+							}
+						});
+					}, 0);
+					deferred.payload = payload;
+					return deferred;
+				}
+			};
+
+			window.Vtiger_Helper_Js = {
+				showPnotify: function (opts) {
+					const log = document.getElementById('fixture-log');
+					const line = document.createElement('div');
+					line.className = 'log-line log-line--' + (opts.type || 'info');
+					line.textContent = (opts.type || 'info').toUpperCase() + ': ' + (opts.text || '');
+					log.appendChild(line);
+				}
+			};
+
+			const originalSaveAjax = app.saveAjax;
+			app.saveAjax = function (action, payload) {
+				document.getElementById('fixture-payload').textContent = JSON.stringify(payload, null, 2);
+				return originalSaveAjax(action, payload);
+			};
+
+			window.location.reload = function () {
+				Vtiger_Helper_Js.showPnotify({ text: 'Page reload suppressed (fixture).', type: 'info' });
+			};
+		})();
+	</script>
+	<script src="/layouts/basic/modules/Settings/Recruitment/resources/TransitionMail.js"></script>
+	<script>
+		jQuery(function () {
+			const instance = new Settings_Recruitment_TransitionMail_Js();
+			instance.registerEvents();
+			jQuery('#fixture-preview-json').on('click', function () {
+				const entries = instance.collectEntries();
+				document.getElementById('fixture-payload').textContent = JSON.stringify({ entries: entries }, null, 2);
+				Vtiger_Helper_Js.showPnotify({ text: 'Collected ' + entries.length + ' entr(ies)', type: 'success' });
+			});
+		});
+	</script>
+</body>
+</html>

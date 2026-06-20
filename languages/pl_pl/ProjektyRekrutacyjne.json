@@ -70,7 +70,10 @@
         "PLL_REJECTION_REASON_OTHER_CANDIDATE_CHOSEN": "Wybrano innego kandydata",
         "PLL_REJECTION_REASON_PROJECT_CLOSED": "Proces rekrutacyjny został wstrzymany lub zamknięty",
         "PLL_NO_SUCH_RECORD": "Nie znaleziono rekordu",
-        "PLL_STATUS_TRANSITION_NOT_ALLOWED": "Ta zmiana statusu jest niedozwolona"
+        "PLL_STATUS_TRANSITION_NOT_ALLOWED": "Ta zmiana statusu jest niedozwolona",
+        "JS_TRANSITION_MAIL_AUTO_SENT": "E-mail wysłany automatycznie po zmianie statusu.",
+        "JS_TRANSITION_MAIL_AUTO_PARTIAL": "Część e-maili wysłano automatycznie; część nie powiodła się.",
+        "JS_TRANSITION_MAIL_AUTO_FAILED": "Nie udało się wysłać e-maila automatycznie."
     }
 }
 

@@ -333,6 +333,21 @@ Vtiger_Detail_Js(
 								$(element).find(candidateElement).remove();
 							});
 						}
+						const autoSend = result.autoSend;
+						if (autoSend && (autoSend.sent > 0 || autoSend.failed > 0)) {
+							let toastText;
+							let toastType = 'success';
+							if (autoSend.failed > 0 && autoSend.sent > 0) {
+								toastText = app.vtranslate('JS_TRANSITION_MAIL_AUTO_PARTIAL', app.getModuleName());
+								toastType = 'warning';
+							} else if (autoSend.failed > 0) {
+								toastText = app.vtranslate('JS_TRANSITION_MAIL_AUTO_FAILED', app.getModuleName());
+								toastType = 'error';
+							} else {
+								toastText = app.vtranslate('JS_TRANSITION_MAIL_AUTO_SENT', app.getModuleName());
+							}
+							Vtiger_Helper_Js.showPnotify({ text: toastText, type: toastType });
+						}
 						const mailPrompt = result.mailPrompt;
 						if (mailPrompt && mailPrompt.templateIds && mailPrompt.templateIds.length
 							&& typeof Vtiger_Index_Js !== 'undefined'

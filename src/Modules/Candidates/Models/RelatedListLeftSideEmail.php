@@ -47,20 +47,32 @@ class RelatedListLeftSideEmail
 
 	public static function recordHasEmail(int $recordId): bool
 	{
+		return self::resolvePrimaryEmailField($recordId) !== null;
+	}
+
+	/**
+	 * @return array{field: string, email: string}|null
+	 */
+	public static function resolvePrimaryEmailField(int $recordId): ?array
+	{
 		if (!\App\Utils\Utils::isRecordExists($recordId)) {
-			return false;
+			return null;
 		}
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance('Candidates');
 		if (!$moduleModel) {
-			return false;
+			return null;
 		}
 		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, 'Candidates');
 		foreach ($moduleModel->getFieldsByType('email') as $fieldName => $fieldModel) {
-			if ($fieldModel->isActiveField() && !empty($recordModel->get($fieldName))) {
-				return true;
+			if (!$fieldModel->isActiveField()) {
+				continue;
+			}
+			$email = trim((string) $recordModel->get($fieldName));
+			if ($email !== '') {
+				return ['field' => $fieldName, 'email' => $email];
 			}
 		}
 
-		return false;
+		return null;
 	}
 }
