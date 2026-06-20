@@ -23,8 +23,8 @@
 				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 				<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 				<meta name="robots" content="noindex" />
-				<link rel="preload" href="{vresource_url('libraries/resources/fonts/lato/lato-latin-400-normal.woff2')}" as="font" type="font/woff2" crossorigin>
-				<link rel="preload" href="{vresource_url('libraries/resources/fonts/lato/lato-latin-ext-400-normal.woff2')}" as="font" type="font/woff2" crossorigin>
+				<link rel="preload" href="/libraries/resources/fonts/lato/lato-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+				<link rel="preload" href="/libraries/resources/fonts/lato/lato-latin-ext-400-normal.woff2" as="font" type="font/woff2" crossorigin="anonymous">
 			{/block}
 
 			{block name="styles"}
