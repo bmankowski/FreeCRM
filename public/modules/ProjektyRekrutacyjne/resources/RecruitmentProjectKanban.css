@@ -1,0 +1,38 @@
+.recruitment-project-kanban .candidate-status.drop-allowed {
+	outline: 2px solid #28a745;
+	outline-offset: -2px;
+	background-color: rgba(40, 167, 69, 0.08);
+}
+
+.recruitment-project-kanban .candidate-status.drop-forbidden {
+	outline: 2px dashed #dc3545;
+	outline-offset: -2px;
+	opacity: 0.55;
+}
+
+.recruitment-project-kanban .js-kanban-add-manual-candidate {
+	margin-left: 6px;
+	vertical-align: middle;
+	line-height: 1;
+	padding: 0 6px;
+}
+
+.recruitment-project-kanban .recruitment-kanban-screening {
+	table-layout: fixed;
+	width: 100%;
+}
+
+.recruitment-project-kanban .recruitment-kanban-screening th,
+.recruitment-project-kanban .recruitment-kanban-screening td {
+	width: 33.333%;
+}
+
+.recruitment-project-kanban .recruitment-kanban-quarters {
+	table-layout: fixed;
+	width: 100%;
+}
+
+.recruitment-project-kanban .recruitment-kanban-quarters th,
+.recruitment-project-kanban .recruitment-kanban-quarters td {
+	width: 25%;
+}

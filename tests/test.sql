@@ -183,3 +183,7 @@ INNER JOIN u_yf_candidatescf ON u_yf_candidates.candidatesid = u_yf_candidatescf
 WHERE vtiger_crmentity.deleted=0 AND vtiger_crmentity.setype='Candidates'
 ORDER BY vtiger_crmentity.createdtime DESC
 LIMIT 51;
+
+
+
+SELECT * FROM u_yf_emailtemplates order by emailtemplatesid desc;

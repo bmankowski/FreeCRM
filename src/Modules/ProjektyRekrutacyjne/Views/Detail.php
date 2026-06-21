@@ -25,6 +25,7 @@ class Detail extends \App\Modules\Base\Views\Detail
 		$headerCssInstances = parent::getHeaderCss($request);
 		$relatedListCss = $this->checkAndConvertCssStyles([
 			'modules.ProjektyRekrutacyjne.resources.RelatedList',
+			'modules.ProjektyRekrutacyjne.resources.RecruitmentProjectKanban',
 		]);
 		$headerCssInstances = array_merge($headerCssInstances, $relatedListCss);
 		if ($this->shouldIncludeBootstrap5Utilities($request)) {

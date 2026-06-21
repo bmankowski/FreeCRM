@@ -16,8 +16,8 @@ globs: ["**/*.css", "**/*.scss", "package.json"]
 
 - **Default UI font**: Lato, **self-hosted** (no Google Fonts).
 - **Files**: `public/libraries/resources/fonts/lato/` — woff2 only, weights 400 + 700, **latin + latin-ext** (Polish diacritics).
-- **`@font-face`**: top of `public/layouts/basic/skins/style.css` (then minify). Do not use legacy SVG webfonts — old Open Sans `@font-face` was removed for glyph bbox warnings.
-- **Preload**: `layouts/basic/modules/Base/Header.tpl` and `MainLayout.tpl` preload the two 400-weight files at `/libraries/resources/fonts/lato/…` (root-relative, no `?s=` — must match `@font-face` URLs in `style.css` exactly).
+- **`@font-face`**: top of `public/layouts/basic/skins/style.css` (root-relative `/libraries/…` URLs; then minify). Do not use legacy SVG webfonts — old Open Sans `@font-face` was removed for glyph bbox warnings.
+- **Preload**: `Header.tpl` / `MainLayout.tpl` — `as="font" type="font/woff2" crossorigin="anonymous"`, href `/libraries/resources/fonts/lato/…`. Do **not** use `vresource_url()` (`?s=` ≠ `@font-face` URL → Chrome “preloaded but not used”); keep preload and `style.css` `@font-face` paths identical.
 - **License**: `OFL.txt` in the font directory.
 
 ## CSS Minification
