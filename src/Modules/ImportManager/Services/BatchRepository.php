@@ -48,5 +48,10 @@ class BatchRepository
 
 		return $row !== false ? $row : null;
 	}
+
+	public function delete(int $batchId): void
+	{
+		$this->db->createCommand()->delete('#__import_batches', ['id' => $batchId])->execute();
+	}
 }
 

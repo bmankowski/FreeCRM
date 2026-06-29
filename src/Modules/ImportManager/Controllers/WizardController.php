@@ -387,18 +387,29 @@ class WizardController
 	private function decorateBatchRow(array $row): array
 	{
 		$step = $this->resolveCurrentStep($row);
+		$status = $row['status'] ?? '';
 
 		return [
 			'id' => (int) $row['id'],
 			'module' => $row['module'],
-			'status' => $row['status'],
+			'status' => $status,
 			'created_at' => $row['created_at'],
 			'processed_rows' => $row['processed_rows'] ?? 0,
 			'total_rows' => $row['total_rows'] ?? 0,
 			'error_rows' => $this->countStagingErrors($row),
 			'step' => $step,
 			'continue_url' => $this->buildStepUrl($step, $row),
+			'action_label_key' => $this->resolveActionLabelKey($status),
 		];
+	}
+
+	private function resolveActionLabelKey(string $status): string
+	{
+		return match ($status) {
+			'completed' => 'LBL_VIEW_RESULT',
+			'failed' => 'LBL_VIEW_ERRORS',
+			default => 'LBL_CONTINUE_STEP',
+		};
 	}
 
 	private function ensureBatchAccess(int $batchId, \App\Http\Vtiger_Request $request): array

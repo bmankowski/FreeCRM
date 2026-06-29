@@ -92,6 +92,25 @@ class QueueDispatcher
 			->execute();
 	}
 
+	public function deleteJobsForBatch(int $batchId): void
+	{
+		if ($batchId <= 0) {
+			return;
+		}
+
+		$rows = (new \App\Db\Query())
+			->from('vtiger_import_queue')
+			->where(['temp_status' => [ImportJob::STATUS_SCHEDULED, ImportJob::STATUS_RUNNING]])
+			->all($this->db);
+
+		foreach ($rows as $row) {
+			$payload = \App\Utils\Json::decode($row['field_mapping'] ?? '') ?? [];
+			if ((int) ($payload['batchId'] ?? 0) === $batchId) {
+				$this->delete((int) $row['importid']);
+			}
+		}
+	}
+
 	private function enqueueJob(array $batch, array $payload): ImportJob
 	{
 		$this->db->createCommand()->insert('vtiger_import_queue', [

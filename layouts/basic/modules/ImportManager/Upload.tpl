@@ -25,7 +25,52 @@
 							<input type="hidden" name="batch_id" id="ImportManagerBatchId" />
 
 							<div class="row g-4 align-items-stretch">
-								{* Left column - Main settings *}
+								{* Left column - File upload *}
+								<div class="col-md-4 d-flex">
+									<div class="import-card import-card--upload w-100">
+										<div class="import-card__body">
+											<div class="import-dropzone" id="ImportManagerDropzone">
+												<input type="file" name="import_file" id="ImportManagerFile" class="import-dropzone__input" required />
+												<div class="import-dropzone__content">
+													<div class="import-dropzone__icon">
+														<i class="fa fa-file-upload"></i>
+													</div>
+													<div class="import-dropzone__text">
+														<span class="import-dropzone__main">{\App\Language::translate('LBL_DROP_FILE_HERE', $MODULE_NAME)|default:'Upuść plik tutaj'}</span>
+														<span class="import-dropzone__sub">{\App\Language::translate('LBL_OR_CLICK_TO_BROWSE', $MODULE_NAME)|default:'lub kliknij aby przeglądać'}</span>
+													</div>
+													<div class="import-dropzone__info">
+														<i class="fa fa-info-circle"></i>
+														Max: {$IMPORT_CONFIG.maxUploadSizeMb|default:10} MB
+													</div>
+												</div>
+												<div class="import-dropzone__preview" style="display: none;">
+													<div class="import-dropzone__file-icon">
+														<i class="fa fa-file-csv"></i>
+													</div>
+													<div class="import-dropzone__file-info">
+														<span class="import-dropzone__file-name"></span>
+														<span class="import-dropzone__file-size"></span>
+													</div>
+													<button type="button" class="import-dropzone__remove" title="{\App\Language::translate('LBL_REMOVE', $MODULE_NAME)|default:'Usuń'}">
+														<i class="fa fa-times"></i>
+													</button>
+												</div>
+											</div>
+											
+											<div class="import-formats-hint mt-3">
+												<span class="import-formats-hint__title">{\App\Language::translate('LBL_SUPPORTED_FORMATS', $MODULE_NAME)|default:'Obsługiwane formaty'}:</span>
+												<div class="import-formats-hint__list">
+													<span class="import-format-badge"><i class="fa fa-file-csv"></i> CSV</span>
+													<span class="import-format-badge"><i class="fa fa-file-code"></i> XML</span>
+													<span class="import-format-badge"><i class="fa fa-file-archive"></i> ZIP</span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								{* Right column - Main settings *}
 								<div class="col-md-8 d-flex">
 									<div class="import-card import-card--primary w-100">
 										<div class="import-card__header">
@@ -142,51 +187,6 @@
 										</div>
 									</div>
 								</div>
-
-								{* Right column - File upload *}
-								<div class="col-md-4 d-flex">
-									<div class="import-card import-card--upload w-100">
-										<div class="import-card__body">
-											<div class="import-dropzone" id="ImportManagerDropzone">
-												<input type="file" name="import_file" id="ImportManagerFile" class="import-dropzone__input" required />
-												<div class="import-dropzone__content">
-													<div class="import-dropzone__icon">
-														<i class="fa fa-file-upload"></i>
-													</div>
-													<div class="import-dropzone__text">
-														<span class="import-dropzone__main">{\App\Language::translate('LBL_DROP_FILE_HERE', $MODULE_NAME)|default:'Upuść plik tutaj'}</span>
-														<span class="import-dropzone__sub">{\App\Language::translate('LBL_OR_CLICK_TO_BROWSE', $MODULE_NAME)|default:'lub kliknij aby przeglądać'}</span>
-													</div>
-													<div class="import-dropzone__info">
-														<i class="fa fa-info-circle"></i>
-														Max: {$IMPORT_CONFIG.maxUploadSizeMb|default:10} MB
-													</div>
-												</div>
-												<div class="import-dropzone__preview" style="display: none;">
-													<div class="import-dropzone__file-icon">
-														<i class="fa fa-file-csv"></i>
-													</div>
-													<div class="import-dropzone__file-info">
-														<span class="import-dropzone__file-name"></span>
-														<span class="import-dropzone__file-size"></span>
-													</div>
-													<button type="button" class="import-dropzone__remove" title="{\App\Language::translate('LBL_REMOVE', $MODULE_NAME)|default:'Usuń'}">
-														<i class="fa fa-times"></i>
-													</button>
-												</div>
-											</div>
-											
-											<div class="import-formats-hint mt-3">
-												<span class="import-formats-hint__title">{\App\Language::translate('LBL_SUPPORTED_FORMATS', $MODULE_NAME)|default:'Obsługiwane formaty'}:</span>
-												<div class="import-formats-hint__list">
-													<span class="import-format-badge"><i class="fa fa-file-csv"></i> CSV</span>
-													<span class="import-format-badge"><i class="fa fa-file-code"></i> XML</span>
-													<span class="import-format-badge"><i class="fa fa-file-archive"></i> ZIP</span>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
 							</div>
 							
 							{* Submit button - hidden by default, shown when file and module are selected *}
@@ -226,10 +226,26 @@
 														<i class="fa fa-clock-o"></i>
 														{$BATCH.created_at}
 													</span>
+													{if $BATCH.status neq 'running'}
+														<button type="button"
+															class="import-btn import-btn--small import-btn--danger js-delete-batch"
+															data-batch-id="{$BATCH.id}"
+															title="{\App\Language::translate('LBL_DELETE_BATCH', $MODULE_NAME)}">
+															<i class="fa fa-trash"></i>
+															<span>{\App\Language::translate('LBL_DELETE_BATCH', $MODULE_NAME)}</span>
+														</button>
+													{/if}
 													{if $BATCH.continue_url}
+														{assign var=ACTION_LABEL_KEY value=$BATCH.action_label_key|default:'LBL_CONTINUE_STEP'}
 														<a class="import-btn import-btn--small" href="{$BATCH.continue_url|escape:'html'}">
-															<i class="fa fa-arrow-right"></i>
-															{\App\Language::translate('LBL_CONTINUE_STEP', $MODULE_NAME)}
+															{if $ACTION_LABEL_KEY eq 'LBL_VIEW_RESULT'}
+																<i class="fa fa-check-circle"></i>
+															{elseif $ACTION_LABEL_KEY eq 'LBL_VIEW_ERRORS'}
+																<i class="fa fa-exclamation-triangle"></i>
+															{else}
+																<i class="fa fa-arrow-right"></i>
+															{/if}
+															{\App\Language::translate($ACTION_LABEL_KEY, $MODULE_NAME)}
 														</a>
 													{else}
 														<span class="import-recent-item__disabled">

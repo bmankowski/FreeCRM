@@ -111,6 +111,11 @@
 		this.dom.submitButton = $('#ImportManagerSubmit');
 		
 
+		this.dom.recentList = $('.import-recent-list');
+		if (this.dom.recentList.length) {
+			this.dom.recentList.on('click', '.js-delete-batch', this.handleDeleteBatch.bind(this));
+		}
+
 		this.toggleFormatFieldsVisibility();
 		this.dom.formatField.on('change', this.toggleFormatFieldsVisibility.bind(this));
 		this.dom.targetModule.on('change', this.handleTargetModuleChange.bind(this));
@@ -258,6 +263,47 @@
 			return;
 		}
 		this.uploadAndPreview();
+	};
+
+	ImportManager.prototype.handleDeleteBatch = function (event) {
+		event.preventDefault();
+		const $btn = $(event.currentTarget);
+		const batchId = parseInt($btn.data('batchId'), 10);
+		if (!batchId) {
+			return;
+		}
+		if (!window.confirm(t('JS_DELETE_BATCH_CONFIRM', 'Usunąć ten import z historii? Tej operacji nie można cofnąć.'))) {
+			return;
+		}
+
+		const indicator = this.showProgress(t('LBL_PLEASE_WAIT', 'Proszę czekać...'));
+		$.ajax({
+			url: 'index.php',
+			type: 'POST',
+			dataType: 'json',
+			data: {
+				module: 'ImportManager',
+				action: 'DeleteBatch',
+				batch_id: batchId,
+				csrfMagicToken: window.csrfMagicToken || ''
+			}
+		})
+			.done((response) => {
+				indicator.progressIndicator({ mode: 'hide' });
+				if (!response || response.success !== true) {
+					this.handleError(response);
+					return;
+				}
+				const $item = $btn.closest('.import-recent-item');
+				$item.fadeOut(200, function () {
+					$(this).remove();
+				});
+				this.showToast(t('LBL_BATCH_DELETED', 'Import został usunięty.'), 'success');
+			})
+			.fail((jqXHR) => {
+				indicator.progressIndicator({ mode: 'hide' });
+				this.handleError(jqXHR);
+			});
 	};
 
 
