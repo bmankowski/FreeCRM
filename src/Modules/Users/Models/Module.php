@@ -364,4 +364,36 @@ class Module extends \App\Modules\Base\Models\Module
 		}
 		return $editFields;
 	}
+
+	/**
+	 * UI-only "confirm password" field used during user creation.
+	 *
+	 * It is intentionally not registered in vtiger_field (the legacy
+	 * confirm_password column was dropped) - it only exists so the create form
+	 * can render a retype input and the Save flow can compare it against
+	 * user_password. It is never persisted.
+	 */
+	public function getConfirmPasswordField(): \App\Modules\Users\Models\Field
+	{
+		$passwordField = $this->getField('user_password');
+		$field = \App\Modules\Users\Models\Field::fromRow([
+			'fieldid' => 0,
+			'tabid' => (int) $this->getId(),
+			'fieldname' => 'confirm_password',
+			'fieldlabel' => 'LBL_CONFIRM_PASSWORD',
+			'tablename' => 'vtiger_users',
+			'columnname' => 'confirm_password',
+			'uitype' => 99,
+			'typeofdata' => 'V~M',
+			'displaytype' => 1,
+			'mandatory' => 1,
+			'presence' => 0,
+			'readonly' => 0,
+			'sequence' => (int) $passwordField->get('sequence') + 1,
+			'block' => $passwordField->getDefinition()?->block,
+		]);
+		$field->set('editable', true);
+		$field->set('fieldvalue', '');
+		return $field;
+	}
 }

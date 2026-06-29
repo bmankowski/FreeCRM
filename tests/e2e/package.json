@@ -3,13 +3,15 @@
   "version": "1.0.0",
   "description": "End-to-end tests for FreeCRM",
   "scripts": {
-    "test": "playwright test",
-    "test:e2e": "playwright test --reporter=./reporters/ai-feed-reporter.ts",
-    "test:ui": "playwright test --ui",
-    "test:debug": "playwright test --debug",
-    "test:headed": "playwright test --headed",
-    "codegen": "playwright codegen https://dev.itconnect.pl",
-    "report": "playwright show-report",
+    "pw": "PLAYWRIGHT_HOST_PLATFORM_OVERRIDE=ubuntu24.04-x64 node node_modules/@playwright/test/cli.js",
+    "test": "npm run pw -- test --reporter=list",
+    "test:e2e": "npm run pw -- test --reporter=./reporters/ai-feed-reporter.ts",
+    "test:ui": "npm run pw -- test --ui",
+    "test:debug": "npm run pw -- test --debug",
+    "test:headed": "npm run pw -- test --headed",
+    "install:browsers": "npm run pw -- install chromium",
+    "codegen": "npm run pw -- codegen https://dev.itconnect.pl",
+    "report": "npm run pw -- show-report",
     "crawl:modules": "tsx scripts/module-crawler.ts"
   },
   "keywords": [

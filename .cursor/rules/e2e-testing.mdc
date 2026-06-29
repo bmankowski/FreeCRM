@@ -1,0 +1,52 @@
+---
+description: "Writing Playwright e2e tests for FreeCRM — structure, run commands, list-view/search mechanics, select2 handling. Read when adding/debugging tests under tests/e2e."
+globs: tests/e2e/**/*.ts
+alwaysApply: false
+---
+
+# FreeCRM E2E Tests (Playwright)
+
+Tests live in `tests/e2e`. Target is **`https://dev.itconnect.pl`** (set as `baseURL`; local Docker stack, WSL cannot reach `localhost`). Login: `admin` / `NewArgon2idAdmin#42` (see `login-credentials.mdc`).
+
+## Layout & run
+- `tests/<area>/<Module>/<feature>.spec.ts`, page objects in `pages/<Module>Page.ts`, auth in `fixtures/auth.fixture.ts`.
+- The `playwright` binary often lacks exec perm → **always run via npm**: `npm run pw -- test <path> --reporter=list` (cwd `tests/e2e`). `npm run pw` = `node node_modules/@playwright/test/cli.js`.
+
+## Auth & test skeleton
+Use the `authenticatedPage` fixture (handles login):
+```ts
+import { test, expect } from '../../../fixtures/auth.fixture';
+test.beforeEach(async ({ authenticatedPage }) => { /* new XxxPage(authenticatedPage); gotoList() */ });
+```
+
+## Module URLs & navigation
+- List view: `/index.php?module=<Module>&view=ListView` — **omit `mid`/`parent`** (menu-id specific, env-fragile; ListView works without them).
+- Switch saved filter/custom view by visible name via `#customFilter` (select2): `selectOption({ label: 'Wszystkie' }, { force: true })`; its native `change` reloads the list.
+
+## List view selectors
+- Table: `table.listViewEntriesTable`. Data rows: `tbody tr.listViewEntries`.
+- Inline search inputs/selects: `.listSearchContributor[name="<columnname>"]`.
+- Search submit button: `[data-trigger="listSearch"]`.
+- Row cells have **no** `data-name` — map columns by header text: find `thead th` whose text == label, read `td` at the **same index** (leading checkbox col is index 0 in both).
+
+## Inline search mechanics (important)
+- **Text fields**: type value + press `Enter` (keyCode 13) to submit.
+- **Picklist/select2 fields**: selecting a value does **NOT** auto-submit (this instance has `autoRefreshListOnChange != '1'`; see `public/layouts/basic/modules/Base/resources/ListSearch.js` ~line 90). You must click `[data-trigger="listSearch"]` afterwards.
+- After submit the list reloads via AJAX and the URL gets e.g. `search_params=[[["etap_sprzedazy","c","Aktywna"]]]`. Wait with `waitForLoadState('networkidle')` + table visible.
+
+## select2 fields
+Hidden selects carry class `select2-hidden-accessible` (1px box, not `display:none`). Drive them through the **native `<select>`** with Playwright `selectOption({ label }, { force: true })` — the list search reads the native `.val()`, so the select2 chip visuals don't matter.
+
+## Discovering field/picklist/view data (MCP, read-only)
+Use the `freecrm-mysql` MCP server (see `mcp-database-access.mdc`), not Docker shell:
+- Fields of a module: `SELECT fieldname,columnname,uitype FROM vtiger_field WHERE tabid=<id>`.
+- Picklist values: `SELECT <name> FROM vtiger_<name>` (e.g. `vtiger_etap_sprzedazy`).
+- Custom views / saved filters: `vtiger_customview` (name, setdefault), columns in `vtiger_cvcolumnlist`, criteria in `vtiger_cvadvfilter`.
+- `tabid` map: `user_privileges/tabdata.php`.
+
+## Verifying live DOM
+Inspect real selectors with the `cursor-ide-browser` MCP (navigate + `Runtime.evaluate`); CDP `Input.*` is denied — trigger handlers with element `.click()` inside `Runtime.evaluate` when refs go stale.
+
+## Conventions
+- Add the standard FreeCRM file header to new `.ts` files.
+- Keep page objects thin and reusable; assert on data (e.g. every visible "Etap sprzedaży" cell == "Aktywna"), not just row counts.

@@ -31,7 +31,11 @@ class QuickCreateRecordStructure extends \App\Modules\Base\Models\RecordStructur
 		$fieldModelList = array();
 		$quickCreateFields = array('user_name', 'email1', 'first_name', 'last_name', 'user_password', 'confirm_password', 'roleid', 'is_admin', 'status');
 		foreach ($quickCreateFields as $field) {
-			$fieldModelList[$field] = $moduleModel->getField($field);
+			if ($field === 'confirm_password') {
+				$fieldModelList[$field] = $moduleModel->getConfirmPasswordField();
+			} else {
+				$fieldModelList[$field] = $moduleModel->getField($field);
+			}
 		}
 
 		foreach ($fieldModelList as $fieldName => $fieldModel) {

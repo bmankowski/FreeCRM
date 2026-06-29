@@ -68,6 +68,9 @@ class EditRecordStructure extends \App\Modules\Base\Models\RecordStructure
 							$fieldModel->set('editable', true);
 							$fieldModel->set('fieldvalue', '');
 							$values[$blockLabel][$fieldName] = $fieldModel;
+							if ($fieldName == 'user_password') {
+								$values[$blockLabel]['confirm_password'] = $moduleModel->getConfirmPasswordField();
+							}
 						} else if ($fieldModel->get('uitype') != 99) {
 							$values[$blockLabel][$fieldName] = $fieldModel;
 						}

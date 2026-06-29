@@ -50,6 +50,22 @@ alwaysApply: false
 - Use `curl` to test API endpoints quickly.
 - Monitor `system.log` live during testing sessions (e.g. `tail -f`).
 
+## E2E tests (Playwright)
+
+Suite lives in `tests/e2e/` (target: `https://dev.itconnect.pl`, ~87 specs, mostly `Contacts`). Run from repo root:
+
+| Command | Purpose |
+|---------|---------|
+| `npm run test:e2e` | Full suite (list reporter) |
+| `npm run test:e2e -- tests/Modules/Contacts` | One module / file |
+| `npm run test:e2e:ui` / `:debug` / `:headed` | Interactive / debug / headed |
+| `npm run test:e2e:html` then `:report` | HTML report |
+| `npm run test:e2e:install` | One-time Chromium download |
+
+Login defaults to `admin` / pw in `tests/e2e/helpers/login.ts`; override with `FREECRM_USER` / `FREECRM_PASS`.
+
+**WSL / Ubuntu 26.04 quirk (already handled by the `pw` wrapper script):** Playwright 1.40 has no Ubuntu 26.04 build and the `node_modules/.bin/playwright` symlink isn't executable. The `pw` script in `tests/e2e/package.json` sets `PLAYWRIGHT_HOST_PLATFORM_OVERRIDE=ubuntu24.04-x64` and invokes `node node_modules/@playwright/test/cli.js`. Use the same env override if running the CLI by hand (incl. `install chromium`). The 24.04 fallback binaries run fine on 26.04.
+
 ## ModuleManager create / delete
 
 Symptoms and fixes discovered in production debugging — verify **both** directions via Settings → ModuleManager UI on dev, not CLI alone.
