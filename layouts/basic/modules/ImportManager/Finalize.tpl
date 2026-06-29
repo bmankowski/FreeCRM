@@ -16,6 +16,8 @@
 					{assign var=TOTAL_ROWS value=$IMPORT_STATS.total|default:0}
 					{assign var=ERROR_ROWS value=$IMPORT_STATS.errors|default:0}
 					{assign var=READY_ROWS value=$IMPORT_STATS.ready|default:$TOTAL_ROWS-$ERROR_ROWS}
+					{assign var=IS_COMPLETED value=($IMPORT_BATCH.status eq 'completed' || $IMPORT_BATCH.status eq 'failed')}
+					{assign var=IMPORT_RESULT value=$IMPORT_IMPORT_SUMMARY|default:[]}
 
 					{include file='BatchInfo.tpl'|@vtemplate_path:$MODULE 
 								BATCH_STAGE_SUMMARY="`$READY_ROWS` / `$TOTAL_ROWS`"}
@@ -36,25 +38,51 @@
 							<div id="ImportManagerConfirmationStatus" class="alert alert-info d-none" role="status"></div>
 
 							{* Stats Summary *}
-							<div class="import-staging-stats mb-4">
-								<div class="import-staging-stat">
-									<div class="import-staging-stat__value">{$TOTAL_ROWS}</div>
-									<div class="import-staging-stat__label">
-										{\App\Language::translate('LBL_TOTAL_ROWS', $MODULE_NAME)|default:'Wszystkich'}</div>
+							{if $IS_COMPLETED}
+								<div class="import-staging-stats mb-4">
+									<div class="import-staging-stat import-staging-stat--success">
+										<div class="import-staging-stat__value">{$IMPORT_RESULT.created|default:0}</div>
+										<div class="import-staging-stat__label">
+											{\App\Language::translate('LBL_CREATED_ROWS', $MODULE_NAME)|default:'Utworzono'}</div>
+									</div>
+									<div class="import-staging-stat">
+										<div class="import-staging-stat__value">{$IMPORT_RESULT.updated|default:0}</div>
+										<div class="import-staging-stat__label">
+											{\App\Language::translate('LBL_UPDATED_ROWS', $MODULE_NAME)|default:'Zaktualizowano'}</div>
+									</div>
+									<div class="import-staging-stat import-staging-stat--warning">
+										<div class="import-staging-stat__value">{$IMPORT_RESULT.skipped|default:0}</div>
+										<div class="import-staging-stat__label">
+											{\App\Language::translate('LBL_SKIPPED_ROWS', $MODULE_NAME)|default:'Pominięto (duplikaty)'}</div>
+									</div>
+									<div class="import-staging-stat import-staging-stat--danger">
+										<div class="import-staging-stat__value">{$IMPORT_RESULT.failed|default:0}</div>
+										<div class="import-staging-stat__label">
+											{\App\Language::translate('LBL_ERROR_ROWS', $MODULE_NAME)|default:'Błędnych'}</div>
+									</div>
 								</div>
-								<div class="import-staging-stat import-staging-stat--success">
-									<div class="import-staging-stat__value">{$READY_ROWS}</div>
-									<div class="import-staging-stat__label">
-										{\App\Language::translate('LBL_READY_ROWS', $MODULE_NAME)|default:'Gotowych'}</div>
+							{else}
+								<div class="import-staging-stats mb-4">
+									<div class="import-staging-stat">
+										<div class="import-staging-stat__value">{$TOTAL_ROWS}</div>
+										<div class="import-staging-stat__label">
+											{\App\Language::translate('LBL_TOTAL_ROWS', $MODULE_NAME)|default:'Wszystkich'}</div>
+									</div>
+									<div class="import-staging-stat import-staging-stat--success">
+										<div class="import-staging-stat__value">{$READY_ROWS}</div>
+										<div class="import-staging-stat__label">
+											{\App\Language::translate('LBL_READY_ROWS', $MODULE_NAME)|default:'Gotowych'}</div>
+									</div>
+									<div class="import-staging-stat import-staging-stat--danger">
+										<div class="import-staging-stat__value">{$ERROR_ROWS}</div>
+										<div class="import-staging-stat__label">
+											{\App\Language::translate('LBL_ERROR_ROWS', $MODULE_NAME)|default:'Błędnych'}</div>
+									</div>
 								</div>
-								<div class="import-staging-stat import-staging-stat--danger">
-									<div class="import-staging-stat__value">{$ERROR_ROWS}</div>
-									<div class="import-staging-stat__label">
-										{\App\Language::translate('LBL_ERROR_ROWS', $MODULE_NAME)|default:'Błędnych'}</div>
-								</div>
-							</div>
+							{/if}
 
 							{* Action Buttons *}
+							{if !$IS_COMPLETED}
 							<div class="import-staging-actions">
 								<div class="import-staging-actions__label">
 									{\App\Language::translate('LBL_FINALIZE_ACTION_HINT', $MODULE_NAME)|default:'Wybierz sposób importu:'}
@@ -70,6 +98,7 @@
 									</button>
 								</div>
 							</div>
+							{/if}
 
 							{* Result Message *}
 							{if $RESULT_MESSAGE_TEXT}

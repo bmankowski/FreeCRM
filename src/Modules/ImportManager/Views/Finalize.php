@@ -21,7 +21,15 @@ class Finalize extends \App\Modules\Base\Views\Index
 		}
 
 		$controller = new WizardController();
-		$context = $controller->buildFinalizeContext($batchId, $request);
+		try {
+			$context = $controller->buildFinalizeContext($batchId, $request);
+		} catch (\RuntimeException $exception) {
+			if ($exception->getMessage() === 'STAGING_REQUIRED') {
+				header('Location: index.php?module=ImportManager&view=Staging&batch_id=' . $batchId);
+				exit;
+			}
+			throw $exception;
+		}
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('IMPORT_BATCH', $context['batch']);

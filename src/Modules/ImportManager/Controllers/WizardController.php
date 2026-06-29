@@ -188,20 +188,36 @@ class WizardController
 	public function buildFinalizeContext(int $batchId, \App\Http\Vtiger_Request $request): array
 	{
 		$batch = $this->ensureBatchAccess($batchId, $request);
+		if (!in_array($batch['status'] ?? '', ['staged', 'running', 'completed', 'failed'], true)) {
+			throw new \RuntimeException('STAGING_REQUIRED');
+		}
+
 		$stats = $this->buildStageStats($batch);
-		
-		// Przygotuj gotowe stringi z tłumaczeniami (bez sprintf w szablonie)
+		$importResult = $this->resolveImportResult($batch);
+
 		$readyInfoText = \App\Language::translate('LBL_IMPORT_READY_INFO', 'ImportManager', $stats['ready'], $stats['errors']);
-		
+
 		$importSummary = [
 			'status' => $batch['status'],
-			'processed' => (int) ($batch['processed_rows'] ?? 0),
-			'errors' => $stats['errors'], // Użyj aktualnej liczby błędów z tabeli stagingowej
+			'created' => $importResult['created'],
+			'updated' => $importResult['updated'],
+			'skipped' => $importResult['skipped'],
+			'failed' => $importResult['failed'],
+			'total' => $importResult['total'],
+			'processed' => $importResult['created'] + $importResult['updated'],
+			'errors' => $importResult['failed'],
 		];
-		
+
 		$resultMessageText = null;
-		if ($importSummary['processed'] > 0 || $importSummary['errors'] > 0) {
-			$resultMessageText = \App\Language::translate('LBL_IMPORT_RESULT_MESSAGE_SHORT', 'ImportManager', $importSummary['processed'], $importSummary['errors']);
+		if (in_array($batch['status'], ['completed', 'failed'], true)) {
+			$resultMessageText = \App\Language::translate(
+				'LBL_IMPORT_RESULT_MESSAGE',
+				'ImportManager',
+				$importResult['created'],
+				$importResult['updated'],
+				$importResult['skipped'],
+				$importResult['failed']
+			);
 		}
 
 		return [
@@ -519,8 +535,7 @@ class WizardController
 	{
 		$total = (int) ($batch['total_rows'] ?? 0);
 		$processed = (int) ($batch['processed_rows'] ?? 0);
-		
-		// Pobierz aktualną liczbę błędów z tabeli stagingowej (nie z metadanych batcha)
+
 		$errors = $this->countStagingErrors($batch);
 		$ready = max($total - $errors, 0);
 
@@ -531,6 +546,73 @@ class WizardController
 			'ready' => $ready,
 			'status' => $batch['status'],
 			'updated_at' => $batch['updated_at'] ?? null,
+		];
+	}
+
+	/**
+	 * @return array{created:int, updated:int, skipped:int, failed:int, total:int}
+	 */
+	private function resolveImportResult(array $batch): array
+	{
+		$empty = ['created' => 0, 'updated' => 0, 'skipped' => 0, 'failed' => 0, 'total' => 0];
+		$options = \App\Utils\Json::decode($batch['options'] ?? '') ?? [];
+		if (!is_array($options)) {
+			$options = [];
+		}
+		$stored = $options['import_result'] ?? null;
+		if (is_array($stored)) {
+			return [
+				'created' => (int) ($stored['created'] ?? 0),
+				'updated' => (int) ($stored['updated'] ?? 0),
+				'skipped' => (int) ($stored['skipped'] ?? 0),
+				'failed' => (int) ($stored['failed'] ?? 0),
+				'total' => (int) ($stored['total'] ?? 0),
+			];
+		}
+
+		if (!in_array($batch['status'] ?? '', ['completed', 'failed'], true)) {
+			return $empty;
+		}
+
+		$batchId = (int) ($batch['id'] ?? 0);
+		$moduleName = (string) ($batch['module'] ?? '');
+		if ($batchId <= 0 || $moduleName === '') {
+			return $empty;
+		}
+
+		$tableName = $this->tableManager->getTableName($moduleName, $batchId);
+		$db = \App\Db\Db::getInstance();
+		if (!$db->getTableSchema($tableName, true)) {
+			return [
+				'created' => (int) ($batch['processed_rows'] ?? 0),
+				'updated' => 0,
+				'skipped' => 0,
+				'failed' => (int) ($batch['error_rows'] ?? 0),
+				'total' => (int) ($batch['total_rows'] ?? 0),
+			];
+		}
+
+		$counts = (new \App\Db\Query())
+			->select(['validation_status', 'cnt' => 'COUNT(*)'])
+			->from($tableName)
+			->groupBy('validation_status')
+			->all($db);
+
+		$byStatus = [];
+		foreach ($counts as $row) {
+			$byStatus[(string) $row['validation_status']] = (int) $row['cnt'];
+		}
+
+		$skipped = $byStatus['skipped'] ?? 0;
+		$failed = ($byStatus['error'] ?? 0) + ($byStatus[RecordValidator::STATUS_FAILED] ?? 0);
+		$imported = $byStatus['imported'] ?? 0;
+
+		return [
+			'created' => $imported,
+			'updated' => 0,
+			'skipped' => $skipped,
+			'failed' => $failed,
+			'total' => array_sum($byStatus),
 		];
 	}
 	

@@ -772,6 +772,14 @@
 		
 		// Use CRM's standard modal system
 		const modalHtml = $modalContent.clone().removeClass('d-none').show();
+		// app.showModalWindow clones this markup into #globalmodal, duplicating every
+		// element id. A label[for=id] then resolves (via getElementById) to the hidden
+		// original checkbox instead of the visible clone, so selecting fields silently
+		// fails. Strip the field ids/for: the input sits inside its label, so implicit
+		// label association toggles the clone's own checkbox when the row is clicked.
+		modalHtml.removeAttr('id');
+		modalHtml.find('.js-duplicate-field-checkbox').removeAttr('id');
+		modalHtml.find('label.import-field-checkbox[for]').removeAttr('for');
 		app.showModalWindow(modalHtml, function(modalContainer) {
 			// Re-bind the save button in the new modal instance
 			modalContainer.find('#ImportManagerSaveDuplicateRule').off('click').on('click', function() {
@@ -790,20 +798,16 @@
 			fieldNames.push(name);
 		});
 		if (fieldNames.length === 0) {
-			app.showNotify({
-				title: t('JS_SELECT_AT_LEAST_ONE_FIELD', 'Wybierz co najmniej jedno pole.'),
-				type: 'error'
-			});
+			this.showToast(t('JS_SELECT_AT_LEAST_ONE_FIELD', 'Wybierz co najmniej jedno pole.'), 'error');
 			return;
 		}
 		const label = selectedFields.join(' + ');
 		this.addDuplicateChip(fieldNames, label);
 		this.toggleDuplicateEmptyState();
-		app.hideModalWindow();
-		app.showNotify({
-			title: t('JS_DUPLICATE_RULE_ADDED', 'Reguła duplikatów została dodana.'),
-			type: 'success'
-		});
+		if (window.app && typeof app.hideModalWindow === 'function') {
+			app.hideModalWindow();
+		}
+		this.showToast(t('JS_DUPLICATE_RULE_ADDED', 'Reguła duplikatów została dodana.'), 'success');
 		// Auto-save to database
 		this.saveDuplicateSetsToDatabase();
 	};
@@ -1018,12 +1022,11 @@
 				if (result.result) {
 					this.state.importSummary = result.result;
 					if (this.dom.confirmationStatus.length) {
+						const message = result.message || this.formatImportResultMessage(result.result);
 						this.dom.confirmationStatus
-							.removeClass('d-none')
-							.text(
-								t('LBL_IMPORT_RESULT_MESSAGE', 'Import zakończony. Utworzono: %s, zaktualizowano: %s, błędy: %s.')
-									.replace('%s, zaktualizowano: %s, błędy: %s.', result.result.created + ', zaktualizowano: ' + result.result.updated + ', błędy: ' + result.result.failed + '.')
-							);
+							.removeClass('d-none alert-info alert-success')
+							.addClass('alert-success')
+							.text(message);
 					}
 					window.location.reload();
 				}
@@ -1035,6 +1038,21 @@
 	};
 
 	/* ----------------------- Helpers ----------------------- */
+	ImportManager.prototype.formatImportResultMessage = function (result) {
+		const template = t(
+			'LBL_IMPORT_RESULT_MESSAGE',
+			'Import zakończony. Utworzono: %s, zaktualizowano: %s, pominięto: %s, błędy: %s.'
+		);
+		const values = [
+			result.created ?? 0,
+			result.updated ?? 0,
+			result.skipped ?? 0,
+			result.failed ?? 0,
+		];
+		let index = 0;
+		return template.replace(/%s/g, () => String(values[index++] ?? ''));
+	};
+
 	ImportManager.prototype.showProgress = function (message) {
 		return $.progressIndicator({
 			message: message || t('LBL_PLEASE_WAIT', 'Proszę czekać...'),
@@ -1056,14 +1074,19 @@
 	};
 
 	ImportManager.prototype.showToast = function (text, type) {
+		type = type || 'info';
 		if (window.app && typeof app.showNotify === 'function') {
 			app.showNotify({ text: text, type: type });
+			return;
+		}
+		if (window.Vtiger_Helper_Js && typeof Vtiger_Helper_Js.showPnotify === 'function') {
+			Vtiger_Helper_Js.showPnotify({ text: text, type: type });
+			return;
+		}
+		if (type === 'error') {
+			console.error(text);
 		} else {
-			if (type === 'error') {
-				console.error(text);
-			} else {
-				console.log(text);
-			}
+			console.log(text);
 		}
 	};
 

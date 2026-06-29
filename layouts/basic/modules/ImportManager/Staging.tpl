@@ -118,11 +118,18 @@
 										<span class="badge badge-light ml-2">{$ERROR_ROWS}</span>
 									</a>
 								{/if}
-								<a href="index.php?module=ImportManager&view=Finalize&batch_id={$IMPORT_BATCH.id}"
-									class="import-btn import-btn--primary">
-									<span>{\App\Language::translate('LBL_GO_TO_FINALIZE', $MODULE_NAME)}</span>
-									<i class="fa fa-arrow-right ml-2"></i>
-								</a>
+								{if $IMPORT_BATCH.status eq 'staged'}
+									<a href="index.php?module=ImportManager&view=Finalize&batch_id={$IMPORT_BATCH.id}"
+										class="import-btn import-btn--primary">
+										<span>{\App\Language::translate('LBL_GO_TO_FINALIZE', $MODULE_NAME)}</span>
+										<i class="fa fa-arrow-right ml-2"></i>
+									</a>
+								{elseif $IMPORT_BATCH.status eq 'duplicates_ready'}
+									<span class="text-muted">
+										<i class="fa fa-info-circle"></i>
+										{\App\Language::translate('LBL_STAGING_REQUIRED_FIRST', $MODULE_NAME)}
+									</span>
+								{/if}
 							</div>
 						</div>
 					</div>

@@ -73,6 +73,14 @@ class Import extends BaseActionController
 			$response->setResult([
 				'queued' => false,
 				'result' => $result,
+				'message' => \App\Language::translate(
+					'LBL_IMPORT_RESULT_MESSAGE',
+					'ImportManager',
+					$result['created'],
+					$result['updated'],
+					$result['skipped'],
+					$result['failed']
+				),
 			]);
 		} catch (\Throwable $exception) {
 			\App\Log\Log::error('ImportManager final import failed: ' . $exception->getMessage(), 'ImportManager');

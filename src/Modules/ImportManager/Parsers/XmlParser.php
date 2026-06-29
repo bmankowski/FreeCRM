@@ -118,7 +118,7 @@ class XmlParser implements ParserInterface
 		$domNode = $dom->importNode($node, true);
 		$dom->appendChild($domNode);
 		$simple = simplexml_import_dom($domNode);
-		$data = $this->flattenNode($simple);
+		$data = $this->flattenNode($simple, '', true);
 
 		foreach (array_keys($data) as $key) {
 			if (!in_array($key, $this->headers, true)) {
@@ -129,15 +129,27 @@ class XmlParser implements ParserInterface
 		return $this->alignRow($data);
 	}
 
-	private function flattenNode(\SimpleXMLElement $node, string $prefix = ''): array
+	private function flattenNode(\SimpleXMLElement $node, string $prefix = '', bool $isRoot = false): array
 	{
+		$attributes = $node->attributes();
+		$children = $node->children();
+
+		// FreeCRM export convention: a leaf field carries its display label in the
+		// `label` attribute and the value as text content. Collapse both into one
+		// column whose header is the label and whose cell is the value.
+		if (count($children) === 0 && isset($attributes['label'])) {
+			return [trim((string) $attributes['label']) => trim((string) $node)];
+		}
+
 		$result = [];
-		foreach ($node->attributes() as $name => $value) {
+		foreach ($attributes as $name => $value) {
+			if ($isRoot && $name === 'module') {
+				continue;
+			}
 			$key = trim($prefix . '@' . $name, '.');
 			$result[$key] = (string) $value;
 		}
 
-		$children = $node->children();
 		if (count($children) === 0) {
 			$result[$prefix !== '' ? $prefix : 'value'] = trim((string) $node);
 		} else {

@@ -73,6 +73,7 @@ class BatchProcessor
 
 	public function import(int $batchId): array
 	{
+		$this->ensureStaged($batchId);
 		$context = $this->buildContext($batchId);
 		$this->batches->update($batchId, [
 			'status' => 'running',
@@ -86,6 +87,7 @@ class BatchProcessor
 				'processed_rows' => $result['created'] + $result['updated'],
 				'error_rows' => $result['failed'],
 				'finished_at' => date('Y-m-d H:i:s'),
+				'options' => $this->mergeBatchOptions($batchId, ['import_result' => $result]),
 			]);
 			return $result;
 		} catch (\Throwable $exception) {
@@ -96,6 +98,38 @@ class BatchProcessor
 			]);
 			throw $exception;
 		}
+	}
+
+	private function ensureStaged(int $batchId): void
+	{
+		$batch = $this->batches->find($batchId);
+		if (!$batch) {
+			throw new \RuntimeException('Nie znaleziono wskazanego wsadu.');
+		}
+
+		$tableName = $this->tables->getTableName((string) $batch['module'], $batchId);
+		if ((bool) $this->db()->getTableSchema($tableName, true)) {
+			return;
+		}
+
+		if (!in_array($batch['status'] ?? '', ['duplicates_ready', 'staged'], true)) {
+			throw new \RuntimeException('Tabela staging nie istnieje – przygotuj dane ponownie.');
+		}
+
+		$this->stage($batchId);
+	}
+
+	private function mergeBatchOptions(int $batchId, array $patch): string
+	{
+		$batch = $this->batches->find($batchId);
+		$options = \App\Utils\Json::decode($batch['options'] ?? '') ?? [];
+		if (!is_array($options)) {
+			$options = [];
+		}
+		foreach ($patch as $key => $value) {
+			$options[$key] = $value;
+		}
+		return \App\Utils\Json::encode($options);
 	}
 
 	private function buildContext(int $batchId): array
