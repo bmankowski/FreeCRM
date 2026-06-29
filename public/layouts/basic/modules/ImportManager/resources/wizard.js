@@ -9,6 +9,7 @@
 	const VIEW_DUPLICATES = 'duplicates';
 	const VIEW_STAGING = 'staging';
 	const VIEW_FINALIZE = 'finalize';
+	const VIEW_HISTORY = 'history';
 
 	$(function () {
 		const root = document.getElementById('ImportManagerRoot');
@@ -87,6 +88,9 @@
 			case VIEW_FINALIZE:
 				this.initFinalizeView();
 				break;
+			case VIEW_HISTORY:
+				this.initHistoryView();
+				break;
 			case VIEW_UPLOAD:
 			default:
 				this.initUploadView();
@@ -103,18 +107,12 @@
 		}
 		this.dom.targetModule = $('#ImportManagerTargetModule');
 		this.dom.formatField = $('#ImportManagerFormat');
-		this.dom.xmlOnly = $('.js-import-xml-only');
 		this.dom.csvOptions = $('.csv-separator-options');
 		this.dom.fileInput = $('#ImportManagerFile');
 		this.dom.batchField = $('#ImportManagerBatchId');
 		this.dom.dropzone = $('#ImportManagerDropzone');
 		this.dom.submitButton = $('#ImportManagerSubmit');
 		
-
-		this.dom.recentList = $('.import-recent-list');
-		if (this.dom.recentList.length) {
-			this.dom.recentList.on('click', '.js-delete-batch', this.handleDeleteBatch.bind(this));
-		}
 
 		this.toggleFormatFieldsVisibility();
 		this.dom.formatField.on('change', this.toggleFormatFieldsVisibility.bind(this));
@@ -222,11 +220,41 @@
 		if (files && files.length > 0) {
 			this.updateDropzonePreview(files[0]);
 			this.autoSelectFormatFromFile(files[0]);
+			this.autoSelectModuleFromXml(files[0]);
 		} else {
 			this.updateDropzonePreview(null);
 		}
 		
 		this.updateSubmitButtonState();
+	};
+
+	ImportManager.prototype.autoSelectModuleFromXml = function (file) {
+		if (!this.dom.targetModule || !this.dom.targetModule.length) {
+			return;
+		}
+		const ext = (file.name.split('.').pop() || '').toLowerCase();
+		if (ext !== 'xml') {
+			return;
+		}
+
+		const reader = new FileReader();
+		const self = this;
+		reader.onload = function (event) {
+			const text = String((event.target && event.target.result) || '');
+			const match = text.match(/<MODULES_EXPORT[^>]*\bmodule="([^"]+)"/i)
+				|| text.match(/<MODULE_FIELDS[^>]*\bmodule="([^"]+)"/i);
+			if (!match) {
+				return;
+			}
+			const moduleName = match[1];
+			const hasOption = self.dom.targetModule.find('option').filter(function () {
+				return $(this).val() === moduleName;
+			}).length > 0;
+			if (hasOption && self.dom.targetModule.val() !== moduleName) {
+				self.dom.targetModule.val(moduleName).trigger('change');
+			}
+		};
+		reader.readAsText(file.slice(0, 8192));
 	};
 
 	ImportManager.prototype.autoSelectFormatFromFile = function (file) {
@@ -263,6 +291,14 @@
 			return;
 		}
 		this.uploadAndPreview();
+	};
+
+	/* ----------------------- History view ----------------------- */
+	ImportManager.prototype.initHistoryView = function () {
+		this.dom.recentList = $('.import-recent-list');
+		if (this.dom.recentList.length) {
+			this.dom.recentList.on('click', '.js-delete-batch', this.handleDeleteBatch.bind(this));
+		}
 	};
 
 	ImportManager.prototype.handleDeleteBatch = function (event) {
@@ -310,9 +346,6 @@
 	ImportManager.prototype.toggleFormatFieldsVisibility = function () {
 		const format = (this.dom.formatField.val() || '').toLowerCase();
 		const isXml = format === 'xml';
-		if (this.dom.xmlOnly.length) {
-			this.dom.xmlOnly.css('display', isXml ? '' : 'none');
-		}
 		if (this.dom.csvOptions.length) {
 			isXml ? this.dom.csvOptions.hide() : this.dom.csvOptions.show();
 		}

@@ -345,9 +345,7 @@ class WizardController
 
 	private function prepareUploadContext(\App\Http\Vtiger_Request $request): array
 	{
-		$userId = $request->getUserId();
 		$sourceModule = $request->get('sourceModule') ?: $request->get('source_module');
-		$recent = $this->fetchRecentBatches($userId);
 
 		return [
 			'modules' => $this->moduleDiscovery->getAvailableModules(),
@@ -356,32 +354,44 @@ class WizardController
 				'previewRows' => $this->config->getPreviewRows(),
 				'chunkSize' => $this->config->getChunkSize(),
 			],
-			'recentBatches' => $recent,
 			'selectedModule' => $sourceModule ?: null,
 			'steps' => $this->buildStepProgress(null, self::STEP_UPLOAD),
 			'client' => [
 				'view' => self::STEP_UPLOAD,
-				'recentBatches' => $recent,
 			],
 		];
 	}
 
-	private function fetchRecentBatches(int $userId): array
+	public function buildHistoryContext(\App\Http\Vtiger_Request $request): array
 	{
-		$data = (new \App\Db\Query())
+		$userId = (int) $request->getUserId();
+
+		return [
+			'batches' => $this->fetchBatches($userId),
+			'client' => [
+				'view' => 'history',
+			],
+		];
+	}
+
+	private function fetchBatches(int $userId, ?int $limit = 100): array
+	{
+		$query = (new \App\Db\Query())
 			->select(['id', 'module', 'status', 'created_at', 'total_rows', 'processed_rows', 'error_rows'])
 			->from('#__import_batches')
 			->where(['created_by' => $userId])
-			->orderBy(['created_at' => SORT_DESC])
-			->limit(5)
-			->all();
+			->orderBy(['created_at' => SORT_DESC]);
+
+		if ($limit !== null) {
+			$query->limit($limit);
+		}
 
 		return array_map(function ($row) {
 			$row = $this->decorateBatchRow($row);
 			$row['progress'] = (int) ($row['processed_rows'] ?? 0) . '/' . (int) ($row['total_rows'] ?? 0);
 			unset($row['processed_rows'], $row['total_rows'], $row['error_rows']);
 			return $row;
-		}, $data);
+		}, $query->all());
 	}
 
 	private function decorateBatchRow(array $row): array

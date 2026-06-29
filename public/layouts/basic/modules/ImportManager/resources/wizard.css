@@ -9,8 +9,8 @@
 	--import-primary: #4f46e5;
 	--import-primary-light: #818cf8;
 	--import-primary-dark: #3730a3;
-	--import-success: #10b981;
-	--import-success-light: #34d399;
+	--import-success: #E37E12;
+	--import-success-light: #F0A04B;
 	--import-warning: #f59e0b;
 	--import-danger: #ef4444;
 	--import-gray-50: #f8fafc;
@@ -23,7 +23,7 @@
 	--import-gray-700: #334155;
 	--import-gray-800: #1e293b;
 	--import-gradient-primary: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-	--import-gradient-success: linear-gradient(135deg, #10b981 0%, #059669 100%);
+	--import-gradient-success: linear-gradient(135deg, #E37E12 0%, #C0660A 100%);
 	--import-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 	--import-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 	--import-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
@@ -211,7 +211,7 @@
 }
 
 .import-card--upload .import-card__header {
-	background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(5, 150, 105, 0.02) 100%);
+	background: linear-gradient(135deg, rgba(227, 126, 18, 0.05) 0%, rgba(192, 102, 10, 0.02) 100%);
 }
 
 .import-card--info .import-card__header {
@@ -269,6 +269,21 @@
 
 .import-card__body {
 	padding: 1.5rem;
+}
+
+/* Theme's .row is display:block, so force flex here to equalize column heights */
+.import-upload-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: stretch;
+}
+
+.import-upload-row > [class*="col-"] {
+	display: flex;
+}
+
+.import-upload-row .import-card {
+	flex: 1;
 }
 
 /* Upload card - content layout */
@@ -631,7 +646,7 @@
 }
 
 .import-recent-item__status--completed {
-	background: rgba(16, 185, 129, 0.1);
+	background: rgba(227, 126, 18, 0.1);
 	color: var(--import-success);
 }
 
@@ -1008,12 +1023,12 @@
 .import-btn--primary {
 	background: var(--import-gradient-success);
 	color: #fff;
-	box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+	box-shadow: 0 2px 8px rgba(227, 126, 18, 0.3);
 }
 
 .import-btn--primary:hover {
 	transform: translateY(-2px);
-	box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
+	box-shadow: 0 6px 20px rgba(227, 126, 18, 0.35);
 	color: #fff;
 	text-decoration: none;
 }
@@ -1538,8 +1553,8 @@
 }
 
 .import-staging-stat--success {
-	background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.1) 100%);
-	border-color: rgba(16, 185, 129, 0.2);
+	background: linear-gradient(135deg, rgba(227, 126, 18, 0.1) 0%, rgba(192, 102, 10, 0.1) 100%);
+	border-color: rgba(227, 126, 18, 0.2);
 }
 
 .import-staging-stat--success .import-staging-stat__value {
@@ -1858,7 +1873,7 @@
 }
 
 .import-empty-state__icon--success {
-	background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(5, 150, 105, 0.15) 100%);
+	background: linear-gradient(135deg, rgba(227, 126, 18, 0.15) 0%, rgba(192, 102, 10, 0.15) 100%);
 	color: var(--import-success);
 }
 

@@ -4,9 +4,16 @@
 	{strip}
 		<div class="mainContainer">
 			<div class="contentsDiv">
-				<div class="widget_header row marginBottom10px">
-					<div class="col-sm-12">
+				<div class="widget_header row marginBottom10px align-items-center">
+					<div class="col-sm-8">
 						{include file='BreadCrumbs.tpl'|@vtemplate_path:$MODULE}
+					</div>
+					<div class="col-sm-4 text-right">
+						<a class="import-btn import-btn--secondary import-btn--small"
+							href="index.php?module=ImportManager&view=ListView">
+							<i class="fa fa-history"></i>
+							<span>{\App\Language::translate('LBL_IMPORT_HISTORY', $MODULE_NAME)}</span>
+						</a>
 					</div>
 				</div>
 
@@ -24,7 +31,7 @@
 							<input type="hidden" name="view" value="Upload" />
 							<input type="hidden" name="batch_id" id="ImportManagerBatchId" />
 
-							<div class="row g-4 align-items-stretch">
+							<div class="row g-4 align-items-stretch import-upload-row">
 								{* Left column - File upload *}
 								<div class="col-md-4 d-flex">
 									<div class="import-card import-card--upload w-100">
@@ -171,19 +178,6 @@
 												</div>
 											</div>
 
-											<div class="row g-3" id="ImportManagerXmlRow">
-												<div class="col-md-6 js-import-xml-only" style="display: none;">
-													<div class="import-field">
-														<label class="import-field__label" for="ImportManagerXPath">
-															<i class="fa fa-code import-field__icon"></i>
-															{\App\Language::translate('LBL_XML_RECORD_PATH', $MODULE_NAME)}
-														</label>
-														<input type="text" name="xpath" id="ImportManagerXPath" 
-															class="form-control import-input" placeholder="/Records/Record" value="MODULE_FIELDS" />
-														<small class="import-field__hint">{\App\Language::translate('LBL_XML_RECORD_PATH_DESC', $MODULE_NAME)}</small>
-													</div>
-												</div>
-											</div>
 										</div>
 									</div>
 								</div>
@@ -197,68 +191,6 @@
 								</button>
 							</div>
 						</form>
-
-						{if !empty($IMPORT_RECENT_BATCHES)}
-							<div class="import-card import-card--info mt-4">
-								<div class="import-card__header import-card__header--compact">
-									<div class="import-card__icon import-card__icon--small">
-										<i class="fa fa-history"></i>
-									</div>
-									<div class="import-card__title">
-										<h5>{\App\Language::translate('LBL_RECENT_IMPORTS', $MODULE_NAME)}</h5>
-										<span class="import-card__subtitle">{\App\Language::translate('LBL_RECENT_IMPORTS_HELP', $MODULE_NAME)}</span>
-									</div>
-								</div>
-								<div class="import-card__body p-0">
-									<div class="import-recent-list">
-										{foreach from=$IMPORT_RECENT_BATCHES item=BATCH}
-											<div class="import-recent-item">
-												<div class="import-recent-item__main">
-													<span class="import-recent-item__id">#{$BATCH.id}</span>
-													<span class="import-recent-item__module">{$BATCH.module}</span>
-													<span class="import-recent-item__status import-recent-item__status--{$BATCH.status|lower}">{$BATCH.status}</span>
-													{if $BATCH.progress}
-														<span class="import-recent-item__progress">{$BATCH.progress}</span>
-													{/if}
-												</div>
-												<div class="import-recent-item__actions">
-													<span class="import-recent-item__date">
-														<i class="fa fa-clock-o"></i>
-														{$BATCH.created_at}
-													</span>
-													{if $BATCH.status neq 'running'}
-														<button type="button"
-															class="import-btn import-btn--small import-btn--danger js-delete-batch"
-															data-batch-id="{$BATCH.id}"
-															title="{\App\Language::translate('LBL_DELETE_BATCH', $MODULE_NAME)}">
-															<i class="fa fa-trash"></i>
-															<span>{\App\Language::translate('LBL_DELETE_BATCH', $MODULE_NAME)}</span>
-														</button>
-													{/if}
-													{if $BATCH.continue_url}
-														{assign var=ACTION_LABEL_KEY value=$BATCH.action_label_key|default:'LBL_CONTINUE_STEP'}
-														<a class="import-btn import-btn--small" href="{$BATCH.continue_url|escape:'html'}">
-															{if $ACTION_LABEL_KEY eq 'LBL_VIEW_RESULT'}
-																<i class="fa fa-check-circle"></i>
-															{elseif $ACTION_LABEL_KEY eq 'LBL_VIEW_ERRORS'}
-																<i class="fa fa-exclamation-triangle"></i>
-															{else}
-																<i class="fa fa-arrow-right"></i>
-															{/if}
-															{\App\Language::translate($ACTION_LABEL_KEY, $MODULE_NAME)}
-														</a>
-													{else}
-														<span class="import-recent-item__disabled">
-															{\App\Language::translate('LBL_STEP_DISABLED', $MODULE_NAME)}
-														</span>
-													{/if}
-												</div>
-											</div>
-										{/foreach}
-									</div>
-								</div>
-							</div>
-						{/if}
 					</div>
 				</div>
 			</div>

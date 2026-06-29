@@ -21,7 +21,6 @@ class Upload extends \App\Modules\Base\Views\Index
 		$viewer = $this->getViewer($request);
 		$viewer->assign('IMPORT_AVAILABLE_MODULES', $context['modules']);
 		$viewer->assign('IMPORT_CONFIG', $context['config']);
-		$viewer->assign('IMPORT_RECENT_BATCHES', $context['recentBatches']);
 		$viewer->assign('IMPORT_SELECTED_MODULE', $context['selectedModule']);
 		$viewer->assign('IMPORT_STEPS', $context['steps']);
 		$viewer->assign('IMPORT_CONTEXT_JSON', \App\Utils\Json::encode($context['client']));
