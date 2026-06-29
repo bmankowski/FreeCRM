@@ -8,15 +8,13 @@ namespace App\Modules\Base\Models;
  * @license licenses/License.html
  * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
  */
-class ExportToXml extends \App\Runtime\BaseModel
+class ExportToXml extends Export
 {
 
 	protected $attrList = ['crmfield', 'crmfieldtype', 'partvalue', 'constvalue', 'refmoule', 'spec', 'refkeyfld', 'delimiter', 'testcondition'];
-	protected array $xmlList = [];
 	protected $product = false;
 	protected $tplName = '';
 	protected $tmpXmlPath = '';
-	protected $index;
 	protected $inventoryFields;
 
 	public function exportData(\App\Http\Vtiger_Request $request)
@@ -33,21 +31,20 @@ class ExportToXml extends \App\Runtime\BaseModel
 				$entriesInventory[$key] = $this->getEntriesInventory($recordData);
 			}
 		}
-		foreach ($entries as $key => $data) {
-			$this->tmpXmlPath = 'cache/import/' . uniqid() . '_.xml';
-			$this->xmlList[] = $this->tmpXmlPath;
-			$this->index = $key;
+
+		$this->tmpXmlPath = 'cache/import/' . uniqid() . '.xml';
+		if (1 === count($entries)) {
+			$key = array_key_first($entries);
 			if ($this->tplName) {
-				$this->createXmlFromTemplate($data, $data);
+				$this->createXmlFromTemplate($entries[$key], $entries[$key]);
 			} else {
-				$this->createXml($this->sanitizeValues($data), $entriesInventory[$key]);
+				$this->createXml($this->sanitizeValues($entries[$key]), $entriesInventory[$key] ?? null);
 			}
+		} elseif (count($entries) > 1) {
+			$this->createMultiRecordXml($entries, $entriesInventory);
 		}
-		if (1 < count($entries)) {
-			$this->outputZipFile($fileName);
-		} else {
-			$this->outputFile($fileName);
-		}
+
+		$this->outputFile($fileName);
 	}
 
 	/**
@@ -113,7 +110,7 @@ class ExportToXml extends \App\Runtime\BaseModel
 	public function outputFile($fileName)
 	{
 		header("Content-Disposition:attachment;filename=$fileName.xml");
-		header("Content-Type:text/csv;charset=UTF-8");
+		header("Content-Type:application/xml;charset=UTF-8");
 		header("Expires: Mon, 31 Dec 2000 00:00:00 GMT");
 		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 		header("Cache-Control: post-check=0, pre-check=0", false);
@@ -121,52 +118,48 @@ class ExportToXml extends \App\Runtime\BaseModel
 		readfile($this->tmpXmlPath);
 	}
 
-	protected function outputZipFile($fileName)
+	protected function createMultiRecordXml(array $entries, array $entriesInventory): void
 	{
+		$xml = new \XMLWriter();
+		$xml->openMemory();
+		$xml->setIndent(true);
+		$xml->startDocument('1.0', 'UTF-8');
+		$xml->startElement('MODULES_EXPORT');
+		$xml->writeAttribute('module', $this->moduleName);
 
-		$zipName = 'cache/import/' . uniqid() . '.zip';
-
-		$zip = new ZipArchive();
-		$zip->open($zipName, ZipArchive::CREATE);
-
-		$countXmlList = count($this->xmlList);
-		for ($i = 0; $i < $countXmlList; $i++) {
-			$xmlFile = basename($this->xmlList[$i]);
-			$xmlFile = explode('_', $xmlFile);
-			array_shift($xmlFile);
-			$xmlFile = $fileName . $i . implode('_', $xmlFile);
-			$zip->addFile($this->xmlList[$i], $xmlFile);
+		foreach ($entries as $key => $data) {
+			$this->writeModuleFieldsBlock($xml, $this->sanitizeValues($data), $entriesInventory[$key] ?? null);
 		}
 
-		$zip->close();
-
-		header("Content-Disposition:attachment;filename=$fileName.zip");
-		header("Content-Type:application/zip");
-		header("Expires: Mon, 31 Dec 2000 00:00:00 GMT");
-		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
-		header("Cache-Control: post-check=0, pre-check=0", false);
-
-		readfile($zipName);
+		$xml->endElement();
+		file_put_contents($this->tmpXmlPath, $xml->flush(true));
 	}
 
 	public function createXml($entries, $entriesInventory)
 	{
-		$xml = new XMLWriter();
+		$xml = new \XMLWriter();
 		$xml->openMemory();
 		$xml->setIndent(true);
 		$xml->startDocument('1.0', 'UTF-8');
+		$this->writeModuleFieldsBlock($xml, $entries, $entriesInventory);
+		file_put_contents($this->tmpXmlPath, $xml->flush(true));
+	}
 
+	protected function writeModuleFieldsBlock(\XMLWriter $xml, array $entries, ?array $entriesInventory): void
+	{
 		$xml->startElement('MODULE_FIELDS');
+		$xml->writeAttribute('module', $this->moduleName);
 		foreach ($this->moduleFieldInstances as $fieldName => $fieldModel) {
 			if (!in_array($fieldModel->get('presence'), [0, 2])) {
 				continue;
 			}
 			$xml->startElement($fieldName);
 			$xml->writeAttribute('label', \App\Runtime\Vtiger_Language_Handler::translate(html_entity_decode($fieldModel->get('label'), ENT_QUOTES), $this->moduleName));
+			$value = $entries[$fieldName] ?? ($entries[$fieldModel->get('column')] ?? '');
 			if ($this->isCData($fieldName)) {
-				$xml->writeCData($entries[$fieldName]);
+				$xml->writeCData((string) $value);
 			} else {
-				$xml->text($entries[$fieldModel->get('column')]);
+				$xml->text((string) $value);
 			}
 			$xml->endElement();
 		}
@@ -176,7 +169,7 @@ class ExportToXml extends \App\Runtime\BaseModel
 			foreach ($entriesInventory as $inventory) {
 				unset($inventory['id']);
 				$xml->startElement('INVENTORY_ITEM');
-				while (list($columnName, $value) = each($inventory)) {
+				foreach ($inventory as $columnName => $value) {
 					$xml->startElement($columnName);
 					$fieldModel = $this->inventoryFields[$columnName];
 					if ($fieldModel) {
@@ -199,7 +192,6 @@ class ExportToXml extends \App\Runtime\BaseModel
 			$xml->endElement();
 		}
 		$xml->endElement();
-		file_put_contents($this->tmpXmlPath, $xml->flush(true), FILE_APPEND);
 	}
 
 	public function isCData($name, $customColumns = [])

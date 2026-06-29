@@ -134,7 +134,7 @@
 															{\App\Language::translate('LBL_XML_RECORD_PATH', $MODULE_NAME)}
 														</label>
 														<input type="text" name="xpath" id="ImportManagerXPath" 
-															class="form-control import-input" placeholder="/Records/Record" />
+															class="form-control import-input" placeholder="/Records/Record" value="MODULE_FIELDS" />
 														<small class="import-field__hint">{\App\Language::translate('LBL_XML_RECORD_PATH_DESC', $MODULE_NAME)}</small>
 													</div>
 												</div>

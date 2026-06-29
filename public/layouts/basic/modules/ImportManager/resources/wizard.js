@@ -216,11 +216,24 @@
 		// Update dropzone visual preview
 		if (files && files.length > 0) {
 			this.updateDropzonePreview(files[0]);
+			this.autoSelectFormatFromFile(files[0]);
 		} else {
 			this.updateDropzonePreview(null);
 		}
 		
 		this.updateSubmitButtonState();
+	};
+
+	ImportManager.prototype.autoSelectFormatFromFile = function (file) {
+		if (!this.dom.formatField || !this.dom.formatField.length) {
+			return;
+		}
+		const ext = (file.name.split('.').pop() || '').toLowerCase();
+		const supported = ['csv', 'xml', 'zip'];
+		if (supported.indexOf(ext) === -1 || this.dom.formatField.val() === ext) {
+			return;
+		}
+		this.dom.formatField.val(ext).trigger('change');
 	};
 	
 	ImportManager.prototype.updateSubmitButtonState = function () {

@@ -257,13 +257,31 @@ class WizardController
 
 		$userId = $request->getUserId();
 
+		$format = strtolower((string) $request->get('format'));
+
+		$xpath = trim((string) $request->get('xpath'));
+		if ($xpath === '' && in_array($format, ['xml', 'zip'], true)) {
+			$xpath = 'MODULE_FIELDS';
+		}
+
+		$targetModule = trim((string) $request->get('target_module'));
+		if ($format === 'xml' && !empty($_FILES['import_file']['tmp_name']) && is_uploaded_file($_FILES['import_file']['tmp_name'])) {
+			$detectedModule = $this->detectModuleFromXml($_FILES['import_file']['tmp_name']);
+			if ($detectedModule !== null && \App\Modules\Base\Models\Module::getInstance($detectedModule)) {
+				if ($targetModule !== '' && strcasecmp($targetModule, $detectedModule) !== 0) {
+					throw new \RuntimeException(sprintf('Plik XML zawiera dane modułu %s, a wybrano moduł %s.', $detectedModule, $targetModule));
+				}
+				$targetModule = $detectedModule;
+			}
+		}
+
 		$payload = [
-			'target_module' => $request->get('target_module'),
+			'target_module' => $targetModule,
 			'delimiter' => $request->get('delimiter'),
 			'enclosure' => $request->get('enclosure'),
 			'encoding' => $request->get('encoding'),
 			'format' => $request->get('format'),
-			'xpath' => $request->get('xpath'),
+			'xpath' => $xpath,
 			'duplicate_strategy' => $request->get('duplicate_strategy'),
 		];
 
@@ -297,6 +315,32 @@ class WizardController
 			'file' => $uploadResult['file'],
 			'preview' => $preview,
 		];
+	}
+
+	private function detectModuleFromXml(string $filePath): ?string
+	{
+		$reader = new \XMLReader();
+		if (!@$reader->open($filePath, null, LIBXML_NONET | LIBXML_COMPACT)) {
+			return null;
+		}
+
+		$module = null;
+		while ($reader->read()) {
+			if ($reader->nodeType !== \XMLReader::ELEMENT) {
+				continue;
+			}
+			$attr = $reader->getAttribute('module');
+			if ($attr !== null && $attr !== '') {
+				$module = trim($attr);
+				break;
+			}
+			if ($reader->localName === 'MODULE_FIELDS') {
+				break;
+			}
+		}
+		$reader->close();
+
+		return $module !== '' ? $module : null;
 	}
 
 	private function prepareUploadContext(\App\Http\Vtiger_Request $request): array

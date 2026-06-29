@@ -135,8 +135,8 @@ class SaveDuplicates extends BaseActionController
 
 	private function guardBatchOwnership(array $batch): void
 	{
-		$currentUserId = $request->getUserId();
-		if ((int) $batch['created_by'] !== (int) $currentUserId) {
+		$currentUserId = (int) (\App\User\CurrentUser::getId() ?? 0);
+		if ((int) $batch['created_by'] !== $currentUserId) {
 			throw new \RuntimeException('Możesz edytować tylko własne wsady importu.');
 		}
 
