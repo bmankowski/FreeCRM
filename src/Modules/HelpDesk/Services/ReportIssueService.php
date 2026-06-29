@@ -36,6 +36,11 @@ class ReportIssueService
 		$record->set('assigned_user_id', $assignedUserId);
 		$record->set('update_log', $this->buildUpdateLog($reporter, $assignedUserId));
 
+		$pageUrl = trim((string) ($context['pageUrl'] ?? ''));
+		if ($pageUrl !== '') {
+			$record->set('report_issue_url', $pageUrl);
+		}
+
 		$parentId = $this->resolveParentId($context);
 		if ($parentId > 0) {
 			$record->set('parent_id', $parentId);
@@ -90,11 +95,6 @@ class ReportIssueService
 	private function buildTicketDescription(string $description, array $context): string
 	{
 		$parts = [trim($description), ''];
-		$pageUrl = trim((string) ($context['pageUrl'] ?? ''));
-		if ($pageUrl !== '') {
-			$parts[] = 'URL: ' . $pageUrl;
-			$parts[] = '';
-		}
 		$parts[] = '---';
 		$parts[] = 'Report Issue context:';
 		foreach (['module', 'view', 'recordId', 'userAgent', 'screenSize', 'crmVersion'] as $key) {

@@ -93,7 +93,8 @@
         "FL_RESPONSE_TIME": "Response time",
         "FL_GITHUB_ISSUE_URL": "GitHub issue URL",
         "FL_GITHUB_ISSUE_NUMBER": "GitHub issue number",
-        "FL_REPORT_ISSUE_SCREENSHOT": "Screenshot"
+        "FL_REPORT_ISSUE_SCREENSHOT": "Screenshot",
+        "FL_REPORT_ISSUE_URL": "Reported page URL"
     },
     "jsLanguageStrings": []
 }
