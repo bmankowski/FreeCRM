@@ -592,8 +592,12 @@ ProjektyRekrutacyjne_RelatedList_Js.triggerQuickExportToExcel = function () {
 	}
 	var form = jQuery('<form method="POST" action="index.php">');
 	form.append(jQuery('<input />', {name: 'module', value: module}));
+	form.append(jQuery('<input />', {name: 'parentModule', value: app.getModuleName()}));
+	form.append(jQuery('<input />', {name: 'record', value: app.getRecordId()}));
+	form.append(jQuery('<input />', {name: 'relatedModule', value: module}));
+	form.append(jQuery('<input />', {name: 'tab_label', value: jQuery('#tab_label').val() || ''}));
 	form.append(jQuery('<input />', {name: 'action', value: 'QuickExport'}));
-	form.append(jQuery('<input />', {name: 'mode', value: 'ExportToExcel'}));
+	form.append(jQuery('<input />', {name: 'mode', value: 'ExportRelatedToExcel'}));
 	form.append(jQuery('<input />', {name: 'selected_ids', value: JSON.stringify(selectedIds)}));
 	if (typeof csrfMagicName !== 'undefined') {
 		form.append(jQuery('<input />', {name: csrfMagicName, value: csrfMagicToken}));

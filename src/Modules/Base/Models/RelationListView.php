@@ -206,6 +206,60 @@ class RelationListView extends \App\Runtime\BaseModel
 	}
 
 	/**
+	 * Related records for the given IDs, scoped to the current relation (parent + tab).
+	 *
+	 * @param int[] $recordIds
+	 * @return \App\Modules\Base\Models\Record[]
+	 */
+	public function getEntriesByIds(array $recordIds): array
+	{
+		if ($recordIds === []) {
+			return [];
+		}
+		$recordIds = array_values(array_filter(
+			array_map('intval', $recordIds),
+			static fn (int $id): bool => $id > 0
+		));
+		if ($recordIds === []) {
+			return [];
+		}
+
+		if (method_exists($this, 'registerRelationQueryFields')) {
+			$this->registerRelationQueryFields();
+		}
+		$this->loadCondition();
+		$this->loadOrderBy();
+
+		$relationModel = $this->getRelationModel();
+		$relationModuleModel = $relationModel->getRelationModuleModel();
+		$queryGenerator = $relationModel->getQuery();
+		$relationModuleName = $queryGenerator->getModule();
+		if (isset($this->mandatoryColumns[$relationModuleName])) {
+			foreach ($this->mandatoryColumns[$relationModuleName] as $columnName) {
+				$queryGenerator->setCustomColumn($columnName);
+			}
+		}
+		$queryGenerator->addCondition('id', $recordIds, 'e');
+		$rows = $queryGenerator->createQuery()->all();
+
+		$relatedRecordList = [];
+		foreach ($rows as $row) {
+			$recordModel = $relationModuleModel->getRecordFromArray($row);
+			$this->getEntryExtend($recordModel);
+			$relatedRecordList[(int) $row['id']] = $recordModel;
+		}
+
+		$ordered = [];
+		foreach ($recordIds as $id) {
+			if (isset($relatedRecordList[$id])) {
+				$ordered[$id] = $relatedRecordList[$id];
+			}
+		}
+
+		return $ordered;
+	}
+
+	/**
 	 * Function to get the related list view entries
 	 * @param \App\Modules\Base\Models\Paging $pagingModel
 	 * @return \App\Modules\Base\Models\Record[]

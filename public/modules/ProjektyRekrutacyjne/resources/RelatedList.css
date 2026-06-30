@@ -105,6 +105,15 @@
 	display: block;
 	clear: both;
 }
+.RelatedList.relatedContainer .listViewEntriesTable thead th:first-child,
+.RelatedList.relatedContainer .listViewEntriesTable tbody td:first-child,
+.RelatedList.relatedContainer .listViewEntriesTable thead th:nth-child(2),
+.RelatedList.relatedContainer .listViewEntriesTable tbody td.leftRecordActions {
+	width: 1px;
+	min-width: 0;
+	white-space: nowrap;
+	text-align: center;
+}
 .RelatedList.relatedContainer .c-list-preview {
 	float: left;
 	width: 55%;

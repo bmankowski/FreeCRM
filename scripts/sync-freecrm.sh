@@ -220,6 +220,9 @@ pushsrc() {
     --exclude 'docker/nginx/letsencrypt/archive/' \
     --exclude 'docker/nginx/letsencrypt/live/' \
     "${ROOT_DIR}/" "${REMOTE}:${REMOTE_PATH}/"
+
+  echo "Clearing Smarty compiled cache on ${REMOTE}"
+  remote_run "rm -f '${REMOTE_PATH}'/cache/templates_c/*/*.php"
 }
 
 pushstorage() {
@@ -230,6 +233,7 @@ pushstorage() {
   remote_run "mkdir -p '${REMOTE_PATH}/storage'"
   rsync -rltDz --human-readable --info=stats2,progress2 \
     --no-perms --no-owner --no-group --omit-dir-times \
+    --exclude 'tmpfile*.tmp' \
     "${ROOT_DIR}/storage/" "${REMOTE}:${REMOTE_PATH}/storage/"
 }
 
