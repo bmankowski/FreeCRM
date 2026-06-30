@@ -58,7 +58,8 @@ class DatetimeField extends DateField
 	public function operatorBw()
 	{
 		$value = $this->getArrayValue();
-		return ['between', $this->getColumnName(), $value[0] . ' 00:00:00', $value[1] . ' 23:59:59'];
+		$end = (isset($value[1]) && $value[1] !== '') ? $value[1] : $value[0];
+		return ['between', $this->getColumnName(), $value[0] . ' 00:00:00', $end . ' 23:59:59'];
 	}
 
 	/**

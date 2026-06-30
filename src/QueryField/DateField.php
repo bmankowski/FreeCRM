@@ -107,7 +107,8 @@ class DateField extends BaseField
 	public function operatorBw()
 	{
 		$value = $this->getArrayValue();
-		return ['between', $this->getColumnName(), $value[0], $value[1]];
+		$end = (isset($value[1]) && $value[1] !== '') ? $value[1] : $value[0];
+		return ['between', $this->getColumnName(), $value[0], $end];
 	}
 
 	/**

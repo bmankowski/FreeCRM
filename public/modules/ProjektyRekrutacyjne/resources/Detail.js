@@ -371,6 +371,25 @@ Vtiger_Detail_Js(
 			}
 		},
 
+		registerJobAdvertisementLinkCopy: function () {
+			const container = '#ProjektyRekrutacyjne_detailView_fieldValue_job_advertisement_links';
+			$(document)
+				.off('click.projektyJobAdCopy', container + ' .job-ad-link-copy, ' + container + ' table tr td:nth-child(3)')
+				.on('click.projektyJobAdCopy', container + ' .job-ad-link-copy, ' + container + ' table tr td:nth-child(3)', function (event) {
+					event.preventDefault();
+					const href = $(this).closest('tr').find('td:nth-child(2) a').attr('href');
+					if (!href || !navigator.clipboard || !navigator.clipboard.writeText) {
+						return;
+					}
+					navigator.clipboard.writeText(href).then(function () {
+						Vtiger_Helper_Js.showPnotify({
+							text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
+							type: 'success'
+						});
+					});
+				});
+		},
+
 		registerEvents: function () {
 			this._super();
 			this.candidatesSupport();
@@ -378,6 +397,7 @@ Vtiger_Detail_Js(
 			this.registerKanbanAddManualCandidate();
 			this.logLoadedCandidatesToConsole();
 			this.registerProjectRelatedListController();
+			this.registerJobAdvertisementLinkCopy();
 		}
 	}
 );

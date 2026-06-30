@@ -73,7 +73,7 @@ class Calculations
             $link = "https://itconnect.pl/oferta/" . $projectName . "/?action=Aplikuj&projectId=$projectId&sourceId=" . $sourceRecord["application_sourceid"];
             $links .= "<tr><td>" . $sourceRecord["application_source"] . "</td>" .
                 "<td><a href='" . $link . "'>" . $link . "</a></td>" .
-                "<td><button onclick='navigator.clipboard.writeText(\"$link\")'>&#10697;</button></td>" .
+                "<td><span class=\"job-ad-link-copy\" style=\"cursor:pointer\" title=\"Kopiuj\">&#10697;</span></td>" .
                 "</tr>";
         }
         $links .= "</table>";

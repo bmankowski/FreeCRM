@@ -24,6 +24,11 @@ class Datetime extends BaseUiType
 		return 'uitypes/DateTime.tpl';
 	}
 
+	public function getListSearchTemplateName()
+	{
+		return 'uitypes/DateFieldSearchView.tpl';
+	}
+
 	/**
 	 * Function to get the Display Value, for the current field type with given DB Insert Value
 	 * @param object $value
