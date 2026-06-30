@@ -34,7 +34,7 @@ Located at `BaseUiType::UITYPE_CLASS_MAP`. Maps uitype integer directly to the U
 | 28 | `DocumentsFileUpload` | |
 | 30, 342 | `Recurrence` | |
 | 32 | `Languages` | |
-| 52 | `UserCreator` | |
+| 52 | `UserCreator` | `getDisplayValue()` / `getListViewDisplayValue()` resolve ID via `\App\Fields\Owner::getLabel()` — bez tego UI pokazuje surowe ID (np. `1` zamiast nazwy użytkownika) |
 | 53 | `Owner` | |
 | 54 | `Multiowner` | |
 | 55 | `Salutation` / `StringType` | Disambiguated by field name: `salutationtype` → `Salutation`, anything else → `StringType` |

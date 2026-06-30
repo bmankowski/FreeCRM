@@ -50,6 +50,7 @@ class EventHandler
 		'PBXManager_PBXManagerHandler_Handler' => '\App\Modules\PBXManager\Handlers\PBXManager_PBXManagerHandler_Handler',
 		'OSSTimeControl_TimeControl_Handler' => '\App\Modules\OSSTimeControl\Handlers\OSSTimeControl_TimeControl_Handler',
 		'HelpDesk_TicketRangeTime_Handler' => '\App\Modules\HelpDesk\Handlers\HelpDesk_TicketRangeTime_Handler',
+		'HelpDesk_TicketRoles_Handler' => '\App\Modules\HelpDesk\Handlers\HelpDesk_TicketRoles_Handler',
 		'IStorages_RecalculateStockHandler_Handler' => '\App\Modules\IStorages\Handlers\IStorages_RecalculateStockHandler_Handler',
 		'ProjektyRekrutacyjne_Calculations_Handler' => '\App\Modules\ProjektyRekrutacyjne\Handlers\Calculations',
 		'Mail_GroupMailboxSync_Handler' => '\App\Modules\Mail\Handlers\Mail_GroupMailboxSync_Handler',

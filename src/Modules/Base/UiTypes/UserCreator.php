@@ -19,7 +19,23 @@ class UserCreator extends BaseUiType
 	{
 		return 'uitypes/OwnerFieldSearchView.tpl';
 	}
-	
+
+	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	{
+		if (empty($value)) {
+			return '';
+		}
+		return \App\Fields\Owner::getLabel($value);
+	}
+
+	public function getListViewDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
+	{
+		if (empty($value)) {
+			return '';
+		}
+		return \vtlib\Functions::textLength(\App\Fields\Owner::getLabel($value), $this->get('field')->get('maxlengthtext'));
+	}
+
 	/**
 	 * Function to get the DB Insert Value, for the current field type with given User Value
 	 * @param mixed $value

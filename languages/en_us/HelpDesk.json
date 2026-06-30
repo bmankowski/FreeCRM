@@ -6,6 +6,18 @@
         "PLL_SUBMITTED_COMMENTS": "Submitted comments",
         "PLL_FOR_APPROVAL": "For approval",
         "PLL_TO_CLOSE": "To close",
+        "LBL_TICKET_MARK_DONE": "Done",
+        "LBL_TICKET_STILL_NOT_WORKING": "Still not working",
+        "LBL_TICKET_ACCEPT": "Accept",
+        "LBL_TICKET_REPORTER": "Reporter",
+        "FL_TICKET_DEVELOPER": "Developer",
+        "FL_TICKET_BUSINESS": "Business owner",
+        "FL_CURRENT_ASSIGNEE": "Current assignee",
+        "LBL_TICKET_WORKFLOW_COMMENT": "Comment (optional)",
+        "LBL_TICKET_WORKFLOW_REMARKS": "Additional remarks (optional)",
+        "LBL_TICKET_WORKFLOW_SAVED": "Ticket has been updated",
+        "LBL_TICKET_SOLUTION_REQUIRED": "Solution field is required",
+        "LBL_TICKET_ROLE_MISSING": "Required role (developer or business) is not assigned",
         "LBL_ORDER_TIME": "Order time",
         "Big Problem": "Big problem",
         "Closed": "Accepted",
@@ -96,5 +108,7 @@
         "FL_REPORT_ISSUE_SCREENSHOT": "Screenshot",
         "FL_REPORT_ISSUE_URL": "Reported page URL"
     },
-    "jsLanguageStrings": []
+    "jsLanguageStrings": {
+        "JS_LBL_TICKET_SOLUTION_REQUIRED": "Solution field is required"
+    }
 }

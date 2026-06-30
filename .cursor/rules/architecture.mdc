@@ -77,9 +77,20 @@ For namespace conventions, see `php-namespaces.mdc`.
 
 Documents module files live on `vtiger_notes` (`storage_path`, `location_type`, …). Other module images/attachments use `s_yf_record_files` via `App\Models\RecordFile`. Full contract: `documents-storage.mdc`.
 
+HelpDesk ticket roles (`developer_id`, `business_id`, workflow Zrobione/Odbieram): `helpdesk-ticket-roles.mdc`.
+
 ## UiType / Field type system
 
 See `uitypes.mdc` for the full reference: UITYPE_CLASS_MAP, SEMANTIC_TYPE_MAP, renderer resolution, module-specific overrides, and pitfalls.
+
+## Event handlers (`vtiger_eventhandlers`)
+
+Rejestracja handlera zdarzeń (`EntityBeforeSave`, `EntityAfterSave`, `EntityAfterLink`, …) wymaga **dwóch** kroków — sam wiersz w DB nie wystarczy:
+
+1. **Wiersz w `vtiger_eventhandlers`** (przez migrację): `event_name`, `handler_class` (krótka nazwa, np. `HelpDesk_TicketRoles_Handler`), `is_active=1`, `include_modules`.
+2. **Wpis w `EventHandler::$classNameMap`** (`src/Events/EventHandler.php`) — mapuje krótką nazwę na klasę z namespace (`'HelpDesk_TicketRoles_Handler' => '\App\Modules\HelpDesk\Handlers\HelpDesk_TicketRoles_Handler'`). Bez tego `trigger()` nie znajdzie klasy.
+
+Metoda handlera = `lcfirst($eventName)` (np. `entityBeforeSave`). Wzorzec: `HelpDesk/Handlers/HelpDesk_TicketRoles_Handler.php`.
 
 ## Caching (`App\Cache\Cache`)
 

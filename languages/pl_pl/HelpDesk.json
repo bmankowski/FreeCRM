@@ -12,6 +12,18 @@
         "PLL_SUBMITTED_COMMENTS": "Zgłoszono uwagi",
         "PLL_FOR_APPROVAL": "Do akceptacji",
         "PLL_TO_CLOSE": "Do zamknięcia",
+        "LBL_TICKET_MARK_DONE": "Zrobione",
+        "LBL_TICKET_STILL_NOT_WORKING": "Nadal nie działa",
+        "LBL_TICKET_ACCEPT": "Odbieram",
+        "LBL_TICKET_REPORTER": "Zgłaszający",
+        "FL_TICKET_DEVELOPER": "Realizujący (dev)",
+        "FL_TICKET_BUSINESS": "Odbierający (biznes)",
+        "FL_CURRENT_ASSIGNEE": "Aktualny wykonawca",
+        "LBL_TICKET_WORKFLOW_COMMENT": "Komentarz (opcjonalnie)",
+        "LBL_TICKET_WORKFLOW_REMARKS": "Dodatkowe uwagi (opcjonalnie)",
+        "LBL_TICKET_WORKFLOW_SAVED": "Zgłoszenie zostało zaktualizowane",
+        "LBL_TICKET_SOLUTION_REQUIRED": "Pole Rozwiązanie jest wymagane",
+        "LBL_TICKET_ROLE_MISSING": "Brak przypisanej osoby dla tej akcji (developer lub biznes)",
         "LBL_ORDER_TIME": "Czas realizacji",
         "Big Problem": "Duży problem",
         "Closed": "Zaakceptowany",
@@ -96,5 +108,7 @@
         "Support": "Wsparcie",
         "Administrative": "Administracja"
     },
-    "jsLanguageStrings": []
+    "jsLanguageStrings": {
+        "JS_LBL_TICKET_SOLUTION_REQUIRED": "Pole Rozwiązanie jest wymagane"
+    }
 }

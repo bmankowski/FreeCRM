@@ -114,6 +114,14 @@ Handlery wołane z pełnej strony muszą **zwracać** HTML: `return $viewer->vie
 - **Modale** (`EditTask.tpl`, `BasicModal`) — treść do `#pjaxContainer` / `.modal`.
 - **Export / PDF** — osobne layouty.
 
+## Modal otwierany przez `app.showModalWindow()` — widok MUSI dziedziczyć po `BasicModal`
+
+Link z `'modalView' => true` (klasa `showModal`, patrz `Base/ButtonLink.tpl`) wczytuje URL przez `app.showModalWindow()`, które szuka w odpowiedzi elementu `.modal` i woła na nim Bootstrap `.modal('show')`.
+
+- Widok rozszerzający `App\Modules\Base\Views\Index` zwraca **sam fragment** (`modal-header/body/footer`) — trafia do DOM, ale okno się **nie pokazuje**.
+- Rozwiązanie: rozszerz `App\Modules\Base\Views\BasicModal`. Jego `preProcess()`/`postProcess()` owijają treść w `<div class="modal fade ..."><div class="modal-dialog"><div class="modal-content">…`.
+- `.tpl` zawiera **tylko** wnętrze (`modal-header`, `modal-body`, `modal-footer`) — **bez** własnego `modal fade` (podwójne opakowanie). Wzorzec: `HelpDesk/Views/TicketWorkflowModal.php`.
+
 ## Weryfikacja
 
 1. Odśwież stronę w przeglądarce (nie tylko CLI).

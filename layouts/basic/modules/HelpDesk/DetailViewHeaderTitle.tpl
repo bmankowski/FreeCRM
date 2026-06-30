@@ -68,7 +68,22 @@
 					</div>
 				{/if}
 				<div class="muted paddingLeft5px">
-					{"Assigned To"|t:$MODULE_NAME}: {$RECORD->getDisplayValue('assigned_user_id')}
+					{"LBL_TICKET_REPORTER"|t:$MODULE_NAME}: {$RECORD->getDisplayValue('created_user_id')}
+				</div>
+				{assign var=DEVELOPER value=$RECORD->get('developer_id')}
+				{if !empty($DEVELOPER)}
+					<div class="muted paddingLeft5px">
+						{"FL_TICKET_DEVELOPER"|t:$MODULE_NAME}: {$RECORD->getDisplayValue('developer_id')}
+					</div>
+				{/if}
+				{assign var=BUSINESS value=$RECORD->get('business_id')}
+				{if !empty($BUSINESS)}
+					<div class="muted paddingLeft5px">
+						{"FL_TICKET_BUSINESS"|t:$MODULE_NAME}: {$RECORD->getDisplayValue('business_id')}
+					</div>
+				{/if}
+				<div class="muted paddingLeft5px">
+					{"FL_CURRENT_ASSIGNEE"|t:$MODULE_NAME}: {$RECORD->getDisplayValue('assigned_user_id')}
 				</div>
 				{assign var=SHOWNERS value=$RECORD->getDisplayValue('shownerid')}
 				{if $SHOWNERS != ''}

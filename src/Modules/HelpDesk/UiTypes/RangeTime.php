@@ -15,11 +15,19 @@ class RangeTime extends BaseUiType
 
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
-		$isNull = is_null($value);
-		if ($this->get('field')->getName() == 'response_time') {
-			$value = round(\vtlib\Functions:: getDateTimeMinutesDiff($value, date('Y-m-d H:i:s')));
+		$isEmpty = $value === null || $value === '';
+		if ($this->get('field')->getName() === 'response_time') {
+			if ($isEmpty) {
+				$value = 0;
+			} else {
+				$value = (int) round(\vtlib\Functions::getDateTimeMinutesDiff($value, date('Y-m-d H:i:s')));
+			}
+		} elseif (!$isEmpty) {
+			$value = (int) round((float) $value);
+		} else {
+			$value = 0;
 		}
-		$result = \vtlib\Functions:: getRangeTime($value, !$isNull);
+		$result = \vtlib\Functions::getRangeTime($value, !$isEmpty);
 		$mode = $this->get('field')->getFieldParams();
 		if (empty($mode)) {
 			$mode = 'short';

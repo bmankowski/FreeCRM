@@ -37,8 +37,56 @@ Vtiger_Detail_Js("HelpDesk_Detail_Js", {
 			});
 		});
 	},
+	registerTicketWorkflowModal: function () {
+		jQuery(document).on('click', '.js-ticket-workflow-submit', function (e) {
+			e.preventDefault();
+			var form = jQuery('#ticketWorkflowForm');
+			if (!form.length) {
+				return;
+			}
+			var mode = form.data('mode');
+			var record = form.data('record');
+			var solution = form.find('[name="solution"]').val() || '';
+			var comment = form.find('[name="comment"]').val() || '';
+			if (mode === 'done' && jQuery.trim(solution) === '') {
+				Vtiger_Helper_Js.showPnotify({
+					text: app.vtranslate('JS_LBL_TICKET_SOLUTION_REQUIRED', 'HelpDesk'),
+					type: 'error'
+				});
+				return;
+			}
+			var progressIndicatorElement = jQuery.progressIndicator({});
+			AppConnector.request({
+				module: 'HelpDesk',
+				action: 'TicketWorkflowAjax',
+				record: record,
+				mode: mode,
+				solution: solution,
+				comment: comment
+			}).then(function (data) {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				if (data.success && data.result && data.result.success) {
+					app.hideModalWindow();
+					location.reload();
+					return;
+				}
+				var messageKey = (data.result && data.result.message) ? data.result.message : 'LBL_ERROR';
+				Vtiger_Helper_Js.showPnotify({
+					text: app.vtranslate(messageKey, 'HelpDesk'),
+					type: 'error'
+				});
+			}, function () {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				Vtiger_Helper_Js.showPnotify({
+					text: app.vtranslate('LBL_ERROR', 'Vtiger'),
+					type: 'error'
+				});
+			});
+		});
+	},
 	registerEvents: function () {
 		this._super();
 		this.registerSetServiceContracts();
+		this.registerTicketWorkflowModal();
 	}
 });

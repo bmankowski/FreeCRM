@@ -68,6 +68,9 @@ class EditAjax extends \App\Modules\Base\Views\IndexAjax
 			$viewer->assign('EVENT_RECORD_STRUCTURE_MODEL', $relatedRecordStructureInstance);
 			$viewer->assign('EVENT_RECORD_STRUCTURE', $eventBlocksFields);
 		}
+		if ($duplicate == '1' && !empty($record)) {
+			$customViewModel->set('viewname', $this->generateUniqueViewName($customViewModel->get('viewname'), $moduleName));
+		}
 		$viewer->assign('CUSTOMVIEW_MODEL', $customViewModel);
 		if ($duplicate != '1' && !empty($record)) {
 			$viewer->assign('RECORD_ID', $record);
@@ -87,5 +90,19 @@ class EditAjax extends \App\Modules\Base\Views\IndexAjax
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 
 		echo $viewer->view('EditView.tpl', $module, true);
+	}
+
+	private function generateUniqueViewName(string $baseName, string $moduleName): string
+	{
+		$suffix = \App\Runtime\Vtiger_Language_Handler::translate('LBL_FILTER_COPY_SUFFIX', 'CustomView');
+		$candidate = $baseName . ' (' . $suffix . ')';
+		$counter = 2;
+		while ((new \App\Db\Query())->from('vtiger_customview')
+			->where(['viewname' => $candidate, 'entitytype' => $moduleName])
+			->exists()) {
+			$candidate = $baseName . ' (' . $suffix . ' ' . $counter . ')';
+			++$counter;
+		}
+		return $candidate;
 	}
 }

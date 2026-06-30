@@ -7,7 +7,8 @@
         "LBL_SELECT_FIELD_TO_SORT_RECORDS": "Wybierz pole, po którym chcesz sortować rekordy",
         "LBL_SORT_ASCENDING_ORDER": "Sortuj rosnąco",
         "LBL_SORT_DESCENDING_ORDER": "Sortuj malejąco",
-        "LBL_INVALID_SORT_FIELD": "Wybrane pole sortowania jest nieprawidłowe"
+        "LBL_INVALID_SORT_FIELD": "Wybrane pole sortowania jest nieprawidłowe",
+        "LBL_FILTER_COPY_SUFFIX": "kopia"
     },
     "jsLanguageStrings": []
 }

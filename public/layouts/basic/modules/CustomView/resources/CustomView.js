@@ -216,6 +216,7 @@ var Vtiger_CustomView_Js = {
 		var aDeferred = jQuery.Deferred();
 		var formElement = jQuery("#CustomView");
 		var formData = formElement.serializeFormData();
+		formData.record = jQuery('#record', formElement).val();
 
 		var progress = $.progressIndicator({
 			'message': app.vtranslate('JS_SAVE_LOADER_INFO'),

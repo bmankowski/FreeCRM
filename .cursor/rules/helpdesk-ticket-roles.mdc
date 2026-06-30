@@ -1,0 +1,58 @@
+---
+description: "HelpDesk ticket roles (developer/business/assignee) and workflow actions — read when working on HelpDesk DetailView, TicketWorkflowAjax, or role fields"
+globs:
+  - "src/Modules/HelpDesk/**"
+  - "layouts/basic/modules/HelpDesk/**"
+  - "public/layouts/basic/modules/HelpDesk/**"
+  - "migrations/Users/m260630_000001_helpdesk_ticket_roles.php"
+alwaysApply: false
+---
+
+# HelpDesk — role w zgłoszeniu i workflow
+
+## Model ról
+
+| Rola | Pole | uitype | Domyślnie |
+|---|---|---|---|
+| Zgłaszający | `created_user_id` (`smcreatorid`) | 52 | auto przy tworzeniu |
+| Developer | `developer_id` | 53 (osoba lub grupa) | puste → triaż |
+| Osoba biznesowa | `business_id` | 53 | = zgłaszający (`EntityBeforeSave`) |
+| Aktualny wykonawca | `assigned_user_id` (`smownerid`) | 53 | sterowany workflow / triażem |
+
+`assigned_user_id` = „kto ma teraz piłkę” — filtry „przydzielone do mnie” nadal działają.
+
+## Akcje workflow (DetailView toolbar)
+
+| Akcja | Kto (`DetailView`) | Status wejściowy | Efekt |
+|---|---|---|---|
+| **Zrobione** | `developer_id` (+ grupa) lub admin | dev-aktywny (nie odbiór/zamknięty) | → `PLL_FOR_APPROVAL`, `assigned` ← `business_id`, wymagane `solution` |
+| **Nadal nie działa** | `business_id` lub admin | `PLL_FOR_APPROVAL` | → `In Progress`, `assigned` ← `developer_id` |
+| **Odbieram** | `business_id` lub admin | `PLL_FOR_APPROVAL` | → `Closed`, `assigned` ← `business_id` |
+
+Stałe statusów i `isDevActiveStatus()` — tylko w `HelpDesk\Models\DetailView`. Uprawnienia grup: `isActorForOwnerField()` (porównanie z `Privileges::get('groups')`).
+
+## Pliki
+
+| Warstwa | Plik |
+|---|---|
+| Uprawnienia + linki | `src/Modules/HelpDesk/Models/DetailView.php` |
+| Zapis AJAX | `src/Modules/HelpDesk/Actions/TicketWorkflowAjax.php` (`mode`: `done`, `not_working`, `accept`) |
+| Modal GET | `src/Modules/HelpDesk/Views/TicketWorkflowModal.php` (extends `BasicModal`) |
+| Modal tpl | `layouts/basic/modules/HelpDesk/TicketWorkflowModal.tpl` |
+| Submit JS | `public/layouts/basic/modules/HelpDesk/resources/Detail.js` → `.js-ticket-workflow-submit` |
+| Auto-defaults | `src/Modules/HelpDesk/Handlers/HelpDesk_TicketRoles_Handler.php` (`EntityBeforeSave`) |
+| Migracja pól | `migrations/Users/m260630_000001_helpdesk_ticket_roles.php` |
+
+Modal musi dziedziczyć po `BasicModal` — patrz `main-layout-views.mdc`. Handler wymaga wpisu w `EventHandler::$classNameMap` — patrz `architecture.mdc`.
+
+## Handler BeforeSave (nie nadpisuje workflow)
+
+- Nowy rekord: `business_id` ← `created_user_id` (fallback: `CurrentUser::getId()`).
+- Zmiana `developer_id` + status dev-aktywny → `assigned_user_id` ← `developer_id`.
+- **Nie** zmienia `assigned_user_id` przy samej zmianie statusu — to robi `TicketWorkflowAjax`.
+
+## Etykiety (HelpDesk.json)
+
+`FL_TICKET_DEVELOPER`, `FL_TICKET_BUSINESS`, `FL_CURRENT_ASSIGNEE`, `LBL_TICKET_ACCEPT`, `LBL_TICKET_ROLE_MISSING`.
+
+Nagłówek ról: `layouts/basic/modules/HelpDesk/DetailViewHeaderTitle.tpl`.

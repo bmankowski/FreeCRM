@@ -643,9 +643,14 @@ class Functions
 
 	public static function getRangeTime($timeMinutesRange, $showEmptyValue = true)
 	{
+		if ($timeMinutesRange === null || $timeMinutesRange === '') {
+			$timeMinutesRange = 0;
+		} else {
+			$timeMinutesRange = (int) round((float) $timeMinutesRange);
+		}
 		$short = [];
 		$full = [];
-		$years = ((int) $timeMinutesRange) / (60 * 24 * 365);
+		$years = $timeMinutesRange / (60 * 24 * 365);
 		$years = floor($years);
 		if (!empty($years)) {
 			$short[] = $years == 1 ? $years . \App\Runtime\Vtiger_Language_Handler::translate('LBL_Y') : $years . \App\Runtime\Vtiger_Language_Handler::translate('LBL_YRS');
@@ -689,6 +694,7 @@ class Functions
 		// how many numbers to take at once? carefull not to exceed (int) 
 		$take = 5;
 		$mod = '';
+		$x = (string) $x;
 
 		do {
 			$a = (int) $mod . substr($x, 0, $take);

@@ -18,7 +18,7 @@
 		<input type="hidden" name="source_module" value="{$SOURCE_MODULE}"/>
 		<input type="hidden" id="stdfilterlist" name="stdfilterlist" value=""/>
 		<input type="hidden" id="advfilterlist" name="advfilterlist" value=""/>
-		<input type="hidden" id="status" name="status" value="{$CV_PRIVATE_VALUE}"/>
+		<input type="hidden" name="status" value="{$CV_PRIVATE_VALUE}"/>
 		<input type="hidden" id="sourceModule" value="{$SOURCE_MODULE}">
 		<input type="hidden" name="date_filters" data-value='{\App\Modules\Base\Helpers\Util::toSafeHTML(\App\Utils\Json::encode($DATE_FILTERS))}' />
 		<div class='widget_header row customViewHeader'>
