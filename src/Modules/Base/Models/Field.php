@@ -881,6 +881,13 @@ class Field
 		return true;
 	}
 
+	public function isReferenceModalEditable(): bool
+	{
+		return $this->isEditable()
+			&& $this->getFieldDataType() === self::REFERENCE_TYPE
+			&& (int) $this->get('displaytype') !== 10;
+	}
+
 	public function isEditableReadOnly()
 	{
 		$isEditableReadOnly = $this->get('isEditableReadOnly');

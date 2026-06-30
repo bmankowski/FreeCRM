@@ -123,7 +123,13 @@
 											{if in_array($FIELD_MODEL->getName(),['date_start','due_date']) && ($MODULE_NAME eq 'Calendar' || $MODULE_NAME eq 'Events')}
 												{assign var=EDIT value=true}
 											{/if}
-											{if $IS_AJAX_ENABLED && $FIELD_MODEL->isEditable() eq 'true' && $FIELD_MODEL->isAjaxEditable() eq 'true' && !$EDIT}
+											{if $IS_AJAX_ENABLED && $FIELD_MODEL->isReferenceModalEditable() eq true}
+												<span class="summaryViewEdit referenceModalEdit cursorPointer pull-right"
+													data-field-name="{$FIELD_MODEL->getName()}"
+													data-record="{$RECORD->getId()}" data-module="{$MODULE_NAME}">
+													&nbsp;<i class="glyphicon glyphicon-pencil" title="{'LBL_EDIT'|t:$MODULE_NAME}"></i>
+												</span>
+											{elseif $IS_AJAX_ENABLED && $FIELD_MODEL->isEditable() eq 'true' && $FIELD_MODEL->isAjaxEditable() eq 'true' && !$EDIT}
 												<span class="summaryViewEdit cursorPointer pull-right ">
 													&nbsp;<i class="glyphicon glyphicon-pencil" title="{'LBL_EDIT'|t:$MODULE_NAME}"></i>
 												</span>

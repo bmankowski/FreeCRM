@@ -34,7 +34,14 @@
                         {if in_array($FIELD_MODEL->getName(),['date_start','due_date']) && ($MODULE_NAME eq 'Calendar' || $MODULE_NAME eq 'Events')}
                             {assign var=SKIP_INLINE_EDIT value=true}
                         {/if}
-                        {if !$IS_READ_ONLY && !$SKIP_INLINE_EDIT && $FIELD_MODEL->isEditable() eq 'true' && ($FIELD_MODEL->getFieldDataType()!=\App\Modules\Base\Models\Field::REFERENCE_TYPE) && $IS_AJAX_ENABLED && $FIELD_MODEL->isAjaxEditable() eq 'true' && $FIELD_MODEL->get('uitype') neq 69}
+                        {if !$IS_READ_ONLY && !$SKIP_INLINE_EDIT && $IS_AJAX_ENABLED && $FIELD_MODEL->isReferenceModalEditable() eq true}
+                            <div class="summaryViewEdit referenceModalEdit col-xs-2 cursorPointer"
+                                data-field-name="{$FIELD_MODEL->getName()}" data-record="{$RECORD->getId()}" data-module="{$MODULE_NAME}">
+                                <div class="pull-right">
+                                    <span class="glyphicon glyphicon-pencil" title="{"LBL_EDIT"|t:$MODULE_NAME}"></span>
+                                </div>
+                            </div>
+                        {elseif !$IS_READ_ONLY && !$SKIP_INLINE_EDIT && $FIELD_MODEL->isEditable() eq 'true' && ($FIELD_MODEL->getFieldDataType()!=\App\Modules\Base\Models\Field::REFERENCE_TYPE) && $IS_AJAX_ENABLED && $FIELD_MODEL->isAjaxEditable() eq 'true' && $FIELD_MODEL->get('uitype') neq 69}
                             <div class="hide edit col-xs-12">
                                 {include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME}
 								{if $FIELD_MODEL->getFieldDataType() eq 'boolean' || $FIELD_MODEL->getFieldDataType() eq 'picklist'}

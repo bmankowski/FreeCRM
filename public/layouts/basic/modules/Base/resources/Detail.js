@@ -1645,6 +1645,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 		var formData = formElement.serializeFormData();
 		summaryViewContainer.off('click').on('click', '.row .summaryViewEdit', function (e) {
 			var currentTarget = jQuery(e.currentTarget);
+			if (currentTarget.hasClass('referenceModalEdit')) {
+				return;
+			}
 			currentTarget.addClass('hide');
 			var currentTdElement = currentTarget.closest('.fieldValue');
 			thisInstance.ajaxEditHandling(currentTdElement);
@@ -2542,6 +2545,57 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var editViewObj = new Vtiger_Edit_Js();
 			editViewObj.openPopUp(e);
 			return false;
+		});
+
+		detailContentsHolder.on('click', '.referenceModalEdit', function (e) {
+			e.stopPropagation();
+			var btn = jQuery(e.currentTarget);
+			thisInstance.referenceModalTarget = btn.closest('.fieldValue');
+			var url = 'index.php?module=' + btn.data('module') + '&view=ReferenceEditModal'
+				+ '&record=' + btn.data('record') + '&field=' + btn.data('fieldName');
+			app.showModalWindow(null, url, function (modalContainer) {
+				new Vtiger_Edit_Js().registerBasicEvents(modalContainer);
+			});
+		});
+
+		jQuery(document).off('click.refModalSave').on('click.refModalSave', '.js-reference-modal-save', function (e) {
+			e.preventDefault();
+			var form = jQuery('#referenceEditForm');
+			if (!form.length) {
+				return;
+			}
+			var fieldName = form.data('field');
+			var moduleName = form.data('module');
+			var value = form.find('.sourceField').val();
+			var progress = jQuery.progressIndicator({});
+			AppConnector.request({
+				module: moduleName,
+				action: 'SaveAjax',
+				record: form.data('record'),
+				field: fieldName,
+				value: value
+			}).then(function (response) {
+				progress.progressIndicator({ mode: 'hide' });
+				if (!response.success || !response.result || !response.result[fieldName]) {
+					Vtiger_Helper_Js.showPnotify({
+						text: app.vtranslate('LBL_ERROR', 'Vtiger'),
+						type: 'error'
+					});
+					return;
+				}
+				var display = response.result[fieldName].display_value;
+				jQuery('#' + moduleName + '_detailView_fieldValue_' + fieldName + ' .value').html(display);
+				if (thisInstance.referenceModalTarget) {
+					thisInstance.referenceModalTarget.find('.value').html(display);
+				}
+				app.hideModalWindow();
+			}, function () {
+				progress.progressIndicator({ mode: 'hide' });
+				Vtiger_Helper_Js.showPnotify({
+					text: app.vtranslate('LBL_ERROR', 'Vtiger'),
+					type: 'error'
+				});
+			});
 		});
 
 		detailContentsHolder.on('click', '.viewThread', function (e) {
