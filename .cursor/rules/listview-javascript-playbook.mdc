@@ -68,6 +68,15 @@ Editing columns on a list filter (`CustomView` → `EditAjax`, loaded via `Vtige
 - **Default sort UI:** `layouts/basic/modules/CustomView/EditView.tpl` — `defaultOrderBy` (field `column` name, not `getCustomViewColumnName()`) + hidden `sortOrder`; handlers in `registerSortOrderEvents()`.
 - **Persistence:** `CustomView/Actions/Save.php` → `Record::formatSortValue()` → `vtiger_customview.sort` as `{column},{ASC|DESC}`. List applies via `CustomView::resolveListSort()`. No Settings sort modal — configure on create/edit filter only.
 
+## Alphabetic filter (A–Z modal)
+
+A–Z index that filters the list by the **first letter** of the module's main search field. Shared by main ListView and DetailView related lists.
+
+- **Trigger:** `.alphabetBtn` in `layouts/basic/modules/Base/uitypes/FieldSearchView.tpl`, rendered **only** on the column equal to `MODULE_MODEL->getAlphabetSearchField()` (= entity `def_basicsearch_col`, e.g. Leads `company`, Contacts `lastname`).
+- **Modal:** hidden `.alphabetModal` from `layouts/basic/modules/Base/ListViewAlphabet.tpl`; letters come from `LBL_ALPHABETS` (PL list includes Ą Ć Ł Ń Ó Ś Ź Ż).
+- **JS:** `ListSearch.js` `registerAlphabetClick` / `registerEventForAlphabetSearch`; click sends `search_key` (= `#alphabetSearchKey`), `search_value` (letter), `operator: 's'` (starts with), then `reloadList`. "Wyczyść/Usuń filtrowanie" (`removeAlfabetCondition`) reloads with empty search.
+- **Backend:** `Base\Models\ListView::loadListViewCondition()` — single letter expands to `[upper, lower]` before `addBaseSearchConditions(..., 's')`.
+
 ## Debug checklist for list issues
 
 1. Confirm current view and module (`ListView` vs `ListPreview`, Settings parent).

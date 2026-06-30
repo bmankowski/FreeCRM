@@ -1,0 +1,37 @@
+---
+description: "CustomView (list filters) — where the code lives and key behaviors (duplicate names allowed, owner grouping)"
+---
+
+# CustomView — list filters
+
+ListView filter dropdown ("Wszystkie", "Moje", ...). Per-module rows in `vtiger_customview` (`entitytype` = module name, `cvid`, `viewname`, `userid`, `status`).
+
+## Where the code lives
+
+| Concern | File |
+|---|---|
+| Save action (create/edit/duplicate) | `src/Modules/CustomView/Actions/Save.php` |
+| Record model (save, grouping, sort) | `src/Modules/CustomView/Models/Record.php` |
+| Edit form view (AJAX, builds EditView) | `src/Modules/CustomView/Views/EditAjax.php` |
+| Edit form template | `layouts/basic/modules/CustomView/EditView.tpl` |
+| Filter editor JS | `public/layouts/basic/modules/CustomView/resources/CustomView.js` (+ `.min.js`) |
+| Dropdown / featured render | `layouts/basic/modules/Base/ListViewHeader.tpl` |
+| Filter create/edit/duplicate/delete click events | `public/layouts/basic/modules/Base/resources/ListView.js` (`registerEditFilterClickEvent` etc.) |
+
+- Save flow: `CustomView.js` submit → `saveFilter()` posts the `#CustomView` form (`action=Save`) → `Save.php`. The hidden `#record` carries `cvid` (empty = create, set = edit). Duplicate uses `&duplicate=1` on EditAjax → `RECORD_ID` blanked so it saves as new.
+
+## Status constants (`src/View/CustomView.php`)
+
+`CV_STATUS_DEFAULT=0`, `CV_STATUS_PRIVATE=1`, `CV_STATUS_PENDING=2`, `CV_STATUS_PUBLIC=3`, `CV_STATUS_SYSTEM=4`. The built-in "All" filter has `viewname='All'`, `status=0`.
+
+## Behaviors (intentional, do not "restore")
+
+- **Duplicate filter names are allowed.** There is no `checkDuplicate()` / `LBL_CUSTOM_VIEW_NAME_DUPLICATES_EXIST` — that blocking was removed on purpose. `Save.php` just saves.
+- **Dropdown grouping is per owner** (`Record::getAllByGroup()`): group order = Systemowe (built-in "All" + `status=SYSTEM`), then Moje (current user), then one group per other owner (label = `getOwnerName()`, sorted). Group keys are the already-translated labels.
+- Templates iterate `$CUSTOM_VIEWS` as `key=GROUP_LABEL` and render `<optgroup label='{$GROUP_LABEL}'>` directly — **no** `LBL_CV_GROUP_*` prefix building, no `[ owner ]` suffix on option text. Same pattern in `Calendar.tpl`, `Campaigns/RelatedList.tpl`, dashboards `ChartFilter.tpl`/`MiniListWizard.tpl`.
+
+## Gotchas
+
+- `getAllByGroup()` consumers: ListView, Calendar dashboard, Campaigns RelatedList, ChartFilter, MiniListWizard, TreeRecords — update all if you change the structure.
+- After editing `EditView.tpl` or any `.tpl`, wipe `cache/templates_c/*.php`.
+- Per-filter default sort lives in `vtiger_customview.sort` as `{column},{ASC|DESC}` — see `Record::parseSortValue()` / `formatSortValue()`.

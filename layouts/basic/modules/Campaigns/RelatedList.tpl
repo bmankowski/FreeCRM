@@ -54,9 +54,9 @@
 							{if $CUSTOM_VIEWS|@count gt 0}
 								<select id="recordsFilter" class="col-md-12" data-placeholder="{"LBL_SELECT_TO_LOAD_LIST"|t:$RELATED_MODULE_NAME}">
 									{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
-										<optgroup label="{$GROUP_LABEL|t}">
+										<optgroup label="{$GROUP_LABEL}">
 											{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
-												<option id="filterOptionId_{$CUSTOM_VIEW->get('cvid')}" value="{$CUSTOM_VIEW->get('cvid')}" class="filterOptionId_{$CUSTOM_VIEW->get('cvid')}" data-id="{$CUSTOM_VIEW->get('cvid')}">{if $CUSTOM_VIEW->get('viewname') eq 'All'}{$CUSTOM_VIEW->get('viewname')|t:$RELATED_MODULE_NAME} {$RELATED_MODULE_NAME|t:$RELATED_MODULE_NAME}{else}{$CUSTOM_VIEW->get('viewname')|t:$RELATED_MODULE_NAME}{/if}{if $GROUP_LABEL neq 'Mine'} [ {$CUSTOM_VIEW->getOwnerName()} ] {/if}</option>
+												<option id="filterOptionId_{$CUSTOM_VIEW->get('cvid')}" value="{$CUSTOM_VIEW->get('cvid')}" class="filterOptionId_{$CUSTOM_VIEW->get('cvid')}" data-id="{$CUSTOM_VIEW->get('cvid')}">{if $CUSTOM_VIEW->get('viewname') eq 'All'}{$CUSTOM_VIEW->get('viewname')|t:$RELATED_MODULE_NAME} {$RELATED_MODULE_NAME|t:$RELATED_MODULE_NAME}{else}{$CUSTOM_VIEW->get('viewname')|t:$RELATED_MODULE_NAME}{/if}</option>
 											{/foreach}
 										</optgroup>
 									{/foreach}

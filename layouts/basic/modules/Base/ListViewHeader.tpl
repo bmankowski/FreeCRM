@@ -67,7 +67,7 @@
 						{if $CUSTOM_VIEWS|@count gt 0}
 							<select id="customFilter" title="{"LBL_CUSTOM_FILTER"|t}">
 								{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
-									<optgroup label='{'LBL_CV_GROUP_'|cat:strtoupper($GROUP_LABEL)|t}'>
+									<optgroup label='{$GROUP_LABEL}'>
 										{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS}
 											<option data-orderby="{$CUSTOM_VIEW->getSortOrderBy('orderBy')}"
 												data-sortorder="{$CUSTOM_VIEW->getSortOrderBy('sortOrder')}"
@@ -87,8 +87,7 @@
 													selected="selected"
 												{elseif ($VIEWID == '' or $VIEWID == '0')&& $CUSTOM_VIEW->isDefault() eq 'true'}
 												selected="selected" {/if} class="filterOptionId_{$CUSTOM_VIEW->get('cvid')}">
-												{$CUSTOM_VIEW->get('viewname')|t:$MODULE}{if $GROUP_LABEL neq 'Mine' && $GROUP_LABEL neq 'System'}
-												[ {$CUSTOM_VIEW->getOwnerName()} ] {/if}</option>
+												{$CUSTOM_VIEW->get('viewname')|t:$MODULE}</option>
 										{/foreach}
 									</optgroup>
 								{/foreach}

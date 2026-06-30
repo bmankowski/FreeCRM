@@ -39,7 +39,7 @@
 					<span class="input-group-addon"><span class="glyphicon glyphicon-filter iconMiddle margintop3"></span></span>
 					<select class="widgetFilter form-control customFilter input-sm" name="customFilter" title="{"LBL_CUSTOM_FILTER"|t}">
 						{foreach key=GROUP_LABEL item=GROUP_CUSTOM_VIEWS from=$CUSTOM_VIEWS}
-							<optgroup label='{'LBL_CV_GROUP_'|cat:strtoupper($GROUP_LABEL)|t}' >
+							<optgroup label='{$GROUP_LABEL}' >
 								{foreach item="CUSTOM_VIEW" from=$GROUP_CUSTOM_VIEWS} 
 									<option value="{$CUSTOM_VIEW->get('cvid')}" {if $DATA['customFilter'] eq $CUSTOM_VIEW->get('cvid')} selected {/if}>{$CUSTOM_VIEW->get('viewname')|t:'Calendar'}</option>
 								{/foreach}

@@ -108,6 +108,14 @@ Looks like Multipicklist (`email_template_type`): Select2 `select2-selection--mu
 
 ---
 
+## Record autonumbering (uitype 3/4 → `RecordNumber`)
+
+Sequence config lives in **`vtiger_modentity_num`** keyed by `tabid` (one row per module). On save, `Base\UiTypes\RecordNumber::getDBValue()` → `\App\Fields\RecordNumber::incrementNumber($tabid)` reads `prefix`/`cur_id`/`postfix`, writes `prefix.cur_id.postfix` to the uitype-4 field, then bumps `cur_id`.
+
+- **Missing-row gotcha:** a module can have a uitype-4 `number` field but **no** `vtiger_modentity_num` row → `incrementNumber()` returns `''`, so every new/duplicated record gets a **silently empty** number. Fix = insert the row (prefix + `cur_id` = max existing sequence + 1). Hit on `Candidates` (tabid 121, prefix `PRO`) and `ProjektyRekrutacyjne` (tabid 119, prefix `POT`); migrations `m260630_000002` / `_000004`.
+- **Leading zeros:** `start_id` / `cur_id` are **`varchar(50)`** (migration `m260630_000003`; were `int`, which dropped zeros). `incrementNumber()` already preserves sequence *width* via `str_repeat('0', …)`, so store the padded value (e.g. `cur_id = 026965` → `PRO026965`, next `026966`). Fresh-install schema: `Base3.php` (`stringType(50)`).
+- **Settings UI:** `index.php?module=Vtiger&parent=Settings&view=CustomRecordNumbering`. "Start Sequence" accepts leading zeros; backfill button "Update missing record sequence" → `CRMEntity::updateMissingSeqNumber()` (also width-preserving). Supported modules = `isentitytype=1 AND presence=0` with a uitype-4 field.
+
 ## UiType class files
 
 Base implementations: `src/Modules/Base/UiTypes/<ClassName>.php`

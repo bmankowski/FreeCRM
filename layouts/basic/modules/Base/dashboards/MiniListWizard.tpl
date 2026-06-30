@@ -70,7 +70,7 @@
 {elseif $WIZARD_STEP eq 'step2'}
 	<option></option>
 	{foreach from=$ALLFILTERS item=FILTERS key=FILTERGROUP}
-		<optgroup label="{$FILTERGROUP|t:$SELECTED_MODULE}">
+		<optgroup label="{$FILTERGROUP}">
 			{foreach from=$FILTERS item=FILTER key=FILTERNAME}
 				{if $FILTER->get('setmetrics') eq 1}
 					<option value="{$FILTER->getId()}">{$FILTER->get('viewname')|t:$SELECTED_MODULE}</option>

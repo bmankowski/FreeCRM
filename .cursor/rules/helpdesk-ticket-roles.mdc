@@ -21,6 +21,8 @@ alwaysApply: false
 
 `assigned_user_id` = „kto ma teraz piłkę” — filtry „przydzielone do mnie” nadal działają.
 
+**Aktualny wykonawca to wskaźnik, nie osobna rola:** w danym momencie wskazuje `developer_id` (faza realizacji) albo `business_id` (faza odbioru `PLL_FOR_APPROVAL` / po zamknięciu) — nigdy trzecią, stałą osobę. Workflow i triaż przepisują go automatycznie.
+
 ## Akcje workflow (DetailView toolbar)
 
 | Akcja | Kto (`DetailView`) | Status wejściowy | Efekt |

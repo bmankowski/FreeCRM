@@ -558,17 +558,20 @@ class CRMEntity
 					$sequenceNumber = $moduleData['sequenceNumber'];
 					$prefix = $moduleData['prefix'];
 					$postfix = $moduleData['postfix'];
+					$padWidth = strlen((string) $sequenceNumber);
 					$oldNumber = $sequenceNumber;
+					$sequenceNumber = (int) $sequenceNumber;
 					while ($recordinfo = $dataReader->read()) {
-						$recordNumber = \App\Fields\RecordNumber::parse($prefix . $sequenceNumber . $postfix);
+						$padded = str_pad((string) $sequenceNumber, $padWidth, '0', STR_PAD_LEFT);
+						$recordNumber = \App\Fields\RecordNumber::parse($prefix . $padded . $postfix);
 						\App\Db\Db::getInstance()->createCommand()
 							->update($fieldTable, [$fieldColumn => $recordNumber], [$this->table_index => $recordinfo['recordid']])
 							->execute();
 						$sequenceNumber += 1;
 						$returninfo['updatedrecords'] = $returninfo['updatedrecords'] + 1;
 					}
-					if ($oldNumber != $sequenceNumber) {
-						\App\Fields\RecordNumber::updateNumber($sequenceNumber, $tabid);
+					if ((string) $oldNumber !== (string) $sequenceNumber) {
+						\App\Fields\RecordNumber::updateNumber(str_pad((string) $sequenceNumber, $padWidth, '0', STR_PAD_LEFT), $tabid);
 					}
 				}
 			} else {

@@ -927,7 +927,7 @@ class Record extends \App\Modules\Base\Models\Record
 	public static function getAllByGroup($moduleName = '', $menuId = false)
 	{
 		$customViews = self::getAll($moduleName);
-		$filters = $groupedCustomViews = [];
+		$filters = [];
 		$menuFilter = false;
 		if ($menuId) {
 			$userPrivModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
@@ -938,19 +938,32 @@ class Record extends \App\Modules\Base\Models\Record
 				$menuFilter = true;
 			}
 		}
-		foreach ($customViews as $index => $customView) {
+		$currentUserId = \App\User\CurrentUser::get()->getId();
+		$standard = $mine = $byOwner = [];
+		foreach ($customViews as $customView) {
 			if ($menuFilter && !in_array($customView->getId(), $filters)) {
 				continue;
 			}
-			if ($customView->isSystem()) {
-				$groupedCustomViews['System'][] = $customView;
-			} elseif ($customView->isMine()) {
-				$groupedCustomViews['Mine'][] = $customView;
-			} elseif ($customView->isPending()) {
-				$groupedCustomViews['Pending'][] = $customView;
+			$status = (int) $customView->get('status');
+			if ($customView->isSystem() || ($customView->get('viewname') === 'All' && $status === \App\View\CustomView::CV_STATUS_DEFAULT)) {
+				$standard[] = $customView;
+			} elseif ((int) $customView->get('userid') === $currentUserId) {
+				$mine[] = $customView;
 			} else {
-				$groupedCustomViews['Others'][] = $customView;
+				$byOwner[$customView->getOwnerName()][] = $customView;
 			}
+		}
+		ksort($byOwner, SORT_NATURAL | SORT_FLAG_CASE);
+
+		$groupedCustomViews = [];
+		if ($standard) {
+			$groupedCustomViews[\App\Runtime\Vtiger_Language_Handler::translate('LBL_CV_GROUP_SYSTEM')] = $standard;
+		}
+		if ($mine) {
+			$groupedCustomViews[\App\Runtime\Vtiger_Language_Handler::translate('LBL_CV_GROUP_MINE')] = $mine;
+		}
+		foreach ($byOwner as $ownerName => $ownerViews) {
+			$groupedCustomViews[$ownerName] = $ownerViews;
 		}
 		return $groupedCustomViews;
 	}
@@ -963,21 +976,6 @@ class Record extends \App\Modules\Base\Models\Record
 	public static function getCleanInstance($moduleName = null)
 	{
 		return new self();
-	}
-
-	/**
-	 * Function to check duplicates from database
-	 * @return boolean
-	 */
-	public function checkDuplicate()
-	{
-		$query = (new \App\Db\Query())->from('vtiger_customview')
-			->where(['viewname' => $this->get('viewname'), 'entitytype' => $this->getModule()->getName()]);
-		$cvid = $this->getId();
-		if ($cvid) {
-			$query->andWhere(['<>', 'cvid', $cvid]);
-		}
-		return $query->exists();
 	}
 
 	/**

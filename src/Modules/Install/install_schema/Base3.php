@@ -1191,8 +1191,8 @@ class Base3 extends \App\Db\Importers\Base
 					'tabid' => $this->smallInteger(11)->unsigned()->notNull(),
 					'prefix' => $this->stringType(50)->notNull()->defaultValue(''),
 					'postfix' => $this->stringType(50)->notNull()->defaultValue(''),
-					'start_id' => $this->integer()->unsigned()->notNull(),
-					'cur_id' => $this->integer()->unsigned()->notNull(),
+					'start_id' => $this->stringType(50)->notNull()->defaultValue('0'),
+					'cur_id' => $this->stringType(50)->notNull()->defaultValue('0'),
 				],
 				'index' => [
 						['modentity_num_semodule_idx', 'cur_id'],

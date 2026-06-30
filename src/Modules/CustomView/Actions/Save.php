@@ -31,15 +31,11 @@ class Save extends \App\Base\Controllers\BaseActionController
 
 		$customViewModel = $this->getCVModelFromRequest($request, $sort);
 
-		if (!$customViewModel->checkDuplicate()) {
-			$customViewModel->save();
-			$cvId = $customViewModel->getId();
-			\App\Cache\Cache::delete('\App\Modules\CustomView\Models\RecordgetInstanceById', $cvId);
-			$this->syncSessionSortIfCurrentView($moduleName, (int) $cvId, $sort);
-			$response->setResult(array('id' => $cvId, 'listviewurl' => $moduleModel->getListViewUrl() . '&viewname=' . $cvId));
-		} else {
-			$response->setError(\App\Runtime\Vtiger_Language_Handler::translate('LBL_CUSTOM_VIEW_NAME_DUPLICATES_EXIST', $moduleName));
-		}
+		$customViewModel->save();
+		$cvId = $customViewModel->getId();
+		\App\Cache\Cache::delete('\App\Modules\CustomView\Models\RecordgetInstanceById', $cvId);
+		$this->syncSessionSortIfCurrentView($moduleName, (int) $cvId, $sort);
+		$response->setResult(array('id' => $cvId, 'listviewurl' => $moduleModel->getListViewUrl() . '&viewname=' . $cvId));
 
 		$response->emit();
 	}

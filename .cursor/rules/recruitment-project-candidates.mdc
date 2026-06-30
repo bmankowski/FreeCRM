@@ -70,3 +70,15 @@ globs:
 - **Template pitfalls:** never `height="100%"` on preview `<img>` without a fixed-height parent (Firefox collapses to 0px). Do not Smarty `escape:'url'` on `file.php` URLs (over-encodes). Use explicit `max-width:100%; height:auto` (`.candidates-cv-preview__image`).
 - **CV import:** `DocumentHelper::saveAndDeleteFile` links new Document to **Candidates** only (`prepareRelationsString('Candidates', …)`).
 - **Counts:** `u_yf_candidatescf.documents_count` via `RefreshDocsNumber` on link/unlink.
+- **Export CV ZIP** (`Candidates/Actions/ExportCvZip.php`, mass action on related list) must follow **`cv_img_file`** (the one Set-as-CV doc), **not** filter Documents by `title='cv'` — titles are free-form (`CV2015`, …) and Set-as-CV does not rename the Document. Resolve source doc via `Record::getCurrentCvSourceDocumentId()` (`sourceDocumentId` in the JSON, written by `transformDocumentToCV()`; legacy fallback parses `{notesid}_{hash}` from `name`); if the source Document is gone, fall back to the stored `cv_img_file` blob (`resolveCvImgFileAbsolutePath()` → `MultiAttachment::resolveAbsolutePath()`, now `public static`). One file per candidate.
+
+## Related-list Excel export (Eksport do Excel)
+
+- Project→Candidates related list uses **`QuickExport::ExportRelatedToExcel`** (not the cvid-based `ExportToExcel`). Triggered by `ProjektyRekrutacyjne_RelatedList_Js.triggerQuickExportToExcel()` (`public/modules/ProjektyRekrutacyjne/resources/RelatedList.js`), which posts `parentModule`, `record`, `relatedModule`, `tab_label`, `mode=ExportRelatedToExcel`, `selected_ids`.
+- Server rebuilds the **same `RelationListView`** as the view: columns from `getHeaders()` (incl. `recruitment_status_rel`), rows via new `RelationListView::getEntriesByIds($ids)` (filters `id` on the relation query, keeps Screening tab condition). Cell render mirrors `RelatedListContents.tpl` 3-rule logic — name/uitype-4 → `getDisplayValue`, `fromOutsideList` → `Field::getDisplayValue` (translated picklist label for status), else `getListViewDisplayValue`.
+- The old cvid path (`ExportToExcel`) crashed with empty `viewname` (`getCustomViewFromFile('')` → „Nie znaleziono widoku”) because this related list has **no cvid dropdown** (`CUSTOM_VIEW_LIST = []`).
+
+## ListPreview empty state (do not regress)
+
+- `ProjektyRekrutacyjne/RelatedList.tpl` ListPreview branch: the `empty($RELATED_RECORDS)` case **must still `{include RelatedListContents.tpl}`** so column headers + per-column search survive filtering to zero (else user loses filters and can't clear them). Matches Base related-list behavior: **no „Lista jest pusta” message** — just an empty `tbody`. Empty wrapper uses `.c-list-preview--empty` (`float:none; width:100%`).
+- Narrow checkbox/action columns: tightened in `RelatedList.css` (`.listViewEntriesTable` first two cols → `width:1px; white-space:nowrap`) because ListPreview table is `min-width:max-content`, so `width="4%"` on `<th>` is ignored.

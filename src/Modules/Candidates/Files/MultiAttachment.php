@@ -15,7 +15,7 @@ class MultiAttachment
 	 *
 	 * Historic payloads sometimes stored directories (or key folders) rather than full file paths.
 	 */
-	private function resolveAbsolutePath(array $item, string $key): ?string
+	public static function resolveAbsolutePath(array $item, string $key): ?string
 	{
 		$relativePath = (string) ($item['path'] ?? '');
 		$relativePath = ltrim($relativePath, "/\\");
@@ -107,7 +107,7 @@ class MultiAttachment
 			throw new \App\Exceptions\NoPermitted('Not Found', 404);
 		}
 
-		$absolutePath = $this->resolveAbsolutePath($item, $key);
+		$absolutePath = self::resolveAbsolutePath($item, $key);
 		if (!$absolutePath) {
 			throw new \App\Exceptions\NoPermitted('Not Found', 404);
 		}

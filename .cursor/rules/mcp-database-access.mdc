@@ -34,6 +34,9 @@ For **any** database work during an agent task (SELECT, schema inspection, INSER
 
 Invoke via `CallMcpTool` with `server: "project-0-FreeCRM-freecrm-mysql"`.
 
+- `describe_table` arg is **`table_name`** (not `table`) — wrong key → pydantic validation error.
+- MariaDB rejects `LIMIT` inside an `IN/ALL/ANY/SOME` subquery (`error 1235`); inline the ids or use a JOIN instead.
+
 ## Write safety
 
 - Default to **SELECT**; only write when the user asks or the task clearly requires it (state intent first).

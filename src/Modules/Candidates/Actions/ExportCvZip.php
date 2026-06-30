@@ -15,7 +15,7 @@ namespace App\Modules\Candidates\Actions;
 use App\Db\Query;
 
 /**
- * Mass-export CV-titled Documents for selected candidates as one ZIP.
+ * Mass-export the current CV (cv_img_file) for selected candidates as one ZIP.
  */
 class ExportCvZip extends \App\Base\Controllers\BaseActionController
 {
@@ -48,9 +48,10 @@ class ExportCvZip extends \App\Base\Controllers\BaseActionController
 				continue;
 			}
 			$candidateLabel = self::sanitizeZipPathSegment((string) $candidate->getDisplayValue('name'));
-			foreach (self::fetchCvDocumentsForCandidate($candidateId) as $row) {
-				$documentId = (int) $row['notesid'];
-				if (!\App\Modules\Users\Models\Privileges::isPermitted('Documents', 'DetailView', $documentId)) {
+			foreach (self::fetchCvDocumentsForCandidate($candidate) as $row) {
+				$documentId = (int) ($row['notesid'] ?? 0);
+				if ($documentId > 0
+					&& !\App\Modules\Users\Models\Privileges::isPermitted('Documents', 'DetailView', $documentId)) {
 					continue;
 				}
 				$diskPath = self::resolveAttachmentDiskPath($row);
@@ -121,9 +122,39 @@ class ExportCvZip extends \App\Base\Controllers\BaseActionController
 	/**
 	 * @return array<int, array<string, mixed>>
 	 */
-	private static function fetchCvDocumentsForCandidate(int $candidateId): array
+	private static function fetchCvDocumentsForCandidate(\App\Modules\Base\Models\Record $candidate): array
 	{
-		$rows = (new Query())
+		if (!$candidate instanceof \App\Modules\Candidates\Models\Record) {
+			return [];
+		}
+
+		$sourceDocumentId = $candidate->getCurrentCvSourceDocumentId();
+		if ($sourceDocumentId !== null) {
+			$row = self::fetchLinkedDocumentRow((int) $candidate->getId(), $sourceDocumentId);
+			if ($row !== null) {
+				return [$row];
+			}
+		}
+
+		$diskPath = $candidate->resolveCvImgFileAbsolutePath();
+		if ($diskPath === null) {
+			return [];
+		}
+		$item = $candidate->getCvImgFileItem();
+
+		return [[
+			'notesid' => 0,
+			'original_name' => (string) ($item['name'] ?? 'cv'),
+			'_absolute_path' => $diskPath,
+		]];
+	}
+
+	/**
+	 * @return array<string, mixed>|null
+	 */
+	private static function fetchLinkedDocumentRow(int $candidateId, int $documentId): ?array
+	{
+		$row = (new Query())
 			->select([
 				'notesid' => 'n.notesid',
 				'original_name' => 'n.original_name',
@@ -135,15 +166,14 @@ class ExportCvZip extends \App\Base\Controllers\BaseActionController
 			->innerJoin(['ne' => 'vtiger_crmentity'], 'ne.crmid = n.notesid AND ne.deleted = 0')
 			->where([
 				'rel.crmid' => $candidateId,
+				'rel.notesid' => $documentId,
 				'n.location_type' => 'internal',
 				'n.active' => 1,
 			])
-			->andWhere('LOWER(TRIM(n.title)) = :cvTitle', [':cvTitle' => 'cv'])
 			->andWhere(['not', ['n.storage_path' => null]])
-			->orderBy(['n.notesid' => SORT_ASC])
-			->all();
+			->one();
 
-		return \is_array($rows) ? $rows : [];
+		return \is_array($row) ? $row : null;
 	}
 
 	/**
@@ -151,6 +181,10 @@ class ExportCvZip extends \App\Base\Controllers\BaseActionController
 	 */
 	private static function resolveAttachmentDiskPath(array $row): ?string
 	{
+		if (!empty($row['_absolute_path']) && is_file($row['_absolute_path']) && is_readable($row['_absolute_path'])) {
+			return (string) $row['_absolute_path'];
+		}
+
 		$storagePath = (string) ($row['storage_path'] ?? '');
 		if ($storagePath === '') {
 			return null;
@@ -172,12 +206,13 @@ class ExportCvZip extends \App\Base\Controllers\BaseActionController
 		int $candidateId,
 		int $documentId
 	): string {
-		$filename = (string) ($row['filename'] ?? '');
+		$filename = (string) ($row['original_name'] ?? '');
 		if ($filename === '') {
-			$filename = (string) ($row['name'] ?? 'cv');
+			$filename = 'cv';
 		}
 		$filename = self::sanitizeZipPathSegment($filename);
-		$prefix = $candidateId . '_' . ($candidateLabel !== '' ? $candidateLabel . '_' : '') . $documentId . '_';
+		$fileId = $documentId > 0 ? (string) $documentId : 'cv';
+		$prefix = $candidateId . '_' . ($candidateLabel !== '' ? $candidateLabel . '_' : '') . $fileId . '_';
 
 		return $prefix . $filename;
 	}

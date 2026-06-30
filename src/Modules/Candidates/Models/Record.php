@@ -46,6 +46,53 @@ and relcrmid=".$this->getId();
         return "";
     }
 
+	/**
+	 * @return array<string, mixed>|null
+	 */
+	public function getCvImgFileItem(): ?array
+	{
+		$value = $this->get('cv_img_file');
+		if ($value === '' || $value === null) {
+			return null;
+		}
+		$items = \App\Utils\Json::decode((string) $value);
+		if (!\is_array($items) || !isset($items[0]) || !\is_array($items[0])) {
+			return null;
+		}
+
+		return $items[0];
+	}
+
+	public function getCurrentCvSourceDocumentId(): ?int
+	{
+		$item = $this->getCvImgFileItem();
+		if ($item === null) {
+			return null;
+		}
+		if (!empty($item['sourceDocumentId'])) {
+			$id = (int) $item['sourceDocumentId'];
+			return $id > 0 ? $id : null;
+		}
+		$name = (string) ($item['name'] ?? '');
+		if (preg_match('/^(\d+)_[0-9a-f]{8}$/i', $name, $matches)) {
+			$id = (int) $matches[1];
+			return $id > 0 ? $id : null;
+		}
+
+		return null;
+	}
+
+	public function resolveCvImgFileAbsolutePath(): ?string
+	{
+		$item = $this->getCvImgFileItem();
+		if ($item === null || empty($item['key']) || empty($item['path'])) {
+			return null;
+		}
+		$path = \App\Modules\Candidates\Files\MultiAttachment::resolveAbsolutePath($item, (string) $item['key']);
+
+		return $path !== null && is_readable($path) ? $path : null;
+	}
+
     /**
      * Used for scripting purposes only.
      * @return null
@@ -234,6 +281,7 @@ and relcrmid=".$this->getId();
         'key' => $key,
         'path' => $uploadFilePath,
         'type' => $file->getMimeType(),
+        'sourceDocumentId' => (int) $document->getId(),
         ]];
         $fieldValue = \App\Utils\Json::encode($newFile);
         $this->set($fieldName, $fieldValue);
