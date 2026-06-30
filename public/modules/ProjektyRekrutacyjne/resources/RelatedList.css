@@ -120,6 +120,10 @@
 	min-width: 320px;
 	overflow: auto;
 }
+.RelatedList.relatedContainer .c-list-preview--empty {
+	float: none;
+	width: 100%;
+}
 .RelatedList.relatedContainer .c-detail-preview {
 	float: left;
 	width: calc(45% - 10px);

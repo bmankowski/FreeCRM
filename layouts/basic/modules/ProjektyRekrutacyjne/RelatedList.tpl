@@ -474,13 +474,13 @@
 				<input type="hidden" id="defaultDetailViewName"
 					   value="{\App\Core\AppConfig::module($MODULE_NAME, 'defaultDetailViewName')}"/>
 				{if empty($RELATED_RECORDS)}
-					<div class="c-list-preview c-list-preview--empty">
+					<div class="c-list-preview c-list-preview--empty js-list-preview js-fixed-scroll" data-js="scroll">
 						{if $SHOW_HEADER}
 							{$RELATED_HEADER_HTML nofilter}
 						{/if}
-						<div class="h-100 d-flex justify-content-center align-items-center py-5">
-							<div>
-								{\App\Language::translate('PLL_LIST_IS_EMPTY', $MODULE_NAME)}
+						<div class="c-list-preview__content js-list-preview--scroll" data-js="perfectScrollbar">
+							<div id="recordsList">
+								{include file='RelatedListContents.tpl'|@vtemplate_path:$MODULE}
 							</div>
 						</div>
 					</div>
