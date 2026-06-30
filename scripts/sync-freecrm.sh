@@ -304,6 +304,7 @@ main() {
       pushstorage
       ;;
     pushall)
+      FREECRM_SYNC_YES=1
       pushsrc
       pushdb
       pushstorage
