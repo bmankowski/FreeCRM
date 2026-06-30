@@ -120,7 +120,7 @@ Link z `'modalView' => true` (klasa `showModal`, patrz `Base/ButtonLink.tpl`) wc
 
 - Widok rozszerzający `App\Modules\Base\Views\Index` zwraca **sam fragment** (`modal-header/body/footer`) — trafia do DOM, ale okno się **nie pokazuje**.
 - Rozwiązanie: rozszerz `App\Modules\Base\Views\BasicModal`. Jego `preProcess()`/`postProcess()` owijają treść w `<div class="modal fade ..."><div class="modal-dialog"><div class="modal-content">…`.
-- `.tpl` zawiera **tylko** wnętrze (`modal-header`, `modal-body`, `modal-footer`) — **bez** własnego `modal fade` (podwójne opakowanie). Wzorzec: `HelpDesk/Views/TicketWorkflowModal.php`.
+- `.tpl` zawiera **tylko** wnętrze (`modal-header`, `modal-body`, `modal-footer`) — **bez** własnego `modal fade` (podwójne opakowanie). Wzorce: `HelpDesk/Views/TicketWorkflowModal.php`, `Base/Views/ReferenceEditModal.php` (DetailView reference-field picker).
 
 ## Weryfikacja
 

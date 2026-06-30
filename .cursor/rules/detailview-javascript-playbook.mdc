@@ -23,6 +23,23 @@ Then check module overrides:
 - Runtime actions commonly use `Vtiger_Detail_Js.getInstance()` singleton.
 - Backend script wiring for detail pages is in `src/Modules/Base/Views/Detail.php` (`getFooterScripts()`).
 
+## Inline edit (DetailView fields)
+
+Two paths — do not mix them for the same field type.
+
+| Path | Fields | Gate (PHP) | Pencil markup | Edit UI | Save |
+|---|---|---|---|---|---|
+| In-place | text, picklist, date, … | `Field::isAjaxEditable()` | `.summaryViewEdit` + hidden `.edit` | swap `.value` ↔ `.edit` in cell | `Detail.js` → `ajaxEditHandling()` → `action=SaveAjax` |
+| Modal | reference (`datatype=reference`) | `Field::isReferenceModalEditable()` | `.summaryViewEdit.referenceModalEdit` (no `.edit` block) | `app.showModalWindow(null, url)` → `view=ReferenceEditModal` | `.js-reference-modal-save` → `action=SaveAjax` (`value` = `.sourceField` id) |
+
+**Templates:** `DetailViewBlockView.tpl` (Details tab), `SummaryViewContents.tpl` (Summary — reference branch must come *before* in-place branch).
+
+**Modal stack:** `src/Modules/Base/Views/ReferenceEditModal.php` (`extends BasicModal`, Loader fallback for all modules) + `layouts/basic/modules/Base/ReferenceEditModal.tpl` (embeds `uitypes/Reference.tpl`). Picker wiring: `new Vtiger_Edit_Js().registerBasicEvents(modalContainer)` in `showModalWindow` callback.
+
+**JS (`Detail.js`):** handler on `.referenceModalEdit` with `e.stopPropagation()`; Summary `.summaryViewEdit` click handler must skip `.referenceModalEdit` (otherwise `ajaxEditHandling` runs with no `.edit` block). Post-save: update `.value` in `#<Module>_detailView_fieldValue_<field>` and in `referenceModalTarget`.
+
+**Not covered:** owner (53), MultiReference (306), ReferenceLink (67) — unchanged.
+
 ## Safe change strategy
 
 - Prefer extending module `Detail.js`; edit base only for true cross-module fixes.

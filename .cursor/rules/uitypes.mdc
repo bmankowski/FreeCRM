@@ -182,6 +182,11 @@ Compiled cache: `cache/templates_c/basic/` — clear with `rm -f cache/templates
 
 Use `getUiTypeName(): string` (which has a return type) when you need a typed call.
 
+### Reference fields on DetailView — modal edit, not in-place
+- **Gate:** `Field::isReferenceModalEditable()` (`datatype === reference`, `isEditable()`, `displaytype !== 10`). Separate from `isAjaxEditable()` (which still blocks uitype 10/51/59 for in-place).
+- **Save contract:** same as other inline edits — `SaveAjax` with `field` + `value` (CRM id); `Reference::getDBValue()` normalizes empty → `0`; response `display_value` is HTML link.
+- **Do not** render hidden `.edit` + `Reference.tpl` in DetailView cells — use modal (`ReferenceEditModal`) only.
+
 ### `WebserviceField` as a UI fallback silently breaks picklists
 `typeofdata = V~O` maps to `'string'` in `WebserviceField`. If `SEMANTIC_TYPE_MAP` is missing an entry and falls through to `WebserviceField`, a picklist field gets type `'string'`, which causes `getInstanceFromField()` to use `StringType` → `String.tpl` → labels display as raw `PLL_*` keys instead of translated text.
 
