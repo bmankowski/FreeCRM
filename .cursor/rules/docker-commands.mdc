@@ -43,3 +43,22 @@ docker compose exec -T -u root app chown -R www-data:www-data /var/www/html/cach
 ```
 
 Prefer `-u www-data` for manual cache writes, or let entrypoint create runtime dirs (`cache/mail-compose`, `storage/Mail` in `docker/php/entrypoint.sh`).
+
+## Prod recruitment sync (`10.0.0.220` → local)
+
+Pull Candidates, ProjektyRekrutacyjne, relations, ModComments, linked Documents, **all Accounts/Contacts**, and `storage/`:
+
+```bash
+./scripts/sync-from-prod          # full dump + promote
+./scripts/sync-from-prod --skip-dump -y   # re-promote from latest tmp/sync/yetiforce2-*.sql.gz
+```
+
+- Staging DB: `yetiforce` (full prod dump). Target: `freecrm` (scoped promote). Details: `scripts/migration/candidates/README.md`.
+- `--skip-references` skips Accounts/Contacts. `--skip-storage` skips rsync (DB only).
+- **Rsync EPERM:** host rsync runs as your user; `storage/` is often `www-data`. If step 3 fails with `Permission denied` on `--delete`, chown before sync and restore after:
+
+```bash
+docker compose exec -T -u root app chown -R "$(id -u):$(id -g)" /var/www/html/storage
+# … run sync-from-prod …
+docker compose exec -T -u root app chown -R www-data:www-data /var/www/html/storage
+```

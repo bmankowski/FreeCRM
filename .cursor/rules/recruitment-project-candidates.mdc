@@ -6,6 +6,7 @@ globs:
   - "src/Modules/Candidates/Handlers/NewCandidateInProject.php"
   - "src/Modules/Candidates/Models/RelatedListLeftSideExtras.php"
   - "src/Modules/Candidates/Models/Record.php"
+  - "src/Modules/Candidates/Actions/ExportCvZip.php"
   - "src/Modules/Candidates/Files/MultiAttachment.php"
   - "src/Modules/RecruitmentApplication/Services/CvImport/DocumentHelper.php"
   - "layouts/basic/modules/Candidates/**"
@@ -70,7 +71,7 @@ globs:
 - **Template pitfalls:** never `height="100%"` on preview `<img>` without a fixed-height parent (Firefox collapses to 0px). Do not Smarty `escape:'url'` on `file.php` URLs (over-encodes). Use explicit `max-width:100%; height:auto` (`.candidates-cv-preview__image`).
 - **CV import:** `DocumentHelper::saveAndDeleteFile` links new Document to **Candidates** only (`prepareRelationsString('Candidates', …)`).
 - **Counts:** `u_yf_candidatescf.documents_count` via `RefreshDocsNumber` on link/unlink.
-- **Export CV ZIP** (`Candidates/Actions/ExportCvZip.php`, mass action on related list) must follow **`cv_img_file`** (the one Set-as-CV doc), **not** filter Documents by `title='cv'` — titles are free-form (`CV2015`, …) and Set-as-CV does not rename the Document. Resolve source doc via `Record::getCurrentCvSourceDocumentId()` (`sourceDocumentId` in the JSON, written by `transformDocumentToCV()`; legacy fallback parses `{notesid}_{hash}` from `name`); if the source Document is gone, fall back to the stored `cv_img_file` blob (`resolveCvImgFileAbsolutePath()` → `MultiAttachment::resolveAbsolutePath()`, now `public static`). One file per candidate.
+- **Export CV ZIP** (`Candidates/Actions/ExportCvZip.php`, mass action on related list) must follow **`cv_img_file`** (the one Set-as-CV doc), **not** filter Documents by `title='cv'`. Export the **original Document blob** (pdf/docx), not the `cv_img_file` JPEG preview. Resolve source doc: `sourceDocumentId` in JSON (new) → `fetchDocumentRowById(notesid)` → legacy `name` prefix `{id}_{hash}` — **`id` is often storage file id** (basename of `storage_path`, legacy `transformFileToCV`), not `notesid`; then `fetchCandidateDocumentByStorageFileId` matches linked doc by `notesid` or `storage_path` suffix `/{id}`. Fallback: `cv_img_file` blob + `ensureZipEntryExtension` (`.jpg` from mime). Zip entry name uses document `original_name` (keeps `.pdf`/`.docx`).
 
 ## Related-list Excel export (Eksport do Excel)
 

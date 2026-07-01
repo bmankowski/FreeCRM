@@ -81,6 +81,27 @@ Menu animations are optimized for speed:
 
 If changing animation timings, keep values low (< 0.2s) for best UX.
 
+## Eyecon DatePicker (`.dateField` popup)
+
+Standard date inputs use **Eyecon DatePicker** (not jQuery UI / Bootstrap Datepicker):
+
+| Item | Path |
+|---|---|
+| Plugin JS/CSS | `public/libraries/jquery/datepicker/` |
+| Init | `app.registerEventForDatePickerFields()` in `public/libraries/resources/app.js` |
+| Skin overrides | e.g. `public/layouts/basic/skins/twilight/style.css` (after base `skins/style.css`) |
+
+Default user theme is **twilight**. List filters / AdvanceFilter pass `calendars: 3` (3 months side-by-side); EditView uses `calendars: 1`.
+
+### Styling pitfalls
+
+- `layout()` in `datepicker.js` sets **inline** width/height on `div.datepicker` and `.datepickerContainer` from table measurements — never lock container size with `width`/`height` `!important`.
+- Bootstrap global `box-sizing: border-box` + `padding` on `div.datepicker` causes vertical overflow past the frame. Use `box-sizing: content-box` and `padding: 0`; let JS height match the table, border sits outside.
+- Hide legacy PNG frame divs: `.datepickerBorderT/B/L/R/TL/TR/BL/BR { display: none; }`.
+- DOM: day cells = `tbody.datepickerDays td`; week numbers = `th.datepickerWeek` (exclude from day-grid rules). Wrapper id pattern: `datepicker_<n>`.
+
+After editing skin CSS: `npm run minify-css -- public/layouts/basic/skins/twilight/style.css` (or active theme).
+
 ## Browser Cache
 
 When testing CSS changes, use hard refresh to clear browser cache:
