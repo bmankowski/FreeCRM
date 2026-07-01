@@ -72,10 +72,6 @@ class WebUI_ErrorHandler
 			return;
 		}
 
-		if (\App\Core\AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
-			$trace = \App\Debug\Debugger::getBacktrace();
-			echo '<pre>Stack trace:' . PHP_EOL . $trace . '</pre>';
-		}
 		\vtlib\Functions::throwNewException($message, false);
 	}
 

@@ -757,13 +757,19 @@ class Functions
 		}
 		$response->emit();
 	} else {
-		// Display stack trace for non-AJAX requests if debug is enabled
-		if (\App\Core\AppConfig::debug('DISPLAY_DEBUG_BACKTRACE') && is_object($e)) {
-			$trace = str_replace(self::rootDirectory() . DIRECTORY_SEPARATOR, '', $e->getTraceAsString());
-			echo '<pre>Stack trace:' . PHP_EOL . $trace . '</pre>';
+		$stackTrace = '';
+		if (\App\Core\AppConfig::debug('DISPLAY_DEBUG_BACKTRACE')) {
+			if (is_object($e) && method_exists($e, 'getTraceAsString')) {
+				$stackTrace = str_replace(self::rootDirectory() . DIRECTORY_SEPARATOR, '', $e->getTraceAsString());
+			} elseif (is_array($e) && !empty($e['trace'])) {
+				$stackTrace = $e['trace'];
+			} elseif (!is_object($e)) {
+				$stackTrace = \App\Debug\Debugger::getBacktrace();
+			}
 		}
 		$viewer = new CRM_Viewer();
 		$viewer->assign('MESSAGE', $payload);
+		$viewer->assign('STACK_TRACE', $stackTrace);
 		$viewer->view($tpl, 'Vtiger');
 	}
 	if ($die) {

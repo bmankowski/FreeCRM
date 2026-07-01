@@ -1,0 +1,40 @@
+.job-ad-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.job-ad-links .job-ad-link-copy {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 5px 12px;
+	font-size: 13px;
+	font-weight: 600;
+	color: #9c4a00;
+	background: #fff1e0;
+	border: 1px solid #f0c08a;
+	border-radius: 16px;
+	cursor: pointer;
+	text-decoration: none;
+	transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.job-ad-links .job-ad-link-copy:hover,
+.job-ad-links .job-ad-link-copy:focus {
+	color: #fff;
+	background: #f0820e;
+	border-color: #d6730a;
+	text-decoration: none;
+}
+
+.job-ad-links .job-ad-link-copy .glyphicon {
+	font-size: 12px;
+	opacity: 0.85;
+}
+
+.job-ad-links .job-ad-link-copy.is-copied {
+	color: #fff;
+	background: #7c3aed;
+	border-color: #6d28d9;
+}

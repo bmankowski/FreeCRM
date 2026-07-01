@@ -32,6 +32,7 @@
 						<a class="btn btn-warning" href="javascript:window.history.back();">{"LBL_GO_BACK"|t}</a>
 						<a class="btn btn-info" href="index.php">{"LBL_MAIN_PAGE"|t}</a>
 					</p>
+					{include file='ErrorStackTraceButton.tpl'|@vtemplate_path:'Base'}
 				</div>
 			</div>
 		</div>

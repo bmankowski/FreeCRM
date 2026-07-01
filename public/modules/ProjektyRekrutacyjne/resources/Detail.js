@@ -373,15 +373,23 @@ Vtiger_Detail_Js(
 
 		registerJobAdvertisementLinkCopy: function () {
 			const container = '#ProjektyRekrutacyjne_detailView_fieldValue_job_advertisement_links';
+			const selector = container + ' .job-ad-link-copy, ' + container + ' table tr td:nth-child(3)';
 			$(document)
-				.off('click.projektyJobAdCopy', container + ' .job-ad-link-copy, ' + container + ' table tr td:nth-child(3)')
-				.on('click.projektyJobAdCopy', container + ' .job-ad-link-copy, ' + container + ' table tr td:nth-child(3)', function (event) {
+				.off('click.projektyJobAdCopy', selector)
+				.on('click.projektyJobAdCopy', selector, function (event) {
 					event.preventDefault();
-					const href = $(this).closest('tr').find('td:nth-child(2) a').attr('href');
+					const $target = $(this);
+					const href = $target.is('a')
+						? $target.attr('href')
+						: $target.closest('tr').find('td:nth-child(2) a').attr('href');
 					if (!href || !navigator.clipboard || !navigator.clipboard.writeText) {
 						return;
 					}
 					navigator.clipboard.writeText(href).then(function () {
+						$target.addClass('is-copied');
+						setTimeout(function () {
+							$target.removeClass('is-copied');
+						}, 1200);
 						Vtiger_Helper_Js.showPnotify({
 							text: app.vtranslate('JS_NOTIFY_COPY_TEXT'),
 							type: 'success'

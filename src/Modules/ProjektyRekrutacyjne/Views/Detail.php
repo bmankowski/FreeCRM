@@ -26,6 +26,7 @@ class Detail extends \App\Modules\Base\Views\Detail
 		$relatedListCss = $this->checkAndConvertCssStyles([
 			'modules.ProjektyRekrutacyjne.resources.RelatedList',
 			'modules.ProjektyRekrutacyjne.resources.RecruitmentProjectKanban',
+			'modules.ProjektyRekrutacyjne.resources.JobAdvertisementLinks',
 		]);
 		$headerCssInstances = array_merge($headerCssInstances, $relatedListCss);
 		if ($this->shouldIncludeBootstrap5Utilities($request)) {

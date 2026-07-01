@@ -81,3 +81,18 @@ Symptoms and fixes discovered in production debugging — verify **both** direct
 Orphan cleanup: if UI delete still blocked, remove via `ModuleService::delete($tabid)` in app container after code fixes are deployed.
 
 Core files: `src/ModuleManagement/Services/ModuleService.php`, `src/Db/Db.php`, `src/ModuleManagement/Services/AccessService.php`, `public/layouts/basic/modules/Settings/ModuleManager/resources/ModuleManager.js`.
+
+## Request exception pages (WebUI)
+
+Unhandled exceptions in `WebUI::handleException()`:
+
+| Context | Rendering |
+|---------|-----------|
+| Logged-in, non-AJAX | `Base\Views\Error` → `ErrorInLayout.tpl` (extends `MainLayout` — menu, header, footer) |
+| No session / layout render fails | `throwNewException()` → standalone tpl (`RecordNotFound.tpl`, `NoPermissionsForRecord.tpl`, `OperationNotPermitted.tpl`) |
+
+`NoPermittedToRecord`: `LBL_RECORD_NOT_FOUND` / `LBL_RECORD_DELETE` → `RecordNotFound.tpl`; other messages → `NoPermissionsForRecord.tpl`.
+
+Stack trace (when `DISPLAY_DEBUG_BACKTRACE`): assigned as `STACK_TRACE` to tpl — **no** raw `<pre>` echo. Copy button: `layouts/basic/modules/Base/ErrorStackTraceButton.tpl` — label via `app.vtranslate('JS_NOTIFY_COPY_TEXT')` (see `translations.mdc`; Smarty `|t` does not read `jsLanguageStrings`).
+
+Core: `src/EntryPoint/WebUI.php`, `src/Modules/Base/Views/Error.php`, `src/ModuleManagement/Adapters/Functions.php` (`throwNewException`).

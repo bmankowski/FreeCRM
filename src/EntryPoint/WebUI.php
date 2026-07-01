@@ -720,16 +720,54 @@ class WebUI extends EntryPoint
 			$exception->getLine()
 		);
 
+		if (!$request->isAjax() && $this->renderErrorInLayout($exception, $request)) {
+			if (\App\Core\AppConfig::main('systemMode') === 'test') {
+				$this->logRequestForTesting($request);
+				throw $exception;
+			}
+			return;
+		}
+
 		$template = $this->getExceptionTemplate($exception);
 		\vtlib\Functions:: throwNewException($exception, false, $template);
-
-		if (\App\Core\AppConfig::debug('DISPLAY_DEBUG_BACKTRACE') && !$request->isAjax()) {
-			$this->displayDebugBacktrace($exception);
-		}
 
 		if (\App\Core\AppConfig::main('systemMode') === 'test') {
 			$this->logRequestForTesting($request);
 			throw $exception;
+		}
+	}
+
+	/**
+	 * Render the exception inside the full CRM layout (menu, header, footer).
+	 * Requires an authenticated user; returns false so the caller falls back to
+	 * the standalone error templates when the layout cannot be produced.
+	 * @param \Exception $exception
+	 * @param \App\Http\Vtiger_Request $request
+	 * @return bool True when a complete page was emitted
+	 */
+	private function renderErrorInLayout(\Exception $exception, \App\Http\Vtiger_Request $request)
+	{
+		if (headers_sent()) {
+			return false;
+		}
+		$user = $request->getUser();
+		if (!$user || !$user->getId()) {
+			return false;
+		}
+
+		ob_start();
+		try {
+			$view = new \App\Modules\Base\Views\Error();
+			$view->setException($exception);
+			$view->preProcess($request);
+			$view->process($request);
+			$view->postProcess($request);
+			echo ob_get_clean();
+			return true;
+		} catch (\Throwable $e) {
+			ob_end_clean();
+			\App\Log\Log::error('Error layout rendering failed: ' . $e->getMessage() . ' => ' . $e->getFile() . ':' . $e->getLine());
+			return false;
 		}
 	}
 
@@ -740,28 +778,17 @@ class WebUI extends EntryPoint
 	 */
 	private function getExceptionTemplate(\Exception $exception)
 	{
-		if (
-			$exception instanceof \App\Exceptions\NoPermittedToRecord
-			|| $exception instanceof \WebServiceException
-		) {
+		if ($exception instanceof \App\Exceptions\NoPermittedToRecord) {
+			if (in_array($exception->getMessage(), ['LBL_RECORD_NOT_FOUND', 'LBL_RECORD_DELETE'], true)) {
+				return 'RecordNotFound.tpl';
+			}
+			return 'NoPermissionsForRecord.tpl';
+		}
+		if ($exception instanceof \WebServiceException) {
 			return 'NoPermissionsForRecord.tpl';
 		}
 
 		return 'OperationNotPermitted.tpl';
-	}
-
-	/**
-	 * Display debug backtrace
-	 * 	 * @param \Exception $exception
-	 */
-	private function displayDebugBacktrace(\Exception $exception)
-	{
-		$trace = str_replace(
-			ROOT_DIRECTORY . DIRECTORY_SEPARATOR,
-			'',
-			$exception->getTraceAsString()
-		);
-		echo '<pre>' . $trace . '</pre>';
 	}
 
 	/**

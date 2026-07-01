@@ -82,3 +82,9 @@ globs:
 
 - `ProjektyRekrutacyjne/RelatedList.tpl` ListPreview branch: the `empty($RELATED_RECORDS)` case **must still `{include RelatedListContents.tpl}`** so column headers + per-column search survive filtering to zero (else user loses filters and can't clear them). Matches Base related-list behavior: **no „Lista jest pusta” message** — just an empty `tbody`. Empty wrapper uses `.c-list-preview--empty` (`float:none; width:100%`).
 - Narrow checkbox/action columns: tightened in `RelatedList.css` (`.listViewEntriesTable` first two cols → `width:1px; white-space:nowrap`) because ListPreview table is `min-width:max-content`, so `width="4%"` on `<th>` is ignored.
+
+## Job advertisement links field (`job_advertisement_links`, uitype 300)
+
+- HTML generated server-side in `Handlers/Calculations.php` → `generateJobAdvertisementLinks()` on **`EntityBeforeSave`** (one link per `vtiger_application_source.generate_link=1`). Handler must be registered in `vtiger_eventhandlers` (migration `m260630_000006`) **and** in `EventHandler::$classNameMap` — see `architecture.mdc`. Type hint is `\App\Events\EventHandler` (not `\App\EventHandler` → fatal TypeError when it fires).
+- **uitype 300 content is run through `Purifier::purifyHtml()`** on display → inline `onclick` / `<button>` are stripped. Copy UI must use allowed tags only (`<a>`/`<span>`/`<div>` + `class`); the URL lives in `<a href>` and JS reads it. Don't rely on `title` (also stripped).
+- Render = **orange pills** (`.job-ad-link-copy`), styled by `public/modules/ProjektyRekrutacyjne/resources/JobAdvertisementLinks.css` (loaded in `Views/Detail.php` → `getHeaderCss()`; minify after edit). Click → copy via `Detail.js` `registerJobAdvertisementLinkCopy()` + purple `.is-copied` flash + `JS_NOTIFY_COPY_TEXT` toast. JS keeps a `tr td:nth-child(3)` fallback for legacy table-format rows not yet re-saved.

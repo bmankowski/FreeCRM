@@ -16,9 +16,9 @@ class Calculations
     /**
      * EntityAfterSave handler function.
      *
-     * @param \App\EventHandler $eventHandler
+     * @param \App\Events\EventHandler $eventHandler
      */
-    public function entityAfterSave(\App\EventHandler $eventHandler)
+    public function entityAfterSave(\App\Events\EventHandler $eventHandler)
     {
         $project = $eventHandler->getRecordModel();
 //
@@ -30,9 +30,9 @@ class Calculations
     /**
      * EntityBeforeSave handler function.
      *
-     * @param \App\EventHandler $eventHandler
+     * @param \App\Events\EventHandler $eventHandler
      */
-    public function entityBeforeSave(\App\EventHandler $eventHandler)
+    public function entityBeforeSave(\App\Events\EventHandler $eventHandler)
     {
 
         /** @var \App\Modules\ProjektyRekrutacyjne\Models\Record $project */
@@ -63,24 +63,23 @@ class Calculations
     protected static function generateJobAdvertisementLinks($projectName, $projectId): string
     {
         $sources = self::getDataFromSourceOfCandidate();
+        $projectName = str_replace("/", "-", strtolower($projectName));
 
-        // Start building the table
-        $links = "<table><tr><th>Source</th><th>Link</th><th>Copy</th></tr>";
-
+        $links = "<div class=\"job-ad-links\">";
         foreach ($sources as $sourceRecord) {
-            //Change all backslashes to dash and to lowercase
-            $projectName = str_replace("/", "-", strtolower($projectName));
             $link = "https://itconnect.pl/oferta/" . $projectName . "/?action=Aplikuj&projectId=$projectId&sourceId=" . $sourceRecord["application_sourceid"];
-            $links .= "<tr><td>" . $sourceRecord["application_source"] . "</td>" .
-                "<td><a href='" . $link . "'>" . $link . "</a></td>" .
-                "<td><span class=\"job-ad-link-copy\" style=\"cursor:pointer\" title=\"Kopiuj\">&#10697;</span></td>" .
-                "</tr>";
+            $source = htmlspecialchars((string) $sourceRecord["application_source"], ENT_QUOTES, 'UTF-8');
+            $href = htmlspecialchars($link, ENT_QUOTES, 'UTF-8');
+            $links .= "<a class=\"job-ad-link-copy\" href=\"" . $href . "\" target=\"_blank\">" .
+                "<span class=\"glyphicon glyphicon-copy\" aria-hidden=\"true\"></span>" .
+                "<span class=\"job-ad-link-copy__source\">" . $source . "</span>" .
+                "</a>";
         }
-        $links .= "</table>";
+        $links .= "</div>";
         return $links;
     }
 
-    public function editViewPreSave(\App\EventHandler $eventHandler)
+    public function editViewPreSave(\App\Events\EventHandler $eventHandler)
     {
         $response = ['result' => true,];
         return $response;
