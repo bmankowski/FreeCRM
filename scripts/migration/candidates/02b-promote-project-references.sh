@@ -29,10 +29,10 @@ copy_module_rows() {
   done
 }
 
-log "refs" "Syncing Accounts/Contacts referenced by active ${TGT} projects..."
+log "refs" "Syncing all Accounts/Contacts from ${SRC}..."
 
 if [[ "${SYNC_DRY_RUN}" == "1" ]]; then
-  log "dry-run" "would sync kontrahent (Accounts) and contact_person (Contacts) from ${SRC}"
+  log "dry-run" "would sync all Accounts (kontrahenci) and Contacts from ${SRC}"
   exit 0
 fi
 
@@ -44,27 +44,13 @@ DROP TABLE IF EXISTS \`${TGT}\`.tmp_imp_contact_ids;
 
 CREATE TABLE \`${TGT}\`.tmp_imp_account_ids (crmid INT NOT NULL PRIMARY KEY) ENGINE=InnoDB;
 INSERT INTO \`${TGT}\`.tmp_imp_account_ids (crmid)
-  SELECT DISTINCT p.kontrahent
-  FROM \`${SRC}\`.u_yf_projektyrekrutacyjne p
-  INNER JOIN \`${SRC}\`.vtiger_crmentity e ON e.crmid = p.projektyrekrutacyjneid
-    AND e.setype = 'ProjektyRekrutacyjne' AND e.deleted = 0
-  WHERE p.kontrahent > 0
-    AND EXISTS (
-      SELECT 1 FROM \`${SRC}\`.vtiger_crmentity a
-      WHERE a.crmid = p.kontrahent AND a.setype = 'Accounts' AND a.deleted = 0
-    );
+  SELECT crmid FROM \`${SRC}\`.vtiger_crmentity
+  WHERE setype = 'Accounts' AND deleted = 0;
 
 CREATE TABLE \`${TGT}\`.tmp_imp_contact_ids (crmid INT NOT NULL PRIMARY KEY) ENGINE=InnoDB;
 INSERT INTO \`${TGT}\`.tmp_imp_contact_ids (crmid)
-  SELECT DISTINCT p.contact_person
-  FROM \`${SRC}\`.u_yf_projektyrekrutacyjne p
-  INNER JOIN \`${SRC}\`.vtiger_crmentity e ON e.crmid = p.projektyrekrutacyjneid
-    AND e.setype = 'ProjektyRekrutacyjne' AND e.deleted = 0
-  WHERE p.contact_person > 0
-    AND EXISTS (
-      SELECT 1 FROM \`${SRC}\`.vtiger_crmentity c
-      WHERE c.crmid = p.contact_person AND c.setype = 'Contacts' AND c.deleted = 0
-    );
+  SELECT crmid FROM \`${SRC}\`.vtiger_crmentity
+  WHERE setype = 'Contacts' AND deleted = 0;
 "
 
 ACCOUNTS="$(mariadb_query "SELECT COUNT(*) FROM \`${TGT}\`.tmp_imp_account_ids;")"

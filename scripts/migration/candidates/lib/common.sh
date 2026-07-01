@@ -74,7 +74,7 @@ confirm_destructive() {
   fi
   echo
   echo "This replaces Candidates, ProjektyRekrutacyjne, their relations, comments,"
-  echo "and linked Documents in local database '${LOCAL_DB_NAME}'."
+  echo "linked Documents, Accounts (kontrahenci), and Contacts in local database '${LOCAL_DB_NAME}'."
   read -r -p "Continue? [y/N] " ans
   [[ "${ans,,}" == "y" || "${ans,,}" == "yes" ]] || die "Aborted."
 }
@@ -277,6 +277,18 @@ WHERE crmid IN ${ids_where} AND setype = 'Kandydaci';
   fi
 
   die "No candidates module tables in ${source_db}"
+}
+
+accounts_contacts_counts() {
+  local db="$1"
+  mariadb_query "
+    SELECT CONCAT(
+      'accounts=', (SELECT COUNT(*) FROM \`${db}\`.vtiger_crmentity
+        WHERE setype='Accounts' AND deleted=0),
+      ' contacts=', (SELECT COUNT(*) FROM \`${db}\`.vtiger_crmentity
+        WHERE setype='Contacts' AND deleted=0)
+    );
+  " 2>/dev/null || echo "(counts unavailable)"
 }
 
 recruitment_counts() {

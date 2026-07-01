@@ -23,7 +23,7 @@ Options:
   --skip-storage       Do not rsync storage/ from prod
   --skip-backup        Skip freecrm backup before promote
   --only-promote       Skip prod dump; promote yetiforce → freecrm only
-  --skip-references    Skip Accounts/Contacts referenced by projects
+  --skip-references    Skip Accounts/Contacts (kontrahenci, kontakty) from prod
   --dry-run            Print steps without writing
 
 Environment:
@@ -102,7 +102,7 @@ run_step "$STEP" "$TOTAL" "Promote ${STAGING_DB_NAME} → ${LOCAL_DB_NAME}" \
 STEP=$((STEP + 1))
 
 if [[ "${SYNC_SKIP_REFERENCES:-0}" != "1" ]]; then
-  run_step "$STEP" "$TOTAL" "Promote project Accounts/Contacts references" \
+  run_step "$STEP" "$TOTAL" "Promote Accounts/Contacts from prod" \
     "${SCRIPT_DIR}/02b-promote-project-references.sh"
   STEP=$((STEP + 1))
 fi
@@ -113,6 +113,7 @@ run_step "$STEP" "$TOTAL" "Post-process (labels, cache, verify)" \
 echo
 log "sync" "Done."
 log "sync" "${LOCAL_DB_NAME}: $(recruitment_counts "${LOCAL_DB_NAME}")"
+log "sync" "${LOCAL_DB_NAME}: $(accounts_contacts_counts "${LOCAL_DB_NAME}")"
 if [[ -n "${LAST_BACKUP}" ]]; then
   log "sync" "Rollback backup: ${LAST_BACKUP}"
   log "sync" "  scripts/import-db.sh \"${LAST_BACKUP}\" --root --drop-first --db-name ${LOCAL_DB_NAME} --db-pass ${LOCAL_DB_PASS}"
