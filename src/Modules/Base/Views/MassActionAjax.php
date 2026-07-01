@@ -50,7 +50,11 @@ class MassActionAjax extends \App\Modules\Base\Views\Index
 		$viewer = $this->getViewer($request);
 
 		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
-		$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceForModule($moduleModel, \App\Modules\Base\Models\RecordStructure::RECORD_STRUCTURE_MODE_MASSEDIT);
+		$recordStructureInstance = \App\Modules\Base\Models\RecordStructure::getInstanceForModule(
+			$moduleModel,
+			\App\Modules\Base\Models\RecordStructure::RECORD_STRUCTURE_MODE_MASSEDIT
+		);
+		$recordStructure = $recordStructureInstance->getStructure();
 		$fieldInfo = [];
 		$fieldList = $moduleModel->getFields();
 		foreach ($fieldList as $fieldName => $fieldModel) {
@@ -68,7 +72,7 @@ class MassActionAjax extends \App\Modules\Base\Views\Index
 		$viewer->assign('RECORD_STRUCTURE_MODEL', $recordStructureInstance);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('MASS_EDIT_FIELD_DETAILS', $fieldInfo);
-		$viewer->assign('RECORD_STRUCTURE', $recordStructureInstance->getStructure());
+		$viewer->assign('RECORD_STRUCTURE', $recordStructure);
 		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->assign('MODULE_MODEL', $moduleModel);
 		$viewer->assign('MAPPING_RELATED_FIELD', \App\Utils\Json::encode(\App\Core\ModuleHierarchy::getRelationFieldByHierarchy($moduleName)));
@@ -85,11 +89,38 @@ class MassActionAjax extends \App\Modules\Base\Views\Index
 			$viewer->assign('SEARCH_PARAMS', $searchParams);
 		}
 		
-		// Assign empty SCRIPTS array to avoid undefined array key warning
-		$viewer->assign('SCRIPTS', []);
+		$viewer->assign('SCRIPTS', $this->massEditNeedsCkEditor($recordStructure) ? $this->getMassEditScripts() : []);
 		$viewer->assign('IMAGE_DETAILS', []);
 
 		echo $viewer->view('MassEditForm.tpl', $moduleName, true);
+	}
+
+	/**
+	 * @param array<string, array<string, \App\Modules\Base\Models\Field>> $recordStructure
+	 */
+	private function massEditNeedsCkEditor(array $recordStructure): bool
+	{
+		foreach ($recordStructure as $blockFields) {
+			foreach ($blockFields as $fieldModel) {
+				if ((int) $fieldModel->get('uitype') === 300) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * @return array<string, \App\View\Assets\ScriptAsset>
+	 */
+	private function getMassEditScripts(): array
+	{
+		return $this->checkAndConvertJsScripts([
+			'libraries.jquery.ckeditor.ckeditor',
+			'libraries.jquery.ckeditor.adapters.jquery',
+			'modules.Base.resources.CkEditor',
+		]);
 	}
 
 	/**

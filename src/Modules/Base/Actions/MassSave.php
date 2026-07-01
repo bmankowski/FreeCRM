@@ -26,6 +26,7 @@ class MassSave extends \App\Base\Controllers\BaseActionController
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$moduleName = $request->getModule();
+		$this->logMassEditDebug($request, $moduleName);
 		$recordModels = $this->getRecordModelsFromRequest($request);
 		$allRecordSave = true;
 		foreach ($recordModels as $recordId => &$recordModel) {
@@ -74,5 +75,32 @@ class MassSave extends \App\Base\Controllers\BaseActionController
 			$recordModels[$recordId] = $recordModel;
 		}
 		return $recordModels;
+	}
+
+	private function logMassEditDebug(\App\Http\Vtiger_Request $request, string $moduleName): void
+	{
+		$moduleModel = \App\Modules\Base\Models\Module::getInstance($moduleName);
+		if (!$moduleModel) {
+			return;
+		}
+		$appliedFields = [];
+		foreach ($moduleModel->getFields() as $fieldName => $fieldModel) {
+			if ($fieldModel->isEditable() && $request->has($fieldName)) {
+				$appliedFields[] = $fieldName;
+			}
+		}
+		$payload = [
+			'module' => $moduleName,
+			'recordIds' => \App\Modules\Base\Actions\Mass::getRecordsListFromRequest($request),
+			'appliedFields' => $appliedFields,
+		];
+		if ($request->has('massEditDebug')) {
+			$rawDebug = $request->get('massEditDebug');
+			$decoded = is_array($rawDebug) ? $rawDebug : json_decode((string) $rawDebug, true);
+			if (is_array($decoded)) {
+				$payload['clientDebug'] = $decoded;
+			}
+		}
+		\App\Log\Log::warning('[MassSave] ' . json_encode($payload, JSON_UNESCAPED_UNICODE));
 	}
 }

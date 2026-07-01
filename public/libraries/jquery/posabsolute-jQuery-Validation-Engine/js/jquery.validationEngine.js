@@ -262,11 +262,14 @@
 			
 			//check if it is trigger from skipped button
 			if (form.data("jqv_submitButton")){
-				var submitButton = $("#" + form.data("jqv_submitButton"));
-				if (submitButton){
-					if (submitButton.length > 0){
-						if (submitButton.hasClass("validate-skip") || submitButton.attr("data-validation-engine-skip") == "true")
-							return true;
+				var submitButtonId = form.data("jqv_submitButton");
+				if (submitButtonId) {
+					var submitButton = $("#" + submitButtonId);
+					if (submitButton){
+						if (submitButton.length > 0){
+							if (submitButton.hasClass("validate-skip") || submitButton.attr("data-validation-engine-skip") == "true")
+								return true;
+						}
 					}
 				}
 			}
@@ -725,7 +728,7 @@
 				options.showArrow = false;
 			}
 			// <--------   YetiForce.com - Fixed valid CKEditor element and MultiImage -------->
-			if ((field.is('textarea') && field.hasClass('ckEditorSource') && CKEDITOR.instances[field.attr('id')] != undefined) || (field.is(":hidden") && field.hasClass('multiImage'))) {
+			if ((field.is('textarea') && field.hasClass('ckEditorSource') && typeof CKEDITOR !== 'undefined' && CKEDITOR.instances[field.attr('id')] != undefined) || (field.is(":hidden") && field.hasClass('multiImage'))) {
 				field = field.next();
 			}
 			// <-------- End -------->

@@ -18,7 +18,6 @@
 							<p class="noSpaces name textOverflowEllipsis">{$NAME}&nbsp;</p>
 						{/if}
 					{/foreach}
-					<p class="companyName noSpaces textOverflowEllipsis">{$COMPANY_DETAILS->get('name')}&nbsp;</p>
 				</div>
 			</div>
 		</div>
