@@ -83,67 +83,26 @@ class Mailer
 	}
 
 	/**
-	 * 	 * @param array $params
-	 * @return boolean
-	 */
-	public static function sendFromTemplate($params)
-	{
-		if (empty($params['template'])) {
-			return false;
-		}
-		$template = \App\Email\Mail::getTemplete($params['template']);
-		if (!$template) {
-			return false;
-		}
-
-		$userId = self::resolveSendUserId($params);
-		$senderRef = (string) ($params['senderRef'] ?? '');
-		if ($senderRef === '') {
-			$senderRef = \App\Modules\Mail\Models\Module::defaultSenderRefForTemplate($template, $userId);
-		}
-		if ($senderRef === '') {
-			return false;
-		}
-
-		try {
-			\App\Modules\Mail\Models\Outbound::sendFromTemplate($userId, $senderRef, $params, $template);
-		} catch (\App\Exceptions\AppException $e) {
-			throw $e;
-		} catch (\Throwable $e) {
-			\App\Log\Log::error('sendFromTemplate failed: ' . $e->getMessage(), 'Mailer');
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * @param array<string, mixed> $params
-	 */
-	private static function resolveSendUserId(array $params): int
-	{
-		if (!empty($params['owner'])) {
-			return (int) $params['owner'];
-		}
-		if (!empty($params['userId'])) {
-			return (int) $params['userId'];
-		}
-		$owner = \App\Modules\Users\Models\Record::getCurrentUserRealId();
-
-		return $owner ? (int) $owner : 1;
-	}
-
-	/**
 	 * Add mail to quote for send
 	 * @param array $params
 	 */
 	public static function addMail($params)
 	{
 		$crmMessageId = (int) ($params['mail_message_id'] ?? 0);
-		if ($crmMessageId <= 0) {
-			throw new \App\Exceptions\AppException('Outbound mail requires mail_message_id');
-		}
 		unset($params['mail_message_id']);
+
+		$customParams = [];
+		if (isset($params['params'])) {
+			if (is_array($params['params'])) {
+				$customParams = $params['params'];
+			} elseif (is_string($params['params']) && $params['params'] !== '') {
+				$decoded = \App\Utils\Json::decode($params['params']);
+				if (is_array($decoded)) {
+					$customParams = $decoded;
+				}
+			}
+			unset($params['params']);
+		}
 
 		if (!empty($params['content'])) {
 			$params['content'] = \App\Utils\TemplateStyles::inlineEmailCss($params['content']);
@@ -158,25 +117,62 @@ class Mailer
 		}
 		$params['date'] = date('Y-m-d H:i:s');
 		foreach (static::$quoteJsonColumn as $key) {
-			if (isset($params[$key])) {
-				if (!is_array($params[$key])) {
-					$params[$key] = [$params[$key]];
-				}
-				$params[$key] = \App\Utils\Json::encode($params[$key]);
+			if ($key === 'params' || !isset($params[$key])) {
+				continue;
 			}
-		}
-		$customParams = [];
-		if (!empty($params['params'])) {
-			$decoded = \App\Utils\Json::decode($params['params']);
-			if (is_array($decoded)) {
-				$customParams = $decoded;
+			if (!is_array($params[$key])) {
+				$params[$key] = [$params[$key]];
 			}
+			$params[$key] = \App\Utils\Json::encode($params[$key]);
 		}
-		$customParams['mail_message_id'] = $crmMessageId;
+		if ($crmMessageId > 0) {
+			$customParams['mail_message_id'] = $crmMessageId;
+		}
+		self::requireSenderRef($customParams);
 		$params['params'] = \App\Utils\Json::encode($customParams);
 
 		$db = \App\Db\Db::getInstance('admin');
 		$db->createCommand()->insert('s_#__mail_queue', $params)->execute();
+	}
+
+	public static function smtpSenderRef(int $smtpId): string
+	{
+		if ($smtpId <= 0) {
+			throw new \App\Exceptions\AppException('LBL_MAIL_SENDER_REF_REQUIRED');
+		}
+
+		return 'smtp:' . $smtpId;
+	}
+
+	/**
+	 * @param array<string, mixed> $params
+	 * @return array<string, mixed>
+	 */
+	public static function withSmtpSenderRef(array $params): array
+	{
+		if (($params['params']['sender_ref'] ?? '') !== '') {
+			return $params;
+		}
+		$params['params'] = array_merge(
+			is_array($params['params'] ?? null) ? $params['params'] : [],
+			['sender_ref' => self::smtpSenderRef((int) ($params['smtp_id'] ?? 0))]
+		);
+
+		return $params;
+	}
+
+	/**
+	 * @param array<string, mixed> $customParams
+	 */
+	public static function requireSenderRef(array $customParams): void
+	{
+		$senderRef = (string) ($customParams['sender_ref'] ?? '');
+		if ($senderRef === '') {
+			throw new \App\Exceptions\AppException('LBL_MAIL_SENDER_REF_REQUIRED');
+		}
+		if (!str_starts_with($senderRef, 'account:') && !str_starts_with($senderRef, 'smtp:')) {
+			throw new \App\Exceptions\AppException('LBL_MAIL_SENDER_REF_INVALID');
+		}
 	}
 
 	/**
@@ -464,104 +460,40 @@ class Mailer
 	}
 
 	/**
-	 * Mailer for cron queue batch: one SMTP connection per smtp_id (SMTPKeepAlive).
-	 *
-	 * @param int $smtpId
-	 * @return self
+	 * @return string[]
 	 */
-	public static function createQueueSessionMailer(int $smtpId): self
+	public static function getSendOnlyToDomains(): array
 	{
-		$mailer = (new self())->loadSmtpByID($smtpId);
-		if (($mailer->smtp['mailer_type'] ?? '') === 'smtp') {
-			$mailer->mailer->SMTPKeepAlive = true;
-		}
-		return $mailer;
-	}
-
-	/**
-	 * Reset PHPMailer state between queue rows on a reused session.
-	 */
-	public function resetForNextQueueRow(): void
-	{
-		$this->mailer->clearAllRecipients();
-		$this->mailer->clearAttachments();
-		$this->mailer->clearCustomHeaders();
-		$this->mailer->clearReplyTos();
-		$this->mailer->Subject = '';
-		$this->mailer->Body = '';
-		$this->mailer->AltBody = '';
-		$this->mailer->Ical = '';
-		$this->restoreSmtpDefaults();
-	}
-
-	/**
-	 * Restore default From / Reply-To from cached SMTP config (no reconnect or password decrypt).
-	 */
-	private function restoreSmtpDefaults(): void
-	{
-		if (!$this->smtp) {
-			return;
-		}
-		if (!empty($this->smtp['from_email'])) {
-			$this->mailer->From = $this->smtp['from_email'];
-		}
-		if (!empty($this->smtp['from_name'])) {
-			$this->mailer->FromName = $this->smtp['from_name'];
-		}
-		if (!empty($this->smtp['reply_to'])) {
-			$this->mailer->addReplyTo($this->smtp['reply_to']);
-		}
-	}
-
-	/**
-	 * Close persistent SMTP connection opened with SMTPKeepAlive.
-	 */
-	public function closeSmtpSession(): void
-	{
-		if (($this->smtp['mailer_type'] ?? '') === 'smtp') {
-			$this->mailer->smtpClose();
-		}
-	}
-
-	/**
-	 * Send mail by row queue
-	 * @param array $rowQueue
-	 * @param self|null $sessionMailer Reused mailer from createQueueSessionMailer(); reset before each row
-	 * @return boolean
-	 */
-	public static function sendByRowQueue($rowQueue, ?self $sessionMailer = null)
-	{
-		if (\App\Core\AppConfig::main('systemMode') === 'demo') {
-			return true;
-		}
-		$allowedDomains = self::parseSendOnlyToDomains(
+		return self::parseSendOnlyToDomains(
 			\App\Core\AppConfig::module('Mail', 'MAIL_FILTER_SEND_ONLY_TO_DOMAIN')
 		);
-		if ($allowedDomains !== []) {
-			$queueId = (int) ($rowQueue['id'] ?? 0);
-			$filtered = self::applySendOnlyToDomainFilter($rowQueue, $allowedDomains);
-			if ($filtered === null) {
-				\App\Log\Log::trace(
-					'Mailer drained queue id=' . $queueId . ' (no allowed-domain recipients: '
-					. implode(', ', $allowedDomains) . ')',
-					'Mailer'
-				);
-				return true;
+	}
+
+	/**
+	 * @param list<string> $addresses
+	 * @return list<string>
+	 */
+	public static function filterAddressListByAllowedDomains(array $addresses): array
+	{
+		$allowedDomains = self::getSendOnlyToDomains();
+		if ($allowedDomains === []) {
+			return $addresses;
+		}
+		$filtered = [];
+		foreach ($addresses as $email) {
+			if (self::recipientMatchesAllowedDomains((string) $email, $allowedDomains)) {
+				$filtered[] = (string) $email;
 			}
-			$rowQueue = $filtered;
 		}
-		if ($sessionMailer !== null) {
-			$sessionMailer->resetForNextQueueRow();
-			return $sessionMailer->deliverQueueRow($rowQueue);
-		}
-		return (new self())->loadSmtpByID($rowQueue['smtp_id'])->deliverQueueRow($rowQueue);
+
+		return array_values(array_unique($filtered));
 	}
 
 	/**
 	 * @param string|array<int|string, string>|null $config
 	 * @return string[]
 	 */
-	private static function parseSendOnlyToDomains(mixed $config): array
+	public static function parseSendOnlyToDomains(mixed $config): array
 	{
 		if ($config === null || $config === '' || $config === []) {
 			return [];
@@ -581,7 +513,7 @@ class Mailer
 	 * @param string[] $allowedDomains
 	 * @return array|null Filtered queue row, or null when no allowed-domain recipients remain
 	 */
-	private static function applySendOnlyToDomainFilter(array $rowQueue, array $allowedDomains): ?array
+	public static function applySendOnlyToDomainFilter(array $rowQueue, array $allowedDomains): ?array
 	{
 		$to = self::filterRecipientMapByDomain($rowQueue['to'] ?? null, $allowedDomains);
 		$cc = self::filterRecipientMapByDomain($rowQueue['cc'] ?? null, $allowedDomains);

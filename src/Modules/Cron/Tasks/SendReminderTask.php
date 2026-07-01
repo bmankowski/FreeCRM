@@ -71,8 +71,12 @@ GROUP BY vtiger_activity.activityid";
 						}
 					}
 					if (!empty($toEmail)) {
-						\App\Email\Mailer::sendFromTemplate([
+						\App\Modules\Mail\Models\Outbound::sendFromTemplateParams([
 							'template' => $template,
+							'senderRef' => \App\Modules\Mail\Models\Module::requireSenderRefForTemplateId(
+								$template,
+								(int) $row['smownerid']
+							),
 							'moduleName' => 'Calendar',
 							'recordId' => $activityId,
 							'to' => $toEmail,
@@ -82,8 +86,12 @@ GROUP BY vtiger_activity.activityid";
 					}
 					foreach ($invitees as &$invitation) {
 						if (!empty($invitation['email'])) {
-							\App\Email\Mailer::sendFromTemplate([
+							\App\Modules\Mail\Models\Outbound::sendFromTemplateParams([
 								'template' => 'ActivityReminderNotificationInvitation',
+								'senderRef' => \App\Modules\Mail\Models\Module::requireSenderRefForTemplateId(
+									'ActivityReminderNotificationInvitation',
+									(int) ($invitation['inviteeid'] ?? 1)
+								),
 								'moduleName' => 'Calendar',
 								'recordId' => $activityId,
 								'to' => $invitation['email'],

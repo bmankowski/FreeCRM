@@ -47,11 +47,23 @@ class SendMailModal extends BasicModal
 			$templateModule = $sourceModule;
 		}
 		$viewer->assign('TEMPLATE_MODULE', $templateModule);
+		$userId = (int) $request->getUser()->getId();
+		$rawTemplateList = \App\Email\Mail::getTempleteList($templateModule);
+		$templateList = [];
+		foreach ($rawTemplateList as $tpl) {
+			$detail = \App\Email\Mail::getTempleteDetail($tpl['id']);
+			$tpl['default_sender_ref'] = $detail
+				? \App\Modules\Mail\Models\Module::defaultSenderRefForTemplate($detail, $userId)
+				: '';
+			$templateList[] = $tpl;
+		}
 		$viewer->assign('RECORDS', $this->getRecordsListFromRequest($request));
 		$viewer->assign('FIELDS', $this->fields);
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('DEFAULT_SMTP', \App\Email\Mail::getDefaultSmtp());
-		$viewer->assign('TEMPLETE_LIST', \App\Email\Mail::getTempleteList($templateModule));
+		$viewer->assign('TEMPLETE_LIST', $templateList);
+		$viewer->assign('COMPOSE_SENDERS', \App\Modules\Mail\Models\Account::getComposeSenders($userId));
+		$viewer->assign('CAN_SEND_MAIL', \App\Modules\Mail\Models\Module::canUserSend($userId));
 		$viewer->assign('USER_MODEL', $request->getUser());
 		$this->assignComposeAttachmentLimits($viewer);
 		$viewer->view('SendMailModal.tpl', $moduleName);
@@ -150,7 +162,10 @@ class SendMailModal extends BasicModal
 	{
 		return array_merge(
 			parent::getModalScripts($request),
-			$this->checkAndConvertJsScripts(['modules.Mail.resources.ComposeAttachments'])
+			$this->checkAndConvertJsScripts([
+				'modules.Mail.resources.SenderPicker',
+				'modules.Mail.resources.ComposeAttachments',
+			])
 		);
 	}
 

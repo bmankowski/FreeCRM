@@ -653,10 +653,25 @@ ProjektyRekrutacyjne_RelatedList_Js.triggerSendEmail = function () {
 		sourceRecord: app.getRecordId(),
 		module: jQuery('.relatedModuleName').val(),
 		cvid: jQuery('#recordsFilter').val(),
+		view: 'IndividualSendMailModal'
 	};
 	var listInstance = ProjektyRekrutacyjne_RelatedList_Js.getRelatedListViewInstance();
-	var selectedIds = ProjektyRekrutacyjne_RelatedList_Js.collectRelatedCandidateIds();
-	if (!selectedIds.length) {
+	if (listInstance && listInstance.checkListRecordSelected() !== true) {
+		modalParams.selectedIds = listInstance.readSelectedIds(true);
+		modalParams.excludedIds = listInstance.readExcludedIds(true);
+		if (typeof listInstance.getDefaultParams === 'function') {
+			var listParams = listInstance.getDefaultParams();
+			delete listParams.parent;
+			modalParams.listParams = listParams;
+		}
+	} else {
+		modalParams.selectedIds = ProjektyRekrutacyjne_RelatedList_Js.collectRelatedCandidateIds();
+	}
+	var selectedIds = modalParams.selectedIds;
+	var hasSelection = selectedIds === 'all'
+		|| (typeof selectedIds === 'string' && selectedIds !== '' && selectedIds !== '[]')
+		|| (Array.isArray(selectedIds) && selectedIds.length > 0);
+	if (!hasSelection) {
 		if (listInstance && typeof listInstance.noRecordSelectedAlert === 'function') {
 			listInstance.noRecordSelectedAlert();
 		} else {
@@ -667,18 +682,7 @@ ProjektyRekrutacyjne_RelatedList_Js.triggerSendEmail = function () {
 		}
 		return;
 	}
-	if (listInstance && listInstance.checkListRecordSelected() !== true && typeof Vtiger_ListView_Js.triggerSendEmail === 'function') {
-		Vtiger_ListView_Js.listInstance = listInstance;
-		Vtiger_ListView_Js.triggerSendEmail(modalParams);
-		Vtiger_ListView_Js.listInstance = false;
-		return;
-	}
-	Vtiger_Index_Js.triggerSendEmailModal(
-		jQuery.extend({}, modalParams, {
-			selectedIds: selectedIds,
-			view: 'IndividualSendMailModal'
-		})
-	);
+	Vtiger_Index_Js.triggerSendEmailModal(modalParams);
 };
 // https://192.168.2.230/index.php?module=ProjektyRekrutacyjne&relatedModule=Candidates&view=Detail&record=1376448&mode=showRelatedList&relationId=756&tab_label=Candidates
 // https://192.168.2.230/index.php?module=ProjektyRekrutacyjne&relatedModule=Candidates&view=Detail&record=1376448&mode=showRelatedList&relationId=756&tab_label=Candidates&entityState=Active&advancedConditions=null&search_params=[[["recruitment_status_rel%22e%22PPL_REJECTED_AFTER_CV"]]]&totalCount=0

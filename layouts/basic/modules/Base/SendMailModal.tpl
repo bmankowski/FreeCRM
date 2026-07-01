@@ -11,7 +11,8 @@
 			<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>&nbsp;&nbsp;
 			{'LBL_MASS_SEND_EMAIL_INFO'|t:$MODULE}
 		</div>
-		<form class="form-horizontal validateForm">
+		<form class="form-horizontal validateForm"
+			data-mail-compose-senders='{\App\Utils\Json::encode($COMPOSE_SENDERS)|escape:'html'}'>
 			<div class="form-group">
 				<label class="col-sm-6 control-label">
 					{'LBL_NUMBER_OF_SELECTED_RECORDS'|t:$MODULE}:
@@ -46,9 +47,18 @@
 				<div class="col-sm-8">
 					<select class="select2" id="template" data-validation-engine="validate[required]">
 						{foreach item=ROW from=$TEMPLETE_LIST}
-							<option value="{$ROW['id']}">{$ROW['name']}</option>
+							<option value="{$ROW['id']}"
+								data-sender-type="{$ROW['sender_type']|default:'system_smtp'|escape}"
+								data-smtp-id="{$ROW['smtp_id']|default:''|escape}"
+								data-default-sender-ref="{$ROW['default_sender_ref']|default:''|escape}">{$ROW['name']}</option>
 						{/foreach}
 					</select>
+				</div>
+			</div>
+			<div class="form-group js-mail-sender-picker hide">
+				<label class="col-sm-4 control-label" for="mailSender">{"LBL_SEND_FROM"|t:"Mail"}</label>
+				<div class="col-sm-8">
+					<select class="select2" id="mailSender"></select>
 				</div>
 			</div>
 			<div class="form-group">
@@ -65,7 +75,7 @@
 		{/if}
 	</div>
 	<div class="modal-footer">
-		{if $DEFAULT_SMTP && $TEMPLETE_LIST && $IS_EMAIL}
+		{if $DEFAULT_SMTP && $TEMPLETE_LIST && $IS_EMAIL && $CAN_SEND_MAIL}
 			<button class="btn btn-success" type="submit" name="saveButton">
 				<strong>{'LBL_SEND'|t}</strong>
 			</button>

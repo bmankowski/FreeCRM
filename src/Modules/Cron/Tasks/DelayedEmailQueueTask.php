@@ -68,13 +68,18 @@ final class DelayedEmailQueueTask extends AbstractCronTask
 			}
 
 			$recipients = \App\Utils\Json::decode($row['recipients_json']);
+			$senderRef = (string) ($recipients['_sender_ref'] ?? '');
+			unset($recipients['_sender_ref']);
+			if ($senderRef === '') {
+				throw new \App\Exceptions\AppException('LBL_MAIL_SENDER_REF_REQUIRED');
+			}
 			$mailParams = [
-				'smtp_id' => \App\Email\Mail::getDefaultSmtp(),
 				'to' => $recipients['to'] ?? [],
 				'subject' => $row['subject'],
 				'content' => $row['body'],
 				'source_module' => 'DelayedBuffer',
 				'source_id' => (int) $row['id'],
+				'params' => ['sender_ref' => $senderRef],
 			];
 			if (!empty($recipients['cc'])) {
 				$mailParams['cc'] = $recipients['cc'];

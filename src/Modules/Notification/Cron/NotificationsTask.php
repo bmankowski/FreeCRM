@@ -35,8 +35,12 @@ final class NotificationsTask extends AbstractCronTask
 		if ($currentTime >= $timestampEndDate) {
 			$endDate = $this->getEndDate($currentTime, $timestampEndDate, $row['frequency']);
 			if (\App\Security\Privilege::isPermitted(self::MODULE_NAME, 'ReceivingMailNotifications', false, $row['userid']) && $this->existNotifications($row['userid'], $row['last_execution'], $endDate)) {
-				\App\Email\Mailer::sendFromTemplate([
+				\App\Modules\Mail\Models\Outbound::sendFromTemplateParams([
 					'template' => 'SendNotificationsViaMail',
+					'senderRef' => \App\Modules\Mail\Models\Module::requireSenderRefForTemplateId(
+						'SendNotificationsViaMail',
+						(int) $row['userid']
+					),
 					'to' => \App\Modules\Users\Models\Record::getInstanceById($row['userid'], 'Users')->get('email1'),
 					'startDate' => $row['last_execution'],
 					'endDate' => $endDate,

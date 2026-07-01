@@ -57,7 +57,7 @@ class Send extends \App\Base\Controllers\BaseActionController
 					throw new \App\Exceptions\AppException('Template not found');
 				}
 				if ($senderRef === '') {
-					$senderRef = \App\Modules\Mail\Models\Module::defaultSenderRefForTemplate($template, $userId);
+					throw new \App\Exceptions\AppException('LBL_MAIL_SENDER_REF_REQUIRED');
 				}
 				$params['template'] = $templateId;
 				if ($subject !== '') {
@@ -66,7 +66,7 @@ class Send extends \App\Base\Controllers\BaseActionController
 				$messageId = \App\Modules\Mail\Models\Outbound::sendFromTemplate($userId, $senderRef, $params, $template);
 			} else {
 				if ($senderRef === '') {
-					throw new \App\Exceptions\AppException('Invalid sender');
+					throw new \App\Exceptions\AppException('LBL_MAIL_SENDER_REF_REQUIRED');
 				}
 				$messageId = \App\Modules\Mail\Models\Outbound::sendRaw($userId, $senderRef, $params);
 			}

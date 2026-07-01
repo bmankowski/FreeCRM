@@ -69,8 +69,12 @@ class ForgotPassword {
 				)
 			];
 			if (\App\Email\Mail::getDefaultSmtp()) {
-				$status = \App\Email\Mailer::sendFromTemplate([
+				$status = \App\Modules\Mail\Models\Outbound::sendFromTemplateParams([
 						'template' => 'UsersForgotPassword',
+						'senderRef' => \App\Modules\Mail\Models\Module::requireSenderRefForTemplateId(
+							'UsersForgotPassword',
+							$userId
+						),
 						'moduleName' => 'Users',
 						'recordId' => $userId,
 						'to' => $email,

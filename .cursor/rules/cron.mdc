@@ -36,8 +36,13 @@ alwaysApply: false
 
 ## Mail queue (`MailerTask`)
 
-- Handler: `src/Modules/Cron/Tasks/MailerTask.php` → `Mailer::sendByRowQueue()` (also manual send in Settings → Mail).
-- Dev/staging safety: `config/modules/Mail.php` → `MAIL_FILTER_SEND_ONLY_TO_DOMAIN`. Only listed `@domain` recipients get SMTP; others stripped; rows with no match drained without send. Off: `''` or `[]`. One: `'itconnect.pl'`. Several: `['a.pl', 'b.com']` or comma-separated string. Subdomains match. Not applied to `Mailer::test()` or OSSMail compose.
+Single handler: **`Outbound::deliverFromQueueRow()`** for every row (cron + Settings `SendManuallyAjax` / `MassSend`). **`Mailer::sendByRowQueue` removed** — do not reintroduce a parallel cron path.
+
+- **`Mailer::addMail`** requires explicit `params.sender_ref` — no silent default; missing → `LBL_MAIL_SENDER_REF_REQUIRED`.
+- Cron **`resolveSenderRefFromQueueRow`** reads only `params.sender_ref` — no fallback from row `smtp_id` or CRM `account_id`.
+- Dev/staging: `MAIL_FILTER_SEND_ONLY_TO_DOMAIN` in `config/modules/Mail.php` (auto on dev/test hosts). Blocked recipients → failed send; CRM rows also `markFailed`.
+- Queue **`params` TEXT** column required (`m260701_000001_mail_queue_params_column`).
+- Queue **attachments:** must be durable paths (`storage/Mail/…` via `pathMapForSend` at enqueue). Cron re-resolves queue JSON; if empty, `deliverFromQueueRow` falls back to CRM `u_yf_mail_attachments`.
 
 ## LinkAction import (`LBL_LINK_ACTION_IMPORT`)
 

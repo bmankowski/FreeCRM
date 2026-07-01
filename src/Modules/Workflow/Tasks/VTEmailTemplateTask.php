@@ -66,7 +66,9 @@ class VTEmailTemplateTask extends VTTask
 			if (!empty($this->copy_email)) {
 				$mailerContent['bcc'] = $this->copy_email;
 			}
-			\App\Email\Mailer::sendFromTemplate($mailerContent);
+			$smtpId = !empty($this->smtp) ? (int) $this->smtp : \App\Email\Mail::getDefaultSmtp();
+			$mailerContent['senderRef'] = \App\Email\Mailer::smtpSenderRef($smtpId);
+			\App\Modules\Mail\Models\Outbound::sendFromTemplateParams($mailerContent);
 		}
 	}
 
@@ -121,7 +123,7 @@ class VTEmailTemplateTask extends VTTask
 				$context->getSourceRecordId(),
 				$context->getDestinationRecordId(),
 				\App\Email\Delayed\DelayedEmailType::STATUS_CHANGE,
-				$mailerContent
+				\App\Email\Mailer::withSmtpSenderRef($mailerContent)
 			);
 		}
 	}

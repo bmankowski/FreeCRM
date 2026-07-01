@@ -16,10 +16,19 @@ jQuery(function ($) {
 		if (!form.validationEngine('validate')) {
 			return;
 		}
+		var senderRef = picker.getSenderRef();
+		if (!senderRef) {
+			Vtiger_Helper_Js.showPnotify({
+				text: app.vtranslate('LBL_MAIL_SENDER_REF_REQUIRED', 'Mail'),
+				type: 'error',
+				animation: 'show'
+			});
+			return;
+		}
 		var data = {
 			module: 'Mail',
 			action: 'Send',
-			senderRef: picker.getSenderRef(),
+			senderRef: senderRef,
 			templateId: form.find('#mail-template').val(),
 			sourceModule: form.find('[name=sourceModule]').val(),
 			sourceRecord: form.find('[name=sourceRecord]').val(),

@@ -140,9 +140,20 @@ class RecruitmentStatusTransitionMail
 			}
 
 			$template = \App\Email\Mail::getTemplete($templateId) ?: [];
-			$senderRef = \App\Modules\Mail\Models\Module::defaultSenderRefForTemplate($template, $userId);
-			if ($senderRef === ''
-				|| !\App\Modules\Mail\Models\Module::userCanSendTemplate($userId, $template)) {
+			try {
+				$senderRef = \App\Modules\Mail\Models\Module::requireSenderRefForTemplate($template, $userId);
+			} catch (\App\Exceptions\AppException) {
+				\App\Log\Log::warning(
+					'transition mail auto-send aborted: missing sender (templateId=' . $templateId . ')',
+					'Mail'
+				);
+				++$result['failed'];
+				if ($shortName !== '') {
+					$result['failedShortNames'][] = $shortName;
+				}
+				continue;
+			}
+			if (!\App\Modules\Mail\Models\Module::userCanSendTemplate($userId, $template)) {
 				\App\Log\Log::warning(
 					'transition mail auto-send aborted: missing or invalid sender (templateId='
 					. $templateId . ', senderRef=' . ($senderRef ?: 'empty') . ')',
@@ -155,17 +166,22 @@ class RecruitmentStatusTransitionMail
 				continue;
 			}
 
-			$ok = \App\Email\Mailer::sendFromTemplate([
-				'template' => $templateId,
-				'moduleName' => 'Candidates',
-				'recordId' => $candidateId,
-				'field' => $recipient['field'],
-				'to' => $recipient['email'],
-				'sourceModule' => 'ProjektyRekrutacyjne',
-				'sourceRecord' => $projectId,
-				'senderRef' => $senderRef,
-				'userId' => $userId,
-			]);
+			try {
+				$ok = \App\Modules\Mail\Models\Outbound::sendFromTemplateParams([
+					'template' => $templateId,
+					'moduleName' => 'Candidates',
+					'recordId' => $candidateId,
+					'field' => $recipient['field'],
+					'to' => $recipient['email'],
+					'sourceModule' => 'ProjektyRekrutacyjne',
+					'sourceRecord' => $projectId,
+					'senderRef' => $senderRef,
+					'userId' => $userId,
+				]);
+			} catch (\App\Exceptions\AppException $e) {
+				\App\Log\Log::warning('transition mail send failed: ' . $e->getMessage(), 'Mail');
+				$ok = false;
+			}
 
 			if ($ok) {
 				++$result['sent'];

@@ -2,6 +2,7 @@
 description: "Record-context mail compose — modal flow, URLs, SendMailModal query pitfall"
 globs:
   - "src/Modules/Mail/**"
+  - "src/Modules/Mail/Models/Outbound.php"
   - "src/Modules/Base/Views/SendMailModal.php"
   - "src/Modules/Base/Views/IndividualSendMailModal.php"
   - "src/Modules/Base/Actions/Mail.php"
@@ -28,7 +29,8 @@ No global “Compose” menu. Users send from record UI (email UiType, E-maile w
 
 - Links use `Module::getComposeUrl()` → `Mail&view=Compose&sourceModule=…&sourceRecord=…` (+ optional `to`, `recordModule`, `recordId`).
 - `.sendMailBtn` click → `Vtiger_Index_Js.openComposeModal()` → `triggerSendEmailModal({ view: 'IndividualSendMailModal', … })`.
-- Template preview / send: `Base\Actions\Mail` modes `previewMail` / `sendMails` (not `Mail\Actions\Send` — that is the full-page compose path). Preview has no `mailMessageId` — LinkAction vars stay as deferred `$(custom : …)$` in HTML (not signed URLs). Send: `Outbound::sendFromTemplate` prepares row, re-parses body (including `contentOverride` from editor) with `mailMessageId` — see `link-action.mdc`.
+- Template preview / send: `Base\Actions\Mail` modes `previewMail` / `sendMails` → `Outbound::sendFromTemplateParams` (not `Mail\Actions\Send` — full-page compose). Pass **`senderRef`** from `SenderPicker` (`account:N`). Preview has no `mailMessageId` — LinkAction vars stay deferred; send re-parses via `Outbound::sendFromTemplate` — see `link-action.mdc`.
+- **Send errors (JS):** `AppConnector` resolves `{success:false, error}` in `.then()`, not `.fail()`. `registerSendMailModalView` must show `response.error.message` (server translates `LBL_*` for AJAX); do not rely on `app.vtranslate('LBL_MAIL_…')` client-side.
 - **Compose senders (manual):** `Account::getComposeSenders($userId)` → at most two options: personal mailbox + one group-linked shared account (`u_yf_mail_accounts.group_id` → `vtiger_groups`). Passed as `data-mail-compose-senders` on the modal form; `SenderPicker.js` uses `config.composeSenders` (flat list, no system SMTP). Default: personal first (`defaultSenderRefForTemplate` → `getComposeSenders()[0]`). Candidates / ProjektyRekrutacyjne templates: `sender_type=user_account` (not `any` + `smtp_id`).
 - **SenderPicker labels:** display `from_name <username>` (same as system SMTP rows); group uses `group_name` when `from_name` empty. `LBL_SENDER_PERSONAL` / `LBL_SENDER_GROUP` only as last-resort fallback — keys live in `Vtiger.json` `jsLanguageStrings` (not `Mail.json` alone).
 
@@ -51,7 +53,7 @@ Passing `sourceModule === moduleName` triggers `>>> No relationModel instance, r
 ## Still full-page / legacy
 
 - `Mail&view=Compose` — PDF redirect, direct links; no live template preview in UI.
-- List mass email — `SendMailModal`. Candidates toolbar — `showModal` + `IndividualSendMailModal` URL directly.
+- List mass email — **`SendMailModal`** (same `registerSendMailModalView` + `SenderPicker` + `MailComposeAttachments` as individual modal; posts `senderRef` + `attachmentTokens`). Candidates toolbar — `showModal` + `IndividualSendMailModal` URL directly.
 
 ## IndividualSendMailModal JS (single path)
 
@@ -60,7 +62,7 @@ Passing `sourceModule === moduleName` triggers `>>> No relationModel instance, r
 - Template passes context via `data-mail-*` on `.js-mail-preview-section` (raw `Json::encode`, never `toSafeHTML` on JSON — breaks `selected_ids`).
 - Preview uses a request sequence counter; stale responses are ignored. Re-bind with namespaced events (`.mailPreview`, `.mailSend`).
 - **Scroll chain:** `registerMailComposeScrollChain()` (same file) — wheel on modal (capture, `passive: false`): scroll **down** = `.modal-body` first, then `.js-mail-content`; scroll **up** = content first, then body. Only when `.js-mail-preview-section` is visible and content overflows. Skips `.select2-*` and PerfectScrollbar rails; call `modalBody.data('ps').update()` after body scroll.
-- **Attachments:** `Mail_ComposeAttachments_Js` + partial `Base/partials/MailComposeAttachments.tpl`. Staged upload via `Mail&action=UploadComposeAttachment`; send passes `attachmentTokens` JSON to `Base\Actions\Mail::sendMails`. Template document list from `previewMail` → `templateAttachments`. Staging under `cache/mail-compose/{userId}/` (`ROOT_DIRECTORY` has no trailing slash — use `DIRECTORY_SEPARATOR` before `cache`). Cron `LBL_MAIL_COMPOSE_STAGING_CLEANUP`. Model: `Mail\Models\ComposeAttachment`. CSS registered in `SendMailModal::getModalCss()` (`modules.Mail.ComposeAttachments`).
+- **Attachments:** `Mail_ComposeAttachments_Js` + partial `Base/partials/MailComposeAttachments.tpl`. Staged upload via `Mail&action=UploadComposeAttachment`; send passes `attachmentTokens` JSON to `Base\Actions\Mail::sendMails`. Staging: `cache/mail-compose/{userId}/`; cron `LBL_MAIL_COMPOSE_STAGING_CLEANUP`. **Mass send:** resolve tokens once; `Mail::sendMails` deletes staging **once after the loop** (not `composeAttachmentTokens` per row — early delete broke multi-recipient + cron attach).
 - **Template standard attachments (admin):** configure on **EmailTemplates Edit** — panel `LBL_STANDARD_ATTACHMENTS` links Documents via `u_yf_documents_emailtemplates` (`EmailTemplates\Models\TemplateAttachment`). Junction columns via `Relation::getReferenceTableInfo('EmailTemplates','Documents')`: **`crmid` = Document**, **`relcrmid` = EmailTemplate**. Ajax: `EmailTemplates&action=TemplateAttachment` modes `list`/`link`/`unlink`. Upload (`Documents/MassAdd` + `TemplateAttachment::link`) or popup select; Detail Documents tab also ADD+SELECT. On compose send, linked Documents auto-attach (locked chips); resolve path `Mail::getTemplete` → `Outbound::sendFromTemplate` → `Attachment::resolveForSend` → `Mail::getAttachmentsFromDocument`.
 - **Recruitment account-tier templates:** `IndividualSendMailModal` filters `ProjektyRekrutacyjne` templates by project `kontrahent` when `sourceModule=ProjektyRekrutacyjne` + `sourceRecord`. Template **Kontrahent** (`account_id`, uitype 306 MultiReference) on EmailTemplates Edit — visible when **Moduł** = `ProjektyRekrutacyjne`. See `recruitment-settings.mdc`.
 - **Template attachment pitfalls:** `Relation::deleteRelation` / `Documents::unlinkRelationship` do **not** remove junction rows — **`TemplateAttachment::unlink` deletes `u_yf_documents_emailtemplates` directly**. Link/unlink call `clearCaches` on `MailAttachmentsFromTemplete` / `MailAttachmentsFromDocument`. Document bytes come from **`vtiger_notes.storage_path`** (`location_type=internal`) or `external_url` — see `documents-storage.mdc`. **`getAttachmentsFromDocument` skips files where `realpath` fails** (silent empty attach) — `link()` requires physical file on disk; send blocked via `assertAllFilesPresent` + compose UI (`hasFile` on `templateAttachments`, send button disabled). Legacy `storage/oss_mailscanner/` docs often have DB metadata but no blob. List query uses `vtiger_notes.title`.
@@ -84,8 +86,9 @@ PHP-FPM runs as `www-data`. `cache/mail-compose/` must be writable by `www-data`
 
 ## Attachment persistence (after send)
 
-- On send, staged files copy to **`storage/Mail/{Y/m}/{accountId}/{messageId}/`** + `u_yf_mail_attachments` (`Attachment::storeFromPaths`). Same `ROOT_DIRECTORY` rule — never `ROOT_DIRECTORY . 'storage/…'` (yields `/var/www/htmlstorage/…`).
-- `storage/Mail/` is not in git; entrypoint creates it. Send-time `mkdir(): Permission denied` in `Attachment.php` → same root-owned bind-mount issue as staging (see `docker-commands.mdc`).
+- On send, staged files copy to **`storage/Mail/{Y/m}/{accountId}/{messageId}/`** + `u_yf_mail_attachments` (`Attachment::storeFromPaths`). **`Outbound::enqueue` must queue `Attachment::pathMapForSend($messageId)`** — queue rows with staging paths lose attachments when staging is cleared before cron (~1 min).
+- Individual modal: `sendFromTemplate` still deletes compose tokens after one send (storage copy already enqueued). See `mail-module.mdc` outbound section.
+- Paths: `ROOT_DIRECTORY` has no trailing slash — use `DIRECTORY_SEPARATOR` before `storage/`. `storage/Mail/` not in git; entrypoint creates it. Root-owned dirs → `mkdir(): Permission denied` (see `docker-commands.mdc`).
 
 ## system.log noise
 

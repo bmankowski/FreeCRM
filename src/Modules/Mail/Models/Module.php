@@ -114,6 +114,29 @@ class Module extends \App\Modules\Base\Models\Module
 		return 'smtp:' . (int) \App\Email\Mail::getDefaultSmtp();
 	}
 
+	public static function requireSenderRefForTemplate(array $template, int $userId): string
+	{
+		$senderRef = self::defaultSenderRefForTemplate($template, $userId);
+		if ($senderRef === '' || $senderRef === 'smtp:0') {
+			throw new \App\Exceptions\AppException('LBL_MAIL_SENDER_REF_REQUIRED');
+		}
+
+		return $senderRef;
+	}
+
+	/**
+	 * @param int|string $templateId
+	 */
+	public static function requireSenderRefForTemplateId($templateId, int $userId): string
+	{
+		$template = \App\Email\Mail::getTemplete($templateId) ?: [];
+		if ($template === []) {
+			throw new \App\Exceptions\AppException('LBL_MAIL_SENDER_REF_REQUIRED');
+		}
+
+		return self::requireSenderRefForTemplate($template, $userId);
+	}
+
 	private static function defaultUserAccountRef(int $userId): string
 	{
 		$senders = Account::getComposeSenders($userId);

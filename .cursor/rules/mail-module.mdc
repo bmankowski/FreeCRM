@@ -1,6 +1,6 @@
 ---
 description: "Mail module — credential UI, cron scan, and common pitfalls when editing Mail code"
-globs: ["src/Modules/Mail/**", "src/Modules/Settings/Mail/**", "src/Modules/Settings/MailAccount/**", "src/Email/Mailer.php", "src/Modules/Cron/Tasks/MailerTask.php", "layouts/basic/modules/Mail/**", "layouts/basic/modules/Settings/Mail/**", "layouts/basic/modules/Settings/MailAccount/**"]
+globs: ["src/Modules/Mail/**", "src/Modules/Mail/Models/Outbound.php", "src/Modules/Settings/Mail/**", "src/Modules/Settings/MailAccount/**", "src/Email/Mailer.php", "src/Modules/Cron/Tasks/MailerTask.php", "layouts/basic/modules/Mail/**", "layouts/basic/modules/Settings/Mail/**", "layouts/basic/modules/Settings/MailAccount/**"]
 alwaysApply: false
 ---
 
@@ -51,22 +51,34 @@ Cron: `LBL_MAIL_SCAN` → `Mail\Cron\Scanner`; `LBL_MAIL_LOG_PRUNE` → `Mail\Cr
 - **Use `\App\Db\Query`, not `\yii\db\Query`.** Cron (and some CLI) bootstraps without `Yii::$app->db`; raw Yii Query → `getDb() on null`. Same for `Settings/MailAccount`.
 - **No `App\User\User`.** Use `CurrentUser::getId()` or an already-loaded user model's `getId()`.
 - **Smarty mailbox include:** `{include file='PreferenceMailbox.tpl'|@vtemplate_path:'Mail'}` (filename only) — see `smarty-templates.mdc`.
-- **`s_#__mail_queue` (admin connection):** `\App\Db\Db::getInstance('admin')` — `\App\Db::getInstance` is invalid and fatals (`SendManuallyAjax`, `MassSend`). Same send path as cron: `Mailer::sendByRowQueue()`.
+- **`s_#__mail_queue` (admin connection):** `\App\Db\Db::getInstance('admin')` — `\App\Db::getInstance` is invalid and fatals (`SendManuallyAjax`, `MassSend`). Send path: **`Outbound::deliverFromQueueRow()`**.
 
 Design reference: `documentation/cr-Mail-module.md`.
 
-## Outbound send (2026-06)
+## Outbound send (2026-07)
 
-All outbound mail creates **`u_yf_mail_messages`** first (`send_status`: `prepared` → `sent`|`failed`). Entry points: `Outbound::sendFromTemplate`, `Outbound::sendRaw`, `Mailer::sendFromTemplate` (delegates).
+**One queue, one cron handler.** Enqueue → `s_yf_mail_queue` → `MailerTask` / Settings manual send → **`Outbound::deliverFromQueueRow()`** only. No `sendByRowQueue`, no separate legacy branch.
 
-| Path | Delivery | Status finalized |
-|------|----------|------------------|
-| `account:` sender | `Outbound::deliverViaAccount` (immediate) | on SMTP success/fail |
-| `smtp:` sender | `Mailer::addMail` → cron `MailerTask` | after `sendByRowQueue` |
+```
+enqueue: Outbound::enqueue (CRM) or Mailer::addMail (workflow, notifications, …)
+         → params JSON: { sender_ref, mail_message_id? }
+cron:    deliverFromQueueRow → account:* → Mail\Smtp\Sender
+                              → smtp:*   → Mailer::deliverQueueRow
+```
 
-- **`Mailer::addMail` requires `mail_message_id`** — stored in queue `params` JSON; never insert queue row without prepared CRM message.
-- LinkAction tokens get `mid` at parse time — see `link-action.mdc`. Do not parse template body before `prepare()` + `setMailMessageId()`.
-- List mass-mail / compose modal: always re-parse template at send (subject override OK); do not send pre-previewed HTML with baked-in tracking URLs.
+| Entry | Enqueue | CRM row (`u_yf_mail_messages`) |
+|-------|---------|--------------------------------|
+| Modal / compose | `Outbound::sendFromTemplate` / `sendRaw` | yes — `prepared` until cron |
+| Workflow, cron helpers | `Outbound::sendFromTemplateParams` | yes when template path |
+| VTEmailTask, notifications, import | `Mailer::addMail` | no — `sender_ref` only |
+
+- **`Mailer::addMail`** requires explicit `params.sender_ref`; missing → `LBL_MAIL_SENDER_REF_REQUIRED`. Pass `params` as **array** (or decode before insert) — pre-encoded JSON string in `params` gets double-wrapped by `$quoteJsonColumn` and `sender_ref` is lost (cron fell back to wrong SMTP before 2026-07 fix).
+- Modal/mass send: UI must post `senderRef`; server throws `LBL_MAIL_SENDER_REF_REQUIRED` if absent.
+- **`sendFromTemplateParams($params)`** — workflow/template bag; replaces removed `Mailer::sendFromTemplate`.
+- Queue table needs **`params` TEXT** column (`m260701_000001_mail_queue_params_column`).
+- Dev/test: `config/modules/Mail.php` → `MAIL_FILTER_SEND_ONLY_TO_DOMAIN` (`itconnect.pl` on dev/test hosts).
+- **Attachments (CRM outbound):** after `Attachment::storeFromPaths`, enqueue **`Attachment::pathMapForSend($messageId)`** (`storage/Mail/…`) — not staging paths. Staging (`cache/mail-compose/`) is deleted before cron; queue JSON with staging paths → empty attach at SMTP. Cron fallback: `deliverFromQueueRow` uses `pathMapForSend` when queue resolve is empty.
+- LinkAction / compose pitfalls: `link-action.mdc`, `mail-compose.mdc`.
 
 ## Record mail list (Candidates → Maile tab)
 

@@ -359,15 +359,36 @@ var Vtiger_Index_Js = {
 				}
 				if (mailSenderPicker) {
 					var senderRef = mailSenderPicker.getSenderRef();
-					if (senderRef) {
-						sendData.senderRef = senderRef;
+					if (!senderRef) {
+						Vtiger_Helper_Js.showPnotify({
+							text: app.vtranslate('LBL_MAIL_SENDER_REF_REQUIRED', 'Mail'),
+							type: 'error',
+							animation: 'show'
+						});
+						return false;
 					}
+					sendData.senderRef = senderRef;
+				} else {
+					Vtiger_Helper_Js.showPnotify({
+						text: app.vtranslate('LBL_MAIL_SENDER_REF_REQUIRED', 'Mail'),
+						type: 'error',
+						animation: 'show'
+					});
+					return false;
 				}
 				if (mailComposeAttachments) {
 					sendData.attachmentTokens = JSON.stringify(mailComposeAttachments.getTokens());
 				}
 				delete sendData.view;
 				AppConnector.request(sendData).then(function (response) {
+					if (response && response.error) {
+						Vtiger_Helper_Js.showPnotify({
+							text: response.error.message || app.vtranslate('JS_ERROR'),
+							type: 'error',
+							animation: 'show'
+						});
+						return;
+					}
 					if (response.result == true) {
 						app.hideModalWindow();
 						Vtiger_Helper_Js.showPnotify({
@@ -387,6 +408,10 @@ var Vtiger_Index_Js = {
 					var message = app.vtranslate('JS_ERROR');
 					if (data && data.error && data.error.message) {
 						message = data.error.message;
+						var translated = app.vtranslate(message);
+						if (translated !== message) {
+							message = translated;
+						}
 					}
 					Vtiger_Helper_Js.showPnotify({
 						text: message,
@@ -404,10 +429,14 @@ var Vtiger_Index_Js = {
 	 */
 	triggerSendEmailModal: function (params) {
 		params = params || {};
-		var postData = {
+		var postData = {};
+		if (params.listParams) {
+			jQuery.extend(postData, params.listParams);
+		}
+		jQuery.extend(postData, {
 			module: params.module || app.getModuleName(),
 			view: params.view || 'SendMailModal'
-		};
+		});
 		if (params.selectedIds !== undefined) {
 			postData.selected_ids = typeof params.selectedIds === 'object'
 				? JSON.stringify(params.selectedIds)
@@ -432,9 +461,6 @@ var Vtiger_Index_Js = {
 			postData.templateIds = typeof params.templateIds === 'object'
 				? JSON.stringify(params.templateIds)
 				: params.templateIds;
-		}
-		if (params.listParams) {
-			jQuery.extend(postData, params.listParams);
 		}
 		if (params.extra) {
 			jQuery.extend(postData, params.extra);

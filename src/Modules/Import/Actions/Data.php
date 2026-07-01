@@ -802,12 +802,12 @@ class Data extends \App\Base\Controllers\BaseActionController
 
 			$userName = \vtlib\Deprecated::getFullNameFromArray('Users', $importDataController->user->column_fields);
 			$userEmail = $importDataController->user->email1;
-			\App\Email\Mailer::addMail([
-				//'smtp_id' => 1,
+			\App\Email\Mailer::addMail(\App\Email\Mailer::withSmtpSenderRef([
+				'smtp_id' => \App\Email\Mail::getDefaultSmtp(),
 				'to' => [$userEmail => $userName],
 				'subject' => $emailSubject,
 				'content' => $emailData,
-			]);
+			]));
 
 			$importDataController->finishImport();
 		}

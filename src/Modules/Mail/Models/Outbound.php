@@ -110,10 +110,15 @@ class Outbound
 		$mailParams['content'] = $content;
 		$mailParams['attachments'] = $resolvedAttachments;
 
-		[$accountId] = self::resolveSenderAccountId($senderRef);
+		[$accountId] = self::resolveSender($senderRef);
 		Attachment::storeFromPaths($crmMessageId, $accountId ?? 0, $resolvedAttachments);
+		$storedAttachments = Attachment::pathMapForSend($crmMessageId);
+		if ($storedAttachments !== []) {
+			$mailParams['attachments'] = $storedAttachments;
+		}
 
-		self::deliver($userId, $senderRef, $crmMessageId, $mailParams);
+		$mailParams = self::applyRecipientDomainPolicy($mailParams);
+		self::enqueue($userId, $senderRef, $crmMessageId, $mailParams);
 
 		$composeTokens = $params['composeAttachmentTokens'] ?? [];
 		if (is_array($composeTokens) && $composeTokens !== []) {
@@ -138,11 +143,16 @@ class Outbound
 		self::finalizeParsedContent($crmMessageId, (string) ($params['subject'] ?? ''), $body);
 		$params['body_html'] = $body;
 		$params['content'] = $body;
-		[$accountId] = self::resolveSenderAccountId($senderRef);
+		[$accountId] = self::resolveSender($senderRef);
 		if (!empty($params['attachments'])) {
 			Attachment::storeFromPaths($crmMessageId, $accountId ?? 0, $params['attachments']);
+			$storedAttachments = Attachment::pathMapForSend($crmMessageId);
+			if ($storedAttachments !== []) {
+				$params['attachments'] = $storedAttachments;
+			}
 		}
-		self::deliver($userId, $senderRef, $crmMessageId, $params);
+		$params = self::applyRecipientDomainPolicy($params);
+		self::enqueue($userId, $senderRef, $crmMessageId, $params);
 		$composeTokens = $params['composeAttachmentTokens'] ?? [];
 		if (is_array($composeTokens) && $composeTokens !== []) {
 			ComposeAttachment::deleteTokens($userId, $composeTokens);
@@ -185,6 +195,56 @@ class Outbound
 		return $messageId;
 	}
 
+	/**
+	 * Template send from a params bag (workflow, modal mass-send, cron helpers).
+	 *
+	 * @param array<string, mixed> $params
+	 */
+	public static function sendFromTemplateParams(array $params): bool
+	{
+		if (empty($params['template'])) {
+			return false;
+		}
+		$template = \App\Email\Mail::getTemplete($params['template']);
+		if (!$template) {
+			return false;
+		}
+
+		$userId = self::resolveSendUserId($params);
+		$senderRef = (string) ($params['senderRef'] ?? '');
+		if ($senderRef === '') {
+			throw new \App\Exceptions\AppException('LBL_MAIL_SENDER_REF_REQUIRED');
+		}
+
+		try {
+			self::sendFromTemplate($userId, $senderRef, $params, $template);
+		} catch (\App\Exceptions\AppException $e) {
+			throw $e;
+		} catch (\Throwable $e) {
+			\App\Log\Log::error('sendFromTemplate failed: ' . $e->getMessage(), 'Mail');
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * @param array<string, mixed> $params
+	 */
+	private static function resolveSendUserId(array $params): int
+	{
+		if (!empty($params['owner'])) {
+			return (int) $params['owner'];
+		}
+		if (!empty($params['userId'])) {
+			return (int) $params['userId'];
+		}
+		$owner = \App\Modules\Users\Models\Record::getCurrentUserRealId();
+
+		return $owner ? (int) $owner : 1;
+	}
+
 	public static function finalizeParsedContent(int $crmMessageId, string $subject, string $bodyHtml): void
 	{
 		$bodyHtml = \App\Utils\TemplateStyles::inlineEmailCss($bodyHtml);
@@ -197,22 +257,209 @@ class Outbound
 	}
 
 	/**
+	 * Cron entry point for every row in s_yf_mail_queue.
+	 */
+	public static function deliverFromQueueRow(array $rowQueue, int $userId): bool
+	{
+		if (\App\Core\AppConfig::main('systemMode') === 'demo') {
+			return true;
+		}
+
+		$crmMessageId = self::crmMessageIdFromQueueRow($rowQueue);
+		$senderRef = self::resolveSenderRefFromQueueRow($rowQueue);
+		if ($senderRef === '') {
+			self::markFailedIfTracked($crmMessageId);
+			throw new \App\Exceptions\AppException('LBL_MAIL_SENDER_REF_REQUIRED');
+		}
+
+		$allowedDomains = \App\Email\Mailer::getSendOnlyToDomains();
+		if ($allowedDomains !== []) {
+			$filtered = \App\Email\Mailer::applySendOnlyToDomainFilter($rowQueue, $allowedDomains);
+			if ($filtered === null) {
+				self::markFailedIfTracked($crmMessageId);
+
+				return false;
+			}
+			$rowQueue = $filtered;
+		}
+
+		$to = self::decodeQueueRecipients($rowQueue['to'] ?? null);
+		if ($to === []) {
+			self::markFailedIfTracked($crmMessageId);
+
+			return false;
+		}
+
+		$attachments = [];
+		if (!empty($rowQueue['attachments'])) {
+			$attachments = Attachment::resolveForSend(
+				\App\Utils\Json::decode((string) $rowQueue['attachments']) ?: []
+			);
+		}
+		if ($attachments === [] && $crmMessageId > 0) {
+			$attachments = Attachment::pathMapForSend($crmMessageId);
+		}
+
+		$params = [
+			'to' => $to,
+			'cc' => self::decodeQueueRecipients($rowQueue['cc'] ?? null),
+			'bcc' => self::decodeQueueRecipients($rowQueue['bcc'] ?? null),
+			'subject' => (string) ($rowQueue['subject'] ?? ''),
+			'body_html' => (string) ($rowQueue['content'] ?? ''),
+			'attachments' => $attachments,
+		];
+
+		try {
+			if (str_starts_with($senderRef, 'account:')) {
+				self::sendViaAccount($userId, (int) substr($senderRef, 8), $crmMessageId, $params);
+			} elseif (str_starts_with($senderRef, 'smtp:')) {
+				$smtpId = (int) substr($senderRef, 5);
+				$status = (new \App\Email\Mailer())->loadSmtpByID($smtpId)->deliverQueueRow($rowQueue);
+				if (!$status) {
+					self::markFailedIfTracked($crmMessageId);
+					throw new \App\Exceptions\AppException('Send failed');
+				}
+				self::markSentIfTracked($crmMessageId);
+				if ($crmMessageId > 0) {
+					MailLog::write('send', 'Outbound via smtp ' . $smtpId, 'info', null, $userId, ['message_id' => $crmMessageId]);
+				}
+			} else {
+				self::markFailedIfTracked($crmMessageId);
+				throw new \App\Exceptions\AppException('LBL_MAIL_SENDER_REF_INVALID');
+			}
+		} catch (\App\Exceptions\AppException $e) {
+			self::markFailedIfTracked($crmMessageId);
+			throw $e;
+		} catch (\Throwable $e) {
+			self::markFailedIfTracked($crmMessageId);
+			\App\Log\Log::error(
+				'deliverFromQueueRow failed queue id=' . (int) ($rowQueue['id'] ?? 0) . ': ' . $e->getMessage(),
+				'Mail'
+			);
+			throw $e;
+		}
+
+		return true;
+	}
+
+	private static function resolveSenderRefFromQueueRow(array $rowQueue): string
+	{
+		$paramsJson = \App\Utils\Json::decode((string) ($rowQueue['params'] ?? ''));
+		if (\is_array($paramsJson)) {
+			return (string) ($paramsJson['sender_ref'] ?? '');
+		}
+
+		return '';
+	}
+
+	private static function markFailedIfTracked(int $crmMessageId): void
+	{
+		if ($crmMessageId > 0) {
+			self::markFailed($crmMessageId);
+		}
+	}
+
+	private static function markSentIfTracked(int $crmMessageId, ?string $rfcMessageId = null): void
+	{
+		if ($crmMessageId > 0) {
+			self::markSent($crmMessageId, $rfcMessageId);
+		}
+	}
+
+	/**
 	 * @param array<string, mixed> $params
 	 */
-	public static function deliver(int $userId, string $senderRef, int $crmMessageId, array $params): void
+	private static function applyRecipientDomainPolicy(array $params): array
 	{
-		if (str_starts_with($senderRef, 'account:')) {
-			self::deliverViaAccount($userId, (int) substr($senderRef, 8), $crmMessageId, $params);
-
-			return;
+		if (\App\Email\Mailer::getSendOnlyToDomains() === []) {
+			return $params;
 		}
+		foreach (['to', 'cc', 'bcc'] as $key) {
+			if (!isset($params[$key])) {
+				continue;
+			}
+			$params[$key] = \App\Email\Mailer::filterAddressListByAllowedDomains(
+				self::normalizeAddresses($params[$key])
+			);
+		}
+		if (self::normalizeAddresses($params['to'] ?? []) === []) {
+			throw new \App\Exceptions\AppException('LBL_MAIL_RECIPIENT_DOMAIN_NOT_ALLOWED');
+		}
+
+		return $params;
+	}
+
+	/**
+	 * @param array<string, mixed> $params
+	 */
+	private static function enqueue(int $userId, string $senderRef, int $crmMessageId, array $params): void
+	{
+		$row = Message::getById($crmMessageId);
+		$smtpId = \App\Email\Mail::getDefaultSmtp();
 		if (str_starts_with($senderRef, 'smtp:')) {
-			self::deliverViaSmtpQueue($userId, (int) substr($senderRef, 5), $crmMessageId, $params);
-
-			return;
+			$smtpId = (int) substr($senderRef, 5);
 		}
-		self::markFailed($crmMessageId);
-		throw new \App\Exceptions\AppException('Invalid sender');
+		$queueParams = [
+			'smtp_id' => $smtpId,
+			'subject' => (string) ($row['subject'] ?? $params['subject'] ?? ''),
+			'content' => (string) ($row['body_html'] ?? $params['content'] ?? $params['body_html'] ?? ''),
+			'to' => $params['to'] ?? [],
+			'source_module' => $params['sourceModule'] ?? $params['source_module'] ?? null,
+			'source_id' => $params['sourceRecord'] ?? $params['source_id'] ?? null,
+			'owner' => $userId,
+		];
+		if (!empty($params['moduleName']) && !empty($params['recordId'])) {
+			$queueParams['source_module'] = (string) $params['moduleName'];
+			$queueParams['source_id'] = (int) $params['recordId'];
+		}
+		if (!empty($params['email_template_id'])) {
+			$queueParams['email_template_id'] = (int) $params['email_template_id'];
+		} elseif (!empty($params['template'])) {
+			$queueParams['email_template_id'] = (int) $params['template'];
+		}
+		if (!empty($params['attachments'])) {
+			$queueParams['attachments'] = $params['attachments'];
+		}
+		if (!empty($params['cc'])) {
+			$queueParams['cc'] = $params['cc'];
+		}
+		if (!empty($params['bcc'])) {
+			$queueParams['bcc'] = $params['bcc'];
+		}
+
+		\App\Email\Mailer::addMail(array_merge(
+			array_intersect_key($queueParams, array_flip(\App\Email\Mailer::$quoteColumn)),
+			[
+				'mail_message_id' => $crmMessageId,
+				'params' => ['sender_ref' => $senderRef],
+			]
+		));
+	}
+
+	/**
+	 * @return list<string>
+	 */
+	private static function decodeQueueRecipients(?string $json): array
+	{
+		if ($json === null || $json === '') {
+			return [];
+		}
+		$decoded = \App\Utils\Json::decode($json);
+		if (!\is_array($decoded)) {
+			return [];
+		}
+		$addresses = [];
+		foreach ($decoded as $email => $name) {
+			if (\is_numeric($email)) {
+				$email = $name;
+			}
+			$email = trim((string) $email);
+			if ($email !== '') {
+				$addresses[] = $email;
+			}
+		}
+
+		return array_values(array_unique($addresses));
 	}
 
 	public static function markSent(int $crmMessageId, ?string $rfcMessageId = null): void
@@ -248,35 +495,39 @@ class Outbound
 	/**
 	 * @param array<string, mixed> $params
 	 */
-	private static function deliverViaAccount(int $userId, int $accountId, int $crmMessageId, array $params): void
+	private static function sendViaAccount(int $userId, int $accountId, int $crmMessageId, array $params): void
 	{
 		self::assertRateLimit($userId);
 		Acl::assert($userId, Acl::ACTION_SEND, ['account_id' => $accountId]);
 
 		$accountRow = (new \App\Db\Query())->from('u_yf_mail_accounts')->where(['id' => $accountId])->one();
 		if (!$accountRow || (int) ($accountRow['active'] ?? 0) !== 1) {
-			self::markFailed($crmMessageId);
+			self::markFailedIfTracked($crmMessageId);
 			throw new \App\Exceptions\AppException('LBL_MAIL_ACCOUNT_INACTIVE');
 		}
 
-		$row = Message::getById($crmMessageId);
+		$row = $crmMessageId > 0 ? Message::getById($crmMessageId) : null;
 		$bodyHtml = (string) ($row['body_html'] ?? $params['body_html'] ?? '');
 		$attachments = $params['attachments'] ?? [];
 		if (is_array($attachments)) {
 			$attachments = Attachment::resolveForSend($attachments);
 		}
+		$subject = (string) ($params['subject'] ?? '');
+		if ($row !== null) {
+			$subject = (string) ($row['subject'] ?? $subject);
+		}
 		$envelope = [
 			'to' => self::normalizeAddresses($params['to'] ?? []),
 			'cc' => self::normalizeAddresses($params['cc'] ?? []),
 			'bcc' => self::normalizeAddresses($params['bcc'] ?? []),
-			'subject' => (string) ($row['subject'] ?? $params['subject'] ?? ''),
+			'subject' => $subject,
 			'body_html' => $bodyHtml,
 			'attachments' => $attachments,
 		];
 
 		$result = Sender::send($accountRow, $envelope);
 		if (!$result['success']) {
-			self::markFailed($crmMessageId);
+			self::markFailedIfTracked($crmMessageId);
 			MailLog::write('send', (string) ($result['error'] ?? 'Send failed'), 'error', $accountId, $userId);
 			throw new \App\Exceptions\AppException((string) ($result['error'] ?? 'Send failed'));
 		}
@@ -285,63 +536,13 @@ class Outbound
 			Appender::appendToSent($accountRow, $result['rfc822']);
 		}
 
-		self::markSent($crmMessageId, isset($result['message_id']) ? (string) $result['message_id'] : null);
-		MailLog::write('send', 'Outbound via account ' . $accountId, 'info', $accountId, $userId, ['message_id' => $crmMessageId]);
-	}
-
-	/**
-	 * @param array<string, mixed> $params
-	 */
-	private static function deliverViaSmtpQueue(int $userId, int $smtpId, int $crmMessageId, array $params): void
-	{
-		$row = Message::getById($crmMessageId);
-		$queueParams = [
-			'smtp_id' => $smtpId,
-			'subject' => (string) ($row['subject'] ?? $params['subject'] ?? ''),
-			'content' => (string) ($row['body_html'] ?? $params['content'] ?? $params['body_html'] ?? ''),
-			'to' => $params['to'] ?? [],
-			'source_module' => $params['sourceModule'] ?? $params['source_module'] ?? null,
-			'source_id' => $params['sourceRecord'] ?? $params['source_id'] ?? null,
-			'owner' => $userId,
-		];
-		if (!empty($params['moduleName']) && !empty($params['recordId'])) {
-			$queueParams['source_module'] = (string) $params['moduleName'];
-			$queueParams['source_id'] = (int) $params['recordId'];
+		self::markSentIfTracked(
+			$crmMessageId,
+			isset($result['message_id']) ? (string) $result['message_id'] : null
+		);
+		if ($crmMessageId > 0) {
+			MailLog::write('send', 'Outbound via account ' . $accountId, 'info', $accountId, $userId, ['message_id' => $crmMessageId]);
 		}
-		if (!empty($params['email_template_id'])) {
-			$queueParams['email_template_id'] = (int) $params['email_template_id'];
-		} elseif (!empty($params['template'])) {
-			$queueParams['email_template_id'] = (int) $params['template'];
-		}
-		if (!empty($params['attachments'])) {
-			$queueParams['attachments'] = $params['attachments'];
-		}
-		if (!empty($params['cc'])) {
-			$queueParams['cc'] = $params['cc'];
-		}
-		if (!empty($params['bcc'])) {
-			$queueParams['bcc'] = $params['bcc'];
-		}
-
-		\App\Email\Mailer::addMail(array_merge(
-			array_intersect_key($queueParams, array_flip(\App\Email\Mailer::$quoteColumn)),
-			['mail_message_id' => $crmMessageId]
-		));
-	}
-
-	/**
-	 * @return array{0:?int,1:?int,2:string,3:?string}
-	 */
-	/**
-	 * @return array{0:?int}
-	 */
-	private static function resolveSenderAccountId(string $senderRef): array
-	{
-		if (str_starts_with($senderRef, 'account:')) {
-			return [(int) substr($senderRef, 8)];
-		}
-
-		return [null];
 	}
 
 	/**
@@ -371,7 +572,7 @@ class Outbound
 
 			return [null, $smtpId, $fromEmail, $fromName !== '' ? $fromName : null];
 		}
-		throw new \App\Exceptions\AppException('Invalid sender');
+		throw new \App\Exceptions\AppException('LBL_MAIL_SENDER_REF_INVALID');
 	}
 
 	/**

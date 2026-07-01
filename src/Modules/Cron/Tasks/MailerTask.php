@@ -29,37 +29,31 @@ final class MailerTask extends AbstractCronTask
 
 		$auditEnabled = (bool) \App\Core\AppConfig::module('Mail', 'MAIL_AUDIT_LOG_ENABLED');
 
-		$rowsBySmtp = [];
 		foreach ($rows as $rowQueue) {
-			$rowsBySmtp[(int) $rowQueue['smtp_id']][] = $rowQueue;
+			$this->processQueueRow($db, $rowQueue, $auditEnabled);
+		}
+	}
+
+	private function processQueueRow(\yii\db\Connection $db, array $rowQueue, bool $auditEnabled): void
+	{
+		$errorMsg = null;
+		$status = false;
+		try {
+			$status = \App\Modules\Mail\Models\Outbound::deliverFromQueueRow(
+				$rowQueue,
+				(int) ($rowQueue['owner'] ?? 0)
+			);
+		} catch (\Throwable $e) {
+			$errorMsg = $e->getMessage();
+			\App\Log\Log::warning('MailerTask send failed id=' . $rowQueue['id'] . ': ' . $errorMsg, 'Mailer');
 		}
 
-		foreach ($rowsBySmtp as $smtpId => $smtpRows) {
-			$sessionMailer = null;
-			try {
-				$sessionMailer = \App\Email\Mailer::createQueueSessionMailer($smtpId);
-				foreach ($smtpRows as $rowQueue) {
-					$errorMsg = null;
-					$status = false;
-					try {
-						$status = \App\Email\Mailer::sendByRowQueue($rowQueue, $sessionMailer);
-					} catch (\Throwable $e) {
-						$errorMsg = $e->getMessage();
-						\App\Log\Log::warning('MailerTask send failed id=' . $rowQueue['id'] . ': ' . $errorMsg, 'Mailer');
-					}
-
-					if ($auditEnabled) {
-						$this->finalizeQueueRow($db, $rowQueue, $status, $errorMsg);
-					} elseif ($status) {
-						$db->createCommand()->delete('s_#__mail_queue', ['id' => $rowQueue['id']])->execute();
-					} else {
-						$db->createCommand()->update('s_#__mail_queue', ['status' => 2], ['id' => $rowQueue['id']])->execute();
-					}
-					$this->syncCrmMessageStatus($rowQueue, $status);
-				}
-			} finally {
-				$sessionMailer?->closeSmtpSession();
-			}
+		if ($auditEnabled) {
+			$this->finalizeQueueRow($db, $rowQueue, $status, $errorMsg);
+		} elseif ($status) {
+			$db->createCommand()->delete('s_#__mail_queue', ['id' => $rowQueue['id']])->execute();
+		} else {
+			$db->createCommand()->update('s_#__mail_queue', ['status' => 2], ['id' => $rowQueue['id']])->execute();
 		}
 	}
 
@@ -90,18 +84,5 @@ final class MailerTask extends AbstractCronTask
 				$db->createCommand()->update('s_#__mail_queue', ['status' => 2], ['id' => $rowQueue['id']])->execute();
 			}
 		});
-	}
-
-	private function syncCrmMessageStatus(array $rowQueue, bool $sent): void
-	{
-		$crmMessageId = \App\Modules\Mail\Models\Outbound::crmMessageIdFromQueueRow($rowQueue);
-		if ($crmMessageId <= 0) {
-			return;
-		}
-		if ($sent) {
-			\App\Modules\Mail\Models\Outbound::markSent($crmMessageId);
-		} else {
-			\App\Modules\Mail\Models\Outbound::markFailed($crmMessageId);
-		}
 	}
 }

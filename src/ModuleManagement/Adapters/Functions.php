@@ -751,7 +751,12 @@ class Functions
 			$trace = str_replace(self::rootDirectory() . DIRECTORY_SEPARATOR, '', $e->getTraceAsString());
 		}
 		if (is_object($e)) {
-			$response->setError($e->getCode(), $e->getMessage(), $trace);
+			$message = $e->getMessage();
+			if (str_starts_with($message, 'LBL_')) {
+				$module = str_starts_with($message, 'LBL_MAIL_') ? 'Mail' : 'Vtiger';
+				$message = \App\Runtime\Vtiger_Language_Handler::translate($message, $module);
+			}
+			$response->setError($e->getCode(), $message, $trace);
 		} else {
 			$response->setError('error', $message, $trace);
 		}

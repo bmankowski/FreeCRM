@@ -95,19 +95,15 @@ class Mail extends \App\Base\Controllers\BaseActionController
 			foreach ($rows as $row) {
 				$templateDetail = \App\Email\Mail::getTemplete($template) ?: [];
 				$senderRef = (string) $request->get('senderRef');
-				if ($senderRef === '' && (int) $request->get('accountId') > 0) {
-					$senderRef = 'account:' . (int) $request->get('accountId');
-				}
 				if ($senderRef === '') {
-					$senderRef = \App\Modules\Mail\Models\Module::defaultSenderRefForTemplate($templateDetail, $userId);
+					throw new \App\Exceptions\AppException('LBL_MAIL_SENDER_REF_REQUIRED');
 				}
-				if ($senderRef === '' || !\App\Modules\Mail\Models\Module::userCanSendTemplate($userId, $templateDetail)) {
+				if (!\App\Modules\Mail\Models\Module::userCanSendTemplate($userId, $templateDetail)) {
 					\App\Log\Log::warning(
-						'sendMails aborted: missing or invalid sender (senderRef=' . ($senderRef ?: 'empty') . ')',
+						'sendMails aborted: invalid sender for template (senderRef=' . $senderRef . ')',
 						'Mail'
 					);
-					$result = false;
-					break;
+					throw new \App\Exceptions\AppException('LBL_MAIL_SENDER_REF_INVALID');
 				}
 				$mailParams = [
 					'template' => $template,
@@ -128,13 +124,13 @@ class Mail extends \App\Base\Controllers\BaseActionController
 				if ($userAttachments !== []) {
 					$mailParams['attachments'] = $userAttachments;
 				}
-				if ($attachmentTokens !== []) {
-					$mailParams['composeAttachmentTokens'] = $attachmentTokens;
-				}
-				$result = \App\Email\Mailer::sendFromTemplate($mailParams);
+				$result = \App\Modules\Mail\Models\Outbound::sendFromTemplateParams($mailParams);
 				if (!$result) {
 					break;
 				}
+			}
+			if ($attachmentTokens !== []) {
+				\App\Modules\Mail\Models\ComposeAttachment::deleteTokens($userId, $attachmentTokens);
 			}
 		}
 		$response = new \App\Http\Vtiger_Response();

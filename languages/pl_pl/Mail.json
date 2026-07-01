@@ -59,6 +59,9 @@
         "LBL_MAIL_ATTACHMENT_BLOCKED_TYPE": "Ten typ pliku jest niedozwolony",
         "LBL_MAIL_ATTACHMENT_UPLOAD_FAILED": "Nie udało się przesłać załącznika",
         "LBL_MAIL_TEMPLATE_ATTACHMENTS_BLOCKED": "Nie można wysłać: brakuje pliku standardowego załącznika szablonu. Napraw dokument lub prześlij plik ponownie w edycji szablonu.",
-        "LBL_MAIL_COMPOSE_STAGING_CLEANUP": "Czyszczenie tymczasowych załączników"
+        "LBL_MAIL_COMPOSE_STAGING_CLEANUP": "Czyszczenie tymczasowych załączników",
+        "LBL_MAIL_RECIPIENT_DOMAIN_NOT_ALLOWED": "Wysyłka dozwolona tylko na adresy @itconnect.pl (środowisko dev/test).",
+        "LBL_MAIL_SENDER_REF_REQUIRED": "Wybierz nadawcę wiadomości.",
+        "LBL_MAIL_SENDER_REF_INVALID": "Nieprawidłowy nadawca wiadomości."
     }
 }

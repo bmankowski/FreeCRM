@@ -72,7 +72,9 @@ class VTSendPdf extends VTTask
 				$fileName = $templateRecord->get('filename');
 			}
 			$mailerContent['attachments'] = [$pdfFile => $fileName];
-			\App\Email\Mailer::sendFromTemplate($mailerContent);
+			$smtpId = !empty($this->smtp) ? (int) $this->smtp : \App\Email\Mail::getDefaultSmtp();
+			$mailerContent['senderRef'] = \App\Email\Mailer::smtpSenderRef($smtpId);
+			\App\Modules\Mail\Models\Outbound::sendFromTemplateParams($mailerContent);
 		}
 	}
 }

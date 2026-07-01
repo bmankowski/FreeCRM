@@ -43,6 +43,27 @@ class Attachment
 	}
 
 	/**
+	 * @return array<string, string> absolute path => display name
+	 */
+	public static function pathMapForSend(int $messageId): array
+	{
+		$map = [];
+		foreach (self::getForMessage($messageId) as $row) {
+			$rel = (string) ($row['storage_path'] ?? '');
+			if ($rel === '') {
+				continue;
+			}
+			$abs = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $rel);
+			$real = realpath($abs);
+			if ($real !== false && is_file($real)) {
+				$map[$real] = (string) ($row['original_name'] ?? $row['filename'] ?? basename($real));
+			}
+		}
+
+		return $map;
+	}
+
+	/**
 	 * @param array<string, mixed> $attachments
 	 * @return array<string, string>
 	 */

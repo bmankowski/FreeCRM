@@ -35,6 +35,10 @@ final class Buffer
 		if (!isset($recipients['to'])) {
 			$recipients['to'] = [];
 		}
+		if ($email->senderRef === '') {
+			throw new \App\Exceptions\AppException('LBL_MAIL_SENDER_REF_REQUIRED');
+		}
+		$recipients['_sender_ref'] = $email->senderRef;
 
 		\App\Db\Db::getInstance('admin')->createCommand(
 			'INSERT INTO s_#__delayed_email_queue
@@ -78,16 +82,27 @@ final class Buffer
 			'cc' => $mailerContent['cc'] ?? [],
 			'bcc' => $mailerContent['bcc'] ?? [],
 		];
+		$senderRef = '';
+		if (is_array($mailerContent['params'] ?? null)) {
+			$senderRef = (string) ($mailerContent['params']['sender_ref'] ?? '');
+		}
+		if ($senderRef === '' && !empty($mailerContent['smtp_id'])) {
+			$senderRef = \App\Email\Mailer::smtpSenderRef((int) $mailerContent['smtp_id']);
+		}
+		if ($senderRef === '') {
+			throw new \App\Exceptions\AppException('LBL_MAIL_SENDER_REF_REQUIRED');
+		}
 		$email = new Email(
 			$recipients,
 			(string) ($mailerContent['subject'] ?? ''),
 			(string) ($mailerContent['content'] ?? ''),
+			$senderRef,
 		);
 		if ($email->body === '') {
 			return;
 		}
 		if (!\App\Core\AppConfig::module('Mail', 'DELAYED_EMAIL_BUFFER_ENABLED')) {
-			\App\Email\Mailer::addMail($mailerContent);
+			\App\Email\Mailer::addMail(\App\Email\Mailer::withSmtpSenderRef($mailerContent));
 			return;
 		}
 		self::enqueue($sourceId, $destId, $type, $email, $delayMinutes);
@@ -124,10 +139,14 @@ final class Buffer
 
 	private static function enqueueImmediate(Email $email): void
 	{
+		if ($email->senderRef === '') {
+			throw new \App\Exceptions\AppException('LBL_MAIL_SENDER_REF_REQUIRED');
+		}
 		$params = [
 			'to' => $email->recipients['to'] ?? [],
 			'subject' => $email->subject,
 			'content' => $email->body,
+			'params' => ['sender_ref' => $email->senderRef],
 		];
 		if (!empty($email->recipients['cc'])) {
 			$params['cc'] = $email->recipients['cc'];

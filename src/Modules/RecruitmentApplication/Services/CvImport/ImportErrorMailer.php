@@ -50,12 +50,12 @@ final class ImportErrorMailer
 			$content .= '<p>' . htmlspecialchars($e->getMessage()) . '</p>';
 		}
 
-		\App\Email\Mailer::addMail([
+		\App\Email\Mailer::addMail(\App\Email\Mailer::withSmtpSenderRef([
 			'to' => ['bmankowski@gmail.com' => 'Bartłomiej Mańkowski'],
 			'subject' => $subject,
 			'content' => $content,
 			'smtp_id' => 2,
-		]);
+		]));
 
 		self::$errors = [];
 	}

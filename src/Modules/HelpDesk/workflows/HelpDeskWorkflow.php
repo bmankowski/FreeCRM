@@ -35,6 +35,16 @@ function getContactsMailsFromTicket($id)
 	return $mails;
 }
 
+function helpDeskTemplateSenderRef(string $templateName): string
+{
+	$template = \App\Email\Mail::getTemplete($templateName) ?: [];
+
+	return \App\Modules\Mail\Models\Module::requireSenderRefForTemplate(
+		$template,
+		(int) \App\Modules\Users\Models\Record::getActiveAdminId()
+	);
+}
+
 /**
  * Function to send mail to contacts. Function invoke by workflow
  * @param \App\Modules\Base\Models\Record $recordModel
@@ -45,8 +55,9 @@ function HelpDeskChangeNotifyContacts(\App\Modules\Base\Models\Record $recordMod
 	$recordId = $recordModel->getId();
 	$mails = getContactsMailsFromTicket($recordId);
 	if (count($mails) > 0) {
-		\App\Email\Mailer::sendFromTemplate([
+		\App\Modules\Mail\Models\Outbound::sendFromTemplateParams([
 			'template' => 'NotifyContactOnTicketChange',
+			'senderRef' => helpDeskTemplateSenderRef('NotifyContactOnTicketChange'),
 			'moduleName' => 'HelpDesk',
 			'recordId' => $recordId,
 			'to' => $mails,
@@ -65,8 +76,9 @@ function HelpDeskClosedNotifyContacts(\App\Modules\Base\Models\Record $recordMod
 	$recordId = $recordModel->getId();
 	$mails = getContactsMailsFromTicket($recordId);
 	if (count($mails) > 0) {
-		\App\Email\Mailer::sendFromTemplate([
+		\App\Modules\Mail\Models\Outbound::sendFromTemplateParams([
 			'template' => 'NotifyContactOnTicketClosed',
+			'senderRef' => helpDeskTemplateSenderRef('NotifyContactOnTicketClosed'),
 			'moduleName' => 'HelpDesk',
 			'recordId' => $recordId,
 			'to' => $mails,
@@ -99,8 +111,9 @@ WHERE vtiger_crmentity.deleted = 0 && vtiger_troubletickets.ticketid = ? && vtig
 		}
 	}
 	if ($mail) {
-		\App\Email\Mailer::sendFromTemplate([
+		\App\Modules\Mail\Models\Outbound::sendFromTemplateParams([
 			'template' => 'NewCommentAddedToTicketAccount',
+			'senderRef' => helpDeskTemplateSenderRef('NewCommentAddedToTicketAccount'),
 			'moduleName' => 'ModComments',
 			'recordId' => $recordModel->getId(),
 			'to' => $mail,
@@ -118,8 +131,9 @@ function HelpDeskNewCommentContacts(\App\Modules\Base\Models\Record $recordModel
 	\App\Log\Log::trace('Entering HelpDeskNewCommentAccount');
 	$mails = getContactsMailsFromTicket($recordModel->get('related_to'));
 	if (count($mails) > 0) {
-		\App\Email\Mailer::sendFromTemplate([
+		\App\Modules\Mail\Models\Outbound::sendFromTemplateParams([
 			'template' => 'NewCommentAddedToTicketContact',
+			'senderRef' => helpDeskTemplateSenderRef('NewCommentAddedToTicketContact'),
 			'moduleName' => 'ModComments',
 			'recordId' => $recordModel->getId(),
 			'to' => $mails,
@@ -163,8 +177,9 @@ function HelpDeskNewCommentOwner(\App\Modules\Base\Models\Record $recordModel)
 		}
 	}
 	if (count($mails) > 0) {
-		\App\Email\Mailer::sendFromTemplate([
+		\App\Modules\Mail\Models\Outbound::sendFromTemplateParams([
 			'template' => 'NewCommentAddedToTicketOwner',
+			'senderRef' => helpDeskTemplateSenderRef('NewCommentAddedToTicketOwner'),
 			'moduleName' => 'ModComments',
 			'recordId' => $recordModel->getId(),
 			'to' => $mails,

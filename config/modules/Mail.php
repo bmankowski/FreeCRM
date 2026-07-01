@@ -3,6 +3,14 @@
  * FreeCRM - Mail module tunables.
  */
 
+$mailSiteUrl = getenv('FREECRM_SITE_URL') ?: '';
+if ($mailSiteUrl === '') {
+	global $site_URL;
+	$mailSiteUrl = (string) ($site_URL ?? '');
+}
+$mailSiteHost = strtolower((string) parse_url($mailSiteUrl, PHP_URL_HOST));
+$mailNonProdHost = \in_array($mailSiteHost, ['dev.itconnect.pl', 'test.itconnect.pl'], true);
+
 $CONFIG = [
 	'default_scan_interval' => 120,
 	'max_consecutive_failures' => 5,
@@ -16,7 +24,7 @@ $CONFIG = [
 	'password_mask' => '**********',
 
 	'MAILER_REQUIRED_ACCEPTATION_BEFORE_SENDING' => false,
-	'MAIL_FILTER_SEND_ONLY_TO_DOMAIN' => '',
+	'MAIL_FILTER_SEND_ONLY_TO_DOMAIN' => $mailNonProdHost ? 'itconnect.pl' : '',
 	'MAIL_AUDIT_LOG_ENABLED' => false,
 	'AUDIT_LOG_RETENTION_DAYS' => 365,
 	'DELAYED_EMAIL_BUFFER_ENABLED' => false,

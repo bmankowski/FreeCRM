@@ -19,6 +19,7 @@ final class Email
 		public readonly array $recipients,
 		public readonly string $subject,
 		public readonly string $body,
+		public readonly string $senderRef = '',
 	) {
 	}
 }

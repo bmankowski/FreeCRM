@@ -128,7 +128,7 @@ Candidates email fields live in `u_yf_candidatescf` (`email_private`, `newslette
 ## Email
 
 - Token payload includes **`mid`** = `u_yf_mail_messages.id` (signed; not a raw URL id). Open handler requires valid `mid` + outbound row.
-- **Send lifecycle** (all paths via `Outbound::sendFromTemplate` / `sendRaw`): insert message `send_status=prepared` → `TextParser::setMailMessageId($id)` → parse → send → `sent`|`failed`. Queue rows store `mail_message_id` in `params` JSON; cron `MailerTask` finalizes status.
+- **Send lifecycle** (CRM via `Outbound::sendFromTemplate` / `sendRaw`): `prepare` → parse with `mailMessageId` → enqueue (`sender_ref` + `mail_message_id`) → cron `deliverFromQueueRow` → `sent`|`failed`. Toast on enqueue ≠ SMTP delivered yet (~1 min cron).
 - **Open tracking pixel:** template element `candidates_open_tracking_logo` — 1×1 invisible `<img>` via `LinkActionImageUrl`; www serves `assets/pixel.gif` (transparent GIF; URL path still `…/logo.png`). Prefer GIF over PNG — Outlook mishandles PNG alpha.
 - **`mailMessageId` absent (preview):** `LinkActionUrl` / `LinkActionImageUrl` emit **deferred** `$(custom : …)$` tokens (not empty `src`/`href`) so compose can round-trip through `contentOverride`.
 - **Send with compose preview:** `Vtiger.js` posts editor HTML as `contentOverride` → `Outbound::sendFromTemplate` **re-parses** override after `prepare()` (resolves deferred tokens). Grafts tracking `<img>` from template parse if editor still has stale `src=""`.

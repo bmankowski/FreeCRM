@@ -274,8 +274,12 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 				$recordModel = \App\Modules\Base\Models\Record::getInstanceById($id, 'Users');
 				$emails[] = $recordModel->get('email1');
 			}
-			\App\Email\Mailer::sendFromTemplate([
+			\App\Modules\Mail\Models\Outbound::sendFromTemplateParams([
 				'template' => 'BruteForceSecurityRiskHasBeenDetected',
+				'senderRef' => \App\Modules\Mail\Models\Module::requireSenderRefForTemplateId(
+					'BruteForceSecurityRiskHasBeenDetected',
+					(int) \App\Modules\Users\Models\Record::getActiveAdminId()
+				),
 				'moduleName' => 'Contacts',
 				'to' => $emails,
 			]);
