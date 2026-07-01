@@ -61,7 +61,7 @@ class m260629_000001_report_issue_page_url extends Migration
 			'uitype' => 17,
 			'fieldname' => 'report_issue_url',
 			'fieldlabel' => 'FL_REPORT_ISSUE_URL',
-			'readonly' => 1,
+			'readonly' => 0,
 			'presence' => 2,
 			'defaultvalue' => '',
 			'maximumlength' => 512,
@@ -93,7 +93,7 @@ class m260629_000001_report_issue_page_url extends Migration
 				'tabid' => self::TABID,
 				'fieldid' => self::FIELD_ID,
 				'visible' => 0,
-				'readonly' => 1,
+				'readonly' => 0,
 			]);
 		}
 	}

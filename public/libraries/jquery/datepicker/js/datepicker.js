@@ -627,10 +627,16 @@
 				return false;
 			},
 			show = function (ev) {
-	            $(this).on('keydown', function(e) { 
+	            $(this).off('keydown.datepickerKeys').on('keydown.datepickerKeys', function(e) { 
 	                 var keyCode = e.keyCode || e.which; 
 	                 if (keyCode == 9) { 
 	                         $('#' + $(this).data('datepickerId')).hide();
+	                 } else if (keyCode == 13) {
+	                         var cal = $('#' + $(this).data('datepickerId'));
+	                         if (cal.is(':visible')) {
+	                                 document.body.dispatchEvent(new MouseEvent('mousedown', { bubbles: true, cancelable: true }));
+	                                 e.preventDefault();
+	                         }
 	                 } 
 	            });
 				var cal = $('#' + $(this).data('datepickerId'));

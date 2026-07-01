@@ -44,15 +44,16 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 	registerListSearch: function () {
 		var thisInstance = this;
 		var listViewContainer = this.getContainer();
-		listViewContainer.find('[data-trigger="listSearch"]').on('click', function (e) {
+		listViewContainer.find('[data-trigger="listSearch"]').off('click.listSearch').on('click.listSearch', function (e) {
 			thisInstance.reloadList();
 		});
-		listViewContainer.find('input.listSearchContributor').on('keypress', function (e) {
-			if (e.keyCode == 13) {
+		listViewContainer.find('input.listSearchContributor:not(.dateField)').off('keydown.listSearchEnter').on('keydown.listSearchEnter', function (e) {
+			if (e.keyCode == 13 || e.which == 13) {
+				e.preventDefault();
 				thisInstance.triggerListSearch();
 			}
 		});
-		listViewContainer.find('.removeSearchConditions').on('click', function () {
+		listViewContainer.find('.removeSearchConditions').off('click.listSearch').on('click.listSearch', function () {
 			thisInstance.reloadList({search_params: [], search_key: '', search_value: '', operator: ''});
 		});
 	},
@@ -91,7 +92,7 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 			listViewContainer.find('.listViewEntriesTable select').on('change', function (e) {
 				listInstance.triggerListSearch();
 			});
-			listViewContainer.find('.listViewEntriesTable .dateField').on('DatePicker.onHide', function (e, y) {
+			listViewContainer.find('.listViewEntriesTable .dateField').off('DatePicker.onHide').on('DatePicker.onHide', function (e, y) {
 				var prevVal = $(this).data('prevVal');
 				var value = $(this).val();
 				if (prevVal != value) {
@@ -118,9 +119,72 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 		var listViewContainer = listInstance.getContainer();
 		listViewContainer.find('[data-trigger="listSearch"]').trigger("click");
 	},
+	acceptDateListSearch: function (dateElement) {
+		dateElement = jQuery(dateElement);
+		var calId = dateElement.data('datepickerId');
+		if (!calId) {
+			return;
+		}
+		var formatted = dateElement.DatePickerGetDate(true);
+		if (formatted && formatted.length) {
+			dateElement.val(formatted.join(','));
+		}
+		var cal = jQuery('#' + calId);
+		if (!cal.length || !cal.is(':visible')) {
+			return;
+		}
+		dateElement.data('prevVal', dateElement.val());
+		var options = cal.data('datepicker');
+		if (options && typeof options.onHide === 'function') {
+			options.onHide.apply(dateElement[0], [cal.get(0)]);
+		}
+		cal.hide();
+		dateElement.blur();
+	},
+	resolveDateListSearchField: function (eventTarget) {
+		var container = this.getContainer();
+		var dateElement = jQuery(eventTarget);
+		if (dateElement.is('input.dateField.listSearchContributor') && dateElement.closest(container).length) {
+			return dateElement;
+		}
+		var openCal = jQuery('div.datepicker.rangeCalendar:visible').first();
+		if (!openCal.length) {
+			return jQuery();
+		}
+		var calId = openCal.attr('id');
+		return container.find('input.dateField.listSearchContributor').filter(function () {
+			return jQuery(this).data('datepickerId') === calId;
+		}).first();
+	},
+	registerDateListSearchEnterKey: function () {
+		var thisInstance = this;
+		jQuery(document).off('keydown.listSearchDateEnter keypress.listSearchDateEnter')
+			.on('keydown.listSearchDateEnter', function (e) {
+				if (e.key !== 'Enter' && e.keyCode !== 13 && e.which !== 13) {
+					return;
+				}
+				var dateElement = thisInstance.resolveDateListSearchField(e.target);
+				if (!dateElement.length) {
+					return;
+				}
+				e.preventDefault();
+				e.stopImmediatePropagation();
+				thisInstance.acceptDateListSearch(dateElement);
+				thisInstance.triggerListSearch();
+			})
+			.on('keypress.listSearchDateEnter', function (e) {
+				if (e.which === 13 || e.keyCode === 13) {
+					var dateElement = thisInstance.resolveDateListSearchField(e.target);
+					if (dateElement.length) {
+						e.preventDefault();
+					}
+				}
+			});
+	},
 	registerDateListSearch: function (container) {
 		var thisInstance = this;
 		var listViewContainer = this.getContainer();
+		thisInstance.registerDateListSearchEnterKey();
 		listViewContainer.find('.dateField').each(function (index, element) {
 			var dateElement = jQuery(element);
 			var customParams = {
