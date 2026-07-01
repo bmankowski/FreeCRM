@@ -59,6 +59,11 @@ class ExportCvZip extends \App\Base\Controllers\BaseActionController
 					continue;
 				}
 				$baseName = self::resolveZipEntryBaseName($row, $candidateLabel, $candidateId, $documentId);
+				$baseName = self::ensureZipEntryExtension(
+					$baseName,
+					(string) ($row['mime_type'] ?? ''),
+					$diskPath
+				);
 				$zipEntries[] = ['path' => $diskPath, 'name' => $baseName];
 			}
 		}
@@ -130,7 +135,10 @@ class ExportCvZip extends \App\Base\Controllers\BaseActionController
 
 		$sourceDocumentId = $candidate->getCurrentCvSourceDocumentId();
 		if ($sourceDocumentId !== null) {
-			$row = self::fetchLinkedDocumentRow((int) $candidate->getId(), $sourceDocumentId);
+			$row = self::fetchDocumentRowById($sourceDocumentId);
+			if ($row === null) {
+				$row = self::fetchCandidateDocumentByStorageFileId((int) $candidate->getId(), $sourceDocumentId);
+			}
 			if ($row !== null) {
 				return [$row];
 			}
@@ -145,6 +153,7 @@ class ExportCvZip extends \App\Base\Controllers\BaseActionController
 		return [[
 			'notesid' => 0,
 			'original_name' => (string) ($item['name'] ?? 'cv'),
+			'mime_type' => (string) ($item['type'] ?? 'image/jpeg'),
 			'_absolute_path' => $diskPath,
 		]];
 	}
@@ -152,7 +161,7 @@ class ExportCvZip extends \App\Base\Controllers\BaseActionController
 	/**
 	 * @return array<string, mixed>|null
 	 */
-	private static function fetchLinkedDocumentRow(int $candidateId, int $documentId): ?array
+	private static function fetchDocumentRowById(int $documentId): ?array
 	{
 		$row = (new Query())
 			->select([
@@ -160,13 +169,12 @@ class ExportCvZip extends \App\Base\Controllers\BaseActionController
 				'original_name' => 'n.original_name',
 				'location_type' => 'n.location_type',
 				'storage_path' => 'n.storage_path',
+				'mime_type' => 'n.mime_type',
 			])
-			->from(['rel' => 'vtiger_senotesrel'])
-			->innerJoin(['n' => 'vtiger_notes'], 'n.notesid = rel.notesid')
+			->from(['n' => 'vtiger_notes'])
 			->innerJoin(['ne' => 'vtiger_crmentity'], 'ne.crmid = n.notesid AND ne.deleted = 0')
 			->where([
-				'rel.crmid' => $candidateId,
-				'rel.notesid' => $documentId,
+				'n.notesid' => $documentId,
 				'n.location_type' => 'internal',
 				'n.active' => 1,
 			])
@@ -174,6 +182,51 @@ class ExportCvZip extends \App\Base\Controllers\BaseActionController
 			->one();
 
 		return \is_array($row) ? $row : null;
+	}
+
+	/**
+	 * Legacy cv_img_file names use storage file id ({attachmentsid}_{hash}), not notesid.
+	 *
+	 * @return array<string, mixed>|null
+	 */
+	private static function fetchCandidateDocumentByStorageFileId(int $candidateId, int $fileId): ?array
+	{
+		$row = (new Query())
+			->select([
+				'notesid' => 'n.notesid',
+				'original_name' => 'n.original_name',
+				'location_type' => 'n.location_type',
+				'storage_path' => 'n.storage_path',
+				'mime_type' => 'n.mime_type',
+			])
+			->from(['rel' => 'vtiger_senotesrel'])
+			->innerJoin(['n' => 'vtiger_notes'], 'n.notesid = rel.notesid')
+			->innerJoin(['ne' => 'vtiger_crmentity'], 'ne.crmid = n.notesid AND ne.deleted = 0')
+			->where([
+				'rel.crmid' => $candidateId,
+				'n.location_type' => 'internal',
+				'n.active' => 1,
+			])
+			->andWhere(['not', ['n.storage_path' => null]])
+			->andWhere([
+				'or',
+				['n.notesid' => $fileId],
+				['like', 'n.storage_path', '%/' . $fileId, false],
+			])
+			->orderBy(new \yii\db\Expression(
+				'CASE WHEN n.notesid = ' . $fileId . ' THEN 0 ELSE 1 END, n.notesid DESC'
+			))
+			->one();
+
+		if (!\is_array($row)) {
+			return null;
+		}
+		if ((int) $row['notesid'] !== $fileId
+			&& basename((string) ($row['storage_path'] ?? '')) !== (string) $fileId) {
+			return null;
+		}
+
+		return $row;
 	}
 
 	/**
@@ -227,6 +280,28 @@ class ExportCvZip extends \App\Base\Controllers\BaseActionController
 		}
 
 		return mb_substr($value, 0, 120);
+	}
+
+	private static function ensureZipEntryExtension(string $filename, string $mimeType, string $diskPath): string
+	{
+		if (pathinfo($filename, PATHINFO_EXTENSION) !== '') {
+			return $filename;
+		}
+
+		$ext = $diskPath !== '' ? strtolower(pathinfo($diskPath, PATHINFO_EXTENSION)) : '';
+		if ($ext === '' && $mimeType !== '') {
+			$ext = match ($mimeType) {
+				'application/pdf' => 'pdf',
+				'application/msword' => 'doc',
+				'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'docx',
+				'image/jpeg' => 'jpg',
+				'image/png' => 'png',
+				'image/gif' => 'gif',
+				default => '',
+			};
+		}
+
+		return $ext !== '' ? $filename . '.' . $ext : $filename;
 	}
 
 	/**

@@ -55,7 +55,7 @@ INSERT INTO \`${TGT}\`.tmp_imp_contact_ids (crmid)
 
 ACCOUNTS="$(mariadb_query "SELECT COUNT(*) FROM \`${TGT}\`.tmp_imp_account_ids;")"
 CONTACTS="$(mariadb_query "SELECT COUNT(*) FROM \`${TGT}\`.tmp_imp_contact_ids;")"
-log "refs" "account_ids=${ACCOUNTS} contact_ids=${CONTACTS}"
+log "refs" "account_ids=${ACCOUNTS} contact_ids=${CONTACTS} (all from ${SRC})"
 
 mariadb_exec "
 SET FOREIGN_KEY_CHECKS=0;
@@ -152,6 +152,7 @@ BROKEN_CON="$(mariadb_query "
     WHERE ce.crmid=p.contact_person AND ce.setype='Contacts' AND ce.deleted=0
   );
 ")"
+log "refs" "after: ${TGT} $(accounts_contacts_counts "${TGT}")"
 log "refs" "broken kontrahent=${BROKEN_ACC} broken contact_person=${BROKEN_CON}"
 
 SAMPLE="$(mariadb_query "

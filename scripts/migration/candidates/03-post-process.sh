@@ -15,6 +15,7 @@ fi
 
 log "verify" "staging ${STAGING_DB_NAME}: $(recruitment_counts "${STAGING_DB_NAME}")"
 log "verify" "target ${LOCAL_DB_NAME}: $(recruitment_counts "${LOCAL_DB_NAME}")"
+log "verify" "target ${LOCAL_DB_NAME}: $(accounts_contacts_counts "${LOCAL_DB_NAME}")"
 
 log "post" "Rebuilding record labels (LBL_RECORD_LABEL_UPDATER)..."
 for _ in $(seq 1 30); do

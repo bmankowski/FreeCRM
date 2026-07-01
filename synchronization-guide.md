@@ -4,13 +4,14 @@ This guide documents a **repeatable** way to make `localhost` contain the same:
 
 - **Candidates** (`Kandydaci`)
 - **Recruitment Projects** (`ProjektyRekrutacyjne`)
+- **Accounts** (kontrahenci) and **Contacts**
 - **Comments** (`ModComments`) attached to candidates and projects
 
 …from the source CRM at `10.0.0.220`, **with the same IDs**, and with data consistent enough for the UI to work (detail view, relations, CV images, comments timeline).
 
 It is written for the current FreeCRM Docker setup in this repo (`docker-compose.yml`) and for the source server layout observed on `10.0.0.220` (`/var/www/yetiforce`).
 
-**Automated pipeline (recommended):** run `./scripts/sync-from-prod` from the repo root. It dumps prod into local `yetiforce`, promotes recruitment data (including linked Documents) into `freecrm`, rsyncs `storage/`, and rebuilds labels. See [`scripts/migration/candidates/README.md`](scripts/migration/candidates/README.md).
+**Automated pipeline (recommended):** run `./scripts/sync-from-prod` from the repo root. It dumps prod into local `yetiforce`, promotes recruitment data (including linked Documents, Accounts, Contacts) into `freecrm`, rsyncs `storage/`, and rebuilds labels. See [`scripts/migration/candidates/README.md`](scripts/migration/candidates/README.md).
 
 ---
 
