@@ -208,12 +208,6 @@ class Detail extends \App\Modules\Base\Views\Index
 		}
 
 		$moduleModel = $this->record->getModule();
-		if (!empty($prevRecordId)) {
-			$viewer->assign('PREVIOUS_RECORD_URL', $moduleModel->getDetailViewUrl($prevRecordId));
-		}
-		if (!empty($nextRecordId)) {
-			$viewer->assign('NEXT_RECORD_URL', $moduleModel->getDetailViewUrl($nextRecordId));
-		}
 		$currentUserModel = $request->getUser();
 		$selectedTabLabel = $request->get('tab_label');
 		$requestMode = $request->get('requestMode');
@@ -246,6 +240,12 @@ class Detail extends \App\Modules\Base\Views\Index
 					break;
 				}
 			}
+		}
+		if (!empty($prevRecordId)) {
+			$viewer->assign('PREVIOUS_RECORD_URL', $this->buildRecordNavigationUrl($moduleModel, $prevRecordId, $detailViewLinks, $selectedTabLabel));
+		}
+		if (!empty($nextRecordId)) {
+			$viewer->assign('NEXT_RECORD_URL', $this->buildRecordNavigationUrl($moduleModel, $nextRecordId, $detailViewLinks, $selectedTabLabel));
 		}
 
 		// Process header widgets
@@ -1093,6 +1093,39 @@ class Detail extends \App\Modules\Base\Views\Index
 		$viewer->assign('COORRDINATES', $coordinates);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
 		return $viewer->view('DetailViewMap.tpl', $moduleName, true);
+	}
+
+	// Prev/next URLs from ListView omit tab params; mirror the active detail tab link.
+	private function buildRecordNavigationUrl(
+		\App\Modules\Base\Models\Module $moduleModel,
+		$recordId,
+		array $detailViewLinks,
+		?string $selectedTabLabel
+	): string {
+		$url = $moduleModel->getDetailViewUrl($recordId);
+		if (empty($selectedTabLabel)) {
+			return $url;
+		}
+		foreach (['DETAILVIEWTAB', 'DETAILVIEWRELATED'] as $group) {
+			if (empty($detailViewLinks[$group]) || !is_array($detailViewLinks[$group])) {
+				continue;
+			}
+			foreach ($detailViewLinks[$group] as $link) {
+				if ($link->getLabel() !== $selectedTabLabel) {
+					continue;
+				}
+				$tabParams = \vtlib\Functions::getQueryParams($link->getUrl());
+				unset($tabParams['record'], $tabParams['module'], $tabParams['view']);
+				if (isset($tabParams['page'])) {
+					$tabParams['page'] = 1;
+				}
+				if (!empty($tabParams)) {
+					return $url . '&' . http_build_query($tabParams);
+				}
+				break 2;
+			}
+		}
+		return $url . '&tab_label=' . rawurlencode($selectedTabLabel);
 	}
 
 	private function assignRelationCommentDisplay(\App\Modules\Base\Models\Record $record): void

@@ -45,6 +45,7 @@ Two paths — do not mix them for the same field type.
 - Prefer extending module `Detail.js`; edit base only for true cross-module fixes.
 - Keep request contracts stable for record actions and related list refreshes.
 - Preserve prev/next behavior based on ListView context (`DetailViewNavigation:<Module>` in sessionStorage).
+- ListView record URLs are bare (`module`, `view`, `record` only). Prev/next must keep the **active tab** — copy `mode`, `requestMode`, `tab_label`, `relatedModule` from the selected tab’s `data-url` (or current page URL after AJAX tab switch). JS: `Detail.js` → `appendDetailTabContextToRecordUrl()`; PHP: `Detail.php` → `buildRecordNavigationUrl()`.
 - After AJAX content updates, re-register only required handlers and avoid duplicate bindings.
 - Do not add fallback or legacy branches.
 
@@ -54,7 +55,8 @@ Two paths — do not mix them for the same field type.
 2. Verify loaded scripts include base and module detail resources.
 3. Check `Vtiger_Detail_Js.getInstance()` resolves expected subclass.
 4. Validate list-context navigation data in sessionStorage when prev/next fails.
-5. Reproduce after related tab switches and AJAX reloads (binding regressions are common there).
+5. If prev/next lands on the wrong tab, check whether `appendDetailTabContextToRecordUrl` / `buildRecordNavigationUrl` ran (active tab `data-url` vs bare ListView URL).
+6. Reproduce after related tab switches and AJAX reloads (binding regressions are common there).
 
 ## Frontend asset rule
 
@@ -65,5 +67,5 @@ Two paths — do not mix them for the same field type.
 
 - Header actions and related tabs work on initial load and after AJAX updates.
 - No duplicate click/change handlers after tab reloads.
-- Prev/next navigation works (or degrades cleanly when context is missing).
+- Prev/next navigation works (or degrades cleanly when context is missing) and **stays on the current tab**.
 - Module override still calls `_super()` when needed.

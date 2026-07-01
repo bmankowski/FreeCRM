@@ -77,6 +77,24 @@ A–Z index that filters the list by the **first letter** of the module's main s
 - **JS:** `ListSearch.js` `registerAlphabetClick` / `registerEventForAlphabetSearch`; click sends `search_key` (= `#alphabetSearchKey`), `search_value` (letter), `operator: 's'` (starts with), then `reloadList`. "Wyczyść/Usuń filtrowanie" (`removeAlfabetCondition`) reloads with empty search.
 - **Backend:** `Base\Models\ListView::loadListViewCondition()` — single letter expands to `[upper, lower]` before `addBaseSearchConditions(..., 's')`.
 
+## Mass edit (MassActionAjax + CKEditor)
+
+Mass edit opens from ListView via `MassActionAjax/showMassEditForm` → `MassEditForm.tpl`. Fields are **empty** server-side (`MassEditRecordStructure`); only POSTed field names are applied in `MassSave.php` (`$request->has($fieldName)`).
+
+**CKEditor on ListView:** `ListView.php` calls `stripCkEditorScripts()` — CKEDITOR is **not** on the list page. HTML fields (uitype 300) still render with class `ckEditorSource` in mass edit.
+
+**Injection pattern (like QuickCreate):**
+- `MassActionAjax::showMassEditForm()` assigns `SCRIPTS` (ckeditor + adapter + `CkEditor.js`) when the mass-edit record structure contains uitype 300 — rendered at top of `MassEditForm.tpl`.
+- jQuery `container.html(data)` in `app.showModalWindow()` **does not execute** `<script src>` from modal HTML. `ListView.js` must load them via `$.ajax(..., dataType: 'script')` — see `ensureMassEditCkEditorAssets()` / `ensureCkEditorAssets()`.
+- After load: `editInstance.setForm(massEditForm)` + `registerEventForCkEditor()`; reininit on `shown.bs.tab` for inactive tabs.
+
+**Submit / validation footguns:**
+- Bind `submit` → `preventDefault()` **before** `validationEngine()` so a validation throw cannot native-POST the full form (empty values wipe records).
+- `jquery.validationEngine.js` must guard `typeof CKEDITOR !== 'undefined'` for `ckEditorSource` fields; empty submit-button `id` → `getElementById('')` warning.
+- Save path: `postMassEdit` → `massActionSave(form, true)` strips `name` from unchecked rows, then `serializeFormData()` + AJAX. Optional debug: `massEditDebug` in POST, `[MassEdit]` in console, `[MassSave]` in `cache/logs/system.log`.
+
+**Files:** `src/Modules/Base/Views/MassActionAjax.php`, `src/Modules/Base/Actions/MassSave.php`, `public/layouts/basic/modules/Base/resources/ListView.js`, `src/Modules/Base/Views/ListView.php` (`stripCkEditorScripts` in `Index.php`).
+
 ## Debug checklist for list issues
 
 1. Confirm current view and module (`ListView` vs `ListPreview`, Settings parent).

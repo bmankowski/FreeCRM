@@ -518,7 +518,7 @@ class Field
 		27  => 'fileLocationType',
 		28  => 'documentsFileUpload',
 		32  => 'languages',
-		33  => 'picklist',
+		33  => 'multipicklist',
 		50  => 'reference',
 		51  => 'reference',
 		52  => 'userCreator',

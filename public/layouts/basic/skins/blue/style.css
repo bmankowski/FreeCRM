@@ -632,11 +632,11 @@ btn-danger:hover{
 	font-size: 18px;
 }
 .userDetails p{
-	float: left;
+	float: none;
 	font-size: 13px !important;
 }
 .userDetails{
-	margin-top: 9px;
+	margin-top: 0;
 }
 .userDetails .name,
 .userDetails .companyName{

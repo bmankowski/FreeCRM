@@ -2499,7 +2499,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var recordUrl = btn.data('recordUrl') || btn.attr('data-record-url');
 			if (recordUrl) {
 				e.preventDefault();
-				window.location.href = recordUrl;
+				window.location.href = thisInstance.appendDetailTabContextToRecordUrl(recordUrl);
 				return;
 			}
 			// If there is no direct URL, try to navigate using the last ListView context (same filter).
@@ -2516,7 +2516,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var recordUrl = btn.data('recordUrl') || btn.attr('data-record-url');
 			if (recordUrl) {
 				e.preventDefault();
-				window.location.href = recordUrl;
+				window.location.href = thisInstance.appendDetailTabContextToRecordUrl(recordUrl);
 				return;
 			}
 			// If there is no direct URL, try to navigate using the last ListView context (same filter).
@@ -2850,6 +2850,69 @@ jQuery.Class("Vtiger_Detail_Js", {
 			tabElement.trigger('click');
 		});
 	},
+	// Prev/next list URLs omit tab params; copy them from the active detail tab.
+	appendDetailTabContextToRecordUrl: function (recordUrl) {
+		if (!recordUrl) {
+			return recordUrl;
+		}
+		try {
+			var parseParams = function (qs, target, skipKeys) {
+				if (!qs) {
+					return target;
+				}
+				jQuery.each(String(qs).split('&'), function (_i, pair) {
+					if (!pair) {
+						return;
+					}
+					var parts = pair.split('=');
+					var k = decodeURIComponent(parts[0] || '');
+					if (!k || (skipKeys && skipKeys[k])) {
+						return;
+					}
+					target[k] = parts.length > 1 ? decodeURIComponent(parts.slice(1).join('=')) : '';
+				});
+				return target;
+			};
+			var skipIdentity = { record: 1, module: 1, view: 1 };
+			var contextParams = {};
+			var tab = this.getSelectedTab();
+			if (tab && tab.length && tab.data('url')) {
+				var tabUrl = String(tab.data('url'));
+				var tabQIndex = tabUrl.indexOf('?');
+				if (tabQIndex !== -1) {
+					parseParams(tabUrl.substring(tabQIndex + 1).split('#')[0], contextParams, skipIdentity);
+				}
+			}
+			if (!contextParams.tab_label && !contextParams.mode && window.location.search) {
+				var fromPage = {};
+				parseParams(window.location.search.substring(1), fromPage, null);
+				jQuery.each(['mode', 'requestMode', 'tab_label', 'relatedModule'], function (_i, key) {
+					if (fromPage[key]) {
+						contextParams[key] = fromPage[key];
+					}
+				});
+			}
+			if (!contextParams.tab_label && !contextParams.mode) {
+				return recordUrl;
+			}
+			if (contextParams.mode === 'showRecentActivities') {
+				contextParams.page = '1';
+			}
+			var urlParts = String(recordUrl).split('#');
+			var base = urlParts[0];
+			var hash = urlParts.length > 1 ? '#' + urlParts.slice(1).join('#') : '';
+			var qIndex = base.indexOf('?');
+			var path = qIndex === -1 ? base : base.substring(0, qIndex);
+			var params = {};
+			if (qIndex !== -1) {
+				parseParams(base.substring(qIndex + 1), params, null);
+			}
+			jQuery.extend(params, contextParams);
+			return path + '?' + jQuery.param(params) + hash;
+		} catch (e) {
+			return recordUrl;
+		}
+	},
 	/**
 	 * Enables previous/next record navigation on DetailView based on the last visited ListView.
 	 * The context is written by ListView.js into sessionStorage.
@@ -2922,12 +2985,14 @@ jQuery.Class("Vtiger_Detail_Js", {
 			var nextBtn = detailContentsHolder.find('#detailViewNextRecordButton');
 
 			if (prev && prev.url) {
-				prevBtn.prop('disabled', false).attr('data-record-url', prev.url).data('recordUrl', prev.url);
+				var prevUrl = this.appendDetailTabContextToRecordUrl(prev.url);
+				prevBtn.prop('disabled', false).attr('data-record-url', prevUrl).data('recordUrl', prevUrl);
 			} else {
 				prevBtn.prop('disabled', true).removeAttr('data-record-url').removeData('recordUrl');
 			}
 			if (next && next.url) {
-				nextBtn.prop('disabled', false).attr('data-record-url', next.url).data('recordUrl', next.url);
+				var nextUrl = this.appendDetailTabContextToRecordUrl(next.url);
+				nextBtn.prop('disabled', false).attr('data-record-url', nextUrl).data('recordUrl', nextUrl);
 			} else {
 				nextBtn.prop('disabled', true).removeAttr('data-record-url').removeData('recordUrl');
 			}
@@ -2940,6 +3005,7 @@ jQuery.Class("Vtiger_Detail_Js", {
 	 * (typically a ListView URL containing the active filter/search/sort).
 	 */
 	applyRecordNavigationFromReferrer: function (detailContentsHolder, moduleName, navigationKey) {
+		var thisInstance = this;
 		try {
 			// Prefer explicit listContext param (added by ListView navigation).
 			var ref = '';
@@ -3063,10 +3129,12 @@ jQuery.Class("Vtiger_Detail_Js", {
 				var next = (idx < records.length - 1) ? records[idx + 1] : null;
 
 				if (prev && prev.url) {
-					prevBtn.prop('disabled', false).attr('data-record-url', prev.url).data('recordUrl', prev.url);
+					var prevUrl = thisInstance.appendDetailTabContextToRecordUrl(prev.url);
+					prevBtn.prop('disabled', false).attr('data-record-url', prevUrl).data('recordUrl', prevUrl);
 				}
 				if (next && next.url) {
-					nextBtn.prop('disabled', false).attr('data-record-url', next.url).data('recordUrl', next.url);
+					var nextUrl = thisInstance.appendDetailTabContextToRecordUrl(next.url);
+					nextBtn.prop('disabled', false).attr('data-record-url', nextUrl).data('recordUrl', nextUrl);
 				}
 			});
 		} catch (e) {
@@ -3257,11 +3325,11 @@ jQuery.Class("Vtiger_Detail_Js", {
 
 			// If neighbor exists on the same page snapshot, navigate immediately.
 			if (direction === 'next' && idx < payload.records.length - 1 && payload.records[idx + 1].url) {
-				window.location.href = payload.records[idx + 1].url;
+				window.location.href = thisInstance.appendDetailTabContextToRecordUrl(payload.records[idx + 1].url);
 				return true;
 			}
 			if (direction === 'prev' && idx > 0 && payload.records[idx - 1].url) {
-				window.location.href = payload.records[idx - 1].url;
+				window.location.href = thisInstance.appendDetailTabContextToRecordUrl(payload.records[idx - 1].url);
 				return true;
 			}
 
@@ -3281,9 +3349,9 @@ jQuery.Class("Vtiger_Detail_Js", {
 				}
 				// Navigate to first/last record depending on direction.
 				if (direction === 'next') {
-					window.location.href = newRecords[0].url;
+					window.location.href = thisInstance.appendDetailTabContextToRecordUrl(newRecords[0].url);
 				} else {
-					window.location.href = newRecords[newRecords.length - 1].url;
+					window.location.href = thisInstance.appendDetailTabContextToRecordUrl(newRecords[newRecords.length - 1].url);
 				}
 			});
 			return true;

@@ -88,7 +88,7 @@ class BaseUiType extends \App\Runtime\BaseModel
 		28  => 'DocumentsFileUpload',
 		30  => 'Recurrence',
 		32  => 'Languages',
-		33  => 'Picklist',
+		33  => 'Multipicklist',
 		50  => 'Reference',
 		51  => 'Reference',
 		52  => 'UserCreator',
