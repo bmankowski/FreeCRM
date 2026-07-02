@@ -7,6 +7,7 @@
 		cvSkills: '',
 		currentPage: 1,
 		selectedIds: {},
+		pendingRowNav: null,
 
 		init: function ($root) {
 			this.$root = $root;
@@ -19,6 +20,7 @@
 			}
 			this.registerResizer();
 			this.registerEvents();
+			this.registerKeyboardNavigation();
 			this.loadPage(1);
 		},
 
@@ -53,7 +55,7 @@
 				thisInstance.getListBody().html(result.html || '');
 				thisInstance.updatePager(result);
 				thisInstance.restoreCheckboxState();
-				thisInstance.activateFirstRow();
+				thisInstance.activateRowAfterPageLoad();
 			}).fail(function (_jqXHR, _textStatus, errorThrown) {
 				progress.progressIndicator({ mode: 'hide' });
 				Vtiger_Helper_Js.showPnotify({
@@ -109,6 +111,92 @@
 			const $first = $rows.first();
 			$first.addClass('active');
 			this.loadPreview(String($first.data('id') || ''), $first);
+		},
+
+		activateRowAfterPageLoad: function () {
+			const $rows = this.$root.find('.js-kanban-pick-row');
+			if (!$rows.length) {
+				this.pendingRowNav = null;
+				return;
+			}
+			let $row = null;
+			if (this.pendingRowNav === 'last') {
+				$row = $rows.last();
+			} else if (this.pendingRowNav === 'first') {
+				$row = $rows.first();
+			}
+			this.pendingRowNav = null;
+			if ($row && $row.length) {
+				$row.addClass('active');
+				this.loadPreview(String($row.data('id') || ''), $row);
+				this.scrollRowIntoView($row);
+				return;
+			}
+			this.activateFirstRow();
+		},
+
+		scrollRowIntoView: function ($row) {
+			const $scroll = this.getListBody();
+			if (!$scroll.length || !$row.length) {
+				return;
+			}
+			const scrollEl = $scroll[0];
+			const rowEl = $row[0];
+			const rowTop = rowEl.offsetTop;
+			const rowBottom = rowTop + rowEl.offsetHeight;
+			const viewTop = scrollEl.scrollTop;
+			const viewBottom = viewTop + scrollEl.clientHeight;
+			if (rowTop < viewTop) {
+				scrollEl.scrollTop = rowTop;
+			} else if (rowBottom > viewBottom) {
+				scrollEl.scrollTop = rowBottom - scrollEl.clientHeight;
+			}
+		},
+
+		navigateRow: function (delta) {
+			const $rows = this.$root.find('.js-kanban-pick-row');
+			if (!$rows.length) {
+				return;
+			}
+			const $active = $rows.filter('.active');
+			const currentIndex = $active.length ? $rows.index($active) : 0;
+			const nextIndex = currentIndex + delta;
+
+			if (nextIndex >= 0 && nextIndex < $rows.length) {
+				const $next = $rows.eq(nextIndex);
+				this.loadPreview(String($next.data('id') || ''), $next);
+				this.scrollRowIntoView($next);
+				return;
+			}
+
+			const pageCount = parseInt(this.$root.find('.js-kanban-pick-page-count').val() || '1', 10);
+			if (delta > 0 && nextIndex >= $rows.length && this.currentPage < pageCount) {
+				this.pendingRowNav = 'first';
+				this.loadPage(this.currentPage + 1);
+				return;
+			}
+			if (delta < 0 && nextIndex < 0 && this.currentPage > 1) {
+				this.pendingRowNav = 'last';
+				this.loadPage(this.currentPage - 1);
+			}
+		},
+
+		registerKeyboardNavigation: function () {
+			const thisInstance = this;
+			jQuery(document).off('keydown.kanbanPickNav').on('keydown.kanbanPickNav', function (event) {
+				if (!thisInstance.$root.length || !thisInstance.$root.is(':visible')) {
+					return;
+				}
+				if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') {
+					return;
+				}
+				const tag = (event.target && event.target.tagName) ? event.target.tagName.toLowerCase() : '';
+				if (tag === 'input' || tag === 'textarea' || tag === 'select') {
+					return;
+				}
+				event.preventDefault();
+				thisInstance.navigateRow(event.key === 'ArrowDown' ? 1 : -1);
+			});
 		},
 
 		loadPreview: function (candidateId, $row) {
@@ -253,6 +341,7 @@
 				}
 				const $row = jQuery(this);
 				thisInstance.loadPreview(String($row.data('id') || ''), $row);
+				thisInstance.scrollRowIntoView($row);
 			});
 
 			$root.off('change.kanbanPickCheckbox', '.js-kanban-pick-checkbox');
