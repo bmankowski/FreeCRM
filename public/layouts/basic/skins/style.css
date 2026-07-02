@@ -3222,6 +3222,85 @@ span[name=existingImages] img{
 	border: none;
 	background: #ebebeb;
 }
+.ui-autocomplete.reference-ac.ui-widget,
+.ui-autocomplete.reference-ac.ui-widget .ui-menu-item a {
+	font-family: inherit !important;
+	font-size: inherit !important;
+	font-weight: inherit !important;
+}
+.ui-autocomplete.reference-ac {
+	padding: 0;
+	border: 1px solid #ddd;
+	border-radius: 6px;
+	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+	max-height: 320px;
+	overflow-y: auto;
+	overflow-x: hidden;
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: inherit;
+}
+.ui-autocomplete.reference-ac .ui-menu-item {
+	padding: 0;
+	font-weight: inherit;
+}
+.ui-autocomplete.reference-ac .ui-menu-item a {
+	display: block;
+	padding: 0;
+	border: none;
+	color: inherit;
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: inherit;
+}
+.ui-autocomplete.reference-ac .ui-menu-item.ui-state-focus,
+.ui-autocomplete.reference-ac .ui-menu-item.ui-state-active,
+.ui-autocomplete.reference-ac .ui-menu-item a.ui-state-focus,
+.ui-autocomplete.reference-ac .ui-menu-item a.ui-state-active {
+	font-weight: inherit;
+}
+.ui-autocomplete.reference-ac .reference-ac-row {
+	padding: 8px 12px;
+}
+.ui-autocomplete.reference-ac .reference-ac-title {
+	display: block;
+	font-weight: inherit;
+	line-height: 1.3;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.ui-autocomplete.reference-ac .reference-ac-subtitle {
+	display: block;
+	font-size: 12px;
+	color: #777;
+	margin-top: 2px;
+	line-height: 1.3;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.ui-autocomplete.reference-ac .reference-ac-highlight {
+	background: transparent;
+	color: inherit;
+	font-weight: inherit;
+	padding: 0;
+}
+.ui-autocomplete.reference-ac .reference-ac-item--empty {
+	padding: 10px 12px;
+	color: #888;
+	font-style: italic;
+	cursor: default;
+}
+.ui-autocomplete.reference-ac .ui-state-focus .reference-ac-row,
+.ui-autocomplete.reference-ac .ui-menu-item:hover .reference-ac-row {
+	background: rgb(236, 151, 31);
+}
+.ui-autocomplete.reference-ac .ui-state-focus,
+.ui-autocomplete.reference-ac .ui-menu-item:hover {
+	border: none;
+	background: transparent;
+}
 .widgetHr{
 	margin-top: 0;
 }
@@ -3274,6 +3353,17 @@ span[name=existingImages] img{
 	padding: 0;
 	width: 100%;
 	list-style:none;
+}
+.ui-autocomplete.reference-ac.ui-menu.ui-widget .ui-menu-item,
+.ui-autocomplete.reference-ac.ui-menu.ui-widget .ui-menu-item.ui-state-focus,
+.ui-autocomplete.reference-ac.ui-menu.ui-widget .ui-menu-item.ui-state-active,
+.ui-autocomplete.reference-ac.ui-menu.ui-widget .ui-menu-item a,
+.ui-autocomplete.reference-ac.ui-menu.ui-widget .ui-menu-item a.ui-state-focus,
+.ui-autocomplete.reference-ac.ui-menu.ui-widget .ui-menu-item a.ui-state-active,
+.ui-autocomplete.reference-ac .reference-ac-title,
+.ui-autocomplete.reference-ac .reference-ac-subtitle,
+.ui-autocomplete.reference-ac .reference-ac-highlight {
+	font-weight: inherit !important;
 }
 #layoutEditorButtons{
 	margin-bottom: 10px;

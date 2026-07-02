@@ -270,6 +270,7 @@ abstract class Basic extends \App\Base\Controllers\BaseViewController
 			'~libraries/jquery/mousetrap/mousetrap.min.js',
 			'modules.Base.resources.Menu',
 			'modules.Base.resources.Header',
+			'modules.Base.resources.ReferenceAutocomplete',
 			'modules.Base.resources.Edit',
 			"modules.$moduleName.resources.Edit",
 			'modules.Base.resources.Popup',

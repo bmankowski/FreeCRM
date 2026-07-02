@@ -35,7 +35,17 @@ class BasicAjax extends \App\Base\Controllers\BaseActionController
 		if (is_array($records)) {
 			foreach ($records as $moduleName => $recordModels) {
 				foreach ($recordModels as $recordModel) {
-					$result[] = array('label' => \App\Utils\ListViewUtils::decodeHtml($recordModel->getSearchName()), 'value' => \App\Utils\ListViewUtils::decodeHtml($recordModel->getName()), 'id' => $recordModel->getId());
+					$searchLabel = \App\Utils\ListViewUtils::decodeHtml($recordModel->getSearchName());
+					$recordName = \App\Utils\ListViewUtils::decodeHtml($recordModel->getName());
+					$recordModule = $recordModel->getModuleName();
+					$result[] = [
+						'id' => $recordModel->getId(),
+						'label' => $searchLabel,
+						'value' => $recordName,
+						'subtitle' => ($searchLabel !== $recordName) ? $searchLabel : '',
+						'module' => $recordModule,
+						'moduleLabel' => \App\Runtime\Vtiger_Language_Handler::translate($recordModule, $recordModule),
+					];
 				}
 			}
 		}

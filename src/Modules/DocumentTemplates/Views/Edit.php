@@ -225,6 +225,7 @@ class Edit extends \App\Modules\Base\Views\Basic
 			'libraries.codemirror.addon.search.searchcursor',
 			'libraries.codemirror.addon.search.search',
 			'~libraries/js-beautify/beautify-html.min.js',
+			'modules.Base.resources.ReferenceAutocomplete',
 			'modules.Base.resources.Edit',
 			"modules.$moduleName.resources.Edit",
 			"modules.$moduleName.resources.Edit1",
