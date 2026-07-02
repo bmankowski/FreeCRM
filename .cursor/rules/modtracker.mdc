@@ -5,6 +5,9 @@ globs:
   - "layouts/basic/modules/Base/ListViewLeftSide.tpl"
   - "public/layouts/basic/modules/Base/resources/ListView.js"
   - "src/Modules/ModTracker/**"
+  - "src/Modules/Base/Views/Detail.php"
+  - "layouts/basic/modules/Base/RecentActivitiesHeader.tpl"
+  - "src/Modules/Users/Actions/SwitchUsers.php"
   - "config/modules/ModTracker.php"
 ---
 
@@ -23,7 +26,27 @@ Szablon: `layouts/basic/modules/Base/ListViewLeftSide.tpl`
 
 Puste badge'e są ukryte (Bootstrap `.badge:empty { display: none }`). Liczby ustawia JS po AJAX.
 
-Klik → `Record::getUpdatesUrl()` → DetailView, zakładka Updates (`mode=showRecentActivities&tab_label=LBL_UPDATES`).
+Klik → `Record::getUpdatesUrl()` → pełna strona DetailView (`mode=showRecentActivities&tab_label=LBL_UPDATES`), nie AJAX.
+
+### Layout po kliknięciu badge'a
+
+Objaw: rozjeżdżony layout (fragment HTML przed menu) przy wejściu z listy na historię zmian.
+
+Przyczyna: `Detail::showRecentActivities()` wołane z pełnej strony (`Detail::process()` → `DETAIL_CONTENT`) **echo'owało** `RecentActivitiesHeader.tpl` bez trzeciego argumentu `true` — nagłówek lądował przed `<html>` z MainLayout. Klik zakładki Historia (AJAX) działał poprawnie.
+
+Fix w `src/Modules/Base/Views/Detail.php`:
+
+```php
+$content = '';
+if (!$request->get('skipHeader')) {
+    $content = $viewer->view('RecentActivitiesHeader.tpl', $moduleName, true);
+}
+return $content . $viewer->view($tplName, $moduleName, true);
+```
+
+Widget dashboardu używa `skipHeader=true` — bez nagłówka, tylko lista/timeline. Szablon nagłówka: `layouts/basic/modules/Base/RecentActivitiesHeader.tpl`.
+
+Zob. też `main-layout-views.mdc` → Detail view `mode=` na pełnej stronie.
 
 ## Warunki wyświetlania mechanizmu
 
@@ -52,6 +75,22 @@ Typowe zdarzenia tworzące wpisy: edycja pól, create, delete, restore, link/unl
 
 **Autor zmiany** zwykle nie widzi badge'a — nowy wpis ma go od razu w `last_reviewed_users`; `unsetReviewed()` czyści marker na poprzednim wpisie.
 
+Marker „przeczytane” = kolumna `vtiger_modtracker_basic.last_reviewed_users` (format `#123#`, user id).
+
+## SwitchUsers — kto jest zapisany w ModTrackerze
+
+Przełączenie użytkownika (`Users/SwitchUsers`) ustawia w sesji `baseUserId` (operator) vs effective user (podgląd).
+
+| Aspekt | ID używane |
+|---|---|
+| `whodid`, `last_reviewed_users`, `modifiedby`, `smcreatorid` | **`getCurrentUserRealId()`** → operator (`Vtiger_Session::getRealUserId()` / `baseUserId`) |
+| Uprawnienia, UI, filtry listy | **`getId()`** — przełączony użytkownik |
+| Badge `getUnreviewed()` | **`getId()`** — liczone dla przełączonego |
+
+Edycja jako admin przełączony na gskoczka → w historii **admin**, badge widzi **gskoczek**. Log przełączeń: `l_#__switch_users` (baza `log`).
+
+`Save` / `SaveAjax`: przy impersonacji `preProcess` tymczasowo ustawia `$request->setUser()` na operatora — spójne z `getCurrentUserRealId()`.
+
 ## Oznaczenie jako przeczytane
 
 - Wejście w historię / review na DetailView → `setLastReviewed()`
@@ -65,6 +104,20 @@ Typowe zdarzenia tworzące wpisy: edycja pól, create, delete, restore, link/unl
 | `timeLineIconList` | Osobna ikona timeline; domyślnie wyłączona (`SHOW_TIMELINE_IN_LISTVIEW => []`) |
 | Pole `was_read` | Osobny mechanizm na `vtiger_crmentity`; nie steruje badge'ami listy |
 
+## Testowanie badge'ów (dev)
+
+Autor edycji nie widzi badge'a — wpis ma od razu jego id w `last_reviewed_users`. Reset markerów (MCP `execute_dml`, baza `freecrm`):
+
+```sql
+-- jeden rekord
+UPDATE vtiger_modtracker_basic SET last_reviewed_users = '' WHERE crmid = ? AND status <> 7;
+
+-- wszystkie (dev — admin zobaczy badge na każdym rekordzie ze zmianami)
+UPDATE vtiger_modtracker_basic SET last_reviewed_users = '' WHERE last_reviewed_users != '';
+```
+
+Po UPDATE wystarczy odświeżyć listę (AJAX `getUnreviewed`). Każdy nowy zapis znowu ustawia marker dla autora.
+
 ## Kluczowe pliki
 
 - Config: `config/modules/ModTracker.php`
@@ -72,4 +125,5 @@ Typowe zdarzenia tworzące wpisy: edycja pól, create, delete, restore, link/unl
 - JS: `public/layouts/basic/modules/Base/resources/ListView.js` (`registerUnreviewedCountEvent`)
 - Akcja AJAX: `src/Modules/ModTracker/Actions/ChangesReviewedOn.php`
 - Model: `src/Modules/ModTracker/Models/Record.php` (`getUnreviewed`, `setLastReviewed`)
+- DetailView handler: `src/Modules/Base/Views/Detail.php` (`showRecentActivities`)
 - Włączanie śledzenia modułu: `src/Modules/ModTracker/ModTracker.php` → `vtiger_modtracker_tabs`

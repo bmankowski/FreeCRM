@@ -50,17 +50,15 @@ class TicketWorkflowAjax extends \App\Base\Controllers\BaseActionController
 
 		if ($mode === 'done') {
 			$solution = trim((string) $request->getForHtml('solution', ''));
-			if ($solution === '') {
-				$this->emitResult(['success' => false, 'message' => 'LBL_TICKET_SOLUTION_REQUIRED']);
-				return;
-			}
 			$businessId = $this->requireOwnerId($recordModel, 'business_id');
 			if ($businessId === null) {
 				return;
 			}
 			$recordModel->set('ticketstatus', DetailView::STATUS_FOR_APPROVAL);
 			$recordModel->set('assigned_user_id', $businessId);
-			$recordModel->set('solution', $solution);
+			if ($solution !== '') {
+				$recordModel->set('solution', $solution);
+			}
 			$recordModel->save();
 			$this->addCommentIfPresent($recordModel, (string) $request->getRaw('comment'));
 		} elseif ($mode === 'not_working') {

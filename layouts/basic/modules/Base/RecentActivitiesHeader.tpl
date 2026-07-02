@@ -2,7 +2,7 @@
 {strip}
 <!-- layouts/basic/modules/Base/RecentActivitiesHeader.tpl -->
 	<div class="row marginBottom10px">
-		<div class="col-md-12 btn-toolbar"">
+		<div class="col-md-12 btn-toolbar">
 			<div class="pull-right btn-group">
 				<input class="switchBtn switchBtnReload recentActivitiesSwitch" type="checkbox" {if $TYPE eq 'changes'}checked=""{/if} data-size="small" data-label-width="5" data-on-text="{'LBL_UPDATES'|t:$MODULE_BASE_NAME}" data-off-text="{'LBL_REVIEW_HISTORY'|t:$MODULE_BASE_NAME}" data-urlparams="whereCondition" data-on-val="changes" data-off-val="review">
 			</div>

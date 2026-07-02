@@ -106,7 +106,7 @@ Wzorce: `Settings/ModTracker/Views/ListView.php`, `Settings/Mail/Views/Config.ph
 
 `Detail::process()`: AJAX → `echo invokeExposedMethod($mode)`; pełna strona z `?mode=showRelatedList` (itd.) → wynik handlera trafia do `DETAIL_CONTENT` w `DetailViewHeader.tpl`.
 
-Handlery wołane z pełnej strony muszą **zwracać** HTML: `return $viewer->view('…tpl', $module, true)`. Bez trzeciego argumentu `true` szablon jest **echo** przed `<html>` — layout wygląda na zniszczony przy odświeżeniu URL, choć kliknięcie zakładki (AJAX) może działać. Przykład: `Base\Views\RelatedList::processMailRelatedList`.
+Handlery wołane z pełnej strony muszą **zwracać** HTML: `return $viewer->view('…tpl', $module, true)`. Bez trzeciego argumentu `true` szablon jest **echo** przed `<html>` — layout wygląda na zniszczony przy odświeżeniu URL, choć kliknięcie zakładki (AJAX) może działać. Przykłady: `Base\Views\RelatedList::processMailRelatedList`, `Detail::showRecentActivities` (klik czerwonego badge ModTracker na liście → `mode=showRecentActivities`).
 
 ## Kiedy NIE dodawać MainLayout
 
@@ -120,7 +120,8 @@ Link z `'modalView' => true` (klasa `showModal`, patrz `Base/ButtonLink.tpl`) wc
 
 - Widok rozszerzający `App\Modules\Base\Views\Index` zwraca **sam fragment** (`modal-header/body/footer`) — trafia do DOM, ale okno się **nie pokazuje**.
 - Rozwiązanie: rozszerz `App\Modules\Base\Views\BasicModal`. Jego `preProcess()`/`postProcess()` owijają treść w `<div class="modal fade ..."><div class="modal-dialog"><div class="modal-content">…`.
-- `.tpl` zawiera **tylko** wnętrze (`modal-header`, `modal-body`, `modal-footer`) — **bez** własnego `modal fade` (podwójne opakowanie). Wzorce: `HelpDesk/Views/TicketWorkflowModal.php`, `Base/Views/ReferenceEditModal.php` (DetailView reference-field picker).
+- `.tpl` zawiera **tylko** wnętrze (`modal-header`, `modal-body`, `modal-footer`) — **bez** własnego `modal fade` (podwójne opakowanie). Wzorce: `HelpDesk/Views/TicketWorkflowModal.php`, `Base/Views/ReferenceEditModal.php`, `Users/Views/SwitchUsers.php` (DetailView reference-field picker / przełączanie użytkowników).
+- **Skrypty modala:** tylko `getModalScripts()` — **nie** doklejaj `parent::getFooterScripts()` w `postProcess()`. Pełna stopka JS (bootstrap-datepicker, Header, Edit, Vtiger…) w odpowiedzi AJAX powoduje ponowne wykonanie skryptów strony i błędy w konsoli przy otwieraniu z ListView (np. `can't access property "pl", $.fn.datepicker.dates is undefined` przez reinicjalizację `ListSearch`). Nadpisz `getModalScripts()` wyłącznie plikami widoku modala.
 
 ## Weryfikacja
 

@@ -80,11 +80,6 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 
 	private static function isActorForOwnerField(\App\Modules\Base\Models\Record $recordModel, string $fieldName): bool
 	{
-		$currentUser = \App\User\CurrentUser::get();
-		if ($currentUser && $currentUser->isAdminUser()) {
-			return true;
-		}
-
 		$ownerId = (int) $recordModel->get($fieldName);
 		if ($ownerId <= 0) {
 			return false;

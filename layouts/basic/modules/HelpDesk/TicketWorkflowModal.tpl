@@ -16,7 +16,7 @@
 		{if $MODE eq 'done'}
 			<div class="form-group">
 				<label for="ticketWorkflowSolution">{"Solution"|t:$MODULE_NAME}</label>
-				<textarea id="ticketWorkflowSolution" class="form-control" name="solution" rows="6" required>{$SOLUTION|escape}</textarea>
+				<textarea id="ticketWorkflowSolution" class="form-control" name="solution" rows="6">{$SOLUTION|escape}</textarea>
 			</div>
 			<div class="form-group">
 				<label for="ticketWorkflowComment">{"LBL_TICKET_WORKFLOW_COMMENT"|t:$MODULE_NAME}</label>

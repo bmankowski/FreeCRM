@@ -27,9 +27,9 @@ alwaysApply: false
 
 | Akcja | Kto (`DetailView`) | Status wejściowy | Efekt |
 |---|---|---|---|
-| **Zrobione** | `developer_id` (+ grupa) lub admin | dev-aktywny (nie odbiór/zamknięty) | → `PLL_FOR_APPROVAL`, `assigned` ← `business_id`, wymagane `solution` |
-| **Nadal nie działa** | `business_id` lub admin | `PLL_FOR_APPROVAL` | → `In Progress`, `assigned` ← `developer_id` |
-| **Odbieram** | `business_id` lub admin | `PLL_FOR_APPROVAL` | → `Closed`, `assigned` ← `business_id` |
+| **Zrobione** | `developer_id` (+ grupa) | dev-aktywny (nie odbiór/zamknięty) | → `PLL_FOR_APPROVAL`, `assigned` ← `business_id`, opcjonalne `solution` |
+| **Nadal nie działa** | `business_id` (+ grupa) | `PLL_FOR_APPROVAL` | → `In Progress`, `assigned` ← `developer_id` |
+| **Odbieram** | `business_id` (+ grupa) | `PLL_FOR_APPROVAL` | → `Closed`, `assigned` ← `business_id` |
 
 Stałe statusów i `isDevActiveStatus()` — tylko w `HelpDesk\Models\DetailView`. Uprawnienia grup: `isActorForOwnerField()` (porównanie z `Privileges::get('groups')`).
 

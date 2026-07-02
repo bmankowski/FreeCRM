@@ -48,13 +48,6 @@ Vtiger_Detail_Js("HelpDesk_Detail_Js", {
 			var record = form.data('record');
 			var solution = form.find('[name="solution"]').val() || '';
 			var comment = form.find('[name="comment"]').val() || '';
-			if (mode === 'done' && jQuery.trim(solution) === '') {
-				Vtiger_Helper_Js.showPnotify({
-					text: app.vtranslate('JS_LBL_TICKET_SOLUTION_REQUIRED', 'HelpDesk'),
-					type: 'error'
-				});
-				return;
-			}
 			var progressIndicatorElement = jQuery.progressIndicator({});
 			AppConnector.request({
 				module: 'HelpDesk',

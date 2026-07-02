@@ -596,9 +596,9 @@ class Detail extends \App\Modules\Base\Views\Index
 		if ($type == 'changes') {
 			$newChange = $request->has('newChange') ? $request->get('newChange') : \App\Modules\ModTracker\Models\Record::isNewChange($parentRecordId, $currentUser->getRealId());
 		}
-		$viewer = $this->getViewer($request);
+		$viewer = $this->viewer ? $this->viewer : $this->getViewer($request);
 		$viewer->assign('TYPE', $type);
-		$viewer->assign('NEW_CHANGE', $newChange);
+		$viewer->assign('NEW_CHANGE', $newChange ?? false);
 		$viewer->assign('PARENT_RACORD_ID', $parentRecordId);
 		$viewer->assign('RECENT_ACTIVITIES', $recentActivities);
 		$viewer->assign('MODULE_NAME', $moduleName);
@@ -606,16 +606,18 @@ class Detail extends \App\Modules\Base\Views\Index
 		$viewer->assign('MODULE_BASE_NAME', 'ModTracker');
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+		$viewer->assign('USER_MODEL', $request->getUser());
 		$defaultView = \App\Core\AppConfig::module('ModTracker', 'DEFAULT_VIEW');
 		if ($defaultView == 'List') {
 			$tplName = 'RecentActivities.tpl';
 		} else {
 			$tplName = 'RecentActivitiesTimeLine.tpl';
 		}
+		$content = '';
 		if (!$request->get('skipHeader')) {
-			$viewer->view('RecentActivitiesHeader.tpl', $moduleName);
+			$content = $viewer->view('RecentActivitiesHeader.tpl', $moduleName, true);
 		}
-		return $viewer->view($tplName, $moduleName, true);
+		return $content . $viewer->view($tplName, $moduleName, true);
 	}
 
 	/**
