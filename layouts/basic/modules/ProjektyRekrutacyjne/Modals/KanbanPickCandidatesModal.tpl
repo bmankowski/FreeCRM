@@ -5,7 +5,20 @@
 </div>
 <div class="modal-body kanban-pick-candidates">
 	<input type="hidden" id="kanbanPickProjectId" value="{$PROJECT_ID}"/>
-	<input type="hidden" id="kanbanPickCvSkills" value="{$CV_SKILLS|escape:'html'}"/>
+	<form id="kanbanPickCandidatesSearchForm" class="kanban-pick-candidates__search">
+		<div class="form-group">
+			<label for="kanbanPickCvSkillsInput">{"LBL_KANBAN_CV_SKILLS"|t:$MODULE_NAME}</label>
+			<textarea id="kanbanPickCvSkillsInput"
+					  class="form-control js-kanban-cv-skills-input"
+					  name="cv_skills"
+					  rows="3"
+					  placeholder="{"LBL_KANBAN_CV_SKILLS_PLACEHOLDER"|t:$MODULE_NAME}">{$CV_SKILLS|escape:'html'}</textarea>
+			<p class="help-block">{"LBL_KANBAN_CV_SKILLS_HINT"|t:$MODULE_NAME}</p>
+		</div>
+		<div class="kanban-pick-candidates__search-actions">
+			<button type="button" class="btn btn-success js-kanban-pick-candidates-search">{"LBL_SEARCH"|t:"Vtiger"}</button>
+		</div>
+	</form>
 	<style>
 		{literal}
 		.kanban-pick-candidates__split {
@@ -14,9 +27,9 @@
 			flex-wrap: nowrap;
 			align-items: stretch;
 			width: 100%;
-			height: calc(85vh - 180px);
-			min-height: 420px;
-			max-height: calc(85vh - 180px);
+			height: calc(85vh - 300px);
+			min-height: 360px;
+			max-height: calc(85vh - 300px);
 			overflow: hidden;
 		}
 		.kanban-pick-candidates__split > .c-list-preview,

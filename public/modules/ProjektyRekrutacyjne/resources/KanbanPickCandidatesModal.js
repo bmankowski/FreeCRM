@@ -12,7 +12,7 @@
 		init: function ($root) {
 			this.$root = $root;
 			this.projectId = String(jQuery('#kanbanPickProjectId').val() || '');
-			this.cvSkills = String(jQuery('#kanbanPickCvSkills').val() || '');
+			this.cvSkills = jQuery.trim(this.getCvSkillsInput().val() || '');
 			this.currentPage = 1;
 			this.selectedIds = {};
 			if (!this.projectId || !this.cvSkills) {
@@ -21,6 +21,28 @@
 			this.registerResizer();
 			this.registerEvents();
 			this.registerKeyboardNavigation();
+			this.loadPage(1);
+		},
+
+		getCvSkillsInput: function () {
+			return this.$root.find('[name="cv_skills"]');
+		},
+
+		runSearch: function () {
+			const raw = jQuery.trim(this.getCvSkillsInput().val() || '');
+			if (!raw) {
+				Vtiger_Helper_Js.showPnotify({
+					text: app.vtranslate('LBL_KANBAN_CV_SKILLS_REQUIRED', 'ProjektyRekrutacyjne'),
+					type: 'error'
+				});
+				return;
+			}
+			this.cvSkills = raw;
+			this.selectedIds = {};
+			this.currentPage = 1;
+			this.pendingRowNav = null;
+			this.$root.find('.js-kanban-pick-select-page').prop('checked', false);
+			this.getFrame().attr('src', 'about:blank');
 			this.loadPage(1);
 		},
 
@@ -333,6 +355,20 @@
 		registerEvents: function () {
 			const thisInstance = this;
 			const $root = this.$root;
+
+			$root.off('click.kanbanPickSearch', '.js-kanban-pick-candidates-search');
+			$root.on('click.kanbanPickSearch', '.js-kanban-pick-candidates-search', function (event) {
+				event.preventDefault();
+				thisInstance.runSearch();
+			});
+
+			$root.off('keydown.kanbanPickSearch', '#kanbanPickCandidatesSearchForm');
+			$root.on('keydown.kanbanPickSearch', '#kanbanPickCandidatesSearchForm', function (event) {
+				if (event.key === 'Enter' && !event.shiftKey) {
+					event.preventDefault();
+					thisInstance.runSearch();
+				}
+			});
 
 			$root.off('click.kanbanPickRow', '.js-kanban-pick-row');
 			$root.on('click.kanbanPickRow', '.js-kanban-pick-row', function (event) {

@@ -1,12 +1,24 @@
+.kanban-pick-candidates__search {
+	margin-bottom: 12px;
+}
+
+.kanban-pick-candidates__search .form-group {
+	margin-bottom: 8px;
+}
+
+.kanban-pick-candidates__search-actions {
+	text-align: right;
+}
+
 .kanban-pick-candidates__split {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
 	align-items: stretch;
 	width: 100%;
-	height: calc(85vh - 180px);
-	min-height: 420px;
-	max-height: calc(85vh - 180px);
+	height: calc(85vh - 300px);
+	min-height: 360px;
+	max-height: calc(85vh - 300px);
 	overflow: hidden;
 }
 
