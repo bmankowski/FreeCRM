@@ -1,0 +1,75 @@
+---
+description: "ModTracker — śledzenie zmian, nieprzeczytane badge'e na liście, konfiguracja"
+alwaysApply: false
+globs:
+  - "layouts/basic/modules/Base/ListViewLeftSide.tpl"
+  - "public/layouts/basic/modules/Base/resources/ListView.js"
+  - "src/Modules/ModTracker/**"
+  - "config/modules/ModTracker.php"
+---
+
+# ModTracker — badge nieprzeczytanych zmian na liście
+
+Czerwony element przy rekordzie na liście to **badge ModTrackera** (nie dzwonek `Notification` w nagłówku).
+
+## UI
+
+Szablon: `layouts/basic/modules/Base/ListViewLeftSide.tpl`
+
+| Element | Klasa | Znaczenie |
+|---|---|---|
+| Czerwony badge | `badge bgDanger all` | Liczba nieprzeczytanych **zmian** (edycje, powiązania, …) |
+| Niebieski badge | `badge bgBlue mail` | Liczba nieprzeczytanych **maili** (`Mail`, `OSSMailView`) |
+
+Puste badge'e są ukryte (Bootstrap `.badge:empty { display: none }`). Liczby ustawia JS po AJAX.
+
+Klik → `Record::getUpdatesUrl()` → DetailView, zakładka Updates (`mode=showRecentActivities&tab_label=LBL_UPDATES`).
+
+## Warunki wyświetlania mechanizmu
+
+Wszystkie muszą być spełnione (warunek w szablonie):
+
+1. `AppConfig::module('ModTracker', 'UNREVIEWED_COUNT')` — domyślnie `true` w `config/modules/ModTracker.php`
+2. Uprawnienie profilu **`ReviewingUpdates`**
+3. **`isTrackingEnabled()`** modułu — wiersz w `vtiger_modtracker_tabs` z `visible = 1` (Ustawienia → ModTracker)
+4. Rekord **`isViewable()`** dla bieżącego użytkownika
+
+## Ładowanie liczb (JS)
+
+`ListView.js` → `registerUnreviewedCountEvent()` (po załadowaniu / odświeżeniu listy):
+
+- Akcja: `ModTracker/ChangesReviewedOn/getUnreviewed`
+- Parametry: `sourceModule`, `recordsId` (ID wierszy na stronie)
+- Ustawia tekst badge'a tylko gdy `value.a > 0` (czerwony) lub `value.m > 0` (niebieski)
+
+Ten sam wzorzec na related list: `RelatedList.js`.
+
+## Logika „nieprzeczytane” (PHP)
+
+`ModTracker\Models\Record::getUnreviewed()` — wpisy z `vtiger_modtracker_basic` (status ≠ `DISPLAYED`), od najnowszych wstecz, aż trafi na wpis z bieżącym użytkownikiem w `last_reviewed_users`.
+
+Typowe zdarzenia tworzące wpisy: edycja pól, create, delete, restore, link/unlink. Handler: `ModTracker_ModTrackerHandler_Handler`.
+
+**Autor zmiany** zwykle nie widzi badge'a — nowy wpis ma go od razu w `last_reviewed_users`; `unsetReviewed()` czyści marker na poprzednim wpisie.
+
+## Oznaczenie jako przeczytane
+
+- Wejście w historię / review na DetailView → `setLastReviewed()`
+- Masowo na liście: akcja **LBL_REVIEW_CHANGES** (`ListView.php` → `ChangesReviewedOn/reviewChanges`), wymaga `ReviewingUpdates` i `currentUser->getId() === getRealId()`
+
+## Powiązane, ale inne
+
+| Feature | Uwagi |
+|---|---|
+| Dzwonek `Notification` / Watchdog | Nagłówek CRM; wymaga `WATCHDOG` + obserwowania modułu/rekordu |
+| `timeLineIconList` | Osobna ikona timeline; domyślnie wyłączona (`SHOW_TIMELINE_IN_LISTVIEW => []`) |
+| Pole `was_read` | Osobny mechanizm na `vtiger_crmentity`; nie steruje badge'ami listy |
+
+## Kluczowe pliki
+
+- Config: `config/modules/ModTracker.php`
+- Szablon: `layouts/basic/modules/Base/ListViewLeftSide.tpl`
+- JS: `public/layouts/basic/modules/Base/resources/ListView.js` (`registerUnreviewedCountEvent`)
+- Akcja AJAX: `src/Modules/ModTracker/Actions/ChangesReviewedOn.php`
+- Model: `src/Modules/ModTracker/Models/Record.php` (`getUnreviewed`, `setLastReviewed`)
+- Włączanie śledzenia modułu: `src/Modules/ModTracker/ModTracker.php` → `vtiger_modtracker_tabs`

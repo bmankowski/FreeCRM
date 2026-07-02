@@ -27,6 +27,7 @@ Then check module overrides:
 
 - Prefer extending existing module `ListView.js`; avoid editing base unless a cross-module fix is required.
 - Keep behavior consistent with `selected_ids`, `excluded_ids`, `viewname`, `search_params`.
+- **Mass action `selected_ids` encoding:** `readSelectedIds(true)` already JSON-stringifies arrays — pass as-is in `postData`/URL (`triggerQuickExportToExcel`, `triggerExportAction`). Form POST with hidden input: use `readSelectedIds()` / `readExcludedIds()` (array or `'all'`), then **one** `JSON.stringify` on submit (`triggerExportCvZip`). `readSelectedIds(true)` + `JSON.stringify` double-encodes → PHP `count(string)` fatal in `Mass::getRecordsListFromRequest()`. For `'all'`, expand from `.listViewEntries` with `readExcludedIds()` (not `…(true)`).
 - After replacing list HTML, ensure events are re-registered for pagination, search controls, and row actions.
 - Avoid duplicate bindings: use scoped `.off(...).on(...)` for reloaded DOM.
 - Do not add fallback or legacy branches.
@@ -76,6 +77,15 @@ A–Z index that filters the list by the **first letter** of the module's main s
 - **Modal:** hidden `.alphabetModal` from `layouts/basic/modules/Base/ListViewAlphabet.tpl`; letters come from `LBL_ALPHABETS` (PL list includes Ą Ć Ł Ń Ó Ś Ź Ż).
 - **JS:** `ListSearch.js` `registerAlphabetClick` / `registerEventForAlphabetSearch`; click sends `search_key` (= `#alphabetSearchKey`), `search_value` (letter), `operator: 's'` (starts with), then `reloadList`. "Wyczyść/Usuń filtrowanie" (`removeAlfabetCondition`) reloads with empty search.
 - **Backend:** `Base\Models\ListView::loadListViewCondition()` — single letter expands to `[upper, lower]` before `addBaseSearchConditions(..., 's')`.
+
+## List search row — date range picker (Enter + blur)
+
+Range calendar on the list filter row: `ListSearch.js` → `registerDateListSearch()` (3 calendars, `mode: 'range'`, `.rangeCalendar`). Used for `date` and `datetime` columns (e.g. `createdtime` via `DateFieldSearchView.tpl`).
+
+- **Accept on blur:** clicking outside closes picker → `onHide` → `DatePicker.onHide`; with `AUTO_REFRESH_RECORD_LIST_ON_SELECT_CHANGE` (`#autoRefreshListOnChange`), search runs when value changed.
+- **Accept on Enter:** `registerDateListSearchEnterKey()` — document-level `keydown.listSearchDateEnter` (not input-only). After picking days in the popup, focus is often on the calendar anchor/body, so an input handler misses Enter. `resolveDateListSearchField()` maps open `.rangeCalendar:visible` → matching `input.dateField.listSearchContributor` in the list container; then `acceptDateListSearch()` (sync via `DatePickerGetDate`, `onHide`, hide) + `triggerListSearch()`.
+- **Picker lib:** `public/libraries/jquery/datepicker/js/datepicker.js` — Enter on input while open dispatches `mousedown` on `body` (same close path as blur). Minify `datepicker.js` + `ListSearch.js` together after edits.
+- **Also used on:** DetailView related lists (`RelatedList.js` → same `YetiForce_ListSearch_Js` instance on `div.contents`).
 
 ## Mass edit (MassActionAjax + CKEditor)
 

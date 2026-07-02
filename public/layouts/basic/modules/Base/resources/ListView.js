@@ -134,9 +134,9 @@ jQuery.Class("Vtiger_ListView_Js", {
 			listInstance.noRecordSelectedAlert();
 			return;
 		}
-		var selectedIds = listInstance.readSelectedIds(true);
-		var excludedIds = listInstance.readExcludedIds(true);
+		var selectedIds = listInstance.readSelectedIds();
 		if (selectedIds === 'all') {
+			var excludedIds = listInstance.readExcludedIds();
 			selectedIds = [];
 			listInstance.getListViewContainer().find('.listViewEntries').each(function () {
 				var rowId = String(jQuery(this).data('id'));
