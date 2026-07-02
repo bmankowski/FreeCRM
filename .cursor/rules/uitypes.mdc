@@ -106,6 +106,18 @@ Looks like Multipicklist (`email_template_type`): Select2 `select2-selection--mu
 - **Init order:** `app.changeSelectElementView()` runs on `document.ready` before `registerMultiReferenceFields()` — destroy existing Select2 and reinit with `tags: false`, `minimumResultsForSearch: Infinity`. Popup via `select2:opening` (preventDefault) + `openPopUp`; selection event `Vtiger.MultiReference.Selection`.
 - **Remove chip (×):** mousedown on `.select2-selection__choice__remove` sets Select2 `unselecting` flag (same as `app.js`) so `select2:opening` / search-field focus do not reopen the popup.
 
+### Image display URLs (uitype 69, 311)
+
+Never use raw `storage/…` or `getImageDetails()['path']` in `<img src>`. Naming (no `getImagePath`):
+
+| uitype | Web URL in templates/PHP |
+|---|---|
+| 69 (Users photo) | `$RECORD->getImageWebUrl()` |
+| 311 (`MultiImage`) | `$FIELD_MODEL->getUITypeModel()->getImageWebUrl($attachmentId, $recordId)` |
+| Other record images | `$IMAGE_INFO.url` from `getImageDetails()` (already `file.php?…`) |
+
+Details: `documents-storage.mdc` → Image URL API.
+
 ---
 
 ## Record autonumbering (uitype 3/4 → `RecordNumber`)

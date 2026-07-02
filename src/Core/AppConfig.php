@@ -60,8 +60,7 @@ class AppConfig
 					if (isset(self::$modules[$module][$key])) {
 						return self::$modules[$module][$key];
 					}
-					\App\Log\Log::warning("Parameter does not exist: $module, $key");
-					return null;
+					return false;
 			}
 		}
 		$fileName = 'config/modules/' . $module . '.php';

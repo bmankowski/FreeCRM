@@ -16,6 +16,8 @@ $DEBUG_CONFIG = [
 	'LOG_LEVELS' => ['error', 'warning'],
 	// Level of saved/displayed tracerts. // Values: int
 	'LOG_TRACE_LEVEL' => 0,
+	// Log each HTTP request handled by WebUI to cache/logs/http-requests.log
+	'LOG_HTTP_REQUESTS' => true,
 	// Display Main Debug Console
 	'DISPLAY_DEBUG_CONSOLE' => false,
 	// List of IP addresses allowed to display debug console

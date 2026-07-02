@@ -28,6 +28,12 @@ alwaysApply: false
 - **When to check**: After every meaningful change, before considering the task complete.
 - **Request context block**: Each flush appends `$_GET`/`$_POST`/`$_FILES`/`$_SESSION` via `App\Log\FileTarget::getContextMessage()`. Mail HTML in `$_POST.content` (and related body keys) is masked — `*** (N chars)`. Other large POST fields still appear in full.
 
+### `cache/logs/http-requests.log`
+- **Purpose**: One line per HTTP request through `WebUI` (when `LOG_HTTP_REQUESTS` is true in `config/debug.php`).
+- **Hook**: `WebUI::handleRequest()` — logs raw `$_GET` before defaults, then resolved `module`/`view`/`action`/`mode`, `ajax` flag, `referer`.
+- **Use when**: Tracing unexpected AJAX (e.g. empty `raw_get=[]` GET routed to `Home`/`DashBoard`), correlating parallel requests with the page that triggered them (`referer`).
+- **Note**: POST params are not logged (only resolved routing from request object); `raw_get=[]` on POST is normal (`AppConnector` sends body, not query string).
+
 ### `cache/logs/cron.log`
 - **Purpose**: stdout from `cron/vtigercron.php`.
 - See `cron.mdc` for cron debugging details.

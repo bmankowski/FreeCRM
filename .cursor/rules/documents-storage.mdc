@@ -12,7 +12,8 @@ globs:
   - "src/Modules/EmailTemplates/Models/TemplateAttachment.php"
   - "src/Modules/Mail/**"
   - "src/Modules/HelpDesk/Files/Image.php"
-  - "src/Modules/**/Files/Image.php"
+  - "src/Modules/Users/Models/Record.php"
+  - "src/Modules/Base/UiTypes/MultiImage.php"
 alwaysApply: false
 ---
 
@@ -82,7 +83,7 @@ Post-migrate: `bin/regenerate_user_privileges.php`; clear `cache/templates_c/*.p
 - **Missing `vtiger_field` for `storage_path`:** DB row has a path, `getInstanceById` returns `storage_path = NULL`, `DownloadFile` exits with empty body. Verify with `Record::getInstanceById($id, 'Documents')->get('storage_path')`.
 - **Internal doc without blob:** `location_type='internal'`, `active=1`, `storage_path IS NULL` → deactivate (`active=0`); mail/template send skips via `realpath` failure.
 - **Migration collation:** `s_yf_record_files` uses `utf8` (not `utf8mb4`) to match legacy `vtiger_*` string compares; cross-table `NOT EXISTS` may need `CONVERT(... USING utf8)`.
-- **User photos:** migrated from dropped `vtiger_salesmanattachmentsrel` into `s_yf_record_files`; image URLs use `record` only (no `attachment` id) — e.g. HelpDesk `file.php?module=HelpDesk&action=Image&record=…`.
+- **User photos:** `s_yf_record_files`; URL `file.php?module=Users&action=Image&record=…` (`Users\Models\Record::getImageWebUrl()`). Disk path: `getImageRelativePath()` — **never** put `storage/…` in `<img src>` (nginx root is `public/`). Upload normalized once to **300×300 PNG** (`USER_PHOTO_SIZE`, ImageMagick in `normalizeUploadedUserPhotoFile()`). Single file — CSS scales for list (~50px), timeline (~40px), header (~70px); separate thumbnail sizes not used.
 - **Products multi-image:** `saveUploadedFile(..., $replace = false)` appends rows; single-image modules use `$replace = true`.
 - **Related list filename download:** `Documents.php` `$relationFields` omits `storage_path` — related-list rows never load it. `DocumentsFileUpload::getDisplayValue` must **not** gate the download `<a>` on `storage_path`; match `DetailView` (`active` + `original_name` + `location_type=internal`). `DownloadFile` loads the full record server-side. **Title** (`notes_title`, name field) still links to detail; **File Name** (`original_name`, uitype 28) is the download link in `RelatedListContents.tpl`.
 
@@ -95,3 +96,17 @@ Zero hits in `scheme.sql`, `data.sql`, runtime `src/` for **dropped** identifier
 Post-rebuild footguns (old column names that survived initial pass): `Module::getSpecificRelationQuery` → `active`; `Relation::getAttachments` `setCustomColumn` → `mime_type`; `RelatedList::prepareDocumentsRelatedListData` → `get('mime_type')`.
 
 Fresh install: `getAttachments` relatedlist seeds were removed from `data.sql`/`Base4.php`; run `m260613_000006` after install (or re-seed from that migration’s `MODULES` list).
+
+## Image URL API (no `getImagePath`)
+
+`getImagePath()` removed from FreeCRM runtime — do not reintroduce. Use context-specific methods:
+
+| Context | Web URL (`<img src>`) | Disk path (PHP `readfile` / unlink) |
+|---|---|---|
+| User avatar | `Users\Models\Record::getImageWebUrl()` | `getImageRelativePath()` |
+| Record/module image via `file.php` | `MultiImage::getImageWebUrl($attachmentId, $recordId)` | `RecordFile::resolveAbsolutePath()` |
+| ModComments avatar | `ModComments\Models\Record::getImageWebUrl()` | — |
+| Company logo model | `Base\Models\Image::getImageWebUrl()` (`imageUrl` from Company) | `Company::getLogoFilesystemPath()` |
+| Theme skin icons | `Vtiger_Theme::getThemeImageWebUrl()` or Smarty `vimage_path()` | `Loader::resolveNameToPath('~layouts/…')` |
+
+Serve handler: `src/Modules/Users/Files/Image.php` (not legacy `files/Image.php`).

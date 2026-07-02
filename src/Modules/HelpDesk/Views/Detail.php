@@ -57,7 +57,7 @@ class Detail  extends \App\Modules\Base\Views\Detail
 			$data = $moduleModel->getTimeUsers($recordId, $moduleName);
 		$viewer->assign('MODULE_NAME', $moduleName);
 		$viewer->assign('DATA', $data);
-		$viewer->view('charts/ShowTimeHelpDesk.tpl', $moduleName);
+		return $viewer->view('charts/ShowTimeHelpDesk.tpl', $moduleName, true);
 	}
 
 	public function showRelatedProductsServices(\App\Http\Vtiger_Request $request)

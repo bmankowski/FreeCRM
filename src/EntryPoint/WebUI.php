@@ -460,7 +460,9 @@ class WebUI extends EntryPoint
 	 */
 	private function handleRequest(\App\Http\Vtiger_Request $request, $currentUser)
 	{
+		$rawGet = $_GET ?? [];
 		$this->resolveModuleAndView($request);
+		$this->logHttpRequest($request, $rawGet);
 
 		$module = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -789,6 +791,35 @@ class WebUI extends EntryPoint
 		}
 
 		return 'OperationNotPermitted.tpl';
+	}
+
+	/**
+	 * Log incoming HTTP request (raw GET + resolved routing).
+	 */
+	private function logHttpRequest(\App\Http\Vtiger_Request $request, array $rawGet): void
+	{
+		if (!\App\Core\AppConfig::debug('LOG_HTTP_REQUESTS')) {
+			return;
+		}
+
+		$line = sprintf(
+			'%s %s | ajax=%d | raw_get=%s | module=%s | view=%s | action=%s | mode=%s | referer=%s',
+			$_SERVER['REQUEST_METHOD'] ?? '?',
+			$_SERVER['REQUEST_URI'] ?? '?',
+			$request->isAjax() ? 1 : 0,
+			json_encode($rawGet, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?: '{}',
+			$request->getModule() ?: '-',
+			$request->get('view') ?: '-',
+			$request->get('action') ?: '-',
+			$request->get('mode') ?: '-',
+			$_SERVER['HTTP_REFERER'] ?? '-'
+		);
+
+		file_put_contents(
+			ROOT_DIRECTORY . '/cache/logs/http-requests.log',
+			date('Y-m-d H:i:s') . ' ' . $line . "\n",
+			FILE_APPEND | LOCK_EX
+		);
 	}
 
 	/**

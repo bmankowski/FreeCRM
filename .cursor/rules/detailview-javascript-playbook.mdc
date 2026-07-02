@@ -23,6 +23,18 @@ Then check module overrides:
 - Runtime actions commonly use `Vtiger_Detail_Js.getInstance()` singleton.
 - Backend script wiring for detail pages is in `src/Modules/Base/Views/Detail.php` (`getFooterScripts()`).
 
+### Expected AJAX on page load (Summary tab)
+
+`Detail.js` `registerEvents()` always calls `loadWidgets()` when `.detailViewContainer` exists — not only after inline save. Per configured `vtiger_widgets` row, each `widgetContainer_*` fires a GET (`showRecentComments`, `showRecentActivities`, `getActivities`, `Mail/Widget`, `showRelatedRecords`, …). Then `registerRelatedModulesRecordCount()` POSTs `RelationAjax`/`getRelatedListPageCount` for tabs with `data-count="1"` (e.g. Updates when `ModTracker UNREVIEWED_COUNT`).
+
+Globally on every page: `Vtiger_Index_Js.registerReminders()` → POST `Calendar/Reminders` and `Notification/Reminders` (if user has intervals set).
+
+Use `cache/logs/http-requests.log` to verify; a burst of ~5 widget GETs + reminders on Detail open is normal.
+
+### AppConnector empty-request pitfall
+
+`AppConnector._request()` with `type: GET` and empty/missing `data` hits `index.php` with no params → `WebUI` defaults logged-in user to `Home`/`DashBoard`. This is **not** part of inline field save (`SaveAjax` is POST). Suspect `loadWidget()` / `loadContents()` with empty `data-url`. Console `GET /` 500 often means this misroute, not a failed save.
+
 ## Inline edit (DetailView fields)
 
 Two paths — do not mix them for the same field type.
