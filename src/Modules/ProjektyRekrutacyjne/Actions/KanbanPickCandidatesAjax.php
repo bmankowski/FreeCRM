@@ -59,9 +59,16 @@ class KanbanPickCandidatesAjax extends \App\Base\Controllers\BaseActionControlle
 		$pageLimit = $pagingModel->getPageLimit();
 		$pageCount = max(1, (int) ceil($totalCount / max(1, $pageLimit)));
 
+		$candidateIds = [];
+		foreach ($entries as $entry) {
+			$candidateIds[] = (int) $entry->getId();
+		}
+		$projectNames = KanbanCandidatePicker::projectNamesByCandidateIds($candidateIds);
+
 		$viewer = new \App\Runtime\CRM_Viewer();
 		$viewer->assign('MODULE_NAME', 'ProjektyRekrutacyjne');
 		$viewer->assign('ENTRIES', $entries);
+		$viewer->assign('PROJECT_NAMES', $projectNames);
 		$viewer->assign('PAGING_MODEL', $pagingModel);
 		$viewer->assign('PAGE_NUMBER', $pageNumber);
 		$viewer->assign('PAGE_COUNT', $pageCount);

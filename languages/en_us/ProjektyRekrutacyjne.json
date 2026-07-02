@@ -30,6 +30,7 @@
         "LBL_KANBAN_PICK_CANDIDATES_COUNT": "Found: %s",
         "LBL_KANBAN_PICK_COL_NAME": "Name",
         "LBL_KANBAN_PICK_COL_PHONE": "Phone",
+        "LBL_KANBAN_PICK_COL_PROJECTS": "Recruitment projects",
         "LBL_KANBAN_CV_PREVIEW": "CV preview",
         "LBL_MANUAL_CANDIDATES_ADDED": "Candidates added: %s",
         "LBL_MANUAL_CANDIDATES_SKIPPED": "Skipped (already in project): %s",

@@ -38,7 +38,7 @@ globs:
 - **Layout (4 tables):** (1) `PPL_MANUALLY_ADDED` alone — „Dobre kandydatury” + (+); (2) screening — 3 cols @ 33% (`.recruitment-kanban-screening`); (3–4) interview + rejections — 4 cols @ 25% each (`.recruitment-kanban-quarters`). Wrapper: `.recruitment-project-kanban`.
 - **Styles:** `public/modules/ProjektyRekrutacyjne/resources/RecruitmentProjectKanban.css` — loaded in `Views/Detail.php` → `getHeaderCss()`; minify after edit. No inline `<style>` in tpl.
 - **`loadWidgets()` does not refresh the kanban.** After manual add, update chips in the DOM (`Detail.js` → `refreshUiAfterManualCandidatesAdd`) or return candidate payloads from `AddManualCandidatesAjax`.
-- (+) button: `KanbanSearchCandidatesModal` (skills, `;`) → `KanbanPickCandidatesModal` (list + `CvTextPreview` iframe, checkbox/name/phone, AJAX paging) → `AddManualCandidatesAjax`. Filter: `CvSkillsSearch` on `cv_text`; excludes candidates already linked to project (`KanbanCandidatePicker`). Class `.js-kanban-add-manual-candidate` — white circle, gray `+`, **portal-orange** on hover/focus.
+- (+) button: `KanbanSearchCandidatesModal` (skills, `;`) → `KanbanPickCandidatesModal` (list + `CvTextPreview` iframe, checkbox/name/phone/**project names (`nazwa_projektu` via relation batch)**, AJAX paging) → `AddManualCandidatesAjax`. Filter: `CvSkillsSearch` on `cv_text`; excludes candidates already linked to project (`KanbanCandidatePicker`). Class `.js-kanban-add-manual-candidate` — white circle, gray `+`, **portal-orange** on hover/focus.
 
 ## Manual-add UX (do not regress)
 

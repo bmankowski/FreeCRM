@@ -131,6 +131,15 @@
 	text-align: center;
 }
 
+.kanban-pick-candidates__col-projects {
+	max-width: 240px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	color: #555;
+	font-size: 12px;
+}
+
 .kanban-pick-candidates.is-resizing {
 	cursor: col-resize;
 	user-select: none;
