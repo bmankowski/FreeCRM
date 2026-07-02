@@ -61,9 +61,8 @@ class CvTextPreview extends \App\Modules\Base\Views\Index
 			if ($skill === '') {
 				continue;
 			}
-			$pattern = '/' . preg_quote($skill, '/') . '/iu';
 			$escaped = (string) preg_replace(
-				$pattern,
+				CvSkillsSearch::buildWordMatchPcrePattern($skill),
 				'<mark class="cv-text-preview__mark">$0</mark>',
 				$escaped
 			);

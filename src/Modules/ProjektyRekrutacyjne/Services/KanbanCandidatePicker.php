@@ -32,13 +32,7 @@ class KanbanCandidatePicker
 		$queryGenerator = $listViewModel->getQueryGenerator();
 		$queryGenerator->setFields(self::listFieldNames());
 
-		$conditions = CvSkillsSearch::buildSearchParamConditions($cvSkills);
-		if ($conditions !== []) {
-			$listViewModel->set(
-				'search_params',
-				$queryGenerator->parseBaseSearchParamsToCondition([$conditions])
-			);
-		}
+		CvSkillsSearch::applyWordMatchToQueryGenerator($queryGenerator, $cvSkills);
 
 		self::excludeProjectMembers($queryGenerator, $projectId);
 		$queryGenerator->setOrder('modifiedtime', 'DESC');

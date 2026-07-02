@@ -17,6 +17,12 @@ namespace App\Modules\Candidates\Models;
  */
 class ListView extends \App\Modules\Base\Models\ListView {
 
+	public function loadListViewCondition()
+	{
+		parent::loadListViewCondition();
+		\App\Modules\Candidates\Services\CvSkillsSearch::consumePendingWordMatch($this->getQueryGenerator());
+	}
+
     /**
      * Function to give advance links of a module.
      *
