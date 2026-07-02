@@ -9,13 +9,13 @@ namespace App\Modules\Users\Views;
  */
 
 use App\Http\Vtiger_Request;
-class SwitchUsers  extends \App\Modules\Base\Views\Index
+
+class SwitchUsers extends \App\Modules\Base\Views\BasicModal
 {
 
 	public function checkPermission(\App\Http\Vtiger_Request $request)
 	{
 		$userModel = $request->getUser();
-		// Allow admin users even if switch users are not configured
 		if (!$userModel->isAdminUser()) {
 			$switchUsers = \App\Modules\Users\Models\Module::getSwitchUsers();
 			if (empty($switchUsers)) {
@@ -24,19 +24,23 @@ class SwitchUsers  extends \App\Modules\Base\Views\Index
 		}
 	}
 
+	public function getSize(\App\Http\Vtiger_Request $request)
+	{
+		return 'modal-sm';
+	}
+
 	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
 	{
 		echo '<div class="modal fade switchUsersContainer"><div class="modal-dialog modal-sm"><div class="modal-content">';
 	}
 
-	public function postProcess(\App\Http\Vtiger_Request $request)
+	public function getModalScripts(\App\Http\Vtiger_Request $request)
 	{
-		// Close modal tags
-		echo '</div></div></div>';
-		// Output JavaScript scripts for modal
-		foreach ($this->getFooterScripts($request) as $script) {
-			echo '<script type="' . $script->getType() . '" src="' . $script->getSrc() . '"></script>';
-		}
+		$moduleName = $request->getModule();
+
+		return $this->checkAndConvertJsScripts([
+			"modules.$moduleName.resources.SwitchUsers",
+		]);
 	}
 
 	public function process(\App\Http\Vtiger_Request $request)
@@ -44,8 +48,7 @@ class SwitchUsers  extends \App\Modules\Base\Views\Index
 		$moduleName = $request->getModule();
 		$userModel = $request->getUser();
 		$users = \App\Modules\Users\Models\Module::getSwitchUsers(true);
-		
-		// For admin users, if no switch users are configured, show all active users
+
 		if ($userModel->isAdminUser() && empty($users)) {
 			$allUsers = \App\Modules\Users\Models\Record::getAll(true);
 			$users = [];
@@ -64,7 +67,7 @@ class SwitchUsers  extends \App\Modules\Base\Views\Index
 				];
 			}
 		}
-		
+
 		$userId = $request->get('id');
 		$baseUserId = \App\Http\Vtiger_Session::getRealUserId() ?? $userId;
 		unset($users[$baseUserId]);
@@ -76,17 +79,5 @@ class SwitchUsers  extends \App\Modules\Base\Views\Index
 		$this->preProcess($request);
 		$viewer->view('SwitchUsers.tpl', $moduleName);
 		$this->postProcess($request);
-	}
-
-	public function getFooterScripts(\App\Http\Vtiger_Request $request)
-	{
-		$headerScriptInstances = parent::getFooterScripts($request);
-		$moduleName = $request->getModule();
-		$jsFileNames = array(
-			"modules.$moduleName.resources.SwitchUsers",
-		);
-		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
-		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
-		return $headerScriptInstances;
 	}
 }
