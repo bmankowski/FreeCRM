@@ -118,60 +118,76 @@ Vtiger_Detail_Js(
 				if (!projectId) {
 					return;
 				}
-				const popupParams = {
-					module: 'Candidates',
-					src_module: app.getModuleName(),
-					src_record: projectId,
-					multi_select: true
-				};
-				Vtiger_Popup_Js.getInstance().show(popupParams, function (responseString) {
-					let responseData = {};
-					try {
-						responseData = JSON.parse(responseString);
-					} catch (_e) {
+				const modalUrl = 'index.php?module=' + app.getModuleName()
+					+ '&view=KanbanSearchCandidatesModal&projectId=' + encodeURIComponent(projectId);
+				app.showModalWindow(null, modalUrl);
+			});
+		},
+		openManualCandidatePopup: function (projectId, cvSkills) {
+			const thisInstance = this;
+			if (!projectId) {
+				return;
+			}
+			const popupParams = {
+				module: 'Candidates',
+				src_module: app.getModuleName(),
+				src_record: projectId,
+				multi_select: true
+			};
+			if (cvSkills) {
+				popupParams.cv_skills = cvSkills;
+			}
+			Vtiger_Popup_Js.getInstance().show(popupParams, function (responseString) {
+				let responseData = {};
+				try {
+					responseData = JSON.parse(responseString);
+				} catch (_e) {
+					return;
+				}
+				const candidateIds = Object.keys(responseData);
+				if (!candidateIds.length) {
+					return;
+				}
+				thisInstance.submitManualCandidates(projectId, candidateIds);
+			});
+		},
+		submitManualCandidates: function (projectId, candidateIds) {
+			const thisInstance = this;
+			const params = {
+				module: app.getModuleName(),
+				action: 'AddManualCandidatesAjax',
+				projectId: projectId,
+				candidateIds: JSON.stringify(candidateIds)
+			};
+			AppConnector.request(params).done(function (data) {
+				if (data.success !== true) {
+					const errMsg = (data.error && data.error.message)
+						|| (data.result && data.result.message)
+						|| app.vtranslate('PLL_ACCEPTANCE_FAILED', app.getModuleName());
+					Vtiger_Helper_Js.showPnotify({ text: errMsg, type: 'error' });
+					return;
+				}
+				const result = data.result || {};
+				if (result.skipped && result.skipped.length) {
+					const msg = app.vtranslate('LBL_MANUAL_CANDIDATES_SKIPPED', app.getModuleName())
+						.replace('%s', result.skipped.length);
+					Vtiger_Helper_Js.showPnotify({ text: msg, type: 'info' });
+				}
+				if (!result.success && (!result.added || !result.added.length)) {
+					if (result.skipped && result.skipped.length) {
 						return;
 					}
-					const candidateIds = Object.keys(responseData);
-					if (!candidateIds.length) {
-						return;
-					}
-					const params = {
-						module: app.getModuleName(),
-						action: 'AddManualCandidatesAjax',
-						projectId: projectId,
-						candidateIds: JSON.stringify(candidateIds)
-					};
-					AppConnector.request(params).done(function (data) {
-						if (data.success !== true) {
-							const errMsg = (data.error && data.error.message)
-								|| (data.result && data.result.message)
-								|| app.vtranslate('PLL_ACCEPTANCE_FAILED', app.getModuleName());
-							Vtiger_Helper_Js.showPnotify({ text: errMsg, type: 'error' });
-							return;
-						}
-						const result = data.result || {};
-						if (result.skipped && result.skipped.length) {
-							const msg = app.vtranslate('LBL_MANUAL_CANDIDATES_SKIPPED', app.getModuleName())
-								.replace('%s', result.skipped.length);
-							Vtiger_Helper_Js.showPnotify({ text: msg, type: 'info' });
-						}
-						if (!result.success && (!result.added || !result.added.length)) {
-							if (result.skipped && result.skipped.length) {
-								return;
-							}
-							const msg = result.message
-								? app.vtranslate(result.message, app.getModuleName())
-								: app.vtranslate('PLL_NO_SUCH_RECORD', app.getModuleName());
-							Vtiger_Helper_Js.showPnotify({ text: msg, type: 'error' });
-							return;
-						}
-						thisInstance.refreshUiAfterManualCandidatesAdd(result);
-					}).fail(function (_jqXHR, _textStatus, errorThrown) {
-						Vtiger_Helper_Js.showPnotify({
-							text: errorThrown || app.vtranslate('PLL_ACCEPTANCE_FAILED', app.getModuleName()),
-							type: 'error'
-						});
-					});
+					const msg = result.message
+						? app.vtranslate(result.message, app.getModuleName())
+						: app.vtranslate('PLL_NO_SUCH_RECORD', app.getModuleName());
+					Vtiger_Helper_Js.showPnotify({ text: msg, type: 'error' });
+					return;
+				}
+				thisInstance.refreshUiAfterManualCandidatesAdd(result);
+			}).fail(function (_jqXHR, _textStatus, errorThrown) {
+				Vtiger_Helper_Js.showPnotify({
+					text: errorThrown || app.vtranslate('PLL_ACCEPTANCE_FAILED', app.getModuleName()),
+					type: 'error'
 				});
 			});
 		},

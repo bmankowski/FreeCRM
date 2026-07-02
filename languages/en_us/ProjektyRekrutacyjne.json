@@ -20,6 +20,10 @@
         "PLL_REJECTION_REASON_PROJECT_CLOSED": "Recruitment process was suspended or closed",
         "LBL_RECRUITMENT_KANBAN": "Recruitment kanban",
         "LBL_ADD_MANUAL_CANDIDATE": "Add candidate",
+        "LBL_KANBAN_SEARCH_CANDIDATES_TITLE": "Search candidates by CV skills",
+        "LBL_KANBAN_CV_SKILLS": "CV skills",
+        "LBL_KANBAN_CV_SKILLS_PLACEHOLDER": "e.g. Java; Spring; SQL",
+        "LBL_KANBAN_CV_SKILLS_HINT": "Enter skills separated by semicolons. Only candidates whose CV contains all phrases will be listed.",
         "LBL_MANUAL_CANDIDATES_ADDED": "Candidates added: %s",
         "LBL_MANUAL_CANDIDATES_SKIPPED": "Skipped (already in project): %s",
         "PPL_MANUALLY_ADDED": "Manually added",
@@ -54,6 +58,7 @@
         "PLL_STATUS_TRANSITION_NOT_ALLOWED": "This status change is not allowed",
         "JS_TRANSITION_MAIL_AUTO_SENT": "Email sent automatically after status change.",
         "JS_TRANSITION_MAIL_AUTO_PARTIAL": "Some emails were sent automatically; some failed.",
-        "JS_TRANSITION_MAIL_AUTO_FAILED": "Automatic email could not be sent."
+        "JS_TRANSITION_MAIL_AUTO_FAILED": "Automatic email could not be sent.",
+        "LBL_KANBAN_CV_SKILLS_REQUIRED": "Enter at least one skill."
     }
 }

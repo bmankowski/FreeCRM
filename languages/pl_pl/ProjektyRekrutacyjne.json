@@ -39,6 +39,10 @@
         
         "LBL_RECRUITMENT_KANBAN": "Tablica Kanban rekrutacji",
         "LBL_ADD_MANUAL_CANDIDATE": "Dodaj kandydata",
+        "LBL_KANBAN_SEARCH_CANDIDATES_TITLE": "Szukaj kandydatów po umiejętnościach",
+        "LBL_KANBAN_CV_SKILLS": "Umiejętności z CV",
+        "LBL_KANBAN_CV_SKILLS_PLACEHOLDER": "np. Java; Spring; SQL",
+        "LBL_KANBAN_CV_SKILLS_HINT": "Wpisz umiejętności oddzielone średnikami. Zostaną wyświetleni kandydaci, których CV zawiera wszystkie podane frazy.",
         "LBL_MANUAL_CANDIDATES_ADDED": "Dodano kandydatów: %s",
         "LBL_MANUAL_CANDIDATES_SKIPPED": "Pominięto (już w projekcie): %s",
         "PPL_MANUALLY_ADDED": "Dobre kandydatury",
@@ -74,7 +78,8 @@
         "PLL_STATUS_TRANSITION_NOT_ALLOWED": "Ta zmiana statusu jest niedozwolona",
         "JS_TRANSITION_MAIL_AUTO_SENT": "E-mail wysłany automatycznie po zmianie statusu.",
         "JS_TRANSITION_MAIL_AUTO_PARTIAL": "Część e-maili wysłano automatycznie; część nie powiodła się.",
-        "JS_TRANSITION_MAIL_AUTO_FAILED": "Nie udało się wysłać e-maila automatycznie."
+        "JS_TRANSITION_MAIL_AUTO_FAILED": "Nie udało się wysłać e-maila automatycznie.",
+        "LBL_KANBAN_CV_SKILLS_REQUIRED": "Podaj co najmniej jedną umiejętność."
     }
 }
 

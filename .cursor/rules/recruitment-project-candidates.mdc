@@ -38,7 +38,7 @@ globs:
 - **Layout (4 tables):** (1) `PPL_MANUALLY_ADDED` alone — „Dobre kandydatury” + (+); (2) screening — 3 cols @ 33% (`.recruitment-kanban-screening`); (3–4) interview + rejections — 4 cols @ 25% each (`.recruitment-kanban-quarters`). Wrapper: `.recruitment-project-kanban`.
 - **Styles:** `public/modules/ProjektyRekrutacyjne/resources/RecruitmentProjectKanban.css` — loaded in `Views/Detail.php` → `getHeaderCss()`; minify after edit. No inline `<style>` in tpl.
 - **`loadWidgets()` does not refresh the kanban.** After manual add, update chips in the DOM (`Detail.js` → `refreshUiAfterManualCandidatesAdd`) or return candidate payloads from `AddManualCandidatesAjax`.
-- (+) button: `AddManualCandidatesAjax` + `Vtiger_Popup_Js` multi-select `Candidates`.
+- (+) button: `KanbanSearchCandidatesModal` (skills, `;`-separated) → `Candidates` popup filtered by `cv_text` (`CvSkillsSearch`, param `cv_skills`) → `AddManualCandidatesAjax` + multi-select. Class `.js-kanban-add-manual-candidate` — white circle, gray `+`, **portal-orange** (`#EC971F`) on hover/focus; styled in `RecruitmentProjectKanban.css` (no `btn-success`).
 
 ## Manual-add UX (do not regress)
 
