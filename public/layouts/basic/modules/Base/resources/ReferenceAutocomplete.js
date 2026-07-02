@@ -25,6 +25,44 @@
 		return escaped.replace(re, '<strong class="reference-ac-highlight">$1</strong>');
 	}
 
+	function decorateMenu(menuElement, minWidth) {
+		menuElement
+			.addClass('reference-ac')
+			.css({
+				'z-index': 100001,
+				'min-width': minWidth
+			});
+	}
+
+	function renderItem(ul, item, term) {
+		if (item.type === 'no results') {
+			return $('<li class="reference-ac-item reference-ac-item--empty">')
+				.append($('<div class="reference-ac-empty">').text(item.label))
+				.appendTo(ul);
+		}
+
+		var title = item.value || item.label;
+		var $row = $('<div class="reference-ac-row">');
+
+		$row.append($('<span class="reference-ac-title">').html(highlightTerm(title, term)));
+
+		if (item.subtitle) {
+			$row.append($('<span class="reference-ac-subtitle">').html(highlightTerm(item.subtitle, term)));
+		}
+
+		return $('<li class="reference-ac-item">')
+			.data('item.autocomplete', item)
+			.append($('<a>').append($row))
+			.appendTo(ul);
+	}
+
+	window.BaseReferenceAutocomplete = {
+		escapeHtml: escapeHtml,
+		highlightTerm: highlightTerm,
+		decorateMenu: decorateMenu,
+		renderItem: renderItem
+	};
+
 	$.widget('custom.referenceAutocomplete', $.ui.autocomplete, {
 		options: {
 			keepOpenOnBlurForTesting: true
@@ -36,35 +74,11 @@
 			this._super(event);
 		},
 		_renderItem: function (ul, item) {
-			if (item.type === 'no results') {
-				return $('<li class="reference-ac-item reference-ac-item--empty">')
-					.append($('<div class="reference-ac-empty">').text(item.label))
-					.appendTo(ul);
-			}
-
-			var term = this.term || '';
-			var title = item.value || item.label;
-			var $row = $('<div class="reference-ac-row">');
-
-			$row.append($('<span class="reference-ac-title">').html(highlightTerm(title, term)));
-
-			if (item.subtitle) {
-				$row.append($('<span class="reference-ac-subtitle">').html(highlightTerm(item.subtitle, term)));
-			}
-
-			return $('<li class="reference-ac-item">')
-				.data('item.autocomplete', item)
-				.append($('<a>').append($row))
-				.appendTo(ul);
+			return renderItem(ul, item, this.term || '');
 		},
 		_suggest: function (items) {
 			this._super(items);
-			this.menu.element
-				.addClass('reference-ac')
-				.css({
-					'z-index': 100001,
-					'min-width': this.element.outerWidth()
-				});
+			decorateMenu(this.menu.element, this.element.outerWidth());
 		}
 	});
 

@@ -163,8 +163,9 @@ class BasicAjax  extends \App\Modules\Base\Views\Index
 			$recordsList = [];
 			foreach ($matchingRecords as $module => &$modules) {
 				foreach ($modules as $recordID => &$recordModel) {
-					$label = \App\Utils\ListViewUtils::decodeHtml($recordModel->getName());
-					$label .= ' (' . \App\Fields\Owner::getLabel($recordModel->get('smownerid')) . ')';
+					$name = \App\Utils\ListViewUtils::decodeHtml($recordModel->getName());
+					$ownerLabel = \App\Fields\Owner::getLabel($recordModel->get('smownerid'));
+					$label = $name . ' (' . $ownerLabel . ')';
 					if (!$recordModel->get('permitted')) {
 						$label .= ' <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>';
 					}
@@ -173,6 +174,8 @@ class BasicAjax  extends \App\Modules\Base\Views\Index
 						'module' => $module,
 						'category' => \App\Runtime\Vtiger_Language_Handler::translate($module, $module),
 						'label' => $label,
+						'value' => $name,
+						'subtitle' => $ownerLabel,
 						'permitted' => $recordModel->get('permitted'),
 					];
 				}

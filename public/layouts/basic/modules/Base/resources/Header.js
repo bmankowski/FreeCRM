@@ -589,11 +589,18 @@ jQuery.Class("Vtiger_Header_Js", {
 				_renderItemData: function (ul, item) {
 					return this._renderItem(ul, item).data("ui-autocomplete-item", item);
 				},
+				_suggest: function (items) {
+					this._super(items);
+					BaseReferenceAutocomplete.decorateMenu(this.menu.element, this.element.outerWidth());
+				},
 				_renderItem: function (ul, item) {
-					return $("<li>")
-							.data("item.autocomplete", item)
-							.append($("<a></a>").html(item.label))
-							.appendTo(ul);
+					var $item = BaseReferenceAutocomplete.renderItem(ul, item, this.term || '');
+					if (item.permitted === false) {
+						$item.find('.reference-ac-title').append(
+							' <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>'
+						);
+					}
+					return $item;
 				},
 			});
 			jQuery('.globalSearchValue').gsAutocomplete({
