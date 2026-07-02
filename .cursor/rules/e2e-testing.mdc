@@ -50,3 +50,9 @@ Inspect real selectors with the `cursor-ide-browser` MCP (navigate + `Runtime.ev
 ## Conventions
 - Add the standard FreeCRM file header to new `.ts` files.
 - Keep page objects thin and reusable; assert on data (e.g. every visible "Etap sprzedaży" cell == "Aktywna"), not just row counts.
+
+## Module crawler
+
+Regression sweep (not spec tests): `./crawl.sh` exports URLs then visits each with Playwright, watching `system.log`. See `error-checking.mdc` → Module crawler for commands, log levels, resume (`--start-from`), and output files.
+
+DetailView tabs are exported per entity module (sample record + all `DETAILVIEWTAB` / `DETAILVIEWRELATED` links). Direct tab URL shape: `index.php?module=X&view=Detail&record=ID&mode=…&tab_label=…` — same params as `.related li[data-url]` on the detail page.

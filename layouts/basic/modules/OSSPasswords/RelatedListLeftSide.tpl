@@ -1,7 +1,7 @@
 {*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} --!>*}
 {strip}
 <!-- layouts/basic/modules/OSSPasswords/RelatedListLeftSide.tpl -->
-	{if $IS_FAVORITES}
+	{if isset($IS_FAVORITES) && $IS_FAVORITES}
 		{assign var=RECORD_IS_FAVORITE value=(int)in_array($RELATED_RECORD->getId(),$FAVORITES)}
 		<div>
 			<a class="favorites" data-state="{$RECORD_IS_FAVORITE}">

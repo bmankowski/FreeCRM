@@ -45,8 +45,9 @@ class Icon
 		'application/x-javascript' => 'fa fa-file-code-o',
 	];
 
-	public static function getIconByFileType($exntension)
+	public static function getIconByFileType(?string $exntension): string
 	{
+		$exntension = $exntension ?? '';
 		$explodeExtension = explode('/', $exntension);
 		$explodeExtension = reset($explodeExtension);
 		if (isset(self::$extensionIcon[$explodeExtension]))

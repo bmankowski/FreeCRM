@@ -968,6 +968,12 @@ class Detail extends \App\Modules\Base\Views\Index
 		$viewer->assign('SHOW_CREATOR_DETAIL', $relationModel->showCreatorDetail());
 		$viewer->assign('SHOW_COMMENT', $relationModel->showComment());
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+		$isFavorites = false;
+		if ($relationModel->isFavorites() && \App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'FavoriteRecords')) {
+			$viewer->assign('FAVORITES', $relationListView->getFavoriteRecords());
+			$isFavorites = true;
+		}
+		$viewer->assign('IS_FAVORITES', $isFavorites);
 		return $viewer->view('SummaryWidgets.tpl', $moduleName, true);
 	}
 

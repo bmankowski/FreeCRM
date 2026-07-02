@@ -2,7 +2,7 @@
 {strip}
 <!-- layouts/basic/modules/Documents/DetailViewDocumentRelations.tpl -->
 	{foreach from=$DATA item=REL_MODULE}
-		{$ITEM}
+		{* {$ITEM} — was here; never assigned by showDocumentRelations(), caused PHP 8 warnings *}
 		<div class="summaryWidgetContainer noSumarryWidgetEffect">
 			<div class="widgetContainer_assets2 panel panel-default" data-url="module={$MODULE_NAME}&view=Detail&record={$RECORDID}&relatedModule={$REL_MODULE}&mode=showRelatedRecords&page=1&limit={$LIMIT}">
 				<div class="panel-heading paddingTBZero widget_header">

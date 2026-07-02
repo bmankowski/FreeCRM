@@ -18,7 +18,9 @@ class RelationListView extends \App\Runtime\BaseModel
 	protected $relationModel = false;
 	protected $parentRecordModel = false;
 	protected $relatedModuleModel = false;
-	protected $mandatoryColumns = [];
+	protected $mandatoryColumns = [
+		'Documents' => ['vtiger_notes.mime_type'],
+	];
 
 	public function setRelationModel($relation)
 	{

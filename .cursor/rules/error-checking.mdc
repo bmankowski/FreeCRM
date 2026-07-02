@@ -70,6 +70,25 @@ Suite lives in `tests/e2e/` (target: `https://dev.itconnect.pl`, ~87 specs, most
 
 Login defaults to `admin` / pw in `tests/e2e/helpers/login.ts`; override with `FREECRM_USER` / `FREECRM_PASS`.
 
+## Module crawler (regression smoke)
+
+Full UI sweep — not Playwright specs; visits exported URLs and diffs `cache/logs/system.log` after each page.
+
+| Command | Purpose |
+|---------|---------|
+| `./crawl.sh` | Export URLs + crawl (stop on first failure, log level `errors`) |
+| `npm run crawl:modules -- [opts]` | Same via npm |
+| `./crawl.sh --continue-on-fail --log-level warnings` | Visit all URLs; report at end |
+| `./crawl.sh --start-from N` | Resume at URL N (1-based) |
+
+Pipeline: `scripts/export-crawl-urls.php` → `tests/e2e/.crawl-urls.json` → `tests/e2e/scripts/module-crawler.ts`. Playwright runs in Docker (`FREECRM_PLAYWRIGHT_IMAGE`); target `https://dev.itconnect.pl`.
+
+**Exported views:** ListView, ListPreview, DashBoard, Edit (where permitted). **Entity modules** also get every DetailView tab for one sample record (latest `vtiger_crmentity.crmid` with `DetailView` + `isViewable()`): summary, details, comments, updates, related lists — URLs from `DetailView::getDetailViewLinks()` with `tab_label` (same as `RelatedListButtons.tpl`). Report labels: `Detail:LBL_RECORD_SUMMARY`, `Detail:Calendar`, …
+
+**Pitfall:** `Link::getUrl()` returns HTML entities (`&amp;`) — export must `html_entity_decode` before crawl.
+
+Output (gitignored): `tests/e2e/.crawl-urls.json`, `.crawl-report.json`, `.crawl-run.log`. Help: `./crawl.sh --help`.
+
 **WSL / Ubuntu 26.04 quirk (already handled by the `pw` wrapper script):** Playwright 1.40 has no Ubuntu 26.04 build and the `node_modules/.bin/playwright` symlink isn't executable. The `pw` script in `tests/e2e/package.json` sets `PLAYWRIGHT_HOST_PLATFORM_OVERRIDE=ubuntu24.04-x64` and invokes `node node_modules/@playwright/test/cli.js`. Use the same env override if running the CLI by hand (incl. `install chromium`). The 24.04 fallback binaries run fine on 26.04.
 
 ## ModuleManager create / delete

@@ -87,10 +87,24 @@ if (is_file($path)) {
 - Log message names the class + method; grep that class in `layouts/**/*.tpl`.
 - After fix: `rm -f cache/templates_c/*.php` and reload the page.
 
+## 5. Undefined array key "VAR" in cache/templates_c/…file.Some.tpl.php
+
+**Cause:** Smarty `{if $VAR}` compiles to direct `$_smarty_tpl->tpl_vars['VAR']->value` access. If the view never `$viewer->assign('VAR', …)`, PHP 8 logs undefined key + null property access.
+
+**Diagnose:** Log path names the compiled file — map back to `layouts/**/Some.tpl.php` (comment at top of compiled file). Grep the variable in `layouts/**/*.tpl` and `$viewer->assign('VAR'` in `src/`.
+
+**Fix (both when possible):**
+1. **Controller:** every code path that renders the template must assign the variable (default `false` / `[]` is fine).
+2. **Template:** optional vars across callers → `{if isset($VAR) && $VAR}` (not bare `{if $VAR}`).
+
+**Common pitfall — related list left column:** `RelatedListLeftSide.tpl` uses `$IS_FAVORITES`. Full tab: `RelatedList.php` assigns it. Summary/detail widgets: `Detail::showRelatedRecords()` → `SummaryWidgets.tpl` → same left-side include — must assign the same vars (e.g. `IS_FAVORITES`, `FAVORITES`; left links via `prepareRelatedListLeftSideData()` only on the `RelatedList` view path).
+
+**Stray template output:** `{ $FOO }` with no assign site is often leftover debug — comment or remove; do not leave bare references.
+
 ## Workflow
 
 1. Reproduce via browser (not CLI-only) and read `cache/logs/system.log`.
-2. Identify pattern from message (dynamic property / false→array / stat failed).
+2. Identify pattern from message (dynamic property / false→array / stat failed / undefined Smarty var).
 3. Apply the matching fix above — minimal diff, no compat shims.
 4. Reload the page; confirm the warning is gone and behaviour unchanged.
 
@@ -103,5 +117,6 @@ rg "vresource_url" layouts/ src/
 rg "listViewEntries|listViewCount" src/ --glob '**/Views/Pagination.php'
 rg "\\\\App\\\\" layouts/ --glob '*.tpl'   # Smarty static calls — refactor or registerClass
 rg "registerClass\(" src/Runtime/CRM_Viewer.php   # audit dead registrations after tpl refactor
+rg "IS_FAVORITES|prepareRelatedListLeftSideData" src/ --glob '*.php'   # related-list left side assign parity
 rg "Kandydaci|fieldmodulerel" migrations/ bin/   # module-rename leftovers
 ```

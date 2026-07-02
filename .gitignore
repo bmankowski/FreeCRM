@@ -32,6 +32,7 @@ tests/e2e/test-data/
 tests/e2e/.crawl-urls.json
 tests/e2e/.crawl-report.json
 tests/e2e/.crawl-run.log
+tests/e2e/.crawl-run-test.log
 /tmp/
 /.venv-sig/
 /storage/
