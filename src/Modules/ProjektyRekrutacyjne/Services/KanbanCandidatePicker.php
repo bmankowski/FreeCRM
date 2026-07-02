@@ -41,6 +41,7 @@ class KanbanCandidatePicker
 		}
 
 		self::excludeProjectMembers($queryGenerator, $projectId);
+		$queryGenerator->setOrder('modifiedtime', 'DESC');
 
 		return $listViewModel;
 	}
