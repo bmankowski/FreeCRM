@@ -1,0 +1,62 @@
+[
+  {
+    "module": "Contacts",
+    "view": "Detail:LBL_RECORD_SUMMARY",
+    "path": "index.php?module=Contacts&view=Detail&record=1444005&mode=showDetailViewByMode&requestMode=summary&tab_label=LBL_RECORD_SUMMARY"
+  },
+  {
+    "module": "Contacts",
+    "view": "Detail:LBL_RECORD_DETAILS",
+    "path": "index.php?module=Contacts&view=Detail&record=1444005&mode=showDetailViewByMode&requestMode=full&tab_label=LBL_RECORD_DETAILS"
+  },
+  {
+    "module": "Contacts",
+    "view": "Detail:ModComments",
+    "path": "index.php?module=Contacts&view=Detail&record=1444005&mode=showAllComments&tab_label=ModComments"
+  },
+  {
+    "module": "Contacts",
+    "view": "Detail:LBL_UPDATES",
+    "path": "index.php?module=Contacts&view=Detail&record=1444005&mode=showRecentActivities&page=1&tab_label=LBL_UPDATES"
+  },
+  {
+    "module": "Contacts",
+    "view": "Detail:Calendar",
+    "path": "index.php?module=Contacts&relatedModule=Calendar&view=Detail&record=1444005&mode=showRelatedList&time=current&tab_label=Activities"
+  },
+  {
+    "module": "Contacts",
+    "view": "Detail:Mail",
+    "path": "index.php?module=Contacts&relatedModule=Mail&view=Detail&record=1444005&mode=showRelatedList&tab_label=LBL_MAILS"
+  },
+  {
+    "module": "Contacts",
+    "view": "Detail:CallHistory",
+    "path": "index.php?module=Contacts&relatedModule=CallHistory&view=Detail&record=1444005&mode=showRelatedList&tab_label=CallHistory"
+  },
+  {
+    "module": "Contacts",
+    "view": "Detail:Project",
+    "path": "index.php?module=Contacts&relatedModule=Project&view=Detail&record=1444005&mode=showRelatedList&tab_label=Project"
+  },
+  {
+    "module": "Contacts",
+    "view": "Detail:Campaigns",
+    "path": "index.php?module=Contacts&relatedModule=Campaigns&view=Detail&record=1444005&mode=showRelatedList&tab_label=Campaigns"
+  },
+  {
+    "module": "Contacts",
+    "view": "Detail:ProjektyRekrutacyjne",
+    "path": "index.php?module=Contacts&relatedModule=ProjektyRekrutacyjne&view=Detail&record=1444005&mode=showRelatedList&tab_label=ProjektyRekrutacyjne"
+  },
+  {
+    "module": "Contacts",
+    "view": "Detail:Candidates",
+    "path": "index.php?module=Contacts&relatedModule=Candidates&view=Detail&record=1444005&mode=showRelatedList&tab_label=Candidates"
+  },
+  {
+    "module": "Contacts",
+    "view": "Detail:Documents",
+    "path": "index.php?module=Contacts&relatedModule=Documents&view=Detail&record=1444005&mode=showRelatedList&tab_label=Documents"
+  }
+]

@@ -9,8 +9,9 @@ FreeCRM module crawler
 ======================
 
 Visits every active CRM module (ListView, ListPreview, DashBoard, Edit where
-available), logs in as admin, and watches cache/logs/system.log for new PHP
-errors after each page load.
+available), every DetailView tab on a sample record per entity module (summary,
+details, comments, updates, related lists), logs in as admin, and watches
+cache/logs/system.log for new PHP errors after each page load.
 
 By default the crawl STOPS on the first failure (HTTP error or new log line
 at the selected severity). A JSON report and console log are written when
@@ -38,7 +39,7 @@ WHAT THE SCRIPT DOES
 --------------------
 
   1. docker compose exec app php scripts/export-crawl-urls.php
-         Writes tests/e2e/.crawl-urls.json (~360 URLs from vtiger_tab).
+         Writes tests/e2e/.crawl-urls.json (module views + DetailView tabs).
 
   2. docker run … playwright … npx tsx scripts/module-crawler.ts
          Playwright Chromium logs in and visits each URL sequentially.

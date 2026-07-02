@@ -1,3 +1,11 @@
+==> Exporting module URLs...
+    459 URLs ready
+
+==> Crawling (stop on fail, log level: errors)...
+    Report: tests/e2e/.crawl-report.json
+    Log:    tests/e2e/.crawl-run.log
+    Help:   ./crawl.sh --help
+
 Base URL:   https://dev.itconnect.pl
 Log level:  errors
 Log path:   /work/cache/logs/system.log

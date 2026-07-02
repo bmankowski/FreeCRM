@@ -9,6 +9,9 @@
  *
  * Outputs JSON array to stdout:
  *   [{"module":"Contacts","view":"ListView","path":"index.php?module=Contacts&view=ListView"}, ...]
+ *
+ * Entity modules also export every DetailView tab (summary, details, comments, related lists)
+ * for one accessible sample record per module.
  */
 
 declare(strict_types=1);
@@ -72,6 +75,104 @@ function viewFileExists(string $moduleName, string $view, bool $moduleOnly = fal
 	return false;
 }
 
+function findSampleRecordId(string $moduleName): ?int
+{
+	$id = (new \App\Db\Query())
+		->select(['crmid'])
+		->from('vtiger_crmentity')
+		->where([
+			'setype' => $moduleName,
+			'deleted' => 0,
+		])
+		->orderBy(['crmid' => SORT_DESC])
+		->scalar();
+
+	return ($id !== false && $id !== null) ? (int) $id : null;
+}
+
+function normalizeCrawlPath(string $url, string $tabLabel): string
+{
+	if ($url === '' || str_starts_with($url, 'javascript:')) {
+		return '';
+	}
+
+	$url = html_entity_decode($url, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+	if (!str_starts_with($url, 'index.php')) {
+		$url = 'index.php?' . ltrim($url, '?&');
+	}
+	if ($tabLabel !== '' && !preg_match('/(?:^|[?&])tab_label=/', $url)) {
+		$separator = str_contains($url, '?') ? '&' : '?';
+		$url .= $separator . 'tab_label=' . rawurlencode($tabLabel);
+	}
+
+	return $url;
+}
+
+function detailTabViewLabel(\App\Modules\Base\Models\Link $link): string
+{
+	if ($link->getType() === 'DETAILVIEWRELATED') {
+		$relatedModuleName = $link->get('relatedModuleName');
+		if (!empty($relatedModuleName)) {
+			return 'Detail:' . $relatedModuleName;
+		}
+	}
+
+	return 'Detail:' . $link->getLabel();
+}
+
+function appendDetailTabUrls(
+	array &$urls,
+	string $moduleName,
+	\App\Modules\Base\Models\Module $moduleModel,
+): void {
+	$detailViewName = $moduleModel->getDetailViewName();
+	if (!viewFileExists($moduleName, $detailViewName) || !$moduleModel->isPermitted('DetailView')) {
+		return;
+	}
+
+	$recordId = findSampleRecordId($moduleName);
+	if ($recordId === null || !\App\Modules\Users\Models\Privileges::isPermitted($moduleName, 'DetailView', $recordId)) {
+		return;
+	}
+
+	try {
+		$detailView = \App\Modules\Base\Models\DetailView::getInstance($moduleName, $recordId);
+		if (!$detailView->getRecord()->isViewable()) {
+			return;
+		}
+		$detailViewLinks = $detailView->getDetailViewLinks([
+			'MODULE' => $moduleName,
+			'RECORD' => $recordId,
+			'VIEW' => $detailViewName,
+		]);
+	} catch (\Throwable) {
+		return;
+	}
+
+	$tabSeen = [];
+	foreach (['DETAILVIEWTAB', 'DETAILVIEWRELATED'] as $tabType) {
+		foreach ($detailViewLinks[$tabType] ?? [] as $link) {
+			$tabLabel = $link->getLabel();
+			$dedupeKey = $tabType . ':' . $tabLabel;
+			if (isset($tabSeen[$dedupeKey])) {
+				continue;
+			}
+
+			$path = normalizeCrawlPath($link->getUrl(), $tabLabel);
+			if ($path === '') {
+				continue;
+			}
+
+			$tabSeen[$dedupeKey] = true;
+			$urls[] = [
+				'module' => $moduleName,
+				'view' => detailTabViewLabel($link),
+				'path' => $path,
+			];
+		}
+	}
+}
+
 $rows = (new \App\Db\Query())
 	->select(['name', 'isentitytype'])
 	->from('vtiger_tab')
@@ -133,6 +234,10 @@ foreach ($rows as $row) {
 			'view' => $view,
 			'path' => 'index.php?module=' . rawurlencode($moduleName) . '&view=' . rawurlencode($view),
 		];
+	}
+
+	if ($isEntity) {
+		appendDetailTabUrls($urls, $moduleName, $moduleModel);
 	}
 }
 

@@ -61,8 +61,9 @@ interface CrawlerConfig {
 function printHelp(): void {
 	console.log(`FreeCRM module crawler (module-crawler.ts)
 
-Visits module URLs from a JSON file, logs in via Playwright, and diffs
-cache/logs/system.log after each page load.
+Visits module URLs from a JSON file (including DetailView tabs exported by
+export-crawl-urls.php), logs in via Playwright, and diffs cache/logs/system.log
+after each page load.
 
 Usage:
   npx tsx scripts/module-crawler.ts [options]
