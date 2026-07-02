@@ -33,7 +33,7 @@ final class PrivilegesUpdaterTask extends AbstractCronTask
 
 		$dataReader = (new \App\Db\Query())
 			->from('u_#__crmentity_search_label')
-			->where(['userid' => ''])
+			->where(['or', ['userid' => ''], ['userid' => null]])
 			->limit($limit)
 			->createCommand()->query();
 
