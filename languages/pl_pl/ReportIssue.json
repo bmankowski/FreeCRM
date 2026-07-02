@@ -13,7 +13,7 @@
         "LBL_REPORT_ISSUE_SUBMIT_FAILED": "Nie udało się wysłać zgłoszenia. Spróbuj ponownie.",
         "LBL_REPORT_ISSUE_GITHUB_ERROR": "Ticket został zapisany, ale utworzenie issue w GitHubie nie powiodło się.",
         "LBL_REPORT_ISSUE_NO_HTML2CANVAS": "Biblioteka zrzutów ekranu nie jest dostępna.",
-        "LBL_REPORT_ISSUE_REQUIRED_FIELDS": "Tytuł i opis są wymagane."
+        "LBL_REPORT_ISSUE_REQUIRED_FIELDS": "Tytuł jest wymagany."
     },
     "jsLanguageStrings": {
         "LBL_REPORT_ISSUE_SCREENSHOT_LOADING": "Robię zrzut ekranu…",

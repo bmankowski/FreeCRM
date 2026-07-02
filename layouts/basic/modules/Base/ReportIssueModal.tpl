@@ -16,9 +16,8 @@
 						data-validation-engine="validate[required]" />
 				</div>
 				<div class="form-group">
-					<label for="reportIssueDescription"><span class="redColor">*</span> {"LBL_REPORT_ISSUE_DESCRIPTION"|t:"ReportIssue"}</label>
-					<textarea id="reportIssueDescription" class="form-control" rows="4"
-						data-validation-engine="validate[required]"></textarea>
+					<label for="reportIssueDescription">{"LBL_REPORT_ISSUE_DESCRIPTION"|t:"ReportIssue"}</label>
+					<textarea id="reportIssueDescription" class="form-control" rows="4"></textarea>
 				</div>
 				<div class="form-group">
 					<label for="reportIssuePageUrl">{"LBL_REPORT_ISSUE_PAGE_URL"|t:"ReportIssue"}</label>

@@ -23,7 +23,7 @@ class ReportIssue extends \App\Base\Controllers\BaseActionController
 	{
 		$title = trim((string) $request->get('title'));
 		$description = trim((string) $request->get('description'));
-		if ($title === '' || $description === '') {
+		if ($title === '') {
 			throw new \App\Exceptions\AppException('LBL_REPORT_ISSUE_REQUIRED_FIELDS');
 		}
 

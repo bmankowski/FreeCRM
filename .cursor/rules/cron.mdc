@@ -44,6 +44,14 @@ Single handler: **`Outbound::deliverFromQueueRow()`** for every row (cron + Sett
 - Queue **`params` TEXT** column required (`m260701_000001_mail_queue_params_column`).
 - Queue **attachments:** must be durable paths (`storage/Mail/…` via `pathMapForSend` at enqueue). Cron re-resolves queue JSON; if empty, `deliverFromQueueRow` falls back to CRM `u_yf_mail_attachments`.
 
+## `LBL_PRIVILEGES_UPDATER` (`PrivilegesUpdaterTask`)
+
+Rebuilds `u_yf_crmentity_search_label.userid` and `vtiger_crmentity.users` for reference/global search. Edit autocomplete (`BasicAjax` → `RecordSearch`) filters `userid LIKE '%,{currentUserId},%'` — **NULL/empty `userid` → record invisible in search** even when the label row exists.
+
+- After bulk import/sync: run cron or `\App\Security\PrivilegeUpdater::updateSearch($crmid, $setype)` / `update()` in batch.
+- Cron pass 2 must match **both** `userid = ''` **and** `userid IS NULL` (Vendors/Accounts rows often have NULL sequence/userid after import).
+- Diagnose: `SELECT crmid, searchlabel, userid FROM u_yf_crmentity_search_label WHERE crmid = ?` — compare with `vtiger_crmentity.users`.
+
 ## LinkAction import (`LBL_LINK_ACTION_IMPORT`)
 
 - Handler: `LinkAction\Cron\ImportTask` — fetch → import → ack. See `link-action.mdc`.

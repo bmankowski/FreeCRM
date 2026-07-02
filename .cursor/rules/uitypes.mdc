@@ -205,6 +205,12 @@ Use `getUiTypeName(): string` (which has a return type) when you need a typed ca
 - **Save contract:** same as other inline edits — `SaveAjax` with `field` + `value` (CRM id); `Reference::getDBValue()` normalizes empty → `0`; response `display_value` is HTML link.
 - **Do not** render hidden `.edit` + `Reference.tpl` in DetailView cells — use modal (`ReferenceEditModal`) only.
 
+### Reference autocomplete (uitype 10) — empty search results
+Edit/QuickCreate `.autoComplete` → `BasicAjax` → `Module::searchRecord()` → `RecordSearch` on `u_yf_crmentity_search_label` with `userid LIKE '%,{userId},%'`. Missing `userid` on the label row = no hits. Fix via `PrivilegeUpdater` (see `cron.mdc` → `LBL_PRIVILEGES_UPDATER`). Popup search (`relatedPopup`) uses a different path and may still work.
+
+### Multi-module reference (uitype 10) — dropdown order
+Target modules from `vtiger_fieldmodulerel`, ordered `sequence ASC` in `Field::getReferenceList()`. **NULL `sequence` sorts before numbers** — e.g. HelpDesk `parent_id` had Vendors (NULL) before Accounts (1). Set explicit sequences (Accounts=1, Vendors=2); migration `m260702_000001_helpdesk_parent_id_accounts_before_vendors.php`.
+
 ### uitype 33 — renderer and semantic type must both be multipicklist
 LayoutEditor creates `MultiSelectCombo` as uitype **33** (`Settings/LayoutEditor/Models/Module.php`). If `UITYPE_CLASS_MAP` or `SEMANTIC_TYPE_MAP` treats 33 as single `picklist`:
 - DetailView shows raw ` \|##\|` delimiters instead of comma-separated labels

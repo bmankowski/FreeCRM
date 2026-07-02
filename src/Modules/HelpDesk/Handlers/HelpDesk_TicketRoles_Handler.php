@@ -24,6 +24,8 @@ class HelpDesk_TicketRoles_Handler
 			return;
 		}
 
+		$this->applyUniqueActiveServiceContract($recordModel);
+
 		if ($recordModel->isNew() && empty($recordModel->get('business_id'))) {
 			$reporterId = (int) $recordModel->get('created_user_id');
 			if ($reporterId <= 0) {
@@ -52,5 +54,31 @@ class HelpDesk_TicketRoles_Handler
 		}
 
 		$recordModel->set('assigned_user_id', $developerId);
+	}
+
+	private function applyUniqueActiveServiceContract(\App\Modules\Base\Models\Record $recordModel): void
+	{
+		if ((int) $recordModel->get('servicecontractsid') > 0) {
+			return;
+		}
+		$parentId = (int) $recordModel->get('parent_id');
+		if ($parentId <= 0) {
+			return;
+		}
+		if (!\App\Core\AppConfig::module('HelpDesk', 'CHECK_SERVICE_CONTRACTS_EXISTS')) {
+			return;
+		}
+		$serviceContractsModule = \App\Modules\Base\Models\Module::getInstance('ServiceContracts');
+		if ($serviceContractsModule === false || !$serviceContractsModule->isActive()) {
+			return;
+		}
+
+		/** @var \App\Modules\HelpDesk\Models\Record $recordModel */
+		$contracts = $recordModel->getActiveServiceContracts();
+		if (count($contracts) !== 1) {
+			return;
+		}
+
+		$recordModel->set('servicecontractsid', (int) $contracts[0]['servicecontractsid']);
 	}
 }

@@ -5911,7 +5911,7 @@ class Base2 extends \App\Db\Importers\Base
 					[1655, 'LettersIn', 'Vendors', NULL, NULL],
 					[1677, 'LettersOut', 'OSSEmployees', NULL, NULL],
 					[1655, 'LettersIn', 'OSSEmployees', NULL, NULL],
-					[157, 'HelpDesk', 'Vendors', NULL, NULL],
+					[157, 'HelpDesk', 'Vendors', NULL, 2],
 					[635, 'Project', 'Vendors', NULL, NULL],
 					[1761, 'Events', 'Calendar', NULL, NULL],
 					[1762, 'Calendar', 'Calendar', NULL, NULL],

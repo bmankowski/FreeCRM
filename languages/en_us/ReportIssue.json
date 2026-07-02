@@ -13,7 +13,7 @@
         "LBL_REPORT_ISSUE_SUBMIT_FAILED": "Could not submit the report. Please try again.",
         "LBL_REPORT_ISSUE_GITHUB_ERROR": "The ticket was saved, but creating the GitHub issue failed.",
         "LBL_REPORT_ISSUE_NO_HTML2CANVAS": "Screenshot library is not available.",
-        "LBL_REPORT_ISSUE_REQUIRED_FIELDS": "Title and description are required."
+        "LBL_REPORT_ISSUE_REQUIRED_FIELDS": "Title is required."
     },
     "jsLanguageStrings": {
         "LBL_REPORT_ISSUE_SCREENSHOT_LOADING": "Capturing screenshot…",

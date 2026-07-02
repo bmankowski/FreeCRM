@@ -43,18 +43,34 @@ Stałe statusów i `isDevActiveStatus()` — tylko w `HelpDesk\Models\DetailView
 | Modal tpl | `layouts/basic/modules/HelpDesk/TicketWorkflowModal.tpl` |
 | Submit JS | `public/layouts/basic/modules/HelpDesk/resources/Detail.js` → `.js-ticket-workflow-submit` |
 | Auto-defaults | `src/Modules/HelpDesk/Handlers/HelpDesk_TicketRoles_Handler.php` (`EntityBeforeSave`) |
+| Aktywne umowy SLA | `src/Modules/HelpDesk/Models/Record.php` → `getActiveServiceContracts()` |
+| Alert braku SLA | `layouts/basic/modules/HelpDesk/DetailViewHeaderTitle.tpl` |
 | Migracja pól | `migrations/Users/m260630_000001_helpdesk_ticket_roles.php` |
 
 Modal musi dziedziczyć po `BasicModal` — patrz `main-layout-views.mdc`. Handler wymaga wpisu w `EventHandler::$classNameMap` — patrz `architecture.mdc`.
 
 ## Handler BeforeSave (nie nadpisuje workflow)
 
+- `servicecontractsid`: gdy puste, `parent_id` ustawione, `CHECK_SERVICE_CONTRACTS_EXISTS` + aktywny moduł ServiceContracts — jeśli kontrahent ma **dokładnie jedną** umowę `In Progress` (`Record::getActiveServiceContracts()`), ustaw ją automatycznie; 0 lub >1 → bez zmian (DetailView pokazuje alert z ręcznym wyborem).
 - Nowy rekord: `business_id` ← `created_user_id` (fallback: `CurrentUser::getId()`).
 - Zmiana `developer_id` + status dev-aktywny → `assigned_user_id` ← `developer_id`.
 - **Nie** zmienia `assigned_user_id` przy samej zmianie statusu — to robi `TicketWorkflowAjax`.
+
+## Umowa SLA (`servicecontractsid`)
+
+- Aktywne umowy kontrahenta: `HelpDesk\Models\Record::getActiveServiceContracts()` — `contract_status = In Progress`, `sc_related_to = parent_id`, z filtrem uprawnień.
+- Brak umowy na DetailView: alert w `DetailViewHeaderTitle.tpl` (żółty z listą do kliknięcia / czerwony gdy brak aktywnych); wyłącz walidację: `config/modules/HelpDesk.php` → `CHECK_SERVICE_CONTRACTS_EXISTS`.
+- Ręczne przypisanie na DetailView: `Detail.js` → `.selectServiceContracts` (zapis pola `servicecontractsid`).
 
 ## Etykiety (HelpDesk.json)
 
 `FL_TICKET_DEVELOPER`, `FL_TICKET_BUSINESS`, `FL_CURRENT_ASSIGNEE`, `LBL_TICKET_ACCEPT`, `LBL_TICKET_ROLE_MISSING`.
 
 Nagłówek ról: `layouts/basic/modules/HelpDesk/DetailViewHeaderTitle.tpl`.
+
+## Pole `parent_id` (Powiązany z)
+
+- UIType **10** — multi-module reference: **Accounts** (Kontrahenci) + **Vendors** (Dostawcy).
+- Kolejność w dropdownie i domyślny moduł autocomplete = pierwszy wpis z `Field::getReferenceList()` → `vtiger_fieldmodulerel.sequence` (NULL sortuje pierwsze — patrz `uitypes.mdc`).
+- Autocomplete: `RecordSearch` + `u_yf_crmentity_search_label.userid` — brak wpisu = brak wyników (patrz `cron.mdc` → `LBL_PRIVILEGES_UPDATER`).
+- Report Issue widget: `parent_id` z `config/modules/ReportIssue.php` (`default_parent_id`), bez pickera w modalu.
