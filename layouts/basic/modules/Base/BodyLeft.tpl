@@ -11,13 +11,18 @@
 				</a>
 			</div>
 			<div class="col-md-10 userDetails">
-				<div class="col-xs-12 noSpaces userName">
-					{assign var=USER_NAME_ARRAY value=explode(' ',$USER_MODEL->getDisplayName())}
-					{foreach from=$USER_NAME_ARRAY item=NAME name=userNameIterator}
-						{if $smarty.foreach.userNameIterator.iteration <= 2}
-							<p class="noSpaces name textOverflowEllipsis">{$NAME}&nbsp;</p>
-						{/if}
-					{/foreach}
+				<div class="col-xs-12 noSpaces userName{if $USER_MODEL->getImageRelativePath()} userName--withPhoto{/if}">
+					{if $USER_MODEL->getImageRelativePath()}
+						<img class="userNamePhoto img-circle" src="{$USER_MODEL->getImageWebUrl()}" alt="{$USER_MODEL->getDisplayName()}" title="{$USER_MODEL->getDisplayName()}">
+					{/if}
+					<div class="userNameText">
+						{assign var=USER_NAME_ARRAY value=explode(' ',$USER_MODEL->getDisplayName())}
+						{foreach from=$USER_NAME_ARRAY item=NAME name=userNameIterator}
+							{if $smarty.foreach.userNameIterator.iteration <= 2}
+								<p class="noSpaces name textOverflowEllipsis">{$NAME}&nbsp;</p>
+							{/if}
+						{/foreach}
+					</div>
 				</div>
 			</div>
 		</div>

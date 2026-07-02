@@ -3929,6 +3929,33 @@ html,body,.baseContainer
 	text-align: center;
 	width: 100%;
 }
+.userDetails .userName--withPhoto{
+	flex-direction: row;
+	justify-content: flex-start;
+	gap: 8px;
+}
+.userDetails .userNameText{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	min-width: 0;
+}
+.userDetails .userName--withPhoto .userNameText{
+	align-items: flex-start;
+}
+.userDetails .userName--withPhoto .name{
+	text-align: left;
+}
+.userDetails .userNamePhoto{
+	width: 32px;
+	height: 32px;
+	object-fit: cover;
+	flex-shrink: 0;
+}
+.baseContainer:has(.bodyHeader:not(.menuOpen)) .leftPanel .userDetails{
+	padding-left: 12px;
+}
 .userDetails .name{
 	line-height: 18px;
 	font-size: 14.5px;
