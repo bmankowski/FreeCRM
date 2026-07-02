@@ -29,7 +29,7 @@
 		<tr>
 			<th>
 				{'PPL_MANUALLY_ADDED'|t:$MODULE_NAME}
-				<button type="button" class="btn btn-sm btn-success js-kanban-add-manual-candidate" title="{'LBL_ADD_MANUAL_CANDIDATE'|t:$MODULE_NAME}" aria-label="{'LBL_ADD_MANUAL_CANDIDATE'|t:$MODULE_NAME}">+</button>
+				<button type="button" class="btn btn-sm js-kanban-add-manual-candidate" title="{'LBL_ADD_MANUAL_CANDIDATE'|t:$MODULE_NAME}" aria-label="{'LBL_ADD_MANUAL_CANDIDATE'|t:$MODULE_NAME}">+</button>
 			</th>
 		</tr>
 		</thead>
