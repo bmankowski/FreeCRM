@@ -24,6 +24,13 @@
         "LBL_KANBAN_CV_SKILLS": "CV skills",
         "LBL_KANBAN_CV_SKILLS_PLACEHOLDER": "e.g. Java; Spring; SQL",
         "LBL_KANBAN_CV_SKILLS_HINT": "Enter skills separated by semicolons. Only candidates whose CV contains all phrases will be listed.",
+        "LBL_KANBAN_PICK_CANDIDATES_TITLE": "Select candidates",
+        "LBL_KANBAN_PICK_CANDIDATES_ADD": "Add selected",
+        "LBL_KANBAN_PICK_CANDIDATES_EMPTY": "No candidates match the criteria (or all are already in the project).",
+        "LBL_KANBAN_PICK_CANDIDATES_COUNT": "Found: %s",
+        "LBL_KANBAN_PICK_COL_NAME": "Name",
+        "LBL_KANBAN_PICK_COL_PHONE": "Phone",
+        "LBL_KANBAN_CV_PREVIEW": "CV preview",
         "LBL_MANUAL_CANDIDATES_ADDED": "Candidates added: %s",
         "LBL_MANUAL_CANDIDATES_SKIPPED": "Skipped (already in project): %s",
         "PPL_MANUALLY_ADDED": "Manually added",
@@ -59,6 +66,7 @@
         "JS_TRANSITION_MAIL_AUTO_SENT": "Email sent automatically after status change.",
         "JS_TRANSITION_MAIL_AUTO_PARTIAL": "Some emails were sent automatically; some failed.",
         "JS_TRANSITION_MAIL_AUTO_FAILED": "Automatic email could not be sent.",
-        "LBL_KANBAN_CV_SKILLS_REQUIRED": "Enter at least one skill."
+        "LBL_KANBAN_CV_SKILLS_REQUIRED": "Enter at least one skill.",
+        "LBL_KANBAN_PICK_CANDIDATES_COUNT": "Found: %s"
     }
 }

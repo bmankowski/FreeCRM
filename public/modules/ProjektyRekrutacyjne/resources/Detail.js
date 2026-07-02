@@ -123,33 +123,14 @@ Vtiger_Detail_Js(
 				app.showModalWindow(null, modalUrl);
 			});
 		},
-		openManualCandidatePopup: function (projectId, cvSkills) {
-			const thisInstance = this;
-			if (!projectId) {
+		openKanbanPickCandidatesModal: function (projectId, cvSkills) {
+			if (!projectId || !cvSkills) {
 				return;
 			}
-			const popupParams = {
-				module: 'Candidates',
-				src_module: app.getModuleName(),
-				src_record: projectId,
-				multi_select: true
-			};
-			if (cvSkills) {
-				popupParams.cv_skills = cvSkills;
-			}
-			Vtiger_Popup_Js.getInstance().show(popupParams, function (responseString) {
-				let responseData = {};
-				try {
-					responseData = JSON.parse(responseString);
-				} catch (_e) {
-					return;
-				}
-				const candidateIds = Object.keys(responseData);
-				if (!candidateIds.length) {
-					return;
-				}
-				thisInstance.submitManualCandidates(projectId, candidateIds);
-			});
+			const modalUrl = 'index.php?module=' + app.getModuleName()
+				+ '&view=KanbanPickCandidatesModal&projectId=' + encodeURIComponent(projectId)
+				+ '&cv_skills=' + encodeURIComponent(cvSkills);
+			app.showModalWindow(null, modalUrl);
 		},
 		submitManualCandidates: function (projectId, candidateIds) {
 			const thisInstance = this;
@@ -159,7 +140,7 @@ Vtiger_Detail_Js(
 				projectId: projectId,
 				candidateIds: JSON.stringify(candidateIds)
 			};
-			AppConnector.request(params).done(function (data) {
+			return AppConnector.request(params).done(function (data) {
 				if (data.success !== true) {
 					const errMsg = (data.error && data.error.message)
 						|| (data.result && data.result.message)

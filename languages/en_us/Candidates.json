@@ -9,6 +9,7 @@
         "PPL_EXPORT_CV": "Export CVs (ZIP)",
         "PPL_EXPORT_CV_NO_FILES": "No documents marked as CV for the selected candidates.",
         "PPL_EXPORT_CV_ZIP_FAILED": "Could not create the ZIP archive.",
+        "LBL_KANBAN_CV_TEXT_EMPTY": "No CV text available.",
         "LBL_RELATED_ACTION_SET_AS_CV": "Set as CV",
         "LBL_TRANSFORM_DOCUMENT_TO_CV_TITLE": "Set document as CV",
         "LBL_TRANSFORM_DOCUMENT_TO_CV_DESC": "This will set the selected document as the candidate’s CV.",

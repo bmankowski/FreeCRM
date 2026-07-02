@@ -24,8 +24,8 @@ jQuery(document).on('click.kanbanSearchCandidates', '.js-kanban-search-candidate
 	app.hideModalWindow();
 
 	const detailInstance = Vtiger_Detail_Js.getInstance();
-	if (detailInstance && typeof detailInstance.openManualCandidatePopup === 'function') {
-		detailInstance.openManualCandidatePopup(projectId, skillsRaw);
+	if (detailInstance && typeof detailInstance.openKanbanPickCandidatesModal === 'function') {
+		detailInstance.openKanbanPickCandidatesModal(projectId, skillsRaw);
 	}
 });
 
