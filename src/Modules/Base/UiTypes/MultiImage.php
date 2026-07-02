@@ -72,19 +72,14 @@ class MultiImage extends BaseUiType
 			foreach ($images->all() as $attach) {
 				$imageIcons .= '<div class="contentImage" title="' . $attach['name'] . '">'
 					. '<button type="button" class="btn btn-sm btn-default imageFullModal hide"><span class="glyphicon glyphicon-fullscreen"></span></button>'
-					. '<img src="' . $this->getImagePath($attach['attachmentid'], $recordId) . '" class="multiImageListIcon"></div>';
+					. '<img src="' . $this->getImageWebUrl($attach['attachmentid'], $recordId) . '" class="multiImageListIcon"></div>';
 			}
 		}
 		$imageIcons .= '</div>';
 		return $imageIcons;
 	}
 
-	/**
-	 * Get patch for image
-	 * @param string $value
-	 * @return string
-	 */
-	public function getImagePath($value, $recordId)
+	public function getImageWebUrl($value, $recordId): string
 	{
 		$field = $this->getFieldModel();
 		$moduleName = $field->getModuleName();

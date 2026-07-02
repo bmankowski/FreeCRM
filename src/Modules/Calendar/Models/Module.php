@@ -497,7 +497,7 @@ class Module extends \App\Modules\Base\Models\Module
 				'linktype' => 'LISTVIEWSETTING',
 				'linklabel' => 'LBL_EDIT_FIELDS',
 				'linkurl' => 'index.php?parent=Settings&module=LayoutEditor&sourceModule=' . $this->getName(),
-				'linkicon' => \App\Runtime\Vtiger_Theme::getImagePath('LayoutEditor.gif')
+				'linkicon' => \App\Runtime\Vtiger_Theme::getThemeImageWebUrl('LayoutEditor.gif')
 			);
 
 			$settingLinks[] = array(

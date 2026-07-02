@@ -51,7 +51,7 @@ class Module extends \App\Modules\Base\Models\Module
 			return array();
 		}
 
-		$editWorkflowsImagePath = \App\Runtime\Vtiger_Theme::getImagePath('EditWorkflows.png');
+		$editWorkflowsImagePath = \App\Runtime\Vtiger_Theme::getThemeImageWebUrl('EditWorkflows.png');
 		$settingsLinks = array();
 
 		if (\App\Modules\Workflow\VTWorkflowUtils::checkModuleWorkflow($this->getName())) {

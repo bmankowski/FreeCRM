@@ -36,12 +36,20 @@ class Image extends \App\Runtime\BaseModel
 	}
 
 	/**
-	 * Function to get the Image file path
-	 * @return string
+	 * Web URL for the image (company logo URL or theme skin asset path).
+	 * @return string|false
 	 */
-	public function getImagePath()
+	public function getImageWebUrl()
 	{
-		return \App\Runtime\Vtiger_Theme::getImagePath($this->get('imagename'));
+		$imageUrl = $this->get('imageUrl');
+		if (!empty($imageUrl)) {
+			return (string) $imageUrl;
+		}
+		$imageName = $this->get('imagename') ?: $this->get('imageName');
+		if (empty($imageName)) {
+			return false;
+		}
+		return \App\Runtime\Vtiger_Theme::getThemeImageWebUrl($imageName);
 	}
 
 	/**

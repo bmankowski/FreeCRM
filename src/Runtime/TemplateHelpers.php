@@ -15,7 +15,7 @@
 if (!function_exists('vimage_path')) {
 	function vimage_path($imageName) {
 		$args = func_get_args();
-		return call_user_func_array(['App\\Runtime\\Vtiger_Theme', 'getImagePath'], $args);
+		return call_user_func_array(['App\\Runtime\\Vtiger_Theme', 'getThemeImageWebUrl'], $args);
 	}
 }
 

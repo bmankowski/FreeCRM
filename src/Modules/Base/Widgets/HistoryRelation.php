@@ -71,7 +71,7 @@ class HistoryRelation extends \App\Modules\Base\Widgets\Basic
 				$row['userModel'] = $groups[$row['user']];
 			} else {
 				$row['isGroup'] = false;
-				$row['userModel'] = \App\Modules\Users\Models\Privileges::getInstanceById($row['user']);
+				$row['userModel'] = \App\Modules\Users\Models\Record::getInstanceById((int) $row['user'], 'Users');
 			}
 			$row['class'] = self::$colors[$row['type']] ?? 'bgBlue';
 			if (strpos((string) $row['type'], 'Mail') === 0) {

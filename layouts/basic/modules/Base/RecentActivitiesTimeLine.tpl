@@ -29,7 +29,7 @@
 									<span class="glyphicon glyphicon-plus bgGreen"></span>
 									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if}">
 										<div class="pull-left paddingRight15 imageContainer">
-											<img class="userImage img-circle" src="{$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}">
+											<img class="userImage img-circle" src="{$RECENT_ACTIVITY->getModifiedBy()->getImageWebUrl()}">
 										</div>
 										<div class="timeline-body row no-margin">
 											<span class="time pull-right">
@@ -63,7 +63,7 @@
 									<span class="glyphicon glyphicon-pencil bgDarkBlue"></span>
 									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if}">
 										<div class="pull-left paddingRight15 imageContainer">
-											<img class="userImage img-circle" src="{$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}">
+											<img class="userImage img-circle" src="{$RECENT_ACTIVITY->getModifiedBy()->getImageWebUrl()}">
 										</div>
 										<div class="timeline-body row no-margin">
 											<span class="time pull-right">
@@ -119,7 +119,7 @@
 									<span class="glyphicon glyphicon-link bgOrange"></span>
 									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if}">
 										<div class="pull-left paddingRight15 imageContainer">
-											<img class="userImage img-circle" src="{$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}">
+											<img class="userImage img-circle" src="{$RECENT_ACTIVITY->getModifiedBy()->getImageWebUrl()}">
 										</div>
 										<div class="timeline-body row no-margin">
 											<div class="pull-right">
@@ -162,7 +162,7 @@
 									<span class="glyphicon glyphicon-transfer bgAzure"></span>
 									<div class="timeline-item{if $NEW_CHANGE} bgWarning{/if}">
 										<div class="pull-left paddingRight15 imageContainer">
-											<img class="userImage img-circle" src="{$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}">
+											<img class="userImage img-circle" src="{$RECENT_ACTIVITY->getModifiedBy()->getImageWebUrl()}">
 										</div>
 										<div class="timeline-body row no-margin">
 											<span class="time pull-right">
@@ -177,7 +177,7 @@
 									<span class="glyphicon glyphicon-th-list bgAzure"></span>
 									<div class="timeline-item">
 										<div class="pull-left paddingRight15 imageContainer">
-											<img class="userImage img-circle" src="{$RECENT_ACTIVITY->getModifiedBy()->getImagePath()}">
+											<img class="userImage img-circle" src="{$RECENT_ACTIVITY->getModifiedBy()->getImageWebUrl()}">
 										</div>
 										<div class="timeline-body row no-margin">
 											<span class="time pull-right">

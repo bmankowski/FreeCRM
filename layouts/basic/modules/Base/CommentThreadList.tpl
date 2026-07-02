@@ -19,7 +19,7 @@
 				{assign var=CHILD_COMMENTS_MODEL value=$COMMENT->getChildComments()}
 				<div class="row no-margin">
 					<div class="">
-						{assign var=IMAGE_PATH value=$COMMENT->getImagePath()}
+						{assign var=IMAGE_PATH value=$COMMENT->getImageWebUrl()}
 						<img class="alignMiddle pull-left" width="48px" alt="" src="{if !empty($IMAGE_PATH)}{$IMAGE_PATH}{else}{vimage_path('DefaultUserIcon.png')}{/if}">
 					</div>
 					<div class="col-xs-8 commentorInfo">

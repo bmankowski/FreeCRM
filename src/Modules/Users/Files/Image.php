@@ -29,7 +29,7 @@ class Image
 		}
 		/** @var \App\Modules\Users\Models\Record $recordModel */
 		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($record, $request->getModule());
-		$relativePath = $recordModel->getAttachedImageRelativePath();
+		$relativePath = $recordModel->getImageRelativePath();
 		if ($relativePath === null || $relativePath === '') {
 			$this->sendDefaultIcon();
 			return;
@@ -73,7 +73,7 @@ class Image
 
 	private function sendDefaultIcon(): void
 	{
-		$relative = \App\Runtime\Vtiger_Theme::getImagePath('DefaultUserIcon.png');
+		$relative = \App\Runtime\Vtiger_Theme::getThemeImageWebUrl('DefaultUserIcon.png');
 		if ($relative === false) {
 			throw new \App\Exceptions\NoPermitted('Not Found', 404);
 		}

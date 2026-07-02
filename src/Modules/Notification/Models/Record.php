@@ -187,11 +187,11 @@ class Record extends \App\Modules\Base\Models\Record
 		$icon = false;
 		switch ($this->get('notification_type')) {
 			case 'PLL_USERS':
-				$userModel = \App\Modules\Users\Models\Privileges::getInstanceById($this->get('smcreatorid'));
+				$userRecord = \App\Modules\Users\Models\Record::getInstanceById((int) $this->get('smcreatorid'), 'Users');
 				$icon = [
 					'type' => 'image',
-					'title' => $userModel->getName(),
-					'src' => $userModel->getImagePath(),
+					'title' => $userRecord->getName(),
+					'src' => $userRecord->getImageWebUrl(),
 					'class' => 'userImage',
 				];
 				break;

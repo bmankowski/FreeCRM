@@ -187,7 +187,7 @@ These are instance methods called on template variables:
 - `$PAGING_MODEL->getRecordStartRange()`
 - `$PAGING_MODEL->isNextPageExists()`
 - `$LISTVIEW_ENTRY->getDetailViewUrl()`
-- `$COMMENT->getImagePath()`
+- `$COMMENT->getImageWebUrl()`
 - `$COMMENT->getCommentedByModel()`
 - `$WIDGET->get('active')`
 - `$WIDGET->getPositionRow()`

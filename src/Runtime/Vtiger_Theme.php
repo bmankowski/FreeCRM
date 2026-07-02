@@ -36,7 +36,7 @@ class Vtiger_Theme extends \App\Runtime\CRM_Viewer
 	 * @param string $imageFileName - file name with extension
 	 * @return string|bool - returns file path if exists or false;
 	 */
-	public static function getImagePath(string $imageFileName)
+	public static function getThemeImageWebUrl(string $imageFileName)
 	{
 		$imageFilePath = self::getThemePath() . '/' . 'images' . '/' . $imageFileName;
 		$fallbackPath = self::getBaseThemePath() . '/' . 'images' . '/' . $imageFileName;

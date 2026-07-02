@@ -45,29 +45,29 @@ class Record extends \App\Modules\Base\Models\Record
 		return $this->getDetailViewUrl() . '&mode=showChildComments';
 	}
 
-	public function getImagePath()
+	public function getImageWebUrl(): string
 	{
 		$commentor = $this->getCommentedByModel();
-		if ($commentor) {
-			$customer = $this->get('customer');
-			$isMailConverterType = $this->get('from_mailconverter');
-			if (!empty($customer) && $isMailConverterType != 1) {
-				$recordModel = \App\Modules\Base\Models\Record::getInstanceById($customer);
-				$imageDetails = $recordModel->getImageDetails();
-				if (!empty($imageDetails)) {
-					return $imageDetails[0]['path'] . '_' . $imageDetails[0]['name'];
-				} else
-					return '';
-			} else if ($isMailConverterType == 1) {
-				return vimage_path('MailConverterComment.png');
-			} else {
-				$imagePath = $commentor->getImageDetails();
-				if (!empty($imagePath[0]['name'])) {
-					return $imagePath[0]['path'] . '_' . $imagePath[0]['name'];
-				}
-			}
+		if (!$commentor) {
+			return vimage_path('DefaultUserIcon.png');
 		}
-		return false;
+		$customer = $this->get('customer');
+		$isMailConverterType = $this->get('from_mailconverter');
+		if (!empty($customer) && $isMailConverterType != 1) {
+			$recordModel = \App\Modules\Base\Models\Record::getInstanceById($customer);
+			$imageDetails = $recordModel->getImageDetails();
+			if (!empty($imageDetails[0]['url'])) {
+				return (string) $imageDetails[0]['url'];
+			}
+			return vimage_path('DefaultUserIcon.png');
+		}
+		if ($isMailConverterType == 1) {
+			return vimage_path('MailConverterComment.png');
+		}
+		if (method_exists($commentor, 'getImageWebUrl')) {
+			return $commentor->getImageWebUrl();
+		}
+		return vimage_path('DefaultUserIcon.png');
 	}
 
 	/**

@@ -17,7 +17,7 @@
 			<div class="commentInfoHeader row no-margin" data-commentid="{$COMMENT->getId()}"
 				data-parentcommentid="{$COMMENT->get('parent_comments')}">
 				<div class="pull-left">
-					{assign var=IMAGE_PATH value=$COMMENT->getImagePath()}
+					{assign var=IMAGE_PATH value=$COMMENT->getImageWebUrl()}
 					<img class="alignMiddle pull-left" alt="" width="48px"
 						src="{if !empty($IMAGE_PATH)}{$IMAGE_PATH}{else}{vimage_path('DefaultUserIcon.png')}{/if}">
 				</div>

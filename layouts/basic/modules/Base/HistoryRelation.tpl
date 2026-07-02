@@ -12,7 +12,7 @@
 						<div class="timeline-item">
 							<div class="pull-left paddingRight15 imageContainer">
 								{if !$HISTORY['isGroup']}
-									<img class="userImage img-circle" src="{$HISTORY['userModel']->getImagePath()}">
+									<img class="userImage img-circle" src="{$HISTORY['userModel']->getImageWebUrl()}">
 								{else}
 									<img class="userImage img-circle" src="{vimage_path('DefaultUserIcon.png')}">
 								{/if}

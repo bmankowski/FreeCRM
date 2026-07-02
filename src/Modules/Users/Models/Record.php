@@ -664,24 +664,12 @@ class Record extends \App\Modules\Base\Models\Record
 		]];
 	}
 
-	public function getImagePath()
-	{
-		$image = $this->getImageDetails();
-		$image = reset($image);
-		if (empty($image) || empty($image['path'])) {
-			$imagePath = vimage_path('DefaultUserIcon.png');
-		} else {
-			$imagePath = (string) $image['path'];
-		}
-		return $imagePath;
-	}
-
 	/**
 	 * Web URL for the user's avatar (served via file.php; storage/ is not public).
 	 */
 	public function getImageWebUrl(): string
 	{
-		if ($this->getAttachedImageRelativePath() === null) {
+		if ($this->getImageRelativePath() === null) {
 			return vimage_path('DefaultUserIcon.png');
 		}
 		return 'file.php?module=Users&action=Image&record=' . (int) $this->getId();
@@ -690,7 +678,7 @@ class Record extends \App\Modules\Base\Models\Record
 	/**
 	 * Relative storage path for the user's own avatar file (not the default icon), or null.
 	 */
-	public function getAttachedImageRelativePath(): ?string
+	public function getImageRelativePath(): ?string
 	{
 		$image = $this->getImageDetails();
 		$image = reset($image);
@@ -850,7 +838,7 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public function getUserPhotoImgHtmlForGenerator(): string
 	{
-		$rel = $this->getAttachedImageRelativePath();
+		$rel = $this->getImageRelativePath();
 		if ($rel === null || $rel === '') {
 			return '';
 		}
@@ -871,7 +859,7 @@ class Record extends \App\Modules\Base\Models\Record
 				// keep default
 			}
 			self::writeUserPhotoBase64SidecarForRelativeImage($rel, $mime);
-			$rel = $this->getAttachedImageRelativePath() ?? $rel;
+			$rel = $this->getImageRelativePath() ?? $rel;
 			$full = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, ltrim(str_replace('\\', '/', $rel), '/'));
 			$sidecarFull = $full . self::getUserPhotoBase64SidecarSuffix();
 			if (is_readable($sidecarFull)) {

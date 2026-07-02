@@ -45,7 +45,7 @@ class Module extends \App\Modules\Base\Models\Module
 	public function getSettingLinks()
 	{
 
-		$editWorkflowsImagePath = \App\Runtime\Vtiger_Theme::getImagePath('EditWorkflows.png');
+		$editWorkflowsImagePath = \App\Runtime\Vtiger_Theme::getThemeImageWebUrl('EditWorkflows.png');
 		$settingsLinks = array();
 
 
