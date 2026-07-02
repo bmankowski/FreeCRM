@@ -20,6 +20,10 @@ globs: ["**/*.css", "**/*.scss", "package.json"]
 - **Preload**: `Header.tpl` / `MainLayout.tpl` — `as="font" type="font/woff2" crossorigin="anonymous"`, href `/libraries/resources/fonts/lato/…`. Do **not** use `vresource_url()` (`?s=` ≠ `@font-face` URL → Chrome “preloaded but not used”); keep preload and `style.css` `@font-face` paths identical.
 - **License**: `OFL.txt` in the font directory.
 
+## Portal colors
+
+Semantic color tokens (orange accent, blues, neutrals) — see **`portal-colors.mdc`**. When styling autocomplete, dropdowns, or chrome, reuse those values instead of new one-offs.
+
 ## CSS Minification
 
 ### Tool
@@ -78,6 +82,12 @@ Menu animations are optimized for speed:
 - `.bodyHeader` - Top header bar
 - `.basePanel` - Main content area
 - `.subMenu` - Dropdown submenus
+
+### Left panel header (`BodyLeft.tpl`)
+
+- User avatar (only when set): `$USER_MODEL->getImageRelativePath()` → `<img class="userNamePhoto">` before name in `.userDetails .userName--withPhoto`.
+- **Collapsed menu** (default strip, `bodyHeader` without `.menuOpen`, `left: 50px`): tune offset on `.userDetails`, not `.userName` — `.userName` has `.noSpaces` (`margin: 0 !important`). Example: `.baseContainer:has(.bodyHeader:not(.menuOpen)) .leftPanel .userDetails { padding-left: 12px; }`.
+- **Pinned/open menu**: `leftpanelhide` → `.bodyHeader.menuOpen` / `.basePanel.menuOpen` (`left: 230px`); no extra header offset needed.
 
 If changing animation timings, keep values low (< 0.2s) for best UX.
 

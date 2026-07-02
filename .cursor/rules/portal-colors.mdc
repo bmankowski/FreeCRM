@@ -1,0 +1,66 @@
+---
+description: "Portal UI color palette — semantic tokens used in FreeCRM skins (base + twilight)"
+---
+
+# Portal colors
+
+Reference for UI colors in the CRM web app. **Source of truth for runtime CSS:** `public/layouts/basic/skins/style.css` (base) and `public/layouts/basic/skins/twilight/style.css` (default user theme overrides). Edit source `.css`, then minify — see `css.mdc`.
+
+When adding new UI, reuse these tokens instead of inventing one-off hex values.
+
+## Accent (orange)
+
+| Token | Value | Usage |
+|---|---|---|
+| **portal-orange** | `#EC971F` / `rgb(236, 151, 31)` | Autocomplete hover/focus row (`.ui-autocomplete.reference-ac .reference-ac-row`) — reference fields + global search |
+
+## Blues (twilight theme)
+
+| Token | Value | Usage |
+|---|---|---|
+| **portal-blue** | `#4979AA` | Twilight accent bar (`.infoUser`), active tab highlights |
+| **portal-blue-dark** | `#3A6288` | Twilight blue hover / pressed state |
+
+## Neutrals — dark chrome
+
+| Token | Value | Usage |
+|---|---|---|
+| **portal-nav-bg** | `#2A2F35` | Left panel background |
+| **portal-nav-hover** | `#404952` | Module menu item hover (header dropdown) |
+| **portal-header-muted** | `#4A5364` | Header chrome, twilight checked checkboxes |
+
+## Neutrals — text
+
+| Token | Value | Usage |
+|---|---|---|
+| **portal-text** | `#2B2B2B` | Primary body text |
+| **portal-text-secondary** | `#555555` | Section labels (e.g. autocomplete category headers) |
+| **portal-text-muted** | `#777777` | Subtitles (`.reference-ac-subtitle`) |
+| **portal-text-disabled** | `#888888` | Empty states, placeholder-like copy |
+| **portal-text-on-dark** | `#FFFFFF` | Text/icons on dark header bars |
+
+## Neutrals — surfaces & borders
+
+| Token | Value | Usage |
+|---|---|---|
+| **portal-surface** | `#FFFFFF` | Cards, dropdowns, inputs |
+| **portal-border** | `#DDDDDD` / `#DDD` | Standard borders, autocomplete frame |
+| **portal-shadow** | `rgba(0, 0, 0, 0.12)` | Dropdown box-shadow (reference-ac) |
+
+## Legacy (avoid for new UI)
+
+| Token | Value | Notes |
+|---|---|---|
+| **bootstrap-blue** | `#428BCA` | Old jQuery UI autocomplete focus; replaced by **portal-orange** in `.reference-ac` |
+
+## Autocomplete (reference-ac)
+
+Shared by reference fields (`ReferenceAutocomplete.js`) and global search (`Header.js` → `gsAutocomplete`):
+
+- Menu: **portal-border**, **portal-shadow**, `border-radius: 6px`
+- Row hover/focus background: **portal-orange**
+- Subtitle text: **portal-text-muted**
+- Category header: **portal-text-secondary**, `font-size: 12px`, `font-weight: 600`
+- Match highlight: inherit color/weight (no yellow `mark` background)
+
+See also: `listview-javascript-playbook.mdc`, `detailview-javascript-playbook.mdc` (field widgets); `css.mdc` (minification).
