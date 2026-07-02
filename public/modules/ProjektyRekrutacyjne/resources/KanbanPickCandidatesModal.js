@@ -19,38 +19,7 @@
 			}
 			this.registerResizer();
 			this.registerEvents();
-			this.registerPreviewFrameHeight();
-			this.syncPreviewFrameHeight();
 			this.loadPage(1);
-		},
-
-		registerPreviewFrameHeight: function () {
-			const thisInstance = this;
-			const $modal = this.$root.closest('.modal');
-			jQuery(window).off('resize.kanbanPickCvFrame').on('resize.kanbanPickCvFrame', function () {
-				thisInstance.syncPreviewFrameHeight();
-			});
-			$modal.off('shown.bs.modal.kanbanPickCvFrame').on('shown.bs.modal.kanbanPickCvFrame', function () {
-				thisInstance.syncPreviewFrameHeight();
-				window.requestAnimationFrame(function () {
-					thisInstance.syncPreviewFrameHeight();
-				});
-			});
-		},
-
-		syncPreviewFrameHeight: function () {
-			const $split = this.$root.find('.kanban-pick-candidates__split');
-			const $pane = this.$root.find('.js-kanban-pick-preview');
-			const frame = this.getFrame()[0];
-			if (!$split.length || !$pane.length || !frame) {
-				return;
-			}
-			const splitH = Math.round($split.innerHeight());
-			if (splitH < 200) {
-				return;
-			}
-			$pane.css({ height: splitH + 'px', minHeight: splitH + 'px' });
-			frame.style.height = splitH + 'px';
 		},
 
 		getListBody: function () {
@@ -156,11 +125,6 @@
 			const frame = this.getFrame();
 			const url = 'index.php?module=Candidates&view=CvTextPreview&record=' + encodeURIComponent(candidateId)
 				+ '&highlight=' + encodeURIComponent(this.cvSkills);
-			const thisInstance = this;
-			frame.off('load.kanbanPickCvFrame').on('load.kanbanPickCvFrame', function () {
-				thisInstance.syncPreviewFrameHeight();
-			});
-			this.syncPreviewFrameHeight();
 			frame.attr('src', url);
 		},
 
@@ -186,7 +150,6 @@
 				const w = Math.max(minList, Math.min(maxList, px));
 				$list.css({ flex: '0 0 ' + w + 'px', width: w + 'px', maxWidth: w + 'px' });
 				$detail.css({ flex: '1 1 auto', width: 'auto', minWidth: minDetail + 'px' });
-				thisInstance.syncPreviewFrameHeight();
 			};
 
 			const finishResize = function (pointerId) {
@@ -221,7 +184,6 @@
 				}
 			} catch (_e) {
 			}
-			thisInstance.syncPreviewFrameHeight();
 
 			$divider.off('pointerdown.kanbanPickResize').on('pointerdown.kanbanPickResize', function (event) {
 				if (event.button !== 0 || resizing) {

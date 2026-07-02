@@ -27,16 +27,14 @@
 			min-height: 0;
 		}
 		.kanban-pick-candidates__split > .c-detail-preview {
-			position: relative;
 			display: flex;
 			flex-direction: column;
 			overflow: hidden;
 		}
 		.kanban-pick-candidates__split > .c-detail-preview > .js-kanban-pick-cv-frame {
-			position: absolute;
-			inset: 0;
+			flex: 1 1 auto;
+			min-height: 0;
 			width: 100%;
-			height: 100%;
 			border: 0;
 		}
 		{/literal}
