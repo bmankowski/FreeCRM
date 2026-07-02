@@ -6,7 +6,42 @@
 <div class="modal-body kanban-pick-candidates">
 	<input type="hidden" id="kanbanPickProjectId" value="{$PROJECT_ID}"/>
 	<input type="hidden" id="kanbanPickCvSkills" value="{$CV_SKILLS|escape:'html'}"/>
-	<div class="kanban-pick-candidates__split relatedContents">
+	<style>
+		{literal}
+		.kanban-pick-candidates__split {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: nowrap;
+			align-items: stretch;
+			width: 100%;
+			height: calc(85vh - 180px);
+			min-height: 420px;
+			max-height: calc(85vh - 180px);
+			overflow: hidden;
+		}
+		.kanban-pick-candidates__split > .c-list-preview,
+		.kanban-pick-candidates__split > .c-list-preview-resizer,
+		.kanban-pick-candidates__split > .c-detail-preview {
+			float: none;
+			height: 100%;
+			min-height: 0;
+		}
+		.kanban-pick-candidates__split > .c-detail-preview {
+			position: relative;
+			display: flex;
+			flex-direction: column;
+			overflow: hidden;
+		}
+		.kanban-pick-candidates__split > .c-detail-preview > .js-kanban-pick-cv-frame {
+			position: absolute;
+			inset: 0;
+			width: 100%;
+			height: 100%;
+			border: 0;
+		}
+		{/literal}
+	</style>
+	<div class="kanban-pick-candidates__split">
 		<div class="c-list-preview js-kanban-pick-list">
 			<div class="kanban-pick-candidates__list-toolbar">
 				<span class="js-kanban-pick-count text-muted"></span>
@@ -18,7 +53,7 @@
 		</div>
 		<div class="c-list-preview-resizer js-kanban-pick-resizer" aria-hidden="true"></div>
 		<div class="c-detail-preview js-kanban-pick-preview">
-			<iframe class="listPreviewframe js-kanban-pick-cv-frame" title="{"LBL_KANBAN_CV_PREVIEW"|t:$MODULE_NAME}"></iframe>
+			<iframe class="js-kanban-pick-cv-frame" title="{"LBL_KANBAN_CV_PREVIEW"|t:$MODULE_NAME}"></iframe>
 		</div>
 	</div>
 </div>

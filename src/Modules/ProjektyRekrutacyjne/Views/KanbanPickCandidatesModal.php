@@ -63,7 +63,6 @@ class KanbanPickCandidatesModal extends \App\Modules\Base\Views\BasicModal
 	public function getModalCss(Vtiger_Request $request): array
 	{
 		return $this->checkAndConvertCssStyles([
-			'modules.ProjektyRekrutacyjne.resources.RelatedList',
 			'modules.ProjektyRekrutacyjne.resources.KanbanPickCandidatesModal',
 		]);
 	}

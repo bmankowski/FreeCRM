@@ -19,7 +19,38 @@
 			}
 			this.registerResizer();
 			this.registerEvents();
+			this.registerPreviewFrameHeight();
+			this.syncPreviewFrameHeight();
 			this.loadPage(1);
+		},
+
+		registerPreviewFrameHeight: function () {
+			const thisInstance = this;
+			const $modal = this.$root.closest('.modal');
+			jQuery(window).off('resize.kanbanPickCvFrame').on('resize.kanbanPickCvFrame', function () {
+				thisInstance.syncPreviewFrameHeight();
+			});
+			$modal.off('shown.bs.modal.kanbanPickCvFrame').on('shown.bs.modal.kanbanPickCvFrame', function () {
+				thisInstance.syncPreviewFrameHeight();
+				window.requestAnimationFrame(function () {
+					thisInstance.syncPreviewFrameHeight();
+				});
+			});
+		},
+
+		syncPreviewFrameHeight: function () {
+			const $split = this.$root.find('.kanban-pick-candidates__split');
+			const $pane = this.$root.find('.js-kanban-pick-preview');
+			const frame = this.getFrame()[0];
+			if (!$split.length || !$pane.length || !frame) {
+				return;
+			}
+			const splitH = Math.round($split.innerHeight());
+			if (splitH < 200) {
+				return;
+			}
+			$pane.css({ height: splitH + 'px', minHeight: splitH + 'px' });
+			frame.style.height = splitH + 'px';
 		},
 
 		getListBody: function () {
@@ -115,6 +146,9 @@
 			if (!candidateId) {
 				return;
 			}
+			if (typeof this.cancelResizeDrag === 'function') {
+				this.cancelResizeDrag();
+			}
 			if ($row && $row.length) {
 				this.$root.find('.js-kanban-pick-row').removeClass('active');
 				$row.addClass('active');
@@ -122,6 +156,11 @@
 			const frame = this.getFrame();
 			const url = 'index.php?module=Candidates&view=CvTextPreview&record=' + encodeURIComponent(candidateId)
 				+ '&highlight=' + encodeURIComponent(this.cvSkills);
+			const thisInstance = this;
+			frame.off('load.kanbanPickCvFrame').on('load.kanbanPickCvFrame', function () {
+				thisInstance.syncPreviewFrameHeight();
+			});
+			this.syncPreviewFrameHeight();
 			frame.attr('src', url);
 		},
 
@@ -132,6 +171,8 @@
 			const $detail = this.$root.find('.js-kanban-pick-preview');
 			const $divider = this.$root.find('.js-kanban-pick-resizer');
 			const storageKey = 'FreeCRM.KanbanPickCandidates.listWidthPx';
+			let resizing = false;
+			let activePointerId = null;
 
 			const applyListWidth = function (px) {
 				const totalW = $container.width() || thisInstance.$root.width();
@@ -145,6 +186,32 @@
 				const w = Math.max(minList, Math.min(maxList, px));
 				$list.css({ flex: '0 0 ' + w + 'px', width: w + 'px', maxWidth: w + 'px' });
 				$detail.css({ flex: '1 1 auto', width: 'auto', minWidth: minDetail + 'px' });
+				thisInstance.syncPreviewFrameHeight();
+			};
+
+			const finishResize = function (pointerId) {
+				if (!resizing) {
+					return;
+				}
+				resizing = false;
+				activePointerId = null;
+				thisInstance.$root.removeClass('is-resizing');
+				jQuery('body').removeClass('unselectable').css('cursor', '');
+				jQuery(document).off('.kanbanPickResizeDrag');
+				if (typeof pointerId === 'number') {
+					try {
+						$divider[0].releasePointerCapture(pointerId);
+					} catch (_e) {
+					}
+				}
+				try {
+					window.localStorage.setItem(storageKey, String($list.outerWidth() || 0));
+				} catch (_e2) {
+				}
+			};
+
+			this.cancelResizeDrag = function () {
+				finishResize(activePointerId);
 			};
 
 			try {
@@ -154,31 +221,37 @@
 				}
 			} catch (_e) {
 			}
+			thisInstance.syncPreviewFrameHeight();
 
-			let resizing = false;
-			$divider.off('mousedown.kanbanPickResize').on('mousedown.kanbanPickResize', function (event) {
+			$divider.off('pointerdown.kanbanPickResize').on('pointerdown.kanbanPickResize', function (event) {
+				if (event.button !== 0 || resizing) {
+					return;
+				}
 				event.preventDefault();
-				resizing = true;
-				thisInstance.$root.addClass('is-resizing');
+				event.stopPropagation();
+				const dividerEl = this;
 				const startX = event.pageX;
 				const startW = $list.outerWidth() || 0;
-				jQuery(document).on('mousemove.kanbanPickResize', function (moveEvent) {
+				activePointerId = event.pointerId;
+
+				resizing = true;
+				thisInstance.$root.addClass('is-resizing');
+				jQuery('body').addClass('unselectable').css('cursor', 'col-resize');
+				try {
+					dividerEl.setPointerCapture(event.pointerId);
+				} catch (_e) {
+				}
+
+				jQuery(document).off('.kanbanPickResizeDrag');
+				jQuery(document).on('pointermove.kanbanPickResizeDrag', function (moveEvent) {
 					if (!resizing) {
 						return;
 					}
+					moveEvent.preventDefault();
 					applyListWidth(startW + (moveEvent.pageX - startX));
 				});
-				jQuery(document).on('mouseup.kanbanPickResize', function () {
-					if (!resizing) {
-						return;
-					}
-					resizing = false;
-					thisInstance.$root.removeClass('is-resizing');
-					jQuery(document).off('mousemove.kanbanPickResize mouseup.kanbanPickResize');
-					try {
-						window.localStorage.setItem(storageKey, String($list.outerWidth() || 0));
-					} catch (_e2) {
-					}
+				jQuery(document).on('pointerup.kanbanPickResizeDrag pointercancel.kanbanPickResizeDrag', function (upEvent) {
+					finishResize(upEvent.pointerId);
 				});
 			});
 		},

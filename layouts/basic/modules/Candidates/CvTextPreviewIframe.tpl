@@ -7,19 +7,30 @@
 	<title>CV</title>
 	<style>
 		{literal}
-		html, body {
+		html {
+			box-sizing: border-box;
+			height: 100%;
+		}
+		*, *::before, *::after {
+			box-sizing: inherit;
+		}
+		body {
 			margin: 0;
 			height: 100%;
+			min-height: 100%;
+			display: flex;
+			flex-direction: column;
 			overflow: hidden;
 			background: #fff;
 		}
 		.cv-text-preview-scroll {
-			height: 100%;
+			flex: 1 1 auto;
+			min-height: 0;
+			width: 100%;
 			overflow-y: auto;
 			overflow-x: hidden;
 			-webkit-overflow-scrolling: touch;
 			padding: 10px 12px;
-			box-sizing: border-box;
 		}
 		.cv-text-preview {
 			font-size: 13px;
