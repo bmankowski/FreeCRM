@@ -11,8 +11,8 @@
 }
 
 .kanban-pick-candidates__split .c-list-preview {
-	flex: 0 0 45%;
-	width: 45%;
+	flex: 0 0 50%;
+	width: 50%;
 	min-width: 280px;
 	max-width: 70%;
 	height: 100%;

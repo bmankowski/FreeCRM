@@ -152,6 +152,27 @@
 				$detail.css({ flex: '1 1 auto', width: 'auto', minWidth: minDetail + 'px' });
 			};
 
+			const applyDefaultSplit = function () {
+				const totalW = $container.width() || thisInstance.$root.width();
+				if (!totalW) {
+					return;
+				}
+				const dividerW = $divider.outerWidth() || 10;
+				applyListWidth((totalW - dividerW) / 2);
+			};
+
+			const applyStoredOrDefaultSplit = function () {
+				try {
+					const stored = parseInt(window.localStorage.getItem(storageKey) || '', 10);
+					if (!isNaN(stored) && stored > 0) {
+						applyListWidth(stored);
+						return;
+					}
+				} catch (_e) {
+				}
+				applyDefaultSplit();
+			};
+
 			const finishResize = function (pointerId) {
 				if (!resizing) {
 					return;
@@ -178,12 +199,15 @@
 			};
 
 			try {
-				const stored = parseInt(window.localStorage.getItem(storageKey) || '', 10);
-				if (!isNaN(stored) && stored > 0) {
-					applyListWidth(stored);
-				}
+				applyStoredOrDefaultSplit();
 			} catch (_e) {
+				applyDefaultSplit();
 			}
+
+			const $modal = this.$root.closest('.modal');
+			$modal.off('shown.bs.modal.kanbanPickSplit').on('shown.bs.modal.kanbanPickSplit', function () {
+				applyStoredOrDefaultSplit();
+			});
 
 			$divider.off('pointerdown.kanbanPickResize').on('pointerdown.kanbanPickResize', function (event) {
 				if (event.button !== 0 || resizing) {
