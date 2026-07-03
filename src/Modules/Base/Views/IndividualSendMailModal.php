@@ -3,25 +3,47 @@
 namespace App\Modules\Base\Views;
 
 /**
- * Individual send mail modal class
+ * Record-context mail compose modal (single + mass send).
+ *
  * @package FreeCRM.ModalView
  * @license licenses/License.html
  * @author bmankowski@gmail.com
  */
-class IndividualSendMailModal extends SendMailModal
+class IndividualSendMailModal extends BasicModal
 {
+	public $fields = [];
+
+	public function checkPermission(\App\Http\Vtiger_Request $request)
+	{
+		$moduleName = $request->getModule();
+		$currentUserPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+		if (!$currentUserPrivilegesModel->hasModulePermission($moduleName)) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
+		}
+		if (!$request->isEmpty('sourceRecord') && !\App\Security\Privilege::isPermitted($request->get('sourceModule'), 'DetailView', $request->get('sourceRecord'))) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
+	}
+
 	public function getModalScripts(\App\Http\Vtiger_Request $request)
 	{
 		return array_merge(
 			parent::getModalScripts($request),
-			$this->checkAndConvertJsScripts(['modules.Mail.resources.SenderPicker'])
+			$this->checkAndConvertJsScripts([
+				'modules.Mail.resources.SenderPicker',
+				'modules.Mail.resources.ComposeAttachments',
+			])
 		);
 	}
 
-	/**
-	 * Process function
-	 * @param \App\Http\Vtiger_Request $request
-	 */
+	public function getModalCss(\App\Http\Vtiger_Request $request)
+	{
+		return array_merge(
+			parent::getModalCss($request),
+			$this->checkAndConvertCssStyles(['modules.Mail.ComposeAttachments'])
+		);
+	}
+
 	public function process(\App\Http\Vtiger_Request $request)
 	{
 		$this->preProcess($request);
@@ -32,6 +54,8 @@ class IndividualSendMailModal extends SendMailModal
 			$templateModule = $sourceModule;
 		}
 		$records = $this->getRecordsListFromRequest($request);
+		$isMassSend = ($records['all'] ?? 0) > 1;
+		$viewer->assign('IS_MASS_SEND', $isMassSend);
 		$viewer->assign('FIELD_EMAILS', $this->getFieldEmailDisplayValues($request, $records));
 		$userId = (int) $request->getUser()->getId();
 		$rawTemplateList = \App\Email\Mail::getTempleteList($templateModule);
@@ -55,16 +79,101 @@ class IndividualSendMailModal extends SendMailModal
 		$viewer->assign('SOURCE_MODULE', $request->get('sourceModule'));
 		$viewer->assign('SOURCE_RECORD', $request->get('sourceRecord'));
 		$viewer->assign('TEMPLETE_LIST', $templateList);
-		$viewer->assign('DEFAULT_SMTP', \App\Email\Mail::getDefaultSmtp());
 		$viewer->assign('COMPOSE_SENDERS', \App\Modules\Mail\Models\Account::getComposeSenders($userId));
 		$viewer->assign('CAN_SEND_MAIL', \App\Modules\Mail\Models\Module::canUserSend($userId));
 		$initialField = $this->resolveInitialField($request, $records);
 		$viewer->assign('INITIAL_FIELD', $initialField);
-		$viewer->assign('INITIAL_PREVIEW', $this->getInitialPreview($request, $records, $templateList, $initialField));
+		$initialPreview = $isMassSend
+			? ['success' => false]
+			: $this->getInitialPreview($request, $records, $templateList, $initialField);
+		$viewer->assign('INITIAL_PREVIEW', $initialPreview);
 		$viewer->assign('USER_MODEL', $request->getUser());
 		$this->assignComposeAttachmentLimits($viewer);
 		$viewer->view('IndividualSendMailModal.tpl', $moduleName);
 		$this->postProcess($request);
+	}
+
+	/**
+	 * @return array<string, int>
+	 */
+	public function getRecordsListFromRequest(\App\Http\Vtiger_Request $request): array
+	{
+		$dataReader = $this->getQuery($request)->createCommand()->query();
+		$count = ['all' => 0, 'emails' => 0];
+		foreach ($this->fields as $fieldName => $fieldModel) {
+			$count[$fieldName] = 0;
+		}
+		while ($row = $dataReader->read()) {
+			$count['all'] += 1;
+			foreach ($this->fields as $fieldName => $fieldModel) {
+				if (!empty($row[$fieldName])) {
+					$count[$fieldName] += 1;
+					$count['emails'] += 1;
+				}
+			}
+		}
+
+		return $count;
+	}
+
+	public function getQuery(\App\Http\Vtiger_Request $request)
+	{
+		$moduleName = $request->getModule();
+		$sourceModule = $request->get('sourceModule');
+		if ($sourceModule && $sourceModule !== $moduleName) {
+			$parentRecordModel = \App\Modules\Base\Models\Record::getInstanceById($request->get('sourceRecord'), $sourceModule);
+			$listView = \App\Modules\Base\Models\RelationListView::getInstance($parentRecordModel, $moduleName);
+		} else {
+			$listView = \App\Modules\Base\Models\ListView::getInstance($moduleName, $request->get('viewname'));
+		}
+		$searchResult = $request->get('searchResult');
+		if (!empty($searchResult)) {
+			$listView->set('searchResult', $searchResult);
+		}
+		$searchKey = $request->get('search_key');
+		$searchValue = $request->get('search_value');
+		$operator = $request->get('operator');
+		if (!empty($searchKey) && !empty($searchValue)) {
+			$listView->set('operator', $operator);
+			$listView->set('search_key', $searchKey);
+			$listView->set('search_value', $searchValue);
+		}
+		$searchParams = $request->get('search_params');
+		if (!empty($searchParams) && is_array($searchParams)) {
+			$transformedSearchParams = $listView->getQueryGenerator()->parseBaseSearchParamsToCondition($searchParams);
+			$listView->set('search_params', $transformedSearchParams);
+		}
+		$queryGenerator = $listView->getQueryGenerator();
+		$moduleModel = $queryGenerator->getModuleModel();
+		$baseTableName = $moduleModel->get('basetable');
+		$baseTableId = $moduleModel->get('basetableid');
+		foreach ($moduleModel->getFieldsByType('email') as $fieldName => $fieldModel) {
+			if ($fieldModel->isActiveField()) {
+				$this->fields[$fieldName] = $fieldModel;
+			}
+		}
+		$queryGenerator->setFields(array_merge(['id'], array_keys($this->fields)));
+		$selected = $request->get('selected_ids');
+		if ($selected && $selected !== 'all') {
+			$queryGenerator->addNativeCondition(["$baseTableName.$baseTableId" => $selected]);
+		}
+		$excluded = $request->get('excluded_ids');
+		if ($excluded) {
+			$queryGenerator->addNativeCondition(['not in', "$baseTableName.$baseTableId" => $excluded]);
+		}
+
+		return $queryGenerator->createQuery();
+	}
+
+	protected function assignComposeAttachmentLimits(\App\Runtime\CRM_Viewer $viewer): void
+	{
+		$viewer->assign('MAIL_COMPOSE_ATTACHMENT_LIMITS', [
+			'maxFileMb' => (int) \App\Core\AppConfig::module('Mail', 'attachment_max_size_mb'),
+			'maxTotalMb' => (int) \App\Core\AppConfig::module('Mail', 'compose_max_total_mb'),
+			'maxFiles' => (int) \App\Core\AppConfig::module('Mail', 'compose_max_files'),
+			'maxFileBytes' => \App\Modules\Mail\Models\ComposeAttachment::maxFileBytes(),
+			'maxTotalBytes' => \App\Modules\Mail\Models\ComposeAttachment::maxTotalBytes(),
+		]);
 	}
 
 	/**
@@ -188,12 +297,6 @@ class IndividualSendMailModal extends SendMailModal
 		];
 	}
 
-	/**
-	 * Check whether template uses sourceRecord token.
-	 *
-	 * @param array $template
-	 * @return bool
-	 */
 	private function templateRequiresSourceContext(array $template): bool
 	{
 		$subject = (string) ($template['subject'] ?? '');
@@ -286,6 +389,27 @@ class IndividualSendMailModal extends SendMailModal
 
 	public function getSize(\App\Http\Vtiger_Request $request)
 	{
-		return 'modal-full';
+		return $this->isMassSendRequest($request) ? '' : 'modal-full';
+	}
+
+	private function isMassSendRequest(\App\Http\Vtiger_Request $request): bool
+	{
+		$selected = $request->get('selected_ids');
+		if ($selected === 'all') {
+			return true;
+		}
+		if (\is_array($selected)) {
+			return \count($selected) > 1;
+		}
+		if (\is_string($selected) && $selected !== '') {
+			$decoded = \App\Utils\Json::decode($selected);
+			if (\is_array($decoded)) {
+				return \count($decoded) > 1;
+			}
+
+			return \count(array_filter(explode(',', $selected))) > 1;
+		}
+
+		return false;
 	}
 }

@@ -1,11 +1,10 @@
 ---
-description: "Record-context mail compose — modal flow, URLs, SendMailModal query pitfall"
+description: "Record-context mail compose — modal flow, URLs, compose query pitfall"
 globs:
   - "src/Modules/Mail/**"
   - "src/Modules/Mail/Models/Outbound.php"
   - "src/Email/Mail.php"
   - "src/Modules/Base/Models/DetailView.php"
-  - "src/Modules/Base/Views/SendMailModal.php"
   - "src/Modules/Base/Views/IndividualSendMailModal.php"
   - "src/Modules/Base/Actions/Mail.php"
   - "public/layouts/basic/modules/Base/resources/Vtiger.js"
@@ -14,7 +13,6 @@ globs:
   - "public/layouts/basic/modules/Mail/resources/ComposeAttachments.js"
   - "public/layouts/basic/modules/Mail/resources/ComposeAttachments.css"
   - "layouts/basic/modules/Base/partials/MailComposeAttachments.tpl"
-  - "layouts/basic/modules/Base/SendMailModal.tpl"
   - "src/Modules/EmailTemplates/Models/TemplateAttachment.php"
   - "src/Modules/EmailTemplates/Actions/TemplateAttachment.php"
   - "layouts/basic/modules/EmailTemplates/**"
@@ -45,7 +43,7 @@ No global “Compose” menu. Users send from record UI (DetailView toolbar, ema
 
 ## Query pitfall
 
-`SendMailModal::getQuery()` and `Base\Actions\Mail::getQuery()` must use `RelationListView` **only when** `sourceModule !== $moduleName`.
+`IndividualSendMailModal::getQuery()` and `Base\Actions\Mail::getQuery()` must use `RelationListView` **only when** `sourceModule !== $moduleName`.
 
 Same-module detail compose (e.g. Candidates → Candidates) → `ListView` + `selected_ids`. Cross-module (Projekt parent → Candidates related row) → `RelationListView`.
 
@@ -62,7 +60,7 @@ Passing `sourceModule === moduleName` triggers `>>> No relationModel instance, r
 ## Still full-page / legacy
 
 - `Mail&view=Compose` — PDF redirect, direct links; no live template preview in UI.
-- List mass email — **`SendMailModal`** (same `registerSendMailModalView` + `SenderPicker` + `MailComposeAttachments` as individual modal; posts `senderRef` + `attachmentTokens`). Candidates toolbar — `showModal` + `IndividualSendMailModal` URL directly.
+- List mass email — **`IndividualSendMailModal`** (`IS_MASS_SEND` when `RECORDS.all > 1`: stats, no preview). Same `registerSendMailModalView` + `SenderPicker` + `MailComposeAttachments`; posts `senderRef` + `attachmentTokens`.
 
 ## IndividualSendMailModal JS (single path)
 
@@ -80,7 +78,7 @@ Passing `sourceModule === moduleName` triggers `>>> No relationModel instance, r
 
 Bootstrap 3 for look/layout; tiny custom CSS only where BS3 lacks utilities.
 
-- **Markup:** `btn-toolbar` + `btn-group` chips (`btn btn-default btn-xs`); add button in last `btn-group`. Template block: `p.small.text-muted` + separate `btn-toolbar`. Partial included below body in `IndividualSendMailModal.tpl`, end of form in `SendMailModal.tpl`.
+- **Markup:** `btn-toolbar` + `btn-group` chips (`btn btn-default btn-xs`); add button in last `btn-group`. Template block: `p.small.text-muted` + separate `btn-toolbar`. Partial in `IndividualSendMailModal.tpl` (below preview when single, after field picker when mass).
 - **JS:** chips inserted with `addWrap.before()` before `.js-mail-attachment-add-wrap`. Modal-wide file drop toggles `.js-mail-attachment-toolbar--drag` on the toolbar. `ResetComposeAttachment` on init + modal `hidden.bs.modal` (orphan staging caused false `LBL_MAIL_ATTACHMENT_MAX_FILES`). Uploads chained sequentially (`uploadOne` per file).
 - **Custom CSS** (`ComposeAttachments.css`): filename ellipsis (`js-mail-attachment-chip-name`), upload spin, drag highlight — not button styling. Minify after edits (`frontend-assets.mdc`).
 

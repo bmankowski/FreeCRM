@@ -96,6 +96,8 @@
         "LBL_TEMPLATE_BLOCK_ALERT": "Notatka / alert",
         "LBL_TEMPLATE_BLOCK_SIGNATURE": "Podpis",
         "LBL_HEADER_CONTENT": "Nagłówek",
+        "LBL_HEADER": "Nagłówek",
+        "LBL_FOOTER": "Stopka",
         "LBL_SET_VALUE": "Ustaw wartość",
         "LBL_RAW_TEXT": "Czysty tekst",
         "LBL_USE_FIELD": "Użyj pola",

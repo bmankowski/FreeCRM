@@ -4,9 +4,33 @@
 	{assign var=IS_EMAIL value=false}
 	<div class="modal-header">
 		<button type="button" class="btn btn-warning btn-sm pull-right" data-dismiss="modal" aria-hidden="true">&times;</button>
-		<h4 class="modal-title">{"LBL_SEND_EMAIL"|t:$MODULE}</h4>
+		<h4 class="modal-title">{if !empty($IS_MASS_SEND)}{"LBL_MASS_SEND_EMAIL"|t:$MODULE}{else}{"LBL_SEND_EMAIL"|t:$MODULE}{/if}</h4>
 	</div>
 	<div class="modal-body">
+		{if !empty($IS_MASS_SEND)}
+			<div class="alert alert-info" role="alert">
+				<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>&nbsp;&nbsp;
+				{'LBL_MASS_SEND_EMAIL_INFO'|t:$MODULE}
+			</div>
+			<div class="form-horizontal">
+				<div class="form-group">
+					<label class="col-sm-6 control-label">
+						{'LBL_NUMBER_OF_SELECTED_RECORDS'|t:$MODULE}:
+					</label>
+					<div class="col-sm-6">
+						<p class="form-control-static">{$RECORDS['all']}</p>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-6 control-label">
+						{'LBL_NUMBER_OF_FOUND_MAIL_ADDRESSES'|t:$MODULE}:
+					</label>
+					<div class="col-sm-6">
+						<p class="form-control-static">{$RECORDS['emails']}</p>
+					</div>
+				</div>
+			</div>
+		{/if}
 		<form class="validateForm"
 			data-mail-compose-senders='{\App\Utils\Json::encode($COMPOSE_SENDERS)|escape:'html'}'>
 			<div class="form-group">
@@ -35,23 +59,27 @@
 					{/foreach}
 				</select>
 			</div>
-			<div class="js-mail-preview-section {if empty($INITIAL_PREVIEW['success'])}hide{/if}" data-mail-module="{$MODULE|escape:'html'}" data-mail-selected-ids='{\App\Utils\Json::encode($SELECTED_IDS)|escape:'html'}' data-mail-source-module="{$SOURCE_MODULE|escape:'html'}" data-mail-source-record="{$SOURCE_RECORD|escape:'html'}" data-mail-missing-source-context="{if !empty($INITIAL_PREVIEW['missingSourceContext'])}1{else}0{/if}">
-				<div class="alert alert-warning js-source-context-warning {if empty($INITIAL_PREVIEW['missingSourceContext'])}hide{/if}" role="alert">
-					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>&nbsp;&nbsp;
-					<span class="js-source-context-warning-text">{if !empty($INITIAL_PREVIEW['warning'])}{\App\Modules\Base\Helpers\Util::toSafeHTML($INITIAL_PREVIEW['warning'])}{/if}</span>
+			{if empty($IS_MASS_SEND)}
+				<div class="js-mail-preview-section {if empty($INITIAL_PREVIEW['success'])}hide{/if}" data-mail-module="{$MODULE|escape:'html'}" data-mail-selected-ids='{\App\Utils\Json::encode($SELECTED_IDS)|escape:'html'}' data-mail-source-module="{$SOURCE_MODULE|escape:'html'}" data-mail-source-record="{$SOURCE_RECORD|escape:'html'}" data-mail-missing-source-context="{if !empty($INITIAL_PREVIEW['missingSourceContext'])}1{else}0{/if}">
+					<div class="alert alert-warning js-source-context-warning {if empty($INITIAL_PREVIEW['missingSourceContext'])}hide{/if}" role="alert">
+						<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>&nbsp;&nbsp;
+						<span class="js-source-context-warning-text">{if !empty($INITIAL_PREVIEW['warning'])}{\App\Modules\Base\Helpers\Util::toSafeHTML($INITIAL_PREVIEW['warning'])}{/if}</span>
+					</div>
+					<div class="form-group">
+						<label class="control-label" for="mailSubject">{'LBL_SUBJECT'|t}</label>
+						<input type="text" class="form-control js-mail-subject" id="mailSubject" data-validation-engine="validate[required]" value="{if !empty($INITIAL_PREVIEW['subject'])}{\App\Modules\Base\Helpers\Util::toSafeHTML($INITIAL_PREVIEW['subject'])}{/if}" />
+					</div>
+					<div class="form-group">
+						<label class="control-label">{'LBL_TEMPLATE_REAL_DATA_PREVIEW'|t}</label>
+						<div class="help-block">{'LBL_TEMPLATE_REAL_DATA_PREVIEW_DESC'|t}</div>
+						<textarea class="hide js-mail-content-input" id="mailContent" data-validation-engine="validate[required]"></textarea>
+						<div class="form-control js-mail-content" contenteditable="true" style="background:#fff;border:1px solid #ccc;height:360px;overflow:auto;padding:18px;">{if !empty($INITIAL_PREVIEW['content'])}{$INITIAL_PREVIEW['content']}{/if}</div>
+					</div>
+					{include file='partials/MailComposeAttachments.tpl'|@vtemplate_path:'Base'}
 				</div>
-				<div class="form-group">
-					<label class="control-label" for="mailSubject">{'LBL_SUBJECT'|t}</label>
-					<input type="text" class="form-control js-mail-subject" id="mailSubject" data-validation-engine="validate[required]" value="{if !empty($INITIAL_PREVIEW['subject'])}{\App\Modules\Base\Helpers\Util::toSafeHTML($INITIAL_PREVIEW['subject'])}{/if}" />
-				</div>
-				<div class="form-group">
-					<label class="control-label">{'LBL_TEMPLATE_REAL_DATA_PREVIEW'|t}</label>
-					<div class="help-block">{'LBL_TEMPLATE_REAL_DATA_PREVIEW_DESC'|t}</div>
-					<textarea class="hide js-mail-content-input" id="mailContent" data-validation-engine="validate[required]"></textarea>
-					<div class="form-control js-mail-content" contenteditable="true" style="background:#fff;border:1px solid #ccc;height:360px;overflow:auto;padding:18px;">{if !empty($INITIAL_PREVIEW['content'])}{$INITIAL_PREVIEW['content']}{/if}</div>
-				</div>
+			{else}
 				{include file='partials/MailComposeAttachments.tpl'|@vtemplate_path:'Base'}
-			</div>
+			{/if}
 		</form>
 		{if !$CAN_SEND_MAIL}
 			<div class="alert alert-danger" role="alert">

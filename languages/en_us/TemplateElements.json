@@ -30,6 +30,8 @@
         "LBL_LAYOUT_HEADER": "Header HTML",
         "LBL_LAYOUT_BODY": "Main body HTML",
         "LBL_LAYOUT_FOOTER": "Footer HTML",
+        "LBL_HEADER": "Header",
+        "LBL_FOOTER": "Footer",
         "PLL_DOCUMENT_LAYOUT": "Document layout",
         "PLL_LAYOUT_EMAIL": "Document layout",
         "PLL_LAYOUT_PDF": "Document layout",

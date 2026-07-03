@@ -40,7 +40,7 @@ Services: `RecruitmentStatusTransition`, `RecruitmentStatusTransitionMail`. Save
 ## EmailTemplates (recruitment)
 
 - **`sys_name`** required on Edit/Detail for `module = ProjektyRekrutacyjne`.
-- **`is_system`** (checkbox on Edit/Detail): when set, template is hidden in manual compose (`SendMailModal`, `IndividualSendMailModal`); workflows/cron/matrix still resolve by `sys_name`. Recruitment compose templates (`Candidates`, `ProjektyRekrutacyjne`) default `is_system = 0`.
+- **`is_system`** (checkbox on Edit/Detail): when set, template is hidden in manual compose (`IndividualSendMailModal`); workflows/cron/matrix still resolve by `sys_name`. Recruitment compose templates (`Candidates`, `ProjektyRekrutacyjne`) default `is_system = 0`.
 - **Accounts** optional via **`account_id`** MultiReference field (uitype 306 → Accounts, comma-separated IDs) on Edit/Detail; empty = global.
 - Uniqueness: one template per `(sys_name, account)` for each linked account; one global per `sys_name`.
 - Block delete/rename `sys_name` when listed in transition matrix.

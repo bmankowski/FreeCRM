@@ -30,6 +30,8 @@
         "LBL_LAYOUT_HEADER": "Treść nagłówka (element)",
         "LBL_LAYOUT_BODY": "Treść główna (element)",
         "LBL_LAYOUT_FOOTER": "Treść stopki (element)",
+        "LBL_HEADER": "Nagłówek",
+        "LBL_FOOTER": "Stopka",
         "PLL_DOCUMENT_LAYOUT": "Układ dokumentu",
         "PLL_LAYOUT_EMAIL": "Układ dokumentu",
         "PLL_LAYOUT_PDF": "Układ dokumentu",

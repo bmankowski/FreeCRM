@@ -179,7 +179,7 @@ var Vtiger_Index_Js = {
 		});
 	},
 	/**
-	 * Wire preview/send handlers for IndividualSendMailModal (and mass modal when preview section exists).
+	 * Wire preview/send handlers for IndividualSendMailModal (mass send hides preview section).
 	 * @param {jQuery} modalContainer
 	 * @param {Object} postData request base params (module, selected_ids, sourceModule, sourceRecord, to, …)
 	 */
@@ -424,7 +424,7 @@ var Vtiger_Index_Js = {
 		this.registerMailComposeScrollChain(modalContainer, contentEditor, previewSection);
 	},
 	/**
-	 * Open SendMailModal and queue template-based emails (detail, list, related list).
+	 * Open IndividualSendMailModal and queue template-based emails (detail, list, related list).
 	 * @param {Object} params module, selectedIds, excludedIds?, cvid?, sourceModule?, sourceRecord?, listParams?, extra?
 	 */
 	triggerSendEmailModal: function (params) {
@@ -435,7 +435,7 @@ var Vtiger_Index_Js = {
 		}
 		jQuery.extend(postData, {
 			module: params.module || app.getModuleName(),
-			view: params.view || 'SendMailModal'
+			view: params.view || 'IndividualSendMailModal'
 		});
 		if (params.selectedIds !== undefined) {
 			postData.selected_ids = typeof params.selectedIds === 'object'
