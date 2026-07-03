@@ -85,7 +85,7 @@ Menu animations are optimized for speed:
 
 ### Left panel header (`BodyLeft.tpl`)
 
-- User avatar (only when set): `$USER_MODEL->getImageRelativePath()` → `<img class="userNamePhoto">` before name in `.userDetails .userName--withPhoto`.
+- User avatar (only when set): `$USER_MODEL->getImageRelativePath()` → `<img class="userNamePhoto">` before name in `.userDetails .userName--withPhoto`. Details: `user-profile-photos.mdc`.
 - **Collapsed menu** (default strip, `bodyHeader` without `.menuOpen`, `left: 50px`): tune offset on `.userDetails`, not `.userName` — `.userName` has `.noSpaces` (`margin: 0 !important`). Example: `.baseContainer:has(.bodyHeader:not(.menuOpen)) .leftPanel .userDetails { padding-left: 12px; }`.
 - **Pinned/open menu**: `leftpanelhide` → `.bodyHeader.menuOpen` / `.basePanel.menuOpen` (`left: 230px`); no extra header offset needed.
 

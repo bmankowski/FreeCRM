@@ -116,7 +116,7 @@ Never use raw `storage/…` or `getImageDetails()['path']` in `<img src>`. Namin
 | 311 (`MultiImage`) | `$FIELD_MODEL->getUITypeModel()->getImageWebUrl($attachmentId, $recordId)` |
 | Other record images | `$IMAGE_INFO.url` from `getImageDetails()` (already `file.php?…`) |
 
-Details: `documents-storage.mdc` → Image URL API.
+Details: uitype 69 → `user-profile-photos.mdc`; uitype 311 → `documents-storage.mdc` → Image URL API.
 
 ---
 

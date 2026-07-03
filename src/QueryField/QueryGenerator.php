@@ -770,6 +770,9 @@ class QueryGenerator
 		}
 		unset($this->tablesList[$baseTable]);
 		foreach ($this->tablesList as $tableName) {
+			if (isset($this->joins[$tableName]) || !isset($moduleTableIndexList[$tableName])) {
+				continue;
+			}
 			$joinType = isset($tableJoin[$tableName]) ? $tableJoin[$tableName] : 'INNER JOIN';
 			if ($tableName === 'vtiger_users') {
 				if ($ownerField === null) {

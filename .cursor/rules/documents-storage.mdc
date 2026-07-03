@@ -12,7 +12,6 @@ globs:
   - "src/Modules/EmailTemplates/Models/TemplateAttachment.php"
   - "src/Modules/Mail/**"
   - "src/Modules/HelpDesk/Files/Image.php"
-  - "src/Modules/Users/Models/Record.php"
   - "src/Modules/Base/UiTypes/MultiImage.php"
 alwaysApply: false
 ---
@@ -26,7 +25,7 @@ Rebuilt 2026-06 (`documentation/cr-documents-storage-rebuild.md`). **No legacy f
 | Use case | Table | Key columns |
 |---|---|---|
 | **Documents module** (file or external URL) | `vtiger_notes` | `storage_path`, `location_type` (`internal` \| `external`), `original_name`, `mime_type`, `size_bytes`, `active`, `download_count`, `external_url` |
-| **Record images / non-Document attachments** (Contacts, Products, HelpDesk screenshot, Users photo, mail template upload, etc.) | `s_yf_record_files` | `crm_record_id`, `role` (`image` \| `attachment`), `storage_path`, `original_name`, `mime_type`, `size_bytes` |
+| **Record images / non-Document attachments** (Contacts, Products, HelpDesk screenshot, mail template upload, etc.) | `s_yf_record_files` | `crm_record_id`, `role` (`image` \| `attachment`), `storage_path`, `original_name`, `mime_type`, `size_bytes` |
 
 Record ↔ Document **links**: `vtiger_senotesrel`. UI: `vtiger_relatedlists.name = getAttachments` → `Relation::getAttachments()` (join `senotesrel`). **Exception:** EmailTemplates uses `getManyToMany` + `u_yf_documents_emailtemplates` (not `senotesrel`).
 
@@ -83,7 +82,7 @@ Post-migrate: `bin/regenerate_user_privileges.php`; clear `cache/templates_c/*.p
 - **Missing `vtiger_field` for `storage_path`:** DB row has a path, `getInstanceById` returns `storage_path = NULL`, `DownloadFile` exits with empty body. Verify with `Record::getInstanceById($id, 'Documents')->get('storage_path')`.
 - **Internal doc without blob:** `location_type='internal'`, `active=1`, `storage_path IS NULL` → deactivate (`active=0`); mail/template send skips via `realpath` failure.
 - **Migration collation:** `s_yf_record_files` uses `utf8` (not `utf8mb4`) to match legacy `vtiger_*` string compares; cross-table `NOT EXISTS` may need `CONVERT(... USING utf8)`.
-- **User photos:** `s_yf_record_files`; URL `file.php?module=Users&action=Image&record=…` (`Users\Models\Record::getImageWebUrl()`). Disk path: `getImageRelativePath()` — **never** put `storage/…` in `<img src>` (nginx root is `public/`). Upload normalized once to **300×300 PNG** (`USER_PHOTO_SIZE`, ImageMagick in `normalizeUploadedUserPhotoFile()`). Single file — CSS scales for list (~50px), timeline (~40px), header (~70px); separate thumbnail sizes not used.
+- **User profile photos:** separate rule — `user-profile-photos.mdc` (FK, upload, URLs, orphan repair).
 - **Products multi-image:** `saveUploadedFile(..., $replace = false)` appends rows; single-image modules use `$replace = true`.
 - **Related list filename download:** `Documents.php` `$relationFields` omits `storage_path` — related-list rows never load it. `DocumentsFileUpload::getDisplayValue` must **not** gate the download `<a>` on `storage_path`; match `DetailView` (`active` + `original_name` + `location_type=internal`). `DownloadFile` loads the full record server-side. **Title** (`notes_title`, name field) still links to detail; **File Name** (`original_name`, uitype 28) is the download link in `RelatedListContents.tpl`.
 
@@ -103,10 +102,8 @@ Fresh install: `getAttachments` relatedlist seeds were removed from `data.sql`/`
 
 | Context | Web URL (`<img src>`) | Disk path (PHP `readfile` / unlink) |
 |---|---|---|
-| User avatar | `Users\Models\Record::getImageWebUrl()` | `getImageRelativePath()` |
+| User avatar | `user-profile-photos.mdc` | |
 | Record/module image via `file.php` | `MultiImage::getImageWebUrl($attachmentId, $recordId)` | `RecordFile::resolveAbsolutePath()` |
-| ModComments avatar | `ModComments\Models\Record::getImageWebUrl()` | — |
+| ModComments avatar | `ModComments\Models\Record::getImageWebUrl()` → user `getImageWebUrl()` | — |
 | Company logo model | `Base\Models\Image::getImageWebUrl()` (`imageUrl` from Company) | `Company::getLogoFilesystemPath()` |
 | Theme skin icons | `Vtiger_Theme::getThemeImageWebUrl()` or Smarty `vimage_path()` | `Loader::resolveNameToPath('~layouts/…')` |
-
-Serve handler: `src/Modules/Users/Files/Image.php` (not legacy `files/Image.php`).
