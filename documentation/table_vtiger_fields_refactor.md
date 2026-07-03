@@ -13,10 +13,13 @@
 | Fix — self-referential OTH constraints (`vtiger_assets`) | **Done** (2026-05-26) |
 | Change 7 — remove legacy `explode('~', typeofdata)` in PHP | **Done** (2026-05-26) |
 | Change 8 — strip remaining ~M/~O suffix | **Done** (2026-07-03) |
+| Change 9 — add `field_kind` + `storage_type` columns (backfill only) | **Done** (2026-07-03) |
 
 Deploy **migration before** PHP on each environment: `yii migrate --migrationPath=migrations/Users/`
 
 **Change 8 note:** `typeofdata` must be a single type token (`V`, `D`, `N`, …). The `mandatory` column is authoritative. New code must not write `~M`/`~O`; [`FieldDefinition::normalizeTypeofdata()`](src/Field/FieldDefinition.php) strips legacy suffixes at the persistence boundary.
+
+**Change 9 note:** `field_kind` and `storage_type` are populated by migration `m260705_000001`. Runtime still reads `uitype` / `typeofdata` — wiring `Field::getUiTypeName()` and `getStorageType()` is a follow-up CR.
 
 ---
 

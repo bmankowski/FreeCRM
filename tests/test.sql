@@ -187,3 +187,7 @@ LIMIT 51;
 
 
 SELECT * FROM u_yf_emailtemplates order by emailtemplatesid desc;
+
+
+
+select * from vtiger_field ;

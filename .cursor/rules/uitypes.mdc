@@ -13,6 +13,36 @@ description: "UiType and field-type system in FreeCRM — read when working on f
 | `WebserviceField::getFieldDataType()` | `src/Webservices/WebserviceField.php` | REST API type from `vtiger_ws_fieldtype` + `typeofdata` fallback. `V~O` → `'string'` is correct for the API but **wrong for UI**. Never use as a UI fallback. |
 | `BaseUiType::getInstanceFromField()` | `src/Modules/Base/UiTypes/BaseUiType.php` | Picks the renderer class via `UITYPE_CLASS_MAP` (uitype int → class suffix). **Does not call `getFieldDataType()`** for known uitypes — fully independent of the webservice layer. |
 
+### `field_kind` + `storage_type` (vtiger_field — refactor in progress)
+
+Columns backfilled by `m260705_000001`; resolvers: `src/Field/FieldKind.php`, `src/Field/StorageType.php`. **Runtime still uses `uitype` / `typeofdata`** until Phase 1b/2b. Full status: `documentation/table_vtiger_fields_refactor.md`.
+
+#### Which column replaces which (target state)
+
+| New / authoritative column | Replaces (legacy) | Runtime method / map today | Phase |
+|---|---|---|---|
+| `mandatory` | `typeofdata` segment `~M` / `~O` | was `explode('~')[1]` | **Done** (Change 3/8) |
+| `maximumlength` | `typeofdata` segment `LE~n` | was length in type string | **Done** (Change 2) |
+| DB column DDL (`decimal(5,2)` etc.) | `typeofdata` `N~2~2` | unused in PHP | **Done** (Change 5) |
+| `vtiger_field_constraints` | `typeofdata` `~OTH~…` | was in type string + hardcoded validators | **Done** (Change 4) |
+| **`field_kind`** | **`uitype`** (int) + **`SEMANTIC_TYPE_MAP`** + webservice fallback for semantics | `getUiTypeName()` / `getFieldDataType()` | Phase 1b → then drop `uitype` |
+| **`storage_type`** | **`typeofdata`** (whole column) | `getFieldType()` | Phase 2b → **DROP `typeofdata`** |
+
+**Not replaced by `field_kind` / `storage_type`:** `presence`, `readonly`, `displaytype`, `maximumlength`, picklist tables, `vtiger_fieldmodulerel`, etc.
+
+**Renderer note:** `BaseUiType::UITYPE_CLASS_MAP` still keys on **`uitype` int** today. Phase 1b wires semantics to `field_kind` first; mapping renderer class from `field_kind` (merge with `UITYPE_CLASS_MAP`) is a later step — until then LayoutEditor keeps dual-writing `uitype` + `field_kind`.
+
+**Do not conflate `field_kind` with `storage_type`.** Example: uitype 300 `description` → `field_kind=text`, `storage_type=string` (`typeofdata=V`, column often TEXT).
+
+| `storage_type` | `typeofdata` | Typical SQL | vs `string` / `text` |
+|---|---|---|---|
+| `string` | `V` | `varchar` | default short text |
+| `text` | `M` | `TEXT` | memo token — rare (legacy refs with `M`); not the same as `field_kind=text` |
+| `email` | `E` | usually `varchar` | email validation, mailto UI, filter ops — not a separate SQL type |
+| `password` | `P` | usually `varchar` | masked input, hash on save (`user_password`); not long text |
+
+`mandatory` is authoritative (column on `vtiger_field`); legacy `~M`/`~O` suffixes inside `typeofdata` were stripped in Change 8.
+
 ---
 
 ## UITYPE_CLASS_MAP — renderer selection (BaseUiType)
