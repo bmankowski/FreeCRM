@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Mail\Actions;
 
-class Link extends \App\Base\Controllers\BaseActionController
+class Link extends Base
 {
 	public function process(\App\Http\Vtiger_Request $request): void
 	{

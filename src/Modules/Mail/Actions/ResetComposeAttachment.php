@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Mail\Actions;
 
-class ResetComposeAttachment extends \App\Base\Controllers\BaseActionController
+class ResetComposeAttachment extends Base
 {
 	public function checkPermission(\App\Http\Vtiger_Request $request): bool
 	{

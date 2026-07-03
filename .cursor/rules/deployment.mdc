@@ -1,5 +1,5 @@
 ---
-description: "FreeCRM deployment details on test.itconnect.pl — read when debugging deploy/cron/storage issues"
+description: "FreeCRM deployment on test.itconnect.pl — sync-freecrm.sh recipes (pushsrc/pushdb), migrate, privilege regen; read before deploy/sync"
 ---
 
 # FreeCRM Deployment
@@ -39,15 +39,58 @@ sudo chgrp www-data docker/nginx/certs/HOST.privkey.pem && sudo chmod 640 docker
 
 Renew: same mounts, `certbot/dns-cloudflare renew --cert-name HOST`, then recopy + reload nginx (`docker compose exec web nginx -s reload` on server).
 
-## Deploy a single migration
+## Sync to test (`scripts/sync-freecrm.sh`)
+
+**Do not read the script before syncing** — use this section. Run all commands from repo root.
+
+**Target (defaults):** `bmankowski@test.itconnect.pl:/opt/freecrm`. Override: `FREECRM_SYNC_REMOTE_HOST`, `FREECRM_SYNC_REMOTE_USER`, `FREECRM_SYNC_REMOTE_PATH`.
+
+| Subcommand | Use when |
+|---|---|
+| `pushsrc` | Code, layouts, migrations, `user_privileges/` templates — **default deploy** |
+| `pushdb` | Overwrite **test** DB with local dump (destructive on test) |
+| `pushstorage` | Push `storage/` blobs to test (additive; no `--delete`) |
+| `pushall` | `pushsrc` + `pushdb` + `pushstorage` (full local → test) |
+| `pulldb` | Pull test DB → local (destructive on local) |
+
+`pushsrc` rsyncs with `--delete`, excludes `.git/`, `.cursor/`, `cache/`, `storage/`, `tmp/`, `_migration/`, clears remote `cache/templates_c/*/*.php`. Does **not** restart containers.
+
+DB subcommands (`pushdb`, `pushall`, `pulldb`) prompt for confirmation unless `FREECRM_SYNC_YES=1` (agents: always set for non-interactive).
+
+### Standard deploy — code + migrations (most tasks)
+
+After explicit user approval:
 
 ```bash
+./scripts/sync-freecrm.sh pushsrc
+ssh bmankowski@test.itconnect.pl 'cd /opt/freecrm && docker compose exec -T app php yii migrate --migrationPath=migrations/Users/ --interactive=0 && docker compose exec -T app php bin/regenerate_user_privileges.php'
+```
+
+- Run migrate when the change added/applied `migrations/Users/*.php`.
+- `regenerate_user_privileges.php` rebuilds `tabdata.php`, `user_privileges_*.php`, `menu_*.php` on the **server** from server DB — required after profile/menu migrations.
+- LinkAction DB: `migrationPath=migrations/LinkAction/` instead of/in addition to Users.
+- Menu-only cache: if migrate touched `yetiforce_menu` and menus look stale, run regenerate anyway (`refreshMenuFiles()` inside migrate is unreliable).
+
+### Other recipes
+
+```bash
+# Code only (no new migrations)
+./scripts/sync-freecrm.sh pushsrc
+
+# Storage blobs only
+./scripts/sync-freecrm.sh pushstorage
+
+# Full test refresh from local (destructive test DB)
+FREECRM_SYNC_YES=1 ./scripts/sync-freecrm.sh pushall
+
+# Pull test DB to local dev
+FREECRM_SYNC_YES=1 ./scripts/sync-freecrm.sh pulldb
+
+# Single migration file without full pushsrc (rare)
 rsync -az migrations/Users/mXXXX_....php bmankowski@test.itconnect.pl:/opt/freecrm/migrations/Users/
 ssh bmankowski@test.itconnect.pl 'cd /opt/freecrm && docker compose exec -T app php yii migrate --migrationPath=migrations/Users/ --interactive=0'
 ```
 
-Full source sync: `scripts/sync-freecrm.sh pushsrc`.
+Remote PHP/compose always via SSH + `docker compose exec -T app …` (no host `php` on the server).
 
-**Agent policy:** never run `pushsrc` automatically — ask the user first, then deploy only after explicit approval.
-
-If the migration touches `yetiforce_menu`, regen menu cache on the server after migrate (see `settings-menu-icons.mdc` — `refreshMenuFiles()` inside migrate is unreliable).
+**Agent policy:** never run `pushsrc`, `pushdb`, `pushall`, or `pulldb` without explicit user approval. Once approved, run the matching recipe above directly — no need to open `sync-freecrm.sh`.

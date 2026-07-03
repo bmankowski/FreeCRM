@@ -19,25 +19,6 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 	{
 		$relatedLinks = parent::getDetailViewLinks($linkParams);
 		$recordModel = $this->getRecord();
-		$moduleModel = $recordModel->getModule();
-		$recordId = (int) $recordModel->getId();
-		if ($moduleModel->isPermitted('MassComposeEmail')
-			&& \App\Core\AppConfig::main('isActiveSendingMails')
-			&& \App\Modules\Mail\Models\Module::canUserSend((int) \App\User\CurrentUser::getId())) {
-			$relatedLinks['DETAILVIEW'][] = \App\Modules\Base\Models\Link::getInstanceFromValues([
-				'linktype' => 'DETAILVIEW',
-				'linklabel' => 'LBL_SEND_EMAIL',
-				'linkurl' => '#',
-				'linkhref' => true,
-				'linkicon' => 'glyphicon glyphicon-envelope',
-				'linkclass' => 'js-send-email-modal',
-				'title' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SEND_EMAIL'),
-				'linkdata' => [
-					'record-id' => $recordId,
-					'module-name' => 'Candidates',
-				],
-			]);
-		}
 		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 		if ($userPrivilegesModel->hasModulePermission('Konsultanci')) {
 			$relatedLinks['DETAIL_VIEW_ADDITIONAL'][] =  \App\Modules\Base\Models\Link::getInstanceFromValues([

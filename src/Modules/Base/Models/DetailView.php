@@ -150,6 +150,27 @@ class DetailView extends \App\Runtime\BaseModel
 		foreach ($detailViewLinks as $detailViewLink) {
 			$linkModelList['DETAILVIEWBASIC'][] = \App\Modules\Base\Models\Link::getInstanceFromValues($detailViewLink);
 		}
+		if ($moduleModel->isPermitted('MassComposeEmail')
+			&& \App\Core\AppConfig::main('isActiveSendingMails')
+			&& \App\Modules\Mail\Models\Module::canUserSend((int) \App\User\CurrentUser::getId())
+			&& $this->recordHasActiveEmail()) {
+			array_unshift(
+				$linkModelList['DETAILVIEWBASIC'],
+				\App\Modules\Base\Models\Link::getInstanceFromValues([
+					'linktype' => 'DETAILVIEWBASIC',
+					'linklabel' => 'LBL_SEND_EMAIL',
+					'linkurl' => '#',
+					'linkhref' => true,
+					'linkicon' => 'glyphicon glyphicon-envelope',
+					'linkclass' => 'js-send-email-modal btn',
+					'title' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SEND_EMAIL'),
+					'linkdata' => [
+						'record-id' => (int) $recordId,
+						'module-name' => $moduleName,
+					],
+				])
+			);
+		}
 		$fieldToupdate = \App\Core\AppConfig::module($moduleName, 'FIELD_TO_UPDATE_BY_BUTTON');
 		if ($recordModel->isEditable() && !empty($fieldToupdate)) {
 			foreach ($fieldToupdate as $fieldLabel => $fieldName) {
@@ -444,5 +465,20 @@ class DetailView extends \App\Runtime\BaseModel
 		}
 		ksort($headerFields);
 		return $headerFields;
+	}
+
+	protected function recordHasActiveEmail(): bool
+	{
+		$recordModel = $this->getRecord();
+		foreach ($this->getModule()->getFieldsByType('email') as $fieldName => $fieldModel) {
+			if (!$fieldModel->isActiveField()) {
+				continue;
+			}
+			if (trim((string) $recordModel->get($fieldName)) !== '') {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

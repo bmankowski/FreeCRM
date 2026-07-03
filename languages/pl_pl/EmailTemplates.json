@@ -12,6 +12,8 @@
         "FL_SMTP": "Serwer SMTP",
         "FL_SMTP_PRIORITY": "Priorytet SMTP",
         "FL_SHORT_NAME": "Nazwa skrócona",
+        "FL_IS_SYSTEM": "Szablon systemowy",
+        "FL_IS_SYSTEM_HELPINFO": "Ukryty przy ręcznym wysyłaniu e-mail z rekordu (workflow, cron, powiadomienia nadal używają sys_name).",
         "FL_ACCOUNT": "Kontrahent",
         "LBL_SEQUENCE": "Kolejność",
         "PLL_MODULE": "Moduł",

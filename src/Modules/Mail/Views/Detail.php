@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Mail\Views;
 
-class Detail extends \App\Modules\Base\Views\Index
+class Detail extends Base
 {
 	public function getBreadcrumbTitle(\App\Http\Vtiger_Request $request)
 	{
@@ -35,9 +35,12 @@ class Detail extends \App\Modules\Base\Views\Index
 		return $subject;
 	}
 
-	public function process(\App\Http\Vtiger_Request $request): void
+	public function checkPermission(\App\Http\Vtiger_Request $request): void
 	{
 		$id = (int) $request->get('record');
+		if ($id <= 0) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
 		$message = \App\Modules\Mail\Models\Message::getById($id);
 		if (!$message) {
 			throw new \App\Exceptions\AppException('LBL_RECORD_NOT_FOUND');
@@ -47,6 +50,16 @@ class Detail extends \App\Modules\Base\Views\Index
 			'message' => $message,
 			'account' => $account,
 		]);
+	}
+
+	public function process(\App\Http\Vtiger_Request $request): void
+	{
+		$id = (int) $request->get('record');
+		$message = \App\Modules\Mail\Models\Message::getById($id);
+		if (!$message) {
+			throw new \App\Exceptions\AppException('LBL_RECORD_NOT_FOUND');
+		}
+		$account = !empty($message['account_id']) ? \App\Modules\Mail\Models\Account::getById((int) $message['account_id']) : null;
 
 		$config = \HTMLPurifier_Config::createDefault();
 		$purifier = new \HTMLPurifier($config);

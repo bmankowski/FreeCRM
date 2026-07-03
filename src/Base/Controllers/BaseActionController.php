@@ -31,6 +31,11 @@ abstract class BaseActionController
 	{
 	}
 
+	public function requiresModulePermission(): bool
+	{
+		return true;
+	}
+
 	public function loginRequired()
 	{
 		return true;

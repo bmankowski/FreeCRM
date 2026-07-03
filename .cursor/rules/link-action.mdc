@@ -40,7 +40,7 @@ eval $RSYNC assets/ "$REMOTE/assets/"
 eval $RSYNC responses/ "$REMOTE/responses/"
 ```
 
-**Agent:** after any `external/www-la/` or LinkAction token/mail change, offer deploy — rsync only what changed when possible; **never** rsync `config.production.php` over live `_link_action/config.php` (merge new keys in place, e.g. `logo_asset_path`). CRM side: ask before running `scripts/sync-freecrm.sh pushsrc`; run new `migrations/LinkAction/` on `test.itconnect.pl` when migrations were added.
+**Agent:** after any `external/www-la/` or LinkAction token/mail change, offer deploy — rsync only what changed when possible; **never** rsync `config.production.php` over live `_link_action/config.php` (merge new keys in place, e.g. `logo_asset_path`). CRM side: ask before sync; recipes in `deployment.mdc` (standard: `pushsrc` + migrate + `regenerate_user_privileges.php` on test).
 
 **Live host:** `ssh -p 222 itconnect@itconnect.pl` → web root `/home/itconnect/domains/itconnect.pl/public_html/`. Production runs **`bootstrap.php` + `vendor/` + `src/`** (legacy `common.php` may remain unused).
 

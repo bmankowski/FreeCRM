@@ -83,7 +83,7 @@ class Mail
 	 * Get templte list for module
 	 * @param string|bool $moduleName
 	 * @param string|bool $type
-	 * @param bool $hideSystem
+	 * @param bool $hideSystem When true, exclude templates with is_system = 1 (manual compose only)
 	 * @return array
 	 */
 	public static function getTempleteList($moduleName = false, $type = false, $hideSystem = true)
@@ -102,11 +102,7 @@ class Mail
 			$query->andWhere(['u_#__emailtemplates.email_template_type' => $type]);
 		}
 		if ($hideSystem) {
-			$query->andWhere([
-				'or',
-				['u_#__emailtemplates.sys_name' => null],
-				['u_#__emailtemplates.module' => 'ProjektyRekrutacyjne'],
-			]);
+			$query->andWhere(['u_#__emailtemplates.is_system' => 0]);
 		}
 		$row = $query
 			->orderBy([
@@ -124,7 +120,7 @@ class Mail
 	 *
 	 * @param string[] $moduleNames
 	 * @param string|bool $type
-	 * @param bool $hideSystem
+	 * @param bool $hideSystem When true, exclude templates with is_system = 1 (manual compose only)
 	 * @return array
 	 */
 	public static function getTempleteListForModules(array $moduleNames, $type = false, $hideSystem = true)
@@ -147,11 +143,7 @@ class Mail
 			$query->andWhere(['u_#__emailtemplates.email_template_type' => $type]);
 		}
 		if ($hideSystem) {
-			$query->andWhere([
-				'or',
-				['u_#__emailtemplates.sys_name' => null],
-				['u_#__emailtemplates.module' => 'ProjektyRekrutacyjne'],
-			]);
+			$query->andWhere(['u_#__emailtemplates.is_system' => 0]);
 		}
 		$row = $query
 			->orderBy([

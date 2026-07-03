@@ -29,7 +29,11 @@ class Index extends \App\Modules\Base\Views\Basic
 			if ($moduleName === 'Home') {
 				return;
 			}
-			
+
+			if (!$this->requiresModulePermission()) {
+				return;
+			}
+
 			$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
 			if (!$userPrivilegesModel) {
 				throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');

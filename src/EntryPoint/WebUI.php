@@ -201,11 +201,11 @@ class WebUI extends EntryPoint
 			throw new \App\Exceptions\AppException($message);
 		}
 
-		$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
-		$hasPermission = $userPrivilegesModel->hasModulePermission($moduleModel->getId());
-
-		if (!$hasPermission) {
-			throw new \App\Exceptions\NoPermitted(\App\Runtime\Vtiger_Language_Handler::translate('LBL_NOT_ACCESSIBLE'));
+		if ($handler->requiresModulePermission()) {
+			$userPrivilegesModel = \App\Modules\Users\Models\Privileges::getCurrentUserPrivilegesModel();
+			if (!$userPrivilegesModel->hasModulePermission($moduleModel->getId())) {
+				throw new \App\Exceptions\NoPermitted(\App\Runtime\Vtiger_Language_Handler::translate('LBL_NOT_ACCESSIBLE'));
+			}
 		}
 
 		$handler->checkPermission($request);

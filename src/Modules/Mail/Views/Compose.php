@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Mail\Views;
 
-class Compose extends \App\Modules\Base\Views\Index
+class Compose extends Base
 {
 	public function getFooterScripts(\App\Http\Vtiger_Request $request)
 	{
@@ -25,16 +25,21 @@ class Compose extends \App\Modules\Base\Views\Index
 		);
 	}
 
+	public function checkPermission(\App\Http\Vtiger_Request $request): void
+	{
+		$sourceModule = $request->getByType('sourceModule', 2);
+		$sourceRecord = $request->getInteger('sourceRecord');
+		if ($sourceModule && $sourceRecord && !\App\Security\Privilege::isPermitted($sourceModule, 'DetailView', $sourceRecord)) {
+			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
+		}
+	}
+
 	public function process(\App\Http\Vtiger_Request $request): void
 	{
 		$userId = (int) $request->getUser()->getId();
 		$sourceModule = $request->getByType('sourceModule', 2);
 		$sourceRecord = $request->getInteger('sourceRecord');
 		$to = $request->getByType('to', 'Text');
-
-		if ($sourceModule && $sourceRecord && !\App\Security\Privilege::isPermitted($sourceModule, 'DetailView', $sourceRecord)) {
-			throw new \App\Exceptions\NoPermittedToRecord('LBL_NO_PERMISSIONS_FOR_THE_RECORD');
-		}
 
 		$templateModule = $sourceModule ?: 'Candidates';
 		$templates = \App\Email\Mail::getTempleteList($templateModule);

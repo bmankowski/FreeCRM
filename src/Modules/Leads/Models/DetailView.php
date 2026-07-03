@@ -23,7 +23,7 @@ class DetailView extends \App\Modules\Base\Models\DetailView
 	 */
 	public function getDetailViewLinks($linkParams)
 	{
-		$linkModelList = \App\Modules\Base\Models\DetailView::getDetailViewLinks($linkParams);
+		$linkModelList = parent::getDetailViewLinks($linkParams);
 		$recordModel = $this->getRecord();
 		$moduleModel = $this->getModule();
 		$moduleName = $moduleModel->getName();

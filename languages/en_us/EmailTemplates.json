@@ -12,6 +12,8 @@
         "FL_SMTP": "SMTP server",
         "FL_SMTP_PRIORITY": "SMTP priority",
         "FL_SHORT_NAME": "Short name",
+        "FL_IS_SYSTEM": "System template",
+        "FL_IS_SYSTEM_HELPINFO": "Hidden in manual record email compose; workflows, cron, and notifications still resolve templates by sys_name.",
         "FL_ACCOUNT": "Account",
         "LBL_SEQUENCE": "Sequence",
         "PLL_MODULE": "Module",

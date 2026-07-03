@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Mail\Views;
 
-class Widget extends \App\Modules\Base\Views\Index
+class Widget extends Base
 {
 	public function checkPermission(\App\Http\Vtiger_Request $request): void
 	{
