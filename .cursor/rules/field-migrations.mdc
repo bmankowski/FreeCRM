@@ -1,0 +1,77 @@
+---
+description: "Adding/removing module fields in Yii migrations — use Field::create/delete, not raw vtiger_field inserts"
+globs: ["migrations/**/*.php"]
+alwaysApply: false
+---
+
+# Field migrations (vtiger_field)
+
+**From now on:** add or remove module fields in Yii migrations via the application API — **not** raw `$this->insert('vtiger_field', …)` / manual `vtiger_profile2field` / `vtiger_field_seq` updates.
+
+Legacy migrations still use direct SQL; **new migrations must not.**
+
+## Add field — preferred
+
+```php
+use App\Field\FieldDefinition;
+use App\Modules\Base\Models\Field;
+use App\Modules\Base\Models\Module;
+
+$module = Module::getInstance('Accounts');
+$tabId = (int) $module->getId();
+$blockId = 9; // vtiger_blocks.blockid
+
+if (Field::getInstance('my_field', $module)) {
+    return; // idempotent
+}
+
+$def = FieldDefinition::fromRow([
+    'fieldid' => 0,
+    'tabid' => $tabId,
+    'fieldname' => 'my_field',
+    'fieldlabel' => 'FL_MY_FIELD',
+    'tablename' => 'vtiger_account',       // or *cf for custom fields
+    'columnname' => 'my_field',            // or cf_<id> for custom fields
+    'columntype' => 'varchar(100)',        // triggers addColumn + index (uitype 10)
+    'uitype' => 1,
+    'typeofdata' => 'V',
+    'displaytype' => 1,
+    'generatedtype' => 2,                  // 2 = custom field
+    'presence' => 0,
+    'maximumlength' => 100,
+    'block' => $blockId,
+]);
+
+$field = Field::create($tabId, $blockId, $def);
+// $field->setPicklistValues(['PLL_A', 'PLL_B']);   // picklist / multiselect
+// $field->setRelatedModules(['Accounts', 'Contacts']); // uitype 10 / 306
+```
+
+`Field::create()` handles: `fieldid` sequence, block sequence, `ProfileService::initForField()`, DB column, reference index, cache bust, translation key.
+
+## Remove field
+
+```php
+$field = Field::getInstance('my_field', Module::getInstance('Accounts'));
+if ($field) {
+    $field->delete(); // vtiger_field + profile2field + fieldmodulerel + cache
+    // dropColumn only if the column must go (delete() does not drop columns)
+}
+```
+
+## Do not (new migrations)
+
+- `$this->insert('vtiger_field', …)` or hand-built `vtiger_profile2field` loops
+- Hard-coded `FIELD_ID` + `vtiger_field_seq` sync unless you have a strong reason (avoid)
+- `vtlib\Field` (removed) — `vtlib\Block::addField()` still works but prefer `Field::create()` for clarity
+
+## Still OK as raw Yii DB
+
+- Non-field schema (`CREATE TABLE`, module tabs, related lists, picklist **data** backfills)
+- Updating existing field metadata: `$this->update('vtiger_field', …)` when not creating/deleting
+
+## References
+
+- UiType values: `uitypes.mdc`
+- Field labels / translations: `translations.mdc` (`fieldlabel` key = lang key)
+- After deploy: `deployment.mdc` (migrate + `regenerate_user_privileges.php` when profiles/menus change)

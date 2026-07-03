@@ -111,7 +111,11 @@
 						<div class="col-md-12 paddingLRZero">
 							{assign var=COUNTER value=0}
 							{foreach key=FIELD_NAME item=FIELD_MODEL from=$BLOCK_FIELDS name=blockfields}
-								{if $FIELD_MODEL->get('uitype') eq '20' || $FIELD_MODEL->get('uitype') eq '19' || $FIELD_MODEL->get('uitype') eq '300'}
+								{if $FIELD_MODEL->get('uitype') eq '300'}
+									</div>
+									<div class="col-md-12 paddingLRZero">
+									{assign var=COUNTER value=0}
+								{elseif $FIELD_MODEL->get('uitype') eq '20' || $FIELD_MODEL->get('uitype') eq '19'}
 									{if $COUNTER eq '1'}
 									</div>
 									<div class="col-md-12 paddingLRZero">

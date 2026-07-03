@@ -6360,3 +6360,31 @@ select.form-control {
 	align-items: center;
 	justify-content: center;
 }
+
+.detailViewHtmlField {
+	margin-bottom: 12px;
+}
+
+.detailViewHtmlField .fieldLabel label {
+	display: block;
+	margin-bottom: 6px;
+}
+
+.detailViewHtmlFieldValue {
+	border: 1px solid #ddd;
+	background: #fff;
+	padding: 12px;
+	overflow-x: auto;
+}
+
+.detailViewHtmlFieldValue .value {
+	display: block;
+}
+
+@media screen and (min-width: 960px) {
+	.detailViewTable .fieldRow > .detailViewHtmlField.fieldsLabelValue {
+		display: block;
+		width: 100%;
+		border-right: 0;
+	}
+}

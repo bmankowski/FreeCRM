@@ -317,6 +317,23 @@ class Mail
 		return $attachments;
 	}
 
+	/**
+	 * Append parsed template footer to the message body (empty footer is a no-op).
+	 */
+	public static function appendParsedFooter(string $body, array $template, \App\TextParser\TextParser $textParser): string
+	{
+		$footerRaw = (string) ($template['footer'] ?? '');
+		if ($footerRaw === '') {
+			return $body;
+		}
+		$footer = trim($textParser->setContent($footerRaw)->parse()->getContent());
+		if ($footer === '') {
+			return $body;
+		}
+
+		return rtrim($body) . $footer;
+	}
+
 	public static function clearTemplateListCache(): void
 	{
 		\App\Cache\Cache::clearNamespace('MailTempleteList');

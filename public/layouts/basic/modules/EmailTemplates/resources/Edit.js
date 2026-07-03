@@ -1,6 +1,10 @@
 /* {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} */
 Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
-	codeMirrorInstance: false,
+	codeMirrorInstances: {},
+
+	htmlEditorFields: function () {
+		return ['content', 'footer'];
+	},
 
 	getSelectedModules: function (form) {
 		if (typeof form == 'undefined') {
@@ -134,43 +138,52 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 		});
 	},
 	getContentTextarea: function (form) {
-		return form.find('[name="content"]').first();
+		return this.getHtmlFieldTextarea(form, 'content');
+	},
+	getHtmlFieldTextarea: function (form, fieldName) {
+		return form.find('[name="' + fieldName + '"]').first();
 	},
 	getContentValue: function (form) {
-		if (this.codeMirrorInstance) {
-			return this.codeMirrorInstance.getValue();
+		var cm = this.codeMirrorInstances.content;
+		if (cm) {
+			return cm.getValue();
 		}
 		return this.getContentTextarea(form).val();
 	},
 	setContentValue: function (form, value) {
-		if (this.codeMirrorInstance) {
-			this.codeMirrorInstance.setValue(value);
-			this.codeMirrorInstance.refresh();
+		var cm = this.codeMirrorInstances.content;
+		if (cm) {
+			cm.setValue(value);
+			cm.refresh();
 			return;
 		}
 		this.getContentTextarea(form).val(value);
 	},
 	insertContentValue: function (form, value) {
-		if (this.codeMirrorInstance) {
-			this.codeMirrorInstance.replaceSelection(value);
-			this.codeMirrorInstance.focus();
-			this.codeMirrorInstance.refresh();
+		var cm = this.codeMirrorInstances.content;
+		if (cm) {
+			cm.replaceSelection(value);
+			cm.focus();
+			cm.refresh();
 			return;
 		}
 		var textarea = this.getContentTextarea(form);
 		textarea.val((textarea.val() || '') + value);
 	},
 	syncCodeMirrorEditor: function () {
-		if (this.codeMirrorInstance) {
-			this.codeMirrorInstance.save();
-		}
+		jQuery.each(this.codeMirrorInstances, function (fieldName, cm) {
+			if (cm && typeof cm.save === 'function') {
+				cm.save();
+			}
+		});
 	},
 	runEditorCommand: function (commandName) {
-		if (!this.codeMirrorInstance || typeof this.codeMirrorInstance.execCommand !== 'function') {
+		var cm = this.codeMirrorInstances.content;
+		if (!cm || typeof cm.execCommand !== 'function') {
 			return;
 		}
-		this.codeMirrorInstance.focus();
-		this.codeMirrorInstance.execCommand(commandName);
+		cm.focus();
+		cm.execCommand(commandName);
 	},
 	getTemplateSnippet: function (snippetKey) {
 		var snippets = {
@@ -235,7 +248,17 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 		textarea.closest('.fieldValue').before(toolbar);
 	},
 	registerCodeMirror: function (form) {
-		var textarea = this.getContentTextarea(form);
+		var thisInstance = this;
+		if (typeof CodeMirror === 'undefined') {
+			return;
+		}
+		var heights = { content: 420, footer: 200 };
+		jQuery.each(this.htmlEditorFields(), function (index, fieldName) {
+			thisInstance.registerCodeMirrorField(form, fieldName, heights[fieldName] || 200);
+		});
+	},
+	registerCodeMirrorField: function (form, fieldName, height) {
+		var textarea = this.getHtmlFieldTextarea(form, fieldName);
 		if (!textarea.length || typeof CodeMirror === 'undefined') {
 			return;
 		}
@@ -245,10 +268,12 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 				CKEDITOR.instances[editorId].destroy(true);
 			}
 		}
-		if (this.codeMirrorInstance) {
-			this.codeMirrorInstance.toTextArea();
+		if (this.codeMirrorInstances[fieldName]) {
+			this.codeMirrorInstances[fieldName].toTextArea();
+			delete this.codeMirrorInstances[fieldName];
 		}
-		this.codeMirrorInstance = CodeMirror.fromTextArea(textarea.get(0), {
+		var thisInstance = this;
+		this.codeMirrorInstances[fieldName] = CodeMirror.fromTextArea(textarea.get(0), {
 			autoCloseBrackets: true,
 			autoCloseTags: true,
 			indentUnit: 2,
@@ -258,7 +283,7 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 			mode: 'htmlmixed',
 			styleActiveLine: true,
 			tabSize: 2,
-			extraKeys: {
+			extraKeys: fieldName === 'content' ? {
 				'Ctrl-F': 'findPersistent',
 				'Ctrl-H': 'replace',
 				'Ctrl-S': function () {
@@ -267,9 +292,9 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 				'Cmd-S': function () {
 					thisInstance.saveRecord();
 				}
-			}
+			} : {}
 		});
-		this.codeMirrorInstance.setSize('100%', 420);
+		this.codeMirrorInstances[fieldName].setSize('100%', height);
 		textarea.validationEngine('detach');
 	},
 	formatHtmlEditor: function (form) {

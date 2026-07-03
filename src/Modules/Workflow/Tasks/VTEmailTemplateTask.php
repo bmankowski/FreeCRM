@@ -92,11 +92,14 @@ class VTEmailTemplateTask extends VTTask
 		$textParser = \App\TextParser\TextParser::getInstanceByModel($recordModel);
 		$subject = $resolver->replaceInContent((string) ($template['subject'] ?? ''));
 		$content = $resolver->replaceInContent((string) ($template['content'] ?? ''));
+		$parsedSubject = $textParser->setContent($subject)->parse()->getContent();
+		$parsedContent = $textParser->setContent($content)->parse()->getContent();
+		$parsedContent = \App\Email\Mail::appendParsedFooter($parsedContent, $template, $textParser);
 		$mailerContent = [
 			'smtp_id' => !empty($this->smtp) ? $this->smtp : \App\Email\Mail::getDefaultSmtp(),
 			'to' => $toEmails,
-			'subject' => $textParser->setContent($subject)->parse()->getContent(),
-			'content' => $textParser->setContent($content)->parse()->getContent(),
+			'subject' => $parsedSubject,
+			'content' => $parsedContent,
 		];
 		unset($textParser);
 

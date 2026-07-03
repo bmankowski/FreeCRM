@@ -80,8 +80,60 @@
 										</div>
 									</div>
 									{assign var=COUNTER value=$COUNTER+1}
+								{elseif $FIELD_MODEL->get('uitype') eq '300'}
+									{if $COUNTER eq 1}
+										<div class="col-md-6 col-xs-12 fieldsLabelValue paddingLRZero"></div>
+									{/if}
+									</div>
+									<div class="col-xs-12 paddingLRZero fieldRow">
+									<div class="col-xs-12 fieldsLabelValue paddingLRZero detailViewHtmlField">
+										<div class="fieldLabel col-xs-12 {$WIDTHTYPE}"
+											id="{$MODULE_NAME}_detailView_fieldLabel_{$FIELD_MODEL->getName()}">
+											{assign var=HELPINFO value=explode(',',$FIELD_MODEL->get('helpinfo'))}
+											{assign var=HELPINFO_LABEL value=$MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->get('label')}
+											<label class="muted">
+												{$FIELD_MODEL->get('label')|t:$MODULE_NAME}
+												{if in_array($VIEW,$HELPINFO) && $HELPINFO_LABEL|t:'HelpInfo' neq $HELPINFO_LABEL}
+													<a href="#" class="HelpInfoPopover pull-right cursorPointer" title=""
+														data-placement="auto top"
+														data-content="{htmlspecialchars($MODULE_NAME|cat:'|'|cat:$FIELD_MODEL->get('label')|t:'HelpInfo')}"
+														data-original-title='{$FIELD_MODEL->get("label")|t:$MODULE_NAME}'><span
+															class="glyphicon glyphicon-info-sign"></span></a>
+												{/if}
+											</label>
+										</div>
+										<div class="fieldValue col-xs-12 {$WIDTHTYPE} detailViewHtmlFieldValue"
+											id="{$MODULE_NAME}_detailView_fieldValue_{$FIELD_MODEL->getName()}">
+											<span class="value" data-field-type="{$FIELD_MODEL->getFieldDataType()}" style="white-space:normal;">
+												{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
+											</span>
+											{assign var=EDIT value=false}
+											{if $IS_AJAX_ENABLED && $FIELD_MODEL->isReferenceModalEditable() eq true}
+												<span class="summaryViewEdit referenceModalEdit cursorPointer pull-right"
+													data-field-name="{$FIELD_MODEL->getName()}"
+													data-record="{$RECORD->getId()}" data-module="{$MODULE_NAME}">
+													&nbsp;<i class="glyphicon glyphicon-pencil" title="{'LBL_EDIT'|t:$MODULE_NAME}"></i>
+												</span>
+											{elseif $IS_AJAX_ENABLED && $FIELD_MODEL->isEditable() eq 'true' && $FIELD_MODEL->isAjaxEditable() eq 'true' && !$EDIT}
+												<span class="summaryViewEdit cursorPointer pull-right ">
+													&nbsp;<i class="glyphicon glyphicon-pencil" title="{'LBL_EDIT'|t:$MODULE_NAME}"></i>
+												</span>
+												<span class="hide edit">
+													{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME}
+													{assign var=FIELD_VALUE value=$FIELD_MODEL->getEditViewDisplayValue($FIELD_MODEL->get('fieldvalue'), $RECORD->getId())}
+													{if $FIELD_VALUE|is_array}
+														{assign var=FIELD_VALUE value=\App\Utils\Json::encode($FIELD_VALUE)}
+													{/if}
+													<input type="hidden" class="fieldname" value='{$FIELD_MODEL->get('name')}'
+														data-type="{$FIELD_MODEL->getFieldDataType()}"
+														data-prev-value='{\App\Modules\Base\Helpers\Util::toSafeHTML($FIELD_VALUE)}' />
+												</span>
+											{/if}
+										</div>
+									</div>
+									{assign var=COUNTER value=0}
 								{else}
-									{if $FIELD_MODEL->get('uitype') eq "20" or $FIELD_MODEL->get('uitype') eq "19" or $FIELD_MODEL->get('uitype') eq '300'}
+									{if $FIELD_MODEL->get('uitype') eq "20" or $FIELD_MODEL->get('uitype') eq "19"}
 										{if $COUNTER eq '1'}
 											{assign var=COUNTER value=0}
 										{/if}
@@ -112,10 +164,10 @@
 
 										<div class="fieldValue col-sm-7 col-xs-12 {$WIDTHTYPE}"
 											id="{$MODULE_NAME}_detailView_fieldValue_{$FIELD_MODEL->getName()}"
-											{if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20' or $FIELD_MODEL->get('uitype') eq '300'}
+											{if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20'}
 											{assign var=COUNTER value=$COUNTER+1} {/if}>
 											<span class="value" data-field-type="{$FIELD_MODEL->getFieldDataType()}"
-												{if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20' or $FIELD_MODEL->get('uitype') eq '21' or $FIELD_MODEL->get('uitype') eq '300'}
+												{if $FIELD_MODEL->get('uitype') eq '19' or $FIELD_MODEL->get('uitype') eq '20' or $FIELD_MODEL->get('uitype') eq '21'}
 												style="white-space:normal;" {/if}>
 												{include file=vtemplate_path($FIELD_MODEL->getUITypeModel()->getDetailViewTemplateName(),$MODULE_NAME) FIELD_MODEL=$FIELD_MODEL USER_MODEL=$USER_MODEL MODULE=$MODULE_NAME RECORD=$RECORD}
 											</span>

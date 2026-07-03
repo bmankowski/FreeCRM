@@ -12,6 +12,7 @@
         "LBL_ALL_MODULES": "All modules",
         "FL_SUBJECT": "Subject",
         "FL_CONTENT": "Content",
+        "FL_FOOTER": "Footer",
         "FL_SMTP": "SMTP server",
         "FL_SMTP_PRIORITY": "SMTP priority",
         "FL_SHORT_NAME": "Short name",

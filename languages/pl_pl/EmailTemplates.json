@@ -12,6 +12,7 @@
         "LBL_ALL_MODULES": "Wszystkie moduły",
         "FL_SUBJECT": "Temat",
         "FL_CONTENT": "Treść",
+        "FL_FOOTER": "Stopka",
         "FL_SMTP": "Serwer SMTP",
         "FL_SMTP_PRIORITY": "Priorytet SMTP",
         "FL_SHORT_NAME": "Nazwa skrócona",

@@ -284,6 +284,7 @@ class IndividualSendMailModal extends BasicModal
 		}
 		$subject = $textParser->setContent($template['subject'])->parse()->getContent();
 		$content = $textParser->setContent($template['content'])->parse()->getContent();
+		$content = \App\Email\Mail::appendParsedFooter($content, $template, $textParser);
 		unset($textParser);
 		$userId = (int) $request->getUser()->getId();
 
@@ -301,7 +302,10 @@ class IndividualSendMailModal extends BasicModal
 	{
 		$subject = (string) ($template['subject'] ?? '');
 		$content = (string) ($template['content'] ?? '');
-		return str_contains($subject, '$(sourceRecord :') || str_contains($content, '$(sourceRecord :');
+		$footer = (string) ($template['footer'] ?? '');
+		return str_contains($subject, '$(sourceRecord :')
+			|| str_contains($content, '$(sourceRecord :')
+			|| str_contains($footer, '$(sourceRecord :');
 	}
 
 	/**

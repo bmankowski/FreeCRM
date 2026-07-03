@@ -86,6 +86,7 @@ class Outbound
 		$textParser->setMailMessageId($crmMessageId);
 		$subject = $textParser->setContent($template['subject'] ?? '')->parse()->getContent();
 		$content = $textParser->setContent($template['content'] ?? '')->parse()->getContent();
+		$content = \App\Email\Mail::appendParsedFooter($content, $template, $textParser);
 		$parsedTemplateContent = $content;
 		if (!empty($params['subjectOverride'])) {
 			$subject = $textParser->setContent((string) $params['subjectOverride'])->parse()->getContent();
