@@ -12,8 +12,11 @@
 | Change 6 — strip `DT~time_start` companion pattern | **Done** (2026-05-26) |
 | Fix — self-referential OTH constraints (`vtiger_assets`) | **Done** (2026-05-26) |
 | Change 7 — remove legacy `explode('~', typeofdata)` in PHP | **Done** (2026-05-26) |
+| Change 8 — strip remaining ~M/~O suffix | **Done** (2026-07-03) |
 
 Deploy **migration before** PHP on each environment: `yii migrate --migrationPath=migrations/Users/`
+
+**Change 8 note:** `typeofdata` must be a single type token (`V`, `D`, `N`, …). The `mandatory` column is authoritative. New code must not write `~M`/`~O`; [`FieldDefinition::normalizeTypeofdata()`](src/Field/FieldDefinition.php) strips legacy suffixes at the persistence boundary.
 
 ---
 

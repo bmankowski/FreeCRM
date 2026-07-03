@@ -72,6 +72,25 @@ final class FieldDefinition
      * App\Fields\Field::getFieldInfo()). Unknown keys are silently ignored.
      * Missing optional keys fall back to their DB DEFAULT values.
      */
+    /**
+     * Strips legacy mandatory segment (~M / ~O) from typeofdata.
+     * The mandatory column is authoritative; typeofdata must be a single type token.
+     *
+     * @throws \InvalidArgumentException when typeofdata has unexpected multi-segment encoding
+     */
+    public static function normalizeTypeofdata(string $value): string
+    {
+        if (!str_contains($value, '~')) {
+            return $value;
+        }
+        if (preg_match('/^[A-Z]+~(M|O)$/', $value) === 1) {
+            return strstr($value, '~', true) ?: $value;
+        }
+        throw new \InvalidArgumentException(
+            'typeofdata must be a single type token; legacy multi-segment value: ' . $value
+        );
+    }
+
     public static function fromRow(array $row): self
     {
         return new self(
@@ -83,7 +102,7 @@ final class FieldDefinition
             column:              (string) $row['columnname'],
             columntype:          isset($row['columntype']) ? (string) $row['columntype'] : null,
             uitype:              (int) $row['uitype'],
-            typeofdata:          (string) ($row['typeofdata'] ?? 'V'),
+            typeofdata:          self::normalizeTypeofdata((string) ($row['typeofdata'] ?? 'V')),
             displaytype:         (int) ($row['displaytype'] ?? 1),
             generatedtype:       (int) ($row['generatedtype'] ?? 0),    // DB DEFAULT 0
             readonly:            (bool) ($row['readonly'] ?? false),
@@ -144,7 +163,7 @@ final class FieldDefinition
             'tablename'           => $this->table,
             'columnname'          => $this->column,
             'uitype'              => $this->uitype,
-            'typeofdata'          => $this->typeofdata,
+            'typeofdata'          => self::normalizeTypeofdata($this->typeofdata),
             'displaytype'         => $this->displaytype,
             'generatedtype'       => $this->generatedtype,
             'readonly'            => (int) $this->readonly,

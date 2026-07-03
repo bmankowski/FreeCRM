@@ -58,7 +58,7 @@ class WebserviceField
 		$this->fieldLabel = $row['fieldlabel'];
 		$this->displayType = $row['displaytype'];
 		$this->massEditable = ($row['masseditable'] === '1') ? true : false;
-		$this->typeOfData = $row['typeofdata'];
+		$this->typeOfData = \App\Field\FieldDefinition::normalizeTypeofdata((string) $row['typeofdata']);
 		$this->presence = $row['presence'];
 		$this->mandatory = (bool) ($row['mandatory'] ?? false);
 		if ($this->uitype == 4) {

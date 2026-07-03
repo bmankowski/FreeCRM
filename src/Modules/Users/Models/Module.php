@@ -384,7 +384,7 @@ class Module extends \App\Modules\Base\Models\Module
 			'tablename' => 'vtiger_users',
 			'columnname' => 'confirm_password',
 			'uitype' => 99,
-			'typeofdata' => 'V~M',
+			'typeofdata' => 'V',
 			'displaytype' => 1,
 			'mandatory' => 1,
 			'presence' => 0,

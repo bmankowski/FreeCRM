@@ -346,7 +346,7 @@ class Block
 			$column,
 			$table,
 			(int) $get($fieldInstance, 'uitype', 1),
-			$get($fieldInstance, 'typeofdata', 'V~O'),
+			$get($fieldInstance, 'typeofdata', 'V'),
 			(int) $get($fieldInstance, 'presence', 0)
 		);
 
