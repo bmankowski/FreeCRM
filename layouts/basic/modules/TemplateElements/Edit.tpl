@@ -99,7 +99,7 @@
 						<div class="form-group js-dynamic-fragment-editor{if $RECORD_MODEL->get('type') eq 'PLL_DOCUMENT_LAYOUT'} hide{/if}">
 							<label class="control-label col-md-3">{'LBL_CONTENT'|t:$QUALIFIED_MODULE} <span class="redColor">*</span></label>
 							<div class="controls col-md-8">
-								<textarea class="form-control js-dynamic-content" id="dynamicElementContent" name="content" rows="16" {if $RECORD_MODEL->get('type') neq 'PLL_DOCUMENT_LAYOUT'}data-validation-engine="validate[required]"{/if}>{$RECORD_MODEL->get('content')|escape}</textarea>
+								<textarea class="form-control js-dynamic-content" id="dynamicElementContent" name="content" rows="16">{$RECORD_MODEL->get('content')|escape}</textarea>
 							</div>
 						</div>
 						<div class="form-group js-dynamic-layout-editor{if $RECORD_MODEL->get('type') neq 'PLL_DOCUMENT_LAYOUT'} hide{/if}">
@@ -111,7 +111,7 @@
 						<div class="form-group js-dynamic-layout-editor{if $RECORD_MODEL->get('type') neq 'PLL_DOCUMENT_LAYOUT'} hide{/if}">
 							<label class="control-label col-md-3">{'LBL_LAYOUT_BODY'|t:$QUALIFIED_MODULE} <span class="redColor">*</span></label>
 							<div class="controls col-md-8">
-								<textarea class="form-control js-dynamic-layout-body" id="dynamicElementLayoutBody" name="layout_body" rows="16" {if $RECORD_MODEL->get('type') eq 'PLL_DOCUMENT_LAYOUT'}data-validation-engine="validate[required]"{/if}>{$RECORD_MODEL->get('layout_body')|escape}</textarea>
+								<textarea class="form-control js-dynamic-layout-body" id="dynamicElementLayoutBody" name="layout_body" rows="16">{$RECORD_MODEL->get('layout_body')|escape}</textarea>
 							</div>
 						</div>
 						<div class="form-group js-dynamic-layout-editor{if $RECORD_MODEL->get('type') neq 'PLL_DOCUMENT_LAYOUT'} hide{/if}">
@@ -129,7 +129,7 @@
 						<div class="row">
 							<div class="col-md-11">
 								<span class="pull-right">
-									<button class="btn btn-success" type="submit"><span class="glyphicon glyphicon-ok"></span>&nbsp;<strong>{'LBL_SAVE_AND_CLOSE'|t:$QUALIFIED_MODULE}</strong></button>
+									<button class="btn btn-success js-template-elements-submit" type="submit" disabled="disabled"><span class="glyphicon glyphicon-ok"></span>&nbsp;<strong>{'LBL_SAVE_AND_CLOSE'|t:$QUALIFIED_MODULE}</strong></button>
 									<a class="cancelLink btn btn-warning" href="index.php?module=TemplateElements&view=ListView"><span class="glyphicon glyphicon-remove"></span>&nbsp;{'LBL_CANCEL'|t:$QUALIFIED_MODULE}</a>
 								</span>
 							</div>

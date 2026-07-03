@@ -27,6 +27,10 @@ class Modules extends BaseUiType
 	 */
 	public function getDisplayValue($value, $record = false, $recordInstance = false, $rawText = false)
 	{
+		if ($value === '' || $value === null) {
+			return '';
+		}
+
 		return \App\Runtime\Vtiger_Language_Handler::translate($value, $value);
 	}
 

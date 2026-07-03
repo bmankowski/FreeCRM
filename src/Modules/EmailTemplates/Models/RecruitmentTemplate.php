@@ -26,10 +26,8 @@ class RecruitmentTemplate
 			->select(['sys_name'])
 			->from('u_yf_emailtemplates')
 			->innerJoin('vtiger_crmentity', 'u_yf_emailtemplates.emailtemplatesid = vtiger_crmentity.crmid')
-			->where([
-				'vtiger_crmentity.deleted' => 0,
-				'u_yf_emailtemplates.module' => self::RECRUITMENT_MODULE,
-			])
+			->where(['vtiger_crmentity.deleted' => 0])
+			->andWhere(TemplateModule::sqlMatchesColumn('u_yf_emailtemplates.modules', self::RECRUITMENT_MODULE))
 			->andWhere(['not', ['u_yf_emailtemplates.sys_name' => null]])
 			->andWhere(['<>', 'u_yf_emailtemplates.sys_name', ''])
 			->orderBy(['u_yf_emailtemplates.sys_name' => SORT_ASC])
@@ -71,9 +69,9 @@ class RecruitmentTemplate
 			->innerJoin('vtiger_crmentity', 'u_yf_emailtemplates.emailtemplatesid = vtiger_crmentity.crmid')
 			->where([
 				'vtiger_crmentity.deleted' => 0,
-				'u_yf_emailtemplates.module' => self::RECRUITMENT_MODULE,
 				'u_yf_emailtemplates.sys_name' => $sysName,
 			])
+			->andWhere(TemplateModule::sqlMatchesColumn('u_yf_emailtemplates.modules', self::RECRUITMENT_MODULE))
 			->exists();
 	}
 
@@ -89,9 +87,9 @@ class RecruitmentTemplate
 			->innerJoin('vtiger_crmentity', 'u_yf_emailtemplates.emailtemplatesid = vtiger_crmentity.crmid')
 			->where([
 				'vtiger_crmentity.deleted' => 0,
-				'u_yf_emailtemplates.module' => self::RECRUITMENT_MODULE,
 				'u_yf_emailtemplates.sys_name' => $sysName,
 			])
+			->andWhere(TemplateModule::sqlMatchesColumn('u_yf_emailtemplates.modules', self::RECRUITMENT_MODULE))
 			->andWhere(TemplateAccount::accountIdInColumnCondition($accountId))
 			->scalar();
 
@@ -108,9 +106,9 @@ class RecruitmentTemplate
 			->innerJoin('vtiger_crmentity', 't.emailtemplatesid = vtiger_crmentity.crmid')
 			->where([
 				'vtiger_crmentity.deleted' => 0,
-				't.module' => self::RECRUITMENT_MODULE,
 				't.sys_name' => $sysName,
 			])
+			->andWhere(TemplateModule::sqlMatchesColumn('t.modules', self::RECRUITMENT_MODULE))
 			->andWhere(TemplateAccount::globalAccountCondition('t.account_id'))
 			->scalar();
 

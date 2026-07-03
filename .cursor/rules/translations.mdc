@@ -51,6 +51,10 @@ Use `JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE`. Keys are the **lookup string**
 
 Page boot embeds `#js_strings` from `BaseViewController::getJSLanguageStrings()` — current module + **Vtiger** `jsLanguageStrings` merged. Keys in `languageStrings` alone (e.g. `Users.json` for login tpl) are **not** available to `app.vtranslate()`. If the UI shows the raw key, add it to `jsLanguageStrings` (use `Vtiger.json` for cross-module toasts in shared JS like `Vtiger.js`). Example: mail compose `SenderPicker.js` needs `LBL_SENDER_PERSONAL` / `LBL_SENDER_GROUP` in `Vtiger.json`, not only `Mail.json`. Inline `<script>` in `.tpl`: same rule — use `app.vtranslate('JS_*')` on interaction (after footer scripts), not `{"JS_*"|t}`.
 
+### jQuery Validation Engine language file
+
+`validate[required]` prompts come from `jquery.validationEngine-{lang}.js` (not JSON). Loaded in `BaseViewController::getHeaderScripts()` — `{lang}` = first 2 chars of user locale (`pl` from `pl_pl`). File: `public/libraries/jquery/posabsolute-jQuery-Validation-Engine/js/languages/`. **Probe with** `Loader::resolveNameToPath('~libraries/...', 'js')`; raw `file_exists('libraries/...')` misses `public/` and silently falls back to `-en.js` (`* This field is required`). Custom validators in `FieldValidator.js` use `app.vtranslate('JS_REQUIRED_FIELD')` from `Vtiger.json` instead.
+
 ## Fast workflow: translate a module name or labels
 
 Do **not** grep `user_privileges/`, the whole repo, or `vtiger_tab` unless a key is missing after editing lang files.

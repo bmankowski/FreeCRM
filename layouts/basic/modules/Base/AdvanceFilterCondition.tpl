@@ -118,13 +118,9 @@
 		<div class="col-md-3">
 			<input type="hidden" name="comparatorValue" value="{if isset($CONDITION_INFO['comparator'])}{$CONDITION_INFO['comparator']}{/if}">
 			{if $SELECTED_FIELD_MODEL}
+				{assign var=ADVANCE_FILTER_OPTIONS value=$SELECTED_FIELD_MODEL->getCustomViewAdvancedFilterOps()}
 				{if !$FIELD_TYPE}
-					{assign var=FIELD_TYPE value=$SELECTED_FIELD_MODEL->getFieldDataType()}
-				{/if}
-				{if isset($ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE])}
-					{assign var=ADVANCE_FILTER_OPTIONS value=$ADVANCED_FILTER_OPTIONS_BY_TYPE[$FIELD_TYPE]}
-				{else}
-					{assign var=ADVANCE_FILTER_OPTIONS value=array()}
+					{assign var=FIELD_TYPE value=$SELECTED_FIELD_MODEL->getFieldType()}
 				{/if}
 				{if in_array($SELECTED_FIELD_MODEL->getFieldType(),['D','DT'])}
 					{assign var=DATE_FILTER_CONDITIONS value=array_keys($DATE_FILTERS)}

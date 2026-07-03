@@ -2,9 +2,27 @@
 Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 	codeMirrorInstance: false,
 
+	getSelectedModules: function (form) {
+		if (typeof form == 'undefined') {
+			form = this.getForm();
+		}
+		var field = form.find('[name="modules[]"]');
+		if (field.length) {
+			var val = field.val();
+			if (!val) {
+				return [];
+			}
+			return Array.isArray(val) ? val : [val];
+		}
+		return [];
+	},
 	getTargetModuleName: function (form) {
 		if (typeof form == 'undefined') {
 			form = this.getForm();
+		}
+		var modules = this.getSelectedModules(form);
+		if (modules.length) {
+			return modules[0];
 		}
 		var moduleNameField = form.find('[name="module_name"]');
 		if (moduleNameField.length) {
@@ -111,7 +129,7 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 		}
 		form.find('.blockContainer[data-label="LBL_CONTENT_MAIL"] .blockContent').prepend('<div id="variablePanel" class="col-md-12 paddingLRZero borderBottom bc-gray-lighter"></div>');
 		thisInstance.loadVariablePanel(form);
-		form.find('[name="module_name"]').on('change', function (e) {
+		form.find('[name="modules[]"], [name="module_name"]').on('change', function (e) {
 			thisInstance.loadVariablePanel(form);
 		});
 	},
@@ -381,17 +399,25 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 		this.registerRecruitmentModuleToggle(container);
 	},
 	registerRecruitmentModuleToggle: function (container) {
+		var thisInstance = this;
 		var form = container.is('form') ? container : container.find('form');
 		if (!form.length) {
 			return;
 		}
-		var moduleField = form.find('[name="module_name"]');
+		var moduleField = form.find('[name="modules[]"]');
+		if (!moduleField.length) {
+			moduleField = form.find('[name="module_name"]');
+		}
 		if (!moduleField.length) {
 			return;
 		}
 		var accountRow = form.find('[name="account_id"]').closest('.fieldRow');
 		var sync = function () {
-			var isRecruitment = moduleField.val() === 'ProjektyRekrutacyjne';
+			var selected = thisInstance.getSelectedModules(form);
+			if (!selected.length && moduleField.is('[name="module_name"]')) {
+				selected = moduleField.val() ? [moduleField.val()] : [];
+			}
+			var isRecruitment = jQuery.inArray('ProjektyRekrutacyjne', selected) !== -1;
 			accountRow.toggleClass('hide', !isRecruitment);
 		};
 		moduleField.off('change.recruitmentAccountField').on('change.recruitmentAccountField', sync);

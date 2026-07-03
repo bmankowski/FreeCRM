@@ -775,7 +775,7 @@ class Base1 extends \App\Db\Importers\Base
 					'name' => $this->stringType(),
 					'number' => $this->stringType(32),
 					'email_template_type' => $this->stringType(50),
-					'module' => $this->stringType(50),
+					'modules' => $this->text(),
 					'subject' => $this->stringType(),
 					'content' => $this->text(),
 					'sys_name' => $this->stringType(50),
@@ -3321,7 +3321,7 @@ class Base1 extends \App\Db\Importers\Base
 				]
 			],
 			'u_#__emailtemplates' => [
-				'columns' => ['emailtemplatesid', 'name', 'number', 'email_template_type', 'module', 'subject', 'content', 'sys_name', 'email_template_priority'],
+				'columns' => ['emailtemplatesid', 'name', 'number', 'email_template_type', 'modules', 'subject', 'content', 'sys_name', 'email_template_priority'],
 				'values' => [
 						[35, 'Notify Owner On Ticket Change', 'N1', 'PLL_RECORD', 'HelpDesk', '$(translate : HelpDesk|LBL_NOTICE_MODIFICATION)$ $(record : ticket_no)$:$(record : ticket_title)$', '<table border="0" style="width:100%;font-family:Arial, \'Sans-serif\';border:1px solid #ccc;border-width:1px 2px 2px 1px;background-color:#fff;"><tr><td style="background-color:#f6f6f6;color:#888;border-bottom:1px solid #ccc;font-family:Arial, \'Sans-serif\';font-size:11px;">
 			<h3 style="padding:0 0 6px 0;margin:0;font-family:Arial, \'Sans-serif\';font-size:16px;font-weight:bold;color:#222;"><span>$(translate : HelpDesk|LBL_NOTICE_WELCOME)$ YetiForce Sp. z o.o. </span></h3>

@@ -131,6 +131,7 @@ class BaseUiType extends \App\Runtime\BaseModel
 		342 => 'Recurrence',
 		357 => 'Reference',
 		358 => 'MailSmtpSelect',
+		359 => 'ModulesMultipicklist',
 	];
 
 	/**

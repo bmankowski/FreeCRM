@@ -370,11 +370,12 @@ abstract class BaseViewController extends \App\Base\Controllers\BaseActionContro
 		];
 
 		$languageHandlerShortName = \App\Runtime\Vtiger_Language_Handler::getShortLanguageName();
-		$fileName = sprintf('libraries/jquery/posabsolute-jQuery-Validation-Engine/js/languages/jquery.validationEngine-%s.js', $languageHandlerShortName);
-		if (!file_exists($fileName)) {
-			$fileName = "~libraries/jquery/posabsolute-jQuery-Validation-Engine/js/languages/jquery.validationEngine-en.js";
-		} else {
-			$fileName = sprintf('~libraries/jquery/posabsolute-jQuery-Validation-Engine/js/languages/jquery.validationEngine-%s.js', $languageHandlerShortName);
+		$fileName = sprintf(
+			'~libraries/jquery/posabsolute-jQuery-Validation-Engine/js/languages/jquery.validationEngine-%s.js',
+			$languageHandlerShortName
+		);
+		if (!is_file(\App\Core\Loader::resolveNameToPath($fileName, 'js'))) {
+			$fileName = '~libraries/jquery/posabsolute-jQuery-Validation-Engine/js/languages/jquery.validationEngine-en.js';
 		}
 
 		$jsFileNames[] = $fileName;

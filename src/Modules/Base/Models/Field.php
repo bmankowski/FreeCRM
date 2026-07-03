@@ -558,6 +558,7 @@ class Field
 		342 => 'recurrence',
 		357 => 'reference',
 		358 => 'mailSmtpSelect',
+		359 => 'modulesMultipicklist',
 	];
 
 	/**
@@ -781,7 +782,25 @@ class Field
 		} else {
 			$fieldType = \vtlib\Functions::transformFieldTypeOfData($this->get('table'), $this->get('column'), $fieldType);
 		}
+		if (str_contains($fieldType, '~')) {
+			$fieldType = strstr($fieldType, '~', true) ?: $fieldType;
+		}
 		return $this->fieldType = $fieldType;
+	}
+
+	/**
+	 * Advanced filter comparators for custom views / reports (by field semantics).
+	 *
+	 * @return string[]
+	 */
+	public function getCustomViewAdvancedFilterOps(): array
+	{
+		if (in_array($this->getFieldDataType(), ['modules', 'modulesMultipicklist'], true)) {
+			return ['e', 'n', 'y', 'ny'];
+		}
+		$fieldType = $this->getFieldType();
+
+		return self::getAdvancedFilterOpsByFieldType()[$fieldType] ?? [];
 	}
 
 	/**
@@ -1035,13 +1054,7 @@ class Field
 		$columnName = $this->get('column');
 		$fieldName = $this->get('name');
 		$fieldLabel = $this->get('label');
-		$fieldType = (string) $this->get('typeofdata');
-		//Special condition need for reference field as they should be treated as string field
-		if ($this->getFieldDataType() === 'reference') {
-			$fieldType = 'V';
-		} else {
-			$fieldType = \vtlib\Functions::transformFieldTypeOfData($tableName, $columnName, $fieldType);
-		}
+		$fieldType = $this->getFieldType();
 		$escapedFieldLabel = str_replace(' ', '_', $fieldLabel);
 		$moduleFieldLabel = "{$moduleName}_{$escapedFieldLabel}";
 		return "$tableName:$columnName:$fieldName:$moduleFieldLabel:$fieldType";
@@ -1058,12 +1071,7 @@ class Field
 		$columnName = $this->get('column');
 		$fieldName = $this->get('name');
 		$fieldLabel = $this->get('label');
-		$fieldType = (string) $this->get('typeofdata');
-		if ($this->getFieldDataType() == 'reference') {
-			$fieldType = 'V';
-		} else {
-			$fieldType = \vtlib\Functions::transformFieldTypeOfData($tableName, $columnName, $fieldType);
-		}
+		$fieldType = $this->getFieldType();
 		$escapedFieldLabel = str_replace(' ', '_', $fieldLabel);
 		$moduleFieldLabel = $moduleName . '_' . $escapedFieldLabel;
 
@@ -1162,6 +1170,7 @@ class Field
 			}
 			break;
 			case 'modules':
+			case 'modulesMultipicklist':
 				$modulesList = [];
 				foreach ($this->getModulesListValues() as $moduleId => $module) {
 					$modulesList[$module['name']] = $module['label'];

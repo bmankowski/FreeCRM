@@ -88,15 +88,25 @@ class Mail
 	 */
 	public static function getTempleteList($moduleName = false, $type = false, $hideSystem = true)
 	{
-		$cacheKey = "$moduleName.$type";
+		$cacheKey = (string) $moduleName . '.' . (string) $type . '.' . (int) $hideSystem;
 		if (Cache::has('MailTempleteList', $cacheKey)) {
 			return Cache::get('MailTempleteList', $cacheKey);
 		}
-		$query = (new \App\Db\Query())->select(['name' => 'u_#__emailtemplates.name', 'id' => 'u_#__emailtemplates.emailtemplatesid', 'moduleName' => 'u_#__emailtemplates.module', 'sender_type' => 'u_#__emailtemplates.sender_type', 'smtp_id' => 'u_#__emailtemplates.smtp_id'])->from('u_#__emailtemplates')
+		$query = (new \App\Db\Query())
+			->select([
+				'name' => 'u_#__emailtemplates.name',
+				'id' => 'u_#__emailtemplates.emailtemplatesid',
+				'modules' => 'u_#__emailtemplates.modules',
+				'sender_type' => 'u_#__emailtemplates.sender_type',
+				'smtp_id' => 'u_#__emailtemplates.smtp_id',
+			])
+			->from('u_#__emailtemplates')
 			->innerJoin('vtiger_crmentity', 'u_#__emailtemplates.emailtemplatesid = vtiger_crmentity.crmid')
 			->where(['vtiger_crmentity.deleted' => 0]);
 		if ($moduleName) {
-			$query->andWhere(['u_#__emailtemplates.module' => $moduleName]);
+			$query->andWhere(
+				\App\Modules\EmailTemplates\Models\TemplateModule::sqlGlobalOrMatches('u_#__emailtemplates.modules', (string) $moduleName)
+			);
 		}
 		if ($type) {
 			$query->andWhere(['u_#__emailtemplates.email_template_type' => $type]);
@@ -104,14 +114,17 @@ class Mail
 		if ($hideSystem) {
 			$query->andWhere(['u_#__emailtemplates.is_system' => 0]);
 		}
-		$row = $query
-			->orderBy([
-				'u_#__emailtemplates.sequence' => SORT_ASC,
-				'u_#__emailtemplates.name' => SORT_ASC,
-				'u_#__emailtemplates.emailtemplatesid' => SORT_ASC,
-			])
-			->all();
+		$row = static::formatTempleteListRows(
+			$query
+				->orderBy([
+					'u_#__emailtemplates.sequence' => SORT_ASC,
+					'u_#__emailtemplates.name' => SORT_ASC,
+					'u_#__emailtemplates.emailtemplatesid' => SORT_ASC,
+				])
+				->all()
+		);
 		Cache::save('MailTempleteList', $cacheKey, $row, Cache::LONG);
+
 		return $row;
 	}
 
@@ -132,33 +145,69 @@ class Mail
 		if (count($moduleNames) === 1) {
 			return static::getTempleteList($moduleNames[0], $type, $hideSystem);
 		}
-		$cacheKey = implode(',', $moduleNames) . '.' . (string) $type;
+		$cacheKey = implode(',', $moduleNames) . '.' . (string) $type . '.' . (int) $hideSystem;
 		if (Cache::has('MailTempleteList', $cacheKey)) {
 			return Cache::get('MailTempleteList', $cacheKey);
 		}
-		$query = (new \App\Db\Query())->select(['name' => 'u_#__emailtemplates.name', 'id' => 'u_#__emailtemplates.emailtemplatesid', 'moduleName' => 'u_#__emailtemplates.module', 'sender_type' => 'u_#__emailtemplates.sender_type', 'smtp_id' => 'u_#__emailtemplates.smtp_id'])->from('u_#__emailtemplates')
+		$query = (new \App\Db\Query())
+			->select([
+				'name' => 'u_#__emailtemplates.name',
+				'id' => 'u_#__emailtemplates.emailtemplatesid',
+				'modules' => 'u_#__emailtemplates.modules',
+				'sender_type' => 'u_#__emailtemplates.sender_type',
+				'smtp_id' => 'u_#__emailtemplates.smtp_id',
+			])
+			->from('u_#__emailtemplates')
 			->innerJoin('vtiger_crmentity', 'u_#__emailtemplates.emailtemplatesid = vtiger_crmentity.crmid')
-			->where(['vtiger_crmentity.deleted' => 0, 'u_#__emailtemplates.module' => $moduleNames]);
+			->where(['vtiger_crmentity.deleted' => 0])
+			->andWhere(
+				\App\Modules\EmailTemplates\Models\TemplateModule::sqlGlobalOrMatchesAny('u_#__emailtemplates.modules', $moduleNames)
+			);
 		if ($type) {
 			$query->andWhere(['u_#__emailtemplates.email_template_type' => $type]);
 		}
 		if ($hideSystem) {
 			$query->andWhere(['u_#__emailtemplates.is_system' => 0]);
 		}
-		$row = $query
-			->orderBy([
-				'u_#__emailtemplates.sequence' => SORT_ASC,
-				'u_#__emailtemplates.name' => SORT_ASC,
-				'u_#__emailtemplates.emailtemplatesid' => SORT_ASC,
-			])
-			->all();
-		foreach ($row as &$templateRow) {
-			$moduleLabel = \App\Runtime\Vtiger_Language_Handler::translate($templateRow['moduleName'], $templateRow['moduleName']);
-			$templateRow['name'] = $templateRow['name'] . ' (' . $moduleLabel . ')';
-		}
-		unset($templateRow);
+		$row = static::formatTempleteListRows(
+			$query
+				->orderBy([
+					'u_#__emailtemplates.sequence' => SORT_ASC,
+					'u_#__emailtemplates.name' => SORT_ASC,
+					'u_#__emailtemplates.emailtemplatesid' => SORT_ASC,
+				])
+				->all(),
+			true
+		);
 		Cache::save('MailTempleteList', $cacheKey, $row, Cache::LONG);
+
 		return $row;
+	}
+
+	/**
+	 * @param list<array<string, mixed>> $rows
+	 * @return list<array<string, mixed>>
+	 */
+	private static function formatTempleteListRows(array $rows, bool $appendModuleSuffix = false): array
+	{
+		$formatted = [];
+		foreach ($rows as $templateRow) {
+			$assigned = \App\Modules\EmailTemplates\Models\TemplateModule::parse($templateRow['modules'] ?? '');
+			$templateRow['moduleName'] = $assigned[0] ?? '';
+			if ($appendModuleSuffix && count($assigned) === 1) {
+				$moduleLabel = \App\Runtime\Vtiger_Language_Handler::translate($assigned[0], $assigned[0]);
+				$templateRow['name'] = $templateRow['name'] . ' (' . $moduleLabel . ')';
+			} elseif ($appendModuleSuffix && count($assigned) > 1) {
+				$labels = [];
+				foreach ($assigned as $moduleName) {
+					$labels[] = \App\Runtime\Vtiger_Language_Handler::translate($moduleName, $moduleName);
+				}
+				$templateRow['name'] = $templateRow['name'] . ' (' . implode(', ', $labels) . ')';
+			}
+			$formatted[] = $templateRow;
+		}
+
+		return $formatted;
 	}
 
 	/**

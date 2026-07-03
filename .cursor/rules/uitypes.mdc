@@ -48,7 +48,8 @@ Located at `BaseUiType::UITYPE_CLASS_MAP`. Maps uitype integer directly to the U
 | 98 | `UserRole` | |
 | 117 | `CurrencyList` | |
 | 120 | `SharedOwner` | |
-| 301 | `Modules` | |
+| 301 | `Modules` | Single module picklist (Edit); multi-select in Custom View filters via `AdvanceFilter_Modules_Field_Js` |
+| 359 | `ModulesMultipicklist` | Multi module picklist (` \|##\| ` storage); empty = global scope (EmailTemplates) |
 | 302 | `Tree` | `getAllValue()` for advanced-search picklists in `Field::getFieldInfo()` |
 | 303 | `Taxes` | |
 | 304 | `InventoryLimit` | |
@@ -86,6 +87,7 @@ Key entries that differ from the naive uitype name:
 | 61 | `file` | Not `image` |
 | 69 | `image` | Not `file` |
 | 117 | `currencyList` | Not `currency` (71/72 are `currency`) |
+| 359 | `modulesMultipicklist` | Multi CRM module picklist; values from `getModulesListValues()`, stored as ` \|##\| `. CustomView adv filter: `typeofdata` **`V`** (not `V~O`); ops `e/n/y/ny` — see `customview-filters.mdc`. |
 | 305 | `multiReferenceValue` | Auto-aggregated from relations; read-only on Edit |
 | 306 | `MultiReference` | Manual multi-pick via popup; comma-separated CRM IDs in TEXT; target module from `vtiger_fieldmodulerel` (implements `ReferenceListProvider`) |
 | *(unmapped)* | delegated to `WebserviceField::getFieldDataType()` | Falls back to `vtiger_ws_fieldtype`; plain text fields get `'string'` via `typeofdata V~O` |

@@ -419,6 +419,9 @@ class Record extends \App\Modules\Base\Models\Record
 					$advFilterColumn = $columnCondition['columnname'];
 					$advFilterComparator = $columnCondition['comparator'];
 					$advFitlerValue = $columnCondition['value'];
+					if (is_array($advFitlerValue)) {
+						$advFitlerValue = implode(',', $advFitlerValue);
+					}
 					$advFilterColumnCondition = $columnCondition['column_condition'];
 
 					$columnInfo = explode(":", $advFilterColumn);

@@ -216,6 +216,32 @@ Vtiger_Field_Js('Vtiger_Multipicklist_Field_Js', {}, {
 		return selectContainer;
 	}
 });
+
+Vtiger_Multipicklist_Field_Js('Vtiger_Modulesmultipicklist_Field_Js', {}, {
+	getUi: function () {
+		var html = '<select class="select2 form-control" multiple name="' + this.getName() + '[]">';
+		var pickListValues = this.get('picklistvalues') || {};
+		var selectedOption = app.htmlDecode(this.getValue());
+		var selectedOptionsArray = [];
+		if (selectedOption) {
+			selectedOptionsArray = selectedOption.indexOf(' |##| ') !== -1
+				? selectedOption.split(' |##| ')
+				: selectedOption.split(',');
+		}
+		for (var option in pickListValues) {
+			html += '<option value="' + option + '" ';
+			if (jQuery.inArray(option, selectedOptionsArray) !== -1) {
+				html += ' selected ';
+			}
+			html += '>' + pickListValues[option] + '</option>';
+		}
+		html += '</select>';
+		var selectContainer = jQuery(html);
+		this.addValidationToElement(selectContainer);
+		return selectContainer;
+	}
+});
+
 Vtiger_Field_Js('Vtiger_Boolean_Field_Js', {}, {
 	/**
 	 * Function to check whether the field is checked or not

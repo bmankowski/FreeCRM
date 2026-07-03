@@ -1,0 +1,19 @@
+{*<!-- {[The file is published on the basis of YetiForce Public License that can be found in the following directory: licenses/License.html]} -->*}
+{strip}
+<!-- layouts/basic/modules/Base/uitypes/ModulesMultipicklistFieldSearchView.tpl -->
+{assign var="FIELD_INFO" value=\App\Utils\Json::encode($FIELD_MODEL->getFieldInfo())}
+{assign var=PICKLIST_VALUES value=$FIELD_MODEL->getModulesListValues()}
+{if isset($SEARCH_INFO['searchValue'])}
+	{assign var=SEARCH_VALUES value=explode(',',$SEARCH_INFO['searchValue'])}
+{else}
+	{assign var=SEARCH_VALUES value=[]}
+{/if}
+<div class="picklistSearchField">
+	<select class="select2noactive listSearchContributor" name="{$FIELD_MODEL->get('name')}" title="{$FIELD_MODEL->get('label')|t:$MODULE}" multiple data-fieldinfo='{$FIELD_INFO|escape}'>
+	{foreach item=PICKLIST_LABEL key=PICKLIST_KEY from=$PICKLIST_VALUES}
+		<option value="{$PICKLIST_LABEL.name}" {if in_array($PICKLIST_LABEL.name,$SEARCH_VALUES) && ($PICKLIST_LABEL.name neq "") } selected{/if}>{$PICKLIST_LABEL.label}</option>
+	{/foreach}
+	</select>
+</div>
+<!--/layouts/basic/modules/Base/uitypes/ModulesMultipicklistFieldSearchView.tpl -->
+{/strip}

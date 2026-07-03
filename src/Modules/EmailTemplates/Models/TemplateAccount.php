@@ -70,9 +70,9 @@ class TemplateAccount
 			->innerJoin('vtiger_crmentity', 'u_yf_emailtemplates.emailtemplatesid = vtiger_crmentity.crmid')
 			->where([
 				'vtiger_crmentity.deleted' => 0,
-				'u_yf_emailtemplates.module' => self::RECRUITMENT_MODULE,
 				'u_yf_emailtemplates.sys_name' => $sysName,
 			])
+			->andWhere(TemplateModule::sqlMatchesColumn('u_yf_emailtemplates.modules', self::RECRUITMENT_MODULE))
 			->andWhere(['<>', 'u_yf_emailtemplates.emailtemplatesid', $templateId]);
 
 		if ($accountIds === []) {

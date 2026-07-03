@@ -65,6 +65,18 @@ Modals without a `<form>` wrap fields in `.validationEngineContainer` (e.g. `Rep
 - **Init and `validate` on `.validationEngineContainer`**, not the outer `#…Modal` element — the outer div lacks that class, so `$('#…Modal').validationEngine('validate')` returns `false` and submit handlers exit silently.
 - Pattern: `modal.find('.validationEngineContainer').validationEngine(app.validationEngineOptions)` then `.validationEngine('validate')` before AJAX/submit.
 
+## Custom Edit + CodeMirror (validationEngine)
+
+Hand-built Edit forms (e.g. `TemplateElements`, `DocumentTemplates` step 3) — not LayoutEditor blocks.
+
+- **Init:** `validationEngineOptionsForRecord` + `{ binded: false }` — do not let validationEngine attach its own `submit` handler when the module owns submit/AJAX (`TemplateElements/resources/Edit.js` → `getValidationEngineOptions()`).
+- **CodeMirror:** `fromTextArea` hides the source `<textarea>`. Do **not** put `data-validation-engine="validate[required]"` on editor textareas — `_showPrompt` on a hidden field throws (`Cannot read properties of undefined (reading 'left')`) and can break submit. After `syncCodeMirrors()`, validate HTML fields manually (read from CodeMirror or synced textarea); use validationEngine only for visible inputs (label, code, …).
+- **Submit:** `e.preventDefault()` first; if `validateForm()` passes, call native `form.submit()` (bypasses jQuery handlers — avoids double validation). Same `validateForm()` for Ctrl+S / `saveOnly()` AJAX.
+- **Race before JS:** disable the submit button in `.tpl` (`disabled` + e.g. `.js-*-submit`); enable in `registerEvents()` after `validationEngine` attach — prevents native POST with empty mandatory fields before `document.ready`.
+- **Minify:** edit source `.js` under `public/` + run `npm run minify-js -- …/Edit.js` in the same change.
+
+Reference implementation: `public/layouts/basic/modules/TemplateElements/resources/Edit.js`, `layouts/basic/modules/TemplateElements/Edit.tpl`.
+
 ## Image fullscreen preview (DetailView)
 
 - UiType **Image** (69) detail markup uses `.contentImage` > `.imageFullModal` + `.multiImageListIcon`.

@@ -130,6 +130,7 @@ Vtiger_Edit_Js('TemplateElements_Edit_Js', {}, {
 		} else {
 			bind('dynamicElementContent', 'content', 420);
 		}
+		this.stripEditorValidationAttrs();
 	},
 	applyTypeVisibility: function () {
 		var form = this.getForm();
@@ -137,15 +138,65 @@ Vtiger_Edit_Js('TemplateElements_Edit_Js', {}, {
 		var isLayout = form.find('[name="type"]').val() === layoutType;
 		form.find('.js-dynamic-layout-editor').toggleClass('hide', !isLayout);
 		form.find('.js-dynamic-fragment-editor').toggleClass('hide', isLayout);
-		var content = form.find('#dynamicElementContent');
-		var body = form.find('#dynamicElementLayoutBody');
-		if (isLayout) {
-			content.removeAttr('data-validation-engine');
-			body.attr('data-validation-engine', 'validate[required]');
-		} else {
-			body.removeAttr('data-validation-engine');
-			content.attr('data-validation-engine', 'validate[required]');
+	},
+	stripEditorValidationAttrs: function () {
+		this.getForm().find(
+			'#dynamicElementContent, #dynamicElementLayoutHeader, #dynamicElementLayoutBody, #dynamicElementLayoutFooter'
+		).removeAttr('data-validation-engine');
+	},
+	isDocumentLayoutType: function () {
+		var layoutType = jQuery('#documentLayoutTypeValue').val();
+		return this.getForm().find('[name="type"]').val() === layoutType;
+	},
+	validateEditorFields: function () {
+		var form = this.getForm();
+		var requiredSuffix = app.vtranslate('JS_REQUIRED_FIELD', 'Vtiger');
+		var scrollToEditor = function (selector) {
+			var target = form.find(selector).closest('.form-group').find('.CodeMirror').first();
+			if (!target.length) {
+				target = form.find(selector).closest('.form-group');
+			}
+			if (target.length) {
+				jQuery('html, body').animate({ scrollTop: target.offset().top - 120 }, 'slow');
+			}
+		};
+		if (this.isDocumentLayoutType()) {
+			if (jQuery.trim(this.getEditorHtmlValue('layout_body')) !== '') {
+				return true;
+			}
+			Vtiger_Helper_Js.showPnotify({
+				text: app.vtranslate('LBL_LAYOUT_BODY', 'TemplateElements') + ' ' + requiredSuffix,
+				type: 'error'
+			});
+			scrollToEditor('#dynamicElementLayoutBody');
+			return false;
 		}
+		if (jQuery.trim(this.getEditorHtmlValue('content')) !== '') {
+			return true;
+		}
+		Vtiger_Helper_Js.showPnotify({
+			text: app.vtranslate('LBL_CONTENT', 'TemplateElements') + ' ' + requiredSuffix,
+			type: 'error'
+		});
+		scrollToEditor('#dynamicElementContent');
+		return false;
+	},
+	validateForm: function () {
+		var form = this.getForm();
+		this.syncCodeMirrors();
+		var engineValid = false;
+		try {
+			engineValid = form.validationEngine('validate') === true;
+		} catch (e) {
+			app.errorLog(e);
+			engineValid = false;
+		}
+		var editorValid = this.validateEditorFields();
+		var valid = engineValid && editorValid;
+		if (!valid) {
+			app.formAlignmentAfterValidation(form);
+		}
+		return valid;
 	},
 	registerTypeSwitch: function () {
 		var thisInstance = this;
@@ -164,9 +215,7 @@ Vtiger_Edit_Js('TemplateElements_Edit_Js', {}, {
 	saveOnly: function () {
 		var thisInstance = this;
 		var form = this.getForm();
-		thisInstance.syncCodeMirrors();
-		if (form.validationEngine('validate') !== true) {
-			app.formAlignmentAfterValidation(form);
+		if (!thisInstance.validateForm()) {
 			return jQuery.Deferred().reject().promise();
 		}
 		var progressIndicatorElement = jQuery.progressIndicator({
@@ -271,12 +320,17 @@ Vtiger_Edit_Js('TemplateElements_Edit_Js', {}, {
 	},
 	registerSubmit: function () {
 		var thisInstance = this;
-		this.getForm().on('submit', function (e) {
-			thisInstance.syncCodeMirrors();
-			if (jQuery(e.currentTarget).validationEngine('validate') !== true) {
-				app.formAlignmentAfterValidation(jQuery(e.currentTarget));
+		this.getForm().off('submit.templateElements').on('submit.templateElements', function (e) {
+			e.preventDefault();
+			if (!thisInstance.validateForm()) {
 				return false;
 			}
+			e.currentTarget.submit();
+		});
+	},
+	getValidationEngineOptions: function () {
+		return jQuery.extend({}, app.validationEngineOptionsForRecord, {
+			binded: false
 		});
 	},
 	registerEvents: function () {
@@ -285,7 +339,7 @@ Vtiger_Edit_Js('TemplateElements_Edit_Js', {}, {
 			app.registerCopyClipboard();
 		}
 		if (form.length) {
-			form.validationEngine(app.validationEngineOptions);
+			form.validationEngine(this.getValidationEngineOptions());
 			form.find(':input').inputmask();
 		}
 		this.registerCodeGeneration();
@@ -295,6 +349,7 @@ Vtiger_Edit_Js('TemplateElements_Edit_Js', {}, {
 		this.registerTemplateEditorToolbar();
 		this.registerSubmit();
 		this.registerKeyboardShortcuts();
+		form.find('.js-template-elements-submit').prop('disabled', false);
 	}
 });
 

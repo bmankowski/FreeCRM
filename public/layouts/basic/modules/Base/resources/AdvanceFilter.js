@@ -202,10 +202,13 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 
 		var options = '';
 		for (var key in conditionList) {
+			if (jQuery.inArray(fieldInfo.type, ['modules', 'modulesMultipicklist']) !== -1 && jQuery.inArray(conditionList[key], ['e', 'n', 'y', 'ny']) === -1) {
+				continue;
+			}
 			if (jQuery.inArray(fieldInfo.type, ['rangeTime', 'image']) != -1 && jQuery.inArray(conditionList[key], ['y', 'ny']) == -1) {
 				continue;
 			}
-			if (jQuery.inArray(fieldInfo.type, ['userCreator', 'owner', 'picklist', 'modules', 'tree', 'inventoryLimit', 'languages', 'currencyList', 'fileLocationType']) != -1 && jQuery.inArray(conditionList[key], ['s', 'ew', 'c', 'k']) != -1) {
+			if (jQuery.inArray(fieldInfo.type, ['userCreator', 'owner', 'picklist', 'modules', 'modulesMultipicklist', 'tree', 'inventoryLimit', 'languages', 'currencyList', 'fileLocationType']) != -1 && jQuery.inArray(conditionList[key], ['s', 'ew', 'c', 'k']) != -1) {
 				continue;
 			}
 			if (conditionList[key] === 'om' && jQuery.inArray(fieldInfo.type, ['owner', 'sharedOwner', 'userCreator']) == -1) {
@@ -293,7 +296,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 		// Both filter and find is used since we dont know whether the element is enclosed in some conainer like currency
 		var fieldName = fieldModel.getName();
 
-		if ($.inArray(fieldModel.getType(), ['multipicklist', 'sharedOwner', 'multiReferenceValue', 'taxes', 'categoryMultipicklist']) > -1) {
+		if ($.inArray(fieldModel.getType(), ['multipicklist', 'modulesMultipicklist', 'sharedOwner', 'multiReferenceValue', 'taxes', 'categoryMultipicklist']) > -1) {
 			fieldName = fieldName + "[]";
 		} else if (($.inArray(fieldModel.getType(), ['userCreator', 'picklist', 'owner', 'languages', 'modules', 'inventoryLimit', 'currencyList', 'fileLocationType']) > -1) &&
 				fieldSpecificUi.is('select') && (comparatorElementVal == 'e' || comparatorElementVal == 'n')) {
@@ -605,7 +608,7 @@ Vtiger_Field_Js('AdvanceFilter_Field_Js', {}, {
 		var currentModule = app.getModuleName();
 
 		var type = this.getType();
-		if ($.inArray(type, ['picklist', 'userCreator', 'multipicklist', 'owner', 'userCreator' ,'modules', 'date', 'datetime', 'sharedOwner', 'multiReferenceValue', 'inventoryLimit', 'languages', 'currencyList', 'taxes', 'fileLocationType', 'categoryMultipicklist']) > -1) {
+		if ($.inArray(type, ['picklist', 'userCreator', 'multipicklist', 'modulesMultipicklist', 'owner', 'userCreator' ,'modules', 'date', 'datetime', 'sharedOwner', 'multiReferenceValue', 'inventoryLimit', 'languages', 'currencyList', 'taxes', 'fileLocationType', 'categoryMultipicklist']) > -1) {
 			currentModule = 'AdvanceFilter';
 		}
 		return currentModule;
@@ -633,6 +636,9 @@ Vtiger_Picklist_Field_Js('AdvanceFilter_Picklist_Field_Js', {}, {
 });
 
 AdvanceFilter_Picklist_Field_Js('AdvanceFilter_Modules_Field_Js', {}, {
+});
+
+AdvanceFilter_Multipicklist_Field_Js('AdvanceFilter_Modulesmultipicklist_Field_Js', {}, {
 });
 
 AdvanceFilter_Picklist_Field_Js('AdvanceFilter_Inventorylimit_Field_Js', {}, {

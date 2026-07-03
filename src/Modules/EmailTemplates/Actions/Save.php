@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace App\Modules\EmailTemplates\Actions;
 
+use App\Modules\EmailTemplates\Models\TemplateModule;
+
 class Save extends \App\Modules\Base\Actions\Save
 {
 	private const RECRUITMENT_MODULE = 'ProjektyRekrutacyjne';
@@ -36,8 +38,8 @@ class Save extends \App\Modules\Base\Actions\Save
 
 	private function validateRecruitmentTemplate(\App\Http\Vtiger_Request $request): void
 	{
-		$moduleName = trim((string) $request->get('module_name'));
-		if ($moduleName !== self::RECRUITMENT_MODULE) {
+		$modules = TemplateModule::parse($request->get('modules'));
+		if (!in_array(self::RECRUITMENT_MODULE, $modules, true)) {
 			return;
 		}
 
