@@ -3,7 +3,7 @@
 namespace App\Modules\Base\Views;
 
 /**
- * Record-context mail compose modal (single + mass send).
+ * Record-context mail compose modal (single or multi-recipient, same UI).
  *
  * @package FreeCRM.ModalView
  * @license licenses/License.html
@@ -54,8 +54,7 @@ class IndividualSendMailModal extends BasicModal
 			$templateModule = $sourceModule;
 		}
 		$records = $this->getRecordsListFromRequest($request);
-		$isMassSend = ($records['all'] ?? 0) > 1;
-		$viewer->assign('IS_MASS_SEND', $isMassSend);
+		$viewer->assign('SHOW_RECIPIENT_STATS', ($records['all'] ?? 0) > 1);
 		$viewer->assign('FIELD_EMAILS', $this->getFieldEmailDisplayValues($request, $records));
 		$userId = (int) $request->getUser()->getId();
 		$rawTemplateList = \App\Email\Mail::getTempleteList($templateModule);
@@ -83,9 +82,7 @@ class IndividualSendMailModal extends BasicModal
 		$viewer->assign('CAN_SEND_MAIL', \App\Modules\Mail\Models\Module::canUserSend($userId));
 		$initialField = $this->resolveInitialField($request, $records);
 		$viewer->assign('INITIAL_FIELD', $initialField);
-		$initialPreview = $isMassSend
-			? ['success' => false]
-			: $this->getInitialPreview($request, $records, $templateList, $initialField);
+		$initialPreview = $this->getInitialPreview($request, $records, $templateList, $initialField);
 		$viewer->assign('INITIAL_PREVIEW', $initialPreview);
 		$viewer->assign('USER_MODEL', $request->getUser());
 		$this->assignComposeAttachmentLimits($viewer);
@@ -393,27 +390,6 @@ class IndividualSendMailModal extends BasicModal
 
 	public function getSize(\App\Http\Vtiger_Request $request)
 	{
-		return $this->isMassSendRequest($request) ? '' : 'modal-full';
-	}
-
-	private function isMassSendRequest(\App\Http\Vtiger_Request $request): bool
-	{
-		$selected = $request->get('selected_ids');
-		if ($selected === 'all') {
-			return true;
-		}
-		if (\is_array($selected)) {
-			return \count($selected) > 1;
-		}
-		if (\is_string($selected) && $selected !== '') {
-			$decoded = \App\Utils\Json::decode($selected);
-			if (\is_array($decoded)) {
-				return \count($decoded) > 1;
-			}
-
-			return \count(array_filter(explode(',', $selected))) > 1;
-		}
-
-		return false;
+		return 'modal-full';
 	}
 }

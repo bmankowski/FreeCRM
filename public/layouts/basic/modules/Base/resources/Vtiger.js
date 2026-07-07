@@ -179,7 +179,7 @@ var Vtiger_Index_Js = {
 		});
 	},
 	/**
-	 * Wire preview/send handlers for IndividualSendMailModal (mass send hides preview section).
+	 * Wire preview/send handlers for IndividualSendMailModal.
 	 * @param {jQuery} modalContainer
 	 * @param {Object} postData request base params (module, selected_ids, sourceModule, sourceRecord, to, …)
 	 */

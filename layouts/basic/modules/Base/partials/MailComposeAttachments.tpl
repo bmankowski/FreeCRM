@@ -6,7 +6,7 @@
 		<label class="control-label">{'LBL_ATTACHMENTS'|t:'Mail'}</label>
 		<div class="btn-toolbar js-mail-attachment-toolbar">
 			<div class="btn-group js-mail-attachment-add-wrap">
-				<button type="button" class="btn btn-default btn-xs js-mail-attachment-add">
+				<button type="button" class="js-mail-attachment-add c-mail-attachment-add">
 					<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
 					<span>{'LBL_MAIL_ATTACHMENT_ADD_MORE'|t:'Mail'}</span>
 				</button>

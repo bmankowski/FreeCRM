@@ -1,3 +1,31 @@
+.c-mail-attachment-add {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	padding: 4px 12px;
+	font-size: 12px;
+	line-height: 1.4;
+	color: #666;
+	background: #fafafa;
+	border: 1px dashed #ccc;
+	border-radius: 9999px;
+	cursor: pointer;
+	transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.c-mail-attachment-add:hover,
+.c-mail-attachment-add:focus {
+	color: #333;
+	background: #f0f0f0;
+	border-color: #aaa;
+	outline: none;
+}
+
+.c-mail-attachment-add .glyphicon {
+	font-size: 11px;
+	opacity: 0.75;
+}
+
 .js-mail-attachment-chip-name {
 	display: inline-block;
 	max-width: 11rem;
