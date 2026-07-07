@@ -58,7 +58,7 @@ Sync vendored JS: `npm run dompurify:sync`, `npm run ckeditor:sync`, `npm run bo
 
 | Library | Purpose | Typical screens |
 |---------|---------|-----------------|
-| CKEditor 4.22.1 | Rich text (OSS; not 4.25 LTS) | Workflows, Dashboard, `CkEditor.js` |
+| CKEditor 4.22.1 | Rich text (OSS; not 4.25 LTS) | Workflows, Dashboard, `CkEditor.js`; lazy load in `CustomView.js`, `ListView.js` (mass edit). **Note:** repo ships `ckeditor.min.js`; auto basePath detection expects `ckeditor.js` — set `CKEDITOR_BASEPATH` or `CkEditor.js` `fixBasePath()` fallback. |
 | CodeMirror 5 | Code/HTML templates | Email/Document/Template element editors |
 | DataTables | Sortable tables | Settings lists, KB tree, trees |
 | FullCalendar + Moment | Calendars | Calendar, Home, DashBoard, OSSTimeControl |

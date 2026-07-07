@@ -13,18 +13,22 @@ import { Page, Locator } from '@playwright/test';
 
 export class ProjektyRekrutacyjnePage {
   readonly page: Page;
+  readonly listViewRoot: Locator;
   readonly projectsTable: Locator;
   readonly customFilter: Locator;
   readonly salesStageSearch: Locator;
+  readonly createdTimeSearch: Locator;
   readonly searchTrigger: Locator;
 
   constructor(page: Page) {
     this.page = page;
 
-    this.projectsTable = page.locator('table.listViewEntriesTable, .listViewEntries, [data-test="list-view-table"]');
+    this.listViewRoot = page.locator('.listViewPageDiv .listViewContentDiv').first();
+    this.projectsTable = this.listViewRoot.locator('table.listViewEntriesTable');
     this.customFilter = page.locator('#customFilter');
-    this.salesStageSearch = page.locator('select.listSearchContributor[name="etap_sprzedazy"]');
-    this.searchTrigger = page.locator('[data-trigger="listSearch"]').first();
+    this.salesStageSearch = this.listViewRoot.locator('select.listSearchContributor[name="etap_sprzedazy"]');
+    this.createdTimeSearch = this.listViewRoot.locator('input.listSearchContributor.dateField[name="createdtime"]');
+    this.searchTrigger = this.listViewRoot.locator('[data-trigger="listSearch"]').first();
   }
 
   /**
@@ -58,13 +62,9 @@ export class ProjektyRekrutacyjnePage {
    * Count the data rows currently shown in the list (excludes inline-search/header rows)
    */
   async getRecordCount(): Promise<number> {
-    await this.projectsTable.first().waitFor({ state: 'visible', timeout: 10000 });
-
-    const dataRows = this.projectsTable.locator('tbody tr').filter({
-      hasNot: this.page.locator('input.listSearchContributor')
-    });
-
-    return await dataRows.count();
+    await this.listViewRoot.waitFor({ state: 'visible', timeout: 10000 });
+    const countValue = await this.listViewRoot.locator('#noOfEntries').inputValue();
+    return parseInt(countValue || '0', 10);
   }
 
   /**
@@ -88,6 +88,78 @@ export class ProjektyRekrutacyjnePage {
     await this.salesStageSearch.selectOption({ label: stage }, { force: true });
     await this.searchTrigger.click();
     await this.waitForListReload();
+  }
+
+  /**
+   * Filter by "Czas utworzenia" (createdtime) date range and submit.
+   * Uses the search button so the typed range is sent as-is (Enter syncs via datepicker).
+   */
+  async filterByCreatedTimeRange(startDate: string, endDate: string) {
+    await this.createdTimeSearch.waitFor({ state: 'visible', timeout: 10000 });
+    await this.createdTimeSearch.fill(`${startDate},${endDate}`);
+    await this.searchTrigger.click();
+    await this.waitForListReload('createdtime');
+    await this.page.waitForFunction(
+      () => {
+        const input = document.querySelector('.listViewPageDiv .listViewContentDiv #noOfEntries') as HTMLInputElement | null;
+        return input?.value === '0';
+      },
+      { timeout: 15000 }
+    );
+  }
+
+  /**
+   * Clear the createdtime inline search and submit (Enter or search button).
+   */
+  async clearCreatedTimeFilter(submitWithEnter = false, expectedCount?: number) {
+    await this.createdTimeSearch.waitFor({ state: 'visible', timeout: 10000 });
+    await this.createdTimeSearch.fill('');
+    if (submitWithEnter) {
+      await this.createdTimeSearch.press('Enter');
+    } else {
+      await this.searchTrigger.click();
+    }
+    if (typeof expectedCount === 'number') {
+      await this.page.waitForFunction(
+        (count) => {
+          const input = document.querySelector('.listViewPageDiv .listViewContentDiv #noOfEntries') as HTMLInputElement | null;
+          return input?.value === String(count);
+        },
+        expectedCount,
+        { timeout: 15000 }
+      );
+    }
+    await this.waitForListReload();
+  }
+
+  /**
+   * Whether the current URL still carries a createdtime list-search param.
+   */
+  urlHasCreatedTimeSearchParam(): boolean {
+    const url = new URL(this.page.url());
+    const raw = url.searchParams.get('search_params');
+    if (!raw) {
+      return false;
+    }
+    try {
+      const params = JSON.parse(decodeURIComponent(raw));
+      if (!Array.isArray(params)) {
+        return false;
+      }
+      for (const group of params) {
+        if (!Array.isArray(group)) {
+          continue;
+        }
+        for (const condition of group) {
+          if (Array.isArray(condition) && condition[0] === 'createdtime') {
+            return true;
+          }
+        }
+      }
+      return false;
+    } catch {
+      return false;
+    }
   }
 
   /**
@@ -129,14 +201,19 @@ export class ProjektyRekrutacyjnePage {
   /**
    * Wait for an AJAX-driven list reload (view switch or inline search) to settle.
    */
-  async waitForListReload() {
+  async waitForListReload(expectedUrlFragment?: string) {
+    if (expectedUrlFragment) {
+      await this.page.waitForURL(
+        (url) => decodeURIComponent(url.href).includes(expectedUrlFragment),
+        { timeout: 15000 }
+      );
+    }
+    await this.page.waitForFunction(() => {
+      const loader = document.querySelector('.mainContainer .contentsDiv #listViewContents #loadingListViewModal');
+      return !loader || loader.classList.contains('hide');
+    }, { timeout: 15000 });
     await this.page.waitForLoadState('networkidle');
-    await Promise.allSettled([
-      this.page.waitForSelector('.loading, .listViewLoadingImageBlock', {
-        state: 'hidden',
-        timeout: 5000
-      }),
-      this.projectsTable.first().waitFor({ state: 'visible', timeout: 5000 })
-    ]);
+    await this.projectsTable.first().waitFor({ state: 'visible', timeout: 10000 });
   }
+
 }

@@ -64,10 +64,17 @@ Editing columns on a list filter (`CustomView` → `EditAjax`, loaded via `Vtige
 
 ## CustomView filter editor (save + default sort)
 
-- **Save flow:** `#CustomView` submit is intercepted in `registerEventsInternal()` → `saveAndViewFilter()` → `AppConnector.request()` → redirect to `result.listviewurl`. If JS init fails, the form POSTs normally and the browser shows raw JSON (`{"success":true,...}`).
-- **Init footgun:** In `registerEventsInternal()`, the container is `contentsContainer` from `getContentsContainer()` — not `container` (that name exists only inside other `register*` methods). A `ReferenceError` there skips submit binding.
+- **Save flow:** `#CustomView` submit is intercepted in `initFilterEditorCore()` → `saveAndViewFilter()` → `AppConnector.request()` → redirect to `result.listviewurl`. If JS init fails, the form POSTs normally and the browser shows raw JSON (`{"success":true,...}`).
+- **Init split:** `ensureEditorAssets().done()` → optional widgets (CKEditor, color picker); `.always()` → `initFilterEditorCore()` + `AdvanceFilter` instance — core must run even when editor assets fail.
+- **AdvanceFilter.js footguns:**
+  - **`AdvanceFilter_Multipicklist_Field_Js` must be defined before** subclasses (`Modulesmultipicklist`, `Taxes`) — wrong order throws on script load and breaks the whole filter editor (browser console only, not `system.log`).
+  - **Select2/chosen:** read field option by `.val()` (`getFieldSelectOption()`), not `option:selected` — stale selection skips rows in `getValues()` or saves wrong comparator.
+  - **Comparator list:** `getFieldSpecificType()` returns **`getFieldType()` letter** (`V`, …) for operator lookup; use `fieldInfo.type` (`owner`, …) only for filtering which ops appear (`om`, `wr`, `nwr`).
+  - **`om`** = „Aktualnie zalogowany użytkownik”; stored with empty `value` in `vtiger_cvadvfilter`. Query via `OwnerField::operatorOm()`.
+- **CKEditor lazy load (filter description field):** `CustomView.js` loads `ckeditor.min.js` via AJAX. CKEDITOR’s auto basePath only matches `ckeditor.js` — set `CKEDITOR_BASEPATH` / `CkEditor.js` `fixBasePath()` fallback (`libraries/jquery/ckeditor/`). Lazy scripts need `?s=` cache-bust (same as layout scripts). Symptom: XHR 404 on `/lang/pl.js` + `resolveCkEditorLanguage is not a function` (stale cached `CkEditor.min.js` or wrong `this` in language-pack callbacks). CKEditor failure must not block filter save (try/catch in `registerCkEditorElement()`).
 - **Default sort UI:** `layouts/basic/modules/CustomView/EditView.tpl` — `defaultOrderBy` (field `column` name, not `getCustomViewColumnName()`) + hidden `sortOrder`; handlers in `registerSortOrderEvents()`.
 - **Persistence:** `CustomView/Actions/Save.php` → `Record::formatSortValue()` → `vtiger_customview.sort` as `{column},{ASC|DESC}`. List applies via `CustomView::resolveListSort()`. No Settings sort modal — configure on create/edit filter only.
+- **PHP null `value`:** special comparators (`om`, `wr`, `nwr`, `y`, `ny`) may have NULL/empty DB value — null-safe in `View/CustomView.php::getAdvftCriteria()` and `Record::getAdvancedCriteria()` / `setConditionsForFilter()`.
 
 ## Alphabetic filter (A–Z modal)
 

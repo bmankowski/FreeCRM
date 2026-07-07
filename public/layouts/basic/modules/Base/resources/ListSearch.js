@@ -125,6 +125,18 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 		if (!calId) {
 			return;
 		}
+		var rawVal = jQuery.trim(dateElement.val());
+		if (!rawVal.length) {
+			dateElement.DatePickerClear();
+			dateElement.val('');
+			dateElement.data('prevVal', '');
+			var cal = jQuery('#' + calId);
+			if (cal.length) {
+				cal.hide();
+			}
+			dateElement.blur();
+			return;
+		}
 		var formatted = dateElement.DatePickerGetDate(true);
 		if (formatted && formatted.length) {
 			dateElement.val(formatted.join(','));
@@ -200,6 +212,12 @@ jQuery.Class("YetiForce_ListSearch_Js", {
 				}
 			}
 			app.registerEventForDatePickerFields(dateElement, false, customParams);
+			dateElement.on('input.listSearchDateClear', function () {
+				if (!jQuery.trim(dateElement.val()).length) {
+					dateElement.DatePickerClear();
+					dateElement.data('prevVal', '');
+				}
+			});
 		});
 	},
 	registerTimeListSearch: function () {
