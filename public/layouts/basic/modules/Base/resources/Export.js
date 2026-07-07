@@ -53,8 +53,14 @@ jQuery.Class("Vtiger_Export_Js", {}, {
 		// Initialize visibility on page load
 		var currentExportType = exportTypeSelect.val();
 		if (currentExportType == 'xml') {
+			if (xmlTpl.length) {
+				xmlTpl.removeClass('hide');
+			}
 			csvSeparatorOptions.hide();
 		} else {
+			if (xmlTpl.length) {
+				xmlTpl.addClass('hide');
+			}
 			csvSeparatorOptions.show();
 		}
 	},

@@ -128,18 +128,27 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 		}
 		return key;
 	},
+	getFieldSelectOption: function (fieldSelectElement) {
+		var val = fieldSelectElement.val();
+		if (!val || val === 'none') {
+			return jQuery();
+		}
+		var selected = fieldSelectElement.find('option:selected');
+		if (selected.length && selected.val() === val) {
+			return selected;
+		}
+		return fieldSelectElement.find('option').filter(function () {
+			return this.value === val;
+		}).first();
+	},
 	/**
 	 * Function to check if the field selected is empty field
 	 * @params : select element which represents the field
 	 * @return : boolean true/false
 	 */
 	isEmptyFieldSelected: function (fieldSelect) {
-		var selectedOption = fieldSelect.find('option:selected');
-		//assumption that empty field will be having value none
-		if (selectedOption.val() == 'none') {
-			return true;
-		}
-		return false;
+		var val = fieldSelect.val();
+		return !val || val === 'none';
 	},
 	/**
 	 * Function to get the add condition elements
@@ -174,7 +183,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 	},
 	getFieldSpecificType: function (fieldSelected) {
 		var fieldInfo = fieldSelected.data('fieldinfo');
-		var type = fieldInfo.type;
+		var type = fieldInfo ? fieldInfo.type : '';
 		if (type == 'reference') {
 			return 'V';
 		}
@@ -189,7 +198,16 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 		var row = fieldSelect.closest('div.conditionRow');
 		var conditionSelectElement = row.find('select[name="comparator"]');
 		var conditionSelected = conditionSelectElement.val();
-		var fieldSelected = fieldSelect.find('option:selected');
+		if (!conditionSelected || conditionSelected === 'none') {
+			var hiddenComparator = row.find('input[name="comparatorValue"]').val();
+			if (hiddenComparator && hiddenComparator !== 'none') {
+				conditionSelected = hiddenComparator;
+			}
+		}
+		var fieldSelected = this.getFieldSelectOption(fieldSelect);
+		if (!fieldSelected.length) {
+			return conditionSelectElement;
+		}
 		var fieldSpecificType = this.getFieldSpecificType(fieldSelected);
 		var conditionList = this.getConditionListFromType(fieldSpecificType);
 		var fieldName = fieldSelected.data('field-name');
@@ -235,6 +253,7 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 			}
 		}
 		conditionSelectElement.empty().html(options).trigger("change");
+		row.find('input[name="comparatorValue"]').val(conditionSelectElement.val());
 		return conditionSelectElement;
 	},
 	/**
@@ -272,11 +291,17 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 	 * @return : current instance
 	 */
 	loadFieldSpecificUi: function (fieldSelect) {
-		var selectedOption = fieldSelect.find('option:selected');
+		var selectedOption = this.getFieldSelectOption(fieldSelect);
+		if (!selectedOption.length) {
+			return this;
+		}
 		var row = fieldSelect.closest('div.conditionRow');
 		var fieldUiHolder = row.find('.fieldUiHolder');
 		var conditionSelectElement = row.find('select[name="comparator"]');
 		var fieldInfo = selectedOption.data('fieldinfo');
+		if (!fieldInfo) {
+			return this;
+		}
 
 		var fieldType = 'string';
 		if (typeof fieldInfo != 'undefined') {
@@ -407,8 +432,6 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 	 * @return - boolen true/false
 	 */
 	isFieldSupportsValidation: function (fieldSelect) {
-		var selectedOption = fieldSelect.find('option:selected');
-
 		var fieldModel = this.fieldModelInstance;
 		var type = fieldModel.getType();
 
@@ -455,7 +478,15 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 				if (thisInstance.isEmptyFieldSelected(fieldSelectElement)) {
 					return true;
 				}
-				var fieldDataInfo = fieldSelectElement.find('option:selected').data('fieldinfo');
+				var selectedOption = thisInstance.getFieldSelectOption(fieldSelectElement);
+				var fieldDataInfo = selectedOption.data('fieldinfo');
+				if (!fieldDataInfo) {
+					return true;
+				}
+				var comparatorVal = jQuery('[name="comparator"]', rowElement).val();
+				if (!comparatorVal || comparatorVal === 'none') {
+					return true;
+				}
 				var fieldType = fieldDataInfo.type;
 				var searchOperator = fieldDataInfo.hasOwnProperty("searchOperator");
 				var rowValues = {};
@@ -571,9 +602,8 @@ jQuery.Class("Vtiger_AdvanceFilter_Js", {
 		filterContainer.on('change', 'select[name="comparator"]', function (e) {
 			var comparatorSelectElement = jQuery(e.currentTarget);
 			var row = comparatorSelectElement.closest('div.conditionRow');
+			row.find('input[name="comparatorValue"]').val(comparatorSelectElement.val());
 			var fieldSelectElement = row.find('select[name="columnname"]');
-			var selectedOption = fieldSelectElement.find('option:selected');
-			//To handle the validation depending on condtion
 			thisInstance.loadFieldSpecificUi(fieldSelectElement);
 			thisInstance.addValidationToFieldIfNeeded(fieldSelectElement);
 		});
@@ -638,6 +668,9 @@ Vtiger_Picklist_Field_Js('AdvanceFilter_Picklist_Field_Js', {}, {
 AdvanceFilter_Picklist_Field_Js('AdvanceFilter_Modules_Field_Js', {}, {
 });
 
+Vtiger_Multipicklist_Field_Js('AdvanceFilter_Multipicklist_Field_Js', {}, {
+});
+
 AdvanceFilter_Multipicklist_Field_Js('AdvanceFilter_Modulesmultipicklist_Field_Js', {}, {
 });
 
@@ -645,9 +678,6 @@ AdvanceFilter_Picklist_Field_Js('AdvanceFilter_Inventorylimit_Field_Js', {}, {
 });
 
 AdvanceFilter_Picklist_Field_Js('AdvanceFilter_Filelocationtype_Field_Js', {}, {
-});
-
-Vtiger_Multipicklist_Field_Js('AdvanceFilter_Multipicklist_Field_Js', {}, {
 });
 
 Vtiger_Multipicklist_Field_Js('AdvanceFilter_Categorymultipicklist_Field_Js', {}, {

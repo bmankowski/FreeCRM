@@ -205,6 +205,7 @@ class CRM_Viewer extends \Smarty
 		$this->registerPlugin('modifier', 'stripos', 'stripos');
 		$this->registerPlugin('modifier', 'strtoupper', 'strtoupper');
 		$this->registerPlugin('modifier', 'lcfirst', 'lcfirst');
+		$this->registerPlugin('modifier', 'ucfirst', 'ucfirst');
 		$this->registerPlugin('modifier', 'array_flip', 'array_flip');
 		$this->registerPlugin('modifier', 'array_diff_key', 'array_diff_key');
 		$this->registerPlugin('modifier', 'explode', 'explode');
@@ -230,6 +231,8 @@ class CRM_Viewer extends \Smarty
 		$this->registerPlugin('function', 'file_exists', 'file_exists');
 		$this->registerPlugin('function', 'intval', 'intval');
 		$this->registerPlugin('function', 'strtoupper', 'strtoupper');
+		$this->registerPlugin('function', 'lcfirst', 'lcfirst');
+		$this->registerPlugin('function', 'ucfirst', 'ucfirst');
 		$this->registerPlugin('function', 'decode_html', '\App\Utils\ListViewUtils::decodeHtml');
 		$this->registerPlugin('function', 'trim', 'trim');
 		$this->registerPlugin('function', 'html_entity_decode', 'html_entity_decode');

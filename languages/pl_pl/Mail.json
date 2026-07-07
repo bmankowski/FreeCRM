@@ -2,6 +2,7 @@
     "languageStrings": {
         "LBL_MAILBOX": "Skrzynka pocztowa",
         "LBL_MAILBOX_HELP": "Skonfiguruj osobiste konto IMAP i SMTP do wysyłania i odbierania poczty w CRM.",
+        "LBL_MAILBOX_PENDING_ACTIVATION": "Skrzynka jest zapisana w systemie. Uzupełnij hasło i kliknij „Zapisz skrzynkę”, aby aktywować wysyłkę poczty.",
         "LBL_ACCOUNT_NAME": "Nazwa konta",
         "LBL_IMAP_HOST": "Serwer IMAP",
         "LBL_IMAP_PORT": "Port IMAP",

@@ -32,7 +32,7 @@ class WebUI extends EntryPoint
 
 	// Default modules and views
 	const DEFAULT_MODULE = 'Home';
-	const DEFAULT_VIEW = 'DashBoard';
+	const DEFAULT_VIEW = 'Index';
 	const USERS_MODULE = 'Users';
 	const LOGIN_VIEW = 'Login';
 	const CALENDAR_MODULE = 'Calendar';
@@ -488,6 +488,11 @@ class WebUI extends EntryPoint
 		$module = $request->get('module');
 
 		if (empty($module)) {
+			if ($request->isAjax()) {
+				throw new \App\Exceptions\AppException(
+					\App\Runtime\Vtiger_Language_Handler::translate('LBL_HANDLER_NOT_FOUND')
+				);
+			}
 			$this->setDefaultModuleAndView($request);
 		}
 	}

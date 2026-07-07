@@ -49,7 +49,7 @@ class Export  extends \App\Modules\Base\Views\Index
 		$viewer->assign('SOURCE_MODULE', $sourceModule);
 		$viewer->assign('MODULE', 'Export');
 		$viewer->assign('XML_TPL_LIST', \App\Modules\Import\Models\Module::getListTplForXmlType($sourceModule));
-		$viewer->assign('EXPORT_TYPE', ['LBL_CSV' => 'csv', 'LBL_XML' => 'xml']);
+		$viewer->assign('EXPORT_TYPE', ['LBL_XML' => 'xml', 'LBL_CSV' => 'csv']);
 		$searchKey = $request->get('search_key');
 		$searchValue = $request->get('search_value');
 		$operator = $request->get('operator');

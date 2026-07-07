@@ -16,6 +16,14 @@ jQuery.Class('Mail_MailboxForm_Js', {
 		return this;
 	},
 
+	resolveParams: function (formData, builderName) {
+		var builder = this.config[builderName];
+		if (typeof builder === 'function') {
+			return builder.call(this, formData);
+		}
+		return this[builderName](formData);
+	},
+
 	showMailNotify: function (labelKey, type) {
 		Vtiger_Helper_Js.showPnotify({
 			text: app.vtranslate(labelKey),
@@ -38,7 +46,7 @@ jQuery.Class('Mail_MailboxForm_Js', {
 	},
 
 	buildSaveParams: function (formData) {
-		return formData;
+		throw new Error('Mail_MailboxForm_Js: buildSaveParams must be supplied in init options');
 	},
 
 	handleSaveSuccess: function (data) {
@@ -62,7 +70,7 @@ jQuery.Class('Mail_MailboxForm_Js', {
 		}
 
 		jQuery(this.config.testButtonSelector).on('click', function () {
-			var params = thisInstance.buildTestParams(form.serializeFormData());
+			var params = thisInstance.resolveParams(form.serializeFormData(), 'buildTestParams');
 			AppConnector.request(params).then(function (data) {
 				if (data.result && data.result.success) {
 					thisInstance.onTestSuccess(form, data.result);
@@ -77,7 +85,7 @@ jQuery.Class('Mail_MailboxForm_Js', {
 			if (thisInstance.config.validateOnSave && !form.validationEngine('validate')) {
 				return;
 			}
-			var params = thisInstance.buildSaveParams(form.serializeFormData());
+			var params = thisInstance.resolveParams(form.serializeFormData(), 'buildSaveParams');
 			AppConnector.request(params).then(function (data) {
 				if (data.result && data.result.success) {
 					thisInstance.showMailNotify(thisInstance.config.saveSuccessMessage, 'success');
@@ -86,6 +94,11 @@ jQuery.Class('Mail_MailboxForm_Js', {
 					thisInstance.handleSaveError(data);
 				}
 			});
+		});
+
+		form.on('submit', function (e) {
+			e.preventDefault();
+			jQuery(thisInstance.config.saveButtonSelector).trigger('click');
 		});
 	}
 });

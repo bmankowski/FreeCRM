@@ -2,6 +2,7 @@
     "languageStrings": {
         "LBL_MAILBOX": "Mailbox",
         "LBL_MAILBOX_HELP": "Configure your personal IMAP and SMTP account for sending and receiving mail in the CRM.",
+        "LBL_MAILBOX_PENDING_ACTIVATION": "The mailbox is saved in the system. Enter the password and click Save mailbox to enable sending mail.",
         "LBL_ACCOUNT_NAME": "Account name",
         "LBL_IMAP_HOST": "IMAP host",
         "LBL_IMAP_PORT": "IMAP port",

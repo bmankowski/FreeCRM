@@ -418,9 +418,9 @@ class Record extends \App\Modules\Base\Models\Record
 
 					$advFilterColumn = $columnCondition['columnname'];
 					$advFilterComparator = $columnCondition['comparator'];
-					$advFitlerValue = $columnCondition['value'];
-					if (is_array($advFitlerValue)) {
-						$advFitlerValue = implode(',', $advFitlerValue);
+					$advFitlerValue = (string) ($columnCondition['value'] ?? '');
+					if (is_array($columnCondition['value'])) {
+						$advFitlerValue = implode(',', $columnCondition['value']);
 					}
 					$advFilterColumnCondition = $columnCondition['column_condition'];
 
@@ -446,7 +446,7 @@ class Record extends \App\Modules\Base\Models\Record
 						}
 					}
 
-					$temp_val = explode(",", $advFitlerValue);
+					$temp_val = $advFitlerValue === '' ? [] : explode(",", $advFitlerValue);
 					if (($fieldType == 'date' || ($fieldType == 'time' && $fieldName != 'time_start' && $fieldName != 'time_end') || ($fieldType == 'datetime')) && ($fieldType != '' && $advFitlerValue != '' )) {
 						$val = Array();
 						$countTempVal = count($temp_val);
@@ -468,7 +468,7 @@ class Record extends \App\Modules\Base\Models\Record
 						}
 						$advFitlerValue = implode(",", $val);
 					}
-					if (in_array($advFilterComparator, ['om', 'wr', 'nwr'])) {
+					if (in_array($advFilterComparator, ['om', 'wr', 'nwr', 'y', 'ny'])) {
 						$advFitlerValue = '';
 					}
 					$db->createCommand()
@@ -678,9 +678,10 @@ class Record extends \App\Modules\Base\Models\Record
 				$criteria = [];
 				$criteria['columnname'] = html_entity_decode($relcriteriarow["columnname"], ENT_QUOTES, $default_charset);
 				$criteria['comparator'] = $relcriteriarow["comparator"];
-				$advfilterval = html_entity_decode($relcriteriarow["value"], ENT_QUOTES, $default_charset);
+				$rowValue = (string) ($relcriteriarow["value"] ?? '');
+				$advfilterval = html_entity_decode($rowValue, ENT_QUOTES, $default_charset);
 				$col = explode(":", $relcriteriarow["columnname"]);
-				$temp_val = explode(",", $relcriteriarow["value"]);
+				$temp_val = $rowValue === '' ? [] : explode(",", $rowValue);
 				if ($col[4] == 'D' || ($col[4] == 'T' && $col[1] != 'time_start' && $col[1] != 'time_end') || ($col[4] == 'DT')) {
 					$val = Array();
 					$countTempVal = count($temp_val);

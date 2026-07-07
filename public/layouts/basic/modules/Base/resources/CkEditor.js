@@ -12,7 +12,10 @@ jQuery.Class("Vtiger_CkEditor_Js", {
 	_basePathFixed: false,
 
 	fixBasePath: function () {
-		if (Vtiger_CkEditor_Js._basePathFixed || typeof CKEDITOR === 'undefined') {
+		if (typeof CKEDITOR === 'undefined') {
+			return;
+		}
+		if (Vtiger_CkEditor_Js._basePathFixed) {
 			return;
 		}
 		var scripts = document.getElementsByTagName('script');
@@ -24,6 +27,8 @@ jQuery.Class("Vtiger_CkEditor_Js", {
 				return;
 			}
 		}
+		CKEDITOR.basePath = 'libraries/jquery/ckeditor/';
+		Vtiger_CkEditor_Js._basePathFixed = true;
 	},
 }, {
 
@@ -68,8 +73,9 @@ jQuery.Class("Vtiger_CkEditor_Js", {
 	},
 
 	ensureLanguagePack: function (lang, callback) {
+		var self = this;
 		Vtiger_CkEditor_Js.fixBasePath();
-		lang = this.resolveCkEditorLanguage(lang);
+		lang = self.resolveCkEditorLanguage(lang);
 		if (CKEDITOR.lang[lang] && CKEDITOR.lang[lang].editor) {
 			CKEDITOR.lang[lang].dir = CKEDITOR.lang.rtl[lang] ? 'rtl' : 'ltr';
 			callback();
@@ -87,14 +93,14 @@ jQuery.Class("Vtiger_CkEditor_Js", {
 			}
 			delete promises[lang];
 			if (lang !== 'en') {
-				Vtiger_CkEditor_Js.prototype.ensureLanguagePack.call(this, 'en', callback);
+				Vtiger_CkEditor_Js.prototype.ensureLanguagePack.call(self, 'en', callback);
 			} else {
 				callback();
 			}
 		}).fail(function () {
 			delete promises[lang];
 			if (lang !== 'en') {
-				Vtiger_CkEditor_Js.prototype.ensureLanguagePack.call(this, 'en', callback);
+				Vtiger_CkEditor_Js.prototype.ensureLanguagePack.call(self, 'en', callback);
 			} else {
 				callback();
 			}

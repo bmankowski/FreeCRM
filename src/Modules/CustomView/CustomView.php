@@ -348,9 +348,10 @@ class CustomView extends \App\Core\CRMEntity
 		$criteria = [];
 		$criteria['columnname'] = html_entity_decode($relcriteriarow["columnname"], ENT_QUOTES, $default_charset);
 		$criteria['comparator'] = $relcriteriarow["comparator"];
-		$advfilterval = html_entity_decode($relcriteriarow["value"], ENT_QUOTES, $default_charset);
+		$rowValue = (string) ($relcriteriarow["value"] ?? '');
+		$advfilterval = html_entity_decode($rowValue, ENT_QUOTES, $default_charset);
 		$col = explode(":", $relcriteriarow["columnname"]);
-		$temp_val = explode(",", $relcriteriarow["value"]);
+		$temp_val = $rowValue === '' ? [] : explode(",", $rowValue);
 		if ($col[4] == 'D' || ($col[4] == 'T' && $col[1] != 'time_start' && $col[1] != 'time_end') || ($col[4] == 'DT')) {
 			$val = [];
 			$countTempVal = count($temp_val);

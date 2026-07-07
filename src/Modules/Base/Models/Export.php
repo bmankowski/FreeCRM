@@ -31,10 +31,8 @@ class Export extends \App\Runtime\BaseModel
 		if (empty($moduleName)) {
 			$moduleName = $request->getModule();
 		}
-		$componentName = 'Export';
-		if ('xml' === $request->get('export_type')) {
-			$componentName = 'ExportToXml';
-		}
+		$exportType = $request->get('export_type') ?: 'xml';
+		$componentName = 'xml' === $exportType ? 'ExportToXml' : 'Export';
 		$modelClassName = \App\Core\Loader::getComponentClassName('Model', $componentName, $moduleName);
 		$exportModel = new $modelClassName();
 		$exportModel->initialize($request);

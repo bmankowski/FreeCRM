@@ -511,9 +511,10 @@ class CustomView
 	public function getAdvftCriteria($relCriteriaRow)
 	{
 		$comparator = $relCriteriaRow['comparator'];
-		$advFilterVal = html_entity_decode($relCriteriaRow['value'], ENT_QUOTES, \App\Core\AppConfig::main('default_charset'));
+		$rowValue = (string) ($relCriteriaRow['value'] ?? '');
+		$advFilterVal = html_entity_decode($rowValue, ENT_QUOTES, \App\Core\AppConfig::main('default_charset'));
 		list ($tableName, $columnName, $fieldName, $moduleFieldLabel, $fieldType) = explode(':', $relCriteriaRow['columnname']);
-		$tempVal = explode(',', $relCriteriaRow['value']);
+		$tempVal = $rowValue === '' ? [] : explode(',', $rowValue);
 		if ($fieldType === 'D' || ($fieldType === 'T' && $columnName !== 'time_start' && $columnName !== 'time_end') || ($fieldType === 'DT')) {
 			$val = [];
 			foreach ($tempVal as $key => $value) {

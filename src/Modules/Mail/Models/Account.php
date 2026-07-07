@@ -429,6 +429,56 @@ class Account
 		return $value === null || $value === '';
 	}
 
+	public static function ensurePersonalAccountForUser(int $userId): void
+	{
+		if ($userId <= 0) {
+			return;
+		}
+
+		$hints = self::getUserPersonalHints($userId);
+		$email = trim((string) ($hints['username'] ?? ''));
+		if ($email === '') {
+			return;
+		}
+
+		$existing = (new \App\Db\Query())
+			->from('u_yf_mail_accounts')
+			->where(['kind' => 'personal', 'owner_user_id' => $userId])
+			->one();
+
+		if ($existing) {
+			$update = [];
+			if ((string) ($existing['username'] ?? '') !== $email) {
+				$update['username'] = $email;
+			}
+			$fromName = trim((string) ($hints['from_name'] ?? ''));
+			if ($fromName !== '' && (string) ($existing['from_name'] ?? '') !== $fromName) {
+				$update['from_name'] = $fromName;
+			}
+			if ($update !== []) {
+				\App\Db\Db::getInstance()->createCommand()->update(
+					'u_yf_mail_accounts',
+					$update,
+					['id' => (int) $existing['id']]
+				)->execute();
+			}
+
+			return;
+		}
+
+		$data = self::applyPersonalDefaults(['username' => $email], $userId);
+		$row = self::buildRow($data, 'personal', $userId, null, null, false);
+		$db = \App\Db\Db::getInstance();
+		$db->createCommand()->insert('u_yf_mail_accounts', $row)->execute();
+		$accountId = (int) $db->getLastInsertID();
+		$db->createCommand()->insert('u_yf_mail_account_users', [
+			'account_id' => $accountId,
+			'user_id' => $userId,
+			'can_send' => 1,
+			'is_default' => 1,
+		])->execute();
+	}
+
 	private static function buildRow(array $data, string $kind, ?int $ownerUserId, ?string $passwordEnc, ?array $existing, bool $activate): array
 	{
 		$groupId = (int) ($data['group_id'] ?? 0);
