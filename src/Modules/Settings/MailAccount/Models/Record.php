@@ -47,6 +47,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			'smtp_secure' => 'ssl',
 			'append_sent' => 1,
 			'group_id' => null,
+			'reply_to_mode' => 'same_as_from',
 		]);
 	}
 

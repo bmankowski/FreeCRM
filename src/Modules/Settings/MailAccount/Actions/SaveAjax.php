@@ -70,6 +70,24 @@ class SaveAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 			return;
 		}
 
+		$replyToMode = (string) ($recordModel->get('reply_to_mode') ?? 'same_as_from');
+		if (!\in_array($replyToMode, ['same_as_from', 'user_personal', 'custom'], true)) {
+			$replyToMode = 'same_as_from';
+			$recordModel->set('reply_to_mode', $replyToMode);
+		}
+		if ($replyToMode === 'custom') {
+			$replyToAddress = trim((string) ($recordModel->get('reply_to_address') ?? ''));
+			if ($replyToAddress === '' || !filter_var($replyToAddress, FILTER_VALIDATE_EMAIL)) {
+				$response = new \App\Http\Vtiger_Response();
+				$response->setResult(['success' => false, 'message' => 'LBL_REPLY_TO_ADDRESS_REQUIRED']);
+				$response->emit();
+				return;
+			}
+			$recordModel->set('reply_to_address', $replyToAddress);
+		} else {
+			$recordModel->set('reply_to_address', null);
+		}
+
 		$recordModel->save();
 		$response = new \App\Http\Vtiger_Response();
 		$response->setResult([

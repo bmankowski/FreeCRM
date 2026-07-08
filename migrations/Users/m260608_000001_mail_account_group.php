@@ -113,7 +113,7 @@ class m260608_000001_mail_account_group extends Migration
 			'username' => (string) ($smtp['username'] ?? ''),
 			'password' => $password,
 			'from_name' => (string) ($smtp['from_name'] ?? ''),
-			'reply_to_mode' => 'user_personal',
+			'reply_to_mode' => 'same_as_from',
 			'append_sent' => 1,
 		], null, [], true);
 	}
