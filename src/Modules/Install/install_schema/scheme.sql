@@ -9320,7 +9320,7 @@ CREATE TABLE `yetiforce_updates` (
 CREATE TABLE `u_yf_mail_accounts` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(120) NOT NULL,
-  `kind` enum('personal','shared') NOT NULL,
+  `kind` enum('personal','group') NOT NULL,
   `owner_user_id` int(11) DEFAULT NULL,
   `imap_host` varchar(190) NOT NULL,
   `imap_port` smallint(5) unsigned NOT NULL DEFAULT '993',

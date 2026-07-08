@@ -154,7 +154,7 @@ class HistoryRelation extends \App\Modules\Base\Widgets\Basic
 				$query->leftJoin(['a' => 'u_yf_mail_accounts'], 'a.id = m.account_id')
 					->andWhere([
 						'or',
-						['m.smtp_id' => null, 'a.kind' => 'shared'],
+						['m.smtp_id' => null, 'a.kind' => 'group'],
 						['not', ['m.smtp_id' => null]],
 						['and', ['a.kind' => 'personal'], ['a.owner_user_id' => $userId]],
 						['and', ['m.direction' => 'out'], ['m.sender_user_id' => $userId]],

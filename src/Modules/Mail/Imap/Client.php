@@ -97,7 +97,7 @@ class Client
 
 	private static function resolvePersonalAccountData(array $accountData): array
 	{
-		if (($accountData['kind'] ?? 'personal') === 'shared') {
+		if (($accountData['kind'] ?? 'personal') === 'group') {
 			return $accountData;
 		}
 
@@ -113,7 +113,7 @@ class Client
 			return $accountData;
 		}
 
-		return Account::applyPersonalDefaults($accountData, $userId);
+		return Account::preparePersonalAccountData($userId, $accountData);
 	}
 
 	private static function mapSecure(string $secure): string

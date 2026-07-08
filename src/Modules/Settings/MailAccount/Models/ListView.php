@@ -52,7 +52,7 @@ class ListView extends \App\Modules\Settings\Base\Models\ListView
 			],
 			[
 				'linktype' => 'LISTVIEWBASIC',
-				'linklabel' => 'LBL_ADD_SHARED_ACCOUNT',
+				'linklabel' => 'LBL_ADD_GROUP_ACCOUNT',
 				'linkurl' => $moduleModel->getCreateRecordUrl(),
 				'linkclass' => 'btn-success addButton',
 				'linkicon' => 'glyphicon glyphicon-plus',

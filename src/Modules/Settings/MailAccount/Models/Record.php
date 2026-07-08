@@ -40,7 +40,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 	public static function getCleanInstance(): self
 	{
 		return new self([
-			'kind' => 'shared',
+			'kind' => 'group',
 			'imap_port' => 993,
 			'imap_secure' => 'ssl',
 			'smtp_port' => 465,
@@ -118,7 +118,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	public function save(): void
 	{
-		$saved = \App\Modules\Mail\Models\Account::saveShared(
+		$saved = \App\Modules\Mail\Models\Account::saveGroup(
 			$this->getData(),
 			$this->getId() ?: null,
 			[],

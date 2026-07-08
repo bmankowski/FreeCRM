@@ -62,6 +62,8 @@ class PreferenceMailbox extends \App\Modules\Base\Views\Index
 		$viewer->assign('USER_MODEL', $request->getUser());
 		$viewer->assign('MAIL_ACCOUNT', \App\Modules\Mail\Models\Account::getPersonalForDisplay($recordId));
 		$viewer->assign('PREFERENCE_DETAIL_URL', $recordModel->getPreferenceDetailViewUrl());
+		$viewer->assign('MAILBOX_FORM_MODE', 'personal');
+		$viewer->assign('USER_EMAIL', \App\Modules\Mail\Models\Account::getUserProfileEmail($recordId));
 	}
 
 	public function process(\App\Http\Vtiger_Request $request): void

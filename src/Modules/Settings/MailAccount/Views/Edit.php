@@ -36,7 +36,9 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 			throw new \App\Exceptions\AppException('LBL_RECORD_NOT_FOUND');
 		}
 
-		$kind = (string) ($recordModel->get('kind') ?? 'shared');
+		$kind = (string) ($recordModel->get('kind') ?? 'group');
+		$userProfileEmail = '';
+		$userPreferenceDetailUrl = '';
 		if ($recordId && $kind === 'personal') {
 			$ownerUserId = (int) $recordModel->get('owner_user_id');
 			$mailAccount = \App\Modules\Mail\Models\Account::getPersonalForDisplay($ownerUserId);
@@ -45,8 +47,10 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 				: null;
 			$ownerName = $ownerUser ? $ownerUser->getName() : '';
 			$ownerMailboxUrl = $ownerUser ? $ownerUser->getPreferenceMailboxViewUrl() : '';
+			$userProfileEmail = \App\Modules\Mail\Models\Account::getUserProfileEmail($ownerUserId);
+			$userPreferenceDetailUrl = $ownerUser ? $ownerUser->getPreferenceDetailViewUrl() : '';
 		} else {
-			$kind = 'shared';
+			$kind = 'group';
 			$ownerUserId = 0;
 			$ownerName = '';
 			$ownerMailboxUrl = '';
@@ -65,6 +69,8 @@ class Edit extends \App\Modules\Settings\Base\Views\Index
 		$viewer->assign('OWNER_USER_ID', $ownerUserId);
 		$viewer->assign('OWNER_USER_NAME', $ownerName);
 		$viewer->assign('OWNER_PREFERENCE_MAILBOX_URL', $ownerMailboxUrl);
+		$viewer->assign('USER_EMAIL', $userProfileEmail);
+		$viewer->assign('USER_PREFERENCE_DETAIL_URL', $userPreferenceDetailUrl);
 		$viewer->view('Edit.tpl', $request->getModule(false));
 	}
 

@@ -105,7 +105,7 @@ class Account
 			->select(['a.*', 'au.is_default', 'au.can_send'])
 			->from(['a' => 'u_yf_mail_accounts'])
 			->innerJoin(['au' => 'u_yf_mail_account_users'], 'au.account_id = a.id')
-			->where(['a.kind' => 'shared', 'au.user_id' => $userId]);
+			->where(['a.kind' => 'group', 'au.user_id' => $userId]);
 		if ($sendOnly) {
 			$query->andWhere(['au.can_send' => 1, 'a.active' => 1]);
 		}
@@ -145,7 +145,7 @@ class Account
 			->from(['a' => 'u_yf_mail_accounts'])
 			->innerJoin(['au' => 'u_yf_mail_account_users'], 'au.account_id = a.id')
 			->where([
-				'a.kind' => 'shared',
+				'a.kind' => 'group',
 				'au.user_id' => $userId,
 				'au.can_send' => 1,
 				'a.active' => 1,
@@ -179,7 +179,7 @@ class Account
 		$accountIds = (new \App\Db\Query())
 			->select(['id'])
 			->from('u_yf_mail_accounts')
-			->where(['kind' => 'shared', 'group_id' => $groupId])
+			->where(['kind' => 'group', 'group_id' => $groupId])
 			->column();
 		foreach ($accountIds as $accountId) {
 			self::syncGroupMembers((int) $accountId, $groupId);
@@ -235,6 +235,33 @@ class Account
 		return $id ? (int) $id : null;
 	}
 
+	public static function getUserProfileEmail(int $userId): string
+	{
+		if ($userId <= 0) {
+			return '';
+		}
+
+		return trim((string) (new \App\Db\Query())
+			->select('email1')
+			->from('vtiger_users')
+			->where(['id' => $userId])
+			->scalar());
+	}
+
+	public static function preparePersonalAccountData(int $userId, array $data, bool $requireEmail = false): array
+	{
+		$data = self::applyPersonalDefaults($data, $userId);
+		$email = self::getUserProfileEmail($userId);
+		if ($email !== '') {
+			$data['username'] = $email;
+			$data['name'] = $email;
+		} elseif ($requireEmail) {
+			throw new \App\Exceptions\AppException('LBL_MAIL_USER_EMAIL_REQUIRED');
+		}
+
+		return $data;
+	}
+
 	public static function savePersonalForUser(int $userId, array $data, bool $activate = false): array
 	{
 		$encryption = new \App\Security\Encryption();
@@ -261,7 +288,7 @@ class Account
 			$passwordEnc = $encryption->encrypt($password);
 		}
 
-		$row = self::buildRow(self::applyPersonalDefaults($data, $userId), 'personal', $userId, $passwordEnc, $existing, $activate);
+		$row = self::buildRow(self::preparePersonalAccountData($userId, $data, true), 'personal', $userId, $passwordEnc, $existing, $activate);
 
 		$db = \App\Db\Db::getInstance();
 		if ($existing) {
@@ -281,7 +308,7 @@ class Account
 		return self::getById($accountId) ?? [];
 	}
 
-	public static function saveShared(array $data, ?int $accountId = null, array $userIds = [], bool $activate = false): array
+	public static function saveGroup(array $data, ?int $accountId = null, array $userIds = [], bool $activate = false): array
 	{
 		$encryption = new \App\Security\Encryption();
 		if (!$encryption->isActive()) {
@@ -300,7 +327,7 @@ class Account
 			$passwordEnc = $encryption->encrypt($password);
 		}
 
-		$row = self::buildRow($data, 'shared', null, $passwordEnc, $existing, $activate);
+		$row = self::buildRow($data, 'group', null, $passwordEnc, $existing, $activate);
 		$row['owner_user_id'] = null;
 		$groupId = (int) ($data['group_id'] ?? 0);
 		$row['group_id'] = $groupId > 0 ? $groupId : null;
@@ -451,6 +478,9 @@ class Account
 			if ((string) ($existing['username'] ?? '') !== $email) {
 				$update['username'] = $email;
 			}
+			if ((string) ($existing['name'] ?? '') !== $email) {
+				$update['name'] = $email;
+			}
 			$fromName = trim((string) ($hints['from_name'] ?? ''));
 			if ($fromName !== '' && (string) ($existing['from_name'] ?? '') !== $fromName) {
 				$update['from_name'] = $fromName;
@@ -486,7 +516,7 @@ class Account
 			'name' => trim((string) ($data['name'] ?? $data['username'] ?? '')),
 			'kind' => $kind,
 			'owner_user_id' => $ownerUserId,
-			'group_id' => $kind === 'shared' && $groupId > 0 ? $groupId : null,
+			'group_id' => $kind === 'group' && $groupId > 0 ? $groupId : null,
 			'imap_host' => trim((string) ($data['imap_host'] ?? '')),
 			'imap_port' => (int) ($data['imap_port'] ?? 993),
 			'imap_secure' => $data['imap_secure'] ?? 'ssl',

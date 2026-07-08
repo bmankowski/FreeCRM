@@ -315,8 +315,8 @@ All new tables use the FreeCRM `u_yf_*` naming convention.
 |--------|------|-------|
 | `id` | INT UNSIGNED AI PK | |
 | `name` | VARCHAR(120) | display name |
-| `kind` | ENUM('personal','shared') | drives visibility model (§6.8) |
-| `owner_user_id` | INT NULL | required when `kind='personal'`, NULL for shared |
+| `kind` | ENUM('personal','group') | drives visibility model (§6.8) |
+| `owner_user_id` | INT NULL | required when `kind='personal'`, NULL for group |
 | `imap_host` | VARCHAR(190) | |
 | `imap_port` | SMALLINT UNSIGNED | default 993 |
 | `imap_secure` | ENUM('ssl','tls','none') | default 'ssl' |
@@ -456,16 +456,16 @@ Two orthogonal checks. **Both must pass** for a user to see a message on a recor
 |---------|--------------|--------------|--------------|
 | Admin | all | all | yes |
 | User — owner of `kind='personal'` account | yes (own) | yes | non-system fields only (reply_to, from_name, is_default) |
-| User — listed in `u_yf_mail_account_users` for `kind='shared'` account | yes (shared) | if `can_send=1` | no |
+| User — listed in `u_yf_mail_account_users` for `kind='group'` account | yes (group) | if `can_send=1` | no |
 | Other user | no | no | no |
 
 **(2) Message visibility on a related list** (the "hybrid" rule):
 
 | Message source | Visible to … |
 |----------------|--------------|
-| Inbound from `kind='shared'` account | any user with `DetailView` on the linked record |
+| Inbound from `kind='group'` account | any user with `DetailView` on the linked record |
 | Inbound from `kind='personal'` account | only the account's `owner_user_id` (and admins) |
-| Outbound, `account_id` set, `kind='shared'` | any user with `DetailView` on the linked record |
+| Outbound, `account_id` set, `kind='group'` | any user with `DetailView` on the linked record |
 | Outbound, `account_id` set, `kind='personal'` | only `sender_user_id` (i.e. the user who sent it) and admins |
 | Outbound, `smtp_id` set (system SMTP path) | any user with `DetailView` on the linked record |
 
@@ -479,7 +479,7 @@ WHERE l.crm_module = :module AND l.crm_record_id = :recordId
   AND (
         :isAdmin = 1
      OR a.kind IS NULL                          -- system_smtp path, always visible if record-permitted
-     OR a.kind = 'shared'                       -- shared mailbox, always visible if record-permitted
+     OR a.kind = 'group'                       -- group mailbox, always visible if record-permitted
      OR (a.kind = 'personal' AND a.owner_user_id = :userId)
      OR (m.direction = 'out' AND m.sender_user_id = :userId)
       )

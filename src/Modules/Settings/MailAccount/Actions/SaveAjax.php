@@ -37,7 +37,7 @@ class SaveAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 	public function process(\App\Http\Vtiger_Request $request): void
 	{
 		$data = $request->get('param') ?? $request->getAll();
-		$kind = (string) ($data['kind'] ?? 'shared');
+		$kind = (string) ($data['kind'] ?? 'group');
 		if ($kind === 'personal') {
 			$response = new \App\Http\Vtiger_Response();
 			$response->setResult(['success' => false, 'message' => 'LBL_PERSONAL_ACCOUNT_USE_MAIL_SAVE']);

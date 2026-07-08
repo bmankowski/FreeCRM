@@ -33,18 +33,21 @@ class FolderTree
 	public static function fromClient(Client $client): array
 	{
 		$client->connect();
-		$collection = $client->getFolders(true);
-		$tree = [];
+		$collection = $client->getFolders(false);
+		$client->disconnect();
+
 		$flat = [];
 		foreach ($collection as $folder) {
-			$tree[] = self::folderNode($folder);
-			self::collectFlat($folder, $flat);
+			$fullName = self::folderFullName($folder);
+			if ($fullName !== '') {
+				$flat[] = $fullName;
+			}
 		}
-		$client->disconnect();
+		$flat = array_values(array_unique($flat));
 
 		return [
 			'folders' => $flat,
-			'folder_tree' => $tree,
+			'folder_tree' => self::buildTreeFromFlat($collection),
 			'suggested_sent' => self::suggestSentFolder($flat),
 		];
 	}
@@ -74,33 +77,66 @@ class FolderTree
 		return null;
 	}
 
-	private static function folderNode(Folder $folder): array
+	/**
+	 * @param iterable<Folder> $collection
+	 * @return list<array<string, mixed>>
+	 */
+	private static function buildTreeFromFlat(iterable $collection): array
 	{
-		$children = [];
-		if ($folder->hasChildren()) {
-			foreach ($folder->children as $child) {
-				$children[] = self::folderNode($child);
+		/** @var array<string, array<string, mixed>> $roots */
+		$roots = [];
+
+		foreach ($collection as $folder) {
+			$fullName = self::folderFullName($folder);
+			if ($fullName === '') {
+				continue;
 			}
+
+			$delimiter = $folder->delimiter !== '' ? $folder->delimiter : '.';
+			$parts = explode($delimiter, $fullName);
+			$node = &$roots;
+			$built = '';
+
+			foreach ($parts as $i => $part) {
+				$built = $built === '' ? $part : $built . $delimiter . $part;
+				if (!isset($node[$part])) {
+					$node[$part] = [
+						'name' => $part,
+						'path' => $built,
+						'full_name' => $built,
+						'children' => [],
+					];
+				}
+				if ($i === count($parts) - 1) {
+					$node[$part]['path'] = $folder->path ?: $fullName;
+					$node[$part]['full_name'] = $fullName;
+				}
+				$node = &$node[$part]['children'];
+			}
+			unset($node);
 		}
 
-		return [
-			'name' => $folder->name,
-			'path' => $folder->path,
-			'full_name' => $folder->full_name,
-			'children' => $children,
-		];
+		return self::normalizeTreeNodes($roots);
 	}
 
 	/**
-	 * @param list<string> $flat
+	 * @param array<string, array<string, mixed>> $nodes
+	 * @return list<array<string, mixed>>
 	 */
-	private static function collectFlat(Folder $folder, array &$flat): void
+	private static function normalizeTreeNodes(array $nodes): array
 	{
-		$flat[] = $folder->name;
-		if ($folder->hasChildren()) {
-			foreach ($folder->children as $child) {
-				self::collectFlat($child, $flat);
-			}
+		$result = [];
+		foreach ($nodes as $node) {
+			$children = $node['children'] ?? [];
+			$node['children'] = is_array($children) ? self::normalizeTreeNodes($children) : [];
+			$result[] = $node;
 		}
+
+		return $result;
+	}
+
+	private static function folderFullName(Folder $folder): string
+	{
+		return $folder->full_name ?: $folder->name;
 	}
 }

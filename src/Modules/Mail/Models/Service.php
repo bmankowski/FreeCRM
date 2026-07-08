@@ -40,7 +40,7 @@ class Service
 		if (!$isAdmin) {
 			$query->andWhere([
 				'or',
-				['m.smtp_id' => null, 'a.kind' => 'shared'],
+				['m.smtp_id' => null, 'a.kind' => 'group'],
 				['not', ['m.smtp_id' => null]],
 				['and', ['a.kind' => 'personal'], ['a.owner_user_id' => $userId]],
 				['and', ['m.direction' => 'out'], ['m.sender_user_id' => $userId]],

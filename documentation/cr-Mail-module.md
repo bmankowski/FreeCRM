@@ -302,7 +302,7 @@ File: `tools/migrate/2026_mail_module.sql`
 CREATE TABLE IF NOT EXISTS u_yf_mail_accounts (
   id INT UNSIGNED NOT NULL AUTO_INCREMENT,
   name VARCHAR(120) NOT NULL,
-  kind ENUM('personal','shared') NOT NULL,
+  kind ENUM('personal','group') NOT NULL,
   owner_user_id INT NULL,
   imap_host VARCHAR(190) NOT NULL,
   imap_port SMALLINT UNSIGNED NOT NULL DEFAULT 993,

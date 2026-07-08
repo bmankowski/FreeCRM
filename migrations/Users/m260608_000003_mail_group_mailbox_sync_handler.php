@@ -19,7 +19,7 @@ class m260608_000003_mail_group_mailbox_sync_handler extends Migration
 		foreach ((new Query())
 			->select(['id', 'group_id'])
 			->from('u_yf_mail_accounts')
-			->where(['kind' => 'shared'])
+			->where(['kind' => 'group'])
 			->andWhere(['not', ['group_id' => null]])
 			->all() as $row) {
 			\App\Modules\Mail\Models\Account::syncGroupMembers((int) $row['id'], (int) $row['group_id']);

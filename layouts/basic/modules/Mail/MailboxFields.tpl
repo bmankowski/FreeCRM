@@ -2,10 +2,28 @@
 {if !empty($MAIL_ACCOUNT.id)}
 	<input type="hidden" name="id" value="{$MAIL_ACCOUNT.id}">
 {/if}
-<div class="form-group">
-	<label>{"LBL_ACCOUNT_NAME"|t:"Mail"}</label>
-	<input class="form-control" name="name" value="{$MAIL_ACCOUNT.name|default:''}">
-</div>
+{assign var=_mailboxMode value=$MAILBOX_FORM_MODE|default:$ACCOUNT_KIND|default:'group'}
+{if $_mailboxMode eq 'personal'}
+	<div class="form-group">
+		<label>{"LBL_USERNAME"|t:"Mail"}</label>
+		<p class="form-control-static">
+			{if $USER_EMAIL|default:''}
+				{$USER_EMAIL|escape}
+			{else}
+				<span class="text-muted">{"LBL_MAIL_USER_EMAIL_MISSING"|t:"Mail"}</span>
+			{/if}
+		</p>
+	</div>
+{else}
+	<div class="form-group">
+		<label>{"LBL_ACCOUNT_NAME"|t:"Mail"}</label>
+		<input class="form-control" name="name" value="{$MAIL_ACCOUNT.name|default:''}">
+	</div>
+	<div class="form-group">
+		<label>{"LBL_USERNAME"|t:"Mail"}</label>
+		<input class="form-control" name="username" value="{$MAIL_ACCOUNT.username|default:''}">
+	</div>
+{/if}
 <div class="form-group">
 	<label>{"LBL_IMAP_HOST"|t:"Mail"}</label>
 	<input class="form-control" name="imap_host" value="{$MAIL_ACCOUNT.imap_host|default:''}">
@@ -21,10 +39,6 @@
 <div class="form-group">
 	<label>{"LBL_SMTP_PORT"|t:"Mail"}</label>
 	<input class="form-control" name="smtp_port" value="{$MAIL_ACCOUNT.smtp_port|default:'465'}">
-</div>
-<div class="form-group">
-	<label>{"LBL_USERNAME"|t:"Mail"}</label>
-	<input class="form-control" name="username" value="{$MAIL_ACCOUNT.username|default:''}">
 </div>
 <div class="form-group">
 	<label>{"LBL_PASSWORD"|t:"Mail"}</label>

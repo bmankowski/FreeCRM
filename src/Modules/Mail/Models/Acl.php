@@ -90,7 +90,7 @@ class Acl
 		if ($account === null || empty($message)) {
 			return !empty($message['smtp_id']);
 		}
-		if ($account['kind'] === 'shared') {
+		if ($account['kind'] === 'group') {
 			return true;
 		}
 		if ($message['direction'] === 'out') {

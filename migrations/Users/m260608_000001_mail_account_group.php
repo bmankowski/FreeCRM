@@ -47,7 +47,7 @@ class m260608_000001_mail_account_group extends Migration
 		$accountId = (new \App\Db\Query())
 			->select('id')
 			->from('u_yf_mail_accounts')
-			->where(['kind' => 'shared', 'username' => 'rekrutacja@itconnect.pl'])
+			->where(['kind' => 'group', 'username' => 'rekrutacja@itconnect.pl'])
 			->scalar();
 		if ($accountId) {
 			$this->delete('u_yf_mail_account_users', ['account_id' => (int) $accountId]);
@@ -75,7 +75,7 @@ class m260608_000001_mail_account_group extends Migration
 		$existingId = (int) ((new \App\Db\Query())
 			->select('id')
 			->from('u_yf_mail_accounts')
-			->where(['kind' => 'shared', 'group_id' => $groupId])
+			->where(['kind' => 'group', 'group_id' => $groupId])
 			->scalar() ?: 0);
 		if ($existingId > 0) {
 			\App\Modules\Mail\Models\Account::syncGroupMembers($existingId, $groupId);
@@ -101,7 +101,7 @@ class m260608_000001_mail_account_group extends Migration
 		}
 
 		$host = (string) ($smtp['host'] ?? 'itconnect.pl');
-		\App\Modules\Mail\Models\Account::saveShared([
+		\App\Modules\Mail\Models\Account::saveGroup([
 			'name' => (string) ($smtp['name'] ?? 'Rekrutacja'),
 			'group_id' => $groupId,
 			'imap_host' => $host,

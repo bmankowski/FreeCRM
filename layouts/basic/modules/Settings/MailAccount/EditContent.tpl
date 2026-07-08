@@ -6,7 +6,7 @@
 		{if $ACCOUNT_KIND eq 'personal'}
 			<input type="hidden" name="owner_user_id" value="{$OWNER_USER_ID}">
 		{/if}
-		{if $ACCOUNT_KIND eq 'shared'}
+		{if $ACCOUNT_KIND eq 'group'}
 			<div class="form-group">
 				<label class="control-label col-md-3">{"LBL_CRM_GROUP"|t:$QUALIFIED_MODULE} *</label>
 				<div class="col-md-8">
