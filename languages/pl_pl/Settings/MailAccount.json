@@ -31,9 +31,13 @@
         "LBL_SAVE": "Zapisz",
         "LBL_CONNECTION_OK": "Połączenie poprawne",
         "LBL_CONNECTION_FAILED": "Połączenie nieudane",
+        "LBL_MAIL_IMAP_AUTH_FAILED": "Logowanie IMAP nieudane — sprawdź adres e-mail (login) i hasło.",
+        "LBL_MAIL_IMAP_CONNECT_FAILED": "Nie udało się połączyć z serwerem IMAP — sprawdź host, port i szyfrowanie (SSL/TLS).",
+        "LBL_MAIL_IMAP_TLS_FAILED": "Błąd certyfikatu lub szyfrowania SSL/TLS przy połączeniu IMAP.",
         "LBL_MAIL_PASSWORD_REQUIRED": "Hasło jest wymagane",
         "LBL_MAIL_ACCOUNT_NOT_FOUND": "Nie znaleziono konta pocztowego",
         "LBL_MAIL_SMTP_CONNECT_FAILED": "Połączenie SMTP nieudane",
+        "LBL_MAIL_SMTP_AUTH_FAILED": "Uwierzytelnianie SMTP nieudane — sprawdź adres e-mail (login) i hasło.",
         "LBL_MAIL_IMAP_FOLDER_LIST_FAILED": "Logowanie IMAP i SMTP poprawne, ale nie udało się pobrać listy folderów z serwera.",
         "LBL_LOGS": "Logi"
     }

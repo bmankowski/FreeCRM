@@ -56,8 +56,8 @@ class Client
 		try {
 			$client = self::createFromAccount($accountData, $password);
 			$client->connect();
-		} catch (\Throwable) {
-			return ['success' => false, 'error' => 'LBL_CONNECTION_FAILED'];
+		} catch (\Throwable $e) {
+			return ['success' => false, 'error' => self::classifyImapError($e)];
 		}
 
 		$smtpResult = self::testSmtp($accountData, $password);
@@ -94,6 +94,7 @@ class Client
 
 	public static function testSmtp(array $accountData, string $password): array
 	{
+		$mailer = null;
 		try {
 			$mailer = new PHPMailer(true);
 			$mailer->isSMTP();
@@ -111,13 +112,62 @@ class Client
 			$mailer->Timeout = 10;
 			$mailer->SMTPDebug = 0;
 			if (!$mailer->smtpConnect()) {
-				return ['success' => false, 'error' => 'LBL_MAIL_SMTP_CONNECT_FAILED'];
+				return ['success' => false, 'error' => self::classifySmtpError($mailer->ErrorInfo)];
 			}
 			$mailer->smtpClose();
 			return ['success' => true];
 		} catch (\Throwable $e) {
-			return ['success' => false, 'error' => 'LBL_CONNECTION_FAILED'];
+			$errorInfo = $mailer instanceof PHPMailer ? (string) $mailer->ErrorInfo : '';
+			return ['success' => false, 'error' => self::classifySmtpError(trim($e->getMessage() . ' ' . $errorInfo))];
 		}
+	}
+
+	private static function classifyImapError(\Throwable $e): string
+	{
+		$message = strtolower($e->getMessage());
+
+		if (self::looksLikeAuthFailure($message)) {
+			return 'LBL_MAIL_IMAP_AUTH_FAILED';
+		}
+		if (str_contains($message, 'certificate') || str_contains($message, 'ssl') || str_contains($message, 'tls')) {
+			return 'LBL_MAIL_IMAP_TLS_FAILED';
+		}
+		if (str_contains($message, 'connection') || str_contains($message, 'timeout')
+			|| str_contains($message, 'refused') || str_contains($message, 'unable to connect')
+			|| str_contains($message, 'could not connect') || str_contains($message, 'getaddrinfo')) {
+			return 'LBL_MAIL_IMAP_CONNECT_FAILED';
+		}
+
+		return 'LBL_MAIL_IMAP_CONNECT_FAILED';
+	}
+
+	private static function classifySmtpError(string $details): string
+	{
+		$message = strtolower(trim($details));
+
+		if (self::looksLikeAuthFailure($message)) {
+			return 'LBL_MAIL_SMTP_AUTH_FAILED';
+		}
+		if (str_contains($message, 'connection') || str_contains($message, 'timeout')
+			|| str_contains($message, 'refused') || str_contains($message, 'unable to connect')
+			|| str_contains($message, 'could not connect') || str_contains($message, 'getaddrinfo')) {
+			return 'LBL_MAIL_SMTP_CONNECT_FAILED';
+		}
+
+		return 'LBL_MAIL_SMTP_CONNECT_FAILED';
+	}
+
+	private static function looksLikeAuthFailure(string $message): bool
+	{
+		return str_contains($message, 'authenticationfailed')
+			|| str_contains($message, 'authentication failed')
+			|| str_contains($message, 'invalid credentials')
+			|| str_contains($message, 'could not authenticate')
+			|| str_contains($message, 'auth failed')
+			|| str_contains($message, 'login failed')
+			|| str_contains($message, 'bad credentials')
+			|| preg_match('/\b535\b/', $message) === 1
+			|| preg_match('/\b534\b/', $message) === 1;
 	}
 
 	private static function resolvePersonalAccountData(array $accountData): array
