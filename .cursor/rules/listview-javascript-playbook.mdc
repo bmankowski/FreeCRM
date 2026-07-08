@@ -94,6 +94,18 @@ Range calendar on the list filter row: `ListSearch.js` → `registerDateListSear
 - **Picker lib:** `public/libraries/jquery/datepicker/js/datepicker.js` — Enter on input while open dispatches `mousedown` on `body` (same close path as blur). Minify `datepicker.js` + `ListSearch.js` together after edits.
 - **Also used on:** DetailView related lists (`RelatedList.js` → same `YetiForce_ListSearch_Js` instance on `div.contents`).
 
+## List search operators (`getListSearchParams`)
+
+Default operator is **`a`** (auto/wildcard). `fieldInfo.searchOperator` from PHP overrides; else map by `fieldInfo.type`:
+
+| types | operator |
+|---|---|
+| `modules`, `picklist`, `owner`, `boolean`, … | `e` |
+| `date`, `datetime` | `bw` |
+| `multipicklist`, `categoryMultipicklist`, **`modulesMultipicklist`** | `c` |
+
+New semantic types: add here **and** set `searchOperator` in `Field::getFieldInfo()`. Example pitfall: uitype 359 — see `uitypes.mdc` → ModulesMultipicklist.
+
 ## Mass edit (MassActionAjax + CKEditor)
 
 Mass edit opens from ListView via `MassActionAjax/showMassEditForm` → `MassEditForm.tpl`. Fields are **empty** server-side (`MassEditRecordStructure`); only POSTed field names are applied in `MassSave.php` (`$request->has($fieldName)`).

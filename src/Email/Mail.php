@@ -331,7 +331,8 @@ class Mail
 			return $body;
 		}
 
-		return rtrim($body) . $footer;
+		return '<div class="fc-email-content">' . rtrim($body) . '</div>'
+			. '<div class="fc-email-footer">' . $footer . '</div>';
 	}
 
 	public static function clearTemplateListCache(): void

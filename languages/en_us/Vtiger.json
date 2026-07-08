@@ -1285,8 +1285,6 @@
         "LBL_EMAIL_ADRESS": "E-mail address",
         "LBL_EMAIL_TEMPLATE": "E-mail template",
         "LBL_MASS_SEND_EMAIL_INFO": "All e-mails are queued and sent in CRON.",
-        "LBL_TEMPLATE_REAL_DATA_PREVIEW": "Preview with candidate data",
-        "LBL_TEMPLATE_REAL_DATA_PREVIEW_DESC": "The template was filled with real record data. You can edit the subject and message before sending.",
         "LBL_TEMPLATE_PREVIEW_SINGLE_RECORD_ONLY": "Preview and editing are available when exactly one record is selected. Bulk sending will use the selected template for each record.",
         "ERR_NO_DEFAULT_SMTP": "No default mailbox to send e-mails",
         "LBL_ADD_FILES": "Add files",

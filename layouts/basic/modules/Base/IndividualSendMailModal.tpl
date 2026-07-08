@@ -49,12 +49,10 @@
 					<span class="js-source-context-warning-text">{if !empty($INITIAL_PREVIEW['warning'])}{\App\Modules\Base\Helpers\Util::toSafeHTML($INITIAL_PREVIEW['warning'])}{/if}</span>
 				</div>
 				<div class="form-group">
-					<label class="control-label" for="mailSubject">{'LBL_SUBJECT'|t}</label>
+					<label class="control-label" for="mailSubject"><span class="redColor">*</span> {'LBL_SUBJECT'|t}</label>
 					<input type="text" class="form-control js-mail-subject" id="mailSubject" data-validation-engine="validate[required]" value="{if !empty($INITIAL_PREVIEW['subject'])}{\App\Modules\Base\Helpers\Util::toSafeHTML($INITIAL_PREVIEW['subject'])}{/if}" />
 				</div>
 				<div class="form-group">
-					<label class="control-label">{'LBL_TEMPLATE_REAL_DATA_PREVIEW'|t}</label>
-					<div class="help-block">{'LBL_TEMPLATE_REAL_DATA_PREVIEW_DESC'|t}</div>
 					<textarea class="hide js-mail-content-input" id="mailContent" data-validation-engine="validate[required]"></textarea>
 					<div class="form-control js-mail-content" contenteditable="true" style="background:#fff;border:1px solid #ccc;height:360px;overflow:auto;padding:18px;">{if !empty($INITIAL_PREVIEW['content'])}{$INITIAL_PREVIEW['content']}{/if}</div>
 				</div>

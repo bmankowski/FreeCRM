@@ -63,20 +63,29 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 		FreeCRM_TemplateEditor_Js.registerToolbar(panel, {
 			previewDisplay: 'inline',
 			getPreviewDocumentHtmlAsync: function () {
-				var body = FreeCRM_TemplateEditor_Js.expandDynamicElements(
-					thisInstance.getContentValue(form),
-					panel
-				);
-				return FreeCRM_TemplateEditor_Js.parsePreviewContent(body, {
-					module: 'EmailTemplates',
-					action: 'ParsePreview',
-					content: body,
-					moduleName: thisInstance.getTargetModuleName(form),
-					parserType: 'mail'
-				}).then(function (parsedBody) {
-					return FreeCRM_TemplateEditor_Js.buildPreviewDocument(parsedBody);
-				});
+				return thisInstance.buildPreviewHtml(form, panel);
 			}
+		});
+	},
+	buildPreviewHtml: function (form, panel) {
+		var thisInstance = this;
+		var editor = FreeCRM_TemplateEditor_Js;
+		var contentHtml = editor.expandDynamicElements(thisInstance.getFieldValue(form, 'content'), panel);
+		var footerHtml = editor.expandDynamicElements(thisInstance.getFieldValue(form, 'footer'), panel);
+		var parseBase = {
+			module: 'EmailTemplates',
+			action: 'ParsePreview',
+			moduleName: thisInstance.getTargetModuleName(form),
+			parserType: 'mail'
+		};
+		return jQuery.when(
+			editor.parsePreviewContent(contentHtml, jQuery.extend({ content: contentHtml }, parseBase)),
+			editor.parsePreviewContent(footerHtml, jQuery.extend({ content: footerHtml }, parseBase))
+		).then(function (parsedContent, parsedFooter) {
+			return editor.buildPreviewDocumentWithSections([
+				{ label: app.vtranslate('FL_CONTENT', 'EmailTemplates'), html: parsedContent },
+				{ label: app.vtranslate('FL_FOOTER', 'EmailTemplates'), html: parsedFooter }
+			]);
 		});
 	},
 	getDynamicElements: function (form) {
@@ -143,12 +152,15 @@ Vtiger_Edit_Js("EmailTemplates_Edit_Js", {}, {
 	getHtmlFieldTextarea: function (form, fieldName) {
 		return form.find('[name="' + fieldName + '"]').first();
 	},
-	getContentValue: function (form) {
-		var cm = this.codeMirrorInstances.content;
+	getFieldValue: function (form, fieldName) {
+		var cm = this.codeMirrorInstances[fieldName];
 		if (cm) {
 			return cm.getValue();
 		}
-		return this.getContentTextarea(form).val();
+		return this.getHtmlFieldTextarea(form, fieldName).val();
+	},
+	getContentValue: function (form) {
+		return this.getFieldValue(form, 'content');
 	},
 	setContentValue: function (form, value) {
 		var cm = this.codeMirrorInstances.content;

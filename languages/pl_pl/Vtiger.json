@@ -1297,8 +1297,6 @@
         "LBL_EMAIL_ADRESS": "Adres e-mail",
         "LBL_EMAIL_TEMPLATE": "Szablon mailowy",
         "LBL_MASS_SEND_EMAIL_INFO": "Wszystkie maile są kolejkowane i wysłane w cronie.",
-        "LBL_TEMPLATE_REAL_DATA_PREVIEW": "Podgląd z danymi kandydata",
-        "LBL_TEMPLATE_REAL_DATA_PREVIEW_DESC": "Szablon został uzupełniony prawdziwymi danymi rekordu. Możesz zmienić temat i treść wiadomości przed wysłaniem.",
         "LBL_TEMPLATE_PREVIEW_SINGLE_RECORD_ONLY": "Podgląd i edycja są dostępne po wybraniu dokładnie jednego rekordu. Wysyłka masowa użyje wybranego szablonu dla każdego rekordu.",
         "ERR_NO_DEFAULT_SMTP": "Brak domyślnej skrzynki pocztowej do wysyłania wiadomości.",
         "LBL_ADD_FILES": "Dodaj pliki",

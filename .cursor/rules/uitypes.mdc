@@ -117,7 +117,7 @@ Key entries that differ from the naive uitype name:
 | 61 | `file` | Not `image` |
 | 69 | `image` | Not `file` |
 | 117 | `currencyList` | Not `currency` (71/72 are `currency`) |
-| 359 | `modulesMultipicklist` | Multi CRM module picklist; values from `getModulesListValues()`, stored as ` \|##\| `. CustomView adv filter: `typeofdata` **`V`** (not `V~O`); ops `e/n/y/ny` — see `customview-filters.mdc`. |
+| 359 | `modulesMultipicklist` | Multi CRM module picklist; values from `getModulesListValues()`, stored as ` \|##\| `. CustomView adv filter: `typeofdata` **`V`** (not `V~O`); ops `e/n/y/ny` — see `customview-filters.mdc`. **List search + QueryField:** see subsection below. |
 | 305 | `multiReferenceValue` | Auto-aggregated from relations; read-only on Edit |
 | 306 | `MultiReference` | Manual multi-pick via popup; comma-separated CRM IDs in TEXT; target module from `vtiger_fieldmodulerel` (implements `ReferenceListProvider`) |
 | *(unmapped)* | delegated to `WebserviceField::getFieldDataType()` | Falls back to `vtiger_ws_fieldtype`; plain text fields get `'string'` via `typeofdata V~O` |
@@ -137,6 +137,14 @@ Looks like Multipicklist (`email_template_type`): Select2 `select2-selection--mu
 - **Smarty:** write `multiple class="..."` on one line; a line break between `multiple` and `class` compiles to invalid `multipleclass=`.
 - **Init order:** `app.changeSelectElementView()` runs on `document.ready` before `registerMultiReferenceFields()` — destroy existing Select2 and reinit with `tags: false`, `minimumResultsForSearch: Infinity`. Popup via `select2:opening` (preventDefault) + `openPopUp`; selection event `Vtiger.MultiReference.Selection`.
 - **Remove chip (×):** mousedown on `.select2-selection__choice__remove` sets Select2 `unselecting` flag (same as `app.js`) so `select2:opening` / search-field focus do not reopen the popup.
+
+### ModulesMultipicklist (359) — ListView search + QueryField
+
+- **Storage:** ` |##| ` (same as multipicklist); empty = global scope (EmailTemplates).
+- **QueryField:** `ModulesMultipicklistField` extends **`MultipicklistField`** (not `ModulesField`). `operatorE` / `operatorA` delegate to `operatorC` (“equals module X” = template assigned to that module).
+- **List search:** `ListSearch.js` must map `modulesMultipicklist` → operator **`c`**. If omitted, default **`a`** + `ModulesField`-style `getValue()` array → `BaseField::operatorA()` → `strpos(array)` fatal.
+- **fieldInfo:** `Field::getFieldInfo()` case `modulesMultipicklist` sets `searchOperator = 'c'`.
+- **Distinct from uitype 301 `modules`:** single module pick; list search uses **`e`**.
 
 ### Image display URLs (uitype 69, 311)
 
