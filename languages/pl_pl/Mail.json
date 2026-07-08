@@ -26,6 +26,7 @@
         "LBL_MAIL_EDIT_USER_EMAIL": "Zmień w profilu",
         "LBL_MAIL_ACCOUNT_NOT_FOUND": "Nie znaleziono konta pocztowego",
         "LBL_MAIL_SMTP_CONNECT_FAILED": "Połączenie SMTP nieudane",
+        "LBL_MAIL_IMAP_FOLDER_LIST_FAILED": "Logowanie IMAP i SMTP poprawne, ale nie udało się pobrać listy folderów z serwera.",
         "LBL_ENCRYPTION_NOT_ACTIVE": "Szyfrowanie nie jest aktywne. Skontaktuj się z administratorem.",
         "LBL_MAILS": "E-maile",
         "LBL_MAIL_SCAN": "Skaner poczty",

@@ -26,6 +26,7 @@
         "LBL_MAIL_EDIT_USER_EMAIL": "Edit in profile",
         "LBL_MAIL_ACCOUNT_NOT_FOUND": "Mail account not found",
         "LBL_MAIL_SMTP_CONNECT_FAILED": "SMTP connection failed",
+        "LBL_MAIL_IMAP_FOLDER_LIST_FAILED": "IMAP login and SMTP authentication succeeded, but the server folder list could not be retrieved.",
         "LBL_ENCRYPTION_NOT_ACTIVE": "Encryption is not active. Contact the administrator.",
         "LBL_MAILS": "Emails",
         "LBL_MAIL_SCAN": "Mail scanner",

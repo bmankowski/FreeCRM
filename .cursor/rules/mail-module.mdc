@@ -31,6 +31,8 @@ Org-wide IMAP/SMTP settings (hosts, ports, SSL, inbox/sent folder names) live in
 
 **Pitfall:** provisioned account + empty password field → `Client::testConnection` returns `LBL_CONNECTION_FAILED` (not `LBL_MAIL_PASSWORD_REQUIRED`) because it loads stored password from row id. User must type the mailbox password.
 
+**IMAP folder test (`FolderTree::fromClient`):** use **`getFolders(false)`** (flat `LIST "" "*"`) and build the tree locally in PHP (`buildTreeFromFlat`) — do **not** use webklex `getFolders(true)`. Hierarchical recursive `%` LIST breaks on itconnect.pl when parent folder names contain Polish chars (`Elementy usunięte`): webklex passes UTF-8 in the child pattern, server expects Modified UTF-7 → empty recursive result → `failed to fetch any folders`. `Client::testConnection` runs IMAP login → SMTP → folder list as separate steps: auth failure → `LBL_CONNECTION_FAILED`; SMTP failure → `LBL_MAIL_SMTP_CONNECT_FAILED`; login+SMTP OK but folder LIST/build fails → **`LBL_MAIL_IMAP_FOLDER_LIST_FAILED`** (not generic connection failed).
+
 Merge via `Account::applyPersonalDefaults($data, $userId)` — used on save, test connection, IMAP scan, and `getPersonalForDisplay()` (mailbox form when account missing or fields empty). Group accounts (`kind=group`) skip this.
 
 Cron: `LBL_MAIL_SCAN` → `Mail\Cron\Scanner`; `LBL_MAIL_LOG_PRUNE` → `Mail\Cron\LogPrune`.

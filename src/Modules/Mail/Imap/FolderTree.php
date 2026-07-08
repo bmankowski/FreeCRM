@@ -33,8 +33,21 @@ class FolderTree
 	public static function fromClient(Client $client): array
 	{
 		$client->connect();
+		try {
+			return self::fetchFolderData($client);
+		} finally {
+			$client->disconnect();
+		}
+	}
+
+	/**
+	 * Requires an already-connected IMAP client.
+	 *
+	 * @return array{folders: list<string>, folder_tree: list<array<string, mixed>>, suggested_sent: ?string}
+	 */
+	public static function fetchFolderData(Client $client): array
+	{
 		$collection = $client->getFolders(false);
-		$client->disconnect();
 
 		$flat = [];
 		foreach ($collection as $folder) {

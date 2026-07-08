@@ -52,18 +52,43 @@ class Client
 			}
 		}
 
+		$client = null;
 		try {
 			$client = self::createFromAccount($accountData, $password);
-			$folderData = FolderTree::fromClient($client);
-
-			$smtpResult = self::testSmtp($accountData, $password);
-			if (!$smtpResult['success']) {
-				return $smtpResult;
-			}
-
-			return ['success' => true] + $folderData;
-		} catch (\Throwable $e) {
+			$client->connect();
+		} catch (\Throwable) {
 			return ['success' => false, 'error' => 'LBL_CONNECTION_FAILED'];
+		}
+
+		$smtpResult = self::testSmtp($accountData, $password);
+		if (!$smtpResult['success']) {
+			self::disconnectClient($client);
+			return $smtpResult;
+		}
+
+		try {
+			$folderData = FolderTree::fetchFolderData($client);
+			if (($folderData['folders'] ?? []) === []) {
+				throw new \RuntimeException('No IMAP folders returned');
+			}
+		} catch (\Throwable) {
+			self::disconnectClient($client);
+			return ['success' => false, 'error' => 'LBL_MAIL_IMAP_FOLDER_LIST_FAILED'];
+		}
+
+		self::disconnectClient($client);
+
+		return ['success' => true] + $folderData;
+	}
+
+	private static function disconnectClient(?\Webklex\PHPIMAP\Client $client): void
+	{
+		if ($client === null) {
+			return;
+		}
+		try {
+			$client->disconnect();
+		} catch (\Throwable) {
 		}
 	}
 

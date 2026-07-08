@@ -33,6 +33,7 @@
         "LBL_MAIL_PASSWORD_REQUIRED": "Password is required",
         "LBL_MAIL_ACCOUNT_NOT_FOUND": "Mail account not found",
         "LBL_MAIL_SMTP_CONNECT_FAILED": "SMTP connection failed",
+        "LBL_MAIL_IMAP_FOLDER_LIST_FAILED": "IMAP login and SMTP authentication succeeded, but the server folder list could not be retrieved.",
         "LBL_LOGS": "Logs",
         "LBL_STATUS": "Status"
     }
