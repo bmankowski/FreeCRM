@@ -1170,12 +1170,19 @@ class Field
 			}
 			break;
 			case 'modules':
+				$modulesList = [];
+				foreach ($this->getModulesListValues() as $moduleId => $module) {
+					$modulesList[$module['name']] = $module['label'];
+				}
+				$this->fieldInfo['picklistvalues'] = $modulesList;
+				break;
 			case 'modulesMultipicklist':
 				$modulesList = [];
 				foreach ($this->getModulesListValues() as $moduleId => $module) {
 					$modulesList[$module['name']] = $module['label'];
 				}
 				$this->fieldInfo['picklistvalues'] = $modulesList;
+				$this->fieldInfo['searchOperator'] = 'c';
 				break;
 			case 'categoryMultipicklist':
 			case 'tree':

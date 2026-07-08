@@ -12,6 +12,15 @@ declare(strict_types=1);
 
 namespace App\QueryField;
 
-class ModulesMultipicklistField extends ModulesField
+class ModulesMultipicklistField extends MultipicklistField
 {
+	public function operatorA()
+	{
+		return $this->operatorC();
+	}
+
+	public function operatorE()
+	{
+		return $this->operatorC();
+	}
 }
