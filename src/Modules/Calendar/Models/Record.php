@@ -40,8 +40,11 @@ class Record extends \App\Modules\Base\Models\Record
 	{
 		$db = \App\Db\Db::getInstance();
 		foreach ($referenceIds as $id => $fieldName) {
-			if (empty($fieldName)) {
+			if ($fieldName === false || $fieldName === '') {
 				$fieldName = self::getNameByReference($refModuleName);
+			}
+			if ($fieldName === false || $fieldName === '') {
+				continue;
 			}
 			$row = (new \App\Db\Query())->select(['vtiger_activity.status', 'vtiger_activity.date_start'])
 					->from('vtiger_activity')

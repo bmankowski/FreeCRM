@@ -25,7 +25,14 @@ final class SetCrmActivityTask extends AbstractCronTask
 			->limit(\App\Core\AppConfig::module('Calendar', 'CRON_MAX_NUMBERS_ACTIVITY_STATS'))
 			->createCommand()->query();
 		while ($row = $dataReader->read()) {
-			\App\Modules\Calendar\Models\Record::setCrmActivity(array_flip([$row['crmid']]), $row['setype']);
+			$fieldName = \App\Core\ModuleHierarchy::getMappingRelatedField($row['setype']);
+			if ($fieldName === false) {
+				$fieldName = \App\Modules\Calendar\Models\Record::getNameByReference($row['setype']);
+			}
+			if ($fieldName === false || $fieldName === '') {
+				continue;
+			}
+			\App\Modules\Calendar\Models\Record::setCrmActivity([$row['crmid'] => $fieldName]);
 		}
 	}
 }
