@@ -25,6 +25,9 @@ final class HandlerUpdaterTask extends AbstractCronTask
 		do {
 			try {
 				$rows = (new \App\Db\Query())->from('s_#__handler_updater')->limit($updaterLimit)->all($db);
+				if ($rows === []) {
+					break;
+				}
 				foreach ($rows as &$row) {
 					$recordModel = \App\Modules\Base\Models\Record::getInstanceById($row['crmid'], \App\Utils\ModuleUtils::getModuleName($row['tabid']));
 					$eventHandler->setRecordModel($recordModel);
@@ -42,7 +45,10 @@ final class HandlerUpdaterTask extends AbstractCronTask
 			} catch (\Throwable $e) {
 				\App\Log\Log::error($e->getMessage(), 'CRON');
 			}
+			if (time() >= $endTime) {
+				break;
+			}
 			sleep($interval);
-		} while (time() < $endTime);
+		} while (true);
 	}
 }
