@@ -1,0 +1,321 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
+# shellcheck source=lib/common.sh
+source "${SCRIPT_DIR}/lib/common.sh"
+
+usage() {
+  cat <<'HELP'
+Incremental sync: new Candidates from prod (10.0.0.220) → local FreeCRM.
+
+Imports only candidates with id greater than local MAX(candidatesid), plus
+their relations, comments, documents, and the storage files those records need.
+Does not replace existing local data or rsync the full storage/ tree.
+
+Usage:
+  ./scripts/sync-from-prod-incremental [options]
+  ./scripts/migration/candidates/sync-from-prod-incremental [options]
+
+Options:
+  -h, --help         Show this help
+  -y, --yes          Skip confirmation prompt
+  --skip-dump        Reuse latest tmp/sync/yetiforce2-*.sql.gz
+  --skip-backup      Skip freecrm backup before import
+  --dry-run          Print counts only (requires existing yetiforce staging DB)
+
+Environment:
+  ~/.freecrm-sync.env  Remote SSH/DB credentials (see .env.example)
+HELP
+}
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -h|--help) usage; exit 0 ;;
+    -y|--yes) SYNC_YES=1; shift ;;
+    --skip-dump) SYNC_SKIP_DUMP=1; shift ;;
+    --skip-backup) SYNC_SKIP_BACKUP=1; shift ;;
+    --dry-run) SYNC_DRY_RUN=1; shift ;;
+    *) die "Unknown option: $1 (try --help)" ;;
+  esac
+done
+
+export SYNC_YES SYNC_DRY_RUN SYNC_SKIP_DUMP SYNC_SKIP_BACKUP SYNC_SKIP_STORAGE=1
+load_sync_env
+cd "$ROOT_DIR"
+
+append_storage_path_variants() {
+  local storage_path="$1"
+  printf '%s\n' "$storage_path"
+}
+
+require_docker_db
+require_ssh
+mkdir -p "$TMP_DIR" "$BACKUP_DIR"
+
+log "incr" "Step 1/4: prod dump → ${STAGING_DB_NAME}"
+if [[ "${SYNC_SKIP_DUMP:-0}" != "1" ]]; then
+  "${SCRIPT_DIR}/01-import-prod-to-yetiforce.sh"
+else
+  existing="$(latest_yetiforce_dump)"
+  [[ -n "$existing" ]] || die "SYNC_SKIP_DUMP=1 but no tmp/sync/yetiforce2-*.sql.gz found"
+  log "incr" "Reusing dump ${existing}"
+fi
+
+log "incr" "Step 2/4: backup ${LOCAL_DB_NAME}"
+if [[ "${SYNC_SKIP_BACKUP:-0}" != "1" ]]; then
+  "${SCRIPT_DIR}/local-backup.sh"
+else
+  log "incr" "Backup skipped"
+fi
+
+SRC="${STAGING_DB_NAME}"
+TGT="${LOCAL_DB_NAME}"
+FB="${IMPORT_FALLBACK_USER_ID}"
+
+LOCAL_MAX="$(mariadb_query "SELECT COALESCE(MAX(candidatesid), 0) FROM \`${TGT}\`.u_yf_candidates;" 2>/dev/null || echo 0)"
+log "incr" "Local max candidate id: ${LOCAL_MAX}"
+
+NEW_COUNT="$(mariadb_query "
+  SELECT COUNT(*) FROM \`${SRC}\`.vtiger_crmentity ce
+  WHERE ce.setype IN ('Candidates', 'Kandydaci') AND ce.deleted = 0 AND ce.crmid > ${LOCAL_MAX};
+")"
+log "incr" "New candidates on prod (id > ${LOCAL_MAX}): ${NEW_COUNT}"
+[[ "${NEW_COUNT}" != "0" ]] || { log "incr" "Nothing new — done."; exit 0; }
+
+if [[ "${SYNC_DRY_RUN}" == "1" ]]; then
+  DOC_PREVIEW="$(mariadb_query "
+    SELECT COUNT(DISTINCT sn.notesid)
+    FROM \`${SRC}\`.vtiger_senotesrel sn
+    INNER JOIN \`${SRC}\`.vtiger_crmentity ce
+      ON ce.crmid = sn.notesid AND ce.setype = 'Documents' AND ce.deleted = 0
+    INNER JOIN \`${SRC}\`.vtiger_crmentity cand
+      ON cand.crmid = sn.crmid AND cand.setype IN ('Candidates', 'Kandydaci') AND cand.deleted = 0
+    WHERE cand.crmid > ${LOCAL_MAX};
+  ")"
+  log "dry-run" "would import ~${NEW_COUNT} candidates, ~${DOC_PREVIEW:-?} linked documents (storage paths only)"
+  exit 0
+fi
+
+if [[ "${SYNC_YES}" != "1" ]]; then
+  echo
+  echo "This will append new Candidates (id > ${LOCAL_MAX}) and related data to '${TGT}'."
+  read -r -p "Continue? [y/N] " ans
+  [[ "${ans,,}" == "y" || "${ans,,}" == "yes" ]] || die "Aborted."
+fi
+
+BUILD_SQL=$(cat <<SQL
+SET FOREIGN_KEY_CHECKS=0;
+
+DROP TABLE IF EXISTS \`${TGT}\`.tmp_imp_candidates_ids;
+DROP TABLE IF EXISTS \`${TGT}\`.tmp_imp_projekty_ids;
+DROP TABLE IF EXISTS \`${TGT}\`.tmp_imp_related_to_ids;
+DROP TABLE IF EXISTS \`${TGT}\`.tmp_imp_modcomments_ids;
+DROP TABLE IF EXISTS \`${TGT}\`.tmp_imp_document_ids;
+DROP TABLE IF EXISTS \`${TGT}\`.tmp_imp_attachment_ids;
+
+CREATE TABLE \`${TGT}\`.tmp_imp_candidates_ids (crmid INT NOT NULL PRIMARY KEY) ENGINE=InnoDB;
+INSERT INTO \`${TGT}\`.tmp_imp_candidates_ids (crmid)
+  SELECT crmid FROM \`${SRC}\`.vtiger_crmentity
+  WHERE setype IN ('Candidates', 'Kandydaci') AND deleted = 0 AND crmid > ${LOCAL_MAX};
+
+CREATE TABLE \`${TGT}\`.tmp_imp_projekty_ids (crmid INT NOT NULL PRIMARY KEY) ENGINE=InnoDB;
+INSERT INTO \`${TGT}\`.tmp_imp_projekty_ids (crmid)
+  SELECT DISTINCT rel.crmid
+  FROM \`${SRC}\`.u_yf_projekty_rekrutacyjne_relations_members_entity rel
+  WHERE rel.relcrmid IN (SELECT crmid FROM \`${TGT}\`.tmp_imp_candidates_ids)
+    AND rel.crmid NOT IN (
+      SELECT projektyrekrutacyjneid FROM \`${TGT}\`.u_yf_projektyrekrutacyjne
+    );
+
+CREATE TABLE \`${TGT}\`.tmp_imp_related_to_ids (crmid INT NOT NULL PRIMARY KEY) ENGINE=InnoDB;
+INSERT INTO \`${TGT}\`.tmp_imp_related_to_ids (crmid) SELECT crmid FROM \`${TGT}\`.tmp_imp_candidates_ids;
+INSERT IGNORE INTO \`${TGT}\`.tmp_imp_related_to_ids (crmid) SELECT crmid FROM \`${TGT}\`.tmp_imp_projekty_ids;
+
+CREATE TABLE \`${TGT}\`.tmp_imp_modcomments_ids (crmid INT NOT NULL PRIMARY KEY) ENGINE=InnoDB;
+INSERT INTO \`${TGT}\`.tmp_imp_modcomments_ids (crmid)
+  SELECT modcommentsid FROM \`${SRC}\`.vtiger_modcomments
+  WHERE related_to IN (SELECT crmid FROM \`${TGT}\`.tmp_imp_related_to_ids)
+    AND modcommentsid NOT IN (SELECT modcommentsid FROM \`${TGT}\`.vtiger_modcomments);
+
+CREATE TABLE \`${TGT}\`.tmp_imp_document_ids (notesid INT NOT NULL PRIMARY KEY) ENGINE=InnoDB;
+INSERT INTO \`${TGT}\`.tmp_imp_document_ids (notesid)
+  SELECT DISTINCT sn.notesid
+  FROM \`${SRC}\`.vtiger_senotesrel sn
+  INNER JOIN \`${SRC}\`.vtiger_crmentity ce
+    ON ce.crmid = sn.notesid AND ce.setype = 'Documents' AND ce.deleted = 0
+  WHERE sn.crmid IN (SELECT crmid FROM \`${TGT}\`.tmp_imp_related_to_ids)
+    AND sn.notesid NOT IN (SELECT notesid FROM \`${TGT}\`.vtiger_notes);
+
+CREATE TABLE \`${TGT}\`.tmp_imp_attachment_ids (attachmentsid INT NOT NULL PRIMARY KEY) ENGINE=InnoDB;
+INSERT INTO \`${TGT}\`.tmp_imp_attachment_ids (attachmentsid)
+  SELECT DISTINCT rel.attachmentsid FROM \`${SRC}\`.vtiger_seattachmentsrel rel
+  WHERE rel.crmid IN (SELECT notesid FROM \`${TGT}\`.tmp_imp_document_ids);
+
+SET FOREIGN_KEY_CHECKS=1;
+SQL
+)
+
+log "incr" "Step 3/4: promote new rows into ${TGT}"
+mariadb_exec "$BUILD_SQL"
+
+DOC_COUNT="$(mariadb_query "SELECT COUNT(*) FROM \`${TGT}\`.tmp_imp_document_ids;")"
+PROJ_COUNT="$(mariadb_query "SELECT COUNT(*) FROM \`${TGT}\`.tmp_imp_projekty_ids;")"
+COMM_COUNT="$(mariadb_query "SELECT COUNT(*) FROM \`${TGT}\`.tmp_imp_modcomments_ids;")"
+log "incr" "To import: candidates=${NEW_COUNT} projects=${PROJ_COUNT} comments=${COMM_COUNT} documents=${DOC_COUNT}"
+
+FILES_LIST="${TMP_DIR}/incremental-storage-files.txt"
+: > "$FILES_LIST"
+
+mariadb_query "
+  SELECT
+    CASE WHEN yn.filelocationtype = 'E' THEN '' WHEN a.attachmentsid IS NULL THEN '' ELSE CONCAT(a.path, a.attachmentsid) END,
+    CASE WHEN yn.filelocationtype = 'E' THEN '' ELSE IFNULL(yn.filename, '') END
+  FROM \`${TGT}\`.tmp_imp_document_ids d
+  INNER JOIN \`${SRC}\`.vtiger_notes yn ON yn.notesid = d.notesid
+  LEFT JOIN \`${SRC}\`.vtiger_seattachmentsrel s ON s.crmid = d.notesid
+  LEFT JOIN \`${SRC}\`.vtiger_attachments a ON a.attachmentsid = s.attachmentsid;
+" | while IFS=$'\t' read -r storage_path _original_name; do
+  [[ -z "$storage_path" ]] && continue
+  append_storage_path_variants "$storage_path" >> "$FILES_LIST"
+done
+
+if table_exists_in_db "$SRC" "u_yf_kandydaci"; then
+  CAND_MAIN="u_yf_kandydaci"
+  CAND_ID="kandydaciid"
+  CV_COL="cv_img_file"
+else
+  CAND_MAIN="u_yf_candidates"
+  CAND_ID="candidatesid"
+  CV_COL="cv_img_file"
+fi
+
+mariadb_query "
+  SELECT ${CV_COL} FROM \`${SRC}\`.${CAND_MAIN}
+  WHERE ${CAND_ID} IN (SELECT crmid FROM \`${TGT}\`.tmp_imp_candidates_ids)
+    AND ${CV_COL} IS NOT NULL AND ${CV_COL} != '' AND ${CV_COL} != '[]';
+" | while IFS= read -r json; do
+  [[ -z "$json" ]] && continue
+  php -r '
+    $rows = json_decode(stream_get_contents(STDIN), true);
+    if (!is_array($rows)) exit;
+    foreach ($rows as $item) {
+      if (empty($item["path"])) continue;
+      echo str_replace("\\/", "/", $item["path"]), "\n";
+    }
+  ' <<< "$json" >> "$FILES_LIST"
+done
+
+sort -u "$FILES_LIST" -o "$FILES_LIST"
+FILE_COUNT="$(wc -l < "$FILES_LIST" | tr -d ' ')"
+log "incr" "Syncing ${FILE_COUNT} storage path(s) from prod"
+
+if [[ "${FILE_COUNT}" -gt 0 ]]; then
+  rsync -rltD --no-perms --no-owner --no-group --omit-dir-times --no-times \
+    --ignore-missing-args --files-from="$FILES_LIST" -e ssh \
+    "${REMOTE_HOST}:${REMOTE_WEB_ROOT}/" "${ROOT_DIR}/" || true
+fi
+
+if [[ -s "$FILES_LIST" ]]; then
+  missing=0
+  while IFS= read -r rel; do
+    [[ -z "$rel" ]] && continue
+    [[ -f "${ROOT_DIR}/${rel}" ]] || missing=$((missing + 1))
+  done < "$FILES_LIST"
+  log "incr" "Storage check: missing ${missing}/${FILE_COUNT} after rsync"
+fi
+
+"${SCRIPT_DIR}/02a-filter-missing-document-files.sh"
+
+if [[ "${PROJ_COUNT}" != "0" ]]; then
+  sql_copy_table "$TGT" "$SRC" vtiger_crmentity "WHERE crmid IN (SELECT crmid FROM \`${TGT}\`.tmp_imp_projekty_ids)"
+  sql_copy_table "$TGT" "$SRC" u_yf_projektyrekrutacyjne "WHERE projektyrekrutacyjneid IN (SELECT crmid FROM \`${TGT}\`.tmp_imp_projekty_ids)"
+  sql_copy_table "$TGT" "$SRC" u_yf_projektyrekrutacyjnecf "WHERE projektyrekrutacyjneid IN (SELECT crmid FROM \`${TGT}\`.tmp_imp_projekty_ids)"
+fi
+
+copy_candidates_from_source "$TGT" "$SRC"
+
+sql_copy_table "$TGT" "$SRC" u_yf_projekty_rekrutacyjne_relations_members_entity \
+  "WHERE relcrmid IN (SELECT crmid FROM \`${TGT}\`.tmp_imp_candidates_ids)"
+
+if [[ "${COMM_COUNT}" != "0" ]]; then
+  sql_copy_table "$TGT" "$SRC" vtiger_crmentity "WHERE crmid IN (SELECT crmid FROM \`${TGT}\`.tmp_imp_modcomments_ids)"
+  sql_copy_table "$TGT" "$SRC" vtiger_modcomments "WHERE modcommentsid IN (SELECT crmid FROM \`${TGT}\`.tmp_imp_modcomments_ids)"
+  sql_copy_table "$TGT" "$SRC" vtiger_modcommentscf "WHERE modcommentsid IN (SELECT crmid FROM \`${TGT}\`.tmp_imp_modcomments_ids)"
+fi
+
+if [[ "${DOC_COUNT}" != "0" ]]; then
+  sql_copy_table "$TGT" "$SRC" vtiger_crmentity "WHERE crmid IN (SELECT notesid FROM \`${TGT}\`.tmp_imp_document_ids)"
+  sql_copy_table "$TGT" "$SRC" vtiger_notes "WHERE notesid IN (SELECT notesid FROM \`${TGT}\`.tmp_imp_document_ids)"
+  if table_exists_in_db "$TGT" "vtiger_notescf"; then
+    sql_copy_table "$TGT" "$SRC" vtiger_notescf "WHERE notesid IN (SELECT notesid FROM \`${TGT}\`.tmp_imp_document_ids)"
+  fi
+  sql_copy_table "$TGT" "$SRC" vtiger_senotesrel \
+    "WHERE notesid IN (SELECT notesid FROM \`${TGT}\`.tmp_imp_document_ids)"
+  if table_exists_in_db "$TGT" "vtiger_attachments"; then
+    sql_copy_table "$TGT" "$SRC" vtiger_attachments \
+      "WHERE attachmentsid IN (SELECT attachmentsid FROM \`${TGT}\`.tmp_imp_attachment_ids)"
+  fi
+  if table_exists_in_db "$TGT" "vtiger_seattachmentsrel"; then
+    sql_copy_table "$TGT" "$SRC" vtiger_seattachmentsrel \
+      "WHERE crmid IN (SELECT notesid FROM \`${TGT}\`.tmp_imp_document_ids)"
+  fi
+
+  if column_exists_in_db "$TGT" "vtiger_notes" "storage_path" \
+     && column_exists_in_db "$SRC" "vtiger_notes" "filelocationtype"; then
+    mariadb_exec "
+UPDATE \`${TGT}\`.vtiger_notes n
+INNER JOIN \`${SRC}\`.vtiger_notes yn ON yn.notesid = n.notesid
+INNER JOIN \`${TGT}\`.tmp_imp_document_ids d ON d.notesid = n.notesid
+SET n.location_type = CASE WHEN yn.filelocationtype = 'E' THEN 'external' ELSE 'internal' END,
+    n.mime_type = NULLIF(yn.filetype, ''),
+    n.size_bytes = COALESCE(yn.filesize, 0),
+    n.download_count = COALESCE(yn.filedownloadcount, 0),
+    n.active = COALESCE(yn.filestatus, 1),
+    n.external_url = CASE WHEN yn.filelocationtype = 'E' THEN yn.filename ELSE NULL END,
+    n.original_name = CASE WHEN yn.filelocationtype = 'E' THEN NULL ELSE yn.filename END;
+"
+    if table_exists_in_db "$SRC" "vtiger_seattachmentsrel" && table_exists_in_db "$SRC" "vtiger_attachments"; then
+      mariadb_exec "
+UPDATE \`${TGT}\`.vtiger_notes n
+INNER JOIN \`${SRC}\`.vtiger_seattachmentsrel s ON s.crmid = n.notesid
+INNER JOIN \`${SRC}\`.vtiger_attachments a ON a.attachmentsid = s.attachmentsid
+INNER JOIN \`${TGT}\`.tmp_imp_document_ids d ON d.notesid = n.notesid
+SET n.storage_path = CONCAT(a.path, a.attachmentsid)
+WHERE n.location_type = 'internal'
+  AND (n.storage_path IS NULL OR n.storage_path = '');
+"
+    fi
+  fi
+fi
+
+mariadb_exec "
+UPDATE \`${TGT}\`.vtiger_crmentity ce
+LEFT JOIN \`${TGT}\`.vtiger_users u ON u.id = ce.smownerid
+SET ce.smownerid = ${FB}
+WHERE (ce.crmid IN (SELECT crmid FROM \`${TGT}\`.tmp_imp_related_to_ids)
+    OR ce.crmid IN (SELECT crmid FROM \`${TGT}\`.tmp_imp_modcomments_ids)
+    OR ce.crmid IN (SELECT notesid FROM \`${TGT}\`.tmp_imp_document_ids))
+  AND u.id IS NULL;
+UPDATE \`${TGT}\`.vtiger_crmentity ce
+LEFT JOIN \`${TGT}\`.vtiger_users u ON u.id = ce.smcreatorid
+SET ce.smcreatorid = ${FB}
+WHERE (ce.crmid IN (SELECT crmid FROM \`${TGT}\`.tmp_imp_related_to_ids)
+    OR ce.crmid IN (SELECT crmid FROM \`${TGT}\`.tmp_imp_modcomments_ids)
+    OR ce.crmid IN (SELECT notesid FROM \`${TGT}\`.tmp_imp_document_ids))
+  AND u.id IS NULL;
+
+DROP TABLE IF EXISTS \`${TGT}\`.tmp_imp_candidates_ids;
+DROP TABLE IF EXISTS \`${TGT}\`.tmp_imp_projekty_ids;
+DROP TABLE IF EXISTS \`${TGT}\`.tmp_imp_related_to_ids;
+DROP TABLE IF EXISTS \`${TGT}\`.tmp_imp_modcomments_ids;
+DROP TABLE IF EXISTS \`${TGT}\`.tmp_imp_document_ids;
+DROP TABLE IF EXISTS \`${TGT}\`.tmp_imp_attachment_ids;
+"
+
+log "incr" "Step 4/4: post-process"
+"${SCRIPT_DIR}/03-post-process.sh"
+
+log "incr" "Done. ${TGT}: $(recruitment_counts "${TGT}")"
+SAMPLE_ID="$(mariadb_query "SELECT MAX(candidatesid) FROM \`${TGT}\`.u_yf_candidates;")"
+[[ -n "$SAMPLE_ID" ]] && log "incr" "Latest: ${FREECRM_BASE_URL}/index.php?module=Candidates&view=Detail&record=${SAMPLE_ID}"

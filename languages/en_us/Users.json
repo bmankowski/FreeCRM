@@ -38,6 +38,7 @@
         "LBL_ALMOST_THERE": "Almost there!",
         "LBL_BASE_CURRENCY": "Base currency",
         "LBL_CHANGE_PASSWORD": "Change password",
+        "LBL_PASSWORD_SUCCESSFULLY_CHANGED": "Password changed successfully",
         "LBL_MAILBOX": "Mailbox",
         "LBL_CHOOSE_BASE_CURRENCY": "Choose base currency",
         "LBL_CHOOSE_DATE_FORMAT": "Choose date format",
