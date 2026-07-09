@@ -20,6 +20,7 @@ alwaysApply: false
 - Single task: `docker compose exec -T app php cron/vtigercron.php service=LBL_WORKFLOW`
 - Output: `cache/logs/cron.log` (stdout). Errors: `cache/logs/system.log` — search `[CRON]`.
 - `service=…` skips frequency (immediate run).
+- `reset=1` clears `laststart`/`lastend` and unlocks (`status=1`). With `service=…`, resets that task then runs it. Without `service`, resets every task and does not run.
 
 ## `vtiger_cron_task.status`
 

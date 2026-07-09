@@ -69,17 +69,50 @@ class Bootstrap
 	 */
 	public static function getServiceNameFromArgs(): ?string
 	{
+		return self::getArgValueFromArgs('service');
+	}
+
+	/**
+	 * @param string $name Argument name without trailing "=" (e.g. "service", "reset")
+	 * @return string|null
+	 */
+	public static function getArgValueFromArgs(string $name): ?string
+	{
 		if (!isset($_SERVER['argv'])) {
 			return null;
 		}
 
+		$prefix = $name . '=';
 		foreach ($_SERVER['argv'] as $arg) {
-			if (strpos($arg, 'service=') === 0) {
-				return substr($arg, 8);
+			if (strpos($arg, $prefix) === 0) {
+				return substr($arg, strlen($prefix));
 			}
 		}
 
 		return null;
+	}
+
+	/**
+	 * @param string $name Flag name (e.g. "reset" matches "reset" or "reset=1")
+	 */
+	public static function hasFlagFromArgs(string $name): bool
+	{
+		if (!isset($_SERVER['argv'])) {
+			return false;
+		}
+
+		foreach ($_SERVER['argv'] as $arg) {
+			if ($arg === $name) {
+				return true;
+			}
+			$prefix = $name . '=';
+			if (strpos($arg, $prefix) === 0) {
+				$value = substr($arg, strlen($prefix));
+				return $value === '' || $value === '1' || strtolower($value) === 'true';
+			}
+		}
+
+		return false;
 	}
 
 	/**

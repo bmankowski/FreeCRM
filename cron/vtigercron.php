@@ -36,7 +36,15 @@ function runCronCLI(): void
 {
 	$runner = new \App\Modules\Cron\Runner\CronRunner();
 	$serviceName = \App\Modules\Cron\Bootstrap::getServiceNameFromArgs();
-	$runner->run($serviceName);
+	$resetSchedule = \App\Modules\Cron\Bootstrap::hasFlagFromArgs('reset');
+
+	if ($resetSchedule) {
+		$runner->resetSchedule($serviceName);
+	}
+
+	if (!$resetSchedule || $serviceName !== null) {
+		$runner->run($serviceName);
+	}
 }
 
 /**
@@ -49,7 +57,15 @@ function runCronWeb(): void
 		$runner = new \App\Modules\Cron\Runner\CronRunner();
 		$request = new \App\Http\Vtiger_Request($_REQUEST, $_REQUEST);
 		$serviceName = $request->has('service') ? $request->get('service') : null;
-		$runner->run($serviceName);
+		$resetSchedule = $request->has('reset') && ($request->get('reset') === '1' || $request->get('reset') === 'true' || $request->get('reset') === true);
+
+		if ($resetSchedule) {
+			$runner->resetSchedule($serviceName);
+		}
+
+		if (!$resetSchedule || $serviceName !== null) {
+			$runner->run($serviceName);
+		}
 	} else {
 		echo 'Access denied!';
 	}

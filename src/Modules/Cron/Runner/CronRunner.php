@@ -55,6 +55,46 @@ class CronRunner
 	}
 
 	/**
+	 * Clear laststart/lastend and unlock one task or every registered task.
+	 *
+	 * @param string|null $serviceName Task name (LBL_*), or null to reset all tasks
+	 * @return void
+	 */
+	public function resetSchedule(?string $serviceName = null): void
+	{
+		\vtlib\Cron::setCronAction(true);
+
+		if (PHP_SAPI !== 'cli') {
+			echo '<pre>';
+		}
+
+		if ($serviceName !== null) {
+			$cronTask = \vtlib\Cron::getInstance($serviceName);
+			if ($cronTask === null) {
+				echo sprintf('ERROR: Cron task "%s" not found' . PHP_EOL, $serviceName);
+				return;
+			}
+			$cronTask->resetSchedule();
+			echo sprintf('%s | %s - Schedule reset (laststart/lastend cleared, status enabled)' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
+			return;
+		}
+
+		$rows = (new \App\Db\Query())
+			->select(['name'])
+			->from('vtiger_cron_task')
+			->orderBy(['sequence' => SORT_ASC])
+			->all();
+		foreach ($rows as $row) {
+			$cronTask = \vtlib\Cron::getInstance($row['name']);
+			if ($cronTask === null) {
+				continue;
+			}
+			$cronTask->resetSchedule();
+			echo sprintf('%s | %s - Schedule reset (laststart/lastend cleared, status enabled)' . PHP_EOL, date('Y-m-d H:i:s'), $cronTask->getName());
+		}
+	}
+
+	/**
 	 * Run a single cron task
 	 * @param \vtlib\Cron $cronTask
 	 * @param bool $ignoreFrequency When true (explicit `service=` from CLI/web), skip the per-task frequency wait so the job runs immediately.

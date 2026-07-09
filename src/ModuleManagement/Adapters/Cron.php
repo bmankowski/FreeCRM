@@ -388,6 +388,26 @@ class Cron
 	}
 
 	/**
+	 * Clear last run timestamps and unlock so the task is eligible on the next scan.
+	 *
+	 * @return void
+	 */
+	public function resetSchedule(): void
+	{
+		$this->db->createCommand()
+			->update('vtiger_cron_task', [
+				'status' => self::STATUS_ENABLED,
+				'laststart' => null,
+				'lastend' => null,
+			], ['id' => $this->data['id']])
+			->execute();
+
+		$this->data['status'] = self::STATUS_ENABLED;
+		$this->data['laststart'] = null;
+		$this->data['lastend'] = null;
+	}
+
+	/**
 	 * Update task status.
 	 * 	 * @param int $status New status
 	 * @return void
