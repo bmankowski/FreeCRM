@@ -53,7 +53,7 @@
         "LBL_KANBAN_CV_PREVIEW": "Podgląd CV",
         "LBL_MANUAL_CANDIDATES_ADDED": "Dodano kandydatów: %s",
         "LBL_MANUAL_CANDIDATES_SKIPPED": "Pominięto (już w projekcie): %s",
-        "PPL_MANUALLY_ADDED": "Dobre kandydatury",
+        "PPL_MANUALLY_ADDED": "Dodani ręcznie",
         "PPL_REJECTED_AFTER_CV": "Odrzuceni po CV",
         "PPL_APPLIED": "Aplikowali",
         "PPL_CANDIDATE_PASSED_SCREENING": "Przeszli screening",

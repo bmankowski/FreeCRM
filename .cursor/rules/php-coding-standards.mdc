@@ -34,6 +34,8 @@ globs: ["**/*.php"]
 - Throw specific exceptions, not generic `Exception`
 - Log errors appropriately using the logging system
 - Provide meaningful error messages
+- **Do not hide errors behind fallbacks.** If a value, dependency, or code path is required, absence is a bug — fix it or fail; do not `@`-suppress, empty-catch, or `??` a sentinel that lets the request continue with wrong output. See `general-guidelines.mdc` → Modernization stance.
+- Empty `catch` blocks and catch-all handlers that return success/default without logging are forbidden unless the caught condition is an expected, documented alternative (rare).
 
 ## Security
 - Never use `eval()` or similar dangerous functions

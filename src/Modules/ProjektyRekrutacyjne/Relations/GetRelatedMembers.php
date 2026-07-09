@@ -317,37 +317,23 @@ class GetRelatedMembers extends \App\Modules\Base\Relations\GetRelatedList
                 );
                 \App\Modules\Workflow\RelationWorkflowRunner::run($context);
             }
-            //add comment for project and candidate about status change, omitting changes from 'PPL_APPLIED' to 'PPL_REJECTED' and 'PPL_CANDIDATE_PASSED_SCREENING'
-            if (($sourceStatus === self::STATUS_APPLIED || $sourceStatus === self::STATUS_MANUALLY_ADDED)
-                && ($destinationStatus === 'PPL_REJECTED_AFTER_CV' || $destinationStatus === 'PPL_CANDIDATE_PASSED_SCREENING')) {
-                if ($status) {
-                    $this->saveProjectCountersWithWorkflowDisabled($projectId);
-                }
-                return $status;
-            }
-            if ($sourceStatus === 'PPL_REJECTED_AFTER_CV' && $destinationStatus === 'PPL_CANDIDATE_PASSED_SCREENING') {
-                if ($status) {
-                    $this->saveProjectCountersWithWorkflowDisabled($projectId);
-                }
-                return $status;
-            }
-            $candidate = \App\Modules\Base\Models\Record::getInstanceById($candidateId, "Candidates");
-            $commentContentForProject = "Status kandydata " . $candidate->getName() . " w projekcie zmieniony z '" . $sourceStatusTranslated . "' na '" . $destinationStatusTranslated . "'";
-            $commentForProject = \App\Modules\Base\Models\Record::getCleanInstance("ModComments");
-            $commentForProject->set('assigned_user_id', \App\Modules\Users\Models\Record::getCurrentUserRealId());
-            $commentForProject->set('related_to', $projectId);
-            $commentForProject->set('commentcontent', $commentContentForProject);
-            $commentForProject->save();
-
-            $project = \App\Modules\Base\Models\Record::getInstanceById($projectId, "ProjektyRekrutacyjne");
-            $commentContentForCandidate = "Status w projekcie " . $project->getName() . " zmieniony z '" . $sourceStatusTranslated . "' na '" . $destinationStatusTranslated . "'";
-            $commentForCandidate = \App\Modules\Base\Models\Record::getCleanInstance("ModComments");
-            $commentForCandidate->set('assigned_user_id', \App\Modules\Users\Models\Record::getCurrentUserRealId());
-            $commentForCandidate->set('related_to', $candidateId);
-            $commentForCandidate->set('commentcontent', $commentContentForCandidate);
-            $commentForCandidate->save();
-
             if ($status) {
+                $candidate = \App\Modules\Base\Models\Record::getInstanceById($candidateId, "Candidates");
+                $commentContentForProject = "Status kandydata " . $candidate->getName() . " w projekcie zmieniony z '" . $sourceStatusTranslated . "' na '" . $destinationStatusTranslated . "'";
+                $commentForProject = \App\Modules\Base\Models\Record::getCleanInstance("ModComments");
+                $commentForProject->set('assigned_user_id', \App\Modules\Users\Models\Record::getCurrentUserRealId());
+                $commentForProject->set('related_to', $projectId);
+                $commentForProject->set('commentcontent', $commentContentForProject);
+                $commentForProject->save();
+
+                $project = \App\Modules\Base\Models\Record::getInstanceById($projectId, "ProjektyRekrutacyjne");
+                $commentContentForCandidate = "Status w projekcie " . $project->getName() . " zmieniony z '" . $sourceStatusTranslated . "' na '" . $destinationStatusTranslated . "'";
+                $commentForCandidate = \App\Modules\Base\Models\Record::getCleanInstance("ModComments");
+                $commentForCandidate->set('assigned_user_id', \App\Modules\Users\Models\Record::getCurrentUserRealId());
+                $commentForCandidate->set('related_to', $candidateId);
+                $commentForCandidate->set('commentcontent', $commentContentForCandidate);
+                $commentForCandidate->save();
+
                 $this->saveProjectCountersWithWorkflowDisabled($projectId);
             }
 

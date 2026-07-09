@@ -42,6 +42,7 @@ Allow / embrace:
 Avoid:
 - scope creep into unrelated refactors (note them, defer to a follow-up CR)
 - keeping a "legacy path" around "just in case"
+- error-hiding fallbacks — catch-and-continue, silent defaults, or alternate code paths that mask missing data / wrong wiring instead of fixing the call site (see `general-guidelines.mdc` → Modernization stance)
 - silent breaking changes — every contract change must be listed in Impact and every call site updated in the implementation plan
 - inventing infrastructure that does not exist in this project (feature flags, zero-downtime orchestration, blue/green)
 

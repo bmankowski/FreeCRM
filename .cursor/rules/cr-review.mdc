@@ -114,6 +114,7 @@ If no DB change: confirm **"No data migration required"** is stated explicitly.
 This is the distinctive FreeCRM check. Any ❌ here blocks the CR.
 
 - Are compat shims, fallback branches, or "legacy path" code blocks being introduced or left in place? → ❌
+- Do any new fallbacks only hide errors (swallow exceptions, default missing required data, alternate path when primary failed due to a bug)? → ❌
 - Are any call sites left calling the old contract after this CR ships? → ❌
 - Is `class_alias()` or any similar bridge being introduced? → ❌
 - Does the system end up in a **dual state** (old + new coexisting) after this CR? → ❌ unless explicitly justified and time-boxed
@@ -165,6 +166,7 @@ One concrete action the author should take before implementation:
 - e.g. "Add explicit rollback strategy for the `vtiger_field` column drop in step 1."
 - e.g. "Confirm all 15 `getFieldService()` call sites are listed in Impact."
 - e.g. "Remove the `if ($legacyMode)` branch in step 4 — violates no-fallbacks stance."
+- e.g. "Remove the `catch` that returns an empty array — log and fail, or fix the upstream caller."
 
 ---
 

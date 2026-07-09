@@ -18,6 +18,10 @@ FreeCRM is being actively modernized. **No fallbacks. No compat shims. No parall
 - When a contract changes, update every call site in the same change.
 - When something is replaced, delete the old version in the same change (or as an explicit final step within it). Legacy code does not get to "stick around for now".
 - No `class_alias()`, no `if ($useLegacy) … else …` branches, no "kept for backward compatibility" comments.
+- **No error-hiding fallbacks.** A fallback is forbidden when it turns a broken invariant into silent wrong behavior instead of surfacing the failure.
+  - **Forbidden:** `try/catch` that continues with a default; `@` suppression; `?? ''` / `?: null` when the value should always be present; alternate resolution paths when the primary path failed because data or wiring is wrong (e.g. falling back to `WebserviceField` type when `SEMANTIC_TYPE_MAP` is incomplete — see `uitypes.mdc`).
+  - **Fix the root cause** (missing map entry, wrong call site, bad migration) or **fail visibly** — throw, return an error response, log at error level, show a user-facing message. Degraded behavior is OK only when it is an explicit product requirement *and* the user knows something went wrong.
+  - **Still OK:** intentional, documented product behavior — i18n chain (`en_us` canonical), optional UI affordances (empty icon → module default), infrastructure workarounds with a comment explaining the external constraint.
 - Internal APIs, class hierarchies, table columns, and module contracts may all be broken freely. What we preserve is **data integrity** and **user-facing flows** (the screens / APIs / cron jobs people actually use).
 - For larger refactors and feature changes, use the CR templates `cr-create.mdc` and `cr-review.mdc`, which encode this stance.
 
