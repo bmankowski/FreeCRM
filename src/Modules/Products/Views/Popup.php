@@ -11,7 +11,7 @@ use App\Modules\Settings\SalesProcessesModels\Module;
  */
 
 use App\Http\Vtiger_Request;
-class Popup  extends \App\Modules\Base\Views\Index
+class Popup extends \App\Modules\Base\Views\Popup
 {
 	/*
 	 * Function to initialize the required data in smarty to display the List View Contents

@@ -13,33 +13,6 @@ namespace App\Modules\Users\Views;
 
 
 use App\Http\Vtiger_Request;
-class ListAjax  extends \App\Modules\Base\Views\Index
+class ListAjax extends \App\Modules\Base\Views\ListAjax
 {
-
-	public function __construct()
-	{
-		parent::__construct();
-		$this->exposeMethod('getListViewCount');
-		$this->exposeMethod('getRecordsCount');
-		$this->exposeMethod('getPageCount');
-	}
-
-	public function preProcess(\App\Http\Vtiger_Request $request, $display = true)
-	{
-		return true;
-	}
-
-	public function postProcess(\App\Http\Vtiger_Request $request)
-	{
-		return true;
-	}
-
-	public function process(\App\Http\Vtiger_Request $request)
-	{
-		$mode = $request->get('mode');
-		if (!empty($mode)) {
-			$this->invokeExposedMethod($mode, $request);
-			return;
-		}
-	}
 }

@@ -13,9 +13,8 @@ namespace App\Modules\RecycleBin\Views;
 
 
 use App\Http\Vtiger_Request;
-class ListAjax  extends \App\Modules\Base\Views\Index
+class ListAjax extends ListView
 {
-
 	public function __construct()
 	{
 		parent::__construct();

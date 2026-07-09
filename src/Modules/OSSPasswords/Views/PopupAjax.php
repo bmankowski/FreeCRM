@@ -2,17 +2,10 @@
 
 namespace App\Modules\OSSPasswords\Views;
 
-/**
- * PopupAjax View Class
- * @package YetiForce.View
- * @license licenses/License.html
- * @author Radosław Skrzypczak <r.skrzypczak@yetiforce.com>
- */
-
 use App\Http\Vtiger_Request;
-class PopupAjax  extends \App\Modules\Base\Views\Index
-{
 
+class PopupAjax extends Popup
+{
 	public function __construct()
 	{
 		parent::__construct();
@@ -21,17 +14,17 @@ class PopupAjax  extends \App\Modules\Base\Views\Index
 		$this->exposeMethod('getPageCount');
 	}
 
-	public function preProcess(\App\Http\Vtiger_Request $request)
+	public function preProcess(Vtiger_Request $request, $display = true)
 	{
 		return true;
 	}
 
-	public function postProcess(\App\Http\Vtiger_Request $request)
+	public function postProcess(Vtiger_Request $request)
 	{
 		return true;
 	}
 
-	public function process(\App\Http\Vtiger_Request $request)
+	public function process(Vtiger_Request $request)
 	{
 		$mode = $request->get('mode');
 		if (!empty($mode)) {

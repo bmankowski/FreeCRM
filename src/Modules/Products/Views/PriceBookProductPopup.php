@@ -13,8 +13,10 @@ namespace App\Modules\Products\Views;
 
 
 use App\Http\Vtiger_Request;
-class PriceBookProductPopup  extends \App\Modules\Base\Views\Index
+class PriceBookProductPopup extends \App\Modules\Base\Views\Index
 {
+	protected array $listViewEntries = [];
+	protected array $listViewHeaders = [];
 
 	public function process(\App\Http\Vtiger_Request $request)
 	{

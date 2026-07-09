@@ -324,6 +324,23 @@ class Popup  extends \App\Modules\Base\Views\Index
 		return $count;
 	}
 
+	public function getRecordsCount(\App\Http\Vtiger_Request $request)
+	{
+		$moduleName = $request->getModule();
+		$cvId = \App\View\CustomView::getInstance($moduleName)->getViewId();
+		$count = $this->getListViewCount($request);
+
+		$result = [];
+		$result['module'] = $moduleName;
+		$result['viewname'] = $cvId;
+		$result['count'] = $count;
+
+		$response = new \App\Http\Vtiger_Response();
+		$response->setEmitType(\App\Http\Vtiger_Response::$EMIT_JSON);
+		$response->setResult($result);
+		$response->emit();
+	}
+
 	/**
 	 * Function to get the page count for list
 	 * @return total number of pages

@@ -36,7 +36,7 @@ class ListView extends \App\Modules\Settings\Base\Views\ListView
 			$viewer->assign('FOR_MODULE', $forModule);
 
 			$viewer = $this->getViewer($request);
-			$this->initializeListViewContents($request, $viewer);
+			$this->prepareListViewData($request);
 			$viewer->view('ListViewHeader.tpl', $request->getModule(false));
 		}
 		parent::process($request);
