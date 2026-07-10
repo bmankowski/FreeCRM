@@ -183,8 +183,25 @@ Vtiger_DashBoard_Js('ProjektyRekrutacyjne_DashBoard_Js', {}, {
 		});
 	},
 
+	registerHorizontalScrollSync: function () {
+		const $dashboard = $('.recruitment-projects-dashboard');
+		if (!$dashboard.length || typeof Vtiger_Helper_Js === 'undefined') {
+			return;
+		}
+
+		const sync = function () {
+			Vtiger_Helper_Js.showHorizontalTopScrollBar();
+		};
+
+		sync();
+		setTimeout(sync, 0);
+		setTimeout(sync, 300);
+		$(window).off('resize.projektyDashboardScroll').on('resize.projektyDashboardScroll', sync);
+	},
+
 	registerEvents: function () {
 		this.registerProjectsDashboardDragAndDrop();
 		this.registerCandidateClick();
+		this.registerHorizontalScrollSync();
 	}
 });

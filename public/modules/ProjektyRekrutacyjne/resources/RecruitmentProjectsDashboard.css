@@ -1,41 +1,62 @@
 .recruitment-projects-dashboard {
 	margin-top: 12px;
+}
+
+.recruitment-projects-dashboard__topscroll {
+	margin-bottom: 4px;
+}
+
+.recruitment-projects-dashboard__scroll {
 	overflow-x: auto;
+	overflow-y: visible;
+	width: 100%;
+	max-width: 100%;
+	-webkit-overflow-scrolling: touch;
 }
 
 .recruitment-projects-dashboard__table {
 	table-layout: fixed;
-	width: 100%;
-	min-width: 1500px;
+	width: max-content;
+	min-width: 100%;
 }
 
 .recruitment-projects-dashboard__table th:nth-child(1),
 .recruitment-projects-dashboard__table td:nth-child(1) {
-	width: 10%;
+	width: 140px;
+	min-width: 140px;
 }
 
 .recruitment-projects-dashboard__table th:nth-child(2),
 .recruitment-projects-dashboard__table td:nth-child(2) {
-	width: 12%;
+	width: 180px;
+	min-width: 180px;
 }
 
 .recruitment-projects-dashboard__table th:nth-child(3),
 .recruitment-projects-dashboard__table td:nth-child(3) {
-	width: 8%;
+	width: 120px;
+	min-width: 120px;
 }
 
 .recruitment-projects-dashboard__table th:nth-child(4),
 .recruitment-projects-dashboard__table td:nth-child(4) {
-	width: 5%;
+	width: 90px;
+	min-width: 90px;
 }
 
 .recruitment-projects-dashboard__table th:nth-child(n+5),
 .recruitment-projects-dashboard__table td:nth-child(n+5) {
-	width: 9%;
+	width: 155px;
+	min-width: 155px;
 }
 
 .recruitment-projects-dashboard__candidates {
 	vertical-align: top;
+	overflow: hidden;
+}
+
+.recruitment-projects-dashboard__candidates .candidate-chip {
+	max-width: calc(100% - 0.5rem);
 }
 
 .recruitment-projects-dashboard .candidate-status.drop-allowed {

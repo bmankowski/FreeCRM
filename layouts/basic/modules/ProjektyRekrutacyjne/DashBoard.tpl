@@ -28,40 +28,47 @@
 			{if $DASHBOARD_ROWS|@count == 0}
 				<div class="alert alert-info">{'LBL_RECRUITMENT_DASHBOARD_EMPTY'|t:$MODULE_NAME}</div>
 			{else}
-				<table class="table table-bordered table-sm table-hover recruitment-projects-dashboard__table">
-					<thead class="thead-light">
-						<tr>
-							<th>{'Kontrahent'|t:$MODULE_NAME}</th>
-							<th>{'Nazwa Projektu'|t:$MODULE_NAME}</th>
-							<th>{'Assigned To'|t:'Vtiger'}</th>
-							<th class="text-center">{'PLL_CVS_APPLIED_NUMBER'|t:$MODULE_NAME}</th>
-							{foreach from=$DASHBOARD_STATUS_COLUMNS item=STATUS}
-								<th>{$STATUS|t:$MODULE_NAME}</th>
-							{/foreach}
-						</tr>
-					</thead>
-					<tbody>
-						{foreach from=$DASHBOARD_ROWS item=ROW}
-							<tr data-project-id="{$ROW.id}">
-								<td>
-									{if $ROW.clientUrl}
-										<a href="{$ROW.clientUrl}">{$ROW.clientName|escape}</a>
-									{else}
-										{$ROW.clientName|escape}
-									{/if}
-								</td>
-								<td><a href="{$ROW.detailUrl}"><strong>{$ROW.name|escape}</strong></a></td>
-								<td>{$ROW.ownerName|escape}</td>
-								<td class="text-center">{$ROW.appliedCount}</td>
-								{foreach from=$DASHBOARD_STATUS_COLUMNS item=STATUS}
-									<td class="candidate-status recruitment-projects-dashboard__candidates" data-value="{$STATUS}">
-										{renderCandidateChips candidates=$ROW.candidates[$STATUS]}
-									</td>
+				<div class="recruitment-projects-dashboard__topscroll contents-topscroll noprint stick" data-position="top">
+					<div class="topscroll-div"></div>
+				</div>
+				<div class="recruitment-projects-dashboard__scroll contents-bottomscroll">
+					<div class="bottomscroll-div">
+						<table class="table table-bordered table-sm table-hover recruitment-projects-dashboard__table">
+							<thead class="thead-light">
+								<tr>
+									<th>{'Kontrahent'|t:$MODULE_NAME}</th>
+									<th>{'Nazwa Projektu'|t:$MODULE_NAME}</th>
+									<th>{'Assigned To'|t:'Vtiger'}</th>
+									<th class="text-center">{'PLL_CVS_APPLIED_NUMBER'|t:$MODULE_NAME}</th>
+									{foreach from=$DASHBOARD_STATUS_COLUMNS item=STATUS}
+										<th>{$STATUS|t:$MODULE_NAME}</th>
+									{/foreach}
+								</tr>
+							</thead>
+							<tbody>
+								{foreach from=$DASHBOARD_ROWS item=ROW}
+									<tr data-project-id="{$ROW.id}">
+										<td>
+											{if $ROW.clientUrl}
+												<a href="{$ROW.clientUrl}">{$ROW.clientName|escape}</a>
+											{else}
+												{$ROW.clientName|escape}
+											{/if}
+										</td>
+										<td><a href="{$ROW.detailUrl}"><strong>{$ROW.name|escape}</strong></a></td>
+										<td>{$ROW.ownerName|escape}</td>
+										<td class="text-center">{$ROW.appliedCount}</td>
+										{foreach from=$DASHBOARD_STATUS_COLUMNS item=STATUS}
+											<td class="candidate-status recruitment-projects-dashboard__candidates" data-value="{$STATUS}">
+												{renderCandidateChips candidates=$ROW.candidates[$STATUS]}
+											</td>
+										{/foreach}
+									</tr>
 								{/foreach}
-							</tr>
-						{/foreach}
-					</tbody>
-				</table>
+							</tbody>
+						</table>
+					</div>
+				</div>
 			{/if}
 		</div>
 	</div>
