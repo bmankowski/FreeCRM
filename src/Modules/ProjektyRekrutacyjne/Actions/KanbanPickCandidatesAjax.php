@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Modules\ProjektyRekrutacyjne\Actions;
 
+use App\Modules\Candidates\Exceptions\InvalidCvSkillsExpressionException;
 use App\Modules\ProjektyRekrutacyjne\Services\KanbanCandidatePicker;
 
 class KanbanPickCandidatesAjax extends \App\Base\Controllers\BaseActionController
@@ -50,7 +51,19 @@ class KanbanPickCandidatesAjax extends \App\Base\Controllers\BaseActionControlle
 			$pageNumber = 1;
 		}
 
-		$listViewModel = KanbanCandidatePicker::createListViewModel($projectId, $cvSkills);
+		try {
+			$listViewModel = KanbanCandidatePicker::createListViewModel($projectId, $cvSkills);
+		} catch (InvalidCvSkillsExpressionException $e) {
+			$response->setResult([
+				'success' => false,
+				'invalidExpression' => true,
+				'message' => $e->getMessageKey(),
+				'messageDetail' => $e->getDetail(),
+			]);
+			$response->emit();
+			return;
+		}
+
 		$pagingModel = new \App\Modules\Base\Models\Paging();
 		$pagingModel->set('page', (string) $pageNumber);
 

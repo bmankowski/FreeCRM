@@ -4,6 +4,9 @@ globs:
   - "src/Modules/ProjektyRekrutacyjne/**"
   - "src/Modules/Candidates/Candidates.php"
   - "src/Modules/Candidates/Services/CvSkillsSearch.php"
+  - "src/Modules/Candidates/Services/CvSkillsExpressionParser.php"
+  - "src/Modules/Candidates/Services/CvSkillsQueryCompiler.php"
+  - "src/Modules/Candidates/Exceptions/InvalidCvSkillsExpressionException.php"
   - "src/Modules/Candidates/Views/CvTextPreview.php"
   - "src/Modules/Candidates/Handlers/NewCandidateInProject.php"
   - "src/Modules/Candidates/Models/RelatedListLeftSideExtras.php"
@@ -42,7 +45,7 @@ globs:
 - **Layout (4 tables):** (1) `PPL_MANUALLY_ADDED` alone — „Dobre kandydatury” + (+); (2) screening — 3 cols @ 33% (`.recruitment-kanban-screening`); (3) offer — 8 cols @ 12.5% (`.recruitment-kanban-offer`): `PPL_WAITING_FOR_INTERVIEW` → `PPL_HANDED_TO_SALES` → `PPL_TO_BE_SENT_TO_CLIENT` → `PPL_SENT_TO_CLIENT` → `PPL_STAGE_1` → `PPL_STAGE_2` → `PPL_STAGE_3` → `PPL_ACCEPTED`; (4) rejections — 4 cols @ 25% (`.recruitment-kanban-quarters`). Wrapper: `.recruitment-project-kanban`.
 - **Styles:** `public/modules/ProjektyRekrutacyjne/resources/RecruitmentProjectKanban.css` — loaded in `Views/Detail.php` → `getHeaderCss()`; minify after edit. No inline `<style>` in tpl.
 - **`loadWidgets()` does not refresh the kanban.** After manual add, update chips in the DOM (`Detail.js` → `refreshUiAfterManualCandidatesAdd`) or return candidate payloads from `AddManualCandidatesAjax`.
-- (+) button: `KanbanSearchCandidatesModal` (skills, `;`) → `KanbanPickCandidatesModal` (same skills textarea + **Szukaj** to re-query without closing; clears checkboxes on new search; list + `CvTextPreview` iframe, checkbox/name/phone/**project names (`nazwa_projektu` via relation batch)**, AJAX paging, ↑/↓ row nav, 50/50 resizer) → `AddManualCandidatesAjax`. Filter: `CvSkillsSearch` on `cv_text`; excludes candidates already linked to project (`KanbanCandidatePicker`). Class `.js-kanban-add-manual-candidate` — white circle, gray `+`, **portal-orange** on hover/focus.
+- (+) button: `KanbanSearchCandidatesModal` (boolean expression: `AND`/`OR`/parentheses, shared partial `partials/KanbanCvSkillsQueryField.tpl`) → `KanbanPickCandidatesModal` (same field + **Szukaj** to re-query without closing; clears checkboxes on new search; list + `CvTextPreview` iframe, checkbox/name/phone/**project names (`nazwa_projektu` via relation batch)**, AJAX paging, ↑/↓ row nav, 50/50 resizer) → `AddManualCandidatesAjax`. Filter: `CvSkillsSearch` on `cv_text`; excludes candidates already linked to project (`KanbanCandidatePicker`). Class `.js-kanban-add-manual-candidate` — white circle, gray `+`, **portal-orange** on hover/focus.
 
 ## Projects dashboard (`view=DashBoard`)
 
@@ -57,11 +60,12 @@ globs:
 ## CV skills search (`CvSkillsSearch`)
 
 - Field: `cv_text` on `u_yf_candidatescf`. Kanban: `KanbanCandidatePicker::createListViewModel()` → `applyWordMatchToQueryGenerator()`. Popup list: `applyToRequest()` → `setPendingWordMatch()` → `Candidates\Models\ListView::consumePendingWordMatch()`.
+- **Syntax:** boolean expression — `AND`, `OR`, parentheses, quoted multi-word terms (`"Spring Boot" AND Java`). No semicolon-separated legacy mode. Parser: `CvSkillsExpressionParser`; SQL compiler: `CvSkillsQueryCompiler`; invalid syntax → `InvalidCvSkillsExpressionException` (kanban AJAX shows inline alert).
 - **Join CF table:** native conditions on `cv_text` require `addTableToQuery(u_yf_candidatescf)` first (`ensureCvTextTableJoined`) — otherwise SQL error „Unknown column …cv_text”.
-- **Query:** FULLTEXT index `u_yf_candidatescf_cv_text_ft` (migration `m260702_000002_candidates_cv_text_fulltext.php`). Skills ≥3 chars → `MATCH(cv_text) AGAINST('+skill1 +skill2' IN BOOLEAN MODE)` (whole-word tokens; `spring` ≠ `springer`). Shorter skills → REGEXP `[[:<:]]…[[:>:]]` fallback (`innodb_ft_min_token_size=3`).
-- **Do not use REGEXP for all skills** on ~22k rows — ~5s per query; kanban AJAX runs list + count (~10s total). FULLTEXT → ~30ms total.
-- Preview highlight: `CvTextPreview` + `buildWordMatchPcrePattern()` (`(?<![[:alnum:]])skill(?![[:alnum:]])`).
-- Backend: `KanbanCandidatePicker` (fields `id/name/phone`, `modifiedtime DESC`, exclude linked via `NOT IN`), `KanbanPickCandidatesAjax`, `projectNamesByCandidateIds()` batch on `u_yf_projekty_rekrutacyjne_relations_members_entity`. Frontend: `KanbanPickCandidatesModal.js` + tpl/CSS (minify after edit).
+- **Query:** FULLTEXT index `u_yf_candidatescf_cv_text_ft`. Terms ≥3 chars → FULLTEXT boolean mode (single `MATCH` when whole subtree is fulltext-eligible; nested `['and'|'or', …]` when REGEXP needed). Shorter terms → REGEXP `[[:<:]]…[[:>:]]` fallback (`innodb_ft_min_token_size=3`).
+- **Do not use REGEXP for all skills** on ~22k rows — ~5s per query; kanban AJAX runs list + count (~10s total). FULLTEXT fast-path → ~30ms total.
+- Preview highlight: `CvTextPreview` + `collectTermsForHighlight()` + `buildWordMatchPcrePattern()` — all leaf terms highlighted regardless of AND/OR.
+- Backend: `KanbanCandidatePicker` (fields `id/name/phone`, `modifiedtime DESC`, exclude linked via `NOT IN`), `KanbanPickCandidatesAjax`, `projectNamesByCandidateIds()` batch on `u_yf_projekty_rekrutacyjne_relations_members_entity`. Frontend: shared partial `KanbanCvSkillsQueryField.tpl` (syntax hint in textarea placeholder only), `KanbanPickCandidatesModal.js` + tpl/CSS (minify after edit).
 
 ## Manual-add UX (do not regress)
 

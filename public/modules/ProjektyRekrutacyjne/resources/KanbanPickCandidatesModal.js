@@ -37,6 +37,7 @@
 				});
 				return;
 			}
+			this.clearSkillsError();
 			this.cvSkills = raw;
 			this.selectedIds = {};
 			this.currentPage = 1;
@@ -54,6 +55,25 @@
 			return this.$root.find('.js-kanban-pick-cv-frame');
 		},
 
+		getSkillsErrorBox: function () {
+			return this.$root.find('.js-kanban-cv-skills-error');
+		},
+
+		clearSkillsError: function () {
+			this.getSkillsErrorBox().addClass('hidden').text('');
+		},
+
+		showSkillsError: function (result) {
+			let msg = app.vtranslate('LBL_KANBAN_CV_SKILLS_INVALID', 'ProjektyRekrutacyjne');
+			if (result && result.message) {
+				msg = app.vtranslate(result.message, 'ProjektyRekrutacyjne');
+			}
+			if (result && result.messageDetail) {
+				msg += ' ' + result.messageDetail;
+			}
+			this.getSkillsErrorBox().removeClass('hidden').text(msg);
+		},
+
 		loadPage: function (page) {
 			const thisInstance = this;
 			const progress = jQuery.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
@@ -66,12 +86,17 @@
 			}).done(function (data) {
 				progress.progressIndicator({ mode: 'hide' });
 				if (!data.success || !data.result || data.result.success !== true) {
+					if (data.result && data.result.invalidExpression) {
+						thisInstance.showSkillsError(data.result);
+						return;
+					}
 					const msg = (data.result && data.result.message)
 						? app.vtranslate(data.result.message, 'ProjektyRekrutacyjne')
 						: app.vtranslate('PLL_NO_SUCH_RECORD', 'ProjektyRekrutacyjne');
 					Vtiger_Helper_Js.showPnotify({ text: msg, type: 'error' });
 					return;
 				}
+				thisInstance.clearSkillsError();
 				const result = data.result;
 				thisInstance.currentPage = result.pageNumber || page;
 				thisInstance.getListBody().html(result.html || '');

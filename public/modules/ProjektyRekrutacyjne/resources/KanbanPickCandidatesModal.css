@@ -7,7 +7,7 @@
 }
 
 .kanban-pick-candidates__search-actions {
-	text-align: right;
+	padding-top: 25px;
 }
 
 .kanban-pick-candidates__split {

@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App\Modules\Candidates\Views;
 
 use App\Http\Vtiger_Request;
+use App\Modules\Candidates\Exceptions\InvalidCvSkillsExpressionException;
 use App\Modules\Candidates\Services\CvSkillsSearch;
 use App\Runtime\CRM_Viewer;
 
@@ -20,12 +21,17 @@ class Popup extends \App\Modules\Base\Views\Popup
 {
 	public function initializeListViewContents(Vtiger_Request $request, CRM_Viewer $viewer): void
 	{
-		CvSkillsSearch::applyToRequest($request);
+		if (!$this->applyCvSkillsFilter($request, $viewer)) {
+			return;
+		}
 		parent::initializeListViewContents($request, $viewer);
 	}
 
 	public function getListViewCount(Vtiger_Request $request)
 	{
+		if (!$this->isCvSkillsExpressionValid($request)) {
+			return 0;
+		}
 		CvSkillsSearch::applyToRequest($request);
 
 		$moduleName = $this->getModule($request);
@@ -75,5 +81,33 @@ class Popup extends \App\Modules\Base\Views\Popup
 		}
 
 		return $listViewModel->getListViewCount();
+	}
+
+	private function applyCvSkillsFilter(Vtiger_Request $request, CRM_Viewer $viewer): bool
+	{
+		if (!$this->isCvSkillsExpressionValid($request)) {
+			$viewer->assign('CV_SKILLS_PARSE_ERROR', 'LBL_KANBAN_CV_SKILLS_INVALID');
+			return false;
+		}
+
+		CvSkillsSearch::applyToRequest($request);
+
+		return true;
+	}
+
+	private function isCvSkillsExpressionValid(Vtiger_Request $request): bool
+	{
+		$raw = trim((string) $request->get('cv_skills'));
+		if ($raw === '') {
+			return true;
+		}
+
+		try {
+			CvSkillsSearch::validateExpression($raw);
+		} catch (InvalidCvSkillsExpressionException) {
+			return false;
+		}
+
+		return true;
 	}
 }

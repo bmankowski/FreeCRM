@@ -13,7 +13,7 @@ jQuery(document).on('click.kanbanSearchCandidates', '.js-kanban-search-candidate
 	if (!projectId) {
 		return;
 	}
-	if (!skillsRaw) {
+	if (!skillsRaw || /^\s*(AND|OR|\(|\))\s*$/i.test(skillsRaw)) {
 		Vtiger_Helper_Js.showPnotify({
 			text: app.vtranslate('LBL_KANBAN_CV_SKILLS_REQUIRED', 'ProjektyRekrutacyjne'),
 			type: 'error'

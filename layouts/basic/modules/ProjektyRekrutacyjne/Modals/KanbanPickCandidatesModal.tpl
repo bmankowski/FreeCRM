@@ -6,52 +6,18 @@
 <div class="modal-body kanban-pick-candidates">
 	<input type="hidden" id="kanbanPickProjectId" value="{$PROJECT_ID}"/>
 	<form id="kanbanPickCandidatesSearchForm" class="kanban-pick-candidates__search">
-		<div class="form-group">
-			<label for="kanbanPickCvSkillsInput">{"LBL_KANBAN_CV_SKILLS"|t:$MODULE_NAME}</label>
-			<textarea id="kanbanPickCvSkillsInput"
-					  class="form-control js-kanban-cv-skills-input"
-					  name="cv_skills"
-					  rows="3"
-					  placeholder="{"LBL_KANBAN_CV_SKILLS_PLACEHOLDER"|t:$MODULE_NAME}">{$CV_SKILLS|escape:'html'}</textarea>
-			<p class="help-block">{"LBL_KANBAN_CV_SKILLS_HINT"|t:$MODULE_NAME}</p>
-		</div>
-		<div class="kanban-pick-candidates__search-actions">
-			<button type="button" class="btn btn-success js-kanban-pick-candidates-search">{"LBL_SEARCH"|t:"Vtiger"}</button>
+		<div class="row">
+			<div class="col-sm-9">
+				{include file='partials/KanbanCvSkillsQueryField.tpl'|@vtemplate_path:$MODULE_NAME
+					FIELD_ID='kanbanPickCvSkillsInput'
+					FIELD_VALUE=$CV_SKILLS
+					ROWS=3}
+			</div>
+			<div class="col-sm-3 kanban-pick-candidates__search-actions">
+				<button type="button" class="btn btn-success btn-block js-kanban-pick-candidates-search">{"LBL_SEARCH"|t:"Vtiger"}</button>
+			</div>
 		</div>
 	</form>
-	<style>
-		{literal}
-		.kanban-pick-candidates__split {
-			display: flex;
-			flex-direction: row;
-			flex-wrap: nowrap;
-			align-items: stretch;
-			width: 100%;
-			height: calc(85vh - 300px);
-			min-height: 360px;
-			max-height: calc(85vh - 300px);
-			overflow: hidden;
-		}
-		.kanban-pick-candidates__split > .c-list-preview,
-		.kanban-pick-candidates__split > .c-list-preview-resizer,
-		.kanban-pick-candidates__split > .c-detail-preview {
-			float: none;
-			height: 100%;
-			min-height: 0;
-		}
-		.kanban-pick-candidates__split > .c-detail-preview {
-			display: flex;
-			flex-direction: column;
-			overflow: hidden;
-		}
-		.kanban-pick-candidates__split > .c-detail-preview > .js-kanban-pick-cv-frame {
-			flex: 1 1 auto;
-			min-height: 0;
-			width: 100%;
-			border: 0;
-		}
-		{/literal}
-	</style>
 	<div class="kanban-pick-candidates__split">
 		<div class="c-list-preview js-kanban-pick-list">
 			<div class="kanban-pick-candidates__list-toolbar">

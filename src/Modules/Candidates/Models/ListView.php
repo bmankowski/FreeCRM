@@ -20,7 +20,11 @@ class ListView extends \App\Modules\Base\Models\ListView {
 	public function loadListViewCondition()
 	{
 		parent::loadListViewCondition();
-		\App\Modules\Candidates\Services\CvSkillsSearch::consumePendingWordMatch($this->getQueryGenerator());
+		try {
+			\App\Modules\Candidates\Services\CvSkillsSearch::consumePendingWordMatch($this->getQueryGenerator());
+		} catch (\App\Modules\Candidates\Exceptions\InvalidCvSkillsExpressionException) {
+			$this->getQueryGenerator()->addNativeCondition('1=0');
+		}
 	}
 
     /**

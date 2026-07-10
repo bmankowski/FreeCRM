@@ -5,15 +5,10 @@
 </div>
 <div class="modal-body">
 	<form id="kanbanSearchCandidatesForm" data-project-id="{$PROJECT_ID}">
-		<div class="form-group">
-			<label for="kanbanCvSkillsInput">{"LBL_KANBAN_CV_SKILLS"|t:$MODULE_NAME}</label>
-			<textarea id="kanbanCvSkillsInput"
-					  class="form-control js-kanban-cv-skills-input"
-					  name="cv_skills"
-					  rows="4"
-					  placeholder="{"LBL_KANBAN_CV_SKILLS_PLACEHOLDER"|t:$MODULE_NAME}"></textarea>
-			<p class="help-block">{"LBL_KANBAN_CV_SKILLS_HINT"|t:$MODULE_NAME}</p>
-		</div>
+		{include file='partials/KanbanCvSkillsQueryField.tpl'|@vtemplate_path:$MODULE_NAME
+			FIELD_ID='kanbanCvSkillsInput'
+			FIELD_VALUE=''
+			ROWS=4}
 	</form>
 </div>
 <div class="modal-footer">

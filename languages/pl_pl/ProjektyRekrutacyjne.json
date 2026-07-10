@@ -43,8 +43,8 @@
         "LBL_ADD_MANUAL_CANDIDATE": "Dodaj kandydata",
         "LBL_KANBAN_SEARCH_CANDIDATES_TITLE": "Szukaj kandydatów po umiejętnościach",
         "LBL_KANBAN_CV_SKILLS": "Umiejętności z CV",
-        "LBL_KANBAN_CV_SKILLS_PLACEHOLDER": "np. Java; Spring; SQL",
-        "LBL_KANBAN_CV_SKILLS_HINT": "Wpisz umiejętności oddzielone średnikami. Zostaną wyświetleni kandydaci, których CV zawiera wszystkie podane frazy.",
+        "LBL_KANBAN_CV_SKILLS_PLACEHOLDER": "Składnia wyszukiwania: Java AND (Spring OR Kotlin)",
+        "LBL_KANBAN_CV_SKILLS_INVALID": "Nieprawidłowe wyrażenie wyszukiwania.",
         "LBL_KANBAN_PICK_CANDIDATES_TITLE": "Wybierz kandydatów",
         "LBL_KANBAN_PICK_CANDIDATES_ADD": "Dodaj wybranych",
         "LBL_KANBAN_PICK_CANDIDATES_EMPTY": "Brak kandydatów spełniających kryteria (lub wszyscy są już w projekcie).",
@@ -94,6 +94,7 @@
         "JS_TRANSITION_MAIL_AUTO_PARTIAL": "Część e-maili wysłano automatycznie; część nie powiodła się.",
         "JS_TRANSITION_MAIL_AUTO_FAILED": "Nie udało się wysłać e-maila automatycznie.",
         "LBL_KANBAN_CV_SKILLS_REQUIRED": "Podaj co najmniej jedną umiejętność.",
+        "LBL_KANBAN_CV_SKILLS_INVALID": "Nieprawidłowe wyrażenie wyszukiwania.",
         "LBL_KANBAN_PICK_CANDIDATES_COUNT": "Znaleziono: %s"
     }
 }

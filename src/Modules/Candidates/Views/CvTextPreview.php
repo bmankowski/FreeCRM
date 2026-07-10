@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace App\Modules\Candidates\Views;
 
 use App\Http\Vtiger_Request;
+use App\Modules\Candidates\Exceptions\InvalidCvSkillsExpressionException;
 use App\Modules\Candidates\Services\CvSkillsSearch;
 
 class CvTextPreview extends \App\Modules\Base\Views\Index
@@ -39,7 +40,14 @@ class CvTextPreview extends \App\Modules\Base\Views\Index
 		$record = \App\Modules\Base\Models\Record::getInstanceById($recordId, 'Candidates');
 		$cvText = (string) $record->get('cv_text');
 		$highlightRaw = trim((string) $request->get('highlight'));
-		$skills = $highlightRaw !== '' ? CvSkillsSearch::parseSkills($highlightRaw) : [];
+		$skills = [];
+		if ($highlightRaw !== '') {
+			try {
+				$skills = CvSkillsSearch::collectTermsForHighlight($highlightRaw);
+			} catch (InvalidCvSkillsExpressionException) {
+				$skills = [];
+			}
+		}
 
 		$viewer = $this->getViewer($request);
 		$viewer->assign('CV_TEXT_HTML', self::formatCvTextHtml($cvText, $skills));
