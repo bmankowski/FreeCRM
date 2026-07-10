@@ -308,6 +308,33 @@ class Record extends \App\Modules\Base\Models\Record
 				$forSave[$fieldModel->getTableName()][$fieldModel->getColumnName()] = $value;
 			}
 		}
+		if ($this->isNew()) {
+			foreach ($moduleModel->getFields() as $fieldModel) {
+				$fieldName = $fieldModel->getName();
+				if (in_array($fieldName, $saveFields, true)) {
+					continue;
+				}
+				$tableName = $fieldModel->getTableName();
+				$columnName = $fieldModel->getColumnName();
+				if (isset($forSave[$tableName][$columnName])) {
+					continue;
+				}
+				$value = $this->get($fieldName);
+				if ($value !== null && $value !== '') {
+					$forSave[$tableName][$columnName] = $value;
+					continue;
+				}
+				$defaultValue = $fieldModel->getDefaultFieldValue();
+				if ($defaultValue === '') {
+					$defaultValue = $this->getDefaultValue($fieldName);
+					if ($defaultValue === false) {
+						continue;
+					}
+				}
+				$this->set($fieldName, $defaultValue);
+				$forSave[$tableName][$columnName] = $defaultValue;
+			}
+		}
 		return $forSave;
 	}
 

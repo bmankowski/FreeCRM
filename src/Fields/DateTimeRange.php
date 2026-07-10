@@ -18,6 +18,9 @@ class DateTimeRange
 	{
 		$currentUser = \App\User\CurrentUser::get();
 		$weekStartDay = $currentUser->get('dayoftheweek');
+		if ($weekStartDay === null || $weekStartDay === '') {
+			$weekStartDay = 'Monday';
+		}
 
 		if (!$dateObject) {
 			$timeZone = $timezone = new DateTimeZone($currentUser->get('time_zone'));
