@@ -44,8 +44,8 @@ assertTrue(
 	'all transitions allowed before save'
 );
 assertTrue(
-	count(RecruitmentStatusTransition::getStatusOptions()) === 12,
-	'12 status options'
+	count(RecruitmentStatusTransition::getStatusOptions()) === 16,
+	'16 status options'
 );
 
 $suggested = RecruitmentStatusTransition::getSuggestedDefaults();

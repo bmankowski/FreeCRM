@@ -1,4 +1,6 @@
 {
-    "languageStrings": [],
+    "languageStrings": {
+        "LBL_RECRUITMENT_PROJECTS_DASHBOARD": "Dashboard projektów rekrutacyjnych"
+    },
     "jsLanguageStrings": []
 }

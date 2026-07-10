@@ -23,7 +23,7 @@ Rendered via `App\Modules\Base\Models\Menu::getMenuIcon()` → `layouts/basic/mo
 - Non-empty `icon` in DB **overrides** the fallback — after a module rename, stale values like `userIcon-Kandydaci` show nothing if that CSS class was removed.
 - **Module rename:** update `yetiforce_menu.icon` to `userIcon-<NewModuleName>` and ensure `.userIcon-<NewModuleName>` exists in `userIcons.css` (+ run minify).
 
-Reference: `m260611_000001_fix_candidates_menu_icon.php`.
+Reference: `m260611_000001_fix_candidates_menu_icon.php`. Custom module view shortcut (e.g. recruitment dashboard): type **1**, `dataurl` = `index.php?module=…&view=DashBoard&mid={id}&parent=0`, label in `Menu.json` — `m260710_000002_recruitment_projects_dashboard_menu.php`.
 
 ### Regenerate menu cache after DB changes
 

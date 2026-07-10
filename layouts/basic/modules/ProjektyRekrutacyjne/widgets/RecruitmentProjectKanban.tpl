@@ -67,12 +67,16 @@
 	</table>
 	
 	{* Table 2: Interview and offer process *}
-	<table class="table table-bordered table-sm recruitment-kanban-quarters">
+	<table class="table table-bordered table-sm recruitment-kanban-quarters recruitment-kanban-offer">
 		<thead class="thead-light">
 		<tr>
 			<th>{'PPL_WAITING_FOR_INTERVIEW'|t:$MODULE_NAME}</th>
+			<th>{'PPL_HANDED_TO_SALES'|t:$MODULE_NAME}</th>
 			<th>{'PPL_TO_BE_SENT_TO_CLIENT'|t:$MODULE_NAME}</th>
 			<th>{'PPL_SENT_TO_CLIENT'|t:$MODULE_NAME}</th>
+			<th>{'PPL_STAGE_1'|t:$MODULE_NAME}</th>
+			<th>{'PPL_STAGE_2'|t:$MODULE_NAME}</th>
+			<th>{'PPL_STAGE_3'|t:$MODULE_NAME}</th>
 			<th>{'PPL_ACCEPTED'|t:$MODULE_NAME}</th>
 		</tr>
 		</thead>
@@ -81,11 +85,23 @@
 			<td class="candidate-status" data-value="PPL_WAITING_FOR_INTERVIEW">
 				{renderCandidates status='PPL_WAITING_FOR_INTERVIEW'}
 			</td>
+			<td class="candidate-status" data-value="PPL_HANDED_TO_SALES">
+				{renderCandidates status='PPL_HANDED_TO_SALES'}
+			</td>
 			<td class="candidate-status" data-value="PPL_TO_BE_SENT_TO_CLIENT">
 				{renderCandidates status='PPL_TO_BE_SENT_TO_CLIENT'}
 			</td>
 			<td class="candidate-status" data-value="PPL_SENT_TO_CLIENT">
 				{renderCandidates status='PPL_SENT_TO_CLIENT'}
+			</td>
+			<td class="candidate-status" data-value="PPL_STAGE_1">
+				{renderCandidates status='PPL_STAGE_1'}
+			</td>
+			<td class="candidate-status" data-value="PPL_STAGE_2">
+				{renderCandidates status='PPL_STAGE_2'}
+			</td>
+			<td class="candidate-status" data-value="PPL_STAGE_3">
+				{renderCandidates status='PPL_STAGE_3'}
 			</td>
 			<td class="candidate-status" data-value="PPL_ACCEPTED">
 				{renderCandidates status='PPL_ACCEPTED'}

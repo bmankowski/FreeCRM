@@ -58,3 +58,8 @@
 .recruitment-project-kanban .recruitment-kanban-quarters td {
 	width: 25%;
 }
+
+.recruitment-project-kanban .recruitment-kanban-offer th,
+.recruitment-project-kanban .recruitment-kanban-offer td {
+	width: 12.5%;
+}
