@@ -29,7 +29,9 @@ class ImportCandidatesManually extends \App\Modules\Base\Actions\Save {
 	 * After adding document as a CV refresh Candidate's page */
 	public function process(\App\Http\Vtiger_Request $request) {
 
-		(new \App\Modules\RecruitmentApplication\Services\RecruitmentApplicationImporter())->importPending();
+		$importer = new \App\Modules\RecruitmentApplication\Services\RecruitmentApplicationImporter();
+		$importer->importApplicationsFromPending();
+		$importer->importCandidatesFromApplications();
 
 		$moduleName = $request->getModule();
 		$module = \App\Modules\Base\Models\Module::getInstance($moduleName);

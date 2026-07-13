@@ -16,12 +16,12 @@ use App\Modules\Cron\Tasks\AbstractCronTask;
 use App\Modules\RecruitmentApplication\Services\RecruitmentApplicationImporter;
 use App\Modules\Users\Models\Record as UsersRecord;
 
-final class CvImportTask extends AbstractCronTask
+final class CvImportCandidatesTask extends AbstractCronTask
 {
 	public function execute(): void
 	{
 		$automatId = UsersRecord::getUserIdByName('automat');
 		UsersRecord::setCurrentUserId($automatId);
-		(new RecruitmentApplicationImporter())->importApplicationsFromPending();
+		(new RecruitmentApplicationImporter())->importCandidatesFromApplications();
 	}
 }

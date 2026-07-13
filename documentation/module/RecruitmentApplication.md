@@ -197,7 +197,7 @@ Related lists for `RecruitmentApplication` are not configured yet (`vtiger_relat
 |------|-------|
 | Cron service | `LBL_SCHEDULED_CV_IMPORT_APPLICATIONS` |
 | Handler | `App\Modules\RecruitmentApplication\Cron\CvImportTask` |
-| Importer | `RecruitmentApplicationImporter::importPending()` |
+| Importer | `importApplicationsFromPending()` + `importCandidatesFromApplications()` |
 | Manual trigger | Kandydaci list → import candidates (same importer) |
 
 ```bash

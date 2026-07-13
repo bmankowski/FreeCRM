@@ -17,7 +17,8 @@ alwaysApply: false
 ## Running and logs
 
 - Docker (every minute): `cron` service → `php cron/vtigercron.php`.
-- Single task: `docker compose exec -T app php cron/vtigercron.php service=LBL_WORKFLOW`
+- Single task: `docker compose exec -T cron gosu www-data php cron/vtigercron.php service=LBL_WORKFLOW`
+- Manual runs that write storage (CV import, uploads): **`cron`** + **`gosu www-data`** — bare `app` exec is root and creates `root:root` dirs under `storage/`. See `docker-commands.mdc` → Root-owned dirs.
 - Output: `cache/logs/cron.log` (stdout). Errors: `cache/logs/system.log` — search `[CRON]`.
 - `service=…` skips frequency (immediate run).
 - `reset=1` clears `laststart`/`lastend` and unlocks (`status=1`). With `service=…`, resets that task then runs it. Without `service`, resets every task and does not run.

@@ -1648,6 +1648,7 @@ insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`handler_params`,`fr
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`handler_params`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (34,'LBL_MAIL_COMPOSE_STAGING_CLEANUP','App\\Modules\\Mail\\Cron\\ComposeStagingCleanup',NULL,3600,NULL,NULL,1,'Mail',22,'Compose attachment staging cleanup');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`handler_params`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (32,'LBL_CLEANUP_MAIL_AUDIT_LOG','App\\Modules\\Cron\\Tasks\\CleanupMailAuditLogTask',NULL,86400,NULL,NULL,0,'Vtiger',26,'Deletes audit rows older than Mail.AUDIT_LOG_RETENTION_DAYS.');
 insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`handler_params`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (33,'LBL_SCHEDULED_CV_IMPORT_APPLICATIONS','App\\Modules\\RecruitmentApplication\\Cron\\CvImportTask',NULL,300,NULL,NULL,1,'RecruitmentApplication',27,'Import CV applications from import/cv/pending');
+insert  into `vtiger_cron_task`(`id`,`name`,`handler_class`,`handler_params`,`frequency`,`laststart`,`lastend`,`status`,`module`,`sequence`,`description`) values (35,'LBL_SCHEDULED_CV_IMPORT_CANDIDATES','App\\Modules\\RecruitmentApplication\\Cron\\CvImportCandidatesTask',NULL,300,NULL,NULL,1,'RecruitmentApplication',28,'Materialize candidates for imported CV applications');
 
 /*Data for the table `vtiger_currencies` */
 

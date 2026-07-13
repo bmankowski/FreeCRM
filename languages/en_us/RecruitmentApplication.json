@@ -2,6 +2,7 @@
     "languageStrings": {
         "RecruitmentApplication": "Candidate Applications",
         "SINGLE_RecruitmentApplication": "Candidate Application",
+        "LBL_MODULE_INFORMATION": "General information",
         "LBL_CUSTOM_INFORMATION": "Web form metadata",
         "LBL_BASIC_INFORMATION": "Basic Information",
         "LBL_APPLICATION_CONTEXT": "Application context",
@@ -38,7 +39,8 @@
         "FL_REFERRED_BY_EMAIL": "Referrer email",
         "FL_REFERRED_ON_POSITION": "Position (referral)",
         "FL_CV_DOCUMENT": "CV document",
-        "LBL_SCHEDULED_CV_IMPORT_APPLICATIONS": "Scheduled CV application import"
+        "LBL_SCHEDULED_CV_IMPORT_APPLICATIONS": "Scheduled CV application ingest",
+        "LBL_SCHEDULED_CV_IMPORT_CANDIDATES": "Scheduled CV candidate materialization"
     },
     "jsLanguageStrings": {}
 }

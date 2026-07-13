@@ -65,6 +65,7 @@ class Accounts extends \App\Core\CRMEntity
 	 * @var string[] List of fields in the RelationListView
 	 */
 	public $relationFields = ['accountname', 'website', 'phone', 'assigned_user_id'];
+	public array $hierarchyFields = [];
 	// This is the list of vtiger_fields that are required
 	public $required_fields = [];
 	// Used when enabling/disabling the mandatory fields for the module.

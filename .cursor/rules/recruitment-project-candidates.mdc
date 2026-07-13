@@ -61,6 +61,7 @@ globs:
 
 - `relateEntities(..., 'getRelatedMembers')` → `EntityAfterLink` → `NewCandidateInProject` (comments differ for applied vs manual).
 - Import uses `createLink()` directly (not `relateEntities`) to keep `PPL_APPLIED` and still run the same handler.
+- **CV import (two crons):** A — `CvImportTask` / `importApplicationsFromPending()` (`pending/` → `RecruitmentApplication` + `processed/`); B — `CvImportCandidatesTask` / `importCandidatesFromApplications()` (`candidate_id=0` → `Candidates`, `candidate_id` claimed right after `resolveCandidate()`, then CV/comment/project). Dedup by email/name in `CandidateApplicationSideEffects::createNewCandidate()` (`GET_LOCK`). Details: `docker-commands.mdc`.
 
 ## Candidates module rename (metadata gotchas)
 

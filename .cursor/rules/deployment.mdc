@@ -15,7 +15,7 @@ description: "FreeCRM deployment on test.itconnect.pl — sync-freecrm.sh recipe
 - HTTPS: Let's Encrypt via Cloudflare DNS (`certbot/dns-cloudflare`, creds in `docker/nginx/letsencrypt/cloudflare.ini`). Nginx reads `docker/nginx/certs/{host}.{fullchain,privkey}.pem` only — after issue/renew, copy from `letsencrypt/live/` (see `renewal/*.conf`). Privkeys: `640`, group `www-data` (nginx uid 33).
 - Hostnames: `test.itconnect.pl` on remote server; `dev.itconnect.pl` → local Docker only (see above).
 - Services: `web`, `app`, `cron`, `db`.
-- Cron: `docker compose up -d cron` runs `cron/vtigercron.php` every minute via supercronic; log at `cache/logs/cron.log`. CV **file** sync (prod backup → `import/cv/pending`) is a separate supercronic job — see `docker-commands.mdc` → CV application file sync; restart `cron` after cv-sync script/config changes.
+- Cron: `docker compose up -d cron` runs `cron/vtigercron.php` every minute via supercronic; log at `cache/logs/cron.log`. CV **file** sync (prod backup → `import/cv/pending`) is a separate supercronic job; CRM import is **two** cron tasks (applications + candidates) — see `docker-commands.mdc` → CV application file sync. Restart `cron` after cv-sync script/config changes.
 - Storage: `/opt/freecrm/storage` (copied from `10.0.0.220:/var/www/yetiforce/storage`).
 - Migration backups: `/opt/freecrm/_migration`; local rollback dump at `tmp/migration-20260511-134258/`.
 

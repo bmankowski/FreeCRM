@@ -23,15 +23,16 @@ class MultiAttachment
 			return null;
 		}
 
+		$dirBase = rtrim(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $relativePath, "/\\");
 		$candidatePaths = [];
-		// Some historic payloads store "path" as a full relative file path (incl. filename).
-		$candidatePaths[] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $relativePath;
-		// Some payloads store "path" as a directory.
-		$candidatePaths[] = rtrim(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $relativePath, "/\\") . DIRECTORY_SEPARATOR . $key;
-		// Some payloads store original filename separately.
-		if (!empty($item['name'])) {
-			$candidatePaths[] = rtrim(ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $relativePath, "/\\") . DIRECTORY_SEPARATOR . (string) $item['name'];
+		if ($key !== '') {
+			$candidatePaths[] = $dirBase . DIRECTORY_SEPARATOR . $key;
 		}
+		if (!empty($item['name'])) {
+			$candidatePaths[] = $dirBase . DIRECTORY_SEPARATOR . (string) $item['name'];
+		}
+		// Historic payloads may store a full relative file path (incl. filename) in "path".
+		$candidatePaths[] = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . $relativePath;
 
 		foreach ($candidatePaths as $path) {
 			if (!is_string($path) || $path === '' || !file_exists($path)) {
@@ -40,14 +41,7 @@ class MultiAttachment
 			if (is_file($path)) {
 				return $path;
 			}
-			// If a directory exists where a file is expected, try to locate the actual file within.
-			if (is_dir($path)) {
-				if (!empty($item['name'])) {
-					$byName = rtrim($path, "/\\") . DIRECTORY_SEPARATOR . (string) $item['name'];
-					if (file_exists($byName) && is_file($byName)) {
-						return $byName;
-					}
-				}
+			if (is_dir($path) && $key === '') {
 				$entries = @scandir($path) ?: [];
 				foreach ($entries as $entry) {
 					if ($entry === '.' || $entry === '..') {

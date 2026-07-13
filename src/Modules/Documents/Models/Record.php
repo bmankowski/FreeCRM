@@ -226,7 +226,14 @@ class Record extends \App\Modules\Base\Models\Record
 				$displayName = ltrim(basename(' ' . $binFile));
 				$relativePath = $uploadDir . $this->getId();
 				$absolutePath = ROOT_DIRECTORY . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $relativePath);
-				if (move_uploaded_file((string) $file['tmp_name'], $absolutePath)) {
+				$tmpName = (string) $file['tmp_name'];
+				$stored = false;
+				if (is_uploaded_file($tmpName)) {
+					$stored = move_uploaded_file($tmpName, $absolutePath);
+				} elseif (is_file($tmpName)) {
+					$stored = copy($tmpName, $absolutePath);
+				}
+				if ($stored) {
 					$storagePath = $relativePath;
 					$originalName = $displayName;
 					$mimeType = (string) ($file['type'] ?? $mimeType);

@@ -407,8 +407,13 @@ class Record extends \App\Runtime\BaseModel
 			];
 		}
 
+		$wasNew = $this->isNew();
 		$this->getModule()->saveRecord($this, $relationParams);
 		$db->completeTransaction();
+
+		if ($wasNew) {
+			$this->isNew = false;
+		}
 
 		$cacheName = $this->getId() . ':' . $this->getModuleName();
 		if ($this->isNew()) {

@@ -1,6 +1,6 @@
 # Change Request: Podział importu CV na dwa crony
 
-**Status:** DRAFT — nie wdrożone  
+**Status:** Wdrożone (dev)  
 **Powiązane:** [cr-RecruitmentApplication-import.md](cr-RecruitmentApplication-import.md), [module/RecruitmentApplication.md](module/RecruitmentApplication.md)
 
 ---

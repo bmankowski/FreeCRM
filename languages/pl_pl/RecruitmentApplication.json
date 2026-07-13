@@ -2,6 +2,7 @@
     "languageStrings": {
         "RecruitmentApplication": "Aplikacje kandydatów",
         "SINGLE_RecruitmentApplication": "Aplikacja kandydata",
+        "LBL_MODULE_INFORMATION": "Informacje ogólne",
         "LBL_CUSTOM_INFORMATION": "Metadane formularza WWW",
         "LBL_BASIC_INFORMATION": "Informacje podstawowe",
         "LBL_APPLICATION_CONTEXT": "Kontekst aplikacji",
@@ -38,7 +39,8 @@
         "FL_REFERRED_BY_EMAIL": "E-mail osoby polecającej",
         "FL_REFERRED_ON_POSITION": "Stanowisko (przy poleceniu)",
         "FL_CV_DOCUMENT": "Plik CV",
-        "LBL_SCHEDULED_CV_IMPORT_APPLICATIONS": "Zaplanowany import aplikacji CV"
+        "LBL_SCHEDULED_CV_IMPORT_APPLICATIONS": "Zaplanowany import aplikacji CV",
+        "LBL_SCHEDULED_CV_IMPORT_CANDIDATES": "Zaplanowany import kandydatów z aplikacji CV"
     },
     "jsLanguageStrings": {}
 }

@@ -18,7 +18,6 @@ use App\Modules\RecruitmentApplication\Services\CvImport\CandidateApplicationSid
 use App\Modules\RecruitmentApplication\Services\CvImport\CvApplicationDto;
 use App\Modules\RecruitmentApplication\Services\CvImport\CvFileOperations;
 use App\Modules\RecruitmentApplication\Services\CvImport\CvFilePaths;
-use App\Modules\RecruitmentApplication\Services\CvImport\CvImportLock;
 use App\Modules\RecruitmentApplication\Services\CvImport\CvImportLogger;
 use App\Modules\RecruitmentApplication\Services\CvImport\CvJsonParser;
 use App\Modules\RecruitmentApplication\Services\CvImport\ImportErrorMailer;
@@ -26,24 +25,14 @@ use App\Modules\RecruitmentApplication\Services\CvImport\PhoneNormalizer;
 
 final class RecruitmentApplicationImporter
 {
-	public function importPending(?int $limit = null): void
+	public function importApplicationsFromPending(?int $limit = null): void
 	{
-		if ($limit === null) {
-			$envLimit = getenv('CV_IMPORT_LIMIT');
-			if ($envLimit !== false && $envLimit !== '') {
-				$limit = max(1, (int) $envLimit);
-			}
-		}
-		$lock = new CvImportLock();
-		if (!$lock->acquire()) {
-			CvImportLogger::log('Lock acquisition failed, CV import already running, skipping');
-			return;
-		}
-		try {
-			$this->processPendingFiles($limit);
-		} finally {
-			$lock->release();
-		}
+		$this->processPendingApplicationFiles($this->resolveImportLimit($limit));
+	}
+
+	public function importCandidatesFromApplications(?int $limit = null): void
+	{
+		$this->processApplicationsWithoutCandidate($this->resolveImportLimit($limit));
 	}
 
 	public function isApplicationImported(string $applicationNumber): bool
@@ -59,8 +48,9 @@ final class RecruitmentApplicationImporter
 		$record->set('assigned_user_id', $automatUserId);
 		self::mapDtoToRecord($record, $dto);
 		$record->save();
-		self::persistApplicationNumber($record->getId(), $dto->applicationNumber);
-		return $record;
+		$id = (int) $record->getId();
+		self::persistApplicationNumber($id, $dto->applicationNumber);
+		return \App\Modules\Base\Models\Record::getInstanceById($id, 'RecruitmentApplication');
 	}
 
 	public static function mapDtoToRecord(\App\Modules\Base\Models\Record $record, CvApplicationDto $dto): void
@@ -99,9 +89,9 @@ final class RecruitmentApplicationImporter
 		$record->set('form_language', $dto->formLanguage);
 	}
 
-	private function processPendingFiles(?int $limit = null): void
+	private function processPendingApplicationFiles(?int $limit): void
 	{
-		CvImportLogger::log('Starting CV application import');
+		CvImportLogger::log('Starting CV application ingest');
 		$pending = CvFilePaths::pending();
 		$jsonFiles = glob($pending . '*.json') ?: [];
 		sort($jsonFiles);
@@ -118,33 +108,19 @@ final class RecruitmentApplicationImporter
 				if ($this->isApplicationImported($applicationNumber)) {
 					CvImportLogger::log('Application already imported: ' . $applicationNumber);
 					$dto = CvJsonParser::parseFile($pending, $jsonFilePath, $applicationNumber);
-					CvFileOperations::deleteFiles($dto);
+					CvFileOperations::moveToProcessed($dto);
 					continue;
 				}
 				$dto = CvJsonParser::parseFile($pending, $jsonFilePath, $applicationNumber);
 				$application = $this->createFromDto($dto);
-				$candidate = CandidateApplicationSideEffects::resolveCandidate($dto);
-				CandidateApplicationSideEffects::addCommentToCandidate($candidate, $dto);
-				$candidate->save();
-				$document = CandidateApplicationSideEffects::addCvToCandidate($candidate, $dto);
-				$candidate->save();
-				CandidateApplicationSideEffects::bindCandidateToProject($candidate, $dto);
-				$candidate->save();
-				$application->set('candidate_id', (int) $candidate->getId());
-				if ($document !== null) {
-					$application->set('cv_document_id', (int) $document->getId());
-				}
-				if ($dto->projectId !== '' && is_numeric($dto->projectId)) {
-					$application->set('project_id', (int) $dto->projectId);
-				}
-				$application->save();
-				CvFileOperations::deleteFiles($dto);
+				CandidateApplicationSideEffects::addCvToApplication($application, $dto);
+				CvFileOperations::moveToProcessed($dto);
 			} catch (\yii\db\IntegrityException $e) {
 				if ($applicationNumber !== ''
 					&& str_contains($e->getMessage(), 'uq_recruitmentapplication_application_number')) {
 					CvImportLogger::log('Application already imported (concurrent): ' . $applicationNumber);
 					if ($dto !== null) {
-						CvFileOperations::deleteFiles($dto);
+						CvFileOperations::moveToProcessed($dto);
 					}
 					continue;
 				}
@@ -162,7 +138,71 @@ final class RecruitmentApplicationImporter
 			}
 		}
 		ImportErrorMailer::sendSummaryIfAny();
-		CvImportLogger::log('CV application import finished');
+		CvImportLogger::log('CV application ingest finished');
+	}
+
+	private function processApplicationsWithoutCandidate(?int $limit): void
+	{
+		CvImportLogger::log('Starting CV candidate materialization');
+		$applicationIds = ApplicationImportRepository::fetchApplicationIdsWithoutCandidate($limit);
+		if ($limit !== null) {
+			CvImportLogger::log('Processing at most ' . $limit . ' application(s)');
+		}
+		$processed = CvFilePaths::processed();
+		foreach ($applicationIds as $applicationId) {
+			try {
+				$application = \App\Modules\Base\Models\Record::getInstanceById($applicationId, 'RecruitmentApplication');
+				if ((int) $application->get('candidate_id') > 0) {
+					continue;
+				}
+				$applicationNumber = (string) $application->get('application_number');
+				$rawJson = (string) $application->get('application_json_content');
+				if ($rawJson === '') {
+					CvImportLogger::log('Missing application_json_content for application ' . $applicationNumber);
+					continue;
+				}
+				CvImportLogger::log('Materializing application ' . $applicationNumber);
+				$dto = CvJsonParser::parseJsonContent($processed, $applicationNumber, $rawJson);
+				$dto->pendingDirectory = $processed;
+				$cvSaved = (string) $application->get('cv_saved_filename');
+				if ($cvSaved !== '') {
+					$dto->cvSavedFilename = $cvSaved;
+				}
+				$cvOriginal = (string) $application->get('cv_original_filename');
+				if ($cvOriginal !== '') {
+					$dto->originalFilename = $cvOriginal;
+					$dto->cvOriginalFilename = $cvOriginal;
+				}
+				$cvDocumentId = (int) $application->get('cv_document_id');
+				$candidate = CandidateApplicationSideEffects::resolveCandidate($dto);
+				$candidateId = (int) $candidate->getId();
+				$application->set('candidate_id', $candidateId);
+				$application->save();
+				CandidateApplicationSideEffects::addCommentToCandidate($candidate, $dto);
+				$candidate->save();
+				CandidateApplicationSideEffects::linkApplicationCvToCandidate($candidate, $cvDocumentId);
+				$candidate->save();
+				CandidateApplicationSideEffects::bindCandidateToProject($candidate, $dto);
+				$candidate->save();
+			} catch (\Throwable $e) {
+				ImportErrorMailer::record(null, $e);
+				\App\Log\Log::error($e);
+			}
+		}
+		ImportErrorMailer::sendSummaryIfAny();
+		CvImportLogger::log('CV candidate materialization finished');
+	}
+
+	private function resolveImportLimit(?int $limit): ?int
+	{
+		if ($limit !== null) {
+			return $limit;
+		}
+		$envLimit = getenv('CV_IMPORT_LIMIT');
+		if ($envLimit === false || $envLimit === '') {
+			return null;
+		}
+		return max(1, (int) $envLimit);
 	}
 
 	private static function consentToInt(string $value): int

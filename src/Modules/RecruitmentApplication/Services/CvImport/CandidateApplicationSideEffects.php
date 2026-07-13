@@ -65,38 +65,90 @@ final class CandidateApplicationSideEffects
 		$comment->save();
 	}
 
-	public static function addCvToCandidate(\App\Modules\Candidates\Models\Record $candidate, CvApplicationDto $dto): ?\App\Modules\Base\Models\Record
-	{
-		$originalPath = $dto->pendingDirectory . basename($dto->originalFilename);
-		$attachmentPath = $dto->cvAttachmentPath;
-		if ($attachmentPath === '' || !is_file($attachmentPath)) {
-			CvImportLogger::log('CV file missing on disk: ' . $attachmentPath);
+	public static function addCvToApplication(
+		\App\Modules\Base\Models\Record $application,
+		CvApplicationDto $dto
+	): ?\App\Modules\Base\Models\Record {
+		$parsePath = DocumentHelper::resolveCvParsePath($dto);
+		if ($parsePath === null) {
+			CvImportLogger::log('CV file missing on disk for application ' . $dto->applicationNumber);
 			return null;
 		}
-		if ($attachmentPath !== $originalPath && $dto->originalFilename !== '') {
-			copy($attachmentPath, $originalPath);
-		}
-		$parsePath = is_file($originalPath) ? $originalPath : $attachmentPath;
-		if (!is_file($parsePath)) {
-			CvImportLogger::log('ERROR: CV file does not exist: ' . $parsePath);
-			return null;
-		}
-		try {
-			$fileContent = substr(\App\Utils\DocumentParser::parseFromFile($parsePath), 0, 10000);
-		} catch (\Exception $e) {
-			CvImportLogger::log('Parse error: ' . $e->getMessage());
-			$fileContent = '';
-		}
-		$cvContent = trim(preg_replace('/[\x{10000}-\x{10FFFF}]/u', '', $fileContent));
-		$candidate->set('cv_text', $cvContent);
-		$relations = DocumentHelper::prepareRelationsString('Candidates', (int) $candidate->getId());
+
+		$relations = DocumentHelper::prepareRelationsString('RecruitmentApplication', (int) $application->getId());
 		$documentRecord = DocumentHelper::saveAndDeleteFile($parsePath, 'CV', $relations);
 		if ($documentRecord === false) {
 			return null;
 		}
-		$candidate->transformDocumentToCV($documentRecord);
-		CvFileOperations::moveToProcessed($dto);
+
+		$application->set('cv_document_id', (int) $documentRecord->getId());
+		$application->save();
+
 		return $documentRecord;
+	}
+
+	public static function linkApplicationCvToCandidate(
+		\App\Modules\Candidates\Models\Record $candidate,
+		int $cvDocumentId
+	): ?\App\Modules\Base\Models\Record {
+		if ($cvDocumentId <= 0) {
+			CvImportLogger::log('No CV document on application for candidate ' . $candidate->get('name'));
+			return null;
+		}
+
+		$document = \App\Modules\Base\Models\Record::getInstanceById($cvDocumentId, 'Documents');
+		if (!$document || !$document->getId()) {
+			CvImportLogger::log('CV document not found: ' . $cvDocumentId);
+			return null;
+		}
+
+		$candidateId = (int) $candidate->getId();
+		if (!self::isDocumentLinkedToRecord($cvDocumentId, $candidateId)) {
+			\App\Utils\Utils::relateEntities(
+				$candidate->getEntity(),
+				'Candidates',
+				$candidateId,
+				'Documents',
+				$cvDocumentId
+			);
+		}
+
+		self::populateCvTextFromDocument($candidate, $document);
+		$candidate->transformDocumentToCV($document);
+
+		return $document;
+	}
+
+	private static function isDocumentLinkedToRecord(int $documentId, int $recordId): bool
+	{
+		return (new \App\Db\Query())
+			->from('vtiger_senotesrel')
+			->where(['notesid' => $documentId, 'crmid' => $recordId])
+			->exists();
+	}
+
+	private static function populateCvTextFromDocument(
+		\App\Modules\Candidates\Models\Record $candidate,
+		\App\Modules\Base\Models\Record $document
+	): void {
+		$srcPath = \App\Modules\Documents\Models\Record::resolveStoragePath(
+			(string) $document->get('storage_path'),
+			(string) ($document->get('original_name') ?: null)
+		);
+		if ($srcPath === false || !is_file($srcPath)) {
+			CvImportLogger::log('CV document file missing in storage for document ' . $document->getId());
+			return;
+		}
+
+		try {
+			$fileContent = substr(\App\Utils\DocumentParser::parseFromFile($srcPath), 0, 10000);
+		} catch (\Exception $e) {
+			CvImportLogger::log('Parse error: ' . $e->getMessage());
+			$fileContent = '';
+		}
+
+		$cvContent = trim(preg_replace('/[\x{10000}-\x{10FFFF}]/u', '', $fileContent));
+		$candidate->set('cv_text', $cvContent);
 	}
 
 	public static function bindCandidateToProject(\App\Modules\Candidates\Models\Record $candidate, CvApplicationDto $dto): void

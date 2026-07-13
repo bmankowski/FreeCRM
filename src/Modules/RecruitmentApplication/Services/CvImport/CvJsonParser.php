@@ -20,14 +20,23 @@ final class CvJsonParser
 		if ($rawJson === false) {
 			throw new \RuntimeException("Cannot read JSON file: {$jsonFilePath}");
 		}
+		return self::parseJsonContent($pendingDirectory, $applicationNumber, $rawJson, $jsonFilePath);
+	}
+
+	public static function parseJsonContent(
+		string $fileDirectory,
+		string $applicationNumber,
+		string $rawJson,
+		string $jsonFilePath = ''
+	): CvApplicationDto {
 		$data = json_decode($rawJson, true);
 		if (!is_array($data)) {
-			throw new \RuntimeException("Invalid JSON in file: {$jsonFilePath}");
+			throw new \RuntimeException('Invalid JSON for application: ' . $applicationNumber);
 		}
 		if (isset($data['entries']) && is_array($data['entries'])) {
-			return self::parseMetForm($pendingDirectory, $jsonFilePath, $applicationNumber, $rawJson, $data);
+			return self::parseMetForm($fileDirectory, $jsonFilePath, $applicationNumber, $rawJson, $data);
 		}
-		return self::parseJetForm($pendingDirectory, $jsonFilePath, $applicationNumber, $rawJson, $data);
+		return self::parseJetForm($fileDirectory, $jsonFilePath, $applicationNumber, $rawJson, $data);
 	}
 
 	private static function parseJetForm(

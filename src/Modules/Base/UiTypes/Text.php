@@ -46,6 +46,9 @@ class Text extends BaseUiType
 	 */
 	public function getDBValue($value, $recordModel = false)
 	{
-		return \vtlib\Functions:: fromHTML($value, true);
+		if (is_array($value)) {
+			$value = \App\Utils\Json::encode($value);
+		}
+		return \vtlib\Functions::fromHTML($value, true);
 	}
 }

@@ -14,6 +14,47 @@ namespace App\Modules\RecruitmentApplication\Services\CvImport;
 
 final class DocumentHelper
 {
+	public static function resolveCvFilePath(string $directory, string $cvSavedFilename, string $originalFilename): string
+	{
+		if ($cvSavedFilename !== '') {
+			$path = $directory . $cvSavedFilename;
+			if (is_file($path)) {
+				return $path;
+			}
+		}
+		if ($originalFilename !== '') {
+			$path = $directory . basename($originalFilename);
+			if (is_file($path)) {
+				return $path;
+			}
+		}
+
+		return '';
+	}
+
+	public static function resolveCvParsePath(CvApplicationDto $dto): ?string
+	{
+		if ($dto->cvAttachmentPath === '' || !is_file($dto->cvAttachmentPath)) {
+			$resolved = self::resolveCvFilePath(
+				$dto->pendingDirectory,
+				$dto->cvSavedFilename,
+				$dto->originalFilename
+			);
+			if ($resolved === '') {
+				return null;
+			}
+			$dto->cvAttachmentPath = $resolved;
+		}
+
+		$attachmentPath = $dto->cvAttachmentPath;
+		$originalPath = $dto->pendingDirectory . basename($dto->originalFilename);
+		if ($attachmentPath !== $originalPath && $dto->originalFilename !== '') {
+			copy($attachmentPath, $originalPath);
+		}
+
+		return is_file($originalPath) ? $originalPath : $attachmentPath;
+	}
+
 	public static function prepareRelationsString(string $moduleName, int $relatedEntityId): array
 	{
 		return [[

@@ -31,6 +31,8 @@ class SaveAjax extends \App\Modules\Base\Actions\Save
 				$recordFieldValue = implode(' |##| ', $recordFieldValue);
 			} elseif (is_array($recordFieldValue) && in_array($fieldModel->getFieldDataType(), ['sharedOwner', 'taxes'])) {
 				$recordFieldValue = implode(',', $recordFieldValue);
+			} elseif (is_array($recordFieldValue)) {
+				$recordFieldValue = \App\Utils\Json::encode($recordFieldValue);
 			}
 			$fieldValue = $displayValue = \App\Modules\Base\Helpers\Util::toSafeHTML($recordFieldValue);
 			if ($fieldModel->getFieldDataType() === 'currency') {
@@ -64,7 +66,7 @@ class SaveAjax extends \App\Modules\Base\Actions\Save
 			$recordModel = $this->record ? $this->record : \App\Modules\Base\Models\Record::getInstanceById($recordId, $moduleName);
 			$fieldModel = $recordModel->getModule()->getFieldByName($request->get('field'));
 			if ($fieldModel && $fieldModel->isEditable()) {
-				$recordModel->set($fieldModel->getName(), $fieldModel->getUITypeModel()->getDBValue($request->get('value'), $recordModel));
+				$recordModel->set($fieldModel->getName(), $fieldModel->getUITypeModel()->getDBValue($request->getRaw('value'), $recordModel));
 			}
 		} else {
 			$recordModel = parent::getRecordModelFromRequest($request);

@@ -41,6 +41,8 @@ require_once('modules/ModTracker/ModTracker.php');
 $automatId = \App\Modules\Users\Models\Record::getUserIdByName('automat');
 $user = \App\Modules\Users\Models\Record::getInstanceById($automatId, 'Users');
 
-(new \App\Modules\RecruitmentApplication\Services\RecruitmentApplicationImporter())->importPending();
+$importer = new \App\Modules\RecruitmentApplication\Services\RecruitmentApplicationImporter();
+$importer->importApplicationsFromPending();
+$importer->importCandidatesFromApplications();
 
 return;
