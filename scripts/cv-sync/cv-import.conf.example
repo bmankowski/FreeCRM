@@ -1,0 +1,29 @@
+# Copy to /etc/freecrm/cv-import.conf on each server (outside git).
+# Dev Docker uses docker/cv-sync/cv-import.from-prod-backup.conf from the repo bind mount.
+
+# --- Production (10.0.0.220) — sole Cyberfolks consumer; deletes from WWW after transfer ---
+# SOURCE=cyberfolks
+# ENABLED=1
+# IMPORT_BASE=/var/www/import/cv
+# LOG_FILE=/var/log/cv-import.log
+# REMOVE_SOURCE=1
+# CYBERFOLKS_SSH_USER=itconnect
+# CYBERFOLKS_SSH_HOST=s63.cyber-folks.pl
+# CYBERFOLKS_SSH_PORT=222
+# CYBERFOLKS_REMOTE_PATH=/home/itconnect/public_html/wp-content/uploads/cv
+# RSYNC_CHOWN=www-yeti:www-yeti
+# RSYNC_CHMOD=Du=rwx,Dgo=rx,Fu=rw,Fog=r
+# (top-level-only rsync filters are applied by default for cyberfolks)
+
+# --- Test (test.itconnect.pl) — pull from prod backup only ---
+# SOURCE=prod-backup
+# ENABLED=1
+# IMPORT_BASE=/opt/freecrm/import/cv
+# LOG_FILE=/opt/freecrm/cache/logs/cv-sync.log
+# REMOVE_SOURCE=0
+# PROD_SSH_USER=bmankowski
+# PROD_SSH_HOST=10.0.0.220
+# PROD_SSH_PORT=22
+# PROD_BACKUP_PATH=/var/www/import/cv/backup
+# CV_SYNC_DAYS=14
+# SSH_KEY_DIR=/root/.ssh

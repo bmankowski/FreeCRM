@@ -111,6 +111,7 @@ final class RecruitmentApplicationImporter
 		}
 		foreach ($jsonFiles as $jsonFilePath) {
 			$dto = null;
+			$applicationNumber = '';
 			try {
 				CvImportLogger::log('Importing from file: ' . $jsonFilePath);
 				$applicationNumber = ApplicationNumberResolver::fromJsonPath($jsonFilePath);
@@ -138,6 +139,20 @@ final class RecruitmentApplicationImporter
 				}
 				$application->save();
 				CvFileOperations::deleteFiles($dto);
+			} catch (\yii\db\IntegrityException $e) {
+				if ($applicationNumber !== ''
+					&& str_contains($e->getMessage(), 'uq_recruitmentapplication_application_number')) {
+					CvImportLogger::log('Application already imported (concurrent): ' . $applicationNumber);
+					if ($dto !== null) {
+						CvFileOperations::deleteFiles($dto);
+					}
+					continue;
+				}
+				ImportErrorMailer::record($dto, $e);
+				if ($dto !== null) {
+					CvFileOperations::moveToFailed($dto);
+				}
+				\App\Log\Log::error($e);
 			} catch (\Throwable $e) {
 				ImportErrorMailer::record($dto, $e);
 				if ($dto !== null) {

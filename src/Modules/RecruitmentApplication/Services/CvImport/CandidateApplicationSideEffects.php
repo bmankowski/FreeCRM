@@ -28,6 +28,9 @@ final class CandidateApplicationSideEffects
 		if ($candidateId === null && $dto->candidateName !== '' && $dto->candidateEmail !== '') {
 			$candidateId = self::getCandidateIdByNameAndEmail($dto->candidateName, $dto->candidateEmail);
 		}
+		if ($candidateId === null && $dto->candidateEmail !== '') {
+			$candidateId = self::getCandidateIdByEmail($dto->candidateEmail);
+		}
 		if ($candidateId === null) {
 			return self::createNewCandidate($dto);
 		}
@@ -134,6 +137,23 @@ final class CandidateApplicationSideEffects
 		return isset($row['candidatesid']) ? (string) $row['candidatesid'] : null;
 	}
 
+	public static function getCandidateIdByEmail(string $email): ?string
+	{
+		if ($email === '') {
+			return null;
+		}
+		$row = (new \App\Db\Query())
+			->select(['u_yf_candidates.candidatesid'])
+			->from('u_yf_candidates')
+			->innerJoin('u_yf_candidatescf', 'u_yf_candidatescf.candidatesid = u_yf_candidates.candidatesid')
+			->innerJoin('vtiger_crmentity', 'vtiger_crmentity.crmid = u_yf_candidates.candidatesid')
+			->where(['vtiger_crmentity.deleted' => 0])
+			->andWhere(['or', ['u_yf_candidatescf.email_private' => $email], ['u_yf_candidatescf.email_business' => $email]])
+			->orderBy(['u_yf_candidates.candidatesid' => SORT_ASC])
+			->one();
+		return isset($row['candidatesid']) ? (string) $row['candidatesid'] : null;
+	}
+
 	public static function getCandidateIdByNameAndPhone(string $name, string $phone): ?string
 	{
 		if ($phone === '' || $name === '') {
@@ -166,38 +186,69 @@ final class CandidateApplicationSideEffects
 		if ($dto->candidateName === '') {
 			throw new \RuntimeException('Candidate name is empty');
 		}
-		CvImportLogger::log('Creating new candidate ' . $dto->candidateName);
-		$candidate = \App\Modules\Base\Models\Record::getCleanInstance('Candidates');
-		$candidate->set('name', $dto->candidateName);
-		$candidate->set('phone', $dto->candidateTransformedPhone);
-		$candidate->set('candidate_status', 'Kandydat');
-		$candidate->set('email_private', $dto->candidateEmail);
-		$candidate->set('application_id', self::candidatesApplicationId($dto->applicationNumber));
-		$candidate->set('application_source', self::getSourceName($dto->sourceId));
-		$candidate->set('application_json_content', $dto->rawJsonData);
-		$candidate->set('is_referred_by_employee', $dto->isReferredByEmployee ? 1 : 0);
-		if ($dto->isReferredByEmployee) {
-			$candidate->set('referred_by_employee', $dto->referredByEmployee);
-			$consultant = self::getConsultantByEmail($dto->referredByEmail)
-				?? self::getConsultantByName($dto->referredByEmployee);
-			$candidate->set('referrer_consultant_id', $consultant);
-			$candidate->set('referred_on_position', $dto->referredOnPosition);
-			$candidate->set('referred_by_email', $dto->referredByEmail);
+
+		$lockKey = 'cv_import_candidate_' . md5(strtolower(trim($dto->candidateEmail !== '' ? $dto->candidateEmail : $dto->candidateName)));
+		$db = \App\Db\Db::getInstance();
+		$locked = (int) $db->createCommand('SELECT GET_LOCK(:key, 30)', [':key' => $lockKey])->queryScalar();
+		if ($locked !== 1) {
+			throw new \RuntimeException('Could not acquire candidate import lock');
 		}
-		$candidate->save();
-		$candidateId = (int) $candidate->getId();
-		$allowed = self::isFutureContactAllowed($dto->agreeToContact);
-		$expiresAt = date('Y-m-d', strtotime($allowed ? '+3 years' : '+9 months'));
-		if ($allowed) {
-			PrivacyConsentWriter::grant($candidateId, 'application_form', $expiresAt);
-		} else {
-			$candidate = \App\Modules\Base\Models\Record::getInstanceById($candidateId, 'Candidates');
-			$candidate->set('is_future_contact_allowed', 0);
-			$candidate->set('gdpr_max_contact_date', $expiresAt);
-			$candidate->set('mode', 'edit');
+
+		try {
+			$candidateId = null;
+			if ($dto->candidateName !== '' && $dto->candidateTransformedPhone !== '') {
+				$candidateId = self::getCandidateIdByNameAndPhone($dto->candidateName, $dto->candidateTransformedPhone);
+			}
+			if ($candidateId === null && $dto->candidateName !== '' && $dto->candidateEmail !== '') {
+				$candidateId = self::getCandidateIdByNameAndEmail($dto->candidateName, $dto->candidateEmail);
+			}
+			if ($candidateId === null && $dto->candidateEmail !== '') {
+				$candidateId = self::getCandidateIdByEmail($dto->candidateEmail);
+			}
+			if ($candidateId !== null) {
+				CvImportLogger::log('Candidate already exists (after lock): ' . $dto->candidateName);
+				$candidate = \App\Modules\Candidates\Models\Record::getInstanceById((int) $candidateId, 'Candidates');
+				$candidate->set('gdpr_max_contact_date', date('Y-m-d', strtotime('+3 years')));
+				$candidate->set('application_id', self::candidatesApplicationId($dto->applicationNumber));
+				$candidate->save();
+				return $candidate;
+			}
+
+			CvImportLogger::log('Creating new candidate ' . $dto->candidateName);
+			$candidate = \App\Modules\Base\Models\Record::getCleanInstance('Candidates');
+			$candidate->set('name', $dto->candidateName);
+			$candidate->set('phone', $dto->candidateTransformedPhone);
+			$candidate->set('candidate_status', 'Kandydat');
+			$candidate->set('email_private', $dto->candidateEmail);
+			$candidate->set('application_id', self::candidatesApplicationId($dto->applicationNumber));
+			$candidate->set('application_source', self::getSourceName($dto->sourceId));
+			$candidate->set('application_json_content', $dto->rawJsonData);
+			$candidate->set('is_referred_by_employee', $dto->isReferredByEmployee ? 1 : 0);
+			if ($dto->isReferredByEmployee) {
+				$candidate->set('referred_by_employee', $dto->referredByEmployee);
+				$consultant = self::getConsultantByEmail($dto->referredByEmail)
+					?? self::getConsultantByName($dto->referredByEmployee);
+				$candidate->set('referrer_consultant_id', $consultant);
+				$candidate->set('referred_on_position', $dto->referredOnPosition);
+				$candidate->set('referred_by_email', $dto->referredByEmail);
+			}
 			$candidate->save();
+			$candidateId = (int) $candidate->getId();
+			$allowed = self::isFutureContactAllowed($dto->agreeToContact);
+			$expiresAt = date('Y-m-d', strtotime($allowed ? '+3 years' : '+9 months'));
+			if ($allowed) {
+				PrivacyConsentWriter::grant($candidateId, 'application_form', $expiresAt);
+			} else {
+				$candidate = \App\Modules\Base\Models\Record::getInstanceById($candidateId, 'Candidates');
+				$candidate->set('is_future_contact_allowed', 0);
+				$candidate->set('gdpr_max_contact_date', $expiresAt);
+				$candidate->set('mode', 'edit');
+				$candidate->save();
+			}
+			return \App\Modules\Candidates\Models\Record::getInstanceById($candidateId, 'Candidates');
+		} finally {
+			$db->createCommand('SELECT RELEASE_LOCK(:key)', [':key' => $lockKey])->execute();
 		}
-		return \App\Modules\Candidates\Models\Record::getInstanceById($candidateId, 'Candidates');
 	}
 
 	private static function isFutureContactAllowed(string $value): bool

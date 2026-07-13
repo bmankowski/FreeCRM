@@ -15,14 +15,25 @@ final class CvImportLock
 	/** @var resource|null */
 	private $handle = null;
 
-	public function acquire(): bool
+	public function acquire(int $waitSeconds = 300): bool
 	{
 		CvFilePaths::ensureDirectories();
 		$this->handle = fopen(CvFilePaths::lockFile(), 'c+');
 		if ($this->handle === false) {
 			return false;
 		}
-		return flock($this->handle, LOCK_EX | LOCK_NB);
+		$deadline = time() + max(0, $waitSeconds);
+		do {
+			if (flock($this->handle, LOCK_EX | LOCK_NB)) {
+				return true;
+			}
+			if ($waitSeconds <= 0) {
+				return false;
+			}
+			sleep(1);
+		} while (time() < $deadline);
+
+		return false;
 	}
 
 	public function release(): void

@@ -61,8 +61,7 @@ services:
       FREECRM_SITE_URL: "https://dev.itconnect.pl/"
       FREECRM_FORCE_SSL: "1"
       YII_DEBUG: "0"
-      # DEV ONLY: rsync CV backups from 10.0.0.220 (scripts/dev/sync-cv-from-prod.sh)
-      FREECRM_DEV_CV_SYNC: "1"
+      CV_IMPORT_CONFIG: /var/www/html/docker/cv-sync/cv-import.from-prod-backup.conf
     volumes:
       - ./:/var/www/html
       - ./import:/var/www/import

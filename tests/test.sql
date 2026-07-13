@@ -191,3 +191,28 @@ SELECT * FROM u_yf_emailtemplates order by emailtemplatesid desc;
 
 
 select * from vtiger_field ;
+
+-- Aplikacje rekrutacyjne + powiązany kandydat (RecruitmentApplication)
+SELECT
+    ra.recruitmentapplicationid,
+    ra.application_number,
+    cf.candidate_name,
+    cf.candidate_email,
+    cf.candidate_id,
+    c.name              AS candidate_record_name,
+    c.application_id    AS candidate_application_id,
+    e_ra.createdtime    AS application_created,
+    e_ra.deleted        AS application_deleted,
+    e_c.deleted         AS candidate_deleted
+FROM vtiger_recruitmentapplication ra
+INNER JOIN vtiger_crmentity e_ra
+    ON e_ra.crmid = ra.recruitmentapplicationid
+LEFT JOIN vtiger_recruitmentapplicationcf cf
+    ON cf.recruitmentapplicationid = ra.recruitmentapplicationid
+LEFT JOIN u_yf_candidates c
+    ON c.candidatesid = cf.candidate_id
+LEFT JOIN vtiger_crmentity e_c
+    ON e_c.crmid = c.candidatesid
+WHERE cf.candidate_name LIKE '%Klonowski%'
+   OR ra.application_number = '1782901316'
+ORDER BY e_ra.deleted, e_ra.createdtime DESC, ra.recruitmentapplicationid;
