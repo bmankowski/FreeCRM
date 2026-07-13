@@ -38,7 +38,7 @@
         "FL_REFERRED_BY_EMAIL": "Referrer email",
         "FL_REFERRED_ON_POSITION": "Position (referral)",
         "FL_CV_DOCUMENT": "CV document",
-        "LBL_SCHEDULED_CV_IMPORT": "Scheduled CV application import"
+        "LBL_SCHEDULED_CV_IMPORT_APPLICATIONS": "Scheduled CV application import"
     },
     "jsLanguageStrings": {}
 }

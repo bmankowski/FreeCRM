@@ -28,7 +28,7 @@ final class MigrateCvImportToRecruitmentApplication
 				->exists();
 			if (!$exists) {
 				\vtlib\Cron::registerClassTask(
-					'LBL_SCHEDULED_CV_IMPORT',
+					'LBL_SCHEDULED_CV_IMPORT_APPLICATIONS',
 					$handlerClass,
 					300,
 					'RecruitmentApplication',

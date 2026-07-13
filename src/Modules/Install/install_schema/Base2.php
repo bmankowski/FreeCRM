@@ -3015,7 +3015,7 @@ class Base2 extends \App\Db\Importers\Base
 					[28, 'LBL_NEVER_ENDING_RECURRING_EVENTS', 'App\\Modules\\Events\\Cron\\RecurringEventsTask', NULL, 86400, NULL, NULL, 1, 'Events', 26, NULL],
 					[29, 'LBL_CLEAR_ATTACHMENTS_TABLE', 'App\\Modules\\Cron\\Tasks\\AttachmentsTask', NULL, 86400, NULL, NULL, 1, 'Vtiger', 27, NULL],
 					[30, 'LBL_TMP_TEST_FILE_COPY', 'App\\Modules\\Cron\\Tasks\\TmpTestFileCopyTask', NULL, 60, NULL, NULL, 1, 'Vtiger', 30, 'Test: copies cache/tmp/test/test.txt to test_YYYYMMDD-HHMM.txt'],
-					[33, 'LBL_SCHEDULED_CV_IMPORT', 'App\\Modules\\RecruitmentApplication\\Cron\\CvImportTask', NULL, 300, NULL, NULL, 1, 'RecruitmentApplication', 27, 'Import CV applications from import/cv/pending'],
+					[33, 'LBL_SCHEDULED_CV_IMPORT_APPLICATIONS', 'App\\Modules\\RecruitmentApplication\\Cron\\CvImportTask', NULL, 300, NULL, NULL, 1, 'RecruitmentApplication', 27, 'Import CV applications from import/cv/pending'],
 					[34, 'LBL_LINK_ACTION_IMPORT', 'App\\Modules\\LinkAction\\Cron\\ImportTask', NULL, 300, NULL, NULL, 1, 'LinkAction', 28, 'Pull and import signed link actions from www queue'],
 				]
 			],

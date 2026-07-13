@@ -46,7 +46,7 @@ Prefer `-u www-data` for manual cache writes, or let entrypoint create runtime d
 
 ## CV application file sync (Cyberfolks → prod → dev/test)
 
-**Two jobs on dev/test** — do not conflate: (1) **file sync** = shell script below; (2) **CRM import** = `vtigercron.php` task `LBL_SCHEDULED_CV_IMPORT` (300 s, `RecruitmentApplicationImporter`, log `cache/logs/cron.log`).
+**Two jobs on dev/test** — do not conflate: (1) **file sync** = shell script below; (2) **CRM import** = `vtigercron.php` task `LBL_SCHEDULED_CV_IMPORT_APPLICATIONS` (300 s, `RecruitmentApplicationImporter`, log `cache/logs/cron.log`).
 
 Pipeline: **Cyberfolks** `uploads/cv/` → **prod** `import/cv/{pending,backup}` → **dev/test** `import/cv/pending` → CRM import.
 
@@ -58,7 +58,7 @@ Pipeline: **Cyberfolks** `uploads/cv/` → **prod** `import/cv/{pending,backup}`
 - **Dev / test:** `SOURCE=prod-backup` rsyncs `10.0.0.220:…/backup/` → local `pending/` (no delete on prod). Incremental filter uses **local** `import/cv/.last_sync` mtime as epoch (`find -newermt` on prod — do not pass the local path to remote `find -newer`). Log: `cache/logs/cv-sync.log`. Needs `~/.ssh` → prod + `docker/dev/ssh/known_hosts`. **`docker compose up -d cron`** after cv-sync / compose changes.
 - **Manual sync:** pass config — bare exec has no `CV_IMPORT_CONFIG` from compose:
   `docker compose exec -T cron env HOME=/root CV_IMPORT_CONFIG=/var/www/html/docker/cv-sync/cv-import.from-prod-backup.conf /var/www/html/scripts/cv-sync/importCandidatesFiles.sh`
-- **Manual CRM import:** `docker compose exec -T cron php cron/vtigercron.php service=LBL_SCHEDULED_CV_IMPORT` (log: `cache/logs/cron.log`).
+- **Manual CRM import:** `docker compose exec -T cron php cron/vtigercron.php service=LBL_SCHEDULED_CV_IMPORT_APPLICATIONS` (log: `cache/logs/cron.log`).
 - **Full dev cycle:** manual sync (above) → CRM import (above). CRM reads `import/cv/pending/*.json` only (`CvFilePaths` under repo root = same `./import/cv` tree).
 - **Re-import after cleanup:** successful import **deletes** JSON from `pending`; sync skips files already in `pending`/`processed`/`failed`. To pull again: backdate/remove `import/cv/.last_sync` (root: `docker compose exec -T -u root cron touch …`) then sync, or re-queue matching JSON+CV from `import/cv/backup/`. Stop overlapping cron imports when debugging duplicates (`CvImportLock` on `import/cv/.import.lock`).
 - **Botched import batch cleanup (dev):** `scripts/cleanup-candidates-created-on-date.php` — soft-deletes Candidates (+ optional `--with-applications`) for `--date=YYYY-MM-DD`, then **purges entire recycle bin** via `RecycleBin::emptyRecycleBin()` (default). `--skip-empty-recycle-bin` to keep trash. Example:

@@ -2,7 +2,7 @@
 
 > **Purpose:** store a single candidate application submitted via the itconnect.pl website (job apply form, leave-CV form, employee referral). One record = one submission; links optionally to `Kandydaci`, `ProjektyRekrutacyjne`, and `Documents`.
 >
-> **Status (2026-05):** CV JSON import runs via `RecruitmentApplicationImporter` and cron task `LBL_SCHEDULED_CV_IMPORT` (`App\Modules\RecruitmentApplication\Cron\CvImportTask`). Pending files: `import/cv/pending/`; duplicate `application_number` deletes pending files; success moves to `processed/`; errors to `failed/`.
+> **Status (2026-05):** CV JSON import runs via `RecruitmentApplicationImporter` and cron task `LBL_SCHEDULED_CV_IMPORT_APPLICATIONS` (`App\Modules\RecruitmentApplication\Cron\CvImportTask`). Pending files: `import/cv/pending/`; duplicate `application_number` deletes pending files; success moves to `processed/`; errors to `failed/`.
 
 ---
 
@@ -195,13 +195,13 @@ Related lists for `RecruitmentApplication` are not configured yet (`vtiger_relat
 
 | Item | Value |
 |------|-------|
-| Cron service | `LBL_SCHEDULED_CV_IMPORT` |
+| Cron service | `LBL_SCHEDULED_CV_IMPORT_APPLICATIONS` |
 | Handler | `App\Modules\RecruitmentApplication\Cron\CvImportTask` |
 | Importer | `RecruitmentApplicationImporter::importPending()` |
 | Manual trigger | Kandydaci list → import candidates (same importer) |
 
 ```bash
-docker compose exec -T app php cron/vtigercron.php service=LBL_SCHEDULED_CV_IMPORT
+docker compose exec -T app php cron/vtigercron.php service=LBL_SCHEDULED_CV_IMPORT_APPLICATIONS
 ```
 
 **Backfill** (idempotent, from existing `Kandydaci.application_id`):
