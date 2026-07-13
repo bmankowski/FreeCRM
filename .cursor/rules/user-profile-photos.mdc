@@ -1,5 +1,5 @@
 ---
-description: "User profile photos (avatars) — storage, upload, URLs, sidecars, FK pitfalls; read when touching Users photo or avatar display"
+description: "User profile photos (avatars) — storage, upload, URLs, sidecars; read when touching Users photo or avatar display"
 globs:
   - "src/Modules/Users/**"
   - "layouts/basic/modules/Users/**"
@@ -19,20 +19,20 @@ User avatars live in `storage/Users/…` and are **not** public — always serve
 
 | Layer | Location |
 |---|---|
-| File row | `s_yf_record_files` — `crm_record_id = vtiger_users.id`, `role = 'image'` |
-| Legacy name | `vtiger_users.imagename` (display name of PNG) |
-| FK | `s_yf_record_files.crm_record_id` → `vtiger_crmentity.crmid` (`fk_record_files_crmid`) |
+| Metadata | `vtiger_users` — `photo_storage_path`, `photo_mime_type`, `photo_size_bytes`, `imagename` (display name) |
 | Disk | `storage/Users/{year}/{month}/week{n}/{userId}_{time}_{name}.png` (legacy prod blobs may use `{attachmentsid}_` prefix) |
-| Sidecar | `{storage_path}.base64` — data-URI for mail/PDF (`getUserPhotoImgHtmlForGenerator()`) |
+| Sidecar | `{photo_storage_path}.base64` — data-URI for mail/PDF (`getUserPhotoImgHtmlForGenerator()`) |
 
-**Users module does not auto-create `vtiger_crmentity` rows.** Upload/insert into `s_yf_record_files` fails without `crmid = user id`, `setype = 'Users'`. Symptom: orphan blob in `storage/Users/` and/or empty `storage/Users/tmpfile{id}.tmp`, default icon in UI.
+**User avatars are not stored in `s_yf_record_files`.** That table is for CRM entity record images (Contacts, HelpDesk, Products, …) and FKs to `vtiger_crmentity`. Users are not CRM entities — do not backfill `vtiger_crmentity` for photo uploads.
+
+Migration: `m260710_000005_users_photo_storage_columns.php` (columns + move off `s_yf_record_files`).
 
 ## Upload (`Users::uploadAndSaveFile`)
 
 1. Validate image; delete prior avatar (`unlinkUserAvatarFilesForUserId`).
 2. Save to `initStorageFileDirectory('Users')` + `{userId}_{time}_{sanitizedName}`.
 3. Normalize via ImageMagick → **300×300 PNG** (`Users\Models\Record::normalizeUploadedUserPhotoFile`, `USER_PHOTO_SIZE`, `USER_PHOTO_MIME = image/png`).
-4. Insert `s_yf_record_files`; update `vtiger_users.imagename`; write `.base64` sidecar.
+4. Update `vtiger_users` photo columns via `Record::saveUserPhotoMeta()`; write `.base64` sidecar.
 
 Single master PNG — CSS scales (~50px list, ~40px timeline, ~70px header); no separate thumbnail files.
 
@@ -42,6 +42,7 @@ Single master PNG — CSS scales (~50px list, ~40px timeline, ~70px header); no 
 |---|---|
 | Web URL | `Users\Models\Record::getImageWebUrl()` → `file.php?module=Users&action=Image&record={id}` or default icon |
 | Disk path (PHP only) | `getImageRelativePath()` |
+| Read metadata | `Record::getUserPhotoMeta($userId)` |
 | Resolve absolute | `RecordFile::resolveAbsolutePath($relativePath)` |
 | Serve handler | `src/Modules/Users/Files/Image.php` |
 | uitype 69 / comments / timeline | `$USER_MODEL->getImageWebUrl()` (ModComments delegates to commentor user) |
@@ -61,18 +62,15 @@ Sidecar must hold **PNG/jpeg/gif** data URI (not WebP). Built by `writeUserPhoto
 ## Diagnose & repair
 
 ```sql
-SELECT u.id, u.user_name, u.imagename, rf.storage_path
-FROM vtiger_users u
-LEFT JOIN s_yf_record_files rf ON rf.crm_record_id = u.id AND rf.role = 'image'
-WHERE u.id = ?;
+SELECT id, user_name, imagename, photo_storage_path, photo_mime_type, photo_size_bytes
+FROM vtiger_users
+WHERE id = ?;
 ```
 
-Missing `rf` but file on disk under `storage/Users/`:
+Missing `photo_storage_path` but file on disk under `storage/Users/`:
 
-1. `INSERT vtiger_crmentity` (`crmid = id`, `setype = 'Users'`, `smownerid = id`, timestamps) if absent.
-2. `INSERT s_yf_record_files` (`role='image'`, `storage_path`, `original_name`, `mime_type='image/png'`, `size_bytes`).
-3. `UPDATE vtiger_users SET imagename = …`.
-4. Regenerate sidecar if needed: `Record::writeUserPhotoBase64SidecarForRelativeImage($relativePath, 'image/png')`.
+1. `UPDATE vtiger_users` with `photo_storage_path`, `imagename`, `photo_mime_type='image/png'`, `photo_size_bytes`.
+2. Regenerate sidecar if needed: `Record::writeUserPhotoBase64SidecarForRelativeImage($relativePath, 'image/png')`.
 
 Verify: `Record::getInstanceById($id, 'Users')->getImageRelativePath()` non-null; `RecordFile::resolveAbsolutePath()` readable.
 

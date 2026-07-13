@@ -434,16 +434,13 @@ class Users extends \App\Core\CRMEntity
 			return false;
 		}
 		$relativeDest = str_replace(ROOT_DIRECTORY . DIRECTORY_SEPARATOR, '', str_replace('\\', '/', $normalized['absolutePath']));
-		$db = \App\Db\Db::getInstance();
-		$db->createCommand()->insert('s_yf_record_files', [
-			'crm_record_id' => $userId,
-			'role' => \App\Models\RecordFile::ROLE_IMAGE,
-			'storage_path' => $relativeDest,
-			'original_name' => $normalized['displayName'],
-			'mime_type' => $normalized['mimeType'],
-			'size_bytes' => (int) @filesize($normalized['absolutePath']),
-		])->execute();
-		$db->createCommand()->update('vtiger_users', ['imagename' => $normalized['displayName']], ['id' => $userId])->execute();
+		\App\Modules\Users\Models\Record::saveUserPhotoMeta(
+			$userId,
+			$relativeDest,
+			$normalized['displayName'],
+			$normalized['mimeType'],
+			(int) @filesize($normalized['absolutePath'])
+		);
 		\App\Modules\Users\Models\Record::writeUserPhotoBase64SidecarForRelativeImage($relativeDest, $normalized['mimeType']);
 		\App\Log\Log::trace("Exiting from uploadAndSaveFile($id,$module,$fileDetails) method.");
 		return true;

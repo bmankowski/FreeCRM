@@ -1,0 +1,87 @@
+---
+description: "CV skills boolean search — parser, SQL compiler, kanban/popup UI; read when editing CvSkillsSearch, cv_skills query, or kanban candidate pick modals"
+globs:
+  - "src/Modules/Candidates/Services/CvSkillsSearch.php"
+  - "src/Modules/Candidates/Services/CvSkillsExpressionParser.php"
+  - "src/Modules/Candidates/Services/CvSkillsQueryCompiler.php"
+  - "src/Modules/Candidates/Exceptions/InvalidCvSkillsExpressionException.php"
+  - "src/Modules/Candidates/Views/CvTextPreview.php"
+  - "src/Modules/Candidates/Views/Popup.php"
+  - "src/Modules/Candidates/Models/ListView.php"
+  - "src/Modules/ProjektyRekrutacyjne/Services/KanbanCandidatePicker.php"
+  - "src/Modules/ProjektyRekrutacyjne/Actions/KanbanPickCandidatesAjax.php"
+  - "layouts/basic/modules/ProjektyRekrutacyjne/partials/KanbanCvSkillsQueryField.tpl"
+  - "layouts/basic/modules/ProjektyRekrutacyjne/Modals/KanbanSearchCandidatesModal.tpl"
+  - "layouts/basic/modules/ProjektyRekrutacyjne/Modals/KanbanPickCandidatesModal.tpl"
+  - "public/modules/ProjektyRekrutacyjne/resources/KanbanSearchCandidatesModal.js"
+  - "public/modules/ProjektyRekrutacyjne/resources/KanbanPickCandidatesModal.js"
+  - "public/modules/ProjektyRekrutacyjne/resources/KanbanPickCandidatesModal.css"
+  - "tests/cv_skills_expression_test.php"
+  - "languages/*/ProjektyRekrutacyjne.json"
+---
+
+# CV skills boolean search
+
+Kanban manual-add (+) and Candidates popup filter candidates by **`cv_text`** (`u_yf_candidatescf`) using a boolean expression. Kanban flow context: `recruitment-project-candidates.mdc`.
+
+## Syntax (user input)
+
+- Operators: `AND`, `OR` (case-insensitive). Precedence: **AND > OR** (`A OR B AND C` → `A OR (B AND C)`).
+- Grouping: `( … )`. Multi-word terms: `"Spring Boot"` or `'Spring Boot'`.
+- Examples: `Java AND Spring`, `Java AND (Spring OR Kotlin)`, `(Java OR Kotlin) AND (Spring OR SQL)`.
+- **No** legacy semicolon-separated mode. Invalid syntax → visible error (no silent fallback).
+
+## Architecture (composition)
+
+| Class | Role |
+|-------|------|
+| `CvSkillsSearch` | Facade: join CF table, delegate parse+compile, word-match helpers, `applyToRequest` / pending filter |
+| `CvSkillsExpressionParser` | Tokenizer + recursive descent → AST. **AST node classes in same file** (PSR-4) |
+| `CvSkillsQueryCompiler` | AST → Yii2 condition / `Expression` |
+| `InvalidCvSkillsExpressionException` | Domain error; `getMessageKey()` → `LBL_KANBAN_CV_SKILLS_INVALID` |
+
+```
+cv_skills string → Parser::parse() → AST → QueryCompiler::compile() → QueryGenerator::addNativeCondition()
+                                      └→ collectTerms() → CvTextPreview highlight
+```
+
+## SQL generation
+
+- **Join:** `ensureCvTextTableJoined()` before any `cv_text` condition — else „Unknown column …cv_text”.
+- **FULLTEXT** (term ≥3 chars, index `u_yf_candidatescf_cv_text_ft`, migration `m260702_000002`): single `MATCH … AGAINST(… IN BOOLEAN MODE)` when entire subtree is fulltext-eligible; OR groups as `+(a b)`, AND as `+a +b`.
+- **REGEXP** fallback (`[[:<:]]…[[:>:]]`) for short terms or mixed subtrees → nested `['and'|'or', …]`.
+- **Performance:** FULLTEXT fast-path ~30 ms on ~22k rows; REGEXP-only on full table ~5 s — avoid OR branches with many short tokens.
+
+## Entry points
+
+| Path | Wiring |
+|------|--------|
+| Kanban pick | `KanbanCandidatePicker::createListViewModel()` → `applyWordMatchToQueryGenerator()` |
+| Kanban AJAX | `KanbanPickCandidatesAjax` — catch `InvalidCvSkillsExpressionException` → `invalidExpression: true` |
+| Candidates popup | `Popup::applyCvSkillsFilter()` validates; `applyToRequest()` → `ListView::consumePendingWordMatch()` |
+| CV preview iframe | `CvTextPreview` — `collectTermsForHighlight()` + `buildWordMatchPcrePattern()`; bad syntax → no highlights, preview still loads |
+
+## UI
+
+- Shared partial: `layouts/basic/modules/ProjektyRekrutacyjne/partials/KanbanCvSkillsQueryField.tpl` (included by both kanban modals).
+- Syntax hint **only** in textarea placeholder: `LBL_KANBAN_CV_SKILLS_PLACEHOLDER` (no panel, no help-block).
+- Pick modal: invalid expression → `.js-kanban-cv-skills-error` (Bootstrap `alert-danger`); JS in `KanbanPickCandidatesModal.js`.
+- Minify after edit: `KanbanPickCandidatesModal.js`, `KanbanSearchCandidatesModal.js`, `KanbanPickCandidatesModal.css`.
+
+## i18n
+
+`languages/*/ProjektyRekrutacyjne.json`: `LBL_KANBAN_CV_SKILLS`, `LBL_KANBAN_CV_SKILLS_PLACEHOLDER`, `LBL_KANBAN_CV_SKILLS_REQUIRED`, `LBL_KANBAN_CV_SKILLS_INVALID` (also in `jsLanguageStrings` for JS toasts/alerts).
+
+## Tests
+
+```bash
+docker compose exec -T app php tests/cv_skills_expression_test.php
+```
+
+Covers parser (precedence, quotes, errors), compiler shape (FULLTEXT vs REGEXP vs nested `or`), `collectTermsForHighlight`.
+
+## Do not regress
+
+- Word-boundary matching: FULLTEXT tokens + REGEXP `[[:<:]]` / PCRE `(?<![[:alnum:]])…(?![[:alnum:]])` — `spring` ≠ `springer`.
+- Highlight all **leaf** terms regardless of AND/OR logic.
+- Popup invalid expression: no HTTP 500 (`ListView` catch → `1=0` if parse slips through).

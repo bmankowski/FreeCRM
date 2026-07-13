@@ -676,16 +676,16 @@ class Record extends \App\Modules\Base\Models\Record
 		if ($recordId <= 0) {
 			return [];
 		}
-		$row = \App\Models\RecordFile::getByRecord($recordId, \App\Models\RecordFile::ROLE_IMAGE);
-		if (!$row) {
+		$meta = self::getUserPhotoMeta($recordId);
+		if ($meta === null) {
 			return [];
 		}
-		$imageOriginalName = \App\Utils\ListViewUtils::decodeHtml((string) ($row['original_name'] ?? ''));
+		$imageOriginalName = \App\Utils\ListViewUtils::decodeHtml($meta['original_name']);
 
 		return [[
-			'id' => (int) ($row['id'] ?? 0),
+			'id' => $recordId,
 			'orgname' => $imageOriginalName,
-			'path' => (string) ($row['storage_path'] ?? ''),
+			'path' => $meta['storage_path'],
 			'name' => $imageOriginalName,
 			'url' => 'file.php?module=Users&action=Image&record=' . $recordId,
 		]];
@@ -707,12 +707,66 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public function getImageRelativePath(): ?string
 	{
-		$image = $this->getImageDetails();
-		$image = reset($image);
-		if (empty($image['path'])) {
+		$meta = self::getUserPhotoMeta((int) $this->getId());
+		if ($meta === null) {
 			return null;
 		}
-		return (string) $image['path'];
+		return $meta['storage_path'];
+	}
+
+	/**
+	 * @return array{storage_path: string, original_name: string, mime_type: string, size_bytes: int}|null
+	 */
+	public static function getUserPhotoMeta(int $userId): ?array
+	{
+		if ($userId <= 0) {
+			return null;
+		}
+		$row = (new \App\Db\Query())
+			->select(['photo_storage_path', 'imagename', 'photo_mime_type', 'photo_size_bytes'])
+			->from('vtiger_users')
+			->where(['id' => $userId])
+			->one();
+		if (!$row || ($row['photo_storage_path'] ?? '') === '') {
+			return null;
+		}
+		$storagePath = (string) $row['photo_storage_path'];
+		$originalName = (string) ($row['imagename'] ?? '');
+		if ($originalName === '') {
+			$originalName = basename($storagePath);
+		}
+
+		return [
+			'storage_path' => $storagePath,
+			'original_name' => $originalName,
+			'mime_type' => (string) ($row['photo_mime_type'] ?? self::USER_PHOTO_MIME),
+			'size_bytes' => (int) ($row['photo_size_bytes'] ?? 0),
+		];
+	}
+
+	public static function saveUserPhotoMeta(
+		int $userId,
+		string $relativePath,
+		string $displayName,
+		string $mimeType,
+		int $sizeBytes
+	): void {
+		\App\Db\Db::getInstance()->createCommand()->update('vtiger_users', [
+			'photo_storage_path' => $relativePath,
+			'photo_mime_type' => $mimeType,
+			'photo_size_bytes' => $sizeBytes,
+			'imagename' => $displayName,
+		], ['id' => $userId])->execute();
+	}
+
+	public static function clearUserPhotoMeta(int $userId): void
+	{
+		\App\Db\Db::getInstance()->createCommand()->update('vtiger_users', [
+			'photo_storage_path' => null,
+			'photo_mime_type' => null,
+			'photo_size_bytes' => 0,
+			'imagename' => '',
+		], ['id' => $userId])->execute();
 	}
 
 	public const USER_PHOTO_SIZE = 300;
@@ -797,11 +851,11 @@ class Record extends \App\Modules\Base\Models\Record
 
 	public static function unlinkUserAvatarFilesForUserId(int $userId): void
 	{
-		$rows = \App\Models\RecordFile::listByRecord($userId, \App\Models\RecordFile::ROLE_IMAGE);
-		foreach ($rows as $row) {
-			self::unlinkUserPhotoAndSidecarByRelativePath((string) ($row['storage_path'] ?? ''));
+		$meta = self::getUserPhotoMeta($userId);
+		if ($meta !== null) {
+			self::unlinkUserPhotoAndSidecarByRelativePath($meta['storage_path']);
 		}
-		\App\Models\RecordFile::deleteByRecord($userId, \App\Models\RecordFile::ROLE_IMAGE);
+		self::clearUserPhotoMeta($userId);
 	}
 
 	public static function writeUserPhotoBase64SidecarForRelativeImage(string $relativeImagePath, string $mimeType = ''): bool
@@ -845,19 +899,12 @@ class Record extends \App\Modules\Base\Models\Record
 
 	private static function updateUserPhotoAttachmentAfterPngConversion(string $oldRelativePath, string $newRelativePath): void
 	{
-		$row = (new \App\Db\Query())
-			->from('s_yf_record_files')
-			->where(['storage_path' => $oldRelativePath, 'role' => \App\Models\RecordFile::ROLE_IMAGE])
-			->one();
-		if (!$row) {
-			return;
-		}
 		$newOrgName = basename($newRelativePath);
-		\App\Db\Db::getInstance()->createCommand()->update('s_yf_record_files', [
-			'storage_path' => $newRelativePath,
-			'original_name' => $newOrgName,
-			'mime_type' => self::USER_PHOTO_MIME,
-		], ['id' => (int) $row['id']])->execute();
+		\App\Db\Db::getInstance()->createCommand()->update('vtiger_users', [
+			'photo_storage_path' => $newRelativePath,
+			'imagename' => $newOrgName,
+			'photo_mime_type' => self::USER_PHOTO_MIME,
+		], ['photo_storage_path' => $oldRelativePath])->execute();
 	}
 
 	/**
@@ -929,15 +976,14 @@ class Record extends \App\Modules\Base\Models\Record
 	 */
 	public function deleteImage($imageId)
 	{
-		$row = (new \App\Db\Query())
-			->from('s_yf_record_files')
-			->where(['id' => (int) $imageId, 'crm_record_id' => (int) $this->getId(), 'role' => \App\Models\RecordFile::ROLE_IMAGE])
-			->one();
-		if (!$row) {
+		$userId = (int) $this->getId();
+		if ($userId <= 0 || self::getUserPhotoMeta($userId) === null) {
 			return false;
 		}
-		self::unlinkUserPhotoAndSidecarByRelativePath((string) ($row['storage_path'] ?? ''));
-		\App\Db\Db::getInstance()->createCommand()->delete('s_yf_record_files', ['id' => (int) $imageId])->execute();
+		if ($imageId !== null && $imageId !== '' && (int) $imageId !== $userId) {
+			return false;
+		}
+		self::unlinkUserAvatarFilesForUserId($userId);
 
 		return true;
 	}
@@ -1108,6 +1154,7 @@ class Record extends \App\Modules\Base\Models\Record
 	public static function deleteUserPermanently($userId, $newOwnerId)
 	{
 		$db = \App\Db\Db::getInstance();
+		self::unlinkUserAvatarFilesForUserId((int) $userId);
 		$db->createCommand()->update('vtiger_crmentity', ['smcreatorid' => $newOwnerId, 'smownerid' => $newOwnerId], ['smcreatorid' => $userId, 'setype' => 'ModComments'])->execute();
 		//update history details in vtiger_modtracker_basic
 		$db->createCommand()->update('vtiger_modtracker_basic', ['whodid' => $newOwnerId], ['whodid' => $userId])->execute();

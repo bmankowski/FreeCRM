@@ -27,6 +27,8 @@ Rebuilt 2026-06 (`documentation/cr-documents-storage-rebuild.md`). **No legacy f
 | **Documents module** (file or external URL) | `vtiger_notes` | `storage_path`, `location_type` (`internal` \| `external`), `original_name`, `mime_type`, `size_bytes`, `active`, `download_count`, `external_url` |
 | **Record images / non-Document attachments** (Contacts, Products, HelpDesk screenshot, mail template upload, etc.) | `s_yf_record_files` | `crm_record_id`, `role` (`image` \| `attachment`), `storage_path`, `original_name`, `mime_type`, `size_bytes` |
 
+User avatars are **not** in `s_yf_record_files` — see `user-profile-photos.mdc` (`vtiger_users.photo_storage_path`).
+
 Record ↔ Document **links**: `vtiger_senotesrel`. UI: `vtiger_relatedlists.name = getAttachments` → `Relation::getAttachments()` (join `senotesrel`). **Exception:** EmailTemplates uses `getManyToMany` + `u_yf_documents_emailtemplates` (not `senotesrel`).
 
 Restored by `m260613_000006` on entity modules (incl. **Candidates**, ProjektyRekrutacyjne, HelpDesk, Accounts, Leads, Contacts, …). Do not delete `getAttachments` rows when touching metadata migrations.
@@ -74,6 +76,7 @@ Documents uitype 28 columns renamed to match DB: `original_name`, `location_type
 5. `m260613_000006_restore_documents_senotesrel_relatedlists.php` — `getAttachments` related lists on entity modules
 6. `m260615_000001_documents_storage_path_id_only.php` — normalize DB `storage_path` to id-only
 7. `m260615_000002_documents_missing_field_metadata.php` — register `storage_path` / `external_url` in `vtiger_field`
+8. `m260710_000005_users_photo_storage_columns.php` — user avatars off `s_yf_record_files` → `vtiger_users.photo_*`
 
 Post-migrate: `bin/regenerate_user_privileges.php`; clear `cache/templates_c/*.php`.
 
@@ -82,7 +85,7 @@ Post-migrate: `bin/regenerate_user_privileges.php`; clear `cache/templates_c/*.p
 - **Missing `vtiger_field` for `storage_path`:** DB row has a path, `getInstanceById` returns `storage_path = NULL`, `DownloadFile` exits with empty body. Verify with `Record::getInstanceById($id, 'Documents')->get('storage_path')`.
 - **Internal doc without blob:** `location_type='internal'`, `active=1`, `storage_path IS NULL` → deactivate (`active=0`); mail/template send skips via `realpath` failure.
 - **Migration collation:** `s_yf_record_files` uses `utf8` (not `utf8mb4`) to match legacy `vtiger_*` string compares; cross-table `NOT EXISTS` may need `CONVERT(... USING utf8)`.
-- **User profile photos:** separate rule — `user-profile-photos.mdc` (FK, upload, URLs, orphan repair).
+- **User profile photos:** not in `s_yf_record_files` — `user-profile-photos.mdc` (`vtiger_users.photo_storage_path`). Upload FK errors on `fk_record_files_crmid` for Users = wrong table; fix is user-photo migration/code, not `vtiger_crmentity`.
 - **Products multi-image:** `saveUploadedFile(..., $replace = false)` appends rows; single-image modules use `$replace = true`.
 - **Related list filename download:** `Documents.php` `$relationFields` omits `storage_path` — related-list rows never load it. `DocumentsFileUpload::getDisplayValue` must **not** gate the download `<a>` on `storage_path`; match `DetailView` (`active` + `original_name` + `location_type=internal`). `DownloadFile` loads the full record server-side. **Title** (`notes_title`, name field) still links to detail; **File Name** (`original_name`, uitype 28) is the download link in `RelatedListContents.tpl`.
 

@@ -75,7 +75,7 @@ For namespace conventions, see `php-namespaces.mdc`.
 
 ## Documents & record files
 
-Documents module files live on `vtiger_notes` (`storage_path`, `location_type`, …). Other module images/attachments use `s_yf_record_files` via `App\Models\RecordFile`. Full contract: `documents-storage.mdc`. User avatars: `user-profile-photos.mdc`.
+Documents module files live on `vtiger_notes` (`storage_path`, `location_type`, …). CRM entity images/attachments use `s_yf_record_files` via `App\Models\RecordFile`. Full contract: `documents-storage.mdc`. User avatars (`vtiger_users.photo_*`): `user-profile-photos.mdc`.
 
 HelpDesk ticket roles (`developer_id`, `business_id`, workflow Zrobione/Odbieram): `helpdesk-ticket-roles.mdc`.
 
