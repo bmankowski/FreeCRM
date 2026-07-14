@@ -27,7 +27,7 @@ $CONFIG = [
 	'MAIL_FILTER_SEND_ONLY_TO_DOMAIN' => $mailNonProdHost ? 'itconnect.pl' : '',
 	'MAIL_AUDIT_LOG_ENABLED' => false,
 	'AUDIT_LOG_RETENTION_DAYS' => 365,
-	'DELAYED_EMAIL_BUFFER_ENABLED' => false,
+	'DELAYED_EMAIL_BUFFER_ENABLED' => true,
 	'DELAYED_EMAIL_DEFAULT_MINUTES' => 120,
 
 	// Org-wide defaults for new personal mail accounts (hosts/ports only; username/password/from_name are per user).
