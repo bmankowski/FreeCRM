@@ -194,16 +194,7 @@ select * from vtiger_field ;
 
 
 SELECT
-    cv.cvid,
-    cv.viewname,
-    cv.entitytype AS module,
-    cv.userid,
-    cv.status AS cv_status,
-    cv.setdefault,
-    cv.featured,
-    cv.sequence,
-    cv.sort,
-    cv.description
+   *
 FROM vtiger_customview cv where cv.entitytype = "Candidates";
 
 

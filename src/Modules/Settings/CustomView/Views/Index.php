@@ -26,7 +26,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		$moduleName = $request->getModule();
 		$supportedModuleId = $request->get('sourceModule');
 		$qualifiedModuleName = $request->getModule(false);
-		$moduleModel = \App\Modules\Settings\LangManagement\Models\Module::getInstance($qualifiedModuleName);
+		$moduleModel = \App\Modules\Settings\CustomView\Models\Module::getInstance($qualifiedModuleName);
 		$viewer = $this->getViewer($request);
 		$viewer->assign('SOURCE_MODULE_ID', $supportedModuleId);
 		$viewer->assign('MODULE_MODEL', $moduleModel);
@@ -42,8 +42,7 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 		}
 		
 		if ($request->isAjax()) {
-			// AJAX request - return content only
-			$viewer->view('IndexContent.tpl', $qualifiedModuleName);
+			$viewer->view('IndexContents.tpl', $qualifiedModuleName);
 		} else {
 			// Initial page load - return full page with MainLayout
 			$viewer->view('Index.tpl', $qualifiedModuleName);
@@ -79,7 +78,10 @@ class Index extends \App\Modules\Settings\Base\Views\Index
 	{
 		$headerScriptInstances = parent::getFooterScripts($request);
 
+		$moduleName = $request->getModule();
+
 		return array_merge($headerScriptInstances, $this->checkAndConvertJsScripts([
+			"modules.Settings.$moduleName.resources.Index",
 			'modules.CustomView.resources.CustomView',
 		]));
 	}
