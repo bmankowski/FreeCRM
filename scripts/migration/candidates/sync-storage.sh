@@ -7,9 +7,11 @@ cd "$ROOT_DIR"
 REMOTE_HOST="${REMOTE_HOST:-10.0.0.220}"
 REMOTE_WEB_ROOT="${REMOTE_WEB_ROOT:-/var/www/yetiforce}"
 
-echo "[storage] rsync ${REMOTE_HOST}:${REMOTE_WEB_ROOT}/storage/ -> ./storage/"
+echo "[storage] rsync ${REMOTE_HOST}:${REMOTE_WEB_ROOT}/storage/ -> ./storage/ (Users/ excluded)"
+# User avatars live only on FreeCRM (test/local); prod YetiForce storage/Users/ is empty.
+# Excluding Users/ prevents --delete from wiping local profile photos.
 # On some hosts (e.g. WSL2/Windows mounts), setting mtime/ownership/perms can fail with EPERM.
 # We only need file contents for FreeCRM to serve attachments correctly.
-rsync -rltD --delete --no-perms --no-owner --no-group --omit-dir-times --no-times -e ssh "${REMOTE_HOST}:${REMOTE_WEB_ROOT}/storage/" "$ROOT_DIR/storage/"
+rsync -rltD --delete --exclude='Users/' --no-perms --no-owner --no-group --omit-dir-times --no-times -e ssh "${REMOTE_HOST}:${REMOTE_WEB_ROOT}/storage/" "$ROOT_DIR/storage/"
 echo "[storage] ok"
 
