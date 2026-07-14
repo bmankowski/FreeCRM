@@ -342,7 +342,8 @@ class ScheduleReports extends \App\Runtime\BaseModel
 	{
 		$site_URL = \App\Core\AppConfig::main('site_URL');
 		$currentModule = 'Reports';
-		$logo = \App\Core\Company::getInstanceById()->getLogo()->getImageWebUrl();
+		$logoModel = \App\Core\Company::getInstanceById()->getLogo();
+		$logo = $logoModel ? $logoModel->getImageWebUrl() : '';
 
 		$body = '<table width="700" cellspacing="0" cellpadding="0" border="0" align="center" style="font-family: Arial,Helvetica,sans-serif; font-size: 12px; font-weight: normal; text-decoration: none; ">
 			<tr>

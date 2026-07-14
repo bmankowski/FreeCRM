@@ -912,6 +912,6 @@ Implemented MVP for **delayed, cancellable workflow emails** and a generic **del
 | Mail queue extension | `s_yf_mail_queue.source_module`, `source_id` |
 | Delivery audit | `s_yf_mail_sent_log`, hook in `MailerTask` |
 | Audit cleanup | `CleanupMailAuditLogTask` |
-| Admin UI | `Settings:DelayedEmails` |
+| Admin UI | `DelayedEmails` (menu przy Projekty rekrutacyjne; read-only dla profili z dostępem do ProjektyRekrutacyjne) |
 
 First production caller: relation workflow email tasks (`VTEmailTask` / `VTEmailTemplateTask` on `ON_RELATION_MODIFY`) for recruitment status changes. Feature flags in `config/modules/Mail.php` default to **off** until activation.

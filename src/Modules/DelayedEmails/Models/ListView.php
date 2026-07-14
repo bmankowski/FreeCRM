@@ -10,7 +10,7 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Settings\DelayedEmails\Models;
+namespace App\Modules\DelayedEmails\Models;
 
 class ListView extends \App\Modules\Settings\Base\Models\ListView
 {
@@ -24,12 +24,11 @@ class ListView extends \App\Modules\Settings\Base\Models\ListView
 	public function getListViewEntries($pagingModel)
 	{
 		$moduleModel = $this->getModule();
-		$qualifiedModuleName = 'Settings:DelayedEmails';
-		$recordModelClass = \App\Core\Loader::getComponentClassName('Model', 'Record', $qualifiedModuleName);
+		$recordModelClass = \App\Core\Loader::getComponentClassName('Model', 'Record', $moduleModel->getName());
 		$listQuery = $this->getBasicListQuery();
 
 		$orderBy = $this->getForSql('orderby');
-		if (!empty($orderBy) && $orderBy !== 'recipient') {
+		if (!empty($orderBy) && $orderBy !== 'recipient' && !$moduleModel->isVirtualListField($orderBy)) {
 			if ($this->getForSql('sortorder') === 'DESC') {
 				$listQuery->orderBy([$orderBy => SORT_DESC]);
 			} else {
@@ -56,5 +55,11 @@ class ListView extends \App\Modules\Settings\Base\Models\ListView
 	public function getBasicLinks(): array
 	{
 		return [];
+	}
+
+	public static function getInstance($name = 'DelayedEmails')
+	{
+		$instance = new self();
+		return $instance->setModule($name);
 	}
 }

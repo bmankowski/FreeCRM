@@ -7,7 +7,9 @@
 		<div class="row padding0">
 			<div class="col-md-2 noSpaces">
 				<a class="companyLogoContainer" href="index.php">
-					<img class="img-responsive logo" src="{$COMPANY_LOGO->get('imageUrl')}" title="{$COMPANY_DETAILS->get('name')}" alt="{$COMPANY_LOGO->get('alt')}"/>
+					{if $COMPANY_LOGO}
+						<img class="img-responsive logo" src="{$COMPANY_LOGO->get('imageUrl')}" title="{$COMPANY_DETAILS->get('name')}" alt="{$COMPANY_LOGO->get('alt')}"/>
+					{/if}
 				</a>
 			</div>
 			<div class="col-md-10 userDetails">

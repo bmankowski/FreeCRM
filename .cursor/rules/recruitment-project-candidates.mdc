@@ -30,7 +30,7 @@ globs:
 | Manual (kanban +, related-list Select, `RelationAjax`) | `PPL_MANUALLY_ADDED` via `save_related_module` → `createMembership` |
 | AI (przyszły serwis) | `PPL_AI_ADDED` via `createLink(..., STATUS_AI_ADDED)` |
 
-`cvs_applied_number` counts only `PPL_APPLIED`. New status: add to `RelationTrigger::getRecruitmentStatusOptions()`, `RecruitmentStatusTransition::SUGGESTED_DEFAULTS`, `languages/*/ProjektyRekrutacyjne.json` + `Candidates.json`, kanban tpl if visible; if transition matrix is configured (`u_yf_recruitment_settings.configured=1`), seed pairs via `migrations/Users/` (pattern: `m260605_000001`, `m260710_000003`/`000004`, `m260714_000001`). Bump count in `tests/recruitment_status_transition_smoke.php`.
+`cvs_applied_number` counts only `PPL_APPLIED`. New status: add to `RelationTrigger::getRecruitmentStatusOptions()`, `RecruitmentStatusTransition::SUGGESTED_DEFAULTS`, `languages/*/ProjektyRekrutacyjne.json` + `Candidates.json`, kanban tpl if visible; if transition matrix is configured (`u_yf_recruitment_settings.configured=1`), seed pairs via `migrations/Users/` (pattern: `m260605_000001`, `m260710_000003`/`000004`, `m260714_000001`).
 
 **Status codes (17):** `PPL_MANUALLY_ADDED`, `PPL_AI_ADDED`, `PPL_APPLIED`, `PPL_REJECTED_AFTER_CV`, `PPL_CANDIDATE_PASSED_SCREENING`, `PPL_STAGE_1`–`PPL_STAGE_3`, `PPL_WAITING_FOR_INTERVIEW`, `PPL_HANDED_TO_SALES`, `PPL_TO_BE_SENT_TO_CLIENT`, `PPL_SENT_TO_CLIENT`, `PPL_ACCEPTED`, `PPL_REJECTED_AFTER_VERIFICATION`, `PPL_REJECTED_AFTER_INTERVIEW`, `PPL_OFFER_REJECTED_BY_CANDIDATE`, `PPL_REJECTED_BY_CLIENT`.
 

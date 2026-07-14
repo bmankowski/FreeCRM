@@ -147,8 +147,7 @@ final class CandidateApplicationSideEffects
 			$fileContent = '';
 		}
 
-		$cvContent = trim(preg_replace('/[\x{10000}-\x{10FFFF}]/u', '', $fileContent));
-		$candidate->set('cv_text', $cvContent);
+		$candidate->set('cv_text', \App\Modules\Candidates\Services\CvTextNormalizer::fromExtractedDocument($fileContent));
 	}
 
 	public static function bindCandidateToProject(\App\Modules\Candidates\Models\Record $candidate, CvApplicationDto $dto): void

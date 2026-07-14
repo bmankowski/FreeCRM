@@ -31,7 +31,10 @@
 		<div id="login-area" class="login-area">
 			<div class="login-card">
 				<div class="login-logo">
-					<img title="{$COMPANY_DETAILS->get('name')}" height="{$COMPANY_DETAILS->get('logo_login_height')}px" src="{$COMPANY_DETAILS->getLogo('logo_login')->get('imageUrl')}" alt="{$COMPANY_DETAILS->get('name')}">
+					{assign var="LOGIN_LOGO" value=$COMPANY_DETAILS->getLogo('logo_login')}
+					{if $LOGIN_LOGO}
+						<img title="{$COMPANY_DETAILS->get('name')}" height="{$COMPANY_DETAILS->get('logo_login_height')}px" src="{$LOGIN_LOGO->get('imageUrl')}" alt="{$COMPANY_DETAILS->get('name')}">
+					{/if}
 					{if $CURRENT_VERSION}
 						<p class="login-meta text-muted">Powered by FreeCRM&nbsp;{$CURRENT_VERSION}</p>
 					{/if}

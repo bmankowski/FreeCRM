@@ -26809,7 +26809,7 @@ insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`desc
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (104,8,'LBL_EMAILS_TO_SEND','adminIcon-mail-queue','LBL_EMAILS_TO_SEND_DESCRIPTION','index.php?module=Mail&parent=Settings&view=ListView',22,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (105,8,'LBL_MAIL_SMTP','adminIcon-mail-configuration','LBL_MAILSMTP_TO_SEND_DESCRIPTION','index.php?module=MailSmtp&parent=Settings&view=ListView',23,0,0,NULL);
 insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (106,5,'LBL_WEBSERVICE_USERS','adminIcon-webservice-users','LBL_WEBSERVICE_USERS_DESCRIPTION','index.php?module=WebserviceUsers&view=ListView&parent=Settings',11,0,0,NULL);
-insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (107,8,'LBL_DELAYED_EMAILS','adminIcon-mail-queue','LBL_DELAYED_EMAILS_DESCRIPTION','index.php?module=DelayedEmails&parent=Settings&view=ListView',24,0,0,NULL);
+insert  into `vtiger_settings_field`(`fieldid`,`blockid`,`name`,`iconpath`,`description`,`linkto`,`sequence`,`active`,`pinned`,`admin_access`) values (107,8,'LBL_DELAYED_EMAILS','adminIcon-mail-queue','LBL_DELAYED_EMAILS_DESCRIPTION','index.php?module=DelayedEmails&view=ListView',24,0,0,NULL);
 
 /*Data for the table `vtiger_sharedcalendar` */
 
@@ -27149,6 +27149,7 @@ insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`mo
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (116,'CMileageLogbook',0,17,'CMileageLogbook',NULL,NULL,0,0,1,'0','',NULL,0,0);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (117,'SVendorEnquiries',0,18,'SVendorEnquiries',NULL,NULL,0,0,1,'0','',NULL,0,1);
 insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (130,'Mail',0,0,'Mail',1,NULL,0,0,0,'1.0','Tools',NULL,0,0);
+insert  into `vtiger_tab`(`tabid`,`name`,`presence`,`tabsequence`,`tablabel`,`modifiedby`,`modifiedtime`,`customized`,`ownedby`,`isentitytype`,`version`,`parent`,`color`,`coloractive`,`type`) values (132,'DelayedEmails',0,0,'Delayed emails',1,NULL,0,0,0,'1.0','Tools',NULL,0,0);
 
 /*Data for the table `vtiger_tab_info` */
 

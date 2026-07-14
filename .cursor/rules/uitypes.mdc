@@ -141,7 +141,7 @@ Looks like Multipicklist (`email_template_type`): Select2 `select2-selection--mu
 ### ModulesMultipicklist (359) — ListView search + QueryField
 
 - **Storage:** ` |##| ` (same as multipicklist); empty = global scope (EmailTemplates).
-- **QueryField:** `ModulesMultipicklistField` extends **`MultipicklistField`** (not `ModulesField`). `operatorE` / `operatorA` delegate to `operatorC` (“equals module X” = template assigned to that module).
+- **QueryField:** `ModulesMultipicklistField` extends **`MultipicklistField`** (not `ModulesField`). **`getValue()` override** — comma-split only; do not inherit combination logic (multi-module filter = OR, not exact `ModA |##| ModB`). `operatorE` / `operatorA` → `operatorC`; `operatorN` → `operatorK`.
 - **List search:** `ListSearch.js` must map `modulesMultipicklist` → operator **`c`**. If omitted, default **`a`** + `ModulesField`-style `getValue()` array → `BaseField::operatorA()` → `strpos(array)` fatal.
 - **fieldInfo:** `Field::getFieldInfo()` case `modulesMultipicklist` sets `searchOperator = 'c'`.
 - **Distinct from uitype 301 `modules`:** single module pick; list search uses **`e`**.

@@ -214,6 +214,7 @@ pushsrc() {
     --exclude '.cursor/' \
     --exclude 'cache/' \
     --exclude 'storage/' \
+    --exclude 'import/' \
     --exclude 'tmp/' \
     --exclude '_migration/' \
     --exclude 'docker/nginx/letsencrypt/accounts/' \

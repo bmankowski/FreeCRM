@@ -14,6 +14,14 @@ namespace App\QueryField;
 
 class ModulesMultipicklistField extends MultipicklistField
 {
+	public function getValue()
+	{
+		if ($this->value === '' || $this->value === null) {
+			return [];
+		}
+		return array_values(array_filter(array_map('trim', explode(',', (string) $this->value))));
+	}
+
 	public function operatorA()
 	{
 		return $this->operatorC();
@@ -22,5 +30,10 @@ class ModulesMultipicklistField extends MultipicklistField
 	public function operatorE()
 	{
 		return $this->operatorC();
+	}
+
+	public function operatorN()
+	{
+		return $this->operatorK();
 	}
 }

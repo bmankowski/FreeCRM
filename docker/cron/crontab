@@ -2,5 +2,5 @@
 # Per-task intervals are enforced inside CronRunner.
 * * * * * flock -n /var/www/html/cache/cron.lock gosu www-data php /var/www/html/cron/vtigercron.php >> /var/www/html/cache/logs/cron.log 2>&1
 
-# CV file sync from prod backup (10.0.0.220). Config path: CV_IMPORT_CONFIG in docker-compose cron service.
-*/5 * * * * flock -n /var/www/html/cache/cv-sync.lock env HOME=/root /var/www/html/scripts/cv-sync/importCandidatesFiles.sh >> /var/www/html/cache/logs/cv-sync.log 2>&1
+# CV file sync from prod backup (10.0.0.220).
+* * * * * flock -n /var/www/html/cache/cv-sync.lock env HOME=/root CV_IMPORT_CONFIG=/var/www/html/docker/cv-sync/cv-import.from-prod-backup.conf /var/www/html/scripts/cv-sync/importCandidatesFiles.sh >> /var/www/html/cache/logs/cv-sync.log 2>&1

@@ -27,6 +27,25 @@ Block `LBL_RECRUITMENT` (`m260601_…_recruitment_settings_menu.php`). Submenus:
 
 Services: `RecruitmentStatusTransition`, `RecruitmentStatusTransitionMail`. Save: `Settings\Recruitment\Actions\SaveAjax` (`saveTransitions`, `saveTransitionMail`).
 
+## Status transition matrix (`Transitions`)
+
+- Tables: `u_yf_recruitment_status_transitions`, `u_yf_recruitment_settings` (`configured`: 0 = **off**, all manual moves allowed; 1 = whitelist enforced).
+- Default after migration: `configured = 0`, empty table — blocking appears only after first Save in Settings UI (or CLI below).
+- **Not** in `pushsrc`; travels with DB (`pushdb` / `pulldb`) or manual save per server. `sync-from-prod` does not promote these tables.
+
+Restore suggested defaults on a server (dev/test):
+
+```bash
+docker compose exec -T app php -r '
+chdir("/var/www/html"); require "vendor/autoload.php"; \App\Modules\Cron\Bootstrap::init();
+$s = \App\Modules\ProjektyRekrutacyjne\Services\RecruitmentStatusTransition::class;
+$pairs = []; foreach ($s::getSuggestedDefaults() as $from => $tos) { foreach ($tos as $to) { $pairs[] = ["from" => $from, "to" => $to]; } }
+$s::saveMatrix($pairs); echo "configured=" . ($s::isConfigured() ? 1 : 0) . PHP_EOL;
+'
+```
+
+On test, run via SSH + `docker compose exec` (see `deployment.mdc`).
+
 ## Mail-on-transition (runtime)
 
 - **Trigger:** kanban drag only, after successful `changeStatus()`.

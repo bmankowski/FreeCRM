@@ -10,10 +10,18 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Settings\DelayedEmails\Models;
+namespace App\Modules\DelayedEmails\Models;
 
-class Record extends \App\Modules\Settings\Base\Models\Record
+class Record extends \App\Runtime\BaseModel
 {
+	private ?Module $moduleModel = null;
+
+	public function setModule(Module $module): self
+	{
+		$this->moduleModel = $module;
+		return $this;
+	}
+
 	public function getId()
 	{
 		return $this->get('id');
@@ -34,7 +42,7 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 			case 'type':
 				return \App\Runtime\Vtiger_Language_Handler::translate(
 					'LBL_TYPE_' . strtoupper((string) $this->get('type')),
-					'Settings:DelayedEmails'
+					'DelayedEmails'
 				);
 			case 'recipient':
 				return $this->formatFirstRecipient();
@@ -48,19 +56,24 @@ class Record extends \App\Modules\Settings\Base\Models\Record
 
 	public function getRecordLinks(): array
 	{
+		$user = \App\Modules\Users\Models\Record::getCurrentUserModel();
+		if ($user === null || !$user->isAdminUser()) {
+			return [];
+		}
+
 		$id = (int) $this->getId();
 		$recordLinks = [
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_SEND_NOW',
-				'linkurl' => 'index.php?module=DelayedEmails&parent=Settings&action=SendNow&record=' . $id,
+				'linkurl' => 'index.php?module=DelayedEmails&action=SendNow&record=' . $id,
 				'linkicon' => 'glyphicon glyphicon-send',
 				'linkclass' => 'btn btn-xs btn-success',
 			],
 			[
 				'linktype' => 'LISTVIEWRECORD',
 				'linklabel' => 'LBL_CANCEL',
-				'linkurl' => 'index.php?module=DelayedEmails&parent=Settings&action=Cancel&record=' . $id,
+				'linkurl' => 'index.php?module=DelayedEmails&action=Cancel&record=' . $id,
 				'linkicon' => 'glyphicon glyphicon-remove',
 				'linkclass' => 'btn btn-xs btn-danger',
 			],

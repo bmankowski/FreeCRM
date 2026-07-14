@@ -8,12 +8,12 @@
         "LBL_TYPE_STATUS_CHANGE": "Status change",
         "LBL_RECIPIENT": "Recipient",
         "LBL_SUBJECT": "Subject",
-        "LBL_SEND_AFTER": "Sends at",
-        "LBL_CREATED_AT": "Created",
+        "LBL_SEND_AFTER": "Send after",
+        "LBL_CREATED_AT": "Created at",
         "LBL_ACTIONS": "Actions",
         "LBL_CANCEL": "Cancel",
         "LBL_SEND_NOW": "Send now",
-        "LBL_NO_RECORDS_FOUND": "No pending delayed emails",
+        "LBL_NO_RECORDS_FOUND": "No pending emails",
         "LBL_VIEW_LISTVIEW": "List"
     },
     "jsLanguageStrings": {}

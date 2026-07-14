@@ -53,20 +53,31 @@ Renew: same mounts, `certbot/dns-cloudflare renew --cert-name HOST`, then recopy
 | `pushall` | `pushsrc` + `pushdb` + `pushstorage` (full local → test) |
 | `pulldb` | Pull test DB → local (destructive on local) |
 
-`pushsrc` rsyncs with `--delete`, excludes `.git/`, `.cursor/`, `cache/`, `storage/`, `tmp/`, `_migration/`, clears remote `cache/templates_c/*/*.php`. Does **not** restart containers. **`import/cv/` is not excluded** — `pushsrc` syncs the JSON import queue too.
+`pushsrc` rsyncs with `--delete`, excludes `.git/`, `.cursor/`, `cache/`, `storage/`, `import/`, `tmp/`, `_migration/`, clears remote `cache/templates_c/*/*.php`. Does **not** restart containers. **`import/` is runtime data** (CV queue, LinkAction incoming) — filled by cron on each server, not deployed with code.
 
 DB subcommands (`pushdb`, `pushall`, `pulldb`) prompt for confirmation unless `FREECRM_SYNC_YES=1` (agents: always set for non-interactive).
 
-### `storage/` vs `import/cv/` (why `pushall` feels slow)
+### `storage/` vs `import/` (why `pushall` felt slow before)
 
 | Path | Synced by | What it is |
 |------|-----------|------------|
-| `storage/` | `pushstorage` | CRM attachment blobs (Documents, MultiAttachment) |
-| `import/cv/` | `pushsrc` | JSON import queue (`pending/`, `processed/`, …) — not CRM files yet |
+| `storage/` | `pushstorage` | CRM attachment blobs (Documents, MultiAttachment), **user avatars** (`storage/Users/`) |
+| `public/storage/Logo/` | `pushsrc` | Company logos (login + menu); **not** under excluded `storage/` |
+| `import/` | *(none — excluded from `pushsrc`)* | Runtime import queues (`import/cv/`, `import/link-action/`) — not source |
 
-Test already has `storage/` from prod (~15 GB, ~70k files). `pushstorage` is incremental — usually **0 bytes** to transfer; it only rescans the tree. Do **not** run it on every code deploy.
+`pushdb` copies DB paths (`photo_storage_path`, `logo_*` in `s_#__companies`) but **not** blobs — after `pushdb` without `pushstorage`, avatars 404/default icon; missing `public/storage/Logo/` → login HTTP 500 until logos exist on disk.
 
-`pushall` order: **`pushsrc` → `pushdb` → `pushstorage`**. Apparent “full re-copy” is usually (1) `pushdb` — always a full DB dump/import, (2) `pushsrc` catching up `import/cv/` (~1–1.5 GB when local `pending`/`processed` diverge from test; `backup/` already matches). Test refills `import/cv/pending` via cron from prod — no need to push the queue with deploys.
+Test already has `storage/` from prod (~15 GB, ~70k files). `pushstorage` is incremental — usually **0 bytes** to transfer; it only rescans the tree. Do **not** run it on every code deploy. For **avatars only**: `rsync -az storage/Users/ bmankowski@test.itconnect.pl:/opt/freecrm/storage/Users/`.
+
+`pushall` order: **`pushsrc` → `pushdb` → `pushstorage`**. Test refills `import/cv/pending` via cron from prod — no need to push import queues with deploys.
+
+### `pushsrc` post-step on test
+
+Remote Smarty cache wipe (`rm cache/templates_c/*/*.php`) often fails with **Permission denied** (files owned by `www-data`). Code still syncs; clear as root if templates look stale:
+
+```bash
+ssh bmankowski@test.itconnect.pl 'cd /opt/freecrm && docker compose exec -T -u root app sh -c "rm -f cache/templates_c/*/*.php"'
+```
 
 ### Standard deploy — code + migrations (most tasks)
 

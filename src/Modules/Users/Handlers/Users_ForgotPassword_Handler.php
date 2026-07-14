@@ -23,8 +23,8 @@ class Users_ForgotPassword_Handler {
 		$companyModel = \App\Core\Company::getInstanceById();
 		$logo = $companyModel->getLogo();
 		$moduleName = 'Users';
-		$viewer->assign('LOGOURL', $logo->get('imageUrl'));
-		$viewer->assign('TITLE', $logo->get('title'));
+		$viewer->assign('LOGOURL', $logo ? $logo->get('imageUrl') : '');
+		$viewer->assign('TITLE', $logo ? $logo->get('title') : $companyModel->get('name'));
 		$viewer->assign('USERNAME', $userName);
 		$changePasswordTrackUrl = $site_URL . "/modules/Users/Actions/ForgotPassword.php";
 		$viewer->assign('TRACKURL', $changePasswordTrackUrl);

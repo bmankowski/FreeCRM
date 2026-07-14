@@ -8,7 +8,7 @@ Workflow-triggered emails (e.g. recruitment status change) can be held in `s_yf_
 
 ## Admin UI
 
-**Settings → Opóźnione e-maile** (`Settings:DelayedEmails`)
+**Settings → Opóźnione e-maile** (legacy admin entry, inactive) / **menu główne → Opóźnione e-maile** (`DelayedEmails`)
 
 - Lists pending rows sorted by `send_after`.
 - **Cancel** — deletes the row (no email will be sent).

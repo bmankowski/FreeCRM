@@ -74,4 +74,6 @@ Missing `photo_storage_path` but file on disk under `storage/Users/`:
 
 Verify: `Record::getInstanceById($id, 'Users')->getImageRelativePath()` non-null; `RecordFile::resolveAbsolutePath()` readable.
 
+**Deploy:** `storage/Users/` excluded from `pushsrc` — use `pushstorage` or targeted `rsync` (see `deployment.mdc`). `Image.php` serves default icon when file missing (no fatal).
+
 General record-file storage (non-Users): `documents-storage.mdc`.

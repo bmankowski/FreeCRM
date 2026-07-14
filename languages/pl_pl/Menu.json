@@ -1,6 +1,7 @@
 {
     "languageStrings": {
-        "LBL_RECRUITMENT_PROJECTS_DASHBOARD": "Dashboard projektów rekrutacyjnych"
+        "LBL_RECRUITMENT_PROJECTS_DASHBOARD": "Dashboard projektów rekrutacyjnych",
+        "LBL_DELAYED_EMAILS": "Opóźnione e-maile"
     },
     "jsLanguageStrings": []
 }

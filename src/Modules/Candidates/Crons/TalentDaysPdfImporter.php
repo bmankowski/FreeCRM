@@ -89,8 +89,7 @@ final class TalentDaysPdfImporter
 					$candidate = \App\Modules\Candidates\Models\Record::getInstanceById($candidateId, 'Candidates');
 				}
 				$candidate->set('application_id', $candidateData['applicationNumber']);
-				$cvContent = trim(preg_replace('/[\x{10000}-\x{10FFFF}]/u', '', $pdfContent));
-				$candidate->set('cv_text', $cvContent);
+				$candidate->set('cv_text', \App\Modules\Candidates\Services\CvTextNormalizer::fromExtractedDocument($pdfContent));
 				$relations = DocumentHelper::prepareRelationsString('Candidates', (int) $candidate->getId());
 				$documentRecord = DocumentHelper::saveAndDeleteFile($filePath, 'CV', $relations);
 				$candidate->transformDocumentToCV($documentRecord);

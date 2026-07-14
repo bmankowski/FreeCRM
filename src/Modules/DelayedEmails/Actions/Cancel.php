@@ -10,14 +10,15 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Settings\DelayedEmails\Actions;
+namespace App\Modules\DelayedEmails\Actions;
 
-class SendNow extends \App\Modules\Settings\Base\Views\Index
+class Cancel extends \App\Modules\Base\Views\Basic
 {
 	public function checkPermission(\App\Http\Vtiger_Request $request): void
 	{
-		if (!$request->getUser()->isAdmin()) {
-			throw new \App\Exceptions\NoPermittedForAdmin('LBL_PERMISSION_DENIED');
+		$user = $request->getUser();
+		if (!$user instanceof \App\Modules\Users\Models\Record || !$user->isAdminUser()) {
+			throw new \App\Exceptions\NoPermitted('LBL_PERMISSION_DENIED');
 		}
 	}
 
@@ -25,9 +26,9 @@ class SendNow extends \App\Modules\Settings\Base\Views\Index
 	{
 		$id = (int) $request->get('record');
 		if ($id > 0) {
-			\App\Email\Delayed\Buffer::sendNow($id);
+			\App\Email\Delayed\Buffer::cancelById($id);
 		}
-		header('Location: index.php?module=DelayedEmails&parent=Settings&view=ListView');
+		header('Location: index.php?module=DelayedEmails&view=ListView');
 	}
 
 	public function validateRequest(\App\Http\Vtiger_Request $request): void
