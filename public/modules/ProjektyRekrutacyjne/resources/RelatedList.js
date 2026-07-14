@@ -380,6 +380,14 @@ Vtiger_RelatedList_Js(
 						type: 'success',
 						animation: 'show'
 					});
+					const delayedMail = data.result.delayedMail;
+					if (delayedMail && delayedMail.enqueued) {
+						Vtiger_Helper_Js.showPnotify({
+							text: app.vtranslate('PLL_SCREENING_REJECTION_MAIL_QUEUED'),
+							type: 'info',
+							animation: 'show'
+						});
+					}
 				} else {
 					console.warn('[ProjektyRekrutacyjne] Akcja: odrzucenie kandydata → odpowiedź bez success', {
 						candidateId: candidateId,

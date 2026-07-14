@@ -3,7 +3,7 @@
         "LBL_DELAYED_EMAILS": "Opóźnione e-maile",
         "LBL_DELAYED_EMAILS_DESCRIPTION": "E-maile oczekujące na wysłanie po skonfigurowanym opóźnieniu",
         "LBL_SOURCE": "Źródło",
-        "LBL_DESTINATION": "Cel",
+        "LBL_DESTINATION": "Adresat",
         "LBL_TYPE": "Typ",
         "LBL_TYPE_STATUS_CHANGE": "Zmiana statusu",
         "LBL_RECIPIENT": "Odbiorca",

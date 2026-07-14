@@ -76,10 +76,23 @@ class RejectCandidateManuallyAjax extends \App\Base\Controllers\BaseActionContro
             $response->emit();
             return;
         }
-        $response->setResult([
+        $resultPayload = [
             'success' => (bool) $result,
             'message' => $result ? 'PLL_REJECT_SUCCESS' : 'PLL_REJECT_FAILED',
-        ]);
+        ];
+        if ($result && isset(self::REJECTION_REASONS[$rejectionReason])
+            && $sourceStatus === \App\Modules\ProjektyRekrutacyjne\Relations\GetRelatedMembers::STATUS_APPLIED) {
+            $mailActions = \App\Modules\ProjektyRekrutacyjne\Services\ScreeningRejectionMail::enqueueDelayedRejectionMail(
+                $candidateId,
+                $projectId,
+                $rejectionReason,
+                (int) $request->getUser()->getId()
+            );
+            if (!empty($mailActions['delayedMail'])) {
+                $resultPayload['delayedMail'] = $mailActions['delayedMail'];
+            }
+        }
+        $response->setResult($resultPayload);
         $response->emit();
     }
 

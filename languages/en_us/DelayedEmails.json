@@ -3,7 +3,7 @@
         "LBL_DELAYED_EMAILS": "Delayed emails",
         "LBL_DELAYED_EMAILS_DESCRIPTION": "Pending emails waiting for the configured delay before send",
         "LBL_SOURCE": "Source",
-        "LBL_DESTINATION": "Destination",
+        "LBL_DESTINATION": "Addressee",
         "LBL_TYPE": "Type",
         "LBL_TYPE_STATUS_CHANGE": "Status change",
         "LBL_RECIPIENT": "Recipient",

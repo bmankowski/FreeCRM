@@ -46,6 +46,15 @@
 								</div>
 							{/if}
 						</td>
+					{elseif $LISTVIEW_HEADERNAME eq 'source_id' || $LISTVIEW_HEADERNAME eq 'dest_id'}
+						{assign var=LINKED_RECORD value=$LISTVIEW_ENTRY->getLinkedRecord($LISTVIEW_HEADERNAME)}
+						<td class="listViewEntryValue {$WIDTHTYPE}" width="{$WIDTH}%" nowrap>
+							{if $LINKED_RECORD}
+								&nbsp;<a class="moduleColor_{$LINKED_RECORD->getModuleName()}" href="{$LINKED_RECORD->getDetailViewUrl()}">{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}</a>
+							{else}
+								&nbsp;{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}
+							{/if}
+						</td>
 					{else}
 						<td class="listViewEntryValue {$WIDTHTYPE}" width="{$WIDTH}%" nowrap>
 							&nbsp;{$LISTVIEW_ENTRY->getDisplayValue($LISTVIEW_HEADERNAME)}

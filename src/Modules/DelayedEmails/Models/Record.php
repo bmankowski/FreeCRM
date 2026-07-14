@@ -32,13 +32,29 @@ class Record extends \App\Runtime\BaseModel
 		return (string) $this->get('subject');
 	}
 
+	public function getLinkedRecord(string $fieldName): ?\App\Modules\Base\Models\Record
+	{
+		if ($fieldName !== 'source_id' && $fieldName !== 'dest_id') {
+			return null;
+		}
+		$recordId = (int) $this->get($fieldName);
+		if ($recordId <= 0) {
+			return null;
+		}
+		try {
+			$record = \App\Modules\Base\Models\Record::getInstanceById($recordId);
+			return $record->isViewable() ? $record : null;
+		} catch (\Throwable) {
+			return null;
+		}
+	}
+
 	public function getDisplayValue(string $fieldName): string
 	{
 		switch ($fieldName) {
 			case 'source_id':
-				return $this->resolveRecordLabel((int) $this->get('source_id'));
 			case 'dest_id':
-				return $this->resolveRecordLabel((int) $this->get('dest_id'));
+				return $this->resolveRecordLabel((int) $this->get($fieldName));
 			case 'type':
 				return \App\Runtime\Vtiger_Language_Handler::translate(
 					'LBL_TYPE_' . strtoupper((string) $this->get('type')),
@@ -91,14 +107,11 @@ class Record extends \App\Runtime\BaseModel
 			return (string) $recordId;
 		}
 		try {
-			$moduleName = \App\Utils\ModuleUtils::getModuleName($recordId);
-			if (!$moduleName) {
-				return (string) $recordId;
-			}
-			$record = \App\Modules\Base\Models\Record::getInstanceById($recordId, $moduleName);
-			return $record->getName() . ' (' . $recordId . ')';
-		} catch (\Throwable $e) {
-			return (string) $recordId;
+			$record = \App\Modules\Base\Models\Record::getInstanceById($recordId);
+			return $record->getName();
+		} catch (\Throwable) {
+			$moduleName = \App\Records\Record::getType($recordId);
+			return $moduleName ? $moduleName . ' #' . $recordId : (string) $recordId;
 		}
 	}
 
