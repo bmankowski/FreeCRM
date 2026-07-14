@@ -191,21 +191,36 @@ SELECT * FROM u_yf_emailtemplates order by emailtemplatesid desc;
 
 
 select * from vtiger_field ;
+
+
 SELECT
     cv.cvid,
     cv.viewname,
     cv.entitytype AS module,
     cv.userid,
-    u.user_name AS owner_login,
-    CONCAT(u.first_name, ' ', u.last_name) AS owner_name,
-    u.status AS owner_status,
-    u.deleted AS owner_deleted,
     cv.status AS cv_status,
     cv.setdefault,
     cv.featured,
     cv.sequence,
     cv.sort,
     cv.description
-FROM vtiger_customview cv
-LEFT JOIN vtiger_users u ON u.id = cv.userid
-ORDER BY cv.entitytype, cv.viewname;
+FROM vtiger_customview cv where cv.entitytype = "Candidates";
+
+
+
+SELECT
+    f.cvid,
+    f.viewname,
+    f.entitytype,
+    f.userid AS current_userid,
+    fu.id AS new_userid,
+    yu.user_name,
+    fu.status AS new_owner_status
+FROM freecrm.vtiger_customview f
+INNER JOIN yetiforce.vtiger_customview y
+    ON f.viewname = y.viewname AND f.entitytype = y.entitytype
+INNER JOIN yetiforce.vtiger_users yu ON yu.id = y.userid
+INNER JOIN freecrm.vtiger_users fu ON fu.user_name = yu.user_name
+WHERE f.viewname != 'All'
+  AND f.userid != fu.id
+ORDER BY f.entitytype, f.viewname;

@@ -15,7 +15,21 @@ namespace App\Modules\Base\Models;
 class TooltipView extends \App\Runtime\BaseModel
 {
 
+	protected $module;
+	protected $record;
 	protected array $fields = [];
+	protected ?array $structuredValues = null;
+
+	public function getRecord()
+	{
+		return $this->record;
+	}
+
+	public function setRecord($recordModuleInstance)
+	{
+		$this->record = $recordModuleInstance;
+		return $this;
+	}
 
 	/**
 	 * Function to set the module instance
