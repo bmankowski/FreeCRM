@@ -39,6 +39,16 @@
 	box-shadow: 0 0 0 2px rgba(236, 151, 31, 0.25);
 }
 
+.recruitment-project-kanban .recruitment-kanban-entry {
+	table-layout: fixed;
+	width: 100%;
+}
+
+.recruitment-project-kanban .recruitment-kanban-entry th,
+.recruitment-project-kanban .recruitment-kanban-entry td {
+	width: 50%;
+}
+
 .recruitment-project-kanban .recruitment-kanban-screening {
 	table-layout: fixed;
 	width: 100%;

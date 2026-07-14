@@ -111,11 +111,14 @@ class NewCandidateInProject
 
 		$relationHandler = new \App\Modules\ProjektyRekrutacyjne\Relations\GetRelatedMembers();
 		$relationRow = $relationHandler->getRelationData($projectId, $candidateId);
-		$isApplied = ($relationRow['recruitment_status_rel'] ?? '') === \App\Modules\ProjektyRekrutacyjne\Relations\GetRelatedMembers::STATUS_APPLIED;
+		$status = $relationRow['recruitment_status_rel'] ?? '';
 
-		if ($isApplied) {
+		if ($status === \App\Modules\ProjektyRekrutacyjne\Relations\GetRelatedMembers::STATUS_APPLIED) {
 			$candidateComment = "Kandydat zaaplikował do projektu: <a href='$projektURL'>$nazwaProjektu ($numerProjektu)</a>";
 			$projectComment = "Kandydat <a href='$candidateUrl'>$candidateName ($candidateNumber)</a> zaaplikował do tego projektu.";
+		} elseif ($status === \App\Modules\ProjektyRekrutacyjne\Relations\GetRelatedMembers::STATUS_AI_ADDED) {
+			$candidateComment = "Kandydat został dodany przez AI do projektu: <a href='$projektURL'>$nazwaProjektu ($numerProjektu)</a>";
+			$projectComment = "Kandydat <a href='$candidateUrl'>$candidateName ($candidateNumber)</a> został dodany przez AI do tego projektu.";
 		} else {
 			$candidateComment = "Kandydat został dodany ręcznie do projektu: <a href='$projektURL'>$nazwaProjektu ($numerProjektu)</a>";
 			$projectComment = "Kandydat <a href='$candidateUrl'>$candidateName ($candidateNumber)</a> został dodany ręcznie do tego projektu.";

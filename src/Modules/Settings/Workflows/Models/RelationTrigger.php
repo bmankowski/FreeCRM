@@ -504,6 +504,7 @@ class RelationTrigger
 	{
 		$values = [
 			'PPL_MANUALLY_ADDED',
+			'PPL_AI_ADDED',
 			'PPL_APPLIED',
 			'PPL_REJECTED_AFTER_CV',
 			'PPL_CANDIDATE_PASSED_SCREENING',

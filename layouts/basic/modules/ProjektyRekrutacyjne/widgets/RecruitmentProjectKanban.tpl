@@ -23,20 +23,24 @@
 	<input type="hidden" class="project-id" value="{$PROJECT_ID}"/>
 	<input type="hidden" class="js-status-transitions" value="{$WIDGET['data']['statusTransitionsJson']}"/>
 	
-	{* Table 0: Good candidates (manual pool) *}
-	<table class="table table-bordered table-sm">
+	{* Table 0: Entry — manual pool and AI-added candidates *}
+	<table class="table table-bordered table-sm recruitment-kanban-entry">
 		<thead class="thead-light">
 		<tr>
 			<th>
 				{'PPL_MANUALLY_ADDED'|t:$MODULE_NAME}
 				<button type="button" class="btn btn-sm js-kanban-add-manual-candidate" title="{'LBL_ADD_MANUAL_CANDIDATE'|t:$MODULE_NAME}" aria-label="{'LBL_ADD_MANUAL_CANDIDATE'|t:$MODULE_NAME}">+</button>
 			</th>
+			<th>{'PPL_AI_ADDED'|t:$MODULE_NAME}</th>
 		</tr>
 		</thead>
 		<tbody>
 		<tr>
 			<td class="candidate-status" data-value="PPL_MANUALLY_ADDED">
 				{renderCandidates status='PPL_MANUALLY_ADDED'}
+			</td>
+			<td class="candidate-status" data-value="PPL_AI_ADDED">
+				{renderCandidates status='PPL_AI_ADDED'}
 			</td>
 		</tr>
 		</tbody>

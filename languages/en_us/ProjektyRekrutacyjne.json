@@ -37,6 +37,7 @@
         "LBL_MANUAL_CANDIDATES_ADDED": "Candidates added: %s",
         "LBL_MANUAL_CANDIDATES_SKIPPED": "Skipped (already in project): %s",
         "PPL_MANUALLY_ADDED": "Manually added",
+        "PPL_AI_ADDED": "AI added",
         "PPL_REJECTED_AFTER_CV": "Rejected after CV",
         "PPL_APPLIED": "Applied",
         "PPL_CANDIDATE_PASSED_SCREENING": "Passed screening",

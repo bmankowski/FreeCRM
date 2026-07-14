@@ -22,6 +22,7 @@ class GetRelatedMembers extends \App\Modules\Base\Relations\GetRelatedList
 
     public const STATUS_APPLIED = 'PPL_APPLIED';
     public const STATUS_MANUALLY_ADDED = 'PPL_MANUALLY_ADDED';
+    public const STATUS_AI_ADDED = 'PPL_AI_ADDED';
 
     /** {@inheritdoc} */
     public const TABLE_NAME = 'u_yf_projekty_rekrutacyjne_relations_members_entity';

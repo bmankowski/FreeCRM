@@ -44,21 +44,28 @@ assertTrue(
 	'all transitions allowed before save'
 );
 assertTrue(
-	count(RecruitmentStatusTransition::getStatusOptions()) === 16,
-	'16 status options'
+	count(RecruitmentStatusTransition::getStatusOptions()) === 17,
+	'17 status options'
 );
 
 $suggested = RecruitmentStatusTransition::getSuggestedDefaults();
 assertTrue(isset($suggested['PPL_MANUALLY_ADDED']), 'suggested defaults include PPL_MANUALLY_ADDED');
+assertTrue(isset($suggested['PPL_AI_ADDED']), 'suggested defaults include PPL_AI_ADDED');
 assertTrue(isset($suggested['PPL_APPLIED']), 'suggested defaults include PPL_APPLIED');
 assertTrue(
 	in_array('PPL_REJECTED_AFTER_CV', $suggested['PPL_APPLIED'], true),
 	'suggested default includes reject from applied'
 );
+assertTrue(
+	in_array('PPL_REJECTED_AFTER_CV', $suggested['PPL_AI_ADDED'], true),
+	'suggested default includes reject from AI added'
+);
 
 RecruitmentStatusTransition::saveMatrix([
 	['from' => 'PPL_APPLIED', 'to' => 'PPL_REJECTED_AFTER_CV'],
 	['from' => 'PPL_APPLIED', 'to' => 'PPL_CANDIDATE_PASSED_SCREENING'],
+	['from' => 'PPL_AI_ADDED', 'to' => 'PPL_CANDIDATE_PASSED_SCREENING'],
+	['from' => 'PPL_AI_ADDED', 'to' => 'PPL_REJECTED_AFTER_CV'],
 ]);
 
 assertTrue(RecruitmentStatusTransition::isConfigured(), 'configured after save');
@@ -69,6 +76,10 @@ assertTrue(
 assertTrue(
 	!RecruitmentStatusTransition::isAllowed('PPL_APPLIED', 'PPL_ACCEPTED'),
 	'non-whitelisted transition blocked'
+);
+assertTrue(
+	RecruitmentStatusTransition::isAllowed('PPL_AI_ADDED', 'PPL_CANDIDATE_PASSED_SCREENING'),
+	'AI added to passed screening allowed'
 );
 
 $map = RecruitmentStatusTransition::getAdjacencyMap();

@@ -17,6 +17,7 @@
         "LBL_TRANSFORM_DOCUMENT_TO_CV_TITLE": "Set document as CV",
         "LBL_TRANSFORM_DOCUMENT_TO_CV_DESC": "This will set the selected document as the candidate’s CV.",
         "PPL_MANUALLY_ADDED": "Manually added",
+        "PPL_AI_ADDED": "AI added",
         "PPL_REJECTED_AFTER_CV": "Rejected after CV",
         "PPL_APPLIED": "Applied",
         "PPL_CANDIDATE_PASSED_SCREENING": "Passed screening",
