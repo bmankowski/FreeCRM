@@ -221,7 +221,3 @@ ORDER BY f.entitytype, f.viewname;
 
 
 
-UPDATE u_yf_projekty_rekrutacyjne_relations_members_entity
-SET recruitment_status_rel = 'PPL_APPLIED'
-WHERE crmid = 1440020
-  AND relcrmid = 1450918;

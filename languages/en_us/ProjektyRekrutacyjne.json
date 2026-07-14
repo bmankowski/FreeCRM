@@ -76,6 +76,7 @@
         "JS_TRANSITION_MAIL_AUTO_SENT": "Email sent automatically after status change.",
         "JS_TRANSITION_MAIL_AUTO_PARTIAL": "Some emails were sent automatically; some failed.",
         "JS_TRANSITION_MAIL_AUTO_FAILED": "Automatic email could not be sent.",
+        "JS_FRAME_IN_PROGRESS": "Loading preview…",
         "LBL_KANBAN_CV_SKILLS_REQUIRED": "Enter at least one skill.",
         "LBL_KANBAN_CV_SKILLS_INVALID": "Invalid search expression.",
         "LBL_KANBAN_PICK_CANDIDATES_COUNT": "Found: %s"

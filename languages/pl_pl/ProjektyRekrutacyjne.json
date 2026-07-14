@@ -96,6 +96,7 @@
         "JS_TRANSITION_MAIL_AUTO_SENT": "E-mail wysłany automatycznie po zmianie statusu.",
         "JS_TRANSITION_MAIL_AUTO_PARTIAL": "Część e-maili wysłano automatycznie; część nie powiodła się.",
         "JS_TRANSITION_MAIL_AUTO_FAILED": "Nie udało się wysłać e-maila automatycznie.",
+        "JS_FRAME_IN_PROGRESS": "Trwa ładowanie podglądu…",
         "LBL_KANBAN_CV_SKILLS_REQUIRED": "Podaj co najmniej jedną umiejętność.",
         "LBL_KANBAN_CV_SKILLS_INVALID": "Nieprawidłowe wyrażenie wyszukiwania.",
         "LBL_KANBAN_PICK_CANDIDATES_COUNT": "Znaleziono: %s"
