@@ -74,7 +74,7 @@
 					<input type="hidden" name="relatedModule" value="Assets" />
 					<div class="col-xs-10 col-sm-10 col-md-9 margin0px"><h4>{"LBL_RELATED_ASSETS"|t:$MODULE_NAME}</h4></div>
 					<div class="col-xs-1 col-md-3 summaryWidgetIcon">
-						{if {App\Modules\Users\Models\Privileges::isPermitted('Assets', 'CreateView')} }
+						{if $IS_ASSETS_CREATE_PERMITTED}
 							<span class="pull-right">
 								<button class="btn btn-default createRecord" type="button" data-url="index.php?module=Assets&view=QuickCreateAjax">
 									<span class="glyphicon glyphicon-plus-sign" title="{"LBL_ADD"|t:$MODULE_NAME}"></span>
@@ -149,7 +149,7 @@
 					<input type="hidden" name="relatedModule" value="OSSSoldServices" />
 					<div class="col-xs-10 col-sm-10 col-md-9 margin0px"><h4>{"LBL_RELATED_OSSSS"|t:$MODULE_NAME}</h4></div>
 					<div class="col-xs-1 col-md-3 summaryWidgetIcon">
-						{if {App\Modules\Users\Models\Privileges::isPermitted('OSSSoldServices', 'CreateView')} }
+						{if $IS_OSSSOLD_SERVICES_CREATE_PERMITTED}
 							<span class="pull-right">
 								<button class="btn btn-default createRecord" type="button" data-url="index.php?module=OSSSoldServices&view=QuickCreateAjax">
 									<span class="glyphicon glyphicon-plus-sign" title="{"LBL_ADD"|t:$MODULE_NAME}"></span>

@@ -379,7 +379,7 @@
 						<div class="mr-auto col-xl-2 col-md-4 col-12 px-0 mb-md-0 mb-1">
 							{if count($CUSTOM_VIEW_LIST) === 1}
 								<input type="hidden" class="js-relation-cv-id"
-									   value="{array_key_first($CUSTOM_VIEW_LIST)}" data-js="value"/>
+									   value="{$SINGLE_CUSTOM_VIEW_ID}" data-js="value"/>
 							{else}
 								<div class="input-group">
 									<div class="input-group-prepend">

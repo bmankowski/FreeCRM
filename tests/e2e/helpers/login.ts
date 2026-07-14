@@ -23,16 +23,18 @@ export function getLoginCredentials(): LoginCredentials {
 
 export async function login(page: Page, baseUrl: string, credentials?: LoginCredentials): Promise<void> {
 	const { username, password } = credentials ?? getLoginCredentials();
+	const root = baseUrl.replace(/\/$/, '');
 
-	await page.goto(`${baseUrl}/index.php`);
+	await page.goto(`${root}/index.php?module=Users&parent=Settings&action=Logout`, {
+		waitUntil: 'domcontentloaded',
+		timeout: 30000,
+	});
 
-	const needsLogin = await page
-		.locator('input[name="username"]')
-		.isVisible({ timeout: 3000 })
-		.catch(() => false);
+	const loginForm = page.locator('input[name="username"]');
+	const onLoginPage = await loginForm.isVisible({ timeout: 5000 }).catch(() => false);
 
-	if (needsLogin) {
-		await page.fill('input[name="username"]', username);
+	if (onLoginPage) {
+		await loginForm.fill(username);
 		await page.fill('input[name="password"]', password);
 		await page.click('button[type="submit"]');
 		await page.waitForLoadState('networkidle', { timeout: 15000 });

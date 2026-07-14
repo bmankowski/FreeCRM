@@ -44,6 +44,9 @@ class Widget  extends \App\Modules\Base\Views\Index
 		$viewer->assign('RECORDID', $request->get('record'));
 		$viewer->assign('SOURCE_MODULE', $fromModule);
 		$viewer->assign('RELATED_MODULE', $mod);
+		$viewer->assign('IS_ASSETS_MODULE_PERMITTED', \App\Modules\Users\Models\Privileges::isPermitted('Assets'));
+		$viewer->assign('IS_ASSETS_CREATE_PERMITTED', \App\Modules\Users\Models\Privileges::isPermitted('Assets', 'CreateView'));
+		$viewer->assign('IS_OSSSOLD_SERVICES_CREATE_PERMITTED', \App\Modules\Users\Models\Privileges::isPermitted('OSSSoldServices', 'CreateView'));
 		$viewer->view('widgets/ProductsServices.tpl', $moduleName);
 	}
 }

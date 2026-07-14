@@ -243,7 +243,12 @@ class RelatedList extends \App\Modules\Base\Views\RelatedList
         $lockedEmptyFields = [];
         $viewer->assign('LOCKED_EMPTY_FIELDS', $lockedEmptyFields);
         $viewer->assign('SHOW_HEADER', true);
-        $viewer->assign('CUSTOM_VIEW_LIST', []);
+        $customViewList = [];
+        $viewer->assign('CUSTOM_VIEW_LIST', $customViewList);
+        $viewer->assign(
+            'SINGLE_CUSTOM_VIEW_ID',
+            \count($customViewList) === 1 ? (string) \array_key_first($customViewList) : ''
+        );
         $suppressListPreviewMinimalToolbar = ($forceListPreviewByDefault && 'ListPreview' === $relatedView);
         $viewer->assign('RELATED_LIST_SUPPRESS_QUICKSEARCH', false);
         $viewer->assign('RELATED_LIST_SUPPRESS_ENTITY_STATE', $suppressListPreviewMinimalToolbar);

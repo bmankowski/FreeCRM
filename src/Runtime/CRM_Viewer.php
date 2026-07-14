@@ -149,6 +149,8 @@ class CRM_Viewer extends \Smarty
 			$this->registerPlugin('modifier', 'vtranslate', '\App\Runtime\Vtiger_Language_Handler::translate');
 			$this->registerPlugin('function', 'vimage_path', 'vimage_path');
 			$this->registerPlugin('modifier', 'vimage_path', 'vimage_path'); // Also as modifier
+			$this->registerPlugin('function', 'vimage_path_default', 'vimage_path_default');
+			$this->registerPlugin('modifier', 'vimage_path_default', 'vimage_path_default');
 			$this->registerPlugin('function', 'vtemplate_path', 'vtemplate_path');
 			$this->registerPlugin('modifier', 'vtemplate_path', 'vtemplate_path'); // Also as modifier
 			$this->registerPlugin('function', 'vresource_url', 'vresource_url');
@@ -211,6 +213,7 @@ class CRM_Viewer extends \Smarty
 		$this->registerPlugin('modifier', 'explode', 'explode');
 		$this->registerPlugin('modifier', 'implode', [self::class, 'implodeModifier']);
 		$this->registerPlugin('modifier', 'htmlspecialchars', 'htmlspecialchars');
+		$this->registerPlugin('modifier', 'urlencode', 'urlencode');
 		$this->registerPlugin('modifier', 'file_exists', 'file_exists');
 		$this->registerPlugin('modifier', 'intval', 'intval');
 		$this->registerPlugin('modifier', 'decode_html', '\App\Utils\ListViewUtils::decodeHtml');
@@ -228,6 +231,7 @@ class CRM_Viewer extends \Smarty
 		$this->registerPlugin('function', 'explode', 'explode');
 		$this->registerPlugin('function', 'implode', 'implode');
 		$this->registerPlugin('function', 'htmlspecialchars', 'htmlspecialchars');
+		$this->registerPlugin('function', 'urlencode', 'urlencode');
 		$this->registerPlugin('function', 'file_exists', 'file_exists');
 		$this->registerPlugin('function', 'intval', 'intval');
 		$this->registerPlugin('function', 'strtoupper', 'strtoupper');

@@ -1047,6 +1047,8 @@ class Detail extends \App\Modules\Base\Views\Index
 		$viewer->assign('RECORD_STRUCTURE', $structuredValues);
 		$viewer->assign('BLOCK_LIST', $moduleModel->getBlocks());
 		$viewer->assign('IS_READ_ONLY', $request->getBoolean('isReadOnly'));
+		$viewer->assign('IS_ASSETS_CREATE_PERMITTED', \App\Modules\Users\Models\Privileges::isPermitted('Assets', 'CreateView'));
+		$viewer->assign('IS_OSSSOLD_SERVICES_CREATE_PERMITTED', \App\Modules\Users\Models\Privileges::isPermitted('OSSSoldServices', 'CreateView'));
 		return $viewer->view('DetailViewProductsServicesContents.tpl', $moduleName, true);
 	}
 

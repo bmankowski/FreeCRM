@@ -77,6 +77,22 @@ function viewFileExists(string $moduleName, string $view, bool $moduleOnly = fal
 
 function findSampleRecordId(string $moduleName): ?int
 {
+	if ($moduleName === 'TemplateElements') {
+		$id = (new \App\Db\Query())
+			->select(['te.templateelementsid'])
+			->from(['te' => 'u_yf_templateelements'])
+			->innerJoin(['ce' => 'vtiger_crmentity'], 'ce.crmid = te.templateelementsid')
+			->where([
+				'ce.setype' => $moduleName,
+				'ce.deleted' => 0,
+				'te.status' => 1,
+			])
+			->orderBy(['te.templateelementsid' => SORT_DESC])
+			->scalar();
+
+		return ($id !== false && $id !== null) ? (int) $id : null;
+	}
+
 	$id = (new \App\Db\Query())
 		->select(['crmid'])
 		->from('vtiger_crmentity')
