@@ -56,6 +56,7 @@ class KanbanPickCandidatesModal extends \App\Modules\Base\Views\BasicModal
 	public function getModalScripts(Vtiger_Request $request): array
 	{
 		return $this->checkAndConvertJsScripts([
+			'modules.ProjektyRekrutacyjne.resources.KanbanCvSkillsQueryStorage',
 			'modules.ProjektyRekrutacyjne.resources.KanbanPickCandidatesModal',
 		]);
 	}

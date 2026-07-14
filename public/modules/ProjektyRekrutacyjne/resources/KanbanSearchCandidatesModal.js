@@ -29,6 +29,10 @@ jQuery(document).on('click.kanbanSearchCandidates', '.js-kanban-search-candidate
 	}
 });
 
+jQuery(function () {
+	window.ProjektyRekrutacyjne_KanbanCvSkillsQueryStorage.prefillForm('#kanbanSearchCandidatesForm');
+});
+
 jQuery(document).off('keydown.kanbanSearchCandidates').on('keydown.kanbanSearchCandidates', function (event) {
 	if (event.key !== 'Enter' || !jQuery('#kanbanSearchCandidatesForm').length) {
 		return;

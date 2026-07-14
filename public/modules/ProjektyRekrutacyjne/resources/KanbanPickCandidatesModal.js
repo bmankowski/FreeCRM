@@ -97,6 +97,7 @@
 					return;
 				}
 				thisInstance.clearSkillsError();
+				window.ProjektyRekrutacyjne_KanbanCvSkillsQueryStorage.save(thisInstance.cvSkills);
 				const result = data.result;
 				thisInstance.currentPage = result.pageNumber || page;
 				thisInstance.getListBody().html(result.html || '');
