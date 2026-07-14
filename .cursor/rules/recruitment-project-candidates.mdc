@@ -31,7 +31,9 @@ globs:
 
 `cvs_applied_number` counts only `PPL_APPLIED`. New status: add to `RelationTrigger::getRecruitmentStatusOptions()`, `RecruitmentStatusTransition::SUGGESTED_DEFAULTS`, `languages/*/ProjektyRekrutacyjne.json` + `Candidates.json`, kanban tpl if visible; if transition matrix is configured (`u_yf_recruitment_settings.configured=1`), seed pairs via `migrations/Users/` (pattern: `m260605_000001`, `m260710_000003`/`000004`). Bump count in `tests/recruitment_status_transition_smoke.php`.
 
-**Status codes (16):** `PPL_MANUALLY_ADDED`, `PPL_APPLIED`, `PPL_REJECTED_AFTER_CV`, `PPL_CANDIDATE_PASSED_SCREENING`, `PPL_STAGE_1`–`PPL_STAGE_3`, `PPL_WAITING_FOR_INTERVIEW`, `PPL_HANDED_TO_SALES`, `PPL_TO_BE_SENT_TO_CLIENT`, `PPL_SENT_TO_CLIENT`, `PPL_ACCEPTED`, `PPL_REJECTED_AFTER_VERIFICATION`, `PPL_REJECTED_AFTER_INTERVIEW`, `PPL_OFFER_REJECTED_BY_CANDIDATE`, `PPL_REJECTED_BY_CLIENT`. Labels: `PPL_*` keys in lang files (PL plural in ProjektyRekrutacyjne, singular in Candidates).
+**Status codes (16):** `PPL_MANUALLY_ADDED`, `PPL_APPLIED`, `PPL_REJECTED_AFTER_CV`, `PPL_CANDIDATE_PASSED_SCREENING`, `PPL_STAGE_1`–`PPL_STAGE_3`, `PPL_WAITING_FOR_INTERVIEW`, `PPL_HANDED_TO_SALES`, `PPL_TO_BE_SENT_TO_CLIENT`, `PPL_SENT_TO_CLIENT`, `PPL_ACCEPTED`, `PPL_REJECTED_AFTER_VERIFICATION`, `PPL_REJECTED_AFTER_INTERVIEW`, `PPL_OFFER_REJECTED_BY_CANDIDATE`, `PPL_REJECTED_BY_CLIENT`.
+
+**Related-list i18n — duplicate every `PPL_*` key in both files** (`languages/*/ProjektyRekrutacyjne.json` + `languages/*/Candidates.json`, `en_us` + `pl_pl`). Same key, two wordings: PL **plural** in ProjektyRekrutacyjne (e.g. „Dodani ręcznie”), **singular** in Candidates (e.g. „Dodany ręcznie”). Do not add to only one file — the related list uses both modules: status **column** + filter (`RelationField` → `ProjektyRekrutacyjne`); ListPreview **iframe** (`CandidatesRecruitmentProjects.tpl` → `Candidates`). Missing key in either file → raw `PPL_*` in that UI part.
 
 ## Kanban widget (summary tab)
 
@@ -94,6 +96,7 @@ globs:
 
 ## ListPreview empty state (do not regress)
 
+- **Status labels:** see **Related-list i18n** above — new/changed `PPL_*` must be duplicated in both lang files before shipping related-list work.
 - `ProjektyRekrutacyjne/RelatedList.tpl` ListPreview branch: the `empty($RELATED_RECORDS)` case **must still `{include RelatedListContents.tpl}`** so column headers + per-column search survive filtering to zero (else user loses filters and can't clear them). Matches Base related-list behavior: **no „Lista jest pusta” message** — just an empty `tbody`. Empty wrapper uses `.c-list-preview--empty` (`float:none; width:100%`).
 - Narrow checkbox/action columns: tightened in `RelatedList.css` (`.listViewEntriesTable` first two cols → `width:1px; white-space:nowrap`) because ListPreview table is `min-width:max-content`, so `width="4%"` on `<th>` is ignored.
 

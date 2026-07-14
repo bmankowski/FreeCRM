@@ -28,6 +28,7 @@
         "LBL_RELATED_ACTION_SET_AS_CV": "Ustaw jako CV",
         "LBL_TRANSFORM_DOCUMENT_TO_CV_TITLE": "Ustaw dokument jako CV",
         "LBL_TRANSFORM_DOCUMENT_TO_CV_DESC": "To ustawi wybrany dokument jako CV kandydata.",
+        "PPL_MANUALLY_ADDED": "Dodany ręcznie",
         "PPL_REJECTED_AFTER_CV": "Odrzucony po CV",
         "PPL_APPLIED": "Zaaplikował",
         "PPL_CANDIDATE_PASSED_SCREENING": "Przeszedł screening",
