@@ -41,6 +41,23 @@ class KanbanCandidatePicker
 	}
 
 	/**
+	 * @return list<int>
+	 */
+	public static function listAllCandidateIds(int $projectId, string $cvSkills): array
+	{
+		$listViewModel = self::createListViewModel($projectId, $cvSkills);
+		$pagingModel = new \App\Modules\Base\Models\Paging();
+		$pagingModel->set('limit', 'no_limit');
+		$pagingModel->set('page', '1');
+		$entries = $listViewModel->getListViewEntries($pagingModel);
+
+		return array_values(array_map(
+			static fn (\App\Modules\Base\Models\Record $entry): int => (int) $entry->getId(),
+			array_values($entries)
+		));
+	}
+
+	/**
 	 * @param list<int> $candidateIds
 	 * @return array<int, string> candidateId => comma-separated nazwa_projektu values
 	 */

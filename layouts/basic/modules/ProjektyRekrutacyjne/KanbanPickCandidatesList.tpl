@@ -9,7 +9,7 @@
 	<table class="table table-bordered table-sm listViewEntriesTable kanban-pick-candidates__table">
 		<thead>
 		<tr>
-			<th class="narrow"><input type="checkbox" class="js-kanban-pick-select-page" title="{"LBL_SELECT_ALL_CURRENTPAGE"|t:"Vtiger"}"/></th>
+			<th class="narrow"><input type="checkbox" class="js-kanban-pick-select-page" title="{"LBL_SELECT_ALL"|t:"Vtiger"}"/></th>
 			<th>{"LBL_KANBAN_PICK_COL_NAME"|t:$MODULE_NAME}</th>
 			<th>{"LBL_KANBAN_PICK_COL_PHONE"|t:$MODULE_NAME}</th>
 			<th>{"LBL_KANBAN_PICK_COL_PROJECTS"|t:$MODULE_NAME}</th>

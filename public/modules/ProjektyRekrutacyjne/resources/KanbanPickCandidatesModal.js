@@ -144,6 +144,79 @@
 					jQuery(this).find('.js-kanban-pick-checkbox').prop('checked', true);
 				}
 			});
+			this.syncSelectAllCheckbox();
+		},
+
+		syncSelectAllCheckbox: function () {
+			const total = parseInt(this.$root.find('.js-kanban-pick-total-count').val() || '0', 10);
+			const selectedCount = Object.keys(this.selectedIds).length;
+			const $pageBoxes = this.$root.find('.js-kanban-pick-checkbox');
+			const allPageChecked = $pageBoxes.length > 0
+				&& $pageBoxes.filter(':checked').length === $pageBoxes.length;
+			this.$root.find('.js-kanban-pick-select-page').prop(
+				'checked',
+				total > 0 && selectedCount === total && allPageChecked
+			);
+		},
+
+		selectAllCandidates: function ($header, checked) {
+			const thisInstance = this;
+			const $root = this.$root;
+
+			if (!checked) {
+				this.selectedIds = {};
+				$root.find('.js-kanban-pick-checkbox').prop('checked', false);
+				$header.prop('checked', false);
+				return;
+			}
+
+			const totalCount = parseInt($root.find('.js-kanban-pick-total-count').val() || '0', 10);
+			const pageCheckboxCount = $root.find('.js-kanban-pick-checkbox').length;
+			if (totalCount <= pageCheckboxCount) {
+				$root.find('.js-kanban-pick-checkbox').each(function () {
+					jQuery(this).prop('checked', true).trigger('change');
+				});
+				return;
+			}
+
+			const progress = jQuery.progressIndicator({ position: 'html', blockInfo: { enabled: true } });
+			AppConnector.request({
+				module: 'ProjektyRekrutacyjne',
+				action: 'KanbanPickCandidatesAjax',
+				mode: 'ids',
+				projectId: this.projectId,
+				cv_skills: this.cvSkills
+			}).done(function (data) {
+				progress.progressIndicator({ mode: 'hide' });
+				if (!data.success || !data.result || data.result.success !== true) {
+					$header.prop('checked', false);
+					if (data.result && data.result.invalidExpression) {
+						thisInstance.showSkillsError(data.result);
+						return;
+					}
+					const msg = (data.result && data.result.message)
+						? app.vtranslate(data.result.message, 'ProjektyRekrutacyjne')
+						: app.vtranslate('PLL_NO_SUCH_RECORD', 'ProjektyRekrutacyjne');
+					Vtiger_Helper_Js.showPnotify({ text: msg, type: 'error' });
+					return;
+				}
+				thisInstance.selectedIds = {};
+				(data.result.candidateIds || []).forEach(function (id) {
+					const sid = String(id);
+					if (sid) {
+						thisInstance.selectedIds[sid] = true;
+					}
+				});
+				$root.find('.js-kanban-pick-checkbox').prop('checked', true);
+				thisInstance.syncSelectAllCheckbox();
+			}).fail(function (_jqXHR, _textStatus, errorThrown) {
+				progress.progressIndicator({ mode: 'hide' });
+				$header.prop('checked', false);
+				Vtiger_Helper_Js.showPnotify({
+					text: errorThrown || app.vtranslate('PLL_ACCEPTANCE_FAILED', 'ProjektyRekrutacyjne'),
+					type: 'error'
+				});
+			});
 		},
 
 		activateFirstRow: function () {
@@ -418,15 +491,14 @@
 					thisInstance.selectedIds[id] = true;
 				} else {
 					delete thisInstance.selectedIds[id];
+					$root.find('.js-kanban-pick-select-page').prop('checked', false);
 				}
+				thisInstance.syncSelectAllCheckbox();
 			});
 
 			$root.off('change.kanbanPickSelectPage', '.js-kanban-pick-select-page');
 			$root.on('change.kanbanPickSelectPage', '.js-kanban-pick-select-page', function () {
-				const checked = jQuery(this).is(':checked');
-				$root.find('.js-kanban-pick-checkbox').each(function () {
-					jQuery(this).prop('checked', checked).trigger('change');
-				});
+				thisInstance.selectAllCandidates(jQuery(this), jQuery(this).is(':checked'));
 			});
 
 			$root.off('click.kanbanPickPager', '.js-kanban-pick-prev, .js-kanban-pick-next');

@@ -46,6 +46,29 @@ class KanbanPickCandidatesAjax extends \App\Base\Controllers\BaseActionControlle
 			return;
 		}
 
+		if ($request->get('mode') === 'ids') {
+			try {
+				$candidateIds = KanbanCandidatePicker::listAllCandidateIds($projectId, $cvSkills);
+			} catch (InvalidCvSkillsExpressionException $e) {
+				$response->setResult([
+					'success' => false,
+					'invalidExpression' => true,
+					'message' => $e->getMessageKey(),
+					'messageDetail' => $e->getDetail(),
+				]);
+				$response->emit();
+				return;
+			}
+
+			$response->setResult([
+				'success' => true,
+				'candidateIds' => $candidateIds,
+				'totalCount' => \count($candidateIds),
+			]);
+			$response->emit();
+			return;
+		}
+
 		$pageNumber = $request->getInteger('page');
 		if ($pageNumber <= 0) {
 			$pageNumber = 1;
