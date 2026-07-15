@@ -301,6 +301,12 @@ class GetRelatedMembers extends \App\Modules\Base\Relations\GetRelatedList
                 'recruitment_status_rel' => $destinationStatus,
             ];
             $status = $this->updateRelationData($projectId, $candidateId, $updateData, false);
+            if ($status && $sourceStatus === 'PPL_REJECTED_AFTER_CV') {
+                \App\Modules\ProjektyRekrutacyjne\Services\ScreeningRejectionMail::cancelDelayedRejectionMail(
+                    $candidateId,
+                    $projectId
+                );
+            }
             if ($status) {
                 $relationAfter = $this->getRelationData($projectId, $candidateId) ?: [];
                 $context = new \App\Modules\Workflow\RelationWorkflowContext(

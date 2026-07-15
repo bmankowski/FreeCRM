@@ -161,4 +161,17 @@ class ScreeningRejectionMail
 
 		return ['delayedMail' => ['enqueued' => true]];
 	}
+
+	public static function cancelDelayedRejectionMail(int $candidateId, int $projectId): int
+	{
+		if ($candidateId <= 0 || $projectId <= 0) {
+			return 0;
+		}
+
+		return Buffer::cancel(
+			$projectId,
+			$candidateId,
+			DelayedEmailType::STATUS_CHANGE
+		);
+	}
 }

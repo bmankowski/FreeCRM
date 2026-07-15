@@ -18,7 +18,9 @@ All PHP runtime lives in the `app` container. The WSL host has no working PHP fo
 MariaDB shell (manual debugging only, when user asks or MCP is down):
 `docker compose exec -T db mariadb -ufreecrm -pfreecrm freecrm`
 
-**PHP image (`docker/php/Dockerfile`):** `openssh-client` + `rsync` for key-based dev sync (`cron` mounts `~/.ssh`). No `sshpass` — nothing in the repo uses password-based CLI SSH.
+**PHP runtime split:** `app` = PHP-FPM (HTTP only). **`cron`** = supercronic (`docker/cron/crontab`) — vtiger tasks + cv-sync shell script. Same PHP image; do **not** merge cron into `app` (rsync/SSH as root, isolate load from FPM). Dev, test, and **prod (target)** all use this layout.
+
+**PHP image (`docker/php/Dockerfile`):** `openssh-client` + `rsync` for key-based cv-sync (`cron` mounts `~/.ssh`). No `sshpass` — nothing in the repo uses password-based CLI SSH.
 
 ## Do not restart containers by default
 
@@ -53,12 +55,12 @@ Manual cron/import that writes storage: use **`cron`** + **`gosu www-data`** (or
 
 Pipeline: **Cyberfolks** `uploads/cv/` → **prod** `import/cv/{pending,backup}` → **dev/test** `import/cv/pending` → CRM import.
 
-- **Script:** `scripts/cv-sync/importCandidatesFiles.sh` — config via env `CV_IMPORT_CONFIG` (Docker) or `--config` (prod).
-- **Where invoked:** dev/test → `docker/cron/crontab` line 2 (`*/5`, `flock` on `cache/cv-sync.lock`); prod → root crontab → `/usr/local/bin/importCandidatesFiles.sh` (copy, not repo path).
-- **Configs:** `scripts/cv-sync/cv-import.*.conf.example` (prod); Docker dev/test → `docker/cv-sync/cv-import.from-prod-backup.conf` set in `docker-compose.yml` `cron.environment.CV_IMPORT_CONFIG`.
+- **Script:** `scripts/cv-sync/importCandidatesFiles.sh` — config via inline `CV_IMPORT_CONFIG=` in crontab, `--config`, or env when exec'd manually.
+- **Where invoked:** all Docker envs → `docker/cron/crontab` (`* * * * *`, `flock` on `cache/cv-sync.lock`). **Prod today (`10.0.0.220`):** transitional host root crontab → `/usr/local/bin/importCandidatesFiles.sh` — **prod target:** same `cron` service + crontab, different `CV_IMPORT_CONFIG` (compose override / secrets).
+- **Configs:** `scripts/cv-sync/cv-import.*.conf.example`; dev/test → `docker/cv-sync/cv-import.from-prod-backup.conf` (`SOURCE=prod-backup`); prod target → Cyberfolks config from example (`SOURCE=cyberfolks`, `REMOVE_SOURCE=1`). **Crontab must pass `CV_IMPORT_CONFIG=` inline** — do not rely on `docker-compose.yml` `cron.environment` alone (stale container may lack it). Misconfig symptom: `Config not found: /etc/freecrm/cv-import.conf` in `cache/logs/cv-sync.log`.
 - **Paths:** host `./import/cv/{pending,backup,processed,failed}` bind-mounted to `/var/www/import/cv` in `cron` container.
-- **Prod (`10.0.0.220`):** `/etc/freecrm/cv-import.conf` — `SOURCE=cyberfolks`, `REMOVE_SOURCE=1`; `AFTER_SYNC_CMD` = YetiForce `importNewCandidates.php`. Log: `/var/log/cv-import.log`. **Not via `pushsrc`** — copy script/config manually when changed.
-- **Dev / test:** `SOURCE=prod-backup` rsyncs `10.0.0.220:…/backup/` → local `pending/` (no delete on prod). Incremental filter uses **local** `import/cv/.last_sync` mtime as epoch (`find -newermt` on prod — do not pass the local path to remote `find -newer`). Log: `cache/logs/cv-sync.log`. Needs `~/.ssh` → prod + `docker/dev/ssh/known_hosts`. **`docker compose up -d cron`** after cv-sync / compose changes.
+- **Prod (`10.0.0.220`, transitional):** `/etc/freecrm/cv-import.conf` on host — Cyberfolks consumer; log `/var/log/cv-import.log`. When prod moves to Docker: drop host root crontab; mount Cyberfolks SSH keys into `cron`; no `AFTER_SYNC_CMD` to legacy YetiForce — FreeCRM phase A/B crons only.
+- **Dev / test:** `SOURCE=prod-backup` rsyncs `10.0.0.220:…/backup/` → local `pending/` (no delete on prod). Incremental filter uses **local** `import/cv/.last_sync` mtime as epoch (`find -newermt` on prod — do not pass the local path to remote `find -newer`). Log: `cache/logs/cv-sync.log`. Needs `~/.ssh` → prod + `docker/dev/ssh/known_hosts`. **`docker compose up -d cron`** after **any** `docker/cron/crontab` or cv-sync script/config change — supercronic does not reliably hot-reload the bind-mounted crontab.
 - **Manual sync:** pass config — bare exec has no `CV_IMPORT_CONFIG` from compose:
   `docker compose exec -T cron env HOME=/root CV_IMPORT_CONFIG=/var/www/html/docker/cv-sync/cv-import.from-prod-backup.conf /var/www/html/scripts/cv-sync/importCandidatesFiles.sh`
 - **Manual CRM import (phase A):** `docker compose exec -T cron gosu www-data php cron/vtigercron.php service=LBL_SCHEDULED_CV_IMPORT_APPLICATIONS`

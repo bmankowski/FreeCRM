@@ -77,6 +77,7 @@ globs:
 - Manual drag: `Detail.js` → `ChangeCandidateStatusManuallyAjax` → `GetRelatedMembers::changeStatus()` (whitelist: `RecruitmentStatusTransition`).
 - Transition mail matrix: `RecruitmentStatusTransitionMail::resolveMailActions()` splits by `delivery_mode` — **`auto`** → `sendAutoTemplates()` + JSON `autoSend` toast; **`prompt`** → JSON `mailPrompt.templateIds` → `Vtiger_Index_Js.triggerSendEmailModal` (`Candidates`, `sourceModule`/`sourceRecord` = project). See `recruitment-settings.mdc`.
 - Screening Accept/Reject and workflows do **not** use the mail matrix.
+- Screening **Reject** (`RejectCandidateManuallyAjax`, `PPL_APPLIED` → `PPL_REJECTED_AFTER_CV`): `ScreeningRejectionMail::enqueueDelayedRejectionMail()` → delayed buffer type `status_change`. **Revert** out of `PPL_REJECTED_AFTER_CV` (via `GetRelatedMembers::changeStatus()`): `ScreeningRejectionMail::cancelDelayedRejectionMail()` — cancel immediately; do not rely on stale-hash discard at promote time alone.
 
 ## Candidate files (CV, consents, etc.)
 
