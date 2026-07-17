@@ -21,6 +21,7 @@
 
 <div class="summaryWidgetContainer recruitment-project-kanban" id="{$WIDGET_UID}">
 	<input type="hidden" class="project-id" value="{$PROJECT_ID}"/>
+	<input type="hidden" class="js-cv-boolean-query" value="{$WIDGET['data']['cvBooleanQuery']|escape:'html'}"/>
 	<input type="hidden" class="js-status-transitions" value="{$WIDGET['data']['statusTransitionsJson']}"/>
 	
 	{* Table 0: Entry — manual pool and AI-added candidates *}

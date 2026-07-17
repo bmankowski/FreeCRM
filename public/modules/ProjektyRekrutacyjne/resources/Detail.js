@@ -118,18 +118,26 @@ Vtiger_Detail_Js(
 				if (!projectId) {
 					return;
 				}
+				const cvBooleanQuery = $.trim($container.find('.js-cv-boolean-query').val() || '');
+				const storage = window.ProjektyRekrutacyjne_KanbanCvSkillsQueryStorage;
+				if (cvBooleanQuery && storage && storage.isPersistableQuery(cvBooleanQuery)) {
+					thisInstance.openKanbanPickCandidatesModal(projectId, cvBooleanQuery);
+					return;
+				}
 				const modalUrl = 'index.php?module=' + app.getModuleName()
 					+ '&view=KanbanSearchCandidatesModal&projectId=' + encodeURIComponent(projectId);
 				app.showModalWindow(null, modalUrl);
 			});
 		},
 		openKanbanPickCandidatesModal: function (projectId, cvSkills) {
-			if (!projectId || !cvSkills) {
+			if (!projectId) {
 				return;
 			}
-			const modalUrl = 'index.php?module=' + app.getModuleName()
-				+ '&view=KanbanPickCandidatesModal&projectId=' + encodeURIComponent(projectId)
-				+ '&cv_skills=' + encodeURIComponent(cvSkills);
+			let modalUrl = 'index.php?module=' + app.getModuleName()
+				+ '&view=KanbanPickCandidatesModal&projectId=' + encodeURIComponent(projectId);
+			if (cvSkills) {
+				modalUrl += '&cv_skills=' + encodeURIComponent(cvSkills);
+			}
 			app.showModalWindow(null, modalUrl);
 		},
 		submitManualCandidates: function (projectId, candidateIds) {

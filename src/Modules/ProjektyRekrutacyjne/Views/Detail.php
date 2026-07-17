@@ -69,6 +69,7 @@ class Detail extends \App\Modules\Base\Views\Detail
 
 		$jsScriptInstances = $this->checkAndConvertJsScripts([
 			'modules.Base.resources.ListView',
+			'modules.ProjektyRekrutacyjne.resources.KanbanCvSkillsQueryStorage',
 		]);
 
 		return array_merge($headerScriptInstances, $jsScriptInstances);

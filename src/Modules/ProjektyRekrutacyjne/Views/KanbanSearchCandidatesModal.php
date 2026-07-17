@@ -38,9 +38,13 @@ class KanbanSearchCandidatesModal extends \App\Modules\Base\Views\BasicModal
 
 	public function process(Vtiger_Request $request): void
 	{
+		$projectId = $request->getInteger('projectId');
+		$project = \App\Modules\Base\Models\Record::getInstanceById($projectId, 'ProjektyRekrutacyjne');
+
 		$viewer = $this->getViewer($request);
 		$viewer->assign('MODULE_NAME', $request->getModule());
-		$viewer->assign('PROJECT_ID', $request->getInteger('projectId'));
+		$viewer->assign('PROJECT_ID', $projectId);
+		$viewer->assign('CV_BOOLEAN_QUERY', trim((string) $project->get('cv_boolean_query')));
 
 		$this->preProcess($request);
 		$viewer->view('Modals/KanbanSearchCandidatesModal.tpl', $request->getModule());

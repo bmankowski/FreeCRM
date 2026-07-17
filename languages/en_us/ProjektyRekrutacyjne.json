@@ -24,6 +24,7 @@
         "LBL_RECRUITMENT_KANBAN": "Recruitment kanban",
         "LBL_ADD_MANUAL_CANDIDATE": "Add candidate",
         "LBL_KANBAN_SEARCH_CANDIDATES_TITLE": "Search candidates by CV skills",
+        "PLL_CV_BOOLEAN_QUERY": "CV boolean search",
         "LBL_KANBAN_CV_SKILLS": "CV skills",
         "LBL_KANBAN_CV_SKILLS_PLACEHOLDER": "Search syntax: Java AND (Spring OR Kotlin)",
         "LBL_KANBAN_CV_SKILLS_INVALID": "Invalid search expression.",

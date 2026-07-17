@@ -221,3 +221,4 @@ ORDER BY f.entitytype, f.viewname;
 
 
 
+select * from u_yf_projektyrekrutacyjne;

@@ -7,7 +7,7 @@
 	<form id="kanbanSearchCandidatesForm" data-project-id="{$PROJECT_ID}">
 		{include file='partials/KanbanCvSkillsQueryField.tpl'|@vtemplate_path:$MODULE_NAME
 			FIELD_ID='kanbanCvSkillsInput'
-			FIELD_VALUE=''
+			FIELD_VALUE=$CV_BOOLEAN_QUERY
 			ROWS=4}
 	</form>
 </div>
