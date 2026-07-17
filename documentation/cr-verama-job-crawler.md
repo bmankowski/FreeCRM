@@ -1,6 +1,6 @@
 # Change Request: Verama job crawler → JSON
 
-**Status:** Proposed  
+**Status:** Implemented (dev) — crawler + Docker; CRM import out of scope  
 **Scope:** Python crawler only (no FreeCRM PHP importer in this CR)  
 **Target env:** dev (`docker compose`); push to test/prod only after successful manual runs
 

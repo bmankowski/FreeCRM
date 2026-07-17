@@ -94,5 +94,25 @@ services:
       retries: 20
     restart: unless-stopped
 
+  # Manual job crawl (Verama → import/jobs). Does not start with default `up`.
+  # Run: docker compose --profile crawler run --rm verama-crawler
+  verama-crawler:
+    build:
+      context: .
+      dockerfile: docker/verama-crawler/Dockerfile
+    profiles:
+      - crawler
+    env_file:
+      - docker/verama-crawler/verama.env
+    environment:
+      VERAMA_OUTPUT_DIR: /var/www/import/jobs
+      VERAMA_LOG_PATH: /var/www/html/cache/logs/verama-crawler.log
+    volumes:
+      - ./import:/var/www/import
+      - ./cache/logs:/var/www/html/cache/logs
+      - ./scripts/job-crawlers:/opt/crawlers:ro
+    working_dir: /opt/crawlers
+    restart: "no"
+
 volumes:
   db_data:

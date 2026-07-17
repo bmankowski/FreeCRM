@@ -50,3 +50,4 @@ dump_to_transfer.sql.gz
 /config/keys/*.pem
 /config/keys/link_action_queue_api_key.txt
 /import
+/docker/verama-crawler/verama.env
