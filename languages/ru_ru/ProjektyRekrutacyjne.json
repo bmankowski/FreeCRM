@@ -1,6 +1,9 @@
 {
     "languageStrings": {
-        "PLL_CV_BOOLEAN_QUERY": "PLL_CV_BOOLEAN_QUERY"
+        "PLL_CV_BOOLEAN_QUERY": "PLL_CV_BOOLEAN_QUERY",
+        "PLL_EXTERNAL_JOB_ID": "PLL_EXTERNAL_JOB_ID",
+        "PLL_JOB_SOURCE": "PLL_JOB_SOURCE",
+        "Verama www": "Verama www"
     },
     "jsLanguageStrings": []
 }

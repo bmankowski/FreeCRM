@@ -46,6 +46,8 @@ Two paths — do not mix them for the same field type.
 
 **Templates:** `DetailViewBlockView.tpl` (Details tab), `SummaryViewContents.tpl` (Summary — reference branch must come *before* in-place branch).
 
+**uitype 300 (HTML) layout:** After the HTML field, `DetailViewBlockView.tpl` must close the `fieldRow` and open a new one (same as it does before). Otherwise the next `col-md-6` fields share the row and the HTML block shrinks to content width. CSS: `.detailViewHtmlField` inside `.fieldRow { display:table }` must be `display:table-cell; width:100%` — `display:block; width:100%` does not expand.
+
 **Modal stack:** `src/Modules/Base/Views/ReferenceEditModal.php` (`extends BasicModal`, Loader fallback for all modules) + `layouts/basic/modules/Base/ReferenceEditModal.tpl` (embeds `uitypes/Reference.tpl`). Picker wiring: `new Vtiger_Edit_Js().registerBasicEvents(modalContainer)` in `showModalWindow` callback.
 
 **JS (`Detail.js`):** handler on `.referenceModalEdit` with `e.stopPropagation()`; Summary `.summaryViewEdit` click handler must skip `.referenceModalEdit` (otherwise `ajaxEditHandling` runs with no `.edit` block). Post-save: update `.value` in `#<Module>_detailView_fieldValue_<field>` and in `referenceModalTarget`.

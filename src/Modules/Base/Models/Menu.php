@@ -92,7 +92,7 @@ class Menu {
 	public static function getModuleNameFromUrl($url)
 	{
 		$params = \vtlib\Functions:: getQueryParams($url);
-		if ($params['parent']) {
+		if (!empty($params['parent'])) {
 			return ($params['parent'] . ':' . $params['module']);
 		}
 		return $params['module'];

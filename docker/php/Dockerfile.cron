@@ -1,0 +1,25 @@
+# FreeCRM cron image — PHP app image + Python for Verama job sync
+# @project FreeCRM
+# @author bmankowski@gmail.com
+#
+# Build app first: docker compose build app
+# Then: docker compose build cron
+
+ARG BASE_IMAGE=freecrm-app:latest
+FROM ${BASE_IMAGE}
+
+USER root
+
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends \
+    python3 \
+    python3-pip \
+  && rm -rf /var/lib/apt/lists/*
+
+COPY scripts/verama_job_sync/requirements.txt /tmp/verama-job-sync-requirements.txt
+RUN pip3 install --no-cache-dir --break-system-packages -r /tmp/verama-job-sync-requirements.txt \
+  && rm -f /tmp/verama-job-sync-requirements.txt
+
+ENV PYTHONPATH=/var/www/html/scripts \
+    VERAMA_OUTPUT_DIR=/var/www/import/jobs \
+    VERAMA_LOG_PATH=/var/www/html/cache/logs/verama-job-sync.log

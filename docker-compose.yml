@@ -50,8 +50,13 @@ services:
   cron:
     build:
       context: .
-      dockerfile: docker/php/Dockerfile
+      dockerfile: docker/php/Dockerfile.cron
+      args:
+        BASE_IMAGE: freecrm-app:latest
+    image: freecrm-cron
     # root so dev CV rsync can use mounted ~/.ssh; vtigercron runs as www-data via gosu in crontab
+    env_file:
+      - docker/verama-job-sync/verama-job-sync.env
     environment:
       FREECRM_DB_HOST: db
       FREECRM_DB_PORT: "3306"
@@ -62,6 +67,9 @@ services:
       FREECRM_FORCE_SSL: "1"
       YII_DEBUG: "0"
       CV_IMPORT_CONFIG: /var/www/html/docker/cv-sync/cv-import.from-prod-backup.conf
+      PYTHONPATH: /var/www/html/scripts
+      VERAMA_OUTPUT_DIR: /var/www/import/jobs
+      VERAMA_LOG_PATH: /var/www/html/cache/logs/verama-job-sync.log
     volumes:
       - ./:/var/www/html
       - ./import:/var/www/import
@@ -94,24 +102,24 @@ services:
       retries: 20
     restart: unless-stopped
 
-  # Manual job crawl (Verama → import/jobs). Does not start with default `up`.
-  # Run: docker compose --profile crawler run --rm verama-crawler
-  verama-crawler:
+  # Manual Verama job sync → import/jobs. Does not start with default `up`.
+  # Run: docker compose --profile verama-job-sync run --rm verama-job-sync
+  verama-job-sync:
     build:
       context: .
-      dockerfile: docker/verama-crawler/Dockerfile
+      dockerfile: docker/verama-job-sync/Dockerfile
     profiles:
-      - crawler
+      - verama-job-sync
     env_file:
-      - docker/verama-crawler/verama.env
+      - docker/verama-job-sync/verama-job-sync.env
     environment:
       VERAMA_OUTPUT_DIR: /var/www/import/jobs
-      VERAMA_LOG_PATH: /var/www/html/cache/logs/verama-crawler.log
+      VERAMA_LOG_PATH: /var/www/html/cache/logs/verama-job-sync.log
     volumes:
       - ./import:/var/www/import
       - ./cache/logs:/var/www/html/cache/logs
-      - ./scripts/job-crawlers:/opt/crawlers:ro
-    working_dir: /opt/crawlers
+      - ./scripts/verama_job_sync:/opt/verama_job_sync:ro
+    working_dir: /opt
     restart: "no"
 
 volumes:

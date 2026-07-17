@@ -1,0 +1,7 @@
+# FreeCRM — Verama job sync
+# @project FreeCRM
+# @author bmankowski@gmail.com
+
+requests>=2.31.0,<3
+beautifulsoup4>=4.12.0,<5
+lxml>=5.0.0,<6

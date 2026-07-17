@@ -4,3 +4,6 @@
 
 # CV file sync from prod backup (10.0.0.220).
 * * * * * flock -n /var/www/html/cache/cv-sync.lock env HOME=/root CV_IMPORT_CONFIG=/var/www/html/docker/cv-sync/cv-import.from-prod-backup.conf /var/www/html/scripts/cv-sync/importCandidatesFiles.sh >> /var/www/html/cache/logs/cv-sync.log 2>&1
+
+# Verama job sync: fetch API JSON then import into ProjektyRekrutacyjne.
+*/10 * * * * flock -n /var/www/html/cache/verama-job-sync.lock /var/www/html/scripts/verama_job_sync/run-verama-job-sync.sh >> /var/www/html/cache/logs/verama-job-sync.log 2>&1

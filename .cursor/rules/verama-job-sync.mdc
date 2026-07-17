@@ -1,0 +1,86 @@
+---
+description: "Verama job crawler (Python) + PHP import into ProjektyRekrutacyjne — paths, commands, mapping, stance"
+globs:
+  - "scripts/verama_job_sync/**"
+  - "src/Modules/ProjektyRekrutacyjne/Services/Verama/**"
+  - "src/Modules/ProjektyRekrutacyjne/Cron/VeramaJobImportTask.php"
+  - "src/Modules/ProjektyRekrutacyjne/scripts/importVeramaJobs.php"
+  - "docker/verama-job-sync/**"
+  - "docker/cron/crontab"
+  - "import/jobs/**"
+  - "documentation/cr-verama-job-*.md"
+alwaysApply: false
+---
+
+# Verama job sync + import
+
+Inbound **job ads** (not CV applications). Staging = JSON files; CRM target = **`ProjektyRekrutacyjne`** (no intermediate module).
+
+Docs: `documentation/cr-verama-job-sync.md`, `documentation/cr-verama-job-importer.md`.
+
+## Two phases (do not conflate)
+
+| Phase | Code | Writes |
+|-------|------|--------|
+| **Fetch** | `scripts/verama_job_sync/` (`python3 -m verama_job_sync`) | `import/jobs/pending/verama_{id}.json` |
+| **Import** | `VeramaJobImporter` / `importVeramaJobs.php` | `ProjektyRekrutacyjne` + move file → `processed/` / `failed/` |
+
+Orchestrator (fetch then import): `scripts/verama_job_sync/run-verama-job-sync.sh` — runs in **`cron`** (`*/10` in `docker/cron/crontab`, `flock`). Image: `docker/php/Dockerfile.cron` (`FROM freecrm-app` + Python). **Build `app` before `cron`.**
+
+Fetcher does **not** know CRM fields. Mapper/importer does **not** call Verama HTTP.
+
+## Stance
+
+- No fallbacks / silent empty success. Auth, list, detail, parse, or `save()` failure → **abort** (exit ≠ 0).
+- No `class_alias`, no parallel import paths.
+- Secrets only in `docker/verama-job-sync/verama-job-sync.env` (gitignored); example: `verama-job-sync.env.example`.
+
+## Fetch (Python)
+
+- API-first: login + `job-requests` list/detail. BS4 **only** for `description` HTML → `description_sections`.
+- PL only: client-side `countryCode == "POL"` (query params do **not** filter).
+- Detail delay **2 s**. CLOSED = id in `.verama_seen.json` missing from current OPEN/POL list → JSON with `status: CLOSED`.
+- Logs: `cache/logs/verama-job-sync.log`.
+
+```bash
+# Fetch only
+docker compose --profile verama-job-sync run --rm verama-job-sync
+
+# Full cycle (cron container)
+docker compose exec -T cron /var/www/html/scripts/verama_job_sync/run-verama-job-sync.sh
+
+# Import only
+docker compose exec -T cron gosu www-data php src/Modules/ProjektyRekrutacyjne/scripts/importVeramaJobs.php
+```
+
+After crontab / `Dockerfile.cron` / sync script change: `docker compose up -d cron`.
+
+## Import (PHP)
+
+| Concern | Rule |
+|---------|------|
+| Dedup | `job_source=verama` + `external_job_id` |
+| OPEN | `etap_sprzedazy` = `Na potrzeby RFI` (no WWW publish) |
+| CLOSED | `etap_sprzedazy` = `Sprzedaż utracona` |
+| Create owner | `assigned_user_id` = user `automat` |
+| Fixed refs (create+update) | `kontrahent` = Accounts `Ework Verama`; `contact_person` = Contacts `Wojciech Górski` (`VeramaJobFieldMapper`) |
+| Source picklist | `zrodlo_pozyskania_projektu` = `Verama www`; `rodzaj` = `Dla klienta` |
+| Remoteness | `0` → na miejscu; `1–99` → hybrydowa; `≥100` → zdalna; missing/non-numeric on OPEN → abort |
+| Skills / cities | truncate to existing varchar limits in mapper |
+| File move | success → `processed/`; error → `failed/` + abort whole run |
+
+Classes: `Services/Verama/VeramaJob{JsonParser,FieldMapper,Importer,FilePaths,FileOperations,ImportDto}.php`. Cron task: `Cron/VeramaJobImportTask.php` (prefer orchestrator shell over isolated cron for production cadence).
+
+## Paths & permissions
+
+Host `./import/jobs/{pending,processed,failed}` → cron `/var/www/import/jobs`. Must be writable by `www-data`:
+
+```bash
+docker compose exec -T -u root app chown -R www-data:www-data /var/www/html/import/jobs
+```
+
+## Tests (Python)
+
+```bash
+PYTHONPATH=scripts python -m unittest verama_job_sync.tests.test_description verama_job_sync.tests.test_closed -v
+```

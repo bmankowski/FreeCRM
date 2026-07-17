@@ -131,6 +131,8 @@
 											{/if}
 										</div>
 									</div>
+									</div>
+									<div class="col-xs-12 paddingLRZero fieldRow">
 									{assign var=COUNTER value=0}
 								{else}
 									{if $FIELD_MODEL->get('uitype') eq "20" or $FIELD_MODEL->get('uitype') eq "19"}

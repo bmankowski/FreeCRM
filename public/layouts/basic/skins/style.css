@@ -6383,8 +6383,11 @@ select.form-control {
 
 @media screen and (min-width: 960px) {
 	.detailViewTable .fieldRow > .detailViewHtmlField.fieldsLabelValue {
-		display: block;
+		display: table-cell;
 		width: 100%;
 		border-right: 0;
+	}
+	.detailViewTable .fieldRow > .detailViewHtmlField.fieldsLabelValue::before {
+		display: none;
 	}
 }

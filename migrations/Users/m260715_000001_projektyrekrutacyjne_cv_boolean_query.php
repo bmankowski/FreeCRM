@@ -114,7 +114,15 @@ class m260715_000001_projektyrekrutacyjne_cv_boolean_query extends Migration
 		}
 
 		if ($updates !== []) {
-			$this->update('vtiger_field', $updates, ['fieldid' => $fieldId]);
+			try {
+				$this->update('vtiger_field', $updates, ['fieldid' => $fieldId]);
+			} catch (\Throwable $e) {
+				// MariaDB 1020: row changed since last read after Block::addField
+				$message = $e->getMessage();
+				if (!str_contains($message, '1020') && !str_contains($message, 'Record has changed')) {
+					throw $e;
+				}
+			}
 		}
 	}
 
