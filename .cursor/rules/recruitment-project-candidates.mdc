@@ -65,6 +65,7 @@ globs:
 - `relateEntities(..., 'getRelatedMembers')` → `EntityAfterLink` → `NewCandidateInProject` (comments differ for applied vs manual).
 - Import uses `createLink()` directly (not `relateEntities`) to keep `PPL_APPLIED` and still run the same handler.
 - **CV import (two crons):** A — `CvImportTask` / `importApplicationsFromPending()` (`pending/` → `RecruitmentApplication` + `processed/`); B — `CvImportCandidatesTask` / `importCandidatesFromApplications()` (`candidate_id=0` → `Candidates`, `candidate_id` claimed right after `resolveCandidate()`, then CV/comment/project). Dedup by email/name in `CandidateApplicationSideEffects::createNewCandidate()` (`GET_LOCK`). Details: `docker-commands.mdc`.
+- **No auto confirmation mail on apply** — see `email-template-notifications.mdc`.
 
 ## Candidates module rename (metadata gotchas)
 
@@ -75,7 +76,7 @@ globs:
 ## Kanban status change + transition mail
 
 - Manual drag: `Detail.js` → `ChangeCandidateStatusManuallyAjax` → `GetRelatedMembers::changeStatus()` (whitelist: `RecruitmentStatusTransition`).
-- Transition mail matrix: `RecruitmentStatusTransitionMail::resolveMailActions()` splits by `delivery_mode` — **`auto`** → `sendAutoTemplates()` + JSON `autoSend` toast; **`prompt`** → JSON `mailPrompt.templateIds` → `Vtiger_Index_Js.triggerSendEmailModal` (`Candidates`, `sourceModule`/`sourceRecord` = project). See `recruitment-settings.mdc`.
+- Transition mail matrix: `RecruitmentStatusTransitionMail::resolveMailActions()` splits by `delivery_mode` — **`auto`** → `sendAutoTemplates()` + JSON `autoSend` toast; **`prompt`** → JSON `mailPrompt.templateIds` → `Vtiger_Index_Js.triggerSendEmailModal` (`Candidates`, `sourceModule`/`sourceRecord` = project). Paths inventory: `email-template-notifications.mdc`; matrix UI: `recruitment-settings.mdc`.
 - Screening Accept/Reject and workflows do **not** use the mail matrix.
 - Screening **Reject** (`RejectCandidateManuallyAjax`, `PPL_APPLIED` → `PPL_REJECTED_AFTER_CV`): `ScreeningRejectionMail::enqueueDelayedRejectionMail()` → delayed buffer type `status_change`. **Revert** out of `PPL_REJECTED_AFTER_CV` (via `GetRelatedMembers::changeStatus()`): `ScreeningRejectionMail::cancelDelayedRejectionMail()` — cancel immediately; do not rely on stale-hash discard at promote time alone.
 

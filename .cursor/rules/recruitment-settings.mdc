@@ -48,6 +48,8 @@ On test, run via SSH + `docker compose exec` (see `deployment.mdc`).
 
 ## Mail-on-transition (runtime)
 
+Full inventory of template send paths (screening reject, WF, apply, compose) → **`email-template-notifications.mdc`**.
+
 - **Trigger:** kanban drag only, after successful `changeStatus()`.
 - **Matrix:** stores **short names** (`u_yf_emailtemplates.sys_name`) + **`delivery_mode`** (`prompt` | `auto`) per row.
 - **Resolution:** `RecruitmentStatusTransitionMail::resolveMailActions()` → per row `RecruitmentTemplate::resolveShortNamesForAccount()` for that short name; project `kontrahent` → account-specific template (`account_id` uitype 306 MultiReference), else global; account-specific hides globals.

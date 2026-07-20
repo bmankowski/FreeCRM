@@ -1,0 +1,75 @@
+---
+description: "EmailTemplates — who sends what, from where, and how it is configured (recruitment + shared plumbing)"
+globs:
+  - "src/Modules/ProjektyRekrutacyjne/Services/RecruitmentStatusTransitionMail.php"
+  - "src/Modules/ProjektyRekrutacyjne/Services/ScreeningRejectionMail.php"
+  - "src/Modules/ProjektyRekrutacyjne/Actions/*Candidate*Ajax.php"
+  - "src/Modules/EmailTemplates/**"
+  - "src/Modules/Workflow/Tasks/VTEmailTemplateTask.php"
+  - "src/Modules/Workflow/RelationWorkflowRunner.php"
+  - "src/Email/Delayed/**"
+  - "src/Modules/Cron/Tasks/DelayedEmailQueueTask.php"
+  - "migrations/Users/*email_template*"
+  - "migrations/Users/*screening_rejection*"
+alwaysApply: false
+---
+
+# Email template notifications
+
+Inventory of **when** FreeCRM sends from `u_yf_emailtemplates`, **how** the template is chosen, and **where** that is configured. Transport/queue details → `mail-module.mdc`. Manual compose UI → `mail-compose.mdc`. Matrix UI → `recruitment-settings.mdc`. Apply/relation side effects → `recruitment-project-candidates.mdc`.
+
+## Shared plumbing
+
+| Piece | Role |
+|-------|------|
+| `u_yf_emailtemplates` | Store: `sys_name`, `modules`, `is_system`, `account_id`, subject/body |
+| `App\Email\Mail::getTemplete($id\|sys_name)` | Load template |
+| `Outbound::sendFromTemplate*` | Immediate enqueue → `s_yf_mail_queue` → `MailerTask` |
+| `Email\Delayed\Buffer` | Delay → `s_yf_delayed_email_queue` → cron `DelayedEmailQueueTask` → mail queue |
+| Gates | `isActiveSendingMails`, default SMTP, recipient has email |
+
+Template identity for automation: prefer **`sys_name`** (stable). Numeric ids only in legacy workflow tasks / manual preselect. `is_system=1` hides from compose picker; matrix/cron/workflows still resolve by `sys_name`.
+
+## Recruitment — send paths
+
+| Trigger | Entry | Template select | Config | Delivery |
+|---------|-------|-----------------|--------|----------|
+| Kanban / DashBoard status drag | `ChangeCandidateStatusManuallyAjax` → `RecruitmentStatusTransitionMail` | matrix `short_name` → `RecruitmentTemplate::resolveShortNamesForAccount(project.kontrahent)` | Settings › Rekrutacja › TransitionMail → `u_yf_recruitment_status_transition_mail` | per row `prompt` (modal) or `auto` (server Outbound) |
+| Screening Reject (`PPL_APPLIED` → `PPL_REJECTED_AFTER_CV`) | `RejectCandidateManuallyAjax` → `ScreeningRejectionMail::enqueueDelayedRejectionMail` | `REASON_SYS_NAMES` → Candidates `sys_name` | **code** map + seeded templates (`m260714_000003_…`) | delayed buffer (`STATUS_CHANGE`); cancel on revert out of reject |
+| Screening Accept | `AcceptCandidateManuallyAjax` | — | — | **no mail** from Accept |
+| Relation workflow (`ON_RELATION_MODIFY`) | `GetRelatedMembers::changeStatus` → `RelationWorkflowRunner` → `VTEmailTemplateTask` | task field `template` (numeric id) | Settings Workflows + `com_vtiger_workflow_relation_triggers`; hub `…&module=Recruitment&view=Workflows` | delayed buffer when buffer enabled |
+| Manual compose / mass email / matrix `prompt` | `IndividualSendMailModal` → `Base\Actions\Mail` | user pick (hides `is_system`); optional `templateIds` | EmailTemplates records | immediate after user confirm |
+| CV apply / `PPL_APPLIED` create | `CandidateApplicationSideEffects`, `NewCandidateInProject` | — | — | **no template mail** |
+
+**Not wired:** `kandydaci_potwierdzenie_otrzymania_aplikacji` (id 1441893) — confirmation-of-application template exists; nothing auto-sends it. CV import ops errors use raw `ImportErrorMailer` (not EmailTemplates).
+
+**Screening reject `sys_name` map** (`ScreeningRejectionMail::REASON_SYS_NAMES`): `NO_EXPERIENCE` → `kandydaci_odrzucenie_brak_doswiadczenia`; `MISSING_SKILLS` → `…_brak_kompetencji`; `PROFILE_FIT` → `…_niedopasowanie_profilu`; `MISSING_POLISH_LANGUAGE` → `…_brak_jezyka_polskiego`; `OTHER_CANDIDATE_CHOSEN` → `…_inny_kandydat`; `PROJECT_CLOSED` → `…_proces_zamkniety`.
+
+**Dev TransitionMail matrix (example):** screening-pass → interview invite `kandydaci_zaproszenie_na_rozmowe` (`prompt`); interview → to-client consent `kandydaci_zgoda_na_przetwarzanie_danych` (`prompt`). Matrix is **per-DB** (not in `pushsrc`).
+
+### Relation-workflow pitfall
+
+`com_vtiger_workflow_relation_triggers.destination_module` may still be **`Kandydaci`** while runtime uses **`Candidates`** → matcher fails → WF never sends (e.g. WF 79 invite). Fix trigger rows to `Candidates` if relation email WFs should run. Prefer TransitionMail matrix for new recruitment mails.
+
+## Other modules (pattern only)
+
+| Path | Select | Notes |
+|------|--------|-------|
+| Record workflow `VTEmailTemplateTask` | task `template` id (HelpDesk often `sys_name` string) | immediate Outbound |
+| `VTEmailTask` | freeform subject/body | not EmailTemplates table |
+| Calendar `SendReminderTask` | sys_name `ActivityReminderNotification*` | cron |
+| `NotificationsTask` | `SendNotificationsViaMail` | digest cron |
+| Forgot password / BruteForce | fixed sys_name | security events |
+| Scheduled reports | template id in report | schedule |
+
+## Settings / DB cheat sheet
+
+| What | Where |
+|------|-------|
+| Transition mail matrix | `index.php?module=Recruitment&parent=Settings&view=TransitionMail` |
+| Relation WF hub | `index.php?module=Recruitment&parent=Settings&view=Workflows` |
+| EmailTemplates CRUD | `index.php?module=EmailTemplates&view=ListView` |
+| Delayed buffer UI | `index.php?module=DelayedEmails&view=ListView` |
+| Outbound queue | Settings › E-maile do wysłania (`mail-module.mdc`) |
+
+**Tables:** `u_yf_emailtemplates`, `u_yf_recruitment_status_transition_mail`, `com_vtiger_workflows` / `com_vtiger_workflowtasks`, `com_vtiger_workflow_relation_triggers`, `s_yf_delayed_email_queue`, `s_yf_mail_queue`.
