@@ -235,6 +235,21 @@ class GetRelatedMembers extends \App\Modules\Base\Relations\GetRelatedList
         $handler = new \App\Modules\Candidates\Handlers\NewCandidateInProject();
         $handler->onCandidateLinkedToProject($candidateId, $projectId);
 
+        if ($initialStatus === self::STATUS_APPLIED) {
+            try {
+                \App\Modules\ProjektyRekrutacyjne\Services\ApplicationReceivedMail::sendForAppliedLink(
+                    $candidateId,
+                    $projectId
+                );
+            } catch (\Throwable $e) {
+                \App\Log\Log::warning(
+                    'application received mail threw: ' . $e->getMessage()
+                    . ' (candidateId=' . $candidateId . ', projectId=' . $projectId . ')',
+                    'Mail'
+                );
+            }
+        }
+
         return true;
     }
 

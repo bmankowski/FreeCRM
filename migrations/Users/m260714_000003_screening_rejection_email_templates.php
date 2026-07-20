@@ -16,7 +16,7 @@ class m260714_000003_screening_rejection_email_templates extends Migration
 	private const SETYPE = 'EmailTemplates';
 	private const MODENTITY_TABID = 112;
 
-	private const FOOTER = "\n\n\$(dynamic : current_footer)\$\n\$(dynamic : candidates_unsubscribe_footer)\$";
+	private const FOOTER = "\n\n\$(dynamic : current_user_footer)\$\n\$(dynamic : candidates_unsubscribe_footer)\$";
 
 	private const TEMPLATES = [
 		[

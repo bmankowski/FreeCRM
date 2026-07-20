@@ -3,6 +3,8 @@ description: "EmailTemplates — who sends what, from where, and how it is confi
 globs:
   - "src/Modules/ProjektyRekrutacyjne/Services/RecruitmentStatusTransitionMail.php"
   - "src/Modules/ProjektyRekrutacyjne/Services/ScreeningRejectionMail.php"
+  - "src/Modules/ProjektyRekrutacyjne/Services/ApplicationReceivedMail.php"
+  - "src/Modules/ProjektyRekrutacyjne/Relations/GetRelatedMembers.php"
   - "src/Modules/ProjektyRekrutacyjne/Actions/*Candidate*Ajax.php"
   - "src/Modules/EmailTemplates/**"
   - "src/Modules/Workflow/Tasks/VTEmailTemplateTask.php"
@@ -11,6 +13,8 @@ globs:
   - "src/Modules/Cron/Tasks/DelayedEmailQueueTask.php"
   - "migrations/Users/*email_template*"
   - "migrations/Users/*screening_rejection*"
+  - "migrations/Users/*footer*"
+  - "migrations/Users/m260720*"
 alwaysApply: false
 ---
 
@@ -30,6 +34,15 @@ Inventory of **when** FreeCRM sends from `u_yf_emailtemplates`, **how** the temp
 
 Template identity for automation: prefer **`sys_name`** (stable). Numeric ids only in legacy workflow tasks / manual preselect. `is_system=1` hides from compose picker; matrix/cron/workflows still resolve by `sys_name`.
 
+Footer field on EmailTemplates: `$(dynamic : …)$` → TemplateElements (`PLL_VARIABLE_ALIAS`). Appended at send via `Mail::appendParsedFooter`.
+
+| Alias | Body | Use |
+|-------|------|-----|
+| `current_user_footer` | `standard_user_footer` | personal / consultant mails (`$(generator : …)` = CurrentUser) |
+| `current_recruitment_group_footer` | `recruitment_group_footer` | system/group mails (rekrutacja@; no user generators) |
+
+Plus `candidates_unsubscribe_footer` when mailing Candidates. Do not use old codes `current_footer` / `standard_footer` (renamed `m260720_000004`).
+
 ## Recruitment — send paths
 
 | Trigger | Entry | Template select | Config | Delivery |
@@ -39,9 +52,9 @@ Template identity for automation: prefer **`sys_name`** (stable). Numeric ids on
 | Screening Accept | `AcceptCandidateManuallyAjax` | — | — | **no mail** from Accept |
 | Relation workflow (`ON_RELATION_MODIFY`) | `GetRelatedMembers::changeStatus` → `RelationWorkflowRunner` → `VTEmailTemplateTask` | task field `template` (numeric id) | Settings Workflows + `com_vtiger_workflow_relation_triggers`; hub `…&module=Recruitment&view=Workflows` | delayed buffer when buffer enabled |
 | Manual compose / mass email / matrix `prompt` | `IndividualSendMailModal` → `Base\Actions\Mail` | user pick (hides `is_system`); optional `templateIds` | EmailTemplates records | immediate after user confirm |
-| CV apply / `PPL_APPLIED` create | `CandidateApplicationSideEffects`, `NewCandidateInProject` | — | — | **no template mail** |
+| CV apply / `PPL_APPLIED` create | `GetRelatedMembers::createLink` → `ApplicationReceivedMail::sendForAppliedLink` | `sys_name` `kandydaci_potwierdzenie_otrzymania_aplikacji` via `RecruitmentTemplate::resolveShortNamesForAccount` | template must be `sender_type=system_smtp` + recruitment `smtp_id` (rekrutacja@; migration `m260720_000001`); footer = `current_recruitment_group_footer` + `candidates_unsubscribe_footer` (`m260720_000002`/`000003`) | immediate Outbound; From = system SMTP, not user mailbox |
 
-**Not wired:** `kandydaci_potwierdzenie_otrzymania_aplikacji` (id 1441893) — confirmation-of-application template exists; nothing auto-sends it. CV import ops errors use raw `ImportErrorMailer` (not EmailTemplates).
+CV import ops errors use raw `ImportErrorMailer` (not EmailTemplates). Manual / AI link (`PPL_MANUALLY_ADDED` / `PPL_AI_ADDED`) does **not** send confirmation.
 
 **Screening reject `sys_name` map** (`ScreeningRejectionMail::REASON_SYS_NAMES`): `NO_EXPERIENCE` → `kandydaci_odrzucenie_brak_doswiadczenia`; `MISSING_SKILLS` → `…_brak_kompetencji`; `PROFILE_FIT` → `…_niedopasowanie_profilu`; `MISSING_POLISH_LANGUAGE` → `…_brak_jezyka_polskiego`; `OTHER_CANDIDATE_CHOSEN` → `…_inny_kandydat`; `PROJECT_CLOSED` → `…_proces_zamkniety`.
 
