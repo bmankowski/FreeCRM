@@ -43,6 +43,12 @@ Footer field on EmailTemplates: `$(dynamic : …)$` → TemplateElements (`PLL_V
 
 Plus `candidates_unsubscribe_footer` when mailing Candidates. Do not use old codes `current_footer` / `standard_footer` (renamed `m260720_000004`).
 
+**Footer layout:** `recruitment_group_footer` — greeting + logo **stacked** (logo under text, ~80px). Do not put wide `$(organization : mailLogo)$` in a side column next to text — email clients ignore cell width and text overlaps the logo (`m260720_000006`).
+
+**Auto-mail TextParser contract (Candidates + project):** `record` = candidate, `sourceRecord` = project. Project fields (e.g. `nazwa_projektu`) must use `$(sourceRecord : …)$`, not `$(record : …)$`.
+
+**Re-test apply mail:** `createLink` only on new membership — use an **Aktywna** project the candidate is not already linked to, else no mail.
+
 ## Recruitment — send paths
 
 | Trigger | Entry | Template select | Config | Delivery |
@@ -52,7 +58,7 @@ Plus `candidates_unsubscribe_footer` when mailing Candidates. Do not use old cod
 | Screening Accept | `AcceptCandidateManuallyAjax` | — | — | **no mail** from Accept |
 | Relation workflow (`ON_RELATION_MODIFY`) | `GetRelatedMembers::changeStatus` → `RelationWorkflowRunner` → `VTEmailTemplateTask` | task field `template` (numeric id) | Settings Workflows + `com_vtiger_workflow_relation_triggers`; hub `…&module=Recruitment&view=Workflows` | delayed buffer when buffer enabled |
 | Manual compose / mass email / matrix `prompt` | `IndividualSendMailModal` → `Base\Actions\Mail` | user pick (hides `is_system`); optional `templateIds` | EmailTemplates records | immediate after user confirm |
-| CV apply / `PPL_APPLIED` create | `GetRelatedMembers::createLink` → `ApplicationReceivedMail::sendForAppliedLink` | `sys_name` `kandydaci_potwierdzenie_otrzymania_aplikacji` via `RecruitmentTemplate::resolveShortNamesForAccount` | template must be `sender_type=system_smtp` + recruitment `smtp_id` (rekrutacja@; migration `m260720_000001`); footer = `current_recruitment_group_footer` + `candidates_unsubscribe_footer` (`m260720_000002`/`000003`) | immediate Outbound; From = system SMTP, not user mailbox |
+| CV apply / `PPL_APPLIED` create | `GetRelatedMembers::createLink` → `ApplicationReceivedMail::sendForAppliedLink` | `sys_name` `kandydaci_potwierdzenie_otrzymania_aplikacji` via `RecruitmentTemplate::resolveShortNamesForAccount` | template must be `sender_type=system_smtp` + recruitment `smtp_id` (rekrutacja@; migration `m260720_000001`); footer = `current_recruitment_group_footer` + `candidates_unsubscribe_footer` (`m260720_000002`/`000003`); project fields via **`$(sourceRecord : …)$`** (record = Candidates) | immediate Outbound; From = system SMTP, not user mailbox |
 
 CV import ops errors use raw `ImportErrorMailer` (not EmailTemplates). Manual / AI link (`PPL_MANUALLY_ADDED` / `PPL_AI_ADDED`) does **not** send confirmation.
 
