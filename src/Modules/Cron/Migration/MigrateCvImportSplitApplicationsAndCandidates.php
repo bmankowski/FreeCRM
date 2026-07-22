@@ -39,7 +39,7 @@ final class MigrateCvImportSplitApplicationsAndCandidates
 				\vtlib\Cron::registerClassTask(
 					'LBL_SCHEDULED_CV_IMPORT_CANDIDATES',
 					$candidatesHandler,
-					300,
+					60,
 					'RecruitmentApplication',
 					\vtlib\Cron::STATUS_ENABLED,
 					0,

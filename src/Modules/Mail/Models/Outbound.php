@@ -118,7 +118,7 @@ class Outbound
 			$mailParams['attachments'] = $storedAttachments;
 		}
 
-		$mailParams = self::applyRecipientDomainPolicy($mailParams);
+		$mailParams = self::applyRecipientAllowlistPolicy($mailParams);
 		self::enqueue($userId, $senderRef, $crmMessageId, $mailParams);
 
 		$composeTokens = $params['composeAttachmentTokens'] ?? [];
@@ -152,7 +152,7 @@ class Outbound
 				$params['attachments'] = $storedAttachments;
 			}
 		}
-		$params = self::applyRecipientDomainPolicy($params);
+		$params = self::applyRecipientAllowlistPolicy($params);
 		self::enqueue($userId, $senderRef, $crmMessageId, $params);
 		$composeTokens = $params['composeAttachmentTokens'] ?? [];
 		if (is_array($composeTokens) && $composeTokens !== []) {
@@ -273,9 +273,9 @@ class Outbound
 			throw new \App\Exceptions\AppException('LBL_MAIL_SENDER_REF_REQUIRED');
 		}
 
-		$allowedDomains = \App\Email\Mailer::getSendOnlyToDomains();
-		if ($allowedDomains !== []) {
-			$filtered = \App\Email\Mailer::applySendOnlyToDomainFilter($rowQueue, $allowedDomains);
+		$allowlist = \App\Email\Mailer::getRecipientAllowlist();
+		if ($allowlist !== []) {
+			$filtered = \App\Email\Mailer::applyRecipientAllowlistFilter($rowQueue, $allowlist);
 			if ($filtered === null) {
 				self::markFailedIfTracked($crmMessageId);
 
@@ -370,21 +370,21 @@ class Outbound
 	/**
 	 * @param array<string, mixed> $params
 	 */
-	private static function applyRecipientDomainPolicy(array $params): array
+	private static function applyRecipientAllowlistPolicy(array $params): array
 	{
-		if (\App\Email\Mailer::getSendOnlyToDomains() === []) {
+		if (\App\Email\Mailer::getRecipientAllowlist() === []) {
 			return $params;
 		}
 		foreach (['to', 'cc', 'bcc'] as $key) {
 			if (!isset($params[$key])) {
 				continue;
 			}
-			$params[$key] = \App\Email\Mailer::filterAddressListByAllowedDomains(
+			$params[$key] = \App\Email\Mailer::filterAddressListByAllowlist(
 				self::normalizeAddresses($params[$key])
 			);
 		}
 		if (self::normalizeAddresses($params['to'] ?? []) === []) {
-			throw new \App\Exceptions\AppException('LBL_MAIL_RECIPIENT_DOMAIN_NOT_ALLOWED');
+			throw new \App\Exceptions\AppException('LBL_MAIL_RECIPIENT_NOT_ALLOWED');
 		}
 
 		return $params;

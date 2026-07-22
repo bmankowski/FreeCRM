@@ -82,7 +82,7 @@ cron:    deliverFromQueueRow → account:* → Mail\Smtp\Sender
 - Modal/mass send: UI must post `senderRef`; server throws `LBL_MAIL_SENDER_REF_REQUIRED` if absent.
 - **`sendFromTemplateParams($params)`** — workflow/template bag; replaces removed `Mailer::sendFromTemplate`.
 - Queue table needs **`params` TEXT** column (`m260701_000001_mail_queue_params_column`).
-- Dev/test: `config/modules/Mail.php` → `MAIL_FILTER_SEND_ONLY_TO_DOMAIN` (`itconnect.pl` on dev/test hosts).
+- Dev/test: `config/modules/Mail.php` → `MAIL_FILTER_RECIPIENT_ALLOWLIST` (entry with `@` = exact address; without = domain). Dev: three IT Connect/Gmail addresses; test: `itconnect.pl`.
 - **Attachments (CRM outbound):** after `Attachment::storeFromPaths`, enqueue **`Attachment::pathMapForSend($messageId)`** (`storage/Mail/…`) — not staging paths. Staging (`cache/mail-compose/`) is deleted before cron; queue JSON with staging paths → empty attach at SMTP. Cron fallback: `deliverFromQueueRow` uses `pathMapForSend` when queue resolve is empty.
 - LinkAction / compose pitfalls: `link-action.mdc`, `mail-compose.mdc`.
 

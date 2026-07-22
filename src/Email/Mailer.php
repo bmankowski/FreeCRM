@@ -460,12 +460,12 @@ class Mailer
 	}
 
 	/**
-	 * @return string[]
+	 * @return string[] Allowlist entries: exact addresses (contain @) or domains
 	 */
-	public static function getSendOnlyToDomains(): array
+	public static function getRecipientAllowlist(): array
 	{
-		return self::parseSendOnlyToDomains(
-			\App\Core\AppConfig::module('Mail', 'MAIL_FILTER_SEND_ONLY_TO_DOMAIN')
+		return self::parseRecipientAllowlist(
+			\App\Core\AppConfig::module('Mail', 'MAIL_FILTER_RECIPIENT_ALLOWLIST')
 		);
 	}
 
@@ -473,15 +473,15 @@ class Mailer
 	 * @param list<string> $addresses
 	 * @return list<string>
 	 */
-	public static function filterAddressListByAllowedDomains(array $addresses): array
+	public static function filterAddressListByAllowlist(array $addresses): array
 	{
-		$allowedDomains = self::getSendOnlyToDomains();
-		if ($allowedDomains === []) {
+		$allowlist = self::getRecipientAllowlist();
+		if ($allowlist === []) {
 			return $addresses;
 		}
 		$filtered = [];
 		foreach ($addresses as $email) {
-			if (self::recipientMatchesAllowedDomains((string) $email, $allowedDomains)) {
+			if (self::recipientMatchesAllowlist((string) $email, $allowlist)) {
 				$filtered[] = (string) $email;
 			}
 		}
@@ -493,31 +493,32 @@ class Mailer
 	 * @param string|array<int|string, string>|null $config
 	 * @return string[]
 	 */
-	public static function parseSendOnlyToDomains(mixed $config): array
+	public static function parseRecipientAllowlist(mixed $config): array
 	{
 		if ($config === null || $config === '' || $config === []) {
 			return [];
 		}
 		$raw = is_array($config) ? $config : explode(',', (string) $config);
-		$domains = [];
-		foreach ($raw as $domain) {
-			$domain = strtolower(trim((string) $domain));
-			if ($domain !== '') {
-				$domains[] = $domain;
+		$entries = [];
+		foreach ($raw as $entry) {
+			$entry = strtolower(trim((string) $entry));
+			if ($entry !== '') {
+				$entries[] = $entry;
 			}
 		}
-		return array_values(array_unique($domains));
+
+		return array_values(array_unique($entries));
 	}
 
 	/**
-	 * @param string[] $allowedDomains
-	 * @return array|null Filtered queue row, or null when no allowed-domain recipients remain
+	 * @param string[] $allowlist
+	 * @return array|null Filtered queue row, or null when no allowed recipients remain
 	 */
-	public static function applySendOnlyToDomainFilter(array $rowQueue, array $allowedDomains): ?array
+	public static function applyRecipientAllowlistFilter(array $rowQueue, array $allowlist): ?array
 	{
-		$to = self::filterRecipientMapByDomain($rowQueue['to'] ?? null, $allowedDomains);
-		$cc = self::filterRecipientMapByDomain($rowQueue['cc'] ?? null, $allowedDomains);
-		$bcc = self::filterRecipientMapByDomain($rowQueue['bcc'] ?? null, $allowedDomains);
+		$to = self::filterRecipientMapByAllowlist($rowQueue['to'] ?? null, $allowlist);
+		$cc = self::filterRecipientMapByAllowlist($rowQueue['cc'] ?? null, $allowlist);
+		$bcc = self::filterRecipientMapByAllowlist($rowQueue['bcc'] ?? null, $allowlist);
 
 		if ($to === [] && $cc === [] && $bcc === []) {
 			return null;
@@ -543,9 +544,9 @@ class Mailer
 	}
 
 	/**
-	 * @param string[] $allowedDomains
+	 * @param string[] $allowlist
 	 */
-	private static function filterRecipientMapByDomain(?string $json, array $allowedDomains): array
+	private static function filterRecipientMapByAllowlist(?string $json, array $allowlist): array
 	{
 		if ($json === null || $json === '') {
 			return [];
@@ -560,23 +561,36 @@ class Mailer
 				$email = $name;
 				$name = '';
 			}
-			if (self::recipientMatchesAllowedDomains((string) $email, $allowedDomains)) {
+			if (self::recipientMatchesAllowlist((string) $email, $allowlist)) {
 				$filtered[$email] = $name;
 			}
 		}
+
 		return $filtered;
 	}
 
 	/**
-	 * @param string[] $allowedDomains
+	 * @param string[] $allowlist
 	 */
-	private static function recipientMatchesAllowedDomains(string $email, array $allowedDomains): bool
+	public static function recipientMatchesAllowlist(string $email, array $allowlist): bool
 	{
-		foreach ($allowedDomains as $allowedDomain) {
-			if (self::recipientMatchesDomain($email, $allowedDomain)) {
+		$email = strtolower(trim($email));
+		foreach ($allowlist as $entry) {
+			$entry = strtolower(trim((string) $entry));
+			if ($entry === '') {
+				continue;
+			}
+			if (str_contains($entry, '@')) {
+				if ($email === $entry) {
+					return true;
+				}
+				continue;
+			}
+			if (self::recipientMatchesDomain($email, $entry)) {
 				return true;
 			}
 		}
+
 		return false;
 	}
 
@@ -589,6 +603,7 @@ class Mailer
 			return false;
 		}
 		$domain = substr($email, $at + 1);
+
 		return $domain === $allowedDomain || str_ends_with($domain, '.' . $allowedDomain);
 	}
 

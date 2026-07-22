@@ -30,9 +30,25 @@ test.beforeEach(async ({ authenticatedPage }) => { /* new XxxPage(authenticatedP
 - Row cells have **no** `data-name` — map columns by header text: find `thead th` whose text == label, read `td` at the **same index** (leading checkbox col is index 0 in both).
 
 ## Inline search mechanics (important)
-- **Text fields**: type value + press `Enter` (keyCode 13) to submit.
+- **Text fields**: type value + press `Enter` (keyCode 13) to submit. Prefer clicking `[data-trigger="listSearch"]` when overlays/`blockUI` are flaky.
 - **Picklist/select2 fields**: selecting a value does **NOT** auto-submit (this instance has `autoRefreshListOnChange != '1'`; see `public/layouts/basic/modules/Base/resources/ListSearch.js` ~line 90). You must click `[data-trigger="listSearch"]` afterwards.
-- After submit the list reloads via AJAX and the URL gets e.g. `search_params=[[["etap_sprzedazy","c","Aktywna"]]]`. Wait with `waitForLoadState('networkidle')` + table visible.
+- After submit the list reloads via AJAX and the URL gets e.g. `search_params=[[["etap_sprzedazy","c","Aktywna"]]]` (operator may be `a`/`c`/…). Wait with `waitForLoadState('networkidle')` + table visible.
+- **RecruitmentApplication**: open matching rows via `data-recordurl` / `hasText`, not blind `.first()`. Prefer `[data-trigger="listSearch"]` over Enter when overlays are flaky.
+
+## WWW CV apply smoke (`tests/Www/`)
+
+Full path: www.itconnect.pl JetForm → Cyberfolks → prod sync → test sync → cron A/B → assert on **`CRM_BASE_URL=https://test.itconnect.pl`**.
+
+| Spec | Purpose |
+|---|---|
+| `apply-cv-smoke.spec.ts` | Browser submit + poll CRM (phase A + B) |
+| `crm-import-verify.spec.ts` | CRM-only check (`E2E_KNOWN_NAME=…`) — no WWW |
+
+Gotchas:
+- Context **`locale: 'pl-PL'`** required. Headless default `en-US@posix` crashes JetForm `media.field.restrictions` (`Intl.NumberFormat`) → submit never fires (`validityState` null).
+- CleanTalk: real mailbox only (default `bmankowski@itconnect.pl`); fake/`+tag` addresses → “Email does not exist”. Frequent submits → “forms too often” (cooldown before re-run).
+- Uniqueness: timestamp in **name/message**, not email. CV fixture: `test-data/e2e-cv-min.pdf`.
+- CV cron frequency on CRM is **60 s** (see `docker-commands.mdc`); file sync hops still add up to ~2 min without SSH trigger.
 
 ## select2 fields
 Hidden selects carry class `select2-hidden-accessible` (1px box, not `display:none`). Drive them through the **native `<select>`** with Playwright `selectOption({ label }, { force: true })` — the list search reads the native `.val()`, so the select2 chip visuals don't matter.

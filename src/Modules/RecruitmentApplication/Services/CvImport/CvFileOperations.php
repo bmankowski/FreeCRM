@@ -27,24 +27,29 @@ final class CvFileOperations
 	public static function moveToProcessed(CvApplicationDto $dto): void
 	{
 		CvImportLogger::log('Moving files to processed');
-		$processed = CvFilePaths::processed();
-		if (is_file($dto->jsonFilePath)) {
-			rename($dto->jsonFilePath, $processed . basename($dto->jsonFilePath));
-		}
-		if ($dto->cvAttachmentPath !== '' && is_file($dto->cvAttachmentPath)) {
-			rename($dto->cvAttachmentPath, $processed . basename($dto->cvAttachmentPath));
-		}
+		self::moveDtoFiles($dto, CvFilePaths::processed());
 	}
 
 	public static function moveToFailed(CvApplicationDto $dto): void
 	{
 		CvImportLogger::log('Moving files to failed');
-		$failed = CvFilePaths::failed();
+		self::moveDtoFiles($dto, CvFilePaths::failed());
+	}
+
+	private static function moveDtoFiles(CvApplicationDto $dto, string $destDir): void
+	{
 		if (is_file($dto->jsonFilePath)) {
-			rename($dto->jsonFilePath, $failed . basename($dto->jsonFilePath));
+			self::renameOrFail($dto->jsonFilePath, $destDir . basename($dto->jsonFilePath));
 		}
 		if ($dto->cvAttachmentPath !== '' && is_file($dto->cvAttachmentPath)) {
-			rename($dto->cvAttachmentPath, $failed . basename($dto->cvAttachmentPath));
+			self::renameOrFail($dto->cvAttachmentPath, $destDir . basename($dto->cvAttachmentPath));
+		}
+	}
+
+	private static function renameOrFail(string $from, string $to): void
+	{
+		if (!rename($from, $to)) {
+			throw new \RuntimeException(sprintf('Failed to move %s → %s', $from, $to));
 		}
 	}
 }

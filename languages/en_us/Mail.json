@@ -69,7 +69,7 @@
         "LBL_MAIL_ATTACHMENT_UPLOAD_FAILED": "Attachment upload failed",
         "LBL_MAIL_TEMPLATE_ATTACHMENTS_BLOCKED": "Cannot send: a template attachment file is missing on disk. Fix the document or re-upload it in the template editor.",
         "LBL_MAIL_COMPOSE_STAGING_CLEANUP": "Compose attachment cleanup",
-        "LBL_MAIL_RECIPIENT_DOMAIN_NOT_ALLOWED": "Sending is allowed only to @itconnect.pl addresses (dev/test environment).",
+        "LBL_MAIL_RECIPIENT_NOT_ALLOWED": "Sending blocked: recipient is not on the allowlist (non-prod environment).",
         "LBL_MAIL_SENDER_REF_REQUIRED": "Select a message sender.",
         "LBL_MAIL_SENDER_REF_INVALID": "Invalid message sender."
     }

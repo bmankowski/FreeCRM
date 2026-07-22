@@ -49,7 +49,7 @@ Manual cron/import that writes storage: use **`cron`** + **`gosu www-data`** (or
 
 ## CV application file sync (Cyberfolks → prod → dev/test)
 
-**Two CRM cron tasks on dev/test** — do not conflate: (1) **file sync** = shell script below; (2) **CRM import** = two `vtigercron.php` tasks every 300 s (`RecruitmentApplicationImporter`, log `cache/logs/cron.log`):
+**Two CRM cron tasks on dev/test** — do not conflate: (1) **file sync** = shell script below; (2) **CRM import** = two `vtigercron.php` tasks every 60 s (`RecruitmentApplicationImporter`, log `cache/logs/cron.log`):
 - **Phase A (applications):** `LBL_SCHEDULED_CV_IMPORT_APPLICATIONS` — `pending/` → `RecruitmentApplication` + `processed/`
 - **Phase B (candidates):** `LBL_SCHEDULED_CV_IMPORT_CANDIDATES` — apps with `candidate_id=0` → `Candidates`
 
@@ -58,7 +58,7 @@ Pipeline: **Cyberfolks** `uploads/cv/` → **prod** `import/cv/{pending,backup}`
 - **Script:** `scripts/cv-sync/importCandidatesFiles.sh` — config via inline `CV_IMPORT_CONFIG=` in crontab, `--config`, or env when exec'd manually.
 - **Where invoked:** all Docker envs → `docker/cron/crontab` (`* * * * *`, `flock` on `cache/cv-sync.lock`). **Prod today (`10.0.0.220`):** transitional host root crontab → `/usr/local/bin/importCandidatesFiles.sh` — **prod target:** same `cron` service + crontab, different `CV_IMPORT_CONFIG` (compose override / secrets).
 - **Configs:** `scripts/cv-sync/cv-import.*.conf.example`; dev/test → `docker/cv-sync/cv-import.from-prod-backup.conf` (`SOURCE=prod-backup`); prod target → Cyberfolks config from example (`SOURCE=cyberfolks`, `REMOVE_SOURCE=1`). **Crontab must pass `CV_IMPORT_CONFIG=` inline** — do not rely on `docker-compose.yml` `cron.environment` alone (stale container may lack it). Misconfig symptom: `Config not found: /etc/freecrm/cv-import.conf` in `cache/logs/cv-sync.log`.
-- **Paths:** host `./import/cv/{pending,backup,processed,failed}` bind-mounted to `/var/www/import/cv` in `cron` container.
+- **Paths:** host `./import/cv/{pending,backup,processed,failed}` bind-mounted to `/var/www/import/cv` in `cron` container. Phase A (`www-data`) must `rename` into `processed/`/`failed/` — `importCandidatesFiles.sh` runs `ensure_queue_writable` (chown `www-data`, `chmod 2775`) on those dirs every sync. Broken symptom: DB import OK but JSON stays in `pending` (`Application already imported`); `processed` empty / `Permission denied` for `www-data`.
 - **Prod (`10.0.0.220`, transitional):** `/etc/freecrm/cv-import.conf` on host — Cyberfolks consumer; log `/var/log/cv-import.log`. When prod moves to Docker: drop host root crontab; mount Cyberfolks SSH keys into `cron`; no `AFTER_SYNC_CMD` to legacy YetiForce — FreeCRM phase A/B crons only.
 - **Dev / test:** `SOURCE=prod-backup` rsyncs `10.0.0.220:…/backup/` → local `pending/` (no delete on prod). Incremental filter uses **local** `import/cv/.last_sync` mtime as epoch (`find -newermt` on prod — do not pass the local path to remote `find -newer`). Log: `cache/logs/cv-sync.log`. Needs `~/.ssh` → prod + `docker/dev/ssh/known_hosts`. **`docker compose up -d cron`** after **any** `docker/cron/crontab` or cv-sync script/config change — supercronic does not reliably hot-reload the bind-mounted crontab.
 - **Manual sync:** pass config — bare exec has no `CV_IMPORT_CONFIG` from compose:

@@ -9,7 +9,12 @@ if ($mailSiteUrl === '') {
 	$mailSiteUrl = (string) ($site_URL ?? '');
 }
 $mailSiteHost = strtolower((string) parse_url($mailSiteUrl, PHP_URL_HOST));
-$mailNonProdHost = \in_array($mailSiteHost, ['dev.itconnect.pl', 'test.itconnect.pl'], true);
+// Entries with '@' = exact address; without = domain (incl. subdomains). Empty = no filter.
+$mailRecipientAllowlist = match ($mailSiteHost) {
+	'dev.itconnect.pl' => 'bmankowski@itconnect.pl,bmankowski@gmail.com,akucmankowska@itconnect.pl',
+	'test.itconnect.pl' => 'itconnect.pl',
+	default => '',
+};
 
 $CONFIG = [
 	'default_scan_interval' => 120,
@@ -24,7 +29,7 @@ $CONFIG = [
 	'password_mask' => '**********',
 
 	'MAILER_REQUIRED_ACCEPTATION_BEFORE_SENDING' => false,
-	'MAIL_FILTER_SEND_ONLY_TO_DOMAIN' => $mailNonProdHost ? 'itconnect.pl' : '',
+	'MAIL_FILTER_RECIPIENT_ALLOWLIST' => $mailRecipientAllowlist,
 	'MAIL_AUDIT_LOG_ENABLED' => false,
 	'AUDIT_LOG_RETENTION_DAYS' => 365,
 	'DELAYED_EMAIL_BUFFER_ENABLED' => true,

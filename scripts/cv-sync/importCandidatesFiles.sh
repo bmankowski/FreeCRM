@@ -49,7 +49,19 @@ CV_SYNC_DAYS="${CV_SYNC_DAYS:-14}"
 REMOVE_SOURCE="${REMOVE_SOURCE:-0}"
 PHP_BIN="${PHP_BIN:-php}"
 
-mkdir -p "$DOWNLOADED" "$PENDING" "$BACKUP" "${IMPORT_BASE}/processed" "${IMPORT_BASE}/failed" "$(dirname "$LOG_FILE")"
+# CRM phase A/B runs as www-data and must rename pending → processed/failed.
+# Sync itself runs as root (cron); keep queue dirs owned by www-data every run.
+ensure_queue_writable() {
+	local dir
+	for dir in "$DOWNLOADED" "$PENDING" "$BACKUP" "${IMPORT_BASE}/processed" "${IMPORT_BASE}/failed"; do
+		mkdir -p "$dir"
+		chown www-data:www-data "$dir"
+		chmod 2775 "$dir"
+	done
+}
+
+ensure_queue_writable
+mkdir -p "$(dirname "$LOG_FILE")"
 
 log() {
 	printf '[%s] %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$*" | tee -a "$LOG_FILE"

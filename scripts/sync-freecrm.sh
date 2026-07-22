@@ -33,7 +33,7 @@ Commands:
   help         Show this help.
   pushsrc      Send source changes from localhost to test.itconnect.pl.
   pushdb       Dump localhost DB and import it on test.itconnect.pl.
-  pushstorage  Send storage/ files to test.itconnect.pl (no --delete; DB paths only work if blobs exist).
+  pushstorage  Send storage/ files to test.itconnect.pl (no --delete; then chown www-data).
   pushall      Run pushsrc, pushdb, and pushstorage.
   pulldb       Dump DB from test.itconnect.pl and import it on localhost.
 
@@ -223,7 +223,7 @@ pushsrc() {
     "${ROOT_DIR}/" "${REMOTE}:${REMOTE_PATH}/"
 
   echo "Clearing Smarty compiled cache on ${REMOTE}"
-  remote_run "rm -f '${REMOTE_PATH}'/cache/templates_c/*/*.php"
+  remote_run "cd '${REMOTE_PATH}' && docker compose exec -T -u root app sh -c 'rm -f cache/templates_c/*/*.php'"
 }
 
 pushstorage() {
@@ -236,6 +236,10 @@ pushstorage() {
     --no-perms --no-owner --no-group --omit-dir-times \
     --exclude 'tmpfile*.tmp' \
     "${ROOT_DIR}/storage/" "${REMOTE}:${REMOTE_PATH}/storage/"
+
+  # rsync runs as the SSH user; PHP-FPM/cron need www-data ownership to serve/write blobs.
+  echo "Fixing storage/ ownership on ${REMOTE} (www-data)"
+  remote_run "cd '${REMOTE_PATH}' && docker compose exec -T -u root app chown -R www-data:www-data /var/www/html/storage"
 }
 
 pushdb() {
