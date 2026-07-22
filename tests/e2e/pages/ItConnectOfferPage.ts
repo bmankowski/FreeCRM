@@ -63,7 +63,9 @@ export class ItConnectOfferPage {
 		await this.page.goto(offerUrl, { waitUntil: 'domcontentloaded', timeout: 60000 });
 		await this.passSpamFireWallIfPresent(offerUrl);
 		await this.page
-			.locator('.aplikuj-btn, form.jet-form-builder, h2:has-text("Tester"), text=APLIKUJ')
+			.locator('.aplikuj-btn, form.jet-form-builder')
+			.or(this.page.getByRole('button', { name: /APLIKUJ/i }))
+			.or(this.page.getByRole('heading', { name: /Tester manualny/i }))
 			.first()
 			.waitFor({ state: 'visible', timeout: 30000 });
 	}
@@ -73,18 +75,24 @@ export class ItConnectOfferPage {
 	 */
 	async passSpamFireWallIfPresent(offerUrl: string): Promise<void> {
 		const firewall = this.page.getByText(/SpamFireWall/i);
-		if (!(await firewall.isVisible({ timeout: 2000 }).catch(() => false))) {
+		if (!(await firewall.isVisible({ timeout: 3000 }).catch(() => false))) {
 			return;
 		}
-		const continueLink = this.page.getByRole('link', { name: new RegExp(offerUrl.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i') })
-			.or(this.page.locator(`a[href*="/oferta/"]`))
-			.first();
+		const continueLink = this.page.locator('a[href*="/oferta/"]').first();
 		if (await continueLink.isVisible({ timeout: 2000 }).catch(() => false)) {
-			await continueLink.click();
+			await Promise.all([
+				this.page.waitForNavigation({ waitUntil: 'domcontentloaded', timeout: 20000 }).catch(() => undefined),
+				continueLink.click(),
+			]);
+		} else {
+			await firewall.waitFor({ state: 'hidden', timeout: 15000 }).catch(() => undefined);
+			await this.page.waitForLoadState('domcontentloaded');
 		}
-		await this.page.waitForURL((url) => !/SpamFireWall/i.test(url.toString()), { timeout: 20000 }).catch(() => undefined);
-		await firewall.waitFor({ state: 'hidden', timeout: 20000 }).catch(() => undefined);
-		await this.page.waitForLoadState('domcontentloaded');
+		// Second interstitial is possible after click-through.
+		if (await this.page.getByText(/SpamFireWall/i).isVisible({ timeout: 1500 }).catch(() => false)) {
+			await this.page.waitForTimeout(4000);
+			await this.page.goto(offerUrl, { waitUntil: 'domcontentloaded', timeout: 60000 });
+		}
 	}
 
 	async acceptCookiesIfPresent(): Promise<void> {
