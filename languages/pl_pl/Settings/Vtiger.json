@@ -179,6 +179,8 @@
         "LBL_QUICK_CREATE_EDITOR_DESCRIPTION": "Moduł umożliwiający zmianę układu ułożenia pól w oknie szybkiego tworzenia rekordów.",
         "LBL_API_ADDRESS": "Wyszukiwarka adresów",
         "LBL_API_ADDRESS_DESCRIPTION": "Moduł umożliwiający wyszukiwanie/podpowiadanie adresu podczas tworzenia i edycji danych w systemie.",
+        "LBL_AI_PROMPTS": "Prompty AI",
+        "LBL_AI_PROMPTS_DESCRIPTION": "Definiuj domyślne prompty AI dla czynności w CRM",
         "LBL_ACTIVITY_TYPES": "Filtry kalendarza",
         "LBL_ACTIVITY_TYPES_DESCRIPTION": "Zarządzanie dostępnymi filtrami zdarzeń w kalendarzu.",
         "LBL_BRUTEFORCE": "Hasła - ataki brute force",

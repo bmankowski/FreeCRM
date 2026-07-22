@@ -1,0 +1,26 @@
+{
+    "languageStrings": {
+        "AiPrompts": "AI Prompts",
+        "LBL_AI_PROMPTS": "AI Prompts",
+        "LBL_AIPROMPTS_DESCRIPTION": "Define default AI prompts for CRM actions",
+        "LBL_AIPROMPTS_CREATE": "Create AI prompt",
+        "LBL_AIPROMPTS_EDIT": "Edit AI prompt",
+        "LBL_AIPROMPT_DETAIL": "AI prompt details",
+        "LBL_NAME": "Name",
+        "LBL_ACTION_KEY": "Action",
+        "LBL_PROMPT_BODY": "Prompt text",
+        "LBL_PLACEHOLDERS": "Placeholders",
+        "LBL_ACTIVE": "Active",
+        "LBL_MODIFIEDTIME": "Modified time",
+        "LBL_ACTION_MAIL_IMPROVE": "Improve email",
+        "LBL_INVALID_ACTION_KEY": "Invalid action key",
+        "LBL_NAME_REQUIRED": "Name is required",
+        "LBL_PROMPT_BODY_REQUIRED": "Prompt text is required",
+        "LBL_DUPLICATE_ACTION_KEY": "A system prompt for this action already exists",
+        "LBL_ADD_RECORD": "Add prompt"
+    },
+    "jsLanguageStrings": {
+        "JS_SAVE_FAILED": "Could not save the prompt. Try again.",
+        "JS_NO_PLACEHOLDERS": "No placeholders for this action"
+    }
+}

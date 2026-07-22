@@ -1,0 +1,26 @@
+{
+    "languageStrings": {
+        "AiPrompts": "Prompty AI",
+        "LBL_AI_PROMPTS": "Prompty AI",
+        "LBL_AIPROMPTS_DESCRIPTION": "Definiuj domyślne prompty AI dla czynności w CRM",
+        "LBL_AIPROMPTS_CREATE": "Utwórz prompt AI",
+        "LBL_AIPROMPTS_EDIT": "Edytuj prompt AI",
+        "LBL_AIPROMPT_DETAIL": "Szczegóły promptu AI",
+        "LBL_NAME": "Nazwa",
+        "LBL_ACTION_KEY": "Czynność",
+        "LBL_PROMPT_BODY": "Treść promptu",
+        "LBL_PLACEHOLDERS": "Placeholdery",
+        "LBL_ACTIVE": "Aktywny",
+        "LBL_MODIFIEDTIME": "Czas modyfikacji",
+        "LBL_ACTION_MAIL_IMPROVE": "Poprawianie maila",
+        "LBL_INVALID_ACTION_KEY": "Nieprawidłowy klucz czynności",
+        "LBL_NAME_REQUIRED": "Nazwa jest wymagana",
+        "LBL_PROMPT_BODY_REQUIRED": "Treść promptu jest wymagana",
+        "LBL_DUPLICATE_ACTION_KEY": "Systemowy prompt dla tej czynności już istnieje",
+        "LBL_ADD_RECORD": "Dodaj prompt"
+    },
+    "jsLanguageStrings": {
+        "JS_SAVE_FAILED": "Nie udało się zapisać promptu. Spróbuj ponownie.",
+        "JS_NO_PLACEHOLDERS": "Brak placeholderów dla tej czynności"
+    }
+}

@@ -1,0 +1,33 @@
+{strip}
+	<div class="">
+		<div class='widget_header row '>
+			<div class="col-xs-12">
+				{include file='BreadCrumbs.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+				{'LBL_AIPROMPTS_DESCRIPTION'|t:$QUALIFIED_MODULE}
+			</div>
+		</div>
+		<div class="listViewActionsDiv row">
+			<div class="col-md-8 btn-toolbar">
+				{foreach item=LINK from=$LISTVIEW_LINKS['LISTVIEWBASIC']}
+					{if $LINK->getLabel()}
+						{assign var="LABEL" value={$LINK->getLabel()|t:$QUALIFIED_MODULE}}
+					{/if}
+					<button type="button" title="{if $LINK->getLabel()}{$LABEL}{/if}" class="btn{if $LINK->getClassName()} {$LINK->getClassName()}{else} btn-default{/if}"
+							{if $LINK->getUrl()}
+								{if stripos($LINK->getUrl(), 'javascript:')===0} onclick='{$LINK->getUrl()|substr:strlen("javascript:")};'
+								{else} onclick='window.location.href = "{$LINK->getUrl()}"' {/if}
+							{/if}>
+						{if $LINK->get('linkicon')}
+							<span class="{$LINK->get('linkicon')}"></span>
+						{/if}
+						{if $LINK->getLabel() && $LINK->get('showLabel') eq 1}
+							&nbsp;<strong>{$LABEL}</strong>
+						{/if}
+					</button>
+				{/foreach}
+			</div>
+			<div class="col-md-4">
+				{include file='ListViewActions.tpl'|@vtemplate_path:$QUALIFIED_MODULE}
+			</div>
+		</div>
+{/strip}
