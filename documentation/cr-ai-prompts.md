@@ -401,11 +401,7 @@ Resolver w CR-1 bez konsumenta UI jest świadomy: unikamy łączenia konfiguracj
 
 ## CR-2 preview (nie implementować tutaj)
 
-1. Settings › AiPrompts › **Provider** — API key + model (D2, wzorzec ApiAddress / `vtiger_apiaddress`-like lub `s_yf_ai_provider`).
-2. Ajax action: improve mail body via ChatGPT.
-3. Różdżka w `layouts/basic/modules/Base/IndividualSendMailModal.tpl` + `Vtiger.js` (`registerSendMailModalView`).
-4. Flow: read body/subject → `PromptResolver::resolve('mail.improve', currentUser)` → `applyPlaceholders` → OpenAI → replace contenteditable.
-5. Opcjonalnie: Preference UI do override (`userid = current user id`).
+→ **[cr-ai-prompts-mail-improve.md](cr-ai-prompts-mail-improve.md)** (Provider + OpenAI + różdżka + undo).
 
 ---
 
@@ -424,7 +420,6 @@ Resolver w CR-1 bez konsumenta UI jest świadomy: unikamy łączenia konfiguracj
 
 ## Open items for implementation kickoff
 
-1. Potwierdzić namespace PSR-4 dla `src/Ai/` (`App\Ai\` vs `FreeCRM\Ai\`).
-2. Wybrać konkretną ikonę Settings z istniejących klas.
-3. Finalna treść seed promptu PL vs EN — seed w EN (jak wyżej); UI labels w obu językach.
-)
+1. ~~Namespace~~ — użyty `App\Ai\` (PSR-4 `App\` → `src/`).
+2. ~~Ikona~~ — `adminIcon-integration`.
+3. Seed prompt EN — OK.

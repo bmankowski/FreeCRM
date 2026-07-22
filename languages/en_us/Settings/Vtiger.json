@@ -184,6 +184,8 @@
         "LBL_API_ADDRESS_DESCRIPTION": "Module allowing to search/ autocomplete address during creating/editing data within the system.",
         "LBL_AI_PROMPTS": "AI Prompts",
         "LBL_AI_PROMPTS_DESCRIPTION": "Define default AI prompts for CRM actions",
+        "LBL_AI_PROVIDER": "AI Provider",
+        "LBL_AI_PROVIDER_DESCRIPTION": "OpenAI API key and model for CRM AI actions",
         "LBL_ACTIVITY_TYPES": "Activity types",
         "LBL_ACTIVITY_TYPES_DESCRIPTION": "Management of activity types.",
         "LBL_BRUTEFORCE": "Passwords - Brute force",

@@ -37,6 +37,7 @@ class Mail extends \App\Base\Controllers\BaseActionController
 		$this->exposeMethod('checkSmtp');
 		$this->exposeMethod('previewMail');
 		$this->exposeMethod('sendMails');
+		$this->exposeMethod('improveMail');
 	}
 
 	/**
@@ -323,5 +324,58 @@ class Mail extends \App\Base\Controllers\BaseActionController
 		}
 
 		return array_values(array_filter(array_map('trim', explode(',', $recipient))));
+	}
+
+	/**
+	 * Improve mail body HTML via OpenAI (mail.improve prompt).
+	 */
+	public function improveMail(\App\Http\Vtiger_Request $request): void
+	{
+		// Prefer raw body/subject — HTMLPurifier can alter mail HTML and slow the request.
+		$subject = (string) ($request->getRaw('subject') ?: $request->get('subject'));
+		$body = (string) ($request->getRaw('body') ?: $request->get('body'));
+		$userId = (int) $request->getUser()->getId();
+		$response = new \App\Http\Vtiger_Response();
+
+		// Release session lock before the slow OpenAI HTTP call so other AJAX is not blocked.
+		if (session_status() === PHP_SESSION_ACTIVE) {
+			session_write_close();
+		}
+
+		$started = microtime(true);
+		try {
+			$html = \App\Ai\Mail\ImproveMailService::improve($subject, $body, $userId > 0 ? $userId : null);
+			\App\Log\Log::info(sprintf(
+				'AiImproveMail ok in %.2fs body_len=%d out_len=%d',
+				microtime(true) - $started,
+				strlen($body),
+				strlen($html)
+			));
+			$response->setResult([
+				'success' => true,
+				'html' => $html,
+			]);
+		} catch (\App\Ai\Prompt\PromptNotFoundException|\App\Ai\OpenAi\OpenAiException $e) {
+			\App\Log\Log::error(sprintf(
+				'AiImproveMail fail in %.2fs: %s',
+				microtime(true) - $started,
+				$e->getMessage()
+			));
+			$key = $e->getMessage();
+			$translated = \App\Runtime\Vtiger_Language_Handler::translate($key, 'Settings:AiPrompts');
+			if ($translated === $key) {
+				$translated = \App\Runtime\Vtiger_Language_Handler::translate($key, 'Vtiger');
+			}
+			$message = $translated !== $key ? $translated : $key;
+			if ($e instanceof \App\Ai\OpenAi\OpenAiException && $e->getApiMessage()) {
+				$message .= ' (' . $e->getApiMessage() . ')';
+			}
+			$response->setResult([
+				'success' => false,
+				'message' => $message,
+			]);
+		}
+
+		$response->emit();
 	}
 }

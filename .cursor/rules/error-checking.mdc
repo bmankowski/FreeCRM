@@ -34,6 +34,14 @@ alwaysApply: false
 - **Use when**: Tracing unexpected AJAX (e.g. empty `raw_get=[]` GET routed to `Home`/`DashBoard`), correlating parallel requests with the page that triggered them (`referer`).
 - **Note**: POST params are not logged (only resolved routing from request object); `raw_get=[]` on POST is normal (`AppConnector` sends body, not query string).
 
+### `cache/logs/ai.log`
+- **Purpose**: Full OpenAI request/response exchanges (when `LOG_AI_REQUESTS` is true in `config/debug.php`).
+- **Hook**: `App\Ai\OpenAi\Client` via `AiRequestLogger` — every `chatCompletions` / `listChatModels` call.
+- **Contains**: action (`mail.improve`, `provider.list_models`), user id, model, messages (chat), then later result (status / content / error). Request block is written **before** the OpenAI HTTP call (`status=started`); result appends when the call finishes.
+- **Redaction**: `data:` URIs and `sk-…` fragments in the **log copy only**; wire payload to OpenAI is unchanged. API key / Authorization never logged.
+- **Use when**: Debugging AI improve timeouts, oversized bodies, prompt contents, or Provider model-list failures.
+- **Prod**: set `LOG_AI_REQUESTS` to `false` unless actively debugging (mail content on disk).
+
 ### `cache/logs/cron.log`
 - **Purpose**: stdout from `cron/vtigercron.php`.
 - See `cron.mdc` for cron debugging details.

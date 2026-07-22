@@ -720,7 +720,36 @@ class TextParser
 		$raw = ($element['type'] ?? '') === 'PLL_DOCUMENT_LAYOUT'
 			? (string) ($element['layout_body'] ?? '')
 			: (string) ($element['content'] ?? '');
-		return $parser->setContent($raw)->parse()->getContent();
+		$result = $parser->setContent($raw)->parse()->getContent();
+
+		return self::wrapMailFooterDynamic($code, $result);
+	}
+
+	/**
+	 * Mark resolved mail footer fragments so compose AI can exclude them.
+	 */
+	private static function wrapMailFooterDynamic(string $code, string $html): string
+	{
+		$footerCodes = [
+			'current_user_footer',
+			'standard_user_footer',
+			'current_recruitment_group_footer',
+			'recruitment_group_footer',
+			'candidates_unsubscribe_footer',
+			'tracking_logo',
+		];
+		if (!in_array($code, $footerCodes, true)) {
+			return $html;
+		}
+		$trimmed = trim($html);
+		if ($trimmed === '') {
+			return $html;
+		}
+		if (preg_match('/^<div\b[^>]*\bfc-email-footer\b/i', $trimmed)) {
+			return $html;
+		}
+
+		return '<div class="fc-email-footer" contenteditable="false">' . $html . '</div>';
 	}
 
 	/**

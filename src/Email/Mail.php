@@ -332,7 +332,7 @@ class Mail
 		}
 
 		return '<div class="fc-email-content">' . rtrim($body) . '</div>'
-			. '<div class="fc-email-footer">' . $footer . '</div>';
+			. '<div class="fc-email-footer" contenteditable="false">' . $footer . '</div>';
 	}
 
 	public static function clearTemplateListCache(): void

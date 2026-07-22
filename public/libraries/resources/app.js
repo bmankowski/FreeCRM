@@ -498,15 +498,78 @@ var app = {
 		return keyValueMap;
 	},
 	/**
-	 * Normalize HTML shown in the mail contenteditable (no structural changes).
+	 * Normalize HTML shown in the mail contenteditable.
+	 * Pulls stray nodes into `.fc-email-content` when footer wrappers are present.
 	 * @param {string} html
 	 * @returns {string}
 	 */
 	prepareMailEditorContent: function (html) {
-		return String(html || '').trim();
+		html = String(html || '').trim();
+		if (!html) {
+			return '';
+		}
+		var tmp = document.createElement('div');
+		tmp.innerHTML = html;
+		this.normalizeMailEditorStructure(tmp);
+		return tmp.innerHTML;
 	},
 	/**
-	 * Place caret at the start of the mail contenteditable.
+	 * Keep editable text inside `.fc-email-content`; leave `.fc-email-footer` siblings alone.
+	 * @param {HTMLElement|jQuery} editor
+	 */
+	normalizeMailEditorStructure: function (editor) {
+		var root = editor && editor.jquery ? editor[0] : editor;
+		if (!root || !root.childNodes) {
+			return;
+		}
+		var content = null;
+		var i;
+		var child;
+		for (i = 0; i < root.children.length; i++) {
+			child = root.children[i];
+			if (child.classList && child.classList.contains('fc-email-content')) {
+				content = child;
+				break;
+			}
+		}
+		if (!content) {
+			return;
+		}
+		var footers = root.querySelectorAll('.fc-email-footer');
+		for (i = 0; i < footers.length; i++) {
+			footers[i].setAttribute('contenteditable', 'false');
+		}
+		var before = [];
+		var after = [];
+		var seenContent = false;
+		var nodes = Array.prototype.slice.call(root.childNodes);
+		for (i = 0; i < nodes.length; i++) {
+			child = nodes[i];
+			if (child === content) {
+				seenContent = true;
+				continue;
+			}
+			if (child.nodeType === 1 && child.classList && child.classList.contains('fc-email-footer')) {
+				continue;
+			}
+			if (child.nodeType === 3 && !/\S/.test(child.nodeValue || '')) {
+				continue;
+			}
+			if (!seenContent) {
+				before.push(child);
+			} else {
+				after.push(child);
+			}
+		}
+		for (i = before.length - 1; i >= 0; i--) {
+			content.insertBefore(before[i], content.firstChild);
+		}
+		for (i = 0; i < after.length; i++) {
+			content.appendChild(after[i]);
+		}
+	},
+	/**
+	 * Place caret at the start of `.fc-email-content` (or the editor root if absent).
 	 * @param {jQuery} editor
 	 */
 	focusMailEditorStart: function (editor) {
@@ -514,13 +577,16 @@ var app = {
 		if (!editor.length) {
 			return;
 		}
+		this.normalizeMailEditorStructure(editor);
 		editor.focus();
 		var selection = window.getSelection();
 		if (!selection) {
 			return;
 		}
+		var root = editor[0];
+		var target = root.querySelector('.fc-email-content') || root;
 		var range = document.createRange();
-		range.selectNodeContents(editor[0]);
+		range.selectNodeContents(target);
 		range.collapse(true);
 		selection.removeAllRanges();
 		selection.addRange(range);

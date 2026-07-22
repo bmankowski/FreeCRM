@@ -181,6 +181,8 @@
         "LBL_API_ADDRESS_DESCRIPTION": "Moduł umożliwiający wyszukiwanie/podpowiadanie adresu podczas tworzenia i edycji danych w systemie.",
         "LBL_AI_PROMPTS": "Prompty AI",
         "LBL_AI_PROMPTS_DESCRIPTION": "Definiuj domyślne prompty AI dla czynności w CRM",
+        "LBL_AI_PROVIDER": "Dostawca AI",
+        "LBL_AI_PROVIDER_DESCRIPTION": "Klucz API OpenAI i model dla czynności AI w CRM",
         "LBL_ACTIVITY_TYPES": "Filtry kalendarza",
         "LBL_ACTIVITY_TYPES_DESCRIPTION": "Zarządzanie dostępnymi filtrami zdarzeń w kalendarzu.",
         "LBL_BRUTEFORCE": "Hasła - ataki brute force",

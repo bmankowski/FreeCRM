@@ -271,6 +271,133 @@ var Vtiger_Index_Js = {
 		var syncMailContent = function () {
 			contentInput.val(contentEditor.html());
 		};
+		var aiUndoHtml = null;
+		var aiRedoHtml = null;
+		var aiImproveSeq = 0;
+		var aiImproveBtn = modalContainer.find('.js-ai-improve-mail');
+		var aiUndoBtn = modalContainer.find('.js-ai-improve-undo');
+		var aiRedoBtn = modalContainer.find('.js-ai-improve-redo');
+		var setAiUndoEnabled = function (enabled) {
+			if (!aiUndoBtn.length) {
+				return;
+			}
+			aiUndoBtn.prop('disabled', !enabled).toggleClass('disabled', !enabled);
+		};
+		var setAiRedoEnabled = function (enabled) {
+			if (!aiRedoBtn.length) {
+				return;
+			}
+			aiRedoBtn.prop('disabled', !enabled).toggleClass('disabled', !enabled);
+		};
+		var clearAiHistory = function () {
+			aiUndoHtml = null;
+			aiRedoHtml = null;
+			setAiUndoEnabled(false);
+			setAiRedoEnabled(false);
+		};
+		clearAiHistory();
+		aiImproveBtn.off('click.aiImprove').on('click.aiImprove', function () {
+			if (!contentEditor.length || aiImproveBtn.prop('disabled')) {
+				return;
+			}
+			syncMailContent();
+			var bodyHtml = contentEditor.html() || '';
+			if (!jQuery.trim(bodyHtml.replace(/<br\s*\/?>/gi, '').replace(/&nbsp;/gi, ' ').replace(/<[^>]+>/g, ''))) {
+				Vtiger_Helper_Js.showPnotify({
+					text: app.vtranslate('JS_AI_MAIL_BODY_EMPTY'),
+					type: 'error',
+					animation: 'show'
+				});
+				return;
+			}
+			var seq = ++aiImproveSeq;
+			var previousHtml = bodyHtml;
+			aiImproveBtn.prop('disabled', true);
+			var progressIndicatorElement = jQuery.progressIndicator({
+				message: app.vtranslate('JS_AI_IMPROVING'),
+				blockInfo: {'enabled': true}
+			});
+			var improveData = jQuery.extend({}, postData, {
+				action: 'Mail',
+				mode: 'improveMail',
+				subject: subjectInput.val() || '',
+				body: bodyHtml
+			});
+			delete improveData.view;
+			var finishImprove = function () {
+				progressIndicatorElement.progressIndicator({'mode': 'hide'});
+				aiImproveBtn.prop('disabled', false);
+			};
+			AppConnector.request({
+				data: improveData,
+				timeout: 90000
+			}).then(function (response) {
+				finishImprove();
+				if (seq !== aiImproveSeq) {
+					return;
+				}
+				if (response && response.error) {
+					Vtiger_Helper_Js.showPnotify({
+						text: response.error.message || app.vtranslate('JS_AI_IMPROVE_FAILED'),
+						type: 'error',
+						animation: 'show'
+					});
+					return;
+				}
+				var result = response && response.result ? response.result : {};
+				if (!result.success || !result.html) {
+					Vtiger_Helper_Js.showPnotify({
+						text: result.message || app.vtranslate('JS_AI_IMPROVE_FAILED'),
+						type: 'error',
+						animation: 'show'
+					});
+					return;
+				}
+				aiUndoHtml = previousHtml;
+				aiRedoHtml = null;
+				setAiUndoEnabled(true);
+				setAiRedoEnabled(false);
+				contentEditor.html(app.prepareMailEditorContent(result.html));
+				syncMailContent();
+			}, function (data, err) {
+				finishImprove();
+				if (seq !== aiImproveSeq) {
+					return;
+				}
+				app.errorLog(data, err);
+				var msg = app.vtranslate('JS_AI_IMPROVE_FAILED');
+				if (data === 'timeout') {
+					msg = app.vtranslate('JS_AI_IMPROVE_TIMEOUT');
+				}
+				Vtiger_Helper_Js.showPnotify({
+					text: msg,
+					type: 'error',
+					animation: 'show'
+				});
+			});
+		});
+		aiUndoBtn.off('click.aiImprove').on('click.aiImprove', function () {
+			if (aiUndoHtml === null) {
+				return;
+			}
+			aiRedoHtml = contentEditor.html();
+			contentEditor.html(aiUndoHtml);
+			syncMailContent();
+			aiUndoHtml = null;
+			setAiUndoEnabled(false);
+			setAiRedoEnabled(true);
+		});
+		aiRedoBtn.off('click.aiImprove').on('click.aiImprove', function () {
+			if (aiRedoHtml === null) {
+				return;
+			}
+			aiUndoHtml = contentEditor.html();
+			contentEditor.html(aiRedoHtml);
+			syncMailContent();
+			aiRedoHtml = null;
+			setAiUndoEnabled(true);
+			setAiRedoEnabled(false);
+		});
 		var loadPreview = function () {
 			if (!previewSection.length) {
 				return;
@@ -296,6 +423,7 @@ var Vtiger_Index_Js = {
 				subjectInput.val(result.subject || '');
 				contentEditor.html(app.prepareMailEditorContent(result.content || ''));
 				syncMailContent();
+				clearAiHistory();
 				updateSourceWarning(result);
 				previewSection.removeClass('hide');
 				if (mailSenderPicker) {
@@ -311,7 +439,10 @@ var Vtiger_Index_Js = {
 			});
 		};
 		modalContainer.find('#field, #template').off('change.mailPreview').on('change.mailPreview', loadPreview);
-		contentEditor.off('input.mailPreview blur.mailPreview').on('input.mailPreview blur.mailPreview', syncMailContent);
+		contentEditor.off('input.mailPreview blur.mailPreview').on('input.mailPreview blur.mailPreview', function () {
+			app.normalizeMailEditorStructure(contentEditor);
+			syncMailContent();
+		});
 		contentEditor.off('mousedown.mailPreview').on('mousedown.mailPreview', function (e) {
 			if (e.target === contentEditor[0]) {
 				e.preventDefault();

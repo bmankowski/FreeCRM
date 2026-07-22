@@ -18,6 +18,8 @@ $DEBUG_CONFIG = [
 	'LOG_TRACE_LEVEL' => 0,
 	// Log each HTTP request handled by WebUI to cache/logs/http-requests.log
 	'LOG_HTTP_REQUESTS' => true,
+	// Log full OpenAI request/response exchanges to cache/logs/ai.log (disable on prod unless debugging)
+	'LOG_AI_REQUESTS' => true,
 	// Display Main Debug Console
 	'DISPLAY_DEBUG_CONSOLE' => false,
 	// List of IP addresses allowed to display debug console

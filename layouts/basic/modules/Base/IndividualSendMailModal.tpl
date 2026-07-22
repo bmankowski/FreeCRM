@@ -53,6 +53,19 @@
 					<input type="text" class="form-control js-mail-subject" id="mailSubject" data-validation-engine="validate[required]" value="{if !empty($INITIAL_PREVIEW['subject'])}{\App\Modules\Base\Helpers\Util::toSafeHTML($INITIAL_PREVIEW['subject'])}{/if}" />
 				</div>
 				<div class="form-group">
+					<div class="btn-toolbar" style="margin-bottom:8px;">
+						<button type="button" class="btn btn-default btn-sm js-ai-improve-mail" title="{'LBL_AI_IMPROVE_MAIL'|t}" aria-label="{'LBL_AI_IMPROVE_MAIL'|t}">
+							<span class="fa fa-magic" aria-hidden="true"></span>
+						</button>
+						<button type="button" class="btn btn-default btn-sm js-ai-improve-undo" disabled="disabled" title="{'LBL_AI_IMPROVE_UNDO'|t}">
+							<span class="glyphicon glyphicon-share-alt" style="transform:scaleX(-1);" aria-hidden="true"></span>
+							&nbsp;{'LBL_AI_IMPROVE_UNDO'|t}
+						</button>
+						<button type="button" class="btn btn-default btn-sm js-ai-improve-redo" disabled="disabled" title="{'LBL_AI_IMPROVE_REDO'|t}">
+							<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
+							&nbsp;{'LBL_AI_IMPROVE_REDO'|t}
+						</button>
+					</div>
 					<textarea class="hide js-mail-content-input" id="mailContent" data-validation-engine="validate[required]"></textarea>
 					<div class="form-control js-mail-content" contenteditable="true" style="background:#fff;border:1px solid #ccc;height:360px;overflow:auto;padding:18px;">{if !empty($INITIAL_PREVIEW['content'])}{$INITIAL_PREVIEW['content']}{/if}</div>
 				</div>

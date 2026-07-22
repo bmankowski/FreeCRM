@@ -17,10 +17,37 @@
         "LBL_NAME_REQUIRED": "Name is required",
         "LBL_PROMPT_BODY_REQUIRED": "Prompt text is required",
         "LBL_DUPLICATE_ACTION_KEY": "A system prompt for this action already exists",
-        "LBL_ADD_RECORD": "Add prompt"
+        "LBL_ADD_RECORD": "Add prompt",
+        "LBL_AI_PROVIDER": "AI Provider",
+        "LBL_AI_PROVIDER_DESCRIPTION": "OpenAI API key and model for CRM AI actions",
+        "LBL_AI_PROVIDER_NAME": "Provider",
+        "LBL_AI_API_KEY": "API key",
+        "LBL_AI_API_KEY_PLACEHOLDER": "sk-… paste a new key",
+        "LBL_AI_API_KEY_STORED_PLACEHOLDER": "Saved key is in use — leave empty to keep it",
+        "LBL_AI_API_KEY_KEEP_HINT": "Leave empty to keep the stored key. Paste a new sk-… key only when rotating.",
+        "LBL_AI_CLEAR_API_KEY": "Remove stored API key",
+        "LBL_AI_MODEL": "Model",
+        "LBL_AI_MODEL_HELP": "Choose a chat model, or fetch the live list from OpenAI with your API key.",
+        "LBL_AI_FETCH_MODELS": "Fetch from OpenAI",
+        "LBL_AI_MODELS_FETCHED": "Loaded %d chat models from OpenAI",
+        "LBL_AI_API_KEY_MISSING": "OpenAI API key is not configured. Set it in Settings → AI Provider.",
+        "LBL_AI_API_KEY_INVALID": "API key must start with sk-",
+        "LBL_AI_API_KEY_REJECTED": "OpenAI rejected the API key",
+        "LBL_AI_MODEL_MISSING": "AI model is required",
+        "LBL_AI_HTTP_FAILED": "Could not reach OpenAI. Try again later.",
+        "LBL_AI_REQUEST_ENCODE_FAILED": "Could not prepare the AI request",
+        "LBL_AI_INVALID_RESPONSE": "Invalid response from OpenAI",
+        "LBL_AI_API_ERROR": "OpenAI rejected the request",
+        "LBL_AI_EMPTY_RESPONSE": "OpenAI returned an empty response",
+        "LBL_AI_MAIL_BODY_EMPTY": "Email body is empty"
     },
     "jsLanguageStrings": {
         "JS_SAVE_FAILED": "Could not save the prompt. Try again.",
-        "JS_NO_PLACEHOLDERS": "No placeholders for this action"
+        "JS_NO_PLACEHOLDERS": "No placeholders for this action",
+        "JS_AI_FETCH_MODELS_HINT": "Load chat models available for this API key",
+        "JS_AI_FETCH_MODELS_NEED_KEY": "Enter or keep a stored OpenAI API key first",
+        "JS_AI_FETCHING_MODELS": "Fetching models from OpenAI…",
+        "JS_AI_FETCH_MODELS_FAILED": "Could not fetch models from OpenAI",
+        "JS_AI_MODELS_LOADED": "Loaded %d chat models"
     }
 }
