@@ -82,13 +82,12 @@ class Mail
 	/**
 	 * Get templte list for module
 	 * @param string|bool $moduleName
-	 * @param string|bool $type
 	 * @param bool $hideSystem When true, exclude templates with is_system = 1 (manual compose only)
 	 * @return array
 	 */
-	public static function getTempleteList($moduleName = false, $type = false, $hideSystem = true)
+	public static function getTempleteList($moduleName = false, $hideSystem = true)
 	{
-		$cacheKey = (string) $moduleName . '.' . (string) $type . '.' . (int) $hideSystem;
+		$cacheKey = 'modOnly.' . (string) $moduleName . '.' . (int) $hideSystem;
 		if (Cache::has('MailTempleteList', $cacheKey)) {
 			return Cache::get('MailTempleteList', $cacheKey);
 		}
@@ -105,11 +104,8 @@ class Mail
 			->where(['vtiger_crmentity.deleted' => 0]);
 		if ($moduleName) {
 			$query->andWhere(
-				\App\Modules\EmailTemplates\Models\TemplateModule::sqlGlobalOrMatches('u_#__emailtemplates.modules', (string) $moduleName)
+				\App\Modules\EmailTemplates\Models\TemplateModule::sqlMatchesColumn('u_#__emailtemplates.modules', (string) $moduleName)
 			);
-		}
-		if ($type) {
-			$query->andWhere(['u_#__emailtemplates.email_template_type' => $type]);
 		}
 		if ($hideSystem) {
 			$query->andWhere(['u_#__emailtemplates.is_system' => 0]);
@@ -132,20 +128,19 @@ class Mail
 	 * Email templates for one or more modules (merged, deduplicated by id).
 	 *
 	 * @param string[] $moduleNames
-	 * @param string|bool $type
 	 * @param bool $hideSystem When true, exclude templates with is_system = 1 (manual compose only)
 	 * @return array
 	 */
-	public static function getTempleteListForModules(array $moduleNames, $type = false, $hideSystem = true)
+	public static function getTempleteListForModules(array $moduleNames, $hideSystem = true)
 	{
 		$moduleNames = array_values(array_unique(array_filter($moduleNames)));
 		if ($moduleNames === []) {
-			return static::getTempleteList(false, $type, $hideSystem);
+			return static::getTempleteList(false, $hideSystem);
 		}
 		if (count($moduleNames) === 1) {
-			return static::getTempleteList($moduleNames[0], $type, $hideSystem);
+			return static::getTempleteList($moduleNames[0], $hideSystem);
 		}
-		$cacheKey = implode(',', $moduleNames) . '.' . (string) $type . '.' . (int) $hideSystem;
+		$cacheKey = 'modOnly.' . implode(',', $moduleNames) . '.' . (int) $hideSystem;
 		if (Cache::has('MailTempleteList', $cacheKey)) {
 			return Cache::get('MailTempleteList', $cacheKey);
 		}
@@ -161,11 +156,8 @@ class Mail
 			->innerJoin('vtiger_crmentity', 'u_#__emailtemplates.emailtemplatesid = vtiger_crmentity.crmid')
 			->where(['vtiger_crmentity.deleted' => 0])
 			->andWhere(
-				\App\Modules\EmailTemplates\Models\TemplateModule::sqlGlobalOrMatchesAny('u_#__emailtemplates.modules', $moduleNames)
+				\App\Modules\EmailTemplates\Models\TemplateModule::sqlMatchesAny('u_#__emailtemplates.modules', $moduleNames)
 			);
-		if ($type) {
-			$query->andWhere(['u_#__emailtemplates.email_template_type' => $type]);
-		}
 		if ($hideSystem) {
 			$query->andWhere(['u_#__emailtemplates.is_system' => 0]);
 		}
@@ -319,6 +311,9 @@ class Mail
 
 	/**
 	 * Append parsed template footer to the message body (empty footer is a no-op).
+	 *
+	 * Footer dynamics (e.g. current_user_footer) already wrap themselves in
+	 * `.fc-email-footer` via TextParser — do not nest a second outer wrapper.
 	 */
 	public static function appendParsedFooter(string $body, array $template, \App\TextParser\TextParser $textParser): string
 	{
@@ -331,8 +326,12 @@ class Mail
 			return $body;
 		}
 
-		return '<div class="fc-email-content">' . rtrim($body) . '</div>'
-			. '<div class="fc-email-footer" contenteditable="false">' . $footer . '</div>';
+		$content = '<div class="fc-email-content">' . rtrim($body) . '</div>';
+		if (preg_match('/\bfc-email-footer\b/', $footer)) {
+			return $content . $footer;
+		}
+
+		return $content . '<div class="fc-email-footer" contenteditable="false">' . $footer . '</div>';
 	}
 
 	public static function clearTemplateListCache(): void

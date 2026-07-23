@@ -515,6 +515,8 @@ var app = {
 	},
 	/**
 	 * Keep editable text inside `.fc-email-content`; leave `.fc-email-footer` siblings alone.
+	 * When wrappers exist, only `.fc-email-content` is contenteditable — the outer shell is not,
+	 * so the caret/selection cannot escape before the body or into the footer.
 	 * @param {HTMLElement|jQuery} editor
 	 */
 	normalizeMailEditorStructure: function (editor) {
@@ -532,13 +534,16 @@ var app = {
 				break;
 			}
 		}
-		if (!content) {
-			return;
-		}
 		var footers = root.querySelectorAll('.fc-email-footer');
 		for (i = 0; i < footers.length; i++) {
 			footers[i].setAttribute('contenteditable', 'false');
 		}
+		if (!content) {
+			root.setAttribute('contenteditable', 'true');
+			return;
+		}
+		root.setAttribute('contenteditable', 'false');
+		content.setAttribute('contenteditable', 'true');
 		var before = [];
 		var after = [];
 		var seenContent = false;
@@ -578,16 +583,47 @@ var app = {
 			return;
 		}
 		this.normalizeMailEditorStructure(editor);
-		editor.focus();
+		var root = editor[0];
+		var target = root.querySelector('.fc-email-content') || root;
+		if (typeof target.focus === 'function') {
+			target.focus();
+		} else {
+			editor.focus();
+		}
 		var selection = window.getSelection();
 		if (!selection) {
 			return;
 		}
-		var root = editor[0];
-		var target = root.querySelector('.fc-email-content') || root;
 		var range = document.createRange();
 		range.selectNodeContents(target);
 		range.collapse(true);
+		selection.removeAllRanges();
+		selection.addRange(range);
+	},
+	/**
+	 * Place caret at the end of `.fc-email-content` (or the editor root if absent).
+	 * @param {jQuery} editor
+	 */
+	focusMailEditorEnd: function (editor) {
+		editor = jQuery(editor);
+		if (!editor.length) {
+			return;
+		}
+		this.normalizeMailEditorStructure(editor);
+		var root = editor[0];
+		var target = root.querySelector('.fc-email-content') || root;
+		if (typeof target.focus === 'function') {
+			target.focus();
+		} else {
+			editor.focus();
+		}
+		var selection = window.getSelection();
+		if (!selection) {
+			return;
+		}
+		var range = document.createRange();
+		range.selectNodeContents(target);
+		range.collapse(false);
 		selection.removeAllRanges();
 		selection.addRange(range);
 	},

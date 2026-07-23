@@ -16,38 +16,38 @@ class m260714_000003_screening_rejection_email_templates extends Migration
 	private const SETYPE = 'EmailTemplates';
 	private const MODENTITY_TABID = 112;
 
-	private const FOOTER = "\n\n\$(dynamic : current_user_footer)\$\n\$(dynamic : candidates_unsubscribe_footer)\$";
+	private const FOOTER = "\$(dynamic : current_user_footer)\$\n\$(dynamic : candidates_unsubscribe_footer)\$";
 
 	private const TEMPLATES = [
 		[
 			'sys_name' => 'kandydaci_odrzucenie_brak_doswiadczenia',
 			'name' => 'Kandydaci - Odrzucenie screening: brak doświadczenia',
-			'body' => "Dzień dobry Panu,\n\ndziękujemy za zainteresowanie stanowiskiem \$(record : nazwa_projektu)\$ i przesłanie aplikacji.\n\nPo analizie przekazanych informacji nie możemy kontynuować procesu rekrutacyjnego — na tym etapie nie potwierdza Pan doświadczenia wymaganego na podobnym stanowisku.",
+			'body' => "Dzień dobry Panu,\n\ndziękujemy za zainteresowanie stanowiskiem \$(sourceRecord : nazwa_projektu)\$ i przesłanie aplikacji.\n\nPo analizie przekazanych informacji nie możemy kontynuować procesu rekrutacyjnego — na tym etapie nie potwierdza Pan doświadczenia wymaganego na podobnym stanowisku.",
 		],
 		[
 			'sys_name' => 'kandydaci_odrzucenie_brak_kompetencji',
 			'name' => 'Kandydaci - Odrzucenie screening: brak kompetencji',
-			'body' => "Dzień dobry Panu,\n\ndziękujemy za zainteresowanie stanowiskiem \$(record : nazwa_projektu)\$ i przesłanie aplikacji.\n\nPo analizie przekazanych informacji nie możemy kontynuować procesu rekrutacyjnego — w profilu nie widać kluczowych kompetencji, technologii, narzędzi lub certyfikatów wymaganych w tym projekcie.",
+			'body' => "Dzień dobry Panu,\n\ndziękujemy za zainteresowanie stanowiskiem \$(sourceRecord : nazwa_projektu)\$ i przesłanie aplikacji.\n\nPo analizie przekazanych informacji nie możemy kontynuować procesu rekrutacyjnego — w profilu nie widać kluczowych kompetencji, technologii, narzędzi lub certyfikatów wymaganych w tym projekcie.",
 		],
 		[
 			'sys_name' => 'kandydaci_odrzucenie_niedopasowanie_profilu',
 			'name' => 'Kandydaci - Odrzucenie screening: niedopasowanie profilu',
-			'body' => "Dzień dobry Panu,\n\ndziękujemy za zainteresowanie stanowiskiem \$(record : nazwa_projektu)\$ i przesłanie aplikacji.\n\nPo analizie przekazanych informacji nie możemy kontynuować procesu rekrutacyjnego — profil zawodowy nie jest wystarczająco dopasowany do zakresu obowiązków w tym projekcie.",
+			'body' => "Dzień dobry Panu,\n\ndziękujemy za zainteresowanie stanowiskiem \$(sourceRecord : nazwa_projektu)\$ i przesłanie aplikacji.\n\nPo analizie przekazanych informacji nie możemy kontynuować procesu rekrutacyjnego — profil zawodowy nie jest wystarczająco dopasowany do zakresu obowiązków w tym projekcie.",
 		],
 		[
 			'sys_name' => 'kandydaci_odrzucenie_brak_jezyka_polskiego',
 			'name' => 'Kandydaci - Odrzucenie screening: brak języka polskiego',
-			'body' => "Dzień dobry Panu,\n\ndziękujemy za zainteresowanie stanowiskiem \$(record : nazwa_projektu)\$ i przesłanie aplikacji.\n\nPo analizie przekazanych informacji nie możemy kontynuować procesu rekrutacyjnego — nie potwierdza Pan wymaganej znajomości języka polskiego.",
+			'body' => "Dzień dobry Panu,\n\ndziękujemy za zainteresowanie stanowiskiem \$(sourceRecord : nazwa_projektu)\$ i przesłanie aplikacji.\n\nPo analizie przekazanych informacji nie możemy kontynuować procesu rekrutacyjnego — nie potwierdza Pan wymaganej znajomości języka polskiego.",
 		],
 		[
 			'sys_name' => 'kandydaci_odrzucenie_inny_kandydat',
 			'name' => 'Kandydaci - Odrzucenie screening: inny kandydat',
-			'body' => "Dzień dobry Panu,\n\ndziękujemy za zainteresowanie stanowiskiem \$(record : nazwa_projektu)\$ i przesłanie aplikacji.\n\nPo analizie przekazanych informacji nie możemy kontynuować procesu rekrutacyjnego w tym projekcie — wybraliśmy innego kandydata.",
+			'body' => "Dzień dobry Panu,\n\ndziękujemy za zainteresowanie stanowiskiem \$(sourceRecord : nazwa_projektu)\$ i przesłanie aplikacji.\n\nPo analizie przekazanych informacji nie możemy kontynuować procesu rekrutacyjnego w tym projekcie — wybraliśmy innego kandydata.",
 		],
 		[
 			'sys_name' => 'kandydaci_odrzucenie_proces_zamkniety',
 			'name' => 'Kandydaci - Odrzucenie screening: proces zamknięty',
-			'body' => "Dzień dobry Panu,\n\ndziękujemy za zainteresowanie stanowiskiem \$(record : nazwa_projektu)\$ i przesłanie aplikacji.\n\nNie możemy kontynuować procesu rekrutacyjnego — rekrutacja na to stanowisko została wstrzymana lub zamknięta.",
+			'body' => "Dzień dobry Panu,\n\ndziękujemy za zainteresowanie stanowiskiem \$(sourceRecord : nazwa_projektu)\$ i przesłanie aplikacji.\n\nNie możemy kontynuować procesu rekrutacyjnego — rekrutacja na to stanowisko została wstrzymana lub zamknięta.",
 		],
 	];
 
@@ -57,7 +57,7 @@ class m260714_000003_screening_rejection_email_templates extends Migration
 			return;
 		}
 
-		$subject = 'Informacja w sprawie rekrutacji na – $(record : nazwa_projektu)$';
+		$subject = 'Informacja w sprawie rekrutacji na – $(sourceRecord : nazwa_projektu)$';
 		$now = date('Y-m-d H:i:s');
 
 		foreach (self::TEMPLATES as $template) {
@@ -94,9 +94,10 @@ class m260714_000003_screening_rejection_email_templates extends Migration
 				'email_template_type' => 'PLL_RECORD',
 				'modules' => self::MODULE,
 				'subject' => $subject,
-				'content' => (string) $template['body'] . self::FOOTER,
+				'content' => (string) $template['body'],
+				'footer' => self::FOOTER,
 				'sys_name' => $sysName,
-				'is_system' => 0,
+				'is_system' => 1,
 				'email_template_priority' => 1,
 				'sequence' => 2,
 				'sender_type' => 'user_account',

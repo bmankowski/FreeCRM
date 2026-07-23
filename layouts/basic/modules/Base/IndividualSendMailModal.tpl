@@ -53,21 +53,26 @@
 					<input type="text" class="form-control js-mail-subject" id="mailSubject" data-validation-engine="validate[required]" value="{if !empty($INITIAL_PREVIEW['subject'])}{\App\Modules\Base\Helpers\Util::toSafeHTML($INITIAL_PREVIEW['subject'])}{/if}" />
 				</div>
 				<div class="form-group">
-					<div class="btn-toolbar" style="margin-bottom:8px;">
-						<button type="button" class="btn btn-default btn-sm js-ai-improve-mail" title="{'LBL_AI_IMPROVE_MAIL'|t}" aria-label="{'LBL_AI_IMPROVE_MAIL'|t}">
-							<span class="fa fa-magic" aria-hidden="true"></span>
-						</button>
-						<button type="button" class="btn btn-default btn-sm js-ai-improve-undo" disabled="disabled" title="{'LBL_AI_IMPROVE_UNDO'|t}">
-							<span class="glyphicon glyphicon-share-alt" style="transform:scaleX(-1);" aria-hidden="true"></span>
-							&nbsp;{'LBL_AI_IMPROVE_UNDO'|t}
-						</button>
-						<button type="button" class="btn btn-default btn-sm js-ai-improve-redo" disabled="disabled" title="{'LBL_AI_IMPROVE_REDO'|t}">
-							<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
-							&nbsp;{'LBL_AI_IMPROVE_REDO'|t}
-						</button>
+					<div class="c-mail-body">
+						<div class="c-mail-body__editor">
+							<textarea class="hide js-mail-content-input" id="mailContent" data-validation-engine="validate[required]"></textarea>
+							<div class="form-control js-mail-content c-mail-body__content" contenteditable="true">{if !empty($INITIAL_PREVIEW['content'])}{$INITIAL_PREVIEW['content']}{/if}</div>
+						</div>
+						<div class="c-mail-body__ai" role="toolbar" aria-label="{'LBL_AI_IMPROVE_MAIL'|t}">
+							<button type="button" class="btn btn-default btn-sm c-mail-body__ai-btn c-mail-body__ai-btn--primary js-ai-improve-mail" title="{'LBL_AI_IMPROVE_MAIL'|t}" aria-label="{'LBL_AI_IMPROVE_MAIL'|t}">
+								<span class="fa fa-magic" aria-hidden="true"></span>
+							</button>
+							<span class="c-mail-body__ai-sep" aria-hidden="true"></span>
+							<button type="button" class="btn btn-default btn-sm c-mail-body__ai-btn js-ai-improve-undo" disabled="disabled" title="{'LBL_AI_IMPROVE_UNDO'|t}">
+								<span class="glyphicon glyphicon-share-alt c-mail-body__ai-undo-icon" aria-hidden="true"></span>
+								<span class="c-mail-body__ai-label">{'LBL_AI_IMPROVE_UNDO'|t}</span>
+							</button>
+							<button type="button" class="btn btn-default btn-sm c-mail-body__ai-btn js-ai-improve-redo" disabled="disabled" title="{'LBL_AI_IMPROVE_REDO'|t}">
+								<span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span>
+								<span class="c-mail-body__ai-label">{'LBL_AI_IMPROVE_REDO'|t}</span>
+							</button>
+						</div>
 					</div>
-					<textarea class="hide js-mail-content-input" id="mailContent" data-validation-engine="validate[required]"></textarea>
-					<div class="form-control js-mail-content" contenteditable="true" style="background:#fff;border:1px solid #ccc;height:360px;overflow:auto;padding:18px;">{if !empty($INITIAL_PREVIEW['content'])}{$INITIAL_PREVIEW['content']}{/if}</div>
 				</div>
 				{include file='partials/MailComposeAttachments.tpl'|@vtemplate_path:'Base'}
 			</div>

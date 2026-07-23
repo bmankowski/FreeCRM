@@ -154,16 +154,21 @@ class DetailView extends \App\Runtime\BaseModel
 			&& \App\Core\AppConfig::main('isActiveSendingMails')
 			&& \App\Modules\Mail\Models\Module::canUserSend((int) \App\User\CurrentUser::getId())
 			&& $this->recordHasActiveEmail()) {
+			$composeAllowed = \App\Email\Mailer::recordHasAllowlistedEmail($this->getRecord());
+			$mailTitle = $composeAllowed
+				? \App\Runtime\Vtiger_Language_Handler::translate('LBL_SEND_EMAIL')
+				: \App\Runtime\Vtiger_Language_Handler::translate('LBL_MAIL_RECIPIENT_NOT_ALLOWED', 'Mail');
 			array_unshift(
 				$linkModelList['DETAILVIEWBASIC'],
 				\App\Modules\Base\Models\Link::getInstanceFromValues([
 					'linktype' => 'DETAILVIEWBASIC',
 					'linklabel' => 'LBL_SEND_EMAIL',
 					'linkurl' => '#',
-					'linkhref' => true,
+					'linkhref' => $composeAllowed,
 					'linkicon' => 'glyphicon glyphicon-envelope',
-					'linkclass' => 'js-send-email-modal btn',
-					'title' => \App\Runtime\Vtiger_Language_Handler::translate('LBL_SEND_EMAIL'),
+					'linkclass' => $composeAllowed ? 'js-send-email-modal btn' : 'btn',
+					'active' => $composeAllowed,
+					'linkhint' => $mailTitle,
 					'linkdata' => [
 						'record-id' => (int) $recordId,
 						'module-name' => $moduleName,

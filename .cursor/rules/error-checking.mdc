@@ -41,6 +41,7 @@ alwaysApply: false
 - **Redaction**: `data:` URIs and `sk-…` fragments in the **log copy only**; wire payload to OpenAI is unchanged. API key / Authorization never logged.
 - **Use when**: Debugging AI improve timeouts, oversized bodies, prompt contents, or Provider model-list failures.
 - **Prod**: set `LOG_AI_REQUESTS` to `false` unless actively debugging (mail content on disk).
+- Feature map (prompts, provider, latency): **`ai.mdc`**.
 
 ### `cache/logs/cron.log`
 - **Purpose**: stdout from `cron/vtigercron.php`.

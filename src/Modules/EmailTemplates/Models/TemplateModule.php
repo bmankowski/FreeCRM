@@ -73,30 +73,18 @@ class TemplateModule
 	}
 
 	/**
-	 * Global templates (empty modules) or templates assigned to $moduleName.
+	 * Templates assigned to any of $moduleNames (no global/empty-modules rows).
 	 *
-	 * @return array<int|string, mixed>
-	 */
-	public static function sqlGlobalOrMatches(string $column, string $moduleName): array
-	{
-		return [
-			'or',
-			['or', [$column => null], [$column => '']],
-			self::sqlMatchesColumn($column, $moduleName),
-		];
-	}
-
-	/**
 	 * @param list<string> $moduleNames
 	 * @return array<int|string, mixed>
 	 */
-	public static function sqlGlobalOrMatchesAny(string $column, array $moduleNames): array
+	public static function sqlMatchesAny(string $column, array $moduleNames): array
 	{
 		$moduleNames = array_values(array_unique(array_filter(array_map('trim', $moduleNames))));
 		if ($moduleNames === []) {
-			return ['or', [$column => null], [$column => '']];
+			return ['and', '0=1'];
 		}
-		$conditions = ['or', ['or', [$column => null], [$column => '']]];
+		$conditions = ['or'];
 		foreach ($moduleNames as $moduleName) {
 			$conditions[] = self::sqlMatchesColumn($column, $moduleName);
 		}

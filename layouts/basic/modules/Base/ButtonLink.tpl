@@ -10,8 +10,8 @@
 		{/if}
 		{assign var="LINK_URL" value=$LINK->getUrl()}
 		{assign var="BTN_MODULE" value=$LINK->getRelatedModuleName($MODULE)}
-	{if $LINK->get('linkhref')}<a{else}<button type="button"{/if}{/strip} {strip}
-				{if !$LINK->isActive()} disabled {/if}
+			{if $LINK->get('linkhref')}<a{else}<button type="button"{/if}{/strip} {strip}
+				{if !$LINK->isActive()} disabled aria-disabled="true" {/if}
 				id="{$MODULE}_{$BUTTON_VIEW}_action_{\App\Modules\Base\Helpers\Util::replaceSpaceWithUnderScores($ACTION_NAME)}"{/strip} {strip}
 				class="btn {if $LINK->getClassName() neq ''}{if $LINK->getClassName()|strrpos:"btn-" === false}btn-default {/if}{$LINK->getClassName()}{else}btn-default{/if} {if $LABEL neq '' && $LINK->get('showLabel') != '1'} popoverTooltip{/if} {if $LINK->get('modalView')}showModal{/if}"{/strip} {strip}
 				{if $LABEL neq '' && $LINK->get('showLabel') != 1}
@@ -30,8 +30,10 @@
 					data-content="{$LABEL|t:$BTN_MODULE}"
 				{/if}
 			{/strip} {strip}
-				{if $LINK->get('linkhref')}
+				{if $LINK->get('linkhref') && $LINK->isActive()}
 					href="{$LINK_URL}"
+				{elseif $LINK->get('linkhref')}
+					href="#"
 				{/if}
 			{/strip} {strip}
 				{if $LINK->get('linktarget')}
@@ -44,7 +46,7 @@
 					{if $LINK->get('linkPopup')}
 						onclick="window.open('{$LINK_URL}', '{if $LINK->get('linktarget')}{$LINK->get('linktarget')}{else}_self{/if}'{if $LINK->get('linkPopup')}, 'resizable=yes,location=no,scrollbars=yes,toolbar=no,menubar=no,status=no'{/if})" 
 					{else}
-						{if $LINK_URL neq '' && !$LINK->get('linkhref')}
+						{if $LINK->isActive() && $LINK_URL neq '' && !$LINK->get('linkhref')}
 							{if stripos($LINK_URL, 'javascript:')===0}
 								onclick='{$LINK_URL|substr:strlen("javascript:")};'
 							{else}

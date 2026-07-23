@@ -1,0 +1,60 @@
+---
+description: "FreeCRM AI — prompts catalog, OpenAI provider, client contracts"
+globs:
+  - "src/Ai/**"
+  - "src/Modules/Settings/AiPrompts/**"
+  - "layouts/basic/modules/Settings/AiPrompts/**"
+  - "public/layouts/basic/modules/Settings/AiPrompts/**"
+  - "migrations/Users/*ai_prompt*"
+  - "migrations/Users/*ai_provider*"
+  - "documentation/cr-ai-*.md"
+  - "src/Modules/Base/Actions/Mail.php"
+alwaysApply: false
+---
+
+# AI (prompts + OpenAI)
+
+Settings module **`AiPrompts`**. Domain code under `src/Ai/`. Consumers call **`PromptResolver`** + **`OpenAi\Client`** — do not hardcode prompt text or API keys in feature code.
+
+## Data
+
+| Table | Role |
+|-------|------|
+| `s_yf_ai_prompts` (`s_#__ai_prompts`) | Prompt bodies per `action_key` |
+| `s_yf_ai_provider` | OpenAI API key + model (single `openai` row) |
+
+- System default: **`userid IS NULL`** (not `0`). UNIQUE via generated `owner_scope = IFNULL(userid,0)`.
+- Resolve order: user override (`userid = N`) → system (`userid IS NULL`). Missing/inactive → **`PromptNotFoundException`** (no empty string).
+- Admin UI edits **system** rows only. Per-user prompt UI = later CR.
+- API key: Settings → Integration → **AI Provider** (`view=Provider`). Masked field stays empty; POST key only when user types `sk-…`. Never treat `••••` as a value.
+
+## Registry + resolve
+
+- `App\Ai\Prompt\ActionRegistry` — known `action_key`s + placeholders. First key: **`mail.improve`** (`{{subject}}`, `{{body}}`).
+- New action = add to registry + seed prompt in same change; UI select comes from registry.
+- `PromptResolver::resolve($actionKey, $userId)` then `applyPlaceholders($template, $vars)` — missing `{{var}}` key → exception.
+
+## OpenAI client
+
+- `App\Ai\OpenAi\Client` — `chatCompletions`, `listChatModels`. Config via `ProviderConfig::requireConfigured()`.
+- **Omit `temperature`** — gpt-5.* rejects non-default.
+- Before long HTTP: **`session_write_close()`** so PHP session lock does not block the rest of the UI.
+- Timeouts: client ~45 s; improve Ajax ~90 s. Log timing (`AiImproveMail ok in Xs`).
+- **Latency:** CRM resolve ~1 ms; wait is OpenAI. Seed/default model **`gpt-5-nano`** (cheapest) is often **8–20 s**. For snappy UX set **`gpt-4.1-nano`** (~2 s) or `gpt-4.1-mini` in Provider.
+
+## Settings menu
+
+- Integration → **AI Prompts** — catalog CRUD.
+- Integration → **AI Provider** — key + model + “Fetch from OpenAI” (Select2 chat models).
+
+## Mail improve (consumer)
+
+Compose wand details (footer strip, Ajax, undo): **`mail-compose.mdc`**. Service: `App\Ai\Mail\ImproveMailService`; Ajax `Base\Actions\Mail` mode `improveMail`.
+
+## Logging
+
+`cache/logs/ai.log` when `LOG_AI_REQUESTS` — see **`error-checking.mdc`**. Off in prod unless debugging.
+
+## Stance
+
+No silent empty prompts, no env-file API keys for this feature, no compat shims. New AI features reuse registry + resolver + Client; extend tables only when the contract truly needs it.

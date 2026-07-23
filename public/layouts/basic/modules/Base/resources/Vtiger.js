@@ -439,13 +439,24 @@ var Vtiger_Index_Js = {
 			});
 		};
 		modalContainer.find('#field, #template').off('change.mailPreview').on('change.mailPreview', loadPreview);
-		contentEditor.off('input.mailPreview blur.mailPreview').on('input.mailPreview blur.mailPreview', function () {
+		contentEditor.off('input.mailPreview focusout.mailPreview').on('input.mailPreview focusout.mailPreview', function () {
 			app.normalizeMailEditorStructure(contentEditor);
 			syncMailContent();
 		});
 		contentEditor.off('mousedown.mailPreview').on('mousedown.mailPreview', function (e) {
-			if (e.target === contentEditor[0]) {
-				e.preventDefault();
+			var root = contentEditor[0];
+			var contentEl = root.querySelector('.fc-email-content');
+			if (!contentEl) {
+				return;
+			}
+			var inContent = contentEl === e.target || contentEl.contains(e.target);
+			if (inContent) {
+				return;
+			}
+			e.preventDefault();
+			if (jQuery(e.target).closest('.fc-email-footer').length) {
+				app.focusMailEditorEnd(contentEditor);
+			} else {
 				app.focusMailEditorStart(contentEditor);
 			}
 		});
@@ -621,6 +632,9 @@ var Vtiger_Index_Js = {
 			e.preventDefault();
 			e.stopPropagation();
 			var btn = jQuery(this);
+			if (btn.prop('disabled') || btn.attr('aria-disabled') === 'true' || btn.hasClass('disabled')) {
+				return;
+			}
 			var recordId = parseInt(btn.data('recordId') || btn.data('record-id') || app.getRecordId(), 10);
 			var params = {
 				module: btn.data('moduleName') || btn.data('module-name') || app.getModuleName(),
@@ -690,6 +704,9 @@ var Vtiger_Index_Js = {
 			sendButton.click(function (e) {
 				e.preventDefault();
 				e.stopPropagation();
+				if (sendButton.prop('disabled') || sendButton.attr('aria-disabled') === 'true' || sendButton.hasClass('disabled')) {
+					return;
+				}
 				var url = sendButton.data('url') || sendButton.attr('href');
 				if (sendButton.data('to')) {
 					url += (url.indexOf('?') >= 0 ? '&' : '?') + 'to=' + encodeURIComponent(sendButton.data('to'));

@@ -31,8 +31,18 @@ class Email extends BaseUiType
 			$fieldName = $this->get('field')->get('name');
 			$value = \vtlib\Functions::textLength($rawValue);
 			if (\App\Core\AppConfig::main('isActiveSendingMails') && $recordId && $moduleName !== 'Users') {
-				$url = \App\Modules\Mail\Models\Module::getComposeUrl($moduleName, (int) $recordId, $rawValue);
-				$value = "<a class=\"cursorPointer sendMailBtn\" href=\"$url\" title=" . \App\Runtime\Vtiger_Language_Handler::translate('LBL_SEND_EMAIL') . ">$value</a>";
+				$composeAllowed = \App\Email\Mailer::isRecipientAllowedByAllowlist($rawValue);
+				if ($composeAllowed) {
+					$url = \App\Modules\Mail\Models\Module::getComposeUrl($moduleName, (int) $recordId, $rawValue);
+					$value = "<a class=\"cursorPointer sendMailBtn\" href=\"$url\" title=\""
+						. \App\Modules\Base\Helpers\Util::toSafeHTML(\App\Runtime\Vtiger_Language_Handler::translate('LBL_SEND_EMAIL'))
+						. "\">$value</a>";
+				} else {
+					$blockedTitle = \App\Modules\Base\Helpers\Util::toSafeHTML(
+						\App\Runtime\Vtiger_Language_Handler::translate('LBL_MAIL_RECIPIENT_NOT_ALLOWED', 'Mail')
+					);
+					$value = "<span class=\"text-muted\" title=\"$blockedTitle\">$value</span>";
+				}
 			} else {
 				if ($moduleName == 'Users' && $fieldName == 'user_name') {
 					$value = "<a class='cursorPointer' href='mailto:" . $rawValue . "'>" . $value . "</a>";

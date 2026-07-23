@@ -31,10 +31,10 @@ class SaveAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 		if ($params['name'] == 'turn_off')
 			$message = 'LBL_SAVE_CHANGES_SEARCHING';
 		$response = new \App\Http\Vtiger_Response();
-		$response->setResult(array(
-			'success' => $saveResp['success'],
+		$response->setResult([
+			'success' => true,
 			'message' => \App\Runtime\Vtiger_Language_Handler::translate($message, $request->getModule(false))
-		));
+		]);
 		$response->emit();
 	}
 
@@ -43,10 +43,10 @@ class SaveAjax extends \App\Modules\Settings\Base\Views\IndexAjax
 		$params = $request->get('params');
 		\App\Modules\Settings\Search\Models\Module::updateLabels($params);
 		$response = new \App\Http\Vtiger_Response();
-		$response->setResult(array(
-			'success' => $saveResp['success'],
+		$response->setResult([
+			'success' => true,
 			'message' => \App\Runtime\Vtiger_Language_Handler::translate('Update has been completed', $request->getModule(false))
-		));
+		]);
 		$response->emit();
 	}
 

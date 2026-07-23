@@ -460,6 +460,45 @@ class Mailer
 	}
 
 	/**
+	 * Empty allowlist = no filter (all recipients allowed).
+	 */
+	public static function isRecipientAllowedByAllowlist(string $email): bool
+	{
+		$allowlist = self::getRecipientAllowlist();
+		if ($allowlist === []) {
+			return true;
+		}
+
+		return self::recipientMatchesAllowlist($email, $allowlist);
+	}
+
+	/**
+	 * True when allowlist is empty, or at least one active email field on the record matches.
+	 */
+	public static function recordHasAllowlistedEmail(\App\Modules\Base\Models\Record $record): bool
+	{
+		$allowlist = self::getRecipientAllowlist();
+		if ($allowlist === []) {
+			return true;
+		}
+		$moduleModel = $record->getModule();
+		if (!$moduleModel) {
+			return false;
+		}
+		foreach ($moduleModel->getFieldsByType('email') as $fieldName => $fieldModel) {
+			if (!$fieldModel->isActiveField()) {
+				continue;
+			}
+			$email = trim((string) $record->get($fieldName));
+			if ($email !== '' && self::recipientMatchesAllowlist($email, $allowlist)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * @return string[] Allowlist entries: exact addresses (contain @) or domains
 	 */
 	public static function getRecipientAllowlist(): array

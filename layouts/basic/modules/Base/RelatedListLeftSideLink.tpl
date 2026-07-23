@@ -3,11 +3,18 @@
 {assign var=LINK_URL value=$LINK->getUrl()}
 {assign var=BTN_MODULE value=$LINK->getRelatedModuleName($MODULE)}
 {assign var=LINK_CLASS value=$LINK->getClassName()|trim}
+{assign var=LINK_ACTIVE value=$LINK->isActive()}
+{assign var=LINK_TITLE value=$LINK->get('title')}
+{if $LINK_TITLE eq ''}
+	{assign var=LINK_TITLE value=$LINK->getLabel()|t:$BTN_MODULE}
+{/if}
 <!-- layouts/basic/modules/Base/RelatedListLeftSideLink.tpl -->
 <a class="{if $LINK->get('modalView')}showModal {/if}{$LINK_CLASS}"
-	{if $LINK->get('linkhref')}href="{$LINK_URL}"
-	{else}href="#"
+	{if $LINK_ACTIVE && $LINK->get('linkhref')}href="{$LINK_URL}"
+	{elseif $LINK_ACTIVE}href="#"
+	{else}href="#" aria-disabled="true" tabindex="-1" onclick="return false;"
 	{/if}
+	title="{$LINK_TITLE|escape:'html'}"
 	{if $LINK->get('linktarget')}target="{$LINK->get('linktarget')}"{/if}
 	{if $LINK->get('modalView')}data-url="{$LINK_URL}"{/if}
 	{if $LINK->get('linkdata') neq '' && is_array($LINK->get('linkdata'))}
@@ -15,7 +22,7 @@
 			data-{$NAME}="{$DATA}"
 		{/foreach}
 	{/if}
-	{if $LINK_URL neq '' && !$LINK->get('linkhref') && !$LINK->get('modalView')}
+	{if $LINK_ACTIVE && $LINK_URL neq '' && !$LINK->get('linkhref') && !$LINK->get('modalView')}
 		{if stripos($LINK_URL, 'javascript:') === 0}
 			onclick='{$LINK_URL|substr:strlen("javascript:")};'
 		{elseif stripos($LINK_URL, 'javascript:') !== 0 && $LINK_URL neq '#'}
@@ -24,9 +31,9 @@
 	{/if}
 	>
 	{if $LINK->get('linkicon') neq ''}
-		<span class="{$LINK->get('linkicon')} alignMiddle" title="{$LINK->getLabel()|t:$BTN_MODULE}"></span>
+		<span class="{$LINK->get('linkicon')} alignMiddle" title="{$LINK_TITLE|escape:'html'}"></span>
 	{elseif $LINK->get('showLabel')}
-		<span class="alignMiddle" title="{$LINK->getLabel()|t:$BTN_MODULE}">{$LINK->getLabel()|t:$BTN_MODULE}</span>
+		<span class="alignMiddle" title="{$LINK_TITLE|escape:'html'}">{$LINK->getLabel()|t:$BTN_MODULE}</span>
 	{/if}
 </a>
 {/strip}

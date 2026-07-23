@@ -40,7 +40,10 @@ class IndividualSendMailModal extends BasicModal
 	{
 		return array_merge(
 			parent::getModalCss($request),
-			$this->checkAndConvertCssStyles(['modules.Mail.ComposeAttachments'])
+			$this->checkAndConvertCssStyles([
+				'modules.Mail.resources.ComposeAttachments',
+				'modules.Mail.resources.ComposeBody',
+			])
 		);
 	}
 

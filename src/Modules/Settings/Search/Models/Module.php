@@ -69,10 +69,19 @@ class Module extends \App\Modules\Settings\Base\Models\Module
 		$name = $params['name'];
 
 		if ($name == 'searchcolumn' || $name == 'fieldname') {
-			$value = implode(',', $params['value']);
+			$value = $params['value'];
+			if (!is_array($value)) {
+				$value = $value === '' || $value === null ? [] : [$value];
+			}
+			$value = implode(',', array_filter($value, static fn ($v) => $v !== '' && $v !== null));
 			$db->createCommand()
 				->update('vtiger_entityname', [$name => $value], ['tabid' => (int) $params['tabid']])
 				->execute();
+			$moduleName = \App\Utils\ModuleUtils::getModuleName((int) $params['tabid']);
+			if ($moduleName) {
+				\App\Cache\Cache::delete('ModuleEntityByName', $moduleName);
+				\App\Cache\Cache::delete('ModuleEntityById', (int) $params['tabid']);
+			}
 		} elseif ($name == 'turn_off') {
 			$db->createCommand()
 				->update('vtiger_entityname', ['turn_off' => $params['value']], ['tabid' => (int) $params['tabid']])

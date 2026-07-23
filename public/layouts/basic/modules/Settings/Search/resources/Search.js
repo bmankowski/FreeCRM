@@ -50,8 +50,10 @@ var Settings_Index_Js = {
 		var target = $(e.currentTarget);
 		var name = target.attr("name");
 		var value = target.val();
-		target.trigger("change")
-		if(value.length == 1){
+		if (!value) {
+			value = [];
+		}
+		if (value.length == 1) {
 			app.getChosenElementFromSelect(target).find('.select2-selection__choice__remove').remove();
 		}
 		var closestTrElement = target.closest('tr');
@@ -65,7 +67,7 @@ var Settings_Index_Js = {
 			'name': name,
 			'value': value,
 			'tabid': closestTrElement.data('tabid'),
-		});		
+		});
 		progress.progressIndicator({'mode': 'hide'});
 	},
 	registerSaveEvent: function (mode, data) {

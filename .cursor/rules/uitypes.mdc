@@ -79,7 +79,7 @@ Located at `BaseUiType::UITYPE_CLASS_MAP`. Maps uitype integer directly to the U
 | 117 | `CurrencyList` | |
 | 120 | `SharedOwner` | |
 | 301 | `Modules` | Single module picklist (Edit); multi-select in Custom View filters via `AdvanceFilter_Modules_Field_Js` |
-| 359 | `ModulesMultipicklist` | Multi module picklist (` \|##\| ` storage); empty = global scope (EmailTemplates) |
+| 359 | `ModulesMultipicklist` | Multi module picklist (` \|##\| ` storage); empty modules = not shown in compose pickers (automation-only) |
 | 302 | `Tree` | `getAllValue()` for advanced-search picklists in `Field::getFieldInfo()` |
 | 303 | `Taxes` | |
 | 304 | `InventoryLimit` | |
@@ -124,7 +124,7 @@ Key entries that differ from the naive uitype name:
 
 ### MultiReference (306) — Edit UI
 
-Looks like Multipicklist (`email_template_type`): Select2 `select2-selection--multiple` chips; click empty area → record popup (not a dropdown of all records).
+Looks like Multipicklist (`modules` / uitype 33): Select2 `select2-selection--multiple` chips; click empty area → record popup (not a dropdown of all records).
 
 | Piece | Location |
 |---|---|
@@ -140,7 +140,7 @@ Looks like Multipicklist (`email_template_type`): Select2 `select2-selection--mu
 
 ### ModulesMultipicklist (359) — ListView search + QueryField
 
-- **Storage:** ` |##| ` (same as multipicklist); empty = global scope (EmailTemplates).
+- **Storage:** ` |##| ` (same as multipicklist); empty modules = not listed in compose / workflow template pickers.
 - **QueryField:** `ModulesMultipicklistField` extends **`MultipicklistField`** (not `ModulesField`). **`getValue()` override** — comma-split only; do not inherit combination logic (multi-module filter = OR, not exact `ModA |##| ModB`). `operatorE` / `operatorA` → `operatorC`; `operatorN` → `operatorK`.
 - **List search:** `ListSearch.js` must map `modulesMultipicklist` → operator **`c`**. If omitted, default **`a`** + `ModulesField`-style `getValue()` array → `BaseField::operatorA()` → `strpos(array)` fatal.
 - **fieldInfo:** `Field::getFieldInfo()` case `modulesMultipicklist` sets `searchOperator = 'c'`.

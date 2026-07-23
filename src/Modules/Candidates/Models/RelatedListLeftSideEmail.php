@@ -28,13 +28,21 @@ class RelatedListLeftSideEmail
 		if (!self::recordHasEmail($recordId)) {
 			return [];
 		}
+		$recordModel = \App\Modules\Base\Models\Record::getInstanceById($recordId, 'Candidates');
+		$composeAllowed = \App\Email\Mailer::recordHasAllowlistedEmail($recordModel);
+		$mailTitle = $composeAllowed
+			? \App\Runtime\Vtiger_Language_Handler::translate('LBL_SEND_EMAIL')
+			: \App\Runtime\Vtiger_Language_Handler::translate('LBL_MAIL_RECIPIENT_NOT_ALLOWED', 'Mail');
+
 		return [Link::getInstanceFromValues([
 			'linktype' => \App\Modules\Base\Models\RelatedListLeftSideLinks::LINK_TYPE,
 			'linklabel' => 'LBL_SEND_EMAIL',
 			'linkurl' => '#',
-			'linkhref' => true,
+			'linkhref' => $composeAllowed,
 			'linkicon' => 'glyphicon glyphicon-envelope',
-			'linkclass' => 'js-send-email-modal',
+			'linkclass' => $composeAllowed ? 'js-send-email-modal' : 'disabled',
+			'active' => $composeAllowed,
+			'title' => $mailTitle,
 			'relatedModuleName' => 'Candidates',
 			'linkdata' => [
 				'record-id' => $recordId,

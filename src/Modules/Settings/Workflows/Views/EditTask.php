@@ -253,7 +253,7 @@ class EditTask extends \App\Modules\Settings\Base\Views\Index
 	}
 
 	/**
-	 * Modules whose PLL_RECORD email templates should appear in workflow task UI.
+	 * Modules whose email templates should appear in workflow task UI.
 	 *
 	 * @return string[]
 	 */
@@ -283,8 +283,7 @@ class EditTask extends \App\Modules\Settings\Base\Views\Index
 	protected function getEmailTemplatesForWorkflow($workflowModel, string $primaryModule): array
 	{
 		return \App\Email\Mail::getTempleteListForModules(
-			$this->getEmailTemplateModulesForWorkflow($workflowModel, $primaryModule),
-			'PLL_RECORD'
+			$this->getEmailTemplateModulesForWorkflow($workflowModel, $primaryModule)
 		);
 	}
 }

@@ -34,7 +34,7 @@ Inventory of **when** FreeCRM sends from `u_yf_emailtemplates`, **how** the temp
 
 Template identity for automation: prefer **`sys_name`** (stable). Numeric ids only in legacy workflow tasks / manual preselect. `is_system=1` hides from compose picker; matrix/cron/workflows still resolve by `sys_name`.
 
-Footer field on EmailTemplates: `$(dynamic : …)$` → TemplateElements (`PLL_VARIABLE_ALIAS`). Appended at send via `Mail::appendParsedFooter`.
+Footer field on EmailTemplates: `$(dynamic : …)$` → TemplateElements (`PLL_VARIABLE_ALIAS`). Appended at send/preview via `Mail::appendParsedFooter` → `<div class="fc-email-content">…</div><div class="fc-email-footer" contenteditable="false">…</div>`. **Put signature/unsubscribe tokens in the `footer` column**, not in `content` — content-baked footers skip wrappers (compose AI must fall back to signature heuristics). Bulk fix: `m260723_000004` (extract from `content` → `footer`). `TextParser::dynamic()` also wraps known mail footer codes (`current_user_footer`, `standard_user_footer`, `*_recruitment_group_footer`, `candidates_unsubscribe_footer`, `tracking_logo`) in `.fc-email-footer` when expanded inside body.
 
 | Alias | Body | Use |
 |-------|------|-----|
@@ -62,7 +62,7 @@ Plus `candidates_unsubscribe_footer` when mailing Candidates. Do not use old cod
 
 CV import ops errors use raw `ImportErrorMailer` (not EmailTemplates). Manual / AI link (`PPL_MANUALLY_ADDED` / `PPL_AI_ADDED`) does **not** send confirmation.
 
-**Screening reject `sys_name` map** (`ScreeningRejectionMail::REASON_SYS_NAMES`): `NO_EXPERIENCE` → `kandydaci_odrzucenie_brak_doswiadczenia`; `MISSING_SKILLS` → `…_brak_kompetencji`; `PROFILE_FIT` → `…_niedopasowanie_profilu`; `MISSING_POLISH_LANGUAGE` → `…_brak_jezyka_polskiego`; `OTHER_CANDIDATE_CHOSEN` → `…_inny_kandydat`; `PROJECT_CLOSED` → `…_proces_zamkniety`.
+**Screening reject** (`ScreeningRejectionMail`): `modules=Candidates` (recipient = candidate; project = `sourceRecord` — do **not** move to ProjektyRekrutacyjne). **`is_system=1`** (`m260723_000002`). Placeholders: `$(sourceRecord : nazwa_projektu)$` (`m260723_000003`). Seed footer = `current_user_footer` + `candidates_unsubscribe_footer` in **`footer`** column (`m260714_000003`). Map: `NO_EXPERIENCE` → `kandydaci_odrzucenie_brak_doswiadczenia`; `MISSING_SKILLS` → `…_brak_kompetencji`; `PROFILE_FIT` → `…_niedopasowanie_profilu`; `MISSING_POLISH_LANGUAGE` → `…_brak_jezyka_polskiego`; `OTHER_CANDIDATE_CHOSEN` → `…_inny_kandydat`; `PROJECT_CLOSED` → `…_proces_zamkniety`.
 
 **Dev TransitionMail matrix (example):** screening-pass → interview invite `kandydaci_zaproszenie_na_rozmowe` (`prompt`); interview → to-client consent `kandydaci_zgoda_na_przetwarzanie_danych` (`prompt`). Matrix is **per-DB** (not in `pushsrc`).
 
